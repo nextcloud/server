@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>Mail_Mime</name>
+  <summary>Provides classes to create and decode mime messages.</summary>
+  <description>Provides classes to deal with creation and manipulation of mime messages.</description>
+  <maintainers>
+    <maintainer>
+      <user>cipri</user>
+      <name>Cipriano Groenendal</name>
+      <email>cipri@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>gschlossnagle</user>
+      <name>George Schlossnagle</name>
+      <email>gschlossnagle@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>sean</user>
+      <name>Sean Coates</name>
+      <email>sean@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>richard</user>
+      <name>Richard Heyes</name>
+      <email>richard@php.net</email>
+      <role>contributor</role>
+    </maintainer>
+    <maintainer>
+      <user>cox</user>
+      <name>Tomas V.V.Cox</name>
+      <email>cox@idecnet.com</email>
+      <role>contributor</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>1.3.1</version>
+    <date>2005-07-13</date>
+    <license>PHP</license>
+    <state>stable</state>
+    <notes>A bugfix release:</notes>
+    <filelist>
+      <file role="php" baseinstalldir="Mail" md5sum="8c87c7120ef61cd7c927f022fb270d2d" name="mime.php"/>
+      <file role="php" baseinstalldir="Mail" md5sum="e266dce6abce7f0e0e2e8972a8fe2275" name="mimeDecode.php"/>
+      <file role="php" baseinstalldir="Mail" md5sum="3663406015b4ae1cc9df19f68247a784" name="mimePart.php"/>
+      <file role="data" baseinstalldir="Mail" md5sum="194810c478066eaeb28f51116b88e25a" name="xmail.dtd"/>
+      <file role="data" baseinstalldir="Mail" md5sum="61cea06fb6b4bd3a4b5e2d37384e14a9" name="xmail.xsl"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>1.3.0</version>
+      <date>2005-04-01</date>
+      <license>PHP</license>
+      <state>stable</state>
+      <notes>o First (stable) release in over 2.5 years (!)
+o MANY bugfixes (see the bugtracker)
+o added a few tests
+o one small fix after RC1 (bug #3940)
+    
+</notes>
+    </release>
+    <release>
+      <version>1.3.0RC1</version>
+      <date>2005-03-20</date>
+      <state>beta</state>
+      <notes>o First release in over 2.5 years (!)
+o MANY bugfixes (see the bugtracker)
+o added a few tests
+   
+</notes>
+    </release>
+    <release>
+      <version>1.2.1</version>
+      <date>2002-07-27</date>
+      <license>PHP</license>
+      <state>stable</state>
+      <notes>o License change
+o Applied a few changes From Ilia Alshanetsky
+    
+</notes>
+    </release>
+    <release>
+      <version>1.2</version>
+      <date>2002-07-14</date>
+      <state>stable</state>
+      <notes>o Added header encoding
+o Altered mimePart to put boundary parameter on newline
+o Changed addFrom() to setFrom()
+o Added setSubject()
+o Made mimePart inherit crlf setting from mime
+      
+</notes>
+    </release>
+    <release>
+      <version>1.1</version>
+      <date>2002-04-03</date>
+      <state>stable</state>
+      <notes>This is a maintenance release with various bugfixes and minor enhancements.
+</notes>
+    </release>
+    <release>
+      <version>1.0</version>
+      <date>2001-12-28</date>
+      <state>stable</state>
+      <notes>This is the initial release of the Mime_Mail package.
+</notes>
+    </release>
+  </changelog>
+</package>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0" packagerversion="1.4.0a9">
+ <name>XML_Parser</name>
+ <summary>XML parsing class based on PHP's bundled expat</summary>
+ <description>This is an XML parser based on PHPs built-in xml extension.
+It supports two basic modes of operation: &quot;func&quot; and &quot;event&quot;.  In &quot;func&quot; mode, it will look for a function named after each element (xmltag_ELEMENT for start tags and xmltag_ELEMENT_ for end tags), and in &quot;event&quot; mode it uses a set of generic callbacks.
+
+Since version 1.2.0 there's a new XML_Parser_Simple class that makes parsing of most XML documents easier, by automatically providing a stack for the elements.
+Furthermore its now possible to split the parser from the handler object, so you do not have to extend XML_Parser anymore in order to parse a document with it.
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>schst</user>
+   <name>Stephan Schmidt</name>
+   <email>schst@php-tools.net</email>
+   <role>lead</role>
+  </maintainer>
+  <maintainer>
+   <user>ssb</user>
+   <name>Stig S&amp;#230;ther Bakken</name>
+   <email>stig@php.net</email>
+   <role>developer</role>
+  </maintainer>
+  <maintainer>
+   <user>cox</user>
+   <name>Tomas V.V.Cox</name>
+   <email>cox@php.net</email>
+   <role>developer</role>
+  </maintainer>
+  </maintainers>
+ <release>
+  <version>1.2.6</version>
+  <date>2005-03-25</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>- fixed Bug #3949: reset does not return true on success as the documentation states
+- implement Request #3905: replace &quot;.&quot; with &quot;_&quot; in tagnames when using func mode
+- added package2.xml file for PEAR 1.4.0
+  </notes>
+  <deps>
+   <dep type="php" rel="ge" version="4.2.0" optional="no"/>
+   <dep type="pkg" rel="has" optional="no">PEAR</dep>
+  </deps>
+  <filelist>
+   <file role="doc" baseinstalldir="XML" name="examples/xml_parser_file.php"/>
+   <file role="doc" baseinstalldir="XML" name="examples/xml_parser_file.xml"/>
+   <file role="doc" baseinstalldir="XML" name="examples/xml_parser_handler.php"/>
+   <file role="doc" baseinstalldir="XML" name="examples/xml_parser_simple1.php"/>
+   <file role="doc" baseinstalldir="XML" name="examples/xml_parser_simple1.xml"/>
+   <file role="doc" baseinstalldir="XML" name="examples/xml_parser_simple2.php"/>
+   <file role="doc" baseinstalldir="XML" name="examples/xml_parser_simple2.xml"/>
+   <file role="doc" baseinstalldir="XML" name="examples/xml_parser_simple_handler.php"/>
+   <file role="php" baseinstalldir="XML" name="Parser/Simple.php"/>
+   <file role="test" baseinstalldir="XML" name="tests/001.phpt"/>
+   <file role="test" baseinstalldir="XML" name="tests/002.phpt"/>
+   <file role="test" baseinstalldir="XML" name="tests/003.phpt"/>
+   <file role="test" baseinstalldir="XML" name="tests/004.phpt"/>
+   <file role="test" baseinstalldir="XML" name="tests/005.phpt"/>
+   <file role="test" baseinstalldir="XML" name="tests/test2.xml"/>
+   <file role="test" baseinstalldir="XML" name="tests/test3.xml"/>
+   <file role="php" baseinstalldir="XML" name="Parser.php"/>
+  </filelist>
+ </release>
+ <changelog>
+   <release>
+    <version>1.1.0beta1</version>
+    <date>2004-04-16</date>
+    <license>PHP License</license>
+    <state>beta</state>
+    <notes>- Fixed memory leaks parsing many documents or big files (mroch)
+- Fixed setInput() url detection regex (mroch)
+- Added setInputString() method, allowing strings to be passed as input (schst)
+- Error handling rewritten (cox)
+- Increased the overall parsing speed (cox)
+- Added free() method (schst
+- Added reset() method, that is called when parsing a document so it is possible to parse more than one document per instance (schst)
+- Added error codes (schst)
+- revamped documentation (cox, schst)
+- Fixed bug #516 (url fopen and safe mode) (schst)
+- Fixed bug #637 (dependency on PEAR) (schst)
+- improved parse() and parseString() to be able to parse more than one document (schst)
+- added PHP5 constructor (schst)
+- moved xml_parser_create() to _create() for PHP5 compatibility (schst)
+- added dependency on PHP 4.2
+
+Thanks to Marshall Roch for commments and contributions and Tomas V.V. Cox
+for applying a lot of fixes and improvements.
+    </notes>
+   </release>
+   <release>
+    <version>1.1.0beta2</version>
+    <date>2004-04-18</date>
+    <license>PHP License</license>
+    <state>beta</state>
+    <notes>beta2:
+- Fixed calling of __construct
+
+beta1:
+- Fixed memory leaks parsing many documents or big files (mroch)
+- Fixed setInput() url detection regex (mroch)
+- Added setInputString() method, allowing strings to be passed as input (schst)
+- Error handling rewritten (cox)
+- Increased the overall parsing speed (cox)
+- Added free() method (schst
+- Added reset() method, that is called when parsing a document so it is possible to parse more than one document per instance (schst)
+- Added error codes (schst)
+- revamped documentation (cox, schst)
+- Fixed bug #516 (url fopen and safe mode) (schst)
+- Fixed bug #637 (dependency on PEAR) (schst)
+- improved parse() and parseString() to be able to parse more than one document (schst)
+- added PHP5 constructor (schst)
+- moved xml_parser_create() to _create() for PHP5 compatibility (schst)
+- added dependency on PHP 4.2
+
+Thanks to Marshall Roch for commments and contributions and Tomas V.V. Cox
+for applying a lot of fixes and improvements.
+    </notes>
+   </release>
+   <release>
+    <version>1.1.0</version>
+    <date>2004-04-23</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>- Fixed memory leaks parsing many documents or big files (mroch)
+- Fixed setInput() url detection regex (mroch)
+- Added setInputString() method, allowing strings to be passed as input (schst)
+- Error handling rewritten (cox)
+- Increased the overall parsing speed (cox)
+- Added free() method (schst
+- Added reset() method, that is called when parsing a document so it is possible to parse more than one document per instance (schst)
+- Added error codes (schst)
+- revamped documentation (cox, schst)
+- Fixed bug #516 (url fopen and safe mode) (schst)
+- Fixed bug #637 (dependency on PEAR) (schst)
+- improved parse() and parseString() to be able to parse more than one document (schst)
+- added PHP5 constructor (schst)
+- moved xml_parser_create() to _create() for PHP5 compatibility (schst)
+- added dependency on PHP 4.2
+
+Thanks to Marshall Roch for commments and contributions and Tomas V.V. Cox
+for applying a lot of fixes and improvements.
+    </notes>
+   </release>
+   <release>
+    <version>1.2.0beta1</version>
+    <date>2004-05-17</date>
+    <license>PHP License</license>
+    <state>beta</state>
+    <notes>added new class XML_Parser_Simple that provides a stack for the elements so the user only needs to implement one method to handle the tag and cdata.
+    </notes>
+   </release>
+   <release>
+    <version>1.2.0beta2</version>
+    <date>2004-05-24</date>
+    <license>PHP License</license>
+    <state>beta</state>
+    <notes>XML_Parser:
+- fixed bug with setMode()
+- moved the init routines for the handlers in _initHandlers()
+XML_Parser_Simple:
+- fixed bug with character data (did not get parsed)
+- fixed bug with setMode()
+- some refactoring
+- added getCurrentDepth() to retrieve the tag depth
+- added addToData()
+- added new example
+    </notes>
+   </release>
+   <release>
+    <version>1.2.0beta3</version>
+    <date>2004-05-25</date>
+    <license>PHP License</license>
+    <state>beta</state>
+    <notes>- added setHandlerObj() which allows you to have the parser separate from the handler methods
+    </notes>
+   </release>
+   <release>
+    <version>1.2.0</version>
+    <date>2004-05-28</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>- added setHandlerObj() which allows you to have the parser separate from the handler methods
+- fixed bug with setMode()
+- moved the init routines for the handlers in _initHandlers()
+- added new examples
+- fixed test files so they do not fail because of different resource ids
+XML_Parser_Simple:
+- added new class XML_Parser_Simple that provides a stack for the elements so the user only needs to implement one method to handle the tag and cdata.
+    </notes>
+   </release>
+   <release>
+    <version>1.2.1</version>
+    <date>2004-10-04</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>fixed bug #2442: Call to &quot;xmltag_ELEMENT_&quot; not correctly managed in function funcEndHandler
+    </notes>
+   </release>
+   <release>
+    <version>1.2.2beta1</version>
+    <date>2004-12-22</date>
+    <license>PHP License</license>
+    <state>beta</state>
+    <notes>- fixed small notice in XML_Parser::free(),
+- fixed Bug #2939: bug in error routine leads to segmentation fault (raiseError does not free the internal resources anymore)
+    </notes>
+   </release>
+   <release>
+    <version>1.2.2</version>
+    <date>2004-12-22</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>- fixed small notice in XML_Parser::free(),
+- fixed Bug #2939: bug in error routine leads to segmentation fault (raiseError does not free the internal resources anymore)
+    </notes>
+   </release>
+   <release>
+    <version>1.2.3</version>
+    <date>2005-01-17</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>- fixed a bug that occured when using 'func' mode and setHandlerObj() (schst)
+- added default handlers for 'func' mode (schst)
+    </notes>
+   </release>
+   <release>
+    <version>1.2.4</version>
+    <date>2005-01-18</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>- fixed a bug in XML_Parser_Simple when trying to register more than the default handlers and a separate callback object (schst)
+    </notes>
+   </release>
+   <release>
+    <version>1.2.5</version>
+    <date>2005-02-26</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>- fixed Bug #3557 (removed $attribs parameter, which caused a notice)
+- fixed Bug #3277 (remove obsolete ini_set('allow_url_fopen'))
+    </notes>
+   </release>
+   <release>
+    <version>1.2.6</version>
+    <date>2005-03-25</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>- fixed Bug #3949: reset does not return true on success as the documentation states
+- implement Request #3905: replace &quot;.&quot; with &quot;_&quot; in tagnames when using func mode
+    </notes>
+   </release>
+ </changelog>
+</package>

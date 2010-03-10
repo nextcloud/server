@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>Net_SMTP</name>
+  <summary>Provides an implementation of the SMTP protocol</summary>
+  <description>Provides an implementation of the SMTP protocol using PEAR's Net_Socket class.</description>
+  <maintainers>
+    <maintainer>
+      <user>chagenbu</user>
+      <name>Chuck Hagenbuch</name>
+      <email>chuck@horde.org</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>jon</user>
+      <name>Jon Parise</name>
+      <email>jon@php.net</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>1.2.6</version>
+    <date>2004-04-12</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>Renaming some methods to be compatible with the PEAR coding standards.  Backwards-compatible wrappers have been provided.</notes>
+    <deps>
+      <dep type="pkg" rel="has" optional="no">Net_Socket</dep>
+      <dep type="pkg" rel="has" optional="yes">Auth_SASL</dep>
+    </deps>
+    <filelist>
+      <file role="doc" baseinstalldir="Net" name="docs/guide.txt"/>
+      <file role="doc" baseinstalldir="Net" name="docs/examples/basic.php"/>
+      <file role="test" baseinstalldir="Net" name="tests/auth.phpt"/>
+      <file role="test" baseinstalldir="Net" name="tests/basic.phpt"/>
+      <file role="test" baseinstalldir="Net" name="tests/config.php.dist"/>
+      <file role="php" baseinstalldir="Net" name="SMTP.php"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>1.2.6</version>
+      <date>2004-04-12</date>
+      <license>PHP License</license>
+      <state>stable</state>
+      <notes>The following methods have been renamed for compliance with the PEAR coding standards: send_from() -&gt; sendFrom(), soml_from() -&gt; somlFrom(), saml_from() -&gt; samlFrom().  Backwards-compatible wrappers have been provided.
+</notes>
+    </release>
+    <release>
+      <version>1.2.5</version>
+      <date>2004-03-11</date>
+      <license>PHP License</license>
+      <state>stable</state>
+      <notes>The connect() method has grown an optional 'persistent' parameter that will be passed to the Net_Socket::connect() method.  Previously, persistent connections will always disabled. 'persistent' defaults to false.
+
+Release 1.2.4 was incorrectly packaged.  Release 1.2.5 corrects that error.  The code itself remains the same.
+</notes>
+    </release>
+    <release>
+      <version>1.2.4</version>
+      <date>2004-03-11</date>
+      <license>PHP License</license>
+      <state>stable</state>
+      <notes>The connect() method has grown an optional 'persistent' parameter that will be passed to the Net_Socket::connect() method.  Previously, persistent connections will always disabled. 'persistent' defaults to false.
+</notes>
+    </release>
+    <release>
+      <version>1.2.3</version>
+      <date>2003-05-11</date>
+      <state>stable</state>
+      <notes>Both 235 (Authentication successful) and 503 (Error: already authenticated) are now accepted as valid AUTH responses.
+
+503 (Error: already authenticated) is now considered a valid EHLO response.
+</notes>
+    </release>
+    <release>
+      <version>1.2.2</version>
+      <date>2003-05-02</date>
+      <state>stable</state>
+      <notes>Fix a call-time pass-by-reference problem that was raising a warning if call-time pass-by-reference was disabled.
+</notes>
+    </release>
+    <release>
+      <version>1.2.1</version>
+      <date>2003-04-26</date>
+      <state>stable</state>
+      <notes>The Auth_SASL package is no longer absolutely required, but it will be used if it is available.  Otherwise, the authentication methods that depend upon it will be disabled.
+</notes>
+    </release>
+    <release>
+      <version>1.2.0</version>
+      <date>2003-04-06</date>
+      <state>stable</state>
+      <notes>- Perform data quoting in its own routine: quotedata()
+</notes>
+    </release>
+    <release>
+      <version>1.1.2</version>
+      <date>2003-02-17</date>
+      <state>stable</state>
+      <notes>- Correctly handle the case where the server's ESMTP response includes a SIZE keyword with no specific value.
+</notes>
+    </release>
+    <release>
+      <version>1.1.1</version>
+      <date>2003-01-30</date>
+      <state>stable</state>
+      <notes>- Don't enforce a maximum message size if the SIZE parameter is zero.
+</notes>
+    </release>
+    <release>
+      <version>1.1.0</version>
+      <date>2003-01-18</date>
+      <state>stable</state>
+      <notes>- The SMTP server's SIZE capability is now honored.
+- Improved support for SMTP authentication (LOGIN, PLAIN, CRAM-MD5, DIGEST-MD5).
+- Overhauled the server response parsing system.
+- Added optional debugging output (enabled via setDebug()).
+- A timeout value can now be specified for the socket connection.
+</notes>
+    </release>
+    <release>
+      <version>1.0.1</version>
+      <date>2003-01-02</date>
+      <state>stable</state>
+      <notes>Corrected an off-by-one bug that corrupted the list of ESMTP capabilities.
+</notes>
+    </release>
+    <release>
+      <version>1.0</version>
+      <date>2002-06-11</date>
+      <state>stable</state>
+      <notes>Initial release as PEAR package
+</notes>
+    </release>
+  </changelog>
+</package>

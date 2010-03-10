@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0" packagerversion="1.4.0a10">
+ <name>DB</name>
+ <summary>Database Abstraction Layer</summary>
+ <description>DB is a database abstraction layer providing:
+* an OO-style query API
+* portability features that make programs written for one DBMS work with other DBMS's
+* a DSN (data source name) format for specifying database servers
+* prepare/execute (bind) emulation for databases that don't support it natively
+* a result object for each query response
+* portable error codes
+* sequence emulation
+* sequential and non-sequential row fetching as well as bulk fetching
+* formats fetched rows as associative arrays, ordered arrays or objects
+* row limit support
+* transactions support
+* table information interface
+* DocBook and phpDocumentor API documentation
+
+DB layers itself on top of PHP's existing
+database extensions.
+
+Drivers for the following extensions pass
+the complete test suite and provide
+interchangeability when all of DB's
+portability options are enabled:
+
+  fbsql, ibase, informix, msql, mssql,
+  mysql, mysqli, oci8, odbc, pgsql,
+  sqlite and sybase.
+
+There is also a driver for the dbase
+extension, but it can't be used
+interchangeably because dbase doesn't
+support many standard DBMS features.
+
+DB is compatible with both PHP 4 and PHP 5.
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>ssb</user>
+   <name>Stig Bakken</name>
+   <email>stig@php.net</email>
+   <role>developer</role>
+  </maintainer>
+  <maintainer>
+   <user>cox</user>
+   <name>Tomas V.V.Cox</name>
+   <email>cox@idecnet.com</email>
+   <role>developer</role>
+  </maintainer>
+  <maintainer>
+   <user>danielc</user>
+   <name>Daniel Convissor</name>
+   <email>danielc@php.net</email>
+   <role>lead</role>
+  </maintainer>
+  <maintainer>
+   <user>lsmith</user>
+   <name>Lukas Kahwe Smith</name>
+   <email>smith@backendmedia.com</email>
+   <role>helper</role>
+  </maintainer>
+  </maintainers>
+ <release>
+  <version>1.7.6</version>
+  <date>2005-04-11</date>
+  <license>PHP License</license>
+  <state>stable</state>
+  <notes>common:
+* Fix the docblocks regarding DB_FETCHMODE_FLIPPED.  Bug 4027.
+
+oic8:
+* Provide BC hack for those connecting to oci8 using 'hostspec' instead of 'database'.  Bug 4104.
+  </notes>
+  <deps>
+   <dep type="php" rel="ge" version="4.2.0"/>
+   <dep type="pkg" rel="ge" version="1.0b1">PEAR</dep>
+  </deps>
+  <provides type="class" name="DB" />
+  <provides type="function" name="DB::factory" />
+  <provides type="class" name="DB_common" extends="PEAR" />
+  <provides type="function" name="DB_common::toString" />
+  <provides type="function" name="DB_common::quoteString" />
+  <provides type="function" name="DB_common::quote" />
+  <provides type="function" name="DB_common::quoteIdentifier" />
+  <provides type="function" name="DB_common::quoteSmart" />
+  <provides type="function" name="DB_common::escapeSimple" />
+  <provides type="function" name="DB_common::provides" />
+  <provides type="function" name="DB_common::setFetchMode" />
+  <provides type="function" name="DB_common::setOption" />
+  <provides type="class" name="DB_dbase" extends="DB_common" />
+  <provides type="function" name="DB_dbase::connect" />
+  <provides type="function" name="DB_dbase::disconnect" />
+  <provides type="function" name="DB_dbase::query" />
+  <provides type="function" name="DB_dbase::fetchInto" />
+  <provides type="function" name="DB_dbase::numCols" />
+  <provides type="function" name="DB_dbase::numRows" />
+  <provides type="function" name="DB_dbase::quoteSmart" />
+  <provides type="function" name="DB_dbase::tableInfo" />
+  <provides type="class" name="DB_fbsql" extends="DB_common" />
+  <provides type="function" name="DB_fbsql::connect" />
+  <provides type="function" name="DB_fbsql::disconnect" />
+  <provides type="function" name="DB_fbsql::simpleQuery" />
+  <provides type="class" name="DB_ibase" extends="DB_common" />
+  <provides type="function" name="DB_ibase::connect" />
+  <provides type="function" name="DB_ibase::disconnect" />
+  <provides type="function" name="DB_ibase::simpleQuery" />
+  <provides type="function" name="DB_ibase::modifyLimitQuery" />
+  <provides type="class" name="DB_ifx" extends="DB_common" />
+  <provides type="function" name="DB_ifx::connect" />
+  <provides type="function" name="DB_ifx::disconnect" />
+  <provides type="function" name="DB_ifx::simpleQuery" />
+  <provides type="function" name="DB_ifx::nextResult" />
+  <provides type="function" name="DB_ifx::affectedRows" />
+  <provides type="function" name="DB_ifx::fetchInto" />
+  <provides type="function" name="DB_ifx::numCols" />
+  <provides type="function" name="DB_ifx::freeResult" />
+  <provides type="function" name="DB_ifx::autoCommit" />
+  <provides type="function" name="DB_ifx::commit" />
+  <provides type="function" name="DB_ifx::rollback" />
+  <provides type="function" name="DB_ifx::ifxRaiseError" />
+  <provides type="function" name="DB_ifx::errorNative" />
+  <provides type="function" name="DB_ifx::errorCode" />
+  <provides type="function" name="DB_ifx::tableInfo" />
+  <provides type="class" name="DB_msql" extends="DB_common" />
+  <provides type="function" name="DB_msql::connect" />
+  <provides type="function" name="DB_msql::disconnect" />
+  <provides type="function" name="DB_msql::simpleQuery" />
+  <provides type="function" name="DB_msql::nextResult" />
+  <provides type="function" name="DB_msql::fetchInto" />
+  <provides type="function" name="DB_msql::freeResult" />
+  <provides type="function" name="DB_msql::numCols" />
+  <provides type="function" name="DB_msql::numRows" />
+  <provides type="function" name="DB_msql::affectedRows" />
+  <provides type="function" name="DB_msql::nextId" />
+  <provides type="class" name="DB_mssql" extends="DB_common" />
+  <provides type="function" name="DB_mssql::connect" />
+  <provides type="function" name="DB_mssql::disconnect" />
+  <provides type="function" name="DB_mssql::simpleQuery" />
+  <provides type="function" name="DB_mssql::nextResult" />
+  <provides type="function" name="DB_mssql::fetchInto" />
+  <provides type="function" name="DB_mssql::freeResult" />
+  <provides type="function" name="DB_mssql::numCols" />
+  <provides type="function" name="DB_mssql::numRows" />
+  <provides type="function" name="DB_mssql::autoCommit" />
+  <provides type="function" name="DB_mssql::commit" />
+  <provides type="function" name="DB_mssql::rollback" />
+  <provides type="function" name="DB_mssql::affectedRows" />
+  <provides type="function" name="DB_mssql::nextId" />
+  <provides type="class" name="DB_mysql" extends="DB_common" />
+  <provides type="function" name="DB_mysql::connect" />
+  <provides type="function" name="DB_mysql::disconnect" />
+  <provides type="function" name="DB_mysql::simpleQuery" />
+  <provides type="function" name="DB_mysql::nextResult" />
+  <provides type="function" name="DB_mysql::fetchInto" />
+  <provides type="function" name="DB_mysql::freeResult" />
+  <provides type="function" name="DB_mysql::numCols" />
+  <provides type="function" name="DB_mysql::numRows" />
+  <provides type="function" name="DB_mysql::autoCommit" />
+  <provides type="function" name="DB_mysql::commit" />
+  <provides type="function" name="DB_mysql::rollback" />
+  <provides type="function" name="DB_mysql::affectedRows" />
+  <provides type="function" name="DB_mysql::nextId" />
+  <provides type="class" name="DB_mysqli" extends="DB_common" />
+  <provides type="function" name="DB_mysqli::connect" />
+  <provides type="function" name="DB_mysqli::disconnect" />
+  <provides type="function" name="DB_mysqli::simpleQuery" />
+  <provides type="function" name="DB_mysqli::nextResult" />
+  <provides type="function" name="DB_mysqli::fetchInto" />
+  <provides type="function" name="DB_mysqli::freeResult" />
+  <provides type="function" name="DB_mysqli::numCols" />
+  <provides type="function" name="DB_mysqli::numRows" />
+  <provides type="function" name="DB_mysqli::autoCommit" />
+  <provides type="function" name="DB_mysqli::commit" />
+  <provides type="function" name="DB_mysqli::rollback" />
+  <provides type="function" name="DB_mysqli::affectedRows" />
+  <provides type="function" name="DB_mysqli::nextId" />
+  <provides type="class" name="DB_oci8" extends="DB_common" />
+  <provides type="function" name="DB_oci8::connect" />
+  <provides type="function" name="DB_oci8::disconnect" />
+  <provides type="function" name="DB_oci8::simpleQuery" />
+  <provides type="function" name="DB_oci8::nextResult" />
+  <provides type="function" name="DB_oci8::fetchInto" />
+  <provides type="function" name="DB_oci8::freeResult" />
+  <provides type="function" name="DB_oci8::freePrepared" />
+  <provides type="function" name="DB_oci8::numRows" />
+  <provides type="function" name="DB_oci8::numCols" />
+  <provides type="function" name="DB_oci8::prepare" />
+  <provides type="function" name="DB_oci8::execute" />
+  <provides type="class" name="DB_odbc" extends="DB_common" />
+  <provides type="function" name="DB_odbc::connect" />
+  <provides type="function" name="DB_odbc::disconnect" />
+  <provides type="function" name="DB_odbc::simpleQuery" />
+  <provides type="function" name="DB_odbc::nextResult" />
+  <provides type="function" name="DB_odbc::fetchInto" />
+  <provides type="function" name="DB_odbc::freeResult" />
+  <provides type="function" name="DB_odbc::numCols" />
+  <provides type="function" name="DB_odbc::affectedRows" />
+  <provides type="function" name="DB_odbc::numRows" />
+  <provides type="function" name="DB_odbc::quoteIdentifier" />
+  <provides type="function" name="DB_odbc::quote" />
+  <provides type="function" name="DB_odbc::nextId" />
+  <provides type="class" name="DB_pgsql" extends="DB_common" />
+  <provides type="function" name="DB_pgsql::connect" />
+  <provides type="function" name="DB_pgsql::disconnect" />
+  <provides type="function" name="DB_pgsql::simpleQuery" />
+  <provides type="function" name="DB_pgsql::nextResult" />
+  <provides type="function" name="DB_pgsql::fetchInto" />
+  <provides type="function" name="DB_pgsql::freeResult" />
+  <provides type="function" name="DB_pgsql::quote" />
+  <provides type="function" name="DB_pgsql::quoteSmart" />
+  <provides type="function" name="DB_pgsql::escapeSimple" />
+  <provides type="function" name="DB_pgsql::numCols" />
+  <provides type="function" name="DB_pgsql::numRows" />
+  <provides type="function" name="DB_pgsql::autoCommit" />
+  <provides type="function" name="DB_pgsql::commit" />
+  <provides type="function" name="DB_pgsql::rollback" />
+  <provides type="function" name="DB_pgsql::affectedRows" />
+  <provides type="function" name="DB_pgsql::nextId" />
+  <provides type="class" name="DB_sybase" extends="DB_common" />
+  <provides type="function" name="DB_sybase::connect" />
+  <provides type="function" name="DB_sybase::disconnect" />
+  <provides type="function" name="DB_sybase::simpleQuery" />
+  <provides type="function" name="DB_sybase::nextResult" />
+  <provides type="function" name="DB_sybase::fetchInto" />
+  <provides type="function" name="DB_sybase::freeResult" />
+  <provides type="function" name="DB_sybase::numCols" />
+  <provides type="function" name="DB_sybase::numRows" />
+  <provides type="function" name="DB_sybase::affectedRows" />
+  <provides type="function" name="DB_sybase::nextId" />
+  <provides type="class" name="DB_storage" extends="PEAR" />
+  <provides type="function" name="DB_storage::setup" />
+  <provides type="function" name="DB_storage::insert" />
+  <provides type="class" name="DB_sqlite" extends="DB_common" />
+  <provides type="function" name="DB_sqlite::connect" />
+  <provides type="function" name="DB_sqlite::disconnect" />
+  <provides type="function" name="DB_sqlite::simpleQuery" />
+  <provides type="function" name="DB_sqlite::nextResult" />
+  <provides type="function" name="DB_sqlite::fetchInto" />
+  <provides type="function" name="DB_sqlite::freeResult" />
+  <provides type="function" name="DB_sqlite::numCols" />
+  <provides type="function" name="DB_sqlite::numRows" />
+  <provides type="function" name="DB_sqlite::affectedRows" />
+  <provides type="function" name="DB_sqlite::dropSequence" />
+  <provides type="function" name="DB_sqlite::createSequence" />
+  <filelist>
+   <file role="php" baseinstalldir="/" md5sum="ea7037643a27c7d1eb0f818efcbf35ee" name="DB.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="05dadd359cf7682e73fe7bc41cc4742c" name="DB/common.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="921d3cde2d8295ca978caae22ab48761" name="DB/dbase.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="830899b5b2ee3dbc93a0ccaab184c153" name="DB/fbsql.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="64376b17c209ebc78745e7a532ccdd86" name="DB/ibase.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="a27b90a13bfc9580d3954ca420d87c01" name="DB/ifx.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="0fc78181842e1b47893a0be27f680bd9" name="DB/msql.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="c7f21c8c526d7cf698095d594acc0c7c" name="DB/mssql.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="3838d8d75ce62c730814bdb87799e79c" name="DB/mysql.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="908762bfcf17b2195a61ec9219cbf10e" name="DB/mysqli.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="dc42cd00866890e91f9235938a9acf87" name="DB/oci8.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="8d6d0c54cfcec2cf46eace182886d8aa" name="DB/odbc.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="7018bbfb1cd7f5e283688747d83fe18b" name="DB/pgsql.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="fdc093d71420407c0034206c4068d332" name="DB/sybase.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="0a920908d899cf8ce620449207de5e89" name="DB/storage.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="php" md5sum="7726118beb7c038e531783542b816a33" name="DB/sqlite.php">
+    <replace from="@package_version@" to="version" type="package-info"/>
+   </file>
+   <file role="doc" md5sum="651a644b6f3495fc39279d75b8099372" name="doc/IDEAS"/>
+   <file role="doc" md5sum="8c5779871e07720a032615177403b691" name="doc/MAINTAINERS"/>
+   <file role="doc" md5sum="30bc4ceeccd51413ab81fa98c1fb9aa8" name="doc/STATUS"/>
+   <file role="doc" md5sum="31f276d6ff710a1f048c50cd533ffe5c" name="doc/TESTERS"/>
+   <file role="test" md5sum="2e7f987503b8b5e2a7fc4c3c30e79c13" name="tests/db_error.phpt"/>
+   <file role="test" md5sum="ca733f1d806681c6522ab993c999b12f" name="tests/db_parsedsn.phpt"/>
+   <file role="test" md5sum="79e88e6db0c25ca1ee5e2aac35a24d6c" name="tests/db_factory.phpt"/>
+   <file role="test" md5sum="859cffe6ae0f54122485879805629261" name="tests/db_ismanip.phpt"/>
+   <file role="test" md5sum="5f5068a8a1a3742ff0810be61b57288d" name="tests/db_error2.phpt"/>
+   <file role="test" md5sum="0ebba9b5012622df59dc2066e884cce1" name="tests/errors.inc"/>
+   <file role="test" md5sum="3732edbe1c159b16d82c0cefb23fb283" name="tests/fetchmode_object.inc"/>
+   <file role="test" md5sum="2cdad3e62c059414ddab8a410781458c" name="tests/fetchmodes.inc"/>
+   <file role="test" md5sum="f3d663fdf145e5bb3797c96b3d0dcf47" name="tests/include.inc">
+    <replace from="@include_path@" to="php_dir" type="pear-config"/>
+   </file>
+   <file role="test" md5sum="600316395dc9ebe05f8249b4252088e6" name="tests/limit.inc"/>
+   <file role="test" md5sum="3abeeb0a61cdd7f4108a647cccb55810" name="tests/numcols.inc"/>
+   <file role="test" md5sum="26fb3581b281991838b2dfacf4e86f5d" name="tests/numrows.inc"/>
+   <file role="test" md5sum="06f6cd517eb324113c8cedf1c64a1e3e" name="tests/prepexe.inc"/>
+   <file role="test" md5sum="aac444f47ed3ad1642013539d99f5757" name="tests/run.cvs"/>
+   <file role="test" md5sum="0a3b6c14fb3a8cb6e3cd8ece9736e9eb" name="tests/sequences.inc"/>
+   <file role="test" md5sum="8f773eb10ee19145937296dca60d296e" name="tests/simplequery.inc"/>
+   <file role="test" md5sum="8b42ffcce8bbe68507f0ed21dab3200c" name="tests/transactions.inc"/>
+   <file role="test" md5sum="5f6f6b62f9779b97adf57bdbbcffe450" name="tests/skipif.inc"/>
+   <file role="test" md5sum="2cbff4d99f59d9ad71adf0833794f9e5" name="tests/driver/01connect.phpt"/>
+   <file role="test" md5sum="0261a7e827ff9581e4aca6dd6b13642e" name="tests/driver/02fetch.phpt"/>
+   <file role="test" md5sum="b671efeac9fd34b83309de8413531317" name="tests/driver/03simplequery.phpt"/>
+   <file role="test" md5sum="a5ecf473f648022af5dc9fbb2f33e371" name="tests/driver/04numcols.phpt"/>
+   <file role="test" md5sum="1ab9a3b8a98c691a222a510eb8134355" name="tests/driver/05sequences.phpt"/>
+   <file role="test" md5sum="8d651d2da580619ed5abeaaa9e1f71ad" name="tests/driver/06prepexec.phpt"/>
+   <file role="test" md5sum="b2e5ebe28916e63d8502845d58f74d49" name="tests/driver/08affectedrows.phpt"/>
+   <file role="test" md5sum="7efee695096e0cf6e243e5590915b6fc" name="tests/driver/09numrows.phpt"/>
+   <file role="test" md5sum="b2e481fc6f310db41e249a1e53f353c2" name="tests/driver/10errormap.phpt"/>
+   <file role="test" md5sum="f53ca06e8370629e5ab6717bf7bbe2a7" name="tests/driver/11transactions.phpt"/>
+   <file role="test" md5sum="7f2d525fc8d2038157a736b64b774811" name="tests/driver/13limit.phpt"/>
+   <file role="test" md5sum="13870a67a986287a1dd7b8616538cb90" name="tests/driver/14fetchmode_object.phpt"/>
+   <file role="test" md5sum="2cf853766a1c1dc21f0b38988cd5a406" name="tests/driver/15quote.phpt"/>
+   <file role="test" md5sum="a7db7211ac1faebce9248ffba535472e" name="tests/driver/16tableinfo.phpt"/>
+   <file role="test" md5sum="f796eae81fce16bc2a03cbea5af80b49" name="tests/driver/17query.phpt"/>
+   <file role="test" md5sum="8363274c9471e5b8038856ec4b111bea" name="tests/driver/18get.phpt"/>
+   <file role="test" md5sum="871bdd4a90291602c206042742922a71" name="tests/driver/19getlistof.phpt"/>
+   <file role="test" md5sum="4180a5d038d41a1262d1cc41951f0f3d" name="tests/driver/connect.inc"/>
+   <file role="test" md5sum="6f4a4b1e45c94733717a21ef26f388ba" name="tests/driver/mktable.inc"/>
+   <file role="test" md5sum="4af9cff841e14f1c94e358346747e7b6" name="tests/driver/multiconnect.php"/>
+   <file role="test" md5sum="7023d979e8bcb94a93d48597d864feb3" name="tests/driver/run.cvs"/>
+   <file role="test" md5sum="a7ee27ff0a2aacf0ef906eea8569718f" name="tests/driver/setup.inc.cvs">
+    <replace from="@include_path@" to="php_dir" type="pear-config"/>
+   </file>
+   <file role="test" md5sum="5e3ad6fb4ab28735d788396ab80a63b5" name="tests/driver/skipif.inc"/>
+  </filelist>
+ </release>
+</package>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>Net_Socket</name>
+  <summary>Network Socket Interface</summary>
+  <description>Net_Socket is a class interface to TCP sockets.  It provides blocking
+and non-blocking operation, with different reading and writing modes
+(byte-wise, block-wise, line-wise and special formats like network
+byte-order ip addresses).</description>
+  <maintainers>
+    <maintainer>
+      <user>ssb</user>
+      <name>Stig Bakken</name>
+      <email>stig@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>chagenbu</user>
+      <name>Chuck Hagenbuch</name>
+      <email>chuck@horde.org</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>1.0.6</version>
+    <date>2005-02-26</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>- Make package.xml safe for PEAR 1.4.0.
+- Chunk socket writes on Windows by default, or if explicitly specified (Bug #980)
+- Don't run any $addr with a '/' in it through gethostbyname() (Bug #3372)</notes>
+    <filelist>
+      <file role="php" baseinstalldir="Net" md5sum="1c7a9a28fc3fa78e682200d7540b66d5" name="Socket.php"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>1.0.0</version>
+      <date>2002-04-01</date>
+      <state>stable</state>
+      <notes>First independent release of Net_Socket.
+</notes>
+    </release>
+    <release>
+      <version>1.0.1</version>
+      <date>2002-04-04</date>
+      <state>stable</state>
+      <notes>Touch up error handling.
+</notes>
+    </release>
+    <release>
+      <version>1.0.2</version>
+      <date>2004-04-26</date>
+      <state>stable</state>
+      <notes>Fixes for several longstanding bugs. Allow setting of stream
+context. Correctly read lines that only end in \n. Suppress
+PHP warnings.
+</notes>
+    </release>
+    <release>
+      <version>1.0.3</version>
+      <date>2004-12-08</date>
+      <state>stable</state>
+      <notes>Optimize away some duplicate is_resource() calls.
+Better solution for eof() on blocking sockets [#1427].
+Add select() implementation [#1428].
+</notes>
+    </release>
+    <release>
+      <version>1.0.4</version>
+      <date>2004-12-13</date>
+      <state>stable</state>
+      <notes>Restore support for unix sockets (Bug #2961).
+</notes>
+    </release>
+    <release>
+      <version>1.0.5</version>
+      <date>2005-01-11</date>
+      <state>stable</state>
+      <notes>Don't rely on gethostbyname() for error checking (Bug #3100).
+</notes>
+    </release>
+  </changelog>
+</package>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>Console_Getopt</name>
+  <summary>Command-line option parser</summary>
+  <description>This is a PHP implementation of &quot;getopt&quot; supporting both
+short and long options.</description>
+  <maintainers>
+    <maintainer>
+      <user>andrei</user>
+      <name>Andrei Zmievski</name>
+      <email>andrei@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>ssb</user>
+      <name>Stig Bakken</name>
+      <email>stig@php.net</email>
+      <role>developer</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>1.2</version>
+    <date>2003-12-11</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>Fix to preserve BC with 1.0 and allow correct behaviour for new users</notes>
+    <provides type="class" name="Console_Getopt" />
+    <provides type="function" name="Console_Getopt::getopt2" />
+    <provides type="function" name="Console_Getopt::getopt" />
+    <provides type="function" name="Console_Getopt::doGetopt" />
+    <provides type="function" name="Console_Getopt::readPHPArgv" />
+    <filelist>
+      <file role="php" md5sum="add0781a1cae0b3daf5e8521b8a954cc" name="Console/Getopt.php"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>1.0</version>
+      <date>2002-09-13</date>
+      <state>stable</state>
+      <notes>Stable release
+</notes>
+    </release>
+    <release>
+      <version>0.11</version>
+      <date>2002-05-26</date>
+      <state>beta</state>
+      <notes>POSIX getopt compatibility fix: treat first element of args
+       array as command name
+     
+</notes>
+    </release>
+    <release>
+      <version>0.10</version>
+      <date>2002-05-12</date>
+      <state>beta</state>
+      <notes>Packaging fix
+</notes>
+    </release>
+    <release>
+      <version>0.9</version>
+      <date>2002-05-12</date>
+      <state>beta</state>
+      <notes>Initial release
+</notes>
+    </release>
+  </changelog>
+</package>

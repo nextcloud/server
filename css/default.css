@@ -1,0 +1,80 @@
+body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size:9.0pt;}
+
+.nametext a {color:#333333; font-size:8pt; font-weight:bold; text-decoration:none;}
+.highlighttext {color:#333333; font-size:9pt; font-weight:bold; text-decoration:none;}
+.datetext {color:#333333; font-size:7pt;}
+.sizetext {color:#333333; font-size:7pt;}
+.footer {color:#999999; text-align:center; font-size:9pt;}
+.hint {color:#AAAAAA; text-align:center; font-size:8pt;}
+.hint a{color:#AAAAAA; text-align:center; font-size:8pt;}
+
+.formstyle {
+  font-weight:normal;
+  font-size: 8.0pt;
+  color: #555555;
+  background-color: #FFFFFF;
+  border: 1px solid #DDDDDD;
+  padding:0px;
+  margin:0px;
+}
+
+.loginform {
+  background-color: #EEEEEE;
+}
+
+.browser {
+  background-color: #EEEEEE;
+}
+
+.browserline {
+  background-color: #EEEEEE;
+}
+
+.browserline:hover {
+  background-color: #DDDDDD;
+}
+
+
+.navigationitem1 {
+  background-color: #EEEEEE;
+  color:#555555; 
+  font-size:9pt; 
+  font-weight:bold;
+}
+
+.navigationitem1 a{
+  text-decoration:none;
+}
+
+.navigationitem1:hover {
+  background-color: #EEEEEE;
+}
+
+.navigationitem {
+  background-color: #EEEEEE;
+}
+
+.navigationitem:hover {
+  background-color: #DDDDDD;
+}
+
+.navigationselected td {
+  background-color: #DDDDDD;
+}
+
+.navigationitem a {
+  text-decoration:none;
+  color: #333333;
+  font-size: 8.0pt;
+}
+
+.navigationitemselected a {
+  text-decoration:none;
+  color: #333333;
+  font-size: 8.0pt;
+  font-weight:bold;
+}
+
+
+
+

@@ -1,0 +1,10 @@
+This code depends on code introduced into the developement branch for
+PHP 4.3, so it will not run with PHP releases before 4.3.0
+
+preliminary documentation is available in the dav.txt file,
+although it is currently a little outdated ...
+
+Server/Filesystem.php contains a sample implementation for a simple
+file server (including property and lock info storage in a mySQL
+database, see db/Fileserver.sql). This sample should give you a good 
+clue about how to use this class for your own purpose. 

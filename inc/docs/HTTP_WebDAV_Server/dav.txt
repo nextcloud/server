@@ -1,0 +1,229 @@
+The HTTP_WebDAV_Server class provides a framwork for the
+implementation of customized WebDAV servers that can provide
+filesystem like access to almost any kind of hierachically stored
+data.
+
+The (abstract) server base class tries to encapsulate as much of
+the protocol details as possible. It takes care of the needed WebDAV
+header and XML payload parsing and generation (and knows about some
+of the problems with common clients and tries hard to work around
+them). 
+
+WebDAV itself is an extension to the HTTP protocol. The HTTP
+specific parts of it are already taken care of by the web server. Any
+data needed by the server class is provided by the PHP SAPI interface
+of the server used.
+
+To create a working server from the base class you have to extend and
+add methods for the actual access, modification and access control of
+your own data.
+
+You may use the included HTTP_WebDAV_Server_Filesystem class as an
+example of how to create a working server. This sample implementation
+is used for testing the implementation of this package against the
+litmus WebDAV compliance test suite.
+(litmus is available on http://www.webdav.org/neon/litmus)
+
+The methods you can add in your extended class are mostly named after
+the WebDAV specific request methods (using upper case names). Methods
+you may implement are:
+
+* GET()				  get a resource from the server  
+* HEAD()				get resource headers only from the server  
+* PUT()         create or modify a resource on the server
+* COPY()        copy a resource on the server
+* MOVE()        move a resource on the server
+* DELETE()      delete a resource on the server
+* MKCOL()       create a new collection
+* PROPFIND()    get property data for a resource
+* PROPPATCH()   modify property data for a resource
+* LOCK()        lock a resource
+* UNLOCK()      unlock a locked resource
+* checklock()   check whether a resource is locked
+* check_auth()  check authentication
+
+You can think of WebDAV resources as files, collections as directories
+and properties as filesystem meta data (like size, creation date, ...).
+
+The base class is able identify which of the methods you have
+implemented and will create appropriate answers to OPTIONS requests
+that ask for the WebDAV standards compliance level and the allowed
+HTTP methods for you.
+
+For a minimal working test server you need to implement GET(), PUT()
+and PROPFIND() only. 
+
+For a minimal (level 1) standards compliant server you also need to
+implement MKCOL(), DELETE(), and PROPPATCH(). The COPY(), MOVE() and
+HEAD() methods are emulated using GET(), PUT() and DELETE() if not
+implemented, but for performance reasons you should better implement
+them yourself. 
+
+For a complete (level 2) RFC2518 compliand server you also have to
+provide locking support by implementing LOCK(), UNLOCK() and
+checklock().
+
+Authentication is not really part of the WebDAV specification and
+should be handled on the HTTP level. You can do so by means of, for
+example, .htaccess files or similar services provided by your web
+server. But you can also make use of the authentication features
+offered by PHP by implementing the check_auth() method.
+Using the check_auth() method you can create a dynamic interface
+to any authentication system protecting the data you want to serve.
+
+
+<WARNING> 
+  the following reference information may be outdated and/or
+  incomplete ...
+</WARNING>
+
+bool PROPINFO($options, &$files)
+
+  options[path]  - Resource-Path
+  options[depth] - Depth of search requested: "0", "1", or "infinity"
+  options[props] - "all", "names", or an arry of requested properties
+                   each property array element is either a string 
+                   (which implies the default "DAV:" namespace) or
+                   an array with the two elements "name" and "xmlns"
+                   for the properties name and XML namespace
+									                        
+  &$files - storage array for property results with the following elements:
+
+          "files" -> array of found properties forresources. elements are:
+
+               "path" -> path of the resource
+               "props" -> properties array
+							            each property array element is either a string 
+												  (which implies the default "DAV:" namespace) or
+                          an array with the two elements "name" and "xmlns"
+                          for the properties name and XML namespace
+            
+                          you should at least support the following
+                          list of properties from the "DAV:" namespave:
+
+                          - resourcetype:     "collection" oder ""
+                          - creationdate:     unix-timestamp
+                          - getcontentlength: integer                
+                          - getlastmodified:  unix-timestamp
+
+													You may want to add support for these "DAV:"
+													properties, too:											
+
+                          - getcontenttype:   mime-type
+                          - displayname:      string
+
+                          for a compliant server you also have to be
+                          able to return any property from other 
+                          namespaces that has been stored using 
+                          PROPPATCH
+ 
+
+  return-value: true / false
+  
+
+
+
+string MKCOL($option)
+
+  options[path] - path of the new collection to be created
+
+  return-value: string 
+                HTTP status and status message, possible values are
+                * 201 Success
+                * 403 Forbidden
+                * 405 Method not allowed
+                * 409 Conflict
+                * 415 Unsupported media type
+                * 507 Insufficient Storage
+                (see also RFC2518 8.3.2)
+
+
+
+
+string GET(&$options)
+
+  $options['path']   - path to the requested resource 
+  $options['ranges'] - optional array of range specifications for 
+                       partial access. range specs are arrays that 
+                       consist of either a 'start' and 'end' element
+                       (where 'end' can be empty to indicate a request
+                       up to the actual end of the resource) or a
+                       'last' element to access the last n bytes of
+											 a resource without knowing its actual size in
+                       advance
+                       
+  Return-value: true bei Erfolg, false wenn not found
+
+  (TODO: andere stati berücksichtigen)
+
+  Content-Type, Content-Length header müssen von der Methode selbst
+  erzeugt werden  (TODO: outdated) 
+
+
+
+
+string PUT($options)
+
+  options[path] - path to the requested resource
+  options[content_length] - size of request data in bytes
+  options[stream] - a PHP stream providing the input data
+
+  return-value: string 
+                HTTP status, possible values are:
+								* 201 Created    -> the resource did not exist before
+                                    and has been successfully created  
+                * 204 No Content -> a previously existing resource has 
+                                    successfully been modified
+                * 409 Conflict
+                ...
+
+
+
+
+string COPY($options)
+
+  options[path]      - path to the resource to be copied
+  options[depth]     - "0" or "infinity" (applies only to directories)
+  options[overwrite] - true / false
+  options[dest]      - path to the destination resource if local
+  options[dest_url]  - non-local destination path 
+
+  return-value: string 
+                HTTP status, see RFC2518 8.8.5
+
+
+
+
+
+string MOVE($options)
+
+  options[path]      - path to the resource to be moved
+  options[overwrite] - true / false
+  options[dest]      - path to the destination resource if local
+  options[dest_url]  - non-local destination path 
+
+  return-value: string 
+                HTTP status, see RFC2518 8.9.4
+
+
+
+
+string DELETE($options)
+
+  options[path] - path to the resource to be removed
+
+  return-value: string 
+                HTTP status, see RFC2518 8.6.2
+  
+
+
+
+
+bool check_auth($type, $user, $passwd)
+
+  $type: HTTP-Auth type, i.A. "Basic"
+  $user: HTTP Username
+  $passwd: HTTP Passwort
+
+  return-value: true bei success, sonst false
+  (ToDo: array mit Auth-Type und Realm String zulassen bei fehler)
