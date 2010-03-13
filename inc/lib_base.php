@@ -190,7 +190,7 @@ class OC_DB {
       $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPWD,$CONFIG_DBNAME);
       if (mysqli_connect_errno()) {
         @ob_end_clean();
-        echo('<html><head></head><body bgcolor="#F0F0F0"><br /><br /><center><b>can not connect to database.</center></body></html>');
+        echo('<html><head></head><body class="error"><br /><br /><center><b>can not connect to database.</center></body></html>');
         exit();
       }
     }

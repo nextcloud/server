@@ -1,3 +1,5 @@
+body {background-color: #F9F9F9;}
+body.error {background-color: #F0F0F0;}
 body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size:9.0pt;}
 
 .nametext a {color:#333333; font-size:8pt; font-weight:bold; text-decoration:none;}
