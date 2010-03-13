@@ -57,7 +57,7 @@ class OC_USER {
    * check if the login button is pressed and logg the user in
    *
    */
-  public static function loginlisener(){
+  public static function loginlistener(){
     global $CONFIG_ADMINLOGIN;
     global $CONFIG_ADMINPASSWORD;
     if(isset($_POST['loginbutton']) and isset($_POST['password']) and isset($_POST['login'])){
@@ -74,7 +74,7 @@ class OC_USER {
    * check if the logout button is pressed and logout the user
    *
    */
-  public static function logoutlisener(){
+  public static function logoutlistener(){
     if(isset($_GET['logoutbutton'])){
       OC_LOG::event($_SESSION['username'],2,'');
       if(isset($_SESSION['username'])) unset($_SESSION['username']);
