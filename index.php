@@ -32,8 +32,8 @@ if(isset($_GET['file'])) {
 
 }else{
 
-  OC_USER::loginlisener();
-  OC_USER::logoutlisener();
+  OC_USER::loginlistener();
+  OC_USER::logoutlistener();
 
   OC_UTIL::showheader();
 
