@@ -28,7 +28,7 @@ OC_UTIL::showheader();
 
 echo('<div class="center">');
 echo('nothing here yet :-)');
-echo('</div><br /><br />');
+echo('</div>');
 
 
 OC_UTIL::showfooter();

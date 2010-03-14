@@ -82,7 +82,7 @@ class OC_FILES {
       }
     }
     echo('</table>');
-    if(!$filesfound) echo('<br />no files here');
+    if(!$filesfound) echo('<p>no files here</p>');
     echo('</div>');
   }
 

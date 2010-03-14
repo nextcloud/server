@@ -11,18 +11,17 @@
 
   if(!isset($_SESSION['username']) or $_SESSION['username']=='') {
 
-    echo('<br /><br /><div class="center">');
+    echo('<div class="center">');
     OC_UTIL::showloginform();
     echo('</div>');
     OC_UTIL::showfooter();
     exit();
   }else{
 
-    echo('<br /><div class="center">');
+    echo('<div id="nav" class="center">');
     OC_UTIL::shownavigation();
     echo('</div>');
 
   }
 
 ?>
-<br />

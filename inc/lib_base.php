@@ -190,14 +190,14 @@ class OC_DB {
       $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPWD,$CONFIG_DBNAME);
       if (mysqli_connect_errno()) {
         @ob_end_clean();
-        echo('<html><head></head><body class="error"><br /><br /><div class="center"><b>can not connect to database.</div></body></html>');
+        echo('<html><head></head><body class="error"><div class="center"><b>can not connect to database.</div></body></html>');
         exit();
       }
     }
     $result = @$DBConnection->query($cmd);
     if (!$result) {
-      $entry='DB Error: "'.$DBConnection->error.'"<br />';
-      $entry.='Offending command was: '.$cmd.'<br />';
+      $entry='<p>DB Error: "'.$DBConnection->error.'"</p>';
+      $entry.='<p>Offending command was: '.$cmd.'</p>';
       echo($entry);
     }
     return $result;

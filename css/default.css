@@ -2,6 +2,10 @@ body {background-color: #F9F9F9;}
 body.error {background-color: #F0F0F0;}
 body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size:9.0pt;}
 
+h1 {
+  margin-bottom:1.5em;
+}
+
 .center {
   text-align:center;
 }
@@ -9,6 +13,10 @@ body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera
 .center * {
   margin-left:auto;
   margin-right:auto;
+}
+
+div#nav {
+  margin-bottom:2em;
 }
 
 a#owncloud-logo {
@@ -28,8 +36,8 @@ a#owncloud-logo span {
 .highlighttext {color:#333333; font-size:9pt; font-weight:bold; text-decoration:none;}
 .datetext {color:#333333; font-size:7pt;}
 .sizetext {color:#333333; font-size:7pt;}
-.footer {color:#999999; text-align:center; font-size:9pt;}
-.hint {color:#AAAAAA; text-align:center; font-size:8pt;}
+.footer {color:#999999; text-align:center; font-size:9pt; margin-top:4em;}
+.hint {color:#AAAAAA; text-align:center; font-size:8pt; margin-top:4em; margin-bottom:2em;}
 .hint a{color:#AAAAAA; text-align:center; font-size:8pt;}
 
 .formstyle {
