@@ -80,6 +80,8 @@ a#owncloud-logo span {
 
 .navigationitem1 a{
   text-decoration:none;
+  padding-right:15px;
+  background: transparent url(/img/dots.png) no-repeat scroll center right;
 }
 
 .navigationitem1 img {

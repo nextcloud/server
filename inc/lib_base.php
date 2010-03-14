@@ -133,7 +133,7 @@ class OC_UTIL {
    */
   public static function shownavigation(){
     echo('<table cellpadding="5" cellspacing="0" border="0"><tr>');
-    echo('<td class="navigationitem1"><a href="/">'.$_SESSION['username'].'</a> <img src="/img/dots.png" /></td>');
+    echo('<td class="navigationitem1"><a href="/">'.$_SESSION['username'].'</a></td>');
     if($_SERVER['SCRIPT_NAME']=='/index.php') echo('<td class="navigationitemselected"><a href="/">Files</a></td>'); else echo('<td class="navigationitem"><a href="/">Files</a></td>');
 
     foreach(OC_UTIL::$NAVIGATION as $NAVI) {
