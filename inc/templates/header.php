@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/css/default.css" />
 </head>
 <body>
-<a id="owncloud-logo" href="/"><span>OwnCloud</span></a>
+<h1><a id="owncloud-logo" href="/"><span>OwnCloud</span></a></h1>
 <?php
 
   if(!isset($_SESSION['username']) or $_SESSION['username']=='') {
