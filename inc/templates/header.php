@@ -6,21 +6,21 @@
 <link rel="stylesheet" type="text/css" href="/css/default.css" />
 </head>
 <body>
-<center><a href="/"><img src="/img/owncloud-logo-small.png" border="0"></a></center>
+<a id="owncloud-logo" href="/"><span>OwnCloud</span></a>
 <?php
 
   if(!isset($_SESSION['username']) or $_SESSION['username']=='') {
 
-    echo('<br /><br /><center>');
+    echo('<br /><br /><div class="center">');
     OC_UTIL::showloginform();
-    echo('</center>');
+    echo('</div>');
     OC_UTIL::showfooter();
     exit();
   }else{
 
-    echo('<br /><center>');
+    echo('<br /><div class="center">');
     OC_UTIL::shownavigation();
-    echo('</center>');
+    echo('</div>');
 
   }
 
