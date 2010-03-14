@@ -2,6 +2,10 @@ body {background-color: #F9F9F9;}
 body.error {background-color: #F0F0F0;}
 body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size:9.0pt;}
 
+a img {
+  border:none;
+}
+
 h1 {
   margin-bottom:1.5em;
 }
@@ -76,6 +80,10 @@ a#owncloud-logo span {
 
 .navigationitem1 a{
   text-decoration:none;
+}
+
+.navigationitem1 img {
+  border:none;
 }
 
 .navigationitem1:hover {

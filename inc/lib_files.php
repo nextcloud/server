@@ -53,7 +53,7 @@ class OC_FILES {
       $currentdir='';
       foreach($dirs as $d) {
         $currentdir.='/'.$d.'';
-        if($d<>'') echo('<td class="nametext"><a href="/?dir='.$currentdir.'"><img src="/img/arrow.png" border="0" />&nbsp;'.$d.'</a></td>');
+        if($d<>'') echo('<td class="nametext"><a href="/?dir='.$currentdir.'"><img src="/img/arrow.png" />&nbsp;'.$d.'</a></td>');
       }
       echo('</tr></table></div>');
     }
