@@ -27,9 +27,9 @@ require_once('../../config/config.php');
 
 OC_UTIL::showheader();
 
-echo('<center>');
+echo('<div class="center">');
 echo('nothing here yet :-)');
-echo('</center><br /><br />');
+echo('</div>');
 
 
 OC_UTIL::showfooter();

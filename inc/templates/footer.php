@@ -1,5 +1,3 @@
-<br />
-<br />
 <p class="footer">
 <?php
   echo($CONFIG_FOOTEROWNERNAME);

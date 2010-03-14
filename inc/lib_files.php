@@ -48,18 +48,18 @@ class OC_FILES {
 
     // breadcrumb
     if(count($dirs)>1) {
-      echo('<center><table cellpadding="2" cellspacing="0" border="0"><tr>');
+      echo('<div class="center"><table cellpadding="2" cellspacing="0" border="0"><tr>');
       echo('<td class="nametext"><a href="/">home</a></td>');
       $currentdir='';
       foreach($dirs as $d) {
         $currentdir.='/'.$d.'';
-        if($d<>'') echo('<td class="nametext"><a href="/?dir='.$currentdir.'"><img src="/img/arrow.png" border="0" />&nbsp;'.$d.'</a></td>');
+        if($d<>'') echo('<td class="nametext"><a href="/?dir='.$currentdir.'"><img src="/img/arrow.png" />&nbsp;'.$d.'</a></td>');
       }
-      echo('</tr></table></center>');
+      echo('</tr></table></div>');
     }
 
     // files and directories
-    echo('<center><table cellpadding="6" cellspacing="0" border="0" class="browser">');
+    echo('<div class="center"><table cellpadding="6" cellspacing="0" border="0" class="browser">');
     $filesfound=false;
     if (is_dir($directory)) {
       if ($dh = opendir($directory)) {
@@ -82,8 +82,8 @@ class OC_FILES {
       }
     }
     echo('</table>');
-    if(!$filesfound) echo('<br />no files here');
-    echo('</center>');
+    if(!$filesfound) echo('<p>no files here</p>');
+    echo('</div>');
   }
 
 

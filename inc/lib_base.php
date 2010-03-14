@@ -133,7 +133,7 @@ class OC_UTIL {
    */
   public static function shownavigation(){
     echo('<table cellpadding="5" cellspacing="0" border="0"><tr>');
-    echo('<td class="navigationitem1"><a href="/">'.$_SESSION['username'].'</a> <img src="/img/dots.png" border="0"></td>');
+    echo('<td class="navigationitem1"><a href="/">'.$_SESSION['username'].'</a></td>');
     if($_SERVER['SCRIPT_NAME']=='/index.php') echo('<td class="navigationitemselected"><a href="/">Files</a></td>'); else echo('<td class="navigationitem"><a href="/">Files</a></td>');
 
     foreach(OC_UTIL::$NAVIGATION as $NAVI) {
@@ -190,14 +190,14 @@ class OC_DB {
       $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPWD,$CONFIG_DBNAME);
       if (mysqli_connect_errno()) {
         @ob_end_clean();
-        echo('<html><head></head><body bgcolor="#F0F0F0"><br /><br /><center><b>can not connect to database.</center></body></html>');
+        echo('<html><head></head><body class="error"><div class="center"><b>can not connect to database.</div></body></html>');
         exit();
       }
     }
     $result = @$DBConnection->query($cmd);
     if (!$result) {
-      $entry='DB Error: "'.$DBConnection->error.'"<br />';
-      $entry.='Offending command was: '.$cmd.'<br />';
+      $entry='<p>DB Error: "'.$DBConnection->error.'"</p>';
+      $entry.='<p>Offending command was: '.$cmd.'</p>';
       echo($entry);
     }
     return $result;
