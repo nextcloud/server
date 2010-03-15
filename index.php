@@ -32,14 +32,14 @@ if(isset($_GET['file'])) {
 
 }else{
 
-  OC_USER::loginlistener();
-  OC_USER::logoutlistener();
+  OC_USER::loginlisener();
+  OC_USER::logoutlisener();
 
   OC_UTIL::showheader();
 
   OC_FILES::showbrowser($CONFIG_DATADIRECTORY,$dir);
 
-  echo('<p class="hint">Hint: Mount it via webdav like this: <a href="webdav://'.$_SERVER["HTTP_HOST"].'/webdav/owncloud.php">webdav://'.$_SERVER["HTTP_HOST"].'/webdav/owncloud.php</a></p>');
+  echo('<br /><br /><p class="hint">Hint: Mount it via webdav like this: <a href="webdav://'.$CONFIG_SITEROOT.'/webdav/owncloud.php">webdav://'.$CONFIG_SITEROOT.'/webdav/owncloud.php</a></p>');
 
   OC_UTIL::showfooter();
 
