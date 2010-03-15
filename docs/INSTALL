@@ -8,15 +8,29 @@ config/config.php
 
 Your data will be in:
 $CONFIG_DATADIRECTORY = '/www/testy';
+Apache needs to have write permissions to this directory.
 
 And the ownCloud path is:
 $CONFIG_DOCUMENTROOT = '/www/owncloud/htdocs';
+The ownCloud checkout should be in the root of "htdocs".
 
 Both are absolute paths, so if your server is in /var/www, you need to add the /var
 
 
+== Database ==
+The database should by default be sqlite. No configuration there.
+
+But until then you need some setup with mysql:
+
+Create a table "owncloud":
+mysqladmin create owncloud -u root -p
+
+Dump the default database schema:
+mysql owncloud -u root -p < owncloud.sql
+
+TODO: you also need to create a mysql user that is configured in config/config.php
 
 
-
-
+Please help improving this documentation!
+Create merge requests at gitorious.org/owncloud .
 
