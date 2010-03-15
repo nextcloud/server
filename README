@@ -1,0 +1,16 @@
+ownCloud
+========
+An open personal cloud server which runs on your personal server.
+It enables you to access your data from all of your devices.
+ownCloud makes sharing data with other people possible.
+It supports automatic backups, versioning and encryption.
+
+Installation instructions are in the docs directory.
+docs/INSTALL
+
+For more information visit:
+http://owncloud.org
+
+The source code is available at:
+http://gitorious.org/owncloud
+
