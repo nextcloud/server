@@ -57,7 +57,7 @@ class OC_USER {
    * check if the login button is pressed and logg the user in
    *
    */
-  public static function loginlistener(){
+  public static function loginlisener(){
     global $CONFIG_ADMINLOGIN;
     global $CONFIG_ADMINPASSWORD;
     if(isset($_POST['loginbutton']) and isset($_POST['password']) and isset($_POST['login'])){
@@ -74,7 +74,7 @@ class OC_USER {
    * check if the logout button is pressed and logout the user
    *
    */
-  public static function logoutlistener(){
+  public static function logoutlisener(){
     if(isset($_GET['logoutbutton'])){
       OC_LOG::event($_SESSION['username'],2,'');
       if(isset($_SESSION['username'])) unset($_SESSION['username']);
@@ -132,17 +132,18 @@ class OC_UTIL {
    *
    */
   public static function shownavigation(){
+    global $CONFIG_WEBROOT;
     echo('<table cellpadding="5" cellspacing="0" border="0"><tr>');
-    echo('<td class="navigationitem1"><a href="/">'.$_SESSION['username'].'</a></td>');
-    if($_SERVER['SCRIPT_NAME']=='/index.php') echo('<td class="navigationitemselected"><a href="/">Files</a></td>'); else echo('<td class="navigationitem"><a href="/">Files</a></td>');
+    echo('<td class="navigationitem1"><a href="'.$CONFIG_WEBROOT.'/">'.$_SESSION['username'].'</a> <img src="/img/dots.png" border="0"></td>');
+    if($_SERVER['SCRIPT_NAME']=='/index.php') echo('<td class="navigationitemselected"><a href="'.$CONFIG_WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="'.$CONFIG_WEBROOT.'/">Files</a></td>');
 
     foreach(OC_UTIL::$NAVIGATION as $NAVI) {
       if($_SERVER['SCRIPT_NAME']==$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');
     }
 
-    if($_SERVER['SCRIPT_NAME']=='/log/index.php') echo('<td class="navigationitemselected"><a href="/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="/log">Log</a></td>');
-    if($_SERVER['SCRIPT_NAME']=='/settings/index.php') echo('<td class="navigationitemselected"><a href="/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="/settings">Settings</a></td>');
-    echo('<td class="navigationitem"><a href="/?logoutbutton=1">Logout</a></td>');
+    if($_SERVER['SCRIPT_NAME']=='/log/index.php') echo('<td class="navigationitemselected"><a href="'.$CONFIG_WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$CONFIG_WEBROOT.'/log">Log</a></td>');
+    if($_SERVER['SCRIPT_NAME']=='/settings/index.php') echo('<td class="navigationitemselected"><a href="'.$CONFIG_WEBROOT.'/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="'.$CONFIG_WEBROOT.'/settings">Settings</a></td>');
+    echo('<td class="navigationitem"><a href="'.$CONFIG_WEBROOT.'?logoutbutton=1">Logout</a></td>');
     echo('</tr></table>');
   }
 
@@ -152,7 +153,7 @@ class OC_UTIL {
    *
    */
   public static function showloginform(){
-    require('templates/loginform.php');;
+    require('templates/loginform.php');
   }
 
   /**
@@ -190,14 +191,14 @@ class OC_DB {
       $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPWD,$CONFIG_DBNAME);
       if (mysqli_connect_errno()) {
         @ob_end_clean();
-        echo('<html><head></head><body class="error"><div class="center"><b>can not connect to database.</div></body></html>');
+        echo('<html><head></head><body bgcolor="#F0F0F0"><br /><br /><center><b>can not connect to database.</center></body></html>');
         exit();
       }
     }
     $result = @$DBConnection->query($cmd);
     if (!$result) {
-      $entry='<p>DB Error: "'.$DBConnection->error.'"</p>';
-      $entry.='<p>Offending command was: '.$cmd.'</p>';
+      $entry='DB Error: "'.$DBConnection->error.'"<br />';
+      $entry.='Offending command was: '.$cmd.'<br />';
       echo($entry);
     }
     return $result;
