@@ -22,8 +22,7 @@
 */
 
 
-require_once('../config/config.php');
-require_once('lib_base.php');
+require_once('../inc/lib_base.php');
 require_once('HTTP/WebDAV/Server/Filesystem.php');
 
 
@@ -45,7 +44,7 @@ if(($user==$CONFIG_ADMINLOGIN) and ($passwd==$CONFIG_ADMINPASSWORD )){
   $server->db_host = $CONFIG_DBHOST;
   $server->db_name = $CONFIG_DBNAME;
   $server->db_user = $CONFIG_DBUSER;
-  $server->db_passwd = $CONFIG_DBPWD;
+  $server->db_passwd = $CONFIG_DBPASSWORD;
   $server->ServeRequest($CONFIG_DATADIRECTORY);
 
 }else{

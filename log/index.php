@@ -22,7 +22,7 @@
 */
 
 
-require_once('../config/config.php');
+require_once('../inc/lib_base.php');
 
 OC_UTIL::showheader();
 OC_LOG::show();

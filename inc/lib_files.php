@@ -37,6 +37,7 @@ class OC_FILES {
    */
   public static function showbrowser($basedir,$dir){
     global $CONFIG_DATEFORMAT;
+    global $WEBROOT;
 
     $directory=$basedir.'/'.$dir;
 
@@ -49,11 +50,11 @@ class OC_FILES {
     // breadcrumb
     if(count($dirs)>1) {
       echo('<div class="center"><table cellpadding="2" cellspacing="0" border="0"><tr>');
-      echo('<td class="nametext"><a href="/">home</a></td>');
+      echo('<td class="nametext"><a href="'.$WEBROOT.'/">home</a></td>');
       $currentdir='';
       foreach($dirs as $d) {
         $currentdir.='/'.$d.'';
-        if($d<>'') echo('<td class="nametext"><a href="/?dir='.$currentdir.'"><img src="/img/arrow.png" />&nbsp;'.$d.'</a></td>');
+        if($d<>'') echo('<td class="nametext"><a href="'.$WEBROOT.'/?dir='.$currentdir.'"><img src="'.$WEBROOT.'/img/arrow.png" />&nbsp;'.$d.'</a></td>');
       }
       echo('</tr></table></div>');
     }
@@ -71,8 +72,8 @@ class OC_FILES {
             echo('<tr class="browserline">');
             OC_UTIL::showicon($filetype);
 
-            if($filetype=='dir') echo('<td class="nametext"><a href="/?dir='.$dir.'/'.$file.'">'.$file.'</a></td>');
-            if($filetype<>'dir') echo('<td class="nametext"><a href="/?dir='.$dir.'&file='.$file.'">'.$file.'</a></td>');
+            if($filetype=='dir') echo('<td class="nametext"><a href="'.$WEBROOT.'/?dir='.$dir.'/'.$file.'">'.$file.'</a></td>');
+            if($filetype<>'dir') echo('<td class="nametext"><a href="'.$WEBROOT.'/?dir='.$dir.'&file='.$file.'">'.$file.'</a></td>');
             if($filetype<>'dir') echo('<td class="sizetext">'.$stat['size'].' byte</td>'); else echo('<td></td>');
             echo('<td class="sizetext">'.date($CONFIG_DATEFORMAT,$stat['mtime']).'</td>');
             echo('</tr>');

@@ -1,8 +1,6 @@
 <p class="footer">
 <?php
-  echo($CONFIG_FOOTEROWNERNAME);
-  echo(' - ');
-  echo($CONFIG_FOOTEROWNEREMAIL);
+  echo('<a href="http://ownCloud.org">ownCloud</a> - 1.0 beta 2');
 ?>
 </p>
 </body></html>

@@ -1,3 +1,7 @@
+<?php
+header('Content-Type: text/css');
+require_once('../inc/lib_base.php');
+?>
 body {background-color: #F9F9F9;}
 body.error {background-color: #F0F0F0;}
 body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size:9.0pt;}
@@ -29,7 +33,7 @@ a#owncloud-logo {
   display:block;
   width:200px;
   height:99px;
-  background: transparent url(/img/owncloud-logo-small.png) no-repeat scroll 0 0;
+  background: transparent url(<?php if(isset($WEBROOT)) echo($WEBROOT); ?>/img/owncloud-logo-small.png) no-repeat scroll 0 0;
 }
 
 a#owncloud-logo span {
@@ -37,10 +41,12 @@ a#owncloud-logo span {
 }
 
 .nametext a {color:#333333; font-size:8pt; font-weight:bold; text-decoration:none;}
+.errortext {color:#CC3333; font-size:9pt; font-weight:bold; text-decoration:none;}
 .highlighttext {color:#333333; font-size:9pt; font-weight:bold; text-decoration:none;}
 .datetext {color:#333333; font-size:7pt;}
 .sizetext {color:#333333; font-size:7pt;}
 .footer {color:#999999; text-align:center; font-size:9pt; margin-top:4em;}
+.footer a {color:#999999; text-decoration:none;}
 .hint {color:#AAAAAA; text-align:center; font-size:8pt; margin-top:4em; margin-bottom:2em;}
 .hint a{color:#AAAAAA; text-align:center; font-size:8pt;}
 
@@ -81,7 +87,7 @@ a#owncloud-logo span {
 .navigationitem1 a{
   text-decoration:none;
   padding-right:15px;
-  background: transparent url(/img/dots.png) no-repeat scroll center right;
+  background: transparent url(<?php if(isset($WEBROOT)) echo($WEBROOT); ?>/img/dots.png) no-repeat scroll center right;
 }
 
 .navigationitem1 img {
