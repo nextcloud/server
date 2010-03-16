@@ -1,11 +1,2 @@
 <?php 
-$CONFIG_ADMINLOGIN='frank';
-$CONFIG_ADMINPASSWORD='123';
-$CONFIG_DATADIRECTORY='/www/testy';
-$CONFIG_HTTPFORCESSL=false;
-$CONFIG_DATEFORMAT='j M Y G:i';
-$CONFIG_DBHOST='localhost';
-$CONFIG_DBNAME='owncloud';
-$CONFIG_DBUSER='owncloud';
-$CONFIG_DBPASSWORD='owncloud123';
 ?> 
