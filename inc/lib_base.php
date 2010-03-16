@@ -43,7 +43,7 @@ set_include_path(get_include_path().PATH_SEPARATOR.$DOCUMENTROOT.PATH_SEPARATOR.
 // define default config values
 $CONFIG_ADMINLOGIN='';
 $CONFIG_ADMINPASSWORD='';
-$CONFIG_DATADIRECTORY='/var/data';
+$CONFIG_DATADIRECTORY=$SERVERROOT.$WEBROOT.'/data';
 $CONFIG_HTTPFORCESSL=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
 $CONFIG_DBHOST='localhost';
@@ -66,6 +66,7 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 // load core libs
 require_once('lib_files.php');
 require_once('lib_log.php');
+require_once('lib_config.php');
 
 // load plugins
 $CONFIG_LOADPLUGINS='';
@@ -186,15 +187,15 @@ class OC_UTIL {
     global $WEBROOT;
     echo('<table cellpadding="5" cellspacing="0" border="0"><tr>');
     echo('<td class="navigationitem1"><a href="'.$WEBROOT.'/">'.$_SESSION['username'].'</a></td>');
-    if($_SERVER['SCRIPT_NAME']=='/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/">Files</a></td>');
+    if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/">Files</a></td>');
 
     foreach(OC_UTIL::$NAVIGATION as $NAVI) {
-      if($_SERVER['SCRIPT_NAME']==$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');
+      if($_SERVER['SCRIPT_NAME']==$SERVERROOT.$WEBROOT.$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');
     }
 
-    if($_SERVER['SCRIPT_NAME']=='/log/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/log">Log</a></td>');
-    if($_SERVER['SCRIPT_NAME']=='/settings/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/settings">Settings</a></td>');
-    echo('<td class="navigationitem"><a href="'.$WEBROOT.'?logoutbutton=1">Logout</a></td>');
+    if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/log/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/log">Log</a></td>');
+    if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/settings/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/settings">Settings</a></td>');
+    echo('<td class="navigationitem"><a href="'.$WEBROOT.'/?logoutbutton=1">Logout</a></td>');
     echo('</tr></table>');
   }
 
@@ -219,74 +220,6 @@ class OC_UTIL {
     }elseif($filetype=='foo'){ echo('<td>foo</td>');
     }else{ echo('<td><img src="'.$WEBROOT.'/img/icons/other.png" width="16" height="16"></td>');
     }
-  }
-
-  /**
-   * show the configform
-   *
-   */
-  public static function showconfigform(){
-    global $CONFIG_ADMINLOGIN;
-    global $CONFIG_ADMINPASSWORD;
-    global $CONFIG_DATADIRECTORY;
-    global $CONFIG_HTTPFORCESSL;
-    global $CONFIG_DATEFORMAT;
-    global $CONFIG_DBHOST;
-    global $CONFIG_DBNAME;
-    global $CONFIG_DBUSER;
-    global $CONFIG_DBPASSWORD;
-    require('templates/configform.php');
-  }
-
-  /**
-   * lisen for configuration changes and write it to the file
-   *
-   */
-  public static function writeconfiglisener(){
-    global $DOCUMENTROOT;
-    global $WEBROOT;
-    if(isset($_POST['set_config'])){
-
-      //checkdata
-      $error='';
-
-      if(!isset($_POST['adminlogin'])        or empty($_POST['adminlogin']))        $error.='admin login not set<br />';
-      if(!isset($_POST['adminpassword'])     or empty($_POST['adminpassword']))     $error.='admin password not set<br />';
-      if(!isset($_POST['adminpassword2'])    or empty($_POST['adminpassword2']))    $error.='retype admin password not set<br />';
-      if(!isset($_POST['datadirectory'])     or empty($_POST['datadirectory']))     $error.='data directory not set<br />';
-      if(!isset($_POST['dateformat'])        or empty($_POST['dateformat']))        $error.='dteformat not set<br />';
-      if(!isset($_POST['dbhost'])            or empty($_POST['dbhost']))            $error.='database host not set<br />';
-      if(!isset($_POST['dbname'])            or empty($_POST['dbname']))            $error.='databasename not set<br />';
-      if(!isset($_POST['dbuser'])            or empty($_POST['dbuser']))            $error.='database user not set<br />';
-      if(!isset($_POST['dbpassword'])        or empty($_POST['dbpassword']))        $error.='database password not set<br />';
-      if(!isset($_POST['dbpassword2'])       or empty($_POST['dbpassword2']))       $error.='retype database password not set<br />';
-      if($_POST['dbpassword']<>$_POST['dbpassword2'] )                              $error.='database passwords are not the same<br />';
-      if($_POST['adminpassword']<>$_POST['adminpassword2'] )                        $error.='admin passwords are not the same<br />';
-
-
-      if(empty($error)) {
-        //storedata
-        $config='<?php '."\n";
-        $config.='$CONFIG_ADMINLOGIN=\''.$_POST['adminlogin']."';\n";
-        $config.='$CONFIG_ADMINPASSWORD=\''.$_POST['adminpassword']."';\n";
-        $config.='$CONFIG_DATADIRECTORY=\''.$_POST['datadirectory']."';\n";
-        if(isset($_POST['forcessl'])) $config.='$CONFIG_HTTPFORCESSL=true'.";\n"; else $config.='$CONFIG_HTTPFORCESSL=false'.";\n";
-        $config.='$CONFIG_DATEFORMAT=\''.$_POST['dateformat']."';\n";
-        $config.='$CONFIG_DBHOST=\''.$_POST['dbhost']."';\n";
-        $config.='$CONFIG_DBNAME=\''.$_POST['dbname']."';\n";
-        $config.='$CONFIG_DBUSER=\''.$_POST['dbuser']."';\n";
-        $config.='$CONFIG_DBPASSWORD=\''.$_POST['dbpassword']."';\n";
-        $config.='?> ';
-
-        $filename=$DOCUMENTROOT.'/config/config.php';
-        file_put_contents($filename,$config);
-        header("Location: ".$WEBROOT."/"); 
-
-      }
-      return($error);
-
-    }
-
   }
 
 }
@@ -326,6 +259,36 @@ class OC_DB {
     }
     return $result;
   }
+  
+  /**
+   * executes multiply queries on the database
+   *
+   * @param string $cmd
+   * @return result-set
+   */
+  static function multiquery($cmd) {
+    global $DBConnection;
+    global $CONFIG_DBHOST;
+    global $CONFIG_DBNAME;
+    global $CONFIG_DBUSER;
+    global $CONFIG_DBPASSWORD;
+    if(!isset($DBConnection)) {
+      $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
+      if (mysqli_connect_errno()) {
+        @ob_end_clean();
+        echo('<b>can not connect to database.</center>');
+        exit();
+      }
+    }
+    $result = @$DBConnection->multi_query($cmd);
+    if (!$result) {
+      $entry='DB Error: "'.$DBConnection->error.'"<br />';
+      $entry.='Offending command was: '.$cmd.'<br />';
+      echo($entry);
+    }
+    return $result;
+  }
+
 
   /**
    * closing a db connection

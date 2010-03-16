@@ -26,8 +26,12 @@ require_once('../inc/lib_base.php');
 
 OC_UTIL::showheader();
 
+//uncheck the create and fill db options on default.
+$createDB=false;
+$fillDB=false;
+
 echo('<div class="center">');
-OC_UTIL::showconfigform();
+OC_CONFIG::showconfigform();
 echo('</div>');
 
 
