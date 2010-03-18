@@ -28,15 +28,22 @@ class OC_CONFIG{
     global $CONFIG_DBNAME;
     global $CONFIG_DBUSER;
     global $CONFIG_DBPASSWORD;
-    
+    global $CONFIG_ADMINLOGIN;
+    global $CONFIG_ADMINPASSWORD;
     if(isset($_POST['set_config'])){
 
       //checkdata
       $error='';
-
+      $FIRSTRUN=empty($CONFIG_ADMINLOGIN);
+      if(!$FIRSTRUN){
+         if($_POST['currentpassword']!=$CONFIG_ADMINPASSWORD){
+            $error.='wrong password';
+         }
+      }
+      
       if(!isset($_POST['adminlogin'])        or empty($_POST['adminlogin']))        $error.='admin login not set<br />';
-      if(!isset($_POST['adminpassword'])     or empty($_POST['adminpassword']))     $error.='admin password not set<br />';
-      if(!isset($_POST['adminpassword2'])    or empty($_POST['adminpassword2']))    $error.='retype admin password not set<br />';
+      if(!isset($_POST['adminpassword'])     or empty($_POST['adminpassword']) and $FIRSTRUN)     $error.='admin password not set<br />';
+      if(!isset($_POST['adminpassword2'])    or empty($_POST['adminpassword2']) and $FIRSTRUN)    $error.='retype admin password not set<br />';
       if(!isset($_POST['datadirectory'])     or empty($_POST['datadirectory']))     $error.='data directory not set<br />';
       if(!isset($_POST['dateformat'])        or empty($_POST['dateformat']))        $error.='dteformat not set<br />';
       if(!isset($_POST['dbhost'])            or empty($_POST['dbhost']))            $error.='database host not set<br />';
@@ -46,7 +53,10 @@ class OC_CONFIG{
       if(!isset($_POST['dbpassword2'])       or empty($_POST['dbpassword2']))       $error.='retype database password not set<br />';
       if($_POST['dbpassword']<>$_POST['dbpassword2'] )                              $error.='database passwords are not the same<br />';
       if($_POST['adminpassword']<>$_POST['adminpassword2'] )                        $error.='admin passwords are not the same<br />';
-
+      
+       if(!isset($_POST['adminpassword']) or empty($_POST['adminpassword']) and !$FIRSTRUN){
+          $_POST['adminpassword']=$CONFIG_ADMINPASSWORD;
+       }
 
       if(empty($error)) {
         //create/fill database
