@@ -1,13 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>ownCloud</title>
-<link rel="stylesheet" type="text/css" href="<?php echo($WEBROOT); ?>/css/default.php" />
-</head>
-<body>
+    <head>
+	<title>ownCloud</title>
+	<base href="/<?php echo($WEBROOT); ?>" /> 
+	<link rel="stylesheet" type="text/css" href="css/default.php" />
+    </head>
+    <body>
 <?php
-echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'/"><span>ownCloud</span></a></h1>');
+echo('<h1><a id="owncloud-logo" href="/'.$WEBROOT.'/"><span>ownCloud</span></a></h1>');
 
 
   // check if already configured. otherwise start configuration wizard
