@@ -69,7 +69,7 @@ require_once('lib_log.php');
 require_once('lib_config.php');
 
 // load plugins
-$CONFIG_LOADPLUGINS='';
+$CONFIG_LOADPLUGINS='music';
 $plugins=explode(' ',$CONFIG_LOADPLUGINS);
 if(isset($plugins[0]['url'])) foreach($plugins as $plugin) require_once('plugins/'.$plugin.'/lib_'.$plugin.'.php');
 
@@ -185,12 +185,13 @@ class OC_UTIL {
    */
   public static function shownavigation(){
     global $WEBROOT;
+    global $SERVERROOT;
     echo('<table cellpadding="5" cellspacing="0" border="0"><tr>');
     echo('<td class="navigationitem1"><a href="'.$WEBROOT.'/">'.$_SESSION['username'].'</a></td>');
     if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/">Files</a></td>');
 
     foreach(OC_UTIL::$NAVIGATION as $NAVI) {
-      if($_SERVER['SCRIPT_NAME']==$SERVERROOT.$WEBROOT.$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');
+      if(dirname($_SERVER['SCRIPT_NAME'])==$WEBROOT.$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');
     }
 
     if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/log/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/log">Log</a></td>');

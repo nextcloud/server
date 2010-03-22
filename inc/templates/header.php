@@ -12,7 +12,9 @@ echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'/"><span>ownCloud</span></a></
 
   // check if already configured. otherwise start configuration wizard
   $error=OC_CONFIG::writeconfiglisener();
+  echo $error;
   if(empty($CONFIG_ADMINLOGIN)) {
+    $FIRSTRUN=true;
     echo('<div class="center">');
     echo('<p class="errortext">'.$error.'</p>');
     echo('<p class="highlighttext">First Run Wizard</p>');
