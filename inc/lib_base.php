@@ -31,14 +31,13 @@ ini_set('session.cookie_httponly','1;');
 session_start();
 
 // calculate the documentroot
-$DOCUMENTROOT=substr(__FILE__,0,-17);
-$SERVERROOT=$_SERVER['DOCUMENT_ROOT'];
-$count=strlen($SERVERROOT);
-$WEBROOT=substr($DOCUMENTROOT,$count);
-//echo($WEBROOT);
+$SERVERROOT=substr(__FILE__,0,-17);
+$DOCUMENTROOT=$_SERVER['DOCUMENT_ROOT'];
+$count=strlen($DOCUMENTROOT);
+$WEBROOT=substr($SERVERROOT,$count);
 
 // set the right include path
-set_include_path(get_include_path().PATH_SEPARATOR.$DOCUMENTROOT.PATH_SEPARATOR.$DOCUMENTROOT.'/inc'.PATH_SEPARATOR.$DOCUMENTROOT.'/config');
+set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
 
 // define default config values
 $CONFIG_ADMINLOGIN='';
@@ -139,8 +138,8 @@ class OC_UTIL {
    *
    */
   public static function checkserver(){
-    global $DOCUMENTROOT;
-    $f=@fopen($DOCUMENTROOT.'/config/config.php','a+');
+    global $SERVERROOT;
+    $f=@fopen($SERVERROOT.'/config/config.php','a+');
     if(!$f) die('Error: Config file (config/config.php) is not writable for the webserver.');
     @fclose($f);
     
