@@ -82,7 +82,7 @@ class OC_CONFIG{
         $config.='$CONFIG_DBNAME=\''.$_POST['dbname']."';\n";
         $config.='$CONFIG_DBUSER=\''.$_POST['dbuser']."';\n";
         $config.='$CONFIG_DBPASSWORD=\''.$_POST['dbpassword']."';\n";
-        $config.='?> ';
+        $config.='?>';
 
         $filename=$DOCUMENTROOT.'/config/config.php';
         file_put_contents($filename,$config);
