@@ -188,7 +188,7 @@ class OC_UTIL {
     global $SERVERROOT;
     echo('<table cellpadding="5" cellspacing="0" border="0"><tr>');
     echo('<td class="navigationitem1"><a href="'.$WEBROOT.'/">'.$_SESSION['username'].'</a></td>');
-    if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/index.php') echo('<td class="navigationitemselected"><a href="/'.$WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="/'.$WEBROOT.'/">Files</a></td>');
+    if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/">Files</a></td>');
 
     foreach(OC_UTIL::$NAVIGATION as $NAVI) {
       if(dirname($_SERVER['SCRIPT_NAME'])==$WEBROOT.$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');

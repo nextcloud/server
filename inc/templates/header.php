@@ -3,12 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 	<title>ownCloud</title>
-	<base href="/<?php echo($WEBROOT); ?>" /> 
+	<base href="<?php echo($WEBROOT); ?>/" /> 
 	<link rel="stylesheet" type="text/css" href="css/default.php" />
     </head>
     <body>
 <?php
-echo('<h1><a id="owncloud-logo" href="/'.$WEBROOT.'"><span>ownCloud</span></a></h1>');
+echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h1>');
 
 
   // check if already configured. otherwise start configuration wizard

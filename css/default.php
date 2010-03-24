@@ -23,6 +23,10 @@ h1 {
   margin-right:auto;
 }
 
+td {
+  text-align:left;
+}
+
 div#nav {
   margin-bottom:2em;
 }
