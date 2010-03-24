@@ -10,7 +10,7 @@ document.getElementById('dbAdminUser').style.display=(show)?'table-row':'none';
 document.getElementById('dbAdminPwd').style.display=(show)?'table-row':'none';
 }
 </script>
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
 <?php
    if(!$FIRSTRUN){?>

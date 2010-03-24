@@ -8,7 +8,7 @@
     </head>
     <body>
 <?php
-echo('<h1><a id="owncloud-logo" href="/'.$WEBROOT.'/"><span>ownCloud</span></a></h1>');
+echo('<h1><a id="owncloud-logo" href="/'.$WEBROOT.'"><span>ownCloud</span></a></h1>');
 
 
   // check if already configured. otherwise start configuration wizard
