@@ -127,6 +127,11 @@ a#owncloud-logo span {
   font-weight:bold;
 }
 
-
-
-
+.hidden{
+    height:0px;
+    width:0px;
+    margin:0px;
+    padding:0px;
+    border:0px;
+    //do not use display:none here, it breaks iframes in some browsers
+}

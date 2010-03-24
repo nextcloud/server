@@ -35,7 +35,7 @@ class OC_FILES {
    * @param basedir $basedir
    * @param dir $dir
    */
-  public static function showbrowser($basedir,$dir){
+ public static function showbrowser($basedir,$dir){/*
     global $CONFIG_DATEFORMAT;
     global $WEBROOT;
 
@@ -62,29 +62,62 @@ class OC_FILES {
     // files and directories
     echo('<div class="center"><table cellpadding="6" cellspacing="0" border="0" class="browser">');
     $filesfound=false;
-    if (is_dir($directory)) {
+    $content=self::getdirectorycontent($directory);
+    if($content){
+       foreach($content as $file){
+          echo('<tr class="browserline">');
+          OC_UTIL::showicon($file['type']);
+          if($file['type']=='dir') echo('<td class="nametext"><a href="'.$WEBROOT.'/?dir='.$dir.'/'.$file['name'].'">'.$file['name'].'</a></td>');
+          if($file['type']<>'dir') echo('<td class="nametext"><a href="'.$WEBROOT.'/?dir='.$dir.'&file='.$file['name'].'">'.$file['name'].'</a></td>');
+          if($file['type']<>'dir') echo('<td class="sizetext">'.$file['size'].' byte</td>'); else echo('<td></td>');
+          echo('<td class="sizetext">'.date($CONFIG_DATEFORMAT,$file['mtime']).'</td>');
+          echo('</tr>');
+       }
+    }
+    echo('</table>');
+    if(!$content) echo('<p>no files here</p>');
+    echo('</div>');*/
+    echo '<div id="content"/>';
+  }
+  
+  /**
+   * get the content of a directory
+   * @param dir $directory
+   */
+  public static function getdirectorycontent($directory){
+     $filesfound=true;
+     $content=array();
+     $dirs=array();
+     $file=array();
+     if (is_dir($directory)) {
       if ($dh = opendir($directory)) {
-        while (($file = readdir($dh)) !== false) {
-          if($file<>'.' and $file<>'..'){
+        while (($filename = readdir($dh)) !== false) {
+          if($filename<>'.' and $filename<>'..'){
+            $file=array();
             $filesfound=true;
-            $stat=stat($directory.'/'.$file);
-            $filetype=filetype($directory .'/'. $file);
-            echo('<tr class="browserline">');
-            OC_UTIL::showicon($filetype);
-
-            if($filetype=='dir') echo('<td class="nametext"><a href="'.$WEBROOT.'/?dir='.$dir.'/'.$file.'">'.$file.'</a></td>');
-            if($filetype<>'dir') echo('<td class="nametext"><a href="'.$WEBROOT.'/?dir='.$dir.'&file='.$file.'">'.$file.'</a></td>');
-            if($filetype<>'dir') echo('<td class="sizetext">'.$stat['size'].' byte</td>'); else echo('<td></td>');
-            echo('<td class="sizetext">'.date($CONFIG_DATEFORMAT,$stat['mtime']).'</td>');
-            echo('</tr>');
+            $file['name']=$filename;
+            $file['directory']=$directory;
+            $stat=stat($directory.'/'.$filename);
+            $file=array_merge($file,$stat);
+            $file['type']=filetype($directory .'/'. $filename);
+            if($file['type']=='dir'){
+               $dirs[$file['name']]=$file;
+            }else{
+               $files[$file['name']]=$file;
+            }
           }
         }
       closedir($dh);
       }
     }
-    echo('</table>');
-    if(!$filesfound) echo('<p>no files here</p>');
-    echo('</div>');
+    ksort($dirs);
+    ksort($files);
+    $content=array_merge($dirs,$files);
+    if($filesfound){
+       return $content;
+    }else{
+       return false;
+    }
   }
 
 

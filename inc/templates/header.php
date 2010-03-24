@@ -3,10 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 	<title>ownCloud</title>
-	<base href="<?php echo($WEBROOT); ?>/" /> 
-	<link rel="stylesheet" type="text/css" href="css/default.php" />
+	<base href="<?php echo($WEBROOT); ?>/"/>
+	<link rel="stylesheet" type="text/css" href="css/default.php"/>
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_ajax.js'></script>
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_xmlloader.js'></script>
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_files.js'></script>
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/ajax.js'></script>
+	<script type='text/ecmascript'>
+	var WEBROOT='<?php echo($WEBROOT)?>';
+	</script>
     </head>
-    <body>
+    <body onload='OC_onload.run()'>
 <?php
 echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h1>');
 
@@ -15,6 +22,7 @@ echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h
   $error=OC_CONFIG::writeconfiglisener();
   echo $error;
   if(empty($CONFIG_ADMINLOGIN)) {
+    global $FIRSTRUN;
     $FIRSTRUN=true;
     echo('<div class="center">');
     echo('<p class="errortext">'.$error.'</p>');
