@@ -26,6 +26,8 @@ OC_FILES.getdirectorycontent_parse=function(req){
    var files=new Array();
    var response=req.responseXML;
    if(response){
+       var dir=response.getElementsByTagName('dir').item(0);
+       files['max_upload']=dir.getAttribute('max_upload');
        var fileElements=response.getElementsByTagName('file');
        if(fileElements.length>0){
           for(index in fileElements){
@@ -205,11 +207,11 @@ OC_FILES.showbrowser_callback=function(content){
     tr.appendChild(td);
     td.className='upload';
     td.setAttribute('colspan','5');
-    this.showuploader(dir,td);
+    this.showuploader(dir,td,content['max_upload']);
     contentNode.appendChild(files);
 }
 
-OC_FILES.showuploader=function(dir,parent){
+OC_FILES.showuploader=function(dir,parent,max_upload){
    this.uploadForm=document.createElement('form');
    this.uploadForm.setAttribute('target','uploadIFrame');
    this.uploadForm.setAttribute('action','files/upload.php?dir='+dir);
@@ -219,6 +221,11 @@ OC_FILES.showuploader=function(dir,parent){
    this.uploadIFrame.className='hidden';
    this.uploadIFrame.name='uploadIFrame';
    parent.appendChild(this.uploadIFrame);
+   var input=document.createElement('input');
+   input.setAttribute('type','hidden');
+   input.setAttribute('name','MAX_FILE_SIZE');
+   input.setAttribute('value',max_upload);
+   this.uploadForm.appendChild(input);
    var file=document.createElement('input');
    file.name='file';
    file.setAttribute('type','file');
