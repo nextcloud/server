@@ -152,6 +152,13 @@ OC_FILES.showbrowser_callback=function(content){
              tr=document.createElement('tr');
              tbody.appendChild(tr);
              tr.className='browserline';
+             td=document.createElement('td');
+             tr.appendChild(td);
+             input=document.createElement('input');
+             input.setAttribute('type','checkbox');
+             input.setAttribute('name','fileSelector');
+             input.setAttribute('value',file['name']);
+             td.appendChild(input);
              tr.appendChild(OC_FILES.showicon(file['type']));
              td=document.createElement('td');
              tr.appendChild(td);
@@ -169,7 +176,7 @@ OC_FILES.showbrowser_callback=function(content){
                 sizeTd=document.createElement('td');
                 tr.appendChild(sizeTd);
                 sizeTd.className='sizetext';
-                sizeTd.appendChild(document.createTextNode(file['size']+' bytes'));
+                sizeTd.appendChild(document.createTextNode(sizeFormat(file['size'])));
              }
              a=document.createElement('a');
              img=document.createElement('img');
@@ -203,11 +210,23 @@ OC_FILES.showbrowser_callback=function(content){
     }
     tr=document.createElement('tr');
     tbody.appendChild(tr);
+    tr.className='utilrow';
     td=document.createElement('td');
     tr.appendChild(td);
     td.className='upload';
-    td.setAttribute('colspan','5');
+    td.setAttribute('colspan','6');
     this.showuploader(dir,td,content['max_upload']);
+    tr=document.createElement('tr');
+    tbody.appendChild(tr);
+    tr.className='utilrow';
+    td=document.createElement('td');
+    tr.appendChild(td);
+    td.setAttribute('colspan','6');
+    button=document.createElement('input');
+    td.appendChild(button);
+    button.setAttribute('type','button');
+    button.setAttribute('value','Download');
+    button.setAttribute('onclick','OC_FILES.downloadSelected()');
     contentNode.appendChild(files);
 }
 
@@ -225,9 +244,11 @@ OC_FILES.showuploader=function(dir,parent,max_upload){
    input.setAttribute('type','hidden');
    input.setAttribute('name','MAX_FILE_SIZE');
    input.setAttribute('value',max_upload);
+   input.setAttribute('id','max_upload');
    this.uploadForm.appendChild(input);
    var file=document.createElement('input');
    file.name='file';
+   file.setAttribute('id','fileSelector');
    file.setAttribute('type','file');
    file.setAttribute('onchange','OC_FILES.upload("'+dir+'")');
    this.uploadForm.appendChild(document.createTextNode('Upload file: '));
@@ -237,6 +258,16 @@ OC_FILES.showuploader=function(dir,parent,max_upload){
 
 OC_FILES.upload=function(dir){
    OC_FILES.uploadIFrame.setAttribute('onload',"OC_FILES.upload_callback.call(OC_FILES,'"+dir+"')");
+   var fileSelector=document.getElementById('fileSelector');
+   var max_upload=document.getElementById('max_upload').value;
+   if(fileSelector.files && fileSelector.files[0].fileSize){
+       var size=fileSelector.files[0].fileSize
+//        new OCNotification('size: '+size,1000);
+       if(size>max_upload){
+//            new OCNotification('Chosen file is to large',20000);
+           return false;
+       }
+   }
    OC_FILES.uploadForm.submit();
 }
 
@@ -310,4 +341,40 @@ OC_FILES.remove=function(dir,file){
 
 OC_FILES.remove_callback=function(req){
    OC_FILES.showbrowser(OC_FILES.dir);
+}
+
+OC_FILES.getSelected=function(){
+    nodes=document.getElementsByName('fileSelector');
+    files=Array();
+    for(index in nodes){
+        if(nodes[index].checked){
+            files[files.length]=nodes[index].value;
+        }
+    }
+    return files;
+}
+
+OC_FILES.downloadSelected=function(){
+    files=OC_FILES.getSelected();
+    if(files.length>1){
+        files.join(';');
+    }else{
+        files=files[0];
+    }
+    window.location=WEBROOT+'/files/get_file.php?dir='+OC_FILES.dir+'&files='+files;
+}
+
+sizeFormat=function(size){
+    var orig=size;
+    var steps=Array('B','KiB','MiB','GiB','TiB');
+    var step=0;
+    while(size>(1024*2)){
+        step++;
+        size=size/1024;
+    }
+//     size=orig/(1024^(step+1));//recalculate the size in one time to minimalize rounding errors;
+    if(size.toFixed){
+        size=size.toFixed(2);
+    }
+    return ''+size+' '+steps[step];
 }
