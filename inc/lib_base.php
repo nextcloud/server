@@ -86,7 +86,7 @@ $loginresult=OC_USER::loginlisener();
  *
  */
 class OC_USER {
-
+  
   /**
    * check if the login button is pressed and logg the user in
    *
@@ -125,6 +125,16 @@ class OC_USER {
  *
  */
 class OC_UTIL {
+  public static $scripts=array();
+  
+  /**
+   * add a javascript file
+   *
+   * @param url  $url
+   */
+  public static function addscript($url){
+      self::$scripts[]=$url;
+  }
 
   /**
    * array to store all the optional navigation buttons of the plugins

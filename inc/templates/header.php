@@ -6,9 +6,15 @@
 	<base href="<?php echo($WEBROOT); ?>/"/>
 	<link rel="stylesheet" type="text/css" href="css/default.php"/>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_ajax.js'></script>
+<!-- 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/timer.js'></script> -->
+<!-- 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/notification.js'></script> -->
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_xmlloader.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_files.js'></script>
-	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/ajax.js'></script>
+<?php
+foreach(OC_UTIL::$scripts as $script){
+    echo("<script type='text/ecmascript' src='$WEBROOT/$script'></script>");
+}
+?>
 	<script type='text/ecmascript'>
 	var WEBROOT='<?php echo($WEBROOT)?>';
 	</script>

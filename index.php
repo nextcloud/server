@@ -31,7 +31,7 @@ if(isset($_GET['file'])) {
 
 }else{
 
-
+  OC_UTIL::addscript('js/ajax.js');
   OC_UTIL::showheader();
 
   OC_FILES::showbrowser($CONFIG_DATADIRECTORY,$dir);
