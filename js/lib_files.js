@@ -146,6 +146,32 @@ OC_FILES.showbrowser_callback=function(content){
     var filesfound=false;
     var sizeTd=null;
     if(content){
+         tr=document.createElement('tr');
+         tbody.appendChild(tr);
+         tr.className='browserline';
+         td=document.createElement('td');
+         tr.appendChild(td);
+         td.setAttribute('colspan','2');
+         input=document.createElement('input');
+         input.setAttribute('type','checkbox');
+         input.setAttribute('name','fileSelector');
+         input.setAttribute('value','select_all');
+         input.setAttribute('id','select_all');
+         input.setAttribute('onclick','OC_FILES.selectAll()');
+         td.appendChild(input);
+         td=document.createElement('td');
+         tr.appendChild(td);
+         td.className='nametext';
+         td.setAttribute('name','name');
+         td.appendChild(document.createTextNode('name'))
+         sizeTd=document.createElement('td');
+         tr.appendChild(sizeTd);
+         sizeTd.className='sizetext';
+         sizeTd.appendChild(document.createTextNode('size'));
+         td=document.createElement('td');
+         tr.appendChild(td);
+         td.className='sizetext';
+         td.appendChild(document.createTextNode('date'));
        for(index in content){
           file=content[index];
           if(file.name){
@@ -185,8 +211,6 @@ OC_FILES.showbrowser_callback=function(content){
              img.alt='rename'
              img.title='rename';
              img.src=WEBROOT+'/img/icons/rename.png';
-             img.style.height='16px'
-             img.style.width='16px'
              img.setAttribute('onclick','OC_FILES.rename(\''+dir+'\',\''+file['name']+'\')')
              td=document.createElement('td');
              tr.appendChild(td);
@@ -201,8 +225,6 @@ OC_FILES.showbrowser_callback=function(content){
                 img.alt='delete'
                 img.title='delete';
                 img.src=WEBROOT+'/img/icons/delete.png';
-                img.style.height='16px'
-                img.style.width='16px'
                 img.setAttribute('onclick','OC_FILES.remove(\''+dir+'\',\''+file['name']+'\')')
              }
           }
@@ -213,20 +235,32 @@ OC_FILES.showbrowser_callback=function(content){
     tr.className='utilrow';
     td=document.createElement('td');
     tr.appendChild(td);
-    td.className='upload';
     td.setAttribute('colspan','6');
-    this.showuploader(dir,td,content['max_upload']);
+    dropdown=document.createElement('select');
+    td.appendChild(dropdown);
+    dropdown.setAttribute('id','selected_action');
+    for(index in this.actions_selected){
+        if(this.actions_selected[index].call){
+            option=document.createElement('option');
+            dropdown.appendChild(option);
+            option.setAttribute('value',index);
+            option.appendChild(document.createTextNode(index));
+        }
+    }
+    td.appendChild(document.createTextNode(' selected. '));
+    button=document.createElement('input');
+    td.appendChild(button);
+    button.setAttribute('type','button');
+    button.setAttribute('value','Go');
+    button.setAttribute('onclick','OC_FILES.action_selected()');
     tr=document.createElement('tr');
     tbody.appendChild(tr);
     tr.className='utilrow';
     td=document.createElement('td');
     tr.appendChild(td);
+    td.className='upload';
     td.setAttribute('colspan','6');
-    button=document.createElement('input');
-    td.appendChild(button);
-    button.setAttribute('type','button');
-    button.setAttribute('value','Download');
-    button.setAttribute('onclick','OC_FILES.downloadSelected()');
+    this.showuploader(dir,td,content['max_upload']);
     contentNode.appendChild(files);
 }
 
@@ -344,8 +378,8 @@ OC_FILES.remove_callback=function(req){
 }
 
 OC_FILES.getSelected=function(){
-    nodes=document.getElementsByName('fileSelector');
-    files=Array();
+    var nodes=document.getElementsByName('fileSelector');
+    var files=Array();
     for(index in nodes){
         if(nodes[index].checked){
             files[files.length]=nodes[index].value;
@@ -354,14 +388,43 @@ OC_FILES.getSelected=function(){
     return files;
 }
 
-OC_FILES.downloadSelected=function(){
+OC_FILES.selectAll=function(){
+    var value=document.getElementById('select_all').checked;
+    var nodes=document.getElementsByName('fileSelector');
+    for(index in nodes){
+        if(nodes[index].value){
+            nodes[index].checked=value;
+        }
+    }
+}
+
+OC_FILES.action_selected=function(){
+    var dropdown=action=document.getElementById('selected_action');
+    var action=dropdown.options[dropdown.selectedIndex].value;
+    if(OC_FILES.actions_selected[action] && OC_FILES.actions_selected[action].call){
+        OC_FILES.actions_selected[action].call(OC_FILES);
+    }
+}
+
+OC_FILES.actions_selected=new Object();
+
+OC_FILES.actions_selected.download=function(){
     files=OC_FILES.getSelected();
-    if(files.length>1){
+    if(files.length==0){
+        return false;
+    }else if(files.length>1){
         files.join(';');
     }else{
         files=files[0];
     }
     window.location=WEBROOT+'/files/get_file.php?dir='+OC_FILES.dir+'&files='+files;
+}
+
+OC_FILES.actions_selected['delete']=function(){
+    files=OC_FILES.getSelected();
+    for(index in files){
+        OC_FILES.remove(OC_FILES.dir,files[index]);
+    }
 }
 
 sizeFormat=function(size){
