@@ -5,7 +5,19 @@ sqlite
 == SETUP ==
 Place owncloud in a subdirectory of your web server. Go to that directory with
 a web browser and the first run wizard should take it from there.
+Set up your paths in:
+config/config.php
+Check out config/config.sample.php for details if you want to set config.php manually.
 
+Your data will be in:
+$CONFIG_DATADIRECTORY = '/www/testy';
+Apache needs to have write permissions to this directory.
+
+And the ownCloud path is:
+$CONFIG_DOCUMENTROOT = '/www/owncloud/htdocs';
+The ownCloud checkout should be in the root of "htdocs".
+
+Both are absolute paths, so if your server is in /var/www, you need to add the /var
 
 == Database ==
 The database is sqlite. If you are having trouble make sure that the line
@@ -17,4 +29,8 @@ appears in your php.ini
 
 Please help improving this documentation!
 Create merge requests at gitorious.org/owncloud .
+
+Read the FAQs for some common problems.
+For support check out our IRC at Freenode : Channel #owncloud
+Mailing list at https://mail.kde.org/mailman/listinfo/owncloud
 
