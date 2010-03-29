@@ -22,6 +22,22 @@
 */
 require_once('../inc/lib_base.php');
 
+function return_bytes($val) {
+    $val = trim($val);
+    $last = strtolower($val[strlen($val)-1]);
+    switch($last) {
+        // The 'G' modifier is available since PHP 5.1.0
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
+    }
+
+    return $val;
+}
+
 // header('Content-type: text/plain');
 header('Content-type: application/xml');
 
@@ -29,9 +45,10 @@ $dir=isset($_GET['dir'])?$_GET['dir']:'';
 $files=OC_FILES::getdirectorycontent($CONFIG_DATADIRECTORY.'/'.$dir);
 $dirname=$files[0]['directory'];
 $dirname=substr($dirname,strrpos($dirname,'/'));
+$max_upload=min(return_bytes(ini_get('post_max_size')),return_bytes(ini_get('upload_max_filesize')));
 ob_clean();
 echo "<?xml version='1.0' standalone='yes'?>\n";
-echo "<dir name='$dirname'>\n";
+echo "<dir name='$dirname' max_upload='$max_upload'>\n";
 foreach($files as $file){
    $attributes='';
    foreach($file as $name=>$data){
