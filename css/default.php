@@ -2,7 +2,10 @@
 header('Content-Type: text/css');
 require_once('../inc/lib_base.php');
 ?>
-body {background-color: #F9F9F9;}
+body {
+    background-color: #F9F9F9;
+    margin:0px;
+}
 body.error {background-color: #F0F0F0;}
 body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size:9.0pt;}
 
@@ -28,7 +31,10 @@ td {
 }
 
 div#nav {
-  margin-bottom:2em;
+  width:100%;
+  background-color: #EEEEEE;
+  padding:0px;
+  margin:0px;
 }
 
 a#owncloud-logo {
@@ -44,7 +50,7 @@ a#owncloud-logo span {
   display:none;
 }
 
-.nametext a {color:#333333; font-size:8pt; font-weight:bold; text-decoration:none;}
+.nametext a, .breadcrumb a{color:#333333; font-size:8pt; font-weight:bold; text-decoration:none;}
 .errortext {color:#CC3333; font-size:9pt; font-weight:bold; text-decoration:none;}
 .highlighttext {color:#333333; font-size:9pt; font-weight:bold; text-decoration:none;}
 .datetext {color:#333333; font-size:7pt;}
@@ -134,4 +140,58 @@ a#owncloud-logo span {
     padding:0px;
     border:0px;
     //do not use display:none here, it breaks iframes in some browsers
+}
+
+div.OCNotification{
+    background:#0c285a;
+    color:white;
+    border:white solid 1px;
+    padding:1px;
+    margin:4px;
+    min-width:200px;
+}
+div.OCNotificationHolder{
+    right:20px;
+    bottom:0px;
+    position:absolute;
+    color:white;
+}
+
+td img.file_actions{
+    cursor:pointer;
+    height:0px;
+    width:9px;
+}
+
+td:hover img.file_actions{
+    height:auto;
+}
+
+td img.rename, td img.delete{
+    height:0px;
+    width:16px;
+    cursor:pointer;
+}
+
+td:hover img.rename, tr:hover img.delete{
+    height:16px;
+}
+
+div.breadcrumb{
+   background-color: #F0F0F0; 
+}
+
+div.fileactionlist{
+    position:absolute;
+    background-color: #DDDDDD;
+    margin-top:5px;
+    border:1px black solid;
+}
+
+div.fileactionlist td{
+    cursor:pointer;
+}
+
+div.fileactionlist td:hover{
+    background-color: #CCCCCC;
 }

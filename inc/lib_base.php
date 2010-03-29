@@ -192,7 +192,7 @@ class OC_UTIL {
   public static function shownavigation(){
     global $WEBROOT;
     global $SERVERROOT;
-    echo('<table cellpadding="5" cellspacing="0" border="0"><tr>');
+    echo('<table class="center" cellpadding="5" cellspacing="0" border="0"><tr>');
     echo('<td class="navigationitem1"><a href="'.$WEBROOT.'/">'.$_SESSION['username'].'</a></td>');
     if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/">Files</a></td>');
 

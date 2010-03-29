@@ -6,8 +6,8 @@
 	<base href="<?php echo($WEBROOT); ?>/"/>
 	<link rel="stylesheet" type="text/css" href="css/default.php"/>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_ajax.js'></script>
-<!-- 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/timer.js'></script> -->
-<!-- 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/notification.js'></script> -->
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_timer.js'></script>
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_notification.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_xmlloader.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_files.js'></script>
 <?php

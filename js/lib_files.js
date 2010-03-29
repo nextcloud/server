@@ -30,7 +30,8 @@ OC_FILES.getdirectorycontent_parse=function(req){
        files['max_upload']=dir.getAttribute('max_upload');
        var fileElements=response.getElementsByTagName('file');
        if(fileElements.length>0){
-          for(index in fileElements){
+          for(index=0;index<fileElements.length;index++){
+//           for(index in fileElements){
              var file=new Array();
              var attributes=Array('size','name','type','directory','date');
              for(i in attributes){
@@ -83,6 +84,9 @@ OC_FILES.showbrowser_callback=function(content){
     var td=null;
     var img=null;
     
+    body=document.getElementsByTagName('body').item(0);
+    body.setAttribute('onclick',body.getAttribute('onclick')+' ; OC_FILES.hideallactions()');
+    
     //remove current content;
     var contentNode=document.getElementById('content');
     if(contentNode.hasChildNodes()){
@@ -91,12 +95,13 @@ OC_FILES.showbrowser_callback=function(content){
        }
     }
     
+    var browser=document.createElement('div');
+    browser.className='center';
+    var table=document.createElement('table');
+    browser.appendChild(table);
+    
     // breadcrumb
     if(dirs.length>0) {
-       var breadcrumb=document.createElement('div');
-       breadcrumb.className='center';
-       var table=document.createElement('table');
-       breadcrumb.appendChild(table);
        table.setAttribute('cellpadding',2);
        table.setAttribute('cellspacing',0);
        var tbody=document.createElement('tbody');//some IE versions need this
@@ -105,7 +110,8 @@ OC_FILES.showbrowser_callback=function(content){
        tbody.appendChild(tr);
        td=document.createElement('td');
        tr.appendChild(td);
-       td.className='nametext';
+       td.setAttribute('colspan','6');
+       td.className='breadcrumb';
        var a=document.createElement('a');
        td.appendChild(a);
        a.setAttribute('href','#');
@@ -116,9 +122,9 @@ OC_FILES.showbrowser_callback=function(content){
           d=dirs[index];
           currentdir+='/'+d;
           if(d!=''){
-             td=document.createElement('td');
-             tr.appendChild(td);
-             td.className='nametext';
+//              td=document.createElement('td');
+//              tr.appendChild(td);
+//              td.className='breadcrumb';
              a=document.createElement('a');
              td.appendChild(a);
              a.setAttribute('href','#'+currentdir);
@@ -129,15 +135,9 @@ OC_FILES.showbrowser_callback=function(content){
              a.appendChild(document.createTextNode(' ' +d));
           }
       }
-      contentNode.appendChild(breadcrumb);
     }
 
     // files and directories
-    var files=document.createElement('div');
-    OC_FILES.browser=files;
-    files.className='center';
-    var table=document.createElement('table');
-    files.appendChild(table);
     table.setAttribute('cellpadding',6);
     table.setAttribute('cellspacing',0);
     table.className='browser';
@@ -161,20 +161,28 @@ OC_FILES.showbrowser_callback=function(content){
          td.appendChild(input);
          td=document.createElement('td');
          tr.appendChild(td);
-         td.className='nametext';
-         td.setAttribute('name','name');
-         td.appendChild(document.createTextNode('name'))
-         sizeTd=document.createElement('td');
-         tr.appendChild(sizeTd);
-         sizeTd.className='sizetext';
-         sizeTd.appendChild(document.createTextNode('size'));
-         td=document.createElement('td');
-         tr.appendChild(td);
-         td.className='sizetext';
-         td.appendChild(document.createTextNode('date'));
-       for(index in content){
+         td.setAttribute('colspan','4');
+         dropdown=document.createElement('select');
+         td.appendChild(dropdown);
+         dropdown.setAttribute('id','selected_action');
+         for(index in this.actions_selected){
+            if(this.actions_selected[index].call){
+                option=document.createElement('option');
+                dropdown.appendChild(option);
+                option.setAttribute('value',index);
+                option.appendChild(document.createTextNode(index));
+            }
+         }
+         td.appendChild(document.createTextNode(' selected. '));
+         button=document.createElement('button');
+         td.appendChild(button);
+         button.appendChild(document.createTextNode('Go'));
+         button.setAttribute('onclick','OC_FILES.action_selected()');
+         for(index in content){
           file=content[index];
           if(file.name){
+             file.name=file.name.replace('\'','');
+             OC_FILES.files[file['name']]=new OC_FILES.file(dir,file['name'],file['type']);
              tr=document.createElement('tr');
              tbody.appendChild(tr);
              tr.className='browserline';
@@ -190,6 +198,7 @@ OC_FILES.showbrowser_callback=function(content){
              tr.appendChild(td);
              td.className='nametext';
              td.setAttribute('name',file['name']);
+             td.setAttribute('id',file['name']);
              a=document.createElement('a');
              td.appendChild(a);
              a.appendChild(document.createTextNode(file['name']))
@@ -207,52 +216,20 @@ OC_FILES.showbrowser_callback=function(content){
              a=document.createElement('a');
              img=document.createElement('img');
              td.appendChild(img);
-             img.className='rename';
-             img.alt='rename'
-             img.title='rename';
-             img.src=WEBROOT+'/img/icons/rename.png';
-             img.setAttribute('onclick','OC_FILES.rename(\''+dir+'\',\''+file['name']+'\')')
+             img.className='file_actions';
+             img.alt=''
+             img.title='actions';
+             img.src=WEBROOT+'/img/arrow_down.png';
+             img.setAttribute('onclick','OC_FILES.showactions(\''+file['name']+'\')')
              td=document.createElement('td');
              tr.appendChild(td);
              td.className='sizetext';
              td.appendChild(document.createTextNode(file['date']));
-             if(file['type']!='dir'){
-                td=document.createElement('td');
-                tr.appendChild(td);
-                img=document.createElement('img');
-                td.appendChild(img);
-                img.className='delete';
-                img.alt='delete'
-                img.title='delete';
-                img.src=WEBROOT+'/img/icons/delete.png';
-                img.setAttribute('onclick','OC_FILES.remove(\''+dir+'\',\''+file['name']+'\')')
-             }
           }
        }
     }
-    tr=document.createElement('tr');
-    tbody.appendChild(tr);
-    tr.className='utilrow';
     td=document.createElement('td');
     tr.appendChild(td);
-    td.setAttribute('colspan','6');
-    dropdown=document.createElement('select');
-    td.appendChild(dropdown);
-    dropdown.setAttribute('id','selected_action');
-    for(index in this.actions_selected){
-        if(this.actions_selected[index].call){
-            option=document.createElement('option');
-            dropdown.appendChild(option);
-            option.setAttribute('value',index);
-            option.appendChild(document.createTextNode(index));
-        }
-    }
-    td.appendChild(document.createTextNode(' selected. '));
-    button=document.createElement('input');
-    td.appendChild(button);
-    button.setAttribute('type','button');
-    button.setAttribute('value','Go');
-    button.setAttribute('onclick','OC_FILES.action_selected()');
     tr=document.createElement('tr');
     tbody.appendChild(tr);
     tr.className='utilrow';
@@ -261,7 +238,7 @@ OC_FILES.showbrowser_callback=function(content){
     td.className='upload';
     td.setAttribute('colspan','6');
     this.showuploader(dir,td,content['max_upload']);
-    contentNode.appendChild(files);
+    contentNode.appendChild(browser);
 }
 
 OC_FILES.showuploader=function(dir,parent,max_upload){
@@ -296,9 +273,7 @@ OC_FILES.upload=function(dir){
    var max_upload=document.getElementById('max_upload').value;
    if(fileSelector.files && fileSelector.files[0].fileSize){
        var size=fileSelector.files[0].fileSize
-//        new OCNotification('size: '+size,1000);
        if(size>max_upload){
-//            new OCNotification('Chosen file is to large',20000);
            return false;
        }
    }
@@ -310,8 +285,8 @@ OC_FILES.upload_callback=function(dir){
 }
 
 OC_FILES.rename=function(dir,file){
-   var item=document.getElementsByName(file).item(0);
-   item.oldContent=new Array();
+   var item=document.getElementById(file);
+   item.oldContent=Array();
    if(item.hasChildNodes()){
       while(item.childNodes.length >=1){
          item.oldContent[item.oldContent.length]=item.firstChild;
@@ -427,6 +402,98 @@ OC_FILES.actions_selected['delete']=function(){
     }
 }
 
+OC_FILES.files=Array();
+
+OC_FILES.file=function(dir,file,type){
+    this.type=type;
+    this.file=file;
+    this.dir=dir;
+    this.actions=new Object();
+    this.extention=file.substr(file.indexOf('.'));
+    for(index in OC_FILES.fileActions.all){
+        if(OC_FILES.fileActions.all[index].call){
+            this.actions[index]=OC_FILES.fileActions.all[index];
+        }
+    }
+    if(OC_FILES.fileActions[this.extention])
+    for(index in OC_FILES.fileActions[this.extention]){
+        if(OC_FILES.fileActions[this.extention][index].call){
+            this.actions[index]=OC_FILES.fileActions[this.extention][index];
+        }
+    }
+}
+
+OC_FILES.file.prototype.showactions=function(){
+    OC_FILES.showactions(this.file);
+}
+
+OC_FILES.file.prototype.hideactions=function(){
+    OC_FILES.showactions(this.file,true);
+}
+
+OC_FILES.fileActions=new Object();
+
+OC_FILES.fileActions.all=new Object();
+
+OC_FILES.fileActions.all.remove=function(){
+    OC_FILES.remove(this.dir,this.file);
+}
+OC_FILES.fileActions.all.rename=function(){
+    OC_FILES.rename(this.dir,this.file);
+}
+OC_FILES.fileActions.all.download=function(){
+    window.location=WEBROOT+'/files/get_file.php?dir='+this.dir+'&files='+this.file;
+}
+
+OC_FILES.showactions=function(file,hide){
+    node=document.getElementById(file);
+    if(node.actionsshown || hide){
+        if(node.actionsdiv){
+            node.removeChild(node.actionsdiv);
+        }
+        node.actionsdiv=null;
+        node.actionsshown=false
+    }else{
+//         OC_FILES.hideallactions();
+        node.actionsshown=true
+        div=document.createElement('div');
+        node.actionsdiv=div;
+        div.className='fileactionlist';
+        table=document.createElement('table');
+        div.appendChild(table);
+        tbody=document.createElement('tbody');
+        table.appendChild(tbody);
+        actions=OC_FILES.files[file].actions;
+        for(name in actions){
+            if(actions[name].call){
+                tr=document.createElement('tr');
+                tbody.appendChild(tr);
+                td=document.createElement('td');
+                tr.appendChild(td);
+                a=document.createElement('a');
+                td.appendChild(a);
+                a.appendChild(document.createTextNode(name));
+                td.setAttribute('onclick','OC_FILES.files[\''+file+'\'].actions[\''+name+'\'].call(OC_FILES.files[\''+file+'\'])');
+            }
+        }
+        node.appendChild(div);
+        OC_FILES.hideallenabled=false;
+        setTimeout('OC_FILES.hideallenabled=true',50);
+    }
+}
+
+OC_FILES.hideallactions=function(){
+    if(OC_FILES.hideallenabled){
+        for(name in OC_FILES.files){
+            if(OC_FILES.files[name].hideactions){
+                OC_FILES.files[name].hideactions.call(OC_FILES.files[name]);
+            }
+        }
+    }
+}
+
+OC_FILES.hideallenabled=true; //used to prevent browsers from hiding actionslists right after they are displayed;
+
 sizeFormat=function(size){
     var orig=size;
     var steps=Array('B','KiB','MiB','GiB','TiB');
@@ -435,7 +502,6 @@ sizeFormat=function(size){
         step++;
         size=size/1024;
     }
-//     size=orig/(1024^(step+1));//recalculate the size in one time to minimalize rounding errors;
     if(size.toFixed){
         size=size.toFixed(2);
     }
