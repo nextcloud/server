@@ -45,10 +45,7 @@ $CONFIG_ADMINPASSWORD='';
 $CONFIG_DATADIRECTORY=$SERVERROOT.$WEBROOT.'/data';
 $CONFIG_HTTPFORCESSL=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
-$CONFIG_DBHOST='localhost';
 $CONFIG_DBNAME='owncloud';
-$CONFIG_DBUSER='';
-$CONFIG_DBPASSWORD='';
 
 // include the generated configfile
 @include_once('config.php');
@@ -111,9 +108,9 @@ class OC_USER {
    *
    */
   public static function logoutlisener(){
-    if(isset($_GET['logoutbutton'])){
+    if(isset($_GET['logoutbutton']) && isset($_SESSION['username'])){
       OC_LOG::event($_SESSION['username'],2,'');
-      if(isset($_SESSION['username'])) unset($_SESSION['username']);
+      unset($_SESSION['username']);
     }
   }
 
@@ -238,14 +235,12 @@ class OC_DB {
    * @return result-set
    */
   static function query($cmd) {
+   global $DOCUMENTROOT;
     global $DBConnection;
-    global $CONFIG_DBHOST;
     global $CONFIG_DBNAME;
-    global $CONFIG_DBUSER;
-    global $CONFIG_DBPASSWORD;
     if(!isset($DBConnection)) {
-      $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
-      if (mysqli_connect_errno()) {
+      $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
+      if (!$DBConnection) {
         @ob_end_clean();
         echo('<b>can not connect to database.</center>');
         exit();
@@ -253,12 +248,12 @@ class OC_DB {
     }
     $result = @$DBConnection->query($cmd);
     if (!$result) {
-      $entry='DB Error: "'.$DBConnection->error.'"<br />';
+      $entry='DB Error: "'.sqlite_error_string($DBConnection->lastError()).'"<br />';
       $entry.='Offending command was: '.$cmd.'<br />';
       echo($entry);
     }
     return $result;
-  }
+  } 
   
   /**
    * executes multiply queries on the database
@@ -267,22 +262,20 @@ class OC_DB {
    * @return result-set
    */
   static function multiquery($cmd) {
+    global $DOCUMENTROOT;
     global $DBConnection;
-    global $CONFIG_DBHOST;
     global $CONFIG_DBNAME;
-    global $CONFIG_DBUSER;
-    global $CONFIG_DBPASSWORD;
     if(!isset($DBConnection)) {
-      $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
-      if (mysqli_connect_errno()) {
+      $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
+      if (!$DBConnection) {
         @ob_end_clean();
         echo('<b>can not connect to database.</center>');
         exit();
       }
     }
-    $result = @$DBConnection->multi_query($cmd);
+    $result = @$DBConnection->queryExec($cmd);
     if (!$result) {
-      $entry='DB Error: "'.$DBConnection->error.'"<br />';
+      $entry='DB Error: "'.sqlite_error_string($DBConnection->lastError()).'"<br />';
       $entry.='Offending command was: '.$cmd.'<br />';
       echo($entry);
     }
@@ -312,7 +305,7 @@ class OC_DB {
    */
   static function insertid() {
     global $DBConnection;
-    return(mysqli_insert_id($DBConnection));
+    return $DBConnectio->lastInsertRowid();
   }
 
   /**
@@ -323,7 +316,7 @@ class OC_DB {
    */
   static function numrows($result) {
     if(!isset($result) or ($result == false)) return 0;
-    $num= mysqli_num_rows($result);
+    $num= $result->numRows();
     return($num);
   }
 
@@ -335,7 +328,7 @@ class OC_DB {
   static function affected_rows() {
     global $DBConnection;
     if(!isset($DBConnection) or ($DBConnection==false)) return 0;
-    $num= mysqli_affected_rows($DBConnection);
+    $num= $DBConnection->changes();
     return($num);
   }
 
@@ -348,16 +341,10 @@ class OC_DB {
    * @return unknown
    */
   static function result($result, $i, $field) {
-    //return @mysqli_result($result, $i, $field);
-
-    mysqli_data_seek($result,$i);
-    if (is_string($field))
-    $tmp=mysqli_fetch_array($result,MYSQLI_BOTH);
-    else
-    $tmp=mysqli_fetch_array($result,MYSQLI_NUM);
+    $result->seek($ii);
+    $tmp=$result->fetch();
     $tmp=$tmp[$field];
     return($tmp);
-
   }
 
   /**
@@ -367,7 +354,7 @@ class OC_DB {
    * @return data
    */
   static function fetch_assoc($result) {
-    return mysqli_fetch_assoc($result);
+    return $result->fetch(SQLITE_ASSOC);
   }
 
 
@@ -378,7 +365,8 @@ class OC_DB {
    * @return bool
    */
   static function free_result($result) {
-    return @mysqli_free_result($result);
+    $result = null;   //No native way to do this
+    return true;
   }
 
 }

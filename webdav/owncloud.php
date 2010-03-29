@@ -41,10 +41,7 @@ $passwd=$_SERVER['PHP_AUTH_PW'];
 if(($user==$CONFIG_ADMINLOGIN) and ($passwd==$CONFIG_ADMINPASSWORD )){
 
   $server = new HTTP_WebDAV_Server_Filesystem();
-  $server->db_host = $CONFIG_DBHOST;
   $server->db_name = $CONFIG_DBNAME;
-  $server->db_user = $CONFIG_DBUSER;
-  $server->db_passwd = $CONFIG_DBPASSWORD;
   $server->ServeRequest($CONFIG_DATADIRECTORY);
 
 }else{
