@@ -49,19 +49,22 @@ OCXMLLoader.prototype={
       request=(request)?request:"";
       method=this.method;
       contentType=(!this.contentType && method=="POST")?"application/x-www-form-urlencoded":this.contentType;
-      if(window.XDomainRequest){
-         req=new XDomainRequest();
-      }else if(window.XMLHttpRequest){
+      if(window.XMLHttpRequest){
          req=new XMLHttpRequest();
+      }else if(window.XDomainRequest){
+         req=new XDomainRequest();
       }else if(window.ActiveXObject){
          req=new ActiveXObject('Microsoft.XMLHTTP')
       }
       if (req){
+         this.req=req;
          try{
-            var loader=this;
-            req.onreadystatechange=function(){
-               loader.onReadyState.call(loader,req)
-            }
+//             var loader=this;
+//             req.onreadystatechange=function(){
+//                loader.onReadyState.call(loader,req)
+//             }
+            var callback=new callBack(this.onReadyState,this);
+            req.onreadystatechange=function(){eval('callBack.call('+callback.id+')');};
             req.open(method,url,this.async);
             if (contentType){
                req.setRequestHeader("Content-Type",contentType);
@@ -76,15 +79,15 @@ OCXMLLoader.prototype={
          }
       }
    },
-   onReadyState:function(req){
-      var ready=req.readyState;
+   onReadyState:function(){
+      var ready=this.req.readyState;
       if (ready==READY_STATE_COMPLETE){
          var HttpStatus=req.status;
          if (HttpStatus==200 || HttpStatus==0){
             //alert("response: "+this.req.responseText);
-            this.callBack(req);
+            this.callBack(this.req);
          }else{
-            this.errorCallBack(req);
+            this.errorCallBack(this.req);
          }
       }
    },
