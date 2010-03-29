@@ -30,7 +30,8 @@ OC_FILES.getdirectorycontent_parse=function(req){
        files['max_upload']=dir.getAttribute('max_upload');
        var fileElements=response.getElementsByTagName('file');
        if(fileElements.length>0){
-          for(index in fileElements){
+          for(index=0;index<fileElements.length;index++){
+//           for(index in fileElements){
              var file=new Array();
              var attributes=Array('size','name','type','directory','date');
              for(i in attributes){
@@ -190,6 +191,7 @@ OC_FILES.showbrowser_callback=function(content){
              tr.appendChild(td);
              td.className='nametext';
              td.setAttribute('name',file['name']);
+             td.setAttribute('id',file['name']);
              a=document.createElement('a');
              td.appendChild(a);
              a.appendChild(document.createTextNode(file['name']))
@@ -248,10 +250,10 @@ OC_FILES.showbrowser_callback=function(content){
         }
     }
     td.appendChild(document.createTextNode(' selected. '));
-    button=document.createElement('input');
+    button=document.createElement('button');
     td.appendChild(button);
-    button.setAttribute('type','button');
-    button.setAttribute('value','Go');
+//     button.type='button';
+    button.appendChild(document.createTextNode('Go'));
     button.setAttribute('onclick','OC_FILES.action_selected()');
     tr=document.createElement('tr');
     tbody.appendChild(tr);
@@ -310,8 +312,9 @@ OC_FILES.upload_callback=function(dir){
 }
 
 OC_FILES.rename=function(dir,file){
-   var item=document.getElementsByName(file).item(0);
-   item.oldContent=new Array();
+   var item=document.getElementById(file);
+//    item=item.item(0);
+   item.oldContent=Array();
    if(item.hasChildNodes()){
       while(item.childNodes.length >=1){
          item.oldContent[item.oldContent.length]=item.firstChild;

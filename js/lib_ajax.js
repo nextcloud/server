@@ -21,8 +21,19 @@
 
 //The callBack object provides an easy way to pass a member of an object as callback parameter and makes sure that the 'this' is always set correctly when called.
 callBack=function(func,obj){
+   this.id=callBack.callBacks.length;
+   callBack.callBacks[this.id]=this;
    this.func=func;
    this.obj=obj;
+}
+
+callBack.callBacks=Array();
+
+callBack.call=function(id,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
+   callback=callBack.callBacks[id];
+   if(callback){
+       callback.func.call(callback.obj,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+   }
 }
 
 callBack.prototype=function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
