@@ -20,6 +20,7 @@ class OC_CONFIG{
    */
   public static function writeconfiglisener(){
     global $DOCUMENTROOT;
+    global $SERVERROOT;
     global $WEBROOT;
     global $CONFIG_DBNAME;
     if(isset($_POST['set_config'])){
@@ -37,18 +38,25 @@ class OC_CONFIG{
       if(!isset($_POST['adminpassword'])     or empty($_POST['adminpassword']) and $FIRSTRUN)     $error.='admin password not set<br />';
       if(!isset($_POST['adminpassword2'])    or empty($_POST['adminpassword2']) and $FIRSTRUN)    $error.='retype admin password not set<br />';
       if(!isset($_POST['datadirectory'])     or empty($_POST['datadirectory']))     $error.='data directory not set<br />';
-      if(!isset($_POST['dateformat'])        or empty($_POST['dateformat']))        $error.='dteformat not set<br />';
+      if(!isset($_POST['dateformat'])        or empty($_POST['dateformat']))        $error.='dateformat not set<br />';
       if(!isset($_POST['dbname'])            or empty($_POST['dbname']))            $error.='databasename not set<br />';
       if($_POST['adminpassword']<>$_POST['adminpassword2'] )                        $error.='admin passwords are not the same<br />';
       
        if(!isset($_POST['adminpassword']) or empty($_POST['adminpassword']) and !$FIRSTRUN){
           $_POST['adminpassword']=$CONFIG_ADMINPASSWORD;
        }
+      $dbtype=$_POST['dbtype'];
+      if($dbtype=='mysql'){
+          if(!isset($_POST['dbhost'])            or empty($_POST['dbhost']))            $error.='database host not set<br />';
+          if(!isset($_POST['dbuser'])            or empty($_POST['dbuser']))            $error.='database user not set<br />';
+          if($_POST['dbpassword']<>$_POST['dbpassword2'] )                        $error.='database passwords are not the same<br />';
+          
+      }
       if(empty($error)) {
         //create/fill database
         $CONFIG_DBNAME=$_POST['dbname'];
         if(isset($_POST['filldb'])){
-           self::filldatabase();
+//            self::filldatabase();
         }
       
         //storedata
@@ -58,13 +66,19 @@ class OC_CONFIG{
         $config.='$CONFIG_DATADIRECTORY=\''.$_POST['datadirectory']."';\n";
         if(isset($_POST['forcessl'])) $config.='$CONFIG_HTTPFORCESSL=true'.";\n"; else $config.='$CONFIG_HTTPFORCESSL=false'.";\n";
         $config.='$CONFIG_DATEFORMAT=\''.$_POST['dateformat']."';\n";
+        $config.='$CONFIG_DBTYPE=\''.$dbtype."';\n";
         $config.='$CONFIG_DBNAME=\''.$_POST['dbname']."';\n";
+        if($dbtype=='mysql'){
+            $config.='$CONFIG_DBHOST=\''.$_POST['dbhost']."';\n";
+            $config.='$CONFIG_DBUSER=\''.$_POST['dbuser']."';\n";
+            $config.='$CONFIG_DBPASSWORD=\''.$_POST['dbpassword']."';\n";
+        }
         $config.='?> ';
 
-        $filename=$DOCUMENTROOT.'/config/config.php';
+        $filename=$SERVERROOT.'/config/config.php';
         file_put_contents($filename,$config);
 
-        header("Location: ".$WEBROOT."/"); 
+        header("Location: ".$WEBROOT."/");
 
       }
       return($error);

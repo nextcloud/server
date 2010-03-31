@@ -46,6 +46,7 @@ $CONFIG_DATADIRECTORY=$SERVERROOT.$WEBROOT.'/data';
 $CONFIG_HTTPFORCESSL=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
 $CONFIG_DBNAME='owncloud';
+$CONFIG_DBTYPE='sqlite';
 
 // include the generated configfile
 @include_once('config.php');
@@ -245,20 +246,34 @@ class OC_DB {
    * @return result-set
    */
   static function query($cmd) {
-   global $DOCUMENTROOT;
+    global $DOCUMENTROOT;
     global $DBConnection;
     global $CONFIG_DBNAME;
+    global $CONFIG_DBHOST;
+    global $CONFIG_DBUSER;
+    global $CONFIG_DBPASSWORD;
+    global $CONFIG_DBTYPE;
     if(!isset($DBConnection)) {
-      $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
+      if($CONFIG_DBTYPE=='sqlite'){
+          $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
+      }elseif($CONFIG_DBTYPE=='mysql'){
+          $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
+      }
       if (!$DBConnection) {
         @ob_end_clean();
-        echo('<b>can not connect to database.</center>');
+        echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'.</center>');
         exit();
       }
     }
     $result = @$DBConnection->query($cmd);
     if (!$result) {
-      $entry='DB Error: "'.sqlite_error_string($DBConnection->lastError()).'"<br />';
+      if($CONFIG_DBTYPE=='sqlite'){
+        $error=sqlite_error_string($DBConnection->lastError());
+      }elseif($CONFIG_DBTYPE=='mysql'){
+        print_r($DBConnection);
+        $error=$DBConnection->error;
+      }
+      $entry='DB Error: "'.$error.'"<br />';
       $entry.='Offending command was: '.$cmd.'<br />';
       echo($entry);
     }
@@ -275,17 +290,31 @@ class OC_DB {
     global $DOCUMENTROOT;
     global $DBConnection;
     global $CONFIG_DBNAME;
+    global $CONFIG_DBTYPE;
     if(!isset($DBConnection)) {
-      $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
+      if($CONFIG_DBTYPE=='sqlite'){
+          $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
+      }elseif($CONFIG_DBTYPE=='mysql'){
+          $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
+      }
       if (!$DBConnection) {
         @ob_end_clean();
-        echo('<b>can not connect to database.</center>');
+        echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'.</center>');
         exit();
       }
     }
-    $result = @$DBConnection->queryExec($cmd);
+    if($CONFIG_DBTYPE=='sqlite'){
+      $result = @$DBConnection->queryExec($cmd);
+    }elseif($CONFIG_DBTYPE=='mysql'){
+      $result = @$DBConnection->multi_query($cmd);
+    }
     if (!$result) {
-      $entry='DB Error: "'.sqlite_error_string($DBConnection->lastError()).'"<br />';
+      if($CONFIG_DBTYPE=='sqlite'){
+        $error=sqlite_error_string($DBConnection->lastError());
+      }elseif($CONFIG_DBTYPE=='mysql'){
+        $error=$DBConnection->error;
+      }
+      $entry='DB Error: "'.$error.'"<br />';
       $entry.='Offending command was: '.$cmd.'<br />';
       echo($entry);
     }
@@ -299,6 +328,7 @@ class OC_DB {
    * @return bool
    */
   static function close() {
+    global $CONFIG_DBTYPE;
     global $DBConnection;
     if(isset($DBConnection)) {
       return $DBConnection->close();
@@ -315,7 +345,12 @@ class OC_DB {
    */
   static function insertid() {
     global $DBConnection;
-    return $DBConnectio->lastInsertRowid();
+    global $CONFIG_DBTYPE;
+    if($CONFIG_DBTYPE=='sqlite'){
+      return $DBConnection->lastInsertRowid();
+    }elseif($CONFIG_DBTYPE=='mysql'){
+      return(mysqli_insert_id($DBConnection));
+    }
   }
 
   /**
@@ -326,7 +361,12 @@ class OC_DB {
    */
   static function numrows($result) {
     if(!isset($result) or ($result == false)) return 0;
-    $num= $result->numRows();
+    global $CONFIG_DBTYPE;
+    if($CONFIG_DBTYPE=='sqlite'){
+      $num= $result->numRows();
+    }elseif($CONFIG_DBTYPE=='mysql'){
+      $num= mysqli_num_rows($result);
+    }
     return($num);
   }
 
@@ -337,8 +377,13 @@ class OC_DB {
    */
   static function affected_rows() {
     global $DBConnection;
+    global $CONFIG_DBTYPE;
     if(!isset($DBConnection) or ($DBConnection==false)) return 0;
-    $num= $DBConnection->changes();
+    if($CONFIG_DBTYPE=='sqlite'){
+      $num= $DBConnection->changes();
+    }elseif($CONFIG_DBTYPE=='mysql'){
+      $num= mysqli_affected_rows($DBConnection);
+    }
     return($num);
   }
 
@@ -351,9 +396,19 @@ class OC_DB {
    * @return unknown
    */
   static function result($result, $i, $field) {
-    $result->seek($ii);
-    $tmp=$result->fetch();
+    global $CONFIG_DBTYPE;
+    if($CONFIG_DBTYPE=='sqlite'){
+      $result->seek($i);
+      $tmp=$result->fetch();
+    }elseif($CONFIG_DBTYPE=='mysql'){
+      mysqli_data_seek($result,$i);
+      if (is_string($field))
+        $tmp=mysqli_fetch_array($result,MYSQLI_BOTH);
+      else
+        $tmp=mysqli_fetch_array($result,MYSQLI_NUM);
+    }
     $tmp=$tmp[$field];
+    return($tmp);
     return($tmp);
   }
 
@@ -364,7 +419,12 @@ class OC_DB {
    * @return data
    */
   static function fetch_assoc($result) {
-    return $result->fetch(SQLITE_ASSOC);
+    global $CONFIG_DBTYPE;
+    if($CONFIG_DBTYPE=='sqlite'){
+      return $result->fetch(SQLITE_ASSOC);
+    }elseif($CONFIG_DBTYPE=='mysql'){
+      return mysqli_fetch_assoc($result);
+    }
   }
 
 
@@ -375,8 +435,13 @@ class OC_DB {
    * @return bool
    */
   static function free_result($result) {
-    $result = null;   //No native way to do this
-    return true;
+    global $CONFIG_DBTYPE;
+    if($CONFIG_DBTYPE=='sqlite'){
+      $result = null;   //No native way to do this
+      return true;
+    }elseif($CONFIG_DBTYPE=='mysql'){
+      return @mysqli_free_result($result);
+    }
   }
 
 }
