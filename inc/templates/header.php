@@ -10,6 +10,8 @@
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_notification.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_xmlloader.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_files.js'></script>
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_event.js'></script>
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/filebrowser.js'></script>
 <?php
 foreach(OC_UTIL::$scripts as $script){
     echo("<script type='text/ecmascript' src='$WEBROOT/$script'></script>");

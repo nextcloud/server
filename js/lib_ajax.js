@@ -32,22 +32,22 @@ callBack.callBacks=Array();
 callBack.call=function(id,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
    callback=callBack.callBacks[id];
    if(callback){
-       callback.func.call(callback.obj,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+       return callback.func.call(callback.obj,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
    }
 }
 
 callBack.prototype=function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
-   this.call(false,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+   return this.call(false,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
 }
 callBack.prototype.func=false;
 callBack.prototype.obj=false;
 callBack.prototype.call=function(dummy,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
    //the dummy is just to provide compatibility with the normal call function and isn't used
-   this.func.call(this.obj,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
+   return this.func.call(this.obj,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
 }
 callBack.prototype.apply=function(dummy,arguments){
    //the dummy is just to provide compatibility with the normal call function and isn't used
-   this.apply(this.obj,arguments);
+   return this.apply(this.obj,arguments);
 }
 
 //provide a simple way to add things to the onload

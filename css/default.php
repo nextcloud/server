@@ -153,7 +153,7 @@ div.OCNotification{
 div.OCNotificationHolder{
     right:20px;
     bottom:0px;
-    position:absolute;
+    position:fixed;
     color:white;
 }
 
