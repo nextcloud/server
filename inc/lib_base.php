@@ -291,6 +291,9 @@ class OC_DB {
     global $DBConnection;
     global $CONFIG_DBNAME;
     global $CONFIG_DBTYPE;
+    global $CONFIG_DBHOST;
+    global $CONFIG_DBUSER;
+    global $CONFIG_DBPASSWORD;
     if(!isset($DBConnection)) {
       if($CONFIG_DBTYPE=='sqlite'){
           $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
