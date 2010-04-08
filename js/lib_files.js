@@ -58,7 +58,7 @@ OC_FILES.getdirectorycontent=function(dir,callback){
 OC_FILES.dir='';
 
 OC_FILES.upload=function(dir){
-   OC_FILES.uploadIFrame.setAttribute('onload',"OC_FILES.upload_callback.call(OC_FILES,'"+dir+"')");
+   OC_FILES.uploadIFrame.addEvent('onload',new callBack(OC_FILES.upload_callback,OC_FILES),dir);
    var fileSelector=document.getElementById('fileSelector');
    var max_upload=document.getElementById('max_upload').value;
    if(fileSelector.files && fileSelector.files[0].fileSize){
@@ -181,6 +181,13 @@ OC_FILES.file=function(dir,file,type){
             this.actions[index]=OC_FILES.fileActions[this.extention][index];
         }
     }
+    if(OC_FILES.fileActions[this.type]){
+		for(index in OC_FILES.fileActions[this.type]){
+			if(OC_FILES.fileActions[this.type][index].call){
+				this.actions[index]=OC_FILES.fileActions[this.type][index];
+			}
+		}
+	}
 }
 
 OC_FILES.file.prototype.showactions=function(){
@@ -204,6 +211,14 @@ OC_FILES.fileActions.all.rename=function(){
 OC_FILES.fileActions.all.download=function(){
     window.location=WEBROOT+'/files/get_file.php?dir='+this.dir+'&files='+this.file;
 }
+OC_FILES.fileActions.all['default']=OC_FILES.fileActions.all.download;
+
+OC_FILES.fileActions.dir=new Object()
+
+OC_FILES.fileActions.dir.open=function(){
+    OC_FILES.browser.show(this.dir+'/'+this.file);
+}
+OC_FILES.fileActions.dir['default']=OC_FILES.fileActions.dir.open;
 
 OC_FILES.fileActions.jpg=new Object()
 

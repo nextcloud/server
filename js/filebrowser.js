@@ -21,8 +21,20 @@
 
 OC_FILES.browser=new  Object();
 
+OC_FILES.browser.showInitial=function(){
+	var dir=''
+	var loc=document.location.toString();
+	if(loc.indexOf('#')!=-1){
+		dir=loc.substring(loc.indexOf('#')+1);
+	}
+	OC_FILES.dir=dir;
+   OC_FILES.getdirectorycontent(dir,OC_FILES.browser.show_callback);
+}
+
 OC_FILES.browser.show=function(dir){
-   dir=(dir)?dir:'';
+   if(!dir){
+      dir='';
+   }
    OC_FILES.dir=dir;
    OC_FILES.getdirectorycontent(dir,OC_FILES.browser.show_callback);
 }
@@ -71,14 +83,14 @@ OC_FILES.browser.show_callback=function(content){
        a.addEvent('onclick',OC_FILES.browser.show);
        a.appendChild(document.createTextNode('Home'));
        var currentdir='';
-       for(index in dirs) {
+       for(var index=0;index<dirs.length;index++){
           d=dirs[index];
           currentdir=currentdir+'/'+d;
           if(d!=''){
              a=document.createElement('a');
              td.appendChild(a);
              a.setAttribute('href','#'+currentdir);
-             a.setAttribute('onclick','OC_FILES.browser.show("'+currentdir+'")');
+             a.addEvent('onclick',OC_FILES.browser.show,currentdir);
              img=document.createElement('img');
              a.appendChild(img);
              img.src=WEBROOT+'/img/arrow.png';
@@ -151,26 +163,28 @@ OC_FILES.browser.show_callback=function(content){
              td.setAttribute('id',file['name']);
              a=document.createElement('a');
              td.appendChild(a);
-             a.appendChild(document.createTextNode(file['name']))
+             a.appendChild(document.createTextNode(file['name']));
+             var fileObject=OC_FILES.files[file['name']];
+             a.addEvent('onclick',new callBack(fileObject.actions['default'],fileObject));
              if(file['type']=='dir'){
-                a.addEvent('onclick',OC_FILES.browser.show,[dir+'/'+file['name']]);
                 td.setAttribute('colspan',2);
                 a.setAttribute('href','#'+dir+'/'+file['name']);
              }else{
-                a.setAttribute('href',WEBROOT+'/?dir=/'+dir+'&file='+file['name']);
+                a.setAttribute('href','#');
                 sizeTd=document.createElement('td');
                 tr.appendChild(sizeTd);
                 sizeTd.className='sizetext';
                 sizeTd.appendChild(document.createTextNode(sizeFormat(file['size'])));
              }
              a=document.createElement('a');
-             img=document.createElement('img');
+             var img=document.createElement('img');
              td.appendChild(img);
              img.className='file_actions';
              img.alt=''
              img.title='actions';
              img.src=WEBROOT+'/img/arrow_down.png';
-             img.setAttribute('onclick','OC_FILES.browser.showactions(\''+file['name']+'\')')
+             var name=file['name'];
+             img.addEvent('onclick',OC_FILES.browser.showactions,name);
              td=document.createElement('td');
              tr.appendChild(td);
              td.className='sizetext';
@@ -284,9 +298,10 @@ OC_FILES.browser.showactions=function(file,hide){
         div.appendChild(table);
         tbody=document.createElement('tbody');
         table.appendChild(tbody);
-        actions=OC_FILES.files[file].actions;
+        var file=OC_FILES.files[file]
+        var actions=file.actions;
         for(name in actions){
-            if(actions[name].call){
+            if(actions[name].call && name!='default'){
                 tr=document.createElement('tr');
                 tbody.appendChild(tr);
                 td=document.createElement('td');
@@ -294,7 +309,8 @@ OC_FILES.browser.showactions=function(file,hide){
                 a=document.createElement('a');
                 td.appendChild(a);
                 a.appendChild(document.createTextNode(name));
-                td.addEvent('onclick',new callBack(OC_FILES.files[file].actions[name],OC_FILES.files[file]));
+                var action=actions[name];
+                td.addEvent('onclick',new callBack(action,file));
             }
         }
         node.appendChild(div);
