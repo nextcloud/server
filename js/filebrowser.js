@@ -51,31 +51,39 @@ OC_FILES.browser.show_callback=function(content){
     
     //remove current content;
     var contentNode=document.getElementById('content');
+    contentNode.className+=' center';
     if(contentNode.hasChildNodes()){
        while(contentNode.childNodes.length >=1){
           contentNode.removeChild(contentNode.firstChild);
        }
     }
-    
-    var browser=document.createElement('div');
-    browser.className='center';
     var table=document.createElement('table');
-    browser.appendChild(table);
+    table.className='browser';
+    var tbody=document.createElement('tbody');
+    var thead=document.createElement('thead');
+	var tfoot=document.createElement('tfoot');
+	table.appendChild(thead);
+    table.appendChild(tbody);
+    table.appendChild(tfoot);
+//     table.setAttribute('cellpadding',6);
     
     // breadcrumb
     if(dirs.length>0) {
-       table.setAttribute('cellpadding',2);
-       table.setAttribute('cellspacing',0);
-       var tbody=document.createElement('tbody');//some IE versions need this
-       table.appendChild(tbody);
        tr=document.createElement('tr');
-       tbody.appendChild(tr);
+       thead.appendChild(tr);
+       tr.className='breadcrumb';
+       td=document.createElement('td');
+         tr.appendChild(td);
+         td.className='fileSelector'
+         input=document.createElement('input');
+         input.setAttribute('type','checkbox');
+         input.setAttribute('name','fileSelector');
+         input.setAttribute('value','select_all');
+         input.setAttribute('id','select_all');
+         input.addEvent('onclick',OC_FILES.selectAll);
+         td.appendChild(input);
        td=document.createElement('td');
        tr.appendChild(td);
-       td.setAttribute('colspan','2');
-       td=document.createElement('td');
-       tr.appendChild(td);
-       td.setAttribute('colspan','4');
        td.className='breadcrumb';
        var a=document.createElement('a');
        td.appendChild(a);
@@ -100,56 +108,35 @@ OC_FILES.browser.show_callback=function(content){
     }
 
     // files and directories
-    table.setAttribute('cellpadding',6);
-    table.setAttribute('cellspacing',0);
-    table.className='browser';
-    var tbody=document.createElement('tbody');//some IE versions need this
-    table.appendChild(tbody);
+    
     var filesfound=false;
     var sizeTd=null;
     if(content){
-         tr=document.createElement('tr');
-         tbody.appendChild(tr);
-         tr.className='browserline';
-         td=document.createElement('td');
-         tr.appendChild(td);
-         td.setAttribute('colspan','2');
-         input=document.createElement('input');
-         input.setAttribute('type','checkbox');
-         input.setAttribute('name','fileSelector');
-         input.setAttribute('value','select_all');
-         input.setAttribute('id','select_all');
-         input.addEvent('onclick',OC_FILES.selectAll);
-         td.appendChild(input);
-         td=document.createElement('td');
-         tr.appendChild(td);
-         td.setAttribute('colspan','4');
-         dropdown=document.createElement('select');
-         td.appendChild(dropdown);
-         dropdown.setAttribute('id','selected_action');
-         for(index in this.actions_selected){
-            if(this.actions_selected[index].call){
-                option=document.createElement('option');
-                dropdown.appendChild(option);
-                option.setAttribute('value',index);
-                option.appendChild(document.createTextNode(index));
-            }
-         }
-         td.appendChild(document.createTextNode(' selected. '));
-         button=document.createElement('button');
-         td.appendChild(button);
-         button.appendChild(document.createTextNode('Go'));
-         button.addEvent('onclick',OC_FILES.action_selected);
+		tr=document.createElement('tr');
+		tbody.appendChild(tr);
+		td=document.createElement('td');
+		td.setAttribute('colspan','6');
+		tr.appendChild(td);
+		div=document.createElement('div');
+		td.appendChild(div);
+		div.className='fileList';
+		table2=document.createElement('table');
+		div.appendChild(table2);
+		tbody2=document.createElement('tbody');
+		table2.appendChild(tbody2);
+		table2.setAttribute('cellpadding',6);
+		table2.setAttribute('cellspacing',0);
          for(index in content){
           var file=content[index];
           if(file.name){
              file.name=file.name.replace('\'','');
              OC_FILES.files[file['name']]=new OC_FILES.file(dir,file['name'],file['type']);
              tr=document.createElement('tr');
-             tbody.appendChild(tr);
+             tbody2.appendChild(tr);
              tr.className='browserline';
              td=document.createElement('td');
              tr.appendChild(td);
+             td.className='fileSelector';
              input=document.createElement('input');
              input.setAttribute('type','checkbox');
              input.setAttribute('name','fileSelector');
@@ -170,7 +157,7 @@ OC_FILES.browser.show_callback=function(content){
                 td.setAttribute('colspan',2);
                 a.setAttribute('href','#'+dir+'/'+file['name']);
              }else{
-                a.setAttribute('href','#');
+                a.setAttribute('href','#'+dir);
                 sizeTd=document.createElement('td');
                 tr.appendChild(sizeTd);
                 sizeTd.className='sizetext';
@@ -192,21 +179,40 @@ OC_FILES.browser.show_callback=function(content){
           }
        }
     }
-    td=document.createElement('td');
-    tr.appendChild(td);
     tr=document.createElement('tr');
-    tbody.appendChild(tr);
-    tr.className='utilrow';
-    td=document.createElement('td');
-    tr.appendChild(td);
-    td.className='upload';
-    td.setAttribute('colspan','6');
-    OC_FILES.browser.showuploader(dir,td,content['max_upload']);
-    contentNode.appendChild(browser);
+	tfoot.appendChild(tr);
+	tr.className='utilityline';
+	td=document.createElement('td');
+	tr.appendChild(td);
+	td.setAttribute('colspan','4');
+	span=document.createElement('span');
+	td.appendChild(span);
+	dropdown=document.createElement('select');
+	span.appendChild(dropdown);
+	dropdown.setAttribute('id','selected_action');
+	for(index in this.actions_selected){
+	if(this.actions_selected[index].call){
+		option=document.createElement('option');
+		dropdown.appendChild(option);
+		option.setAttribute('value',index);
+		option.appendChild(document.createTextNode(index));
+	}
+	}
+	span.appendChild(document.createTextNode(' selected. '));
+	button=document.createElement('button');
+	span.appendChild(button);
+	button.appendChild(document.createTextNode('Go'));
+	button.addEvent('onclick',OC_FILES.action_selected);
+	span=document.createElement('span');
+	span.className='upload';
+	td.appendChild(span);
+    OC_FILES.browser.showuploader(dir,span,content['max_upload']);
+    contentNode.appendChild(table);
 }
 
 OC_FILES.browser.showicon=function(filetype){
    var td=document.createElement('td');
+   td.className='fileicon';
    var img=document.createElement('img');
    td.appendChild(img);
    img.setAttribute('width',16);
@@ -228,7 +234,6 @@ OC_FILES.browser.showuploader=function(dir,parent,max_upload){
    OC_FILES.uploadIFrame=document.createElement('iframe');
    OC_FILES.uploadIFrame.className='hidden';
    OC_FILES.uploadIFrame.name='uploadIFrame';
-   parent.appendChild(OC_FILES.uploadIFrame);
    var input=document.createElement('input');
    input.setAttribute('type','hidden');
    input.setAttribute('name','MAX_FILE_SIZE');
@@ -243,6 +248,7 @@ OC_FILES.browser.showuploader=function(dir,parent,max_upload){
    OC_FILES.uploadForm.appendChild(document.createTextNode('Upload file: '));
    OC_FILES.uploadForm.appendChild(file);
    parent.appendChild(OC_FILES.uploadForm);
+   parent.appendChild(OC_FILES.uploadIFrame);
 }
 
 OC_FILES.browser.show_rename=function(dir,file){
@@ -322,9 +328,11 @@ OC_FILES.browser.showactions=function(file,hide){
 OC_FILES.browser.hideallactions=function(){
     if(OC_FILES.hideallenabled){
         for(name in OC_FILES.files){
-            if(OC_FILES.files[name].hideactions){
-                OC_FILES.files[name].hideactions.call(OC_FILES.files[name]);
-            }
+			if(OC_FILES.files[name]){
+				if(OC_FILES.files[name].hideactions){
+					OC_FILES.files[name].hideactions.call(OC_FILES.files[name]);
+				}
+			}
         }
     }
 }
@@ -343,4 +351,21 @@ sizeFormat=function(size){
         size=size.toFixed(2);
     }
     return ''+size+' '+steps[step];
+}
+
+OC_FILES.browser.showImage=function(dir,file){
+	var path=WEBROOT+'/files/open_file.php?dir='+dir+'&file='+file
+	var div=document.createElement('div');
+	div.setAttribute('id','imageframe');
+	div.addEvent('onclick',OC_FILES.browser.hideImage)
+	var img=document.createElement('img');
+	img.setAttribute('src',path);
+	div.appendChild(img);
+	body=document.getElementsByTagName('body').item(0);
+	body.appendChild(div);
+}
+
+OC_FILES.browser.hideImage=function(){
+	var div=document.getElementById('imageframe');
+	div.parentNode.removeChild(div);
 }

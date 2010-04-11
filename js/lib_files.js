@@ -175,16 +175,17 @@ OC_FILES.file=function(dir,file,type){
             this.actions[index]=OC_FILES.fileActions.all[index];
         }
     }
-    if(OC_FILES.fileActions[this.extention])
-    for(index in OC_FILES.fileActions[this.extention]){
-        if(OC_FILES.fileActions[this.extention][index].call){
-            this.actions[index]=OC_FILES.fileActions[this.extention][index];
-        }
-    }
     if(OC_FILES.fileActions[this.type]){
 		for(index in OC_FILES.fileActions[this.type]){
 			if(OC_FILES.fileActions[this.type][index].call){
 				this.actions[index]=OC_FILES.fileActions[this.type][index];
+			}
+		}
+	}
+	if(OC_FILES.fileActions[this.extention]){
+		for(index in OC_FILES.fileActions[this.extention]){
+			if(OC_FILES.fileActions[this.extention][index].call){
+				this.actions[index]=OC_FILES.fileActions[this.extention][index];
 			}
 		}
 	}
@@ -223,10 +224,30 @@ OC_FILES.fileActions.dir['default']=OC_FILES.fileActions.dir.open;
 OC_FILES.fileActions.jpg=new Object()
 
 OC_FILES.fileActions.jpg.show=function(){
-    window.open(WEBROOT+'/files/open_file.php?dir='+this.dir+'&file='+this.file);
+//     window.open(WEBROOT+'/files/open_file.php?dir='+this.dir+'&file='+this.file);
+	OC_FILES.browser.showImage(this.dir,this.file);
 }
+
+OC_FILES.fileActions.jpg['default']=OC_FILES.fileActions.jpg.show;
 
 OC_FILES.fileActions.jpeg=OC_FILES.fileActions.jpg
 OC_FILES.fileActions.png=OC_FILES.fileActions.jpg
 OC_FILES.fileActions.gif=OC_FILES.fileActions.jpg
 OC_FILES.fileActions.bmp=OC_FILES.fileActions.jpg
+
+function getStyle(el,styleProp)
+{
+// 	var x = document.getElementById(el);
+	var x=el;
+	if (x.currentStyle){
+		alert(x.currentStyle);
+		var y = x.currentStyle[styleProp];
+	}else if (window.getComputedStyle){
+		var y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp);
+	}
+	return y;
+}
+
+Node.prototype.getStyle=function(styleProp){
+	return getStyle(this,styleProp)
+}

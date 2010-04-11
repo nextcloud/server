@@ -20,7 +20,7 @@
 * 
 */
 
-//not this file is for getting files themselves, get_files.php is for getting a list of files.
+//note this file is for getting files themselves, get_files.php is for getting a list of files.
 
 require_once('../inc/lib_base.php');
 

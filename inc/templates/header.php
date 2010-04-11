@@ -22,6 +22,8 @@ foreach(OC_UTIL::$scripts as $script){
 	</script>
     </head>
     <body onload='OC_onload.run()'>
+<table id='mainlayout' cellpadding='0' cellspacing='0'>
+<tr class='head'><td class='head'>
 <?php
 echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h1>');
 
@@ -53,6 +55,7 @@ echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h
     echo('<div id="nav" class="center">');
     OC_UTIL::shownavigation();
     echo('</div>');
+    echo('</td></tr><tr class="body"><td class="body">');
   }
 
 ?>
