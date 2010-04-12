@@ -51,7 +51,7 @@ OC_FILES.browser.show_callback=function(content){
     
     //remove current content;
     var contentNode=document.getElementById('content');
-    contentNode.className+=' center';
+    contentNode.className='center';
     if(contentNode.hasChildNodes()){
        while(contentNode.childNodes.length >=1){
           contentNode.removeChild(contentNode.firstChild);
@@ -120,6 +120,7 @@ OC_FILES.browser.show_callback=function(content){
 		div=document.createElement('div');
 		td.appendChild(div);
 		div.className='fileList';
+		div.setAttribute('style','max-height:'+(parseInt(document.body.clientHeight)-300)+'px;');
 		table2=document.createElement('table');
 		div.appendChild(table2);
 		tbody2=document.createElement('tbody');
@@ -195,10 +196,10 @@ OC_FILES.browser.show_callback=function(content){
 		option=document.createElement('option');
 		dropdown.appendChild(option);
 		option.setAttribute('value',index);
-		option.appendChild(document.createTextNode(index));
+		option.appendChild(document.createTextNode(capitaliseFirstLetter(index)));
 	}
 	}
-	span.appendChild(document.createTextNode(' selected. '));
+	span.appendChild(document.createTextNode(' Selected '));
 	button=document.createElement('button');
 	span.appendChild(button);
 	button.appendChild(document.createTextNode('Go'));
@@ -314,7 +315,7 @@ OC_FILES.browser.showactions=function(file,hide){
                 tr.appendChild(td);
                 a=document.createElement('a');
                 td.appendChild(a);
-                a.appendChild(document.createTextNode(name));
+                a.appendChild(document.createTextNode(capitaliseFirstLetter(name)));
                 var action=actions[name];
                 td.addEvent('onclick',new callBack(action,file));
             }
@@ -368,4 +369,8 @@ OC_FILES.browser.showImage=function(dir,file){
 OC_FILES.browser.hideImage=function(){
 	var div=document.getElementById('imageframe');
 	div.parentNode.removeChild(div);
+}
+
+function capitaliseFirstLetter(string){
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }

@@ -36,7 +36,7 @@ if(isset($_GET['file'])) {
 
   OC_FILES::showbrowser($CONFIG_DATADIRECTORY,$dir);
 
-  echo('<br /><br /><p class="hint">Hint: Mount it via webdav like this: <a href="webdav://'.$_SERVER["HTTP_HOST"].$WEBROOT.'/webdav/owncloud.php">webdav://'.$_SERVER["HTTP_HOST"].$WEBROOT.'/webdav/owncloud.php</a></p>');
+  echo('<p class="hint">Hint: Mount it via webdav like this: <a href="webdav://'.$_SERVER["HTTP_HOST"].$WEBROOT.'/webdav/owncloud.php">webdav://'.$_SERVER["HTTP_HOST"].$WEBROOT.'/webdav/owncloud.php</a></p>');
 
   OC_UTIL::showfooter();
 
