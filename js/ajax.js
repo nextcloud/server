@@ -19,10 +19,5 @@
 * 
 */
 
-var dir=''
-var loc=document.location.toString();
-if(loc.indexOf('#')!=-1){
-   dir=loc.substring(loc.indexOf('#')+1);
-}
 
-OC_onload.add(new function(){OC_FILES.showbrowser(dir)});
+OC_onload.add(OC_FILES.browser.showInitial);

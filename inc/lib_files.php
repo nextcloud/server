@@ -77,7 +77,7 @@ class OC_FILES {
     echo('</table>');
     if(!$content) echo('<p>no files here</p>');
     echo('</div>');*/
-    echo '<div id="content"/>';
+    echo '<div id="content"></div>';
   }
   
   /**
