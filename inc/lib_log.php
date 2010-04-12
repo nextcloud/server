@@ -59,7 +59,7 @@ class OC_LOG {
    */
   public static function show(){
     global $CONFIG_DATEFORMAT;
-    echo('<div class="center"><table cellpadding="6" cellspacing="0" border="0" class="browser">');
+    echo('<div class="center"><table cellpadding="6" cellspacing="0" border="0" class="log">');
 
     $result = OC_DB::query('select timestamp,user,type,message from log order by timestamp desc limit 20');
     $count=OC_DB::numrows($result);

@@ -29,11 +29,20 @@ html,body {
 	vertical-align:top;
 	top:175px;
 	bottom:75px;
+	overflow:auto;
 }
 
 #mainlayout>.foot{
 	height:75px;
 	bottom:0px;
+}
+
+#mainlayout>.foot>.bar{
+	background-color:#EEE;
+	position:absolute;
+	top:0px;
+	height:24px;
+	width:100%;
 }
 
 body.error {background-color: #F0F0F0;}
@@ -285,7 +294,7 @@ div.fileList table{
 	vertical-align:top;
 }
 
-thead td, tfoot td{
+table.browser thead td,table.browser tfoot td{
 	padding-left:6px;
 	padding-top:0px;
 	padding-bottom:0px;
