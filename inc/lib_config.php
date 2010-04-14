@@ -210,5 +210,3 @@ GRANT ALL PRIVILEGES ON  `{$_POST['dbname']}` . * TO  '{$_POST['dbuser']}';";
    }
 }
 ?>
-
-

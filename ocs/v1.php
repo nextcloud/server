@@ -21,23 +21,7 @@
 * 
 */
 
-require_once('inc/lib_base.php');
-
-if(isset($_GET['dir'])) $dir=$_GET['dir']; else $dir='';
-
-if(isset($_GET['file'])) {
-
-  OC_FILES::get($dir,$_GET['file']);
-
-}else{
-
-  OC_UTIL::addscript('js/ajax.js');
-  OC_UTIL::showheader();
-
-  OC_FILES::showbrowser($CONFIG_DATADIRECTORY,$dir);
-
-  OC_UTIL::showfooter();
-
-}
+require_once('../inc/lib_base.php');
+OC_OCS::handle();
 
 ?>

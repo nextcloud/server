@@ -47,7 +47,6 @@ $CONFIG_HTTPFORCESSL=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
 $CONFIG_DBNAME='owncloud';
 $CONFIG_DBTYPE='sqlite';
-
 // include the generated configfile
 @include_once('config.php');
 
@@ -64,6 +63,7 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 require_once('lib_files.php');
 require_once('lib_log.php');
 require_once('lib_config.php');
+require_once('lib_ocs.php');
 
 // load plugins
 $CONFIG_LOADPLUGINS='music';
@@ -257,7 +257,7 @@ class OC_DB {
       if($CONFIG_DBTYPE=='sqlite'){
           $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
       }elseif($CONFIG_DBTYPE=='mysql'){
-          $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
+          $DBConnection =@new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
       }
       if (!$DBConnection) {
         @ob_end_clean();

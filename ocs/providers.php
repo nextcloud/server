@@ -21,23 +21,25 @@
 * 
 */
 
-require_once('inc/lib_base.php');
+require_once('../inc/lib_base.php');
 
-if(isset($_GET['dir'])) $dir=$_GET['dir']; else $dir='';
+$url='http://'.substr($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],0,-17).'ocs/v1.php/';
 
-if(isset($_GET['file'])) {
+echo('
+<providers>
+<provider>
+ <id>ownCloud</id>
+ <location>'.$url.'</location>
+ <name>ownCloud</name>
+ <icon></icon>
+ <termsofuse></termsofuse>
+ <register></register>
+ <services>
+   <activity ocsversion="1.5" />
+ </services>
+</provider>
+</providers>
+');
 
-  OC_FILES::get($dir,$_GET['file']);
-
-}else{
-
-  OC_UTIL::addscript('js/ajax.js');
-  OC_UTIL::showheader();
-
-  OC_FILES::showbrowser($CONFIG_DATADIRECTORY,$dir);
-
-  OC_UTIL::showfooter();
-
-}
 
 ?>
