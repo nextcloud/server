@@ -4,7 +4,7 @@
     <head>
 	<title>ownCloud</title>
 	<base href="<?php echo($WEBROOT); ?>/"/>
-	<link rel="stylesheet" type="text/css" href="css/default.php"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo($WEBROOT)?>/css/default.php"/>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_ajax.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_timer.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_notification.js'></script>
