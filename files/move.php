@@ -22,15 +22,14 @@
 */
 require_once('../inc/lib_base.php');
 
-$dir=$_GET['dir'];
-$file=$_GET['file'];
-if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($dir,'..')===false){
-	$file=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$file;
-	if(is_file($file)){
-		unlink($file);
-	}elseif(is_dir($file)){
-		rmdir($file);
-	}
+$sourceDir=$_GET['sourcedir'];
+$targetDir=$_GET['targetdir'];
+$source=$_GET['source'];
+$target=$_GET['target'];
+if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($sourceDir,'..')===false and strpos($source,'..')===false and strpos($targetDir,'..')===false and strpos($target,'..')===false){
+	$target=$CONFIG_DATADIRECTORY.'/'.$targetDir.'/'.$target.'/'.$source;
+	$source=$CONFIG_DATADIRECTORY.'/'.$sourceDir.'/'.$source;
+	rename($source,$target);
 }
 
 ?>

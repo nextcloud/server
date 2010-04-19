@@ -4,13 +4,14 @@
     <head>
 	<title>ownCloud</title>
 	<base href="<?php echo($WEBROOT); ?>/"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo($WEBROOT)?>/css/default.php"/>
+	<link rel="stylesheet" type="text/css" href="css/default.php"/>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_ajax.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_timer.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_notification.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_xmlloader.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_files.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_event.js'></script>
+	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_drag.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/filebrowser.js'></script>
 <?php
 foreach(OC_UTIL::$scripts as $script){
@@ -25,12 +26,13 @@ foreach(OC_UTIL::$scripts as $script){
 <div id='mainlayout'>
 <div class='head'>
 <?php
+global $CONFIG_ERROR;
 echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h1>');
 
 
   // check if already configured. otherwise start configuration wizard
   $error=OC_CONFIG::writeconfiglisener();
-  echo $error;
+  $CONFIG_ERROR=$error;
   if(empty($CONFIG_ADMINLOGIN)) {
     global $FIRSTRUN;
     $FIRSTRUN=true;

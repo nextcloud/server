@@ -35,6 +35,9 @@ $SERVERROOT=substr(__FILE__,0,-17);
 $DOCUMENTROOT=$_SERVER['DOCUMENT_ROOT'];
 $count=strlen($DOCUMENTROOT);
 $WEBROOT=substr($SERVERROOT,$count);
+if($WEBROOT{0}!=='/'){
+	$WEBROOT='/'.$WEBROOT;
+}
 
 // set the right include path
 set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
@@ -42,11 +45,12 @@ set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$S
 // define default config values
 $CONFIG_ADMINLOGIN='';
 $CONFIG_ADMINPASSWORD='';
-$CONFIG_DATADIRECTORY=$SERVERROOT.$WEBROOT.'/data';
+$CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
 $CONFIG_HTTPFORCESSL=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
 $CONFIG_DBNAME='owncloud';
 $CONFIG_DBTYPE='sqlite';
+
 // include the generated configfile
 @include_once('config.php');
 
@@ -63,7 +67,6 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 require_once('lib_files.php');
 require_once('lib_log.php');
 require_once('lib_config.php');
-require_once('lib_ocs.php');
 
 // load plugins
 $CONFIG_LOADPLUGINS='music';
@@ -247,6 +250,7 @@ class OC_DB {
    */
   static function query($cmd) {
     global $DOCUMENTROOT;
+    global $SERVERROOT;
     global $DBConnection;
     global $CONFIG_DBNAME;
     global $CONFIG_DBHOST;
@@ -255,9 +259,9 @@ class OC_DB {
     global $CONFIG_DBTYPE;
     if(!isset($DBConnection)) {
       if($CONFIG_DBTYPE=='sqlite'){
-          $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
+          $DBConnection = @new SQLiteDatabase($SERVERROOT.'/'.$CONFIG_DBNAME);
       }elseif($CONFIG_DBTYPE=='mysql'){
-          $DBConnection =@new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
+          $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
       }
       if (!$DBConnection) {
         @ob_end_clean();
@@ -288,6 +292,7 @@ class OC_DB {
    */
   static function multiquery($cmd) {
     global $DOCUMENTROOT;
+    global $SERVERROOT;
     global $DBConnection;
     global $CONFIG_DBNAME;
     global $CONFIG_DBTYPE;
@@ -296,7 +301,7 @@ class OC_DB {
     global $CONFIG_DBPASSWORD;
     if(!isset($DBConnection)) {
       if($CONFIG_DBTYPE=='sqlite'){
-          $DBConnection = @new SQLiteDatabase($DOCUMENTROOT.'/'.$CONFIG_DBNAME);
+          $DBConnection = new SQLiteDatabase($SERVERROOT.'/'.$CONFIG_DBNAME);
       }elseif($CONFIG_DBTYPE=='mysql'){
           $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
       }

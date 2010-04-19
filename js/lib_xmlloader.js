@@ -38,6 +38,7 @@ OCXMLLoader.prototype={
    request:'',
    callBack:null,
    async:true,
+   arg:null,
    
    /**
     * Loads an XML document
@@ -85,9 +86,9 @@ OCXMLLoader.prototype={
          var HttpStatus=req.status;
          if (HttpStatus==200 || HttpStatus==0){
             //alert("response: "+this.req.responseText);
-            this.callBack(this.req);
+            this.callBack(this.req,this.arg);
          }else{
-            this.errorCallBack(this.req);
+            this.errorCallBack(this.req,this.arg);
          }
       }
    },

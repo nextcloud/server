@@ -89,6 +89,7 @@ class OC_FILES {
      $content=array();
      $dirs=array();
      $file=array();
+     $files=array();
      if (is_dir($directory)) {
       if ($dh = opendir($directory)) {
         while (($filename = readdir($dh)) !== false) {

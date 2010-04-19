@@ -27,73 +27,102 @@ class OC_CONFIG{
     global $CONFIG_DBUSER;
     global $CONFIG_DBPASSWORD;
     global $CONFIG_DBTYPE;
+    global $CONFIG_ADMINLOGIN;
+    global $CONFIG_ADMINPASSWORD;
     if(isset($_POST['set_config'])){
 
       //checkdata
-      $error='';
-      $FIRSTRUN=!isset($CONFIG_ADMINLOGIN);
-      if(!$FIRSTRUN){
-         if($_POST['currentpassword']!=$CONFIG_ADMINPASSWORD){
-            $error.='wrong password';
-         }
-      }
-      
-      if(!isset($_POST['adminlogin'])        or empty($_POST['adminlogin']))        $error.='admin login not set<br />';
-      if(!isset($_POST['adminpassword'])     or empty($_POST['adminpassword']) and $FIRSTRUN)     $error.='admin password not set<br />';
-      if(!isset($_POST['adminpassword2'])    or empty($_POST['adminpassword2']) and $FIRSTRUN)    $error.='retype admin password not set<br />';
-      if(!isset($_POST['datadirectory'])     or empty($_POST['datadirectory']))     $error.='data directory not set<br />';
-      if(!isset($_POST['dateformat'])        or empty($_POST['dateformat']))        $error.='dateformat not set<br />';
-      if(!isset($_POST['dbname'])            or empty($_POST['dbname']))            $error.='databasename not set<br />';
-      if($_POST['adminpassword']<>$_POST['adminpassword2'] )                        $error.='admin passwords are not the same<br />';
-      
-       if(!isset($_POST['adminpassword']) or empty($_POST['adminpassword']) and !$FIRSTRUN){
-          $_POST['adminpassword']=$CONFIG_ADMINPASSWORD;
-       }
-      $dbtype=$_POST['dbtype'];
-      if($dbtype=='mysql'){
-          if(!isset($_POST['dbhost'])            or empty($_POST['dbhost']))            $error.='database host not set<br />';
-          if(!isset($_POST['dbuser'])            or empty($_POST['dbuser']))            $error.='database user not set<br />';
-          if($_POST['dbpassword']<>$_POST['dbpassword2'] )                        $error.='database passwords are not the same<br />';
-          
-      }
-      if(empty($error)) {
-        //create/fill database
-        $CONFIG_DBTYPE=$dbtype;
-        $CONFIG_DBNAME=$_POST['dbname'];
-        if($dbtype=='mysql'){
-          $CONFIG_DBHOST=$_POST['dbhost'];
-          $CONFIG_DBUSER=$_POST['dbuser'];
-          $CONFIG_DBPASSWORD=$_POST['dbpassword'];
-        }
-        if(isset($_POST['createdatabase']) and $CONFIG_DBTYPE=='mysql'){
-           self::createdatabase($_POST['dbadminuser'],$_POST['dbadminpwd']);
-        }
-        if(isset($_POST['filldb'])){
-           self::filldatabase();
-        }
-      
-        //storedata
-        $config='<?php '."\n";
-        $config.='$CONFIG_ADMINLOGIN=\''.$_POST['adminlogin']."';\n";
-        $config.='$CONFIG_ADMINPASSWORD=\''.$_POST['adminpassword']."';\n";
-        $config.='$CONFIG_DATADIRECTORY=\''.$_POST['datadirectory']."';\n";
-        if(isset($_POST['forcessl'])) $config.='$CONFIG_HTTPFORCESSL=true'.";\n"; else $config.='$CONFIG_HTTPFORCESSL=false'.";\n";
-        $config.='$CONFIG_DATEFORMAT=\''.$_POST['dateformat']."';\n";
-        $config.='$CONFIG_DBTYPE=\''.$dbtype."';\n";
-        $config.='$CONFIG_DBNAME=\''.$_POST['dbname']."';\n";
-        if($dbtype=='mysql'){
-            $config.='$CONFIG_DBHOST=\''.$_POST['dbhost']."';\n";
-            $config.='$CONFIG_DBUSER=\''.$_POST['dbuser']."';\n";
-            $config.='$CONFIG_DBPASSWORD=\''.$_POST['dbpassword']."';\n";
-        }
-        $config.='?> ';
+		$error='';
+		$FIRSTRUN=empty($CONFIG_ADMINLOGIN);
+		if(!$FIRSTRUN){
+			if($_POST['currentpassword']!=$CONFIG_ADMINPASSWORD){
+			$error.='wrong password<br />';
+			}
+		}
+		
+		if(!isset($_POST['adminlogin'])        or empty($_POST['adminlogin']))        $error.='admin login not set<br />';
+		if((!isset($_POST['adminpassword'])     or empty($_POST['adminpassword'])) and $FIRSTRUN)     $error.='admin password not set<br />';
+		if((!isset($_POST['adminpassword2'])    or empty($_POST['adminpassword2'])) and $FIRSTRUN)    $error.='retype admin password not set<br />';
+		if(!isset($_POST['datadirectory'])     or empty($_POST['datadirectory']))     $error.='data directory not set<br />';
+		if(!isset($_POST['dateformat'])        or empty($_POST['dateformat']))        $error.='dateformat not set<br />';
+		if(!isset($_POST['dbname'])            or empty($_POST['dbname']))            $error.='databasename not set<br />';
+		if($_POST['adminpassword']<>$_POST['adminpassword2'] )                        $error.='admin passwords are not the same<br />';
+		$dbtype=$_POST['dbtype'];
+		if($dbtype=='mysql'){
+			if(!isset($_POST['dbhost'])            or empty($_POST['dbhost']))            $error.='database host not set<br />';
+			if(!isset($_POST['dbuser'])            or empty($_POST['dbuser']))            $error.='database user not set<br />';
+			if($_POST['dbpassword']<>$_POST['dbpassword2'] )                        $error.='database passwords are not the same<br />';
+			
+		}
+		if(!$FIRSTRUN){
+			if(!isset($_POST['adminpassword']) or empty($_POST['adminpassword'])){
+				$_POST['adminpassword']=$CONFIG_ADMINPASSWORD;
+			}
+			if(!isset($_POST['dbpassword']) or empty($_POST['dbpassword'])){
+				$_POST['dbpassword']=$CONFIG_DBPASSWORD;
+			}
+		}
+		if(empty($error)) {
+			//create/fill database
+			$CONFIG_DBTYPE=$dbtype;
+			$CONFIG_DBNAME=$_POST['dbname'];
+			if($dbtype=='mysql'){
+				$CONFIG_DBHOST=$_POST['dbhost'];
+				$CONFIG_DBUSER=$_POST['dbuser'];
+				$CONFIG_DBPASSWORD=$_POST['dbpassword'];
+			}
+			try{
+				if(isset($_POST['createdatabase']) and $CONFIG_DBTYPE=='mysql'){
+					self::createdatabase($_POST['dbadminuser'],$_POST['dbadminpwd']);
+				}
+			}catch(Exception $e){
+				$error.='error while trying to create the database<br/>';
+			}
+			if($CONFIG_DBTYPE=='sqlite'){
+				$f=@fopen($SERVERROOT.'/'.$CONFIG_DBNAME,'a+');
+				if(!$f){
+					$error.='path of sqlite database not writable by server<br/>';
+				}
+			}
+			try{
+				if(isset($_POST['filldb'])){
+					self::filldatabase();
+				}
+			}catch(Exception $e){
+				$error.='error while trying to fill the database<br/>';
+			}
+			
+			//storedata
+			$config='<?php '."\n";
+			$config.='$CONFIG_ADMINLOGIN=\''.$_POST['adminlogin']."';\n";
+			$config.='$CONFIG_ADMINPASSWORD=\''.$_POST['adminpassword']."';\n";
+			$config.='$CONFIG_DATADIRECTORY=\''.$_POST['datadirectory']."';\n";
+			if(isset($_POST['forcessl'])) $config.='$CONFIG_HTTPFORCESSL=true'.";\n"; else $config.='$CONFIG_HTTPFORCESSL=false'.";\n";
+			$config.='$CONFIG_DATEFORMAT=\''.$_POST['dateformat']."';\n";
+			$config.='$CONFIG_DBTYPE=\''.$dbtype."';\n";
+			$config.='$CONFIG_DBNAME=\''.$_POST['dbname']."';\n";
+			if($dbtype=='mysql'){
+				$config.='$CONFIG_DBHOST=\''.$_POST['dbhost']."';\n";
+				$config.='$CONFIG_DBUSER=\''.$_POST['dbuser']."';\n";
+				$config.='$CONFIG_DBPASSWORD=\''.$_POST['dbpassword']."';\n";
+			}
+			$config.='?> ';
 
-        $filename=$SERVERROOT.'/config/config.php';
-        file_put_contents($filename,$config);
-        header("Location: ".$WEBROOT."/");
+			$filename=$SERVERROOT.'/config/config.php';
+			if(empty($error)){
+				header("Location: ".$WEBROOT."/");
+				try{
+					file_put_contents($filename,$config);
+				}catch(Exception $e){
+					$error.='error while trying to save the configuration file<br/>';
+					return $error;
+				}
+			}else{
+				return $error;
+			}
 
-      }
-      return($error);
+		}
+		return($error);
 
     }
 
@@ -210,3 +239,5 @@ GRANT ALL PRIVILEGES ON  `{$_POST['dbname']}` . * TO  '{$_POST['dbuser']}';";
    }
 }
 ?>
+
+

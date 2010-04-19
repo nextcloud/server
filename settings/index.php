@@ -21,6 +21,7 @@
 * 
 */
 
+$CONFIG_ERROR='';
 
 require_once('../inc/lib_base.php');
 

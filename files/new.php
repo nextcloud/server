@@ -23,13 +23,15 @@
 require_once('../inc/lib_base.php');
 
 $dir=$_GET['dir'];
-$file=$_GET['file'];
-if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($dir,'..')===false){
-	$file=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$file;
-	if(is_file($file)){
-		unlink($file);
-	}elseif(is_dir($file)){
-		rmdir($file);
+$name=$_GET['name'];
+$type=$_GET['type'];
+if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($dir,'..')===false and strpos($name,'..')===false){
+	$file=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$name;
+	if($type=='dir'){
+		mkdir($file);
+	}elseif($type=='file'){
+		$fileHandle=fopen($file, 'w') or die("can't open file");
+		fclose($fileHandle);
 	}
 }
 

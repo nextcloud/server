@@ -4,7 +4,7 @@ global $WEBROOT;
 </div>
 <div class='foot'>
 <div class='bar'><p class="hint">
-Hint: Mount it via webdav like this: <a href="webdav://'.<?php echo($_SERVER["HTTP_HOST"].$WEBROOT.'/webdav/owncloud.php');?>">webdav://<?php echo($_SERVER["HTTP_HOST"].$WEBROOT);?>/webdav/owncloud.php</a>
+Hint: Mount it via webdav like this: <a href="webdav://<?php echo($_SERVER["HTTP_HOST"].$WEBROOT.'/webdav/owncloud.php');?>">webdav://<?php echo($_SERVER["HTTP_HOST"].$WEBROOT);?>/webdav/owncloud.php</a>
 </p></div>
 <p class="footer">
 <?php
@@ -13,4 +13,5 @@ Hint: Mount it via webdav like this: <a href="webdav://'.<?php echo($_SERVER["HT
 </p>
 </div>
 </div>
+<!--<p id="debug">debug</p>-->
 </body></html>

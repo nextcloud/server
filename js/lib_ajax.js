@@ -75,7 +75,7 @@ OC_onload.run=function(){
 
 //implement Node.prototype under IE
 if(typeof Node=='undefined'){
-    Node=new Object();
+    Node=function(){};
     Node.prototype=new Object();
     
     tmpObj=new Object();
@@ -86,8 +86,9 @@ if(typeof Node=='undefined'){
     document.createElement=function(tagName){
 //         alert(tagName);
         node=document.createElementNative(tagName);
-        for(name in Node.prototype){
-            node[name]=Node.prototype[name];
+        var proto=new Node()
+        for(name in proto){
+            node[name]=proto[name];
         }
         return node;
     }
@@ -98,10 +99,10 @@ if(typeof Node=='undefined'){
             node=node.item(0)
         }
         if(node.nodeType==1){
-            for(name in Node.prototype){
-//                 node[name]=Node.prototype[name];
-                eval('node.'+name+'=Node.prototype.'+name+';');
-            }
+            var proto=new Node()
+			for(name in proto){
+				node[name]=proto[name];
+			}
             if(node.hasChildNodes){
                 var childs=node.childNodes;
                 for(var i=0;i<childs.length;i++){
@@ -112,4 +113,80 @@ if(typeof Node=='undefined'){
     }
     OC_onload.add(new function(){addNodePrototype(document.documentElement);});
     OC_onload.add(addNodePrototype,true);
+}
+
+function getStyle(x,styleProp)
+{
+	if (x.currentStyle){
+		alert(x.currentStyle);
+		var y = x.currentStyle[styleProp];
+	}else if (window.getComputedStyle){
+		var y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp);
+	}
+	return y;
+}
+
+Node.prototype.getStyle=function(styleProp){
+	return getStyle(this,styleProp)
+}
+
+Node.prototype.clearNode=function(){
+	if (this.hasChildNodes() ){
+		while(this.childNodes.length>= 1){
+			this.removeChild(this.firstChild);       
+		} 
+	}
+}
+
+setDebug=function(text){
+	node=document.getElementById('debug');
+	if(node){
+		node.clearNode();
+		node.appendChild(document.createTextNode(text));
+	}
+}
+
+arrayMerge=function(array1,array2){
+	var array=Array();
+	for(i in array1){
+		array[i]=array1[i];
+	}
+	for(i in array2){
+		array[i]=array2[i];
+	}
+	return array;
+}
+
+if(!Math.sign){
+	Math.sign=function(x){
+		return x/Math.abs(x);
+	}
+}
+
+if(!Node.prototype.clearNode){
+	Node.prototype.clearNode=function(){
+		if(this.hasChildNodes()){
+			while(this.childNodes.length >=1){
+				this.removeChild(this.firstChild);
+			}
+		}
+	}
+}
+
+getTimeString=function(){
+	var date=new Date();
+	var months=new Array(12);
+	months[0]="Jan";
+	months[1]="Feb";
+	months[2]="Mar";
+	months[3]="Apr";
+	months[4]="May";
+	months[5]="Jun";
+	months[6]="Jul";
+	months[7]="Aug";
+	months[8]="Sep";
+	months[9]="Oct";
+	months[10]="Nov";
+	months[11]="Dec";
+	return date.getDate()+' '+months[date.getMonth()]+' '+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes();
 }

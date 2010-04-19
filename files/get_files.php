@@ -42,21 +42,23 @@ function return_bytes($val) {
 header('Content-type: application/xml');
 
 $dir=isset($_GET['dir'])?$_GET['dir']:'';
-$files=OC_FILES::getdirectorycontent($CONFIG_DATADIRECTORY.'/'.$dir);
-$dirname=$files[0]['directory'];
+$files=OC_FILES::getdirectorycontent(realpath($CONFIG_DATADIRECTORY.'/'.$dir));
+$dirname=(isset($files[0]))?$files[0]['directory']:'';
 $dirname=substr($dirname,strrpos($dirname,'/'));
 $max_upload=min(return_bytes(ini_get('post_max_size')),return_bytes(ini_get('upload_max_filesize')));
 ob_clean();
 echo "<?xml version='1.0' standalone='yes'?>\n";
 echo "<dir name='$dirname' max_upload='$max_upload'>\n";
-foreach($files as $file){
-   $attributes='';
-   foreach($file as $name=>$data){
-      $data=str_replace("'",'&#39;',$data);
-      if (is_string($name)) $attributes.=" $name='$data'";
-   }
-   $attributes.=' date=\''.date($CONFIG_DATEFORMAT,$file['mtime']).'\'';
-   echo "<file$attributes/>\n";
+if(is_array($files)){
+	foreach($files as $file){
+	$attributes='';
+	foreach($file as $name=>$data){
+		$data=str_replace("'",'&#39;',$data);
+		if (is_string($name)) $attributes.=" $name='$data'";
+	}
+	$attributes.=' date=\''.date($CONFIG_DATEFORMAT,$file['mtime']).'\'';
+	echo "<file$attributes/>\n";
+	}
 }
-echo "</dir>";
+echo "\n</dir>";
 ?>
