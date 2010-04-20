@@ -62,6 +62,13 @@ class OC_CONFIG{
 				$_POST['dbpassword']=$CONFIG_DBPASSWORD;
 			}
 		}
+		if(!is_dir($_POST['datadirectory'])){
+			try{
+				mkdir($_POST['datadirectory']);
+			}catch(Exception $e){
+				$error.='error while trying to create data directory<br/>';
+			}
+		}
 		if(empty($error)) {
 			//create/fill database
 			$CONFIG_DBTYPE=$dbtype;
