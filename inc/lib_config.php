@@ -106,7 +106,15 @@ class OC_CONFIG{
 	*/
 	public static function writeadminlisener(){
 		global $CONFIG_INSTALLED;
-		if($CONFIG_INSTALLED==false or OC_USER::ingroup($_SESSION['username'],'admin')){
+		$allow=false;
+		if($CONFIG_INSTALLED==false){
+			$allow=true;
+		}elseif(OC_USER::isLoggedIn()){
+			if(OC_USER::ingroup($_SESSION['username'],'admin')){
+				$allow=true;
+			}
+		}
+		if($allow){
 			global $DOCUMENTROOT;
 			global $SERVERROOT;
 			global $WEBROOT;
