@@ -99,10 +99,25 @@ class OC_CONFIG{
 				$error.='error while trying to fill the database<br/>';
 			}
 			
+			if(!OC_USER::createuser($_POST['adminlogin'],$_POST['adminpassword']) && !OC_USER::login($_POST['adminlogin'],$_POST['adminpassword'])){
+				$error.='error while trying to create the admin user<br/>';
+			}
+			
+			if(OC_USER::getgroupid('admin')==0){
+				if(!OC_USER::creategroup('admin')){
+					$error.='error while trying to create the admin group<br/>';
+				}
+			}
+			
+			if(!OC_USER::addtogroup($_POST['adminlogin'],'admin')){
+				$error.='error while trying to add the admin user to the admin group<br/>';
+			}
+			
 			//storedata
 			$config='<?php '."\n";
-			$config.='$CONFIG_ADMINLOGIN=\''.$_POST['adminlogin']."';\n";
-			$config.='$CONFIG_ADMINPASSWORD=\''.$_POST['adminpassword']."';\n";
+// 			$config.='$CONFIG_ADMINLOGIN=\''.$_POST['adminlogin']."';\n";
+// 			$config.='$CONFIG_ADMINPASSWORD=\''.$_POST['adminpassword']."';\n";
+			$config.='$CONFIG_INSTALLED=true;'."\n";
 			$config.='$CONFIG_DATADIRECTORY=\''.$_POST['datadirectory']."';\n";
 			if(isset($_POST['forcessl'])) $config.='$CONFIG_HTTPFORCESSL=true'.";\n"; else $config.='$CONFIG_HTTPFORCESSL=false'.";\n";
 			$config.='$CONFIG_DATEFORMAT=\''.$_POST['dateformat']."';\n";
@@ -170,7 +185,17 @@ CREATE TABLE  'properties' (
   'ns' varchar(120) NOT NULL DEFAULT 'DAV:',
   'value' text,
   PRIMARY KEY ('path','name','ns')
-);";
+);
+
+CREATE TABLE 'users' (
+  'user_id' int(11) NOT NULL,
+  'user_name' varchar(64) NOT NULL DEFAULT '',
+  'user_name_clean' varchar(64) NOT NULL DEFAULT '',
+  'user_password' varchar(40) NOT NULL DEFAULT '',
+  PRIMARY KEY ('user_id'),
+  UNIQUE ('user_name' ,'user_name_clean')
+);
+";
     }elseif($CONFIG_DBTYPE=='mysql'){
       $query="SET SQL_MODE=\"NO_AUTO_VALUE_ON_ZERO\";
 
@@ -208,9 +233,22 @@ CREATE TABLE IF NOT EXISTS `properties` (
   PRIMARY KEY (`path`,`name`,`ns`),
   KEY `path` (`path`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS  `users` (
+`user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`user_name` VARCHAR( 64 ) NOT NULL ,
+`user_name_clean` VARCHAR( 64 ) NOT NULL ,
+`user_password` VARCHAR( 340) NOT NULL ,
+UNIQUE (
+`user_name` ,
+`user_name_clean`
+)
+) ENGINE = MYISAM ;
+
 ";
 	}
       OC_DB::multiquery($query);
+      die();
    }
    
    /**
