@@ -32,9 +32,15 @@ echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h
 
 
   // check if already configured. otherwise start configuration wizard
-  $error=OC_CONFIG::writeconfiglisener();
+  $error=OC_CONFIG::writeadminlisener();
+  if($e=OC_CONFIG::configlisener()){
+	$error.=$e;
+  }
   if($e=OC_CONFIG::createuserlisener()){
-	$error=$e;
+	$error.=$e;
+  }
+  if($e=OC_CONFIG::creategrouplisener()){
+	$error.=$e;
   }
   $CONFIG_ERROR=$error;
   global $CONFIG_INSTALLED;
@@ -44,7 +50,7 @@ echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h
     echo('<div class="center">');
     echo('<p class="errortext">'.$error.'</p>');
     echo('<p class="highlighttext">First Run Wizard</p>');
-    OC_CONFIG::showconfigform();
+    OC_CONFIG::showadminform();
     echo('</div>');
     OC_UTIL::showfooter();
     exit();

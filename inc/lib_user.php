@@ -153,6 +153,21 @@ class OC_USER {
 	}
 	
 	/**
+	* get the name of a group
+	*
+	*/
+	public static function getgroupname($groupid){
+		$groupid=(integer)$groupid;
+		$query="SELECT group_name FROM  `groups` WHERE  `group_id` =  '$groupid' LIMIT 1";
+		$result=OC_DB::select($query);
+		if(isset($result[0]) && isset($result[0]['group_name'])){
+			return $result[0]['group_name'];
+		}else{
+			return 0;
+		}
+	}
+	
+	/**
 	* check if a user belongs to a group
 	*
 	*/
@@ -194,6 +209,58 @@ class OC_USER {
 	
 	public static function generatepassword(){
 		return uniqid();
+	}
+	
+	/**
+	* get all groups the user belongs to
+	*
+	*/
+	public static function getusergroups($username){
+		$userid=OC_USER::getuserid($username);
+		$query="SELECT group_id FROM  `user_group` WHERE  `user_id` =  '$userid'";
+		$result=OC_DB::select($query);
+		$groups=array();
+		if(is_array($result)){
+			foreach($result as $group){
+				$groupid=$group['group_id'];
+				$groups[]=OC_USER::getgroupname($groupid);
+			}
+		}
+		return $groups;
+	}
+	
+	/**
+	* set the password of a user
+	*
+	*/
+	public static function setpassword($username,$password){
+		$password=sha1($password);
+		$userid=OC_USER::getuserid($username);
+		$query="UPDATE  `users` SET  `user_password` = '$password' WHERE  `user_id` =$userid LIMIT 1 ;";
+		$result=OC_DB::query($query);
+		if($result){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	* check the password of a user
+	*
+	*/
+	public static function checkpassword($username,$password){
+		$password=sha1($password);
+		$usernameclean=strtolower($username);
+		$username=mysql_escape_string($username);
+		$usernameclean=mysql_escape_string($usernameclean);
+		$query="SELECT user_id FROM  `users` WHERE  `user_name_clean` =  '$usernameclean' AND  `user_password` =  '$password' LIMIT 1";
+		$result=OC_DB::select($query);
+		if(isset($result[0]) && isset($result[0]['user_id']) && $result[0]['user_id']>0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
 
