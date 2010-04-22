@@ -33,6 +33,9 @@ echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h
 
   // check if already configured. otherwise start configuration wizard
   $error=OC_CONFIG::writeconfiglisener();
+  if($e=OC_CONFIG::createuserlisener()){
+	$error=$e;
+  }
   $CONFIG_ERROR=$error;
   global $CONFIG_INSTALLED;
   if(!$CONFIG_INSTALLED) {

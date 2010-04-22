@@ -4,6 +4,7 @@ global $CONFIG_ERROR;
 if(!isset($fillDB)) $fillDB=true;
 if(!isset($CONFIG_DBHOST)) $CONFIG_DBHOST='localhost';
 if(!isset($CONFIG_DBUSER)) $CONFIG_DBUSER='owncloud';
+$newuserpassword=OC_USER::generatepassword();
 ?>
 <script type="text/javascript">
 function showDBAdmin(){
@@ -82,7 +83,16 @@ if($CONFIG_DBTYPE=='sqlite'){
 <tr id='dbAdminPwd'><td>database administrative password:</td><td><input type="password" name="dbadminpwd" size="30" class="formstyle" value=''></input></td></tr>
 <tr><td>automaticly fill initial database:</td><td><input type="checkbox" name="filldb" size="30" class="formstyle" value='1' <?php if($FIRSTRUN) echo 'checked'; ?>></input></td></tr>
 <tr><td></td><td><input type="submit" name="set_config" alt="save" value="save" class="formstyle" /></td></tr>
-</table></form>
+</table></form><br/>
+<br/>
+<form method="post" enctype="multipart/form-data">
+<table cellpadding="5" cellspacing="5" border="0" class="loginform">
+<tr><td colspan='2'>Create new user:</td></tr>
+<tr><td>user name</td><td><input type='text' name='new_username' class="formstyle"></input></td></tr>
+<tr><td>password</td><td><input type='text' name='new_password' class="formstyle" autocomplete="off" value='<?php echo($newuserpassword);?>'></input></td></tr>
+<tr><td></td><td><input type='submit' value='create' class="formstyle"></input></td></tr>
+</table>
+</form>
 <script type="text/javascript">
     dbtypechange()
 </script>

@@ -14,6 +14,18 @@ class OC_CONFIG{
     require('templates/configform.php');
   }
 
+	public static function createuserlisener(){
+		if(isset($_POST['new_username']) and isset($_POST['new_password'])){
+			if(OC_USER::createuser($_POST['new_username'],$_POST['new_password'])){
+				return 'user successfully created';
+			}else{
+				return 'error while trying to create user';
+			}
+		}else{
+			return false;
+		}
+	}
+
   /**
    * lisen for configuration changes and write it to the file
    *

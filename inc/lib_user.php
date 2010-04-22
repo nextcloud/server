@@ -32,8 +32,6 @@ class OC_USER {
 	*
 	*/
 	public static function loginlisener(){
-		global $CONFIG_ADMINLOGIN;
-		global $CONFIG_ADMINPASSWORD;
 		if(isset($_POST['loginbutton']) and isset($_POST['password']) and isset($_POST['login'])){
 			if(OC_USER::login($_POST['login'],$_POST['password'])){
 				OC_LOG::event($_SESSION['username'],1,'');
@@ -44,6 +42,7 @@ class OC_USER {
 		}
 		return('');
 	}
+	
 	
 	/**
 	* try to create a new user
@@ -191,6 +190,10 @@ class OC_USER {
 		}else{
 			return true;
 		}
+	}
+	
+	public static function generatepassword(){
+		return uniqid();
 	}
 }
 
