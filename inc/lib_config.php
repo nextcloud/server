@@ -26,24 +26,34 @@ class OC_CONFIG{
     global $CONFIG_DATEFORMAT;
     global $CONFIG_DBNAME;
     global $CONFIG_INSTALLED;
-    if(OC_USER::ingroup($_SESSION['username'],'admin') or $CONFIG_INSTALLED==false){
+		$allow=false;
+		if(!$CONFIG_INSTALLED){
+			$allow=true;
+		}elseif(OC_USER::isLoggedIn()){
+			if(OC_USER::ingroup($_SESSION['username'],'admin')){
+				$allow=true;
+			}
+		}
+    if($allow){
 		require('templates/adminform.php');
 	}
   }
 
 	public static function createuserlisener(){
-		if(OC_USER::ingroup($_SESSION['username'],'admin')){
-			if(isset($_POST['new_username']) and isset($_POST['new_password'])){
-				if(OC_USER::createuser($_POST['new_username'],$_POST['new_password'])){
-					return 'user successfully created';
+		if(OC_USER::isLoggedIn()){
+			if(OC_USER::ingroup($_SESSION['username'],'admin')){
+				if(isset($_POST['new_username']) and isset($_POST['new_password'])){
+					if(OC_USER::createuser($_POST['new_username'],$_POST['new_password'])){
+						return 'user successfully created';
+					}else{
+						return 'error while trying to create user';
+					}
 				}else{
-					return 'error while trying to create user';
+					return false;
 				}
 			}else{
 				return false;
 			}
-		}else{
-			return false;
 		}
 	}
 	
@@ -107,7 +117,7 @@ class OC_CONFIG{
 	public static function writeadminlisener(){
 		global $CONFIG_INSTALLED;
 		$allow=false;
-		if($CONFIG_INSTALLED==false){
+		if(!$CONFIG_INSTALLED){
 			$allow=true;
 		}elseif(OC_USER::isLoggedIn()){
 			if(OC_USER::ingroup($_SESSION['username'],'admin')){
