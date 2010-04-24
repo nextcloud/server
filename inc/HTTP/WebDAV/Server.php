@@ -19,9 +19,9 @@
 //
 // $Id: Server.php,v 1.46 2006/03/03 21:43:09 hholzgra Exp $
 //
-require_once "HTTP/WebDAV/Tools/_parse_propfind.php";
-require_once "HTTP/WebDAV/Tools/_parse_proppatch.php";
-require_once "HTTP/WebDAV/Tools/_parse_lockinfo.php";
+oc_require_once("HTTP/WebDAV/Tools/_parse_propfind.php");
+oc_require_once("HTTP/WebDAV/Tools/_parse_proppatch.php");
+oc_require_once("HTTP/WebDAV/Tools/_parse_lockinfo.php");
 
 
 

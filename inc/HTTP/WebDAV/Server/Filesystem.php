@@ -1,8 +1,6 @@
 <?php
-    
-    require_once "lib_base.php";
-    require_once "HTTP/WebDAV/Server.php";
-    require_once "System.php";
+    oc_require_once("HTTP/WebDAV/Server.php");
+    oc_require_once("System.php");
     
     /**
      * Filesystem access using WebDAV
