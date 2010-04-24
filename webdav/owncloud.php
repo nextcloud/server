@@ -23,7 +23,7 @@
 
 
 require_once('../inc/lib_base.php');
-require_once('HTTP/WebDAV/Server/Filesystem.php');
+oc_require_once('HTTP/WebDAV/Server/Filesystem.php');
 
 
 ini_set('default_charset', 'UTF-8');

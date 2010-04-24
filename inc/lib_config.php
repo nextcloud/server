@@ -11,7 +11,7 @@ class OC_CONFIG{
     global $CONFIG_HTTPFORCESSL;
     global $CONFIG_DATEFORMAT;
     global $CONFIG_DBNAME;
-    require('templates/configform.php');
+    oc_require('templates/configform.php');
   }
   
   /**
@@ -35,7 +35,7 @@ class OC_CONFIG{
 			}
 		}
     if($allow){
-		require('templates/adminform.php');
+		oc_require('templates/adminform.php');
 	}
   }
 

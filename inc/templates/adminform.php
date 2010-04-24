@@ -49,7 +49,7 @@ function dbtypechange(){
 		<?php
 	}
 if($FIRSTRUN){?>
-<tr><td>admin login:</td><td><input type="text" name="adminlogin" size="30" class="formstyle" value="<?php echo($CONFIG_ADMINLOGIN);?>"></input></td></tr>
+<tr><td>admin login:</td><td><input type="text" name="adminlogin" size="30" class="formstyle" value=""></input></td></tr>
 <tr><td>admin password:</td><td><input type="password" name="adminpassword" size="30" class="formstyle"></input></td><td>(leave empty to keep current password)</td></tr>
 <tr><td>retype admin password:</td><td><input type="password" name="adminpassword2" size="30" class="formstyle"></input></td></tr>
 <?php

@@ -40,7 +40,7 @@ if($WEBROOT{0}!=='/'){
 }
 
 // set the right include path
-set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
+// set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
 
 // define default config values
 $CONFIG_INSTALLED=false;
@@ -51,7 +51,7 @@ $CONFIG_DBNAME='owncloud';
 $CONFIG_DBTYPE='sqlite';
 
 // include the generated configfile
-@include_once('config.php');
+@oc_include_once('config.php');
 
 // redirect to https site if configured
 if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
@@ -63,10 +63,10 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 }
 
 // load core libs
-require_once('lib_files.php');
-require_once('lib_log.php');
-require_once('lib_config.php');
-require_once('lib_user.php');
+oc_require_once('lib_files.php');
+oc_require_once('lib_log.php');
+oc_require_once('lib_config.php');
+oc_require_once('lib_user.php');
 
 if(OC_USER::isLoggedIn()){
 	//jail the user in a seperate data folder
@@ -131,7 +131,7 @@ class OC_UTIL {
   public static function showheader(){
     global $CONFIG_ADMINLOGIN;
     global $WEBROOT;
-    require('templates/header.php');;
+    oc_require('templates/header.php');;
   }
 
   /**
@@ -141,7 +141,7 @@ class OC_UTIL {
   public static function showfooter(){
     global $CONFIG_FOOTEROWNERNAME;
     global $CONFIG_FOOTEROWNEREMAIL;
-    require('templates/footer.php');;
+    oc_require('templates/footer.php');;
   }
 
   /**
@@ -188,7 +188,7 @@ class OC_UTIL {
    */
   public static function showloginform(){
     global $loginresult;
-    require('templates/loginform.php');
+    oc_require('templates/loginform.php');
   }
 
 
@@ -451,5 +451,102 @@ class OC_DB {
 
 }
 
+
+//custom require/include functions because not all hosts allow us to set the include path
+function oc_require($file){
+	global $SERVERROOT;
+	global $DOCUMENTROOT;
+	global $WEBROOT;
+	global $CONFIG_DBNAME;
+	global $CONFIG_DBHOST;
+	global $CONFIG_DBUSER;
+	global $CONFIG_DBPASSWORD;
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DATADIRECTORY;
+	global $CONFIG_HTTPFORCESSL;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_INSTALLED;
+	if(is_file($file)){
+		require($file);
+	}elseif(is_file($SERVERROOT.'/'.$file)){
+		require($SERVERROOT.'/'.$file);
+	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
+		require($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($SERVERROOT.'/config/'.$file)){
+		require($SERVERROOT.'/config/'.$file);
+	}
+}
+
+function oc_require_once($file){
+	global $SERVERROOT;
+	global $DOCUMENTROOT;
+	global $WEBROOT;
+	global $CONFIG_DBNAME;
+	global $CONFIG_DBHOST;
+	global $CONFIG_DBUSER;
+	global $CONFIG_DBPASSWORD;
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DATADIRECTORY;
+	global $CONFIG_HTTPFORCESSL;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_INSTALLED;
+	if(is_file($file)){
+		require_once($file);
+	}elseif(is_file($SERVERROOT.'/'.$file)){
+		require_once($SERVERROOT.'/'.$file);
+	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
+		require_once($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($SERVERROOT.'/config/'.$file)){
+		require_once($SERVERROOT.'/config/'.$file);
+	}
+}
+
+function oc_include($file){
+	global $SERVERROOT;
+	global $DOCUMENTROOT;
+	global $WEBROOT;
+	global $CONFIG_DBNAME;
+	global $CONFIG_DBHOST;
+	global $CONFIG_DBUSER;
+	global $CONFIG_DBPASSWORD;
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DATADIRECTORY;
+	global $CONFIG_HTTPFORCESSL;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_INSTALLED;
+	if(is_file($file)){
+		include($file);
+	}elseif(is_file($SERVERROOT.'/'.$file)){
+		include($SERVERROOT.'/'.$file);
+	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
+		include($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($SERVERROOT.'/config/'.$file)){
+		include($SERVERROOT.'/config/'.$file);
+	}
+}
+
+function oc_include_once($file){
+	global $SERVERROOT;
+	global $DOCUMENTROOT;
+	global $WEBROOT;
+	global $CONFIG_DBNAME;
+	global $CONFIG_DBHOST;
+	global $CONFIG_DBUSER;
+	global $CONFIG_DBPASSWORD;
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DATADIRECTORY;
+	global $CONFIG_HTTPFORCESSL;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_INSTALLED;
+	if(is_file($file)){
+		include_once($file);
+	}elseif(is_file($SERVERROOT.'/'.$file)){
+		include_once($SERVERROOT.'/'.$file);
+	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
+		include_once($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($SERVERROOT.'/config/'.$file)){
+		include_once($SERVERROOT.'/config/'.$file);
+	}
+}
 
 ?>

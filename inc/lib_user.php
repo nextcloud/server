@@ -21,6 +21,12 @@
 * 
 */
 
+if(!$CONFIG_INSTALLED){
+	$_SESSION['user_id']=false;
+	$_SESSION['username']='';
+	$_SESSION['username_clean']='';
+}
+
 /**
  * Class for usermanagement
  *
@@ -174,10 +180,14 @@ class OC_USER {
 	public static function ingroup($username,$groupname){
 		$userid=OC_USER::getuserid($username);
 		$groupid=OC_USER::getgroupid($groupname);
-		$query="SELECT user_group_id FROM  `user_group` WHERE  `group_id` =  '$groupid '  AND `user_id` =  '$userid 'LIMIT 1";
-		$result=OC_DB::select($query);
-		if(isset($result[0]) && isset($result[0]['user_group_id'])){
-			return true;
+		if($groupid>0 and $userid>0){
+			$query="SELECT user_group_id FROM  `user_group` WHERE  `group_id` =  '$groupid '  AND `user_id` =  '$userid 'LIMIT 1";
+			$result=OC_DB::select($query);
+			if(isset($result[0]) && isset($result[0]['user_group_id'])){
+				return true;
+			}else{
+				return false;
+			}
 		}else{
 			return false;
 		}
