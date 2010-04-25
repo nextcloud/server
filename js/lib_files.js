@@ -87,6 +87,10 @@ OC_FILES.getdirectorycontent=function(dir,callback,refresh){
 
 OC_FILES.dir='';
 
+OC_FILES.get=function(dir,file){
+	window.location='files/get_file.php?dir='+encodeURIComponent(dir)+'&files='+encodeURIComponent(file);
+}
+
 OC_FILES.upload=function(dir,iframeId){
 	var file=new Object;
 	var fileSelector=document.getElementById('fileSelector');
@@ -133,7 +137,7 @@ OC_FILES.upload_callback=function(iframeId){
 	if(OC_FILES.cache.incomplete[file.dir][file.name]){
 		OC_FILES.browser.files.remove(file.name);
 		OC_FILES.cache.files[file.name]=OC_FILES.cache.incomplete[file.dir][file.name]
-		delete OC_FILES.cache.incomplete[file.dir][file.name];
+		OC_FILES.cache.incomplete[file.dir][file.name]=null;
 		OC_FILES.cache.files[file.name]['type']=file.type;
 		this.uploadForm.parentNode.removeChild(this.uploadForm);
 		this.parentNode.removeChild(this);
@@ -154,14 +158,12 @@ OC_FILES.rename=function(dir,file,event){
 		OC_FILES.browser.show(OC_FILES.dir);
 		return false;
 	}
-	xmlloader=new OCXMLLoader();
-	xmlloader.setCallBack(OC_FILES.rename_callback);
-	xmlloader.arg=new Object;
-	xmlloader.arg.oldname=file;
-	xmlloader.arg.newname=newname;
-	xmlloader.arg.dir=dir;
-	xmlloader.arg.type=OC_FILES.cache.files[file]['type'];
-	xmlloader.load('files/rename.php?dir='+dir+'&file='+file+'&newname='+newname);
+	arg=new Object;
+	arg.oldname=file;
+	arg.newname=newname;
+	arg.dir=dir;
+	arg.type=OC_FILES.cache.files[file]['type'];
+	OC_API.run('rename',{dir:dir,file:file,newname:newname},OC_FILES.rename_callback,arg)
 	if(!OC_FILES.cache.incomplete[dir]){
 		OC_FILES.cache.incomplete[dir]=Array();
 	}
@@ -184,12 +186,9 @@ OC_FILES.rename_callback=function(req,file){
 }
 
 OC_FILES.remove=function(dir,file){
-	remove=confirm('remove file \''+file+'\'?');
+	remove=confirm('delete file \''+file+'\'?');
 	if(remove){
-		xmlloader=new OCXMLLoader();
-		xmlloader.setCallBack(OC_FILES.remove_callback);
-		xmlloader.arg=file;
-		xmlloader.load('files/delete.php?dir='+dir+'&file='+file);
+		OC_API.run('delete',{dir:dir,file:file},OC_FILES.remove_callback,file)
 		OC_FILES.browser.files.remove(file);
 		delete OC_FILES.cache.files[file];
 	}
@@ -212,13 +211,11 @@ OC_FILES.getSelected=function(){
 }
 
 OC_FILES.newFile=function(type,name,dir){
-	xmlloader=new OCXMLLoader();
-	xmlloader.arg=new Object;
-	xmlloader.arg.name=name;
-	xmlloader.arg.dir=dir;
-	xmlloader.arg.type=type;
-	xmlloader.setCallBack(OC_FILES.new_callback);
-	xmlloader.load('files/new.php?type='+type+'&dir='+dir+'&name='+name);
+	arg=new Object;
+	arg.name=name;
+	arg.dir=dir;
+	arg.type=type;
+	OC_API.run('new',{dir:dir,name:name,type:type},OC_FILES.new_callback,arg)
 	if(!OC_FILES.cache.incomplete[dir]){
 		OC_FILES.cache.incomplete[dir]=Array();
 	}
@@ -248,17 +245,15 @@ OC_FILES.move=function(source,target,sourceDir,targetDir){
 		if(!OC_FILES.cache.incomplete[targetDir+'/'+target]){
 			OC_FILES.cache.incomplete[targetDir+'/'+target]=Array();
 		}
-		xmlloader=new OCXMLLoader();
-		xmlloader.arg=new Object;
-		xmlloader.arg.source=source;
-		xmlloader.arg.target=target;
-		xmlloader.arg.sourceDir=sourceDir;
-		xmlloader.arg.targetDir=targetDir;
-		xmlloader.arg.type=OC_FILES.cache.files[source]['type'];
+		arg=new Object;
+		arg.source=source;
+		arg.target=target;
+		arg.sourceDir=sourceDir;
+		arg.targetDir=targetDir;
+		arg.type=OC_FILES.cache.files[source]['type'];
 		OC_FILES.cache.files[source]['type']='incomplete';
-		OC_FILES.cache.incomplete[targetDir+'/'+target][source]=OC_FILES.cache.files[source]
-		xmlloader.setCallBack(OC_FILES.move_callback);
-		xmlloader.load('files/move.php?sourcedir='+sourceDir+'&targetdir='+targetDir+'&source='+source+'&target='+target);
+		OC_FILES.cache.incomplete[targetDir+'/'+target][source]=OC_FILES.cache.files[source];
+		OC_API.run('move',{sourcedir:sourceDir,source:source,targetdir:targetDir,target:target},OC_FILES.move_callback,arg);
 	}
 }
 
@@ -293,11 +288,12 @@ OC_FILES.actions_selected.download=function(){
     if(files.length==0){
         return false;
     }else if(files.length>1){
-        files.join(';');
+        files=files.join(';');
     }else{
         files=files[0];
     }
-    window.location=WEBROOT+'/files/get_file.php?dir='+OC_FILES.dir+'&files='+files;
+    OC_FILES.get(dir,files);
+//     window.location=WEBROOT+'/files/get_file.php?dir='+OC_FILES.dir+'&files='+files;
 }
 
 OC_FILES.actions_selected['delete']=function(){
@@ -361,7 +357,7 @@ OC_FILES.fileActions.all.rename=function(){
     OC_FILES.browser.show_rename(this.dir,this.file);
 }
 OC_FILES.fileActions.all.download=function(){
-    window.location=WEBROOT+'/files/get_file.php?dir='+this.dir+'&files='+this.file;
+	OC_FILES.get(this.dir,this.file);
 }
 OC_FILES.fileActions.all['default']=OC_FILES.fileActions.all.download;
 
@@ -373,13 +369,12 @@ OC_FILES.fileActions.dir.open=function(){
 OC_FILES.fileActions.dir['default']=OC_FILES.fileActions.dir.open;
 
 OC_FILES.fileActions.dir.dropOn=function(file){
-	OC_FILES.move(file.file,this.file,file.dir,this.dir);
+	OC_FILES.move(file.file,file.file,file.dir,this.dir+'/'+this.file);
 }
 
 OC_FILES.fileActions.jpg=new Object()
 
 OC_FILES.fileActions.jpg.show=function(){
-//     window.open(WEBROOT+'/files/open_file.php?dir='+this.dir+'&file='+this.file);
 	OC_FILES.browser.showImage(this.dir,this.file);
 }
 

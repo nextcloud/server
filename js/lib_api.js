@@ -1,5 +1,3 @@
-<?php
-
 /**
 * ownCloud - ajax frontend
 *
@@ -20,16 +18,17 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 * 
 */
-require_once('../inc/lib_base.php');
 
-$sourceDir=$_GET['sourcedir'];
-$targetDir=$_GET['targetdir'];
-$source=$_GET['source'];
-$target=$_GET['target'];
-if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($sourceDir,'..')===false and strpos($source,'..')===false and strpos($targetDir,'..')===false and strpos($target,'..')===false){
-	$target=$CONFIG_DATADIRECTORY.'/'.$targetDir.'/'.$target.'/'.$source;
-	$source=$CONFIG_DATADIRECTORY.'/'.$sourceDir.'/'.$source;
-	rename($source,$target);
+OC_API=new Object();
+
+OC_API.run=function(action,params,callback,callbackparams){
+	var xmlloader=new OCXMLLoader();
+	xmlloader.setCallBack(callback);
+	xmlloader.method="POST";
+	var paramString='action='+action;
+	for(name in params){
+		paramString+='&'+name+'='+encodeURIComponent(params[name]);
+	}
+	xmlloader.arg=callbackparams;
+	xmlloader.load('files/api.php',paramString);
 }
-
-?>

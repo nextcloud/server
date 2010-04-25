@@ -22,15 +22,28 @@
 */
 require_once('../inc/lib_base.php');
 
-$dir=$_GET['dir'];
-$file=$_GET['file'];
-if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($dir,'..')===false){
-	$file=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$file;
-	if(is_file($file)){
-		unlink($file);
-	}elseif(is_dir($file)){
-		rmdir($file);
-	}
+$arguments=$_POST;
+
+foreach($arguments as &$argument){
+	$argument=stripslashes($argument);
+}
+ob_clean();
+switch($arguments['action']){
+	case 'delete':
+		OC_FILES::delete($arguments['dir'],$arguments['file']);
+		break;
+	case 'rename':
+		OC_FILES::move($arguments['dir'],$arguments['file'],$arguments['dir'],$arguments['newname']);
+		break;
+	case 'new':
+		OC_FILES::newfile($arguments['dir'],$arguments['name'],$arguments['type']);
+		break;
+	case 'move':
+		OC_FILES::move($arguments['sourcedir'],$arguments['source'],$arguments['targetdir'],$arguments['target']);
+		break;
+	case 'get':
+		OC_FILES::get($arguments['dir'],$arguments['file']);
+		break;
 }
 
 ?>
