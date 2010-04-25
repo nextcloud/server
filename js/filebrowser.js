@@ -129,16 +129,16 @@ OC_FILES.browser.files.show=function(parent,fileList){
 		for(name in fileList){
 			file=fileList[name];
 			if(!OC_FILES.browser.files.fileNodes[file.name]){
-				OC_FILES.browser.files.add(file.name,file.type,file.size,file.date);
+				OC_FILES.browser.files.add(file.name,file.type,file.size,file.date,file.mime);
 			}
 		}
 	}
 }
-OC_FILES.browser.files.add=function(name,type,size,date){
+OC_FILES.browser.files.add=function(name,type,size,date,mime){
 	if(name){
 		if(!size) size=0;
 		if(!date) date=getTimeString();
-		OC_FILES.files[name]=new OC_FILES.file(OC_FILES.dir,name,type);
+		OC_FILES.files[name]=new OC_FILES.file(OC_FILES.dir,name,type,mime);
 		tr=document.createElement('tr');
 		OC_FILES.browser.files.fileNodes[name]=tr;
 		OC_FILES.browser.files.tbody.appendChild(tr);

@@ -59,6 +59,7 @@ class OC_FILES {
 				$file['directory']=$directory;
 				$stat=stat($directory.'/'.$filename);
 				$file=array_merge($file,$stat);
+				$file['mime']=OC_FILES::getMimeType($directory .'/'. $filename);
 				$file['type']=filetype($directory .'/'. $filename);
 				if($file['type']=='dir'){
 					$dirs[$file['name']]=$file;
@@ -190,6 +191,71 @@ class OC_FILES {
 			}
 		}
 	}
+	
+	/**
+	* try to detect the mime type of a file
+	*
+	* @param  string  file path
+	* @return string  guessed mime type
+	*/
+	function getMimeType($fspath){
+		if (@is_dir($fspath)) {
+			// directories are easy
+			return "httpd/unix-directory"; 
+		} else if (function_exists("mime_content_type")) {
+			// use mime magic extension if available
+			$mime_type = mime_content_type($fspath);
+		} else if ($this->_can_execute("file")) {
+			// it looks like we have a 'file' command, 
+			// lets see it it does have mime support
+			$fp = popen("file -i '$fspath' 2>/dev/null", "r");
+			$reply = fgets($fp);
+			pclose($fp);
+			
+			// popen will not return an error if the binary was not found
+			// and find may not have mime support using "-i"
+			// so we test the format of the returned string 
+			
+			// the reply begins with the requested filename
+			if (!strncmp($reply, "$fspath: ", strlen($fspath)+2)) {                     
+				$reply = substr($reply, strlen($fspath)+2);
+				// followed by the mime type (maybe including options)
+				if (preg_match('/^[[:alnum:]_-]+/[[:alnum:]_-]+;?.*/', $reply, $matches)) {
+					$mime_type = $matches[0];
+				}
+			}
+		} 
+		if (empty($mime_type)) {
+			// Fallback solution: try to guess the type by the file extension
+			// TODO: add more ...
+			switch (strtolower(strrchr(basename($fspath), "."))) {
+			case ".html":
+				$mime_type = "text/html";
+				break;
+			case ".txt":
+				$mime_type = "text/plain";
+				break;
+			case ".css":
+				$mime_type = "text/css";
+				break;
+			case ".gif":
+				$mime_type = "image/gif";
+				break;
+			case ".jpg":
+				$mime_type = "image/jpeg";
+				break;
+			case ".jpg":
+				$mime_type = "png/jpeg";
+				break;
+			default: 
+				$mime_type = "application/octet-stream";
+				break;
+			}
+		}
+		
+		return $mime_type;
+	}
+
 }
 
 function zipAddDir($dir,$zip,$internalDir=''){
