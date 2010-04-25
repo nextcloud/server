@@ -67,6 +67,7 @@ oc_require_once('lib_files.php');
 oc_require_once('lib_log.php');
 oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
+oc_require_once('lib_ocs.php');
 
 if(OC_USER::isLoggedIn()){
 	//jail the user in a seperate data folder

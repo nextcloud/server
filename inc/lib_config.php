@@ -202,9 +202,9 @@ class OC_CONFIG{
 							self::filldatabase();
 						}
 					}catch(Exception $e){
+						echo 'testin';
 						$error.='error while trying to fill the database<br/>';
 					}
-					
 					if(!OC_USER::createuser($_POST['adminlogin'],$_POST['adminpassword']) && !OC_USER::login($_POST['adminlogin'],$_POST['adminpassword'])){
 						$error.='error while trying to create the admin user<br/>';
 					}
@@ -303,7 +303,7 @@ CREATE TABLE 'users' (
 );
 ";
     }elseif($CONFIG_DBTYPE=='mysql'){
-      $query="SET SQL_MODE=\"NO_AUTO_VALUE_ON_ZERO\";
+      $query="SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
 CREATE TABLE IF NOT EXISTS `locks` (
   `token` varchar(255) NOT NULL DEFAULT '',
@@ -351,10 +351,22 @@ UNIQUE (
 )
 ) ENGINE = MYISAM ;
 
+CREATE TABLE IF NOT EXISTS  `groups` (
+`group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`group_name` VARCHAR( 64 ) NOT NULL ,
+UNIQUE (
+`group_name`
+)
+) ENGINE = MYISAM ;
+
+CREATE TABLE IF NOT EXISTS  `user_group` (
+`user_group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`user_id` VARCHAR( 64 ) NOT NULL ,
+`group_id` VARCHAR( 64 ) NOT NULL
+) ENGINE = MYISAM ;
 ";
 	}
       OC_DB::multiquery($query);
-      die();
    }
    
    /**
