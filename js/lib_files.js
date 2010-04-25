@@ -236,8 +236,9 @@ OC_FILES.new_callback=function(req,file){
 	OC_FILES.cache.files[file.name]=OC_FILES.cache.incomplete[file.dir][file.name];
 	delete OC_FILES.cache.incomplete[file.dir][file.name];
 	OC_FILES.cache.files[file.name]['type']=file.type;
-	OC_FILES.browser.files.remove(name);
-	OC_FILES.browser.show(OC_FILES.dir);
+	OC_FILES.browser.files.remove(file.name);
+// 	OC_FILES.browser.files.add(name);
+	OC_FILES.browser.show(OC_FILES.dir,true);
 }
 
 OC_FILES.move=function(source,target,sourceDir,targetDir){
