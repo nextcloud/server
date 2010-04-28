@@ -40,11 +40,10 @@ if($WEBROOT{0}!=='/'){
 }
 
 // set the right include path
-set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
+// set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
 
 // define default config values
-$CONFIG_ADMINLOGIN='';
-$CONFIG_ADMINPASSWORD='';
+$CONFIG_INSTALLED=false;
 $CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
 $CONFIG_HTTPFORCESSL=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
@@ -52,7 +51,7 @@ $CONFIG_DBNAME='owncloud';
 $CONFIG_DBTYPE='sqlite';
 
 // include the generated configfile
-@include_once('config.php');
+@oc_include_once('config.php');
 
 // redirect to https site if configured
 if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
@@ -64,12 +63,22 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 }
 
 // load core libs
-require_once('lib_files.php');
-require_once('lib_log.php');
-require_once('lib_config.php');
+oc_require_once('lib_files.php');
+oc_require_once('lib_log.php');
+oc_require_once('lib_config.php');
+oc_require_once('lib_user.php');
+oc_require_once('lib_ocs.php');
+
+if(OC_USER::isLoggedIn()){
+	//jail the user in a seperate data folder
+	$CONFIG_DATADIRECTORY=$SERVERROOT.'/data/'.$_SESSION['username_clean'];
+	if(!is_dir($CONFIG_DATADIRECTORY)){
+		mkdir($CONFIG_DATADIRECTORY);
+	}
+}
 
 // load plugins
-$CONFIG_LOADPLUGINS='music';
+$CONFIG_LOADPLUGINS='';
 $plugins=explode(' ',$CONFIG_LOADPLUGINS);
 if(isset($plugins[0]['url'])) foreach($plugins as $plugin) require_once('plugins/'.$plugin.'/lib_'.$plugin.'.php');
 
@@ -80,46 +89,6 @@ OC_UTIL::checkserver();
 // listen for login or logout actions
 OC_USER::logoutlisener();
 $loginresult=OC_USER::loginlisener();
-
-
-/**
- * Class for usermanagement
- *
- */
-class OC_USER {
-  
-  /**
-   * check if the login button is pressed and logg the user in
-   *
-   */
-  public static function loginlisener(){
-    global $CONFIG_ADMINLOGIN;
-    global $CONFIG_ADMINPASSWORD;
-    if(isset($_POST['loginbutton']) and isset($_POST['password']) and isset($_POST['login'])){
-      if($_POST['login']==$CONFIG_ADMINLOGIN and $_POST['password']==$CONFIG_ADMINPASSWORD){
-        $_SESSION['username']=$_POST['login'];
-        OC_LOG::event($_SESSION['username'],1,'');
-        return('');
-      }else{
-        return('error');
-      } 
-    }
-    return('');
-  }
-
-  /**
-   * check if the logout button is pressed and logout the user
-   *
-   */
-  public static function logoutlisener(){
-    if(isset($_GET['logoutbutton']) && isset($_SESSION['username'])){
-      OC_LOG::event($_SESSION['username'],2,'');
-      unset($_SESSION['username']);
-    }
-  }
-
-}
-
 
 /**
  * Class for utility functions
@@ -163,7 +132,7 @@ class OC_UTIL {
   public static function showheader(){
     global $CONFIG_ADMINLOGIN;
     global $WEBROOT;
-    require('templates/header.php');;
+    oc_require('templates/header.php');;
   }
 
   /**
@@ -173,7 +142,7 @@ class OC_UTIL {
   public static function showfooter(){
     global $CONFIG_FOOTEROWNERNAME;
     global $CONFIG_FOOTEROWNEREMAIL;
-    require('templates/footer.php');;
+    oc_require('templates/footer.php');;
   }
 
   /**
@@ -204,8 +173,11 @@ class OC_UTIL {
       if(dirname($_SERVER['SCRIPT_NAME'])==$WEBROOT.$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');
     }
 
-    if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/log/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/log">Log</a></td>');
-    if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/settings/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/settings">Settings</a></td>');
+	if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/log/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/log">Log</a></td>');
+	if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/settings/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/settings">Settings</a></td>');
+	if(OC_USER::ingroup($_SESSION['username'],'admin')){
+		if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/admin/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/admin">Admin Panel</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/admin">Admin Panel</a></td>');
+	}
     echo('<td class="navigationitem"><a href="?logoutbutton=1">Logout</a></td>');
     echo('</tr></table>');
   }
@@ -217,7 +189,7 @@ class OC_UTIL {
    */
   public static function showloginform(){
     global $loginresult;
-    require('templates/loginform.php');
+    oc_require('templates/loginform.php');
   }
 
 
@@ -283,6 +255,32 @@ class OC_DB {
     }
     return $result;
   } 
+  
+  /**
+   * executes a query on the database and returns the result in an array
+   *
+   * @param string $cmd
+   * @return result-set
+   */
+	static function select($cmd) {
+		global $CONFIG_DBTYPE;
+		$result=OC_DB::query($cmd);
+		if($result){
+			$data=array();
+			if($CONFIG_DBTYPE=='sqlite'){
+				while($row=$result->fetch(SQLITE_ASSOC)){
+					$data[]=$row;
+				}
+			}elseif($CONFIG_DBTYPE=='mysql'){
+				while($row=$result->fetch_array(MYSQLI_ASSOC)){
+					$data[]=$row;
+				}
+			}
+			return $data;
+		}else{
+			return false;
+		}
+	} 
   
   /**
    * executes multiply queries on the database
@@ -454,5 +452,102 @@ class OC_DB {
 
 }
 
+
+//custom require/include functions because not all hosts allow us to set the include path
+function oc_require($file){
+	global $SERVERROOT;
+	global $DOCUMENTROOT;
+	global $WEBROOT;
+	global $CONFIG_DBNAME;
+	global $CONFIG_DBHOST;
+	global $CONFIG_DBUSER;
+	global $CONFIG_DBPASSWORD;
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DATADIRECTORY;
+	global $CONFIG_HTTPFORCESSL;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_INSTALLED;
+	if(is_file($file)){
+		require($file);
+	}elseif(is_file($SERVERROOT.'/'.$file)){
+		require($SERVERROOT.'/'.$file);
+	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
+		require($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($SERVERROOT.'/config/'.$file)){
+		require($SERVERROOT.'/config/'.$file);
+	}
+}
+
+function oc_require_once($file){
+	global $SERVERROOT;
+	global $DOCUMENTROOT;
+	global $WEBROOT;
+	global $CONFIG_DBNAME;
+	global $CONFIG_DBHOST;
+	global $CONFIG_DBUSER;
+	global $CONFIG_DBPASSWORD;
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DATADIRECTORY;
+	global $CONFIG_HTTPFORCESSL;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_INSTALLED;
+	if(is_file($file)){
+		require_once($file);
+	}elseif(is_file($SERVERROOT.'/'.$file)){
+		require_once($SERVERROOT.'/'.$file);
+	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
+		require_once($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($SERVERROOT.'/config/'.$file)){
+		require_once($SERVERROOT.'/config/'.$file);
+	}
+}
+
+function oc_include($file){
+	global $SERVERROOT;
+	global $DOCUMENTROOT;
+	global $WEBROOT;
+	global $CONFIG_DBNAME;
+	global $CONFIG_DBHOST;
+	global $CONFIG_DBUSER;
+	global $CONFIG_DBPASSWORD;
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DATADIRECTORY;
+	global $CONFIG_HTTPFORCESSL;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_INSTALLED;
+	if(is_file($file)){
+		include($file);
+	}elseif(is_file($SERVERROOT.'/'.$file)){
+		include($SERVERROOT.'/'.$file);
+	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
+		include($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($SERVERROOT.'/config/'.$file)){
+		include($SERVERROOT.'/config/'.$file);
+	}
+}
+
+function oc_include_once($file){
+	global $SERVERROOT;
+	global $DOCUMENTROOT;
+	global $WEBROOT;
+	global $CONFIG_DBNAME;
+	global $CONFIG_DBHOST;
+	global $CONFIG_DBUSER;
+	global $CONFIG_DBPASSWORD;
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DATADIRECTORY;
+	global $CONFIG_HTTPFORCESSL;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_INSTALLED;
+	if(is_file($file)){
+		include_once($file);
+	}elseif(is_file($SERVERROOT.'/'.$file)){
+		include_once($SERVERROOT.'/'.$file);
+	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
+		include_once($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($SERVERROOT.'/config/'.$file)){
+		include_once($SERVERROOT.'/config/'.$file);
+	}
+}
 
 ?>

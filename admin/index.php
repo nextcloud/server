@@ -1,10 +1,10 @@
 <?php
 
 /**
-* ownCloud - ajax frontend
+* ownCloud
 *
-* @author Robin Appelman
-* @copyright 2010 Robin Appelman icewind1991@gmail.com
+* @author Frank Karlitschek 
+* @copyright 2010 Frank Karlitschek karlitschek@kde.org 
 * 
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -20,16 +20,22 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 * 
 */
+
+$CONFIG_ERROR='';
+
 require_once('../inc/lib_base.php');
 
-$sourceDir=$_GET['sourcedir'];
-$targetDir=$_GET['targetdir'];
-$source=$_GET['source'];
-$target=$_GET['target'];
-if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($sourceDir,'..')===false and strpos($source,'..')===false and strpos($targetDir,'..')===false and strpos($target,'..')===false){
-	$target=$CONFIG_DATADIRECTORY.'/'.$targetDir.'/'.$target.'/'.$source;
-	$source=$CONFIG_DATADIRECTORY.'/'.$sourceDir.'/'.$source;
-	rename($source,$target);
-}
+
+OC_UTIL::showheader();
+
+$FIRSTRUN=false;
+
+echo('<div class="center">');
+OC_CONFIG::showadminform();
+echo('</div>');
+
+
+OC_UTIL::showfooter();
 
 ?>
+ 

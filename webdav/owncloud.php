@@ -23,7 +23,7 @@
 
 
 require_once('../inc/lib_base.php');
-require_once('HTTP/WebDAV/Server/Filesystem.php');
+oc_require_once('HTTP/WebDAV/Server/Filesystem.php');
 
 
 ini_set('default_charset', 'UTF-8');
@@ -38,12 +38,15 @@ if(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['REDIRECT_REMOTE_USER'])) 
 
 $user=$_SERVER['PHP_AUTH_USER'];
 $passwd=$_SERVER['PHP_AUTH_PW'];
-if(($user==$CONFIG_ADMINLOGIN) and ($passwd==$CONFIG_ADMINPASSWORD )){
-
-  $server = new HTTP_WebDAV_Server_Filesystem();
-  $server->db_name = $CONFIG_DBNAME;
-  $server->ServeRequest($CONFIG_DATADIRECTORY);
-
+if(OC_USER::login($user,$passwd)){
+	$CONFIG_DATADIRECTORY=$SERVERROOT.'/data/'.$_SESSION['username_clean'];
+	if(!is_dir($CONFIG_DATADIRECTORY)){
+		mkdir($CONFIG_DATADIRECTORY);
+	}
+	$server = new HTTP_WebDAV_Server_Filesystem();
+	$server->db_name = $CONFIG_DBNAME;
+	$server->ServeRequest($CONFIG_DATADIRECTORY);
+	
 }else{
   header('WWW-Authenticate: Basic realm="ownCloud"');
   header('HTTP/1.0 401 Unauthorized');

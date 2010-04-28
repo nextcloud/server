@@ -46,6 +46,7 @@ html,body {
 }
 
 body.error {background-color: #F0F0F0;}
+td.error{color:#FF0000; text-align:center}
 body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size:9.0pt;}
 
 a img {
@@ -220,6 +221,7 @@ div.breadcrumb{
 }
 
 div.fileactionlist{
+	z-index:50;
     position:absolute;
     background-color: #DDDDDD;
     margin-top:5px;
@@ -260,6 +262,12 @@ td.sizetext{
 	text-align:right;
 }
 
+
+input.fileSelector{
+	margin-right:17px;
+	float:left;
+}
+
 td.fileSelector, td.fileicon{
 	width:16px;
 }
@@ -287,6 +295,7 @@ div.fileList{
 	height:100%;
 	min-height:200px;
 	top:0px;
+<!-- 	border-bottom: 3px solid #CCC; -->
 }
 
 div.fileList table{
@@ -321,4 +330,86 @@ table.browser thead td,table.browser tfoot td{
 
 tr.hint, tr.hint td{
 	background:transparent;
+}
+
+#debug{
+	position:fixed;
+	bottom:20px;
+	left:20px;
+	border:solid 1px black;
+}
+
+.dragClone{
+	position:absolute;
+}
+
+div.breadcrumb{
+	float:left;
+	background:transparent;
+}
+
+div.moreActionsButton>p{
+	padding:0px;
+	margin:0px;
+	width:100%;
+	height:100%;
+}
+
+div.moreActionsButton{
+	background-color:white;
+	display:inline;
+	border:1px solid black;
+	cursor:pointer;
+	padding-right:10px;
+	text-align:right;
+	width:90px;
+	height:19px;
+	float:right;
+	margin-top:2px !important;
+	right:2px;
+	position:absolute;
+	background:#DDD url(<?php if(isset($WEBROOT)) echo($WEBROOT); ?>/img/arrow_up.png) no-repeat scroll center right;
+}
+
+td.moreActionsButtonClicked{
+	background:#DDD url(<?php if(isset($WEBROOT)) echo($WEBROOT); ?>/img/arrow_down.png) no-repeat scroll center right !important
+}
+
+tr.utilityline{
+	height:24px;
+}
+
+td.actionsSelected{
+	position:absolute;
+	width:790px;
+}
+
+div.moreActionsList{
+	background:#EEE;
+	position:absolute;
+	bottom:19px;
+	right:-2px;
+	border:1px solid black;
+	min-width:330px;
+	text-align:right;
+	float:right;
+}
+
+div.moreActionsList input{
+<!-- 	float:right; -->
+}
+
+div.moreActionsList>table{
+	width:100%;
+}
+
+div.moreActionsList td{
+	width:300px;
+	text-align:right;
+	padding-top:3px !important;
+	padding-bottom:3px !important;
+}
+
+div.moreActionsList tr:hover{
+	background-color:#DDD;
 }
