@@ -1,5 +1,4 @@
-<<<<<<< HEAD:inc/HTTP/WebDAV/Server.php
-<?php // $Id$
+<?php 
 /*
    +----------------------------------------------------------------------+
    | Copyright (c) 2002-2007 Christian Stocker, Hartmut Holzgraefe        |

@@ -1,5 +1,4 @@
-<<<<<<< HEAD:inc/HTTP/WebDAV/Server/Filesystem.php
-<?php // $Id$
+<?php
 /*
    +----------------------------------------------------------------------+
    | Copyright (c) 2002-2007 Christian Stocker, Hartmut Holzgraefe        |
@@ -1572,4 +1571,3 @@
 
 
 ?>
->>>>>>> 854e0c5a9c9060e827fbbfddffeeeadfc2d27278:inc/HTTP/WebDAV/Server/Filesystem.php
