@@ -69,6 +69,10 @@ oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
 
+
+if(!is_dir($CONFIG_DATADIRECTORY)){
+	mkdir($CONFIG_DATADIRECTORY);
+}
 if(OC_USER::isLoggedIn()){
 	//jail the user in a seperate data folder
 	$CONFIG_DATADIRECTORY=$SERVERROOT.'/data/'.$_SESSION['username_clean'];
