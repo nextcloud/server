@@ -75,7 +75,7 @@ if(!is_dir($CONFIG_DATADIRECTORY)){
 }
 if(OC_USER::isLoggedIn()){
 	//jail the user in a seperate data folder
-	$CONFIG_DATADIRECTORY=$SERVERROOT.'/data/'.$_SESSION['username_clean'];
+	$CONFIG_DATADIRECTORY.=$_SESSION['username_clean'];
 	if(!is_dir($CONFIG_DATADIRECTORY)){
 		mkdir($CONFIG_DATADIRECTORY);
 	}
