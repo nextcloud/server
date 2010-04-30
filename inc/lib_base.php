@@ -33,6 +33,7 @@ session_start();
 // calculate the documentroot
 $SERVERROOT=substr(__FILE__,0,-17);
 $DOCUMENTROOT=$_SERVER['DOCUMENT_ROOT'];
+$SERVERROOT=str_replace("\\",'/',$SERVERROOT);
 $count=strlen($DOCUMENTROOT);
 $WEBROOT=substr($SERVERROOT,$count);
 if($WEBROOT{0}!=='/'){
