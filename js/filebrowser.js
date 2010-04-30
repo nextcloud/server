@@ -360,8 +360,8 @@ OC_FILES.browser.showMoreActions=function(){
 		input.setAttribute('id','newFileName');
 		form.addEvent('onsubmit',OC_FILES.browser.newFile);
 		var submit=document.createElement('input');
-		form.appendChild(submit);
 		submit.type='submit';
+		form.appendChild(submit);
 		submit.value='Create';
 		OC_FILES.browser.moreActionsList=div;
 	}else{
@@ -474,7 +474,7 @@ OC_FILES.browser.rename_cancel=function(file){
 }
 
 OC_FILES.browser.showactions=function(file,hide){
-    node=document.getElementById(file);
+    var node=document.getElementById(file);
     if(node &&(node.actionsshown || hide===true)){
         if(node.actionsdiv){
             node.removeChild(node.actionsdiv);
@@ -492,6 +492,7 @@ OC_FILES.browser.showactions=function(file,hide){
         table.appendChild(tbody);
         var file=OC_FILES.files[file]
         var actions=file.actions;
+        var name;
         for(name in actions){
             if(actions[name].call && name!='default' && name!='dropOn' && name!='drop'){
                 tr=document.createElement('tr');
