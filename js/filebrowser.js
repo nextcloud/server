@@ -476,8 +476,8 @@ OC_FILES.browser.rename_cancel=function(file){
 OC_FILES.browser.showactions=function(file,hide){
     var node=document.getElementById(file);
     if(node &&(node.actionsshown || hide===true)){
-        if(node.actionsdiv){
-            node.removeChild(node.actionsdiv);
+        if(node.actionsshown){
+            node.actionsdiv.parentNode.removeChild(node.actionsdiv);
         }
         node.actionsdiv=null;
         node.actionsshown=false

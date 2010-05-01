@@ -88,7 +88,7 @@ OC_FILES.getdirectorycontent=function(dir,callback,refresh){
 OC_FILES.dir='';
 
 OC_FILES.get=function(dir,file){
-	window.location='files/get_file.php?dir='+encodeURIComponent(dir)+'&files='+encodeURIComponent(file);
+	window.location='files/api.php?action=get&dir='+encodeURIComponent(dir)+'&files='+encodeURIComponent(file);
 }
 
 OC_FILES.upload=function(dir,iframeId){
