@@ -1,6 +1,8 @@
 CREATE TABLE 'locks' (
   'token' VARCHAR(255) NOT NULL DEFAULT '',
   'path' varchar(200) NOT NULL DEFAULT '',
+  'created' int(11) NOT NULL DEFAULT '0',
+  'modified' int(11) NOT NULL DEFAULT '0',
   'expires' int(11) NOT NULL DEFAULT '0',
   'owner' varchar(200) DEFAULT NULL,
   'recursive' int(11) DEFAULT '0',

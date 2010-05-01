@@ -78,11 +78,6 @@
             $this->base = $this->_SERVER['DOCUMENT_ROOT'];
         }
                 
-        // establish connection to property/locking db
-//        mysql_connect($this->db_host, $this->db_user, $this->db_passwd) or die(mysql_error());
-//        mysql_select_db($this->db_name) or die(mysql_error());
-        // TODO throw on connection problems
-
         // let the base class do all the work
         parent::ServeRequest();
     }
@@ -132,7 +127,7 @@
             $options["path"] = $this->_slashify($options["path"]);
 
             // try to open directory
-            $handle = opendir($fspath);
+                $handle = @opendir($fspath);
                 
             if ($handle) {
                 // ok, now get all its contents
@@ -194,14 +189,12 @@
         }
 
         // get additional properties from database
-        $query = "SELECT ns, name, value 
-                        FROM {$this->db_prefix}properties 
-                       WHERE path = '$path'";
-        $res = mysql_query($query);
-        while ($row = mysql_fetch_assoc($res)) {
+            $query = "SELECT ns, name, value FROM properties WHERE path = '$path'";
+            $res = OC_DB::query($query);
+            while ($row = OC_DB::fetch_assoc($res)) {
             $info["props"][] = $this->mkprop($row["ns"], $row["name"], $row["value"]);
         }
-        mysql_free_result($res);
+            OC_DB::free_result($res);
 
         return $info;
     }
@@ -258,7 +251,7 @@
      */
     function _mimetype($fspath) 
     {
-        if (is_dir($fspath)) {
+        if (@is_dir($fspath)) {
             // directories are easy
             return "httpd/unix-directory"; 
         } else if (function_exists("mime_content_type")) {
@@ -516,16 +509,14 @@
         }
 
         if (is_dir($path)) {
-            $query = "DELETE FROM {$this->db_prefix}properties 
-                           WHERE path LIKE '".$this->_slashify($options["path"])."%'";
-            mysql_query($query);
-            System::rm(array("-rf", $path));
+                $query = "DELETE FROM properties WHERE path LIKE '".$this->_slashify($options["path"])."%'";
+                OC_DB::query($query);
+                System::rm(array("-rf, $path"));
         } else {
             unlink($path);
         }
-        $query = "DELETE FROM {$this->db_prefix}properties 
-                       WHERE path = '$options[path]'";
-        mysql_query($query);
+            $query = "DELETE FROM properties WHERE path = '$options[path]'";
+            OC_DB::query($query);
 
         return "204 No Content";
     }
@@ -624,16 +615,16 @@
             }
             $destpath = $this->_unslashify($options["dest"]);
             if (is_dir($source)) {
-                $query = "UPDATE {$this->db_prefix}properties 
+                    $query = "UPDATE properties 
                                  SET path = REPLACE(path, '".$options["path"]."', '".$destpath."') 
                                WHERE path LIKE '".$this->_slashify($options["path"])."%'";
-                mysql_query($query);
+                    OC_DB::query($query);
             }
 
-            $query = "UPDATE {$this->db_prefix}properties 
+                $query = "UPDATE properties 
                              SET path = '".$destpath."'
                            WHERE path = '".$options["path"]."'";
-            mysql_query($query);
+                OC_DB::query($query);
         } else {
             if (is_dir($source)) {
                 $files = System::find($source);
@@ -673,10 +664,7 @@
                 }
             }
 
-            $query = "INSERT INTO {$this->db_prefix}properties 
-                               SELECT *
-                                 FROM {$this->db_prefix}properties 
-                                WHERE path = '".$options['path']."'";
+                $query = "INSERT INTO properties SELECT * FROM properties WHERE path = '".$options['path']."'";
         }
 
         return ($new && !$existing_col) ? "201 Created" : "204 No Content";         
@@ -702,18 +690,12 @@
                 $options["props"][$key]['status'] = "403 Forbidden";
             } else {
                 if (isset($prop["val"])) {
-                    $query = "REPLACE INTO {$this->db_prefix}properties 
-                                           SET path = '$options[path]'
-                                             , name = '$prop[name]'
-                                             , ns= '$prop[ns]'
-                                             , value = '$prop[val]'";
+                        $query = "REPLACE INTO properties SET path = '$options[path]', name = '$prop[name]', ns= '$prop[ns]', value = '$prop[val]'";
+                        error_log($query);
                 } else {
-                    $query = "DELETE FROM {$this->db_prefix}properties 
-                                        WHERE path = '$options[path]' 
-                                          AND name = '$prop[name]' 
-                                          AND ns = '$prop[ns]'";
+                        $query = "DELETE FROM properties WHERE path = '$options[path]' AND name = '$prop[name]' AND ns = '$prop[ns]'";
                 }       
-                mysql_query($query);
+                    OC_DB::query($query);
             }
         }
                         
@@ -743,18 +725,15 @@
         if (isset($options["update"])) { // Lock Update
             $where = "WHERE path = '$options[path]' AND token = '$options[update]'";
 
-            $query = "SELECT owner, exclusivelock FROM {$this->db_prefix}locks $where";
-            $res   = mysql_query($query);
-            $row   = mysql_fetch_assoc($res);
-            mysql_free_result($res);
+            $query = "SELECT owner, exclusivelock FROM locks $where";
+            $res   = OC_DB:query($query);
+            $row   = OC_DB:fetch_assoc($res);
+            OC_DB:free_result($res);
 
             if (is_array($row)) {
-                $query = "UPDATE {$this->db_prefix}locks 
-                                 SET expires = '$options[timeout]' 
-                                   , modified = ".time()."
-                              $where";
-                mysql_query($query);
-
+                $query = "UPDATE locks SET expires = '$options[timeout]', modified = ".time()." $where";
+                OC_DB:query($query);
+                
                 $options['owner'] = $row['owner'];
                 $options['scope'] = $row["exclusivelock"] ? "exclusive" : "shared";
                 $options['type']  = $row["exclusivelock"] ? "write"     : "read";
@@ -765,7 +744,7 @@
             }
         }
             
-        $query = "INSERT INTO {$this->db_prefix}locks
+        $query = "INSERT INTO locks
                         SET token   = '$options[locktoken]'
                           , path    = '$options[path]'
                           , created = ".time()."
@@ -774,9 +753,9 @@
                           , expires = '$options[timeout]'
                           , exclusivelock  = " .($options['scope'] === "exclusive" ? "1" : "0")
             ;
-        mysql_query($query);
+            OC_DB::query($query);
 
-        return mysql_affected_rows() ? "200 OK" : "409 Conflict";
+            return OC_DB::affected_rows() ? "200 OK" : "409 Conflict";
     }
 
     /**
@@ -787,12 +766,12 @@
      */
     function UNLOCK(&$options) 
     {
-        $query = "DELETE FROM {$this->db_prefix}locks
+            $query = "DELETE FROM locks
                       WHERE path = '$options[path]'
                         AND token = '$options[token]'";
-        mysql_query($query);
+            OC_DB::query($query);
 
-        return mysql_affected_rows() ? "204 No Content" : "409 Conflict";
+            return OC_DB::affected_rows() ? "204 No Content" : "409 Conflict";
     }
 
     /**
@@ -806,14 +785,14 @@
         $result = false;
             
         $query = "SELECT owner, token, created, modified, expires, exclusivelock
-                  FROM {$this->db_prefix}locks
+                  FROM locks
                  WHERE path = '$path'
                ";
-        $res = mysql_query($query);
+            $res = OC_DB::query($query);
 
         if ($res) {
-            $row = mysql_fetch_array($res);
-            mysql_free_result($res);
+                $row = OC_DB::fetch_assoc($res);
+                OC_DB::free_result($res);
 
             if ($row) {
                 $result = array( "type"    => "write",
