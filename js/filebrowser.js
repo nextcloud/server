@@ -30,11 +30,11 @@ OC_FILES.browser.showInitial=function(){
 	OC_FILES.getdirectorycontent(dir,OC_FILES.browser.show_callback,true);
 }
 
-OC_FILES.browser.show=function(dir){
+OC_FILES.browser.show=function(dir,forceReload){
    if(!dir || !dir.split){
       dir='';
    }
-   OC_FILES.getdirectorycontent(dir,OC_FILES.browser.show_callback);
+   OC_FILES.getdirectorycontent(dir,OC_FILES.browser.show_callback,forceReload);
 }
 
 OC_FILES.browser.breadcrumb=new Object();

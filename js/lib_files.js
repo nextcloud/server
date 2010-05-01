@@ -88,7 +88,7 @@ OC_FILES.getdirectorycontent=function(dir,callback,refresh){
 OC_FILES.dir='';
 
 OC_FILES.get=function(dir,file){
-	window.location='files/api.php?action=get&dir='+encodeURIComponent(dir)+'&files='+encodeURIComponent(file);
+	window.location='files/api.php?action=get&dir='+encodeURIComponent(dir)+'&file='+encodeURIComponent(file);
 }
 
 OC_FILES.upload=function(dir,iframeId){
@@ -148,7 +148,13 @@ OC_FILES.upload_callback=function(iframeId){
 		this.uploadForm.parentNode.removeChild(this.uploadForm);
 		this.parentNode.removeChild(this);
 		OC_FILES.uploadIFrames[file.iframeId]=null;
-		OC_FILES.browser.show(file.dir);
+		if(file.name){
+			OC_FILES.browser.show(file.dir);
+		}else{
+			OC_FILES.browser.show(file.dir,true);//if the data from the file isn't correct, force a reload of the cache
+		}
+	}else{
+		OC_FILES.browser.show(OC_FILES.dir);
 	}
 }
 
@@ -208,7 +214,7 @@ OC_FILES.remove_callback=function(req,name){
 OC_FILES.getSelected=function(){
     var nodes=document.getElementsByName('fileSelector');
     var files=Array();
-    for(index in nodes){
+    for(var index=0;index<nodes.length;index++){
         if(nodes[index].checked){
             files[files.length]=nodes[index].value;
         }
@@ -273,7 +279,7 @@ OC_FILES.move_callback=function(req,file){
 OC_FILES.selectAll=function(){
     var value=document.getElementById('select_all').checked;
     var nodes=document.getElementsByName('fileSelector');
-    for(index in nodes){
+    for(var index=0;index<nodes.length;index++){
         if(nodes[index].value){
             nodes[index].checked=value;
         }
@@ -300,7 +306,6 @@ OC_FILES.actions_selected.download=function(){
         files=files[0];
     }
     OC_FILES.get(dir,files);
-//     window.location=WEBROOT+'/files/get_file.php?dir='+OC_FILES.dir+'&files='+files;
 }
 
 OC_FILES.actions_selected['delete']=function(){
