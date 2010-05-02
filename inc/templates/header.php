@@ -6,6 +6,9 @@
 	<base href="<?php echo($WEBROOT); ?>/"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo($WEBROOT)?>/css/default.php"/>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_ajax.js'></script>
+	<?php
+	global $CONFIG_INSTALLED;
+	if($CONFIG_INSTALLED){//the javascripts somehow breaks the first run wizzard in konqueror?>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_timer.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_notification.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_xmlloader.js'></script>
@@ -14,9 +17,12 @@
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_drag.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/lib_api.js'></script>
 	<script type='text/ecmascript' src='<?php echo($WEBROOT)?>/js/filebrowser.js'></script>
+	<?php
+	}
+	?>
 <?php
 foreach(OC_UTIL::$scripts as $script){
-    echo("<script type='text/ecmascript' src='$WEBROOT/$script'></script>");
+    echo("<script type='text/ecmascript' src='$WEBROOT/$script'></script>\n");
 }
 ?>
 	<script type='text/ecmascript'>

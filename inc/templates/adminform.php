@@ -56,7 +56,7 @@ if($FIRSTRUN){?>
 }
 ?>
 <tr><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY);?>"></input></td></tr>
-<tr><td>force ssl:</td><td><input type="checkbox" name="forcessl" size="30" class="formstyle" value='<?php echo($CONFIG_HTTPFORCESSL);?>'></input></td></tr>
+<tr><td>force ssl:</td><td><input type="checkbox" name="forcessl" size="30" class="formstyle" value='1' <?php if($CONFIG_HTTPFORCESSL) echo 'checked'?>></input></td></tr>
 <tr><td>date format:</td><td><input type="text" name="dateformat" size="30" class="formstyle" value='<?php echo($CONFIG_DATEFORMAT);?>'></input></td></tr>
 <tr><td>database type:</td><td>
 <select id='dbtype' name="dbtype" onchange='dbtypechange()'>

@@ -22,12 +22,14 @@
 OC_FILES.browser=new  Object();
 
 OC_FILES.browser.showInitial=function(){
-	var dir=''
-	var loc=document.location.toString();
-	if(loc.indexOf('#')!=-1){
-		dir=loc.substring(loc.indexOf('#')+1);
+	if(document.getElementById('content')){
+		var dir=''
+		var loc=document.location.toString();
+		if(loc.indexOf('#')!=-1){
+			dir=loc.substring(loc.indexOf('#')+1);
+		}
+		OC_FILES.getdirectorycontent(dir,OC_FILES.browser.show_callback,true);
 	}
-	OC_FILES.getdirectorycontent(dir,OC_FILES.browser.show_callback,true);
 }
 
 OC_FILES.browser.show=function(dir,forceReload){
