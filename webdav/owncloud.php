@@ -39,7 +39,7 @@ if(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['REDIRECT_REMOTE_USER'])) 
 $user=$_SERVER['PHP_AUTH_USER'];
 $passwd=$_SERVER['PHP_AUTH_PW'];
 if(OC_USER::login($user,$passwd)){
-	$CONFIG_DATADIRECTORY=$SERVERROOT.'/data/'.$_SESSION['username_clean'];
+	$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$_SESSION['username_clean'];
 	if(!is_dir($CONFIG_DATADIRECTORY)){
 		mkdir($CONFIG_DATADIRECTORY);
 	}

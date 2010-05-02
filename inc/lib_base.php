@@ -46,6 +46,7 @@ if($WEBROOT{0}!=='/'){
 // define default config values
 $CONFIG_INSTALLED=false;
 $CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
+$CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
 $CONFIG_HTTPFORCESSL=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
 $CONFIG_DBNAME='owncloud';
@@ -71,12 +72,12 @@ oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
 
 
-if(!is_dir($CONFIG_DATADIRECTORY)){
-	mkdir($CONFIG_DATADIRECTORY);
+if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
+	mkdir($CONFIG_DATADIRECTORY_ROOT);
 }
 if(OC_USER::isLoggedIn()){
 	//jail the user in a seperate data folder
-	$CONFIG_DATADIRECTORY.='/'.$_SESSION['username_clean'];
+	$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$_SESSION['username_clean'];
 	if(!is_dir($CONFIG_DATADIRECTORY)){
 		mkdir($CONFIG_DATADIRECTORY);
 	}
