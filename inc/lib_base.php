@@ -51,7 +51,7 @@ $CONFIG_DBNAME='owncloud';
 $CONFIG_DBTYPE='sqlite';
 
 // include the generated configfile
-@oc_include_once('config.php');
+@include_once($SERVERROOT.'/config/config.php');
 
 // redirect to https site if configured
 if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
@@ -477,8 +477,6 @@ function oc_require($file){
 		require($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
 		require($SERVERROOT.'/inc/'.$file);
-	}elseif(is_file($SERVERROOT.'/config/'.$file)){
-		require($SERVERROOT.'/config/'.$file);
 	}
 }
 
@@ -501,8 +499,6 @@ function oc_require_once($file){
 		require_once($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
 		require_once($SERVERROOT.'/inc/'.$file);
-	}elseif(is_file($SERVERROOT.'/config/'.$file)){
-		require_once($SERVERROOT.'/config/'.$file);
 	}
 }
 
@@ -525,8 +521,6 @@ function oc_include($file){
 		include($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
 		include($SERVERROOT.'/inc/'.$file);
-	}elseif(is_file($SERVERROOT.'/config/'.$file)){
-		include($SERVERROOT.'/config/'.$file);
 	}
 }
 
@@ -549,8 +543,6 @@ function oc_include_once($file){
 		include_once($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
 		include_once($SERVERROOT.'/inc/'.$file);
-	}elseif(is_file($SERVERROOT.'/config/'.$file)){
-		include_once($SERVERROOT.'/config/'.$file);
 	}
 }
 
