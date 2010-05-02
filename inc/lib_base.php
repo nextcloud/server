@@ -46,7 +46,6 @@ if($WEBROOT{0}!=='/'){
 // define default config values
 $CONFIG_INSTALLED=false;
 $CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
-$CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
 $CONFIG_HTTPFORCESSL=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
 $CONFIG_DBNAME='owncloud';
@@ -72,6 +71,7 @@ oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
 
 
+$CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 	mkdir($CONFIG_DATADIRECTORY_ROOT);
 }
