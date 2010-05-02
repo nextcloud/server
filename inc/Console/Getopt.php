@@ -18,7 +18,7 @@
 //
 // $Id: Getopt.php,v 1.21.4.7 2003/12/05 21:57:01 andrei Exp $
 
-require_once 'PEAR.php';
+oc_require_once( 'PEAR.php');
 
 /**
  * Command-line options parsing class.
@@ -72,7 +72,7 @@ class Console_Getopt {
      * This function expects $args to start with the script name (POSIX-style).
      * Preserved for backwards compatibility.
      * @see getopt2()
-     */    
+     */
     function getopt($args, $short_options, $long_options = null)
     {
         return Console_Getopt::doGetopt(1, $args, $short_options, $long_options);

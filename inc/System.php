@@ -19,8 +19,8 @@
 // $Id: System.php,v 1.36 2004/06/15 16:33:46 pajoye Exp $
 //
 
-require_once 'PEAR.php';
-require_once 'Console/Getopt.php';
+oc_require_once( 'PEAR.php');
+oc_require_once( 'Console/Getopt.php');
 
 $GLOBALS['_System_temp_files'] = array();
 
