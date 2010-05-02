@@ -87,6 +87,7 @@ if(typeof Node=='undefined'){
 //         alert(tagName);
         node=document.createElementNative(tagName);
         var proto=new Node()
+        var name;
         for(name in proto){
             node[name]=proto[name];
         }
@@ -118,7 +119,6 @@ if(typeof Node=='undefined'){
 function getStyle(x,styleProp)
 {
 	if (x.currentStyle){
-		alert(x.currentStyle);
 		var y = x.currentStyle[styleProp];
 	}else if (window.getComputedStyle){
 		var y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp);

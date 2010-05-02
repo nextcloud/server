@@ -94,6 +94,9 @@ class OC_FILES {
 		if(strstr($files,'..') or strstr($dir,'..')){
 			die();
 		}
+		if(strpos($files,';')){
+			$files=explode(';',$files);
+		}
 		if(is_array($files)){
 			$zip = new ZipArchive();
 			$filename = sys_get_temp_dir()."/ownCloud.zip";

@@ -33,6 +33,7 @@ session_start();
 // calculate the documentroot
 $SERVERROOT=substr(__FILE__,0,-17);
 $DOCUMENTROOT=$_SERVER['DOCUMENT_ROOT'];
+$SERVERROOT=str_replace("\\",'/',$SERVERROOT);
 $count=strlen($DOCUMENTROOT);
 $WEBROOT=substr($SERVERROOT,$count);
 if($WEBROOT{0}!=='/'){
@@ -75,7 +76,7 @@ if(!is_dir($CONFIG_DATADIRECTORY)){
 }
 if(OC_USER::isLoggedIn()){
 	//jail the user in a seperate data folder
-	$CONFIG_DATADIRECTORY.=$_SESSION['username_clean'];
+	$CONFIG_DATADIRECTORY.='/'.$_SESSION['username_clean'];
 	if(!is_dir($CONFIG_DATADIRECTORY)){
 		mkdir($CONFIG_DATADIRECTORY);
 	}

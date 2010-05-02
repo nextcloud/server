@@ -47,6 +47,7 @@ echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h
   if(!$CONFIG_INSTALLED) {
     global $FIRSTRUN;
     $FIRSTRUN=true;
+    echo('</div><div class="body">');
     echo('<div class="center">');
     echo('<p class="errortext">'.$error.'</p>');
     echo('<p class="highlighttext">First Run Wizard</p>');
@@ -54,11 +55,7 @@ echo('<h1><a id="owncloud-logo" href="'.$WEBROOT.'"><span>ownCloud</span></a></h
     echo('</div>');
     OC_UTIL::showfooter();
     exit();
-  }
-
-
-  // show the loginform if not loggedin
-  if(!isset($_SESSION['username']) or $_SESSION['username']=='') {
+  }elseif(!isset($_SESSION['username']) or $_SESSION['username']=='') { // show the loginform if not loggedin
     echo('<div class="center">');
     OC_UTIL::showloginform();
     echo('</div>');

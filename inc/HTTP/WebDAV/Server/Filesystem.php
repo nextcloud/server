@@ -32,9 +32,9 @@
    | POSSIBILITY OF SUCH DAMAGE.                                          |
    +----------------------------------------------------------------------+
 */    
-    require_once "../../../lib_base.php";
-    oc_require_once "HTTP/WebDAV/Server.php";
-    oc_require_once "System.php";
+    require_once("../inc/lib_base.php");
+    oc_require_once("HTTP/WebDAV/Server.php");
+    oc_require_once("System.php");
     
     /**
      * Filesystem access using WebDAV
@@ -726,13 +726,13 @@
             $where = "WHERE path = '$options[path]' AND token = '$options[update]'";
 
             $query = "SELECT owner, exclusivelock FROM locks $where";
-            $res   = OC_DB:query($query);
-            $row   = OC_DB:fetch_assoc($res);
+            $res   = OC_DB::query($query);
+            $row   = OC_DB::fetch_assoc($res);
             OC_DB:free_result($res);
 
             if (is_array($row)) {
                 $query = "UPDATE locks SET expires = '$options[timeout]', modified = ".time()." $where";
-                OC_DB:query($query);
+                OC_DB::query($query);
                 
                 $options['owner'] = $row['owner'];
                 $options['scope'] = $row["exclusivelock"] ? "exclusive" : "shared";

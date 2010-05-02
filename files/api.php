@@ -23,6 +23,9 @@
 require_once('../inc/lib_base.php');
 
 $arguments=$_POST;
+if(!isset($_POST['action']) and isset($_GET['action'])){
+	$arguments=$_GET;
+}
 
 foreach($arguments as &$argument){
 	$argument=stripslashes($argument);
