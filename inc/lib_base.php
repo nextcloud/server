@@ -70,6 +70,7 @@ oc_require_once('lib_log.php');
 oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
+oc_require_once('lib_connect.php');
 
 
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){

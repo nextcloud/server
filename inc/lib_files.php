@@ -201,7 +201,7 @@ class OC_FILES {
 	* @param  string  file path
 	* @return string  guessed mime type
 	*/
-	function getMimeType($fspath){
+	static function getMimeType($fspath){
 		if (@is_dir($fspath)) {
 			// directories are easy
 			return "httpd/unix-directory"; 

@@ -30,23 +30,43 @@ if(!isset($_POST['action']) and isset($_GET['action'])){
 foreach($arguments as &$argument){
 	$argument=stripslashes($argument);
 }
+global $CONFIG_DATADIRECTORY;
 ob_clean();
-switch($arguments['action']){
-	case 'delete':
-		OC_FILES::delete($arguments['dir'],$arguments['file']);
-		break;
-	case 'rename':
-		OC_FILES::move($arguments['dir'],$arguments['file'],$arguments['dir'],$arguments['newname']);
-		break;
-	case 'new':
-		OC_FILES::newfile($arguments['dir'],$arguments['name'],$arguments['type']);
-		break;
-	case 'move':
-		OC_FILES::move($arguments['sourcedir'],$arguments['source'],$arguments['targetdir'],$arguments['target']);
-		break;
-	case 'get':
-		OC_FILES::get($arguments['dir'],$arguments['file']);
-		break;
+if($arguments['action']){
+	switch($arguments['action']){
+		case 'delete':
+			OC_FILES::delete($arguments['dir'],$arguments['file']);
+			break;
+		case 'rename':
+			OC_FILES::move($arguments['dir'],$arguments['file'],$arguments['dir'],$arguments['newname']);
+			break;
+		case 'new':
+			OC_FILES::newfile($arguments['dir'],$arguments['name'],$arguments['type']);
+			break;
+		case 'move':
+			OC_FILES::move($arguments['sourcedir'],$arguments['source'],$arguments['targetdir'],$arguments['target']);
+			break;
+		case 'get':
+			OC_FILES::get($arguments['dir'],$arguments['file']);
+			break;
+		case 'getfiles':
+			echo json_encode(OC_FILES::getdirectorycontent($CONFIG_DATADIRECTORY.'/'.$arguments['dir']));
+			break;
+		case 'login':
+			if(OC_USER::login($arguments['username'],$arguments['password'])){
+				echo 'true';
+			}else{
+				echo 'false';
+			}
+			break;
+		case 'checklogin':
+			if(OC_USER::isLoggedIn()){
+				echo 'true';
+			}else{
+				echo 'false';
+			}
+			break;
+	}
 }
 
 ?>
