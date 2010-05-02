@@ -728,7 +728,7 @@
             $query = "SELECT owner, exclusivelock FROM locks $where";
             $res   = OC_DB::query($query);
             $row   = OC_DB::fetch_assoc($res);
-            OC_DB:free_result($res);
+            OC_DB::free_result($res);
 
             if (is_array($row)) {
                 $query = "UPDATE locks SET expires = '$options[timeout]', modified = ".time()." $where";
