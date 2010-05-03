@@ -3,24 +3,25 @@
 /**
 * ownCloud
 *
-* @author Frank Karlitschek 
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org 
-* 
+* @author Frank Karlitschek
+* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+*
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either 
+* License as published by the Free Software Foundation; either
 * version 3 of the License, or any later version.
-* 
+*
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*  
-* You should have received a copy of the GNU Lesser General Public 
+*
+* You should have received a copy of the GNU Lesser General Public
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-* 
+*
 */
 
+oc_require_once("lib_log.php");
 
 
 /**
@@ -139,6 +140,7 @@ class OC_FILES {
 			$filename=OC_FILESYSTEM::toTmpFile($filename);
 		}
 		ob_end_clean();
+		OC_LOG::event($_SESSION['username'],3,"$dir/$files");
 		readfile($filename);
 		unlink($filename);
 		foreach(self::$tmpFiles as $tmpFile){
@@ -147,7 +149,7 @@ class OC_FILES {
 			}
 		}
 	}
-	
+
 	/**
 	* move a file or folder
 	*
@@ -163,7 +165,7 @@ class OC_FILES {
 			return OC_FILESYSTEM::rename($sourceFile,$targetFile);
 		}
 	}
-	
+
 	/**
 	* copy a file or folder
 	*
@@ -179,7 +181,7 @@ class OC_FILES {
 			return OC_FILESYSTEM::copy($sourceFile,$targetFile);
 		}
 	}
-	
+
 	/**
 	* create a new file or folder
 	*
@@ -196,6 +198,7 @@ class OC_FILES {
 				$fileHandle=OC_FILESYSTEM::fopen($file, 'w');
 				if($fileHandle){
 					fclose($fileHandle);
+					OC_LOG::event($_SESSION['username'],4,"$dir/$name");
 					return true;
 				}else{
 					return false;
@@ -203,7 +206,7 @@ class OC_FILES {
 			}
 		}
 	}
-	
+
 	/**
 	* deletes a file or folder
 	*
@@ -220,7 +223,7 @@ class OC_FILES {
 			}
 		}
 	}
-	
+
 	/**
 	* try to detect the mime type of a file
 	*

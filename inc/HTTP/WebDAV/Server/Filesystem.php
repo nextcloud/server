@@ -31,11 +31,12 @@
    | ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE      |
    | POSSIBILITY OF SUCH DAMAGE.                                          |
    +----------------------------------------------------------------------+
-*/    
+*/
     require_once("../inc/lib_base.php");
+    oc_require_once("lib_log.php");
     oc_require_once("HTTP/WebDAV/Server.php");
     oc_require_once("System.php");
-    
+
     /**
      * Filesystem access using WebDAV
      *
@@ -43,7 +44,7 @@
      * @author  Hartmut Holzgraefe <hartmut@php.net>
      * @version @package-version@
      */
-    class HTTP_WebDAV_Server_Filesystem extends HTTP_WebDAV_Server 
+    class HTTP_WebDAV_Server_Filesystem extends HTTP_WebDAV_Server
     {
     /**
      * Root directory for WebDAV access
@@ -59,9 +60,9 @@
      * Serve a webdav request
      *
      * @access public
-     * @param  string  
+     * @param  string
      */
-    function ServeRequest($base = false) 
+    function ServeRequest($base = false)
     {
             // special treatment for litmus compliance test
             // reply on its identifier header
@@ -77,7 +78,7 @@
         } else if (!$this->base) {
             $this->base = $this->_SERVER['DOCUMENT_ROOT'];
         }
-                
+
         // let the base class do all the work
         parent::ServeRequest();
     }
@@ -91,7 +92,7 @@
      * @param  string  Password
      * @return bool    true on successful authentication
      */
-    function check_auth($type, $user, $pass) 
+    function check_auth($type, $user, $pass)
     {
         return true;
     }
@@ -104,11 +105,11 @@
      * @param  array  return array for file properties
      * @return bool   true on success
      */
-    function PROPFIND(&$options, &$files) 
+    function PROPFIND(&$options, &$files)
     {
         // get absolute fs path to requested resource
         $fspath = $options["path"];
-		
+
         // sanity check
         if (!OC_FILESYSTEM::file_exists($fspath)) {
             return false;
@@ -119,13 +120,13 @@
         // store information for the requested path itself
         $files["files"][] = $this->fileinfo($options["path"]);
         // information for contained resources requested?
-        if (!empty($options["depth"]) && OC_FILESYSTEM::is_dir($fspath) && OC_FILESYSTEM::is_readable($fspath)) {                
+        if (!empty($options["depth"]) && OC_FILESYSTEM::is_dir($fspath) && OC_FILESYSTEM::is_readable($fspath)) {
             // make sure path ends with '/'
             $options["path"] = $this->_slashify($options["path"]);
 
             // try to open directory
                 $handle = @OC_FILESYSTEM::opendir($fspath);
-                
+
             if ($handle) {
                 // ok, now get all its contents
                 while ($filename = readdir($handle)) {
@@ -139,15 +140,15 @@
 
         // ok, all done
         return true;
-    } 
-        
+    }
+
     /**
      * Get properties for a single file/resource
      *
      * @param  string  resource path
      * @return array   resource properties
      */
-    function fileinfo($path) 
+    function fileinfo($path)
     {
         // map URI path to filesystem path
         $fspath =$path;
@@ -155,11 +156,11 @@
         // create result array
         $info = array();
         // TODO remove slash append code when base clase is able to do it itself
-        $info["path"]  = OC_FILESYSTEM::is_dir($fspath) ? $this->_slashify($path) : $path; 
-        $info["props"] = array();   
+        $info["path"]  = OC_FILESYSTEM::is_dir($fspath) ? $this->_slashify($path) : $path;
+        $info["props"] = array();
         // no special beautified displayname here ...
         $info["props"][] = $this->mkprop("displayname", strtoupper($path));
-		
+
         // creation and modification time
         $info["props"][] = $this->mkprop("creationdate",    OC_FILESYSTEM::filectime($fspath));
         $info["props"][] = $this->mkprop("getlastmodified", OC_FILESYSTEM::filemtime($fspath));
@@ -170,7 +171,7 @@
         if ( OC_FILESYSTEM::is_dir($fspath)) {
             // directory (WebDAV collection)
             $info["props"][] = $this->mkprop("resourcetype", "collection");
-            $info["props"][] = $this->mkprop("getcontenttype", "httpd/unix-directory");             
+            $info["props"][] = $this->mkprop("getcontenttype", "httpd/unix-directory");
         } else {
             // plain file (WebDAV resource)
             $info["props"][] = $this->mkprop("resourcetype", "");
@@ -178,7 +179,7 @@
                 $info["props"][] = $this->mkprop("getcontenttype", $this->_mimetype($fspath));
             } else {
                 $info["props"][] = $this->mkprop("getcontenttype", "application/x-non-readable");
-            }               
+            }
             $info["props"][] = $this->mkprop("getcontentlength",  OC_FILESYSTEM::filesize($fspath));
         }
         // get additional properties from database
@@ -193,20 +194,20 @@
     /**
      * detect if a given program is found in the search PATH
      *
-     * helper function used by _mimetype() to detect if the 
+     * helper function used by _mimetype() to detect if the
      * external 'file' utility is available
      *
      * @param  string  program name
      * @param  string  optional search path, defaults to $PATH
      * @return bool    true if executable program found in path
      */
-    function _can_execute($name, $path = false) 
+    function _can_execute($name, $path = false)
     {
         // path defaults to PATH from environment if not set
         if ($path === false) {
             $path = getenv("PATH");
         }
-            
+
         // check method depends on operating system
         if (!strncmp(PHP_OS, "WIN", 3)) {
             // on Windows an appropriate COM or EXE file needs to exist
@@ -217,7 +218,7 @@
             $exts     = array("");
             $check_fn = "is_executable";
         }
-            
+
         // now check the directories in the path for the program
         foreach (explode(PATH_SEPARATOR, $path) as $dir) {
             // skip invalid path entries
@@ -233,56 +234,56 @@
         return false;
     }
 
-        
+
     /**
      * try to detect the mime type of a file
      *
      * @param  string  file path
      * @return string  guessed mime type
      */
-    function _mimetype($fspath) 
+    function _mimetype($fspath)
     {
         return  OC_FILESYSTEM::getMimeType($fspath);
-            
+
         return $mime_type;
     }
 
     /**
      * HEAD method handler
-     * 
+     *
      * @param  array  parameter passing array
      * @return bool   true on success
      */
-    function HEAD(&$options) 
+    function HEAD(&$options)
     {
         // get absolute fs path to requested resource
         $fspath = $options["path"];
 
         // sanity check
         if (! OC_FILESYSTEM::file_exists($fspath)) return false;
-            
+
         // detect resource type
-        $options['mimetype'] = $this->_mimetype($fspath); 
-                
+        $options['mimetype'] = $this->_mimetype($fspath);
+
         // detect modification time
         // see rfc2518, section 13.7
         // some clients seem to treat this as a reverse rule
         // requiering a Last-Modified header if the getlastmodified header was set
         $options['mtime'] = OC_FILESYSTEM::filemtime($fspath);
-            
+
         // detect resource size
         $options['size'] = OC_FILESYSTEM::filesize($fspath);
-            
+
         return true;
     }
 
     /**
      * GET method handler
-     * 
+     *
      * @param  array  parameter passing array
      * @return bool   true on success
      */
-    function GET(&$options) 
+    function GET(&$options)
     {
         // get absolute fs path to requested resource)
         $fspath = $options["path"];
@@ -299,7 +300,7 @@
 
         // no need to check result here, it is handled by the base class
         $options['stream'] = OC_FILESYSTEM::fopen($fspath, "r");
-            
+        OC_LOG::event($_SESSION['username'],3,$options["path"]);
         return true;
     }
 
@@ -312,7 +313,7 @@
      * @param  string  directory path
      * @return void    function has to handle HTTP response itself
      */
-    function GetDir($fspath, &$options) 
+    function GetDir($fspath, &$options)
     {
         $path = $this->_slashify($options["path"]);
         if ($path != $options["path"]) {
@@ -333,9 +334,9 @@
         }
 
         echo "<html><head><title>Index of ".htmlspecialchars($options['path'])."</title></head>\n";
-            
+
         echo "<h1>Index of ".htmlspecialchars($options['path'])."</h1>\n";
-            
+
         echo "<pre>";
         printf($format, "Size", "Last modified", "Filename");
         echo "<hr>";
@@ -344,9 +345,9 @@
             if ($filename != "." && $filename != "..") {
                 $fullpath = $fspath."/".$filename;
                 $name     = htmlspecialchars($filename);
-                printf($format, 
+                printf($format,
                        number_format(filesize($fullpath)),
-                       strftime("%Y-%m-%d %H:%M:%S", filemtime($fullpath)), 
+                       strftime("%Y-%m-%d %H:%M:%S", filemtime($fullpath)),
                        "<a href='$name'>$name</a>");
             }
         }
@@ -362,11 +363,11 @@
 
     /**
      * PUT method handler
-     * 
+     *
      * @param  array  parameter passing array
      * @return bool   true on success
      */
-    function PUT(&$options) 
+    function PUT(&$options)
     {
         $fspath = $options["path"];
 
@@ -387,7 +388,7 @@
             return "403 Forbidden";
         }
         $fp = OC_FILESYSTEM::fopen($fspath, "w");
-
+        OC_LOG::event($_SESSION['username'],4,$options["path"]);
         return $fp;
     }
 
@@ -398,12 +399,12 @@
      * @param  array  general parameter passing array
      * @return bool   true on success
      */
-    function MKCOL($options) 
-    {           
+    function MKCOL($options)
+    {
         $path   = $options["path"];
         $parent = dirname($path);
         $name   = basename($path);
-		
+
         if (!OC_FILESYSTEM::file_exists($parent)) {
             return "409 Conflict";
         }
@@ -419,23 +420,23 @@
         if (!empty($this->_SERVER["CONTENT_LENGTH"])) { // no body parsing yet
             return "415 Unsupported media type";
         }
-            
+
         $stat = OC_FILESYSTEM::mkdir($parent."/".$name, 0777);
         if (!$stat) {
-            return "403 Forbidden";                 
+            return "403 Forbidden";
         }
 
         return ("201 Created");
     }
-        
-        
+
+
     /**
      * DELETE method handler
      *
      * @param  array  general parameter passing array
      * @return bool   true on success
      */
-    function DELETE($options) 
+    function DELETE($options)
     {
         $path =$options["path"];
 
@@ -464,7 +465,7 @@
      * @param  array  general parameter passing array
      * @return bool   true on success
      */
-    function MOVE($options) 
+    function MOVE($options)
     {
         return $this->COPY($options, true);
     }
@@ -475,7 +476,7 @@
      * @param  array  general parameter passing array
      * @return bool   true on success
      */
-    function COPY($options, $del=false) 
+    function COPY($options, $del=false)
     {
         // TODO Property updates still broken (Litmus should detect this?)
 
@@ -495,7 +496,7 @@
 
         if (OC_FILESYSTEM::is_dir($source)) { // resource is a collection
             switch ($options["depth"]) {
-            case "infinity": // valid 
+            case "infinity": // valid
                 break;
             case "0": // valid for COPY only
                 if ($del) { // MOVE?
@@ -503,14 +504,14 @@
                 }
                 break;
             case "1": // invalid for both COPY and MOVE
-            default: 
+            default:
                 return "400 Bad request";
             }
         }
 
         $dest         = $options["dest"];
         $destdir      = dirname($dest);
-        
+
         if (!OC_FILESYSTEM::file_exists($destdir) || !OC_FILESYSTEM::is_dir($destdir)) {
             return "409 Conflict";
         }
@@ -538,7 +539,7 @@
             if ($options["overwrite"]) {
                 $stat = $this->DELETE(array("path" => $options["dest"]));
                 if (($stat{0} != "2") && (substr($stat, 0, 3) != "404")) {
-                    return $stat; 
+                    return $stat;
                 }
             } else {
                 return "412 precondition failed";
@@ -551,13 +552,13 @@
             }
             $destpath = $this->_unslashify($options["dest"]);
             if (is_dir($source)) {
-                    $query = "UPDATE properties 
-                                 SET path = REPLACE(path, '".$options["path"]."', '".$destpath."') 
+                    $query = "UPDATE properties
+                                 SET path = REPLACE(path, '".$options["path"]."', '".$destpath."')
                                WHERE path LIKE '".$this->_slashify($options["path"])."%'";
                     OC_DB::query($query);
             }
 
-                $query = "UPDATE properties 
+                $query = "UPDATE properties
                              SET path = '".$destpath."'
                            WHERE path = '".$options["path"]."'";
                 OC_DB::query($query);
@@ -572,15 +573,15 @@
             if (!is_array($files) || empty($files)) {
                 return "500 Internal server error";
             }
-                    
-                
+
+
             foreach ($files as $file) {
                 if (OC_FILESYSTEM::is_dir($file)) {
                     $file = $this->_slashify($file);
                 }
 
                 $destfile = str_replace($source, $dest, $file);
-                    
+
                 if (OC_FILESYSTEM::is_dir($file)) {
                     if (!OC_FILESYSTEM::file_exists($destfile)) {
                         if (!OC_FILESYSTEM::is_writeable(dirname($destfile))) {
@@ -593,7 +594,7 @@
                         return "409 Conflict";
                     }
                 } else {
-                    
+
                     if (!OC_FILESYSTEM::copy($file, $destfile)) {
 						error_log("copy $file to $destfile failed");
                         return "409 Conflict";
@@ -604,7 +605,7 @@
                 $query = "INSERT INTO properties SELECT * FROM properties WHERE path = '".$options['path']."'";
         }
 
-        return ($new && !$existing_col) ? "201 Created" : "204 No Content";         
+        return ($new && !$existing_col) ? "201 Created" : "204 No Content";
     }
 
     /**
@@ -613,7 +614,7 @@
      * @param  array  general parameter passing array
      * @return bool   true on success
      */
-    function PROPPATCH(&$options) 
+    function PROPPATCH(&$options)
     {
         global $prefs, $tab;
 
@@ -621,7 +622,7 @@
         $path = $options["path"];
         $dir  = dirname($path)."/";
         $base = basename($path);
-            
+
         foreach ($options["props"] as $key => $prop) {
             if ($prop["ns"] == "DAV:") {
                 $options["props"][$key]['status'] = "403 Forbidden";
@@ -631,11 +632,11 @@
                         error_log($query);
                 } else {
                         $query = "DELETE FROM properties WHERE path = '$options[path]' AND name = '$prop[name]' AND ns = '$prop[ns]'";
-                }       
+                }
                     OC_DB::query($query);
             }
         }
-                        
+
         return "";
     }
 
@@ -646,7 +647,7 @@
      * @param  array  general parameter passing array
      * @return bool   true on success
      */
-    function LOCK(&$options) 
+    function LOCK(&$options)
     {
         // get absolute fs path to requested resource
         $fspath = $options["path"];
@@ -670,7 +671,7 @@
             if (is_array($row)) {
                 $query = "UPDATE `locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
                 OC_DB::query($query);
-                
+
                 $options['owner'] = $row['owner'];
                 $options['scope'] = $row["exclusivelock"] ? "exclusive" : "shared";
                 $options['type']  = $row["exclusivelock"] ? "write"     : "read";
@@ -680,7 +681,7 @@
                 return false;
             }
         }
-            
+
         $query = "INSERT INTO `locks`
                         SET `token`   = '$options[locktoken]'
                           , `path`    = '$options[path]'
@@ -701,7 +702,7 @@
      * @param  array  general parameter passing array
      * @return bool   true on success
      */
-    function UNLOCK(&$options) 
+    function UNLOCK(&$options)
     {
             $query = "DELETE FROM locks
                       WHERE path = '$options[path]'
@@ -717,7 +718,7 @@
      * @param  string resource path to check for locks
      * @return bool   true on success
      */
-    function checkLock($path) 
+    function checkLock($path)
     {
         $result = false;
         $query = "SELECT *
@@ -735,8 +736,8 @@
                                  "depth"   => 0,
                                  "owner"   => $row['owner'],
                                  "token"   => $row['token'],
-                                 "created" => $row['created'],   
-                                 "modified" => $row['modified'],   
+                                 "created" => $row['created'],
+                                 "modified" => $row['modified'],
                                  "expires" => $row['expires']
                                  );
             }
@@ -752,7 +753,7 @@
      * @param  void
      * @return bool   true on success
      */
-    function create_database() 
+    function create_database()
     {
         // TODO
         return false;
