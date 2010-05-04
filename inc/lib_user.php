@@ -62,7 +62,7 @@ class OC_USER {
 			$usernameclean=strtolower($username);
 			$username=mysql_escape_string($username);
 			$usernameclean=mysql_escape_string($usernameclean);
-			$query="INSERT INTO  `users` (`user_id` ,`user_name` ,`user_name_clean` ,`user_password`)VALUES (NULL ,  '$username',  '$usernameclean',  '$password')";
+			$query="INSERT INTO  `users` (`user_id` ,`user_name` ,`user_name_clean` ,`user_password`) VALUES (NULL ,  '$username',  '$usernameclean',  '$password')";
 			$result=OC_DB::query($query);
 			return ($result)?true:false;
 		}
@@ -78,7 +78,7 @@ class OC_USER {
 		$usernameclean=strtolower($username);
 		$username=mysql_escape_string($username);
 		$usernameclean=mysql_escape_string($usernameclean);
-		$query="SELECT user_id FROM  `users` WHERE  `user_name_clean` =  '$usernameclean' AND  `user_password` =  '$password' LIMIT 1";
+		$query="SELECT user_id FROM  users WHERE  user_name_clean =  '$usernameclean' AND  user_password =  '$password' LIMIT 1";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['user_id'])){
 			$_SESSION['user_id']=$result[0]['user_id'];
@@ -118,7 +118,7 @@ class OC_USER {
 	public static function creategroup($groupname){
 		if(OC_USER::getgroupid($groupname)==0){
 			$groupname=mysql_escape_string($groupname);
-			$query="INSERT INTO  `groups` (`group_id` ,`group_name`) VALUES (NULL ,  '$groupname');";
+			$query="INSERT INTO  `groups` (`group_id` ,`group_name`) VALUES (NULL ,  '$groupname')";
 			$result=OC_DB::query($query);
 			return ($result)?true:false;
 		}else{
@@ -134,7 +134,7 @@ class OC_USER {
 		$usernameclean=strtolower($username);
 		$username=mysql_escape_string($username);
 		$usernameclean=mysql_escape_string($usernameclean);
-		$query="SELECT user_id FROM  `users` WHERE  `user_name_clean` =  '$usernameclean' LIMIT 1";
+		$query="SELECT user_id FROM  users WHERE user_name_clean = '$usernameclean'";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['user_id'])){
 			return $result[0]['user_id'];
@@ -149,7 +149,7 @@ class OC_USER {
 	*/
 	public static function getgroupid($groupname){
 		$groupname=mysql_escape_string($groupname);
-		$query="SELECT group_id FROM  `groups` WHERE  `group_name` =  '$groupname' LIMIT 1";
+		$query="SELECT group_id FROM groups WHERE  group_name = '$groupname'";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['group_id'])){
 			return $result[0]['group_id'];
@@ -164,7 +164,7 @@ class OC_USER {
 	*/
 	public static function getgroupname($groupid){
 		$groupid=(integer)$groupid;
-		$query="SELECT group_name FROM  `groups` WHERE  `group_id` =  '$groupid' LIMIT 1";
+		$query="SELECT group_name FROM  groups WHERE  group_id =  '$groupid' LIMIT 1";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['group_name'])){
 			return $result[0]['group_name'];
@@ -181,7 +181,7 @@ class OC_USER {
 		$userid=OC_USER::getuserid($username);
 		$groupid=OC_USER::getgroupid($groupname);
 		if($groupid>0 and $userid>0){
-			$query="SELECT user_group_id FROM  `user_group` WHERE  `group_id` =  '$groupid '  AND `user_id` =  '$userid 'LIMIT 1";
+			$query="SELECT user_group_id FROM  user_group WHERE  group_id = $groupid  AND user_id = $userid LIMIT 1";
 			$result=OC_DB::select($query);
 			if(isset($result[0]) && isset($result[0]['user_group_id'])){
 				return true;
@@ -202,7 +202,7 @@ class OC_USER {
 			$userid=OC_USER::getuserid($username);
 			$groupid=OC_USER::getgroupid($groupname);
 			if($groupid!=0 and $userid!=0){
-				$query="INSERT INTO  `user_group` (`user_group_id` ,`user_id` ,`group_id`) VALUES (NULL ,  '$userid',  '$groupid');";
+				$query="INSERT INTO `user_group` (`user_group_id` ,`user_id` ,`group_id`) VALUES (NULL ,  '$userid',  '$groupid');";
 				$result=OC_DB::query($query);
 				if($result){
 					return true;
@@ -227,7 +227,7 @@ class OC_USER {
 	*/
 	public static function getusergroups($username){
 		$userid=OC_USER::getuserid($username);
-		$query="SELECT group_id FROM  `user_group` WHERE  `user_id` =  '$userid'";
+		$query="SELECT group_id FROM  user_group WHERE  user_id =  '$userid'";
 		$result=OC_DB::select($query);
 		$groups=array();
 		if(is_array($result)){
@@ -246,7 +246,7 @@ class OC_USER {
 	public static function setpassword($username,$password){
 		$password=sha1($password);
 		$userid=OC_USER::getuserid($username);
-		$query="UPDATE  `users` SET  `user_password` = '$password' WHERE  `user_id` =$userid LIMIT 1 ;";
+		$query="UPDATE  users SET  user_password = '$password' WHERE  user_id =$userid LIMIT 1 ;";
 		$result=OC_DB::query($query);
 		if($result){
 			return true;
@@ -264,7 +264,7 @@ class OC_USER {
 		$usernameclean=strtolower($username);
 		$username=mysql_escape_string($username);
 		$usernameclean=mysql_escape_string($usernameclean);
-		$query="SELECT user_id FROM  `users` WHERE  `user_name_clean` =  '$usernameclean' AND  `user_password` =  '$password' LIMIT 1";
+		$query="SELECT user_id FROM  'users' WHERE  user_name_clean =  '$usernameclean' AND  user_password =  '$password' LIMIT 1";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['user_id']) && $result[0]['user_id']>0){
 			return true;

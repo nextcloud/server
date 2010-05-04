@@ -24,7 +24,8 @@
 
 // set some stuff
 ob_start();
-error_reporting(E_ALL | E_STRICT);
+// error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL); // MDB2 gives loads of strict error, disabling for now
 date_default_timezone_set('Europe/Berlin');
 ini_set('arg_separator.output','&amp;');
 ini_set('session.cookie_httponly','1;');
@@ -54,6 +55,8 @@ $CONFIG_DBTYPE='sqlite';
 // include the generated configfile
 @include_once($SERVERROOT.'/config/config.php');
 
+
+$CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
 // redirect to https site if configured
 if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
   if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') { 
@@ -69,9 +72,10 @@ oc_require_once('lib_log.php');
 oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
+@oc_require_once('MDB2.php');
+// @oc_require_once('MDB2/Driver/Manager/common.php');
 
 
-$CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 	mkdir($CONFIG_DATADIRECTORY_ROOT);
 }
@@ -219,48 +223,71 @@ class OC_UTIL {
  *
  */
 class OC_DB {
-
-  /**
-   * executes a query on the database
-   *
-   * @param string $cmd
-   * @return result-set
-   */
-  static function query($cmd) {
-    global $DOCUMENTROOT;
-    global $SERVERROOT;
-    global $DBConnection;
-    global $CONFIG_DBNAME;
-    global $CONFIG_DBHOST;
-    global $CONFIG_DBUSER;
-    global $CONFIG_DBPASSWORD;
-    global $CONFIG_DBTYPE;
-    if(!isset($DBConnection)) {
-      if($CONFIG_DBTYPE=='sqlite'){
-          $DBConnection = @new SQLiteDatabase($SERVERROOT.'/'.$CONFIG_DBNAME);
-      }elseif($CONFIG_DBTYPE=='mysql'){
-          $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
-      }
-      if (!$DBConnection) {
-        @ob_end_clean();
-        echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'.</center>');
-        exit();
-      }
-    }
-    $result = @$DBConnection->query($cmd);
-    if (!$result) {
-      if($CONFIG_DBTYPE=='sqlite'){
-        $error=sqlite_error_string($DBConnection->lastError());
-      }elseif($CONFIG_DBTYPE=='mysql'){
-        print_r($DBConnection);
-        $error=$DBConnection->error;
-      }
-      $entry='DB Error: "'.$error.'"<br />';
-      $entry.='Offending command was: '.$cmd.'<br />';
-      echo($entry);
-    }
-    return $result;
-  } 
+	static private $DBConnection=false;
+	/**
+	* connect to the datbase if not already connected
+	*/
+	public static function connect(){
+		global $CONFIG_DBNAME;
+		global $CONFIG_DBHOST;
+		global $CONFIG_DBUSER;
+		global $CONFIG_DBPASSWORD;
+		global $CONFIG_DBTYPE;
+		global $DOCUMENTROOT;
+		global $SERVERROOT;
+		if(!self::$DBConnection){
+			$options = array(
+				'debug'       => 0,
+				'portability' => MDB2_PORTABILITY_ALL,
+			);
+			if($CONFIG_DBTYPE=='sqlite'){
+				$dsn = array(
+					'phptype'  => 'sqlite',
+					'database' => $SERVERROOT.'/'.$CONFIG_DBNAME,
+					'mode'     => '0644',
+				);
+			}elseif($CONFIG_DBTYPE=='mysql'){
+				$dsn = array(
+					'phptype'  => 'mysql',
+					'username' => $CONFIG_DBUSER,
+					'password' => $CONFIG_DBPASSWORD,
+					'hostspec' => $CONFIG_DBHOST,
+					'database' => $CONFIG_DBNAME,
+				);
+			}
+			self::$DBConnection=MDB2::connect($dsn,$options);
+			if (@PEAR::isError(self::$DBConnection)) {
+				echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
+				die(self::$DBConnection->getMessage());
+			}
+			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
+// 			self::$DBConnection->loadModule('Manager');
+		}
+	}
+	
+	/**
+	* executes a query on the database
+	*
+	* @param string $cmd
+	* @return result-set
+	*/
+	static function query($cmd){
+		global $CONFIG_DBTYPE;
+		if(!trim($cmd)){
+			return false;
+		}
+		OC_DB::connect();
+		if($CONFIG_DBTYPE=='sqlite'){//fix differences between sql versions
+			$cmd=str_replace('`','',$cmd);
+		}
+		$result=self::$DBConnection->query($cmd);
+		if (PEAR::isError($result)) {
+			$entry='DB Error: "'.$result->getMessage().'"<br />';
+			$entry.='Offending command was: '.$cmd.'<br />';
+			die($entry);
+		}
+		return $result;
+	} 
   
   /**
    * executes a query on the database and returns the result in an array
@@ -268,193 +295,96 @@ class OC_DB {
    * @param string $cmd
    * @return result-set
    */
-	static function select($cmd) {
-		global $CONFIG_DBTYPE;
-		$result=OC_DB::query($cmd);
-		if($result){
-			$data=array();
-			if($CONFIG_DBTYPE=='sqlite'){
-				while($row=$result->fetch(SQLITE_ASSOC)){
-					$data[]=$row;
-				}
-			}elseif($CONFIG_DBTYPE=='mysql'){
-				while($row=$result->fetch_array(MYSQLI_ASSOC)){
-					$data[]=$row;
-				}
-			}
-			return $data;
-		}else{
-			return false;
-		}
+	static function select($cmd){
+		OC_DB::connect();
+		return self::$DBConnection->queryAll($cmd);
 	} 
-  
-  /**
-   * executes multiply queries on the database
-   *
-   * @param string $cmd
-   * @return result-set
-   */
-  static function multiquery($cmd) {
-    global $DOCUMENTROOT;
-    global $SERVERROOT;
-    global $DBConnection;
-    global $CONFIG_DBNAME;
-    global $CONFIG_DBTYPE;
-    global $CONFIG_DBHOST;
-    global $CONFIG_DBUSER;
-    global $CONFIG_DBPASSWORD;
-    if(!isset($DBConnection)) {
-      if($CONFIG_DBTYPE=='sqlite'){
-          $DBConnection = new SQLiteDatabase($SERVERROOT.'/'.$CONFIG_DBNAME);
-      }elseif($CONFIG_DBTYPE=='mysql'){
-          $DBConnection = @new mysqli($CONFIG_DBHOST, $CONFIG_DBUSER, $CONFIG_DBPASSWORD,$CONFIG_DBNAME);
-      }
-      if (!$DBConnection) {
-        @ob_end_clean();
-        echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'.</center>');
-        exit();
-      }
-    }
-    if($CONFIG_DBTYPE=='sqlite'){
-      $result = @$DBConnection->queryExec($cmd);
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      $result = @$DBConnection->multi_query($cmd);
-    }
-    if (!$result) {
-      if($CONFIG_DBTYPE=='sqlite'){
-        $error=sqlite_error_string($DBConnection->lastError());
-      }elseif($CONFIG_DBTYPE=='mysql'){
-        $error=$DBConnection->error;
-      }
-      $entry='DB Error: "'.$error.'"<br />';
-      $entry.='Offending command was: '.$cmd.'<br />';
-      echo($entry);
-    }
-    return $result;
-  }
+	
+	/**
+	* executes multiply queries on the database
+	*
+	* @param string $cmd
+	* @return result-set
+	*/
+	static function multiquery($cmd) {
+		$queries=explode(';',$cmd);
+		foreach($queries as $query){
+			OC_DB::query($query);
+		}
+		return true;
+	}
 
 
-  /**
-   * closing a db connection
-   *
-   * @return bool
-   */
-  static function close() {
-    global $CONFIG_DBTYPE;
-    global $DBConnection;
-    if(isset($DBConnection)) {
-      return $DBConnection->close();
-    } else {
-      return(false);
-    }
-  }
+	/**
+	* closing a db connection
+	*
+	* @return bool
+	*/
+	static function close() {
+		self::$DBConnection->disconnect();
+		self::$DBConnection=false;
+	}
 
 
-  /**
-   * Returning primarykey if last statement was an insert.
-   *
-   * @return primarykey
-   */
-  static function insertid() {
-    global $DBConnection;
-    global $CONFIG_DBTYPE;
-    if($CONFIG_DBTYPE=='sqlite'){
-      return $DBConnection->lastInsertRowid();
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      return(mysqli_insert_id($DBConnection));
-    }
-  }
+	/**
+	* Returning primarykey if last statement was an insert.
+	*
+	* @return primarykey
+	*/
+	static function insertid() {
+		global $CONFIG_DBTYPE;
+		if($CONFIG_DBTYPE=='sqlite'){
+		return self::$DBConnection->lastInsertRowid();
+		}elseif($CONFIG_DBTYPE=='mysql'){
+		return(mysqli_insert_id(self::$DBConnection));
+		}
+	}
 
-  /**
-   * Returning number of rows in a result
-   *
-   * @param resultset $result
-   * @return int
-   */
-  static function numrows($result) {
-    if(!isset($result) or ($result == false)) return 0;
-    global $CONFIG_DBTYPE;
-    if($CONFIG_DBTYPE=='sqlite'){
-      $num= $result->numRows();
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      $num= mysqli_num_rows($result);
-    }
-    return($num);
-  }
+	/**
+	* Returning number of rows in a result
+	*
+	* @param resultset $result
+	* @return int
+	*/
+	static function numrows($result) {
+		$result->numRows();
+	}
 
-  /**
-   * Returning number of affected rows
-   *
-   * @return int
-   */
-  static function affected_rows() {
-    global $DBConnection;
-    global $CONFIG_DBTYPE;
-    if(!isset($DBConnection) or ($DBConnection==false)) return 0;
-    if($CONFIG_DBTYPE=='sqlite'){
-      $num= $DBConnection->changes();
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      $num= mysqli_affected_rows($DBConnection);
-    }
-    return($num);
-  }
-
-  /**
-   * get a field from the resultset
-   *
-   * @param resultset $result
-   * @param int $i
-   * @param int $field
-   * @return unknown
-   */
-  static function result($result, $i, $field) {
-    global $CONFIG_DBTYPE;
-    if($CONFIG_DBTYPE=='sqlite'){
-      $result->seek($i);
-      $tmp=$result->fetch();
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      mysqli_data_seek($result,$i);
-      if (is_string($field))
-        $tmp=mysqli_fetch_array($result,MYSQLI_BOTH);
-      else
-        $tmp=mysqli_fetch_array($result,MYSQLI_NUM);
-    }
-    $tmp=$tmp[$field];
-    return($tmp);
-    return($tmp);
-  }
-
-  /**
-   * get data-array from resultset
-   *
-   * @param resultset $result
-   * @return data
-   */
-  static function fetch_assoc($result) {
-    global $CONFIG_DBTYPE;
-    if($CONFIG_DBTYPE=='sqlite'){
-      return $result->fetch(SQLITE_ASSOC);
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      return mysqli_fetch_assoc($result);
-    }
-  }
-
-
-  /**
-   * Freeing resultset (performance)
-   *
-   * @param unknown_type $result
-   * @return bool
-   */
-  static function free_result($result) {
-    global $CONFIG_DBTYPE;
-    if($CONFIG_DBTYPE=='sqlite'){
-      $result = null;   //No native way to do this
-      return true;
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      return @mysqli_free_result($result);
-    }
-  }
+	/**
+	* Returning number of affected rows
+	*
+	* @return int
+	*/
+	static function affected_rows() {
+		self::$DBConnection->affectedRows();
+	}
+	
+	/**
+	* Freeing resultset (performance)
+	*
+	* @param unknown_type $result
+	* @return bool
+	*/
+	static function free_result($result) {
+		$result->free();
+	}
+	
+	static public function disconnect(){
+		if(self::$DBConnection){
+			self::$DBConnection->disconnect();
+			self::$DBConnection=false;
+		}
+	}
+	
+	static public function createTable($name,$definition){
+		self::connect();
+		self::$DBConnection->createTable($name,$definition);
+	}
+	
+	static public function createConstraint($table,$name,$definition){
+		self::connect();
+		self::$DBConnection->createConstraint($table,$name,$definition);
+	}
 
 }
 
@@ -474,11 +404,11 @@ function oc_require($file){
 	global $CONFIG_DATEFORMAT;
 	global $CONFIG_INSTALLED;
 	if(is_file($file)){
-		require($file);
+		return require($file);
 	}elseif(is_file($SERVERROOT.'/'.$file)){
-		require($SERVERROOT.'/'.$file);
+		return require($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
-		require($SERVERROOT.'/inc/'.$file);
+		return require($SERVERROOT.'/inc/'.$file);
 	}
 }
 
@@ -496,11 +426,11 @@ function oc_require_once($file){
 	global $CONFIG_DATEFORMAT;
 	global $CONFIG_INSTALLED;
 	if(is_file($file)){
-		require_once($file);
+		return require_once($file);
 	}elseif(is_file($SERVERROOT.'/'.$file)){
-		require_once($SERVERROOT.'/'.$file);
+		return require_once($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
-		require_once($SERVERROOT.'/inc/'.$file);
+		return require_once($SERVERROOT.'/inc/'.$file);
 	}
 }
 
@@ -518,11 +448,11 @@ function oc_include($file){
 	global $CONFIG_DATEFORMAT;
 	global $CONFIG_INSTALLED;
 	if(is_file($file)){
-		include($file);
+		return include($file);
 	}elseif(is_file($SERVERROOT.'/'.$file)){
-		include($SERVERROOT.'/'.$file);
+		return include($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
-		include($SERVERROOT.'/inc/'.$file);
+		return include($SERVERROOT.'/inc/'.$file);
 	}
 }
 
@@ -540,11 +470,11 @@ function oc_include_once($file){
 	global $CONFIG_DATEFORMAT;
 	global $CONFIG_INSTALLED;
 	if(is_file($file)){
-		include_once($file);
+		return include_once($file);
 	}elseif(is_file($SERVERROOT.'/'.$file)){
-		include_once($SERVERROOT.'/'.$file);
+		return include_once($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
-		include_once($SERVERROOT.'/inc/'.$file);
+		return include_once($SERVERROOT.'/inc/'.$file);
 	}
 }
 

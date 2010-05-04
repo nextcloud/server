@@ -196,6 +196,8 @@ class OC_CONFIG{
 						if(!$f){
 							$error.='path of sqlite database not writable by server<br/>';
 						}
+						OC_DB::disconnect();
+						unlink($SERVERROOT.'/'.$CONFIG_DBNAME);
 					}
 					try{
 						if(isset($_POST['filldb'])){
@@ -205,24 +207,22 @@ class OC_CONFIG{
 						echo 'testin';
 						$error.='error while trying to fill the database<br/>';
 					}
+					if($CONFIG_DBTYPE=='sqlite'){
+						OC_DB::disconnect();
+					}
 					if(!OC_USER::createuser($_POST['adminlogin'],$_POST['adminpassword']) && !OC_USER::login($_POST['adminlogin'],$_POST['adminpassword'])){
 						$error.='error while trying to create the admin user<br/>';
 					}
-					
 					if(OC_USER::getgroupid('admin')==0){
 						if(!OC_USER::creategroup('admin')){
 							$error.='error while trying to create the admin group<br/>';
 						}
 					}
-					
 					if(!OC_USER::addtogroup($_POST['adminlogin'],'admin')){
 						$error.='error while trying to add the admin user to the admin group<br/>';
 					}
-					
 					//storedata
 					$config='<?php '."\n";
-		// 			$config.='$CONFIG_ADMINLOGIN=\''.$_POST['adminlogin']."';\n";
-		// 			$config.='$CONFIG_ADMINPASSWORD=\''.$_POST['adminpassword']."';\n";
 					$config.='$CONFIG_INSTALLED=true;'."\n";
 					$config.='$CONFIG_DATADIRECTORY=\''.$_POST['datadirectory']."';\n";
 					if(isset($_POST['forcessl'])) $config.='$CONFIG_HTTPFORCESSL=true'.";\n"; else $config.='$CONFIG_HTTPFORCESSL=false'.";\n";
@@ -263,7 +263,7 @@ class OC_CONFIG{
    *    "rowid"
    */
    private static function filldatabase(){
-      global $CONFIG_DBTYPE;
+		global $CONFIG_DBTYPE;
       if($CONFIG_DBTYPE=='sqlite'){
         $query="CREATE TABLE 'locks' (
   'token' VARCHAR(255) NOT NULL DEFAULT '',
@@ -296,18 +296,30 @@ CREATE TABLE  'properties' (
 );
 
 CREATE TABLE 'users' (
-  'user_id' int(11) NOT NULL,
+  'user_id' INTEGER ASC DEFAULT '',
   'user_name' varchar(64) NOT NULL DEFAULT '',
   'user_name_clean' varchar(64) NOT NULL DEFAULT '',
   'user_password' varchar(40) NOT NULL DEFAULT '',
   PRIMARY KEY ('user_id'),
   UNIQUE ('user_name' ,'user_name_clean')
 );
+
+CREATE TABLE  'groups' (
+'group_id' INTEGER ASC DEFAULT '',
+'group_name' VARCHAR( 64 ) NOT NULL DEFAULT '',
+PRIMARY KEY ('group_id'),
+UNIQUE ('group_name')
+);
+
+CREATE TABLE  'user_group' (
+'user_group_id' INTEGER ASC DEFAULT '',
+'user_id' VARCHAR( 64 ) NOT NULL DEFAULT '',
+'group_id' VARCHAR( 64 ) NOT NULL DEFAULT '',
+PRIMARY KEY ('user_group_id')
+)
 ";
     }elseif($CONFIG_DBTYPE=='mysql'){
-      $query="SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
-
-CREATE TABLE IF NOT EXISTS `locks` (
+      $query="CREATE TABLE IF NOT EXISTS `locks` (
   `token` varchar(255) NOT NULL DEFAULT '',
   `path` varchar(200) NOT NULL DEFAULT '',
   `created` int(11) NOT NULL DEFAULT '0',
@@ -323,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `locks` (
   KEY `path_2` (`path`),
   KEY `path_3` (`path`,`token`),
   KEY `expires` (`expires`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 CREATE TABLE IF NOT EXISTS `log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -332,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `type` int(11) NOT NULL,
   `message` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+);
 
 
 CREATE TABLE IF NOT EXISTS `properties` (
@@ -342,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `properties` (
   `value` text,
   PRIMARY KEY (`path`,`name`,`ns`),
   KEY `path` (`path`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 CREATE TABLE IF NOT EXISTS  `users` (
 `user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -353,7 +365,7 @@ UNIQUE (
 `user_name` ,
 `user_name_clean`
 )
-) ENGINE = MYISAM ;
+);
 
 CREATE TABLE IF NOT EXISTS  `groups` (
 `group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -361,13 +373,13 @@ CREATE TABLE IF NOT EXISTS  `groups` (
 UNIQUE (
 `group_name`
 )
-) ENGINE = MYISAM ;
+);
 
 CREATE TABLE IF NOT EXISTS  `user_group` (
 `user_group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `user_id` VARCHAR( 64 ) NOT NULL ,
 `group_id` VARCHAR( 64 ) NOT NULL
-) ENGINE = MYISAM ;
+)
 ";
 	}
       OC_DB::multiquery($query);
