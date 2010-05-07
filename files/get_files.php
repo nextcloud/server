@@ -42,7 +42,7 @@ function return_bytes($val) {
 header('Content-type: application/xml');
 
 $dir=isset($_GET['dir'])?$_GET['dir']:'';
-$files=OC_FILES::getdirectorycontent(realpath($CONFIG_DATADIRECTORY.'/'.$dir));
+$files=OC_FILES::getdirectorycontent($dir);
 $dirname=(isset($files[0]))?$files[0]['directory']:'';
 $dirname=substr($dirname,strrpos($dirname,'/'));
 $max_upload=min(return_bytes(ini_get('post_max_size')),return_bytes(ini_get('upload_max_filesize')));

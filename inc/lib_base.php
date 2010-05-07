@@ -68,6 +68,7 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 
 // load core libs
 oc_require_once('lib_files.php');
+oc_require_once('lib_filesystem.php');
 oc_require_once('lib_log.php');
 oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
@@ -85,6 +86,8 @@ if(OC_USER::isLoggedIn()){
 	if(!is_dir($CONFIG_DATADIRECTORY)){
 		mkdir($CONFIG_DATADIRECTORY);
 	}
+	$rootStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_DATADIRECTORY));
+	OC_FILESYSTEM::mount($rootStorage,'/');
 }
 
 // load plugins

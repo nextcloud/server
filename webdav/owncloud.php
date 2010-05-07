@@ -43,6 +43,8 @@ if(OC_USER::login($user,$passwd)){
 	if(!is_dir($CONFIG_DATADIRECTORY)){
 		mkdir($CONFIG_DATADIRECTORY);
 	}
+	$rootStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_DATADIRECTORY));
+	OC_FILESYSTEM::mount($rootStorage,'/');
 	$server = new HTTP_WebDAV_Server_Filesystem();
 	$server->db_name = $CONFIG_DBNAME;
 	$server->ServeRequest($CONFIG_DATADIRECTORY);

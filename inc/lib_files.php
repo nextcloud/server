@@ -28,7 +28,7 @@
  *
  */
 class OC_FILES {
-
+	static $tmpFiles=array();
 	/**
 	* show a web GUI filebrowser
 	*
@@ -44,28 +44,32 @@ class OC_FILES {
 	* @param dir $directory
 	*/
 	public static function getdirectorycontent($directory){
+		global $CONFIG_DATADIRECTORY;
+		if(strpos($directory,$CONFIG_DATADIRECTORY)===0){
+			$directory=substr($directory,strlen($CONFIG_DATADIRECTORY));
+		}
 		$filesfound=true;
 		$content=array();
 		$dirs=array();
 		$file=array();
 		$files=array();
-		if (is_dir($directory)) {
-			if ($dh = opendir($directory)) {
+		if (OC_FILESYSTEM::is_dir($directory)) {
+			if ($dh = OC_FILESYSTEM::opendir($directory)) {
 			while (($filename = readdir($dh)) !== false) {
-				if($filename<>'.' and $filename<>'..'){
-				$file=array();
-				$filesfound=true;
-				$file['name']=$filename;
-				$file['directory']=$directory;
-				$stat=stat($directory.'/'.$filename);
-				$file=array_merge($file,$stat);
-				$file['mime']=OC_FILES::getMimeType($directory .'/'. $filename);
-				$file['type']=filetype($directory .'/'. $filename);
-				if($file['type']=='dir'){
-					$dirs[$file['name']]=$file;
-				}else{
-					$files[$file['name']]=$file;
-				}
+				if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
+					$file=array();
+					$filesfound=true;
+					$file['name']=$filename;
+					$file['directory']=$directory;
+					$stat=OC_FILESYSTEM::stat($directory.'/'.$filename);
+					$file=array_merge($file,$stat);
+					$file['mime']=OC_FILES::getMimeType($directory .'/'. $filename);
+					$file['type']=OC_FILESYSTEM::filetype($directory .'/'. $filename);
+					if($file['type']=='dir'){
+						$dirs[$file['name']]=$file;
+					}else{
+						$files[$file['name']]=$file;
+					}
 				}
 			}
 			closedir($dh);
@@ -90,10 +94,6 @@ class OC_FILES {
 	* @param file $file
 	*/
 	public static function get($dir,$files){
-		global $CONFIG_DATADIRECTORY;
-		if(strstr($files,'..') or strstr($dir,'..')){
-			die();
-		}
 		if(strpos($files,';')){
 			$files=explode(';',$files);
 		}
@@ -104,39 +104,45 @@ class OC_FILES {
 				exit("cannot open <$filename>\n");
 			}
 			foreach($files as $file){
-				$file=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$file;
-				if(is_file($file)){
-					$zip->addFile($file,basename($file));
-				}elseif(is_dir($file)){
+				$file=$dir.'/'.$file;
+				if(OC_FILESYSTEM::is_file($file)){
+					$tmpFile=OC_FILESYSTEM::toTmpFile($file);
+					self::$tmpFiles[]=$tmpFile;
+					$zip->addFile($tmpFile,basename($file));
+				}elseif(OC_FILESYSTEM::is_dir($file)){
 					zipAddDir($file,$zip);
 				}
 			}
 			$zip->close();
-		}elseif(is_dir($CONFIG_DATADIRECTORY.'/'.$dir.'/'.$files)){
+		}elseif(OC_FILESYSTEM::is_dir($dir.'/'.$files)){
 			$zip = new ZipArchive();
 			$filename = sys_get_temp_dir()."/ownCloud.zip";
 			if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
-			$file=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$files;
+			$file=$dir.'/'.$files;
 			zipAddDir($file,$zip);
 			$zip->close();
 		}else{
 			$zip=false;
-			$filename=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$files;
+			$filename=$dir.'/'.$files;
 		}
-		header('Content-Description: File Transfer');
-		header('Content-Type: application/octet-stream');
 		header('Content-Disposition: attachment; filename='.basename($filename));
 		header('Content-Transfer-Encoding: binary');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 		header('Content-Length: ' . filesize($filename));
+		if(!$zip){
+			$filename=OC_FILESYSTEM::toTmpFile($filename);
+		}
 		ob_end_clean();
 		readfile($filename);
-		if($zip){
-			unlink($filename);
+		unlink($filename);
+		foreach(self::$tmpFiles as $tmpFile){
+			if(file_exists($tmpFile) and is_file($tmpFile)){
+				unlink($tmpFile);
+			}
 		}
 	}
 	
@@ -149,11 +155,10 @@ class OC_FILES {
 	* @param file $target
 	*/
 	public static function move($sourceDir,$source,$targetDir,$target){
-		global $CONFIG_DATADIRECTORY;
-		if(OC_USER::isLoggedIn() and strpos($sourceDir,'..')===false and strpos($source,'..')===false and strpos($targetDir,'..')===false and strpos($target,'..')===false){
-			$targetFile=$CONFIG_DATADIRECTORY.'/'.$targetDir.'/'.$target;
-			$sourceFile=$CONFIG_DATADIRECTORY.'/'.$sourceDir.'/'.$source;
-			rename($sourceFile,$targetFile);
+		if(OC_USER::isLoggedIn()){
+			$targetFile=$targetDir.'/'.$target;
+			$sourceFile=$sourceDir.'/'.$source;
+			OC_FILESYSTEM::rename($sourceFile,$targetFile);
 		}
 	}
 	
@@ -165,13 +170,12 @@ class OC_FILES {
 	* @param type $type
 	*/
 	public static function newfile($dir,$name,$type){
-		global $CONFIG_DATADIRECTORY;
-		if(OC_USER::isLoggedIn() and strpos($dir,'..')===false and strpos($name,'..')===false){
-			$file=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$name;
+		if(OC_USER::isLoggedIn()){
+			$file=$dir.'/'.$name;
 			if($type=='dir'){
-				mkdir($file);
+				OC_FILESYSTEM::mkdir($file);
 			}elseif($type=='file'){
-				$fileHandle=fopen($file, 'w') or die("can't open file");
+				$fileHandle=OC_FILESYSTEM::fopen($file, 'w') or die("can't open file");
 				fclose($fileHandle);
 			}
 		}
@@ -184,13 +188,12 @@ class OC_FILES {
 	* @param file $name
 	*/
 	public static function delete($dir,$file){
-		global $CONFIG_DATADIRECTORY;
-		if(OC_USER::isLoggedIn() and strpos($dir,'..')===false){
-			$file=$CONFIG_DATADIRECTORY.'/'.$dir.'/'.$file;
-			if(is_file($file)){
-				unlink($file);
-			}elseif(is_dir($file)){
-				rmdir($file);
+		if(OC_USER::isLoggedIn()){
+			$file=$dir.'/'.$file;
+			if(OC_FILESYSTEM::is_file($file)){
+				OC_FILESYSTEM::unlink($file);
+			}elseif(OC_FILESYSTEM::is_dir($file)){
+				OC_FILESYSTEM::delTree($file);
 			}
 		}
 	}
@@ -198,108 +201,11 @@ class OC_FILES {
 	/**
 	* try to detect the mime type of a file
 	*
-	* @param  string  file path
+	* @param  string  path
 	* @return string  guessed mime type
 	*/
-	function getMimeType($fspath){
-		if (@is_dir($fspath)) {
-			// directories are easy
-			return "httpd/unix-directory"; 
-		} else if (function_exists("mime_content_type")) {
-			// use mime magic extension if available
-			$mime_type = mime_content_type($fspath);
-		} else if (OC_FILES::canExecute("file")) {
-			// it looks like we have a 'file' command, 
-			// lets see it it does have mime support
-			$fp = popen("file -i '$fspath' 2>/dev/null", "r");
-			$reply = fgets($fp);
-			pclose($fp);
-			
-			// popen will not return an error if the binary was not found
-			// and find may not have mime support using "-i"
-			// so we test the format of the returned string 
-			
-			// the reply begins with the requested filename
-			if (!strncmp($reply, "$fspath: ", strlen($fspath)+2)) {                     
-				$reply = substr($reply, strlen($fspath)+2);
-				// followed by the mime type (maybe including options)
-				if (preg_match('/^[[:alnum:]_-]+/[[:alnum:]_-]+;?.*/', $reply, $matches)) {
-					$mime_type = $matches[0];
-				}
-			}
-		} 
-		if (empty($mime_type)) {
-			// Fallback solution: try to guess the type by the file extension
-			// TODO: add more ...
-			switch (strtolower(strrchr(basename($fspath), "."))) {
-			case ".html":
-				$mime_type = "text/html";
-				break;
-			case ".txt":
-				$mime_type = "text/plain";
-				break;
-			case ".css":
-				$mime_type = "text/css";
-				break;
-			case ".gif":
-				$mime_type = "image/gif";
-				break;
-			case ".jpg":
-				$mime_type = "image/jpeg";
-				break;
-			case ".jpg":
-				$mime_type = "png/jpeg";
-				break;
-			default: 
-				$mime_type = "application/octet-stream";
-				break;
-			}
-		}
-		
-		return $mime_type;
-	}
-	
-	/**
-	* detect if a given program is found in the search PATH
-	*
-	* helper function used by _mimetype() to detect if the 
-	* external 'file' utility is available
-	*
-	* @param  string  program name
-	* @param  string  optional search path, defaults to $PATH
-	* @return bool    true if executable program found in path
-	*/
-	function canExecute($name, $path = false) 
-	{
-		// path defaults to PATH from environment if not set
-		if ($path === false) {
-			$path = getenv("PATH");
-		}
-		
-		// check method depends on operating system
-		if (!strncmp(PHP_OS, "WIN", 3)) {
-			// on Windows an appropriate COM or EXE file needs to exist
-			$exts = array(".exe", ".com");
-			$check_fn = "file_exists";
-		} else { 
-			// anywhere else we look for an executable file of that name
-			$exts = array("");
-			$check_fn = "is_executable";
-		}
-		
-		// now check the directories in the path for the program
-		foreach (explode(PATH_SEPARATOR, $path) as $dir) {
-			// skip invalid path entries
-			if (!file_exists($dir)) continue;
-			if (!is_dir($dir)) continue;
-
-			// and now look for the file
-			foreach ($exts as $ext) {
-				if ($check_fn("$dir/$name".$ext)) return true;
-			}
-		}
-
-		return false;
+	function getMimeType($path){
+		return OC_FILESYSTEM::getMimeType($path);
 	}
 
 }
@@ -312,9 +218,11 @@ function zipAddDir($dir,$zip,$internalDir=''){
     foreach($files as $file){
         $filename=$file['name'];
         $file=$dir.'/'.$filename;
-        if(is_file($file)){
-            $zip->addFile($file,$internalDir.$filename);
-        }elseif(is_dir($file)){
+        if(OC_FILESYSTEM::is_file($file)){
+			$tmpFile=OC_FILESYSTEM::toTmpFile($file);
+			OC_FILES::$tmpFiles[]=$tmpFile;
+            $zip->addFile($tmpFile,$internalDir.$filename);
+        }elseif(OC_FILESYSTEM::is_dir($file)){
             zipAddDir($file,$zip,$internalDir);
         }
     }

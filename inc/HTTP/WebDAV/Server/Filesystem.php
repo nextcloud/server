@@ -107,7 +107,7 @@
     function PROPFIND(&$options, &$files) 
     {
         // get absolute fs path to requested resource
-        $fspath = $this->base . $options["path"];
+        $fspath = $options["path"];
             
         // sanity check
         if (!file_exists($fspath)) {
@@ -121,13 +121,13 @@
         $files["files"][] = $this->fileinfo($options["path"]);
 
         // information for contained resources requested?
-        if (!empty($options["depth"]) && is_dir($fspath) && is_readable($fspath)) {                
+        if (!empty($options["depth"]) && OC_FILESYSTEM::is_dir($fspath) && OC_FILESYSTEM::is_readable($fspath)) {                
 
             // make sure path ends with '/'
             $options["path"] = $this->_slashify($options["path"]);
 
             // try to open directory
-                $handle = @opendir($fspath);
+                $handle = @OC_FILESYSTEM::opendir($fspath);
                 
             if ($handle) {
                 // ok, now get all its contents
@@ -153,39 +153,39 @@
     function fileinfo($path) 
     {
         // map URI path to filesystem path
-        $fspath = $this->base . $path;
+        $fspath =$path;
 
         // create result array
         $info = array();
         // TODO remove slash append code when base clase is able to do it itself
-        $info["path"]  = is_dir($fspath) ? $this->_slashify($path) : $path; 
+        $info["path"]  = OC_FILESYSTEM::is_dir($fspath) ? $this->_slashify($path) : $path; 
         $info["props"] = array();
             
         // no special beautified displayname here ...
         $info["props"][] = $this->mkprop("displayname", strtoupper($path));
             
         // creation and modification time
-        $info["props"][] = $this->mkprop("creationdate",    filectime($fspath));
-        $info["props"][] = $this->mkprop("getlastmodified", filemtime($fspath));
+        $info["props"][] = $this->mkprop("creationdate",    OC_FILESYSTEM::filectime($fspath));
+        $info["props"][] = $this->mkprop("getlastmodified", OC_FILESYSTEM::filemtime($fspath));
 
         // Microsoft extensions: last access time and 'hidden' status
-        $info["props"][] = $this->mkprop("lastaccessed",    fileatime($fspath));
+        $info["props"][] = $this->mkprop("lastaccessed",     OC_FILESYSTEM::fileatime($fspath));
         $info["props"][] = $this->mkprop("ishidden", ('.' === substr(basename($fspath), 0, 1)));
 
         // type and size (caller already made sure that path exists)
-        if (is_dir($fspath)) {
+        if ( OC_FILESYSTEM::is_dir($fspath)) {
             // directory (WebDAV collection)
             $info["props"][] = $this->mkprop("resourcetype", "collection");
             $info["props"][] = $this->mkprop("getcontenttype", "httpd/unix-directory");             
         } else {
             // plain file (WebDAV resource)
             $info["props"][] = $this->mkprop("resourcetype", "");
-            if (is_readable($fspath)) {
+            if ( OC_FILESYSTEM::is_readable($fspath)) {
                 $info["props"][] = $this->mkprop("getcontenttype", $this->_mimetype($fspath));
             } else {
                 $info["props"][] = $this->mkprop("getcontenttype", "application/x-non-readable");
             }               
-            $info["props"][] = $this->mkprop("getcontentlength", filesize($fspath));
+            $info["props"][] = $this->mkprop("getcontentlength",  OC_FILESYSTEM::filesize($fspath));
         }
 
         // get additional properties from database
@@ -251,62 +251,7 @@
      */
     function _mimetype($fspath) 
     {
-        if (@is_dir($fspath)) {
-            // directories are easy
-            return "httpd/unix-directory"; 
-        } else if (function_exists("mime_content_type")) {
-            // use mime magic extension if available
-            $mime_type = mime_content_type($fspath);
-        } else if ($this->_can_execute("file")) {
-            // it looks like we have a 'file' command, 
-            // lets see it it does have mime support
-            $fp    = popen("file -i '$fspath' 2>/dev/null", "r");
-            $reply = fgets($fp);
-            pclose($fp);
-                
-            // popen will not return an error if the binary was not found
-            // and find may not have mime support using "-i"
-            // so we test the format of the returned string 
-                
-            // the reply begins with the requested filename
-            if (!strncmp($reply, "$fspath: ", strlen($fspath)+2)) {                     
-                $reply = substr($reply, strlen($fspath)+2);
-                // followed by the mime type (maybe including options)
-                if (preg_match('|^[[:alnum:]_-]+/[[:alnum:]_-]+;?.*|', $reply, $matches)) {
-                    $mime_type = $matches[0];
-                }
-            }
-        } 
-            
-        if (empty($mime_type)) {
-            // Fallback solution: try to guess the type by the file extension
-            // TODO: add more ...
-            // TODO: it has been suggested to delegate mimetype detection 
-            //       to apache but this has at least three issues:
-            //       - works only with apache
-            //       - needs file to be within the document tree
-            //       - requires apache mod_magic 
-            // TODO: can we use the registry for this on Windows?
-            //       OTOH if the server is Windos the clients are likely to 
-            //       be Windows, too, and tend do ignore the Content-Type
-            //       anyway (overriding it with information taken from
-            //       the registry)
-            // TODO: have a seperate PEAR class for mimetype detection?
-            switch (strtolower(strrchr(basename($fspath), "."))) {
-            case ".html":
-                $mime_type = "text/html";
-                break;
-            case ".gif":
-                $mime_type = "image/gif";
-                break;
-            case ".jpg":
-                $mime_type = "image/jpeg";
-                break;
-            default: 
-                $mime_type = "application/octet-stream";
-                break;
-            }
-        }
+        return  OC_FILESYSTEM::getMimeType($fspath);
             
         return $mime_type;
     }
@@ -320,10 +265,10 @@
     function HEAD(&$options) 
     {
         // get absolute fs path to requested resource
-        $fspath = $this->base . $options["path"];
+        $fspath = $options["path"];
 
         // sanity check
-        if (!file_exists($fspath)) return false;
+        if (! OC_FILESYSTEM::file_exists($fspath)) return false;
             
         // detect resource type
         $options['mimetype'] = $this->_mimetype($fspath); 
@@ -332,10 +277,10 @@
         // see rfc2518, section 13.7
         // some clients seem to treat this as a reverse rule
         // requiering a Last-Modified header if the getlastmodified header was set
-        $options['mtime'] = filemtime($fspath);
+        $options['mtime'] = OC_FILESYSTEM::filemtime($fspath);
             
         // detect resource size
-        $options['size'] = filesize($fspath);
+        $options['size'] = OC_FILESYSTEM::filesize($fspath);
             
         return true;
     }
@@ -348,11 +293,11 @@
      */
     function GET(&$options) 
     {
-        // get absolute fs path to requested resource
-        $fspath = $this->base . $options["path"];
-
+        // get absolute fs path to requested resource)
+        $fspath = $options["path"];
+        error_log("get '$fspath'");
         // is this a collection?
-        if (is_dir($fspath)) {
+        if (OC_FILESYSTEM::is_dir($fspath)) {
             return $this->GetDir($fspath, $options);
         }
 
@@ -362,7 +307,7 @@
         }
 
         // no need to check result here, it is handled by the base class
-        $options['stream'] = fopen($fspath, "r");
+        $options['stream'] = OC_FILESYSTEM::fopen($fspath, "r");
             
         return true;
     }
@@ -387,11 +332,11 @@
         // fixed width directory column format
         $format = "%15s  %-19s  %-s\n";
 
-        if (!is_readable($fspath)) {
+        if (!OC_FILESYSTEM::is_readable($fspath)) {
             return false;
         }
 
-        $handle = opendir($fspath);
+        $handle = OC_FILESYSTEM::opendir($fspath);
         if (!$handle) {
             return false;
         }
@@ -432,26 +377,25 @@
      */
     function PUT(&$options) 
     {
-        $fspath = $this->base . $options["path"];
+        $fspath = $options["path"];
 
         $dir = dirname($fspath);
-        if (!file_exists($dir) || !is_dir($dir)) {
+        if (!OC_FILESYSTEM::file_exists($dir) || !OC_FILESYSTEM::is_dir($dir)) {
             return "409 Conflict"; // TODO right status code for both?
         }
 
-        $options["new"] = ! file_exists($fspath);
+        $options["new"] = ! OC_FILESYSTEM::file_exists($fspath);
 
-        if ($options["new"] && !is_writeable($dir)) {
+        if ($options["new"] && !OC_FILESYSTEM::is_writeable($dir)) {
             return "403 Forbidden";
         }
-        if (!$options["new"] && !is_writeable($fspath)) {
+        if (!$options["new"] && !OC_FILESYSTEM::is_writeable($fspath)) {
             return "403 Forbidden";
         }
-        if (!$options["new"] && is_dir($fspath)) {
+        if (!$options["new"] && OC_FILESYSTEM::is_dir($fspath)) {
             return "403 Forbidden";
         }
-
-        $fp = fopen($fspath, "w");
+        $fp = OC_FILESYSTEM::fopen($fspath, "w");
 
         return $fp;
     }
@@ -465,19 +409,19 @@
      */
     function MKCOL($options) 
     {           
-        $path   = $this->base .$options["path"];
+        $path   = $options["path"];
         $parent = dirname($path);
         $name   = basename($path);
-
-        if (!file_exists($parent)) {
+		
+        if (!OC_FILESYSTEM::file_exists($parent)) {
             return "409 Conflict";
         }
 
-        if (!is_dir($parent)) {
+        if (!OC_FILESYSTEM::is_dir($parent)) {
             return "403 Forbidden";
         }
 
-        if ( file_exists($parent."/".$name) ) {
+        if ( OC_FILESYSTEM::file_exists($parent."/".$name) ) {
             return "405 Method not allowed";
         }
 
@@ -485,7 +429,7 @@
             return "415 Unsupported media type";
         }
             
-        $stat = mkdir($parent."/".$name, 0777);
+        $stat = OC_FILESYSTEM::mkdir($parent."/".$name, 0777);
         if (!$stat) {
             return "403 Forbidden";                 
         }
@@ -502,18 +446,20 @@
      */
     function DELETE($options) 
     {
-        $path = $this->base . "/" .$options["path"];
+        $path =$options["path"];
 
-        if (!file_exists($path)) {
+        if (!OC_FILESYSTEM::file_exists($path)) {
             return "404 Not found";
         }
 
-        if (is_dir($path)) {
+        if (OC_FILESYSTEM::is_dir($path)) {
                 $query = "DELETE FROM properties WHERE path LIKE '".$this->_slashify($options["path"])."%'";
                 OC_DB::query($query);
-                System::rm(array("-rf, $path"));
+//                 System::rm(array("-rf, $path"));
+				error_log('delTree');
+				OC_FILESYSTEM::delTree($path);
         } else {
-            unlink($path);
+            OC_FILESYSTEM::unlink($path);
         }
             $query = "DELETE FROM properties WHERE path = '$options[path]'";
             OC_DB::query($query);
@@ -552,12 +498,12 @@
             return "502 bad gateway";
         }
 
-        $source = $this->base . $options["path"];
-        if (!file_exists($source)) {
+        $source = $options["path"];
+        if (!OC_FILESYSTEM::file_exists($source)) {
             return "404 Not found";
         }
 
-        if (is_dir($source)) { // resource is a collection
+        if (OC_FILESYSTEM::is_dir($source)) { // resource is a collection
             switch ($options["depth"]) {
             case "infinity": // valid 
                 break;
@@ -572,24 +518,24 @@
             }
         }
 
-        $dest         = $this->base . $options["dest"];
+        $dest         = $options["dest"];
         $destdir      = dirname($dest);
         
-        if (!file_exists($destdir) || !is_dir($destdir)) {
+        if (!OC_FILESYSTEM::file_exists($destdir) || !OC_FILESYSTEM::is_dir($destdir)) {
             return "409 Conflict";
         }
 
 
-        $new          = !file_exists($dest);
+        $new          = !OC_FILESYSTEM::file_exists($dest);
         $existing_col = false;
 
         if (!$new) {
-            if ($del && is_dir($dest)) {
+            if ($del && OC_FILESYSTEM::is_dir($dest)) {
                 if (!$options["overwrite"]) {
                     return "412 precondition failed";
                 }
                 $dest .= basename($source);
-                if (file_exists($dest)) {
+                if (OC_FILESYSTEM::file_exists($dest)) {
                     $options["dest"] .= basename($source);
                 } else {
                     $new          = true;
@@ -610,7 +556,7 @@
         }
 
         if ($del) {
-            if (!rename($source, $dest)) {
+            if (!OC_FILESYSTEM::rename($source, $dest)) {
                 return "500 Internal server error";
             }
             $destpath = $this->_unslashify($options["dest"]);
@@ -626,8 +572,8 @@
                            WHERE path = '".$options["path"]."'";
                 OC_DB::query($query);
         } else {
-            if (is_dir($source)) {
-                $files = System::find($source);
+            if (OC_FILESYSTEM::is_dir($source)) {
+                $files = OC_FILESYSTEM::find($source);
                 $files = array_reverse($files);
             } else {
                 $files = array($source);
@@ -639,26 +585,26 @@
                     
                 
             foreach ($files as $file) {
-                if (is_dir($file)) {
+                if (OC_FILESYSTEM::is_dir($file)) {
                     $file = $this->_slashify($file);
                 }
 
                 $destfile = str_replace($source, $dest, $file);
                     
-                if (is_dir($file)) {
-                    if (!file_exists($destfile)) {
-                        if (!is_writeable(dirname($destfile))) {
+                if (OC_FILESYSTEM::is_dir($file)) {
+                    if (!OC_FILESYSTEM::file_exists($destfile)) {
+                        if (!OC_FILESYSTEM::is_writeable(dirname($destfile))) {
                             return "403 Forbidden";
                         }
-                        if (!mkdir($destfile)) {
+                        if (!OC_FILESYSTEM::mkdir($destfile)) {
                             return "409 Conflict";
                         }
-                    } else if (!is_dir($destfile)) {
+                    } else if (!OC_FILESYSTEM::is_dir($destfile)) {
                         return "409 Conflict";
                     }
                 } else {
                     
-                    if (!copy($file, $destfile)) {
+                    if (!OC_FILESYSTEM::copy($file, $destfile)) {
                         return "409 Conflict";
                     }
                 }
@@ -712,7 +658,7 @@
     function LOCK(&$options) 
     {
         // get absolute fs path to requested resource
-        $fspath = $this->base . $options["path"];
+        $fspath = $options["path"];
 
         // TODO recursive locks on directories not supported yet
         // makes litmus test "32. lock_collection" fail
@@ -731,7 +677,7 @@
             OC_DB::free_result($res);
 
             if (is_array($row)) {
-                $query = "UPDATE locks SET expires = '$options[timeout]', modified = ".time()." $where";
+                $query = "UPDATE `locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
                 OC_DB::query($query);
                 
                 $options['owner'] = $row['owner'];
@@ -744,14 +690,14 @@
             }
         }
             
-        $query = "INSERT INTO locks
-                        SET token   = '$options[locktoken]'
-                          , path    = '$options[path]'
-                          , created = ".time()."
-                          , modified = ".time()."
-                          , owner   = '$options[owner]'
-                          , expires = '$options[timeout]'
-                          , exclusivelock  = " .($options['scope'] === "exclusive" ? "1" : "0")
+        $query = "INSERT INTO `locks`
+                        SET `token`   = '$options[locktoken]'
+                          , `path`    = '$options[path]'
+                          , `created` = ".time()."
+                          , `modified` = ".time()."
+                          , `owner`   = '$options[owner]'
+                          , `expires` = '$options[timeout]'
+                          , `exclusivelock`  = " .($options['scope'] === "exclusive" ? "1" : "0")
             ;
             OC_DB::query($query);
 
@@ -783,15 +729,13 @@
     function checkLock($path) 
     {
         $result = false;
-            
-        $query = "SELECT owner, token, created, modified, expires, exclusivelock
+        $query = "SELECT *
                   FROM locks
                  WHERE path = '$path'
                ";
-            $res = OC_DB::query($query);
-
+            $res = OC_DB::select($query);
         if ($res) {
-                $row = OC_DB::fetch_assoc($res);
+				$row=$res[0];
                 OC_DB::free_result($res);
 
             if ($row) {
