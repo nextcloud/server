@@ -1,5 +1,7 @@
 <?php
 global $FIRSTRUN;
+global $CONFIG_ENABLEBACKUP;
+global $CONFIG_BACKUPDIRECTORY;
 global $CONFIG_ERROR;
 if(!isset($fillDB)) $fillDB=true;
 if(!isset($CONFIG_DBHOST)) $CONFIG_DBHOST='localhost';
@@ -11,6 +13,11 @@ function showDBAdmin(){
     var show=document.getElementById('dbcreate').checked;
     document.getElementById('dbAdminUser').style.display=(show)?'table-row':'none';
     document.getElementById('dbAdminPwd').style.display=(show)?'table-row':'none';
+}
+
+function showBackupPath(){
+    var show=document.getElementById('enablebackup').checked;
+    document.getElementById('backupdir').style.display=(show)?'table-row':'none';
 }
 
 function dbtypechange(){
@@ -57,6 +64,8 @@ if($FIRSTRUN){?>
 ?>
 <tr><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY);?>"></input></td></tr>
 <tr><td>force ssl:</td><td><input type="checkbox" name="forcessl" size="30" class="formstyle" value='1' <?php if($CONFIG_HTTPFORCESSL) echo 'checked'?>></input></td></tr>
+<tr><td>enable automatic backup:</td><td><input type="checkbox" name="enablebackup" id="enablebackup" onchange='showBackupPath()' size="30" class="formstyle" value='1' <?php if($CONFIG_ENABLEBACKUP) echo 'checked'?>></input></td></tr>
+<tr id='backupdir'><td>backup directory:</td><td><input type="text" name="backupdirectory" size="30" class="formstyle" value="<?php echo($CONFIG_BACKUPDIRECTORY);?>"></input></td></tr>
 <tr><td>date format:</td><td><input type="text" name="dateformat" size="30" class="formstyle" value='<?php echo($CONFIG_DATEFORMAT);?>'></input></td></tr>
 <tr><td>database type:</td><td>
 <select id='dbtype' name="dbtype" onchange='dbtypechange()'>
@@ -103,4 +112,5 @@ if(!$FIRSTRUN){?>
 ?>
 <script type="text/javascript">
     dbtypechange()
+    showBackupPath()
 </script>

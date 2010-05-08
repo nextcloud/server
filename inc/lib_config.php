@@ -160,6 +160,9 @@ class OC_CONFIG{
 					if($_POST['dbpassword']<>$_POST['dbpassword2'] )                        $error.='database passwords are not the same<br />';
 					
 				}
+				if(isset($_POST['enablebackup']) and $_POST['enablebackup']==1){
+					if(!isset($_POST['backupdirectory'])     or empty($_POST['backupdirectory']))     $error.='backup directory not set<br />';
+				}
 				if(!$FIRSTRUN){
 					if(!isset($_POST['adminpassword']) or empty($_POST['adminpassword'])){
 						$_POST['adminpassword']=$CONFIG_ADMINPASSWORD;
@@ -226,6 +229,10 @@ class OC_CONFIG{
 					$config.='$CONFIG_INSTALLED=true;'."\n";
 					$config.='$CONFIG_DATADIRECTORY=\''.$_POST['datadirectory']."';\n";
 					if(isset($_POST['forcessl'])) $config.='$CONFIG_HTTPFORCESSL=true'.";\n"; else $config.='$CONFIG_HTTPFORCESSL=false'.";\n";
+					if(isset($_POST['enablebackup'])) $config.='$CONFIG_ENABLEBACKUP=true'.";\n"; else $config.='$CONFIG_ENABLEBACKUP=false'.";\n";
+					if(isset($_POST['enablebackup']) and $_POST['enablebackup']==1){
+						$config.='$CONFIG_BACKUPDIRECTORY=\''.$_POST['backupdirectory']."';\n";
+					}
 					$config.='$CONFIG_DATEFORMAT=\''.$_POST['dateformat']."';\n";
 					$config.='$CONFIG_DBTYPE=\''.$dbtype."';\n";
 					$config.='$CONFIG_DBNAME=\''.$_POST['dbname']."';\n";

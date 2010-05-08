@@ -26,9 +26,9 @@ require_once('../inc/lib_base.php');
 
 $fileName=$_FILES['file']['name'];
 $source=$_FILES['file']['tmp_name'];
-$target=$CONFIG_DATADIRECTORY.'/'.$_GET['dir'].'/'.$fileName;
+$target=$_GET['dir'].'/'.$fileName;
 if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($_GET['dir'],'..')===false){
-   if(move_uploaded_file($source,$target)){
+   if(OC_FILESYSTEM::fromTmpFile($source,$target)){
       echo 'true';
    }else{
       echo 'false';

@@ -47,7 +47,9 @@ if($WEBROOT{0}!=='/'){
 // define default config values
 $CONFIG_INSTALLED=false;
 $CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
+$CONFIG_BACKUPDIRECTORY=$SERVERROOT.'/backup';
 $CONFIG_HTTPFORCESSL=false;
+$CONFIG_ENABLEBACKUP=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
 $CONFIG_DBNAME='owncloud';
 $CONFIG_DBTYPE='sqlite';
@@ -69,6 +71,8 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 // load core libs
 oc_require_once('lib_files.php');
 oc_require_once('lib_filesystem.php');
+oc_require_once('lib_filestorage.php');
+oc_require_once('lib_fileobserver.php');
 oc_require_once('lib_log.php');
 oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
@@ -87,6 +91,17 @@ if(OC_USER::isLoggedIn()){
 		mkdir($CONFIG_DATADIRECTORY);
 	}
 	$rootStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_DATADIRECTORY));
+	if($CONFIG_ENABLEBACKUP){
+		if(!is_dir($CONFIG_BACKUPDIRECTORY)){
+			mkdir($CONFIG_BACKUPDIRECTORY);
+		}
+		if(!is_dir($CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean'])){
+			mkdir($CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean']);
+		}
+		$backupStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean']));
+		$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
+		$rootStorage->addObserver($backup);
+	}
 	OC_FILESYSTEM::mount($rootStorage,'/');
 }
 
