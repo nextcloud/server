@@ -130,6 +130,7 @@ class OC_CONFIG{
 			global $WEBROOT;
 			global $CONFIG_DBHOST;
 			global $CONFIG_DBNAME;
+			global $CONFIG_INSTALLED;
 			global $CONFIG_DBUSER;
 			global $CONFIG_DBPASSWORD;
 			global $CONFIG_DBTYPE;
@@ -139,20 +140,20 @@ class OC_CONFIG{
 				
 				//checkdata
 				$error='';
-				$FIRSTRUN=empty($CONFIG_ADMINLOGIN);
+				$FIRSTRUN=!$CONFIG_INSTALLED;
 				if(!$FIRSTRUN){
-					if($_POST['currentpassword']!=$CONFIG_ADMINPASSWORD){
+					if(!OC_USER::login($_SESSION['username'],$_POST['currentpassword'])){
 					$error.='wrong password<br />';
 					}
 				}
 				
-				if(!isset($_POST['adminlogin'])        or empty($_POST['adminlogin']))        $error.='admin login not set<br />';
+				if((!isset($_POST['adminlogin'])        or empty($_POST['adminlogin'])) and $FIRSTRUN)        $error.='admin login not set<br />';
 				if((!isset($_POST['adminpassword'])     or empty($_POST['adminpassword'])) and $FIRSTRUN)     $error.='admin password not set<br />';
 				if((!isset($_POST['adminpassword2'])    or empty($_POST['adminpassword2'])) and $FIRSTRUN)    $error.='retype admin password not set<br />';
 				if(!isset($_POST['datadirectory'])     or empty($_POST['datadirectory']))     $error.='data directory not set<br />';
 				if(!isset($_POST['dateformat'])        or empty($_POST['dateformat']))        $error.='dateformat not set<br />';
 				if(!isset($_POST['dbname'])            or empty($_POST['dbname']))            $error.='databasename not set<br />';
-				if($_POST['adminpassword']<>$_POST['adminpassword2'] )                        $error.='admin passwords are not the same<br />';
+				if($FIRSTRUN and $_POST['adminpassword']<>$_POST['adminpassword2'] )                        $error.='admin passwords are not the same<br />';
 				$dbtype=$_POST['dbtype'];
 				if($dbtype=='mysql'){
 					if(!isset($_POST['dbhost'])            or empty($_POST['dbhost']))            $error.='database host not set<br />';
@@ -179,50 +180,54 @@ class OC_CONFIG{
 					}
 				}
 				if(empty($error)) {
-					//create/fill database
-					$CONFIG_DBTYPE=$dbtype;
-					$CONFIG_DBNAME=$_POST['dbname'];
-					if($dbtype=='mysql'){
-						$CONFIG_DBHOST=$_POST['dbhost'];
-						$CONFIG_DBUSER=$_POST['dbuser'];
-						$CONFIG_DBPASSWORD=$_POST['dbpassword'];
-					}
-					try{
-						if(isset($_POST['createdatabase']) and $CONFIG_DBTYPE=='mysql'){
-							self::createdatabase($_POST['dbadminuser'],$_POST['dbadminpwd']);
+					if($CONFIG_DBTYPE!=$dbtype or $FIRSTRUN){
+						//create/fill database
+						$CONFIG_DBTYPE=$dbtype;
+						$CONFIG_DBNAME=$_POST['dbname'];
+						if($dbtype=='mysql'){
+							$CONFIG_DBHOST=$_POST['dbhost'];
+							$CONFIG_DBUSER=$_POST['dbuser'];
+							$CONFIG_DBPASSWORD=$_POST['dbpassword'];
 						}
-					}catch(Exception $e){
-						$error.='error while trying to create the database<br/>';
-					}
-					if($CONFIG_DBTYPE=='sqlite'){
-						$f=@fopen($SERVERROOT.'/'.$CONFIG_DBNAME,'a+');
-						if(!$f){
-							$error.='path of sqlite database not writable by server<br/>';
+						try{
+							if(isset($_POST['createdatabase']) and $CONFIG_DBTYPE=='mysql'){
+								self::createdatabase($_POST['dbadminuser'],$_POST['dbadminpwd']);
+							}
+						}catch(Exception $e){
+							$error.='error while trying to create the database<br/>';
 						}
-						OC_DB::disconnect();
-						unlink($SERVERROOT.'/'.$CONFIG_DBNAME);
-					}
-					try{
-						if(isset($_POST['filldb'])){
-							self::filldatabase();
+						if($CONFIG_DBTYPE=='sqlite'){
+							$f=@fopen($SERVERROOT.'/'.$CONFIG_DBNAME,'a+');
+							if(!$f){
+								$error.='path of sqlite database not writable by server<br/>';
+							}
+							OC_DB::disconnect();
+							unlink($SERVERROOT.'/'.$CONFIG_DBNAME);
 						}
-					}catch(Exception $e){
-						echo 'testin';
-						$error.='error while trying to fill the database<br/>';
-					}
-					if($CONFIG_DBTYPE=='sqlite'){
-						OC_DB::disconnect();
-					}
-					if(!OC_USER::createuser($_POST['adminlogin'],$_POST['adminpassword']) && !OC_USER::login($_POST['adminlogin'],$_POST['adminpassword'])){
-						$error.='error while trying to create the admin user<br/>';
-					}
-					if(OC_USER::getgroupid('admin')==0){
-						if(!OC_USER::creategroup('admin')){
-							$error.='error while trying to create the admin group<br/>';
+						try{
+							if(isset($_POST['filldb'])){
+								self::filldatabase();
+							}
+						}catch(Exception $e){
+							echo 'testin';
+							$error.='error while trying to fill the database<br/>';
+						}
+						if($CONFIG_DBTYPE=='sqlite'){
+							OC_DB::disconnect();
 						}
 					}
-					if(!OC_USER::addtogroup($_POST['adminlogin'],'admin')){
-						$error.='error while trying to add the admin user to the admin group<br/>';
+					if($FIRSTRUN){
+						if(!OC_USER::createuser($_POST['adminlogin'],$_POST['adminpassword']) && !OC_USER::login($_POST['adminlogin'],$_POST['adminpassword'])){
+							$error.='error while trying to create the admin user<br/>';
+						}
+						if(OC_USER::getgroupid('admin')==0){
+							if(!OC_USER::creategroup('admin')){
+								$error.='error while trying to create the admin group<br/>';
+							}
+						}
+						if(!OC_USER::addtogroup($_POST['adminlogin'],'admin')){
+							$error.='error while trying to add the admin user to the admin group<br/>';
+						}
 					}
 					//storedata
 					$config='<?php '."\n";

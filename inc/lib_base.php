@@ -147,9 +147,53 @@ class OC_UTIL {
    */
   public static function checkserver(){
     global $SERVERROOT;
+    global $CONFIG_DATADIRECTORY_ROOT;
+    global $CONFIG_BACKUPDIRECTORY;
+    global $CONFIG_ENABLEBACKUP;
+    $error='';
     $f=@fopen($SERVERROOT.'/config/config.php','a+');
-    if(!$f) die('Error: Config file (config/config.php) is not writable for the webserver.');
+    if(!$f) $error.='Error: Config file (config/config.php) is not writable for the webserver.<br/>';
     @fclose($f);
+    if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
+		$error.='No database drivers (sqlite or mysql) installed.<br/>';
+    }
+    global $CONFIG_DBTYPE;
+    global $CONFIG_DBNAME;
+    if($CONFIG_DBTYPE=='sqlite'){
+		$file=$SERVERROOT.'/'.$CONFIG_DBNAME;
+		$prems=substr(decoct(fileperms($file)),-3);
+		if(substr($prems,2,1)!='0'){
+			@chmod($file,0660);
+			clearstatcache();
+			$prems=substr(decoct(fileperms($file)),-3);
+			if(substr($prems,2,1)!='0'){
+				$error.='SQLite database file ('.$file.') is readable from the web<br/>';
+			}
+		}
+	}
+	$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
+	if(substr($CONFIG_DATADIRECTORY_ROOT,2,1)!='0'){
+		chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
+		clearstatcache();
+		$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
+		if(substr($prems,2,1)!='0'){
+			$error.='Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>';
+		}
+	}
+	if($CONFIG_ENABLEBACKUP){
+		$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
+		if(substr($CONFIG_BACKUPDIRECTORY,2,1)!='0'){
+			chmodr($CONFIG_BACKUPDIRECTORY,0770);
+			clearstatcache();
+			$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
+			if(substr($prems,2,1)!='0'){
+				$error.='Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>';
+			}
+		}
+	}
+	if($error){
+		die($error);
+	}
     
   }
 
@@ -494,6 +538,29 @@ function oc_include_once($file){
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
 		return include_once($SERVERROOT.'/inc/'.$file);
 	}
+}
+
+function chmodr($path, $filemode) { 
+// 	echo "$path<br/>";
+	if (!is_dir($path)) 
+		return chmod($path, $filemode); 
+	$dh = opendir($path); 
+	while (($file = readdir($dh)) !== false) { 
+		if($file != '.' && $file != '..') { 
+			$fullpath = $path.'/'.$file; 
+			if(is_link($fullpath)) 
+				return FALSE; 
+			elseif(!is_dir($fullpath) && !chmod($fullpath, $filemode)) 
+					return FALSE; 
+			elseif(!chmodr($fullpath, $filemode)) 
+				return FALSE; 
+		} 
+	} 
+	closedir($dh); 
+	if(chmod($path, $filemode)) 
+		return TRUE; 
+	else 
+		return FALSE; 
 }
 
 ?>

@@ -1,6 +1,7 @@
 <?php
 global $FIRSTRUN;
 global $CONFIG_ENABLEBACKUP;
+global $CONFIG_DATADIRECTORY_ROOT;
 global $CONFIG_BACKUPDIRECTORY;
 global $CONFIG_ERROR;
 if(!isset($fillDB)) $fillDB=true;
@@ -62,7 +63,7 @@ if($FIRSTRUN){?>
 <?php
 }
 ?>
-<tr><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY);?>"></input></td></tr>
+<tr><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY_ROOT);?>"></input></td></tr>
 <tr><td>force ssl:</td><td><input type="checkbox" name="forcessl" size="30" class="formstyle" value='1' <?php if($CONFIG_HTTPFORCESSL) echo 'checked'?>></input></td></tr>
 <tr><td>enable automatic backup:</td><td><input type="checkbox" name="enablebackup" id="enablebackup" onchange='showBackupPath()' size="30" class="formstyle" value='1' <?php if($CONFIG_ENABLEBACKUP) echo 'checked'?>></input></td></tr>
 <tr id='backupdir'><td>backup directory:</td><td><input type="text" name="backupdirectory" size="30" class="formstyle" value="<?php echo($CONFIG_BACKUPDIRECTORY);?>"></input></td></tr>
@@ -71,16 +72,24 @@ if($FIRSTRUN){?>
 <select id='dbtype' name="dbtype" onchange='dbtypechange()'>
 <?php
 global $CONFIG_DBTYPE;
+$dbtypes=array();
 if($CONFIG_DBTYPE=='sqlite'){
-?>
-<option value="sqlite">SQLite</option>
-<option value="mysql">MySQL</option>
-<?php
+	if(is_callable('sqlite_open')){
+		$dbtypes[]='SQLite';
+	}
+	if(is_callable('mysql_connect')){
+		$dbtypes[]='MySQL';
+	}
 }else{
-?>
-<option value="mysql">MySQL</option>
-<option value="sqlite">SQLite</option>
-<?php
+	if(is_callable('mysql_connect')){
+		$dbtypes[]='MySQL';
+	}
+	if(is_callable('sqlite_open')){
+		$dbtypes[]='SQLite';
+	}
+}
+foreach($dbtypes as $dbtype){
+	echo "<option value='".strtolower($dbtype)."'>$dbtype</option>";
 }
 ?>
 </select>

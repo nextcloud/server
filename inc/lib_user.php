@@ -136,6 +136,9 @@ class OC_USER {
 		$usernameclean=mysql_escape_string($usernameclean);
 		$query="SELECT user_id FROM  users WHERE user_name_clean = '$usernameclean'";
 		$result=OC_DB::select($query);
+		if(!is_array($result)){
+			return 0;
+		}
 		if(isset($result[0]) && isset($result[0]['user_id'])){
 			return $result[0]['user_id'];
 		}else{
@@ -151,6 +154,9 @@ class OC_USER {
 		$groupname=mysql_escape_string($groupname);
 		$query="SELECT group_id FROM groups WHERE  group_name = '$groupname'";
 		$result=OC_DB::select($query);
+		if(!is_array($result)){
+			return 0;
+		}
 		if(isset($result[0]) && isset($result[0]['group_id'])){
 			return $result[0]['group_id'];
 		}else{
