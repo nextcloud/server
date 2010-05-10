@@ -204,10 +204,9 @@ class OC_FILES {
 	* @param  string  path
 	* @return string  guessed mime type
 	*/
-	function getMimeType($path){
+	static function getMimeType($path){
 		return OC_FILESYSTEM::getMimeType($path);
 	}
-
 }
 
 function zipAddDir($dir,$zip,$internalDir=''){

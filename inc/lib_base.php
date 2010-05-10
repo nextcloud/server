@@ -78,7 +78,7 @@ oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
 @oc_require_once('MDB2.php');
-// @oc_require_once('MDB2/Driver/Manager/common.php');
+oc_require_once('lib_connect.php');
 
 
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
