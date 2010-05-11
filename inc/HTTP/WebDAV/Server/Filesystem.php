@@ -108,21 +108,18 @@
     {
         // get absolute fs path to requested resource
         $fspath = $options["path"];
-            
+		
         // sanity check
-        if (!file_exists($fspath)) {
+        if (!OC_FILESYSTEM::file_exists($fspath)) {
             return false;
         }
 
         // prepare property array
         $files["files"] = array();
-
         // store information for the requested path itself
         $files["files"][] = $this->fileinfo($options["path"]);
-
         // information for contained resources requested?
         if (!empty($options["depth"]) && OC_FILESYSTEM::is_dir($fspath) && OC_FILESYSTEM::is_readable($fspath)) {                
-
             // make sure path ends with '/'
             $options["path"] = $this->_slashify($options["path"]);
 
@@ -159,19 +156,16 @@
         $info = array();
         // TODO remove slash append code when base clase is able to do it itself
         $info["path"]  = OC_FILESYSTEM::is_dir($fspath) ? $this->_slashify($path) : $path; 
-        $info["props"] = array();
-            
+        $info["props"] = array();   
         // no special beautified displayname here ...
         $info["props"][] = $this->mkprop("displayname", strtoupper($path));
-            
+		
         // creation and modification time
         $info["props"][] = $this->mkprop("creationdate",    OC_FILESYSTEM::filectime($fspath));
         $info["props"][] = $this->mkprop("getlastmodified", OC_FILESYSTEM::filemtime($fspath));
-
         // Microsoft extensions: last access time and 'hidden' status
         $info["props"][] = $this->mkprop("lastaccessed",     OC_FILESYSTEM::fileatime($fspath));
         $info["props"][] = $this->mkprop("ishidden", ('.' === substr(basename($fspath), 0, 1)));
-
         // type and size (caller already made sure that path exists)
         if ( OC_FILESYSTEM::is_dir($fspath)) {
             // directory (WebDAV collection)
@@ -187,15 +181,12 @@
             }               
             $info["props"][] = $this->mkprop("getcontentlength",  OC_FILESYSTEM::filesize($fspath));
         }
-
         // get additional properties from database
             $query = "SELECT ns, name, value FROM properties WHERE path = '$path'";
-            $res = OC_DB::query($query);
-            while ($row = OC_DB::fetch_assoc($res)) {
+            $res = OC_DB::select($query);
+            while ($row = $res[0]) {
             $info["props"][] = $this->mkprop($row["ns"], $row["name"], $row["value"]);
         }
-            OC_DB::free_result($res);
-
         return $info;
     }
 
@@ -295,7 +286,7 @@
     {
         // get absolute fs path to requested resource)
         $fspath = $options["path"];
-        error_log("get '$fspath'");
+        error_log("get $fspath");
         // is this a collection?
         if (OC_FILESYSTEM::is_dir($fspath)) {
             return $this->GetDir($fspath, $options);
@@ -456,7 +447,6 @@
                 $query = "DELETE FROM properties WHERE path LIKE '".$this->_slashify($options["path"])."%'";
                 OC_DB::query($query);
 //                 System::rm(array("-rf, $path"));
-				error_log('delTree');
 				OC_FILESYSTEM::delTree($path);
         } else {
             OC_FILESYSTEM::unlink($path);
@@ -605,6 +595,7 @@
                 } else {
                     
                     if (!OC_FILESYSTEM::copy($file, $destfile)) {
+						error_log("copy $file to $destfile failed");
                         return "409 Conflict";
                     }
                 }

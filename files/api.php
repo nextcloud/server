@@ -35,22 +35,28 @@ ob_clean();
 if($arguments['action']){
 	switch($arguments['action']){
 		case 'delete':
-			OC_FILES::delete($arguments['dir'],$arguments['file']);
+			echo (OC_FILES::delete($arguments['dir'],$arguments['file']))?'true':'false';
 			break;
 		case 'rename':
-			OC_FILES::move($arguments['dir'],$arguments['file'],$arguments['dir'],$arguments['newname']);
+			echo (OC_FILES::move($arguments['dir'],$arguments['file'],$arguments['dir'],$arguments['newname']))?'true':'false';
 			break;
 		case 'new':
-			OC_FILES::newfile($arguments['dir'],$arguments['name'],$arguments['type']);
+			echo (OC_FILES::newfile($arguments['dir'],$arguments['name'],$arguments['type']))?'true':'false';
 			break;
 		case 'move':
-			OC_FILES::move($arguments['sourcedir'],$arguments['source'],$arguments['targetdir'],$arguments['target']);
+			echo (OC_FILES::move($arguments['sourcedir'],$arguments['source'],$arguments['targetdir'],$arguments['target']))?'true':'false';
+			break;
+		case 'copy':
+			echo (OC_FILES::copy($arguments['sourcedir'],$arguments['source'],$arguments['targetdir'],$arguments['target']))?'true':'false';
 			break;
 		case 'get':
 			OC_FILES::get($arguments['dir'],$arguments['file']);
 			break;
 		case 'getfiles':
-			echo json_encode(OC_FILES::getdirectorycontent($CONFIG_DATADIRECTORY.'/'.$arguments['dir']));
+			echo json_encode(OC_FILES::getdirectorycontent($arguments['dir']));
+			break;
+		case 'find':
+			echo json_encode(OC_FILESYSTEM::find($arguments['path']));
 			break;
 		case 'login':
 			if(OC_USER::login($arguments['username'],$arguments['password'])){

@@ -64,6 +64,8 @@ class OC_FILES {
 					$stat=OC_FILESYSTEM::stat($directory.'/'.$filename);
 					$file=array_merge($file,$stat);
 					$file['mime']=OC_FILES::getMimeType($directory .'/'. $filename);
+					$file['readable']=OC_FILESYSTEM::is_readable($directory .'/'. $filename);
+					$file['writeable']=OC_FILESYSTEM::is_writeable($directory .'/'. $filename);
 					$file['type']=OC_FILESYSTEM::filetype($directory .'/'. $filename);
 					if($file['type']=='dir'){
 						$dirs[$file['name']]=$file;
@@ -158,7 +160,23 @@ class OC_FILES {
 		if(OC_USER::isLoggedIn()){
 			$targetFile=$targetDir.'/'.$target;
 			$sourceFile=$sourceDir.'/'.$source;
-			OC_FILESYSTEM::rename($sourceFile,$targetFile);
+			return OC_FILESYSTEM::rename($sourceFile,$targetFile);
+		}
+	}
+	
+	/**
+	* copy a file or folder
+	*
+	* @param dir  $sourceDir
+	* @param file $source
+	* @param dir  $targetDir
+	* @param file $target
+	*/
+	public static function copy($sourceDir,$source,$targetDir,$target){
+		if(OC_USER::isLoggedIn()){
+			$targetFile=$targetDir.'/'.$target;
+			$sourceFile=$sourceDir.'/'.$source;
+			return OC_FILESYSTEM::copy($sourceFile,$targetFile);
 		}
 	}
 	
@@ -173,10 +191,15 @@ class OC_FILES {
 		if(OC_USER::isLoggedIn()){
 			$file=$dir.'/'.$name;
 			if($type=='dir'){
-				OC_FILESYSTEM::mkdir($file);
+				return OC_FILESYSTEM::mkdir($file);
 			}elseif($type=='file'){
-				$fileHandle=OC_FILESYSTEM::fopen($file, 'w') or die("can't open file");
-				fclose($fileHandle);
+				$fileHandle=OC_FILESYSTEM::fopen($file, 'w');
+				if($fileHandle){
+					fclose($fileHandle);
+					return true;
+				}else{
+					return false;
+				}
 			}
 		}
 	}
@@ -191,9 +214,9 @@ class OC_FILES {
 		if(OC_USER::isLoggedIn()){
 			$file=$dir.'/'.$file;
 			if(OC_FILESYSTEM::is_file($file)){
-				OC_FILESYSTEM::unlink($file);
+				return OC_FILESYSTEM::unlink($file);
 			}elseif(OC_FILESYSTEM::is_dir($file)){
-				OC_FILESYSTEM::delTree($file);
+				return OC_FILESYSTEM::delTree($file);
 			}
 		}
 	}

@@ -229,6 +229,7 @@ class HTTP_WebDAV_Server
         
         // detect requested method names
         $method  = strtolower($this->_SERVER["REQUEST_METHOD"]);
+        error_log("serving $method request");
         $wrapper = "http_".$method;
         
         // activate HEAD emulation by GET if no HEAD method found
