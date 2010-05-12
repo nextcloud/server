@@ -197,6 +197,11 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		if (@is_dir($this->datadir.$fspath)) {
 			// directories are easy
 			return "httpd/unix-directory"; 
+		}elseif (function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
+			$mimeType =strtolower(finfo_file($finfo,$this->datadir.$fspath));
+			$mimeType=substr($mimeType,0,strpos($mimeType,';'));
+			finfo_close($finfo);
+			return $mimeType;
 		} else if (function_exists("mime_content_type")) {
 			// use mime magic extension if available
 			$mime_type = mime_content_type($this->datadir.$fspath);
