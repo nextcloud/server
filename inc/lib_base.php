@@ -206,6 +206,18 @@ class OC_UTIL {
     global $WEBROOT;
     oc_require('templates/header.php');;
   }
+  
+  /**
+   * check if we need to use the layout optimized for smaller screen, currently only checks for iPhone/Android
+   * @return bool
+   */
+	public static function hasSmallScreen(){
+		$userAgent=strtolower($_SERVER['HTTP_USER_AGENT']);
+		if(strpos($userAgent,'android') or strpos($userAgent,'iphone') or strpos($userAgent,'ipod')){//todo, add support for more devices
+			return true;
+		}
+		return false;
+	}
 
   /**
    * show the footer of the web GUI

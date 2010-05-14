@@ -178,10 +178,14 @@ OC_FILES.browser.files.add=function(name,type,size,date,mime){
 			a.setAttribute('href','#'+OC_FILES.dir+dirname);
 		}else{
 			a.setAttribute('href','#'+OC_FILES.dir);
-			sizeTd=document.createElement('td');
-			tr.appendChild(sizeTd);
-			sizeTd.className='sizetext';
-			sizeTd.appendChild(document.createTextNode(sizeFormat(size)));
+			if(!SMALLSCREEN){
+				sizeTd=document.createElement('td');
+				tr.appendChild(sizeTd);
+				sizeTd.className='sizetext';
+				sizeTd.appendChild(document.createTextNode(sizeFormat(size)));
+			}else{
+				td.setAttribute('colspan',2);
+			}
 		}
 		a=document.createElement('a');
 		var img=document.createElement('img');
@@ -191,10 +195,12 @@ OC_FILES.browser.files.add=function(name,type,size,date,mime){
 		img.title='actions';
 		img.src=WEBROOT+'/img/arrow_down.png';
 		img.addEvent('onclick',OC_FILES.browser.showactions,name);
-		td=document.createElement('td');
-		tr.appendChild(td);
-		td.className='sizetext';
-		td.appendChild(document.createTextNode(date));
+		if(!SMALLSCREEN){
+			td=document.createElement('td');
+			tr.appendChild(td);
+			td.className='sizetext';
+			td.appendChild(document.createTextNode(date));
+		}
 	}
 }
 
