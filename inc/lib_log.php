@@ -61,11 +61,8 @@ class OC_LOG {
     global $CONFIG_DATEFORMAT;
     echo('<div class="center"><table cellpadding="6" cellspacing="0" border="0" class="log">');
 
-    $result = OC_DB::query('select timestamp,user,type,message from log order by timestamp desc limit 20');
-    $count=OC_DB::numrows($result);
-    for ($i=0; $i < $count;$i++) {
-
-      $entry=OC_DB::fetch_assoc($result);
+    $result = OC_DB::select('select timestamp,user,type,message from log order by timestamp desc limit 20');
+    foreach($result as $entry){
       echo('<tr class="browserline">');
       echo('<td class="sizetext">'.date($CONFIG_DATEFORMAT,$entry['timestamp']).'</td>');
       echo('<td class="highlighttext">'.OC_LOG::$TYPE[$entry['type']].'</td>');
@@ -74,8 +71,6 @@ class OC_LOG {
       echo('</tr>');
     }
     echo('</table></div>');
-    OC_DB::free_result($result);
-
   }
 
 }

@@ -292,10 +292,12 @@ class OC_CONFIG{
  );
 
 CREATE TABLE 'log' (
+  `id` INTEGER ASC DEFAULT '' NOT NULL,
   'timestamp' int(11) NOT NULL,
   'user' varchar(250) NOT NULL,
   'type' int(11) NOT NULL,
-  'message' varchar(250) NOT NULL
+  'message' varchar(250) NOT NULL,
+  PRIMARY KEY ('id')
 );
 
 

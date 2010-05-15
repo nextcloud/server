@@ -423,7 +423,6 @@ class OC_DB {
 	static function numrows($result) {
 		$result->numRows();
 	}
-
 	/**
 	* Returning number of affected rows
 	*
@@ -431,6 +430,30 @@ class OC_DB {
 	*/
 	static function affected_rows() {
 		self::$DBConnection->affectedRows();
+	}
+	
+	 /**
+	* get a field from the resultset
+	*
+	* @param resultset $result
+	* @param int $i
+	* @param int $field
+	* @return unknown
+	*/
+	static function result($result, $i, $field) {
+		$tmp=$result->fetchRow(MDB2_FETCHMODE_ASSOC,$i);
+		$tmp=$tmp[$field];
+		return($tmp);
+	}
+
+	/**
+	* get data-array from resultset
+	*
+	* @param resultset $result
+	* @return data
+	*/
+	static function fetch_assoc($result){
+		return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 	}
 	
 	/**

@@ -166,9 +166,6 @@ class OC_OCS {
    * @return username string
    */
   private static function checkpassword($forceuser=true) {
-    global $CONFIG_ADMINLOGIN;
-    global $CONFIG_ADMINPASSWORD;
-
     //valid user account ?
     if(isset($_SERVER['PHP_AUTH_USER'])) $authuser=$_SERVER['PHP_AUTH_USER']; else $authuser='';
     if(isset($_SERVER['PHP_AUTH_PW']))   $authpw=$_SERVER['PHP_AUTH_PW']; else $authpw='';
@@ -182,7 +179,7 @@ class OC_OCS {
         $identifieduser='';
       }
     }else{
-      if(($authuser<>$CONFIG_ADMINLOGIN) or ($authpw<>$CONFIG_ADMINPASSWORD)) {
+      if(!OC_USER::login($authuser,$authpw)){
         if($forceuser){
           header('WWW-Authenticate: Basic realm="your valid user account or api key"');
           header('HTTP/1.0 401 Unauthorized');
@@ -351,11 +348,8 @@ class OC_OCS {
    * @return string xml/json
    */
   private static function personcheck($format,$login,$passwd) {
-    global $CONFIG_ADMINLOGIN;
-    global $CONFIG_ADMINPASSWORD;
-
     if($login<>''){
-      if(($login==$CONFIG_ADMINLOGIN) and ($passwd==$CONFIG_ADMINPASSWORD)) {
+      if(OC_USER::login($login,$passwd)){
         $xml['person']['personid']=$login;
         echo(OC_OCS::generatexml($format,'ok',100,'',$xml,'person','check',2));
       }else{
@@ -386,13 +380,12 @@ class OC_OCS {
     $totalcount=$entry['co'];
     OC_DB::free_result($result);
 
-    $result = OC_DB::query('select id,timestamp,user,type,message from log order by timestamp desc limit '.($page*$pagesize).','.$pagesize);
-    $itemscount=OC_DB::numrows($result);
+    $result = OC_DB::select('select id,timestamp,user,type,message from log order by timestamp desc limit '.($page*$pagesize).','.$pagesize);
+    $itemscount=count($result);
 
     $url='http://'.substr($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'],0,-11).'';
     $xml=array();
-    for ($i=0; $i < $itemscount;$i++) {
-      $log=OC_DB::fetch_assoc($result);
+    foreach($result as $i=>$log) {
       $xml[$i]['id']=$log['id'];
       $xml[$i]['personid']=$log['user'];
       $xml[$i]['firstname']=$log['user'];
