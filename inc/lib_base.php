@@ -172,7 +172,7 @@ class OC_UTIL {
 		}
 	}
 	$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
-	if(substr($CONFIG_DATADIRECTORY_ROOT,2,1)!='0'){
+	if(substr($prems,-1)!='0'){
 		chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
 		clearstatcache();
 		$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
@@ -182,7 +182,7 @@ class OC_UTIL {
 	}
 	if($CONFIG_ENABLEBACKUP){
 		$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
-		if(substr($CONFIG_BACKUPDIRECTORY,2,1)!='0'){
+		if(substr($prems,-1)!='0'){
 			chmodr($CONFIG_BACKUPDIRECTORY,0770);
 			clearstatcache();
 			$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);

@@ -92,6 +92,11 @@ a#owncloud-logo span {
   display:none;
 }
 
+td.nametext{
+	position:relative;
+	display:block;
+}
+
 .nametext a, .breadcrumb a{color:#333333; font-size:8pt; font-weight:bold; text-decoration:none;}
 .errortext {color:#CC3333; font-size:9pt; font-weight:bold; text-decoration:none;}
 .highlighttext {color:#333333; font-size:9pt; font-weight:bold; text-decoration:none;}
@@ -223,6 +228,7 @@ div.breadcrumb{
 div.fileactionlist{
 	z-index:50;
     position:absolute;
+    top:20px;
     background-color: #DDDDDD;
     margin-top:5px;
     border:1px black solid;

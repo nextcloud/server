@@ -96,6 +96,8 @@ a#owncloud-logo span {
 
 td.nametext{
 	white-space:nowrap;
+	display:block;
+	position:relative;
 	/*overflow:hidden;*/
 	text-overflow: ellipsis;
 }
@@ -239,7 +241,7 @@ div.breadcrumb{
 }
 
 div.fileactionlist{
-	z-index:50;
+	z-index:100;
     position:absolute;
     background-color: #DDDDDD;
     margin-top:5px;
