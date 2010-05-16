@@ -34,6 +34,7 @@
 */
     require_once("../inc/lib_base.php");
     oc_require_once("lib_log.php");
+    oc_require_once("lib_filesystem.php");
     oc_require_once("HTTP/WebDAV/Server.php");
     oc_require_once("System.php");
 
@@ -176,7 +177,7 @@
             // plain file (WebDAV resource)
             $info["props"][] = $this->mkprop("resourcetype", "");
             if ( OC_FILESYSTEM::is_readable($fspath)) {
-                $info["props"][] = $this->mkprop("getcontenttype", $this->_mimetype($fspath));
+                $info["props"][] = $this->mkprop("getcontenttype", OC_FILESYSTEM::getMimetype($fspath));
             } else {
                 $info["props"][] = $this->mkprop("getcontenttype", "application/x-non-readable");
             }
@@ -189,63 +190,6 @@
             $info["props"][] = $this->mkprop($row["ns"], $row["name"], $row["value"]);
         }
         return $info;
-    }
-
-    /**
-     * detect if a given program is found in the search PATH
-     *
-     * helper function used by _mimetype() to detect if the
-     * external 'file' utility is available
-     *
-     * @param  string  program name
-     * @param  string  optional search path, defaults to $PATH
-     * @return bool    true if executable program found in path
-     */
-    function _can_execute($name, $path = false)
-    {
-        // path defaults to PATH from environment if not set
-        if ($path === false) {
-            $path = getenv("PATH");
-        }
-
-        // check method depends on operating system
-        if (!strncmp(PHP_OS, "WIN", 3)) {
-            // on Windows an appropriate COM or EXE file needs to exist
-            $exts     = array(".exe", ".com");
-            $check_fn = "file_exists";
-        } else {
-            // anywhere else we look for an executable file of that name
-            $exts     = array("");
-            $check_fn = "is_executable";
-        }
-
-        // now check the directories in the path for the program
-        foreach (explode(PATH_SEPARATOR, $path) as $dir) {
-            // skip invalid path entries
-            if (!file_exists($dir)) continue;
-            if (!is_dir($dir)) continue;
-
-            // and now look for the file
-            foreach ($exts as $ext) {
-                if ($check_fn("$dir/$name".$ext)) return true;
-            }
-        }
-
-        return false;
-    }
-
-
-    /**
-     * try to detect the mime type of a file
-     *
-     * @param  string  file path
-     * @return string  guessed mime type
-     */
-    function _mimetype($fspath)
-    {
-        return  OC_FILESYSTEM::getMimeType($fspath);
-
-        return $mime_type;
     }
 
     /**
@@ -263,7 +207,7 @@
         if (! OC_FILESYSTEM::file_exists($fspath)) return false;
 
         // detect resource type
-        $options['mimetype'] = $this->_mimetype($fspath);
+        $options['mimetype'] = OC_FILESYSTEM::getMimetype($fspath);
 
         // detect modification time
         // see rfc2518, section 13.7
