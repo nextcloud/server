@@ -186,7 +186,7 @@
         // get additional properties from database
             $query = "SELECT ns, name, value FROM properties WHERE path = '$path'";
             $res = OC_DB::select($query);
-            while ($row = $res[0]) {
+            foreach ($res as $row) {
             $info["props"][] = $this->mkprop($row["ns"], $row["name"], $row["value"]);
         }
         return $info;
@@ -608,9 +608,7 @@
             $where = "WHERE path = '$options[path]' AND token = '$options[update]'";
 
             $query = "SELECT owner, exclusivelock FROM locks $where";
-            $res   = OC_DB::query($query);
-            $row   = OC_DB::fetch_assoc($res);
-            OC_DB::free_result($res);
+            $row   = OC_DB::select($query);
 
             if (is_array($row)) {
                 $query = "UPDATE `locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";

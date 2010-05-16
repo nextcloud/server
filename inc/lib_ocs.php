@@ -3,22 +3,22 @@
 /**
 * ownCloud
 *
-* @author Frank Karlitschek 
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org 
-* 
+* @author Frank Karlitschek
+* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+*
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either 
+* License as published by the Free Software Foundation; either
 * version 3 of the License, or any later version.
-* 
+*
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*  
-* You should have received a copy of the GNU Lesser General Public 
+*
+* You should have received a copy of the GNU Lesser General Public
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-* 
+*
 */
 
 
@@ -97,7 +97,7 @@ class OC_OCS {
     }
 
     // preprocess url
-    $url=$_SERVER['PHP_SELF'];
+    $url=$_SERVER['REQUEST_URI'];
     if(substr($url,(strlen($url)-1))<>'/') $url.='/';
     $ex=explode('/',$url);
     $paracount=count($ex);
@@ -111,7 +111,7 @@ class OC_OCS {
       OC_OCS::apiconfig($format);
 
     // PERSON
-    // personcheck - POST - PERSON/CHECK     
+    // personcheck - POST - PERSON/CHECK
     }elseif(($method=='post') and (strtolower($ex[$paracount-4])=='v1.php') and (strtolower($ex[$paracount-3])=='person') and  (strtolower($ex[$paracount-2])=='check')){
       $format=OC_OCS::readdata('format','text');
       $login=OC_OCS::readdata('login','text');
@@ -120,7 +120,7 @@ class OC_OCS {
 
     // ACTIVITY
     // activityget - GET ACTIVITY   page,pagesize als urlparameter
-    }elseif(($method=='get') and (strtolower($ex[$paracount-3])=='v1.php')and (strtolower($ex[$paracount-2])=='activity')){           
+    }elseif(($method=='get') and (strtolower($ex[$paracount-3])=='v1.php')and (strtolower($ex[$paracount-2])=='activity')){
       $format=OC_OCS::readdata('format','text');
       $page=OC_OCS::readdata('page','int');
       $pagesize=OC_OCS::readdata('pagesize','int');
@@ -128,7 +128,7 @@ class OC_OCS {
       OC_OCS::activityget($format,$page,$pagesize);
 
     // activityput - POST ACTIVITY
-    }elseif(($method=='post') and (strtolower($ex[$paracount-3])=='v1.php')and (strtolower($ex[$paracount-2])=='activity')){            
+    }elseif(($method=='post') and (strtolower($ex[$paracount-3])=='v1.php')and (strtolower($ex[$paracount-2])=='activity')){
       $format=OC_OCS::readdata('format','text');
       $message=OC_OCS::readdata('message','text');
       OC_OCS::activityput($format,$message);
@@ -160,7 +160,7 @@ class OC_OCS {
   /**
    * checks if the user is authenticated
    * checks the IP whitlist, apikeys and login/password combination
-   * if $forceuser is true and the authentication failed it returns an 401 http response. 
+   * if $forceuser is true and the authentication failed it returns an 401 http response.
    * if $forceuser is false and authentification fails it returns an empty username string
    * @param bool $forceuser
    * @return username string
@@ -340,7 +340,7 @@ class OC_OCS {
   }
 
 
-  /**   
+  /**
    * check if the provided login/apikey/password is valid
    * @param string $format
    * @param string $login
@@ -364,7 +364,7 @@ class OC_OCS {
 
   // ACTIVITY API #############################################
 
-  /**   
+  /**
    * get my activities
    * @param string $format
    * @param string $page
@@ -375,8 +375,8 @@ class OC_OCS {
 
     $user=OC_OCS::checkpassword();
 
-    $result = OC_DB::query('select count(id) as co from log');
-    $entry=OC_DB::fetch_assoc($result);
+    $result = OC_DB::query('select count(*) as co from log');
+    $entry=$result->fetchRow();
     $totalcount=$entry['co'];
     OC_DB::free_result($result);
 
@@ -390,7 +390,7 @@ class OC_OCS {
       $xml[$i]['personid']=$log['user'];
       $xml[$i]['firstname']=$log['user'];
       $xml[$i]['lastname']='';
-      $xml[$i]['profilepage']=$url; 
+      $xml[$i]['profilepage']=$url;
 
       $pic=$url.'/img/owncloud-icon.png';
       $xml[$i]['avatarpic']=$pic;
@@ -405,7 +405,7 @@ class OC_OCS {
     echo($txt);
   }
 
-  /**   
+  /**
    * submit a activity
    * @param string $format
    * @param string $message
