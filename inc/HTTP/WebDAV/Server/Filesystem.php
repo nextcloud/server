@@ -290,8 +290,8 @@
                 $fullpath = $fspath."/".$filename;
                 $name     = htmlspecialchars($filename);
                 printf($format,
-                       number_format(filesize($fullpath)),
-                       strftime("%Y-%m-%d %H:%M:%S", filemtime($fullpath)),
+                       number_format(OC_FILESYSTEM::filesize($fullpath)),
+                       strftime("%Y-%m-%d %H:%M:%S", OC_FILESYSTEM::filemtime($fullpath)),
                        "<a href='$name'>$name</a>");
             }
         }
