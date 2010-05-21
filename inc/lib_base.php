@@ -37,9 +37,10 @@ $DOCUMENTROOT=$_SERVER['DOCUMENT_ROOT'];
 $SERVERROOT=str_replace("\\",'/',$SERVERROOT);
 $count=strlen($DOCUMENTROOT);
 $WEBROOT=substr($SERVERROOT,$count);
-if($WEBROOT{0}!=='/'){
+if($WEBROOT{0}!=='/' and $WEBROOT!=''){
 	$WEBROOT='/'.$WEBROOT;
 }
+// $WEBROOT='http://localhost'.$WEBROOT;
 
 // set the right include path
 // set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
