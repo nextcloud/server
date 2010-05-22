@@ -60,14 +60,15 @@ if($FIRSTRUN){?>
 <tr><td>admin login:</td><td><input type="text" name="adminlogin" size="30" class="formstyle" value=""></input></td></tr>
 <tr><td>admin password:</td><td><input type="password" name="adminpassword" size="30" class="formstyle"></input></td><td>(leave empty to keep current password)</td></tr>
 <tr><td>retype admin password:</td><td><input type="password" name="adminpassword2" size="30" class="formstyle"></input></td></tr>
+<tr><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY_ROOT);?>"></input></td></tr>
 <?php
 }
 ?>
-<tr><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY_ROOT);?>"></input></td></tr>
 <tr><td>force ssl:</td><td><input type="checkbox" name="forcessl" size="30" class="formstyle" value='1' <?php if($CONFIG_HTTPFORCESSL) echo 'checked'?>></input></td></tr>
 <tr><td>enable automatic backup:</td><td><input type="checkbox" name="enablebackup" id="enablebackup" onchange='showBackupPath()' size="30" class="formstyle" value='1' <?php if($CONFIG_ENABLEBACKUP) echo 'checked'?>></input></td></tr>
 <tr id='backupdir'><td>backup directory:</td><td><input type="text" name="backupdirectory" size="30" class="formstyle" value="<?php echo($CONFIG_BACKUPDIRECTORY);?>"></input></td></tr>
 <tr><td>date format:</td><td><input type="text" name="dateformat" size="30" class="formstyle" value='<?php echo($CONFIG_DATEFORMAT);?>'></input></td></tr>
+<?php if($FIRSTRUN){?>
 <tr><td>database type:</td><td>
 <select id='dbtype' name="dbtype" onchange='dbtypechange()'>
 <?php
@@ -103,6 +104,7 @@ foreach($dbtypes as $dbtype){
 <tr id='dbAdminUser'><td>database administrative user:</td><td><input type="text" name="dbadminuser" size="30" class="formstyle" value='root'></input></td></tr>
 <tr id='dbAdminPwd'><td>database administrative password:</td><td><input type="password" name="dbadminpwd" size="30" class="formstyle" value=''></input></td></tr>
 <tr><td>automaticly fill initial database:</td><td><input type="checkbox" name="filldb" size="30" class="formstyle" value='1' <?php if($FIRSTRUN) echo 'checked'; ?>></input></td></tr>
+<?php }?>
 <tr><td></td><td><input type="submit" name="set_config" alt="save" value="save" class="formstyle" /></td></tr>
 </table></form><br/>
 <?php
