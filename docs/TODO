@@ -1,10 +1,4 @@
-- write installation documentation
-
-- better ajax web gui
-
 - internationalizing of the web gui
-
-- write support for web gui
 
 - themed webgui to match plasma theme
 
@@ -14,8 +8,6 @@
   - integration with kolab server
 
 - create a versioning backend
-
-- create an automatic backup system to store files an a second device/server
 
 - create a usermanagement to share data
 

@@ -1,30 +1,24 @@
+also see http://owncloud.org/index.php/Installation
+
 == PREREQUISITS ==
 php5
-sqlite
+sqlite or mysql
 
 == SETUP ==
 Place owncloud in a subdirectory of your web server. Go to that directory with
 a web browser and the first run wizard should take it from there.
-Set up your paths in:
-config/config.php
 Check out config/config.sample.php for details if you want to set config.php manually.
 
-Your data will be in:
-$CONFIG_DATADIRECTORY = '/www/testy';
-Apache needs to have write permissions to this directory.
-
-And the ownCloud path is:
-$CONFIG_DOCUMENTROOT = '/www/owncloud/htdocs';
-The ownCloud checkout should be in the root of "htdocs".
-
-Both are absolute paths, so if your server is in /var/www, you need to add the /var
-
 == Database ==
-The database is sqlite. If you are having trouble make sure that the line
+--SQLite--
+When sqlite is chosen. If you are having trouble make sure that the line
 
 extension=sqlite.so
 
 appears in your php.ini
+
+--MySQL--
+when mysql is chosen, you can let ownCloud create the database and user when you have administrator credentials for mysql.
 
 
 Please help improving this documentation!

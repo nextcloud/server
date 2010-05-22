@@ -2,7 +2,7 @@
 		Ofcourse it is supported. The problem lies with the PHP configuration. If you have access to php.ini file (which resides in /etc/php5/apache2 folder) then you can fix this issue by changing the following lines :
 							; Maximum allowed size for uploaded files.
 							upload_max_filesize = 2M
+							
+		Also look for the following line:
+							post_max_size= 2M
 	In place of 2M write the maximum size you want to be allowed.
-
-2. I tried to install the ownCloud in some XYZ directory but its not working.
-	Unfortunately ownCloud can be installed into your default Apache directory only which is /var/www/ for most of the distributions.
