@@ -244,8 +244,6 @@
     function _mimetype($fspath) 
     {
         return  OC_FILESYSTEM::getMimeType($fspath);
-            
-        return $mime_type;
     }
 
     /**
@@ -447,7 +445,6 @@
         if (OC_FILESYSTEM::is_dir($path)) {
                 $query = "DELETE FROM properties WHERE path LIKE '".$this->_slashify($options["path"])."%'";
                 OC_DB::query($query);
-//                 System::rm(array("-rf, $path"));
 				OC_FILESYSTEM::delTree($path);
         } else {
             OC_FILESYSTEM::unlink($path);
@@ -743,19 +740,6 @@
         }
 
         return $result;
-    }
-
-
-    /**
-     * create database tables for property and lock storage
-     *
-     * @param  void
-     * @return bool   true on success
-     */
-    function create_database() 
-    {
-        // TODO
-        return false;
     }
 }
 
