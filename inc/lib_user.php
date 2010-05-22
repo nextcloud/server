@@ -60,8 +60,8 @@ class OC_USER {
 		}else{
 			$password=sha1($password);
 			$usernameclean=strtolower($username);
-			$username=mysql_escape_string($username);
-			$usernameclean=mysql_escape_string($usernameclean);
+			$username=OC_DB::escape($username);
+			$usernameclean=OC_DB::escape($usernameclean);
 			$query="INSERT INTO  `users` (`user_id` ,`user_name` ,`user_name_clean` ,`user_password`) VALUES (NULL ,  '$username',  '$usernameclean',  '$password')";
 			$result=OC_DB::query($query);
 			return ($result)?true:false;
@@ -76,8 +76,8 @@ class OC_USER {
 	public static function login($username,$password){
 		$password=sha1($password);
 		$usernameclean=strtolower($username);
-		$username=mysql_escape_string($username);
-		$usernameclean=mysql_escape_string($usernameclean);
+		$username=OC_DB::escape($username);
+		$usernameclean=OC_DB::escape($usernameclean);
 		$query="SELECT user_id FROM  users WHERE  user_name_clean =  '$usernameclean' AND  user_password =  '$password' LIMIT 1";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['user_id'])){
@@ -117,7 +117,7 @@ class OC_USER {
 	*/
 	public static function creategroup($groupname){
 		if(OC_USER::getgroupid($groupname)==0){
-			$groupname=mysql_escape_string($groupname);
+			$groupname=OC_DB::escape($groupname);
 			$query="INSERT INTO  `groups` (`group_id` ,`group_name`) VALUES (NULL ,  '$groupname')";
 			$result=OC_DB::query($query);
 			return ($result)?true:false;
@@ -132,8 +132,8 @@ class OC_USER {
 	*/
 	public static function getuserid($username){
 		$usernameclean=strtolower($username);
-		$username=mysql_escape_string($username);
-		$usernameclean=mysql_escape_string($usernameclean);
+		$username=OC_DB::escape($username);
+		$usernameclean=OC_DB::escape($usernameclean);
 		$query="SELECT user_id FROM  users WHERE user_name_clean = '$usernameclean'";
 		$result=OC_DB::select($query);
 		if(!is_array($result)){
@@ -151,7 +151,7 @@ class OC_USER {
 	*
 	*/
 	public static function getgroupid($groupname){
-		$groupname=mysql_escape_string($groupname);
+		$groupname=OC_DB::escape($groupname);
 		$query="SELECT group_id FROM groups WHERE  group_name = '$groupname'";
 		$result=OC_DB::select($query);
 		if(!is_array($result)){
@@ -268,8 +268,8 @@ class OC_USER {
 	public static function checkpassword($username,$password){
 		$password=sha1($password);
 		$usernameclean=strtolower($username);
-		$username=mysql_escape_string($username);
-		$usernameclean=mysql_escape_string($usernameclean);
+		$username=OC_DB::escape($username);
+		$usernameclean=OC_DB::escape($usernameclean);
 		$query="SELECT user_id FROM  'users' WHERE  user_name_clean =  '$usernameclean' AND  user_password =  '$password' LIMIT 1";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['user_id']) && $result[0]['user_id']>0){

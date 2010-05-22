@@ -474,14 +474,15 @@ class OC_DB {
 		}
 	}
 	
-	static public function createTable($name,$definition){
-		self::connect();
-		self::$DBConnection->createTable($name,$definition);
-	}
-	
-	static public function createConstraint($table,$name,$definition){
-		self::connect();
-		self::$DBConnection->createConstraint($table,$name,$definition);
+	/**
+	* escape strings so they can be used in queries
+	*
+	* @param string string
+	* @return string
+	*/
+	static function escape($string){
+		OC_DB::connect();
+		return self::$DBConnection->escape($string);
 	}
 
 }
