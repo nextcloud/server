@@ -151,10 +151,8 @@ class OC_UTIL {
     global $CONFIG_DATADIRECTORY_ROOT;
     global $CONFIG_BACKUPDIRECTORY;
     global $CONFIG_ENABLEBACKUP;
+    global $CONFIG_INSTALLED;
     $error='';
-    $f=@fopen($SERVERROOT.'/config/config.php','w+');
-    if(!$f) $error.='Error: Config file (config/config.php) is not writable for the webserver.<br/>';
-    @fclose($f);
     if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
 		$error.='No database drivers (sqlite or mysql) installed.<br/>';
     }
