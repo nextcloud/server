@@ -60,8 +60,13 @@ class OC_LOG {
   public static function show(){
     global $CONFIG_DATEFORMAT;
     echo('<div class="center"><table cellpadding="6" cellspacing="0" border="0" class="log">');
-
-    $result = OC_DB::select('select timestamp,user,type,message from log order by timestamp desc limit 20');
+	
+	if(OC_USER::ingroup($_SESSION['username_clean'],'admin')){
+		$result = OC_DB::select('select timestamp,user,type,message from log order by timestamp desc limit 20');
+	}else{
+		$user=$_SESSION['username_clean'];
+		$result = OC_DB::select('select timestamp,user,type,message from log where user=\''.$user.'\' order by timestamp desc limit 20');
+	}
     foreach($result as $entry){
       echo('<tr class="browserline">');
       echo('<td class="sizetext">'.date($CONFIG_DATEFORMAT,$entry['timestamp']).'</td>');
