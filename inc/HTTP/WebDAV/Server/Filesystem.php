@@ -190,50 +190,6 @@
         }
         return $info;
     }
-
-    /**
-     * detect if a given program is found in the search PATH
-     *
-     * helper function used by _mimetype() to detect if the 
-     * external 'file' utility is available
-     *
-     * @param  string  program name
-     * @param  string  optional search path, defaults to $PATH
-     * @return bool    true if executable program found in path
-     */
-    function _can_execute($name, $path = false) 
-    {
-        // path defaults to PATH from environment if not set
-        if ($path === false) {
-            $path = getenv("PATH");
-        }
-            
-        // check method depends on operating system
-        if (!strncmp(PHP_OS, "WIN", 3)) {
-            // on Windows an appropriate COM or EXE file needs to exist
-            $exts     = array(".exe", ".com");
-            $check_fn = "file_exists";
-        } else {
-            // anywhere else we look for an executable file of that name
-            $exts     = array("");
-            $check_fn = "is_executable";
-        }
-            
-        // now check the directories in the path for the program
-        foreach (explode(PATH_SEPARATOR, $path) as $dir) {
-            // skip invalid path entries
-            if (!file_exists($dir)) continue;
-            if (!is_dir($dir)) continue;
-
-            // and now look for the file
-            foreach ($exts as $ext) {
-                if ($check_fn("$dir/$name".$ext)) return true;
-            }
-        }
-
-        return false;
-    }
-
         
     /**
      * try to detect the mime type of a file
