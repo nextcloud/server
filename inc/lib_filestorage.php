@@ -104,7 +104,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		return $return;
 	}
 	public function is_dir($path){
-		return is_dir($this->datadir.$path);
+		return (is_dir($this->datadir.$path) or substr($path,-1)=='/');
 	}
 	public function is_file($path){
 		return is_file($this->datadir.$path);
@@ -166,7 +166,19 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		return $return;
 	}
 	public function copy($path1,$path2){
+		if($this->is_dir($path2)){
+			if(!$this->file_exists($path2)){
+				$this->mkdir($path2);
+			}
+			$source=substr($path1,strrpos($path1,'/')+1);
+			$path2.=$source;
+// 			sleep(30);
+		}else{
+			error_log('isfile');
+		}
+		error_log("copy $path1 to {$this->datadir}$path2");
 		if($return=copy($this->datadir.$path1,$this->datadir.$path2)){
+			error_log('success');
 			$this->notifyObservers($path2,OC_FILEACTION_CREATE);
 		}
 		return $return;
@@ -346,7 +358,11 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	}
 	
 	public function find($path){
-		return System::find($this->datadir.$path);
+		$return=System::find($this->datadir.$path);
+		foreach($return as &$file){
+			$file=str_replace($file,$this->datadir,'');
+		}
+		return $return;
 	}
 }
 ?>

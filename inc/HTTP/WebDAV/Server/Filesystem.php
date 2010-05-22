@@ -31,6 +31,7 @@
    | ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE      |
    | POSSIBILITY OF SUCH DAMAGE.                                          |
    +----------------------------------------------------------------------+
+   --- modified for ownCloud ---
 */    
     require_once("../inc/lib_base.php");
     oc_require_once("HTTP/WebDAV/Server.php");
@@ -539,6 +540,8 @@
                 $stat = $this->DELETE(array("path" => $options["dest"]));
                 if (($stat{0} != "2") && (substr($stat, 0, 3) != "404")) {
                     return $stat; 
+                }else{
+					$new=true;
                 }
             } else {
                 return "412 precondition failed";
@@ -547,7 +550,7 @@
 
         if ($del) {
             if (!OC_FILESYSTEM::rename($source, $dest)) {
-                return "500 Internal server error";
+                return "500 Internal server error 1";
             }
             $destpath = $this->_unslashify($options["dest"]);
             if (is_dir($source)) {
@@ -578,7 +581,6 @@
                 if (OC_FILESYSTEM::is_dir($file)) {
                     $file = $this->_slashify($file);
                 }
-
                 $destfile = str_replace($source, $dest, $file);
                     
                 if (OC_FILESYSTEM::is_dir($file)) {
@@ -593,9 +595,7 @@
                         return "409 Conflict";
                     }
                 } else {
-                    
                     if (!OC_FILESYSTEM::copy($file, $destfile)) {
-						error_log("copy $file to $destfile failed");
                         return "409 Conflict";
                     }
                 }

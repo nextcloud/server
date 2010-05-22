@@ -258,8 +258,13 @@ class OC_FILESYSTEM{
 	}
 	static public function find($path){
 		if($storage=self::getStorage($path)){
-			return $storage->find(substr($path,strlen(self::getMountPoint($path))));
+			$mp=self::getMountPoint($path);
+			$return=$storage->find(substr($path,strlen($mp)));
+			foreach($return as &$file){
+				$file=$mp.$file;
+			}
 		}
+		return $return;
 	}
 }
 ?>
