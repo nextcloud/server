@@ -4,7 +4,7 @@ global $CONFIG_ENABLEBACKUP;
 global $CONFIG_DATADIRECTORY_ROOT;
 global $CONFIG_BACKUPDIRECTORY;
 global $CONFIG_ERROR;
-$f=@fopen($SERVERROOT.'/config/config.php','r+');
+$f=@fopen($SERVERROOT.'/config/config.php','a+');
 if(!$f) die('Error: Config file (config/config.php) is not writable for the webserver.<br/>');
 @fclose($f);
 if(!isset($fillDB)) $fillDB=true;
