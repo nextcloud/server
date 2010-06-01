@@ -83,7 +83,7 @@ oc_require_once('lib_connect.php');
 
 
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
-	mkdir($CONFIG_DATADIRECTORY_ROOT);
+	@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
 }
 if(OC_USER::isLoggedIn()){
 	//jail the user in a seperate data folder
@@ -160,13 +160,15 @@ class OC_UTIL {
     global $CONFIG_DBNAME;
     if($CONFIG_DBTYPE=='sqlite'){
 		$file=$SERVERROOT.'/'.$CONFIG_DBNAME;
-		$prems=substr(decoct(fileperms($file)),-3);
-		if(substr($prems,2,1)!='0'){
-			@chmod($file,0660);
-			clearstatcache();
+		if(file_exists($file)){
 			$prems=substr(decoct(fileperms($file)),-3);
 			if(substr($prems,2,1)!='0'){
-				$error.='SQLite database file ('.$file.') is readable from the web<br/>';
+				@chmod($file,0660);
+				clearstatcache();
+				$prems=substr(decoct(fileperms($file)),-3);
+				if(substr($prems,2,1)!='0'){
+					$error.='SQLite database file ('.$file.') is readable from the web<br/>';
+				}
 			}
 		}
 	}
