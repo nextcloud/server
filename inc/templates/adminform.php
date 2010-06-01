@@ -71,7 +71,11 @@ if($FIRSTRUN){?>
 <tr><td>enable automatic backup:</td><td><input type="checkbox" name="enablebackup" id="enablebackup" onchange='showBackupPath()' size="30" class="formstyle" value='1' <?php if($CONFIG_ENABLEBACKUP) echo 'checked'?>></input></td></tr>
 <tr id='backupdir'><td>backup directory:</td><td><input type="text" name="backupdirectory" size="30" class="formstyle" value="<?php echo($CONFIG_BACKUPDIRECTORY);?>"></input></td></tr>
 <tr><td>date format:</td><td><input type="text" name="dateformat" size="30" class="formstyle" value='<?php echo($CONFIG_DATEFORMAT);?>'></input></td></tr>
-<?php if($FIRSTRUN){?>
+<?php if($FIRSTRUN){
+	if(!is_callable('sqlite_open')){
+		echo '<tr><td colspan="2">No SQLite support detected, make sure you have both sqlite and the sqlite php module installed (sqlite and php5-sqlite for Debian/Ubuntu)</td></tr>';
+	}
+?>
 <tr><td>database type:</td><td>
 <select id='dbtype' name="dbtype" onchange='dbtypechange()'>
 <?php
