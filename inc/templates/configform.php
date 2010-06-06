@@ -32,6 +32,7 @@ changepassset=function(){
 <tr style='display:none' id='new_password_retype'><td>retype admin password:</td><td><input type="password" name="password2" size="30" class="formstyle"></input></td></tr>
 </table>
 </form>
+<!--dissabled for now
 Groups:
 <form method="post" enctype="multipart/form-data">
 <input type='hidden' name='creategroup' value='1'>
@@ -48,4 +49,4 @@ foreach($groups as $group){
 <tr><td colspan='2' class='center'>Create new group</td></tr>
 <tr><td><input type='text' name='groupname' class="formstyle"></input></td><td><input type='submit' value='create' class="formstyle"></input></td></tr>
 </table>
-</form>
+</form>-->
