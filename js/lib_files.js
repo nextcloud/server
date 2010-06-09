@@ -102,7 +102,7 @@ OC_FILES.upload=function(dir,iframeId){
 	if(fileSelector.files && fileSelector.files[0].fileSize){
 		var size=fileSelector.files[0].fileSize;
 		if(size>max_upload){
-			new OCNotification('File to large',10000)
+			new OCNotification('File too large',10000)
 			return false;
 		}
 	}
