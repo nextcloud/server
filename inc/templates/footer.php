@@ -12,7 +12,7 @@ Hint: Mount it via webdav like this: <a href="webdav://<?php echo($_SERVER["HTTP
 <?php }?>
 <p class="footer">
 <?php
-  echo('<a href="http://ownCloud.org">ownCloud</a> - 1.0 beta 2');
+  echo('<a href="http://ownCloud.org">ownCloud</a> - 1.0 RC 1');
 ?>
 </p>
 </div>
