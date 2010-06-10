@@ -252,7 +252,7 @@ class OC_USER {
 	public static function setpassword($username,$password){
 		$password=sha1($password);
 		$userid=OC_USER::getuserid($username);
-		$query="UPDATE  users SET  user_password = '$password' WHERE  user_id =$userid LIMIT 1 ;";
+		$query="UPDATE  users SET  user_password = '$password' WHERE  user_id ='$userid'";
 		$result=OC_DB::query($query);
 		if($result){
 			return true;

@@ -30,6 +30,7 @@ changepassset=function(){
 <tr><td>change password:</td><td><input onchange='changepassset()' id='changepass' type="checkbox" name="changepass" size="30" class="formstyle" value='1'></input></td></tr>
 <tr style='display:none' id='new_password'><td>new password:</td><td><input type="password" name="password" size="30" class="formstyle"></input></td></tr>
 <tr style='display:none' id='new_password_retype'><td>retype admin password:</td><td><input type="password" name="password2" size="30" class="formstyle"></input></td></tr>
+<tr><td></td><td><input type='submit' value='save' class='formstyle'/></td></tr>
 </table>
 </form>
 <!--dissabled for now
