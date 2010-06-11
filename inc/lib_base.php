@@ -426,12 +426,7 @@ class OC_DB {
 	* @return primarykey
 	*/
 	static function insertid() {
-		global $CONFIG_DBTYPE;
-		if($CONFIG_DBTYPE=='sqlite'){
-		return self::$DBConnection->lastInsertRowid();
-		}elseif($CONFIG_DBTYPE=='mysql'){
-		return(mysqli_insert_id(self::$DBConnection));
-		}
+		return self::$DBConnection->lastInsertID();
 	}
 
 	/**
