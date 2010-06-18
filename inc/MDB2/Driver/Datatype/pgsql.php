@@ -44,7 +44,7 @@
 //
 // $Id: pgsql.php,v 1.93 2008/08/28 20:32:57 afz Exp $
 
-require_once 'MDB2/Driver/Datatype/Common.php';
+oc_require_once('MDB2/Driver/Datatype/Common.php');
 
 /**
  * MDB2 PostGreSQL driver

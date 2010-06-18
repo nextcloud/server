@@ -267,169 +267,58 @@ class OC_CONFIG{
 			}
 		}
 	}
-  
-   /**
-   * Fills the database with the initial tables
-   * Note: while the AUTO_INCREMENT function is not supported by SQLite
-   *    the same effect can be achieved by accessing the SQLite pseudo-column
-   *    "rowid"
-   */
-   private static function filldatabase(){
-		global $CONFIG_DBTYPE;
-      if($CONFIG_DBTYPE=='sqlite'){
-        $query="CREATE TABLE 'locks' (
-  'token' VARCHAR(255) NOT NULL DEFAULT '',
-  'path' varchar(200) NOT NULL DEFAULT '',
-  'created' int(11) NOT NULL DEFAULT '0',
-  'modified' int(11) NOT NULL DEFAULT '0',
-  'expires' int(11) NOT NULL DEFAULT '0',
-  'owner' varchar(200) DEFAULT NULL,
-  'recursive' int(11) DEFAULT '0',
-  'writelock' int(11) DEFAULT '0',
-  'exclusivelock' int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY ('token'),
-  UNIQUE ('token')
- );
-
-CREATE TABLE 'log' (
-  `id` INTEGER ASC DEFAULT '' NOT NULL,
-  'timestamp' int(11) NOT NULL,
-  'user' varchar(250) NOT NULL,
-  'type' int(11) NOT NULL,
-  'message' varchar(250) NOT NULL,
-  PRIMARY KEY ('id')
-);
-
-
-CREATE TABLE  'properties' (
-  'path' varchar(255) NOT NULL DEFAULT '',
-  'name' varchar(120) NOT NULL DEFAULT '',
-  'ns' varchar(120) NOT NULL DEFAULT 'DAV:',
-  'value' text,
-  PRIMARY KEY ('path','name','ns')
-);
-
-CREATE TABLE 'users' (
-  'user_id' INTEGER ASC DEFAULT '',
-  'user_name' varchar(64) NOT NULL DEFAULT '',
-  'user_name_clean' varchar(64) NOT NULL DEFAULT '',
-  'user_password' varchar(40) NOT NULL DEFAULT '',
-  PRIMARY KEY ('user_id'),
-  UNIQUE ('user_name' ,'user_name_clean')
-);
-
-CREATE TABLE  'groups' (
-'group_id' INTEGER ASC DEFAULT '',
-'group_name' VARCHAR( 64 ) NOT NULL DEFAULT '',
-PRIMARY KEY ('group_id'),
-UNIQUE ('group_name')
-);
-
-CREATE TABLE  'user_group' (
-'user_group_id' INTEGER ASC DEFAULT '',
-'user_id' VARCHAR( 64 ) NOT NULL DEFAULT '',
-'group_id' VARCHAR( 64 ) NOT NULL DEFAULT '',
-PRIMARY KEY ('user_group_id')
-)
-";
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      $query="CREATE TABLE IF NOT EXISTS `locks` (
-  `token` varchar(255) NOT NULL DEFAULT '',
-  `path` varchar(200) NOT NULL DEFAULT '',
-  `created` int(11) NOT NULL DEFAULT '0',
-  `modified` int(11) NOT NULL DEFAULT '0',
-  `expires` int(11) NOT NULL DEFAULT '0',
-  `owner` varchar(200) DEFAULT NULL,
-  `recursive` int(11) DEFAULT '0',
-  `writelock` int(11) DEFAULT '0',
-  `exclusivelock` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`token`),
-  UNIQUE KEY `token` (`token`),
-  KEY `path` (`path`),
-  KEY `path_2` (`path`),
-  KEY `path_3` (`path`,`token`),
-  KEY `expires` (`expires`)
-);
-
-CREATE TABLE IF NOT EXISTS `log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `timestamp` int(11) NOT NULL,
-  `user` varchar(250) NOT NULL,
-  `type` int(11) NOT NULL,
-  `message` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
-);
-
-
-CREATE TABLE IF NOT EXISTS `properties` (
-  `path` varchar(255) NOT NULL DEFAULT '',
-  `name` varchar(120) NOT NULL DEFAULT '',
-  `ns` varchar(120) NOT NULL DEFAULT 'DAV:',
-  `value` text,
-  PRIMARY KEY (`path`,`name`,`ns`),
-  KEY `path` (`path`)
-);
-
-CREATE TABLE IF NOT EXISTS  `users` (
-`user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-`user_name` VARCHAR( 64 ) NOT NULL ,
-`user_name_clean` VARCHAR( 64 ) NOT NULL ,
-`user_password` VARCHAR( 340) NOT NULL ,
-UNIQUE (
-`user_name` ,
-`user_name_clean`
-)
-);
-
-CREATE TABLE IF NOT EXISTS  `groups` (
-`group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-`group_name` VARCHAR( 64 ) NOT NULL ,
-UNIQUE (
-`group_name`
-)
-);
-
-CREATE TABLE IF NOT EXISTS  `user_group` (
-`user_group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-`user_id` VARCHAR( 64 ) NOT NULL ,
-`group_id` VARCHAR( 64 ) NOT NULL
-)
-";
+	
+	/**
+	* Fills the database with the initial tables
+	* Note: while the AUTO_INCREMENT function is not supported by SQLite
+	*    the same effect can be achieved by accessing the SQLite pseudo-column
+	*    "rowid"
+	*/
+	private static function filldatabase(){
+		global $SERVERROOT;
+		OC_DB::createDBFromStructure($SERVERROOT.'/db_structure.xml');
 	}
-      OC_DB::multiquery($query);
-   }
-   
-   /**
-   * Create the database and user
-   * @param string adminUser
-   * @param string adminPwd
-   *
-   */
-  private static function createdatabase($adminUser,$adminPwd){
-      global $CONFIG_DBHOST;
-      global $CONFIG_DBNAME;
-      global $CONFIG_DBUSER;
-      global $CONFIG_DBPWD;
-      //we cant user OC_BD functions here because we need to connect as the administrative user.
-      $connection = @new mysqli($CONFIG_DBHOST, $adminUser, $adminPwd);
-      if (mysqli_connect_errno()) {
-         @ob_end_clean();
-         echo('<html><head></head><body bgcolor="#F0F0F0"><br /><br /><center><b>can not connect to database as administrative user.</center></body></html>');
-         exit();
-      }
-      $query="CREATE USER '{$_POST['dbuser']}' IDENTIFIED BY  '{$_POST['dbpassword']}';
-
-CREATE DATABASE IF NOT EXISTS  `{$_POST['dbname']}` ;
-
-GRANT ALL PRIVILEGES ON  `{$_POST['dbname']}` . * TO  '{$_POST['dbuser']}';";
-      $result = @$connection->multi_query($query);
-      if (!$result) {
-         $entry='DB Error: "'.$connection->error.'"<br />';
-         $entry.='Offending command was: '.$query.'<br />';
-         echo($entry);
-      }
-      $connection->close();
-   }
+	
+	/**
+	* Create the database and user
+	* @param string adminUser
+	* @param string adminPwd
+	*
+	*/
+	private static function createdatabase($adminUser,$adminPwd){
+		global $CONFIG_DBHOST;
+		global $CONFIG_DBNAME;
+		global $CONFIG_DBUSER;
+		global $CONFIG_DBPWD;
+		//we cant user OC_BD functions here because we need to connect as the administrative user.
+		$connection = @new mysqli($CONFIG_DBHOST, $adminUser, $adminPwd);
+		if (mysqli_connect_errno()) {
+			@ob_end_clean();
+			echo('<html><head></head><body bgcolor="#F0F0F0"><br /><br /><center><b>can not connect to database as administrative user.</center></body></html>');
+			exit();
+		}
+		$query="SELECT user FROM mysql.user WHERE user='{$_POST['dbuser']}';";
+		$result = @$connection->query($query);
+		if (!$result) {
+			$entry='DB Error: "'.$connection->error.'"<br />';
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		}
+		if($result->num_rows==0){
+			$query="CREATE USER '{$_POST['dbuser']}' IDENTIFIED BY  '{$_POST['dbpassword']}';";
+		}else{
+			$query='';
+		}
+		$query.="CREATE DATABASE IF NOT EXISTS  `{$_POST['dbname']}`;
+		GRANT ALL PRIVILEGES ON  `{$_POST['dbname']}` . * TO  '{$_POST['dbuser']}';";
+		$result = @$connection->multi_query($query);
+		if (!$result) {
+			$entry='DB Error: "'.$connection->error.'"<br />';
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		}
+		$connection->close();
+	}
 }
 ?>
 

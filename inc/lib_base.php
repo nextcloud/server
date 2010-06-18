@@ -98,6 +98,7 @@ oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
 @oc_require_once('MDB2.php');
+@oc_require_once('MDB2/Schema.php');
 oc_require_once('lib_connect.php');
 
 
@@ -318,6 +319,7 @@ class OC_UTIL {
  */
 class OC_DB {
 	static private $DBConnection=false;
+	static private $schema=false;
 	/**
 	* connect to the datbase if not already connected
 	*/
@@ -331,8 +333,11 @@ class OC_DB {
 		global $SERVERROOT;
 		if(!self::$DBConnection){
 			$options = array(
-				'debug'       => 0,
 				'portability' => MDB2_PORTABILITY_ALL,
+				'log_line_break' => '<br>',
+				'idxname_format' => '%s',
+				'debug' => false,
+				'quote_identifier' => true,
 			);
 			if($CONFIG_DBTYPE=='sqlite'){
 				$dsn = array(
@@ -349,13 +354,13 @@ class OC_DB {
 					'database' => $CONFIG_DBNAME,
 				);
 			}
-			self::$DBConnection=MDB2::connect($dsn,$options);
+			self::$DBConnection=&MDB2::factory($dsn,$options);
 			if (@PEAR::isError(self::$DBConnection)) {
 				echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
 				die(self::$DBConnection->getMessage());
 			}
 			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
-// 			self::$DBConnection->loadModule('Manager');
+			self::$schema=&MDB2_Schema::factory($dsn,$options);
 		}
 	}
 	
@@ -426,7 +431,8 @@ class OC_DB {
 	* @return primarykey
 	*/
 	static function insertid() {
-		return self::$DBConnection->lastInsertID();
+		$id=self::$DBConnection->lastInsertID();
+		return $id;
 	}
 
 	/**
@@ -498,7 +504,31 @@ class OC_DB {
 		OC_DB::connect();
 		return self::$DBConnection->escape($string);
 	}
-
+	
+	static function getDBStructure($file){
+		OC_DB::connect();
+		$definition = self::$schema->getDefinitionFromDatabase();
+		$dump_options = array(
+			'output_mode' => 'file',
+			'output' => $file,
+			'end_of_line' => "\n"
+		);
+		self::$schema->dumpDatabase($definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE);
+	}
+	
+	static function createDBFromStructure($file){
+		OC_DB::connect();
+		$definition=@self::$schema->parseDatabaseDefinitionFile($file);
+		if($definition instanceof MDB2_Schema_Error){
+			die($definition->getMessage() . ': ' . $definition->getUserInfo());
+		}
+		$ret=@self::$schema->createDatabase($definition);
+		if($ret instanceof MDB2_Error) {
+			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
+		}else{
+			return true;
+		}
+	}
 }
 
 
