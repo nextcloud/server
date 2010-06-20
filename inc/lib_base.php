@@ -353,6 +353,14 @@ class OC_DB {
 					'hostspec' => $CONFIG_DBHOST,
 					'database' => $CONFIG_DBNAME,
 				);
+			}elseif($CONFIG_DBTYPE=='pgsql'){
+				$dsn = array(
+					'phptype'  => 'pgsql',
+					'username' => $CONFIG_DBUSER,
+					'password' => $CONFIG_DBPASSWORD,
+					'hostspec' => $CONFIG_DBHOST,
+					'database' => $CONFIG_DBNAME,
+				);
 			}
 			self::$DBConnection=&MDB2::factory($dsn,$options);
 			if (@PEAR::isError(self::$DBConnection)) {
@@ -378,6 +386,8 @@ class OC_DB {
 		OC_DB::connect();
 		if($CONFIG_DBTYPE=='sqlite'){//fix differences between sql versions
 			$cmd=str_replace('`','',$cmd);
+		}elseif($CONFIG_DBTYPE=='pgsql'){
+			$cmd=str_replace('`','"',$cmd);
 		}
 		$result=self::$DBConnection->query($cmd);
 		if (PEAR::isError($result)) {
@@ -396,7 +406,19 @@ class OC_DB {
    */
 	static function select($cmd){
 		OC_DB::connect();
-		return self::$DBConnection->queryAll($cmd);
+		global $CONFIG_DBTYPE;
+		if($CONFIG_DBTYPE=='sqlite'){//fix differences between sql versions
+			$cmd=str_replace('`','',$cmd);
+		}elseif($CONFIG_DBTYPE=='pgsql'){
+			$cmd=str_replace('`','"',$cmd);
+		}
+		$result=self::$DBConnection->queryAll($cmd);
+		if (PEAR::isError($result)) {
+			$entry='DB Error: "'.$result->getMessage().'"<br />';
+			$entry.='Offending command was: '.$cmd.'<br />';
+			die($entry);
+		}
+		return $result;
 	} 
 	
 	/**

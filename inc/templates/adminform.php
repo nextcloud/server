@@ -37,7 +37,7 @@ function dbtypechange(){
                 element.style.display='none';
             }
         }
-    }else if(type=='mysql'){
+    }else if(type=='mysql' || type=='pgsql'){
         for(i in inputs){
             id=inputs[i];
             element=document.getElementById(id);
@@ -80,24 +80,36 @@ if($FIRSTRUN){?>
 <select id='dbtype' name="dbtype" onchange='dbtypechange()'>
 <?php
 global $CONFIG_DBTYPE;
-$dbtypes=array();
 if($CONFIG_DBTYPE=='sqlite'){
 	if(is_callable('sqlite_open')){
-		$dbtypes[]='SQLite';
+		echo "<option value='sqlite'>SQLite</option>";
 	}
 	if(is_callable('mysql_connect')){
-		$dbtypes[]='MySQL';
+		echo "<option value='mysql'>MySQL</option>";
 	}
-}else{
+	if(is_callable('pg_connect')){
+		echo "<option value='pgsql'>PostgreSQL</option>";
+	}
+}elseif($CONFIG_DBTYPE=='mysql'){
 	if(is_callable('mysql_connect')){
-		$dbtypes[]='MySQL';
+		echo "<option value='mysql'>MySQL</option>";
 	}
 	if(is_callable('sqlite_open')){
-		$dbtypes[]='SQLite';
+		echo "<option value='sqlite'>SQLite</option>";
 	}
-}
-foreach($dbtypes as $dbtype){
-	echo "<option value='".strtolower($dbtype)."'>$dbtype</option>";
+	if(is_callable('pg_connect')){
+		echo "<option value='pgsql'>PostgreSQL</option>";
+	}
+}elseif($CONFIG_DBTYPE=='pgsql'){
+	if(is_callable('pg_connect')){
+		echo "<option value='pgsql'>PostgreSQL</option>";
+	}
+	if(is_callable('mysql_connect')){
+		echo "<option value='mysql'>MySQL</option>";
+	}
+	if(is_callable('sqlite_open')){
+		echo "<option value='sqlite'>SQLite</option>";
+	}
 }
 ?>
 </select>

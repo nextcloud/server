@@ -304,18 +304,18 @@
 
    <field>
     <name>user_id</name>
-    <type>text</type>
+	<type>integer</type>
     <default></default>
     <notnull>true</notnull>
-    <length>64</length>
+	<length>4</length>
    </field>
 
    <field>
     <name>group_id</name>
-    <type>text</type>
+	<type>integer</type>
     <default></default>
     <notnull>true</notnull>
-    <length>64</length>
+	<length>4</length>
    </field>
 
   </declaration>

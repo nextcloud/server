@@ -184,13 +184,13 @@ class OC_CONFIG{
 						//create/fill database
 						$CONFIG_DBTYPE=$dbtype;
 						$CONFIG_DBNAME=$_POST['dbname'];
-						if($dbtype=='mysql'){
+						if($dbtype!='sqlite'){
 							$CONFIG_DBHOST=$_POST['dbhost'];
 							$CONFIG_DBUSER=$_POST['dbuser'];
 							$CONFIG_DBPASSWORD=$_POST['dbpassword'];
 						}
 						try{
-							if(isset($_POST['createdatabase']) and $CONFIG_DBTYPE=='mysql'){
+							if(isset($_POST['createdatabase']) and $CONFIG_DBTYPE!='sqlite'){
 								self::createdatabase($_POST['dbadminuser'],$_POST['dbadminpwd']);
 							}
 						}catch(Exception $e){
@@ -241,7 +241,7 @@ class OC_CONFIG{
 					$config.='$CONFIG_DATEFORMAT=\''.$_POST['dateformat']."';\n";
 					$config.='$CONFIG_DBTYPE=\''.$dbtype."';\n";
 					$config.='$CONFIG_DBNAME=\''.$_POST['dbname']."';\n";
-					if($dbtype=='mysql'){
+					if($dbtype!='sqlite'){
 						$config.='$CONFIG_DBHOST=\''.$_POST['dbhost']."';\n";
 						$config.='$CONFIG_DBUSER=\''.$_POST['dbuser']."';\n";
 						$config.='$CONFIG_DBPASSWORD=\''.$_POST['dbpassword']."';\n";
@@ -290,34 +290,49 @@ class OC_CONFIG{
 		global $CONFIG_DBNAME;
 		global $CONFIG_DBUSER;
 		global $CONFIG_DBPWD;
+		global $CONFIG_DBTYPE;
 		//we cant user OC_BD functions here because we need to connect as the administrative user.
-		$connection = @new mysqli($CONFIG_DBHOST, $adminUser, $adminPwd);
-		if (mysqli_connect_errno()) {
-			@ob_end_clean();
-			echo('<html><head></head><body bgcolor="#F0F0F0"><br /><br /><center><b>can not connect to database as administrative user.</center></body></html>');
-			exit();
+		if($CONFIG_DBTYPE=='mysql'){
+			$connection = @new mysqli($CONFIG_DBHOST, $adminUser, $adminPwd);
+			if (mysqli_connect_errno()) {
+				@ob_end_clean();
+				echo('<html><head></head><body bgcolor="#F0F0F0"><br /><br /><center><b>can not connect to database as administrative user.</center></body></html>');
+				exit();
+			}
+			$query="SELECT user FROM mysql.user WHERE user='{$_POST['dbuser']}';";
+			$result = @$connection->query($query);
+			if (!$result) {
+				$entry='DB Error: "'.$connection->error.'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
+			if($result->num_rows==0){
+				$query="CREATE USER '{$_POST['dbuser']}' IDENTIFIED BY  '{$_POST['dbpassword']}';";
+			}else{
+				$query='';
+			}
+			$query.="CREATE DATABASE IF NOT EXISTS  `{$_POST['dbname']}`;";
+			$query.="GRANT ALL PRIVILEGES ON  `{$_POST['dbname']}` . * TO  '{$_POST['dbuser']}';";
+			$result = @$connection->multi_query($query);
+			if (!$result) {
+				$entry='DB Error: "'.$connection->error.'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
+			$connection->close();
+		}elseif($CONFIG_DBTYPE=='pgsql'){
+			$connection = pg_connect("user='$adminUser' host='$CONFIG_DBHOST' password='$adminPwd'");
+			$query="CREATE USER {$_POST['dbuser']} WITH PASSWORD '{$_POST['dbpassword']}' CREATEDB;";
+			$result = pg_exec($connection, $query);
+			$query="select count(*) from pg_catalog.pg_database where datname = '{$_POST['dbname']}';";
+			$result = pg_exec($connection, $query);
+			if(pg_result($result,0,0)==0){
+				$query="CREATE DATABASE {$_POST['dbname']};";
+				$result = pg_exec($connection, $query);
+				$query="ALTER DATABASE {$_POST['dbname']} OWNER TO {$_POST['dbuser']};";
+				$result = pg_exec($connection, $query);
+			}
 		}
-		$query="SELECT user FROM mysql.user WHERE user='{$_POST['dbuser']}';";
-		$result = @$connection->query($query);
-		if (!$result) {
-			$entry='DB Error: "'.$connection->error.'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
-		}
-		if($result->num_rows==0){
-			$query="CREATE USER '{$_POST['dbuser']}' IDENTIFIED BY  '{$_POST['dbpassword']}';";
-		}else{
-			$query='';
-		}
-		$query.="CREATE DATABASE IF NOT EXISTS  `{$_POST['dbname']}`;
-		GRANT ALL PRIVILEGES ON  `{$_POST['dbname']}` . * TO  '{$_POST['dbuser']}';";
-		$result = @$connection->multi_query($query);
-		if (!$result) {
-			$entry='DB Error: "'.$connection->error.'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
-		}
-		$connection->close();
 	}
 }
 ?>

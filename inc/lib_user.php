@@ -58,11 +58,11 @@ class OC_USER {
 		if(OC_USER::getuserid($username)!=0){
 			return false;
 		}else{
-			$password=sha1($password);
 			$usernameclean=strtolower($username);
+			$password=sha1($password);
 			$username=OC_DB::escape($username);
 			$usernameclean=OC_DB::escape($usernameclean);
-			$query="INSERT INTO  `users` (`user_id` ,`user_name` ,`user_name_clean` ,`user_password`) VALUES (NULL ,  '$username',  '$usernameclean',  '$password')";
+			$query="INSERT INTO  `users` (`user_name` ,`user_name_clean` ,`user_password`) VALUES ('$username',  '$usernameclean',  '$password')";
 			$result=OC_DB::query($query);
 			return ($result)?true:false;
 		}
@@ -118,7 +118,7 @@ class OC_USER {
 	public static function creategroup($groupname){
 		if(OC_USER::getgroupid($groupname)==0){
 			$groupname=OC_DB::escape($groupname);
-			$query="INSERT INTO  `groups` (`group_id` ,`group_name`) VALUES (NULL ,  '$groupname')";
+			$query="INSERT INTO  `groups` (`group_name`) VALUES ('$groupname')";
 			$result=OC_DB::query($query);
 			return ($result)?true:false;
 		}else{
@@ -132,7 +132,6 @@ class OC_USER {
 	*/
 	public static function getuserid($username){
 		$usernameclean=strtolower($username);
-		$username=OC_DB::escape($username);
 		$usernameclean=OC_DB::escape($usernameclean);
 		$query="SELECT user_id FROM  users WHERE user_name_clean = '$usernameclean'";
 		$result=OC_DB::select($query);
@@ -187,7 +186,7 @@ class OC_USER {
 		$userid=OC_USER::getuserid($username);
 		$groupid=OC_USER::getgroupid($groupname);
 		if($groupid>0 and $userid>0){
-			$query="SELECT user_group_id FROM  user_group WHERE  group_id = $groupid  AND user_id = $userid LIMIT 1";
+			$query="SELECT * FROM  user_group WHERE group_id = '$groupid'  AND user_id = '$userid';";
 			$result=OC_DB::select($query);
 			if(isset($result[0]) && isset($result[0]['user_group_id'])){
 				return true;
@@ -208,7 +207,7 @@ class OC_USER {
 			$userid=OC_USER::getuserid($username);
 			$groupid=OC_USER::getgroupid($groupname);
 			if($groupid!=0 and $userid!=0){
-				$query="INSERT INTO `user_group` (`user_group_id` ,`user_id` ,`group_id`) VALUES (NULL ,  '$userid',  '$groupid');";
+				$query="INSERT INTO `user_group` (`user_id` ,`group_id`) VALUES ('$userid',  '$groupid');";
 				$result=OC_DB::query($query);
 				if($result){
 					return true;
