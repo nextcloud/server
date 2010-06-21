@@ -27,6 +27,14 @@ if(!$CONFIG_INSTALLED){
 	$_SESSION['username_clean']='';
 }
 
+//cache the userid's an groupid's
+if(!isset($_SESSION['user_id_cache'])){
+	$_SESSION['user_id_cache']=array();
+}
+if(!isset($_SESSION['group_id_cache'])){
+	$_SESSION['group_id_cache']=array();
+}
+
 /**
  * Class for usermanagement
  *
@@ -132,6 +140,9 @@ class OC_USER {
 	*/
 	public static function getuserid($username){
 		$usernameclean=strtolower($username);
+		if(isset($_SESSION['user_id_cache'][$usernameclean])){//try to use cached value to save an sql query
+			return $_SESSION['user_id_cache'][$usernameclean];
+		}
 		$usernameclean=OC_DB::escape($usernameclean);
 		$query="SELECT user_id FROM  users WHERE user_name_clean = '$usernameclean'";
 		$result=OC_DB::select($query);
@@ -139,6 +150,7 @@ class OC_USER {
 			return 0;
 		}
 		if(isset($result[0]) && isset($result[0]['user_id'])){
+			$_SESSION['user_id_cache'][$usernameclean]=$result[0]['user_id'];
 			return $result[0]['user_id'];
 		}else{
 			return 0;
@@ -150,6 +162,9 @@ class OC_USER {
 	*
 	*/
 	public static function getgroupid($groupname){
+		if(isset($_SESSION['group_id_cache'][$groupname])){//try to use cached value to save an sql query
+			return $_SESSION['group_id_cache'][$groupname];
+		}
 		$groupname=OC_DB::escape($groupname);
 		$query="SELECT group_id FROM groups WHERE  group_name = '$groupname'";
 		$result=OC_DB::select($query);
@@ -157,6 +172,7 @@ class OC_USER {
 			return 0;
 		}
 		if(isset($result[0]) && isset($result[0]['group_id'])){
+			$_SESSION['group_id_cache'][$groupname]=$result[0]['group_id'];
 			return $result[0]['group_id'];
 		}else{
 			return 0;
@@ -168,6 +184,9 @@ class OC_USER {
 	*
 	*/
 	public static function getgroupname($groupid){
+		if($name=array_search($groupid,$_SESSION['group_id_cache'])){//try to use cached value to save an sql query
+			return $name;
+		}
 		$groupid=(integer)$groupid;
 		$query="SELECT group_name FROM  groups WHERE  group_id =  '$groupid' LIMIT 1";
 		$result=OC_DB::select($query);
