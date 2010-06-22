@@ -258,7 +258,6 @@ document.drag.update=function(event){
 	if(document.drag.active && document.drag.node){
 		document.drag.node.drag.update.call(document.drag.node,event);
 	}
-	return false;
 }
 
 /**
@@ -269,7 +268,6 @@ document.drag.stop=function(event){
 	if(document.drag.active && document.drag.node){
 		document.drag.node.drag.stop.call(document.drag.node,event);
 	}
-	return false;
 }
 document.events.add(document,'onmousemove',document.drag.update);
 document.events.add(document,'onmouseup',document.drag.stop);
