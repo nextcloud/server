@@ -35,31 +35,12 @@ session_start();
 $SERVERROOT=substr(__FILE__,0,-17);
 $DOCUMENTROOT=$_SERVER['DOCUMENT_ROOT'];
 $SERVERROOT=str_replace("\\",'/',$SERVERROOT);
-if(strpos($SERVERROOT,$DOCUMENTROOT)===0){
-	//if the serverroot is a subdir of the documentroot we can use this
-	$count=strlen($DOCUMENTROOT);
-	$WEBROOT=substr($SERVERROOT,$count);
-}else{
-	//try some common patterns
-	$WEBROOT='';
-	if(strpos($_SERVER['REQUEST_URI'],'/~')!==false){
-		//owncloud is probable installed in a users home folder, extract the username from the uri and use it as base for the webroot
-		$part=substr($_SERVER['REQUEST_URI'],strpos($_SERVER['REQUEST_URI'],'/~')+1);
-		$part=substr($part,0,strpos($part,'/'));
-		$WEBROOT.='/'.$part;
-	}
-	if(strpos($SERVERROOT,'public_html')!==false){
-		//a common used folder name for websevers to store their sites
-		if($WEBROOT{strlen($WEBROOT)-1}!=='/'){
-			$WEBROOT.='/';
-		}
-		$WEBROOT.=substr($SERVERROOT,strpos($SERVERROOT,'public_html')+strlen('public_html'));
-	}
-}
-if($WEBROOT{0}!=='/' and $WEBROOT!=''){
+$SUBURI=substr($_SERVER["SCRIPT_FILENAME"],strlen($SERVERROOT));
+$WEBROOT=substr($_SERVER["SCRIPT_NAME"],0,strlen($_SERVER["SCRIPT_NAME"])-strlen($SUBURI));
+
+if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 	$WEBROOT='/'.$WEBROOT;
 }
-// $WEBROOT='http://localhost'.$WEBROOT;
 
 // set the right include path
 // set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
