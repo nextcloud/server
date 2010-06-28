@@ -110,7 +110,7 @@ if(OC_USER::isLoggedIn()){
 // load plugins
 $CONFIG_LOADPLUGINS='';
 $plugins=explode(' ',$CONFIG_LOADPLUGINS);
-if(isset($plugins[0]['url'])) foreach($plugins as $plugin) require_once('plugins/'.$plugin.'/lib_'.$plugin.'.php');
+if(isset($plugins[0]['url'])) foreach($plugins as $plugin) require_once($SERVERROOT.'/plugins/'.$plugin.'/lib_'.$plugin.'.php');
 
 
 // check if the server is correctly configured for ownCloud
