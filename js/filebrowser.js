@@ -309,6 +309,9 @@ OC_FILES.browser.show_callback=function(content){
 		OC_FILES.browser.breadcrumb.show(null,dir);
 		OC_FILES.browser.files.show(null,content);
 	}
+	if(OC_FILES.uploadForm){
+		OC_FILES.uploadForm.setAttribute('action','files/upload.php?dir='+dir);
+	}
 }
 
 OC_FILES.browser.handleDropOn=function(event,node){
@@ -437,7 +440,7 @@ OC_FILES.browser.showuploader=function(dir,parent,max_upload){
 	file.name='file';
 	file.setAttribute('id','fileSelector');
 	file.setAttribute('type','file');
-	file.addEvent('onchange',OC_FILES.upload,[dir,iframeId]);
+	file.addEvent('onchange',OC_FILES.upload,[iframeId]);
 	OC_FILES.uploadForm.appendChild(document.createTextNode('Upload file: '));
 	OC_FILES.uploadForm.appendChild(file);
 	parent.appendChild(OC_FILES.uploadForm);
