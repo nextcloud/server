@@ -2,12 +2,13 @@
 header('Content-Type: text/css');
 require_once('../inc/lib_base.php');
 ?>
-html,body {
-    background-color: #F9F9F9;
-    margin:0px;
-    height:100%;
-    width:100%;
-    position:absolute;
+html, body {
+	background-color: #F9F9F9;
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	font-size: 100%;
 }
 #mainlayout{
 	width:100%;
@@ -47,7 +48,7 @@ html,body {
 
 body.error {background-color: #F0F0F0;}
 td.error{color:#FF0000; text-align:center}
-body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size:9.0pt;}
+body,th,td,ul,li,a,div,p,pre {color:#333333; font-family:Verdana,"Bitstream Vera Sans",Arial,Helvetica,Sans,"Bitstream Vera Serif"; font-size: 0.95em;}
 
 a img {
   border:none;
@@ -97,22 +98,22 @@ td.nametext{
 	display:block;
 }
 
-.nametext a, .breadcrumb a{color:#333333; font-size:8pt; font-weight:bold; text-decoration:none;}
-.errortext {color:#CC3333; font-size:9pt; font-weight:bold; text-decoration:none;}
-.highlighttext {color:#333333; font-size:9pt; font-weight:bold; text-decoration:none;}
-.datetext {color:#333333; font-size:7pt;}
+.nametext a, .breadcrumb a{color:#333333; font-size: 0.8em; font-weight:bold; text-decoration:none;}
+.errortext {color:#CC3333; font-size: 0.95em; font-weight:bold; text-decoration:none;}
+.highlighttext {color:#333333; font-size: 0.95em; font-weight:bold; text-decoration:none;}
+.datetext {color:#333333; font-size: 0.7em;}
 .sizetext{
 	color:#333333;
-	font-size:7pt;
+	font-size: 0.7em;
 }
-.footer {color:#999999; text-align:center; font-size:9pt; margin-top:4em;}
+.footer {color:#999999; text-align:center; font-size: 0.95em; margin-top:4em;}
 .footer a {color:#999999; text-decoration:none;}
-.hint {color:#AAAAAA; text-align:center; font-size:8pt; margin-top:10px;}
-.hint a{color:#AAAAAA; text-align:center; font-size:8pt;}
+.hint {color:#AAAAAA; text-align:center; font-size: 0.8em; margin-top:10px;}
+.hint a{color:#AAAAAA; text-align:center; font-size: 0.8em;}
 
 .formstyle {
   font-weight:normal;
-  font-size: 8.0pt;
+  font-size: 0.8em;
   color: #555555;
   background-color: #FFFFFF;
   border: 1px solid #DDDDDD;
@@ -140,7 +141,7 @@ td.nametext{
 .navigationitem1 {
   background-color: #EEEEEE;
   color:#555555; 
-  font-size:9pt; 
+  font-size: 0.95em; 
   font-weight:bold;
 }
 
@@ -173,13 +174,13 @@ td.nametext{
 .navigationitem a {
   text-decoration:none;
   color: #333333;
-  font-size: 8.0pt;
+  font-size: 0.8em;
 }
 
 .navigationitemselected a {
   text-decoration:none;
   color: #333333;
-  font-size: 8.0pt;
+  font-size: 0.8em;
   font-weight:bold;
 }
 
