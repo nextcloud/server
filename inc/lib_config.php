@@ -134,6 +134,7 @@ class OC_CONFIG{
 			global $CONFIG_DBUSER;
 			global $CONFIG_DBPASSWORD;
 			global $CONFIG_DBTYPE;
+			global $CONFIG_DBTABLEPREFIX;
 			global $CONFIG_ADMINLOGIN;
 			global $CONFIG_ADMINPASSWORD;
 			if(isset($_POST['set_config'])){
@@ -332,8 +333,15 @@ CREATE TABLE  'user_group' (
 PRIMARY KEY ('user_group_id')
 )
 ";
-    }elseif($CONFIG_DBTYPE=='mysql'){
-      $query="CREATE TABLE IF NOT EXISTS `locks` (
+	} elseif ( 'mysql' === $CONFIG_DBTYPE ) {
+		$dbTableLocks = $CONFIG_DBTABLEPREFIX . 'locks';
+		$dbTableLog = $CONFIG_DBTABLEPREFIX . 'log';
+		$dbTableProperties = $CONFIG_DBTABLEPREFIX . 'properties';
+		$dbTableUsers = $CONFIG_DBTABLEPREFIX . 'users';
+		$dbTableGroups = $CONFIG_DBTABLEPREFIX . 'groups';
+		$dbTableUserGroup = $CONFIG_DBTABLEPREFIX . 'user_group';
+
+		$query = "CREATE TABLE IF NOT EXISTS `$dbTableLocks` (
   `token` varchar(255) NOT NULL DEFAULT '',
   `path` varchar(200) NOT NULL DEFAULT '',
   `created` int(11) NOT NULL DEFAULT '0',
@@ -351,7 +359,7 @@ PRIMARY KEY ('user_group_id')
   KEY `expires` (`expires`)
 );
 
-CREATE TABLE IF NOT EXISTS `log` (
+CREATE TABLE IF NOT EXISTS `$dbTableLog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `timestamp` int(11) NOT NULL,
   `user` varchar(250) NOT NULL,
@@ -361,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `log` (
 );
 
 
-CREATE TABLE IF NOT EXISTS `properties` (
+CREATE TABLE IF NOT EXISTS `$dbTableProperties` (
   `path` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(120) NOT NULL DEFAULT '',
   `ns` varchar(120) NOT NULL DEFAULT 'DAV:',
@@ -370,7 +378,7 @@ CREATE TABLE IF NOT EXISTS `properties` (
   KEY `path` (`path`)
 );
 
-CREATE TABLE IF NOT EXISTS  `users` (
+CREATE TABLE IF NOT EXISTS  `$dbTableUsers` (
 `user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `user_name` VARCHAR( 64 ) NOT NULL ,
 `user_name_clean` VARCHAR( 64 ) NOT NULL ,
@@ -381,7 +389,7 @@ UNIQUE (
 )
 );
 
-CREATE TABLE IF NOT EXISTS  `groups` (
+CREATE TABLE IF NOT EXISTS  `$dbTableGroups` (
 `group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `group_name` VARCHAR( 64 ) NOT NULL ,
 UNIQUE (
@@ -389,7 +397,7 @@ UNIQUE (
 )
 );
 
-CREATE TABLE IF NOT EXISTS  `user_group` (
+CREATE TABLE IF NOT EXISTS  `$dbTableUserGroup` (
 `user_group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `user_id` VARCHAR( 64 ) NOT NULL ,
 `group_id` VARCHAR( 64 ) NOT NULL
