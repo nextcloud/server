@@ -177,15 +177,15 @@
             $info["props"][] = $this->mkprop("resourcetype", "");
             if ( OC_FILESYSTEM::is_readable($fspath)) {
                 $info["props"][] = $this->mkprop("getcontenttype", $this->_mimetype($fspath));
-            } else {
+            } else { "SELECT ns, name, value FROM properties WHERE path = '$path'";
                 $info["props"][] = $this->mkprop("getcontenttype", "application/x-non-readable");
             }               
             $info["props"][] = $this->mkprop("getcontentlength",  OC_FILESYSTEM::filesize($fspath));
         }
         // get additional properties from database
-            $query = "SELECT ns, name, value FROM properties WHERE path = '$path'";
-            $res = OC_DB::select($query);
-            while ($row = $res[0]) {
+		$query = "SELECT ns, name, value FROM properties WHERE path = '$path'";
+		$res = OC_DB::select($query);
+		foreach($res as $row){
             $info["props"][] = $this->mkprop($row["ns"], $row["name"], $row["value"]);
         }
         return $info;
