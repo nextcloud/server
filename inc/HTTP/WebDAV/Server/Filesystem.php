@@ -151,7 +151,6 @@
     function fileinfo($path) 
     {
 		global $CONFIG_DBTABLEPREFIX;
-		$dbTableProperties = $CONFIG_DBTABLEPREFIX . 'properties';
 
         // map URI path to filesystem path
         $fspath =$path;
@@ -186,7 +185,7 @@
             $info["props"][] = $this->mkprop("getcontentlength",  OC_FILESYSTEM::filesize($fspath));
         }
         // get additional properties from database
-            $query = "SELECT ns, name, value FROM $dbTableProperties WHERE path = '$path'";
+            $query = "SELECT ns, name, value FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '$path'";
             $res = OC_DB::select($query);
             while ($row = $res[0]) {
             $info["props"][] = $this->mkprop($row["ns"], $row["name"], $row["value"]);
@@ -396,7 +395,6 @@
     function DELETE($options) 
     {
 		global $CONFIG_DBTABLEPREFIX;
-		$dbTableProperties = $CONFIG_DBTABLEPREFIX . 'properties';
         $path =$options["path"];
 
         if (!OC_FILESYSTEM::file_exists($path)) {
@@ -404,13 +402,13 @@
         }
 
         if (OC_FILESYSTEM::is_dir($path)) {
-                $query = "DELETE FROM $dbTableProperties WHERE path LIKE '".$this->_slashify($options["path"])."%'";
+                $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path LIKE '".$this->_slashify($options["path"])."%'";
                 OC_DB::query($query);
 				OC_FILESYSTEM::delTree($path);
         } else {
             OC_FILESYSTEM::unlink($path);
         }
-            $query = "DELETE FROM $dbTableProperties WHERE path = '$options[path]'";
+            $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '$options[path]'";
             OC_DB::query($query);
 
         return "204 No Content";
@@ -438,7 +436,6 @@
     {
         // TODO Property updates still broken (Litmus should detect this?)
 		global $CONFIG_DBTABLEPREFIX;
-		$dbTableProperties = $CONFIG_DBTABLEPREFIX . 'properties';
 
         if (!empty($this->_SERVER["CONTENT_LENGTH"])) { // no body parsing yet
             return "415 Unsupported media type";
@@ -514,13 +511,13 @@
             }
             $destpath = $this->_unslashify($options["dest"]);
             if (is_dir($source)) {
-                    $query = "UPDATE $dbTableProperties
+                    $query = "UPDATE {$CONFIG_DBTABLEPREFIX}properties 
                                  SET path = REPLACE(path, '".$options["path"]."', '".$destpath."') 
                                WHERE path LIKE '".$this->_slashify($options["path"])."%'";
                     OC_DB::query($query);
             }
 
-                $query = "UPDATE $dbTableProperties
+                $query = "UPDATE {$CONFIG_DBTABLEPREFIX}properties 
                              SET path = '".$destpath."'
                            WHERE path = '".$options["path"]."'";
                 OC_DB::query($query);
@@ -561,7 +558,7 @@
                 }
             }
 
-                $query = "INSERT INTO $dbTableProperties SELECT * FROM properties WHERE path = '".$options['path']."'";
+                $query = "INSERT INTO {$CONFIG_DBTABLEPREFIX}properties SELECT * FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '".$options['path']."'";
         }
 
         return ($new && !$existing_col) ? "201 Created" : "204 No Content";         
@@ -578,8 +575,6 @@
         global $prefs, $tab;
 		global $CONFIG_DBTABLEPREFIX;
 
-		$dbTableProperties = $CONFIG_DBTABLEPREFIX . 'properties';
-
         $msg  = "";
         $path = $options["path"];
         $dir  = dirname($path)."/";
@@ -590,10 +585,10 @@
                 $options["props"][$key]['status'] = "403 Forbidden";
             } else {
                 if (isset($prop["val"])) {
-                        $query = "REPLACE INTO $dbTableProperties SET path = '$options[path]', name = '$prop[name]', ns= '$prop[ns]', value = '$prop[val]'";
+                        $query = "REPLACE INTO {$CONFIG_DBTABLEPREFIX}properties SET path = '$options[path]', name = '$prop[name]', ns= '$prop[ns]', value = '$prop[val]'";
                         error_log($query);
                 } else {
-                        $query = "DELETE FROM $dbTableProperties WHERE path = '$options[path]' AND name = '$prop[name]' AND ns = '$prop[ns]'";
+                        $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '$options[path]' AND name = '$prop[name]' AND ns = '$prop[ns]'";
                 }       
                     OC_DB::query($query);
             }
@@ -612,7 +607,7 @@
     function LOCK(&$options) 
     {
 		global $CONFIG_DBTABLEPREFIX;
-		$dbTableLocks = $CONFIG_DBTABLEPREFIX . 'locks';
+
         // get absolute fs path to requested resource
         $fspath = $options["path"];
 
@@ -627,13 +622,13 @@
         if (isset($options["update"])) { // Lock Update
             $where = "WHERE path = '$options[path]' AND token = '$options[update]'";
 
-            $query = "SELECT owner, exclusivelock FROM  $dbTableLocks $where";
+            $query = "SELECT owner, exclusivelock FROM {$CONFIG_DBTABLEPREFIX}locks $where";
             $res   = OC_DB::query($query);
             $row   = OC_DB::fetch_assoc($res);
             OC_DB::free_result($res);
 
             if (is_array($row)) {
-                $query = "UPDATE `$dbTableLocks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
+                $query = "UPDATE `{$CONFIG_DBTABLEPREFIX}locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
                 OC_DB::query($query);
                 
                 $options['owner'] = $row['owner'];
@@ -646,7 +641,7 @@
             }
         }
             
-        $query = "INSERT INTO `$dbTableLocks`
+        $query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}locks`
                         SET `token`   = '$options[locktoken]'
                           , `path`    = '$options[path]'
                           , `created` = ".time()."
@@ -669,8 +664,7 @@
     function UNLOCK(&$options) 
     {
 		global $CONFIG_DBTABLEPREFIX;
-		$dbTableLocks = $CONFIG_DBTABLEPREFIX . 'locks';
-            $query = "DELETE FROM $dbTableLocks
+            $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}locks
                       WHERE path = '$options[path]'
                         AND token = '$options[token]'";
             OC_DB::query($query);
@@ -687,10 +681,10 @@
     function checkLock($path) 
     {
 		global $CONFIG_DBTABLEPREFIX;
-		$dbTableLocks = $CONFIG_DBTABLEPREFIX . 'locks';
+
         $result = false;
         $query = "SELECT *
-                  FROM $dbTableLocks
+                  FROM {$CONFIG_DBTABLEPREFIX}locks
                  WHERE path = '$path'
                ";
             $res = OC_DB::select($query);

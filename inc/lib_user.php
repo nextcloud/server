@@ -64,8 +64,7 @@ class OC_USER {
 			$usernameclean=strtolower($username);
 			$username=OC_DB::escape($username);
 			$usernameclean=OC_DB::escape($usernameclean);
-			$dbTableUsers = $CONFIG_DBTABLEPREFIX . 'users';
-			$query = "INSERT INTO  `$dbTableUsers` (`user_id` ,`user_name` ,`user_name_clean` ,`user_password`) VALUES (NULL ,  '$username',  '$usernameclean',  '$password')";
+			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}users` (`user_id` ,`user_name` ,`user_name_clean` ,`user_password`) VALUES (NULL ,  '$username',  '$usernameclean',  '$password')";
 			$result=OC_DB::query($query);
 			return ($result)?true:false;
 		}
@@ -83,8 +82,7 @@ class OC_USER {
 		$usernameclean=strtolower($username);
 		$username=OC_DB::escape($username);
 		$usernameclean=OC_DB::escape($usernameclean);
-		$dbTableUsers = $CONFIG_DBTABLEPREFIX . 'users';
-		$query = "SELECT user_id FROM $dbTableUsers WHERE user_name_clean = '$usernameclean' AND  user_password =  '$password' LIMIT 1";
+		$query = "SELECT user_id FROM {$CONFIG_DBTABLEPREFIX}users WHERE user_name_clean = '$usernameclean' AND  user_password =  '$password' LIMIT 1";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['user_id'])){
 			$_SESSION['user_id']=$result[0]['user_id'];
@@ -126,8 +124,7 @@ class OC_USER {
 
 		if(OC_USER::getgroupid($groupname)==0){
 			$groupname=OC_DB::escape($groupname);
-			$dbTableGroups = $CONFIG_DBTABLEPREFIX . 'groups';
-			$query="INSERT INTO `$dbTableGroups` (`group_id` ,`group_name`) VALUES (NULL , '$groupname')";
+			$query="INSERT INTO `{$CONFIG_DBTABLEPREFIX}groups` (`group_id` ,`group_name`) VALUES (NULL , '$groupname')";
 			$result=OC_DB::query($query);
 			return ($result)?true:false;
 		}else{
@@ -145,8 +142,7 @@ class OC_USER {
 		$usernameclean=strtolower($username);
 		$username=OC_DB::escape($username);
 		$usernameclean=OC_DB::escape($usernameclean);
-		$dbTableUsers = $CONFIG_DBTABLEPREFIX . 'users';
-		$query="SELECT user_id FROM $dbTableUsers WHERE user_name_clean = '$usernameclean'";
+		$query="SELECT user_id FROM {$CONFIG_DBTABLEPREFIX}users WHERE user_name_clean = '$usernameclean'";
 		$result=OC_DB::select($query);
 		if(!is_array($result)){
 			return 0;
@@ -166,8 +162,7 @@ class OC_USER {
 		global $CONFIG_DBTABLEPREFIX;
 
 		$groupname=OC_DB::escape($groupname);
-		$dbTableGroups = $CONFIG_DBTABLEPREFIX . 'groups';
-		$query="SELECT group_id FROM $dbTableGroups WHERE  group_name = '$groupname'";
+		$query="SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}groups WHERE group_name = '$groupname'";
 		$result=OC_DB::select($query);
 		if(!is_array($result)){
 			return 0;
@@ -187,8 +182,7 @@ class OC_USER {
 		global $CONFIG_DBTABLEPREFIX;
 
 		$groupid=(integer)$groupid;
-		$dbTableGroups = $CONFIG_DBTABLEPREFIX . 'groups';
-		$query="SELECT group_name FROM $dbTableGroups WHERE group_id = '$groupid' LIMIT 1";
+		$query="SELECT group_name FROM {$CONFIG_DBTABLEPREFIX}groups WHERE group_id = '$groupid' LIMIT 1";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['group_name'])){
 			return $result[0]['group_name'];
@@ -207,8 +201,7 @@ class OC_USER {
 		$userid=OC_USER::getuserid($username);
 		$groupid=OC_USER::getgroupid($groupname);
 		if($groupid>0 and $userid>0){
-			$dbTableUserGroup = $CONFIG_DBTABLEPREFIX . 'user_group';
-			$query="SELECT user_group_id FROM $dbTableUserGroup WHERE group_id = $groupid AND user_id = $userid LIMIT 1";
+			$query="SELECT user_group_id FROM {$CONFIG_DBTABLEPREFIX}user_group WHERE group_id = $groupid AND user_id = $userid LIMIT 1";
 			$result=OC_DB::select($query);
 			if(isset($result[0]) && isset($result[0]['user_group_id'])){
 				return true;
@@ -231,8 +224,7 @@ class OC_USER {
 			$userid=OC_USER::getuserid($username);
 			$groupid=OC_USER::getgroupid($groupname);
 			if($groupid!=0 and $userid!=0){
-				$dbTableUserGroup = $CONFIG_DBTABLEPREFIX . 'user_group';
-				$query="INSERT INTO `$dbTableUserGroup` (`user_group_id` ,`user_id` ,`group_id`) VALUES (NULL , '$userid',  '$groupid');";
+				$query="INSERT INTO `{$CONFIG_DBTABLEPREFIX}user_group` (`user_group_id` ,`user_id` ,`group_id`) VALUES (NULL , '$userid',  '$groupid');";
 				$result=OC_DB::query($query);
 				if($result){
 					return true;
@@ -259,8 +251,7 @@ class OC_USER {
 		global $CONFIG_DBTABLEPREFIX;
 
 		$userid=OC_USER::getuserid($username);
-		$dbTableUserGroup = $CONFIG_DBTABLEPREFIX . 'user_group';
-		$query = "SELECT group_id FROM $dbTableUserGroup WHERE user_id = '$userid'";
+		$query = "SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}user_group WHERE user_id = '$userid'";
 		$result=OC_DB::select($query);
 		$groups=array();
 		if(is_array($result)){
@@ -281,8 +272,7 @@ class OC_USER {
 
 		$password=sha1($password);
 		$userid=OC_USER::getuserid($username);
-		$dbTableUsers = $CONFIG_DBTABLEPREFIX . 'users';
-		$query = "UPDATE $dbTableUsers SET user_password = '$password' WHERE user_id ='$userid'";
+		$query = "UPDATE {$CONFIG_DBTABLEPREFIX}users SET user_password = '$password' WHERE user_id ='$userid'";
 		$result=OC_DB::query($query);
 		if($result){
 			return true;
@@ -302,8 +292,7 @@ class OC_USER {
 		$usernameclean=strtolower($username);
 		$username=OC_DB::escape($username);
 		$usernameclean=OC_DB::escape($usernameclean);
-		$dbTableUsers = $CONFIG_DBTABLEPREFIX . 'users';
-		$query = "SELECT user_id FROM '$dbTableUsers' WHERE user_name_clean = '$usernameclean' AND  user_password =  '$password' LIMIT 1";
+		$query = "SELECT user_id FROM '{$CONFIG_DBTABLEPREFIX}users' WHERE user_name_clean = '$usernameclean' AND user_password =  '$password' LIMIT 1";
 		$result=OC_DB::select($query);
 		if(isset($result[0]) && isset($result[0]['user_id']) && $result[0]['user_id']>0){
 			return true;

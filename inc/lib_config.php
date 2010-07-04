@@ -282,14 +282,8 @@ class OC_CONFIG{
 		global $CONFIG_DBTYPE;
 		global $CONFIG_DBTABLEPREFIX;
 
-		$dbTableLocks = $CONFIG_DBTABLEPREFIX . 'locks';
-		$dbTableLog = $CONFIG_DBTABLEPREFIX . 'log';
-		$dbTableProperties = $CONFIG_DBTABLEPREFIX . 'properties';
-		$dbTableUsers = $CONFIG_DBTABLEPREFIX . 'users';
-		$dbTableGroups = $CONFIG_DBTABLEPREFIX . 'groups';
-		$dbTableUserGroup = $CONFIG_DBTABLEPREFIX . 'user_group';
       if($CONFIG_DBTYPE=='sqlite'){
-        $query="CREATE TABLE '$dbTableLocks' (
+        $query="CREATE TABLE '{$CONFIG_DBTABLEPREFIX}locks' (
   'token' VARCHAR(255) NOT NULL DEFAULT '',
   'path' varchar(200) NOT NULL DEFAULT '',
   'created' int(11) NOT NULL DEFAULT '0',
@@ -303,7 +297,7 @@ class OC_CONFIG{
   UNIQUE ('token')
  );
 
-CREATE TABLE '$dbTableLog' (
+CREATE TABLE '{$CONFIG_DBTABLEPREFIX}log' (
   `id` INTEGER ASC DEFAULT '' NOT NULL,
   'timestamp' int(11) NOT NULL,
   'user' varchar(250) NOT NULL,
@@ -313,7 +307,7 @@ CREATE TABLE '$dbTableLog' (
 );
 
 
-CREATE TABLE  '$dbTableProperties' (
+CREATE TABLE  '{$CONFIG_DBTABLEPREFIX}properties' (
   'path' varchar(255) NOT NULL DEFAULT '',
   'name' varchar(120) NOT NULL DEFAULT '',
   'ns' varchar(120) NOT NULL DEFAULT 'DAV:',
@@ -321,7 +315,7 @@ CREATE TABLE  '$dbTableProperties' (
   PRIMARY KEY ('path','name','ns')
 );
 
-CREATE TABLE '$dbTableUsers' (
+CREATE TABLE '{$CONFIG_DBTABLEPREFIX}users' (
   'user_id' INTEGER ASC DEFAULT '',
   'user_name' varchar(64) NOT NULL DEFAULT '',
   'user_name_clean' varchar(64) NOT NULL DEFAULT '',
@@ -330,14 +324,14 @@ CREATE TABLE '$dbTableUsers' (
   UNIQUE ('user_name' ,'user_name_clean')
 );
 
-CREATE TABLE  '$dbTableGroups' (
+CREATE TABLE  '{$CONFIG_DBTABLEPREFIX}groups' (
 'group_id' INTEGER ASC DEFAULT '',
 'group_name' VARCHAR( 64 ) NOT NULL DEFAULT '',
 PRIMARY KEY ('group_id'),
 UNIQUE ('group_name')
 );
 
-CREATE TABLE  '$dbTableUserGroup' (
+CREATE TABLE  '{$CONFIG_DBTABLEPREFIX}user_group' (
 'user_group_id' INTEGER ASC DEFAULT '',
 'user_id' VARCHAR( 64 ) NOT NULL DEFAULT '',
 'group_id' VARCHAR( 64 ) NOT NULL DEFAULT '',
@@ -345,7 +339,7 @@ PRIMARY KEY ('user_group_id')
 )
 ";
     }elseif($CONFIG_DBTYPE=='mysql'){
-      $query="CREATE TABLE IF NOT EXISTS `$dbTableLocks` (
+      $query="CREATE TABLE IF NOT EXISTS `{$CONFIG_DBTABLEPREFIX}locks` (
   `token` varchar(255) NOT NULL DEFAULT '',
   `path` varchar(200) NOT NULL DEFAULT '',
   `created` int(11) NOT NULL DEFAULT '0',
@@ -363,7 +357,7 @@ PRIMARY KEY ('user_group_id')
   KEY `expires` (`expires`)
 );
 
-CREATE TABLE IF NOT EXISTS `$dbTableLog` (
+CREATE TABLE IF NOT EXISTS `{$CONFIG_DBTABLEPREFIX}log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `timestamp` int(11) NOT NULL,
   `user` varchar(250) NOT NULL,
@@ -373,7 +367,7 @@ CREATE TABLE IF NOT EXISTS `$dbTableLog` (
 );
 
 
-CREATE TABLE IF NOT EXISTS `$dbTableProperties` (
+CREATE TABLE IF NOT EXISTS `{$CONFIG_DBTABLEPREFIX}properties` (
   `path` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(120) NOT NULL DEFAULT '',
   `ns` varchar(120) NOT NULL DEFAULT 'DAV:',
@@ -382,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `$dbTableProperties` (
   KEY `path` (`path`)
 );
 
-CREATE TABLE IF NOT EXISTS  `$dbTableUsers` (
+CREATE TABLE IF NOT EXISTS  `{$CONFIG_DBTABLEPREFIX}users` (
 `user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `user_name` VARCHAR( 64 ) NOT NULL ,
 `user_name_clean` VARCHAR( 64 ) NOT NULL ,
@@ -393,7 +387,7 @@ UNIQUE (
 )
 );
 
-CREATE TABLE IF NOT EXISTS  `$dbTableGroups` (
+CREATE TABLE IF NOT EXISTS  `{$CONFIG_DBTABLEPREFIX}groups` (
 `group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `group_name` VARCHAR( 64 ) NOT NULL ,
 UNIQUE (
@@ -401,7 +395,7 @@ UNIQUE (
 )
 );
 
-CREATE TABLE IF NOT EXISTS  `$dbTableUserGroup` (
+CREATE TABLE IF NOT EXISTS  `{$CONFIG_DBTABLEPREFIX}user_group` (
 `user_group_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `user_id` VARCHAR( 64 ) NOT NULL ,
 `group_id` VARCHAR( 64 ) NOT NULL

@@ -374,15 +374,14 @@ class OC_OCS {
   private static function activityget($format,$page,$pagesize) {
 	global $CONFIG_DBTABLEPREFIX;
 
-	$dbTableLog = $CONFIG_DBTABLEPREFIX . 'Log';
     $user=OC_OCS::checkpassword();
 
-    $result = OC_DB::query("select count(*) as co from $dbTableLog");
+    $result = OC_DB::query("select count(*) as co from {$CONFIG_DBTABLEPREFIX}log");
     $entry=$result->fetchRow();
     $totalcount=$entry['co'];
     OC_DB::free_result($result);
 
-    $result = OC_DB::select("select id,timestamp,user,type,message from $dbTableLog order by timestamp desc limit " . ($page*$pagesize) . ",$pagesize");
+    $result = OC_DB::select("select id,timestamp,user,type,message from {$CONFIG_DBTABLEPREFIX}log order by timestamp desc limit " . ($page*$pagesize) . ",$pagesize");
     $itemscount=count($result);
 
     $url='http://'.substr($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'],0,-11).'';
