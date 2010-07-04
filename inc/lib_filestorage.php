@@ -72,6 +72,7 @@ class OC_FILESTORAGE{
 	public function getMimeType($path){}
 	public function delTree($path){}
 	public function find($path){}
+	public function getTree($path){}
 }
 
 /**
@@ -363,6 +364,28 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			$file=str_replace($file,$this->datadir,'');
 		}
 		return $return;
+	}
+	
+	public function getTree($dir) {
+		if(substr($dir,-1,1)=='/'){
+			$dir=substr($dir,0,-1);
+		}
+		$tree=array();
+		$tree[]=$dir;
+		$dirRelative=$dir;
+		$dir=$this->datadir.$dir;
+		if (!file_exists($dir)) return true; 
+		foreach (scandir($dir) as $item) { 
+			if ($item == '.' || $item == '..') continue; 
+			if(is_file($dir.'/'.$item)){
+				$tree[]=$dirRelative.'/'.$item;
+			}elseif(is_dir($dir.'/'.$item)){
+				if ($subTree=$this->getTree($dirRelative. "/" . $item)){
+					$tree=array_merge($tree,$subTree);
+				}
+			}
+		}
+		return $tree;
 	}
 }
 ?>

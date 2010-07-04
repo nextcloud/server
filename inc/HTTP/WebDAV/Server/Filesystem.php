@@ -241,7 +241,6 @@
     {
         // get absolute fs path to requested resource)
         $fspath = $options["path"];
-        error_log("get $fspath");
         // is this a collection?
         if (OC_FILESYSTEM::is_dir($fspath)) {
             return $this->GetDir($fspath, $options);
@@ -358,7 +357,6 @@
         $path   = $options["path"];
         $parent = dirname($path);
         $name   = basename($path);
-		
         if (!OC_FILESYSTEM::file_exists($parent)) {
             return "409 Conflict";
         }
@@ -393,7 +391,6 @@
     function DELETE($options) 
     {
         $path =$options["path"];
-
         if (!OC_FILESYSTEM::file_exists($path)) {
             return "404 Not found";
         }
@@ -501,7 +498,7 @@
 
         if ($del) {
             if (!OC_FILESYSTEM::rename($source, $dest)) {
-                return "500 Internal server error 1";
+                return "500 Internal server error";
             }
             $destpath = $this->_unslashify($options["dest"]);
             if (is_dir($source)) {
@@ -517,8 +514,7 @@
                 OC_DB::query($query);
         } else {
             if (OC_FILESYSTEM::is_dir($source)) {
-                $files = OC_FILESYSTEM::find($source);
-                $files = array_reverse($files);
+                $files = OC_FILESYSTEM::getTree($source);
             } else {
                 $files = array($source);
             }
@@ -576,7 +572,6 @@
             } else {
                 if (isset($prop["val"])) {
                         $query = "REPLACE INTO properties SET path = '$options[path]', name = '$prop[name]', ns= '$prop[ns]', value = '$prop[val]'";
-                        error_log($query);
                 } else {
                         $query = "DELETE FROM properties WHERE path = '$options[path]' AND name = '$prop[name]' AND ns = '$prop[ns]'";
                 }       

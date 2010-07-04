@@ -278,5 +278,19 @@ class OC_FILESYSTEM{
 		}
 		return $return;
 	}
+	static public function getTree($path){
+		if(self::canRead($path) and $storage=self::getStorage($path)){
+			$mp=self::getMountPoint($path);
+			$return=$storage->getTree(substr($path,strlen($mp)));
+			echo "mp:  $mp";
+			foreach($return as &$file){
+				if(substr($file,0,1)=='/'){
+					$file=substr($file,1);
+				}
+				$file=$mp.$file;
+			}
+			return $return;
+		}
+	}
 }
 ?>
