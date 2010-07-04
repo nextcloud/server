@@ -493,8 +493,6 @@
                 $stat = $this->DELETE(array("path" => $options["dest"]));
                 if (($stat{0} != "2") && (substr($stat, 0, 3) != "404")) {
                     return $stat; 
-                }else{
-					$new=true;
                 }
             } else {
                 return "412 precondition failed";
@@ -553,10 +551,7 @@
                     }
                 }
             }
-
-                $query = "INSERT INTO properties SELECT * FROM properties WHERE path = '".$options['path']."'";
         }
-
         return ($new && !$existing_col) ? "201 Created" : "204 No Content";         
     }
 
