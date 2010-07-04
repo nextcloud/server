@@ -25,6 +25,7 @@ class OC_CONFIG{
     global $CONFIG_HTTPFORCESSL;
     global $CONFIG_DATEFORMAT;
     global $CONFIG_DBNAME;
+	global $CONFIG_DBTABLEPREFIX;
     global $CONFIG_INSTALLED;
 		$allow=false;
 		if(!$CONFIG_INSTALLED){
@@ -130,6 +131,7 @@ class OC_CONFIG{
 			global $WEBROOT;
 			global $CONFIG_DBHOST;
 			global $CONFIG_DBNAME;
+			global $CONFIG_DBTABLEPREFIX;
 			global $CONFIG_INSTALLED;
 			global $CONFIG_DBUSER;
 			global $CONFIG_DBPASSWORD;
@@ -184,6 +186,7 @@ class OC_CONFIG{
 						//create/fill database
 						$CONFIG_DBTYPE=$dbtype;
 						$CONFIG_DBNAME=$_POST['dbname'];
+						$CONFIG_DBTABLEPREFIX=$_POST['dbtableprefix'];
 						if($dbtype=='mysql'){
 							$CONFIG_DBHOST=$_POST['dbhost'];
 							$CONFIG_DBUSER=$_POST['dbuser'];
