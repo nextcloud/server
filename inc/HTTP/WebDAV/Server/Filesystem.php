@@ -177,7 +177,7 @@
             $info["props"][] = $this->mkprop("resourcetype", "");
             if ( OC_FILESYSTEM::is_readable($fspath)) {
                 $info["props"][] = $this->mkprop("getcontenttype", $this->_mimetype($fspath));
-            } else { "SELECT ns, name, value FROM properties WHERE path = '$path'";
+            } else {
                 $info["props"][] = $this->mkprop("getcontenttype", "application/x-non-readable");
             }               
             $info["props"][] = $this->mkprop("getcontentlength",  OC_FILESYSTEM::filesize($fspath));
