@@ -324,6 +324,7 @@
      */
     function PUT(&$options) 
     {
+		error_log("put $fspath");
         $fspath = $options["path"];
         $dir = dirname($fspath);
         if (!OC_FILESYSTEM::file_exists($dir) || !OC_FILESYSTEM::is_dir($dir)) {
@@ -641,14 +642,14 @@
                 return true;
             } else {//check for indirect refresh
                $query = "SELECT *
-                  FROM locks
+                  FROM {$CONFIG_DBTABLEPREFIX}locks
                  WHERE recursive = 1
                ";
             $res = OC_DB::select($query);
             foreach($res as $row){
 				if(strpos($options['path'],$row['path'])==0){//are we a child of a folder with an recursive lock
 					$where = "WHERE path = '$row[path]' AND token = '$options[update]'";
-					 $query = "UPDATE `locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
+					 $query = "UPDATE `{$CONFIG_DBTABLEPREFIX}locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
                 OC_DB::query($query);
                 $options['owner'] = $row['owner'];
                 $options['scope'] = $row["exclusivelock"] ? "exclusive" : "shared";
@@ -727,7 +728,7 @@
         }else{
 			//check for recursive locks;
 			$query = "SELECT *
-                  FROM locks
+                  FROM {$CONFIG_DBTABLEPREFIX}locks
                  WHERE recursive = 1
                ";
             $res = OC_DB::select($query);

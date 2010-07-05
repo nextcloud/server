@@ -336,7 +336,6 @@ class OC_CONFIG{
 				$result = pg_exec($connection, $query);
 			}
 		}
-		global $CONFIG_DBTABLEPREFIX;
 	}
 }
 ?>

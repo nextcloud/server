@@ -69,7 +69,6 @@ class OC_LOG {
 		$user=$_SESSION['username_clean'];
 		$result = OC_DB::select('select `timestamp`,`user`,`type`,`message` from '.$CONFIG_DBTABLEPREFIX.'log where user=\''.$user.'\' order by timestamp desc limit 20');
 	}
-	$result = OC_DB::select($query);
     foreach($result as $entry){
       echo('<tr class="browserline">');
       echo('<td class="sizetext">'.date($CONFIG_DATEFORMAT,$entry['timestamp']).'</td>');
