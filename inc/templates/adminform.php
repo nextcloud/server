@@ -10,6 +10,7 @@ if(!$f) die('Error: Config file (config/config.php) is not writable for the webs
 if(!isset($fillDB)) $fillDB=true;
 if(!isset($CONFIG_DBHOST)) $CONFIG_DBHOST='localhost';
 if(!isset($CONFIG_DBUSER)) $CONFIG_DBUSER='owncloud';
+if(!isset($CONFIG_DBTABLEPREFIX)) $CONFIG_DBTABLEPREFIX='oc_';
 $newuserpassword=OC_USER::generatepassword();
 ?>
 <script type="text/javascript">
@@ -116,6 +117,7 @@ if($CONFIG_DBTYPE=='sqlite'){
 </td></tr>
 <tr id='dbhost'><td>database host:</td><td><input type="text" name="dbhost" size="30" class="formstyle" value='<?php echo($CONFIG_DBHOST);?>'></input></td></tr>
 <tr id='dbname'><td>database name:</td><td><input type="text" name="dbname" size="30" class="formstyle" value='<?php echo($CONFIG_DBNAME);?>'></input></td></tr>
+<tr id='dbtableprefix'><td>database table prefix:</td><td><input type="text" name="dbtableprefix" size="30" class="formstyle" value='<?php echo($CONFIG_DBTABLEPREFIX);?>'></input></td></tr>
 <tr id='dbuser'><td>database user:</td><td><input type="text" name="dbuser" size="30" class="formstyle" value='<?php echo($CONFIG_DBUSER);?>'></input></td></tr>
 <tr id='dbpass'><td>database password:</td><td><input type="password" name="dbpassword" size="30" class="formstyle" value=''></input></td><td>(leave empty to keep current password)</td></tr>
 <tr id='dbpass_retype'><td>retype database password:</td><td><input type="password" name="dbpassword2" size="30" class="formstyle" value=''></input></td></tr>

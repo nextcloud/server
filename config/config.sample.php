@@ -8,4 +8,5 @@ $CONFIG_DBHOST='localhost';
 $CONFIG_DBNAME='owncloud-db-name';
 $CONFIG_DBUSER='user-name';
 $CONFIG_DBPASSWORD='password';
+$CONFIG_DBTABLEPREFIX = 'oc_';
 ?>

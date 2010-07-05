@@ -48,7 +48,8 @@ class OC_LOG {
    * @param message $message
    */
   public static function event($user,$type,$message){
-    $result = OC_DB::query('INSERT INTO `log` (`timestamp`,`user`,`type`,`message`) VALUES ('.time().',\''.addslashes($user).'\','.addslashes($type).',\''.addslashes($message).'\');');
+	global $CONFIG_DBTABLEPREFIX;
+    $result = OC_DB::query('INSERT INTO `' . $CONFIG_DBTABLEPREFIX . 'log` (`timestamp`,`user`,`type`,`message`) VALUES ('.time().',\''.addslashes($user).'\','.addslashes($type).',\''.addslashes($message).'\');');
     OC_DB::free_result($result);
   }
 
@@ -58,15 +59,17 @@ class OC_LOG {
    *
    */
   public static function show(){
-    global $CONFIG_DATEFORMAT;
+	global $CONFIG_DATEFORMAT;
+	global $CONFIG_DBTABLEPREFIX;
     echo('<div class="center"><table cellpadding="6" cellspacing="0" border="0" class="log">');
-	
+
 	if(OC_USER::ingroup($_SESSION['username_clean'],'admin')){
-		$result = OC_DB::select('select `timestamp`,`user`,`type`,`message` from log order by timestamp desc limit 20');
+		$result = OC_DB::select('select `timestamp`,`user`,`type`,`message` from '.$CONFIG_DBTABLEPREFIX.'log order by timestamp desc limit 20');
 	}else{
 		$user=$_SESSION['username_clean'];
-		$result = OC_DB::select('select `timestamp`,`user`,`type`,`message` from log where user=\''.$user.'\' order by timestamp desc limit 20');
+		$result = OC_DB::select('select `timestamp`,`user`,`type`,`message` from '.$CONFIG_DBTABLEPREFIX.'log where user=\''.$user.'\' order by timestamp desc limit 20');
 	}
+	$result = OC_DB::select($query);
     foreach($result as $entry){
       echo('<tr class="browserline">');
       echo('<td class="sizetext">'.date($CONFIG_DATEFORMAT,$entry['timestamp']).'</td>');
