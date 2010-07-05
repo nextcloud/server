@@ -336,7 +336,7 @@ class OC_DB {
 				'portability' => MDB2_PORTABILITY_ALL,
 				'log_line_break' => '<br>',
 				'idxname_format' => '%s',
-				'debug' => false,
+				'debug' => true,
 				'quote_identifier' => true,
 			);
 			if($CONFIG_DBTYPE=='sqlite'){
@@ -363,12 +363,12 @@ class OC_DB {
 				);
 			}
 			self::$DBConnection=&MDB2::factory($dsn,$options);
-			if (@PEAR::isError(self::$DBConnection)) {
+			if (PEAR::isError(self::$DBConnection)) {
 				echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
 				die(self::$DBConnection->getMessage());
 			}
 			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
-			self::$schema=&MDB2_Schema::factory($dsn,$options);
+			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
 		}
 	}
 	
@@ -634,12 +634,12 @@ function oc_include_once($file){
 	global $CONFIG_HTTPFORCESSL;
 	global $CONFIG_DATEFORMAT;
 	global $CONFIG_INSTALLED;
-	if(is_file($file)){
-		return include_once($file);
-	}elseif(is_file($SERVERROOT.'/'.$file)){
+	if(is_file($SERVERROOT.'/'.$file)){
 		return include_once($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
 		return include_once($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($file)){
+		return include_once($file);
 	}
 }
 

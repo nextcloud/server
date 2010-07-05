@@ -329,11 +329,10 @@ class MDB2
     {
         if (!MDB2::classExists($class_name)) {
             $file_name = str_replace('_', DIRECTORY_SEPARATOR, $class_name).'.php';
-//             echo $file_name;
             if ($debug) {
                 $include = oc_include_once($file_name);
             } else {
-                $include = @oc_include_once($file_name);
+                $include = oc_include_once($file_name);
             }
             if (!$include) {
                 if (!MDB2::fileExists($file_name)) {
@@ -958,8 +957,12 @@ class MDB2
     function fileExists($file)
     {
         // safe_mode does notwork with is_readable()
+        global $SERVERROOT;
         if (!@ini_get('safe_mode')) {
              $dirs = explode(PATH_SEPARATOR, ini_get('include_path'));
+             $dirs[]=$SERVERROOT;
+             $dirs[]=$SERVERROOT. DIRECTORY_SEPARATOR .'inc';
+//              print_r($dirs);die();
              foreach ($dirs as $dir) {
                  if (is_readable($dir . DIRECTORY_SEPARATOR . $file)) {
                      return true;
@@ -1920,7 +1923,6 @@ class MDB2_Driver_Common extends PEAR
             if (PEAR::isError($err)) {
                 return $err;
             }
-
             // load module in a specific version
             if ($version) {
                 if (method_exists($class_name, 'getClassName')) {

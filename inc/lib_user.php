@@ -63,7 +63,7 @@ class OC_USER {
 	*
 	*/
 	public static function createuser($username,$password){
-		if(OC_USER::getuserid($username)!=0){
+		if(OC_USER::getuserid($username,true)!=0){
 			return false;
 		}else{
 			$usernameclean=strtolower($username);
@@ -124,7 +124,7 @@ class OC_USER {
 	*
 	*/
 	public static function creategroup($groupname){
-		if(OC_USER::getgroupid($groupname)==0){
+		if(OC_USER::getgroupid($groupname,true)==0){
 			$groupname=OC_DB::escape($groupname);
 			$query="INSERT INTO  `groups` (`group_name`) VALUES ('$groupname')";
 			$result=OC_DB::query($query);
@@ -138,9 +138,9 @@ class OC_USER {
 	* get the id of a user
 	*
 	*/
-	public static function getuserid($username){
+	public static function getuserid($username,$nocache=false){
 		$usernameclean=strtolower($username);
-		if(isset($_SESSION['user_id_cache'][$usernameclean])){//try to use cached value to save an sql query
+		if(!$nocache and isset($_SESSION['user_id_cache'][$usernameclean])){//try to use cached value to save an sql query
 			return $_SESSION['user_id_cache'][$usernameclean];
 		}
 		$usernameclean=OC_DB::escape($usernameclean);
@@ -161,8 +161,8 @@ class OC_USER {
 	* get the id of a group
 	*
 	*/
-	public static function getgroupid($groupname){
-		if(isset($_SESSION['group_id_cache'][$groupname])){//try to use cached value to save an sql query
+	public static function getgroupid($groupname,$nocache=false){
+		if(!$nocache and isset($_SESSION['group_id_cache'][$groupname])){//try to use cached value to save an sql query
 			return $_SESSION['group_id_cache'][$groupname];
 		}
 		$groupname=OC_DB::escape($groupname);
@@ -183,8 +183,8 @@ class OC_USER {
 	* get the name of a group
 	*
 	*/
-	public static function getgroupname($groupid){
-		if($name=array_search($groupid,$_SESSION['group_id_cache'])){//try to use cached value to save an sql query
+	public static function getgroupname($groupid,$nocache=false){
+		if($nocache and $name=array_search($groupid,$_SESSION['group_id_cache'])){//try to use cached value to save an sql query
 			return $name;
 		}
 		$groupid=(integer)$groupid;

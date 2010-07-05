@@ -209,7 +209,6 @@ class OC_CONFIG{
 								self::filldatabase();
 							}
 						}catch(Exception $e){
-							echo 'testin';
 							$error.='error while trying to fill the database<br/>';
 						}
 						if($CONFIG_DBTYPE=='sqlite'){
