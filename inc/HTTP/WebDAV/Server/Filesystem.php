@@ -183,9 +183,9 @@
             $info["props"][] = $this->mkprop("getcontentlength",  OC_FILESYSTEM::filesize($fspath));
         }
         // get additional properties from database
-            $query = "SELECT ns, name, value FROM properties WHERE path = '$path'";
-            $res = OC_DB::select($query);
-            while ($row = $res[0]) {
+		$query = "SELECT ns, name, value FROM properties WHERE path = '$path'";
+		$res = OC_DB::select($query);
+		foreach($res as $row){
             $info["props"][] = $this->mkprop($row["ns"], $row["name"], $row["value"]);
         }
         return $info;
@@ -241,7 +241,6 @@
     {
         // get absolute fs path to requested resource)
         $fspath = $options["path"];
-        error_log("get $fspath");
         // is this a collection?
         if (OC_FILESYSTEM::is_dir($fspath)) {
             return $this->GetDir($fspath, $options);
@@ -324,7 +323,6 @@
     function PUT(&$options) 
     {
         $fspath = $options["path"];
-
         $dir = dirname($fspath);
         if (!OC_FILESYSTEM::file_exists($dir) || !OC_FILESYSTEM::is_dir($dir)) {
             return "409 Conflict"; // TODO right status code for both?
@@ -358,7 +356,6 @@
         $path   = $options["path"];
         $parent = dirname($path);
         $name   = basename($path);
-		
         if (!OC_FILESYSTEM::file_exists($parent)) {
             return "409 Conflict";
         }
@@ -393,11 +390,17 @@
     function DELETE($options) 
     {
         $path =$options["path"];
-
         if (!OC_FILESYSTEM::file_exists($path)) {
             return "404 Not found";
         }
-
+		$lock=self::checkLock($path);
+		if(is_array($lock)){
+			$owner=$options['owner'];
+			$lockOwner=$lock['owner'];
+			if($owner==$lockOwner){
+				return "423 Locked";
+			}
+		}
         if (OC_FILESYSTEM::is_dir($path)) {
                 $query = "DELETE FROM properties WHERE path LIKE '".$this->_slashify($options["path"])."%'";
                 OC_DB::query($query);
@@ -493,8 +496,6 @@
                 $stat = $this->DELETE(array("path" => $options["dest"]));
                 if (($stat{0} != "2") && (substr($stat, 0, 3) != "404")) {
                     return $stat; 
-                }else{
-					$new=true;
                 }
             } else {
                 return "412 precondition failed";
@@ -503,7 +504,7 @@
 
         if ($del) {
             if (!OC_FILESYSTEM::rename($source, $dest)) {
-                return "500 Internal server error 1";
+                return "500 Internal server error";
             }
             $destpath = $this->_unslashify($options["dest"]);
             if (is_dir($source)) {
@@ -519,8 +520,7 @@
                 OC_DB::query($query);
         } else {
             if (OC_FILESYSTEM::is_dir($source)) {
-                $files = OC_FILESYSTEM::find($source);
-                $files = array_reverse($files);
+                $files = OC_FILESYSTEM::getTree($source);
             } else {
                 $files = array($source);
             }
@@ -553,10 +553,7 @@
                     }
                 }
             }
-
-                $query = "INSERT INTO properties SELECT * FROM properties WHERE path = '".$options['path']."'";
         }
-
         return ($new && !$existing_col) ? "201 Created" : "204 No Content";         
     }
 
@@ -581,7 +578,6 @@
             } else {
                 if (isset($prop["val"])) {
                         $query = "REPLACE INTO properties SET path = '$options[path]', name = '$prop[name]', ns= '$prop[ns]', value = '$prop[val]'";
-                        error_log($query);
                 } else {
                         $query = "DELETE FROM properties WHERE path = '$options[path]' AND name = '$prop[name]' AND ns = '$prop[ns]'";
                 }       
@@ -603,11 +599,19 @@
     {
         // get absolute fs path to requested resource
         $fspath = $options["path"];
-
         // TODO recursive locks on directories not supported yet
         // makes litmus test "32. lock_collection" fail
-        if (is_dir($fspath) && !empty($options["depth"])) {
-            return "409 Conflict";
+        if (OC_FILESYSTEM::is_dir($fspath) && !empty($options["depth"])) {
+            switch($options["depth"]){
+				case 'infinity':
+					$recursion=1;
+					break;
+				case '0':
+					$recursion=0;
+					break;
+            }
+        }else{
+			$recursion=0;
         }
 
         $options["timeout"] = time()+300; // 5min. hardcoded
@@ -616,11 +620,10 @@
             $where = "WHERE path = '$options[path]' AND token = '$options[update]'";
 
             $query = "SELECT owner, exclusivelock FROM locks $where";
-            $res   = OC_DB::query($query);
-            $row   = OC_DB::fetch_assoc($res);
-            OC_DB::free_result($res);
+            $res   = OC_DB::select($query);
 
-            if (is_array($row)) {
+            if (is_array($res) and isset($res[0])) {
+				$row=$res[0];
                 $query = "UPDATE `locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
                 OC_DB::query($query);
                 
@@ -629,8 +632,23 @@
                 $options['type']  = $row["exclusivelock"] ? "write"     : "read";
 
                 return true;
-            } else {
-                return false;
+            } else {//check for indirect refresh
+               $query = "SELECT *
+                  FROM locks
+                 WHERE recursive = 1
+               ";
+            $res = OC_DB::select($query);
+            foreach($res as $row){
+				if(strpos($options['path'],$row['path'])==0){//are we a child of a folder with an recursive lock
+					$where = "WHERE path = '$row[path]' AND token = '$options[update]'";
+					 $query = "UPDATE `locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
+                OC_DB::query($query);
+                $options['owner'] = $row['owner'];
+                $options['scope'] = $row["exclusivelock"] ? "exclusive" : "shared";
+                $options['type']  = $row["exclusivelock"] ? "write"     : "read";
+                return true;
+				}
+            }
             }
         }
             
@@ -641,11 +659,14 @@
                           , `modified` = ".time()."
                           , `owner`   = '$options[owner]'
                           , `expires` = '$options[timeout]'
-                          , `exclusivelock`  = " .($options['scope'] === "exclusive" ? "1" : "0")
-            ;
+                          , `exclusivelock`  = " .($options['scope'] === "exclusive" ? "1" : "0")."
+                          , `recursive` = $recursion";
             OC_DB::query($query);
-
-            return OC_DB::affected_rows() ? "200 OK" : "409 Conflict";
+            $rows=OC_DB::affected_rows();
+			if(!OC_FILESYSTEM::file_exists($fspath) and $rows>0) {
+				return "201 Created";
+			}
+            return OC_DB::affected_rows($rows) ? "200 OK" : "409 Conflict";
     }
 
     /**
@@ -678,9 +699,8 @@
                  WHERE path = '$path'
                ";
             $res = OC_DB::select($query);
-        if ($res) {
+        if (is_array($res) and isset($res[0])) {
 				$row=$res[0];
-                OC_DB::free_result($res);
 
             if ($row) {
                 $result = array( "type"    => "write",
@@ -690,8 +710,30 @@
                                  "token"   => $row['token'],
                                  "created" => $row['created'],   
                                  "modified" => $row['modified'],   
-                                 "expires" => $row['expires']
+                                 "expires" => $row['expires'],
+                                 "recursive" => $row['recursive']
                                  );
+            }
+        }else{
+			//check for recursive locks;
+			$query = "SELECT *
+                  FROM locks
+                 WHERE recursive = 1
+               ";
+            $res = OC_DB::select($query);
+            foreach($res as $row){
+				if(strpos($path,$row['path'])==0){//are we a child of a folder with an recursive lock
+					$result = array( "type"    => "write",
+                                 "scope"   => $row["exclusivelock"] ? "exclusive" : "shared",
+                                 "depth"   => 0,
+                                 "owner"   => $row['owner'],
+                                 "token"   => $row['token'],
+                                 "created" => $row['created'],   
+                                 "modified" => $row['modified'],   
+                                 "expires" => $row['expires'],
+                                 "recursive" => $row['recursive']
+                                 );
+				}
             }
         }
 

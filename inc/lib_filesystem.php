@@ -34,7 +34,13 @@ class OC_FILESYSTEM{
 	* @param  string  path
 	* @return bool
 	*/
-	static private function canRead(){
+	static private function canRead($path){
+		if(substr($path,0,1)!=='/'){
+			$path='/'.$path;
+		}
+		if(strstr($path,'/../')){
+			return false;
+		}
 		return true;//dummy untill premissions are correctly implemented, also the correcty value because for now users are locked in their seperate data dir and can read/write everything in there
 	}
 	/**
@@ -42,7 +48,13 @@ class OC_FILESYSTEM{
 	* @param  string  path
 	* @return bool
 	*/
-	static private function canWrite(){
+	static private function canWrite($path){
+		if(substr($path,0,1)!=='/'){
+			$path='/'.$path;
+		}
+		if(strstr($path,'/../')){
+			return false;
+		}
 		return true;//dummy untill premissions are correctly implemented, also the correcty value because for now users are locked in their seperate data dir and can read/write everything in there
 	}
 	
@@ -265,6 +277,20 @@ class OC_FILESYSTEM{
 			}
 		}
 		return $return;
+	}
+	static public function getTree($path){
+		if(self::canRead($path) and $storage=self::getStorage($path)){
+			$mp=self::getMountPoint($path);
+			$return=$storage->getTree(substr($path,strlen($mp)));
+			echo "mp:  $mp";
+			foreach($return as &$file){
+				if(substr($file,0,1)=='/'){
+					$file=substr($file,1);
+				}
+				$file=$mp.$file;
+			}
+			return $return;
+		}
 	}
 }
 ?>

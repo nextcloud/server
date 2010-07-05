@@ -91,7 +91,8 @@ OC_FILES.get=function(dir,file){
 	window.location='files/api.php?action=get&dir='+encodeURIComponent(dir)+'&file='+encodeURIComponent(file);
 }
 
-OC_FILES.upload=function(dir,iframeId){
+OC_FILES.upload=function(iframeId){
+	var dir=OC_FILES.dir;
 	var file=new Object;
 	var fileSelector=document.getElementById('fileSelector');
 	var max_upload=document.getElementById('max_upload').value;
@@ -110,8 +111,7 @@ OC_FILES.upload=function(dir,iframeId){
 	if(fileSelector.files && fileSelector.files[0].type){
 		var mime=fileSelector.files[0].type;
 	}
-	file.dir=dir;
-	file.dir=dir;
+	file.dir=OC_FILES.dir;
 	file.name=name;
 	file.type='file';
 	file.size=size;

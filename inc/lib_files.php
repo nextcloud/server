@@ -130,19 +130,28 @@ class OC_FILES {
 			$zip=false;
 			$filename=$dir.'/'.$files;
 		}
-		header('Content-Disposition: attachment; filename='.basename($filename));
-		header('Content-Transfer-Encoding: binary');
-		header('Expires: 0');
-		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		header('Pragma: public');
-		header('Content-Length: ' . filesize($filename));
-		if(!$zip){
-			$filename=OC_FILESYSTEM::toTmpFile($filename);
+		if($zip or OC_FILESYSTEM::is_readable($filename)){
+			header('Content-Disposition: attachment; filename='.basename($filename));
+			header('Content-Transfer-Encoding: binary');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($filename));
+		}elseif($zip or !OC_FILESYSTEM::file_exists($filename)){
+			header("HTTP/1.0 404 Not Found");
+			die('404 Not Found');
+		}else{
+			header("HTTP/1.0 403 Forbidden");
+			die('403 Forbidden');
 		}
 		ob_end_clean();
 		OC_LOG::event($_SESSION['username'],3,"$dir/$files");
-		readfile($filename);
-		unlink($filename);
+		if($zip){
+			readfile($filename);
+			unlink($filename);
+		}else{
+			OC_FILESYSTEM::readfile($filename);
+		}
 		foreach(self::$tmpFiles as $tmpFile){
 			if(file_exists($tmpFile) and is_file($tmpFile)){
 				unlink($tmpFile);

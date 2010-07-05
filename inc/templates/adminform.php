@@ -49,7 +49,7 @@ function dbtypechange(){
     }
 }
 </script>
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" action="#">
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
 <?php
 	if(!empty($CONFIG_ERROR) and !$FIRSTRUN){
@@ -67,7 +67,7 @@ if($FIRSTRUN){?>
 <?php
 }
 ?>
-<tr><td>force ssl:</td><td><input type="checkbox" name="forcessl" size="30" class="formstyle" value='1' <?php if($CONFIG_HTTPFORCESSL) echo 'checked'?>></input></td></tr>
+<tr><td>force ssl:</td><td><input type="checkbox" name="forcessl" size="30" class="formstyle" value='1' <?php if($CONFIG_HTTPFORCESSL) echo 'checked="checked"'?>></input></td></tr>
 <tr><td>enable automatic backup:</td><td><input type="checkbox" name="enablebackup" id="enablebackup" onchange='showBackupPath()' size="30" class="formstyle" value='1' <?php if($CONFIG_ENABLEBACKUP) echo 'checked'?>></input></td></tr>
 <tr id='backupdir'><td>backup directory:</td><td><input type="text" name="backupdirectory" size="30" class="formstyle" value="<?php echo($CONFIG_BACKUPDIRECTORY);?>"></input></td></tr>
 <tr><td>date format:</td><td><input type="text" name="dateformat" size="30" class="formstyle" value='<?php echo($CONFIG_DATEFORMAT);?>'></input></td></tr>
@@ -119,17 +119,17 @@ if($CONFIG_DBTYPE=='sqlite'){
 <tr id='dbuser'><td>database user:</td><td><input type="text" name="dbuser" size="30" class="formstyle" value='<?php echo($CONFIG_DBUSER);?>'></input></td></tr>
 <tr id='dbpass'><td>database password:</td><td><input type="password" name="dbpassword" size="30" class="formstyle" value=''></input></td><td>(leave empty to keep current password)</td></tr>
 <tr id='dbpass_retype'><td>retype database password:</td><td><input type="password" name="dbpassword2" size="30" class="formstyle" value=''></input></td></tr>
-<tr id='dbcreaterow'><td>create database and user:</td><td><input id='dbcreate' type="checkbox" name="createdatabase" size="30" class="formstyle" value='1' <?php if($FIRSTRUN) echo 'checked'; ?> onchange='showDBAdmin()'></input></td></tr>
+<tr id='dbcreaterow'><td>create database and user:</td><td><input id='dbcreate' type="checkbox" name="createdatabase" size="30" class="formstyle" value='1' <?php if($FIRSTRUN) echo 'checked="checked"'; ?> onchange='showDBAdmin()'></input></td></tr>
 <tr id='dbAdminUser'><td>database administrative user:</td><td><input type="text" name="dbadminuser" size="30" class="formstyle" value='root'></input></td></tr>
 <tr id='dbAdminPwd'><td>database administrative password:</td><td><input type="password" name="dbadminpwd" size="30" class="formstyle" value=''></input></td></tr>
-<tr id='dbfill'><td>automaticly fill initial database:</td><td><input type="checkbox" name="filldb" size="30" class="formstyle" value='1' <?php if($FIRSTRUN) echo 'checked'; ?>></input></td></tr>
+<tr id='dbfill'><td>automaticly fill initial database:</td><td><input type="checkbox" name="filldb" size="30" class="formstyle" value='1' <?php if($FIRSTRUN) echo 'checked="checked"'; ?>></input></td></tr>
 <?php }?>
 <tr><td></td><td><input type="submit" name="set_config" alt="save" value="save" class="formstyle" /></td></tr>
 </table></form><br/>
 <?php
 if(!$FIRSTRUN and false){//disabled for now?>
 <br/>
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" action="#">
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
 <tr><td colspan='2'>Create new user:</td></tr>
 <tr><td>user name</td><td><input type='text' name='new_username' class="formstyle"></input></td></tr>

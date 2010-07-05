@@ -18,8 +18,8 @@ changepassset=function(){
 	}
 }
 </script>
-<form method="post" enctype="multipart/form-data">
-<input type='hidden' name='config' value='1'>
+<form method="post" enctype="multipart/form-data" action="#">
+<div><input type='hidden' name='config' value='1' /></div>
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
 <?php
 	if(!empty($CONFIG_ERROR) and !$FIRSTRUN){
