@@ -300,6 +300,8 @@ class OC_UTIL {
  */
 class OC_DB {
 	static private $DBConnection=false;
+	static private $affected=0;
+	static private $result=false;
 	/**
 	* connect to the datbase if not already connected
 	*/
@@ -356,12 +358,15 @@ class OC_DB {
 		if($CONFIG_DBTYPE=='sqlite'){//fix differences between sql versions
 			$cmd=str_replace('`','',$cmd);
 		}
-		$result=self::$DBConnection->query($cmd);
+		$result=self::$DBConnection->exec($cmd);
 		if (PEAR::isError($result)) {
 			$entry='DB Error: "'.$result->getMessage().'"<br />';
 			$entry.='Offending command was: '.$cmd.'<br />';
 			die($entry);
+		}else{
+			self::$affected=$result;
 		}
+		self::$result=$result;
 		return $result;
 	} 
   
@@ -431,7 +436,7 @@ class OC_DB {
 	* @return int
 	*/
 	static function affected_rows() {
-		self::$DBConnection->affectedRows();
+		return self::$affected;
 	}
 	
 	 /**
@@ -464,8 +469,11 @@ class OC_DB {
 	* @param unknown_type $result
 	* @return bool
 	*/
-	static function free_result($result) {
-		$result->free();
+	static function free_result() {
+		if(self::$result){
+			self::$result->free();
+			self::$result=false;
+		}
 	}
 	
 	static public function disconnect(){
