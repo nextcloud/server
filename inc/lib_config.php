@@ -186,11 +186,13 @@ class OC_CONFIG{
 						//create/fill database
 						$CONFIG_DBTYPE=$dbtype;
 						$CONFIG_DBNAME=$_POST['dbname'];
-						$CONFIG_DBTABLEPREFIX=$_POST['dbtableprefix'];
 						if($dbtype!='sqlite'){
+							$CONFIG_DBTABLEPREFIX=$_POST['dbtableprefix'];
 							$CONFIG_DBHOST=$_POST['dbhost'];
 							$CONFIG_DBUSER=$_POST['dbuser'];
 							$CONFIG_DBPASSWORD=$_POST['dbpassword'];
+						}else{
+							$_POST['dbtableprefix']='';
 						}
 						try{
 							if(isset($_POST['createdatabase']) and $CONFIG_DBTYPE!='sqlite'){

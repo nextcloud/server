@@ -28,7 +28,7 @@ function showBackupPath(){
 function dbtypechange(){
     var dropdown=action=document.getElementById('dbtype');
     var type=dropdown.options[dropdown.selectedIndex].value;
-    var inputs=Array('dbhost','dbuser','dbpass','dbpass_retype','dbcreaterow','dbAdminPwd','dbAdminUser','dbname','dbfill');
+    var inputs=Array('dbhost','dbuser','dbpass','dbpass_retype','dbcreaterow','dbAdminPwd','dbAdminUser','dbname','dbfill','dbtableprefix');
     var id,element;
     if(type=='sqlite'){
         for(i in inputs){
