@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <database>
 
- <name>owncloud</name>
+ <name>*dbname*</name>
  <create>true</create>
  <overwrite>false</overwrite>
 
@@ -9,7 +9,7 @@
 
  <table>
 
-  <name>groups</name>
+  <name>*dbprefix*groups</name>
 
   <declaration>
 
@@ -45,7 +45,7 @@
 
  <table>
 
-  <name>locks</name>
+  <name>*dbprefix*locks</name>
 
   <declaration>
 
@@ -173,7 +173,7 @@
 
  <table>
 
-  <name>log</name>
+  <name>*dbprefix*log</name>
 
   <declaration>
 
@@ -224,7 +224,7 @@
 
  <table>
 
-  <name>properties</name>
+  <name>*dbprefix*properties</name>
 
   <declaration>
 
@@ -289,7 +289,7 @@
 
  <table>
 
-  <name>user_group</name>
+  <name>*dbprefix*user_group</name>
 
   <declaration>
 
@@ -324,7 +324,7 @@
 
  <table>
 
-  <name>users</name>
+  <name>*dbprefix*users</name>
 
   <declaration>
 

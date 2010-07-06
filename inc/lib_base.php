@@ -530,7 +530,17 @@ class OC_DB {
 	
 	static function createDBFromStructure($file){
 		OC_DB::connect();
-		$definition=@self::$schema->parseDatabaseDefinitionFile($file);
+		global $CONFIG_DBNAME;
+		global $CONFIG_DBTABLEPREFIX;
+		$content=file_get_contents($file);
+		$file2=tempnam(sys_get_temp_dir(),'oc_db_scheme_');
+		echo $content;
+		$content=str_replace('*dbname*',$CONFIG_DBNAME,$content);
+		$content=str_replace('*dbprefix*',$CONFIG_DBTABLEPREFIX,$content);
+		echo $content;
+		file_put_contents($file2,$content);
+		$definition=@self::$schema->parseDatabaseDefinitionFile($file2);
+		unlink($file2);
 		if($definition instanceof MDB2_Schema_Error){
 			die($definition->getMessage() . ': ' . $definition->getUserInfo());
 		}
