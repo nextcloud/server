@@ -193,6 +193,7 @@ class OC_CONFIG{
 							$CONFIG_DBPASSWORD=$_POST['dbpassword'];
 						}else{
 							$_POST['dbtableprefix']='';
+							$CONFIG_DBTABLEPREFIX='';
 						}
 						try{
 							if(isset($_POST['createdatabase']) and $CONFIG_DBTYPE!='sqlite'){
