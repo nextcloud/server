@@ -49,7 +49,6 @@ class OC_LOG {
    */
   public static function event($user,$type,$message){
     $result = OC_DB::query('insert into log (timestamp,user,type,message) values ("'.time().'","'.addslashes($user).'","'.addslashes($type).'","'.addslashes($message).'")');
-    OC_DB::free_result($result);
   }
 
 
