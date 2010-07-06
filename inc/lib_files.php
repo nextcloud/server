@@ -242,6 +242,36 @@ class OC_FILES {
 	static function getMimeType($path){
 		return OC_FILESYSTEM::getMimeType($path);
 	}
+	
+	/**
+	* pull a file from a remote server
+	* @param  string  source
+	* @param  string  token
+	* @param  string  dir
+	* @param  string  file
+	* @return string  guessed mime type
+	*/
+	static function pull($source,$token,$dir,$file){
+		$tmpfile=tempnam(sys_get_temp_dir(),'remoteCloudFile');
+		$fp=fopen($tmpfile,'w+');
+		$url=$source.="/files/pull.php?token=$token";
+		$ch=curl_init();
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch,CURLOPT_POST,count($parameters));
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+		curl_setopt($ch, CURLOPT_FILE, $fp);
+		curl_exec($ch);
+		fclose($fp);
+		$info=curl_getinfo($ch);
+		$httpCode=$info['http_code'];
+		curl_close($ch);
+		if($httpCode==200 or $httpCode==0){
+			OC_FILESYSTEM::fromTmpFile($tmpfile,$dir.'/'.$file);
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 
 function zipAddDir($dir,$zip,$internalDir=''){

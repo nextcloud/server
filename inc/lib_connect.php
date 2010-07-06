@@ -78,6 +78,7 @@ class OC_REMOTE_CLOUD{
 		$result=trim(curl_exec($ch));
 		$info=curl_getinfo($ch);
 		$httpCode=$info['http_code'];
+		curl_close($ch);
 		if($httpCode==200 or $httpCode==0){
 			return json_decode($result,$assoc);
 		}else{
@@ -130,6 +131,48 @@ class OC_REMOTE_CLOUD{
 		}
 		return $this->apiCall('getfiles',array('dir'=>$dir),true);
 	}
+	
+	/**
+	* get a remove file and save it in a temporary file and return the path of the temporary file
+	* @param string $dir
+	* @param string $file
+	* @return string
+	*/
+	public function getFile($dir, $file){
+		if(!$this->connected){
+			return false;
+		}
+		$ch=curl_init();
+		if(!$this->cookiefile){
+			$this->cookiefile=sys_get_temp_dir().'/remoteCloudCookie'.uniqid();
+		}
+		$tmpfile=tempnam(sys_get_temp_dir(),'remoteCloudFile');
+		$fp=fopen($tmpfile,'w+');
+		$url=$this->path.="/files/api.php?action=get&dir=$dir&file=$file";
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_COOKIEFILE,$this->cookiefile); 
+		curl_setopt($ch, CURLOPT_COOKIEJAR,$this->cookiefile); 
+		curl_setopt($ch, CURLOPT_FILE, $fp);
+		curl_exec($ch);
+		fclose($fp);
+		curl_close($ch);
+		return $tmpfile;
+	}
+	
+	public function sendFile($sourceDir,$sourceFile,$targetDir,$targetFile){
+		global $WEBROOT;
+		$source=$sourceDir.'/'.$sourceFile;
+		$tmp=OC_FILESYSTEM::toTmpFile($source);
+		$token=sha1(uniqid().$source);
+		$file=sys_get_temp_dir().'/'.'remoteCloudFile'.$token;
+		rename($tmp,$file);
+		if((isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') { 
+			$url = "https://". $_SERVER['SERVER_NAME'] . $WEBROOT;
+		}else{
+			$url = "http://". $_SERVER['SERVER_NAME'] . $WEBROOT;
+		}
+		return $this->apiCall('pull',array('dir'=>$targetDir,'file'=>$targetFile,'token'=>$token,'source'=>$url),true);
+	}
 }
 
 function OC_CONNECT_TEST($path,$user,$password){
@@ -145,6 +188,30 @@ function OC_CONNECT_TEST($path,$user,$password){
 				echo count($files).' files found:<br/>';
 				foreach($files as $file){
 					echo "{$file['type']} {$file['name']}: {$file['size']} bytes<br/>";
+				}
+				echo 'getting file "'.$file['name'].'"...';
+				$size=$file['size'];
+				$file=$remote->getFile('',$file['name']);
+				if(file_exists($file)){
+					$newSize=filesize($file);
+					if($size!=$newSize){
+						echo "fail<br/>Error: $newSize bytes received, $size expected.";
+						echo '<br/><br/>Recieved file:<br/>';
+						readfile($file);
+						unlink($file);
+						return;
+					}
+					OC_FILESYSTEM::fromTmpFile($file,'/remoteFile');
+					echo 'done<br/>';
+					echo 'sending file "burning_avatar.png"...';
+					$res=$remote->sendFile('','burning_avatar.png','','burning_avatar.png');
+					if($res){
+						echo 'done<br/>';
+					}else{
+						echo 'fail<br/>';
+					}
+				}else{
+					echo 'fail<br/>';
 				}
 			}else{
 				echo 'fail<br/>';

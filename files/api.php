@@ -72,6 +72,8 @@ if($arguments['action']){
 				echo 'false';
 			}
 			break;
+		case 'pull':
+			return OC_FILES::pull($arguments['source'],$arguments['token'],$arguments['dir'],$arguments['file']);
 	}
 }
 
