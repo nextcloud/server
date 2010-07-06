@@ -50,7 +50,6 @@ class OC_LOG {
   public static function event($user,$type,$message){
 	global $CONFIG_DBTABLEPREFIX;
     $result = OC_DB::query('INSERT INTO `' . $CONFIG_DBTABLEPREFIX . 'log` (`timestamp`,`user`,`type`,`message`) VALUES ('.time().',\''.addslashes($user).'\','.addslashes($type).',\''.addslashes($message).'\');');
-    OC_DB::free_result($result);
   }
 
 

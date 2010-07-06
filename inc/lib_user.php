@@ -48,8 +48,16 @@ class OC_USER {
 	public static function loginlisener(){
 		if(isset($_POST['loginbutton']) and isset($_POST['password']) and isset($_POST['login'])){
 			if(OC_USER::login($_POST['login'],$_POST['password'])){
+				echo 1;
 				OC_LOG::event($_SESSION['username'],1,'');
-				return('');
+				echo 2;
+				if((isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') { 
+					$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']; 
+				}else{
+					$url = "http://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']; 
+				}
+				header("Location: $url");
+				die();
 			}else{
 				return('error');
 			} 
