@@ -82,6 +82,7 @@ oc_require_once('lib_ocs.php');
 @oc_require_once('MDB2.php');
 @oc_require_once('MDB2/Schema.php');
 oc_require_once('lib_connect.php');
+oc_require_once('lib_remotestorage.php');
 
 
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){

@@ -55,6 +55,9 @@ if($arguments['action']){
 		case 'getfiles':
 			echo json_encode(OC_FILES::getdirectorycontent($arguments['dir']));
 			break;
+		case 'gettree':
+			echo json_encode(OC_FILES::getTree($arguments['dir']));
+			break;
 		case 'find':
 			echo json_encode(OC_FILESYSTEM::find($arguments['path']));
 			break;

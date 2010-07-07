@@ -75,7 +75,8 @@ class OC_REMOTE_CLOUD{
 		curl_setopt($ch, CURLOPT_COOKIEFILE,$this->cookiefile); 
 		curl_setopt($ch, CURLOPT_COOKIEJAR,$this->cookiefile); 
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-		$result=trim(curl_exec($ch));
+		$result=curl_exec($ch);
+		$result=trim($result);
 		$info=curl_getinfo($ch);
 		$httpCode=$info['http_code'];
 		curl_close($ch);
@@ -122,6 +123,70 @@ class OC_REMOTE_CLOUD{
 	}
 	
 	/**
+	* create a new file or directory
+	* @param string $dir
+	* @param string $name
+	* @param string $type
+	*/
+	public function newFile($dir,$name,$type){
+		if(!$this->connected){
+			return false;
+		}
+		return $this->apiCall('new',array('dir'=>$dir,'name'=>$name,'type'=>$type),true);
+	}
+	
+	/**
+	* deletes a file or directory
+	* @param string $dir
+	* @param string $file
+	*/
+	public function delete($dir,$name){
+		if(!$this->connected){
+			return false;
+		}
+		return $this->apiCall('delete',array('dir'=>$dir,'file'=>$name),true);
+	}
+	
+	/**
+	* moves a file or directory
+	* @param string $sorceDir
+	* @param string $sorceFile
+	* @param string $targetDir
+	* @param string $targetFile
+	*/
+	public function move($sourceDir,$sourceFile,$targetDir,$targetFile){
+		if(!$this->connected){
+			return false;
+		}
+		return $this->apiCall('move',array('sourcedir'=>$sourceDir,'source'=>$sourceFile,'targetdir'=>$targetDir,'target'=>$targetFile),true);
+	}
+	
+	/**
+	* copies a file or directory
+	* @param string $sorceDir
+	* @param string $sorceFile
+	* @param string $targetDir
+	* @param string $targetFile
+	*/
+	public function copy($sourceDir,$sourceFile,$targetDir,$targetFile){
+		if(!$this->connected){
+			return false;
+		}
+		return $this->apiCall('copy',array('sourcedir'=>$sourceDir,'source'=>$sourceFile,'targetdir'=>$targetDir,'target'=>$targetFile),true);
+	}
+	
+	/**
+	* get a file tree
+	* @param string $dir
+	*/
+	public function getTree($dir){
+		if(!$this->connected){
+			return false;
+		}
+		return $this->apiCall('gettree',array('dir'=>$dir),true);
+	}
+	
+	/**
 	* get the files inside a directory of the remote cloud
 	* @param string $dir
 	*/
@@ -163,7 +228,12 @@ class OC_REMOTE_CLOUD{
 		global $WEBROOT;
 		$source=$sourceDir.'/'.$sourceFile;
 		$tmp=OC_FILESYSTEM::toTmpFile($source);
-		$token=sha1(uniqid().$source);
+		return $this->sendTmpFile($tmp,$targetDir,$targetFile);
+	}
+	
+	public function sendTmpFile($tmp,$targetDir,$targetFile){
+		$token=sha1(uniqid().$tmp);
+		global $WEBROOT;
 		$file=sys_get_temp_dir().'/'.'remoteCloudFile'.$token;
 		rename($tmp,$file);
 		if((isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') { 

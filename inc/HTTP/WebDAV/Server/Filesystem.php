@@ -324,7 +324,6 @@
      */
     function PUT(&$options) 
     {
-		error_log("put $fspath");
         $fspath = $options["path"];
         $dir = dirname($fspath);
         if (!OC_FILESYSTEM::file_exists($dir) || !OC_FILESYSTEM::is_dir($dir)) {
