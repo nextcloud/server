@@ -26,6 +26,7 @@
 ob_start();
 // error_reporting(E_ALL | E_STRICT);
 error_reporting(E_ALL); // MDB2 gives loads of strict error, disabling for now
+
 date_default_timezone_set('Europe/Berlin');
 ini_set('arg_separator.output','&amp;');
 ini_set('session.cookie_httponly','1;');
@@ -108,9 +109,20 @@ if(OC_USER::isLoggedIn()){
 }
 
 // load plugins
-$CONFIG_LOADPLUGINS='';
-$plugins=explode(' ',$CONFIG_LOADPLUGINS);
-if(isset($plugins[0]['url'])) foreach($plugins as $plugin) require_once('plugins/'.$plugin.'/lib_'.$plugin.'.php');
+$CONFIG_LOADPLUGINS='all';
+if ($CONFIG_LOADPLUGINS != 'all')
+	$plugins=explode(' ',$CONFIG_LOADPLUGINS);
+else{
+	$plugins=array();
+	$fd=opendir($SERVERROOT.'/plugins');
+	while (($filename = readdir($fd)) !== false) {
+		if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
+			$plugins[]=$filename;
+		}
+	}
+	closedir($fd);
+}	
+if(isset($plugins[0])) foreach($plugins as $plugin) require_once($SERVERROOT.'/plugins/'.$plugin.'/lib_'.$plugin.'.php');
 
 
 // check if the server is correctly configured for ownCloud

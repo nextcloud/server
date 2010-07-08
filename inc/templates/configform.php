@@ -34,7 +34,7 @@ changepassset=function(){
 </table>
 </form>
 <!--dissabled for now
-Groups:
+Groups:-->
 <form method="post" enctype="multipart/form-data">
 <input type='hidden' name='creategroup' value='1'>
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
@@ -50,4 +50,4 @@ foreach($groups as $group){
 <tr><td colspan='2' class='center'>Create new group</td></tr>
 <tr><td><input type='text' name='groupname' class="formstyle"></input></td><td><input type='submit' value='create' class="formstyle"></input></td></tr>
 </table>
-</form>-->
+</form>

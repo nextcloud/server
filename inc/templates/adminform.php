@@ -115,7 +115,7 @@ foreach($dbtypes as $dbtype){
 <tr><td></td><td><input type="submit" name="set_config" alt="save" value="save" class="formstyle" /></td></tr>
 </table></form><br/>
 <?php
-if(!$FIRSTRUN and false){//disabled for now?>
+if(!$FIRSTRUN ){//disabled for now?>
 <br/>
 <form method="post" enctype="multipart/form-data" action="#">
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
