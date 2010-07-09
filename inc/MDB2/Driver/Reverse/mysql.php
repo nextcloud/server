@@ -45,7 +45,7 @@
 // $Id: mysql.php,v 1.80 2008/03/26 21:15:37 quipo Exp $
 //
 
-require_once 'MDB2/Driver/Reverse/Common.php';
+oc_require_once('MDB2/Driver/Reverse/Common.php');
 
 /**
  * MDB2 MySQL driver for the schema reverse engineering module

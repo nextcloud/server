@@ -199,7 +199,7 @@ class OC_FILESYSTEM{
 			return $storage->file_get_contents(substr($path,strlen(self::getMountPoint($path))));
 		}
 	}
-	static public function file_put_contents($path){
+	static public function file_put_contents($path,$data){
 		if(self::canWrite($path) and $storage=self::getStorage($path)){
 			$this->notifyObservers($path,OC_FILEACTION_WRITE | OC_FILEACTION_CREATE);
 			return $storage->file_put_contents(substr($path,strlen(self::getMountPoint($path))));

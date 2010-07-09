@@ -50,7 +50,7 @@
  * @author   Lukas Smith <smith@pooteeweet.org>
  */
 
-require_once 'MDB2.php';
+oc_require_once('MDB2.php');
 
 /**
  * MDB2_LOB: user land stream wrapper implementation for LOB support

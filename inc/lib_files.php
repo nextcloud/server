@@ -54,7 +54,7 @@ class OC_FILES {
 		$dirs=array();
 		$file=array();
 		$files=array();
-		if (OC_FILESYSTEM::is_dir($directory)) {
+		if(OC_FILESYSTEM::is_dir($directory)) {
 			if ($dh = OC_FILESYSTEM::opendir($directory)) {
 			while (($filename = readdir($dh)) !== false) {
 				if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
@@ -136,7 +136,11 @@ class OC_FILES {
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: public');
-			header('Content-Length: ' . filesize($filename));
+			if($zip){
+				header('Content-Length: ' . filesize($filename));
+			}else{
+				header('Content-Length: ' . OC_FILESYSTEM::filesize($filename));
+			}
 		}elseif($zip or !OC_FILESYSTEM::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");
 			die('404 Not Found');
@@ -242,6 +246,44 @@ class OC_FILES {
 	static function getMimeType($path){
 		return OC_FILESYSTEM::getMimeType($path);
 	}
+	
+	/**
+	* get a file tree
+	*
+	* @param  string  path
+	* @return array
+	*/
+	static function getTree($path){
+		return OC_FILESYSTEM::getTree($path);
+	}
+	
+	/**
+	* pull a file from a remote server
+	* @param  string  source
+	* @param  string  token
+	* @param  string  dir
+	* @param  string  file
+	* @return string  guessed mime type
+	*/
+	static function pull($source,$token,$dir,$file){
+		$tmpfile=tempnam(sys_get_temp_dir(),'remoteCloudFile');
+		$fp=fopen($tmpfile,'w+');
+		$url=$source.="/files/pull.php?token=$token";
+		$ch=curl_init();
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_FILE, $fp);
+		curl_exec($ch);
+		fclose($fp);
+		$info=curl_getinfo($ch);
+		$httpCode=$info['http_code'];
+		curl_close($ch);
+		if($httpCode==200 or $httpCode==0){
+			OC_FILESYSTEM::fromTmpFile($tmpfile,$dir.'/'.$file);
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 
 function zipAddDir($dir,$zip,$internalDir=''){
@@ -276,4 +318,46 @@ if(!function_exists('sys_get_temp_dir')) {
     }
 }
 
+global $FAKEDIRS;
+$FAKEDIRS=array();
+
+class fakeDirStream{
+	private $name;
+	private $data;
+	private $index;
+	
+	public function dir_opendir($path,$options){
+		global $FAKEDIRS;
+		$url=parse_url($path);
+		$this->name=substr($path,strlen('fakedir://'));
+		$this->index=0;
+		if(isset($FAKEDIRS[$this->name])){
+			$this->data=$FAKEDIRS[$this->name];
+		}else{
+			$this->data=array();
+		}
+		return true;
+	}
+	
+	public function dir_readdir(){
+		if($this->index>=count($this->data)){
+			return false;
+		}
+		$filename=$this->data[$this->index];
+		$this->index++;
+		return $filename;
+	}
+	
+	public function dir_closedir() {
+		$this->data=false;
+		$this->name='';
+		return true;
+	}
+
+	public function dir_rewinddir() {
+		$this->index=0;
+		return true;
+	}
+}
+stream_wrapper_register("fakedir", "fakeDirStream");
 ?>

@@ -36,7 +36,7 @@
 /**
  * uses PEAR's error handling
  */
-require_once 'PEAR.php';
+oc_require_once('PEAR.php');
 
 /**
  * resource could not be created
@@ -376,13 +376,12 @@ class XML_Parser extends PEAR
         /**
          * check, if file is a remote file
          */
-        if (eregi('^(http|ftp)://', substr($file, 0, 10))) {
+        if (preg_match('[^(http|ftp)://]', substr($file, 0, 10))) {
             if (!ini_get('allow_url_fopen')) {
             	return $this->raiseError('Remote files cannot be parsed, as safe mode is enabled.', XML_PARSER_ERROR_REMOTE);
             }
         }
-        
-        $fp = @fopen($file, 'rb');
+        $fp = fopen($file, 'rb');
         if (is_resource($fp)) {
             $this->fp = $fp;
             return $fp;
@@ -564,7 +563,7 @@ class XML_Parser extends PEAR
     function raiseError($msg = null, $ecode = 0)
     {
         $msg = !is_null($msg) ? $msg : $this->parser;
-        $err = &new XML_Parser_Error($msg, $ecode);
+        $err = new XML_Parser_Error($msg, $ecode);
         return parent::raiseError($err);
     }
     

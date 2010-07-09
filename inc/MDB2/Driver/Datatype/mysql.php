@@ -46,7 +46,7 @@
 // $Id: mysql.php,v 1.65 2008/02/22 19:23:49 quipo Exp $
 //
 
-require_once 'MDB2/Driver/Datatype/Common.php';
+oc_require_once('MDB2/Driver/Datatype/Common.php');
 
 /**
  * MDB2 MySQL driver

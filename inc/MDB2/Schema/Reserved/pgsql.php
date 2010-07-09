@@ -1,8 +1,9 @@
 <?php
+// {{{ Disclaimer, Licence, copyrights
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -39,98 +40,108 @@
 // | WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          |
 // | POSSIBILITY OF SUCH DAMAGE.                                          |
 // +----------------------------------------------------------------------+
-// | Author: Lukas Smith <smith@pooteeweet.org>                           |
+// | Author: Marcelo Santos Araujo <msaraujo@php.net>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php,v 1.12 2008/02/17 18:54:08 quipo Exp $
-//
-
-oc_require_once('MDB2/Driver/Function/Common.php');
-
+// }}}
+// {{{ $GLOBALS['_MDB2_Schema_Reserved']['pgsql']
 /**
- * MDB2 MySQL driver for the function modules
+ * Has a list of reserved words of pgsql
  *
- * @package MDB2
+ * @package MDB2_Schema
  * @category Database
- * @author  Lukas Smith <smith@pooteeweet.org>
+ * @access protected
+ * @author Marcelo Santos Araujo <msaraujo@php.net>
  */
-class MDB2_Driver_Function_mysql extends MDB2_Driver_Function_Common
-{
-     // }}}
-    // {{{ executeStoredProc()
-
-    /**
-     * Execute a stored procedure and return any results
-     *
-     * @param string $name string that identifies the function to execute
-     * @param mixed  $params  array that contains the paramaters to pass the stored proc
-     * @param mixed   $types  array that contains the types of the columns in
-     *                        the result set
-     * @param mixed $result_class string which specifies which result class to use
-     * @param mixed $result_wrap_class string which specifies which class to wrap results in
-     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
-     * @access public
-     */
-    function &executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
-    {
-        $db =& $this->getDBInstance();
-        if (PEAR::isError($db)) {
-            return $db;
-        }
-
-        $query = 'CALL '.$name;
-        $query .= $params ? '('.implode(', ', $params).')' : '()';
-        return $db->query($query, $types, $result_class, $result_wrap_class);
-    }
-
-    // }}}
-    // {{{ unixtimestamp()
-
-    /**
-     * return string to call a function to get the unix timestamp from a iso timestamp
-     *
-     * @param string $expression
-     *
-     * @return string to call a variable with the timestamp
-     * @access public
-     */
-    function unixtimestamp($expression)
-    {
-        return 'UNIX_TIMESTAMP('. $expression.')';
-    }
-
-    // }}}
-    // {{{ concat()
-
-    /**
-     * Returns string to concatenate two or more string parameters
-     *
-     * @param string $value1
-     * @param string $value2
-     * @param string $values...
-     * @return string to concatenate two strings
-     * @access public
-     **/
-    function concat($value1, $value2)
-    {
-        $args = func_get_args();
-        return "CONCAT(".implode(', ', $args).")";
-    }
-
-    // }}}
-    // {{{ guid()
-
-    /**
-     * Returns global unique identifier
-     *
-     * @return string to get global unique identifier
-     * @access public
-     */
-    function guid()
-    {
-        return 'UUID()';
-    }
-
-    // }}}
-}
+$GLOBALS['_MDB2_Schema_Reserved']['pgsql'] = array(
+    'ALL',
+    'ANALYSE',
+    'ANALYZE',
+    'AND',
+    'ANY',
+    'AS',
+    'ASC',
+    'AUTHORIZATION',
+    'BETWEEN',
+    'BINARY',
+    'BOTH',
+    'CASE',
+    'CAST',
+    'CHECK',
+    'COLLATE',
+    'COLUMN',
+    'CONSTRAINT',
+    'CREATE',
+    'CURRENT_DATE',
+    'CURRENT_TIME',
+    'CURRENT_TIMESTAMP',
+    'CURRENT_USER',
+    'DEFAULT',
+    'DEFERRABLE',
+    'DESC',
+    'DISTINCT',
+    'DO',
+    'ELSE',
+    'END',
+    'EXCEPT',
+    'FALSE',
+    'FOR',
+    'FOREIGN',
+    'FREEZE',
+    'FROM',
+    'FULL',
+    'GRANT',
+    'GROUP',
+    'HAVING',
+    'ILIKE',
+    'IN',
+    'INITIALLY',
+    'INNER',
+    'INTERSECT',
+    'INTO',
+    'IS',
+    'ISNULL',
+    'JOIN',
+    'LEADING',
+    'LEFT',
+    'LIKE',
+    'LIMIT',
+    'LOCALTIME',
+    'LOCALTIMESTAMP',
+    'NATURAL',
+    'NEW',
+    'NOT',
+    'NOTNULL',
+    'NULL',
+    'OFF',
+    'OFFSET',
+    'OLD',
+    'ON',
+    'ONLY',
+    'OR',
+    'ORDER',
+    'OUTER',
+    'OVERLAPS',
+    'PLACING',
+    'PRIMARY',
+    'REFERENCES',
+    'SELECT',
+    'SESSION_USER',
+    'SIMILAR',
+    'SOME',
+    'TABLE',
+    'THEN',
+    'TO',
+    'TRAILING',
+    'TRUE',
+    'UNION',
+    'UNIQUE',
+    'USER',
+    'USING',
+    'VERBOSE',
+    'WHEN',
+    'WHERE'
+);
+// }}}
 ?>
+

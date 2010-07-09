@@ -62,7 +62,7 @@ class OC_FILESTORAGE{
 	public function filemtime($path){}
 	public function fileatime($path){}
 	public function file_get_contents($path){}
-	public function file_put_contents($path){}
+	public function file_put_contents($path,$data){}
 	public function unlink($path){}
 	public function rename($path1,$path2){}
 	public function copy($path1,$path2){}
@@ -149,8 +149,8 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 		return $return;
 	}
-	public function file_put_contents($path){
-		if($return=file_put_contents($this->datadir.$path)){
+	public function file_put_contents($path,$data){
+		if($return=file_put_contents($this->datadir.$path,$data)){
 			$this->notifyObservers($path,OC_FILEACTION_WRITE);
 		}
 	}

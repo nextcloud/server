@@ -1,8 +1,9 @@
 <?php
+// {{{ Disclaimer, Licence, copyrights
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -39,98 +40,132 @@
 // | WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          |
 // | POSSIBILITY OF SUCH DAMAGE.                                          |
 // +----------------------------------------------------------------------+
-// | Author: Lukas Smith <smith@pooteeweet.org>                           |
+// | Author: David Coallier <davidc@php.net>                              |
 // +----------------------------------------------------------------------+
-//
-// $Id: mysql.php,v 1.12 2008/02/17 18:54:08 quipo Exp $
-//
-
-oc_require_once('MDB2/Driver/Function/Common.php');
-
+// }}}
+// {{{ $GLOBALS['_MDB2_Schema_Reserved']['oci8']
 /**
- * MDB2 MySQL driver for the function modules
+ * Has a list of all the reserved words for oracle.
  *
- * @package MDB2
+ * @package  MDB2_Schema
  * @category Database
- * @author  Lukas Smith <smith@pooteeweet.org>
+ * @access   protected
+ * @author   David Coallier <davidc@php.net>
  */
-class MDB2_Driver_Function_mysql extends MDB2_Driver_Function_Common
-{
-     // }}}
-    // {{{ executeStoredProc()
+$GLOBALS['_MDB2_Schema_Reserved']['oci8'] = array(
+    'ACCESS',
+    'ELSE',
+    'MODIFY',
+    'START',
+    'ADD',
+    'EXCLUSIVE',
+    'NOAUDIT',
+    'SELECT',
+    'ALL',
+    'EXISTS',
+    'NOCOMPRESS',
+    'SESSION',
+    'ALTER',
+    'FILE',
+    'NOT',
+    'SET',
+    'AND',
+    'FLOAT',
+    'NOTFOUND ',
+    'SHARE',
+    'ANY',
+    'FOR',
+    'NOWAIT',
+    'SIZE',
+    'ARRAYLEN',
+    'FROM',
+    'NULL',
+    'SMALLINT',
+    'AS',
+    'GRANT',
+    'NUMBER',
+    'SQLBUF',
+    'ASC',
+    'GROUP',
+    'OF',
+    'SUCCESSFUL',
+    'AUDIT',
+    'HAVING',
+    'OFFLINE ',
+    'SYNONYM',
+    'BETWEEN',
+    'IDENTIFIED',
+    'ON',
+    'SYSDATE',
+    'BY',
+    'IMMEDIATE',
+    'ONLINE',
+    'TABLE',
+    'CHAR',
+    'IN',
+    'OPTION',
+    'THEN',
+    'CHECK',
+    'INCREMENT',
+    'OR',
+    'TO',
+    'CLUSTER',
+    'INDEX',
+    'ORDER',
+    'TRIGGER',
+    'COLUMN',
+    'INITIAL',
+    'PCTFREE',
+    'UID',
+    'COMMENT',
+    'INSERT',
+    'PRIOR',
+    'UNION',
+    'COMPRESS',
+    'INTEGER',
+    'PRIVILEGES',
+    'UNIQUE',
+    'CONNECT',
+    'INTERSECT',
+    'PUBLIC',
+    'UPDATE',
+    'CREATE',
+    'INTO',
+    'RAW',
+    'USER',
+    'CURRENT',
+    'IS',
+    'RENAME',
+    'VALIDATE',
+    'DATE',
+    'LEVEL',
+    'RESOURCE',
+    'VALUES',
+    'DECIMAL',
+    'LIKE',
+    'REVOKE',
+    'VARCHAR',
+    'DEFAULT',
+    'LOCK',
+    'ROW',
+    'VARCHAR2',
+    'DELETE',
+    'LONG',
+    'ROWID',
+    'VIEW',
+    'DESC',
+    'MAXEXTENTS',
+    'ROWLABEL',
+    'WHENEVER',
+    'DISTINCT',
+    'MINUS',
+    'ROWNUM',
+    'WHERE',
+    'DROP',
+    'MODE',
+    'ROWS',
+    'WITH',
+);
+// }}}
 
-    /**
-     * Execute a stored procedure and return any results
-     *
-     * @param string $name string that identifies the function to execute
-     * @param mixed  $params  array that contains the paramaters to pass the stored proc
-     * @param mixed   $types  array that contains the types of the columns in
-     *                        the result set
-     * @param mixed $result_class string which specifies which result class to use
-     * @param mixed $result_wrap_class string which specifies which class to wrap results in
-     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
-     * @access public
-     */
-    function &executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
-    {
-        $db =& $this->getDBInstance();
-        if (PEAR::isError($db)) {
-            return $db;
-        }
-
-        $query = 'CALL '.$name;
-        $query .= $params ? '('.implode(', ', $params).')' : '()';
-        return $db->query($query, $types, $result_class, $result_wrap_class);
-    }
-
-    // }}}
-    // {{{ unixtimestamp()
-
-    /**
-     * return string to call a function to get the unix timestamp from a iso timestamp
-     *
-     * @param string $expression
-     *
-     * @return string to call a variable with the timestamp
-     * @access public
-     */
-    function unixtimestamp($expression)
-    {
-        return 'UNIX_TIMESTAMP('. $expression.')';
-    }
-
-    // }}}
-    // {{{ concat()
-
-    /**
-     * Returns string to concatenate two or more string parameters
-     *
-     * @param string $value1
-     * @param string $value2
-     * @param string $values...
-     * @return string to concatenate two strings
-     * @access public
-     **/
-    function concat($value1, $value2)
-    {
-        $args = func_get_args();
-        return "CONCAT(".implode(', ', $args).")";
-    }
-
-    // }}}
-    // {{{ guid()
-
-    /**
-     * Returns global unique identifier
-     *
-     * @return string to get global unique identifier
-     * @access public
-     */
-    function guid()
-    {
-        return 'UUID()';
-    }
-
-    // }}}
-}
 ?>

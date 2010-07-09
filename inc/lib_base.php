@@ -81,7 +81,9 @@ oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
 @oc_require_once('MDB2.php');
+@oc_require_once('MDB2/Schema.php');
 oc_require_once('lib_connect.php');
+oc_require_once('lib_remotestorage.php');
 
 
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
@@ -312,6 +314,7 @@ class OC_UTIL {
  */
 class OC_DB {
 	static private $DBConnection=false;
+	static private $schema=false;
 	static private $affected=0;
 	static private $result=false;
 	/**
@@ -327,8 +330,11 @@ class OC_DB {
 		global $SERVERROOT;
 		if(!self::$DBConnection){
 			$options = array(
-				'debug'       => 0,
 				'portability' => MDB2_PORTABILITY_ALL,
+				'log_line_break' => '<br>',
+				'idxname_format' => '%s',
+				'debug' => true,
+				'quote_identifier' => true,
 			);
 			if($CONFIG_DBTYPE=='sqlite'){
 				$dsn = array(
@@ -344,14 +350,22 @@ class OC_DB {
 					'hostspec' => $CONFIG_DBHOST,
 					'database' => $CONFIG_DBNAME,
 				);
+			}elseif($CONFIG_DBTYPE=='pgsql'){
+				$dsn = array(
+					'phptype'  => 'pgsql',
+					'username' => $CONFIG_DBUSER,
+					'password' => $CONFIG_DBPASSWORD,
+					'hostspec' => $CONFIG_DBHOST,
+					'database' => $CONFIG_DBNAME,
+				);
 			}
-			self::$DBConnection=MDB2::connect($dsn,$options);
-			if (@PEAR::isError(self::$DBConnection)) {
+			self::$DBConnection=&MDB2::factory($dsn,$options);
+			if (PEAR::isError(self::$DBConnection)) {
 				echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
 				die(self::$DBConnection->getMessage());
 			}
 			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
-// 			self::$DBConnection->loadModule('Manager');
+			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
 		}
 	}
 	
@@ -369,6 +383,8 @@ class OC_DB {
 		OC_DB::connect();
 		if($CONFIG_DBTYPE=='sqlite'){//fix differences between sql versions
 			$cmd=str_replace('`','',$cmd);
+		}elseif($CONFIG_DBTYPE=='pgsql'){
+			$cmd=str_replace('`','"',$cmd);
 		}
 		$result=self::$DBConnection->exec($cmd);
 		if (PEAR::isError($result)) {
@@ -390,7 +406,19 @@ class OC_DB {
    */
 	static function select($cmd){
 		OC_DB::connect();
-		return self::$DBConnection->queryAll($cmd);
+		global $CONFIG_DBTYPE;
+		if($CONFIG_DBTYPE=='sqlite'){//fix differences between sql versions
+			$cmd=str_replace('`','',$cmd);
+		}elseif($CONFIG_DBTYPE=='pgsql'){
+			$cmd=str_replace('`','"',$cmd);
+		}
+		$result=self::$DBConnection->queryAll($cmd);
+		if (PEAR::isError($result)) {
+			$entry='DB Error: "'.$result->getMessage().'"<br />';
+			$entry.='Offending command was: '.$cmd.'<br />';
+			die($entry);
+		}
+		return $result;
 	} 
 	
 	/**
@@ -425,12 +453,8 @@ class OC_DB {
 	* @return primarykey
 	*/
 	static function insertid() {
-		global $CONFIG_DBTYPE;
-		if($CONFIG_DBTYPE=='sqlite'){
-		return self::$DBConnection->lastInsertRowid();
-		}elseif($CONFIG_DBTYPE=='mysql'){
-		return(mysqli_insert_id(self::$DBConnection));
-		}
+		$id=self::$DBConnection->lastInsertID();
+		return $id;
 	}
 
 	/**
@@ -505,7 +529,41 @@ class OC_DB {
 		OC_DB::connect();
 		return self::$DBConnection->escape($string);
 	}
-
+	
+	static function getDBStructure($file){
+		OC_DB::connect();
+		$definition = self::$schema->getDefinitionFromDatabase();
+		$dump_options = array(
+			'output_mode' => 'file',
+			'output' => $file,
+			'end_of_line' => "\n"
+		);
+		self::$schema->dumpDatabase($definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE);
+	}
+	
+	static function createDBFromStructure($file){
+		OC_DB::connect();
+		global $CONFIG_DBNAME;
+		global $CONFIG_DBTABLEPREFIX;
+		$content=file_get_contents($file);
+		$file2=tempnam(sys_get_temp_dir(),'oc_db_scheme_');
+		echo $content;
+		$content=str_replace('*dbname*',$CONFIG_DBNAME,$content);
+		$content=str_replace('*dbprefix*',$CONFIG_DBTABLEPREFIX,$content);
+		echo $content;
+		file_put_contents($file2,$content);
+		$definition=@self::$schema->parseDatabaseDefinitionFile($file2);
+		unlink($file2);
+		if($definition instanceof MDB2_Schema_Error){
+			die($definition->getMessage() . ': ' . $definition->getUserInfo());
+		}
+		$ret=@self::$schema->createDatabase($definition);
+		if($ret instanceof MDB2_Error) {
+			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
+		}else{
+			return true;
+		}
+	}
 }
 
 
@@ -589,12 +647,12 @@ function oc_include_once($file){
 	global $CONFIG_HTTPFORCESSL;
 	global $CONFIG_DATEFORMAT;
 	global $CONFIG_INSTALLED;
-	if(is_file($file)){
-		return include_once($file);
-	}elseif(is_file($SERVERROOT.'/'.$file)){
+	if(is_file($SERVERROOT.'/'.$file)){
 		return include_once($SERVERROOT.'/'.$file);
 	}elseif(is_file($SERVERROOT.'/inc/'.$file)){
 		return include_once($SERVERROOT.'/inc/'.$file);
+	}elseif(is_file($file)){
+		return include_once($file);
 	}
 }
 

@@ -10,6 +10,7 @@ if(!$f) die('Error: Config file (config/config.php) is not writable for the webs
 if(!isset($fillDB)) $fillDB=true;
 if(!isset($CONFIG_DBHOST)) $CONFIG_DBHOST='localhost';
 if(!isset($CONFIG_DBUSER)) $CONFIG_DBUSER='owncloud';
+if(!isset($CONFIG_DBTABLEPREFIX)) $CONFIG_DBTABLEPREFIX='oc_';
 $newuserpassword=OC_USER::generatepassword();
 ?>
 <script type="text/javascript">
@@ -27,7 +28,7 @@ function showBackupPath(){
 function dbtypechange(){
     var dropdown=action=document.getElementById('dbtype');
     var type=dropdown.options[dropdown.selectedIndex].value;
-    var inputs=Array('dbhost','dbuser','dbpass','dbpass_retype','dbcreaterow','dbAdminPwd','dbAdminUser','dbname','dbfill');
+    var inputs=Array('dbhost','dbuser','dbpass','dbpass_retype','dbcreaterow','dbAdminPwd','dbAdminUser','dbname','dbfill','dbtableprefix');
     var id,element;
     if(type=='sqlite'){
         for(i in inputs){
@@ -37,7 +38,7 @@ function dbtypechange(){
                 element.style.display='none';
             }
         }
-    }else if(type=='mysql'){
+    }else if(type=='mysql' || type=='pgsql'){
         for(i in inputs){
             id=inputs[i];
             element=document.getElementById(id);
@@ -80,30 +81,43 @@ if($FIRSTRUN){?>
 <select id='dbtype' name="dbtype" onchange='dbtypechange()'>
 <?php
 global $CONFIG_DBTYPE;
-$dbtypes=array();
 if($CONFIG_DBTYPE=='sqlite'){
 	if(is_callable('sqlite_open')){
-		$dbtypes[]='SQLite';
+		echo "<option value='sqlite'>SQLite</option>";
 	}
 	if(is_callable('mysql_connect')){
-		$dbtypes[]='MySQL';
+		echo "<option value='mysql'>MySQL</option>";
 	}
-}else{
+	if(is_callable('pg_connect')){
+		echo "<option value='pgsql'>PostgreSQL</option>";
+	}
+}elseif($CONFIG_DBTYPE=='mysql'){
 	if(is_callable('mysql_connect')){
-		$dbtypes[]='MySQL';
+		echo "<option value='mysql'>MySQL</option>";
 	}
 	if(is_callable('sqlite_open')){
-		$dbtypes[]='SQLite';
+		echo "<option value='sqlite'>SQLite</option>";
 	}
-}
-foreach($dbtypes as $dbtype){
-	echo "<option value='".strtolower($dbtype)."'>$dbtype</option>";
+	if(is_callable('pg_connect')){
+		echo "<option value='pgsql'>PostgreSQL</option>";
+	}
+}elseif($CONFIG_DBTYPE=='pgsql'){
+	if(is_callable('pg_connect')){
+		echo "<option value='pgsql'>PostgreSQL</option>";
+	}
+	if(is_callable('mysql_connect')){
+		echo "<option value='mysql'>MySQL</option>";
+	}
+	if(is_callable('sqlite_open')){
+		echo "<option value='sqlite'>SQLite</option>";
+	}
 }
 ?>
 </select>
 </td></tr>
 <tr id='dbhost'><td>database host:</td><td><input type="text" name="dbhost" size="30" class="formstyle" value='<?php echo($CONFIG_DBHOST);?>'></input></td></tr>
 <tr id='dbname'><td>database name:</td><td><input type="text" name="dbname" size="30" class="formstyle" value='<?php echo($CONFIG_DBNAME);?>'></input></td></tr>
+<tr id='dbtableprefix'><td>database table prefix:</td><td><input type="text" name="dbtableprefix" size="30" class="formstyle" value='<?php echo($CONFIG_DBTABLEPREFIX);?>'></input></td></tr>
 <tr id='dbuser'><td>database user:</td><td><input type="text" name="dbuser" size="30" class="formstyle" value='<?php echo($CONFIG_DBUSER);?>'></input></td></tr>
 <tr id='dbpass'><td>database password:</td><td><input type="password" name="dbpassword" size="30" class="formstyle" value=''></input></td><td>(leave empty to keep current password)</td></tr>
 <tr id='dbpass_retype'><td>retype database password:</td><td><input type="password" name="dbpassword2" size="30" class="formstyle" value=''></input></td></tr>

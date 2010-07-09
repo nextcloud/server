@@ -46,7 +46,7 @@
 // $Id: sqlite.php,v 1.80 2008/05/03 10:30:14 quipo Exp $
 //
 
-require_once 'MDB2/Driver/Reverse/Common.php';
+oc_require_once('MDB2/Driver/Reverse/Common.php');
 
 /**
  * MDB2 SQlite driver for the schema reverse engineering module
