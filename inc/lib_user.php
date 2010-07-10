@@ -45,7 +45,7 @@ class OC_USER {
 	* check if the login button is pressed and logg the user in
 	*
 	*/
-	public static function loginlisener(){
+	public static function loginLisener(){
 		if(isset($_POST['loginbutton']) and isset($_POST['password']) and isset($_POST['login'])){
 			if(OC_USER::login($_POST['login'],$_POST['password'])){
 				echo 1;
@@ -70,7 +70,7 @@ class OC_USER {
 	* try to create a new user
 	*
 	*/
-	public static function createuser($username,$password){
+	public static function createUser($username,$password){
 		global $CONFIG_DBTABLEPREFIX;
 		if(OC_USER::getuserid($username,true)!=0){
 			return false;
@@ -113,7 +113,7 @@ class OC_USER {
 	* check if the logout button is pressed and logout the user
 	*
 	*/
-	public static function logoutlisener(){
+	public static function logoutLisener(){
 		if(isset($_GET['logoutbutton']) && isset($_SESSION['username'])){
 			OC_LOG::event($_SESSION['username'],2,'');
 			$_SESSION['user_id']=false;
@@ -134,7 +134,7 @@ class OC_USER {
 	* try to create a new group
 	*
 	*/
-	public static function creategroup($groupname){
+	public static function createGroup($groupname){
 		global $CONFIG_DBTABLEPREFIX;
 		if(OC_USER::getgroupid($groupname,true)==0){
 			$groupname=OC_DB::escape($groupname);
@@ -150,7 +150,7 @@ class OC_USER {
 	* get the id of a user
 	*
 	*/
-	public static function getuserid($username,$nocache=false){
+	public static function getUserId($username,$nocache=false){
 		global $CONFIG_DBTABLEPREFIX;
 		$usernameclean=strtolower($username);
 		if(!$nocache and isset($_SESSION['user_id_cache'][$usernameclean])){//try to use cached value to save an sql query
@@ -174,7 +174,7 @@ class OC_USER {
 	* get the id of a group
 	*
 	*/
-	public static function getgroupid($groupname,$nocache=false){
+	public static function getGroupId($groupname,$nocache=false){
 		global $CONFIG_DBTABLEPREFIX;
 		if(!$nocache and isset($_SESSION['group_id_cache'][$groupname])){//try to use cached value to save an sql query
 			return $_SESSION['group_id_cache'][$groupname];
@@ -197,7 +197,7 @@ class OC_USER {
 	* get the name of a group
 	*
 	*/
-	public static function getgroupname($groupid,$nocache=false){
+	public static function getGroupName($groupid,$nocache=false){
 		global $CONFIG_DBTABLEPREFIX;
 		if($nocache and $name=array_search($groupid,$_SESSION['group_id_cache'])){//try to use cached value to save an sql query
 			return $name;
@@ -216,7 +216,7 @@ class OC_USER {
 	* check if a user belongs to a group
 	*
 	*/
-	public static function ingroup($username,$groupname){
+	public static function inGroup($username,$groupname){
 		global $CONFIG_DBTABLEPREFIX;
 
 		$userid=OC_USER::getuserid($username);
@@ -238,7 +238,7 @@ class OC_USER {
 	* add a user to a group
 	*
 	*/
-	public static function addtogroup($username,$groupname){
+	public static function addToGroup($username,$groupname){
 		global $CONFIG_DBTABLEPREFIX;
 
 		if(!OC_USER::ingroup($username,$groupname)){
@@ -260,7 +260,7 @@ class OC_USER {
 		}
 	}
 	
-	public static function generatepassword(){
+	public static function generatePassword(){
 		return uniqid();
 	}
 	
@@ -268,7 +268,7 @@ class OC_USER {
 	* get all groups the user belongs to
 	*
 	*/
-	public static function getusergroups($username){
+	public static function getUserGroups($username){
 		global $CONFIG_DBTABLEPREFIX;
 
 		$userid=OC_USER::getuserid($username);
@@ -288,7 +288,7 @@ class OC_USER {
 	* set the password of a user
 	*
 	*/
-	public static function setpassword($username,$password){
+	public static function setPassword($username,$password){
 		global $CONFIG_DBTABLEPREFIX;
 
 		$password=sha1($password);
@@ -306,7 +306,7 @@ class OC_USER {
 	* check the password of a user
 	*
 	*/
-	public static function checkpassword($username,$password){
+	public static function checkPassword($username,$password){
 		global $CONFIG_DBTABLEPREFIX;
 
 		$password=sha1($password);
