@@ -146,7 +146,7 @@ class OC_UTIL {
    *
    * @param url  $url
    */
-  public static function addscript($url){
+  public static function addScript($url){
       self::$scripts[]=$url;
   }
 
@@ -161,7 +161,7 @@ class OC_UTIL {
    * check if the current server configuration is suitable for ownCloud
    *
    */
-  public static function checkserver(){
+  public static function checkServer(){
     global $SERVERROOT;
     global $CONFIG_DATADIRECTORY_ROOT;
     global $CONFIG_BACKUPDIRECTORY;
@@ -217,7 +217,7 @@ class OC_UTIL {
    * show the header of the web GUI
    *
    */
-  public static function showheader(){
+  public static function showHeader(){
     global $CONFIG_ADMINLOGIN;
     global $WEBROOT;
     oc_require('templates/header.php');;
@@ -239,7 +239,7 @@ class OC_UTIL {
    * show the footer of the web GUI
    *
    */
-  public static function showfooter(){
+  public static function showFooter(){
     global $CONFIG_FOOTEROWNERNAME;
     global $CONFIG_FOOTEROWNEREMAIL;
     oc_require('templates/footer.php');;
@@ -251,7 +251,7 @@ class OC_UTIL {
    * @param name $name
    * @param url  $url
    */
-  public static function addnavigationentry($name,$url) {
+  public static function addNavigationEntry($name,$url) {
     $entry=array();
     $entry['name']=$name;
     $entry['url']=$url;
@@ -262,7 +262,7 @@ class OC_UTIL {
    * show the main navigation
    *
    */
-  public static function shownavigation(){
+  public static function showNavigation(){
     global $WEBROOT;
     global $SERVERROOT;
     echo('<table class="center" cellpadding="5" cellspacing="0" border="0"><tr>');
@@ -287,7 +287,7 @@ class OC_UTIL {
    * show the loginform
    *
    */
-  public static function showloginform(){
+  public static function showLoginForm(){
     global $loginresult;
     oc_require('templates/loginform.php');
   }
@@ -297,7 +297,7 @@ class OC_UTIL {
    * show an icon for a filetype
    *
    */
-  public static function showicon($filetype){
+  public static function showIcon($filetype){
     global $WEBROOT;
     if($filetype=='dir'){ echo('<td><img src="'.$WEBROOT.'/img/icons/folder.png" width="16" height="16"></td>');
     }elseif($filetype=='foo'){ echo('<td>foo</td>');
@@ -530,7 +530,7 @@ class OC_DB {
 		return self::$DBConnection->escape($string);
 	}
 	
-	static function getDBStructure($file){
+	static function getDbStructure($file){
 		OC_DB::connect();
 		$definition = self::$schema->getDefinitionFromDatabase();
 		$dump_options = array(
@@ -541,7 +541,7 @@ class OC_DB {
 		self::$schema->dumpDatabase($definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE);
 	}
 	
-	static function createDBFromStructure($file){
+	static function createDbFromStructure($file){
 		OC_DB::connect();
 		global $CONFIG_DBNAME;
 		global $CONFIG_DBTABLEPREFIX;
