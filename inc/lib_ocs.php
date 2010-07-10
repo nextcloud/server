@@ -38,7 +38,7 @@ class OC_OCS {
    * @param default  $default
    * @return data
    */
-  public static function readdata($key,$type='raw',$getpriority=false,$default='') {
+  public static function readData($key,$type='raw',$getpriority=false,$default='') {
     if($getpriority) {
       if(isset($_GET[$key])) {
         $data=$_GET[$key];
@@ -147,7 +147,7 @@ class OC_OCS {
    * generated some debug information to make it easier to find faild API calls
    * @return debug data string
    */
-  private static function getdebugoutput() {
+  private static function getDebugOutput() {
     $txt='';
     $txt.="debug output:\n";
     if(isset($_SERVER['REQUEST_METHOD'])) $txt.='http request method: '.$_SERVER['REQUEST_METHOD']."\n";
@@ -165,7 +165,7 @@ class OC_OCS {
    * @param bool $forceuser
    * @return username string
    */
-  private static function checkpassword($forceuser=true) {
+  private static function checkPassword($forceuser=true) {
     //valid user account ?
     if(isset($_SERVER['PHP_AUTH_USER'])) $authuser=$_SERVER['PHP_AUTH_USER']; else $authuser='';
     if(isset($_SERVER['PHP_AUTH_PW']))   $authpw=$_SERVER['PHP_AUTH_PW']; else $authpw='';
@@ -210,7 +210,7 @@ class OC_OCS {
    * @param int $itemsperpage
    * @return string xml/json
    */
-  private static function generatexml($format,$status,$statuscode,$message,$data=array(),$tag='',$tagattribute='',$dimension=-1,$itemscount='',$itemsperpage='') {
+  private static function generateXml($format,$status,$statuscode,$message,$data=array(),$tag='',$tagattribute='',$dimension=-1,$itemscount='',$itemsperpage='') {
     if($format=='json') {
 
       $json=array();
@@ -303,7 +303,7 @@ class OC_OCS {
     }
   }
 
-  public static function toxml($writer,$data,$node) {
+  public static function toXml($writer,$data,$node) {
     foreach($data as $key => $value) {
       if (is_numeric($key)) {
         $key = $node;
@@ -327,7 +327,7 @@ class OC_OCS {
    * @param string $format
    * @return string xml/json
    */
-  private static function apiconfig($format) {
+  private static function apiConfig($format) {
     $user=OC_OCS::checkpassword(false);
     $url=substr($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'],0,-11).'';
 
@@ -347,7 +347,7 @@ class OC_OCS {
    * @param string $passwd
    * @return string xml/json
    */
-  private static function personcheck($format,$login,$passwd) {
+  private static function personCheck($format,$login,$passwd) {
     if($login<>''){
       if(OC_USER::login($login,$passwd)){
         $xml['person']['personid']=$login;
@@ -371,7 +371,7 @@ class OC_OCS {
    * @param string $pagesize
    * @return string xml/json
    */
-  private static function activityget($format,$page,$pagesize) {
+  private static function activityGet($format,$page,$pagesize) {
 	global $CONFIG_DBTABLEPREFIX;
 
     $user=OC_OCS::checkpassword();
@@ -412,7 +412,7 @@ class OC_OCS {
    * @param string $message
    * @return string xml/json
    */
-  private static function activityput($format,$message) {
+  private static function activityPut($format,$message) {
     // not implemented in ownCloud
     $user=OC_OCS::checkpassword();
     echo(OC_OCS::generatexml($format,'ok',100,''));
