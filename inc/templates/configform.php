@@ -35,8 +35,8 @@ changepassset=function(){
 </form>
 <!--dissabled for now
 Groups:-->
-<form method="post" enctype="multipart/form-data">
-<input type='hidden' name='creategroup' value='1'>
+<form method="post" enctype="multipart/form-data" action="#">
+<div><input type='hidden' name='creategroup' value='1' /></div>
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
 <tr><td colspan='2' class='center'>Current groups</td></tr>
 <?php
