@@ -36,7 +36,7 @@ class OC_FILES {
 	* @param basedir $basedir
 	* @param dir $dir
 	*/
-	public static function showbrowser($basedir,$dir){
+	public static function showBrowser($basedir,$dir){
 	echo '<div id="content"></div>';
 	}
 
@@ -44,7 +44,7 @@ class OC_FILES {
 	* get the content of a directory
 	* @param dir $directory
 	*/
-	public static function getdirectorycontent($directory){
+	public static function getDirectoryContent($directory){
 		global $CONFIG_DATADIRECTORY;
 		if(strpos($directory,$CONFIG_DATADIRECTORY)===0){
 			$directory=substr($directory,strlen($CONFIG_DATADIRECTORY));
@@ -202,7 +202,7 @@ class OC_FILES {
 	* @param file $name
 	* @param type $type
 	*/
-	public static function newfile($dir,$name,$type){
+	public static function newFile($dir,$name,$type){
 		if(OC_USER::isLoggedIn()){
 			$file=$dir.'/'.$name;
 			if($type=='dir'){
