@@ -4,7 +4,7 @@ class OC_CONFIG{
    * show the configform
    *
    */
-  public static function showconfigform(){
+  public static function showConfigForm(){
     global $CONFIG_ADMINLOGIN;
     global $CONFIG_ADMINPASSWORD;
     global $CONFIG_DATADIRECTORY;
@@ -18,7 +18,7 @@ class OC_CONFIG{
    * show the configform
    *
    */
-  public static function showadminform(){
+  public static function showAdminForm(){
     global $CONFIG_ADMINLOGIN;
     global $CONFIG_ADMINPASSWORD;
     global $CONFIG_DATADIRECTORY;
@@ -40,7 +40,7 @@ class OC_CONFIG{
 	}
   }
 
-	public static function createuserlisener(){
+	public static function createUserLisener(){
 		if(OC_USER::isLoggedIn()){
 			if(OC_USER::ingroup($_SESSION['username'],'admin')){
 				if(isset($_POST['new_username']) and isset($_POST['new_password'])){
@@ -58,7 +58,7 @@ class OC_CONFIG{
 		}
 	}
 	
-	public static function creategrouplisener(){
+	public static function createGroupLisener(){
 		if(OC_USER::isLoggedIn()){
 			if(isset($_POST['creategroup']) and $_POST['creategroup']==1){
 				if(OC_USER::creategroup($_POST['groupname'])){
@@ -83,7 +83,7 @@ class OC_CONFIG{
    * lisen for configuration changes
    *
    */
-	public static function configlisener(){
+	public static function configLisener(){
 		if(OC_USER::isLoggedIn()){
 			if(isset($_POST['config']) and $_POST['config']==1){
 				$error='';
@@ -115,7 +115,7 @@ class OC_CONFIG{
 	* lisen for admin configuration changes and write it to the file
 	*4bd0be1185e76
 	*/
-	public static function writeadminlisener(){
+	public static function writeAdminLisener(){
 		global $CONFIG_INSTALLED;
 		$allow=false;
 		if(!$CONFIG_INSTALLED){
@@ -280,7 +280,7 @@ class OC_CONFIG{
 	*    the same effect can be achieved by accessing the SQLite pseudo-column
 	*    "rowid"
 	*/
-	private static function filldatabase(){
+	private static function fillDatabase(){
 		global $SERVERROOT;
 		OC_DB::createDBFromStructure($SERVERROOT.'/db_structure.xml');
 	}
@@ -291,7 +291,7 @@ class OC_CONFIG{
 	* @param string adminPwd
 	*
 	*/
-	private static function createdatabase($adminUser,$adminPwd){
+	private static function createDatabase($adminUser,$adminPwd){
 		global $CONFIG_DBHOST;
 		global $CONFIG_DBNAME;
 		global $CONFIG_DBUSER;
