@@ -242,30 +242,65 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			// Fallback solution: try to guess the type by the file extension
 			// TODO: add more ...
 			switch (strtolower(strrchr(basename($fspath), "."))) {
-			case ".html":
-				$mime_type = "text/html";
-				break;
-			case ".txt":
-				$mime_type = "text/plain";
-				break;
-			case ".css":
-				$mime_type = "text/css";
-				break;
-			case ".gif":
-				$mime_type = "image/gif";
-				break;
-			case ".jpg":
-				$mime_type = "image/jpeg";
-				break;
-			case ".jpeg":
-				$mime_type = "image/jpeg";
-				break;
-			case ".png":
-				$mime_type = "image/png";
-				break;
-			default: 
-				$mime_type = "application/octet-stream";
-				break;
+				case '.css':
+					$mime_type = 'text/css';
+					break;
+				case '.flac':
+					$mime_type = 'audio/flac';
+					break;
+				case '.gif':
+					$mime_type = 'image/gif';
+					break;
+				case '.gzip':
+				case '.gz':
+					$mime_type = 'application/x-gzip';
+					break;
+				case '.htm':
+				case '.html':
+					$mime_type = 'text/html';
+					break;
+				case '.jpeg':
+				case '.jpg':
+					$mime_type = 'image/jpeg';
+					break;
+				case '.js':
+					$mime_type = 'application/x-javascript';
+					break;
+				case '.oga':
+				case '.ogg':
+					$mime_type = 'audio/ogg';
+					break;
+				case '.ogv':
+					$mime_type = 'video/ogg';
+					break;
+				case '.pdf':
+					$mime_type = 'application/pdf';
+					break;
+				case '.png':
+					$mime_type = 'image/png';
+					break;
+				case '.svg':
+					$mime_type = 'image/svg+xml';
+					break;
+				case '.tar':
+					$mime_type = 'application/x-tar';
+					break;
+				case '.tgz':
+					$mime_type = 'application/x-compressed';
+					break;
+				case '.tif':
+				case '.tiff':
+					$mime_type = 'image/tiff';
+					break;
+				case '.txt':
+					$mime_type = 'text/plain';
+					break;
+				case '.zip':
+					$mime_type = 'application/zip';
+					break;
+				default:
+					$mime_type = 'application/octet-stream';
+					break;
 			}
 		}
 		
