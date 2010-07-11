@@ -109,7 +109,32 @@ class OC_CONFIG{
 			return false;
 		}
 	}
-	
+
+	/**
+	 * Write the configuration to the `config.php` file
+	 *
+	 * $configuration contains key/value
+	 *   - the key is the option name without the 'CONFIG_' prefix
+	 *   - the value is a string or a boolean
+	 *
+	 * @param array $configuration is an associarive array
+	 */
+	protected static function saveConfiguration($configuration) {
+		global $SERVERROOT;
+		global $WEBROOT;
+
+		$configContent = '<?php';
+		foreach ( $configuration as $key => $value ) {
+			if ( is_string($value) ) {
+				$configContent .= "\n\$CONFIG_$key = '$value';";
+			} else if ( is_bool($value) ) {
+				$value = $value ? 'true' : 'false';
+				$configContent .= "\n\$CONFIG_$key = $value;";
+			}
+		}
+		$filename = "$SERVERROOT/config/config.php";
+		file_put_contents($filename, $configContent);
+	}
 	
 	/**
 	* lisen for admin configuration changes and write it to the file
@@ -234,42 +259,40 @@ class OC_CONFIG{
 							$error.='error while trying to add the admin user to the admin group<br/>';
 						}
 					}
-					//storedata
-					$config='<?php '."\n";
-					$config.='$CONFIG_INSTALLED=true;'."\n";
-					$config.='$CONFIG_DATADIRECTORY=\''.$_POST['datadirectory']."';\n";
-					if(isset($_POST['forcessl'])) $config.='$CONFIG_HTTPFORCESSL=true'.";\n"; else $config.='$CONFIG_HTTPFORCESSL=false'.";\n";
-					if(isset($_POST['enablebackup'])) $config.='$CONFIG_ENABLEBACKUP=true'.";\n"; else $config.='$CONFIG_ENABLEBACKUP=false'.";\n";
-					if(isset($_POST['enablebackup']) and $_POST['enablebackup']==1){
-						$config.='$CONFIG_BACKUPDIRECTORY=\''.$_POST['backupdirectory']."';\n";
+					// Build the configuration array
+					$config = array();
+					$config['INSTALLED'] = true;
+					$config['DATADIRECTORY'] = $_POST['datadirectory'];
+					$config['HTTPFORCESSL'] = isset($_POST['forcessl']);
+					// Backup configuration
+					$config['ENABLEBACKUP'] = isset($_POST['enablebackup']);
+					if ( $config['ENABLEBACKUP'] AND (1 == $_POST['enablebackup']) )
+						$config['BACKUPDIRECTORY'] = $_POST['backupdirectory'];
+					$config['DATEFORMAT'] = $_POST['dateformat'];
+					// DB Configuration
+					$config['DBTYPE'] = $dbtype;
+					$config['DBNAME'] = $_POST['dbname'];
+					$config['DBTABLEPREFIX'] = $_POST['dbtableprefix'];
+					if ( 'sqlite' != $dbtype ) {
+						$config['DBHOST'] = $_POST['dbhost'];
+						$config['DBUSER'] = $_POST['dbuser'];
+						$config['DBPASSWORD'] = $_POST['dbpassword'];
 					}
-					$config.='$CONFIG_DATEFORMAT=\''.$_POST['dateformat']."';\n";
-					$config.='$CONFIG_DBTYPE=\''.$dbtype."';\n";
-					$config.='$CONFIG_DBNAME=\''.$_POST['dbname']."';\n";
-					$config.='$CONFIG_DBTABLEPREFIX=\''.$_POST['dbtableprefix']."';\n";
-					if($dbtype!='sqlite'){
-						$config.='$CONFIG_DBHOST=\''.$_POST['dbhost']."';\n";
-						$config.='$CONFIG_DBUSER=\''.$_POST['dbuser']."';\n";
-						$config.='$CONFIG_DBPASSWORD=\''.$_POST['dbpassword']."';\n";
-					}
-					$config.='?> ';
 
-					$filename=$SERVERROOT.'/config/config.php';
-					if(empty($error)){
-						header("Location: ".$WEBROOT."/");
-						try{
-							file_put_contents($filename,$config);
-						}catch(Exception $e){
+					if( empty($error) ) {
+						header("Location: $WEBROOT/");
+						try {
+							// Write the configuration array to `/config/config.php`
+							OC_CONFIG::saveConfiguration($config);
+						} catch ( Exception $e ) {
 							$error.='error while trying to save the configuration file<br/>';
 							return $error;
 						}
-					}else{
+					} else {
 						return $error;
 					}
-
 				}
 				return($error);
-
 			}
 		}
 	}
