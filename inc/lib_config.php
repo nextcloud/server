@@ -117,7 +117,7 @@ class OC_CONFIG{
 	 *   - the key is the option name without the 'CONFIG_' prefix
 	 *   - the value is a string or a boolean
 	 *
-	 * @param array $configuration is an associarive array
+	 * @param array $configuration is an associative array
 	 */
 	protected static function saveConfiguration($configuration) {
 		global $SERVERROOT;
@@ -283,7 +283,7 @@ class OC_CONFIG{
 						header("Location: $WEBROOT/");
 						try {
 							// Write the configuration array to `/config/config.php`
-							OC_CONFIG::saveConfiguration($config);
+							self::saveConfiguration($config);
 						} catch ( Exception $e ) {
 							$error.='error while trying to save the configuration file<br/>';
 							return $error;
