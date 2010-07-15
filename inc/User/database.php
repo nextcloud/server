@@ -24,13 +24,13 @@
 
 
 /**
- * Class for usermanagement in a SQL Database
- * eg mysql, sqlite
+ * Class for usermanagement in a SQL Database (e.g. MySQL, SQLite)
+ *
  */
 class OC_USER_Database extends OC_USER {
 	
 	/**
-	 * check if the login button is pressed and logg the user in
+	 * Check if the login button is pressed and logg the user in
 	 *
 	 */
 	public static function loginLisener() {
@@ -40,7 +40,7 @@ class OC_USER_Database extends OC_USER {
 				OC_LOG::event($_SESSION['username'], 1, '');
 				echo 2;
 				if ( ( isset($CONFIG_HTTPFORCESSL) AND $CONFIG_HTTPFORCESSL )
-				     OR ( isset($_SERVER['HTTPS']) AND ( 'on' === $_SERVER['HTTPS'] ) ) ) {
+				     OR ( isset($_SERVER['HTTPS']) AND ('on' === $_SERVER['HTTPS']) ) ) {
 					$url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 				} else {
 					$url = 'http://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
@@ -57,19 +57,20 @@ class OC_USER_Database extends OC_USER {
 	
 	
 	/**
-	 * try to create a new user
+	 * Try to create a new user
 	 *
 	 */
 	public static function createUser($username, $password) {
 		global $CONFIG_DBTABLEPREFIX;
+
 		if ( 0 !== OC_USER::getUserId($username, true) ) {
 			return false;
 		} else {
-			$usernameclean = strtolower($username);
+			$usernameClean = strtolower($username);
 			$password = sha1($password);
 			$username = OC_DB::escape($username);
-			$usernameclean = OC_DB::escape($usernameclean);
-			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}users` (`user_name` ,`user_name_clean` ,`user_password`) VALUES ('$username',  '$usernameclean',  '$password')";
+			$usernameClean = OC_DB::escape($usernameClean);
+			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}users` (`user_name` ,`user_name_clean` ,`user_password`) VALUES ('$username',  '$usernameClean',  '$password')";
 			$result = OC_DB::query($query);
 
 			return ($result) ? true : false;
@@ -77,22 +78,22 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * try to login a user
+	 * Try to login a user
 	 *
 	 */
 	public static function login($username, $password) {
 		global $CONFIG_DBTABLEPREFIX;
 
 		$password = sha1($password);
-		$usernameclean = strtolower($username);
+		$usernameClean = strtolower($username);
 		$username = OC_DB::escape($username);
-		$usernameclean = OC_DB::escape($usernameclean);
-		$query = "SELECT user_id FROM {$CONFIG_DBTABLEPREFIX}users WHERE user_name_clean = '$usernameclean' AND  user_password =  '$password' LIMIT 1";
+		$usernameClean = OC_DB::escape($usernameClean);
+		$query = "SELECT user_id FROM {$CONFIG_DBTABLEPREFIX}users WHERE user_name_clean = '$usernameClean' AND  user_password =  '$password' LIMIT 1";
 		$result = OC_DB::select($query);
-		if ( isset($result[0]) AND isset($result[0]['user_id'])) {
+		if ( isset($result[0]) AND isset($result[0]['user_id']) ) {
 			$_SESSION['user_id'] = $result[0]['user_id'];
 			$_SESSION['username'] = $username;
-			$_SESSION['username_clean'] = $usernameclean;
+			$_SESSION['username_clean'] = $usernameClean;
 
 			return true;
 		} else {
@@ -101,7 +102,7 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * check if the logout button is pressed and logout the user
+	 * Check if the logout button is pressed and logout the user
 	 *
 	 */
 	public static function logoutLisener() {
@@ -114,7 +115,7 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * check if a user is logged in
+	 * Check if a user is logged in
 	 *
 	 */
 	public static function isLoggedIn() {
@@ -126,32 +127,33 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * try to create a new group
+	 * Try to create a new group
 	 *
 	 */
-	public static function createGroup($groupname) {
+	public static function createGroup($groupName) {
 		global $CONFIG_DBTABLEPREFIX;
-		if ( 0 === OC_USER::getGroupId($groupname, true) ) {
-			$groupname = OC_DB::escape($groupname);
-			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}groups` (`group_name`) VALUES ('$groupname')";
+
+		if ( 0 === OC_USER::getGroupId($groupName, true) ) {
+			$groupName = OC_DB::escape($groupName);
+			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}groups` (`group_name`) VALUES ('$groupName')";
 			$result = OC_DB::query($query);
 
-			return ($result) ? true : false;
+			return $result ? true : false;
 		} else {
 			return false;
 		}
 	}
 	
 	/**
-	 * get the id of a user
+	 * Get the ID of a user
 	 *
 	 */
-	public static function getUserId($username, $nocache=false) {
+	public static function getUserId($username, $noCache=false) {
 		global $CONFIG_DBTABLEPREFIX;
 
 		$usernameClean = strtolower($username);
 		//try to use cached value to save an sql query
-		if ( !$nocache AND isset($_SESSION['user_id_cache'][$usernameClean]) ) {
+		if ( !$noCache AND isset($_SESSION['user_id_cache'][$usernameClean]) ) {
 			return $_SESSION['user_id_cache'][$usernameClean];
 		}
 		$usernameClean = OC_DB::escape($usernameClean);
@@ -169,7 +171,7 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * get the id of a group
+	 * Get the ID of a group
 	 *
 	 */
 	public static function getGroupId($groupName, $noCache=false) {
@@ -187,6 +189,7 @@ class OC_USER_Database extends OC_USER {
 		}
 		if ( isset($result[0]) AND isset($result[0]['group_id']) ) {
 			$_SESSION['group_id_cache'][$groupName] = $result[0]['group_id'];
+
 			return $result[0]['group_id'];
 		} else {
 			return 0;
@@ -194,14 +197,14 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * get the name of a group
+	 * Get the name of a group
 	 *
 	 */
 	public static function getGroupName($groupId, $noCache=false) {
 		global $CONFIG_DBTABLEPREFIX;
 
 		//try to use cached value to save an sql query
-		if ( !$noCache AND ( $name = array_search($groupId,$_SESSION['group_id_cache']) ) ) {
+		if ( !$noCache AND ($name = array_search($groupId,$_SESSION['group_id_cache'])) ) {
 			return $name;
 		}
 		$groupId = (integer)$groupId;
@@ -215,7 +218,7 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * check if a user belongs to a group
+	 * Check if a user belongs to a group
 	 *
 	 */
 	public static function inGroup($username, $groupName) {
@@ -223,7 +226,7 @@ class OC_USER_Database extends OC_USER {
 
 		$userId = OC_USER::getUserId($username);
 		$groupId = OC_USER::getGroupId($groupName);
-		if ( ( $groupId > 0 ) AND ( $userId > 0 ) ) {
+		if ( ($groupId > 0) AND ($userId > 0) ) {
 			$query = "SELECT * FROM  {$CONFIG_DBTABLEPREFIX}user_group WHERE group_id = '$groupId'  AND user_id = '$userId';";
 			$result = OC_DB::select($query);
 			if ( isset($result[0]) AND isset($result[0]['user_group_id']) ) {
@@ -237,7 +240,7 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * add a user to a group
+	 * Add a user to a group
 	 *
 	 */
 	public static function addToGroup($username, $groupName) {
@@ -246,7 +249,7 @@ class OC_USER_Database extends OC_USER {
 		if ( !OC_USER::inGroup($username, $groupName) ) {
 			$userId = OC_USER::getuserid($username);
 			$groupId = OC_USER::getgroupid($groupName);
-			if ( ( 0 != $groupId ) AND ( 0 != $userId ) ) {
+			if ( (0 !== $groupId) AND (0 !== $userId) ) {
 				$query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}user_group` (`user_id` ,`group_id`) VALUES ('$userId',  '$groupId');";
 				$result = OC_DB::query($query);
 				if ( $result ) {
@@ -263,11 +266,11 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	public static function generatePassword() {
-		return uniqid();
+		return uniqId();
 	}
 	
 	/**
-	 * get all groups the user belongs to
+	 * Get all groups the user belongs to
 	 *
 	 */
 	public static function getUserGroups($username) {
@@ -288,7 +291,7 @@ class OC_USER_Database extends OC_USER {
 	}
 	
 	/**
-	 * set the password of a user
+	 * Set the password of a user
 	 *
 	 */
 	public static function setPassword($username, $password) {
@@ -298,15 +301,12 @@ class OC_USER_Database extends OC_USER {
 		$userId = OC_USER::getUserId($username);
 		$query = "UPDATE {$CONFIG_DBTABLEPREFIX}users SET user_password = '$password' WHERE user_id ='$userId'";
 		$result = OC_DB::query($query);
-		if ( $result ) {
-			return true;
-		} else {
-			return false;
-		}
+
+		return $result ? true : false;
 	}
 	
 	/**
-	* check the password of a user
+	* Check the password of a user
 	*
 	*/
 	public static function checkPassword($username, $password) {
@@ -318,7 +318,7 @@ class OC_USER_Database extends OC_USER {
 		$usernameClean = OC_DB::escape($usernameClean);
 		$query = "SELECT user_id FROM '{$CONFIG_DBTABLEPREFIX}users' WHERE user_name_clean = '$usernameClean' AND user_password =  '$password' LIMIT 1";
 		$result = OC_DB::select($query);
-		if ( isset($result[0]) AND isset($result[0]['user_id']) AND ( $result[0]['user_id'] > 0 ) ) {
+		if ( isset($result[0]) AND isset($result[0]['user_id']) AND ($result[0]['user_id'] > 0) ) {
 			return true;
 		} else {
 			return false;

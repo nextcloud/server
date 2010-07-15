@@ -23,14 +23,14 @@
 
 
 
-if( !$CONFIG_INSTALLED ) {
+if ( !$CONFIG_INSTALLED ) {
 	$_SESSION['user_id'] = false;
 	$_SESSION['username'] = '';
 	$_SESSION['username_clean'] = '';
 }
 
 //cache the userid's an groupid's
-if( !isset($_SESSION['user_id_cache']) ) {
+if ( !isset($_SESSION['user_id_cache']) ) {
 	$_SESSION['user_id_cache'] = array();
 }
 if( !isset($_SESSION['group_id_cache']) ) {
@@ -40,7 +40,7 @@ if( !isset($_SESSION['group_id_cache']) ) {
 
 
 /**
- * Class for usermanagement
+ * Class for user management
  *
  */
 class OC_USER {
@@ -48,7 +48,7 @@ class OC_USER {
 	public static $classType;
 	
 	/**
-	 * check if the login button is pressed and logg the user in
+	 * Check if the login button is pressed and logg the user in
 	 *
 	 */
 	public static function loginLisener() {
@@ -57,7 +57,7 @@ class OC_USER {
 	
 	
 	/**
-	 * try to create a new user
+	 * Try to create a new user
 	 *
 	 */
 	public static function createUser($username, $password) {
@@ -65,7 +65,7 @@ class OC_USER {
 	}
 	
 	/**
-	 * try to login a user
+	 * Try to login a user
 	 *
 	 */
 	public static function login($username, $password) {
@@ -73,7 +73,7 @@ class OC_USER {
 	}
 	
 	/**
-	 * check if the logout button is pressed and logout the user
+	 * Check if the logout button is pressed and logout the user
 	 *
 	 */
 	public static function logoutLisener() {
@@ -81,7 +81,7 @@ class OC_USER {
 	}
 	
 	/**
-	 * check if a user is logged in
+	 * Check if a user is logged in
 	 *
 	 */
 	public static function isLoggedIn() {
@@ -89,59 +89,59 @@ class OC_USER {
 	}
 	
 	/**
-	 * try to create a new group
+	 * Try to create a new group
 	 *
 	 */
-	public static function createGroup($groupname) {
-		return self::classType->createGroup($groupname);
+	public static function createGroup($groupName) {
+		return self::classType->createGroup($groupName);
 	}
 	
 	/**
-	 * get the id of a user
+	 * Get the ID of a user
 	 *
 	 */
-	public static function getUserId($username, $nocache=false) {
-		return self::classType->getUserId($username, $nocache=false);
+	public static function getUserId($username, $noCache=false) {
+		return self::classType->getUserId($username, $noCache);
 	}
 	
 	/**
-	 * get the id of a group
+	 * Get the ID of a group
 	 *
 	 */
-	public static function getGroupId($groupname, $nocache=false) {
-		return self::classType->getGroupId($groupname, $nocache=false);
+	public static function getGroupId($groupName, $noCache=false) {
+		return self::classType->getGroupId($groupName, $noCache);
 	}
 	
 	/**
-	 * get the name of a group
+	 * Get the name of a group
 	 *
 	 */
-	public static function getGroupName($groupid, $nocache=false) {
-		return self::classType->getGroupName($groupid, $nocache=false);
+	public static function getGroupName($groupId, $noCache=false) {
+		return self::classType->getGroupName($groupId, $noCache);
 	}
 	
 	/**
-	 * check if a user belongs to a group
+	 * Check if a user belongs to a group
 	 *
 	 */
-	public static function inGroup($username, $groupname) {
-		return self::classType->inGroup($username, $groupname);
+	public static function inGroup($username, $groupName) {
+		return self::classType->inGroup($username, $groupName);
 	}
 	
 	/**
-	 * add a user to a group
+	 * Add a user to a group
 	 *
 	 */
-	public static function addToGroup($username, $groupname) {
-		return self::classType->addToGroup($username, $groupname);
+	public static function addToGroup($username, $groupName) {
+		return self::classType->addToGroup($username, $groupName);
 	}
 	
 	public static function generatePassword() {
-		return uniqid();
+		return uniqId();
 	}
 	
 	/**
-	 * get all groups the user belongs to
+	 * Get all groups the user belongs to
 	 *
 	 */
 	public static function getUserGroups($username) {
@@ -149,7 +149,7 @@ class OC_USER {
 	}
 	
 	/**
-	 * set the password of a user
+	 * Set the password of a user
 	 *
 	 */
 	public static function setPassword($username, $password) {
@@ -157,7 +157,7 @@ class OC_USER {
 	}
 	
 	/**
-	 * check the password of a user
+	 * Check the password of a user
 	 *
 	 */
 	public static function checkPassword($username, $password) {

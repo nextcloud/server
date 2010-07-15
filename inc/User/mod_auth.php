@@ -24,13 +24,13 @@
 
 
 /**
- * Class for usermanagement in a SQL Database
- * eg mysql, sqlite
+ * Class for usermanagement in a SQL Database (e.g. MySQL, SQLite)
+ *
  */
 class OC_USER_MOD_AUTH extends OC_USER {
 	
 	/**
-	 * check if the login button is pressed and logg the user in
+	 * Check if the login button is pressed and logg the user in
 	 *
 	 */
 	public static function loginLisener() {
@@ -39,7 +39,7 @@ class OC_USER_MOD_AUTH extends OC_USER {
 	
 	
 	/**
-	 * try to create a new user
+	 * Try to create a new user
 	 *
 	 */
 	public static function createUser($username, $password) {
@@ -47,7 +47,7 @@ class OC_USER_MOD_AUTH extends OC_USER {
 	}
 	
 	/**
-	 * try to login a user
+	 * Try to login a user
 	 *
 	 */
 	public static function login($username, $password) {
@@ -63,7 +63,7 @@ class OC_USER_MOD_AUTH extends OC_USER {
 	}
 	
 	/**
-	 * check if the logout button is pressed and logout the user
+	 * Check if the logout button is pressed and logout the user
 	 *
 	 */
 	public static function logoutLisener() {
@@ -75,7 +75,7 @@ class OC_USER_MOD_AUTH extends OC_USER {
 	}
 	
 	/**
-	 * check if a user is logged in
+	 * Check if a user is logged in
 	 *
 	 */
 	public static function isLoggedIn() {
@@ -95,75 +95,76 @@ class OC_USER_MOD_AUTH extends OC_USER {
 	}
 	
 	/**
-	 * try to create a new group
+	 * Try to create a new group
 	 *
 	 */
-	public static function createGroup($groupname) {
+	public static function createGroup($groupName) {
 		// does not work with MOD_AUTH (only or some modules)
 		return false;
 	}
 	
 	/**
-	 * get the id of a user
+	 * Get the ID of a user
 	 *
 	 */
-	public static function getUserId($username, $nocache=false) {
+	public static function getUserId($username, $noCache=false) {
 		// does not work with MOD_AUTH (only or some modules)
 		return 0;
 	}
 	
 	/**
-	 * get the id of a group
+	 * Get the ID of a group
 	 *
 	 */
-	public static function getGroupId($groupname, $nocache=false) {
+	public static function getGroupId($groupName, $noCache=false) {
 		// does not work with MOD_AUTH (only or some modules)
 		return 0;
 	}
 	
 	/**
-	 * get the name of a group
+	 * Get the name of a group
 	 *
 	 */
-	public static function getGroupName($groupid, $nocache=false) {
+	public static function getGroupName($groupId, $noCache=false) {
 		// does not work with MOD_AUTH (only or some modules)
 		return 0;
 	}
 	
 	/**
-	 * check if a user belongs to a group
+	 * Check if a user belongs to a group
 	 *
 	 */
-	public static function inGroup($username, $groupname) {
+	public static function inGroup($username, $groupName) {
 		// does not work with MOD_AUTH (only or some modules)
 		return false;
 	}
 	
 	/**
-	 * add a user to a group
+	 * Add a user to a group
 	 *
 	 */
-	public static function addToGroup($username, $groupname) {
+	public static function addToGroup($username, $groupName) {
 		// does not work with MOD_AUTH (only or some modules)
 		return false;
 	}
 	
 	public static function generatePassword() {
-		return uniqid();
+		return uniqId();
 	}
 	
 	/**
-	 * get all groups the user belongs to
+	 * Get all groups the user belongs to
 	 *
 	 */
 	public static function getUserGroups($username) {
 		// does not work with MOD_AUTH (only or some modules)
 		$groups = array();
+
 		return $groups;
 	}
 	
 	/**
-	 * set the password of a user
+	 * Set the password of a user
 	 *
 	 */
 	public static function setPassword($username, $password) {
@@ -171,11 +172,12 @@ class OC_USER_MOD_AUTH extends OC_USER {
 	}
 	
 	/**
-	 * check the password of a user
+	 * Check the password of a user
 	 *
 	 */
 	public static function checkPassword($username, $password) {
 		// does not work with MOD_AUTH (only or some modules)
 		return false;
 	}
+
 }
