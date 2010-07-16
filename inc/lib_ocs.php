@@ -133,10 +133,21 @@ class OC_OCS {
       $message=OC_OCS::readdata('message','text');
       OC_OCS::activityput($format,$message);
 
+    // PRIVATEDATA
+    // get - GET DATA
+    }elseif(($method=='get') and (strtolower($ex[$paracount-3])=='v1.php')and (strtolower($ex[$paracount-2])=='privatedata')){
+      $key=OC_OCS::readdata('key','text');
+      OC_OCS::privateDataGet($key);
+
+    // set - POST DATA
+    }elseif(($method=='post') and (strtolower($ex[$paracount-3])=='v1.php')and (strtolower($ex[$paracount-2])=='privatedata')){
+      $key=OC_OCS::readdata('key','text');
+      $value=OC_OCS::readdata('key','text');
+      OC_OCS::privatedataset($key, $value);
 
     }else{
       $format=OC_OCS::readdata('format','text');
-      $txt='please check the syntax. api specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services'."\n";
+      $txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
       $txt.=OC_OCS::getdebugoutput();
       echo(OC_OCS::generatexml($format,'failed',999,$txt));
     }
@@ -418,8 +429,58 @@ class OC_OCS {
     echo(OC_OCS::generatexml($format,'ok',100,''));
   }
 
+  // PRIVATEDATA API #############################################
+
+  /**
+   * get private data
+   * @param string $key
+   * @return string xml/json
+   */
+  private static function privateDataGet($key) {
+	global $CONFIG_DBTABLEPREFIX;
+
+    $user=OC_OCS::checkpassword();
+
+    $result = OC_DB::select("select key,value,timestamp from {$CONFIG_DBTABLEPREFIX}privatedata where key like'% ".addslashes($key)."%' order by timestamp desc");
+    $itemscount=count($result);
+
+    $xml=array();
+    foreach($result as $i=>$log) {
+      $xml[$i]['key']=$log['key'];
+      $xml[$i]['value']=$log['value'];
+      $xml[$i]['timestamp']=$log['timestamp'];
+    }
 
 
+    $txt=OC_OCS::generatexml($format,'ok',100,'',$xml,'activity','full',2,$totalcount,$pagesize);
+    echo($txt);
+  }
+
+  /**
+   * set private data referenced by $key to $valu`
+   * @param string $key
+   * @param string $value
+   * @return string xml/json
+   */
+  private static function privateDataSet($key, $value) {
+	global $CONFIG_DBTABLEPREFIX;
+
+    //TODO: prepared statements, locking tables, fancy stuff, error checking/handling
+    $user=OC_OCS::checkpassword();
+
+    $result = OC_DB::query("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".$key."'");
+    $entry=$result->fetchRow();
+    $existing=$entry['co'];
+    OC_DB::free_result($result);
+
+    if ($existing != 0) {
+        $result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='".addslashes($value)."', timestamp = now() where key = '".addslashes($key)."'");
+    } else {
+        $result = OC_DB::query("insert into {$CONFIG_DBTABLEPREFIX}privatedata(key, value, timestamp) values('".addslashes($key)."', '".addslashes($value)."', now())");
+    }
+
+    echo(OC_OCS::generatexml($format,'ok',100,''));
+  }
 }
 
 

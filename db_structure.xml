@@ -8,6 +8,37 @@
  <charset>latin1</charset>
 
  <table>
+   <name>*dbprefix*privatedata</name>
+   <declaration>
+     <field>
+       <name>key</name>
+       <type>text</type>
+       <default></default>
+       <notnull>true</notnull>
+       <length>64</length>
+     </field>
+     <field>
+       <name>value</name>
+       <type>text</type>
+       <notnull>false</notnull>
+     </field>
+     <field>
+       <name>timestamp</name>
+       <type>timestamp</type>
+       <notnull>true</notnull>
+     </field>
+     <index>
+       <name>timestamp</name>
+       <unique>false</unique>
+       <field>
+         <name>timestamp</name>
+         <sorting>ascending</sorting>
+       </field>
+     </index>
+   </declaration>
+ </table>
+
+ <table>
 
   <name>*dbprefix*groups</name>
 
