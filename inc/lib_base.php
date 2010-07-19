@@ -48,20 +48,20 @@ if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 // set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
 
 // define default config values
-$CONFIG_INSTALLED=false;
-$CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
-$CONFIG_BACKUPDIRECTORY=$SERVERROOT.'/backup';
-$CONFIG_HTTPFORCESSL=false;
-$CONFIG_ENABLEBACKUP=false;
-$CONFIG_DATEFORMAT='j M Y G:i';
-$CONFIG_DBNAME='owncloud';
-$CONFIG_DBTYPE='sqlite';
+$CONFIG_INSTALLED = false;
+$CONFIG_DATADIRECTORY = $SERVERROOT . '/data';
+$CONFIG_BACKUPDIRECTORY = $SERVERROOT . '/backup';
+$CONFIG_HTTPFORCESSL = false;
+$CONFIG_ENABLEBACKUP = false;
+$CONFIG_DATEFORMAT = 'j M Y G:i';
+$CONFIG_DBNAME = 'owncloud';
+$CONFIG_DBTYPE = 'sqlite';
 
 // include the generated configfile
-@include_once($SERVERROOT.'/config/config.php');
+@include_once($SERVERROOT . '/config/config.php');
 
-
-$CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
+// Store this in a seperate variable so we can change the data directory to jail users.
+$CONFIG_DATADIRECTORY_ROOT = $CONFIG_DATADIRECTORY;
 // redirect to https site if configured
 if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
   if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') { 
@@ -86,10 +86,33 @@ oc_require_once('lib_connect.php');
 oc_require_once('lib_remotestorage.php');
 
 
+
+// Load the choosen user manager
+if ( isset($CONFIG_BACKEND) ) {
+	switch ( $CONFIG_BACKEND ) {
+		case 'mysql':
+		case 'sqlite':
+			require_once 'User/database.php';
+			$userManager = new OC_USER_DATABASE();
+			break;
+		case 'ldap':
+			require_once 'User/ldap.php';
+			$userManager = new OC_USER_LDAP();
+			break;
+		default:
+			require_once 'User/database.php';
+			$userManager = new OC_USER_DATABASE();
+			break;
+	}
+} else {
+	require_once 'User/database.php';
+	$userManager = new OC_USER_DATABASE();
+}
+
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 	@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
 }
-if(OC_USER::isLoggedIn()){
+if ( $userManager::isLoggedIn() ) {
 	//jail the user in a seperate data folder
 	$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$_SESSION['username_clean'];
 	if(!is_dir($CONFIG_DATADIRECTORY)){
@@ -128,11 +151,11 @@ if(isset($plugins[0])) foreach($plugins as $plugin) require_once($SERVERROOT.'/p
 
 
 // check if the server is correctly configured for ownCloud
-OC_UTIL::checkserver();
+OC_UTIL::checkServer();
 
 // listen for login or logout actions
-OC_USER::logoutlisener();
-$loginresult=OC_USER::loginlisener();
+$userManager::logoutLisener();
+$loginresult = $userManager::loginLisener();
 
 /**
  * Class for utility functions
@@ -262,25 +285,27 @@ class OC_UTIL {
    * show the main navigation
    *
    */
-  public static function showNavigation(){
-    global $WEBROOT;
-    global $SERVERROOT;
-    echo('<table class="center" cellpadding="5" cellspacing="0" border="0"><tr>');
-    echo('<td class="navigationitem1"><a href="'.$WEBROOT.'/">'.$_SESSION['username'].'</a></td>');
-    if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/">Files</a></td>');
+	public static function showNavigation(){
+		global $WEBROOT;
+		global $SERVERROOT;
+		global $userManager;
 
-    foreach(OC_UTIL::$NAVIGATION as $NAVI) {
-      if(dirname($_SERVER['SCRIPT_NAME'])==$WEBROOT.$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');
-    }
+		echo('<table class="center" cellpadding="5" cellspacing="0" border="0"><tr>');
+		echo('<td class="navigationitem1"><a href="'.$WEBROOT.'/">'.$_SESSION['username'].'</a></td>');
+		if ($_SERVER['SCRIPT_NAME']==$WEBROOT.'/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/">Files</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/">Files</a></td>');
 
-	if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/log/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/log">Log</a></td>');
-	if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/settings/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/settings">Settings</a></td>');
-	if(OC_USER::ingroup($_SESSION['username'],'admin')){
-		if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/admin/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/admin">Admin Panel</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/admin">Admin Panel</a></td>');
+		foreach(OC_UTIL::$NAVIGATION as $NAVI) {
+			if(dirname($_SERVER['SCRIPT_NAME'])==$WEBROOT.$NAVI['url']) echo('<td class="navigationitemselected"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.$NAVI['url'].'">'.$NAVI['name'].'</a></td>');
+		}
+
+		if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/log/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/log">Log</a></td>');
+		if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/settings/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/settings">Settings</a></td>');
+		if ( $userManager::inGroup($_SESSION['username'], 'admin') ) {
+			if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/admin/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/admin">Admin Panel</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/admin">Admin Panel</a></td>');
+		}
+		echo('<td class="navigationitem"><a href="?logoutbutton=1">Logout</a></td>');
+		echo('</tr></table>');
 	}
-    echo('<td class="navigationitem"><a href="?logoutbutton=1">Logout</a></td>');
-    echo('</tr></table>');
-  }
 
 
   /**

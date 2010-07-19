@@ -43,158 +43,92 @@ if ( !isset($_SESSION['group_id_cache']) ) {
  * Class for user management
  *
  */
-class OC_USER {
-
-	public static $classType;
+abstract class OC_USER_ABSTRACT {
 
 	/**
 	 * Check if the login button is pressed and logg the user in
 	 *
 	 */
-	public static function loginLisener() {
-		return self::$classType->loginLisener();
-	}
+	abstract public static function loginLisener();
 
 	/**
 	 * Try to create a new user
 	 *
 	 */
-	public static function createUser($username, $password) {
-		return self::$classType->createUser($username, $password);
-	}
+	abstract public static function createUser($username, $password);
 
 	/**
 	 * Try to login a user
 	 *
 	 */
-	public static function login($username, $password) {
-		return self::$classType->login($username, $password);
-	}
+	abstract public static function login($username, $password);
 
 	/**
 	 * Check if the logout button is pressed and logout the user
 	 *
 	 */
-	public static function logoutLisener() {
-		return self::$classType->logoutLisener();
-	}
+	abstract public static function logoutLisener();
 
 	/**
 	 * Check if a user is logged in
 	 *
 	 */
-	public static function isLoggedIn() {
-		return self::$classType->isLoggedIn();
-	}
+	abstract public static function isLoggedIn();
 
 	/**
 	 * Try to create a new group
 	 *
 	 */
-	public static function createGroup($groupName) {
-		return self::$classType->createGroup($groupName);
-	}
+	abstract public static function createGroup($groupName);
 
 	/**
 	 * Get the ID of a user
 	 *
 	 */
-	public static function getUserId($username, $noCache=false) {
-		return self::$classType->getUserId($username, $noCache);
-	}
+	abstract public static function getUserId($username, $noCache=false);
 
 	/**
 	 * Get the ID of a group
 	 *
 	 */
-	public static function getGroupId($groupName, $noCache=false) {
-		return self::$classType->getGroupId($groupName, $noCache);
-	}
+	abstract public static function getGroupId($groupName, $noCache=false);
 
 	/**
 	 * Get the name of a group
 	 *
 	 */
-	public static function getGroupName($groupId, $noCache=false) {
-		return self::$classType->getGroupName($groupId, $noCache);
-	}
+	abstract public static function getGroupName($groupId, $noCache=false);
 
 	/**
 	 * Check if a user belongs to a group
 	 *
 	 */
-	public static function inGroup($username, $groupName) {
-		return self::$classType->inGroup($username, $groupName);
-	}
+	abstract public static function inGroup($username, $groupName);
 
 	/**
 	 * Add a user to a group
 	 *
 	 */
-	public static function addToGroup($username, $groupName) {
-		return self::$classType->addToGroup($username, $groupName);
-	}
+	abstract public static function addToGroup($username, $groupName);
 
-	public static function generatePassword() {
-		return uniqId();
-	}
+	abstract public static function generatePassword();
 
 	/**
 	 * Get all groups the user belongs to
 	 *
 	 */
-	public static function getUserGroups($username) {
-		return self::$classType->getUserGroups($username);
-	}
+	abstract public static function getUserGroups($username);
 
 	/**
 	 * Set the password of a user
 	 *
 	 */
-	public static function setPassword($username, $password) {
-		return self::$classType->setPassword($username, $password);
-	}
+	abstract public static function setPassword($username, $password);
 
 	/**
 	 * Check the password of a user
 	 *
 	 */
-	public static function checkPassword($username, $password) {
-		return self::$classType->checkPassword($username, $password);
-	}
+	abstract public static function checkPassword($username, $password);
 
 }
-
-
-
-/**
- * Funtion to set the User Authentication Module
- */
-function set_OC_USER() {
-	global $CONFIG_BACKEND;
-
-	if ( isset($CONFIG_BACKEND) ) {
-		switch ( $CONFIG_BACKEND ) {
-			case 'mysql':
-			case 'sqlite':
-				require_once 'User/database.php';
-				OC_USER::$classType = new OC_USER_Database();
-				break;
-			case 'ldap':
-				require_once 'User/ldap.php';
-				OC_USER::$classType = new OC_USER_LDAP();
-				break;
-			default:
-				require_once 'User/database.php';
-				OC_USER::$classType = new OC_USER_Database();
-				break;
-		}
-	} else {
-		require_once 'User/database.php';
-		OC_USER::$classType = new OC_USER_Database();
-	}
-}
-
-
-
-set_OC_USER();

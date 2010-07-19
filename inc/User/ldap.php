@@ -21,7 +21,8 @@
 * 
 */
 
-require_once 'mod_auth.php';
+require_once $SERVERROOT . '/inc/lib_user.php';
+require_once $SERVERROOT . '/inc/User/mod_auth.php';
 
 
 

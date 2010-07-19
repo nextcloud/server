@@ -21,13 +21,15 @@
 * 
 */
 
+require_once $SERVERROOT . '/inc/lib_user.php';
+
 
 
 /**
  * Class for usermanagement in a SQL Database (e.g. MySQL, SQLite)
  *
  */
-class OC_USER_MOD_AUTH extends OC_USER {
+class OC_USER_MOD_AUTH extends OC_USER_ABSTRACT {
 	
 	/**
 	 * Check if the login button is pressed and logg the user in

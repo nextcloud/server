@@ -21,13 +21,15 @@
 * 
 */
 
+require_once $SERVERROOT . '/inc/lib_user.php';
+
 
 
 /**
  * Class for usermanagement in a SQL Database (e.g. MySQL, SQLite)
  *
  */
-class OC_USER_Database extends OC_USER {
+class OC_USER_DATABASE extends OC_USER_ABSTRACT {
 
 	/**
 	 * Check if the login button is pressed and logg the user in
@@ -35,7 +37,7 @@ class OC_USER_Database extends OC_USER {
 	 */
 	public static function loginLisener() {
 		if ( isset($_POST['loginbutton']) AND isset($_POST['password']) AND isset($_POST['login']) ) {
-			if ( OC_USER::login($_POST['login'], $_POST['password']) ) {
+			if ( self::login($_POST['login'], $_POST['password']) ) {
 				echo 1;
 				OC_LOG::event($_SESSION['username'], 1, '');
 				echo 2;
@@ -62,7 +64,7 @@ class OC_USER_Database extends OC_USER {
 	public static function createUser($username, $password) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		if ( 0 !== OC_USER::getUserId($username, true) ) {
+		if ( 0 !== self::getUserId($username, true) ) {
 			return false;
 		} else {
 			$usernameClean = strtolower($username);
@@ -132,7 +134,7 @@ class OC_USER_Database extends OC_USER {
 	public static function createGroup($groupName) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		if ( 0 === OC_USER::getGroupId($groupName, true) ) {
+		if ( 0 === self::getGroupId($groupName, true) ) {
 			$groupName = OC_DB::escape($groupName);
 			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}groups` (`group_name`) VALUES ('$groupName')";
 			$result = OC_DB::query($query);
@@ -223,8 +225,8 @@ class OC_USER_Database extends OC_USER {
 	public static function inGroup($username, $groupName) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		$userId = OC_USER::getUserId($username);
-		$groupId = OC_USER::getGroupId($groupName);
+		$userId = self::getUserId($username);
+		$groupId = self::getGroupId($groupName);
 		if ( ($groupId > 0) AND ($userId > 0) ) {
 			$query = "SELECT * FROM  {$CONFIG_DBTABLEPREFIX}user_group WHERE group_id = '$groupId'  AND user_id = '$userId';";
 			$result = OC_DB::select($query);
@@ -245,9 +247,9 @@ class OC_USER_Database extends OC_USER {
 	public static function addToGroup($username, $groupName) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		if ( !OC_USER::inGroup($username, $groupName) ) {
-			$userId = OC_USER::getuserid($username);
-			$groupId = OC_USER::getgroupid($groupName);
+		if ( !self::inGroup($username, $groupName) ) {
+			$userId = self::getuserid($username);
+			$groupId = self::getgroupid($groupName);
 			if ( (0 !== $groupId) AND (0 !== $userId) ) {
 				$query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}user_group` (`user_id` ,`group_id`) VALUES ('$userId',  '$groupId');";
 				$result = OC_DB::query($query);
@@ -275,14 +277,14 @@ class OC_USER_Database extends OC_USER {
 	public static function getUserGroups($username) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		$userId = OC_USER::getUserId($username);
+		$userId = self::getUserId($username);
 		$query = "SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}user_group WHERE user_id = '$userId'";
 		$result = OC_DB::select($query);
 		$groups = array();
 		if ( is_array($result) ) {
 			foreach ( $result as $group ) {
 				$groupId = $group['group_id'];
-				$groups[] = OC_USER::getGroupName($groupId);
+				$groups[] = self::getGroupName($groupId);
 			}
 		}
 
@@ -297,7 +299,7 @@ class OC_USER_Database extends OC_USER {
 		global $CONFIG_DBTABLEPREFIX;
 
 		$password = sha1($password);
-		$userId = OC_USER::getUserId($username);
+		$userId = self::getUserId($username);
 		$query = "UPDATE {$CONFIG_DBTABLEPREFIX}users SET user_password = '$password' WHERE user_id ='$userId'";
 		$result = OC_DB::query($query);
 
