@@ -23,11 +23,10 @@
 
 require_once 'mod_auth.php';
 
+
+
 /**
- * Class for usermanagement in a SQL Database
- * eg mysql, sqlite
+ * Class for usermanagement in a SQL Database (e.g. MySql, SQLite)
  */
 class OC_USER_LDAP extends OC_USER_MOD_AUTH {
 }
-
-?>

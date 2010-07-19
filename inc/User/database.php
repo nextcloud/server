@@ -28,7 +28,7 @@
  *
  */
 class OC_USER_Database extends OC_USER {
-	
+
 	/**
 	 * Check if the login button is pressed and logg the user in
 	 *
@@ -54,8 +54,7 @@ class OC_USER_Database extends OC_USER {
 
 		return('');
 	}
-	
-	
+
 	/**
 	 * Try to create a new user
 	 *
@@ -76,7 +75,7 @@ class OC_USER_Database extends OC_USER {
 			return ($result) ? true : false;
 		}
 	}
-	
+
 	/**
 	 * Try to login a user
 	 *
@@ -100,7 +99,7 @@ class OC_USER_Database extends OC_USER {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Check if the logout button is pressed and logout the user
 	 *
@@ -113,7 +112,7 @@ class OC_USER_Database extends OC_USER {
 			$_SESSION['username_clean'] = '';
 		}
 	}
-	
+
 	/**
 	 * Check if a user is logged in
 	 *
@@ -125,7 +124,7 @@ class OC_USER_Database extends OC_USER {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Try to create a new group
 	 *
@@ -143,7 +142,7 @@ class OC_USER_Database extends OC_USER {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the ID of a user
 	 *
@@ -169,7 +168,7 @@ class OC_USER_Database extends OC_USER {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * Get the ID of a group
 	 *
@@ -195,7 +194,7 @@ class OC_USER_Database extends OC_USER {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * Get the name of a group
 	 *
@@ -216,7 +215,7 @@ class OC_USER_Database extends OC_USER {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * Check if a user belongs to a group
 	 *
@@ -238,7 +237,7 @@ class OC_USER_Database extends OC_USER {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Add a user to a group
 	 *
@@ -264,11 +263,11 @@ class OC_USER_Database extends OC_USER {
 			return true;
 		}
 	}
-	
+
 	public static function generatePassword() {
 		return uniqId();
 	}
-	
+
 	/**
 	 * Get all groups the user belongs to
 	 *
@@ -289,7 +288,7 @@ class OC_USER_Database extends OC_USER {
 
 		return $groups;
 	}
-	
+
 	/**
 	 * Set the password of a user
 	 *
@@ -304,7 +303,7 @@ class OC_USER_Database extends OC_USER {
 
 		return $result ? true : false;
 	}
-	
+
 	/**
 	* Check the password of a user
 	*

@@ -67,7 +67,7 @@ class OC_USER_MOD_AUTH extends OC_USER {
 	 *
 	 */
 	public static function logoutLisener() {
-		if( isset($_GET['logoutbutton']) AND isset($_SESSION['username']) ) {
+		if ( isset($_GET['logoutbutton']) AND isset($_SESSION['username']) ) {
 			header('WWW-Authenticate: Basic realm="ownCloud"');
 			header('HTTP/1.0 401 Unauthorized');
 			die('401 Unauthorized');
