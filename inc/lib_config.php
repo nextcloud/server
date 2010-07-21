@@ -1,7 +1,5 @@
 <?php
-
-class OC_CONFIG {
-
+class OC_CONFIG{
    /**
    * show the configform
    *
@@ -16,74 +14,66 @@ class OC_CONFIG {
     oc_require('templates/configform.php');
   }
   
-	/**
-	* show the configform
-	*
-	*/
-	public static function showAdminForm(){
-		global $CONFIG_ADMINLOGIN;
-		global $CONFIG_ADMINPASSWORD;
-		global $CONFIG_DATADIRECTORY;
-		global $CONFIG_HTTPFORCESSL;
-		global $CONFIG_DATEFORMAT;
-		global $CONFIG_DBNAME;
-		global $CONFIG_DBTABLEPREFIX;
-		global $CONFIG_INSTALLED;
-
-		global $userManager;
-
-		$allow = false;
-		if ( !$CONFIG_INSTALLED ) {
-			$allow = true;
-		} elseif ( $userManager::isLoggedIn() ) {
-			if ( $userManager::inGroup($_SESSION['username'], 'admin') ) {
-				$allow = true;
+  /**
+   * show the configform
+   *
+   */
+  public static function showAdminForm(){
+    global $CONFIG_ADMINLOGIN;
+    global $CONFIG_ADMINPASSWORD;
+    global $CONFIG_DATADIRECTORY;
+    global $CONFIG_HTTPFORCESSL;
+    global $CONFIG_DATEFORMAT;
+    global $CONFIG_DBNAME;
+	global $CONFIG_DBTABLEPREFIX;
+    global $CONFIG_INSTALLED;
+		$allow=false;
+		if(!$CONFIG_INSTALLED){
+			$allow=true;
+		}elseif(OC_USER::isLoggedIn()){
+			if(OC_USER::ingroup($_SESSION['username'],'admin')){
+				$allow=true;
 			}
 		}
-
-		if ( $allow ) {
-			oc_require('templates/adminform.php');
-		}
+    if($allow){
+		oc_require('templates/adminform.php');
 	}
+  }
 
 	public static function createUserLisener(){
-		global $userManager;
-
-		if ( $userManager::isLoggedIn() ) {
-			if ( $userManager::ingroup($_SESSION['username'], 'admin') ) {
-				if ( isset($_POST['new_username']) AND isset($_POST['new_password']) ) {
-					if ( $userManager::createUser($_POST['new_username'], $_POST['new_password']) ) {
+		if(OC_USER::isLoggedIn()){
+			if(OC_USER::ingroup($_SESSION['username'],'admin')){
+				if(isset($_POST['new_username']) and isset($_POST['new_password'])){
+					if(OC_USER::createuser($_POST['new_username'],$_POST['new_password'])){
 						return 'user successfully created';
-					} else {
+					}else{
 						return 'error while trying to create user';
 					}
 				}else{
 					return false;
 				}
-			} else {
+			}else{
 				return false;
 			}
 		}
 	}
 	
-	public static function createGroupLisener() {
-		global $userManager;
-
-		if ( $userManager::isLoggedIn() ) {
-			if ( isset($_POST['creategroup']) AND 1==$_POST['creategroup'] ) {
-				if ( $userManager::createGroup($_POST['groupname']) ) {
-					if ( $userManager::addTogroup($_SESSION['username'], $_POST['groupname']) ) {
+	public static function createGroupLisener(){
+		if(OC_USER::isLoggedIn()){
+			if(isset($_POST['creategroup']) and $_POST['creategroup']==1){
+				if(OC_USER::creategroup($_POST['groupname'])){
+					if(OC_USER::addtogroup($_SESSION['username'],$_POST['groupname'])){
 						return 'group successfully created';
-					} else {
+					}else{
 						return 'error while trying to add user to the new created group';
 					}
-				} else {
+				}else{
 					return 'error while trying to create group';
 				}
-			} else {
+			}else{
 				return false;
 			}
-		} else {
+		}else{
 			return false;
 		}
 	}
@@ -93,13 +83,11 @@ class OC_CONFIG {
    * lisen for configuration changes
    *
    */
-	public static function configLisener() {
-		global $userManager;
-
-		if($userManager::isLoggedIn()){
+	public static function configLisener(){
+		if(OC_USER::isLoggedIn()){
 			if(isset($_POST['config']) and $_POST['config']==1){
 				$error='';
-				if(!$userManager::checkpassword($_SESSION['username'],$_POST['currentpassword'])){
+				if(!OC_USER::checkpassword($_SESSION['username'],$_POST['currentpassword'])){
 					$error.='wrong password<br />';
 				}else{
 					if(isset($_POST['changepass']) and $_POST['changepass']==1){
@@ -107,7 +95,7 @@ class OC_CONFIG {
 						if(!isset($_POST['password2'])    or empty($_POST['password2']))    $error.='retype password not set<br />';
 						if($_POST['password']<>$_POST['password2'] )                        $error.='passwords are not the same<br />';
 						if(empty($error)){
-							if(!$userManager::setpassword($_SESSION['username'],$_POST['password'])){
+							if(!OC_USER::setpassword($_SESSION['username'],$_POST['password'])){
 								$error.='error while trying to set password<br />';
 							}
 						}
@@ -155,13 +143,11 @@ class OC_CONFIG {
 	*/
 	public static function writeAdminLisener(){
 		global $CONFIG_INSTALLED;
-		global $userManager;
-
 		$allow=false;
 		if(!$CONFIG_INSTALLED){
 			$allow=true;
-		}elseif($userManager::isLoggedIn()){
-			if($userManager::ingroup($_SESSION['username'],'admin')){
+		}elseif(OC_USER::isLoggedIn()){
+			if(OC_USER::ingroup($_SESSION['username'],'admin')){
 				$allow=true;
 			}
 		}
@@ -184,7 +170,7 @@ class OC_CONFIG {
 				$error='';
 				$FIRSTRUN=!$CONFIG_INSTALLED;
 				if(!$FIRSTRUN){
-					if(!$userManager::login($_SESSION['username'],$_POST['currentpassword'])){
+					if(!OC_USER::login($_SESSION['username'],$_POST['currentpassword'])){
 					$error.='wrong password<br />';
 					}
 				}
@@ -262,15 +248,15 @@ class OC_CONFIG {
 						}
 					}
 					if($FIRSTRUN){
-						if(!$userManager::createuser($_POST['adminlogin'],$_POST['adminpassword']) && !$userManager::login($_POST['adminlogin'],$_POST['adminpassword'])){
+						if(!OC_USER::createuser($_POST['adminlogin'],$_POST['adminpassword']) && !OC_USER::login($_POST['adminlogin'],$_POST['adminpassword'])){
 							$error.='error while trying to create the admin user<br/>';
 						}
-						if($userManager::getgroupid('admin')==0){
-							if(!$userManager::creategroup('admin')){
+						if(OC_USER::getgroupid('admin')==0){
+							if(!OC_USER::creategroup('admin')){
 								$error.='error while trying to create the admin group<br/>';
 							}
 						}
-						if(!$userManager::addtogroup($_POST['adminlogin'],'admin')){
+						if(!OC_USER::addtogroup($_POST['adminlogin'],'admin')){
 							$error.='error while trying to add the admin user to the admin group<br/>';
 						}
 					}
@@ -379,3 +365,6 @@ class OC_CONFIG {
 		}
 	}
 }
+?>
+
+

@@ -21,6 +21,8 @@
 * 
 */
 
+global $CONFIG_BACKEND;
+
 
 
 if ( !$CONFIG_INSTALLED ) {
@@ -29,7 +31,7 @@ if ( !$CONFIG_INSTALLED ) {
 	$_SESSION['username_clean'] = '';
 }
 
-// Cache the userid's an groupid's
+//cache the userid's an groupid's
 if ( !isset($_SESSION['user_id_cache']) ) {
 	$_SESSION['user_id_cache'] = array();
 }
@@ -37,98 +39,158 @@ if ( !isset($_SESSION['group_id_cache']) ) {
 	$_SESSION['group_id_cache'] = array();
 }
 
+OC_USER::setBackend($CONFIG_BACKEND);
+
 
 
 /**
- * Class for user management
+ * Class for User Management
  *
  */
-abstract class OC_USER_ABSTRACT {
+class OC_USER {
+
+	// The backend used for user management
+	private static $_backend;
 
 	/**
-	 * Check if the login button is pressed and logg the user in
-	 *
-	 */
-	abstract public static function loginLisener();
+	* Set the User Authentication Module
+	*/
+	public static function setBackend($backend='database') {
+		if ( (null === $backend) OR (!is_string($backend)) ) {
+			$backend = 'database';
+		}
+
+		switch ( $backend ) {
+			case 'mysql':
+			case 'sqlite':
+				oc_require_once('inc/User/database.php');
+				self::$_backend = new OC_USER_DATABASE();
+				break;
+			case 'ldap':
+				oc_require_once('inc/User/ldap.php');
+				self::$_backend = new OC_USER_LDAP();
+				break;
+			default:
+				oc_require_once('inc/User/database.php');
+				self::$_backend = new OC_USER_DATABASE();
+				break;
+		}
+	}
 
 	/**
-	 * Try to create a new user
-	 *
-	 */
-	abstract public static function createUser($username, $password);
+	* check if the login button is pressed and logg the user in
+	*
+	*/
+	public static function loginLisener() {
+		return self::$_backend->loginLisener();
+	}
 
 	/**
-	 * Try to login a user
-	 *
-	 */
-	abstract public static function login($username, $password);
+	* try to create a new user
+	*
+	*/
+	public static function createUser($username, $password) {
+		return self::$_backend->createUser($username, $password);
+	}
 
 	/**
-	 * Check if the logout button is pressed and logout the user
-	 *
-	 */
-	abstract public static function logoutLisener();
+	* try to login a user
+	*
+	*/
+	public static function login($username, $password) {
+		return self::$_backend->login($username, $password);
+	}
 
 	/**
-	 * Check if a user is logged in
-	 *
-	 */
-	abstract public static function isLoggedIn();
+	* check if the logout button is pressed and logout the user
+	*
+	*/
+	public static function logoutLisener() {
+		return self::$_backend->logoutLisener();
+	}
 
 	/**
-	 * Try to create a new group
-	 *
-	 */
-	abstract public static function createGroup($groupName);
+	* check if a user is logged in
+	*
+	*/
+	public static function isLoggedIn() {
+		return self::$_backend->isLoggedIn();
+	}
 
 	/**
-	 * Get the ID of a user
-	 *
-	 */
-	abstract public static function getUserId($username, $noCache=false);
+	* try to create a new group
+	*
+	*/
+	public static function createGroup($groupName) {
+		return self::$_backend->createGroup($groupName);
+	}
 
 	/**
-	 * Get the ID of a group
-	 *
-	 */
-	abstract public static function getGroupId($groupName, $noCache=false);
+	* get the id of a user
+	*
+	*/
+	public static function getUserId($username, $noCache=false) {
+		return self::$_backend->getUserId($username, $noCache=false);
+	}
 
 	/**
-	 * Get the name of a group
-	 *
-	 */
-	abstract public static function getGroupName($groupId, $noCache=false);
+	* get the id of a group
+	*
+	*/
+	public static function getGroupId($groupName, $noCache=false) {
+		return self::$_backend->getGroupId($groupName, $noCache=false);
+	}
 
 	/**
-	 * Check if a user belongs to a group
-	 *
-	 */
-	abstract public static function inGroup($username, $groupName);
+	* get the name of a group
+	*
+	*/
+	public static function getGroupName($groupId, $noCache=false) {
+		return self::$_backend->getGroupName($groupId, $noCache=false);
+	}
 
 	/**
-	 * Add a user to a group
-	 *
-	 */
-	abstract public static function addToGroup($username, $groupName);
-
-	abstract public static function generatePassword();
-
-	/**
-	 * Get all groups the user belongs to
-	 *
-	 */
-	abstract public static function getUserGroups($username);
+	* check if a user belongs to a group
+	*
+	*/
+	public static function inGroup($username, $groupName) {
+		return self::$_backend->inGroup($username, $groupName);
+	}
 
 	/**
-	 * Set the password of a user
-	 *
-	 */
-	abstract public static function setPassword($username, $password);
+	* add a user to a group
+	*
+	*/
+	public static function addToGroup($username, $groupName) {
+		return self::$_backend->addToGroup($username, $groupName);
+	}
+
+	public static function generatePassword() {
+		return uniqId();
+	}
 
 	/**
-	 * Check the password of a user
-	 *
-	 */
-	abstract public static function checkPassword($username, $password);
+	* get all groups the user belongs to
+	*
+	*/
+	public static function getUserGroups($username) {
+		return self::$_backend->getUserGroups($username);
+	}
+
+	/**
+	* set the password of a user
+	*
+	*/
+	public static function setPassword($username, $password) {
+		return self::$_backend->setPassword($username, $password);
+	}
+
+	/**
+	* check the password of a user
+	*
+	*/
+	public static function checkPassword($username, $password) {
+		return self::$_backend->checkPassword($username, $password);
+	}
 
 }

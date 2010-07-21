@@ -21,13 +21,9 @@
 * 
 */
 
-require_once $SERVERROOT . '/inc/lib_user.php';
-require_once $SERVERROOT . '/inc/User/mod_auth.php';
+oc_require_once('inc/User/mod_auth.php');
 
 
 
-/**
- * Class for usermanagement in a SQL Database (e.g. MySql, SQLite)
- */
 class OC_USER_LDAP extends OC_USER_MOD_AUTH {
 }
