@@ -23,6 +23,8 @@
 
 global $CONFIG_BACKEND;
 
+OC_UTIL::loadPlugins();
+
 
 
 if ( !$CONFIG_INSTALLED ) {
@@ -63,18 +65,15 @@ class OC_USER {
 		}
 
 		switch ( $backend ) {
+			case 'database':
 			case 'mysql':
 			case 'sqlite':
 				oc_require_once('inc/User/database.php');
 				self::$_backend = new OC_USER_DATABASE();
 				break;
-			case 'ldap':
-				oc_require_once('inc/User/ldap.php');
-				self::$_backend = new OC_USER_LDAP();
-				break;
 			default:
-				oc_require_once('inc/User/database.php');
-				self::$_backend = new OC_USER_DATABASE();
+				$className = 'OC_USER_' . strToUpper($backend);
+				self::$_backend = new $className();
 				break;
 		}
 	}

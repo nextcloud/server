@@ -29,7 +29,7 @@ oc_require_once('inc/User/backend.php');
  * Class for user management
  *
  */
-class OC_USER_MOD_AUTH extends OC_USER_BACKEND {
+class OC_USER_LDAP extends OC_USER_BACKEND {
 
 	/**
 	 * Check if the login button is pressed and log the user in

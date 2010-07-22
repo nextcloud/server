@@ -110,21 +110,6 @@ if(OC_USER::isLoggedIn()){
 	OC_FILESYSTEM::mount($rootStorage,'/');
 }
 
-// load plugins
-$CONFIG_LOADPLUGINS='all';
-if ($CONFIG_LOADPLUGINS != 'all')
-	$plugins=explode(' ',$CONFIG_LOADPLUGINS);
-else{
-	$plugins=array();
-	$fd=opendir($SERVERROOT.'/plugins');
-	while (($filename = readdir($fd)) !== false) {
-		if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
-			$plugins[]=$filename;
-		}
-	}
-	closedir($fd);
-}	
-if(isset($plugins[0])) foreach($plugins as $plugin) require_once($SERVERROOT.'/plugins/'.$plugin.'/lib_'.$plugin.'.php');
 
 
 // check if the server is correctly configured for ownCloud
@@ -304,6 +289,33 @@ class OC_UTIL {
     }else{ echo('<td><img src="'.$WEBROOT.'/img/icons/other.png" width="16" height="16"></td>');
     }
   }
+
+	/**
+	 * Load the plugins
+	 */
+	public static function loadPlugins() {
+		global $CONFIG_LOADPLUGINS;
+		global $SERVERROOT;
+
+		$CONFIG_LOADPLUGINS = 'all';
+		if ( 'all' !== $CONFIG_LOADPLUGINS ) {
+			$plugins = explode(' ', $CONFIG_LOADPLUGINS);
+		} else {
+			$plugins = array();
+			$fd = opendir($SERVERROOT . '/plugins');
+			while ( false !== ($filename = readdir($fd)) ) {
+				if ( $filename<>'.' AND $filename<>'..' AND ('.' != substr($filename, 0, 1)) ) {
+					$plugins[] = $filename;
+				}
+			}
+			closedir($fd);
+		}
+		if ( isset($plugins[0]) ) {
+			foreach ( $plugins as $plugin ) {
+				oc_require_once('/plugins/' . $plugin . '/lib_' . $plugin . '.php');
+			}
+		}
+	}
 
 }
 
