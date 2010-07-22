@@ -32,147 +32,169 @@ oc_require_once('inc/User/backend.php');
 class OC_USER_MOD_AUTH extends OC_USER_BACKEND {
 
 	/**
-	* check if the login button is pressed and logg the user in
-	*
-	*/
-	public static function loginLisener(){
+	 * Check if the login button is pressed and log the user in
+	 *
+	 */
+	public static function loginLisener() {
 		return('');
 	}
 
 	/**
-	* try to create a new user
-	*
-	*/
-	public static function createUser($username,$password){
+	 * Try to create a new user
+	 *
+	 * @param  string  $username  The username of the user to create
+	 * @param  string  $password  The password of the new user
+	 */
+	public static function createUser($username, $password) {
 		return false;
 	}
 
 	/**
-	* try to login a user
-	*
-	*/
-	public static function login($username,$password){
-		if (isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] != "") {
-			$_SESSION['user_id']= $_SERVER["PHP_AUTH_USER"];
-			$_SESSION['username']= $_SERVER["PHP_AUTH_USER"];
-			$_SESSION['username_clean']= $_SERVER["PHP_AUTH_USER"];
+	 * Try to login a user
+	 *
+	 * @param  string  $username  The username of the user to log in
+	 * @param  string  $password  The password of the user
+	 */
+	public static function login($username, $password) {
+		if ( isset($_SERVER['PHP_AUTH_USER']) AND ('' != $_SERVER['PHP_AUTH_USER']) ) {
+			$_SESSION['user_id'] = $_SERVER['PHP_AUTH_USER'];
+			$_SESSION['username'] = $_SERVER['PHP_AUTH_USER'];
+			$_SESSION['username_clean'] = $_SERVER['PHP_AUTH_USER'];
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
-	* check if the logout button is pressed and logout the user
-	*
-	*/
-	public static function logoutLisener(){
-		if(isset($_GET['logoutbutton']) && isset($_SESSION['username'])){
+	 * Check if the logout button is pressed and logout the user
+	 *
+	 */
+	public static function logoutLisener() {
+		if ( isset($_GET['logoutbutton']) AND isset($_SESSION['username']) ) {
 			header('WWW-Authenticate: Basic realm="ownCloud"');
 			header('HTTP/1.0 401 Unauthorized');
 			die('401 Unauthorized');
 		}
 	}
-	
+
 	/**
-	* check if a user is logged in
-	*
-	*/
+	 * Check if the user is logged in
+	 *
+	 */
 	public static function isLoggedIn(){
-		if (isset($_SESSION['user_id']) && $_SESSION['user_id']) {
+		if ( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ) {
 			return true;
-		}
-		else {
-			if (isset($_SERVER["PHP_AUTH_USER"]) && $_SERVER["PHP_AUTH_USER"] != "") {
-				$_SESSION['user_id']= $_SERVER["PHP_AUTH_USER"];
-				$_SESSION['username']= $_SERVER["PHP_AUTH_USER"];
-				$_SESSION['username_clean']= $_SERVER["PHP_AUTH_USER"];
+		} else {
+			if ( isset($_SERVER['PHP_AUTH_USER']) AND ('' != $_SERVER["PHP_AUTH_USER"]) ) {
+				$_SESSION['user_id'] = $_SERVER['PHP_AUTH_USER'];
+				$_SESSION['username'] = $_SERVER['PHP_AUTH_USER'];
+				$_SESSION['username_clean'] = $_SERVER['PHP_AUTH_USER'];
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	/**
-	* try to create a new group
-	*
-	*/
-	public static function createGroup($groupname){
+	 * Try to create a new group
+	 *
+	 * @param  string  $groupName  The name of the group to create
+	 */
+	public static function createGroup($groupName) {
 		// does not work with MOD_AUTH (only or some modules)
 		return false;
 	}
-	
+
 	/**
-	* get the id of a user
-	*
-	*/
-	public static function getUserId($username,$nocache=false){
+	 * Get the ID of a user
+	 *
+	 * @param  string   $username  Name of the user to find the ID
+	 * @param  boolean  $noCache   If false the cache is used to find the ID
+	 */
+	public static function getUserId($username, $noCache=false) {
 		// does not work with MOD_AUTH (only or some modules)
 		return 0;
 	}
-	
+
 	/**
-	* get the id of a group
-	*
-	*/
-	public static function getGroupId($groupname,$nocache=false){
+	 * Get the ID of a group
+	 *
+	 * @param  string   $groupName  Name of the group to find the ID
+	 * @param  boolean  $noCache    If false the cache is used to find the ID
+	 */
+	public static function getGroupId($groupName, $noCache=false) {
 		// does not work with MOD_AUTH (only or some modules)
 		return 0;
 	}
-	
+
 	/**
-	* get the name of a group
-	*
-	*/
-	public static function getGroupName($groupid,$nocache=false){
+	 * Get the name of a group
+	 *
+	 * @param  string  $groupId  ID of the group
+	 * @param  boolean $noCache  If false the cache is used to find the name of the group
+	 */
+	public static function getGroupName($groupId, $noCache=false) {
 		// does not work with MOD_AUTH (only or some modules)
 		return 0;
 	}
-	
+
 	/**
-	* check if a user belongs to a group
-	*
-	*/
-	public static function inGroup($username,$groupname){
+	 * Check if a user belongs to a group
+	 *
+	 * @param  string  $username   Name of the user to check
+	 * @param  string  $groupName  Name of the group
+	 */
+	public static function inGroup($username, $groupName) {
 		// does not work with MOD_AUTH (only or some modules)
 		return false;
 	}
-	
+
 	/**
-	* add a user to a group
-	*
-	*/
-	public static function addToGroup($username,$groupname){
+	 * Add a user to a group
+	 *
+	 * @param  string  $username   Name of the user to add to group
+	 * @param  string  $groupName  Name of the group in which add the user
+	 */
+	public static function addToGroup($username, $groupName) {
 		// does not work with MOD_AUTH (only or some modules)
 		return false;
 	}
-	
-	public static function generatePassword(){
-		return uniqid();
-	}
-	
+
 	/**
-	* get all groups the user belongs to
-	*
-	*/
-	public static function getUserGroups($username){
+	 * Generate a random password
+	 */	
+	public static function generatePassword() {
+		return uniqId();
+	}
+
+	/**
+	 * Get all groups the user belongs to
+	 *
+	 * @param  string  $username  Name of the user
+	 */
+	public static function getUserGroups($username) {
 		// does not work with MOD_AUTH (only or some modules)
 		$groups=array();
 		return $groups;
 	}
-	
+
 	/**
-	* set the password of a user
-	*
-	*/
-	public static function setPassword($username,$password){
+	 * Set the password of a user
+	 *
+	 * @param  string  $username  User who password will be changed
+	 * @param  string  $password  The new password for the user
+	 */
+	public static function setPassword($username, $password) {
 		return false;
 	}
-	
+
 	/**
-	* check the password of a user
-	*
-	*/
-	public static function checkPassword($username,$password){
+	 * Check if the password of the user is correct
+	 *
+	 * @param  string  $username  Name of the user
+	 * @param  string  $password  Password of the user
+	 */
+	public static function checkPassword($username, $password) {
 		// does not work with MOD_AUTH (only or some modules)
 		return false;
 	}

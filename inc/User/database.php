@@ -32,281 +32,320 @@ oc_require_once('inc/User/backend.php');
 class OC_USER_DATABASE extends OC_USER_BACKEND {
 
 	/**
-	* check if the login button is pressed and logg the user in
-	*
-	*/
+	 * Check if the login button is pressed and log the user in
+	 *
+	 */
 	public static function loginLisener(){
-		if(isset($_POST['loginbutton']) and isset($_POST['password']) and isset($_POST['login'])){
-			if(OC_USER::login($_POST['login'],$_POST['password'])){
+		if ( isset($_POST['loginbutton']) AND isset($_POST['password']) AND isset($_POST['login']) ) {
+			if ( OC_USER::login($_POST['login'], $_POST['password']) ) {
 				echo 1;
-				OC_LOG::event($_SESSION['username'],1,'');
+				OC_LOG::event($_SESSION['username'], 1, '');
 				echo 2;
-				if((isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') { 
-					$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']; 
-				}else{
-					$url = "http://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']; 
+				if ( (isset($CONFIG_HTTPFORCESSL) AND $CONFIG_HTTPFORCESSL) 
+				     OR (isset($_SERVER['HTTPS']) AND ('on' == $_SERVER['HTTPS'])) ) {
+					$url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+				} else {
+					$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 				}
 				header("Location: $url");
 				die();
-			}else{
+			} else {
 				return('error');
-			} 
+			}
 		}
 		return('');
 	}
 
 	/**
-	* try to create a new user
-	*
-	*/
-	public static function createUser($username,$password){
+	 * Try to create a new user
+	 *
+	 * @param  string  $username  The username of the user to create
+	 * @param  string  $password  The password of the new user
+	 */
+	public static function createUser($username, $password) {
 		global $CONFIG_DBTABLEPREFIX;
-		if(OC_USER::getuserid($username,true)!=0){
-			return false;
-		}else{
-			$usernameclean=strtolower($username);
-			$password=sha1($password);
-			$username=OC_DB::escape($username);
-			$usernameclean=OC_DB::escape($usernameclean);
-			$query="INSERT INTO  `{$CONFIG_DBTABLEPREFIX}users` (`user_name` ,`user_name_clean` ,`user_password`) VALUES ('$username',  '$usernameclean',  '$password')";
-			$result=OC_DB::query($query);
-			return ($result)?true:false;
-		}
 
+		// Check if the user already exists
+		if ( 0 != OC_USER::getUserId($username, true) ) {
+			return false;
+		} else {
+			$usernameClean = strToLower($username);
+			$password = sha1($password);
+			$username = OC_DB::escape($username);
+			$usernameClean = OC_DB::escape($usernameClean);
+			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}users` (`user_name` ,`user_name_clean` ,`user_password`) "
+			       . "VALUES ('$username',  '$usernameClean',  '$password')";
+			$result = OC_DB::query($query);
+			return $result ? true : false;
+		}
 	}
-	
+
 	/**
-	* try to login a user
-	*
-	*/
+	 * Try to login a user
+	 *
+	 * @param  string  $username  The username of the user to log in
+	 * @param  string  $password  The password of the user
+	 */
 	public static function login($username,$password){
 		global $CONFIG_DBTABLEPREFIX;
 
-		$password=sha1($password);
-		$usernameclean=strtolower($username);
-		$username=OC_DB::escape($username);
-		$usernameclean=OC_DB::escape($usernameclean);
-		$query = "SELECT user_id FROM {$CONFIG_DBTABLEPREFIX}users WHERE user_name_clean = '$usernameclean' AND  user_password =  '$password' LIMIT 1";
-		$result=OC_DB::select($query);
-		if(isset($result[0]) && isset($result[0]['user_id'])){
-			$_SESSION['user_id']=$result[0]['user_id'];
-			$_SESSION['username']=$username;
-			$_SESSION['username_clean']=$usernameclean;
+		$password = sha1($password);
+		$usernameClean = strtolower($username);
+		$username = OC_DB::escape($username);
+		$usernameClean = OC_DB::escape($usernameClean);
+		$query = "SELECT user_id FROM {$CONFIG_DBTABLEPREFIX}users "
+		       . "WHERE user_name_clean = '$usernameClean' AND  user_password =  '$password' LIMIT 1";
+		$result = OC_DB::select($query);
+		if ( isset($result[0]) AND isset($result[0]['user_id']) ) {
+			$_SESSION['user_id'] = $result[0]['user_id'];
+			$_SESSION['username'] = $username;
+			$_SESSION['username_clean'] = $usernameClean;
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
-	
+
 	/**
-	* check if the logout button is pressed and logout the user
-	*
-	*/
-	public static function logoutLisener(){
-		if(isset($_GET['logoutbutton']) && isset($_SESSION['username'])){
-			OC_LOG::event($_SESSION['username'],2,'');
-			$_SESSION['user_id']=false;
-			$_SESSION['username']='';
-			$_SESSION['username_clean']='';
+	 * Check if the logout button is pressed and logout the user
+	 *
+	 */
+	public static function logoutLisener() {
+		if ( isset($_GET['logoutbutton']) AND isset($_SESSION['username']) ) {
+			OC_LOG::event($_SESSION['username'], 2, '');
+			$_SESSION['user_id'] = false;
+			$_SESSION['username'] = '';
+			$_SESSION['username_clean'] = '';
 		}
 	}
-	
+
 	/**
-	* check if a user is logged in
-	*
-	*/
-	public static function isLoggedIn(){
-		return (isset($_SESSION['user_id']) && $_SESSION['user_id'])?true:false;
-	}
-	
-	/**
-	* try to create a new group
-	*
-	*/
-	public static function createGroup($groupname){
-		global $CONFIG_DBTABLEPREFIX;
-		if(OC_USER::getgroupid($groupname,true)==0){
-			$groupname=OC_DB::escape($groupname);
-			$query="INSERT INTO  `{$CONFIG_DBTABLEPREFIX}groups` (`group_name`) VALUES ('$groupname')";
-			$result=OC_DB::query($query);
-			return ($result)?true:false;
-		}else{
+	 * Check if the user is logged in
+	 *
+	 */
+	public static function isLoggedIn() {
+		if ( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ) {
+			return true;
+		} else {
 			return false;
 		}
 	}
-	
+
 	/**
-	* get the id of a user
-	*
-	*/
-	public static function getUserId($username,$nocache=false){
+	 * Try to create a new group
+	 *
+	 * @param  string  $groupName  The name of the group to create
+	 */
+	public static function createGroup($groupName) {
 		global $CONFIG_DBTABLEPREFIX;
-		$usernameclean=strtolower($username);
-		if(!$nocache and isset($_SESSION['user_id_cache'][$usernameclean])){//try to use cached value to save an sql query
-			return $_SESSION['user_id_cache'][$usernameclean];
+
+		if ( 0 == OC_USER::getGroupId($groupName, true) ) {
+			$groupName = OC_DB::escape($groupName);
+			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}groups` (`group_name`) VALUES ('$groupName')";
+			$result = OC_DB::query($query);
+			return $result ? true : false;
+		} else {
+			return false;
 		}
-		$usernameclean=OC_DB::escape($usernameclean);
-		$query="SELECT user_id FROM {$CONFIG_DBTABLEPREFIX}users WHERE user_name_clean = '$usernameclean'";
-		$result=OC_DB::select($query);
-		if(!is_array($result)){
+	}
+
+	/**
+	 * Get the ID of a user
+	 *
+	 * @param  string   $username  Name of the user to find the ID
+	 * @param  boolean  $noCache   If false the cache is used to find the ID
+	 */
+	public static function getUserId($username, $noCache=false) {
+		global $CONFIG_DBTABLEPREFIX;
+
+		$usernameClean = strToLower($username);
+		// Try to use cached value to avoid an SQL query
+		if ( !$noCache AND isset($_SESSION['user_id_cache'][$usernameClean]) ) {
+			return $_SESSION['user_id_cache'][$usernameClean];
+		}
+		$usernameClean = OC_DB::escape($usernameClean);
+		$query = "SELECT user_id FROM {$CONFIG_DBTABLEPREFIX}users WHERE user_name_clean = '$usernameClean'";
+		$result = OC_DB::select($query);
+		if ( !is_array($result) ) {
 			return 0;
 		}
-		if(isset($result[0]) && isset($result[0]['user_id'])){
-			$_SESSION['user_id_cache'][$usernameclean]=$result[0]['user_id'];
+		if ( isset($result[0]) AND isset($result[0]['user_id']) ) {
+			$_SESSION['user_id_cache'][$usernameClean] = $result[0]['user_id'];
 			return $result[0]['user_id'];
-		}else{
+		} else {
 			return 0;
 		}
 	}
-	
+
 	/**
-	* get the id of a group
-	*
-	*/
-	public static function getGroupId($groupname,$nocache=false){
+	 * Get the ID of a group
+	 *
+	 * @param  string   $groupName  Name of the group to find the ID
+	 * @param  boolean  $noCache    If false the cache is used to find the ID
+	 */
+	public static function getGroupId($groupName, $noCache=false) {
 		global $CONFIG_DBTABLEPREFIX;
-		if(!$nocache and isset($_SESSION['group_id_cache'][$groupname])){//try to use cached value to save an sql query
-			return $_SESSION['group_id_cache'][$groupname];
+
+		// Try to use cached value to avoid an SQL query
+		if ( !$noCache AND isset($_SESSION['group_id_cache'][$groupName]) ) {
+			return $_SESSION['group_id_cache'][$groupName];
 		}
-		$groupname=OC_DB::escape($groupname);
-		$query="SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}groups WHERE group_name = '$groupname'";
-		$result=OC_DB::select($query);
-		if(!is_array($result)){
+		$groupName = OC_DB::escape($groupName);
+		$query = "SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}groups WHERE group_name = '$groupName'";
+		$result = OC_DB::select($query);
+		if ( !is_array($result) ) {
 			return 0;
 		}
-		if(isset($result[0]) && isset($result[0]['group_id'])){
-			$_SESSION['group_id_cache'][$groupname]=$result[0]['group_id'];
+		if ( isset($result[0]) AND isset($result[0]['group_id']) ){
+			$_SESSION['group_id_cache'][$groupName] = $result[0]['group_id'];
 			return $result[0]['group_id'];
-		}else{
+		} else {
 			return 0;
 		}
 	}
-	
+
 	/**
-	* get the name of a group
-	*
-	*/
-	public static function getGroupName($groupid,$nocache=false){
+	 * Get the name of a group
+	 *
+	 * @param  string  $groupId  ID of the group
+	 * @param  boolean $noCache  If false the cache is used to find the name of the group
+	 */
+	public static function getGroupName($groupId, $noCache=false) {
 		global $CONFIG_DBTABLEPREFIX;
-		if($nocache and $name=array_search($groupid,$_SESSION['group_id_cache'])){//try to use cached value to save an sql query
+
+		// Try to use cached value to avoid an sql query
+		if ( !$noCache AND ($name = array_search($groupId, $_SESSION['group_id_cache'])) ) {
 			return $name;
 		}
-		$groupid=(integer)$groupid;
-		$query="SELECT group_name FROM {$CONFIG_DBTABLEPREFIX}groups WHERE group_id = '$groupid' LIMIT 1";
-		$result=OC_DB::select($query);
-		if(isset($result[0]) && isset($result[0]['group_name'])){
+		$groupId = (integer)$groupId;
+		$query = "SELECT group_name FROM {$CONFIG_DBTABLEPREFIX}groups WHERE group_id = '$groupId' LIMIT 1";
+		$result = OC_DB::select($query);
+		if ( isset($result[0]) AND isset($result[0]['group_name']) ) {
 			return $result[0]['group_name'];
-		}else{
+		} else {
 			return 0;
 		}
 	}
-	
+
 	/**
-	* check if a user belongs to a group
-	*
-	*/
-	public static function inGroup($username,$groupname){
+	 * Check if a user belongs to a group
+	 *
+	 * @param  string  $username   Name of the user to check
+	 * @param  string  $groupName  Name of the group
+	 */
+	public static function inGroup($username,$groupName) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		$userid=OC_USER::getuserid($username);
-		$groupid=OC_USER::getgroupid($groupname);
-		if($groupid>0 and $userid>0){
-			$query="SELECT * FROM  {$CONFIG_DBTABLEPREFIX}user_group WHERE group_id = '$groupid'  AND user_id = '$userid';";
-			$result=OC_DB::select($query);
-			if(isset($result[0]) && isset($result[0]['user_group_id'])){
+		$userId = OC_USER::getuserid($username);
+		$groupId = OC_USER::getgroupid($groupName);
+		if ( ($groupId > 0) AND ($userId > 0) ) {
+			$query = "SELECT * FROM  {$CONFIG_DBTABLEPREFIX}user_group WHERE group_id = '$groupId' AND user_id = '$userId';";
+			$result = OC_DB::select($query);
+			if ( isset($result[0]) AND isset($result[0]['user_group_id']) ) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
-		}else{
+		} else {
 			return false;
 		}
 	}
-	
+
 	/**
-	* add a user to a group
-	*
-	*/
-	public static function addToGroup($username,$groupname){
+	 * Add a user to a group
+	 *
+	 * @param  string  $username   Name of the user to add to group
+	 * @param  string  $groupName  Name of the group in which add the user
+	 */
+	public static function addToGroup($username, $groupName) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		if(!OC_USER::ingroup($username,$groupname)){
-			$userid=OC_USER::getuserid($username);
-			$groupid=OC_USER::getgroupid($groupname);
-			if($groupid!=0 and $userid!=0){
-				$query="INSERT INTO `{$CONFIG_DBTABLEPREFIX}user_group` (`user_id` ,`group_id`) VALUES ('$userid',  '$groupid');";
-				$result=OC_DB::query($query);
-				if($result){
+		if ( !OC_USER::inGroup($username, $groupName) ) {
+			$userId = OC_USER::getUserId($username);
+			$groupId = OC_USER::getGroupId($groupName);
+			if ( (0 != $groupId) AND (0 != $userId) ) {
+				$query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}user_group` (`user_id` ,`group_id`) VALUES ('$userId',  '$groupId');";
+				$result = OC_DB::query($query);
+				if ( $result ) {
 					return true;
-				}else{
+				} else {
 					return false;
 				}
-			}else{
+			} else {
 				return false;
 			}
-		}else{
+		} else {
 			return true;
 		}
 	}
-	
+
+	/**
+	 * Generate a random password
+	 */
 	public static function generatePassword(){
-		return uniqid();
+		return uniqId();
 	}
 
 	/**
-	* get all groups the user belongs to
-	*
-	*/
-	public static function getUserGroups($username){
+	 * Get all groups the user belongs to
+	 *
+	 * @param  string  $username  Name of the user
+	 */
+	public static function getUserGroups($username) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		$userid=OC_USER::getuserid($username);
-		$query = "SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}user_group WHERE user_id = '$userid'";
-		$result=OC_DB::select($query);
-		$groups=array();
-		if(is_array($result)){
-			foreach($result as $group){
-				$groupid=$group['group_id'];
-				$groups[]=OC_USER::getgroupname($groupid);
+		$userId = OC_USER::getUserId($username);
+		$query = "SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}user_group WHERE user_id = '$userId'";
+		$result = OC_DB::select($query);
+		$groups = array();
+		if ( is_array($result) ) {
+			foreach ( $result as $group ) {
+				$groupId = $group['group_id'];
+				$groups[] = OC_USER::getGroupName($groupId);
 			}
 		}
 		return $groups;
 	}
-	
+
 	/**
-	* set the password of a user
-	*
-	*/
-	public static function setPassword($username,$password){
+	 * Set the password of a user
+	 *
+	 * @param  string  $username  User who password will be changed
+	 * @param  string  $password  The new password for the user
+	 */
+	public static function setPassword($username, $password) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		$password=sha1($password);
-		$userid=OC_USER::getuserid($username);
-		$query = "UPDATE {$CONFIG_DBTABLEPREFIX}users SET user_password = '$password' WHERE user_id ='$userid'";
-		$result=OC_DB::query($query);
-		if($result){
+		$password = sha1($password);
+		$userId = OC_USER::getUserId($username);
+		$query = "UPDATE {$CONFIG_DBTABLEPREFIX}users SET user_password = '$password' WHERE user_id ='$userId'";
+		$result = OC_DB::query($query);
+		if ( $result ) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
 	/**
-	* check the password of a user
-	*
-	*/
-	public static function checkPassword($username,$password){
+	 * Check if the password of the user is correct
+	 *
+	 * @param  string  $username  Name of the user
+	 * @param  string  $password  Password of the user
+	 */
+	public static function checkPassword($username, $password) {
 		global $CONFIG_DBTABLEPREFIX;
 
-		$password=sha1($password);
-		$usernameclean=strtolower($username);
-		$username=OC_DB::escape($username);
-		$usernameclean=OC_DB::escape($usernameclean);
-		$query = "SELECT user_id FROM '{$CONFIG_DBTABLEPREFIX}users' WHERE user_name_clean = '$usernameclean' AND user_password =  '$password' LIMIT 1";
-		$result=OC_DB::select($query);
-		if(isset($result[0]) && isset($result[0]['user_id']) && $result[0]['user_id']>0){
+		$password = sha1($password);
+		$usernameClean = strToLower($username);
+		$usernameClean = OC_DB::escape($usernameClean);
+		$username = OC_DB::escape($username);
+		$query = "SELECT user_id FROM '{$CONFIG_DBTABLEPREFIX}users' "
+		       . "WHERE user_name_clean = '$usernameClean' AND user_password =  '$password' LIMIT 1";
+		$result = OC_DB::select($query);
+		if ( isset($result[0]) AND isset($result[0]['user_id']) AND ($result[0]['user_id'] > 0) ) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}

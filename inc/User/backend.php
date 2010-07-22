@@ -26,13 +26,11 @@
 /**
  * Base class for user management
  *
- * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
- * @author fabian <fabian@web2.0-apps.de>
  */
 abstract class OC_USER_BACKEND {
 
 	/**
-	 * Check if the login button is pressed and logg the user in
+	 * Check if the login button is pressed and log the user in
 	 *
 	 */
 	abstract public static function loginLisener();
@@ -40,12 +38,16 @@ abstract class OC_USER_BACKEND {
 	/**
 	 * Try to create a new user
 	 *
+	 * @param  string  $username  The username of the user to create
+	 * @param  string  $password  The password of the new user
 	 */
 	abstract public static function createUser($username, $password);
 
 	/**
 	 * Try to login a user
 	 *
+	 * @param  string  $username  The username of the user to log in
+	 * @param  string  $password  The password of the user
 	 */
 	abstract public static function login($username, $password);
 
@@ -56,7 +58,7 @@ abstract class OC_USER_BACKEND {
 	abstract public static function logoutLisener();
 
 	/**
-	 * Check if a user is logged in
+	 * Check if some user is logged in
 	 *
 	 */
 	abstract public static function isLoggedIn();
@@ -64,36 +66,47 @@ abstract class OC_USER_BACKEND {
 	/**
 	 * Try to create a new group
 	 *
+	 * @param  string  $groupName  The name of the group to create
 	 */
 	abstract public static function createGroup($groupName);
 
 	/**
 	 * Get the ID of a user
 	 *
+	 * @param  string   $username  Name of the user to find the ID
+	 * @param  boolean  $noCache   If false the cache is used to find the ID
 	 */
 	abstract public static function getUserId($username, $noCache=false);
 
 	/**
 	 * Get the ID of a group
 	 *
+	 * @param  string   $groupName  Name of the group to find the ID
+	 * @param  boolean  $noCache    If false the cache is used to find the ID
 	 */
 	abstract public static function getGroupId($groupName, $noCache=false);
 
 	/**
 	 * Get the name of a group
 	 *
+	 * @param  string  $groupId  ID of the group
+	 * @param  boolean $noCache  If false the cache is used to find the name of the group
 	 */
 	abstract public static function getGroupName($groupId, $noCache=false);
 
 	/**
 	 * Check if a user belongs to a group
 	 *
+	 * @param  string  $username   Name of the user to check
+	 * @param  string  $groupName  Name of the group
 	 */
 	abstract public static function inGroup($username, $groupName);
 
 	/**
 	 * Add a user to a group
 	 *
+	 * @param  string  $username   Name of the user to add to group
+	 * @param  string  $groupName  Name of the group in which add the user
 	 */
 	abstract public static function addToGroup($username, $groupName);
 
@@ -105,18 +118,23 @@ abstract class OC_USER_BACKEND {
 	/**
 	 * Get all groups the user belongs to
 	 *
+	 * @param  string  $username  Name of the user
 	 */
 	abstract public static function getUserGroups($username);
 
 	/**
 	 * Set the password of a user
 	 *
+	 * @param  string  $username  User who password will be changed
+	 * @param  string  $password  The new password for the user
 	 */
 	abstract public static function setPassword($username, $password);
 
 	/**
-	 * Check the password of a user
+	 * Check if the password of the user is correct
 	 *
+	 * @param  string  $username  Name of the user
+	 * @param  string  $password  Password of the user
 	 */
 	abstract public static function checkPassword($username, $password);
 

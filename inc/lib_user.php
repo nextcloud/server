@@ -53,8 +53,10 @@ class OC_USER {
 	private static $_backend;
 
 	/**
-	* Set the User Authentication Module
-	*/
+	 * Set the User Authentication Module
+	 *
+	 * @param  string  $backend  The backend to use for user managment
+	 */
 	public static function setBackend($backend='database') {
 		if ( (null === $backend) OR (!is_string($backend)) ) {
 			$backend = 'database';
@@ -78,117 +80,140 @@ class OC_USER {
 	}
 
 	/**
-	* check if the login button is pressed and logg the user in
-	*
-	*/
+	 * Check if the login button is pressed and log the user in
+	 *
+	 */
 	public static function loginLisener() {
 		return self::$_backend->loginLisener();
 	}
 
 	/**
-	* try to create a new user
-	*
-	*/
+	 * Try to create a new user
+	 *
+	 * @param  string  $username  The username of the user to create
+	 * @param  string  $password  The password of the new user
+	 */
 	public static function createUser($username, $password) {
 		return self::$_backend->createUser($username, $password);
 	}
 
 	/**
-	* try to login a user
-	*
-	*/
+	 * Try to login a user
+	 *
+	 * @param  string  $username  The username of the user to log in
+	 * @param  string  $password  The password of the user
+	 */
 	public static function login($username, $password) {
 		return self::$_backend->login($username, $password);
 	}
 
 	/**
-	* check if the logout button is pressed and logout the user
-	*
-	*/
+	 * Check if the logout button is pressed and logout the user
+	 *
+	 */
 	public static function logoutLisener() {
 		return self::$_backend->logoutLisener();
 	}
 
 	/**
-	* check if a user is logged in
-	*
-	*/
+	 * Check if the user is logged in
+	 *
+	 */
 	public static function isLoggedIn() {
 		return self::$_backend->isLoggedIn();
 	}
 
 	/**
-	* try to create a new group
-	*
-	*/
+	 * Try to create a new group
+	 *
+	 * @param  string  $groupName  The name of the group to create
+	 */
 	public static function createGroup($groupName) {
 		return self::$_backend->createGroup($groupName);
 	}
 
 	/**
-	* get the id of a user
-	*
-	*/
+	 * Get the ID of a user
+	 *
+	 * @param  string   $username  Name of the user to find the ID
+	 * @param  boolean  $noCache   If false the cache is used to find the ID
+	 */
 	public static function getUserId($username, $noCache=false) {
 		return self::$_backend->getUserId($username, $noCache=false);
 	}
 
 	/**
-	* get the id of a group
-	*
-	*/
+	 * Get the ID of a group
+	 *
+	 * @param  string   $groupName  Name of the group to find the ID
+	 * @param  boolean  $noCache    If false the cache is used to find the ID
+	 */
 	public static function getGroupId($groupName, $noCache=false) {
 		return self::$_backend->getGroupId($groupName, $noCache=false);
 	}
 
 	/**
-	* get the name of a group
-	*
-	*/
+	 * Get the name of a group
+	 *
+	 * @param  string  $groupId  ID of the group
+	 * @param  boolean $noCache  If false the cache is used to find the name of the group
+	 */
 	public static function getGroupName($groupId, $noCache=false) {
 		return self::$_backend->getGroupName($groupId, $noCache=false);
 	}
 
 	/**
-	* check if a user belongs to a group
-	*
-	*/
+	 * Check if a user belongs to a group
+	 *
+	 * @param  string  $username   Name of the user to check
+	 * @param  string  $groupName  Name of the group
+	 */
 	public static function inGroup($username, $groupName) {
 		return self::$_backend->inGroup($username, $groupName);
 	}
 
 	/**
-	* add a user to a group
-	*
-	*/
+	 * Add a user to a group
+	 *
+	 * @param  string  $username   Name of the user to add to group
+	 * @param  string  $groupName  Name of the group in which add the user
+	 */
 	public static function addToGroup($username, $groupName) {
 		return self::$_backend->addToGroup($username, $groupName);
 	}
 
+	/**
+	 * Generate a random password
+	 */
 	public static function generatePassword() {
 		return uniqId();
 	}
 
 	/**
-	* get all groups the user belongs to
-	*
-	*/
+	 * Get all groups the user belongs to
+	 *
+	 * @param  string  $username  Name of the user
+	 */
 	public static function getUserGroups($username) {
 		return self::$_backend->getUserGroups($username);
 	}
 
 	/**
-	* set the password of a user
-	*
-	*/
+	 * Set the password of a user
+	 *
+	 * @param  string  $username  User who password will be changed
+	 * @param  string  $password  The new password for the user
+	 */
 	public static function setPassword($username, $password) {
 		return self::$_backend->setPassword($username, $password);
 	}
 
 	/**
-	* check the password of a user
-	*
-	*/
+	 * Check if the password of the user is correct
+	 *
+	 * @param  string  $username  Name of the user
+	 * @param  string  $password  Password of the user
+	 */
 	public static function checkPassword($username, $password) {
 		return self::$_backend->checkPassword($username, $password);
 	}
