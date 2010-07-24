@@ -135,12 +135,12 @@ class OC_OCS {
 
     // PRIVATEDATA
     // get - GET DATA
-    }elseif(($method=='get') and (strtolower($ex[$paracount-3])=='v1.php')and (strtolower($ex[$paracount-2])=='privatedata')){
+    }elseif(($method=='get') and (strtolower($ex[$paracount-5])=='v1.php')and (strtolower($ex[$paracount-3])=='privatedata')){
       $key=OC_OCS::readdata('key','text');
       OC_OCS::privateDataGet($key);
 
     // set - POST DATA
-    }elseif(($method=='post') and (strtolower($ex[$paracount-3])=='v1.php')and (strtolower($ex[$paracount-2])=='privatedata')){
+    }elseif(($method=='post') and (strtolower($ex[$paracount-5])=='v1.php')and (strtolower($ex[$paracount-3])=='privatedata')){
       $key=OC_OCS::readdata('key','text');
       $value=OC_OCS::readdata('key','text');
       OC_OCS::privatedataset($key, $value);
@@ -468,12 +468,14 @@ class OC_OCS {
     //TODO: prepared statements, locking tables, fancy stuff, error checking/handling
     $user=OC_OCS::checkpassword();
 
-    $result = OC_DB::query("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".$key."'");
-    $entry=$result->fetchRow();
-    $existing=$entry['co'];
+    $result=OC_DB::query("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".$key."'");
+//    $entry=$result->fetchRow();
+    //$totalcount=$entry['co'];
+    $totalcount=$result['co'];
+    die($totalcount);
     OC_DB::free_result($result);
 
-    if ($existing != 0) {
+    if ($totalcount != 0) {
         $result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='".addslashes($value)."', timestamp = now() where key = '".addslashes($key)."'");
     } else {
         $result = OC_DB::query("insert into {$CONFIG_DBTABLEPREFIX}privatedata(key, value, timestamp) values('".addslashes($key)."', '".addslashes($value)."', now())");
