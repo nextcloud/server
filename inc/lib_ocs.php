@@ -135,14 +135,15 @@ class OC_OCS {
 
     // PRIVATEDATA
     // get - GET DATA
-    }elseif(($method=='get') and (strtolower($ex[$paracount-5])=='v1.php')and (strtolower($ex[$paracount-3])=='privatedata')){
+    }elseif(($method=='get') and (strtolower($ex[$paracount-4])=='v1.php')and (strtolower($ex[$paracount-3])=='privatedata')){
       $key=OC_OCS::readdata('key','text');
       OC_OCS::privateDataGet($key);
 
     // set - POST DATA
-    }elseif(($method=='post') and (strtolower($ex[$paracount-5])=='v1.php')and (strtolower($ex[$paracount-3])=='privatedata')){
+    }elseif(($method=='post') and (strtolower($ex[$paracount-4])=='v1.php')and (strtolower($ex[$paracount-3])=='privatedata')){
       $key=OC_OCS::readdata('key','text');
-      $value=OC_OCS::readdata('key','text');
+      $value=OC_OCS::readdata('value','text');
+      error_log("key: '$key', value: '$value'");
       OC_OCS::privatedataset($key, $value);
 
     }else{
@@ -457,7 +458,7 @@ class OC_OCS {
   }
 
   /**
-   * set private data referenced by $key to $valu`
+   * set private data referenced by $key to $value
    * @param string $key
    * @param string $value
    * @return string xml/json
@@ -471,9 +472,9 @@ class OC_OCS {
     $result=OC_DB::query("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".$key."'");
 //    $entry=$result->fetchRow();
     //$totalcount=$entry['co'];
-    $totalcount=$result['co'];
-    die($totalcount);
+    $totalcount=(integer)$result['co'];
     OC_DB::free_result($result);
+    error_log($totalcount);
 
     if ($totalcount != 0) {
         $result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='".addslashes($value)."', timestamp = now() where key = '".addslashes($key)."'");
