@@ -478,7 +478,7 @@ class OC_OCS {
     //TODO: prepared statements, locking tables, fancy stuff, error checking/handling
     $user=OC_OCS::checkpassword();
 
-    $result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".$key."'");
+    $result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".addslashes($key)."'");
     $totalcount=$result[0]['co'];
     OC_DB::free_result($result);
 
