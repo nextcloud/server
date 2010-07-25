@@ -135,15 +135,17 @@ class OC_OCS {
 
     // PRIVATEDATA
     // get - GET DATA
-    }elseif(($method=='get') and (strtolower($ex[$paracount-4])=='v1.php')and (strtolower($ex[$paracount-3])=='privatedata')){
-      $key=OC_OCS::readdata('key','text');
+    }elseif(($method=='get') and (strtolower($ex[$paracount-4])=='v1.php')and (strtolower($ex[$paracount-2])=='getattribute')){
+      OC_OCS::privateDataGet("");
+
+    }elseif(($method=='get') and (strtolower($ex[$paracount-5])=='v1.php')and (strtolower($ex[$paracount-3])=='getattribute')){
+      $key=$ex[$paracount-2];
       OC_OCS::privateDataGet($key);
 
     // set - POST DATA
-    }elseif(($method=='post') and (strtolower($ex[$paracount-4])=='v1.php')and (strtolower($ex[$paracount-3])=='privatedata')){
-      $key=OC_OCS::readdata('key','text');
+    }elseif(($method=='post') and (strtolower($ex[$paracount-5])=='v1.php')and (strtolower($ex[$paracount-3])=='setattribute')){
+      $key=$ex[$paracount-2];
       $value=OC_OCS::readdata('value','text');
-      error_log("key: '$key', value: '$value'");
       OC_OCS::privatedataset($key, $value);
 
     }else{
@@ -442,7 +444,11 @@ class OC_OCS {
 
     $user=OC_OCS::checkpassword();
 
-    $result = OC_DB::select("select key,value,timestamp from {$CONFIG_DBTABLEPREFIX}privatedata where key like'% ".addslashes($key)."%' order by timestamp desc");
+    if (!trim($key)) {
+        $result = OC_DB::select("select key,value,timestamp from {$CONFIG_DBTABLEPREFIX}privatedata order by timestamp desc");
+    } else {
+        $result = OC_DB::select("select key,value,timestamp from {$CONFIG_DBTABLEPREFIX}privatedata where key like'% ".addslashes($key)."%' order by timestamp desc");
+    }
     $itemscount=count($result);
 
     $xml=array();
@@ -453,7 +459,7 @@ class OC_OCS {
     }
 
 
-    $txt=OC_OCS::generatexml($format,'ok',100,'',$xml,'activity','full',2,$totalcount,$pagesize);
+    $txt=OC_OCS::generatexml($format,'ok',100,'',$xml,'privatedata','full',2,$totalcount,$pagesize);
     echo($txt);
   }
 
@@ -469,10 +475,10 @@ class OC_OCS {
     //TODO: prepared statements, locking tables, fancy stuff, error checking/handling
     $user=OC_OCS::checkpassword();
 
-    $result=OC_DB::query("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".$key."'");
-//    $entry=$result->fetchRow();
-    //$totalcount=$entry['co'];
-    $totalcount=(integer)$result['co'];
+    $result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".$key."'");
+    $entry=$result->fetchRow();
+    $totalcount=$entry['co'];
+    //$totalcount=(integer)$result['co'];
     OC_DB::free_result($result);
     error_log($totalcount);
 

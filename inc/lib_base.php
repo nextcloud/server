@@ -391,6 +391,7 @@ class OC_DB {
 		if (PEAR::isError($result)) {
 			$entry='DB Error: "'.$result->getMessage().'"<br />';
 			$entry.='Offending command was: '.$cmd.'<br />';
+            error_log($entry);
 			die($entry);
 		}else{
 			self::$affected=$result;
