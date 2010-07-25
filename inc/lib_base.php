@@ -376,7 +376,6 @@ class OC_DB {
 	* @return result-set
 	*/
 	static function query($cmd){
-        error_log($cmd);
 		global $CONFIG_DBTYPE;
 		if(!trim($cmd)){
 			return false;
