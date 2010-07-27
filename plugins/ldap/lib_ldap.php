@@ -21,69 +21,22 @@
 * 
 */
 
-global $CONFIG_BACKEND;
-
-OC_UTIL::loadPlugins();
-
-
-
-if ( !$CONFIG_INSTALLED ) {
-	$_SESSION['user_id'] = false;
-	$_SESSION['username'] = '';
-	$_SESSION['username_clean'] = '';
-}
-
-//cache the userid's an groupid's
-if ( !isset($_SESSION['user_id_cache']) ) {
-	$_SESSION['user_id_cache'] = array();
-}
-if ( !isset($_SESSION['group_id_cache']) ) {
-	$_SESSION['group_id_cache'] = array();
-}
-
-OC_USER::setBackend($CONFIG_BACKEND);
+oc_require_once('inc/User/backend.php');
 
 
 
 /**
- * Class for User Management
+ * Class for user management
  *
  */
-class OC_USER {
-
-	// The backend used for user management
-	private static $_backend;
-
-	/**
-	 * Set the User Authentication Module
-	 *
-	 * @param  string  $backend  The backend to use for user managment
-	 */
-	public static function setBackend($backend='database') {
-		if ( (null === $backend) OR (!is_string($backend)) ) {
-			$backend = 'database';
-		}
-
-		switch ( $backend ) {
-			case 'database':
-			case 'mysql':
-			case 'sqlite':
-				oc_require_once('inc/User/database.php');
-				self::$_backend = new OC_USER_DATABASE();
-				break;
-			default:
-				$className = 'OC_USER_' . strToUpper($backend);
-				self::$_backend = new $className();
-				break;
-		}
-	}
+class OC_USER_LDAP extends OC_USER_BACKEND {
 
 	/**
 	 * Check if the login button is pressed and log the user in
 	 *
 	 */
 	public static function loginLisener() {
-		return self::$_backend->loginLisener();
+		return('');
 	}
 
 	/**
@@ -93,7 +46,7 @@ class OC_USER {
 	 * @param  string  $password  The password of the new user
 	 */
 	public static function createUser($username, $password) {
-		return self::$_backend->createUser($username, $password);
+		return false;
 	}
 
 	/**
@@ -103,7 +56,13 @@ class OC_USER {
 	 * @param  string  $password  The password of the user
 	 */
 	public static function login($username, $password) {
-		return self::$_backend->login($username, $password);
+		if ( isset($_SERVER['PHP_AUTH_USER']) AND ('' != $_SERVER['PHP_AUTH_USER']) ) {
+			$_SESSION['user_id'] = $_SERVER['PHP_AUTH_USER'];
+			$_SESSION['username'] = $_SERVER['PHP_AUTH_USER'];
+			$_SESSION['username_clean'] = $_SERVER['PHP_AUTH_USER'];
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -111,15 +70,29 @@ class OC_USER {
 	 *
 	 */
 	public static function logoutLisener() {
-		return self::$_backend->logoutLisener();
+		if ( isset($_GET['logoutbutton']) AND isset($_SESSION['username']) ) {
+			header('WWW-Authenticate: Basic realm="ownCloud"');
+			header('HTTP/1.0 401 Unauthorized');
+			die('401 Unauthorized');
+		}
 	}
 
 	/**
 	 * Check if the user is logged in
 	 *
 	 */
-	public static function isLoggedIn() {
-		return self::$_backend->isLoggedIn();
+	public static function isLoggedIn(){
+		if ( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ) {
+			return true;
+		} else {
+			if ( isset($_SERVER['PHP_AUTH_USER']) AND ('' != $_SERVER["PHP_AUTH_USER"]) ) {
+				$_SESSION['user_id'] = $_SERVER['PHP_AUTH_USER'];
+				$_SESSION['username'] = $_SERVER['PHP_AUTH_USER'];
+				$_SESSION['username_clean'] = $_SERVER['PHP_AUTH_USER'];
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -128,7 +101,8 @@ class OC_USER {
 	 * @param  string  $groupName  The name of the group to create
 	 */
 	public static function createGroup($groupName) {
-		return self::$_backend->createGroup($groupName);
+		// does not work with MOD_AUTH (only or some modules)
+		return false;
 	}
 
 	/**
@@ -138,7 +112,8 @@ class OC_USER {
 	 * @param  boolean  $noCache   If false the cache is used to find the ID
 	 */
 	public static function getUserId($username, $noCache=false) {
-		return self::$_backend->getUserId($username, $noCache=false);
+		// does not work with MOD_AUTH (only or some modules)
+		return 0;
 	}
 
 	/**
@@ -148,7 +123,8 @@ class OC_USER {
 	 * @param  boolean  $noCache    If false the cache is used to find the ID
 	 */
 	public static function getGroupId($groupName, $noCache=false) {
-		return self::$_backend->getGroupId($groupName, $noCache=false);
+		// does not work with MOD_AUTH (only or some modules)
+		return 0;
 	}
 
 	/**
@@ -158,7 +134,8 @@ class OC_USER {
 	 * @param  boolean $noCache  If false the cache is used to find the name of the group
 	 */
 	public static function getGroupName($groupId, $noCache=false) {
-		return self::$_backend->getGroupName($groupId, $noCache=false);
+		// does not work with MOD_AUTH (only or some modules)
+		return 0;
 	}
 
 	/**
@@ -168,7 +145,8 @@ class OC_USER {
 	 * @param  string  $groupName  Name of the group
 	 */
 	public static function inGroup($username, $groupName) {
-		return self::$_backend->inGroup($username, $groupName);
+		// does not work with MOD_AUTH (only or some modules)
+		return false;
 	}
 
 	/**
@@ -178,12 +156,13 @@ class OC_USER {
 	 * @param  string  $groupName  Name of the group in which add the user
 	 */
 	public static function addToGroup($username, $groupName) {
-		return self::$_backend->addToGroup($username, $groupName);
+		// does not work with MOD_AUTH (only or some modules)
+		return false;
 	}
 
 	/**
 	 * Generate a random password
-	 */
+	 */	
 	public static function generatePassword() {
 		return uniqId();
 	}
@@ -194,7 +173,9 @@ class OC_USER {
 	 * @param  string  $username  Name of the user
 	 */
 	public static function getUserGroups($username) {
-		return self::$_backend->getUserGroups($username);
+		// does not work with MOD_AUTH (only or some modules)
+		$groups=array();
+		return $groups;
 	}
 
 	/**
@@ -204,7 +185,7 @@ class OC_USER {
 	 * @param  string  $password  The new password for the user
 	 */
 	public static function setPassword($username, $password) {
-		return self::$_backend->setPassword($username, $password);
+		return false;
 	}
 
 	/**
@@ -214,7 +195,8 @@ class OC_USER {
 	 * @param  string  $password  Password of the user
 	 */
 	public static function checkPassword($username, $password) {
-		return self::$_backend->checkPassword($username, $password);
+		// does not work with MOD_AUTH (only or some modules)
+		return false;
 	}
 
 }
