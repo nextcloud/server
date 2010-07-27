@@ -113,23 +113,24 @@ class OC_CONFIG{
 	/**
 	 * Write the configuration to the `config.php` file
 	 *
-	 * $configuration contains key/value
+	 * $configuration contains key/value pairs
 	 *   - the key is the option name without the 'CONFIG_' prefix
-	 *   - the value is a string or a boolean
+	 *   - the value is a string, a boolean or a number
 	 *
 	 * @param array $configuration is an associative array
 	 */
 	protected static function saveConfiguration($configuration) {
 		global $SERVERROOT;
-		global $WEBROOT;
 
 		$configContent = '<?php';
 		foreach ( $configuration as $key => $value ) {
 			if ( is_string($value) ) {
-				$configContent .= "\n\$CONFIG_$key = '$value';";
+				$configContent .= "\n\$CONFIG_$key = '$value';";  // e.g. $CONFIG_DBTYPE = 'mysql';
 			} else if ( is_bool($value) ) {
 				$value = $value ? 'true' : 'false';
-				$configContent .= "\n\$CONFIG_$key = $value;";
+				$configContent .= "\n\$CONFIG_$key = $value;";  // e.g. $CONFIG_INSTALLED = true;
+			} else if ( is_numeric($value) ) {
+				$configContent .= "\n\$CONFIG_$key = $value;";  // e.g. $CONFIG_PI = 3.14;
 			}
 		}
 		$filename = "$SERVERROOT/config/config.php";
