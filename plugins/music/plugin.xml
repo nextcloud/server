@@ -1,0 +1,11 @@
+<?xml version="1.0"?> 
+<plugin>
+	<meta>
+		<id>music</id>
+		<name>Music player for ownCloud</name>
+		<version>0.1</version>
+		<licence>AGPL</licence>
+		<author>2010 Frank Karlitschek karlitschek@kde.org</author>
+	</meta>
+	<include>lib_music.php</include>
+</plugin> 

@@ -23,8 +23,6 @@
 
 global $CONFIG_BACKEND;
 
-OC_UTIL::loadPlugins();
-
 
 
 if ( !$CONFIG_INSTALLED ) {

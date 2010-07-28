@@ -84,7 +84,9 @@ oc_require_once('lib_ocs.php');
 @oc_require_once('MDB2/Schema.php');
 oc_require_once('lib_connect.php');
 oc_require_once('lib_remotestorage.php');
+oc_require_once('lib_plugin.php');
 
+OC_PLUGIN::loadPlugins();
 
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 	@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
@@ -289,34 +291,6 @@ class OC_UTIL {
     }else{ echo('<td><img src="'.$WEBROOT.'/img/icons/other.png" width="16" height="16"></td>');
     }
   }
-
-	/**
-	 * Load the plugins
-	 */
-	public static function loadPlugins() {
-		global $CONFIG_LOADPLUGINS;
-		global $SERVERROOT;
-
-		$CONFIG_LOADPLUGINS = 'all';
-		if ( 'all' !== $CONFIG_LOADPLUGINS ) {
-			$plugins = explode(' ', $CONFIG_LOADPLUGINS);
-		} else {
-			$plugins = array();
-			$fd = opendir($SERVERROOT . '/plugins');
-			while ( false !== ($filename = readdir($fd)) ) {
-				if ( $filename<>'.' AND $filename<>'..' AND ('.' != substr($filename, 0, 1)) ) {
-					$plugins[] = $filename;
-				}
-			}
-			closedir($fd);
-		}
-		if ( isset($plugins[0]) ) {
-			foreach ( $plugins as $plugin ) {
-				oc_require_once('/plugins/' . $plugin . '/lib_' . $plugin . '.php');
-			}
-		}
-	}
-
 }
 
 
