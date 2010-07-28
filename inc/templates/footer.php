@@ -12,10 +12,10 @@ Hint: Mount it via webdav like this: <a href="webdav://<?php echo($_SERVER["HTTP
 <?php }?>
 <p class="footer">
 <?php
-  echo('<a href="http://ownCloud.org">ownCloud</a> - 1.0 RC 1');
+	$version=implode('.',OC_UTIL::getVersion());
+  echo('<a href="http://ownCloud.org">ownCloud</a> - '.$version);
 ?>
 </p>
 </div>
 </div>
-<!--<p id="debug">debug</p>-->
 </body></html>

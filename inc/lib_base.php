@@ -40,6 +40,7 @@ $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
 $WEBROOT=substr($_SERVER["SCRIPT_NAME"],0,strlen($_SERVER["SCRIPT_NAME"])-strlen($SUBURI));
 
 
+
 if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 	$WEBROOT='/'.$WEBROOT;
 }
@@ -127,6 +128,14 @@ $loginresult=OC_USER::loginlisener();
  */
 class OC_UTIL {
   public static $scripts=array();
+  
+  /**
+  * get the current installed version of ownCloud
+  * @return array
+  */
+	public static function getVersion(){
+		return array(1,0,60);
+	}
   
   /**
    * add a javascript file

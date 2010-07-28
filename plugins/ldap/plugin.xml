@@ -1,11 +1,14 @@
 <?xml version="1.0"?> 
-<plugin>
-	<meta>
+<plugin version='1.0'>
+	<info>
 		<id>ldap</id>
 		<name>LDAP support for ownCloud</name>
 		<version>0.1</version>
 		<licence>AGPL</licence>
 		<author>fabian</author>
-	</meta>
-	<include>lib_ldap.php</include>
+		<require>1.1</require>
+	</info>
+	<runtime>
+		<include>lib_ldap.php</include>
+	</runtime>
 </plugin>

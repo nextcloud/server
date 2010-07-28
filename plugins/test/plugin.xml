@@ -1,12 +1,15 @@
 <?xml version="1.0"?> 
-<plugin>
+<plugin version='1.0'>
 	<meta>
 		<id>test</id>
 		<name>Test plugin</name>
 		<version>0.1</version>
 		<licence>AGPL</licence>
 		<author>2010 Frank Karlitschek karlitschek@kde.org</author>
+		<require>1.1</require>
 	</meta>
-	<include>lib_test.php</include>
+	<runtime>
+		<include>lib_test.php</include>
+	</runtime>
 </plugin> 
 

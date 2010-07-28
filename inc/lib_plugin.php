@@ -34,9 +34,30 @@ class OC_PLUGIN{
 		if(is_dir($SERVERROOT.'/plugins/'.$id) and is_file($SERVERROOT.'/plugins/'.$id.'/plugin.xml')){
 			$plugin=new DOMDocument();
 			$plugin->load($SERVERROOT.'/plugins/'.$id.'/plugin.xml');
+			if($plugin->documentElement->getAttribute('version')!=='1.0'){ //we only support this for now
+				return false;
+			}
+			$minVersion=$plugin->getElementsByTagName('require');
+			if($minVersion->length>0){
+				$minVersion=$minVersion->item(0)->textContent;
+				$minVersion=explode('.',$minVersion);
+				$version=OC_UTIL::getVersion();
+				$roundTo=count($minVersion);
+				while(count($version)>$roundTo){
+					if($version[count($version)-1]>=50){
+						$version[count($version)-2]++;
+					}
+					unset($version[count($version)-1]);
+				}
+				for($i=0;$i<count($minVersion);$i++){
+					if($version[$i]<$minVersion[$i]){
+						return false;
+					}
+				}
+			}
 			$pluginId=$plugin->getElementsByTagName('id')->item(0)->textContent;
 			if($pluginId==$id){//sanity check for plugins installed in the wrong folder
-				$childs=$plugin->documentElement->childNodes;
+				$childs=$plugin->getElementsByTagName('runtime')->item(0)->childNodes;
 				foreach($childs as $child){
 					if($child->nodeType==XML_ELEMENT_NODE and $child->tagName=='include'){
 						$file=$SERVERROOT.'/plugins/'.$id.'/'.$child->textContent;
