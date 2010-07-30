@@ -960,8 +960,8 @@ class MDB2
         global $SERVERROOT;
         if (!@ini_get('safe_mode')) {
              $dirs = explode(PATH_SEPARATOR, ini_get('include_path'));
-             $dirs[]=$SERVERROOT;
-             $dirs[]=$SERVERROOT. DIRECTORY_SEPARATOR .'inc';
+             array_unshift($dirs,$SERVERROOT);
+             array_unshift($dirs,$SERVERROOT. DIRECTORY_SEPARATOR .'inc');
 //              print_r($dirs);die();
              foreach ($dirs as $dir) {
                  if (is_readable($dir . DIRECTORY_SEPARATOR . $file)) {
