@@ -555,7 +555,7 @@ sizeFormat=function(size){
 }
 
 OC_FILES.browser.showImage=function(dir,file){
-	var path=WEBROOT+'/files/open_file.php?dir='+dir+'&file='+file
+	var path=WEBROOT+'/files/open_file.php?dir='+encodeURIComponent(dir)+'&file='+encodeURIComponent(file);
 	var div=document.createElement('div');
 	div.setAttribute('id','imageframe');
 	div.addEvent('onclick',OC_FILES.browser.hideImage)

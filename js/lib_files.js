@@ -75,7 +75,7 @@ OC_FILES.getdirectorycontent=function(dir,callback,refresh){
 			OC_FILES.getdirectorycontent_callback=callback;
 		}
 		OC_FILES.xmlloader.setCallBack(OC_FILES.getdirectorycontent_parse);
-		OC_FILES.xmlloader.load('files/get_files.php?dir='+dir);
+		OC_FILES.xmlloader.load('files/get_files.php?dir='+encodeURIComponent(dir));
 	}else{
 		var files=OC_FILES.cache.files
 		if(OC_FILES.cache.incomplete[OC_FILES.dir]){
