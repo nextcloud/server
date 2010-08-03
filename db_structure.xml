@@ -18,6 +18,13 @@
        <length>64</length>
      </field>
      <field>
+       <name>app</name>
+       <type>text</type>
+       <default></default>
+       <notnull>true</notnull>
+       <length>64</length>
+     </field>
+     <field>
        <name>value</name>
        <type>text</type>
        <notnull>false</notnull>
@@ -28,12 +35,16 @@
        <notnull>true</notnull>
      </field>
      <index>
-       <name>timestamp</name>
-       <unique>false</unique>
-       <field>
-         <name>timestamp</name>
-         <sorting>ascending</sorting>
-       </field>
+      <name>appkey</name>
+      <unique>true</unique>
+      <field>
+       <name>key</name>
+       <sorting>ascending</sorting>
+      </field>
+      <field>
+       <name>app</name>
+       <sorting>ascending</sorting>
+      </field>
      </index>
    </declaration>
  </table>

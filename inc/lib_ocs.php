@@ -145,11 +145,12 @@ class OC_OCS {
       OC_OCS::privateDataGet($format, $key);
 
     // set - POST DATA
-    }elseif(($method=='post') and (strtolower($ex[$paracount-5])=='v1.php')and (strtolower($ex[$paracount-3])=='setattribute')){
+    }elseif(($method=='post') and (strtolower($ex[$paracount-6])=='v1.php')and (strtolower($ex[$paracount-4])=='setattribute')){
       $format=OC_OCS::readdata('format','text');
       $key=$ex[$paracount-2];
+      $app=$ex[$paracount-3];
       $value=OC_OCS::readdata('value','text');
-      OC_OCS::privatedataset($format, $key, $value);
+      OC_OCS::privatedataset($format, $app, $key, $value);
 
     }else{
       $format=OC_OCS::readdata('format','text');
@@ -472,19 +473,19 @@ class OC_OCS {
    * @param string $value
    * @return string xml/json
    */
-  private static function privateDataSet($format, $key, $value) {
+  private static function privateDataSet($format, $app, $key, $value) {
 	global $CONFIG_DBTABLEPREFIX;
 
     //TODO: prepared statements, locking tables, fancy stuff, error checking/handling
     $user=OC_OCS::checkpassword();
 
-    $result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".addslashes($key)."'");
+    $result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".addslashes($key)."' and app = '".addslashes($app)."'");
     $totalcount=$result[0]['co'];
 
     if ($totalcount != 0) {
-        $result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='".addslashes($value)."', timestamp = datetime('now') where key = '".addslashes($key)."'");
+        $result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='".addslashes($value)."', timestamp = datetime('now') where key = '".addslashes($key)."' and app = '".addslashes($app)."'");
     } else {
-        $result = OC_DB::query("insert into {$CONFIG_DBTABLEPREFIX}privatedata(key, value, timestamp) values('".addslashes($key)."', '".addslashes($value)."', datetime('now'))");
+        $result = OC_DB::query("insert into {$CONFIG_DBTABLEPREFIX}privatedata(app, key, value, timestamp) values('".addslashes($app)."', '".addslashes($key)."', '".addslashes($value)."', datetime('now'))");
     }
 
     echo(OC_OCS::generatexml($format,'ok',100,''));
