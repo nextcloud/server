@@ -89,6 +89,8 @@ oc_require_once('lib_plugin.php');
 
 OC_PLUGIN::loadPlugins();
 
+OC_USER::setBackend($CONFIG_BACKEND);
+
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 	@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
 }
