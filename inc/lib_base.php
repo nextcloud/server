@@ -89,6 +89,9 @@ oc_require_once('lib_plugin.php');
 
 OC_PLUGIN::loadPlugins();
 
+if(!isset($CONFIG_BACKEND)){
+	$CONFIG_BACKEND='database';
+}
 OC_USER::setBackend($CONFIG_BACKEND);
 
 if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){

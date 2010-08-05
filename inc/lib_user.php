@@ -21,7 +21,6 @@
 * 
 */
 
-global $CONFIG_BACKEND;
 
 
 
@@ -39,7 +38,6 @@ if ( !isset($_SESSION['group_id_cache']) ) {
 	$_SESSION['group_id_cache'] = array();
 }
 
-OC_USER::setBackend($CONFIG_BACKEND);
 
 
 

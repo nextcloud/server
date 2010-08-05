@@ -31,16 +31,10 @@ class OC_PLUGIN{
 	*/
 	static public function load($id){
 		global $SERVERROOT;
-		if(is_dir($SERVERROOT.'/plugins/'.$id) and is_file($SERVERROOT.'/plugins/'.$id.'/plugin.xml')){
-			$plugin=new DOMDocument();
-			$plugin->load($SERVERROOT.'/plugins/'.$id.'/plugin.xml');
-			if($plugin->documentElement->getAttribute('version')!=='1.0'){ //we only support this for now
-				return false;
-			}
-			$minVersion=$plugin->getElementsByTagName('require');
-			if($minVersion->length>0){
-				$minVersion=$minVersion->item(0)->textContent;
-				$minVersion=explode('.',$minVersion);
+		$data=self::getPluginData($id);
+		if($data){
+			if(isset($data['info']['require'])){
+				$minVersion=explode('.',$data['info']['require']);
 				$version=OC_UTIL::getVersion();
 				$roundTo=count($minVersion);
 				while(count($version)>$roundTo){
@@ -55,16 +49,8 @@ class OC_PLUGIN{
 					}
 				}
 			}
-			$pluginId=$plugin->getElementsByTagName('id')->item(0)->textContent;
-			if($pluginId==$id){//sanity check for plugins installed in the wrong folder
-				$childs=$plugin->getElementsByTagName('runtime')->item(0)->childNodes;
-				foreach($childs as $child){
-					if($child->nodeType==XML_ELEMENT_NODE and $child->tagName=='include'){
-						$file=$SERVERROOT.'/plugins/'.$id.'/'.$child->textContent;
-						include($file);
-					}
-				}
-				return true;
+			foreach($data['runtime'] as $include){
+				include($SERVERROOT.'/plugins/'.$id.'/'.$include);
 			}
 		}
 		return false;
@@ -149,6 +135,90 @@ class OC_PLUGIN{
 			self::$blacklist=$blacklist;
 			self::saveBlacklist($blacklist);
 		}
+	}
+	
+	/**
+	( Load data from the plugin.xml of a plugin, either identified by the plugin or the path of the plugin.xml file
+	* @param string id
+	*( @return array
+	*/
+	public static function getPluginData($id){
+		global $SERVERROOT;
+		if(is_file($id)){
+			$file=$id;
+		}
+		if(!is_dir($SERVERROOT.'/plugins/'.$id) or !is_file($SERVERROOT.'/plugins/'.$id.'/plugin.xml')){
+			return false;
+		}else{
+			$file=$SERVERROOT.'/plugins/'.$id.'/plugin.xml';
+		}
+		$data=array();
+		$plugin=new DOMDocument();
+		$plugin->load($file);
+		$data['version']=$plugin->documentElement->getAttribute('version');
+		$info=$plugin->getElementsByTagName('info');
+		if($info->length>0){
+			$info=$info->item(0);
+			$data['info']=array();
+			foreach($info->childNodes as $child){
+				if($child->nodeType==XML_ELEMENT_NODE){
+					$data['info'][$child->tagName]=$child->textContent;
+				}
+			}
+		}
+		$runtime=$plugin->getElementsByTagName('runtime');
+		if($runtime->length>0){
+			$runtime=$runtime->item(0);
+			$data['runtime']=array();
+			foreach($runtime->childNodes as $child){
+				if($child->nodeType==XML_ELEMENT_NODE and $child->tagName=='include'){
+					$data['runtime'][]=$child->textContent;
+				}
+			}
+		}
+		$install=$plugin->getElementsByTagName('install');
+		if($install->length>0){
+			$install=$install->item(0);
+			$data['install']=array();
+			foreach($install->childNodes as $child){
+				if($child->nodeType==XML_ELEMENT_NODE){
+					$data['install']['include']=array();
+					$data['install']['dialog']=array();
+					$data['install']['database']=array();
+					switch($child->tagName){
+						case 'include':
+							$data['install']['include'][]=$child->textContent;
+							break;
+						case 'dialog':
+							$data['install']['dialog'][]=$child->textContent;
+							break;
+						case 'database':
+							$data['install']['database'][]=$child->textContent;
+							break;
+					}
+				}
+			}
+		}
+		$uninstall=$plugin->getElementsByTagName('uninstall');
+		if($uninstall->length>0){
+			$uninstall=$uninstall->item(0);
+			$data['uninstall']=array();
+			foreach($uninstall->childNodes as $child){
+				if($child->nodeType==XML_ELEMENT_NODE){
+					$data['uninstall']['include']=array();
+					$data['uninstall']['dialog']=array();
+					switch($child->tagName){
+						case 'include':
+							$data['uninstall']['include'][]=$child->textContent;
+							break;
+						case 'dialog':
+							$data['uninstall']['dialog'][]=$child->textContent;
+							break;
+					}
+				}
+			}
+		}
+		return $data;
 	}
 }
 
