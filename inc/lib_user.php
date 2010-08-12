@@ -134,7 +134,7 @@ class OC_USER {
 	 * @param  boolean  $noCache   If false the cache is used to find the ID
 	 */
 	public static function getUserId($username, $noCache=false) {
-		return self::$_backend->getUserId($username, $noCache=false);
+		return self::$_backend->getUserId($username, $noCache);
 	}
 
 	/**
@@ -144,7 +144,7 @@ class OC_USER {
 	 * @param  boolean  $noCache    If false the cache is used to find the ID
 	 */
 	public static function getGroupId($groupName, $noCache=false) {
-		return self::$_backend->getGroupId($groupName, $noCache=false);
+		return self::$_backend->getGroupId($groupName, $noCache);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class OC_USER {
 	 * @param  boolean $noCache  If false the cache is used to find the name of the group
 	 */
 	public static function getGroupName($groupId, $noCache=false) {
-		return self::$_backend->getGroupName($groupId, $noCache=false);
+		return self::$_backend->getGroupName($groupId, $noCache);
 	}
 
 	/**
