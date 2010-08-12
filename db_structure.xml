@@ -26,7 +26,8 @@
      </field>
      <field>
        <name>value</name>
-       <type>text</type>
+       <type>blob</type>
+	   <length>65532</length>
        <notnull>false</notnull>
      </field>
      <field>
