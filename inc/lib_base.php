@@ -548,10 +548,8 @@ class OC_DB {
 		global $CONFIG_DBTABLEPREFIX;
 		$content=file_get_contents($file);
 		$file2=tempnam(sys_get_temp_dir(),'oc_db_scheme_');
-		echo $content;
 		$content=str_replace('*dbname*',$CONFIG_DBNAME,$content);
 		$content=str_replace('*dbprefix*',$CONFIG_DBTABLEPREFIX,$content);
-		echo $content;
 		file_put_contents($file2,$content);
 		$definition=@self::$schema->parseDatabaseDefinitionFile($file2);
 		unlink($file2);
