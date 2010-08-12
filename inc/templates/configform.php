@@ -1,5 +1,6 @@
 <?php
 global $FIRSTRUN;
+global $WEBROOT;
 global $CONFIG_ERROR;
 if(!isset($fillDB)) $fillDB=true;
 if(!isset($CONFIG_DBHOST)) $CONFIG_DBHOST='localhost';
@@ -18,7 +19,7 @@ changepassset=function(){
 	}
 }
 </script>
-<form method="post" enctype="multipart/form-data" action="#">
+<form method="post" enctype="multipart/form-data" action="<?php echo($WEBROOT);?>/settings/#">
 <div><input type='hidden' name='config' value='1' /></div>
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
 <?php

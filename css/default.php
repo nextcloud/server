@@ -62,6 +62,11 @@ h1 {
   text-align:center;
 }
 
+.body>.center {
+	height:100%;
+	width:100%;
+}
+
 .center * {
   margin-left:auto;
   margin-right:auto;
@@ -419,4 +424,17 @@ div.moreActionsList td{
 
 div.moreActionsList tr:hover{
 	background-color:#DDD;
+}
+
+#settingsNav{
+	background-color:#EEEEEE;
+	float:left;
+	height:100%;
+	overflow:auto;
+	text-align:left;
+}
+
+#settingsNav ul{
+	padding-left:20px;
+	padding-right:20px;
 }

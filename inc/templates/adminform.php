@@ -1,4 +1,5 @@
 <?php
+global $WEBROOT;
 global $FIRSTRUN;
 global $CONFIG_ENABLEBACKUP;
 global $CONFIG_DATADIRECTORY_ROOT;
@@ -50,7 +51,14 @@ function dbtypechange(){
     }
 }
 </script>
-<form method="post" enctype="multipart/form-data" action="#">
+<?php
+if(!$FIRSTRUN){
+	$action=$WEBROOT.'/settings';
+}else{
+	$action='#';
+}
+echo('<form method="post" enctype="multipart/form-data" action="'.$action.'">')
+?>
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
 <?php
 	if(!empty($CONFIG_ERROR) and !$FIRSTRUN){

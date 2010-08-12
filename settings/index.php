@@ -30,8 +30,13 @@ OC_UTIL::showheader();
 
 $FIRSTRUN=false;
 
+OC_CONFIG::addForm('System Settings','/inc/templates/adminform.php');
+if(OC_USER::ingroup($_SESSION['username'],'admin')){
+	OC_CONFIG::addForm('User Settings','/inc/templates/configform.php');
+}
+
 echo('<div class="center">');
-OC_CONFIG::showconfigform();
+OC_CONFIG::showSettings();
 echo('</div>');
 
 

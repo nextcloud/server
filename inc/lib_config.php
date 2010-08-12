@@ -1,18 +1,23 @@
 <?php
 class OC_CONFIG{
+	static public $forms=array();
+	
+	/**
+   * add a form to the settings page
+   * @param string name
+   * @param string url
+   */
+   public static function addForm($name,$url){
+		self::$forms[$name]=$url;
+   }
+   
    /**
-   * show the configform
+   * settings page
    *
    */
-  public static function showConfigForm(){
-    global $CONFIG_ADMINLOGIN;
-    global $CONFIG_ADMINPASSWORD;
-    global $CONFIG_DATADIRECTORY;
-    global $CONFIG_HTTPFORCESSL;
-    global $CONFIG_DATEFORMAT;
-    global $CONFIG_DBNAME;
-    oc_require('templates/configform.php');
-  }
+   public static function showSettings(){
+	oc_require('templates/settings.php');
+   }
   
   /**
    * show the configform
