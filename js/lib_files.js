@@ -198,7 +198,7 @@ OC_FILES.rename_callback=function(req,file){
 }
 
 OC_FILES.remove=function(dir,file){
-	remove=confirm('delete file \''+file+'\'?');
+	remove=confirm('Delete file \''+file+'\'?');
 	if(remove){
 		OC_API.run('delete',{dir:dir,file:file},OC_FILES.remove_callback,file)
 		OC_FILES.browser.files.remove(file);
