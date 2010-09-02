@@ -94,29 +94,7 @@ if(!isset($CONFIG_BACKEND)){
 }
 OC_USER::setBackend($CONFIG_BACKEND);
 
-if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
-	@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
-}
-if(OC_USER::isLoggedIn()){
-	//jail the user in a seperate data folder
-	$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$_SESSION['username_clean'];
-	if(!is_dir($CONFIG_DATADIRECTORY)){
-		mkdir($CONFIG_DATADIRECTORY);
-	}
-	$rootStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_DATADIRECTORY));
-	if($CONFIG_ENABLEBACKUP){
-		if(!is_dir($CONFIG_BACKUPDIRECTORY)){
-			mkdir($CONFIG_BACKUPDIRECTORY);
-		}
-		if(!is_dir($CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean'])){
-			mkdir($CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean']);
-		}
-		$backupStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean']));
-		$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
-		$rootStorage->addObserver($backup);
-	}
-	OC_FILESYSTEM::mount($rootStorage,'/');
-}
+OC_UTIL::setupFS();
 
 
 
@@ -132,12 +110,44 @@ $loginresult=OC_USER::loginlisener();
  *
  */
 class OC_UTIL {
-  public static $scripts=array();
-  
-  /**
-  * get the current installed version of ownCloud
-  * @return array
-  */
+	public static $scripts=array();
+	
+	public static function setupFS(){// configure the initial filesystem based on the configuration
+		global $CONFIG_DATADIRECTORY_ROOT;
+		global $CONFIG_DATADIRECTORY;
+		global $CONFIG_BACKUPDIRECTORY;
+		global $CONFIG_ENABLEBACKUP;
+		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
+			@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
+		}
+		if(OC_USER::isLoggedIn()){
+			$rootStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_DATADIRECTORY));
+			if($CONFIG_ENABLEBACKUP){
+				if(!is_dir($CONFIG_BACKUPDIRECTORY)){
+					mkdir($CONFIG_BACKUPDIRECTORY);
+				}
+				if(!is_dir($CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean'])){
+					mkdir($CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean']);
+				}
+				$backupStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_BACKUPDIRECTORY));
+				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
+				$rootStorage->addObserver($backup);
+			}
+			OC_FILESYSTEM::mount($rootStorage,'/');
+			
+			$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$_SESSION['username_clean'];
+			if(!is_dir($CONFIG_DATADIRECTORY)){
+				mkdir($CONFIG_DATADIRECTORY);
+			}
+			
+			OC_FILESYSTEM::chroot('/'.$_SESSION['username_clean']);
+		}
+	}
+	
+	/**
+	* get the current installed version of ownCloud
+	* @return array
+	*/
 	public static function getVersion(){
 		return array(1,0,60);
 	}
