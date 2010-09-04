@@ -53,11 +53,11 @@ function dbtypechange(){
 </script>
 <?php
 if(!$FIRSTRUN){
-	$action=$WEBROOT.'/settings';
+	$action=$WEBROOT.'/settings/#system_settings';
 }else{
 	$action='#';
 }
-echo('<form method="post" enctype="multipart/form-data" action="'.$action.'">')
+echo('<form method="post" action="'.$action.'">')
 ?>
 <table cellpadding="5" cellspacing="5" border="0" class="loginform">
 <?php
@@ -134,7 +134,7 @@ if($CONFIG_DBTYPE=='sqlite'){
 <tr id='dbAdminPwd'><td>database administrative password:</td><td><input type="password" name="dbadminpwd" size="30" class="formstyle" value=''></input></td></tr>
 <tr id='dbfill'><td>automaticly fill initial database:</td><td><input type="checkbox" name="filldb" size="30" class="formstyle" value='1' <?php if($FIRSTRUN) echo 'checked="checked"'; ?>></input></td></tr>
 <?php }?>
-<tr><td></td><td><input type="submit" name="set_config" alt="save" value="save" class="formstyle" /></td></tr>
+<tr><td></td><td><input type="submit" name='set_config' alt="save" value="save" class="formstyle" /></td></tr>
 </table></form><br/>
 <?php
 if(!$FIRSTRUN ){//disabled for now?>

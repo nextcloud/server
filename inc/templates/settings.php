@@ -5,6 +5,14 @@ function showForm(id){
 	form.setAttribute('class','settingsContent');
 }
 
+function showFormInit(){
+	var loc=document.location.toString();
+	if(loc.indexOf('#')!=-1){
+		var id=loc.substring(loc.indexOf('#')+1);
+		showForm(id);
+	}
+}
+
 function hideAllForms(){
 	forms=document.getElementById('settingsHolder').childNodes;
 	for(var i=0;i<forms.length;i++){
@@ -36,3 +44,6 @@ foreach(OC_CONFIG::$forms as $name=>$url){
 }
 ?>
 </div>
+<script type="text/javascript">
+OC_onload.add(showFormInit());
+</script>
