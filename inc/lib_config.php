@@ -183,11 +183,11 @@ class OC_CONFIG{
 				if((!isset($_POST['adminlogin'])        or empty($_POST['adminlogin'])) and $FIRSTRUN)        $error.='admin login not set<br />';
 				if((!isset($_POST['adminpassword'])     or empty($_POST['adminpassword'])) and $FIRSTRUN)     $error.='admin password not set<br />';
 				if((!isset($_POST['adminpassword2'])    or empty($_POST['adminpassword2'])) and $FIRSTRUN)    $error.='retype admin password not set<br />';
-				if(!isset($_POST['datadirectory'])     or empty($_POST['datadirectory']))     $error.='data directory not set<br />';
+				if((!isset($_POST['datadirectory'])     or empty($_POST['datadirectory'])) and $FIRSTRUN)     $error.='data directory not set<br />';
 				if(!isset($_POST['dateformat'])        or empty($_POST['dateformat']))        $error.='dateformat not set<br />';
-				if(!isset($_POST['dbname'])            or empty($_POST['dbname']))            $error.='databasename not set<br />';
+				if((!isset($_POST['dbname'])            or empty($_POST['dbname'])) and $FIRSTRUN)            $error.='databasename not set<br />';
 				if($FIRSTRUN and $_POST['adminpassword']<>$_POST['adminpassword2'] )                        $error.='admin passwords are not the same<br />';
-				$dbtype=$_POST['dbtype'];
+				$dbtype=(isset($_POST['dbtype']))?$_POST['dbtype']:$CONFIG_DBTYPE;
 				if($dbtype=='mysql'){
 					if(!isset($_POST['dbhost'])            or empty($_POST['dbhost']))            $error.='database host not set<br />';
 					if(!isset($_POST['dbuser'])            or empty($_POST['dbuser']))            $error.='database user not set<br />';
@@ -204,12 +204,13 @@ class OC_CONFIG{
 					if(!isset($_POST['dbpassword']) or empty($_POST['dbpassword'])){
 						$_POST['dbpassword']=$CONFIG_DBPASSWORD;
 					}
-				}
-				if(!is_dir($_POST['datadirectory'])){
-					try{
-						mkdir($_POST['datadirectory']);
-					}catch(Exception $e){
-						$error.='error while trying to create data directory<br/>';
+				}else{
+					if(!is_dir($_POST['datadirectory'])){
+						try{
+							mkdir($_POST['datadirectory']);
+						}catch(Exception $e){
+							$error.='error while trying to create data directory<br/>';
+						}
 					}
 				}
 				if(empty($error)) {
