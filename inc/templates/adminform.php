@@ -98,10 +98,10 @@ if($FIRSTRUN){?>
 ?>
 <tr><th colspan="2">Advanced Configurations</th></tr>
 <?php if($FIRSTRUN){?>
-<tr title="This directory is used to store user-uploaded files."><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY_ROOT);?>"></input></td></tr>
+<tr title="This directory is used to store files."><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY_ROOT);?>"></input></td></tr>
 <?php } ?>
 <tr title="Using SSL is more secure but requires specific configurations. Click the link to test SSL on your server."><td>force ssl: (<a href="https://<?php echo($_SERVER["HTTP_HOST"].$WEBROOT);?>" target="_blank">test SLL</a>)</td><td><input type="checkbox" name="forcessl" size="30" class="formstyle" value='1' <?php if($CONFIG_HTTPFORCESSL) echo 'checked="checked"'?>></input></td></tr>
-<tr title="Backups are used to save your data."><td>automatic backup:</td><td><input type="checkbox" name="enablebackup" id="enablebackup" onchange='showBackupPath()' size="30" class="formstyle" value='1' <?php if($CONFIG_ENABLEBACKUP) echo 'checked'?>></input></td></tr>
+<tr title="If something goes wrong, it is often possible to protect your data using a back-up."><td>automatic backup:</td><td><input type="checkbox" name="enablebackup" id="enablebackup" onchange='showBackupPath()' size="30" class="formstyle" value='1' <?php if($CONFIG_ENABLEBACKUP) echo 'checked'?>></input></td></tr>
 <tr title="This directory is used to store backups." id='backupdir'><td>&nbsp; - backup directory:</td><td><input type="text" name="backupdirectory" size="30" class="formstyle" value="<?php echo($CONFIG_BACKUPDIRECTORY);?>"></input></td></tr>
 <tr><td>date format:</td><td><select id='datetype' name="datetype" onchange='datetypechange()'>
 	<option value='<?php echo($CONFIG_DATEFORMAT);?>'><?php echo(date($CONFIG_DATEFORMAT));?></option>
@@ -174,8 +174,8 @@ if($CONFIG_DBTYPE=='sqlite'){
 <tr title="The password of the database." id='dbpass'><td>&nbsp; &nbsp; &nbsp; - password:</td><td><input type="password" name="dbpassword" size="30" class="formstyle" value=''></input></td></tr>
 <tr title="Retype password to avoid typing errors." id='dbpass_retype'><td>&nbsp; &nbsp; &nbsp; - retype password:</td><td><input type="password" name="dbpassword2" size="30" class="formstyle" value=''></input></td></tr>
 <tr title="Automatically create a database and user for ownCloud." id='dbcreaterow'><td>&nbsp; - create database and user:</td><td><input id='dbcreate' type="checkbox" name="createdatabase" size="30" class="formstyle" value='1' checked="checked" onchange='showDBAdmin()'></input></td></tr>
-<tr title="This is often 'root'. If in doubt, contact your web-host" id='dbAdminUser'><td>&nbsp; &nbsp;  &nbsp; - administrative user:</td><td><input type="text" name="dbadminuser" size="30" class="formstyle" value='root'></input></td></tr>
-<tr title="The password of the database user. If in doubt, contact your web-host." id='dbAdminPwd'><td>&nbsp; &nbsp; &nbsp; - administrative password:</td><td><input type="password" name="dbadminpwd" size="30" class="formstyle" value=''></input></td></tr>
+<tr title="The administrative database user. This is often 'root'. If in doubt, contact your web-host" id='dbAdminUser'><td>&nbsp; &nbsp;  &nbsp; - administrative user:</td><td><input type="text" name="dbadminuser" size="30" class="formstyle" value='root'></input></td></tr>
+<tr title="The password of the administrative database user. If in doubt, contact your web-host." id='dbAdminPwd'><td>&nbsp; &nbsp; &nbsp; - administrative password:</td><td><input type="password" name="dbadminpwd" size="30" class="formstyle" value=''></input></td></tr>
 <tr title="Fill database with default data so you can start right away." id='dbfill'><td>&nbsp; - fill initial database:</td><td><input type="checkbox" name="filldb" size="30" class="formstyle" value='1' checked="checked"></input></td></tr>
 <?php }?>
 <tr><th colspan="2">Conformation</th></tr>
