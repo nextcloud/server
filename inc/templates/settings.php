@@ -26,9 +26,10 @@ function hideAllForms(){
 <div id='settingsNav'>
 <ul>
 <?php
+global $WEBROOT;
 foreach(OC_CONFIG::$forms as $name=>$url){
 	$clean=strtolower(str_replace(' ','_',$name));
-	echo("<li><a onclick='showForm(\"$clean\")' href='settings/#$clean'>$name</a></li>\n");
+	echo("<li><a onclick='showForm(\"$clean\")' href='{$WEBROOT}/settings/#$clean'>$name</a></li>\n");
 }
 ?>
 </ul>
