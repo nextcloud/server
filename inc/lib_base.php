@@ -57,6 +57,7 @@ $CONFIG_ENABLEBACKUP=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
 $CONFIG_DBNAME='owncloud';
 $CONFIG_DBTYPE='sqlite';
+$CONFIG_FILESYSTEM=array();
 
 // include the generated configfile
 @include_once($SERVERROOT.'/config/config.php');
