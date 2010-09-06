@@ -286,9 +286,6 @@ class OC_UTIL {
 
 	if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/log/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/log">Log</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/log">Log</a></td>');
 	if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/settings/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/settings">Settings</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/settings">Settings</a></td>');
-	if(OC_USER::ingroup($_SESSION['username'],'admin')){
-		if($_SERVER['SCRIPT_NAME']==$WEBROOT.'/admin/index.php') echo('<td class="navigationitemselected"><a href="'.$WEBROOT.'/admin">Admin Panel</a></td>'); else echo('<td class="navigationitem"><a href="'.$WEBROOT.'/admin">Admin Panel</a></td>');
-	}
     echo('<td class="navigationitem"><a href="?logoutbutton=1">Logout</a></td>');
     echo('</tr></table>');
   }
