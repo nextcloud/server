@@ -41,18 +41,16 @@ OC_FILES.xmlloader=new OCXMLLoader();
 
 OC_FILES.getdirectorycontent_parse=function(req){
 	var files=new Array();
-	var response=req.responseXML;
+	var json=eval('('+req.responseText+')');
 	OC_FILES.cache.files=Array();
-	if(response){
-		var dir=response.getElementsByTagName('dir').item(0);
-		var fileElements=response.getElementsByTagName('file');
-		if(fileElements.length>0){
-			for(index=0;index<fileElements.length;index++){
+	if(json){
+		for(var name in json){
+			if(name!='__max_upload'){
 				var file=new Array();
 				var attributes=Array('size','name','type','directory','date','mime');
-				for(i in attributes){
-					var name=attributes[i];
-					file[name]=fileElements.item(index).getAttribute(name);
+				for(var i in attributes){
+					var attributeName=attributes[i];
+					file[attributeName]=json[name][attributeName];
 				}
 				files[file.name]=file;
 			}
@@ -61,7 +59,7 @@ OC_FILES.getdirectorycontent_parse=function(req){
 		if(OC_FILES.cache.incomplete[OC_FILES.dir]){
 			files=arrayMerge(files,OC_FILES.cache.incomplete[OC_FILES.dir]);
 		}
-		files['max_upload']=dir.getAttribute('max_upload');
+		files['max_upload']=json['__max_upload'];
 		if(OC_FILES.getdirectorycontent_callback){
 			OC_FILES.getdirectorycontent_callback(files);
 		}
@@ -75,7 +73,8 @@ OC_FILES.getdirectorycontent=function(dir,callback,refresh){
 			OC_FILES.getdirectorycontent_callback=callback;
 		}
 		OC_FILES.xmlloader.setCallBack(OC_FILES.getdirectorycontent_parse);
-		OC_FILES.xmlloader.load('files/get_files.php?dir='+encodeURIComponent(dir));
+// 		OC_FILES.xmlloader.load('files/get_files.php?dir='+encodeURIComponent(dir));
+		OC_FILES.xmlloader.load('files/api.php?action=getfiles&dir='+encodeURIComponent(dir));
 	}else{
 		var files=OC_FILES.cache.files
 		if(OC_FILES.cache.incomplete[OC_FILES.dir]){

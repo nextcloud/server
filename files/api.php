@@ -53,7 +53,10 @@ if($arguments['action']){
 			OC_FILES::get($arguments['dir'],$arguments['file']);
 			break;
 		case 'getfiles':
-			echo json_encode(OC_FILES::getdirectorycontent($arguments['dir']));
+			$max_upload=min(return_bytes(ini_get('post_max_size')),return_bytes(ini_get('upload_max_filesize')));
+			$files=OC_FILES::getdirectorycontent($arguments['dir']);
+			$files['__max_upload']=$max_upload;
+			echo json_encode($files);
 			break;
 		case 'gettree':
 			echo json_encode(OC_FILES::getTree($arguments['dir']));
@@ -80,4 +83,19 @@ if($arguments['action']){
 	}
 }
 
+function return_bytes($val) {
+    $val = trim($val);
+    $last = strtolower($val[strlen($val)-1]);
+    switch($last) {
+        // The 'G' modifier is available since PHP 5.1.0
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
+    }
+
+    return $val;
+}
 ?>
