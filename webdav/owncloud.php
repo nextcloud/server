@@ -39,23 +39,7 @@ if(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['REDIRECT_REMOTE_USER'])) 
 $user=$_SERVER['PHP_AUTH_USER'];
 $passwd=$_SERVER['PHP_AUTH_PW'];
 if(OC_USER::login($user,$passwd)){
-	$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$user;
-	if(!is_dir($CONFIG_DATADIRECTORY)){
-		mkdir($CONFIG_DATADIRECTORY);
-	}
-	$rootStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_DATADIRECTORY));
-	if($CONFIG_ENABLEBACKUP){
-		if(!is_dir($CONFIG_BACKUPDIRECTORY)){
-			mkdir($CONFIG_BACKUPDIRECTORY);
-		}
-		if(!is_dir($CONFIG_BACKUPDIRECTORY.'/'.$user)){
-			mkdir($CONFIG_BACKUPDIRECTORY.'/'.$user);
-		}
-		$backupStorage=new OC_FILESTORAGE_LOCAL(array('datadir'=>$CONFIG_BACKUPDIRECTORY.'/'.$user));
-		$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
-		$rootStorage->addObserver($backup);
-	}
-	OC_FILESYSTEM::mount($rootStorage,'/');
+	OC_UTIL::setUpFS();
 	$server = new HTTP_WebDAV_Server_Filesystem();
 	$server->db_name = $CONFIG_DBNAME;
 	$server->ServeRequest($CONFIG_DATADIRECTORY);

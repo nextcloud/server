@@ -30,6 +30,53 @@
 class OC_FILESYSTEM{
 	static private $storages=array();
 	static private $fakeRoot='';
+	static private $storageTypes=array();
+	
+	
+	/**
+	* register a storage type
+	* @param  string  type
+	* @param  string  classname
+	* @param  array  arguments     an associative array in the form of name=>type (eg array('datadir'=>'string'))
+	*/
+	static public function registerStorageType($type,$classname,$arguments){
+		self::$storageTypes[$type]=array('type'=>$type,'classname'=>$classname,'arguments'=>$arguments);
+	}
+	
+	/**
+	* check if the filesystem supports a specific storagetype
+	* @param  string  type
+	* @return bool
+	*/
+	static public function hasStorageType($type){
+		return isset(self::$storageTypes[$type]);
+	}
+	
+	/**
+	* get the list of names of storagetypes that the filesystem supports
+	* @return array
+	*/
+	static public function getStorageTypeNames(){
+		return array_keys(self::$storageTypes);
+	}
+	
+	/**
+	* create a new storage of a specific type
+	* @param  string  type
+	* @param  array  arguments
+	* @return OC_FILESTORAGE
+	*/
+	static public function createStorage($type,$arguments){
+		if(!self::hasStorageType($type)){
+			return false;
+		}
+		$className=self::$storageTypes[$type]['classname'];
+		if(class_exists($className)){
+			return new $className($arguments);
+		}else{
+			return false;
+		}
+	}
 	
 	/**
 	* change the root to a fake toor

@@ -75,6 +75,8 @@ class OC_FILESTORAGE{
 	public function getTree($path){}
 }
 
+
+OC_FILESYSTEM::registerStorageType('local','OC_FILESTORAGE_LOCAL',array('datadir'=>'string'));
 /**
  * for local filestore, we only have to map the paths
  */
