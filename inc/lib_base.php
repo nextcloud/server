@@ -112,6 +112,7 @@ $loginresult=OC_USER::loginlisener();
  */
 class OC_UTIL {
 	public static $scripts=array();
+	public static $styles=array();
 	private static $fsSetup=false;
 	
 	public static function setupFS(){// configure the initial filesystem based on the configuration
@@ -181,6 +182,14 @@ class OC_UTIL {
    */
   public static function addScript($url){
       self::$scripts[]=$url;
+  }
+  /**
+   * add a css file
+   *
+   * @param url  $url
+   */
+  public static function addStyle($url){
+      self::$styles[]=$url;
   }
 
   /**
