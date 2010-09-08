@@ -9,7 +9,7 @@
 	text-align:center;
 }
 
-#textframe div{
+#textframe>div{
 	vertical-align:middle;
 	text-align:left;
 	height:auto;
@@ -19,8 +19,19 @@
 	margin-left:auto;
 	margin-right:auto;
 	margin-bottom:10px;
+	padding:0px;
 	border: black solid 3px;
 	background:black;
 	color:white;
 	overflow:auto;
+}
+
+#textframe>div>div>div{
+	margin:0px !important;
+	top:0px !important;
+	height:100% !important;
+}
+
+#textframe>div div,#textframe>div td{
+	overflow:hidden !important;
 }

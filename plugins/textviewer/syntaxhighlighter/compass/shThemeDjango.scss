@@ -1,0 +1,36 @@
+// Django SyntaxHighlighter theme
+
+$background:					#0a2b1d !default;
+
+$line_highlighted_background:	#233729 !default;
+$line_highlighted_number:		white !default;
+
+$gutter_text:					#497958 !default;
+$gutter_border_color:			#41a83e !default;
+
+$toolbar_collapsed_a:			#96dd3b !default;
+$toolbar_collapsed_a_hover:		#fff !default;
+$toolbar_collapsed_background:	#000 !default;
+
+$toolbar_a:						#fff !default;
+$toolbar_a_hover:				#ffe862 !default;
+
+$code_plain:					#f8f8f8 !default;
+$code_comments:					#336442 !default;
+$code_string:					#9df39f !default;
+$code_keyword:					#96dd3b !default;
+$code_preprocessor:				#91bb9e !default;
+$code_variable:					#ffaa3e !default;
+$code_value:					#f7e741 !default;
+$code_functions:				#ffaa3e !default;
+$code_constants:				#e0e8ff !default;
+$code_color1:					#eb939a !default;
+$code_color2:					#91bb9e !default;
+$code_color3:					#edef7d !default;
+
+@import "_theme_template.scss";
+
+.syntaxhighlighter {
+	.comments { font-style: italic !important; }
+	.keyword { font-weight: bold !important; } 
+}

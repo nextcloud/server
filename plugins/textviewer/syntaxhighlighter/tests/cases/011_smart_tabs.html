@@ -1,0 +1,98 @@
+<pre id="sh_011_smart_tabs_a" class="brush: plain;">
+	the		words	in		this	paragraph
+	should	look	like	they	are
+	evenly	spaced	between	columns
+</pre>
+
+<pre id="sh_011_smart_tabs_b" class="brush: plain; tab-size: 8;">
+	the	words	in	this	paragraph
+	should	look	like	they	are
+	evenly	spaced	between	columns
+</pre>
+
+<pre id="sh_011_smart_tabs_c" class="brush: plain; smart-tabs: false">
+	the		words	in		this	paragraph
+	should	look	out		of		whack
+	because	smart	tabs	are		disabled
+</pre>
+
+<script type="text/javascript">
+queue(function()
+{
+	var $sh;
+	
+	module('011_smart_tabs');
+	
+	var evenLines = [
+			'the     words   in      this    paragraph',
+			'should  look    like    they    are',
+			'evenly  spaced  between columns'
+		],
+		unevenLines = [
+			'the        words    in        this    paragraph',
+			'should    look    out        of        whack',
+			'because    smart    tabs    are        disabled'
+		]
+		;
+		
+	function fixSpaces(s)
+	{
+		s = encodeURIComponent(s).replace(/%C2%A0/g, '%20');
+		return unescape(s).replace(/\s+$/g, '');
+	};
+	
+	test('default tab size is 4', function()
+	{
+		$sh = $('#sh_011_smart_tabs_a');
+		
+		ok_sh($sh);
+		ok_toolbar($sh);
+		ok_code($sh);
+		
+		$sh.find('.code .line').each(function(index)
+		{
+			var s1 = fixSpaces($(this).text()),
+				s2 = fixSpaces(evenLines[index])
+				;
+				
+			equal(s1, s2, 'Line ' + index);
+		});
+	});
+
+	test('tab size changed to 8', function() 
+	{
+		$sh = $('#sh_011_smart_tabs_b');
+		
+		ok_sh($sh);
+		ok_toolbar($sh);
+		ok_code($sh);
+		
+		$sh.find('.code .line').each(function(index)
+		{
+			var s1 = fixSpaces($(this).text()),
+				s2 = fixSpaces(evenLines[index])
+				;
+				
+			equal(s1, s2, 'Line ' + index);
+		});
+	});
+	
+	test('smart tabs are off', function() 
+	{
+		$sh = $('#sh_011_smart_tabs_c');
+		
+		ok_sh($sh);
+		ok_toolbar($sh);
+		ok_code($sh);
+		
+		$sh.find('.code .line').each(function(index)
+		{
+			var s1 = fixSpaces($(this).text()),
+				s2 = fixSpaces(unevenLines[index])
+				;
+				
+			equal(s1, s2, 'Line ' + index);
+		});
+	});
+});
+</script>

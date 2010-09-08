@@ -1,0 +1,36 @@
+// Fade to Grey SyntaxHighlighter theme based on theme by Brasten Sager
+// :http//www.ibrasten.com/
+
+$background:					#121212 !default;
+
+$line_highlighted_background:	#2C2C29 !default;
+$line_highlighted_number:		white !default;
+
+$gutter_text:					#afafaf !default;
+$gutter_border_color:			#3185b9 !default;
+
+$toolbar_collapsed_a:			#3185b9 !default;
+$toolbar_collapsed_a_hover:		#d01d33 !default;
+$toolbar_collapsed_background:	black !default;
+
+$toolbar_a:						#fff !default;
+$toolbar_a_hover:				#96daff !default;
+
+$code_plain:					white !default;
+$code_comments:					#696854 !default;
+$code_string:					#e3e658 !default;
+$code_keyword:					#d01d33 !default;
+$code_preprocessor:				#435a5f !default;
+$code_variable:					#898989 !default;
+$code_value:					#009900 !default;
+$code_functions:				#aaaaaa !default;
+$code_constants:				#96daff !default;
+$code_color1:					#ffc074 !default;
+$code_color2:					#4a8cdb !default;
+$code_color3:					#96daff !default;
+
+@import "_theme_template.scss";
+
+.syntaxhighlighter {
+  .functions { font-weight: bold !important; }
+}

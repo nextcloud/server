@@ -1,0 +1,7 @@
+// Default Syntax Highlighter theme.
+
+@import "_theme_template.scss";
+
+.syntaxhighlighter {
+	.keyword { font-weight: bold !important; }
+}

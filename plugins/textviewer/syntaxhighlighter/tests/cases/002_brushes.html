@@ -1,0 +1,50 @@
+<div id="sh_002_brushes">
+	<pre class="brush: applescript;">test</pre>
+	<pre class="brush: as3;">test</pre>
+	<pre class="brush: bash;">test</pre>
+	<pre class="brush: cf;">test</pre>
+	<pre class="brush: cpp;">test</pre>
+	<pre class="brush: csharp;">test</pre>
+	<pre class="brush: css;">test</pre>
+	<pre class="brush: delphi;">test</pre>
+	<pre class="brush: diff;">test</pre>
+	<pre class="brush: erlang;">test</pre>
+	<pre class="brush: groovy;">test</pre>
+	<pre class="brush: java;">test</pre>
+	<pre class="brush: javafx;">test</pre>
+	<pre class="brush: jscript;">test</pre>
+	<pre class="brush: perl;">test</pre>
+	<pre class="brush: php;">test</pre>
+	<pre class="brush: plain;">test</pre>
+	<pre class="brush: powershell;">test</pre>
+	<pre class="brush: python;">test</pre>
+	<pre class="brush: ruby;">test</pre>
+	<pre class="brush: sass;">test</pre>
+	<pre class="brush: scala;">test</pre>
+	<pre class="brush: sql;">test</pre>
+	<pre class="brush: vb;">test</pre>
+	<pre class="brush: xml;">test</pre>
+</div>
+
+<script type="text/javascript">
+queue(function()
+{
+	var $sh;
+	
+	module('002_brushes');
+
+	test('check that all brushes loaded and rendered', function()
+	{
+		$sh = $('#sh_002_brushes');
+		
+		$sh.find('> div > .syntaxhighlighter').each(function()
+		{
+			var $sh = $(this).parent();
+			ok_sh($sh);
+			ok_sh($sh);
+			ok_toolbar($sh);
+			ok_code($sh);
+		});
+	});
+});
+</script>

@@ -1,0 +1,34 @@
+<pre id="sh_013_html_script" class="brush: groovy; html-script: true">
+&lt;hello>
+	&lt;%
+		package free.cafekiwi.gotapi;
+	%>
+&lt;/hello>
+
+<!--
+	Comments here
+-->
+&lt;%= print(); %>
+</pre>
+
+<script type="text/javascript">
+queue(function()
+{
+	var $sh;
+	
+	module('013_html_script');
+
+	test('check markup', function()
+	{
+		$sh = $('#sh_013_html_script');
+		
+		ok_sh($sh);
+		ok_gutter($sh);
+		ok_code($sh);
+		
+		ok($sh.find('.code .number1 > .htmlscript').length > 0, 'Has .htmlscript on line 1');
+		ok($sh.find('.code .number3 > .groovy').length > 0, 'Has .groovy on line 3');
+		ok($sh.find('.code .number10 > .groovy').length > 0, 'Has .groovy on line 10');
+	});
+});
+</script>

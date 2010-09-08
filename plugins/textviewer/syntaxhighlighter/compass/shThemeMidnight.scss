@@ -1,0 +1,32 @@
+// Midnight SyntaxHighlighter theme based on theme by J.D. Myers
+// http://webdesign.lsnjd.com/
+
+$background:					#0f192a !default;
+
+$line_highlighted_background:	#253e5a !default;
+$line_highlighted_number:		#38566f !default;
+
+$gutter_text:					#afafaf !default;
+$gutter_border_color:			#435a5f !default;
+
+$toolbar_collapsed_a:			#428bdd !default;
+$toolbar_collapsed_a_hover:		#1dc116 !default;
+$toolbar_collapsed_background:	#000 !default;
+
+$toolbar_a:						#D1EDFF !default;
+$toolbar_a_hover:				#8aa6c1 !default;
+
+$code_plain:					#d1edff !default;
+$code_comments:					#428bdd !default;
+$code_string:					#1dc116 !default;
+$code_keyword:					#b43d3d !default;
+$code_preprocessor:				#8aa6c1 !default;
+$code_variable:					#ffaa3e !default;
+$code_value:					#f7e741 !default;
+$code_functions:				#ffaa3e !default;
+$code_constants:				#e0e8ff !default;
+$code_color1:					#f8bb00 !default;
+$code_color2:					white !default;
+$code_color3:					#ffaa3e !default;
+
+@import "_theme_template.scss";

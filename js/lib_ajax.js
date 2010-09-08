@@ -190,3 +190,12 @@ getTimeString=function(){
 	months[11]="Dec";
 	return date.getDate()+' '+months[date.getMonth()]+' '+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes();
 }
+
+loadScript=function(url){//dynamicly load javascript files
+	url=WEBROOT+'/'+url;
+	var script=document.createElement('script');
+	script.setAttribute('type','text/javascript');
+	script.setAttribute('src',url);
+	body=document.getElementsByTagName('body').item(0);
+	body.appendChild(script);
+}

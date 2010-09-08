@@ -1,0 +1,120 @@
+$background:					white !default;
+
+$line_alt1_background:			$background !default;
+$line_alt2_background:			$background !default;
+
+$line_highlighted_background:	#e0e0e0 !default;
+$line_highlighted_number:		black !default;
+
+$gutter_text:					#afafaf !default;
+$gutter_border_color:			#6ce26c !default;
+$gutter_border:					3px solid $gutter_border_color !default;
+
+$toolbar_collapsed_a:			#00f !default;
+$toolbar_collapsed_a_hover:		#f00 !default;
+$toolbar_collapsed_background:	#fff !default;
+$toolbar_collapsed_border:		1px solid $gutter_border_color !default;
+
+$toolbar_a:						#fff !default;
+$toolbar_a_hover:				#000 !default;
+$toolbar_background:			$gutter_border_color !default;
+$toolbar_border:				none !default;
+
+$code_plain:					black !default;
+$code_comments:					#008200 !default;
+$code_string:					blue !default;
+$code_keyword:					#006699 !default;
+$code_preprocessor:				gray !default;
+$code_variable:					#aa7700 !default;
+$code_value:					#009900 !default;
+$code_functions:				#ff1493 !default;
+$code_constants:				#0066cc !default;
+$code_script:					$code_keyword !default;
+$code_script_background:		none !default;
+$code_color1:					gray !default;
+$code_color2:					#ff1493 !default;
+$code_color3:					red !default;
+
+$caption_color:					$code_plain !default;
+
+// Interface elements.
+.syntaxhighlighter {
+	background-color: $background !important;
+
+	// Highlighed line number
+	.line {
+		&.alt1 { background-color: $line_alt1_background !important; }
+		&.alt2 { background-color: $line_alt2_background !important; }
+		
+		// Highlighed line
+		&.highlighted {
+			&.alt1, &.alt2 { background-color: $line_highlighted_background !important; }
+			&.number { color: $line_highlighted_number !important; }
+		}
+	}
+	
+	table {
+		caption {
+			color: $caption_color !important;
+		}
+	}
+	
+	// Add border to the lines
+	.gutter {
+		color: $gutter_text !important;
+		.line {
+			border-right: $gutter_border !important;
+			
+			&.highlighted {
+				background-color: $gutter_border_color !important;
+				color: $background !important;
+			} 
+		} 
+	}
+	
+	&.printing .line .content { border: none !important; }
+	
+	&.collapsed {
+		overflow: visible !important;
+		
+		.toolbar {
+			color: $toolbar_collapsed_a !important;
+			background: $toolbar_collapsed_background !important;
+			border: $toolbar_collapsed_border !important;
+			
+			a {
+				color: $toolbar_collapsed_a !important;
+				&:hover { color: $toolbar_collapsed_a_hover !important; } 
+			} 
+		}
+	}
+	
+	.toolbar {
+		color: $toolbar_a !important;
+		background: $toolbar_background !important;
+		border: $toolbar_border !important;
+		a {
+			color: $toolbar_a !important;
+			&:hover { color: $toolbar_a_hover !important; } 
+		} 
+	}
+	
+	// Actual syntax highlighter colors.
+	.plain, .plain a { color: $code_plain !important; }
+	.comments, .comments a { color: $code_comments !important; }
+	.string, .string a { color: $code_string !important; }
+	.keyword { color: $code_keyword !important; }
+	.preprocessor { color: $code_preprocessor !important; }
+	.variable { color: $code_variable !important; }
+	.value { color: $code_value !important; }
+	.functions { color: $code_functions !important; }
+	.constants { color: $code_constants !important; }
+	.script {
+		font-weight: bold !important;
+		color: $code_script !important;
+		background-color: $code_script_background !important;
+	}
+	.color1, .color1 a { color: $code_color1 !important; }
+	.color2, .color2 a { color: $code_color2 !important; }
+	.color3, .color3 a { color: $code_color3 !important; } 
+}

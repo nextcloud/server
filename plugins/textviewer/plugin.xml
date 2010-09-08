@@ -3,7 +3,7 @@
 	<info>
 		<id>textviewer</id>
 		<name>A simple text viewer for ownCloud</name>
-		<version>0.1</version>
+		<version>0.2</version>
 		<licence>AGPL</licence>
 		<author>Icewind</author>
 		<require>1.1</require>

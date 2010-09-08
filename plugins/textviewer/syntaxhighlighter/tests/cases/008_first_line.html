@@ -1,0 +1,29 @@
+<pre id="sh_008_first_line" class="brush: java; first-line: 10">
+	partial class Foo
+	{
+		function test()
+		{
+			yield return;
+		}
+	}
+</pre>
+
+<script type="text/javascript">
+queue(function()
+{
+	var $sh;
+	
+	module('008_first_line');
+
+	test('check the first line', function()
+	{
+		$sh = $('#sh_008_first_line');
+		
+		ok_sh($sh);
+		ok_toolbar($sh);
+		ok_gutter($sh);
+		ok_code($sh);
+		equals($sh.find('.gutter .index0').text(), '10', 'First line');
+	});
+});
+</script>
