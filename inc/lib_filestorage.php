@@ -223,22 +223,12 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		} else if (self::canExecute("file")) {
 			// it looks like we have a 'file' command, 
 			// lets see it it does have mime support
-			$fp = popen("file -i '$fspath' 2>/dev/null", "r");
+			$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
 			$reply = fgets($fp);
 			pclose($fp);
 			
-			// popen will not return an error if the binary was not found
-			// and find may not have mime support using "-i"
-			// so we test the format of the returned string 
-			
-			// the reply begins with the requested filename
-			if (!strncmp($reply, "$fspath: ", strlen($fspath)+2)) {                     
-				$reply = substr($reply, strlen($fspath)+2);
-				// followed by the mime type (maybe including options)
-				if (preg_match('/^[[:alnum:]_-]+/[[:alnum:]_-]+;?.*/', $reply, $matches)) {
-					$mime_type = $matches[0];
-				}
-			}
+			//trim the character set from the end of the response
+			$mime_type=substr($reply,0,strrpos($reply,' '));
 		} 
 		if (empty($mime_type)) {
 			// Fallback solution: try to guess the type by the file extension
