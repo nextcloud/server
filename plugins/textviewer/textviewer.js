@@ -27,6 +27,8 @@ OC_TextViewer.hideText=function(){
 
 OC_TextViewer.prepareText=function(text){
 	text=text.replace(/\n/g,"<br/>\n");
+	text=text.replace(/ /g,"&nbsp;");
+	text=text.replace(/\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;");
 	return text;
 }
 
