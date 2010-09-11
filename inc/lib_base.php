@@ -403,6 +403,12 @@ class OC_DB {
 				die(self::$DBConnection->getMessage());
 			}
 			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
+		}
+	}
+	
+	public static function connectScheme(){
+		self::connect();
+		if(!self::$schema){
 			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
 		}
 	}
@@ -570,7 +576,7 @@ class OC_DB {
 	}
 	
 	static function getDbStructure($file){
-		OC_DB::connect();
+		OC_DB::connectScheme();
 		$definition = self::$schema->getDefinitionFromDatabase();
 		$dump_options = array(
 			'output_mode' => 'file',
@@ -581,7 +587,7 @@ class OC_DB {
 	}
 	
 	static function createDbFromStructure($file){
-		OC_DB::connect();
+		OC_DB::connectScheme();
 		global $CONFIG_DBNAME;
 		global $CONFIG_DBTABLEPREFIX;
 		$content=file_get_contents($file);
