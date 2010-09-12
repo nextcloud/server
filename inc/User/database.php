@@ -30,7 +30,8 @@ oc_require_once('inc/User/backend.php');
  *
  */
 class OC_USER_DATABASE extends OC_USER_BACKEND {
-
+	static private $userGroupCache=array();
+	
 	/**
 	 * Check if the login button is pressed and log the user in
 	 *
@@ -235,20 +236,11 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 */
 	public static function inGroup($username,$groupName) {
 		global $CONFIG_DBTABLEPREFIX;
-
-		$userId = OC_USER::getuserid($username);
-		$groupId = OC_USER::getgroupid($groupName);
-		if ( ($groupId > 0) AND ($userId > 0) ) {
-			$query = "SELECT * FROM  {$CONFIG_DBTABLEPREFIX}user_group WHERE group_id = '$groupId' AND user_id = '$userId';";
-			$result = OC_DB::select($query);
-			if ( isset($result[0]) AND isset($result[0]['user_group_id']) ) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+		$userId = OC_USER::getUserId($username);
+		$groupId = OC_USER::getGroupId($groupName);
+		self::getUserGroups($username);
+		$groups=self::$userGroupCache[$userId];
+		return (array_search($groupId,$groups)!==false);
 	}
 
 	/**
@@ -267,6 +259,9 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 				$query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}user_group` (`user_id` ,`group_id`) VALUES ('$userId',  '$groupId');";
 				$result = OC_DB::query($query);
 				if ( $result ) {
+					if(isset(self::$userGroupCache[$userId])){
+						self::$userGroupCache[$userId][]=$groupId;
+					}
 					return true;
 				} else {
 					return false;
@@ -293,18 +288,25 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 */
 	public static function getUserGroups($username) {
 		global $CONFIG_DBTABLEPREFIX;
-
+		
 		$userId = OC_USER::getUserId($username);
-		$query = "SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}user_group WHERE user_id = '$userId'";
-		$result = OC_DB::select($query);
-		$groups = array();
-		if ( is_array($result) ) {
-			foreach ( $result as $group ) {
-				$groupId = $group['group_id'];
-				$groups[] = OC_USER::getGroupName($groupId);
+		if(!isset(self::$userGroupCache[$userId])){
+			$query = "SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}user_group WHERE user_id = '$userId'";
+			$result = OC_DB::select($query);
+			$groups = array();
+			$groupsId = array();
+			if ( is_array($result) ) {
+				foreach ( $result as $group ) {
+					$groupId = $group['group_id'];
+					$groupsId[]=$groupId;
+					$groups[] = OC_USER::getGroupName($groupId);
+				}
 			}
+			self::$userGroupCache[$userId]=$groupsId;
+			return $groups;
+		}else{
+			return self::$userGroupCache[$userId];
 		}
-		return $groups;
 	}
 
 	/**
@@ -350,4 +352,35 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 		}
 	}
 
+	/**
+	 * get a list of all users
+	 *
+	 */
+	public static function getUsers() {
+		global $CONFIG_DBTABLEPREFIX;
+		
+		$query = "SELECT user_name FROM '{$CONFIG_DBTABLEPREFIX}users'";
+		$result = OC_DB::select($query);
+		$users=array();
+		foreach($result as $user){
+			$users[]=$user['user_name'];
+		}
+		return $users;
+	}
+	
+	/**
+	 * get a list of all groups
+	 *
+	 */
+	public static function getGroups() {
+		global $CONFIG_DBTABLEPREFIX;
+		
+		$query = "SELECT group_name FROM '{$CONFIG_DBTABLEPREFIX}groups'";
+		$result = OC_DB::select($query);
+		$groups=array();
+		foreach($result as $group){
+			$groups[]=$group['group_name'];
+		}
+		return $groups;
+	}
 }
