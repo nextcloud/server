@@ -213,4 +213,19 @@ class OC_USER {
 		return self::$_backend->checkPassword($username, $password);
 	}
 
+	/**
+	 * get a list of all users
+	 *
+	 */
+	public static function getUsers() {
+		return self::$_backend->getUsers();
+	}
+	
+	/**
+	 * get a list of all groups
+	 *
+	 */
+	public static function getGroups() {
+		return self::$_backend->getGroups();
+	}
 }
