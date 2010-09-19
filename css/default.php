@@ -433,13 +433,25 @@ div.moreActionsList tr:hover{
 
 #settingsNav{
 	background-color:#EEEEEE;
-	float:left;
+	left:0px;
+	top:0px;
 	height:100%;
+	width:150px;
 	overflow:auto;
+	position:absolute;
 	text-align:left;
 }
 
 #settingsNav ul{
 	padding-left:20px;
 	padding-right:20px;
+}
+
+#settingsHolder{
+	left:150px;
+	margin:0px;
+	right:0px;
+	position:absolute;
+	overflow:auto;
+	height:100%;
 }
