@@ -1,6 +1,11 @@
 <?php
 header('Content-Type: text/css');
-require_once('../inc/lib_base.php');
+// calculate the documentroot
+$SERVERROOT=substr(__FILE__,0,-16);
+$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
+$SERVERROOT=str_replace("\\",'/',$SERVERROOT);
+$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
+$WEBROOT=substr($_SERVER["SCRIPT_NAME"],0,strlen($_SERVER["SCRIPT_NAME"])-strlen($SUBURI));
 ?>
 html, body {
 	background-color: #F9F9F9;
