@@ -32,7 +32,7 @@ foreach(OC_UTIL::$scripts as $script){
     echo("<script type='text/ecmascript' src='$WEBROOT/$script'></script>\n");
 }
 foreach(OC_UTIL::$styles as $style){
-    echo("<link rel='stylesheet' type='text/css' href='$style'/>\n");
+    echo("<link rel='stylesheet' type='text/css' href='$WEBROOT/$style'/>\n");
 }
 ?>
 	<script type='text/ecmascript'>
