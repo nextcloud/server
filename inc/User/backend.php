@@ -138,4 +138,16 @@ abstract class OC_USER_BACKEND {
 	 */
 	abstract public static function checkPassword($username, $password);
 
+
+	/**
+	 * get a list of all users
+	 *
+	 */
+	abstract public static function getUsers();
+	
+	/**
+	 * get a list of all groups
+	 *
+	 */
+	abstract public static function getGroups();
 }

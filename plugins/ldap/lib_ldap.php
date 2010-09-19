@@ -199,4 +199,21 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 		return false;
 	}
 
+	/**
+	 * get a list of all users
+	 *
+	 */
+	public static function getUsers(){
+		// does not work with MOD_AUTH (only or some modules)
+		return false;
+	}
+	
+	/**
+	 * get a list of all groups
+	 *
+	 */
+	public static function getGroups(){
+		// does not work with MOD_AUTH (only or some modules)
+		return false;
+	}
 }
