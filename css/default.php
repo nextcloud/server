@@ -455,3 +455,53 @@ div.moreActionsList tr:hover{
 	overflow:auto;
 	height:100%;
 }
+
+table.userlist{
+	margin:0px;
+	padding:0px;
+	width:100%;
+	border-spacing:0px;
+}
+
+table.userlist>thead{
+	background-color:#DDD;
+}
+
+table.userlist td.sellect{
+	width:18px;
+}
+
+table.userlist td.name{
+	width:200px;
+}
+
+p.description{
+	background-color:#DDD;
+	margin:0px;
+	padding-top:3px;
+	padding-bottom:3px;
+	width:100%;
+	font-weight:bold;
+}
+
+#newUserForm, #newGroupForm{
+	width:100%;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+
+#settingsContent_user_managment{
+	background-color:#F2F2F2;
+	min-height:100%;
+}
+
+#sellectedUsersActions>form{
+	display:inline;
+}
+
+#sellectedUsersActions{
+	margin:0px;
+	text-align:left;
+	background-color:#DDD;
+	width:100%;
+}

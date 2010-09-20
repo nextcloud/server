@@ -34,21 +34,3 @@ changepassset=function(){
 <tr><td></td><td><input type='submit' value='save' class='formstyle'/></td></tr>
 </table>
 </form>
-<!--dissabled for now
-Groups:-->
-<form method="post" enctype="multipart/form-data" action="#">
-<div><input type='hidden' name='creategroup' value='1' /></div>
-<table cellpadding="5" cellspacing="5" border="0" class="loginform">
-<tr><td colspan='2' class='center'>Current groups</td></tr>
-<?php
-$groups=OC_USER::getusergroups($_SESSION['username']);
-foreach($groups as $group){
-	?>
-	<tr><td><?php echo $group;?></td></tr>
-	<?php
-}
-?>
-<tr><td colspan='2' class='center'>Create new group</td></tr>
-<tr><td><input type='text' name='groupname' class="formstyle"></input></td><td><input type='submit' value='create' class="formstyle"></input></td></tr>
-</table>
-</form>

@@ -12,7 +12,6 @@ if(!isset($fillDB)) $fillDB=true;
 if(!isset($CONFIG_DBHOST)) $CONFIG_DBHOST='localhost';
 if(!isset($CONFIG_DBUSER)) $CONFIG_DBUSER='owncloud';
 if(!isset($CONFIG_DBTABLEPREFIX)) $CONFIG_DBTABLEPREFIX='oc_';
-$newuserpassword=OC_USER::generatepassword();
 ?>
 <script type="text/javascript">
 function showDBAdmin(){
@@ -187,20 +186,6 @@ if($CONFIG_DBTYPE=='sqlite'){
 ?>
 <tr><td></td><td><input type="submit" name="set_config" alt="save" value="save" class="formstyle" /></td></tr>
 </table></form><br/>
-<?php
-if(!$FIRSTRUN ){//disabled for now?>
-<br/>
-<form method="post" enctype="multipart/form-data" action="#">
-<table cellpadding="5" cellspacing="5" border="0" class="loginform">
-<tr><th colspan='2'>Create new user:</td></tr>
-<tr title="Name used to log in."><td>user name</td><td><input type='text' name='new_username' class="formstyle"></input></td></tr>
-<tr title="Make a secure password, use at least 9 characters. Use letters and numbers."><td>password</td><td><input type='text' name='new_password' class="formstyle" autocomplete="off" value='<?php echo($newuserpassword);?>'></input></td></tr>
-<tr><td></td><td><input type='submit' value='create' class="formstyle"></input></td></tr>
-</table>
-</form>
-<?php
-}
-?>
 <script type="text/javascript">
 	dbtypechange();
 	datetypechange();

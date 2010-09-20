@@ -252,7 +252,7 @@ class OC_CONFIG{
 						if(!OC_USER::createuser($_POST['adminlogin'],$_POST['adminpassword']) && !OC_USER::login($_POST['adminlogin'],$_POST['adminpassword'])){
 							$error.='error while trying to create the admin user<br/>';
 						}
-						if(OC_USER::getgroupid('admin')==0){
+						if(OC_USER::getgroupid('admin',true)==0){
 							if(!OC_USER::creategroup('admin')){
 								$error.='error while trying to create the admin group<br/>';
 							}

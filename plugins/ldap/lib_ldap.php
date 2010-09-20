@@ -161,6 +161,17 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 	}
 
 	/**
+	 * Remove a user from a group
+	 *
+	 * @param  string  $username   Name of the user to remove from group
+	 * @param  string  $groupName  Name of the group from which remove the user
+	 */
+	public static function removeFromGroup($username,$groupName){
+		// does not work with MOD_AUTH (only or some modules)
+		return false;
+	}
+
+	/**
 	 * Generate a random password
 	 */	
 	public static function generatePassword() {

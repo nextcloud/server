@@ -178,10 +178,20 @@ class OC_USER {
 	}
 
 	/**
+	 * Remove a user from a group
+	 *
+	 * @param  string  $username   Name of the user to remove from group
+	 * @param  string  $groupName  Name of the group from which remove the user
+	 */
+	public static function removeFromGroup($username,$groupName){
+		return self::$_backend->removeFromGroup($username, $groupName);
+	}
+
+	/**
 	 * Generate a random password
 	 */
 	public static function generatePassword() {
-		return uniqId();
+		return substr(md5(uniqId().time()),0,10);
 	}
 
 	/**

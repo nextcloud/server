@@ -64,8 +64,8 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * @param  string  $password  The password of the new user
 	 */
 	public static function createUser($username, $password) {
+		self::clearCache();
 		global $CONFIG_DBTABLEPREFIX;
-
 		// Check if the user already exists
 		if ( 0 != OC_USER::getUserId($username, true) ) {
 			return false;
@@ -138,9 +138,9 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * @param  string  $groupName  The name of the group to create
 	 */
 	public static function createGroup($groupName) {
+		self::clearCache();
 		global $CONFIG_DBTABLEPREFIX;
-
-		if ( 0 == OC_USER::getGroupId($groupName, true) ) {
+		if (0 == OC_USER::getGroupId($groupName) ) {
 			$groupName = OC_DB::escape($groupName);
 			$query = "INSERT INTO  `{$CONFIG_DBTABLEPREFIX}groups` (`group_name`) VALUES ('$groupName')";
 			$result = OC_DB::query($query);
@@ -251,17 +251,15 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 */
 	public static function addToGroup($username, $groupName) {
 		global $CONFIG_DBTABLEPREFIX;
-
+		self::clearCache();
 		if ( !OC_USER::inGroup($username, $groupName) ) {
-			$userId = OC_USER::getUserId($username);
-			$groupId = OC_USER::getGroupId($groupName);
+			$userId = OC_USER::getUserId($username,true);
+			$groupId = OC_USER::getGroupId($groupName,true);
 			if ( (0 != $groupId) AND (0 != $userId) ) {
 				$query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}user_group` (`user_id` ,`group_id`) VALUES ('$userId',  '$groupId');";
 				$result = OC_DB::query($query);
 				if ( $result ) {
-					if(isset(self::$userGroupCache[$userId])){
-						self::$userGroupCache[$userId][]=$groupId;
-					}
+					self::clearCache();
 					return true;
 				} else {
 					return false;
@@ -272,6 +270,32 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 		} else {
 			return true;
 		}
+	}
+	
+	/**
+	 * Remove a user from a group
+	 *
+	 * @param  string  $username   Name of the user to remove from group
+	 * @param  string  $groupName  Name of the group from which remove the user
+	 */
+	public static function removeFromGroup($username,$groupName){
+		global $CONFIG_DBTABLEPREFIX;
+		self::clearCache();
+		if (OC_USER::inGroup($username, $groupName) ) {
+			$userId = OC_USER::getUserId($username,true);
+			$groupId = OC_USER::getGroupId($groupName,true);
+			if ( (0 != $groupId) AND (0 != $userId) ) {
+				$query="DELETE FROM `{$CONFIG_DBTABLEPREFIX}user_group` WHERE `group_id` =$groupId AND `user_id`=$userId";
+				$result = OC_DB::query($query);
+				if ( $result ) {
+					self::clearCache();
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -293,17 +317,15 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 		if(!isset(self::$userGroupCache[$userId])){
 			$query = "SELECT group_id FROM {$CONFIG_DBTABLEPREFIX}user_group WHERE user_id = '$userId'";
 			$result = OC_DB::select($query);
-			$groups = array();
 			$groupsId = array();
 			if ( is_array($result) ) {
 				foreach ( $result as $group ) {
 					$groupId = $group['group_id'];
 					$groupsId[]=$groupId;
-					$groups[] = OC_USER::getGroupName($groupId);
 				}
 			}
 			self::$userGroupCache[$userId]=$groupsId;
-			return $groups;
+			return $groupsId;
 		}else{
 			return self::$userGroupCache[$userId];
 		}
@@ -342,7 +364,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 		$usernameClean = strToLower($username);
 		$usernameClean = OC_DB::escape($usernameClean);
 		$username = OC_DB::escape($username);
-		$query = "SELECT user_id FROM '{$CONFIG_DBTABLEPREFIX}users' "
+		$query = "SELECT user_id FROM `{$CONFIG_DBTABLEPREFIX}users` "
 		       . "WHERE user_name_clean = '$usernameClean' AND user_password =  '$password' LIMIT 1";
 		$result = OC_DB::select($query);
 		if ( isset($result[0]) AND isset($result[0]['user_id']) AND ($result[0]['user_id'] > 0) ) {
@@ -359,7 +381,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	public static function getUsers() {
 		global $CONFIG_DBTABLEPREFIX;
 		
-		$query = "SELECT user_name FROM '{$CONFIG_DBTABLEPREFIX}users'";
+		$query = "SELECT user_name FROM `{$CONFIG_DBTABLEPREFIX}users`";
 		$result = OC_DB::select($query);
 		$users=array();
 		foreach($result as $user){
@@ -375,12 +397,18 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	public static function getGroups() {
 		global $CONFIG_DBTABLEPREFIX;
 		
-		$query = "SELECT group_name FROM '{$CONFIG_DBTABLEPREFIX}groups'";
+		$query = "SELECT group_name FROM `{$CONFIG_DBTABLEPREFIX}groups`";
 		$result = OC_DB::select($query);
 		$groups=array();
 		foreach($result as $group){
 			$groups[]=$group['group_name'];
 		}
 		return $groups;
+	}
+	
+	private static function clearCache(){
+		self::$userGroupCache=array();
+		$_SESSION['user_id_cache']=array();
+		$_SESSION['group_id_cache']=array();
 	}
 }

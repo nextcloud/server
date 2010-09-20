@@ -33,6 +33,7 @@ $FIRSTRUN=false;
 OC_CONFIG::addForm('User Settings','/inc/templates/configform.php');
 if(OC_USER::ingroup($_SESSION['username'],'admin')){
 	OC_CONFIG::addForm('System Settings','/inc/templates/adminform.php');
+	OC_CONFIG::addForm('User Managment','/inc/templates/userform.php');
 }
 
 echo('<div class="center">');

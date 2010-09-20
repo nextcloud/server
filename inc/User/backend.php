@@ -111,6 +111,14 @@ abstract class OC_USER_BACKEND {
 	abstract public static function addToGroup($username, $groupName);
 
 	/**
+	 * Remove a user from a group
+	 *
+	 * @param  string  $username   Name of the user to remove from group
+	 * @param  string  $groupName  Name of the group from which remove the user
+	 */
+	abstract public static function removeFromGroup($username,$groupName);
+	
+	/**
 	 * Generate a random password
 	 */
 	abstract public static function generatePassword();
