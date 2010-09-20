@@ -67,11 +67,7 @@ class OC_CONFIG{
 		if(OC_USER::isLoggedIn()){
 			if(isset($_POST['creategroup']) and $_POST['creategroup']==1){
 				if(OC_USER::creategroup($_POST['groupname'])){
-					if(OC_USER::addtogroup($_SESSION['username'],$_POST['groupname'])){
-						return 'group successfully created';
-					}else{
-						return 'error while trying to add user to the new created group';
-					}
+					return 'group successfully created';
 				}else{
 					return 'error while trying to create group';
 				}
@@ -170,7 +166,6 @@ class OC_CONFIG{
 			global $CONFIG_ADMINLOGIN;
 			global $CONFIG_ADMINPASSWORD;
 			if(isset($_POST['set_config'])){
-				
 				//checkdata
 				$error='';
 				$FIRSTRUN=!$CONFIG_INSTALLED;
@@ -329,33 +324,53 @@ class OC_CONFIG{
 		global $CONFIG_DBTYPE;
 		//we cant user OC_BD functions here because we need to connect as the administrative user.
 		if($CONFIG_DBTYPE=='mysql'){
-			$connection = @new mysqli($CONFIG_DBHOST, $adminUser, $adminPwd);
-			if (mysqli_connect_errno()) {
+			$connection=mysql_connect($CONFIG_DBHOST, $adminUser, $adminPwd);
+			if(!$connection) {
 				@ob_end_clean();
 				echo('<html><head></head><body bgcolor="#F0F0F0"><br /><br /><center><b>can not connect to database as administrative user.</center></body></html>');
 				exit();
 			}
-			$query="SELECT user FROM mysql.user WHERE user='{$_POST['dbuser']}';";
-			$result = @$connection->query($query);
+			$query="SELECT user FROM mysql.user WHERE user='{$_POST['dbuser']}'";
+			$result = mysql_query($query,$connection);
 			if (!$result) {
-				$entry='DB Error: "'.$connection->error.'"<br />';
+				$entry='DB Error: "'.mysql_error($connection).'"<br />';
 				$entry.='Offending command was: '.$query.'<br />';
 				echo($entry);
 			}
-			if($result->num_rows==0){
-				$query="CREATE USER '{$_POST['dbuser']}' IDENTIFIED BY  '{$_POST['dbpassword']}';";
-			}else{
-				$query='';
+			if(mysql_num_rows($result)==0){
+				$pwd=$_POST['dbpassword'];
+				//we need to create 2 accounts, one for global use and one for local user. if we don't speccify the local one,
+				//  the anonymous user would take precedence when there is one.
+				$query="CREATE USER '{$_POST['dbuser']}'@'localhost' IDENTIFIED BY '$pwd'";
+				$result = mysql_query($query,$connection);
+				if (!$result) {
+					$entry='DB Error: "'.mysql_error($connection).'"<br />';
+					$entry.='Offending command was: '.$query.'<br />';
+					echo($entry);
+				}
+				$query="CREATE USER '{$_POST['dbuser']}'@'%' IDENTIFIED BY '$pwd'";
+				$result = mysql_query($query,$connection);
+				if (!$result) {
+					$entry='DB Error: "'.mysql_error($connection).'"<br />';
+					$entry.='Offending command was: '.$query.'<br />';
+					echo($entry);
+				}
 			}
-			$query.="CREATE DATABASE IF NOT EXISTS  `{$_POST['dbname']}`;";
-			$query.="GRANT ALL PRIVILEGES ON  `{$_POST['dbname']}` . * TO  '{$_POST['dbuser']}';";
-			$result = @$connection->multi_query($query);
+			$query="CREATE DATABASE IF NOT EXISTS  `{$_POST['dbname']}`";
+			$result = mysql_query($query,$connection);
 			if (!$result) {
-				$entry='DB Error: "'.$connection->error.'"<br />';
+				$entry='DB Error: "'.mysql_error($connection).'"<br />';
 				$entry.='Offending command was: '.$query.'<br />';
 				echo($entry);
 			}
-			$connection->close();
+			$query="GRANT ALL PRIVILEGES ON  `{$_POST['dbname']}` . * TO  '{$_POST['dbuser']}'";
+			$result = mysql_query($query,$connection);
+			if (!$result) {
+				$entry='DB Error: "'.mysql_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
+			mysql_close($connection);
 		}elseif($CONFIG_DBTYPE=='pgsql'){
 			$connection = pg_connect("user='$adminUser' host='$CONFIG_DBHOST' password='$adminPwd'");
 			$query="CREATE USER {$_POST['dbuser']} WITH PASSWORD '{$_POST['dbpassword']}' CREATEDB;";
