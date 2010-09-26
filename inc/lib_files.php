@@ -137,8 +137,10 @@ class OC_FILES {
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: public');
 			if($zip){
+				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
+				header('Content-Type: ' . OC_FILESYSTEM::getMimeType($filename));
 				header('Content-Length: ' . OC_FILESYSTEM::filesize($filename));
 			}
 		}elseif($zip or !OC_FILESYSTEM::file_exists($filename)){
