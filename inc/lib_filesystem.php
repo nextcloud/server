@@ -363,6 +363,7 @@ class OC_FILESYSTEM{
 					$file=substr($file,1);
 				}
 				$file=$mp.$file;
+				$file=substr($file,strlen(self::$fakeRoot));
 			}
 			return $return;
 		}
