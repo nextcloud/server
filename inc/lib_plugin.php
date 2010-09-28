@@ -57,16 +57,34 @@ class OC_PLUGIN{
 	}
 	
 	/**
+	 * Get a list of all installed plugins
+	 */
+	public static function listPlugins() {
+		global $SERVERROOT;
+		$plugins = array();
+		$fd = opendir($SERVERROOT . '/plugins');
+		while ( false !== ($filename = readdir($fd)) ) {
+			if ( $filename<>'.' AND $filename<>'..' AND ('.' != substr($filename, 0, 1))) {
+				if(file_exists($SERVERROOT . '/plugins/'.$filename.'/plugin.xml')){
+					$plugins[]=$filename;
+				}
+			}
+		}
+		closedir($fd);
+		return $plugins;
+	}
+	
+	/**
 	 * Load all plugins that aren't blacklisted
 	 */
 	public static function loadPlugins() {
 		global $SERVERROOT;
-		$plugins = array();
+		$plugins = self::listPlugins();
 		$blacklist=self::loadBlacklist();
 		$fd = opendir($SERVERROOT . '/plugins');
-		while ( false !== ($filename = readdir($fd)) ) {
-			if ( $filename<>'.' AND $filename<>'..' AND ('.' != substr($filename, 0, 1)) AND array_search($filename,$blacklist)===false) {
-				self::load($filename);
+		foreach($plugins as $plugin){
+			if (array_search($plugin,$blacklist)===false) {
+				self::load($plugin);
 			}
 		}
 		closedir($fd);
@@ -76,7 +94,7 @@ class OC_PLUGIN{
 	* load the blacklist from blacklist.txt
 	* @return array
 	*/
-	private static function loadBlacklist(){
+	public static function loadBlacklist(){
 		global $SERVERROOT;
 		if(count(self::$blacklist)>0){
 			return self::$blacklist;
