@@ -512,15 +512,17 @@
             }
             $destpath = $this->_unslashify($options["dest"]);
             if (is_dir($source)) {
+					$dpath=OC_DB::escape($destpath);
+					$path=OC_DB::escape($options["path"]);
                     $query = "UPDATE {$CONFIG_DBTABLEPREFIX}properties 
-                                 SET path = REPLACE(path, '".$options["path"]."', '".$destpath."') 
-                               WHERE path LIKE '".$this->_slashify($options["path"])."%'";
+                                 SET path = REPLACE(path, '$path', '$dpath') 
+                               WHERE path LIKE '$path%'";
                     OC_DB::query($query);
             }
 
                 $query = "UPDATE {$CONFIG_DBTABLEPREFIX}properties 
-                             SET path = '".$destpath."'
-                           WHERE path = '".$options["path"]."'";
+                             SET path = '$dpath'
+                           WHERE path = '$path'";
                 OC_DB::query($query);
         } else {
             if (OC_FILESYSTEM::is_dir($source)) {
@@ -553,7 +555,7 @@
                     }
                 } else {
                     if (!OC_FILESYSTEM::copy($file, $destfile)) {
-                        return "409 Conflict";
+                        return "409 Conflict($source) $file --> $destfile   ".implode('::',$files);
                     }
                 }
             }
@@ -581,10 +583,14 @@
             if ($prop["ns"] == "DAV:") {
                 $options["props"][$key]['status'] = "403 Forbidden";
             } else {
+				$path=OC_DB::escape($options['path']);
+				$name=OC_DB::escape($prop['name']);
+				$ns=OC_DB::escape($prop['ns']);
+				$val=OC_DB::escape($prop['val']);
                 if (isset($prop["val"])) {
-                        $query = "REPLACE INTO {$CONFIG_DBTABLEPREFIX}properties SET path = '$options[path]', name = '$prop[name]', ns= '$prop[ns]', value = '$prop[val]'";
+                        $query = "REPLACE INTO {$CONFIG_DBTABLEPREFIX}properties (path,name,ns,value) VALUES('$path','$name','$ns','$val')";
                 } else {
-                        $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '$options[path]' AND name = '$prop[name]' AND ns = '$prop[ns]'";
+                        $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '$path' AND name = '$name' AND ns = '$ns'";
                 }       
                     OC_DB::query($query);
             }
@@ -659,15 +665,15 @@
             }
         }
             
-        $query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}locks`
-                        SET `token`   = '$options[locktoken]'
-                          , `path`    = '$options[path]'
-                          , `created` = ".time()."
-                          , `modified` = ".time()."
-                          , `owner`   = '$options[owner]'
-                          , `expires` = '$options[timeout]'
-                          , `exclusivelock`  = " .($options['scope'] === "exclusive" ? "1" : "0")."
-                          , `recursive` = $recursion";
+		$locktoken=OC_DB::escape($options['locktoken']);
+		$path=OC_DB::escape($options['path']);
+		$time=time();
+		$owner=OC_DB::escape($options['owner']);
+		$timeout=OC_DB::escape($options['timeout']);
+		$exclusive=($options['scope'] === "exclusive" ? "1" : "0");
+        $query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}locks` 
+(`token`,`path`,`created`,`modified`,`owner`,`expires`,`exclusivelock`,`recursive`) 
+VALUES ('$locktoken','$path',$time,$time,'$owner','timeout',$exclusive,$recursion)";
             OC_DB::query($query);
             $rows=OC_DB::affected_rows();
 			if(!OC_FILESYSTEM::file_exists($fspath) and $rows>0) {
