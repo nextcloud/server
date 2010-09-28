@@ -30,6 +30,7 @@ if(strstr($file,'..') or strstr($dir,'..')){
     die();
 }
 $filename=$dir.'/'.$file;
+$filename=stripslashes($filename);
 $ftype=OC_FILESYSTEM::getMimeType($filename);
 ob_end_clean();
 header('Content-Type: '.$ftype);
