@@ -49,6 +49,16 @@ class OC_PLUGIN{
 					}
 				}
 			}
+			//check for uninstalled db's 
+			if(isset($data['install']) and isset($data['install']['database'])){
+				foreach($data['install']['database'] as $db){
+					if(!$data['install']['database_installed'][$db]){
+						self::installDB($id);
+						break;
+					}
+				}
+			}
+			
 			foreach($data['runtime'] as $include){
 				include($SERVERROOT.'/plugins/'.$id.'/'.$include);
 			}
@@ -78,16 +88,17 @@ class OC_PLUGIN{
 	 * Load all plugins that aren't blacklisted
 	 */
 	public static function loadPlugins() {
-		global $SERVERROOT;
-		$plugins = self::listPlugins();
-		$blacklist=self::loadBlacklist();
-		$fd = opendir($SERVERROOT . '/plugins');
-		foreach($plugins as $plugin){
-			if (array_search($plugin,$blacklist)===false) {
-				self::load($plugin);
+		global $CONFIG_INSTALLED;
+		if($CONFIG_INSTALLED){
+			global $SERVERROOT;
+			$plugins = self::listPlugins();
+			$blacklist=self::loadBlacklist();
+			foreach($plugins as $plugin){
+				if (array_search($plugin,$blacklist)===false) {
+					self::load($plugin);
+				}
 			}
 		}
-		closedir($fd);
 	}
 	
 	/**
@@ -156,9 +167,9 @@ class OC_PLUGIN{
 	}
 	
 	/**
-	( Load data from the plugin.xml of a plugin, either identified by the plugin or the path of the plugin.xml file
+	* Load data from the plugin.xml of a plugin, either identified by the plugin or the path of the plugin.xml file
 	* @param string id
-	*( @return array
+	* @return array
 	*/
 	public static function getPluginData($id){
 		global $SERVERROOT;
@@ -212,6 +223,7 @@ class OC_PLUGIN{
 							break;
 						case 'database':
 							$data['install']['database'][]=$child->textContent;
+							$data['install']['database_installed'][$child->textContent]=($child->hasAttribute('installed') and $child->getAttribute('installed')=='true')?true:false;
 							break;
 					}
 				}
@@ -237,6 +249,101 @@ class OC_PLUGIN{
 			}
 		}
 		return $data;
+	}
+	
+	
+	/**
+	* Save data to the plugin.xml of a plugin, either identified by the plugin or the path of the plugin.xml file
+	* @param string id
+	* @param array data the plugin data in the same structure as returned by getPluginData
+	* @return bool
+	*/
+	public static function savePluginData($id,$data){
+		global $SERVERROOT;
+		if(is_file($id)){
+			$file=$id;
+		}
+		if(!is_dir($SERVERROOT.'/plugins/'.$id) or !is_file($SERVERROOT.'/plugins/'.$id.'/plugin.xml')){
+			return false;
+		}else{
+			$file=$SERVERROOT.'/plugins/'.$id.'/plugin.xml';
+		}
+		$plugin=new DOMDocument();
+		$pluginNode=$plugin->createElement('plugin');
+		$pluginNode->setAttribute('version',$data['version']);
+		$plugin->appendChild($pluginNode);
+		$info=$plugin->createElement('info');
+		foreach($data['info'] as $name=>$value){
+			$node=$plugin->createElement($name);
+			$node->appendChild($plugin->createTextNode($value));
+			$info->appendChild($node);
+		}
+		$pluginNode->appendChild($info);
+		if(isset($data['runtime'])){
+			$runtime=$plugin->createElement('runtime');
+			foreach($data['runtime'] as $include){
+				$node=$plugin->createElement('include');
+				$node->appendChild($plugin->createTextNode($include));
+				$runtime->appendChild($node);
+			}
+			$pluginNode->appendChild($runtime);
+		}
+		if(isset($data['install'])){
+			$install=$plugin->createElement('install');
+			foreach($data['install']['include'] as $include){
+				$node=$plugin->createElement('include');
+				$node->appendChild($plugin->createTextNode($include));
+				$install->appendChild($node);
+			}
+			foreach($data['install']['dialog'] as $dialog){
+				$node=$plugin->createElement('dialog');
+				$node->appendChild($plugin->createTextNode($dialog));
+				$install->appendChild($node);
+			}
+			foreach($data['install']['database'] as $database){
+				$node=$plugin->createElement('database');
+				$node->appendChild($plugin->createTextNode($database));
+				if($data['install']['database_installed'][$database]){
+					$node->setAttribute('installed','true');
+				}
+				$install->appendChild($node);
+			}
+			$pluginNode->appendChild($install);
+		}
+		if(isset($data['uninstall'])){
+			$uninstall=$plugin->createElement('uninstall');
+			foreach($data['uninstall']['include'] as $include){
+				$node=$plugin->createElement('include');
+				$node->appendChild($plugin->createTextNode($include));
+				$uninstall->appendChild($node);
+			}
+			foreach($data['uninstall']['dialog'] as $dialog){
+				$node=$plugin->createElement('dialog');
+				$node->appendChild($plugin->createTextNode($dialog));
+				$uninstall->appendChild($node);
+			}
+			$pluginNode->appendChild($uninstall);
+		}
+		$plugin->save($file);
+	}
+	
+	/**
+	* install the databases of a plugin
+	* @param string id
+	* @return bool
+	*/
+	public static function installDB($id){
+		global $SERVERROOT;
+		$data=OC_PLUGIN::getPluginData($id);
+		foreach($data['install']['database'] as $db){
+			if (!$data['install']['database_installed'][$db]){
+				$file=$SERVERROOT.'/plugins/'.$id.'/'.$db;
+				OC_DB::createDbFromStructure($file);
+				$data['install']['database_installed'][$db]=true;
+			}
+		}
+		self::savePluginData($id,$data);
+		return true;
 	}
 }
 
