@@ -169,9 +169,15 @@ class OC_FILESYSTEM{
 		if(substr($path,0,1)!=='/'){
 			$path='/'.$path;
 		}
+		if(substr($path,-1)!=='/'){
+			$path=$path.'/';
+		}
 		$path=self::$fakeRoot.$path;
 		$foundMountPoint='';
 		foreach(self::$storages as $mountpoint=>$storage){
+			if(substr($mountpoint,-1)!=='/'){
+				$mountpoint=$mountpoint.'/';
+			}
 			if($mountpoint==$path){
 				return $mountpoint;
 			}
