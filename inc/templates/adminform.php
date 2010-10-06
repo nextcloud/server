@@ -95,7 +95,7 @@ if($FIRSTRUN){?>
 <?php
 }
 ?>
-<tr><th colspan="2">Advanced Configurations</th></tr>
+<tr><th colspan="2">Advanced Configuration</th></tr>
 <?php if($FIRSTRUN){?>
 <tr title="This directory is used to store files."><td>data directory:</td><td><input type="text" name="datadirectory" size="30" class="formstyle" value="<?php echo($CONFIG_DATADIRECTORY_ROOT);?>"></input></td></tr>
 <?php } ?>
@@ -177,7 +177,7 @@ if($CONFIG_DBTYPE=='sqlite'){
 <tr title="The password of the administrative database user. If in doubt, contact your web-host." id='dbAdminPwd'><td>&nbsp; &nbsp; &nbsp; - administrative password:</td><td><input type="password" name="dbadminpwd" size="30" class="formstyle" value=''></input></td></tr>
 <tr title="Fill database with default data so you can start right away." id='dbfill'><td>&nbsp; - fill initial database:</td><td><input type="checkbox" name="filldb" size="30" class="formstyle" value='1' checked="checked"></input></td></tr>
 <?php }?>
-<tr><th colspan="2">Conformation</th></tr>
+<tr><th colspan="2">Confirmation</th></tr>
 <?php
 	if(!$FIRSTRUN){?>
 		<tr title="This is to avoid abuse while you are away and have not logged out decently."><td>your password:</td><td><input type="password" name="currentpassword" size="30" class="formstyle"></input></td></tr>
