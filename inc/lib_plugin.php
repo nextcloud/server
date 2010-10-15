@@ -175,11 +175,12 @@ class OC_PLUGIN{
 		global $SERVERROOT;
 		if(is_file($id)){
 			$file=$id;
-		}
-		if(!is_dir($SERVERROOT.'/plugins/'.$id) or !is_file($SERVERROOT.'/plugins/'.$id.'/plugin.xml')){
-			return false;
 		}else{
-			$file=$SERVERROOT.'/plugins/'.$id.'/plugin.xml';
+			if(!is_dir($SERVERROOT.'/plugins/'.$id) or !is_file($SERVERROOT.'/plugins/'.$id.'/plugin.xml')){
+				return false;
+			}else{
+				$file=$SERVERROOT.'/plugins/'.$id.'/plugin.xml';
+			}
 		}
 		$data=array();
 		$plugin=new DOMDocument();
@@ -345,6 +346,34 @@ class OC_PLUGIN{
 		self::savePluginData($id,$data);
 		return true;
 	}
+	
+	public static function installPlugin($path){
+		global $SERVERROOT;
+		if(is_file($path)){
+			$zip = new ZipArchive;
+			if($zip->open($path)===TRUE){
+				$folder=sys_get_temp_dir().'/OC_PLUGIN_INSTALL/';
+				mkdir($folder);
+				$zip->extractTo($folder);
+				if(is_file($folder.'/plugin.xml')){
+					$pluginData=self::getPluginData($folder.'/plugin.xml');
+					if(array_search($pluginData['info']['id'],self::listPlugins())===false){
+						if(isset($pluginData['install'])){
+							foreach($pluginData['install']['database'] as $db){
+								OC_DB::createDbFromStructure($folder.'/'.$db);
+								$pluginData['install']['database_installed'][$db]=true;
+							}
+							foreach($pluginData['install']['include'] as $include){
+								include($folder.'/'.$include);
+							}
+						}
+						recursive_copy($folder,$SERVERROOT.'/plugins/'.$pluginData['info']['id']);
+						self::savePluginData($SERVERROOT.'/plugins/'.$pluginData['info']['id'].'/plugin.xml',$pluginData);
+					}
+				}
+				delTree($folder);
+			}
+		}
+	}
 }
-
 ?>

@@ -175,13 +175,8 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			}
 			$source=substr($path1,strrpos($path1,'/')+1);
 			$path2.=$source;
-// 			sleep(30);
-		}else{
-			error_log('isfile');
 		}
-		error_log("copy $path1 to {$this->datadir}$path2");
 		if($return=copy($this->datadir.$path1,$this->datadir.$path2)){
-			error_log('success');
 			$this->notifyObservers($path2,OC_FILEACTION_CREATE);
 		}
 		return $return;

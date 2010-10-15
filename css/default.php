@@ -456,15 +456,16 @@ div.moreActionsList tr:hover{
 	height:100%;
 }
 
-table.userlist{
+table.userlist, table.pluginlist{
 	margin:0px;
 	padding:0px;
 	width:100%;
 	border-spacing:0px;
 }
 
-table.userlist>thead{
+table.userlist>thead, table.pluginlist>thead{
 	background-color:#DDD;
+	font-weight:bold;
 }
 
 table.userlist td.sellect{
@@ -490,7 +491,7 @@ p.description{
 	padding-bottom:3px;
 }
 
-#settingsContent_user_managment{
+div.settingsContent{
 	background-color:#F2F2F2;
 	min-height:100%;
 }
@@ -504,4 +505,17 @@ p.description{
 	text-align:left;
 	background-color:#DDD;
 	width:100%;
+}
+
+table.pluginlist td.name{
+	width:150px;
+}
+
+table.pluginlist td.disable{
+	width:50px;
+}
+
+table.pluginlist td.version{
+	width:60px;
+	text-align:center
 }

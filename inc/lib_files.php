@@ -306,6 +306,24 @@ function zipAddDir($dir,$zip,$internalDir=''){
     }
 }
 
+//remove a dir and it's content
+function delTree($dir) {
+	if (!file_exists($dir)) return true; 
+	if (!is_dir($dir) || is_link($dir)) return unlink($dir); 
+	foreach (scandir($dir) as $item) { 
+		if ($item == '.' || $item == '..') continue; 
+		if(is_file($dir.'/'.$item)){
+			unlink($dir.'/'.$item);
+		}elseif(is_dir($dir.'/'.$item)){
+			if (!delTree($dir. "/" . $item)){ 
+				return false; 
+			};
+		}
+	}
+	$return=rmdir($dir);
+	return $return;
+}
+
 if(!function_exists('sys_get_temp_dir')) {
     function sys_get_temp_dir() {
         if( $temp=getenv('TMP') )        return $temp;
@@ -318,6 +336,22 @@ if(!function_exists('sys_get_temp_dir')) {
         }
         return null;
     }
+}
+
+function recursive_copy($src,$dst) { 
+	$dir = opendir($src);
+	@mkdir($dst);
+	while(false !== ( $file = readdir($dir)) ) {
+		if (( $file != '.' ) && ( $file != '..' )) {
+			if ( is_dir($src . '/' . $file) ) {
+				recursive_copy($src . '/' . $file,$dst . '/' . $file);
+			}
+			else {
+				copy($src . '/' . $file,$dst . '/' . $file);
+			}
+		}
+	}
+	closedir($dir); 
 }
 
 global $FAKEDIRS;
