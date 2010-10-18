@@ -283,8 +283,7 @@ class OC_FILESYSTEM{
 	}
 	static public function file_put_contents($path,$data){
 		if(self::canWrite($path) and $storage=self::getStorage($path)){
-			$this->notifyObservers($path,OC_FILEACTION_WRITE | OC_FILEACTION_CREATE);
-			return $storage->file_put_contents(self::getInternalPath($path));
+			return $storage->file_put_contents(self::getInternalPath($path),$data);
 		}
 	}
 	static public function unlink($path){
