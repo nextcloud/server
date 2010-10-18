@@ -67,7 +67,7 @@ OC_onload.run=function(){
         }
     }
     for(index in OC_onload.items){
-       if(OC_onload.items[index].call){
+       if(OC_onload.items[index]&&OC_onload.items[index].call){
            OC_onload.items[index].call();
        }
     }
