@@ -310,7 +310,7 @@ OC_FILES.browser.show_callback=function(content){
 		OC_FILES.browser.files.show(null,content);
 	}
 	if(OC_FILES.uploadForm){
-		OC_FILES.uploadForm.setAttribute('action','files/upload.php?dir='+dir);
+		OC_FILES.uploadForm.setAttribute('action','files/upload.php?dir='+encodeURIComponent(dir));
 	}
 }
 
@@ -423,7 +423,7 @@ OC_FILES.browser.showuploader=function(dir,parent,max_upload){
 	var iframeId=OC_FILES.uploadIFrames.length
 	OC_FILES.uploadForm=document.createElement('form');
 	OC_FILES.uploadForm.setAttribute('target','uploadIFrame'+iframeId);
-	OC_FILES.uploadForm.setAttribute('action','files/upload.php?dir='+dir);
+	OC_FILES.uploadForm.setAttribute('action','files/upload.php?dir='+encodeURIComponent(dir));
 	OC_FILES.uploadForm.method='post';
 	OC_FILES.uploadForm.setAttribute('enctype','multipart/form-data');
 	OC_FILES.uploadIFrames[iframeId]=document.createElement('iframe');
