@@ -112,11 +112,14 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 *
 	 */
 	public static function logoutLisener() {
+		global $WEBROOT;
 		if ( isset($_GET['logoutbutton']) AND isset($_SESSION['username']) ) {
 			OC_LOG::event($_SESSION['username'], 2, '');
 			$_SESSION['user_id'] = false;
 			$_SESSION['username'] = '';
 			$_SESSION['username_clean'] = '';
+			
+			header("location: $WEBROOT");
 		}
 	}
 
