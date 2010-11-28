@@ -88,7 +88,7 @@ echo('<form method="post" action="'.$action.'">')
 		echo "<tr><td colspan='3' class='error'>$CONFIG_ERROR</td></tr>";
 	}
 if($FIRSTRUN){?>
-<tr><th colspan="2">Administartor User</th></tr>
+<tr><th colspan="2">Administrator User</th></tr>
 <tr title="Name used to log in."><td>user name:</td><td><input type="text" name="adminlogin" size="30" class="formstyle" value=""></input></td></tr>
 <tr title="Make a secure password, use at least 9 characters. Use letters and numbers."><td>password:</td><td><input type="password" name="adminpassword" size="30" class="formstyle"></input></td></tr>
 <tr title="Retype password to avoid typing errors."><td>retype password:</td><td><input type="password" name="adminpassword2" size="30" class="formstyle"></input></td></tr>

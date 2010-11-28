@@ -3,20 +3,20 @@
 /**
 * ownCloud
 *
-* @author Frank Karlitschek 
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org 
-* 
+* @author Frank Karlitschek
+* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+*
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either 
+* License as published by the Free Software Foundation; either
 * version 3 of the License, or any later version.
-* 
+*
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*  
-* You should have received a copy of the GNU Lesser General Public 
+*
+* You should have received a copy of the GNU Lesser General Public
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -44,7 +44,7 @@ class OC_FILESTORAGE{
 			}
 		}
 	}
-	
+
 	public function __construct($parameters){}
 	public function mkdir($path){}
 	public function rmdir($path){}
@@ -202,11 +202,11 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 		return $return;
 	}
-	
+
 	public function getMimeType($fspath){
 		if (@is_dir($this->datadir.$fspath)) {
 			// directories are easy
-			return "httpd/unix-directory"; 
+			return "httpd/unix-directory";
 		}elseif (function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
 			$mimeType =strtolower(finfo_file($finfo,$this->datadir.$fspath));
 			$mimeType=substr($mimeType,0,strpos($mimeType,';'));
@@ -216,15 +216,15 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			// use mime magic extension if available
 			$mime_type = mime_content_type($this->datadir.$fspath);
 		} else if (self::canExecute("file")) {
-			// it looks like we have a 'file' command, 
+			// it looks like we have a 'file' command,
 			// lets see it it does have mime support
 			$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
 			$reply = fgets($fp);
 			pclose($fp);
-			
+
 			//trim the character set from the end of the response
 			$mime_type=substr($reply,0,strrpos($reply,' '));
-		} 
+		}
 		if (empty($mime_type)) {
 			// Fallback solution: try to guess the type by the file extension
 			// TODO: add more ...
@@ -290,53 +290,66 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 					break;
 			}
 		}
-		
+
 		return $mime_type;
 	}
-	
+
 	/**
 	* detect if a given program is found in the search PATH
 	*
-	* helper function used by _mimetype() to detect if the 
+	* helper function used by _mimetype() to detect if the
 	* external 'file' utility is available
 	*
 	* @param  string  program name
 	* @param  string  optional search path, defaults to $PATH
 	* @return bool    true if executable program found in path
 	*/
-	private function canExecute($name, $path = false) 
+	private function canExecute($name, $path = false)
 	{
 		// path defaults to PATH from environment if not set
 		if ($path === false) {
 			$path = getenv("PATH");
 		}
-		
+
 		// check method depends on operating system
 		if (!strncmp(PHP_OS, "WIN", 3)) {
 			// on Windows an appropriate COM or EXE file needs to exist
 			$exts = array(".exe", ".com");
 			$check_fn = "file_exists";
-		} else { 
+		} else {
 			// anywhere else we look for an executable file of that name
 			$exts = array("");
 			$check_fn = "is_executable";
 		}
-		
-		// now check the directories in the path for the program
-		foreach (explode(PATH_SEPARATOR, $path) as $dir) {
-			// skip invalid path entries
-			if (!file_exists($dir)) continue;
-			if (!is_dir($dir)) continue;
 
-			// and now look for the file
-			foreach ($exts as $ext) {
-				if ($check_fn("$dir/$name".$ext)) return true;
-			}
-		}
+        // Default check will be done with $path directories :
+        $dirs = explode(PATH_SEPARATOR, $path);
+
+		// WARNING : We have to check if open_basedir is enabled :
+		$obd = ini_get('open_basedir');
+
+		if($obd != "none")
+            $obd_values = explode(PATH_SEPARATOR, $obd);
+
+		if(count($obd_values) > 0)
+		{
+            // open_basedir is in effect !
+            // We need to check if the program is in one of these dirs :
+            $dirs = $obd_values;
+        }
+
+        foreach($dirs as $dir)
+        {
+            foreach($exts as $ext)
+            {
+                if($check_fn("$dir/$name".$ext))
+                    return true;
+            }
+        }
 
 		return false;
 	}
-	
+
 	public function toTmpFile($path){
 		$tmpFolder=sys_get_temp_dir();
 		$filename=tempnam($tmpFolder,'OC_TEMP_FILE_'.substr($path,strrpos($path,'.')));
@@ -347,7 +360,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			return false;
 		}
 	}
-	
+
 	public function fromTmpFile($tmpFile,$path){
 		if(rename($tmpFile,$this->datadir.$path)){
 			$this->notifyObservers($path,OC_FILEACTION_CREATE);
@@ -356,21 +369,21 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			return false;
 		}
 	}
-	
+
 	public function delTree($dir) {
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;
-		if (!file_exists($dir)) return true; 
-		if (!is_dir($dir) || is_link($dir)) return unlink($dir); 
-		foreach (scandir($dir) as $item) { 
-			if ($item == '.' || $item == '..') continue; 
+		if (!file_exists($dir)) return true;
+		if (!is_dir($dir) || is_link($dir)) return unlink($dir);
+		foreach (scandir($dir) as $item) {
+			if ($item == '.' || $item == '..') continue;
 			if(is_file($dir.'/'.$item)){
 				if(unlink($dir.'/'.$item)){
 					$this->notifyObservers($dir.'/'.$item,OC_FILEACTION_DELETE);
 				}
 			}elseif(is_dir($dir.'/'.$item)){
-				if (!$this->delTree($dirRelative. "/" . $item)){ 
-					return false; 
+				if (!$this->delTree($dirRelative. "/" . $item)){
+					return false;
 				};
 			}
 		}
@@ -379,7 +392,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 		return $return;
 	}
-	
+
 	public function find($path){
 		$return=System::find($this->datadir.$path);
 		foreach($return as &$file){
@@ -387,7 +400,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 		return $return;
 	}
-	
+
 	public function getTree($dir) {
 		if(substr($dir,-1,1)=='/'){
 			$dir=substr($dir,0,-1);
@@ -396,9 +409,9 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		$tree[]=$dir;
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;
-		if (!file_exists($dir)) return true; 
-		foreach (scandir($dir) as $item) { 
-			if ($item == '.' || $item == '..') continue; 
+		if (!file_exists($dir)) return true;
+		foreach (scandir($dir) as $item) {
+			if ($item == '.' || $item == '..') continue;
 			if(is_file($dir.'/'.$item)){
 				$tree[]=$dirRelative.'/'.$item;
 			}elseif(is_dir($dir.'/'.$item)){

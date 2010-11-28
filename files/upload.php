@@ -22,11 +22,9 @@
 */
 require_once('../inc/lib_base.php');
 
-// sleep(5); //immitate slow internet.
-
 $fileName=$_FILES['file']['name'];
 $source=$_FILES['file']['tmp_name'];
-$target=$_GET['dir'].'/'.$fileName;
+$target=stripslashes($_GET['dir']).'/'.$fileName;
 if(isset($_SESSION['username']) and $_SESSION['username'] and strpos($_GET['dir'],'..')===false){
    if(OC_FILESYSTEM::fromTmpFile($source,$target)){
       echo 'true';

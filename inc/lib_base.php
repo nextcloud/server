@@ -31,7 +31,6 @@ date_default_timezone_set('Europe/Berlin');
 ini_set('arg_separator.output','&amp;');
 ini_set('session.cookie_httponly','1;');
 session_start();
-
 // calculate the documentroot
 $SERVERROOT=substr(__FILE__,0,-17);
 $DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
@@ -119,6 +118,7 @@ class OC_UTIL {
 		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
 		}
+		global $SERVERROOT;
 		global $CONFIG_DATADIRECTORY_ROOT;
 		global $CONFIG_DATADIRECTORY;
 		global $CONFIG_BACKUPDIRECTORY;
@@ -172,7 +172,7 @@ class OC_UTIL {
 	* @return array
 	*/
 	public static function getVersion(){
-		return array(1,0,60);
+		return array(1,1,0);
 	}
   
   /**
