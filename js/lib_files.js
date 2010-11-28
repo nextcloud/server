@@ -196,8 +196,8 @@ OC_FILES.rename_callback=function(req,file){
 	OC_FILES.browser.show(OC_FILES.dir);
 }
 
-OC_FILES.remove=function(dir,file){
-	remove=confirm('Delete file \''+file+'\'?');
+OC_FILES.remove=function(dir,file,force){
+	remove=force||confirm('Delete file \''+file+'\'?');
 	if(remove){
 		OC_API.run('delete',{dir:dir,file:file},OC_FILES.remove_callback,file)
 		OC_FILES.browser.files.remove(file);
@@ -309,9 +309,12 @@ OC_FILES.actions_selected.download=function(){
 
 OC_FILES.actions_selected['delete']=function(){
     files=OC_FILES.getSelected();
-    for(index in files){
-        OC_FILES.remove(OC_FILES.dir,files[index]);
-    }
+	remove=confirm('Delete files \''+files.join('\', \'')+'\'?');
+	if(remove){
+		for(index in files){
+			OC_FILES.remove(OC_FILES.dir,files[index],true);
+		}
+	}
 }
 
 OC_FILES.files=Array();
