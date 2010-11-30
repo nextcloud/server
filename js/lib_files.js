@@ -304,7 +304,7 @@ OC_FILES.actions_selected.download=function(){
     }else{
         files=files[0];
     }
-    OC_FILES.get(dir,files);
+    OC_FILES.get(this.dir,files);
 }
 
 OC_FILES.actions_selected['delete']=function(){
