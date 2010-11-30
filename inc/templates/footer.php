@@ -5,9 +5,14 @@ global $WEBROOT;
 <div class='foot'>
 <?php
 if(!OC_UTIL::hasSmallScreen()){
+   if (isset($_SERVER['HTTPS'])) {
+      $PROTO="webdavs://";
+   } else {
+      $PROTO="webdav://";
+   }
 ?>
 <div class='bar'><p class="hint">
-Hint: Mount it via webdav like this: <a href="webdav://<?php echo($_SERVER["HTTP_HOST"].$WEBROOT.'/webdav/owncloud.php');?>">webdav://<?php echo($_SERVER["HTTP_HOST"].$WEBROOT);?>/webdav/owncloud.php</a>
+Hint: Mount it via webdav like this: <a href="<?php echo($PROTO.$_SERVER["HTTP_HOST"].$WEBROOT.'/webdav/owncloud.php');?>"><?php echo($PROTO.$_SERVER["HTTP_HOST"].$WEBROOT);?>/webdav/owncloud.php</a>
 </p></div>
 <?php }?>
 <p class="footer">
