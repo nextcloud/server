@@ -355,13 +355,10 @@ OC_FILES.file=function(dir,file,type,mime){
 				}
 			}
 		}
-		// replaced fileActions[this.mime] by fileActions[this.mime1 + this.mime2]
-		// since an object name cannot contain slashes.
-		// (correct me if I'm wrong)
-		if(OC_FILES.fileActions[this.mime1 + this.mime2]){
-			for(index in OC_FILES.fileActions[this.mime1 + this.mime2]){
-				if(OC_FILES.fileActions[this.mime1 + this.mime2][index].call){
-					this.actions[index]=OC_FILES.fileActions[this.mime1 + this.mime2][index];
+		if(OC_FILES.fileActions[this.mime]){
+			for(index in OC_FILES.fileActions[this.mime]){
+				if(OC_FILES.fileActions[this.mime][index].call){
+					this.actions[index]=OC_FILES.fileActions[this.mime][index];
 				}
 			}
 		}
