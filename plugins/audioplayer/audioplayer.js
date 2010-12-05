@@ -52,6 +52,9 @@ if(!OC_FILES.fileActions.applicationogg){
 OC_FILES.fileActions.audio.play = function() {
 	OC_AudioPlayer.playAudio(this.dir, this.file, this.mime);
 }
+OC_FILES.fileActions.applicationogg.play = function() {
+	OC_AudioPlayer.playAudio(this.dir, this.file, this.mime);
+}
 
 OC_FILES.fileActions.audio['default'] = OC_FILES.fileActions.audio.play;
-OC_FILES.fileActions.applicationogg['default'] = OC_FILES.fileActions.audio.play;
+OC_FILES.fileActions.applicationogg['default'] = OC_FILES.fileActions.applicationogg.play;
