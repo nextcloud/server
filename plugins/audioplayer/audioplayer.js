@@ -11,12 +11,12 @@ OC_AudioPlayer.playAudio = function(dir, file, type) {
 	var audio = document.createElement('audio');
 	var source = document.createElement('source');
 	
-	if (!(!!(audio.canPlayType) && (audio.canPlayType(type) != "no") && (audio.canPlayType(type) != ""))) {
-		// use a flash player fallback
-		// or implement some nice on-the-fly recoding here
-		alert("Native playing of '"+type+"' format is not supported by your browser.");
-		return;
-	}
+// 	if (!(!!(audio.canPlayType) && (audio.canPlayType(type) != "no") && (audio.canPlayType(type) != ""))) {
+// 		// use a flash player fallback
+// 		// or implement some nice on-the-fly recoding here
+// 		alert("Native playing of '"+type+"' format is not supported by your browser.");
+// 		return;
+// 	}
 	audio.setAttribute('controls', 'true');
 	audio.setAttribute('preload', 'auto');
 	audio.setAttribute('autoplay', 'true');
@@ -41,20 +41,26 @@ OC_AudioPlayer.hidePlayer = function(){
 	div.parentNode.removeChild(div);
 } 
 
-
-if(!OC_FILES.fileActions.audio){
-	OC_FILES.fileActions.audio = new Object();
+// only register "play" option for file formats the browser claims to support
+OC_AudioPlayer.formats = {
+	'audio/mpeg':"mp3",
+	'audio/ogg':"ogg",
+	'application/ogg':"ogg",
+	'audio/wav':"wav",
+	'audio/wave':"wav",
+	'audio/x-wav':"wav",
+	'audio/basic':"au",
+	'audio/x-aiff':"aif"
+};
+var audio = document.createElement('audio');
+for(format in OC_AudioPlayer.formats) {
+	if (!!(audio.canPlayType) && (audio.canPlayType(format) != "no") && (audio.canPlayType(format) != "")) {
+		if(!OC_FILES.fileActions[format]) {
+			OC_FILES.fileActions[format] = new Object();
+		}
+		OC_FILES.fileActions[format].play = function() {
+			OC_AudioPlayer.playAudio(this.dir, this.file, this.mime);
+		}
+		OC_FILES.fileActions[format]['default'] = OC_FILES.fileActions[format].play;
+	}
 }
-if(!OC_FILES.fileActions.applicationogg){
-	OC_FILES.fileActions.applicationogg = new Object();
-}
-
-OC_FILES.fileActions.audio.play = function() {
-	OC_AudioPlayer.playAudio(this.dir, this.file, this.mime);
-}
-OC_FILES.fileActions.applicationogg.play = function() {
-	OC_AudioPlayer.playAudio(this.dir, this.file, this.mime);
-}
-
-OC_FILES.fileActions.audio['default'] = OC_FILES.fileActions.audio.play;
-OC_FILES.fileActions.applicationogg['default'] = OC_FILES.fileActions.applicationogg.play;
