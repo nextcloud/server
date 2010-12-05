@@ -1,7 +1,7 @@
 OC_AudioPlayer = new Object();
 
 OC_AudioPlayer.playAudio = function(dir, file, type) {
-	var path = WEBROOT + '/files/open_file.php?dir='+encodeURIComponent(dir)+'&file='+encodeURIComponent(file);
+	var path = WEBROOT + '/files/api?action=get&dir='+encodeURIComponent(dir)+'&file='+encodeURIComponent(file);
 	
 	OC_AudioPlayer.audioFrame = document.createElement('div');
 	OC_AudioPlayer.audioFrame.setAttribute('id', 'audioframe');
@@ -17,10 +17,10 @@ OC_AudioPlayer.playAudio = function(dir, file, type) {
 // 		alert("Native playing of '"+type+"' format is not supported by your browser.");
 // 		return;
 // 	}
-	audio.setAttribute('controls', 'true');
+	audio.setAttribute('controls', 'controls');
 	audio.setAttribute('preload', 'auto');
-	audio.setAttribute('autoplay', 'true');
-	audio.setAttribute('autobuffer', 'true');
+	audio.setAttribute('autoplay', 'autoplay');
+	audio.setAttribute('autobuffer', 'autobuffer');
 	source.setAttribute('src', path);
 	source.setAttribute('type', type);
 	
