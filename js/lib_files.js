@@ -225,6 +225,10 @@ OC_FILES.newFile=function(type,name,dir){
 	arg=new Object;
 	arg.name=name;
 	arg.dir=dir;
+	if(OC_FILES.cache.files[name]){//check if the file already exists
+		alert(((type=='dir')?'folder ':'file ')+name+' already exists.');
+		return;
+	}
 	arg.type=type;
 	OC_API.run('new',{dir:dir,name:name,type:type},OC_FILES.new_callback,arg)
 	if(!OC_FILES.cache.incomplete[dir]){
