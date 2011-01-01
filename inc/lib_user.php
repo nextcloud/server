@@ -78,8 +78,8 @@ class OC_USER {
 	 * Check if the login button is pressed and log the user in
 	 *
 	 */
-	public static function loginLisener() {
-		return self::$_backend->loginLisener();
+	public static function loginListener() {
+		return self::$_backend->loginListener();
 	}
 
 	/**
@@ -106,8 +106,8 @@ class OC_USER {
 	 * Check if the logout button is pressed and logout the user
 	 *
 	 */
-	public static function logoutLisener() {
-		return self::$_backend->logoutLisener();
+	public static function logoutListener() {
+		return self::$_backend->logoutListener();
 	}
 
 	/**

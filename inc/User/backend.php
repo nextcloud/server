@@ -33,7 +33,7 @@ abstract class OC_USER_BACKEND {
 	 * Check if the login button is pressed and log the user in
 	 *
 	 */
-	abstract public static function loginLisener();
+	abstract public static function loginListener();
 
 	/**
 	 * Try to create a new user
@@ -55,7 +55,7 @@ abstract class OC_USER_BACKEND {
 	 * Check if the logout button is pressed and logout the user
 	 *
 	 */
-	abstract public static function logoutLisener();
+	abstract public static function logoutListener();
 
 	/**
 	 * Check if some user is logged in

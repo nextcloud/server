@@ -45,7 +45,7 @@ class OC_CONFIG{
 	}
   }
 
-	public static function createUserLisener(){
+	public static function createUserListener(){
 		if(OC_USER::isLoggedIn()){
 			if(OC_USER::ingroup($_SESSION['username'],'admin')){
 				if(isset($_POST['new_username']) and isset($_POST['new_password'])){
@@ -63,7 +63,7 @@ class OC_CONFIG{
 		}
 	}
 	
-	public static function createGroupLisener(){
+	public static function createGroupListener(){
 		if(OC_USER::isLoggedIn()){
 			if(isset($_POST['creategroup']) and $_POST['creategroup']==1){
 				if(OC_USER::creategroup($_POST['groupname'])){
@@ -84,7 +84,7 @@ class OC_CONFIG{
    * lisen for configuration changes
    *
    */
-	public static function configLisener(){
+	public static function configListener(){
 		if(OC_USER::isLoggedIn()){
 			if(isset($_POST['config']) and $_POST['config']==1){
 				$error='';
@@ -142,7 +142,7 @@ class OC_CONFIG{
 	* lisen for admin configuration changes and write it to the file
 	*4bd0be1185e76
 	*/
-	public static function writeAdminLisener(){
+	public static function writeAdminListener(){
 		global $CONFIG_INSTALLED;
 		$allow=false;
 		if(!$CONFIG_INSTALLED){

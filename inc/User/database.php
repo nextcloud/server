@@ -36,7 +36,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * Check if the login button is pressed and log the user in
 	 *
 	 */
-	public static function loginLisener(){
+	public static function loginListener(){
 		if ( isset($_POST['loginbutton']) AND isset($_POST['password']) AND isset($_POST['login']) ) {
 			if ( OC_USER::login($_POST['login'], $_POST['password']) ) {
 				echo 1;
@@ -111,7 +111,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * Check if the logout button is pressed and logout the user
 	 *
 	 */
-	public static function logoutLisener() {
+	public static function logoutListener() {
 		global $WEBROOT;
 		if ( isset($_GET['logoutbutton']) AND isset($_SESSION['username']) ) {
 			OC_LOG::event($_SESSION['username'], 2, '');

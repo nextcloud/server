@@ -51,14 +51,14 @@ if(!OC_UTIL::hasSmallScreen()){
 
 
   // check if already configured. otherwise start configuration wizard
-  $error=OC_CONFIG::writeadminlisener();
-  if($e=OC_CONFIG::configlisener()){
+  $error=OC_CONFIG::writeadminlistener();
+  if($e=OC_CONFIG::configlistener()){
 	$error.=$e;
   }
-  if($e=OC_CONFIG::createuserlisener()){
+  if($e=OC_CONFIG::createuserlistener()){
 	$error.=$e;
   }
-  if($e=OC_CONFIG::creategrouplisener()){
+  if($e=OC_CONFIG::creategrouplistener()){
 	$error.=$e;
   }
   $CONFIG_ERROR=$error;
