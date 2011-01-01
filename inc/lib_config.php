@@ -81,7 +81,7 @@ class OC_CONFIG{
 	
 	
 	/**
-   * lisen for configuration changes
+   * listen for configuration changes
    *
    */
 	public static function configListener(){
@@ -139,7 +139,7 @@ class OC_CONFIG{
 	}
 	
 	/**
-	* lisen for admin configuration changes and write it to the file
+	* listen for admin configuration changes and write it to the file
 	*4bd0be1185e76
 	*/
 	public static function writeAdminListener(){
