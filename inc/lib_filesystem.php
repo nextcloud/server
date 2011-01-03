@@ -125,7 +125,7 @@ class OC_FILESYSTEM{
 		if(substr($path,0,1)!=='/'){
 			$path='/'.$path;
 		}
-		if(strstr($path,'/../')){
+		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
 			return false;
 		}
 		return true;//dummy untill premissions are correctly implemented, also the correcty value because for now users are locked in their seperate data dir and can read/write everything in there
