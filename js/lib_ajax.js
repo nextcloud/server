@@ -28,11 +28,15 @@ callBack=function(func,obj){
 
 callBack.callBacks=Array();
 
-callBack.call=function(id,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
+callBack.call=function(id){
    callback=callBack.callBacks[id];
-   if(callback){
-       return callback.func.call(callback.obj,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
-   }
+   var args=[];
+   for (var m = 1; m < arguments.length; m++){
+		args.push(arguments[m]);
+	}
+	if(callback){
+		return callback.apply(null,args);
+	}
 }
 
 //provide a simple way to add things to the onload
