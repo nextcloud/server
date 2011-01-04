@@ -20,11 +20,10 @@
 */
 
 //The callBack object provides an easy way to pass a member of an object as callback parameter and makes sure that the 'this' is always set correctly when called.
+//bindScope provides a much cleaner sollution but we keep this one for compatibility and instead implement is with bindScope
 callBack=function(func,obj){
-   this.id=callBack.callBacks.length;
-   callBack.callBacks[this.id]=this;
-   this.func=func;
-   this.obj=obj;
+	var newFunction=func.bindScope(obj);
+	callBack.callBacks[this.id]=newFunction;
 }
 
 callBack.callBacks=Array();
@@ -34,18 +33,6 @@ callBack.call=function(id,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
    if(callback){
        return callback.func.call(callback.obj,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
    }
-}
-
-callBack.prototype=function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
-   return this.call(false,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
-}
-callBack.prototype.func=false;
-callBack.prototype.obj=false;
-callBack.prototype.call=function(dummy,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10){
-   return this.func.call(this.obj,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10);
-}
-callBack.prototype.apply=function(dummy,arguments){
-   return this.func.apply(this.obj,arguments);
 }
 
 //provide a simple way to add things to the onload
@@ -199,3 +186,48 @@ loadScript=function(url){//dynamicly load javascript files
 	body=document.getElementsByTagName('body').item(0);
 	body.appendChild(script);
 }
+
+Function.prototype.bindScope=function(obj){
+	var o=obj;
+	var fn=this;
+	return function(){
+		return fn.apply(o,arguments);
+	}
+}
+
+Function.prototype.bind=function(){
+	var args = [];
+	var fn=this;
+	for (var n = 0; n < arguments.length; n++){
+		args.push(arguments[n]);
+	}
+	return function (){
+		var myargs = [];
+		for (var m = 0; m < arguments.length; m++){
+			myargs.push(arguments[m]);
+		}
+		return fn.apply(this, args.concat(myargs));
+	};
+}
+
+Array.prototype.foreach=function(func,that){
+	if (!func) return;
+	that=that||this;
+	var returns=[];
+	for(var i=0;i<this.length;i++){
+		returns.push(func.call(that,this[i]));
+	}
+	return returns;
+}
+
+Array.prototype.where = function(func,that) {
+	var found = [];
+	that=that||this;
+	for(var i = 0, l = this.length; i < l; ++i) {
+		var item = this[i];
+		if(func.call(that,item)){
+			found.push(item);
+		}
+	}
+	return found;
+};
