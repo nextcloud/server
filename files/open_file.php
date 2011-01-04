@@ -24,12 +24,16 @@
 
 require_once('../inc/lib_base.php');
 
-$file=$_GET['file'];
-$dir=(isset($_GET['dir']))?$_GET['dir']:'';
-if(strstr($file,'..') or strstr($dir,'..')){
-    die();
+if(isset($_GET['path'])){
+	$filename=$_GET['path'];
+}else{
+	$file=$_GET['file'];
+	$dir=(isset($_GET['dir']))?$_GET['dir']:'';
+	$filename=$dir.'/'.$file;
 }
-$filename=$dir.'/'.$file;
+if(strstr($filename,'..')){
+	die();
+}
 $filename=stripslashes($filename);
 $ftype=OC_FILESYSTEM::getMimeType($filename);
 ob_end_clean();
