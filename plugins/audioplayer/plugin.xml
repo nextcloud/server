@@ -1,0 +1,15 @@
+<?xml version="1.0"?> 
+<plugin version='1.0'>
+	<info>
+		<id>audioplayer</id>
+		<name>A simple HTML5 based audio player for ownCloud</name>
+		<version>0.1</version>
+		<licence>AGPL</licence>
+		<author>ente</author>
+		<require>1.1</require>
+	</info>
+	<runtime>
+		<include>lib_audioplayer.php</include>
+	</runtime>
+</plugin> 
+

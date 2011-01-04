@@ -35,7 +35,7 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 	 * Check if the login button is pressed and log the user in
 	 *
 	 */
-	public static function loginLisener() {
+	public static function loginListener() {
 		return('');
 	}
 
@@ -69,7 +69,7 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 	 * Check if the logout button is pressed and logout the user
 	 *
 	 */
-	public static function logoutLisener() {
+	public static function logoutListener() {
 		if ( isset($_GET['logoutbutton']) AND isset($_SESSION['username']) ) {
 			header('WWW-Authenticate: Basic realm="ownCloud"');
 			header('HTTP/1.0 401 Unauthorized');

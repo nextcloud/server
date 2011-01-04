@@ -102,8 +102,8 @@ OC_UTIL::setupFS();
 OC_UTIL::checkserver();
 
 // listen for login or logout actions
-OC_USER::logoutlisener();
-$loginresult=OC_USER::loginlisener();
+OC_USER::logoutlistener();
+$loginresult=OC_USER::loginlistener();
 
 /**
  * Class for utility functions
