@@ -94,7 +94,9 @@ OC_FILES.browser.breadcrumb.add=function(name,path){
 OC_FILES.browser.breadcrumb.remove=function(path){
 	if(OC_FILES.browser.breadcrumb.crumbs[path]){
 		var div=OC_FILES.browser.breadcrumb.crumbs[path];
-		div.parentNode.removeChild(div);
+		if(div.parentNode){
+			div.parentNode.removeChild(div);
+		}
 		delete OC_FILES.browser.breadcrumb.crumbs[path];
 	}
 }
