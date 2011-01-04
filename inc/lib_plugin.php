@@ -59,8 +59,10 @@ class OC_PLUGIN{
 				}
 			}
 			
-			foreach($data['runtime'] as $include){
-				include($SERVERROOT.'/plugins/'.$id.'/'.$include);
+			if(isset($data['runtime'])){
+				foreach($data['runtime'] as $include){
+					include($SERVERROOT.'/plugins/'.$id.'/'.$include);
+				}
 			}
 		}
 		return false;
