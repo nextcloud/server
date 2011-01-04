@@ -369,6 +369,9 @@ class OC_FILESYSTEM{
 				}
 				$file=$mp.$file;
 				$file=substr($file,strlen(self::$fakeRoot));
+				if($file === '' || $file === false){
+					$file = '/';
+				}
 			}
 			return $return;
 		}
