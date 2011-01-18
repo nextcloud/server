@@ -204,56 +204,60 @@ class OC_UTIL {
    *
    */
   public static function checkServer(){
-    global $SERVERROOT;
-    global $CONFIG_DATADIRECTORY_ROOT;
-    global $CONFIG_BACKUPDIRECTORY;
-    global $CONFIG_ENABLEBACKUP;
-    global $CONFIG_INSTALLED;
-    $error='';
-    if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
+	global $SERVERROOT;
+	global $CONFIG_DATADIRECTORY_ROOT;
+	global $CONFIG_BACKUPDIRECTORY;
+	global $CONFIG_ENABLEBACKUP;
+	global $CONFIG_INSTALLED;
+	$error='';
+	if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
 		$error.='No database drivers (sqlite or mysql) installed.<br/>';
-    }
-    global $CONFIG_DBTYPE;
-    global $CONFIG_DBNAME;
-    if($CONFIG_DBTYPE=='sqlite'){
-		$file=$SERVERROOT.'/'.$CONFIG_DBNAME;
-		if(file_exists($file)){
-			$prems=substr(decoct(fileperms($file)),-3);
-			if(substr($prems,2,1)!='0'){
-				@chmod($file,0660);
-				clearstatcache();
+	}
+	global $CONFIG_DBTYPE;
+	global $CONFIG_DBNAME;
+	echo PHP_OS;
+	if(!stristr(PHP_OS, 'WIN')){
+		if($CONFIG_DBTYPE=='sqlite'){
+			$file=$SERVERROOT.'/'.$CONFIG_DBNAME;
+			if(file_exists($file)){
 				$prems=substr(decoct(fileperms($file)),-3);
 				if(substr($prems,2,1)!='0'){
-					$error.='SQLite database file ('.$file.') is readable from the web<br/>';
+					@chmod($file,0660);
+					clearstatcache();
+					$prems=substr(decoct(fileperms($file)),-3);
+					if(substr($prems,2,1)!='0'){
+						$error.='SQLite database file ('.$file.') is readable from the web<br/>';
+					}
 				}
 			}
 		}
-	}
-	$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
-	if(substr($prems,-1)!='0'){
-		chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
-		clearstatcache();
 		$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
-		if(substr($prems,2,1)!='0'){
-			$error.='Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>';
-		}
-	}
-	if($CONFIG_ENABLEBACKUP){
-		$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 		if(substr($prems,-1)!='0'){
-			chmodr($CONFIG_BACKUPDIRECTORY,0770);
+			chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
 			clearstatcache();
-			$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
+			$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,2,1)!='0'){
-				$error.='Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>';
+				$error.='Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>';
 			}
 		}
+		if($CONFIG_ENABLEBACKUP){
+			$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
+			if(substr($prems,-1)!='0'){
+				chmodr($CONFIG_BACKUPDIRECTORY,0770);
+				clearstatcache();
+				$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
+				if(substr($prems,2,1)!='0'){
+					$error.='Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>';
+				}
+			}
+		}
+	}else{
+		//TODO: premisions checks for windows hosts
 	}
 	if($error){
 		die($error);
 	}
-    
-  }
+}
 
   /**
    * show the header of the web GUI
