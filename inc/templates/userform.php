@@ -13,7 +13,7 @@ if(isset($_POST['groupAddRemove'])){
 		}
 	}
 }
-$action=$WEBROOT.'/settings/#user_managment';
+$action=$WEBROOT.'/settings/#user_management';
 if(!empty($CONFIG_ERROR)){
 	echo "<p class='error'>$CONFIG_ERROR</p>";
 }
