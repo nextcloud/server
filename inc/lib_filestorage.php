@@ -116,7 +116,11 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		return stat($this->datadir.$path);
 	}
 	public function filetype($path){
-		return filetype($this->datadir.$path);
+		$filetype=filetype($this->datadir.$path);
+		if($filetype=='link'){
+			$filetype=filetype(readlink($this->datadir.$path));
+		}
+		return $filetype;
 	}
 	public function filesize($path){
 		return filesize($this->datadir.$path);
