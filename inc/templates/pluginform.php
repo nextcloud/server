@@ -1,5 +1,5 @@
 <?php
-$action=$WEBROOT.'/settings/#plugin_managment';
+$action=$WEBROOT.'/settings/#plugin_management';
 if(isset($_POST['plugin_disable_id'])){
 	$id=$_POST['plugin_disable_id'];
 	$disable=$_POST['plugin_disable'];
