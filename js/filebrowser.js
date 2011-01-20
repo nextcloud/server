@@ -168,7 +168,7 @@ OC_FILES.browser.files.add=function(name,type,size,date,mime){
 		a=document.createElement('a');
 		td.appendChild(a);
 		a.appendChild(document.createTextNode(name));
-		a.addEvent('onclick',new callBack(fileObject.actions['default'],fileObject));
+		a.addEvent('onclick',fileObject.actions['default'].bindScope(fileObject));
 		a.makeDraggable();
 		a.addEvent('ondrop',OC_FILES.browser.handleDrop);
 		if(type=='dir'){
@@ -196,7 +196,7 @@ OC_FILES.browser.files.add=function(name,type,size,date,mime){
 		img.alt=''
 		img.title='actions';
 		img.src=WEBROOT+'/img/arrow_down.png';
-		img.addEvent('onclick',OC_FILES.browser.showactions,name);
+		img.addEvent('onclick',OC_FILES.browser.showactions.bind(name));
 		if(!SMALLSCREEN){
 			td=document.createElement('td');
 			tr.appendChild(td);
@@ -442,7 +442,7 @@ OC_FILES.browser.showuploader=function(dir,parent,max_upload){
 	file.name='file';
 	file.setAttribute('id','fileSelector');
 	file.setAttribute('type','file');
-	file.addEvent('onchange',OC_FILES.upload,[iframeId]);
+	file.addEvent('onchange',OC_FILES.upload.bind(iframeId));
 	OC_FILES.uploadForm.appendChild(document.createTextNode('Upload file: '));
 	OC_FILES.uploadForm.appendChild(file);
 	parent.appendChild(OC_FILES.uploadForm);
@@ -460,13 +460,13 @@ OC_FILES.browser.show_rename=function(dir,file){
       }
    }
    var form=document.createElement('form');
-   form.addEvent('onsubmit',OC_FILES.rename,[dir,file]);
+   form.addEvent('onsubmit',OC_FILES.rename.bind(dir).bind(file));
    var input=document.createElement('input');
    input.setAttribute('type','text');
    input.setAttribute('name','newname');
    input.setAttribute('value',file);
    input.setAttribute('id',file+'_newname')
-   input.addEvent('onblur',OC_FILES.browser.rename_cancel,[file]);
+   input.addEvent('onblur',OC_FILES.browser.rename_cancel.bind(file));
    form.appendChild(input);
    item.appendChild(form);
    input.focus();
@@ -516,7 +516,7 @@ OC_FILES.browser.showactions=function(file,hide){
                 td.appendChild(a);
                 a.appendChild(document.createTextNode(capitaliseFirstLetter(name)));
                 var action=actions[name];
-                td.addEvent('onclick',new callBack(action,file));
+                td.addEvent('onclick',action.bindScope(file));
             }
         }
         node.appendChild(div);
