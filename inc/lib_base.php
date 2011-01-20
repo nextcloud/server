@@ -215,7 +215,6 @@ class OC_UTIL {
 	}
 	global $CONFIG_DBTYPE;
 	global $CONFIG_DBNAME;
-	echo PHP_OS;
 	if(!stristr(PHP_OS, 'WIN')){
 		if($CONFIG_DBTYPE=='sqlite'){
 			$file=$SERVERROOT.'/'.$CONFIG_DBNAME;
