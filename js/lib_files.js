@@ -47,7 +47,7 @@ OC_FILES.getdirectorycontent_parse=function(req){
 		for(var name in json){
 			if(name!='__max_upload'){
 				var file=new Array();
-				var attributes=Array('size','name','type','directory','date','mime');
+				var attributes=Array('size','name','type','directory','date','mime','writable','readable');
 				for(var i in attributes){
 					var attributeName=attributes[i];
 					file[attributeName]=json[name][attributeName];

@@ -54,7 +54,7 @@ if($arguments['action']){
 			break;
 		case 'getfiles':
 			$max_upload=min(return_bytes(ini_get('post_max_size')),return_bytes(ini_get('upload_max_filesize')));
-			$files=OC_FILES::getdirectorycontent($arguments['dir']);
+			$files=OC_FILES::getDirectoryContent($arguments['dir']);
 			$files['__max_upload']=$max_upload;
 			echo json_encode($files);
 			break;

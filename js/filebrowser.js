@@ -130,11 +130,29 @@ OC_FILES.browser.files.show=function(parent,fileList){
 			}
 		}
 		//add the files that arent in the list yet
+		var unreadableFiles=[];
 		for(name in fileList){
 			file=fileList[name];
-			if(!OC_FILES.browser.files.fileNodes[file.name]){
-				OC_FILES.browser.files.add(file.name,file.type,file.size,file.date,file.mime);
+			if(file.readable){
+				if(!OC_FILES.browser.files.fileNodes[file.name]){
+					OC_FILES.browser.files.add(file.name,file.type,file.size,file.date,file.mime);
+				}
+			}else if(file.name){
+				unreadableFiles.push(file);
 			}
+		}
+		if(unreadableFiles.length>0){
+			var message=unreadableFiles.length+" unreadable files detected:\n";
+			var first=true;
+			unreadableFiles.foreach(function(item){
+				if(!first){
+					message+=', ';
+				}
+				first=false;
+				message+=item.name;
+			});
+			message+="\nPlease check the file premissions";
+			alert(message);
 		}
 	}
 }
