@@ -208,94 +208,96 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	}
 
 	public function getMimeType($fspath){
-		if (@is_dir($this->datadir.$fspath)) {
-			// directories are easy
-			return "httpd/unix-directory";
-		}elseif (function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
-			$mimeType =strtolower(finfo_file($finfo,$this->datadir.$fspath));
-			$mimeType=substr($mimeType,0,strpos($mimeType,';'));
-			finfo_close($finfo);
-			return $mimeType;
-		} else if (function_exists("mime_content_type")) {
-			// use mime magic extension if available
-			$mime_type = mime_content_type($this->datadir.$fspath);
-		} else if (self::canExecute("file")) {
-			// it looks like we have a 'file' command,
-			// lets see it it does have mime support
-			$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
-			$reply = fgets($fp);
-			pclose($fp);
+		if($this->is_readable($fspath)){
+			if (@is_dir($this->datadir.$fspath)) {
+				// directories are easy
+				return "httpd/unix-directory";
+			}elseif (function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
+				$mimeType =strtolower(finfo_file($finfo,$this->datadir.$fspath));
+				$mimeType=substr($mimeType,0,strpos($mimeType,';'));
+				finfo_close($finfo);
+				return $mimeType;
+			} else if (function_exists("mime_content_type")) {
+				// use mime magic extension if available
+				$mime_type = mime_content_type($this->datadir.$fspath);
+			} else if (self::canExecute("file")) {
+				// it looks like we have a 'file' command,
+				// lets see it it does have mime support
+				$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
+				$reply = fgets($fp);
+				pclose($fp);
 
-			//trim the character set from the end of the response
-			$mime_type=substr($reply,0,strrpos($reply,' '));
-		}
-		if (empty($mime_type)) {
-			// Fallback solution: try to guess the type by the file extension
-			// TODO: add more ...
-			switch (strtolower(strrchr(basename($fspath), "."))) {
-				case '.css':
-					$mime_type = 'text/css';
-					break;
-				case '.flac':
-					$mime_type = 'audio/flac';
-					break;
-				case '.gif':
-					$mime_type = 'image/gif';
-					break;
-				case '.gzip':
-				case '.gz':
-					$mime_type = 'application/x-gzip';
-					break;
-				case '.htm':
-				case '.html':
-					$mime_type = 'text/html';
-					break;
-				case '.jpeg':
-				case '.jpg':
-					$mime_type = 'image/jpeg';
-					break;
-				case '.js':
-					$mime_type = 'application/x-javascript';
-					break;
-				case '.oga':
-				case '.ogg':
-					$mime_type = 'audio/ogg';
-					break;
-				case '.ogv':
-					$mime_type = 'video/ogg';
-					break;
-				case '.pdf':
-					$mime_type = 'application/pdf';
-					break;
-				case '.png':
-					$mime_type = 'image/png';
-					break;
-				case '.svg':
-					$mime_type = 'image/svg+xml';
-					break;
-				case '.tar':
-					$mime_type = 'application/x-tar';
-					break;
-				case '.tgz':
-					$mime_type = 'application/x-compressed';
-					break;
-				case '.tif':
-				case '.tiff':
-					$mime_type = 'image/tiff';
-					break;
-				case '.txt':
-					$mime_type = 'text/plain';
-					break;
-				case '.zip':
-					$mime_type = 'application/zip';
-					break;
-				default:
-					$mime_type = 'application/octet-stream';
-					break;
+				//trim the character set from the end of the response
+				$mime_type=substr($reply,0,strrpos($reply,' '));
 			}
-		}
+			if (empty($mime_type)) {
+				// Fallback solution: try to guess the type by the file extension
+				// TODO: add more ...
+				switch (strtolower(strrchr(basename($fspath), "."))) {
+					case '.css':
+						$mime_type = 'text/css';
+						break;
+					case '.flac':
+						$mime_type = 'audio/flac';
+						break;
+					case '.gif':
+						$mime_type = 'image/gif';
+						break;
+					case '.gzip':
+					case '.gz':
+						$mime_type = 'application/x-gzip';
+						break;
+					case '.htm':
+					case '.html':
+						$mime_type = 'text/html';
+						break;
+					case '.jpeg':
+					case '.jpg':
+						$mime_type = 'image/jpeg';
+						break;
+					case '.js':
+						$mime_type = 'application/x-javascript';
+						break;
+					case '.oga':
+					case '.ogg':
+						$mime_type = 'audio/ogg';
+						break;
+					case '.ogv':
+						$mime_type = 'video/ogg';
+						break;
+					case '.pdf':
+						$mime_type = 'application/pdf';
+						break;
+					case '.png':
+						$mime_type = 'image/png';
+						break;
+					case '.svg':
+						$mime_type = 'image/svg+xml';
+						break;
+					case '.tar':
+						$mime_type = 'application/x-tar';
+						break;
+					case '.tgz':
+						$mime_type = 'application/x-compressed';
+						break;
+					case '.tif':
+					case '.tiff':
+						$mime_type = 'image/tiff';
+						break;
+					case '.txt':
+						$mime_type = 'text/plain';
+						break;
+					case '.zip':
+						$mime_type = 'application/zip';
+						break;
+					default:
+						$mime_type = 'application/octet-stream';
+						break;
+				}
+			}
 
-		return $mime_type;
+			return $mime_type;
+		}
 	}
 
 	/**
