@@ -134,6 +134,7 @@ class OC_CONFIG{
 				$configContent .= "\n\$CONFIG_$key = $value;";  // e.g. $CONFIG_PI = 3.14;
 			}
 		}
+		$configContent .= "\n?>";
 		$filename = "$SERVERROOT/config/config.php";
 		file_put_contents($filename, $configContent);
 	}
