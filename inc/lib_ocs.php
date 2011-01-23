@@ -103,7 +103,6 @@ class OC_OCS {
     $paracount=count($ex);
 
     // eventhandler
-
     // CONFIG
     // apiconfig - GET - CONFIG
     if(($method=='get') and (strtolower($ex[$paracount-3])=='v1.php') and (strtolower($ex[$paracount-2])=='config')){
@@ -137,12 +136,17 @@ class OC_OCS {
     // get - GET DATA
     }elseif(($method=='get') and (strtolower($ex[$paracount-4])=='v1.php')and (strtolower($ex[$paracount-2])=='getattribute')){
       $format=OC_OCS::readdata('format','text');
-      OC_OCS::privateDataGet($format, "");
+      OC_OCS::privateDataGet($format);
 
     }elseif(($method=='get') and (strtolower($ex[$paracount-5])=='v1.php')and (strtolower($ex[$paracount-3])=='getattribute')){
       $format=OC_OCS::readdata('format','text');
+      $app=$ex[$paracount-2];
+      OC_OCS::privateDataGet($format, $app);
+	}elseif(($method=='get') and (strtolower($ex[$paracount-6])=='v1.php')and (strtolower($ex[$paracount-4])=='getattribute')){
+      $format=OC_OCS::readdata('format','text');
       $key=$ex[$paracount-2];
-      OC_OCS::privateDataGet($format, $key);
+      $app=$ex[$paracount-3];
+      OC_OCS::privateDataGet($format, $app,$key);
 
     // set - POST DATA
     }elseif(($method=='post') and (strtolower($ex[$paracount-6])=='v1.php')and (strtolower($ex[$paracount-4])=='setattribute')){
@@ -443,16 +447,24 @@ class OC_OCS {
    * @param string $key
    * @return string xml/json
    */
-  private static function privateDataGet($format, $key) {
+  private static function privateDataGet($format,$app="",$key="") {
 	global $CONFIG_DBTABLEPREFIX;
-
     $user=OC_OCS::checkpassword();
-
-    if (!trim($key)) {
-        $result = OC_DB::select("select key,value,timestamp from {$CONFIG_DBTABLEPREFIX}privatedata order by timestamp desc");
-    } else {
-        $result = OC_DB::select("select key,value,timestamp from {$CONFIG_DBTABLEPREFIX}privatedata where key ='".addslashes($key)."' order by timestamp desc");
-    }
+	$key=OC_DB::escape($key);
+	$app=OC_DB::escape($app);
+	if($app){
+		if (!trim($key)) {
+			$result = OC_DB::select("select `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' order by `timestamp` desc");
+		} else {
+			$result = OC_DB::select("select `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' and `key` ='$key' order by `timestamp` desc");
+		}
+	}else{
+		if (!trim($key)) {
+			$result = OC_DB::select("select `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata order by `timestamp` desc");
+		} else {
+			$result = OC_DB::select("select `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where `key` ='$key' order by `timestamp` desc");
+		}
+	}
     $itemscount=count($result);
 
     $xml=array();
@@ -473,23 +485,24 @@ class OC_OCS {
    * @param string $value
    * @return string xml/json
    */
-  private static function privateDataSet($format, $app, $key, $value) {
-	global $CONFIG_DBTABLEPREFIX;
-
-    //TODO: prepared statements, locking tables, fancy stuff, error checking/handling
-    $user=OC_OCS::checkpassword();
-
-    $result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where key = '".addslashes($key)."' and app = '".addslashes($app)."'");
-    $totalcount=$result[0]['co'];
-
-    if ($totalcount != 0) {
-        $result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='".addslashes($value)."', timestamp = datetime('now') where key = '".addslashes($key)."' and app = '".addslashes($app)."'");
-    } else {
-        $result = OC_DB::query("insert into {$CONFIG_DBTABLEPREFIX}privatedata(app, key, value, timestamp) values('".addslashes($app)."', '".addslashes($key)."', '".addslashes($value)."', datetime('now'))");
-    }
-
-    echo(OC_OCS::generatexml($format,'ok',100,''));
-  }
+	private static function privateDataSet($format, $app, $key, $value) {
+		global $CONFIG_DBTABLEPREFIX;
+		$app=OC_DB::escape($app);
+		$key=OC_DB::escape($key);
+		$value=OC_DB::escape($value);
+		//TODO: prepared statements, locking tables, fancy stuff, error checking/handling
+		$user=OC_OCS::checkpassword();
+		
+		$result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where `key` = '$key' and app = '$app'");
+		$totalcount=$result[0]['co'];
+		if ($totalcount != 0) {
+			$result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='$value', `timestamp` = now() where `key` = '$key' and app = '$app");
+		} else {
+			$result = OC_DB::query("insert into {$CONFIG_DBTABLEPREFIX}privatedata(app, `key`, value, `timestamp`) values('$app', '$key', '$value', now())");
+		}
+		
+		echo(OC_OCS::generatexml($format,'ok',100,''));
+	}
 }
 
 

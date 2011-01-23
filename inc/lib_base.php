@@ -428,8 +428,11 @@ class OC_DB {
 			return false;
 		}
 		OC_DB::connect();
-		if($CONFIG_DBTYPE=='sqlite'){//fix differences between sql versions
-			$cmd=str_replace('`','',$cmd);
+		//fix differences between sql versions
+
+		//differences in escaping of table names (` for mysql)
+		if($CONFIG_DBTYPE=='sqlite'){
+			$cmd=str_replace('`','\'',$cmd);
 		}elseif($CONFIG_DBTYPE=='pgsql'){
 			$cmd=str_replace('`','"',$cmd);
 		}
@@ -455,8 +458,11 @@ class OC_DB {
 	static function select($cmd){
 		OC_DB::connect();
 		global $CONFIG_DBTYPE;
-		if($CONFIG_DBTYPE=='sqlite'){//fix differences between sql versions
-			$cmd=str_replace('`','',$cmd);
+  //fix differences between sql versions
+
+		//differences in escaping of table names (` for mysql)
+		if($CONFIG_DBTYPE=='sqlite'){
+			$cmd=str_replace('`','\'',$cmd);
 		}elseif($CONFIG_DBTYPE=='pgsql'){
 			$cmd=str_replace('`','"',$cmd);
 		}
