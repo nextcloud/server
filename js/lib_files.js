@@ -124,7 +124,7 @@ OC_FILES.upload=function(iframeId){
 	OC_FILES.cache.incomplete[dir][name]['size']=size;
 	OC_FILES.cache.incomplete[dir][name]['mime']=mime;
 	OC_FILES.uploadIFrames[iframeId].file=file;
-	OC_FILES.uploadIFrames[iframeId].addEvent('onload',new callBack(OC_FILES.upload_callback,OC_FILES.uploadIFrames[iframeId]));
+	OC_FILES.uploadIFrames[iframeId].addEvent('onload',OC_FILES.upload_callback.bindScope(OC_FILES.uploadIFrames[iframeId]));
 	OC_FILES.browser.files.add(name,'incomplete',size,null,mime);
 	OC_FILES.uploadForm.submit();
 	if(OC_FILES.uploadForm.parentElement){
@@ -144,6 +144,8 @@ OC_FILES.upload_callback=function(iframeId){
 		OC_FILES.cache.files[file.name]=OC_FILES.cache.incomplete[file.dir][file.name]
 		delete OC_FILES.cache.incomplete[file.dir][file.name];
 		OC_FILES.cache.files[file.name]['type']=file.type;
+		OC_FILES.cache.files[file.name]['writable']=true;
+		OC_FILES.cache.files[file.name]['readable']=true;
 		this.uploadForm.parentNode.removeChild(this.uploadForm);
 		this.parentNode.removeChild(this);
 		OC_FILES.uploadIFrames[file.iframeId]=null;
