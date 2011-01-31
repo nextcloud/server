@@ -50,6 +50,14 @@ OC_TextViewer.showText=function(dir,file){
 	div.setAttribute('class','center');
 	div.addEvent('onclick',OC_TextViewer.hideText)
 	OC_TextViewer.textFrame=document.createElement('div');
+	OC_TextViewer.textFrame.addEvent('onclick',function(e){
+		if(window.event = true){
+			window.event.cancelBubble = true;
+		}
+		if(e.stopPropagation){
+			e.stopPropagation();
+		}
+	});
 	OC_TextViewer.textFrame.pre=document.createElement('pre');
 	div.appendChild(OC_TextViewer.textFrame);
 	OC_TextViewer.textFrame.appendChild(OC_TextViewer.textFrame.pre);
