@@ -1,5 +1,4 @@
 <?php
-
 /**
 * ownCloud
 *
@@ -81,8 +80,6 @@ oc_require_once('lib_log.php');
 oc_require_once('lib_config.php');
 oc_require_once('lib_user.php');
 oc_require_once('lib_ocs.php');
-@oc_require_once('MDB2.php');
-@oc_require_once('MDB2/Schema.php');
 oc_require_once('lib_connect.php');
 oc_require_once('lib_remotestorage.php');
 oc_require_once('lib_plugin.php');
@@ -369,6 +366,7 @@ class OC_DB {
 		global $CONFIG_DBTYPE;
 		global $DOCUMENTROOT;
 		global $SERVERROOT;
+		@oc_require_once('MDB2.php');
 		if(!self::$DBConnection){
 			$options = array(
 				'portability' => MDB2_PORTABILITY_ALL,
@@ -400,10 +398,14 @@ class OC_DB {
 					'database' => $CONFIG_DBNAME,
 				);
 			}
-			self::$DBConnection=&MDB2::factory($dsn,$options);
+			self::$DBConnection=MDB2::factory($dsn,$options);
+			
 			if (PEAR::isError(self::$DBConnection)) {
 				echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
-				die(self::$DBConnection->getMessage());
+				$error=self::$DBConnection->getMessage();
+				error_log("$error");
+				error_log(self::$DBConnection->getUserInfo());
+				die($error);
 			}
 			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
 		}
@@ -411,6 +413,7 @@ class OC_DB {
 	
 	public static function connectScheme(){
 		self::connect();
+		@oc_require_once('MDB2/Schema.php');
 		if(!self::$schema){
 			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
 		}
@@ -467,7 +470,7 @@ class OC_DB {
 			$cmd=str_replace('`','"',$cmd);
 		}
 		$result=self::$DBConnection->queryAll($cmd);
-		if (PEAR::isError($result)) {
+		if (PEAR::isError($result)){
 			$entry='DB Error: "'.$result->getMessage().'"<br />';
 			$entry.='Offending command was: '.$cmd.'<br />';
 			die($entry);
