@@ -366,8 +366,8 @@ class OC_DB {
 		global $CONFIG_DBTYPE;
 		global $DOCUMENTROOT;
 		global $SERVERROOT;
-		@oc_require_once('MDB2.php');
 		if(!self::$DBConnection){
+			@oc_require_once('MDB2.php');
 			$options = array(
 				'portability' => MDB2_PORTABILITY_ALL,
 				'log_line_break' => '<br>',
@@ -413,8 +413,8 @@ class OC_DB {
 	
 	public static function connectScheme(){
 		self::connect();
-		@oc_require_once('MDB2/Schema.php');
 		if(!self::$schema){
+			@oc_require_once('MDB2/Schema.php');
 			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
 		}
 	}
