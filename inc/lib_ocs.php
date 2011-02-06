@@ -155,6 +155,12 @@ class OC_OCS {
       $app=$ex[$paracount-3];
       $value=OC_OCS::readdata('value','text');
       OC_OCS::privatedataset($format, $app, $key, $value);
+    // delete - POST DATA
+    }elseif(($method=='post') and (strtolower($ex[$paracount-6])=='v1.php')and (strtolower($ex[$paracount-4])=='deleteattribute')){
+      $format=OC_OCS::readdata('format','text');
+      $key=$ex[$paracount-2];
+      $app=$ex[$paracount-3];
+      OC_OCS::privatedatadelete($format, $app, $key);
 
     }else{
       $format=OC_OCS::readdata('format','text');
@@ -443,67 +449,144 @@ class OC_OCS {
   // PRIVATEDATA API #############################################
 
   /**
-   * get private data
+   * get private data and create the xml for ocs
+   * @param string $format
+   * @param string $app
    * @param string $key
    * @return string xml/json
    */
   private static function privateDataGet($format,$app="",$key="") {
-	global $CONFIG_DBTABLEPREFIX;
     $user=OC_OCS::checkpassword();
-	$key=OC_DB::escape($key);
-	$app=OC_DB::escape($app);
-	if($app){
-		if (!trim($key)) {
-			$result = OC_DB::select("select `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' order by `timestamp` desc");
-		} else {
-			$result = OC_DB::select("select `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' and `key` ='$key' order by `timestamp` desc");
-		}
-	}else{
-		if (!trim($key)) {
-			$result = OC_DB::select("select `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata order by `timestamp` desc");
-		} else {
-			$result = OC_DB::select("select `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where `key` ='$key' order by `timestamp` desc");
-		}
-	}
-    $itemscount=count($result);
-
+	$result=OC_OCS::getData($user,$app,$key);
     $xml=array();
     foreach($result as $i=>$log) {
       $xml[$i]['key']=$log['key'];
+      $xml[$i]['app']=$log['app'];
       $xml[$i]['value']=$log['value'];
       $xml[$i]['timestamp']=$log['timestamp'];
     }
 
 
-    $txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'privatedata', 'full', 2, count($xml), 0);
+    $txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'privatedata', 'full', 2, count($xml), 0);//TODO: replace 'privatedata' with 'attribute' once a new libattice has been released that works with it
     echo($txt);
   }
 
   /**
-   * set private data referenced by $key to $value
+   * set private data referenced by $key to $value and generate the xml for ocs
+   * @param string $format
+   * @param string $app
    * @param string $key
    * @param string $value
    * @return string xml/json
    */
 	private static function privateDataSet($format, $app, $key, $value) {
+		$user=OC_OCS::checkpassword();
+		if(OC_OCS::setData($user,$app,$key,$value)){
+			echo(OC_OCS::generatexml($format,'ok',100,''));
+		}
+	}
+
+	/**
+	* delete private data referenced by $key and generate the xml for ocs
+	* @param string $format
+	* @param string $app
+	* @param string $key
+	* @return string xml/json
+	*/
+	private static function privateDataDelete($format, $app, $key) {
+		if($key=="" or $app==""){
+			return; //key and app are NOT optional here
+		}
+		$user=OC_OCS::checkpassword();
+		if(OC_OCS::deleteData($user,$app,$key)){
+			echo(OC_OCS::generatexml($format,'ok',100,''));
+		}
+	}
+	
+	/**
+	* get private data
+	* @param string $user
+	* @param string $app
+	* @param string $key
+	* @return array
+	*/
+	public static function getData($user,$app="",$key="") {
+		global $CONFIG_DBTABLEPREFIX;
+		$user=OC_DB::escape($user);
+		$key=OC_DB::escape($key);
+		$app=OC_DB::escape($app);
+		$key="$user::$key";//ugly hack for the sake of keeping database scheme compatibiliy
+		if($app){
+			if (!trim($key)) {
+				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' order by `timestamp` desc");
+			} else {
+				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' and `key` ='$key' order by `timestamp` desc");
+			}
+		}else{
+			if (!trim($key)) {
+				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata order by `timestamp` desc");
+			} else {
+				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where `key` ='$key' order by `timestamp` desc");
+			}
+		}
+		return $result;
+	}
+
+	/**
+	* set private data referenced by $key to $value
+	* @param string $user
+	* @param string $app
+	* @param string $key
+	* @param string $value
+	* @return bool
+	*/
+	public static function setData($user, $app, $key, $value) {
 		global $CONFIG_DBTABLEPREFIX;
 		$app=OC_DB::escape($app);
 		$key=OC_DB::escape($key);
+		$user=OC_DB::escape($user);
 		$value=OC_DB::escape($value);
+		$key="$user::$key";//ugly hack for the sake of keeping database scheme compatibiliy
 		//TODO: prepared statements, locking tables, fancy stuff, error checking/handling
-		$user=OC_OCS::checkpassword();
-		
 		$result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where `key` = '$key' and app = '$app'");
 		$totalcount=$result[0]['co'];
 		if ($totalcount != 0) {
-			$result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='$value', `timestamp` = now() where `key` = '$key' and app = '$app");
+			$result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='$value', `timestamp` = now() where `key` = '$key' and app = '$app'");
 		} else {
 			$result = OC_DB::query("insert into {$CONFIG_DBTABLEPREFIX}privatedata(app, `key`, value, `timestamp`) values('$app', '$key', '$value', now())");
 		}
-		
-		echo(OC_OCS::generatexml($format,'ok',100,''));
+		if (PEAR::isError($result)){
+			$entry='DB Error: "'.$result->getMessage().'"<br />';
+			error_log($entry);
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	/**
+	* delete private data referenced by $key
+	* @param string $user
+	* @param string $app
+	* @param string $key
+	* @return string xml/json
+	*/
+	public static function deleteData($user, $app, $key) {
+		global $CONFIG_DBTABLEPREFIX;
+		$app=OC_DB::escape($app);
+		$key=OC_DB::escape($key);
+		$user=OC_DB::escape($user);
+		$key="$user::$key";//ugly hack for the sake of keeping database scheme compatibiliy
+		//TODO: prepared statements, locking tables, fancy stuff, error checking/handling
+		$result = OC_DB::query("delete from {$CONFIG_DBTABLEPREFIX}privatedata where `key` = '$key' and app = '$app'");
+		if (PEAR::isError($result)){
+			$entry='DB Error: "'.$result->getMessage().'"<br />';
+			error_log($entry);
+			return false;
+		}else{
+			return true;
+		}
 	}
 }
-
 
 ?>
