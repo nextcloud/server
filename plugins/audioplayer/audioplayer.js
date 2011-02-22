@@ -1,7 +1,7 @@
 OC_AudioPlayer = new Object();
 
 OC_AudioPlayer.playAudio = function(dir, file, type) {
-	var path = WEBROOT + '/files/api?action=get&dir='+encodeURIComponent(dir)+'&file='+encodeURIComponent(file);
+	var path = WEBROOT + '/files/api.php?action=get&dir='+encodeURIComponent(dir)+'&file='+encodeURIComponent(file);
 	
 	OC_AudioPlayer.audioFrame = document.createElement('div');
 	OC_AudioPlayer.audioFrame.setAttribute('id', 'audioframe');
