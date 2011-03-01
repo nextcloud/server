@@ -70,7 +70,7 @@ class OC_TEMPLATE{
 		$smarty->left_delimiter  = "[%";
 		$smarty->right_delimiter = "%]";
 		$smarty->template_dir    = $template_dir;
-		$smarty->compile_dir     = "$template_dir/_c";
+		$smarty->compile_dir     = "$SERVERROOT/templates/_c";
 		$smarty->registerPlugin( "function", "linkto", "oc_template_helper_link_to");
 		$smarty->registerPlugin( "function", "imagepath", "oc_template_helper_image_path");
 
