@@ -1,10 +1,10 @@
 <?php
 
 /**
-* ownCloud - ajax frontend
+* ownCloud
 *
-* @author Robin Appelman
-* @copyright 2010 Robin Appelman icewind1991@gmail.com
+* @author Frank Karlitschek
+* @copyright 2010 Frank Karlitschek karlitschek@kde.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,7 +21,6 @@
 *
 */
 
-
 require_once('../lib/base.php');
 oc_require( 'template.php' );
 if( !OC_USER::isLoggedIn()){
@@ -29,12 +28,27 @@ if( !OC_USER::isLoggedIn()){
 	exit();
 }
 
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+$users = array();
+$groups = array();
 
-$files=OC_FILES::getdirectorycontent( $dir );
+foreach( OC_USER::getUsers() as $i ){
+	// Do some more work here soon
+	$ingroups = array();
+	foreach( OC_USER::getUserGroups( $i ) as $userGroup){
+		$ingroup[] = OC_USER::getGroupName( $userGroup );
+	}
+	$users[] = array( "name" => $i, "groups" => join( ",", $ingroups ));
+}
 
-$tmpl = new OC_TEMPLATE( "files", "index", "user" );
-$tmpl->assign( "files", $files );
+foreach( OC_USER::getGroups() as $i ){
+	// Do some more work here soon
+	$groups[] = array( "name" => $i );
+}
+
+$tmpl = new OC_TEMPLATE( "admin", "users", "admin" );
+$tmpl->assign( "users", $users );
+$tmpl->assign( "groups", $groups );
 $tmpl->printPage();
 
 ?>
+

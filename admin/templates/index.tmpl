@@ -1,0 +1,7 @@
+<h1>Administration</h1>
+
+<ul>
+	[%foreach $adminpages as $i%]
+		<li><a href="[%linkto app=$i.app file=$i.file%]">[%$i.name%]</a></li>
+	[%/foreach%]
+</ul>

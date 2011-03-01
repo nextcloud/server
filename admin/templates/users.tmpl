@@ -1,0 +1,39 @@
+<h1>Administration</h1>
+<h2>Users</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Name</th>
+			<th>Groups</th>
+		</tr>
+	<thead>
+	<tbody>
+		[%foreach $users as $user%]
+			<tr>
+				<td><input type="checkbox"></td>
+				<td>[%$user.name%]</td>
+				<td>[%$user.groups%]</td>
+			</tr>
+		[%/foreach%]
+	</tbody>
+</table>
+
+<h2>Groups</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th></th>
+		</tr>
+	<thead>
+	<tbody>
+		[%foreach $groups as $group%]
+			<tr>
+				<td>[%$group.name%]</td>
+				<td>remove</td>
+			</tr>
+		[%/foreach%]
+	</tbody>
+</table>

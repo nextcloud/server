@@ -1,10 +1,10 @@
 <?php
 
 /**
-* ownCloud - ajax frontend
+* ownCloud
 *
-* @author Robin Appelman
-* @copyright 2010 Robin Appelman icewind1991@gmail.com
+* @author Frank Karlitschek
+* @copyright 2010 Frank Karlitschek karlitschek@kde.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,7 +21,6 @@
 *
 */
 
-
 require_once('../lib/base.php');
 oc_require( 'template.php' );
 if( !OC_USER::isLoggedIn()){
@@ -29,12 +28,24 @@ if( !OC_USER::isLoggedIn()){
 	exit();
 }
 
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+$plugins=array();
+$blacklist=OC_PLUGIN::loadBlackList();
 
-$files=OC_FILES::getdirectorycontent( $dir );
+foreach( OC_PLUGIN::listPlugins() as $i ){
+	// Gather data about plugin
+	$data = OC_PLUGIN::getPluginData($plugin);
 
-$tmpl = new OC_TEMPLATE( "files", "index", "user" );
-$tmpl->assign( "files", $files );
+	// Is it enabled?
+	$data["enabled"] = ( array_search( $plugin, $blacklist ) === false );
+
+	// Add the data
+	$plugins[] = $data;
+}
+
+
+$tmpl = new OC_TEMPLATE( "admin", "plugins", "admin" );
+$tmpl->assign( "plugins", $plugins );
 $tmpl->printPage();
 
 ?>
+

@@ -1,0 +1,656 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body
+{
+    background-color: #FEFEFE;
+    background-image: url(../img/body_background.jpg);
+    background-repeat: repeat-y;
+    background-position: left top;
+    line-height: 1.6em;
+    font: normal 80% "Lucida Grande", Arial, Verdana, sans-serif;
+    color: #000;
+}
+
+#header
+{
+    height: 70px;
+    padding: 0.5em 1.5em;
+    background-image: url(../img/header_background.png);
+    background-repeat: repeat-x;
+    background-position: left top;
+}
+
+#owncloud
+{
+    float: left;
+    margin: 0 0 0 2em;
+}
+
+h1
+{
+    margin: 1em 3em 1em 0;
+    border-bottom: 1px solid #666;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-style: italic;
+    color: #666;
+}
+
+p.center
+{
+    text-align: center;
+}
+
+
+form
+{
+    margin: 2em 2em 2em 3em;
+}
+
+form#quota
+{
+    max-width: 600px;
+}
+
+form#user_settings
+{
+    max-width: 600px;
+}
+
+form#user_settings p label
+{
+    display: block;
+    float: left;
+    width: 35%;
+    padding: 0.4em 0.5em 0 0;
+    text-align: right;
+}
+
+form p
+{
+    padding: 0.5em 4em 0.5em 0.5em;
+    text-align: left;
+}
+
+form p.form_footer
+{
+    margin: 1em 0 0 0;
+    text-align: right;
+}
+
+form label
+{
+    cursor: pointer;
+}
+
+form input
+{
+    padding: 0.2em;
+    border: 1px solid #DDD;
+    font-size: 1.2em;
+}
+
+/*
+form input[type="submit"]
+{
+    padding: 0.1em 1em;
+    border: 1px solid #999;
+    font-weight: bold;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+*/
+
+form input[type="submit"]:hover
+{
+    border: 1px solid #999;
+    background-color: #CCC;
+}
+
+fieldset
+{
+    padding: 1em;
+    background-color: #F7F7F7;
+    border: 1px solid #DDD;
+}
+
+legend
+{
+    padding: 0 0.5em;
+    font-size: 1.2em;
+}
+
+
+div.controls
+{
+    width: 91%;
+    margin: 1em 1em 1em 2em;
+    padding: 0.5em 0;
+    background-color: #F7F7F7;
+    border: 1px solid #EEE;
+}
+
+
+
+/* LOG IN SCREEN ------------------------------------------------------------ */
+
+body.login
+{
+    background-image: none;
+    background-color: #DDD;
+}
+
+body.login p.info
+{
+    width: 640px;
+    margin: 4em auto;
+    padding: 1em 1em 1em 4em;
+    background-color: #EEE;
+    background-image: url(../img/help_about.png);
+    background-position: 0.8em 0.8em;
+    background-repeat: no-repeat;
+    border: 1px solid #CCC;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#login
+{
+    margin: 0 auto 0 auto;
+    padding: 2em 0 0 0;
+    background-image: url(../img/header_background2.png);
+    background-position: left 0;
+    background-repeat: repeat-x;
+    background-color: #EEE;
+    text-align: center;
+}
+
+#login form
+{
+    margin: 2.5em auto 0 auto;
+    padding: 0 0 1.5em 0;
+    text-align: center;
+    border-bottom: 1px solid #FFF;
+}
+
+#login h1
+{
+    margin: 0;
+    padding: 2.5em 0 0 0;
+    border: 0;
+    text-align: center;
+    text-transform: lowercase;
+    font-size: 1.5em;
+}
+
+#login fieldset
+{
+    background-color: transparent;
+    border: 0;
+}
+
+#login fieldset p
+{
+    margin: 1em 0 0 0;
+    padding: 0;
+    text-align: center;
+}
+
+#login label
+{
+    font-size: 1.2em;
+    color: #FFF;
+}
+
+#login input
+{
+    width: 8em;
+    margin: 0.1em;
+    padding: 0.2em 0.5em;
+    border: 1px solid #DDD;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    font-size: 2em;
+    color: #666;
+}
+
+#login input[type=submit]
+{
+    width: 5em;
+    border: 1px solid #DDD;
+    background-color: #FFF;
+    font-size: 2em;
+}
+
+
+
+/* USER MENU ---------------------------------------------------------------- */
+
+#user
+{
+    float: right;
+    margin: 1em 5em 1em 0;
+    background-image: url(../img/drop-arrow.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    color: #FFF;
+}
+
+#user.userLinkOn
+{
+    background-color: #39577C;
+}
+
+#user_menu_link
+{
+    display: block;
+    padding: 0.5em 2em 0.5em 1em;
+    font-weight: bold;
+}
+
+#user_menu_link, #user_menu a
+{
+    text-decoration: none;
+    color: #FFF;
+}
+
+#user_menu
+{
+    position: absolute;
+    z-index: 500;
+    right: 6.5em;
+    top: 45px;
+    list-style-type: none;
+    background-color: #39577C;
+}
+
+#user_menu a
+{
+    display: block;
+    padding: 0.5em 5em 0.5em 1em;
+    background-color: transparent;
+}
+
+#user_menu a:hover
+{
+    background-color: #1D2D42;
+}
+
+
+
+/* PLUGINS MENU ------------------------------------------------------------- */
+
+#plugins
+{
+    float: left;
+    width: 200px;
+    padding: 0;
+}
+
+#plugins ul
+{
+    list-style-type: none;
+    border-top: 1px solid #CCC;
+}
+
+#plugins a
+{
+    display: block;
+    padding: 0.5em 0.5em 0.5em 3em;
+    background-position: 1.5em center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #DDD;
+    border-top: 1px solid #FFF;
+    text-decoration: none;
+    font-size: 1.2em;
+    color: #666;
+}
+
+#plugins a:hover, #plugins a.selected
+{
+    background-color: #CCC;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    color: #000;
+}
+
+#plugins .files
+{
+    background-image: url(../img/files.png);
+}
+
+#plugins .sharing
+{
+    background-image: url(../img/sharing.png);
+}
+
+#plugins .galleries
+{
+    background-image: url(../img/galleries.png);
+}
+
+#plugins .music
+{
+    background-image: url(../img/music.png);
+}
+
+
+
+/* CONTENT ------------------------------------------------------------------ */
+
+#content
+{
+    margin: 0 0 0 230px;
+}
+
+table
+{
+    width: 90%;
+    margin: 1em 5em 2em 3em;
+}
+
+table tr.mouseOver td
+{
+    background-color: #EEE;
+}
+
+table th, table td
+{
+    padding: 0;
+    border-bottom: 1px solid #DDD;
+    text-align: left;
+    font-style: italic;
+}
+
+table th
+{
+    padding: 0.5em;
+}
+
+table td
+{
+    border-bottom: 1px solid #EEE;
+    font-style: normal;
+}
+
+table td.filesize, table td.date
+{
+    width: 5em;
+    padding: 0.5em 1em;
+    text-align: right;
+}
+
+table td.date
+{
+    width: 11em;
+}
+
+table td.selection, table th.selection, table td.fileaction
+{
+    width: 2em;
+    text-align: center;
+}
+
+table td.filename a
+{
+    display: block;
+    background-image: url(../img/file.png);
+    text-decoration: none;
+}
+
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete
+{
+    padding: 0.5em 0.5em 0.5em 3em;
+    background-position: 1em center;
+    background-repeat: no-repeat;
+}
+
+table td.filename a:hover
+{
+    text-decoration: underline;
+}
+
+table em
+{
+    font-weight: bold;
+}
+
+table td.filename a.folder-up
+{
+    background-image: url(../img/back.png);
+    font-style: italic;
+}
+
+table td.filename a.folder
+{
+    background-image: url(../img/folder.png);
+}
+
+table td.filename a.folder-home
+{
+    background-image: url(../img/home.png);
+}
+
+table td.filename a.folder-music
+{
+    background-image: url(../img/folder-music.png);
+}
+
+table td.filename a.folder-videos
+{
+    background-image: url(../img/folder-video.png);
+}
+
+table td.filename a.folder-shared
+{
+    background-image: url(../img/folder-shared.png);
+}
+
+table td.filename a.folder-images
+{
+    background-image: url(../img/folder-image.png);
+}
+
+table td.filename a.file-txt
+{
+    background-image: url(../img/file-txt.png);
+}
+
+table td.filename a.file-python
+{
+    background-image: url(../img/file-python.png);
+}
+
+table td.filename a.file-php
+{
+    background-image: url(../img/file.png);
+}
+
+table td.login
+{
+    background-image: url(../img/login.png);
+}
+
+table td.logout
+{
+    background-image: url(../img/logout.png);
+}
+
+table td.download
+{
+    background-image: url(../img/download.png);
+}
+
+table td.upload
+{
+    background-image: url(../img/upload.png);
+}
+
+table td.create
+{
+    background-image: url(../img/folder-new.png);
+}
+
+table td.delete
+{
+    background-image: url(../img/delete.png);
+}
+
+
+/* NAVIGATION BAR */
+
+p.nav
+{
+    margin: 1em 0 0 2em;
+    padding: 0.8em;
+    line-height: 16px;
+    font-weight: bold;
+}
+
+p.nav a
+{
+    padding: 0.5em 1.5em 0.5em 0.5em;
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-image: url(../img/arrow.png);
+    text-decoration: none;
+}
+
+p.nav a img
+{
+    height: 16px;
+    vertical-align: text-top;
+}
+
+
+/* ACTIONS BAR */
+
+p.actions
+{
+    padding: 0;
+}
+
+p.actions a
+{
+    padding: 0.5em 0.5em 0.5em 3em;
+    background-position: 1em center;
+    background-repeat: no-repeat;
+    background-image: url(../img/action.png);
+    border-right: 1px solid #EEE;
+    text-decoration: none;
+    color: #333;
+}
+
+p.actions a:hover
+{
+    background-color: #EEE;
+    color: #000;
+}
+
+p.actions a.new-dir
+{
+    background-image: url(../img/folder-new.png);
+}
+
+p.actions a.download
+{
+    background-image: url(../img/download.png);
+}
+
+p.actions a.delete
+{
+    background-image: url(../img/delete.png);
+}
+
+
+
+/* FILE MENU */
+
+#file_menu
+{
+    display: none;
+    position: absolute;
+    background-color: #EEE;
+}
+
+#file_menu ul
+{
+    list-style-type: none;
+}
+
+#file_menu li a
+{
+    display: block;
+    padding: 0.5em 5em 0.5em 2em;
+    text-decoration: none;
+}
+
+
+
+/* USER SETTINGS ------------------------------------------------------------ */
+
+#quota_indicator
+{
+    margin: 0 4em 1em 0;
+    padding: 0;
+    border: 1px solid #DDD;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+
+#quota_indicator div
+{
+    background-color: #76A9EA;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+
+
+
+/* LOGS --------------------------------------------------------------------- */
+
+#logs_options
+{
+    width: auto;
+    margin: 0;
+}
+
+#logs_options p
+{
+    padding: 0.5em;
+    text-align: left;
+}
+
+#logs_options span
+{
+    margin: 0 2em 0 0.5em;
+    font-weight: bold;
+}
+
+#logs_options label
+{
+    margin: 0 1em 0 0;
+}
+
+#logs_options input[type="submit"]
+{
+    float: right;
+    margin: 0 2em 0 0;
+}
+
+#logs_options input[type="text"]
+{
+    margin: 0;
+    padding: 0;
+    border: 1px solid #CCC;
+    text-align: right;
+}
