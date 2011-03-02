@@ -1,0 +1,48 @@
+/* FILE MENU */
+
+#file_menu
+{
+    display: none;
+    position: absolute;
+    background-color: #EEE;
+}
+
+#file_menu ul
+{
+    list-style-type: none;
+}
+
+#file_menu li a
+{
+    display: block;
+    padding: 0.5em 5em 0.5em 2em;
+    text-decoration: none;
+}
+
+/* FILE TABLE */
+
+table td.filesize, table td.date
+{
+    width: 5em;
+    padding: 0.5em 1em;
+    text-align: right;
+}
+
+table td.date
+{
+    width: 11em;
+}
+
+table td.selection, table th.selection, table td.fileaction
+{
+    width: 2em;
+    text-align: center;
+}
+
+table td.filename a
+{
+    display: block;
+    background-image: url(../img/file.png);
+    text-decoration: none;
+}
+

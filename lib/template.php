@@ -41,7 +41,7 @@ function image_path( $app, $file ){
  *
  */
 function mimetype_icon( $mimetype ){
-	return OC_HELPER::mimetypeIcon( $app, $file );
+	return OC_HELPER::mimetypeIcon( $mimetype );
 }
 
 /**

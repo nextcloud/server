@@ -38,7 +38,7 @@ foreach( $logs as &$i ){
 }
 
 $tmpl = new OC_TEMPLATE( "log", "index", "user" );
-$tmpl->assign( "log", $logs );
+$tmpl->assign( "logs", $logs );
 $tmpl->printPage();
 
 ?>

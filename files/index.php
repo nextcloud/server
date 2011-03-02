@@ -22,19 +22,43 @@
 */
 
 
+// Init owncloud
 require_once('../lib/base.php');
 oc_require( 'template.php' );
+
+// Check if we are a user
 if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_UTIL::linkto( "index.php" ));
+	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
 	exit();
 }
 
+// Load the files we need
+OC_UTIL::addStyle( "files", "files" );
+OC_UTIL::addScript( "files", "files" );
+
+// Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 
-$files=OC_FILES::getdirectorycontent( $dir );
+$files = array();
+foreach( OC_FILES::getdirectorycontent( $dir ) as $i ){
+	$i["date"] = date( $CONFIG_DATEFORMAT, $i["mtime"] );
+	$files[] = $i;
+}
 
+// Make breadcrumb
+$breadcrumb = array();
+$pathtohere = "/";
+foreach( explode( "/", $dir ) as $i ){
+	if( $i != "" ){
+		$pathtohere .= "$i/";
+		$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
+	}
+}
+
+// return template
 $tmpl = new OC_TEMPLATE( "files", "index", "user" );
 $tmpl->assign( "files", $files );
+$tmpl->assign( "breadcrumb", $breadcrumb );
 $tmpl->printPage();
 
 ?>

@@ -571,27 +571,6 @@ p.actions a.delete
 
 
 
-/* FILE MENU */
-
-#file_menu
-{
-    display: none;
-    position: absolute;
-    background-color: #EEE;
-}
-
-#file_menu ul
-{
-    list-style-type: none;
-}
-
-#file_menu li a
-{
-    display: block;
-    padding: 0.5em 5em 0.5em 2em;
-    text-decoration: none;
-}
-
 
 
 /* USER SETTINGS ------------------------------------------------------------ */
