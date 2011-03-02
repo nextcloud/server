@@ -66,7 +66,7 @@ class OC_TEMPLATE{
 	}
 
 	public function append( $a, $b ){
-		if( array_key_exists( $this->vars[$a] )){
+		if( array_key_exists( $a, $this->vars )){
 			if( is_a( $this->vars[$a], "array" )){
 				$this->vars[$a][] = $b;
 			}
@@ -150,7 +150,7 @@ class OC_TEMPLATE{
 
 		// Execute the template
 		ob_start();
-		oc_include( $this->template );
+		include( $this->template ); // <-- we have to use include because we pass $_!
 		$data = ob_get_contents();
 		ob_end_clean();
 
@@ -167,7 +167,9 @@ class OC_TEMPLATE{
 	 */
 	public static function printUserPage( $application, $name, $parameters = array() ){
 		$content = new OC_TEMPLATE( $application, $name, "user" );
-		$content->assign( $parameters );
+		foreach( $parameters as $key => $value ){
+			$content->assign( $key, $value );
+		}
 		return $content->printPage();
 	}
 
@@ -180,7 +182,9 @@ class OC_TEMPLATE{
 	 */
 	public static function printAdminPage( $application, $name, $parameters = array() ){
 		$content = new OC_TEMPLATE( $application, $name, "admin" );
-		$content->assign( $parameters );
+		foreach( $parameters as $key => $value ){
+			$content->assign( $key, $value );
+		}
 		return $content->printPage();
 	}
 
@@ -193,7 +197,9 @@ class OC_TEMPLATE{
 	 */
 	public static function printGuestPage( $application, $name, $parameters = array() ){
 		$content = new OC_TEMPLATE( $application, $name, "guest" );
-		$content->assign( $parameters );
+		foreach( $parameters as $key => $value ){
+			$content->assign( $key, $value );
+		}
 		return $content->printPage();
 	}
 }
