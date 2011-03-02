@@ -24,7 +24,7 @@
 require_once('../lib/base.php');
 oc_require( 'template.php' );
 if( !OC_USER::isLoggedIn() || !OC_USER::ingroup( $_SESSION['username'], 'admin' )){
-	header( "Location: ".OC_UTIL::linkto( "index.php" ));
+	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
 	exit();
 }
 

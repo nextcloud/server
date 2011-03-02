@@ -26,7 +26,7 @@
 require_once('../lib/base.php');
 oc_require( 'template.php' );
 if( !OC_USER::isLoggedIn()){
-    header( "Location: ".OC_UTIL::linkto( "index.php" ));
+    header( "Location: ".OC_HELPER::linkTo( "index.php" ));
     exit();
 }
 
