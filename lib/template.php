@@ -37,6 +37,20 @@ function image_path( $app, $file ){
 	return OC_HELPER::imagePath( $app, $file );
 }
 
+/**
+ *
+ */
+function mimetype_icon( $mimetype ){
+	return OC_HELPER::mimetypeIcon( $app, $file );
+}
+
+/**
+ *
+ */
+function human_file_size( $bytes ){
+	return OC_HELPER::humanFileSize( $bytes );
+}
+
 class OC_TEMPLATE{
 	private $renderas; // Create a full page?
 	private $application; // template Application

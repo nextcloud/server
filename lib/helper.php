@@ -60,7 +60,7 @@ class OC_HELPER {
 	 * show an icon for a filetype
 	 *
 	 */
-	public static function showIcon( $mimetype ){
+	public static function mimetypeIcon( $mimetype ){
 		global $SERVERROOT;
 		global $WEBROOT;
 		// Replace slash with a minus
@@ -78,6 +78,28 @@ class OC_HELPER {
 		else{
 			return "$WEBROOT/img/mimetypes/application-octet-stream.png";
 		}
+	}
+
+	/**
+	 * Human filesize (1 kB for 1024 etc. )
+	 *
+	 */
+	public static function humanFileSize( $bytes ){
+		if( $bytes < 1024 ){
+			return "$bytes B";
+		}
+		$bytes = round( $bytes / 1024, 1 );
+		if( $bytes < 1024 ){
+			return "$bytes kB";
+		}
+		$bytes = round( $bytes / 1024, 1 );
+		if( $bytes < 1024 ){
+			return "$bytes MB";
+		}
+
+		// Wow, heavy duty for owncloud
+		$bytes = round( $bytes / 1024, 1 );
+		return "$bytes GB";
 	}
 }
 
