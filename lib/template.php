@@ -21,18 +21,20 @@
 *
 */
 
+oc_include_once( "helper.php" );
+
 /**
  *
  */
 function link_to( $app, $file ){
-	return OC_UTIL::linkTo( $app, $file );
+	return OC_HELPER::linkTo( $app, $file );
 }
 
 /**
  *
  */
 function image_path( $app, $file ){
-	return OC_UTIL::imagePath( $app, $file );
+	return OC_HELPER::imagePath( $app, $file );
 }
 
 class OC_TEMPLATE{
@@ -67,7 +69,7 @@ class OC_TEMPLATE{
 
 	public function append( $a, $b ){
 		if( array_key_exists( $a, $this->vars )){
-			if( is_a( $this->vars[$a], "array" )){
+			if( is_array( $this->vars[$a] )){
 				$this->vars[$a][] = $b;
 			}
 			else

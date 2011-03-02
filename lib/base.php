@@ -46,6 +46,11 @@ if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 // set the right include path
 // set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
 
+// define runtime variables - unless this already has been done
+if( !isset( $RUNTIME_NOSETUPFS )){
+	$RUNTIME_NOSETUPFS = false;
+}
+
 // define default config values
 $CONFIG_INSTALLED=false;
 $CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
@@ -91,18 +96,34 @@ if(!isset($CONFIG_BACKEND)){
 }
 OC_USER::setBackend($CONFIG_BACKEND);
 
-OC_UTIL::setupFS();
+// Set up file system unless forbidden
+if( !$RUNTIME_NOSETUPFS ){
+	OC_UTIL::setupFS();
+}
 
-oc_startup();
+// Add the stuff we need always
+OC_UTIL::addPersonalMenuEntry( array( "file" => "index.php?logout=1", "name" => "Logout" ));
+OC_UTIL::addScript( "jquery-1.5.min" );
+OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
+OC_UTIL::addScript( "js" );
+OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
+OC_UTIL::addStyle( "styles" );
+
+// Require all appinfo.php
+$dir = opendir( $SERVERROOT );
+while( false !== ( $filename = readdir( $dir ))){
+	if( substr( $filename, 0, 1 ) != '.' ){
+		if( file_exists( "$SERVERROOT/$filename/appinfo.php" )){
+			oc_require( "$filename/appinfo.php" );
+		}
+	}
+}
+closedir( $dir );
 
 
 
 // check if the server is correctly configured for ownCloud
 OC_UTIL::checkserver();
-
-// listen for login or logout actions
-OC_USER::logoutlistener();
-$loginresult=OC_USER::loginlistener();
 
 /**
  * Class for utility functions
@@ -117,28 +138,39 @@ class OC_UTIL {
 	public static $personalmenu = array();
 	private static $fsSetup=false;
 
-	public static function setupFS(){// configure the initial filesystem based on the configuration
+	// Can be set up
+	public static function setupFS( $user = "" ){// configure the initial filesystem based on the configuration
 		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
 		}
+
+		// Global Variables
 		global $SERVERROOT;
 		global $CONFIG_DATADIRECTORY_ROOT;
 		global $CONFIG_DATADIRECTORY;
 		global $CONFIG_BACKUPDIRECTORY;
 		global $CONFIG_ENABLEBACKUP;
 		global $CONFIG_FILESYSTEM;
+
+		// Create root dir
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 			@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
 		}
-		if(OC_USER::isLoggedIn()){ //if we aren't logged in, there is no use to set up the filesystem
+
+		// If we are not forced to load a specific user we load the one that is logged in
+		if( $user == "" && OC_USER::isLoggedIn()){
+			$user = $_SESSION['username_clean'];
+		}
+
+		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			//first set up the local "root" storage and the backupstorage if needed
 			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
 			if($CONFIG_ENABLEBACKUP){
 				if(!is_dir($CONFIG_BACKUPDIRECTORY)){
 					mkdir($CONFIG_BACKUPDIRECTORY);
 				}
-				if(!is_dir($CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean'])){
-					mkdir($CONFIG_BACKUPDIRECTORY.'/'.$_SESSION['username_clean']);
+				if(!is_dir($CONFIG_BACKUPDIRECTORY.'/'.$user )){
+					mkdir($CONFIG_BACKUPDIRECTORY.'/'.$user );
 				}
 				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
@@ -146,7 +178,7 @@ class OC_UTIL {
 			}
 			OC_FILESYSTEM::mount($rootStorage,'/');
 
-			$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$_SESSION['username_clean'];
+			$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$user;
 			if(!is_dir($CONFIG_DATADIRECTORY)){
 				mkdir($CONFIG_DATADIRECTORY);
 			}
@@ -165,7 +197,7 @@ class OC_UTIL {
 			}
 
 			//jail the user into his "home" directory
-			OC_FILESYSTEM::chroot('/'.$_SESSION['username_clean']);
+			OC_FILESYSTEM::chroot('/'.$user);
 			self::$fsSetup=true;
 		}
 	}
@@ -176,36 +208,6 @@ class OC_UTIL {
 	 */
 	public static function getVersion(){
 		return array(1,2,0);
-	}
-
-	/**
-	 * Create an url
-	 *
-	 * @param string $application
-	 * @param string $file
-	 */
-	public static function linkTo( $application, $file = null ){
-		global $WEBROOT;
-		if( is_null( $file )){
-			$file = $application;
-			$application = "";
-		}
-		return "$WEBROOT/$application/$file";
-	}
-
-	/**
-	 * Create an image link
-	 *
-	 * @param string $application
-	 * @param string $file
-	 */
-	public static function imagePath( $application, $file = null ){
-		global $WEBROOT;
-		if( is_null( $file )){
-			$file = $application;
-			$application = "";
-		}
-		return "$WEBROOT/$application/img/$file";
 	}
 
 	/**
@@ -340,18 +342,6 @@ class OC_UTIL {
 		}
 		return false;
 	}
-
-  /**
-   * show an icon for a filetype
-   *
-   */
-  public static function showIcon($filetype){
-	global $WEBROOT;
-	if($filetype=='dir'){ echo('<td><img src="'.$WEBROOT.'/img/icons/folder.png" width="16" height="16"></td>');
-	}elseif($filetype=='foo'){ echo('<td>foo</td>');
-	}else{ echo('<td><img src="'.$WEBROOT.'/img/icons/other.png" width="16" height="16"></td>');
-	}
-  }
 }
 
 
@@ -765,43 +755,6 @@ function chmodr($path, $filemode) {
 		return TRUE;
 	else
 		return FALSE;
-}
-
-function oc_startup(){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	// Add the stuff we need always
-	OC_UTIL::addPersonalMenuEntry( array( "file" => "index.php?logout=1", "name" => "Logout" ));
-	OC_UTIL::addScript( "jquery-1.5.min" );
-	OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
-	OC_UTIL::addScript( "js" );
-	OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
-	OC_UTIL::addStyle( "styles" );
-
-	// Require all appinfo.php
-	$dir = opendir( $SERVERROOT );
-	while( false !== ( $filename = readdir( $dir ))){
-		if( substr( $filename, 0, 1 ) != '.' ){
-			if( file_exists( "$SERVERROOT/$filename/appinfo.php" )){
-				oc_require( "$filename/appinfo.php" );
-			}
-		}
-	}
-	closedir( $dir );
-
-	// Everything done
-	return true;
 }
 
 ?>
