@@ -21,74 +21,64 @@
 *
 */
 
-oc_require_once( "Smarty/Smarty.class.php" );
-
 /**
  *
  */
-function oc_template_helper_link_to( $params, $smarty ){
-	$app = "";
-	if( isset( $params["app"] ))
-	{
-		$app = $params["app"];
-	}
-	$file = $params["file"];
+function link_to( $app, $file ){
 	return OC_UTIL::linkTo( $app, $file );
 }
 
 /**
  *
  */
-function oc_template_helper_image_path( $params, $smarty ){
-	$app = "";
-	if( isset( $params["app"] ))
-	{
-		$app = $params["app"];
-	}
-	$file = $params["file"];
+function image_path( $app, $file ){
 	return OC_UTIL::imagePath( $app, $file );
 }
 
 class OC_TEMPLATE{
 	private $renderas; // Create a full page?
-	private $name; // name of the template
 	private $application; // template Application
-	private $smarty; // The smarty object
+	private $vars; // The smarty object
+	private $template; // The smarty object
 
 	public function __construct( $application, $name, $renderas = "" ){
 		// Global vars we need
 		global $SERVERROOT;
 
-		$template_dir = "$SERVERROOT/templates/";
+		$template = "$SERVERROOT/templates/";
 		// Get the right template folder
-		if( $application != "core" ){
-			$template_dir = "$SERVERROOT/$application/templates/";
+		if( $application != "core" && $application != "" ){
+			$template = "$SERVERROOT/$application/templates/";
 		}
 
-		// Set the OC-defaults for Smarty
-		$smarty = new Smarty();
-		$smarty->left_delimiter  = "[%";
-		$smarty->right_delimiter = "%]";
-		$smarty->template_dir    = $template_dir;
-		$smarty->compile_dir     = "$SERVERROOT/templates/_c";
-		$smarty->registerPlugin( "function", "linkto", "oc_template_helper_link_to");
-		$smarty->registerPlugin( "function", "imagepath", "oc_template_helper_image_path");
-
 		// Templates have the ending .tmpl
-		$name = "$name.tmpl";
+		$template .= "$name.php";
+
 		// Set the private data
 		$this->renderas = $renderas;
 		$this->application = $application;
-		$this->name = $name;
-		$this->smarty = $smarty;
+		$this->template = $template;
+		$this->vars = array();
 	}
 
-	public function assign( $a, $b = null ){
-		$this->smarty->assign( $a, $b );
+	public function assign( $a, $b ){
+		$this->vars[$a] = $b;
 	}
 
-	public function append( $a, $b = null ){
-		$this->smarty->append( $a, $b );
+	public function append( $a, $b ){
+		if( array_key_exists( $this->vars[$a] )){
+			if( is_a( $this->vars[$a], "array" )){
+				$this->vars[$a][] = $b;
+			}
+			else
+			{
+				$array = array( $this->vars[$a], $b );
+				$this->vars[$a] = $array;
+			}
+		}
+		else{
+			$this->vars[$a] = $b;
+		}
 	}
 
 	public function printPage()
@@ -109,7 +99,7 @@ class OC_TEMPLATE{
 	{
 		// global Data we need
 		global $WEBROOT;
-		$data = $this->smarty->fetch( $this->name );
+		$data = $this->_fetch();
 
 		if( $this->renderas )
 		{
@@ -152,6 +142,20 @@ class OC_TEMPLATE{
 		}
 	}
 	public function __destruct(){
+	}
+
+	private function _fetch(){
+		// Register the variables
+		$_ = $this->vars;
+
+		// Execute the template
+		ob_start();
+		oc_include( $this->template );
+		$data = ob_get_contents();
+		ob_end_clean();
+
+		// return the data
+		return $data;
 	}
 
 	/**
