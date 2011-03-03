@@ -88,6 +88,7 @@ oc_require_once('ocs.php');
 oc_require_once('connect.php');
 oc_require_once('remotestorage.php');
 oc_require_once('plugin.php');
+oc_require_once('helper.php');
 
 OC_PLUGIN::loadPlugins();
 
@@ -139,7 +140,7 @@ class OC_UTIL {
 	private static $fsSetup=false;
 
 	// Can be set up
-	public static function setupFS( $user = "" ){// configure the initial filesystem based on the configuration
+	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration
 		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
 		}
@@ -166,11 +167,9 @@ class OC_UTIL {
 			//first set up the local "root" storage and the backupstorage if needed
 			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
 			if($CONFIG_ENABLEBACKUP){
-				if(!is_dir($CONFIG_BACKUPDIRECTORY)){
-					mkdir($CONFIG_BACKUPDIRECTORY);
-				}
-				if(!is_dir($CONFIG_BACKUPDIRECTORY.'/'.$user )){
-					mkdir($CONFIG_BACKUPDIRECTORY.'/'.$user );
+				// This creates the Directorys recursively
+				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
+					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0x777, true );
 				}
 				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
@@ -178,9 +177,9 @@ class OC_UTIL {
 			}
 			OC_FILESYSTEM::mount($rootStorage,'/');
 
-			$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$user;
-			if(!is_dir($CONFIG_DATADIRECTORY)){
-				mkdir($CONFIG_DATADIRECTORY);
+			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
+			if( !is_dir( $CONFIG_DATADIRECTORY )){
+				mkdir( $CONFIG_DATADIRECTORY, 0x777, true );
 			}
 
 			//set up the other storages according to the system settings
@@ -197,7 +196,7 @@ class OC_UTIL {
 			}
 
 			//jail the user into his "home" directory
-			OC_FILESYSTEM::chroot('/'.$user);
+			OC_FILESYSTEM::chroot("/$user/$root");
 			self::$fsSetup=true;
 		}
 	}

@@ -21,8 +21,6 @@
 *
 */
 
-oc_include_once( "helper.php" );
-
 /**
  *
  */
