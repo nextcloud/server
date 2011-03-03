@@ -1,6 +1,6 @@
 <?php
 
-OC_UTIL::addApplication( array( "id" => "admin", "name" => "Administration" ));
+OC_APP::register( array( "id" => "admin", "name" => "Administration" ));
 if( OC_USER::ingroup( $_SESSION['username'], 'admin' ))
 {
 	OC_UTIL::addNavigationEntry( array( "app" => "admin", "file" => "index.php", "name" => "Administration" ));

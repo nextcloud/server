@@ -1,10 +1,11 @@
 <?php
-class OC_APPCONFIG{
+class OC_PREFERENCES{
+	static public $forms=array();
 	/**
 	 * Get the available keys for an application
 	 * @param string application
 	 */
-	public static function getKeys( $application ){
+	public static function getKeys( $user, $application ){
 		// OC_DB::query( $query);
 		return array();
 	}
@@ -15,7 +16,7 @@ class OC_APPCONFIG{
 	 * @param string key
 	 * @param string default
 	 */
-	public static function getValue( $application, $key, $default ){
+	public static function getValue( $user, $application, $key, $default ){
 		// OC_DB::query( $query);
 		return $default;
 	}
@@ -26,7 +27,7 @@ class OC_APPCONFIG{
 	 * @param string key
 	 * @param string value
 	 */
-	public static function setValue( $application, $name, $url ){
+	public static function setValue( $user, $application, $name, $url ){
 		// OC_DB::query( $query);
 		return true;
 	}
