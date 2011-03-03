@@ -7,6 +7,6 @@
 
 <ul>
 	<? foreach( $_["adminpages"] as $i ){ ?>
-		<li><a href="<? echo link_to( $i["app"], $i["file"] ) ?>"><? echo $i["name"] ?></a></li>
+		<li><a href="<? echo $i["href"] ?>"><? echo $i["name"] ?></a></li>
 	<? } ?>
 </ul>

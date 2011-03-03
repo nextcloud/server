@@ -77,6 +77,7 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 }
 
 // load core libs
+oc_require_once('helper.php');
 oc_require_once('app.php');
 oc_require_once('files.php');
 oc_require_once('filesystem.php');
@@ -89,7 +90,6 @@ oc_require_once('ocs.php');
 oc_require_once('connect.php');
 oc_require_once('remotestorage.php');
 oc_require_once('plugin.php');
-oc_require_once('helper.php');
 
 OC_PLUGIN::loadPlugins( "" );
 
@@ -104,15 +104,15 @@ if( !$RUNTIME_NOSETUPFS ){
 }
 
 // Add the stuff we need always
-OC_UTIL::addPersonalMenuEntry( array( "file" => "index.php?logout=1", "name" => "Logout" ));
+OC_UTIL::addPersonalMenuEntry( array( "order" => 1000, "href" => OC_HELPER::linkTo( "", "index.php?logout=1" ), "name" => "Logout" ));
 OC_UTIL::addScript( "jquery-1.5.min" );
 OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
 OC_UTIL::addScript( "js" );
 OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
 OC_UTIL::addStyle( "styles" );
 
-// Require all appinfo.php
-OC_APP::init();
+// Load Apps
+OC_APP::loadApps();
 
 // check if the server is correctly configured for ownCloud
 OC_UTIL::checkserver();
@@ -239,7 +239,7 @@ class OC_UTIL {
 	 *
 	 * @param array $entry
 	 */
-	public static function addAdminPage( $entry){
+	public static function addAdminPage( $entry ){
 		OC_UTIL::$adminpages[] = $entry;
 	}
 

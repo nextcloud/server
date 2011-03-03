@@ -6,13 +6,15 @@ class OC_APP{
 	/**
 	 *
 	 */
-	public static function init(){
+	public static function loadApps(){
+		global $SERVERROOT;
+
 		// Get all appinfo
 		$dir = opendir( $SERVERROOT );
 		while( false !== ( $filename = readdir( $dir ))){
 			if( substr( $filename, 0, 1 ) != '.' ){
-				if( file_exists( "$SERVERROOT/$filename/appinfo.php" )){
-					oc_require( "$filename/appinfo.php" );
+				if( file_exists( "$SERVERROOT/$filename/appinfo/app.php" )){
+					oc_require( "$filename/appinfo/app.php" );
 				}
 			}
 		}
@@ -32,8 +34,8 @@ class OC_APP{
 	/**
 	 *
 	 */
-	public static function list(){
-		return OC_APP::$apps[];
+	public static function getApps(){
+		return OC_APP::$apps;
 	}
 
 }

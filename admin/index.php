@@ -30,7 +30,7 @@ if( !OC_USER::isLoggedIn() || !OC_USER::ingroup( $_SESSION['username'], 'admin' 
 
 $adminpages = array();
 
-foreach( OC_APP::list() as $i ){
+foreach( OC_UTIL::$adminpages as $i ){
 	// Do some more work here soon
 	$adminpages[] = $i;
 }
