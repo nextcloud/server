@@ -6,7 +6,7 @@
 <h1>Administration</h1>
 
 <ul>
-	<? foreach( $_["adminpages"] as $i ){ ?>
-		<li><a href="<? echo link_to( $i["app"], $i["file"] ) ?>"><? echo $i["name"] ?></a></li>
-	<? } ?>
+	<?php foreach($_["adminpages"] as $i): ?>
+		<li><a href="<?php echo link_to($i["app"], $i["file"]) ?>"><?php echo $i["name"] ?></a></li>
+	<?php endforeach; ?>
 </ul>

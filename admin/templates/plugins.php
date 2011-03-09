@@ -17,12 +17,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach( $_["plugins"] as $plugin ){ ?>
-			<td><? echo $plugin["info"]["id"] ?></td>
-			<td><? echo $plugin["info"]["version"] ?></td>
-			<td><? echo $plugin["info"]["name"] ?></td>
-			<td><? echo $plugin["info"]["author"] ?></td>
+		<?php foreach($_["plugins"] as $plugin): ?>
+			<td><?php echo $plugin["info"]["id"] ?></td>
+			<td><?php echo $plugin["info"]["version"] ?></td>
+			<td><?php echo $plugin["info"]["name"] ?></td>
+			<td><?php echo $plugin["info"]["author"] ?></td>
 			<td>enable</td>
-		<? } ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
