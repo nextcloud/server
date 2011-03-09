@@ -5,8 +5,8 @@
 ?>
 <h1>Skeleton</h1>
 
-<? foreach( $_["array"] as $item ){ ?>
-	<p><? echo $item ?></p>
-<? } ?>
+<?php foreach($_["array"] as $item): ?>
+	<p><?php echo $item; ?></p>
+<?php endforeach; ?>
 
-<? echo $_["anothervar"] ?>
+<?php echo $_["anothervar"]; ?>
