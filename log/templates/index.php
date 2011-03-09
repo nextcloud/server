@@ -36,12 +36,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach( $_["logs"] as $entry ){ ?>
+		<?php foreach($_["logs"] as $entry): ?>
 			<tr>
-				<td class="login"><em><? echo $entry["user"] ?></em> <? echo $entry["message"] ?></td>
-				<td class="date"><? echo $entry["date"] ?></td>
+				<td class="login"><em><?php echo $entry["user"]; ?></em> <?php echo $entry["message"]; ?></td>
+				<td class="date"><?php echo $entry["date"]; ?></td>
 			</tr>
-		<? } ?>
+		<?php endforeach; ?>
 	</tbody>
 </table>
 

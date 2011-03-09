@@ -9,24 +9,24 @@
 		<title>ownCloud</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="favicon.ico" />
-		<? foreach( $_["cssfiles"] as $cssfile ){ ?>
-			<link rel="stylesheet" href="<? echo $cssfile ?>" type="text/css" media="screen" />
-		<? } ?>
-		<? foreach( $_["jsfiles"] as $jsfile ){ ?>
-			<script type="text/javascript" src="<? echo $jsfile ?>"></script>
-		<? } ?>
+		<?php foreach($_["cssfiles"] as $cssfile): ?>
+			<link rel="stylesheet" href="<?php echo $cssfile; ?>" type="text/css" media="screen" />
+		<?php endforeach; ?>
+		<?php foreach($_["jsfiles"] as $jsfile): ?>
+			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
+		<?php endforeach; ?>
 	</head>
 
 	<body>
 		<div id="header">
-			<a href="<? echo link_to( "", "index.php" )?>" title="" id="owncloud"><img src="<? echo image_path( "", "owncloud-logo-small-white.png" ) ?>" alt="ownCloud" /></a>
+			<a href="<?php echo link_to("", "index.php"); ?>" title="" id="owncloud"><img src="<?php echo image_path("", "owncloud-logo-small-white.png"); ?>" alt="ownCloud" /></a>
 
 			<div id="user">
 				<a id="user_menu_link" href="" title="">Username</a>
 				<ul id="user_menu">
-					<? foreach( $_["personalmenu"] as $entry ){ ?>
-						<li><a href="<? echo link_to( $entry["app"], $entry["file"] )?>" title=""><? echo $entry["name"] ?></a></li>
-					<? } ?>
+					<?php foreach($_["personalmenu"] as $entry): ?>
+						<li><a href="<?php echo link_to($entry["app"], $entry["file"]); ?>" title=""><?php echo $entry["name"]; ?></a></li>
+					<?php endforeach; ?>
 				</ul>
 			</div>
 		</div>
@@ -34,14 +34,14 @@
 		<div id="main">
 			<div id="plugins">
 				<ul>
-					<? foreach( $_["navigation"] as $entry ){ ?>
-						<li><a href="<? echo link_to( $entry["app"], $entry["file"] )?>" title=""><? echo $entry["name"] ?></a></li>
-					<? } ?>
+					<?php foreach($_["navigation"] as $entry): ?>
+						<li><a href="<?php echo link_to($entry["app"], $entry["file"]); ?>" title=""><?php echo $entry["name"]; ?></a></li>
+					<?php endforeach; ?>
 				</ul>
 			</div>
 
 			<div id="content">
-				<? echo $_["content"] ?>
+				<?php echo $_["content"]; ?>
 			</div>
 		</div>
 	</body>

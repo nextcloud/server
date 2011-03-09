@@ -18,8 +18,8 @@
 		<?php foreach($_["users"] as $user): ?>
 			<tr>
 				<td><input type="checkbox"></td>
-				<td><?php echo $user["name"] ?></td>
-				<td><?php echo $user["groups"] ?></td>
+				<td><?php echo $user["name"]; ?></td>
+				<td><?php echo $user["groups"]; ?></td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
@@ -36,7 +36,7 @@
 	<tbody>
 		<?php foreach($_["groups"] as $group): ?>
 			<tr>
-				<td><?php echo $group["name"] ?></td>
+				<td><?php echo $group["name"]; ?></td>
 				<td>remove</td>
 			</tr>
 		<?php endforeach; ?>

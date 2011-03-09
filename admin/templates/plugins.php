@@ -18,10 +18,10 @@
 	</thead>
 	<tbody>
 		<?php foreach($_["plugins"] as $plugin): ?>
-			<td><?php echo $plugin["info"]["id"] ?></td>
-			<td><?php echo $plugin["info"]["version"] ?></td>
-			<td><?php echo $plugin["info"]["name"] ?></td>
-			<td><?php echo $plugin["info"]["author"] ?></td>
+			<td><?php echo $plugin["info"]["id"]; ?></td>
+			<td><?php echo $plugin["info"]["version"]; ?></td>
+			<td><?php echo $plugin["info"]["name"]; ?></td>
+			<td><?php echo $plugin["info"]["author"]; ?></td>
 			<td>enable</td>
 		<?php endforeach; ?>
 	</tbody>

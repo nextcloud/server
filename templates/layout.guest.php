@@ -9,16 +9,16 @@
 		<title>ownCloud</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="favicon.ico" />
-		<? foreach( $_["cssfiles"] as $cssfile ){ ?>
-			<link rel="stylesheet" href="<? echo $cssfile ?>" type="text/css" media="screen" />
-		<? } ?>
-		<? foreach( $_["jsfiles"] as $jsfile ){ ?>
-			<script type="text/javascript" src="<? echo $jsfile ?>"></script>
-		<? } ?>
+		<?php foreach($_["cssfiles"] as $cssfile): ?>
+			<link rel="stylesheet" href="<?php echo $cssfile; ?>" type="text/css" media="screen" />
+		<?php endforeach; ?>
+		<?php foreach($_["jsfiles"] as $jsfile): ?>
+			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
+		<?php endforeach; ?>
 	</head>
 
 	<body class="login">
-		<? echo $_["content"] ?>
+		<?php echo $_["content"]; ?>
 		<p class="info">
 			ownCloud is an open personal cloud which runs on your personal server.<br />
 			To learn more, please visit <a href="http://www.owncloud.org/">owncloud.org</a>.
