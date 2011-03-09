@@ -77,6 +77,8 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 }
 
 // load core libs
+oc_require_once('helper.php');
+oc_require_once('app.php');
 oc_require_once('files.php');
 oc_require_once('filesystem.php');
 oc_require_once('filestorage.php');
@@ -89,7 +91,7 @@ oc_require_once('connect.php');
 oc_require_once('remotestorage.php');
 oc_require_once('plugin.php');
 
-OC_PLUGIN::loadPlugins();
+OC_PLUGIN::loadPlugins( "" );
 
 if(!isset($CONFIG_BACKEND)){
 	$CONFIG_BACKEND='database';
@@ -102,25 +104,15 @@ if( !$RUNTIME_NOSETUPFS ){
 }
 
 // Add the stuff we need always
-OC_UTIL::addPersonalMenuEntry( array( "file" => "index.php?logout=1", "name" => "Logout" ));
+OC_UTIL::addPersonalMenuEntry( array( "order" => 1000, "href" => OC_HELPER::linkTo( "", "index.php?logout=1" ), "name" => "Logout" ));
 OC_UTIL::addScript( "jquery-1.5.min" );
 OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
 OC_UTIL::addScript( "js" );
 OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
 OC_UTIL::addStyle( "styles" );
 
-// Require all appinfo.php
-$dir = opendir( $SERVERROOT );
-while( false !== ( $filename = readdir( $dir ))){
-	if( substr( $filename, 0, 1 ) != '.' ){
-		if( file_exists( "$SERVERROOT/$filename/appinfo.php" )){
-			oc_require( "$filename/appinfo.php" );
-		}
-	}
-}
-closedir( $dir );
-
-
+// Load Apps
+OC_APP::loadApps();
 
 // check if the server is correctly configured for ownCloud
 OC_UTIL::checkserver();
@@ -133,13 +125,12 @@ class OC_UTIL {
 	public static $scripts=array();
 	public static $styles=array();
 	public static $adminpages = array();
-	public static $applications = array();
 	public static $navigation = array();
 	public static $personalmenu = array();
 	private static $fsSetup=false;
 
 	// Can be set up
-	public static function setupFS( $user = "" ){// configure the initial filesystem based on the configuration
+	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration
 		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
 		}
@@ -166,11 +157,9 @@ class OC_UTIL {
 			//first set up the local "root" storage and the backupstorage if needed
 			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
 			if($CONFIG_ENABLEBACKUP){
-				if(!is_dir($CONFIG_BACKUPDIRECTORY)){
-					mkdir($CONFIG_BACKUPDIRECTORY);
-				}
-				if(!is_dir($CONFIG_BACKUPDIRECTORY.'/'.$user )){
-					mkdir($CONFIG_BACKUPDIRECTORY.'/'.$user );
+				// This creates the Directorys recursively
+				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
+					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0x755, true );
 				}
 				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
@@ -178,9 +167,9 @@ class OC_UTIL {
 			}
 			OC_FILESYSTEM::mount($rootStorage,'/');
 
-			$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$user;
-			if(!is_dir($CONFIG_DATADIRECTORY)){
-				mkdir($CONFIG_DATADIRECTORY);
+			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
+			if( !is_dir( $CONFIG_DATADIRECTORY )){
+				mkdir( $CONFIG_DATADIRECTORY, 0x755, true );
 			}
 
 			//set up the other storages according to the system settings
@@ -197,7 +186,7 @@ class OC_UTIL {
 			}
 
 			//jail the user into his "home" directory
-			OC_FILESYSTEM::chroot('/'.$user);
+			OC_FILESYSTEM::chroot("/$user/$root");
 			self::$fsSetup=true;
 		}
 	}
@@ -250,17 +239,8 @@ class OC_UTIL {
 	 *
 	 * @param array $entry
 	 */
-	public static function addAdminPage( $entry){
+	public static function addAdminPage( $entry ){
 		OC_UTIL::$adminpages[] = $entry;
-	}
-
-	/**
-	 * add application
-	 *
-	 * @param array $entry
-	 */
-	public static function addApplication( $entry){
-		OC_UTIL::$applications[] = $entry;
 	}
 
 	/**

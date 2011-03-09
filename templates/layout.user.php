@@ -25,7 +25,7 @@
 				<a id="user_menu_link" href="" title="">Username</a>
 				<ul id="user_menu">
 					<?php foreach($_["personalmenu"] as $entry): ?>
-						<li><a href="<?php echo link_to($entry["app"], $entry["file"]); ?>" title=""><?php echo $entry["name"]; ?></a></li>
+						<li><a href="<?php echo $entry["href"]; ?>" title=""><?php echo $entry["name"]; ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</div>
@@ -35,7 +35,7 @@
 			<div id="plugins">
 				<ul>
 					<?php foreach($_["navigation"] as $entry): ?>
-						<li><a href="<?php echo link_to($entry["app"], $entry["file"]); ?>" title=""><?php echo $entry["name"]; ?></a></li>
+						<li><a style="background-image:url(<?php echo $entry["icon"]; ?>)" href="<?php echo $entry["href"]; ?>" title=""><?php echo $entry["name"]; ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</div>
