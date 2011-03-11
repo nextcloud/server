@@ -124,9 +124,6 @@ OC_UTIL::checkserver();
 class OC_UTIL {
 	public static $scripts=array();
 	public static $styles=array();
-	public static $adminpages = array();
-	public static $navigation = array();
-	public static $personalmenu = array();
 	private static $fsSetup=false;
 
 	// Can be set up
@@ -223,33 +220,6 @@ class OC_UTIL {
 			$application = "";
 		}
 		self::$styles[] = "$application/css/$file";
-	}
-
-	/**
-	 * add an entry to the main navigation
-	 *
-	 * @param array $entry
-	 */
-	public static function addNavigationEntry( $entry){
-		OC_UTIL::$navigation[] = $entry;
-	}
-
-	/**
-	 * add administration pages
-	 *
-	 * @param array $entry
-	 */
-	public static function addAdminPage( $entry ){
-		OC_UTIL::$adminpages[] = $entry;
-	}
-
-	/**
-	 * add an entry to the personal menu
-	 *
-	 * @param array $entry
-	 */
-	public static function addPersonalMenuEntry( $entry){
-		OC_UTIL::$personalmenu[] = $entry;
 	}
 
 	/**

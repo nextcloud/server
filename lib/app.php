@@ -1,7 +1,32 @@
 <?php
+/**
+ * ownCloud
+ *
+ * @author Frank Karlitschek
+ * @author Jakob Sack
+ * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 class OC_APP{
 	static private $init = false;
 	static private $apps = array();
+	static private $adminpages = array();
+	static private $navigation = array();
+	static private $personalmenu = array();
 
 	/**
 	 * @brief loads all apps
@@ -45,6 +70,7 @@ class OC_APP{
 	 * The following keys are required:
 	 *   - id: id of the application, has to be unique ("addressbook")
 	 *   - name: Human readable name ("Addressbook")
+	 *   - version: array with Version (major, minor, bugfix) ( array(1, 0, 2))
 	 *
 	 * The following keys are optional:
 	 *   - order: integer, that influences the position of your application in
@@ -84,6 +110,7 @@ class OC_APP{
 	 */
 	public static function addNavigationEntry( $data ){
 		// TODO: write function
+		OC_APP::$navigation[] = $data;
 		return true;
 	}
 
@@ -144,6 +171,7 @@ class OC_APP{
 	 */
 	public static function addPersonalMenuEntry( $data ){
 		// TODO: write function
+		OC_APP::$personalmenu[] = $data;
 		return true;
 	}
 
@@ -165,6 +193,7 @@ class OC_APP{
 	 */
 	public static function addAdminPage( $data = array()){
 		// TODO: write function
+		OC_APP::$adminpages[] = $data;
 		return true;
 	}
 
@@ -179,9 +208,9 @@ class OC_APP{
 	 *   - children: array that is empty if the key "active" is false or
 	 *     contains the subentries if the key "active" is true
 	 */
-	public static function getNavigation( $data = array()){
+	public static function getNavigation(){
 		// TODO: write function
-		return true;
+		return OC_APP::$navigation;
 	}
 
 	/**
@@ -191,9 +220,9 @@ class OC_APP{
 	 * This function returns an array containing all personal menu entries
 	 * added. The entries are sorted by the key "order" ascending.
 	 */
-	public static function getPersonalMenu( $data = array()){
+	public static function getPersonalMenu(){
 		// TODO: write function
-		return true;
+		return OC_APP::$personalmenu;
 	}
 
 	/**
@@ -203,13 +232,13 @@ class OC_APP{
 	 * This function returns an array containing all admin pages added. The
 	 * entries are sorted by the key "order" ascending.
 	 */
-	public static function getAdminPages( $data = array()){
+	public static function getAdminPages(){
 		// TODO: write function
-		return true;
+		return OC_APP::$adminpages;
 	}
 
 	/**
-	 * @brief Installs an appl
+	 * @brief Installs an app
 	 * @param $data array with all information
 	 * @returns integer
 	 *
@@ -285,7 +314,7 @@ class OC_APP{
 	 * @returns true/false
 	 *
 	 * This function removes an app. $options is an associative array. The
-	 * following keys are optional:
+	 * following keys are optional:ja
 	 *   - keeppreferences: boolean, if true the user preferences won't be deleted
 	 *   - keepappconfig: boolean, if true the config will be kept
 	 *   - keeptables: boolean, if true the database will be kept
