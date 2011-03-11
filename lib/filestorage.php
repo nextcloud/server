@@ -360,7 +360,9 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	public function toTmpFile($path){
 		$tmpFolder=sys_get_temp_dir();
 		$filename=tempnam($tmpFolder,'OC_TEMP_FILE_'.substr($path,strrpos($path,'.')));
+		$fileStats = stat($this->datadir.$path);
 		if(copy($this->datadir.$path,$filename)){
+			touch($filename, $fileStats['mtime'], $fileStats['atime']);
 			$this->notifyObservers($path,OC_FILEACTION_READ);
 			return $filename;
 		}else{
@@ -369,7 +371,9 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	}
 
 	public function fromTmpFile($tmpFile,$path){
+		$fileStats = stat($tmpFile);
 		if(rename($tmpFile,$this->datadir.$path)){
+			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
 			$this->notifyObservers($path,OC_FILEACTION_CREATE);
 			return true;
 		}else{
