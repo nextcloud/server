@@ -21,6 +21,11 @@
  *
  */
 
+/**
+ * This class manages the apps. It allows them to register and integrate in the
+ * owncloud ecosystem. Furthermore, this class is responsible for installing,
+ * upgrading and removing apps.
+ */
 class OC_APP{
 	static private $init = false;
 	static private $apps = array();
