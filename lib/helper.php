@@ -1,64 +1,62 @@
 <?php
 /**
-* ownCloud
-*
-* @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
-
+ * ownCloud
+ *
+ * @author Frank Karlitschek
+ * @author Jakob Sack
+ * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 /**
- * Class for utility functions
- *
+ * Collection of useful functions
  */
 class OC_HELPER {
 	/**
-	 * Create an url
+	 * @brief Creates an url
+	 * @param $app app
+	 * @param $file file
+	 * @returns the url
 	 *
-	 * @param string $application
-	 * @param string $file
+	 * Returns a url to the given app and file.
 	 */
-	public static function linkTo( $application, $file = null ){
+	public static function linkTo( $app, $file ){
 		global $WEBROOT;
-		if( is_null( $file )){
-			$file = $application;
-			$application = "";
-		}
-		return "$WEBROOT/$application/$file";
+		return "$WEBROOT/$app/$file";
 	}
 
 	/**
-	 * Create an image link
+	 * @brief Creates path to an image
+	 * @param $app app
+	 * @param $image image name
+	 * @returns the url
 	 *
-	 * @param string $application
-	 * @param string $file
+	 * Returns the path to the image.
 	 */
-	public static function imagePath( $application, $file = null ){
+	public static function imagePath( $app, $image ){
 		global $WEBROOT;
-		if( is_null( $file )){
-			$file = $application;
-			$application = "";
-		}
-		return "$WEBROOT/$application/img/$file";
+		return "$WEBROOT/$app/img/$image";
 	}
 
 	/**
-	 * show an icon for a filetype
+	 * @brief get path to icon of mime type
+	 * @param $mimetype mimetype
+	 * @returns the url
 	 *
+	 * Returns the path to the image of this mime type.
 	 */
 	public static function mimetypeIcon( $mimetype ){
 		global $SERVERROOT;
@@ -81,8 +79,11 @@ class OC_HELPER {
 	}
 
 	/**
-	 * Human filesize (1 kB for 1024 etc. )
+	 * @brief Make a human file size
+	 * @param $bytes file size in bytes
+	 * @returns a human readable file size
 	 *
+	 * Makes 2048 to 2 kB.
 	 */
 	public static function humanFileSize( $bytes ){
 		if( $bytes < 1024 ){

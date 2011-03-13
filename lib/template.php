@@ -1,100 +1,155 @@
 <?php
-
 /**
-* ownCloud
-*
-* @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
-
-/**
+ * ownCloud
  *
+ * @author Frank Karlitschek
+ * @author Jakob Sack
+ * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
+ * @brief make OC_HELPER::linkTo available as a simple function
+ * @param $app app
+ * @param $file file
+ * @returns link to the file
+ *
+ * For further information have a look at OC_HELPER::linkTo
  */
 function link_to( $app, $file ){
 	return OC_HELPER::linkTo( $app, $file );
 }
 
 /**
+ * @brief make OC_HELPER::imagePath available as a simple function
+ * @param $app app
+ * @param $image image
+ * @returns link to the image
  *
+ * For further information have a look at OC_HELPER::imagePath
  */
-function image_path( $app, $file ){
-	return OC_HELPER::imagePath( $app, $file );
+function image_path( $app, $image ){
+	return OC_HELPER::imagePath( $app, $image );
 }
 
 /**
+ * @brief make OC_HELPER::mimetypeIcon available as a simple function
+ * @param $mimetype mimetype
+ * @returns link to the image
  *
+ * For further information have a look at OC_HELPER::mimetypeIcon
  */
 function mimetype_icon( $mimetype ){
 	return OC_HELPER::mimetypeIcon( $mimetype );
 }
 
 /**
+ * @brief make OC_HELPER::humanFileSize available as a simple function
+ * @param $bytes size in bytes
+ * @returns size as string
  *
+ * For further information have a look at OC_HELPER::humanFileSize
  */
 function human_file_size( $bytes ){
 	return OC_HELPER::humanFileSize( $bytes );
 }
 
+/**
+ * This class provides the templates for owncloud.
+ */
 class OC_TEMPLATE{
 	private $renderas; // Create a full page?
 	private $application; // template Application
 	private $vars; // The smarty object
 	private $template; // The smarty object
 
-	public function __construct( $application, $name, $renderas = "" ){
+	/**
+	 * @brief Constructor
+	 * @param $app app providing the template
+	 * @param $file name of the tempalte file (without suffix)
+	 * @param $renderas = ""; produce a full page
+	 * @returns OC_TEMPLATE object
+	 *
+	 * This function creates an OC_TEMPLATE object.
+	 *
+	 * If $renderas is set, OC_TEMPLATE will try to produce a full page in the
+	 * according layout. For now, renderas can be set to "guest", "user" or
+	 * "admin".
+	 */
+	public function __construct( $app, $name, $renderas = "" ){
 		// Global vars we need
 		global $SERVERROOT;
 
-		$template = "$SERVERROOT/templates/";
 		// Get the right template folder
-		if( $application != "core" && $application != "" ){
-			$template = "$SERVERROOT/$application/templates/";
+		$template = "$SERVERROOT/templates/";
+		if( $app != "core" && $app != "" ){
+			$template = "$SERVERROOT/$app/templates/";
 		}
 
 		// Templates have the ending .tmpl
-		$template .= "$name.php";
+		$template .= "$name.html";
 
 		// Set the private data
 		$this->renderas = $renderas;
-		$this->application = $application;
+		$this->application = $app;
 		$this->template = $template;
 		$this->vars = array();
 	}
 
-	public function assign( $a, $b ){
-		$this->vars[$a] = $b;
+	/**
+	 * @brief Assign variables
+	 * @param $key key
+	 * @param $value value
+	 * @returns true
+	 *
+	 * This function assigns a variable. It can be accessed via $_[$key] in
+	 * the template.
+	 *
+	 * If the key existed before, it will be overwritten
+	 */
+	public function assign( $key, $value ){
+		$this->vars[$key] = $value;
+		return true;
 	}
 
-	public function append( $a, $b ){
-		if( array_key_exists( $a, $this->vars )){
-			if( is_array( $this->vars[$a] )){
-				$this->vars[$a][] = $b;
-			}
-			else
-			{
-				$array = array( $this->vars[$a], $b );
-				$this->vars[$a] = $array;
-			}
+	/**
+	 * @brief Appends a variable
+	 * @param $key key
+	 * @param $value value
+	 * @returns true
+	 *
+	 * This function assigns a variable in an array context. If the key already
+	 * exists, the value will be appended. It can be accessed via
+	 * $_[$key][$position] in the template.
+	 */
+	public function append( $key, $value ){
+		if( array_key_exists( $key, $this->vars )){
+			$this->vars[$key][] = $value;
 		}
 		else{
-			$this->vars[$a] = $b;
+			$this->vars[$key] = array( $value );
 		}
 	}
 
+	/**
+	 * @brief Prints the proceeded template
+	 * @returns true/false
+	 *
+	 * This function proceeds the template and prints its output.
+	 */
 	public function printPage()
 	{
 		$data = $this->fetchPage();
@@ -109,6 +164,13 @@ class OC_TEMPLATE{
 		}
 	}
 
+	/**
+	 * @brief Proceeds the template
+	 * @returns content
+	 *
+	 * This function proceeds the template. If $this->renderas is set, it will
+	 * will produce a full page.
+	 */
 	public function fetchPage()
 	{
 		// global Data we need
@@ -143,8 +205,8 @@ class OC_TEMPLATE{
 			}
 
 			// Add navigation entry and personal menu
-			$page->assign( "navigation", OC_UTIL::$navigation );
-			$page->assign( "personalmenu", OC_UTIL::$personalmenu );
+			$page->assign( "navigation", OC_APP::getNavigation());
+			$page->assign( "personalmenu", OC_UTIL::getPersonalMenu());
 
 			// Add css files and js files
 			$page->assign( "content", $data );
@@ -155,9 +217,13 @@ class OC_TEMPLATE{
 			return $data;
 		}
 	}
-	public function __destruct(){
-	}
 
+	/**
+	 * @brief doing the actual work
+	 * @returns content
+	 *
+	 * Includes the template file, fetches its output
+	 */
 	private function _fetch(){
 		// Register the variables
 		$_ = $this->vars;
@@ -184,7 +250,7 @@ class OC_TEMPLATE{
 		foreach( $parameters as $key => $value ){
 			$content->assign( $key, $value );
 		}
-		return $content->printPage();
+		print $content->printPage();
 	}
 
 	/**

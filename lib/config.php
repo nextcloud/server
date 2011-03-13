@@ -20,6 +20,19 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+/*
+ *
+ * An example of config.php
+ *
+ * <?php
+ * $CONFIG = array(
+ *     "database" => "mysql",
+ *     "firstrun" => false,
+ *     "pi" => 3.14
+ * );
+ * ?>
+ *
+ */
 
 /**
  * This class is responsible for reading and writing config.php, the very basic
@@ -86,5 +99,3 @@ class OC_CONFIG{
 	}
 }
 ?>
-
-

@@ -83,6 +83,7 @@ class OC_APP{
 	 *
 	 */
 	public static function register( $data ){
+		// TODO: write function
 		OC_APP::$apps[] = $data;
 	}
 
@@ -93,6 +94,7 @@ class OC_APP{
 	 * This function returns all data it got via register().
 	 */
 	public static function get(){
+		// TODO: write function
 		return OC_APP::$apps;
 	}
 
