@@ -73,6 +73,7 @@ class OC_FILESTORAGE{
 	public function delTree($path){}
 	public function find($path){}
 	public function getTree($path){}
+	public function hash($type,$path,$raw){}
 }
 
 
@@ -431,6 +432,13 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			}
 		}
 		return $tree;
+	}
+
+	public function hash($type,$path,$raw){
+		if($return=hash_file($type,$this->datadir.$path,$raw)){
+			$this->notifyObservers($path,OC_FILEACTION_READ);
+		}
+		return $return;
 	}
 }
 ?>
