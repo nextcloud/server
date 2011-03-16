@@ -508,27 +508,31 @@ class OC_OCS {
 	* @param string $user
 	* @param string $app
 	* @param string $key
+	* @param bool $like use LIKE instead of = when comparing keys
 	* @return array
 	*/
-	public static function getData($user,$app="",$key="") {
+	public static function getData($user,$app="",$key="",$like=false) {
 		global $CONFIG_DBTABLEPREFIX;
 		$user=OC_DB::escape($user);
 		$key=OC_DB::escape($key);
 		$app=OC_DB::escape($app);
-		$key="$user::$key";//ugly hack for the sake of keeping database scheme compatibiliy
+		$key="$user::$key";//ugly hack for the sake of keeping database scheme compatibiliy, needs to be replaced with a seperate user field the next time we break db compatibiliy
+		$compareFunction=($like)?'LIKE':'=';
+		
 		if($app){
 			if (!trim($key)) {
 				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' order by `timestamp` desc");
 			} else {
-				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' and `key` ='$key' order by `timestamp` desc");
+				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' and `key` $compareFunction '$key' order by `timestamp` desc");
 			}
 		}else{
 			if (!trim($key)) {
 				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata order by `timestamp` desc");
 			} else {
-				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where `key` ='$key' order by `timestamp` desc");
+				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where `key` $compareFunction '$key' order by `timestamp` desc");
 			}
 		}
+		$result=self::trimKeys($result,$user);
 		return $result;
 	}
 
@@ -586,6 +590,15 @@ class OC_OCS {
 		}else{
 			return true;
 		}
+	}
+
+	//trim username prefixes from $array
+	private static function trimKeys($array,$user){
+		$length=strlen("$user::");
+		foreach($array as &$item){
+			$item['key']=substr($item['key'],$length);
+		}
+		return $array;
 	}
 }
 
