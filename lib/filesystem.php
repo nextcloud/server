@@ -376,5 +376,10 @@ class OC_FILESYSTEM{
 			return $return;
 		}
 	}
+	static public function hash($type,$path,$raw=false){
+		if(self::canRead($path) and $storage=self::getStorage($path)){
+			return $storage->hash($type,self::getInternalPath($path),$raw);
+		}
+	}
 }
 ?>
