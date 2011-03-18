@@ -104,7 +104,7 @@ if( !$RUNTIME_NOSETUPFS ){
 }
 
 // Add the stuff we need always
-OC_UTIL::addPersonalMenuEntry( array( "order" => 1000, "href" => OC_HELPER::linkTo( "", "index.php?logout=1" ), "name" => "Logout" ));
+OC_APP::addPersonalMenuEntry( array( "order" => 1000, "href" => OC_HELPER::linkTo( "", "index.php?logout=1" ), "name" => "Logout" ));
 OC_UTIL::addScript( "jquery-1.5.min" );
 OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
 OC_UTIL::addScript( "js" );

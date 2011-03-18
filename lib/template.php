@@ -99,8 +99,8 @@ class OC_TEMPLATE{
 			$template = "$SERVERROOT/$app/templates/";
 		}
 
-		// Templates have the ending .tmpl
-		$template .= "$name.html";
+		// Templates have the ending .php
+		$template .= "$name.php";
 
 		// Set the private data
 		$this->renderas = $renderas;
@@ -206,7 +206,7 @@ class OC_TEMPLATE{
 
 			// Add navigation entry and personal menu
 			$page->assign( "navigation", OC_APP::getNavigation());
-			$page->assign( "personalmenu", OC_UTIL::getPersonalMenu());
+			$page->assign( "personalmenu", OC_APP::getPersonalMenu());
 
 			// Add css files and js files
 			$page->assign( "content", $data );

@@ -45,8 +45,8 @@ class OC_APP{
 		global $SERVERROOT;
 
 		// Did we allready load everything?
-		if( $self::init ){
-			return true
+		if( self::$init ){
+			return true;
 		}
 
 		// Get all appinfo
@@ -60,7 +60,7 @@ class OC_APP{
 		}
 		closedir( $dir );
 
-		$self::init = true;
+		self::$init = true;
 
 		// return
 		return true;
