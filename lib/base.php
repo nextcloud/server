@@ -350,18 +350,23 @@ class OC_HOOK{
 }
 
 /**
- * Class for database access
- *
+ * This class manages the access to the database. It basically is a wrapper for
+ * MDB2 with some adaptions.
  */
 class OC_DB {
 	static private $DBConnection=false;
 	static private $schema=false;
 	static private $affected=0;
 	static private $result=false;
+
 	/**
-	* connect to the datbase if not already connected
-	*/
-	public static function connect(){
+	 * @brief connects to the database
+	 * @returns true if connection can be established or nothing (die())
+	 *
+	 * Connects to the database as specified in config.php
+	 */
+	static public function connect(){
+		// The global data we need
 		global $CONFIG_DBNAME;
 		global $CONFIG_DBHOST;
 		global $CONFIG_DBUSER;
@@ -369,8 +374,13 @@ class OC_DB {
 		global $CONFIG_DBTYPE;
 		global $DOCUMENTROOT;
 		global $SERVERROOT;
+
+		// do nothing if the connection already has been established
 		if(!self::$DBConnection){
+			// Require MDB2.php (TODO: why here not in head of file?)
 			@oc_require_once('MDB2.php');
+
+			// Prepare options array
 			$options = array(
 				'portability' => MDB2_PORTABILITY_ALL,
 				'log_line_break' => '<br>',
@@ -378,249 +388,261 @@ class OC_DB {
 				'debug' => true,
 				'quote_identifier' => true,
 			);
-			if($CONFIG_DBTYPE=='sqlite'){
-				$dsn = array(
-					'phptype'  => 'sqlite',
-					'database' => $SERVERROOT.'/'.$CONFIG_DBNAME,
-					'mode'	 => '0644',
-				);
-			}elseif($CONFIG_DBTYPE=='mysql'){
-				$dsn = array(
-					'phptype'  => 'mysql',
-					'username' => $CONFIG_DBUSER,
-					'password' => $CONFIG_DBPASSWORD,
-					'hostspec' => $CONFIG_DBHOST,
-					'database' => $CONFIG_DBNAME,
-				);
-			}elseif($CONFIG_DBTYPE=='pgsql'){
-				$dsn = array(
-					'phptype'  => 'pgsql',
-					'username' => $CONFIG_DBUSER,
-					'password' => $CONFIG_DBPASSWORD,
-					'hostspec' => $CONFIG_DBHOST,
-					'database' => $CONFIG_DBNAME,
-				);
-			}
-			self::$DBConnection=MDB2::factory($dsn,$options);
 
-			if (PEAR::isError(self::$DBConnection)) {
-				echo('<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
-				$error=self::$DBConnection->getMessage();
-				error_log("$error");
-				error_log(self::$DBConnection->getUserInfo());
-				die($error);
+			// Add the dsn according to the database type
+			if($CONFIG_DBTYPE=='sqlite'){
+				// sqlite
+				$dsn = array(
+				  'phptype'  => 'sqlite',
+				  'database' => "$SERVERROOT/$CONFIG_DBNAME",
+				  'mode' => '0644' );
 			}
+			elseif($CONFIG_DBTYPE=='mysql'){
+				// MySQL
+				$dsn = array(
+				  'phptype'  => 'mysql',
+				  'username' => $CONFIG_DBUSER,
+				  'password' => $CONFIG_DBPASSWORD,
+				  'hostspec' => $CONFIG_DBHOST,
+				  'database' => $CONFIG_DBNAME );
+			}
+			elseif($CONFIG_DBTYPE=='pgsql'){
+				// PostgreSQL
+				$dsn = array(
+				  'phptype'  => 'pgsql',
+				  'username' => $CONFIG_DBUSER,
+				  'password' => $CONFIG_DBPASSWORD,
+				  'hostspec' => $CONFIG_DBHOST,
+				  'database' => $CONFIG_DBNAME );
+			}
+
+			// Try to establish connection
+			self::$DBConnection = MDB2::factory( $dsn, $options );
+
+			// Die if we could not connect
+			if( PEAR::isError( self::$DBConnection )){
+				echo( '<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
+				$error = self::$DBConnection->getMessage();
+				error_log( $error);
+				error_log( self::$DBConnection->getUserInfo());
+				die( $error );
+			}
+
+			// We always, really always want associative arrays
 			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
 		}
-	}
 
-	public static function connectScheme(){
-		self::connect();
-		if(!self::$schema){
-			@oc_require_once('MDB2/Schema.php');
-			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
-		}
-	}
-
-	/**
-	 * executes a query on the database
-	 *
-	 * @param string $cmd
-	 * @return result-set
-	 */
-	static function query($cmd){
-		global $CONFIG_DBTYPE;
-		if(!trim($cmd)){
-			return false;
-		}
-		OC_DB::connect();
-		//fix differences between sql versions
-
-		//differences in escaping of table names (` for mysql)
-		if($CONFIG_DBTYPE=='sqlite'){
-			$cmd=str_replace('`','\'',$cmd);
-		}elseif($CONFIG_DBTYPE=='pgsql'){
-			$cmd=str_replace('`','"',$cmd);
-		}
-		$result=self::$DBConnection->exec($cmd);
-		if (PEAR::isError($result)) {
-			$entry='DB Error: "'.$result->getMessage().'"<br />';
-			$entry.='Offending command was: '.$cmd.'<br />';
-			error_log($entry);
-			die($entry);
-		}else{
-			self::$affected=$result;
-		}
-		self::$result=$result;
-		return $result;
-	}
-
-  /**
-   * executes a query on the database and returns the result in an array
-   *
-   * @param string $cmd
-   * @return result-set
-   */
-	static function select($cmd){
-		OC_DB::connect();
-		global $CONFIG_DBTYPE;
-  //fix differences between sql versions
-
-		//differences in escaping of table names (` for mysql)
-		if($CONFIG_DBTYPE=='sqlite'){
-			$cmd=str_replace('`','\'',$cmd);
-		}elseif($CONFIG_DBTYPE=='pgsql'){
-			$cmd=str_replace('`','"',$cmd);
-		}
-		$result=self::$DBConnection->queryAll($cmd);
-		if (PEAR::isError($result)){
-			$entry='DB Error: "'.$result->getMessage().'"<br />';
-			$entry.='Offending command was: '.$cmd.'<br />';
-			die($entry);
-		}
-		return $result;
-	}
-
-	/**
-	* executes multiply queries on the database
-	*
-	* @param string $cmd
-	* @return result-set
-	*/
-	static function multiquery($cmd) {
-		$queries=explode(';',$cmd);
-		foreach($queries as $query){
-			OC_DB::query($query);
-		}
+		// we are done. great!
 		return true;
 	}
 
-
 	/**
-	* closing a db connection
-	*
-	* @return bool
-	*/
-	static function close() {
-		self::$DBConnection->disconnect();
-		self::$DBConnection=false;
-	}
+	 * @brief SQL query
+	 * @param $query Query string
+	 * @returns result as MDB2_Result
+	 *
+	 * SQL query via MDB2 query()
+	 */
+	static public function query( $query ){
+		// Optimize the query
+		$query = self::processQuery( $query );
 
+		self::connect();
+		//fix differences between sql versions
 
-	/**
-	* Returning primarykey if last statement was an insert.
-	*
-	* @return primarykey
-	*/
-	static function insertid() {
-		$id=self::$DBConnection->lastInsertID();
-		return $id;
-	}
+		// return the result
+		$result = self::$DBConnection->exec( $query );
 
-	/**
-	* Returning number of rows in a result
-	*
-	* @param resultset $result
-	* @return int
-	*/
-	static function numrows($result) {
-		$result->numRows();
-	}
-	/**
-	* Returning number of affected rows
-	*
-	* @return int
-	*/
-	static function affected_rows() {
-		return self::$affected;
-	}
-
-	 /**
-	* get a field from the resultset
-	*
-	* @param resultset $result
-	* @param int $i
-	* @param int $field
-	* @return unknown
-	*/
-	static function result($result, $i, $field) {
-		$tmp=$result->fetchRow(MDB2_FETCHMODE_ASSOC,$i);
-		$tmp=$tmp[$field];
-		return($tmp);
-	}
-
-	/**
-	* get data-array from resultset
-	*
-	* @param resultset $result
-	* @return data
-	*/
-	static function fetch_assoc($result){
-		return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-	}
-
-	/**
-	* Freeing resultset (performance)
-	*
-	* @param unknown_type $result
-	* @return bool
-	*/
-	static function free_result() {
-		if(self::$result){
-			self::$result->free();
-			self::$result=false;
+		// Die if we have an error (error means: bad query, not 0 results!)
+		if( PEAR::isError($result)) {
+			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+			$entry .= 'Offending command was: '.$cmd.'<br />';
+			error_log( $entry );
+			die( $entry );
 		}
+
+		return $result;
 	}
 
-	static public function disconnect(){
+	/**
+	 * @brief Prepare a SQL query
+	 * @param $query Query string
+	 * @returns prepared SQL query
+	 *
+	 * SQL query via MDB2 prepare(), needs to be execute()'d!
+	 */
+	static public function prepare( $query ){
+		// Optimize the query
+		$query = self::processQuery( $query );
+
+		self::connect();
+		//fix differences between sql versions
+
+		// return the result
+		$result = self::$DBConnection->prepare( $query );
+
+		// Die if we have an error (error means: bad query, not 0 results!)
+		if( PEAR::isError($result)) {
+			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+			$entry .= 'Offending command was: '.$cmd.'<br />';
+			error_log( $entry );
+			die( $entry );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @brief gets last value of autoincrement
+	 * @returns id
+	 *
+	 * MDB2 lastInsertID()
+	 *
+	 * Call this method right after the insert command or other functions may
+	 * cause trouble!
+	 */
+	public static function insertid(){
+		self::connect();
+		return self::$DBConnection->lastInsertID();
+	}
+
+	/**
+	 * @brief Disconnect
+	 * @returns true/false
+	 *
+	 * This is good bye, good bye, yeah!
+	 */
+	public static function disconnect(){
+		// Cut connection if required
 		if(self::$DBConnection){
 			self::$DBConnection->disconnect();
 			self::$DBConnection=false;
 		}
+
+		return true;
 	}
 
 	/**
-	* escape strings so they can be used in queries
-	*
-	* @param string string
-	* @return string
-	*/
-	static function escape($string){
-		OC_DB::connect();
-		return self::$DBConnection->escape($string);
+	 * @brief Escapes bad characters
+	 * @param $string string with dangerous characters
+	 * @returns escaped string
+	 *
+	 * MDB2 escape()
+	 */
+	public static function escape( $string ){
+		self::connect();
+		return self::$DBConnection->escape( $string );
 	}
 
-	static function getDbStructure($file){
-		OC_DB::connectScheme();
+	/**
+	 * @brief saves database scheme to xml file
+	 * @param $file name of file
+	 * @returns true/false
+	 *
+	 * TODO: write more documentation
+	 */
+	public static function getDbStructure( $file ){
+		self::connectScheme();
+
+		// write the scheme
 		$definition = self::$schema->getDefinitionFromDatabase();
 		$dump_options = array(
 			'output_mode' => 'file',
 			'output' => $file,
 			'end_of_line' => "\n"
 		);
-		self::$schema->dumpDatabase($definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE);
+		self::$schema->dumpDatabase( $definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE );
+
+		return true;
 	}
 
-	static function createDbFromStructure($file){
-		OC_DB::connectScheme();
+	/**
+	 * @brief Creates tables from XML file
+	 * @param $file file to read structure from
+	 * @returns true/false
+	 *
+	 * TODO: write more documentation
+	 */
+	public static function createDbFromStructure( $file ){
 		global $CONFIG_DBNAME;
 		global $CONFIG_DBTABLEPREFIX;
-		$content=file_get_contents($file);
-		$file2=tempnam(sys_get_temp_dir(),'oc_db_scheme_');
-		$content=str_replace('*dbname*',$CONFIG_DBNAME,$content);
-		$content=str_replace('*dbprefix*',$CONFIG_DBTABLEPREFIX,$content);
-		file_put_contents($file2,$content);
-		$definition=@self::$schema->parseDatabaseDefinitionFile($file2);
-		unlink($file2);
-		if($definition instanceof MDB2_Schema_Error){
-			die($definition->getMessage() . ': ' . $definition->getUserInfo());
+
+		self::connectScheme();
+
+		// read file
+		$content = file_get_contents( $file );
+
+		// Make changes and save them to a temporary file
+		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
+		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
+		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		file_put_contents( $file2, $content );
+
+		// Try to create tables
+		$definition = @self::$schema->parseDatabaseDefinitionFile( $file2 );
+
+		// Delete our temporary file
+		unlink( $file2 );
+
+		// Die in case something went wrong
+		if( $definition instanceof MDB2_Schema_Error ){
+			die( $definition->getMessage().': '.$definition->getUserInfo());
 		}
-		$ret=@self::$schema->createDatabase($definition);
-		if($ret instanceof MDB2_Error) {
+		$ret=@self::$schema->createDatabase( $definition );
+
+		// Die in case something went wrong
+		if( $ret instanceof MDB2_Error ){
 			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
-		}else{
-			return true;
 		}
+
+		return true;
+	}
+
+	/**
+	 * @brief connects to a MDB2 database scheme
+	 * @returns true/false
+	 *
+	 * Connects to a MDB2 database scheme
+	 */
+	private static function connectScheme(){
+		// We need a database connection
+		self::connect();
+
+		// Connect if this did not happen before
+		if(!self::$schema){
+			@oc_require_once('MDB2/Schema.php');
+			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
+		}
+
+		return true;
+	}
+
+	/**
+	 * @brief does minor chages to query
+	 * @param $query Query string
+	 * @returns corrected query string
+	 *
+	 * This function replaces *PREFIX* with the value of $CONFIG_DBTABLEPREFIX
+	 * and replaces the ` woth ' or " according to the database driver.
+	 */
+	private static function processQuery( $query ){
+		// We need Database type and table prefix
+		global $CONFIG_DBTYPE;
+		global $CONFIG_DBTABLEPREFIX;
+
+		// differences in escaping of table names (` for mysql)
+		// Problem: what if there is a ` in the value we want to insert?
+		if( $CONFIG_DBTYPE == 'sqlite' ){
+			$query = str_replace( '`', '\'', $query );
+		}
+		elseif( $CONFIG_DBTYPE == 'pgsql' ){
+			$query = str_replace( '`', '"', $query );
+		}
+
+		// replace table names
+		$query = str_replace( '*PREFIX*', $CONFIG_DBTABLEPREFIX, $query );
+
+		return $query;
 	}
 }
 
