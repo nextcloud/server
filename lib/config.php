@@ -53,8 +53,9 @@ class OC_CONFIG{
 	 * does not return the values.
 	 */
 	public static function getKeys(){
-		// TODO: write function
-		return array();
+		self::readData();
+
+		return array_keys( self::$cache );
 	}
 
 	/**
@@ -67,7 +68,12 @@ class OC_CONFIG{
 	 * $default will be returned.
 	 */
 	public static function getValue( $key, $default = null ){
-		// TODO: write function
+		self::readData();
+
+		if( array_key_exists( $key, self::$cache )){
+			return self::$cache[$key];
+		}
+
 		return $default;
 	}
 
@@ -81,7 +87,14 @@ class OC_CONFIG{
 	 * not be written, false will be returned.
 	 */
 	public static function setValue( $key, $value ){
-		// TODO: write function
+		self::readData();
+
+		// Add change
+		self::$cache[$key] = $value;
+
+		// Write changes
+		self::writeData();
+
 		return true;
 	}
 
@@ -94,7 +107,79 @@ class OC_CONFIG{
 	 * write access to config.php, the function will return false.
 	 */
 	public static function deleteKey( $key ){
-		// TODO: write function
+		self::readData();
+
+		if( array_key_exists( $key, self::$cache )){
+			// Delete key from cache
+			unset( self::$cache[$key] );
+
+			// Write changes
+			self::writeData();
+		}
+
+		return true;
+	}
+
+	/**
+	 * @brief Loads the config file
+	 * @returns true/false
+	 *
+	 * Reads the config file and saves it to the cache
+	 */
+	private static function readData( $key ){
+		if( !self::$init ){
+			return true;
+		}
+
+		global $SERVERROOT;
+
+		if( !file_exists( "$SERVERROOT/config/config.php" )){
+			return false;
+		}
+
+		// Include the file, save the data from $CONFIG
+		include( "$SERVERROOT/config/config.php" );
+		self::$cache = $CONFIG;
+
+		// We cached everything
+		self::$init = true;
+
+		return true;
+	}
+
+	/**
+	 * @brief Writes the config file
+	 * @returns true/false
+	 *
+	 * Saves the config to the config file.
+	 *
+	 * Known flaws: Strings are not escaped properly
+	 */
+	public static function writeData( $key ){
+		// We need the serverroot path
+		global $SERVERROOT;
+
+		// Create a php file ...
+		$content = "<?php\n\$CONFIG = array(\n";
+
+		foreach( self::$cache as $key => $value ){
+			if( is_bool( $value )){
+				$value = $value ? 'true' : 'false';
+				$content .= "\"$key\" => $value,\n";
+			}
+			elseif( is_numeric( $value )){
+				$content .= "\"$key\" => $value,\n";
+			}
+			else{
+				$value = str_replace( "'", "\\'", $value );
+				$configContent .= "\"$key\" => '$value',\n";
+			}
+		}
+		$content .= ");\n?>\n";
+
+		// Write the file
+		file_put_contents( "$SERVERROOT/config/config.php", $content );
+
 		return true;
 	}
 }

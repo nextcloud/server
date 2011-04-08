@@ -46,8 +46,16 @@ class OC_PREFERENCES{
 	 * in the preferences table.
 	 */
 	public static function getUsers(){
-		// TODO: write function
-		return array();
+		// No need for more comments
+		$query = OC_DB::prepare( 'SELECT DISTINCT( `userid` ) FROM `*PREFIX*preferences`' );
+		$result = $query->execute();
+
+		$users = array();
+		while( $result->fetchRow()){
+			$users[] = $row["userid"];
+		}
+
+		return $users;
 	}
 
 	/**
@@ -59,8 +67,16 @@ class OC_PREFERENCES{
 	 * one entry in the preferences table.
 	 */
 	public static function getApps( $user ){
-		// TODO: write function
-		return array();
+		// No need for more comments
+		$query = OC_DB::prepare( 'SELECT DISTINCT( `appid` ) FROM `*PREFIX*preferences` WHERE `userid` = ?' );
+		$result = $query->execute( $user );
+
+		$apps = array();
+		while( $result->fetchRow()){
+			$apps[] = $row["appid"];
+		}
+
+		return $apps;
 	}
 
 	/**
@@ -73,8 +89,16 @@ class OC_PREFERENCES{
 	 * values are not returned.
 	 */
 	public static function getKeys( $user, $app ){
-		// TODO: write function
-		return array();
+		// No need for more comments
+		$query = OC_DB::prepare( 'SELECT `key` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?' );
+		$result = $query->execute( $user, $app );
+
+		$keys = array();
+		while( $result->fetchRow()){
+			$keys[] = $row["key"];
+		}
+
+		return $keys;
 	}
 
 	/**
@@ -89,8 +113,17 @@ class OC_PREFERENCES{
 	 * not exist the default value will be returnes
 	 */
 	public static function getValue( $user, $app, $key, $default = null ){
-		// OC_DB::query( $query);
-		return $default;
+		// Try to fetch the value, return default if not exists.
+		$query = OC_DB::prepare( 'SELECT `value` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `key` = ?' );
+		$result = $query->execute( $user, $app, $key );
+
+		if( !$result->numRows()){
+			return $default;
+		}
+
+		$row = $result->fetchRow();
+
+		return $row["value"];
 	}
 
 	/**
@@ -105,8 +138,18 @@ class OC_PREFERENCES{
 	 * will be added automagically.
 	 */
 	public static function setValue( $user, $app, $key, $value ){
-		// TODO: write function
-		return true;
+		// Check if the key does exist
+		$exists = self::getValue( $user, $app, $key, null );
+
+		// null: does not exist. Insert.
+		if( is_null( $exists )){
+			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*preferences` ( `userid`, `appid`, `key`, `value` ) VALUES( ?, ?, ?, ? )' );
+			$query->execute( $user, $app, $key, $value );
+		}
+		else{
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*preferences` SET `value` = ? WHERE `userid` = ? AND `appid` = ? AND `key` = ?' );
+			$query->execute( $value, $user, $app, $key );
+		}
 	}
 
 	/**
@@ -119,7 +162,10 @@ class OC_PREFERENCES{
 	 * Deletes a key.
 	 */
 	public static function deleteKey( $user, $app, $key ){
-		// TODO: write function
+		// No need for more comments
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `key` = ?' );
+		$result = $query->execute( $user, $app, $key );
+
 		return true;
 	}
 
@@ -132,7 +178,10 @@ class OC_PREFERENCES{
 	 * Removes all keys in appconfig belonging to the app and the user.
 	 */
 	public static function deleteApp( $user, $app ){
-		// TODO: write function
+		// No need for more comments
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?' );
+		$result = $query->execute( $user, $app );
+
 		return true;
 	}
 
@@ -144,7 +193,10 @@ class OC_PREFERENCES{
 	 * Removes all keys in appconfig belonging to the user.
 	 */
 	public static function deleteUser( $user ){
-		// TODO: write function
+		// No need for more comments
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ?' );
+		$result = $query->execute( $user );
+
 		return true;
 	}
 
@@ -156,7 +208,10 @@ class OC_PREFERENCES{
 	 * Removes all keys in preferences belonging to the app.
 	 */
 	public static function deleteAppFromAllUsers( $app ){
-		// TODO: write function
+		// No need for more comments
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `appid` = ?' );
+		$result = $query->execute( $app );
+
 		return true;
 	}
 }
