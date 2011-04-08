@@ -51,7 +51,7 @@ class OC_PREFERENCES{
 		$result = $query->execute();
 
 		$users = array();
-		while( $result->fetchRow()){
+		while( $row = $result->fetchRow()){
 			$users[] = $row["userid"];
 		}
 
@@ -72,7 +72,7 @@ class OC_PREFERENCES{
 		$result = $query->execute( $user );
 
 		$apps = array();
-		while( $result->fetchRow()){
+		while( $row = $result->fetchRow()){
 			$apps[] = $row["appid"];
 		}
 
@@ -94,7 +94,7 @@ class OC_PREFERENCES{
 		$result = $query->execute( $user, $app );
 
 		$keys = array();
-		while( $result->fetchRow()){
+		while( $row = $result->fetchRow()){
 			$keys[] = $row["key"];
 		}
 

@@ -51,7 +51,7 @@ class OC_APPCONFIG{
 		$result = $query->execute();
 
 		$apps = array();
-		while( $result->fetchRow()){
+		while( $row = $result->fetchRow()){
 			$apps[] = $row["appid"];
 		}
 
@@ -72,7 +72,7 @@ class OC_APPCONFIG{
 		$result = $query->execute( $app );
 
 		$keys = array();
-		while( $result->fetchRow()){
+		while( $row = $result->fetchRow()){
 			$keys[] = $row["key"];
 		}
 
