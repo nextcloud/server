@@ -125,8 +125,34 @@ class OC_UTIL {
 			@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
 		}
 		if(OC_USER::isLoggedIn()){ //if we aren't logged in, there is no use to set up the filesystem
-			//first set up the local "root" storage and the backupstorage if needed
-			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
+			$rootStorage=null;
+
+			//set up storages according to the system settings
+			foreach($CONFIG_FILESYSTEM as $storageConfig){
+				if(OC_FILESYSTEM::hasStorageType($storageConfig['type'])){
+					$arguments=$storageConfig;
+					unset($arguments['type']);
+					unset($arguments['mountpoint']);
+					$storage=OC_FILESYSTEM::createStorage($storageConfig['type'],$arguments);
+					if($storage){
+						OC_FILESYSTEM::mount($storage,$storageConfig['mountpoint']);
+						if($storageConfig['mountpoint']=='/'){
+							$rootStorage=$storage;
+						}
+					}
+				}
+			}
+		
+			//create root filestorage if not specified in system settings
+			if(!$rootStorage){
+				$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
+				OC_FILESYSTEM::mount($rootStorage,'/');
+				$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$_SESSION['username_clean'];
+				if(!is_dir($CONFIG_DATADIRECTORY)){
+					mkdir($CONFIG_DATADIRECTORY);
+				}
+			}
+	
 			if($CONFIG_ENABLEBACKUP){
 				if(!is_dir($CONFIG_BACKUPDIRECTORY)){
 					mkdir($CONFIG_BACKUPDIRECTORY);
@@ -137,25 +163,6 @@ class OC_UTIL {
 				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
 				$rootStorage->addObserver($backup);
-			}
-			OC_FILESYSTEM::mount($rootStorage,'/');
-			
-			$CONFIG_DATADIRECTORY=$CONFIG_DATADIRECTORY_ROOT.'/'.$_SESSION['username_clean'];
-			if(!is_dir($CONFIG_DATADIRECTORY)){
-				mkdir($CONFIG_DATADIRECTORY);
-			}
-			
-			//set up the other storages according to the system settings
-			foreach($CONFIG_FILESYSTEM as $storageConfig){
-				if(OC_FILESYSTEM::hasStorageType($storageConfig['type'])){
-					$arguments=$storageConfig;
-					unset($arguments['type']);
-					unset($arguments['mountpoint']);
-					$storage=OC_FILESYSTEM::createStorage($storageConfig['type'],$arguments);
-					if($storage){
-						OC_FILESYSTEM::mount($storage,$storageConfig['mountpoint']);
-					}
-				}
 			}
 			
 			//jail the user into his "home" directory
