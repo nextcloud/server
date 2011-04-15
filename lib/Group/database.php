@@ -72,9 +72,10 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 * @param  string  $username   Name of the user to check
 	 * @param  string  $groupName  Name of the group
 	 */
-	public static function inGroup($username,$groupName) {
+	public static function inGroup( $username, $groupName ){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` = ?" );
 		$result = $query->execute( $groupName, $username );
+var_dump( $result );
 
 		return $result->numRows() > 0 ? true : false;
 	}
@@ -85,8 +86,8 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 * @param  string  $username   Name of the user to add to group
 	 * @param  string  $groupName  Name of the group in which add the user
 	 */
-	public static function addToGroup($username, $groupName) {
-		if( !OC_USER::inGroup( $username, $groupName )){
+	public static function addToGroup( $username, $groupName ){
+		if( !self::inGroup( $username, $groupName )){
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
 			$result = $query->execute( $username, $groupName );
 		}
@@ -98,7 +99,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 * @param  string  $username   Name of the user to remove from group
 	 * @param  string  $groupName  Name of the group from which remove the user
 	 */
-	public static function removeFromGroup($username,$groupName){
+	public static function removeFromGroup( $username, $groupName ){
 		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?" );
 		$result = $query->execute( $username, $groupName );
 	}
@@ -108,7 +109,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 *
 	 * @param  string  $username  Name of the user
 	 */
-	public static function getUserGroups($username) {
+	public static function getUserGroups( $username ){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE `uid` = ?" );
 		$result = $query->execute( $username );
 
@@ -124,7 +125,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 * get a list of all groups
 	 *
 	 */
-	public static function getGroups() {
+	public static function getGroups(){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*groups`" );
 		$result = $query->execute();
 

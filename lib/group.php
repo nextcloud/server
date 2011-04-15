@@ -68,24 +68,14 @@ class OC_GROUP {
 			case 'database':
 			case 'mysql':
 			case 'sqlite':
-				oc_require_once('User/database.php');
-				self::$_backend = new OC_USER_DATABASE();
+				oc_require_once('Group/database.php');
+				self::$_backend = new OC_GROUP_DATABASE();
 				break;
 			default:
-				$className = 'OC_USER_' . strToUpper($backend);
+				$className = 'OC_GROUP_' . strToUpper($backend);
 				self::$_backend = new $className();
 				break;
 		}
-	}
-
-	/**
-	 * Get the name of a group
-	 *
-	 * @param  string  $groupId  ID of the group
-	 * @param  boolean $noCache  If false the cache is used to find the name of the group
-	 */
-	public static function getGroupName($groupId, $noCache=false) {
-		return self::$_backend->getGroupName($groupId, $noCache);
 	}
 
 	/**

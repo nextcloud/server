@@ -1,7 +1,7 @@
 <?php
 
 OC_APP::register( array( "order" => 1, "id" => "admin", "name" => "Administration" ));
-if( OC_USER::ingroup( $_SESSION['username'], 'admin' ))
+if( OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' ))
 {
 	OC_APP::addNavigationEntry( array( "id" => "admin_index", "order" => 1, "href" => OC_HELPER::linkTo( "admin", "index.php" ), "icon" => OC_HELPER::imagePath( "admin", "navicon.png" ), "name" => "Administration" ));
 }

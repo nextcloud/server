@@ -98,7 +98,8 @@ OC_PLUGIN::loadPlugins( "" );
 if(!isset($CONFIG_BACKEND)){
 	$CONFIG_BACKEND='database';
 }
-OC_USER::setBackend($CONFIG_BACKEND);
+OC_USER::setBackend( $CONFIG_BACKEND );
+OC_GROUP::setBackend( $CONFIG_BACKEND );
 
 // Set up file system unless forbidden
 if( !$RUNTIME_NOSETUPFS ){
@@ -149,7 +150,7 @@ class OC_UTIL {
 
 		// If we are not forced to load a specific user we load the one that is logged in
 		if( $user == "" && OC_USER::isLoggedIn()){
-			$user = $_SESSION['username_clean'];
+			$user = $_SESSION['user_id'];
 		}
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
@@ -384,22 +385,21 @@ class OC_DB {
 
 			// Prepare options array
 			$options = array(
-				'portability' => MDB2_PORTABILITY_ALL,
-				'log_line_break' => '<br>',
-				'idxname_format' => '%s',
-				'debug' => true,
-				'quote_identifier' => true,
-			);
+			  'portability' => MDB2_PORTABILITY_ALL,
+			  'log_line_break' => '<br>',
+			  'idxname_format' => '%s',
+			  'debug' => true,
+			  'quote_identifier' => true  );
 
 			// Add the dsn according to the database type
-			if($CONFIG_DBTYPE=='sqlite'){
+			if( $CONFIG_DBTYPE == 'sqlite' ){
 				// sqlite
 				$dsn = array(
 				  'phptype'  => 'sqlite',
 				  'database' => "$SERVERROOT/$CONFIG_DBNAME",
 				  'mode' => '0644' );
 			}
-			elseif($CONFIG_DBTYPE=='mysql'){
+			elseif( $CONFIG_DBTYPE == 'mysql' ){
 				// MySQL
 				$dsn = array(
 				  'phptype'  => 'mysql',
@@ -408,7 +408,7 @@ class OC_DB {
 				  'hostspec' => $CONFIG_DBHOST,
 				  'database' => $CONFIG_DBNAME );
 			}
-			elseif($CONFIG_DBTYPE=='pgsql'){
+			elseif( $CONFIG_DBTYPE == 'pgsql' ){
 				// PostgreSQL
 				$dsn = array(
 				  'phptype'  => 'pgsql',
