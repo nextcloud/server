@@ -281,7 +281,7 @@ class OC_APP{
 	}
 
 	/**
-	 * @brief Installs an application
+	 * @brief Update an application
 	 * @param $data array with all information
 	 * @returns integer
 	 *
