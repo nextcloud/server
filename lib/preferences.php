@@ -69,7 +69,7 @@ class OC_PREFERENCES{
 	public static function getApps( $user ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'SELECT DISTINCT( `appid` ) FROM `*PREFIX*preferences` WHERE `userid` = ?' );
-		$result = $query->execute( $user );
+		$result = $query->execute( array( $user ));
 
 		$apps = array();
 		while( $row = $result->fetchRow()){
@@ -91,7 +91,7 @@ class OC_PREFERENCES{
 	public static function getKeys( $user, $app ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'SELECT `key` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?' );
-		$result = $query->execute( $user, $app );
+		$result = $query->execute( array( $user, $app ));
 
 		$keys = array();
 		while( $row = $result->fetchRow()){
@@ -115,7 +115,7 @@ class OC_PREFERENCES{
 	public static function getValue( $user, $app, $key, $default = null ){
 		// Try to fetch the value, return default if not exists.
 		$query = OC_DB::prepare( 'SELECT `value` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `key` = ?' );
-		$result = $query->execute( $user, $app, $key );
+		$result = $query->execute( array( $user, $app, $key ));
 
 		if( !$result->numRows()){
 			return $default;
@@ -144,11 +144,11 @@ class OC_PREFERENCES{
 		// null: does not exist. Insert.
 		if( is_null( $exists )){
 			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*preferences` ( `userid`, `appid`, `key`, `value` ) VALUES( ?, ?, ?, ? )' );
-			$query->execute( $user, $app, $key, $value );
+			$query->execute( array( $user, $app, $key, $value ));
 		}
 		else{
 			$query = OC_DB::prepare( 'UPDATE `*PREFIX*preferences` SET `value` = ? WHERE `userid` = ? AND `appid` = ? AND `key` = ?' );
-			$query->execute( $value, $user, $app, $key );
+			$query->execute( array( $value, $user, $app, $key ));
 		}
 	}
 
@@ -164,7 +164,7 @@ class OC_PREFERENCES{
 	public static function deleteKey( $user, $app, $key ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `key` = ?' );
-		$result = $query->execute( $user, $app, $key );
+		$result = $query->execute( array( $user, $app, $key ));
 
 		return true;
 	}
@@ -180,7 +180,7 @@ class OC_PREFERENCES{
 	public static function deleteApp( $user, $app ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?' );
-		$result = $query->execute( $user, $app );
+		$result = $query->execute( array( $user, $app ));
 
 		return true;
 	}
@@ -195,7 +195,7 @@ class OC_PREFERENCES{
 	public static function deleteUser( $user ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ?' );
-		$result = $query->execute( $user );
+		$result = $query->execute( array( $user ));
 
 		return true;
 	}
@@ -210,7 +210,7 @@ class OC_PREFERENCES{
 	public static function deleteAppFromAllUsers( $app ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `appid` = ?' );
-		$result = $query->execute( $app );
+		$result = $query->execute( array( $app ));
 
 		return true;
 	}

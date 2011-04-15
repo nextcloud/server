@@ -53,14 +53,14 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 */
 	public static function createGroup( $gid ){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*groups` WHERE `gid` = ?" );
-		$result = $query->execute( $gid );
+		$result = $query->execute( array( $gid ));
 
 		if( $result->numRows() > 0 ){
 			return false;
 		}
 		else{
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*groups` ( `gid` ) VALUES( ? )" );
-			$result = $query->prepare( $gid );
+			$result = $query->execute( array( $gid ));
 
 			return $result ? true : false;
 		}
@@ -74,8 +74,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 */
 	public static function inGroup( $username, $groupName ){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` = ?" );
-		$result = $query->execute( $groupName, $username );
-var_dump( $result );
+		$result = $query->execute( array( $groupName, $username ));
 
 		return $result->numRows() > 0 ? true : false;
 	}
@@ -89,7 +88,7 @@ var_dump( $result );
 	public static function addToGroup( $username, $groupName ){
 		if( !self::inGroup( $username, $groupName )){
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
-			$result = $query->execute( $username, $groupName );
+			$result = $query->execute( array( $username, $groupName ));
 		}
 	}
 
@@ -101,7 +100,7 @@ var_dump( $result );
 	 */
 	public static function removeFromGroup( $username, $groupName ){
 		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?" );
-		$result = $query->execute( $username, $groupName );
+		$result = $query->execute( array( $username, $groupName ));
 	}
 
 	/**
@@ -111,7 +110,7 @@ var_dump( $result );
 	 */
 	public static function getUserGroups( $username ){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE `uid` = ?" );
-		$result = $query->execute( $username );
+		$result = $query->execute( array( $username ));
 
 		$groups = array();
 		while( $row = $result->fetchRow()){

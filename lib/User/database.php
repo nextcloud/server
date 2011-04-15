@@ -50,7 +50,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 */
 	public static function createUser( $uid, $password ){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE `uid` = ?" );
-		$result = $query->execute( $uid );
+		$result = $query->execute( array( $uid ));
 
 		// Check if the user already exists
 		if ( $result->numRows() > 0 ){
@@ -58,7 +58,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 		}
 		else{
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
-			$result = $query->prepare( $uid, sha1( $password ));
+			$result = $query->execute( array( $uid, sha1( $password )));
 
 			return $result ? true : false;
 		}
@@ -72,7 +72,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 */
 	public static function login( $username, $password ){
 		$query = OC_DB::prepare( "SELECT `uid`, `name` FROM `*PREFIX*users` WHERE `uid` = ? AND `password` = ?" );
-		$result = $query->execute( $username, sha1( $password ));
+		$result = $query->execute( array( $username, sha1( $password )));
 
 		if( $result->numRows() > 0 ){
 			$row = $result->fetchRow();
@@ -121,7 +121,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 */
 	public static function setPassword( $username, $password ){
 		$query = OC_DB::prepare( "UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?" );
-		$result = $query->execute( sha1( $password ), $username );
+		$result = $query->execute( array( sha1( $password ), $username ));
 
 		if( $result->numRows() > 0 ){
 			return true;
@@ -139,7 +139,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 */
 	public static function checkPassword( $username, $password ){
 		$query = OC_DB::prepare( "SELECT `uid` FROM `*PREFIX*users` WHERE `uid` = ? AND `password` = ?" );
-		$result = $query->execute( $username, sha1( $password ));
+		$result = $query->execute( array( $username, sha1( $password )));
 
 		if( $result->numRows() > 0 ){
 			return true;

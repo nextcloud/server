@@ -69,7 +69,7 @@ class OC_APPCONFIG{
 	public static function getKeys( $app ){
 		// No magic in here as well
 		$query = OC_DB::prepare( 'SELECT `key` FROM `*PREFIX*appconfig` WHERE `appid` = ?' );
-		$result = $query->execute( $app );
+		$result = $query->execute( array( $app ));
 
 		$keys = array();
 		while( $row = $result->fetchRow()){
@@ -92,7 +92,7 @@ class OC_APPCONFIG{
 	public static function getValue( $app, $key, $default = null ){
 		// At least some magic in here :-)
 		$query = OC_DB::prepare( 'SELECT `value` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `key` = ?' );
-		$result = $query->execute( $app, $key );
+		$result = $query->execute( array( $app, $key ));
 
 		if( !$result->numRows()){
 			return $default;
@@ -119,11 +119,11 @@ class OC_APPCONFIG{
 		// null: does not exist
 		if( is_null( $exists )){
 			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*appconfig` ( `appid`, `key`, `value` ) VALUES( ?, ?, ? )' );
-			$query->execute( $app, $key, $value );
+			$query->execute( array( $app, $key, $value ));
 		}
 		else{
 			$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `value` = ? WHERE `appid` = ? AND `key` = ?' );
-			$query->execute( $value, $app, $key );
+			$query->execute( array( $value, $app, $key ));
 		}
 	}
 
@@ -138,7 +138,7 @@ class OC_APPCONFIG{
 	public static function deleteKey( $app, $key ){
 		// Boring!
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `key` = ?' );
-		$query->execute( $app, $key );
+		$query->execute( array( $app, $key ));
 
 		return true;
 	}
@@ -153,7 +153,7 @@ class OC_APPCONFIG{
 	public static function deleteApp( $app ){
 		// Nothing special
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?' );
-		$query->execute( $app );
+		$query->execute( array( $app ));
 
 		return true;
 	}
