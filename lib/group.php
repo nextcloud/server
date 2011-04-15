@@ -20,16 +20,12 @@
  *
  */
 
-if( !$CONFIG_INSTALLED ){
-	$_SESSION['user_id'] = '';
-}
-
 /**
- * This class provides all methods for user management.
+ * This class provides all methods needed for managing groups.
  */
-class OC_USER {
+class OC_GROUP {
 	// The backend used for user management
-	private static $_backend = null;
+	private static $_backend;
 
 	// Backends available (except database)
 	private static $_backends = array();
@@ -57,11 +53,9 @@ class OC_USER {
 	}
 
 	/**
-	 * @brief Sets the backend
-	 * @param $backend default: database The backend to use for user managment
+	 * @brief set the group backend
+	 * @param  string  $backend  The backend to use for user managment
 	 * @returns true/false
-	 *
-	 * Set the User Authentication Module
 	 */
 	public static function setBackend( $backend = 'database' ){
 		// You'll never know what happens
@@ -82,72 +76,62 @@ class OC_USER {
 				self::$_backend = new $className();
 				break;
 		}
-
-		true;
 	}
 
 	/**
-	 * @brief Creates a new user
-	 * @param $username The username of the user to create
-	 * @param $password The password of the new user
+	 * Get the name of a group
+	 *
+	 * @param  string  $groupId  ID of the group
+	 * @param  boolean $noCache  If false the cache is used to find the name of the group
 	 */
-	public static function createUser( $username, $password ){
-		return self::$_backend->createUser( $username, $password );
+	public static function getGroupName($groupId, $noCache=false) {
+		return self::$_backend->getGroupName($groupId, $noCache);
 	}
 
 	/**
-	 * @brief try to login a user
-	 * @param $username The username of the user to log in
-	 * @param $password The password of the user
+	 * Check if a user belongs to a group
+	 *
+	 * @param  string  $username   Name of the user to check
+	 * @param  string  $groupName  Name of the group
 	 */
-	public static function login( $username, $password ){
-		return self::$_backend->login( $username, $password );
+	public static function inGroup($username, $groupName) {
+		return self::$_backend->inGroup($username, $groupName);
 	}
 
 	/**
-	 * @brief Kick the user
+	 * Add a user to a group
+	 *
+	 * @param  string  $username   Name of the user to add to group
+	 * @param  string  $groupName  Name of the group in which add the user
 	 */
-	public static function logout(){
-		return self::$_backend->logout();
+	public static function addToGroup($username, $groupName) {
+		return self::$_backend->addToGroup($username, $groupName);
 	}
 
 	/**
-	 * @brief Check if the user is logged in
+	 * Remove a user from a group
+	 *
+	 * @param  string  $username   Name of the user to remove from group
+	 * @param  string  $groupName  Name of the group from which remove the user
 	 */
-	public static function isLoggedIn(){
-		return self::$_backend->isLoggedIn();
+	public static function removeFromGroup($username,$groupName){
+		return self::$_backend->removeFromGroup($username, $groupName);
 	}
 
 	/**
-	 * @brief Generate a random password
-	 */
-	public static function generatePassword(){
-		return substr( md5( uniqId().time()), 0, 10 );
-	}
-
-	/**
-	 * @brief Set the password of a user
-	 * @param $username User whose password will be changed
-	 * @param $password The new password for the user
-	 */
-	public static function setPassword( $username, $password ){
-		return self::$_backend->setPassword( $username, $password );
-	}
-
-	/**
-	 * @brief Check if the password of the user is correct
+	 * Get all groups the user belongs to
+	 *
 	 * @param  string  $username  Name of the user
-	 * @param  string  $password  Password of the user
 	 */
-	public static function checkPassword( $username, $password ){
-		return self::$_backend->checkPassword( $username, $password );
+	public static function getUserGroups($username) {
+		return self::$_backend->getUserGroups($username);
 	}
 
 	/**
-	 * @brief get a list of all users
-	 * @returns array with uids
+	 * get a list of all groups
+	 *
 	 */
-	public static function getUsers(){
-		return self::$_backend->getUsers();
+	public static function getGroups() {
+		return self::$_backend->getGroups();
 	}
 }

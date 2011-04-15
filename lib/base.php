@@ -22,7 +22,7 @@
 
 
 // set some stuff
-ob_start();
+//ob_start();
 // error_reporting(E_ALL | E_STRICT);
 error_reporting( E_ERROR | E_PARSE | E_WARNING ); // MDB2 gives loads of strict error, disabling for now
 
@@ -30,6 +30,7 @@ date_default_timezone_set('Europe/Berlin');
 ini_set('arg_separator.output','&amp;');
 ini_set('session.cookie_httponly','1;');
 session_start();
+
 // calculate the documentroot
 $SERVERROOT=substr(__FILE__,0,-13);
 $DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
@@ -86,6 +87,7 @@ oc_require_once('fileobserver.php');
 oc_require_once('log.php');
 oc_require_once('config.php');
 oc_require_once('user.php');
+oc_require_once('group.php');
 oc_require_once('ocs.php');
 oc_require_once('connect.php');
 oc_require_once('remotestorage.php');
