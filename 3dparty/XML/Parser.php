@@ -36,7 +36,7 @@
 /**
  * uses PEAR's error handling
  */
-oc_require_once('PEAR.php');
+require_once('PEAR.php');
 
 /**
  * resource could not be created

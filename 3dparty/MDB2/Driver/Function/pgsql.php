@@ -44,7 +44,7 @@
 //
 // $Id: pgsql.php,v 1.11 2008/11/09 19:46:50 quipo Exp $
 
-oc_require_once('MDB2/Driver/Function/Common.php');
+require_once('MDB2/Driver/Function/Common.php');
 
 /**
  * MDB2 MySQL driver for the function modules

@@ -54,7 +54,7 @@ class OC_APP{
 		while( false !== ( $filename = readdir( $dir ))){
 			if( substr( $filename, 0, 1 ) != '.' ){
 				if( file_exists( "$SERVERROOT/$filename/appinfo/app.php" )){
-					oc_require( "$filename/appinfo/app.php" );
+					require( "$filename/appinfo/app.php" );
 				}
 			}
 		}

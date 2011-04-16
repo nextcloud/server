@@ -52,7 +52,7 @@
  * @author      Lukas Smith <smith@pooteeweet.org>
  */
 
-oc_require_once('PEAR.php');
+require_once('PEAR.php');
 
 // {{{ Error constants
 
@@ -330,9 +330,9 @@ class MDB2
         if (!MDB2::classExists($class_name)) {
             $file_name = str_replace('_', DIRECTORY_SEPARATOR, $class_name).'.php';
             if ($debug) {
-                $include = oc_include_once($file_name);
+                $include = include_once($file_name);
             } else {
-                $include = oc_include_once($file_name);
+                $include = include_once($file_name);
             }
             if (!$include) {
                 if (!MDB2::fileExists($file_name)) {

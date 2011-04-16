@@ -45,7 +45,7 @@ if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 }
 
 // set the right include path
-// set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
+set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3dparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
 
 // define runtime variables - unless this already has been done
 if( !isset( $RUNTIME_NOSETUPFS )){
@@ -66,7 +66,6 @@ $CONFIG_FILESYSTEM=array();
 // include the generated configfile
 @include_once($SERVERROOT.'/config/config.php');
 
-
 $CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
 // redirect to https site if configured
 if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
@@ -78,20 +77,20 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 }
 
 // load core libs
-oc_require_once('helper.php');
-oc_require_once('app.php');
-oc_require_once('files.php');
-oc_require_once('filesystem.php');
-oc_require_once('filestorage.php');
-oc_require_once('fileobserver.php');
-oc_require_once('log.php');
-oc_require_once('config.php');
-oc_require_once('user.php');
-oc_require_once('group.php');
-oc_require_once('ocs.php');
-oc_require_once('connect.php');
-oc_require_once('remotestorage.php');
-oc_require_once('plugin.php');
+require_once('helper.php');
+require_once('app.php');
+require_once('files.php');
+require_once('filesystem.php');
+require_once('filestorage.php');
+require_once('fileobserver.php');
+require_once('log.php');
+require_once('config.php');
+require_once('user.php');
+require_once('group.php');
+require_once('ocs.php');
+require_once('connect.php');
+require_once('remotestorage.php');
+require_once('plugin.php');
 
 OC_PLUGIN::loadPlugins( "" );
 
@@ -113,13 +112,11 @@ OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
 OC_UTIL::addScript( "js" );
 OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
 OC_UTIL::addStyle( "styles" );
-
 // Load Apps
 OC_APP::loadApps();
 
 // check if the server is correctly configured for ownCloud
 OC_UTIL::checkserver();
-
 /**
  * Class for utility functions
  *
@@ -380,8 +377,8 @@ class OC_DB {
 
 		// do nothing if the connection already has been established
 		if(!self::$DBConnection){
-			// Require MDB2.php (TODO: why here not in head of file?)
-			@oc_require_once('MDB2.php');
+			// Require MDB2.php (not required in the head of the file so we only load it when needed)
+			require_once('MDB2.php');
 
 			// Prepare options array
 			$options = array(
@@ -610,7 +607,7 @@ class OC_DB {
 
 		// Connect if this did not happen before
 		if(!self::$schema){
-			@oc_require_once('MDB2/Schema.php');
+			require_once('MDB2/Schema.php');
 			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
 		}
 
@@ -646,120 +643,6 @@ class OC_DB {
 	}
 }
 
-
-//custom require/include functions because not all hosts allow us to set the include path
-function oc_require($file){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	if(is_file($file)){
-		return require($file);
-	}
-	elseif(is_file($SERVERROOT.'/'.$file)){
-		return require($SERVERROOT.'/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/lib/'.$file)){
-		return require($SERVERROOT.'/lib/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/3dparty/'.$file)){
-		return require($SERVERROOT.'/3dparty/'.$file);
-	}
-}
-
-function oc_require_once($file){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	if(is_file($file)){
-		return require_once($file);
-	}
-	elseif(is_file($SERVERROOT.'/'.$file)){
-		return require_once($SERVERROOT.'/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/lib/'.$file)){
-		return require_once($SERVERROOT.'/lib/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/3dparty/'.$file)){
-		return require_once($SERVERROOT.'/3dparty/'.$file);
-	}
-}
-
-function oc_include($file){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	if(is_file($file)){
-		return include($file);
-	}
-	elseif(is_file($SERVERROOT.'/'.$file)){
-		return include($SERVERROOT.'/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/lib/'.$file)){
-		return include($SERVERROOT.'/lib/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/3dparty/'.$file)){
-		return include($SERVERROOT.'/3dparty/'.$file);
-	}
-}
-
-function oc_include_once($file){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	if(is_file($file)){
-		return include_once($file);
-	}
-	elseif(is_file($SERVERROOT.'/'.$file)){
-		return include_once($SERVERROOT.'/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/lib/'.$file)){
-		return include_once($SERVERROOT.'/lib/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/3dparty/'.$file)){
-		return include_once($SERVERROOT.'/3dparty/'.$file);
-	}
-}
-
 function chmodr($path, $filemode) {
 //	 echo "$path<br/>";
 	if (!is_dir($path))
@@ -782,5 +665,4 @@ function chmodr($path, $filemode) {
 	else
 		return FALSE;
 }
-
 ?>

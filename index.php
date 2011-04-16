@@ -22,8 +22,8 @@
 */
 
 require_once( 'lib/base.php' );
-oc_require_once( 'appconfig.php' );
-oc_require_once( 'template.php' );
+require_once( 'appconfig.php' );
+require_once( 'template.php' );
 if( OC_USER::isLoggedIn()){
     if( $_GET["logout"] ){
         OC_USER::logout();

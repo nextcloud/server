@@ -46,7 +46,7 @@
 // $Id: sqlite.php,v 1.67 2008/02/22 19:58:06 quipo Exp $
 //
 
-oc_require_once('MDB2/Driver/Datatype/Common.php');
+require_once('MDB2/Driver/Datatype/Common.php');
 
 /**
  * MDB2 SQLite driver

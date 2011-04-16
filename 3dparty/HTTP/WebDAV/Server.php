@@ -33,9 +33,9 @@
    +----------------------------------------------------------------------+
 */
 
-oc_require_once("HTTP/WebDAV/Tools/_parse_propfind.php");
-oc_require_once("HTTP/WebDAV/Tools/_parse_proppatch.php");
-oc_require_once("HTTP/WebDAV/Tools/_parse_lockinfo.php");
+require_once("HTTP/WebDAV/Tools/_parse_propfind.php");
+require_once("HTTP/WebDAV/Tools/_parse_proppatch.php");
+require_once("HTTP/WebDAV/Tools/_parse_lockinfo.php");
 
 
 /**

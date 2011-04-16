@@ -37,7 +37,7 @@
  *
  */
 
-oc_require_once( 'Group/backend.php' );
+require_once( 'Group/backend.php' );
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
@@ -75,7 +75,12 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	public static function inGroup( $username, $groupName ){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` = ?" );
 		$result = $query->execute( array( $groupName, $username ));
-
+		if( PEAR::isError($result)) {
+			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
+			error_log( $entry );
+			die( $entry );
+		}
 		return $result->numRows() > 0 ? true : false;
 	}
 

@@ -4,19 +4,22 @@
 $background:					#121212 !default;
 
 $line_highlighted_background:	#2C2C29 !default;
-$line_highlighted_number:		white !default;
+$line_highlighted_number:
+white !default;
 
 $gutter_text:					#afafaf !default;
 $gutter_border_color:			#3185b9 !default;
 
 $toolbar_collapsed_a:			#3185b9 !default;
 $toolbar_collapsed_a_hover:		#d01d33 !default;
-$toolbar_collapsed_background:	black !default;
+$toolbar_collapsed_background:
+black !default;
 
 $toolbar_a:						#fff !default;
 $toolbar_a_hover:				#96daff !default;
 
-$code_plain:					white !default;
+$code_plain:
+white !default;
 $code_comments:					#696854 !default;
 $code_string:					#e3e658 !default;
 $code_keyword:					#d01d33 !default;
@@ -32,5 +35,7 @@ $code_color3:					#96daff !default;
 @import "_theme_template.scss";
 
 .syntaxhighlighter {
-  .functions { font-weight: bold !important; }
+.functions { font-weight:
+        bold !important;
+    }
 }

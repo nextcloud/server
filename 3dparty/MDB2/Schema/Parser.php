@@ -54,8 +54,8 @@
  */
 
 
-oc_require_once('XML/Parser.php');
-oc_require_once('MDB2/Schema/Validate.php');
+require_once('XML/Parser.php');
+require_once('MDB2/Schema/Validate.php');
 
 /**
  * Parses an XML schema file
