@@ -60,8 +60,8 @@ class OC_HELPER {
 		global $SERVERROOT;
 		global $WEBROOT;
 		// Check if the app is in the app folder
-		if( file_exists( "$SERVERROOT/apps/img/$app/$file" )){
-			return "$WEBROOT/apps/img/$app/$file";
+		if( file_exists( "$SERVERROOT/apps/img/$app/$image" )){
+			return "$WEBROOT/apps/img/$app/$image";
 		}
 		return "$WEBROOT/$app/img/$image";
 	}
