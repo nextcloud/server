@@ -190,11 +190,24 @@ class OC_TEMPLATE{
 			{
 				$page = new OC_TEMPLATE( "core", "layout.user" );
 				// Add menu data
+
+				// Add navigation entry
+				$page->assign( "navigation", OC_APP::getNavigation());
 			}
 			elseif( $this->renderas == "admin" )
 			{
 				$page = new OC_TEMPLATE( "core", "layout.admin" );
 				// Add menu data
+				$navigation = array();
+				if( OC_GROUP::inGroup( $_SESSION["user_id"], "admin" )){
+					foreach( OC_APP::getAdminPages() as $i ){
+						$navigation[] = $i;
+					}
+				}
+				foreach( OC_APP::getSettingsPages() as $i ){
+					$navigation[] = $i;
+				}
+				$page->assign( "navigation", $navigation );
 			}
 			else
 			{
@@ -209,10 +222,6 @@ class OC_TEMPLATE{
 			foreach(OC_UTIL::$styles as $style){
 				$page->append( "cssfiles", "$WEBROOT/$style.css" );
 			}
-
-			// Add navigation entry and personal menu
-			$page->assign( "navigation", OC_APP::getNavigation());
-			$page->assign( "personalmenu", OC_APP::getPersonalMenu());
 
 			// Add css files and js files
 			$page->assign( "content", $data );

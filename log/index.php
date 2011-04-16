@@ -37,7 +37,7 @@ foreach( $logs as &$i ){
     $i["action"] = OC_LOG::$TYPE[$i['type']];
 }
 
-$tmpl = new OC_TEMPLATE( "log", "index", "user" );
+$tmpl = new OC_TEMPLATE( "log", "index", "admin" );
 $tmpl->assign( "logs", $logs );
 $tmpl->printPage();
 

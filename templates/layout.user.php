@@ -22,12 +22,12 @@
 			<a href="<?php echo link_to("", "index.php"); ?>" title="" id="owncloud"><img src="<?php echo image_path("", "owncloud-logo-small-white.png"); ?>" alt="ownCloud" /></a>
 
 			<div id="user">
-				<a id="user_menu_link" href="" title=""><? echo $_SESSION["user_id"] ?></a>
-				<ul id="user_menu">
-					<?php foreach($_["personalmenu"] as $entry): ?>
-						<li><a href="<?php echo $entry["href"]; ?>" title=""><?php echo $entry["name"]; ?></a></li>
-					<?php endforeach; ?>
-				</ul>
+				<?php if( OC_APP::getActiveNavigationEntry() == "help" ): ?>
+					<a href="<?php echo link_to("","index.php"); ?>" title=""><img src="<?php echo image_path("", "layout/back.png"); ?>"></a>
+				<?php endif; ?>
+				<a href="<?php echo link_to("settings","index.php"); ?>" title=""><img src="<?php echo image_path("", "layout/settings.png"); ?>"></a>
+				<a href="<?php echo link_to("help","index.php"); ?>" title=""><img src="<?php echo image_path("", "layout/help.png"); ?>"></a>
+				<a href="<?php echo link_to("","index.php"); ?>?logout=true" title=""><img src="<?php echo image_path("", "layout/logout.png"); ?>"></a>
 			</div>
 		</div>
 

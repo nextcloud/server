@@ -633,3 +633,18 @@ p.actions a.delete
     border: 1px solid #CCC;
     text-align: right;
 }
+
+li.error{
+	list-style:none;
+	width: 640px;
+	margin: 4em auto;
+	padding: 1em 1em 1em 4em;
+	background-color: #FEE;
+	background-image: url(../img/task-attention.png);
+	background-position: 0.8em 0.8em;
+	background-repeat: no-repeat;
+	border: 1px solid #CCC;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}

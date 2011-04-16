@@ -24,14 +24,14 @@
 require_once('../lib/base.php');
 require( 'template.php' );
 if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' )){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+	header( "Location: ".OC_HELPER::linkTo( "", "index.php" ));
 	exit();
 }
 
 
 // Load the files we need
-OC_UTIL::addStyle( "files", "files" );
-OC_UTIL::addScript( "files", "files" );
+//OC_UTIL::addStyle( "", "files" );
+//OC_UTIL::addScript( "", "files" );
 
 
 $categories=OC_OCSCLIENT::getCategories();
@@ -39,7 +39,8 @@ $apps=OC_OCSCLIENT::getApplications($categories);
 
 
 // return template
-$tmpl = new OC_TEMPLATE( "files", "index", "user" );
+$tmpl = new OC_TEMPLATE( "admin", "apps", "admin" );
+
 $tmpl->assign( "categories", $categories );
 $tmpl->assign( "apps", $apps );
 $tmpl->printPage();
@@ -47,3 +48,4 @@ $tmpl->printPage();
 
 
 ?>
+

@@ -34,7 +34,6 @@ class OC_APP{
 	static private $settingspages = array();
 	static private $navigation = array();
 	static private $subnavigation = array();
-	static private $personalmenu = array();
 
 	/**
 	 * @brief loads all apps
@@ -53,7 +52,7 @@ class OC_APP{
 		}
 
 		// Our very own core apps are hardcoded
-		foreach( array( "admin", "files", "log", "settings" ) as $app ){
+		foreach( array( "admin", "files", "log", "help", "settings" ) as $app ){
 			require( "$app/appinfo/app.php" );
 		}
 
@@ -165,31 +164,20 @@ class OC_APP{
 	 * property from all other entries. The templates can use this for
 	 * highlighting the current position of the user.
 	 */
-	public static function activateNavigationEntry( $id ){
+	public static function setActiveNavigationEntry( $id ){
 		self::$activeapp = $id;
 		return true;
 	}
 
 	/**
-	 * @brief adds an entry to the personal menu
-	 * @param $data array containing the data
-	 * @returns true/false
+	 * @brief gets the active Menu entry
+	 * @returns id or empty string
 	 *
-	 * This function adds a new entry to the personal menu visible to users
-	 * only. $data is an associative array.
-	 * The following keys are required:
-	 *   - id: unique id for this entry ("logout")
-	 *   - href: link to the page
-	 *   - name: Human readable name ("Logout")
-	 *
-	 * The following keys are optional:
-	 *   - order: integer, that influences the position of your application in
-	 *     the personal menu. Lower values come first.
+	 * This function returns the id of the active navigation entry (set by
+	 * setActiveNavigationEntry
 	 */
-	public static function addPersonalMenuEntry( $data ){
-		// TODO: write function
-		OC_APP::$personalmenu[] = $data;
-		return true;
+	public static function getActiveNavigationEntry(){
+		return self::$activeapp;
 	}
 
 	/**
@@ -253,18 +241,6 @@ class OC_APP{
 	public static function getNavigation(){
 		// TODO: write function
 		return OC_APP::$navigation;
-	}
-
-	/**
-	 * @brief Returns the personal menu
-	 * @returns associative array
-	 *
-	 * This function returns an array containing all personal menu entries
-	 * added. The entries are sorted by the key "order" ascending.
-	 */
-	public static function getPersonalMenu(){
-		// TODO: write function
-		return OC_APP::$personalmenu;
 	}
 
 	/**
