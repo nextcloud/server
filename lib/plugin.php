@@ -52,7 +52,8 @@ class OC_PLUGIN{
 			//check for uninstalled db's
 			if(isset($data['install']) and isset($data['install']['database'])){
 				foreach($data['install']['database'] as $db){
-					if(!$data['install']['database_installed'][$db]){
+					$installed=OC_APPCONFIG::getValue('plugin_installer','database_installed_'.$id.'_'.$db,'false');
+					if($installed!='true'){
 						self::installDB($id);
 						break;
 					}
@@ -339,13 +340,13 @@ class OC_PLUGIN{
 		global $SERVERROOT;
 		$data=OC_PLUGIN::getPluginData($id);
 		foreach($data['install']['database'] as $db){
-			if (!$data['install']['database_installed'][$db]){
+			$installed=OC_APPCONFIG::getValue('plugin_installer','database_installed_'.$id.'_'.$db,'false');
+			if ($installed!='true'){
 				$file=$SERVERROOT.'/plugins/'.$id.'/'.$db;
 				OC_DB::createDbFromStructure($file);
-				$data['install']['database_installed'][$db]=true;
+				OC_APPCONFIG::setValue('plugin_installer','database_installed_'.$id.'_'.$db,'true');
 			}
 		}
-		self::savePluginData($id,$data);
 		return true;
 	}
 
@@ -363,14 +364,13 @@ class OC_PLUGIN{
 						if(isset($pluginData['install'])){
 							foreach($pluginData['install']['database'] as $db){
 								OC_DB::createDbFromStructure($folder.'/'.$db);
-								$pluginData['install']['database_installed'][$db]=true;
+								OC_APPCONFIG::setValue('plugin_installer','database_installed_'.$id.'_'.$db,'true');
 							}
 							foreach($pluginData['install']['include'] as $include){
 								include($folder.'/'.$include);
 							}
 						}
 						recursive_copy($folder,$SERVERROOT.'/plugins/'.$pluginData['info']['id']);
-						self::savePluginData($SERVERROOT.'/plugins/'.$pluginData['info']['id'].'/plugin.xml',$pluginData);
 					}
 				}
 				delTree($folder);
