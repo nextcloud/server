@@ -77,6 +77,7 @@ if( OC_CONFIG::getValue( "forcessl", false )){
 require_once('helper.php');
 require_once('database.php');
 require_once('app.php');
+require_once('appconfig.php');
 require_once('files.php');
 require_once('filesystem.php');
 require_once('filestorage.php');

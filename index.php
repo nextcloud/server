@@ -36,12 +36,12 @@ if(count($errors)>0){
 		exit();
 	}
 	else{
-		header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
+		header( "Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
 		exit();
 	}
 }else{
 	if( OC_USER::login( $_POST["user"], $_POST["password"] )){
-		header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
+		header( "Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
 		exit();
 	}
 	else{
