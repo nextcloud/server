@@ -142,13 +142,4 @@ class OC_GROUP {
 	public static function getGroups() {
 		return self::$_backend->getGroups();
 	}
-	
-	/**
-	 * create a new group
-	 *
-	 * @param  string  $name   Name of the group
-	 */
-	public static function createGroup($name) {
-		return self::$_backend->createGroup($name);
-	}
 }
