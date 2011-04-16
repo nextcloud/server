@@ -51,7 +51,7 @@ class OC_APP{
 
 		// Our very own core apps are hardcoded
 		foreach( array( "admin", "files", "log", "settings" ) as $app ){
-			oc_require( "$app/appinfo/app.php" );
+			require( "$app/appinfo/app.php" );
 		}
 
 		// The rest comes here
