@@ -69,6 +69,7 @@ class OC_FILESTORAGE{
 	public function fopen($path,$mode){}
 	public function toTmpFile($path){}//copy the file to a temporary file, used for cross-storage file actions
 	public function fromTmpFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
+	public function fromUploadedFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
 	public function getMimeType($path){}
 	public function delTree($path){}
 	public function find($path){}
@@ -381,6 +382,17 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 die( "oh nooo!" );
 		$fileStats = stat($tmpFile);
 		if(rename($tmpFile,$this->datadir.$path)){
+			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
+			$this->notifyObservers($path,OC_FILEACTION_CREATE);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public function fromUploadedFile($tmpFile,$path){
+		$fileStats = stat($tmpFile);
+		if(move_uploaded_file($tmpFile,$this->datadir.$path)){
 			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
 			$this->notifyObservers($path,OC_FILEACTION_CREATE);
 			return true;

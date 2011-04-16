@@ -21,7 +21,8 @@ if(!empty($dir)) $dir .= '/';
 $target='/' . stripslashes($dir) . $fileName;
 if(isset($_SESSION['username'])
 and $_SESSION['username'] and strpos($dir,'..') === false){
-	if(OC_FILESYSTEM::fromTmpFile($source,$target)){
+	if(OC_FILESYSTEM::fromUploadedFile($source,$target)){
+// 	if(OC_FILES::move(dirname($source),basename($source), $dir, $fileName)){
 		echo json_encode(array( "status" => "success"));
 		exit();
 	}

@@ -339,6 +339,11 @@ class OC_FILESYSTEM{
 			return $storage->fromTmpFile($tmpFile,self::getInternalPath($path));
 		}
 	}
+	static public function fromUploadedFile($tmpFile,$path){
+		if(self::canWrite($path) and $storage=self::getStorage($path)){
+			return $storage->fromUploadedFile($tmpFile,self::getInternalPath($path));
+		}
+	}
 	static public function getMimeType($path){
 		if(self::canRead($path) and $storage=self::getStorage($path)){
 			return $storage->getMimeType(self::getInternalPath($path));
