@@ -36,12 +36,16 @@ class OC_HELPER {
 	public static function linkTo( $app, $file ){
 		global $WEBROOT;
 		global $SERVERROOT;
-
-		// Check if the app is in the app folder
-		if( file_exists( "$SERVERROOT/apps/$app/$file" )){
-			return "$WEBROOT/apps/$app/$file";
+		
+		if(!empty($app)) {
+			$app .= '/';
 		}
-		return "$WEBROOT/$app/$file";
+		
+		// Check if the app is in the app folder
+		if( file_exists( $SERVERROOT . '/apps/'. $app . $file )){
+			return $WEBROOT . '/apps/' . $app . $file;
+		}
+		return $WEBROOT . '/' . $app . $file;
 	}
 
 	/**
