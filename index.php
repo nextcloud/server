@@ -29,7 +29,8 @@ var_dump( $_SESSION );
 if( OC_USER::isLoggedIn()){
 	if( $_GET["logout"] ){
 		OC_USER::logout();
-		OC_TEMPLATE::printGuestPage( "", "logout" );
+		header( "Location: $WEBROOT");
+		exit();
 	}
 	else{
 		header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
