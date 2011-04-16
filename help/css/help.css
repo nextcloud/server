@@ -1,0 +1,64 @@
+/* APPS TABLE */
+
+table td.date
+{
+    width: 5em;
+    padding: 0.5em 1em;
+    text-align: right;
+}
+
+.preview 
+{
+    padding: 3px;
+    text-align: left;
+}
+
+table td.date
+{
+    width: 11em;
+    color: #555555;
+}
+
+table td.selection, table th.selection, table td.fileaction
+{
+    width: 2em;
+    text-align: center;
+}
+
+table td.name a
+{
+    padding: 6px;
+    text-decoration: none;
+    color: #555555;
+}
+
+.type 
+{
+    padding: 6px;
+    text-decoration: none;
+    color: #888888;
+    font-size: 0.8em;
+}
+
+.description 
+{
+    padding: 6px;
+    text-decoration: none;
+    color: #666666;
+    font-size: 0.9em;
+}
+
+
+.install a { 
+    padding:0.2em 0.5em; 
+    border:1px solid #ddd; 
+    -moz-border-radius:15px; 
+    -webkit-border-radius:15px; 
+    border-radius:15px; 
+    text-decoration: none;
+    font-size:1.5em; color:#666666; 
+    background-color:#F0F0F0;
+}
+.install a:hover { 
+    background-color:#DDDDDD;
+}

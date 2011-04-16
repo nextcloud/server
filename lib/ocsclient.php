@@ -133,9 +133,10 @@ class OC_OCSCLIENT{
                         $kb['id']=$tmp[$i]->id;
                         $kb['name']=$tmp[$i]->name;
                         $kb['description']=$tmp[$i]->description;
+                        $kb['preview1']=$tmp[$i]->smallpreviewpic1;
                         $kbe[]=$kb;
                 }
-                return $kb;
+                return $kbe;
         }
 
 
