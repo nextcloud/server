@@ -173,3 +173,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 -- Daten für Tabelle `users`
 --
+
+--
+-- Table structure for table `foldersize`
+--
+
+CREATE TABLE IF NOT EXISTS `foldersize` (
+  `path` varchar(512) NOT NULL,
+  `size` int(11) NOT NULL,
+  PRIMARY KEY (`path`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
