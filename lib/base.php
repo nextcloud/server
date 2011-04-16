@@ -23,8 +23,7 @@
 
 // set some stuff
 //ob_start();
-// error_reporting(E_ALL | E_STRICT);
-error_reporting( E_ERROR | E_PARSE | E_WARNING ); // MDB2 gives loads of strict error, disabling for now
+error_reporting(E_ALL | E_STRICT);
 
 date_default_timezone_set('Europe/Berlin');
 ini_set('arg_separator.output','&amp;');
@@ -305,7 +304,7 @@ class OC_UTIL {
 		}else{
 			//TODO: premisions checks for windows hosts
 		}
-		if(!is_writable($CONFIG_DATADIRECTORY_ROOT)){
+		if(is_dir($CONFIG_DATADIRECTORY_ROOT) and !is_writable($CONFIG_DATADIRECTORY_ROOT)){
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
