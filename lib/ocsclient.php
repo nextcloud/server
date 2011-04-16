@@ -35,8 +35,20 @@ class OC_OCSCLIENT{
 	 * This function returns a list of all the application categories on the OCS server
 	 */
 	public static function getCategories(){
-
-		return true;
+		$url='http://api.opendesktop.org/v1/content/categories';
+	
+		$cats=array();
+		$xml=file_get_contents($url);
+		$data=simplexml_load_string($xml);
+	
+		$tmp=$data->data->category;
+		for($i = 0; $i < count($tmp); $i++) {
+			$cat=array();
+			$cat['id']=$tmp[$i]->id;
+			$cat['name']=$tmp[$i]->name;
+			$cats[]=$cat;
+		}
+		return $cats;
 	}
 
 	/**
@@ -45,9 +57,29 @@ class OC_OCSCLIENT{
 	 *
 	 * This function returns a list of all the applications on the OCS server
 	 */
-	public static function getApplications(){
-
-		return true;
+	public static function getApplications($categories){
+		$categoriesstring=implode('x',$categories);
+		$url='http://api.opendesktop.org/v1/content/data?categories='.$ocscategories['ids'].'&sortmode=new&page=0&pagesize=10';
+	
+		$apps=array();
+		$xml=file_get_contents($url);
+		$data=simplexml_load_string($xml);
+	
+		$tmp=$data->data->content;
+		for($i = 0; $i < count($tmp); $i++) {
+			$app=array();
+			$app['id']=$tmp[$i]->id;
+			$app['name']=$tmp[$i]->name;
+			$app['type']=$tmp[$i]->type;
+			$app['personid']=$tmp[$i]->personid;
+			$app['detailpage']=$tmp[$i]->detailpage;
+			$app['preview']=$tmp[$i]->smallpreviewpic1;
+			$app['changed']=$tmp[$i]->changed;
+			$app['description']=$tmp[$i]->description;
+	
+			$apps[]=$app;
+		} 
+		return $apps;
 	}
 
 }

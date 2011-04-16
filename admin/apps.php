@@ -35,7 +35,9 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 
 
 $categories=OC_OCSCLIENT::getCategories();
+//print_r($categories);
 $apps=OC_OCSCLIENT::getApplications($categories);
+//print_r($apps);
 
 
 // return template
