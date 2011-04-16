@@ -14,9 +14,6 @@
 
 	<body class="login">
 		<?php echo $_['content']; ?>
-		<p class="info">
-			ownCloud is an open personal cloud which runs on your personal server.<br />
-			To learn more, please visit <a href="http://www.owncloud.org/">owncloud.org</a>.
-		</p>
+		<p class="info"><a href="http://owncloud.org/">ownCloud</a> is a personal cloud which runs on your own server.</p>
 	</body>
 </html>
