@@ -156,7 +156,7 @@ class OC_UTIL {
 			if($CONFIG_ENABLEBACKUP){
 				// This creates the Directorys recursively
 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
-					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0x755, true );
+					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0755, true );
 				}
 				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
@@ -166,7 +166,7 @@ class OC_UTIL {
 
 			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
 			if( !is_dir( $CONFIG_DATADIRECTORY )){
-				mkdir( $CONFIG_DATADIRECTORY, 0x755, true );
+				mkdir( $CONFIG_DATADIRECTORY, 0755, true );
 			}
 
 			//set up the other storages according to the system settings
@@ -301,7 +301,7 @@ class OC_HOOK{
 	 *
 	 * TODO: write example
 	 */
-	public function connect( $signalclass, $signalname, $slotclass, $slotname ){
+	static public function connect( $signalclass, $signalname, $slotclass, $slotname ){
 		// Cerate the data structure
 		if( !array_key_exists( $signalclass, self::$registered )){
 			self::$registered[$signalclass] = array();
@@ -330,7 +330,7 @@ class OC_HOOK{
 	 *
 	 * TODO: write example
 	 */
-	public function emit( $signalclass, $signalname, $params = array()){
+	static public function emit( $signalclass, $signalname, $params = array()){
 		// Return false if there are no slots
 		if( !array_key_exists( $signalclass, self::$registered )){
 			return false;

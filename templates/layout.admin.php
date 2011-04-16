@@ -22,7 +22,7 @@
 			<a href="<?php echo link_to("", "index.php"); ?>" title="" id="owncloud"><img src="<?php echo image_path("", "owncloud-logo-small-white.png"); ?>" alt="ownCloud" /></a>
 
 			<div id="user">
-				<a id="user_menu_link" href="" title="">Username</a>
+				<a id="user_menu_link" href="" title=""><? echo $_SESSION["user_id"] ?></a>
 				<ul id="user_menu">
 					<?php foreach($_["personalmenu"] as $entry): ?>
 						<li><a href="<?php echo $entry["href"]; ?>" title=""><?php echo $entry["name"]; ?></a></li>
