@@ -492,7 +492,7 @@ class PEAR
      * @see PEAR::setErrorHandling
      * @since PHP 4.0.5
      */
-    function raiseError($message = null,
+    static function raiseError($message = null,
                          $code = null,
                          $mode = null,
                          $options = null,
