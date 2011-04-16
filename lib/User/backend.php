@@ -35,7 +35,7 @@ abstract class OC_USER_BACKEND {
 	 * @param  string  $username  The username of the user to create
 	 * @param  string  $password  The password of the new user
 	 */
-	abstract public static function createUser($username, $password);
+	public static function createUser($username, $password){}
 
 	/**
 	 * Try to login a user
@@ -43,18 +43,18 @@ abstract class OC_USER_BACKEND {
 	 * @param  string  $username  The username of the user to log in
 	 * @param  string  $password  The password of the user
 	 */
-	abstract public static function login($username, $password);
+	public static function login($username, $password){}
 
 	/**
 	 * Check if some user is logged in
 	 *
 	 */
-	abstract public static function isLoggedIn();
+	public static function isLoggedIn(){}
 
 	/**
 	 * Generate a random password
 	 */
-	abstract public static function generatePassword();
+	public static function generatePassword(){}
 
 	/**
 	 * Set the password of a user
@@ -62,7 +62,7 @@ abstract class OC_USER_BACKEND {
 	 * @param  string  $username  User who password will be changed
 	 * @param  string  $password  The new password for the user
 	 */
-	abstract public static function setPassword($username, $password);
+	public static function setPassword($username, $password){}
 
 	/**
 	 * Check if the password of the user is correct
@@ -70,12 +70,12 @@ abstract class OC_USER_BACKEND {
 	 * @param  string  $username  Name of the user
 	 * @param  string  $password  Password of the user
 	 */
-	abstract public static function checkPassword($username, $password);
+	public static function checkPassword($username, $password){}
 
 
 	/**
 	 * get a list of all users
 	 *
 	 */
-	abstract public static function getUsers();
+	public static function getUsers(){}
 }
