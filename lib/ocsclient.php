@@ -37,16 +37,13 @@ class OC_OCSCLIENT{
 	public static function getCategories(){
 		$url='http://api.opendesktop.org/v1/content/categories';
 	
-		$cats=array();
 		$xml=file_get_contents($url);
 		$data=simplexml_load_string($xml);
 	
 		$tmp=$data->data->category;
+		$cats=array();
 		for($i = 0; $i < count($tmp); $i++) {
-			$cat=array();
-			$cat['id']=$tmp[$i]->id;
-			$cat['name']=$tmp[$i]->name;
-			$cats[]=$cat;
+			$cats[$i]=$tmp[$i]->name;
 		}
 		return $cats;
 	}
@@ -58,8 +55,12 @@ class OC_OCSCLIENT{
 	 * This function returns a list of all the applications on the OCS server
 	 */
 	public static function getApplications($categories){
-		$categoriesstring=implode('x',$categories);
-		$url='http://api.opendesktop.org/v1/content/data?categories='.$ocscategories['ids'].'&sortmode=new&page=0&pagesize=10';
+                if(is_array($categories)) {
+			$categoriesstring=implode('x',$categories);
+		}else{
+			$categoriesstring=$categories;
+		}
+		$url='http://api.opendesktop.org/v1/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page=0&pagesize=10';
 	
 		$apps=array();
 		$xml=file_get_contents($url);
@@ -70,7 +71,8 @@ class OC_OCSCLIENT{
 			$app=array();
 			$app['id']=$tmp[$i]->id;
 			$app['name']=$tmp[$i]->name;
-			$app['type']=$tmp[$i]->type;
+			$app['type']=$tmp[$i]->typeid;
+			$app['typename']=$tmp[$i]->typename;
 			$app['personid']=$tmp[$i]->personid;
 			$app['detailpage']=$tmp[$i]->detailpage;
 			$app['preview']=$tmp[$i]->smallpreviewpic1;
@@ -81,6 +83,39 @@ class OC_OCSCLIENT{
 		} 
 		return $apps;
 	}
+
+
+        /**
+         * @brief Get an the applications from the OCS server
+         * @returns array with application data
+         *
+         * This function returns an  applications from the OCS server
+         */
+        public static function getApplication($id){
+                $url='http://api.opendesktop.org/v1/content/data/'.urlencode($id);
+
+                $xml=file_get_contents($url);
+                $data=simplexml_load_string($xml);
+
+                $tmp=$data->data->content;
+                $app=array();
+                $app['id']=$tmp->id;
+                $app['name']=$tmp->name;
+                $app['type']=$tmp->typeid;
+                $app['typename']=$tmp->typename;
+                $app['personid']=$tmp->personid;
+                $app['detailpage']=$tmp->detailpage;
+                $app['preview1']=$tmp->smallpreviewpic1;
+                $app['preview2']=$tmp->smallpreviewpic2;
+                $app['preview3']=$tmp->smallpreviewpic3;
+                $app['changed']=strtotime($tmp->changed);
+                $app['description']=$tmp->description;
+
+                return $app;
+        }
+
+
+
 
 }
 ?>
