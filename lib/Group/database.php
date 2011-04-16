@@ -67,6 +67,18 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	}
 
 	/**
+	 * Try to delete a group
+	 *
+	 * @param  string  $groupName  The name of the group to delete
+	 */
+	public static function deleteGroup( $gid ){
+		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE `gid` = ?" );
+		$result = $query->execute( array( $gid ));
+
+		return true;
+	}
+
+	/**
 	 * Check if a user belongs to a group
 	 *
 	 * @param  string  $username   Name of the user to check

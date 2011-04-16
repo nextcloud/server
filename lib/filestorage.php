@@ -378,6 +378,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	}
 
 	public function fromTmpFile($tmpFile,$path){
+die( "oh nooo!" );
 		$fileStats = stat($tmpFile);
 		if(rename($tmpFile,$this->datadir.$path)){
 			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
@@ -447,7 +448,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * @brief get the size of folder and it's content
 	 * @param string $path file path
@@ -462,7 +463,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			return $this->calculateFolderSize($path);
 		}
 	}
-	
+
 	/**
 	 * @brief calulate the size of folder and it's content and cache it
 	 * @param string $path file path
@@ -493,7 +494,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 		return $size;
 	}
-	
+
 	/**
 	 * @brief clear the folder size cache of folders containing a file
 	 * @param string $path

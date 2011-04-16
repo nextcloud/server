@@ -38,6 +38,12 @@ abstract class OC_USER_BACKEND {
 	public static function createUser($username, $password){}
 
 	/**
+	 * @brief Delete a new user
+	 * @param $username The username of the user to delete
+	 */
+	public static function deleteUser( $username ){}
+
+	/**
 	 * Try to login a user
 	 *
 	 * @param  string  $username  The username of the user to log in

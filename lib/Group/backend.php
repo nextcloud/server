@@ -36,6 +36,13 @@ abstract class OC_GROUP_BACKEND {
 	public static function createGroup($groupName){}
 
 	/**
+	 * Try to delete Group
+	 *
+	 * @param  string  $groupName  The name of the group to delete
+	 */
+	public static function deleteGroup($groupName){}
+
+	/**
 	 * Check if a user belongs to a group
 	 *
 	 * @param  string  $username   Name of the user to check

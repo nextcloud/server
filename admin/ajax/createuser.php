@@ -19,12 +19,11 @@ if( isset( $_POST["groups"] )){
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-foreach( $groups as $i ){
-	OC_GROUP::addToGroup( $username, $i );
-}
-
 // Return Success story
 if( OC_USER::createUser( $username, $password )){
+	foreach( $groups as $i ){
+		OC_GROUP::addToGroup( $username, $i );
+	}
 	echo json_encode( array( "status" => "success", "data" => array( "username" => $username, "groups" => implode( ", ", $groups ))));
 }
 else{

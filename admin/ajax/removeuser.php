@@ -12,14 +12,14 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
-$name = $_POST["groupname"];
+$name = $_POST["username"];
 
 // Return Success story
-if( OC_GROUP::createGroup( $name )){
-	echo json_encode( array( "status" => "success", "data" => array( "groupname" => $name )));
+if( OC_USER::deleteUser( $name )){
+	echo json_encode( array( "status" => "success", "data" => array( "username" => $name )));
 }
 else{
-	echo json_encode( array( "status" => "error", "data" => array( "message" => "Unable to add group" )));
+	echo json_encode( array( "status" => "error", "data" => array( "message" => "Unable to delete user" )));
 }
 
 ?>

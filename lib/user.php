@@ -96,6 +96,14 @@ class OC_USER {
 	}
 
 	/**
+	 * @brief Delete a new user
+	 * @param $username The username of the user to delete
+	 */
+	public static function deleteUser( $username ){
+		return self::$_backend->deleteUser( $username );
+	}
+
+	/**
 	 * @brief try to login a user
 	 * @param $username The username of the user to log in
 	 * @param $password The password of the user

@@ -65,6 +65,18 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	}
 
 	/**
+	 * Try to delete a user
+	 *
+	 * @param  string  $username  The username of the user to delete
+	 */
+	public static function deleteUser( $uid ){
+		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*users` WHERE `uid` = ?" );
+		$result = $query->execute( array( $uid ));
+
+		return true;
+	}
+
+	/**
 	 * Try to login a user
 	 *
 	 * @param  string  $username  The username of the user to log in
