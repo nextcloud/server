@@ -25,14 +25,14 @@
  * The following SQL statement is just a help for developers and will not be
  * executed!
  *
- * CREATE TABLE  `log` (
- * `id` INT PRIMARY KEY AUTO INCREMENT,
- * `timestamp` DATETIME NOT NULL,
+ * CREATE TABLE `log` (
+ * `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+ * `timestamp` DATETIME NOT NULL ,
  * `appid` VARCHAR( 255 ) NOT NULL ,
- * `subject` VARCHAR( 255 ),
- * `predicate` VARCHAR( 255 ),
- * `object`  TEXT
- * )
+ * `user` VARCHAR( 255 ) NOT NULL ,
+ * `action` VARCHAR( 255 ) NOT NULL ,
+ * `info` TEXT NOT NULL
+ * ) ENGINE = MYISAM ;
  *
  */
 
