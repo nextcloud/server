@@ -89,13 +89,17 @@ require_once('connect.php');
 require_once('remotestorage.php');
 require_once('plugin.php');
 
-OC_PLUGIN::loadPlugins( "" );
+$error=(count(OC_UTIL::checkServer())>0);
+
+if(!$error){
+	OC_PLUGIN::loadPlugins( "" );
+}
 
 OC_USER::setBackend( OC_CONFIG::getValue( "userbackend", "database" ));
 OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
 
 // Set up file system unless forbidden
-if( !$RUNTIME_NOSETUPFS ){
+if(!$error and !$RUNTIME_NOSETUPFS ){
 	OC_UTIL::setupFS();
 }
 
@@ -108,12 +112,10 @@ OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
 OC_UTIL::addStyle( "styles" );
 
 // Load Apps
-if( !$RUNTIME_NOAPPS ){
+if(!$error and !$RUNTIME_NOAPPS ){
 	OC_APP::loadApps();
 }
 
-// check if the server is correctly configured for ownCloud
-OC_UTIL::checkserver();
 /**
  * Class for utility functions
  *
@@ -221,7 +223,7 @@ class OC_UTIL {
 
 	/**
 	 * check if the current server configuration is suitable for ownCloud
-	 *
+	 * @return array with error messages
 	 */
 	public static function checkServer(){
 		global $SERVERROOT;
@@ -230,12 +232,16 @@ class OC_UTIL {
 		$CONFIG_DATADIRECTORY_ROOT = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );;
 		$CONFIG_BACKUPDIRECTORY = OC_CONFIG::getValue( "backupdirectory", "$SERVERROOT/backup" );
 		$CONFIG_INSTALLED = OC_CONFIG::getValue( "installed", false );
-		$error='';
+		$errors=array();
+		
+		//check for database drivers
 		if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
-			$error.='No database drivers (sqlite or mysql) installed.<br/>';
+			$errors[]='No database drivers (sqlite or mysql) installed.<br/>';
 		}
 		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBNAME = OC_CONFIG::getValue( "dbname", "owncloud" );
+		
+		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
 			if($CONFIG_DBTYPE=='sqlite'){
 				$file=$SERVERROOT.'/'.$CONFIG_DBNAME;
@@ -246,7 +252,7 @@ class OC_UTIL {
 						clearstatcache();
 						$prems=substr(decoct(fileperms($file)),-3);
 						if(substr($prems,2,1)!='0'){
-							$error.='SQLite database file ('.$file.') is readable from the web<br/>';
+							$errors[]='SQLite database file ('.$file.') is readable from the web<br/>';
 						}
 					}
 				}
@@ -257,7 +263,7 @@ class OC_UTIL {
 				clearstatcache();
 				$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 				if(substr($prems,2,1)!='0'){
-					$error.='Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>';
+					$errors[]='Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>';
 				}
 			}
 			if( OC_CONFIG::getValue( "enablebackup", false )){
@@ -267,16 +273,20 @@ class OC_UTIL {
 					clearstatcache();
 					$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 					if(substr($prems,2,1)!='0'){
-						$error.='Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>';
+						$errors[]='Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>';
 					}
 				}
 			}
 		}else{
 			//TODO: premisions checks for windows hosts
 		}
-		if($error){
-			die($error);
+		if(!is_writable($CONFIG_DATADIRECTORY_ROOT)){
+			$errors[]='Data directory ('.$CONFIG_BACKUPDIRECTORY.') not writable by ownCloud<br/>';
 		}
+		
+		//TODO: check for php modules
+		
+		return $errors;
 	}
 }
 

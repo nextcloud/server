@@ -28,21 +28,24 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
+// We have some javascript foo!
+OC_UTIL::addScript( "admin", "users" );
+
 $users = array();
 $groups = array();
 
 foreach( OC_USER::getUsers() as $i ){
 	// Do some more work here soon
 	$ingroups = array();
-	foreach( OC_USER::getUserGroups( $i ) as $userGroup){
-		$ingroup[] = OC_USER::getGroupName( $userGroup );
+	foreach( OC_GROUP::getUserGroups( $i ) as $userGroup ){
+		$ingroups[] = $userGroup;
 	}
 	$users[] = array( "name" => $i, "groups" => join( ",", $ingroups ));
 }
 
-foreach( OC_USER::getGroups() as $i ){
+foreach( OC_GROUP::getGroups() as $i ){
 	// Do some more work here soon
-	$groups[] = array( "name" => $i );
+	$groups[] = array( "name" => $i["gid"] );
 }
 
 $tmpl = new OC_TEMPLATE( "admin", "users", "admin" );

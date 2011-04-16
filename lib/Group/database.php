@@ -119,7 +119,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 
 		$groups = array();
 		while( $row = $result->fetchRow()){
-			$groups[] = $row;
+			$groups[] = $row["gid"];
 		}
 
 		return $groups;
