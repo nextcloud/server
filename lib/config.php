@@ -126,8 +126,8 @@ class OC_CONFIG{
 	 *
 	 * Reads the config file and saves it to the cache
 	 */
-	private static function readData( $key ){
-		if( !self::$init ){
+	private static function readData(){
+		if( self::$init ){
 			return true;
 		}
 
@@ -155,7 +155,7 @@ class OC_CONFIG{
 	 *
 	 * Known flaws: Strings are not escaped properly
 	 */
-	public static function writeData( $key ){
+	public static function writeData(){
 		// We need the serverroot path
 		global $SERVERROOT;
 

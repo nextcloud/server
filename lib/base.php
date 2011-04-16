@@ -56,14 +56,11 @@ if( !isset( $RUNTIME_NOAPPS )){
 }
 
 // define default config values
-$CONFIG_INSTALLED=false;
 $CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
 $CONFIG_BACKUPDIRECTORY=$SERVERROOT.'/backup';
 $CONFIG_HTTPFORCESSL=false;
 $CONFIG_ENABLEBACKUP=false;
 $CONFIG_DATEFORMAT='j M Y G:i';
-$CONFIG_DBNAME='owncloud';
-$CONFIG_DBTYPE='sqlite';
 $CONFIG_FILESYSTEM=array();
 
 // include the generated configfile
