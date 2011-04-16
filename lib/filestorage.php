@@ -124,7 +124,11 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		return $filetype;
 	}
 	public function filesize($path){
-		return filesize($this->datadir.$path);
+		if($this->is_dir($path)){
+			return $this->getFolderSize($path);
+		}else{
+			return filesize($this->datadir.$path);
+		}
 	}
 	public function is_readable($path){
 		return is_readable($this->datadir.$path);
@@ -159,6 +163,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	public function file_put_contents($path,$data){
 		if($return=file_put_contents($this->datadir.$path,$data)){
 			$this->notifyObservers($path,OC_FILEACTION_WRITE);
+			$this->clearFolderSizeCache($path);
 		}
 	}
 	public function unlink($path){
@@ -197,11 +202,13 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 				case 'x+':
 				case 'a+':
 					$this->notifyObservers($path,OC_FILEACTION_READ | OC_FILEACTION_WRITE);
+					$this->clearFolderSizeCache($path);
 					break;
 				case 'w':
 				case 'x':
 				case 'a':
 					$this->notifyObservers($path,OC_FILEACTION_WRITE);
+					$this->clearFolderSizeCache($path);
 					break;
 			}
 		}
@@ -439,6 +446,67 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			$this->notifyObservers($path,OC_FILEACTION_READ);
 		}
 		return $return;
+	}
+	
+	/**
+	 * @brief get the size of folder and it's content
+	 * @param string $path file path
+	 * @return int size of folder and it's content
+	 */
+	public function getFolderSize($path){
+		$query=OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
+		$size=$query->execute(array($path))->fetchAll();
+		if(count($size)>0){// we already the size, just return it
+			return $size[0]['size'];
+		}else{//the size of the folder isn't know, calulate it
+			return $this->calculateFolderSize($path);
+		}
+	}
+	
+	/**
+	 * @brief calulate the size of folder and it's content and cache it
+	 * @param string $path file path
+	 * @return int size of folder and it's content
+	 */
+	public function calculateFolderSize($path){
+		$size=0;
+		if ($dh = $this->opendir($path)) {
+			while (($filename = readdir($dh)) !== false) {
+				if($filename!='.' and $filename!='..'){
+					$subFile=$path.'/'.$filename;
+					if($this->is_file($subFile)){
+						$size+=$this->filesize($subFile);
+					}else{
+						$size+=$this->calculateFolderSize($subFile);
+					}
+				}
+			}
+			$query=OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
+			$hasSize=$query->execute(array($path))->fetchAll();
+			if(count($hasSize)>0){// yes, update it
+				$query=OC_DB::prepare("UPDATE *PREFIX*foldersize SET size=? WHERE path=?");
+				$result=$query->execute(array($size,$path));
+			}else{// no insert it
+				$query=OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
+				$result=$query->execute(array($path,$size));
+			}
+		}
+		return $size;
+	}
+	
+	/**
+	 * @brief clear the folder size cache of folders containing a file
+	 * @param string $path
+	 */
+	public function clearFolderSizeCache($path){
+		$path=dirname($path);
+		$query=OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
+		$result=$query->execute(array($path));
+		if($path!='/'){
+			$parts=explode('/');
+			array_pop($parts);
+			$parent=implode('/',$parts);
+		}
 	}
 }
 ?>
