@@ -279,7 +279,7 @@ class MDB2
      *
      * @access  public
      */
-    function setOptions(&$db, $options)
+    static function setOptions(&$db, $options)
     {
         if (is_array($options)) {
             foreach ($options as $option => $value) {
@@ -304,7 +304,7 @@ class MDB2
      * @static
      * @access  public
      */
-    function classExists($classname)
+    static function classExists($classname)
     {
         if (version_compare(phpversion(), "5.0", ">=")) {
             return class_exists($classname, false);
@@ -325,7 +325,7 @@ class MDB2
      *
      * @access  public
      */
-    function loadClass($class_name, $debug)
+    static function loadClass($class_name, $debug)
     {
         if (!MDB2::classExists($class_name)) {
             $file_name = str_replace('_', DIRECTORY_SEPARATOR, $class_name).'.php';
@@ -374,7 +374,7 @@ class MDB2
      *
      * @access  public
      */
-    function &factory($dsn, $options = false)
+    static function factory($dsn, $options = false)
     {
         $dsninfo = MDB2::parseDSN($dsn);
         if (empty($dsninfo['phptype'])) {
@@ -390,7 +390,7 @@ class MDB2
             return $err;
         }
 
-        $db =& new $class_name();
+        $db =new $class_name();
         $db->setDSN($dsninfo);
         $err = MDB2::setOptions($db, $options);
         if (PEAR::isError($err)) {
@@ -516,7 +516,7 @@ class MDB2
      * @param array $arr2
      * @return boolean
      */
-    function areEquals($arr1, $arr2)
+    static function areEquals($arr1, $arr2)
     {
         if (count($arr1) != count($arr2)) {
             return false;
@@ -686,7 +686,7 @@ class MDB2
      *
      * @access  public
      */
-    function isResultCommon($value)
+    static function isResultCommon($value)
     {
         return is_a($value, 'MDB2_Result_Common');
     }
@@ -723,7 +723,7 @@ class MDB2
      *
      * @access  public
      */
-    function errorMessage($value = null)
+    static function errorMessage($value = null)
     {
         static $errorMessages;
 
@@ -824,7 +824,7 @@ class MDB2
      * @access  public
      * @author  Tomas V.V.Cox <cox@idecnet.com>
      */
-    function parseDSN($dsn)
+    static function parseDSN($dsn)
     {
         $parsed = $GLOBALS['_MDB2_dsninfo_default'];
 
@@ -954,7 +954,7 @@ class MDB2
      *
      * @access  public
      */
-    function fileExists($file)
+    static function fileExists($file)
     {
         // safe_mode does notwork with is_readable()
         global $SERVERROOT;
@@ -1498,7 +1498,7 @@ class MDB2_Driver_Common extends PEAR
             }
         }
 
-        $err =& PEAR::raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Error', true);
+        $err = PEAR::raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Error', true);
         if ($err->getMode() !== PEAR_ERROR_RETURN
             && isset($this->nested_transaction_counter) && !$this->has_transaction_error) {
             $this->has_transaction_error =& $err;
@@ -2097,7 +2097,7 @@ class MDB2_Driver_Common extends PEAR
      * @access  public
      * @since   2.1.1
      */
-    function setTransactionIsolation($isolation, $options = array())
+    static function setTransactionIsolation($isolation, $options = array())
     {
         $this->debug('Setting transaction isolation level', __FUNCTION__, array('is_manip' => true));
         return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
@@ -2647,7 +2647,7 @@ class MDB2_Driver_Common extends PEAR
                     'result class does not exist '.$class_name, __FUNCTION__);
                 return $err;
             }
-            $result =& new $class_name($this, $result, $limit, $offset);
+            $result =new $class_name($this, $result, $limit, $offset);
             if (!MDB2::isResultCommon($result)) {
                 $err =& $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                     'result class is not extended from MDB2_Result_Common', __FUNCTION__);
