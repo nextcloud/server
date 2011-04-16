@@ -41,7 +41,7 @@ $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 
 $files = array();
 foreach( OC_FILES::getdirectorycontent( $dir ) as $i ){
-	$i["date"] = date( $CONFIG_DATEFORMAT, $i["mtime"] );
+	$i["date"] = OC_UTIL::formatDate($i["mtime"] );
 	$files[] = $i;
 }
 
