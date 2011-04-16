@@ -55,24 +55,21 @@ if( !isset( $RUNTIME_NOAPPS )){
 	$RUNTIME_NOAPPS = false;
 }
 
-// define default config values
-$CONFIG_DATADIRECTORY=$SERVERROOT.'/data';
-$CONFIG_BACKUPDIRECTORY=$SERVERROOT.'/backup';
-$CONFIG_HTTPFORCESSL=false;
-$CONFIG_ENABLEBACKUP=false;
-$CONFIG_DATEFORMAT='j M Y G:i';
-$CONFIG_FILESYSTEM=array();
+// Doing the config stuff first
+require_once('config.php');
 
-// include the generated configfile
-@include_once($SERVERROOT.'/config/config.php');
+// TODO: we should get rid of this one, too
+// WARNING: to make everything even more confusing, DATADIRECTORY is a var that
+//   changes and DATATIRECTORY_ROOT stays the same, but is set by
+//   "datadirectory". Any questions?
+$CONFIG_DATADIRECTORY = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
 
-$CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
 // redirect to https site if configured
-if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
+if( OC_CONFIG::getValue( "forcessl", false )){
 	if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') {
 		$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 		header("Location: $url");
-		exit;
+		exit();
 	}
 }
 
@@ -85,7 +82,6 @@ require_once('filesystem.php');
 require_once('filestorage.php');
 require_once('fileobserver.php');
 require_once('log.php');
-require_once('config.php');
 require_once('user.php');
 require_once('group.php');
 require_once('ocs.php');
@@ -95,11 +91,8 @@ require_once('plugin.php');
 
 OC_PLUGIN::loadPlugins( "" );
 
-if(!isset($CONFIG_BACKEND)){
-	$CONFIG_BACKEND='database';
-}
-OC_USER::setBackend( $CONFIG_BACKEND );
-OC_GROUP::setBackend( $CONFIG_BACKEND );
+OC_USER::setBackend( OC_CONFIG::getValue( "userbackend", "database" ));
+OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
 
 // Set up file system unless forbidden
 if( !$RUNTIME_NOSETUPFS ){
@@ -138,11 +131,10 @@ class OC_UTIL {
 
 		// Global Variables
 		global $SERVERROOT;
-		global $CONFIG_DATADIRECTORY_ROOT;
 		global $CONFIG_DATADIRECTORY;
-		global $CONFIG_BACKUPDIRECTORY;
-		global $CONFIG_ENABLEBACKUP;
-		global $CONFIG_FILESYSTEM;
+
+		$CONFIG_DATADIRECTORY_ROOT = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
+		$CONFIG_BACKUPDIRECTORY = OC_CONFIG::getValue( "backupdirectory", "$SERVERROOT/backup" );
 
 		// Create root dir
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
@@ -157,7 +149,7 @@ class OC_UTIL {
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			//first set up the local "root" storage and the backupstorage if needed
 			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
-			if($CONFIG_ENABLEBACKUP){
+			if( OC_CONFIG::getValue( "enablebackup", false )){
 				// This creates the Directorys recursively
 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
 					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0755, true );
@@ -173,18 +165,19 @@ class OC_UTIL {
 				mkdir( $CONFIG_DATADIRECTORY, 0755, true );
 			}
 
-			//set up the other storages according to the system settings
-			foreach($CONFIG_FILESYSTEM as $storageConfig){
-				if(OC_FILESYSTEM::hasStorageType($storageConfig['type'])){
-					$arguments=$storageConfig;
-					unset($arguments['type']);
-					unset($arguments['mountpoint']);
-					$storage=OC_FILESYSTEM::createStorage($storageConfig['type'],$arguments);
-					if($storage){
-						OC_FILESYSTEM::mount($storage,$storageConfig['mountpoint']);
-					}
-				}
-			}
+// TODO: find a cool way for doing this
+// 			//set up the other storages according to the system settings
+// 			foreach($CONFIG_FILESYSTEM as $storageConfig){
+// 				if(OC_FILESYSTEM::hasStorageType($storageConfig['type'])){
+// 					$arguments=$storageConfig;
+// 					unset($arguments['type']);
+// 					unset($arguments['mountpoint']);
+// 					$storage=OC_FILESYSTEM::createStorage($storageConfig['type'],$arguments);
+// 					if($storage){
+// 						OC_FILESYSTEM::mount($storage,$storageConfig['mountpoint']);
+// 					}
+// 				}
+// 			}
 
 			//jail the user into his "home" directory
 			OC_FILESYSTEM::chroot("/$user/$root");
@@ -232,9 +225,10 @@ class OC_UTIL {
 	 */
 	public static function checkServer(){
 		global $SERVERROOT;
-		global $CONFIG_DATADIRECTORY_ROOT;
-		global $CONFIG_BACKUPDIRECTORY;
-		global $CONFIG_ENABLEBACKUP;
+		global $CONFIG_DATADIRECTORY;
+
+		$CONFIG_DATADIRECTORY_ROOT = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );;
+		$CONFIG_BACKUPDIRECTORY = OC_CONFIG::getValue( "backupdirectory", "$SERVERROOT/backup" );
 		$CONFIG_INSTALLED = OC_CONFIG::getValue( "installed", false );
 		$error='';
 		if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
@@ -266,7 +260,7 @@ class OC_UTIL {
 					$error.='Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>';
 				}
 			}
-			if($CONFIG_ENABLEBACKUP){
+			if( OC_CONFIG::getValue( "enablebackup", false )){
 				$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 				if(substr($prems,-1)!='0'){
 					OC_HELPER::chmodr($CONFIG_BACKUPDIRECTORY,0770);

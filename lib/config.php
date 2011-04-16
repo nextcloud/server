@@ -172,7 +172,7 @@ class OC_CONFIG{
 			}
 			else{
 				$value = str_replace( "'", "\\'", $value );
-				$configContent .= "\"$key\" => '$value',\n";
+				$content .= "\"$key\" => '$value',\n";
 			}
 		}
 		$content .= ");\n?>\n";

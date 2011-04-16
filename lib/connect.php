@@ -3,22 +3,22 @@
 /**
 * ownCloud
 *
-* @author Frank Karlitschek 
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org 
-* 
+* @author Frank Karlitschek
+* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+*
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either 
+* License as published by the Free Software Foundation; either
 * version 3 of the License, or any later version.
-* 
+*
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*  
-* You should have received a copy of the GNU Affero General Public 
+*
+* You should have received a copy of the GNU Affero General Public
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-* 
+*
 */
 
 /**
@@ -27,7 +27,7 @@
  */
 class OC_CONNECT{
 	static private $clouds=array();
-	
+
 	static function connect($path,$user,$password){
 		$cloud=new OC_REMOTE_CLOUD($path,$user,$password);
 		if($cloud->connected){
@@ -48,7 +48,7 @@ class OC_REMOTE_CLOUD{
 	private $path;
 	private $connected=false;
 	private $cookiefile=false;
-	
+
 	/**
 	* make an api call to the remote cloud
 	* @param string $action
@@ -72,8 +72,8 @@ class OC_REMOTE_CLOUD{
 		curl_setopt($ch,CURLOPT_URL,$url);
 		curl_setopt($ch,CURLOPT_POST,count($parameters));
 		curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
-		curl_setopt($ch, CURLOPT_COOKIEFILE,$this->cookiefile); 
-		curl_setopt($ch, CURLOPT_COOKIEJAR,$this->cookiefile); 
+		curl_setopt($ch, CURLOPT_COOKIEFILE,$this->cookiefile);
+		curl_setopt($ch, CURLOPT_COOKIEJAR,$this->cookiefile);
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 		$result=curl_exec($ch);
 		$result=trim($result);
@@ -86,12 +86,12 @@ class OC_REMOTE_CLOUD{
 			return false;
 		}
 	}
-	
+
 	public function __construct($path,$user,$password){
 		$this->path=$path;
 		$this->connected=$this->apiCall('login',array('username'=>$user,'password'=>$password));
 	}
-	
+
 	/**
 	* check if we are stull logged in on the remote cloud
 	*
@@ -102,14 +102,14 @@ class OC_REMOTE_CLOUD{
 		}
 		return $this->apiCall('checklogin');
 	}
-	
+
 	public function __get($name){
 		switch($name){
 			case 'connected':
 				return $this->connected;
 		}
 	}
-	
+
 	/**
 	* disconnect from the remote cloud
 	*
@@ -121,7 +121,7 @@ class OC_REMOTE_CLOUD{
 		}
 		$this->cookiefile=false;
 	}
-	
+
 	/**
 	* create a new file or directory
 	* @param string $dir
@@ -134,7 +134,7 @@ class OC_REMOTE_CLOUD{
 		}
 		return $this->apiCall('new',array('dir'=>$dir,'name'=>$name,'type'=>$type),true);
 	}
-	
+
 	/**
 	* deletes a file or directory
 	* @param string $dir
@@ -146,7 +146,7 @@ class OC_REMOTE_CLOUD{
 		}
 		return $this->apiCall('delete',array('dir'=>$dir,'file'=>$name),true);
 	}
-	
+
 	/**
 	* moves a file or directory
 	* @param string $sorceDir
@@ -160,7 +160,7 @@ class OC_REMOTE_CLOUD{
 		}
 		return $this->apiCall('move',array('sourcedir'=>$sourceDir,'source'=>$sourceFile,'targetdir'=>$targetDir,'target'=>$targetFile),true);
 	}
-	
+
 	/**
 	* copies a file or directory
 	* @param string $sorceDir
@@ -174,7 +174,7 @@ class OC_REMOTE_CLOUD{
 		}
 		return $this->apiCall('copy',array('sourcedir'=>$sourceDir,'source'=>$sourceFile,'targetdir'=>$targetDir,'target'=>$targetFile),true);
 	}
-	
+
 	/**
 	* get a file tree
 	* @param string $dir
@@ -185,7 +185,7 @@ class OC_REMOTE_CLOUD{
 		}
 		return $this->apiCall('gettree',array('dir'=>$dir),true);
 	}
-	
+
 	/**
 	* get the files inside a directory of the remote cloud
 	* @param string $dir
@@ -196,7 +196,7 @@ class OC_REMOTE_CLOUD{
 		}
 		return $this->apiCall('getfiles',array('dir'=>$dir),true);
 	}
-	
+
 	/**
 	* get a remove file and save it in a temporary file and return the path of the temporary file
 	* @param string $dir
@@ -215,28 +215,28 @@ class OC_REMOTE_CLOUD{
 		$fp=fopen($tmpfile,'w+');
 		$url=$this->path.="/files/api.php?action=get&dir=$dir&file=$file";
 		curl_setopt($ch,CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_COOKIEFILE,$this->cookiefile); 
-		curl_setopt($ch, CURLOPT_COOKIEJAR,$this->cookiefile); 
+		curl_setopt($ch, CURLOPT_COOKIEFILE,$this->cookiefile);
+		curl_setopt($ch, CURLOPT_COOKIEJAR,$this->cookiefile);
 		curl_setopt($ch, CURLOPT_FILE, $fp);
 		curl_exec($ch);
 		fclose($fp);
 		curl_close($ch);
 		return $tmpfile;
 	}
-	
+
 	public function sendFile($sourceDir,$sourceFile,$targetDir,$targetFile){
 		global $WEBROOT;
 		$source=$sourceDir.'/'.$sourceFile;
 		$tmp=OC_FILESYSTEM::toTmpFile($source);
 		return $this->sendTmpFile($tmp,$targetDir,$targetFile);
 	}
-	
+
 	public function sendTmpFile($tmp,$targetDir,$targetFile){
 		$token=sha1(uniqid().$tmp);
 		global $WEBROOT;
 		$file=sys_get_temp_dir().'/'.'remoteCloudFile'.$token;
 		rename($tmp,$file);
-		if((isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') { 
+		if( OC_CONFIG::getValue( "forcessl", false ) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
 			$url = "https://". $_SERVER['SERVER_NAME'] . $WEBROOT;
 		}else{
 			$url = "http://". $_SERVER['SERVER_NAME'] . $WEBROOT;

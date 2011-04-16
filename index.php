@@ -24,29 +24,31 @@
 require_once( 'lib/base.php' );
 require_once( 'appconfig.php' );
 require_once( 'template.php' );
+var_dump( $_SESSION );
+//exit;
 if( OC_USER::isLoggedIn()){
-    if( $_GET["logout"] ){
-        OC_USER::logout();
-        OC_TEMPLATE::printGuestPage( "", "logout" );
-    }
-    else{
-        header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
-        exit();
-    }
+	if( $_GET["logout"] ){
+		OC_USER::logout();
+		OC_TEMPLATE::printGuestPage( "", "logout" );
+	}
+	else{
+		header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
+		exit();
+	}
 }
 else{
-    if( OC_USER::login( $_POST["user"], $_POST["password"] )){
-        header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
-        exit();
-    }
-    else{
-        $error = false;
-        // Say "bad login" in case the user wanted to login
-        if( $_POST["user"] && $_POST["password"] ){
-            $error = true;
-        }
-        OC_TEMPLATE::printGuestPage( "", "login", array( "error" => $error ));
-    }
+	if( OC_USER::login( $_POST["user"], $_POST["password"] )){
+		header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
+		exit();
+	}
+	else{
+		$error = false;
+		// Say "bad login" in case the user wanted to login
+		if( $_POST["user"] && $_POST["password"] ){
+			$error = true;
+		}
+		OC_TEMPLATE::printGuestPage( "", "login", array( "error" => $error ));
+	}
 }
 
 ?>

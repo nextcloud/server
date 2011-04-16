@@ -20,7 +20,7 @@
  *
  */
 
-if( !$CONFIG_INSTALLED ){
+if( !OC_CONFIG::getValue( "installed", false )){
 	$_SESSION['user_id'] = '';
 }
 
