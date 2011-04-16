@@ -27,6 +27,8 @@ and $_SESSION['username'] and strpos($dir,'..') === false){
 	}
 }
 
-echo json_encode(array( "status" => "error"));
+$error = $_FILES['file']['error'];
+
+echo json_encode(array( 'status' => 'error', 'data' => array('error' => $error)));
 
 ?>
