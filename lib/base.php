@@ -104,7 +104,6 @@ if(!$error and !$RUNTIME_NOSETUPFS ){
 }
 
 // Add the stuff we need always
-OC_APP::addPersonalMenuEntry( array( "order" => 1000, "href" => OC_HELPER::linkTo( "", "index.php?logout=1" ), "name" => "Logout" ));
 OC_UTIL::addScript( "jquery-1.5.min" );
 OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
 OC_UTIL::addScript( "js" );
@@ -233,14 +232,14 @@ class OC_UTIL {
 		$CONFIG_BACKUPDIRECTORY = OC_CONFIG::getValue( "backupdirectory", "$SERVERROOT/backup" );
 		$CONFIG_INSTALLED = OC_CONFIG::getValue( "installed", false );
 		$errors=array();
-		
+
 		//check for database drivers
 		if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
 			$errors[]='No database drivers (sqlite or mysql) installed.<br/>';
 		}
 		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBNAME = OC_CONFIG::getValue( "dbname", "owncloud" );
-		
+
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
 			if($CONFIG_DBTYPE=='sqlite'){
@@ -283,9 +282,9 @@ class OC_UTIL {
 		if(!is_writable($CONFIG_DATADIRECTORY_ROOT)){
 			$errors[]='Data directory ('.$CONFIG_BACKUPDIRECTORY.') not writable by ownCloud<br/>';
 		}
-		
+
 		//TODO: check for php modules
-		
+
 		return $errors;
 	}
 }
