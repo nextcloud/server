@@ -28,15 +28,21 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
-$adminpages = array();
+$apppages = array();
+$syspages = array();
 
 foreach( OC_APP::getAdminPages() as $i ){
-	// Do some more work here soon
-	$adminpages[] = $i;
+	if( substr( $i["id"], 0, 5 ) == "core_" ){
+		$syspages[] = $i;
+	}
+	else{
+		$apppages[] = $i;
+	}
 }
 
 $tmpl = new OC_TEMPLATE( "admin", "index", "admin" );
-$tmpl->assign( "adminpages", $adminpages );
+$tmpl->assign( "apppages", $apppages );
+$tmpl->assign( "syspages", $syspages );
 $tmpl->printPage();
 
 ?>

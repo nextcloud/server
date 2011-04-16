@@ -24,8 +24,6 @@
 require_once( 'lib/base.php' );
 require_once( 'appconfig.php' );
 require_once( 'template.php' );
-var_dump( $_SESSION );
-//exit;
 if( OC_USER::isLoggedIn()){
 	if( $_GET["logout"] ){
 		OC_USER::logout();
