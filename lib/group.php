@@ -79,6 +79,24 @@ class OC_GROUP {
 	}
 
 	/**
+	 * Try to create a new group
+	 *
+	 * @param  string  $groupName  The name of the group to create
+	 */
+	public static function createGroup($gid) {
+		return self::$_backend->createGroup($gid);
+	}
+
+	/**
+	 * Try to delete Group
+	 *
+	 * @param  string  $groupName  The name of the group to delete
+	 */
+	public static function deleteGroup($gid) {
+		return self::$_backend->deleteGroup($gid);
+	}
+
+	/**
 	 * Check if a user belongs to a group
 	 *
 	 * @param  string  $username   Name of the user to check

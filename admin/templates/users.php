@@ -28,7 +28,7 @@
 <a id="adduser-button" href="">New user</a>
 
 <h2>Groups</h2>
-<form>
+<form id="creategroupdata">
 	<table id="groupstable">
 		<thead>
 			<tr>
@@ -36,6 +36,12 @@
 				<th></th>
 			</tr>
 		</thead>
+		<tfoot>
+			<tr>
+				<td><input type="text" name="groupname" id="creategroupname" /></td>
+				<td><button id="creategroupbutton">Create group</button></td>
+			</tr>
+		</tfoot>
 		<tbody>
 			<?php foreach($_["groups"] as $group): ?>
 				<tr>
@@ -43,16 +49,9 @@
 					<td x-gid="<?php echo $group["name"]; ?>"><a class="removegroup-button" href="">remove</a></td>
 				</tr>
 			<?php endforeach; ?>
-			<tr>
-				<td><input type="text" name="name" /></td>
-				<td><input type="submit" /></td>
-			</tr>
 		</tbody>
 	</table>
 </form>
-
-<a id="addgroup-button" href="">Add group</a>
-
 
 <div id="adduser-form" title="Add user">
 	<form id="createuserdata">
@@ -82,13 +81,13 @@
 <div id="removeuser-form" title="Remove user">
 	<form id="removeuserdata">
 		Do you really want to delete user <span id="deleteuserusername">$user</span>?
-		<input type="hidden" name="username" value="">
+		<input id="deleteusernamefield" type="hidden" name="username" value="">
 	</form>
 </div>
 
 <div id="removegroup-form" title="Remove Group">
-	<form id="removeuserdata">
+	<form id="removegroupdata">
 		Do you really want to delete group <span id="deletegroupgroupname">$group</span>?
-		<input id="deletegroupnamefield" type="hidden" name="username" value="">
+		<input id="deletegroupnamefield" type="hidden" name="groupname" value="">
 	</form>
 </div>

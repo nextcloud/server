@@ -318,7 +318,6 @@ class OC_APP{
 	 *   -# unzipping it
 	 *   -# including appinfo/installer.php
 	 *   -# executing "oc_app_install()"
-	 *   -# renaming appinfo/app.sample.php to appinfo/app.php
 	 *
 	 * It is the task of oc_app_install to create the tables and do whatever is
 	 * needed to get the app working.
@@ -346,8 +345,6 @@ class OC_APP{
 	 *   - pretend: boolean, if set true the system won't do anything
 	 *   - noupgrade: boolean, if true the function oc_app_upgrade will be
 	 *     skipped
-	 *   - keepappinfo: boolean. If set true, the folder appinfo will not be
-	 *     deleted, appinfo/app.php will not be replaced by a new version
 	 *
 	 * This function works as follows
 	 *   -# fetching the file
@@ -355,7 +352,6 @@ class OC_APP{
 	 *   -# unzipping new file
 	 *   -# including appinfo/installer.php
 	 *   -# executing "oc_app_upgrade( $options )"
-	 *   -# renaming appinfo/app.sample.php to appinfo/app.php
 	 */
 	public static function upgradeApp( $data = array()){
 		// TODO: write function
