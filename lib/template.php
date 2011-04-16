@@ -97,7 +97,7 @@ class OC_TEMPLATE{
 		$template = "$SERVERROOT/templates/";
 		if( $app != "core" && $app != "" ){
 			// Check if the app is in the app folder
-			if( "$SERVERROOT/apps/$app/templates/" ){
+			if( file_exists( "$SERVERROOT/apps/$app/templates/" )){
 				$template = "$SERVERROOT/apps/$app/templates/";
 			}
 			else{
