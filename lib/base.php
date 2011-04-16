@@ -292,7 +292,7 @@ class OC_UTIL {
 		}else{
 			//TODO: premisions checks for windows hosts
 		}
-		if(!is_writable($CONFIG_DATADIRECTORY_ROOT)){
+		if(is_dir($CONFIG_DATADIRECTORY_ROOT) and !is_writable($CONFIG_DATADIRECTORY_ROOT)){
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
