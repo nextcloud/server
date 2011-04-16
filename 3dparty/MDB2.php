@@ -1446,7 +1446,7 @@ class MDB2_Driver_Common extends PEAR
      * @access public
      * @see    PEAR_Error
      */
-    static function raiseError($code = null,
+    function raiseError($code = null,
                          $mode = null,
                          $options = null,
                          $userinfo = null,
