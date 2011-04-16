@@ -150,7 +150,6 @@
      */
     function fileinfo($path)
     {
-		global $CONFIG_DBTABLEPREFIX;
 
         // map URI path to filesystem path
         $fspath =$path;
@@ -185,8 +184,8 @@
             $info["props"][] = $this->mkprop("getcontentlength",  OC_FILESYSTEM::filesize($fspath));
         }
         // get additional properties from database
-		$query = "SELECT ns, name, value FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '$path'";
-		$res = OC_DB::select($query);
+		$query = OC_DB::prepare("SELECT ns, name, value FROM *PREFIX*properties WHERE path = ?");
+		$res = $query->execute(array($path))->fetchAll();
 		foreach($res as $row){
             $info["props"][] = $this->mkprop($row["ns"], $row["name"], $row["value"]);
         }
@@ -391,7 +390,6 @@
      */
     function DELETE($options)
     {
-		global $CONFIG_DBTABLEPREFIX;
         $path =$options["path"];
         if (!OC_FILESYSTEM::file_exists($path)) {
             return "404 Not found";
@@ -405,14 +403,14 @@
 			}
 		}
         if (OC_FILESYSTEM::is_dir($path)) {
-                $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path LIKE '".$this->_slashify($options["path"])."%'";
-                OC_DB::query($query);
+                $query = OC_DB::prepare("DELETE FROM *PREFIX*properties WHERE path LIKE '?%'");
+                $query->execute(array($this->_slashify($options["path"])));
 				OC_FILESYSTEM::delTree($path);
         } else {
             OC_FILESYSTEM::unlink($path);
         }
-            $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '$options[path]'";
-            OC_DB::query($query);
+            $query = OC_DB::prepare("DELETE FROM *PREFIX*properties WHERE path = ?");
+            $query->execute(array($options[path]));
 
         return "204 No Content";
     }
@@ -438,7 +436,6 @@
     function COPY($options, $del=false)
     {
         // TODO Property updates still broken (Litmus should detect this?)
-		global $CONFIG_DBTABLEPREFIX;
 
         if (!empty($this->_SERVER["CONTENT_LENGTH"])) { // no body parsing yet
             return "415 Unsupported media type";
@@ -512,18 +509,18 @@
             }
             $destpath = $this->_unslashify($options["dest"]);
             if (is_dir($source)) {
-					$dpath=OC_DB::escape($destpath);
-					$path=OC_DB::escape($options["path"]);
-                    $query = "UPDATE {$CONFIG_DBTABLEPREFIX}properties
-                                 SET path = REPLACE(path, '$path', '$dpath')
-                               WHERE path LIKE '$path%'";
-                    OC_DB::query($query);
+					$dpath=$destpath;
+					$path=$options["path"];
+                    $query = OC_DB::prepare("UPDATE *PREFIX*properties
+                                 SET path = REPLACE(path, ?, ?)
+                               WHERE path LIKE '?%'");
+                    $query->execute(array($path,$dpath,$path));
             }
 
-                $query = "UPDATE {$CONFIG_DBTABLEPREFIX}properties
-                             SET path = '$dpath'
-                           WHERE path = '$path'";
-                OC_DB::query($query);
+                $query = OC_DB::prepare("UPDATE *PREFIX*properties
+                             SET path = ?
+                           WHERE path = ?");
+                $query->execute(array($dpath,$path));
         } else {
             if (OC_FILESYSTEM::is_dir($source)) {
                 $files = OC_FILESYSTEM::getTree($source);
@@ -572,7 +569,6 @@
     function PROPPATCH(&$options)
     {
         global $prefs, $tab;
-		global $CONFIG_DBTABLEPREFIX;
 
         $msg  = "";
         $path = $options["path"];
@@ -583,16 +579,17 @@
             if ($prop["ns"] == "DAV:") {
                 $options["props"][$key]['status'] = "403 Forbidden";
             } else {
-				$path=OC_DB::escape($options['path']);
-				$name=OC_DB::escape($prop['name']);
-				$ns=OC_DB::escape($prop['ns']);
-				$val=OC_DB::escape($prop['val']);
+				$path=$options['path'];
+				$name=$prop['name'];
+				$ns=$prop['ns'];
+				$val=$prop['val'];
                 if (isset($prop["val"])) {
-                        $query = "REPLACE INTO {$CONFIG_DBTABLEPREFIX}properties (path,name,ns,value) VALUES('$path','$name','$ns','$val')";
+                        $query = OC_DB::prepare("REPLACE INTO *PREFIX*properties (path,name,ns,value) VALUES(?,?,?,?)");
+                        $query->execute(array($path,$name,$ns,$val));
                 } else {
-                        $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}properties WHERE path = '$path' AND name = '$name' AND ns = '$ns'";
+                        $query = $query = OC_DB::prepare("DELETE FROM *PREFIX*properties WHERE path = ? AND name = ? AND ns = ?");
+                        $query->execute(array($path,$name,$ns));
                 }
-                    OC_DB::query($query);
             }
         }
 
@@ -608,7 +605,6 @@
      */
     function LOCK(&$options)
     {
-		global $CONFIG_DBTABLEPREFIX;
 
         // get absolute fs path to requested resource
         $fspath = $options["path"];
@@ -630,15 +626,15 @@
         $options["timeout"] = time()+300; // 5min. hardcoded
 
         if (isset($options["update"])) { // Lock Update
-            $where = "WHERE path = '$options[path]' AND token = '$options[update]'";
+            $where = "WHERE path = ? AND token = ?";
 
-            $query = "SELECT owner, exclusivelock FROM {$CONFIG_DBTABLEPREFIX}locks $where";
-            $res   = OC_DB::select($query);
+            $query = OC_DB::prepare("SELECT owner, exclusivelock FROM *PREFIX*locks $where");
+            $res   = $query->execute(array($options[path],$options[update]))->fetchAll();
 
             if (is_array($res) and isset($res[0])) {
 				$row=$res[0];
-                $query = "UPDATE `{$CONFIG_DBTABLEPREFIX}locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
-                OC_DB::query($query);
+                $query = OC_DB::prepare("UPDATE `*PREFIX*locks` SET `expires` = , `modified` =  $where");
+                $query->execute(array($options[timeout],time(),$options[path],$options[update]));
 
                 $options['owner'] = $row['owner'];
                 $options['scope'] = $row["exclusivelock"] ? "exclusive" : "shared";
@@ -646,40 +642,36 @@
 
                 return true;
             } else {//check for indirect refresh
-               $query = "SELECT *
-                  FROM {$CONFIG_DBTABLEPREFIX}locks
-                 WHERE recursive = 1
-               ";
-            $res = OC_DB::select($query);
+			$query = OC_DB::prepare("SELECT * FROM *PREFIX*locks WHERE recursive = 1");
+            $res = $query->execute();
             foreach($res as $row){
 				if(strpos($options['path'],$row['path'])==0){//are we a child of a folder with an recursive lock
-					$where = "WHERE path = '$row[path]' AND token = '$options[update]'";
-					 $query = "UPDATE `{$CONFIG_DBTABLEPREFIX}locks` SET `expires` = '$options[timeout]', `modified` = ".time()." $where";
-                OC_DB::query($query);
-                $options['owner'] = $row['owner'];
-                $options['scope'] = $row["exclusivelock"] ? "exclusive" : "shared";
-                $options['type']  = $row["exclusivelock"] ? "write"     : "read";
-                return true;
+					$where = "WHERE path = ? AND token = ?";
+					$query = OC_DB::prepare("UPDATE `*PREFIX*locks` SET `expires` = ?, `modified` = ? $where");
+					$query->execute(array($options[timeout],time(),$row[path],$options[update]));
+					$options['owner'] = $row['owner'];
+					$options['scope'] = $row["exclusivelock"] ? "exclusive" : "shared";
+					$options['type']  = $row["exclusivelock"] ? "write"     : "read";
+					return true;
 				}
             }
             }
         }
 
-		$locktoken=OC_DB::escape($options['locktoken']);
-		$path=OC_DB::escape($options['path']);
+		$locktoken=$options['locktoken'];
+		$path=$options['path'];
 		$time=time();
-		$owner=OC_DB::escape($options['owner']);
-		$timeout=OC_DB::escape($options['timeout']);
+		$owner=$options['owner'];
+		$timeout=$options['timeout'];
 		$exclusive=($options['scope'] === "exclusive" ? "1" : "0");
-        $query = "INSERT INTO `{$CONFIG_DBTABLEPREFIX}locks`
+        $query = OC_DB::prepare("INSERT INTO `*PREFIX*locks`
 (`token`,`path`,`created`,`modified`,`owner`,`expires`,`exclusivelock`,`recursive`)
-VALUES ('$locktoken','$path',$time,$time,'$owner','timeout',$exclusive,$recursion)";
-            OC_DB::query($query);
-            $rows=OC_DB::affected_rows();
+VALUES (?,?,?,?,?,'timeout',?,?)");
+            $result=$query->execute(array($locktoken,$path,$time,$time,$owner,$exclusive,$recursion));
 			if(!OC_FILESYSTEM::file_exists($fspath) and $rows>0) {
 				return "201 Created";
 			}
-            return OC_DB::affected_rows($rows) ? "200 OK" : "409 Conflict";
+            return PEAR::isError($result) ? "409 Conflict" : "200 OK";
     }
 
     /**
@@ -690,13 +682,11 @@ VALUES ('$locktoken','$path',$time,$time,'$owner','timeout',$exclusive,$recursio
      */
     function UNLOCK(&$options)
     {
-		global $CONFIG_DBTABLEPREFIX;
-            $query = "DELETE FROM {$CONFIG_DBTABLEPREFIX}locks
-                      WHERE path = '$options[path]'
-                        AND token = '$options[token]'";
-            OC_DB::query($query);
-
-            return OC_DB::affected_rows() ? "204 No Content" : "409 Conflict";
+            $query = OC_DB::prepare("DELETE FROM *PREFIX*locks
+                      WHERE path = ?
+                        AND token = ?");
+            $query->execute(array($options[path]),$options[token]);
+			return PEAR::isError($result) ? "409 Conflict" : "204 No Content";
     }
 
     /**
@@ -707,14 +697,12 @@ VALUES ('$locktoken','$path',$time,$time,'$owner','timeout',$exclusive,$recursio
      */
     function checkLock($path)
     {
-		global $CONFIG_DBTABLEPREFIX;
-
         $result = false;
-        $query = "SELECT *
-                  FROM {$CONFIG_DBTABLEPREFIX}locks
-                 WHERE path = '$path'
-               ";
-            $res = OC_DB::select($query);
+        $query = OC_DB::prepare("SELECT *
+                  FROM *PREFIX*locks
+                 WHERE path = ?
+               ");
+            $res = $query->execute(array($path))->fetchAll();
         if (is_array($res) and isset($res[0])) {
 				$row=$res[0];
 
@@ -732,11 +720,11 @@ VALUES ('$locktoken','$path',$time,$time,'$owner','timeout',$exclusive,$recursio
             }
         }else{
 			//check for recursive locks;
-			$query = "SELECT *
-                  FROM {$CONFIG_DBTABLEPREFIX}locks
+			$query = OC_DB::prepare("SELECT *
+                  FROM *PREFIX*locks
                  WHERE recursive = 1
-               ";
-            $res = OC_DB::select($query);
+               ");
+            $res = $query->execute()->fetchAll();
             foreach($res as $row){
 				if(strpos($path,$row['path'])==0){//are we a child of a folder with an recursive lock
 					$result = array( "type"    => "write",
