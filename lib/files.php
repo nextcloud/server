@@ -64,6 +64,7 @@ class OC_FILES {
 					$file['directory']=$directory;
 					$stat=OC_FILESYSTEM::stat($directory.'/'.$filename);
 					$file=array_merge($file,$stat);
+					$file['size']=OC_FILESYSTEM::filesize($directory.'/'.$filename);
 					$file['mime']=OC_FILES::getMimeType($directory .'/'. $filename);
 					$file['readable']=OC_FILESYSTEM::is_readable($directory .'/'. $filename);
 					$file['writeable']=OC_FILESYSTEM::is_writeable($directory .'/'. $filename);

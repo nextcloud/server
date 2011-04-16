@@ -24,7 +24,12 @@
 require_once( 'lib/base.php' );
 require_once( 'appconfig.php' );
 require_once( 'template.php' );
-if( OC_USER::isLoggedIn()){
+
+// check if the server is correctly configured for ownCloud
+$errors=OC_UTIL::checkServer();
+if(count($errors)>0){
+	OC_TEMPLATE::printGuestPage( "", "error", array( "errors" => $errors ));
+}elseif( OC_USER::isLoggedIn()){
 	if( $_GET["logout"] ){
 		OC_USER::logout();
 		header( "Location: $WEBROOT");
@@ -34,8 +39,7 @@ if( OC_USER::isLoggedIn()){
 		header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
 		exit();
 	}
-}
-else{
+}else{
 	if( OC_USER::login( $_POST["user"], $_POST["password"] )){
 		header( "Location: ".OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
 		exit();
