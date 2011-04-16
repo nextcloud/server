@@ -34,7 +34,6 @@ class OC_APP{
 	static private $settingspages = array();
 	static private $navigation = array();
 	static private $subnavigation = array();
-	static private $personalmenu = array();
 
 	/**
 	 * @brief loads all apps
@@ -182,28 +181,6 @@ class OC_APP{
 	}
 
 	/**
-	 * @brief adds an entry to the personal menu
-	 * @param $data array containing the data
-	 * @returns true/false
-	 *
-	 * This function adds a new entry to the personal menu visible to users
-	 * only. $data is an associative array.
-	 * The following keys are required:
-	 *   - id: unique id for this entry ("logout")
-	 *   - href: link to the page
-	 *   - name: Human readable name ("Logout")
-	 *
-	 * The following keys are optional:
-	 *   - order: integer, that influences the position of your application in
-	 *     the personal menu. Lower values come first.
-	 */
-	public static function addPersonalMenuEntry( $data ){
-		// TODO: write function
-		OC_APP::$personalmenu[] = $data;
-		return true;
-	}
-
-	/**
 	 * @brief registers an admin page
 	 * @param $data array containing the data
 	 * @returns true/false
@@ -264,18 +241,6 @@ class OC_APP{
 	public static function getNavigation(){
 		// TODO: write function
 		return OC_APP::$navigation;
-	}
-
-	/**
-	 * @brief Returns the personal menu
-	 * @returns associative array
-	 *
-	 * This function returns an array containing all personal menu entries
-	 * added. The entries are sorted by the key "order" ascending.
-	 */
-	public static function getPersonalMenu(){
-		// TODO: write function
-		return OC_APP::$personalmenu;
 	}
 
 	/**

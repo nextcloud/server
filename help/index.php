@@ -7,6 +7,7 @@ if( !OC_USER::isLoggedIn()){
     exit();
 }
 
+OC_APP::setActiveNavigationEntry( "help" );
 $settings = array();
 
 // Do the work ...

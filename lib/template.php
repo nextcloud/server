@@ -191,9 +191,8 @@ class OC_TEMPLATE{
 				$page = new OC_TEMPLATE( "core", "layout.user" );
 				// Add menu data
 
-				// Add navigation entry and personal menu
+				// Add navigation entry
 				$page->assign( "navigation", OC_APP::getNavigation());
-				$page->assign( "personalmenu", OC_APP::getPersonalMenu());
 			}
 			elseif( $this->renderas == "admin" )
 			{
