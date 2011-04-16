@@ -90,7 +90,7 @@ class OC_PLUGIN{
 	 * Load all plugins that aren't blacklisted
 	 */
 	public static function loadPlugins() {
-		global $CONFIG_INSTALLED;
+		$CONFIG_INSTALLED = OC_CONFIG::getValue( "installed", false );
 		if($CONFIG_INSTALLED){
 			global $SERVERROOT;
 			$plugins = self::listPlugins();

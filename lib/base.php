@@ -51,6 +51,9 @@ set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SE
 if( !isset( $RUNTIME_NOSETUPFS )){
 	$RUNTIME_NOSETUPFS = false;
 }
+if( !isset( $RUNTIME_NOAPPS )){
+	$RUNTIME_NOAPPS = false;
+}
 
 // define default config values
 $CONFIG_INSTALLED=false;
@@ -113,8 +116,11 @@ OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
 OC_UTIL::addScript( "js" );
 OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
 OC_UTIL::addStyle( "styles" );
+
 // Load Apps
-OC_APP::loadApps();
+if( !$RUNTIME_NOAPPS ){
+	OC_APP::loadApps();
+}
 
 // check if the server is correctly configured for ownCloud
 OC_UTIL::checkserver();
@@ -232,13 +238,13 @@ class OC_UTIL {
 		global $CONFIG_DATADIRECTORY_ROOT;
 		global $CONFIG_BACKUPDIRECTORY;
 		global $CONFIG_ENABLEBACKUP;
-		global $CONFIG_INSTALLED;
+		$CONFIG_INSTALLED = OC_CONFIG::getValue( "installed", false );
 		$error='';
 		if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
 			$error.='No database drivers (sqlite or mysql) installed.<br/>';
 		}
-		global $CONFIG_DBTYPE;
-		global $CONFIG_DBNAME;
+		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
+		$CONFIG_DBNAME = OC_CONFIG::getValue( "dbname", "owncloud" );
 		if(!stristr(PHP_OS, 'WIN')){
 			if($CONFIG_DBTYPE=='sqlite'){
 				$file=$SERVERROOT.'/'.$CONFIG_DBNAME;

@@ -38,11 +38,11 @@ class OC_DB {
 	 */
 	static public function connect(){
 		// The global data we need
-		global $CONFIG_DBNAME;
-		global $CONFIG_DBHOST;
-		global $CONFIG_DBUSER;
-		global $CONFIG_DBPASSWORD;
-		global $CONFIG_DBTYPE;
+		$CONFIG_DBNAME = OC_CONFIG::getValue( "dbname", "owncloud" );;
+		$CONFIG_DBHOST = OC_CONFIG::getValue( "dbhost", "" );;
+		$CONFIG_DBUSER = OC_CONFIG::getValue( "dbuser", "" );;
+		$CONFIG_DBPASSWORD = OC_CONFIG::getValue( "dbpassword", "" );;
+		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );;
 		global $DOCUMENTROOT;
 		global $SERVERROOT;
 
@@ -232,8 +232,8 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $file ){
-		global $CONFIG_DBNAME;
-		global $CONFIG_DBTABLEPREFIX;
+		$CONFIG_DBNAME  = OC_CONFIG::getValue( "dbname", "owncloud" );
+		$CONFIG_DBTABLEPREFIX = OC_CONFIG::getValue( "dbtableprefix", "oc_" );
 
 		self::connectScheme();
 
@@ -295,8 +295,8 @@ class OC_DB {
 	 */
 	private static function processQuery( $query ){
 		// We need Database type and table prefix
-		global $CONFIG_DBTYPE;
-		global $CONFIG_DBTABLEPREFIX;
+		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
+		$CONFIG_DBTABLEPREFIX = OC_CONFIG::getValue( "dbtableprefix", "oc_" );
 
 		// differences in escaping of table names (` for mysql)
 		// Problem: what if there is a ` in the value we want to insert?
