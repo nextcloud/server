@@ -30,7 +30,7 @@ $errors=OC_UTIL::checkServer();
 if(count($errors)>0){
 	OC_TEMPLATE::printGuestPage( "", "error", array( "errors" => $errors ));
 }elseif( OC_USER::isLoggedIn()){
-	if( $_GET["logout"] ){
+	if( isset($_GET["logout"]) and ($_GET["logout"]) ){
 		OC_USER::logout();
 		header( "Location: $WEBROOT");
 		exit();
