@@ -270,6 +270,12 @@ class OC_APP{
 
 		if( is_null( $app )){
 			foreach( OC_APP::$settingspages as $i ){
+				if(!isset($i["id"])){
+					$i["id"]='';
+				}
+				if(!isset($i["app"])){
+					$i["app"]='';
+				}
 				if( $i["id"] == $i["app"] ){
 					$return[] = $i;
 				}
