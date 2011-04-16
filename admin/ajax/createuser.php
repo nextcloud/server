@@ -1,0 +1,34 @@
+<?php
+
+// Init owncloud
+require_once('../../lib/base.php');
+
+// We send json data
+header( "Content-Type: application/jsonrequest" );
+
+// Check if we are a user
+if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' )){
+	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
+	exit();
+}
+
+$groups = array();
+if( isset( $_POST["groups"] )){
+	$groups = $_POST["groups"];
+}
+$username = $_POST["username"];
+$password = $_POST["password"];
+
+foreach( $groups as $i ){
+	OC_GROUP::addToGroup( $username, $i );
+}
+
+// Return Success story
+if( OC_USER::createUser( $username, $password )){
+	echo json_encode( array( "status" => "success", "data" => array( "username" => $username, "groups" => implode( ", ", $groups ))));
+}
+else{
+	echo json_encode( array( "status" => "error", "data" => array( "message" => "Unable to add user" )));
+}
+
+?>

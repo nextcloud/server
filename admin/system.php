@@ -28,15 +28,7 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
-$adminpages = array();
-
-foreach( OC_APP::getAdminPages() as $i ){
-	// Do some more work here soon
-	$adminpages[] = $i;
-}
-
-$tmpl = new OC_TEMPLATE( "admin", "index", "admin" );
-$tmpl->assign( "adminpages", $adminpages );
+$tmpl = new OC_TEMPLATE( "admin", "system", "admin" );
 $tmpl->printPage();
 
 ?>
