@@ -35,6 +35,12 @@ class OC_HELPER {
 	 */
 	public static function linkTo( $app, $file ){
 		global $WEBROOT;
+		global $SERVERROOT;
+
+		// Check if the app is in the app folder
+		if( file_exists( "$SERVERROOT/apps/$app/$file" )){
+			return "$WEBROOT/apps/$app/$file";
+		}
 		return "$WEBROOT/$app/$file";
 	}
 
@@ -47,7 +53,12 @@ class OC_HELPER {
 	 * Returns the path to the image.
 	 */
 	public static function imagePath( $app, $image ){
+		global $SERVERROOT;
 		global $WEBROOT;
+		// Check if the app is in the app folder
+		if( file_exists( "$SERVERROOT/apps/img/$app/$file" )){
+			return "$WEBROOT/apps/img/$app/$file";
+		}
 		return "$WEBROOT/$app/img/$image";
 	}
 

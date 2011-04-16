@@ -96,7 +96,13 @@ class OC_TEMPLATE{
 		// Get the right template folder
 		$template = "$SERVERROOT/templates/";
 		if( $app != "core" && $app != "" ){
-			$template = "$SERVERROOT/$app/templates/";
+			// Check if the app is in the app folder
+			if( "$SERVERROOT/apps/$app/templates/" ){
+				$template = "$SERVERROOT/apps/$app/templates/";
+			}
+			else{
+				$template = "$SERVERROOT/$app/templates/";
+			}
 		}
 
 		// Templates have the ending .php

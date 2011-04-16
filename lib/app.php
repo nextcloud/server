@@ -49,12 +49,17 @@ class OC_APP{
 			return true;
 		}
 
-		// Get all appinfo
-		$dir = opendir( $SERVERROOT );
+		// Our very own core apps are hardcoded
+		foreach( array( "admin", "files", "log", "settings" ) as $app ){
+			oc_require( "$app/appinfo/app.php" );
+		}
+
+		// The rest comes here
+		$dir = opendir( "$SERVERROOT/apps" );
 		while( false !== ( $filename = readdir( $dir ))){
 			if( substr( $filename, 0, 1 ) != '.' ){
-				if( file_exists( "$SERVERROOT/$filename/appinfo/app.php" )){
-					oc_require( "$filename/appinfo/app.php" );
+				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
+					oc_require( "apps/$filename/appinfo/app.php" );
 				}
 			}
 		}
