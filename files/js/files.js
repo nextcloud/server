@@ -53,7 +53,7 @@ function uploadFinished() {
 	result = $('#file_upload_target').contents().text();
 	result = eval("(" + result + ");");
 	if(result.status == "error") {
-		alert('An error occcured, upload failed.');
+		alert('An error occcured, upload failed.\nError code: ' + result.data.error);
 	} else {
 		location.href = 'index.php?dir=' + $('#dir').val();
 	}
