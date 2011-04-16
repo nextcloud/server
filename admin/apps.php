@@ -29,8 +29,7 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 }
 
 // Load the files we need
-//OC_UTIL::addStyle( "", "files" );
-//OC_UTIL::addScript( "", "files" );
+OC_UTIL::addStyle( "admin", "apps" );
 
 
 if(isset($_GET['id']))  $id=$_GET['id']; else $id=0;
@@ -41,7 +40,9 @@ $categories=OC_OCSCLIENT::getCategories();
 if($id==0) {
 
         if($cat==0){
-		$apps=OC_OCSCLIENT::getApplications($categories);
+		$numcats=array();
+		foreach($categories as $key=>$value) $numcats[]=$key;
+		$apps=OC_OCSCLIENT::getApplications($numcats);
 	}else{
 		$apps=OC_OCSCLIENT::getApplications($cat);
 	}
@@ -59,6 +60,7 @@ if($id==0) {
 	$app=OC_OCSCLIENT::getApplication($id);
 
 	$tmpl = new OC_TEMPLATE( "admin", "app", "admin" );
+	$tmpl->assign( "categories", $categories );
 	$tmpl->assign( "app", $app );
 	$tmpl->printPage();
 	unset($tmpl);
