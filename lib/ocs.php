@@ -400,16 +400,16 @@ class OC_OCS {
    * @return string xml/json
    */
   private static function activityGet($format,$page,$pagesize) {
-	global $CONFIG_DBTABLEPREFIX;
-
     $user=OC_OCS::checkpassword();
-
-    $result = OC_DB::query("select count(*) as co from {$CONFIG_DBTABLEPREFIX}log");
+    
+	$query = OC_DB::prepare('select count(*) as co from *PREFIX*log');
+    $result = $query->execute();
     $entry=$result->fetchRow();
     $totalcount=$entry['co'];
-    OC_DB::free_result($result);
-
-    $result = OC_DB::select("select id,timestamp,user,type,message from {$CONFIG_DBTABLEPREFIX}log order by timestamp desc limit " . ($page*$pagesize) . ",$pagesize");
+	
+	$query=OC_DB::prepare('select id,timestamp,user,type,message from *PREFIX*log order by timestamp desc limit ?,?');
+    $result = $query->execute(array(($page*$pagesize),$pagesize))->fetchAll();
+    
     $itemscount=count($result);
 
     $url='http://'.substr($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'],0,-11).'';
@@ -512,24 +512,24 @@ class OC_OCS {
 	* @return array
 	*/
 	public static function getData($user,$app="",$key="",$like=false) {
-		global $CONFIG_DBTABLEPREFIX;
-		$user=OC_DB::escape($user);
-		$key=OC_DB::escape($key);
-		$app=OC_DB::escape($app);
 		$key="$user::$key";//ugly hack for the sake of keeping database scheme compatibiliy, needs to be replaced with a seperate user field the next time we break db compatibiliy
 		$compareFunction=($like)?'LIKE':'=';
 		
 		if($app){
 			if (!trim($key)) {
-				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' order by `timestamp` desc");
+				$query = OC_DB::prepare('select app, `key`,value,`timestamp` from *PREFIX*privatedata where app=? order by `timestamp` desc');
+				$result=$query->execute(array($app))->fetchAll();
 			} else {
-				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where app='$app' and `key` $compareFunction '$key' order by `timestamp` desc");
+				$query = OC_DB::prepare("select app, `key`,value,`timestamp` from *PREFIX*privatedata where app=? and `key` $compareFunction ? order by `timestamp` desc");
+				$result=$query->execute(array($app,$key))->fetchAll();
 			}
 		}else{
 			if (!trim($key)) {
-				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata order by `timestamp` desc");
+				$query = OC_DB::prepare('select app, `key`,value,`timestamp` from *PREFIX*privatedata order by `timestamp` desc');
+				$result=$query->execute()->fetchAll();
 			} else {
-				$result = OC_DB::select("select app, `key`,value,`timestamp` from {$CONFIG_DBTABLEPREFIX}privatedata where `key` $compareFunction '$key' order by `timestamp` desc");
+				$query = OC_DB::prepare("select app, `key`,value,`timestamp` from *PREFIX*privatedata where `key` $compareFunction ? order by `timestamp` desc");
+				$result=$query->execute(array($key))->fetchAll();
 			}
 		}
 		$result=self::trimKeys($result,$user);
@@ -545,20 +545,18 @@ class OC_OCS {
 	* @return bool
 	*/
 	public static function setData($user, $app, $key, $value) {
-		global $CONFIG_DBTABLEPREFIX;
-		$app=OC_DB::escape($app);
-		$key=OC_DB::escape($key);
-		$user=OC_DB::escape($user);
-		$value=OC_DB::escape($value);
 		$key="$user::$key";//ugly hack for the sake of keeping database scheme compatibiliy
-		//TODO: prepared statements, locking tables, fancy stuff, error checking/handling
-		$result=OC_DB::select("select count(*) as co from {$CONFIG_DBTABLEPREFIX}privatedata where `key` = '$key' and app = '$app'");
+		//TODO: locking tables, fancy stuff, error checking/handling
+		$query=OC_DB::prepare("select count(*) as co from *PREFIX*privatedata where `key` = ? and app = ?");
+		$result=$query->execute(array($key,$app))->fetchAll();
 		$totalcount=$result[0]['co'];
 		if ($totalcount != 0) {
-			$result = OC_DB::query("update {$CONFIG_DBTABLEPREFIX}privatedata set value='$value', `timestamp` = now() where `key` = '$key' and app = '$app'");
+			$query=OC_DB::prepare("update *PREFIX*privatedata set value=?, `timestamp` = now() where `key` = ? and app = ?");
+			
 		} else {
-			$result = OC_DB::query("insert into {$CONFIG_DBTABLEPREFIX}privatedata(app, `key`, value, `timestamp`) values('$app', '$key', '$value', now())");
+			$result = OC_DB::prepare("insert into *PREFIX*privatedata(value, `key`, app, `timestamp`) values(?, ?, ?, now())");
 		}
+		$result = $query->execute(array($value,$key,$app));
 		if (PEAR::isError($result)){
 			$entry='DB Error: "'.$result->getMessage().'"<br />';
 			error_log($entry);
@@ -576,13 +574,10 @@ class OC_OCS {
 	* @return string xml/json
 	*/
 	public static function deleteData($user, $app, $key) {
-		global $CONFIG_DBTABLEPREFIX;
-		$app=OC_DB::escape($app);
-		$key=OC_DB::escape($key);
-		$user=OC_DB::escape($user);
 		$key="$user::$key";//ugly hack for the sake of keeping database scheme compatibiliy
 		//TODO: prepared statements, locking tables, fancy stuff, error checking/handling
-		$result = OC_DB::query("delete from {$CONFIG_DBTABLEPREFIX}privatedata where `key` = '$key' and app = '$app'");
+		$query=OC_DB::prepare("delete from *PREFIX*privatedata where `key` = ? and app = ?");
+		$result = $query->execute(array($key,$app));
 		if (PEAR::isError($result)){
 			$entry='DB Error: "'.$result->getMessage().'"<br />';
 			error_log($entry);
