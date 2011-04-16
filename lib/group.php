@@ -68,7 +68,7 @@ class OC_GROUP {
 			case 'database':
 			case 'mysql':
 			case 'sqlite':
-				oc_require_once('Group/database.php');
+				require_once('Group/database.php');
 				self::$_backend = new OC_GROUP_DATABASE();
 				break;
 			default:

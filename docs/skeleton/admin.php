@@ -32,7 +32,7 @@ require_once('../lib/base.php');
 OC_UTIL::setupFS();
 
 // We load OC_TEMPLATE, too. This one is not loaded by base
-oc_require( 'template.php' );
+require( 'template.php' );
 
 // The user should have admin rights. This is an admin page!
 if( !OC_USER::isLoggedIn() || !OC_USER::ingroup( $_SESSION['username'], 'admin' )){

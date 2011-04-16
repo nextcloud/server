@@ -34,8 +34,8 @@
    --- modified for ownCloud ---
 */
     require_once("lib/base.php");
-    oc_require_once("HTTP/WebDAV/Server.php");
-    oc_require_once("System.php");
+    require_once("HTTP/WebDAV/Server.php");
+    require_once("System.php");
 
     /**
      * Filesystem access using WebDAV

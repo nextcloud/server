@@ -18,7 +18,7 @@
 //
 // $Id: Getopt.php,v 1.21.4.7 2003/12/05 21:57:01 andrei Exp $
 
-oc_require_once( 'PEAR.php');
+require_once( 'PEAR.php');
 
 /**
  * Command-line options parsing class.

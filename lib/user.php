@@ -74,7 +74,7 @@ class OC_USER {
 			case 'database':
 			case 'mysql':
 			case 'sqlite':
-				oc_require_once('User/database.php');
+				require_once('User/database.php');
 				self::$_backend = new OC_USER_DATABASE();
 				break;
 			default:

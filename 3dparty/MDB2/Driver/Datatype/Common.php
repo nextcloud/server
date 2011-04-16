@@ -44,7 +44,7 @@
 //
 // $Id: Common.php,v 1.139 2008/12/04 11:50:42 afz Exp $
 
-oc_require_once('MDB2/LOB.php');
+require_once('MDB2/LOB.php');
 
 /**
  * @package  MDB2

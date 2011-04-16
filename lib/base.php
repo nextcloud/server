@@ -45,7 +45,7 @@ if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 }
 
 // set the right include path
-// set_include_path(get_include_path().PATH_SEPARATOR.$SERVERROOT.PATH_SEPARATOR.$SERVERROOT.'/inc'.PATH_SEPARATOR.$SERVERROOT.'/config');
+set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3dparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
 
 // define runtime variables - unless this already has been done
 if( !isset( $RUNTIME_NOSETUPFS )){
@@ -66,7 +66,6 @@ $CONFIG_FILESYSTEM=array();
 // include the generated configfile
 @include_once($SERVERROOT.'/config/config.php');
 
-
 $CONFIG_DATADIRECTORY_ROOT=$CONFIG_DATADIRECTORY;// store this in a seperate variable so we can change the data directory to jail users.
 // redirect to https site if configured
 if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
@@ -78,20 +77,21 @@ if(isset($CONFIG_HTTPFORCESSL) and $CONFIG_HTTPFORCESSL){
 }
 
 // load core libs
-oc_require_once('helper.php');
-oc_require_once('app.php');
-oc_require_once('files.php');
-oc_require_once('filesystem.php');
-oc_require_once('filestorage.php');
-oc_require_once('fileobserver.php');
-oc_require_once('log.php');
-oc_require_once('config.php');
-oc_require_once('user.php');
-oc_require_once('group.php');
-oc_require_once('ocs.php');
-oc_require_once('connect.php');
-oc_require_once('remotestorage.php');
-oc_require_once('plugin.php');
+require_once('helper.php');
+require_once('database.php');
+require_once('app.php');
+require_once('files.php');
+require_once('filesystem.php');
+require_once('filestorage.php');
+require_once('fileobserver.php');
+require_once('log.php');
+require_once('config.php');
+require_once('user.php');
+require_once('group.php');
+require_once('ocs.php');
+require_once('connect.php');
+require_once('remotestorage.php');
+require_once('plugin.php');
 
 OC_PLUGIN::loadPlugins( "" );
 
@@ -113,13 +113,11 @@ OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
 OC_UTIL::addScript( "js" );
 OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
 OC_UTIL::addStyle( "styles" );
-
 // Load Apps
 OC_APP::loadApps();
 
 // check if the server is correctly configured for ownCloud
 OC_UTIL::checkserver();
-
 /**
  * Class for utility functions
  *
@@ -258,7 +256,7 @@ class OC_UTIL {
 			}
 			$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,-1)!='0'){
-				chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
+				OC_HELPER::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
 				clearstatcache();
 				$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 				if(substr($prems,2,1)!='0'){
@@ -268,7 +266,7 @@ class OC_UTIL {
 			if($CONFIG_ENABLEBACKUP){
 				$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 				if(substr($prems,-1)!='0'){
-					chmodr($CONFIG_BACKUPDIRECTORY,0770);
+					OC_HELPER::chmodr($CONFIG_BACKUPDIRECTORY,0770);
 					clearstatcache();
 					$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 					if(substr($prems,2,1)!='0'){
@@ -351,436 +349,4 @@ class OC_HOOK{
 		return true;
 	}
 }
-
-/**
- * This class manages the access to the database. It basically is a wrapper for
- * MDB2 with some adaptions.
- */
-class OC_DB {
-	static private $DBConnection=false;
-	static private $schema=false;
-	static private $affected=0;
-	static private $result=false;
-
-	/**
-	 * @brief connects to the database
-	 * @returns true if connection can be established or nothing (die())
-	 *
-	 * Connects to the database as specified in config.php
-	 */
-	static public function connect(){
-		// The global data we need
-		global $CONFIG_DBNAME;
-		global $CONFIG_DBHOST;
-		global $CONFIG_DBUSER;
-		global $CONFIG_DBPASSWORD;
-		global $CONFIG_DBTYPE;
-		global $DOCUMENTROOT;
-		global $SERVERROOT;
-
-		// do nothing if the connection already has been established
-		if(!self::$DBConnection){
-			// Require MDB2.php (TODO: why here not in head of file?)
-			@oc_require_once('MDB2.php');
-
-			// Prepare options array
-			$options = array(
-			  'portability' => MDB2_PORTABILITY_ALL,
-			  'log_line_break' => '<br>',
-			  'idxname_format' => '%s',
-			  'debug' => true,
-			  'quote_identifier' => true  );
-
-			// Add the dsn according to the database type
-			if( $CONFIG_DBTYPE == 'sqlite' ){
-				// sqlite
-				$dsn = array(
-				  'phptype'  => 'sqlite',
-				  'database' => "$SERVERROOT/$CONFIG_DBNAME",
-				  'mode' => '0644' );
-			}
-			elseif( $CONFIG_DBTYPE == 'mysql' ){
-				// MySQL
-				$dsn = array(
-				  'phptype'  => 'mysql',
-				  'username' => $CONFIG_DBUSER,
-				  'password' => $CONFIG_DBPASSWORD,
-				  'hostspec' => $CONFIG_DBHOST,
-				  'database' => $CONFIG_DBNAME );
-			}
-			elseif( $CONFIG_DBTYPE == 'pgsql' ){
-				// PostgreSQL
-				$dsn = array(
-				  'phptype'  => 'pgsql',
-				  'username' => $CONFIG_DBUSER,
-				  'password' => $CONFIG_DBPASSWORD,
-				  'hostspec' => $CONFIG_DBHOST,
-				  'database' => $CONFIG_DBNAME );
-			}
-
-			// Try to establish connection
-			self::$DBConnection = MDB2::factory( $dsn, $options );
-
-			// Die if we could not connect
-			if( PEAR::isError( self::$DBConnection )){
-				echo( '<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
-				$error = self::$DBConnection->getMessage();
-				error_log( $error);
-				error_log( self::$DBConnection->getUserInfo());
-				die( $error );
-			}
-
-			// We always, really always want associative arrays
-			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
-		}
-
-		// we are done. great!
-		return true;
-	}
-
-	/**
-	 * @brief SQL query
-	 * @param $query Query string
-	 * @returns result as MDB2_Result
-	 *
-	 * SQL query via MDB2 query()
-	 */
-	static public function query( $query ){
-		// Optimize the query
-		$query = self::processQuery( $query );
-
-		self::connect();
-		//fix differences between sql versions
-
-		// return the result
-		$result = self::$DBConnection->exec( $query );
-
-		// Die if we have an error (error means: bad query, not 0 results!)
-		if( PEAR::isError($result)) {
-			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$cmd.'<br />';
-			error_log( $entry );
-			die( $entry );
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @brief Prepare a SQL query
-	 * @param $query Query string
-	 * @returns prepared SQL query
-	 *
-	 * SQL query via MDB2 prepare(), needs to be execute()'d!
-	 */
-	static public function prepare( $query ){
-		// Optimize the query
-		$query = self::processQuery( $query );
-
-		self::connect();
-		// return the result
-		$result = self::$DBConnection->prepare( $query );
-
-		// Die if we have an error (error means: bad query, not 0 results!)
-		if( PEAR::isError($result)) {
-			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$cmd.'<br />';
-			error_log( $entry );
-			die( $entry );
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @brief gets last value of autoincrement
-	 * @returns id
-	 *
-	 * MDB2 lastInsertID()
-	 *
-	 * Call this method right after the insert command or other functions may
-	 * cause trouble!
-	 */
-	public static function insertid(){
-		self::connect();
-		return self::$DBConnection->lastInsertID();
-	}
-
-	/**
-	 * @brief Disconnect
-	 * @returns true/false
-	 *
-	 * This is good bye, good bye, yeah!
-	 */
-	public static function disconnect(){
-		// Cut connection if required
-		if(self::$DBConnection){
-			self::$DBConnection->disconnect();
-			self::$DBConnection=false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * @brief Escapes bad characters
-	 * @param $string string with dangerous characters
-	 * @returns escaped string
-	 *
-	 * MDB2 escape()
-	 */
-	public static function escape( $string ){
-		self::connect();
-		return self::$DBConnection->escape( $string );
-	}
-
-	/**
-	 * @brief saves database scheme to xml file
-	 * @param $file name of file
-	 * @returns true/false
-	 *
-	 * TODO: write more documentation
-	 */
-	public static function getDbStructure( $file ){
-		self::connectScheme();
-
-		// write the scheme
-		$definition = self::$schema->getDefinitionFromDatabase();
-		$dump_options = array(
-			'output_mode' => 'file',
-			'output' => $file,
-			'end_of_line' => "\n"
-		);
-		self::$schema->dumpDatabase( $definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE );
-
-		return true;
-	}
-
-	/**
-	 * @brief Creates tables from XML file
-	 * @param $file file to read structure from
-	 * @returns true/false
-	 *
-	 * TODO: write more documentation
-	 */
-	public static function createDbFromStructure( $file ){
-		global $CONFIG_DBNAME;
-		global $CONFIG_DBTABLEPREFIX;
-
-		self::connectScheme();
-
-		// read file
-		$content = file_get_contents( $file );
-
-		// Make changes and save them to a temporary file
-		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
-		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
-		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-		file_put_contents( $file2, $content );
-
-		// Try to create tables
-		$definition = @self::$schema->parseDatabaseDefinitionFile( $file2 );
-
-		// Delete our temporary file
-		unlink( $file2 );
-
-		// Die in case something went wrong
-		if( $definition instanceof MDB2_Schema_Error ){
-			die( $definition->getMessage().': '.$definition->getUserInfo());
-		}
-		$ret=@self::$schema->createDatabase( $definition );
-
-		// Die in case something went wrong
-		if( $ret instanceof MDB2_Error ){
-			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
-		}
-
-		return true;
-	}
-
-	/**
-	 * @brief connects to a MDB2 database scheme
-	 * @returns true/false
-	 *
-	 * Connects to a MDB2 database scheme
-	 */
-	private static function connectScheme(){
-		// We need a database connection
-		self::connect();
-
-		// Connect if this did not happen before
-		if(!self::$schema){
-			@oc_require_once('MDB2/Schema.php');
-			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
-		}
-
-		return true;
-	}
-
-	/**
-	 * @brief does minor chages to query
-	 * @param $query Query string
-	 * @returns corrected query string
-	 *
-	 * This function replaces *PREFIX* with the value of $CONFIG_DBTABLEPREFIX
-	 * and replaces the ` woth ' or " according to the database driver.
-	 */
-	private static function processQuery( $query ){
-		// We need Database type and table prefix
-		global $CONFIG_DBTYPE;
-		global $CONFIG_DBTABLEPREFIX;
-
-		// differences in escaping of table names (` for mysql)
-		// Problem: what if there is a ` in the value we want to insert?
-		if( $CONFIG_DBTYPE == 'sqlite' ){
-			$query = str_replace( '`', '\'', $query );
-		}
-		elseif( $CONFIG_DBTYPE == 'pgsql' ){
-			$query = str_replace( '`', '"', $query );
-		}
-
-		// replace table names
-		$query = str_replace( '*PREFIX*', $CONFIG_DBTABLEPREFIX, $query );
-
-		return $query;
-	}
-}
-
-
-//custom require/include functions because not all hosts allow us to set the include path
-function oc_require($file){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	if(is_file($file)){
-		return require($file);
-	}
-	elseif(is_file($SERVERROOT.'/'.$file)){
-		return require($SERVERROOT.'/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/lib/'.$file)){
-		return require($SERVERROOT.'/lib/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/3dparty/'.$file)){
-		return require($SERVERROOT.'/3dparty/'.$file);
-	}
-}
-
-function oc_require_once($file){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	if(is_file($file)){
-		return require_once($file);
-	}
-	elseif(is_file($SERVERROOT.'/'.$file)){
-		return require_once($SERVERROOT.'/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/lib/'.$file)){
-		return require_once($SERVERROOT.'/lib/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/3dparty/'.$file)){
-		return require_once($SERVERROOT.'/3dparty/'.$file);
-	}
-}
-
-function oc_include($file){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	if(is_file($file)){
-		return include($file);
-	}
-	elseif(is_file($SERVERROOT.'/'.$file)){
-		return include($SERVERROOT.'/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/lib/'.$file)){
-		return include($SERVERROOT.'/lib/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/3dparty/'.$file)){
-		return include($SERVERROOT.'/3dparty/'.$file);
-	}
-}
-
-function oc_include_once($file){
-	global $SERVERROOT;
-	global $DOCUMENTROOT;
-	global $WEBROOT;
-	global $CONFIG_DBNAME;
-	global $CONFIG_DBHOST;
-	global $CONFIG_DBUSER;
-	global $CONFIG_DBPASSWORD;
-	global $CONFIG_DBTYPE;
-	global $CONFIG_DATADIRECTORY;
-	global $CONFIG_HTTPFORCESSL;
-	global $CONFIG_DATEFORMAT;
-	global $CONFIG_INSTALLED;
-
-	if(is_file($file)){
-		return include_once($file);
-	}
-	elseif(is_file($SERVERROOT.'/'.$file)){
-		return include_once($SERVERROOT.'/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/lib/'.$file)){
-		return include_once($SERVERROOT.'/lib/'.$file);
-	}
-	elseif(is_file($SERVERROOT.'/3dparty/'.$file)){
-		return include_once($SERVERROOT.'/3dparty/'.$file);
-	}
-}
-
-function chmodr($path, $filemode) {
-//	 echo "$path<br/>";
-	if (!is_dir($path))
-		return chmod($path, $filemode);
-	$dh = opendir($path);
-	while (($file = readdir($dh)) !== false) {
-		if($file != '.' && $file != '..') {
-			$fullpath = $path.'/'.$file;
-			if(is_link($fullpath))
-				return FALSE;
-			elseif(!is_dir($fullpath) && !chmod($fullpath, $filemode))
-					return FALSE;
-			elseif(!chmodr($fullpath, $filemode))
-				return FALSE;
-		}
-	}
-	closedir($dh);
-	if(chmod($path, $filemode))
-		return TRUE;
-	else
-		return FALSE;
-}
-
 ?>

@@ -21,7 +21,7 @@
 * 
 */
 
-oc_require_once('inc/User/backend.php');
+require_once('inc/User/backend.php');
 
 
 

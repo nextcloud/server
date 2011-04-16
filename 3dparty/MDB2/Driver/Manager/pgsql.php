@@ -44,7 +44,7 @@
 //
 // $Id: pgsql.php,v 1.87 2008/11/29 14:09:59 afz Exp $
 
-oc_require_once('MDB2/Driver/Manager/Common.php');
+require_once('MDB2/Driver/Manager/Common.php');
 
 /**
  * MDB2 MySQL driver for the management modules

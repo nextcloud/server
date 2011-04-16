@@ -21,7 +21,7 @@
 *
 */
 
-oc_require_once("log.php");
+require_once("log.php");
 
 
 /**

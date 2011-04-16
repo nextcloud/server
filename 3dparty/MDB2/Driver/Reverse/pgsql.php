@@ -45,7 +45,7 @@
 //
 // $Id: pgsql.php,v 1.75 2008/08/22 16:36:20 quipo Exp $
 
-oc_require_once('MDB2/Driver/Reverse/Common.php');
+require_once('MDB2/Driver/Reverse/Common.php');
 
 /**
  * MDB2 PostGreSQL driver for the schema reverse engineering module

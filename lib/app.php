@@ -54,7 +54,7 @@ class OC_APP{
 
 		// Our very own core apps are hardcoded
 		foreach( array( "admin", "files", "log", "settings" ) as $app ){
-			oc_require( "$app/appinfo/app.php" );
+			require( "$app/appinfo/app.php" );
 		}
 
 		// The rest comes here
@@ -62,7 +62,7 @@ class OC_APP{
 		while( false !== ( $filename = readdir( $dir ))){
 			if( substr( $filename, 0, 1 ) != '.' ){
 				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
-					oc_require( "apps/$filename/appinfo/app.php" );
+					require( "apps/$filename/appinfo/app.php" );
 				}
 			}
 		}

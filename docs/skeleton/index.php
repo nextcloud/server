@@ -24,7 +24,7 @@
 
 // Init owncloud
 require_once('../lib/base.php');
-oc_require( 'template.php' );
+require( 'template.php' );
 
 // Check if we are a user
 if( !OC_USER::isLoggedIn()){

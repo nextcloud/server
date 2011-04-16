@@ -3,7 +3,8 @@
 $background:					#0a2b1d !default;
 
 $line_highlighted_background:	#233729 !default;
-$line_highlighted_number:		white !default;
+$line_highlighted_number:
+white !default;
 
 $gutter_text:					#497958 !default;
 $gutter_border_color:			#41a83e !default;
@@ -31,6 +32,10 @@ $code_color3:					#edef7d !default;
 @import "_theme_template.scss";
 
 .syntaxhighlighter {
-	.comments { font-style: italic !important; }
-	.keyword { font-weight: bold !important; } 
+.comments { font-style:
+        italic !important;
+    }
+.keyword { font-weight:
+               bold !important;
+             }
 }

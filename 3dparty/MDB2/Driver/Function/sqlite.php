@@ -45,7 +45,7 @@
 // $Id: sqlite.php,v 1.10 2008/02/17 18:54:08 quipo Exp $
 //
 
-oc_require_once('MDB2/Driver/Function/Common.php');
+require_once('MDB2/Driver/Function/Common.php');
 
 /**
  * MDB2 SQLite driver for the function modules
