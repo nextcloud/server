@@ -29,8 +29,11 @@
 class OC_APP{
 	static private $init = false;
 	static private $apps = array();
+	static private $activeapp = "";
 	static private $adminpages = array();
+	static private $settingspages = array();
 	static private $navigation = array();
+	static private $subnavigation = array();
 	static private $personalmenu = array();
 
 	/**
@@ -88,7 +91,6 @@ class OC_APP{
 	 *
 	 */
 	public static function register( $data ){
-		// TODO: write function
 		OC_APP::$apps[] = $data;
 	}
 
@@ -147,7 +149,10 @@ class OC_APP{
 	 *     the navigation. Lower values come first.
 	 */
 	public static function addNavigationSubEntry( $parent, $data ){
-		// TODO: write function
+		if( !array_key_exists( self::$subnavigation[$parent] )){
+			self::$subnavigation[$parent] = array();
+		}
+		self::$subnavigation[$parent][] = $data;
 		return true;
 	}
 
@@ -161,7 +166,7 @@ class OC_APP{
 	 * highlighting the current position of the user.
 	 */
 	public static function activateNavigationEntry( $id ){
-		// TODO: write function
+		self::$activeapp = $id;
 		return true;
 	}
 
@@ -210,6 +215,31 @@ class OC_APP{
 	}
 
 	/**
+	 * @brief registers a settings page
+	 * @param $data array containing the data
+	 * @returns true/false
+	 *
+	 * This function registers a settings page. $data is an associative array.
+	 * The following keys are required:
+	 *   - app: app the settings belong to ("files")
+	 *   - id: unique id for this entry ("files_public")
+	 *   - href: link to the admin page
+	 *   - name: Human readable name ("Public files")
+	 *
+	 * The following keys are optional:
+	 *   - order: integer, that influences the position of your application in
+	 *     the list. Lower values come first.
+	 *
+	 * For the main settings page of an app, the keys "app" and "id" have to be
+	 * the same.
+	 */
+	public static function addSettingsPage( $data = array()){
+		// TODO: write function
+		OC_APP::$settingspages[] = $data;
+		return true;
+	}
+
+	/**
 	 * @brief Returns the navigation
 	 * @returns associative array
 	 *
@@ -247,6 +277,37 @@ class OC_APP{
 	public static function getAdminPages(){
 		// TODO: write function
 		return OC_APP::$adminpages;
+	}
+
+	/**
+	 * @brief Returns the admin pages
+	 * @param $app optional, name of the app we want the settings for
+	 * @returns associative array
+	 *
+	 * This function returns an array with the settings pages. If $app is not
+	 * set, it will return the main settings pages for all apps (where
+	 * "id" == "app"). Otherwise it will list all settings pages of the app.
+	 * The entries are sorted by the key "order" ascending.
+	 */
+	public static function getSettingsPages( $app = null ){
+		$return = array();
+
+		if( is_null( $app )){
+			foreach( OC_APP::$settingspages as $i ){
+				if( $i["id"] == $i["app"] ){
+					$return[] = $i;
+				}
+			}
+		}
+		else{
+			foreach( OC_APP::$settingspages as $i ){
+				if( $i["app"] == $app ){
+					$return[] = $i;
+				}
+			}
+		}
+
+		return $return;
 	}
 
 	/**
