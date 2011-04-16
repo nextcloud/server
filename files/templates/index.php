@@ -1,10 +1,3 @@
-<?php
-/*
- * Template for files
- */
-?>
-<h1>Files</h1>
-
 <div class="controls">
 	<p class="actions">
 		<a href="" title="" class="upload" id="file_upload_button">Upload</a><a
