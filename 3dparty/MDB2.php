@@ -340,7 +340,7 @@ class MDB2
                 } else {
                     $msg = "unable to load class '$class_name' from file '$file_name'";
                 }
-                $err =MDB2::raiseError(MDB2_ERROR_NOT_FOUND, null, null, $msg);
+                $err =MDB2::raiseErrorStatic(MDB2_ERROR_NOT_FOUND, null, null, $msg);
                 return $err;
             }
         }
@@ -378,7 +378,7 @@ class MDB2
     {
         $dsninfo = MDB2::parseDSN($dsn);
         if (empty($dsninfo['phptype'])) {
-            $err =MDB2::raiseError(MDB2_ERROR_NOT_FOUND,
+            $err =MDB2::raiseErrorStatic(MDB2_ERROR_NOT_FOUND,
                 null, null, 'no RDBMS driver specified');
             return $err;
         }
@@ -545,11 +545,11 @@ class MDB2
     {
         $file_name = 'MDB2'.DIRECTORY_SEPARATOR.$file.'.php';
         if (!MDB2::fileExists($file_name)) {
-            return MDB2::raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+            return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                 'unable to find: '.$file_name);
         }
         if (!include_once($file_name)) {
-            return MDB2::raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+            return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                 'unable to load driver class: '.$file_name);
         }
         return $file_name;
@@ -597,7 +597,7 @@ class MDB2
      * @access  private
      * @see     PEAR_Error
      */
-    static function raiseError($code = null,
+    function raiseError($code = null,
                          $mode = null,
                          $options = null,
                          $userinfo = null,
@@ -606,6 +606,18 @@ class MDB2
                          $dummy3 = false)
     {
         $err =PEAR::raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Error', true);
+        return $err;
+    }
+    static function raiseErrorStatic($code = null,
+                         $mode = null,
+                         $options = null,
+                         $userinfo = null,
+                         $dummy1 = null,
+                         $dummy2 = null,
+                         $dummy3 = false)
+    {
+	    $pear=new PEAR();
+        $err =$pear->raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Error', true);
         return $err;
     }
 
@@ -1487,7 +1499,7 @@ class MDB2_Driver_Common extends PEAR
             }
         }
 
-        $err = PEAR::raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Error', true);
+        $err = $this->raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Error', true);
         if ($err->getMode() !== PEAR_ERROR_RETURN
             && isset($this->nested_transaction_counter) && !$this->has_transaction_error) {
             $this->has_transaction_error =$err;
@@ -4236,12 +4248,12 @@ class MDB2_Module_Common
      *
      * @access  public
      */
-    function &getDBInstance()
+    function getDBInstance()
     {
         if (isset($GLOBALS['_MDB2_databases'][$this->db_index])) {
             $result =$GLOBALS['_MDB2_databases'][$this->db_index];
         } else {
-            $result =MDB2::raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+            $result =$this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                 'could not find MDB2 instance');
         }
         return $result;
