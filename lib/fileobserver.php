@@ -41,7 +41,7 @@ class OC_FILEOBSERVER{
 		}
 	}
 	
-	public function notify($path,$action){}
+	public function notify($path,$action,$storage){}
 }
 
 /**
