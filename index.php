@@ -29,6 +29,13 @@ require_once( 'template.php' );
 $errors=OC_UTIL::checkServer();
 if(count($errors)>0){
 	OC_TEMPLATE::printGuestPage( "", "error", array( "errors" => $errors ));
+}elseif(isset($_POST['install']) and $_POST['install']=='true'){
+	require_once 'installer.php';
+}elseif (!OC_CONFIG::getValue('installed',false)) {
+	$hasSQLite=is_callable('sqlite_open');
+	$hasMySQL=is_callable('mysql_connect');
+	$datadir=OC_CONFIG::getValue('datadir',$SERVERROOT.'/data');
+	OC_TEMPLATE::printGuestPage( "", "installation",array('hasSQLite'=>$hasSQLite,'hasMySQL'=>$hasMySQL,'datadir'=>$datadir));
 }elseif( OC_USER::isLoggedIn()){
 	if( isset($_GET["logout"]) and ($_GET["logout"]) ){
 		OC_USER::logout();

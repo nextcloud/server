@@ -1,10 +1,3 @@
-<?php
-/*
- * Template for files admin page
- */
-?>
-<h1>Admin</h1>
-
 <form>
 	<input type="checkbox" /> Allow public folders<br>
 

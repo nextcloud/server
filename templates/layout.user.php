@@ -1,10 +1,5 @@
-<?php
-/*
- * Template for user pages
- */
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 	<head>
 		<title>ownCloud</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,14 +16,14 @@
 		<div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 
-			<div id="user">
+			<ul id="metanav">
 				<?php if( OC_APP::getActiveNavigationEntry() == "help" ): ?>
-					<a href="<?php echo link_to('', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/back.png'); ?>"></a>
+					<li><a href="<?php echo link_to('', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/back.png'); ?>"></a></li>
 				<?php endif; ?>
-				<a href="<?php echo link_to('settings', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/settings.png'); ?>"></a>
-				<a href="<?php echo link_to('help', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/help.png'); ?>"></a>
-				<a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title=""><img src="<?php echo image_path('', 'layout/logout.png'); ?>"></a>
-			</div>
+				<li><a href="<?php echo link_to('settings', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/settings.png'); ?>"></a></li>
+				<li><a href="<?php echo link_to('help', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/help.png'); ?>"></a></li>
+				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title=""><img src="<?php echo image_path('', 'layout/logout.png'); ?>"></a></li>
+			</ul>
 		</div>
 
 		<div id="main">

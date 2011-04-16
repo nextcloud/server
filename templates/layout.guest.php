@@ -1,10 +1,5 @@
-<?php
-/*
- * Template for guest pages
- */
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 	<head>
 		<title>ownCloud</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,9 +14,6 @@
 
 	<body class="login">
 		<?php echo $_['content']; ?>
-		<p class="info">
-			ownCloud is an open personal cloud which runs on your personal server.<br />
-			To learn more, please visit <a href="http://www.owncloud.org/">owncloud.org</a>.
-		</p>
+		<p class="info"><a href="http://owncloud.org/">ownCloud</a> is a personal cloud which runs on your own server.</p>
 	</body>
 </html>

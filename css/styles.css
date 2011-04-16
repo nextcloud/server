@@ -13,8 +13,9 @@ form p { padding:0.5em 4em 0.5em 0.5em; text-align:left; }
 form p.form_footer { margin:1em 0 0 0; text-align:right; }
 form label { cursor:pointer; }
 form input { padding:0.2em; border:1px solid #ddd; font-size:1.2em; }
-/*form input[type="submit"] { padding:0.1em 1em; border:1px solid #999; font-weight:bold; font-size:0.9em; cursor:pointer; }*/
-form input[type="submit"]:hover { border:1px solid #999; background-color:#ccc; }
+form input[type="submit"] { padding:0.1em 1em; border:1px solid #999; font-weight:bold; font-size:0.9em; cursor:pointer; }
+form input[type="submit"]:hover, form input[type="submit"]:focus { border:1px solid #999; background-color:#999; outline:0; }
+form input[type="submit"]:active { outline:0; }
 fieldset { padding:1em; background-color:#f7f7f7; border:1px solid #ddd; }
 legend { padding:0 0.5em; font-size:1.2em; }
 
@@ -22,7 +23,7 @@ div.controls { width:91%; margin:1em 1em 1em 2em; padding:0.5em 0; background-co
 
 /* LOG IN SCREEN ------------------------------------------------------------ */
 body.login { background-image:none; background-color:#ddd; }
-body.login p.info { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background-color:#eee; background-image:url('../img/help_about.png'); background-position:0.8em 0.8em; background-repeat:no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+body.login p.info { width:16em; margin:4em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 #login { margin:0 auto 0 auto; padding:2em 0 0 0; background-image:url('../img/header_background2.png'); background-position:left 0; background-repeat:repeat-x; background-color:#eee; text-align:center; }
 #login form { margin:2.5em auto 0 auto; padding:0 0 1.5em 0; text-align:center; border-bottom:1px solid #fff; }
 #login h1 { margin:0; padding:2.5em 0 0 0; border:0; text-align:center; text-transform:lowercase; font-size:1.5em; }
@@ -30,22 +31,23 @@ body.login p.info { width:640px; margin:4em auto; padding:1em 1em 1em 4em; backg
 #login fieldset p { margin:1em 0 0 0; padding:0; text-align:center; }
 #login label { font-size:1.2em; color:#fff; }
 #login input { width:8em; margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; }
+#login input:hover, #login input:focus { outline:0; }
 #login input[type=submit] { width:5em; border:1px solid #ddd; background-color:#fff; font-size:2em; }
+#login input[type=submit]:hover, #login input[type=submit]:focus { background-color:#ccc; outline:0; }
 
-/* USER MENU ---------------------------------------------------------------- */
-#user { float:right; margin:1em 5em 1em 0; background-image:url('../img/drop-arrow.png'); background-repeat:no-repeat; background-position:right center; color:#fff; }
-#user.userLinkOn { background-color:#39577c; }
-#user_menu_link { display:block; padding:0.5em 2em 0.5em 1em; font-weight:bold; }
-#user_menu_link, #user_menu a { text-decoration:none; color:#fff; }
-#user_menu { position:absolute; z-index:500; right:6.5em; top:45px; list-style-type:none; background-color:#39577c; }
-#user_menu a { display:block; padding:0.5em 5em 0.5em 1em; background-color:transparent; }
-#user_menu a:hover { background-color:#1d2d42; }
+/* USER MENU ---------------------------------------------------------------- */ 
+#metanav { float:right; position:relative; top:1.5em; list-style:none; margin:0; padding:0; }
+#metanav li { display:inline; }
+#metanav li a { padding:1em; }
+#metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; outline:0; box-shadow:#444 0 1px 0; -moz-box-shadow:#444 0 1px 0; -webkit-box-shadow:#444 0 1px 0; }
+#metanav li a img { vertical-align:middle; }
 
 /* PLUGINS MENU ------------------------------------------------------------- */
 #plugins { float:left; width:200px; padding:0; }
 #plugins ul { list-style-type:none; border-top:1px solid #ccc; }
 #plugins a { display:block; padding:0.5em 0.5em 0.5em 3em; background-position:1.5em center; background-repeat:no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; }
-#plugins a:hover, #plugins a.selected { background-color:#ccc; border-top:1px solid #ccc; border-bottom:1px solid #ccc; color:#000; }
+#plugins a:hover, #plugins a:focus, #plugins a.selected { background-color:#ccc; border-top:1px solid #ccc; border-bottom:1px solid #ccc; color:#000; outline:0; }
+#plugins a:active { outline:0; }
 #plugins .files { background-image:url('../img/files.png'); }
 #plugins .sharing { background-image:url('../img/sharing.png'); }
 #plugins .galleries { background-image:url('../img/galleries.png'); }
@@ -63,7 +65,8 @@ table td.date { width:11em; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a { display:block; background-image:url('../img/file.png'); text-decoration:none; }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:0.5em 0.5em 0.5em 3em; background-position:1em center; background-repeat:no-repeat; }
-table td.filename a:hover { text-decoration:underline; }
+table td.filename a:hover, table td.filename a:focus { text-decoration:underline; outline:0; }
+table td.filename a:active { outline:0; }
 table em { font-weight:bold; }
 table td.filename a.folder-up { background-image:url('../img/back.png'); font-style:italic; }
 table td.filename a.folder { background-image:url('../img/folder.png'); }
@@ -90,7 +93,8 @@ p.nav a img { height:16px; vertical-align:text-top; }
 /* ACTIONS BAR */
 p.actions { padding:0; }
 p.actions a { padding:0.5em 0.5em 0.5em 3em; background-position:1em center; background-repeat:no-repeat; background-image:url('../img/action.png'); border-right:1px solid #eee; text-decoration:none; color:#333; }
-p.actions a:hover { background-color:#eee; color:#000; }
+p.actions a:hover, p.actions a:focus { background-color:#eee; color:#000; outline:0; }
+p.actions a:active { outline:0; }
 p.actions a.new-dir { background-image:url('../img/folder-new.png'); }
 p.actions a.download { background-image:url('../img/download.png'); }
 p.actions a.delete { background-image:url('../img/delete.png'); }

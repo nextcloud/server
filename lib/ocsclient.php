@@ -114,6 +114,29 @@ class OC_OCSCLIENT{
                 return $app;
         }
 
+        /**
+         * @brief Get all the knowledgebase entries from the OCS server
+         * @returns array with q and a data
+         *
+         * This function returns a list of all the knowledgebase entries from the OCS server
+         */
+        public static function getKnownledgebaseEntries(){
+                $url='http://api.opendesktop.org/v1/knowledgebase/data?page=0&pagesize=10';
+
+                $kbe=array();
+                $xml=file_get_contents($url);
+                $data=simplexml_load_string($xml);
+
+                $tmp=$data->data->content;
+                for($i = 0; $i < count($tmp); $i++) {
+                        $kb=array();
+                        $kb['id']=$tmp[$i]->id;
+                        $kb['name']=$tmp[$i]->name;
+                        $kb['description']=$tmp[$i]->description;
+                        $kbe[]=$kb;
+                }
+                return $kb;
+        }
 
 
 
