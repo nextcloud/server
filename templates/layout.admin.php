@@ -22,20 +22,20 @@
 			<a href="<?php echo link_to("", "index.php"); ?>" title="" id="owncloud"><img src="<?php echo image_path("", "owncloud-logo-small-white.png"); ?>" alt="ownCloud" /></a>
 
 			<div id="user">
-				<a id="user_menu_link" href="" title=""><? echo $_SESSION["user_id"] ?></a>
-				<ul id="user_menu">
-					<?php foreach($_["personalmenu"] as $entry): ?>
-						<li><a href="<?php echo $entry["href"]; ?>" title=""><?php echo $entry["name"]; ?></a></li>
-					<?php endforeach; ?>
-				</ul>
+				<a href="<?php echo link_to("","index.php"); ?>" title=""><img src="<?php echo image_path("", "layout/back.png"); ?>"></a>
+				<a href="<?php echo link_to("settings","index.php"); ?>" title=""><img src="<?php echo image_path("", "layout/settings.png"); ?>"></a>
+				<a href="<?php echo link_to("help","index.php"); ?>" title=""><img src="<?php echo image_path("", "layout/help.png"); ?>"></a>
+				<a href="<?php echo link_to("","index.php?logout=true"); ?>" title=""><img src="<?php echo image_path("", "layout/logout.png"); ?>"></a>
 			</div>
 		</div>
 
 		<div id="main">
 			<div id="plugins">
 				<ul>
-					<li><a style="background-image:url(<?php echo image_path("admin", "navicon.png"); ?>)" href="<?php echo link_to("admin", "index.php"); ?>" title="">Administration</a></li>
-					<li><a style="background-image:url(<?php echo image_path("", "actions/arrow-left.png"); ?>)" href="<?php echo link_to("", "index.php"); ?>" title="">Back</a></li>
+					<li><a style="background-image:url(<?php echo image_path("settings", "information.png"); ?>)" href="<?php echo link_to("settings", "index.php"); ?>" title="">Information</a></li>
+					<?php foreach($_["navigation"] as $entry):?>
+						<li><a style="background-image:url(<?php echo $entry["icon"]; ?>)" href="<?php echo $entry["href"]; ?>" title=""><?php echo $entry["name"] ?></a></li>
+					<?php endforeach; ?>
 				</ul>
 			</div>
 

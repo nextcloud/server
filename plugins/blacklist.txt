@@ -2,3 +2,4 @@ audioplayer
 ldap
 test
 textviewer
+publiclink

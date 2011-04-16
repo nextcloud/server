@@ -53,7 +53,7 @@ class OC_APP{
 		}
 
 		// Our very own core apps are hardcoded
-		foreach( array( "admin", "files", "log", "settings" ) as $app ){
+		foreach( array( "admin", "files", "log", "help", "settings" ) as $app ){
 			require( "$app/appinfo/app.php" );
 		}
 
@@ -165,9 +165,20 @@ class OC_APP{
 	 * property from all other entries. The templates can use this for
 	 * highlighting the current position of the user.
 	 */
-	public static function activateNavigationEntry( $id ){
+	public static function setActiveNavigationEntry( $id ){
 		self::$activeapp = $id;
 		return true;
+	}
+
+	/**
+	 * @brief gets the active Menu entry
+	 * @returns id or empty string
+	 *
+	 * This function returns the id of the active navigation entry (set by
+	 * setActiveNavigationEntry
+	 */
+	public static function getActiveNavigationEntry(){
+		return self::$activeapp;
 	}
 
 	/**

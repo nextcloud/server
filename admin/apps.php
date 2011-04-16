@@ -1,10 +1,10 @@
 <?php
 
 /**
-* ownCloud - ajax frontend
+* ownCloud
 *
-* @author Robin Appelman
-* @copyright 2010 Robin Appelman icewind1991@gmail.com
+* @author Frank Karlitschek
+* @copyright 2010 Frank Karlitschek karlitschek@kde.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,24 +21,19 @@
 *
 */
 
-
-//require_once('../../config/config.php');
 require_once('../lib/base.php');
 require( 'template.php' );
-if( !OC_USER::isLoggedIn()){
-    header( "Location: ".OC_HELPER::linkTo( "index.php" ));
-    exit();
+if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' )){
+	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+	exit();
 }
 
-$logs=OC_LOG::get( $dir );
+// We have some javascript foo!
+OC_UTIL::addScript( "admin", "apps" );
 
-foreach( $logs as &$i ){
-    $i["date"] = date( $CONFIG_DATEFORMAT, $i['timestamp'] );
-    $i["action"] = OC_LOG::$TYPE[$i['type']];
-}
 
-$tmpl = new OC_TEMPLATE( "log", "index", "admin" );
-$tmpl->assign( "logs", $logs );
+$tmpl = new OC_TEMPLATE( "admin", "apps", "admin" );
 $tmpl->printPage();
 
 ?>
+
