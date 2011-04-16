@@ -256,7 +256,7 @@ class OC_UTIL {
 			}
 			$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,-1)!='0'){
-				chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
+				OC_HELPER::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
 				clearstatcache();
 				$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 				if(substr($prems,2,1)!='0'){
@@ -266,7 +266,7 @@ class OC_UTIL {
 			if($CONFIG_ENABLEBACKUP){
 				$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 				if(substr($prems,-1)!='0'){
-					chmodr($CONFIG_BACKUPDIRECTORY,0770);
+					OC_HELPER::chmodr($CONFIG_BACKUPDIRECTORY,0770);
 					clearstatcache();
 					$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 					if(substr($prems,2,1)!='0'){
@@ -348,28 +348,5 @@ class OC_HOOK{
 		// return true
 		return true;
 	}
-}
-
-function chmodr($path, $filemode) {
-//	 echo "$path<br/>";
-	if (!is_dir($path))
-		return chmod($path, $filemode);
-	$dh = opendir($path);
-	while (($file = readdir($dh)) !== false) {
-		if($file != '.' && $file != '..') {
-			$fullpath = $path.'/'.$file;
-			if(is_link($fullpath))
-				return FALSE;
-			elseif(!is_dir($fullpath) && !chmod($fullpath, $filemode))
-					return FALSE;
-			elseif(!chmodr($fullpath, $filemode))
-				return FALSE;
-		}
-	}
-	closedir($dh);
-	if(chmod($path, $filemode))
-		return TRUE;
-	else
-		return FALSE;
 }
 ?>
