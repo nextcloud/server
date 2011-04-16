@@ -33,7 +33,7 @@ abstract class OC_GROUP_BACKEND {
 	 *
 	 * @param  string  $groupName  The name of the group to create
 	 */
-	abstract public static function createGroup($groupName);
+	public static function createGroup($groupName){}
 
 	/**
 	 * Check if a user belongs to a group
@@ -41,7 +41,7 @@ abstract class OC_GROUP_BACKEND {
 	 * @param  string  $username   Name of the user to check
 	 * @param  string  $groupName  Name of the group
 	 */
-	abstract public static function inGroup($username, $groupName);
+	public static function inGroup($username, $groupName){}
 
 	/**
 	 * Add a user to a group
@@ -49,7 +49,7 @@ abstract class OC_GROUP_BACKEND {
 	 * @param  string  $username   Name of the user to add to group
 	 * @param  string  $groupName  Name of the group in which add the user
 	 */
-	abstract public static function addToGroup($username, $groupName);
+	public static function addToGroup($username, $groupName){}
 
 	/**
 	 * Remove a user from a group
@@ -57,18 +57,18 @@ abstract class OC_GROUP_BACKEND {
 	 * @param  string  $username   Name of the user to remove from group
 	 * @param  string  $groupName  Name of the group from which remove the user
 	 */
-	abstract public static function removeFromGroup($username,$groupName);
+	public static function removeFromGroup($username,$groupName){}
 
 	/**
 	 * Get all groups the user belongs to
 	 *
 	 * @param  string  $username  Name of the user
 	 */
-	abstract public static function getUserGroups($username);
+	public static function getUserGroups($username){}
 
 	/**
 	 * get a list of all groups
 	 *
 	 */
-	abstract public static function getGroups();
+	public static function getGroups(){}
 }
