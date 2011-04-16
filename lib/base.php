@@ -222,7 +222,7 @@ class OC_UTIL {
 
 	/**
 	 * check if the current server configuration is suitable for ownCloud
-	 * @return array with error messages
+	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(){
 		global $SERVERROOT;
@@ -235,11 +235,23 @@ class OC_UTIL {
 
 		//check for database drivers
 		if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
-			$errors[]='No database drivers (sqlite or mysql) installed.<br/>';
+			$errors[]=array('error'=>'No database drivers (sqlite or mysql) installed.<br/>','hint'=>'');//TODO: sane hint
 		}
 		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBNAME = OC_CONFIG::getValue( "dbname", "owncloud" );
-
+		
+		//try to get the username the httpd server runs on, used in hints
+		$stat=stat($_SERVER['DOCUMENT_ROOT']);
+		if(is_callable('posix_getpwuid')){
+			$serverUser=posix_getpwuid($stat['uid']);
+			$serverUser='\''.$serverUser['name'].'\'';
+		}else{
+			$serverUser='\'www-data\' for ubuntu/debian';//TODO: try to detect the distro and give a guess based on that
+		}
+		
+		//common hint for all file permissons error messages
+		$permissionsHint="Permissions can usually be fixed by setting the owner of the directory to the user the web server runs as ($serverUser)";
+		
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
 			if($CONFIG_DBTYPE=='sqlite'){
@@ -251,7 +263,7 @@ class OC_UTIL {
 						clearstatcache();
 						$prems=substr(decoct(fileperms($file)),-3);
 						if(substr($prems,2,1)!='0'){
-							$errors[]='SQLite database file ('.$file.') is readable from the web<br/>';
+							$errors[]=array('error'=>'SQLite database file ('.$file.') is readable from the web<br/>','hint'=>$permissionsHint);
 						}
 					}
 				}
@@ -262,7 +274,7 @@ class OC_UTIL {
 				clearstatcache();
 				$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 				if(substr($prems,2,1)!='0'){
-					$errors[]='Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>';
+					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>','hint'=>$permissionsHint);
 				}
 			}
 			if( OC_CONFIG::getValue( "enablebackup", false )){
@@ -272,7 +284,7 @@ class OC_UTIL {
 					clearstatcache();
 					$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 					if(substr($prems,2,1)!='0'){
-						$errors[]='Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>';
+						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>','hint'=>$permissionsHint);
 					}
 				}
 			}
@@ -280,7 +292,7 @@ class OC_UTIL {
 			//TODO: premisions checks for windows hosts
 		}
 		if(!is_writable($CONFIG_DATADIRECTORY_ROOT)){
-			$errors[]='Data directory ('.$CONFIG_BACKUPDIRECTORY.') not writable by ownCloud<br/>';
+			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
 		//TODO: check for php modules
