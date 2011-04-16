@@ -74,7 +74,7 @@ class OC_OCSCLIENT{
 			$app['personid']=$tmp[$i]->personid;
 			$app['detailpage']=$tmp[$i]->detailpage;
 			$app['preview']=$tmp[$i]->smallpreviewpic1;
-			$app['changed']=$tmp[$i]->changed;
+			$app['changed']=strtotime($tmp[$i]->changed);
 			$app['description']=$tmp[$i]->description;
 	
 			$apps[]=$app;

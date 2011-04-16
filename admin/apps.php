@@ -28,25 +28,42 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
-
 // Load the files we need
 //OC_UTIL::addStyle( "", "files" );
 //OC_UTIL::addScript( "", "files" );
 
 
+if(isset($_GET['id']))  $id=$_GET['id']; else $id=0;
+if(isset($_GET['cat'])) $cat=$_GET['cat']; else $cat=0;
+
 $categories=OC_OCSCLIENT::getCategories();
-//print_r($categories);
-$apps=OC_OCSCLIENT::getApplications($categories);
-//print_r($apps);
 
+if($id==0) {
 
-// return template
-$tmpl = new OC_TEMPLATE( "admin", "apps", "admin" );
+        if($cat==0){
+		$apps=OC_OCSCLIENT::getApplications($categories);
+	}else{
+		$apps=OC_OCSCLIENT::getApplications($cat);
+	}
 
-$tmpl->assign( "categories", $categories );
-$tmpl->assign( "apps", $apps );
-$tmpl->printPage();
+	// return template
+	$tmpl = new OC_TEMPLATE( "admin", "apps", "admin" );
 
+	$tmpl->assign( "categories", $categories );
+	$tmpl->assign( "apps", $apps );
+	$tmpl->printPage();
+	unset($tmpl);
+
+}else{
+
+	$app=OC_OCSCLIENT::getApplication($id);
+
+	$tmpl = new OC_TEMPLATE( "admin", "app", "admin" );
+	$tmpl->assign( "app", $app );
+	$tmpl->printPage();
+	unset($tmpl);
+
+}
 
 
 ?>

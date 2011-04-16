@@ -222,6 +222,18 @@ class OC_UTIL {
 		self::$styles[] = "$application/css/$file";
 	}
 
+       /**
+         * formats a timestamp in the "right" way
+         *
+         * @param timestamp $timestamp
+         */
+        public static function formatDate( $timestamp ){
+		$timeformat='F j, Y, H:i';
+		return date($timeformat,$timestamp);
+        }
+
+
+
 	/**
 	 * check if the current server configuration is suitable for ownCloud
 	 * @return array arrays with error messages and hints
