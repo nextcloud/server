@@ -39,19 +39,15 @@ if(count($errors)>0){
 		header( "Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
 		exit();
 	}
-}else{
+}elseif(isset($_POST["user"])){
 	if( OC_USER::login( $_POST["user"], $_POST["password"] )){
 		header( "Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
 		exit();
+	}else{
+		OC_TEMPLATE::printGuestPage( "", "login", array( "error" => true));
 	}
-	else{
-		$error = false;
-		// Say "bad login" in case the user wanted to login
-		if( $_POST["user"] && $_POST["password"] ){
-			$error = true;
-		}
-		OC_TEMPLATE::printGuestPage( "", "login", array( "error" => $error ));
-	}
+}else{
+	OC_TEMPLATE::printGuestPage( "", "login", array( "error" => false ));
 }
 
 ?>
