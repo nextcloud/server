@@ -36,4 +36,25 @@ $(document).ready(function() {
             // Uncheck all
             $('.browser input:checkbox').attr('checked', false);
     });
+	
+	// Shows and hides file upload form
+    $('#file_upload_button').toggle(function() {
+		$('#file_upload_form').css({"display":"block"});
+    }, function() {
+		$('#file_upload_form').css({"display":"none"});
+	});
+	
+	$('#file_upload_start').click(function() {		
+		$('#file_upload_target').load(uploadFinished);
+	});
 });
+
+function uploadFinished() {
+	result = $('#file_upload_target').contents().text();
+	result = eval("(" + result + ");");
+	if(result.status == "error") {
+		alert('An error occcured, upload failed.');
+	} else {
+		location.href = 'index.php?dir=' + $('#dir').val();
+	}
+}

@@ -19,6 +19,14 @@
     text-decoration: none;
 }
 
+#file_upload_form {
+	display: none;
+}
+
+#file_upload_target {
+	display: none;
+}
+
 /* FILE TABLE */
 
 table td.filesize, table td.date
