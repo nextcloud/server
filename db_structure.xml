@@ -401,14 +401,6 @@
    </field>
 
    <index>
-    <name>path</name>
-    <field>
-     <name>path</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
     <name>properties_pKey</name>
     <primary>true</primary>
     <field>
@@ -421,56 +413,6 @@
     </field>
     <field>
      <name>ns</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-   <name>*dbprefix*publiclink</name>
-
-  <declaration>
-
-   <field>
-    <name>token</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>40</length>
-   </field>
-
-   <field>
-    <name>path</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>128</length>
-   </field>
-
-   <field>
-    <name>user</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-   <field>
-    <name>expire_time</name>
-    <type>timestamp</type>
-    <default>1970-01-01 00:00:00</default>
-    <notnull>true</notnull>
-   </field>
-
-   <index>
-    <name>token</name>
-    <unique>true</unique>
-    <field>
-     <name>token</name>
      <sorting>ascending</sorting>
     </field>
    </index>
