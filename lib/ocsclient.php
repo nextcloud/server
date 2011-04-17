@@ -126,7 +126,7 @@ class OC_OCSCLIENT{
          * This function returns a list of all the knowledgebase entries from the OCS server
          */
         public static function getKnownledgebaseEntries(){
-                $url='http://api.apps.owncloud.com/v1/knowledgebase/data?page=0&pagesize=10';
+                $url='http://api.apps.owncloud.com/v1/knowledgebase/data?type=150&page=0&pagesize=10';
 
                 $kbe=array();
                 $xml=file_get_contents($url);
@@ -138,6 +138,7 @@ class OC_OCSCLIENT{
                         $kb['id']=$tmp[$i]->id;
                         $kb['name']=$tmp[$i]->name;
                         $kb['description']=$tmp[$i]->description;
+                        $kb['answer']=$tmp[$i]->answer;
                         $kb['preview1']=$tmp[$i]->smallpreviewpic1;
                         $kbe[]=$kb;
                 }

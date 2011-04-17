@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	$('#file_action_panel').attr('activeAction', false);
+	
     // Sets browser table behaviour :
     $('.browser tr').hover(
         function() {
@@ -37,15 +39,42 @@ $(document).ready(function() {
             $('.browser input:checkbox').attr('checked', false);
     });
 	
-	// Shows and hides file upload form
-    $('#file_upload_button').toggle(function() {
-		$('#file_upload_form').css({"display":"block"});
-    }, function() {
-		$('#file_upload_form').css({"display":"none"});
-	});
-	
 	$('#file_upload_start').click(function() {		
 		$('#file_upload_target').load(uploadFinished);
+	});
+	
+	$('#file_new_dir_submit').click(function() {
+		$.ajax({
+			url: 'ajax/newfolder.php',
+			data: "dir="+$('#dir').val()+"&foldername="+$('#file_new_dir_name').val(),
+			complete: boolOpFinished
+		});
+	});
+	
+	$('.upload').click(function(){
+		if($('#file_action_panel').attr('activeAction') != 'upload') {
+			$('#file_action_panel').attr('activeAction', 'upload');
+			$('#fileSelector').replaceWith('<input type="file" name="file" id="fileSelector">');
+			$('#file_action_panel form').css({"display":"none"});
+			$('#file_upload_form').css({"display":"block"});
+		} else {
+			$('#file_action_panel').attr('activeAction', 'false');
+			$('#file_upload_form').css({"display":"none"})
+		}
+		return false;
+	});
+	
+	$('.new-dir').click(function(){
+		if($('#file_action_panel').attr('activeAction') != 'new-dir') {
+			$('#file_action_panel').attr('activeAction', 'new-dir');
+			$('#file_new_dir_name').val('');
+			$('#file_action_panel form').css({"display":"none"});
+			$('#file_newfolder_form').css({"display":"block"})
+		} else {
+			$('#file_newfolder_form').css({"display":"none"})
+			$('#file_action_panel').attr('activeAction', false);
+		}
+		return false;
 	});
 });
 
@@ -64,6 +93,24 @@ function uploadFinished() {
 	}
 }
 
+function resetFileActionPanel() {
+	$('#file_action_panel form').css({"display":"none"});
+	$('#file_action_panel').attr('activeAction', false);
+}
+
+function boolOpFinished(data) {
+	result = eval("("+data.responseText+");");
+	if(result.status == 'success'){
+		$.ajax({
+			url: 'ajax/list.php',
+			data: "dir="+$('#dir').val(),
+			complete: refreshContents
+		});
+	} else {
+		alert(result.data.message);
+	}
+}
+
 function refreshContents(data) {
 	result = eval("("+data.responseText+");");
 	if(typeof(result.data.breadcrumb) != 'undefined'){
@@ -71,6 +118,7 @@ function refreshContents(data) {
 	}
 	updateFileList(result.data.files);
 	$('#file_upload_button').click();
+	resetFileActionPanel();
 }
 
 function updateBreadcrumb(breadcrumbHtml) {
