@@ -1,8 +1,8 @@
 <form id="quota">
 	<fieldset>
 		<legend>Account information</legend>
-		<div id="quota_indicator"><div style="width:72%;">&nbsp;</div></div>
-		<p>You're currently using 72% (7.2GB) of your 10GB space.</p>
+		<div id="quota_indicator"><div style="width:<?php echo $_['usage_relative'] ?>%;">&nbsp;</div></div>
+		<p>You're currently using <?php echo $_['usage_relative'] ?>% (<?php echo $_['usage'] ?>) of your <?php echo $_['total_space'] ?> space.</p>
 	</fieldset>
 </form>
 
