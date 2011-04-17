@@ -68,7 +68,7 @@ class OC_INSTALLER{
 						self::createDBUser($username,$password,$connection);
 						//use the admin login data for the new database user
 						OC_CONFIG::setValue('dbuser',$username);
-						OC_CONFIG::setValue('dbpass',$password);
+						OC_CONFIG::setValue('dbpassword',$password);
 						
 						//create the database
 						self::createDatabase($dbname,$username,$connection);
