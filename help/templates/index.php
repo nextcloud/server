@@ -1,7 +1,7 @@
 
 <h1>Questions and Answers</h1>
 
-<table cellspacing="0">
+<table cellspacing="0" width="100%">
 	<tbody>
 		<?php foreach($_["kbe"] as $kb): ?>
 			<tr>
@@ -13,6 +13,10 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+<?php
+	$url=OC_HELPER::linkTo( "help", "index.php" ).'?page=';
+	OC_UTIL::showPageNavi($_['pagecount'],$_['page'],$url);
+?>
 <a target="_blank" class="prettybutton" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new">ASK A QUESTION</a>
 
 

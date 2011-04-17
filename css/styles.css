@@ -70,7 +70,7 @@ form a { color:#000; text-decoration:none; }
 
 /* CONTENT ------------------------------------------------------------------ */
 #content { margin:7em 0 0 16em; }
-table { width:90%; margin:1em 5em 2em 3em; }
+table { margin:1em 5em 2em 3em; }
 table tr.mouseOver td { background-color:#eee; }
 table th, table td { padding:0; border-bottom:1px solid #ddd; text-align:left; font-style:italic; }
 table th { padding:0.5em; }
@@ -117,6 +117,23 @@ p.actions a.delete { background-image:url('../img/delete.png'); }
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ddd; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 #quota_indicator div { background-color:#76A9EA; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
+
+
+/* PAGER ------------------------------------------------------------ */
+.pager tr td
+{
+    border-bottom: 0px;
+}
+
+
+.pager tr td a
+{
+    text-decoration: none;
+    color: #666666;
+    font-size: 0.9em;
+    text-align: center;
+}
+
 
 /* LOGS --------------------------------------------------------------------- */
 #logs_options { width:auto; margin:0; }
