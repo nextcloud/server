@@ -263,7 +263,7 @@ class OC_UTIL {
 		}
 		
 		//common hint for all file permissons error messages
-		$permissionsHint="Permissions can usually be fixed by setting the owner of the directory to the user the web server runs as ($serverUser)";
+		$permissionsHint="Permissions can usually be fixed by setting the owner of the file or directory to the user the web server runs as ($serverUser)";
 		
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
