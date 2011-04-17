@@ -1338,15 +1338,15 @@ class MDB2_Schema extends PEAR
 
             if ($dbExists) {
                 $this->db->debug('Database already exists: ' . $db_name, __FUNCTION__);
-                if (!empty($dbOptions)) {
-                    $errorcodes = array(MDB2_ERROR_UNSUPPORTED, MDB2_ERROR_NO_PERMISSION);
-                    $this->db->expectError($errorcodes);
-                    $result = $this->db->manager->alterDatabase($db_name, $dbOptions);
-                    $this->db->popExpect();
-                    if (PEAR::isError($result) && !MDB2::isError($result, $errorcodes)) {
-                        return $result;
-                    }
-                }
+//                 if (!empty($dbOptions)) {
+//                     $errorcodes = array(MDB2_ERROR_UNSUPPORTED, MDB2_ERROR_NO_PERMISSION);
+//                     $this->db->expectError($errorcodes);
+//                     $result = $this->db->manager->alterDatabase($db_name, $dbOptions);
+//                     $this->db->popExpect();
+//                     if (PEAR::isError($result) && !MDB2::isError($result, $errorcodes)) {
+//                         return $result;
+//                     }
+//                 }
                 $create = false;
             } else {
                 $this->db->expectError(MDB2_ERROR_UNSUPPORTED);

@@ -25,19 +25,19 @@ class OC_INSTALLER{
 		};
 		if($dbtype=='mysql'){//mysql needs more config options
 			if(empty($options['dbuser'])){
-				$error[]=array('error'=>'database user directory not set');
+				$error[]=array('error'=>'database user not set');
 			};
 			if(empty($options['dbpass'])){
-				$error[]=array('error'=>'database password directory not set');
+				$error[]=array('error'=>'database password not set');
 			};
 			if(empty($options['dbname'])){
-				$error[]=array('error'=>'database name directory not set');
+				$error[]=array('error'=>'database name not set');
 			};
 			if(empty($options['dbhost'])){
-				$error[]=array('error'=>'database host directory not set');
+				$error[]=array('error'=>'database host not set');
 			};
 			if(!isset($options['dbtableprefix'])){
-				$error[]=array('error'=>'database table prefix directory not set');
+				$error[]=array('error'=>'database table prefix not set');
 			};
 		}
 		if(count($error)==0){ //no errors, good
@@ -59,9 +59,9 @@ class OC_INSTALLER{
 				OC_CONFIG::setValue('dbtableprefix',$dbtableprefix);
 				
 				//check if the database user has admin right
-				$connection=mysql_connect($dbhost, $dbuser, $dbpass);
+				$connection=@mysql_connect($dbhost, $dbuser, $dbpass);
 				if(!$connection) {
-					$error[]=array('error'=>'mysql username and/or password not valid','you need to enter either an existing account, or the administrative account if you wish to create a new user for ownCloud');
+					$error[]=array('error'=>'mysql username and/or password not valid','hint'=>'you need to enter either an existing account, or the administrative account if you wish to create a new user for ownCloud');
 				}else{
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'";//this should be enough to check for admin rights in mysql
 					if(mysql_query($query,$connection)){
@@ -79,26 +79,27 @@ class OC_INSTALLER{
 						//create the database
 						self::createDatabase($dbname,$dbuser,$connection);
 					}
+					//fill the database if needed
+					$query="SELECT * FROM $dbname.{$dbtableprefix}users";
+					$result = mysql_query($query,$connection);
+					if (!$result) {
+						OC_DB::createDbFromStructure('db_structure.xml');
+					}
+					mysql_close($connection);
 				}
-				//fill the database if needed
-				$query="SELECT * FROM $dbname.{$dbtableprefix}users";
-				$result = mysql_query($query,$connection);
-				if (!$result) {
-					OC_DB::createDbFromStructure('db_structure.xml');
-				}
-				mysql_close($connection);
 			}else{
 				//in case of sqlite, we can always fill the database
 				OC_DB::createDbFromStructure('db_structure.xml');
 			}
-			
-			//create the user and group
-			OC_USER::createUser($username,$password);
-			OC_GROUP::createGroup('admin');
-			OC_GROUP::addToGroup($username,'admin');
-			
-			//and we are done
-			OC_CONFIG::setValue('installed',true);
+			if(count($error)==0){
+				//create the user and group
+				OC_USER::createUser($username,$password);
+				OC_GROUP::createGroup('admin');
+				OC_GROUP::addToGroup($username,'admin');
+				
+				//and we are done
+				OC_CONFIG::setValue('installed',true);
+			}
 		}
 		return $error;
 	}

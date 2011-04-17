@@ -239,7 +239,7 @@ class OC_DB {
 
 		// read file
 		$content = file_get_contents( $file );
-
+		
 		// Make changes and save them to a temporary file
 		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
@@ -247,8 +247,8 @@ class OC_DB {
 		file_put_contents( $file2, $content );
 
 		// Try to create tables
-		$definition = @self::$schema->parseDatabaseDefinitionFile( $file2 );
-
+		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
+		
 		// Delete our temporary file
 		unlink( $file2 );
 
@@ -256,7 +256,10 @@ class OC_DB {
 		if( $definition instanceof MDB2_Schema_Error ){
 			die( $definition->getMessage().': '.$definition->getUserInfo());
 		}
-		$ret=@self::$schema->createDatabase( $definition );
+		if(OC_CONFIG::getValue('dbtype','sqlite')=='sqlite'){
+			$definition['overwrite']=true;//always overwrite for sqlite
+		}
+		$ret=self::$schema->createDatabase( $definition );
 
 		// Die in case something went wrong
 		if( $ret instanceof MDB2_Error ){
