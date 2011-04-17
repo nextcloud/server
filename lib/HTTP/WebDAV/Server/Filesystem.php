@@ -410,7 +410,7 @@
             OC_FILESYSTEM::unlink($path);
         }
             $query = OC_DB::prepare("DELETE FROM *PREFIX*properties WHERE path = ?");
-            $query->execute(array($options[path]));
+            $query->execute(array($options['path']));
 
         return "204 No Content";
     }
