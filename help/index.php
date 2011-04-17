@@ -15,7 +15,7 @@ OC_APP::setActiveNavigationEntry( "help" );
 $kbe=OC_OCSCLIENT::getKnownledgebaseEntries();
 
 
-$tmpl = new OC_TEMPLATE( "help", "index", "user" );
+$tmpl = new OC_TEMPLATE( "help", "index", "admin" );
 $tmpl->assign( "kbe", $kbe );
 $tmpl->printPage();
 
