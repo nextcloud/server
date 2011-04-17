@@ -92,13 +92,14 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	}
 	public function mkdir($path){
 		if($return=mkdir($this->datadir.$path)){
-			$this->notifyObservers($path,OC_FILEACTION_CREATE);
+			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
 	public function rmdir($path){
 		if($return=rmdir($this->datadir.$path)){
 			$this->notifyObservers($path,OC_FILEACTION_DELETE);
+			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
@@ -170,6 +171,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	public function unlink($path){
 		if($return=unlink($this->datadir.$path)){
 			$this->notifyObservers($path,OC_FILEACTION_DELETE);
+			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
@@ -189,6 +191,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 		if($return=copy($this->datadir.$path1,$this->datadir.$path2)){
 			$this->notifyObservers($path2,OC_FILEACTION_CREATE);
+			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
@@ -383,6 +386,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		if(rename($tmpFile,$this->datadir.$path)){
 			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
 			$this->notifyObservers($path,OC_FILEACTION_CREATE);
+			$this->clearFolderSizeCache($path);
 			return true;
 		}else{
 			return false;
@@ -394,6 +398,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		if(move_uploaded_file($tmpFile,$this->datadir.$path)){
 			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
 			$this->notifyObservers($path,OC_FILEACTION_CREATE);
+			$this->clearFolderSizeCache($path);
 			return true;
 		}else{
 			return false;
@@ -410,6 +415,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			if(is_file($dir.'/'.$item)){
 				if(unlink($dir.'/'.$item)){
 					$this->notifyObservers($dir.'/'.$item,OC_FILEACTION_DELETE);
+					$this->clearFolderSizeCache($path);
 				}
 			}elseif(is_dir($dir.'/'.$item)){
 				if (!$this->delTree($dirRelative. "/" . $item)){
@@ -419,6 +425,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 		if($return=rmdir($dir)){
 			$this->notifyObservers($dir,OC_FILEACTION_DELETE);
+			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
@@ -481,24 +488,33 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	 * @return int size of folder and it's content
 	 */
 	public function calculateFolderSize($path){
+		if($this->is_file($path)){
+			$path=dirname($path);
+		}
+		$path=str_replace('//','/',$path);
+		if($this->is_dir($path) and substr($path,-1)!='/'){
+			$path.='/';
+		}
+		error_log("calc: $path");
 		$size=0;
 		if ($dh = $this->opendir($path)) {
-			while (($filename = readdir($dh)) !== false) {
-				if($filename!='.' and $filename!='..'){
-					$subFile=$path.'/'.$filename;
-					if($this->is_file($subFile)){
-						$size+=$this->filesize($subFile);
-					}else{
-						$size+=$this->calculateFolderSize($subFile);
-					}
-				}
-			}
 			$query=OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
 			$hasSize=$query->execute(array($path))->fetchAll();
 			if(count($hasSize)>0){// yes, update it
 				$query=OC_DB::prepare("UPDATE *PREFIX*foldersize SET size=? WHERE path=?");
 				$result=$query->execute(array($size,$path));
+				$size+=$hasSize[0]['size'];
 			}else{// no insert it
+				while (($filename = readdir($dh)) !== false) {
+					if($filename!='.' and $filename!='..'){
+						$subFile=$path.'/'.$filename;
+						if($this->is_file($subFile)){
+							$size+=$this->filesize($subFile);
+						}else{
+							$size+=$this->calculateFolderSize($subFile);
+						}
+					}
+				}
 				$query=OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
 				$result=$query->execute(array($path,$size));
 			}
@@ -511,13 +527,25 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	 * @param string $path
 	 */
 	public function clearFolderSizeCache($path){
-		$path=dirname($path);
+		if($this->is_file($path)){
+			$path=dirname($path);
+		}
+		$path=str_replace('//','/',$path);
+		if($this->is_dir($path) and substr($path,-1)!='/'){
+			$path.='/';
+		}
+		error_log($path);
 		$query=OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
 		$result=$query->execute(array($path));
-		if($path!='/'){
-			$parts=explode('/');
-			array_pop($parts);
+		if($path!='/' and $path!=''){
+			$parts=explode('/',$path);
+			//pop empty part
+			$part=array_pop($parts);
+			if(empty($part)){
+				array_pop($parts);
+			}
 			$parent=implode('/',$parts);
+			$this->clearFolderSizeCache($parent);
 		}
 	}
 }
