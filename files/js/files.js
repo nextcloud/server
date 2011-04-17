@@ -55,11 +55,11 @@ $(document).ready(function() {
 		if($('#file_action_panel').attr('activeAction') != 'upload') {
 			$('#file_action_panel').attr('activeAction', 'upload');
 			$('#fileSelector').replaceWith('<input type="file" name="file" id="fileSelector">');
-			$('#file_action_panel form').css({"display":"none"});
-			$('#file_upload_form').css({"display":"block"});
+			$('#file_action_panel form').slideUp(250);
+			$('#file_upload_form').slideDown(250);
 		} else {
 			$('#file_action_panel').attr('activeAction', 'false');
-			$('#file_upload_form').css({"display":"none"})
+			$('#file_upload_form').slideUp(250);
 		}
 		return false;
 	});
@@ -68,10 +68,10 @@ $(document).ready(function() {
 		if($('#file_action_panel').attr('activeAction') != 'new-dir') {
 			$('#file_action_panel').attr('activeAction', 'new-dir');
 			$('#file_new_dir_name').val('');
-			$('#file_action_panel form').css({"display":"none"});
-			$('#file_newfolder_form').css({"display":"block"})
+			$('#file_action_panel form').slideUp(250);
+			$('#file_newfolder_form').slideDown(250);
 		} else {
-			$('#file_newfolder_form').css({"display":"none"})
+			$('#file_newfolder_form').slideUp(250);
 			$('#file_action_panel').attr('activeAction', false);
 		}
 		return false;
