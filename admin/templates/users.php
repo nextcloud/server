@@ -34,10 +34,10 @@
 	</tfoot>
 	<tbody>
 		<?php foreach($_["users"] as $user): ?>
-			<tr>
-				<td><?php echo $user["name"]; ?></td>
-				<td x-use="usergroups"><?php echo $user["groups"]; ?></td>
-				<td x-uid="<?php echo $user["name"] ?>"><a href="" class="edituserbutton">edit</a> | <a  class="removeuserbutton" href="">remove</a></td>
+			<tr x-uid="<?php echo $user["name"] ?>">
+				<td x-use="username"><span x-use="usernamespan"><?php echo $user["name"]; ?></span></td>
+				<td x-use="usergroups"><span x-use="usergroupsspan"><?php echo $user["groups"]; ?></span></td>
+				<td><a  class="removeuserbutton" href="">remove</a></td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
@@ -61,9 +61,9 @@
 	</tfoot>
 	<tbody>
 		<?php foreach($_["groups"] as $group): ?>
-			<tr>
+			<tr x-gid="<?php echo $group["name"]; ?>">
 				<td><?php echo $group["name"] ?></td>
-				<td x-gid="<?php echo $group["name"]; ?>"><a class="removegroupbutton" href="">remove</a></td>
+				<td><a class="removegroupbutton" href="">remove</a></td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
@@ -71,20 +71,23 @@
 
 
 
-<div id="edituserform" title="Force new password">
-	<form id="edituserdata">
-		<span id="edituserusername">$user</span><br>
-		<fieldset>
-			New password:
-			<input type="password" name="password" value="" />
-		</fieldset>
-		<input type="hidden" name="username" value="" />
-		<fieldset id="editusergroups">
-			<?php foreach($_["groups"] as $i): ?>
-				<input x-gid="<? echo $i["name"]; ?>" type="checkbox" name="groups[]" value="<? echo $i["name"]; ?>" />
-				<span x-gid="<? echo $i["name"]; ?>"><? echo $i["name"]; ?><br></span>
-			<?php endforeach; ?>
-		</fieldset>
+<div id="changegroups" style="display:none">
+	<form id="changegroupsform">
+		<input id="changegroupuid" type="hidden" name="username" value="" />
+		<input id="changegroupgid" type="hidden" name="group" value="" />
+		<?php foreach($_["groups"] as $i): ?>
+			<input x-use="togglegroup" x-gid="<? echo $i["name"]; ?>" type="checkbox" name="groups[]" value="<? echo $i["name"]; ?>" />
+			<span x-use="togglegroup" x-gid="<? echo $i["name"]; ?>"><? echo $i["name"]; ?><br></span>
+		<?php endforeach; ?>
+	</form>
+</div>
+
+<div id="changepassword" style="display:none">
+	<form id="changepasswordform">
+		<input id="changepassworduid" type="hidden" name="username" value="" />
+		Force new password:
+		<input id="changepasswordpwd" type="password" name="password" value="" />
+		<button id="changepasswordbutton">Set</button>
 	</form>
 </div>
 

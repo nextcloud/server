@@ -12,14 +12,15 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
-$name = $_POST["username"];
+$username = $_POST["username"];
+$password = $_POST["password"];
 
 // Return Success story
-if( OC_USER::deleteUser( $name )){
-	echo json_encode( array( "status" => "success", "data" => array( "username" => $name )));
+if( OC_USER::setPassword( $username, $password )){
+	echo json_encode( array( "status" => "success", "data" => array( "username" => $username )));
 }
 else{
-	echo json_encode( array( "status" => "error", "data" => array( "message" => "Unable to delete user" )));
+	echo json_encode( array( "status" => "error", "data" => array( "message" => "Unable to change password" )));
 }
 
 ?>

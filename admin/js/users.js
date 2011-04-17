@@ -2,6 +2,35 @@ $(document).ready(function(){
 	// Vars we need
 	var uid = "";
 	var gid = "";
+	var togglepassword = "";
+	var togglegroup = "";
+
+	//#########################################################################
+	// Stuff I don't understand
+	//#########################################################################
+
+	function doToggleGroup( group ){
+		$("#changegroupgid").val(group);
+
+		// Serialize the data
+		var post = $( "#changegroupsform" ).serialize();
+		// Ajax foo
+		$.post( 'ajax/togglegroups.php', post, function(data){
+			if( data.status == "success" ){
+				var groups = [];
+				$("input[x-use='togglegroup']").each( function(index){
+					if( $(this).attr("checked")){
+						groups.push($(this).val());
+					}
+				});
+				$("#changegroups").prev().html( groups.join(", "));
+			}
+			else{
+				alert( "something went wrong! sorry!" );
+			}
+		});
+		return false;
+	}
 
 	//#########################################################################
 	// Functions for editing the dom after user manipulation
@@ -10,9 +39,9 @@ $(document).ready(function(){
 	// Manipulating the page after crteating a user
 	function userCreated( username, groups ){
 		// Add user to table
-		var newrow = '<tr><td>'+username+'</td>';
-		newrow = newrow+'<td>'+groups+'</td>';
-		newrow = newrow+'<td x-uid="'+username+'"><a href="" class="edituserbutton">edit</a> | <a  class="removeuserbutton" href="">remove</a></td></tr>';
+		var newrow = '<tr x-uid="'+username+'"><td x-use="username"><span x-use="usernamespan">'+username+'</span></td>';
+		newrow = newrow+'<td x-use="usergroups">'+groups+'</td>';
+		newrow = newrow+'<td><a href="" class="edituserbutton">edit</a> | <a  class="removeuserbutton" href="">remove</a></td></tr>';
 		$("#usertable").append( newrow  );
 
 		// Clear forms
@@ -20,21 +49,12 @@ $(document).ready(function(){
 		$("input[x-use='createusercheckbox']").attr( "checked", false );
 	}
 
-	// Manipulating the page after crteating a user
-	function userEdited( username, groups ){
-		// Edit table
-		var newrow = '<tr><td>'+username+'</td>';
-		newrow = newrow+'<td>'+groups+'</td>';
-		newrow = newrow+'<td x-uid="'+username+'"><a href="" class="edituserbutton">edit</a> | <a  class="removeuserbutton" href="">remove</a></td></tr>';
-		$("td[x-uid='"+username+"']").replace( newrow  );
-	}
-
 	function userRemoved( username ){
-		$( "td[x-uid='"+username+"']" ).parent().remove();
+		$( "tr[x-uid='"+username+"']" ).remove();
 	}
 
 	function groupCreated( groupname ){
-		var newrow = '<tr><td x-gid="'+groupname+'">' + groupname + '</td>';
+		var newrow = '<tr x-gid="'+groupname+'"><td>' + groupname + '</td>';
 		newrow = newrow + '<td><a class="removegroupbutton" href="">remove</a></td></tr>';
 		$("#grouptable").append( newrow  );
 
@@ -42,14 +62,15 @@ $(document).ready(function(){
 		$("input[x-use='creategroupfield']").val( "" );
 
 		// Add group option to Create User and Edit User
-		createuser = '<input x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /><span  x-gid="'+groupname+'">'+groupname+'<br /></span>';
+		var createuser = '<input x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /><span  x-gid="'+groupname+'">'+groupname+'<br /></span>';
 		$("#createusergroups").append( createuser );
-		$("#editusergroups").append( createuser );
+		var changeuser = '<input x-use="togglegroup" x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /><span x-use="togglegroup" x-gid="'+groupname+'">'+groupname+'<br /></span>';
+		$("#changegroupsform").append( changeuser );
 	}
 
 	function groupRemoved( groupname ){
 		// Delete the options
-		$( "td[x-gid='"+groupname+"']" ).parent().remove();
+		$( "tr[x-gid='"+groupname+"']" ).remove();
 		$( "span[x-gid='"+groupname+"']" ).remove();
 		$( "input[x-gid='"+groupname+"']" ).remove();
 
@@ -70,6 +91,95 @@ $(document).ready(function(){
 
 	}
 
+	//#########################################################################
+	// Editing the users properties by clicking the cell
+	//#########################################################################
+
+	// Password (clicking on user name)
+	$("span[x-use='usernamespan']").live( "click", function(){
+		if( togglepassword == "" || $(this).parent().parent().attr("x-uid") != togglepassword ){
+			togglepassword = $(this).parent().parent().attr("x-uid");
+			// Set the username!
+			$("#changepassworduid").val(togglepassword);
+			$("#changepasswordpwd").val("");
+			$(this).parent().append( $('#changepassword') );
+			$('#changepassword').show();
+		}
+		else{
+			$('#changepassword').hide();
+			togglepassword = "";
+		}
+	});
+
+	$("#changepasswordbutton").click( function(){
+		// Serialize the data
+		var post = $( "#changepasswordform" ).serialize();
+		// Ajax foo
+		$.post( 'ajax/changepassword.php', post, function(data){
+			if( data.status == "success" ){
+				togglepassword = "";
+				$('#changepassword').hide();
+			}
+			else{
+				alert( "something went wrong! sorry!" );
+			}
+		});
+		return false;
+	});
+
+	// Groups
+	$("span[x-use='usergroupsspan']").live( "click", function(){
+		if( togglegroup == "" || $(this).parent().parent().attr("x-uid") != togglegroup){
+			togglegroup = $(this).parent().parent().attr("x-uid");
+			var groups = $(this).text();
+			groups = groups.split(", ");
+			$("input[x-use='togglegroup']").each( function(index){
+				var check = false;
+				// Group checked?
+				for( var i = 0; i < groups.length; i++ ){
+					if( $(this).val() == groups[i] ){
+						check = true;
+					}
+				}
+
+				// Check/uncheck
+				if( check ){
+					$(this).attr("checked","checked");
+				}
+				else{
+					$(this).removeAttr("checked");
+				}
+			});
+			$("#changegroupuid").val(togglegroup);
+			$(this).parent().append( $('#changegroups') );
+			$('#changegroups').show();
+		}
+		else{
+			var groups = [];
+			$("input[x-use='togglegroup']").each( function(index){
+				if( $(this).attr("checked")){
+					groups.push($(this).val());
+				}
+			});
+			$(this).html( groups.join(", "));
+			$('#changegroups').hide();
+			togglegroup = "";
+		}
+	});
+
+	$("span[x-use='togglegroup']").live( "click", function(){
+		if( $(this).prev().attr("checked")){
+			$(this).prev().removeAttr("checked")
+		}
+		else{
+			$(this).prev().attr("checked","checked")
+		}
+		doToggleGroup( $(this).attr("x-gid"));
+	});
+
+	$("input[x-use='togglegroup']").live( "click", function(){
+		doToggleGroup( $(this).attr("x-gid"));
+	});
 	//#########################################################################
 	// Clicking on buttons
 	//#########################################################################
@@ -100,15 +210,8 @@ $(document).ready(function(){
 			return false;
 		});
 
-	$( ".edituserbutton" ).live( 'click',  function(){
-			uid = $( this ).parent().attr( 'x-uid' );
-			$("#edituserusername").html(uid);
-			$("#edituserform").dialog("open");
-			return false;
-		});
-
 	$( ".removeuserbutton" ).live( 'click', function() {
-			uid = $( this ).parent().attr( 'x-uid' );
+			uid = $( this ).parent().parent().attr( 'x-uid' );
 			$("#deleteuserusername").html(uid);
 			$("#deleteusernamefield").val(uid);
 			$("#removeuserform").dialog( "open" );
@@ -132,7 +235,7 @@ $(document).ready(function(){
 		});
 
 	$( ".removegroupbutton" ).live( 'click', function(){
-			gid = $( this ).parent().attr( 'x-gid' );
+			gid = $( this ).parent().parent().attr( 'x-gid' );
 			$("#removegroupgroupname").html(gid);
 			$("#removegroupnamefield").val(gid);
 			$("#removegroupform").dialog( "open" );
@@ -142,25 +245,6 @@ $(document).ready(function(){
 	//#########################################################################
 	// Dialogs
 	//#########################################################################
-
-	// Edit user dialog
-	$( "#edituserform" ).dialog({
-		autoOpen: false,
-		height: 500,
-		width: 500,
-		modal: true,
-		buttons: {
-			"Edit user": function() {
-				$( this ).dialog( "close" );
-			},
-			Cancel: function() {
-				$( this ).dialog( "close" );
-			}
-		},
-		close: function() {
-			true;
-		}
-	});
 
 	// Removing users
 	$( "#removeuserform" ).dialog({
