@@ -1,8 +1,6 @@
 * { margin:0; padding:0; border:0; }
-body { position:absolute; background:#fefefe url('../img/body_background.jpg') repeat-y left top; line-height:1.6em; font:normal 80% "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
-#header { position:fixed; width:100%; height:5.5em; padding:0.5em 1.5em; background:url('../img/header-a.png') repeat-x left top; }
-#plugins { position:fixed; }
-#main { margin-top:7em; }
+body { background:#fefefe url('../img/body_background.jpg') repeat-y left top; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
+#header { position:fixed; top:0; z-index:100; width:100%; height:5.5em; padding:0.5em 1.5em; background:url('../img/header-a.png') repeat-x left top; }
 #body-settings #header { background-image:url('../img/header-settings-a.png'); }
 #owncloud { float:left; margin:0 0 0 2em; }
 h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercase; font-weight:normal; font-style:italic; color:#666; }
@@ -24,16 +22,15 @@ legend { padding:0 0.5em; font-size:1.2em; }
 
 div.controls { width:91%; margin:1em 1em 1em 2em; padding:0.5em 0; background-color:#f7f7f7; border:1px solid #eee; }
 
-/* INSTALLATION ------------------------------------------------------------
-input [type='radio'] { display:block; }
-.left { display:block; position:relative; top:2.5em; left:-19em; text-align: right; font-weight:bold; }
-input[type='radio'] { padding:10em; vertical-align:middle; }
-input+label { font-size:20em; font-weight:bold; vertical-align:middle
- */
+/* INSTALLATION ------------------------------------------------------------ */
 legend { font-weight:bold; }
 legend abbr { border-bottom:1px dotted #000; }
 form a { color:#000; text-decoration:none; }
- #login input[type='text'], #login input[type='password'] { display:block; margin:0 auto .5em; }
+#login input[type='text'], #login input[type='password'] { display:block; margin:0 auto .5em; }
+#login input[type='radio'] { display:none; }
+#login input[type='radio']+label { margin:1em .1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; background-color:#fff; }
+#login input[type='radio']+label:hover, #login input[type='radio']+label:focus { background-color:#ccc; outline:0; }
+.left { display:block; position:relative; top:2.5em; left:-19em; text-align: right; font-weight:bold; }
  
  
 /* LOG IN ------------------------------------------------------------ */
@@ -44,11 +41,14 @@ form a { color:#000; text-decoration:none; }
 #login h1 { margin:0; padding:2.5em 0 0 0; border:0; text-align:center; text-transform:lowercase; font-size:1.5em; }
 #login fieldset { background-color:transparent; border:0; }
 #login fieldset p { margin:1em 0 0 0; padding:0; text-align:center; }
-#login label { font-size:1.2em; color:#fff; }
+#login label { font-size:1.2em; }
 #login input { width:8em; margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; }
 #login input:hover, #login input:focus { outline:0; }
-#login input[type='submit'] { width:5em; border:1px solid #ddd; background-color:#fff; font-size:2em; }
+#login input[type='submit'] { width:5em; background-color:#fff; }
 #login input[type='submit']:hover, #login input[type=submit]:focus { background-color:#ccc; outline:0; }
+
+.prettybutton { margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; background-color:#fff; }
+.prettybutton:hover, .prettybutton:focus { background-color:#ccc; outline:0; }
 
 /* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
 #metanav { float:right; position:relative; top:1.5em; right:2.5em; list-style:none; margin:0; padding:0; }
@@ -57,8 +57,8 @@ form a { color:#000; text-decoration:none; }
 #metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; outline:0; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
 #metanav li a img { vertical-align:middle; }
 
-/* PLUGINS MENU ------------------------------------------------------------- */
-#plugins { float:left; width:200px; padding:0; }
+/* NAVIGATION ------------------------------------------------------------- */
+#plugins { position:fixed; top:7em; float:left; width:15.7em; padding:0; }
 #plugins ul { list-style-type:none; border-top:1px solid #ccc; }
 #plugins a { display:block; padding:0.5em 0.5em 0.5em 3em; background-position:1.5em center; background-repeat:no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; }
 #plugins a:hover, #plugins a:focus, #plugins a.selected { background-color:#ccc; border-top:1px solid #ccc; border-bottom:1px solid #ccc; color:#000; outline:0; }
@@ -69,7 +69,7 @@ form a { color:#000; text-decoration:none; }
 #plugins .music { background-image:url('../img/music.png'); }
 
 /* CONTENT ------------------------------------------------------------------ */
-#content { margin:0 0 0 230px; }
+#content { margin:4em 0 0 16em; }
 table { width:90%; margin:1em 5em 2em 3em; }
 table tr.mouseOver td { background-color:#eee; }
 table th, table td { padding:0; border-bottom:1px solid #ddd; text-align:left; font-style:italic; }
