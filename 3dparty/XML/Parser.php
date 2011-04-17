@@ -165,26 +165,6 @@ class XML_Parser extends PEAR
     var $_handlerObj;
 
     // }}}
-    // {{{ constructor
-
-    /**
-     * Creates an XML parser.
-     *
-     * This is needed for PHP4 compatibility, it will
-     * call the constructor, when a new instance is created.
-     *
-     * @param string $srcenc source charset encoding, use NULL (default) to use
-     *                       whatever the document specifies
-     * @param string $mode   how this parser object should work, "event" for
-     *                       startelement/endelement-type events, "func"
-     *                       to have it call functions named after elements
-     * @param string $tgenc  a valid target encoding
-     */
-    function XML_Parser($srcenc = null, $mode = 'event', $tgtenc = null)
-    {
-        XML_Parser::__construct($srcenc, $mode, $tgtenc);
-    }
-    // }}}
 
     /**
      * PHP5 constructor
@@ -560,7 +540,11 @@ class XML_Parser extends PEAR
      * @param integer $ecode the error message code
      * @return XML_Parser_Error 
      **/
-    function raiseError($msg = null, $ecode = 0)
+    function raiseError($msg = null, $ecode = 0,$mode = null,
+                         $options = null,
+                         $userinfo = null,
+                         $error_class = null,
+                         $skipmsg = false)
     {
         $msg = !is_null($msg) ? $msg : $this->parser;
         $err = new XML_Parser_Error($msg, $ecode);
@@ -606,7 +590,7 @@ class XML_Parser extends PEAR
      *
      * @abstract
      */
-    function startHandler($xp, $elem, &$attribs)
+    function startHandler($xp, $elem, $attribs)
     {
         return NULL;
     }

@@ -120,7 +120,7 @@ class MDB2_Schema_Parser extends XML_Parser
     {
         // force ISO-8859-1 due to different defaults for PHP4 and PHP5
         // todo: this probably needs to be investigated some more andcleaned up
-        parent::XML_Parser('ISO-8859-1');
+        parent::__construct('ISO-8859-1');
 
         $this->variables = $variables;
         $this->structure = $structure;
@@ -503,7 +503,7 @@ class MDB2_Schema_Parser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
+    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE,$a=null,$b=null,$c=null)
     {
         if (is_null($this->error)) {
             $error = '';
