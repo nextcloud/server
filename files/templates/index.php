@@ -17,10 +17,7 @@ name="file_upload_target" src=""></iframe></form>
 </div>
 
 <p class="nav">
-	<a href="<?php echo link_to("files", "index.php?dir=/"); ?>"><img src="<?php echo image_path("", "actions/go-home.png"); ?>" alt="Root" /></a>
-	<?php foreach($_["breadcrumb"] as $crumb): ?>
-		<a href="<?php echo link_to("files", "index.php?dir=".$crumb["dir"]); ?>"><?php echo $crumb["name"]; ?></a>
-	<?php endforeach; ?>
+	<?php echo($_['breadcrumb']); ?>
 </p>
 
 <table cellspacing="0">
@@ -33,16 +30,8 @@ name="file_upload_target" src=""></iframe></form>
 			<th></th>
 		</tr>
 	</thead>
-	<tbody>
-		<?php foreach($_["files"] as $file): ?>
-			<tr>
-				<td class="selection"><input type="checkbox" /></td>
-				<td class="filename"><a style="background-image:url(<?php if($file["type"] == "dir") echo mimetype_icon("dir"); else echo mimetype_icon($file["mime"]); ?>)" href="<?php if($file["type"] == "dir") echo link_to("files", "index.php?dir=".$file["directory"]."/".$file["name"]); else echo link_to("files", "download.php?file=".$file["directory"]."/".$file["name"]); ?>" title=""><?php echo $file["name"]; ?></a></td>
-				<td class="filesize"><?php echo human_file_size($file["size"]); ?></td>
-				<td class="date"><?php if($file["type"] != "dir") echo $file["date"]; ?></td>
-				<td class="fileaction"><a href="" title=""><img src="images/drop-arrow.png" alt="+" /></a></td>
-			</tr>
-		<?php endforeach; ?>
+	<tbody id="fileList">
+		<?php echo($_['fileList']); ?>
 	</tbody>
 </table>
 

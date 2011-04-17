@@ -55,10 +55,15 @@ foreach( explode( "/", $dir ) as $i ){
 	}
 }
 
-// return template
+// make breadcrumb und filelist markup
+$list = new OC_TEMPLATE( "files", "part.list", "" );
+$list->assign( "files", $files );
+$breadcrumbNav = new OC_TEMPLATE( "files", "part.breadcrumb", "" );
+$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
+
 $tmpl = new OC_TEMPLATE( "files", "index", "user" );
-$tmpl->assign( "files", $files );
-$tmpl->assign( "breadcrumb", $breadcrumb );
+$tmpl->assign( "fileList", $list->fetchPage() );
+$tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
 $tmpl->assign( 'dir', $dir);
 $tmpl->assign( 'uploadMaxFilesize', OC_HELPER::computerFileSize(ini_get('upload_max_filesize')));
 $tmpl->printPage();

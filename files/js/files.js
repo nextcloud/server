@@ -55,6 +55,28 @@ function uploadFinished() {
 	if(result.status == "error") {
 		alert('An error occcured, upload failed.\nError code: ' + result.data.error);
 	} else {
-		location.href = 'index.php?dir=' + $('#dir').val();
+		dir = $('#dir').val();
+		$.ajax({
+			url: 'ajax/list.php',
+			data: "dir="+dir,
+			complete: refreshContents
+		});
 	}
+}
+
+function refreshContents(data) {
+	result = eval("("+data.responseText+");");
+	if(typeof(result.data.breadcrumb) != 'undefined'){
+		updateBreadcrumb(result.data.breadcrumb);
+	}
+	updateFileList(result.data.files);
+	$('#file_upload_button').click();
+}
+
+function updateBreadcrumb(breadcrumbHtml) {
+	$('p.nav').empty().html(breadcrumbHtml);
+}
+
+function updateFileList(fileListHtml) {
+	$('#fileList').empty().html(fileListHtml);
 }
