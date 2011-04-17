@@ -40,7 +40,7 @@ foreach( OC_USER::getUsers() as $i ){
 	foreach( OC_GROUP::getUserGroups( $i ) as $userGroup ){
 		$ingroups[] = $userGroup;
 	}
-	$users[] = array( "name" => $i, "groups" => join( ",", $ingroups ));
+	$users[] = array( "name" => $i, "groups" => join( ", ", $ingroups ));
 }
 
 foreach( OC_GROUP::getGroups() as $i ){
