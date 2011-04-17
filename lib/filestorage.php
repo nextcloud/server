@@ -478,6 +478,10 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	 * @return int size of folder and it's content
 	 */
 	public function getFolderSize($path){
+		$path=str_replace('//','/',$path);
+		if($this->is_dir($path) and substr($path,-1)!='/'){
+			$path.='/';
+		}
 		$query=OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
 		$size=$query->execute(array($path))->fetchAll();
 		if(count($size)>0){// we already the size, just return it
@@ -500,26 +504,19 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		if($this->is_dir($path) and substr($path,-1)!='/'){
 			$path.='/';
 		}
-		error_log("calc: $path");
 		$size=0;
 		if ($dh = $this->opendir($path)) {
-			$query=OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
-			$hasSize=$query->execute(array($path))->fetchAll();
-			if(count($hasSize)>0){// yes, update it
-				$query=OC_DB::prepare("UPDATE *PREFIX*foldersize SET size=? WHERE path=?");
-				$result=$query->execute(array($size,$path));
-				$size+=$hasSize[0]['size'];
-			}else{// no insert it
-				while (($filename = readdir($dh)) !== false) {
-					if($filename!='.' and $filename!='..'){
-						$subFile=$path.'/'.$filename;
-						if($this->is_file($subFile)){
-							$size+=$this->filesize($subFile);
-						}else{
-							$size+=$this->calculateFolderSize($subFile);
-						}
+			while (($filename = readdir($dh)) !== false) {
+				if($filename!='.' and $filename!='..'){
+					$subFile=$path.'/'.$filename;
+					if($this->is_file($subFile)){
+						$size+=$this->filesize($subFile);
+					}else{
+						$size+=$this->getFolderSize($subFile);
 					}
 				}
+			}
+			if($size>0){
 				$query=OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
 				$result=$query->execute(array($path,$size));
 			}
@@ -539,7 +536,6 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		if($this->is_dir($path) and substr($path,-1)!='/'){
 			$path.='/';
 		}
-		error_log($path);
 		$query=OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
 		$result=$query->execute(array($path));
 		if($path!='/' and $path!=''){
