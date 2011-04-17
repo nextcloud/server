@@ -1,10 +1,3 @@
-<?php
-/*
- * Template for admin pages
- */
-?>
-<h1>Logs</h1>
-
 <div class="controls">
 	<form id="logs_options">
 		<p>

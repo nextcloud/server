@@ -1,10 +1,3 @@
-<?php
-/*
- * Template for settings page
- */
-?>
-<h1>Help</h1>
-
 <table cellspacing="0">
 	<tbody>
 		<?php foreach($_["kbe"] as $kb): ?>
