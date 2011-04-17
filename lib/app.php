@@ -148,7 +148,7 @@ class OC_APP{
 	 *     the navigation. Lower values come first.
 	 */
 	public static function addNavigationSubEntry( $parent, $data ){
-		if( !array_key_exists( self::$subnavigation[$parent] )){
+		if( !array_key_exists( $parent, self::$subnavigation )){
 			self::$subnavigation[$parent] = array();
 		}
 		self::$subnavigation[$parent][] = $data;
@@ -239,57 +239,80 @@ class OC_APP{
 	 *     contains the subentries if the key "active" is true
 	 */
 	public static function getNavigation(){
-		// TODO: write function
-		return OC_APP::$navigation;
+		$navigation = self::proceedNavigation( self::$navigation );
+		$navigation = self::addSubNavigation( $navigation );
+		return $navigation;
 	}
 
 	/**
-	 * @brief Returns the admin pages
+	 * @brief Returns the Settings Navigation
+	 * @returns associative array
+	 *
+	 * This function returns an array containing all settings pages added. The
+	 * entries are sorted by the key "order" ascending.
+	 */
+	public static function getSettingsNavigation(){
+		$navigation = self::proceedNavigation( self::$settingspages );
+		$navigation = self::addSubNavigation( $navigation );
+
+		return $navigation;
+	}
+
+	/**
+	 * @brief Returns the admin navigation
 	 * @returns associative array
 	 *
 	 * This function returns an array containing all admin pages added. The
 	 * entries are sorted by the key "order" ascending.
 	 */
-	public static function getAdminPages(){
-		// TODO: write function
-		return OC_APP::$adminpages;
+	public static function getAdminNavigation(){
+		$navigation = self::proceedNavigation( self::$adminpages );
+		$navigation = self::addSubNavigation( $navigation );
+
+		return $navigation;
 	}
 
-	/**
-	 * @brief Returns the admin pages
-	 * @param $app optional, name of the app we want the settings for
-	 * @returns associative array
-	 *
-	 * This function returns an array with the settings pages. If $app is not
-	 * set, it will return the main settings pages for all apps (where
-	 * "id" == "app"). Otherwise it will list all settings pages of the app.
-	 * The entries are sorted by the key "order" ascending.
-	 */
-	public static function getSettingsPages( $app = null ){
-		$return = array();
-
-		if( is_null( $app )){
-			foreach( OC_APP::$settingspages as $i ){
-				if(!isset($i["id"])){
-					$i["id"]='';
-				}
-				if(!isset($i["app"])){
-					$i["app"]='';
-				}
-				if( $i["id"] == $i["app"] ){
-					$return[] = $i;
-				}
-			}
-		}
-		else{
-			foreach( OC_APP::$settingspages as $i ){
-				if( $i["app"] == $app ){
-					$return[] = $i;
+	/// Private foo
+	private static function addSubNavigation( $list ){
+		$found = false;
+		foreach( self::$subnavigation as $parent => $selection ){
+			foreach( $selection as $subentry ){
+				if( $subentry["id"] == self::$activeapp ){
+					foreach( $list as &$naventry ){
+						if( $naventry["id"] == $parent ){
+							$naventry["active"] = true;
+							$naventry["subnavigation"] = $selection;
+						}
+						else{
+							$naventry["active"] = false;
+						}
+					}
+					$found = true;
 				}
 			}
 		}
 
-		return $return;
+		return $list;
+	}
+
+	/// This is private as well. It simply works, so don't ask for more details
+	private static function proceedNavigation( $list ){
+		foreach( $list as &$naventry ){
+			$naventry["subnavigation"] = array();
+			if( $naventry["id"] == self::$activeapp ){
+				$naventry["active"] = true;
+				if( array_key_exists( $naventry["id"], self::$subnavigation )){
+					$naventry["subnavigation"] = self::$subnavigation[$naventry["id"]];
+				}
+			}
+			else{
+				$naventry["active"] = false;
+			}
+		}
+
+		usort( $list, create_function( '$a, $b', 'if( $a["order"] == $b["order"] ){return 0;}elseif( $a["order"] < $b["order"] ){return -1;}else{return 1;}' ));
+
+		return $list;
 	}
 
 	/**

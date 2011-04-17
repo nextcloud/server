@@ -30,6 +30,7 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 
 // We have some javascript foo!
 OC_UTIL::addScript( "admin", "users" );
+OC_APP::setActiveNavigationEntry( "core_users" );
 
 $users = array();
 $groups = array();

@@ -198,16 +198,10 @@ class OC_TEMPLATE{
 			{
 				$page = new OC_TEMPLATE( "core", "layout.admin" );
 				// Add menu data
-				$navigation = array();
 				if( OC_GROUP::inGroup( $_SESSION["user_id"], "admin" )){
-					foreach( OC_APP::getAdminPages() as $i ){
-						$navigation[] = $i;
-					}
+					$page->assign( "settingsnavigation", OC_APP::getSettingsNavigation());
 				}
-				foreach( OC_APP::getSettingsPages() as $i ){
-					$navigation[] = $i;
-				}
-				$page->assign( "navigation", $navigation );
+				$page->assign( "adminnavigation", OC_APP::getAdminNavigation());
 			}
 			else
 			{

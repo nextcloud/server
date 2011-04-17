@@ -26,8 +26,16 @@
 			<div id="plugins">
 				<ul>
 					<li><a style="background-image:url(<?php echo image_path('settings', 'information.png'); ?>)" href="<?php echo link_to('settings', 'index.php'); ?>" title="">Information</a></li>
-					<?php foreach($_['navigation'] as $entry):?>
+					<?php foreach($_['settingsnavigation'] as $entry):?>
 						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title=""><?php echo $entry['name'] ?></a></li>
+					<?php endforeach; ?>
+					<?php foreach($_['adminnavigation'] as $entry):?>
+						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title=""><?php echo $entry['name'] ?><?php if( $entry["active"] ) echo "I AM ACTIVE!!!"; ?></a></li>
+						<?php if( sizeof( $entry["subnavigation"] )): ?>
+							<?php foreach($entry["subnavigation"] as $subentry):?>
+								<li><a style="background-color:#FF8800;" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
+							<?php endforeach; ?>
+						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
 			</div>
