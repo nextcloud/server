@@ -69,7 +69,7 @@ form a { color:#000; text-decoration:none; }
 #plugins .music { background-image:url('../img/music.png'); }
 
 /* CONTENT ------------------------------------------------------------------ */
-#content { margin:4em 0 0 16em; }
+#content { margin:7em 0 0 16em; }
 table { width:90%; margin:1em 5em 2em 3em; }
 table tr.mouseOver td { background-color:#eee; }
 table th, table td { padding:0; border-bottom:1px solid #ddd; text-align:left; font-style:italic; }
