@@ -82,7 +82,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * @param  string  $password  The password of the user
 	 */
 	public static function login( $username, $password ){
-		$query = OC_DB::prepare( "SELECT `uid` FROM `*PREFIX*users` WHERE `uid` = ? AND `password` = ?" );
+		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users WHERE uid = ? AND password = ?" );
 		$result = $query->execute( array( $username, sha1( $password )));
 
 		if( $result->numRows() > 0 ){
