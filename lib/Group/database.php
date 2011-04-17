@@ -52,7 +52,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 * @param  string  $groupName  The name of the group to create
 	 */
 	public static function createGroup( $gid ){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*groups` WHERE `gid` = ?" );
+		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*groups` WHERE gid = ?" );
 		$result = $query->execute( array( $gid ));
 
 		if( $result->numRows() > 0 ){
@@ -72,7 +72,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 * @param  string  $groupName  The name of the group to delete
 	 */
 	public static function deleteGroup( $gid ){
-		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE `gid` = ?" );
+		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE gid = ?" );
 		$result = $query->execute( array( $gid ));
 
 		return true;
@@ -85,7 +85,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 * @param  string  $groupName  Name of the group
 	 */
 	public static function inGroup( $username, $groupName ){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` = ?" );
+		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE gid = ? AND uid = ?" );
 		$result = $query->execute( array( $groupName, $username ));
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
@@ -126,7 +126,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	 * @param  string  $username  Name of the user
 	 */
 	public static function getUserGroups( $username ){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE `uid` = ?" );
+		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE uid = ?" );
 		$result = $query->execute( array( $username ));
 
 		$groups = array();

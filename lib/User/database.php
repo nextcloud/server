@@ -49,7 +49,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * @param  string  $password  The password of the new user
 	 */
 	public static function createUser( $uid, $password ){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE `uid` = ?" );
+		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
 		$result = $query->execute( array( $uid ));
 		// Check if the user already exists
 		if ( $result->numRows() > 0 ){
@@ -69,7 +69,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * @param  string  $username  The username of the user to delete
 	 */
 	public static function deleteUser( $uid ){
-		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*users` WHERE `uid` = ?" );
+		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*users` WHERE uid = ?" );
 		$result = $query->execute( array( $uid ));
 
 		return true;
@@ -131,7 +131,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * @param  string  $password  The new password for the user
 	 */
 	public static function setPassword( $username, $password ){
-		$query = OC_DB::prepare( "UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?" );
+		$query = OC_DB::prepare( "UPDATE *PREFIX*users SET password = ? WHERE uid = ?" );
 		$result = $query->execute( array( sha1( $password ), $username ));
 
 		if( $result->numRows() > 0 ){
@@ -149,7 +149,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * @param  string  $password  Password of the user
 	 */
 	public static function checkPassword( $username, $password ){
-		$query = OC_DB::prepare( "SELECT `uid` FROM `*PREFIX*users` WHERE `uid` = ? AND `password` = ?" );
+		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users WHERE uid = ? AND password = ?" );
 		$result = $query->execute( array( $username, sha1( $password )));
 
 		if( $result->numRows() > 0 ){
@@ -165,7 +165,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 *
 	 */
 	public static function getUsers(){
-		$query = OC_DB::prepare( "SELECT `uid` FROM `*PREFIX*users`" );
+		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users" );
 		$result = $query->execute();
 
 		$users=array();
