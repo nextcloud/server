@@ -41,7 +41,6 @@ $passwd=$_SERVER['PHP_AUTH_PW'];
 if(OC_USER::login($user,$passwd)){
 	OC_UTIL::setUpFS();
 	$server = new HTTP_WebDAV_Server_Filesystem();
-	$server->db_name = $CONFIG_DBNAME;
 	$server->ServeRequest($CONFIG_DATADIRECTORY);
 
 }else{
