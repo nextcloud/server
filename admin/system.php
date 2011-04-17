@@ -28,6 +28,8 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
+OC_APP::setActiveNavigationEntry( "administration" );
+
 $tmpl = new OC_TEMPLATE( "admin", "system", "admin" );
 $tmpl->printPage();
 

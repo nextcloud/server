@@ -28,6 +28,7 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
+OC_APP::setActiveNavigationEntry( "core_plugins" );
 $plugins=array();
 $blacklist=OC_PLUGIN::loadBlackList();
 

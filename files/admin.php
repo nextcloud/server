@@ -32,6 +32,7 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 	exit();
 }
 
+OC_APP::setActiveNavigationEntry( "files_administration" );
 // return template
 $tmpl = new OC_TEMPLATE( "files", "admin", "admin" );
 $tmpl->printPage();

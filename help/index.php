@@ -9,7 +9,6 @@ if( !OC_USER::isLoggedIn()){
 
 // Load the files we need
 OC_UTIL::addStyle( "help", "help" );
-
 OC_APP::setActiveNavigationEntry( "help" );
 
 $kbe=OC_OCSCLIENT::getKnownledgebaseEntries();

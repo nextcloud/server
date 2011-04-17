@@ -30,6 +30,7 @@ if( !OC_USER::isLoggedIn()){
     exit();
 }
 
+OC_APP::setActiveNavigationEntry( "log" );
 $logs=OC_LOG::get( $dir );
 
 foreach( $logs as &$i ){

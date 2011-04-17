@@ -51,11 +51,13 @@ print_r($value);
 
 */
 
+// OC_APP::setActiveNavigationEntry( "core_apps_installed" );
 
 
 if($id==0) {
+	OC_APP::setActiveNavigationEntry( "core_apps" );
 
-        if($cat==0){
+	if($cat==0){
 		$numcats=array();
 		foreach($categories as $key=>$value) $numcats[]=$key;
 		$apps=OC_OCSCLIENT::getApplications($numcats);
@@ -72,6 +74,7 @@ if($id==0) {
 	unset($tmpl);
 
 }else{
+	OC_APP::setActiveNavigationEntry( "core_apps" );
 
 	$app=OC_OCSCLIENT::getApplication($id);
 

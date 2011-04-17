@@ -7,7 +7,7 @@ if( !OC_USER::isLoggedIn()){
     exit();
 }
 
-
+OC_APP::setActiveNavigationEntry( "settings" );
 $tmpl = new OC_TEMPLATE( "settings", "index", "admin");
 $used=OC_FILESYSTEM::filesize('/');
 $free=OC_FILESYSTEM::free_space();
