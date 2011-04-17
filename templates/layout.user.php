@@ -17,12 +17,8 @@
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 
 			<ul id="metanav">
-				<?php if( OC_APP::getActiveNavigationEntry() == "help" ): ?>
-					<li><a href="<?php echo link_to('', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/back.png'); ?>"></a></li>
-				<?php endif; ?>
-				<li><a href="<?php echo link_to('settings', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/settings.png'); ?>"></a></li>
-				<li><a href="<?php echo link_to('help', 'index.php'); ?>" title=""><img src="<?php echo image_path('', 'layout/help.png'); ?>"></a></li>
-				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title=""><img src="<?php echo image_path('', 'layout/logout.png'); ?>"></a></li>
+				<li><a href="<?php echo link_to('settings', 'index.php'); ?>" title="Settings"><img src="<?php echo image_path('', 'layout/settings.png'); ?>"></a></li>
+				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="Log out"><img src="<?php echo image_path('', 'layout/logout.png'); ?>"></a></li>
 			</ul>
 		</div>
 

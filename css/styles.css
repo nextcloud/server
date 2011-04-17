@@ -35,10 +35,10 @@ body.login p.info { width:16em; margin:4em auto; padding:1em; background-color:#
 #login input[type=submit] { width:5em; border:1px solid #ddd; background-color:#fff; font-size:2em; }
 #login input[type=submit]:hover, #login input[type=submit]:focus { background-color:#ccc; outline:0; }
 
-/* USER MENU ---------------------------------------------------------------- */ 
+/* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
 #metanav { float:right; position:relative; top:1.5em; list-style:none; margin:0; padding:0; }
 #metanav li { display:inline; }
-#metanav li a { padding:1em; }
+#metanav li a { margin:.1em; padding:1em; }
 #metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; outline:0; box-shadow:#444 0 1px 0; -moz-box-shadow:#444 0 1px 0; -webkit-box-shadow:#444 0 1px 0; }
 #metanav li a img { vertical-align:middle; }
 
