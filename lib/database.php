@@ -279,7 +279,7 @@ class OC_DB {
 		// Connect if this did not happen before
 		if(!self::$schema){
 			require_once('MDB2/Schema.php');
-			self::$schema=&MDB2_Schema::factory(self::$DBConnection);
+			self::$schema=MDB2_Schema::factory(self::$DBConnection);
 		}
 
 		return true;

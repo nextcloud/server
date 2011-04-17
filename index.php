@@ -25,6 +25,7 @@ require_once( 'lib/base.php' );
 require_once( 'appconfig.php' );
 require_once( 'template.php' );
 
+
 // check if the server is correctly configured for ownCloud
 $errors=OC_UTIL::checkServer();
 if(count($errors)>0){

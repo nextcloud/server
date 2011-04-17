@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <database>
 
- <name>owncloud</name>
+   <name>*dbname*</name>
  <create>true</create>
  <overwrite>false</overwrite>
 
@@ -9,7 +9,7 @@
 
  <table>
 
-  <name>appconfig</name>
+   <name>*dbprefix*appconfig</name>
 
   <declaration>
 
@@ -43,7 +43,7 @@
 
  <table>
 
-  <name>foldersize</name>
+   <name>*dbprefix*foldersize</name>
 
   <declaration>
 
@@ -52,7 +52,7 @@
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>512</length>
+    <length>128</length>
    </field>
 
    <field>
@@ -78,7 +78,7 @@
 
  <table>
 
-  <name>group_user</name>
+   <name>*dbprefix*group_user</name>
 
   <declaration>
 
@@ -104,7 +104,7 @@
 
  <table>
 
-  <name>groups</name>
+   <name>*dbprefix*groups</name>
 
   <declaration>
 
@@ -131,7 +131,7 @@
 
  <table>
 
-  <name>locks</name>
+   <name>*dbprefix*locks</name>
 
   <declaration>
 
@@ -267,7 +267,7 @@
 
  <table>
 
-  <name>log</name>
+   <name>*dbprefix*log</name>
 
   <declaration>
 
@@ -324,7 +324,7 @@
 
  <table>
 
-  <name>preferences</name>
+   <name>*dbprefix*preferences</name>
 
   <declaration>
 
@@ -366,7 +366,7 @@
 
  <table>
 
-  <name>properties</name>
+   <name>*dbprefix*properties</name>
 
   <declaration>
 
@@ -431,7 +431,7 @@
 
  <table>
 
-  <name>publiclink</name>
+   <name>*dbprefix*publiclink</name>
 
   <declaration>
 
@@ -481,7 +481,7 @@
 
  <table>
 
-  <name>users</name>
+   <name>*dbprefix*users</name>
 
   <declaration>
 

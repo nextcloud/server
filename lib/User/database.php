@@ -51,7 +51,6 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	public static function createUser( $uid, $password ){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE `uid` = ?" );
 		$result = $query->execute( array( $uid ));
-
 		// Check if the user already exists
 		if ( $result->numRows() > 0 ){
 			return false;

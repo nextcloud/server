@@ -65,34 +65,45 @@ class OC_INSTALLER{
 				}else{
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'";//this should be enough to check for admin rights in mysql
 					if(mysql_query($query,$connection)){
+						self::createDBUser($username,$password,$connection);
 						//use the admin login data for the new database user
-						self::createDBUser($username,$password);
 						OC_CONFIG::setValue('dbuser',$username);
 						OC_CONFIG::setValue('dbpass',$password);
-					}else{
-						OC_CONFIG::setValue('dbuser',$dbuser);
-						OC_CONFIG::setValue('dbpass',$dbpass);
 						
 						//create the database
-						self::createDatabase($dbname,$dbuser);
+						self::createDatabase($dbname,$username,$connection);
+					}else{
+						OC_CONFIG::setValue('dbuser',$dbuser);
+						OC_CONFIG::setValue('dbpassword',$dbpass);
+						
+						//create the database
+						self::createDatabase($dbname,$dbuser,$connection);
 					}
 				}
+				//fill the database if needed
+				$query="SELECT * FROM $dbname.{$dbtableprefix}users";
+				$result = mysql_query($query,$connection);
+				if (!$result) {
+					OC_DB::createDbFromStructure('db_structure.xml');
+				}
 				mysql_close($connection);
+			}else{
+				//in case of sqlite, we can always fill the database
+				OC_DB::createDbFromStructure('db_structure.xml');
 			}
+			
+			//create the user and group
 			OC_USER::createUser($username,$password);
 			OC_GROUP::createGroup('admin');
 			OC_GROUP::addToGroup($username,'admin');
+			
+			//and we are done
 			OC_CONFIG::setValue('installed',true);
 		}
 		return $error;
 	}
 	
-	public static function createDatabase($name,$adminUser,$adminPwd){//TODO refactoring this
-		$CONFIG_DBHOST=$options['host'];
-		$CONFIG_DBNAME=$options['name'];
-		$CONFIG_DBUSER=$options['user'];
-		$CONFIG_DBPWD=$options['pass'];
-		$CONFIG_DBTYPE=$options['type'];
+	public static function createDatabase($name,$user,$connection){
 		//we cant user OC_BD functions here because we need to connect as the administrative user.
 		$query="CREATE DATABASE IF NOT EXISTS  `$name`";
 		$result = mysql_query($query,$connection);
@@ -102,18 +113,13 @@ class OC_INSTALLER{
 			echo($entry);
 		}
 		$query="GRANT ALL PRIVILEGES ON  `$name` . * TO  '$user'";
-		$result = mysql_query($query,$connection);
-		if (!$result) {
-			$entry='DB Error: "'.mysql_error($connection).'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
-		}
+		$result = mysql_query($query,$connection);//this query will fail if there aren't the right permissons, ignore the error
 	}
 	
-	private static function createDBUser($name,$password){
+	private static function createDBUser($name,$password,$connection){
 		//we need to create 2 accounts, one for global use and one for local user. if we don't speccify the local one,
 				//  the anonymous user would take precedence when there is one.
-		$query="CREATE USER 'name'@'localhost' IDENTIFIED BY '$password'";
+		$query="CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 		$result = mysql_query($query,$connection);
 		$query="CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query,$connection);
