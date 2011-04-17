@@ -28,7 +28,7 @@ require( 'template.php' );
 
 // Check if we are a user
 if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+	header( "Location: ".OC_HELPER::linkTo( '', 'index.php' ));
 	exit();
 }
 
