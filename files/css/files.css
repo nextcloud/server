@@ -27,6 +27,10 @@
 	display: none;
 }
 
+#file_action_panel {
+	display: none;
+}
+
 /* FILE TABLE */
 
 table td.filesize, table td.date

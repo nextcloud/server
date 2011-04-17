@@ -14,6 +14,8 @@ type="file" name="file" id="fileSelector"><input type="submit"
 id="file_upload_start" value="Upload" /><iframe id="file_upload_target"
 name="file_upload_target" src=""></iframe></form>
 	</div>
+	<div id="file_action_panel">
+	</div>
 </div>
 
 <p class="nav">
