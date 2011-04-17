@@ -12,7 +12,7 @@
 		<?php endforeach; ?>
 	</head>
 
-	<body class="login">
+	<body id="body-login">
 		<?php echo $_['content']; ?>
 		<p class="info"><a href="http://owncloud.org/">ownCloud</a> is a personal cloud which runs on your own server.</p>
 	</body>

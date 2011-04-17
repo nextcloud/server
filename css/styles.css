@@ -1,6 +1,7 @@
 * { margin:0; padding:0; border:0; }
 body { background-color:#fefefe; background-image:url('../img/body_background.jpg'); background-repeat:repeat-y; background-position:left top; line-height:1.6em; font:normal 80% "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
-#header { height:70px; padding:0.5em 1.5em; background-image:url('../img/header_background.png'); background-repeat:repeat-x; background-position:left top; }
+#header { height:70px; padding:0.5em 1.5em; background-image:url('../img/header.png'); background-repeat:repeat-x; background-position:left top; }
+#body-settings #header { background-image:url('../img/header-settings.png'); }
 #owncloud { float:left; margin:0 0 0 2em; }
 h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercase; font-weight:normal; font-style:italic; color:#666; }
 p.center { text-align:center; }
@@ -21,10 +22,22 @@ legend { padding:0 0.5em; font-size:1.2em; }
 
 div.controls { width:91%; margin:1em 1em 1em 2em; padding:0.5em 0; background-color:#f7f7f7; border:1px solid #eee; }
 
-/* LOG IN SCREEN ------------------------------------------------------------ */
-body.login { background-image:none; background-color:#ddd; }
-body.login p.info { width:16em; margin:4em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
-#login { margin:0 auto 0 auto; padding:2em 0 0 0; background-image:url('../img/header_background2.png'); background-position:left 0; background-repeat:repeat-x; background-color:#eee; text-align:center; }
+/* INSTALLATION ------------------------------------------------------------
+input [type='radio'] { display:block; }
+.left { display:block; position:relative; top:2.5em; left:-19em; text-align: right; font-weight:bold; }
+input[type='radio'] { padding:10em; vertical-align:middle; }
+input+label { font-size:20em; font-weight:bold; vertical-align:middle
+ */
+legend { font-weight:bold; }
+legend abbr { border-bottom:1px dotted #000; }
+form a { color:#000; text-decoration:none; }
+ #login input[type='text'], #login input[type='password'] { display:block; margin:0 auto .5em; }
+ 
+ 
+/* LOG IN ------------------------------------------------------------ */
+#body-login { background-image:none; background-color:#ddd; }
+#body-login p.info { width:16em; margin:4em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+#login { margin:0 auto 0 auto; padding:2em 0 0 0; background-image:url('../img/header-login.png'); background-position:left 0; background-repeat:repeat-x; background-color:#eee; text-align:center; }
 #login form { margin:2.5em auto 0 auto; padding:0 0 1.5em 0; text-align:center; border-bottom:1px solid #fff; }
 #login h1 { margin:0; padding:2.5em 0 0 0; border:0; text-align:center; text-transform:lowercase; font-size:1.5em; }
 #login fieldset { background-color:transparent; border:0; }
@@ -32,8 +45,53 @@ body.login p.info { width:16em; margin:4em auto; padding:1em; background-color:#
 #login label { font-size:1.2em; color:#fff; }
 #login input { width:8em; margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; }
 #login input:hover, #login input:focus { outline:0; }
-#login input[type=submit] { width:5em; border:1px solid #ddd; background-color:#fff; font-size:2em; }
-#login input[type=submit]:hover, #login input[type=submit]:focus { background-color:#ccc; outline:0; }
+#login input[type='submit'] { width:5em; border:1px solid #ddd; background-color:#fff; font-size:2em; }
+#login input[type=
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>ownCloud</title> 
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		<link rel="shortcut icon" href="/ocjcb//img/favicon.png" /><link rel="apple-touch-icon-precomposed" href="/ocjcb//img/favicon-touch.png" /> 
+					<link rel="stylesheet" href="/ocjcb//css/jquery-ui-1.8.10.custom.css" type="text/css" media="screen" /> 
+					<link rel="stylesheet" href="/ocjcb//css/styles.css" type="text/css" media="screen" /> 
+							<script type="text/javascript" src="/ocjcb//js/jquery-1.5.min.js"></script> 
+					<script type="text/javascript" src="/ocjcb//js/jquery-ui-1.8.10.custom.min.js"></script> 
+					<script type="text/javascript" src="/ocjcb//js/js.js"></script> 
+			</head> 
+ 
+	<body class="login"> 
+		<div id="login"> 
+	<img src="/ocjcb//img/owncloud-logo-medium-white.png" alt="ownCloud" /> 
+	<form action="#" method="post"> 
+		<input type='hidden' name='install' value='true'/> 
+		<fieldset> 
+			<input type="text" name="login" value="username" /> 
+			<input type="password" name="pass" value="password" /> 
+        </fieldset> 
+		<fieldset> 
+							<legend><abbr title="to use SQLite instead, install it on your server">MySQL</abbr> Database</legend> 
+				<input type="text" name="dbuser" value="admin / username" /> 
+				<input type="password" name="dbpass" value="password" /> 
+				<input type="text" name="dbname" value="database name" /> 
+					</fieldset> 
+		<fieldset id="advanced"> 
+			<legend><a id="advanced_options_link" href="">Advanced ▾</a></legend> 
+			<div id="advanced_options"> 
+				<label class="left">Data directory</label></p><input type="text" name="directory" value="/var/www/ocjcb/data" /> 
+														<input type='hidden' name='dbtype' value='mysql'/> 
+																					<label class="left">Host</label></p><input type="text" name="dbhost" value="localhost" /> 
+					<label class="left">Table prefix</label></p><input type="text" name="dbtableprefix" value="oc_" /> 
+							</div> 
+		</fieldset> 
+		<fieldset> 
+			<p class="submit"><input type="submit" value="Create" /></p> 
+		</fieldset> 
+	</form> 
+</div> 
+		<p class="info"><a href="http://owncloud.org/">ownCloud</a> is a personal cloud which runs on your own server.</p> 
+	</body> 
+</html> 'submit']:hover, #login input[type=submit]:focus { background-color:#ccc; outline:0; }
 
 /* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
 #metanav { float:right; position:relative; top:1.5em; list-style:none; margin:0; padding:0; }

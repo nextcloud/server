@@ -6,9 +6,9 @@
 			<?php if($_["error"]): ?>
 				Login failed!
 			<?php endif; ?>
-			<p><input type="text" name="user" value="" /></p>
-			<p><input type="password" name="password" /></p>
-			<p><input type="submit" value="Log in" /></p>
+			<input type="text" name="user" value="" />
+			<input type="password" name="password" />
+			<input type="submit" value="Log in" />
 		</fieldset>
 	</form>
 </div>
