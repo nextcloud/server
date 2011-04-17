@@ -10,10 +10,10 @@ href="" title="" class="delete">Delete</a>
 method="post" enctype="multipart/form-data" target="file_upload_target"><input
 type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_["uploadMaxFilesize"] ?>" id="max_upload"><input
 type="hidden" name="dir" value="<?php echo $_["dir"] ?>" id="dir"><input
-type="file" name="file" id="fileSelector"><input type="submit"
+type="file" name="file" id="fileSelector"><input class="prettybutton" type="submit"
 id="file_upload_start" value="Upload (max <?php echo $_["uploadMaxHumanFilesize"];?>)" /><iframe id="file_upload_target"
 name="file_upload_target" src=""></iframe></form>
-		<form id="file_newfolder_form"><input type="text" name="file_new_dir_name" id="file_new_dir_name" />&nbsp;<input type="button" id="file_new_dir_submit" name="file_new_dir_submit" value="OK" /></form>
+		<form id="file_newfolder_form"><input type="text" name="file_new_dir_name" id="file_new_dir_name" />&nbsp;<input class="prettybutton" type="button" id="file_new_dir_submit" name="file_new_dir_submit" value="OK" /></form>
 	</div>
 </div>
 
