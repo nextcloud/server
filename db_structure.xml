@@ -1,83 +1,73 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <database>
 
- <name>*dbname*</name>
+ <name>owncloud</name>
  <create>true</create>
  <overwrite>false</overwrite>
 
- <charset>latin1</charset>
-
- <table>
-   <name>*dbprefix*privatedata</name>
-   <declaration>
-     <field>
-       <name>key</name>
-       <type>text</type>
-       <default></default>
-       <notnull>true</notnull>
-       <length>64</length>
-     </field>
-     <field>
-       <name>app</name>
-       <type>text</type>
-       <default></default>
-       <notnull>true</notnull>
-       <length>64</length>
-     </field>
-     <field>
-       <name>value</name>
-       <type>blob</type>
-	   <length>65532</length>
-       <notnull>false</notnull>
-     </field>
-     <field>
-       <name>timestamp</name>
-       <type>timestamp</type>
-       <notnull>true</notnull>
-     </field>
-     <index>
-      <name>appkey</name>
-      <unique>true</unique>
-      <field>
-       <name>key</name>
-       <sorting>ascending</sorting>
-      </field>
-      <field>
-       <name>app</name>
-       <sorting>ascending</sorting>
-      </field>
-     </index>
-   </declaration>
- </table>
+ <charset>utf8</charset>
 
  <table>
 
-  <name>*dbprefix*groups</name>
+  <name>appconfig</name>
 
   <declaration>
 
    <field>
-    <name>group_id</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>group_name</name>
+    <name>appid</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>64</length>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>key</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>value</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>foldersize</name>
+
+  <declaration>
+
+   <field>
+    <name>path</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>512</length>
+   </field>
+
+   <field>
+    <name>size</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>4</length>
    </field>
 
    <index>
-    <name>group_name</name>
-    <unique>true</unique>
+    <name>foldersize_pKey</name>
+    <primary>true</primary>
     <field>
-     <name>group_name</name>
+     <name>path</name>
      <sorting>ascending</sorting>
     </field>
    </index>
@@ -88,7 +78,60 @@
 
  <table>
 
-  <name>*dbprefix*locks</name>
+  <name>group_user</name>
+
+  <declaration>
+
+   <field>
+    <name>gid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <field>
+    <name>uid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>groups</name>
+
+  <declaration>
+
+   <field>
+    <name>gid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <index>
+    <name>groups_pKey</name>
+    <primary>true</primary>
+    <field>
+     <name>gid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>locks</name>
 
   <declaration>
 
@@ -165,6 +208,14 @@
    </field>
 
    <index>
+    <name>path</name>
+    <field>
+     <name>path</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
     <name>path_2</name>
     <field>
      <name>path</name>
@@ -216,7 +267,7 @@
 
  <table>
 
-  <name>*dbprefix*log</name>
+  <name>log</name>
 
   <declaration>
 
@@ -226,15 +277,23 @@
     <default>0</default>
     <notnull>true</notnull>
     <autoincrement>1</autoincrement>
+    <unsigned>true</unsigned>
     <length>4</length>
    </field>
 
    <field>
     <name>timestamp</name>
-    <type>integer</type>
+    <type>timestamp</type>
+    <default>0000-00-00 00:00:00</default>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>appid</name>
+    <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>4</length>
+    <length>255</length>
    </field>
 
    <field>
@@ -242,23 +301,21 @@
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>250</length>
+    <length>255</length>
    </field>
 
    <field>
-    <name>type</name>
-    <type>integer</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>message</name>
+    <name>action</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>250</length>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>info</name>
+    <type>clob</type>
+    <notnull>true</notnull>
    </field>
 
   </declaration>
@@ -267,7 +324,49 @@
 
  <table>
 
-  <name>*dbprefix*properties</name>
+  <name>preferences</name>
+
+  <declaration>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>appid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>key</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>value</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>properties</name>
 
   <declaration>
 
@@ -332,34 +431,49 @@
 
  <table>
 
-  <name>*dbprefix*user_group</name>
+  <name>publiclink</name>
 
   <declaration>
 
    <field>
-    <name>user_group_id</name>
-    <type>integer</type>
-    <default>0</default>
+    <name>token</name>
+    <type>text</type>
+    <default></default>
     <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <length>4</length>
+    <length>40</length>
    </field>
 
    <field>
-    <name>user_id</name>
-	<type>integer</type>
+    <name>path</name>
+    <type>text</type>
     <default></default>
     <notnull>true</notnull>
-	<length>4</length>
+    <length>128</length>
    </field>
 
    <field>
-    <name>group_id</name>
-	<type>integer</type>
+    <name>user</name>
+    <type>text</type>
     <default></default>
     <notnull>true</notnull>
-	<length>4</length>
+    <length>64</length>
    </field>
+
+   <field>
+    <name>expire_time</name>
+    <type>timestamp</type>
+    <default>1970-01-01 00:00:00</default>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>token</name>
+    <unique>true</unique>
+    <field>
+     <name>token</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -367,21 +481,12 @@
 
  <table>
 
-  <name>*dbprefix*users</name>
+  <name>users</name>
 
   <declaration>
 
    <field>
-    <name>user_id</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>user_name</name>
+    <name>uid</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
@@ -389,30 +494,18 @@
    </field>
 
    <field>
-    <name>user_name_clean</name>
+    <name>password</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-   <field>
-    <name>user_password</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>340</length>
+    <length>255</length>
    </field>
 
    <index>
-    <name>user_name</name>
-    <unique>true</unique>
+    <name>users_pKey</name>
+    <primary>true</primary>
     <field>
-     <name>user_name</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>user_name_clean</name>
+     <name>uid</name>
      <sorting>ascending</sorting>
     </field>
    </index>
