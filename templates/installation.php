@@ -27,23 +27,25 @@
 					<p><label class="left">Database</label></p>
 					<p><input type="radio" name="dbtype" value='sqlite' id="sqlite" checked="checked" /><label for="sqlite">SQLite</label>
 					<input type="radio" name="dbtype" value='mysql' id="mysql"><label for="mysql">MySQL</label></p>
-				<?php endif;?>
-				<?php if($_['hasMySQL']): ?>
 					<div id="use_mysql">
-					<p><input type="text" name="dbuser" value="admin / username" /></p>
-					<p><input type="password" name="dbpass" value="password" /></p>
-					<p><input type="text" name="dbname" value="database name" /></p>
+						<p><input type="text" name="dbuser" value="admin / username" /></p>
+						<p><input type="password" name="dbpass" value="password" /></p>
+						<p><input type="text" name="dbname" value="database name" /></p>
 				<?php endif;?>
 				<?php if($_['hasMySQL'] and !$_['hasSQLite']): ?>
-					<input type='hidden' name='dbtype' value='mysql'/>
+						<input type='hidden' name='dbtype' value='mysql'/>
 				<?php endif;?>
 				<?php if(!$_['hasMySQL'] and $_['hasSQLite']): ?>
-					<input type='hidden' name='dbtype' value='sqlite'/>
+						<input type='hidden' name='dbtype' value='sqlite'/>
 				<?php endif;?>
-				<?php if($_['hasMySQL']): ?>
+				<?php if($_['hasMySQL'] and $_['hasSQLite']): ?>
 						<p><label class="left">Host</label></p><p><input type="text" name="dbhost" value="localhost" /></p>
 						<p><label class="left">Table prefix</label></p><p><input type="text" name="dbtableprefix" value="oc_" /></p>
 					</div>
+				<?php endif;?>
+				<?php if($_['hasMySQL'] and !$_['hasSQLite']): ?>
+					<p><label class="left">Host</label></p><p><input type="text" name="dbhost" value="localhost" /></p>
+					<p><label class="left">Table prefix</label></p><p><input type="text" name="dbtableprefix" value="oc_" /></p>
 				<?php endif;?>
 			</div>
 		</fieldset>
