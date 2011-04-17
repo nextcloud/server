@@ -1,6 +1,6 @@
 * { margin:0; padding:0; border:0; }
-body { background-color:#fefefe; background-image:url('../img/body_background.jpg'); background-repeat:repeat-y; background-position:left top; line-height:1.6em; font:normal 80% "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
-#header { position:fixed; width:100%; height:5.5em; padding:0.5em 1.5em; background-image:url('../img/header-a.png'); background-repeat:repeat-x; background-position:left top; }
+body { position:absolute; background:#fefefe url('../img/body_background.jpg') repeat-y left top; line-height:1.6em; font:normal 80% "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
+#header { position:fixed; width:100%; height:5.5em; padding:0.5em 1.5em; background:url('../img/header-a.png') repeat-x left top; }
 #plugins { position:fixed; }
 #main { margin-top:7em; }
 #body-settings #header { background-image:url('../img/header-settings-a.png'); }
