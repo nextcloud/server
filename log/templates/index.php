@@ -15,7 +15,7 @@
 		<p>
 			<span>Show :</span>
 			<input type="text" maxlength="3" size="3" value="10" />&nbsp;entries per page.
-			<input type="submit" value="Save" />
+			<input class="prettybutton" type="submit" value="Save" />
 
 		</p>
 	</form>

@@ -22,7 +22,7 @@
 		<input type="password" id="pass2" name="pass2" /> 
 	</p>
 	<p class="form_footer">
-		<input type="submit" value="Save" />
+		<input class="prettybutton" type="submit" value="Save" />
 	</p>
 	</fieldset>
 </form>
