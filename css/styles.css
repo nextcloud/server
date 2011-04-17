@@ -37,9 +37,9 @@ form a { color:#000; text-decoration:none; }
  
  
 /* LOG IN ------------------------------------------------------------ */
-#body-login { background-image:none; background-color:#ddd; }
+#body-login { width:100%; background-image:none; background-color:#ddd; }
 #body-login p.info { width:16em; margin:4em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
-#login { margin:0 auto 0 auto; padding:2em 0 0 0; background-image:url('../img/header-login.png'); background-position:left 0; background-repeat:repeat-x; background-color:#eee; text-align:center; }
+#login { margin:0 auto 0 auto; padding:2em 0 0 0; background:#eee url('../img/header-login.png') repeat-x left 0; text-align:center; }
 #login form { margin:2.5em auto 0 auto; padding:0 0 1.5em 0; text-align:center; border-bottom:1px solid #fff; }
 #login h1 { margin:0; padding:2.5em 0 0 0; border:0; text-align:center; text-transform:lowercase; font-size:1.5em; }
 #login fieldset { background-color:transparent; border:0; }
