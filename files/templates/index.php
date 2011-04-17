@@ -8,7 +8,7 @@ href="" title="" class="delete">Delete</a>
 	<div id="file_upload_form">
 		<form action="ajax/upload.php"
 method="post" enctype="multipart/form-data" target="file_upload_target"><input
-type="hidden" name="MAX_FILE_SIZE" value="2097152" id="max_upload"><input
+type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_["uploadMaxFilesize"] ?>" id="max_upload"><input
 type="hidden" name="dir" value="<?php echo $_["dir"] ?>" id="dir"><input
 type="file" name="file" id="fileSelector"><input type="submit"
 id="file_upload_start" value="Upload" /><iframe id="file_upload_target"

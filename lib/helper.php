@@ -119,6 +119,43 @@ class OC_HELPER {
 	}
 	
 	/**
+	 * @brief Make a computer file size
+	 * @param $str file size in a fancy format
+	 * @returns a file size in bytes
+	 *
+	 * Makes 2kB to 2048.
+	 *
+	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
+	 */
+	public static function computerFileSize( $str ){
+		$bytes = 0;
+
+		$bytes_array = array(
+			'B' => 1,
+			'K' => 1024,
+			'KB' => 1024,
+			'MB' => 1024 * 1024,
+			'M'  => 1024 * 1024,
+			'GB' => 1024 * 1024 * 1024,
+			'G'  => 1024 * 1024 * 1024,
+			'TB' => 1024 * 1024 * 1024 * 1024,
+			'T'  => 1024 * 1024 * 1024 * 1024,
+			'PB' => 1024 * 1024 * 1024 * 1024 * 1024,
+			'P'  => 1024 * 1024 * 1024 * 1024 * 1024,
+		);
+
+		$bytes = floatval($str);
+
+		if (preg_match('#([KMGTP]?B?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
+			$bytes *= $bytes_array[$matches[1]];
+		}
+
+		$bytes = intval(round($bytes, 2));
+
+		return $bytes; 
+	}
+	
+	/**
 	 * @brief Recusive editing of file permissions
 	 * @param $path path to file or folder
 	 * @param $filemode unix style file permissions as integer
