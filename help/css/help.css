@@ -49,16 +49,16 @@ table td.name a
 }
 
 
-.install a { 
+.button a { 
     padding:0.2em 0.5em; 
     border:1px solid #ddd; 
     -moz-border-radius:15px; 
     -webkit-border-radius:15px; 
     border-radius:15px; 
     text-decoration: none;
-    font-size:1.5em; color:#666666; 
+    font-size:1.3em; color:#666666; 
     background-color:#F0F0F0;
 }
-.install a:hover { 
+.button a:hover { 
     background-color:#DDDDDD;
 }

@@ -75,6 +75,7 @@ class OC_FILESTORAGE{
 	public function find($path){}
 	public function getTree($path){}
 	public function hash($type,$path,$raw){}
+	public function free_space($path){}
 }
 
 
@@ -465,6 +466,10 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			$this->notifyObservers($path,OC_FILEACTION_READ);
 		}
 		return $return;
+	}
+	
+	public function free_space($path){
+		return disk_free_space($this->datadir.$path);
 	}
 
 	/**

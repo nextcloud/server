@@ -35,16 +35,22 @@ class OC_OCSCLIENT{
 	 * This function returns a list of all the application categories on the OCS server
 	 */
 	public static function getCategories(){
-		$url='http://api.opendesktop.org/v1/content/categories';
+		$url='http://api.apps.owncloud.com/v1/content/categories';
 	
 		$xml=file_get_contents($url);
 		$data=simplexml_load_string($xml);
 	
-		$tmp=$data->data->category;
+		$tmp=$data->data;
 		$cats=array();
-		for($i = 0; $i < count($tmp); $i++) {
-			$cats[$i]=$tmp[$i]->name;
+
+		foreach($tmp->category as $key=>$value) {
+
+			$id= (int) $value->id;
+			$name= (string) $value->name;
+			$cats[$id]=$name;
+
 		}
+
 		return $cats;
 	}
 
@@ -60,8 +66,7 @@ class OC_OCSCLIENT{
 		}else{
 			$categoriesstring=$categories;
 		}
-		$url='http://api.opendesktop.org/v1/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page=0&pagesize=10';
-	
+		$url='http://api.apps.owncloud.com/v1/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page=0&pagesize=10';
 		$apps=array();
 		$xml=file_get_contents($url);
 		$data=simplexml_load_string($xml);
@@ -92,7 +97,7 @@ class OC_OCSCLIENT{
          * This function returns an  applications from the OCS server
          */
         public static function getApplication($id){
-                $url='http://api.opendesktop.org/v1/content/data/'.urlencode($id);
+                $url='http://api.apps.owncloud.com/v1/content/data/'.urlencode($id);
 
                 $xml=file_get_contents($url);
                 $data=simplexml_load_string($xml);
@@ -121,7 +126,7 @@ class OC_OCSCLIENT{
          * This function returns a list of all the knowledgebase entries from the OCS server
          */
         public static function getKnownledgebaseEntries(){
-                $url='http://api.opendesktop.org/v1/knowledgebase/data?page=0&pagesize=10';
+                $url='http://api.apps.owncloud.com/v1/knowledgebase/data?type=150&page=0&pagesize=10';
 
                 $kbe=array();
                 $xml=file_get_contents($url);
@@ -133,6 +138,7 @@ class OC_OCSCLIENT{
                         $kb['id']=$tmp[$i]->id;
                         $kb['name']=$tmp[$i]->name;
                         $kb['description']=$tmp[$i]->description;
+                        $kb['answer']=$tmp[$i]->answer;
                         $kb['preview1']=$tmp[$i]->smallpreviewpic1;
                         $kbe[]=$kb;
                 }

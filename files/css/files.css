@@ -23,6 +23,10 @@
 	display: none;
 }
 
+#file_newfolder_form {
+	display: none;
+}
+
 #file_upload_target {
 	display: none;
 }

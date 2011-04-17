@@ -19,7 +19,7 @@ $app=$_['app'];
 		<td class="description" valign="top">
 		<?php echo $app["description"]; ?>
 		<br />
-		<?php  echo('<a class="description" href="'.$app["detailpage"].'">read more</a><br />');  ?> 
+		<?php  echo('<a class="description" target="_blank" href="'.$app["detailpage"].'">read more</a><br />');  ?> 
 		</td>
 		<td width="1" valign="top" class="install"><a href="">INSTALL</a></td>
 	</tr>

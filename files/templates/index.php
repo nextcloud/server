@@ -5,22 +5,20 @@ href="" title="" class="new-dir">New folder</a><a href="" title=""
 class="download">Download</a><a href="" title="" class="share">Share</a><a
 href="" title="" class="delete">Delete</a>
 	</p>
-	<div id="file_upload_form">
-		<form action="ajax/upload.php"
+	<div id="file_action_panel">
+		<form id="file_upload_form" action="ajax/upload.php"
 method="post" enctype="multipart/form-data" target="file_upload_target"><input
 type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_["uploadMaxFilesize"] ?>" id="max_upload"><input
 type="hidden" name="dir" value="<?php echo $_["dir"] ?>" id="dir"><input
 type="file" name="file" id="fileSelector"><input type="submit"
 id="file_upload_start" value="Upload" /><iframe id="file_upload_target"
 name="file_upload_target" src=""></iframe></form>
+		<form id="file_newfolder_form"><input type="text" name="file_new_dir_name" id="file_new_dir_name" />&nbsp;<input type="button" id="file_new_dir_submit" name="file_new_dir_submit" value="OK" /></form>
 	</div>
 </div>
 
 <p class="nav">
-	<a href="<?php echo link_to("files", "index.php?dir=/"); ?>"><img src="<?php echo image_path("", "actions/go-home.png"); ?>" alt="Root" /></a>
-	<?php foreach($_["breadcrumb"] as $crumb): ?>
-		<a href="<?php echo link_to("files", "index.php?dir=".$crumb["dir"]); ?>"><?php echo $crumb["name"]; ?></a>
-	<?php endforeach; ?>
+	<?php echo($_['breadcrumb']); ?>
 </p>
 
 <table cellspacing="0">
@@ -33,16 +31,8 @@ name="file_upload_target" src=""></iframe></form>
 			<th></th>
 		</tr>
 	</thead>
-	<tbody>
-		<?php foreach($_["files"] as $file): ?>
-			<tr>
-				<td class="selection"><input type="checkbox" /></td>
-				<td class="filename"><a style="background-image:url(<?php if($file["type"] == "dir") echo mimetype_icon("dir"); else echo mimetype_icon($file["mime"]); ?>)" href="<?php if($file["type"] == "dir") echo link_to("files", "index.php?dir=".$file["directory"]."/".$file["name"]); else echo link_to("files", "download.php?file=".$file["directory"]."/".$file["name"]); ?>" title=""><?php echo $file["name"]; ?></a></td>
-				<td class="filesize"><?php echo human_file_size($file["size"]); ?></td>
-				<td class="date"><?php if($file["type"] != "dir") echo $file["date"]; ?></td>
-				<td class="fileaction"><a href="" title=""><img src="images/drop-arrow.png" alt="+" /></a></td>
-			</tr>
-		<?php endforeach; ?>
+	<tbody id="fileList">
+		<?php echo($_['fileList']); ?>
 	</tbody>
 </table>
 

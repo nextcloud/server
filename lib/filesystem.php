@@ -386,5 +386,11 @@ class OC_FILESYSTEM{
 			return $storage->hash($type,self::getInternalPath($path),$raw);
 		}
 	}
+	
+	static public function free_space($path='/'){
+		if(self::canRead($path) and $storage=self::getStorage($path)){
+			return $storage->free_space($path);
+		}
+	}
 }
 ?>
