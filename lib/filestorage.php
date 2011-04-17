@@ -379,7 +379,6 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	}
 
 	public function fromTmpFile($tmpFile,$path){
-die( "oh nooo!" );
 		$fileStats = stat($tmpFile);
 		if(rename($tmpFile,$this->datadir.$path)){
 			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
