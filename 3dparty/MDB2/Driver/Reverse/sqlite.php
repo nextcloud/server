@@ -63,7 +63,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
      * @access private
      */
     function _removeComments($sql) {
-        $lines = split("\n", $sql);
+        $lines = explode("\n", $sql);
         foreach ($lines as $k => $line) {
             $pieces = explode('--', $line);
             if (count($pieces) > 1 && (substr_count($pieces[0], '\'') % 2) == 0) {
@@ -78,7 +78,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
      */
     function _getTableColumns($sql)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -88,7 +88,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
         // replace the decimal length-places-separator with a colon
         $column_def = preg_replace('/(\d),(\d)/', '\1:\2', $column_def);
         $column_def = $this->_removeComments($column_def);
-        $column_sql = split(',', $column_def);
+        $column_sql = explode(',', $column_def);
         $columns    = array();
         $count      = count($column_sql);
         if ($count == 0) {
@@ -156,7 +156,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
      */
     function getTableFieldDefinition($table_name, $field_name)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -258,7 +258,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
      */
     function getTableIndexDefinition($table_name, $index_name)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -300,7 +300,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
         $start_pos = strpos($sql, '(');
         $end_pos = strrpos($sql, ')');
         $column_names = substr($sql, $start_pos+1, $end_pos-$start_pos-1);
-        $column_names = split(',', $column_names);
+        $column_names = explode(',', $column_names);
 
         if (preg_match("/^create unique/", $sql)) {
             return $db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
@@ -341,7 +341,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
      */
     function getTableConstraintDefinition($table_name, $constraint_name)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -408,7 +408,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                 if (preg_match("/\bPRIMARY\s+KEY\b\s*\(([^)]+)/i", $sql, $tmp)) {
                     $definition['primary'] = true;
                     $definition['fields'] = array();
-                    $column_names = split(',', $tmp[1]);
+                    $column_names = explode(',', $tmp[1]);
                     $colpos = 1;
                     foreach ($column_names as $column_name) {
                         $definition['fields'][trim($column_name)] = array(
@@ -420,7 +420,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                 if (preg_match("/\"([^\"]+)\"[^\,\"]+\bPRIMARY\s+KEY\b[^\,\)]*/i", $sql, $tmp)) {
                     $definition['primary'] = true;
                     $definition['fields'] = array();
-                    $column_names = split(',', $tmp[1]);
+                    $column_names = explode(',', $tmp[1]);
                     $colpos = 1;
                     foreach ($column_names as $column_name) {
                         $definition['fields'][trim($column_name)] = array(
@@ -450,14 +450,14 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
                     $definition['onupdate'] = 'NO ACTION';
                     $definition['ondelete'] = 'NO ACTION';
                     $definition['references']['table'] = $tmp[2];
-                    $column_names = split(',', $tmp[1]);
+                    $column_names = explode(',', $tmp[1]);
                     $colpos = 1;
                     foreach ($column_names as $column_name) {
                         $definition['fields'][trim($column_name)] = array(
                             'position' => $colpos++
                         );
                     }
-                    $referenced_cols = split(',', $tmp[3]);
+                    $referenced_cols = explode(',', $tmp[3]);
                     $colpos = 1;
                     foreach ($referenced_cols as $column_name) {
                         $definition['references']['fields'][trim($column_name)] = array(
@@ -487,7 +487,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
         $start_pos = strpos($sql, '(');
         $end_pos   = strrpos($sql, ')');
         $column_names = substr($sql, $start_pos+1, $end_pos-$start_pos-1);
-        $column_names = split(',', $column_names);
+        $column_names = explode(',', $column_names);
 
         if (!preg_match("/^create unique/", $sql)) {
             return $db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
@@ -532,7 +532,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
      */
     function getTriggerDefinition($trigger)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -596,7 +596,7 @@ class MDB2_Driver_Reverse_sqlite extends MDB2_Driver_Reverse_Common
            return parent::tableInfo($result, $mode);
         }
 
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

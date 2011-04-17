@@ -637,7 +637,7 @@ class MDB2
      *
      * @access  public
      */
-    function isError($data, $code = null)
+    static function isError($data, $code = null)
     {
         if (is_a($data, 'MDB2_Error')) {
             if (is_null($code)) {
@@ -664,7 +664,7 @@ class MDB2
      *
      * @access  public
      */
-    function isConnection($value)
+    static function isConnection($value)
     {
         return is_a($value, 'MDB2_Driver_Common');
     }
@@ -681,7 +681,7 @@ class MDB2
      *
      * @access  public
      */
-    function isResult($value)
+    static function isResult($value)
     {
         return is_a($value, 'MDB2_Result');
     }
@@ -715,7 +715,7 @@ class MDB2
      *
      * @access  public
      */
-    function isStatement($value)
+    static function isStatement($value)
     {
         return is_a($value, 'MDB2_Statement_Common');
     }
@@ -1494,6 +1494,7 @@ class MDB2_Driver_Common extends PEAR
             if (!is_null($native_msg) && $native_msg !== '') {
                 $userinfo.= "[Native message: ". strip_tags($native_msg) ."]\n";
             }
+            echo $userinfo;
             if (!is_null($method)) {
                 $userinfo = $method.': '.$userinfo;
             }

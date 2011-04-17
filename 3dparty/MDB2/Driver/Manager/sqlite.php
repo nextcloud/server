@@ -71,7 +71,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function createDatabase($name, $options = array())
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -107,7 +107,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function dropDatabase($name)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -174,7 +174,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function _getCreateTableQuery($name, $fields, $options = array())
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -236,7 +236,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
         // create triggers to enforce FOREIGN KEY constraints
         if (!empty($options['foreign_keys'])) {
-            $db =& $this->getDBInstance();
+            $db =$this->getDBInstance();
             if (PEAR::isError($db)) {
                 return $db;
             }
@@ -384,7 +384,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function dropTable($name)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -427,7 +427,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function vacuum($table = null, $options = array())
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -534,7 +534,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function alterTable($name, $changes, $check, $options = array())
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -687,7 +687,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
             $query = 'INSERT INTO '.$db->quoteIdentifier($name_new, true);
             $query.= '('.implode(', ', array_slice(array_keys($fields), 0, count($select_fields))).')';
             $query.=' VALUES (?'.str_repeat(', ?', (count($select_fields) - 1)).')';
-            $stmt =& $db->prepare($query, null, MDB2_PREPARE_MANIP);
+            $stmt =$db->prepare($query, null, MDB2_PREPARE_MANIP);
             if (PEAR::isError($stmt)) {
                 return $stmt;
             }
@@ -712,7 +712,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function listDatabases()
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -732,7 +732,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function listUsers()
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -750,9 +750,9 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      * @return mixed array of view names on success, a MDB2 error on failure
      * @access public
      */
-    function listViews()
+    function listViews($dummy=null)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -780,7 +780,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function listTableViews($table)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -814,9 +814,9 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      * @return mixed array of table names on success, a MDB2 error on failure
      * @access public
      */
-    function listTables()
+    function listTables($dummy=null)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -850,7 +850,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function listTableFields($table)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -898,7 +898,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function listTableTriggers($table = null)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -958,7 +958,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function createIndex($table, $name, $definition)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -998,7 +998,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function dropIndex($table, $name)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -1019,7 +1019,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function listTableIndexes($table)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -1080,7 +1080,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function createConstraint($table, $name, $definition)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -1133,7 +1133,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
             return $this->alterTable($table, array(), false, array('primary' => null));
         }
 
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -1170,7 +1170,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function _dropFKTriggers($table, $fkname, $referenced_table)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -1204,7 +1204,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function listTableConstraints($table)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -1274,7 +1274,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function createSequence($seq_name, $start = 1)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -1315,7 +1315,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function dropSequence($seq_name)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -1333,9 +1333,9 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      * @return mixed array of sequence names on success, a MDB2 error on failure
      * @access public
      */
-    function listSequences()
+    function listSequences($dummy=null)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
