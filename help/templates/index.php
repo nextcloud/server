@@ -13,6 +13,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<span class="button"><a target="_blank" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new">ASK A QUESTION</a></span>
+<a target="_blank" class="prettybutton" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new">ASK A QUESTION</a>
 
 

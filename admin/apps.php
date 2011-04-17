@@ -37,6 +37,22 @@ if(isset($_GET['cat'])) $cat=$_GET['cat']; else $cat=0;
 
 $categories=OC_OCSCLIENT::getCategories();
 
+/*
+
+All
+Installed Apps
+
+
+
+foreach($categories as $key=>$value) {
+print_r($value);
+}
+
+
+*/
+
+
+
 if($id==0) {
 
         if($cat==0){

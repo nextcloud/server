@@ -34,7 +34,6 @@ table td.name a
 
 .type 
 {
-    padding: 6px;
     text-decoration: none;
     color: #888888;
     font-size: 0.8em;
@@ -42,23 +41,8 @@ table td.name a
 
 .description 
 {
-    padding: 6px;
     text-decoration: none;
     color: #666666;
     font-size: 0.9em;
 }
 
-
-.button a { 
-    padding:0.2em 0.5em; 
-    border:1px solid #ddd; 
-    -moz-border-radius:15px; 
-    -webkit-border-radius:15px; 
-    border-radius:15px; 
-    text-decoration: none;
-    font-size:1.3em; color:#666666; 
-    background-color:#F0F0F0;
-}
-.button a:hover { 
-    background-color:#DDDDDD;
-}

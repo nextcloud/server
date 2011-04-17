@@ -47,7 +47,7 @@ form a { color:#000; text-decoration:none; }
 #login input[type='submit'] { width:5em; background-color:#fff; }
 #login input[type='submit']:hover, #login input[type=submit]:focus { background-color:#ccc; outline:0; }
 
-.prettybutton { margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; background-color:#fff; }
+.prettybutton { margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:1.5em; text-decoration:none; color:#666; background-color:#fff; }
 .prettybutton:hover, .prettybutton:focus { background-color:#ccc; outline:0; }
 
 /* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
