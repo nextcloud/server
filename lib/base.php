@@ -80,7 +80,6 @@ require_once('appconfig.php');
 require_once('files.php');
 require_once('filesystem.php');
 require_once('filestorage.php');
-require_once('fileobserver.php');
 require_once('log.php');
 require_once('user.php');
 require_once('group.php');
