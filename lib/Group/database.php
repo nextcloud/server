@@ -41,24 +41,29 @@ require_once( 'Group/backend.php' );
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
- *
  */
 class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	static private $userGroupCache=array();
 
 	/**
-	 * Try to create a new group
+	 * @brief Try to create a new group
+	 * @param $gid The name of the group to create
+	 * @returns true/false
 	 *
-	 * @param  string  $groupName  The name of the group to create
+	 * Trys to create a new group. If the group name already exists, false will
+	 * be returned.
 	 */
 	public static function createGroup( $gid ){
+		// Check for existence
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*groups` WHERE gid = ?" );
 		$result = $query->execute( array( $gid ));
 
 		if( $result->numRows() > 0 ){
+			// Can not add an existing group
 			return false;
 		}
 		else{
+			// Add group and exit
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*groups` ( `gid` ) VALUES( ? )" );
 			$result = $query->execute( array( $gid ));
 
@@ -67,67 +72,82 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	}
 
 	/**
-	 * Try to delete a group
+	 * @brief delete a group
+	 * @param $gid gid of the group to delete
+	 * @returns true/false
 	 *
-	 * @param  string  $groupName  The name of the group to delete
+	 * Deletes a group and removes it from the group_user-table
 	 */
 	public static function deleteGroup( $gid ){
+		// Delete the group
 		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE gid = ?" );
+		$result = $query->execute( array( $gid ));
+
+		// Delete the group-user relation
+		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE gid = ?" );
 		$result = $query->execute( array( $gid ));
 
 		return true;
 	}
 
 	/**
-	 * Check if a user belongs to a group
+	 * @brief is user in group?
+	 * @param $uid uid of the user
+	 * @param $gid gid of the group
+	 * @returns true/false
 	 *
-	 * @param  string  $username   Name of the user to check
-	 * @param  string  $groupName  Name of the group
+	 * Checks whether the user is member of a group or not.
 	 */
-	public static function inGroup( $username, $groupName ){
+	public static function inGroup( $uid, $gid ){
+		// check
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE gid = ? AND uid = ?" );
-		$result = $query->execute( array( $groupName, $username ));
-		if( PEAR::isError($result)) {
-			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			error_log( $entry );
-			die( $entry );
-		}
+		$result = $query->execute( array( $gid, $uid ));
+
 		return $result->numRows() > 0 ? true : false;
 	}
 
 	/**
-	 * Add a user to a group
+	 * @brief Add a user to a group
+	 * @param $uid Name of the user to add to group
+	 * @param $gid Name of the group in which add the user
+	 * @returns true/false
 	 *
-	 * @param  string  $username   Name of the user to add to group
-	 * @param  string  $groupName  Name of the group in which add the user
+	 * Adds a user to a group.
 	 */
-	public static function addToGroup( $username, $groupName ){
-		if( !self::inGroup( $username, $groupName )){
+	public static function addToGroup( $uid, $gid ){
+		// No duplicate entries!
+		if( !self::inGroup( $uid, $gid )){
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
-			$result = $query->execute( array( $username, $groupName ));
+			$result = $query->execute( array( $uid, $gid ));
 		}
+		return true;
 	}
 
 	/**
-	 * Remove a user from a group
+	 * @brief Removes a user from a group
+	 * @param $uid Name of the user to remove from group
+	 * @param $gid Name of the group from which remove the user
+	 * @returns true/false
 	 *
-	 * @param  string  $username   Name of the user to remove from group
-	 * @param  string  $groupName  Name of the group from which remove the user
+	 * removes the user from a group.
 	 */
-	public static function removeFromGroup( $username, $groupName ){
+	public static function removeFromGroup( $uid, $gid ){
 		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?" );
-		$result = $query->execute( array( $username, $groupName ));
+		$result = $query->execute( array( $uid, $gid ));
 	}
 
 	/**
-	 * Get all groups the user belongs to
+	 * @brief Get all groups a user belongs to
+	 * @param $uid Name of the user
+	 * @returns array with group names
 	 *
-	 * @param  string  $username  Name of the user
+	 * This function fetches all groups a user belongs to. It does not check
+	 * if the user exists at all.
 	 */
-	public static function getUserGroups( $username ){
+	public static function getUserGroups( $uid ){
+		// No magic!
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE uid = ?" );
-		$result = $query->execute( array( $username ));
+		$result = $query->execute( array( $uid ));
 
 		$groups = array();
 		while( $row = $result->fetchRow()){
@@ -138,8 +158,10 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	}
 
 	/**
-	 * get a list of all groups
+	 * @brief get a list of all groups
+	 * @returns array with group names
 	 *
+	 * Returns a list with all groups
 	 */
 	public static function getGroups(){
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*groups`" );
@@ -147,7 +169,7 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 
 		$groups = array();
 		while( $row = $result->fetchRow()){
-			$groups[] = $row;
+			$groups[] = $row["gid"];
 		}
 
 		return $groups;

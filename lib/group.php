@@ -79,67 +79,83 @@ class OC_GROUP {
 	}
 
 	/**
-	 * Try to create a new group
+	 * @brief Try to create a new group
+	 * @param $gid The name of the group to create
+	 * @returns true/false
 	 *
-	 * @param  string  $groupName  The name of the group to create
+	 * Trys to create a new group. If the group name already exists, false will
+	 * be returned.
 	 */
-	public static function createGroup($gid) {
+	public static function createGroup( $gid ){
 		return self::$_backend->createGroup($gid);
 	}
 
 	/**
-	 * Try to delete Group
+	 * @brief delete a group
+	 * @param $gid gid of the group to delete
+	 * @returns true/false
 	 *
-	 * @param  string  $groupName  The name of the group to delete
+	 * Deletes a group and removes it from the group_user-table
 	 */
-	public static function deleteGroup($gid) {
+	public static function deleteGroup( $gid ){
 		return self::$_backend->deleteGroup($gid);
 	}
 
 	/**
-	 * Check if a user belongs to a group
+	 * @brief is user in group?
+	 * @param $uid uid of the user
+	 * @param $gid gid of the group
+	 * @returns true/false
 	 *
-	 * @param  string  $username   Name of the user to check
-	 * @param  string  $groupName  Name of the group
+	 * Checks whether the user is member of a group or not.
 	 */
-	public static function inGroup($username, $groupName) {
-		return self::$_backend->inGroup($username, $groupName);
+	public static function inGroup( $uid, $gid ){
+		return self::$_backend->inGroup($uid, $gid);
 	}
 
 	/**
-	 * Add a user to a group
+	 * @brief Add a user to a group
+	 * @param $uid Name of the user to add to group
+	 * @param $gid Name of the group in which add the user
+	 * @returns true/false
 	 *
-	 * @param  string  $username   Name of the user to add to group
-	 * @param  string  $groupName  Name of the group in which add the user
+	 * Adds a user to a group.
 	 */
-	public static function addToGroup($username, $groupName) {
-		return self::$_backend->addToGroup($username, $groupName);
+	public static function addToGroup( $uid, $gid ){
+		return self::$_backend->addToGroup($uid, $gid);
 	}
 
 	/**
-	 * Remove a user from a group
+	 * @brief Removes a user from a group
+	 * @param $uid Name of the user to remove from group
+	 * @param $gid Name of the group from which remove the user
+	 * @returns true/false
 	 *
-	 * @param  string  $username   Name of the user to remove from group
-	 * @param  string  $groupName  Name of the group from which remove the user
+	 * removes the user from a group.
 	 */
-	public static function removeFromGroup($username,$groupName){
-		return self::$_backend->removeFromGroup($username, $groupName);
+	public static function removeFromGroup( $uid, $gid ){
+		return self::$_backend->removeFromGroup($uid, $gid);
 	}
 
 	/**
-	 * Get all groups the user belongs to
+	 * @brief Get all groups a user belongs to
+	 * @param $uid Name of the user
+	 * @returns array with group names
 	 *
-	 * @param  string  $username  Name of the user
+	 * This function fetches all groups a user belongs to. It does not check
+	 * if the user exists at all.
 	 */
-	public static function getUserGroups($username) {
-		return self::$_backend->getUserGroups($username);
+	public static function getUserGroups( $uid ){
+		return self::$_backend->getUserGroups($uid);
 	}
 
 	/**
-	 * get a list of all groups
+	 * @brief get a list of all groups
+	 * @returns array with group names
 	 *
+	 * Returns a list with all groups
 	 */
-	public static function getGroups() {
+	public static function getGroups(){
 		return self::$_backend->getGroups();
 	}
 }

@@ -46,7 +46,7 @@ foreach( OC_USER::getUsers() as $i ){
 
 foreach( OC_GROUP::getGroups() as $i ){
 	// Do some more work here soon
-	$groups[] = array( "name" => $i["gid"] );
+	$groups[] = array( "name" => $i );
 }
 
 $tmpl = new OC_TEMPLATE( "admin", "users", "admin" );
