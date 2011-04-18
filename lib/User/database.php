@@ -37,57 +37,70 @@ require_once('User/backend.php');
 
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
- *
  */
 class OC_USER_DATABASE extends OC_USER_BACKEND {
 	static private $userGroupCache=array();
 
 	/**
-	 * Try to create a new user
+	 * @brief Create a new user
+	 * @param $username The username of the user to create
+	 * @param $password The password of the new user
+	 * @returns true/false
 	 *
-	 * @param  string  $username  The username of the user to create
-	 * @param  string  $password  The password of the new user
+	 * Creates a new user
 	 */
-	public static function createUser( $uid, $password ){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
-		$result = $query->execute( array( $uid ));
+	public static function createUser( $username, $password ){
 		// Check if the user already exists
+		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
+		$result = $query->execute( array( $username ));
+
 		if ( $result->numRows() > 0 ){
 			return false;
 		}
 		else{
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
-			$result = $query->execute( array( $uid, sha1( $password )));
+			$result = $query->execute( array( $username, sha1( $password )));
 
 			return $result ? true : false;
 		}
 	}
 
 	/**
-	 * Try to delete a user
+	 * @brief delete a user
+	 * @param $uid The username of the user to delete
+	 * @returns true/false
 	 *
-	 * @param  string  $username  The username of the user to delete
+	 * Deletes a user
 	 */
 	public static function deleteUser( $uid ){
+		// Delete user
 		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*users` WHERE uid = ?" );
 		$result = $query->execute( array( $uid ));
 
+		// Delete user-group-relation
+		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE uid = ?" );
+		$result = $query->execute( array( $uid ));
 		return true;
 	}
 
 	/**
-	 * Try to login a user
+	 * @brief Try to login a user
+	 * @param $uid The username of the user to log in
+	 * @param $password The password of the user
+	 * @returns true/false
 	 *
-	 * @param  string  $username  The username of the user to log in
-	 * @param  string  $password  The password of the user
+	 * Log in a user - if the password is ok
 	 */
-	public static function login( $username, $password ){
+	public static function login( $uid, $password ){
+		// Query
 		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users WHERE uid = ? AND password = ?" );
-		$result = $query->execute( array( $username, sha1( $password )));
+		$result = $query->execute( array( $uid, sha1( $password )));
 
 		if( $result->numRows() > 0 ){
+			// Set username if name and password are known
 			$row = $result->fetchRow();
 			$_SESSION['user_id'] = $row["uid"];
+			OC_LOG::add( "core", $_SESSION['user_id'], "login" );
 			return true;
 		}
 		else{
@@ -96,17 +109,23 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	}
 
 	/**
-	 * Kick the user
+	 * @brief Kick the user
+	 * @returns true
 	 *
+	 * Logout, destroys session
 	 */
-	public static function logout() {
+	public static function logout(){
 		OC_LOG::add( "core", $_SESSION['user_id'], "logout" );
 		$_SESSION['user_id'] = false;
+
+		return true;
 	}
 
 	/**
-	 * Check if the user is logged in
+	 * @brief Check if the user is logged in
+	 * @returns true/false
 	 *
+	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn() {
 		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ){
@@ -118,34 +137,50 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	}
 
 	/**
-	 * Generate a random password
+	 * @brief Autogenerate a password
+	 * @returns string
+	 *
+	 * generates a password
 	 */
 	public static function generatePassword(){
 		return uniqId();
 	}
 
 	/**
-	 * Set the password of a user
+	 * @brief Set password
+	 * @param $uid The username
+	 * @param $password The new password
+	 * @returns true/false
 	 *
-	 * @param  string  $username  User who password will be changed
-	 * @param  string  $password  The new password for the user
+	 * Change the password of a user
 	 */
-	public static function setPassword( $username, $password ){
-		$query = OC_DB::prepare( "UPDATE *PREFIX*users SET password = ? WHERE uid = ?" );
-		$result = $query->execute( array( sha1( $password ), $username ));
+	public static function setPassword( $uid, $password ){
+		// Check if the user already exists
+		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
+		$result = $query->execute( array( $uid ));
 
-		return true;
+		if ( $result->numRows() > 0 ){
+			return false;
+		}
+		else{
+			$query = OC_DB::prepare( "UPDATE *PREFIX*users SET password = ? WHERE uid = ?" );
+			$result = $query->execute( array( sha1( $password ), $uid ));
+
+			return true;
+		}
 	}
 
 	/**
-	 * Check if the password of the user is correct
+	 * @brief Check if the password is correct
+	 * @param $uid The username
+	 * @param $password The password
+	 * @returns true/false
 	 *
-	 * @param  string  $username  Name of the user
-	 * @param  string  $password  Password of the user
+	 * Check if the password is correct without logging in the user
 	 */
-	public static function checkPassword( $username, $password ){
+	public static function checkPassword( $uid, $password ){
 		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users WHERE uid = ? AND password = ?" );
-		$result = $query->execute( array( $username, sha1( $password )));
+		$result = $query->execute( array( $uid, sha1( $password )));
 
 		if( $result->numRows() > 0 ){
 			return true;
@@ -156,8 +191,10 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	}
 
 	/**
-	 * get a list of all users
+	 * @brief Get a list of all users
+	 * @returns array with all uids
 	 *
+	 * Get a list of all users.
 	 */
 	public static function getUsers(){
 		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users" );

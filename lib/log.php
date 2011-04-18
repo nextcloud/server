@@ -50,7 +50,7 @@ class OC_LOG {
 	 *
 	 * This function adds another entry to the log database
 	 */
-	public static function add( $subject, $predicate, $object = null ){
+	public static function add( $appid, $subject, $predicate, $object = null ){
 		// TODO: write function
 		return true;
 	}

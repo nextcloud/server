@@ -24,64 +24,88 @@
 
 
 /**
- * Base class for user management
- *
+ * abstract base class for user management
  */
 abstract class OC_USER_BACKEND {
 
 	/**
-	 * Try to create a new user
+	 * @brief Create a new user
+	 * @param $username The username of the user to create
+	 * @param $password The password of the new user
+	 * @returns true/false
 	 *
-	 * @param  string  $username  The username of the user to create
-	 * @param  string  $password  The password of the new user
+	 * Creates a new user
 	 */
 	public static function createUser($username, $password){}
 
 	/**
-	 * @brief Delete a new user
-	 * @param $username The username of the user to delete
+	 * @brief delete a user
+	 * @param $uid The username of the user to delete
+	 * @returns true/false
+	 *
+	 * Deletes a user
 	 */
-	public static function deleteUser( $username ){}
+	public static function deleteUser( $uid ){}
 
 	/**
-	 * Try to login a user
+	 * @brief Try to login a user
+	 * @param $uid The username of the user to log in
+	 * @param $password The password of the user
+	 * @returns true/false
 	 *
-	 * @param  string  $username  The username of the user to log in
-	 * @param  string  $password  The password of the user
+	 * Log in a user - if the password is ok
 	 */
-	public static function login($username, $password){}
+	public static function login($uid, $password){}
 
 	/**
-	 * Check if some user is logged in
+	 * @brief Kick the user
+	 * @returns true
 	 *
+	 * Logout, destroys session
+	 */
+	public static function logout(){}
+
+	/**
+	 * @brief Check if the user is logged in
+	 * @returns true/false
+	 *
+	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){}
 
 	/**
-	 * Generate a random password
+	 * @brief Autogenerate a password
+	 * @returns string
+	 *
+	 * generates a password
 	 */
 	public static function generatePassword(){}
 
 	/**
-	 * Set the password of a user
+	 * @brief Set password
+	 * @param $uid The username
+	 * @param $password The new password
+	 * @returns true/false
 	 *
-	 * @param  string  $username  User who password will be changed
-	 * @param  string  $password  The new password for the user
+	 * Change the password of a user
 	 */
-	public static function setPassword($username, $password){}
+	public static function setPassword($uid, $password){}
 
 	/**
-	 * Check if the password of the user is correct
+	 * @brief Check if the password is correct
+	 * @param $uid The username
+	 * @param $password The password
+	 * @returns true/false
 	 *
-	 * @param  string  $username  Name of the user
-	 * @param  string  $password  Password of the user
+	 * Check if the password is correct without logging in the user
 	 */
-	public static function checkPassword($username, $password){}
-
+	public static function checkPassword($uid, $password){}
 
 	/**
-	 * get a list of all users
+	 * @brief Get a list of all users
+	 * @returns array with all uids
 	 *
+	 * Get a list of all users.
 	 */
 	public static function getUsers(){}
 }

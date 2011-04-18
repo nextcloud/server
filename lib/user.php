@@ -87,33 +87,45 @@ class OC_USER {
 	}
 
 	/**
-	 * @brief Creates a new user
+	 * @brief Create a new user
 	 * @param $username The username of the user to create
 	 * @param $password The password of the new user
+	 * @returns true/false
+	 *
+	 * Creates a new user
 	 */
 	public static function createUser( $username, $password ){
 		return self::$_backend->createUser( $username, $password );
 	}
 
 	/**
-	 * @brief Delete a new user
-	 * @param $username The username of the user to delete
+	 * @brief delete a user
+	 * @param $uid The username of the user to delete
+	 * @returns true/false
+	 *
+	 * Deletes a user
 	 */
-	public static function deleteUser( $username ){
-		return self::$_backend->deleteUser( $username );
+	public static function deleteUser( $uid ){
+		return self::$_backend->deleteUser( $uid );
 	}
 
 	/**
-	 * @brief try to login a user
-	 * @param $username The username of the user to log in
+	 * @brief Try to login a user
+	 * @param $uid The username of the user to log in
 	 * @param $password The password of the user
+	 * @returns true/false
+	 *
+	 * Log in a user - if the password is ok
 	 */
-	public static function login( $username, $password ){
-		return self::$_backend->login( $username, $password );
+	public static function login( $uid, $password ){
+		return self::$_backend->login( $uid, $password );
 	}
 
 	/**
 	 * @brief Kick the user
+	 * @returns true
+	 *
+	 * Logout, destroys session
 	 */
 	public static function logout(){
 		return self::$_backend->logout();
@@ -121,39 +133,53 @@ class OC_USER {
 
 	/**
 	 * @brief Check if the user is logged in
+	 * @returns true/false
+	 *
+	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){
 		return self::$_backend->isLoggedIn();
 	}
 
 	/**
-	 * @brief Generate a random password
+	 * @brief Autogenerate a password
+	 * @returns string
+	 *
+	 * generates a password
 	 */
 	public static function generatePassword(){
 		return substr( md5( uniqId().time()), 0, 10 );
 	}
 
 	/**
-	 * @brief Set the password of a user
-	 * @param $username User whose password will be changed
-	 * @param $password The new password for the user
+	 * @brief Set password
+	 * @param $uid The username
+	 * @param $password The new password
+	 * @returns true/false
+	 *
+	 * Change the password of a user
 	 */
-	public static function setPassword( $username, $password ){
-		return self::$_backend->setPassword( $username, $password );
+	public static function setPassword( $uid, $password ){
+		return self::$_backend->setPassword( $uid, $password );
 	}
 
 	/**
-	 * @brief Check if the password of the user is correct
-	 * @param  string  $username  Name of the user
-	 * @param  string  $password  Password of the user
+	 * @brief Check if the password is correct
+	 * @param $uid The username
+	 * @param $password The password
+	 * @returns true/false
+	 *
+	 * Check if the password is correct without logging in the user
 	 */
-	public static function checkPassword( $username, $password ){
-		return self::$_backend->checkPassword( $username, $password );
+	public static function checkPassword( $uid, $password ){
+		return self::$_backend->checkPassword( $uid, $password );
 	}
 
 	/**
-	 * @brief get a list of all users
-	 * @returns array with uids
+	 * @brief Get a list of all users
+	 * @returns array with all uids
+	 *
+	 * Get a list of all users.
 	 */
 	public static function getUsers(){
 		return self::$_backend->getUsers();
