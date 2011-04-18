@@ -99,6 +99,9 @@ table td.download { background-image:url('../img/download.png'); }
 table td.upload { background-image:url('../img/upload.png'); }
 table td.create { background-image:url('../img/folder-new.png'); }
 table td.delete { background-image:url('../img/delete.png'); }
+#fileList tr input[type=checkbox] { display:none; }
+#fileList tr input[type=checkbox]:checked { display:inline; }
+#fileList tr:hover input[type=checkbox] { display:inline; }
 
 /* NAVIGATION BAR */
 p.nav { margin:1em 0 0 2em; padding:0.8em; line-height:16px; font-weight:bold; }
