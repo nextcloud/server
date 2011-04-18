@@ -99,6 +99,20 @@ $(document).ready(function() {
 		}
 		return false;
 	});
+	
+	$('.download').click(function(event) {
+		var files='';
+		$('td.selection input:checkbox:checked').parent().parent().children('.filename').each(function(i,element){
+			files+=';'+$(element).text();
+		});
+		files=files.substr(1);//remove leading ;
+		
+		//send the browser to the download location
+		var dir=$('#dir').val()||'/';
+// 		alert(files);
+		window.location='ajax/download.php?files='+files+'&dir='+dir;
+		return false;
+	});
 });
 
 function uploadFinished() {
