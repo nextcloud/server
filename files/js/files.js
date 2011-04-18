@@ -113,6 +113,25 @@ $(document).ready(function() {
 		window.location='ajax/download.php?files='+files+'&dir='+dir;
 		return false;
 	});
+	
+	$('.delete').click(function(event) {
+		var files='';
+		$('td.selection input:checkbox:checked').parent().parent().children('.filename').each(function(i,element){
+			files+=';'+$(element).text();
+		});
+		files=files.substr(1);//remove leading ;
+		
+		//send the browser to the download location
+		$.ajax({
+			url: 'ajax/delete.php',
+			data: "dir="+$('#dir').val()+"&files="+files,
+			complete: function(data){
+				boolOperationFinished(data, false);
+			}
+		});
+		
+		return false;
+	});
 });
 
 function uploadFinished() {

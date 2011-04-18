@@ -14,14 +14,23 @@ if( !OC_USER::isLoggedIn()){
 
 // Get data
 $dir = $_GET["dir"];
-$file = $_GET["file"];
+$files = isset($_GET["file"]) ? $_GET["file"] : $_GET["files"];
 
-// Delete
-if( OC_FILES::delete( $dir, $file )){
-	echo json_encode( array( "status" => "success", "data" => array( "dir" => $dir, "file" => $file )));
+$files = explode(';', $files);
+$filesWithError = '';
+$status = 'success';
+//Now delete
+foreach($files as $file) {
+    if( !OC_FILES::delete( $dir, $file )){
+		$filesWithError .= $file . "\n";
+		$status = 'error';
+	}
 }
-else{
-	echo json_encode( array( "status" => "error", "data" => array( "message" => "Unable to delete file" )));
+
+if($status == 'success') {
+	echo json_encode( array( "status" => $status, "data" => array( "dir" => $dir, "files" => $files )));
+} else {
+	echo json_encode( array( "status" => $status, "data" => array( "message" => "Could not delete:\n" . $filesWithError )));
 }
 
 ?>
