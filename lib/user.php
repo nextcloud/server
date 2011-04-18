@@ -114,6 +114,11 @@ class OC_USER {
 		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $uid )){
 			return false;
 		}
+		// No empty username
+		if( !$uid ){
+			return false;
+		}
+
 		$run = true;
 		OC_HOOK::emit( "OC_USER", "pre_createUser", array( "run" => &$run, "uid" => $uid, "password" => $password ));
 
@@ -138,6 +143,12 @@ class OC_USER {
 		OC_HOOK::emit( "OC_USER", "pre_deleteUser", array( "run" => &$run, "uid" => $uid ));
 
 		if( $run && self::$_backend->deleteUser( $uid )){
+			// We have to delete the user from all groups
+			foreach( OC_GROUP::getUserGroups( $uid ) as $i ){
+				OC_GROUP::removeFromGroup( $uid, $i );
+			}
+
+			// Emit and exit
 			OC_HOOK::emit( "OC_USER", "post_deleteUser", array( "uid" => $uid ));
 			return true;
 		}

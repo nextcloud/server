@@ -104,6 +104,11 @@ class OC_GROUP {
 		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $gid )){
 			return false;
 		}
+		// No empty group names!
+		if( !$gid ){
+			return false;
+		}
+
 		$run = true;
 		OC_HOOK::emit( "OC_GROUP", "pre_createGroup", array( "run" => &$run, "gid" => $gid ));
 
