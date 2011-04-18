@@ -75,7 +75,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 */
 	public static function deleteUser( $uid ){
 		// Delete user-group-relation
-		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE uid = ?" );
+		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*users` WHERE uid = ?" );
 		$result = $query->execute( array( $uid ));
 		return true;
 	}
