@@ -33,10 +33,10 @@ $(document).ready(function() {
 
         if($(this).attr('checked'))
             // Check all
-            $('.browser input:checkbox').attr('checked', true);
+            $('td.selection input:checkbox').attr('checked', true);
         else
             // Uncheck all
-            $('.browser input:checkbox').attr('checked', false);
+            $('td.selection input:checkbox').attr('checked', false);
     });
 	
 	// Delete current file 
