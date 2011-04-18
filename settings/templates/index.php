@@ -6,23 +6,25 @@
 	</fieldset>
 </form>
 
-<form id="user_settings">
+<form id="passwordform">
 	<fieldset>
-	<legend>User settings</legend>
+	<legend>Change Password</legend>
+	<div id="passwordchanged">You're password got changed</div>
+	<div id="passworderror"></div>
 	<p>
-		<label for="email">Email :</label>
-		<input type="text" id="email" name="email" value="user@example.net" />
+		<label for="pass1">Old password:</label>
+		<input type="password" id="pass1" name="oldpassword" />
 	</p>
 	<p>
-		<label for="pass1">New password :</label>
-		<input type="password" id="pass1" name="pass1" /> 
+		<label for="pass2">New password :</label>
+		<input type="password" id="pass2" name="password" />
 	</p>
 	<p>
-		<label for="pass2">Confirm new password :</label>
-		<input type="password" id="pass2" name="pass2" /> 
+		<input type="checkbox" id="show" name="show" />
+		<label for="show">Show new password</label>
 	</p>
 	<p class="form_footer">
-		<input class="prettybutton" type="submit" value="Save" />
+		<input id="passwordbutton" class="prettybutton" type="submit" value="Save" />
 	</p>
 	</fieldset>
 </form>

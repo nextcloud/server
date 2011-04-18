@@ -156,14 +156,14 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
 		$result = $query->execute( array( $uid ));
 
-		if ( $result->numRows() > 0 ){
-			return false;
-		}
-		else{
+		if( $result->numRows() > 0 ){
 			$query = OC_DB::prepare( "UPDATE *PREFIX*users SET password = ? WHERE uid = ?" );
 			$result = $query->execute( array( sha1( $password ), $uid ));
 
 			return true;
+		}
+		else{
+			return false;
 		}
 	}
 

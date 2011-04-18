@@ -8,7 +8,7 @@ header( "Content-Type: application/jsonrequest" );
 
 // Check if we are a user
 if( !OC_USER::isLoggedIn()){
-	echo json_encode( array( "status" => "error", "data" => "Authentication error" ));
+	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
 	exit();
 }
 
