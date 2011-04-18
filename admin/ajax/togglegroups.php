@@ -31,7 +31,7 @@ else{
 
 // Return Success story
 if( $success ){
-	echo json_encode( array( "status" => "success", "data" => array( "username" => $username, "action" => $action, "groupname" => $groupname )));
+	echo json_encode( array( "status" => "success", "data" => array( "username" => $username, "action" => $action, "groupname" => $group )));
 }
 else{
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Unable to $error group $group" )));

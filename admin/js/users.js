@@ -78,9 +78,9 @@ $(document).ready(function(){
 		$("input[x-use='creategroupfield']").val( "" );
 
 		// Add group option to Create User and Edit User
-		var createuser = '<input x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /><span  x-gid="'+groupname+'">'+groupname+'<br /></span>';
+		var createuser = '<input x-use="createusercheckbox" x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /> <span x-gid="'+groupname+'">'+groupname+'<br /></span>';
 		$("#createusergroups").append( createuser );
-		var changeuser = '<input x-use="togglegroup" x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /><span x-use="togglegroup" x-gid="'+groupname+'">'+groupname+'<br /></span>';
+		var changeuser = '<input x-use="togglegroup" x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /> <span x-use="togglegroup" x-gid="'+groupname+'">'+groupname+'<br /></span>';
 		$("#changegroupsform").append( changeuser );
 	}
 
@@ -91,7 +91,7 @@ $(document).ready(function(){
 		$( "input[x-gid='"+groupname+"']" ).remove();
 
 		// remove it from user list
-		$( "td[x-use='usergroups']" ).each(function(index){
+		$( "div[x-use='usergroupsdiv']" ).each(function(index){
 			var content = $(this).text();
 			var list = content.split( ", " );
 			var newlist = [];

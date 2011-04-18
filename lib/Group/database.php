@@ -134,6 +134,8 @@ class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
 	public static function removeFromGroup( $uid, $gid ){
 		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?" );
 		$result = $query->execute( array( $uid, $gid ));
+
+		return true;
 	}
 
 	/**
