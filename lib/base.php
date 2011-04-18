@@ -150,15 +150,15 @@ class OC_UTIL {
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			//first set up the local "root" storage and the backupstorage if needed
 			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
-			if( OC_CONFIG::getValue( "enablebackup", false )){
-				// This creates the Directorys recursively
-				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
-					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0755, true );
-				}
-				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
-				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
-				$rootStorage->addObserver($backup);
-			}
+// 			if( OC_CONFIG::getValue( "enablebackup", false )){
+// 				// This creates the Directorys recursively
+// 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
+// 					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0755, true );
+// 				}
+// 				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
+// 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
+// 				$rootStorage->addObserver($backup);
+// 			}
 			OC_FILESYSTEM::mount($rootStorage,'/');
 
 			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
