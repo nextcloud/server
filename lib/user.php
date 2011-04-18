@@ -26,6 +26,17 @@ if( !OC_CONFIG::getValue( "installed", false )){
 
 /**
  * This class provides all methods for user management.
+ *
+ * Hooks provided:
+ *   pre_createUser(&run, uid, password)
+ *   post_createUser(uid, password)
+ *   pre_deleteUser(&run, uid)
+ *   post_deleteUser(uid)
+ *   pre_setPassword(&run, uid, password)
+ *   post_setPassword(uid, password)
+ *   pre_login(&run, uid)
+ *   post_login(uid)
+ *   logout()
  */
 class OC_USER {
 	// The backend used for user management
@@ -88,14 +99,31 @@ class OC_USER {
 
 	/**
 	 * @brief Create a new user
-	 * @param $username The username of the user to create
+	 * @param $uid The username of the user to create
 	 * @param $password The password of the new user
 	 * @returns true/false
 	 *
-	 * Creates a new user
+	 * Creates a new user. Basic checking of username is done in OC_USER
+	 * itself, not in its subclasses.
+	 *
+	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
 	 */
-	public static function createUser( $username, $password ){
-		return self::$_backend->createUser( $username, $password );
+	public static function createUser( $uid, $password ){
+		// Check the name for bad characters
+		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
+		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $uid )){
+			return false;
+		}
+		$run = true;
+		OC_HOOK::emit( "OC_USER", "pre_createUser", array( "run" => &$run, "uid" => $uid, "password" => $password ));
+
+		if( $run && self::$_backend->createUser( $uid, $password )){
+			OC_HOOK::emit( "OC_USER", "post_createUser", array( "uid" => $uid, "password" => $password ));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -106,7 +134,16 @@ class OC_USER {
 	 * Deletes a user
 	 */
 	public static function deleteUser( $uid ){
-		return self::$_backend->deleteUser( $uid );
+		$run = true;
+		OC_HOOK::emit( "OC_USER", "pre_deleteUser", array( "run" => &$run, "uid" => $uid ));
+
+		if( $run && self::$_backend->deleteUser( $uid )){
+			OC_HOOK::emit( "OC_USER", "post_deleteUser", array( "uid" => $uid ));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -118,7 +155,16 @@ class OC_USER {
 	 * Log in a user - if the password is ok
 	 */
 	public static function login( $uid, $password ){
-		return self::$_backend->login( $uid, $password );
+		$run = true;
+		OC_HOOK::emit( "OC_USER", "pre_login", array( "run" => &$run, "uid" => $uid ));
+
+		if( $run && self::$_backend->login( $uid, $password )){
+			OC_HOOK::emit( "OC_USER", "post_login", array( "uid" => $uid ));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -128,6 +174,7 @@ class OC_USER {
 	 * Logout, destroys session
 	 */
 	public static function logout(){
+		OC_HOOK::emit( "OC_USER", "logout", array());
 		return self::$_backend->logout();
 	}
 
@@ -160,7 +207,16 @@ class OC_USER {
 	 * Change the password of a user
 	 */
 	public static function setPassword( $uid, $password ){
-		return self::$_backend->setPassword( $uid, $password );
+		$run = true;
+		OC_HOOK::emit( "OC_USER", "pre_setPassword", array( "run" => &$run, "uid" => $uid, "password" => $password ));
+
+		if( $run && self::$_backend->setPassword( $uid, $password )){
+			OC_HOOK::emit( "OC_USER", "post_setPassword", array( "uid" => $uid, "password" => $password ));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**

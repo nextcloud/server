@@ -30,13 +30,14 @@ abstract class OC_USER_BACKEND {
 
 	/**
 	 * @brief Create a new user
-	 * @param $username The username of the user to create
+	 * @param $uid The username of the user to create
 	 * @param $password The password of the new user
 	 * @returns true/false
 	 *
-	 * Creates a new user
+	 * Creates a new user. Basic checking of username is done in OC_USER
+	 * itself, not in its subclasses.
 	 */
-	public static function createUser($username, $password){}
+	public static function createUser($uid, $password){}
 
 	/**
 	 * @brief delete a user

@@ -22,6 +22,16 @@
 
 /**
  * This class provides all methods needed for managing groups.
+ *
+ * Hooks provided:
+ *   pre_createGroup(&run, gid)
+ *   post_createGroup(gid)
+ *   pre_deleteGroup(&run, gid)
+ *   post_deleteGroup(gid)
+ *   pre_addToGroup(&run, uid, gid)
+ *   post_addToGroup(uid, gid)
+ *   pre_removeFromGroup(&run, uid, gid)
+ *   post_removeFromGroup(uid, gid)
  */
 class OC_GROUP {
 	// The backend used for user management
@@ -84,10 +94,26 @@ class OC_GROUP {
 	 * @returns true/false
 	 *
 	 * Trys to create a new group. If the group name already exists, false will
-	 * be returned.
+	 * be returned. Basic checking of Group name
+	 *
+	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
 	 */
 	public static function createGroup( $gid ){
-		return self::$_backend->createGroup($gid);
+		// Check the name for bad characters
+		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
+		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $gid )){
+			return false;
+		}
+		$run = true;
+		OC_HOOK::emit( "OC_GROUP", "pre_createGroup", array( "run" => &$run, "gid" => $gid ));
+
+		if( $run && self::$_backend->createGroup( $gid )){
+			OC_HOOK::emit( "OC_GROUP", "post_createGroup", array( "gid" => $gid ));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -98,7 +124,16 @@ class OC_GROUP {
 	 * Deletes a group and removes it from the group_user-table
 	 */
 	public static function deleteGroup( $gid ){
-		return self::$_backend->deleteGroup($gid);
+		$run = true;
+		OC_HOOK::emit( "OC_GROUP", "pre_deleteGroup", array( "run" => &$run, "gid" => $gid ));
+
+		if( $run && self::$_backend->deleteGroup( $gid )){
+			OC_HOOK::emit( "OC_GROUP", "post_deleteGroup", array( "gid" => $gid ));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -122,7 +157,16 @@ class OC_GROUP {
 	 * Adds a user to a group.
 	 */
 	public static function addToGroup( $uid, $gid ){
-		return self::$_backend->addToGroup($uid, $gid);
+		$run = true;
+		OC_HOOK::emit( "OC_GROUP", "pre_addToGroup", array( "run" => &$run, "uid" => $uid, "gid" => $gid ));
+
+		if( $run && self::$_backend->addToGroup( $uid, $gid )){
+			OC_HOOK::emit( "OC_GROUP", "post_addToGroup", array( "uid" => $uid, "gid" => $gid ));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -134,7 +178,16 @@ class OC_GROUP {
 	 * removes the user from a group.
 	 */
 	public static function removeFromGroup( $uid, $gid ){
-		return self::$_backend->removeFromGroup($uid, $gid);
+		$run = true;
+		OC_HOOK::emit( "OC_GROUP", "pre_removeFromGroup", array( "run" => &$run, "uid" => $uid, "gid" => $gid ));
+
+		if( $run && self::$_backend->removeFromGroup( $uid, $gid )){
+			OC_HOOK::emit( "OC_GROUP", "post_removeFromGroup", array( "uid" => $uid, "gid" => $gid ));
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**

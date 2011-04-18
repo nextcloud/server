@@ -43,23 +43,24 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 
 	/**
 	 * @brief Create a new user
-	 * @param $username The username of the user to create
+	 * @param $uid The username of the user to create
 	 * @param $password The password of the new user
 	 * @returns true/false
 	 *
-	 * Creates a new user
+	 * Creates a new user. Basic checking of username is done in OC_USER
+	 * itself, not in its subclasses.
 	 */
-	public static function createUser( $username, $password ){
+	public static function createUser( $uid, $password ){
 		// Check if the user already exists
 		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
-		$result = $query->execute( array( $username ));
+		$result = $query->execute( array( $uid ));
 
 		if ( $result->numRows() > 0 ){
 			return false;
 		}
 		else{
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
-			$result = $query->execute( array( $username, sha1( $password )));
+			$result = $query->execute( array( $uid, sha1( $password )));
 
 			return $result ? true : false;
 		}
