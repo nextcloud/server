@@ -22,10 +22,9 @@ class OC_PublicLink{
 	}
 	
 	/**
-	 * download a file shared by a public link
-	 * @param string token
+	 * get the path of that shared file
 	 */
-	public static function downloadFile($token){
+	public static function getPath($token){
 		//remove expired links
 		$query=OC_DB::prepare("DELETE FROM *PREFIX*publiclink WHERE expire_time < NOW() AND expire_time!=0");
 		$query->execute();
@@ -41,23 +40,9 @@ class OC_PublicLink{
 			//prepare the filesystem
 			OC_UTIL::setupFS($user);
 			
-			//get time mimetype and set the headers
-			$mimetype=OC_FILESYSTEM::getMimeType($path);
-	// 		header('Content-Disposition: attachment; filename="'.basename($path).'"');
-			header('Content-Transfer-Encoding: binary');
-			header('Expires: 0');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
-			header('Content-Type: ' . $mimetype);
-			header('Content-Length: ' . OC_FILESYSTEM::filesize($path));
-			
-			//download the file
-			ob_clean();
-			OC_FILESYSTEM::readfile($path);
+			return $path;
 		}else{
-			header("HTTP/1.0 404 Not Found");
-			echo '404 Not Found';
-			die();
+			return false;
 		}
 	}
 	
