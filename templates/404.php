@@ -1,3 +1,13 @@
+<?php
+if(!isset($_)){//also provide standalone error page
+	require_once '../lib/base.php';
+	require( 'template.php' );
+	
+	$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+	$tmpl->printPage();
+	exit;
+}
+?>
 <div id="login">
 	<img src="<?php echo image_path("", "weather-clear.png"); ?>" alt="ownCloud" />
 	<ul>

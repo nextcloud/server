@@ -19,6 +19,13 @@ if($path!==false){
 		$subPath='';
 	}
 	$path.=$subPath;
+	if(!OC_FILESYSTEM::file_exists($path)){
+		header("HTTP/1.0 404 Not Found");
+		$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+		$tmpl->assign('file',$subPath);
+		$tmpl->printPage();
+		exit;
+	}
 	if(OC_FILESYSTEM::is_dir($path)){
 		$files = array();
 		$rootLength=strlen($root);

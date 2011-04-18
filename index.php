@@ -21,6 +21,8 @@
 *
 */
 
+$RUNTIME_NOAPPS=true;//no apps, yet
+
 require_once( 'lib/base.php' );
 require_once( 'appconfig.php' );
 require_once( 'template.php' );
@@ -48,6 +50,7 @@ if(count($errors)>0){
 		exit();
 	}
 }elseif(isset($_POST["user"])){
+	OC_APP::loadApps();
 	if( OC_USER::login( $_POST["user"], $_POST["password"] )){
 		header( "Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
 		exit();
@@ -55,6 +58,7 @@ if(count($errors)>0){
 		OC_TEMPLATE::printGuestPage( "", "login", array( "error" => true));
 	}
 }else{
+	OC_APP::loadApps();
 	OC_TEMPLATE::printGuestPage( "", "login", array( "error" => false ));
 }
 
