@@ -198,7 +198,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 				case 'a+':
 					OC_HOOK::emit( 'OC_FILESTORAGE', "read", array( 'storage'=>$this, 'path' => $path));
 					OC_HOOK::emit( 'OC_FILESTORAGE', "write", array( 'storage'=>$this, 'path' => $path));
-					if(!$exists($path)){
+					if(!exists($path)){
 						OC_HOOK::emit( 'OC_FILESTORAGE', 'create', array( 'storage'=>$this, 'path' => $path));
 					}
 					$this->clearFolderSizeCache($path);
@@ -207,7 +207,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 				case 'x':
 				case 'a':
 					OC_HOOK::emit( 'OC_FILESTORAGE', "write", array( 'storage'=>$this, 'path' => $path));
-					if(!$exists($path)){
+					if(!exists($path)){
 						OC_HOOK::emit( 'OC_FILESTORAGE', 'create', array( 'storage'=>$this, 'path' => $path));
 					}
 					$this->clearFolderSizeCache($path);
