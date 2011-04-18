@@ -89,7 +89,7 @@ class OC_HELPER {
 			return "$WEBROOT/img/mimetypes/$mimetype.png";
 		}
 		else{
-			return "$WEBROOT/img/mimetypes/application-octet-stream.png";
+			return "$WEBROOT/img/mimetypes/file.png";
 		}
 	}
 
