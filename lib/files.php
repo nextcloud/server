@@ -101,6 +101,7 @@ class OC_FILES {
 		if(strpos($files,';')){
 			$files=explode(';',$files);
 		}
+		echo 't';
 		if(is_array($files)){
 			$zip = new ZipArchive();
 			$filename = sys_get_temp_dir()."/ownCloud.zip";
@@ -155,7 +156,7 @@ class OC_FILES {
 			die('403 Forbidden');
 		}
 		ob_end_clean();
-		OC_LOG::event($_SESSION['username'],3,"$dir/$files");
+// 		OC_LOG::event($_SESSION['username'],3,"$dir/$files");
 		if($zip){
 			readfile($filename);
 			unlink($filename);
@@ -217,7 +218,7 @@ class OC_FILES {
 				$fileHandle=OC_FILESYSTEM::fopen($file, 'w');
 				if($fileHandle){
 					fclose($fileHandle);
-					OC_LOG::event($_SESSION['username'],4,"$dir/$name");
+// 					OC_LOG::event($_SESSION['username'],4,"$dir/$name");
 					return true;
 				}else{
 					return false;
