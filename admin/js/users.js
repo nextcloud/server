@@ -31,9 +31,15 @@ $(document).ready(function(){
 				}
 			}
 			else{
-				alert( "something went wrong! sorry!" );
+				printError( data.data.message );
 			}
 		});
+		return false;
+	}
+
+	function printError( message ){
+		$("#errormessage").text( message );
+		$("#errordialog").dialog( "open" );
 		return false;
 	}
 
@@ -131,7 +137,7 @@ $(document).ready(function(){
 				$('#changepassword').hide();
 			}
 			else{
-				alert( "something went wrong! sorry!" );
+				printError( data.data.message );
 			}
 		});
 		return false;
@@ -202,7 +208,8 @@ $(document).ready(function(){
 	// Show the create user form
 	$( "#createuseroptionbutton" )
 		.click(function(){
-			$( "#createuserform" ).toggle();
+			$("#createuserform").show();
+			$("#createuseroption").hide();
 			return false;
 		});
 
@@ -219,7 +226,7 @@ $(document).ready(function(){
 					userCreated( data.data.username, data.data.groups );
 				}
 				else{
-					alert( "Bug By Jakob (c)" );
+					printError( data.data.message );
 				}
 			});
 			return false;
@@ -243,7 +250,7 @@ $(document).ready(function(){
 					groupCreated( data.data.groupname );
 				}
 				else{
-					alert( "something went wrong! sorry!" );
+					printError( data.data.message );
 				}
 			});
 			return false;
@@ -262,6 +269,17 @@ $(document).ready(function(){
 	//#########################################################################
 
 	// Removing users
+	$( "#errordialog" ).dialog({
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			OK: function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+
+	// Removing users
 	$( "#removeuserform" ).dialog({
 		autoOpen: false,
 		height: 300,
@@ -275,7 +293,7 @@ $(document).ready(function(){
 						userRemoved( uid );
 					}
 					else{
-						alert( "Bug By Jakob (c)" );
+						printError( data.data.message );
 					}
 				});
 				$( this ).dialog( "close" );
@@ -304,7 +322,7 @@ $(document).ready(function(){
 						groupRemoved( gid );
 					}
 					else{
-						alert( "Bug By Jakob (c)" );
+						printError( data.data.message );
 					}
 				});
 				$( this ).dialog( "close" );

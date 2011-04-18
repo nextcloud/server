@@ -108,6 +108,10 @@ class OC_GROUP {
 		if( !$gid ){
 			return false;
 		}
+		// No duplicate group names
+		if( in_array( $gid, self::getGroups())){
+			return false;
+		}
 
 		$run = true;
 		OC_HOOK::emit( "OC_GROUP", "pre_createGroup", array( "run" => &$run, "gid" => $gid ));
@@ -167,6 +171,16 @@ class OC_GROUP {
 	 * Adds a user to a group.
 	 */
 	public static function addToGroup( $uid, $gid ){
+		// Does the user exist?
+		if( !in_array( $uid, OC_USER::getUsers())){
+			return false;
+		}
+		// Does the group exist?
+		if( !in_array( $gid, self::getGroups())){
+			return false;
+		}
+
+		// Go go go
 		$run = true;
 		OC_HOOK::emit( "OC_GROUP", "pre_addToGroup", array( "run" => &$run, "uid" => $uid, "gid" => $gid ));
 

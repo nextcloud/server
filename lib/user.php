@@ -118,6 +118,11 @@ class OC_USER {
 		if( !$uid ){
 			return false;
 		}
+		// Check if user already exists
+		if( in_array( $uid, self::getUsers())){
+			return false;
+		}
+
 
 		$run = true;
 		OC_HOOK::emit( "OC_USER", "pre_createUser", array( "run" => &$run, "uid" => $uid, "password" => $password ));

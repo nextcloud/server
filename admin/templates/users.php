@@ -63,7 +63,13 @@
 		<?php foreach($_["groups"] as $group): ?>
 			<tr x-gid="<?php echo $group["name"]; ?>">
 				<td><?php echo $group["name"] ?></td>
-				<td><a class="removegroupbutton" href="">remove</a></td>
+				<td>
+					<?php if( $group["name"] != "admin" ): ?>
+						<a class="removegroupbutton" href="">remove</a>
+					<?php else: ?>
+						&nbsp;
+					<?php endif; ?>
+				</td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
@@ -103,4 +109,8 @@
 		Do you really want to delete group <span id="removegroupgroupname">$group</span>?
 		<input id="removegroupnamefield" type="hidden" name="groupname" value="">
 	</form>
+</div>
+
+<div id="errordialog" title="Error">
+	<span id="errormessage"></span>
 </div>
