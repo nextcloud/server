@@ -97,6 +97,9 @@ class OC_INSTALLER{
 				OC_GROUP::createGroup('admin');
 				OC_GROUP::addToGroup($username,'admin');
 				
+				//create htaccess files for apache hosts
+				self::createHtaccess();//TODO detect if apache is used
+				
 				//and we are done
 				OC_CONFIG::setValue('installed',true);
 			}
@@ -124,6 +127,19 @@ class OC_INSTALLER{
 		$result = mysql_query($query,$connection);
 		$query="CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query,$connection);
+	}
+	
+	/**
+	 * create .htaccess files for apache hosts
+	 */
+	private static function createHtaccess(){
+		global $SERVERROOT;
+		global $WEBROOT;
+		$content="ErrorDocument 404 /$WEBROOT/templates/404.php\n";
+		file_put_contents($SERVERROOT.'/.htaccess',$content);
+		
+		$content="deny from all";
+		file_put_contents(OC_CONFIG::getValue('datadirectory',$SERVERROOT.'/data').'/.htaccess',$content);
 	}
 }
 
