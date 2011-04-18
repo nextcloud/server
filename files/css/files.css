@@ -33,6 +33,10 @@
 
 /* FILE TABLE */
 
+table {
+	width: 90%;
+}
+
 table td.filesize, table td.date
 {
     width: 5em;
