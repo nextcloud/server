@@ -22,4 +22,20 @@ $(document).ready(function() {
 		$('label.sqlite').css('background-color', '#ddd');
 		$('label.mysql').css('background-color', '#fff');
 	});
+
+	// Hide and show input field values for login form
+	var textuser = "username";
+	var textpassword = "password";
+	$("#user").focus(function() {
+		if($(this).attr("value") == textuser) $(this).attr("value", "");
+	});
+	$("#user").blur(function() {
+		if($(this).attr("value") == "") $(this).attr("value", textuser);
+	});
+	$("#password").focus(function() {
+		if($(this).attr("value") == textpassword) $(this).attr("value", "");
+	});
+	$("#password").blur(function() {
+		if($(this).attr("value") == "") $(this).attr("value", textpassword);
+	});
 });

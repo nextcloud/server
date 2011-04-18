@@ -3,7 +3,7 @@
 	<form action="#" method="post">
 		<input type='hidden' name='install' value='true'/>
 		<fieldset>
-			<input type="text" name="login" value="your email" />
+			<input type="text" name="login" value="admin username" />
 			<input type="password" name="pass" value="password" />
         </fieldset>
 		<fieldset>
