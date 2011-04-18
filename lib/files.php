@@ -95,7 +95,7 @@ class OC_FILES {
 	* return the content of a file or return a zip file containning multiply files
 	*
 	* @param dir  $dir
-	* @param file $file
+	* @param file $file ; seperated list of files to download
 	*/
 	public static function get($dir,$files){
 		if(strpos($files,';')){
