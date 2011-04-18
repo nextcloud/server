@@ -146,7 +146,10 @@ class OC_FILES {
 			}
 		}elseif($zip or !OC_FILESYSTEM::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");
-			die('404 Not Found');
+			$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+			$tmpl->assign('file',$filename);
+			$tmpl->printPage();
+// 			die('404 Not Found');
 		}else{
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');

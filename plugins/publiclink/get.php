@@ -70,7 +70,8 @@ if($path!==false){
 	}
 }else{
 	header("HTTP/1.0 404 Not Found");
-	echo '404 Not Found';
+	$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+	$tmpl->printPage();
 	die();
 }
 ?>

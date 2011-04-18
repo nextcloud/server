@@ -33,6 +33,14 @@ if( !OC_USER::isLoggedIn()){
 
 $filename = $_GET["file"];
 
+if(!OC_FILESYSTEM::file_exists($filename)){
+	header("HTTP/1.0 404 Not Found");
+	$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+	$tmpl->assign('file',$filename);
+	$tmpl->printPage();
+	exit;
+}
+
 $ftype=OC_FILESYSTEM::getMimeType( $filename );
 
 header('Content-Type:'.$ftype);
