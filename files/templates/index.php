@@ -38,7 +38,7 @@ name="file_upload_target" src=""></iframe></form>
 
 <div id="file_menu">
 	<ul>
-		<li><a href="" title="">Download</a></li>
+		<li><a href="" title="" id="download_single_file">Download</a></li>
 		<li><a href="" title="">Share</a></li>
 		<li><a href="" title="" id="delete_single_file">Delete</a></li>
 	</ul>

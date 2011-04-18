@@ -49,6 +49,14 @@ $(document).ready(function() {
 		}
 	});
 	
+	// Download current file 
+	$('#download_single_file').click(function() {
+		filename = $('#file_menu').parents('tr:first').find('.filename:first').children('a:first').text();
+		window.location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
+		$('#file_menu').slideToggle(250);
+		return false;
+	});
+	
 	// Delete current file 
 	$('#delete_single_file').click(function() {
 		filename = $('#file_menu').parents('tr:first').find('.filename:first').children('a:first').text();
@@ -121,7 +129,6 @@ $(document).ready(function() {
 		});
 		files=files.substr(1);//remove leading ;
 		
-		//send the browser to the download location
 		$.ajax({
 			url: 'ajax/delete.php',
 			data: "dir="+$('#dir').val()+"&files="+files,
