@@ -133,7 +133,7 @@ class OC_FILES {
 			$filename=$dir.'/'.$files;
 		}
 		if($zip or OC_FILESYSTEM::is_readable($filename)){
-			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+			header('Content-Disposition: attachment; filename='.basename($filename));
 			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
