@@ -6,9 +6,9 @@ class OC_PublicLink{
 	 * @param int (optional) expiretime time the link expires, as timestamp
 	 */
 	public function __construct($path,$expiretime=0){
-		if($path && OC_FILESYSTEM::file_exists($path)){
-			$token=sha1("$path-$expiretime");
+		if($path and  OC_FILESYSTEM::file_exists($path) and OC_FILESYSTEM::is_readable($path)){
 			$user=$_SESSION['user_id'];
+			$token=sha1("$user-$path-$expiretime");
 			$query=OC_DB::prepare("INSERT INTO *PREFIX*publiclink VALUES(?,?,?,?)");
 			$result=$query->execute(array($token,$path,$user,$expiretime));
 			if( PEAR::isError($result)) {
