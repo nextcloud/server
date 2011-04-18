@@ -79,8 +79,8 @@ class OC_FILES {
 			closedir($dh);
 			}
 		}
-		ksort($dirs);
-		ksort($files);
+		uksort($dirs, "strnatcasecmp");
+		uksort($files, "strnatcasecmp");
 		$content=array_merge($dirs,$files);
 		if($filesfound){
 			return $content;
