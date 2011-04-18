@@ -38,11 +38,8 @@ class OC_PublicLink{
 			$path=$data[0]['path'];
 			$user=$data[0]['user'];
 			
-			//login
-			$_SESSION['user_id']=$user;
-			
 			//prepare the filesystem
-			OC_UTIL::setupFS();
+			OC_UTIL::setupFS($user);
 			
 			//get time mimetype and set the headers
 			$mimetype=OC_FILESYSTEM::getMimeType($path);
