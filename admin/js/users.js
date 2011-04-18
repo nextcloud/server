@@ -51,7 +51,7 @@ $(document).ready(function(){
 	function userCreated( username, groups ){
 		// We need at least a space for showing the div
 		if( groups == "" ){
-			groups = '&nbps;';
+			groups = '&nbsp;';
 		}
 
 		// Add user to table
