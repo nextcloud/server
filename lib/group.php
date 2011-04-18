@@ -129,6 +129,11 @@ class OC_GROUP {
 	 * Deletes a group and removes it from the group_user-table
 	 */
 	public static function deleteGroup( $gid ){
+		// Prevent users from deleting group admin
+		if( $gid == "admin" ){
+			return false;
+		}
+
 		$run = true;
 		OC_HOOK::emit( "OC_GROUP", "pre_deleteGroup", array( "run" => &$run, "gid" => $gid ));
 
