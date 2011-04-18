@@ -23,7 +23,12 @@ $(document).ready(function(){
 						groups.push($(this).val());
 					}
 				});
-				$("#changegroups").prev().html( groups.join(", "));
+				if( groups.length == 0 ){
+					$("#changegroups").prev().html( '&nbsp;' );
+				}
+				else{
+					$("#changegroups").prev().html( groups.join(", "));
+				}
 			}
 			else{
 				alert( "something went wrong! sorry!" );
@@ -38,10 +43,15 @@ $(document).ready(function(){
 
 	// Manipulating the page after crteating a user
 	function userCreated( username, groups ){
+		// We need at least a space for showing the div
+		if( groups == "" ){
+			groups = '&nbps;';
+		}
+
 		// Add user to table
-		var newrow = '<tr x-uid="'+username+'"><td x-use="username"><span x-use="usernamespan">'+username+'</span></td>';
-		newrow = newrow+'<td x-use="usergroups">'+groups+'</td>';
-		newrow = newrow+'<td><a href="" class="edituserbutton">edit</a> | <a  class="removeuserbutton" href="">remove</a></td></tr>';
+		var newrow = '<tr x-uid="'+username+'"><td x-use="username"><div x-use="usernamediv">'+username+'</div></td>';
+		newrow = newrow+'<td x-use="usergroups"><div x-use="usergroupsdiv">'+groups+'</td>';
+		newrow = newrow+'<td><a class="removeuserbutton" href="">remove</a></td></tr>';
 		$("#usertable").append( newrow  );
 
 		// Clear forms
@@ -96,7 +106,7 @@ $(document).ready(function(){
 	//#########################################################################
 
 	// Password (clicking on user name)
-	$("span[x-use='usernamespan']").live( "click", function(){
+	$("div[x-use='usernamediv']").live( "click", function(){
 		if( togglepassword == "" || $(this).parent().parent().attr("x-uid") != togglepassword ){
 			togglepassword = $(this).parent().parent().attr("x-uid");
 			// Set the username!
@@ -128,7 +138,7 @@ $(document).ready(function(){
 	});
 
 	// Groups
-	$("span[x-use='usergroupsspan']").live( "click", function(){
+	$("div[x-use='usergroupsdiv']").live( "click", function(){
 		if( togglegroup == "" || $(this).parent().parent().attr("x-uid") != togglegroup){
 			togglegroup = $(this).parent().parent().attr("x-uid");
 			var groups = $(this).text();
@@ -161,7 +171,12 @@ $(document).ready(function(){
 					groups.push($(this).val());
 				}
 			});
-			$(this).html( groups.join(", "));
+			if( groups.length == 0 ){
+				$("#changegroups").prev().html( '&nbsp;' );
+			}
+			else{
+				$("#changegroups").prev().html( groups.join(", "));
+			}
 			$('#changegroups').hide();
 			togglegroup = "";
 		}

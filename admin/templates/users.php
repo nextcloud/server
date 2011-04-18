@@ -35,8 +35,8 @@
 	<tbody>
 		<?php foreach($_["users"] as $user): ?>
 			<tr x-uid="<?php echo $user["name"] ?>">
-				<td x-use="username"><span x-use="usernamespan"><?php echo $user["name"]; ?></span></td>
-				<td x-use="usergroups"><span x-use="usergroupsspan"><?php echo $user["groups"]; ?></span></td>
+				<td x-use="username"><div x-use="usernamediv"><?php echo $user["name"]; ?></div></td>
+				<td x-use="usergroups"><div x-use="usergroupsdiv"><?php if( $user["groups"] ){ echo $user["groups"]; }else{echo "&nbsp";} ?></div></td>
 				<td><a  class="removeuserbutton" href="">remove</a></td>
 			</tr>
 		<?php endforeach; ?>
