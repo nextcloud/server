@@ -23,6 +23,11 @@
 	display: none;
 }
 
+#file_upload_form input[type="button"]{
+	/* this is a dirty wurgaround, Jan needs to fix it in global css*/
+	font-size: 0.9em;
+}
+
 #file_newfolder_form {
 	display: none;
 }

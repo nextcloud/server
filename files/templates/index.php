@@ -1,6 +1,6 @@
 <div class="controls">
 	<p class="actions">
-		<a href="" title="" class="upload" id="file_upload_button">Upload</a><a
+		<a href="" title="" class="upload" id="file_upload_button" style="background-image:url(<?php  echo mimetype_icon('file'); ?>)">Upload (max <?php echo $_["uploadMaxHumanFilesize"];?>)</a><a
 href="" title="" class="new-dir">New folder</a><a href="" title=""
 class="download">Download</a><a href="" title="" class="share">Share</a><a
 href="" title="" class="delete">Delete</a>
@@ -9,9 +9,10 @@ href="" title="" class="delete">Delete</a>
 		<form id="file_upload_form" action="ajax/upload.php"
 method="post" enctype="multipart/form-data" target="file_upload_target"><input
 type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_["uploadMaxFilesize"] ?>" id="max_upload"><input
-type="hidden" name="dir" value="<?php echo $_["dir"] ?>" id="dir"><input
-type="file" name="file" id="fileSelector"><input class="prettybutton" type="submit"
-id="file_upload_start" value="Upload (max <?php echo $_["uploadMaxHumanFilesize"];?>)" /><iframe id="file_upload_target"
+type="hidden" name="dir" value="<?php echo $_["dir"] ?>" id="dir"><input class="prettybutton" type="submit"
+id="file_upload_start" value="Upload" />&nbsp;<input class="prettybutton" type="button"
+id="file_upload_cancel" value="X" /><input
+type="file" name="file" id="fileSelector"><iframe id="file_upload_target"
 name="file_upload_target" src=""></iframe></form>
 		<form id="file_newfolder_form"><input type="text" name="file_new_dir_name" id="file_new_dir_name" />&nbsp;<input class="prettybutton" type="button" id="file_new_dir_submit" name="file_new_dir_submit" value="OK" /></form>
 	</div>

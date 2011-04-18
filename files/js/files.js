@@ -74,6 +74,12 @@ $(document).ready(function() {
 		$('#file_upload_target').load(uploadFinished);
 	});
 	
+	$('#file_upload_cancel').click(function() {
+		$('#file_action_panel').attr('activeAction', 'false');
+		$('#file_upload_form').hide();
+		$('p.actions a.upload:first').show();
+	});
+	
 	$('#file_new_dir_submit').click(function() {
 		$.ajax({
 			url: 'ajax/newfolder.php',
@@ -86,14 +92,24 @@ $(document).ready(function() {
 		if($('#file_action_panel').attr('activeAction') != 'upload') {
 			$('#file_action_panel').attr('activeAction', 'upload');
 			$('#fileSelector').replaceWith('<input type="file" name="file" id="fileSelector">');
+			$('#fileSelector').change(function() {
+				$('#file_upload_start').val('Upload ' + $('#fileSelector').val());
+				$('p.actions a.upload:first').after($('#file_upload_form'));
+				$('#file_upload_form').css('display', 'inline');
+				$('p.actions a.upload:first').hide();
+				$('#fileSelector').hide();
+			});
 			$('#file_action_panel form').slideUp(250);
-			$('#file_upload_form').slideDown(250);
+// 			$('#file_upload_form').slideDown(250);
+			$('#fileSelector').click();
 		} else {
 			$('#file_action_panel').attr('activeAction', 'false');
 			$('#file_upload_form').slideUp(250);
 		}
 		return false;
 	});
+	
+	
 	
 	$('.new-dir').click(function(){
 		if($('#file_action_panel').attr('activeAction') != 'new-dir') {
@@ -151,7 +167,12 @@ function uploadFinished() {
 		$.ajax({
 			url: 'ajax/list.php',
 			data: "dir="+dir,
-			complete: refreshContents
+			complete: function(data) {
+				refreshContents(data);
+				$('#file_action_panel').prepend($('#file_upload_form'));
+				$('#file_upload_form').css('display', 'block').hide();
+				$('p.actions a.upload:first').show();
+			}
 		});
 	}
 }
