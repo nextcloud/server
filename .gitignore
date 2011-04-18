@@ -16,3 +16,5 @@ _darcs/*
 CVS/*
 .svn/*
 RCS/*
+.kdev
+*.kdev4
