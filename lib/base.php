@@ -242,35 +242,20 @@ class OC_UTIL {
 	public static function showPageNavi($pagecount,$page,$url) {
 
 		$pagelinkcount=8;
-		$txt='';
 		if ($pagecount>1) {
-			$txt.='<center><table class="pager" cellspacing="0" cellpadding="0" border="0"><tr><td width="1">';
-
-			if ($page>'0') {
-				$txt.='<span class="pagerbutton1"><a href="'.$url.($page-1).'">prev</a>&nbsp;&nbsp;</span>';
-			}
-			$txt.='</td><td width="1">';
-
 			$pagestart=$page-$pagelinkcount;
 			if($pagestart<0) $pagestart=0;
 			$pagestop=$page+$pagelinkcount;
 			if($pagestop>$pagecount) $pagestop=$pagecount;
-			if ($pagestart<>0) $txt.='...';
-			for ($i=$pagestart; $i < $pagestop;$i++) {
-				if ($i<>$page) {
-					$txt.='<a href="'.$url.$i.'">&nbsp;'.($i+1).'&nbsp;</a>';
-				} else {
-					$txt.='&nbsp;<b>'.($i+1).'</b>&nbsp;';
-				}
-			}
-			if ($pagecount>$pagestop) $txt.='...';
-			$txt.='</td><td width="1">';
-			if (($page+1)<$pagecount) {
-				$txt.='<span class="pagerbutton2"><a href="'.$url.($page+1).'">next</a></span>';
-			}
-			$txt.='</td></tr></table></center>';
+			
+			$tmpl = new OC_TEMPLATE( '', 'part.pagenavi', '' );
+			$tmpl->assign('page',$page);
+			$tmpl->assign('pagecount',$pagecount);
+			$tmpl->assign('pagestart',$pagestart);
+			$tmpl->assign('pagestop',$pagestop);
+			$tmpl->assign('url',$url);
+			$tmpl->printPage();
 		}
-		echo($txt);
 	}
 
 
