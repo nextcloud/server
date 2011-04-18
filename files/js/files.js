@@ -39,6 +39,16 @@ $(document).ready(function() {
             $('td.selection input:checkbox').attr('checked', false);
     });
 	
+	$('td.selection input:checkbox').click(function() {
+		if(!$(this).attr('checked')){
+			$('#select_all').attr('checked',false);
+		}else{
+			if($('td.selection input:checkbox:checked').length==$('td.selection input:checkbox').length){
+				$('#select_all').attr('checked',true);
+			}
+		}
+	});
+	
 	// Delete current file 
 	$('#delete_single_file').click(function() {
 		filename = $('#file_menu').parents('tr:first').find('.filename:first').children('a:first').text();
