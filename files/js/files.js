@@ -39,6 +39,19 @@ $(document).ready(function() {
             $('.browser input:checkbox').attr('checked', false);
     });
 	
+	// Delete current file 
+	$('#delete_single_file').click(function() {
+		filename = $('#file_menu').parents('tr:first').find('.filename:first').children('a:first').text();
+		$.ajax({
+			url: 'ajax/delete.php',
+			data: "dir="+$('#dir').val()+"&file="+filename,
+			complete: function(data){
+				boolOperationFinished(data, true, $('#file_menu').parents('tr:first'));
+			}
+		});
+		return false;
+	});
+	
 	$('#file_upload_start').click(function() {		
 		$('#file_upload_target').load(uploadFinished);
 	});
@@ -47,7 +60,7 @@ $(document).ready(function() {
 		$.ajax({
 			url: 'ajax/newfolder.php',
 			data: "dir="+$('#dir').val()+"&foldername="+$('#file_new_dir_name').val(),
-			complete: boolOpFinished
+			complete: function(data){boolOperationFinished(data, false);}
 		});
 	});
 	
@@ -98,14 +111,20 @@ function resetFileActionPanel() {
 	$('#file_action_panel').attr('activeAction', false);
 }
 
-function boolOpFinished(data) {
+function boolOperationFinished(data, single, el) {
 	result = eval("("+data.responseText+");");
 	if(result.status == 'success'){
-		$.ajax({
-			url: 'ajax/list.php',
-			data: "dir="+$('#dir').val(),
-			complete: refreshContents
-		});
+		if(single) {
+			$('#file_menu').slideToggle(0);
+			$('body').append($('#file_menu'));
+			$(el).remove();
+		} else {
+			$.ajax({
+				url: 'ajax/list.php',
+				data: "dir="+$('#dir').val(),
+				complete: refreshContents
+			});
+		}
 	} else {
 		alert(result.data.message);
 	}
@@ -117,7 +136,11 @@ function refreshContents(data) {
 		updateBreadcrumb(result.data.breadcrumb);
 	}
 	updateFileList(result.data.files);
-	$('#file_upload_button').click();
+	$('td.fileaction a').click(function() {
+        $(this).parent().append($('#file_menu'));
+        $('#file_menu').slideToggle(250);
+        return false;
+    });
 	resetFileActionPanel();
 }
 

@@ -40,6 +40,6 @@ name="file_upload_target" src=""></iframe></form>
 	<ul>
 		<li><a href="" title="">Download</a></li>
 		<li><a href="" title="">Share</a></li>
-		<li><a href="" title="">Delete</a></li>
+		<li><a href="" title="" id="delete_single_file">Delete</a></li>
 	</ul>
 </div>
