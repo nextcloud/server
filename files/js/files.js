@@ -74,8 +74,6 @@ $(document).ready(function() {
 	$('#file_upload_start').click(function() {
 		if($('#file_upload_start').attr('mode') == 'menu') {
 			$('#fileSelector').change(function() {
-// 				alert("foo");
-				
 				//Chromium prepends C:\fakepath....
 				bspos = $('#fileSelector').val().lastIndexOf('\\')+1;
 				filename = $('#fileSelector').val().substr(bspos);
@@ -86,7 +84,10 @@ $(document).ready(function() {
 				$('#file_upload_start').attr('mode', 'action');
 			});
 			$('#fileSelector').show();	//needed for Chromium compatibility
-			$('#fileSelector').click();
+			//rekonq does not call change-event, when click() is executed by script
+			if(navigator.userAgent.indexOf('rekonq') == -1){ 
+				$('#fileSelector').click();
+			}
 		} else if($('#file_upload_start').attr('mode') == 'action') {
 			$('#file_upload_cancel').slideUp(250);
 			$('#file_upload_target').load(uploadFinished);
