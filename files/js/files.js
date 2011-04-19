@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 	$('#file_upload_start').attr('mode', 'menu');
+	$('#file_upload_form').attr('uploading', false);
 	
     // Sets browser table behaviour :
     $('.browser tr').hover(
@@ -73,6 +74,7 @@ $(document).ready(function() {
 	
 	$('#file_upload_start').click(function() {
 		if($('#file_upload_start').attr('mode') == 'menu') {
+			$('#file_upload_form')[0].reset();
 			$('#fileSelector').change(function() {
 				//Chromium prepends C:\fakepath....
 				bspos = $('#fileSelector').val().lastIndexOf('\\')+1;
@@ -90,6 +92,7 @@ $(document).ready(function() {
 			}
 		} else if($('#file_upload_start').attr('mode') == 'action') {
 			$('#file_upload_cancel').slideUp(250);
+			$('#file_upload_form').attr('uploading', true);
 			$('#file_upload_target').load(uploadFinished);
 		}
 	});
@@ -184,8 +187,11 @@ $(document).ready(function() {
 function uploadFinished() {
 	result = $('#file_upload_target').contents().text();
 	result = eval("(" + result + ");");
+	$('#file_upload_target').load(function(){});
 	if(result.status == "error") {
-		alert('An error occcured, upload failed.\nError code: ' + result.data.error);
+		if($('#file_upload_form').attr('uploading') == true) {
+			alert('An error occcured, upload failed.\nError code: ' + result.data.error + '\nFilename: ' + result.data.file);
+		}
 	} else {
 		dir = $('#dir').val();
 		$.ajax({
@@ -198,10 +204,10 @@ function uploadFinished() {
 // 				$('p.actions a.upload:first').show();
 				$('#file_upload_start').val('Upload ' + $('.max_human_file_size:first').val());
 				$('#file_upload_start').attr('mode', 'menu');
-// 				$('#fileSelector').replaceWith('<input type="file" name="file" id="fileSelector">');
 			}
 		});
 	}
+	$('#file_upload_form').attr('uploading', false);
 }
 
 function resetFileActionPanel() {

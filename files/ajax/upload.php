@@ -28,6 +28,6 @@ if(strpos($dir,'..') === false){
 
 $error = $_FILES['file']['error'];
 
-echo json_encode(array( 'status' => 'error', 'data' => array('error' => $error)));
+echo json_encode(array( 'status' => 'error', 'data' => array('error' => $error, "file" => $fileName)));
 
 ?>
