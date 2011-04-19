@@ -33,10 +33,10 @@
 	padding-left: 2em;
 }
 
-#file_upload_start {background-image:url(/owncloud-dev/img/mimetypes/file.png);}
+#file_upload_start {background-image:url(../../img/mimetypes/file.png);}
 
 #file_newfolder_name {
-	background-image:url(/owncloud-dev/img/places/folder.png); font-weight: bold; 
+	background-image:url(../../img/places/folder.png); font-weight: bold; 
 	width: 14em;
 }
 
