@@ -87,11 +87,23 @@ $(document).ready(function() {
 				$('#file_upload_cancel').slideDown(250);
 				$('#file_upload_start').attr('mode', 'action');
 			});
+			$('#file_upload_start').focusin(function() {
+				if($('#fileSelector').val() == '') {
+					$('#fileSelector').hide();
+					$('#file_upload_start').unbind('focusin');
+				}
+			});
+			$('#fileSelector').focusout(function() {
+				if($('#fileSelector').val() == '') {
+					$('#fileSelector').hide();
+				}
+			});
 			$('#fileSelector').show();	//needed for Chromium compatibility
 			//rekonq does not call change-event, when click() is executed by script
 			if(navigator.userAgent.indexOf('rekonq') == -1){ 
 				$('#fileSelector').click();
 			}
+			$('#fileSelector').focus();
 		} else if($('#file_upload_start').attr('mode') == 'action') {
 			$('#file_upload_cancel').slideUp(250);
 			$('#file_upload_form').attr('uploading', true);
