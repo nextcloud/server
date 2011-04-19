@@ -95,9 +95,10 @@ $(document).ready(function() {
 	});
 	
 	$('#file_upload_cancel').click(function() {
+		$('#file_upload_form')[0].reset();
 		$('#file_upload_start').val('Upload ' + $('.max_human_file_size:first').val());
 		$('#file_upload_start').attr('mode', 'menu');
-		$('#file_upload_cancel').hide;
+		$('#file_upload_cancel').hide();
 // 		$('#file_action_panel').attr('activeAction', 'false');
 // 		$('#file_upload_form').hide();
 // 		$('p.actions a.upload:first').show();
