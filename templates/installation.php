@@ -17,7 +17,7 @@
 		<fieldset id="advanced">
 			<legend><a id="advanced_options_link" href="">Advanced ▾</a></legend>
 			<div id="advanced_options">
-				<label class="left">Data directory</label><input type="text" name="directory" value="<?php echo($_['datadir']);?>" />
+				<label>Data directory</label><input type="text" name="directory" value="<?php echo($_['datadir']);?>" />
 				<?php if($_['hasMySQL'] and $_['hasSQLite']): ?>
 					<input type="radio" name="dbtype" value='sqlite' id="sqlite" checked="checked" /><label class="sqlite" for="sqlite">SQLite</label>
 					<input type="radio" name="dbtype" value='mysql' id="mysql"><label class="mysql" for="mysql">MySQL</label>
@@ -33,13 +33,13 @@
 						<input type="hidden" name="dbtype" value="sqlite" />
 				<?php endif;?>
 				<?php if($_['hasMySQL'] and $_['hasSQLite']): ?>
-						<label class="left">Database host</label><input type="text" name="dbhost" id="dbhost" value="localhost" />
-						<label class="left">Table prefix</label><input type="text" name="dbtableprefix" id="dbtableprefix" value="oc_" />
+						<label>Database host</label><input type="text" name="dbhost" id="dbhost" value="localhost" />
+						<label>Table prefix</label><input type="text" name="dbtableprefix" id="dbtableprefix" value="oc_" />
 					</div>
 				<?php endif;?>
 				<?php if($_['hasMySQL'] and !$_['hasSQLite']): ?>
-					<label class="left">Database host</label><input type="text" name="dbhost" id="dbhost" value="localhost" />
-					<label class="left">Table prefix</label><input type="text" name="dbtableprefix" id="dbtableprefix" value="oc_" />
+					<label>Database host</label><input type="text" name="dbhost" id="dbhost" value="localhost" />
+					<label>Table prefix</label><input type="text" name="dbtableprefix" id="dbtableprefix" value="oc_" />
 				<?php endif;?>
 			</div>
 		</fieldset>
