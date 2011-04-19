@@ -204,7 +204,11 @@ class OC_UTIL {
 			$file = $application;
 			$application = "";
 		}
-		self::$scripts[] = "$application/js/$file";
+		if( !empty( $application )){
+			self::$scripts[] = "$application/js/$file";
+		}else{
+			self::$scripts[] = "js/$file";
+		}
 	}
 
 	/**
@@ -217,7 +221,11 @@ class OC_UTIL {
 			$file = $application;
 			$application = "";
 		}
-		self::$styles[] = "$application/css/$file";
+		if( !empty( $application )){
+			self::$styles[] = "$application/css/$file";
+		}else{
+			self::$styles[] = "css/$file";
+		}
 	}
 
        /**

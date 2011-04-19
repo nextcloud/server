@@ -63,7 +63,11 @@ class OC_HELPER {
 		if( file_exists( "$SERVERROOT/apps/img/$app/$image" )){
 			return "$WEBROOT/apps/img/$app/$image";
 		}
-		return "$WEBROOT/$app/img/$image";
+		if( !empty( $app )){
+			return "$WEBROOT/$app/img/$image";
+		}else{
+			return "$WEBROOT/img/$image";
+		}
 	}
 
 	/**
