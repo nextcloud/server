@@ -19,29 +19,34 @@
     text-decoration: none;
 }
 
-#file_upload_form {
+#file_upload_form, #file_newfolder_form {
 	display: inline;
 }
 
-#fileSelector, #file_upload_cancel {
+#fileSelector, #file_upload_cancel, #file_newfolder_submit {
 	display: none;
 }
 
-#file_upload_start {
-	background-image:url(/owncloud-dev/img/mimetypes/file.png);
+#file_upload_start, #file_newfolder_name {
 	background-repeat: no-repeat;
 	background-position: 0.5em 0;
 	padding-left: 2em;
-	
 }
 
-#file_upload_form input[type="button"]{
+#file_upload_start {background-image:url(/owncloud-dev/img/mimetypes/file.png);}
+
+#file_newfolder_name {
+	background-image:url(/owncloud-dev/img/places/folder.png); font-weight: bold; 
+	width: 14em;
+}
+
+#file_newfolder_submit {
+	width: 3em;
+}
+
+form input[type="button"], form input[type="text"]{
 	/* this is a dirty wurgaround, Jan needs to fix it in global css*/
 	font-size: 0.9em;
-}
-
-#file_newfolder_form {
-	display: none;
 }
 
 #file_upload_target {

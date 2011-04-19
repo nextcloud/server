@@ -2,6 +2,8 @@ $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 	$('#file_upload_start').attr('mode', 'menu');
 	$('#file_upload_form').attr('uploading', false);
+	$('#file_newfolder_name').css('width', '14em');
+	$('#file_newfolder_submit').css('width', '3em');
 	
     // Sets browser table behaviour :
     $('.browser tr').hover(
@@ -115,6 +117,40 @@ $(document).ready(function() {
 		});
 	});
 	
+	$('#file_newfolder_name').click(function(){
+		if($('#file_newfolder_name').val() == 'New Folder'){
+			$('#file_newfolder_name').val('');
+		}
+	});
+	
+	$('#file_newfolder_name').bind('keyup', adjustNewFolderSize);
+	
+	$('#file_newfolder_submit').bind('vanish', function() {
+		$('#file_newfolder_name').bind('keyup', adjustNewFolderSize);
+		unsplitSize($('#file_newfolder_name'),$('#file_newfolder_submit'));
+	});
+	
+	$('#file_newfolder_name').focusout(function(){
+		if($('#file_newfolder_name').val() == '') {
+			$('#file_newfolder_form')[0].reset();
+			$('#file_newfolder_submit').fadeOut(250).trigger('vanish');
+		}
+	});
+	
+	$('#file_newfolder_submit').click(function() {
+		if($('#file_newfolder_name').val() != '') {
+			$.ajax({
+				url: 'ajax/newfolder.php',
+				data: "dir="+$('#dir').val()+"&foldername="+$('#file_newfolder_name').val(),
+				complete: function(data){
+					boolOperationFinished(data, false);
+					$('#file_newfolder_form')[0].reset();
+				}
+			});
+		}
+		$('#file_newfolder_submit').fadeOut(250).trigger('vanish');
+	});
+	
 // 	$('.upload').click(function(){
 // 		if($('#file_action_panel').attr('activeAction') != 'upload') {
 // 			$('#file_action_panel').attr('activeAction', 'upload');
@@ -138,18 +174,18 @@ $(document).ready(function() {
 	
 	
 	
-	$('.new-dir').click(function(){
-		if($('#file_action_panel').attr('activeAction') != 'new-dir') {
-			$('#file_action_panel').attr('activeAction', 'new-dir');
-			$('#file_new_dir_name').val('');
-			$('#file_action_panel form').slideUp(250);
-			$('#file_newfolder_form').slideDown(250);
-		} else {
-			$('#file_newfolder_form').slideUp(250);
-			$('#file_action_panel').attr('activeAction', false);
-		}
-		return false;
-	});
+// 	$('.new-dir').click(function(){
+// 		if($('#file_action_panel').attr('activeAction') != 'new-dir') {
+// 			$('#file_action_panel').attr('activeAction', 'new-dir');
+// 			$('#file_new_dir_name').val('');
+// 			$('#file_action_panel form').slideUp(250);
+// 			$('#file_newfolder_form').slideDown(250);
+// 		} else {
+// 			$('#file_newfolder_form').slideUp(250);
+// 			$('#file_action_panel').attr('activeAction', false);
+// 		}
+// 		return false;
+// 	});
 	
 	$('.download').click(function(event) {
 		var files='';
@@ -183,6 +219,25 @@ $(document).ready(function() {
 		return false;
 	});
 });
+
+var adjustNewFolderSize = function() {
+	if($('#file_newfolder_name').val() != '') {
+		splitSize($('#file_newfolder_name'),$('#file_newfolder_submit'));
+		$('#file_newfolder_name').unbind('keyup', adjustNewFolderSize);
+	};
+}
+
+function splitSize(existingEl, appearingEl) {
+	nw = parseInt($(existingEl).css('width')) - parseInt($(appearingEl).css('width'));
+	$(existingEl).css('width', nw + 'px');
+	$(appearingEl).fadeIn(250);
+}
+
+function unsplitSize(stayingEl, vanishingEl) {
+	nw = parseInt($(stayingEl).css('width')) + parseInt($(vanishingEl).css('width'));
+	$(stayingEl).css('width', nw + 'px');
+	$(vanishingEl).fadeOut(250);
+}
 
 function uploadFinished() {
 	result = $('#file_upload_target').contents().text();
