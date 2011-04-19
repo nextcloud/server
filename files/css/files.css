@@ -20,6 +20,10 @@
 }
 
 #file_upload_form {
+	display: inline;
+}
+
+#fileSelector, #file_upload_cancel {
 	display: none;
 }
 

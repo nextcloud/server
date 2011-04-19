@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
+	$('#file_upload_start').attr('mode', 'menu');
 	
     // Sets browser table behaviour :
     $('.browser tr').hover(
@@ -70,14 +71,35 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('#file_upload_start').click(function() {		
-		$('#file_upload_target').load(uploadFinished);
+	$('#file_upload_start').click(function() {
+		if($('#file_upload_start').attr('mode') == 'menu') {
+			$('#fileSelector').change(function() {
+// 				alert("foo");
+				
+				//Chromium prepends C:\fakepath....
+				bspos = $('#fileSelector').val().lastIndexOf('\\')+1;
+				filename = $('#fileSelector').val().substr(bspos);
+				
+				$('#file_upload_start').val('Upload ' + filename);
+				$('#fileSelector').hide();
+				$('#file_upload_cancel').slideDown(250);
+				$('#file_upload_start').attr('mode', 'action');
+			});
+			$('#fileSelector').show();	//needed for Chromium compatibility
+			$('#fileSelector').click();
+		} else if($('#file_upload_start').attr('mode') == 'action') {
+			$('#file_upload_cancel').slideUp(250);
+			$('#file_upload_target').load(uploadFinished);
+		}
 	});
 	
 	$('#file_upload_cancel').click(function() {
-		$('#file_action_panel').attr('activeAction', 'false');
-		$('#file_upload_form').hide();
-		$('p.actions a.upload:first').show();
+		$('#file_upload_start').val('Upload ' + $('.max_human_file_size:first').val());
+		$('#file_upload_start').attr('mode', 'menu');
+		$('#file_upload_cancel').hide;
+// 		$('#file_action_panel').attr('activeAction', 'false');
+// 		$('#file_upload_form').hide();
+// 		$('p.actions a.upload:first').show();
 	});
 	
 	$('#file_new_dir_submit').click(function() {
@@ -88,26 +110,26 @@ $(document).ready(function() {
 		});
 	});
 	
-	$('.upload').click(function(){
-		if($('#file_action_panel').attr('activeAction') != 'upload') {
-			$('#file_action_panel').attr('activeAction', 'upload');
-			$('#fileSelector').replaceWith('<input type="file" name="file" id="fileSelector">');
-			$('#fileSelector').change(function() {
-				$('#file_upload_start').val('Upload ' + $('#fileSelector').val());
-				$('p.actions a.upload:first').after($('#file_upload_form'));
-				$('#file_upload_form').css('display', 'inline');
-				$('p.actions a.upload:first').hide();
-				$('#fileSelector').hide();
-			});
-			$('#file_action_panel form').slideUp(250);
-// 			$('#file_upload_form').slideDown(250);
-			$('#fileSelector').click();
-		} else {
-			$('#file_action_panel').attr('activeAction', 'false');
-			$('#file_upload_form').slideUp(250);
-		}
-		return false;
-	});
+// 	$('.upload').click(function(){
+// 		if($('#file_action_panel').attr('activeAction') != 'upload') {
+// 			$('#file_action_panel').attr('activeAction', 'upload');
+// 			$('#fileSelector').replaceWith('<input type="file" name="file" id="fileSelector">');
+// 			$('#fileSelector').change(function() {
+// 				$('#file_upload_start').val('Upload ' + $('#fileSelector').val());
+// 				$('p.actions a.upload:first').after($('#file_upload_form'));
+// 				$('#file_upload_form').css('display', 'inline');
+// 				$('p.actions a.upload:first').hide();
+// 				$('#fileSelector').hide();
+// 			});
+// 			$('#file_action_panel form').slideUp(250);
+// // 			$('#file_upload_form').slideDown(250);
+// 			$('#fileSelector').click();
+// 		} else {
+// 			$('#file_action_panel').attr('activeAction', 'false');
+// 			$('#file_upload_form').slideUp(250);
+// 		}
+// 		return false;
+// 	});
 	
 	
 	
@@ -169,9 +191,12 @@ function uploadFinished() {
 			data: "dir="+dir,
 			complete: function(data) {
 				refreshContents(data);
-				$('#file_action_panel').prepend($('#file_upload_form'));
-				$('#file_upload_form').css('display', 'block').hide();
-				$('p.actions a.upload:first').show();
+// 				$('#file_action_panel').prepend($('#file_upload_form'));
+// 				$('#file_upload_form').css('display', 'block').hide();
+// 				$('p.actions a.upload:first').show();
+				$('#file_upload_start').val('Upload ' + $('.max_human_file_size:first').val());
+				$('#file_upload_start').attr('mode', 'menu');
+// 				$('#fileSelector').replaceWith('<input type="file" name="file" id="fileSelector">');
 			}
 		});
 	}
