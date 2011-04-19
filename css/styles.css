@@ -22,30 +22,27 @@ legend { padding:0 0.5em; font-size:1.2em; }
 
 div.controls { width:91%; margin:1em 1em 1em 2em; padding:0.5em 0; background-color:#f7f7f7; border:1px solid #eee; }
 
-/* INSTALLATION ------------------------------------------------------------ */
-legend { font-weight:bold; }
-legend abbr { border-bottom:1px dotted #000; }
-form a { color:#000; text-decoration:none; }
-#login input[type='text'], #login input[type='password'] { display:block; margin:0 auto .5em; }
-#login input[type='radio'] { display:none; }
-#login input[type='radio']+label { margin:1em .1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; background-color:#fff; }
-#login input[type='radio']+label:hover, #login input[type='radio']+label:focus { background-color:#ccc; outline:0; }
-.left { display:block; position:relative; top:2.5em; left:-19em; text-align: right; font-weight:bold; }
- 
- 
-/* LOG IN ------------------------------------------------------------ */
+/* LOG IN & INSTALLATION ------------------------------------------------------------ */
 #body-login { width:100%; background-image:none; background-color:#ddd; }
 #body-login p.info { width:16em; margin:4em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 #login { margin:0 auto 0 auto; padding:2em 0 0 0; background:#eee url('../img/header-login.png') repeat-x left 0; text-align:center; }
 #login form { margin:2.5em auto 0 auto; padding:0 0 1.5em 0; text-align:center; border-bottom:1px solid #fff; }
+#login form a { color:#000; text-decoration:none; }
 #login h1 { margin:0; padding:2.5em 0 0 0; border:0; text-align:center; text-transform:lowercase; font-size:1.5em; }
 #login fieldset { background-color:transparent; border:0; }
 #login fieldset p { margin:1em 0 0 0; padding:0; text-align:center; }
-#login label { font-size:1.2em; }
+#login legend { font-weight:bold; margin-left:45%; }
+#login legend abbr { border-bottom:1px dotted #000; }
+#login label { font-size:1.2em; display:inline; position:relative; top:2em; left:-12em; text-align:right; font-weight:bold; }
 #login input { width:8em; margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; }
 #login input:hover, #login input:focus { outline:0; }
 #login input[type='submit'] { width:5em; background-color:#fff; }
 #login input[type='submit']:hover, #login input[type=submit]:focus { background-color:#ccc; outline:0; }
+#login input[type='text'], #login input[type='password'] { display:block; margin:0 auto .5em; }
+#login input[type='radio'] { display:none; }
+#login input[type='radio']+label { margin:1em .1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; background-color:#fff; }
+#login input[type='radio']+label:hover, #login input[type='radio']+label:focus { background-color:#ccc; outline:0; }
+#login #use_mysql { margin-top:1.5em; }
 
 .prettybutton { margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:1.5em; text-decoration:none; color:#666; background-color:#fff; }
 .prettybutton:hover, .prettybutton:focus { background-color:#ccc; outline:0; }
@@ -121,22 +118,9 @@ p.actions a.delete { background-image:url('../img/delete.png'); }
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ddd; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 #quota_indicator div { background-color:#76A9EA; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 
-
 /* PAGER ------------------------------------------------------------ */
-.pager tr td
-{
-    border-bottom: 0px;
-}
-
-
-.pager tr td a
-{
-    text-decoration: none;
-    color: #666666;
-    font-size: 0.9em;
-    text-align: center;
-}
-
+.pager tr td { border-bottom:0px; }
+.pager tr td a { text-decoration:none; color:#666666; font-size:0.9em; text-align:center; }
 
 /* LOGS --------------------------------------------------------------------- */
 #logs_options { width:auto; margin:0; }
