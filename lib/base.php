@@ -244,9 +244,9 @@ class OC_UTIL {
 	 * @param int $pagecount
 	 * @param int $page
 	 * @param string $url
-	 * @return html-string
+	 * @return OC_TEMPLATE
 	 */
-	public static function showPageNavi($pagecount,$page,$url) {
+	public static function getPageNavi($pagecount,$page,$url) {
 
 		$pagelinkcount=8;
 		if ($pagecount>1) {
@@ -261,7 +261,7 @@ class OC_UTIL {
 			$tmpl->assign('pagestart',$pagestart);
 			$tmpl->assign('pagestop',$pagestop);
 			$tmpl->assign('url',$url);
-			$tmpl->printPage();
+			return $tmpl;
 		}
 	}
 
