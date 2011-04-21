@@ -25,21 +25,70 @@
 //require_once('../../config/config.php');
 require_once('../lib/base.php');
 require( 'template.php' );
+
 if( !OC_USER::isLoggedIn()){
-    header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+    header( 'Location: '.OC_HELPER::linkTo( 'index.php' ));
     exit();
 }
 
-OC_APP::setActiveNavigationEntry( "log" );
-$logs=OC_LOG::get( $dir );
+//load the script
+OC_UTIL::addScript( "log", "log" );
 
-foreach( $logs as &$i ){
-    $i["date"] = date( $CONFIG_DATEFORMAT, $i['timestamp'] );
-    $i["action"] = OC_LOG::$TYPE[$i['type']];
+$allActions=array('login','logout','read','write','create','delete');
+
+//check for a submited config
+if(isset($_POST['size'])){
+	$selectedActions=array();
+	foreach($allActions as $action){
+		if(isset($_POST[$action]) and $_POST[$action]=='on'){
+			$selectedActions[]=$action;
+		}
+	}
+	OC_APPCONFIG::setValue('log','actions',implode(',',$selectedActions));
+	OC_APPCONFIG::setValue('log','pagesize',$_POST['size']);
 }
 
-$tmpl = new OC_TEMPLATE( "log", "index", "admin" );
-$tmpl->assign( "logs", $logs );
+OC_APP::setActiveNavigationEntry( 'log' );
+$logs=OC_LOG::get();
+
+$selectedActions=explode(',',OC_APPCONFIG::getValue('log','actions',implode(',',$allActions)));
+$logs=OC_LOG::filterAction($logs,$selectedActions);
+
+$pageSize=OC_APPCONFIG::getValue('log','pagesize',20);
+$pageCount=ceil(count($logs)/$pageSize);
+$page=isset($_GET['page'])?$_GET['page']:0;
+if($page>=$pageCount){
+	$page=$pageCount-1;
+}
+
+$logs=array_slice($logs,$page*$pageSize,$pageSize);
+
+foreach( $logs as &$i ){
+    $i['date'] =$i['timestamp'];
+}
+
+$url=OC_HELPER::linkTo( 'log', 'index.php' ).'?page=';
+$pager=OC_UTIL::getPageNavi($pageCount,$page,$url);
+if($pager){
+	$pagerHTML=$pager->fetchPage();
+}else{
+	$pagerHTML='';
+}
+
+$showActions=array();
+foreach($allActions as $action){
+	if(array_search($action,$selectedActions)!==false){
+		$showActions[$action]='checked="checked"';
+	}else{
+		$showActions[$action]='';
+	}
+}
+
+$tmpl = new OC_TEMPLATE( 'log', 'index', 'admin' );
+$tmpl->assign( 'logs', $logs );
+$tmpl->assign( 'pager', $pagerHTML );
+$tmpl->assign( 'size', $pageSize );
+$tmpl->assign( 'showActions', $showActions );
 $tmpl->printPage();
 
 ?>
