@@ -219,7 +219,7 @@ class OC_TEMPLATE{
 				}
 			}
 			foreach(OC_UTIL::$styles as $style){
-				if(is_file("$SERVERROOT/apps/$style.js" )){
+				if(is_file("$SERVERROOT/apps/$style.css" )){
 					$page->append( "cssfiles", "$WEBROOT/apps/$style.css" );
 				}else{
 					$page->append( "cssfiles", "$WEBROOT/$style.css" );
