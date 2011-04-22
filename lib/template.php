@@ -181,6 +181,7 @@ class OC_TEMPLATE{
 	{
 		// global Data we need
 		global $WEBROOT;
+		global $SERVERROOT;
 		$data = $this->_fetch();
 
 		if( $this->renderas )
@@ -211,10 +212,18 @@ class OC_TEMPLATE{
 
 			// Add the css and js files
 			foreach(OC_UTIL::$scripts as $script){
-				$page->append( "jsfiles", "$WEBROOT/$script.js" );
+				if(is_file("$SERVERROOT/apps/$script.js" )){
+					$page->append( "jsfiles", "$WEBROOT/apps/$script.js" );
+				}else{
+					$page->append( "jsfiles", "$WEBROOT/$script.js" );
+				}
 			}
 			foreach(OC_UTIL::$styles as $style){
-				$page->append( "cssfiles", "$WEBROOT/$style.css" );
+				if(is_file("$SERVERROOT/apps/$style.js" )){
+					$page->append( "cssfiles", "$WEBROOT/apps/$style.css" );
+				}else{
+					$page->append( "cssfiles", "$WEBROOT/$style.css" );
+				}
 			}
 
 			// Add css files and js files
