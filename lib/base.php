@@ -91,9 +91,9 @@ require_once('plugin.php');
 
 $error=(count(OC_UTIL::checkServer())>0);
 
-if(!$error){
-	OC_PLUGIN::loadPlugins( "" );
-}
+// if(!$error){ //disable untill plugin system is proper converted to the new code base
+// 	OC_PLUGIN::loadPlugins( "" );
+// }
 
 OC_USER::setBackend( OC_CONFIG::getValue( "userbackend", "database" ));
 OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
@@ -191,7 +191,7 @@ class OC_UTIL {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(1,2,0);
+		return array(1,60,0);
 	}
 
 	/**
@@ -406,7 +406,7 @@ class OC_HOOK{
 		}
 
 		// Call all slots
-		foreach( $registered[$signalclass][$signalname] as $i ){
+		foreach( self::$registered[$signalclass][$signalname] as $i ){
 			call_user_func( array( $i["class"], $i["name"] ), $params );
 		}
 
