@@ -190,6 +190,9 @@ class OC_TEMPLATE{
 			if( $this->renderas == "user" )
 			{
 				$page = new OC_TEMPLATE( "core", "layout.user" );
+				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
+				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
+				$page->assign('searchbox', $search->fetchPage());
 				// Add menu data
 
 				// Add navigation entry
@@ -198,6 +201,9 @@ class OC_TEMPLATE{
 			elseif( $this->renderas == "admin" )
 			{
 				$page = new OC_TEMPLATE( "core", "layout.admin" );
+				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
+				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
+				$page->assign('searchbox', $search->fetchPage());
 				// Add menu data
 				if( OC_GROUP::inGroup( $_SESSION["user_id"], "admin" )){
 					$page->assign( "settingsnavigation", OC_APP::getSettingsNavigation());

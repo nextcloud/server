@@ -88,6 +88,7 @@ require_once('ocsclient.php');
 require_once('connect.php');
 require_once('remotestorage.php');
 require_once('plugin.php');
+require_once('search.php');
 
 $error=(count(OC_UTIL::checkServer())>0);
 

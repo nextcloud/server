@@ -457,5 +457,20 @@ class OC_FILESYSTEM{
 			return $storage->free_space($path);
 		}
 	}
+	
+	static public function search($query){
+		$files=array();
+		$fakeRootLength=strlen(self::$fakeRoot);
+		foreach(self::$storages as $mountpoint=>$storage){
+			$results=$storage->search($query);
+			foreach($results as $result){
+				$file=str_replace('//','/',$mountpoint.$result);
+				$file=substr($file,$fakeRootLength);
+				$files[]=$file;
+			}
+		}
+		return $files;
+		
+	}
 }
 ?>
