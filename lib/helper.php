@@ -166,7 +166,7 @@ class OC_HELPER {
 	 *
 	 * Makes 2048 to 2 kB.
 	 */
-	function chmodr($path, $filemode) {
+	static function chmodr($path, $filemode) {
 		if (!is_dir($path))
 			return chmod($path, $filemode);
 		$dh = opendir($path);
@@ -177,7 +177,7 @@ class OC_HELPER {
 					return FALSE;
 				elseif(!is_dir($fullpath) && !chmod($fullpath, $filemode))
 						return FALSE;
-				elseif(!chmodr($fullpath, $filemode))
+				elseif(!self::chmodr($fullpath, $filemode))
 					return FALSE;
 			}
 		}
