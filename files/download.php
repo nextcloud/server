@@ -49,5 +49,6 @@ header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 header('Pragma: public');
 header('Content-Length: '.OC_FILESYSTEM::filesize($filename));
 
+ob_end_clean();
 OC_FILESYSTEM::readfile( $filename );
 ?>
