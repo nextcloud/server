@@ -44,6 +44,7 @@ if(!OC_FILESYSTEM::file_exists($filename)){
 $ftype=OC_FILESYSTEM::getMimeType( $filename );
 
 header('Content-Type:'.$ftype);
+header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 header('Expires: 0');
 header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 header('Pragma: public');

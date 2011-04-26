@@ -91,7 +91,7 @@ require_once('plugin.php');
 
 $error=(count(OC_UTIL::checkServer())>0);
 
-if(!$error){
+if(!$error and OC_CONFIG::getValue('installed',false)){
 	OC_PLUGIN::loadPlugins( "" );
 }
 
