@@ -205,7 +205,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
             register_shutdown_function('MDB2_closeOpenTransactions');
         }
         $query = 'BEGIN TRANSACTION '.$this->options['base_transaction_name'];
-        $result =& $this->_doQuery($query, true);
+        $result =$this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -240,7 +240,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         }
 
         $query = 'COMMIT TRANSACTION '.$this->options['base_transaction_name'];
-        $result =& $this->_doQuery($query, true);
+        $result =$this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -275,7 +275,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         }
 
         $query = 'ROLLBACK TRANSACTION '.$this->options['base_transaction_name'];
-        $result =& $this->_doQuery($query, true);
+        $result =$this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -545,7 +545,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $this->_lasterror = $php_errormsg;
 
         if (!$result) {
-            $err =& $this->raiseError(null, null, null,
+            $err =$this->raiseError(null, null, null,
                 'Could not execute statement', __FUNCTION__);
             return $err;
         }
@@ -760,7 +760,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
 
         $table = $this->quoteIdentifier($table, true);
         $query = "REPLACE INTO $table ($query) VALUES ($values)";
-        $result =& $this->_doQuery($query, true, $connection);
+        $result =$this->_doQuery($query, true, $connection);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -788,7 +788,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";
         $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->expectError(MDB2_ERROR_NOSUCHTABLE);
-        $result =& $this->_doQuery($query, true);
+        $result =$this->_doQuery($query, true);
         $this->popExpect();
         $this->popErrorHandling();
         if (PEAR::isError($result)) {
@@ -807,7 +807,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $value = $this->lastInsertID();
         if (is_numeric($value)) {
             $query = "DELETE FROM $sequence_name WHERE $seqcol_name < $value";
-            $result =& $this->_doQuery($query, true);
+            $result =$this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 $this->warnings[] = 'nextID: could not delete previous sequence table values from '.$seq_name;
             }
@@ -903,7 +903,7 @@ class MDB2_Result_sqlite extends MDB2_Result_Common
         }
         if (!$row) {
             if ($this->result === false) {
-                $err =& $this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
+                $err =$this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                     'resultset has already been freed', __FUNCTION__);
                 return $err;
             }
