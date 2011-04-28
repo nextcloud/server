@@ -88,6 +88,7 @@ require_once('ocsclient.php');
 require_once('connect.php');
 require_once('remotestorage.php');
 require_once('plugin.php');
+require_once('search.php');
 
 $error=(count(OC_UTIL::checkServer())>0);
 
@@ -191,7 +192,7 @@ class OC_UTIL {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(1,2,0);
+		return array(1,60,0);
 	}
 
 	/**
@@ -204,7 +205,11 @@ class OC_UTIL {
 			$file = $application;
 			$application = "";
 		}
-		self::$scripts[] = "$application/js/$file";
+		if( !empty( $application )){
+			self::$scripts[] = "$application/js/$file";
+		}else{
+			self::$scripts[] = "js/$file";
+		}
 	}
 
 	/**
@@ -217,7 +222,11 @@ class OC_UTIL {
 			$file = $application;
 			$application = "";
 		}
-		self::$styles[] = "$application/css/$file";
+		if( !empty( $application )){
+			self::$styles[] = "$application/css/$file";
+		}else{
+			self::$styles[] = "css/$file";
+		}
 	}
 
        /**
@@ -236,9 +245,9 @@ class OC_UTIL {
 	 * @param int $pagecount
 	 * @param int $page
 	 * @param string $url
-	 * @return html-string
+	 * @return OC_TEMPLATE
 	 */
-	public static function showPageNavi($pagecount,$page,$url) {
+	public static function getPageNavi($pagecount,$page,$url) {
 
 		$pagelinkcount=8;
 		if ($pagecount>1) {
@@ -253,7 +262,7 @@ class OC_UTIL {
 			$tmpl->assign('pagestart',$pagestart);
 			$tmpl->assign('pagestop',$pagestop);
 			$tmpl->assign('url',$url);
-			$tmpl->printPage();
+			return $tmpl;
 		}
 	}
 
@@ -293,20 +302,6 @@ class OC_UTIL {
 		
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
-			if($CONFIG_DBTYPE=='sqlite'){
-				$file=$SERVERROOT.'/'.$CONFIG_DBNAME;
-				if(file_exists($file)){
-					$prems=substr(decoct(fileperms($file)),-3);
-					if(substr($prems,2,1)!='0'){
-						@chmod($file,0660);
-						clearstatcache();
-						$prems=substr(decoct(fileperms($file)),-3);
-						if(substr($prems,2,1)!='0'){
-							$errors[]=array('error'=>'SQLite database file ('.$file.') is readable from the web<br/>','hint'=>$permissionsHint);
-						}
-					}
-				}
-			}
 			$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,-1)!='0'){
 				OC_HELPER::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
@@ -398,7 +393,7 @@ class OC_HOOK{
 		}
 
 		// Call all slots
-		foreach( $registered[$signalclass][$signalname] as $i ){
+		foreach( self::$registered[$signalclass][$signalname] as $i ){
 			call_user_func( array( $i["class"], $i["name"] ), $params );
 		}
 

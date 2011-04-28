@@ -297,12 +297,16 @@
 
         while ($filename = readdir($handle)) {
             if ($filename != "." && $filename != "..") {
-                $fullpath = $fspath."/".$filename;
+                if( substr($fspath, -1) != '/' ){
+			$fspath .= '/';
+                }
+                $fullpath = $fspath.$filename;
                 $name     = htmlspecialchars($filename);
+                $uri = $_SERVER['SCRIPT_NAME'] . $fullpath;
                 printf($format,
-                       number_format(filesize($fullpath)),
-                       strftime("%Y-%m-%d %H:%M:%S", filemtime($fullpath)),
-                       "<a href='$name'>$name</a>");
+                       number_format(OC_FILESYSTEM::filesize($fullpath)),
+                       strftime("%Y-%m-%d %H:%M:%S", OC_FILESYSTEM::filemtime($fullpath)),
+                       "<a href='$uri'>$name</a>");
             }
         }
 

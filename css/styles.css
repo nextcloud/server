@@ -130,3 +130,7 @@ p.actions a.delete, div.actions a.delete { background-image:url('../img/delete.p
 #logs_options input[type="submit"] { float:right; margin:0 2em 0 0; }
 #logs_options input[type="text"] { margin:0; padding:0; border:1px solid #ccc; text-align:right; }
 li.error{ list-style:none; width:640px; margin:4em auto; padding:1em 1em 1em 4em; background-color:#fee; background-image:url('../img/task-attention.png'); background-position:0.8em 0.8em; background-repeat:no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+
+/* SEARCH --------------------------------------------------------------------- */
+form.searchbox{display:inline; position:fixed; top:1.5em; right:9em; margin:0; padding:0;};
+form.searchbox .prettybutton{font-size:1.5em !important};

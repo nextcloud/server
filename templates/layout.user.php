@@ -15,7 +15,7 @@
 	<body id="body-user">
 		<div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
-
+			<?php echo $_['searchbox']?>
 			<ul id="metanav">
 				<li><a href="<?php echo link_to('settings', 'index.php'); ?>" title="Settings"><img src="<?php echo image_path('', 'layout/settings.png'); ?>"></a></li>
 				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="Log out"><img src="<?php echo image_path('', 'layout/logout.png'); ?>"></a></li>

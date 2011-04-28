@@ -50,8 +50,16 @@ class OC_LOG {
 	 *
 	 * This function adds another entry to the log database
 	 */
-	public static function add( $appid, $subject, $predicate, $object = null ){
-		// TODO: write function
+	public static function add( $appid, $subject, $predicate, $object = ' ' ){
+		$query=OC_DB::prepare("INSERT INTO *PREFIX*log(`timestamp`,appid,user,action,info) VALUES(NOW(),?,?,?,?)");
+		$result=$query->execute(array($appid,$subject,$predicate,$object));
+		// Die if we have an error
+		if( PEAR::isError($result)) {
+			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+			$entry .= 'Offending command was: '.$query.'<br />';
+			error_log( $entry );
+			die( $entry );
+		}
 		return true;
 	}
 
@@ -71,8 +79,33 @@ class OC_LOG {
 	 *   - app: only entries for this app
 	 */
 	public static function get( $filter = array()){
-		// TODO: write function
-		return array();
+		$queryString='SELECT * FROM *PREFIX*log WHERE 1=1 ';
+		$params=array();
+		if(isset($filter['from'])){
+			$queryString.='AND `timestamp`>? ';
+			array_push($params,$filter('from'));
+		}
+		if(isset($filter['until'])){
+			$queryString.='AND `timestamp`<? ';
+			array_push($params,$filter('until'));
+		}
+		if(isset($filter['user'])){
+			$queryString.='AND user=? ';
+			array_push($params,$filter('user'));
+		}
+		if(isset($filter['app'])){
+			$queryString.='AND appid=? ';
+			array_push($params,$filter('app'));
+		}
+		$query=OC_DB::prepare($queryString);
+		$result=$query->execute($params)->fetchAll();
+		if(count($result)>0 and is_numeric($result[0]['timestamp'])){
+			foreach($result as &$row){
+				$row['timestamp']=OC_UTIL::formatDate($row['timestamp']);
+			}
+		}
+		return $result;
+		
 	}
 
 	/**
@@ -83,8 +116,25 @@ class OC_LOG {
 	 * This function deletes all entries that are older than $date.
 	 */
 	public static function deleteBefore( $date ){
-		// TODO: write function
+		$query=OC_DB::prepare("DELETE FROM *PREFIX*log WHERE `timestamp`<?");
+		$query->execute(array($date));
 		return true;
+	}
+	
+	/**
+	 * @brief filter an array of log entries on action
+	 * @param array $logs the log entries to filter
+	 * @param array $actions an array of actions to filter for
+	 * @returns array
+	 */
+	public static function filterAction($logs,$actions){
+		$filteredLogs=array();
+		foreach($logs as $log){
+			if(array_search($log['action'],$actions)!==false){
+				$filteredLogs[]=$log;
+			}
+		}
+		return $filteredLogs;
 	}
 }
 

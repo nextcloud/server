@@ -181,6 +181,7 @@ class OC_TEMPLATE{
 	{
 		// global Data we need
 		global $WEBROOT;
+		global $SERVERROOT;
 		$data = $this->_fetch();
 
 		if( $this->renderas )
@@ -189,6 +190,9 @@ class OC_TEMPLATE{
 			if( $this->renderas == "user" )
 			{
 				$page = new OC_TEMPLATE( "core", "layout.user" );
+				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
+				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
+				$page->assign('searchbox', $search->fetchPage());
 				// Add menu data
 
 				// Add navigation entry
@@ -197,6 +201,9 @@ class OC_TEMPLATE{
 			elseif( $this->renderas == "admin" )
 			{
 				$page = new OC_TEMPLATE( "core", "layout.admin" );
+				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
+				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
+				$page->assign('searchbox', $search->fetchPage());
 				// Add menu data
 				if( OC_GROUP::inGroup( $_SESSION["user_id"], "admin" )){
 					$page->assign( "settingsnavigation", OC_APP::getSettingsNavigation());
@@ -211,10 +218,18 @@ class OC_TEMPLATE{
 
 			// Add the css and js files
 			foreach(OC_UTIL::$scripts as $script){
-				$page->append( "jsfiles", "$WEBROOT/$script.js" );
+				if(is_file("$SERVERROOT/apps/$script.js" )){
+					$page->append( "jsfiles", "$WEBROOT/apps/$script.js" );
+				}else{
+					$page->append( "jsfiles", "$WEBROOT/$script.js" );
+				}
 			}
 			foreach(OC_UTIL::$styles as $style){
-				$page->append( "cssfiles", "$WEBROOT/$style.css" );
+				if(is_file("$SERVERROOT/apps/$style.css" )){
+					$page->append( "cssfiles", "$WEBROOT/apps/$style.css" );
+				}else{
+					$page->append( "cssfiles", "$WEBROOT/$style.css" );
+				}
 			}
 
 			// Add css files and js files

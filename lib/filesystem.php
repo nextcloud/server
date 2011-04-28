@@ -194,6 +194,18 @@ class OC_FILESYSTEM{
 		}
 		return $foundMountPoint;
 	}
+	/**
+	* return the path to a local version of the file
+	* we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
+	* @param string path
+	* @return string
+	*/
+	static public function getLocalFile($path){
+		$parent=substr($path,0,strrpos($path,'/'));
+		if(self::canRead($parent) and $storage=self::getStorage($path)){
+			return $storage->getLocalFile(self::getInternalPath($path));
+		}
+	}
 	
 	static public function mkdir($path){
 		$parent=substr($path,0,strrpos($path,'/'));
@@ -444,6 +456,21 @@ class OC_FILESYSTEM{
 		if(self::canRead($path) and $storage=self::getStorage($path)){
 			return $storage->free_space($path);
 		}
+	}
+	
+	static public function search($query){
+		$files=array();
+		$fakeRootLength=strlen(self::$fakeRoot);
+		foreach(self::$storages as $mountpoint=>$storage){
+			$results=$storage->search($query);
+			foreach($results as $result){
+				$file=str_replace('//','/',$mountpoint.$result);
+				$file=substr($file,$fakeRootLength);
+				$files[]=$file;
+			}
+		}
+		return $files;
+		
 	}
 }
 ?>

@@ -71,6 +71,8 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
      */
     function createDatabase($name, $options = array())
     {
+		global $SERVERROOT;
+		$datadir=OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
         $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
@@ -82,7 +84,8 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
                 'database already exists', __FUNCTION__);
         }
         $php_errormsg = '';
-        $handle = @sqlite_open($database_file, $db->dsn['mode'], $php_errormsg);
+        $database_file="$datadir/$database_file.db";
+        $handle = sqlite_open($database_file, $db->dsn['mode'], $php_errormsg);
         if (!$handle) {
             return $db->raiseError(MDB2_ERROR_CANNOT_CREATE, null, null,
                 (isset($php_errormsg) ? $php_errormsg : 'could not create the database file'), __FUNCTION__);

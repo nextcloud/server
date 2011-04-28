@@ -136,7 +136,7 @@ class OC_INSTALLER{
 		global $SERVERROOT;
 		global $WEBROOT;
 		$content="ErrorDocument 404 /$WEBROOT/templates/404.php\n";
-		file_put_contents($SERVERROOT.'/.htaccess',$content);
+		@file_put_contents($SERVERROOT.'/.htaccess',$content); //supress errors in case we don't have permissions for it
 		
 		$content="deny from all";
 		file_put_contents(OC_CONFIG::getValue('datadirectory',$SERVERROOT.'/data').'/.htaccess',$content);

@@ -62,6 +62,7 @@ class OC_FILESTORAGE{
 	public function getTree($path){}
 	public function hash($type,$path,$raw){}
 	public function free_space($path){}
+	public function search($query){}
 }
 
 
@@ -468,7 +469,25 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	public function free_space($path){
 		return disk_free_space($this->datadir.$path);
 	}
-
+	
+	public function search($query){
+		return $this->searchInDir($query);
+	}
+	
+	private function searchInDir($query,$dir=''){
+		$files=array();
+		foreach (scandir($this->datadir.$dir) as $item) {
+			if ($item == '.' || $item == '..') continue;
+			if(strstr(strtolower($item),strtolower($query))!==false){
+				$files[]=$dir.'/'.$item;
+			}
+			if(is_dir($this->datadir.$dir.'/'.$item)){
+				$files=array_merge($files,$this->searchInDir($query,$dir.'/'.$item));
+			}
+		}
+		return $files;
+	}
+	
 	/**
 	 * @brief get the size of folder and it's content
 	 * @param string $path file path
