@@ -347,6 +347,8 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
      **/
     function connect()
     {
+		global $SERVERROOT;
+		$datadir=OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
         $database_file = $this->_getDatabaseFile($this->database_name);
         if (is_resource($this->connection)) {
             //if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
@@ -370,6 +372,9 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         }
 
         if ($database_file !== ':memory:') {
+			if(!strpos($database_file,'.db')){
+				$database_file="$datadir/$database_file.db";
+			}
             if (!file_exists($database_file)) {
                 if (!touch($database_file)) {
                     return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
@@ -405,7 +410,9 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         $php_errormsg = '';
         if (version_compare('5.1.0', PHP_VERSION, '>')) {
             @ini_set('track_errors', true);
+            echo 1;
             $connection = @$connect_function($database_file);
+            echo 2;
             @ini_restore('track_errors');
         } else {
             $connection = @$connect_function($database_file, 0666, $php_errormsg);

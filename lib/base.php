@@ -302,20 +302,6 @@ class OC_UTIL {
 		
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
-			if($CONFIG_DBTYPE=='sqlite'){
-				$file=$SERVERROOT.'/'.$CONFIG_DBNAME;
-				if(file_exists($file)){
-					$prems=substr(decoct(fileperms($file)),-3);
-					if(substr($prems,2,1)!='0'){
-						@chmod($file,0660);
-						clearstatcache();
-						$prems=substr(decoct(fileperms($file)),-3);
-						if(substr($prems,2,1)!='0'){
-							$errors[]=array('error'=>'SQLite database file ('.$file.') is readable from the web<br/>','hint'=>$permissionsHint);
-						}
-					}
-				}
-			}
 			$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,-1)!='0'){
 				OC_HELPER::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
