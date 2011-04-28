@@ -300,7 +300,13 @@ class OC_DB {
 		// We need Database type and table prefix
 		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBTABLEPREFIX = OC_CONFIG::getValue( "dbtableprefix", "oc_" );
-
+		
+		// differences is getting the current timestamp
+		if( $CONFIG_DBTYPE == 'sqlite' ){
+			$query = str_replace( 'NOW()', "strftime('%s', 'now')", $query );
+			$query = str_replace( 'now()', "strftime('%s', 'now')", $query );
+		}
+		
 		// differences in escaping of table names (` for mysql)
 		// Problem: what if there is a ` in the value we want to insert?
 		if( $CONFIG_DBTYPE == 'sqlite' ){
@@ -310,7 +316,7 @@ class OC_DB {
 			$query = str_replace( '`', '"', $query );
 		}
 
-		// replace table names
+		// replace table name prefix
 		$query = str_replace( '*PREFIX*', $CONFIG_DBTABLEPREFIX, $query );
 
 		return $query;

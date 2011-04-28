@@ -52,7 +52,14 @@ class OC_LOG {
 	 */
 	public static function add( $appid, $subject, $predicate, $object = ' ' ){
 		$query=OC_DB::prepare("INSERT INTO *PREFIX*log(`timestamp`,appid,user,action,info) VALUES(NOW(),?,?,?,?)");
-		$query->execute(array($appid,$subject,$predicate,$object));
+		$result=$query->execute(array($appid,$subject,$predicate,$object));
+		// Die if we have an error
+		if( PEAR::isError($result)) {
+			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+			$entry .= 'Offending command was: '.$query.'<br />';
+			error_log( $entry );
+			die( $entry );
+		}
 		return true;
 	}
 
@@ -91,7 +98,13 @@ class OC_LOG {
 			array_push($params,$filter('app'));
 		}
 		$query=OC_DB::prepare($queryString);
-		return $query->execute($params)->fetchAll();
+		$result=$query->execute($params)->fetchAll();
+		if(count($result)>0 and is_numeric($result[0]['timestamp'])){
+			foreach($result as &$row){
+				$row['timestamp']=OC_UTIL::formatDate($row['timestamp']);
+			}
+		}
+		return $result;
 		
 	}
 
