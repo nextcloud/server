@@ -22,13 +22,6 @@
 
 /**
  * Privde a common interface to all different storage options
- * 
- * Hooks provided:
- *   read(storage,path)
- *   write(storage,path)
- *   create(storage,path) (when a file is created both, write and create will be emited)
- *   delete(storage,path)
- *   rename(storage,oldpath,newpath)
  */
 class OC_FILESTORAGE{
 	public function __construct($parameters){}
@@ -86,16 +79,12 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	}
 	public function rmdir($path){
 		if($return=rmdir($this->datadir.$path)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "delete", array( 'storage'=>$this, 'path' => $path));
 			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
 	public function opendir($path){
-		if($return=opendir($this->datadir.$path)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "read", array( 'storage'=>$this, 'path' => $path));
-		}
-		return $return;
+		return opendir($this->datadir.$path);
 	}
 	public function is_dir($path){
 		return (is_dir($this->datadir.$path) or substr($path,-1)=='/');
@@ -130,10 +119,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		return file_exists($this->datadir.$path);
 	}
 	public function readfile($path){
-		if($return=readfile($this->datadir.$path)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "read", array( 'storage'=>$this, 'path' => $path));
-		}
-		return $return;
+		return readfile($this->datadir.$path);
 	}
 	public function filectime($path){
 		return filectime($this->datadir.$path);
@@ -145,30 +131,23 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		return fileatime($this->datadir.$path);
 	}
 	public function file_get_contents($path){
-		if($return=file_get_contents($this->datadir.$path)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "read", array( 'storage'=>$this, 'path' => $path));
-		}
-		return $return;
+		return file_get_contents($this->datadir.$path);
 	}
 	public function file_put_contents($path,$data){
-		if(!$this->file_exists($path)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', 'create', array( 'storage'=>$this, 'path' => $path));
-		}
 		if($return=file_put_contents($this->datadir.$path,$data)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "write", array( 'storage'=>$this, 'path' => $path));
 			$this->clearFolderSizeCache($path);
 		}
 	}
 	public function unlink($path){
 		if($return=unlink($this->datadir.$path)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "delete", array( 'storage'=>$this, 'path' => $path));
 			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
 	public function rename($path1,$path2){
 		if($return=rename($this->datadir.$path1,$this->datadir.$path2)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "rename", array( 'storage'=>$this, 'oldpath' => $path1, 'newpath' => $path2));
+			$this->clearFolderSizeCache($path1);
+			$this->clearFolderSizeCache($path2);
 		}
 		return $return;
 	}
@@ -181,36 +160,24 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			$path2.=$source;
 		}
 		if($return=copy($this->datadir.$path1,$this->datadir.$path2)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "create", array( 'storage'=>$this, 'path' => $path2));
-			$this->clearFolderSizeCache($path);
+			$this->clearFolderSizeCache($path2);
 		}
 		return $return;
 	}
 	public function fopen($path,$mode){
-		$exists=$this->file_exists($path);
 		if($return=fopen($this->datadir.$path,$mode)){
 			switch($mode){
 				case 'r':
-					OC_HOOK::emit( 'OC_FILESTORAGE', "read", array( 'storage'=>$this, 'path' => $path));
 					break;
 				case 'r+':
 				case 'w+':
 				case 'x+':
 				case 'a+':
-					OC_HOOK::emit( 'OC_FILESTORAGE', "read", array( 'storage'=>$this, 'path' => $path));
-					OC_HOOK::emit( 'OC_FILESTORAGE', "write", array( 'storage'=>$this, 'path' => $path));
-					if(!$exists){
-						OC_HOOK::emit( 'OC_FILESTORAGE', 'create', array( 'storage'=>$this, 'path' => $path));
-					}
 					$this->clearFolderSizeCache($path);
 					break;
 				case 'w':
 				case 'x':
 				case 'a':
-					OC_HOOK::emit( 'OC_FILESTORAGE', "write", array( 'storage'=>$this, 'path' => $path));
-					if(!$exists){
-						OC_HOOK::emit( 'OC_FILESTORAGE', 'create', array( 'storage'=>$this, 'path' => $path));
-					}
 					$this->clearFolderSizeCache($path);
 					break;
 			}
@@ -373,7 +340,6 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		$fileStats = stat($this->datadir.$path);
 		if(copy($this->datadir.$path,$filename)){
 			touch($filename, $fileStats['mtime'], $fileStats['atime']);
-			OC_HOOK::emit( 'OC_FILESTORAGE', "read", array( 'storage'=>$this, 'path' => $path));
 			return $filename;
 		}else{
 			return false;
@@ -384,7 +350,6 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		$fileStats = stat($tmpFile);
 		if(rename($tmpFile,$this->datadir.$path)){
 			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
-			OC_HOOK::emit( 'OC_FILESTORAGE', "create", array( 'storage'=>$this, 'path' => $path));
 			$this->clearFolderSizeCache($path);
 			return true;
 		}else{
@@ -396,7 +361,6 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		$fileStats = stat($tmpFile);
 		if(move_uploaded_file($tmpFile,$this->datadir.$path)){
 			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
-			OC_HOOK::emit( 'OC_FILESTORAGE', "create", array( 'storage'=>$this, 'path' => $path));
 			$this->clearFolderSizeCache($path);
 			return true;
 		}else{
@@ -413,7 +377,6 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			if ($item == '.' || $item == '..') continue;
 			if(is_file($dir.'/'.$item)){
 				if(unlink($dir.'/'.$item)){
-					OC_HOOK::emit( 'OC_FILESTORAGE', "delete", array( 'storage'=>$this, 'path' => $dir.'/'.$item));
 					$this->clearFolderSizeCache($path);
 				}
 			}elseif(is_dir($dir.'/'.$item)){
@@ -423,7 +386,6 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			}
 		}
 		if($return=rmdir($dir)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "delete", array( 'storage'=>$this, 'path' => $dir));
 			$this->clearFolderSizeCache($path);
 		}
 		return $return;
@@ -460,10 +422,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	}
 
 	public function hash($type,$path,$raw){
-		if($return=hash_file($type,$this->datadir.$path,$raw)){
-			OC_HOOK::emit( 'OC_FILESTORAGE', "read", array( 'storage'=>$this, 'path' => $path));
-		}
-		return $return;
+		return hash_file($type,$this->datadir.$path,$raw);
 	}
 	
 	public function free_space($path){
