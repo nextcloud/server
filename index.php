@@ -33,7 +33,7 @@ $errors=OC_UTIL::checkServer();
 if(count($errors)>0){
 	OC_TEMPLATE::printGuestPage( "", "error", array( "errors" => $errors ));
 }elseif(isset($_POST['install']) and $_POST['install']=='true'){
-	require_once 'installer.php';
+	require_once 'setup.php';
 }elseif (!OC_CONFIG::getValue('installed',false)) {
 	$hasSQLite=is_callable('sqlite_open');
 	$hasMySQL=is_callable('mysql_connect');

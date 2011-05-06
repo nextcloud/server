@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_POST['install']) and $_POST['install']=='true'){
-	$errors=OC_INSTALLER::install($_POST);
+	$errors=OC_SETUP::install($_POST);
 	if(count($errors)>0){
 		OC_TEMPLATE::printGuestPage( "", "error", array( "errors" => $errors ));
 	}else{
@@ -10,7 +10,7 @@ if(isset($_POST['install']) and $_POST['install']=='true'){
 	}
 }
 
-class OC_INSTALLER{
+class OC_SETUP{
 	public static function install($options){
 		$error=array();
 		$dbtype=$options['dbtype'];
@@ -44,7 +44,7 @@ class OC_INSTALLER{
 			$username=$options['login'];
 			$password=$options['pass'];
 			$datadir=$options['directory'];
-			
+
 			//write the config file
 			OC_CONFIG::setValue('datadirectory',$datadir);
 			OC_CONFIG::setValue('dbtype',$dbtype);
@@ -57,7 +57,7 @@ class OC_INSTALLER{
 				OC_CONFIG::setValue('dbname',$dbname);
 				OC_CONFIG::setValue('dbhost',$dbhost);
 				OC_CONFIG::setValue('dbtableprefix',$dbtableprefix);
-				
+
 				//check if the database user has admin right
 				$connection=@mysql_connect($dbhost, $dbuser, $dbpass);
 				if(!$connection) {
@@ -69,13 +69,13 @@ class OC_INSTALLER{
 						//use the admin login data for the new database user
 						OC_CONFIG::setValue('dbuser',$username);
 						OC_CONFIG::setValue('dbpassword',$password);
-						
+
 						//create the database
 						self::createDatabase($dbname,$username,$connection);
 					}else{
 						OC_CONFIG::setValue('dbuser',$dbuser);
 						OC_CONFIG::setValue('dbpassword',$dbpass);
-						
+
 						//create the database
 						self::createDatabase($dbname,$dbuser,$connection);
 					}
@@ -96,17 +96,17 @@ class OC_INSTALLER{
 				OC_USER::createUser($username,$password);
 				OC_GROUP::createGroup('admin');
 				OC_GROUP::addToGroup($username,'admin');
-				
+
 				//create htaccess files for apache hosts
 				self::createHtaccess();//TODO detect if apache is used
-				
+
 				//and we are done
 				OC_CONFIG::setValue('installed',true);
 			}
 		}
 		return $error;
 	}
-	
+
 	public static function createDatabase($name,$user,$connection){
 		//we cant user OC_BD functions here because we need to connect as the administrative user.
 		$query="CREATE DATABASE IF NOT EXISTS  `$name`";
@@ -119,7 +119,7 @@ class OC_INSTALLER{
 		$query="GRANT ALL PRIVILEGES ON  `$name` . * TO  '$user'";
 		$result = mysql_query($query,$connection);//this query will fail if there aren't the right permissons, ignore the error
 	}
-	
+
 	private static function createDBUser($name,$password,$connection){
 		//we need to create 2 accounts, one for global use and one for local user. if we don't speccify the local one,
 				//  the anonymous user would take precedence when there is one.
@@ -128,7 +128,7 @@ class OC_INSTALLER{
 		$query="CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query,$connection);
 	}
-	
+
 	/**
 	 * create .htaccess files for apache hosts
 	 */
@@ -137,7 +137,7 @@ class OC_INSTALLER{
 		global $WEBROOT;
 		$content="ErrorDocument 404 /$WEBROOT/templates/404.php\n";
 		@file_put_contents($SERVERROOT.'/.htaccess',$content); //supress errors in case we don't have permissions for it
-		
+
 		$content="deny from all";
 		file_put_contents(OC_CONFIG::getValue('datadirectory',$SERVERROOT.'/data').'/.htaccess',$content);
 	}
