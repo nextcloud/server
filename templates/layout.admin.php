@@ -26,7 +26,7 @@
 			<div id="plugins">
 				<ul>
 					<?php foreach($_['settingsnavigation'] as $entry):?>
-						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title=""><?php echo $entry['name'] ?><?php if( $entry["active"] ) echo "I AM ACTIVE!!!"; ?></a></li>
+						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
 						<?php if( sizeof( $entry["subnavigation"] )): ?>
 							<?php foreach($entry["subnavigation"] as $subentry):?>
 								<li><a style="background-color:#FF8800;" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
@@ -34,7 +34,7 @@
 						<?php endif; ?>
 					<?php endforeach; ?>
 					<?php foreach($_['adminnavigation'] as $entry):?>
-						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title=""><?php echo $entry['name'] ?><?php if( $entry["active"] ) echo "I AM ACTIVE!!!"; ?></a></li>
+						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
 						<?php if( sizeof( $entry["subnavigation"] )): ?>
 							<?php foreach($entry["subnavigation"] as $subentry):?>
 								<li><a style="background-color:#FF8800;" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
