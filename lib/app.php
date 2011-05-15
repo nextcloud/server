@@ -314,97 +314,31 @@ class OC_APP{
 
 		return $list;
 	}
-
+	
 	/**
-	 * @brief Installs an app
-	 * @param $data array with all information
-	 * @returns integer
-	 *
-	 * This function installs an app. All information needed are passed in the
-	 * associative array $data.
-	 * The following keys are required:
-	 *   - source: string, can be "path" or "http"
-	 *
-	 * One of the following keys is required:
-	 *   - path: path to the file containing the app
-	 *   - href: link to the downloadable file containing the app
-	 *
-	 * The following keys are optional:
-	 *   - pretend: boolean, if set true the system won't do anything
-	 *   - noinstall: boolean, if true the function oc_app_install will be
-	 *     skipped
-	 *   - inactive: boolean, if set true the appconfig/app.sample.php won't be
-	 *     renamed
-	 *
-	 * This function works as follows
-	 *   -# fetching the file
-	 *   -# unzipping it
-	 *   -# including appinfo/installer.php
-	 *   -# executing "oc_app_install()"
-	 *
-	 * It is the task of oc_app_install to create the tables and do whatever is
-	 * needed to get the app working.
-	 */
-	public static function installApp( $data = array()){
-		// TODO: write function
-		return true;
-	}
-
-	/**
-	 * @brief Update an application
-	 * @param $data array with all information
-	 * @returns integer
-	 *
-	 * This function installs an app. All information needed are passed in the
-	 * associative array $data.
-	 * The following keys are required:
-	 *   - source: string, can be "path" or "http"
-	 *
-	 * One of the following keys is required:
-	 *   - path: path to the file containing the app
-	 *   - href: link to the downloadable file containing the app
-	 *
-	 * The following keys are optional:
-	 *   - pretend: boolean, if set true the system won't do anything
-	 *   - noupgrade: boolean, if true the function oc_app_upgrade will be
-	 *     skipped
-	 *
-	 * This function works as follows
-	 *   -# fetching the file
-	 *   -# removing the old files
-	 *   -# unzipping new file
-	 *   -# including appinfo/installer.php
-	 *   -# executing "oc_app_upgrade( $options )"
-	 */
-	public static function upgradeApp( $data = array()){
-		// TODO: write function
-		return true;
-	}
-
-	/**
-	 * @brief Removes an app
-	 * @param $name name of the application to remove
-	 * @param $options array with options
-	 * @returns true/false
-	 *
-	 * This function removes an app. $options is an associative array. The
-	 * following keys are optional:ja
-	 *   - keeppreferences: boolean, if true the user preferences won't be deleted
-	 *   - keepappconfig: boolean, if true the config will be kept
-	 *   - keeptables: boolean, if true the database will be kept
-	 *   - keepfiles: boolean, if true the user files will be kept
-	 *
-	 * This function works as follows
-	 *   -# including appinfo/installer.php
-	 *   -# executing "oc_app_uninstall( $options )"
-	 *   -# removing the files
-	 *
-	 * The function will not delete preferences, tables and the configuration,
-	 * this has to be done by the function oc_app_uninstall().
-	 */
-	public static function removeApp( $name, $options = array()){
-		// TODO: write function
-		return true;
+	 * @brief Read app metadata from the info.xml file
+	 * @param string $appid id of the app
+	 * @returns array
+	*/
+	public static function getAppInfo($appid){
+		$file='apps/'.$appid.'/appinfo/info.xml';
+		if(!is_file($file)){
+			return array();
+		}
+		$data=array();
+		$plugin=new DOMDocument();
+		$plugin->load($file);
+		$info=$plugin->getElementsByTagName('info');
+		if($info->length > 0){
+			$info=$info->item(0);
+			$data['info']=array();
+			foreach($info->childNodes as $child){
+				if($child->nodeType==XML_ELEMENT_NODE){
+					$data[$child->tagName]=$child->textContent;
+				}
+			}
+		}
+		return $data;
 	}
 }
 ?>
