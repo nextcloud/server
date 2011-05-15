@@ -27,7 +27,7 @@
  *
  * CREATE TABLE `log` (
  * `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
- * `timestamp` DATETIME NOT NULL ,
+ * `moment` DATETIME NOT NULL ,
  * `appid` VARCHAR( 255 ) NOT NULL ,
  * `user` VARCHAR( 255 ) NOT NULL ,
  * `action` VARCHAR( 255 ) NOT NULL ,
@@ -51,7 +51,7 @@ class OC_LOG {
 	 * This function adds another entry to the log database
 	 */
 	public static function add( $appid, $subject, $predicate, $object = ' ' ){
-		$query=OC_DB::prepare("INSERT INTO *PREFIX*log(`timestamp`,appid,user,action,info) VALUES(NOW(),?,?,?,?)");
+		$query=OC_DB::prepare("INSERT INTO *PREFIX*log(moment,appid,user,action,info) VALUES(NOW(),?,?,?,?)");
 		$result=$query->execute(array($appid,$subject,$predicate,$object));
 		// Die if we have an error
 		if( PEAR::isError($result)) {
@@ -82,11 +82,11 @@ class OC_LOG {
 		$queryString='SELECT * FROM *PREFIX*log WHERE 1=1 ';
 		$params=array();
 		if(isset($filter['from'])){
-			$queryString.='AND `timestamp`>? ';
+			$queryString.='AND moment>? ';
 			array_push($params,$filter('from'));
 		}
 		if(isset($filter['until'])){
-			$queryString.='AND `timestamp`<? ';
+			$queryString.='AND moment<? ';
 			array_push($params,$filter('until'));
 		}
 		if(isset($filter['user'])){
@@ -99,9 +99,9 @@ class OC_LOG {
 		}
 		$query=OC_DB::prepare($queryString);
 		$result=$query->execute($params)->fetchAll();
-		if(count($result)>0 and is_numeric($result[0]['timestamp'])){
+		if(count($result)>0 and is_numeric($result[0]['moment'])){
 			foreach($result as &$row){
-				$row['timestamp']=OC_UTIL::formatDate($row['timestamp']);
+				$row['moment']=OC_UTIL::formatDate($row['moment']);
 			}
 		}
 		return $result;
@@ -116,7 +116,7 @@ class OC_LOG {
 	 * This function deletes all entries that are older than $date.
 	 */
 	public static function deleteBefore( $date ){
-		$query=OC_DB::prepare("DELETE FROM *PREFIX*log WHERE `timestamp`<?");
+		$query=OC_DB::prepare("DELETE FROM *PREFIX*log WHERE moment<?");
 		$query->execute(array($date));
 		return true;
 	}

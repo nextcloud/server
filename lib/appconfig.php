@@ -27,8 +27,8 @@
  *
  * CREATE TABLE  `appconfig` (
  * `appid` VARCHAR( 255 ) NOT NULL ,
- * `key` VARCHAR( 255 ) NOT NULL ,
- * `value` VARCHAR( 255 ) NOT NULL
+ * `configkey` VARCHAR( 255 ) NOT NULL ,
+ * `configvalue` VARCHAR( 255 ) NOT NULL
  * )
  *
  */
@@ -47,7 +47,7 @@ class OC_APPCONFIG{
 	 */
 	public static function getApps(){
 		// No magic in here!
-		$query = OC_DB::prepare( 'SELECT DISTINCT( appid ) FROM `*PREFIX*appconfig`' );
+		$query = OC_DB::prepare( 'SELECT DISTINCT( appid ) FROM *PREFIX*appconfig' );
 		$result = $query->execute();
 
 		$apps = array();
@@ -68,12 +68,12 @@ class OC_APPCONFIG{
 	 */
 	public static function getKeys( $app ){
 		// No magic in here as well
-		$query = OC_DB::prepare( 'SELECT key FROM `*PREFIX*appconfig` WHERE `appid` = ?' );
+		$query = OC_DB::prepare( 'SELECT configkey FROM *PREFIX*appconfig WHERE appid = ?' );
 		$result = $query->execute( array( $app ));
 
 		$keys = array();
 		while( $row = $result->fetchRow()){
-			$keys[] = $row["key"];
+			$keys[] = $row["configkey"];
 		}
 
 		return $keys;
@@ -91,7 +91,7 @@ class OC_APPCONFIG{
 	 */
 	public static function getValue( $app, $key, $default = null ){
 		// At least some magic in here :-)
-		$query = OC_DB::prepare( 'SELECT value FROM *PREFIX*appconfig WHERE appid = ? AND key = ?' );
+		$query = OC_DB::prepare( 'SELECT configvalue FROM *PREFIX*appconfig WHERE appid = ? AND configkey = ?' );
 		$result = $query->execute( array( $app, $key ));
 
 		if( !$result->numRows()){
@@ -100,7 +100,7 @@ class OC_APPCONFIG{
 
 		$row = $result->fetchRow();
 
-		return $row["value"];
+		return $row["configvalue"];
 	}
 
 	/**
@@ -118,11 +118,11 @@ class OC_APPCONFIG{
 
 		// null: does not exist
 		if( is_null( $exists )){
-			$query = OC_DB::prepare( 'INSERT INTO *PREFIX*appconfig ( `appid`, `key`, `value` ) VALUES( ?, ?, ? )' );
+			$query = OC_DB::prepare( 'INSERT INTO *PREFIX*appconfig ( appid, configkey, configvalue ) VALUES( ?, ?, ? )' );
 			$query->execute( array( $app, $key, $value ));
 		}
 		else{
-			$query = OC_DB::prepare( 'UPDATE *PREFIX*appconfig SET value = ? WHERE appid = ? AND key = ?' );
+			$query = OC_DB::prepare( 'UPDATE *PREFIX*appconfig SET configvalue = ? WHERE appid = ? AND configkey = ?' );
 			$query->execute( array( $value, $app, $key ));
 		}
 	}
@@ -137,7 +137,7 @@ class OC_APPCONFIG{
 	 */
 	public static function deleteKey( $app, $key ){
 		// Boring!
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `key` = ?' );
+		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*appconfig WHERE appid = ? AND configkey = ?' );
 		$query->execute( array( $app, $key ));
 
 		return true;
@@ -152,7 +152,7 @@ class OC_APPCONFIG{
 	 */
 	public static function deleteApp( $app ){
 		// Nothing special
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?' );
+		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*appconfig WHERE appid = ?' );
 		$query->execute( array( $app ));
 
 		return true;
