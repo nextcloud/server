@@ -326,17 +326,12 @@ class OC_APP{
 			return array();
 		}
 		$data=array();
-		$plugin=new DOMDocument();
-		$plugin->load($file);
-		$info=$plugin->getElementsByTagName('info');
-		if($info->length > 0){
-			$info=$info->item(0);
-			$data['info']=array();
-			foreach($info->childNodes as $child){
-				if($child->nodeType==XML_ELEMENT_NODE){
-					$data[$child->tagName]=$child->textContent;
-				}
-			}
+		$content=file_get_contents($file);
+		$xml = new SimpleXMLElement($content);
+		$info=$xml->info[0];
+		$data['info']=array();
+		foreach($info->children() as $child){
+			$data[$child->getName()]=(string)$child;
 		}
 		return $data;
 	}
