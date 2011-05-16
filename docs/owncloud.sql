@@ -27,8 +27,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE IF NOT EXISTS `appconfig` (
   `appid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `configkey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `configvalue` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `locks` (
 
 CREATE TABLE IF NOT EXISTS `log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `timestamp` datetime NOT NULL,
+  `moment` datetime NOT NULL,
   `appid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `action` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -128,8 +128,8 @@ CREATE TABLE IF NOT EXISTS `log` (
 CREATE TABLE IF NOT EXISTS `preferences` (
   `userid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `appid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `configkey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `configvalue` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
