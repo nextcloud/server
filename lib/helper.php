@@ -60,8 +60,8 @@ class OC_HELPER {
 		global $SERVERROOT;
 		global $WEBROOT;
 		// Check if the app is in the app folder
-		if( file_exists( "$SERVERROOT/apps/$app/img/$image" )){
-			return "$WEBROOT/apps/$app/img/$image";
+		if( file_exists( "$SERVERROOT/apps/img/$app/$image" )){
+			return "$WEBROOT/apps/img/$app/$image";
 		}
 		if( !empty( $app )){
 			return "$WEBROOT/$app/img/$image";
@@ -186,6 +186,28 @@ class OC_HELPER {
 			return TRUE;
 		else
 			return FALSE;
+	}
+	
+	/**
+	 * @brief Checks $_REQUEST contains a var for the $s key. If so, returns the html-escaped value of this var; otherwise returns the default value provided by $d.
+	 * @param $s name of the var to escape, if set.
+	 * @param $d default value.
+	 * @returns the print-safe value.
+	 *
+	 */
+	 
+	//FIXME: should also check for value validation (i.e. the email is an email).
+	public static function init_var($s, $d="") {
+		$r = $d;
+		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s]))
+			$r = stripslashes(htmlspecialchars($_REQUEST[$s]));
+		
+		return $r;
+	}
+	
+	public static function init_radio($s, $v, $d) {
+		if((isset($_REQUEST[$s]) && $_REQUEST[$s]==$v) || $v == $d)
+			print "checked=\"checked\" ";
 	}
 }
 

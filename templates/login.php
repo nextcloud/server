@@ -1,13 +1,12 @@
 <div id="login">
 	<img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" />
-	<form action="index.php" method="post">
-		<!-- <h1>Sign in :</h1> -->
+	<form action="index.php" method="post" id="login_form">
 		<fieldset>
 			<?php if($_['error']): ?>
 				Login failed!
 			<?php endif; ?>
-			<input type="text" name="user" id="user" value="username" />
-			<input type="password" name="password" id="password" value="password" />
+			<input type="text" name="user" id="user" value="" />
+			<input type="password" name="password" id="password" value="" />
 			<input type="submit" value="Log in" />
 		</fieldset>
 	</form>

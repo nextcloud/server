@@ -21,45 +21,55 @@
 *
 */
 
-$RUNTIME_NOAPPS=true;//no apps, yet
+$RUNTIME_NOAPPS = TRUE; //no apps, yet
 
-require_once( 'lib/base.php' );
-require_once( 'appconfig.php' );
-require_once( 'template.php' );
+require_once(dirname(__FILE__).'/lib/base.php');
+require_once('appconfig.php');
+require_once('template.php');
 
+$not_installed = !OC_CONFIG::getValue('installed', false);
+$install_called = (isset($_POST['install']) AND $_POST['install']=='true');
 
-// check if the server is correctly configured for ownCloud
-$errors=OC_UTIL::checkServer();
-if(count($errors)>0){
-	OC_TEMPLATE::printGuestPage( "", "error", array( "errors" => $errors ));
-}elseif(isset($_POST['install']) and $_POST['install']=='true'){
-	require_once 'setup.php';
-}elseif (!OC_CONFIG::getValue('installed',false)) {
-	$hasSQLite=is_callable('sqlite_open');
-	$hasMySQL=is_callable('mysql_connect');
-	$datadir=OC_CONFIG::getValue('datadir',$SERVERROOT.'/data');
-	OC_TEMPLATE::printGuestPage( "", "installation",array('hasSQLite'=>$hasSQLite,'hasMySQL'=>$hasMySQL,'datadir'=>$datadir));
-}elseif( OC_USER::isLoggedIn()){
-	if( isset($_GET["logout"]) and ($_GET["logout"]) ){
+// First step : check if the server is correctly configured for ownCloud :
+$errors = OC_UTIL::checkServer();
+if(count($errors) > 0) {
+	OC_TEMPLATE::printGuestPage("", "error", array("errors" => $errors));
+}
+
+// Setup required :
+elseif($not_installed OR $install_called) {
+	require_once('setup.php');
+}
+
+// Someone is logged in :
+elseif(OC_USER::isLoggedIn()) {
+	if(isset($_GET["logout"]) and ($_GET["logout"])) {
 		OC_USER::logout();
-		header( "Location: $WEBROOT");
+		header("Location: $WEBROOT");
 		exit();
 	}
-	else{
-		header( "Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
+	else {
+		header("Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue("core", "defaultpage", "files/index.php"));
 		exit();
 	}
-}elseif(isset($_POST["user"])){
+}
+
+// Someone wants to log in :
+elseif(isset($_POST["user"])) {
 	OC_APP::loadApps();
-	if( OC_USER::login( $_POST["user"], $_POST["password"] )){
-		header( "Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue( "core", "defaultpage", "files/index.php" ));
+	if(OC_USER::login($_POST["user"], $_POST["password"])) {
+		header("Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue("core", "defaultpage", "files/index.php"));
 		exit();
-	}else{
-		OC_TEMPLATE::printGuestPage( "", "login", array( "error" => true));
 	}
-}else{
+	else {
+		OC_TEMPLATE::printGuestPage("", "login", array("error" => true));
+	}
+}
+
+// For all others cases, we display the guest page :
+else {
 	OC_APP::loadApps();
-	OC_TEMPLATE::printGuestPage( "", "login", array( "error" => false ));
+	OC_TEMPLATE::printGuestPage("", "login", array("error" => false));
 }
 
 ?>

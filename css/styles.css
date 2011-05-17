@@ -25,24 +25,169 @@ div.controls { width:91%; margin:1em 1em 1em 2em; padding:0.5em 0; background-co
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
 #body-login { width:100%; background-image:none; background-color:#ddd; }
 #body-login p.info { width:16em; margin:4em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
-#login { margin:0 auto 0 auto; padding:2em 0 0 0; background:#eee url('../img/header-login.png') repeat-x left 0; text-align:center; }
-#login form { margin:2.5em auto 0 auto; padding:0 0 1.5em 0; text-align:center; border-bottom:1px solid #fff; }
-#login form a { color:#000; text-decoration:none; }
-#login h1 { margin:0; padding:2.5em 0 0 0; border:0; text-align:center; text-transform:lowercase; font-size:1.5em; }
-#login fieldset { background-color:transparent; border:0; }
-#login fieldset p { margin:1em 0 0 0; padding:0; text-align:center; }
-#login legend { font-weight:bold; margin-left:45%; }
-#login legend abbr { border-bottom:1px dotted #000; }
-#login label { font-size:1.2em; display:inline; position:relative; top:2em; left:-12em; text-align:right; font-weight:bold; }
-#login input { width:8em; margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; }
-#login input:hover, #login input:focus { outline:0; }
-#login input[type='submit'] { width:5em; background-color:#fff; }
-#login input[type='submit']:hover, #login input[type=submit]:focus { background-color:#ccc; outline:0; }
-#login input[type='text'], #login input[type='password'] { display:block; margin:0 auto .5em; }
-#login input[type='radio'] { display:none; }
-#login input[type='radio']+label { margin:1em .1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:2em; color:#666; background-color:#fff; }
-#login input[type='radio']+label:hover, #login input[type='radio']+label:focus { background-color:#ccc; outline:0; }
-#login #use_mysql { margin-top:1.5em; }
+
+#login
+{
+    margin: 0 auto 0 auto;
+    padding: 2em 0 0 0;
+    background-image: url(../img/header-login.png);
+    background-position: left 0;
+    background-repeat: repeat-x;
+    background-color: #EEE;
+    border-bottom: 1px solid #FFF;
+    text-align: center;
+}
+
+#login_form
+{
+    width: 20em;
+    margin: 4em auto;
+    padding: 0;
+}
+
+#login_form fieldset
+{
+    background-color: transparent;
+    border: 0;
+}
+
+#login_form fieldset p
+{
+    margin: 0.5em 0 0 0;
+    padding: 0;
+    text-align: left;
+}
+
+#login_form fieldset p.submit
+{
+    margin: 2em 0 0 0;
+    padding: 1em 0 0 0;
+    border-top: 1px solid #DDD;
+    text-align: right;
+}
+
+#login_form label
+{
+    font-size: 1em;
+    color: #666;
+}
+
+#login_form input
+{
+    width: 100%;
+    margin: 0 0 0.5em 0;
+    padding: 0.5em;
+    border: 1px solid #DDD;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    font-size: 1.5em;
+    color: #333;
+    text-align: center;
+}
+
+#login_form input[type=submit]
+{
+    width: auto;
+    margin: 1em 0 0 0.5em;
+    text-align: center;
+    border: 1px solid #DDD;
+    background-color: #FFF;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    font-size: 1.5em
+}
+
+#login_form input[type=submit]:hover
+{
+    border: 1px solid #666;
+    background-color: #666;
+    color: #FFF;
+}
+
+
+#setup_form {
+	margin: 3em auto;
+	text-align: left;
+	width: 720px;
+}
+
+#setup_form #use_mysql {
+	font-size: 0.9em;
+	margin: 0 0 0 1em;
+}
+
+#setup_form p.intro {
+	color: #666;
+	font-size: 1.3em;
+	margin: 4em 0 3em 0;
+	padding: 0;
+	text-align: center;
+}
+
+#setup_form ul.errors {
+	background-image: url(images/no.png);
+	background-position: 1em 1em;
+	background-repeat: no-repeat;
+	background-color: #FED7D7;
+	border: 1px solid #F00;
+	font-size: 1.2em;
+	list-style-indent: inside;
+	margin: 0 0 4em 0;
+	padding: 1em 1em 1em 5em;
+}
+
+#setup_form fieldset {
+	margin: 0 0 3em 0;	
+}
+
+#setup_form p {
+	line-height: 1.8em;
+}
+
+#setup_form legend {
+	font-weight: normal;
+}
+
+#setup_form label {
+	cursor: pointer;
+	display: block;
+	float: left;
+	margin: 0 0 0.2em 0;
+	text-align: right;
+	width: 40%;
+}
+
+#setup_form input[type='text'],
+#setup_form input[type='password'] {
+	font-size: 1em;
+	margin: 0 0 0 0.5em;
+	padding: 0.3em;
+}
+
+#setup_form input[type='radio'] {
+	margin: 0 0 0 1em;
+}
+
+#setup_form input[type='submit'] {
+	background-color: #DDD;
+	border: 1px solid #999;
+	color: #666;
+	font-size: 1.2em;
+}
+
+#setup_form input[type='submit']:hover {
+	border-color: #000;
+	color: #000;
+}
+
+#setup_form p.submit {
+	padding: 0 0 1em 0;
+	text-align: center;
+}
+
+
 
 .prettybutton { margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:1.5em; text-decoration:none; color:#666; background-color:#fff; }
 .prettybutton:hover, .prettybutton:focus { background-color:#ccc; outline:0; }
@@ -95,7 +240,6 @@ table td.delete { background-image:url('../img/delete.png'); }
 #fileList tr input[type=checkbox] { display:none; }
 #fileList tr input[type=checkbox]:checked { display:inline; }
 #fileList tr:hover input[type=checkbox] { display:inline; }
-a.dropArrow{ background-image:url('../img/drop-arrow.png'); width:16px; height:16px; display:block}
 
 /* NAVIGATION BAR */
 p.nav { margin:1em 0 0 2em; padding:0.8em; line-height:16px; font-weight:bold; }
