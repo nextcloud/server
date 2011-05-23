@@ -25,6 +25,7 @@
 //require_once('../../config/config.php');
 require_once('../lib/base.php');
 require( 'template.php' );
+require( 'preferences.php' );
 
 if( !OC_USER::isLoggedIn()){
     header( 'Location: '.OC_HELPER::linkTo( 'index.php' ));
@@ -44,17 +45,17 @@ if(isset($_POST['size'])){
 			$selectedActions[]=$action;
 		}
 	}
-	OC_APPCONFIG::setValue('log','actions',implode(',',$selectedActions));
-	OC_APPCONFIG::setValue('log','pagesize',$_POST['size']);
+	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','actions',implode(',',$selectedActions));
+	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','pagesize',$_POST['size']);
 }
 
 OC_APP::setActiveNavigationEntry( 'log' );
 $logs=OC_LOG::get();
 
-$selectedActions=explode(',',OC_APPCONFIG::getValue('log','actions',implode(',',$allActions)));
+$selectedActions=explode(',',OC_PREFERENCES::getValue($_SESSION['user_id'],'log','actions',implode(',',$allActions)));
 $logs=OC_LOG::filterAction($logs,$selectedActions);
 
-$pageSize=OC_APPCONFIG::getValue('log','pagesize',20);
+$pageSize=OC_PREFERENCES::getValue($_SESSION['user_id'],'log','pagesize',20);
 $pageCount=ceil(count($logs)/$pageSize);
 $page=isset($_GET['page'])?$_GET['page']:0;
 if($page>=$pageCount){
@@ -64,7 +65,7 @@ if($page>=$pageCount){
 $logs=array_slice($logs,$page*$pageSize,$pageSize);
 
 foreach( $logs as &$i ){
-    $i['date'] =$i['timestamp'];
+	$i['date'] =$i['moment'];
 }
 
 $url=OC_HELPER::linkTo( 'log', 'index.php' ).'?page=';
