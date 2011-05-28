@@ -116,6 +116,8 @@ class OC_SETUP {
 				}
 			}
 			else {
+				//delete the old sqlite database first, might cause infinte loops otherwise
+				unlink("$datadir/owncloud.db");
 				//in case of sqlite, we can always fill the database
 				OC_DB::createDbFromStructure('db_structure.xml');
 			}
