@@ -586,8 +586,8 @@
 				$path=$options['path'];
 				$name=$prop['name'];
 				$ns=$prop['ns'];
-				$val=$prop['val'];
                 if (isset($prop["val"])) {
+		                $val=$prop['val'];
                         $query = OC_DB::prepare("REPLACE INTO *PREFIX*properties (path,name,ns,value) VALUES(?,?,?,?)");
                         $query->execute(array($path,$name,$ns,$val));
                 } else {
