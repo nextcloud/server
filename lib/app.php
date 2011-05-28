@@ -317,20 +317,23 @@ class OC_APP{
 	
 	/**
 	 * @brief Read app metadata from the info.xml file
-	 * @param string $appid id of the app
+	 * @param string $appid id of the app or the path of the info.xml file
 	 * @returns array
 	*/
 	public static function getAppInfo($appid){
-		$file='apps/'.$appid.'/appinfo/info.xml';
-		if(!is_file($file)){
-			return array();
+		if(is_file($appid)){
+			$file=$appid;
+		}else{
+			$file='apps/'.$appid.'/appinfo/info.xml';
+			if(!is_file($file)){
+				return array();
+			}
 		}
 		$data=array();
 		$content=file_get_contents($file);
 		$xml = new SimpleXMLElement($content);
-		$info=$xml->info[0];
 		$data['info']=array();
-		foreach($info->children() as $child){
+		foreach($xml->children() as $child){
 			$data[$child->getName()]=(string)$child;
 		}
 		return $data;

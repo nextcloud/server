@@ -164,7 +164,6 @@ class OC_HELPER {
 	 * @param $path path to file or folder
 	 * @param $filemode unix style file permissions as integer
 	 *
-	 * Makes 2048 to 2 kB.
 	 */
 	static function chmodr($path, $filemode) {
 		if (!is_dir($path))
@@ -186,6 +185,47 @@ class OC_HELPER {
 			return TRUE;
 		else
 			return FALSE;
+	}
+
+	/**
+	 * @brief Recusive copying of folders
+	 * @param string $src source folder
+	 * @param string $dest target folder
+	 *
+	 */
+	static function copyr($src, $dest) {
+		if(is_dir($src)){
+			if(!is_dir($dest)){
+				mkdir($dest);
+			}
+			$files = scandir($src);
+			foreach ($files as $file){
+				if ($file != "." && $file != ".."){
+					self::copyr("$src/$file", "$dest/$file");
+				}
+			}
+		}elseif(file_exists($src)){
+			copy($src, $dest);
+		}
+	}
+	
+	/**
+	 * @brief Recusive deletion of folders
+	 * @param string $dir path to the folder
+	 *
+	 */
+	static function rmdirr($dir) {
+		if(is_dir($dir)) {
+			$files=scandir($dir);
+			foreach($files as $file){
+				if ($file != "." && $file != ".."){
+					self::rmdirr("$dir/$file");
+				}
+			}
+			rmdir($dir);
+		}elseif(file_exists($dir)){
+			unlink($dir);
+		}
 	}
 	
 	/**

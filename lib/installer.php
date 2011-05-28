@@ -47,6 +47,7 @@ class OC_INSTALLER{
 	 * This function works as follows
 	 *   -# fetching the file
 	 *   -# unzipping it
+	 *   -# installing the database at appinfo/database.xml
 	 *   -# including appinfo/install.php
 	 *   -# setting the installed version
 	 *
@@ -54,7 +55,101 @@ class OC_INSTALLER{
 	 * needed to get the app working.
 	 */
 	public static function installApp( $data = array()){
-		// TODO: write function
+		global $SERVERROOT;
+		
+		if(!isset($data['source'])){
+			error_log("No source specified when installing app");
+			return;
+		}
+		
+		//download the file if necesary
+		if($data['source']=='http'){
+			$path=tempnam(sys_get_temp_dir(),'oc_installer_');
+			if(!isset($data['href'])){
+				error_log("No href specified when installing app from http");
+				return;
+			}
+			copy($data['href'],$path);
+		}else{
+			if(!isset($data['path'])){
+				error_log("No path specified when installing app from local file");
+				return;
+			}
+			$path=$data['path'];
+		}
+		
+		//extract the archive in a temporary folder
+		$extractDir=tempnam(sys_get_temp_dir(),'oc_installer_uncompressed_');
+		unlink($extractDir);
+		mkdir($extractDir);
+		$zip = new ZipArchive;
+		if($zip->open($path)===true){
+			$zip->extractTo($extractDir);
+			$zip->close();
+		} else {
+			error_log("Failed to open archive when installing app");
+			OC_HELPER::rmdirr($extractDir);
+			if($data['source']=='http'){
+				unlink($path);
+			}
+			return;
+		}
+		
+		//load the info.xml file of the app
+		if(!is_file($extractDir.'/appinfo/info.xml')){
+			error_log("App does not provide an info.xml file");
+			OC_HELPER::rmdirr($extractDir);
+			if($data['source']=='http'){
+				unlink($path);
+			}
+			return;
+		}
+		$info=OC_APP::getAppInfo($extractDir.'/appinfo/info.xml');
+		$basedir=$SERVERROOT.'/apps/'.$info['id'];
+		
+		//check if an app with the same id is already installed
+		if(is_dir($basedir)){
+			error_log("App already installed");
+			OC_HELPER::rmdirr($extractDir);
+			if($data['source']=='http'){
+				unlink($path);
+			}
+			return;
+		}
+		
+		if(isset($data['pretent']) and $data['pretent']==true){
+			return;
+		}
+		
+		//copy the app to the correct place
+		if(!mkdir($basedir)){
+			error_log('Can\'t create app folder ('.$basedir.')');
+			OC_HELPER::rmdirr($extractDir);
+			if($data['source']=='http'){
+				unlink($path);
+			}
+			return;
+		}
+		OC_HELPER::copyr($extractDir,$basedir);
+		
+		//remove temporary files
+		OC_HELPER::rmdirr($extractDir);
+		if($data['source']=='http'){
+			unlink($path);
+		}
+		
+		//install the database
+		if(is_file($basedir.'/appinfo/database.xml')){
+			OC_DB::createDbFromStructure($basedir.'/appinfo/database.xml');
+		}
+		
+		//run appinfo/install.php
+		if(!isset($data['noinstall']) or $data['noinstall']==false and is_file($basedir.'/appinfo/install.php')){
+			include($basedir.'/appinfo/install.php');
+		}
+		
+		//set the installed version
+		OC_APPCONFIG::setValue($info['id'],'installed_version',$info['version']);
 		return true;
 	}
 
