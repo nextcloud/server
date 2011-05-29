@@ -57,7 +57,7 @@ foreach( explode( "/", $dir ) as $i ){
 
 // return template
 $tmpl = new OC_TEMPLATE( "files", "index", "user" );
-$tmpl->assign( "files", $files );
+$tmpl->assign( 'files', $files );
 $tmpl->assign( "breadcrumb", $breadcrumb );
 $tmpl->printPage();
 
