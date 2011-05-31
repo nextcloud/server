@@ -28,7 +28,7 @@ require_once('HTTP/WebDAV/Server/Filesystem.php');
 
 ini_set('default_charset', 'UTF-8');
 #ini_set('error_reporting', '');
-ob_clean();
+@ob_clean();
 
 if(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['REDIRECT_REMOTE_USER'])) {
   header('WWW-Authenticate: Basic realm="ownCloud"');
