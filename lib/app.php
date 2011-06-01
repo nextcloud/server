@@ -61,6 +61,19 @@ class OC_APP{
 		while( false !== ( $filename = readdir( $dir ))){
 			if( substr( $filename, 0, 1 ) != '.' ){
 				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
+					if(OC_APPCONFIG::getValue($filename,'installed_version',0)==0){ //check if the plugin is fully installed
+						//install the database
+						if(is_file("$SERVERROOT/apps/$filename/appinfo/database.xml")){
+							OC_DB::createDbFromStructure("$SERVERROOT/apps/$filename/appinfo/database.xml");
+						}
+						
+						//run appinfo/install.php
+						if(is_file("$SERVERROOT/apps/$filename/appinfo/install.php")){
+							include("$SERVERROOT/apps/$filename/appinfo/install.php");
+						}
+						$info=self::getAppInfo("$SERVERROOT/apps/$filename/appinfo/info.xml");
+						OC_APPCONFIG::setValue($filename,'installed_version',$info['version']);
+					}
 					require( "apps/$filename/appinfo/app.php" );
 				}
 			}
