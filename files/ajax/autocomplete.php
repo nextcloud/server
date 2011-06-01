@@ -29,6 +29,10 @@ if(substr($query,-1,1)=='/'){
 }
 
 $query=substr($query,strlen($base));
+
+if($base!='/'){
+	$query=substr($query,1);
+}
 $queryLen=strlen($query);
 
 // echo "$base - $query";
