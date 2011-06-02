@@ -232,10 +232,11 @@ class OC_UTIL {
        /**
          * formats a timestamp in the "right" way
          *
-         * @param timestamp $timestamp
+         * @param int timestamp $timestamp
+         * @param bool dateOnly option to ommit time from the result
          */
-        public static function formatDate( $timestamp ){
-		$timeformat='F j, Y, H:i';
+        public static function formatDate( $timestamp,$dateOnly=false){
+		$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
 		return date($timeformat,$timestamp);
         }
 
