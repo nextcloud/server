@@ -54,6 +54,27 @@ class OC_PublicLink{
 		return $this->token;
 	}
 	
+	/**
+	 * gets all public links
+	 * @return array
+	 */
+	static public function getLinks(){
+		$query=OC_DB::prepare("SELECT * FROM *PREFIX*publiclink WHERE user=?");
+		return $query->execute(array($_SESSION['user_id']))->fetchAll();
+	}
+
+	/**
+	 * delete a public link
+	 */
+	static public function delete($token){
+		$query=OC_DB::prepare("SELECT user,path FROM *PREFIX*publiclink WHERE token=?");
+		$result=$query->execute(array($token))->fetchAll();
+		if(count($result)>0 and $result[0]['user']==$_SESSION['user_id']){
+			$query=OC_DB::prepare("DELETE FROM *PREFIX*publiclink WHERE token=?");
+			$query->execute(array($token));
+		}
+	}
+	
 	private $token;
 }
 ?>

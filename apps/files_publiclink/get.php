@@ -48,15 +48,15 @@ if($path!==false){
 			}
 		}
 		
-		$breadcrumbNav = new OC_TEMPLATE( "plugins/publiclink", "breadcrumb", "" );
+		$breadcrumbNav = new OC_TEMPLATE( "files_publiclink", "breadcrumb", "" );
 		$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 		$breadcrumbNav->assign('token',$token);
 		
-		$list = new OC_TEMPLATE( 'plugins/publiclink', 'files', '' );
+		$list = new OC_TEMPLATE( 'files_publiclink', 'files', '' );
 		$list->assign( 'files', $files );
 		$list->assign('token',$token);
 		
-		$tmpl = new OC_TEMPLATE( 'plugins/publiclink', 'index', 'user' );
+		$tmpl = new OC_TEMPLATE( 'files_publiclink', 'index', 'user' );
 		$tmpl->assign('fileList', $list->fetchPage());
 		$tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
 		$tmpl->printPage();
