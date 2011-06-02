@@ -42,7 +42,7 @@ class OC_HELPER {
 		}
 		
 		// Check if the app is in the app folder
-		if( file_exists( $SERVERROOT . '/apps/'. $app . $file )){
+		if( file_exists( $SERVERROOT . '/apps/'. $app )){
 			return $WEBROOT . '/apps/' . $app . $file;
 		}
 		return $WEBROOT . '/' . $app . $file;
