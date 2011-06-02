@@ -1,9 +1,0 @@
-This plugin implements a very basic HTML5 audio preview for ownCloud.
-
-Only formats supported by the browser can be played.
-Sadly, those are very limited and not coherent among browsers, see http://html5doctor.com/native-audio-in-the-browser/ for more info.
-
-Ideas to change that (TODO):
-- Flashplayer fallback
-and/or
-- on-the-fly transcoding
