@@ -34,6 +34,7 @@ if($base!='/'){
 	$query=substr($query,1);
 }
 $queryLen=strlen($query);
+$query=strtolower($query);
 
 // echo "$base - $query";
 
@@ -46,7 +47,7 @@ if(OC_FILESYSTEM::is_dir($base)){
 	}
 	while (($file = readdir($dh)) !== false) {
 		if ($file != "." && $file != ".."){
-			if(substr($file,0,$queryLen)==$query){
+			if(substr(strtolower($file),0,$queryLen)==$query){
 				$item=$base.$file;
 				if((!$dirOnly or OC_FILESYSTEM::is_dir($item))){
 					$files[]=(object)array('id'=>$item,'label'=>$item,'name'=>$item);
