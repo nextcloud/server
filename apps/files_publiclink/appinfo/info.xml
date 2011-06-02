@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_publiclink</id>
+	<name>Share by Publiclink</name>
+	<description>Simple file sharing by creating a public link to a file</description>
+	<version>0.2</version>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<require>2</require>
+</info>

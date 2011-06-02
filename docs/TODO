@@ -1,16 +1,2 @@
-- internationalizing of the web gui
-
-- themed webgui to match plasma theme
-
-- plugin system
-  - store kde settings 
-  - store my music collection
-  - integration with kolab server
-
-- create a versioning backend
-
-- create a usermanagement to share data
-
-
-
-
+Database:
+    - Stored procedures!

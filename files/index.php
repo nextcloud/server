@@ -5,31 +5,73 @@
 *
 * @author Robin Appelman
 * @copyright 2010 Robin Appelman icewind1991@gmail.com
-* 
+*
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either 
+* License as published by the Free Software Foundation; either
 * version 3 of the License, or any later version.
-* 
+*
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*  
-* You should have received a copy of the GNU Affero General Public 
+*
+* You should have received a copy of the GNU Affero General Public
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-* 
+*
 */
 
 
-//require_once('../../config/config.php');
-require_once('../inc/lib_base.php');
+// Init owncloud
+require_once('../lib/base.php');
+require( 'template.php' );
 
-OC_UTIL::addscript('/plugins/ajax/ajax.js');
+// Check if we are a user
+if( !OC_USER::isLoggedIn()){
+	header( "Location: ".OC_HELPER::linkTo( '', 'index.php' ));
+	exit();
+}
 
-OC_UTIL::showheader();
+// Load the files we need
+OC_UTIL::addStyle( "files", "files" );
+OC_UTIL::addScript( "files", "files" );
+OC_APP::setActiveNavigationEntry( "files_index" );
+// Load the files
+$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 
-echo "<div id='content'></div>";
+$files = array();
+foreach( OC_FILES::getdirectorycontent( $dir ) as $i ){
+	$i["date"] = OC_UTIL::formatDate($i["mtime"] );
+	if($i['directory']=='/'){
+		$i['directory']='';
+	}
+	$files[] = $i;
+}
 
-OC_UTIL::showfooter();
+// Make breadcrumb
+$breadcrumb = array();
+$pathtohere = "/";
+foreach( explode( "/", $dir ) as $i ){
+	if( $i != "" ){
+		$pathtohere .= "$i/";
+		$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
+	}
+}
+
+// make breadcrumb und filelist markup
+$list = new OC_TEMPLATE( "files", "part.list", "" );
+$list->assign( "files", $files );
+$breadcrumbNav = new OC_TEMPLATE( "files", "part.breadcrumb", "" );
+$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
+
+$maxUploadFilesize = OC_HELPER::computerFileSize(ini_get('upload_max_filesize'));
+
+$tmpl = new OC_TEMPLATE( "files", "index", "user" );
+$tmpl->assign( "fileList", $list->fetchPage() );
+$tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
+$tmpl->assign( 'dir', $dir);
+$tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign( 'uploadMaxHumanFilesize', OC_HELPER::humanFileSize($maxUploadFilesize));
+$tmpl->printPage();
+
 ?>
