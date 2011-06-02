@@ -39,11 +39,10 @@ class OC_HELPER {
 		
 		if(!empty($app)) {
 			$app .= '/';
-		}
-		
-		// Check if the app is in the app folder
-		if( file_exists( $SERVERROOT . '/apps/'. $app )){
-			return $WEBROOT . '/apps/' . $app . $file;
+			// Check if the app is in the app folder
+			if( file_exists( $SERVERROOT . '/apps/'. $app )){
+				return $WEBROOT . '/apps/' . $app . $file;
+			}
 		}
 		return $WEBROOT . '/' . $app . $file;
 	}
