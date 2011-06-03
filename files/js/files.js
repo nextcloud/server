@@ -157,7 +157,7 @@ $(document).ready(function() {
 		var uploadTime=monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
 		var html='<tr>';
 		html+='<td class="selection"><input type="checkbox" /></td>';
-		html+='<td class="filename"><a style="background-image:url(img/file.png)" href="ajax/download.php?file='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
+		html+='<td class="filename"><a style="background-image:url(img/file.png)" href="download.php?file='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
 		html+='<td class="filesize">'+size+'</td>';
 		html+='<td class="date">'+uploadTime+'</td>';
 		html+='<td class="fileaction"><a href="" title="+" class="dropArrow"></a></td>';
