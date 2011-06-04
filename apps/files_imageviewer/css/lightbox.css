@@ -1,0 +1,21 @@
+#lightbox_overlay{
+	position:absolute;
+	height:100%;
+	width:100%;
+	top:0px;
+	left:0px;
+	opacity:0.5;
+	filter: alpha(opacity = 50);
+	background-color:black;
+	z-index:9999;
+}
+
+#lightbox{
+	position:absolute;
+	max-height:90%;
+	max-width:90%;
+	top:10px;
+	margin-left:auto;
+	margin-right:auto;
+	z-index:9999;
+}
