@@ -1,6 +1,7 @@
-if(typeof ileActions!=='undefined'){
-	var lightBoxShown=false;
-	$(document).ready(function() {
+
+var lightBoxShown=false;
+$(document).ready(function() {
+	if(typeof FileActions!=='undefined'){
 		images={};//image cache
 		var overlay=$('<div id="lightbox_overlay"/>');
 		$( 'body' ).append(overlay);
@@ -22,36 +23,36 @@ if(typeof ileActions!=='undefined'){
 		});
 		$( 'body' ).click(hideLightbox);
 		FileActions.setDefault('image','View');
-	});
-
-	function showLightbox(container,img){
-		var maxWidth = $( window ).width() - 50;
-		var maxHeight = $( window ).height() - 50;
-		if( img.width > maxWidth || img.height > maxHeight ) { // One of these is larger than the window
-			var ratio = img.width / img.height;
-			if( img.height >= maxHeight ) {
-				img.height = maxHeight;
-				img.width = maxHeight * ratio;
-			} else {
-				img.width = maxWidth;
-				img.height = maxWidth * ratio;
-			}
-		}
-		container.empty();
-		container.append(img);
-		container.css('top',Math.round( ($( window ).height() - img.height)/2));
-		container.css('left',Math.round( ($( window ).width() - img.width)/2));
-		$('#lightbox').show();
-		setTimeout(function(){
-			lightBoxShown=true;
-		},100);
 	}
+});
 
-	function hideLightbox(){
-		if(lightBoxShown){
-			$('#lightbox_overlay').hide();
-			$('#lightbox').hide();
-			lightBoxShown=false;
+function showLightbox(container,img){
+	var maxWidth = $( window ).width() - 50;
+	var maxHeight = $( window ).height() - 50;
+	if( img.width > maxWidth || img.height > maxHeight ) { // One of these is larger than the window
+		var ratio = img.width / img.height;
+		if( img.height >= maxHeight ) {
+			img.height = maxHeight;
+			img.width = maxHeight * ratio;
+		} else {
+			img.width = maxWidth;
+			img.height = maxWidth * ratio;
 		}
+	}
+	container.empty();
+	container.append(img);
+	container.css('top',Math.round( ($( window ).height() - img.height)/2));
+	container.css('left',Math.round( ($( window ).width() - img.width)/2));
+	$('#lightbox').show();
+	setTimeout(function(){
+		lightBoxShown=true;
+	},100);
+}
+
+function hideLightbox(){
+	if(lightBoxShown){
+		$('#lightbox_overlay').hide();
+		$('#lightbox').hide();
+		lightBoxShown=false;
 	}
 }
