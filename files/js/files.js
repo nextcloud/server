@@ -127,13 +127,21 @@ $(document).ready(function() {
 	})
 	
 	$('#file_upload_submit').click(function(){
-		$('#file_upload_form').submit();
 		var name=$('#file_upload_filename').val();
 		if($('#file_upload_start')[0].files[0] && $('#file_upload_start')[0].files[0].size>0){
 			var size=humanFileSize($('#file_upload_start')[0].files[0].size);
 		}else{
 			var size='Pending';
 		}
+		$('#file_upload_target').load(function(){
+			var response=jQuery.parseJSON($('#file_upload_target').contents().find('body').text());
+			//set mimetype and if needed filesize
+			$('tr[data-file="'+name+'"]').attr('data-mime',response.mime);
+			if(size=='Pending'){
+				$('tr[data-file='+name+'] td.filesize').text(response.size);
+			}
+		});
+		$('#file_upload_form').submit();
 		var date=new Date();
 		var uploadTime=formatDate(date);
 		FileList.addFile(name,size,uploadTime);
