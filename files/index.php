@@ -35,6 +35,7 @@ if( !OC_USER::isLoggedIn()){
 // Load the files we need
 OC_UTIL::addStyle( "files", "files" );
 OC_UTIL::addScript( "files", "files" );
+OC_UTIL::addScript( 'files', 'filelist' );
 OC_APP::setActiveNavigationEntry( "files_index" );
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
