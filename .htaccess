@@ -1,0 +1,4 @@
+ErrorDocument 404 //owncloud/templates/404.php
+php_value upload_max_filesize 20M
+php_value post_max_size 20M
+SetEnv htaccessWorking true

@@ -4,6 +4,7 @@
 {
     display: none;
     position: absolute;
+	right:0px;
     background-color: #EEE;
 }
 
@@ -36,7 +37,7 @@
 #file_upload_filename {
 	background-image:url(../../img/mimetypes/file.png);
 }
-#file_upload_start {opacity:0;}
+#file_upload_start {opacity:0;filter: alpha(opacity = 0);}
 
 #file_newfolder_name {
 	background-image:url(../../img/places/folder.png); font-weight: bold; 
@@ -104,3 +105,10 @@ table td.filename a
     text-decoration: none;
 }
 
+.dropArrow{
+	height:16px;
+	width:16px;
+	display: -moz-inline-box; /* fallback for older firefox versions*/
+	display: inline-block;
+	background-image:url('../../img/drop-arrow.png');
+}

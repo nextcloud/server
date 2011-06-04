@@ -15,11 +15,22 @@ $(document).ready(function() {
 
 	// Sets the file-action buttons behaviour :
 	$('td.fileaction a').live('click',function() {
-		$(this).parent().append($('#file_menu'));
-		$('#file_menu').slideToggle(250);
-		return false;
+		event.preventDefault();
+		FileActions.display($(this).parent());
 	});
-
+	
+	// Sets the file link behaviour :
+	$('td.filename a').live('click',function() {
+		event.preventDefault();
+		var filename=$(this).text();
+		var mime=$(this).parent().parent().attr('data-mime');
+		var type=$(this).parent().parent().attr('data-type');
+		var action=FileActions.getDefault(mime,type);
+		if(action){
+			action(filename);
+		}
+	});
+	
 	// Sets the select_all checkbox behaviour :
 	$('#select_all').click(function() {
 		if($(this).attr('checked'))
@@ -40,33 +51,10 @@ $(document).ready(function() {
 		}
 	});
 	
-	// Download current file 
-	$('#download_single_file').click(function() {
-		filename = $('#file_menu').parents('tr:first').find('.filename:first').children('a:first').text();
-		window.location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
-		$('#file_menu').slideToggle(250);
-		return false;
-	});
-	
-	// Delete current file 
-	$('#delete_single_file').click(function() {
-		filename = $('#file_menu').parents('tr:first').attr('data-file');
-		$.ajax({
-			url: 'ajax/delete.php',
-			data: "dir="+$('#dir').val()+"&file="+filename,
-			complete: function(data){
-				boolOperationFinished(data, function(){
-					FileList.remove(filename);
-				});
-			}
-		});
-		return false;
-	});
-	
 	$('#file_newfolder_submit').click(function() {
 		$.ajax({
 			url: 'ajax/newfolder.php',
-		 data: "dir="+$('#dir').val()+"&foldername="+$('#file_newfolder_name').val(),
+			data: "dir="+$('#dir').val()+"&foldername="+$('#file_newfolder_name').val(),
 			complete: function(data){boolOperationFinished(data, function(){
 				var date=formatDate(new Date());
 				FileList.addDir($('#file_newfolder_name').val(),'0 B',date)
