@@ -46,7 +46,7 @@ FileActions={
 		}
 	},
 	display:function(parent){
-		$('#file_menu>ul').empty();
+		$('#file_menu ul').empty();
 		parent.append($('#file_menu'));
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
@@ -55,7 +55,10 @@ FileActions={
 			element.data('action',name);
 			element.click(function(event){
 				event.preventDefault();
-				actions[$(this).data('action')](FileActions.getCurrentFile());
+				$('#file_menu').slideToggle(250);
+				var action=actions[$(this).data('action')];
+				$('#file_menu ul').empty();
+				action(FileActions.getCurrentFile());
 			});
 			$('#file_menu>ul').append(element);
 		}
@@ -75,7 +78,6 @@ FileActions={
 
 FileActions.register('all','Download',function(filename){
 	window.location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
-	$('#file_menu').slideToggle(250);
 });
 
 FileActions.register('all','Delete',function(filename){
@@ -94,7 +96,6 @@ FileActions.setDefault('all','Download');
 
 FileActions.register('dir','Open',function(filename){
 	window.location='index.php?dir='+$('#dir').val()+'/'+filename;
-	$('#file_menu').slideToggle(250);
 });
 
 FileActions.setDefault('dir','Open');
