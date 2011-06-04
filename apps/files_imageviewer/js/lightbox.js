@@ -1,3 +1,4 @@
+var lightBoxShown=false;
 $(document).ready(function() {
 	images={};//image cache
 	FileActions.register('image','View',function(filename){
@@ -38,9 +39,12 @@ function showLightbox(container,img){
 	container.append(img);
 	container.css('top',Math.round( ($( window ).height() - img.height)/2));
 	container.css('left',Math.round( ($( window ).width() - img.width)/2));
+	lightBoxShown=true;
 }
 
 function hideLightbox(){
-	$('#lightbox_overlay').remove();
-	$('#lightbox').remove();
+	if(lightBoxShown){
+		$('#lightbox_overlay').remove();
+		$('#lightbox').remove();
+	}
 }
