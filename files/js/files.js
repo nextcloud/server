@@ -14,13 +14,13 @@ $(document).ready(function() {
 	);
 
 	// Sets the file-action buttons behaviour :
-	$('td.fileaction a').live('click',function() {
+	$('td.fileaction a').live('click',function(event) {
 		event.preventDefault();
 		FileActions.display($(this).parent());
 	});
 	
 	// Sets the file link behaviour :
-	$('td.filename a').live('click',function() {
+	$('td.filename a').live('click',function(event) {
 		event.preventDefault();
 		var filename=$(this).text();
 		var mime=$(this).parent().parent().attr('data-mime');

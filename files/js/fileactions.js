@@ -53,7 +53,7 @@ FileActions={
 			var html='<li><a href="" alt="'+name+'">'+name+'</a></li>';
 			var element=$(html);
 			element.data('action',name);
-			element.click(function(){
+			element.click(function(event){
 				event.preventDefault();
 				actions[$(this).data('action')](FileActions.getCurrentFile());
 			});
