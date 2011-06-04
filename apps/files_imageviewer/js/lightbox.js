@@ -1,12 +1,13 @@
 var lightBoxShown=false;
 $(document).ready(function() {
 	images={};//image cache
+	var overlay=$('<div id="lightbox_overlay"/>');
+	$( 'body' ).append(overlay);
+	var container=$('<div id="lightbox"/>');
+	$( 'body' ).append(container);
 	FileActions.register('image','View',function(filename){
 		var location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
-		var overlay=$('<div id="lightbox_overlay"/>');
-		$( 'body' ).append(overlay);
-		var container=$('<div id="lightbox"/>');
-		$( 'body' ).append(container);
+		overlay.show();
 		if(!images[location]){
 			var img = new Image();
 			img.onload = function(){
@@ -39,12 +40,16 @@ function showLightbox(container,img){
 	container.append(img);
 	container.css('top',Math.round( ($( window ).height() - img.height)/2));
 	container.css('left',Math.round( ($( window ).width() - img.width)/2));
-	lightBoxShown=true;
+	$('#lightbox').show();
+	setTimeout(function(){
+		lightBoxShown=true;
+	},100);
 }
 
 function hideLightbox(){
 	if(lightBoxShown){
-		$('#lightbox_overlay').remove();
-		$('#lightbox').remove();
+		$('#lightbox_overlay').hide();
+		$('#lightbox').hide();
+		lightBoxShown=false;
 	}
 }
