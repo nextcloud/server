@@ -37,6 +37,9 @@ OC_UTIL::addStyle( "files", "files" );
 OC_UTIL::addScript( "files", "files" );
 OC_UTIL::addScript( 'files', 'filelist' );
 OC_UTIL::addScript( 'files', 'fileactions' );
+if(!isset($_SESSION['timezone'])){
+	OC_UTIL::addScript( 'files', 'timezone' );
+}
 OC_APP::setActiveNavigationEntry( "files_index" );
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';

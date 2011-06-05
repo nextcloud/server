@@ -231,8 +231,15 @@ class OC_UTIL {
          * @param bool dateOnly option to ommit time from the result
          */
         public static function formatDate( $timestamp,$dateOnly=false){
-		$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
-		return date($timeformat,$timestamp);
+			if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
+				$systemTimeZone = intval(exec('date +%z'));
+				$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
+				$clientTimeZone=$_SESSION['timezone']*60;
+				$offset=$clientTimeZone-$systemTimeZone;
+				$timestamp=$timestamp+$offset*60;
+			}
+			$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
+			return date($timeformat,$timestamp);
         }
 
 	/**
