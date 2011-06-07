@@ -37,8 +37,10 @@ OC_UTIL::addScript( "log", "log" );
 
 $allActions=array('login','logout','read','write','create','delete');
 
-//check for a submited config
-if(isset($_POST['size'])){
+$removeBeforeDate = 0;
+
+//check for a submitted config
+if(isset($_POST['save'])){
 	$selectedActions=array();
 	foreach($allActions as $action){
 		if(isset($_POST[$action]) and $_POST[$action]=='on'){
@@ -48,9 +50,21 @@ if(isset($_POST['size'])){
 	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','actions',implode(',',$selectedActions));
 	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','pagesize',$_POST['size']);
 }
+//clear log entries
+else if(isset($_POST['clear'])){
+  $removeBeforeDate=(isset($_POST['removeBeforeDate']))?$_POST['removeBeforeDate']:0;
+  if($removeBeforeDate!==0){
+	$removeBeforeDate=strtotime($removeBeforeDate);
+	OC_LOG::deleteBefore($removeBeforeDate);
+  }
+}
+else if(isset($_POST['clearall'])){
+  OC_LOG::deleteAll();
+}
 
 OC_APP::setActiveNavigationEntry( 'log' );
 $logs=OC_LOG::get();
+
 
 $selectedActions=explode(',',OC_PREFERENCES::getValue($_SESSION['user_id'],'log','actions',implode(',',$allActions)));
 $logs=OC_LOG::filterAction($logs,$selectedActions);

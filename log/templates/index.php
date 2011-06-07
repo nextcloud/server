@@ -14,7 +14,7 @@
 		<p>
 			<span>Show :</span>
 			<input type="text" maxlength="3" size="3" value="<?php echo $_['size']?>" name='size'/>&nbsp;entries per page.
-			<input class="prettybutton" type="submit" value="Save" />
+			<input class="prettybutton" type="submit" name="save" value="Save" />
 
 		</p>
 	</form>
@@ -36,5 +36,17 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
+<div class="controls">
+	<form id="logs_options" method='post'>
+		<p>
+			<span>Clear log entries before </span>
+			<input type="date" id="removeBeforeDate" name="removeBeforeDate"/>
+			<input class="prettybutton nofloat" type="submit" name="clear" value="Clear" />
+			<input class="prettybutton" type="submit" name="clearall" value="Clear All" />
+
+		</p>
+	</form>
+</div>
 
 <?php echo $_['pager'];?>

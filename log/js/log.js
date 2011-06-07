@@ -18,4 +18,7 @@ $(document).ready(function() {
 			}
 		}
 	});
+	$('#removeBeforeDate').datepicker({
+		dateFormat:'MM d, yy',
+	});
 });
