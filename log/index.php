@@ -37,8 +37,6 @@ OC_UTIL::addScript( "log", "log" );
 
 $allActions=array('login','logout','read','write','create','delete');
 
-$removeBeforeDate = 0;
-
 //check for a submitted config
 if(isset($_POST['save'])){
 	$selectedActions=array();

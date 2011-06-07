@@ -37,6 +37,8 @@
 	</tbody>
 </table>
 
+<?php echo $_['pager'];?>
+
 <div class="controls">
 	<form id="logs_options" method='post'>
 		<p>
@@ -49,4 +51,4 @@
 	</form>
 </div>
 
-<?php echo $_['pager'];?>
+

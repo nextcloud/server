@@ -22,3 +22,4 @@ $(document).ready(function() {
 		dateFormat:'MM d, yy',
 	});
 });
+
