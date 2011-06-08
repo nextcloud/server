@@ -639,7 +639,7 @@ class MDB2
      */
     static function isError($data, $code = null)
     {
-        if (is_a($data, 'MDB2_Error')) {
+        if ($data instanceof MDB2_Error) {
             if (is_null($code)) {
                 return true;
             } elseif (is_string($code)) {
@@ -666,7 +666,7 @@ class MDB2
      */
     static function isConnection($value)
     {
-        return is_a($value, 'MDB2_Driver_Common');
+        return ($value instanceof MDB2_Driver_Common);
     }
 
     // }}}
@@ -683,7 +683,7 @@ class MDB2
      */
     static function isResult($value)
     {
-        return is_a($value, 'MDB2_Result');
+        return $value instanceof MDB2_Result;
     }
 
     // }}}
@@ -700,7 +700,7 @@ class MDB2
      */
     static function isResultCommon($value)
     {
-        return is_a($value, 'MDB2_Result_Common');
+        return ($value instanceof MDB2_Result_Common);
     }
 
     // }}}
@@ -717,7 +717,7 @@ class MDB2
      */
     static function isStatement($value)
     {
-        return is_a($value, 'MDB2_Statement_Common');
+        return $value instanceof MDB2_Statement_Common;
     }
 
     // }}}

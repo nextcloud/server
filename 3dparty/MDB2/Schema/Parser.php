@@ -127,13 +127,6 @@ class MDB2_Schema_Parser extends XML_Parser
         $this->val       =new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
     }
 
-    function MDB2_Schema_Parser($variables, $fail_on_invalid_names = true,
-                                $structure = false, $valid_types = array(),
-                                $force_defaults = true)
-    {
-        $this->__construct($variables, $fail_on_invalid_names, $structure, $valid_types, $force_defaults);
-    }
-
     function startHandler($xp, $element, $attribs)
     {
         if (strtolower($element) == 'variable') {
@@ -503,7 +496,7 @@ class MDB2_Schema_Parser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE,$a=null,$b=null,$c=null)
+    function raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE,$a=null,$b=null,$c=null)
     {
         if (is_null($this->error)) {
             $error = '';
