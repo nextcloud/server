@@ -145,7 +145,7 @@ class OC_UTIL {
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			//first set up the local "root" storage and the backupstorage if needed
-			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
+			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT));
 // 			if( OC_CONFIG::getValue( "enablebackup", false )){
 // 				// This creates the Directorys recursively
 // 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
@@ -180,6 +180,11 @@ class OC_UTIL {
 			OC_FILESYSTEM::chroot("/$user/$root");
 			self::$fsSetup=true;
 		}
+	}
+
+	public static function tearDownFS(){
+		OC_FILESYSTEM::tearDown();
+		self::$fsSetup=false;
 	}
 
 	/**

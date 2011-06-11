@@ -68,6 +68,16 @@ class OC_FILESYSTEM{
 	}
 	
 	/**
+	 * tear down the filesystem, removing all storage providers
+	 */
+	static public function tearDown(){
+		foreach(self::$storages as $mountpoint=>$storage){
+			unset(self::$storages[$mountpoint]);
+		}
+		$fakeRoot='';
+	}
+	
+	/**
 	* create a new storage of a specific type
 	* @param  string  type
 	* @param  array  arguments
@@ -91,8 +101,10 @@ class OC_FILESYSTEM{
 	* @return bool
 	*/
 	static public function chroot($fakeRoot){
-		if($fakeRoot[0]!=='/'){
-			$fakeRoot='/'.$fakeRoot;
+		if(!$fakeRoot==''){
+			if($fakeRoot[0]!=='/'){
+				$fakeRoot='/'.$fakeRoot;
+			}
 		}
 		self::$fakeRoot=$fakeRoot;
 	}
