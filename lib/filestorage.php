@@ -377,7 +377,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			if ($item == '.' || $item == '..') continue;
 			if(is_file($dir.'/'.$item)){
 				if(unlink($dir.'/'.$item)){
-					$this->clearFolderSizeCache($path);
+					$this->clearFolderSizeCache($dir);
 				}
 			}elseif(is_dir($dir.'/'.$item)){
 				if (!$this->delTree($dirRelative. "/" . $item)){
