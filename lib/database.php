@@ -321,5 +321,43 @@ class OC_DB {
 
 		return $query;
 	}
+	
+	/**
+	 * @brief drop a table
+	 * @param string $tableNamme the table to drop
+	 */
+	public static function dropTable($tableName){
+		self::connect();
+		self::$DBConnection->loadModule('Manager');
+		self::$DBConnection->dropTable($tableName);
+	}
+	
+	/**
+	 * remove all tables defined in a database structure xml file
+	 * @param string $file the xml file describing the tables
+	 */
+	public static function removeDBStructure($file){
+		$CONFIG_DBNAME  = OC_CONFIG::getValue( "dbname", "owncloud" );
+		$CONFIG_DBTABLEPREFIX = OC_CONFIG::getValue( "dbtableprefix", "oc_" );
+		self::connectScheme();
+
+		// read file
+		$content = file_get_contents( $file );
+
+		// Make changes and save them to a temporary file
+		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
+		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
+		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		file_put_contents( $file2, $content );
+
+		// get the tables
+		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
+		
+		// Delete our temporary file
+		unlink( $file2 );
+		foreach($definition['tables'] as $name=>$table){
+			self::dropTable($name);
+		}
+	}
 }
 ?>
