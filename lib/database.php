@@ -60,10 +60,10 @@ class OC_DB {
 			  'quote_identifier' => true  );
 
 			// Add the dsn according to the database type
-			if( $CONFIG_DBTYPE == 'sqlite' ){
+			if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 				// sqlite
 				$dsn = array(
-				  'phptype'  => 'sqlite',
+				  'phptype'  => $CONFIG_DBTYPE,
 				  'database' => "$datadir/$CONFIG_DBNAME.db",
 				  'mode' => '0644' );
 			}
@@ -100,6 +100,9 @@ class OC_DB {
 
 			// We always, really always want associative arrays
 			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
+
+			//we need to function module for query pre-procesing
+			self::$DBConnection->loadModule('Function');
 		}
 
 		// we are done. great!
@@ -297,15 +300,14 @@ class OC_DB {
 	 * and replaces the ` woth ' or " according to the database driver.
 	 */
 	private static function processQuery( $query ){
+		self::connect();
 		// We need Database type and table prefix
 		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBTABLEPREFIX = OC_CONFIG::getValue( "dbtableprefix", "oc_" );
 		
 		// differences is getting the current timestamp
-		if( $CONFIG_DBTYPE == 'sqlite' ){
-			$query = str_replace( 'NOW()', "strftime('%s', 'now')", $query );
-			$query = str_replace( 'now()', "strftime('%s', 'now')", $query );
-		}
+		$query = str_replace( 'NOW()', self::$DBConnection->now(), $query );
+		$query = str_replace( 'now()', self::$DBConnection->now(), $query );
 		
 		// differences in escaping of table names (` for mysql)
 		// Problem: what if there is a ` in the value we want to insert?
