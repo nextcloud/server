@@ -30,7 +30,7 @@ require_once('testcase.php');
 require_once('template.php');
 
 $testCases=loadFiles(__DIR__,array('index.php','templates'));
-
+ob_end_clean();
 $testResults=array();
 foreach($testCases as $testCaseClass){
 	$testCase=new $testCaseClass();
@@ -65,10 +65,10 @@ function loadFiles($path,$exclude=false){
 	$dh=opendir($path);
 	while($file=readdir($dh)){
 		if($file!='.' && $file!='..' && array_search($file,$exclude)===false){
-			if(is_file($path.'/'.$file)){
+			if(is_file($path.'/'.$file) and substr($file,-3)=='php'){
 				$result=require_once($path.'/'.$file);
 				$results[]=$result;
-			}else{
+			}elseif(is_dir($path.'/'.$file)){
 				$subResults=loadFiles($path.'/'.$file);
 				$results=array_merge($results,$subResults);
 			}

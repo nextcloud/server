@@ -84,7 +84,6 @@ class OC_FILEYSYSTEM_Test extends OC_TestCase
 
 	public function readfile(){
 		OC_FILESYSTEM::file_put_contents('/dummy','foo');
-		ob_clean();
 		ob_start();
 		OC_FILESYSTEM::readfile('/dummy');
 		$this->assertEquals('foo', ob_get_contents(),'Unexpected output of readfile');
