@@ -139,7 +139,7 @@ class OC_CONFIG{
 
 		// Include the file, save the data from $CONFIG
 		include( "$SERVERROOT/config/config.php" );
-		if( isset( $CONFIG ) || is_array( $CONFIG )){
+		if( isset( $CONFIG ) && is_array( $CONFIG )){
 			self::$cache = $CONFIG;
 		}
 
