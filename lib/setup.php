@@ -1,6 +1,6 @@
 <?php
 
-$hasSQLite = is_callable('sqlite_open');
+$hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
 $datadir = OC_CONFIG::getValue('datadir', $SERVERROOT.'/data');
 $opts = array(
@@ -65,10 +65,15 @@ class OC_SETUP {
 			$username = htmlspecialchars_decode($options['adminlogin']);
 			$password = htmlspecialchars_decode($options['adminpass']);
 			$datadir = htmlspecialchars_decode($options['directory']);
+			
+			//if only sqlite3 is available use that.
+			if($dbtype=='sqlite' and !is_callable('sqlite_open')){
+				$dbtype='sqlite3';
+			}
 
 			//write the config file
 			OC_CONFIG::setValue('datadirectory', $datadir);
-			OC_CONFIG::setValue('dbtype', $dbtype);
+ 			OC_CONFIG::setValue('dbtype', $dbtype);
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
