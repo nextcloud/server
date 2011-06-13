@@ -91,7 +91,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         $this->supported['auto_increment'] = true;
         $this->supported['primary_key'] = false; // requires alter table implementation
         $this->supported['result_introspection'] = false; // not implemented
-        $this->supported['prepared_statements'] = 'emulated';
+        $this->supported['prepared_statements'] = true;
         $this->supported['identifier_quoting'] = true;
         $this->supported['pattern_escaping'] = false;
         $this->supported['new_link'] = false;
@@ -511,7 +511,6 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
             $result = $is_manip ? 0 : null;
             return $result;
         }
-//         print_r(debug_backtrace());
 		$result=$this->connection->query($query.';');
         $this->_lasterror = $this->connection->lastErrorMsg();
 
@@ -814,6 +813,118 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         $query = "SELECT MAX($seqcol_name) FROM $sequence_name";
         return $this->queryOne($query, 'integer');
     }
+
+    /**
+     * Prepares a query for multiple execution with execute().
+     * With some database backends, this is emulated.
+     * prepare() requires a generic query as string like
+     * 'INSERT INTO numbers VALUES(?,?)' or
+     * 'INSERT INTO numbers VALUES(:foo,:bar)'.
+     * The ? and :name and are placeholders which can be set using
+     * bindParam() and the query can be sent off using the execute() method.
+     * The allowed format for :name can be set with the 'bindname_format' option.
+     *
+     * @param string $query the query to prepare
+     * @param mixed   $types  array that contains the types of the placeholders
+     * @param mixed   $result_types  array that contains the types of the columns in
+     *                        the result set or MDB2_PREPARE_RESULT, if set to
+     *                        MDB2_PREPARE_MANIP the query is handled as a manipulation query
+     * @param mixed   $lobs   key (field) value (parameter) pair for all lob placeholders
+     * @return mixed resource handle for the prepared query on success, a MDB2
+     *        error on failure
+     * @access public
+     * @see bindParam, execute
+     */
+    function &prepare($query, $types = null, $result_types = null, $lobs = array())
+    {
+        if ($this->options['emulate_prepared']
+            || $this->supported['prepared_statements'] !== true
+        ) {
+            $obj =& parent::prepare($query, $types, $result_types, $lobs);
+            return $obj;
+        }
+        $this->last_query = $query;
+        $is_manip = ($result_types === MDB2_PREPARE_MANIP);
+        $offset = $this->offset;
+        $limit = $this->limit;
+        $this->offset = $this->limit = 0;
+        $query = $this->_modifyQuery($query, $is_manip, $limit, $offset);
+        $result = $this->debug($query, __FUNCTION__, array('is_manip' => $is_manip, 'when' => 'pre'));
+        if ($result) {
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            $query = $result;
+        }
+        $placeholder_type_guess = $placeholder_type = null;
+        $question = '?';
+        $colon = ':';
+        $positions = array();
+        $position = 0;
+        while ($position < strlen($query)) {
+            $q_position = strpos($query, $question, $position);
+            $c_position = strpos($query, $colon, $position);
+            if ($q_position && $c_position) {
+                $p_position = min($q_position, $c_position);
+            } elseif ($q_position) {
+                $p_position = $q_position;
+            } elseif ($c_position) {
+                $p_position = $c_position;
+            } else {
+                break;
+            }
+            if (is_null($placeholder_type)) {
+                $placeholder_type_guess = $query[$p_position];
+            }
+
+            $new_pos = $this->_skipDelimitedStrings($query, $position, $p_position);
+            if (PEAR::isError($new_pos)) {
+                return $new_pos;
+            }
+            if ($new_pos != $position) {
+                $position = $new_pos;
+                continue; //evaluate again starting from the new position
+            }
+
+
+            if ($query[$position] == $placeholder_type_guess) {
+                if (is_null($placeholder_type)) {
+                    $placeholder_type = $query[$p_position];
+                    $question = $colon = $placeholder_type;
+                }
+                if ($placeholder_type == ':') {
+                    $regexp = '/^.{'.($position+1).'}('.$this->options['bindname_format'].').*$/s';
+                    $parameter = preg_replace($regexp, '\\1', $query);
+                    if ($parameter === '') {
+                        $err =& $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
+                            'named parameter name must match "bindname_format" option', __FUNCTION__);
+                        return $err;
+                    }
+                    $positions[$p_position] = $parameter;
+                    $query = substr_replace($query, '?', $position, strlen($parameter)+1);
+                } else {
+                    $positions[$p_position] = count($positions);
+                }
+                $position = $p_position + 1;
+            } else {
+                $position = $p_position;
+            }
+        }
+        $connection = $this->getConnection();
+        if (PEAR::isError($connection)) {
+            return $connection;
+		}
+        $statement =$this->connection->prepare($query);
+        if (!$statement) {
+            return $this->db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+                        'unable to prepare statement: '.$query);
+        }
+
+        $class_name = 'MDB2_Statement_'.$this->phptype;
+        $obj = new $class_name($this, $statement, $positions, $query, $types, $result_types, $is_manip, $limit, $offset);
+        $this->debug($query, __FUNCTION__, array('is_manip' => $is_manip, 'when' => 'post', 'result' => $obj));
+        return $obj;
+    }
 }
 
 /**
@@ -1018,7 +1129,223 @@ class MDB2_BufferedResult_sqlite3 extends MDB2_Result_sqlite3
  */
 class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
 {
+	// }}}
+    // {{{ function bindValue($parameter, &$value, $type = null)
 
+	private function getParamType($type){
+		switch(strtolower($type)){
+			case 'text':
+				return SQLITE3_TEXT;
+			case 'boolean':
+			case 'integer':
+				return SQLITE3_INTEGER;
+			case 'float':
+				return SQLITE3_FLOAT;
+			case 'blob':
+				return SQLITE3_BLOB;
+		}
+	}
+    /**
+     * Set the value of a parameter of a prepared query.
+     *
+     * @param   int     the order number of the parameter in the query
+     *       statement. The order number of the first parameter is 1.
+     * @param   mixed   value that is meant to be assigned to specified
+     *       parameter. The type of the value depends on the $type argument.
+     * @param   string  specifies the type of the field
+     *
+     * @return  mixed   MDB2_OK on success, a MDB2 error on failure
+     *
+     * @access  public
+     */
+    function bindValue($parameter, $value, $type = null){
+		if($type){
+			$type=$this->getParamType($type);
+			$this->statement->bindValue($parameter,$value,$type);
+		}else{
+			$this->statement->bindValue($parameter,$value);
+		}
+		return MDB2_OK;
+    }
+
+	/**
+     * Bind a variable to a parameter of a prepared query.
+     *
+     * @param   int     the order number of the parameter in the query
+     *       statement. The order number of the first parameter is 1.
+     * @param   mixed   variable that is meant to be bound to specified
+     *       parameter. The type of the value depends on the $type argument.
+     * @param   string  specifies the type of the field
+     *
+     * @return  mixed   MDB2_OK on success, a MDB2 error on failure
+     *
+     * @access  public
+     */
+    function bindParam($parameter, &$value, $type = null){
+        if($type){
+			$type=$this->getParamType($type);
+			$this->statement->bindParam($parameter,$value,$type);
+		}else{
+			$this->statement->bindParam($parameter,$value);
+		}
+        return MDB2_OK;
+    }
+
+    /**
+     * Release resources allocated for the specified prepared query.
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function free()
+	{
+		$this->statement->close();
+    }
+
+    /**
+     * Execute a prepared query statement helper method.
+     *
+     * @param mixed $result_class string which specifies which result class to use
+     * @param mixed $result_wrap_class string which specifies which class to wrap results in
+     *
+     * @return mixed MDB2_Result or integer (affected rows) on success,
+     *               a MDB2 error on failure
+     * @access private
+     */
+    function &_execute($result_class = true, $result_wrap_class = false){
+		if (is_null($this->statement)) {
+            $result =& parent::_execute($result_class, $result_wrap_class);
+            return $result;
+        }
+        $this->db->last_query = $this->query;
+        $this->db->debug($this->query, 'execute', array('is_manip' => $this->is_manip, 'when' => 'pre', 'parameters' => $this->values));
+        if ($this->db->getOption('disable_query')) {
+            $result = $this->is_manip ? 0 : null;
+            return $result;
+        }
+
+        $connection = $this->db->getConnection();
+        if (PEAR::isError($connection)) {
+            return $connection;
+        }
+
+        $result = $this->statement->execute();
+        if ($result==false) {
+            $err =$this->db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
+                    'cant execute statement', __FUNCTION__);
+        }
+
+        if ($this->is_manip) {
+            $affected_rows = $this->db->_affectedRows($connection, $result);
+            return $affected_rows;
+        }
+
+        $result =& $this->db->_wrapResult($result, $this->result_types,
+            $result_class, $result_wrap_class, $this->limit, $this->offset);
+        $this->db->debug($this->query, 'execute', array('is_manip' => $this->is_manip, 'when' => 'post', 'result' => $result));
+        return $result;
+    }
+
+    /**
+     * Set the values of multiple a parameter of a prepared query in bulk.
+     *
+     * @param   array   specifies all necessary information
+     *       for bindValue() the array elements must use keys corresponding to
+     *       the number of the position of the parameter.
+     * @param   array   specifies the types of the fields
+     *
+     * @return  mixed   MDB2_OK on success, a MDB2 error on failure
+     *
+     * @access  public
+     * @see     bindParam()
+     */
+    function bindValueArray($values, $types = null)
+    {
+        $types = is_array($types) ? array_values($types) : array_fill(0, count($values), null);
+        $parameters = array_keys($values);
+        foreach ($parameters as $key => $parameter) {
+            $this->db->pushErrorHandling(PEAR_ERROR_RETURN);
+            $this->db->expectError(MDB2_ERROR_NOT_FOUND);
+            $err = $this->bindValue($parameter+1, $values[$parameter], $types[$key]);
+            $this->db->popExpect();
+            $this->db->popErrorHandling();
+            if (PEAR::isError($err)) {
+                if ($err->getCode() == MDB2_ERROR_NOT_FOUND) {
+                    //ignore (extra value for missing placeholder)
+                    continue;
+                }
+                return $err;
+            }
+        }
+        return MDB2_OK;
+    }
+    // }}}
+    // {{{ function bindParamArray(&$values, $types = null)
+
+    /**
+     * Bind the variables of multiple a parameter of a prepared query in bulk.
+     *
+     * @param   array   specifies all necessary information
+     *       for bindParam() the array elements must use keys corresponding to
+     *       the number of the position of the parameter.
+     * @param   array   specifies the types of the fields
+     *
+     * @return  mixed   MDB2_OK on success, a MDB2 error on failure
+     *
+     * @access  public
+     * @see     bindParam()
+     */
+    function bindParamArray(&$values, $types = null)
+    {
+        $types = is_array($types) ? array_values($types) : array_fill(0, count($values), null);
+        $parameters = array_keys($values);
+        foreach ($parameters as $key => $parameter) {
+            $err = $this->bindParam($parameter+1, $values[$parameter], $types[$key]);
+            if (PEAR::isError($err)) {
+                return $err;
+            }
+        }
+        return MDB2_OK;
+    }
+
+    // }}}
+    // {{{ function &execute($values = null, $result_class = true, $result_wrap_class = false)
+
+    /**
+     * Execute a prepared query statement.
+     *
+     * @param array specifies all necessary information
+     *              for bindParam() the array elements must use keys corresponding
+     *              to the number of the position of the parameter.
+     * @param mixed specifies which result class to use
+     * @param mixed specifies which class to wrap results in
+     *
+     * @return mixed MDB2_Result or integer (affected rows) on success,
+     *               a MDB2 error on failure
+     * @access public
+     */
+    function &execute($values = null, $result_class = true, $result_wrap_class = false)
+    {
+        if (is_null($this->positions)) {
+            return $this->db->raiseError(MDB2_ERROR, null, null,
+                'Prepared statement has already been freed', __FUNCTION__);
+        }
+        $values = (array)$values;
+        if (!empty($values)) {
+			if(count($this->types)){
+				$types=$this->types;
+			}else{
+				$types=null;
+			}
+            $err = $this->bindValueArray($values,$types);
+            if (PEAR::isError($err)) {
+                return $this->db->raiseError(MDB2_ERROR, null, null,
+                                            'Binding Values failed with message: ' . $err->getMessage(), __FUNCTION__);
+            }
+        }
+        $result =$this->_execute($result_class, $result_wrap_class);
+        return $result;
+    }
 }
 
 ?>
