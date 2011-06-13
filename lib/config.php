@@ -169,9 +169,6 @@ class OC_CONFIG{
 				$value = $value ? 'true' : 'false';
 				$content .= "\"$key\" => $value,\n";
 			}
-			elseif( is_numeric( $value )){
-				$content .= "\"$key\" => $value,\n";
-			}
 			else{
 				$value = str_replace( "'", "\\'", $value );
 				$content .= "\"$key\" => '$value',\n";
