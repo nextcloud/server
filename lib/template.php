@@ -206,9 +206,9 @@ class OC_TEMPLATE{
 				$page->assign('searchbox', $search->fetchPage());
 				// Add menu data
 				if( OC_GROUP::inGroup( $_SESSION["user_id"], "admin" )){
-					$page->assign( "settingsnavigation", OC_APP::getSettingsNavigation());
+					$page->assign( "adminnavigation", OC_APP::getAdminNavigation());
 				}
-				$page->assign( "adminnavigation", OC_APP::getAdminNavigation());
+				$page->assign( "settingsnavigation", OC_APP::getSettingsNavigation());
 			}
 			else
 			{

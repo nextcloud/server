@@ -33,14 +33,16 @@
 							<?php endforeach; ?>
 						<?php endif; ?>
 					<?php endforeach; ?>
-					<?php foreach($_['adminnavigation'] as $entry):?>
-						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
-						<?php if( sizeof( $entry["subnavigation"] )): ?>
-							<?php foreach($entry["subnavigation"] as $subentry):?>
-								<li><a style="background-color:#FF8800;" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
-							<?php endforeach; ?>
-						<?php endif; ?>
-					<?php endforeach; ?>
+					<?php if(isset($_['adminnavigation'])):?>
+						<?php foreach($_['adminnavigation'] as $entry):?>
+							<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
+							<?php if( sizeof( $entry["subnavigation"] )): ?>
+								<?php foreach($entry["subnavigation"] as $subentry):?>
+									<li><a style="background-color:#FF8800;" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
+								<?php endforeach; ?>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				</ul>
 			</div>
 
