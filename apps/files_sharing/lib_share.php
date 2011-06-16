@@ -72,8 +72,18 @@ class OC_SHARE {
 	public static function unshare($item, $uid_shared_with) {
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE item = ? AND uid_shared_with = ? AND uid_owner = ?");
 		foreach ($uid_shared_with as $uid) {
-			$query->execute(array($item, $uid, $_SESSION['user_id']))->fetchAll();
+			$query->execute(array($item, $uid, $_SESSION['user_id']));
 		}
+	}
+	
+	/**
+	 * Get the source location of the target item
+	 * @return source path
+	 */
+	public static function getSource($target) {
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
+		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
+		return $result[0]['source'];
 	}
 	
 	/**

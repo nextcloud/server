@@ -80,6 +80,7 @@ require_once('appconfig.php');
 require_once('files.php');
 require_once('filesystem.php');
 require_once('filestorage.php');
+require_once('apps/files_sharing/sharedstorage.php');
 require_once('log.php');
 require_once('user.php');
 require_once('group.php');
@@ -157,6 +158,9 @@ class OC_UTIL {
 // 			}
 			OC_FILESYSTEM::mount($rootStorage,'/');
 
+			$sharedStorage = OC_FILESYSTEM::createStorage('shared',array('datadir'=>$CONFIG_DATADIRECTORY));
+			OC_FILESYSTEM::mount($sharedStorage,'MTGap/files/Test/');
+			
 			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
 			if( !is_dir( $CONFIG_DATADIRECTORY )){
 				mkdir( $CONFIG_DATADIRECTORY, 0755, true );

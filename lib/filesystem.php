@@ -155,7 +155,7 @@ class OC_FILESYSTEM{
 	* @param string path
 	* @return OC_FILESTORAGE
 	*/
-	static private function getStorage($path){
+	static public function getStorage($path){
 		$mountpoint=self::getMountPoint($path);
 		if($mountpoint){
 			return self::$storages[$mountpoint];
