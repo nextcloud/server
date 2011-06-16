@@ -14,25 +14,32 @@
 				<length>128</length>
 			</field>
 			<field>
+				<name>source</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>128</length>
+			</field>
+			<field>
+				<name>target</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>128</length>
+			</field>
+			<field>
 				<name>uid_owner</name>
 				<type>text</type>
-				<default></default>
 				<notnull>true</notnull>
 				<length>64</length>
 			</field>
 			<field>
 				<name>uid_shared_with</name>
 				<type>text</type>
-				<default>
-				</default>
 				<notnull>true</notnull>
 				<length>64</length>
 			 </field>
 			 <field>
 				<name>permissions</name>
 				<type>text</type>
-				<default>
-				</default>
 				<notnull>true</notnull>
 				<length>3</length>
 			 </field>
