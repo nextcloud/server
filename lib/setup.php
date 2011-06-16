@@ -66,8 +66,8 @@ class OC_SETUP {
 			$password = htmlspecialchars_decode($options['adminpass']);
 			$datadir = htmlspecialchars_decode($options['directory']);
 			
-			//if only sqlite3 is available use that.
-			if($dbtype=='sqlite' and !is_callable('sqlite_open')){
+			//use sqlite3 when available, otherise sqlite2 will be used.
+			if($dbtype=='sqlite' and class_exists('SQLite3')){
 				$dbtype='sqlite3';
 			}
 
