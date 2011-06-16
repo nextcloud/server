@@ -31,7 +31,7 @@ class OC_SHARE {
 	 * @param string $item
 	 * @param user item shared with $uid_shared_with
 	 */
-	public function __construct($item, $public = false, $uid_shared_with) {
+	public function __construct($item, $uid_shared_with, $public = false) {
 		if ($item && OC_FILESYSTEM::file_exists($item) && OC_FILESYSTEM::is_readable($item)) {
 			$uid_owner = $_SESSION['user_id'];
 			if ($public) {

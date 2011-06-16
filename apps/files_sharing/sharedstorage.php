@@ -48,7 +48,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->is_file(OC_FILESYSTEM::getInternalPath($source));
+			return $storage->rmdir(OC_FILESYSTEM::getInternalPath($source));
 		}
 	}
 	
