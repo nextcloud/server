@@ -8,7 +8,7 @@ FileActions={
 		FileActions.actions[mime][name]=action;
 	},
 	setDefault:function(mime,name){
-		FileActions.defaults[mime]=FileActions.actions[mime][name];
+		FileActions.defaults[mime]=name;
 	},
 	get:function(mime,type){
 		var actions={};
@@ -35,15 +35,18 @@ FileActions={
 		if(mime){
 			var mimePart=mime.substr(0,mime.indexOf('/'));
 		}
+		var name=false;
 		if(mime && FileActions.defaults[mime]){
-			return FileActions.defaults[mime];
+			name=FileActions.defaults[mime];
 		}else if(mime && FileActions.defaults[mimePart]){
-			return FileActions.defaults[mimePart];
+			name=FileActions.defaults[mimePart];
 		}else if(type && FileActions.defaults[type]){
-			return FileActions.defaults[type];
+			name=FileActions.defaults[type];
 		}else{
-			return FileActions.defaults.all;
+			name=FileActions.defaults.all;
 		}
+		var actions=this.get(mime,type);
+		return actions[name];
 	},
 	display:function(parent){
 		$('#file_menu ul').empty();
