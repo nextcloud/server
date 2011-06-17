@@ -348,6 +348,9 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
      **/
     function connect()
     {
+		if($this->connection instanceof SQLite3){
+			return MDB2_OK;
+		}
 		global $SERVERROOT;
 		$datadir=OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
         $database_file = $this->_getDatabaseFile($this->database_name);
@@ -409,6 +412,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
 
         $php_errormsg = '';
 		$this->connection = new SQLite3($database_file);
+		$this->connection->busyTimeout(100);
         $this->_lasterror = $this->connection->lastErrorMsg();
         if (!$this->connection) {
             return $this->raiseError(MDB2_ERROR_CONNECT_FAILED, null, null,
@@ -1345,6 +1349,10 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
         }
         $result =$this->_execute($result_class, $result_wrap_class);
         return $result;
+    }
+
+    function __destruct() {
+		$this->free();
     }
 }
 
