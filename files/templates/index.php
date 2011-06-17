@@ -13,7 +13,7 @@
 		</form>
 		<form id="file_newfolder_form">
 			<input type="text" class="prettybutton" name="file_newfolder_name" id="file_newfolder_name" value="New Folder" />&nbsp;
-			<input class="prettybutton" type="button" id="file_newfolder_submit" name="file_newfolder_submit" value="OK" />
+			<input class="prettybutton" type="submit" id="file_newfolder_submit" name="file_newfolder_submit" value="OK" />
 		</form>
 		<a href="" title="" class="download">Download</a>
 		<a href="" title="" class="share">Share</a>
