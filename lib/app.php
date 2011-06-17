@@ -59,7 +59,7 @@ class OC_APP{
 		// The rest comes here
 		$dir = opendir( "$SERVERROOT/apps" );
 		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' ){
+			if( substr( $filename, 0, 1 ) != '.' and is_dir("$SERVERROOT/apps/$filename") ){
 				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
 					if(OC_APPCONFIG::getValue($filename,'installed_version',0)==0){ //check if the plugin is fully installed
 						//install the database
