@@ -35,7 +35,7 @@
 				<notnull>true</notnull>
 			</field>
 			<index>
-				<name>token</name>
+				<name>a_files_publiclink_token</name>
 				<unique>true</unique>
 				<field>
 					<name>token</name>

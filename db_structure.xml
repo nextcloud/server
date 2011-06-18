@@ -208,7 +208,7 @@
    </field>
 
    <index>
-    <name>path</name>
+    <name>locks_path</name>
     <field>
      <name>path</name>
      <sorting>ascending</sorting>
@@ -216,7 +216,7 @@
    </index>
 
    <index>
-    <name>path_2</name>
+    <name>locks_path_2</name>
     <field>
      <name>path</name>
      <sorting>ascending</sorting>
@@ -224,7 +224,7 @@
    </index>
 
    <index>
-    <name>path_3</name>
+    <name>locks_path_3</name>
     <field>
      <name>path</name>
      <sorting>ascending</sorting>
@@ -236,7 +236,7 @@
    </index>
 
    <index>
-    <name>expires</name>
+    <name>locks_expires</name>
     <field>
      <name>expires</name>
      <sorting>ascending</sorting>
@@ -253,7 +253,7 @@
    </index>
 
    <index>
-    <name>token</name>
+    <name>locks_token</name>
     <unique>true</unique>
     <field>
      <name>token</name>
