@@ -36,7 +36,14 @@ if(isset($_GET['id']))  $id=$_GET['id']; else $id=0;
 if(isset($_GET['cat'])) $cat=$_GET['cat']; else $cat=0;
 
 $categories=OC_OCSCLIENT::getCategories();
+if($categories==NULL){
+	OC_APP::setActiveNavigationEntry( "core_apps" );
 
+	$tmpl = new OC_TEMPLATE( "admin", "app_noconn", "admin" );
+	$tmpl->printPage();
+	unset($tmpl);
+	exit();
+}
 /*
 
 All

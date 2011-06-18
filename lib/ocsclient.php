@@ -37,7 +37,10 @@ class OC_OCSCLIENT{
 	public static function getCategories(){
 		$url='http://api.apps.owncloud.com/v1/content/categories';
 	
-		$xml=file_get_contents($url);
+		$xml=@file_get_contents($url);
+		if($xml==FALSE){
+			return NULL;
+		}
 		$data=simplexml_load_string($xml);
 	
 		$tmp=$data->data;
@@ -61,16 +64,19 @@ class OC_OCSCLIENT{
 	 * This function returns a list of all the applications on the OCS server
 	 */
 	public static function getApplications($categories){
-                if(is_array($categories)) {
+		if(is_array($categories)) {
 			$categoriesstring=implode('x',$categories);
 		}else{
 			$categoriesstring=$categories;
 		}
 		$url='http://api.apps.owncloud.com/v1/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page=0&pagesize=10';
 		$apps=array();
-		$xml=file_get_contents($url);
+		$xml=@file_get_contents($url);
+		if($xml==FALSE){
+			return NULL;
+		}
 		$data=simplexml_load_string($xml);
-	
+
 		$tmp=$data->data->content;
 		for($i = 0; $i < count($tmp); $i++) {
 			$app=array();
@@ -90,60 +96,66 @@ class OC_OCSCLIENT{
 	}
 
 
-        /**
-         * @brief Get an the applications from the OCS server
-         * @returns array with application data
-         *
-         * This function returns an  applications from the OCS server
-         */
-        public static function getApplication($id){
-                $url='http://api.apps.owncloud.com/v1/content/data/'.urlencode($id);
+	/**
+	 * @brief Get an the applications from the OCS server
+	 * @returns array with application data
+	 *
+	 * This function returns an  applications from the OCS server
+	 */
+	public static function getApplication($id){
+		$url='http://api.apps.owncloud.com/v1/content/data/'.urlencode($id);
 
-                $xml=file_get_contents($url);
-                $data=simplexml_load_string($xml);
+		$xml=@file_get_contents($url);
+		if($xml==FALSE){
+			return NULL;
+		}
+		$data=simplexml_load_string($xml);
 
-                $tmp=$data->data->content;
-                $app=array();
-                $app['id']=$tmp->id;
-                $app['name']=$tmp->name;
-                $app['type']=$tmp->typeid;
-                $app['typename']=$tmp->typename;
-                $app['personid']=$tmp->personid;
-                $app['detailpage']=$tmp->detailpage;
-                $app['preview1']=$tmp->smallpreviewpic1;
-                $app['preview2']=$tmp->smallpreviewpic2;
-                $app['preview3']=$tmp->smallpreviewpic3;
-                $app['changed']=strtotime($tmp->changed);
-                $app['description']=$tmp->description;
+		$tmp=$data->data->content;
+		$app=array();
+		$app['id']=$tmp->id;
+		$app['name']=$tmp->name;
+		$app['type']=$tmp->typeid;
+		$app['typename']=$tmp->typename;
+		$app['personid']=$tmp->personid;
+		$app['detailpage']=$tmp->detailpage;
+		$app['preview1']=$tmp->smallpreviewpic1;
+		$app['preview2']=$tmp->smallpreviewpic2;
+		$app['preview3']=$tmp->smallpreviewpic3;
+		$app['changed']=strtotime($tmp->changed);
+		$app['description']=$tmp->description;
 
-                return $app;
-        }
+		return $app;
+	}
 
-        /**
-         * @brief Get all the knowledgebase entries from the OCS server
-         * @returns array with q and a data
-         *
-         * This function returns a list of all the knowledgebase entries from the OCS server
-         */
-        public static function getKnownledgebaseEntries(){
-                $url='http://api.apps.owncloud.com/v1/knowledgebase/data?type=150&page=0&pagesize=10';
+	/**
+	 * @brief Get all the knowledgebase entries from the OCS server
+	 * @returns array with q and a data
+	 *
+	 * This function returns a list of all the knowledgebase entries from the OCS server
+	 */
+	public static function getKnownledgebaseEntries(){
+		$url='http://api.apps.owncloud.com/v1/knowledgebase/data?type=150&page=0&pagesize=10';
 
-                $kbe=array();
-                $xml=file_get_contents($url);
-                $data=simplexml_load_string($xml);
+		$kbe=array();
+		$xml=@file_get_contents($url);
+		if($xml==FALSE){
+			return NULL;
+		}
+		$data=simplexml_load_string($xml);
 
-                $tmp=$data->data->content;
-                for($i = 0; $i < count($tmp); $i++) {
-                        $kb=array();
-                        $kb['id']=$tmp[$i]->id;
-                        $kb['name']=$tmp[$i]->name;
-                        $kb['description']=$tmp[$i]->description;
-                        $kb['answer']=$tmp[$i]->answer;
-                        $kb['preview1']=$tmp[$i]->smallpreviewpic1;
-                        $kbe[]=$kb;
-                }
-                return $kbe;
-        }
+		$tmp=$data->data->content;
+		for($i = 0; $i < count($tmp); $i++) {
+			$kb=array();
+			$kb['id']=$tmp[$i]->id;
+			$kb['name']=$tmp[$i]->name;
+			$kb['description']=$tmp[$i]->description;
+			$kb['answer']=$tmp[$i]->answer;
+			$kb['preview1']=$tmp[$i]->smallpreviewpic1;
+			$kbe[]=$kb;
+		}
+		return $kbe;
+	}
 
 
 
