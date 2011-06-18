@@ -31,6 +31,7 @@ else {
 
 class OC_SETUP {
 	public static function install($options) {
+		global $SERVERROOT;
 		$error = array();
 		$dbtype = $options['dbtype'];
 		
@@ -132,6 +133,21 @@ class OC_SETUP {
 				OC_USER::createUser($username, $password);
 				OC_GROUP::createGroup('admin');
 				OC_GROUP::addToGroup($username, 'admin');
+
+				foreach( array( "files_imageviewer", "files_publiclink" ) as $app ){
+
+					if(is_file("$SERVERROOT/apps/$app/appinfo/database.xml")){
+						OC_DB::createDbFromStructure("$SERVERROOT/apps/$app/appinfo/database.xml");
+					}
+
+					//run appinfo/install.php
+					if(is_file("$SERVERROOT/apps/$app/appinfo/install.php")){
+						include("$SERVERROOT/apps/$app/appinfo/install.php");
+					}
+
+					$info=OC_APP::getAppInfo("$SERVERROOT/apps/$app/appinfo/info.xml");
+					OC_APPCONFIG::setValue($app,'installed_version',$info['version']);
+				}
 
 				//create htaccess files for apache hosts
 				self::createHtaccess(); //TODO detect if apache is used
