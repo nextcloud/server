@@ -169,7 +169,7 @@ class OC_FILESYSTEM{
 	* @param string path
 	* @return string
 	*/
-	static private function getMountPoint($path){
+	static public function getMountPoint($path){
 		if(!$path){
 			$path='/';
 		}

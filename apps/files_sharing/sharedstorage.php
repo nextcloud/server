@@ -34,7 +34,7 @@ class OC_FILESTORAGE_SHARED {
 		
 	}
 	
-	public function getInternalPath($path) {
+	public static function getInternalPath($path) {
 		$mountPoint = OC_FILESYSTEM::getMountPoint($path);
 		$internalPath = substr($path,strlen($mountPoint));
 		return $internalPath;
@@ -45,7 +45,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->mkdir(getInternalPath($source));
+			return $storage->mkdir(self::getInternalPath($source));
 		}
 	}
 	
@@ -54,7 +54,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->rmdir(getInternalPath($source));
+			return $storage->rmdir(self::getInternalPath($source));
 		}
 	}
 	
@@ -71,7 +71,7 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->is_dir(getInternalPath($source));
+				return $storage->is_dir(self::getInternalPath($source));
 			}
 		}
 	}
@@ -80,7 +80,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->is_file(getInternalPath($source));
+			return $storage->is_file(self::getInternalPath($source));
 		}
 	}
 	public function stat($path) {
@@ -103,19 +103,19 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->stat(getInternalPath($source));
+				return $storage->stat(self::getInternalPath($source));
 			}
 		}
 	}
 	
 	public function filetype($path) {
 		if ($path == "" || $path == "/") {
-			return "dir";
+			return "httpd/unix-directory";
 		} else {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->filetype(getInternalPath($source));
+				return $storage->filetype(self::getInternalPath($source));
 			}
 		}
 
@@ -129,7 +129,7 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->filesize(getInternalPath($source));
+				return $storage->filesize(self::getInternalPath($source));
 			}
 		}
 	}
@@ -142,7 +142,7 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->is_readable(getInternalPath($source));
+				return $storage->is_readable(self::getInternalPath($source));
 			}
 		}
 	}
@@ -155,7 +155,7 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->is_writeable(getInternalPath($source));
+				return $storage->is_writeable(self::getInternalPath($source));
 			}
 		}
 	}
@@ -167,7 +167,7 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->file_exists(getInternalPath($source));
+				return $storage->file_exists(self::getInternalPath($source));
 			}
 		}
 	}
@@ -176,7 +176,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->readfile(getInternalPath($source));
+			return $storage->readfile(self::getInternalPath($source));
 		}	
 	}
 	
@@ -188,7 +188,7 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->filectime(getInternalPath($source));
+				return $storage->filectime(self::getInternalPath($source));
 			}
 		}
 	}
@@ -201,7 +201,7 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->filemtime(getInternalPath($source));
+				return $storage->filemtime(self::getInternalPath($source));
 			}
 		}
 	}
@@ -214,7 +214,7 @@ class OC_FILESTORAGE_SHARED {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->fileatime(getInternalPath($source));
+				return $storage->fileatime(self::getInternalPath($source));
 			}
 		}
 	}
@@ -223,7 +223,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->file_get_contents(getInternalPath($source));
+			return $storage->file_get_contents(self::getInternalPath($source));
 		}
 	}
 	
@@ -232,7 +232,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->file_put_contents(getInternalPath($source), $data);
+			return $storage->file_put_contents(self::getInternalPath($source), $data);
 		}
 	}
 	
@@ -240,7 +240,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->unlink(getInternalPath($source));
+			return $storage->unlink(self::getInternalPath($source));
 		}		
 	}
 	
@@ -250,7 +250,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path1);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->rename(getInternalPath($source), $path2);
+			return $storage->rename(self::getInternalPath($source), $path2);
 		}
 	}
 	
@@ -258,7 +258,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path1);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->copy(getInternalPath($source), $path2);
+			return $storage->copy(self::getInternalPath($source), $path2);
 		}
 	}
 	
@@ -266,7 +266,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->fopen(getInternalPath($source), $mode);
+			return $storage->fopen(self::getInternalPath($source), $mode);
 		}
 	}
 	
@@ -274,7 +274,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->toTmpFile(getInternalPath($source));
+			return $storage->toTmpFile(self::getInternalPath($source));
 		}
 	}
 	
@@ -282,7 +282,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($tmpPath);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->fromTmpFile(getInternalPath($source), $path);
+			return $storage->fromTmpFile(self::getInternalPath($source), $path);
 		}
 	}
 	
@@ -290,7 +290,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($tmpPath);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->fromUploadedFile(getInternalPath($source), $path);
+			return $storage->fromUploadedFile(self::getInternalPath($source), $path);
 		}
 	}
 	
@@ -298,7 +298,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->getMimeType(getInternalPath($source));
+			return $storage->getMimeType(self::getInternalPath($source));
 		}
 	}
 	
@@ -306,7 +306,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->delTree(getInternalPath($source));
+			return $storage->delTree(self::getInternalPath($source));
 		}
 	}
 	
@@ -314,7 +314,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->find(getInternalPath($source));
+			return $storage->find(self::getInternalPath($source));
 		}
 	}
 	
@@ -322,7 +322,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->getTree(getInternalPath($source));
+			return $storage->getTree(self::getInternalPath($source));
 		}
 	}
 	
@@ -330,7 +330,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->hash($type, getInternalPath($source), $raw);
+			return $storage->hash($type, self::getInternalPath($source), $raw);
 		}
 	}
 	
@@ -338,7 +338,7 @@ class OC_FILESTORAGE_SHARED {
 		$source = OC_SHARE::getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->free_space(getInternalPath($source));
+			return $storage->free_space(self::getInternalPath($source));
 		}
 	}
 	
