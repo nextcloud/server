@@ -60,7 +60,9 @@ class OC_APP{
 		$apps = OC_APPCONFIG::getApps();
 		foreach( $apps as $app ){
 			if( self::isEnabled( $app )){
-				require( "apps/$app/appinfo/app.php" );
+				if(is_file($SERVERROOT."/apps/$app/appinfo/app.php")){
+					require( "apps/$app/appinfo/app.php" );
+				}
 			}
 		}
 
