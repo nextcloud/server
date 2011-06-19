@@ -57,32 +57,33 @@ class OC_L10N{
 	 * language.
 	 */
 	public function __construct( $app, $lang = null ){
+		global $SERVERROOT;
 		// Find the right language
 		if( is_null( $lang )){
-			self::findLanguage( $app );
+			$lang = self::findLanguage( $app );
 		}
 
 		// Use cache if possible
 		if(array_key_exists($app.'::'.$lang, self::$cache )){
+
 			$this->translations = self::$cache[$app.'::'.$lang]['t'];
 			$this->localizations = self::$cache[$app.'::'.$lang]['l'];
 		}
 		else{
 			$i18ndir = self::findI18nDir( $app );
-
 			// Localization is in /l10n, Texts are in $i18ndir
 			// (Just no need to define date/time format etc. twice)
-			if( file_exists( $i18ndir.$lang.'php' )){
+			if( file_exists( $i18ndir.$lang.'.php' )){
 				// Include the file, save the data from $CONFIG
-				include( $i18ndir.$lang.'php' );
+				include( $i18ndir.$lang.'.php' );
 				if( isset( $TRANSLATIONS ) && is_array( $TRANSLATIONS )){
 					$this->translations = $TRANSLATIONS;
 				}
 			}
 
-			if( file_exists( '/l10n/l10n-'.$lang.'php' )){
+			if( file_exists( $SERVERROOT.'/l10n/l10n-'.$lang.'.php' )){
 				// Include the file, save the data from $CONFIG
-				include( $SERVERROOT.'/l10n/l10n-'.$lang.'php' );
+				include( $SERVERROOT.'/l10n/l10n-'.$lang.'.php' );
 				if( isset( $LOCALIZATIONS ) && is_array( $LOCALIZATIONS )){
 					$this->localizations = array_merge( $this->localizations, $LOCALIZATIONS );
 				}
@@ -133,12 +134,15 @@ class OC_L10N{
 	public function l($type, $data){
 		switch($type){
 			case 'date':
+				if( is_string( $data )) $data = strtotime( $data );
 				return date( $this->localizations['date'], $data );
 				break;
 			case 'datetime':
+				if( is_string( $data )) $data = strtotime( $data );
 				return date( $this->localizations['datetime'], $data );
 				break;
 			case 'time':
+				if( is_string( $data )) $data = strtotime( $data );
 				return date( $this->localizations['time'], $data );
 				break;
 			default:
@@ -209,7 +213,6 @@ class OC_L10N{
 			$accepted_languages = preg_split( '/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 			foreach( $accepted_languages as $i ){
 				$temp = explode( ';', $i );
-				$temp = explode( '-', $temp[0] );
 				if( array_key_exists( $temp[0], $available )){
 					return $temp[0];
 				}
