@@ -24,8 +24,7 @@
 
 //require_once('../../config/config.php');
 require_once('../lib/base.php');
-require( 'template.php' );
-require( 'preferences.php' );
+require_once( 'template.php' );
 
 if( !OC_USER::isLoggedIn()){
     header( 'Location: '.OC_HELPER::linkTo( 'index.php' ));
