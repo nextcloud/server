@@ -224,7 +224,7 @@ class OC_L10N{
 			$accepted_languages = preg_split( '/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 			foreach( $accepted_languages as $i ){
 				$temp = explode( ';', $i );
-				if( array_key_exists( $temp[0], $available )){
+				if( array_search( $temp[0], $available ) !== false ){
 					return $temp[0];
 				}
 			}
