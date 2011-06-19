@@ -121,18 +121,20 @@ class OC_L10N{
 	 *  - date
 	 *    - Creates a date
 	 *    - l10n-field: date
-	 *    - params: timestamp (int)
+	 *    - params: timestamp (int/string)
 	 *  - datetime
 	 *    - Creates date and time
 	 *    - l10n-field: datetime
-	 *    - params: timestamp (int)
+	 *    - params: timestamp (int/string)
 	 *  - time
 	 *    - Creates a time
 	 *    - l10n-field: time
-	 *    - params: timestamp (int)
+	 *    - params: timestamp (int/string)
 	 */
 	public function l($type, $data){
 		switch($type){
+			// If you add something don't forget to add it to $localizations
+			// at the top of the page
 			case 'date':
 				if( is_string( $data )) $data = strtotime( $data );
 				return date( $this->localizations['date'], $data );
