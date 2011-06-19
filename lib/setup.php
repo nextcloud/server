@@ -1,5 +1,7 @@
 <?php
 
+include_once( 'installer.php' );
+
 $hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
 $datadir = OC_CONFIG::getValue('datadir', $SERVERROOT.'/data');
@@ -31,7 +33,6 @@ else {
 
 class OC_SETUP {
 	public static function install($options) {
-		global $SERVERROOT;
 		$error = array();
 		$dbtype = $options['dbtype'];
 		
@@ -134,21 +135,8 @@ class OC_SETUP {
 				OC_GROUP::createGroup('admin');
 				OC_GROUP::addToGroup($username, 'admin');
 
-				foreach( array( "files_imageviewer", "files_publiclink" ) as $app ){
-
-					if(is_file("$SERVERROOT/apps/$app/appinfo/database.xml")){
-						OC_DB::createDbFromStructure("$SERVERROOT/apps/$app/appinfo/database.xml");
-					}
-
-					//run appinfo/install.php
-					if(is_file("$SERVERROOT/apps/$app/appinfo/install.php")){
-						include("$SERVERROOT/apps/$app/appinfo/install.php");
-					}
-
-					$info=OC_APP::getAppInfo("$SERVERROOT/apps/$app/appinfo/info.xml");
-					OC_APPCONFIG::setValue($app,'installed_version',$info['version']);
-					OC_APPCONFIG::setValue($app,'enabled','yes');
-				}
+				//guess what this does
+				self::installShippedApps();
 
 				//create htaccess files for apache hosts
 				self::createHtaccess(); //TODO detect if apache is used
@@ -197,6 +185,32 @@ class OC_SETUP {
 
 		$content = "deny from all";
 		file_put_contents(OC_CONFIG::getValue('datadirectory', $SERVERROOT.'/data').'/.htaccess', $content);
+	}
+
+	private static function installShippedApps(){
+		global $SERVERROOT;
+		$dir = opendir( "$SERVERROOT/apps" );
+		while( false !== ( $filename = readdir( $dir ))){
+			if( substr( $filename, 0, 1 ) != '.' and is_dir("$SERVERROOT/apps/$filename") ){
+				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
+					if(!OC_INSTALLER::isInstalled($filename)){
+						//install the database
+						if(is_file("$SERVERROOT/apps/$filename/appinfo/database.xml")){
+							OC_DB::createDbFromStructure("$SERVERROOT/apps/$filename/appinfo/database.xml");
+						}
+
+						//run appinfo/install.php
+						if(is_file("$SERVERROOT/apps/$filename/appinfo/install.php")){
+							include("$SERVERROOT/apps/$filename/appinfo/install.php");
+						}
+						$info=OC_APP::getAppInfo("$SERVERROOT/apps/$filename/appinfo/info.xml");
+						OC_APPCONFIG::setValue($filename,'installed_version',$info['version']);
+						OC_APPCONFIG::setValue($filename,'enabled','yes');
+					}
+				}
+			}
+		}
+		closedir( $dir );
 	}
 }
 

@@ -108,7 +108,7 @@ class OC_INSTALLER{
 		$basedir=$SERVERROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
-		if(self::isInstalled( $info['id'] ))){
+		if(self::isInstalled( $info['id'] )){
 			error_log("App already installed");
 			OC_HELPER::rmdirr($extractDir);
 			if($data['source']=='http'){
@@ -118,14 +118,14 @@ class OC_INSTALLER{
 		}
 
 		//check if the destination directory already exists
-+		if(is_dir($basedir)){
-+			error_log("App's directory already exists");
-+			OC_HELPER::rmdirr($extractDir);
-+			if($data['source']=='http'){
-+				unlink($path);
-+			}
-+			return false;
-+		}
+		if(is_dir($basedir)){
+			error_log("App's directory already exists");
+			OC_HELPER::rmdirr($extractDir);
+			if($data['source']=='http'){
+				unlink($path);
+			}
+			return false;
+		}
 		
 		if(isset($data['pretent']) and $data['pretent']==true){
 			return false;
