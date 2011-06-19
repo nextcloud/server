@@ -3,6 +3,6 @@
  * Template for admin pages
  */
 ?>
-<h1>Administration</h1>
-<h2>System Settings</h2>
+<h1><?php echo $l->t( 'Administration' ); ?></h1>
+<h2><?php echo $l->t( 'System Settings' ); ?></h2>
 #TBD
