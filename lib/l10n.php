@@ -197,7 +197,7 @@ class OC_L10N{
 			}
 		}
 
-		if( isset($_SESSION['user_id']) && OC_PREFERENCES::getValue( $_SESSION['user_id'], 'core', 'lang' )){
+		if( isset($_SESSION['user_id']) && $_SESSION['user_id'] && OC_PREFERENCES::getValue( $_SESSION['user_id'], 'core', 'lang' )){
 			$lang = OC_PREFERENCES::getValue( $_SESSION['user_id'], 'core', 'lang' );
 			self::$language = $lang;
 			if( array_search( $lang, $available )){
