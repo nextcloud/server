@@ -59,13 +59,52 @@ class OC_APP{
 		// The rest comes here
 		$apps = OC_APPCONFIG::getApps();
 		foreach( $apps as $app ){
-			require( "apps/$app/appinfo/app.php" );
+			if( self::isEnabled( $app )){
+				require( "apps/$app/appinfo/app.php" );
+			}
 		}
 
 		self::$init = true;
 
 		// return
 		return true;
+	}
+
+	/**
+	 * @brief checks whether or not an app is enabled
+	 * @param $app app
+	 * @returns true/false
+	 *
+	 * This function checks whether or not an app is enabled.
+	 */
+	public static function isEnabled( $app ){
+		if( 'yes' == OC_APPCONFIG::getValue( $app, 'enabled' )){
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @brief enables an app
+	 * @param $app app
+	 * @returns true/false
+	 *
+	 * This function set an app as enabled in appconfig.
+	 */
+	public static function enable( $app ){
+		OC_APPCONFIG::setValue( $app, 'enabled', 'yes' );
+	}
+
+	/**
+	 * @brief enables an app
+	 * @param $app app
+	 * @returns true/false
+	 *
+	 * This function set an app as enabled in appconfig.
+	 */
+	public static function disable( $app ){
+		OC_APPCONFIG::setValue( $app, 'enabled', 'no' );
 	}
 
 	/**

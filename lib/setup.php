@@ -147,6 +147,7 @@ class OC_SETUP {
 
 					$info=OC_APP::getAppInfo("$SERVERROOT/apps/$app/appinfo/info.xml");
 					OC_APPCONFIG::setValue($app,'installed_version',$info['version']);
+					OC_APPCONFIG::setValue($app,'enabled','yes');
 				}
 
 				//create htaccess files for apache hosts
