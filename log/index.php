@@ -21,14 +21,13 @@
 *
 */
 
-
 //require_once('../../config/config.php');
 require_once('../lib/base.php');
 require_once( 'template.php' );
 
 if( !OC_USER::isLoggedIn()){
-    header( 'Location: '.OC_HELPER::linkTo( 'index.php' ));
-    exit();
+	header( 'Location: '.OC_HELPER::linkTo( 'index.php' ));
+	exit();
 }
 
 //load the script
@@ -48,15 +47,15 @@ if(isset($_POST['save'])){
 	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','pagesize',$_POST['size']);
 }
 //clear log entries
-else if(isset($_POST['clear'])){
-  $removeBeforeDate=(isset($_POST['removeBeforeDate']))?$_POST['removeBeforeDate']:0;
-  if($removeBeforeDate!==0){
-	$removeBeforeDate=strtotime($removeBeforeDate);
-	OC_LOG::deleteBefore($removeBeforeDate);
-  }
+elseif(isset($_POST['clear'])){
+	$removeBeforeDate=(isset($_POST['removeBeforeDate']))?$_POST['removeBeforeDate']:0;
+	if($removeBeforeDate!==0){
+		$removeBeforeDate=strtotime($removeBeforeDate);
+		OC_LOG::deleteBefore($removeBeforeDate);
+	}
 }
-else if(isset($_POST['clearall'])){
-  OC_LOG::deleteAll();
+elseif(isset($_POST['clearall'])){
+	OC_LOG::deleteAll();
 }
 
 OC_APP::setActiveNavigationEntry( 'log' );
@@ -83,7 +82,8 @@ $url=OC_HELPER::linkTo( 'log', 'index.php' ).'?page=';
 $pager=OC_UTIL::getPageNavi($pageCount,$page,$url);
 if($pager){
 	$pagerHTML=$pager->fetchPage();
-}else{
+}
+else{
 	$pagerHTML='';
 }
 
@@ -91,7 +91,8 @@ $showActions=array();
 foreach($allActions as $action){
 	if(array_search($action,$selectedActions)!==false){
 		$showActions[$action]='checked="checked"';
-	}else{
+	}
+	else{
 		$showActions[$action]='';
 	}
 }
