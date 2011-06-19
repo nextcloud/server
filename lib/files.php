@@ -30,15 +30,6 @@ require_once("log.php");
  */
 class OC_FILES {
 	static $tmpFiles=array();
-	/**
-	* show a web GUI filebrowser
-	*
-	* @param basedir $basedir
-	* @param dir $dir
-	*/
-	public static function showBrowser($basedir,$dir){
-	echo '<div id="content"></div>';
-	}
 
 	/**
 	* get the content of a directory
@@ -101,7 +92,7 @@ class OC_FILES {
 		if(strpos($files,';')){
 			$files=explode(';',$files);
 		}
-		echo 't';
+
 		if(is_array($files)){
 			$zip = new ZipArchive();
 			$filename = sys_get_temp_dir()."/ownCloud.zip";
@@ -300,7 +291,6 @@ class OC_FILES {
 		global $SERVERROOT;
 		global $WEBROOT;
 		$size=OC_HELPER::humanFileSize($size);
-		echo $size;
 		$size=substr($size,0,-1);//strip the B
 		$size=str_replace(' ','',$size); //remove the space between the size and the postfix
 		$content = "ErrorDocument 404 /$WEBROOT/templates/404.php\n";//custom 404 error page
