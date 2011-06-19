@@ -27,6 +27,8 @@ require_once(dirname(__FILE__).'/lib/base.php');
 require_once('appconfig.php');
 require_once('template.php');
 
+OC_UTIL::addScript('setup');
+
 $not_installed = !OC_CONFIG::getValue('installed', false);
 $install_called = (isset($_POST['install']) AND $_POST['install']=='true');
 

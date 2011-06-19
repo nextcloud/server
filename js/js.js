@@ -1,26 +1,23 @@
-$(document).ready(function() {	
-	// Hide the MySQL config div if needed :
-	if(!$('#mysql').is(':checked') && $('#hasSQLite').val()=='true') {
-		$('#use_mysql').hide();
-	}
-	
-	$('#datadirField').hide(250);
-	if($('#hasSQLite').val()=='true'){
-		$('#databaseField').hide(250);
-	}
-	
-	$('#sqlite').click(function() {
-		$('#use_mysql').slideUp(250);
-	});
-	
-	$('#mysql').click(function() {
-		$('#use_mysql').slideDown(250);
-	});
-	
-	$('#showAdvanced').click(function() {
-		$('#datadirField').slideToggle(250);
-		if($('#hasSQLite').val()=='true'){
-			$('#databaseField').slideToggle(250);
+var _l10ncache = {};
+function t(app,text){
+	if( !( app in _l10ncache )){
+		$.post( oc_webroot+'/l10n/javascript.php', {'app': app}, function(jsondata){
+			_l10ncache[app] = jsondata.data;
+		});
+
+		// Bad answer ...
+		if( !( app in _l10ncache )){
+			_l10ncache[app] = [];
 		}
-	});
+	}
+	if( typeof( _l10ncache[app][text] ) !== 'undefined' ){
+		return _l10ncache[app][text];
+	}
+	else{
+		return text;
+	}
+}
+
+$(document).ready(function(){
+	// Put fancy stuff in here
 });

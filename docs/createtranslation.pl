@@ -16,6 +16,7 @@ foreach my $i ( @files ){
 	my @strings = ();
 	foreach my $key ( keys( %{$hash} )){
 		next if $key eq '""';
+		next if $hash->{$key}->msgstr() eq '""';
 		push( @strings, $hash->{$key}->msgid()." => ".$hash->{$key}->msgstr());
 	}
 

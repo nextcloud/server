@@ -1,1 +1,1 @@
-You are logged out.
+<?php echo $l->t( 'You are logged out.' ); ?>

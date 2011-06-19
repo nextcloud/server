@@ -110,6 +110,16 @@ class OC_L10N{
 	}
 
 	/**
+	 * @brief getTranslations
+	 * @returns Fetch all translations
+	 *
+	 * Returns an associative array with all translations
+	 */
+	public function getTranslations(){
+		return $this->translations;
+	}
+
+	/**
 	 * @brief Localization
 	 * @param $type Type of localization
 	 * @param $params parameters for this localization
@@ -202,11 +212,10 @@ class OC_L10N{
 				closedir($dh);
 			}
 		}
-
 		if( isset($_SESSION['user_id']) && $_SESSION['user_id'] && OC_PREFERENCES::getValue( $_SESSION['user_id'], 'core', 'lang' )){
 			$lang = OC_PREFERENCES::getValue( $_SESSION['user_id'], 'core', 'lang' );
 			self::$language = $lang;
-			if( array_search( $lang, $available )){
+			if( array_search( $lang, $available ) !== false ){
 				return $lang;
 			}
 		}
@@ -226,12 +235,9 @@ class OC_L10N{
 	}
 
 	/**
-	 * @brief find the best language
+	 * @brief find the l10n directory
 	 * @param $app App that needs to be translated
-	 * @returns language
-	 *
-	 * Finds the best language. Depends on user settings and browser
-	 * information
+	 * @returns directory
 	 */
 	protected static function findI18nDir( $app ){
 		global $SERVERROOT;
