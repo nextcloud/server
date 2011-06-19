@@ -59,7 +59,7 @@ class OC_INSTALLER{
 		
 		if(!isset($data['source'])){
 			error_log("No source specified when installing app");
-			return;
+			return false;
 		}
 		
 		//download the file if necesary
@@ -67,13 +67,13 @@ class OC_INSTALLER{
 			$path=tempnam(sys_get_temp_dir(),'oc_installer_');
 			if(!isset($data['href'])){
 				error_log("No href specified when installing app from http");
-				return;
+				return false;
 			}
 			copy($data['href'],$path);
 		}else{
 			if(!isset($data['path'])){
 				error_log("No path specified when installing app from local file");
-				return;
+				return false;
 			}
 			$path=$data['path'];
 		}
@@ -92,7 +92,7 @@ class OC_INSTALLER{
 			if($data['source']=='http'){
 				unlink($path);
 			}
-			return;
+			return false;
 		}
 		
 		//load the info.xml file of the app
@@ -102,23 +102,33 @@ class OC_INSTALLER{
 			if($data['source']=='http'){
 				unlink($path);
 			}
-			return;
+			return false;
 		}
 		$info=OC_APP::getAppInfo($extractDir.'/appinfo/info.xml');
 		$basedir=$SERVERROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
-		if(is_dir($basedir)){
+		if(self::isInstalled( $info['id'] ))){
 			error_log("App already installed");
 			OC_HELPER::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
 			}
-			return;
+			return false;
 		}
+
+		//check if the destination directory already exists
++		if(is_dir($basedir)){
++			error_log("App's directory already exists");
++			OC_HELPER::rmdirr($extractDir);
++			if($data['source']=='http'){
++				unlink($path);
++			}
++			return false;
++		}
 		
 		if(isset($data['pretent']) and $data['pretent']==true){
-			return;
+			return false;
 		}
 		
 		//copy the app to the correct place
@@ -128,7 +138,7 @@ class OC_INSTALLER{
 			if($data['source']=='http'){
 				unlink($path);
 			}
-			return;
+			return false;
 		}
 		OC_HELPER::copyr($extractDir,$basedir);
 		
@@ -150,6 +160,23 @@ class OC_INSTALLER{
 		
 		//set the installed version
 		OC_APPCONFIG::setValue($info['id'],'installed_version',$info['version']);
+		OC_APPCONFIG::setValue($info['id'],'enabled','no');
+		return true;
+	}
+
+	/**
+	 * @brief checks whether or not an app is installed
+	 * @param $app app
+	 * @returns true/false
+	 *
+	 * Checks whether or not an app is installed, i.e. registered in apps table.
+	 */
+	public static function isInstalled( $app ){
+
+		if( null == OC_APPCONFIG::getValue( $app, "installed_version" )){
+			return false;
+		}
+
 		return true;
 	}
 
