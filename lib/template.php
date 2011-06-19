@@ -73,8 +73,9 @@ function human_file_size( $bytes ){
 class OC_TEMPLATE{
 	private $renderas; // Create a full page?
 	private $application; // template Application
-	private $vars; // The smarty object
-	private $template; // The smarty object
+	private $vars; // Vars
+	private $template; // The path to the template
+	private $l10n; // The l10n-Object
 
 	/**
 	 * @brief Constructor
@@ -113,6 +114,7 @@ class OC_TEMPLATE{
 		$this->application = $app;
 		$this->template = $template;
 		$this->vars = array();
+		$this->l10n = new OC_L10N($app);
 	}
 
 	/**
@@ -251,6 +253,7 @@ class OC_TEMPLATE{
 	private function _fetch(){
 		// Register the variables
 		$_ = $this->vars;
+		$l = $this->l10n;
 
 		// Execute the template
 		ob_start();
