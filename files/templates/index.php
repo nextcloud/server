@@ -15,9 +15,9 @@
 			<input type="text" class="prettybutton" name="file_newfolder_name" id="file_newfolder_name" value="New Folder" />&nbsp;
 			<input class="prettybutton" type="submit" id="file_newfolder_submit" name="file_newfolder_submit" value="OK" />
 		</form>
-		<a href="" title="" class="download">Download</a>
-		<a href="" title="" class="share">Share</a>
-		<a href="" title="" class="delete">Delete</a>
+		<a href="" title="" class="download"><?php echo $l->t( 'Download' ); ?></a>
+		<a href="" title="" class="share"><?php echo $l->t( 'Share' ); ?></a>
+		<a href="" title="" class="delete"><?php echo $l->t( 'Delete' ); ?></a>
 	</div>
 	<div id="file_action_panel">
 	</div>
@@ -31,9 +31,9 @@
 	<thead>
 		<tr>
 			<th><input type="checkbox" id="select_all" /></th>
-			<th>Name</th>
-			<th>Size</th>
-			<th>Modified</th>
+			<th><?php echo $l->t( 'Name' ); ?></th>
+			<th><?php echo $l->t( 'Size' ); ?></th>
+			<th><?php echo $l->t( 'Modified' ); ?></th>
 			<th></th>
 		</tr>
 	</thead>
