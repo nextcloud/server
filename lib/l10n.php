@@ -81,9 +81,9 @@ class OC_L10N{
 				}
 			}
 
-			if( file_exists( $SERVERROOT.'/l10n/l10n-'.$lang.'.php' )){
+			if( file_exists( $SERVERROOT.'/core/l10n/l10n-'.$lang.'.php' )){
 				// Include the file, save the data from $CONFIG
-				include( $SERVERROOT.'/l10n/l10n-'.$lang.'.php' );
+				include( $SERVERROOT.'/core/l10n/l10n-'.$lang.'.php' );
 				if( isset( $LOCALIZATIONS ) && is_array( $LOCALIZATIONS )){
 					$this->localizations = array_merge( $this->localizations, $LOCALIZATIONS );
 				}
@@ -231,8 +231,8 @@ class OC_L10N{
 		global $SERVERROOT;
 		
 		// find the i18n dir
-		$i18ndir = $SERVERROOT.'/l10n/';
-		if( $app != 'core' && $app != '' ){
+		$i18ndir = $SERVERROOT.'/core/l10n/';
+		if( $app != '' ){
 			// Check if the app is in the app folder
 			if( file_exists( $SERVERROOT.'/apps/'.$app.'/l10n/' )){
 				$i18ndir = $SERVERROOT.'/apps/'.$app.'/l10n/';
