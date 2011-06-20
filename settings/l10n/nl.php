@@ -1,0 +1,19 @@
+<?php $TRANSLATIONS = array(
+"space" => "beschikbare ruimte.",
+"You're currently using" => "Je gebruikt momenteel",
+"Unable to change password" => "Wachtwoord aanpassen is niet mogenlijk",
+"New password" => "Nieuw wachtwoord",
+"Authentication error" => "Authenticatie fout.",
+"Your password got changed" => "Je wachtwoord is aangepast",
+"Language changed" => "Taal aangepast",
+"Invalid request" => "Ongeldige aanvraag",
+"Account information" => "Gebruiks gegevens",
+"of your" => "van de",
+"Password changed" => "Wachtwoord aangepast",
+"Old password:" => "Oud wachtwoord:",
+"Your old password is wrong!" => "Het oude wachtwoord is verkeerd.",
+"Show new password" => "Toon nieuw wachtwoord",
+"You have to enter the old and the new password!" => "Je moet het oude en nieuwe wachtwoord invullen.",
+"Language" => "Taal",
+"Change Password" => "Wachtwoord aanpassen"
+);
