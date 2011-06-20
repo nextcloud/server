@@ -30,6 +30,7 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' 
 
 // Load the files we need
 OC_UTIL::addStyle( "admin", "apps" );
+OC_UTIL::addScript( "admin", "apps" );
 
 
 if(isset($_GET['id']))  $id=$_GET['id']; else $id=0;
@@ -42,7 +43,6 @@ if($installed){
 	$records = array();
 
 	OC_APP::setActiveNavigationEntry( "core_apps_installed" );
-	echo count($apps);
 	foreach($apps as $app){
 		$info=OC_APP::getAppInfo("$SERVERROOT/apps/$app/appinfo/info.xml");
 		$record = array( 'id' => $app,
