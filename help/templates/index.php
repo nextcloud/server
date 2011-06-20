@@ -1,5 +1,5 @@
 
-<h1>Questions and Answers</h1>
+<h1><?php echo $l->t( 'Questions and Answers' ); ?></h1>
 
 <table cellspacing="0" width="100%">
 	<tbody>
@@ -18,6 +18,6 @@
 	$pageNavi=OC_UTIL::getPageNavi($_['pagecount'],$_['page'],$url);
 	$pageNavi->printPage();
 ?>
-<a target="_blank" class="prettybutton" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new">ASK A QUESTION</a>
+<a target="_blank" class="prettybutton" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new"><?php echo $l->t( 'ASK A QUESTION' ); ?></a>
 
 
