@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-20 14:47+0200\n"
+"PO-Revision-Date: 2011-06-20 15:16+0100\n"
+"Last-Translator: Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../templates/index.php:3
+msgid "Account information"
+msgstr "Konto information"
+
+#: ../templates/index.php:5
+msgid "You're currently using"
+msgstr "Du udnytter i øjeblikket"
+
+#: ../templates/index.php:5
+msgid "of your"
+msgstr "af din"
+
+#: ../templates/index.php:5
+msgid "space"
+msgstr "plads"
+
+#: ../templates/index.php:11
+msgid "Change Password"
+msgstr "Ændre adgangskode"
+
+#: ../templates/index.php:12
+msgid "Your password got changed"
+msgstr "Din adgangskode er ændret"
+
+#: ../templates/index.php:15
+msgid "Old password:"
+msgstr "Gamle adgangskode"
+
+#: ../templates/index.php:19
+msgid "New password"
+msgstr "Ny adgangskode"
+
+#: ../templates/index.php:24
+msgid "Show new password"
+msgstr "Vis den nye adgangskode"
+
+#: ../templates/index.php:34
+msgid "Language"
+msgstr "Sprog"
+
+#: ../ajax/changepassword.php:13
+#: ../ajax/setlanguage.php:13
+msgid "Authentication error"
+msgstr "Godkendelsesfejl"
+
+#: ../ajax/changepassword.php:19
+msgid "You have to enter the old and the new password!"
+msgstr "Du skal indtaste din gamle og nye adganskode"
+
+#: ../ajax/changepassword.php:25
+msgid "Your old password is wrong!"
+msgstr "Dit gamle adgangskode er forkert!"
+
+#: ../ajax/changepassword.php:31
+msgid "Password changed"
+msgstr "Adgangskoden er ændret"
+
+#: ../ajax/changepassword.php:34
+msgid "Unable to change password"
+msgstr "Kan ikke ændre din adgangskode"
+
+#: ../ajax/setlanguage.php:21
+msgid "Language changed"
+msgstr "Sprog ændret"
+
+#: ../ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "Invalid forespørgsel"
+
