@@ -1,7 +1,7 @@
 var _l10ncache = {};
 function t(app,text){
 	if( !( app in _l10ncache )){
-		$.post( oc_webroot+'/l10n/javascript.php', {'app': app}, function(jsondata){
+		$.post( oc_webroot+'/core/ajax/translations.php', {'app': app}, function(jsondata){
 			_l10ncache[app] = jsondata.data;
 		});
 
