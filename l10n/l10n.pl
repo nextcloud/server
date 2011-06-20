@@ -30,6 +30,10 @@ my $place = '..';
 
 die( "Usuage: l10n.pl task\ntask: read, write\n") unless $task && $place;
 
+# Our current position
+my $whereami = cwd();
+die( "Program must be executed in a l10n-folder called 'l10n'" ) unless $whereami =~ m/\/l10n$/;
+
 # Where are i18n-files?
 my @dirs = crawl( $place );
 
@@ -43,9 +47,6 @@ closedir( DIR );
 foreach my $i ( @files ){
 	push( @languages, $i ) if -d $i && substr( $i, 0, 1 ) ne '.';
 }
-
-# Our current position
-my $whereami = cwd();
 
 if( $task eq 'read' ){
 	foreach my $dir ( @dirs ){
@@ -79,14 +80,13 @@ elsif( $task eq 'write' ){
 			my $input = "${whereami}/$language/$app.po";
 			next unless -e $input;
 
-			my $hash = Locale::PO->load_file_ashash( $input );
-
+			my $array = Locale::PO->load_file_asarray( $input );
 			# Create array
 			my @strings = ();
-			foreach my $key ( keys( %{$hash} )){
-				next if $key eq '""';
-				next if $hash->{$key}->msgstr() eq '""';
-				push( @strings, $hash->{$key}->msgid()." => ".$hash->{$key}->msgstr());
+			foreach my $string ( @{$array} ){
+				next if $string->msgid() eq '""';
+				next if $string->msgstr() eq '""';
+				push( @strings, $string->msgid()." => ".$string->msgstr());
 			}
 			next if $#strings == -1; # Skip empty files
 
