@@ -37,17 +37,24 @@ class OC_HELPER {
 		global $WEBROOT;
 		global $SERVERROOT;
 		
-		if(!empty($app)) {
+		if( $app != '' ){
 			$app .= '/';
 			// Check if the app is in the app folder
-			if( file_exists( $SERVERROOT . '/apps/'. $app )){
+			if( file_exists( $SERVERROOT . '/apps/'. $app.$file )){
 				return $WEBROOT . '/apps/' . $app . $file;
+			}
+			else{
+				return $WEBROOT . '/' . $app . $file;
 			}
 		}
 		else{
-			$app = 'core';
+			if( file_exists( $SERVERROOT . '/core/'. $file )){
+				return $WEBROOT . '/core/'.$file;
+			}
+			else{
+				return $WEBROOT . '/'.$file;
+			}
 		}
-		return $WEBROOT . '/' . $app . $file;
 	}
 
 	/**
