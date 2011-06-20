@@ -47,7 +47,7 @@ elseif($not_installed OR $install_called) {
 elseif(OC_USER::isLoggedIn()) {
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
 		OC_USER::logout();
-		header("Location: $WEBROOT");
+		header("Location: ".$WEBROOT.'/');
 		exit();
 	}
 	else {
