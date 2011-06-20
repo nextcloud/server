@@ -34,65 +34,74 @@ OC_UTIL::addStyle( "admin", "apps" );
 
 if(isset($_GET['id']))  $id=$_GET['id']; else $id=0;
 if(isset($_GET['cat'])) $cat=$_GET['cat']; else $cat=0;
+if(isset($_GET['installed'])) $installed=true; else $installed=false;
 
-$categories=OC_OCSCLIENT::getCategories();
-if($categories==NULL){
-	OC_APP::setActiveNavigationEntry( "core_apps" );
+if($installed){
+	global $SERVERROOT;
+	$apps = OC_APPCONFIG::getApps();
+	$records = array();
 
-	$tmpl = new OC_TEMPLATE( "admin", "app_noconn", "admin" );
+	OC_APP::setActiveNavigationEntry( "core_apps_installed" );
+	echo count($apps);
+	foreach($apps as $app){
+		$info=OC_APP::getAppInfo("$SERVERROOT/apps/$app/appinfo/info.xml");
+		$record = array( 'id' => $app,
+				 'name' => $info['name'],
+				 'version' => $info['version'],
+				 'author' => $info['author'],
+				 'enabled' => OC_APP::isEnabled( $app ));
+		$records[]=$record;
+	}
+
+	$tmpl = new OC_TEMPLATE( "admin", "appsinst", "admin" );
+	$tmpl->assign( "apps", $records );
 	$tmpl->printPage();
 	unset($tmpl);
 	exit();
-}
-/*
+}else{
 
-All
-Installed Apps
+	$categories=OC_OCSCLIENT::getCategories();
+	if($categories==NULL){
+		OC_APP::setActiveNavigationEntry( "core_apps" );
 
-
-
-foreach($categories as $key=>$value) {
-print_r($value);
-}
-
-
-*/
-
-// OC_APP::setActiveNavigationEntry( "core_apps_installed" );
-
-
-if($id==0) {
-	OC_APP::setActiveNavigationEntry( "core_apps" );
-
-	if($cat==0){
-		$numcats=array();
-		foreach($categories as $key=>$value) $numcats[]=$key;
-		$apps=OC_OCSCLIENT::getApplications($numcats);
-	}else{
-		$apps=OC_OCSCLIENT::getApplications($cat);
+		$tmpl = new OC_TEMPLATE( "admin", "app_noconn", "admin" );
+		$tmpl->printPage();
+		unset($tmpl);
+		exit();
 	}
 
-	// return template
-	$tmpl = new OC_TEMPLATE( "admin", "apps", "admin" );
 
-	$tmpl->assign( "categories", $categories );
-	$tmpl->assign( "apps", $apps );
-	$tmpl->printPage();
-	unset($tmpl);
+	if($id==0) {
+		OC_APP::setActiveNavigationEntry( "core_apps" );
 
-}else{
-	OC_APP::setActiveNavigationEntry( "core_apps" );
+		if($cat==0){
+			$numcats=array();
+			foreach($categories as $key=>$value) $numcats[]=$key;
+			$apps=OC_OCSCLIENT::getApplications($numcats);
+		}else{
+			$apps=OC_OCSCLIENT::getApplications($cat);
+		}
 
-	$app=OC_OCSCLIENT::getApplication($id);
+		// return template
+		$tmpl = new OC_TEMPLATE( "admin", "apps", "admin" );
 
-	$tmpl = new OC_TEMPLATE( "admin", "app", "admin" );
-	$tmpl->assign( "categories", $categories );
-	$tmpl->assign( "app", $app );
-	$tmpl->printPage();
-	unset($tmpl);
+		$tmpl->assign( "categories", $categories );
+		$tmpl->assign( "apps", $apps );
+		$tmpl->printPage();
+		unset($tmpl);
 
+	}else{
+		OC_APP::setActiveNavigationEntry( "core_apps" );
+
+		$app=OC_OCSCLIENT::getApplication($id);
+
+		$tmpl = new OC_TEMPLATE( "admin", "app", "admin" );
+		$tmpl->assign( "categories", $categories );
+		$tmpl->assign( "app", $app );
+		$tmpl->printPage();
+		unset($tmpl);
+
+	}
 }
 
-
 ?>
-

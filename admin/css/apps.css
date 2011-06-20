@@ -7,6 +7,24 @@ table td.date
     text-align: right;
 }
 
+table td.version, table td.enabled, table td.disabled
+{
+    padding: 0.5em 1em;
+    text-align: center;
+}
+
+table td.enabled
+{
+    color: #006600;
+    font-weight: bold;
+}
+
+table td.disabled
+{
+    color: #660000;
+    font-weight: bold;
+}
+
 .preview 
 {
     padding: 3px;

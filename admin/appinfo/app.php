@@ -7,6 +7,6 @@ OC_APP::addAdminPage( array( "id" => "core_users", "order" => 2, "href" => OC_HE
 OC_APP::addAdminPage( array( "id" => "core_apps", "order" => 3, "href" => OC_HELPER::linkTo( "admin", "apps.php" ), "name" => "Apps", "icon" => OC_HELPER::imagePath( "admin", "apps.png" )));
 
 // Add subentries for App installer
-OC_APP::addNavigationSubEntry( "core_apps", array( "id" => "core_apps_installed", "order" => 4, "href" => OC_HELPER::linkTo( "admin", "apps.php?add=some&parameters=here" ), "name" => "Installed apps", "icon" => OC_HELPER::imagePath( "admin", "navicon.png" )));
+OC_APP::addNavigationSubEntry( "core_apps", array( "id" => "core_apps_installed", "order" => 4, "href" => OC_HELPER::linkTo( "admin", "apps.php?installed" ), "name" => "Installed apps", "icon" => OC_HELPER::imagePath( "admin", "navicon.png" )));
 
 ?>
