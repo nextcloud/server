@@ -1,14 +1,14 @@
 <?php $TRANSLATIONS = array(
-"Show:" => "Vis:",
-"Uploads" => "Uploads",
 "Filter:" => "Filter:",
-"Logouts" => "Logouts",
 "Logins" => "Logins",
-"When" => "Hvornår",
+"Logouts" => "Logouts",
 "Downloads" => "Downloads",
-"Clear log entries before" => "Slet log poster før",
-"What" => "Hvilket",
-"entries per page." => "poster pr side.",
+"Uploads" => "Uploads",
 "Creations" => "Oprettelser",
-"Deletions" => "Sletninger"
+"Deletions" => "Sletninger",
+"Show:" => "Vis:",
+"entries per page." => "poster pr side.",
+"What" => "Hvilket",
+"When" => "Hvornår",
+"Clear log entries before" => "Slet log poster før"
 );
