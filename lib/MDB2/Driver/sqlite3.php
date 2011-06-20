@@ -412,7 +412,9 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
 
         $php_errormsg = '';
 		$this->connection = new SQLite3($database_file);
-		$this->connection->busyTimeout(100);
+		if(is_callable(array($this->connection,'busyTimeout'))){//busy timout is only available in php>=5.3
+			$this->connection->busyTimeout(100);
+		}
         $this->_lasterror = $this->connection->lastErrorMsg();
         if (!$this->connection) {
             return $this->raiseError(MDB2_ERROR_CONNECT_FAILED, null, null,
