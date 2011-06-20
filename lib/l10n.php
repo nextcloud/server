@@ -198,19 +198,7 @@ class OC_L10N{
 			$available = $app;
 		}
 		else{
-			$dir = self::findI18nDir( $app );
-			if( file_exists($dir)){
-				$dh = opendir($dir);
-				while(( $file = readdir( $dh )) !== false ){
-					if( substr( $file, -4, 4 ) == '.php' ){
-						$i = substr( $file, 0, -4 );
-						if( $i != '' ){
-							$available[] = $i;
-						}
-					}
-				}
-				closedir($dh);
-			}
+			$available=self::findAvailableLanguages( $app );
 		}
 		if( isset($_SESSION['user_id']) && $_SESSION['user_id'] && OC_PREFERENCES::getValue( $_SESSION['user_id'], 'core', 'lang' )){
 			$lang = OC_PREFERENCES::getValue( $_SESSION['user_id'], 'core', 'lang' );
@@ -254,5 +242,28 @@ class OC_L10N{
 			}
 		}
 		return $i18ndir;
+	}
+
+	/**
+	 * @brief find all available languages for an app
+	 * @param $app App that needs to be translated
+	 * @returns array an array of available languages
+	 */
+	public static function findAvailableLanguages( $app=null ){
+		$available=array('en');//english is always available
+		$dir = self::findI18nDir( $app );
+		if( file_exists($dir)){
+			$dh = opendir($dir);
+			while(( $file = readdir( $dh )) !== false ){
+				if( substr( $file, -4, 4 ) == '.php' and strlen($file)==6 ){
+					$i = substr( $file, 0, -4 );
+					if( $i != '' ){
+						$available[] = $i;
+					}
+				}
+			}
+			closedir($dh);
+		}
+		return $available;
 	}
 }

@@ -18,4 +18,18 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+
+	$("#languageinput").change( function(){
+		// Serialize the data
+		var post = $( "#languageinput" ).serialize();
+		// Ajax foo
+		$.post( 'ajax/setlanguage.php', post, function(data){
+			if( data.status == "success" ){
+			}
+			else{
+				$('#passworderror').html( data.data.message );
+			}
+		});
+		return false;
+	});
 } );
