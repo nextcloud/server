@@ -4,7 +4,7 @@
 	<thead>
 		<tr>
 			<th><?php echo $l->t( 'Name' ); ?></th>
-			<th>Groups</th>
+			<th><?php echo $l->t( 'Groups' ); ?></th>
 			<th></th>
 		</tr>
 	</thead>
