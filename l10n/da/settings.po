@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-20 14:47+0200\n"
-"PO-Revision-Date: 2011-06-20 15:16+0100\n"
-"Last-Translator: Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>\n"
+"POT-Creation-Date: 2011-06-20 22:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -56,8 +57,7 @@ msgstr "Vis den nye adgangskode"
 msgid "Language"
 msgstr "Sprog"
 
-#: ../ajax/changepassword.php:13
-#: ../ajax/setlanguage.php:13
+#: ../ajax/changepassword.php:13 ../ajax/setlanguage.php:13
 msgid "Authentication error"
 msgstr "Godkendelsesfejl"
 
@@ -84,4 +84,3 @@ msgstr "Sprog ændret"
 #: ../ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Invalid forespørgsel"
-

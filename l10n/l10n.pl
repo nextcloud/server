@@ -90,7 +90,7 @@ elsif( $task eq 'write' ){
 			}
 
 			# Write PHP file
-			open( OUT, ">$lang.php" );
+			open( OUT, ">$language.php" );
 			print OUT "<?php \$TRANSLATIONS = array(\n";
 			print OUT join( ",\n", @strings );
 			print OUT "\n);\n";
