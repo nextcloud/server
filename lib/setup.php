@@ -23,7 +23,7 @@ if(isset($_POST['install']) AND $_POST['install']=='true') {
 		OC_TEMPLATE::printGuestPage("", "installation", $options);
 	}
 	else {
-		header("Location: $WEBROOT$SUBURI");
+		header("Location: ".$WEBROOT.'/');
 		exit();
 	}
 }
