@@ -88,6 +88,7 @@ elsif( $task eq 'write' ){
 				next if $hash->{$key}->msgstr() eq '""';
 				push( @strings, $hash->{$key}->msgid()." => ".$hash->{$key}->msgstr());
 			}
+			next if $#strings == -1; # Skip empty files
 
 			# Write PHP file
 			open( OUT, ">$language.php" );
