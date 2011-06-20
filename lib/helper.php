@@ -44,6 +44,9 @@ class OC_HELPER {
 				return $WEBROOT . '/apps/' . $app . $file;
 			}
 		}
+		else{
+			$app = 'core';
+		}
 		return $WEBROOT . '/' . $app . $file;
 	}
 
@@ -58,14 +61,16 @@ class OC_HELPER {
 	public static function imagePath( $app, $image ){
 		global $SERVERROOT;
 		global $WEBROOT;
+		
 		// Check if the app is in the app folder
 		if( file_exists( "$SERVERROOT/apps/$app/img/$image" )){
 			return "$WEBROOT/apps/$app/img/$image";
 		}
-		if( !empty( $app )){
+		elseif( !empty( $app )){
 			return "$WEBROOT/$app/img/$image";
-		}else{
-			return "$WEBROOT/img/$image";
+		}
+		else{
+			return "$WEBROOT/core/img/$image";
 		}
 	}
 
@@ -84,15 +89,15 @@ class OC_HELPER {
 
 		// Is it a dir?
 		if( $mimetype == "dir" ){
-			return "$WEBROOT/img/places/folder.png";
+			return "$WEBROOT/core/img/places/folder.png";
 		}
 
 		// Icon exists?
-		if( file_exists( "$SERVERROOT/img/mimetypes/$mimetype.png" )){
-			return "$WEBROOT/img/mimetypes/$mimetype.png";
+		if( file_exists( "$SERVERROOT/core/img/mimetypes/$mimetype.png" )){
+			return "$WEBROOT/core/img/mimetypes/$mimetype.png";
 		}
 		else{
-			return "$WEBROOT/img/mimetypes/file.png";
+			return "$WEBROOT/core/img/mimetypes/file.png";
 		}
 	}
 

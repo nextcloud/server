@@ -95,8 +95,8 @@ class OC_TEMPLATE{
 		global $SERVERROOT;
 
 		// Get the right template folder
-		$template = "$SERVERROOT/templates/";
-		if( $app != "core" && $app != "" ){
+		$template = "$SERVERROOT/core/templates/";
+		if( $app != "" ){
 			// Check if the app is in the app folder
 			if( file_exists( "$SERVERROOT/apps/$app/templates/" )){
 				$template = "$SERVERROOT/apps/$app/templates/";
@@ -222,15 +222,23 @@ class OC_TEMPLATE{
 			foreach(OC_UTIL::$scripts as $script){
 				if(is_file("$SERVERROOT/apps/$script.js" )){
 					$page->append( "jsfiles", "$WEBROOT/apps/$script.js" );
-				}else{
+				}
+				elseif(is_file("$SERVERROOT/$script.js" )){
 					$page->append( "jsfiles", "$WEBROOT/$script.js" );
+				}
+				else{
+					$page->append( "jsfiles", "$WEBROOT/core/$script.js" );
 				}
 			}
 			foreach(OC_UTIL::$styles as $style){
 				if(is_file("$SERVERROOT/apps/$style.css" )){
 					$page->append( "cssfiles", "$WEBROOT/apps/$style.css" );
-				}else{
+				}
+				elseif(is_file("$SERVERROOT/$style.css" )){
 					$page->append( "cssfiles", "$WEBROOT/$style.css" );
+				}
+				else{
+					$page->append( "cssfiles", "$WEBROOT/core/$style.css" );
 				}
 			}
 
