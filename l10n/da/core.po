@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-20 22:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2011-06-21 15:10+0100\n"
+"Last-Translator: Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -23,7 +22,7 @@ msgstr "Fejl 404, Skyen kan ikke findes"
 
 #: ../templates/installation.php:6
 msgid "Welcome to <strong>ownCloud</strong>, your personnal cloud."
-msgstr "Velkommen til <strong>ownCloud</strong>, Din personlige Sky."
+msgstr "Velkommen til <strong>ownCloud</strong>, din personlige Sky."
 
 #: ../templates/installation.php:7
 msgid "To finish the installation, please follow the steps below."
@@ -94,16 +93,12 @@ msgid "Finish setup"
 msgstr "Afslut installation"
 
 #: ../templates/layout.guest.php:20
-msgid ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs "
-"on your own server.</p>"
-msgstr ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> er din personly sky der køre "
-"på din egen server.</p>"
+msgid "<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs on your own server.</p>"
+msgstr "<a href=\"http://owncloud.org/\">ownCloud</a> er din personly sky der køre på din egen server.</p>"
 
 #: ../templates/login.php:6
 msgid "Login failed!"
-msgstr "Login misslykkedes"
+msgstr "Login mislykkedes"
 
 #: ../templates/logout.php:1
 msgid "You are logged out."
@@ -120,3 +115,4 @@ msgstr "næste"
 #: ../templates/part.searchbox.php:3
 msgid "Search"
 msgstr "Søg"
+

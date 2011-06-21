@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-20 22:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2011-06-21 15:08+0100\n"
+"Last-Translator: Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -25,15 +24,18 @@ msgstr "læs mere"
 msgid "INSTALL"
 msgstr "INSTALLER"
 
-#: ../templates/app_noconn.php:6 ../templates/apps.php:6
+#: ../templates/app_noconn.php:6
+#: ../templates/apps.php:6
 msgid "Apps Repository"
 msgstr "Applikation arkiv"
 
 #: ../templates/app_noconn.php:7
 msgid "Cannot connect to apps repository"
-msgstr "Kan ikke tilslutte applikations arkivet"
+msgstr "Kan ikke oprette forbindelse til applikations arkivet"
 
-#: ../templates/apps.php:13 ../templates/users.php:6 ../templates/users.php:20
+#: ../templates/apps.php:13
+#: ../templates/users.php:6
+#: ../templates/users.php:20
 #: ../templates/users.php:50
 msgid "Name"
 msgstr "Navn"
@@ -62,11 +64,13 @@ msgstr "Kodeord"
 msgid "Create user"
 msgstr "Lav bruger"
 
-#: ../templates/users.php:40 ../templates/users.php:68
+#: ../templates/users.php:40
+#: ../templates/users.php:68
 msgid "remove"
 msgstr "slet"
 
-#: ../templates/users.php:46 ../templates/users.php:7
+#: ../templates/users.php:46
+#: ../templates/users.php:7
 msgid "Groups"
 msgstr "Grupper"
 
@@ -84,8 +88,9 @@ msgstr "Indstil"
 
 #: ../templates/users.php:102
 msgid "Do you really want to delete user"
-msgstr "Vil du virkelig slette denne bruger"
+msgstr "Vil du virkelig slette denne bruger?"
 
 #: ../templates/users.php:109
 msgid "Do you really want to delete group"
-msgstr "Vil du virkelig slette denne gruppe"
+msgstr "Vil du virkelig slette denne gruppe?"
+

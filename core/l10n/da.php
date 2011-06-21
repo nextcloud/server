@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Error 404, Cloud not found" => "Fejl 404, Skyen kan ikke findes",
-"Welcome to <strong>ownCloud</strong>, your personnal cloud." => "Velkommen til <strong>ownCloud</strong>, Din personlige Sky.",
+"Welcome to <strong>ownCloud</strong>, your personnal cloud." => "Velkommen til <strong>ownCloud</strong>, din personlige Sky.",
 "To finish the installation, please follow the steps below." => "For at fuldføre installationen, følg venligst nedenstående trin",
 "Create an <strong>admin account.</strong>" => "Lav en <strong>administrator konto.</strong>",
 "Login:" => "Login:",
@@ -19,7 +19,7 @@
 "MySQL user password:" => "MySQL bruger password:",
 "Finish setup" => "Afslut installation",
 "<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs on your own server.</p>" => "<a href=\"http://owncloud.org/\">ownCloud</a> er din personly sky der køre på din egen server.</p>",
-"Login failed!" => "Login misslykkedes",
+"Login failed!" => "Login mislykkedes",
 "You are logged out." => "Du er nu logget ud",
 "prev" => "forrige",
 "next" => "næste",

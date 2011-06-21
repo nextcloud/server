@@ -2,7 +2,7 @@
 "read more" => "læs mere",
 "INSTALL" => "INSTALLER",
 "Apps Repository" => "Applikation arkiv",
-"Cannot connect to apps repository" => "Kan ikke tilslutte applikations arkivet",
+"Cannot connect to apps repository" => "Kan ikke oprette forbindelse til applikations arkivet",
 "Name" => "Navn",
 "Modified" => "Ændret",
 "Administration" => "Administration",
@@ -15,6 +15,6 @@
 "Create group" => "Lav gruppe",
 "Force new password:" => "Tving ny adgangskode",
 "Set" => "Indstil",
-"Do you really want to delete user" => "Vil du virkelig slette denne bruger",
-"Do you really want to delete group" => "Vil du virkelig slette denne gruppe"
+"Do you really want to delete user" => "Vil du virkelig slette denne bruger?",
+"Do you really want to delete group" => "Vil du virkelig slette denne gruppe?"
 );
