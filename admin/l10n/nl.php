@@ -1,0 +1,20 @@
+<?php $TRANSLATIONS = array(
+"read more" => "Meer informatie",
+"INSTALL" => "Instaleer",
+"Apps Repository" => "Applicatie Database",
+"Cannot connect to apps repository" => "Kan geen verbinding maken met de applicatie database",
+"Name" => "Naam",
+"Modified" => "Laatst aangepast",
+"Administration" => "Administratie",
+"System Settings" => "Systeem Instellingen",
+"Groups" => "Groepen",
+"Add user" => "Voeg gebruiker toe",
+"Password" => "Wachtwoord",
+"Create user" => "Maak gebruiker aan",
+"remove" => "verwijder",
+"Create group" => "Maak groep aan",
+"Force new password:" => "Forceer nieuw wachtwoord:",
+"Set" => "Ok",
+"Do you really want to delete user" => "Weet je zeker dat je deze gebruiker wil verwijderen",
+"Do you really want to delete group" => "Weet je zeker dat je deze groep wil verwijderen"
+);
