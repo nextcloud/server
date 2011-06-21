@@ -54,16 +54,13 @@ if( $task eq 'read' ){
 		pop( @temp );
 		my $app = pop( @temp );
 		chdir( $dir );
-		foreach my $language ( @languages ){
-			my $output = "${whereami}/$language/$app.po";
-			$output .= 't' if $language eq 'templates';
+		my $output = "${whereami}/templates/$app.pot";
 			
-			if( -e $output ){
-				`xgettext --files-from=xgettextfiles --join-existing --output="$output" --keyword=t`
-			}
-			else{
-				`xgettext --files-from=xgettextfiles --output="$output" --keyword=t`
-			}
+		if( -e $output ){
+			`xgettext --files-from=xgettextfiles --join-existing --output="$output" --keyword=t`
+		}
+		else{
+			`xgettext --files-from=xgettextfiles --output="$output" --keyword=t`
 		}
 		chdir( $whereami );
 	}

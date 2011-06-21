@@ -1,4 +1,4 @@
-<h2>Users</h2>
+<h2><?php echo $l->t( 'Users' ); ?></h2>
 
 <table id="usertable">
 	<thead>
