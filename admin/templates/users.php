@@ -22,8 +22,8 @@
 				</td>
 				<td id="createusergroups">
 					<?php foreach($_["groups"] as $i): ?>
-						<input x-use="createusercheckbox" x-gid="<? echo $i["name"]; ?>" type="checkbox" name="groups[]" value="<? echo $i["name"]; ?>" />
-						<span x-gid="<? echo $i["name"]; ?>"><? echo $i["name"]; ?><br></span>
+						<input x-use="createusercheckbox" x-gid="<?php echo $i["name"]; ?>" type="checkbox" name="groups[]" value="<?php echo $i["name"]; ?>" />
+						<span x-gid="<?php echo $i["name"]; ?>"><?php echo $i["name"]; ?><br></span>
 					<?php endforeach; ?>
 				</td>
 				<td>
@@ -82,8 +82,8 @@
 		<input id="changegroupuid" type="hidden" name="username" value="" />
 		<input id="changegroupgid" type="hidden" name="group" value="" />
 		<?php foreach($_["groups"] as $i): ?>
-			<input x-use="togglegroup" x-gid="<? echo $i["name"]; ?>" type="checkbox" name="groups[]" value="<? echo $i["name"]; ?>" />
-			<span x-use="togglegroup" x-gid="<? echo $i["name"]; ?>"><? echo $i["name"]; ?><br></span>
+			<input x-use="togglegroup" x-gid="<?php echo $i["name"]; ?>" type="checkbox" name="groups[]" value="<?php echo $i["name"]; ?>" />
+			<span x-use="togglegroup" x-gid="<?php echo $i["name"]; ?>"><?php echo $i["name"]; ?><br></span>
 		<?php endforeach; ?>
 	</form>
 </div>
