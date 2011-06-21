@@ -40,10 +40,9 @@ if(isset($_GET['installed'])) $installed=true; else $installed=false;
 
 if($installed){
 	global $SERVERROOT;
+	OC_INSTALLER::installShippedApps(false);
 	$apps = OC_APPCONFIG::getApps();
 	$records = array();
-
-	OC_INSTALLER::installShippedApps(false);
 
 	OC_APP::setActiveNavigationEntry( "core_apps_installed" );
 	foreach($apps as $app){
