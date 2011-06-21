@@ -13,16 +13,14 @@ table td.version, table td.enabled, table td.disabled
     text-align: center;
 }
 
-table td.enabled
+input[type="button"].enabled
 {
     color: #006600;
-    font-weight: bold;
 }
 
-table td.disabled
+input[type="button"].disabled
 {
     color: #660000;
-    font-weight: bold;
 }
 
 .preview 
@@ -65,3 +63,6 @@ table td.name a
 }
 
 
+input[type="button"].appbutton { padding:0.1em 1em; border:1px solid #999; font-weight:bold; font-size:0.9em; cursor:pointer; }
+input[type="button"]:hover.appbutton, form input[type="submit"]:focus { border:1px solid #999; background-color:#999; outline:0; }
+input[type="button"]:active.appbutton { outline:0; }

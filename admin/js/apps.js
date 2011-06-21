@@ -1,17 +1,18 @@
-$("div[x-use='appenableddiv']").live( "click", function(){
+$("input[x-use='appenablebutton']").live( "click", function(){
 	appid = $(this).parent().parent().attr("x-uid");
 
-	if($(this).text() == "enabled"){
-		$(this).html( "disabled" );
-		$(this).parent().removeClass( "enabled" );
-		$(this).parent().addClass( "disabled" );
+	//alert("dsfsdfsdf");
+	if($(this).val() == "enabled"){
+		$(this).attr("value","disabled");
+		$(this).removeClass( "enabled" );
+		$(this).addClass( "disabled" );
 		//$.post( "ajax/disableapp.php", $(appid).serialize(), function(data){} );
 		$.post( "ajax/disableapp.php", { appid: appid }, function(data){ alert(data.status);});
 	}
-	else if($(this).text() == "disabled"){
-		$(this).html( "enabled" );
-		$(this).parent().removeClass( "disabled" );
-		$(this).parent().addClass( "enabled" );
+	else if($(this).val() == "disabled"){
+		$(this).attr("value","enabled");
+		$(this).removeClass( "disabled" );
+		$(this).addClass( "enabled" );
 		$.post( "ajax/enableapp.php", { appid: appid }, function(data){ alert(data.status);} );
 	}
 });
