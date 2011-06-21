@@ -21,7 +21,10 @@
  *
  */
 
-
+/**
+ * error code for functions not provided by the storage provider
+ */
+define('OC_USER_BACKEND_NOT_IMPLEMENTED',-501);
 
 /**
  * abstract base class for user management
@@ -37,7 +40,9 @@ abstract class OC_USER_BACKEND {
 	 * Creates a new user. Basic checking of username is done in OC_USER
 	 * itself, not in its subclasses.
 	 */
-	public static function createUser($uid, $password){}
+	public function createUser($uid, $password){
+		return OC_USER_BACKEND_NOT_IMPLEMENTED;
+	}
 
 	/**
 	 * @brief delete a user
@@ -46,41 +51,9 @@ abstract class OC_USER_BACKEND {
 	 *
 	 * Deletes a user
 	 */
-	public static function deleteUser( $uid ){}
-
-	/**
-	 * @brief Try to login a user
-	 * @param $uid The username of the user to log in
-	 * @param $password The password of the user
-	 * @returns true/false
-	 *
-	 * Log in a user - if the password is ok
-	 */
-	public static function login($uid, $password){}
-
-	/**
-	 * @brief Kick the user
-	 * @returns true
-	 *
-	 * Logout, destroys session
-	 */
-	public static function logout(){}
-
-	/**
-	 * @brief Check if the user is logged in
-	 * @returns true/false
-	 *
-	 * Checks if the user is logged in
-	 */
-	public static function isLoggedIn(){}
-
-	/**
-	 * @brief Autogenerate a password
-	 * @returns string
-	 *
-	 * generates a password
-	 */
-	public static function generatePassword(){}
+	public function deleteUser( $uid ){
+		return OC_USER_BACKEND_NOT_IMPLEMENTED;
+	}
 
 	/**
 	 * @brief Set password
@@ -90,7 +63,9 @@ abstract class OC_USER_BACKEND {
 	 *
 	 * Change the password of a user
 	 */
-	public static function setPassword($uid, $password){}
+	public function setPassword($uid, $password){
+		return OC_USER_BACKEND_NOT_IMPLEMENTED;
+	}
 
 	/**
 	 * @brief Check if the password is correct
@@ -100,7 +75,9 @@ abstract class OC_USER_BACKEND {
 	 *
 	 * Check if the password is correct without logging in the user
 	 */
-	public static function checkPassword($uid, $password){}
+	public function checkPassword($uid, $password){
+		return OC_USER_BACKEND_NOT_IMPLEMENTED;
+	}
 
 	/**
 	 * @brief Get a list of all users
@@ -108,5 +85,16 @@ abstract class OC_USER_BACKEND {
 	 *
 	 * Get a list of all users.
 	 */
-	public static function getUsers(){}
+	public function getUsers(){
+		return OC_USER_BACKEND_NOT_IMPLEMENTED;
+	}
+
+	/**
+	 * @brief check if a user exists
+	 * @param string $uid the username
+	 * @return boolean
+	 */
+	public function userExists($uid){
+		return OC_USER_BACKEND_NOT_IMPLEMENTED;
+	}
 }

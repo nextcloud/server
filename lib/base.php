@@ -93,7 +93,7 @@ require_once('search.php');
 
 $error=(count(OC_UTIL::checkServer())>0);
 
-OC_USER::setBackend( OC_CONFIG::getValue( "userbackend", "database" ));
+OC_USER::useBackend( OC_CONFIG::getValue( "userbackend", "database" ));
 OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
 
 // Set up file system unless forbidden
