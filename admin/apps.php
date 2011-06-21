@@ -22,6 +22,7 @@
 */
 
 require_once('../lib/base.php');
+include_once('../lib/installer.php');
 require( 'template.php' );
 if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' )){
 	header( "Location: ".OC_HELPER::linkTo( "", "index.php" ));
@@ -41,6 +42,8 @@ if($installed){
 	global $SERVERROOT;
 	$apps = OC_APPCONFIG::getApps();
 	$records = array();
+
+	OC_INSTALLER::installShippedApps(false);
 
 	OC_APP::setActiveNavigationEntry( "core_apps_installed" );
 	foreach($apps as $app){

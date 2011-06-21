@@ -136,7 +136,7 @@ class OC_SETUP {
 				OC_GROUP::addToGroup($username, 'admin');
 
 				//guess what this does
-				self::installShippedApps();
+				OC_INSTALLER::installShippedApps(true);
 
 				//create htaccess files for apache hosts
 				self::createHtaccess(); //TODO detect if apache is used
@@ -185,32 +185,6 @@ class OC_SETUP {
 
 		$content = "deny from all";
 		file_put_contents(OC_CONFIG::getValue('datadirectory', $SERVERROOT.'/data').'/.htaccess', $content);
-	}
-
-	private static function installShippedApps(){
-		global $SERVERROOT;
-		$dir = opendir( "$SERVERROOT/apps" );
-		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' and is_dir("$SERVERROOT/apps/$filename") ){
-				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
-					if(!OC_INSTALLER::isInstalled($filename)){
-						//install the database
-						if(is_file("$SERVERROOT/apps/$filename/appinfo/database.xml")){
-							OC_DB::createDbFromStructure("$SERVERROOT/apps/$filename/appinfo/database.xml");
-						}
-
-						//run appinfo/install.php
-						if(is_file("$SERVERROOT/apps/$filename/appinfo/install.php")){
-							include("$SERVERROOT/apps/$filename/appinfo/install.php");
-						}
-						$info=OC_APP::getAppInfo("$SERVERROOT/apps/$filename/appinfo/info.xml");
-						OC_APPCONFIG::setValue($filename,'installed_version',$info['version']);
-						OC_APPCONFIG::setValue($filename,'enabled','yes');
-					}
-				}
-			}
-		}
-		closedir( $dir );
 	}
 }
 

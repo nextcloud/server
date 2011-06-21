@@ -236,4 +236,42 @@ class OC_INSTALLER{
 		// TODO: write function
 		return true;
 	}
+
+	/**
+	 * @brief Installs shipped apps
+	 * @param $enabled
+	 *
+	 * This function installs all apps found in the 'apps' directory;
+	 * If $enabled is true, apps are installed as enabled.
+	 * If $enabled is false, apps are installed as disabled.
+	 */
+	public static function installShippedApps( $enabled ){
+		global $SERVERROOT;
+		$dir = opendir( "$SERVERROOT/apps" );
+		while( false !== ( $filename = readdir( $dir ))){
+			if( substr( $filename, 0, 1 ) != '.' and is_dir("$SERVERROOT/apps/$filename") ){
+				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
+					if(!OC_INSTALLER::isInstalled($filename)){
+						//install the database
+						if(is_file("$SERVERROOT/apps/$filename/appinfo/database.xml")){
+							OC_DB::createDbFromStructure("$SERVERROOT/apps/$filename/appinfo/database.xml");
+						}
+
+						//run appinfo/install.php
+						if(is_file("$SERVERROOT/apps/$filename/appinfo/install.php")){
+							include("$SERVERROOT/apps/$filename/appinfo/install.php");
+						}
+						$info=OC_APP::getAppInfo("$SERVERROOT/apps/$filename/appinfo/info.xml");
+						OC_APPCONFIG::setValue($filename,'installed_version',$info['version']);
+						if( $enabled ){
+							OC_APPCONFIG::setValue($filename,'enabled','yes');
+						}else{
+							OC_APPCONFIG::setValue($filename,'enabled','no');
+						}
+					}
+				}
+			}
+		}
+		closedir( $dir );
+	}
 }
