@@ -128,11 +128,14 @@ class OC_FILESTORAGE_SHARED {
 
 	}
 	
-	// TODO Get size of shared directory
 	public function filesize($path) {
-		echo "filesize";
 		if ($path == "" || $path == "/") {
-			return 10000;
+			$size = 0;
+			$dir = OC_FILESTORAGE_SHARED::opendir($path);
+			while (($filename = readdir($dir)) != false) {
+				$size += OC_FILESTORAGE_SHARED::filesize($filename);
+			}
+			return $size;
 		} else {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
