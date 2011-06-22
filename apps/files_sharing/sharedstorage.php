@@ -58,9 +58,14 @@ class OC_FILESTORAGE_SHARED {
 		}
 	}
 	
+	// TODO add all files from db in array
 	public function opendir($path) {
 		global $FAKEDIRS;
-		$FAKEDIRS['shared'] = array(0 => 'test.txt');
+		$sharedItems = OC_SHARE::getItemsSharedWith();
+		foreach ($sharedItems as $item) {
+			$files[] = $item['target'];
+		}
+		$FAKEDIRS['shared'] = $files;
 		return opendir('fakedir://shared');
 	}
 	
@@ -83,6 +88,8 @@ class OC_FILESTORAGE_SHARED {
 			return $storage->is_file(self::getInternalPath($source));
 		}
 	}
+	
+	// TODO fill in other components of array
 	public function stat($path) {
 		if ($path == "" || $path == "/") {
 			$stat["dev"] = "";
@@ -110,7 +117,7 @@ class OC_FILESTORAGE_SHARED {
 	
 	public function filetype($path) {
 		if ($path == "" || $path == "/") {
-			return "httpd/unix-directory";
+			return "dir";
 		} else {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
@@ -123,6 +130,7 @@ class OC_FILESTORAGE_SHARED {
 	
 	// TODO Get size of shared directory
 	public function filesize($path) {
+		echo "filesize";
 		if ($path == "" || $path == "/") {
 			return 10000;
 		} else {
