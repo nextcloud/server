@@ -197,7 +197,7 @@ class OC_FILESTORAGE_SHARED {
 			$dir = OC_FILESTORAGE_SHARED::opendir($path);
 			while (($filename = readdir($dir)) != false) {
 				$tempctime = OC_FILESTORAGE_SHARED::filectime($filename);
-				if ($tempctime > $ctime) {
+				if ($tempctime < $ctime) {
 					$ctime = $tempctime;
 				}
 			}
