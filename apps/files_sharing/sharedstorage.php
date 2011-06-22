@@ -191,7 +191,6 @@ class OC_FILESTORAGE_SHARED {
 		}	
 	}
 	
-	// TODO Get ctime of last file
 	public function filectime($path) {
 		if ($path == "" || $path == "/") {
 			$ctime = 0; 
@@ -212,7 +211,6 @@ class OC_FILESTORAGE_SHARED {
 		}
 	}
 	
-	// TODO Get mtime of last file
 	public function filemtime($path) {
 		if ($path == "" || $path == "/") {
 			$mtime = 0; 
@@ -233,7 +231,6 @@ class OC_FILESTORAGE_SHARED {
 		}
 	}
 	
-	// TODO Get atime of last file
 	public function fileatime($path) {
 		if ($path == "" || $path == "/") {
 			$atime = 0; 
