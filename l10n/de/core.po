@@ -19,19 +19,19 @@ msgstr ""
 
 #: ../templates/404.php:15
 msgid "Error 404, Cloud not found"
-msgstr ""
+msgstr "Cloud konnte nicht gefunden werden."
 
 #: ../templates/installation.php:6
 msgid "Welcome to <strong>ownCloud</strong>, your personnal cloud."
-msgstr ""
+msgstr "Willkommen bei <strong>ownCloud</strong>, deinem persönlichen Online-Speicher."
 
 #: ../templates/installation.php:7
 msgid "To finish the installation, please follow the steps below."
-msgstr ""
+msgstr "Die Installation ist fast abgeschlossen."
 
 #: ../templates/installation.php:26
 msgid "Create an <strong>admin account.</strong>"
-msgstr ""
+msgstr "<strong>Verwaltungskonto</strong> erstellen."
 
 #: ../templates/installation.php:27
 msgid "Login:"
@@ -51,49 +51,51 @@ msgstr "Speicherort der Daten"
 
 #: ../templates/installation.php:35
 msgid "Data directory:"
-msgstr ""
+msgstr "Datenverzeichnis:"
 
 #: ../templates/installation.php:39
 msgid "Configure your database."
-msgstr ""
+msgstr "Datenbank einstellen."
 
 #: ../templates/installation.php:43
 msgid "I will use a SQLite database. You have nothing to do!"
-msgstr ""
+msgstr "Es wird eine SQLite-Datenbank genutzt."
 
 #: ../templates/installation.php:46
 msgid "SQLite"
-msgstr ""
+msgstr "SQLite"
 
 #: ../templates/installation.php:53
 msgid "I will use a MySQL database."
-msgstr ""
+msgstr "Es wird eine MySQL-Datenbank genutzt."
 
 #: ../templates/installation.php:59
 msgid "Host:"
-msgstr ""
+msgstr "Host:"
 
 #: ../templates/installation.php:60
 msgid "Database name:"
-msgstr ""
+msgstr "Datenbankname:"
 
 #: ../templates/installation.php:61
 msgid "Table prefix:"
-msgstr ""
+msgstr "Tabellenpräfix:"
 
 #: ../templates/installation.php:62
 msgid "MySQL user login:"
-msgstr ""
+msgstr "MySQL-Nutzername:"
 
 #: ../templates/installation.php:63
 msgid "MySQL user password:"
-msgstr ""
+msgstr "MySQL-Passwort:"
 
 #: ../templates/layout.guest.php:17 ../templates/layout.guest.php:20
 msgid ""
 "<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs "
 "on your own server.</p>"
 msgstr ""
+"<a href=\"http://owncloud.org/\">ownCloud</a> ist ein privater Online-Speicher "
+"für deinen eigenen Server.</p>"
 
 #: ../templates/login.php:6
 msgid "Login failed!"
@@ -117,4 +119,4 @@ msgstr "Suchen"
 
 #: ../templates/installation.php:68
 msgid "Finish setup"
-msgstr ""
+msgstr "Installation abschließen"

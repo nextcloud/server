@@ -19,8 +19,8 @@ msgstr ""
 
 #: ../templates/index.php:2
 msgid "Questions and Answers"
-msgstr ""
+msgstr "Fragen & Antworten"
 
 #: ../templates/index.php:21
 msgid "ASK A QUESTION"
-msgstr ""
+msgstr "Stell eine Frage"

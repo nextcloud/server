@@ -19,73 +19,73 @@ msgstr ""
 
 #: ../templates/app.php:22
 msgid "read more"
-msgstr ""
+msgstr "mehr …"
 
 #: ../templates/app.php:24
 msgid "INSTALL"
-msgstr ""
+msgstr "Installieren"
 
 #: ../templates/app_noconn.php:6 ../templates/apps.php:6
 msgid "Apps Repository"
-msgstr ""
+msgstr "Anwendungen"
 
 #: ../templates/app_noconn.php:7
 msgid "Cannot connect to apps repository"
-msgstr ""
+msgstr "Verbindung fehlgeschlagen"
 
 #: ../templates/apps.php:13 ../templates/users.php:6 ../templates/users.php:20
 #: ../templates/users.php:50
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: ../templates/apps.php:14
 msgid "Modified"
-msgstr ""
+msgstr "Änderungsdatum"
 
 #: ../templates/system.php:6
 msgid "Administration"
-msgstr ""
+msgstr "Verwaltung"
 
 #: ../templates/system.php:7
 msgid "System Settings"
-msgstr ""
+msgstr "Systemeinstellungen"
 
 #: ../templates/users.php:7 ../templates/users.php:46
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 #: ../templates/users.php:13
 msgid "Add user"
-msgstr ""
+msgstr "Nutzer hinzufügen"
 
 #: ../templates/users.php:21
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: ../templates/users.php:30
 msgid "Create user"
-msgstr ""
+msgstr "Nutzer erstellen"
 
 #: ../templates/users.php:40 ../templates/users.php:68
 msgid "remove"
-msgstr ""
+msgstr "entfernen"
 
 #: ../templates/users.php:58
 msgid "Create group"
-msgstr ""
+msgstr "Gruppe erstellen"
 
 #: ../templates/users.php:94
 msgid "Force new password:"
-msgstr ""
+msgstr "Neues Passwort:"
 
 #: ../templates/users.php:96
 msgid "Set"
-msgstr ""
+msgstr "OK"
 
 #: ../templates/users.php:102
 msgid "Do you really want to delete user"
-msgstr ""
+msgstr "Möchtest du den Nutzer wirklich entfernen?"
 
 #: ../templates/users.php:109
 msgid "Do you really want to delete group"
-msgstr ""
+msgstr "Möchtest du die Gruppe wirklich entfernen?"

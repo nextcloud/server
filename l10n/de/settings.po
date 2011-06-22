@@ -19,68 +19,68 @@ msgstr ""
 
 #: ../templates/index.php:3
 msgid "Account information"
-msgstr ""
+msgstr "Konto-Information"
 
 #: ../templates/index.php:5
 msgid "You're currently using"
-msgstr ""
+msgstr "Du benutzt gerade"
 
 #: ../templates/index.php:5
 msgid "of your"
-msgstr ""
+msgstr "von deinem"
 
 #: ../templates/index.php:5
 msgid "space"
-msgstr ""
+msgstr "Speicherplatz"
 
 #: ../templates/index.php:11
 msgid "Change Password"
-msgstr ""
+msgstr "Passwort ändern"
 
 #: ../templates/index.php:12
 msgid "Your password got changed"
-msgstr ""
+msgstr "Dein Passwort wurde geändert."
 
 #: ../templates/index.php:15
 msgid "Old password:"
-msgstr ""
+msgstr "Aktuelles Passwort:"
 
 #: ../templates/index.php:19
 msgid "New password"
-msgstr ""
+msgstr "Neues Passwort:"
 
 #: ../templates/index.php:24
 msgid "Show new password"
-msgstr ""
+msgstr "Neues Passwort anzeigen"
 
 #: ../templates/index.php:34
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: ../ajax/changepassword.php:13 ../ajax/setlanguage.php:13
 msgid "Authentication error"
-msgstr ""
+msgstr "Berechtigungsfehler"
 
 #: ../ajax/changepassword.php:19
 msgid "You have to enter the old and the new password!"
-msgstr ""
+msgstr "Du musst das aktuelle und ein neues Passwort angeben!"
 
 #: ../ajax/changepassword.php:25
 msgid "Your old password is wrong!"
-msgstr ""
+msgstr "Du hast dein aktuelles Passwort falsch eingegeben!"
 
 #: ../ajax/changepassword.php:31
 msgid "Password changed"
-msgstr ""
+msgstr "Passwort geändert"
 
 #: ../ajax/changepassword.php:34
 msgid "Unable to change password"
-msgstr ""
+msgstr "Passwort konnte nicht geändert werden"
 
 #: ../ajax/setlanguage.php:21
 msgid "Language changed"
-msgstr ""
+msgstr "Sprache geändert"
 
 #: ../ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr ""
+msgstr "Ungültige Anfrage"
