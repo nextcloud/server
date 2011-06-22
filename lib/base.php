@@ -142,7 +142,7 @@ class OC_UTIL {
 
 		// If we are not forced to load a specific user we load the one that is logged in
 		if( $user == "" && OC_USER::isLoggedIn()){
-			$user = $_SESSION['user_id'];
+			$user = OC_USER::getUser();
 		}
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem

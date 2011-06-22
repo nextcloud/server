@@ -43,8 +43,8 @@ if(isset($_POST['save'])){
 			$selectedActions[]=$action;
 		}
 	}
-	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','actions',implode(',',$selectedActions));
-	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','pagesize',$_POST['size']);
+	OC_PREFERENCES::setValue(OC_USER::getUser(),'log','actions',implode(',',$selectedActions));
+	OC_PREFERENCES::setValue(OC_USER::getUser(),'log','pagesize',$_POST['size']);
 }
 //clear log entries
 elseif(isset($_POST['clear'])){
@@ -62,10 +62,10 @@ OC_APP::setActiveNavigationEntry( 'log' );
 $logs=OC_LOG::get();
 
 
-$selectedActions=explode(',',OC_PREFERENCES::getValue($_SESSION['user_id'],'log','actions',implode(',',$allActions)));
+$selectedActions=explode(',',OC_PREFERENCES::getValue(OC_USER::getUser(),'log','actions',implode(',',$allActions)));
 $logs=OC_LOG::filterAction($logs,$selectedActions);
 
-$pageSize=OC_PREFERENCES::getValue($_SESSION['user_id'],'log','pagesize',20);
+$pageSize=OC_PREFERENCES::getValue(OC_USER::getUser(),'log','pagesize',20);
 $pageCount=ceil(count($logs)/$pageSize);
 $page=isset($_GET['page'])?$_GET['page']:0;
 if($page>=$pageCount){

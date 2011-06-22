@@ -232,6 +232,19 @@ class OC_USER {
 	}
 
 	/**
+	 * @brief get the user idea of the user currently logged in.
+	 * @return string uid or false
+	 */
+	public static function getUser(){
+		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ){
+			return $_SESSION['user_id'];
+		}
+		else{
+			return false;
+		}
+	}
+
+	/**
 	 * @brief Autogenerate a password
 	 * @returns string
 	 *

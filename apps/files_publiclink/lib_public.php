@@ -7,7 +7,7 @@ class OC_PublicLink{
 	 */
 	public function __construct($path,$expiretime=0){
 		if($path and  OC_FILESYSTEM::file_exists($path) and OC_FILESYSTEM::is_readable($path)){
-			$user=$_SESSION['user_id'];
+			$user=OC_USER::getUser();
 			$token=sha1("$user-$path-$expiretime");
 			$query=OC_DB::prepare("INSERT INTO *PREFIX*publiclink VALUES(?,?,?,?)");
 			$result=$query->execute(array($token,$path,$user,$expiretime));
@@ -60,7 +60,7 @@ class OC_PublicLink{
 	 */
 	static public function getLinks(){
 		$query=OC_DB::prepare("SELECT * FROM *PREFIX*publiclink WHERE user=?");
-		return $query->execute(array($_SESSION['user_id']))->fetchAll();
+		return $query->execute(array(OC_USER::getUser()))->fetchAll();
 	}
 
 	/**
@@ -69,7 +69,7 @@ class OC_PublicLink{
 	static public function delete($token){
 		$query=OC_DB::prepare("SELECT user,path FROM *PREFIX*publiclink WHERE token=?");
 		$result=$query->execute(array($token))->fetchAll();
-		if(count($result)>0 and $result[0]['user']==$_SESSION['user_id']){
+		if(count($result)>0 and $result[0]['user']==OC_USER::getUser()){
 			$query=OC_DB::prepare("DELETE FROM *PREFIX*publiclink WHERE token=?");
 			$query->execute(array($token));
 		}

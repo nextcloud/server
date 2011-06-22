@@ -23,7 +23,7 @@
 
 require_once('../lib/base.php');
 require( 'template.php' );
-if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' )){
+if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' )){
 	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
 	exit();
 }
