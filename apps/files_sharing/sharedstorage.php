@@ -99,10 +99,10 @@ class OC_FILESTORAGE_SHARED {
 			$stat["uid"] = "";
 			$stat["gid"] = "";
 			$stat["rdev"] = "";
-			$stat["size"] = filesize($path);
-			$stat["atime"] = fileatime($path);
-			$stat["mtime"] = filemtime($path);
-			$stat["ctime"] = filectime($path);
+			$stat["size"] = OC_FILESTORAGE_SHARED::filesize($path);
+			$stat["atime"] = OC_FILESTORAGE_SHARED::fileatime($path);
+			$stat["mtime"] = OC_FILESTORAGE_SHARED::filemtime($path);
+			$stat["ctime"] = OC_FILESTORAGE_SHARED::filectime($path);
 			$stat["blksize"] = "";
 			$stat["blocks"] = "";
 			return $stat;
@@ -194,7 +194,15 @@ class OC_FILESTORAGE_SHARED {
 	// TODO Get ctime of last file
 	public function filectime($path) {
 		if ($path == "" || $path == "/") {
-			return 10000003232;
+			$ctime = 0; 
+			$dir = OC_FILESTORAGE_SHARED::opendir($path);
+			while (($filename = readdir($dir)) != false) {
+				$tempctime = OC_FILESTORAGE_SHARED::filectime($filename);
+				if ($tempctime > $ctime) {
+					$ctime = $tempctime;
+				}
+			}
+			return $ctime;
 		} else {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
@@ -207,7 +215,15 @@ class OC_FILESTORAGE_SHARED {
 	// TODO Get mtime of last file
 	public function filemtime($path) {
 		if ($path == "" || $path == "/") {
-			return 10000003232;
+			$mtime = 0; 
+			$dir = OC_FILESTORAGE_SHARED::opendir($path);
+			while (($filename = readdir($dir)) != false) {
+				$tempmtime = OC_FILESTORAGE_SHARED::filemtime($filename);
+				if ($tempmtime > $mtime) {
+					$mtime = $tempmtime;
+				}
+			}
+			return $mtime;
 		} else {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
@@ -220,7 +236,15 @@ class OC_FILESTORAGE_SHARED {
 	// TODO Get atime of last file
 	public function fileatime($path) {
 		if ($path == "" || $path == "/") {
-			return 10000003232;
+			$atime = 0; 
+			$dir = OC_FILESTORAGE_SHARED::opendir($path);
+			while (($filename = readdir($dir)) != false) {
+				$tempatime = OC_FILESTORAGE_SHARED::fileatime($filename);
+				if ($tempatime > $atime) {
+					$atime = $tempatime;
+				}
+			}
+			return $atime;
 		} else {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
