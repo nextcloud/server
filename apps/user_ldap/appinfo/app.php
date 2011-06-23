@@ -23,6 +23,9 @@
 
 require_once('apps/user_ldap/user_ldap.php');
 
+// define LDAP_DEFAULT_PORT
+define("OC_USER_BACKEND_LDAP_DEFAULT_PORT", 389);
+
 // register user backend
 OC_USER::useBackend( "LDAP" );
 

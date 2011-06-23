@@ -29,7 +29,7 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' ))
 	exit();
 }
 
-$params = array('ldap_host', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter');
+$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter');
 
 foreach($params as $param){
 	if(isset($_POST[$param])){
@@ -45,4 +45,8 @@ foreach($params as $param){
 		$value = OC_APPCONFIG::getValue('user_ldap', $param,'');
 		$tmpl->assign($param, $value);
 }
+
+// ldap_port has a default value
+$tmpl->assign( 'ldap_port', OC_APPCONFIG::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT));
+
 $tmpl->printPage();

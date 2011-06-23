@@ -25,15 +25,18 @@ require_once('User/backend.php');
 
 class OC_USER_LDAP extends OC_USER_BACKEND {
 
+
+
 	public function checkPassword( $uid, $password ) {
 		$ldap_host = OC_APPCONFIG::getValue('user_ldap', 'ldap_host','');
+		$ldap_port = OC_APPCONFIG::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
 		$ldap_dn = OC_APPCONFIG::getValue('user_ldap', 'ldap_dn','');
 		$ldap_password = OC_APPCONFIG::getValue('user_ldap', 'ldap_password','');
 		$ldap_base = OC_APPCONFIG::getValue('user_ldap', 'ldap_base','');
 		$ldap_filter = OC_APPCONFIG::getValue('user_ldap', 'ldap_filter','');
 
 		// connect to server
-		$ds = ldap_connect( $ldap_host );
+		$ds = ldap_connect( $ldap_host, $ldap_port );
 		if( !$ds )
 			return false;
 

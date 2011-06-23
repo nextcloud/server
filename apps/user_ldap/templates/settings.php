@@ -6,6 +6,9 @@
 				<span>Host: *</span><span><input type="text" name="ldap_host" width="200" value="<?php echo $_['ldap_host']; ?>"></span>
 			</div>
 			<div>
+				<span>Port: *</span><span><input type="text" name="ldap_port" width="200" value="<?php echo $_['ldap_port']; ?>"></span>
+			</div>
+			<div>
 				<span>DN:<input type="text" name="ldap_dn" width="200" value="<?php echo $_['ldap_dn']; ?>"></span>
 			</div>
 			<div>
