@@ -44,6 +44,12 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 		$this->ldap_filter = OC_APPCONFIG::getValue('user_ldap', 'ldap_filter','');
 	}
 
+	function __destruct() {
+		// close the connection
+		if( $this->ds )
+			ldap_unbind($this->ds);
+	}
+
 	private function getDs() {
 		if(!$this->ds) {
 			$this->ds = ldap_connect( $this->ldap_host, $this->ldap_port );
