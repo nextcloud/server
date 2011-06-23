@@ -129,13 +129,8 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function filesize($path) {
-		if ($path == "" || $path == "/") {
-			$size = 0;
-			$dir = $this->opendir($path);
-			while (($filename = readdir($dir)) != false) {
-				$size += $this->filesize($filename);
-			}
-			return $size;
+		if ($path == "" || $path == "/" || $this->is_dir($path)) {
+			return $this->getFolderSize($path);
 		} else {
 			$source = OC_SHARE::getSource($path);
 			if ($source) {
@@ -143,6 +138,44 @@ class OC_FILESTORAGE_SHARED {
 				return $storage->filesize($this->getInternalPath($source));
 			}
 		}
+	}
+	
+	public function getFolderSize($path) {
+		if ($path == "" || $path == "/") {
+			$dbpath = $_SESSION['user_id']."/files/Share/";
+		} else {
+			$dbpath = $path;
+		}
+		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
+		$size = $query->execute(array($dbpath))->fetchAll();
+		if (count($size) > 0) {
+			return $size[0]['size'];
+		} else {
+			return $this->calculateFolderSize($path);
+		}
+	}
+	
+	public function calculateFolderSize($path) {
+		$size = 0;
+		if ($dh = $this->opendir($path)) {
+			while (($filename = readdir($dh)) != false) {
+				if ($this->is_file($filename)){
+					$size += $this->filesize($filename);
+				} else {
+					$size += $this->getFolderSize($filename);
+				}
+			}
+			if ($size > 0) {
+				if ($path == "" || $path == "/") {
+					$dbpath = $_SESSION['user_id']."/files/Share/";
+				} else {
+					$dbpath = $path;
+				}
+				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
+				$result = $query->execute(array($dbpath, $size));
+			}
+		}
+		return $size;
 	}
 	
 	// TODO OC_SHARE::getPermissions()
