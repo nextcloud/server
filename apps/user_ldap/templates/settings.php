@@ -12,7 +12,7 @@
 				<span>DN:<input type="text" name="ldap_dn" width="200" value="<?php echo $_['ldap_dn']; ?>"></span>
 			</div>
 			<div>
-				<span>Password:<input type="text" name="ldap_password" width="200" value="<?php echo $_['ldap_password']; ?>"></span>
+				<span>Password:<input type="password" name="ldap_password" width="200" value="<?php echo $_['ldap_password']; ?>"></span>
 			</div>
 			<div>
 				<span>Base: *<input type="text" name="ldap_base" width="200" value="<?php echo $_['ldap_base']; ?>"></span>
