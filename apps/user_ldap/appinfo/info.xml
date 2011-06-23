@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>user_ldap</id>
+	<name>LDAP user backend</name>
+	<description>Authenticate Users by LDAP</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Dominik Schmidt</author>
+	<require>2</require>
+</info>
