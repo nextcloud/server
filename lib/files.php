@@ -297,6 +297,7 @@ class OC_FILES {
 		$content.= "php_value upload_max_filesize $size\n";//upload limit
 		$content.= "php_value post_max_size $size\n";
 		$content.= "SetEnv htaccessWorking true\n";
+		$content.= "Options -Indexes\n";
 		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 	}
 }

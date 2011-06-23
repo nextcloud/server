@@ -188,6 +188,7 @@ class OC_SETUP {
 		$content.= "php_value upload_max_filesize 20M\n";//upload limit
 		$content.= "php_value post_max_size 20M\n";
 		$content.= "SetEnv htaccessWorking true\n";
+		$content.= "Options -Indexes\n";
 		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
 		$content = "deny from all";
