@@ -1,5 +1,10 @@
 <?php
 
+//check if curl extension installed
+if (!in_array ('curl', get_loaded_extensions())){
+	return;
+}
+
 require_once 'apps/user_openid/user_openid.php';
 
 OC_APP::addSettingsPage( array( "id" => "user_openid_settings", 'order'=>1, "href" => OC_HELPER::linkTo( "user_openid", "settings.php" ), "name" => "OpenID"));
