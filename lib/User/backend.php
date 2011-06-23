@@ -4,7 +4,9 @@
  * ownCloud
  *
  * @author Frank Karlitschek
+ * @author Dominik Schmidt
  * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2011 Dominik Schmidt dev@dominik-schmidt.de
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -22,79 +24,63 @@
  */
 
 /**
- * error code for functions not provided by the storage provider
+ * error code for functions not provided by the user backend
  */
-define('OC_USER_BACKEND_NOT_IMPLEMENTED',-501);
+define('OC_USER_BACKEND_NOT_IMPLEMENTED',   -501);
+
+/**
+ * actions that user backends can define
+ */
+define('OC_USER_BACKEND_CREATE_USER',       0x000001);
+define('OC_USER_BACKEND_DELETE_USER',       0x000010);
+define('OC_USER_BACKEND_SET_PASSWORD',      0x000100);
+define('OC_USER_BACKEND_CHECK_PASSWORD',    0x001000);
+define('OC_USER_BACKEND_GET_USERS',         0x010000);
+define('OC_USER_BACKEND_USER_EXISTS',       0x100000);
+
 
 /**
  * abstract base class for user management
+ * subclass this for your own backends and see OC_USER_EXAMPLE for descriptions
  */
 abstract class OC_USER_BACKEND {
 
+	protected $possibleActions = array(
+		OC_USER_BACKEND_CREATE_USER => 'createUser',
+		OC_USER_BACKEND_DELETE_USER => 'deleteUser',
+		OC_USER_BACKEND_SET_PASSWORD => 'setPassword',
+		OC_USER_BACKEND_CHECK_PASSWORD => 'checkPassword',
+		OC_USER_BACKEND_GET_USERS => 'getUsers',
+		OC_USER_BACKEND_USER_EXISTS => 'userExists'
+	);
+
 	/**
-	 * @brief Create a new user
-	 * @param $uid The username of the user to create
-	 * @param $password The password of the new user
-	 * @returns true/false
-	 *
-	 * Creates a new user. Basic checking of username is done in OC_USER
-	 * itself, not in its subclasses.
-	 */
-	public function createUser($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
+	* @brief Get all supported actions
+	* @returns bitwise-or'ed actions
+	*
+	* Returns the supported actions as int to be
+	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	*/
+	public function getSupportedActions(){
+		$actions = 0;
+		foreach($this->possibleActions AS $action => $methodName){
+			if(method_exists($this, $methodName)) {
+				$actions |= $action;
+			}
+		}
+
+		return $actions;
 	}
 
 	/**
-	 * @brief delete a user
-	 * @param $uid The username of the user to delete
-	 * @returns true/false
-	 *
-	 * Deletes a user
-	 */
-	public function deleteUser( $uid ){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-	 * @brief Set password
-	 * @param $uid The username
-	 * @param $password The new password
-	 * @returns true/false
-	 *
-	 * Change the password of a user
-	 */
-	public function setPassword($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-	 * @brief Check if the password is correct
-	 * @param $uid The username
-	 * @param $password The password
-	 * @returns true/false
-	 *
-	 * Check if the password is correct without logging in the user
-	 */
-	public function checkPassword($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-	 * @brief Get a list of all users
-	 * @returns array with all uids
-	 *
-	 * Get a list of all users.
-	 */
-	public function getUsers(){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-	 * @brief check if a user exists
-	 * @param string $uid the username
-	 * @return boolean
-	 */
-	public function userExists($uid){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
+	* @brief Check if backend implements actions
+	* @param $actions bitwise-or'ed actions
+	* @returns boolean
+	*
+	* Returns the supported actions as int to be
+	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	*/
+	public function implementsActions($actions){
+		return (bool)($this->getSupportedActions() & $actions);
 	}
 }
