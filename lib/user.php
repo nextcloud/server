@@ -166,7 +166,9 @@ class OC_USER {
 		if( $run ){
 			//delete the user from all backends
 			foreach(self::$_usedBackends as $backend){
-				$backend->deleteUser($uid);
+				if($backend->implementsActions(OC_USER_BACKEND_DELETE_USER)){
+					$backend->deleteUser($uid);
+				}
 			}
 			// We have to delete the user from all groups
 			foreach( OC_GROUP::getUserGroups( $uid ) as $i ){
@@ -270,8 +272,10 @@ class OC_USER {
 
 		if( $run ){
 			foreach(self::$_usedBackends as $backend){
-				if($backend->userExists($uid)){
-					$backend->setPassword($uid,$password);
+				if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)){
+					if($backend->userExists($uid)){
+						$backend->setPassword($uid,$password);
+					}
 				}
 			}
 			OC_HOOK::emit( "OC_USER", "post_setPassword", array( "uid" => $uid, "password" => $password ));
@@ -292,9 +296,11 @@ class OC_USER {
 	 */
 	public static function checkPassword( $uid, $password ){
 		foreach(self::$_usedBackends as $backend){
-			$result=$backend->checkPassword( $uid, $password );
-			if($result===true){
-				return true;
+			if($backend->implementsActions(OC_USER_BACKEND_CHECK_PASSWORD)){
+				$result=$backend->checkPassword( $uid, $password );
+				if($result===true){
+					return true;
+				}
 			}
 		}
 	}
@@ -322,9 +328,11 @@ class OC_USER {
 	 */
 	public static function userExists($uid){
 		foreach(self::$_usedBackends as $backend){
-			$result=$backend->userExists($uid);
-			if($result===true){
-				return true;
+			if($backend->implementsActions(OC_USER_BACKEND_USER_EXISTS)){
+				$result=$backend->userExists($uid);
+				if($result===true){
+					return true;
+				}
 			}
 		}
 		return false;
