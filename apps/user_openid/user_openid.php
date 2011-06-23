@@ -47,9 +47,7 @@ class OC_USER_OPENID extends OC_USER_BACKEND {
 			$openid->Redirect();     // This will redirect user to OpenID Server
 			exit;
 		}else{
-			$error = $openid->GetError();
-			echo "ERROR CODE: " . $error['code'] . "<br>";
-			echo "ERROR DESCRIPTION: " . $error['description'] . "<br>";
+			return false;
 		}
 		exit;
 	}
