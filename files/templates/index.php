@@ -16,7 +16,7 @@
 			<input class="prettybutton" type="submit" id="file_newfolder_submit" name="file_newfolder_submit" value="OK" />
 		</form>
 		<a href="" title="" class="download"><?php echo $l->t( 'Download' ); ?></a>
-		<a href="" title="" class="share"><?php echo $l->t( 'Share' ); ?></a>
+		<!--<a href="" title="" class="share"><?php echo $l->t( 'Share' ); ?></a>-->
 		<a href="" title="" class="delete"><?php echo $l->t( 'Delete' ); ?></a>
 	</div>
 	<div id="file_action_panel">
