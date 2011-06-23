@@ -386,7 +386,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			}
 		}
 		if($return=rmdir($dir)){
-			$this->clearFolderSizeCache($path);
+			$this->clearFolderSizeCache($dir);
 		}
 		return $return;
 	}

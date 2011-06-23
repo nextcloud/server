@@ -21,7 +21,7 @@ if(!empty($dir)) $dir .= '/';
 $target='/' . stripslashes($dir) . $fileName;
 if(strpos($dir,'..') === false){
 	if(OC_FILESYSTEM::fromUploadedFile($source,$target)){
-		echo json_encode(array( "status" => "success"));
+		echo json_encode(array( "status" => "success", 'mime'=>OC_FILESYSTEM::getMimeType($target),'size'=>OC_FILESYSTEM::filesize($target)));
 		exit();
 	}
 }
