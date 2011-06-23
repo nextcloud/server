@@ -184,7 +184,7 @@ class OC_SETUP {
 	private static function createHtaccess() {
 		global $SERVERROOT;
 		global $WEBROOT;
-		$content = "ErrorDocument 404 /$WEBROOT/templates/404.php\n";//custom 404 error page
+		$content = "ErrorDocument 404 /$WEBROOT/core/templates/404.php\n";//custom 404 error page
 		$content.= "php_value upload_max_filesize 20M\n";//upload limit
 		$content.= "php_value post_max_size 20M\n";
 		$content.= "SetEnv htaccessWorking true\n";

@@ -293,7 +293,7 @@ class OC_FILES {
 		$size=OC_HELPER::humanFileSize($size);
 		$size=substr($size,0,-1);//strip the B
 		$size=str_replace(' ','',$size); //remove the space between the size and the postfix
-		$content = "ErrorDocument 404 /$WEBROOT/templates/404.php\n";//custom 404 error page
+		$content = "ErrorDocument 404 /$WEBROOT/core/templates/404.php\n";//custom 404 error page
 		$content.= "php_value upload_max_filesize $size\n";//upload limit
 		$content.= "php_value post_max_size $size\n";
 		$content.= "SetEnv htaccessWorking true\n";

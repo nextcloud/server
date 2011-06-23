@@ -1,6 +1,6 @@
 <?php
 if(!isset($_)){//also provide standalone error page
-	require_once '../lib/base.php';
+	require_once '../../lib/base.php';
 	require( 'template.php' );
 	
 	$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
