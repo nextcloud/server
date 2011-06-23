@@ -25,41 +25,69 @@ require_once('User/backend.php');
 
 class OC_USER_LDAP extends OC_USER_BACKEND {
 
+	protected $ds;
 
+	// cached settings
+	protected $ldap_host;
+	protected $ldap_port;
+	protected $ldap_dn;
+	protected $ldap_password;
+	protected $ldap_base;
+	protected $ldap_filter;
 
-	public function checkPassword( $uid, $password ) {
-		$ldap_host = OC_APPCONFIG::getValue('user_ldap', 'ldap_host','');
-		$ldap_port = OC_APPCONFIG::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
-		$ldap_dn = OC_APPCONFIG::getValue('user_ldap', 'ldap_dn','');
-		$ldap_password = OC_APPCONFIG::getValue('user_ldap', 'ldap_password','');
-		$ldap_base = OC_APPCONFIG::getValue('user_ldap', 'ldap_base','');
-		$ldap_filter = OC_APPCONFIG::getValue('user_ldap', 'ldap_filter','');
+	function __construct() {
+		$this->ldap_host = OC_APPCONFIG::getValue('user_ldap', 'ldap_host','');
+		$this->ldap_port = OC_APPCONFIG::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT	);
+		$this->ldap_dn = OC_APPCONFIG::getValue('user_ldap', 'ldap_dn','');
+		$this->ldap_password = OC_APPCONFIG::getValue('user_ldap', 'ldap_password','');
+		$this->ldap_base = OC_APPCONFIG::getValue('user_ldap', 'ldap_base','');
+		$this->ldap_filter = OC_APPCONFIG::getValue('user_ldap', 'ldap_filter','');
+	}
 
-		// connect to server
-		$ds = ldap_connect( $ldap_host, $ldap_port );
-		if( !$ds )
-			return false;
+	private function getDs() {
+		if(!$this->ds) {
+			$this->ds = ldap_connect( $this->ldap_host, $this->ldap_port );
+		}
 
-		// login for search
-		if(!empty($ldap_dn)) {
-			$ldap_login = @ldap_bind( $ds, $ldap_dn, $ldap_password );
+		// login
+		if(!empty($this->ldap_dn)) {
+			$ldap_login = @ldap_bind( $this->ds, $this->ldap_dn, $this->ldap_password );
 			if(!$ldap_login)
 				return false;
 		}
 
+		return $this->ds;
+	}
+
+	private function getDn( $uid ) {
+		// connect to server
+		$ds = $this->getDs();
+		if( !$ds )
+			return false;
+
 		// get dn
-		$filter = str_replace("%uid", $uid, $ldap_filter);
-		$sr = ldap_search( $ds, $ldap_base, $filter );
-		$entries = ldap_get_entries( $ds, $sr );
+		$filter = str_replace("%uid", $uid, $this->ldap_filter);
+		$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
+		$entries = ldap_get_entries( $this->getDs(), $sr );
 
 		if( $entries["count"] == 0 )
 			return false;
 
-		$dn = $entries[0]["dn"];
-		$result = @ldap_bind( $ds, $dn, $password );
-
-		return $result;
+		return $entries[0]["dn"];
 	}
+	public function checkPassword( $uid, $password ) {
+		$dn = $this->getDn( $uid );
+		if( !$dn )
+			return false;
+
+		return @ldap_bind( $this->getDs(), $dn, $password );
+	}
+
+	public function userExists( $uid ) {
+		$dn = getDn($uid);
+		return !empty($dn);
+	}
+
 }
 
 ?>
