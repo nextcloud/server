@@ -12,6 +12,8 @@
  * @version 0.9
  */
 
+require( 'template.php' );
+
 
 /**
  * Set a constant to indicate that phpMyID is running
@@ -558,9 +560,8 @@ function logout_mode () {
  * @global array $profile
  */
 function no_mode () {
-	global $profile;
-
-	wrap_html('This is an OpenID server endpoint. For more information, see http://openid.net/<br/>Server: <b>' . $profile['idp_url'] . '</b><br/>Realm: <b>' . $profile['php_realm'] . '</b><br/><a href="' . $profile['idp_url'] . '?openid.mode=login">Login</a>' . ($profile['allow_test'] === true ? ' | <a href="' . $profile['idp_url'] . '?openid.mode=test">Test</a>' : null));
+	$tmpl = new OC_TEMPLATE( 'user_openid', 'nomode', 'guest' );
+	$tmpl->printPage();
 }
 
 
