@@ -66,7 +66,7 @@ class OC_USER {
 	public static function getBackends(){
 		return self::$_backends;
 	}
-	
+
 	/**
 	 * @brief gets used backends
 	 * @returns array of backends
@@ -140,11 +140,13 @@ class OC_USER {
 		if( $run ){
 			//create the user in the first backend that supports creating users
 			foreach(self::$_usedBackends as $backend){
-				$result=$backend->createUser($uid,$password);
-				if($result!==OC_USER_BACKEND_NOT_IMPLEMENTED){
-					OC_HOOK::emit( "OC_USER", "post_createUser", array( "uid" => $uid, "password" => $password ));
-					return true;
-				}
+				if(!$backend->implementsActions(OC_USER_BACKEND_CREATE_USER))
+					continue;
+
+				$backend->createUser($uid,$password);
+				OC_HOOK::emit( "OC_USER", "post_createUser", array( "uid" => $uid, "password" => $password ));
+
+				return true;
 			}
 		}
 		return false;
@@ -306,9 +308,8 @@ class OC_USER {
 	public static function getUsers(){
 		$users=array();
 		foreach(self::$_usedBackends as $backend){
-			$result=$backend->getUsers();
-			if($result!=OC_USER_BACKEND_NOT_IMPLEMENTED){
-				$users=array_merge($users,$result);
+			if($backend->implementsActions(OC_USER_BACKEND_GET_USERS)){
+				$users=array_merge($users,$backend->getUsers());
 			}
 		}
 		return $users;
