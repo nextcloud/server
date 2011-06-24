@@ -22,15 +22,24 @@
 */
 
 $USERNAME=substr($_SERVER["REQUEST_URI"],strpos($_SERVER["REQUEST_URI"],'.php/')+5);
-if(strpos($USERNAME,'?')){
+if(strpos($USERNAME,'?')!==false){
 	$USERNAME=substr($USERNAME,0,strpos($USERNAME,'?'));
 }
 
+
+if($USERNAME=='' and isset($_SERVER['PHP_AUTH_USER'])){
+	$USERNAME=$_SERVER['PHP_AUTH_USER'];
+}
+
+$RUNTIME_NOAPPS=true;
+$RUNTIME_NOAPPS=false;
 require_once '../../lib/base.php';
 
 if(!OC_USER::userExists($USERNAME)){
 		$USERNAME='';
 }
+global $WEBROOT;
+$IDENTITY=((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$WEBROOT.'/apps/user_openid/user.php/'.$USERNAME;
 
 require_once 'phpmyid.php';
 

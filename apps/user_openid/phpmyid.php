@@ -198,16 +198,18 @@ function associate_mode () {
 function authorize_mode () {
 	global $profile;
 	global $USERNAME;
+	global $IDENTITY;
 
 	// this is a user session
 
 	// the user needs refresh urls in their session to access this mode
 	if (! isset($_SESSION['post_auth_url']) || ! isset($_SESSION['cancel_auth_url']))
 		error_500('You may not access this mode directly.');
-		
+
+	$profile['idp_url']=$IDENTITY;
 	if (isset($_SERVER['PHP_AUTH_USER']) && $profile['authorized'] === false && $_SERVER['PHP_AUTH_USER']==$USERNAME) {
 		if (OC_USER::checkPassword($USERNAME, $_SERVER['PHP_AUTH_PW'])) {// successful login!
-
+			error_log('success');
 			// return to the refresh url if they get in
 			$_SESSION['openid_auth']=true;
 			$_SESSION['openid_user']=$USERNAME;
@@ -367,7 +369,7 @@ function checkid ( $wait ) {
 	}
 
 	// transfer the user to the url accept mode if they're paranoid
-	if ($wait == 1 && isset($profile['paranoid']) && $profile['paranoid'] === true && (! session_is_registered('accepted_url') || $_SESSION['accepted_url'] != $trust_root)) {
+	if ($wait == 1 && isset($profile['paranoid']) && $profile['paranoid'] === true && (! isset($_SESSION['accepted_url']) || $_SESSION['accepted_url'] != $trust_root)) {
 		$_SESSION['cancel_accept_url'] = $cancel_url;
 		$_SESSION['post_accept_url'] = $profile['req_url'];
 		$_SESSION['unaccepted_url'] = $trust_root;
@@ -381,11 +383,11 @@ function checkid ( $wait ) {
 	}
 	
 	// make sure i am this identifier
-	if ($identity != $profile['idp_url']) {
-		debug("Invalid identity: $identity");
-		debug("IdP URL: " . $profile['idp_url']);
-		error_get($return_to, "Invalid identity: '$identity'");
-	}
+// 	if ($identity != $profile['idp_url']) {
+// 		debug("Invalid identity: $identity");
+// 		debug("IdP URL: " . $profile['idp_url']);
+// 		error_get($return_to, "Invalid identity: '$identity'");
+// 	}
 
 	// begin setting up return keys
 	$keys = array(
@@ -393,9 +395,9 @@ function checkid ( $wait ) {
 	);
 
 	// if the user is not logged in, transfer to the authorization mode
-	if ($_SESSION['openid_auth'] === false || $USERNAME != $_SESSION['openid_user']) {
+	if ($USERNAME=='' || $_SESSION['openid_auth'] === false || $USERNAME != $_SESSION['openid_user']) {
 		// users can only be logged in to one url at a time
-		$_SESSION['auth_username'] = null;
+		$_SESSION['openid_user'] = null;
 		$_SESSION['auth_url'] = null;
 
 		if ($wait) {
@@ -562,6 +564,9 @@ function logout_mode () {
 function no_mode () {
 	global $USERNAME, $profile;
 	$tmpl = new OC_TEMPLATE( 'user_openid', 'nomode', 'guest' );
+	if(substr($profile['req_url'],-1,1)!=='/'){//the identity should always end with a /
+		$profile['req_url'].='/';
+	}
 	$tmpl->addHeader('link',array('rel'=>'openid.server', 'href'=>$profile['req_url']));
 	$tmpl->addHeader('link',array('rel'=>'openid.delegate', 'href'=>$profile['idp_url']));
 	$tmpl->assign('user',$USERNAME);
@@ -1267,11 +1272,11 @@ function secret ( $handle ) {
 	session_start();
 	debug('Started session to acquire key: ' . session_id());
 
-	$secret = session_is_registered('shared_secret')
+	$secret = isset($_SESSION['shared_secret'])
 		? base64_decode($_SESSION['shared_secret'])
 		: false;
 
-	$expiration = session_is_registered('expiration')
+	$expiration = isset($_SESSION['expiration'])
 		? $_SESSION['expiration']
 		: null;
 
@@ -1632,22 +1637,29 @@ $GLOBALS['proto'] = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'h
 // Set the authorization state - DO NOT OVERRIDE
 $profile['authorized'] = false;
 
+global $IDENTITY;
+global $USERNAME;
+
 // Set a default IDP URL
 if (! array_key_exists('idp_url', $profile))
-	$profile['idp_url'] = sprintf("%s://%s%s%s",
-			      $proto,
-			      $_SERVER['SERVER_NAME'],
-			      $port,
-			      $_SERVER['PHP_SELF']);
+	$profile['idp_url'] = $IDENTITY;
 
-// Determine the requested URL - DO NOT OVERRIDE
+//Determine the requested URL - DO NOT OVERRIDE
 $profile['req_url'] = sprintf("%s://%s%s",
 		      $proto,
 		      $_SERVER['HTTP_HOST'],
 // 		      $port,//host  already includes the path
 		      $_SERVER["REQUEST_URI"]);
 
-error_log($profile['req_url']);
+$fullId=urlencode('.php/'.$USERNAME);
+$incompleteId=urlencode('.php/');
+
+if(!strpos($profile['req_url'],$fullId)){
+	$profile['req_url']=str_replace($incompleteId,$fullId,$profile['req_url']);
+}
+
+error_log('inc id: '.$fullId);
+error_log('req url: '.$profile['req_url']);
 
 // Set the default allowance for testing
 if (! array_key_exists('allow_test', $profile))

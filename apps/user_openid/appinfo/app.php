@@ -5,6 +5,10 @@ if (!in_array ('curl', get_loaded_extensions())){
 	return;
 }
 
+$urlBase=((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'];
+OC_UTIL::addHeader('link',array('rel'=>'openid.server', 'href'=>$urlBase.OC_HELPER::linkTo( "user_openid", "user.php" ).'/'));
+OC_UTIL::addHeader('link',array('rel'=>'openid.delegate', 'href'=>$urlBase.OC_HELPER::linkTo( "user_openid", "user.php" ).'/'));
+
 require_once 'apps/user_openid/user_openid.php';
 
 OC_APP::addSettingsPage( array( "id" => "user_openid_settings", 'order'=>1, "href" => OC_HELPER::linkTo( "user_openid", "settings.php" ), "name" => "OpenID"));
