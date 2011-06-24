@@ -206,9 +206,6 @@ class OC_TEMPLATE{
 				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
 				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
 				$page->assign('searchbox', $search->fetchPage());
-				
-				// Add custom headers
-				$page->assign('headers',$this->headers);
 
 				// Add navigation entry
 				$page->assign( "navigation", OC_APP::getNavigation());
@@ -220,9 +217,6 @@ class OC_TEMPLATE{
 				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
 				$page->assign('searchbox', $search->fetchPage());
 				
-				// Add custom headers
-				$page->assign('headers',$this->headers);
-				
 				// Add menu data
 				if( OC_GROUP::inGroup( $_SESSION["user_id"], "admin" )){
 					$page->assign( "adminnavigation", OC_APP::getAdminNavigation());
@@ -232,8 +226,6 @@ class OC_TEMPLATE{
 			else
 			{
 				$page = new OC_TEMPLATE( "core", "layout.guest" );
-				// Add custom headers
-				$page->assign('headers',$this->headers);
 			}
 
 			// Add the css and js files
@@ -259,7 +251,13 @@ class OC_TEMPLATE{
 					$page->append( "cssfiles", "$WEBROOT/core/$style.css" );
 				}
 			}
-
+			
+			// Add custom headers
+			$page->assign('headers',$this->headers);
+			foreach(OC_UTIL::$headers as $header){
+				$page->append('headers',$header);
+			}
+			
 			// Add css files and js files
 			$page->assign( "content", $data );
 			return $page->fetchPage();

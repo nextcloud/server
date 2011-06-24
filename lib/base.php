@@ -120,6 +120,7 @@ if(!$error and !$RUNTIME_NOAPPS ){
 class OC_UTIL {
 	public static $scripts=array();
 	public static $styles=array();
+	public static $headers=array();
 	private static $fsSetup=false;
 
 	// Can be set up
@@ -229,6 +230,16 @@ class OC_UTIL {
 		}else{
 			self::$styles[] = "css/$file";
 		}
+	}
+
+	/**
+	 * @brief Add a custom element to the header
+	 * @param string tag tag name of the element
+	 * @param array $attributes array of attrobutes for the element
+	 * @param string $text the text content for the element
+	 */
+	public static function addHeader( $tag, $attributes, $text=''){
+		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
 	}
 
        /**
