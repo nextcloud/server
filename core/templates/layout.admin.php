@@ -13,6 +13,18 @@
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
 		<?php endforeach; ?>
+		<?php foreach($_['headers'] as $header): ?>
+			<?php
+				echo '<'.$header['tag'].' ';
+				foreach($header['attributes'] as $name=>$value){
+					echo "$name='$value' ";
+				};
+				echo '>';
+				echo $header['text'];
+				echo '</'.$header['tag'].'>';
+			?>
+			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
+		<?php endforeach; ?>
 	</head>
 
 	<body id="body-settings">
