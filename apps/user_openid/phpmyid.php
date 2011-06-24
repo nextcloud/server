@@ -560,8 +560,10 @@ function logout_mode () {
  * @global array $profile
  */
 function no_mode () {
-	global $USERNAME;
+	global $USERNAME, $profile;
 	$tmpl = new OC_TEMPLATE( 'user_openid', 'nomode', 'guest' );
+	$tmpl->addHeader('link',array('rel'=>'openid.server', 'href'=>$profile['req_url']));
+	$tmpl->addHeader('link',array('rel'=>'openid.delegate', 'href'=>$profile['idp_url']));
 	$tmpl->assign('user',$USERNAME);
 	$tmpl->printPage();
 }
