@@ -29,11 +29,12 @@ class OC_HELPER {
 	 * @brief Creates an url
 	 * @param $app app
 	 * @param $file file
+	 * @param $redirect_url redirect_url variable is appended to the URL
 	 * @returns the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public static function linkTo( $app, $file ){
+	public static function linkTo( $app, $file , $redirect_url=NULL ){
 		global $WEBROOT;
 		global $SERVERROOT;
 		
@@ -41,20 +42,26 @@ class OC_HELPER {
 			$app .= '/';
 			// Check if the app is in the app folder
 			if( file_exists( $SERVERROOT . '/apps/'. $app.$file )){
-				return $WEBROOT . '/apps/' . $app . $file;
+				$urlLinkTo =  $WEBROOT . '/apps/' . $app . $file;
 			}
 			else{
-				return $WEBROOT . '/' . $app . $file;
+				$urlLinkTo =  $WEBROOT . '/' . $app . $file;
 			}
 		}
 		else{
 			if( file_exists( $SERVERROOT . '/core/'. $file )){
-				return $WEBROOT . '/core/'.$file;
+				$urlLinkTo =  $WEBROOT . '/core/'.$file;
 			}
 			else{
-				return $WEBROOT . '/'.$file;
+				$urlLinkTo =  $WEBROOT . '/'.$file;
 			}
 		}
+
+		if($redirect_url)
+			return $urlLinkTo.'?redirect_url='.$redirect_url;
+		else
+			return $urlLinkTo;
+
 	}
 
 	/**
