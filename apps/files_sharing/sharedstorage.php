@@ -151,7 +151,8 @@ class OC_FILESTORAGE_SHARED {
 		if ($path == "" || $path == "/") {
 			$dbpath = $_SESSION['user_id']."/files/Share/";
 		} else {
-			$dbpath = substr(OC_SHARE::getSource($path), 1);
+			$source = OC_SHARE::getSource($path);
+			$dbpath = $this->getInternalPath($source);
 		}
 		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
 		$size = $query->execute(array($dbpath))->fetchAll();
@@ -166,7 +167,7 @@ class OC_FILESTORAGE_SHARED {
 		$size = 0;
 		if ($dh = $this->opendir($path)) {
 			while (($filename = readdir($dh)) != false) {
-				if ($this->is_file($filename)){
+				if ($this->is_file($filename)) {
 					$size += $this->filesize($filename);
 				} else {
 					$size += $this->getFolderSize($filename);
