@@ -81,9 +81,16 @@ class OC_SHARE {
 	 * @return source path
 	 */
 	public static function getSource($target) {
+		// Break up the $target to get only the first part in case it is inside a folder
+		$parts = explode("/", $target);
 		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
-		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
-		return $result[0]['source'];
+		$result = $query->execute(array($parts[0], $_SESSION['user_id']))->fetchAll();
+		$source = $result[0]['source'];
+		// Add the $parts back in
+		foreach (array_slice($parts, 1) as $part) {
+			$source .= $part;
+		}
+		return $source;
 	}
 	
 	/**

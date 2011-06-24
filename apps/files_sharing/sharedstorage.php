@@ -58,15 +58,22 @@ class OC_FILESTORAGE_SHARED {
 		}
 	}
 	
-	// TODO add all files from db in array
 	public function opendir($path) {
-		global $FAKEDIRS;
-		$sharedItems = OC_SHARE::getItemsSharedWith();
-		foreach ($sharedItems as $item) {
-			$files[] = $item['target'];
+		if ($path == "" || $path == "/") {
+			global $FAKEDIRS;
+			$sharedItems = OC_SHARE::getItemsSharedWith();
+			foreach ($sharedItems as $item) {
+				$files[] = $item['target'];
+			}
+			$FAKEDIRS['shared'] = $files;
+			return opendir('fakedir://shared');
+		} else {
+			$source = OC_SHARE::getSource($path);
+			if ($source) {
+				$storage = OC_FILESYSTEM::getStorage($source);
+				return $storage->opendir($this->getInternalPath($source));
+			}
 		}
-		$FAKEDIRS['shared'] = $files;
-		return opendir('fakedir://shared');
 	}
 	
 	public function is_dir($path) {
@@ -144,7 +151,7 @@ class OC_FILESTORAGE_SHARED {
 		if ($path == "" || $path == "/") {
 			$dbpath = $_SESSION['user_id']."/files/Share/";
 		} else {
-			$dbpath = $path;
+			$dbpath = substr(OC_SHARE::getSource($path), 1);
 		}
 		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
 		$size = $query->execute(array($dbpath))->fetchAll();
