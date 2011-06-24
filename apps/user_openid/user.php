@@ -28,6 +28,10 @@ if(strpos($USERNAME,'?')){
 
 require_once '../../lib/base.php';
 
+if(!OC_USER::userExists($USERNAME)){
+		$USERNAME='';
+}
+
 require_once 'phpmyid.php';
 
 

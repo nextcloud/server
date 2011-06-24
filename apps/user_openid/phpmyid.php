@@ -560,7 +560,9 @@ function logout_mode () {
  * @global array $profile
  */
 function no_mode () {
+	global $USERNAME;
 	$tmpl = new OC_TEMPLATE( 'user_openid', 'nomode', 'guest' );
+	$tmpl->assign('user',$USERNAME);
 	$tmpl->printPage();
 }
 
@@ -1669,7 +1671,7 @@ if (! array_key_exists('auth_domain', $profile))
 
 // Set a default authentication realm
 if (! array_key_exists('auth_realm', $profile))
-	$profile['auth_realm'] = 'phpMyID';
+	$profile['auth_realm'] = 'ownCloud';
 
 // Determine the realm for digest authentication - DO NOT OVERRIDE
 $profile['php_realm'] = $profile['auth_realm'] . (ini_get('safe_mode') ? '-' . getmyuid() : '');
