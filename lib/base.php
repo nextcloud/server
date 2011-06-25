@@ -35,7 +35,11 @@ $SERVERROOT=substr(__FILE__,0,-13);
 $DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 $SERVERROOT=str_replace("\\",'/',$SERVERROOT);
 $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
-$WEBROOT=substr($_SERVER["SCRIPT_NAME"],0,strlen($_SERVER["SCRIPT_NAME"])-strlen($SUBURI));
+$scriptName=$_SERVER["SCRIPT_NAME"];
+if(substr($scriptName,-1)=='/'){//if the script isn't a file assume index.php
+  $scriptName.='index.php';
+}
+$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen($SUBURI));
 
 
 
