@@ -78,23 +78,34 @@ class OC_SHARE {
 	
 	/**
 	 * Get the source location of the target item
+	 * @param $target
 	 * @return source path
 	 */
 	public static function getSource($target) {
-		// Break up the $target to get only the first part in case it is inside a folder
-		$parts = explode("/", $target);
 		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
-		$result = $query->execute(array($parts[0], $_SESSION['user_id']))->fetchAll();
+		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
 		if (count($result) > 0) {
-			$source = $result[0]['source'];
-			// Add the $parts back in
-			foreach (array_slice($parts, 1) as $part) {
-				$source .= $part;
-			}
-			return $source;
+			return $result[0]['source'];
 		} else {
-			return false;
+			// Check if the directory above this target is shared
+			$parentDir = substr($target, 0, strrpos($target, "/"));
+			if ($parentDir) {
+				$result = OC_SHARE::getSource($parentDir);
+				return $result.substr($target, strrpos($target, "/"));
+			} else {
+				return false;
+			}
 		}
+	}
+	
+	/**
+	 * Set the target location to a new value
+	 * @param $oldTarget The current target location
+	 * @param $newTarget The new target location 
+	 */
+	public static function setTarget($oldTarget, $newTarget) {
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = ? WHERE target = ? AND uid_shared_with = ?");
+		$query->execute(array($newTarget, $oldTarget, $_SESSION['user_id']));
 	}
 	
 	/**
