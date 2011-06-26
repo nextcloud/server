@@ -88,10 +88,10 @@ class OC_SHARE {
 			return $result[0]['source'];
 		} else {
 			// Check if the directory above this target is shared
-			$parentDir = substr($target, 0, strrpos($target, "/"));
+			$parentDir = dirname($target);
 			if ($parentDir) {
 				$result = OC_SHARE::getSource($parentDir);
-				return $result.substr($target, strrpos($target, "/"));
+				return $result."/".basename($target);
 			} else {
 				return false;
 			}
