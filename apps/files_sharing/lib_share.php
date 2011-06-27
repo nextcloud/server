@@ -87,11 +87,15 @@ class OC_SHARE {
 		if (count($result) > 0) {
 			return $result[0]['source'];
 		} else {
-			// Check if the directory above this target is shared
+			// Check if the parent directory of this target is shared
 			$parentDir = dirname($target);
-			if ($parentDir) {
+			if ($parentDir != ".") {
 				$result = OC_SHARE::getSource($parentDir);
-				return $result."/".basename($target);
+				if ($result) {
+					return $result."/".basename($target);
+				} else {
+					return false;
+				}
 			} else {
 				return false;
 			}
