@@ -29,6 +29,8 @@ OC_FILESYSTEM::registerStorageType('shared','OC_FILESTORAGE_SHARED',array('datad
  */
 class OC_FILESTORAGE_SHARED {
 	
+	private $sourcePaths = array();
+	
 	// TODO uh... I don't know what to do here
 	public function __construct($parameters) {
 		
@@ -36,13 +38,24 @@ class OC_FILESTORAGE_SHARED {
 	
 	public function getInternalPath($path) {
 		$mountPoint = OC_FILESYSTEM::getMountPoint($path);
-		$internalPath = substr($path,strlen($mountPoint));
+		$internalPath = substr($path, strlen($mountPoint));
 		return $internalPath;
+	}
+	
+	public function getSource($target) {
+		print_r($this->sourcePaths);
+		if (array_key_exists($target, $this->sourcePaths)) {
+			return $this->sourcePaths[$target];
+		} else {
+			$source = OC_SHARE::getSource($target);
+			$this->sourcePaths[$target] = $source;
+			return $source;
+		}
 	}
 	
 	// TODO OC_SHARE::getPermissions()
 	public function mkdir($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->mkdir($this->getInternalPath($source));
@@ -51,7 +64,7 @@ class OC_FILESTORAGE_SHARED {
 	
 	// TODO OC_SHARE::getPermissions()
 	public function rmdir($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->rmdir($this->getInternalPath($source));
@@ -68,7 +81,7 @@ class OC_FILESTORAGE_SHARED {
 			$FAKEDIRS['shared'] = $files;
 			return opendir('fakedir://shared');
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->opendir($this->getInternalPath($source));
@@ -80,7 +93,7 @@ class OC_FILESTORAGE_SHARED {
 		if ($path == "" || $path == "/") {
 			return true;
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->is_dir($this->getInternalPath($source));
@@ -89,7 +102,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function is_file($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->is_file($this->getInternalPath($source));
@@ -114,7 +127,7 @@ class OC_FILESTORAGE_SHARED {
 			$stat["blocks"] = "";
 			return $stat;
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->stat($this->getInternalPath($source));
@@ -126,7 +139,7 @@ class OC_FILESTORAGE_SHARED {
 		if ($path == "" || $path == "/") {
 			return "dir";
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->filetype($this->getInternalPath($source));
@@ -139,7 +152,7 @@ class OC_FILESTORAGE_SHARED {
 		if ($path == "" || $path == "/" || $this->is_dir($path)) {
 			return $this->getFolderSize($path);
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->filesize($this->getInternalPath($source));
@@ -148,10 +161,11 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function getFolderSize($path) {
+		return 10000;
 		if ($path == "" || $path == "/") {
 			$dbpath = $_SESSION['user_id']."/files/Share/";
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			$dbpath = $this->getInternalPath($source);
 		}
 		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
@@ -164,20 +178,31 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function calculateFolderSize($path) {
+		if ($this->is_file($path)) {
+			$path = dirname($path);
+		}
+		$path = str_replace("//", "/", $path);
+		if ($this->is_dir($path) && substr($path, -1) != "/") {
+			$path .= "/";
+		}
 		$size = 0;
 		if ($dh = $this->opendir($path)) {
-			while (($filename = readdir($dh)) != false) {
-				if ($this->is_file($filename)) {
-					$size += $this->filesize($filename);
-				} else {
-					$size += $this->getFolderSize($filename);
+			while (($filename = readdir($dh)) !== false) {
+				if ($filename != "." && $filename != "..") {
+					$subFile = $path.$filename;
+					if ($this->is_file($subFile)) {
+						$size += $this->filesize($subFile);
+					} else {
+						$size += $this->getFolderSize($subFile);
+					}
 				}
 			}
 			if ($size > 0) {
 				if ($path == "" || $path == "/") {
 					$dbpath = $_SESSION['user_id']."/files/Share/";
 				} else {
-					$dbpath = $path;
+					$source = $this->getSource($path);
+					$dbpath = $this->getInternalPath($source);
 				}
 				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
 				$result = $query->execute(array($dbpath, $size));
@@ -191,7 +216,7 @@ class OC_FILESTORAGE_SHARED {
 		if ($path == "" || $path == "/") {
 			return true;
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->is_readable($this->getInternalPath($source));
@@ -204,7 +229,7 @@ class OC_FILESTORAGE_SHARED {
 		if ($path == "" || $path == "/") {
 			return true;
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->is_writeable($this->getInternalPath($source));
@@ -216,7 +241,7 @@ class OC_FILESTORAGE_SHARED {
 		if ($path == "" || $path == "/") {
 			return true;
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->file_exists($this->getInternalPath($source));
@@ -225,7 +250,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function readfile($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->readfile($this->getInternalPath($source));
@@ -244,7 +269,7 @@ class OC_FILESTORAGE_SHARED {
 			}
 			return $ctime;
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->filectime($this->getInternalPath($source));
@@ -264,7 +289,7 @@ class OC_FILESTORAGE_SHARED {
 			}
 			return $mtime;
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->filemtime($this->getInternalPath($source));
@@ -284,7 +309,7 @@ class OC_FILESTORAGE_SHARED {
 			}
 			return $atime;
 		} else {
-			$source = OC_SHARE::getSource($path);
+			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				return $storage->fileatime($this->getInternalPath($source));
@@ -293,7 +318,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function file_get_contents($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->file_get_contents($this->getInternalPath($source));
@@ -302,7 +327,7 @@ class OC_FILESTORAGE_SHARED {
 	
 	// TODO OC_SHARE::getPermissions()
 	public function file_put_contents($path, $data) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->file_put_contents($this->getInternalPath($source), $data);
@@ -310,7 +335,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function unlink($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->unlink($this->getInternalPath($source));
@@ -320,7 +345,7 @@ class OC_FILESTORAGE_SHARED {
 	// TODO OC_SHARE::getPermissions()
 	// TODO Update shared item location
 	public function rename($path1, $path2) {
-		$source = OC_SHARE::getSource($path1);
+		$source = $this->getSource($path1);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->rename($this->getInternalPath($source), $path2);
@@ -328,7 +353,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function copy($path1, $path2) {
-		$source = OC_SHARE::getSource($path1);
+		$source = $this->getSource($path1);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->copy($this->getInternalPath($source), $path2);
@@ -336,7 +361,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function fopen($path, $mode) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->fopen($this->getInternalPath($source), $mode);
@@ -344,7 +369,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function toTmpFile($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->toTmpFile($this->getInternalPath($source));
@@ -352,7 +377,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function fromTmpFile($tmpPath, $path) {
-		$source = OC_SHARE::getSource($tmpPath);
+		$source = $this->getSource($tmpPath);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->fromTmpFile($this->getInternalPath($source), $path);
@@ -360,7 +385,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function fromUploadedFile($tmpPath, $path) {
-		$source = OC_SHARE::getSource($tmpPath);
+		$source = $this->getSource($tmpPath);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->fromUploadedFile($this->getInternalPath($source), $path);
@@ -368,7 +393,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function getMimeType($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->getMimeType($this->getInternalPath($source));
@@ -376,7 +401,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function delTree($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->delTree($this->getInternalPath($source));
@@ -384,7 +409,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function find($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->find($this->getInternalPath($source));
@@ -392,7 +417,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function getTree($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->getTree($this->getInternalPath($source));
@@ -400,7 +425,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function hash($type, $path, $raw) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->hash($type, $this->getInternalPath($source), $raw);
@@ -408,7 +433,7 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function free_space($path) {
-		$source = OC_SHARE::getSource($path);
+		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_FILESYSTEM::getStorage($source);
 			return $storage->free_space($this->getInternalPath($source));
