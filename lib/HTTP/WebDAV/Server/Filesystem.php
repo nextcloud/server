@@ -687,9 +687,14 @@ VALUES (?,?,?,?,?,'timeout',?,?)");
     function UNLOCK(&$options)
     {
             $query = OC_DB::prepare("DELETE FROM *PREFIX*locks
+                      WHERE path = '$options[path]'
+                        AND token = '$options[token]'");
+	    /*
+	    $query = OC_DB::prepare("DELETE FROM *PREFIX*locks
                       WHERE path = ?
                         AND token = ?");
-            $query->execute(array($options[path]),$options[token]);
+	    */
+            $query->execute();#array($options[path]),$options[token]);
 			return PEAR::isError($result) ? "409 Conflict" : "204 No Content";
     }
 
