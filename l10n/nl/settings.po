@@ -23,7 +23,7 @@ msgstr "Gebruikersgegevens"
 
 #: ../templates/index.php:5
 msgid "You're currently using"
-msgstr "Je gebruikt momenteel"
+msgstr "U gebruikt momenteel"
 
 #: ../templates/index.php:5
 msgid "of your"
@@ -39,7 +39,7 @@ msgstr "Wachtwoord aanpassen"
 
 #: ../templates/index.php:12
 msgid "Your password got changed"
-msgstr "Je wachtwoord is aangepast"
+msgstr "Uw wachtwoord is aangepast"
 
 #: ../templates/index.php:15
 msgid "Old password:"
@@ -63,7 +63,7 @@ msgstr "Authenticatiefout."
 
 #: ../ajax/changepassword.php:19
 msgid "You have to enter the old and the new password!"
-msgstr "Je moet het oude en nieuwe wachtwoord invullen."
+msgstr "U moet het oude en nieuwe wachtwoord invullen."
 
 #: ../ajax/changepassword.php:25
 msgid "Your old password is wrong!"

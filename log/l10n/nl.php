@@ -9,6 +9,6 @@
 "Show:" => "Laat",
 "entries per page." => "resulaten per pagina zien",
 "What" => "Wat",
-"When" => "Waneer",
-"Clear log entries before" => "Verwijder logboek element ouder dan"
+"When" => "Wanneer",
+"Clear log entries before" => "Verwijder logboekitem ouder dan"
 );

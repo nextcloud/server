@@ -23,7 +23,7 @@ msgstr "Fout 404, Cloud niet gevonden."
 
 #: ../templates/installation.php:6
 msgid "Welcome to <strong>ownCloud</strong>, your personnal cloud."
-msgstr "Welkom by <strong>ownCloud</strong>, jouw persoonlijke cloud"
+msgstr "Welkom by <strong>ownCloud</strong>, uw persoonlijke cloud"
 
 #: ../templates/installation.php:7
 msgid "To finish the installation, please follow the steps below."
@@ -31,7 +31,7 @@ msgstr "Volg de volgende stappen om de installatie te voltooien."
 
 #: ../templates/installation.php:26
 msgid "Create an <strong>admin account.</strong>"
-msgstr "Maak een <strong>administrator account</strong> aan"
+msgstr "Maak een <strong>beheerdersaccount</strong> aan"
 
 #: ../templates/installation.php:27
 msgid "Login:"
@@ -47,7 +47,7 @@ msgstr "Geavanceerd"
 
 #: ../templates/installation.php:34
 msgid "Set where to store the data."
-msgstr "Bepaal waar de gegevens opgeslagen moeten woorden."
+msgstr "Bepaal de opslaglocatie."
 
 #: ../templates/installation.php:35
 msgid "Data directory:"
@@ -55,11 +55,11 @@ msgstr "Gegevensmap:"
 
 #: ../templates/installation.php:39
 msgid "Configure your database."
-msgstr "Stel je database in."
+msgstr "Configureer uw database."
 
 #: ../templates/installation.php:43
 msgid "I will use a SQLite database. You have nothing to do!"
-msgstr "Er zan een SQLite database gebruikt woorden, je hoeft niks in te stellen."
+msgstr "Er zal een SQLite database gebruikt worden. U hoeft geen verdere instellingen te maken."
 
 #: ../templates/installation.php:46
 msgid "SQLite"
@@ -67,7 +67,7 @@ msgstr "SQLite"
 
 #: ../templates/installation.php:53
 msgid "I will use a MySQL database."
-msgstr "Er zal een MySQL database gebruikt woorden."
+msgstr "Er zal een MySQL database gebruikt worden."
 
 #: ../templates/installation.php:59
 msgid "Host:"
@@ -99,7 +99,7 @@ msgid ""
 "on your own server.</p>"
 msgstr ""
 "<a href=\"http://owncloud.org/\">ownCloud</a> is een persoonlijke cloud die "
-"op je eigen server draait.</p>"
+"op uw eigen server draait.</p>"
 
 #: ../templates/login.php:6
 msgid "Login failed!"
@@ -107,7 +107,7 @@ msgstr "Aanmelden mislukt."
 
 #: ../templates/logout.php:1
 msgid "You are logged out."
-msgstr "Je bent afgemeld."
+msgstr "U bent afgemeld."
 
 #: ../templates/part.pagenavi.php:6
 msgid "prev"

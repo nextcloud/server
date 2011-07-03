@@ -84,9 +84,9 @@ msgstr "Ok"
 
 #: ../templates/users.php:102
 msgid "Do you really want to delete user"
-msgstr "Weet je zeker dat je deze gebruiker wil verwijderen"
+msgstr "Wilt u deze gebruiker verwijderen"
 
 #: ../templates/users.php:109
 msgid "Do you really want to delete group"
-msgstr "Weet je zeker dat je deze groep wil verwijderen"
+msgstr "Wilt u deze groep verwijderen"
 
