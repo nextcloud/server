@@ -59,9 +59,9 @@ msgstr "Wat"
 
 #: ../templates/index.php:27
 msgid "When"
-msgstr "Waneer"
+msgstr "Wanneer"
 
 #: ../templates/index.php:45
 msgid "Clear log entries before"
-msgstr "Verwijder logboek element ouder dan"
+msgstr "Verwijder logboekitem ouder dan"
 

@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../templates/index.php:3
 msgid "Account information"
-msgstr "Gebruiks gegevens"
+msgstr "Gebruikersgegevens"
 
 #: ../templates/index.php:5
 msgid "You're currently using"
@@ -59,7 +59,7 @@ msgstr "Taal"
 
 #: ../ajax/changepassword.php:13 ../ajax/setlanguage.php:13
 msgid "Authentication error"
-msgstr "Authenticatie fout."
+msgstr "Authenticatiefout."
 
 #: ../ajax/changepassword.php:19
 msgid "You have to enter the old and the new password!"
@@ -75,7 +75,7 @@ msgstr "Wachtwoord aangepast"
 
 #: ../ajax/changepassword.php:34
 msgid "Unable to change password"
-msgstr "Wachtwoord aanpassen is niet mogenlijk"
+msgstr "Wachtwoord aanpassen is niet mogelijk"
 
 #: ../ajax/setlanguage.php:21
 msgid "Language changed"
@@ -83,4 +83,4 @@ msgstr "Taal aangepast"
 
 #: ../ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr "Ongeldige aanvraag"
+msgstr "Ongeldig verzoek"

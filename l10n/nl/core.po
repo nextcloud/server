@@ -27,11 +27,11 @@ msgstr "Welkom by <strong>ownCloud</strong>, jouw persoonlijke cloud"
 
 #: ../templates/installation.php:7
 msgid "To finish the installation, please follow the steps below."
-msgstr "Volg de volgende stappen om de instalatie af te ronden."
+msgstr "Volg de volgende stappen om de installatie te voltooien."
 
 #: ../templates/installation.php:26
 msgid "Create an <strong>admin account.</strong>"
-msgstr "Maak een <strong>administrator account.</strong> aan"
+msgstr "Maak een <strong>administrator account</strong> aan"
 
 #: ../templates/installation.php:27
 msgid "Login:"
@@ -51,16 +51,15 @@ msgstr "Bepaal waar de gegevens opgeslagen moeten woorden."
 
 #: ../templates/installation.php:35
 msgid "Data directory:"
-msgstr "Gegevens map:"
+msgstr "Gegevensmap:"
 
 #: ../templates/installation.php:39
 msgid "Configure your database."
-msgstr "Stel de database in."
+msgstr "Stel je database in."
 
 #: ../templates/installation.php:43
 msgid "I will use a SQLite database. You have nothing to do!"
-msgstr ""
-"Er zan een SQLite database gebruikt woorden, je hoeft niks in te stellen."
+msgstr "Er zan een SQLite database gebruikt woorden, je hoeft niks in te stellen."
 
 #: ../templates/installation.php:46
 msgid "SQLite"
@@ -76,15 +75,15 @@ msgstr "Host:"
 
 #: ../templates/installation.php:60
 msgid "Database name:"
-msgstr "Database naam:"
+msgstr "Databasenaam:"
 
 #: ../templates/installation.php:61
 msgid "Table prefix:"
-msgstr "Voorvoegsel voor tabelnaamen:"
+msgstr "Voorvoegsel voor tabelnamen:"
 
 #: ../templates/installation.php:62
 msgid "MySQL user login:"
-msgstr "MySQL gebruikers naam."
+msgstr "MySQL gebruikersnaam."
 
 #: ../templates/installation.php:63
 msgid "MySQL user password:"
@@ -92,7 +91,7 @@ msgstr "MySQL wachtwoord"
 
 #: ../templates/installation.php:68
 msgid "Finish setup"
-msgstr "Instalatie afronden"
+msgstr "Installatie afronden"
 
 #: ../templates/layout.guest.php:20
 msgid ""
@@ -108,7 +107,7 @@ msgstr "Aanmelden mislukt."
 
 #: ../templates/logout.php:1
 msgid "You are logged out."
-msgstr "Je bent afgemend."
+msgstr "Je bent afgemeld."
 
 #: ../templates/part.pagenavi.php:6
 msgid "prev"

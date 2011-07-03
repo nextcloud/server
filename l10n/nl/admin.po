@@ -23,15 +23,15 @@ msgstr "Meer informatie"
 
 #: ../templates/app.php:24
 msgid "INSTALL"
-msgstr "Instaleer"
+msgstr "Installeer"
 
 #: ../templates/app_noconn.php:6 ../templates/apps.php:6
 msgid "Apps Repository"
-msgstr "Applicatie Database"
+msgstr "Applicatiedatabase"
 
 #: ../templates/app_noconn.php:7
 msgid "Cannot connect to apps repository"
-msgstr "Kan geen verbinding maken met de applicatie database"
+msgstr "Kan geen verbinding maken met de applicatiedatabase"
 
 #: ../templates/apps.php:13 ../templates/users.php:6 ../templates/users.php:20
 #: ../templates/users.php:50
@@ -48,7 +48,7 @@ msgstr "Administratie"
 
 #: ../templates/system.php:7
 msgid "System Settings"
-msgstr "Systeem Instellingen"
+msgstr "Systeeminstellingen"
 
 #: ../templates/users.php:7 ../templates/users.php:46
 msgid "Groups"
@@ -56,7 +56,7 @@ msgstr "Groepen"
 
 #: ../templates/users.php:13
 msgid "Add user"
-msgstr "Voeg gebruiker toe"
+msgstr "Gebruiker toevoegen"
 
 #: ../templates/users.php:21
 msgid "Password"
@@ -64,7 +64,7 @@ msgstr "Wachtwoord"
 
 #: ../templates/users.php:30
 msgid "Create user"
-msgstr "Maak gebruiker aan"
+msgstr "Gebruiker aanmaken"
 
 #: ../templates/users.php:40 ../templates/users.php:68
 msgid "remove"
@@ -72,7 +72,7 @@ msgstr "verwijder"
 
 #: ../templates/users.php:58
 msgid "Create group"
-msgstr "Maak groep aan"
+msgstr "Groep aanmaken"
 
 #: ../templates/users.php:94
 msgid "Force new password:"
