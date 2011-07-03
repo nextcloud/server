@@ -82,7 +82,7 @@ class OC_SHARE {
 	 * @return source path
 	 */
 	public static function getSource($target) {
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
 		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['source'];
