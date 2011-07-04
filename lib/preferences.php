@@ -139,10 +139,12 @@ class OC_PREFERENCES{
 	 */
 	public static function setValue( $user, $app, $key, $value ){
 		// Check if the key does exist
-		$exists = self::getValue( $user, $app, $key, null );
+		$query = OC_DB::prepare( 'SELECT configvalue FROM *PREFIX*preferences WHERE userid = ? AND appid = ? AND configkey = ?' );
+		$values=$query->execute(array($user,$app,$key))->fetchAll();
+		error_log(print_r($values,true));
+		$exists=(count($values)>0);
 
-		// null: does not exist. Insert.
-		if( is_null( $exists )){
+		if( !$exists ){
 			$query = OC_DB::prepare( 'INSERT INTO *PREFIX*preferences ( userid, appid, configkey, configvalue ) VALUES( ?, ?, ?, ? )' );
 			$query->execute( array( $user, $app, $key, $value ));
 		}

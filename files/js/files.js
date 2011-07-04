@@ -51,7 +51,8 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#file_newfolder_submit').click(function() {
+	$('#file_newfolder_form').submit(function(event) {
+		event.preventDefault();
 		$.ajax({
 			url: 'ajax/newfolder.php',
 			data: "dir="+$('#dir').val()+"&foldername="+$('#file_newfolder_name').val(),

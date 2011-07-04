@@ -73,8 +73,10 @@ function human_file_size( $bytes ){
 class OC_TEMPLATE{
 	private $renderas; // Create a full page?
 	private $application; // template Application
-	private $vars; // The smarty object
-	private $template; // The smarty object
+	private $vars; // Vars
+	private $template; // The path to the template
+	private $l10n; // The l10n-Object
+	private $headers=array(); //custom headers
 
 	/**
 	 * @brief Constructor
@@ -94,8 +96,8 @@ class OC_TEMPLATE{
 		global $SERVERROOT;
 
 		// Get the right template folder
-		$template = "$SERVERROOT/templates/";
-		if( $app != "core" && $app != "" ){
+		$template = "$SERVERROOT/core/templates/";
+		if( $app != "" ){
 			// Check if the app is in the app folder
 			if( file_exists( "$SERVERROOT/apps/$app/templates/" )){
 				$template = "$SERVERROOT/apps/$app/templates/";
@@ -113,6 +115,7 @@ class OC_TEMPLATE{
 		$this->application = $app;
 		$this->template = $template;
 		$this->vars = array();
+		$this->l10n = new OC_L10N($app);
 	}
 
 	/**
@@ -148,6 +151,16 @@ class OC_TEMPLATE{
 		else{
 			$this->vars[$key] = array( $value );
 		}
+	}
+	
+	/**
+	 * @brief Add a custom element to the header
+	 * @param string tag tag name of the element
+	 * @param array $attributes array of attrobutes for the element
+	 * @param string $text the text content for the element
+	 */
+	public function addHeader( $tag, $attributes, $text=''){
+		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
 	}
 
 	/**
@@ -193,7 +206,6 @@ class OC_TEMPLATE{
 				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
 				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
 				$page->assign('searchbox', $search->fetchPage());
-				// Add menu data
 
 				// Add navigation entry
 				$page->assign( "navigation", OC_APP::getNavigation());
@@ -204,34 +216,48 @@ class OC_TEMPLATE{
 				$search=new OC_TEMPLATE( 'core', 'part.searchbox');
 				$search->assign('searchurl',OC_HELPER::linkTo( 'search', 'index.php' ));
 				$page->assign('searchbox', $search->fetchPage());
+				
 				// Add menu data
 				if( OC_GROUP::inGroup( $_SESSION["user_id"], "admin" )){
-					$page->assign( "settingsnavigation", OC_APP::getSettingsNavigation());
+					$page->assign( "adminnavigation", OC_APP::getAdminNavigation());
 				}
-				$page->assign( "adminnavigation", OC_APP::getAdminNavigation());
+				$page->assign( "settingsnavigation", OC_APP::getSettingsNavigation());
 			}
 			else
 			{
 				$page = new OC_TEMPLATE( "core", "layout.guest" );
-				// Add data if required
 			}
 
 			// Add the css and js files
 			foreach(OC_UTIL::$scripts as $script){
 				if(is_file("$SERVERROOT/apps/$script.js" )){
 					$page->append( "jsfiles", "$WEBROOT/apps/$script.js" );
-				}else{
+				}
+				elseif(is_file("$SERVERROOT/$script.js" )){
 					$page->append( "jsfiles", "$WEBROOT/$script.js" );
+				}
+				else{
+					$page->append( "jsfiles", "$WEBROOT/core/$script.js" );
 				}
 			}
 			foreach(OC_UTIL::$styles as $style){
 				if(is_file("$SERVERROOT/apps/$style.css" )){
 					$page->append( "cssfiles", "$WEBROOT/apps/$style.css" );
-				}else{
+				}
+				elseif(is_file("$SERVERROOT/$style.css" )){
 					$page->append( "cssfiles", "$WEBROOT/$style.css" );
 				}
+				else{
+					$page->append( "cssfiles", "$WEBROOT/core/$style.css" );
+				}
 			}
-
+			
+			// Add custom headers
+			$page->assign('headers',$this->headers);
+			foreach(OC_UTIL::$headers as $header){
+				$page->append('headers',$header);
+			}
+			
 			// Add css files and js files
 			$page->assign( "content", $data );
 			return $page->fetchPage();
@@ -251,6 +277,7 @@ class OC_TEMPLATE{
 	private function _fetch(){
 		// Register the variables
 		$_ = $this->vars;
+		$l = $this->l10n;
 
 		// Execute the template
 		ob_start();

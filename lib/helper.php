@@ -29,22 +29,39 @@ class OC_HELPER {
 	 * @brief Creates an url
 	 * @param $app app
 	 * @param $file file
+	 * @param $redirect_url redirect_url variable is appended to the URL
 	 * @returns the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public static function linkTo( $app, $file ){
+	public static function linkTo( $app, $file , $redirect_url=NULL ){
 		global $WEBROOT;
 		global $SERVERROOT;
 		
-		if(!empty($app)) {
+		if( $app != '' ){
 			$app .= '/';
 			// Check if the app is in the app folder
-			if( file_exists( $SERVERROOT . '/apps/'. $app )){
-				return $WEBROOT . '/apps/' . $app . $file;
+			if( file_exists( $SERVERROOT . '/apps/'. $app.$file )){
+				$urlLinkTo =  $WEBROOT . '/apps/' . $app . $file;
+			}
+			else{
+				$urlLinkTo =  $WEBROOT . '/' . $app . $file;
 			}
 		}
-		return $WEBROOT . '/' . $app . $file;
+		else{
+			if( file_exists( $SERVERROOT . '/core/'. $file )){
+				$urlLinkTo =  $WEBROOT . '/core/'.$file;
+			}
+			else{
+				$urlLinkTo =  $WEBROOT . '/'.$file;
+			}
+		}
+
+		if($redirect_url)
+			return $urlLinkTo.'?redirect_url='.$redirect_url;
+		else
+			return $urlLinkTo;
+
 	}
 
 	/**
@@ -58,14 +75,16 @@ class OC_HELPER {
 	public static function imagePath( $app, $image ){
 		global $SERVERROOT;
 		global $WEBROOT;
+		
 		// Check if the app is in the app folder
 		if( file_exists( "$SERVERROOT/apps/$app/img/$image" )){
 			return "$WEBROOT/apps/$app/img/$image";
 		}
-		if( !empty( $app )){
+		elseif( !empty( $app )){
 			return "$WEBROOT/$app/img/$image";
-		}else{
-			return "$WEBROOT/img/$image";
+		}
+		else{
+			return "$WEBROOT/core/img/$image";
 		}
 	}
 
@@ -84,15 +103,15 @@ class OC_HELPER {
 
 		// Is it a dir?
 		if( $mimetype == "dir" ){
-			return "$WEBROOT/img/places/folder.png";
+			return "$WEBROOT/core/img/places/folder.png";
 		}
 
 		// Icon exists?
-		if( file_exists( "$SERVERROOT/img/mimetypes/$mimetype.png" )){
-			return "$WEBROOT/img/mimetypes/$mimetype.png";
+		if( file_exists( "$SERVERROOT/core/img/mimetypes/$mimetype.png" )){
+			return "$WEBROOT/core/img/mimetypes/$mimetype.png";
 		}
 		else{
-			return "$WEBROOT/img/mimetypes/file.png";
+			return "$WEBROOT/core/img/mimetypes/file.png";
 		}
 	}
 

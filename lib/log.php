@@ -79,7 +79,7 @@ class OC_LOG {
 	 *   - app: only entries for this app
 	 */
 	public static function get( $filter = array()){
-		$queryString='SELECT * FROM *PREFIX*log WHERE 1=1 ';
+		$queryString='SELECT * FROM *PREFIX*log WHERE 1=1 ORDER BY moment DESC';
 		$params=array();
 		if(isset($filter['from'])){
 			$queryString.='AND moment>? ';
@@ -118,6 +118,18 @@ class OC_LOG {
 	public static function deleteBefore( $date ){
 		$query=OC_DB::prepare("DELETE FROM *PREFIX*log WHERE moment<?");
 		$query->execute(array($date));
+		return true;
+	}
+
+	/**
+	 * @brief removes all log entries
+	 * @returns true/false
+	 *
+	 * This function deletes all log entries.
+	 */
+	public static function deleteAll(){
+		$query=OC_DB::prepare("DELETE FROM *PREFIX*log");
+		$query->execute();
 		return true;
 	}
 	

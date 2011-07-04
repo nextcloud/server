@@ -110,5 +110,5 @@ table td.filename a
 	width:16px;
 	display: -moz-inline-box; /* fallback for older firefox versions*/
 	display: inline-block;
-	background-image:url('../../img/drop-arrow.png');
+	background-image:url('../img/drop-arrow.png');
 }

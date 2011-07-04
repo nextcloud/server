@@ -29,7 +29,7 @@
 class OC_APP{
 	static private $init = false;
 	static private $apps = array();
-	static private $activeapp = "";
+	static private $activeapp = '';
 	static private $adminpages = array();
 	static private $settingspages = array();
 	static private $navigation = array();
@@ -52,38 +52,61 @@ class OC_APP{
 		}
 
 		// Our very own core apps are hardcoded
-		foreach( array( "admin", "files", "log", "help", "settings" ) as $app ){
-			require( "$app/appinfo/app.php" );
+		foreach( array( 'admin', 'files', 'log', 'help', 'settings' ) as $app ){
+			require( $app.'/appinfo/app.php' );
 		}
 
 		// The rest comes here
-		$dir = opendir( "$SERVERROOT/apps" );
-		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' ){
-				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
-					if(OC_APPCONFIG::getValue($filename,'installed_version',0)==0){ //check if the plugin is fully installed
-						//install the database
-						if(is_file("$SERVERROOT/apps/$filename/appinfo/database.xml")){
-							OC_DB::createDbFromStructure("$SERVERROOT/apps/$filename/appinfo/database.xml");
-						}
-						
-						//run appinfo/install.php
-						if(is_file("$SERVERROOT/apps/$filename/appinfo/install.php")){
-							include("$SERVERROOT/apps/$filename/appinfo/install.php");
-						}
-						$info=self::getAppInfo("$SERVERROOT/apps/$filename/appinfo/info.xml");
-						OC_APPCONFIG::setValue($filename,'installed_version',$info['version']);
-					}
-					require( "apps/$filename/appinfo/app.php" );
+		$apps = OC_APPCONFIG::getApps();
+		foreach( $apps as $app ){
+			if( self::isEnabled( $app )){
+				if(is_file($SERVERROOT.'/apps/'.$app.'/appinfo/app.php')){
+					require( 'apps/'.$app.'/appinfo/app.php' );
 				}
 			}
 		}
-		closedir( $dir );
 
 		self::$init = true;
 
 		// return
 		return true;
+	}
+
+	/**
+	 * @brief checks whether or not an app is enabled
+	 * @param $app app
+	 * @returns true/false
+	 *
+	 * This function checks whether or not an app is enabled.
+	 */
+	public static function isEnabled( $app ){
+		if( 'yes' == OC_APPCONFIG::getValue( $app, 'enabled' )){
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @brief enables an app
+	 * @param $app app
+	 * @returns true/false
+	 *
+	 * This function set an app as enabled in appconfig.
+	 */
+	public static function enable( $app ){
+		OC_APPCONFIG::setValue( $app, 'enabled', 'yes' );
+	}
+
+	/**
+	 * @brief enables an app
+	 * @param $app app
+	 * @returns true/false
+	 *
+	 * This function set an app as enabled in appconfig.
+	 */
+	public static function disable( $app ){
+		OC_APPCONFIG::setValue( $app, 'enabled', 'no' );
 	}
 
 	/**
@@ -93,8 +116,8 @@ class OC_APP{
 	 *
 	 * This function registers the application. $data is an associative array.
 	 * The following keys are required:
-	 *   - id: id of the application, has to be unique ("addressbook")
-	 *   - name: Human readable name ("Addressbook")
+	 *   - id: id of the application, has to be unique ('addressbook')
+	 *   - name: Human readable name ('Addressbook')
 	 *   - version: array with Version (major, minor, bugfix) ( array(1, 0, 2))
 	 *
 	 * The following keys are optional:
@@ -125,9 +148,9 @@ class OC_APP{
 	 * This function adds a new entry to the navigation visible to users. $data
 	 * is an associative array.
 	 * The following keys are required:
-	 *   - id: unique id for this entry ("addressbook_index")
+	 *   - id: unique id for this entry ('addressbook_index')
 	 *   - href: link to the page
-	 *   - name: Human readable name ("Addressbook")
+	 *   - name: Human readable name ('Addressbook')
 	 *
 	 * The following keys are optional:
 	 *   - icon: path to the icon of the app
@@ -151,9 +174,9 @@ class OC_APP{
 	 * as being active (see activateNavigationEntry()). $data is an associative
 	 * array.
 	 * The following keys are required:
-	 *   - id: unique id for this entry ("addressbook_index")
+	 *   - id: unique id for this entry ('addressbook_index')
 	 *   - href: link to the page
-	 *   - name: Human readable name ("Addressbook")
+	 *   - name: Human readable name ('Addressbook')
 	 *
 	 * The following keys are optional:
 	 *   - icon: path to the icon of the app
@@ -173,7 +196,7 @@ class OC_APP{
 	 * @param $id id of the entry
 	 * @returns true/false
 	 *
-	 * This function sets a navigation entry as active and removes the "active"
+	 * This function sets a navigation entry as active and removes the 'active'
 	 * property from all other entries. The templates can use this for
 	 * highlighting the current position of the user.
 	 */
@@ -201,9 +224,9 @@ class OC_APP{
 	 * This function registers a admin page that will be shown in the admin
 	 * menu. $data is an associative array.
 	 * The following keys are required:
-	 *   - id: unique id for this entry ("files_admin")
+	 *   - id: unique id for this entry ('files_admin')
 	 *   - href: link to the admin page
-	 *   - name: Human readable name ("Files Administration")
+	 *   - name: Human readable name ('Files Administration')
 	 *
 	 * The following keys are optional:
 	 *   - order: integer, that influences the position of your application in
@@ -222,16 +245,16 @@ class OC_APP{
 	 *
 	 * This function registers a settings page. $data is an associative array.
 	 * The following keys are required:
-	 *   - app: app the settings belong to ("files")
-	 *   - id: unique id for this entry ("files_public")
+	 *   - app: app the settings belong to ('files')
+	 *   - id: unique id for this entry ('files_public')
 	 *   - href: link to the admin page
-	 *   - name: Human readable name ("Public files")
+	 *   - name: Human readable name ('Public files')
 	 *
 	 * The following keys are optional:
 	 *   - order: integer, that influences the position of your application in
 	 *     the list. Lower values come first.
 	 *
-	 * For the main settings page of an app, the keys "app" and "id" have to be
+	 * For the main settings page of an app, the keys 'app' and 'id' have to be
 	 * the same.
 	 */
 	public static function addSettingsPage( $data = array()){
@@ -245,11 +268,11 @@ class OC_APP{
 	 * @returns associative array
 	 *
 	 * This function returns an array containing all entries added. The
-	 * entries are sorted by the key "order" ascending. Additional to the keys
+	 * entries are sorted by the key 'order' ascending. Additional to the keys
 	 * given for each app the following keys exist:
 	 *   - active: boolean, signals if the user is on this navigation entry
-	 *   - children: array that is empty if the key "active" is false or
-	 *     contains the subentries if the key "active" is true
+	 *   - children: array that is empty if the key 'active' is false or
+	 *     contains the subentries if the key 'active' is true
 	 */
 	public static function getNavigation(){
 		$navigation = self::proceedNavigation( self::$navigation );
@@ -262,7 +285,7 @@ class OC_APP{
 	 * @returns associative array
 	 *
 	 * This function returns an array containing all settings pages added. The
-	 * entries are sorted by the key "order" ascending.
+	 * entries are sorted by the key 'order' ascending.
 	 */
 	public static function getSettingsNavigation(){
 		$navigation = self::proceedNavigation( self::$settingspages );
@@ -276,7 +299,7 @@ class OC_APP{
 	 * @returns associative array
 	 *
 	 * This function returns an array containing all admin pages added. The
-	 * entries are sorted by the key "order" ascending.
+	 * entries are sorted by the key 'order' ascending.
 	 */
 	public static function getAdminNavigation(){
 		$navigation = self::proceedNavigation( self::$adminpages );
@@ -290,20 +313,29 @@ class OC_APP{
 		$found = false;
 		foreach( self::$subnavigation as $parent => $selection ){
 			foreach( $selection as $subentry ){
-				if( $subentry["id"] == self::$activeapp ){
+				if( $subentry['id'] == self::$activeapp ){
 					foreach( $list as &$naventry ){
-						if( $naventry["id"] == $parent ){
-							$naventry["active"] = true;
-							$naventry["subnavigation"] = $selection;
+						if( $naventry['id'] == $parent ){
+							$naventry['active'] = true;
+							$naventry['subnavigation'] = $selection;
 						}
 						else{
-							$naventry["active"] = false;
+							$naventry['active'] = false;
 						}
-					}
+					} unset( $naventry );
 					$found = true;
 				}
 			}
 		}
+
+		// Mark subentry as active
+		foreach( $list as &$naventry ){
+			if( $naventry['active'] ){
+				foreach( $naventry['subnavigation'] as &$subnaventry ){
+					$subnaventry['active'] = $subnaventry['id'] == self::$activeapp? true : false;
+				} unset( $subnaventry );
+			}
+		} unset( $naventry );
 
 		return $list;
 	}
@@ -311,17 +343,17 @@ class OC_APP{
 	/// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation( $list ){
 		foreach( $list as &$naventry ){
-			$naventry["subnavigation"] = array();
-			if( $naventry["id"] == self::$activeapp ){
-				$naventry["active"] = true;
-				if( array_key_exists( $naventry["id"], self::$subnavigation )){
-					$naventry["subnavigation"] = self::$subnavigation[$naventry["id"]];
+			$naventry['subnavigation'] = array();
+			if( $naventry['id'] == self::$activeapp ){
+				$naventry['active'] = true;
+				if( array_key_exists( $naventry['id'], self::$subnavigation )){
+					$naventry['subnavigation'] = self::$subnavigation[$naventry['id']];
 				}
 			}
 			else{
-				$naventry["active"] = false;
+				$naventry['active'] = false;
 			}
-		}
+		} unset( $naventry );
 
 		usort( $list, create_function( '$a, $b', 'if( $a["order"] == $b["order"] ){return 0;}elseif( $a["order"] < $b["order"] ){return -1;}else{return 1;}' ));
 

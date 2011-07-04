@@ -1,0 +1,19 @@
+<?php $TRANSLATIONS = array(
+"Account information" => "Konto-Information",
+"You're currently using" => "Du benutzt gerade",
+"of your" => "von deinem",
+"space" => "Speicherplatz",
+"Change Password" => "Passwort ändern",
+"Your password got changed" => "Dein Passwort wurde geändert.",
+"Old password:" => "Aktuelles Passwort:",
+"New password" => "Neues Passwort:",
+"Show new password" => "Neues Passwort anzeigen",
+"Language" => "Sprache",
+"Authentication error" => "Berechtigungsfehler",
+"You have to enter the old and the new password!" => "Du musst das aktuelle und ein neues Passwort angeben!",
+"Your old password is wrong!" => "Du hast dein aktuelles Passwort falsch eingegeben!",
+"Password changed" => "Passwort geändert",
+"Unable to change password" => "Passwort konnte nicht geändert werden",
+"Language changed" => "Sprache geändert",
+"Invalid request" => "Ungültige Anfrage"
+);

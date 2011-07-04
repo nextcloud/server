@@ -6,7 +6,7 @@ $app=$_['app'];
 ?>
 <h1><?php echo $app["name"]; ?></h1>
 <?php  echo('<span class="type">'.$app['typename'].'</span>'); ?><br />
-<span class="date"><?php echo OC_UTIL::formatdate($app["changed"]); ?></span><br />
+<span class="date"><?php echo $l->l('datetime', $app["changed"]); ?></span><br />
 
 
 <table cellspacing="6" border="0" width="100%">
@@ -19,9 +19,9 @@ $app=$_['app'];
 		<td class="description" valign="top">
 		<?php echo $app["description"]; ?>
 		<br />
-		<?php  echo('<a class="description" target="_blank" href="'.$app["detailpage"].'">read more</a><br />');  ?> 
+		<?php  echo('<a class="description" target="_blank" href="'.$app["detailpage"].'">'.$l->t( 'read more' ).'</a><br />');  ?>
 		</td>
-		<td width="1" valign="top"><a class="prettybutton" href="">INSTALL</a></td>
+		<td width="1" valign="top"><a class="prettybutton" href=""><?php echo $l->t( 'INSTALL' ); ?></a></td>
 	</tr>
 </table>
 

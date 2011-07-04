@@ -59,7 +59,7 @@ class OC_INSTALLER{
 		
 		if(!isset($data['source'])){
 			error_log("No source specified when installing app");
-			return;
+			return false;
 		}
 		
 		//download the file if necesary
@@ -67,13 +67,13 @@ class OC_INSTALLER{
 			$path=tempnam(sys_get_temp_dir(),'oc_installer_');
 			if(!isset($data['href'])){
 				error_log("No href specified when installing app from http");
-				return;
+				return false;
 			}
 			copy($data['href'],$path);
 		}else{
 			if(!isset($data['path'])){
 				error_log("No path specified when installing app from local file");
-				return;
+				return false;
 			}
 			$path=$data['path'];
 		}
@@ -92,7 +92,7 @@ class OC_INSTALLER{
 			if($data['source']=='http'){
 				unlink($path);
 			}
-			return;
+			return false;
 		}
 		
 		//load the info.xml file of the app
@@ -102,23 +102,33 @@ class OC_INSTALLER{
 			if($data['source']=='http'){
 				unlink($path);
 			}
-			return;
+			return false;
 		}
 		$info=OC_APP::getAppInfo($extractDir.'/appinfo/info.xml');
 		$basedir=$SERVERROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
-		if(is_dir($basedir)){
+		if(self::isInstalled( $info['id'] )){
 			error_log("App already installed");
 			OC_HELPER::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
 			}
-			return;
+			return false;
+		}
+
+		//check if the destination directory already exists
+		if(is_dir($basedir)){
+			error_log("App's directory already exists");
+			OC_HELPER::rmdirr($extractDir);
+			if($data['source']=='http'){
+				unlink($path);
+			}
+			return false;
 		}
 		
 		if(isset($data['pretent']) and $data['pretent']==true){
-			return;
+			return false;
 		}
 		
 		//copy the app to the correct place
@@ -128,7 +138,7 @@ class OC_INSTALLER{
 			if($data['source']=='http'){
 				unlink($path);
 			}
-			return;
+			return false;
 		}
 		OC_HELPER::copyr($extractDir,$basedir);
 		
@@ -150,6 +160,23 @@ class OC_INSTALLER{
 		
 		//set the installed version
 		OC_APPCONFIG::setValue($info['id'],'installed_version',$info['version']);
+		OC_APPCONFIG::setValue($info['id'],'enabled','no');
+		return true;
+	}
+
+	/**
+	 * @brief checks whether or not an app is installed
+	 * @param $app app
+	 * @returns true/false
+	 *
+	 * Checks whether or not an app is installed, i.e. registered in apps table.
+	 */
+	public static function isInstalled( $app ){
+
+		if( null == OC_APPCONFIG::getValue( $app, "installed_version" )){
+			return false;
+		}
+
 		return true;
 	}
 
@@ -208,5 +235,43 @@ class OC_INSTALLER{
 	public static function removeApp( $name, $options = array()){
 		// TODO: write function
 		return true;
+	}
+
+	/**
+	 * @brief Installs shipped apps
+	 * @param $enabled
+	 *
+	 * This function installs all apps found in the 'apps' directory;
+	 * If $enabled is true, apps are installed as enabled.
+	 * If $enabled is false, apps are installed as disabled.
+	 */
+	public static function installShippedApps( $enabled ){
+		global $SERVERROOT;
+		$dir = opendir( "$SERVERROOT/apps" );
+		while( false !== ( $filename = readdir( $dir ))){
+			if( substr( $filename, 0, 1 ) != '.' and is_dir("$SERVERROOT/apps/$filename") ){
+				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
+					if(!OC_INSTALLER::isInstalled($filename)){
+						//install the database
+						if(is_file("$SERVERROOT/apps/$filename/appinfo/database.xml")){
+							OC_DB::createDbFromStructure("$SERVERROOT/apps/$filename/appinfo/database.xml");
+						}
+
+						//run appinfo/install.php
+						if(is_file("$SERVERROOT/apps/$filename/appinfo/install.php")){
+							include("$SERVERROOT/apps/$filename/appinfo/install.php");
+						}
+						$info=OC_APP::getAppInfo("$SERVERROOT/apps/$filename/appinfo/info.xml");
+						OC_APPCONFIG::setValue($filename,'installed_version',$info['version']);
+						if( $enabled ){
+							OC_APPCONFIG::setValue($filename,'enabled','yes');
+						}else{
+							OC_APPCONFIG::setValue($filename,'enabled','no');
+						}
+					}
+				}
+			}
+		}
+		closedir( $dir );
 	}
 }

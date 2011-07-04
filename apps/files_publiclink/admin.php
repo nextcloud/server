@@ -29,7 +29,7 @@ require( 'template.php' );
 
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( $_SESSION['user_id'], 'admin' )){
+if( !OC_USER::isLoggedIn()){
 	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
 	exit();
 }

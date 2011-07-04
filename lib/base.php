@@ -35,7 +35,11 @@ $SERVERROOT=substr(__FILE__,0,-13);
 $DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 $SERVERROOT=str_replace("\\",'/',$SERVERROOT);
 $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
-$WEBROOT=substr($_SERVER["SCRIPT_NAME"],0,strlen($_SERVER["SCRIPT_NAME"])-strlen($SUBURI));
+$scriptName=$_SERVER["SCRIPT_NAME"];
+if(substr($scriptName,-1)=='/'){//if the script isn't a file assume index.php
+  $scriptName.='index.php';
+}
+$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen($SUBURI));
 
 
 
@@ -80,7 +84,12 @@ require_once('appconfig.php');
 require_once('files.php');
 require_once('filesystem.php');
 require_once('filestorage.php');
+<<<<<<< HEAD
 require_once('apps/files_sharing/sharedstorage.php');
+=======
+require_once('l10n.php');
+require_once('preferences.php');
+>>>>>>> master
 require_once('log.php');
 require_once('user.php');
 require_once('group.php');
@@ -92,7 +101,7 @@ require_once('search.php');
 
 $error=(count(OC_UTIL::checkServer())>0);
 
-OC_USER::setBackend( OC_CONFIG::getValue( "userbackend", "database" ));
+OC_USER::useBackend( OC_CONFIG::getValue( "userbackend", "database" ));
 OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
 
 // Set up file system unless forbidden
@@ -119,6 +128,7 @@ if(!$error and !$RUNTIME_NOAPPS ){
 class OC_UTIL {
 	public static $scripts=array();
 	public static $styles=array();
+	public static $headers=array();
 	private static $fsSetup=false;
 
 	// Can be set up
@@ -141,12 +151,12 @@ class OC_UTIL {
 
 		// If we are not forced to load a specific user we load the one that is logged in
 		if( $user == "" && OC_USER::isLoggedIn()){
-			$user = $_SESSION['user_id'];
+			$user = OC_USER::getUser();
 		}
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			//first set up the local "root" storage and the backupstorage if needed
-			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY));
+			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT));
 // 			if( OC_CONFIG::getValue( "enablebackup", false )){
 // 				// This creates the Directorys recursively
 // 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
@@ -185,6 +195,11 @@ class OC_UTIL {
 			OC_FILESYSTEM::chroot("/$user/$root");
 			self::$fsSetup=true;
 		}
+	}
+
+	public static function tearDownFS(){
+		OC_FILESYSTEM::tearDown();
+		self::$fsSetup=false;
 	}
 
 	/**
@@ -227,6 +242,16 @@ class OC_UTIL {
 		}else{
 			self::$styles[] = "css/$file";
 		}
+	}
+
+	/**
+	 * @brief Add a custom element to the header
+	 * @param string tag tag name of the element
+	 * @param array $attributes array of attrobutes for the element
+	 * @param string $text the text content for the element
+	 */
+	public static function addHeader( $tag, $attributes, $text=''){
+		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
 	}
 
        /**

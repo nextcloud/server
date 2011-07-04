@@ -8,7 +8,7 @@ $(document).ready(function() {
 		source: "../../files/ajax/autocomplete.php",
 		minLength: 1
 	});
-	$("button.delete").live('click', function() {
+	$("button.delete").live('click', function( event ) {
 		event.preventDefault();
 		var token=$(this).attr('data-token');
 		var data="token="+token;
@@ -22,7 +22,7 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$('#newlink').submit(function(){
+	$('#newlink').submit(function( event ){
 		event.preventDefault();
 		var path=$('#path').val();
 		var expire=$('#expire_time').val()||0;
@@ -48,5 +48,5 @@ $(document).ready(function() {
 				}
 			}
 		});
-	})
+	});
 });

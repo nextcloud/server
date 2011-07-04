@@ -40,7 +40,7 @@ if( !OC_CONFIG::getValue( "installed", false )){
  */
 class OC_USER {
 	// The backend used for user management
-	private static $_backend = null;
+	private static $_usedBackends = array();
 
 	// Backends available (except database)
 	private static $_backends = array();
@@ -68,13 +68,23 @@ class OC_USER {
 	}
 
 	/**
-	 * @brief Sets the backend
+	 * @brief gets used backends
+	 * @returns array of backends
+	 *
+	 * Returns the names of all used backends.
+	 */
+	public static function getUsedBackends(){
+		return array_keys(self::$_usedBackends);
+	}
+
+	/**
+	 * @brief Adds the backend to the list of used backends
 	 * @param $backend default: database The backend to use for user managment
 	 * @returns true/false
 	 *
 	 * Set the User Authentication Module
 	 */
-	public static function setBackend( $backend = 'database' ){
+	public static function useBackend( $backend = 'database' ){
 		// You'll never know what happens
 		if( null === $backend OR !is_string( $backend )){
 			$backend = 'database';
@@ -86,11 +96,11 @@ class OC_USER {
 			case 'mysql':
 			case 'sqlite':
 				require_once('User/database.php');
-				self::$_backend = new OC_USER_DATABASE();
+				self::$_usedBackends[$backend] = new OC_USER_DATABASE();
 				break;
 			default:
 				$className = 'OC_USER_' . strToUpper($backend);
-				self::$_backend = new $className();
+				self::$_usedBackends[$backend] = new $className();
 				break;
 		}
 
@@ -119,7 +129,7 @@ class OC_USER {
 			return false;
 		}
 		// Check if user already exists
-		if( in_array( $uid, self::getUsers())){
+		if( self::userExists($uid) ){
 			return false;
 		}
 
@@ -127,13 +137,19 @@ class OC_USER {
 		$run = true;
 		OC_HOOK::emit( "OC_USER", "pre_createUser", array( "run" => &$run, "uid" => $uid, "password" => $password ));
 
-		if( $run && self::$_backend->createUser( $uid, $password )){
-			OC_HOOK::emit( "OC_USER", "post_createUser", array( "uid" => $uid, "password" => $password ));
-			return true;
+		if( $run ){
+			//create the user in the first backend that supports creating users
+			foreach(self::$_usedBackends as $backend){
+				if(!$backend->implementsActions(OC_USER_BACKEND_CREATE_USER))
+					continue;
+
+				$backend->createUser($uid,$password);
+				OC_HOOK::emit( "OC_USER", "post_createUser", array( "uid" => $uid, "password" => $password ));
+
+				return true;
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 
 	/**
@@ -147,7 +163,13 @@ class OC_USER {
 		$run = true;
 		OC_HOOK::emit( "OC_USER", "pre_deleteUser", array( "run" => &$run, "uid" => $uid ));
 
-		if( $run && self::$_backend->deleteUser( $uid )){
+		if( $run ){
+			//delete the user from all backends
+			foreach(self::$_usedBackends as $backend){
+				if($backend->implementsActions(OC_USER_BACKEND_DELETE_USER)){
+					$backend->deleteUser($uid);
+				}
+			}
 			// We have to delete the user from all groups
 			foreach( OC_GROUP::getUserGroups( $uid ) as $i ){
 				OC_GROUP::removeFromGroup( $uid, $i );
@@ -174,7 +196,9 @@ class OC_USER {
 		$run = true;
 		OC_HOOK::emit( "OC_USER", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
-		if( $run && self::$_backend->login( $uid, $password )){
+		if( $run && self::checkPassword( $uid, $password )){
+			$_SESSION['user_id'] = $uid;
+			OC_LOG::add( "core", $_SESSION['user_id'], "login" );
 			OC_HOOK::emit( "OC_USER", "post_login", array( "uid" => $uid ));
 			return true;
 		}
@@ -191,7 +215,9 @@ class OC_USER {
 	 */
 	public static function logout(){
 		OC_HOOK::emit( "OC_USER", "logout", array());
-		return self::$_backend->logout();
+		OC_LOG::add( "core", $_SESSION['user_id'], "logout" );
+		$_SESSION['user_id'] = false;
+		return true;
 	}
 
 	/**
@@ -201,7 +227,25 @@ class OC_USER {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){
-		return self::$_backend->isLoggedIn();
+		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	/**
+	 * @brief get the user idea of the user currently logged in.
+	 * @return string uid or false
+	 */
+	public static function getUser(){
+		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ){
+			return $_SESSION['user_id'];
+		}
+		else{
+			return false;
+		}
 	}
 
 	/**
@@ -211,7 +255,7 @@ class OC_USER {
 	 * generates a password
 	 */
 	public static function generatePassword(){
-		return substr( md5( uniqId().time()), 0, 10 );
+		return uniqId();
 	}
 
 	/**
@@ -226,7 +270,14 @@ class OC_USER {
 		$run = true;
 		OC_HOOK::emit( "OC_USER", "pre_setPassword", array( "run" => &$run, "uid" => $uid, "password" => $password ));
 
-		if( $run && self::$_backend->setPassword( $uid, $password )){
+		if( $run ){
+			foreach(self::$_usedBackends as $backend){
+				if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)){
+					if($backend->userExists($uid)){
+						$backend->setPassword($uid,$password);
+					}
+				}
+			}
 			OC_HOOK::emit( "OC_USER", "post_setPassword", array( "uid" => $uid, "password" => $password ));
 			return true;
 		}
@@ -244,7 +295,14 @@ class OC_USER {
 	 * Check if the password is correct without logging in the user
 	 */
 	public static function checkPassword( $uid, $password ){
-		return self::$_backend->checkPassword( $uid, $password );
+		foreach(self::$_usedBackends as $backend){
+			if($backend->implementsActions(OC_USER_BACKEND_CHECK_PASSWORD)){
+				$result=$backend->checkPassword( $uid, $password );
+				if($result===true){
+					return true;
+				}
+			}
+		}
 	}
 
 	/**
@@ -254,6 +312,29 @@ class OC_USER {
 	 * Get a list of all users.
 	 */
 	public static function getUsers(){
-		return self::$_backend->getUsers();
+		$users=array();
+		foreach(self::$_usedBackends as $backend){
+			if($backend->implementsActions(OC_USER_BACKEND_GET_USERS)){
+				$users=array_merge($users,$backend->getUsers());
+			}
+		}
+		return $users;
+	}
+
+	/**
+	 * @brief check if a user exists
+	 * @param string $uid the username
+	 * @return boolean
+	 */
+	public static function userExists($uid){
+		foreach(self::$_usedBackends as $backend){
+			if($backend->implementsActions(OC_USER_BACKEND_USER_EXISTS)){
+				$result=$backend->userExists($uid);
+				if($result===true){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

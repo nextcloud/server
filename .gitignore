@@ -16,6 +16,15 @@ _darcs/*
 CVS/*
 .svn/*
 RCS/*
+
+# kdevelop
 .kdev
 *.kdev4
+<<<<<<< HEAD
 .project
+=======
+
+# Lokalize
+*lokalize*
+
+>>>>>>> master

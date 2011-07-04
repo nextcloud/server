@@ -1,6 +1,8 @@
 <?php
 
-$hasSQLite = is_callable('sqlite_open');
+include_once( 'installer.php' );
+
+$hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
 $datadir = OC_CONFIG::getValue('datadir', $SERVERROOT.'/data');
 $opts = array(
@@ -21,7 +23,7 @@ if(isset($_POST['install']) AND $_POST['install']=='true') {
 		OC_TEMPLATE::printGuestPage("", "installation", $options);
 	}
 	else {
-		header("Location: $WEBROOT");
+		header("Location: ".$WEBROOT.'/');
 		exit();
 	}
 }
@@ -65,10 +67,15 @@ class OC_SETUP {
 			$username = htmlspecialchars_decode($options['adminlogin']);
 			$password = htmlspecialchars_decode($options['adminpass']);
 			$datadir = htmlspecialchars_decode($options['directory']);
+			
+			//use sqlite3 when available, otherise sqlite2 will be used.
+			if($dbtype=='sqlite' and class_exists('SQLite3')){
+				$dbtype='sqlite3';
+			}
 
 			//write the config file
 			OC_CONFIG::setValue('datadirectory', $datadir);
-			OC_CONFIG::setValue('dbtype', $dbtype);
+ 			OC_CONFIG::setValue('dbtype', $dbtype);
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
@@ -90,13 +97,20 @@ class OC_SETUP {
 				else {
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
 					if(mysql_query($query, $connection)) {
-						self::createDBUser($username, $password, $connection);
 						//use the admin login data for the new database user
-						OC_CONFIG::setValue('dbuser', $username);
-						OC_CONFIG::setValue('dbpassword', $password);
+
+						//add prefix to the mysql user name to prevent collissions
+						$dbusername='oc_mysql_'.$username;
+						//hash the password so we don't need to store the admin config in the config file
+						$dbpassowrd=md5(time().$password);
+						
+						self::createDBUser($dbusername, $dbpassowrd, $connection);
+						
+						OC_CONFIG::setValue('dbuser', $dbusername);
+						OC_CONFIG::setValue('dbpassword', $dbpassowrd);
 
 						//create the database
-						self::createDatabase($dbname, $username, $connection);
+						self::createDatabase($dbname, $dbusername, $connection);
 					}
 					else {
 						OC_CONFIG::setValue('dbuser', $dbuser);
@@ -127,6 +141,9 @@ class OC_SETUP {
 				OC_USER::createUser($username, $password);
 				OC_GROUP::createGroup('admin');
 				OC_GROUP::addToGroup($username, 'admin');
+
+				//guess what this does
+				OC_INSTALLER::installShippedApps(true);
 
 				//create htaccess files for apache hosts
 				self::createHtaccess(); //TODO detect if apache is used
@@ -167,10 +184,11 @@ class OC_SETUP {
 	private static function createHtaccess() {
 		global $SERVERROOT;
 		global $WEBROOT;
-		$content = "ErrorDocument 404 /$WEBROOT/templates/404.php\n";//custom 404 error page
+		$content = "ErrorDocument 404 /$WEBROOT/core/templates/404.php\n";//custom 404 error page
 		$content.= "php_value upload_max_filesize 20M\n";//upload limit
 		$content.= "php_value post_max_size 20M\n";
 		$content.= "SetEnv htaccessWorking true\n";
+		$content.= "Options -Indexes\n";
 		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
 		$content = "deny from all";

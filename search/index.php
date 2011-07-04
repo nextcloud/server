@@ -38,6 +38,9 @@ OC_UTIL::addStyle( 'search', 'search' );
 $query=(isset($_POST['query']))?$_POST['query']:'';
 if($query){
 	$results=OC_SEARCH::search($query);
+}else{
+	header("Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue("core", "defaultpage", "files/index.php"));
+	exit();
 }
 
 $resultTypes=array();

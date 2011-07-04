@@ -1,0 +1,278 @@
+* { margin:0; padding:0; border:0; }
+body { background:#fefefe url('../img/body_background.jpg') repeat-y left top; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
+#header { position:fixed; top:0; z-index:100; width:100%; height:5.5em; padding:0.5em 1.5em; background:url('../img/header-a.png') repeat-x left top; }
+#body-settings #header { background-image:url('../img/header-settings-a.png'); }
+#owncloud { float:left; margin:0 0 0 2em; }
+h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercase; font-weight:normal; font-style:italic; color:#666; }
+p.center { text-align:center; }
+
+form { margin:2em 2em 2em 3em; }
+form#quota { max-width:600px; }
+form#user_settings { max-width:600px; }
+form#user_settings p label { display:block; float:left; width:35%; padding:0.4em 0.5em 0 0; text-align:right; }
+form p { padding:0.5em 4em 0.5em 0.5em; text-align:left; }
+form p.form_footer { margin:1em 0 0 0; text-align:right; }
+form label { cursor:pointer; }
+form input { padding:0.2em; border:1px solid #ddd; font-size:1.2em; }
+form input[type="submit"] { padding:0.1em 1em; border:1px solid #999; font-weight:bold; font-size:0.9em; cursor:pointer; }
+form input[type="submit"]:hover, form input[type="submit"]:focus { border:1px solid #999; background-color:#999; outline:0; }
+form input[type="submit"]:active { outline:0; }
+fieldset { padding:1em; background-color:#f7f7f7; border:1px solid #ddd; }
+legend { padding:0 0.5em; font-size:1.2em; }
+
+div.controls { width:91%; margin:1em 1em 1em 2em; padding:0.5em 0; background-color:#f7f7f7; border:1px solid #eee; }
+
+/* LOG IN & INSTALLATION ------------------------------------------------------------ */
+#body-login { width:100%; background-image:none; background-color:#ddd; }
+#body-login p.info { width:16em; margin:4em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+
+#login
+{
+    margin: 0 auto 0 auto;
+    padding: 2em 0 0 0;
+    background-image: url(../img/header-login.png);
+    background-position: left 0;
+    background-repeat: repeat-x;
+    background-color: #EEE;
+    border-bottom: 1px solid #FFF;
+    text-align: center;
+}
+
+#login_form
+{
+    width: 20em;
+    margin: 4em auto;
+    padding: 0;
+}
+
+#login_form fieldset
+{
+    background-color: transparent;
+    border: 0;
+}
+
+#login_form fieldset p
+{
+    margin: 0.5em 0 0 0;
+    padding: 0;
+    text-align: left;
+}
+
+#login_form fieldset p.submit
+{
+    margin: 2em 0 0 0;
+    padding: 1em 0 0 0;
+    border-top: 1px solid #DDD;
+    text-align: right;
+}
+
+#login_form label
+{
+    font-size: 1em;
+    color: #666;
+}
+
+#login_form input
+{
+    width: 100%;
+    margin: 0 0 0.5em 0;
+    padding: 0.5em;
+    border: 1px solid #DDD;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    font-size: 1.5em;
+    color: #333;
+    text-align: center;
+}
+
+#login_form input[type=submit]
+{
+    width: auto;
+    margin: 1em 0 0 0.5em;
+    text-align: center;
+    border: 1px solid #DDD;
+    background-color: #FFF;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    font-size: 1.5em
+}
+
+#login_form input[type=submit]:hover
+{
+    border: 1px solid #666;
+    background-color: #666;
+    color: #FFF;
+}
+
+
+#setup_form {
+	margin: 3em auto;
+	text-align: left;
+	width: 720px;
+}
+
+#setup_form #use_mysql {
+	font-size: 0.9em;
+	margin: 0 0 0 1em;
+}
+
+#setup_form p.intro {
+	color: #666;
+	font-size: 1.3em;
+	margin: 4em 0 3em 0;
+	padding: 0;
+	text-align: center;
+}
+
+#setup_form ul.errors {
+	background-image: url(images/no.png);
+	background-position: 1em 1em;
+	background-repeat: no-repeat;
+	background-color: #FED7D7;
+	border: 1px solid #F00;
+	font-size: 1.2em;
+	list-style-indent: inside;
+	margin: 0 0 4em 0;
+	padding: 1em 1em 1em 5em;
+}
+
+#setup_form fieldset {
+	margin: 0 0 3em 0;	
+}
+
+#setup_form p {
+	line-height: 1.8em;
+}
+
+#setup_form legend {
+	font-weight: normal;
+}
+
+#setup_form label {
+	cursor: pointer;
+	display: block;
+	float: left;
+	margin: 0 0 0.2em 0;
+	text-align: right;
+	width: 40%;
+}
+
+#setup_form input[type='text'],
+#setup_form input[type='password'] {
+	font-size: 1em;
+	margin: 0 0 0 0.5em;
+	padding: 0.3em;
+}
+
+#setup_form input[type='radio'] {
+	margin: 0 0 0 1em;
+}
+
+#setup_form input[type='submit'] {
+	background-color: #DDD;
+	border: 1px solid #999;
+	color: #666;
+	font-size: 1.2em;
+}
+
+#setup_form input[type='submit']:hover {
+	border-color: #000;
+	color: #000;
+}
+
+#setup_form p.submit {
+	padding: 0 0 1em 0;
+	text-align: center;
+}
+
+
+
+.prettybutton { margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:1.5em; text-decoration:none; color:#666; background-color:#fff; }
+.prettybutton:hover, .prettybutton:focus { background-color:#ccc; outline:0; }
+
+/* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
+#metanav { float:right; position:relative; top:1.5em; right:2.5em; list-style:none; margin:0; padding:0; }
+#metanav li { display:inline; }
+#metanav li a { margin:.1em; padding:1em; }
+#metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; outline:0; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
+#metanav li a img { vertical-align:middle; }
+
+/* NAVIGATION ------------------------------------------------------------- */
+#plugins { position:fixed; top:7em; float:left; width:15.7em; padding:0; }
+#plugins ul { list-style-type:none; border-top:1px solid #ccc; }
+#plugins a { display:block; padding:0.5em 0.5em 0.5em 3em; background-position:1.5em center; background-repeat:no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; }
+#plugins a.active, #plugins a:hover, #plugins a:focus, #plugins a.selected { background-color:#ccc; border-top:1px solid #ccc; border-bottom:1px solid #ccc; color:#000; outline:0; }
+#plugins a:active { outline:0; }
+
+/* CONTENT ------------------------------------------------------------------ */
+#content { margin:7em 0 0 16em; }
+table { margin:1em 5em 2em 3em; }
+table tr.mouseOver td { background-color:#eee; }
+table th, table td { padding:0; border-bottom:1px solid #ddd; text-align:left; font-style:italic; }
+table th { padding:0.5em; }
+table td { border-bottom:1px solid #eee; font-style:normal; }
+table td.filesize, table td.date { width:5em; padding:0.5em 1em; text-align:right; }
+table td.date { width:11em; }
+table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
+table td.filename a { display:block; background-image:url('../img/file.png'); text-decoration:none; }
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:0.5em 0.5em 0.5em 3em; background-position:1em center; background-repeat:no-repeat; }
+table td.filename a:hover, table td.filename a:focus { text-decoration:underline; outline:0; }
+table td.filename a:active { outline:0; }
+table em { font-weight:bold; }
+table td.filename a.folder-up { background-image:url('../img/back.png'); font-style:italic; }
+table td.filename a.folder { background-image:url('../img/folder.png'); }
+table td.filename a.folder-home { background-image:url('../img/home.png'); }
+table td.filename a.folder-music { background-image:url('../img/folder-music.png'); }
+table td.filename a.folder-videos { background-image:url('../img/folder-video.png'); }
+table td.filename a.folder-shared { background-image:url('../img/folder-shared.png'); }
+table td.filename a.folder-images { background-image:url('../img/folder-image.png'); }
+table td.filename a.file-txt { background-image:url('../img/file-txt.png'); }
+table td.filename a.file-python { background-image:url('../img/file-python.png'); }
+table td.filename a.file-php { background-image:url('../img/file.png'); }
+table td.login { background-image:url('../img/login.png'); }
+table td.logout { background-image:url('../img/logout.png'); }
+table td.download { background-image:url('../img/download.png'); }
+table td.upload { background-image:url('../img/upload.png'); }
+table td.create { background-image:url('../img/folder-new.png'); }
+table td.delete { background-image:url('../img/delete.png'); }
+#fileList tr input[type=checkbox] { display:none; }
+#fileList tr input[type=checkbox]:checked { display:inline; }
+#fileList tr:hover input[type=checkbox] { display:inline; }
+
+/* NAVIGATION BAR */
+p.nav { margin:1em 0 0 2em; padding:0.8em; line-height:16px; font-weight:bold; }
+p.nav a { padding:0.5em 1.5em 0.5em 0.5em; background-position:right center; background-repeat:no-repeat; background-image:url('../img/arrow.png'); text-decoration:none; }
+p.nav a img { height:16px; vertical-align:text-top; }
+
+/* ACTIONS BAR */
+p.actions, div.actions { padding:0; }
+p.actions a, div.actions a { padding:0.5em 0.5em 0.5em 3em; background-position:1em center; background-repeat:no-repeat; background-image:url('../img/action.png'); border-right:1px solid #eee; text-decoration:none; color:#333; }
+p.actions a:hover, p.actions a:focus, div.actions a:hover, div.actions a:focus { background-color:#eee; color:#000; outline:0; }
+p.actions a:active, div.actions a:active { outline:0; }
+p.actions a.new-dir, div.actions a.new-dir { background-image:url('../img/folder-new.png'); }
+p.actions a.download, div.actions a.download { background-image:url('../img/download.png'); }
+p.actions a.delete, div.actions a.delete { background-image:url('../img/delete.png'); }
+
+/* USER SETTINGS ------------------------------------------------------------ */
+#quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ddd; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
+#quota_indicator div { background-color:#76A9EA; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
+
+/* PAGER ------------------------------------------------------------ */
+.pager tr td { border-bottom:0px; }
+.pager tr td a { text-decoration:none; color:#666666; font-size:0.9em; text-align:center; }
+
+/* LOGS --------------------------------------------------------------------- */
+#logs_options { width:auto; margin:0; }
+#logs_options p { padding:0.5em; text-align:left; }
+#logs_options span { margin:0 2em 0 0.5em; font-weight:bold; }
+#logs_options label { margin:0 1em 0 0; }
+#logs_options input[type="submit"] { float:right; margin:0 2em 0 0; }
+#logs_options input[type="submit"].nofloat { float:none; margin:0 2em 0 0; }
+#logs_options input[type="text"] { margin:0; padding:0; border:1px solid #ccc; text-align:right; }
+li.error{ list-style:none; width:640px; margin:4em auto; padding:1em 1em 1em 4em; background-color:#fee; background-image:url('../img/task-attention.png'); background-position:0.8em 0.8em; background-repeat:no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+
+/* SEARCH --------------------------------------------------------------------- */
+form.searchbox{display:inline; position:fixed; top:1.5em; right:9em; margin:0; padding:0;};
+form.searchbox .prettybutton{font-size:1.5em !important};

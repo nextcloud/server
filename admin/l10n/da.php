@@ -1,0 +1,20 @@
+<?php $TRANSLATIONS = array(
+"read more" => "læs mere",
+"INSTALL" => "INSTALLER",
+"Apps Repository" => "Applikation arkiv",
+"Cannot connect to apps repository" => "Kan ikke oprette forbindelse til applikations arkivet",
+"Name" => "Navn",
+"Modified" => "Ændret",
+"Administration" => "Administration",
+"System Settings" => "System indstillinger",
+"Add user" => "Tilføj bruger",
+"Password" => "Kodeord",
+"Create user" => "Lav bruger",
+"remove" => "slet",
+"Groups" => "Grupper",
+"Create group" => "Lav gruppe",
+"Force new password:" => "Tving ny adgangskode",
+"Set" => "Indstil",
+"Do you really want to delete user" => "Vil du virkelig slette denne bruger?",
+"Do you really want to delete group" => "Vil du virkelig slette denne gruppe?"
+);

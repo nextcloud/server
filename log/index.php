@@ -21,15 +21,13 @@
 *
 */
 
-
 //require_once('../../config/config.php');
 require_once('../lib/base.php');
-require( 'template.php' );
-require( 'preferences.php' );
+require_once( 'template.php' );
 
 if( !OC_USER::isLoggedIn()){
-    header( 'Location: '.OC_HELPER::linkTo( 'index.php' ));
-    exit();
+	header( 'Location: '.OC_HELPER::linkTo( 'index.php' ));
+	exit();
 }
 
 //load the script
@@ -37,25 +35,37 @@ OC_UTIL::addScript( "log", "log" );
 
 $allActions=array('login','logout','read','write','create','delete');
 
-//check for a submited config
-if(isset($_POST['size'])){
+//check for a submitted config
+if(isset($_POST['save'])){
 	$selectedActions=array();
 	foreach($allActions as $action){
 		if(isset($_POST[$action]) and $_POST[$action]=='on'){
 			$selectedActions[]=$action;
 		}
 	}
-	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','actions',implode(',',$selectedActions));
-	OC_PREFERENCES::setValue($_SESSION['user_id'],'log','pagesize',$_POST['size']);
+	OC_PREFERENCES::setValue(OC_USER::getUser(),'log','actions',implode(',',$selectedActions));
+	OC_PREFERENCES::setValue(OC_USER::getUser(),'log','pagesize',$_POST['size']);
+}
+//clear log entries
+elseif(isset($_POST['clear'])){
+	$removeBeforeDate=(isset($_POST['removeBeforeDate']))?$_POST['removeBeforeDate']:0;
+	if($removeBeforeDate!==0){
+		$removeBeforeDate=strtotime($removeBeforeDate);
+		OC_LOG::deleteBefore($removeBeforeDate);
+	}
+}
+elseif(isset($_POST['clearall'])){
+	OC_LOG::deleteAll();
 }
 
 OC_APP::setActiveNavigationEntry( 'log' );
 $logs=OC_LOG::get();
 
-$selectedActions=explode(',',OC_PREFERENCES::getValue($_SESSION['user_id'],'log','actions',implode(',',$allActions)));
+
+$selectedActions=explode(',',OC_PREFERENCES::getValue(OC_USER::getUser(),'log','actions',implode(',',$allActions)));
 $logs=OC_LOG::filterAction($logs,$selectedActions);
 
-$pageSize=OC_PREFERENCES::getValue($_SESSION['user_id'],'log','pagesize',20);
+$pageSize=OC_PREFERENCES::getValue(OC_USER::getUser(),'log','pagesize',20);
 $pageCount=ceil(count($logs)/$pageSize);
 $page=isset($_GET['page'])?$_GET['page']:0;
 if($page>=$pageCount){
@@ -72,7 +82,8 @@ $url=OC_HELPER::linkTo( 'log', 'index.php' ).'?page=';
 $pager=OC_UTIL::getPageNavi($pageCount,$page,$url);
 if($pager){
 	$pagerHTML=$pager->fetchPage();
-}else{
+}
+else{
 	$pagerHTML='';
 }
 
@@ -80,7 +91,8 @@ $showActions=array();
 foreach($allActions as $action){
 	if(array_search($action,$selectedActions)!==false){
 		$showActions[$action]='checked="checked"';
-	}else{
+	}
+	else{
 		$showActions[$action]='';
 	}
 }

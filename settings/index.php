@@ -18,11 +18,18 @@ $free=OC_FILESYSTEM::free_space();
 $total=$free+$used;
 $relative=round(($used/$total)*100);
 
+$lang=OC_PREFERENCES::getValue( OC_USER::getUser(), 'core', 'lang', 'en' );
+$languages=OC_L10N::findAvailableLanguages();
+//put the current language in the front
+unset($languages[array_search($lang,$languages)]);
+array_unshift($languages,$lang);
+
 // Return template
 $tmpl = new OC_TEMPLATE( "settings", "index", "admin");
 $tmpl->assign('usage',OC_HELPER::humanFileSize($used));
 $tmpl->assign('total_space',OC_HELPER::humanFileSize($total));
 $tmpl->assign('usage_relative',$relative);
+$tmpl->assign('languages',$languages);
 $tmpl->printPage();
 
 ?>

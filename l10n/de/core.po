@@ -1,0 +1,122 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-20 22:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../templates/404.php:15
+msgid "Error 404, Cloud not found"
+msgstr "Cloud konnte nicht gefunden werden."
+
+#: ../templates/installation.php:6
+msgid "Welcome to <strong>ownCloud</strong>, your personnal cloud."
+msgstr "Willkommen bei <strong>ownCloud</strong>, deinem persönlichen Online-Speicher."
+
+#: ../templates/installation.php:7
+msgid "To finish the installation, please follow the steps below."
+msgstr "Die Installation ist fast abgeschlossen."
+
+#: ../templates/installation.php:26
+msgid "Create an <strong>admin account.</strong>"
+msgstr "<strong>Verwaltungskonto</strong> erstellen."
+
+#: ../templates/installation.php:27
+msgid "Login:"
+msgstr "Benutzername:"
+
+#: ../templates/installation.php:28
+msgid "Password:"
+msgstr "Passwort:"
+
+#: ../templates/installation.php:31
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: ../templates/installation.php:34
+msgid "Set where to store the data."
+msgstr "Speicherort der Daten"
+
+#: ../templates/installation.php:35
+msgid "Data directory:"
+msgstr "Datenverzeichnis:"
+
+#: ../templates/installation.php:39
+msgid "Configure your database."
+msgstr "Datenbank einstellen."
+
+#: ../templates/installation.php:43
+msgid "I will use a SQLite database. You have nothing to do!"
+msgstr "Es wird eine SQLite-Datenbank genutzt."
+
+#: ../templates/installation.php:46
+msgid "SQLite"
+msgstr "SQLite"
+
+#: ../templates/installation.php:53
+msgid "I will use a MySQL database."
+msgstr "Es wird eine MySQL-Datenbank genutzt."
+
+#: ../templates/installation.php:59
+msgid "Host:"
+msgstr "Host:"
+
+#: ../templates/installation.php:60
+msgid "Database name:"
+msgstr "Datenbankname:"
+
+#: ../templates/installation.php:61
+msgid "Table prefix:"
+msgstr "Tabellenpräfix:"
+
+#: ../templates/installation.php:62
+msgid "MySQL user login:"
+msgstr "MySQL-Nutzername:"
+
+#: ../templates/installation.php:63
+msgid "MySQL user password:"
+msgstr "MySQL-Passwort:"
+
+#: ../templates/layout.guest.php:17 ../templates/layout.guest.php:20
+msgid ""
+"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs "
+"on your own server.</p>"
+msgstr ""
+"<a href=\"http://owncloud.org/\">ownCloud</a> ist ein privater Online-Speicher "
+"für deinen eigenen Server.</p>"
+
+#: ../templates/login.php:6
+msgid "Login failed!"
+msgstr "Anmeldung Fehlgeschlagen!"
+
+#: ../templates/logout.php:1
+msgid "You are logged out."
+msgstr "Sie wurden abgemeldet."
+
+#: ../templates/part.pagenavi.php:6
+msgid "prev"
+msgstr "zurück"
+
+#: ../templates/part.pagenavi.php:26
+msgid "next"
+msgstr "weiter"
+
+#: ../templates/part.searchbox.php:3
+msgid "Search"
+msgstr "Suchen"
+
+#: ../templates/installation.php:68
+msgid "Finish setup"
+msgstr "Installation abschließen"

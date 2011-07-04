@@ -139,7 +139,7 @@ class OC_CONFIG{
 
 		// Include the file, save the data from $CONFIG
 		include( "$SERVERROOT/config/config.php" );
-		if( isset( $CONFIG ) || is_array( $CONFIG )){
+		if( isset( $CONFIG ) && is_array( $CONFIG )){
 			self::$cache = $CONFIG;
 		}
 
@@ -167,9 +167,6 @@ class OC_CONFIG{
 		foreach( self::$cache as $key => $value ){
 			if( is_bool( $value )){
 				$value = $value ? 'true' : 'false';
-				$content .= "\"$key\" => $value,\n";
-			}
-			elseif( is_numeric( $value )){
 				$content .= "\"$key\" => $value,\n";
 			}
 			else{

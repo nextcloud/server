@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>user_openid</id>
+	<name>OpenID user backend</name>
+	<description>Allow login through OpenID</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<require>2</require>
+</info>

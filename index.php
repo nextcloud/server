@@ -27,6 +27,8 @@ require_once(dirname(__FILE__).'/lib/base.php');
 require_once('appconfig.php');
 require_once('template.php');
 
+OC_UTIL::addScript('setup');
+
 $not_installed = !OC_CONFIG::getValue('installed', false);
 $install_called = (isset($_POST['install']) AND $_POST['install']=='true');
 
@@ -45,7 +47,7 @@ elseif($not_installed OR $install_called) {
 elseif(OC_USER::isLoggedIn()) {
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
 		OC_USER::logout();
-		header("Location: $WEBROOT");
+		header("Location: ".$WEBROOT.'/');
 		exit();
 	}
 	else {
