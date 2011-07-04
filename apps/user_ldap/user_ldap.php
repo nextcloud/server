@@ -26,6 +26,7 @@ require_once('User/backend.php');
 class OC_USER_LDAP extends OC_USER_BACKEND {
 
 	protected $ds;
+	protected $configured = false;
 
 	// cached settings
 	protected $ldap_host;
@@ -42,6 +43,17 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 		$this->ldap_password = OC_APPCONFIG::getValue('user_ldap', 'ldap_password','');
 		$this->ldap_base = OC_APPCONFIG::getValue('user_ldap', 'ldap_base','');
 		$this->ldap_filter = OC_APPCONFIG::getValue('user_ldap', 'ldap_filter','');
+
+		if( !empty($this->ldap_host)
+			&& !empty($this->ldap_port)
+			&& !empty($this->ldap_dn)
+			&& !empty($this->ldap_password)
+			&& !empty($this->ldap_base)
+			&& !empty($this->ldap_filter)
+		)
+		{
+			$this->configured = true;
+		}
 	}
 
 	function __destruct() {
@@ -66,6 +78,9 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 	}
 
 	private function getDn( $uid ) {
+		if(!$this->configured)
+			return false;
+
 		// connect to server
 		$ds = $this->getDs();
 		if( !$ds )
@@ -90,7 +105,7 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 	}
 
 	public function userExists( $uid ) {
-		$dn = getDn($uid);
+		$dn = $this->getDn($uid);
 		return !empty($dn);
 	}
 
