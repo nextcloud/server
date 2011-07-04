@@ -49,6 +49,10 @@ FileList={
 				}
 			}
 		}
-		$(fileElements[pos]).after(element);
+		if(fileElements.length){
+			$(fileElements[pos]).after(element);
+		}else{
+			$('#fileList').append(element);
+		}
 	}
 }
