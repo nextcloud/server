@@ -82,6 +82,8 @@ class OC_SHARE {
 	 * @return source path
 	 */
 	public static function getSource($target) {
+		// Remove any trailing '/'
+		$target = rtrim($target, "/");
 		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
 		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
 		if (count($result) > 0) {
@@ -89,7 +91,7 @@ class OC_SHARE {
 		} else {
 			// Check if the parent directory of this target is shared
 			$parentDir = dirname($target);
-			if ($parentDir != ".") {
+			if ($parentDir != "" && $parentDir != "/" && $parentDir != ".") {
 				$result = OC_SHARE::getSource($parentDir);
 				if ($result) {
 					return $result."/".basename($target);

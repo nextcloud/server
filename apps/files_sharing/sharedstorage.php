@@ -43,22 +43,13 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function getSource($target) {
-		if ($target == "") {
-			return false;
-		} elseif (array_key_exists($target, $this->sourcePaths)) {
+		$target = OC_FILESYSTEM::getStorageMountPoint($this).$target;
+		if (array_key_exists($target, $this->sourcePaths)) {
 			return $this->sourcePaths[$target];
 		} else {
-			$parentDir = dirname($target);
-			if ($parentDir != ".") {
-				$source = $this->getSource($parentDir);
-				return $source."/".basename($target);
-			} else {
-				$source = OC_SHARE::getSource($target);
-				if ($source) {
-					$this->sourcePaths[$target] = $source;
-				}
-				return $source;
-			}
+			$source = OC_SHARE::getSource($target);
+			$this->sourcePaths[$target] = $source;
+			return $source;
 		}
 	}
 	
