@@ -128,7 +128,7 @@ $(document).ready(function() {
 	$('#file_upload_submit').click(function(){
 		var name=$('#file_upload_filename').val();
 		if($('#file_upload_start')[0].files[0] && $('#file_upload_start')[0].files[0].size>0){
-			var size=humanFileSize($('#file_upload_start')[0].files[0].size);
+			var size=simpleFileSize($('#file_upload_start')[0].files[0].size);
 		}else{
 			var size='Pending';
 		}
@@ -203,6 +203,14 @@ function humanFileSize(bytes){
 	// Wow, heavy duty for owncloud
 	bytes = Math.round( bytes / 1024, 1 );
 	return bytes+' GB';
+}
+
+function simpleFileSize(bytes) {
+	mbytes = Math.round(bytes/(1024*1024),1);
+	if(bytes == 0) { return '0'; }
+	else if(mbytes < 0.1) { return '< 0.1'; }
+	else if(mbytes > 1000) { return '> 1000'; }
+	else { return mbytes.toFixed(1); }
 }
 
 function formatDate(date){

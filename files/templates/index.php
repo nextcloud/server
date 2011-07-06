@@ -32,7 +32,7 @@
 		<tr>
 			<th><input type="checkbox" id="select_all" /></th>
 			<th><?php echo $l->t( 'Name' ); ?></th>
-			<th><?php echo $l->t( 'Size' ); ?></th>
+			<th><?php echo $l->t( 'Size (MB)' ); ?></th>
 			<th><?php echo $l->t( 'Modified' ); ?></th>
 			<th></th>
 		</tr>
