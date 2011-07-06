@@ -1,8 +1,6 @@
 $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
-	$('#file_newfolder_name').css('width', '14em');
-	$('#file_newfolder_submit').css('width', '3em');
-	
+
 	// Sets browser table behaviour :
 	$('.browser tr').hover(
 		function() {

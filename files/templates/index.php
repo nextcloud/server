@@ -5,7 +5,7 @@
 			<input type="hidden" class="max_human_file_size" value="(max <?php echo $_["uploadMaxHumanFilesize"]; ?>)">
 			<input type="hidden" name="dir" value="<?php echo $_["dir"] ?>" id="dir">
 			<div id='file_upload_wrapper'>
-				<input class="prettybutton" id='file_upload_filename' value="Upload (max <?php echo $_["uploadMaxHumanFilesize"];?>)"/>
+				<input class="prettybutton" id='file_upload_filename' value="Upload (max. <?php echo $_["uploadMaxHumanFilesize"];?>)"/>
 				<input class="prettybutton" type="file" id="file_upload_start" name='file'/>
 			</div>&nbsp;
 			<input class="prettybutton" type="button" id="file_upload_submit" name="file_upload_submit" value="OK" />
