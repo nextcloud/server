@@ -17,6 +17,7 @@ form input { padding:0.2em; border:1px solid #ddd; font-size:1.2em; }
 form input[type="submit"] { padding:0.1em 1em; border:1px solid #999; font-weight:bold; font-size:0.9em; cursor:pointer; }
 form input[type="submit"]:hover, form input[type="submit"]:focus { border:1px solid #999; background-color:#999; outline:0; }
 form input[type="submit"]:active { outline:0; }
+form input[type="button"], form input[type="text"] { font-size: 0.9em; }
 fieldset { padding:1em; background-color:#f7f7f7; border:1px solid #ddd; }
 legend { padding:0 0.5em; font-size:1.2em; }
 
