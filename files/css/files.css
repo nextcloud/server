@@ -80,6 +80,9 @@ table {
 	width: 90%;
 }
 
+tbody tr:hover, tbody tr:active { background-color:#eee; }
+tbody a { color:#000; }
+
 table td.filesize, table td.date
 {
     width: 5em;
