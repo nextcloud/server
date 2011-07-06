@@ -15,7 +15,7 @@ FileList={
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir">';
 		html+='<td class="selection"><input type="checkbox" /></td>';
-		html+='<td class="filename"><a style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
+		html+='<td class="filename"><a style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'"><strong>'+name+'</strong></a></td>';
 		html+='<td class="filesize">'+size+'</td>';
 		html+='<td class="date">'+lastModified+'</td>';
 		html+='<td class="fileaction"><a href="" title="+" class="dropArrow"></a></td>';
