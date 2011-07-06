@@ -3,8 +3,8 @@
 	<form action="index.php" method="post" id="setup_form">
 		<input type="hidden" name="install" value="true" />
 		<p class="intro">
-			<?php echo $l->t( 'Welcome to <strong>ownCloud</strong>, your personnal cloud.' ); ?><br />
-			<?php echo $l->t( 'To finish the installation, please follow the steps below.' ); ?>
+			<?php echo $l->t( '<strong>ownCloud</strong> is your personal web storage.' ); ?><br />
+			<?php echo $l->t( 'Finish the setup by following the steps below.' ); ?>
 		</p>
 
 		<?php if(count($_['errors']) > 0): ?>
@@ -23,12 +23,12 @@
 		<?php endif; ?>
 
 		<fieldset>
-			<legend><?php echo $l->t( 'Create an <strong>admin account.</strong>' ); ?></legend>
-			<p><label for="adminlogin"><?php echo $l->t( 'Login:' ); ?></label><input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_HELPER::init_var('adminlogin'); ?>" /></p>
-			<p><label for="adminpass"><?php echo $l->t( 'Password:' ); ?></label><input type="password" name="adminpass" id="adminpass" value="<?php print OC_HELPER::init_var('adminpass'); ?>" /></p>
+			<legend><?php echo $l->t( 'Create an <strong>admin account</strong>.' ); ?></legend>
+			<p><label for="adminlogin"><?php echo $l->t( 'Username' ); ?></label><input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_HELPER::init_var('adminlogin'); ?>" /></p>
+			<p><label for="adminpass"><?php echo $l->t( 'Password' ); ?></label><input type="password" name="adminpass" id="adminpass" value="<?php print OC_HELPER::init_var('adminpass'); ?>" /></p>
         </fieldset>
         
-        <a id='showAdvanced'><?php echo $l->t( 'Advanced' ); ?> <img src='<?php echo OC_HELPER::imagePath('','drop-arrow.png'); ?>'></img></a>
+        <a id='showAdvanced'><strong><?php echo $l->t( 'Advanced' ); ?></strong> <img src='<?php echo OC_HELPER::imagePath('','drop-arrow.png'); ?>'></img></a>
         
         <fieldset id='datadirField'>
 			<legend><?php echo $l->t( 'Set where to store the data.' ); ?></legend>
@@ -36,11 +36,11 @@
 		</fieldset>
 		
 		<fieldset id='databaseField'>
-			<legend><?php echo $l->t( 'Configure your database.' ); ?></legend>
+			<legend><?php echo $l->t( 'Configure the database.' ); ?></legend>
 			<?php if($_['hasSQLite']): ?>
 			<input type='hidden' id='hasSQLite' value='true'/>
 			<?php if(!$_['hasMySQL']): ?>
-			<p><?php echo $l->t( 'I will use a SQLite database. You have nothing to do!' ); ?></p>
+			<p><?php echo $l->t( 'SQLite will be used for the database. You have nothing to do.' ); ?></p>
 			<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
 			<?php else: ?>
 			<p><label class="sqlite" for="sqlite"><?php echo $l->t( 'SQLite' ); ?></label><input type="radio" name="dbtype" value='sqlite' id="sqlite" <?php OC_HELPER::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/></p>
@@ -50,17 +50,18 @@
 			<?php if($_['hasMySQL']): ?>
 			<input type='hidden' id='hasMySQL' value='true'/>
 			<?php if(!$_['hasSQLite']): ?>
-			<p><?php echo $l->t( 'I will use a MySQL database.' ); ?></p>
+			<p><?php echo $l->t( 'MySQL will be used for the database.' ); ?></p>
 			<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 			<?php else: ?>
 			<p><label class="mysql" for="mysql">MySQL </label><input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_HELPER::init_radio('dbtype', 'mysql', 'sqlite'); ?>/></p>
 			<?php endif; ?>
 			<div id="use_mysql">
-				<p><label for="dbhost"><?php echo $l->t( 'Host:' ); ?></label><input type="text" name="dbhost" id="dbhost" value="<?php print OC_HELPER::init_var('dbhost', 'localhost'); ?>" /></p>
+				<p><label for="dbuser"><?php echo $l->t( 'MySQL username:' ); ?></label><input type="text" name="dbuser" id="dbuser" value="<?php print OC_HELPER::init_var('dbuser'); ?>" /></p>
+				<p><label for="dbpass"><?php echo $l->t( 'MySQL password:' ); ?></label><input type="password" name="dbpass" id="dbpass" value="<?php print OC_HELPER::init_var('dbpass'); ?>" /></p>
 				<p><label for="dbname"><?php echo $l->t( 'Database name:' ); ?></label><input type="text" name="dbname" id="dbname" value="<?php print OC_HELPER::init_var('dbname'); ?>" /></p>
+				<p><label for="dbhost"><?php echo $l->t( 'Host:' ); ?></label><input type="text" name="dbhost" id="dbhost" value="<?php print OC_HELPER::init_var('dbhost', 'localhost'); ?>" /></p>
 				<p><label for="dbtableprefix"><?php echo $l->t( 'Table prefix:' ); ?></label><input type="text" name="dbtableprefix" id="dbtableprefix" value="<?php print OC_HELPER::init_var('dbtableprefix', 'oc_'); ?>" /></p>
-				<p><label for="dbuser"><?php echo $l->t( 'MySQL user login:' ); ?></label><input type="text" name="dbuser" id="dbuser" value="<?php print OC_HELPER::init_var('dbuser'); ?>" /></p>
-				<p><label for="dbpass"><?php echo $l->t( 'MySQL user password:' ); ?></label><input type="password" name="dbpass" id="dbpass" value="<?php print OC_HELPER::init_var('dbpass'); ?>" /></p>
+				
 			</div>
 			<?php endif; ?>
 		</fieldset>
