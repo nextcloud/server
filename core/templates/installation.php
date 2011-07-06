@@ -24,7 +24,7 @@
 
 		<fieldset>
 			<legend><?php echo $l->t( 'Create an <strong>admin account</strong>.' ); ?></legend>
-			<p><label for="adminlogin"><?php echo $l->t( 'Username' ); ?></label><input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_HELPER::init_var('adminlogin'); ?>" /></p>
+			<p><label for="adminlogin"><?php echo $l->t( 'Username' ); ?></label><input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_HELPER::init_var('adminlogin'); ?>" autofocus /></p>
 			<p><label for="adminpass"><?php echo $l->t( 'Password' ); ?></label><input type="password" name="adminpass" id="adminpass" value="<?php print OC_HELPER::init_var('adminpass'); ?>" /></p>
         </fieldset>
         
