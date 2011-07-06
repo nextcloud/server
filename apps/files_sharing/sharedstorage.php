@@ -27,7 +27,7 @@ OC_FILESYSTEM::registerStorageType('shared','OC_FILESTORAGE_SHARED',array('datad
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class OC_FILESTORAGE_SHARED {
+class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 	
 	private $sourcePaths = array();
 	
@@ -320,17 +320,16 @@ class OC_FILESTORAGE_SHARED {
 		}
 	}
 	
-	// TODO OC_SHARE::getPermissions()
 	public function unlink($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->unlink($this->getInternalPath($source));
-		}		
+		// The file will be removed from the database, but won't be deleted from the owner's filesystem
+		$target = OC_FILESYSTEM::getStorageMountPoint($this).$path;
+		OC_SHARE::unshareFromSelf($target);
 	}
 	
 	public function rename($path1, $path2) {
-		OC_SHARE::setTarget($path1, $path2);
+		$oldTarget = OC_FILESYSTEM::getStorageMountPoint($this).$path1;
+		$newTarget = OC_FILESYSTEM::getStorageMountPoint($this).$path2;
+		OC_SHARE::setTarget($oldTarget, $newTarget);
 	}
 	
 	public function copy($path1, $path2) {

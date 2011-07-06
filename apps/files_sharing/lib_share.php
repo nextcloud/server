@@ -53,7 +53,7 @@ class OC_SHARE {
 	* Change is writeable for the specified item and user
 	* @param $source
 	* @param $uid_shared_with
-	* @param $is_writeable 
+	* @param $is_writeable
 	*/
 	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
@@ -68,7 +68,7 @@ class OC_SHARE {
 	
 	/**
 	 * Check if the specified item is writeable for the user
-	 * @param $target 
+	 * @param $target
 	 * @return true or false
 	 */
 	public static function isWriteable($target) {
@@ -82,7 +82,7 @@ class OC_SHARE {
 			if (count($result) > 0) {
 				return $result[0]['is_writeable'];
 			} else {
-				return false; 
+				return false;
 			}
 		}
 	}
@@ -91,17 +91,26 @@ class OC_SHARE {
 	* Unshare the item, removes it from all users specified
 	* @param array $uid_shared_with
 	*/
-	public static function unshare($item, $uid_shared_with) {
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE item = ? AND uid_shared_with = ? AND uid_owner = ?");
+	public static function unshare($source, $uid_shared_with) {
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? AND uid_owner = ?");
 		foreach ($uid_shared_with as $uid) {
-			$query->execute(array($item, $uid, $_SESSION['user_id']));
+			$query->execute(array($source, $uid, $_SESSION['user_id']));
 		}
+	}
+	
+	/**
+	* Unshare the item from the current user - used when the user deletes the item
+	* @param $target
+	*/
+	public static function unshareFromSelf($target) {
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
+		$query->execute(array($target, $_SESSION['user_id']));
 	}
 	
 	/**
 	 * Set the source location to a new value
 	 * @param $oldSource The current source location
-	 * @param $newTarget The new source location 
+	 * @param $newTarget The new source location
 	 */
 	public static function setSource($oldSource, $newSource) {
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
