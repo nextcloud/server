@@ -199,6 +199,9 @@ div.controls { width:91%; margin:1em 1em 1em 2em; padding:0.5em 0; background-co
 #metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; outline:0; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
 #metanav li a img { vertical-align:middle; }
 
+/* SEARCH --------------------------------------------------------------------- */
+form.searchbox { display:inline; position:fixed; top:2em; right:10em; margin:0; padding:0; }
+
 /* NAVIGATION ------------------------------------------------------------- */
 #plugins { position:fixed; top:7em; float:left; width:15.7em; padding:0; }
 #plugins ul { list-style-type:none; border-top:1px solid #ccc; }
@@ -272,7 +275,3 @@ p.actions a.delete, div.actions a.delete { background-image:url('../img/delete.p
 #logs_options input[type="submit"].nofloat { float:none; margin:0 2em 0 0; }
 #logs_options input[type="text"] { margin:0; padding:0; border:1px solid #ccc; text-align:right; }
 li.error{ list-style:none; width:640px; margin:4em auto; padding:1em 1em 1em 4em; background-color:#fee; background-image:url('../img/task-attention.png'); background-position:0.8em 0.8em; background-repeat:no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
-
-/* SEARCH --------------------------------------------------------------------- */
-form.searchbox{display:inline; position:fixed; top:1.5em; right:9em; margin:0; padding:0;};
-form.searchbox .prettybutton{font-size:1.5em !important};
