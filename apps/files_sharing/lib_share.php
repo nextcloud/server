@@ -31,38 +31,60 @@ class OC_SHARE {
 	 * @param string $item
 	 * @param user item shared with $uid_shared_with
 	 */
-	public function __construct($item, $uid_shared_with, $public = false) {
-		if ($item && OC_FILESYSTEM::file_exists($item) && OC_FILESYSTEM::is_readable($item)) {
+	public function __construct($source, $uid_shared_with, $permissions, $public = false) {
+		if ($source && OC_FILESYSTEM::file_exists($source) && OC_FILESYSTEM::is_readable($source)) {
 			$uid_owner = $_SESSION['user_id'];
 			if ($public) {
 				// TODO create token for public file
 				$token = sha1("$uid_owner-$item");
 			} else { 
-				$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?)");
+				$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
+				$sourceLocalPath = substr($source, strlen("/".$uid_owner."/files/"));;
 				foreach ($uid_shared_with as $uid) {
-					$query->execute(array($uid_owner, $uid, $item));
+					// TODO check to see if target already exists in database
+					$target = "/".$uid."/files/Share/".$sourceLocalPath;
+					$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 				}
 			}
 		}
 	}
 	
 	/**
-	* TODO complete lib_permissions
-	* Change the permissions of the specified item
-	* @param permissions $permissions
+	* Change is writeable for the specified item and user
+	* @param $source
+	* @param $uid_shared_with
+	* @param $is_writeable 
 	*/
-	public static function setPermissions($item, $uid_shared_with, $permissions) {
-		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET permissions = ? WHERE item = ? AND uid_shared_with = ? AND uid_owner = ?");
-		$query->execute(array($permissions, $item, $uid_shared_with, $_SESSION['user_id']));
+	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
+		$query->execute(array($is_writeable, $source."%", $uid_shared_with, $_SESSION['user_id']));
+		if (mysql_affected_rows() == 0) {
+			// A new entry is added to the database when a file within a shared folder is set new a value for is_writeable, but not the entire folder
+			$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
+			$target = "/".$uid_shared_with."/files/";
+			$query->execute(array($_SESSION['user_id'], $uid_shared_with, $source, $target, $is_writeable));
+		}
 	}
 	
 	/**
-	 * Get the permissions for the specified item
-	 * @param unknown_type $item
+	 * Check if the specified item is writeable for the user
+	 * @param $target 
+	 * @return true or false
 	 */
-	public static function getPermissions($item, $uid_shared_with) {
-		$query = OC_DB::prepare("SELECT permissions FROM *PREFIX*sharing WHERE item = ? AND uid_shared_with = ? AND uid_owner = ? ");
-		return $query->execute(array($item, $uid_shared_with, $_SESSION['user_id']))->fetchAll();
+	public static function isWriteable($target) {
+		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
+		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
+		if (count($result) > 0) {
+			return $result[0]['is_writeable'];
+		} else {
+			$folders = OC_SHARE::getParentFolders($target, false);
+			$result = $query->execute(array($folders['target'], $_SESSION['user_id']))->fetchAll();
+			if (count($result) > 0) {
+				return $result[0]['is_writeable'];
+			} else {
+				return false; 
+			}
+		}
 	}
 	
 	/**
@@ -74,6 +96,16 @@ class OC_SHARE {
 		foreach ($uid_shared_with as $uid) {
 			$query->execute(array($item, $uid, $_SESSION['user_id']));
 		}
+	}
+	
+	/**
+	 * Set the source location to a new value
+	 * @param $oldSource The current source location
+	 * @param $newTarget The new source location 
+	 */
+	public static function setSource($oldSource, $newSource) {
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
+		$query->execute(array($oldSource, $newSource, $_SESSION['user_id']));
 	}
 	
 	/**
@@ -89,18 +121,41 @@ class OC_SHARE {
 		if (count($result) > 0) {
 			return $result[0]['source'];
 		} else {
-			// Check if the parent directory of this target is shared
-			$parentDir = dirname($target);
-			if ($parentDir != "" && $parentDir != "/" && $parentDir != ".") {
-				$result = OC_SHARE::getSource($parentDir);
-				if ($result) {
-					return $result."/".basename($target);
-				} else {
-					return false;
-				}
+			$folders = OC_SHARE::getParentFolders($target, false);
+			return $folders['source'].substr($target, strlen($folders['target']));
+		}
+	}
+	
+	public static function getParentFolders($path, $isSource = true) {
+		// Remove any trailing '/'
+		$path = rtrim($path, "/");
+		if ($isSource) {
+			$query = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? LIMIT 1");
+		} else {
+			$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
+		}
+		// TODO Prevent searching for user directory e.g. '/MTGap/files'
+		while ($path != "" && $path != "/" && $path != ".") {
+			$result = $query->execute(array($path, $_SESSION['user_id']))->fetchAll();
+			if (count($result) > 0) {
+				break;
 			} else {
-				return false;
+				// Check if the parent directory of this target is shared
+				$path = dirname($path);
 			}
+		}
+		if (count($result) > 0) {
+			if ($isSource) {
+				$sourceFolder = $path;
+				$targetFolder = $result[0]['target'];
+			} else {
+				$sourceFolder = $result[0]['source'];
+				$targetFolder = $path;
+			}
+			// Return both the source folder and the target folder
+			return array("source" => $sourceFolder, "target" => $targetFolder);
+		} else {
+			return false;
 		}
 	}
 	
@@ -110,8 +165,16 @@ class OC_SHARE {
 	 * @param $newTarget The new target location 
 	 */
 	public static function setTarget($oldTarget, $newTarget) {
-		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = ? WHERE target = ? AND uid_shared_with = ?");
-		$query->execute(array($newTarget, $oldTarget, $_SESSION['user_id']));
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = REPLACE(target, ?, ?) WHERE uid_shared_with = ?");
+		$query->execute(array($oldTarget, $newTarget, $_SESSION['user_id']));
+		if (mysql_affected_rows() == 0) {
+			// A new entry is added to the database when a file within a shared folder is renamed or is moved outside the original target folder
+			$query = OC_DB::prepare("SELECT uid_owner, is_writeable FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? LIMIT 1");
+			$folders = OC_SHARE::getParentFolders($oldTarget, false);
+			$result = $query->execute(array($folders['source'], $_SESSION['user_id']));
+			$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
+			$query->execute(array($result[0]['uid_owner'], $_SESSION['user_id'], $folders['source'].substr($oldTarget, strlen($folders['target'])), $newTarget, $result[0]['is_writeable']));
+		}
 	}
 	
 	/**

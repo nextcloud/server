@@ -71,6 +71,7 @@ class OC_FILESTORAGE_SHARED {
 		}
 	}
 	
+	// TODO Change files within shared folders that are renamed
 	public function opendir($path) {
 		if ($path == "" || $path == "/") {
 			global $FAKEDIRS;
@@ -161,7 +162,6 @@ class OC_FILESTORAGE_SHARED {
 	}
 	
 	public function getFolderSize($path) {
-		return 10000;
 		if ($path == "" || $path == "/") {
 			$dbpath = $_SESSION['user_id']."/files/Share/";
 		} else {
@@ -210,30 +210,16 @@ class OC_FILESTORAGE_SHARED {
 		}
 		return $size;
 	}
-	
-	// TODO OC_SHARE::getPermissions()
+
 	public function is_readable($path) {
-		if ($path == "" || $path == "/") {
-			return true;
-		} else {
-			$source = $this->getSource($path);
-			if ($source) {
-				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->is_readable($this->getInternalPath($source));
-			}
-		}
+		return true;
 	}
 	
-	// TODO OC_SHARE::getPermissions()
 	public function is_writeable($path) {
 		if ($path == "" || $path == "/") {
 			return true;
 		} else {
-			$source = $this->getSource($path);
-			if ($source) {
-				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->is_writeable($this->getInternalPath($source));
-			}
+			return OC_SHARE::isWriteable($path);
 		}
 	}
 	
@@ -334,6 +320,7 @@ class OC_FILESTORAGE_SHARED {
 		}
 	}
 	
+	// TODO OC_SHARE::getPermissions()
 	public function unlink($path) {
 		$source = $this->getSource($path);
 		if ($source) {
@@ -342,14 +329,8 @@ class OC_FILESTORAGE_SHARED {
 		}		
 	}
 	
-	// TODO OC_SHARE::getPermissions()
-	// TODO Update shared item location
 	public function rename($path1, $path2) {
-		$source = $this->getSource($path1);
-		if ($source) {
-			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->rename($this->getInternalPath($source), $path2);
-		}
+		OC_SHARE::setTarget($path1, $path2);
 	}
 	
 	public function copy($path1, $path2) {
