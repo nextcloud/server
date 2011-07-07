@@ -53,22 +53,24 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		}
 	}
 	
-	// TODO OC_SHARE::getPermissions()
 	public function mkdir($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->mkdir($this->getInternalPath($source));
+		if ($path == "" || $path == "/") {
+			return false; 
+		} else {
+			$source = $this->getSource($path);
+			if ($source) {
+				if (OC_SHARE::isWriteable($path)) {
+					$storage = OC_FILESYSTEM::getStorage($source);
+					return $storage->mkdir($this->getInternalPath($source));
+				}
+			}
 		}
 	}
 	
-	// TODO OC_SHARE::getPermissions()
 	public function rmdir($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->rmdir($this->getInternalPath($source));
-		}
+		// The folder will be removed from the database, but won't be deleted from the owner's filesystem
+		$target = OC_FILESYSTEM::getStorageMountPoint($this).$path;
+		OC_SHARE::unshareFromSelf($target);
 	}
 	
 	// TODO Change files within shared folders that are renamed
