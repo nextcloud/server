@@ -114,3 +114,7 @@ table td.filename a
 span.extention{
 	color:#999;
 }
+
+div.crumb{
+	float:left;
+}

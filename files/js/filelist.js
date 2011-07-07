@@ -11,6 +11,7 @@ FileList={
 		html+='<td class="fileaction"><a href="" title="+" class="dropArrow"></a></td>';
 		html+='</tr>';
 		FileList.insertElement(name,'file',$(html));
+		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
 	},
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir">';
@@ -22,6 +23,8 @@ FileList={
 		html+='</tr>';
 		
 		FileList.insertElement(name,'dir',$(html));
+		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
+		$('tr[data-file="'+name+'"] td.filename').droppable(folderDropOptions);
 	},
 	refresh:function(data) {
 		result = jQuery.parseJSON(data.responseText);
@@ -32,6 +35,7 @@ FileList={
 		resetFileActionPanel();
 	},
 	remove:function(name){
+		$('tr[data-file="'+name+'"] td.filename').draggable('destroy');
 		$('tr[data-file="'+name+'"]').remove();
 	},
 	insertElement:function(name,type,element){

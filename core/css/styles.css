@@ -249,9 +249,9 @@ table td.delete { background-image:url('../img/delete.png'); }
 #fileList tr:hover input[type=checkbox] { display:inline; }
 
 /* NAVIGATION BAR */
-p.nav { margin:1em 0 0 2em; padding:0.8em; line-height:16px; font-weight:bold; }
-p.nav a { padding:0.5em 1.5em 0.5em 0.5em; background-position:right center; background-repeat:no-repeat; background-image:url('../img/arrow.png'); text-decoration:none; }
-p.nav a img { height:16px; vertical-align:text-top; }
+span.nav { margin:1em 0 0 2em; padding:0.8em; line-height:16px; font-weight:bold; display:block}
+span.nav a { padding:0.5em 1.5em 0.5em 0.5em; background-position:right center; background-repeat:no-repeat; background-image:url('../img/arrow.png'); text-decoration:none; }
+span.nav a img { height:16px; vertical-align:text-top; }
 
 /* ACTIONS BAR */
 p.actions, div.actions { padding:0; }

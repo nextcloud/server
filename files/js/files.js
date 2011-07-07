@@ -1,26 +1,33 @@
 $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
-	
-	$('#fileList tr td.filename').draggable({
-		distance: 20, revert: true, opacity: 0.7,
-		stop: function(event, ui) {
-			$('#fileList tr td.filename').addClass('ui-draggable');
-		},
-	});
-	$('#fileList tr[data-type="dir"] td.filename').droppable({
+
+	//drag/drop of files
+	$('#fileList tr td.filename').draggable(dragOptions);
+	$('#fileList tr[data-type="dir"] td.filename').droppable(folderDropOptions);
+	$('div.crumb').droppable({
 		drop: function( event, ui ) {
 			var file=ui.draggable.text().trim();
-			var target=$(this).text().trim();
+			var target=$(this).attr('data-dir');
+			var dir=$('#dir').val();
+			while(dir.substr(0,1)=='/'){//remove extra leading /'s
+				dir=dir.substr(1);
+			}
+			dir='/'+dir;
+			if(dir.substr(-1,1)!='/'){
+				dir=dir+'/';
+			}
+			if(target==dir){
+				return;
+			}
 			$.ajax({
 				url: 'ajax/move.php',
-				data: "dir="+$('#dir').val()+"&file="+file+'&target='+target,
+				data: "dir="+dir+"&file="+file+'&target='+target,
 				complete: function(data){boolOperationFinished(data, function(){
-					var el=$('#fileList tr[data-file="'+file+'"] td.filename');
-					el.draggable('destroy');
 					FileList.remove(file);
 				});}
 			});
-		}
+		},
+		tolerance: 'pointer'
 	});
 	
 	// Sets the file-action buttons behaviour :
@@ -233,4 +240,29 @@ function formatDate(date){
 	var monthNames = [ "January", "February", "March", "April", "May", "June",
 	"July", "August", "September", "October", "November", "December" ];
 	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
+}
+
+
+//options for file drag/dropp
+var dragOptions={
+	distance: 20, revert: true, opacity: 0.7,
+	stop: function(event, ui) {
+		$('#fileList tr td.filename').addClass('ui-draggable');
+	}
+};
+var folderDropOptions={
+	drop: function( event, ui ) {
+		var file=ui.draggable.text().trim();
+		var target=$(this).text().trim();
+		var dir=$('#dir').val();
+		$.ajax({
+			url: 'ajax/move.php',
+		data: "dir="+dir+"&file="+file+'&target='+dir+'/'+target,
+		complete: function(data){boolOperationFinished(data, function(){
+			var el=$('#fileList tr[data-file="'+file+'"] td.filename');
+			el.draggable('destroy');
+			FileList.remove(file);
+		});}
+		});
+	}
 }

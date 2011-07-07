@@ -23,9 +23,9 @@
 	</div>
 </div>
 
-<p class="nav">
+<span class="nav">
 	<?php echo($_['breadcrumb']); ?>
-</p>
+</span>
 
 <table cellspacing="0">
 	<thead>
