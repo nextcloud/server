@@ -59,7 +59,8 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
-				if (OC_SHARE::isWriteable($path)) {
+				$target = OC_FILESYSTEM::getStorageMountPoint($this).$path;
+				if (OC_SHARE::isWriteable($target)) {
 					$storage = OC_FILESYSTEM::getStorage($source);
 					return $storage->mkdir($this->getInternalPath($source));
 				}
