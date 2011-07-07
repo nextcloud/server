@@ -1,16 +1,28 @@
 $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
-
-	// Sets browser table behaviour :
-	$('.browser tr').hover(
-		function() {
-			$(this).addClass('mouseOver');
+	
+	$('#fileList tr td.filename').draggable({
+		distance: 20, revert: true, opacity: 0.7,
+		stop: function(event, ui) {
+			$('#fileList tr td.filename').addClass('ui-draggable');
 		},
-		function() {
-			$(this).removeClass('mouseOver');
+	});
+	$('#fileList tr[data-type="dir"] td.filename').droppable({
+		drop: function( event, ui ) {
+			var file=ui.draggable.text().trim();
+			var target=$(this).text().trim();
+			$.ajax({
+				url: 'ajax/move.php',
+				data: "dir="+$('#dir').val()+"&file="+file+'&target='+target,
+				complete: function(data){boolOperationFinished(data, function(){
+					var el=$('#fileList tr[data-file="'+file+'"] td.filename');
+					el.draggable('destroy');
+					FileList.remove(file);
+				});}
+			});
 		}
-	);
-
+	});
+	
 	// Sets the file-action buttons behaviour :
 	$('td.fileaction a').live('click',function(event) {
 		event.preventDefault();
