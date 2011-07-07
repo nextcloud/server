@@ -75,8 +75,7 @@ table {
 	width: 90%;
 }
 
-tbody tr:hover, tbody tr:active { background-color:#eee; }
-tbody tr.selected { background-color:#ccc; }
+tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
 
 table td.filesize, table td.date
@@ -113,5 +112,5 @@ table td.filename a
 }
 
 span.extention{
-	color:#666;
+	color:#999;
 }
