@@ -76,6 +76,7 @@ table {
 }
 
 tbody tr:hover, tbody tr:active { background-color:#eee; }
+tbody tr.selected { background-color:#ccc; }
 tbody a { color:#000; }
 
 table td.filesize, table td.date

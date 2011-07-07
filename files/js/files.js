@@ -31,15 +31,19 @@ $(document).ready(function() {
 	
 	// Sets the select_all checkbox behaviour :
 	$('#select_all').click(function() {
-		if($(this).attr('checked'))
+		if($(this).attr('checked')){
 			// Check all
 			$('td.selection input:checkbox').attr('checked', true);
-		else
+			$('td.selection input:checkbox').parent().parent().addClass('selected');
+		}else{
 			// Uncheck all
 			$('td.selection input:checkbox').attr('checked', false);
+			$('td.selection input:checkbox').parent().parent().removeClass('selected');
+		}
 	});
 	
 	$('td.selection input:checkbox').live('click',function() {
+		$(this).parent().parent().toggleClass('selected');
 		if(!$(this).attr('checked')){
 			$('#select_all').attr('checked',false);
 		}else{
