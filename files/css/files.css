@@ -75,7 +75,7 @@ table {
 	width: 90%;
 }
 
-tbody tr:hover, tbody tr:active { background-color:#eee; }
+tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
 
 table td.filesize, table td.date
@@ -109,4 +109,12 @@ table td.filename a
 	display: -moz-inline-box; /* fallback for older firefox versions*/
 	display: inline-block;
 	background-image:url('../img/drop-arrow.png');
+}
+
+span.extention{
+	color:#999;
+}
+
+div.crumb{
+	float:left;
 }

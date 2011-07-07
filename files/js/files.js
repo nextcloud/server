@@ -1,16 +1,35 @@
 $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 
-	// Sets browser table behaviour :
-	$('.browser tr').hover(
-		function() {
-			$(this).addClass('mouseOver');
+	//drag/drop of files
+	$('#fileList tr td.filename').draggable(dragOptions);
+	$('#fileList tr[data-type="dir"] td.filename').droppable(folderDropOptions);
+	$('div.crumb').droppable({
+		drop: function( event, ui ) {
+			var file=ui.draggable.text().trim();
+			var target=$(this).attr('data-dir');
+			var dir=$('#dir').val();
+			while(dir.substr(0,1)=='/'){//remove extra leading /'s
+				dir=dir.substr(1);
+			}
+			dir='/'+dir;
+			if(dir.substr(-1,1)!='/'){
+				dir=dir+'/';
+			}
+			if(target==dir){
+				return;
+			}
+			$.ajax({
+				url: 'ajax/move.php',
+				data: "dir="+dir+"&file="+file+'&target='+target,
+				complete: function(data){boolOperationFinished(data, function(){
+					FileList.remove(file);
+				});}
+			});
 		},
-		function() {
-			$(this).removeClass('mouseOver');
-		}
-	);
-
+		tolerance: 'pointer'
+	});
+	
 	// Sets the file-action buttons behaviour :
 	$('td.fileaction a').live('click',function(event) {
 		event.preventDefault();
@@ -31,15 +50,19 @@ $(document).ready(function() {
 	
 	// Sets the select_all checkbox behaviour :
 	$('#select_all').click(function() {
-		if($(this).attr('checked'))
+		if($(this).attr('checked')){
 			// Check all
 			$('td.selection input:checkbox').attr('checked', true);
-		else
+			$('td.selection input:checkbox').parent().parent().addClass('selected');
+		}else{
 			// Uncheck all
 			$('td.selection input:checkbox').attr('checked', false);
+			$('td.selection input:checkbox').parent().parent().removeClass('selected');
+		}
 	});
 	
 	$('td.selection input:checkbox').live('click',function() {
+		$(this).parent().parent().toggleClass('selected');
 		if(!$(this).attr('checked')){
 			$('#select_all').attr('checked',false);
 		}else{
@@ -217,4 +240,29 @@ function formatDate(date){
 	var monthNames = [ "January", "February", "March", "April", "May", "June",
 	"July", "August", "September", "October", "November", "December" ];
 	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
+}
+
+
+//options for file drag/dropp
+var dragOptions={
+	distance: 20, revert: true, opacity: 0.7,
+	stop: function(event, ui) {
+		$('#fileList tr td.filename').addClass('ui-draggable');
+	}
+};
+var folderDropOptions={
+	drop: function( event, ui ) {
+		var file=ui.draggable.text().trim();
+		var target=$(this).text().trim();
+		var dir=$('#dir').val();
+		$.ajax({
+			url: 'ajax/move.php',
+		data: "dir="+dir+"&file="+file+'&target='+dir+'/'+target,
+		complete: function(data){boolOperationFinished(data, function(){
+			var el=$('#fileList tr[data-file="'+file+'"] td.filename');
+			el.draggable('destroy');
+			FileList.remove(file);
+		});}
+		});
+	}
 }

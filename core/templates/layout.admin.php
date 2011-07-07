@@ -43,7 +43,7 @@
 						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
 						<?php if( sizeof( $entry["subnavigation"] )): ?>
 							<?php foreach($entry["subnavigation"] as $subentry):?>
-								<li><a href="<?php echo $subentry['href']; ?>" title="" <?php if( $subentry["active"] ): ?> class="active"<?php endif; ?>><?php echo $subentry['name'] ?></a></li>
+								<li><a href="<?php echo $subentry['href']; ?>" title="" <?php if( $subentry['active'] ): ?>class="active"<?php endif; ?>><?php echo $subentry['name'] ?></a></li>
 							<?php endforeach; ?>
 						<?php endif; ?>
 					<?php endforeach; ?>
@@ -52,7 +52,7 @@
 							<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
 							<?php if( sizeof( $entry["subnavigation"] )): ?>
 								<?php foreach($entry["subnavigation"] as $subentry):?>
-									<li><a class="subentry" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
+									<li><a class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
 								<?php endforeach; ?>
 							<?php endif; ?>
 						<?php endforeach; ?>
