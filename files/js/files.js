@@ -245,7 +245,7 @@ function formatDate(date){
 
 //options for file drag/dropp
 var dragOptions={
-	distance: 20, revert: true, opacity: 0.7,
+	distance: 20, revert: 'invalid', opacity: 0.7,
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
