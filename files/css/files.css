@@ -35,12 +35,12 @@
 }
 
 #file_upload_filename {
-	background-image:url(../../img/mimetypes/file.png);
+	background-image:url(../img/file.png); font-weight:bold;
 }
 #file_upload_start {opacity:0;filter: alpha(opacity = 0);}
 
 #file_newfolder_name {
-	background-image:url(../../img/places/folder.png); font-weight: bold; 
+	background-image:url(../img/folder.png); font-weight:bold; 
 	width: 14em;
 }
 
@@ -65,11 +65,6 @@
 	width: 3em;
 }
 
-form input[type="button"], form input[type="text"]{
-	/* this is a dirty wurgaround, Jan needs to fix it in global css*/
-	font-size: 0.9em;
-}
-
 #file_upload_target {
 	display: none;
 }
@@ -79,6 +74,9 @@ form input[type="button"], form input[type="text"]{
 table {
 	width: 90%;
 }
+
+tbody tr:hover, tbody tr:active { background-color:#eee; }
+tbody a { color:#000; }
 
 table td.filesize, table td.date
 {

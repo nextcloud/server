@@ -216,19 +216,25 @@ $(document).ready(function(){
 	// Create a new user
 	$( "#createuserbutton" )
 		.click(function(){
-			// Create the post data
-			var post = $( "#createuserdata" ).serialize();
-
-			// Ajax call
-			$.post( 'ajax/createuser.php', post, function(data){
-				// If it says "success" then we are happy
-				if( data.status == "success" ){
-					userCreated( data.data.username, data.data.groups );
-				}
-				else{
-					printError( data.data.message );
-				}
-			});
+			if(!$( "#createuserbutton" ).data('active')){
+				$( "#createuserbutton" ).data('active',true);
+				
+				// Create the post data
+				var post = $( "#createuserdata" ).serialize();
+				
+				// Ajax call
+				$.post( 'ajax/createuser.php', post, function(data){
+					$( "#createuserbutton" ).data('active',false);
+					
+					// If it says "success" then we are happy
+					if( data.status == "success" ){
+						userCreated( data.data.username, data.data.groups );
+					}
+					else{
+						printError( data.data.message );
+					}
+				});
+			}
 			return false;
 		});
 

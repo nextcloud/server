@@ -5,7 +5,7 @@
 			<?php if($_['error']): ?>
 				<?php echo $l->t( 'Login failed!' ); ?>
 			<?php endif; ?>
-			<input type="text" name="user" id="user" value="" />
+			<input type="text" name="user" id="user" value="" autofocus />
 			<input type="password" name="password" id="password" value="" />
 			<input type="submit" value="Log in" />
 		</fieldset>
