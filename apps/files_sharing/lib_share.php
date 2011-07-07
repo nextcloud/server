@@ -104,7 +104,7 @@ class OC_SHARE {
 	*/
 	public static function unshareFromSelf($target) {
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
-		$query->execute(array($target, $_SESSION['user_id']));
+		$query->execute(array($target."%", $_SESSION['user_id']));
 	}
 	
 	/**
