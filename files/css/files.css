@@ -111,3 +111,7 @@ table td.filename a
 	display: inline-block;
 	background-image:url('../img/drop-arrow.png');
 }
+
+span.extention{
+	color:#666;
+}

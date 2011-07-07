@@ -47,6 +47,10 @@ $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 $files = array();
 foreach( OC_FILES::getdirectorycontent( $dir ) as $i ){
 	$i["date"] = OC_UTIL::formatDate($i["mtime"] );
+	if($i['type']=='file'){
+		$i['extention']=substr($i['name'],strrpos($i['name'],'.'));
+		$i['name']=substr($i['name'],0,strrpos($i['name'],'.'));
+	}
 	if($i['directory']=='/'){
 		$i['directory']='';
 	}
