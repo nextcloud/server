@@ -5,6 +5,7 @@ body { background:#fefefe url('../img/body_background.jpg') repeat-y left top; f
 #owncloud { float:left; margin:0 0 0 2em; }
 h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercase; font-weight:normal; font-style:italic; color:#666; }
 p.center { text-align:center; }
+a { color:#000; text-decoration:none; }
 
 form { margin:2em 2em 2em 3em; }
 form#quota { max-width:600px; }
