@@ -97,7 +97,7 @@ class OC_SHARE {
 	* @param array $uid_shared_with
 	*/
 	public static function unshare($source, $uid_shared_with) {
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? AND uid_owner = ?");
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
 		foreach ($uid_shared_with as $uid) {
 			$query->execute(array($source, $uid, $_SESSION['user_id']));
 		}
