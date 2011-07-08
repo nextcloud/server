@@ -39,7 +39,7 @@ $(document).ready(function() {
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
 		event.preventDefault();
-		var filename=$(this).text();
+		var filename=$(this).parent().parent().attr('data-file');
 		var mime=$(this).parent().parent().attr('data-mime');
 		var type=$(this).parent().parent().attr('data-type');
 		var action=FileActions.getDefault(mime,type);
