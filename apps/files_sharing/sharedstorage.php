@@ -74,7 +74,6 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		OC_SHARE::unshareFromSelf($target);
 	}
 	
-	// TODO Change files within shared folders that are renamed
 	public function opendir($path) {
 		if ($path == "" || $path == "/") {
 			global $FAKEDIRS;
@@ -88,7 +87,28 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
-				return $storage->opendir($this->getInternalPath($source));
+				$dh = $storage->opendir($this->getInternalPath($source));
+				$modifiedItems = OC_SHARE::getSharedFilesIn($source);
+				if ($modifiedItems && $dh) {
+					global $FAKEDIRS;
+					$sources = array();
+					$targets = array();
+					foreach ($modifiedItems as $item) {
+						$sources[] = basename($item['source']);
+						$targets[] = basename($item['target']);
+					}
+					while (($filename = readdir($dh)) !== false) {
+						if (!in_array($filename, $sources)) {
+							$files[] = $filename;
+						} else {
+							$files[] = $targets[array_search($filename, $sources)];
+						}
+					}
+					$FAKEDIRS['shared'] = $files;
+					return opendir('fakedir://shared');
+				} else {
+					return $dh;
+				}
 			}
 		}
 	}

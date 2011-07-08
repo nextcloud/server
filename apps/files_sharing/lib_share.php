@@ -173,6 +173,18 @@ class OC_SHARE {
 			return false;
 		}
 	}
+
+	/**
+	 * Get the files within a shared folder that have their own entry for the purpose of name, location, or permissions that differ from the folder itself
+	 * @param $sourceFolder The source folder of the files to look for
+	 * @return array An array of the files if any
+	 */
+	public static function getSharedFilesIn($sourceFolder) {
+		// Append '/' in order to filter out the folder itself
+		$sourceFolder = $sourceFolder."/";
+		$query = OC_DB::prepare("SELECT source, target FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
+		return $query->execute(array($sourceFolder."%", $_SESSION['user_id']))->fetchAll();
+	}
 	
 	/**
 	 * Set the target location to a new value
