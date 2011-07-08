@@ -148,8 +148,9 @@ class OC_SHARE {
 		} else {
 			$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
 		}
-		// TODO Prevent searching for user directory e.g. '/MTGap/files'
-		while ($path != "" && $path != "/" && $path != ".") {
+		// Prevent searching for user directory e.g. '/MTGap/files'
+		$userDirectory = substr($path, 0, strpos($path, "files") + 5);
+		while ($path != "" && $path != "/" && $path != "." && $path != $userDirectory) {
 			$result = $query->execute(array($path, $_SESSION['user_id']))->fetchAll();
 			if (count($result) > 0) {
 				break;
