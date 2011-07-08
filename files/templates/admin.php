@@ -1,11 +1,11 @@
 <script type="text/javascript">
 function switchPublicFolder()
 {
-	var publicEnable = document.forms['filesForm'].elements['publicEnable'].checked;
-	var sharingaimGroup = document.forms['filesForm'].elements['sharingaim'];
-	for(i=0;i<sharingaimGroup.length;i++) {
-		sharingaimGroup[i].disabled = !publicEnable;
-	}
+	var publicEnable = $('#publicEnable').is(':checked');
+	var sharingaimGroup = $('input:radio[name=sharingaim]');
+	$.each(sharingaimGroup, function(index, sharingaimItem) {
+		sharingaimItem.disabled = !publicEnable;
+	});
 }
 </script>
 <form name="filesForm" action='#' method='post'>
