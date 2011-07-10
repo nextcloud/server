@@ -59,10 +59,10 @@ foreach( OC_FILES::getdirectorycontent( $dir ) as $i ){
 
 // Make breadcrumb
 $breadcrumb = array();
-$pathtohere = "/";
+$pathtohere = "";
 foreach( explode( "/", $dir ) as $i ){
 	if( $i != "" ){
-		$pathtohere .= "$i/";
+		$pathtohere .= "/$i";
 		$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
 	}
 }
