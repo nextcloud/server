@@ -20,11 +20,8 @@ RCS/*
 # kdevelop
 .kdev
 *.kdev4
-<<<<<<< HEAD
-.project
-=======
 
 # Lokalize
 *lokalize*
 
->>>>>>> master
+.project
