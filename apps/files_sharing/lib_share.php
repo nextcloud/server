@@ -128,8 +128,9 @@ class OC_SHARE {
 	 * @return source path
 	 */
 	public static function getSource($target) {
-		// Remove any trailing '/'
+		// Remove any duplicate or trailing '/'
 		$target = rtrim($target, "/");
+		$target = preg_replace('{(/)\1+}', "/", $target);
 		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
 		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
 		if (count($result) > 0) {
@@ -141,8 +142,9 @@ class OC_SHARE {
 	}
 	
 	public static function getParentFolders($path, $isSource = true) {
-		// Remove any trailing '/'
+		// Remove any duplicate or trailing '/'
 		$path = rtrim($path, "/");
+		$path = preg_replace('{(/)\1+}', "/", $path);
 		if ($isSource) {
 			$query = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? LIMIT 1");
 		} else {
