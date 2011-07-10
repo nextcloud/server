@@ -39,7 +39,7 @@ $(document).ready(function() {
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
 		event.preventDefault();
-		var filename=$(this).text();
+		var filename=$(this).parent().parent().attr('data-file');
 		var mime=$(this).parent().parent().attr('data-mime');
 		var type=$(this).parent().parent().attr('data-type');
 		var action=FileActions.getDefault(mime,type);
@@ -245,7 +245,7 @@ function formatDate(date){
 
 //options for file drag/dropp
 var dragOptions={
-	distance: 20, revert: true, opacity: 0.7,
+	distance: 20, revert: 'invalid', opacity: 0.7,
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
