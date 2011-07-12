@@ -416,9 +416,9 @@ class OC_FILESYSTEM{
 				}
 				OC_HOOK::emit( 'OC_FILESYSTEM', 'post_copy', array( 'oldpath' => $path1 ,'newpath'=>$path2));
 				if(!$exists){
-					OC_HOOK::emit( 'OC_FILESYSTEM', 'post_create', array( 'path' => $path));
+					OC_HOOK::emit( 'OC_FILESYSTEM', 'post_create', array( 'path' => $path2));
 				}
-				OC_HOOK::emit( 'OC_FILESYSTEM', 'post_write', array( 'path' => $path));
+				OC_HOOK::emit( 'OC_FILESYSTEM', 'post_write', array( 'path' => $path2));
 				return $result;
 			}
 		}

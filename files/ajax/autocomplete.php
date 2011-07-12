@@ -40,17 +40,19 @@ $query=strtolower($query);
 
 $files=array();
 
-if(OC_FILESYSTEM::is_dir($base)){
+if(OC_FILESYSTEM::file_exists($base) and OC_FILESYSTEM::is_dir($base)){
 	$dh = OC_FILESYSTEM::opendir($base);
-	if(substr($base,-1,1)!='/'){
-		$base=$base.'/';
-	}
-	while (($file = readdir($dh)) !== false) {
-		if ($file != "." && $file != ".."){
-			if(substr(strtolower($file),0,$queryLen)==$query){
-				$item=$base.$file;
-				if((!$dirOnly or OC_FILESYSTEM::is_dir($item))){
-					$files[]=(object)array('id'=>$item,'label'=>$item,'name'=>$item);
+	if($dh){
+		if(substr($base,-1,1)!='/'){
+			$base=$base.'/';
+		}
+		while (($file = readdir($dh)) !== false) {
+			if ($file != "." && $file != ".."){
+				if(substr(strtolower($file),0,$queryLen)==$query){
+					$item=$base.$file;
+					if((!$dirOnly or OC_FILESYSTEM::is_dir($item))){
+						$files[]=(object)array('id'=>$item,'label'=>$item,'name'=>$item);
+					}
 				}
 			}
 		}
