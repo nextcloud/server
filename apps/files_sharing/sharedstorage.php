@@ -98,10 +98,12 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 						$targets[] = basename($item['target']);
 					}
 					while (($filename = readdir($dh)) !== false) {
-						if (!in_array($filename, $sources)) {
-							$files[] = $filename;
-						} else {
-							$files[] = $targets[array_search($filename, $sources)];
+						if ($filename != "." && $filename != "..") {
+							if (!in_array($filename, $sources)) {
+								$files[] = $filename;
+							} else {
+								$files[] = $targets[array_search($filename, $sources)];
+							}
 						}
 					}
 					$FAKEDIRS['shared'] = $files;
