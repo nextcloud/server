@@ -216,15 +216,6 @@ class OC_FILESYSTEM{
 	}
 	
 	/**
-	* get the mountpoint of the storage object
-	* @param OC_FILESTORAGE storage
-	* @return string
-	*/
-	static public function getStorageMountPoint($storage){
-		return array_search($storage, self::$storages);
-	}
-	
-	/**
 	* return the path to a local version of the file
 	* we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
 	* @param string path

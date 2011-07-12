@@ -166,7 +166,7 @@ class OC_UTIL {
 			OC_FILESYSTEM::mount($rootStorage,'/');
 
 			// TODO add this storage provider in a proper way
-			$sharedStorage = OC_FILESYSTEM::createStorage('shared',array('datadir'=>$CONFIG_DATADIRECTORY));
+			$sharedStorage = OC_FILESYSTEM::createStorage('shared',array('datadir'=>'/MTGap/files/Share/'));
 			OC_FILESYSTEM::mount($sharedStorage,'MTGap/files/Share/');
 			
 			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
