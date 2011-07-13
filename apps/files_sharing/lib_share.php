@@ -137,7 +137,11 @@ class OC_SHARE {
 			return $result[0]['source'];
 		} else {
 			$folders = OC_SHARE::getParentFolders($target, false);
-			return $folders['source'].substr($target, strlen($folders['target']));
+			if ($folders == false) {
+				return false;
+			} else {
+				return $folders['source'].substr($target, strlen($folders['target']));
+			}
 		}
 	}
 	
