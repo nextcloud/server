@@ -355,10 +355,15 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 	}
 	
 	public function copy($path1, $path2) {
-		$source = $this->getSource($path1);
-		if ($source) {
-			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->copy($this->getInternalPath($source), $path2);
+		if ($path2 == "" || $path2 == "/") {
+			// TODO Construct new shared item or should this not be allowed?
+		} else {
+			if ($this->is_writeable($path)) {
+				$tmpFile = $this->toTmpFile($path1);
+				return $this->fromTmpFile($tmpFile, $path2);
+			} else {
+				return false;
+			}
 		}
 	}
 	
@@ -378,11 +383,15 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		}
 	}
 	
-	public function fromTmpFile($tmpPath, $path) {
-		$source = $this->getSource($tmpPath);
-		if ($source) {
-			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->fromTmpFile($this->getInternalPath($source), $path);
+	public function fromTmpFile($tmpFile, $path) {
+		if ($this->is_writeable($path)) {
+			$source = $this->getSource($path);
+			if ($source) {
+				$storage = OC_FILESYSTEM::getStorage($source);
+				return $storage->fromTmpFile($tmpFile, $this->getInternalPath($source));
+			}
+		} else {
+			return false;
 		}
 	}
 	
