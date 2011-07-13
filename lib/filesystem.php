@@ -384,7 +384,7 @@ class OC_FILESYSTEM{
 					}
 				}elseif($storage1=self::getStorage($path1) and $storage2=self::getStorage($path2)){
 					$tmpFile=$storage1->toTmpFile(self::getInternalPath($path1));
-					$result=$storage2->fromTmpFile(self::getInternalPath($path2));
+					$result=$storage2->fromTmpFile($tmpFile,self::getInternalPath($path2));
 					$storage1->unlink(self::getInternalPath($path1));
 				}
 				OC_HOOK::emit( 'OC_FILESYSTEM', 'post_rename', array( 'oldpath' => $path1, 'newpath'=>$path2));
