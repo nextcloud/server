@@ -50,30 +50,97 @@ class OC_SHARE {
 	}
 	
 	/**
-	* Change is writeable for the specified item and user
-	* @param $source
-	* @param $uid_shared_with
-	* @param $is_writeable
-	*/
-	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
-		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? LIMIT 1");
-		$result = $query->execute(array($source, $uid_shared_with))->fetchAll();
-		if (count($result) > 0) {
-			$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
-			$query->execute(array($is_writeable, $source."%", $uid_shared_with, $_SESSION['user_id']));
-		} else {
-			// A new entry is added to the database when a file within a shared folder is set new a value for is_writeable, but not the entire folder
-			$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-			$folders = OC_SHARE::getParentFolders($source);
-			$target = $folders['target'].substr($source, strlen($folders['source']));
-			$query->execute(array($_SESSION['user_id'], $uid_shared_with, $source, $target, $is_writeable));
-		}
+	 * Get the item with the specified target location
+	 * @param $target The target location of the item
+	 * @return An array with the item
+	 */
+	public static function getItem($target) {
+		$query = OC_DB::prepare("SELECT uid_owner, source, is_writeable  FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
+		return $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
 	}
 	
 	/**
-	 * Check if the specified item is writeable for the user
-	 * @param $target
-	 * @return true or false
+	 * Get all items the current user is sharing
+	 * @return An array with all items the user is sharing
+	 */
+	public static function getMySharedItems() {
+		$query = OC_DB::prepare("SELECT uid_shared_with, source, is_writeable FROM *PREFIX*sharing WHERE uid_owner = ?");
+		return $query->execute(array($_SESSION['user_id']))->fetchAll();
+	}
+	
+	/**
+	 * Get the items within a shared folder that have their own entry for the purpose of name, location, or permissions that differ from the folder itself
+	 *
+	 * Also can be used for getting all item shared with you e.g. pass '/MTGap/files'
+	 *
+	 * @param $targetFolder The target folder of the items to look for
+	 * @return An array with all items in the database that are in the target folder
+	 */
+	public static function getItemsInFolder($targetFolder) {
+		// Append '/' in order to filter out the folder itself if not already there
+		if (substr($targetFolder, -1) !== "/") {
+			$targetFolder .= "/";
+		}
+		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
+		return $query->execute(array($targetFolder."%", $_SESSION['user_id']))->fetchAll();
+	}
+	
+	/**
+	 * Get the source and target parent folders of the specified target location
+	 * @param $target The target location of the item
+	 * @return An array with the keys 'source' and 'target' with the values of the source and target parent folders
+	 */
+	public static function getParentFolders($target) {
+		// Remove any duplicate or trailing '/'
+		$target = rtrim($target, "/");
+		$target = preg_replace('{(/)\1+}', "/", $target);
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
+		// Prevent searching for user directory e.g. '/MTGap/files'
+		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
+		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
+			$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
+			if (count($result) > 0) {
+				break;
+			} else {
+				// Check if the parent directory of this target location is shared
+				$target = dirname($target);
+			}
+		}
+		if (count($result) > 0) {
+			// Return both the source folder and the target folder
+			return array("source" => $result[0]['source'], "target" => $target);
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Get the source location of the item at the specified target location
+	 * @param $target The target location of the item
+	 * @return Source location or false if target location is not valid
+	 */
+	public static function getSource($target) {
+		// Remove any duplicate or trailing '/'
+		$target = rtrim($target, "/");
+		$target = preg_replace('{(/)\1+}', "/", $target);
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
+		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
+		if (count($result) > 0) {
+			return $result[0]['source'];
+		} else {
+			$folders = self::getParentFolders($target);
+			if ($folders == false) {
+				return false;
+			} else {
+				return $folders['source'].substr($target, strlen($folders['target']));
+			}
+		}
+	}
+
+	/**
+	 * Check if the user has write permission for the item at the specified target location
+	 * @param $target The target location of the item
+	 * @return True if the user has write permission or false if read only
 	 */
 	public static function isWriteable($target) {
 		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
@@ -82,7 +149,7 @@ class OC_SHARE {
 			return $result[0]['is_writeable'];
 		} else {
 			// Check if the folder is writeable
-			$folders = OC_SHARE::getParentFolders($target, false);
+			$folders = OC_SHARE::getParentFolders($target);
 			$result = $query->execute(array($folders['target'], $_SESSION['user_id']))->fetchAll();
 			if (count($result) > 0) {
 				return $result[0]['is_writeable'];
@@ -91,27 +158,7 @@ class OC_SHARE {
 			}
 		}
 	}
-	
-	/**
-	* Unshare the item, removes it from all users specified
-	* @param array $uid_shared_with
-	*/
-	public static function unshare($source, $uid_shared_with) {
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
-		foreach ($uid_shared_with as $uid) {
-			$query->execute(array($source."%", $uid, $_SESSION['user_id']));
-		}
-	}
-	
-	/**
-	* Unshare the item from the current user - used when the user deletes the item
-	* @param $target
-	*/
-	public static function unshareFromSelf($target) {
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
-		$query->execute(array($target."%", $_SESSION['user_id']));
-	}
-	
+
 	/**
 	 * Set the source location to a new value
 	 * @param $oldSource The current source location
@@ -123,115 +170,61 @@ class OC_SHARE {
 	}
 	
 	/**
-	 * Get the source location of the target item
-	 * @param $target
-	 * @return source path
-	 */
-	public static function getSource($target) {
-		// Remove any duplicate or trailing '/'
-		$target = rtrim($target, "/");
-		$target = preg_replace('{(/)\1+}', "/", $target);
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
-		if (count($result) > 0) {
-			return $result[0]['source'];
-		} else {
-			$folders = OC_SHARE::getParentFolders($target, false);
-			if ($folders == false) {
-				return false;
-			} else {
-				return $folders['source'].substr($target, strlen($folders['target']));
-			}
-		}
-	}
-	
-	public static function getParentFolders($path, $isSource = true) {
-		// Remove any duplicate or trailing '/'
-		$path = rtrim($path, "/");
-		$path = preg_replace('{(/)\1+}', "/", $path);
-		if ($isSource) {
-			$query = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? LIMIT 1");
-		} else {
-			$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		}
-		// Prevent searching for user directory e.g. '/MTGap/files'
-		$userDirectory = substr($path, 0, strpos($path, "files") + 5);
-		while ($path != "" && $path != "/" && $path != "." && $path != $userDirectory) {
-			$result = $query->execute(array($path, $_SESSION['user_id']))->fetchAll();
-			if (count($result) > 0) {
-				break;
-			} else {
-				// Check if the parent directory of this target is shared
-				$path = dirname($path);
-			}
-		}
-		if (count($result) > 0) {
-			if ($isSource) {
-				$sourceFolder = $path;
-				$targetFolder = $result[0]['target'];
-			} else {
-				$sourceFolder = $result[0]['source'];
-				$targetFolder = $path;
-			}
-			// Return both the source folder and the target folder
-			return array("source" => $sourceFolder, "target" => $targetFolder);
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Get the files within a shared folder that have their own entry for the purpose of name, location, or permissions that differ from the folder itself
-	 * @param $sourceFolder The source folder of the files to look for
-	 * @return array An array of the files if any
-	 */
-	public static function getSharedFilesIn($sourceFolder) {
-		// Append '/' in order to filter out the folder itself
-		$sourceFolder = $sourceFolder."/";
-		$query = OC_DB::prepare("SELECT source, target FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
-		return $query->execute(array($sourceFolder."%", $_SESSION['user_id']))->fetchAll();
-	}
-	
-	/**
 	 * Set the target location to a new value
+	 *
+	 * You must construct a new shared item to change the target location of a file inside a shared folder if the target location differs from the folder
+	 *
 	 * @param $oldTarget The current target location
 	 * @param $newTarget The new target location 
 	 */
 	public static function setTarget($oldTarget, $newTarget) {
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		$result = $query->execute(array($oldTarget, $_SESSION['user_id']))->fetchAll();
-		if (count($result) > 0) {
-			$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = REPLACE(target, ?, ?) WHERE uid_shared_with = ?");
-			$query->execute(array($oldTarget, $newTarget, $_SESSION['user_id']));
-		} else {
-			// A new entry is added to the database when a file within a shared folder is renamed or is moved outside the original target folder
-			$query = OC_DB::prepare("SELECT uid_owner, is_writeable FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? LIMIT 1");
-			$folders = OC_SHARE::getParentFolders($oldTarget, false);
-			$result = $query->execute(array($folders['source'], $_SESSION['user_id']))->fetchAll();
-			$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-			$source = $folders['source'].substr($oldTarget, strlen($folders['target']));
-			$query->execute(array($result[0]['uid_owner'], $_SESSION['user_id'], $source, $newTarget, $result[0]['is_writeable']));
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = REPLACE(target, ?, ?) WHERE uid_shared_with = ?");
+		$query->execute(array($oldTarget, $newTarget, $_SESSION['user_id']));
+	}
+	
+	/**
+	* Change write permission for the specified item and user
+	*
+	* You must construct a new shared item to change the write permission of a file inside a shared folder if the write permission differs from the folder
+	*
+	* @param $source The source location of the item
+	* @param $uid_shared_with Array of users to change the write permission for
+	* @param $is_writeable True if the user has write permission or false if read only
+	*/
+	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
+		foreach ($uid_shared_with as $uid) {
+			$query->execute(array($is_writeable, $source."%", $uid_shared_with, $_SESSION['user_id']));
 		}
 	}
 	
 	/**
-	 * Get all items the user is sharing
-	 * @return array
-	 */
-	public static function getSharedItems() {
-		$query = OC_DB::prepare("SELECT * FROM *PREFIX*sharing WHERE uid_owner = ?");
-		return $query->execute(array($_SESSION['user_id']))->fetchAll();
+	* Unshare the item, removes it from all specified users
+	*
+	* You must construct a new shared item to unshare a file inside a shared folder and set target to nothing
+	*
+	* @param $source The source location of the item
+	* @param $uid_shared_with Array of users to unshare the item from
+	*/
+	public static function unshare($source, $uid_shared_with) {
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
+		foreach ($uid_shared_with as $uid) {
+			$query->execute(array($source."%", $uid, $_SESSION['user_id']));
+		}
 	}
 	
 	/**
-	 * Get all items shared with the user
-	 * @return array
-	 */
-	public static function getItemsSharedWith() {
-		$query = OC_DB::prepare("SELECT * FROM *PREFIX*sharing WHERE uid_shared_with = ?");
-		return $query->execute(array($_SESSION['user_id']))->fetchAll();
+	* Unshare the item from the current user, removes it only from the database and doesn't touch the source file
+	*
+	* You must construct a new shared item to unshare a file inside a shared folder and set target to nothing
+	*
+	* @param $target The target location of the item
+	*/
+	public static function unshareFromMySelf($target) {
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
+		$query->execute(array($target."%", $_SESSION['user_id']));
 	}
-	
+
 }
 
 ?>

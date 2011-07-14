@@ -69,14 +69,14 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 	
 	public function rmdir($path) {
 		// The folder will be removed from the database, but won't be deleted from the owner's filesystem
-		OC_SHARE::unshareFromSelf($this->datadir.$path);
+		OC_SHARE::unshareFromMySelf($this->datadir.$path);
 	}
 	
 	// TODO Make sure new target is still in the current directory
 	public function opendir($path) {
 		if ($path == "" || $path == "/") {
 			global $FAKEDIRS;
-			$sharedItems = OC_SHARE::getItemsSharedWith();
+			$sharedItems = OC_SHARE::getItemsInFolder($this->datadir.$path);
 			foreach ($sharedItems as $item) {
 				// TODO Implement a better fix
 				$files[] = substr($item['target'], strpos($item['target'], "Share") + 5);
@@ -88,7 +88,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				$dh = $storage->opendir($this->getInternalPath($source));
-				$modifiedItems = OC_SHARE::getSharedFilesIn($source);
+				$modifiedItems = OC_SHARE::getItemsInFolder($this->datadir.$path);
 				if ($modifiedItems && $dh) {
 					global $FAKEDIRS;
 					$sources = array();
@@ -347,11 +347,15 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 	
 	public function unlink($path) {
 		// The file will be removed from the database, but won't be deleted from the owner's filesystem
-		OC_SHARE::unshareFromSelf($this->datadir.$path);
+		OC_SHARE::unshareFromMySelf($this->datadir.$path);
 	}
 	
 	public function rename($path1, $path2) {
-		OC_SHARE::setTarget($this->datadir.$path1, $this->datadir.$path2);
+		if (dirname($path1) == dirname($path2)) {
+			OC_SHARE::setTarget($this->datadir.$path1, $this->datadir.$path2);
+		} else {
+			// TODO Construct new shared item
+		}
 	}
 	
 	public function copy($path1, $path2) {
