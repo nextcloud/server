@@ -207,7 +207,7 @@ class OC_SHARE {
 			// A new entry is added to the database when a file within a shared folder is renamed or is moved outside the original target folder
 			$query = OC_DB::prepare("SELECT uid_owner, is_writeable FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? LIMIT 1");
 			$folders = OC_SHARE::getParentFolders($oldTarget, false);
-			$result = $query->execute(array($folders['source'], $_SESSION['user_id']));
+			$result = $query->execute(array($folders['source'], $_SESSION['user_id']))->fetchAll();
 			$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
 			$source = $folders['source'].substr($oldTarget, strlen($folders['target']));
 			$query->execute(array($result[0]['uid_owner'], $_SESSION['user_id'], $source, $newTarget, $result[0]['is_writeable']));
