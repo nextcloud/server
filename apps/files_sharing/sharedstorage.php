@@ -346,15 +346,23 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 	}
 	
 	public function unlink($path) {
-		// The file will be removed from the database, but won't be deleted from the owner's filesystem
-		OC_SHARE::unshareFromMySelf($this->datadir.$path);
+		// The file will be removed from the database, but won't be touched on the owner's filesystem
+		$target = $this->datadir.$path;
+		if (OC_SHARE::getItem($target)) {
+			OC_SHARE::unshareFromMySelf($target);
+		} else {
+			OC_SHARE::pullOutOfFolder($target, "");
+		}
 	}
 	
 	public function rename($path1, $path2) {
+		// The file will be renamed in the database, but won't be touched on the owner's filesystem
+		$oldTarget = $this->datadir.$path1;
+		$newTarget = $this->datadir.$path2;
 		if (dirname($path1) == dirname($path2)) {
-			OC_SHARE::setTarget($this->datadir.$path1, $this->datadir.$path2);
+			OC_SHARE::setTarget($oldTarget, $newTarget);
 		} else {
-			// TODO Construct new shared item
+			OC_SHARE::pullOutOfFolder($oldTarget, $newTarget);
 		}
 	}
 	

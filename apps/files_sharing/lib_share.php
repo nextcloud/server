@@ -50,6 +50,22 @@ class OC_SHARE {
 	}
 	
 	/**
+	 * Create a new entry in the database for a file inside a shared folder
+	 *
+	 * $oldTarget and $newTarget may be the same value. $oldTarget exists in case the file is being moved outside of the folder
+	 *
+	 * @param $oldTarget The current target location
+	 * @param $newTarget The new target location
+	 */
+	public static function pullOutOfFolder($oldTarget, $newTarget) {
+		$folders = self::getParentFolders($oldTarget);
+		$source = $folders['source'].substr($target, strlen($folders['target']));
+		$item = self::getItem($folders['target']);
+		$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
+		$query->execute(array($item[0]['uid_owner'], $_SESSION['user_id'], $source, $newTarget, $item[0]['is_writeable']));
+	}
+
+	/**
 	 * Get the item with the specified target location
 	 * @param $target The target location of the item
 	 * @return An array with the item
@@ -98,12 +114,11 @@ class OC_SHARE {
 		// Prevent searching for user directory e.g. '/MTGap/files'
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
+			// Check if the parent directory of this target location is shared
+			$target = dirname($target);
 			$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
 			if (count($result) > 0) {
 				break;
-			} else {
-				// Check if the parent directory of this target location is shared
-				$target = dirname($target);
 			}
 		}
 		if (count($result) > 0) {
@@ -172,7 +187,7 @@ class OC_SHARE {
 	/**
 	 * Set the target location to a new value
 	 *
-	 * You must construct a new shared item to change the target location of a file inside a shared folder if the target location differs from the folder
+	 * You must use the pullOutOfFolder() function to change the target location of a file inside a shared folder if the target location differs from the folder
 	 *
 	 * @param $oldTarget The current target location
 	 * @param $newTarget The new target location 
@@ -201,7 +216,7 @@ class OC_SHARE {
 	/**
 	* Unshare the item, removes it from all specified users
 	*
-	* You must construct a new shared item to unshare a file inside a shared folder and set target to nothing
+	* You must use the pullOutOfFolder() function to unshare a file inside a shared folder and set $newTarget to nothing
 	*
 	* @param $source The source location of the item
 	* @param $uid_shared_with Array of users to unshare the item from
@@ -216,7 +231,7 @@ class OC_SHARE {
 	/**
 	* Unshare the item from the current user, removes it only from the database and doesn't touch the source file
 	*
-	* You must construct a new shared item to unshare a file inside a shared folder and set target to nothing
+	* You must use the pullOutOfFolder() function to unshare a file inside a shared folder and set $newTarget to nothing
 	*
 	* @param $target The target location of the item
 	*/
