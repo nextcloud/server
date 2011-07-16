@@ -374,6 +374,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		} else {
 			OC_SHARE::unshareFromMySelf($target);
 		}
+		return true;
 	}
 	
 	public function rename($path1, $path2) {
@@ -388,6 +389,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 				OC_SHARE::setTarget($oldTarget, $newTarget);
 			}
 		}
+		return true;
 	}
 	
 	public function copy($path1, $path2) {
