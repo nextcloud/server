@@ -99,8 +99,8 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 					$sources = array();
 					$targets = array();
 					foreach ($modifiedItems as $item) {
-						// If item is in current directory, add it to the arrays
-						if (dirname($item['target']) == $path) {
+						// If the item is in the current directory and has a different name than the source, add it to the arrays
+						if (dirname($item['target']) == $path && basename($item['source']) != basename($item['target'])) {
 							$sources[] = basename($item['source']);
 							$targets[] = basename($item['target']);
 						}
