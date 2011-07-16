@@ -59,7 +59,7 @@ class OC_SHARE {
 	 */
 	public static function pullOutOfFolder($oldTarget, $newTarget) {
 		$folders = self::getParentFolders($oldTarget);
-		$source = $folders['source'].substr($target, strlen($folders['target']));
+		$source = $folders['source'].substr($oldTarget, strlen($folders['target']));
 		$item = self::getItem($folders['target']);
 		$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
 		$query->execute(array($item[0]['uid_owner'], $_SESSION['user_id'], $source, $newTarget, $item[0]['is_writeable']));
@@ -97,6 +97,8 @@ class OC_SHARE {
 		if (substr($targetFolder, -1) !== "/") {
 			$targetFolder .= "/";
 		}
+		// Remove any duplicate '/'
+		$targetFolder = preg_replace('{(/)\1+}', "/", $targetFolder);
 		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
 		return $query->execute(array($targetFolder."%", $_SESSION['user_id']))->fetchAll();
 	}
