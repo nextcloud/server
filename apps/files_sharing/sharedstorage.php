@@ -384,6 +384,9 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 			OC_SHARE::setTarget($oldTarget, $newTarget);
 		} else {
 			OC_SHARE::pullOutOfFolder($oldTarget, $newTarget);
+			if (self::is_dir($path1)) {
+				OC_SHARE::setTarget($oldTarget, $newTarget);
+			}
 		}
 	}
 	
