@@ -72,14 +72,16 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		OC_SHARE::unshareFromMySelf($this->datadir.$path);
 	}
 	
-	// TODO Make sure new target is still in the current directory
 	public function opendir($path) {
 		if ($path == "" || $path == "/") {
 			global $FAKEDIRS;
-			$sharedItems = OC_SHARE::getItemsInFolder($this->datadir.$path);
+			$path = $this->datadir.$path;
+			$sharedItems = OC_SHARE::getItemsInFolder($path);
 			foreach ($sharedItems as $item) {
-				// TODO Implement a better fix
-				$files[] = substr($item['target'], strpos($item['target'], "Share") + 5);
+				// If item is in the root of the shared storage provider add it to the fakedirs
+				if (dirname($item['target'])."/" == $path) {
+					$files[] = basename($item['target']);
+				}
 			}
 			$FAKEDIRS['shared'] = $files;
 			return opendir('fakedir://shared');
@@ -88,26 +90,39 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 			if ($source) {
 				$storage = OC_FILESYSTEM::getStorage($source);
 				$dh = $storage->opendir($this->getInternalPath($source));
-				$modifiedItems = OC_SHARE::getItemsInFolder($this->datadir.$path);
+				// Remove any duplicate or trailing '/'
+				$path = rtrim($this->datadir.$path, "/");
+				$path = preg_replace('{(/)\1+}', "/", $path);
+				$modifiedItems = OC_SHARE::getItemsInFolder($path);
 				if ($modifiedItems && $dh) {
 					global $FAKEDIRS;
 					$sources = array();
 					$targets = array();
 					foreach ($modifiedItems as $item) {
-						$sources[] = basename($item['source']);
-						$targets[] = basename($item['target']);
-					}
-					while (($filename = readdir($dh)) !== false) {
-						if ($filename != "." && $filename != "..") {
-							if (!in_array($filename, $sources)) {
-								$files[] = $filename;
-							} else {
-								$files[] = $targets[array_search($filename, $sources)];
-							}
+						// If item is in current directory, add it to the arrays
+						if (dirname($item['target']) == $path) {
+							$sources[] = basename($item['source']);
+							$targets[] = basename($item['target']);
 						}
 					}
-					$FAKEDIRS['shared'] = $files;
-					return opendir('fakedir://shared');
+					// Don't waste time if there aren't any modified items in the current directory
+					if (empty($sources)) {
+						return $dh;
+					} else {
+						while (($filename = readdir($dh)) !== false) {
+							if ($filename != "." && $filename != "..") {
+								// If the file isn't in the sources array it isn't modified and can be added as is
+								if (!in_array($filename, $sources)) {
+									$files[] = $filename;
+								// The file has a different name than the source and is added to the fakedirs
+								} else {
+									$files[] = $targets[array_search($filename, $sources)];
+								}
+							}
+						}
+						$FAKEDIRS['shared'] = $files;
+						return opendir('fakedir://shared');
+					}
 				} else {
 					return $dh;
 				}
