@@ -26,8 +26,8 @@ class OC_PublicLink{
 	 */
 	public static function getPath($token){
 		//remove expired links
-		$query=OC_DB::prepare("DELETE FROM *PREFIX*publiclink WHERE expire_time < NOW() AND expire_time!=0");
-		$query->execute();
+		$query=OC_DB::prepare("DELETE FROM *PREFIX*publiclink WHERE expire_time < ? AND expire_time!=0");
+		$query->execute(array(time()));
 		
 		//get the path and the user
 		$query=OC_DB::prepare("SELECT user,path FROM *PREFIX*publiclink WHERE token=?");
