@@ -20,6 +20,9 @@
  *
  */
 
+OC_HOOK::connect("OC_FILESYSTEM","post_delete", "OC_SHARE", "deleteItem");
+OC_HOOK::connect("OC_FILESYSTEM","post_rename", "OC_SHARE", "renameItem");
+
 /**
  * This class manages shared items within the database. 
  */
@@ -39,10 +42,19 @@ class OC_SHARE {
 				$token = sha1("$uid_owner-$item");
 			} else { 
 				$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-				$sourceLocalPath = substr($source, strlen("/".$uid_owner."/files/"));;
 				foreach ($uid_shared_with as $uid) {
-					// TODO check to see if target already exists in database
-					$target = "/".$uid."/files/Share/".$sourceLocalPath;
+					$target = "/".$uid."/files/Share".$source;
+					$check = OC_DB::prepare("SELECT COUNT(target) FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
+					$result = $check->execute(array($target, $uid))->fetchAll();
+					$counter = 1;
+					while (count($result > 0)) {
+						if ($pos = strrpos($target, ".")) {
+							$target = substr($target, 0, $pos)."_".$counter.substr($target, $pos);
+						} else {
+							$target .= $counter;
+						}
+						$result = $check->execute(array($target, $uid))->fetchAll();
+					}
 					$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 				}
 			}
@@ -87,7 +99,7 @@ class OC_SHARE {
 	/**
 	 * Get the items within a shared folder that have their own entry for the purpose of name, location, or permissions that differ from the folder itself
 	 *
-	 * Also can be used for getting all item shared with you e.g. pass '/MTGap/files'
+	 * Also can be used for getting all items shared with you e.g. pass '/MTGap/files'
 	 *
 	 * @param $targetFolder The target folder of the items to look for
 	 * @return An array with all items in the database that are in the target folder
@@ -240,6 +252,27 @@ class OC_SHARE {
 	public static function unshareFromMySelf($target) {
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
 		$query->execute(array($target."%", $_SESSION['user_id']));
+	}
+
+	/**
+	* Remove the item from the database, the owner deleted the file
+	* @param $arguments Array of arguments passed from OC_HOOK
+	*/
+	public static function deleteItem($arguments) {
+		$source = "/".$_SESSION['user_id']."/files".$arguments['path'];
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_owner = ?");
+		$query->execute(array($source."%", $_SESSION['user_id']));
+	}
+
+	/**
+	* Rename the item in the database, the owner renamed the file
+	* @param $arguments Array of arguments passed from OC_HOOK
+	*/
+	public static function renameItem($arguments) {
+		$oldSource = "/".$_SESSION['user_id']."/files".$arguments['oldpath'];
+		$newSource = "/".$_SESSION['user_id']."/files".$arguments['newpath'];
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
+		$query->execute(array($oldSource, $newSource, $_SESSION['user_id']));
 	}
 
 }
