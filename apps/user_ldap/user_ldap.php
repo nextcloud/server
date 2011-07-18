@@ -97,7 +97,7 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 		return $entries[0]["dn"];
 	}
 	public function checkPassword( $uid, $password ) {
-		if(!self::$configured){
+		if(!$this->configured){
 			return false;
 		}
 		$dn = $this->getDn( $uid );
@@ -108,7 +108,7 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 	}
 
 	public function userExists( $uid ) {
-		if(!self::$configured){
+		if(!$this->configured){
 			return false;
 		}
 		$dn = $this->getDn($uid);
