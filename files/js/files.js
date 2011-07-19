@@ -150,27 +150,39 @@ $(document).ready(function() {
 	
 	$('#file_upload_submit').click(function(){
 		var name=$('#file_upload_filename').val();
-		if($('#file_upload_start')[0].files[0] && $('#file_upload_start')[0].files[0].size>0){
-			var size=simpleFileSize($('#file_upload_start')[0].files[0].size);
-		}else{
-			var size='Pending';
-		}
+		var files=$('#file_upload_start')[0].files;
 		$('#file_upload_target').load(function(){
 			var response=jQuery.parseJSON($('#file_upload_target').contents().find('body').text());
 			//set mimetype and if needed filesize
-			$('tr[data-file="'+name+'"]').attr('data-mime',response.mime);
-			if(size=='Pending'){
-				$('tr[data-file='+name+'] td.filesize').text(response.size);
+			for(var i=0;i<response.length;i++){
+				var file=response[i];
+				$('tr[data-file="'+file.name+'"]').attr('data-mime',file.mime);
+				if(size=='Pending'){
+					$('tr[data-file='+file.name+'] td.filesize').text(file.size);
+				}
 			}
 		});
 		$('#file_upload_form').submit();
 		var date=new Date();
 		var uploadTime=formatDate(date);
-		FileList.addFile(name,size,uploadTime);
+		for(var i=0;i<files.length;i++){
+			if(files[i].size>0){
+				var size=simpleFileSize(files[i].size);
+			}else{
+				var size='Pending';
+			}
+			FileList.addFile(files[i].name,size,uploadTime);
+		}
 		$('#file_upload_filename').val($('#file_upload_filename').data('upload_text'));
+		$('#file_upload_submit').hide();
 	});
 	//save the original upload button text
 	$('#file_upload_filename').data('upload_text',$('#file_upload_filename').val());
+	
+	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
+	if(navigator.userAgent.search(/konqueror/i)==-1){
+		$('#file_upload_start').attr('multiple','multiple')
+	}
 });
 
 var adjustNewFolderSize = function() {
