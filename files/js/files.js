@@ -40,11 +40,13 @@ $(document).ready(function() {
 	$('td.filename a').live('click',function(event) {
 		event.preventDefault();
 		var filename=$(this).parent().parent().attr('data-file');
-		var mime=$(this).parent().parent().attr('data-mime');
-		var type=$(this).parent().parent().attr('data-type');
-		var action=FileActions.getDefault(mime,type);
-		if(action){
-			action(filename);
+		if(!FileList.isLoading(filename)){
+			var mime=$(this).parent().parent().attr('data-mime');
+			var type=$(this).parent().parent().attr('data-type');
+			var action=FileActions.getDefault(mime,type);
+			if(action){
+				action(filename);
+			}
 		}
 	});
 	
@@ -152,6 +154,7 @@ $(document).ready(function() {
 				if(size=='Pending'){
 					$('tr[data-file='+file.name+'] td.filesize').text(file.size);
 				}
+				FileList.loadingDone(file.name);
 			}
 		});
 		$('#file_upload_form').submit();
@@ -163,7 +166,7 @@ $(document).ready(function() {
 			}else{
 				var size='Pending';
 			}
-			FileList.addFile(files[i].name,size,uploadTime);
+			FileList.addFile(files[i].name,size,uploadTime,true);
 		}
 	});
 	
