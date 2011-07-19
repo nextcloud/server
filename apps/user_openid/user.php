@@ -25,6 +25,9 @@ $USERNAME=substr($_SERVER["REQUEST_URI"],strpos($_SERVER["REQUEST_URI"],'.php/')
 if(strpos($USERNAME,'?')!==false){
 	$USERNAME=substr($USERNAME,0,strpos($USERNAME,'?'));
 }
+if(substr($USERNAME,-1,1)=='/'){//openid sometimes add slashes to the username
+	$USERNAME=substr($USERNAME,0,-1);
+}
 
 
 if($USERNAME=='' and isset($_SERVER['PHP_AUTH_USER'])){
@@ -36,7 +39,8 @@ $RUNTIME_NOAPPS=false;
 require_once '../../lib/base.php';
 
 if(!OC_USER::userExists($USERNAME)){
-		$USERNAME='';
+	error_log($USERNAME.' doesn\'t exist');
+	$USERNAME='';
 }
 global $WEBROOT;
 $IDENTITY=((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$WEBROOT.'/apps/user_openid/user.php/'.$USERNAME;
