@@ -142,14 +142,6 @@ $(document).ready(function() {
 	});
 
 	$('#file_upload_start').change(function(){
-		var filename=$(this).val();
-		filename=filename.replace(/^.*[\/\\]/g, '');
-		$('#file_upload_filename').val(filename);
-		$('#file_upload_submit').show();
-	})
-	
-	$('#file_upload_submit').click(function(){
-		var name=$('#file_upload_filename').val();
 		var files=$('#file_upload_start')[0].files;
 		$('#file_upload_target').load(function(){
 			var response=jQuery.parseJSON($('#file_upload_target').contents().find('body').text());
@@ -173,11 +165,7 @@ $(document).ready(function() {
 			}
 			FileList.addFile(files[i].name,size,uploadTime);
 		}
-		$('#file_upload_filename').val($('#file_upload_filename').data('upload_text'));
-		$('#file_upload_submit').hide();
 	});
-	//save the original upload button text
-	$('#file_upload_filename').data('upload_text',$('#file_upload_filename').val());
 	
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 	if(navigator.userAgent.search(/konqueror/i)==-1){
