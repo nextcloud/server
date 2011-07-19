@@ -117,7 +117,7 @@ $(document).ready(function() {
 		//send the browser to the download location
 		var dir=$('#dir').val()||'/';
 // 		alert(files);
-		window.location='ajax/download.php?files='+files+'&dir='+dir;
+		window.location='ajax/download.php?files='+encodeURIComponent(files)+'&dir='+encodeURIComponent(dir);
 		return false;
 	});
 	
@@ -130,7 +130,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			url: 'ajax/delete.php',
-			data: "dir="+$('#dir').val()+"&files="+files,
+			data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(files),
 			complete: function(data){
 				boolOperationFinished(data, function(){
 					$('td.selection input:checkbox:checked').parent().parent().each(function(i,element){
