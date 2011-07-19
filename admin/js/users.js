@@ -112,7 +112,7 @@ $(document).ready(function(){
 	//#########################################################################
 
 	// Password (clicking on user name)
-	$("div[x-use='usernamediv']").live( "click", function(){
+	$("span[x-use='usernamediv']").live( "click", function(){
 		if( togglepassword == "" || $(this).parent().parent().attr("x-uid") != togglepassword ){
 			togglepassword = $(this).parent().parent().attr("x-uid");
 			// Set the username!
@@ -167,6 +167,7 @@ $(document).ready(function(){
 				}
 			});
 			$("#changegroupuid").val(togglegroup);
+			$(this).empty();
 			$(this).parent().append( $('#changegroups') );
 			$('#changegroups').show();
 		}
@@ -205,13 +206,6 @@ $(document).ready(function(){
 	// Clicking on buttons
 	//#########################################################################
 
-	// Show the create user form
-	$( "#createuseroptionbutton" )
-		.click(function(){
-			$("#createuserform").show();
-			$("#createuseroption").hide();
-			return false;
-		});
 
 	// Create a new user
 	$( "#createuserbutton" )

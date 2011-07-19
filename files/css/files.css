@@ -22,6 +22,7 @@
 
 #file_upload_form, #file_newfolder_form {
 	display: inline;
+	margin-left:3em;
 }
 
 #fileSelector, #file_upload_submit, #file_newfolder_submit {
