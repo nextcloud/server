@@ -36,8 +36,8 @@ class OC_SHARE {
 	 */
 	public function __construct($source, $uid_shared_with, $permissions, $public = false) {
 		if ($source && OC_FILESYSTEM::file_exists($source) && OC_FILESYSTEM::is_readable($source)) {
-			$source = "/".$_SESSION['user_id']."/files".$source;
-			$uid_owner = $_SESSION['user_id'];
+			$source = "/".OC_USER::getUser()."/files".$source;
+			$uid_owner = OC_USER::getUser();
 			if ($public) {
 				// TODO create token for public file
 				$token = sha1("$uid_owner-$item");
@@ -83,7 +83,7 @@ class OC_SHARE {
 		$source = $folders['source'].substr($oldTarget, strlen($folders['target']));
 		$item = self::getItem($folders['target']);
 		$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-		$query->execute(array($item[0]['uid_owner'], $_SESSION['user_id'], $source, $newTarget, $item[0]['is_writeable']));
+		$query->execute(array($item[0]['uid_owner'], OC_USER::getUser(), $source, $newTarget, $item[0]['is_writeable']));
 	}
 
 	/**
@@ -93,7 +93,7 @@ class OC_SHARE {
 	 */
 	public static function getItem($target) {
 		$query = OC_DB::prepare("SELECT uid_owner, source, is_writeable  FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		return $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
+		return $query->execute(array($target, OC_USER::getUser()))->fetchAll();
 	}
 	
 	/**
@@ -102,7 +102,7 @@ class OC_SHARE {
 	 */
 	public static function getMySharedItems() {
 		$query = OC_DB::prepare("SELECT uid_shared_with, source, is_writeable FROM *PREFIX*sharing WHERE uid_owner = ?");
-		return $query->execute(array($_SESSION['user_id']))->fetchAll();
+		return $query->execute(array(OC_USER::getUser()))->fetchAll();
 	}
 	
 	/**
@@ -121,7 +121,7 @@ class OC_SHARE {
 		// Remove any duplicate '/'
 		$targetFolder = preg_replace('{(/)\1+}', "/", $targetFolder);
 		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
-		return $query->execute(array($targetFolder."%", $_SESSION['user_id']))->fetchAll();
+		return $query->execute(array($targetFolder."%", OC_USER::getUser()))->fetchAll();
 	}
 	
 	/**
@@ -139,7 +139,7 @@ class OC_SHARE {
 		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
 			// Check if the parent directory of this target location is shared
 			$target = dirname($target);
-			$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
+			$result = $query->execute(array($target, OC_USER::getUser()))->fetchAll();
 			if (count($result) > 0) {
 				break;
 			}
@@ -162,7 +162,7 @@ class OC_SHARE {
 		$target = rtrim($target, "/");
 		$target = preg_replace('{(/)\1+}', "/", $target);
 		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
+		$result = $query->execute(array($target, OC_USER::getUser()))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['source'];
 		} else {
@@ -182,13 +182,13 @@ class OC_SHARE {
 	 */
 	public static function isWriteable($target) {
 		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		$result = $query->execute(array($target, $_SESSION['user_id']))->fetchAll();
+		$result = $query->execute(array($target, OC_USER::getUser()))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['is_writeable'];
 		} else {
 			// Check if the folder is writeable
 			$folders = OC_SHARE::getParentFolders($target);
-			$result = $query->execute(array($folders['target'], $_SESSION['user_id']))->fetchAll();
+			$result = $query->execute(array($folders['target'], OC_USER::getUser()))->fetchAll();
 			if (count($result) > 0) {
 				return $result[0]['is_writeable'];
 			} else {
@@ -204,7 +204,7 @@ class OC_SHARE {
 	 */
 	public static function setSource($oldSource, $newSource) {
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
-		$query->execute(array($oldSource, $newSource, $_SESSION['user_id']));
+		$query->execute(array($oldSource, $newSource, OC_USER::getUser()));
 	}
 	
 	/**
@@ -217,7 +217,7 @@ class OC_SHARE {
 	 */
 	public static function setTarget($oldTarget, $newTarget) {
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = REPLACE(target, ?, ?) WHERE uid_shared_with = ?");
-		$query->execute(array($oldTarget, $newTarget, $_SESSION['user_id']));
+		$query->execute(array($oldTarget, $newTarget, OC_USER::getUser()));
 	}
 	
 	/**
@@ -232,7 +232,7 @@ class OC_SHARE {
 	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
 		foreach ($uid_shared_with as $uid) {
-			$query->execute(array($is_writeable, $source."%", $uid_shared_with, $_SESSION['user_id']));
+			$query->execute(array($is_writeable, $source."%", $uid_shared_with, OC_USER::getUser()));
 		}
 	}
 	
@@ -247,7 +247,7 @@ class OC_SHARE {
 	public static function unshare($source, $uid_shared_with) {
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
 		foreach ($uid_shared_with as $uid) {
-			$query->execute(array($source."%", $uid, $_SESSION['user_id']));
+			$query->execute(array($source."%", $uid, OC_USER::getUser()));
 		}
 	}
 	
@@ -260,7 +260,7 @@ class OC_SHARE {
 	*/
 	public static function unshareFromMySelf($target) {
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
-		$query->execute(array($target."%", $_SESSION['user_id']));
+		$query->execute(array($target."%", OC_USER::getUser()));
 	}
 
 	/**
@@ -268,9 +268,9 @@ class OC_SHARE {
 	* @param $arguments Array of arguments passed from OC_HOOK
 	*/
 	public static function deleteItem($arguments) {
-		$source = "/".$_SESSION['user_id']."/files".$arguments['path'];
+		$source = "/".OC_USER::getUser()."/files".$arguments['path'];
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_owner = ?");
-		$query->execute(array($source."%", $_SESSION['user_id']));
+		$query->execute(array($source."%", OC_USER::getUser()));
 	}
 
 	/**
@@ -278,10 +278,10 @@ class OC_SHARE {
 	* @param $arguments Array of arguments passed from OC_HOOK
 	*/
 	public static function renameItem($arguments) {
-		$oldSource = "/".$_SESSION['user_id']."/files".$arguments['oldpath'];
-		$newSource = "/".$_SESSION['user_id']."/files".$arguments['newpath'];
+		$oldSource = "/".OC_USER::getUser()."/files".$arguments['oldpath'];
+		$newSource = "/".OC_USER::getUser()."/files".$arguments['newpath'];
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
-		$query->execute(array($oldSource, $newSource, $_SESSION['user_id']));
+		$query->execute(array($oldSource, $newSource, OC_USER::getUser()));
 	}
 
 }

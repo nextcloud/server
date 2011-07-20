@@ -203,7 +203,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 	
 	public function getFolderSize($path) {
 		if ($path == "" || $path == "/") {
-			$dbpath = $_SESSION['user_id']."/files/Share/";
+			$dbpath = OC_USER::getUser()."/files/Share/";
 		} else {
 			$source = $this->getSource($path);
 			$dbpath = $this->getInternalPath($source);
@@ -239,7 +239,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 			}
 			if ($size > 0) {
 				if ($path == "" || $path == "/") {
-					$dbpath = $_SESSION['user_id']."/files/Share/";
+					$dbpath = OC_USER::getUser()."/files/Share/";
 				} else {
 					$source = $this->getSource($path);
 					$dbpath = $this->getInternalPath($source);

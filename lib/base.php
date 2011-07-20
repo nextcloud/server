@@ -166,8 +166,8 @@ class OC_UTIL {
 			OC_FILESYSTEM::mount($rootStorage,'/');
 
 			// TODO add this storage provider in a proper way
-			$sharedStorage = OC_FILESYSTEM::createStorage('shared',array('datadir'=>'/'.$_SESSION['user_id'].'/files/Share/'));
-			OC_FILESYSTEM::mount($sharedStorage,'/'.$_SESSION['user_id'].'/files/Share/');
+			$sharedStorage = OC_FILESYSTEM::createStorage('shared',array('datadir'=>'/'.OC_USER::getUser().'/files/Share/'));
+			OC_FILESYSTEM::mount($sharedStorage,'/'.OC_USER::getUser().'/files/Share/');
 			
 			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
 			if( !is_dir( $CONFIG_DATADIRECTORY )){
