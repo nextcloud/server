@@ -1,6 +1,6 @@
 		<?php foreach($_['files'] as $file):
 			$simple_file_size = simple_file_size($file['size']);
-			$simple_size_color = 200-intval(pow($simple_file_size,3)); ?>
+			$simple_size_color = 200-intval(pow(($file['size']/(1024*1024)),2)); ?>
 			<tr data-file="<?php echo $file['name'];?>" data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>" data-mime="<?php echo $file['mime']?>">
 				<td class="selection"><input type="checkbox" /></td>
 				<td class="filename">
