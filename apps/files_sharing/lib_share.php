@@ -47,16 +47,18 @@ class OC_SHARE {
 					$target = "/".$uid."/files/Share/".basename($source);
 					$check = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
 					$result = $check->execute(array($target, $uid))->fetchAll();
+					// Check if target already exists for the user, if it does append a number to the name
 					if (count($result) > 0) {
 						if ($pos = strrpos($target, ".")) {
 							$name = substr($target, 0, $pos);
 							$ext = substr($target, $pos);
 						} else {
 							$name = $target;
+							$ext = "";
 						}
 						$counter = 1;
 						while (count($result) > 0) {
-							$newTarget = $name."_".$counter.isset($ext);
+							$newTarget = $name."_".$counter.$ext;
 							$result = $check->execute(array($newTarget, $uid))->fetchAll();
 							$counter++;
 						}
