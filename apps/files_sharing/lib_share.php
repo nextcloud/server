@@ -45,18 +45,23 @@ class OC_SHARE {
 				$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
 				foreach ($uid_shared_with as $uid) {
 					$target = "/".$uid."/files/Share/".basename($source);
-					// TODO Fix check if target already exists
-// 					$check = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
-// 					$result = $check->execute(array($target, $uid))->fetchAll();
-// 					$counter = 1;
-// 					while (count($result > 0)) {
-// 						if ($pos = strrpos($target, ".")) {
-// 							$target = substr($target, 0, $pos)."_".$counter.substr($target, $pos);
-// 						} else {
-// 							$target .= $counter;
-// 						}
-// 						$result = $check->execute(array($target, $uid))->fetchAll();
-// 					}
+					$check = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
+					$result = $check->execute(array($target, $uid))->fetchAll();
+					if (count($result) > 0) {
+						if ($pos = strrpos($target, ".")) {
+							$name = substr($target, 0, $pos);
+							$ext = substr($target, $pos);
+						} else {
+							$name = $target;
+						}
+						$counter = 1;
+						while (count($result) > 0) {
+							$newTarget = $name."_".$counter.isset($ext);
+							$result = $check->execute(array($newTarget, $uid))->fetchAll();
+							$counter++;
+						}
+						$target = $newTarget;
+					}
 					$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 				}
 			}
