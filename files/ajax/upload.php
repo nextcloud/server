@@ -14,19 +14,25 @@ if( !OC_USER::isLoggedIn()){
 	exit();
 }
 
-$fileName=$_FILES['file']['name'];
-$source=$_FILES['file']['tmp_name'];
+$files=$_FILES['files'];
+
 $dir = $_POST['dir'];
 if(!empty($dir)) $dir .= '/';
-$target='/' . stripslashes($dir) . $fileName;
+$error='';
+$result=array();
 if(strpos($dir,'..') === false){
-	if(OC_FILESYSTEM::fromUploadedFile($source,$target)){
-		echo json_encode(array( "status" => "success", 'mime'=>OC_FILESYSTEM::getMimeType($target),'size'=>OC_FILESYSTEM::filesize($target)));
-		exit();
+	$fileCount=count($files['name']);
+	for($i=0;$i<$fileCount;$i++){
+		$target='/' . stripslashes($dir) . $files['name'][$i];
+		if(OC_FILESYSTEM::fromUploadedFile($files['tmp_name'][$i],$target)){
+			$result[]=array( "status" => "success", 'mime'=>OC_FILESYSTEM::getMimeType($target),'size'=>OC_FILESYSTEM::filesize($target),'name'=>$files['name'][$i]);
+		}
 	}
+	echo json_encode($result);
+	exit();
+}else{
+	$error='invalid dir';
 }
-
-$error = $_FILES['file']['error'];
 
 echo json_encode(array( 'status' => 'error', 'data' => array('error' => $error, "file" => $fileName)));
 

@@ -65,6 +65,7 @@ OC_FILESYSTEM::registerStorageType('local','OC_FILESTORAGE_LOCAL',array('datadir
  */
 class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	private $datadir;
+	private static $mimetypes=null;
 	public function __construct($arguments){
 		$this->datadir=$arguments['datadir'];
 		if(substr($this->datadir,-1)!=='/'){
@@ -209,71 +210,14 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 				$mime_type=substr($reply,0,strrpos($reply,' '));
 			}
 			if (empty($mime_type)) {
-				// Fallback solution: try to guess the type by the file extension
-				// TODO: add more ...
-				switch (strtolower(strrchr(basename($fspath), "."))) {
-					case '.css':
-						$mime_type = 'text/css';
-						break;
-					case '.flac':
-						$mime_type = 'audio/flac';
-						break;
-					case '.gif':
-						$mime_type = 'image/gif';
-						break;
-					case '.gzip':
-					case '.gz':
-						$mime_type = 'application/x-gzip';
-						break;
-					case '.htm':
-					case '.html':
-						$mime_type = 'text/html';
-						break;
-					case '.jpeg':
-					case '.jpg':
-						$mime_type = 'image/jpeg';
-						break;
-					case '.js':
-						$mime_type = 'application/x-javascript';
-						break;
-					case '.oga':
-					case '.ogg':
-						$mime_type = 'audio/ogg';
-						break;
-					case '.ogv':
-						$mime_type = 'video/ogg';
-						break;
-					case '.pdf':
-						$mime_type = 'application/pdf';
-						break;
-					case '.png':
-						$mime_type = 'image/png';
-						break;
-					case '.svg':
-						$mime_type = 'image/svg+xml';
-						break;
-					case '.tar':
-						$mime_type = 'application/x-tar';
-						break;
-					case '.tgz':
-						$mime_type = 'application/x-compressed';
-						break;
-					case '.tif':
-					case '.tiff':
-						$mime_type = 'image/tiff';
-						break;
-					case '.txt':
-						$mime_type = 'text/plain';
-						break;
-					case '.zip':
-						$mime_type = 'application/zip';
-						break;
-					default:
-						$mime_type = 'application/octet-stream';
-						break;
+				// Fallback solution: (try to guess the type by the file extension
+				if(!self::$mimetypes){
+					self::$mimetypes=include('mimetypes.list.php');
 				}
+				$extention=strtolower(strrchr(basename($fspath), "."));
+				$extention=substr($extention,1);//remove leading .
+				$mime_type=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
 			}
-
 			return $mime_type;
 		}
 	}

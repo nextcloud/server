@@ -11,7 +11,7 @@
 		<?php foreach($_['links'] as $link):?>
 			<tr class='link' id='<?php echo $link['token'];?>'>
 				<td class='path'><?php echo $link['path'];?></td>
-				<td class='expire'><?php echo ($link['expire_time']==0)?'Never':$l->l('datetime', $link['expire_time']);?></td>
+				<td class='expire'><?php echo ($link['expire_time']==0)?'Never':$l->l('date', $link['expire_time']);?></td>
 				<td class='link'><a href='get.php?token=<?php echo $link['token'];?>'><?php echo $_['baseUrl'];?>?token=<?php echo $link['token'];?></a></td>
 				<td><button class='delete fancybutton' data-token='<?php echo $link['token'];?>'><?php echo $l->t( 'Delete' ); ?></button></td>
 			</tr>

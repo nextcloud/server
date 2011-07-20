@@ -209,7 +209,6 @@ function authorize_mode () {
 	$profile['idp_url']=$IDENTITY;
 	if (isset($_SERVER['PHP_AUTH_USER']) && $profile['authorized'] === false && $_SERVER['PHP_AUTH_USER']==$USERNAME) {
 		if (OC_USER::checkPassword($USERNAME, $_SERVER['PHP_AUTH_PW'])) {// successful login!
-			error_log('success');
 			// return to the refresh url if they get in
 			$_SESSION['openid_auth']=true;
 			$_SESSION['openid_user']=$USERNAME;
@@ -339,7 +338,7 @@ function checkid ( $wait ) {
 			: error_get($return_to, 'Missing identity');
 
 	$assoc_handle = @strlen($_REQUEST['openid_assoc_handle'])
-			? $_REQUEST['openid_assoc.handle']
+			? $_REQUEST['openid_assoc_handle']
 			: null;
 
 	$trust_root = @strlen($_REQUEST['openid_trust_root'])
@@ -1626,7 +1625,6 @@ $GLOBALS['port'] = ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on' && $_
 		: ':' . $_SERVER['SERVER_PORT'];
 
 
-error_log($_SERVER['HTTP_HOST']);
 /**
  * Determine the HTTP request protocol
  * @name $proto
@@ -1651,15 +1649,15 @@ $profile['req_url'] = sprintf("%s://%s%s",
 // 		      $port,//host  already includes the path
 		      $_SERVER["REQUEST_URI"]);
 
-$fullId=urlencode('.php/'.$USERNAME);
-$incompleteId=urlencode('.php/');
+$fullId='user.php/'.$USERNAME.'/';
+$incompleteId='user.php/';
 
 if(!strpos($profile['req_url'],$fullId)){
 	$profile['req_url']=str_replace($incompleteId,$fullId,$profile['req_url']);
 }
 
-error_log('inc id: '.$fullId);
-error_log('req url: '.$profile['req_url']);
+// error_log('inc id: '.$fullId);
+// error_log('req url: '.$profile['req_url']);
 
 // Set the default allowance for testing
 if (! array_key_exists('allow_test', $profile))

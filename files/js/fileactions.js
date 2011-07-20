@@ -86,7 +86,7 @@ FileActions.register('all','Download',function(filename){
 FileActions.register('all','Delete',function(filename){
 	$.ajax({
 		url: 'ajax/delete.php',
-		data: "dir="+$('#dir').val()+"&file="+filename,
+		data: "dir="+encodeURIComponent($('#dir').val())+"&file="+encodeURIComponent(filename),
 		complete: function(data){
 			boolOperationFinished(data, function(){
 				FileList.remove(filename);

@@ -102,12 +102,12 @@ class OC_SETUP {
 						//add prefix to the mysql user name to prevent collissions
 						$dbusername='oc_mysql_'.$username;
 						//hash the password so we don't need to store the admin config in the config file
-						$dbpassowrd=md5(time().$password);
+						$dbpassword=md5(time().$password);
 						
-						self::createDBUser($dbusername, $dbpassowrd, $connection);
+						self::createDBUser($dbusername, $dbpassword, $connection);
 						
 						OC_CONFIG::setValue('dbuser', $dbusername);
-						OC_CONFIG::setValue('dbpassword', $dbpassowrd);
+						OC_CONFIG::setValue('dbpassword', $dbpassword);
 
 						//create the database
 						self::createDatabase($dbname, $dbusername, $connection);

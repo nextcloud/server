@@ -2,16 +2,21 @@ FileList={
 	update:function(fileListHtml) {
 		$('#fileList').empty().html(fileListHtml);
 	},
-	addFile:function(name,size,lastModified){
+	addFile:function(name,size,lastModified,loading){
+		var img=(loading)?'img/loading.gif':'img/file.png';
 		var html='<tr data-file="'+name+'" data-type="file">';
 		html+='<td class="selection"><input type="checkbox" /></td>';
-		html+='<td class="filename"><a style="background-image:url(img/file.png)" href="download.php?file='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
+		html+='<td class="filename"><a style="background-image:url('+img+')" href="download.php?file='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
 		html+='<td class="filesize">'+size+'</td>';
 		html+='<td class="date">'+lastModified+'</td>';
 		html+='<td class="fileaction"><a href="" title="+" class="dropArrow"></a></td>';
 		html+='</tr>';
 		FileList.insertElement(name,'file',$(html));
-		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
+		if(loading){
+			$('tr[data-file="'+name+'"]').data('loading',true);
+		}else{
+			$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
+		}
 	},
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir">';
@@ -58,5 +63,13 @@ FileList={
 		}else{
 			$('#fileList').append(element);
 		}
+	},
+	loadingDone:function(name){
+		$('tr[data-file="'+name+'"]').data('loading',false);
+		$('tr[data-file="'+name+'"] td.filename a').attr('style','background-image:url(img/file.png');
+		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
+	},
+	isLoading:function(name){
+		return $('tr[data-file="'+name+'"]').data('loading');
 	}
 }

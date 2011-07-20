@@ -31,7 +31,6 @@ OC_UTIL::addScript('setup');
 
 $not_installed = !OC_CONFIG::getValue('installed', false);
 $install_called = (isset($_POST['install']) AND $_POST['install']=='true');
-
 // First step : check if the server is correctly configured for ownCloud :
 $errors = OC_UTIL::checkServer();
 if(count($errors) > 0) {
@@ -61,17 +60,23 @@ elseif(isset($_POST["user"])) {
 	OC_APP::loadApps();
 	if(OC_USER::login($_POST["user"], $_POST["password"])) {
 		header("Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue("core", "defaultpage", "files/index.php"));
+		if(!empty($_POST["remember_login"])){
+			OC_USER::setUsernameInCookie($_POST["user"]);
+		}
+		else {
+			OC_USER::unsetUsernameInCookie();
+		}
 		exit();
 	}
 	else {
-		OC_TEMPLATE::printGuestPage("", "login", array("error" => true));
+		OC_TEMPLATE::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["username"]));
 	}
 }
 
 // For all others cases, we display the guest page :
 else {
 	OC_APP::loadApps();
-	OC_TEMPLATE::printGuestPage("", "login", array("error" => false));
+	OC_TEMPLATE::printGuestPage("", "login", array("error" => false, "username" => $_COOKIE["username"]));
 }
 
 ?>

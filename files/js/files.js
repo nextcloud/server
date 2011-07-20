@@ -40,11 +40,13 @@ $(document).ready(function() {
 	$('td.filename a').live('click',function(event) {
 		event.preventDefault();
 		var filename=$(this).parent().parent().attr('data-file');
-		var mime=$(this).parent().parent().attr('data-mime');
-		var type=$(this).parent().parent().attr('data-type');
-		var action=FileActions.getDefault(mime,type);
-		if(action){
-			action(filename);
+		if(!FileList.isLoading(filename)){
+			var mime=$(this).parent().parent().attr('data-mime');
+			var type=$(this).parent().parent().attr('data-type');
+			var action=FileActions.getDefault(mime,type);
+			if(action){
+				action(filename);
+			}
 		}
 	});
 	
@@ -115,7 +117,7 @@ $(document).ready(function() {
 		//send the browser to the download location
 		var dir=$('#dir').val()||'/';
 // 		alert(files);
-		window.location='ajax/download.php?files='+files+'&dir='+dir;
+		window.location='ajax/download.php?files='+encodeURIComponent(files)+'&dir='+encodeURIComponent(dir);
 		return false;
 	});
 	
@@ -128,7 +130,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			url: 'ajax/delete.php',
-			data: "dir="+$('#dir').val()+"&files="+files,
+			data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(files),
 			complete: function(data){
 				boolOperationFinished(data, function(){
 					$('td.selection input:checkbox:checked').parent().parent().each(function(i,element){
@@ -141,36 +143,51 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('#file_upload_start').change(function(){
-		var filename=$(this).val();
-		filename=filename.replace(/^.*[\/\\]/g, '');
-		$('#file_upload_filename').val(filename);
-		$('#file_upload_submit').show();
-	})
-	
-	$('#file_upload_submit').click(function(){
-		var name=$('#file_upload_filename').val();
-		if($('#file_upload_start')[0].files[0] && $('#file_upload_start')[0].files[0].size>0){
-			var size=simpleFileSize($('#file_upload_start')[0].files[0].size);
-		}else{
-			var size='Pending';
-		}
-		$('#file_upload_target').load(function(){
-			var response=jQuery.parseJSON($('#file_upload_target').contents().find('body').text());
+	$('.file_upload_start').live('change',function(){
+		var form=$(this).parent().parent();
+		var uploadId=form.attr('data-upload-id');
+		var files=this.files;
+		var target=form.children('iframe');
+		target.load(function(){
+			var response=jQuery.parseJSON(target.contents().find('body').text());
 			//set mimetype and if needed filesize
-			$('tr[data-file="'+name+'"]').attr('data-mime',response.mime);
-			if(size=='Pending'){
-				$('tr[data-file='+name+'] td.filesize').text(response.size);
+			if(response){
+				for(var i=0;i<response.length;i++){
+					var file=response[i];
+					$('tr[data-file="'+file.name+'"]').attr('data-mime',file.mime);
+					if(size=='Pending'){
+						$('tr[data-file='+file.name+'] td.filesize').text(file.size);
+					}
+					FileList.loadingDone(file.name);
+				}
 			}
 		});
-		$('#file_upload_form').submit();
+		form.submit();
 		var date=new Date();
 		var uploadTime=formatDate(date);
-		FileList.addFile(name,size,uploadTime);
-		$('#file_upload_filename').val($('#file_upload_filename').data('upload_text'));
+		for(var i=0;i<files.length;i++){
+			if(files[i].size>0){
+				var size=simpleFileSize(files[i].size);
+			}else{
+				var size='Pending';
+			}
+			FileList.addFile(files[i].name,size,uploadTime,true);
+		}
+		
+		//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
+		var clone=form.clone();
+		uploadId++;
+		clone.attr('data-upload-id',uploadId);
+		clone.attr('target','file_upload_target_'+uploadId);
+		clone.children('iframe').attr('name','file_upload_target_'+uploadId)
+		clone.insertBefore(form);
+		form.hide();
 	});
-	//save the original upload button text
-	$('#file_upload_filename').data('upload_text',$('#file_upload_filename').val());
+	
+	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
+	if(navigator.userAgent.search(/konqueror/i)==-1){
+		$('.file_upload_start').attr('multiple','multiple')
+	}
 });
 
 var adjustNewFolderSize = function() {
