@@ -107,7 +107,10 @@ div.controls { width:91%; margin:1em 1em 1em 2em; padding:0.5em 0; background-co
     background-color: #666;
     color: #FFF;
 }
-
+#login_form input[type="checkbox"]
+{
+	width:15px;
+}
 
 #setup_form {
 	margin: 3em auto;

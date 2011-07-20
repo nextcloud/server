@@ -337,4 +337,20 @@ class OC_USER {
 		}
 		return false;
 	}
+
+	/**
+	 * @brief Set cookie value to use in next page load
+	 * @param string $username username to be set
+	 */
+	public static function setUsernameInCookie($username){
+		setcookie("username", $username, mktime().time()+60*60*24*15);
+	}
+
+	/**
+	 * @brief Remove cookie for "remember username"
+	 */
+	public static function unsetUsernameInCookie(){
+		unset($_COOKIE["username"]);
+		setcookie("username", NULL, -1);
+	}
 }
