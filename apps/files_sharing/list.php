@@ -21,18 +21,20 @@
  */
 
 require_once('../../lib/base.php');
-require_once( 'lib_share.php' );
-require( 'template.php' );
+require_once('lib_share.php');
+require('template.php');
 
 if (!OC_USER::isLoggedIn()){
 	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
 	exit();
 }
 
-OC_APP::setActiveNavigationEntry( "files_sharing_administration" );
+OC_APP::setActiveNavigationEntry("files_sharing_list");
 
-$tmpl = new OC_TEMPLATE( "files_sharing", "admin", "admin" );
-$tmpl->assign( 'shared_items', OC_SHARE::getMySharedItems());
+OC_UTIL::addScript("files_sharing", "list");
+
+$tmpl = new OC_TEMPLATE("files_sharing", "list", "user");
+$tmpl->assign("shared_items", OC_SHARE::getMySharedItems());
 $tmpl->printPage();
 
 ?>

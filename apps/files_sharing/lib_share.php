@@ -36,6 +36,7 @@ class OC_SHARE {
 	 */
 	public function __construct($source, $uid_shared_with, $permissions, $public = false) {
 		if ($source && OC_FILESYSTEM::file_exists($source) && OC_FILESYSTEM::is_readable($source)) {
+			$source = "/".$_SESSION['user_id']."/files".$source;
 			$uid_owner = $_SESSION['user_id'];
 			if ($public) {
 				// TODO create token for public file
@@ -43,18 +44,19 @@ class OC_SHARE {
 			} else { 
 				$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
 				foreach ($uid_shared_with as $uid) {
-					$target = "/".$uid."/files/Share".$source;
-					$check = OC_DB::prepare("SELECT COUNT(target) FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
-					$result = $check->execute(array($target, $uid))->fetchAll();
-					$counter = 1;
-					while (count($result > 0)) {
-						if ($pos = strrpos($target, ".")) {
-							$target = substr($target, 0, $pos)."_".$counter.substr($target, $pos);
-						} else {
-							$target .= $counter;
-						}
-						$result = $check->execute(array($target, $uid))->fetchAll();
-					}
+					$target = "/".$uid."/files/Share/".basename($source);
+					// TODO Fix check if target already exists
+// 					$check = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
+// 					$result = $check->execute(array($target, $uid))->fetchAll();
+// 					$counter = 1;
+// 					while (count($result > 0)) {
+// 						if ($pos = strrpos($target, ".")) {
+// 							$target = substr($target, 0, $pos)."_".$counter.substr($target, $pos);
+// 						} else {
+// 							$target .= $counter;
+// 						}
+// 						$result = $check->execute(array($target, $uid))->fetchAll();
+// 					}
 					$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 				}
 			}
