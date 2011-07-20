@@ -7,12 +7,12 @@
 			<?php endif; ?>
 			<?php if(empty($_["username"])){?>
 			<input type="text" name="user" id="user" value="" autofocus />
-			<input type="checkbox" name="remember_login"/> <?php echo $l->t('Remember login'); ?>
 			<input type="password" name="password" id="password" value="" />
+			<input type="checkbox" name="remember_login"/> <?php echo $l->t('Remember login'); ?>
 			<?php }else{ ?>
 			<input type="text" name="user" id="user" value="<?php echo $_['username']; ?>">
-			<input type="checkbox" name="remember_login" checked /> <?php echo $l->t('Remember login'); ?>
 			<input type="password" name="password" id="password" value="" autofocus />
+			<input type="checkbox" name="remember_login" checked /> <?php echo $l->t('Remember login'); ?>
 			<?php } ?>
 			<input type="submit" value="Log in" />
 		</fieldset>
