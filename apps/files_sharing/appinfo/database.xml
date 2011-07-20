@@ -8,10 +8,16 @@
 		<name>*dbprefix*sharing</name>
 		<declaration>
 			<field>
-				<name>item</name>
+				<name>uid_owner</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>128</length>
+				<length>64</length>
+			</field>
+			<field>
+				<name>uid_shared_with</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
 			</field>
 			<field>
 				<name>source</name>
@@ -26,22 +32,10 @@
 				<length>128</length>
 			</field>
 			<field>
-				<name>uid_owner</name>
-				<type>text</type>
-				<notnull>true</notnull>
-				<length>64</length>
-			</field>
-			<field>
-				<name>uid_shared_with</name>
-				<type>text</type>
-				<notnull>true</notnull>
-				<length>64</length>
-			 </field>
-			 <field>
 				<name>permissions</name>
-				<type>text</type>
+				<type>integer</type>
 				<notnull>true</notnull>
-				<length>3</length>
+				<length>1</length>
 			 </field>
 		</declaration>
 	</table>
