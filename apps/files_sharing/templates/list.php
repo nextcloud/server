@@ -1,6 +1,5 @@
 <fieldset>
 	<legend>Your Shared Files</legend>
-	<?php if ($_['shared_items'] == null) {echo "You are not sharing any of your files";} else {?>
 	<table id='itemlist'>
 		<thead>
 			<tr>
@@ -28,5 +27,4 @@
 			</tr>
 		</tbody>
 	</table>
-	<?php } ?>
 </fieldset>
