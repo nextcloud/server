@@ -293,7 +293,9 @@ function procesSelection(){
 	if(selectedFiles.length==0 && selectedFolders.length==0){
 		$('#headerName>span.name').text('Name');
 		$('#headerSize').text('Size (MB)');
+		$('#selectedActions').hide();
 	}else{
+		$('#selectedActions').show();
 		var totalSize=0;
 		selectedFiles.each(function(){
 			totalSize+=parseInt($(this).attr('data-size'));
