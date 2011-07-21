@@ -69,14 +69,22 @@ elseif(isset($_POST["user"])) {
 		exit();
 	}
 	else {
-		OC_TEMPLATE::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["username"]));
+		if(isset($_COOKIE["username"])){
+			OC_TEMPLATE::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["username"]));
+		}else{
+			OC_TEMPLATE::printGuestPage("", "login", array("error" => true));
+		}
 	}
 }
 
 // For all others cases, we display the guest page :
 else {
 	OC_APP::loadApps();
-	OC_TEMPLATE::printGuestPage("", "login", array("error" => false, "username" => $_COOKIE["username"]));
+	if(isset($_COOKIE["username"])){
+		OC_TEMPLATE::printGuestPage("", "login", array("error" => false, "username" => $_COOKIE["username"]));
+	}else{
+		OC_TEMPLATE::printGuestPage("", "login", array("error" => false));
+	}
 }
 
 ?>
