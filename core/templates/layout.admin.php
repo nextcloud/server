@@ -23,7 +23,6 @@
 				echo $header['text'];
 				echo '</'.$header['tag'].'>';
 			?>
-			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
 		<?php endforeach; ?>
 	</head>
 

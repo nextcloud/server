@@ -56,6 +56,7 @@ class OC_FILESTORAGE{
 	public function hash($type,$path,$raw){}
 	public function free_space($path){}
 	public function search($query){}
+	public function getLocalFile($path){}// get a path to a local version of the file, whether the original file is local or remote
 }
 
 
@@ -375,6 +376,9 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 	
 	public function search($query){
 		return $this->searchInDir($query);
+	}
+	public function getLocalFile($path){
+			return $this->datadir.$path;
 	}
 	
 	private function searchInDir($query,$dir=''){

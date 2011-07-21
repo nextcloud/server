@@ -1,0 +1,2251 @@
+/////////////////////////////////////////////////////////////////
+/// getID3() by James Heinrich <info@getid3.org>               //
+//  available at http://getid3.sourceforge.net                 //
+//            or http://www.getid3.org                         //
+/////////////////////////////////////////////////////////////////
+//                                                             //
+// changelog.txt - part of getID3()                            //
+// See readme.txt for more details                             //
+//                                                            ///
+/////////////////////////////////////////////////////////////////
+
+What does the returned data structure look like?
+================================================
+
+Hint: If you take a look at the nicely-formatted output of
+/demos/demo.browse.php you can generally see where the data you want
+is returned.
+
+Note that what is described below is only a rough guide to what data
+is actually returned by getID3(), since the actual data returned
+depends entirely on what data is in your file, what type of file it
+is, what kind of data is in the tags, etc. In addition, some formats
+(Quicktime for example) use a freeform recursive structure that is
+impossible to document completely.
+
+In the vast majority of cases, all the data you'll need is located
+in the root of the array or the special arrays described below in
+Section 1 (['audio'], ['video'], ['tags_html'], ['replay_gain']).
+
+It is suggested that for most applications you should use tag data
+from the root ['tags_html'] array, as this is the only location
+where data is stored in a consistant format: HTML-compatible
+character entities (ie &#1234;) for characters outside the 0x20-0x7F
+range (printable ISO-8859-1 characters). This data can be used as-is
+for output in HTML, and can be converted to whatever character set
+you wish to use if the output is not HTML.
+
+If you want to merge all available tags (for example, ID3v2 + ID3v1)
+into one array, you can call
+getid3_lib::CopyTagsToComments($ThisFileInfo)
+and you'll then have ['comments'] and ['comments_html'] which are
+identical to ['tags'] and ['tags_html'] except the array is one
+dimension shorter (no tag type array keys). For example, artist is:
+['tags_html']['id3v1']['artist'][0] or ['comments_html']['artist'][0]
+
+
+Some commonly-used information is found in these locations:
+
+File type:        ['fileformat']                  // ex 'mp3'
+Song length:      ['playtime_string']             // ex '3:45'    (minutes:seconds)
+                  ['playtime_seconds']            // ex 225.13    (seconds)
+Overall bitrate:  ['bitrate']                     // ex 113485.71 (bits-per-second - divide by 1000 for kbps)
+Audio frequency:  ['audio']['sample_rate']        // ex 44100     (Hertz)
+Artist name:      ['comments_html']['artist'][0]  // ex 'Elvis'   (if CopyTagsToComments() is used - see above)
+                                                  //   more than one artist may be present, you may want to use implode:
+                                                  //   implode(' & ', ['comments_html']['artist'])
+
+
+/////////////////////////////////////////////////////////////////
+
+array() {
+                                         // SECTION 1: Values that are present for most or all file types
+
+    ['getID3version']=>string()          // version of getID3() that scanned this file (ex: '1.6.2')
+    ['error']=>array()                   // if present, contains one or more fatal error messages
+    ['warning']=>array()                 // if present, contains one or more non-fatal warning messages
+    ['exist']=>boolean()                 // does this file actually exist?
+    ['fileformat']=>string()             // one of the standard filetype abbreviations ('mp3', 'riff', 'quicktime', etc)
+    ['filename']=>string()               // filename only, no path
+    ['filenamepath']=>string()           // full filename with path
+    ['filepath']=>string()               // path to file, not including filename
+    ['filesize']=>integer()              // filesize in bytes
+    ['md5_file']=>string()               // md5 hash of entire file
+    ['md5_data']=>string()               // md5 hash of portion of file excluding prepended and appeneded metainformation tags (ID3, APE, etc) - may be identical to ['md5_file']
+    ['md5_data_source']=>string()        // md5 hash of original source file before compression (currently used by FLAC, OptimFROG, WavPack v4+)
+    ['sha1_file']=>string()              // sha1 hash of entire file
+    ['sha1_data']=>string()              // sha1 hash of portion of file excluding prepended and appeneded metainformation tags (ID3, APE, etc) - may be identical to ['md5_file']
+    ['avdataoffset']=>integer()          // offset in bytes where audio/video data starts and prepended tags end
+    ['avdataend']=>integer()             // offset in bytes where audio/video data ends and appended tags start
+    ['bitrate']=>double()                // average bitrate for entire file (all audio/video streams), in bits per second
+    ['mime_type']=>string()              // if present, MIME type of scanned file
+    ['playtime_seconds']=>double()       // playing time of file, in seconds
+    ['playtime_string']=>string()        // playing time of file, formatted as <minutes>:<seconds>
+    ['tags']=>array()                    // array of all metainformation tags present in file ('id3v1', 'id3v2', 'ape', 'riff', 'asf', etc)
+    ['audio']=>array() {
+        ['bitrate']=>double()            // average bitrate for audio portion of file (all audio streams), in bits per second
+        ['bitrate_mode']=>string()       // 'cbr' (Constant Bit Rate) or 'vbr' (Variable Bit Rate)
+        ['bits_per_sample']=>integer()   //
+        ['channelmode']=>string()        // 'mono' or 'stereo'
+        ['channels']=>integer()          // number of audio channels
+        ['codec']=>string()              // name of audio compression codec
+        ['compression_ratio']=>double()  // ratio of compressed byte size of audio to uncompressed size
+        ['dataformat']=>string()         // one of the standard filetype abbreviations ('mp3', 'wma', etc)
+        ['encoder']=>string()            // name and version of encoder used to create file, if known
+        ['lossless']=>boolean()          // true = lossless compression; false = lossy compression
+        ['sample_rate']=>integer()
+    }
+    ['video']=>array() {
+        ['bitrate']=>integer()           // average bitrate for video portion of file (all video streams), in bits per second
+        ['bitrate_mode']=>string()       // 'cbr' (Constant Bit Rate) or 'vbr' (Variable Bit Rate)
+        ['bits_per_sample']=>integer()   //
+        ['codec']=>string()              // name of video compression codec
+        ['compression_ratio']=>double()  // ratio of compressed byte size of video to uncompressed size
+        ['dataformat']=>string()         // one of the standard filetype abbreviations ('avi', 'mpeg', etc)
+        ['encoder']=>string()            // name and version of encoder used to create file, if known
+        ['frame_rate']=>double()         // frames per second
+        ['lossless']=>boolean()          // true = lossless compression; false = lossy compression
+        ['resolution_x']=>integer()      // horizontal dimension of video/image in pixels
+        ['resolution_y']=>integer()      // vertical dimension of video/image in pixels
+        ['pixel_aspect_ratio']=>double() // pixel display aspect ratio
+    }
+    ['tags']=>array() {                  // array of array of strings containing best data from any available metainformation tag (APE, ID3v2, ID3v1, Lyrics3, Vorbis, ASF, RIFF, Real, etc.)
+        [<key name>]=>array()            // <key name> can be anything, usually 'artist', 'title', etc. Contains array of one or more values (eg: multiple artists are possible)
+    }
+    ['tags_html']=>array() {             // identical to ['tags'], but with all entries converted to HTML entities as appropriate from various source encodings
+        [<key name>]=>array()            //
+    }
+    ['replay_gain']=>array() {           // replay gain information combined from any source that contains this information (LAME, ID3v2, Vorbis, APE, etc)
+        ['audiophile']=>array() {
+            ['adjustment']=>double()
+            ['originator']=>string()
+            ['peak']=>double()
+        }
+        ['radio']=>array() {
+            ['adjustment']=>double()
+            ['originator']=>string()
+            ['peak']=>double()
+        }
+    }
+
+
+                                         // SECTION 2: Values that are present for specific file types only
+
+    ['aac']=>array() {                            // AAC - Advanced Audio Coding / MPEG-4
+        ['bitrate_distribution']=>array()         //
+        ['header']=>array() {                     //
+            ['channel_configuration']=>integer()  //
+            ['crc_present']=>boolean()            //
+            ['home']=>boolean()                   //
+            ['layer']=>integer()                  //
+            ['mpeg_version']=>integer()           //
+            ['original']=>boolean()               //
+            ['private']=>boolean()                //
+            ['profile_id']=>integer()             //
+            ['profile_text']=>string()            //
+            ['sample_frequency']=>integer()       //
+            ['sample_frequency_index']=>integer() //
+            ['synch']=>integer()                  //
+        }                                         //
+        ['header_type']=>string()                 //
+    }                                             //
+                                                  //
+    ['ape']=>array()                      //
+    {                                     //
+        ['comments']=>array() {           // array of array of strings containing best data from any available metainformation tag (APE, ID3v2, ID3v1, Lyrics3, Vorbis, ASF, RIFF, Real, etc.)
+            [<key name>]=>array()         // <key name> can be anything, usually 'artist', 'title', etc. Contains array of one or more values (eg: multiple artists are possible)
+        }                                 //
+        ['footer']=>array()               //
+        {                                 //
+            ['flags']=>array()            //
+            ['raw']=>array()              //
+            ['tag_version']=>integer()    //
+        }                                 //
+        ['header']=>array()               //
+        {                                 //
+            ['flags']=>array()            //
+            ['raw']=>array()              //
+            ['tag_version']=>integer()    //
+        }                                 //
+        ['items']=>array() {              // array of array of strings containing metainformation
+            [<key name>]=>array() {       // <key name> can be anything, usually 'artist', 'title', etc. Contains array of one or more values (eg: multiple artists are possible)
+                ['data']=>array() {       // array of one or more Unicode values
+                ['data_ascii']=>array() { // array of values converted approximately from Unicode to ASCII
+                ['flags']=>array()        //
+            }                             //
+        }                                 //
+        ['tag_offset_end']=>integer()     //
+        ['tag_offset_start']=>integer()   //
+    }                                     //
+
+
+    ['asf']=>array() {                               // ASF - Advanced Streaming Format (ASF, Windows Media Audio (WMA), Windows Media Video (WMV))
+        ['audio_media']=>array() {                   //
+            [<x>]=>array() {                         //
+                ['bitrate']=>integer()               //
+                ['bits_per_sample']=>integer()       //
+                ['channels']=>integer()              //
+                ['codec']=>string()                  //
+                ['codec_data']=>string()             //
+                ['codec_data_size']=>integer()       //
+                ['raw']=>array() {                   //
+                    ['nAvgBytesPerSec']=>integer()   //
+                    ['wBitsPerSample']=>integer()    //
+                    ['nBlockAlign']=>integer()       //
+                    ['nChannels']=>integer()         //
+                    ['nSamplesPerSec']=>integer()    //
+                    ['wFormatTag']=>integer()        //
+                }                                    //
+                ['sample_rate']=>integer()           //
+            }                                        //
+        }                                            //
+        ['codec_list']=>array() {                    //
+            ['codec_entries']=>array() {             //
+                [<x>]=>array() {                     //
+                    ['description']=>string()        //
+                    ['description_ascii']=>string()  //
+                    ['information']=>string()        //
+                    ['name']=>string()               //
+                    ['name_ascii']=>string()         //
+                    ['type']=>string()               //
+                    ['type_raw']=>integer()          //
+                }                                    //
+            }                                        //
+            ['codec_entries_count']=>integer()       //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+            ['reserved']=>string()                   //
+            ['reserved_guid']=>string()              //
+        }                                            //
+        ['comments']=>array() {                      // array of comment values, derived from ['content_description']
+            ['album']=>string()                      //
+            ['artist']=>string()                     //
+            ['comment']=>string()                    //
+            ['copyright']=>string()                  //
+            ['genre']=>string()                      //
+            ['title']=>string()                      //
+            ['track']=>string()                      //
+            ['year']=>string()                       //
+        }                                            //
+        ['content_description']=>array() {           // raw values - should use values from ['comments'] instead
+            ['author']=>string()                     //
+            ['author_ascii']=>string()               //
+            ['author_length']=>integer()             //
+            ['copyright']=>string()                  //
+            ['copyright_ascii']=>string()            //
+            ['copyright_length']=>integer()          //
+            ['description']=>string()                //
+            ['description_ascii']=>string()          //
+            ['description_length']=>integer()        //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+            ['rating']=>string()                     //
+            ['rating_ascii']=>string()               //
+            ['rating_length']=>integer()             //
+            ['title']=>string()                      //
+            ['title_ascii']=>string()                //
+            ['title_length']=>integer()              //
+        }                                            //
+        ['data_object']=>array() {                   //
+            ['fileid']=>string()                     //
+            ['fileid_guid']=>string()                //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+            ['reserved']=>integer()                  //
+            ['total_data_packets']=>integer()        //
+        }                                            //
+        ['extended_content_description']=>array() {  //
+            ['content_descriptors']=>array() {       //
+                [<x>]=>array() {                     //
+                    ['name']=>string()               //
+                    ['name_ascii']=>string()         //
+                    ['name_length']=>integer()       //
+                    ['value']=>string()              //
+                    ['value_ascii']=>string()        //
+                    ['value_length']=>integer()      //
+                    ['value_type']=>integer()        //
+                }                                    //
+            }                                        //
+            ['content_descriptors_count']=>integer() //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+        }                                            //
+        ['file_properties_object']=>array() {        //
+            ['creation_date']=>double()              //
+            ['creation_date_unix']=>double()         //
+            ['data_packets']=>integer()              //
+            ['fileid']=>string()                     //
+            ['fileid_guid']=>string()                //
+            ['filesize']=>integer()                  //
+            ['flags']=>array() {                     //
+                ['broadcast']=>boolean()             //
+                ['seekable']=>boolean()              //
+            }                                        //
+            ['flags_raw']=>integer()                 //
+            ['max_bitrate']=>integer()               //
+            ['max_packet_size']=>integer()           //
+            ['min_packet_size']=>integer()           //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+            ['play_duration']=>double()              //
+            ['preroll']=>integer()                   //
+            ['send_duration']=>double()              //
+        }                                            //
+        ['header_extension_object']=>array() {       //
+            ['extension_data']=>integer()            //
+            ['extension_data_size']=>integer()       //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+            ['reserved_1']=>string()                 //
+            ['reserved_1_guid']=>string()            //
+            ['reserved_2']=>integer()                //
+        }                                            //
+        ['header_object']=>array() {                 //
+            ['headerobjects']=>integer()             //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+            ['reserved1']=>integer()                 //
+            ['reserved2']=>integer()                 //
+        }                                            //
+        ['marker_object']=>array() {                 //
+            ['markers_count']=>integer()             //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+            ['reserved']=>string()                   //
+            ['reserved_2']=>integer()                //
+            ['reserved_guid']=>string()              //
+        }                                            //
+        ['stream_bitrate_properties']=>array() {     //
+            ['bitrate_records']=>array() {           //
+                [<x>]=>array() {                     //
+                    ['bitrate']=>integer()           //
+                    ['flags_raw']=>integer()         //
+                    ['flags']=>array() {             //
+                        ['stream_number']=>integer() //
+                    }                                //
+                }                                    //
+            }                                        //
+            ['bitrate_records_count']=>integer()     //
+            ['objectid']=>string()                   //
+            ['objectid_guid']=>string()              //
+            ['objectsize']=>integer()                //
+        }                                            //
+        ['stream_properties_object']=>array() {      //
+            [<x>]=>array() {                         //
+                ['error_correct_data']=>string()     //
+                ['error_correct_guid']=>string()     //
+                ['error_correct_type']=>string()     //
+                ['error_data_length']=>integer()     //
+                ['flags_raw']=>integer()             //
+                ['flags']=>array() {                 //
+                    ['encrypted']=>boolean()         //
+                }                                    //
+                ['objectid']=>string()               //
+                ['objectid_guid']=>string()          //
+                ['objectsize']=>integer()            //
+                ['stream_type']=>string()            //
+                ['stream_type_guid']=>string()       //
+                ['time_offset']=>integer()           //
+                ['type_data_length']=>integer()      //
+                ['type_specific_data']=>string()     //
+            }                                        //
+        }                                            //
+        ['video_media']=>array() {                   //
+            [<x>]=>array() {                         //
+                ['flags']=>integer()                 //
+                ['format_data']=>array() {           //
+                    ['bits_per_pixel']=>integer()    //
+                    ['codec']=>string()              //
+                    ['codec_data']=>boolean()        //
+                    ['codec_fourcc']=>string()       //
+                    ['colors_important']=>integer()  //
+                    ['colors_used']=>integer()       //
+                    ['format_data_size']=>integer()  //
+                    ['horizontal_pels']=>integer()   //
+                    ['image_height']=>integer()      //
+                    ['image_size']=>integer()        //
+                    ['image_width']=>integer()       //
+                    ['reserved']=>integer()          //
+                    ['vertical_pels']=>integer()     //
+                }                                    //
+                ['format_data_size']=>integer()      //
+                ['image_height']=>integer()          //
+                ['image_width']=>integer()           //
+            }                                        //
+        }                                            //
+    }                                                //
+
+
+    ['au']=>array() {                       // AU - Next/Sun AUdio format
+        ['bits_per_sample']=>integer()      //
+        ['channels']=>integer()             //
+        ['comment']=>string()               //
+        ['data_format']=>string()           //
+        ['data_format_id']=>integer()       //
+        ['data_size']=>integer()            //
+        ['header_length']=>integer()        //
+        ['sample_rate']=>integer()          //
+        ['used_bits_per_sample']=>integer() //
+    }                                       //
+
+
+    ['bmp']=>array() {                          // BMP - OS/2 or Windows BitMaP
+        ['header']=>array() {                   //
+            ['compression']=>string()           //
+            ['raw']=>array() {                  //
+                ['bits_per_pixel']=>integer()   //
+                ['bmp_data_size']=>integer()    //
+                ['colors_important']=>integer() //
+                ['colors_used']=>integer()      //
+                ['compression']=>integer()      //
+                ['data_offset']=>integer()      //
+                ['filesize']=>integer()         //
+                ['header_size']=>integer()      //
+                ['height']=>integer()           //
+                ['identifier']=>string()        //
+                ['planes']=>integer()           //
+                ['resolution_h']=>integer()     //
+                ['resolution_v']=>integer()     //
+                ['width']=>integer()            //
+            }                                   //
+        }                                       //
+        ['type_os']=>string()                   //
+        ['type_version']=>integer()             //
+    }                                           //
+
+
+    ['bonk']=>array() {                       // BONK - lossy/lossless audio compression (www.bonkenc.org)
+        ['BONK']=>array() {                   //
+            ['channels']=>integer()           //
+            ['downsampling_ratio']=>integer() //
+            ['joint_stereo']=>boolean()       //
+            ['lossless']=>boolean()           //
+            ['number_samples']=>integer()     //
+            ['number_taps']=>integer()        //
+            ['offset']=>integer()             //
+            ['sample_rate']=>integer()        //
+            ['samples_per_packet']=>integer() //
+            ['size']=>integer()               //
+            ['version']=>integer()            //
+        }                                     //
+        ['INFO']=>array() {                   //
+            ['size']=>integer()               //
+            ['offset']=>integer()             //
+            ['version']=>integer()            //
+            [<x>]=>array() {                  //
+                ['nextbit']=>integer()        //
+                ['offset']=>integer()         //
+            }                                 //
+        }                                     //
+        ['dataend']=>integer()                //
+        ['dataoffset']=>integer()             //
+    }                                         //
+
+
+    ['flac']=>array() {                         // FLAC - Free Lossless Audio Compressor
+        ['SEEKTABLE']=>array() {                //
+            [<x>]=>array() {                    //
+                ['offset']=>integer()           //
+                ['samples']=>integer()          //
+            }                                   //
+            ['placeholders']=>integer()         //
+            ['raw']=>array() {                  //
+                ['block_data']=>string()        //
+                ['block_length']=>integer()     //
+                ['block_type']=>integer()       //
+                ['block_type_text']=>string()   //
+                ['last_meta_block']=>boolean()  //
+                ['offset']=>integer()           //
+            }                                   //
+        }                                       //
+        ['STREAMINFO']=>array() {               //
+            ['audio_signature']=>string()       //
+            ['bits_per_sample']=>integer()      //
+            ['channels']=>integer()             //
+            ['max_block_size']=>integer()       //
+            ['max_frame_size']=>integer()       //
+            ['min_block_size']=>integer()       //
+            ['min_frame_size']=>integer()       //
+            ['raw']=>array() {                  //
+                ['block_data']=>string()        //
+                ['block_length']=>integer()     //
+                ['block_type']=>integer()       //
+                ['block_type_text']=>string()   //
+                ['last_meta_block']=>boolean()  //
+                ['offset']=>integer()           //
+            }                                   //
+            ['sample_rate']=>integer()          //
+            ['samples_stream']=>integer()       //
+        }                                       //
+        ['VORBIS_COMMENT']=>array() {           //
+            ['raw']=>array() {                  //
+                ['block_data']=>string()        //
+                ['block_length']=>integer()     //
+                ['block_type']=>integer()       //
+                ['block_type_text']=>string()   //
+                ['last_meta_block']=>boolean()  //
+                ['offset']=>integer()           //
+            }                                   //
+        }                                       //
+        ['compressed_audio_bytes']=>integer()   //
+        ['compression_ratio']=>double()         //
+        ['uncompressed_audio_bytes']=>integer() //
+    }                                           //
+
+
+    ['gif']=>array() {                             // GIF - Graphics Interchange Format
+        ['global_color_table']=>array() {          //
+            [<x>]=>integer()                       //
+        }                                          //
+        ['header']=>array() {                      //
+            ['bits_per_pixel']=>integer()          //
+            ['flags']=>array() {                   //
+                ['global_color_sorted']=>boolean() //
+                ['global_color_table']=>boolean()  //
+            }                                      //
+            ['global_color_size']=>integer()       //
+            ['raw']=>array() {                     //
+                ['aspect_ratio']=>integer()        //
+                ['bg_color_index']=>integer()      //
+                ['flags']=>integer()               //
+                ['height']=>integer()              //
+                ['identifier']=>string()           //
+                ['version']=>string()              //
+                ['width']=>integer()               //
+            }                                      //
+        }                                          //
+        ['version']=>string()                      //
+    }                                              //
+
+
+    ['id3v1']=>array() {                // ID3v1
+        ['album']=>string()             //
+        ['artist']=>string()            //
+        ['comment']=>string()           //
+        ['genre']=>string()             //
+        ['genreid']=>integer()          //
+        ['title']=>string()             //
+        ['track']=>integer()            //
+        ['year']=>string()              //
+        ['padding_valid']=>boolean()    //
+        ['comments']=>array()           //
+        ['tag_offset_start']=>integer() //
+        ['tag_offset_end']=>integer()   //
+    }                                   //
+
+
+    ['id3v2']=>array() {                                 // ID3v2 - www.id3.org
+        [<frame name>]=>array() {                        // <frame name> can be any of the 4-character (3-character in ID3v2.2) frame names allowed in the ID3v2 spec. Exact contents of returned array data varies with frame type.
+            [<x>]=>array() {                             // some frames types allow multiple values ('COMM' for example), others do not and do not have this array level
+                ['asciidata']=>boolean()                 //
+                ['asciidescription']=>string()           //
+                ['data']=>boolean()                      //
+                ['datalength']=>integer()                //
+                ['dataoffset']=>integer()                //
+                ['description']=>string()                //
+                ['encoding']=>string()                   //
+                ['encodingid']=>integer()                //
+                ['flags']=>array() {                     //
+                    ['Encryption']=>boolean()            //
+                    ['FileAlterPreservation']=>boolean() //
+                    ['GroupingIdentity']=>boolean()      //
+                    ['ReadOnly']=>boolean()              //
+                    ['TagAlterPreservation']=>boolean()  //
+                    ['compression']=>boolean()           //
+                }                                        //
+                ['framenamelong']=>string()              //
+                ['language']=>string()                   //
+                ['languagename']=>string()               //
+            }                                            //
+        }                                                //
+        ['comments']=>array() {                          // array of array of strings containing best data from any available metainformation tag (APE, ID3v2, ID3v1, Lyrics3, Vorbis, ASF, RIFF, Real, etc.)
+            [<key name>]=>array()                        // <key name> can be anything, usually 'artist', 'title', etc. Contains array of one or more values (eg: multiple artists are possible)
+        }                                                //
+        ['flags']=>array() {                             //
+            ['experim']=>string()                        //
+            ['exthead']=>string()                        //
+            ['unsynch']=>string()                        //
+        }                                                //
+        ['header']=>boolean()                            //
+        ['headerlength']=>integer()                      //
+        ['majorversion']=>integer()                      //
+        ['minorversion']=>integer()                      //
+        ['padding']=>array() {                           //
+            ['length']=>integer()                        //
+            ['start']=>integer()                         //
+            ['valid']=>boolean()                         //
+        }                                                //
+        ['tag_offset_end']=>integer()                    //
+        ['tag_offset_start']=>integer()                  //
+    }                                                    //
+
+
+    ['iso']=>array() {                                           // ISO-9660 - CD-ROM Image
+        ['directories']=>array() {                               //
+            [<x>]=>array() {                                     //
+                [<x>]=>array() {                                 //
+                    ['file_flags']=>array() {                    //
+                        ['associated']=>boolean()                //
+                        ['directory']=>boolean()                 //
+                        ['extended']=>boolean()                  //
+                        ['hidden']=>boolean()                    //
+                        ['multiple']=>boolean()                  //
+                        ['permissions']=>boolean()               //
+                    }                                            //
+                    ['file_identifier_ascii']=>string()          //
+                    ['filename']=>string()                       //
+                    ['filesize']=>integer()                      //
+                    ['offset_bytes']=>integer()                  //
+                    ['raw']=>array() {                           //
+                        ['extended_attribute_length']=>integer() //
+                        ['file_flags']=>integer()                //
+                        ['file_identifier']=>string()            //
+                        ['file_identifier_length']=>integer()    //
+                        ['file_unit_size']=>integer()            //
+                        ['filesize']=>integer()                  //
+                        ['interleave_gap_size']=>integer()       //
+                        ['length']=>integer()                    //
+                        ['offset_logical']=>integer()            //
+                        ['recording_date_time']=>string()        //
+                        ['volume_sequence_number']=>integer()    //
+                    }                                            //
+                    ['recording_timestamp']=>integer()           //
+                }                                                //
+            }                                                    //
+        }                                                        //
+        ['files']=>array() {                                     // multidimensional tree-structure array listing of all files and directories in image
+            [<directory name>]=>array()                          // entries of type array are directories (key is directory name), may contain files and/or other subdirectories
+            [<file name>]=>integer()                             // entries of type integer are files (key is file name, value is file size in bytes)
+        }                                                        //
+        ['path_table']=>array() {                                //
+            ['directories']=>array() {                           //
+                [<x>]=>array() {                                 //
+                    ['extended_length']=>integer()               //
+                    ['full_path']=>string()                      //
+                    ['length']=>integer()                        //
+                    ['location_bytes']=>integer()                //
+                    ['location_logical']=>integer()              //
+                    ['name']=>string()                           //
+                    ['name_ascii']=>string()                     //
+                    ['parent_directory']=>integer()              //
+                }                                                //
+            }                                                    //
+            ['offset']=>integer()                                //
+            ['raw']=>string()                                    //
+        }                                                        //
+        ['primary_volume_descriptor']=>array() {                 //
+            ['abstract_file_identifier']=>string()               //
+            ['application_identifier']=>string()                 //
+            ['bibliographic_file_identifier']=>string()          //
+            ['copyright_file_identifier']=>string()              //
+            ['data_preparer_identifier']=>string()               //
+            ['offset']=>integer()                                //
+            ['publisher_identifier']=>string()                   //
+            ['raw']=>array() {                                   //
+                ['abstract_file_identifier']=>string()           //
+                ['application_data']=>string()                   //
+                ['application_identifier']=>string()             //
+                ['bibliographic_file_identifier']=>string()      //
+                ['copyright_file_identifier']=>string()          //
+                ['data_preparer_identifier']=>string()           //
+                ['file_structure_version']=>integer()            //
+                ['logical_block_size']=>integer()                //
+                ['path_table_l_location']=>integer()             //
+                ['path_table_l_opt_location']=>integer()         //
+                ['path_table_m_location']=>integer()             //
+                ['path_table_m_opt_location']=>integer()         //
+                ['path_table_size']=>integer()                   //
+                ['publisher_identifier']=>string()               //
+                ['root_directory_record']=>string()              //
+                ['standard_identifier']=>string()                //
+                ['system_identifier']=>string()                  //
+                ['unused_1']=>string()                           //
+                ['unused_2']=>string()                           //
+                ['unused_3']=>string()                           //
+                ['unused_4']=>integer()                          //
+                ['volume_creation_date_time']=>string()          //
+                ['volume_descriptor_type']=>integer()            //
+                ['volume_descriptor_version']=>integer()         //
+                ['volume_effective_date_time']=>string()         //
+                ['volume_expiration_date_time']=>string()        //
+                ['volume_identifier']=>string()                  //
+                ['volume_modification_date_time']=>string()      //
+                ['volume_sequence_number']=>integer()            //
+                ['volume_set_identifier']=>string()              //
+                ['volume_set_size']=>integer()                   //
+                ['volume_space_size']=>integer()                 //
+            }                                                    //
+            ['system_identifier']=>string()                      //
+            ['volume_creation_date_time']=>integer()             //
+            ['volume_effective_date_time']=>boolean()            //
+            ['volume_expiration_date_time']=>boolean()           //
+            ['volume_identifier']=>string()                      //
+            ['volume_modification_date_time']=>integer()         //
+            ['volume_set_identifier']=>string()                  //
+        }                                                        //
+        ['supplementary_volume_descriptor']=>array() {           //
+            ['abstract_file_identifier']=>string()               //
+            ['application_identifier']=>string()                 //
+            ['bibliographic_file_identifier']=>string()          //
+            ['copyright_file_identifier']=>string()              //
+            ['data_preparer_identifier']=>string()               //
+            ['offset']=>integer()                                //
+            ['publisher_identifier']=>string()                   //
+            ['raw']=>array() {                                   //
+                ['abstract_file_identifier']=>string()           //
+                ['application_data']=>string()                   //
+                ['application_identifier']=>string()             //
+                ['bibliographic_file_identifier']=>string()      //
+                ['copyright_file_identifier']=>string()          //
+                ['data_preparer_identifier']=>string()           //
+                ['file_structure_version']=>integer()            //
+                ['logical_block_size']=>integer()                //
+                ['path_table_l_location']=>integer()             //
+                ['path_table_l_opt_location']=>integer()         //
+                ['path_table_m_location']=>integer()             //
+                ['path_table_m_opt_location']=>integer()         //
+                ['path_table_size']=>integer()                   //
+                ['publisher_identifier']=>string()               //
+                ['root_directory_record']=>string()              //
+                ['standard_identifier']=>string()                //
+                ['system_identifier']=>string()                  //
+                ['unused_1']=>string()                           //
+                ['unused_2']=>string()                           //
+                ['unused_3']=>string()                           //
+                ['unused_4']=>integer()                          //
+                ['volume_creation_date_time']=>string()          //
+                ['volume_descriptor_type']=>integer()            //
+                ['volume_descriptor_version']=>integer()         //
+                ['volume_effective_date_time']=>string()         //
+                ['volume_expiration_date_time']=>string()        //
+                ['volume_identifier']=>string()                  //
+                ['volume_modification_date_time']=>string()      //
+                ['volume_sequence_number']=>integer()            //
+                ['volume_set_identifier']=>string()              //
+                ['volume_set_size']=>integer()                   //
+                ['volume_space_size']=>integer()                 //
+            }                                                    //
+            ['system_identifier']=>string()                      //
+            ['volume_creation_date_time']=>integer()             //
+            ['volume_effective_date_time']=>boolean()            //
+            ['volume_expiration_date_time']=>boolean()           //
+            ['volume_identifier']=>string()                      //
+            ['volume_modification_date_time']=>integer()         //
+            ['volume_set_identifier']=>string()                  //
+        }                                                        //
+    }                                                            //
+
+
+    ['jpg']=>array() {    // JPEG - still image
+        ['exif']=>array() // data returned from PHP's exif_read_data() function
+    }                     //
+
+
+    ['la']=>array() {                        // LA - Lossless Audio (www.lossless-audio.com)
+        ['raw']=>array() {
+            ['format']=>integer()            //
+            ['flags']=>integer()             //
+        }                                    //
+        ['flags']=>array() {                 //
+            ['seekable']=>boolean()          //
+            ['high_compression']=>boolean()  //
+        }                                    //
+        ['bits_per_sample']=>integer()       //
+        ['bytes_per_sample']=>integer()      //
+        ['bytes_per_second']=>integer()      //
+        ['channels']=>integer()              //
+        ['compression_ratio']=>double()      //
+        ['format_size']=>integer()           //
+        ['header_size']=>integer()           //
+        ['original_crc']=>double()           //
+        ['sample_rate']=>integer()           //
+        ['samples']=>integer()               //
+        ['uncompressed_size']=>integer()     //
+        ['version']=>double()                //
+        ['version_major']=>integer()         //
+        ['version_minor']=>integer()         //
+        ['footerstart']=>double()            //
+    }
+
+
+    ['lpac']=>array() {                               // LPAC - Lossless Predictive Audio Compressor
+        ['block_length']=>integer()                   //
+        ['file_version']=>integer()                   //
+        ['flags']=>array() {                          //
+            ['16_bit']=>boolean()                     //
+            ['24_bit']=>boolean()                     //
+            ['adaptive_prediction_order']=>boolean()  //
+            ['adaptive_quantization']=>boolean()      //
+            ['fast_compress']=>boolean()              //
+            ['is_wave']=>boolean()                    //
+            ['joint_stereo']=>boolean()               //
+            ['max_prediction_order']=>integer()       //
+            ['quantization']=>integer()               //
+            ['random_access']=>boolean()              //
+            ['stereo']=>boolean()                     //
+        }                                             //
+        ['raw']=>array() {                            //
+            ['audio_type']=>integer()                 //
+            ['parameters']=>double()                  //
+        }                                             //
+        ['total_samples']=>integer()                  //
+    }                                                 //
+
+
+    ['lyrics3']=>array() {                // Lyrics3 - metainformation tags
+        ['comments']=>array() {           //
+            ['album']=>string()           //
+            ['artist']=>string()          //
+            ['author']=>string()          //
+            ['comment']=>string()         //
+            ['title']=>string()           //
+        }                                 //
+        ['flags']=>array() {              //
+            ['lyrics']=>boolean()         //
+            ['timestamps']=>boolean()     //
+        }                                 //
+        ['images']=>array() {             //
+            [<x>]=>array() {              //
+                ['description']=>string() //
+                ['filename']=>string()    //
+                ['timestamp']=>integer()  //
+            }                             //
+        }                                 //
+        ['raw']=>array() {                //
+            ['offset_start']=>integer()   //
+            ['offset_end']=>integer()     //
+            ['AUT']=>string()             //
+            ['EAL']=>string()             //
+            ['EAR']=>string()             //
+            ['ETT']=>string()             //
+            ['IMG']=>string()             //
+            ['IND']=>string()             //
+            ['INF']=>string()             //
+            ['LYR']=>string()             //
+            ['lyrics3tagsize']=>integer() //
+            ['lyrics3version']=>integer() //
+            ['unparsed']=>string()        //
+        }                                 //
+        ['synchedlyrics']=>array() {      //
+            [<x>]=>string()               //
+        }                                 //
+        ['unsynchedlyrics']=>string()     //
+    }                                     //
+
+
+    ['midi']=>array() {                         // MIDI (Musical Instrument Digital Interface) - sequenced music
+        ['comments']=>array() {                 //
+            ['comment']=>string()               //
+            ['copyright']=>string()             //
+        }                                       //
+        ['keysignature']=>array() {             //
+            [<x>]=>string()                     //
+        }                                       //
+        ['raw']=>array() {                      //
+            ['events']=>array() {               //
+                [<x>]=>array() {                //
+                    [<x>]=>array() {            //
+                        ['us_qnote']=>integer() //
+                    }                           //
+                }                               //
+            }                                   //
+            ['fileformat']=>integer()           //
+            ['headersize']=>integer()           //
+            ['ticksperqnote']=>integer()        //
+            ['track']=>array() {                //
+                [<x>]=>array() {                //
+                    ['instrument']=>string()    //
+                    ['instrumentid']=>integer() //
+                    ['name']=>string()          //
+                }                               //
+            }                                   //
+            ['tracks']=>integer()               //
+        }                                       //
+        ['timesignature']=>array() {            //
+            [<x>]=>string()                     //
+        }                                       //
+        ['totalticks']=>integer()               //
+    }                                           //
+
+
+    ['monkeys_audio']=>array() {                // Monkey's Audio - lossless audio compression
+        ['bitrate']=>double()                   //
+        ['bits_per_sample']=>integer()          //
+        ['channels']=>integer()                 //
+        ['compressed_size']=>integer()          //
+        ['compression']=>string()               //
+        ['compression_ratio']=>double()         //
+        ['flags']=>array() {                    //
+            ['24-bit']=>boolean()               //
+            ['8-bit']=>boolean()                //
+            ['crc-32']=>boolean()               //
+            ['no_wav_header']=>boolean()        //
+            ['peak_level']=>boolean()           //
+            ['seek_elements']=>boolean()        //
+        }                                       //
+        ['frames']=>integer()                   //
+        ['peak_level']=>integer()               //
+        ['peak_ratio']=>double()                //
+        ['playtime']=>double()                  //
+        ['raw']=>array() {                      //
+            ['header_tag']=>string()            //
+            ['nChannels']=>integer()            //
+            ['nCompressionLevel']=>integer()    //
+            ['nFinalFrameSamples']=>integer()   //
+            ['nFormatFlags']=>integer()         //
+            ['nPeakLevel']=>integer()           //
+            ['nSampleRate']=>integer()          //
+            ['nSeekElements']=>integer()        //
+            ['nTotalFrames']=>integer()         //
+            ['nVersion']=>integer()             //
+            ['nWAVHeaderBytes']=>integer()      //
+            ['nWAVTerminatingBytes']=>integer() //
+        }                                       //
+        ['sample_rate']=>integer()              //
+        ['samples']=>integer()                  //
+        ['samples_per_frame']=>integer()        //
+        ['uncompressed_size']=>integer()        //
+        ['version']=>double()                   //
+    }                                           //
+
+
+    ['mpc']=>array() {                          // MPC (Musepack) - lossy audio compression
+        ['header']=>array() {                   //
+            ['album_gain_db']=>integer()        //
+            ['album_peak']=>integer()           //
+            ['album_peak_db']=>boolean()        //
+            ['title_gain_db']=>integer()        //
+            ['title_peak']=>integer()           //
+            ['title_peak_db']=>boolean()        //
+            ['begin_loud']=>boolean()           //
+            ['end_loud']=>boolean()             //
+            ['encoder_version']=>string()       //
+            ['frame_count']=>integer()          //
+            ['intensity_stereo']=>boolean()     //
+            ['last_frame_length']=>integer()    //
+            ['max_level']=>integer()            //
+            ['max_subband']=>integer()          //
+            ['mid_side_stereo']=>boolean()      //
+            ['profile']=>string()               //
+            ['sample_rate']=>integer()          //
+            ['samples']=>integer()              //
+            ['size']=>integer()                 //
+            ['stream_major_version']=>integer() //
+            ['stream_minor_version']=>integer() //
+            ['true_gapless']=>boolean()         //
+            ['raw']=>array() {                  //
+                ['album_gain']=>integer()       //
+                ['album_peak']=>integer()       //
+                ['encoder_version']=>integer()  //
+                ['preamble']=>string()          //
+                ['profile']=>integer()          //
+                ['sample_rate']=>integer()      //
+                ['title_gain']=>integer()       //
+                ['title_peak']=>integer()       //
+            }                                   //
+        }                                       //
+    }                                           //
+
+
+    ['mpeg']=>array() {                                // MPEG (Motion Picture Experts Group) - MPEG video and/or MPEG audio (MP3/MP2/MP1)
+        ['audio']=>array() {                           //
+            ['LAME']=>array() {                        //
+                ['RGAD']=>array() {                    //
+                    ['peak_amplitude']=>double()       //
+                }                                      //
+                ['ath_type']=>integer()                //
+                ['audio_bytes']=>integer()             //
+                ['bitrate_min']=>integer()             //
+                ['encoder_delay']=>integer()           //
+                ['encoding_flags']=>array() {          //
+                    ['nogap_next']=>boolean()          //
+                    ['nogap_prev']=>boolean()          //
+                    ['nspsytune']=>boolean()           //
+                    ['nssafejoint']=>boolean()         //
+                }                                      //
+                ['end_padding']=>integer()             //
+                ['lame_tag_crc']=>integer()            //
+                ['lowpass_frequency']=>integer()       //
+                ['mp3_gain_db']=>double()              //
+                ['mp3_gain_factor']=>double()          //
+                ['mp3_gain_raw']=>integer()            //
+                ['music_crc']=>integer()               //
+                ['noise_shaping']=>integer()           //
+                ['noise_shaping_raw']=>integer()       //
+                ['not_optimal_quality']=>boolean()     //
+                ['not_optimal_quality_raw']=>integer() //
+                ['preset_used_id']=>integer()          //
+                ['short_version']=>string()            // ex: "LAME 3.93"
+                ['long_version']=>string()             // (pre-v3.90 only) ex: "LAME 3.88 (alpha)"
+                ['source_sample_freq']=>string()       //
+                ['source_sample_freq_raw']=>integer()  //
+                ['stereo_mode']=>string()              //
+                ['stereo_mode_raw']=>integer()         //
+                ['surround_info']=>string()            //
+                ['surround_info_id']=>integer()        //
+                ['tag_revision']=>integer()            //
+                ['vbr_method']=>string()               //
+                ['vbr_method_raw']=>integer()          //
+            }                                          //
+            ['VBR_bitrate']=>double()                  //
+            ['VBR_bytes']=>integer()                   //
+            ['VBR_frames']=>integer()                  //
+            ['VBR_method']=>string()                   //
+            ['VBR_scale']=>integer()                   //
+            ['bitrate']=>integer()                     //
+            ['bitrate_distribution']=>array() {        //
+                ['free']=>integer()                    //
+                ['8']=>integer()                       //
+                ['16']=>integer()                      //
+                ['24']=>integer()                      //
+                ['32']=>integer()                      //
+                ['40']=>integer()                      //
+                ['48']=>integer()                      //
+                ['56']=>integer()                      //
+                ['64']=>integer()                      //
+                ['80']=>integer()                      //
+                ['96']=>integer()                      //
+                ['112']=>integer()                     //
+                ['128']=>integer()                     //
+                ['144']=>integer()                     //
+                ['160']=>integer()                     //
+            }                                          //
+            ['bitrate_mode']=>string()                 //
+            ['channelmode']=>string()                  //
+            ['channels']=>integer()                    //
+            ['copyright']=>boolean()                   //
+            ['crc']=>integer()                         //
+            ['emphasis']=>string()                     //
+            ['frame_count']=>integer()                 //
+            ['framelength']=>integer()                 //
+            ['layer']=>integer()                       //
+            ['modeextension']=>string()                //
+            ['original']=>boolean()                    //
+            ['padding']=>boolean()                     //
+            ['private']=>boolean()                     //
+            ['protection']=>boolean()                  //
+            ['raw']=>array() {                         //
+                ['bitrate']=>integer()                 //
+                ['channelmode']=>integer()             //
+                ['copyright']=>integer()               //
+                ['emphasis']=>integer()                //
+                ['layer']=>integer()                   //
+                ['modeextension']=>integer()           //
+                ['original']=>integer()                //
+                ['padding']=>integer()                 //
+                ['private']=>integer()                 //
+                ['protection']=>integer()              //
+                ['sample_rate']=>integer()             //
+                ['synch']=>integer()                   //
+                ['version']=>integer()                 //
+            }                                          //
+            ['sample_rate']=>integer()                 //
+            ['stereo_distribution']=>array() {         //
+                ['dual channel']=>integer()            //
+                ['joint stereo']=>integer()            //
+                ['mono']=>integer()                    //
+                ['stereo']=>integer()                  //
+            }                                          //
+            ['toc']=>array() {                         //
+                [<x>]=>integer()                       //
+            }                                          //
+            ['version']=>string()                      //
+            ['version_distribution']=>array() {        //
+                [<x>]=>integer()                       //
+                [<x>]=>integer()                       //
+                ['2.5']=>integer()                     //
+            }                                          //
+            ['xing_flags']=>array() {                  //
+                ['bytes']=>boolean()                   //
+                ['frames']=>boolean()                  //
+                ['toc']=>boolean()                     //
+                ['vbr_scale']=>boolean()               //
+            }                                          //
+            ['xing_flags_raw']=>string()               //
+        }                                              //
+        ['video']=>array() {                           //
+            ['bitrate']=>integer()                     //
+            ['bitrate_mode']=>string()                 //
+            ['frame_rate']=>double()                   //
+            ['framesize_horizontal']=>integer()        //
+            ['framesize_vertical']=>integer()          //
+            ['pixel_aspect_ratio']=>double()           //
+            ['pixel_aspect_ratio_text']=>string()      //
+            ['raw']=>array() {                         //
+                ['bitrate']=>integer()                 //
+                ['constrained_param_flag']=>integer()  //
+                ['frame_rate']=>integer()              //
+                ['framesize_horizontal']=>integer()    //
+                ['framesize_vertical']=>integer()      //
+                ['intra_quant_flag']=>integer()        //
+                ['marker_bit']=>integer()              //
+                ['pixel_aspect_ratio']=>integer()      //
+                ['vbv_buffer_size']=>integer()         //
+            }                                          //
+        }                                              //
+    }                                                  //
+
+
+    ['nsv']=>array() {                     // NSV - Nullsoft Streaming Video
+        ['NSVf']=>array() {                //
+            ['TOC_entries_1']=>integer()   //
+            ['TOC_entries_2']=>integer()   //
+            ['file_size']=>integer()       //
+            ['header_length']=>integer()   //
+            ['identifier']=>string()       //
+            ['meta_size']=>integer()       //
+            ['metadata']=>string()         //
+            ['playtime_ms']=>integer()     //
+        }                                  //
+        ['NSVs']=>array() {                //
+            ['audio_codec']=>string()      //
+            ['frame_rate']=>double()       //
+            ['framerate_index']=>integer() //
+            ['identifier']=>string()       //
+            ['offset']=>integer()          //
+            ['resolution_x']=>integer()    //
+            ['resolution_y']=>integer()    //
+            ['unknown1b']=>integer()       //
+            ['unknown1c']=>integer()       //
+            ['unknown1d']=>integer()       //
+            ['unknown2a']=>integer()       //
+            ['unknown2b']=>integer()       //
+            ['unknown2c']=>integer()       //
+            ['unknown2d']=>integer()       //
+            ['unknown3a']=>integer()       //
+            ['unknown3b']=>integer()       //
+            ['unknown3c']=>integer()       //
+            ['unknown3d']=>integer()       //
+            ['video_codec']=>string()      //
+        }                                  //
+        ['comments']=>array() {            //
+            ['aspect']=>string()           //
+            ['title']=>string()            //
+        }                                  //
+    }                                      //
+
+
+    ['ofr']=>array() {                                   // OFR (OptimFROG) - lossless audio compression
+        ['COMP']=>array() {                              //
+            [<x>]=>array() {                             //
+                ['channel_configuration']=>string()      //
+                ['crc_32']=>boolean()                    //
+                ['encoder']=>string()                    //
+                ['offset']=>integer()                    //
+                ['raw']=>array() {                       //
+                    ['algorithm_id']=>integer()          //
+                    ['channel_configuration']=>integer() //
+                    ['encoder_id']=>integer()            //
+                    ['sample_type']=>integer()           //
+                }                                        //
+                ['sample_count']=>integer()              //
+                ['sample_type']=>string()                //
+                ['size']=>integer()                      //
+            }                                            //
+        }                                                //
+        ['HEAD']=>array() {                              //
+            ['offset']=>integer()                        //
+            ['size']=>integer()                          //
+        }                                                //
+        ['OFR ']=>array() {                              //
+            ['channel_config']=>integer()                //
+            ['channels']=>integer()                      //
+            ['compression']=>string()                    //
+            ['encoder']=>string()                        //
+            ['offset']=>integer()                        //
+            ['raw']=>array() {                           //
+                ['compression']=>integer()               //
+                ['encoder_id']=>integer()                //
+                ['sample_type']=>integer()               //
+            }                                            //
+            ['sample_rate']=>integer()                   //
+            ['sample_type']=>string()                    //
+            ['size']=>integer()                          //
+            ['total_samples']=>integer()                 //
+        }                                                //
+        ['TAIL']=>array() {                              //
+            ['offset']=>integer()                        //
+            ['size']=>integer()                          //
+        }                                                //
+    }                                                    //
+
+
+    ['ogg']=>array() {                           // OGG - container format for Ogg Vorbis, OggFLAC, Speex, etc
+        ['bitrate_average']=>double()            //
+        ['bitrate_max']=>integer()               //
+        ['bitrate_min']=>integer()               //
+        ['bitrate_nominal']=>integer()           //
+        ['bitstreamversion']=>integer()          //
+        ['blocksize_large']=>integer()           //
+        ['blocksize_small']=>integer()           //
+        ['comments']=>array() {                  // array of array of strings containing best data from any available metainformation tag (APE, ID3v2, ID3v1, Lyrics3, Vorbis, ASF, RIFF, Real, etc.)
+            [<key name>]=>array()                // <key name> can be anything, usually 'artist', 'title', etc. Contains array of one or more values (eg: multiple artists are possible)
+        }                                        //
+        ['comments_raw']=>array() {              //
+            [<x>]=>array() {                     //
+                ['dataoffset']=>integer()        //
+                ['key']=>string()                //
+                ['size']=>integer()              //
+                ['value']=>string()              //
+            }                                    //
+        }                                        //
+        ['numberofchannels']=>integer()          //
+        ['pageheader']=>array() {                //
+            [<x>]=>array() {                     //
+                ['flags']=>array() {             //
+                    ['bos']=>boolean()           //
+                    ['eos']=>boolean()           //
+                    ['fresh']=>boolean()         //
+                }                                //
+                ['flags_raw']=>integer()         //
+                ['header_end_offset']=>integer() //
+                ['packet_type']=>integer()       //
+                ['page_checksum']=>double()      //
+                ['page_end_offset']=>integer()   //
+                ['page_length']=>integer()       //
+                ['page_segments']=>integer()     //
+                ['page_seqno']=>integer()        //
+                ['page_start_offset']=>integer() //
+                ['pcm_abs_position']=>integer()  //
+                ['segment_table']=>array() {     //
+                    [<x>]=>integer()             //
+                }                                //
+                ['stream_serialno']=>integer()   //
+                ['stream_structver']=>integer()  //
+                ['stream_type']=>string()        //
+            }                                    //
+            ['eos']=>array() {                   //
+                ['flags']=>array() {             //
+                    ['bos']=>boolean()           //
+                    ['eos']=>boolean()           //
+                    ['fresh']=>boolean()         //
+                }                                //
+                ['flags_raw']=>integer()         //
+                ['header_end_offset']=>integer() //
+                ['page_checksum']=>double()      //
+                ['page_end_offset']=>integer()   //
+                ['page_length']=>integer()       //
+                ['page_segments']=>integer()     //
+                ['page_seqno']=>integer()        //
+                ['page_start_offset']=>integer() //
+                ['pcm_abs_position']=>integer()  //
+                ['segment_table']=>array() {     //
+                    [<x>]=>integer()             //
+                }                                //
+                ['stream_serialno']=>integer()   //
+                ['stream_structver']=>integer()  //
+            }                                    //
+        }                                        //
+        ['samplerate']=>integer()                //
+        ['samples']=>integer()                   //
+        ['stop_bit']=>integer()                  //
+        ['vendor']=>string()                     //
+    }                                            //
+
+
+    ['png']=>array() {                                // PNG (Portable Network Graphics) - still image
+        ['IDAT']=>array() {                           //
+            [<x>]=>array() {                          //
+                ['header']=>array() {                 //
+                    ['crc']=>integer()                //
+                    ['data_length']=>integer()        //
+                    ['flags']=>array() {              //
+                        ['ancilliary']=>boolean()     //
+                        ['private']=>boolean()        //
+                        ['reserved']=>boolean()       //
+                        ['safe_to_copy']=>boolean()   //
+                    }                                 //
+                    ['type_raw']=>double()            //
+                    ['type_text']=>string()           //
+                }                                     //
+            }                                         //
+        }                                             //
+        ['IEND']=>array() {                           //
+            ['header']=>array() {                     //
+                ['crc']=>double()                     //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+        }                                             //
+        ['IHDR']=>array() {                           //
+            ['color_type']=>array() {                 //
+                ['alpha']=>boolean()                  //
+                ['palette']=>boolean()                //
+                ['true_color']=>boolean()             //
+            }                                         //
+            ['compression_method_text']=>string()     //
+            ['header']=>array() {                     //
+                ['crc']=>double()                     //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+            ['height']=>integer()                     //
+            ['raw']=>array() {                        //
+                ['bit_depth']=>integer()              //
+                ['color_type']=>integer()             //
+                ['compression_method']=>integer()     //
+                ['filter_method']=>integer()          //
+                ['interlace_method']=>integer()       //
+            }                                         //
+            ['width']=>integer()                      //
+        }                                             //
+        ['PLTE']=>array() {                           //
+            ['header']=>array() {                     //
+                ['crc']=>double()                     //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+            [<x>]=>integer()                          //
+        }                                             //
+        ['comments']=>array() {                       // array of array of strings containing best data from any available metainformation tag (APE, ID3v2, ID3v1, Lyrics3, Vorbis, ASF, RIFF, Real, etc.)
+            [<key name>]=>array()                     // <key name> can be anything, usually 'artist', 'title', etc. Contains array of one or more values (eg: multiple artists are possible)
+        }                                             //
+        ['gAMA']=>array() {                           //
+            ['gamma']=>double()                       //
+            ['header']=>array() {                     //
+                ['crc']=>integer()                    //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+        }                                             //
+        ['oFFs']=>array() {                           //
+            ['header']=>array() {                     //
+                ['crc']=>double()                     //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+            ['position_x']=>integer()                 //
+            ['position_y']=>integer()                 //
+            ['unit']=>string()                        //
+            ['unit_specifier']=>integer()             //
+        }                                             //
+        ['pHYs']=>array() {                           //
+            ['header']=>array() {                     //
+                ['crc']=>integer()                    //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+            ['pixels_per_unit_x']=>integer()          //
+            ['pixels_per_unit_y']=>integer()          //
+            ['unit']=>string()                        //
+            ['unit_specifier']=>integer()             //
+        }                                             //
+        ['pcLb']=>array() {                           //
+            ['header']=>array() {                     //
+                ['crc']=>double()                     //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+        }                                             //
+        ['tEXt']=>array() {                           //
+            ['header']=>array() {                     //
+                ['crc']=>integer()                    //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+            ['keyword']=>string()                     //
+            ['text']=>string()                        //
+        }                                             //
+        ['tIME']=>array() {                           //
+            ['day']=>integer()                        //
+            ['header']=>array() {                     //
+                ['crc']=>integer()                    //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+            ['hour']=>integer()                       //
+            ['minute']=>integer()                     //
+            ['month']=>integer()                      //
+            ['second']=>integer()                     //
+            ['unix']=>integer()                       //
+            ['year']=>integer()                       //
+        }                                             //
+        ['tRNS']=>array() {                           //
+            ['header']=>array() {                     //
+                ['crc']=>double()                     //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+            ['transparent_color_blue']=>integer()     //
+            ['transparent_color_green']=>integer()    //
+            ['transparent_color_red']=>integer()      //
+        }                                             //
+        ['zTXt']=>array() {                           //
+            ['compressed_text']=>string()             //
+            ['compression_method']=>integer()         //
+            ['compression_method_text']=>string()     //
+            ['header']=>array() {                     //
+                ['crc']=>double()                     //
+                ['data']=>string()                    //
+                ['data_length']=>integer()            //
+                ['flags']=>array() {                  //
+                    ['ancilliary']=>boolean()         //
+                    ['private']=>boolean()            //
+                    ['reserved']=>boolean()           //
+                    ['safe_to_copy']=>boolean()       //
+                }                                     //
+                ['type_raw']=>double()                //
+                ['type_text']=>string()               //
+            }                                         //
+            ['keyword']=>string()                     //
+            ['text']=>string()                        //
+        }                                             //
+    }                                                 //
+
+
+    ['quicktime']=>array() {               // Quicktime - video/audio
+        ['']=>array() {                    //
+            ['name']=>boolean()            //
+            ['offset']=>integer()          //
+            ['size']=>integer()            //
+        }                                  //
+        ['audio']=>array() {               //
+            ['bit_depth']=>integer()       //
+            ['channels']=>integer()        //
+            ['codec']=>string()            //
+            ['sample_rate']=>double()      //
+        }                                  //
+        ['free']=>array() {                //
+            ['name']=>string()             //
+            ['offset']=>integer()          //
+            ['size']=>integer()            //
+        }                                  //
+        ['mdat']=>array() {                //
+            ['name']=>string()             //
+            ['offset']=>integer()          //
+            ['size']=>integer()            //
+        }                                  //
+        ['moov']=>array() {                //
+            ['hierarchy']=>string()        //
+            ['name']=>string()             //
+            ['offset']=>integer()          //
+            ['size']=>integer()            //
+            ['subatoms']=>array()          // This is an undocumentably-complex recursive array, typically containing a huge amount of seemingly disorganized data. Avoid this like the plague.
+        }                                  //
+        ['time_scale']=>integer()          //
+        ['display_scale']=>integer()       // 1 = normal; 0.5 = half; 2 = double
+        ['video']=>array() {               //
+            ['codec']=>string()            //
+            ['color_depth']=>integer()     //
+            ['color_depth_name']=>string() //
+            ['resolution_x']=>double()     //
+            ['resolution_y']=>double()     //
+        }                                  //
+        ['wide']=>array() {                //
+            ['name']=>string()             //
+            ['offset']=>integer()          //
+            ['size']=>integer()            //
+        }                                  //
+    }                                      //
+
+
+    ['real']=>array() {                           // Real (RealAudio / RealVideo) - audio/video
+        ['chunks']=>array() {                     //
+            [<x>]=>array() {                      //
+                ['file_version']=>integer()       //
+                ['headers_count']=>integer()      //
+                ['length']=>integer()             //
+                ['name']=>string()                //
+                ['object_version']=>integer()     //
+                ['offset']=>integer()             //
+            }                                     //
+            [<x>]=>array() {                      //
+                ['avg_bit_rate']=>integer()       //
+                ['avg_packet_size']=>integer()    //
+                ['data_offset']=>integer()        //
+                ['duration']=>integer()           //
+                ['flags']=>array() {              //
+                    ['live_broadcast']=>boolean() //
+                    ['perfect_play']=>boolean()   //
+                    ['save_enabled']=>boolean()   //
+                }                                 //
+                ['flags_raw']=>integer()          //
+                ['index_offset']=>integer()       //
+                ['length']=>integer()             //
+                ['max_bit_rate']=>integer()       //
+                ['max_packet_size']=>integer()    //
+                ['name']=>string()                //
+                ['num_packets']=>integer()        //
+                ['num_streams']=>integer()        //
+                ['object_version']=>integer()     //
+                ['offset']=>integer()             //
+                ['preroll']=>integer()            //
+            }                                     //
+        }                                         //
+        ['comments']=>array() {                   //
+            ['artist']=>string()                  //
+            ['comment']=>string()                 //
+            ['title']=>string()                   //
+        }                                         //
+    }                                             //
+
+
+    ['riff']=>array() {                                     // RIFF (Resource Interchange File Format) - audio/video container format (AVI, WAV, CDDA, etc)
+        ['AIFC']=>array() {                                 //
+            ['COMM']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['FVER']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['INST']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['MARK']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['SSND']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+        }                                                   //
+        ['AIFF']=>array() {                                 //
+            ['(c) ']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['COMM']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['SSND']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+        }                                                   //
+        ['AVI ']=>array() {                                 //
+            ['JUNK']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['hdrl']=>array() {                             //
+                ['avih']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['odml']=>array() {                         //
+                    ['dmlh']=>array() {                     //
+                        [<x>]=>array() {                    //
+                            ['data']=>string()              //
+                            ['offset']=>integer()           //
+                            ['size']=>integer()             //
+                        }                                   //
+                    }                                       //
+                }                                           //
+                ['strl']=>array() {                         //
+                    ['JUNK']=>array() {                     //
+                        [<x>]=>array() {                    //
+                            ['offset']=>integer()           //
+                            ['size']=>integer()             //
+                        }                                   //
+                    }                                       //
+                    ['strf']=>array() {                     //
+                        [<x>]=>array() {                    //
+                            ['data']=>string()              //
+                            ['offset']=>integer()           //
+                            ['size']=>integer()             //
+                        }                                   //
+                    }                                       //
+                    ['strh']=>array() {                     //
+                        [<x>]=>array() {                    //
+                            ['data']=>string()              //
+                            ['offset']=>integer()           //
+                            ['size']=>integer()             //
+                        }                                   //
+                    }                                       //
+                    ['strn']=>array() {                     //
+                        [<x>]=>array() {                    //
+                            ['data']=>string()              //
+                            ['offset']=>integer()           //
+                            ['size']=>integer()             //
+                        }                                   //
+                    }                                       //
+                }                                           //
+            }                                               //
+            ['idx1']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['movi']=>array() {                             //
+                ['offset']=>integer()                       //
+                ['size']=>integer()                         //
+            }                                               //
+        }                                                   //
+        ['CDDA']=>array() {                                 //
+            ['fmt ']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['disc_id']=>integer()                  //
+                    ['offset']=>integer()                   //
+                    ['playtime_frames']=>integer()          //
+                    ['playtime_seconds']=>double()          //
+                    ['size']=>integer()                     //
+                    ['start_offset_frame']=>integer()       //
+                    ['start_offset_seconds']=>double()      //
+                    ['track_num']=>integer()                //
+                    ['unknown1']=>integer()                 //
+                    ['unknown6']=>integer()                 //
+                    ['unknown7']=>integer()                 //
+                }                                           //
+            }                                               //
+        }                                                   //
+        ['WAVE']=>array() {                                 //
+            ['DISP']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['INFO']=>array() {                             //
+                ['IART']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['ICMT']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['ICOP']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['IENG']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['IGNR']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['IKEY']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['IMED']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['INAM']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['ISBJ']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['ISFT']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['ISRC']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['ISRF']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+                ['ITCH']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['data']=>string()                  //
+                        ['offset']=>integer()               //
+                        ['size']=>integer()                 //
+                    }                                       //
+                }                                           //
+            }                                               //
+            ['MEXT']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['anciliary_data_length']=>integer()    //
+                    ['data']=>string()                      //
+                    ['flags']=>array() {                    //
+                        ['anciliary_data_free']=>boolean()  //
+                        ['anciliary_data_left']=>boolean()  //
+                        ['anciliary_data_right']=>boolean() //
+                        ['homogenous']=>boolean()           //
+                    }                                       //
+                    ['offset']=>integer()                   //
+                    ['raw']=>array() {                      //
+                        ['anciliary_data_def']=>integer()   //
+                        ['sound_information']=>integer()    //
+                    }                                       //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['bext']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['author']=>string()                    //
+                    ['bwf_version']=>integer()              //
+                    ['coding_history']=>array() {           //
+                        [<x>]=>string()                     //
+                    }                                       //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['origin_date']=>string()               //
+                    ['origin_date_unix']=>integer()         //
+                    ['origin_time']=>string()               //
+                    ['reference']=>string()                 //
+                    ['reserved']=>integer()                 //
+                    ['size']=>integer()                     //
+                    ['time_reference']=>integer()           //
+                    ['title']=>string()                     //
+                }                                           //
+            }                                               //
+            ['cart']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['artist']=>string()                    //
+                    ['category']=>string()                  //
+                    ['classification']=>string()            //
+                    ['client_id']=>string()                 //
+                    ['cut_id']=>string()                    //
+                    ['data']=>string()                      //
+                    ['end_date']=>string()                  //
+                    ['end_time']=>string()                  //
+                    ['offset']=>integer()                   //
+                    ['out_cue']=>string()                   //
+                    ['post_time']=>array() {                //
+                        [<x>]=>array() {                    //
+                            ['timer_value']=>integer()      //
+                            ['usage_fourcc']=>string()      //
+                        }                                   //
+                    }                                       //
+                    ['producer_app_id']=>string()           //
+                    ['producer_app_version']=>string()      //
+                    ['size']=>integer()                     //
+                    ['start_date']=>string()                //
+                    ['start_time']=>string()                //
+                    ['tag_text']=>array() {                 //
+                        [<x>]=>string()                     //
+                    }                                       //
+                    ['title']=>string()                     //
+                    ['url']=>string()                       //
+                    ['user_defined_text']=>string()         //
+                    ['version']=>string()                   //
+                    ['zero_db_reference']=>integer()        //
+                }                                           //
+            }                                               //
+            ['data']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['fact']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['fmt ']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+            ['rgad']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['data']=>string()                      //
+                    ['offset']=>integer()                   //
+                    ['size']=>integer()                     //
+                }                                           //
+            }                                               //
+        }                                                   //
+        ['audio']=>array() {                                //
+            [<x>]=>array() {                                //
+                ['bitrate']=>integer()                      //
+                ['bits_per_sample']=>integer()              //
+                ['channels']=>integer()                     //
+                ['codec']=>string()                         //
+                ['sample_rate']=>integer()                  //
+            }                                               //
+            ['bits_per_sample']=>integer()                  //
+            ['channels']=>integer()                         //
+            ['codec_fourcc']=>string()                      //
+            ['codec_name']=>string()                        //
+            ['sample_rate']=>integer()                      //
+            ['total_samples']=>integer()                    //
+        }                                                   //
+        ['comments']=>array() {                             // array of array of strings containing best data from any available metainformation tag (APE, ID3v2, ID3v1, Lyrics3, Vorbis, ASF, RIFF, Real, etc.)
+            [<key name>]=>array()                           // <key name> can be anything, usually 'artist', 'title', etc. Contains array of one or more values (eg: multiple artists are possible)
+        }                                                   //
+        ['header_size']=>integer()                          //
+        ['raw']=>array() {                                  //
+            ['avih']=>array() {                             //
+                ['dwFlags']=>integer()                      //
+                ['dwHeight']=>integer()                     //
+                ['dwInitialFrames']=>integer()              //
+                ['dwLength']=>integer()                     //
+                ['dwMaxBytesPerSec']=>integer()             //
+                ['dwMicroSecPerFrame']=>integer()           //
+                ['dwPaddingGranularity']=>integer()         //
+                ['dwRate']=>integer()                       //
+                ['dwScale']=>integer()                      //
+                ['dwStart']=>integer()                      //
+                ['dwStreams']=>integer()                    //
+                ['dwSuggestedBufferSize']=>integer()        //
+                ['dwTotalFrames']=>integer()                //
+                ['dwWidth']=>integer()                      //
+                ['flags']=>array() {                        //
+                    ['capturedfile']=>boolean()             //
+                    ['copyrighted']=>boolean()              //
+                    ['hasindex']=>boolean()                 //
+                    ['interleaved']=>boolean()              //
+                    ['mustuseindex']=>boolean()             //
+                    ['trustcktype']=>boolean()              //
+                }                                           //
+            }                                               //
+            ['fact']=>array() {                             //
+                ['NumberOfSamples']=>integer()              //
+            }                                               //
+            ['fmt ']=>array() {                             //
+                ['nAvgBytesPerSec']=>integer()              //
+                ['wBitsPerSample']=>integer()               //
+                ['nBlockAlign']=>integer()                  //
+                ['nChannels']=>integer()                    //
+                ['nSamplesPerSec']=>integer()               //
+                ['wFormatTag']=>integer()                   //
+            }                                               //
+            ['rgad']=>array() {                             //
+                ['audiophile']=>array() {                   //
+                    ['adjustment']=>integer()               //
+                    ['name']=>integer()                     //
+                    ['originator']=>integer()               //
+                    ['signbit']=>integer()                  //
+                }                                           //
+                ['fPeakAmplitude']=>double()                //
+                ['nAudiophileRgAdjust']=>integer()          //
+                ['nRadioRgAdjust']=>integer()               //
+                ['radio']=>array() {                        //
+                    ['adjustment']=>integer()               //
+                    ['name']=>integer()                     //
+                    ['originator']=>integer()               //
+                    ['signbit']=>integer()                  //
+                }                                           //
+            }                                               //
+            ['strf']=>array() {                             //
+                ['auds']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['nAvgBytesPerSec']=>integer()      //
+                        ['wBitsPerSample']=>integer()       //
+                        ['nBlockAlign']=>integer()          //
+                        ['nChannels']=>integer()            //
+                        ['nSamplesPerSec']=>integer()       //
+                        ['wFormatTag']=>integer()           //
+                    }                                       //
+                }                                           //
+                ['vids']=>array() {                         //
+                    [<x>]=>array() {                        //
+                        ['biBitCount']=>integer()           //
+                        ['biClrImportant']=>integer()       //
+                        ['biClrUsed']=>integer()            //
+                        ['biHeight']=>integer()             //
+                        ['biPlanes']=>integer()             //
+                        ['biSize']=>integer()               //
+                        ['biSizeImage']=>integer()          //
+                        ['biWidth']=>integer()              //
+                        ['biXPelsPerMeter']=>integer()      //
+                        ['biYPelsPerMeter']=>integer()      //
+                        ['fourcc']=>string()                //
+                    }                                       //
+                }                                           //
+            }                                               //
+            ['strh']=>array() {                             //
+                [<x>]=>array() {                            //
+                    ['dwFlags']=>integer()                  //
+                    ['dwInitialFrames']=>integer()          //
+                    ['dwLength']=>integer()                 //
+                    ['dwQuality']=>integer()                //
+                    ['dwRate']=>integer()                   //
+                    ['dwSampleSize']=>integer()             //
+                    ['dwScale']=>integer()                  //
+                    ['dwStart']=>integer()                  //
+                    ['dwSuggestedBufferSize']=>integer()    //
+                    ['fccHandler']=>string()                //
+                    ['fccType']=>string()                   //
+                    ['rcFrame']=>integer()                  //
+                    ['wLanguage']=>integer()                //
+                    ['wPriority']=>integer()                //
+                }                                           //
+            }                                               //
+        }                                                   //
+        ['rgad']=>array() {                                 //
+            ['audiophile']=>array() {                       //
+                ['adjustment']=>double()                    //
+                ['name']=>string()                          //
+                ['originator']=>string()                    //
+            }                                               //
+            ['peakamplitude']=>double()                     //
+            ['radio']=>array() {                            //
+                ['adjustment']=>double()                    //
+                ['name']=>string()                          //
+                ['originator']=>string()                    //
+            }                                               //
+        }                                                   //
+        ['video']=>array() {                                //
+            [<x>]=>array() {                                //
+                ['codec']=>string()                         //
+                ['frame_height']=>integer()                 //
+                ['frame_rate']=>double()                    //
+                ['frame_width']=>integer()                  //
+            }                                               //
+        }                                                   //
+        ['litewave']=>array() {                             // http://www.clearjump.com
+            ['raw']=>array() {                              //
+                ['compression_method']=>integer()           // 1=lossy; 2=lossless
+                ['compression_flags']=>integer()            //
+                ['m_dwScale']=>integer()                    // scalefactor for lossy compression - related to m_wQuality as: $m_wQuality = round((2000 - $m_dwScale) / 20)
+                ['m_dwBlockSize']=>integer()                // number of samples in encoded blocks
+                ['m_wQuality']=>integer()                   // quality factor (0=most compressed lossy; 99=best quality lossy; 100=lossless)
+                ['m_wMarkDistance']=>integer()              // distance between marks in bytes
+                ['m_wReserved']=>integer()                  //
+                ['m_dwOrgSize']=>integer()                  // original file size in bytes
+                ['m_bFactExists']=>integer()                // indicates if 'fact' chunk exists in the original file
+                ['m_dwRiffChunkSize']=>integer()            // riff chunk size in the original file
+            }                                               //
+            ['quality_factor']=>integer()                   // alias of ['raw']['m_wQuality']
+        }                                                   //
+    }                                                       //
+
+
+    ['shn']=>array() {             // Shorten - lossless audio compression
+        ['seektable']=>array() {   //
+            ['length']=>integer()  //
+            ['offset']=>integer()  //
+            ['present']=>boolean() //
+        }                          //
+        ['version']=>integer()     //
+    }                              //
+
+
+    ['swf']=>array() {                  // SWF - ShockWave Flash (www.openswf.org)
+        ['header']=>array() {           //
+            ['frame_count']=>integer()  //
+            ['frame_height']=>integer() //
+            ['frame_width']=>integer()  //
+            ['length']=>integer()       //
+            ['signature']=>string()     //
+            ['version']=>integer()      //
+        }                               //
+        ['bgcolor']=>string()           //
+        ['tags']=>array()               //
+    }                                   //
+
+
+    ['voc']=>array() {                            // VOC - SoundBlaster VOC audio format
+        ['blocks']=>array() {                     //
+            [<x>]=>array() {                      //
+                ['bits_per_sample']=>integer()    //
+                ['block_offset']=>integer()       //
+                ['block_size']=>integer()         //
+                ['block_type_id']=>integer()      //
+                ['channels']=>integer()           //
+                ['compression_name']=>string()    //
+                ['compression_type']=>integer()   //
+                ['pack_method']=>integer()        //
+                ['sample_rate']=>integer()        //
+                ['sample_rate_id']=>integer()     //
+                ['stereo']=>boolean()             //
+                ['time_constant']=>integer()      //
+                ['wFormat']=>integer()            //
+            }                                     //
+        }                                         //
+        ['compressed_bits_per_sample']=>integer() //
+        ['header']=>array() {                     //
+            ['datablock_offset']=>integer()       //
+            ['major_version']=>integer()          //
+            ['minor_version']=>integer()          //
+        }                                         //
+    }                                             //
+
+
+    ['vqf']=>array() {                    // VQF - transform-domain weighted interleave Vector Quantization Format (lossy audio)
+        ['COMM']=>array() {               //
+            ['bitrate']=>integer()        //
+            ['channel_mode']=>integer()   //
+            ['sample_rate']=>integer()    //
+            ['security_level']=>integer() //
+        }                                 //
+        ['DSIZ']=>integer()               //
+        ['comments']=>array() {           // array of array of strings containing best data from any available metainformation tag (APE, ID3v2, ID3v1, Lyrics3, Vorbis, ASF, RIFF, Real, etc.)
+            [<key name>]=>array()         // <key name> can be anything, usually 'artist', 'title', etc. Contains array of one or more values (eg: multiple artists are possible)
+        }                                 //
+        ['raw']=>array() {                //
+            ['header_tag']=>string()      //
+            ['size']=>integer()           //
+            ['version']=>string()         //
+        }                                 //
+    }                                     //
+
+
+    ['wavpack']=>array() {           // WavPack - lossless audio compression
+        ['bits']=>integer()          //
+        ['crc1']=>double()           //
+        ['crc2']=>integer()          //
+        ['extension']=>string()      //
+        ['extra_bc']=>string()       //
+        ['extras']=>string()         //
+        ['flags_raw']=>integer()     //
+        ['offset']=>integer()        //
+        ['shift']=>integer()         //
+        ['size']=>integer()          //
+        ['total_samples']=>integer() //
+        ['version']=>integer()       //
+    }                                //
+
+
+    ['zip']=>array() {                                           // ZIP - lossless data compression
+        ['central_directory']=>array() {                         //
+            [<x>]=>array() {                                     //
+                ['compressed_size']=>integer()                   //
+                ['compression_method']=>string()                 //
+                ['create_version']=>string()                     //
+                ['entry_offset']=>integer()                      //
+                ['extract_version']=>string()                    //
+                ['filename']=>string()                           //
+                ['flags']=>array() {                             //
+                    ['compression_speed']=>string()              //
+                    ['data_descriptor_used']=>boolean()          //
+                    ['encrypted']=>boolean()                     //
+                }                                                //
+                ['host_os']=>string()                            //
+                ['last_modified_timestamp']=>integer()           //
+                ['offset']=>integer()                            //
+                ['raw']=>array() {                               //
+                    ['compressed_size']=>integer()               //
+                    ['compression_method']=>integer()            //
+                    ['crc_32']=>double()                         //
+                    ['create_version']=>integer()                //
+                    ['disk_number_start']=>integer()             //
+                    ['external_file_attrib']=>double()           //
+                    ['extra_field_length']=>integer()            //
+                    ['extract_version']=>integer()               //
+                    ['file_comment_length']=>integer()           //
+                    ['filename_length']=>integer()               //
+                    ['general_flags']=>integer()                 //
+                    ['internal_file_attrib']=>integer()          //
+                    ['last_mod_file_date']=>integer()            //
+                    ['last_mod_file_time']=>integer()            //
+                    ['local_header_offset']=>integer()           //
+                    ['signature']=>integer()                     //
+                    ['uncompressed_size']=>integer()             //
+                }                                                //
+                ['uncompressed_size']=>integer()                 //
+            }                                                    //
+        }                                                        //
+        ['comments']=>array() {                                  //
+            ['comment']=>string()                                //
+        }                                                        //
+        ['compressed_size']=>integer()                           //
+        ['compression_method']=>string()                         //
+        ['compression_speed']=>string()                          //
+        ['end_central_directory']=>array() {                     //
+            ['comment']=>string()                                //
+            ['comment_length']=>integer()                        //
+            ['directory_entries_this_disk']=>integer()           //
+            ['directory_entries_total']=>integer()               //
+            ['directory_offset']=>integer()                      //
+            ['directory_size']=>integer()                        //
+            ['disk_number_current']=>integer()                   //
+            ['disk_number_start_directory']=>integer()           //
+            ['offset']=>integer()                                //
+            ['signature']=>integer()                             //
+        }                                                        //
+        ['entries']=>array() {                                   //
+            [<x>]=>array() {                                     //
+                ['compressed_size']=>integer()                   //
+                ['compression_method']=>string()                 //
+                ['extract_version']=>string()                    //
+                ['filename']=>string()                           //
+                ['flags']=>array() {                             //
+                    ['compression_speed']=>string()              //
+                    ['data_descriptor_used']=>boolean()          //
+                    ['encrypted']=>boolean()                     //
+                }                                                //
+                ['host_os']=>string()                            //
+                ['last_modified_timestamp']=>integer()           //
+                ['offset']=>integer()                            //
+                ['raw']=>array() {                               //
+                    ['compressed_size']=>integer()               //
+                    ['compression_method']=>integer()            //
+                    ['crc_32']=>integer()                        //
+                    ['extra_field_length']=>integer()            //
+                    ['extract_version']=>integer()               //
+                    ['filename_length']=>integer()               //
+                    ['general_flags']=>integer()                 //
+                    ['last_mod_file_date']=>integer()            //
+                    ['last_mod_file_time']=>integer()            //
+                    ['signature']=>integer()                     //
+                    ['uncompressed_size']=>integer()             //
+                }                                                //
+                ['uncompressed_size']=>integer()                 //
+            }                                                    //
+        }                                                        //
+        ['entries_count']=>integer()                             //
+        ['files']=>array() {                                     // multidimensional tree-structure array listing of all files and directories in image
+            [<directory name>]=>array()                          // entries of type array are directories (key is directory name), may contain files and/or other subdirectories
+            [<file name>]=>integer()                             // entries of type integer are files (key is file name, value is file size in bytes)
+        }                                                        //
+        ['uncompressed_size']=>integer()                         //
+    }                                                            //
+}                                                                //

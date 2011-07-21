@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>media</id>
+	<name>Media</name>
+	<description>Media player and server for ownCloud</description>
+	<version>0.2</version>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<require>2</require>
+</info>

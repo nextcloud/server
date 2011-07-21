@@ -1,0 +1,24 @@
+/////////////////////////////////////////////////////////////////
+/// getID3() by James Heinrich <info@getid3.org>               //
+//  available at http://getid3.sourceforge.net                 //
+//            or http://www.getid3.org                         //
+/////////////////////////////////////////////////////////////////
+//                                                             //
+// dependencies.txt - part of getID3()                         //
+// See readme.txt for more details                             //
+//                                                            ///
+/////////////////////////////////////////////////////////////////
+
+lyrics3     depends on   apetag (optional)
+ogg         depends on   flac
+id3v2       depends on   id3v1
+apetag      depends on   id3v1 (optional, writing only)
+bonk        depends on   id3v2 (optional)
+riff        depends on   mp3
+mpeg        depends on   mp3
+quicktime   depends on   mp3
+flac        depends on   ogg
+optimfrog   depends on   riff
+la          depends on   riff
+lpac        depends on   riff
+asf         depends on   riff, id3v1 (optional)
