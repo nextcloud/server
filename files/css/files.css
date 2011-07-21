@@ -83,9 +83,12 @@ tbody a { color:#000; }
 
 table td.filesize, table td.date
 {
-    width: 5em;
+    width: 7em;
     padding: 0.5em 1em;
     text-align: right;
+}
+#headerSize{
+	text-align:right;
 }
 
 table td.date
@@ -130,7 +133,6 @@ table tr.mouseOver td { background-color:#eee; }
 table th, table td { padding:0; border-bottom:1px solid #ddd; text-align:left; font-style:italic; }
 table th { padding:0.5em; }
 table td { border-bottom:1px solid #eee; font-style:normal; }
-table td.filesize, table td.date { width:5em; padding:0.5em 1em; text-align:right; }
 table td.date { width:11em; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a { display:block; background-image:url('../img/file.png'); text-decoration:none; }
@@ -162,4 +164,5 @@ table td.delete { background-image:url('../img/delete.png'); }
 #select_all{float:left; margin:0.2em; margin-left:0.6em; }
 #selectedActions{
 	float:right;
+	display:none;
 }
