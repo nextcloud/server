@@ -36,7 +36,7 @@ function showLightbox(container,img){
 			img.width = maxHeight * ratio;
 		} else {
 			img.width = maxWidth;
-			img.height = maxWidth * ratio;
+			img.height = maxWidth / ratio;
 		}
 	}
 	container.empty();
