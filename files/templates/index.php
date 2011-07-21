@@ -43,7 +43,4 @@
 	</tbody>
 </table>
 
-<div id="file_menu">
-	<ul>
-	</ul>
-</div>
+<span id="file_menu"/>

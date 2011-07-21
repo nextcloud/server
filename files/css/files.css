@@ -2,22 +2,17 @@
 
 #file_menu
 {
-    display: none;
-    position: absolute;
 	right:0px;
-    background-color: #EEE;
+	position:absolute;
+	top:0;
 }
 
-#file_menu ul
+#file_menu a
 {
-    list-style-type: none;
-}
-
-#file_menu li a
-{
-    display: block;
-    padding: 0.5em 5em 0.5em 2em;
-    text-decoration: none;
+	display:block;
+	float:left;
+	background-image:none;
+	text-decoration: none;
 }
 
 .file_upload_form, #file_newfolder_form {
@@ -36,12 +31,12 @@
 }
 
 .file_upload_filename {
-	background-image:url(../img/file.png); font-weight:bold;
+	background-image:url("../img/file.png"); font-weight:bold;
 }
 .file_upload_start {opacity:0;filter: alpha(opacity = 0);}
 
 #file_newfolder_name {
-	background-image:url(../img/folder.png); font-weight:bold; 
+	background-image:url("../img/folder.png"); font-weight:bold;
 	width: 14em;
 }
 
@@ -102,11 +97,8 @@ table td.selection, table th.selection, table td.fileaction
     text-align: center;
 }
 
-table td.filename a
-{
-    display: block;
-    background-image: url(../img/file.png);
-    text-decoration: none;
+td.filename{
+	position:relative;
 }
 
 .dropArrow{

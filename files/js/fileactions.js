@@ -49,33 +49,39 @@ FileActions={
 		return actions[name];
 	},
 	display:function(parent){
-		$('#file_menu ul').empty();
+		$('#file_menu').empty();
 		parent.append($('#file_menu'));
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
-			var html='<li><a href="" alt="'+name+'">'+name+'</a></li>';
+			var html='<a href="#" alt="'+name+'">'+name+'</a>';
 			var element=$(html);
 			element.data('action',name);
 			element.click(function(event){
+				event.stopPropagation();
 				event.preventDefault();
-				$('#file_menu').slideToggle(250);
 				var action=actions[$(this).data('action')];
-				$('#file_menu ul').empty();
-				action(FileActions.getCurrentFile());
+				var currentFile=FileActions.getCurrentFile();
+				FileActions.hide();
+				action(currentFile);
 			});
-			$('#file_menu>ul').append(element);
+			$('#file_menu').append(element);
 		}
-		$('#file_menu').slideToggle(250);
+		$('#file_menu').show();
 		return false;
 	},
+	hide:function(){
+		$('#file_menu').hide();
+		$('#file_menu').empty();
+		$('body').append($('#file_menu'));
+	},
 	getCurrentFile:function(){
-		return $('#file_menu').parents('tr:first').attr('data-file');
+		return $('#file_menu').parent().parent().attr('data-file');
 	},
 	getCurrentMimeType:function(){
-		return $('#file_menu').parents('tr:first').attr('data-mime');
+		return $('#file_menu').parent().parent().attr('data-mime');
 	},
 	getCurrentType:function(){
-		return $('#file_menu').parents('tr:first').attr('data-type');
+		return $('#file_menu').parent().parent().attr('data-type');
 	}
 }
 

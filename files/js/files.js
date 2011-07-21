@@ -31,11 +31,13 @@ $(document).ready(function() {
 	});
 	
 	// Sets the file-action buttons behaviour :
-	$('td.fileaction a').live('click',function(event) {
-		event.preventDefault();
-		FileActions.display($(this).parent());
+	$('tr').live('mouseenter',function(event) {
+		FileActions.display($(this).children('td.filename'));
 	});
-	
+	$('tr').live('mouseleave',function(event) {
+		FileActions.hide();
+	});
+
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
 		event.preventDefault();
