@@ -54,24 +54,27 @@ $(document).ready(function() {
 	$('#select_all').click(function() {
 		if($(this).attr('checked')){
 			// Check all
-			$('td.selection input:checkbox').attr('checked', true);
-			$('td.selection input:checkbox').parent().parent().addClass('selected');
+			$('td.filename input:checkbox').attr('checked', true);
+			$('td.filename input:checkbox').parent().parent().addClass('selected');
 		}else{
 			// Uncheck all
-			$('td.selection input:checkbox').attr('checked', false);
-			$('td.selection input:checkbox').parent().parent().removeClass('selected');
+			$('td.filename input:checkbox').attr('checked', false);
+			$('td.filename input:checkbox').parent().parent().removeClass('selected');
 		}
+		procesSelection();
 	});
 	
-	$('td.selection input:checkbox').live('click',function() {
+	$('td.filename input:checkbox').live('click',function() {
+		var selectedCount=$('td.filename input:checkbox:checked').length;
 		$(this).parent().parent().toggleClass('selected');
 		if(!$(this).attr('checked')){
 			$('#select_all').attr('checked',false);
 		}else{
-			if($('td.selection input:checkbox:checked').length==$('td.selection input:checkbox').length){
+			if(selectedCount==$('td.filename input:checkbox').length){
 				$('#select_all').attr('checked',true);
 			}
 		}
+		procesSelection();
 	});
 	
 	$('#file_newfolder_form').submit(function(event) {
@@ -109,7 +112,7 @@ $(document).ready(function() {
 	
 	$('.download').live('click',function(event) {
 		var files='';
-		$('td.selection input:checkbox:checked').parent().parent().each(function(i,element){
+		$('td.filename input:checkbox:checked').parent().parent().each(function(i,element){
 			files+=';'+$(element).attr('data-file');
 		});
 		files=files.substr(1);//remove leading ;
@@ -121,9 +124,9 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('.delete').live('click',function(event) {
+	$('.delete').click(function(event) {
 		var files='';
-		$('td.selection input:checkbox:checked').parent().parent().each(function(i,element){
+		$('td.filename input:checkbox:checked').parent().parent().each(function(i,element){
 			files+=';'+$(element).attr('data-file');
 		});
 		files=files.substr(1);//remove leading ;
@@ -133,7 +136,7 @@ $(document).ready(function() {
 			data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(files),
 			complete: function(data){
 				boolOperationFinished(data, function(){
-					$('td.selection input:checkbox:checked').parent().parent().each(function(i,element){
+					$('td.filename input:checkbox:checked').parent().parent().each(function(i,element){
 						FileList.remove($(element).attr('data-file'));
 					});
 				});
@@ -281,5 +284,50 @@ var folderDropOptions={
 			FileList.remove(file);
 		});}
 		});
+	}
+}
+
+function procesSelection(){
+	var selectedFiles=$('tr[data-type="file"]>td.filename>input:checkbox:checked').parent().parent();
+	var selectedFolders=$('tr[data-type="dir"]>td.filename>input:checkbox:checked').parent().parent();
+	if(selectedFiles.length==0 && selectedFolders.length==0){
+		$('#headerName>span.name').text('Name');
+		$('#headerSize').text('Size (MB)');
+	}else{
+		var totalSize=0;
+		selectedFiles.each(function(){
+			totalSize+=parseInt($(this).attr('data-size'));
+		});
+		selectedFolders.each(function(){
+			totalSize+=parseInt($(this).attr('data-size'));
+		});
+		if(totalSize>0){
+			totalSize = Math.round(totalSize/(1024*102.4))/10;
+			if(totalSize < 0.1) {
+				totalSize='<0.1'; 
+			}else if(totalSize > 1000) {
+				totalSize= '>1000'; 
+			}
+		}
+		$('#headerSize').text(totalSize+' (MB)');
+		var selection='';
+		if(selectedFiles.length>0){
+			if(selectedFiles.length==1){
+				selection+='1 File';
+			}else{
+				selection+=selectedFiles.length+' Files';
+			}
+			if(selectedFolders.length>0){
+				selection+=' ,';
+			}
+		}
+		if(selectedFolders.length>0){
+			if(selectedFolders.length==1){
+				selection+='1 Folder';
+			}else{
+				selection+=selectedFolders.length+' Folders';
+			}
+		}
+		$('#headerName>span.name').text(selection+' Selected');
 	}
 }

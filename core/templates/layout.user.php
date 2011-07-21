@@ -38,16 +38,15 @@
 		</div>
 
 		<div id="main">
+			<div id="content">
+				<?php echo $_['content']; ?>
+			</div>
 			<div id="plugins">
 				<ul>
 					<?php foreach($_['navigation'] as $entry): ?>
 						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a></li>
 					<?php endforeach; ?>
 				</ul>
-			</div>
-
-			<div id="content">
-				<?php echo $_['content']; ?>
 			</div>
 		</div>
 	</body>
