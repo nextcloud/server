@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <database>
 
-   <name>*dbname*</name>
+ <name>*dbname*</name>
  <create>true</create>
  <overwrite>false</overwrite>
 
@@ -9,7 +9,7 @@
 
  <table>
 
-   <name>*dbprefix*appconfig</name>
+  <name>*dbprefix*appconfig</name>
 
   <declaration>
 
@@ -43,7 +43,7 @@
 
  <table>
 
-   <name>*dbprefix*foldersize</name>
+  <name>*dbprefix*foldersize</name>
 
   <declaration>
 
@@ -52,7 +52,7 @@
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>128</length>
+    <length>512</length>
    </field>
 
    <field>
@@ -64,8 +64,7 @@
    </field>
 
    <index>
-    <name>foldersize_pKey</name>
-    <primary>true</primary>
+    <name>path_index</name>
     <field>
      <name>path</name>
      <sorting>ascending</sorting>
@@ -78,7 +77,7 @@
 
  <table>
 
-   <name>*dbprefix*group_user</name>
+  <name>*dbprefix*group_user</name>
 
   <declaration>
 
@@ -104,7 +103,7 @@
 
  <table>
 
-   <name>*dbprefix*groups</name>
+  <name>*dbprefix*groups</name>
 
   <declaration>
 
@@ -131,48 +130,26 @@
 
  <table>
 
-   <name>*dbprefix*locks</name>
+  <name>*dbprefix*locks</name>
 
   <declaration>
 
    <field>
-    <name>token</name>
-    <type>text</type>
-    <default></default>
+    <name>id</name>
+    <type>integer</type>
+    <default>0</default>
     <notnull>true</notnull>
-    <length>255</length>
+    <autoincrement>1</autoincrement>
+    <unsigned>true</unsigned>
+    <length>4</length>
    </field>
 
    <field>
-    <name>path</name>
+    <name>userid</name>
     <type>text</type>
     <default></default>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <length>200</length>
-   </field>
-
-   <field>
-    <name>created</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>modified</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>expires</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>4</length>
    </field>
 
    <field>
@@ -180,86 +157,55 @@
     <type>text</type>
     <default></default>
     <notnull>false</notnull>
-    <length>200</length>
+    <length>100</length>
    </field>
 
    <field>
-    <name>recursive</name>
+    <name>timeout</name>
     <type>integer</type>
-    <default>0</default>
+    <default></default>
+    <notnull>false</notnull>
+    <unsigned>true</unsigned>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>created</name>
+    <type>integer</type>
+    <default></default>
     <notnull>false</notnull>
     <length>4</length>
    </field>
 
    <field>
-    <name>writelock</name>
-    <type>integer</type>
-    <default>0</default>
+    <name>token</name>
+    <type>text</type>
+    <default></default>
     <notnull>false</notnull>
-    <length>4</length>
+    <length>100</length>
    </field>
 
    <field>
-    <name>exclusivelock</name>
+    <name>scope</name>
     <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>4</length>
+    <default></default>
+    <notnull>false</notnull>
+    <length>1</length>
    </field>
 
-   <index>
-    <name>locks_path</name>
-    <field>
-     <name>path</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
+   <field>
+    <name>depth</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>1</length>
+   </field>
 
-   <index>
-    <name>locks_path_2</name>
-    <field>
-     <name>path</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>locks_path_3</name>
-    <field>
-     <name>path</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>token</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>locks_expires</name>
-    <field>
-     <name>expires</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>locks_pKey</name>
-    <primary>true</primary>
-    <field>
-     <name>token</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>locks_token</name>
-    <unique>true</unique>
-    <field>
-     <name>token</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
+   <field>
+    <name>uri</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
 
   </declaration>
 
@@ -267,7 +213,7 @@
 
  <table>
 
-   <name>*dbprefix*log</name>
+  <name>*dbprefix*log</name>
 
   <declaration>
 
@@ -324,7 +270,7 @@
 
  <table>
 
-   <name>*dbprefix*preferences</name>
+  <name>*dbprefix*preferences</name>
 
   <declaration>
 
@@ -366,12 +312,20 @@
 
  <table>
 
-   <name>*dbprefix*properties</name>
+  <name>*dbprefix*properties</name>
 
   <declaration>
 
    <field>
-    <name>path</name>
+    <name>userid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>200</length>
+   </field>
+
+   <field>
+    <name>propertypath</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
@@ -379,43 +333,18 @@
    </field>
 
    <field>
-    <name>name</name>
+    <name>propertyname</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>120</length>
+    <length>255</length>
    </field>
 
    <field>
-    <name>ns</name>
-    <type>text</type>
-    <default>DAV:</default>
-    <notnull>true</notnull>
-    <length>120</length>
-   </field>
-
-   <field>
-    <name>value</name>
+    <name>propertyvalue</name>
     <type>clob</type>
-    <notnull>false</notnull>
+    <notnull>true</notnull>
    </field>
-
-   <index>
-    <name>properties_pKey</name>
-    <primary>true</primary>
-    <field>
-     <name>path</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>name</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>ns</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
 
   </declaration>
 
@@ -423,7 +352,7 @@
 
  <table>
 
-   <name>*dbprefix*users</name>
+  <name>*dbprefix*users</name>
 
   <declaration>
 
