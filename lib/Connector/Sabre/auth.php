@@ -14,7 +14,7 @@ require_once("lib/base.php");
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class OC_Sabre_DAV_Auth_Backend_Owncloud extends Sabre_DAV_Auth_Backend_AbstractBasic {
+class OC_Connector_Sabre_Auth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 	/**
 	 * Validates a username and password
 	 *

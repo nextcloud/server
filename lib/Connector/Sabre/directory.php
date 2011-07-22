@@ -11,7 +11,7 @@ require_once("lib/base.php");
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class OC_Sabre_DAV_FS_OwncloudDirectory extends OC_Sabre_DAV_FS_OwncloudNode implements Sabre_DAV_ICollection, Sabre_DAV_IQuota {
+class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sabre_DAV_ICollection, Sabre_DAV_IQuota {
 
 	/**
 	 * Creates a new file in the directory
@@ -57,11 +57,11 @@ class OC_Sabre_DAV_FS_OwncloudDirectory extends OC_Sabre_DAV_FS_OwncloudNode imp
 
 		if (OC_FILESYSTEM::is_dir($path)) {
 
-			return new OC_Sabre_DAV_FS_OwncloudDirectory($path);
+			return new OC_Connector_Sabre_Directory($path);
 
 		} else {
 
-			return new OC_Sabre_DAV_FS_OwncloudFile($path);
+			return new OC_Connector_Sabre_File($path);
 
 		}
 

@@ -10,7 +10,7 @@ require_once("lib/base.php");
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class OC_Sabre_DAV_FS_OwncloudFile extends OC_Sabre_DAV_FS_OwncloudNode implements Sabre_DAV_IFile {
+class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_DAV_IFile {
 
 	/**
 	 * Updates the data

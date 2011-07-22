@@ -13,7 +13,7 @@ require_once("lib/base.php");
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-abstract class OC_Sabre_DAV_FS_OwncloudNode implements Sabre_DAV_INode {
+abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode {
 
 	/**
 	 * The path to the current node

@@ -28,22 +28,28 @@ $RUNTIME_NOSETUPFS = true;
 
 require_once('../lib/base.php');
 require_once('Sabre/autoload.php');
-require_once('Sabre/DAV/Auth/Backend/Owncloud.php');
-require_once('Sabre/DAV/FS/OwncloudNode.php');
-require_once('Sabre/DAV/FS/OwncloudFile.php');
-require_once('Sabre/DAV/FS/OwncloudDirectory.php');
+require_once('Connector/Sabre/auth.php');
+require_once('Connector/Sabre/node.php');
+require_once('Connector/Sabre/file.php');
+require_once('Connector/Sabre/directory.php');
+require_once('Connector/Sabre/locks.php');
 
 // Create ownCloud Dir
-$publicDir = new OC_Sabre_DAV_FS_OwncloudDirectory('');
+$publicDir = new OC_Connector_Sabre_Directory('');
 $server = new Sabre_DAV_Server($publicDir);
 
 // Path to our script
 $server->setBaseUri($WEBROOT.'/files/webdav.php');
 
 // Auth backend
-$authBackend = new OC_Sabre_DAV_Auth_Backend_Owncloud();
+$authBackend = new OC_Connector_Sabre_Auth();
 $authPlugin = new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud');
 $server->addPlugin($authPlugin);
+
+// Also make sure there is a 'data' directory, writable by the server. This directory is used to store information about locks
+$lockBackend = new OC_Connector_Sabre_Locks();
+$lockPlugin = new Sabre_DAV_Locks_Plugin($lockBackend);
+$server->addPlugin($lockPlugin);
 
 // And off we go!
 $server->exec();
