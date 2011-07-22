@@ -33,7 +33,7 @@ require_once('../lib_scanner.php');
 error_reporting(E_ALL); //no script error reporting because of getID3
 
 $arguments=$_POST;
-print_r($_POST);
+
 if(!isset($_POST['action']) and isset($_GET['action'])){
 	$arguments=$_GET;
 }
@@ -42,7 +42,7 @@ foreach($arguments as &$argument){
 	$argument=stripslashes($argument);
 }
 global $CONFIG_DATADIRECTORY;
-ob_clean();
+@ob_clean();
 if(!isset($arguments['artist'])){
 	$arguments['artist']=0;
 }
