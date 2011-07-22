@@ -13,6 +13,23 @@ require_once("lib/base.php");
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
+/*
+ *
+ * The following SQL statement is just a help for developers and will not be
+ * executed!
+ *
+ * CREATE TABLE locks (
+ *   `id` INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ *   `owner` VARCHAR(100),
+ *   `timeout` INTEGER UNSIGNED,
+ *   `created` INTEGER,
+ *   `token` VARCHAR(100),
+ *   `scope` TINYINT,
+ *   `depth` TINYINT,
+ *   `uri` text
+ * );
+ *
+ */
 class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 
 	/**

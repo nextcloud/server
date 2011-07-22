@@ -13,7 +13,20 @@ require_once("lib/base.php");
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode {
+/*
+ *
+ * The following SQL statement is just a help for developers and will not be
+ * executed!
+ *
+ * CREATE TABLE IF NOT EXISTS `properties` (
+ *   `userid` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+ *   `propertypath` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ *   `propertyname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ *   `propertyvalue` text COLLATE utf8_unicode_ci NOT NULL
+ * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ *
+ */
+abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IProperties {
 
 	/**
 	 * The path to the current node
@@ -77,5 +90,67 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode {
 
 	}
 
+	/**
+	 * Updates properties on this node,
+	 *
+	 * @param array $mutations
+	 * @see Sabre_DAV_IProperties::updateProperties
+	 * @return bool|array
+	 */
+	public function updateProperties($properties) {
+		$existing = $this->getProperties(array());
+		foreach($properties as $propertyName => $propertyValue) {
+			// If it was null, we need to delete the property
+			if (is_null($propertyValue)) {
+				if(array_key_exists( $propertyName, $existing )){
+					$query = OC_DB::prepare( 'DELETE FROM *PREFIX*properties WHERE userid = ? AND propertypath = ? AND propertyname = ?' );
+					$query->execute( array( 'OC_USER::getUser()', $this->path, $propertyName ));
+				}
+			}
+			else {
+				if(!array_key_exists( $propertyName, $existing )){
+					$query = OC_DB::prepare( 'INSERT INTO *PREFIX*properties (userid,propertypath,propertyname,propertyvalue) VALUES(?,?,?,?)' );
+					$query->execute( array( 'OC_USER::getUser()', $this->path, $propertyName,$propertyValue ));
+				}
+				elseif($existing[$propertyName] !== $propertyValue){
+					$query = OC_DB::prepare( 'UPDATE *PREFIX*properties SET propertyvalue = ? WHERE userid = ? AND propertypath = ? AND propertyname = ?' );
+					$query->execute( array( $propertyValue,'OC_USER::getUser()', $this->path, $propertyName ));
+				}
+			}
+
+		}
+		return true;
+	}
+
+	/**
+	 * Returns a list of properties for this nodes.;
+	 *
+	 * The properties list is a list of propertynames the client requested, encoded as xmlnamespace#tagName, for example: http://www.example.org/namespace#author
+	 * If the array is empty, all properties should be returned
+	 *
+	 * @param array $properties
+	 * @return void
+	 */
+	function getProperties($properties) {
+		// At least some magic in here :-)
+		$query = OC_DB::prepare( 'SELECT * FROM *PREFIX*properties WHERE userid = ? AND propertypath = ?' );
+		$result = $query->execute( array( 'OC_USER::getUser()', $this->path ));
+
+		$existing = array();
+		while( $row = $result->fetchRow()){
+			$existing[$row['propertyname']] = $row['propertyvalue'];
+		}
+
+		if(count($properties) == 0){
+			return $existing;
+		}
+		
+		// if the array was empty, we need to return everything
+		$props = array();
+		foreach($properties as $property) {
+			if (isset($existing[$property])) $props[$property] = $existing[$property];
+		}
+		return $props;
+	}
 }
 
