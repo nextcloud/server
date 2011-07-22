@@ -206,7 +206,7 @@ div.controls { width:100%; margin:0px; background-color:#f7f7f7; border-bottom:1
 form.searchbox { display:inline; position:fixed; top:1em; right:10em; margin:0; padding:0; }
 
 /* NAVIGATION ------------------------------------------------------------- */
-#plugins { position:fixed; top:3.5em; float:left; width:15.7em; padding:0; }
+#plugins { position:fixed; top:3.5em; float:left; width:15.7em; padding:0; z-index:100; }
 #plugins ul { list-style-type:none; border-top:1px solid #ccc; }
 #plugins a { display:block; padding:0.5em 0.5em 0.5em 3em; background-position:1.5em center; background-repeat:no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; }
 #plugins a.active, #plugins a:hover, #plugins a:focus, #plugins a.selected { background-color:#ccc; border-top:1px solid #ccc; border-bottom:1px solid #ccc; color:#000; outline:0; }
@@ -219,7 +219,7 @@ form.searchbox { display:inline; position:fixed; top:1em; right:10em; margin:0; 
 
 
 /* NAVIGATION BAR */
-span.nav { padding:1em 0 0 2em; }
+span.nav { display:block; float:left; /*margin-right:55em;*/ }
 span.nav a { padding:0.5em 1.5em 0.5em 0.5em; background-position:right center; background-repeat:no-repeat; background-image:url('../img/arrow.png'); text-decoration:none; }
 span.nav a img { height:16px; vertical-align:text-top; }
 

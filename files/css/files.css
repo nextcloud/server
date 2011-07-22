@@ -115,10 +115,13 @@ span.extention{
 
 div.crumb{
 	float:left;
+	display:block;
 	background-repeat:no-repeat;
 	background-position:right 0px;
 	font-size:20px;
-	padding:8px;
+	padding-top:8px;
+	padding-left:8px;
+	height:28px; /*36-8*/
 }
 
 table tr.mouseOver td { background-color:#eee; }
@@ -159,3 +162,12 @@ table td.delete { background-image:url('../img/delete.png'); }
 	display:none;
 }
 #uploadsize-message{display:none}
+
+/* add breadcrumb divider to the File item in navigation panel */
+#plugins li:first-child{
+	background-position: 15.7em 0px;
+	background-repeat:no-repeat;
+	background-image: url("/owncloud/core/img/breadcrumb-divider-start.png");
+	width:15.7em;
+	padding-right:11px;
+}
