@@ -1,0 +1,2435 @@
+/////////////////////////////////////////////////////////////////
+/// getID3() by James Heinrich <info@getid3.org>               //
+//  available at http://getid3.sourceforge.net                 //
+//            or http://www.getid3.org                         //
+/////////////////////////////////////////////////////////////////
+//                                                             //
+// changelog.txt - part of getID3()                            //
+// See readme.txt for more details                             //
+//                                                            ///
+/////////////////////////////////////////////////////////////////
+
+        ª  denotes a major feature addition/change
+        §  denotes a change in the returned structure
+        !  denotes a cry for help from developers
+* Bugfix:  denotes a fixed bug
+
+Version History
+===============
+
+1.7.9: [2009-03-08] James Heinrich
+    ª Added DSS (Digital Speech Standard) support
+      new file: module.audio.dss.php
+      (thanks luke*wilkinsÿdtsam*com)
+    ª Added MPC (Musepack) SV8 support
+      (thanks WaldoMonster)
+    § some MPC [header] keys renamed to be the same between SV7/SV8
+    § start aligning demos CSS styling with v2.x styles
+      new file: demos/getid3.css
+    § JPEG now returns parsed IPTC tags in [iptc]
+    § getid3_lib::GetDataImageSize now requires $imageinfo parameter
+    § better support for Matroska files with AC3/DTS/MP3/OGG audio
+      (support still lacking for AAC)
+    § standardize ID3v2 TCMP key to 'part_of_a_set' between reading
+      and writing  (thanks aaron_stormÿyahoo*com)
+    § added ID3v2 keys 'TCMP','TCP' to for writing iTunes-style tags
+      (thanks aaron_stormÿyahoo*com)
+    § back-ported PICTURE tag handling in FLAC tags
+      (thanks WaldoMonster)
+    § added alternate method to get [video][frame_rate] from QuickTime
+    * added partial support for "TCMP"/"TCP" ID3v2 frames (iTunes
+      non-standard part-of-a-compilation tag)
+      (thanks aaron_stormÿyahoo*com)
+    * slightly improved scanning through FLV files speed
+      (thanks franki)
+    * faster Matroska scanning by stopping at cluster chunks once
+      needed header chunks are found (much faster for large files)
+    * added workaround for broken tagging programs that miss terminating
+      null byte for numeric ID3v2.4 genres
+      (thanks yam655ÿgmail*com)
+    * Bugfix: MultiByteCharString2HTML() did not escape common HTML
+      special characters like & and ?
+    * Bugfix: cleaned up some malformed HTML errors in demo.browse.php
+    * Bugfix: under Windows files >2GB might not be processed due to
+      "dir" command not finding file with double directory slashes
+    * Bugfix: "MODule (assorted sub-formats)" was falsely matching
+      some random files (e.g. JPEGs)  (thanks qwertywin)
+    * Bugfix: suppress PHP_notice on failed SWF-compressed
+      decompression failure  (thanks mkron)
+
+
+1.7.8b3: [2008-07-13] James Heinrich
+    ª Experimental partial support for files > 2GB (gets filesize
+      from shell call to "dir" or "ls", parse files with PHP only
+      up to 2GB limit). See readme.txt for details on what formats
+      work properly and other limitations
+    ª Initial support for Matroska. Has only been tested with a
+      limited number of sample files, please report any bugs
+    ª Experimental support for PHP-RAR reading. Known buggy, disabled
+      by default, enable with care
+    § getid3_lib::CastAsInt() now returns ints up to 2^31 (not 2^30)
+    § Quicktime: [video] now returns [frame_rate] and [fourcc] for MP4
+      video files
+    * MP3: headerless VBR files now only have up to 10 blocks of 5000
+      frames each scanned by default and bitrate extrapolated from that
+      distribution for speed  (thanks glau*stuffÿridiculousprods*com)
+    * Quicktime: support "co64" atom
+    * SWF: lower memory use when compressed SWF files processed
+      (thanks doughammondÿblueyonder*co*uk)
+    * Bugfix: FLV height and width was calculated incorrectly
+      (thanks moysevichÿgmail*com)
+    * Bugfix: FLV GETID3_FLV_TAG_META parsed incorrectly
+      (thanks moysevichÿgmail*com)
+    * Bugfix: Quicktime: 'tkhd' matrix_v and matrix_d were switched
+      (thanks rjjmoroÿhotmail*com)
+    * Bugfix: Quicktime: frame_rate was often incorrect for MP4 video
+    * Bugfix: getid3_lib::CastAsInt returned -2147483648 when passed
+      2147483648 (0x80000000)
+
+
+1.7.8b2: [2007-10-15] James Heinrich, Allan Hansen
+    * Video bitrate now calculated even if not explicitly stated in
+      file metadata, but if overall and audio bitrates are known
+    * Bugfix: 'comments_html' missing last letter in id3v2 tags.
+    * Bugfix: module objects (e.g. getid3_riff) that are instantiated
+      in other modules are explicitly disposed once no longer needed.
+    * Bugfix: some AVI files were not returning audio information
+      because "strh" chunk was not being read in
+    * Bugfix: asf [audio][<streamnumber>][dataformat] should be set
+      to "wma" but wasn't
+    * Bugfix: [mpeg][audio][bitrate_mode] should always be one of
+      ("cbr", "vbr", "abr") but wasn't for some values in
+      LAMEvbrMethodLookup()
+    * Bugfix: MP3 audio in AVI files could show "cbr" instead of
+      correct audio bitrate_mode, and audio bitrate could be slightly
+      incorrect if multiple files were scanned in a loop (scanning
+      single files produced correct values).
+    * Bugfix: remove [audio/video][bitrate] key if falsely set to zero
+    * Bugfix: PlaytimeString returned non-matching value for negative
+      playtimes (which shouldn't happen either, but now they're at
+      least shown correctly, if they happen due to other bugs)
+    * Bugfix: Several ASF header values are invalid if the broadcast
+      flag is set, getID3() now calculates these values in other
+      ways if the broadcast flag is set  (thanks fletchÿpobox*com)
+    * Bugfix: lyrics3-flags-lyrics field was always false, and there
+      never was a lyrics3-flags-timestamp field present even though
+      the lyrics3-raw-IND field consisted of "10" (lyrics present,
+      timestamp not present).  (thanks i*f*schulzÿweb*de)
+    * Bugfix: TAR.GZ files produce PHP errors when
+      option_gzip_parse_contents == true in module.archive.gzip.php
+      (thanks alan*harderÿsun*com)
+
+
+1.7.8b1: [2007-01-08] Allan Hansen
+    ª Major update to readme.txt
+    ª PHP 4.2.0 required
+    ª Tagwriter requires metaflac 1.1.1+ in order to write FLAC tags.
+    ª Removed broken and non-fixable tagwriting module for real format.
+    ! Developers please help fix the above module:
+      http://www.getid3.org/phpBB2/viewtopic.php?t=677
+    ª Avoided security issues with demo.browse.php, demo.write.php and
+      demo.mysql.php. These demos are now disabled by default and has
+      to be enabled in the source.
+    * Bugfix: id3v2 genre broken since 1.7.7.
+    ª Added DTS module (module.audio.dts.php)
+    § ASF/WMV files now return largest video stream dimensions in
+      [video][resolution_x] and [video][resolution_y]
+    * Bugfix: Minor issues with midi module (avoid PHP_NOTICE).
+    * Bugfix: Minor issues with lyrics3 (avoid PHP_NOTICE).
+    * Bugfix: PHP_NOTICE issues in MultiByteCharString2HTML()
+    * Bugfix: PHP_NOTICE issue  in BigEndian2Float()
+    * Bugfix: fread() zero bytes issue in real module.
+    * Bugfix: ASF module returned mime type video/x-ms-wma instead of
+      video/x-ms-wmv for certain FourCCs.
+    * Bugfix: PHP_NOTICE issues with broken ID3v2 tag/garbage.
+    * Bugfix: PNG module broken in regards to gIFg and gIFx chunks.
+    ª Removed detection of short filenames 8dot3 under windows, as
+      it only worked for English versions of windows and has other
+      problems.
+    * Bugfix: Some CBR MP3 files detected as VBR with plenty of warnings.
+    * Bugfix: PHP_NOTICE issues in MP3 module.
+    * Bugfix: Quicktime returned incorrect frame rate.
+    * Bugfix: DivByZero on zero length FLV files.
+    * Bugfix: PHP_NOTICE one some FLV files.
+    * Bugfix: ID3v2 UTF-8/16 encoded frames terminated by \x00
+    * Bugfix: ID3v2 LINK frames iconv error.
+    * Bugfix: ID3v2 padding length calculated incorrectly.
+    * Bugfix: ID3v2.3 extended headers non-conformance
+    ª SVG file detection.
+    ª Added SVG user module (user_modules/module.graphic.svg.php).
+      Thanks to Roan Horning.
+    ª PAR2 file detection (no parsing)
+    * Bugfix: Wave files being detected as MP3.
+    * Bugfix: ASF padding offset bug.
+    * Bugfix: Shorten module not working for wav files with fmt
+      chunks <> 16 bytes.
+    § RIFF: Zero sized chunk invokes warning instead of error.
+    § FLAC: Removed some ['raw'] keys.
+    § MPC: Mime type returned: audio/x-musepack
+
+1.7.7: [2006-06-25] Allan Hansen
+    * Bugfix: AAC static bitrate cache wrong result when parsing
+      several files.
+    * Bugfix: Do not return NULL video bitrate for ASF v3.
+    * Bugfix: getid3_lib::GetImageSize() broken => JPG module broken.
+    * Bugfix: Encoder options should now be returned with correct
+      "--alt-preset n" /  "--alt-preset cbr n" when scanning more files.
+    * Bugfix: Shorten module not escapeshellarg() filenames (UNIX only).
+    * Bugfix: Filenames not escapeshellarg() for md5_data and
+      sha1_data (UNIX only).
+    * Bugfix: UNIX: head and tail called with -cNNN instead of "-c NNN".
+    ª Added detection support for PDF and MS Office documents
+      (*.doc, *.xls, *.pps, etc)  (thanks zeromassmediaÿgmail*com)
+    § Bugfix: ID3v2 "TDRC" frame now used as "year" in comments if TYER
+      unavailable (TYER is deprecated in ID3v2.4)
+      (thanks matthiasÿpanczyk*org)
+    § Removed GETID3_OS_DIRSLASH, replaced with DIRECTORY_SEPARATOR
+    * Bugfix: added LAME preset guessing for presets 410,420,440,490
+      (thanks adminÿlogbud*com)
+    * Bugfix: Added escapeshellarg() call in getid3_lib::hash_data
+      (thanks towbÿgmx*net)
+    ª TAR module no longer reads entire file into memory
+    ª FLV module no longer reads entire file into memory
+    * Bugfix: added LAME preset guessing for presets 410,420,440,490
+      (thanks adminÿlogbud*com)
+    * Bugfix: Added escapeshellarg() call in getid3_lib::hash_data
+      (thanks towbÿgmx*net)
+    * Bugfix: Error message when padding in FLAC files were used up.
+    * Bugfix: Shorten module not working under windows.
+    § Bugfix: gmmktime() instead of mktime().
+    § Using gmmktime() instead of mktime() in ISO, ZIP, PNG and RIFF
+      modules to avoid E_STRICT notices with PHP5.1+.
+    * Bugfix: ['comments_html'] and ['comments'] contains different
+      value when having multiple tags (one of them ID3v1) and the
+      long field names.
+
+1.7.6: [2006-03-12] James Heinrich
+    * Rewrote getid3_lib::GetDataImageSize() to use GetImageSize()
+      instead of using code by filÿrezox*com
+    * Bugfix: incorrect dimensions from disabled Quicktime tracks
+      (thanks m-1ÿgmx*net)
+    * Bugfix: ['codec'] key warning in module.audio-video.asf.php
+      (thanks niel*archerÿblueyonder*co*uk)
+    * Bugfix: undefined array in write.php
+      (thanks drewishÿkatherinehouse*com)
+    * Bugfix: DeleteAPEtag() incorrectly failing when no tag present
+      (thanks drewishÿkatherinehouse*com)
+    * Bugfix: ID3v2 writing frames with URL fields failing when URL
+      is not in ISO-8859-1  (thanks drewishÿkatherinehouse*com)
+    * Bugfix: PHP notices on bad ID3v2 frames
+      (thanks cw264701ÿohiou*edu)
+    * Bugfix: audio & video bitrates sometimes wrong in ASF files
+      (thanks kris_kauperÿexcite*com)
+
+1.7.5: [2005-12-29] James Heinrich
+    ª Added FLV (FLash Video) support -- new file:
+      module.audio-video.flv.php
+      (thanks Seth Kaufman <seth@whirl-i-gig.com> for code)
+    ª Real tags can now be written (previous Real tag writing
+      code was not supposed to be in public releases, as it
+      was not complete)
+    ª GETID3_HELPERAPPSDIR now autodetected under Windows
+    § ASF lyrics now returned under [comments][lyrics]
+    * Bugfix: removed "--lowpass xxxxx" info from guessed
+      LAME presets when source frequency <= 32kHz
+    * Bugfix: ID3v2 extended header errors
+    * Bugfix: missing ob_end_clean() in write.id3v2.php
+      (thanks rasherÿgmail*com)
+
+1.7.4: [2005-05-04] James Heinrich
+    § Added ['quicktime']['hinting'] key (boolean)
+      (thanks jonÿwebignition*net)
+    * Bugfix: major UTF-8 to UTF-16/ISO-8859-1 conversion
+      bug (empty string returned) when using iconv_fallback
+      (thanks chrisÿfmgp*com)
+    * Bugfix: Missing 'lossless' key in RIFF-WAV
+      (thanks bobbfwedÿcomcast*net)
+
+1.7.3: [2005-04-22] James Heinrich
+    ª Added TAR support -- new file: module.archive.tar.php
+      (thanks Mike Mozolin <teddybearÿmail*ru> for code!)
+    ª Added GZIP support -- new file: module.archive.gzip.php
+      (thanks Mike Mozolin <teddybearÿmail*ru> for code!)
+    * Bugfix: demo.browse.php now displays embedded images
+      internally instead of passing local filename as IMG
+      SRC (should allow demo.browse.php to correctly show
+      embedded images over a network)
+      (thanks patpowermanÿhotmail*com)
+    * Bugfix: minor UTF-8 display issues in demo.browse.php
+    * Bugfix: demo.browse.php now works even if the evil
+      setting magic_quotes_gpc is turned on
+      (thanks patpowermanÿhotmail*com)
+    * Bugfix: incorrect MIDI playtime for some files
+      (thanks joelÿoneporpoise*com)
+    * Bugfix: 'url_source' typo in module.tag.id3v2.php
+      (thanks richardlynchÿusers*sourceforge*net)
+    * Bugfix: Quicktime 'mvhd' matrix values were wrong
+      (thanks webÿbobbymac*net)
+    § ID3v2 now returns xx/yy for ['track'] (if
+      available), with xx in ['tracknum'] and yy in
+      ['totaltracks']. Previously ['tracknum'] was not
+      available and ['track'] had only xx.
+    Bugfixes and improvements to /demo/demo.mysql.php:
+      - remix/version parsed from tags and stored in
+        database, can be used when renaming files
+      - track number can be used for renaming files
+
+
+1.7.2: [2004-10-18] Allan Hansen
+    ª Added support for WavPack v4.0+
+      (thanks ahÿartemis*dk)
+    ª Removed code for parsing EXE files
+      (thanks ahÿartemis*dk)
+      Removed file: module.misc.exe.php
+    * Bugfix: Large ID3v2 tags inside ASF not parsed
+      properly under PHP5.
+    * Bugfix: Certain Wavpack3 files failed under PHP5 due
+      to new undocumented tmpfile() limit (same problem as
+      above).
+    * Bugfix: New iTunes crashes PHP - temp fix - no tags
+      on those files.
+    * Bugfix: ['nsv']['NSVs']['framerate_index'] might be
+      wrong  (thanks ahÿartemis*dk)
+    * Bugfix: transparent color was wrong from truecolor
+      PNG  (thanks ahÿartemis*dk)
+    * Bugfix: Changed MPC SV7 header size from 30 to 28,
+      this will change hash values for MPC files
+      (thanks ahÿartemis*dk)
+    * Bugfix: Changed MPC SV4-6 header size from 28 to 8,
+      this will change hash values for MPC files
+      (thanks ahÿartemis*dk)
+    § Trim/unset wavpack encoder_options to match 2.0.0b2
+      output.
+    § Commented-out unknown/unused values in NSV and ISO
+      modules  (thanks ahÿartemis*dk)
+
+
+1.7.1b1: [July-26-2004] James Heinrich
+    ª Added support for Apple Lossless Audio Codec
+    ª Added support for RealAudio Lossless
+    ª Added support for TTA v3
+    ª Added support for TIFF
+      New file: /getid3/module.graphic.tiff.php
+    ª Modified iconv_fallback to work with UTF-8, UTF-16, UTF-16LE,
+      UTF-16BE and ISO-8859-1 even if iconv() and/or XML support is
+      not available. This means that iconv() is no longer required
+      for most users of getID3()
+      (thanks Jeremia, khleeÿbitpass*com)
+    ª Added support for Monkey's Audio v3.98+ (thanks ahÿartemis*dk)
+    ª Included new demo showing most-basic getID3() usage
+      New file: /demos/demo.basic.php
+    * Bugfix: LAME3.94+ presets cached incorrectly if multiple files
+      are scanned in one batch and first file is LAME3.93 or earlier
+      (thanks enoyandÿyahoo*com)
+    * Bugfix: Added warning if compressed ID3v2 frame decompression
+      fails. (thanks Mike Billings)
+    * Bugfix: Assorted small fixes to ensure compatability with PHP5
+    * Bugfix: ID3v1 genre "Blues" could not be written
+      (thanks Jeremia)
+    * Bugfix: ['bitrate_mode'] typo in module.audio-video.real.php
+      (thanks asukakenjiÿusers*sourceforge*net)
+    * Bugfix: ['zip']['files'] is now populated with filenames even
+      if End Of Central Directory couldn't be parsed
+    * Bugfix: ['audio']['lossless'] was incorrect for FLAC
+      (thanks WaldoMonster)
+    * Bugfix: MD5 File was incorrect in directory browse mode for
+      /demo/getid3.browse.php
+    * Bugfix: PHP v5 compatability changes (float array keys, fread()
+      calls with zero data length)
+      (thanks getid3ÿjsc*pp*ru)
+    * Bugfix: was dying if on compressed ID3v2 frames if
+      gzuncompress() function was unavailable
+    * Bugfix: ['vqf']['COMM'] was always empty
+    * Bugfix: MIDI playtime was missing for single-track MIDI files
+    * Bugfix: removed &#0; characters from ['comments_html']
+      (thanks p*quaedackersÿplanet*nl)
+    * Bugfix: improved MIDI playtime accuracy
+      (thanks joelÿoneporpoise*com)
+    * Bugfix: BMP subtypes 4 and 5 were not being identified
+    * Bugfix: frame_rate in AVI was incorrectly truncated to integer
+    * Bugfix: FLAC cuesheet track index was incorrect
+      (thanks tetsuo*yokozukaÿoperamail*com)
+    § ['quicktime']['display_scale'] now contains the playback scale
+      multiplier for QuickTime movies - a movie set to playback at
+      double-size will have "2" here. Other values are "1" and "0.5"
+    § Added LAME preset guessing for --preset medium with v3.90.3
+      (thanks phwipÿfish*co*uk)
+    § Added $encoding_id3v1 to allow for ID3v1 encodings other than
+      the standard ISO-8859-1
+    § Default AVI video bitrate_mode is now 'vbr'
+      (thanks eltoderÿpisem*net)
+    Force getID3() to abort if Shorten files have ID3 or APE tags
+      (thanks ahÿartemis*dk)
+    Editable textbox for parent directory in demo.browse.php
+      (thanks eltoderÿpisem*net)
+
+
+1.7.0-hotfix [2004-03-17] Allan Hansen
+    (hotfix version released by Allan Hansen)
+    * Bugfix: PHP 4.1.x compatiblity - fgets($fp) => fgets($fp, 1024)
+    * Bugfix: Added default charset to TextEncodingNameLookup() in
+      module.tag.id3v2.php
+    ÿ Removed option_no_iconv
+      iconv() support is only a requirement for WMA/WMW/ASF, and for
+      destination encodings other than ISO-8859-1 and UTF-8, iconv is
+      not needed otherwise. New 'iconv_req' in GetFileFormatArray()
+      only set for WMA/WMV/ASF. analyze() now refuses to analyse
+      WMA/ASF file if iconv is not present.
+    iconv_fallback() only dies on internal errors not missing iconv()
+
+
+1.7.0: [January-19-2004] James Heinrich
+    ª Added support for RIFF/CDXA files (MPEG video in RIFF container
+      format (thanks chrisÿdigitekdesign*com)
+    ª Added support for TTA v2  (thanks ahÿartemis*dk)
+    § ID3v2 unsynchronisation scheme disabled by default because most
+      tag-reading programs cannot read unsynchronised tags. Can be
+      overridden by setting id3v2_use_unsynchronisation to true.
+      (thanks mikeÿdelusion*org)
+    § extention.*.php renamed to extension.*.php
+      (thanks tp62ÿcornell*edu)
+    § /demo/demo.check.php renamed to /demo/demo.browse.php
+    § Added id3v2_paddedlength configuration parameter to WriteTags()
+      and renamed tag_language to id3v2_tag_language
+    § MPEG audio layers are now represented as 1, 2 or 3 instead of
+      'I', 'II', or 'III'
+    § Added [audio][wformattag] and [video][fourcc] for WAV and AVI
+    § Added [audio][streams] which contains one entry for each audio
+      stream present in the file (usually only one). The data is a
+      copy of what is usually found in [audio]. If there are multiple
+      audio streams then [audio] will contain a sum of the bitrates
+      of all audio streams, and the data format of the first stream
+      (if streams are of different data types)
+    § Added BruteForce mode to mp3 scanning. Disabled by default as
+      it is extremely slow and only files that are broken enough to
+      not really play will gain any benefit from this.
+    § Suppress '--resample xxxxx' appended to encoder options for mp3
+      with low-quality presets for default sampling frequencies
+    § Enhanced LAME preset guessing for pre-3.93 with a better lookup
+      table, --resample/--lowpass guessing (thanks phwipÿfish*co*uk)
+    § RIFF files with non-MP3 contents no longer have
+      [audio][encoder_options] set
+    § Added [audio][encoder_options] to audio formats where possible
+      (including LiteWave, LPAC, OptimFROG, TTA)
+    § Moved [quantization] and [max_prediction_order] from
+      [lpac][flags] to just [lpac]
+    § WavPack flags are now parsed into [wavpack][flags]
+    * Bugfix: APEtags with ReplayGain information stored with comma-
+      seperated decimal values (ie "0,95" instead of "0.95") were
+      giving wrong peak and gain values
+    * Bugfix: Filesize > 2GB not always detected correctly
+    * Bugfix: Some ID3v2 frames had data key unset incorrectly
+      (thanks chrisÿdigitekdesign*com)
+    * Bugfix: Warnings on empty-strings-only comments
+    * Bugfix: ID3v2 tag writing may have had incorrect padding length
+      if padded length less than current ID3v2 tag length and
+      merge_existing_data is false  (thanks mikeÿdelusion*org)
+    * Bugfix: hash_data() for SHA1 was broken under Windows
+    * Bugfix: BigEndian2Float()/LittleEndian2Float() were broken
+    * Bugfix: LAME header calculated track peaks were incorrect for
+      LAME3.94a15 and earlier
+    * Bugfix: AVIs with VBR MP3 audio data reported incorrect bitrate
+      and bitrate_mode
+    * Bugfix: AVIs sometimes had incorrect or missing video and total
+      bitrates
+    * Bugifx: AVIs sometimes had incorrect ['avdataend'] and
+      therefore also incorrect data hashes (md5_data, sha1_data)
+    * Bugfix: ID3v1 genreid no longer returned for Unknown genre
+    * Bugfix: ID3v1 SCMPX genres were broken
+    Modified LAME header parsing to correctly process peak track
+      value for LAME3.94a16+ (thanks Gabriel)
+    md5_file() and sha1_file() now work under Windows in PHP < 4.2.0
+      and 4.3.0 respectively with helper apps
+    Default md5_data() tempfile location is now system temp directory
+      instead of same directory as file (thanks towbÿtiscali*de)
+    Improved list of RIFF ['INFO'] comment key translations
+    More helpful error message when GETID3_HELPERAPPSDIR has spaces
+    /demo/demo.browse.php now autogets both MD5 and SHA1 hashes for
+      files < 50MB
+    Replaced PHP_OS comparisons with GETID3_OS_ISWINDOWS define
+      (thanks necroticÿusers*sourceforge*net)
+
+
+1.7.0b5: [December-29-2003] James Heinrich
+    ª Windows only: Various binary files are now required for some
+      file formats, especially for tag writing, as well as md5sum
+      (and other) calculations. These binaries are now stored in the
+      directory defined as GETID3_HELPERAPPSDIR in getid3.php
+      (default is /helperapps/ parallel to /getid3/).
+      Note: This directory must not have any spaces in the pathname.
+      All neccesary files are available as a seperate download.
+      See /helperapps/readme.txt for more information
+      New file: /helperapps/readme.txt
+    ª Unified tag-writing interface for all tag formats
+      New file: /getid3/write.php
+                /getid3/write.apetag.php
+                /getid3/write.id3v1.php
+                /getid3/write.id3v2.php
+                /getid3/write.lyrics3.php
+                /getid3/write.metaflac.php
+                /getid3/write.vorbiscomment.php
+    ª Added support for Shorten - requires shorten binary (head.exe
+      is also required under Windows).
+      New file: /getid3/module.audio.shorten.php
+    ª Added support for RKAU
+      New file: /getid3/module.audio.rkau.php
+    ª Added (minimal) support for SZIP
+      New file: /getid3/module.archive.szip.php
+    ª Added MySQL caching extention  (thanks ahÿartemis*dk)
+      New file: /getid3/extention.cache.mysql.php
+    ª Added DBM caching extention  (thanks ahÿartemis*dk)
+      New file: /getid3/extention.cache.dbm.php
+    ª Added sha1_data hash option  (thanks ahÿartemis*dk)
+    ª Added option to allow getID3() to skip ID3v2 without parsing it
+      for faster scanning when ID3v2 data is not required. If you
+      want to enable this feature delete /getid3/module.tag.id3v2.php
+      (thanks ahÿartemis*dk)
+    § 8-bit WAV data now calculates MD5 checksums as normal, not
+      converting to signed data as before, so stored md5_data_source
+      in FLAC files will no longer match md5_data for the equivalent
+      decoded 8-bit WAV. A warning will be generated for 8-bit FLAC
+      files
+    § Added option_no_iconv option to allow getID3() to work
+      partially without iconv() support enabled in PHP
+      (thanks ahÿartemis*dk)
+    § All '*_ascii' keys removed for ASF/WMA/WMV files
+    § All 'ascii*' keys removed for ID3v2 tags
+    § Ogg filetypes now return MIME of "application/ogg" instead of
+      the previous "application/x-ogg"
+      (thanks blakewattersÿusers*sourceforge*net)
+    § Force contents of ['id3v2']['comments'] to UTF-8 format from
+      whatever encoding each frame may have (text encoding can vary
+      from frame to frame in ID3v2)
+    § MP3Gain information from APE tags suppressed from ['tags'] and
+      parsed into ['replay_gain']
+    § ReplayGain information (all formats) changed from "Radio" and
+      "Audiophile" to "Track" and "Album" respectively
+    § ['volume'] and ['max_noclip_gain'] are now available in both
+      ['replay_gain']['track'] and ['replay_gain']['album'] for all
+      formats that calculate ReplayGain.
+    § ['video']['total_frames'] is available for AVIs
+    § All parsed ID3v2 frame data is now in ['id3v2'][XXXX][#]
+      (previously some frame types would have numeric array keys if
+      multiple instances of that frame type were allowed and other
+      frame types would not)
+    § ASF/WMA "WM/Picture" images are now parsed in the same manner
+      as ID3v2 with the image (ex JPEG) data returned in [data]
+      rather than [value]
+    * Bugfix: Optional tag processing options were being ignored (ie
+      ID3v1 still processed even if option_tag_id3v1 == false)
+      (thanks ahÿartemis*dk)
+    * Bugfix: fixed MultiByteCharString2HTML() for UTF-8
+    * Bugfix: Quicktime files not always reporting video frame_rate
+    * Bugfix: False ID3v1 synch patterns in APE or Lyrics3 tags are
+      now detected and incorrect ID3v1 data not returned
+      (thanks sebastian_maresÿusers*sourceforge*net for the idea)
+    * Bugfix: WMA9 Lossless now reported as lossless
+    * Bugfix: two typos in ID3v1 genre list
+    * Bugfix: MPEG-2/2.5 ABR/VBR MP3 files had doubled playtime
+    * Bugfix: MPEG-2/2.5 LayerII (ie MP2: 24/22.05/16kHz) files were
+      not detected due to incorrect frame length calculation
+    * Bugfix: MPEG LayerI files were not detected due to incorrect
+      frame length calculation (must be multiple of slot length)
+    Added alternative md5_data via system call - twice as fast. Needs
+      "getID3()-WindowsSupport" to work under Windows.
+      (thanks ahÿartemis*dk)
+    ID3v2.4 compressed frames are now supported
+    php_uname() calls changed to use PHP_OS constant
+    Added SCMPX extensions to ID3v1 genres (0xF0-0xFE)
+    Obfuscated contributor email address in changelog and sourcecode
+    Added memory-saving EmbeddedLookup() function for lookup tables
+      in RIFF and ID3v2 modules (thanks ahÿartemis*dk)
+    Major memory patches to many modules by using
+      $var = &$INFO_ARRAY_AT_SOME_INDEX
+      in place of large multi-dimensional array declarations.
+      Memory saved:  RIFF: ~200kB;  ID3v2: ~475kB;  ASF: ~50kB  etc.
+      (thanks ahÿartemis*dk)
+
+
+1.7.0b4: [November-19-2003] James Heinrich
+   ª Support added for MPC files with old SV4-SV6 structure
+   ª RealVideo now properly supported with resolution, framerate, etc
+     (thanks jcsston)
+   ª RealAudio files with old-style file format (v2-v4) are now
+     fully supported
+   ª Support added for DolbyDigital WAV files (thanks ahÿartemis*dk)
+   § ['RIFF'] is now ['riff'] to conform to make all root key names
+     lowercase
+   § ['OFR'] is now ['ofr'] to conform to make all root key names
+     lowercase
+   § ['tags_html'] is now available as a copy of ['tags'] but
+     with all text replaced with an HTML version of all characters
+     above chr(127), translated according to whatever the encoding
+     of the source tag is, in the HTML form &#1234;
+   § CopyTagsToComments() is now available in getid3_lib
+   § QuicktimeVR files now return a ['video']['dataformat'] of
+     'quicktimevr' instead of 'quicktime' (thanks gtsÿtsu*biz)
+   § Quicktime video files with DivX, Xvid, 3ivx or MPEG4 video
+     streams now return those names as ['video']['dataformat']
+   § MPEG video files are now identified with ['video']['codec'] set
+     to either 'MPEG-1' or 'MPEG-2' (rather than just 'MPEG'). If you
+     see a file wrongly identified, please report it!
+     (thanks fccHandler)
+   § All bitrate values in ['mpeg']['audio'] is now reported in bps
+     rather than kbps (ie 128000 instead of 128) for consistancy
+   § AVIs with MP2 audio now report ['audio']['dataformat'] as 'mp2'
+     rather than 'wav'  (thanks metalbrainÿnetian*com)
+   § Added ['md5_data_source'] for OptimFROG
+   § AC3 in RIFF-WAV now identified with ['audio']['dataformat']
+     returning 'ac3'
+   § WavPack ['extra_bc'] now returned as integer
+   § WavPack ['extras'] now returned as 3-element array of integers
+   § MP3 ['audio']['encoder options'] now returns 'VBR' or 'CBR' only
+     (no bitrate) if no LAME preset is used, or 'VBR q??' where ?? is
+     a number 0-100 for Fraunhofer-encoded VBR MP3s
+   * Bugfix: VBR MP3s could have incorrect bitrate reported
+   * Bugfix: Quicktime files with MP4 audio were not returning
+     ['video']['dataformat'] (thanks robÿmassive-interactive*nl)
+   * Bugfix: strpad vs str_pad typo in module.riff.php
+     (thanks nicojunÿusers*sourceforge*net)
+   * Bugfix: ReplayGain information was often wrong for MPC files
+   * Bugfix: MD5 and other post-TAIL chunks were not being processed
+     in module.audio.optimfrog.php
+   * Bugfix: Undefined variable in table_var_dump() in demo/check.php
+   * Bugfix: QuickTime files now only return information in [audio]
+     or [video] if those exist in the file
+   * Bugfix: WavPack no longer tries to read entire compressed data
+     chunk
+   * Bugfix: Properly handle VBR MP3s with "Info" (rather than
+     "Xing") header frame. foobar2000 adds this to MP3 files when
+     "Fix MP3 Header" function is used (thanks ahÿartemis*dk)
+   * Bugfix: Fraunhofer VBRI headers for MP3s were assuming 2-byte
+     entries for TOC rather than using stride, and were ignoring the
+     scaling value. (thanks sebastianÿmaresweb*net)
+   Several QuickTime atoms have been added to an exclusion list
+     because they have been observed, but I have no idea what they
+     are supposed to do so I can't add real support for them, but
+     they should not generate warnings (robÿmassive-interactive*nl)
+   Old MPC encoder (before v1.06) was return as v0.00, now returned
+     as 'Buschmann v1.7.0-v1.7.9 or Klemm v0.90-v1.05'
+     (thanks ahÿartemis*dk)
+   Added check for magic_quotes_runtime and code to disable it if
+     neccesary (thanks stefan*kischkelÿt-online*de)
+   Added 3ivx fourCCs to module.audio-video.quicktime.php
+   MP3 and AC3 streams are now parsed when contained inside RIFF-WAV
+     or RIFF-AVI container formats
+   Better detection of named presets in LAME 3.93/3.94
+
+
+1.7.0b3: [October-17-2003] James Heinrich
+   ª AC-3 (aka Dolby Digital) is now supported.
+     New file: /getid3/module.audio.ac3.php
+   * Bugfix: ID3v2-writing function Unsynchronise() was broken, which
+     made ID3v2 tag containing binary data (typically pictures) get
+     corrupted. (thanks t*coombesÿbendigo*vic*gov*au,
+     i*kuehlbornÿndh*net, mikeÿdelusion*org, mikeÿftl*com)
+   * Bugfix: Zip comments now returned as array instead of string,
+     as they're supposed to be.
+   * Bugfix: Quicktime/MP4 files may have reported extremely low
+     bitrates (thanks spunkÿdasspunk*com)
+   Improved double-ID3v1 check to prevent false detection when string
+     "TAG" is present in APE or Lyrics3
+   Fixed /demo/simple.php
+   Fixed /demo/joinmp3.php
+   Fixed /demo/mimeonly.php
+   Fixed /demo/write.php
+
+
+1.7.0b2: [October-15-2003] James Heinrich
+   ª TTA Lossless Audio Compressor format now supported.
+     (http://tta.iszf.irk.ru)
+     New file: /getid3/module.graphic.tta.php
+   ª PhotoCD (PCD) format now supported. Image data for the three
+     lowest resolutions (192x128, 384x256, 768x512) can be optionally
+     extracted.
+     New file: /getid3/module.graphic.pcd.php
+   § RIFF-MP3 files now should return the same ['md5_data'] as the
+     identical MP3 file outside the RIFF container
+   § Name of LAME preset used (if available, needs LAME v3.90+)
+     returned in ['mpeg']['audio']['LAME']['preset_used'] and also as
+     part of ['audio']['encoder_options']
+   § VQF module now sets ['audio']['encoder_options'] to i.e. CBR96
+   § MP3 module now sets ['audio']['encoder_options'] on CBR files
+     and all LAME-encoded files
+   § MPC module now sets ['audio']['encoder_options']
+   § Monkey module now sets ['audio']['encoder_options']
+   § AAC module now sets ['audio']['encoder_options'] to profile name
+   § ASF module now sets ['audio']['encoder_options']
+   § Ogg module adds ['audio']['encoder_options'] -b 128 on
+     Ogg Vorbis 1.0+ ABR files
+   § Ogg module adds ['audio']['encoder_options'] -q N   on
+     Ogg Vorbis 1.0+ VBR files 44k/48k sample rate/stereo files only.
+   § Ogg module ['audio']['encoder_options'] "Nominal birate: 80k" to
+     other Ogg Vorbis files.
+   § ID3v2 track number now returned as string (with leading zeros,
+     if present in data) rather than integer (thanks Plamen)
+   § ASF module returns ['asf']['comments']['encoding_time_unix'] if
+     available (from WM/EncodingTime)
+   § Fixed /demo/mysql.php and added some new features:
+     - encoder options
+     - ID3v2 "Encoded By"
+     - non-empty comments
+     - total entries in database summary (totals & averages)
+     - database version update
+   * Bugfix: 'UNICODE' iconv() charset changed to 'UTF-16LE' or
+     'UTF-16BE' as appropriate
+   * Bugfix: iconv_fallback() function created in case iconv() fails
+   * Bugfix: fixed MD5 calls in demo/check.php
+   * Bugfix: reenabled detection of APE + Lyrics3 tags in same file
+   * Bugfix: ASF module now returns ID3v1 genre as string instead of
+     number - patch from Eugene Toder.
+   * Bugfix: ASF module now reads non-standard field names,
+     i.e. "date" as well as WM/Year - patch from Eugene Toder.
+   * Bugfix: ASF module now returns genre as-is if it is not a
+     standard ID3v1 genre (thanks wonderboy)
+   * Bugfix: Eliminated false-synch problem in MP3 module
+   * Bugfix: Fixed missing root ['bitrate'] for most formats
+   * Bugfix: ['audio']['compression_ration'] missing for MPC
+     (thanks WaldoMonster)
+   * Bugfix: NSV module died in 1.7.0b1
+   * Bugfix: ASF module died in 1.7.0b1 when WM/Picture preset
+   * Bugfix: ASF tracknumber incorrect when specified by WM/Track
+     rather than WM/TrackNumber (thanks jgriffiniiiÿhotmail*com)
+   * Bugfix: MPEG audio+video playtime should now be pretty accurate
+     (ie within 0.1% variation at most)
+     (thanks mgrimmÿhealthtvchannel*org)
+   * Bugfix: ID3v2 not being copied to ['tags'] in some cases
+   * Bugfix: LAME CBR files with Info tag were being incorrectly
+     flagged as VBR (thanks Jojo)
+   * Bugfix: LAME tag not being detected for LAME 3.90 (original)
+   Changed regex pattern match for MP3 to include 3rd byte for more
+     reliable/accurate pattern matching
+   Added duplicate-ID3v1 tag checking (two ID3v1 tags, one after the
+     other) that has been known to occur with iTunes
+     (thanks towbÿtiscali*de)
+   Added instructions for enabling iconv() support under Windows
+   Removed some unneccesary debugging code
+   Suppressed duplicate PHP warnings for missing include files
+   Included some missing dependencies in various files
+   /demo/audioinfo.class.php now copies ['audio']['encoder_options']
+
+
+1.7.0b1: [2003-09-28] Allan Hansen
+   This beta version was not made by James Heinrich. It was made by
+   Allan Hansen <ahÿartemis*dk> - please send bug reports on this
+   beta directly to me.
+
+   James Heinrich will release 1.7.0 final, but it may take some time
+   to work out the bugs from the major rewrite.
+
+   This version could be called getID3lite. It makes a lot of checks
+   optional and makes it easy to remove support for undesired formats
+
+   It also is more library-like. Older versions of getID3() declared
+   an incredible amount of global scope functions and defined several
+   constants. 1.7.0beta1 still declares constants, but they are all
+   prepended by GETID3_. It declares no global scope functions - they
+   are all wrapped into classes.
+
+   ª Made getID3() depend on iconv library: compile PHP --with-iconv
+   ª Created new directory structure
+       Moved all demos to demos/
+       Moved all getID3() files to getid3/
+       Renamed most files to module.something
+       Changed header in all module.something to explain what they do
+       Simply remove all modules you don't need
+       Wrapped all modules into classes
+   * Bugfix: Implemented misc patches from Eugene Toder
+   * Bugfix: Implemented misc patches from "six"
+   § Added root key 'encoding'
+   § Added prefix GETID3_ to all defined constants.
+   § Wrapped getid3.php into getid3 class
+   § Wrapped getid3.functions.php into getid3_lib class
+       Removed unused functions
+       Moved several functions away from getid3.functions.php and
+         into the files where they are actually used.
+       Renamed getid3.functions.php to getid3.lib.php
+       Moved getid3.rgad.php functions into getid3_lib
+       Moved getid3.getimagesize.php funcitons ingo getid3_lib
+   § Moved getid3.ogginfo.php into ogg module
+   § Combined GetTagOnly() and GetAllFileInfo() in method analyze
+   § Removed redundant and unuseful root keys
+       'file_modified_time' == filemtime($filename)
+       'md5_file' == md5_file($filename)
+       'exist' == file_exists($filename)
+   § Changed root key ['tags'] from array of string to array of array
+     of comments.
+   Simplified code for detecting base path.
+   Removed ob_ from InitializeFilepointerArray(). That was really a
+     ugly HACK to get output from fopen. If user want the reason,
+     he should open the file himself!
+   Checking for APE tags before lyrics3 - makes Lyrics3 not depend
+     on APE tag. It seems to work on my test file.
+   Changed ['error'] and ['warning'] in multiple files to append to
+     array instead of appending to string. That simplified code in
+     getid3.php too.
+   Simplified clean-up procedure: simply remove all empty root keys
+   Setting tags in individual modules instead of main getid3.php
+   Made Bonk and ASF modules non-dependent on id3 modules - id3
+     optional.
+   Rewrote HandleAllTags() - simplified and convert comments to
+     desired encoding.
+   Replaced all calls to RoughTranslateUnicodeToASCII() in ASF module
+     with a TrimConvert() method. This uses iconv() for conversion.
+     It also converts from UNICODE instead of UTF-16BE, as the spec
+     says it should.
+   Replaced all calls to RoughTranslateUnicodeToASCII() in id3v2
+     module with iconv(). id3v2 module also reads
+     $ThisFileInfo['encoding'] and converts all comments to this
+     format. All other formats just add their comments in their
+     native charset, but every comment field in id3v2 can have a
+     different encoding, so this is needed.
+   Did same thing as above with ISO module. However - it does not
+     work. I need to find out how to specify big-endian unicode !=
+     UNICODING encoding name given to iconv().
+   Built-in assume mp3 format in getid3.php
+   Temporarily nuked root key ['comments'] and CopyCommentsToRoot()
+   Updated demo/audioinfo.class.php
+   Updated demo/check.php - some thing don't work!
+   Other demos are out of order!
+
+
+1.6.5: [October-06-2003] James Heinrich
+   ª Added support for LiteWave (thanks supportÿclearjump*com)
+   ÿ Split out speedup info from ['OFR']['OFR']['compression'] into
+     ['OFR']['OFR']['speedup']
+   ÿ If EXIF functions for JPEG not available, now warning not error
+   ÿ ID3v2 track number now returned as string (with leading zeros,
+     if present in data) rather than integer (thanks Plamen)
+   * Bugfix: now correctly parses cbSize element of WAVEFORMATEX
+     structure (thanks supportÿclearjump*com)
+   * Bugfix: ASF module now reads non-standard field names,
+     i.e. "date" as well as WM/Year - patch from Eugene Toder.
+   * Bugfix: ASF module now returns genre as-is if it is not a
+     standard ID3v1 genre (thanks wonderboy)
+   * Bugfix: ['audio']['compression_ration'] missing for MPC
+     (thanks WaldoMonster)
+   Prevent infinite loop in MP3 histogram if framelength == 0
+   Added wFormatTag values 0x00FF and 0x2001 - 0x2005
+     (thanks steveÿheadbands*com)
+   Added "twos" and "sowt" FourCCs for Mac AIFC
+
+
+1.6.4: [June-30-2003] James Heinrich
+   ª Added support for free-format MP3s
+     (thanks Sebastian Mares for the idea)
+   ª Compressed (Flash 6+) SWF files are now handled properly
+     (thanks alan*cheungÿalumni*ust*hk)
+   ª Added DeleteLyrics3() to getid3.lyrics3.php
+   ª Added FixID3v1Padding() to getid3.putid3.php
+   ª Added new simple MP3-splicing sample file
+     (thanks tommybobÿmailandnews*com for the idea)
+     New file: getid3.demo.joinmp3.php
+   ª Moved all contents of getid3.putid3.php into either
+     getid3.id3v1.php or getid3.id3v2.php or getid3.functions.php as
+     appropriate
+     Removed file: getid3.putid3.php
+   § ['error'] and ['warning'] keys now return as arrays, not strings
+   § New root key for all files: ['file_modified_time'] (UNIX time)
+   § getid3.demo.scandir.php renamed to getid3.demo.mysql.php
+   § New demo file returns the MIME type only for a single file
+     (thanks adminÿe-tones*co*uk for the idea)
+     New file: getid3.demo.mimeonly.php
+   § Added check for valid ID3v1 padding (strings should be padded
+     with null characters but some taggers incorrectly use spaces).
+     A warning will be generated if padding is invalid. New boolean
+     key ['id3v1']['padding_valid'] indicates padding validity.
+   § CleanUpGetAllMP3info() removes more useless root keys for
+     unknown-format files
+   § Extended LAME information in ['mpeg']['audio']['LAME'] is now
+     only returned for LAME v3.90+
+   § LAME-encoded MP3s now return
+     ['mpeg']['audio']['LAME']['long_version'] as well as
+     ['mpeg']['audio']['LAME']['short_version'] - these are identical
+     in LAME v3.90+ but older versions will report longer more
+     detailed version information if available
+   § New Lyrics3 values: ['lyrics3']['raw']['offset_start'] and
+     ['lyrics3']['raw']['offset_end']
+   § New optional parameter on getAPEtagFilepointer() to scan from a
+     defined offset rather than end-of-file to allow scanning of APE
+     tags before Lyrics3 tags
+   § ['tag_offset_start'] and ['tag_offset_end'] are now present in
+     ['ape'], ['lyrics3'], ['id3v1'] and ['id3v2']
+   § Numerous changes to the returned structure and content for La
+     files, including parsing the seektable (if applicable) and
+     parsing RIFF data occuring after the end of the compressed audio
+     data (notably RIFF comments)
+     (thanks mikeÿbevin*de)
+   § getSWFHeaderFilepointer() now has optional 3rd parameter
+     $ReturnAllTagData (default == false) which if set to true will
+     return data on all tags in ['swf']['tags']
+   § ['swf']['bgcolor'] now returns the 6-character string
+     representing the background color in HTML hex color format
+     (thanks ubergeekÿubergeek*tv)
+   § ['swf']['header']['frame_delay'] is no longer returned
+   § getQuicktimeHeaderFilepointer() now has two additional optional
+     parameters: $ReturnAtomData (default == true) and
+     $ParseAllPossibleAtoms (default == false). Setting
+     $ReturnAtomData to false will reduce the size of the returned
+     data array by unsetting ['quicktime']['moov'] before returning.
+     Leaving $ParseAllPossibleAtoms as false now suppresses parsing
+     of several atom types that contain very large tables of data
+     that are not typically useful. Atom type suppressed are:
+     stts, stss, stsc, stsz, and stco
+     (thanks ubergeekÿubergeek*tv)
+   § ['fileformat'] no longer set to 'id3' if ID3v1 or ID3v2 tag
+     detected but no other data format recognized
+   * Bugfix: La files now return the correct values for
+     ['avdataoffset'] and ['avdataend'] and therefore the correct
+     values for ['md5_data'] - note that ['md5_data'] values will not
+     match values from previous versions of getID3() - the previous
+     versions were incorrect
+     (thanks mikeÿbevin*de)
+   * Bugfix: A temporary file was being created in the web server's
+     root directory (not DocumentRoot) each time ['md5_data'] was
+     calculated, and not removed due to lack of permissions. Temp
+     file is now created (as it was supposed to be) in the directory
+     of the file being examined, or the system temp directory, and
+     properly removed when done.
+   * Bugfix: Several incorrect values were being returned inside
+     ['mpeg']['audio']['LAME'] (thanks bouvigneÿmp3-tech*org)
+   * Bugfix: SWF frame rates values were usually incorrect.
+     (thanks alan.cheungÿalumni*ust*hk and ubergeekÿubergeek*tv)
+   * Bugfix: ID3v2.2 files always flagged 4 bytes of invalid padding
+     (thanks marcaÿmac*com)
+   * Bugfix: Lyrics3 without ID3v1 was not working properly
+   * Bugfix: Lyrics3, APE & ID3v1 can all now exist in the same file.
+     A warning is issued if APE comes after Lyrics3 (because Lyrics3-
+     aware taggers probably are not APE-aware and therefore won't be
+     able to find the Lyrics3 tag)  (thanks mp3gainÿhotmail*com)
+   * Bugfix: WriteAPEtag() now writes the APE tag before any Lyrics3
+     tags (if present) and removes any incorrect ones that are after
+     existing Lyrics3 tags  (thanks mp3gainÿhotmail*com)
+   * Bugfix: RIFF-WAVE file with incorrect NumberOfSamples values in
+     the 'fact' chunk no longer cause incorrect playtime calculation
+     (thanks stprasadÿindusnetworks*com)
+   * Bugfix: getid3.demo.simple.php had undefined variables if the
+     file needed to be deep-scanned with assumeFormat
+   * Bugfix: fixed previously-incorrect ['avdataend'] values for APE
+     and Lyrics3 tags in some cases, which in some cases means that
+     ['md5_data'] is different than previously (now correct)
+   Much-improved detection of AAC-ADTS, which also means MP3
+     format detection should now be nearly twice as fast
+   Truncated AVIs and WAVs are now reported
+   Number of new features and bugfixes in getid3.demo.mysql.php
+   Quicktime 'meta' atoms now parsed, so Quicktime MP4 files can now
+     return artist, title, album, etc  (thanks spunkÿdasspunk*com)
+   Consolidated all comments processing functions (processing the
+     ['comments'] and ['tags'] keys) into HandleAllTags() which now
+     also checks to ensure that APE tags are really better than ID3v2
+     before using them in ['comments']
+   Known issue with Meracl ID3 Tag Writer v1.3.4 truncating last byte
+     of MP3 file when appending new ID3v1 tag now specifically noted
+     (rather than generic Probably Truncated File message)
+   getid3.demo.mysql.php now stores last-modified time for each file
+   getid3.demo.mysql.php is now case-sensitive for filenames
+   getid3.demo.mysql.php can generate M3U playlists of any of the
+     groups of files it can select (duplicate filenames, tag types,
+     etc.)
+   getid3.demo.mysql.php can now find mismatched tag contents and
+     filenames
+   getid3.demo.check.php now shows total number of errors & warnings
+   GetFileFormatArray() now matches actual patterns for MP3 files
+     based on the first two bytes of the file, rather than just the
+     first one
+   Simplified DeleteAPEtag() and made it work properly with Lyrics3
+
+
+1.6.3: [May-17-2003] James Heinrich
+   ª Added support for Bonk  (thanks ahÿartemis*dk)
+     New file: getid3.bonk.php
+   ª Added support for AVR  (thanks ahÿartemis*dk)
+     New file: getid3.avr.php
+   § Contents of getid3.id3.php moved to getid3.id3v1.php
+     Removed file: getid3.id3.php
+   § Contents of getid3.frames.php moved to getid3.id3v2.php
+     Removed file: getid3.frames.php
+   § Returned data structure documentation improved and updated and
+     now stored in getid3.structure.txt rather than getid3.readme.txt
+     New file: getid3.structure.txt
+   § Now including the GNU General Public License in the distribution
+     as getid3.license.txt
+     New file: getid3.license.txt
+   § Added new, optional, parameter to WriteAPEtag() (and also
+     GenerateAPEtag()) which must be set to TRUE if the values you
+     are passing are already UTF8-encoded, otherwise all data is
+     encoded to UTF8 by default. For all ASCII/ANSI data this value
+     should be left at the defaul value of FALSE.
+   § Added third, optional, parameter to getID3v2Filepointer() -
+     $StartingOffset (default == 0) which can parse an ID3v2 tag
+     in a file at a position other than the start-of-file.
+   § ['video']['pixel_aspect_ratio'] now returned when known
+   § AVI files with WMA audio now return ['audio']['dataformat']
+     of 'wma' rather than 'wav'
+   § ASF-WMA files now return the artist value from WM/AlbumArtist
+     in ['comments']['artist']  (thanks msibbaldÿsaebauld*com)
+   § ASF-WMA files now return the 'author' value from
+     ['asf']['content_description'] in ['comments']['artist']
+     instead of ['comments']['author']
+   § ASF-WMA files now return the 'description' value from
+     ['asf']['content_description'] in ['comments']['comment']
+     instead of ['comments']['description']
+   * Bugfix: APE tag writing with multiple values for a tag (more
+     than one ARTIST for example) was not being correctly written
+     (thanks ahÿartemis*dk)
+   * Bugfix: CreateDeepArray() was returning an empty-string key as
+     the top-level returned value - ['iso']['files'] now directly
+     contains the file listing without an empty array in between.
+   * Bugfix: ID3v2 genreid was not being returned in some cases.
+   * Bugfix: APEv1 tags would generate error messages
+   * Bugfix: APE tags would sometimes show phantom second entry for
+     each item (title, artist, etc) with no data
+   * Bugfix: APE tag writing was not UTF8-encoding the data -
+     non-ASCII characters (above chr(127)) were being incorrectly
+     stored  (thanks ahÿartemis*dk)
+   * Bugfix: getid3.demo.scandir.php had undefined function error
+   * Bugfix: getid3.demo.scandir.php would not display list of files
+     with no tags
+   Added link to getid3.demo.check.php from list of specific-tags
+     files in getid3.demo.scandir.php
+
+
+1.6.2: [May-04-2003] James Heinrich
+   ª New official mirror site for getID3() - http://www.getid3.org
+   ª Added basic support for SWF (Flash)  (thanks n8n8ÿyahoo*com)
+     New file: getid3.swf.php
+   ª Added experimental support for parsing the audio portion of
+     MPEG-video files. I don't have any actual documentation for
+     this, so this part is experimental and not guaranteed accurate,
+     but it seems to be working OK as far as I have been able to test
+     it. Bug reports (or even better - documentation!) are welcome at
+     info@getid3.org
+   ª Added new simple directory-scanning sample file
+     New file: getid3.demo.simple.php
+   ª getid3.demo.write.php now writes APE tags as well.
+   § Renamed getid3.write.php to getid3.demo.write.php
+   § Renamed audioinfo.class.php to getid3.demo.audioinfo.class.php
+   § getid3.php now automatically includes the getid3.functions.php
+     function library file, no need to include it seperately.
+   § getLyrics3Filepointer() has been changed to be consistant with
+     all the other similar function structures - the parameters have
+     changed. The old function has been renamed to getLyrics3Data()
+   § Added DeleteAPEtag() function to getid3.ape.php
+   § HandleID3v1Tag() now only handles ID3v1. Lyrics3 processing is
+     now done by HandleLyrics3Tag()
+   § If BitrateHistogram is enabled in getOnlyMPEGaudioInfo() it now
+     also returns ['mpeg']['audio']['version_distribution'] showing
+     the number of frames of each MPEG version (1, 2 or 2.5) - all
+     frames *should* be of the same MPEG version
+   § getID3v1Filepointer() always returns TRUE now, even if it didn't
+     find a valid ID3v1 tag
+   § getOnlyMPEGaudioInfo() now looks for MPEG sync in the first 128k
+     bytes rather than the first 64k bytes
+   § Added dummy function GetAllMP3info() to generate warning not to
+     use that deprecated function.
+   § ['video']['codec'] is now 'MPEG' for all MPEG video files (this
+     will change to 'MPEG-1' or 'MPEG-2' as soon as I figure out how
+     to determine that)  (thanks jigalÿspill*nl)
+   § ['mpeg']['audio']['LAME']['mp3_gain'] renamed to
+     ['mpeg']['audio']['LAME']['mp3_gain_db'] (gain in dB)
+   § Added ['mpeg']['audio']['LAME']['mp3_gain_factor'] (gain as a
+     multiplication factor)
+   § Added support for Preset and Surround Info bytes from LAME VBR
+     tag (http://gabriel.mp3-tech.org/mp3infotag.html)
+   * Bugfix: APE tag writing would put the string 'Array' for all
+     values rather than the actual data  (thanks ahÿartemis*dk)
+   * Bugfix: Warning now generated for VBR MPEG-video files because
+     getID3() cannot determine average bitrate. If you know of
+     documentation that would tell me how to do this, please email
+     info@getid3.org
+   * Bugfix: Replay Gain values from Vorbis comments are now
+     returned in ['replay_gain'] (and not in ['comments'])
+     (thanks ahÿartemis*dk)
+   * Bugfix: Replay Gain values from APE comments are now correctly
+     returned in ['replay_gain']  (thanks ahÿartemis*dk)
+   * Bugfix: getid3.demo.check.php is now case-insensitive when
+     assuming a format for a corrupted file if standard detection
+     does not identify the file type.
+   * Bugfix: RIFF comments were overwriting/suppressing ID3 comments
+     for RIFF-MP3 files  (thanks wmÿwofuer*com)
+   * Bugfix: RIFF-MP3 files with 'RMP3' chunks instead of 'WAVE' were
+     not being correctly identified.
+   * Bugfix: ID3v2 padding shorter than the length of an ID3v2 frame
+     header was not correctly detected
+   * Bugfix: getid3.demo.check.php now does in-depth scanning for MP2
+     and MP1 files the same as for MP3 files based on file extension
+     if a MPEG-audio structure isn't found immediately at the start
+     of the file
+   * Bugfix: removed condition where RIFF-WAV was being scanned for
+     MPEG-audio signature when it shouldn't be present (non-MP3 WAV)
+   * Bugfix: ASF files were not always showing correct audio datatype
+   * Bugfix: array_merge_clobber() and array_merge_noclobber() were
+     not being conditionally defined in getid3.functions.php
+     (thanks rich.martinÿreden-anders*com)
+   * Bugfix: stream_numbers was not being correctly returned in
+     bitrate_mutual_exclusion_object chunks of ASF files
+   * Bugfix: Added support for 24kHz and 12kHz audio in ASF files
+   * Bugfix: Removed possible undefined offset error in MP3s where
+     cannot find synch before end of file
+   * Bugfix: Removed potential out-of-memory crash situation when
+     parsing Real files with chunks larger than the available memory
+     (thanks jigalÿspill*nl)
+   * Bugfix: ID3v1 was incorrectly taking precedence over ID3v2 in
+     the ['comments'] array (thanks lionelflÿwanadoo*fr)
+   * Bugfix: No longer calculates overall bitrate and playtime for
+     VBR MPEG video files based on the audio bitrate.
+   * Bugfix: AssumeFormat was not working properly
+   Added summary footer line to getid3.demo.check.php
+   Added '.mpeg' to the list of assume-format-from-filenames list in
+     getid3.demo.check.php
+   MPEG-video files now more reliably detected
+   A number of additional features have been added to
+     getid3.demo.scandir.php
+   Added many RIFF-AVI audio types and fourcc video types to the
+     lookup functions in getid3.riff.php
+   Now identifes files with Lyrics3 v1 tags that are of incorrect
+     length (v1 Lyrics3 is supposed to be 5100 bytes long, but
+     [unknown program] writes variable-length tags (which is illegal
+     for Lyrics3 v1)). getID3() now correctly parses these tags and
+     issues a warning.
+   Split GetFileFormat() to GetFileFormat() and GetFileFormatArray()
+   HTML colors in getid3.demo.check.php are now defined as constant
+     variables at the top of the file (if you want to change them)
+   Added support for OptimFROG v4.50x (non-alpha) (new header fields)
+     (thanks floringhidoÿyahoo*com)
+   Added support for Lossless Audio v0.4 (thanks mikeÿbevin*de)
+
+
+1.6.1: [March-03-2003] James Heinrich
+   ª Added support for writing APE v2.
+     WriteAPEtag() in getid3.ape.php
+     NOTE: APE v1 writing support will *not* be added to future
+     versions of getID3()
+     (thanks ahÿartemis*dk and adamÿphysco*com for the idea)
+   ª Added support for AIFF (Audio Interchange File Format) including
+     AIFF, AIFC and 8SVX  (thanks ahÿartemis*dk for the idea)
+     Removed file: getid3.aiff.php
+   ª Added support for OptimFROG (v4.50a and v4.2x)
+     (thanks ahÿartemis*dk for the idea)
+     New file: getid3.optimfrog.php
+   ª Added support for WavPack  (thanks ahÿartemis*dk for the idea)
+   ª Added support for LPAC  (thanks ahÿartemis*dk for the idea)
+   ª Added support for NeXT/Sun .au format
+     New file: getid3.au.php
+   ª Added support for Creative SoundBlaster VOC format
+     New file: getid3.voc.php
+   ª Added support for the BWF (Broadcast Wave File) RIFF chunks
+     "bext" and "MEXT"  (thanks Ryan and njhÿsurgeradio*co*uk)
+   ª Added support for the CART (Broadcast Wave File) RIFF chunks
+     (thanks Ryan)
+   ª Added getid3.demo.scandir.php - a sample recursive scanning demo
+     that scans every file in a given directory, and all sub-
+     directories, and stores the resulting data in MySQL database,
+     and then displays a list of duplicate files based on md5_data
+   § ['md5_data_source'] now contains the MD5 value for the original
+     uncompressed data for formats that store that information
+     (currently only FLAC v0.5+). ['md5_data'] (if chosen to be
+     calculated) will contain the calculated MD5 value for the
+     compressed file. To check if 2 files are identical in every way,
+     including all comments: compare ['md5_file']. To check if two
+     files were compressed from the same source file: compare
+     ['md5_data_source']. To check if the compressed audio/video data
+     of two files is identical, even if comments or even the
+     container file format is different (MP3 in RIFF container,
+     FLAC in Ogg container, etc): compare ['md5_data'].
+   § ['md5_data'] for 8-bit WAV files is now calculated based on a
+     converted version of the data from unsigned to signed (MSB
+     inverted) to match the MD5 value calculated by FLAC
+   § New optional parameter added to GetAllFileInfo() -
+     $MD5dataIfMD5SourceKnown (default: false). If false the md5_data
+     value will NOT be calculated for files (such as FLAC) that have
+     ['md5_data_source'] set, even if $MD5data == true.
+     (thanks ahÿartemis*dk)
+   § getid3.check.php renamed to getid3.demo.check.php
+   § Added GetTagOnly() function to getid3.php - similar to
+     GetAllFileInfo() except only takes a filename as a parameter and
+     only returns ID3v2, APE, Lyrics3 and ID3v1 tag information - no
+     attempt is made to parse the data contents of the file at all.
+     (thanks Phil for the idea)
+   § Added ['audio']['lossless'] and ['video']['lossless'] for all
+     formats (when known). Both are boolean values - true means the
+     data is lossless-compressed, false means the data is lossy-
+     compressed.
+   § Added ['audio']['compression_ratio'] and/or
+     ['video']['compression_ratio'] for all formats. Returns a number
+     (usually) less than 1, where 1 represents no compression and 0.5
+     represents a compressed file half the size of the original file
+   § Added ['video']['bits_per_sample'] to all video formats (when
+     known)
+   § Added ['video']['frame_rate'] to all video formats (when known)
+   § ['fileformat'] set to 'mp1' or 'mp2' instead of 'mp3' when
+     ['audio']['dataformat'] is one of those  (thanks ahÿartemis*dk)
+   § Added 4th parameter to md5_data(), $invertsign, which will invert
+     the MSB of each byte before MD5'ing. This is needed for 8-bit
+     WAV files because FLAC calculates the stored MD5 value on
+     signed data rather than the original byte values. ['md5_data']
+     of an 8-bit WAV will now match the ['md5_data_source'] value
+     (thanks lichvarmÿphoenix*inf*upol*cz)
+   § ['ape']['items']['data'] and ['ape']['items']['data_ascii'] now
+     contains an array of values, if the tag contains UTF-8 text (as
+     opposed to binary data)
+   § ['mpeg']['audio']['bitratemode'] renamed to
+     ['mpeg']['audio']['bitrate_mode']
+   * Bugfix: Removed potential bug that could replace all MP3 file
+     contents with only the new ID3v2 tag in getid3.putid3.php
+   * Bugfix: md5_data values calculated for RIFF (WAV, AVI) files
+     were incorrect  (thanks ahÿartemis*dk)
+   * Bugfix: MP3 data in an MP4 wrapper fileformat could not identify
+     bitrate  (thanks ahÿartemis*dk)
+   * Bugfix: ['audio'] and/or ['video'] keys would sometimes get
+     removed even if not empty
+   * Bugfix: Prevented creation of null entries in
+     ['RIFF']['WAVE']['INFO'] if a comment entry was not present
+   * Bugfix: Potential infinite-loop condition in getid3.ogg.php
+     (thanks afshin.behniaÿsbcglobal*net)
+   * Bugfix: Ogg files with illegal ID3v1 (and/or APE or Lyrics3)
+     tags were not finding the last Ogg page
+     (thanks afshin.behniaÿsbcglobal*net)
+   * Bugfix: replay-gain values not properly set from LAME tag
+   * Bugfix: RIFF-MP3 had incorrect md5_data
+   * Bugfix: the LAME DLL CBR problem of not re-writing the LAME
+     frame at the beginning of the data is now detected for MP3s
+     with ID3v2 tags as well
+   * Bugfix: APE tags with multiple values (ie multiple entries in
+     the "artist" tag) are now shown properly in ['ape']['items']
+   * Bugfix: fixed condition where APE tag with no ID3v1 tag could be
+     mistaken for APE tag with ID3v1 (and incorrectly parsed)
+   * Bugfix: added warning if ID3v2 frame has zero-length data
+     (thanks cmassetÿclubinternet*fr)
+   * Bugfix: getid3.frames.php looking for non-existant key in USER
+     frames
+   Improved detection of RIFF-MP3 data. [unknown program] encodes
+     RIFF-WAV data with a chunk name of 'RMP3' instead of the
+     standard 'RIFF'
+   Encoder now returned in both ['comments'] and ['audio']['encoder']
+     for RIFF-WAV files with an INFO.ISFT chunk
+   Generate a warning for FLAC files encoded with v0.3 or v0.4
+     because audio_signature is not calculated during encoding
+     (thanks ahÿartemis*dk)
+   Modified getid3.check.php to display md5_data_source as well as
+     md5_file and md5_data if display-MD5 mode is selected
+   Modified getid3.check.php to assume-format based on file extension
+     in browse mode if fileformat is found to be 'id3' (formerly only
+     if the fileformat was null)
+   Changed scaling of BitrateColor() from representing 1-256kbps to
+     representing 1-768kbps for better display of high-bitrate files,
+     specifically lossless-compressed CD-audio (FLAC, LA, etc)
+
+
+1.6.0: [January-30-2003] James Heinrich
+   ª Added support for OggFLAC (FLAC data stored in an Ogg container)
+     (thanks ahÿartemis*dk for the idea)
+   ª Added support for Speex (the data stored in an Ogg container)
+   ª Comments are now available in the root 2-dimensional array
+     ['comments'] - each entry in this array will contain one or more
+     strings. For example, if there are two artists then
+     ['comments']['artist'][0] will contain the first one and
+     ['comments']['artist'][1] the other. All keys are forced
+     lowercase. Comments will be stored in the ['comments'] array in
+     this order of precedence:
+     1) Native format tags (ASF, VQF, NSV, RIFF, Quicktime, Vorbis)
+     2) APE tags
+     3) ID3v2
+     4) Lyrics3
+     5) ID3v1
+     Lower-priority tags will not overwrite or append existing values
+     of higher-priority tags (for example, 'artist' in ID3v1 will be
+     ignored if already specified in APE), but missing values will be
+     filled in (for example, if 'album' is specified in ID3v2 but not
+     in APE, it will be included in the ['comments'] array).
+     Note: Root keys (['title'], ['artist'], etc) are NOT available
+     in this or future versions of getID3().
+     (thanks ahÿartemis*dk)
+   ª MD5 hashes are now available for all formats for both the entire
+     file (['md5_file']) and the portion of the file containing only
+     the audio/video data, stripped of all prepended/appended tags
+     like ID3v2, ID3v1, APE, etc - ['md5_data']
+     (thanks ahÿartemis*dk for alternate md5_file() function that
+     runs on UNIX system running PHP < 4.2.0)
+     NOTE: Ogg files require the use of vorbiscomment to obtain the
+     md5_data value. vorbiscomment must be downloaded from
+     http://www.vorbis.com/download.psp and placed in the getID3()
+     directory. All Ogg formats (Vorbis, OggFLAC, Speex) are affected
+     by this problem, but only OggVorbis files can be processed with
+     vorbiscomment. OggFLAC and Speex files will be processed by
+     getID3(), but this may result in an incorrect value for md5_data
+     in the event that VorbisComments are larger than 1 page (4-8kB).
+     NOTE: md5_data for Ogg will not work if PHP is running in Safe
+     Mode
+   ª There is now a wrapper class available, written by Allan Hansen,
+     which should simplify extracting most common basic information
+     (such as format, bitrate, comments).
+     New file: audioinfo.class.php
+   ª OggWrite() in getid3.ogginfo.php has been replaced with a new
+     version that uses vorbiscomment to write the comments, because
+     of a reported bug that can corrupt OggVorbis files such they
+     cannot be played.
+     NOTE: Ogg comment writing now requires the use of vorbiscomment
+     which must be downloaded from http://www.vorbis.com/download.psp
+     and placed in the getID3() directory.
+     NOTE: Ogg comment writing will not work if PHP is running in
+     Safe Mode
+   § New root key ['tags'] is now always returned for all formats.
+     It is an array that may contain any of:
+     * Native format tags: 'vqf', 'riff', 'vorbiscomment', 'asf',
+       'nsv', 'real', 'midi', 'zip', 'quicktime'
+     * Appended data tags:  'ape', 'lyrics3', 'id3v2', 'id3v1'
+   § New root key ['audio'] is an array containing any or all of:
+       codec, channels, channelmode, bitrate, bits_per_sample,
+       dataformat, bitrate_mode, sample_rate, encoder
+       Note: This replaces several root keys, including:
+         bitrate_audio, bits_per_sample, frequency, channels
+   § New root key ['video'] is an array containing any or all of:
+       bitrate_mode, bitrate, codec, resolution_x,  resolution_y,
+       resolution_y, frame_rate, encoder
+       Note: This replaces several root keys, including:
+         bitrate_video, resolution_x, resolution_y, frame_rate
+   § ['id3']['id3v1'] has moved to ['id3v1']
+   § ['id3']['id3v2'] has moved to ['id3v2']
+   § ['audiodataoffset'] and ['audiodataend'] have been renamed to
+     ['avdataoffset'] and ['avdataend'] respectively
+   § GetAllMP3info() has been changed to GetAllFileInfo() with a
+     different parameter list ($allowedFormats is no longer a
+     parameter).  Check your code where you're calling
+     GetAllMP3Info() - you will need to change both the function
+     name and the parameter list if you pass more than 2 parameters
+   § All formats now return ['audio']['dataformat'] and/or
+     ['video']['dataformat'] where appropriate - this goes along with
+     ['fileformat'] - ['fileformat'] will return the actual structure
+     of the file, whereas ['dataformat'] will return the format of
+     the data inside that structure. For example, an Ogg file can
+     contain Vobis data (normal), or it can contain FLAC data in the
+     Ogg container format. In that case, ['fileformat'] would be
+     'ogg', but ['dataformat'] would be 'flac'.
+     Note: this means that WAV and AVI files now return a
+     ['fileformat'] of 'riff' rather than 'wav' or 'avi'.
+   § ['filesize'] is no longer returned for files larger than 2GB
+     because PHP does not support large file access. Attempting to
+     parse a file larger than 2GB will result in a message stored in
+     ['error'] and ['filesize'] not set.
+   § APEtag, ID3v1, and ID3v2 are now supported on ALL multimedia
+     files - even if illegal by format. Ogg will return warning if
+     ID3/APE tags are present.  (thanks ahÿartemis*dk)
+   § All files: non-critical errors are now returned in the root key
+     ['warning'] rather than ['error'] (only critical errors that
+     prevent getID3() from correctly parsing the file are returned in
+     ['error']  (thanks ahÿartemis*dk)
+   § Renamed all references to $MP3fileInfo to $ThisFileInfo
+   § Joliet now supported for ISO-9660.
+     ['iso']['supplementary_volume_descriptor'] is now returned, if
+     available, and ['iso']['files'] will contain ASCII equivalents
+     of the Unicode directory structure & filenames stored.
+   § Moved Monkey's Audio code from getid3.ape.php to seperate file.
+     New file: getid3.monkey.php
+   § Added new keys for ISO-9660: ['name_ascii'] for directories,
+     ['file_identifier_ascii'] for files
+   § Added root key ['track'] for CD-audio files
+   § Ogg/Vorbis-comment files now have comments returned inside
+     ['ogg']['comments_common'] as an array of strings, rather than
+     simple strings in ['ogg']
+   § Quicktime files now have comments returned inside
+     ['quicktime']['comments'] as an array of strings, rather than
+     simple strings in ['quicktime']
+   § ['mime_type'] is a new root key returned for all supported
+     formats (thanks ahÿartemis*dk)
+   § ['fileformat'] now returns 'mp1' instead of 'mp3' for MPEG-1
+     layer-I audio files (thanks ahÿartemis*dk)
+   § ['mpeg']['audio']['bitratemode'] now returns lowercase
+   § MPEG-4 audio files which consist of MP3 data wrapped in a
+     Quicktime fileformat will now return the usual data in
+     ['mpeg']['audio']
+   § Type-1 DV AVIs are now supported
+   § DV AVIs will return 1 or 2 in ['RIFF']['video'][x]['dv_type']
+   § Changed ['fileformat'] from 'mpg' to 'mpeg' for MPEG video files
+   § ASF comments are now stored in ['asf']['comments'] instead of
+     ['asf']
+   § RealMedia chunk data is now returned inside ['real']['chunks']
+     instead of ['real']
+   § ['replay_gain'] now properly populated from APE tags
+   § Added support for ASF_Old_ASF_Index_Object in ASF files
+     (thanks ahÿartemis*dk)
+   § AAC-ADTS files now return ['aac']['bitrate_distribution']
+   § ParseVorbisComments() has been replaced with
+     ParseVorbisCommentsFilepointer() (with different parameters)
+   § All references to any key ['frequency'] are now ['sample_rate']
+   § Moved ID3v2 comments from ['id3v2'] into common root
+     ['comments'] structure, and now returns more values than before
+   * Bugfix: ['iso']['files'] and ['zip']['files'] could potentially
+     contain duplicate entries (in a numeric-indexed array) for files
+     if the directory structure specifies files multiple times.
+     Entries are now guaranteed unique, with the last entry for the
+     file overwriting any former ones.
+   * Bugfix: RIFF parsing had numerous issues, including:
+     - large AVIs would take a very very long time to parse
+     - chunks with odd (not even) sizes would cause the parser fail
+     - video and/or audio codecs not always identified
+     The ParseRIFF() function has been completely rewritten and fixes
+     all known issues with RIFF parsing. Users are, however,
+     encouraged to double-check output of any parsed (AVI/WAV/CDDA)
+     files.
+   * Bugfix: Modified getid3.riff.php to return correct total
+     bitrates for AVIs with multiple audio streams
+   * Bugfix: GetFileFormat() was not creating array structure
+     correctly  (thanks ahÿartemis*dk)
+   * Bugfix: LAME tag for MP3s can only specify up to 255kbps, so any
+     files with actual CBR bitrate of >=256 were reported incorrectly
+   * Bugfix: Lyrics3 synched lyrics were not being correctly returned
+   * Bugfix: CreateDeepArray() was broken for non-nested cases, which
+     meant ZIP and ISO ['files'] structures were broken
+   * Bugfix: Incorrect pattern matching for ZIP files meant no zip
+     files were being detected as such
+   * Bugfix: AAC-ADIF was returning an incorrect number of channels
+     (too few) in some cases  (thanks ahÿartemis*dk)
+   * Bugfix: Vorbis comments were returning an incorrect value for
+     ['dataoffset'] in some cases
+   * Bugfix: MPEG video ['marker_bit'] and ['vbv_buffer_size'] were
+     incorrect
+   * Bugfix: ['playtime_string'] could potentially have a value of
+     x minutes and 60 seconds (ie 3:60 instead of 4:00)
+   Added support for FLAC cuesheets (FLAC 1.1.0+)
+     (thanks ahÿartemis*dk)
+   Improved parsing speed in MP3, MP2 and AAC  (thanks ahÿartemis*dk)
+   Extra error-checking added to try and identify corrupt files for
+     most audio formats  (thanks ahÿartemis*dk)
+   More accurate playtime calculation for RealMedia
+     (thanks ahÿartemis*dk)
+   Changed all relevant files to use ['audiodataoffset'] and
+     ['audiodataend'] rather than ['filesize'] where appropriate
+     (thanks ahÿartemis*dk)
+   Added text encoding type 255 as a duplicate of UTF-16BE but with
+     Big-Endian rather than Little-Endian byte order
+   Added many RIFF-AVI audio types and fourcc video types to the
+     lookup functions in getid3.riff.php
+   Added numerous new known GUIDs to getid3.asf.php
+   Added PoweredBygetID3() function to easily get a "powered by"
+     string with the current getID3() version.
+   Added "Morgan Multimedia Motion JPEG2000" (MJ2C), "DivX v5" (DX50)
+     and "XviD" (XVID) codecs to list of known codecs in
+     getid3.riff.php
+   Changed GETID3_INCLUDEPATH path seperators to forced /
+     (from \ for Windows)
+   Modified getid3.check.php to only change \ directory seperators to
+     / on Windows operating systems
+   Modified getid3.check.php to handle larger-than-2GB files (which
+     now do not return a filesize)
+   Modified getid3.check.php to handle ['dataformat_audio'] and
+     ['dataformat_video']
+   Modified getid3.check.php to show a list of present tags in one
+     column rather than one column for each of ID3v1, ID3v2, etc
+   Modified getid3.check.php to show MD5 values. Initially disabled
+     but can be enabled for a directory with a click. md5_file is
+     always calculated when displaying detailed info about a single
+     file; md5_data is calculated if the file is < 50MB
+   Modified getid3.check.php to show errors and warnings. Details are
+     visible with a mouseover or a click.
+   Changed getid3.check.php to use SafeStripSlashes instead of a
+     manual conditional directory name replacement for special
+     characters
+   Added sample recursive scanning sample code to getid3.readme.txt
+     (thanks lipisinÿmail*ru for the idea)
+
+
+1.5.7: [January-10-2003] James Heinrich
+   ª Added support for ISO 9660 (CD-ROM image) format. Most-useful
+     data is directory structure returned under ['iso']['files']
+     Note: Only ISO-9660 supported, not (yet) Joliet extension
+     (thanks nebula_djÿsofthome*net for the idea)
+     New file: getid3.iso.php
+   § ZIP files are now parsed by getID3() itself without relying on
+     built-in PHP functions and/or ZZipLib support.
+     (thanks Vince for the idea)
+   § ZIP files now return a simple directory listing with filename
+     and filesize info only under ['zip']['files'].
+     Note: empty subdirectories will note appear in here, only files
+     and non-empty subdirectories. Information for all entries,
+     including empty subdirectories, is available under
+     ['zip']['central_directory'] (or under ['zip']['entries'] if the
+     Central Directory cannot be located (usually due to a trucated
+     file).
+   § RIFF-WAV files with MP3 data (or MP3s with RIFF headers, if you
+     want to think of it that way) now have the MPEG audio portion
+     scanned and the usual data returned in ['mpeg']['audio'] if the
+     RIFF audio codec has wFormatTag of "85" (identified by getID3()
+     as "MPEG Layer 3")
+     (thanks ahÿartemis*dk for the idea)
+   § EXIF data (if present) is returned for JPEG files under
+     ['jpg']['exif']  (thanks nebula_djÿsofthome*net)
+   § ['filepath'] now returned for all files with the directory part
+     of the full filename.
+   § ['filenamepath'] is now returned for all files (equivalent to
+     ['filepath'].'/'.['filename'])
+   * Bugfix: ['id3']['id3v2'][<framename>]['dataoffset'] was wrong
+   * Bugfix: MP3s tagged with iTunes have an invalid comment field
+     frame name ('COM ' - should be 'COMM') but the data is valid
+     otherwise; the frame is now renamed to 'COMM' and parsed
+     normally (with the error noted in ['error'])
+     (thanks kheller2ÿmac*com for the sample file)
+   * Bugfix: Some ASF/WMA audio files were not being identified as
+     any format  (thanks ahÿartemis*dk)
+   * Bugfix: Warning now generated and ASCII format assumed for
+     invalid text encoding values in ID3v2
+   * Bugfix: Changed ZIP detection pattern from 'PK' to 'PK\x04\x03'
+   * Bugfix: Ogg/FLAC files with large Vorbis comments were dying in
+     an infinite loop with lots of error messages due to missing $fd
+     parameter on ParseVorbisComments()  (thanks ahÿartemis*dk)
+   * Bugfix: ['data'] and ['image_mime'] were being returned for all
+     Ogg comments even if they were not images for versions of PHP
+     that have image_type_to_mime_type() built in (ie PHP 4.3.0+)
+
+
+1.5.6: [December-31-2002] James Heinrich
+   ª Added support for NSV (Nullsoft Streaming Video)
+     (www.nullsoft.com/nsv/)
+     (thanks demonÿsoundplanet*com for the idea)
+     New file: getid3.nsv.php
+   ª Added support for CD-audio track files (track01.cda etc)
+   § Added standard ['frame_rate'] root value when known (AVI, NSV,
+     MPEG-video)
+   § ASF files now report ['fileformat'] of:
+     'wmv' when Windows Media Video codec v7/v8/v9 is used;
+     'wma' when any 'Windows Media Audio' named audio codec is used
+           and no video stream is present;
+     'asf' in all other cases (audio-only, video-only, or both)
+   § Removed support for ZIP functions (will be rewritten to not
+     require ZZIPlib support in future versions)
+   § Added function SafeStripSlashes() as a drop-in replacement for
+     stripslashes(), but that only strips slashes if magic_quotes_gpc
+     is set
+   § Removed support for remote file scanning (HTTP / FTP)
+   § Added ['aac']['frames'] (number of AAC frames in file)
+   § Added ['mpeg']['audio']['frame_count'] when a bitrate histogram
+     is created
+   § Average bitrate for VBR MP3/MP2 is calculated from actual counts
+     of frames of various bitrates (rather than relying on the header
+     values or filesize) when a bitrate histogram is created
+   § RecursiveFrameScanning() split out into seperate function
+     (getid3.mp3.php)
+   § Removed old function getMP3header() from getid3.mp3.php
+   § Changed default MPEG_VALID_CHECK_FRAMES (number of mp3 frames
+     scanned to ensure a valid audio sequence has been located) from
+     10 to 25. This means scanning will be slightly slower, but more
+     reliable/accurate
+   * Bugfix: ID3v2.2 - valid frame names not correctly detected
+     (thanks maeckerÿweb*de for the sample file)
+   * Bugfix: ID3v2.2 - valid padding not correctly detected
+     (thanks maeckerÿweb*de for the sample file)
+   * Bugfix: MIDI files with flat key signatures were not being
+     correctly reported (thanks alexleeisÿshaw*ca for sample file)
+   * Bugfix: now returns message in ['error'] if file does not exist
+   * Bugfix: ['RIFF']['video'][x]['codec'] wasn't always being
+     correctly populated
+   * Bugfix: ['bitrate'] was incorrect for multi-stream RealMedia
+   * Bugfix: ['playtime_seconds'] was sometimes null or incorrect
+     for multi-stream RealMedia
+   * Bugfix: ChannelTypeID was incorrect in RVA2 ID3v2.4 frames
+   * Bugfix: Fixed potential divide-by-zero error for corrupt FLAC
+     files  (thanks ahÿartemis*dk)
+   * Bugfix: AAC-ADTS was not returning ['bitrate_mode'] unless
+     $ReturnExtendedInfo was TRUE  (thanks ahÿartemis*dk)
+   * Bugfix: LAME-encoded CBR MP3s now properly identified as CBR
+     with correct bitrate  (thanks ahÿartemis*dk)
+   * Bugfix: VBR MP2 (or headerless MP3) is now identified as VBR
+     rather than CBR. Note: to obtain VBR bitrate for headerless
+     files, the entire file is scanned and a histogram distribution
+     of bitrates is created, and the average bitrate calculated from
+     that.  (thanks ahÿartemis*dk for sample file)
+   Added support for DSIZ chunks in VQF, and checks to make sure size
+     of audio data matches DSIZ value, if present
+     (thanks ahÿartemis*dk for sample file)
+   Rewrote GetAllMP3info() - removed some unneccesary code, changed
+     format-detection routine from ParseAsThisFormat() to
+     GetFileFormat() to allow for more flexible format parsing
+     (needed for ISO CD-ROM images, helpful for Quicktime and others)
+   Changed references in all files from string-cast indexes: ["$i"]
+     to non-cast indexes: [$i] where appropriate
+   Put a sans-serif 9pt style on all text in getid3.check.php
+   getAACADTSheaderFilepointer() now return TRUE if synch is lost
+     after the first frame has been successfully parsed (previously
+     it would return FALSE if synch was lost at any time, meaning the
+     file is most likely MP3, which was incorrect)
+     (thanks ahÿartemis*dk for sample file)
+   Speed improvement code changes to getid3.mp3.php (up to 24% faster
+     in some cases)  (thanks ahÿartemis*dk for the code)
+   Changed all include_once() to require_once()
+
+
+1.5.5: [November-25-2002] James Heinrich
+   ª Added support for La (Lossless Audio - www.lossless-audio.com)
+     (thanks ahÿartemis*dk for the idea)
+     New file: getid3.la.php
+   § Moved lookup functions from getid3.lookup.php to the files where
+     they are used.
+     New file: getid3.id3.php
+     New file: getid3.rgad.php
+     Removed file: getid3.lookup.php
+   § getID3v1Filepointer() returns FALSE if ID3v1 tag not found
+   § Added new paramter "ReturnExtendedInfo" to the function
+     getAACADTSheaderFilepointer() in getid3.aac.php which now
+     defaults to FALSE - if TRUE then the data for every frame is
+     returned (containing aac_frame_length, adts_buffer_fullness and
+     num_raw_data_blocks, which aren't usually very useful). Speed
+     improvement with FALSE is about 35%.
+   § Now returns fopen() errors in ['error'], for example if a remote
+     file is not accessible.
+   § Changed default number of MP3 audio frames to scan to determine
+     if a valid stream has been found from 5 to 10, now also defined
+     as a constant at the top of getid3.mp3.php  This will result in
+     slightly slower MP3 parsing, but greater reliability in
+     detecting false/invalid/corrupted VBR headers.
+   § fopen() errors now displayed in getid3.putid3.php
+     (thanks miguel.dieckmannÿhamburg*de)
+   § Added 4th parameter to decodeMPEGaudioHeader() $ScanAsCBR which
+     will force an MP3 audio frame sequence to be force-scanned in
+     CBR mode. You should never need to call this directly, it's only
+     used internally to scan for MP3 files that have an illegal VBR
+     header with CBR data. (thanks fletchÿpobox*com)
+   * Bugfix: ASF_Marker_Object in getid3.asf.php was always returning
+     an error in non-existant "reserved_1" and failing
+   * Bugfix: VBR bitrate calculations in getid3.mp3.php only occur if
+     ['mpeg']['audio']['VBR_frames'] is defined.
+     (thanks fletchÿpobox*com)
+   * Bugfix: getid3.putid3.php no longer deletes original MP3 if
+     ID3v2 tag writing fails (thanks miguel*dieckmannÿhamburg*de)
+   * Bugfix: incorrect order of if-statement error messages in
+     getid3.putid3.php (thanks miguel*dieckmannÿhamburg*de)
+   getid3.asf.php now notes the error and continues parsing rather
+     than failing when it encounters an error parsing a chunk
+   Now actually scan 1000 frames for AAC ADTS as reported in the
+     v1.5.4 changelog, rather than 100. (thanks ahÿartemis*dk)
+   Improved scanning speed in getAACADTSheaderFilepointer() by ~30%
+     (thanks ahÿartemis*dk for the fix)
+   Added FileSizeNiceDisplay() function to getid3.functions.php for
+     formatting filesize output in kB, MB, GB, etc.
+
+
+1.5.4: [October-07-2002] James Heinrich
+   ª Added support for Quicktime.
+     New file: getid3.quicktime.php
+   ª Added support for AAC files, both ADTS and ADIF header formats.
+     ADIF format is a pain because it's very similar to standard MP3
+     header format, and it's hard to distinguish between the two. I
+     have tried to make the detection accurate, but I have a limited
+     number of AAC test files to play with so if you have an AAC file
+     that gets detected as MP3/MP2 (or vice-versa), please send me
+     the details via email at getid3ÿsilisoftware*com
+     ADTS format is very slow to parse because to get the bitrate of
+     VBR files the whole file has to be stepped through frame by
+     frame (getID3() scans up to the first 1000 frames and assumes
+     that to be close enough).
+     Note: I would suggest commenting out support for AAC (see top of
+     GetAllMP3info() function in getid3.php) unless you need it.
+     (thanks jfaulÿgmx*de for the idea and sample Delphi source code)
+     New file: getid3.aac.php
+   ª Added bitrate distribution analysis option for MP3 VBR files. A
+     new boolean parameter for getOnlyMPEGaudioInfo() enabled this
+     feature which steps through the MP3 file frame by frame and
+     counts how many frames of each bitrate exist. This information
+     is returned in ['mpeg']['audio']['bitrate_distribution']
+     Caution: this feature is very inefficient for large files and
+     takes a very long time and does lots of disk I/O. Use with care.
+   § Changed layout of allowedFormats in GetAllMP3info() function in
+     getid3.php to allow easy removal of support for any of the
+     supported format. As stated above, I recommend commenting out
+     AAC unless needed.
+   § Added ['flac']['compressed_audio_bytes'],
+     ['flac']['uncompressed_audio_bytes'], and
+     ['flac']['compression_ratio']
+   § Replaced FXPT2DOT30toFloat() function with FixedPoint2_30()
+   * Bugfix: getid3.mpc.php was slightly miscalculating the number of
+     samples, therefore also bitrate and playtime
+     (thanks ahÿartemis*dk for the fix)
+   * Bugfix: MonkeyCompressionLevelNameLookup() didn't know about
+     'insane' compression (thanks ahÿartemis*dk for the fix)
+   * Bugfix: MonkeySamplesPerFrame() was incorrect for MAC v3.95+
+     (thanks ahÿartemis*dk for the fix)
+   * Bugfix: getid3.check.php wasn't processing the assumeFormat
+     directive when (register_globals == off)
+   * Bugfix: detecting of synch pattern for MP3 files with invalid
+     data at the beginning wasn't always correct, also meant possible
+     incorrect bitrate/duration/etc info for such corrupt files.
+   getid3.functions.php now includes a replacement utf8_decode()
+     function for those PHP installations that are not configured
+     with the --with-xml option. (thanks stephaneÿtekartists*com)
+
+
+1.5.3: [September-30-2002] James Heinrich
+   ª Added support for VQF. (thanks mtÿmansonthomas*com for the idea)
+     New file: getid3.vqf.php
+   ª Added support for FLAC. Comments, if present, are returned under
+     ['ogg'] because they follow the Ogg Vorbis structure standard.
+     New file: getid3.flac.php
+   § OS/2-format bitmaps are now correctly interpreted. The format of
+     the bitmap is now returned in ['bmp']['type_os'] and
+     ['bmp']['type_version']. OS/2 bitmaps can be v1 or v2, Windows
+     can be v1, v4 or v5
+
+
+1.5.2: [September-25-2002] James Heinrich
+   ª Support for RealMedia (audio & video) added
+     Note: only tested on G2 and v5 audio and video files - if anyone
+     has older and/or newer sample files, please test it and/or send
+     me the sample files.
+     (thanks stephaneÿtekartists*com for idea)
+     New file: getid3.real.php
+   ª Support for BMP added. Palette and pixel data can optionally be
+     extracted as well - this is slow and generally unneccesary, but
+     the option is there if you need it. Also includes PlotBMP()
+     which will take the extracted pixel data and output it as a true
+     color PNG. This function requires GD v2.0+
+     Note: Untested on 16-bit and 32-bit BMPs because I couldn't find
+     any sample files - if you know of a program that can create such
+     files, please email getid3ÿsilisoftware*com
+     Note: Support for RGB (uncompressed), RLE8 and RLE4 is included
+     and tested. BITFIELDS support is also included for 16- & 32-bit
+     formats, but it's untested, so if anybody has any test files
+     please send them to getid3ÿsilisoftware*com
+     Note: Support currently only for Windows-format BMPs, and trying
+     to parse an OS/2-format bitmap leads to unpredictable/invalid
+     results.
+     New file: getid3.bmp.php
+   ª PNG now fully parsed, including all information chunks
+     New file: getid3.png.php
+   § Support for GIF/JPG/PNG moved to seperate files and expanded,
+     including standard ['resolution_x'] and ['resolution_y'] as well
+     as more thorough parsing of header information
+     New file: getid3.gif.php
+     New file: getid3.jpg.php
+   table_var_dump() simplified and now outputs &#123;-style character
+     entities for characters outside the normal alphanumeric range
+   CleanOggCommentName() changed to a regular expression
+     (thanks chris-getid3ÿbolt*cx for rewriting the function)
+
+
+1.5.1: [September-20-2002] James Heinrich
+   ª Added support for MPEGplus/Musepack SV7. ['fileformat'] is 'SV7'
+     for version 7 files (versions 4, 5 ,6 and 8 are not supported
+     yet, but will be of ['fileformat'] SV4, SV5, SV6 and SV8) when
+     they are supported (thanks Christian Fritz for the idea)
+     New file: getid3.mpc.php
+   § ['bitrate_audio'], ['bitrate_video'], ['bitrate_mode'],
+     ['channels'], ['resolution_x'], and ['resolution_y'] keys added
+     for all appropriate formats
+   § Ogg files with a COVERART comment now save and display the
+     attached image the same way as is done with ID3v2 APICs
+   § ['ogg']['comments'][n]['data'] and
+     ['ogg']['comments'][n]['dataoffset'] is now returned for all
+     comments. ['ogg']['comments'][n]['data'] is only useful if
+     the field is supposed to contain binary data. It is a
+     base64_decode()'d version of ['value'].
+     ['ogg']['comments'][n]['dataoffset'] is the byte offset in the
+     file at which the 'COMMENTNAME=value string' starts, not the
+     start of just 'value'
+   § ['ogg']['comments'][n]['image_mime'] is now returned if
+     ['ogg']['comments'][n]['data'] contains valid image data.
+   § More than 3 Ogg pages may now be read in, if the comment data
+     is longer than 1 page (usually about 4kB)
+   § ['fileformat'] is now 'mp2' rather than 'mp3' if it's MPEG-1,
+     Layer-II audio
+   § ASF bitrates now calculated even if stream_bitrate_properties
+     object not present
+   § ['asf']['stream_properties_object'] is now a numeric-key array
+     with one entry for each stream - the key being the stream number
+   § ['replay_gain'] is returned for all audio formats that support
+     it (MP3-LAME, ID3v2, Ogg) (thanks Christian Fritz for the idea)
+   § ['mpeg']['audio']['LAME']['RGAD']['radio_replay_gain'] is now
+     ['mpeg']['audio']['LAME']['RGAD']['radio'] (same for audiophile)
+   § ASF/WMA files now use WM/Track to get track number from if
+     WM/TrackNumber is not available (thanks stephaneÿtekartists*com)
+   § ASF/WMV files now returns ['year'] and ['asf']['year']
+   § ASV/WMV files now use ['content_description']['description'] for
+     the ['comment'] field (thanks stephaneÿtekartists*com)
+   § ['track'] is now always returned as an integer
+   * Bugfix: Ogg comments that are larger than one data page (usually
+     about 4kB) are now correctly parsed (thanks Christian Fritz)
+   * Bugfix: Ogg comment data is now UTF8-decoded
+   * Bugfix: Ogg comment writing now UTF8-encodes the data
+   * Bugfix: playtime for ASF files was off by <preroll> (usually
+     between 3 and 12 seconds)
+   * Bugfix: ['asf']['stream_properties_objects']['flags'] data was
+     possibly incorrect
+   * Bugfix: ASF Padding Object was overwriting
+     Stream Bitrate Properties Object data (now returned correctly in
+     ['asf']['padding_object']
+   * Bugfix: ASF Marker Object Reserved_2 field was incorrect
+   * Bugfix: ASF Bitrate Mutual Exclusion Object had incorrect stream
+     numbers
+   Warning displayed if incorrectly-formatted Ogg comment is present
+     (known to be an issue with CDex v1.40, but fixed by v1.50b7)
+     (thanks Christian Fritz)
+   Ogg comment writing now checks for valid comment names
+   Added bitrate column in getid3.check.php, and added some formatting
+     (font, colour)
+   Performance tweaks using bitwise math instead of binary string
+     operations
+
+
+1.5.0: [September-18-2002] James Heinrich
+   ª Ogg comment writing support added. getid3.write.php has been
+     updated to allow for writing comment tags to both MP3 and Ogg.
+     Big thanks to Chris Bolt <chris-getid3ÿbolt*cx> for writing the
+     OggWrite() function and offering it for inclusion in getID3()
+     New file: getid3.ogginfo.php
+   ª Support for Monkey's Audio and APE tag added.
+     (thanks Christian Fritz for the idea)
+     New file: getid3.ape.php
+     ['fileformat'] now returns 'mac' for Monkey's Audio files, or
+     'ape' for files with an APE tag (Monkey's Audio or other format)
+   ª getid3.thumbnail.php has been removed from the distribution and
+     the table_var_dump() function now outputs APICs as seperate
+     files in the same directory as the analyzed file. This should
+     make the image-displaying more reliable as well as reduce
+     complexity. The naming convention for the images is
+     filename.ext.[byte offset of APIC data].[jpg|gif|png]
+     If anybody still has any problems with corrupted images please
+     let me know at getid3ÿsilisoftware*com
+   ª Support for extended Xing/LAME tag
+     (see http://users.belgacom.net/gc247244/extra/tag.html)
+     Data is returned in ['mpeg']['audio']['LAME']
+   § ['ogg']['tracknumber'] has been renamed to ['ogg']['track'] and
+     ['track'] is now returned in the root of the array
+   § ['ogg']['pageheader'][n]['flag'] has been renamed to
+     ['ogg']['pageheader'][n]['flags'] and the unprocessed flag byte
+     is available in ['ogg']['pageheader'][n]['flags_raw']
+   § ['frequency'] is now returned for WAVE files in the root of the
+     array (thanks danielÿelectroteque*org)
+   § ASF files now return codec, bitrate, resolution, etc information
+     under ['asf']['video_media'] or ['asf']['audio_media']
+   * Bugfix: RVA2 and EQU2 writing in getid3.putid3.php were
+     incorrectly writing Volume Adjustment field
+   * Bugfix: EQU2 in getid3.frames.php was reading Volume Adjustment
+     as unsigned integer instead of signed integer
+   * Bugfix: handling of remote files over HTTP & FTP was broken
+     (thanks Vince)
+   * Bugfix: incorrect handling of some ASF packets
+   ASF/Windows Media format now more fully parsed, including Index
+     Objects
+   Added several new fourCC video codecs
+
+
+1.4.3: [September-15-2002] James Heinrich
+   ª Now parses ASF / WMV / WMA files
+   § New file: getid3.asf.php
+   * Bugfix: RoughTranslateUnicodeToASCII() would return nothing
+     if didn't find a terminator it was expecting
+   Added FILETIMEtoUNIXtime() function (for converting 64-bit
+     Microsoft FILETIME timestamps, used in ASF files and elsewhere,
+     to UNIX Epoch timestamps)
+   Added GUIDtoBytestring() and BytestringToGUID() functions
+
+
+1.4.2: [September-12-2002] James Heinrich
+   ª getID3() now requires PHP v4.1.0 or higher because it now is
+     designed to work with register_globals = off and the new auto-
+     globals ($_GET, $_SERVER, etc).
+   * Bugfix: VBR MP3 files with Fraunhofer-style VBR header were not
+     being correctly detected in most cases
+     (thanks dkushnerÿoddcast*com and mikeÿftl*com for sample files)
+   * Bugfix: IsValidTextEncoding() was broken
+   * Bugfix: Add stripslashes($EditorFilename) to getid3.write.php
+     (writing was broken for files with ' or " in the filename)
+     (thanks mikeÿftl*com and kthejoker)
+   * Bugfix: If there is garbage data between a valid VBR header
+     frame and a sequence of valid MPEG-audio frames the VBR data is
+     no longer discarded. (thanks to mikeÿftl*com for sample
+     Fraunhofer-style VBR file produced with MusicMatch v7.2)
+   § Changed variable system to work with (register_globals = off)
+   § Moved relevant code into seperate PlaytimeString() function
+   § Added nl2br() to table_var_dump() for cleaner output
+   § Now returns the following keys from Fraunhofer-VBR files:
+     ['VBR_seek_offsets'], ['VBR_seek_offsets_stride'],
+     ['VBR_offsets_relative'] and ['VBR_offsets_absolute']
+   § Added ID3v1matchesID3v2() function and implemented in
+     getid3.check.php (thanks to "Guest" in the forums for the idea)
+   Changed amount of data read in getid3.getimagesize.php from 10kB
+     to entire file. (thanks mikeÿftl*com)
+   Wrapped function_exists() checks around function definitions in
+     getid3.functions.php
+   Fixed a lot of E_WARNING and E_NOTICE situations, especially in
+     ID3-writing code (getid3.putid3.php, etc)
+   Added checks to make sure all needed data is available for writing
+     ID3v2 tags
+
+
+1.4.1b5: [May-30-2002] James Heinrich
+   * Bugfix: Unsynchronise() was broken, now fixed
+     (thanks mikeÿftl*com)
+   * Bugfix: GenerateID3v2Tag() now correctly uses non-synchsafe
+     integers for frame size descriptors in ID3v2.3 and ID3v2.2
+     (thanks mikeÿftl*com)
+   § Added ['artist'], ['title'], etc keys to root of returned
+     array to provide a common place to access any returned info
+     from any file type. Currently gets info from ID3v1, ID3v2,
+     Ogg, and RIFF/WAVE. Possible returned keys are:
+     title, artist, album, year, genre, comment, track
+   § Modified LookupGenre() function to search for either genre based
+     on numeric ID, or now reverse lookup as well
+   § Added ['artist'], ['title'], etc keys to ['RIFF'] information
+     if info tags are present
+   Added functionality to attach a picture to the ID3v2 tag in
+     getid3.write.php
+   Sorted genres into alphabetical order (special 3 at end of list)
+     in getid3.write.php
+   Changed the comment-edit field in getid3.write.php to a multi-line
+     <textarea> from a single-line <input>
+   getid3.write.php now only writes ID3v2 frames that have data
+   Added default TXXX field to getid3.write.php to put a tagger info
+     field when writing ID3v2 tags. Description is "ID3v2-tagged by"
+     and data is "getID3() v[version] (www.silisoftware.com)"
+   Changed getid3.check.php to use the new common info keys
+   Improved file-format detection in getid3.check.php - if the auto-
+     detect based on the first few bytes of the file doesn't find a
+     known format (for example if the header is corrupt), a more
+     thorough scan is done based on the file extension
+   Added 'Edit ID3' link from getid3.check.php to getid3.write.php for
+     MP3 files  (thanks maxÿgutalin*com for the idea)
+   Added 'Delete file' link from getid3.check.php to getid3.write.php
+     allowing you to permanently delete a file (be careful with this!!)
+     (thanks maxÿgutalin*com for the idea)
+   Added some mouse-over titles for links in getid3.check.php
+
+
+1.4.1b4: [May-15-2002] James Heinrich
+   * Bugfix: getid3.check.php wasn't parsing MP3s with invalid headers
+     or padding at the beginning of the file - added 'assumeFormat'
+     parameter and 'Parse this file as:' options to force parsing in a
+     particular format  (thanks Alcohol for the sample file)
+   * Bugfix: unset(['fileformat']) and ['error'] added in cases where
+     file cannot be parsed in the assumed or forced format
+
+
+1.4.1b3: [May-01-2002] James Heinrich
+   § For Ogg files, now calculates the real average bitrate (returned
+     in ['ogg']['bitrate_average']) and so the playtime of the file is
+     calculated on actual average bitrate, not nominal bitrate, so it
+     should be accurate now  (thanks to stephaneÿtekartists*com for
+     telling me it was wrong)
+   * Bugfix: ID3v2FrameIsAllowed() wasn't behaving properly if the
+     writing functions were called for more than one file, because of
+     the static array not being cleared between uses. This is an
+     updated fix because the one in 1.4.1b2 didn't work :o)
+     (thanks soulcatcherÿevilsoft*org and yoyo)
+   Added rawurlencode() to the filename parameter in table_var_dump()
+     for images (wouldn't work with path/file names containing special
+     characters (#, &, ", +)  (thanks Christian Fritz)
+   getid3.check.php no longer attempts to scan all MIDI tracks in
+     directory-browse mode, since this can take a long time. Detailed
+     single-file view is still fully scanned (new third parameter for
+     getMIDIHeaderFilepointer() controls this)
+   Small improvements to MoreNaturalSort()
+
+
+1.4.1b2: [April-18-2002] James Heinrich
+   § GetAllMP3Info()'s 2nd parameter has changed from boolean to string
+     (now specifying the parse-this-file-as-this format, like 'mp3',
+     but also can be FALSE to mean don't assume any format, auto-detect
+     only), and a third parameter (array containing allowed formats)
+     has been added. The assumedFormat parameter allows a file to be
+     forced to be parsed as a certain format rather than relying on the
+     auto-detection of getID3() (ex: an MP3 wrapped in a RIFF/WAV
+     header will be auto-detected as RIFF/WAV, but if forced to parse
+     as MP3 will extract the original MP3 information)
+     (thanks reel_tazÿusers*sourceforge*net)
+   * Bugfix: ID3v2FrameIsAllowed() wasn't behaving properly if the
+     writing functions were called for more than one file, because of
+     the static array not being cleared between uses (thanks yoyo)
+   * Bugfix: Lyrics3 data wasn't being properly copied from the ['raw']
+     keys to the easy keys (['title'], etc.)  (thanks Christian Fritz)
+   * Bugfix: some testing code was accidentally left in
+     getid3.thumbnail.php  (thanks Christian Fritz)
+   * Bugfix: RIFF/WAVE files are now more likely to have all their
+     chunks parsed.
+   * Bugfix: RIFF/WAVE bitrate & playtime now better calculated
+   * Bugfix: MP3 scanning for synch doesn't go beyond 64k now, to stop
+     intensive scanning through large file that don't have a synch
+     (thanks soulcatcherÿevilsoft*org for a weird sample file)
+   Improved performance when scanning for MP3 synch (about 600% faster
+     if the synch is never found)
+   ZIP files no longer return the contents of each compressed file, as
+     that would very easily be more data than PHP could handle.
+     (thanks davidbullockÿtech-center*com)
+   getid3.check.php now displays entries in a more natural sort order:
+     case insensitive, ignores most punctuation, treats accented chars
+     the same as their unaccent equivalent  (thanks mikeÿftl*com)
+   Added support for SmartSound-format RIFF files (which are regular
+     RIFF/WAVE files with the first 4 chars changed from RIFF to SDSS)
+   All instances of while(list() = each()) replaced with foreach()
+
+
+1.4.1b1: [April-11-2002] James Heinrich
+   ª Parses MIDI files.
+     NOTE: very slow at parsing, much slower than any other file type
+     NOTE: playtime is generally mostly accurate, but not always 100%
+   ª Parses ZIP files (if ZZIPlib available, and only in PHP 4.0.7RC1
+     and later (see http://www.php.net/manual/en/ref.zip.php)
+     NOTE: currently untested as I'm unable to find php_zip.dll for
+     PHP/Win32 - if someone has a copy of this file, please email me:
+     getid3ÿsilisoftware*com
+   ª Parses JPEG files (requires GD installed)
+   ª Parses PNG files  (requires GD v1.6+ installed)
+   ª Parses GIF files  (requires GD < v1.6 installed)
+   ª For MP3s, once a valid synch is detected, the next 5 frames are
+     also scanned for valid synch signatures, to prevent false
+     identification of synch. For corrupt MP3 files this will be a bit
+     slower, but hopefully produce more reliable results.
+     (Thanks to mpdjÿbtinternet*com for bringing this to my attention,
+     and xbhoffÿpacbell*net for explaining what was happening)
+     (Thanks also to macik for helping me with MP3 frame lengths:
+     http://66.96.216.160/cgi-bin/YaBB.pl
+     ?board=c&action=display&num=1018474068)
+   ª The actual image data is now displayed (for JPEG, PNG and GIF
+     images only) rather than a binary text dump in getid3.check.php
+     (specifically table_var_dump()) for APIC frames. Made possible
+     by the inclusion of (a modified version of) GetURLImageSize() by
+     Filipe Laborde-Basto (www.rezox.com). You can right-click, save-as
+     to extract the image to a file.
+     NOTE: The actual image data is still returned in ['data']
+   § ['image_mime'], ['image_width'], ['image_height'], ['image_bytes']
+     are now returned for APICs
+   § split parsing functions out into seperate files: lyrics3, id3v1,
+     id3v2, mp3, ogg, riff, mpeg, midi, zip
+   § ['ogg']['bitrate_ave'] -> ['ogg']['bitrate_nominal'] (thanks to
+     stephaneÿtekartists*com for pointing out that "nominal" bitrate
+     may actually differ significantly from the "average" bitrate)
+     The real average bitrate seems to be only extractable by parsing
+     the entire file and calculating the average bitrate. This is not
+     yet an option, but hopefully in a future version of getID3()
+   § ['filename'] now returned for all files
+   § ['ogg']['date'] and ['ogg']['description'] now returned when
+     available  (thanks stephaneÿtekartists*com)
+   § ['mpeg']['audio']['crc'] now contains the CRC (if present)
+   § ['bitrate'] is now returned as a double instead of an int
+   § ['dataoffset'] is now returned for all ID3v2 frames
+   * Bugfix: MP3 CRC presence ['mpeg']['audio']['protection'] was being
+     reported as opposite of what it actually should be
+   * Bugfix: MPEG videos weren't being detected (they were being
+     parsed as MP3), and even if they were, there was a typo in
+     getMPEGHeaderFilepointer()  (thanks Christian Fritz)
+   * Bugfix: getid3.functions.php wasn't being included in
+     getid3.write.php  (thanks mikeÿftl*com)
+   * Bugfix: Browse:___ directory name in getid3.check.php wasn't
+     correct with directory names with ' and other strange characters
+     (thanks Christian Fritz)
+   ID3v2FrameProcessing() now checks to see if the next frame is valid
+     after it encounters an invalid FrameID, and if the next frameID
+     appears valid, it will just skip the current (invalid) frame and
+     continue processing (it would previously abort at the first sign
+     of incorrect structure)   (thanks stephaneÿtekartists*com)
+   getid3.check.php now scans filetypes based on content, not filename
+     extension, and shows the filetype in the displayed output. Files
+     are only scanned as MP3 if ID3v2 or MPEG-audio signatures are at
+     the immediate beginning of the file (MP3 used to be the default
+     format), so a corrupt file may not show up as MP3 format in the
+     browse screen, but in detail it will scan in-depth
+   getid3.check.php now has columns to show the presence of ID3v1,
+     ID3v2 and Lyrics3 content
+   Helium2 (www.helium2.com) has been known to write ID3v2.4 tags with
+     non-synchsafe-integer framesizes, getID3() now checks for this and
+     will override and parse the tag as ID3v2.3 if the tag would parse
+     fine as ID3v2.3 when it's really specified as ID3v2.4  (thanks
+     Christian Fritz for the test files)
+
+
+1.4.0b9: [April-05-2002] James Heinrich
+   ª Ogg files now return bitrate and playtime (playtime calculated
+     from nominal bitrate and filesize, so it's only approximately
+     accurate).  (thanks stephaneÿtekartists*com for the idea)
+   * Bugfix: ID3v1 tags were not properly being parsed - track, genre
+     and comment fields were incorrect.  (thanks Christian Fritz)
+   * Bugfix: getid3.check.php would not browse directories with single
+     quotes (') or double quotes (") in the directory name.
+     (thanks Christian Fritz)
+   * Bugfix: Improved detection of MPEG-video files (a sample MP3 file
+     had a false MPEG video signature at the beginning), and the MPEG-
+     video parsing function now only looks for the MPEG-video header
+     in the first 100k bytes of the file, to prevent needlessly
+     scanning very large files. Also will not infinitely loop if it
+     does not find what it's looking for.  (thanks Christian Fritz)
+   ['error'] now returned if MP3 synch doesn't occur at beginning of
+     file if ID3v2 not used (ie there's some kind of padding there that
+     should not be)
+   Reduced use of fread() in getMPEGHeaderFilepointer() (now faster)
+   Added "file parsed in x.xxx seconds" to getid3.check.php
+   Added "browse: <directory>" link to getid3.check.php
+   Changed default ID3v2 majorversion from 2.4 to 2.3 in
+     getid3.write.php because Winamp (and probably many other
+     ID3v2-aware tools) can only read up to ID3v2.3
+     (thanks mikeÿftl*com)
+
+
+1.4.0b8: [April-04-2002] James Heinrich
+   ª Lyrics3 support added  (thanks Christian Fritz for the idea)
+   § check.php renamed to getid3.check.php
+   § write.php renamed to getid3.write.php
+   § ['id3']['id3v2']['error'] (if present) now reported in ['error']
+   § ['mpeg']['audio']['error'] (if present) now reported in ['error']
+   * Bugfix: RoughTranslateUnicodeToASCII() was completely mangling
+     UTF-16/UTF-16BE encoded text
+   * Bugfix: The warning about MP3ext wasn't always showing up
+     (thanks davidbullockÿtech-center*com)
+   getID3v1Filepointer() cleaned up & shortened
+   Moved the include_once() statements around so that a minimum of code
+     is included
+
+
+1.4.0b7: [April-03-2002] James Heinrich
+   ª RIFFs (specifically AVIs) are now more completely parsed,
+     almost everything in the returned ['RIFF'] array has been moved
+     around and/or restructured. A lot of new data is in there too -
+     codecs, frame size, etc.
+   § Better recursive parsing of RIFFs (sub-arrays are now in the right
+     place)
+   * Bugfix: the isset() idea introduced in beta 5 was incorrectly
+     implemented, such that ['asciidata'] and ['asciidescription'] were
+     never returned - this had the side effect that ID3v2 comments were
+     not copied to ['id3']['id3v2']['comment']  (thanks mikeÿftl*com)
+   * Bugfix: MPEG audio synch wasn't being detected, and therefore MPEG
+     audio data not parsed, if no ID3v2 header present in an MP3
+   ID3v1 track number only returned if greater than zero
+   Removed !== FALSE (introduced in 1.4.0b6) from while(fread()) loops,
+     some users were reporting problems with that syntax.
+   Changed substr($string, 0, 1) to $string{0} syntax in most files
+   Reformatted changelog.txt to 72-column width
+
+
+1.4.0b6: [April-01-2002] James Heinrich
+   * Bugfix: 1.4.0b5 introduced a bug where any RIFF file other than
+     PCM WAVE (this includes any compressed WAV, as well as all AVIs)
+     would crash getID3()
+   Reduced use of fread() in getOggHeaderFilepointer() for increased
+     speed
+   Added constant FREAD_BUFFER_SIZE for many fread() operations
+   Added !== FALSE check to while(fread()) loops
+     (thanks davidbullockÿtech-center*com)
+   Added more entries to RIFFwFormatTagLookup()
+     (still looking for a good complete list)
+   Converted use of hexdec() in getid3.lookup.php to 0x1234 notation
+
+
+1.4.0b5: [March-28-2002] James Heinrich
+   § Renamed decodeheader() to decodeMPEGaudioHeader()
+   * Bugfix: Fixed infinite loop problem for RIFF/WAV files with
+     unknown chunks
+   * Bugfix: WXXX frames were incorrectly writing from ['URL'] instead
+     of ['url']
+   * Bugfix: RoughTranslateUnicodeToASCII() wasn't properly decoding
+     UTF-16/UTF-16BE
+   Changed all quoted strings from " to ' to hopefully improve speed
+     (although benchmarks have not yet shown any significant
+     improvement in speed)  (thanks davidbullockÿtech-center*com)
+   Improved code in check.php for dealing with symbolic links
+     (thanks davidbullockÿtech-center*com)
+   Changed '<?' tags to '<?php'  (thanks davidbullockÿtech-center*com)
+   Added processing time indicator in check.php
+     (ie 'directory scanned in 2.45 seconds')
+   Replaced all instances of feof() to prevent infinite loop conditions
+   Moved lookup portions of decodeMPEGaudioHeader() to
+     getid3.lookup.php
+   Replaced $arrayname[$index] with $arrayname["$index"] to avoid PHP
+     E_NOTICEs  (thanks davidbullockÿtech-center*com)
+   Wrapped isset() around many if statements, to avoid PHP E_NOTICEs,
+     hence improve speed (up to 30x speed improvement reported in some
+     cases :)
+
+
+1.4.0b4: [March-26-2002] James Heinrich
+   § RIFF/WAV file format now parsed, returned under ['riff']
+   § Support for Relative Gain Adjustment in RIFF/WAV files
+   § ['channels'] (1 or 2) now returned for MP3 and WAV files
+   § ['bitrate'] now returned (in bits-per-second) at root level for
+     MP3 and WAV files
+   Added support for RGAD (Relative Gain ADjustment) ID3v2 frames, both
+     reading & writing
+     (see http://privatewww.essex.ac.uk/~djmrob/replaygain/ for details
+     on RGAD)  (thanks Christian Fritz for the idea)
+   Removed some test data-dumping from the ID3v2 writing functions
+   Language code 'XXX' now returns descriptive string 'unknown' instead
+     of NULL
+   Seperated out comments from top of getid3.php into getid3.readme.txt
+     and changelog.txt
+   Split out non-lookup functions from getid3.lookup.php to
+     getid3.functions.php
+
+
+1.4.0b3: [March-25-2002] James Heinrich
+   § ['asciidata'] for WXXX frames now returns correct information, but
+     under ['asciidescription']  (thanks Christian Fritz)
+   § Added ['framenamelong'] to all returned frame data arrays with
+     text description of that frame (ie 'RVA2' would return 'Relative
+     volume adjustment (2)')  (thanks Christian Fritz)
+   § ['datalength'] is now ['indexeddatalength'] in ASPI frames (was
+     confliciting with the all-frames ['datalength'] as introduced in
+     v1.4.0b1
+   § ['datalength'] now returned as integer (rather than double) where
+     possible
+
+
+1.4.0b2: [March-21-2002] James Heinrich
+   § ['mpeg']['audio']['bitrate'] now returned as int rather than
+     double for VBR files
+   * Bugfix: MPEG audio information wasn't being parsed on files that
+     had neither ID3v1 or ID3v2
+   * Bugfix: COMM/WXXX frames weren't returning 'asciidata' in
+     ID3v2.2, which also meant the ['id3']['id3v2']['comment'] field
+     wasn't being returned  (thanks stephaneÿtekartists*com)
+   * Bugfix: file might not be found if filename actually contains
+     escaped chars or %xx-formatted characters
+     (thanks reel_tazÿusers*sourceforge*net)
+   Added support for running with Register Globals turned off
+     (thanks reel_tazÿusers*sourceforge*net)
+   Added urlencode() where needed in check.php
+     (thanks reel_tazÿusers*sourceforge*net)
+   Fixed IE buffering/display problem in progress counter in check.php
+
+
+1.4.0b1: [March-11-2002] James Heinrich
+   ª ID3v2 writing support via WriteID3v2() in putid3.php
+     RemoveID3v2() and RemoveID3v1() functions now available in
+     putid3.php  All ID3v1 and ID3v2 writing functions have been moved
+     to putid3.php and example file write.php has been added to the
+     distribution
+   § MPEG audio frame information (bitrate, frequency, etc) now
+     returned inside ['mpeg']['audio'] instead of just ['mpeg']
+   § MPEG video information now parsed, returned in ['mpeg']['video']
+     Note: audio portion of video system files is not yet being parsed
+   § All flag bits are now returned as boolean rather than int or
+     string
+   § RVA2 data now returned as an array (multiple RVA2 tags are
+     allowed)
+   § RVA2/EQU2 description returned under ['description'] rather than
+     ['identification']
+   § RVAD/EQUA adjustments now returned as signed integers, rather than
+     absolute values which required you to check flag bytes
+   § RVRB/REV data no longer returns under ['reverb'] array
+   § WXXX/W???/LINK frames now return ['url'] instead of ['URL']
+   § USER now properly returns both ['language'] and ['languagename']
+   § OWNE now returns ['purchasedateunix'] as a UNIX timestamp
+     (only if ['purchasedate'] is a valid date)
+   § ['id3']['id3v2']['padding'] now returned with information on padding
+   § ['headerlength'] now includes the initial 6 or 10 bytes of the
+     ID3v2 header
+   § ['artist'], ['title'], ['album'], ['tracknumber'], ['genre'] now
+     returned for easier access for Ogg files
+   § added ['datalength'] to all ID3v2 frames: length of frame data,
+     not including frame header
+   § ['fileformat'] now returns 'id3' if there are ID3v1 or ID3v2 tags
+     but no audio data
+   § ['fileformat'] now returns 'mpg' if it's an MPEG system (video +
+     audio) file
+   * Bugfix: RVAD was being parsed incorrectly
+   * Bugfix: ['currency'] and ['purchasedate'] now correctly returned
+     in OWNE
+   * Bugfix: Frequncies in 'EQU2' frames were incorrectly double
+   * Bugfix: ['bytedeviation'] and ['msdeviation'] now properly
+     returned as integer rather than binary string for 'MLLT' frames
+   * Bugfix: ['filename'] now properly returned for 'GEOB' frames
+   * Bugfix: ['imagetype'] now properly returned for 'PIC' frames in
+     ID3v2.2
+   * Bugfix: Genre not being written if not set in WriteID3v1()
+     (thanks reel_tazÿusers*sourceforge*net)
+   * Bugfix: Changed write mode to 'r+b' from 'a+' because ID3v1 tags
+     were being appended instead of overwritten if they already existed
+     (thanks reel_tazÿusers*sourceforge*net)
+   * Bugfix: open would fail on filenames containing quotes
+     (thanks javierÿcrackdealer*com)
+   * Bugfix: various values were incorrectly returned (unneeded ord())
+     in these frames: COMR, USER, ENCR, GRID, PRIV, SIGN
+   * Bugfix: ASPI ['bitsperpoint'] was not correctly returned
+   * Bugfix: RoughTranslateUnicodeToASCII() was not returning the last
+     char for UTF-16
+   * Bugfix: ['audiobytes'] now correctly 0 if no synch found
+   * Bugfix: GenreLookup was incorrectly returning 'Remix' instead of
+     'Blues' for GenreID 0
+   Added sample directory browser to check.php
+   Seperated out MPEGaudio-parsing functionality into
+     getOnlyMPEGaudioInfo() which may be called directly if you don't
+     need any ID3 parsing  (thanks djpretzelÿcox*rr*com for idea)
+   Reduced use of fread() for increased performance in
+     getID3v1Filepointer()
+   Added clearstatcache() before checking filesize - size after writing
+     tag now correct
+   Added hack for mp3Rage (www.chaoticsoftware.com) that puts
+     ID3v2.3-formatted MIME type instead of 3-char ID3v2.2-format image
+     type  (thanks xbhoffÿpacbell*net for test file)
+
+
+1.3.2: [February-15-2002] James Heinrich
+   § UFID/UFI, USLT/ULT, COMM/COM, APIC/PIC, GEOB/GEO, CRM, RVA2, EQU2,
+     POPM/POP, AENC/CRA, ENCR and GRID frame data now returned under
+     numeric array index rather than by ownerID
+   § RVA2 frame data is now returned keyed by $channeltypeid instead of
+     $frame_idstring
+   § WXXX/WXX frame description now returned under ['description']
+     instead of ['data']
+   Trailing null bytes now trimmed from frame (W??? & T???) text data
+     (it shouldn't be there to begin with, but a sample file encoded by
+     [unknown program] had data padded to 50 chars with null bytes,
+     which caused ParseID3v2GenreString() to freeze).
+
+
+1.3.1: [February-13-2002] James Heinrich
+   * Bugfix: ['playtime_seconds'] and ['playtime_string'] were not
+     being returned
+   * Bugfix: ['fileformat'] was incorrectly being returned as a
+     2-element array
+   * Bugfix: USLT wasn't being correctly parsed
+   Improved RoughTranslateUnicodeToASCII()
+     (thanks reel_tazÿusers*sourceforge*net for Unicode test file)
+
+
+1.3.0: [February-13-2002] James Heinrich
+   ª ID3v1 writing support via WriteID3v1()
+   § MPEG audio frame information (bitrate, frequency, etc) now
+     returned inside ['mpeg']
+   § ['mpeg']['raw'] returns the integer values of the bits for MPEG
+     audio information as returned in ['mpeg'] by decodeheader()
+     (thanks reel_tazÿusers*sourceforge*net)
+   § 'protection', 'padding', 'private', 'copyright' and 'original' now
+     return as boolean
+   § 'bitrate' and 'frequency' now return as int (except in special
+     case of 'free')
+   Language name as well as code retured where appropriate
+     (ie 'English' and 'eng')
+   Text frames with invalid TextEncoding value are now passed through
+     anyway
+   ID3v1 data (title, artist, album, year, comment) is now trimmed
+     (no more nulls)
+   RoughTranslateUnicodeToASCII() now uses utf8_decode() for UTF-8
+
+
+1.2.5: [January-30-2002] James Heinrich
+   * Bugfix: Playtime calculations for VBR files were off slightly
+     (rounding error)
+   * Bugfix: Extended header length was incorrectly calculated
+   * Bugfix: Genre strings such as '03' weren't being handled correctly
+   More complete support for ID3v2.3 FrameIDs
+   Split out getid3.frames.php (FrameID-specific parsing function)
+   Split out getid3.lookup.php (assorted lookup-table functions)
+   Searches for what directory getid3.*.php support files are in (must
+     be same as getid3.php, but doesn't have to be same as main file -
+     for example your main file could be /index.php, but including
+     /lib/getid3/getid3.php)
+   Simplified, tweaked, changed and/or eliminated several functions.
+
+
+1.2.4: [January-26-2002] James Heinrich
+   ª Basic support for reading Ogg-Vorbis comment tags
+
+
+1.2.3: [January-24-2002] James Heinrich
+   ª ID3v2.2.x 3-char FrameIDs are now fully parsed
+     Note: While I've included support for 22 FrameIDs as defined in
+     the specs, I don't have test files for all of them. If anyone
+     knows of programs that generate any of the untested tags, please
+     email getid3ÿsilisoftware*com ! Here's what's tested and not:
+       Tested: T??, COM
+     Untested: UFI, TXX, W??, WXX, IPL, MCI, ETC, MLL, STC, ULT, SLT,
+               RVA, EQU, REV, PIC, GEO, CNT, POP, BUF, CRM, CRA, LNK
+   table_var_dump() now displays boolean variables as TRUE or FALSE
+   table_var_dump() now uses htmlspecialchars() to avoid broken-table
+     problems
+
+
+1.2.2: [January-18-2002] James Heinrich
+   § Parses ID3v2 genres into ['id3']['id3v2']['genreid'] and
+     ['id3']['id3v2']['genrelist'] where appropriate
+     (thanks stephaneÿtekartists*com for the idea)
+   Added ID3v2 genre abbreviations 'RX' (remix) and 'CR' (cover)
+
+
+1.2.1: [January-17-2002] James Heinrich
+   * Bugfix: 'mp3' was being returned in ['format'], but 'zip' was
+     being returned in ['fileformat'], both are now returned in
+     ['fileformat']
+   § Splits ['id3']['id3v2']['track'] in the format '5/12' into
+     ['track'] = '5' and ['totaltracks'] = '12'
+   § Enabled ['id3']['id3v2']['title'] etc for ID3v2.2.x
+     (3-char frame names)  (thanks stephaneÿtekartists*com)
+   § Changed v1.?? version number format to v1.?.?
+   Scans through the file until it finds the MPEG synch (start of audio
+     frame) - some files encoded by LAME 3.91 had undocumented padding
+     after the ID3v2 header; getMP3headerFilepointer() now scans until
+     it finds synch (or EOF)  (thanks adamÿtrekjapan*com)
+   Improved Unicode conversion in RoughTranslateUnicodeToASCII()
+
+
+1.20:  [January-15-2002] James Heinrich
+   ª Support for variable-bitrate (VBR) files, both Xing and Fraunhofer
+     headers
+   ª All 4-character FrameIDs are now fully parsed according to the
+     specs at http://www.id3.org/id3v2.4.0-frames.txt
+     § This means that most no longer return ['flags'] and ['data']
+     Note: While I've included support for 30 FrameIDs as defined in
+     the specs, I don't have test files for all of them. If anyone
+     knows of programs that generate any of the untested tags, please
+     email getid3ÿsilisoftware*com ! Here's what's tested and not:
+       Tested: UFID, T???, WXXX, USLT, SYLT, COMM, APIC, GEOB
+     Untested: TXXX, W???, MCDI, ETCO, MLLT, SYTC, RVA2, EQU2, RVRB,
+               PCNT, POPM, RBUF, AENC, USER, OWNE, COMR, ENCR, GRID,
+               PRIV, SIGN, SEEK, ASPI
+   § Added 'title', 'artist', etc names to ID3v2 data (easier to access
+     than the 4-character FrameIDs of the ID3v2 standard)
+     (thanks jaksonÿgmx.net)
+   * Bugfix: added fclose() at end of GetAllMP3Info()
+     (thanks stephaneÿtekartists*com)
+   * Bugfix: ID3v1 wasn't being parsed if ID3v2 wasn't present
+     (thanks jaksonÿgmx.net)
+   * Bugfix: several flags were being parsed incorrectly (the structure
+     had changed from ID3v2.3 to ID3v2.4) - v2.3 flags were being
+     incorrectly parsed
+   Much more compact implementation of decodeheader()
+     (thanks jaksonÿgmx.net for the idea)
+   ID3v1 genres 126 through 147  (thanks jaksonÿgmx.net)
+   New table_var_dump() function in check.php
+     (based partially on idea by jaksonÿgmx.net)
+   Seperated ID3v1 retrieval into seperate function
+
+
+1.11:  [December-23-2001] James Heinrich
+   All functions merged into file getid3.php
+   Updated documentation to reflect new returned information
+
+
+1.10:  [December-20-2001] James Heinrich
+   * Bugfix: ID3v1 Track# was incorrectly being parsed whether it
+     existed or not
+   Changed calling procedure to recommend using
+     GetAllMP3info($filename) from getmp3header.php
+   Now includes check.php - example file
+   § Checks to see if file is in ZIP or MP3 format
+     (returned in ['format'])
+     [Ed. Note: ['fileformat'] as of v1.2.1]
+
+
+1.06:  [November-05-2001] James Heinrich
+   * Bugfix: ID3v2.2.x frames weren't being parsed since they use
+     6-byte rather than 10-byte headers as v2.3+ does
+     (thanks spunkÿmac*com for pointing that out)
+
+
+1.05:  [September-06-2001] James Heinrich
+   * Bugfix: ID3v2 was being parsed even if it didn't exist
+
+
+1.04:  [July-16-2001] James Heinrich
+   * Bugfix: typo in Extended Header section (strpad() should be
+     str_pad()) (thanks jurroonÿyahoo*com)
+
+
+1.03:  [May-07-2001] James Heinrich
+   * Bugfix: Added missing ['id3']['id3v1']['genreid'] and
+     ['id3']['id3v1']['genre']
+
+
+1.02:  [May-05-2001] James Heinrich
+   § Added ['getID3version']
+
+
+1.01:  [May-04-2001] James Heinrich
+   ª Added support for frame-level de-unsynchronisation (as per
+     ID3v2.4.0 specs) in addition to ID3v2.3.x tag-level
+     de-unsynchronisation
+
+
+1.00:  [May-04-2001] James Heinrich
+   ª Initial public release
+

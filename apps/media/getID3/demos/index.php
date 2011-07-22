@@ -1,0 +1,1 @@
+In this directory are a number of examples of how to use <A HREF="http://www.getid3.org">getID3()</A> - if you don't know what to run, take a look at <A HREF="demo.browse.php">demo.browse.php</A>
