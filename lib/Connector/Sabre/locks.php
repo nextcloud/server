@@ -143,7 +143,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	 */
 	public function unlock($uri,Sabre_DAV_Locks_LockInfo $lockInfo) {
 
-		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*locks WHERE userid = ? AND path=? AND token=?' );
+		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*locks WHERE userid = ? AND uri=? AND token=?' );
 		$result = $query->execute( array(OC_USER::getUser(),$uri,$lockInfo->token));
 
 		return $result->numRows() === 1;
