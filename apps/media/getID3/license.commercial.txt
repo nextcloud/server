@@ -1,0 +1,27 @@
+                  getID3() Commercial License
+                  ===========================
+
+getID3() is licensed under the "GNU Public License" (GPL) and/or the
+"getID3() Commercial License" (gCL). This document describes the gCL.
+
+---------------------------------------------------------------------
+
+The license is non-exclusively granted to a single person or company,
+per payment of the license fee, for the lifetime of that person or
+company. The license is non-transferrable.
+
+The gCL grants the licensee the right to use getID3() in commercial
+closed-source projects. Modifications may be made to getID3() with no
+obligation to release the modified source code. getID3() (or pieces
+thereof) may be included in any number of projects authored (in whole
+or in part) by the licensee.
+
+The licensee may use any version of getID3(), past, present or future,
+as is most convenient. This license does not entitle the licensee to
+receive any technical support, updates or bugfixes, except as such are
+made publicly available to all getID3() users.
+
+The licensee may not sub-license getID3() itself, meaning that any
+commercially released product containing all or parts of getID3() must
+have added functionality beyond what is available in getID3();
+getID3() itself may not be re-licensed by the licensee.
