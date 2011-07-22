@@ -158,3 +158,4 @@ table td.delete { background-image:url('../img/delete.png'); }
 	float:right;
 	display:none;
 }
+#uploadsize-message{display:none}

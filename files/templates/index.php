@@ -43,4 +43,10 @@
 	</tbody>
 </table>
 
+<div id="uploadsize-message" title="Upload to large">
+	<p>
+		<?php echo $l->t( 'The files you are trying to upload exceed the maximum size for file uploads on this server.' ); ?>
+	</p>
+</div>
+
 <span id="file_menu"/>

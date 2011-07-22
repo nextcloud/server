@@ -153,40 +153,55 @@ $(document).ready(function() {
 		var uploadId=form.attr('data-upload-id');
 		var files=this.files;
 		var target=form.children('iframe');
-		target.load(function(){
-			var response=jQuery.parseJSON(target.contents().find('body').text());
-			//set mimetype and if needed filesize
-			if(response){
-				for(var i=0;i<response.length;i++){
-					var file=response[i];
-					$('tr[data-file="'+file.name+'"]').attr('data-mime',file.mime);
-					if(size=='Pending'){
-						$('tr[data-file='+file.name+'] td.filesize').text(file.size);
-					}
-					FileList.loadingDone(file.name);
-				}
-			}
-		});
-		form.submit();
-		var date=new Date();
-		var uploadTime=formatDate(date);
+		var totalSize=0;
 		for(var i=0;i<files.length;i++){
-			if(files[i].size>0){
-				var size=simpleFileSize(files[i].size);
-			}else{
-				var size='Pending';
-			}
-			FileList.addFile(files[i].name,size,uploadTime,true);
+			totalSize+=files[i].size;
 		}
-		
-		//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
-		var clone=form.clone();
-		uploadId++;
-		clone.attr('data-upload-id',uploadId);
-		clone.attr('target','file_upload_target_'+uploadId);
-		clone.children('iframe').attr('name','file_upload_target_'+uploadId)
-		clone.insertBefore(form);
-		form.hide();
+		if(totalSize>$('#max_upload').val()){
+			$( "#uploadsize-message" ).dialog({
+				modal: true,
+				buttons: {
+					Close: function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+		}else{
+			target.load(function(){
+				var response=jQuery.parseJSON(target.contents().find('body').text());
+				//set mimetype and if needed filesize
+				if(response){
+					for(var i=0;i<response.length;i++){
+						var file=response[i];
+						$('tr[data-file="'+file.name+'"]').attr('data-mime',file.mime);
+						if(size=='Pending'){
+							$('tr[data-file='+file.name+'] td.filesize').text(file.size);
+						}
+						FileList.loadingDone(file.name);
+					}
+				}
+			});
+			form.submit();
+			var date=new Date();
+			var uploadTime=formatDate(date);
+			for(var i=0;i<files.length;i++){
+				if(files[i].size>0){
+					var size=simpleFileSize(files[i].size);
+				}else{
+					var size='Pending';
+				}
+				FileList.addFile(files[i].name,size,uploadTime,true);
+			}
+
+			//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
+			var clone=form.clone();
+			uploadId++;
+			clone.attr('data-upload-id',uploadId);
+			clone.attr('target','file_upload_target_'+uploadId);
+			clone.children('iframe').attr('name','file_upload_target_'+uploadId)
+			clone.insertBefore(form);
+			form.hide();
+		}
 	});
 	
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
