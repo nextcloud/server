@@ -108,20 +108,21 @@ class OC_SHARE {
 	/**
 	 * Get the items within a shared folder that have their own entry for the purpose of name, location, or permissions that differ from the folder itself
 	 *
-	 * Also can be used for getting all items shared with you e.g. pass '/MTGap/files'
+	 * Works for both target and source folders. Can be used for getting all items shared with you e.g. pass '/MTGap/files'
 	 *
-	 * @param $targetFolder The target folder of the items to look for
-	 * @return An array with all items in the database that are in the target folder
+	 * @param $folder The folder of the items to look for
+	 * @return An array with all items in the database that are in the folder
 	 */
-	public static function getItemsInFolder($targetFolder) {
+	public static function getItemsInFolder($folder) {
 		// Append '/' in order to filter out the folder itself if not already there
-		if (substr($targetFolder, -1) !== "/") {
-			$targetFolder .= "/";
+		if (substr($folder, -1) !== "/") {
+			$folder .= "/";
 		}
 		// Remove any duplicate '/'
-		$targetFolder = preg_replace('{(/)\1+}', "/", $targetFolder);
-		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with = ?");
-		return $query->execute(array(strlen($targetFolder), $targetFolder, OC_USER::getUser()))->fetchAll();
+		$folder = preg_replace('{(/)\1+}', "/", $folder);
+		$length = strlen($folder);
+		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with = ?");
+		return $query->execute(array($length, $folder, $length, $folder, OC_USER::getUser()))->fetchAll();
 	}
 	
 	/**
@@ -133,13 +134,13 @@ class OC_SHARE {
 		// Remove any duplicate or trailing '/'
 		$target = rtrim($target, "/");
 		$target = preg_replace('{(/)\1+}', "/", $target);
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with = ? LIMIT 1");
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
 		// Prevent searching for user directory e.g. '/MTGap/files'
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
 			// Check if the parent directory of this target location is shared
 			$target = dirname($target);
-			$result = $query->execute(array(strlen($target), $target, OC_USER::getUser()))->fetchAll();
+			$result = $query->execute(array($target, OC_USER::getUser()))->fetchAll();
 			if (count($result) > 0) {
 				break;
 			}

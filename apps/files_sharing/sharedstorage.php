@@ -93,7 +93,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 				// Remove any duplicate or trailing '/'
 				$path = rtrim($this->datadir.$path, "/");
 				$path = preg_replace('{(/)\1+}', "/", $path);
-				$modifiedItems = OC_SHARE::getItemsInFolder($path);
+				$modifiedItems = OC_SHARE::getItemsInFolder($source);
 				if ($modifiedItems && $dh) {
 					global $FAKEDIRS;
 					$sources = array();
@@ -103,6 +103,10 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 						if (dirname($item['target']) == $path && basename($item['source']) != basename($item['target'])) {
 							$sources[] = basename($item['source']);
 							$targets[] = basename($item['target']);
+						// If the item was unshared from self, add it it to the arrays
+						} elseif ($item['target'] == "/") {
+							$sources[] = basename($item['source']);
+							$targets[] = "";
 						}
 					}
 					// Don't waste time if there aren't any modified items in the current directory
@@ -116,7 +120,11 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 									$files[] = $filename;
 								// The file has a different name than the source and is added to the fakedirs
 								} else {
-									$files[] = $targets[array_search($filename, $sources)];
+									$target = $targets[array_search($filename, $sources)];
+									// Don't add the file if it was unshared from self by the user
+									if ($target != "") {
+										$files[] = $target;
+									}
 								}
 							}
 						}
