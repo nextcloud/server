@@ -120,8 +120,8 @@ class OC_SHARE {
 		}
 		// Remove any duplicate '/'
 		$targetFolder = preg_replace('{(/)\1+}', "/", $targetFolder);
-		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
-		return $query->execute(array($targetFolder."%", OC_USER::getUser()))->fetchAll();
+		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with = ?");
+		return $query->execute(array(strlen($targetFolder), $targetFolder, OC_USER::getUser()))->fetchAll();
 	}
 	
 	/**
@@ -133,13 +133,13 @@ class OC_SHARE {
 		// Remove any duplicate or trailing '/'
 		$target = rtrim($target, "/");
 		$target = preg_replace('{(/)\1+}', "/", $target);
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with = ? LIMIT 1");
 		// Prevent searching for user directory e.g. '/MTGap/files'
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
 			// Check if the parent directory of this target location is shared
 			$target = dirname($target);
-			$result = $query->execute(array($target, OC_USER::getUser()))->fetchAll();
+			$result = $query->execute(array(strlen($target), $target, OC_USER::getUser()))->fetchAll();
 			if (count($result) > 0) {
 				break;
 			}
@@ -230,9 +230,9 @@ class OC_SHARE {
 	* @param $is_writeable True if the user has write permission or false if read only
 	*/
 	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
-		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
 		foreach ($uid_shared_with as $uid) {
-			$query->execute(array($is_writeable, $source."%", $uid_shared_with, OC_USER::getUser()));
+			$query->execute(array($is_writeable, strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
 		}
 	}
 	
@@ -245,9 +245,9 @@ class OC_SHARE {
 	* @param $uid_shared_with Array of users to unshare the item from
 	*/
 	public static function unshare($source, $uid_shared_with) {
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_shared_with = ? AND uid_owner = ?");
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
 		foreach ($uid_shared_with as $uid) {
-			$query->execute(array($source."%", $uid, OC_USER::getUser()));
+			$query->execute(array(strlen($source), $source, $uid, OC_USER::getUser()));
 		}
 	}
 	
@@ -259,8 +259,8 @@ class OC_SHARE {
 	* @param $target The target location of the item
 	*/
 	public static function unshareFromMySelf($target) {
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE target COLLATE latin1_bin LIKE ? AND uid_shared_with = ?");
-		$query->execute(array($target."%", OC_USER::getUser()));
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with = ?");
+		$query->execute(array(strlen($target), $target, OC_USER::getUser()));
 	}
 
 	/**
@@ -269,8 +269,8 @@ class OC_SHARE {
 	*/
 	public static function deleteItem($arguments) {
 		$source = "/".OC_USER::getUser()."/files".$arguments['path'];
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source COLLATE latin1_bin LIKE ? AND uid_owner = ?");
-		$query->execute(array($source."%", OC_USER::getUser()));
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
+		$query->execute(array(strlen($source), $source, OC_USER::getUser()));
 	}
 
 	/**
@@ -280,8 +280,7 @@ class OC_SHARE {
 	public static function renameItem($arguments) {
 		$oldSource = "/".OC_USER::getUser()."/files".$arguments['oldpath'];
 		$newSource = "/".OC_USER::getUser()."/files".$arguments['newpath'];
-		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
-		$query->execute(array($oldSource, $newSource, OC_USER::getUser()));
+		self::setSource($oldSource, $newSource);
 	}
 
 }
