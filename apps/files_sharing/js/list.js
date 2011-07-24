@@ -3,6 +3,10 @@ $(document).ready(function() {
 		source: "../../files/ajax/autocomplete.php",
 		minLength: 1
 	});
+	$( "#uid_shared_with" ).autocomplete({
+		source: "ajax/userautocomplete.php",
+		minLength: 1
+	});
 	$("button.delete").live('click', function( event ) {
 		event.preventDefault();
 // 		var row=$(this);
