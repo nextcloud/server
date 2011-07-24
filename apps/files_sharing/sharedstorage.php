@@ -77,6 +77,9 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 			global $FAKEDIRS;
 			$path = $this->datadir.$path;
 			$sharedItems = OC_SHARE::getItemsInFolder($path);
+			if (empty($sharedItems)) {
+				return false;
+			}
 			foreach ($sharedItems as $item) {
 				// If item is in the root of the shared storage provider add it to the fakedirs
 				if (dirname($item['target'])."/" == $path) {

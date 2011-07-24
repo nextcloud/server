@@ -246,7 +246,7 @@ class OC_SHARE {
 	* @param $uid_shared_with Array of users to unshare the item from
 	*/
 	public static function unshare($source, $uid_shared_with) {
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE source SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
 		foreach ($uid_shared_with as $uid) {
 			$query->execute(array(strlen($source), $source, $uid, OC_USER::getUser()));
 		}
