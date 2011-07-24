@@ -72,7 +72,7 @@ if($path!==false){
 		header('Content-Length: ' . OC_FILESYSTEM::filesize($path));
 		
 		//download the file
-		ob_clean();
+		@ob_clean();
 		OC_FILESYSTEM::readfile($path);
 	}
 }else{
