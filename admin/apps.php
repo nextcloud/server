@@ -44,7 +44,7 @@ if($installed){
 	$apps = OC_APPCONFIG::getApps();
 	$records = array();
 
-	OC_APP::setActiveNavigationEntry( "core_apps_installed" );
+	OC_APP::setActiveNavigationEntry( "core_apps" );
 	foreach($apps as $app){
 		$info=OC_APP::getAppInfo("$SERVERROOT/apps/$app/appinfo/info.xml");
 		$record = array( 'id' => $app,
@@ -61,7 +61,6 @@ if($installed){
 	unset($tmpl);
 	exit();
 }else{
-
 	$categories=OC_OCSCLIENT::getCategories();
 	if($categories==NULL){
 		OC_APP::setActiveNavigationEntry( "core_apps" );
@@ -74,7 +73,7 @@ if($installed){
 
 
 	if($id==0) {
-		OC_APP::setActiveNavigationEntry( "core_apps" );
+		OC_APP::setActiveNavigationEntry( "core_apps_get" );
 
 		if($cat==0){
 			$numcats=array();
