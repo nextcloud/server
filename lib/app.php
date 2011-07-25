@@ -383,5 +383,21 @@ class OC_APP{
 		}
 		return $data;
 	}
+	
+	/**
+	 * get the id of loaded app
+	 * @return string
+	 */
+	public static function getCurrentApp(){
+		global $WEBROOT;
+		$script=substr($_SERVER["SCRIPT_NAME"],strlen($WEBROOT)+1);
+		$topFolder=substr($script,0,strpos($script,'/'));
+		if($topFolder=='apps'){
+			$length=strlen($topFolder);
+			return substr($script,$length+1,strpos($script,'/',$length+1)-$length-1);
+		}else{
+			return $topFolder;
+		}
+	}
 }
 ?>
