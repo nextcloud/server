@@ -55,7 +55,3 @@ OC={
 		$('head').append(style);
 	}
 }
-
-$(document).ready(function(){
-	// Put fancy stuff in here
-});
