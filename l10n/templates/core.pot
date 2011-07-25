@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-21 16:19+0200\n"
+"POT-Creation-Date: 2011-07-26 00:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,15 +69,15 @@ msgstr ""
 msgid "I will use a MySQL database."
 msgstr ""
 
-#: ../templates/installation.php:59
+#: ../templates/installation.php:59 ../templates/installation.php:62
 msgid "Host:"
 msgstr ""
 
-#: ../templates/installation.php:60
+#: ../templates/installation.php:60 ../templates/installation.php:61
 msgid "Database name:"
 msgstr ""
 
-#: ../templates/installation.php:61
+#: ../templates/installation.php:61 ../templates/installation.php:63
 msgid "Table prefix:"
 msgstr ""
 
@@ -89,11 +89,11 @@ msgstr ""
 msgid "MySQL user password:"
 msgstr ""
 
-#: ../templates/installation.php:68
+#: ../templates/installation.php:68 ../templates/installation.php:69
 msgid "Finish setup"
 msgstr ""
 
-#: ../templates/layout.guest.php:20
+#: ../templates/layout.guest.php:20 ../templates/layout.guest.php:33
 msgid ""
 "<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs "
 "on your own server.</p>"
@@ -117,4 +117,48 @@ msgstr ""
 
 #: ../templates/part.searchbox.php:3
 msgid "Search"
+msgstr ""
+
+#: ../templates/installation.php:6
+msgid "<strong>ownCloud</strong> is your personal web storage."
+msgstr ""
+
+#: ../templates/installation.php:7
+msgid "Finish the setup by following the steps below."
+msgstr ""
+
+#: ../templates/installation.php:26
+msgid "Create an <strong>admin account</strong>."
+msgstr ""
+
+#: ../templates/installation.php:27
+msgid "Username"
+msgstr ""
+
+#: ../templates/installation.php:28
+msgid "Password"
+msgstr ""
+
+#: ../templates/installation.php:39
+msgid "Configure the database."
+msgstr ""
+
+#: ../templates/installation.php:43
+msgid "SQLite will be used for the database. You have nothing to do."
+msgstr ""
+
+#: ../templates/installation.php:53
+msgid "MySQL will be used for the database."
+msgstr ""
+
+#: ../templates/installation.php:59
+msgid "MySQL username:"
+msgstr ""
+
+#: ../templates/installation.php:60
+msgid "MySQL password:"
+msgstr ""
+
+#: ../templates/login.php:11 ../templates/login.php:15
+msgid "Remember login"
 msgstr ""
