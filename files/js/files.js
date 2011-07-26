@@ -4,31 +4,8 @@ $(document).ready(function() {
 	//drag/drop of files
 	$('#fileList tr td.filename').draggable(dragOptions);
 	$('#fileList tr[data-type="dir"] td.filename').droppable(folderDropOptions);
-	$('div.crumb').droppable({
-		drop: function( event, ui ) {
-			var file=ui.draggable.text().trim();
-			var target=$(this).attr('data-dir');
-			var dir=$('#dir').val();
-			while(dir.substr(0,1)=='/'){//remove extra leading /'s
-				dir=dir.substr(1);
-			}
-			dir='/'+dir;
-			if(dir.substr(-1,1)!='/'){
-				dir=dir+'/';
-			}
-			if(target==dir){
-				return;
-			}
-			$.ajax({
-				url: 'ajax/move.php',
-				data: "dir="+dir+"&file="+file+'&target='+target,
-				complete: function(data){boolOperationFinished(data, function(){
-					FileList.remove(file);
-				});}
-			});
-		},
-		tolerance: 'pointer'
-	});
+	$('div.crumb').droppable(crumbDropOptions);
+	$('#plugins>ul>li:first-child').droppable(crumbDropOptions);
 	
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
@@ -41,10 +18,10 @@ $(document).ready(function() {
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
 		event.preventDefault();
-		var filename=$(this).parent().parent().attr('data-file');
+		var filename=$(this).parent().parent().data('file');
 		if(!FileList.isLoading(filename)){
-			var mime=$(this).parent().parent().attr('data-mime');
-			var type=$(this).parent().parent().attr('data-type');
+			var mime=$(this).parent().parent().data('mime');
+			var type=$(this).parent().parent().data('type');
 			var action=FileActions.getDefault(mime,type);
 			if(action){
 				action(filename);
@@ -131,7 +108,7 @@ $(document).ready(function() {
 			complete: function(data){
 				boolOperationFinished(data, function(){
 					$('td.filename input:checkbox:checked').parent().parent().each(function(i,element){
-						FileList.remove($(element).attr('data-file'));
+						FileList.remove($(element).data('file'));
 					});
 				});
 			}
@@ -165,7 +142,7 @@ $(document).ready(function() {
 				if(response){
 					for(var i=0;i<response.length;i++){
 						var file=response[i];
-						$('tr[data-file="'+file.name+'"]').attr('data-mime',file.mime);
+						$('tr[data-file="'+file.name+'"]').data('mime',file.mime);
 						if(size=='Pending'){
 							$('tr[data-file='+file.name+'] td.filesize').text(file.size);
 						}
@@ -317,10 +294,36 @@ var folderDropOptions={
 		});
 	}
 }
+var crumbDropOptions={
+	drop: function( event, ui ) {
+		var file=ui.draggable.text().trim();
+		var target=$(this).data('dir');
+		var dir=$('#dir').val();
+		while(dir.substr(0,1)=='/'){//remove extra leading /'s
+				dir=dir.substr(1);
+		}
+		dir='/'+dir;
+		if(dir.substr(-1,1)!='/'){
+			dir=dir+'/';
+		}
+		if(target==dir){
+			return;
+		}
+		$.ajax({
+			url: 'ajax/move.php',
+		 data: "dir="+dir+"&file="+file+'&target='+target,
+		 complete: function(data){boolOperationFinished(data, function(){
+			 FileList.remove(file);
+		 });}
+		});
+	},
+	tolerance: 'pointer'
+}
 
 function procesSelection(){
-	var selectedFiles=$('tr[data-type="file"]>td.filename>input:checkbox:checked').parent().parent();
-	var selectedFolders=$('tr[data-type="dir"]>td.filename>input:checkbox:checked').parent().parent();
+	var selected=getSelectedFiles();
+	var selectedFiles=selected.filter(function(el){return el.type=='file'});
+	var selectedFolders=selected.filter(function(el){return el.type=='dir'});
 	if(selectedFiles.length==0 && selectedFolders.length==0){
 		$('#headerName>span.name').text('Name');
 		$('#headerSize').text('Size (MB)');
@@ -328,12 +331,12 @@ function procesSelection(){
 	}else{
 		$('#selectedActions').show();
 		var totalSize=0;
-		selectedFiles.each(function(){
-			totalSize+=parseInt($(this).attr('data-size'));
-		});
-		selectedFolders.each(function(){
-			totalSize+=parseInt($(this).attr('data-size'));
-		});
+		for(var i=0;i<selectedFiles.length;i++){
+			totalSize+=selectedFiles[i].size;
+		};
+		for(var i=0;i<selectedFolders.length;i++){
+			totalSize+=selectedFolders[i].size;
+		};
 		if(totalSize>0){
 			totalSize = Math.round(totalSize/(1024*102.4))/10;
 			if(totalSize < 0.1) {
@@ -370,22 +373,24 @@ function procesSelection(){
  * @param string property (option) the property of the file requested
  * @return array
  *
- * possible values for property: name, mime
+ * possible values for property: name, mime, size and type
  * if property is set, an array with that property for each file is returnd
  * if it's ommited an array of objects with all properties is returned
  */
 function getSelectedFiles(property){
-	var elements=$('td.selection input:checkbox:checked').parent().parent();
+	var elements=$('td.filename input:checkbox:checked').parent().parent();
 	var files=[];
 	elements.each(function(i,element){
 		var file={
-			name:$(element).attr('data-file'),
-				  mime:$(element).attr('data-mime')
+			name:$(element).data('file'),
+			mime:$(element).data('mime'),
+			type:$(element).data('type'),
+			size:$(element).data('size'),
 		};
 		if(property){
 			files.push(file[property]);
 		}else{
-			files.push();
+			files.push(file);
 		}
 	});
 	return files;
