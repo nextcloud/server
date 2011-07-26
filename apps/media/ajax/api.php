@@ -67,10 +67,12 @@ if($arguments['action']){
 			$artists=OC_MEDIA_COLLECTION::getArtists();
 			foreach($artists as &$artist){
 				$artist['albums']=OC_MEDIA_COLLECTION::getAlbums($artist['artist_id']);
+				$artistHasSongs=false;
 				foreach($artist['albums'] as &$album){
 					$album['songs']=OC_MEDIA_COLLECTION::getSongs($artist['artist_id'],$album['album_id']);
 				}
 			}
+			
 			echo json_encode($artists);
 			break;
 		case 'scan':

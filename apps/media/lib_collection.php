@@ -123,13 +123,14 @@ class OC_MEDIA_COLLECTION{
 		if(!$exact and $search!='%'){
 			$search="%$search%";
 		}
-		$query=OC_DB::prepare("SELECT * FROM *PREFIX*media_artists WHERE artist_name LIKE ?");
-		$artists=$query->execute(array($search))->fetchAll();
-		if(is_array($artists)){
-			return $artists;
-		}else{
-			return array();
+		$query=OC_DB::prepare("SELECT DISTINCT *PREFIX*media_artists.artist_name AS name , *PREFIX*media_artists.artist_id AS id FROM *PREFIX*media_artists
+			INNER JOIN *PREFIX*media_songs ON *PREFIX*media_artists.artist_id=*PREFIX*media_songs.song_artist WHERE artist_name LIKE ? AND *PREFIX*media_songs.song_user=?");
+		$artists=$query->execute(array($search,OC_USER::getUser()))->fetchAll();
+		$result=array();
+		foreach($artists as $artist){
+			$result[$artist['id']]=array('artist_name'=>$artist['name'],'artist_id'=>$artist['id']);
 		}
+		return $result;
 	}
 	
 	/**
@@ -175,11 +176,13 @@ class OC_MEDIA_COLLECTION{
 		}
 		$query=OC_DB::prepare($cmd);
 		$albums=$query->execute($params)->fetchAll();
-		if(is_array($albums)){
-			return $albums;
-		}else{
-			return array();
+		$result=array();
+		foreach($albums as $album){
+			if(count(self::getSongs($album['album_artist'],$album['album_id']))){
+				$result[$album['album_id']]=$album;
+			}
 		}
+		return $result;
 	}
 	
 	/**
