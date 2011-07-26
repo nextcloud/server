@@ -112,12 +112,8 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('.download').live('click',function(event) {
-		var files='';
-		$('td.filename input:checkbox:checked').parent().parent().each(function(i,element){
-			files+=';'+$(element).attr('data-file');
-		});
-		files=files.substr(1);//remove leading ;
+	$('.download').click('click',function(event) {
+		var files=getSelectedFiles('name').join(';');
 		
 		//send the browser to the download location
 		var dir=$('#dir').val()||'/';
@@ -127,11 +123,7 @@ $(document).ready(function() {
 	});
 	
 	$('.delete').click(function(event) {
-		var files='';
-		$('td.filename input:checkbox:checked').parent().parent().each(function(i,element){
-			files+=';'+$(element).attr('data-file');
-		});
-		files=files.substr(1);//remove leading ;
+		var files=getSelectedFiles('name').join(';');
 		
 		$.ajax({
 			url: 'ajax/delete.php',
@@ -371,4 +363,30 @@ function procesSelection(){
 		}
 		$('#headerName>span.name').text(selection+' Selected');
 	}
+}
+
+/**
+ * @brief get a list of selected files
+ * @param string property (option) the property of the file requested
+ * @return array
+ *
+ * possible values for property: name, mime
+ * if property is set, an array with that property for each file is returnd
+ * if it's ommited an array of objects with all properties is returned
+ */
+function getSelectedFiles(property){
+	var elements=$('td.selection input:checkbox:checked').parent().parent();
+	var files=[];
+	elements.each(function(i,element){
+		var file={
+			name:$(element).attr('data-file'),
+				  mime:$(element).attr('data-mime')
+		};
+		if(property){
+			files.push(file[property]);
+		}else{
+			files.push();
+		}
+	});
+	return files;
 }

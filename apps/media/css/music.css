@@ -1,0 +1,9 @@
+#folderlist li{list-style-type:none;margin-bottom:10px;}
+#folderlist button.prettybutton{font-size:1em;width:10ex;}
+li button.right.prettybutton{font-size:1em;}
+#collection{padding-top:1em;position:relative;width:70ex;float:left;}
+#collection li.album,#collection li.song{margin-left:3ex;}
+#playlist{margin-left:72ex;}
+#playlist li.current{background-color:#ccc;}
+#collection li button{float:right;}
+#collection li,#playlist li{list-style-type:none;}
