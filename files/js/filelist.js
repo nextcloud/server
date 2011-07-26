@@ -54,7 +54,6 @@ FileList={
 				}
 			}
 		}
-		alert(pos);
 		if(fileElements.length){
 			if(pos==-1){
 				$(fileElements[0]).before(element);
