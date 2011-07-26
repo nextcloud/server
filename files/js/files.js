@@ -107,9 +107,11 @@ $(document).ready(function() {
 			data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(files),
 			complete: function(data){
 				boolOperationFinished(data, function(){
-					$('td.filename input:checkbox:checked').parent().parent().each(function(i,element){
-						FileList.remove($(element).data('file'));
-					});
+					var files=getSelectedFiles('name');
+					for(var i=0;i<files.length;i++){
+						FileList.remove(files[i]);
+					}
+					procesSelection();
 				});
 			}
 		});
