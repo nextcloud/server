@@ -44,18 +44,25 @@ FileList={
 		var fileElements=$('tr[data-file][data-type="'+type+'"]');
 		var pos;
 		if(name.localeCompare($(fileElements[0]).attr('data-file'))<0){
-			pos=0;
+			pos=-1;
 		}else if(name.localeCompare($(fileElements[fileElements.length-1]).attr('data-file'))>0){
 			pos=fileElements.length-1;
 		}else{
-			for(var pos=1;pos<fileElements.length-1;pos++){
+			for(var pos=0;pos<fileElements.length-1;pos++){
 				if(name.localeCompare($(fileElements[pos]).attr('data-file'))>0 && name.localeCompare($(fileElements[pos+1]).attr('data-file'))<0){
 					break;
 				}
 			}
 		}
+		alert(pos);
 		if(fileElements.length){
-			$(fileElements[pos]).after(element);
+			if(pos==-1){
+				$(fileElements[0]).before(element);
+			}else{
+				$(fileElements[pos]).after(element);
+			}
+		}else if(type=='dir' && $('tr[data-file]').length>0){
+			$('tr[data-file]').first().before(element);
 		}else{
 			$('#fileList').append(element);
 		}
