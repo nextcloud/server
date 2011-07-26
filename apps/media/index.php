@@ -34,9 +34,18 @@ require_once('lib_collection.php');
 require_once('lib_scanner.php');
 require_once('template.php');
 
+OC_UTIL::addScript('media','player');
+OC_UTIL::addScript('media','music');
+OC_UTIL::addScript('media','jquery.jplayer.min');
+OC_UTIL::addStyle('media','player');
+OC_UTIL::addStyle('media','music');
+
 OC_APP::setActiveNavigationEntry( 'media_index' );
 
 $tmpl = new OC_TEMPLATE( 'media', 'music', 'user' );
+
+$player = new OC_TEMPLATE( 'media', 'player');
+$tmpl->assign('player',$player->fetchPage());
 $tmpl->printPage();
 ?>
  
