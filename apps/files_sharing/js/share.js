@@ -1,13 +1,7 @@
 $(document).ready(function() {
 	$('.share').click(function(event) {
 		event.preventDefault();
-		// TODO Replace with getSelectedFiles() from files.js
-		var files = '';
-		$('td.selection input:checkbox:checked').parent().parent().each(function(i, element) {
-			files += ', ' + $(element).attr('data-file');
-		});
-		files = files.substr(1);
-		var html = "<div title='Share "+files+"' align='center'>";
+		var html = "<div title='Share "+getSelectedFiles('name')+"' align='center'>";
 		html += "<label><input type='radio' name='share_type' value='private' checked='checked' /> Private</label>";
 		html += "<label><input type='radio' name='share_type' value='public' /> Public</label>";
 		html += "<br />";
@@ -18,7 +12,7 @@ $(document).ready(function() {
 		html += "<a id='toggle-private-advanced'>Advanced</a>";
 		html += "<br />";
 		html += "<div id='private-advanced' style='display: none'>";
-		html += "<label><input type='checkbox' name='share_permissions' value='read' checked='checked' disabled='disable' /> Read</lable><br />";
+		html += "<label><input type='checkbox' name='share_permissions' value='read' checked='checked' disabled='disable' /> Read</label><br />";
 		html += "<label><input type='checkbox' name='share_permissions' value='write' /> Write</label><br />";
 		html += "<label><input type='checkbox' name='share_permissions' value='rename' /> Rename</label><br />";
 		html += "<label><input type='checkbox' name='share_permissions' value='delete' /> Delete</label><br />";
@@ -26,11 +20,16 @@ $(document).ready(function() {
 		html += "</div>";
 		html += "<div id='public' style='display: none'>";
 		html += "TODO: Construct a public link";
+		html += "<input placeholder='Expires' id='expire' />";
 		html += "</div>";
 		html += "<br />";
 		html += "<button class='submit fancybutton'>Share</button>";
 		html += "<div>";
-		$(html).dialog();
+		$(html).dialog({
+			close: function(event, ui) {
+				$(this).remove();
+			}
+		});
 	});
 	$("input[name=share_type]").live('change', function() {
 		$('#private').toggle();
@@ -62,23 +61,27 @@ $(document).ready(function() {
 		event.preventDefault();
 		$('#private-advanced').toggle();
 	});
+	$('#expire').datepicker({
+		dateFormat:'MM d, yy',
+		altField: "#expire_time",
+		altFormat: "yy-mm-dd"
+	});
 	$('button.submit').live('click', function(event) {
 		event.preventDefault();
 		if ($("input[name=share_type]:checked").val() == 'public') {
 			// TODO Construct public link
 		} else {
-			// TODO Construct shared item
 			// TODO Check all inputs are valid
-// 			var source;
-// 			var uid_shared_with;
-// 			var permissions;
-// 			var data = 'source='+source+'&uid_shared_with='+uid_shared_with+'&permissions='+permissions;
-// 			$.ajax({
-// 				type: 'GET',
-// 				url: 'ajax/share.php',
-// 				cache: false,
-// 				data: data
-// 			});
+			var source = $('#dir').val()+"/"+getSelectedFiles('name');
+			var uid_shared_with = $('.uid_shared_with').val();
+			var permissions = 0;
+			var data = 'source='+source+'&uid_shared_with='+uid_shared_with+'&permissions='+permissions;
+			$.ajax({
+				type: 'GET',
+				url: '../apps/files_sharing/ajax/share.php',
+				cache: false,
+				data: data
+			});
 		}
 	});
 });
