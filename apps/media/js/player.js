@@ -62,6 +62,7 @@ var PlayList={
 				}
 			},
 			cssSelectorAncestor:'#jp-interface',
+			swfPath:OC.linkTo('media','js'),
 		});
 	},
 	add:function(song){
