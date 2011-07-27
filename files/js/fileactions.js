@@ -52,19 +52,22 @@ FileActions={
 		$('#file_menu').empty();
 		parent.append($('#file_menu'));
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
+		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
-			var html='<a href="#" alt="'+name+'">'+name+'</a>';
-			var element=$(html);
-			element.data('action',name);
-			element.click(function(event){
-				event.stopPropagation();
-				event.preventDefault();
-				var action=actions[$(this).data('action')];
-				var currentFile=FileActions.getCurrentFile();
-				FileActions.hide();
-				action(currentFile);
-			});
-			$('#file_menu').append(element);
+			if(actions[name]!=defaultAction){
+				var html='<a href="#" alt="'+name+'">'+name+'</a>';
+				var element=$(html);
+				element.data('action',name);
+				element.click(function(event){
+					event.stopPropagation();
+					event.preventDefault();
+					var action=actions[$(this).data('action')];
+					var currentFile=FileActions.getCurrentFile();
+					FileActions.hide();
+					action(currentFile);
+				});
+				$('#file_menu').append(element);
+			}
 		}
 		$('#file_menu').show();
 		return false;
