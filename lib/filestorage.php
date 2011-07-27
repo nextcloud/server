@@ -59,6 +59,4 @@ class OC_FILESTORAGE{
 	public function getLocalFile($path){}// get a path to a local version of the file, whether the original file is local or remote
 }
 
-
-OC_FILESYSTEM::registerStorageType('local','OC_FILESTORAGE_LOCAL',array('datadir'=>'string'));
 ?>

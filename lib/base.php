@@ -44,8 +44,8 @@ $DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 $SERVERROOT=str_replace("\\",'/',$SERVERROOT);
 $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
 $scriptName=$_SERVER["SCRIPT_NAME"];
-if(substr($scriptName,-1)=='/'){//if the script isn't a file assume index.php
-  $scriptName.='index.php';
+if(substr($scriptName,-1)=='/'){
+	$scriptName.='index.php';
 }
 $WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen($SUBURI));
 
@@ -83,8 +83,16 @@ if( OC_CONFIG::getValue( "forcessl", false )){
 
 $error=(count(OC_UTIL::checkServer())>0);
 
+// User and Groups
+if( !OC_CONFIG::getValue( "installed", false )){
+	$_SESSION['user_id'] = '';
+}
+
 OC_USER::useBackend( OC_CONFIG::getValue( "userbackend", "database" ));
 OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
+
+// Was in required file ... put it here
+OC_FILESYSTEM::registerStorageType('local','OC_FILESTORAGE_LOCAL',array('datadir'=>'string'));
 
 // Set up file system unless forbidden
 if(!$error and !$RUNTIME_NOSETUPFS ){

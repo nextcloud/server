@@ -20,10 +20,6 @@
  *
  */
 
-if( !OC_CONFIG::getValue( "installed", false )){
-	$_SESSION['user_id'] = '';
-}
-
 /**
  * This class provides all methods for user management.
  *
