@@ -95,7 +95,7 @@ table th { padding:.5em; }
 table th .name { float:left; margin-left:.5em; }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td { border-bottom:1px solid #eee; font-style:normal; }
-table th#headerSize, table td.filesize, table th#headerDate, table td.date { width:4em; padding:0 1em; text-align:right; cursor:help; }
+table th#headerSize, table td.filesize, table th#headerDate, table td.date { width:5em; padding:0 1em; text-align:right; cursor:help; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a { display:block; background-image:url('../img/file.png'); text-decoration:none; }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.5em .5em .5em 3em; background-position:1em center; background-repeat:no-repeat; }
@@ -122,7 +122,8 @@ table td.delete { background-image:url('../img/delete.png'); }
 #fileList tr.selected td.filename a, #fileList tr:hover td.filename a{background-image:none !important}
 #select_all{float:left; margin:0.2em; margin-left:0.6em; }
 #selectedActions { float:right; display:none; }
-#uploadsize-message{display:none}
+#selectedActions a { margin:0 .5em; }
+#uploadsize-message{ display:none; }
 
 /* add breadcrumb divider to the File item in navigation panel */
 #plugins li:first-child{
