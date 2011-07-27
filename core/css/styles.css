@@ -1,4 +1,4 @@
-* { margin:0; padding:0; border:0; }
+* { margin:0; padding:0; border:0; cursor:default; }
 body { background:#fefefe url('../img/body_background.jpg') repeat-y left top; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
 #header { position:fixed; top:0; z-index:100; width:100%; height:2.5em; padding:0.5em 1.5em; background:url('../img/header-a.png') repeat-x left top; }
 #body-settings #header { background-image:url('../img/header-settings-a.png'); }
@@ -7,7 +7,9 @@ h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercas
 p.center { text-align:center; }
 a { color:#000; text-decoration:none; outline:0; }
 table { white-space:nowrap; }
-input { background:#fff; cursor:pointer; }
+input { background:#fff; }
+a, a img, a strong, a span, input, button, select, li { cursor:pointer; }
+input[type="text"], input[type="password"] { cursor:text; }
 
 form#user_settings { max-width:600px; }
 form#user_settings p label { display:block; float:left; width:35%; padding:0.4em 0.5em 0 0; text-align:right; }
