@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info>
-	<id>files_imageview</id>
-	<name>Imageviewer</name>
+	<id>files_imageviewer</id>
+	<name>Image Viewer</name>
 	<description>Simple image viewer for owncloud</description>
 	<version>1.0</version>
 	<licence>AGPL</licence>

@@ -1,26 +1,27 @@
-var _l10ncache = {};
 function t(app,text){
-	if( !( app in _l10ncache )){
-		$.post( oc_webroot+'/core/ajax/translations.php', {'app': app}, function(jsondata){
-			_l10ncache[app] = jsondata.data;
+	if( !( app in t.cache )){
+		
+		$.post( OC.filePath('core','ajax','translations.php'), {'app': app}, function(jsondata){
+			t.cache[app] = jsondata.data;
 		});
 
 		// Bad answer ...
-		if( !( app in _l10ncache )){
-			_l10ncache[app] = [];
+		if( !( app in t.cache )){
+			t.cache[app] = [];
 		}
 	}
-	if( typeof( _l10ncache[app][text] ) !== 'undefined' ){
-		return _l10ncache[app][text];
+	if( typeof( t.cache[app][text] ) !== 'undefined' ){
+		return t.cache[app][text];
 	}
 	else{
 		return text;
 	}
 }
+t.cache={};
 
 OC={
 	webroot:oc_webroot,
-	coreApps:['files','admin','log','search','settings'],
+	coreApps:['files','admin','log','search','settings','core'],
 	linkTo:function(app,file){
 		return OC.filePath(app,'',file);
 	},
@@ -72,5 +73,24 @@ if (!Array.prototype.filter) {
 			}
 		}
 		return res;
+if (!Array.prototype.indexOf){
+	Array.prototype.indexOf = function(elt /*, from*/)
+	{
+		var len = this.length;
+		
+		var from = Number(arguments[1]) || 0;
+		from = (from < 0)
+		? Math.ceil(from)
+		: Math.floor(from);
+		if (from < 0)
+			from += len;
+		
+		for (; from < len; from++)
+		{
+			if (from in this &&
+				this[from] === elt)
+				return from;
+		}
+		return -1;
 	};
 }
