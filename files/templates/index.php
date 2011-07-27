@@ -34,8 +34,8 @@
 					<a href="" title="" class="delete">Delete</a> 
 				</span>
 			</th>
-			<th id='headerSize'><?php echo $l->t( 'Size (MB)' ); ?></th>
-			<th><?php echo $l->t( 'Modified' ); ?></th>
+			<th id='headerSize'><?php echo $l->t( 'Size MB' ); ?></th>
+			<th id='headerDate'><?php echo $l->t( 'Modified' ); ?></th>
 		</tr>
 	</thead>
 	<tbody id="fileList">
@@ -43,7 +43,7 @@
 	</tbody>
 </table>
 
-<div id="uploadsize-message" title="Upload to large">
+<div id="uploadsize-message" title="Upload too large">
 	<p>
 		<?php echo $l->t( 'The files you are trying to upload exceed the maximum size for file uploads on this server.' ); ?>
 	</p>

@@ -5,7 +5,9 @@ body { background:#fefefe url('../img/body_background.jpg') repeat-y left top; f
 #owncloud { float:left; margin:0 0 0 2em; }
 h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercase; font-weight:normal; font-style:italic; color:#666; }
 p.center { text-align:center; }
-a { color:#000; text-decoration:none; }
+a { color:#000; text-decoration:none; outline:0; }
+table { white-space:nowrap; }
+input { background:#fff; cursor:pointer; }
 
 form#user_settings { max-width:600px; }
 form#user_settings p label { display:block; float:left; width:35%; padding:0.4em 0.5em 0 0; text-align:right; }

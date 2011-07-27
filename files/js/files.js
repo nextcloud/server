@@ -328,7 +328,9 @@ function procesSelection(){
 	var selectedFolders=selected.filter(function(el){return el.type=='dir'});
 	if(selectedFiles.length==0 && selectedFolders.length==0){
 		$('#headerName>span.name').text('Name');
-		$('#headerSize').text('Size (MB)');
+		$('#headerSize').text('Size MB');
+		$('#headerDate').text('Modified');
+		$('th').css({background:'#fff',fontWeight:'normal'});
 		$('#selectedActions').hide();
 	}else{
 		$('#selectedActions').show();
@@ -347,26 +349,28 @@ function procesSelection(){
 				totalSize= '>1000'; 
 			}
 		}
-		$('#headerSize').text(totalSize+' (MB)');
+		$('#headerSize').text(totalSize+' MB');
 		var selection='';
-		if(selectedFiles.length>0){
-			if(selectedFiles.length==1){
-				selection+='1 File';
-			}else{
-				selection+=selectedFiles.length+' Files';
-			}
-			if(selectedFolders.length>0){
-				selection+=' ,';
-			}
-		}
 		if(selectedFolders.length>0){
 			if(selectedFolders.length==1){
-				selection+='1 Folder';
+				selection+='1 folder';
 			}else{
-				selection+=selectedFolders.length+' Folders';
+				selection+=selectedFolders.length+' folders';
+			}
+			if(selectedFiles.length>0){
+				selection+=' & ';
 			}
 		}
-		$('#headerName>span.name').text(selection+' Selected');
+		if(selectedFiles.length>0){
+			if(selectedFiles.length==1){
+				selection+='1 file';
+			}else{
+				selection+=selectedFiles.length+' files';
+			}
+		}
+		$('#headerName>span.name').text(selection);
+		$('#headerDate').text('');
+		$('th').css({background:'#ddd', fontWeight:'bold'});
 	}
 }
 
