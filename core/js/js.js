@@ -73,6 +73,8 @@ if (!Array.prototype.filter) {
 			}
 		}
 		return res;
+	}
+}
 if (!Array.prototype.indexOf){
 	Array.prototype.indexOf = function(elt /*, from*/)
 	{
