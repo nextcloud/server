@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$('.share').click(function(event) {
 		event.preventDefault();
-		var html = "<div title='Share "+getSelectedFiles('name')+"' align='center'>";
+		var html = "<div id='dialog' title='Share "+getSelectedFiles('name')+"' align='center'>";
 		html += "<label><input type='radio' name='share_type' value='private' checked='checked' /> Private</label>";
 		html += "<label><input type='radio' name='share_type' value='public' /> Public</label>";
 		html += "<br />";
@@ -80,7 +80,10 @@ $(document).ready(function() {
 				type: 'GET',
 				url: '../apps/files_sharing/ajax/share.php',
 				cache: false,
-				data: data
+				data: data,
+				success: function() {
+					$('#dialog').dialog('close');
+				}
 			});
 		}
 	});
