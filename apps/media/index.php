@@ -32,7 +32,6 @@ if( !OC_USER::isLoggedIn()){
 
 require_once('lib_collection.php');
 require_once('lib_scanner.php');
-require_once('template.php');
 
 OC_UTIL::addScript('media','player');
 OC_UTIL::addScript('media','music');

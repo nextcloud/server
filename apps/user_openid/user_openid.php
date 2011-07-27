@@ -21,7 +21,6 @@
  *
  */
 
-require_once('User/backend.php');
 require_once('class.openid.v3.php');
 
 /**

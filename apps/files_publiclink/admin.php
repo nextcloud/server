@@ -25,7 +25,6 @@
 // Init owncloud
 require_once('../../lib/base.php');
 require_once( 'lib_public.php' );
-require( 'template.php' );
 
 
 // Check if we are a user

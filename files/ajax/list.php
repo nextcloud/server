@@ -2,7 +2,6 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
-require_once('../../lib/template.php');
 
 // We send json data
 header( "Content-Type: application/jsonrequest" );

@@ -12,9 +12,6 @@
  * @version 0.9
  */
 
-require( 'template.php' );
-
-
 /**
  * Set a constant to indicate that phpMyID is running
  */

@@ -23,9 +23,7 @@
 
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
 
-require_once(dirname(__FILE__).'/lib/base.php');
-require_once('appconfig.php');
-require_once('template.php');
+require_once('lib/base.php');
 
 OC_UTIL::addScript('setup');
 

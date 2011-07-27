@@ -26,8 +26,6 @@
  */
  $RUNTIME_NOSETUPFS=true;
 require_once('../lib/base.php');
-require_once('testcase.php');
-require_once('template.php');
 
 $testCases=loadFiles(__DIR__,array('index.php','templates'));
 ob_end_clean();

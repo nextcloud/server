@@ -21,8 +21,6 @@
  *
  */
 
-require_once('User/backend.php');
-
 class OC_USER_LDAP extends OC_USER_BACKEND {
 
 	protected $ds;

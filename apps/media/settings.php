@@ -29,7 +29,6 @@ if( !OC_USER::isLoggedIn()){
 	exit();
 }
 
-require( 'template.php' );
 require( 'lib_collection.php' );
 
 OC_UTIL::addStyle('media','style');
