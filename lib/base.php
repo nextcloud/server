@@ -107,10 +107,10 @@ if(!$error and !$RUNTIME_NOSETUPFS ){
 }
 
 // Add the stuff we need always
-OC_UTIL::addScript( "jquery-1.5.min" );
-OC_UTIL::addScript( "jquery-ui-1.8.10.custom.min" );
+OC_UTIL::addScript( "jquery-1.6.2.min" );
+OC_UTIL::addScript( "jquery-ui-1.8.14.custom.min" );
 OC_UTIL::addScript( "js" );
-OC_UTIL::addStyle( "jquery-ui-1.8.10.custom" );
+OC_UTIL::addStyle( "jquery-ui-1.8.14.custom" );
 OC_UTIL::addStyle( "styles" );
 
 // Load Apps

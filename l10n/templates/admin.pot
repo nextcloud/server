@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-21 16:19+0200\n"
+"POT-Creation-Date: 2011-07-26 00:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,8 @@ msgid "Cannot connect to apps repository"
 msgstr ""
 
 #: ../templates/apps.php:13 ../templates/users.php:6 ../templates/users.php:20
-#: ../templates/users.php:50
+#: ../templates/users.php:50 ../templates/users.php:15
+#: ../templates/users.php:51
 msgid "Name"
 msgstr ""
 
@@ -54,7 +55,7 @@ msgstr ""
 msgid "Add user"
 msgstr ""
 
-#: ../templates/users.php:21
+#: ../templates/users.php:21 ../templates/users.php:16
 msgid "Password"
 msgstr ""
 
@@ -63,33 +64,39 @@ msgid "Create user"
 msgstr ""
 
 #: ../templates/users.php:40 ../templates/users.php:68
+#: ../templates/users.php:37 ../templates/users.php:69
 msgid "remove"
 msgstr ""
 
 #: ../templates/users.php:46 ../templates/users.php:7
+#: ../templates/users.php:47
 msgid "Groups"
 msgstr ""
 
-#: ../templates/users.php:58
+#: ../templates/users.php:58 ../templates/users.php:59
 msgid "Create group"
 msgstr ""
 
-#: ../templates/users.php:94
+#: ../templates/users.php:94 ../templates/users.php:95
 msgid "Force new password:"
 msgstr ""
 
-#: ../templates/users.php:96
+#: ../templates/users.php:96 ../templates/users.php:97
 msgid "Set"
 msgstr ""
 
-#: ../templates/users.php:102
+#: ../templates/users.php:102 ../templates/users.php:103
 msgid "Do you really want to delete user"
 msgstr ""
 
-#: ../templates/users.php:109
+#: ../templates/users.php:109 ../templates/users.php:110
 msgid "Do you really want to delete group"
 msgstr ""
 
-#: ../templates/users.php:1
+#: ../templates/users.php:1 ../templates/users.php:2
 msgid "Users"
+msgstr ""
+
+#: ../templates/users.php:25
+msgid "Create"
 msgstr ""

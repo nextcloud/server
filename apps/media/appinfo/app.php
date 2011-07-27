@@ -22,10 +22,9 @@
 
 require_once('apps/media/lib_media.php');
 
-OC_UTIL::addScript('media','music');
-OC_UTIL::addScript('media','jquery.jplayer.min');
-OC_UTIL::addStyle('media','style');
-OC_UTIL::addStyle('media','jplayer');
+if(OC_APP::getCurrentApp()=='files'){
+	OC_UTIL::addScript('media','files');
+}
 
 OC_APP::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 
