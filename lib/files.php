@@ -21,9 +21,6 @@
 *
 */
 
-require_once("log.php");
-
-
 /**
  * Class for fileserver access
  *

@@ -33,8 +33,6 @@
  *
  */
 
-require_once('User/backend.php');
-
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */

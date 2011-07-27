@@ -21,8 +21,6 @@
  *
  */
 
-require_once('User/backend.php');
-
 /**
  * abstract reference class for user management
  * this class should only be used as a reference for method signatures and their descriptions

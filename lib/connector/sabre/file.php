@@ -1,6 +1,4 @@
 <?php
-
-require_once("lib/base.php");
 /**
  * File class 
  * 

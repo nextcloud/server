@@ -1,6 +1,4 @@
 <?php
-require_once("lib/base.php");
-
 /**
  * The Lock manager allows you to handle all file-locks centrally.
  *

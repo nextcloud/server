@@ -1,7 +1,4 @@
 <?php
-
-require_once("lib/base.php");
-
 /**
  * Base node-class 
  *

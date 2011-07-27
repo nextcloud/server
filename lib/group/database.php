@@ -37,8 +37,6 @@
  *
  */
 
-require_once( 'Group/backend.php' );
-
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
