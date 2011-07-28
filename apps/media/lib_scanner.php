@@ -139,7 +139,7 @@ class OC_MEDIA_SCANNER{
 			}
 			$size=$data['filesize'];
 			$track=(isset($data['comments']['track']))?$data['comments']['track'][0]:0;
-			$length=round($data['playtime_seconds']);
+			$length=isset($data['playtime_seconds'])?round($data['playtime_seconds']):0;
 		}
 		if(!isset(self::$artists[$artist])){
 			$artistId=OC_MEDIA_COLLECTION::addArtist($artist);
