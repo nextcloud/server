@@ -270,7 +270,8 @@ class OC_MEDIA_COLLECTION{
 		if($songId!=0){
 			return $songId;
 		}else{
-			$query=OC_DB::prepare("INSERT INTO  `*PREFIX*media_songs` (`song_id` ,`song_name` ,`song_artist` ,`song_album` ,`song_path` ,`song_user`,`song_length`,`song_track`,`song_size`) VALUES (NULL ,  ?, ?, ?, ?,?,?,?,?)");
+			$query=OC_DB::prepare("INSERT INTO  `*PREFIX*media_songs` (`song_id` ,`song_name` ,`song_artist` ,`song_album` ,`song_path` ,`song_user`,`song_length`,`song_track`,`song_size`,`song_playcount`,`song_lastplayed`)
+			VALUES (NULL ,  ?, ?, ?, ?,?,?,?,?,0,0)");
 			$query->execute(array($name,$artist,$album,$path,$uid,$length,$track,$size));
 			$songId=OC_DB::insertid();
 // 			self::setLastUpdated();
@@ -345,6 +346,31 @@ class OC_MEDIA_COLLECTION{
 	public static function deleteSongByPath($path){
 		$query=OC_DB::prepare("DELETE FROM *PREFIX*media_songs WHERE song_path LIKE ?");
 		$query->execute(array("$path%"));
+	}
+
+	/**
+	 * increase the play count of a song
+	 * @param int songId
+	 */
+	public static function registerPlay($songId){
+		$now=time();
+		$query=OC_DB::prepare('UPDATE *PREFIX*media_songs SET song_playcount=song_playcount+1, song_lastplayed=? WHERE song_id=? AND song_lastplayed<?');
+		$query->execute(array($now,$songId,$now-60));
+	}
+
+	/**
+	 * get the id of the song by path
+	 * @param string $path
+	 * @return int
+	 */
+	public static function getSongByPath($path){
+		$query=OC_DB::prepare("SELECT song_id FROM *PREFIX*media_songs WHERE song_path = ?");
+		$result=$query->execute(array($path))->fetchAll();
+		if(count($result)>0){
+			return $result[0]['song_id'];
+		}else{
+			return 0;
+		}
 	}
 }
 
