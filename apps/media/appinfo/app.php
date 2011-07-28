@@ -29,5 +29,5 @@ if(OC_APP::getCurrentApp()=='files'){
 OC_APP::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 
 OC_APP::addNavigationEntry( array( 'id' => 'media_index', 'order' => 2, 'href' => OC_HELPER::linkTo( 'media', 'index.php' ), 'icon' => OC_HELPER::imagePath( 'media', 'media.png' ), 'name' => 'Media' ));
-OC_APP::addSettingsPage( array( 'id' => 'media_settings', 'order' => 5, 'href' => OC_HELPER::linkTo( 'media', 'settings.php' ), 'name' => 'Media', 'icon' => OC_HELPER::imagePath( 'files', 'media.png' )));
+OC_APP::addSettingsPage( array( 'id' => 'media_settings', 'order' => 5, 'href' => OC_HELPER::linkTo( 'media', 'settings.php' ), 'name' => 'Media', 'icon' => OC_HELPER::imagePath( 'media', 'media.png' )));
 ?>

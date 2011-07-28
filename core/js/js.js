@@ -40,6 +40,9 @@ OC={
 		return link;
 	},
 	imagePath:function(app,file){
+		if(file.indexOf('.')==-1){//if no extention is given, use png or svg depending on browser support
+			file+=(SVGSupport())?'.svg':'.png'
+		}
 		return OC.filePath(app,'img',file);
 	},
 	addScript:function(app,script,ready){
@@ -57,6 +60,24 @@ OC={
 	}
 }
 
+if (!Array.prototype.filter) {
+	Array.prototype.filter = function(fun /*, thisp*/) {
+		var len = this.length >>> 0;
+		if (typeof fun != "function")
+			throw new TypeError();
+		
+		var res = [];
+		var thisp = arguments[1];
+		for (var i = 0; i < len; i++) {
+			if (i in this) {
+				var val = this[i]; // in case fun mutates this
+				if (fun.call(thisp, val, i, this))
+					res.push(val);
+			}
+		}
+		return res;
+	}
+}
 if (!Array.prototype.indexOf){
 	Array.prototype.indexOf = function(elt /*, from*/)
 	{
@@ -77,4 +98,8 @@ if (!Array.prototype.indexOf){
 		}
 		return -1;
 	};
+}
+
+function SVGSupport() {
+	return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
 }

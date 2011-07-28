@@ -1,121 +1,44 @@
 /* FILE MENU */
+#file_menu { right:0px; position:absolute; top:0; }
+#file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
+.file_upload_form, #file_newfolder_form { display:inline; }
+#fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
+.file_upload_filename, #file_newfolder_name { background-repeat:no-repeat; background-position:0.5em 0; padding-left:2em; }
+.file_upload_filename { background-image:url("../img/file.png"); font-weight:bold; }.file_upload_start { opacity:0;filter:alpha(opacity = 0); }
 
-#file_menu
-{
-    display: none;
-    position: absolute;
-	right:0px;
-    background-color: #EEE;
-}
-
-#file_menu ul
-{
-    list-style-type: none;
-}
-
-#file_menu li a
-{
-    display: block;
-    padding: 0.5em 5em 0.5em 2em;
-    text-decoration: none;
-}
-
-.file_upload_form, #file_newfolder_form {
-	display: inline;
-	margin-left:3em;
-}
-
-#fileSelector, #file_upload_submit, #file_newfolder_submit {
-	display: none;
-}
-
-.file_upload_filename, #file_newfolder_name {
-	background-repeat: no-repeat;
-	background-position: 0.5em 0;
-	padding-left: 2em;
-}
-
-.file_upload_filename {
-	background-image:url(../img/file.png); font-weight:bold;
-}
-.file_upload_start {opacity:0;filter: alpha(opacity = 0);}
-
-#file_newfolder_name {
-	background-image:url(../img/folder.png); font-weight:bold; 
-	width: 14em;
-}
-
-.file_upload_start, .file_upload_filename{
-	position:absolute;
-	top:0px;
-	left:0px;
-	width:30ex;
-	font-size: 0.9em;
-}
-
-.file_upload_wrapper{
-	position:relative;
-	top:-1.2em;
-	left:-2em;
-	display: -moz-inline-box; /* fallback for older firefox versions*/
-	display: inline-block;
-	width:30ex;
-}
-
-#file_newfolder_submit, #file_upload_submit {
-	width: 3em;
-}
-
-.file_upload_target {
-	display: none;
-}
+#file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:11em; }
+.file_upload_start, .file_upload_filename { position:absolute; top:0px; left:0px; width:11em; font-size:0.9em; }
+.file_upload_wrapper { position:relative; top:-1.2em; left:-2em; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; width:12em; }
+#file_newfolder_submit, #file_upload_submit { width:3em; }
+.file_upload_target { display:none; }
 
 /* FILE TABLE */
-
-table {
-	width: 90%;
-}
-
+table { position:relative; top:37px; width:100%; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
+span.extention, td.date { color:#999; }
+div.crumb { float:left; display:block; background-repeat:no-repeat; background-position:right 0px; font-weight:bold; padding-top:8px; padding-left:8px; height:28px; /*36-8*/ }
+table tr.mouseOver td { background-color:#eee; }
+table th { padding:.5em; height:2em; }
+table th .name { float:left; margin-left:.5em; }
+table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
+table td { border-bottom:1px solid #eee; font-style:normal; }
+table th#headerSize, table td.filesize { width:5em; padding:0 1em; text-align:right; cursor:help; }
+table th#headerDate, table td.date { width:15em; padding:0 .1em 0 1em; text-align:left; }
+table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
+table td.filename a.name { display:block; background-image:url('../img/file.png'); height:1.5em; vertical-align:middle; }
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 3em; background-position:1em .5em; background-repeat:no-repeat; }
+table td.filename .nametext, .modified { float:left; padding:.3em 0; }
+table td.filename .nametext { width:80%; }
+table td.filename form { float:left; font-size:.85em; }
+#fileList tr input[type=checkbox] { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
+#fileList tr input[type=checkbox]:checked, #fileList tr:hover input[type=checkbox] { display:inline; }
+#fileList tr.selected td.filename a, #fileList tr:hover td.filename a { background-image:none !important }
+#select_all { float:left; margin:0.2em; margin-left:0.6em; }
+#uploadsize-message,#delete-confirm { display:none; }
+.selectedActions a, a.file_action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
+.selectedActions { display:none; }
+.selectedActions a:hover, a.file_action:hover { background:#fff; -moz-box-shadow:0 0 10px #fff; -webkit-box-shadow:0 0 10px #fff; box-shadow:0 0 10px #fff; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 
-table td.filesize, table td.date
-{
-    width: 5em;
-    padding: 0.5em 1em;
-    text-align: right;
-}
-
-table td.date
-{
-    width: 11em;
-}
-
-table td.selection, table th.selection, table td.fileaction
-{
-    width: 2em;
-    text-align: center;
-}
-
-table td.filename a
-{
-    display: block;
-    background-image: url(../img/file.png);
-    text-decoration: none;
-}
-
-.dropArrow{
-	height:16px;
-	width:16px;
-	display: -moz-inline-box; /* fallback for older firefox versions*/
-	display: inline-block;
-	background-image:url('../img/drop-arrow.png');
-}
-
-span.extention{
-	color:#999;
-}
-
-div.crumb{
-	float:left;
-}
+/* add breadcrumb divider to the File item in navigation panel */
+#plugins li:first-child { background-position:15.7em 0px; background-repeat:no-repeat; background-image:url("/owncloud/core/img/breadcrumb-divider-start.png"); width:15.7em; padding-right:11px; }

@@ -5,11 +5,29 @@ FileList={
 	addFile:function(name,size,lastModified,loading){
 		var img=(loading)?'img/loading.gif':'img/file.png';
 		var html='<tr data-file="'+name+'" data-type="file">';
-		html+='<td class="selection"><input type="checkbox" /></td>';
-		html+='<td class="filename"><a style="background-image:url('+img+')" href="download.php?file='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
-		html+='<td class="filesize">'+size+'</td>';
-		html+='<td class="date">'+lastModified+'</td>';
-		html+='<td class="fileaction"><a href="" title="+" class="dropArrow"></a></td>';
+		if(name.indexOf('.')!=-1){
+			var basename=name.substr(0,name.indexOf('.'));
+			var extention=name.substr(name.indexOf('.'));
+		}else{
+			var basename=name;
+			var extention=false;
+		}
+		html+='<td class="filename"><input type="checkbox" />';
+		html+='<a class="name" style="background-image:url('+img+')" href="download.php?file='+$('#dir').val()+'/'+name+'"><span class="nametext">'+basename
+		if(extention){
+			html+='<span class="extention">'+extention+'</span>';
+		}
+		html+='</span></a></td>';
+		if(size!='Pending'){
+			simpleSize=simpleFileSize(size);
+		}else{
+			simpleSize='Pending';
+		}
+		sizeColor = Math.round(200-Math.pow((size/(1024*1024)),2));
+		lastModifiedTime=Math.round(lastModified.getTime() / 1000);
+		modifiedColor=Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*5);
+		html+='<td class="filesize" title="'+humanFileSize(size)+'" style="color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')">'+simpleSize+'</td>';
+		html+='<td class="date" title="'+formatDate(lastModified)+'" style="color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')">'+relative_modified_date(lastModified.getTime() / 1000)+'</td>';
 		html+='</tr>';
 		FileList.insertElement(name,'file',$(html));
 		if(loading){
@@ -20,11 +38,17 @@ FileList={
 	},
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir">';
-		html+='<td class="selection"><input type="checkbox" /></td>';
-		html+='<td class="filename"><a style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'"><strong>'+name+'</strong></a></td>';
-		html+='<td class="filesize">'+size+'</td>';
-		html+='<td class="date">'+lastModified+'</td>';
-		html+='<td class="fileaction"><a href="" title="+" class="dropArrow"></a></td>';
+		html+='<td class="filename"><input type="checkbox" /><a class="name" style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'"><strong>'+name+'</strong></a></td>';
+		if(size!='Pending'){
+			simpleSize=simpleFileSize(size);
+		}else{
+			simpleSize='Pending';
+		}
+		sizeColor = Math.round(200-Math.pow((size/(1024*1024)),2));
+		lastModifiedTime=Math.round(lastModified.getTime() / 1000);
+		modifiedColor=Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*5);
+		html+='<td class="filesize" title="'+humanFileSize(size)+'" style="color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')">'+simpleSize+'</td>';
+		html+='<td class="date" title="'+formatDate(lastModified)+'" style="color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')">'+relative_modified_date(lastModified.getTime() / 1000)+'</td>';
 		html+='</tr>';
 		
 		FileList.insertElement(name,'dir',$(html));
@@ -72,10 +96,44 @@ FileList={
 	},
 	loadingDone:function(name){
 		$('tr[data-file="'+name+'"]').data('loading',false);
-		$('tr[data-file="'+name+'"] td.filename a').attr('style','background-image:url(img/file.png');
+		var mime=$('tr[data-file="'+name+'"]').data('mime');
+		$('tr[data-file="'+name+'"] td.filename a').attr('style','background-image:url('+getMimeIcon(mime)+')');
 		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
 	},
 	isLoading:function(name){
 		return $('tr[data-file="'+name+'"]').data('loading');
+	},
+	rename:function(name){
+		var tr=$('tr[data-file="'+name+'"]');
+		var td=tr.children('td.filename');
+		var input=$('<input value='+name+' class="filename"></input>');
+		var button=$('<input type="submit" value="Ok"></input>');
+		var form=$('<form action="#"></form>')
+		form.append(input);
+		form.append(button);
+		td.children('a.name').text('');
+		td.children('a.name').append(form)
+		input.focus();
+		td.children('a.name').append(button);
+		form.submit(function(event){
+			var newname=input.val();
+			event.stopPropagation();
+			event.preventDefault();
+			tr.attr('data-file',newname);
+			td.children('a.name').empty();
+			td.children('a.name').text(newname);
+			$.ajax({
+				url: 'ajax/rename.php',
+				data: "dir="+$('#dir').val()+"&newname="+encodeURIComponent(newname)+"&file="+encodeURIComponent(name)
+			});
+		});
+		form.click(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+		});
+		input.blur(function(){
+			td.children('a.name').empty();
+			td.children('a.name').text(name);
+		});
 	}
 }

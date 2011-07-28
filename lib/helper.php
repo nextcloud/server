@@ -110,6 +110,11 @@ class OC_HELPER {
 		if( file_exists( "$SERVERROOT/core/img/mimetypes/$mimetype.png" )){
 			return "$WEBROOT/core/img/mimetypes/$mimetype.png";
 		}
+		//try only the first part of the mimetype
+		$mimetype=substr($mimetype,0,strpos($mimetype,'-'));
+		if( file_exists( "$SERVERROOT/core/img/mimetypes/$mimetype.png" )){
+			return "$WEBROOT/core/img/mimetypes/$mimetype.png";
+		}
 		else{
 			return "$WEBROOT/core/img/mimetypes/file.png";
 		}

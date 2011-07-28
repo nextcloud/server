@@ -1,4 +1,7 @@
 <div class="controls">
+	<span class="nav">
+		<?php echo($_['breadcrumb']); ?>
+	</span>
 	<div class="actions">
 		<form data-upload-id='1' class="file_upload_form" action="ajax/upload.php" method="post" enctype="multipart/form-data" target="file_upload_target_1">
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_["uploadMaxFilesize"] ?>" id="max_upload">
@@ -14,26 +17,24 @@
 			<input type="text" class="prettybutton" name="file_newfolder_name" id="file_newfolder_name" value="New Folder" />&nbsp;
 			<input class="prettybutton" type="submit" id="file_newfolder_submit" name="file_newfolder_submit" value="OK" />
 		</form>
-		<a href="" title="" class="download"><?php echo $l->t( 'Download' ); ?></a>
-		<!--<a href="" title="" class="share"><?php echo $l->t( 'Share' ); ?></a>-->
-		<a href="" title="" class="delete"><?php echo $l->t( 'Delete' ); ?></a>
 	</div>
 	<div id="file_action_panel">
 	</div>
 </div>
 
-<span class="nav">
-	<?php echo($_['breadcrumb']); ?>
-</span>
-
 <table cellspacing="0">
 	<thead>
 		<tr>
-			<th><input type="checkbox" id="select_all" /></th>
-			<th><?php echo $l->t( 'Name' ); ?></th>
-			<th><?php echo $l->t( 'Size (MB)' ); ?></th>
-			<th><?php echo $l->t( 'Modified' ); ?></th>
-			<th></th>
+			<th id='headerName'>
+				<input type="checkbox" id="select_all" />
+				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
+				<span class='selectedActions'>
+					<a href="" title="Download" class="download"><img alt="Download" src="../core/img/actions/download.svg" /></a>
+					<!--<a href="" title="" class="share">Share</a>-->
+				</span>
+			</th>
+			<th id='headerSize'><?php echo $l->t( 'Size MB' ); ?></th>
+			<th id='headerDate'><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class='selectedActions'><a href="" title="Delete" class="delete"><img alt="Delete" src="../core/img/actions/delete.svg" /></a></span></th>
 		</tr>
 	</thead>
 	<tbody id="fileList">
@@ -41,7 +42,14 @@
 	</tbody>
 </table>
 
-<div id="file_menu">
-	<ul>
-	</ul>
+<div id="uploadsize-message" title="Upload too large">
+	<p>
+		<?php echo $l->t( 'The files you are trying to upload exceed the maximum size for file uploads on this server.' ); ?>
+	</p>
 </div>
+
+<div id="delete-confirm" title="">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+
+<span id="file_menu"/>
