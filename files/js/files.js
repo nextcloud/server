@@ -157,7 +157,7 @@ $(document).ready(function() {
 			var uploadTime=formatDate(date);
 			for(var i=0;i<files.length;i++){
 				if(files[i].size>0){
-					var size=simpleFileSize(files[i].size);
+					var size=files[i].size;
 				}else{
 					var size='Pending';
 				}

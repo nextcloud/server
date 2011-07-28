@@ -5,8 +5,26 @@ FileList={
 	addFile:function(name,size,lastModified,loading){
 		var img=(loading)?'img/loading.gif':'img/file.png';
 		var html='<tr data-file="'+name+'" data-type="file">';
-		html+='<td class="filename"><input type="checkbox" /><a class="name" style="background-image:url('+img+')" href="download.php?file='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
-		html+='<td class="filesize">'+size+'</td>';
+		if(name.indexOf('.')!=-1){
+			var basename=name.substr(0,name.indexOf('.'));
+			var extention=name.substr(name.indexOf('.'));
+		}else{
+			var basename=name;
+			var extention=false;
+		}
+		html+='<td class="filename"><input type="checkbox" />';
+		html+='<a class="name" style="background-image:url('+img+')" href="download.php?file='+$('#dir').val()+'/'+name+'"><span class="nametext">'+basename
+		if(extention){
+			html+='<span class="extention">'+extention+'</span>';
+		}
+		html+='</span></a></td>';
+		if(size!='Pending'){
+			simpleSize=simpleFileSize(size);
+		}else{
+			simpleSize='Pending';
+		}
+		sizeColor = Math.round(200-Math.pow((size/(1024*1024)),2));
+		html+='<td class="filesize" title="'+humanFileSize(size)+'" style="color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')">'+simpleSize+'</td>';
 		html+='<td class="date">'+lastModified+'</td>';
 		html+='</tr>';
 		FileList.insertElement(name,'file',$(html));
