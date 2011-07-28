@@ -11,7 +11,7 @@ $(document).ready(function() {
 		html += "<br />";
 		html += "<a id='toggle-private-advanced'>Advanced</a>";
 		html += "<br />";
-		html += "<div id='private-advanced' style='display: none'>";
+		html += "<div id='private-advanced' style='display: none; text-align: left'>";
 		html += "<label><input type='checkbox' name='share_permissions' value='read' checked='checked' disabled='disable' /> Read</label><br />";
 		html += "<label><input type='checkbox' name='share_permissions' value='write' /> Write</label><br />";
 		html += "<label><input type='checkbox' name='share_permissions' value='rename' /> Rename</label><br />";
@@ -72,10 +72,15 @@ $(document).ready(function() {
 			// TODO Construct public link
 		} else {
 			// TODO Check all inputs are valid
-			var source = $('#dir').val()+"/"+getSelectedFiles('name');
+			var sources = "";
+			var files = getSelectedFiles('name');
+			var length = files.length;
+			for (var i = 0; i < length; i++) {
+				sources += "&sources[]=" + $('#dir').val() + "/" + files[i];
+			}
 			var uid_shared_with = $('.uid_shared_with').val();
 			var permissions = 0;
-			var data = 'source='+source+'&uid_shared_with='+uid_shared_with+'&permissions='+permissions;
+			var data = sources+'&uid_shared_with[]='+uid_shared_with+'&permissions='+permissions;
 			$.ajax({
 				type: 'GET',
 				url: '../apps/files_sharing/ajax/share.php',

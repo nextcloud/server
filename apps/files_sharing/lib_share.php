@@ -43,29 +43,27 @@ class OC_SHARE {
 				$token = sha1("$uid_owner-$item");
 			} else { 
 				$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-				foreach ($uid_shared_with as $uid) {
-					$target = "/".$uid."/files/Share/".basename($source);
-					$check = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
-					$result = $check->execute(array($target, $uid))->fetchAll();
-					// Check if target already exists for the user, if it does append a number to the name
-					if (count($result) > 0) {
-						if ($pos = strrpos($target, ".")) {
-							$name = substr($target, 0, $pos);
-							$ext = substr($target, $pos);
-						} else {
-							$name = $target;
-							$ext = "";
-						}
-						$counter = 1;
-						while (count($result) > 0) {
-							$newTarget = $name."_".$counter.$ext;
-							$result = $check->execute(array($newTarget, $uid))->fetchAll();
-							$counter++;
-						}
-						$target = $newTarget;
+				$target = "/".$uid_shared_with."/files/Share/".basename($source);
+				$check = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
+				$result = $check->execute(array($target, $uid_shared_with))->fetchAll();
+				// Check if target already exists for the user, if it does append a number to the name
+				if (count($result) > 0) {
+					if ($pos = strrpos($target, ".")) {
+						$name = substr($target, 0, $pos);
+						$ext = substr($target, $pos);
+					} else {
+						$name = $target;
+						$ext = "";
 					}
-					$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
+					$counter = 1;
+					while (count($result) > 0) {
+						$newTarget = $name."_".$counter.$ext;
+						$result = $check->execute(array($newTarget, $uid_shared_with))->fetchAll();
+						$counter++;
+					}
+					$target = $newTarget;
 				}
+				$query->execute(array($uid_owner, $uid_shared_with, $source, $target, $permissions));
 			}
 		}
 	}
@@ -232,9 +230,7 @@ class OC_SHARE {
 	*/
 	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
-		foreach ($uid_shared_with as $uid) {
-			$query->execute(array($is_writeable, strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
-		}
+		$query->execute(array($is_writeable, strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
 	}
 	
 	/**
@@ -247,9 +243,7 @@ class OC_SHARE {
 	*/
 	public static function unshare($source, $uid_shared_with) {
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
-		foreach ($uid_shared_with as $uid) {
-			$query->execute(array(strlen($source), $source, $uid, OC_USER::getUser()));
-		}
+		$query->execute(array(strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
 	}
 	
 	/**
