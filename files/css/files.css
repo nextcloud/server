@@ -16,20 +16,20 @@
 table { position:relative; top:37px; width:100%; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
-
-span.extention { color:#999; }
+span.extention, td.date { color:#999; }
 div.crumb { float:left; display:block; background-repeat:no-repeat; background-position:right 0px; font-weight:bold; padding-top:8px; padding-left:8px; height:28px; /*36-8*/ }
 table tr.mouseOver td { background-color:#eee; }
 table th { padding:.5em; }
 table th .name { float:left; margin-left:.5em; }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td { border-bottom:1px solid #eee; font-style:normal; }
-table th#headerSize, table td.filesize, table th#headerDate, table td.date { width:5em; padding:0 1em; text-align:right; cursor:help; }
+table th#headerSize, table td.filesize { width:5em; padding:0 1em; text-align:right; cursor:help; }
+table th#headerDate, table td.date { width:15em; padding:0 .1em 0 1em; text-align:left; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
-table td.filename a.name { display:block; background-image:url('../img/file.png'); text-decoration:none; }
-table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.5em .5em .5em 3em; background-position:1em center; background-repeat:no-repeat; }
-table td.filename a:hover, table td.filename a:focus { outline:0; }
-table td.filename a:active { outline:0; }
+table td.filename a.name { display:block; background-image:url('../img/file.png'); }
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.3em .5em .5em 3em; background-position:1em .5em; background-repeat:no-repeat; }
+table td.filename .nametext, .modified { float:left; padding:.3em 0; }
+table td.filename .nametext { width:80%; }
 table td.filename a.folder-up { background-image:url('../img/back.png'); font-style:italic; }
 table td.filename a.folder { background-image:url('../img/folder.png'); }
 table td.filename a.folder-home { background-image:url('../img/home.png'); }
@@ -50,10 +50,10 @@ table td.delete { background-image:url('../img/delete.png'); }
 #fileList tr input[type=checkbox]:checked, #fileList tr:hover input[type=checkbox] { display:inline; }
 #fileList tr.selected td.filename a, #fileList tr:hover td.filename a { background-image:none !important }
 #select_all { float:left; margin:0.2em; margin-left:0.6em; }
-#selectedActions { float:right; display:none; }
-#selectedActions a { margin:0 .5em; }
 #uploadsize-message { display:none; }
-a.file_action { float:right; display:inline; padding:3px !important }
+.selectedActions a, a.file_action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
+.selectedActions { display:none; }
+.selectedActions a:hover, a.file_action:hover { background:#fff; -moz-box-shadow:0 0 10px #fff; -webkit-box-shadow:0 0 10px #fff; box-shadow:0 0 10px #fff; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 
 /* add breadcrumb divider to the File item in navigation panel */
 #plugins li:first-child { background-position:15.7em 0px; background-repeat:no-repeat; background-image:url("/owncloud/core/img/breadcrumb-divider-start.png"); width:15.7em; padding-right:11px; }

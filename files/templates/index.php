@@ -28,14 +28,13 @@
 			<th id='headerName'>
 				<input type="checkbox" id="select_all" />
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
-				<span id='selectedActions'>
-					<a href="" title="Download" class="download"><img alt="Download" src="../core/img/actions/download.svg" /></a> 
-					<!--<a href="" title="" class="share">Share</a>--> 
-					<a href="" title="Delete" class="delete"><img alt="Delete" src="../core/img/actions/delete.svg" /></a> 
+				<span class='selectedActions'>
+					<a href="" title="Download" class="download"><img alt="Download" src="../core/img/actions/download.svg" /></a>
+					<!--<a href="" title="" class="share">Share</a>-->
 				</span>
 			</th>
 			<th id='headerSize'><?php echo $l->t( 'Size MB' ); ?></th>
-			<th id='headerDate'><?php echo $l->t( 'Modified' ); ?></th>
+			<th id='headerDate'><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class='selectedActions'><a href="" title="Delete" class="delete"><img alt="Delete" src="../core/img/actions/delete.svg" /></a></span></th>
 		</tr>
 	</thead>
 	<tbody id="fileList">

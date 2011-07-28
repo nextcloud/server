@@ -74,7 +74,7 @@ background: linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */ }
 #metanav { float:right; position:relative; top:0.5em; right:2.5em; list-style:none; margin:0; padding:0; }
 #metanav li { display:inline; }
 #metanav li a { margin:.2em; padding:.7em; }
-#metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; outline:0; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
+#metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
 #metanav li a img { vertical-align:middle; }
 
 /* SEARCH --------------------------------------------------------------------- */

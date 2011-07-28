@@ -329,11 +329,11 @@ function procesSelection(){
 	if(selectedFiles.length==0 && selectedFolders.length==0){
 		$('#headerName>span.name').text('Name');
 		$('#headerSize').text('Size MB');
-		$('#headerDate').text('Modified');
+		$('#modified').text('Modified');
 		$('th').css({background:'#fff',fontWeight:'normal'});
-		$('#selectedActions').hide();
+		$('.selectedActions').hide();
 	}else{
-		$('#selectedActions').show();
+		$('.selectedActions').show();
 		var totalSize=0;
 		for(var i=0;i<selectedFiles.length;i++){
 			totalSize+=selectedFiles[i].size;
@@ -369,7 +369,7 @@ function procesSelection(){
 			}
 		}
 		$('#headerName>span.name').text(selection);
-		$('#headerDate').text('');
+		$('#modified').text('');
 		$('th').css({background:'#ddd', fontWeight:'bold'});
 	}
 }
