@@ -105,6 +105,9 @@ if($arguments['action']){
 			
 			$ftype=OC_FILESYSTEM::getMimeType( $arguments['path'] );
 			
+			$songId=OC_MEDIA_COLLECTION::getSongByPath($arguments['path']);
+			OC_MEDIA_COLLECTION::registerPlay($songId);
+			
 			header('Content-Type:'.$ftype);
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

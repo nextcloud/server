@@ -68,40 +68,79 @@ class OC_MEDIA_SCANNER{
 	 * @return boolean
 	 */
 	public static function scanFile($path){
-		if(!self::$getID3){
-			self::$getID3=@new getID3();
-		}
 		$file=OC_FILESYSTEM::getLocalFile($path);
-		$data=@self::$getID3->analyze($file);
-		getid3_lib::CopyTagsToComments($data);
-		if(!isset($data['comments'])){
-			error_log("error reading id3 tags in '$file'");
-			return;
-		}
-		if(!isset($data['comments']['artist'])){
-			error_log("error reading artist tag in '$file'");
-			$artist='unknown';
-		}else{
-			$artist=stripslashes($data['comments']['artist'][0]);
-			$artist=utf8_encode($artist);
-		}
-		if(!isset($data['comments']['album'])){
-			error_log("error reading album tag in '$file'");
-			$album='unknown';
-		}else{
-			$album=stripslashes($data['comments']['album'][0]);
-			$album=utf8_encode($album);
-		}
-		if(!isset($data['comments']['title'])){
-			error_log("error reading title tag in '$file'");
+		if(substr($path,-3)=='mp3' and OC_HELPER::canExecute("id3info") and OC_HELPER::canExecute("mp3info")){//use the command line tool id3info if possible
+			$output=array();
+			$size=filesize($file);
+			$length=0;
 			$title='unknown';
+			$album='unknown';
+			$artist='unknown';
+			$track=0;
+			exec('id3info "'.$file.'"',$output);
+			$data=array();
+			foreach($output as $line) {
+				switch(substr($line,0,3)){
+					case '***'://comments
+						break;
+					case '==='://tag information
+						$key=substr($line,4,4);
+						$value=substr($line,strpos($line,':')+2);
+						switch(strtolower($key)){
+							case 'tit1':
+							case 'tit2':
+								$title=$value;
+								break;
+							case 'tpe1':
+							case 'tpe2':
+								$artist=$value;
+								break;
+							case 'talb':
+								$album=$value;
+								break;
+							case 'trck':
+								$track=$value;
+								break;
+						}
+						break;
+				}
+			}
+			$length=exec('mp3info -p "%S" "'.$file.'"');
 		}else{
-			$title=stripslashes($data['comments']['title'][0]);
-			$title=utf8_encode($title);
+			if(!self::$getID3){
+				self::$getID3=@new getID3();
+			}
+			$data=@self::$getID3->analyze($file);
+			getid3_lib::CopyTagsToComments($data);
+			if(!isset($data['comments'])){
+				error_log("error reading id3 tags in '$file'");
+				return;
+			}
+			if(!isset($data['comments']['artist'])){
+				error_log("error reading artist tag in '$file'");
+				$artist='unknown';
+			}else{
+				$artist=stripslashes($data['comments']['artist'][0]);
+				$artist=utf8_encode($artist);
+			}
+			if(!isset($data['comments']['album'])){
+				error_log("error reading album tag in '$file'");
+				$album='unknown';
+			}else{
+				$album=stripslashes($data['comments']['album'][0]);
+				$album=utf8_encode($album);
+			}
+			if(!isset($data['comments']['title'])){
+				error_log("error reading title tag in '$file'");
+				$title='unknown';
+			}else{
+				$title=stripslashes($data['comments']['title'][0]);
+				$title=utf8_encode($title);
+			}
+			$size=$data['filesize'];
+			$track=(isset($data['comments']['track']))?$data['comments']['track'][0]:0;
+			$length=round($data['playtime_seconds']);
 		}
-		$size=$data['filesize'];
-		$track=(isset($data['comments']['track']))?$data['comments']['track'][0]:0;
-		$length=round($data['playtime_seconds']);
 		if(!isset(self::$artists[$artist])){
 			$artistId=OC_MEDIA_COLLECTION::addArtist($artist);
 			self::$artists[$artist]=$artistId;

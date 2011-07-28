@@ -329,27 +329,27 @@ function checkid ( $wait ) {
 	user_session();
 
 	// Get the options, use defaults as necessary
-	$return_to = @strlen($_REQUEST['openid_return_to'])
+	$return_to = isset($_REQUEST['openid_return_to'])
 		? $_REQUEST['openid_return_to']
-		: error_400('Missing return1_to');
+		: error_400('Missing return_to');
 
-	$identity = @strlen($_REQUEST['openid_identity'])
+	$identity = isset($_REQUEST['openid_identity'])
 			? $_REQUEST['openid_identity']
 			: error_get($return_to, 'Missing identity');
 
-	$assoc_handle = @strlen($_REQUEST['openid_assoc_handle'])
+	$assoc_handle = isset($_REQUEST['openid_assoc_handle'])
 			? $_REQUEST['openid_assoc_handle']
 			: null;
 
-	$trust_root = @strlen($_REQUEST['openid_trust_root'])
+	$trust_root = isset($_REQUEST['openid_trust_root'])
 			? $_REQUEST['openid_trust_root']
 			: $return_to;
 
-	$sreg_required = @strlen($_REQUEST['openid_sreg_required'])
+	$sreg_required = isset($_REQUEST['openid_sreg_required'])
 			? $_REQUEST['openid_sreg.required']
 			: '';
 
-	$sreg_optional = @strlen($_REQUEST['openid_sreg_optional'])
+	$sreg_optional = isset($_REQUEST['openid_sreg_optional'])
 			? $_REQUEST['openid_sreg.optional']
 			: '';
 
