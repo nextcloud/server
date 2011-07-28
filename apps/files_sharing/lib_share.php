@@ -67,7 +67,30 @@ class OC_SHARE {
 			}
 		}
 	}
-	
+
+	/**
+	* Get the user and the user's groups and put them into an array
+	* @return An array to be used by the IN operator in a query for uid_shared_with
+	*/
+	private static function getUserAndGroups() {
+		$self = OC_USER::getUser();
+		$groups = OC_GROUP::getUserGroups($self);
+		array_unshift($groups, $self);
+		return $groups;
+	}
+
+	/**
+	* Create a string of ?s based on the specified count
+	* @return A string to be placed inside the IN operator in a query for uid_shared_with
+	*/
+	private static function prepareIN($count) {
+		$questionMarks = "?";
+		for($i = 1; $i < $count; $i++) {
+			$questionMarks .= ",?";
+		}
+		return $questionMarks;
+	}
+
 	/**
 	 * Create a new entry in the database for a file inside a shared folder
 	 *
@@ -119,8 +142,9 @@ class OC_SHARE {
 		// Remove any duplicate '/'
 		$folder = preg_replace('{(/)\1+}', "/", $folder);
 		$length = strlen($folder);
-		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with = ?");
-		return $query->execute(array($length, $folder, $length, $folder, OC_USER::getUser()))->fetchAll();
+		$userAndGroups = self::getUserAndGroups();
+		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with IN(".self::prepareIN(count($userAndGroups)).")");
+		return $query->execute(array_merge(array($length, $folder, $length, $folder), $userAndGroups))->fetchAll();
 	}
 	
 	/**
@@ -132,13 +156,14 @@ class OC_SHARE {
 		// Remove any duplicate or trailing '/'
 		$target = rtrim($target, "/");
 		$target = preg_replace('{(/)\1+}', "/", $target);
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
+		$userAndGroups = self::getUserAndGroups();
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".self::prepareIN(count($userAndGroups)).") LIMIT 1");
 		// Prevent searching for user directory e.g. '/MTGap/files'
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
 			// Check if the parent directory of this target location is shared
 			$target = dirname($target);
-			$result = $query->execute(array($target, OC_USER::getUser()))->fetchAll();
+			$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
 			if (count($result) > 0) {
 				break;
 			}
@@ -160,8 +185,9 @@ class OC_SHARE {
 		// Remove any duplicate or trailing '/'
 		$target = rtrim($target, "/");
 		$target = preg_replace('{(/)\1+}', "/", $target);
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		$result = $query->execute(array($target, OC_USER::getUser()))->fetchAll();
+		$userAndGroups = self::getUserAndGroups();
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".self::prepareIN(count($userAndGroups)).") LIMIT 1");
+		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['source'];
 		} else {
@@ -180,14 +206,15 @@ class OC_SHARE {
 	 * @return True if the user has write permission or false if read only
 	 */
 	public static function isWriteable($target) {
-		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		$result = $query->execute(array($target, OC_USER::getUser()))->fetchAll();
+		$userAndGroups = self::getUserAndGroups();
+		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".self::prepareIN(count($userAndGroups)).") LIMIT 1");
+		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['is_writeable'];
 		} else {
 			// Check if the folder is writeable
 			$folders = OC_SHARE::getParentFolders($target);
-			$result = $query->execute(array($folders['target'], OC_USER::getUser()))->fetchAll();
+			$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
 			if (count($result) > 0) {
 				return $result[0]['is_writeable'];
 			} else {
