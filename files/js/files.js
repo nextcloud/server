@@ -259,7 +259,7 @@ function humanFileSize(bytes){
 }
 
 function simpleFileSize(bytes) {
-	mbytes = Math.round(bytes/(1024*1024),1);
+	mbytes = Math.round(bytes/(1024*1024/10))/10;
 	if(bytes == 0) { return '0'; }
 	else if(mbytes < 0.1) { return '< 0.1'; }
 	else if(mbytes > 1000) { return '> 1000'; }
@@ -341,15 +341,9 @@ function procesSelection(){
 		for(var i=0;i<selectedFolders.length;i++){
 			totalSize+=selectedFolders[i].size;
 		};
-		if(totalSize>0){
-			totalSize = Math.round(totalSize/(1024*102.4))/10;
-			if(totalSize < 0.1) {
-				totalSize='<0.1'; 
-			}else if(totalSize > 1000) {
-				totalSize= '>1000'; 
-			}
-		}
-		$('#headerSize').text(totalSize+' MB');
+		simpleSize=simpleFileSize(totalSize);
+		$('#headerSize').text(simpleSize+' MB');
+		$('#headerSize').attr('title',humanFileSize(totalSize));
 		var selection='';
 		if(selectedFolders.length>0){
 			if(selectedFolders.length==1){
