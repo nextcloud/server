@@ -52,10 +52,27 @@ FileActions={
 		$('#file_menu').empty();
 		parent.append($('#file_menu'));
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
+		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
-			var html='<a href="#" alt="'+name+'">'+name+'</a>';
+			if(actions[name]!=defaultAction && name!='Delete'){
+				var html='<a href="#" alt="'+name+'">'+name+'</a>';
+				var element=$(html);
+				element.data('action',name);
+				element.click(function(event){
+					event.stopPropagation();
+					event.preventDefault();
+					var action=actions[$(this).data('action')];
+					var currentFile=FileActions.getCurrentFile();
+					FileActions.hide();
+					action(currentFile);
+				});
+				$('#file_menu').append(element);
+			}
+		}
+		if(actions['Delete']){
+			var html='<a href="#" alt="Delete" id="action_delete">Delete</a>';
 			var element=$(html);
-			element.data('action',name);
+			element.data('action','Delete');
 			element.click(function(event){
 				event.stopPropagation();
 				event.preventDefault();
@@ -64,7 +81,7 @@ FileActions={
 				FileActions.hide();
 				action(currentFile);
 			});
-			$('#file_menu').append(element);
+			parent.parent().children().last().append(element);
 		}
 		$('#file_menu').show();
 		return false;
@@ -72,6 +89,7 @@ FileActions={
 	hide:function(){
 		$('#file_menu').hide();
 		$('#file_menu').empty();
+		$('#action_delete').remove();
 		$('body').append($('#file_menu'));
 	},
 	getCurrentFile:function(){
