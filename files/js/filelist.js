@@ -5,7 +5,7 @@ FileList={
 	addFile:function(name,size,lastModified,loading){
 		var img=(loading)?'img/loading.gif':'img/file.png';
 		var html='<tr data-file="'+name+'" data-type="file">';
-		html+='<td class="filename"><input type="checkbox" /><a style="background-image:url('+img+')" href="download.php?file='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
+		html+='<td class="filename"><input type="checkbox" /><a class="name" style="background-image:url('+img+')" href="download.php?file='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
 		html+='<td class="filesize">'+size+'</td>';
 		html+='<td class="date">'+lastModified+'</td>';
 		html+='</tr>';
@@ -18,7 +18,7 @@ FileList={
 	},
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir">';
-		html+='<td class="filename"><input type="checkbox" /><a style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'"><strong>'+name+'</strong></a></td>';
+		html+='<td class="filename"><input type="checkbox" /><a class="name" style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'"><strong>'+name+'</strong></a></td>';
 		html+='<td class="filesize">'+size+'</td>';
 		html+='<td class="date">'+lastModified+'</td>';
 		html+='</tr>';

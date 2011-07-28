@@ -40,11 +40,11 @@ function loadPlayer(type,ready){
 $(document).ready(function() {
 	loadPlayer.done=false
 
-	FileActions.register('audio','Add to playlist',addAudio);
-	FileActions.register('application/ogg','Add to playlist',addAudio);
+// 	FileActions.register('audio','Add to playlist','',addAudio);
+// 	FileActions.register('application/ogg','Add to playlist','',addAudio);
 
-	FileActions.register('audio','Play',playAudio);
-	FileActions.register('application/ogg','Play',playAudio);
+	FileActions.register('audio','Play','',playAudio);
+	FileActions.register('application/ogg','','Play',playAudio);
 	FileActions.setDefault('audio','Play');
 	FileActions.setDefault('application/ogg','Play');
 });

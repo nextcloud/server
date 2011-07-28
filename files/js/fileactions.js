@@ -1,11 +1,14 @@
 FileActions={
 	actions:{},
 	defaults:{},
-	register:function(mime,name,action){
+	icons:{},
+	currentFile:null,
+	register:function(mime,name,icon,action){
 		if(!FileActions.actions[mime]){
 			FileActions.actions[mime]={};
 		}
 		FileActions.actions[mime][name]=action;
+		FileActions.icons[name]=icon;
 	},
 	setDefault:function(mime,name){
 		FileActions.defaults[mime]=name;
@@ -49,14 +52,17 @@ FileActions={
 		return actions[name];
 	},
 	display:function(parent){
-		$('#file_menu').empty();
-		parent.append($('#file_menu'));
+		FileActions.currentFile=parent;
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
 			if(actions[name]!=defaultAction && name!='Delete'){
-				var html='<a href="#" alt="'+name+'">'+name+'</a>';
+				var img=FileActions.icons[name];
+				var html='<a href="#" title="'+name+'" class="file_action"/>';
 				var element=$(html);
+				if(img){
+					element.append($('<img src="'+img+'"/>'));
+				}
 				element.data('action',name);
 				element.click(function(event){
 					event.stopPropagation();
@@ -66,12 +72,16 @@ FileActions={
 					FileActions.hide();
 					action(currentFile);
 				});
-				$('#file_menu').append(element);
+				parent.children('a.name').append(element);
 			}
 		}
 		if(actions['Delete']){
-			var html='<a href="#" alt="Delete" id="action_delete">Delete</a>';
+			var img=FileActions.icons['Delete'];
+			var html='<a href="#" title="Delete" class="file_action"/>';
 			var element=$(html);
+			if(img){
+				element.append($('<img src="'+img+'"/>'));
+			}
 			element.data('action','Delete');
 			element.click(function(event){
 				event.stopPropagation();
@@ -83,31 +93,27 @@ FileActions={
 			});
 			parent.parent().children().last().append(element);
 		}
-		$('#file_menu').show();
 		return false;
 	},
 	hide:function(){
-		$('#file_menu').hide();
-		$('#file_menu').empty();
-		$('#action_delete').remove();
-		$('body').append($('#file_menu'));
+		$('.file_action').remove();
 	},
 	getCurrentFile:function(){
-		return $('#file_menu').parent().parent().attr('data-file');
+		return FileActions.currentFile.parent().attr('data-file');
 	},
 	getCurrentMimeType:function(){
-		return $('#file_menu').parent().parent().attr('data-mime');
+		return FileActions.currentFile.parent().attr('data-mime');
 	},
 	getCurrentType:function(){
-		return $('#file_menu').parent().parent().attr('data-type');
+		return FileActions.currentFile.parent().attr('data-type');
 	}
 }
 
-FileActions.register('all','Download',function(filename){
+FileActions.register('all','Download',OC.imagePath('core','actions/download'),function(filename){
 	window.location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
 });
 
-FileActions.register('all','Delete',function(filename){
+FileActions.register('all','Delete',OC.imagePath('core','actions/delete'),function(filename){
 	$.ajax({
 		url: 'ajax/delete.php',
 		data: "dir="+encodeURIComponent($('#dir').val())+"&file="+encodeURIComponent(filename),
@@ -119,9 +125,14 @@ FileActions.register('all','Delete',function(filename){
 	});
 });
 
+FileActions.register('all','Rename',OC.imagePath('core','actions/rename'),function(filename){
+	//todo
+	alert('Implement Me!!');
+});
+
 FileActions.setDefault('all','Download');
 
-FileActions.register('dir','Open',function(filename){
+FileActions.register('dir','Open','',function(filename){
 	window.location='index.php?dir='+$('#dir').val()+'/'+filename;
 });
 
