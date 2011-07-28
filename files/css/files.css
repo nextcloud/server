@@ -31,22 +31,6 @@ table td.filename a, table td.login, table td.logout, table td.download, table t
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
 table td.filename .nametext { width:80%; }
 table td.filename form { float:left; font-size:.85em; }
-table td.filename a.folder-up { background-image:url('../img/back.png'); font-style:italic; }
-table td.filename a.folder { background-image:url('../img/folder.png'); }
-table td.filename a.folder-home { background-image:url('../img/home.png'); }
-table td.filename a.folder-music { background-image:url('../img/folder-music.png'); }
-table td.filename a.folder-videos { background-image:url('../img/folder-video.png'); }
-table td.filename a.folder-shared { background-image:url('../img/folder-shared.png'); }
-table td.filename a.folder-images { background-image:url('../img/folder-image.png'); }
-table td.filename a.file-txt { background-image:url('../img/file-txt.png'); }
-table td.filename a.file-python { background-image:url('../img/file-python.png'); }
-table td.filename a.file-php { background-image:url('../img/file.png'); }
-table td.login { background-image:url('../img/login.png'); }
-table td.logout { background-image:url('../img/logout.png'); }
-table td.download { background-image:url('../img/download.png'); }
-table td.upload { background-image:url('../img/upload.png'); }
-table td.create { background-image:url('../img/folder-new.png'); }
-table td.delete { background-image:url('../img/delete.png'); }
 #fileList tr input[type=checkbox] { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
 #fileList tr input[type=checkbox]:checked, #fileList tr:hover input[type=checkbox] { display:inline; }
 #fileList tr.selected td.filename a, #fileList tr:hover td.filename a { background-image:none !important }
