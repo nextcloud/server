@@ -126,8 +126,7 @@ FileActions.register('all','Delete',OC.imagePath('core','actions/delete'),functi
 });
 
 FileActions.register('all','Rename',OC.imagePath('core','actions/rename'),function(filename){
-	//todo
-	alert('Implement Me!!');
+	FileList.rename(filename);
 });
 
 FileActions.setDefault('all','Download');

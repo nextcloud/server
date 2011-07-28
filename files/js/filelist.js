@@ -73,5 +73,38 @@ FileList={
 	},
 	isLoading:function(name){
 		return $('tr[data-file="'+name+'"]').data('loading');
+	},
+	rename:function(name){
+		var tr=$('tr[data-file="'+name+'"]');
+		var td=tr.children('td.filename');
+		var input=$('<input value='+name+' class="filename"></input>');
+		var button=$('<input type="sumit" value="Ok"></input>');
+		var form=$('<form action="#"></form>')
+		form.append(input);
+		form.append(button);
+		td.children('a.name').text('');
+		td.children('a.name').append(form)
+		input.focus();
+		td.children('a.name').append(button);
+		form.submit(function(event){
+			var newname=input.val();
+			event.stopPropagation();
+			event.preventDefault();
+			tr.attr('data-file',newname);
+			td.children('a.name').empty();
+			td.children('a.name').text(newname);
+			$.ajax({
+				url: 'ajax/rename.php',
+				data: "dir="+$('#dir').val()+"&newname="+encodeURIComponent(newname)+"&file="+encodeURIComponent(name)
+			});
+		});
+		form.click(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+		});
+		input.blur(function(){
+			td.children('a.name').empty();
+			td.children('a.name').text(name);
+		});
 	}
 }
