@@ -2,7 +2,7 @@
 body { background:#fefefe url('../img/body_background.jpg') repeat-y left top; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
 #header { position:fixed; top:0; z-index:100; width:100%; height:2.5em; padding:0.5em 1.5em; background:#1d2d44; -moz-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; box-shadow:0 0 10px #000, inset 0 -2px 10px #222; }
 #body-settings #header { background:#313131; }
-#owncloud { float:left; margin:0 0 0 2em; }
+#owncloud { float:left; }
 h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercase; font-weight:normal; font-style:italic; color:#666; }
 p.center { text-align:center; }
 a { color:#000; text-decoration:none; outline:0; }
