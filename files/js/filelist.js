@@ -78,7 +78,7 @@ FileList={
 		var tr=$('tr[data-file="'+name+'"]');
 		var td=tr.children('td.filename');
 		var input=$('<input value='+name+' class="filename"></input>');
-		var button=$('<input type="sumit" value="Ok"></input>');
+		var button=$('<input type="submit" value="Ok"></input>');
 		var form=$('<form action="#"></form>')
 		form.append(input);
 		form.append(button);
