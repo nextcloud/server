@@ -96,7 +96,8 @@ FileList={
 	},
 	loadingDone:function(name){
 		$('tr[data-file="'+name+'"]').data('loading',false);
-		$('tr[data-file="'+name+'"] td.filename a').attr('style','background-image:url(img/file.png');
+		var mime=$('tr[data-file="'+name+'"]').data('mime');
+		$('tr[data-file="'+name+'"] td.filename a').attr('style','background-image:url('+getMimeIcon(mime)+')');
 		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
 	},
 	isLoading:function(name){

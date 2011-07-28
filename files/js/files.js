@@ -437,3 +437,12 @@ function relative_modified_date(timestamp) {
 	else if(timediff < 63113852) { return 'last year'; }
 	else { return diffyears+' years ago'; }
 }
+
+function getMimeIcon(mime){
+	mime=mime.substr(0,mime.indexOf('/'));
+	var knownMimes=['image','audio'];
+	if(knownMimes.indexOf(mime)==-1){
+		mime='file';
+	}
+	return OC.imagePath('core','mimetypes/'+mime+'.png');
+}
