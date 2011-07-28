@@ -48,4 +48,8 @@
 	</p>
 </div>
 
+<div id="delete-confirm" title="">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+
 <span id="file_menu"/>
