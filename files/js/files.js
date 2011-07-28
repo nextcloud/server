@@ -62,8 +62,8 @@ $(document).ready(function() {
 			url: 'ajax/newfolder.php',
 			data: "dir="+$('#dir').val()+"&foldername="+$('#file_newfolder_name').val(),
 			complete: function(data){boolOperationFinished(data, function(){
-				var date=formatDate(new Date());
-				FileList.addDir($('#file_newfolder_name').val(),'0 B',date)
+				var date=new Date();
+				FileList.addDir($('#file_newfolder_name').val(),0,date)
 			});}
 		});
 		$('#file_newfolder_submit').fadeOut(250).trigger('vanish');
@@ -175,14 +175,13 @@ $(document).ready(function() {
 			});
 			form.submit();
 			var date=new Date();
-			var uploadTime=formatDate(date);
 			for(var i=0;i<files.length;i++){
 				if(files[i].size>0){
 					var size=files[i].size;
 				}else{
 					var size='Pending';
 				}
-				FileList.addFile(files[i].name,size,uploadTime,true);
+				FileList.addFile(files[i].name,size,date,true);
 			}
 
 			//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
@@ -415,4 +414,26 @@ function getSelectedFiles(property){
 		}
 	});
 	return files;
+}
+
+function relative_modified_date(timestamp) {
+	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
+	var diffminutes = Math.round(timediff/60);
+	var diffhours = Math.round(diffminutes/60);
+	var diffdays = Math.round(diffhours/24);
+	var diffmonths = Math.round(diffdays/31);
+	var diffyears = Math.round(diffdays/365);
+	if(timediff < 60) { return 'seconds ago'; }
+	else if(timediff < 120) { return '1 minute ago'; }
+	else if(timediff < 3600) { return diffminutes+' minutes ago'; }
+	//else if($timediff < 7200) { return '1 hour ago'; }
+	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
+	else if(timediff < 86400) { return 'today'; }
+	else if(timediff < 172800) { return 'yesterday'; }
+	else if(timediff < 2678400) { return diffdays+' days ago'; }
+	else if(timediff < 5184000) { return 'last month'; }
+	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
+	else if(timediff < 31556926) { return 'months ago'; }
+	else if(timediff < 63113852) { return 'last year'; }
+	else { return diffyears+' years ago'; }
 }

@@ -24,8 +24,10 @@ FileList={
 			simpleSize='Pending';
 		}
 		sizeColor = Math.round(200-Math.pow((size/(1024*1024)),2));
+		lastModifiedTime=Math.round(lastModified.getTime() / 1000);
+		modifiedColor=Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*5);
 		html+='<td class="filesize" title="'+humanFileSize(size)+'" style="color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')">'+simpleSize+'</td>';
-		html+='<td class="date">'+lastModified+'</td>';
+		html+='<td class="date" title="'+formatDate(lastModified)+'" style="color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')">'+relative_modified_date(lastModified.getTime() / 1000)+'</td>';
 		html+='</tr>';
 		FileList.insertElement(name,'file',$(html));
 		if(loading){
@@ -37,8 +39,16 @@ FileList={
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir">';
 		html+='<td class="filename"><input type="checkbox" /><a class="name" style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'"><strong>'+name+'</strong></a></td>';
-		html+='<td class="filesize">'+size+'</td>';
-		html+='<td class="date">'+lastModified+'</td>';
+		if(size!='Pending'){
+			simpleSize=simpleFileSize(size);
+		}else{
+			simpleSize='Pending';
+		}
+		sizeColor = Math.round(200-Math.pow((size/(1024*1024)),2));
+		lastModifiedTime=Math.round(lastModified.getTime() / 1000);
+		modifiedColor=Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*5);
+		html+='<td class="filesize" title="'+humanFileSize(size)+'" style="color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')">'+simpleSize+'</td>';
+		html+='<td class="date" title="'+formatDate(lastModified)+'" style="color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')">'+relative_modified_date(lastModified.getTime() / 1000)+'</td>';
 		html+='</tr>';
 		
 		FileList.insertElement(name,'dir',$(html));
