@@ -40,6 +40,9 @@ OC={
 		return link;
 	},
 	imagePath:function(app,file){
+		if(file.indexOf('.')==-1){//if no extention is given, use png or svg depending on browser support
+			file+=(SVGSupport())?'.svg':'.png'
+		}
 		return OC.filePath(app,'img',file);
 	},
 	addScript:function(app,script,ready){
@@ -95,4 +98,8 @@ if (!Array.prototype.indexOf){
 		}
 		return -1;
 	};
+}
+
+function SVGSupport() {
+	return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
 }
