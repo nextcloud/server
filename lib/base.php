@@ -110,6 +110,3 @@ OC_UTIL::addStyle( "styles" );
 if(!$error and !$RUNTIME_NOAPPS ){
 	OC_APP::loadApps();
 }
-
-
-?>

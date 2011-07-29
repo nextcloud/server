@@ -3,6 +3,7 @@ use strict;
 use Locale::PO;
 use Cwd;
 use Data::Dumper;
+use File::Path;
 
 sub crawl{
 	my( $dir ) = @_;
@@ -28,7 +29,7 @@ sub crawl{
 my $task = shift( @ARGV );
 my $place = '..';
 
-die( "Usuage: l10n.pl task\ntask: read, write\n") unless $task && $place;
+die( "Usage: l10n.pl task\ntask: read, write\n" ) unless $task && $place;
 
 # Our current position
 my $whereami = cwd();
@@ -38,6 +39,7 @@ die( "Program must be executed in a l10n-folder called 'l10n'" ) unless $wheream
 my @dirs = crawl( $place );
 
 # Languages
+rmtree( 'templates' );
 mkdir( 'templates' ) unless -d 'templates';
 
 my @languages = ();
@@ -55,13 +57,7 @@ if( $task eq 'read' ){
 		my $app = pop( @temp );
 		chdir( $dir );
 		my $output = "${whereami}/templates/$app.pot";
-			
-		if( -e $output ){
-			`xgettext --files-from=xgettextfiles --join-existing --output="$output" --keyword=t`
-		}
-		else{
-			`xgettext --files-from=xgettextfiles --output="$output" --keyword=t`
-		}
+		`xgettext --files-from=xgettextfiles --output="$output" --keyword=t`;
 		chdir( $whereami );
 	}
 }

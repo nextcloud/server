@@ -1,5 +1,5 @@
-#jp-interface{position:fixed;z-index:100;width:25em;left:201px;top:-10px;height:80px;border-bottom:none;}
-#jp-interface.player{display:hidden;}
+#jp-interface{position:fixed;z-index:100;width:25em;left:201px;top:-20px;height:80px;border-bottom:none;}
+#jp-interface div.player{height:0px}
 #jp-interface ul.jp-controls{list-style-type:none;padding:0;}
 #jp-interface ul.jp-controls li{display:inline;}
 #jp-interface ul.jp-controls a{position:absolute;overflow:hidden;text-indent:-9999px;}
@@ -25,5 +25,5 @@ a.jp-unmute{background:url("../img/jplayer.blue.monday.png") 0 -170px no-repeat;
 a.jp-unmute:hover{background:url("../img/jplayer.blue.monday.png") -19px -186px no-repeat;}
 div.jp-volume-bar{position:absolute;overflow:hidden;background:url("../img/jplayer.blue.monday.png") 0 -250px repeat-x;width:46px;height:5px;cursor:pointer;top:37px;left:324px;}
 div.jp-volume-bar-value{background:url("../img/jplayer.blue.monday.png") 0 -256px repeat-x;width:0;height:5px;}
-div.jp-current-time,div.jp-duration{position:absolute;font-size:.64em;font-style:oblique;top:49px;left:164px;width:122px;}
+div.jp-current-time,div.jp-duration{position:absolute;font-size:.64em;font-style:oblique;top:45px;left:164px;width:122px;}
 div.jp-duration{text-align:right;}

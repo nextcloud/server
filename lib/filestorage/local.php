@@ -138,7 +138,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			} else if (function_exists("mime_content_type")) {
 				// use mime magic extension if available
 				$mime_type = mime_content_type($this->datadir.$fspath);
-			} else if (self::canExecute("file")) {
+			} else if (OC_HELPER::canExecute("file")) {
 				// it looks like we have a 'file' command,
 				// lets see it it does have mime support
 				$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
@@ -159,62 +159,6 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			}
 			return $mime_type;
 		}
-	}
-
-	/**
-	* detect if a given program is found in the search PATH
-	*
-	* helper function used by _mimetype() to detect if the
-	* external 'file' utility is available
-	*
-	* @param  string  program name
-	* @param  string  optional search path, defaults to $PATH
-	* @return bool    true if executable program found in path
-	*/
-	private function canExecute($name, $path = false)
-	{
-		// path defaults to PATH from environment if not set
-		if ($path === false) {
-			$path = getenv("PATH");
-		}
-
-		// check method depends on operating system
-		if (!strncmp(PHP_OS, "WIN", 3)) {
-			// on Windows an appropriate COM or EXE file needs to exist
-			$exts = array(".exe", ".com");
-			$check_fn = "file_exists";
-		} else {
-			// anywhere else we look for an executable file of that name
-			$exts = array("");
-			$check_fn = "is_executable";
-		}
-
-        // Default check will be done with $path directories :
-        $dirs = explode(PATH_SEPARATOR, $path);
-
-		// WARNING : We have to check if open_basedir is enabled :
-		$obd = ini_get('open_basedir');
-
-		if($obd != "none")
-            $obd_values = explode(PATH_SEPARATOR, $obd);
-
-		if(count($obd_values) > 0)
-		{
-            // open_basedir is in effect !
-            // We need to check if the program is in one of these dirs :
-            $dirs = $obd_values;
-        }
-
-        foreach($dirs as $dir)
-        {
-            foreach($exts as $ext)
-            {
-                if($check_fn("$dir/$name".$ext))
-                    return true;
-            }
-        }
-
-		return false;
 	}
 
 	public function toTmpFile($path){
@@ -411,4 +355,3 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 		}
 	}
 }
- 

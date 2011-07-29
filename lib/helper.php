@@ -110,6 +110,11 @@ class OC_HELPER {
 		if( file_exists( "$SERVERROOT/core/img/mimetypes/$mimetype.png" )){
 			return "$WEBROOT/core/img/mimetypes/$mimetype.png";
 		}
+		//try only the first part of the mimetype
+		$mimetype=substr($mimetype,0,strpos($mimetype,'-'));
+		if( file_exists( "$SERVERROOT/core/img/mimetypes/$mimetype.png" )){
+			return "$WEBROOT/core/img/mimetypes/$mimetype.png";
+		}
 		else{
 			return "$WEBROOT/core/img/mimetypes/file.png";
 		}
@@ -266,6 +271,51 @@ class OC_HELPER {
 	public static function init_radio($s, $v, $d) {
 		if((isset($_REQUEST[$s]) && $_REQUEST[$s]==$v) || $v == $d)
 			print "checked=\"checked\" ";
+	}
+
+	/**
+	* detect if a given program is found in the search PATH
+	*
+	* @param  string  program name
+	* @param  string  optional search path, defaults to $PATH
+	* @return bool    true if executable program found in path
+	*/
+	public static function canExecute($name, $path = false){
+		// path defaults to PATH from environment if not set
+		if ($path === false) {
+			$path = getenv("PATH");
+		}
+		// check method depends on operating system
+		if (!strncmp(PHP_OS, "WIN", 3)) {
+			// on Windows an appropriate COM or EXE file needs to exist
+			$exts = array(".exe", ".com");
+			$check_fn = "file_exists";
+		} else {
+			// anywhere else we look for an executable file of that name
+			$exts = array("");
+			$check_fn = "is_executable";
+		}
+		// Default check will be done with $path directories :
+		$dirs = explode(PATH_SEPARATOR, $path);
+		// WARNING : We have to check if open_basedir is enabled :
+		$obd = ini_get('open_basedir');
+		if($obd != "none")
+			$obd_values = explode(PATH_SEPARATOR, $obd);
+		if(count($obd_values) > 0 and $obd_values[0])
+		{
+			// open_basedir is in effect !
+			// We need to check if the program is in one of these dirs :
+			$dirs = $obd_values;
+		}
+		foreach($dirs as $dir)
+		{
+			foreach($exts as $ext)
+			{
+				if($check_fn("$dir/$name".$ext))
+					return true;
+			}
+		}
+		return false;
 	}
 }
 

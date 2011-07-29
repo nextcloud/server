@@ -58,5 +58,3 @@ class OC_FILESTORAGE{
 	public function search($query){}
 	public function getLocalFile($path){}// get a path to a local version of the file, whether the original file is local or remote
 }
-
-?>

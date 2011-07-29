@@ -75,6 +75,29 @@ function simple_file_size($bytes) {
 	else { return number_format($mbytes, 1); }
 }
 
+function relative_modified_date($timestamp) {
+	$timediff = time() - $timestamp;
+	$diffminutes = round($timediff/60);
+	$diffhours = round($diffminutes/60);
+	$diffdays = round($diffhours/24);
+	$diffmonths = round($diffdays/31);
+	$diffyears = round($diffdays/365);
+	if($timediff < 60) { return 'seconds ago'; }
+	else if($timediff < 120) { return '1 minute ago'; }
+	else if($timediff < 3600) { return $diffminutes.' minutes ago'; }
+	//else if($timediff < 7200) { return '1 hour ago'; }
+	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
+	else if($timediff < 86400) { return 'today'; }
+	else if($timediff < 172800) { return 'yesterday'; }
+	else if($timediff < 2678400) { return $diffdays.' days ago'; }
+	else if($timediff < 5184000) { return 'last month'; }
+	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
+	else if($timediff < 31556926) { return 'months ago'; }
+	else if($timediff < 63113852) { return 'last year'; }
+	else { return $diffyears.' years ago'; }
+}
+
+
 /**
  * This class provides the templates for owncloud.
  */

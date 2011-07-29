@@ -158,7 +158,10 @@ class OC_APP{
 	 *     the navigation. Lower values come first.
 	 */
 	public static function addNavigationEntry( $data ){
-		// TODO: write function
+		$data['active']=false;
+		if(!isset($data['icon'])){
+			$data['icon']='';
+		}
 		OC_APP::$navigation[] = $data;
 		return true;
 	}
@@ -184,6 +187,10 @@ class OC_APP{
 	 *     the navigation. Lower values come first.
 	 */
 	public static function addNavigationSubEntry( $parent, $data ){
+		$data['active']=false;
+		if(!isset($data['icon'])){
+			$data['icon']='';
+		}
 		if( !array_key_exists( $parent, self::$subnavigation )){
 			self::$subnavigation[$parent] = array();
 		}
@@ -310,32 +317,33 @@ class OC_APP{
 
 	/// Private foo
 	private static function addSubNavigation( $list ){
-		$found = false;
-		foreach( self::$subnavigation as $parent => $selection ){
-			foreach( $selection as $subentry ){
-				if( $subentry['id'] == self::$activeapp ){
+		if(isset(self::$subnavigation[self::$activeapp])){
+			$subNav=self::$subnavigation[self::$activeapp];
+			foreach( $list as &$naventry ){
+				if( $naventry['id'] == self::$activeapp ){
+					$naventry['active'] = true;
+					$naventry['subnavigation'] = $subNav;
+				}
+			}
+		}else{
+			foreach(self::$subnavigation as $parent=>$entries){
+				$activeParent=false;
+				foreach($entries as &$subNav){
+					$subNav['active']=$subNav['id'] == self::$activeapp;
+					if($subNav['active']){
+						$activeParent=true;
+					}
+				}
+				if($activeParent){
 					foreach( $list as &$naventry ){
 						if( $naventry['id'] == $parent ){
 							$naventry['active'] = true;
-							$naventry['subnavigation'] = $selection;
+							$naventry['subnavigation'] = $entries;
 						}
-						else{
-							$naventry['active'] = false;
-						}
-					} unset( $naventry );
-					$found = true;
+					}
 				}
 			}
 		}
-
-		// Mark subentry as active
-		foreach( $list as &$naventry ){
-			if( $naventry['active'] ){
-				foreach( $naventry['subnavigation'] as &$subnaventry ){
-					$subnaventry['active'] = $subnaventry['id'] == self::$activeapp? true : false;
-				} unset( $subnaventry );
-			}
-		} unset( $naventry );
 
 		return $list;
 	}

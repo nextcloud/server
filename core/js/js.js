@@ -1,26 +1,27 @@
-var _l10ncache = {};
 function t(app,text){
-	if( !( app in _l10ncache )){
-		$.post( oc_webroot+'/core/ajax/translations.php', {'app': app}, function(jsondata){
-			_l10ncache[app] = jsondata.data;
+	if( !( app in t.cache )){
+		
+		$.post( OC.filePath('core','ajax','translations.php'), {'app': app}, function(jsondata){
+			t.cache[app] = jsondata.data;
 		});
 
 		// Bad answer ...
-		if( !( app in _l10ncache )){
-			_l10ncache[app] = [];
+		if( !( app in t.cache )){
+			t.cache[app] = [];
 		}
 	}
-	if( typeof( _l10ncache[app][text] ) !== 'undefined' ){
-		return _l10ncache[app][text];
+	if( typeof( t.cache[app][text] ) !== 'undefined' ){
+		return t.cache[app][text];
 	}
 	else{
 		return text;
 	}
 }
+t.cache={};
 
 OC={
 	webroot:oc_webroot,
-	coreApps:['files','admin','log','search','settings'],
+	coreApps:['files','admin','log','search','settings','core'],
 	linkTo:function(app,file){
 		return OC.filePath(app,'',file);
 	},
@@ -39,6 +40,9 @@ OC={
 		return link;
 	},
 	imagePath:function(app,file){
+		if(file.indexOf('.')==-1){//if no extention is given, use png or svg depending on browser support
+			file+=(SVGSupport())?'.svg':'.png'
+		}
 		return OC.filePath(app,'img',file);
 	},
 	addScript:function(app,script,ready){
@@ -55,3 +59,57 @@ OC={
 		$('head').append(style);
 	}
 }
+
+if (!Array.prototype.filter) {
+	Array.prototype.filter = function(fun /*, thisp*/) {
+		var len = this.length >>> 0;
+		if (typeof fun != "function")
+			throw new TypeError();
+		
+		var res = [];
+		var thisp = arguments[1];
+		for (var i = 0; i < len; i++) {
+			if (i in this) {
+				var val = this[i]; // in case fun mutates this
+				if (fun.call(thisp, val, i, this))
+					res.push(val);
+			}
+		}
+		return res;
+	}
+}
+if (!Array.prototype.indexOf){
+	Array.prototype.indexOf = function(elt /*, from*/)
+	{
+		var len = this.length;
+		
+		var from = Number(arguments[1]) || 0;
+		from = (from < 0)
+		? Math.ceil(from)
+		: Math.floor(from);
+		if (from < 0)
+			from += len;
+		
+		for (; from < len; from++)
+		{
+			if (from in this &&
+				this[from] === elt)
+				return from;
+		}
+		return -1;
+	};
+}
+
+function SVGSupport() {
+	return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
+}
+
+$(document).ready(function(){
+	if(!SVGSupport()){//replace all svg images with png images for browser that dont support svg
+		$('img.svg').each(function(index,element){
+			element=$(element);
+			var src=element.attr('src');
+			element.attr('src',src.substr(0,src.length-3)+'png');
+		});
+	};
+});

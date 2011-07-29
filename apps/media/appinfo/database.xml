@@ -206,6 +206,24 @@
     <length>4</length>
    </field>
 
+   <field>
+	   <name>song_playcount</name>
+	   <type>integer</type>
+	   <default>
+	   </default>
+	   <notnull>true</notnull>
+	   <length>4</length>
+   </field>
+
+   <field>
+	   <name>song_lastplayed</name>
+	   <type>integer</type>
+	   <default>
+	   </default>
+	   <notnull>true</notnull>
+	   <length>4</length>
+   </field>
+
   </declaration>
 
  </table>

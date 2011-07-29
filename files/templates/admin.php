@@ -3,8 +3,11 @@
 <form name="filesForm" action='#' method='post'>
 	<?php if($_['htaccessWorking']):?>
 		<label for="maxUploadSize"><?php echo $l->t( 'Maximum upload size' ); ?> </label><input name='maxUploadSize' id="maxUploadSize" value='<?php echo $_['uploadMaxFilesize'] ?>'/><br/>
+		<input type='submit' value='Save'/>
+	<?php else:?>
+		No settings currently available.
 	<?php endif;?>
-	<input type="checkbox" name="publicEnable" id="publicEnable" /><label for="publicEnable"> <?php echo $l->t( 'Allow public folders' ); ?></label><br>
+<!--	<input type="checkbox" name="publicEnable" id="publicEnable" /><label for="publicEnable"> <?php echo $l->t( 'Allow public folders' ); ?></label><br>
 
 	<div style="padding-left: 20px">
 		<input type="radio" name="sharingaim" id="separated" /><label for="separated"> <?php echo $l->t( 'separated from webdav storage' ); ?></label><br>
@@ -13,6 +16,5 @@
 	</div>
 
 	<input type="checkbox" id="downloadShared" /><label for="downloadShared"> <?php echo $l->t( 'Allow downloading shared files' ); ?></label><br>
-	<input type="checkbox" id="uploadShared" /><label for="uploadShared"> <?php echo $l->t( 'Allow uploading in shared directory' ); ?></label><br>
-	<input type='submit' value='Save'/>
+	<input type="checkbox" id="uploadShared" /><label for="uploadShared"> <?php echo $l->t( 'Allow uploading in shared directory' ); ?></label><br>-->
 </form>
