@@ -4,7 +4,7 @@ FileList={
 	},
 	addFile:function(name,size,lastModified,loading){
 		var img=(loading)?'img/loading.gif':'img/file.png';
-		var html='<tr data-file="'+name+'" data-type="file">';
+		var html='<tr data-file="'+name+'" data-type="file" data-size="'+size+'">';
 		if(name.indexOf('.')!=-1){
 			var basename=name.substr(0,name.indexOf('.'));
 			var extention=name.substr(name.indexOf('.'));
@@ -37,7 +37,7 @@ FileList={
 		}
 	},
 	addDir:function(name,size,lastModified){
-		var html='<tr data-file="'+name+'" data-type="dir">';
+		var html='<tr data-file="'+name+'" data-type="dir" data-size="'+size+'">';
 		html+='<td class="filename"><input type="checkbox" /><a class="name" style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'"><strong>'+name+'</strong></a></td>';
 		if(size!='Pending'){
 			simpleSize=simpleFileSize(size);
