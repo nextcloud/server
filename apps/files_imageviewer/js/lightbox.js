@@ -7,7 +7,7 @@ $(document).ready(function() {
 		$( 'body' ).append(overlay);
 		var container=$('<div id="lightbox"/>');
 		$( 'body' ).append(container);
-		FileActions.register('image','View',function(filename){
+		FileActions.register('image','View','',function(filename){
 			var location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
 			overlay.show();
 			if(!images[location]){

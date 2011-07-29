@@ -51,7 +51,7 @@ class OC_LOG {
 	 * This function adds another entry to the log database
 	 */
 	public static function add( $appid, $subject, $predicate, $object = ' ' ){
-		$query=OC_DB::prepare("INSERT INTO *PREFIX*log(moment,appid,user,action,info) VALUES(NOW(),?,?,?,?)");
+		$query=OC_DB::prepare("INSERT INTO `*PREFIX*log`(moment,appid,user,action,info) VALUES(NOW(),?,?,?,?)");
 		$result=$query->execute(array($appid,$subject,$predicate,$object));
 		// Die if we have an error
 		if( PEAR::isError($result)) {
@@ -79,7 +79,7 @@ class OC_LOG {
 	 *   - app: only entries for this app
 	 */
 	public static function get( $filter = array()){
-		$queryString='SELECT * FROM *PREFIX*log WHERE 1=1 ORDER BY moment DESC';
+		$queryString='SELECT * FROM `*PREFIX*log` WHERE 1=1 ORDER BY moment DESC';
 		$params=array();
 		if(isset($filter['from'])){
 			$queryString.='AND moment>? ';
@@ -116,7 +116,7 @@ class OC_LOG {
 	 * This function deletes all entries that are older than $date.
 	 */
 	public static function deleteBefore( $date ){
-		$query=OC_DB::prepare("DELETE FROM *PREFIX*log WHERE moment<?");
+		$query=OC_DB::prepare("DELETE FROM `*PREFIX*log` WHERE moment<?");
 		$query->execute(array($date));
 		return true;
 	}
@@ -128,7 +128,7 @@ class OC_LOG {
 	 * This function deletes all log entries.
 	 */
 	public static function deleteAll(){
-		$query=OC_DB::prepare("DELETE FROM *PREFIX*log");
+		$query=OC_DB::prepare("DELETE FROM `*PREFIX*log`");
 		$query->execute();
 		return true;
 	}

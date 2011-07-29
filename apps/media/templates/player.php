@@ -17,7 +17,6 @@
 		<div class="jp-volume-bar-value"></div>
 	</div>
 	<div class="jp-current-time"></div>
-	<div class="jp-current-time"></div>
 	<div class="jp-duration"></div>
-	<div class='player'></div>
+	<div class='player' id='jp-player'></div>
 </div>

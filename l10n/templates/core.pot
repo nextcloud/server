@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-26 00:58+0200\n"
+"POT-Creation-Date: 2011-07-27 12:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,104 +19,6 @@ msgstr ""
 
 #: ../templates/404.php:15
 msgid "Error 404, Cloud not found"
-msgstr ""
-
-#: ../templates/installation.php:6
-msgid "Welcome to <strong>ownCloud</strong>, your personnal cloud."
-msgstr ""
-
-#: ../templates/installation.php:7
-msgid "To finish the installation, please follow the steps below."
-msgstr ""
-
-#: ../templates/installation.php:26
-msgid "Create an <strong>admin account.</strong>"
-msgstr ""
-
-#: ../templates/installation.php:27
-msgid "Login:"
-msgstr ""
-
-#: ../templates/installation.php:28
-msgid "Password:"
-msgstr ""
-
-#: ../templates/installation.php:31
-msgid "Advanced"
-msgstr ""
-
-#: ../templates/installation.php:34
-msgid "Set where to store the data."
-msgstr ""
-
-#: ../templates/installation.php:35
-msgid "Data directory:"
-msgstr ""
-
-#: ../templates/installation.php:39
-msgid "Configure your database."
-msgstr ""
-
-#: ../templates/installation.php:43
-msgid "I will use a SQLite database. You have nothing to do!"
-msgstr ""
-
-#: ../templates/installation.php:46
-msgid "SQLite"
-msgstr ""
-
-#: ../templates/installation.php:53
-msgid "I will use a MySQL database."
-msgstr ""
-
-#: ../templates/installation.php:59 ../templates/installation.php:62
-msgid "Host:"
-msgstr ""
-
-#: ../templates/installation.php:60 ../templates/installation.php:61
-msgid "Database name:"
-msgstr ""
-
-#: ../templates/installation.php:61 ../templates/installation.php:63
-msgid "Table prefix:"
-msgstr ""
-
-#: ../templates/installation.php:62
-msgid "MySQL user login:"
-msgstr ""
-
-#: ../templates/installation.php:63
-msgid "MySQL user password:"
-msgstr ""
-
-#: ../templates/installation.php:68 ../templates/installation.php:69
-msgid "Finish setup"
-msgstr ""
-
-#: ../templates/layout.guest.php:20 ../templates/layout.guest.php:33
-msgid ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs "
-"on your own server.</p>"
-msgstr ""
-
-#: ../templates/login.php:6
-msgid "Login failed!"
-msgstr ""
-
-#: ../templates/logout.php:1
-msgid "You are logged out."
-msgstr ""
-
-#: ../templates/part.pagenavi.php:6
-msgid "prev"
-msgstr ""
-
-#: ../templates/part.pagenavi.php:26
-msgid "next"
-msgstr ""
-
-#: ../templates/part.searchbox.php:3
-msgid "Search"
 msgstr ""
 
 #: ../templates/installation.php:6
@@ -139,12 +41,28 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+#: ../templates/installation.php:31
+msgid "Advanced"
+msgstr ""
+
+#: ../templates/installation.php:34
+msgid "Set where to store the data."
+msgstr ""
+
+#: ../templates/installation.php:35
+msgid "Data directory:"
+msgstr ""
+
 #: ../templates/installation.php:39
 msgid "Configure the database."
 msgstr ""
 
 #: ../templates/installation.php:43
 msgid "SQLite will be used for the database. You have nothing to do."
+msgstr ""
+
+#: ../templates/installation.php:46
+msgid "SQLite"
 msgstr ""
 
 #: ../templates/installation.php:53
@@ -159,6 +77,48 @@ msgstr ""
 msgid "MySQL password:"
 msgstr ""
 
+#: ../templates/installation.php:61
+msgid "Database name:"
+msgstr ""
+
+#: ../templates/installation.php:62
+msgid "Host:"
+msgstr ""
+
+#: ../templates/installation.php:63
+msgid "Table prefix:"
+msgstr ""
+
+#: ../templates/installation.php:69
+msgid "Finish setup"
+msgstr ""
+
+#: ../templates/layout.guest.php:33
+msgid ""
+"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs "
+"on your own server.</p>"
+msgstr ""
+
+#: ../templates/login.php:6
+msgid "Login failed!"
+msgstr ""
+
 #: ../templates/login.php:11 ../templates/login.php:15
 msgid "Remember login"
+msgstr ""
+
+#: ../templates/logout.php:1
+msgid "You are logged out."
+msgstr ""
+
+#: ../templates/part.pagenavi.php:6
+msgid "prev"
+msgstr ""
+
+#: ../templates/part.pagenavi.php:26
+msgid "next"
+msgstr ""
+
+#: ../templates/part.searchbox.php:3
+msgid "Search"
 msgstr ""
