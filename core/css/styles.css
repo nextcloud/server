@@ -93,21 +93,6 @@ input[type="search"] { font-size:1em; padding-left:2em; background:#eee url('../
 /* CONTENT ------------------------------------------------------------------ */
 #content { margin:3.5em 0 0 15.7em; }
 
-
-/* NAVIGATION BAR */
-span.nav { display:block; float:left; /*margin-right:55em;*/ }
-span.nav a { padding:0.5em 1.5em 0.5em 0.5em; background-position:right center; background-repeat:no-repeat; background-image:url('../img/arrow.png'); text-decoration:none; }
-span.nav a img { height:16px; vertical-align:text-top; }
-
-/* ACTIONS BAR */
-p.actions, div.actions { padding:7px; float:right; margin-right:16em; }
-p.actions a, div.actions a { padding:0.5em 0.5em 0.5em 3em; background-position:1em center; background-repeat:no-repeat; background-image:url('../img/action.png'); border-right:1px solid #eee; text-decoration:none; color:#333; }
-p.actions a:hover, p.actions a:focus, div.actions a:hover, div.actions a:focus { background-color:#eee; color:#000; outline:0; }
-p.actions a:active, div.actions a:active { outline:0; }
-p.actions a.new-dir, div.actions a.new-dir { background-image:url('../img/folder-new.png'); }
-p.actions a.download, div.actions a.download { background-image:url('../img/download.png'); }
-p.actions a.delete, div.actions a.delete { background-image:url('../img/delete.png'); }
-
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ddd; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 #quota_indicator div { background-color:#76A9EA; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }

@@ -1,4 +1,5 @@
 /* FILE MENU */
+.actions { padding:.6em; float:right; margin-right:16em; }
 #file_menu { right:0px; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
 .file_upload_form, #file_newfolder_form { display:inline; }
@@ -17,7 +18,7 @@ table { position:relative; top:37px; width:100%; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
-div.crumb { float:left; display:block; background-repeat:no-repeat; background-position:right 0px; font-weight:bold; padding-top:8px; padding-left:8px; height:28px; /*36-8*/ }
+div.crumb { float:left; display:block; background:no-repeat right 0; font-weight:bold; padding:8px 1.5em 0 1em; height:28px; /*36-8*/ }
 table tr.mouseOver td { background-color:#eee; }
 table th { padding:.5em; height:2em; }
 table th .name { float:left; margin-left:.5em; }
