@@ -56,7 +56,7 @@ FileActions={
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
-			if(actions[name]!=defaultAction && name!='Delete'){
+			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
 				var img=FileActions.icons[name];
 				var html='<a href="#" title="'+name+'" class="file_action"/>';
 				var element=$(html);
