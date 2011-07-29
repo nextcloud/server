@@ -310,20 +310,12 @@ class OC_APP{
 
 	/// Private foo
 	private static function addSubNavigation( $list ){
-		$found = false;
-		foreach( self::$subnavigation as $parent => $selection ){
-			foreach( $selection as $subentry ){
-				if( $subentry['id'] == self::$activeapp ){
-					foreach( $list as &$naventry ){
-						if( $naventry['id'] == $parent ){
-							$naventry['active'] = true;
-							$naventry['subnavigation'] = $selection;
-						}
-						else{
-							$naventry['active'] = false;
-						}
-					} unset( $naventry );
-					$found = true;
+		if(isset(self::$subnavigation[self::$activeapp])){
+			$subNav=self::$subnavigation[self::$activeapp];
+			foreach( $list as &$naventry ){
+				if( $naventry['id'] == self::$activeapp ){
+					$naventry['active'] = true;
+					$naventry['subnavigation'] = $subNav;
 				}
 			}
 		}
