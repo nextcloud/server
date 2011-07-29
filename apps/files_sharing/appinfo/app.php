@@ -8,6 +8,6 @@ OC_APP::addNavigationEntry( array( "id" => "files_sharing_list",
   "order" => 10, 
   "href" => OC_HELPER::linkTo( "files_sharing", "list.php" ),
   "name" => "Share", 
-  "icon" => OC_HELPER::imagePath( "files_sharing", "share.png" )));
+  "icon" => OC_HELPER::imagePath( "core", "actions/share.png" )));
 
 ?>

@@ -1,6 +1,5 @@
 $(document).ready(function() {
-	$('.share').click(function(event) {
-		event.preventDefault();
+	FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
 		var html = "<div id='dialog' title='Share "+getSelectedFiles('name')+"' align='center'>";
 		html += "<label><input type='radio' name='share_type' value='private' checked='checked' /> Private</label>";
 		html += "<label><input type='radio' name='share_type' value='public' /> Public</label>";
