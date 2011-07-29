@@ -155,4 +155,3 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		return $props;
 	}
 }
-

@@ -82,7 +82,7 @@ class OC_MEDIA{
 	}
 }
 
-class OC_MediaSearchProvider extends OC_SearchProvider{
+class OC_MediaSearchProvider extends OC_Search_Provider{
 	function search($query){
 		require_once('lib_collection.php');
 		$artists=OC_MEDIA_COLLECTION::getArtists($query);
@@ -90,18 +90,18 @@ class OC_MediaSearchProvider extends OC_SearchProvider{
 		$songs=OC_MEDIA_COLLECTION::getSongs(0,0,$query);
 		$results=array();
 		foreach($artists as $artist){
-			$results[]=new OC_SearchResult($artist['artist_name'],'',OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist['artist_name']) ),'Music');
+			$results[]=new OC_Search_Result($artist['artist_name'],'',OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist['artist_name']) ),'Music');
 		}
 		foreach($albums as $album){
 			$artist=urlencode(OC_MEDIA_COLLECTION::getArtistName($album['album_artist']));
-			$results[]=new OC_SearchResult($album['album_name'],'',OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.$artist.'&album='.urlencode($album['album_name']) ),'Music');
+			$results[]=new OC_Search_Result($album['album_name'],'',OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.$artist.'&album='.urlencode($album['album_name']) ),'Music');
 		}
 		foreach($songs as $song){
 			$minutes=floor($song['song_length']/60);
 			$secconds=$song['song_length']%60;
 			$artist=urlencode(OC_MEDIA_COLLECTION::getArtistName($song['song_artist']));
 			$album=urlencode(OC_MEDIA_COLLECTION::getalbumName($song['song_album']));
-			$results[]=new OC_SearchResult($song['song_name'],"$minutes:$secconds",OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.$artist.'&album='.$album.'&song='.urlencode($song['song_name']) ),'Music');
+			$results[]=new OC_Search_Result($song['song_name'],"$minutes:$secconds",OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.$artist.'&album='.$album.'&song='.urlencode($song['song_name']) ),'Music');
 		}
 		return $results;
 	}

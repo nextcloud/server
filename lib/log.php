@@ -149,7 +149,3 @@ class OC_LOG {
 		return $filteredLogs;
 	}
 }
-
-
-
-?>

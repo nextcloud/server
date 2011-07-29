@@ -318,5 +318,3 @@ class OC_HELPER {
 		return false;
 	}
 }
-
-?>

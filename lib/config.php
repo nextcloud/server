@@ -182,4 +182,3 @@ class OC_CONFIG{
 		return true;
 	}
 }
-?>

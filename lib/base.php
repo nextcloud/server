@@ -110,3 +110,93 @@ OC_UTIL::addStyle( "styles" );
 if(!$error and !$RUNTIME_NOAPPS ){
 	OC_APP::loadApps();
 }
+
+// FROM Connect.php
+function OC_CONNECT_TEST($path,$user,$password){
+	echo 'connecting...';
+	$remote=OC_CONNECT::connect($path,$user,$password);
+	if($remote->connected){
+		echo 'done<br/>';
+		if($remote->isLoggedIn()){
+			echo 'logged in, session working<br/>';
+			echo 'trying to get remote files...';
+			$files=$remote->getFiles('');
+			if($files){
+				echo count($files).' files found:<br/>';
+				foreach($files as $file){
+					echo "{$file['type']} {$file['name']}: {$file['size']} bytes<br/>";
+				}
+				echo 'getting file "'.$file['name'].'"...';
+				$size=$file['size'];
+				$file=$remote->getFile('',$file['name']);
+				if(file_exists($file)){
+					$newSize=filesize($file);
+					if($size!=$newSize){
+						echo "fail<br/>Error: $newSize bytes received, $size expected.";
+						echo '<br/><br/>Recieved file:<br/>';
+						readfile($file);
+						unlink($file);
+						return;
+					}
+					OC_FILESYSTEM::fromTmpFile($file,'/remoteFile');
+					echo 'done<br/>';
+					echo 'sending file "burning_avatar.png"...';
+					$res=$remote->sendFile('','burning_avatar.png','','burning_avatar.png');
+					if($res){
+						echo 'done<br/>';
+					}else{
+						echo 'fail<br/>';
+					}
+				}else{
+					echo 'fail<br/>';
+				}
+			}else{
+				echo 'fail<br/>';
+			}
+		}else{
+			echo 'no longer logged in, session fail<br/>';
+		}
+	}else{
+		echo 'fail<br/>';
+	}
+	$remote->disconnect();
+	die();
+}
+
+// From files.php
+function zipAddDir($dir,$zip,$internalDir=''){
+    $dirname=basename($dir);
+    $zip->addEmptyDir($internalDir.$dirname);
+    $internalDir.=$dirname.='/';
+    $files=OC_FILES::getdirectorycontent($dir);
+    foreach($files as $file){
+        $filename=$file['name'];
+        $file=$dir.'/'.$filename;
+        if(OC_FILESYSTEM::is_file($file)){
+			$tmpFile=OC_FILESYSTEM::toTmpFile($file);
+			OC_FILES::$tmpFiles[]=$tmpFile;
+            $zip->addFile($tmpFile,$internalDir.$filename);
+        }elseif(OC_FILESYSTEM::is_dir($file)){
+            zipAddDir($file,$zip,$internalDir);
+        }
+    }
+}
+
+if(!function_exists('sys_get_temp_dir')) {
+    function sys_get_temp_dir() {
+        if( $temp=getenv('TMP') )        return $temp;
+        if( $temp=getenv('TEMP') )        return $temp;
+        if( $temp=getenv('TMPDIR') )    return $temp;
+        $temp=tempnam(__FILE__,'');
+        if (file_exists($temp)) {
+          unlink($temp);
+          return dirname($temp);
+        }
+        return null;
+    }
+}
+
+require_once('fakedirstream.php');
+
+// FROM search.php
+new OC_Search_Provider_File();

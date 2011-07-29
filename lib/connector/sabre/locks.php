@@ -149,4 +149,3 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	}
 
 }
-

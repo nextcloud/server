@@ -217,4 +217,3 @@ class OC_PREFERENCES{
 		return true;
 	}
 }
-?>

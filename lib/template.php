@@ -365,5 +365,3 @@ class OC_TEMPLATE{
 		return $content->printPage();
 	}
 }
-
-?>

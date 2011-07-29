@@ -556,5 +556,3 @@ class OC_OCS {
 		return OC_PREFERENCES::deleteKey($user,$app,$key);
 	}
 }
-
-?>

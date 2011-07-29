@@ -21,7 +21,6 @@
 * 
 */
 
-
 class OC_FILESTORAGE_REMOTE extends OC_FILESTORAGE{
 	private $url;
 	private $username;
@@ -349,5 +348,3 @@ class OC_FILESTORAGE_REMOTE extends OC_FILESTORAGE{
 		}
 	}
 }
-
-?>

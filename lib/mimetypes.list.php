@@ -78,4 +78,3 @@ return array(
 	'webm'=>'video/webm',
 	'wmv'=>'video/x-ms-asf'
 );
-?>

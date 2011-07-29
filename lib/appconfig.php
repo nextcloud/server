@@ -158,4 +158,3 @@ class OC_APPCONFIG{
 		return true;
 	}
 }
-?>

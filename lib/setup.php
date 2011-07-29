@@ -1,7 +1,5 @@
 <?php
 
-include_once( 'installer.php' );
-
 $hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
 $datadir = OC_CONFIG::getValue('datadir', $SERVERROOT.'/data');
