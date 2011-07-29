@@ -12,6 +12,10 @@ $(document).ready(function(){
 		PlayList.render();
 		Collection.hide();
 	});
+	var tab=window.location.href.slice(window.location.href.indexOf('#') + 1);
+	if(tab=='collection'){
+		$('#plugins a[href="#collection"]').trigger('click');
+	}
 });
 
 

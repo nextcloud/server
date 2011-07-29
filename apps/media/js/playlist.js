@@ -26,8 +26,7 @@ PlayList.render=function(){
 		tr.data('index',i);
 		tr.click(function(){
 			PlayList.play($(this).data('index'));
-			PlayList.parent.children('tr').removeClass('current');
-			$(this).addClass('current');
+			PlayList.render();
 		});
 		tr.hover(function(){
 			var button=$('<img class="remove" title="Remove"/>');
