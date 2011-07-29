@@ -158,7 +158,10 @@ class OC_APP{
 	 *     the navigation. Lower values come first.
 	 */
 	public static function addNavigationEntry( $data ){
-		// TODO: write function
+		$data['active']=false;
+		if(!isset($data['icon'])){
+			$data['icon']='';
+		}
 		OC_APP::$navigation[] = $data;
 		return true;
 	}
@@ -184,6 +187,10 @@ class OC_APP{
 	 *     the navigation. Lower values come first.
 	 */
 	public static function addNavigationSubEntry( $parent, $data ){
+		$data['active']=false;
+		if(!isset($data['icon'])){
+			$data['icon']='';
+		}
 		if( !array_key_exists( $parent, self::$subnavigation )){
 			self::$subnavigation[$parent] = array();
 		}
@@ -318,16 +325,25 @@ class OC_APP{
 					$naventry['subnavigation'] = $subNav;
 				}
 			}
-		}
-
-		// Mark subentry as active
-		foreach( $list as &$naventry ){
-			if( $naventry['active'] ){
-				foreach( $naventry['subnavigation'] as &$subnaventry ){
-					$subnaventry['active'] = $subnaventry['id'] == self::$activeapp? true : false;
-				} unset( $subnaventry );
+		}else{
+			foreach(self::$subnavigation as $parent=>$entries){
+				$activeParent=false;
+				foreach($entries as &$subNav){
+					$subNav['active']=$subNav['id'] == self::$activeapp;
+					if($subNav['active']){
+						$activeParent=true;
+					}
+				}
+				if($activeParent){
+					foreach( $list as &$naventry ){
+						if( $naventry['id'] == $parent ){
+							$naventry['active'] = true;
+							$naventry['subnavigation'] = $entries;
+						}
+					}
+				}
 			}
-		} unset( $naventry );
+		}
 
 		return $list;
 	}
