@@ -54,6 +54,10 @@ FileActions={
 	display:function(parent){
 		FileActions.currentFile=parent;
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
+		var file=FileActions.getCurrentFile();
+		if($('tr[data-file="'+file+'"]').data('renaming')){
+			return;
+		}
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){

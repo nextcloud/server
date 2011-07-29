@@ -27,6 +27,7 @@ table th#headerSize, table td.filesize { width:5em; padding:0 1em; text-align:ri
 table th#headerDate, table td.date { width:10em; padding:0 .1em 0 1em; text-align:left; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name { display:block; background-image:url('../img/file.png'); height:1.5em; vertical-align:middle; }
+table td.filename a.name input, table td.filename a.name form { width:100% }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 3em; background-position:1em .5em; background-repeat:no-repeat; }
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
 table td.filename .nametext { width:80%; }

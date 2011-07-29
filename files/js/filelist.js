@@ -105,18 +105,17 @@ FileList={
 	},
 	rename:function(name){
 		var tr=$('tr[data-file="'+name+'"]');
+		tr.data('renaming',true);
 		var td=tr.children('td.filename');
 		var input=$('<input value='+name+' class="filename"></input>');
-		var button=$('<input type="submit" value="Ok"></input>');
 		var form=$('<form action="#"></form>')
 		form.append(input);
-		form.append(button);
 		td.children('a.name').text('');
 		td.children('a.name').append(form)
 		input.focus();
-		td.children('a.name').append(button);
 		form.submit(function(event){
 			var newname=input.val();
+			tr.data('renaming',false);
 			event.stopPropagation();
 			event.preventDefault();
 			tr.attr('data-file',newname);
@@ -140,6 +139,7 @@ FileList={
 			event.preventDefault();
 		});
 		input.blur(function(){
+			tr.data('renaming',false);
 			td.children('a.name').empty();
 			if(name.indexOf('.')>0){
 				basename=name.substr(0,name.indexOf('.'));
