@@ -78,7 +78,8 @@ background: linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */ }
 #metanav li a img { vertical-align:middle; }
 
 /* SEARCH --------------------------------------------------------------------- */
-form.searchbox { display:inline; position:fixed; top:1em; right:10em; margin:0; padding:0; }
+form.searchbox { display:inline; position:fixed; top:.9em; right:9em; margin:0; padding:0; }
+input[type="search"] { font-size:1em; padding-left:2em; background:#eee url('../img/actions/search.png') .5em center no-repeat; }
 
 /* NAVIGATION ------------------------------------------------------------- */
 #plugins { position:fixed; top:3.5em; float:left; width:15.7em; padding:0; z-index:0; }
