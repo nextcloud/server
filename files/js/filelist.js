@@ -121,7 +121,15 @@ FileList={
 			event.preventDefault();
 			tr.attr('data-file',newname);
 			td.children('a.name').empty();
-			td.children('a.name').text(newname);
+			if(newname.indexOf('.')>0){
+				basename=newname.substr(0,newname.indexOf('.'));
+			}else{
+				basename=newname;
+			}
+			td.children('a.name').text(basename);
+			if(newname.indexOf('.')>0){
+				td.children('a.name').append($('<span class="extention">'+newname.substr(newname.indexOf('.'))+'</span>'));
+			}
 			$.ajax({
 				url: 'ajax/rename.php',
 				data: "dir="+$('#dir').val()+"&newname="+encodeURIComponent(newname)+"&file="+encodeURIComponent(name)
@@ -133,7 +141,15 @@ FileList={
 		});
 		input.blur(function(){
 			td.children('a.name').empty();
-			td.children('a.name').text(name);
+			if(name.indexOf('.')>0){
+				basename=name.substr(0,name.indexOf('.'));
+			}else{
+				basename=name;
+			}
+			td.children('a.name').text(basename);
+			if(name.indexOf('.')>0){
+				td.children('a.name').append($('<span class="extention">'+name.substr(name.indexOf('.'))+'</span>'));
+			}
 		});
 	}
 }
