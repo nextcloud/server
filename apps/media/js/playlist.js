@@ -46,7 +46,7 @@ PlayList.render=function(){
 			event.stopPropagation();
 			if($(this).attr('checked')){
 				$(this).parent().parent().addClass('selected');
-				if($('td.name input:checkbox').length==$('td.name input:checkbox:checked').length){
+				if($('tbody td.name input:checkbox').length==$('tbody td.name input:checkbox:checked').length){
 					$('#selectAll').attr('checked',true);
 				}
 			}else{
@@ -59,7 +59,7 @@ PlayList.render=function(){
 	}
 }
 PlayList.getSelected=function(){
-	return $('td.name input:checkbox:checked').parent().parent();
+	return $('tbody td.name input:checkbox:checked').parent().parent();
 }
 PlayList.hide=function(){
 	$('#playlist').hide();
@@ -71,12 +71,12 @@ $(document).ready(function(){
 	$('#selectAll').click(function(){
 		if($(this).attr('checked')){
 			// Check all
-			$('td.name input:checkbox').attr('checked', true);
-			$('td.name input:checkbox').parent().parent().addClass('selected');
+			$('tbody td.name input:checkbox').attr('checked', true);
+			$('tbody td.name input:checkbox').parent().parent().addClass('selected');
 		}else{
 			// Uncheck all
-			$('td.name input:checkbox').attr('checked', false);
-			$('td.name input:checkbox').parent().parent().removeClass('selected');
+			$('tbody td.name input:checkbox').attr('checked', false);
+			$('tbody td.name input:checkbox').parent().parent().removeClass('selected');
 		}
 		procesSelection();
 	});
