@@ -1,5 +1,9 @@
 <div id="login">
-	<header><img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" /></header>
+	<header>
+		<div class='header'>
+			<img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" />
+		</div>
+	</header>
 	<form action="index.php" method="post" id="login_form">
 		<fieldset>
 			<?php if($_['error']): ?>
