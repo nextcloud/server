@@ -80,18 +80,6 @@ class OC_SHARE {
 	}
 
 	/**
-	* Create a string of ?s based on the specified count
-	* @return A string to be placed inside the IN operator in a query for uid_shared_with
-	*/
-	private static function prepareIN($count) {
-		$questionMarks = "?";
-		for($i = 1; $i < $count; $i++) {
-			$questionMarks .= ",?";
-		}
-		return $questionMarks;
-	}
-
-	/**
 	 * Create a new entry in the database for a file inside a shared folder
 	 *
 	 * $oldTarget and $newTarget may be the same value. $oldTarget exists in case the file is being moved outside of the folder
@@ -143,7 +131,7 @@ class OC_SHARE {
 		$folder = preg_replace('{(/)\1+}', "/", $folder);
 		$length = strlen($folder);
 		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with IN(".self::prepareIN(count($userAndGroups)).")");
+		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).")");
 		return $query->execute(array_merge(array($length, $folder, $length, $folder), $userAndGroups))->fetchAll();
 	}
 	
@@ -157,7 +145,7 @@ class OC_SHARE {
 		$target = rtrim($target, "/");
 		$target = preg_replace('{(/)\1+}', "/", $target);
 		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".self::prepareIN(count($userAndGroups)).") LIMIT 1");
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
 		// Prevent searching for user directory e.g. '/MTGap/files'
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
@@ -186,7 +174,7 @@ class OC_SHARE {
 		$target = rtrim($target, "/");
 		$target = preg_replace('{(/)\1+}', "/", $target);
 		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".self::prepareIN(count($userAndGroups)).") LIMIT 1");
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
 		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['source'];
@@ -207,7 +195,7 @@ class OC_SHARE {
 	 */
 	public static function isWriteable($target) {
 		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".self::prepareIN(count($userAndGroups)).") LIMIT 1");
+		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
 		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['is_writeable'];
