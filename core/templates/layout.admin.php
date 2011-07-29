@@ -30,8 +30,8 @@
 		<div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 			<ul id="metanav">
-				<li><a href="<?php echo link_to('', 'index.php'); ?>" title="Back to files"><img src="<?php echo image_path('', 'actions/back.svg'); ?>"></a></li>
-				<li><a href="<?php echo link_to('', 'index.php?logout=true'); ?>" title="Log out"><img src="<?php echo image_path('', 'actions/logout.svg'); ?>"></a></li>
+				<li><a href="<?php echo link_to('', 'index.php'); ?>" title="Back to files"><img class='svg' src="<?php echo image_path('', 'actions/back.svg'); ?>"></a></li>
+				<li><a href="<?php echo link_to('', 'index.php?logout=true'); ?>" title="Log out"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>"></a></li>
 			</ul>
 		</div>
 

@@ -103,3 +103,13 @@ if (!Array.prototype.indexOf){
 function SVGSupport() {
 	return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
 }
+
+$(document).ready(function(){
+	if(!SVGSupport()){//replace all svg images with png images for browser that dont support svg
+		$('img.svg').each(function(index,element){
+			element=$(element);
+			var src=element.attr('src');
+			element.attr('src',src.substr(0,src.length-3)+'png');
+		});
+	};
+});
