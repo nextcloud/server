@@ -1,34 +1,10 @@
 $(document).ready(function() {
 	FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
-		var html = "<div id='dialog' title='Share "+getSelectedFiles('name')+"' align='center'>";
-		html += "<label><input type='radio' name='share_type' value='private' checked='checked' /> Private</label>";
-		html += "<label><input type='radio' name='share_type' value='public' /> Public</label>";
-		html += "<br />";
-		html += "<div id='private'>";
-		html += "<label>Share with <input placeholder='User or Group' class='uid_shared_with' /></label>";
-		html += "<button id='hey' class='add-uid_shared_with fancybutton'>+</button>";
-		html += "<br />";
-		html += "<a id='toggle-private-advanced'>Advanced</a>";
-		html += "<br />";
-		html += "<div id='private-advanced' style='display: none; text-align: left'>";
-		html += "<label><input type='checkbox' name='share_permissions' value='read' checked='checked' disabled='disable' /> Read</label><br />";
-		html += "<label><input type='checkbox' name='share_permissions' value='write' /> Write</label><br />";
-		html += "<label><input type='checkbox' name='share_permissions' value='rename' /> Rename</label><br />";
-		html += "<label><input type='checkbox' name='share_permissions' value='delete' /> Delete</label><br />";
-		html += "</div>";
-		html += "</div>";
-		html += "<div id='public' style='display: none'>";
-		html += "TODO: Construct a public link";
-		html += "<input placeholder='Expires' id='expire' />";
-		html += "</div>";
-		html += "<br />";
-		html += "<button class='submit fancybutton'>Share</button>";
-		html += "<div>";
-		$(html).dialog({
-			close: function(event, ui) {
-				$(this).remove();
-			}
-		});
+		createShareDialog(filename);
+	});
+	$('.share').click(function(event) {
+		event.preventDefault();
+		createShareDialog(getSelectedFiles('name'));
 	});
 	$("input[name=share_type]").live('change', function() {
 		$('#private').toggle();
@@ -92,3 +68,35 @@ $(document).ready(function() {
 		}
 	});
 });
+
+function createShareDialog(files) {
+	var html = "<div id='dialog' title='Share "+files+"' align='center'>";
+	html += "<label><input type='radio' name='share_type' value='private' checked='checked' /> Private</label>";
+	html += "<label><input type='radio' name='share_type' value='public' /> Public</label>";
+	html += "<br />";
+	html += "<div id='private'>";
+	html += "<label>Share with <input placeholder='User or Group' class='uid_shared_with' /></label>";
+	html += "<button id='hey' class='add-uid_shared_with fancybutton'>+</button>";
+	html += "<br />";
+	html += "<a id='toggle-private-advanced'>Advanced</a>";
+	html += "<br />";
+	html += "<div id='private-advanced' style='display: none; text-align: left'>";
+	html += "<label><input type='checkbox' name='share_permissions' value='read' checked='checked' disabled='disable' /> Read</label><br />";
+	html += "<label><input type='checkbox' name='share_permissions' value='write' /> Write</label><br />";
+	html += "<label><input type='checkbox' name='share_permissions' value='rename' /> Rename</label><br />";
+	html += "<label><input type='checkbox' name='share_permissions' value='delete' /> Delete</label><br />";
+	html += "</div>";
+	html += "</div>";
+	html += "<div id='public' style='display: none'>";
+	html += "TODO: Construct a public link";
+	html += "<input placeholder='Expires' id='expire' />";
+	html += "</div>";
+	html += "<br />";
+	html += "<button class='submit fancybutton'>Share</button>";
+	html += "<div>";
+	$(html).dialog({
+		close: function(event, ui) {
+			$(this).remove();
+		}
+	});
+}
