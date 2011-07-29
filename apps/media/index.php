@@ -39,7 +39,6 @@ OC_UTIL::addScript('media','playlist');
 OC_UTIL::addScript('media','collection');
 OC_UTIL::addScript('media','jquery.jplayer.min');
 OC_UTIL::addStyle('media','player');
-OC_UTIL::addStyle('media','playlist');
 OC_UTIL::addStyle('media','music');
 
 OC_APP::setActiveNavigationEntry( 'media_playlist' );

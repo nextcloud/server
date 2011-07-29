@@ -31,7 +31,11 @@ var PlayList={
 					PlayList.init(PlayList.items[index].type,PlayList.play);
 				}else{
 					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
+					PlayList.items[index].playcount++;
 					PlayList.player.jPlayer("play");
+					if(Collection){
+						Collection.registerPlay();
+					}
 				}
 			}else{
 				PlayList.init(PlayList.items[index].type,PlayList.play);
