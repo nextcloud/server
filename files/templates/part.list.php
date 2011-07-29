@@ -1,8 +1,8 @@
 		<?php foreach($_['files'] as $file):
 			$simple_file_size = simple_file_size($file['size']);
-			$simple_size_color = 200-intval(pow(($file['size']/(1024*1024)),2));
+			$simple_size_color = 200-intval($file['size']/(1024*1024)*20);
 			$relative_modified_date = relative_modified_date($file['mtime']);
-			$relative_date_color = round((time()-$file['mtime'])/60/60/24*5); //days ago
+			$relative_date_color = round((time()-$file['mtime'])/60/60/24*7); //days ago
 			if($relative_date_color>200) $relative_date_color = 200; ?>
 			<tr data-file="<?php echo $file['name'];?>" data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>" data-mime="<?php echo $file['mime']?>" data-size='<?php echo $file['size'];?>'>
 				<td class="filename">
