@@ -30,8 +30,8 @@
 		<div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 			<ul id="metanav">
-				<li><a href="<?php echo link_to('', 'index.php'); ?>" title="Back to files"><img src="<?php echo image_path('', 'actions/back.svg'); ?>"></a></li>
-				<li><a href="<?php echo link_to('', 'index.php?logout=true'); ?>" title="Log out"><img src="<?php echo image_path('', 'actions/logout.svg'); ?>"></a></li>
+				<li><a href="<?php echo link_to('', 'index.php'); ?>" title="Back to files"><img class='svg' src="<?php echo image_path('', 'actions/back.svg'); ?>"></a></li>
+				<li><a href="<?php echo link_to('', 'index.php?logout=true'); ?>" title="Log out"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>"></a></li>
 			</ul>
 		</div>
 
@@ -48,12 +48,15 @@
 					<?php endforeach; ?>
 					<?php if(isset($_['adminnavigation'])):?>
 						<?php foreach($_['adminnavigation'] as $entry):?>
-							<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
+							<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a>
 							<?php if( sizeof( $entry["subnavigation"] )): ?>
-								<?php foreach($entry["subnavigation"] as $subentry):?>
-									<li><a class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
-								<?php endforeach; ?>
+								<ul>
+									<?php foreach($entry["subnavigation"] as $subentry):?>
+										<li class="subentry"><a class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
+									<?php endforeach; ?>
+								</ul>
 							<?php endif; ?>
+							</li>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				</ul>

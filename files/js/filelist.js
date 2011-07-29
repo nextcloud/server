@@ -114,10 +114,10 @@ FileList={
 		td.children('a.name').append(form)
 		input.focus();
 		form.submit(function(event){
-			var newname=input.val();
-			tr.data('renaming',false);
 			event.stopPropagation();
 			event.preventDefault();
+			var newname=input.val();
+			tr.data('renaming',false);
 			tr.attr('data-file',newname);
 			td.children('a.name').empty();
 			if(newname.indexOf('.')>0){
@@ -125,9 +125,11 @@ FileList={
 			}else{
 				basename=newname;
 			}
-			td.children('a.name').text(basename);
+			var span=$('<span class="nametext"></span>');
+			span.text(basename);
+			td.children('a.name').append(span);
 			if(newname.indexOf('.')>0){
-				td.children('a.name').append($('<span class="extention">'+newname.substr(newname.indexOf('.'))+'</span>'));
+				span.append($('<span class="extention">'+newname.substr(newname.indexOf('.'))+'</span>'));
 			}
 			$.ajax({
 				url: 'ajax/rename.php',
@@ -139,17 +141,7 @@ FileList={
 			event.preventDefault();
 		});
 		input.blur(function(){
-			tr.data('renaming',false);
-			td.children('a.name').empty();
-			if(name.indexOf('.')>0){
-				basename=name.substr(0,name.indexOf('.'));
-			}else{
-				basename=name;
-			}
-			td.children('a.name').text(basename);
-			if(name.indexOf('.')>0){
-				td.children('a.name').append($('<span class="extention">'+name.substr(name.indexOf('.'))+'</span>'));
-			}
+			form.trigger('submit');
 		});
 	}
 }
