@@ -15,7 +15,6 @@
 		</form>
 		<form id="file_newfolder_form">
 			<input type="text" class="prettybutton" name="file_newfolder_name" id="file_newfolder_name" value="New Folder" />&nbsp;
-			<input class="prettybutton" type="submit" id="file_newfolder_submit" name="file_newfolder_submit" value="OK" />
 		</form>
 	</div>
 	<div id="file_action_panel">

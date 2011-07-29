@@ -63,29 +63,16 @@ $(document).ready(function() {
 			data: "dir="+$('#dir').val()+"&foldername="+$('#file_newfolder_name').val(),
 			complete: function(data){boolOperationFinished(data, function(){
 				var date=new Date();
-				FileList.addDir($('#file_newfolder_name').val(),0,date)
+				FileList.addDir($('#file_newfolder_name').val(),0,date);
+				$('#file_newfolder_name').val('New Folder');
+				$('#file_newfolder_name').blur();
 			});}
 		});
-		$('#file_newfolder_submit').fadeOut(250).trigger('vanish');
 	});
 	
 	$('#file_newfolder_name').click(function(){
 		if($('#file_newfolder_name').val() == 'New Folder'){
 			$('#file_newfolder_name').val('');
-		}
-	});
-	
-	$('#file_newfolder_name').bind('keyup', adjustNewFolderSize);
-	
-	$('#file_newfolder_submit').bind('vanish', function() {
-		$('#file_newfolder_name').bind('keyup', adjustNewFolderSize);
-		unsplitSize($('#file_newfolder_name'),$('#file_newfolder_submit'));
-	});
-	
-	$('#file_newfolder_name').focusout(function(){
-		if($('#file_newfolder_name').val() == '') {
-			$('#file_newfolder_form')[0].reset();
-			$('#file_newfolder_submit').fadeOut(250).trigger('vanish');
 		}
 	});
 	
