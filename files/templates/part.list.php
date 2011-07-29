@@ -10,7 +10,7 @@
 					<a class="name" style="background-image:url(<?php if($file['type'] == 'dir') echo mimetype_icon('dir'); else echo mimetype_icon($file['mime']); ?>)" href="<?php if($file['type'] == 'dir') echo link_to('files', 'index.php?dir='.$file['directory'].'/'.$file['name']); else echo link_to('files', 'download.php?file='.$file['directory'].'/'.$file['name']); ?>" title="">
 					<span class="nametext">
 						<?php if($file['type'] == 'dir'):?>
-							<strong><?php echo htmlspecialchars($file['name']);?></strong>
+							<?php echo htmlspecialchars($file['name']);?>
 						<?php else:?>
 							<?php echo htmlspecialchars($file['basename']);?><span class='extention'><?php echo $file['extention'];?></span>
 						<?php endif;?>
