@@ -69,6 +69,15 @@ class OC_SHARE {
 	}
 
 	/**
+	* Remove any duplicate or trailing '/' from the path
+	* @return A clean path
+	*/
+	private static function cleanPath($path) {
+		$path = rtrim($path, "/");
+		return preg_replace('{(/)\1+}', "/", $path);
+	}
+
+	/**
 	* Get the user and the user's groups and put them into an array
 	* @return An array to be used by the IN operator in a query for uid_shared_with
 	*/
@@ -101,6 +110,7 @@ class OC_SHARE {
 	 * @return An array with the item
 	 */
 	public static function getItem($target) {
+		$target = self::cleanPath($target);
 		$query = OC_DB::prepare("SELECT uid_owner, source, is_writeable  FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
 		return $query->execute(array($target, OC_USER::getUser()))->fetchAll();
 	}
@@ -123,12 +133,11 @@ class OC_SHARE {
 	 * @return An array with all items in the database that are in the folder
 	 */
 	public static function getItemsInFolder($folder) {
+		$folder = self::cleanPath($folder);
 		// Append '/' in order to filter out the folder itself if not already there
 		if (substr($folder, -1) !== "/") {
 			$folder .= "/";
 		}
-		// Remove any duplicate '/'
-		$folder = preg_replace('{(/)\1+}', "/", $folder);
 		$length = strlen($folder);
 		$userAndGroups = self::getUserAndGroups();
 		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).")");
@@ -141,9 +150,7 @@ class OC_SHARE {
 	 * @return An array with the keys 'source' and 'target' with the values of the source and target parent folders
 	 */
 	public static function getParentFolders($target) {
-		// Remove any duplicate or trailing '/'
-		$target = rtrim($target, "/");
-		$target = preg_replace('{(/)\1+}', "/", $target);
+		$target = self::cleanPath($target);
 		$userAndGroups = self::getUserAndGroups();
 		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
 		// Prevent searching for user directory e.g. '/MTGap/files'
@@ -170,9 +177,7 @@ class OC_SHARE {
 	 * @return Source location or false if target location is not valid
 	 */
 	public static function getSource($target) {
-		// Remove any duplicate or trailing '/'
-		$target = rtrim($target, "/");
-		$target = preg_replace('{(/)\1+}', "/", $target);
+		$target = self::cleanPath($target);
 		$userAndGroups = self::getUserAndGroups();
 		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
 		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
@@ -194,6 +199,7 @@ class OC_SHARE {
 	 * @return True if the user has write permission or false if read only
 	 */
 	public static function isWriteable($target) {
+		$target = self::cleanPath($target);
 		$userAndGroups = self::getUserAndGroups();
 		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
 		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
@@ -217,6 +223,8 @@ class OC_SHARE {
 	 * @param $newTarget The new source location
 	 */
 	public static function setSource($oldSource, $newSource) {
+		$oldSource = self::cleanPath($oldSource);
+		$newSource = self::cleanPath($newSource);
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
 		$query->execute(array($oldSource, $newSource, OC_USER::getUser()));
 	}
@@ -230,6 +238,8 @@ class OC_SHARE {
 	 * @param $newTarget The new target location 
 	 */
 	public static function setTarget($oldTarget, $newTarget) {
+		$oldTarget = self::cleanPath($oldTarget);
+		$newTarget = self::cleanPath($newTarget);
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = REPLACE(target, ?, ?) WHERE uid_shared_with = ?");
 		$query->execute(array($oldTarget, $newTarget, OC_USER::getUser()));
 	}
@@ -244,6 +254,7 @@ class OC_SHARE {
 	* @param $is_writeable True if the user has write permission or false if read only
 	*/
 	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
+		$source = self::cleanPath($source);
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
 		$query->execute(array($is_writeable, strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
 	}
@@ -257,6 +268,7 @@ class OC_SHARE {
 	* @param $uid_shared_with Array of users to unshare the item from
 	*/
 	public static function unshare($source, $uid_shared_with) {
+		$source = self::cleanPath($source);
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
 		$query->execute(array(strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
 	}
@@ -269,6 +281,7 @@ class OC_SHARE {
 	* @param $target The target location of the item
 	*/
 	public static function unshareFromMySelf($target) {
+		$target = self::cleanPath($target);
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with = ?");
 		$query->execute(array(strlen($target), $target, OC_USER::getUser()));
 	}
@@ -279,6 +292,7 @@ class OC_SHARE {
 	*/
 	public static function deleteItem($arguments) {
 		$source = "/".OC_USER::getUser()."/files".$arguments['path'];
+		$source = self::cleanPath($source);
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
 		$query->execute(array(strlen($source), $source, OC_USER::getUser()));
 	}
@@ -289,7 +303,9 @@ class OC_SHARE {
 	*/
 	public static function renameItem($arguments) {
 		$oldSource = "/".OC_USER::getUser()."/files".$arguments['oldpath'];
+		$oldSource = self::cleanPath($oldSource);
 		$newSource = "/".OC_USER::getUser()."/files".$arguments['newpath'];
+		$newSource = self::cleanPath($newSource);
 		self::setSource($oldSource, $newSource);
 	}
 
