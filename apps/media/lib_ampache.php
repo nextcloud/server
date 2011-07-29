@@ -319,11 +319,11 @@ class OC_MEDIA_AMPACHE{
 			return;
 		}
 		if($song=OC_MEDIA_COLLECTION::getSong($params['song'])){
-			OC_UTIL::setupFS($song["song_user"]);
+			OC_Util::setupFS($song["song_user"]);
 
-			header('Content-type: '.OC_FILESYSTEM::getMimeType($song['song_path']));
+			header('Content-type: '.OC_Filesystem::getMimeType($song['song_path']));
 			header('Content-Length: '.$song['song_size']);
-			OC_FILESYSTEM::readfile($song['song_path']);
+			OC_Filesystem::readfile($song['song_path']);
 		}
 	}
 	

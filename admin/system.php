@@ -22,14 +22,14 @@
 */
 
 require_once('../lib/base.php');
-if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' )){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
-OC_APP::setActiveNavigationEntry( "administration" );
+OC_App::setActiveNavigationEntry( "administration" );
 
-$tmpl = new OC_TEMPLATE( "admin", "system", "admin" );
+$tmpl = new OC_Template( "admin", "system", "admin" );
 $tmpl->printPage();
 
 ?>

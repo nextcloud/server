@@ -1,32 +1,32 @@
 <?php
 
 require_once('../lib/base.php');
-if( !OC_USER::isLoggedIn()){
-    header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn()){
+    header( "Location: ".OC_Helper::linkTo( "index.php" ));
     exit();
 }
 
 // Highlight navigation entry
-OC_APP::setActiveNavigationEntry( "settings" );
-OC_UTIL::addScript( "settings", "main" );
-OC_UTIL::addStyle( "settings", "settings" );
+OC_App::setActiveNavigationEntry( "settings" );
+OC_Util::addScript( "settings", "main" );
+OC_Util::addStyle( "settings", "settings" );
 
 // calculate the disc space
-$used=OC_FILESYSTEM::filesize('/');
-$free=OC_FILESYSTEM::free_space();
+$used=OC_Filesystem::filesize('/');
+$free=OC_Filesystem::free_space();
 $total=$free+$used;
 $relative=round(($used/$total)*100);
 
-$lang=OC_PREFERENCES::getValue( OC_USER::getUser(), 'core', 'lang', 'en' );
+$lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', 'en' );
 $languages=OC_L10N::findAvailableLanguages();
 //put the current language in the front
 unset($languages[array_search($lang,$languages)]);
 array_unshift($languages,$lang);
 
 // Return template
-$tmpl = new OC_TEMPLATE( "settings", "index", "admin");
-$tmpl->assign('usage',OC_HELPER::humanFileSize($used));
-$tmpl->assign('total_space',OC_HELPER::humanFileSize($total));
+$tmpl = new OC_Template( "settings", "index", "admin");
+$tmpl->assign('usage',OC_Helper::humanFileSize($used));
+$tmpl->assign('total_space',OC_Helper::humanFileSize($total));
 $tmpl->assign('usage_relative',$relative);
 $tmpl->assign('languages',$languages);
 $tmpl->printPage();

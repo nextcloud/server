@@ -22,7 +22,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function createFile($name, $data = null) {
 
 		$newPath = $this->path . '/' . $name;
-		OC_FILESYSTEM::file_put_contents($newPath,$data);
+		OC_Filesystem::file_put_contents($newPath,$data);
 
 	}
 
@@ -35,7 +35,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function createDirectory($name) {
 
 		$newPath = $this->path . '/' . $name;
-		OC_FILESYSTEM::mkdir($newPath);
+		OC_Filesystem::mkdir($newPath);
 
 	}
 
@@ -50,9 +50,9 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 		$path = $this->path . '/' . $name;
 
-		if (!OC_FILESYSTEM::file_exists($path)) throw new Sabre_DAV_Exception_FileNotFound('File with name ' . $path . ' could not be located');
+		if (!OC_Filesystem::file_exists($path)) throw new Sabre_DAV_Exception_FileNotFound('File with name ' . $path . ' could not be located');
 
-		if (OC_FILESYSTEM::is_dir($path)) {
+		if (OC_Filesystem::is_dir($path)) {
 
 			return new OC_Connector_Sabre_Directory($path);
 
@@ -73,8 +73,8 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 		$nodes = array();
 		// foreach(scandir($this->path) as $node) if($node!='.' && $node!='..') $nodes[] = $this->getChild($node);
-		if( OC_FILESYSTEM::is_dir($this->path)){
-			$dh = OC_FILESYSTEM::opendir($this->path);
+		if( OC_Filesystem::is_dir($this->path)){
+			$dh = OC_Filesystem::opendir($this->path);
 			while(( $node = readdir($dh)) !== false ){
 				if($node!='.' && $node!='..'){
 					$nodes[] = $this->getChild($node);
@@ -94,7 +94,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function childExists($name) {
 
 		$path = $this->path . '/' . $name;
-		return OC_FILESYSTEM::file_exists($path);
+		return OC_Filesystem::file_exists($path);
 
 	}
 
@@ -106,7 +106,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function delete() {
 
 		foreach($this->getChildren() as $child) $child->delete();
-		OC_FILESYSTEM::rmdir($this->path);
+		OC_Filesystem::rmdir($this->path);
 
 	}
 
@@ -118,8 +118,8 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function getQuotaInfo() {
 
 		return array(
-			OC_FILESYSTEM::filesize('/'),
-			OC_FILESYSTEM::free_space()
+			OC_Filesystem::filesize('/'),
+			OC_Filesystem::free_space()
 			);
 
 	}

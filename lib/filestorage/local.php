@@ -2,7 +2,7 @@
 /**
  * for local filestore, we only have to map the paths
  */
-class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
+class OC_Filestorage_Local extends OC_Filestorage{
 	private $datadir;
 	private static $mimetypes=null;
 	public function __construct($arguments){
@@ -138,7 +138,7 @@ class OC_FILESTORAGE_LOCAL extends OC_FILESTORAGE{
 			} else if (function_exists("mime_content_type")) {
 				// use mime magic extension if available
 				$mime_type = mime_content_type($this->datadir.$fspath);
-			} else if (OC_HELPER::canExecute("file")) {
+			} else if (OC_Helper::canExecute("file")) {
 				// it looks like we have a 'file' command,
 				// lets see it it does have mime support
 				$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");

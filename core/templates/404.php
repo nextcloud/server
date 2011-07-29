@@ -2,7 +2,7 @@
 if(!isset($_)){//also provide standalone error page
 	require_once '../../lib/base.php';
 	
-	$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+	$tmpl = new OC_Template( '', '404', 'guest' );
 	$tmpl->printPage();
 	exit;
 }

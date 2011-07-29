@@ -37,7 +37,7 @@
 /**
  * This class provides an easy way for storing user preferences.
  */
-class OC_PREFERENCES{
+class OC_Preferences{
 	/**
 	 * @brief Get all users using the preferences
 	 * @returns array with user ids

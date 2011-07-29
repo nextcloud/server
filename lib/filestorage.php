@@ -23,7 +23,7 @@
 /**
  * Privde a common interface to all different storage options
  */
-class OC_FILESTORAGE{
+class OC_Filestorage{
 	public function __construct($parameters){}
 	public function mkdir($path){}
 	public function rmdir($path){}

@@ -26,7 +26,7 @@
 /**
  * Abstract base class for user management
  */
-abstract class OC_GROUP_BACKEND {
+abstract class OC_Group_Backend {
 	/**
 	 * @brief Try to create a new group
 	 * @param $gid The name of the group to create

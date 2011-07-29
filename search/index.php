@@ -26,19 +26,19 @@
 require_once('../lib/base.php');
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( '', 'index.php' ));
+if( !OC_User::isLoggedIn()){
+	header( "Location: ".OC_Helper::linkTo( '', 'index.php' ));
 	exit();
 }
 
 // Load the files we need
-OC_UTIL::addStyle( 'search', 'search' );
+OC_Util::addStyle( 'search', 'search' );
 
 $query=(isset($_POST['query']))?$_POST['query']:'';
 if($query){
-	$results=OC_SEARCH::search($query);
+	$results=OC_Search::search($query);
 }else{
-	header("Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue("core", "defaultpage", "files/index.php"));
+	header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 	exit();
 }
 
@@ -50,7 +50,7 @@ foreach($results as $result){
 	$resultTypes[$result->type][]=$result;
 }
 
-$tmpl = new OC_TEMPLATE( 'search', 'index', 'user' );
+$tmpl = new OC_Template( 'search', 'index', 'user' );
 $tmpl->assign('resultTypes',$resultTypes);
 $tmpl->printPage();
 

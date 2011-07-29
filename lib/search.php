@@ -24,7 +24,7 @@
 /**
  * provides an interface to all search providers
  */
-class OC_SEARCH{
+class OC_Search{
 	static private $providers=array();
 	
 	/**

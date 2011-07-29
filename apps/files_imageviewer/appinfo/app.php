@@ -1,8 +1,8 @@
 <?php
 
-if(OC_APP::getCurrentApp()=='files'){
-	OC_UTIL::addScript( 'files_imageviewer', 'lightbox' );
-	OC_UTIL::addStyle( 'files_imageviewer', 'lightbox' );
+if(OC_App::getCurrentApp()=='files'){
+	OC_Util::addScript( 'files_imageviewer', 'lightbox' );
+	OC_Util::addStyle( 'files_imageviewer', 'lightbox' );
 }
 
 ?>

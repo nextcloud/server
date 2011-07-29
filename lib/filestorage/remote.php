@@ -21,7 +21,7 @@
 * 
 */
 
-class OC_FILESTORAGE_REMOTE extends OC_FILESTORAGE{
+class OC_Filestorage_Remote extends OC_Filestorage{
 	private $url;
 	private $username;
 	private $password;
@@ -45,7 +45,7 @@ class OC_FILESTORAGE_REMOTE extends OC_FILESTORAGE{
 	}
 	private function connect(){
 		if($this->remote===false){
-			$this->remote=OC_CONNECT::connect($this->url,$this->username,$this->password);
+			$this->remote=OC_Connect::connect($this->url,$this->username,$this->password);
 		}
 	}
 	public function mkdir($path){

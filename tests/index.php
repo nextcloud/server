@@ -46,7 +46,7 @@ foreach($testCases as $testCaseClass){
 	$testResults[$testCaseClass]=$results;
 }
 
-$tmpl = new OC_TEMPLATE( 'tests', 'index');
+$tmpl = new OC_Template( 'tests', 'index');
 $tmpl->assign('tests',$testResults);
 $tmpl->printPage();
 

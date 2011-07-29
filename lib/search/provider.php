@@ -4,7 +4,7 @@
  */
 abstract class OC_Search_Provider{
 	public function __construct(){
-		OC_SEARCH::registerProvider($this);
+		OC_Search::registerProvider($this);
 	}
 
 	/**

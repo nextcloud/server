@@ -24,19 +24,19 @@
 
 require_once('../../lib/base.php');
 
-if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn()){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
 require( 'lib_collection.php' );
 
-OC_UTIL::addStyle('media','style');
-OC_UTIL::addScript('media','settings');
+OC_Util::addStyle('media','style');
+OC_Util::addScript('media','settings');
 
-OC_APP::setActiveNavigationEntry( 'media_settings' );
+OC_App::setActiveNavigationEntry( 'media_settings' );
 
-$folderNames=explode(PATH_SEPARATOR,OC_PREFERENCES::getValue($_SESSION['user_id'],'media','paths',''));
+$folderNames=explode(PATH_SEPARATOR,OC_Preferences::getValue($_SESSION['user_id'],'media','paths',''));
 $folders=array();
 foreach($folderNames as $folder){
 	if($folder){
@@ -44,9 +44,9 @@ foreach($folderNames as $folder){
 	}
 }
 
-$tmpl = new OC_TEMPLATE( 'media', 'settings', 'admin' );
+$tmpl = new OC_Template( 'media', 'settings', 'admin' );
 $tmpl->assign('folders',$folders);
-$tmpl->assign('autoupdate',OC_PREFERENCES::getValue($_SESSION['user_id'],'media','autoupdate',false));
+$tmpl->assign('autoupdate',OC_Preferences::getValue($_SESSION['user_id'],'media','autoupdate',false));
 $tmpl->printPage();
 ?>
 

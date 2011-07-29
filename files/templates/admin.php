@@ -1,4 +1,4 @@
-<?php OC_UTIL::addScript('files','admin'); ?>
+<?php OC_Util::addScript('files','admin'); ?>
 
 <form name="filesForm" action='#' method='post'>
 	<?php if($_['htaccessWorking']):?>

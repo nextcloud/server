@@ -37,7 +37,7 @@
  * This class provides an easy way for apps to store config values in the
  * database.
  */
-class OC_APPCONFIG{
+class OC_Appconfig{
 	/**
 	 * @brief Get all apps using the config
 	 * @returns array with app ids

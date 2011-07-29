@@ -33,7 +33,7 @@ error_log($_GET['autoupdate']);
 $autoUpdate=(isset($_GET['autoupdate']) and $_GET['autoupdate']=='true');
 error_log((integer)$autoUpdate);
 
-OC_PREFERENCES::setValue(OC_USER::getUser(),'media','autoupdate',(integer)$autoUpdate);
+OC_Preferences::setValue(OC_User::getUser(),'media','autoupdate',(integer)$autoUpdate);
 
 echo json_encode( array( "status" => "success", "data" => $autoUpdate));
 ?>

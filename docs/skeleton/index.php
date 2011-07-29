@@ -26,20 +26,20 @@
 require_once('../lib/base.php');
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn()){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
 // Load the files we need
-OC_UTIL::addStyle( "files", "files" );
-OC_UTIL::addScript( "files", "files" );
+OC_Util::addStyle( "files", "files" );
+OC_Util::addScript( "files", "files" );
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 
 $files = array();
-foreach( OC_FILES::getdirectorycontent( $dir ) as $i ){
+foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 	$i["date"] = date( $CONFIG_DATEFORMAT, $i["mtime"] );
 	$files[] = $i;
 }
@@ -55,7 +55,7 @@ foreach( explode( "/", $dir ) as $i ){
 }
 
 // return template
-$tmpl = new OC_TEMPLATE( "files", "index", "user" );
+$tmpl = new OC_Template( "files", "index", "user" );
 $tmpl->assign( "files", $files );
 $tmpl->assign( "breadcrumb", $breadcrumb );
 $tmpl->printPage();

@@ -22,20 +22,20 @@
 */
 
 //we need to have the sha256 hash of passwords for ampache
-OC_HOOK::connect('OC_USER','post_login','OC_MEDIA','loginListener');
+OC_Hook::connect('OC_User','post_login','OC_MEDIA','loginListener');
 
 //connect to the filesystem for auto updating if configured
-if(OC_PREFERENCES::getValue(OC_USER::getUser(),'media','autoupdate',false)){
-	OC_HOOK::connect('OC_FILESYSTEM','post_write','OC_MEDIA','updateFile');
+if(OC_Preferences::getValue(OC_User::getUser(),'media','autoupdate',false)){
+	OC_Hook::connect('OC_Filesystem','post_write','OC_MEDIA','updateFile');
 }
 
 //listen for file deletions to clean the database if a song is deleted
-OC_HOOK::connect('OC_FILESYSTEM','delete','OC_MEDIA','deleteFile');
+OC_Hook::connect('OC_Filesystem','delete','OC_MEDIA','deleteFile');
 
 class OC_MEDIA{
 	/**
 	 * get the sha256 hash of the password needed for ampache
-	 * @param array $params, parameters passed from OC_HOOK
+	 * @param array $params, parameters passed from OC_Hook
 	 */
 	public static function loginListener($params){
 		if(isset($_POST['user']) and $_POST['password']){
@@ -56,7 +56,7 @@ class OC_MEDIA{
 	 */
 	public static function updateFile($params){
 		$path=$params['path'];
-		$folderNames=explode(PATH_SEPARATOR,OC_PREFERENCES::getValue(OC_USER::getUser(),'media','paths',''));
+		$folderNames=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
 		foreach($folderNames as $folder){
 			if(substr($path,0,strlen($folder))==$folder){
 				require_once 'lib_scanner.php';
@@ -90,18 +90,18 @@ class OC_MediaSearchProvider extends OC_Search_Provider{
 		$songs=OC_MEDIA_COLLECTION::getSongs(0,0,$query);
 		$results=array();
 		foreach($artists as $artist){
-			$results[]=new OC_Search_Result($artist['artist_name'],'',OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist['artist_name']) ),'Music');
+			$results[]=new OC_Search_Result($artist['artist_name'],'',OC_Helper::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist['artist_name']) ),'Music');
 		}
 		foreach($albums as $album){
 			$artist=urlencode(OC_MEDIA_COLLECTION::getArtistName($album['album_artist']));
-			$results[]=new OC_Search_Result($album['album_name'],'',OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.$artist.'&album='.urlencode($album['album_name']) ),'Music');
+			$results[]=new OC_Search_Result($album['album_name'],'',OC_Helper::linkTo( 'apps/media', 'index.php#artist='.$artist.'&album='.urlencode($album['album_name']) ),'Music');
 		}
 		foreach($songs as $song){
 			$minutes=floor($song['song_length']/60);
 			$secconds=$song['song_length']%60;
 			$artist=urlencode(OC_MEDIA_COLLECTION::getArtistName($song['song_artist']));
 			$album=urlencode(OC_MEDIA_COLLECTION::getalbumName($song['song_album']));
-			$results[]=new OC_Search_Result($song['song_name'],"$minutes:$secconds",OC_HELPER::linkTo( 'apps/media', 'index.php#artist='.$artist.'&album='.$album.'&song='.urlencode($song['song_name']) ),'Music');
+			$results[]=new OC_Search_Result($song['song_name'],"$minutes:$secconds",OC_Helper::linkTo( 'apps/media', 'index.php#artist='.$artist.'&album='.$album.'&song='.urlencode($song['song_name']) ),'Music');
 		}
 		return $results;
 	}

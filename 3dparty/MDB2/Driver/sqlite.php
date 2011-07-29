@@ -348,7 +348,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
     function connect()
     {
 		global $SERVERROOT;
-		$datadir=OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
+		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
         $database_file = $this->_getDatabaseFile($this->database_name);
         if (is_resource($this->connection)) {
             //if (count(array_diff($this->connected_dsn, $this->dsn)) == 0

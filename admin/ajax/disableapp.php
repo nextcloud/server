@@ -4,6 +4,6 @@
 require_once('../../lib/base.php');
 header( "Content-Type: application/jsonrequest" );
 
-OC_APP::disable($_POST['appid']);
+OC_App::disable($_POST['appid']);
 
 ?>

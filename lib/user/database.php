@@ -36,7 +36,7 @@
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class OC_USER_DATABASE extends OC_USER_BACKEND {
+class OC_User_Database extends OC_User_Backend {
 	static private $userGroupCache=array();
 
 	/**
@@ -45,7 +45,7 @@ class OC_USER_DATABASE extends OC_USER_BACKEND {
 	 * @param $password The password of the new user
 	 * @returns true/false
 	 *
-	 * Creates a new user. Basic checking of username is done in OC_USER
+	 * Creates a new user. Basic checking of username is done in OC_User
 	 * itself, not in its subclasses.
 	 */
 	public function createUser( $uid, $password ){

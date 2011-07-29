@@ -205,7 +205,7 @@ function authorize_mode () {
 
 	$profile['idp_url']=$IDENTITY;
 	if (isset($_SERVER['PHP_AUTH_USER']) && $profile['authorized'] === false && $_SERVER['PHP_AUTH_USER']==$USERNAME) {
-		if (OC_USER::checkPassword($USERNAME, $_SERVER['PHP_AUTH_PW'])) {// successful login!
+		if (OC_User::checkPassword($USERNAME, $_SERVER['PHP_AUTH_PW'])) {// successful login!
 			// return to the refresh url if they get in
 			$_SESSION['openid_auth']=true;
 			$_SESSION['openid_user']=$USERNAME;
@@ -559,7 +559,7 @@ function logout_mode () {
  */
 function no_mode () {
 	global $USERNAME, $profile;
-	$tmpl = new OC_TEMPLATE( 'user_openid', 'nomode', 'guest' );
+	$tmpl = new OC_Template( 'user_openid', 'nomode', 'guest' );
 	if(substr($profile['req_url'],-1,1)!=='/'){//the identity should always end with a /
 		$profile['req_url'].='/';
 	}

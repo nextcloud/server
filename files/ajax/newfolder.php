@@ -7,7 +7,7 @@ require_once('../../lib/base.php');
 header( "Content-Type: application/jsonrequest" );
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
+if( !OC_User::isLoggedIn()){
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
 	exit();
 }
@@ -21,7 +21,7 @@ if($foldername == '') {
 	exit();
 }
 error_log('try to create ' . $foldername . ' in ' . $dir);
-if(OC_FILES::newFile($dir, $foldername, 'dir')) {
+if(OC_Files::newFile($dir, $foldername, 'dir')) {
 	echo json_encode( array( "status" => "success", "data" => array()));
 	exit();
 }

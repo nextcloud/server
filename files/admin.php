@@ -27,22 +27,22 @@ require_once('../lib/base.php');
 
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' )){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
 $htaccessWorking=(getenv('htaccessWorking')=='true');
 if(isset($_POST['maxUploadSize'])){
 	$maxUploadFilesize=$_POST['maxUploadSize'];
-	OC_FILES::setUploadLimit(OC_HELPER::computerFileSize($maxUploadFilesize));
+	OC_Files::setUploadLimit(OC_Helper::computerFileSize($maxUploadFilesize));
 }else{
 	$maxUploadFilesize = ini_get('upload_max_filesize').'B';
 }
 
-OC_APP::setActiveNavigationEntry( "files_administration" );
+OC_App::setActiveNavigationEntry( "files_administration" );
 // return template
-$tmpl = new OC_TEMPLATE( "files", "admin", "admin" );
+$tmpl = new OC_Template( "files", "admin", "admin" );
 $tmpl->assign( 'htaccessWorking', $htaccessWorking );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->printPage();

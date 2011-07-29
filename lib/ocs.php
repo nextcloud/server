@@ -207,7 +207,7 @@ class OC_OCS {
         $identifieduser='';
       }
     }else{
-      if(!OC_USER::login($authuser,$authpw)){
+      if(!OC_User::login($authuser,$authpw)){
         if($forceuser){
           header('WWW-Authenticate: Basic realm="your valid user account or api key"');
           header('HTTP/1.0 401 Unauthorized');
@@ -377,7 +377,7 @@ class OC_OCS {
    */
   private static function personCheck($format,$login,$passwd) {
     if($login<>''){
-      if(OC_USER::login($login,$passwd)){
+      if(OC_User::login($login,$passwd)){
         $xml['person']['personid']=$login;
         echo(OC_OCS::generatexml($format,'ok',100,'',$xml,'person','check',2));
       }else{
@@ -426,7 +426,7 @@ class OC_OCS {
 
       $xml[$i]['timestamp']=date('c',$log['timestamp']);
       $xml[$i]['type']=1;
-      $xml[$i]['message']=OC_LOG::$TYPE[$log['type']].' '.strip_tags($log['message']);
+      $xml[$i]['message']=OC_Log::$TYPE[$log['type']].' '.strip_tags($log['message']);
       $xml[$i]['link']=$url;
     }
 
@@ -514,19 +514,19 @@ class OC_OCS {
 		if($app){
 			$apps=array($app);
 		}else{
-			$apps=OC_PREFERENCES::getApps($user);
+			$apps=OC_Preferences::getApps($user);
 		}
 		if($key){
 			$keys=array($key);
 		}else{
 			foreach($apps as $app){
-				$keys=OC_PREFERENCES::getKeys($user,$app);
+				$keys=OC_Preferences::getKeys($user,$app);
 			}
 		}
 		$result=array();
 		foreach($apps as $app){
 			foreach($keys as $key){
-				$value=OC_PREFERENCES::getValue($user,$app,$key);
+				$value=OC_Preferences::getValue($user,$app,$key);
 				$result[]=array('app'=>$app,'key'=>$key,'value'=>$value);
 			}
 		}
@@ -542,7 +542,7 @@ class OC_OCS {
 	* @return bool
 	*/
 	public static function setData($user, $app, $key, $value) {
-		return OC_PREFERENCES::setValue($user,$app,$key,$value);
+		return OC_Preferences::setValue($user,$app,$key,$value);
 	}
 
 	/**
@@ -553,6 +553,6 @@ class OC_OCS {
 	* @return string xml/json
 	*/
 	public static function deleteData($user, $app, $key) {
-		return OC_PREFERENCES::deleteKey($user,$app,$key);
+		return OC_Preferences::deleteKey($user,$app,$key);
 	}
 }

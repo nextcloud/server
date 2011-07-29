@@ -1,8 +1,8 @@
 <?php
 
 require_once('../lib/base.php');
-if( !OC_USER::isLoggedIn()){
-    header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn()){
+    header( "Location: ".OC_Helper::linkTo( "index.php" ));
     exit();
 }
 
@@ -12,13 +12,13 @@ $page=2;
 
 
 // Load the files we need
-OC_UTIL::addStyle( "help", "help" );
-OC_APP::setActiveNavigationEntry( "help" );
+OC_Util::addStyle( "help", "help" );
+OC_App::setActiveNavigationEntry( "help" );
 
-$kbe=OC_OCSCLIENT::getKnownledgebaseEntries();
+$kbe=OC_OCSClient::getKnownledgebaseEntries();
 
 
-$tmpl = new OC_TEMPLATE( "help", "index", "admin" );
+$tmpl = new OC_Template( "help", "index", "admin" );
 $tmpl->assign( "kbe", $kbe );
 $tmpl->assign( "pagecount", $pagecount );
 $tmpl->assign( "page", $page );

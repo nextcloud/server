@@ -40,7 +40,7 @@
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
-class OC_GROUP_DATABASE extends OC_GROUP_BACKEND {
+class OC_Group_Database extends OC_Group_Backend {
 	static private $userGroupCache=array();
 
 	/**

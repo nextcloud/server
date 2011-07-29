@@ -25,30 +25,30 @@
 require_once('../lib/base.php');
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn()){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
 $filename = $_GET["file"];
 
-if(!OC_FILESYSTEM::file_exists($filename)){
+if(!OC_Filesystem::file_exists($filename)){
 	header("HTTP/1.0 404 Not Found");
-	$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+	$tmpl = new OC_Template( '', '404', 'guest' );
 	$tmpl->assign('file',$filename);
 	$tmpl->printPage();
 	exit;
 }
 
-$ftype=OC_FILESYSTEM::getMimeType( $filename );
+$ftype=OC_Filesystem::getMimeType( $filename );
 
 header('Content-Type:'.$ftype);
 header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 header('Expires: 0');
 header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 header('Pragma: public');
-header('Content-Length: '.OC_FILESYSTEM::filesize($filename));
+header('Content-Length: '.OC_Filesystem::filesize($filename));
 
 ob_end_clean();
-OC_FILESYSTEM::readfile( $filename );
+OC_Filesystem::readfile( $filename );
 ?>

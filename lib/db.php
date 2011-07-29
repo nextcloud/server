@@ -38,13 +38,13 @@ class OC_DB {
 	 */
 	static public function connect(){
 		// The global data we need
-		$CONFIG_DBNAME = OC_CONFIG::getValue( "dbname", "owncloud" );;
-		$CONFIG_DBHOST = OC_CONFIG::getValue( "dbhost", "" );;
-		$CONFIG_DBUSER = OC_CONFIG::getValue( "dbuser", "" );;
-		$CONFIG_DBPASSWORD = OC_CONFIG::getValue( "dbpassword", "" );;
-		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );;
+		$CONFIG_DBNAME = OC_Config::getValue( "dbname", "owncloud" );;
+		$CONFIG_DBHOST = OC_Config::getValue( "dbhost", "" );;
+		$CONFIG_DBUSER = OC_Config::getValue( "dbuser", "" );;
+		$CONFIG_DBPASSWORD = OC_Config::getValue( "dbpassword", "" );;
+		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );;
 		global $SERVERROOT;
-		$datadir=OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
+		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
 
 		// do nothing if the connection already has been established
 		if(!self::$DBConnection){
@@ -235,8 +235,8 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $file ){
-		$CONFIG_DBNAME  = OC_CONFIG::getValue( "dbname", "owncloud" );
-		$CONFIG_DBTABLEPREFIX = OC_CONFIG::getValue( "dbtableprefix", "oc_" );
+		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
+		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 
 		self::connectScheme();
 
@@ -259,7 +259,7 @@ class OC_DB {
 		if( $definition instanceof MDB2_Schema_Error ){
 			die( $definition->getMessage().': '.$definition->getUserInfo());
 		}
-// 		if(OC_CONFIG::getValue('dbtype','sqlite')=='sqlite'){
+// 		if(OC_Config::getValue('dbtype','sqlite')=='sqlite'){
 // 			$definition['overwrite']=true;//always overwrite for sqlite
 // 		}
 		$ret=self::$schema->createDatabase( $definition );
@@ -302,8 +302,8 @@ class OC_DB {
 	private static function processQuery( $query ){
 		self::connect();
 		// We need Database type and table prefix
-		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
-		$CONFIG_DBTABLEPREFIX = OC_CONFIG::getValue( "dbtableprefix", "oc_" );
+		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		
 		// differences is getting the current timestamp
 		$query = str_replace( 'NOW()', self::$DBConnection->now(), $query );
@@ -339,8 +339,8 @@ class OC_DB {
 	 * @param string $file the xml file describing the tables
 	 */
 	public static function removeDBStructure($file){
-		$CONFIG_DBNAME  = OC_CONFIG::getValue( "dbname", "owncloud" );
-		$CONFIG_DBTABLEPREFIX = OC_CONFIG::getValue( "dbtableprefix", "oc_" );
+		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
+		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		self::connectScheme();
 
 		// read file

@@ -23,8 +23,8 @@
 
 require_once('../../lib/base.php');
 
-if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' )){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
@@ -32,20 +32,20 @@ $params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base
 
 foreach($params as $param){
 	if(isset($_POST[$param])){
-		OC_APPCONFIG::setValue('user_ldap', $param, $_POST[$param]);
+		OC_Appconfig::setValue('user_ldap', $param, $_POST[$param]);
 	}
 }
-OC_APP::setActiveNavigationEntry( "user_ldap_settings" );
+OC_App::setActiveNavigationEntry( "user_ldap_settings" );
 
 
 // fill template
-$tmpl = new OC_TEMPLATE( 'user_ldap', 'settings', 'admin' );
+$tmpl = new OC_Template( 'user_ldap', 'settings', 'admin' );
 foreach($params as $param){
-		$value = OC_APPCONFIG::getValue('user_ldap', $param,'');
+		$value = OC_Appconfig::getValue('user_ldap', $param,'');
 		$tmpl->assign($param, $value);
 }
 
 // ldap_port has a default value
-$tmpl->assign( 'ldap_port', OC_APPCONFIG::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT));
+$tmpl->assign( 'ldap_port', OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT));
 
 $tmpl->printPage();

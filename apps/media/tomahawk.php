@@ -28,8 +28,8 @@ require_once('lib_collection.php');
 
 $user=isset($_POST['user'])?$_POST['user']:'';
 $pass=isset($_POST['pass'])?$_POST['pass']:'';
-if(OC_USER::checkPassword($user,$pass)){
-	OC_UTIL::setupFS($user);
+if(OC_User::checkPassword($user,$pass)){
+	OC_Util::setupFS($user);
 	OC_MEDIA_COLLECTION::$uid=$user;
 }else{
 	exit;
@@ -40,14 +40,14 @@ if(isset($_POST['play']) and $_POST['play']=='true'){
 		exit;
 	}
 	$song=OC_MEDIA_COLLECTION::getSong($_POST['song']);
-	$ftype=OC_FILESYSTEM::getMimeType( $song['song_path'] );
+	$ftype=OC_Filesystem::getMimeType( $song['song_path'] );
 	header('Content-Type:'.$ftype);
 	header('Expires: 0');
 	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 	header('Pragma: public');
-	header('Content-Length: '.OC_FILESYSTEM::filesize($song['song_path']));
+	header('Content-Length: '.OC_Filesystem::filesize($song['song_path']));
 
-	OC_FILESYSTEM::readfile($song['song_path']);
+	OC_Filesystem::readfile($song['song_path']);
 }
 
 $artist=isset($_POST['artist'])?'%'.$_POST['artist'].'%':'';
@@ -59,7 +59,7 @@ $album=OC_MEDIA_COLLECTION::getAlbumId($album,$artist);
 
 $songs=OC_MEDIA_COLLECTION::getSongs($artist,$album,$song);
 
-$baseUrl=OC_UTIL::getServerURL().OC_HELPER::linkTo('media','tomahawk.php');
+$baseUrl=OC_Util::getServerURL().OC_Helper::linkTo('media','tomahawk.php');
 
 $results=array();
 foreach($songs as $song) {
@@ -68,7 +68,7 @@ foreach($songs as $song) {
 		'album' => OC_MEDIA_COLLECTION::getAlbumName($song['song_album']),
 		'track' => $song['song_name'],
 		'source' => 'ownCloud',
-		'mimetype' => OC_FILESYSTEM::getMimeType($song['song_path']),
+		'mimetype' => OC_Filesystem::getMimeType($song['song_path']),
 		'extension' => substr($song['song_path'],strrpos($song['song_path'],'.')),
 		'url' => $baseUrl.'?play=true&song='.$song['song_id'],
 		'bitrate' => round($song['song_id']/$song['song_length'],0),

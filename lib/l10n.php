@@ -200,8 +200,8 @@ class OC_L10N{
 		else{
 			$available=self::findAvailableLanguages( $app );
 		}
-		if( OC_USER::getUser() && OC_PREFERENCES::getValue( OC_USER::getUser(), 'core', 'lang' )){
-			$lang = OC_PREFERENCES::getValue( OC_USER::getUser(), 'core', 'lang' );
+		if( OC_User::getUser() && OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang' )){
+			$lang = OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang' );
 			self::$language = $lang;
 			if( array_search( $lang, $available ) !== false ){
 				return $lang;

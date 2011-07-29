@@ -7,7 +7,7 @@ require_once('../../lib/base.php');
 header( "Content-Type: application/jsonrequest" );
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' )){
+if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
 	exit();
 }
@@ -20,17 +20,17 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
 // Does the group exist?
-if( in_array( $username, OC_USER::getUsers())){
+if( in_array( $username, OC_User::getUsers())){
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "User already exists" )));
 	exit();
 }
 
 // Return Success story
-if( OC_USER::createUser( $username, $password )){
+if( OC_User::createUser( $username, $password )){
 	foreach( $groups as $i ){
-		OC_GROUP::addToGroup( $username, $i );
+		OC_Group::addToGroup( $username, $i );
 	}
-	echo json_encode( array( "status" => "success", "data" => array( "username" => $username, "groups" => implode( ", ", OC_GROUP::getUserGroups( $username )))));
+	echo json_encode( array( "status" => "success", "data" => array( "username" => $username, "groups" => implode( ", ", OC_Group::getUserGroups( $username )))));
 }
 else{
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Unable to add user" )));

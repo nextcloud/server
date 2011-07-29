@@ -37,15 +37,15 @@ class OC_MEDIA_SCANNER{
 	 * @return int the number of songs found
 	 */
 	public static function scanFolder($path){
-		if (OC_FILESYSTEM::is_dir($path)) {
+		if (OC_Filesystem::is_dir($path)) {
 			$songs=0;
-			if ($dh = OC_FILESYSTEM::opendir($path)) {
+			if ($dh = OC_Filesystem::opendir($path)) {
 				while (($filename = readdir($dh)) !== false) {
 					if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
 						$file=$path.'/'.$filename;
-						if(OC_FILESYSTEM::is_dir($file)){
+						if(OC_Filesystem::is_dir($file)){
 							$songs+=self::scanFolder($file);
-						}elseif(OC_FILESYSTEM::is_file($file)){
+						}elseif(OC_Filesystem::is_file($file)){
 							if(self::scanFile($file)){
 								$songs++;
 							}
@@ -53,7 +53,7 @@ class OC_MEDIA_SCANNER{
 					}
 				}
 			}
-		}elseif(OC_FILESYSTEM::is_file($path)){
+		}elseif(OC_Filesystem::is_file($path)){
 			$songs=1;
 			self::scanFile($path);
 		}else{
@@ -68,8 +68,8 @@ class OC_MEDIA_SCANNER{
 	 * @return boolean
 	 */
 	public static function scanFile($path){
-		$file=OC_FILESYSTEM::getLocalFile($path);
-		if(substr($path,-3)=='mp3' and OC_HELPER::canExecute("id3info") and OC_HELPER::canExecute("mp3info")){//use the command line tool id3info if possible
+		$file=OC_Filesystem::getLocalFile($path);
+		if(substr($path,-3)=='mp3' and OC_Helper::canExecute("id3info") and OC_Helper::canExecute("mp3info")){//use the command line tool id3info if possible
 			$output=array();
 			$size=filesize($file);
 			$length=0;

@@ -7,7 +7,7 @@ require_once('../../lib/base.php');
 header( "Content-Type: application/jsonrequest" );
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
+if( !OC_User::isLoggedIn()){
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
 	exit();
 }
@@ -28,7 +28,7 @@ if($doBreadcrumb){
 		}
 	}
 	
-	$breadcrumbNav = new OC_TEMPLATE( "files", "part.breadcrumb", "" );
+	$breadcrumbNav = new OC_Template( "files", "part.breadcrumb", "" );
 	$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 	
 	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
@@ -36,12 +36,12 @@ if($doBreadcrumb){
 
 // make filelist
 $files = array();
-foreach( OC_FILES::getdirectorycontent( $dir ) as $i ){
-	$i["date"] = OC_UTIL::formatDate($i["mtime"] );
+foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
+	$i["date"] = OC_Util::formatDate($i["mtime"] );
 	$files[] = $i;
 }
 
-$list = new OC_TEMPLATE( "files", "part.list", "" );
+$list = new OC_Template( "files", "part.list", "" );
 $list->assign( "files", $files );
 $data = array('files' => $list->fetchPage());
 

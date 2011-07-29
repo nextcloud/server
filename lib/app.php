@@ -26,7 +26,7 @@
  * owncloud ecosystem. Furthermore, this class is responsible for installing,
  * upgrading and removing apps.
  */
-class OC_APP{
+class OC_App{
 	static private $init = false;
 	static private $apps = array();
 	static private $activeapp = '';
@@ -57,7 +57,7 @@ class OC_APP{
 		}
 
 		// The rest comes here
-		$apps = OC_APPCONFIG::getApps();
+		$apps = OC_Appconfig::getApps();
 		foreach( $apps as $app ){
 			if( self::isEnabled( $app )){
 				if(is_file($SERVERROOT.'/apps/'.$app.'/appinfo/app.php')){
@@ -80,7 +80,7 @@ class OC_APP{
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled( $app ){
-		if( 'yes' == OC_APPCONFIG::getValue( $app, 'enabled' )){
+		if( 'yes' == OC_Appconfig::getValue( $app, 'enabled' )){
 			return true;
 		}
 
@@ -95,7 +95,7 @@ class OC_APP{
 	 * This function set an app as enabled in appconfig.
 	 */
 	public static function enable( $app ){
-		OC_APPCONFIG::setValue( $app, 'enabled', 'yes' );
+		OC_Appconfig::setValue( $app, 'enabled', 'yes' );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class OC_APP{
 	 * This function set an app as enabled in appconfig.
 	 */
 	public static function disable( $app ){
-		OC_APPCONFIG::setValue( $app, 'enabled', 'no' );
+		OC_Appconfig::setValue( $app, 'enabled', 'no' );
 	}
 
 	/**
@@ -126,7 +126,7 @@ class OC_APP{
 	 *
 	 */
 	public static function register( $data ){
-		OC_APP::$apps[] = $data;
+		OC_App::$apps[] = $data;
 	}
 
 	/**
@@ -137,7 +137,7 @@ class OC_APP{
 	 */
 	public static function get(){
 		// TODO: write function
-		return OC_APP::$apps;
+		return OC_App::$apps;
 	}
 
 	/**
@@ -162,7 +162,7 @@ class OC_APP{
 		if(!isset($data['icon'])){
 			$data['icon']='';
 		}
-		OC_APP::$navigation[] = $data;
+		OC_App::$navigation[] = $data;
 		return true;
 	}
 
@@ -241,7 +241,7 @@ class OC_APP{
 	 */
 	public static function addAdminPage( $data = array()){
 		// TODO: write function
-		OC_APP::$adminpages[] = $data;
+		OC_App::$adminpages[] = $data;
 		return true;
 	}
 
@@ -266,7 +266,7 @@ class OC_APP{
 	 */
 	public static function addSettingsPage( $data = array()){
 		// TODO: write function
-		OC_APP::$settingspages[] = $data;
+		OC_App::$settingspages[] = $data;
 		return true;
 	}
 

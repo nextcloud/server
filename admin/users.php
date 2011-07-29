@@ -22,34 +22,34 @@
 */
 
 require_once('../lib/base.php');
-if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' )){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
 // We have some javascript foo!
-OC_UTIL::addScript( "admin", "users" );
-OC_UTIL::addStyle( "admin", "users" );
-OC_APP::setActiveNavigationEntry( "core_users" );
+OC_Util::addScript( "admin", "users" );
+OC_Util::addStyle( "admin", "users" );
+OC_App::setActiveNavigationEntry( "core_users" );
 
 $users = array();
 $groups = array();
 
-foreach( OC_USER::getUsers() as $i ){
+foreach( OC_User::getUsers() as $i ){
 	// Do some more work here soon
 	$ingroups = array();
-	foreach( OC_GROUP::getUserGroups( $i ) as $userGroup ){
+	foreach( OC_Group::getUserGroups( $i ) as $userGroup ){
 		$ingroups[] = $userGroup;
 	}
 	$users[] = array( "name" => $i, "groups" => join( ", ", $ingroups ));
 }
 
-foreach( OC_GROUP::getGroups() as $i ){
+foreach( OC_Group::getGroups() as $i ){
 	// Do some more work here soon
 	$groups[] = array( "name" => $i );
 }
 
-$tmpl = new OC_TEMPLATE( "admin", "users", "admin" );
+$tmpl = new OC_Template( "admin", "users", "admin" );
 $tmpl->assign( "users", $users );
 $tmpl->assign( "groups", $groups );
 $tmpl->printPage();

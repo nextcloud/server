@@ -50,7 +50,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		// pure sql. MySQL's non-standard string concatination prevents us
 		// from doing this though.
 		$query = 'SELECT * FROM *PREFIX*locks WHERE userid = ? AND (created + timeout) > ? AND ((uri = ?)';
-		$params = array(OC_USER::getUser(),time(),$uri);
+		$params = array(OC_User::getUser(),time(),$uri);
 
 		// We need to check locks for every part in the uri.
 		$uriParts = explode('/',$uri);
@@ -122,10 +122,10 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	
 		if ($exists) {
 			$query = OC_DB::prepare( 'UPDATE *PREFIX*locks SET owner = ?, timeout = ?, scope = ?, depth = ?, uri = ?, created = ? WHERE userid = ? AND token = ?' );
-			$result = $query->execute( array($lockInfo->owner,$lockInfo->timeout,$lockInfo->scope,$lockInfo->depth,$uri,$lockInfo->created,OC_USER::getUser(),$lockInfo->token));
+			$result = $query->execute( array($lockInfo->owner,$lockInfo->timeout,$lockInfo->scope,$lockInfo->depth,$uri,$lockInfo->created,OC_User::getUser(),$lockInfo->token));
 		} else {
 			$query = OC_DB::prepare( 'INSERT INTO *PREFIX*locks (userid,owner,timeout,scope,depth,uri,created,token) VALUES (?,?,?,?,?,?,?,?)' );
-			$result = $query->execute( array(OC_USER::getUser(),$lockInfo->owner,$lockInfo->timeout,$lockInfo->scope,$lockInfo->depth,$uri,$lockInfo->created,$lockInfo->token));
+			$result = $query->execute( array(OC_User::getUser(),$lockInfo->owner,$lockInfo->timeout,$lockInfo->scope,$lockInfo->depth,$uri,$lockInfo->created,$lockInfo->token));
 		}
 
 		return true;
@@ -142,7 +142,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	public function unlock($uri,Sabre_DAV_Locks_LockInfo $lockInfo) {
 
 		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*locks WHERE userid = ? AND uri=? AND token=?' );
-		$result = $query->execute( array(OC_USER::getUser(),$uri,$lockInfo->token));
+		$result = $query->execute( array(OC_User::getUser(),$uri,$lockInfo->token));
 
 		return $result->numRows() === 1;
 

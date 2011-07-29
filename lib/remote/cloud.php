@@ -186,7 +186,7 @@ class OC_REMOTE_CLOUD{
 	public function sendFile($sourceDir,$sourceFile,$targetDir,$targetFile){
 		global $WEBROOT;
 		$source=$sourceDir.'/'.$sourceFile;
-		$tmp=OC_FILESYSTEM::toTmpFile($source);
+		$tmp=OC_Filesystem::toTmpFile($source);
 		return $this->sendTmpFile($tmp,$targetDir,$targetFile);
 	}
 
@@ -195,7 +195,7 @@ class OC_REMOTE_CLOUD{
 		global $WEBROOT;
 		$file=sys_get_temp_dir().'/'.'remoteCloudFile'.$token;
 		rename($tmp,$file);
-		if( OC_CONFIG::getValue( "forcessl", false ) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
+		if( OC_Config::getValue( "forcessl", false ) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
 			$url = "https://". $_SERVER['SERVER_NAME'] . $WEBROOT;
 		}else{
 			$url = "http://". $_SERVER['SERVER_NAME'] . $WEBROOT;

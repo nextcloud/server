@@ -25,14 +25,14 @@ $RUNTIME_NOAPPS = TRUE; //no apps, yet
 
 require_once('lib/base.php');
 
-OC_UTIL::addScript('setup');
+OC_Util::addScript('setup');
 
-$not_installed = !OC_CONFIG::getValue('installed', false);
+$not_installed = !OC_Config::getValue('installed', false);
 $install_called = (isset($_POST['install']) AND $_POST['install']=='true');
 // First step : check if the server is correctly configured for ownCloud :
-$errors = OC_UTIL::checkServer();
+$errors = OC_Util::checkServer();
 if(count($errors) > 0) {
-	OC_TEMPLATE::printGuestPage("", "error", array("errors" => $errors));
+	OC_Template::printGuestPage("", "error", array("errors" => $errors));
 }
 
 // Setup required :
@@ -41,47 +41,47 @@ elseif($not_installed OR $install_called) {
 }
 
 // Someone is logged in :
-elseif(OC_USER::isLoggedIn()) {
+elseif(OC_User::isLoggedIn()) {
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
-		OC_USER::logout();
+		OC_User::logout();
 		header("Location: ".$WEBROOT.'/');
 		exit();
 	}
 	else {
-		header("Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue("core", "defaultpage", "files/index.php"));
+		header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 		exit();
 	}
 }
 
 // Someone wants to log in :
 elseif(isset($_POST["user"])) {
-	OC_APP::loadApps();
-	if(OC_USER::login($_POST["user"], $_POST["password"])) {
-		header("Location: ".$WEBROOT.'/'.OC_APPCONFIG::getValue("core", "defaultpage", "files/index.php"));
+	OC_App::loadApps();
+	if(OC_User::login($_POST["user"], $_POST["password"])) {
+		header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 		if(!empty($_POST["remember_login"])){
-			OC_USER::setUsernameInCookie($_POST["user"]);
+			OC_User::setUsernameInCookie($_POST["user"]);
 		}
 		else {
-			OC_USER::unsetUsernameInCookie();
+			OC_User::unsetUsernameInCookie();
 		}
 		exit();
 	}
 	else {
 		if(isset($_COOKIE["username"])){
-			OC_TEMPLATE::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["username"]));
+			OC_Template::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["username"]));
 		}else{
-			OC_TEMPLATE::printGuestPage("", "login", array("error" => true));
+			OC_Template::printGuestPage("", "login", array("error" => true));
 		}
 	}
 }
 
 // For all others cases, we display the guest page :
 else {
-	OC_APP::loadApps();
+	OC_App::loadApps();
 	if(isset($_COOKIE["username"])){
-		OC_TEMPLATE::printGuestPage("", "login", array("error" => false, "username" => $_COOKIE["username"]));
+		OC_Template::printGuestPage("", "login", array("error" => false, "username" => $_COOKIE["username"]));
 	}else{
-		OC_TEMPLATE::printGuestPage("", "login", array("error" => false));
+		OC_Template::printGuestPage("", "login", array("error" => false));
 	}
 }
 

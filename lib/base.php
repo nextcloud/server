@@ -70,10 +70,10 @@ if( !isset( $RUNTIME_NOAPPS )){
 // WARNING: to make everything even more confusing, DATADIRECTORY is a var that
 //   changes and DATATIRECTORY_ROOT stays the same, but is set by
 //   "datadirectory". Any questions?
-$CONFIG_DATADIRECTORY = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
+$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
 
 // redirect to https site if configured
-if( OC_CONFIG::getValue( "forcessl", false )){
+if( OC_Config::getValue( "forcessl", false )){
 	if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') {
 		$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 		header("Location: $url");
@@ -81,40 +81,40 @@ if( OC_CONFIG::getValue( "forcessl", false )){
 	}
 }
 
-$error=(count(OC_UTIL::checkServer())>0);
+$error=(count(OC_Util::checkServer())>0);
 
 // User and Groups
-if( !OC_CONFIG::getValue( "installed", false )){
+if( !OC_Config::getValue( "installed", false )){
 	$_SESSION['user_id'] = '';
 }
 
-OC_USER::useBackend( OC_CONFIG::getValue( "userbackend", "database" ));
-OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
+OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
+OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
 
 // Was in required file ... put it here
-OC_FILESYSTEM::registerStorageType('local','OC_FILESTORAGE_LOCAL',array('datadir'=>'string'));
+OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
 
 // Set up file system unless forbidden
 if(!$error and !$RUNTIME_NOSETUPFS ){
-	OC_UTIL::setupFS();
+	OC_Util::setupFS();
 }
 
 // Add the stuff we need always
-OC_UTIL::addScript( "jquery-1.6.2.min" );
-OC_UTIL::addScript( "jquery-ui-1.8.14.custom.min" );
-OC_UTIL::addScript( "js" );
-OC_UTIL::addStyle( "jquery-ui-1.8.14.custom" );
-OC_UTIL::addStyle( "styles" );
+OC_Util::addScript( "jquery-1.6.2.min" );
+OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
+OC_Util::addScript( "js" );
+OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
+OC_Util::addStyle( "styles" );
 
 // Load Apps
 if(!$error and !$RUNTIME_NOAPPS ){
-	OC_APP::loadApps();
+	OC_App::loadApps();
 }
 
 // FROM Connect.php
 function OC_CONNECT_TEST($path,$user,$password){
 	echo 'connecting...';
-	$remote=OC_CONNECT::connect($path,$user,$password);
+	$remote=OC_Connect::connect($path,$user,$password);
 	if($remote->connected){
 		echo 'done<br/>';
 		if($remote->isLoggedIn()){
@@ -138,7 +138,7 @@ function OC_CONNECT_TEST($path,$user,$password){
 						unlink($file);
 						return;
 					}
-					OC_FILESYSTEM::fromTmpFile($file,'/remoteFile');
+					OC_Filesystem::fromTmpFile($file,'/remoteFile');
 					echo 'done<br/>';
 					echo 'sending file "burning_avatar.png"...';
 					$res=$remote->sendFile('','burning_avatar.png','','burning_avatar.png');
@@ -168,15 +168,15 @@ function zipAddDir($dir,$zip,$internalDir=''){
     $dirname=basename($dir);
     $zip->addEmptyDir($internalDir.$dirname);
     $internalDir.=$dirname.='/';
-    $files=OC_FILES::getdirectorycontent($dir);
+    $files=OC_Files::getdirectorycontent($dir);
     foreach($files as $file){
         $filename=$file['name'];
         $file=$dir.'/'.$filename;
-        if(OC_FILESYSTEM::is_file($file)){
-			$tmpFile=OC_FILESYSTEM::toTmpFile($file);
-			OC_FILES::$tmpFiles[]=$tmpFile;
+        if(OC_Filesystem::is_file($file)){
+			$tmpFile=OC_Filesystem::toTmpFile($file);
+			OC_Files::$tmpFiles[]=$tmpFile;
             $zip->addFile($tmpFile,$internalDir.$filename);
-        }elseif(OC_FILESYSTEM::is_dir($file)){
+        }elseif(OC_Filesystem::is_dir($file)){
             zipAddDir($file,$zip,$internalDir);
         }
     }

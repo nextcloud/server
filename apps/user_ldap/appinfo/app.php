@@ -27,13 +27,13 @@ require_once('apps/user_ldap/user_ldap.php');
 define("OC_USER_BACKEND_LDAP_DEFAULT_PORT", 389);
 
 // register user backend
-OC_USER::useBackend( "LDAP" );
+OC_User::useBackend( "LDAP" );
 
 // add settings page to navigation
 $entry = array(
 	'id' => "user_ldap_settings",
 	'order'=>1,
-	'href' => OC_HELPER::linkTo( "user_ldap", "settings.php" ),
+	'href' => OC_Helper::linkTo( "user_ldap", "settings.php" ),
 	'name' => 'LDAP'
 );
-OC_APP::addNavigationSubEntry( "core_users", $entry);
+OC_App::addNavigationSubEntry( "core_users", $entry);

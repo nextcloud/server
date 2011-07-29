@@ -25,14 +25,14 @@
  * abstract reference class for user management
  * this class should only be used as a reference for method signatures and their descriptions
  */
-abstract class OC_USER_EXAMPLE extends OC_USER_BACKEND {
+abstract class OC_User_Example extends OC_User_Backend {
 	/**
 		* @brief Create a new user
 		* @param $uid The username of the user to create
 		* @param $password The password of the new user
 		* @returns true/false
 		*
-		* Creates a new user. Basic checking of username is done in OC_USER
+		* Creates a new user. Basic checking of username is done in OC_User
 		* itself, not in its subclasses.
 		*/
 	public function createUser($uid, $password){

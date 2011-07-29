@@ -18,18 +18,18 @@ if($path!==false){
 		$subPath='';
 	}
 	$path.=$subPath;
-	if(!OC_FILESYSTEM::file_exists($path)){
+	if(!OC_Filesystem::file_exists($path)){
 		header("HTTP/1.0 404 Not Found");
-		$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+		$tmpl = new OC_Template( '', '404', 'guest' );
 		$tmpl->assign('file',$subPath);
 		$tmpl->printPage();
 		exit;
 	}
-	if(OC_FILESYSTEM::is_dir($path)){
+	if(OC_Filesystem::is_dir($path)){
 		$files = array();
 		$rootLength=strlen($root);
-		foreach( OC_FILES::getdirectorycontent( $path ) as $i ){
-			$i['date'] = OC_UTIL::formatDate($i['mtime'] );
+		foreach( OC_Files::getdirectorycontent( $path ) as $i ){
+			$i['date'] = OC_Util::formatDate($i['mtime'] );
 			$i['directory']=substr($i['directory'],$rootLength);
 			if($i['directory']=='/'){
 				$i['directory']='';
@@ -47,36 +47,36 @@ if($path!==false){
 			}
 		}
 		
-		$breadcrumbNav = new OC_TEMPLATE( "files_publiclink", "breadcrumb", "" );
+		$breadcrumbNav = new OC_Template( "files_publiclink", "breadcrumb", "" );
 		$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 		$breadcrumbNav->assign('token',$token);
 		
-		$list = new OC_TEMPLATE( 'files_publiclink', 'files', '' );
+		$list = new OC_Template( 'files_publiclink', 'files', '' );
 		$list->assign( 'files', $files );
 		$list->assign('token',$token);
 		
-		$tmpl = new OC_TEMPLATE( 'files_publiclink', 'index', 'user' );
+		$tmpl = new OC_Template( 'files_publiclink', 'index', 'user' );
 		$tmpl->assign('fileList', $list->fetchPage());
 		$tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
 		$tmpl->printPage();
 	}else{
 		//get time mimetype and set the headers
-		$mimetype=OC_FILESYSTEM::getMimeType($path);
+		$mimetype=OC_Filesystem::getMimeType($path);
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Disposition: attachment; filename="'.basename($path).'"');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
 		header('Content-Type: ' . $mimetype);
-		header('Content-Length: ' . OC_FILESYSTEM::filesize($path));
+		header('Content-Length: ' . OC_Filesystem::filesize($path));
 		
 		//download the file
 		@ob_clean();
-		OC_FILESYSTEM::readfile($path);
+		OC_Filesystem::readfile($path);
 	}
 }else{
 	header("HTTP/1.0 404 Not Found");
-	$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+	$tmpl = new OC_Template( '', '404', 'guest' );
 	$tmpl->printPage();
 	die();
 }

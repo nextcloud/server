@@ -52,16 +52,16 @@ if(!isset($arguments['album'])){
 if(!isset($arguments['search'])){
 	$arguments['search']='';
 }
-OC_MEDIA_COLLECTION::$uid=OC_USER::getUser();
+OC_MEDIA_COLLECTION::$uid=OC_User::getUser();
 if($arguments['action']){
 	switch($arguments['action']){
 		case 'delete':
 			$path=$arguments['path'];
 			OC_MEDIA_COLLECTION::deleteSongByPath($path);
-			$paths=explode(PATH_SEPARATOR,OC_PREFERENCES::getValue(OC_USER::getUser(),'media','paths',''));
+			$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
 			if(array_search($path,$paths)!==false){
 				unset($paths[array_search($path,$paths)]);
-				OC_PREFERENCES::setValue(OC_USER::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
+				OC_Preferences::setValue(OC_User::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
 			}
 		case 'get_collection':
 			$artists=OC_MEDIA_COLLECTION::getArtists();
@@ -78,11 +78,11 @@ if($arguments['action']){
 		case 'scan':
 			set_time_limit(0); //recursive scan can take a while
 			$path=$arguments['path'];
-			if(OC_FILESYSTEM::is_dir($path)){
-				$paths=explode(PATH_SEPARATOR,OC_PREFERENCES::getValue(OC_USER::getUser(),'media','paths',''));
+			if(OC_Filesystem::is_dir($path)){
+				$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
 				if(array_search($path,$paths)===false){
 					$paths[]=$path;
-					OC_PREFERENCES::setValue(OC_USER::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
+					OC_Preferences::setValue(OC_User::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
 				}
 			}
 			echo OC_MEDIA_SCANNER::scanFolder($path);
@@ -103,7 +103,7 @@ if($arguments['action']){
 		case 'play':
 			ob_end_clean();
 			
-			$ftype=OC_FILESYSTEM::getMimeType( $arguments['path'] );
+			$ftype=OC_Filesystem::getMimeType( $arguments['path'] );
 			
 			$songId=OC_MEDIA_COLLECTION::getSongByPath($arguments['path']);
 			OC_MEDIA_COLLECTION::registerPlay($songId);
@@ -112,9 +112,9 @@ if($arguments['action']){
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: public');
-			header('Content-Length: '.OC_FILESYSTEM::filesize($arguments['path']));
+			header('Content-Length: '.OC_Filesystem::filesize($arguments['path']));
 			
-			OC_FILESYSTEM::readfile($arguments['path']);
+			OC_Filesystem::readfile($arguments['path']);
 			exit;
 	}
 }

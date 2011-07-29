@@ -25,13 +25,13 @@
 require_once('../../lib/base.php');
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn()){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
 $files = $_GET["files"];
 $dir = $_GET["dir"];
 
-OC_FILES::get($dir,$files);
+OC_Files::get($dir,$files);
 ?>

@@ -25,7 +25,7 @@
  * Class for connecting multiply ownCloud installations
  *
  */
-class OC_CONNECT{
+class OC_Connect{
 	static private $clouds=array();
 
 	static function connect($path,$user,$password){

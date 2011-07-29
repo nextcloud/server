@@ -4,7 +4,7 @@
  * Class for utility functions
  *
  */
-class OC_UTIL {
+class OC_Util {
 	public static $scripts=array();
 	public static $styles=array();
 	public static $headers=array();
@@ -20,8 +20,8 @@ class OC_UTIL {
 		global $SERVERROOT;
 		global $CONFIG_DATADIRECTORY;
 
-		$CONFIG_DATADIRECTORY_ROOT = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_CONFIG::getValue( "backupdirectory", "$SERVERROOT/backup" );
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", "$SERVERROOT/backup" );
 
 		// Create root dir
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
@@ -29,23 +29,23 @@ class OC_UTIL {
 		}
 
 		// If we are not forced to load a specific user we load the one that is logged in
-		if( $user == "" && OC_USER::isLoggedIn()){
-			$user = OC_USER::getUser();
+		if( $user == "" && OC_User::isLoggedIn()){
+			$user = OC_User::getUser();
 		}
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			//first set up the local "root" storage and the backupstorage if needed
-			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT));
-// 			if( OC_CONFIG::getValue( "enablebackup", false )){
+			$rootStorage=OC_Filesystem::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT));
+// 			if( OC_Config::getValue( "enablebackup", false )){
 // 				// This creates the Directorys recursively
 // 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
 // 					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0755, true );
 // 				}
-// 				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
+// 				$backupStorage=OC_Filesystem::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
 // 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
 // 				$rootStorage->addObserver($backup);
 // 			}
-			OC_FILESYSTEM::mount($rootStorage,'/');
+			OC_Filesystem::mount($rootStorage,'/');
 
 			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
 			if( !is_dir( $CONFIG_DATADIRECTORY )){
@@ -55,25 +55,25 @@ class OC_UTIL {
 // TODO: find a cool way for doing this
 // 			//set up the other storages according to the system settings
 // 			foreach($CONFIG_FILESYSTEM as $storageConfig){
-// 				if(OC_FILESYSTEM::hasStorageType($storageConfig['type'])){
+// 				if(OC_Filesystem::hasStorageType($storageConfig['type'])){
 // 					$arguments=$storageConfig;
 // 					unset($arguments['type']);
 // 					unset($arguments['mountpoint']);
-// 					$storage=OC_FILESYSTEM::createStorage($storageConfig['type'],$arguments);
+// 					$storage=OC_Filesystem::createStorage($storageConfig['type'],$arguments);
 // 					if($storage){
-// 						OC_FILESYSTEM::mount($storage,$storageConfig['mountpoint']);
+// 						OC_Filesystem::mount($storage,$storageConfig['mountpoint']);
 // 					}
 // 				}
 // 			}
 
 			//jail the user into his "home" directory
-			OC_FILESYSTEM::chroot("/$user/$root");
+			OC_Filesystem::chroot("/$user/$root");
 			self::$fsSetup=true;
 		}
 	}
 
 	public static function tearDownFS(){
-		OC_FILESYSTEM::tearDown();
+		OC_Filesystem::tearDown();
 		self::$fsSetup=false;
 	}
 
@@ -153,7 +153,7 @@ class OC_UTIL {
 	 * @param int $pagecount
 	 * @param int $page
 	 * @param string $url
-	 * @return OC_TEMPLATE
+	 * @return OC_Template
 	 */
 	public static function getPageNavi($pagecount,$page,$url) {
 
@@ -164,7 +164,7 @@ class OC_UTIL {
 			$pagestop=$page+$pagelinkcount;
 			if($pagestop>$pagecount) $pagestop=$pagecount;
 
-			$tmpl = new OC_TEMPLATE( '', 'part.pagenavi', '' );
+			$tmpl = new OC_Template( '', 'part.pagenavi', '' );
 			$tmpl->assign('page',$page);
 			$tmpl->assign('pagecount',$pagecount);
 			$tmpl->assign('pagestart',$pagestart);
@@ -184,17 +184,17 @@ class OC_UTIL {
 		global $SERVERROOT;
 		global $CONFIG_DATADIRECTORY;
 
-		$CONFIG_DATADIRECTORY_ROOT = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );;
-		$CONFIG_BACKUPDIRECTORY = OC_CONFIG::getValue( "backupdirectory", "$SERVERROOT/backup" );
-		$CONFIG_INSTALLED = OC_CONFIG::getValue( "installed", false );
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );;
+		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", "$SERVERROOT/backup" );
+		$CONFIG_INSTALLED = OC_Config::getValue( "installed", false );
 		$errors=array();
 
 		//check for database drivers
 		if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
 			$errors[]=array('error'=>'No database drivers (sqlite or mysql) installed.<br/>','hint'=>'');//TODO: sane hint
 		}
-		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
-		$CONFIG_DBNAME = OC_CONFIG::getValue( "dbname", "owncloud" );
+		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+		$CONFIG_DBNAME = OC_Config::getValue( "dbname", "owncloud" );
 
 		//try to get the username the httpd server runs on, used in hints
 		$stat=stat($_SERVER['DOCUMENT_ROOT']);
@@ -212,17 +212,17 @@ class OC_UTIL {
 		if(!stristr(PHP_OS, 'WIN')){
 			$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,-1)!='0'){
-				OC_HELPER::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
+				OC_Helper::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
 				clearstatcache();
 				$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 				if(substr($prems,2,1)!='0'){
 					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>','hint'=>$permissionsHint);
 				}
 			}
-			if( OC_CONFIG::getValue( "enablebackup", false )){
+			if( OC_Config::getValue( "enablebackup", false )){
 				$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 				if(substr($prems,-1)!='0'){
-					OC_HELPER::chmodr($CONFIG_BACKUPDIRECTORY,0770);
+					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY,0770);
 					clearstatcache();
 					$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 					if(substr($prems,2,1)!='0'){

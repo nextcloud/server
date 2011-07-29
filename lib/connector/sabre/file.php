@@ -18,7 +18,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function put($data) {
 
-		OC_FILESYSTEM::file_put_contents($this->path,$data);
+		OC_Filesystem::file_put_contents($this->path,$data);
 
 	}
 
@@ -29,7 +29,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function get() {
 
-		return OC_FILESYSTEM::file_get_contents($this->path);
+		return OC_Filesystem::file_get_contents($this->path);
 
 	}
 
@@ -40,7 +40,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function delete() {
 
-		OC_FILESYSTEM::unlink($this->path);
+		OC_Filesystem::unlink($this->path);
 
 	}
 
@@ -51,7 +51,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function getSize() {
 	
-		return OC_FILESYSTEM::filesize($this->path);
+		return OC_Filesystem::filesize($this->path);
 
 	}
 
@@ -80,7 +80,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function getContentType() {
 
-		return OC_FILESYSTEM::getMimeType($this->path);
+		return OC_Filesystem::getMimeType($this->path);
 
 	}
 }

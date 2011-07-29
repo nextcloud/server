@@ -21,7 +21,7 @@
  *
  */
 
-class OC_USER_LDAP extends OC_USER_BACKEND {
+class OC_USER_LDAP extends OC_User_Backend {
 
 	protected $ds;
 	protected $configured = false;
@@ -35,12 +35,12 @@ class OC_USER_LDAP extends OC_USER_BACKEND {
 	protected $ldap_filter;
 
 	function __construct() {
-		$this->ldap_host = OC_APPCONFIG::getValue('user_ldap', 'ldap_host','');
-		$this->ldap_port = OC_APPCONFIG::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT	);
-		$this->ldap_dn = OC_APPCONFIG::getValue('user_ldap', 'ldap_dn','');
-		$this->ldap_password = OC_APPCONFIG::getValue('user_ldap', 'ldap_password','');
-		$this->ldap_base = OC_APPCONFIG::getValue('user_ldap', 'ldap_base','');
-		$this->ldap_filter = OC_APPCONFIG::getValue('user_ldap', 'ldap_filter','');
+		$this->ldap_host = OC_Appconfig::getValue('user_ldap', 'ldap_host','');
+		$this->ldap_port = OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT	);
+		$this->ldap_dn = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
+		$this->ldap_password = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
+		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
+		$this->ldap_filter = OC_Appconfig::getValue('user_ldap', 'ldap_filter','');
 
 		if( !empty($this->ldap_host)
 			&& !empty($this->ldap_port)

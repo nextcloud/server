@@ -4,7 +4,7 @@
  * This class manages the hooks. It basically provides two functions: adding
  * slots and emitting signals.
  */
-class OC_HOOK{
+class OC_Hook{
 	static private $registered = array();
 
 	/**

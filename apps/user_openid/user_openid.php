@@ -26,7 +26,7 @@ require_once('class.openid.v3.php');
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class OC_USER_OPENID extends OC_USER_BACKEND {
+class OC_USER_OPENID extends OC_User_Backend {
 	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username

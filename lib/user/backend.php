@@ -41,9 +41,9 @@ define('OC_USER_BACKEND_USER_EXISTS',       0x100000);
 
 /**
  * abstract base class for user management
- * subclass this for your own backends and see OC_USER_EXAMPLE for descriptions
+ * subclass this for your own backends and see OC_User_Example for descriptions
  */
-abstract class OC_USER_BACKEND {
+abstract class OC_User_Backend {
 
 	protected $possibleActions = array(
 		OC_USER_BACKEND_CREATE_USER => 'createUser',
