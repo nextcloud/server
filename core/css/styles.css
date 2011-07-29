@@ -31,7 +31,7 @@ div.controls { width:100%; margin:0px; background-color:#f7f7f7; border-bottom:1
 #body-login p.info { width:16em; margin:2em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 #body-login p.info a { font-weight:bold; }
 
-#login header { margin-top:-2em; height:10em;
+#login div.header { margin-top:-2em; height:10em;
  -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 20px #000; box-shadow:0 0 20px #000;
 background: #1d2d44; /* Old browsers */
 background: -moz-linear-gradient(top, #35537a 0%, #1d2d42 100%); /* FF3.6+ */
@@ -39,8 +39,8 @@ background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537
 background: -webkit-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* Chrome10+,Safari5.1+ */
 background: -o-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* Opera11.10+ */
 background: -ms-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* IE10+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d42',GradientType=0 ); /* IE6-9 */
-background: linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */ }
+background: linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d42',GradientType=0 ); /* IE6-9 */ }
 #login { margin:0 auto 0 auto; padding:2em 0 0 0; border-bottom:1px solid #FFF; text-align:center; background:#eee; }
 #login_form { width:20em; margin:4em auto; padding:0; }
 #login_form fieldset { background-color:transparent; border:0; }

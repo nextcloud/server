@@ -5,6 +5,7 @@ $(document).ready(function() {
 	$('#fileList tr td.filename').draggable(dragOptions);
 	$('#fileList tr[data-type="dir"] td.filename').droppable(folderDropOptions);
 	$('div.crumb').droppable(crumbDropOptions);
+	$('#plugins>ul>li:first-child').data('dir','');
 	$('#plugins>ul>li:first-child').droppable(crumbDropOptions);
 	
 	// Sets the file-action buttons behaviour :
