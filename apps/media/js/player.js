@@ -3,13 +3,13 @@ var PlayList={
 	current:-1,
 	items:[],
 	player:null,
-	parent:null,
 	next:function(){
 		var next=PlayList.current+1;
 		if(next>=PlayList.items.length){
 			next=0;
 		}
 		PlayList.play(next);
+		PlayList.render();
 	},
 	previous:function(){
 		var next=PlayList.current-1;
@@ -17,6 +17,7 @@ var PlayList={
 			next=PlayList.items.length-1;
 		}
 		PlayList.play(next);
+		PlayList.render();
 	},
 	play:function(index){
 		if(index==null){
@@ -66,6 +67,9 @@ var PlayList={
 		});
 	},
 	add:function(song){
+		if(!song){
+			return;
+		}
 		if(song.substr){//we are passed a string, asume it's a url to a song
 			PlayList.addFile(song);
 		}
@@ -81,7 +85,7 @@ var PlayList={
 		}
 		if(song.song_name){
 			var type=musicTypeFromFile(song.song_path);
-			var item={name:song.song_name,type:type,artist:song.artist_name,album:song.album_name};
+			var item={name:song.song_name,type:type,artist:song.artist_name,album:song.album_name,length:song.song_length,playcount:song.song_playcount};
 			item[type]=PlayList.urlBase+encodeURIComponent(song.song_path);
 			PlayList.items.push(item);
 		}
@@ -92,30 +96,9 @@ var PlayList={
 		item[type]=PlayList.urlBase+encodeURIComponent(path);
 		PlayList.items.push(item);
 	},
-	render:function(parent){//parent should be an ul element
-		if(parent){
-			PlayList.parent=parent;
-		}else{
-			parent=PlayList.parent;
-		}
-		if(parent){
-			parent.empty();
-			for(var i=0;i<PlayList.items.length;i++){
-				var song=PlayList.items[i];
-				var item=$('<li>'+song.artist+' - '+song.album+' - '+song.name+'</li>');
-				item.data('artist',song.artist);
-				item.data('album',song.album);
-				item.data('name',song.name);
-				item.data('index',i);
-				item.click(function(){
-					PlayList.play($(this).data('index'));
-					PlayList.render();
-				});
-				if(i==PlayList.current){
-					item.addClass('current');
-				}
-				parent.append(item);
-			}
-		}
-	}
+	remove:function(index){
+		PlayList.items.splice(index,1);
+		PlayList.render();
+	},
+	render:function(){}
 }

@@ -3,7 +3,15 @@
 li button.right.prettybutton{font-size:1em;}
 #collection{padding-top:1em;position:relative;width:70ex;float:left;}
 #collection li.album,#collection li.song{margin-left:3ex;}
-#playlist{margin-left:72ex;}
-#playlist li.current{background-color:#ccc;}
+#playlist{width:100%;border-spacing:0;}
+#playlist th{background-color:#ccc; text-align:left; font-size:1.2em; padding:0.2em}
+#playlist tr.selected{background-color:#eee;}
+#playlist tr.current{background-color:#ccc;}
+#playlist td.time, #playlist th.time{text-align:right; padding-right:1em;}
 #collection li button{float:right;}
 #collection li,#playlist li{list-style-type:none;}
+.template{display:none}
+
+#collection{display:none}/*hide the collection initially*/
+#collection li{padding-right:10px;}
+img.remove{float:right;};

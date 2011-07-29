@@ -1,4 +1,4 @@
-#jp-interface{position:fixed;z-index:100;width:25em;left:201px;top:-20px;height:80px;border-bottom:none;}
+#jp-interface{position:fixed;z-index:100;width:25em;left:201px;top:-20px;height:60px;border-bottom:none;}
 #jp-interface div.player{height:0px}
 #jp-interface ul.jp-controls{list-style-type:none;padding:0;}
 #jp-interface ul.jp-controls li{display:inline;}

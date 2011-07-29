@@ -128,7 +128,7 @@ class OC_MEDIA_COLLECTION{
 		$artists=$query->execute(array($search,OC_User::getUser()))->fetchAll();
 		$result=array();
 		foreach($artists as $artist){
-			$result[$artist['id']]=array('artist_name'=>$artist['name'],'artist_id'=>$artist['id']);
+			$result[]=array('artist_name'=>$artist['name'],'artist_id'=>$artist['id']);
 		}
 		return $result;
 	}
@@ -179,7 +179,7 @@ class OC_MEDIA_COLLECTION{
 		$result=array();
 		foreach($albums as $album){
 			if(count(self::getSongs($album['album_artist'],$album['album_id']))){
-				$result[$album['album_id']]=$album;
+				$result[]=$album;
 			}
 		}
 		return $result;
