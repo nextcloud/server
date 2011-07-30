@@ -53,10 +53,9 @@ Collection={
 					li.data('artist',artist);
 					li.removeClass('template');
 					li.addClass('artist');
+					li.data('type','artist');
 					li.children('span').text(artist.artist_name);
-					li.children('button').click(function(){
-						PlayList.add($(this).parent().data('artist'));
-					})
+					Collection.addButtons(li);
 					Collection.parent.append(li);
 				}
 			}
@@ -81,10 +80,9 @@ Collection={
 				li.removeClass('template');
 				li.addClass('album');
 				li.data('album',album);
+				li.data('type','album');
 				li.children('span').text(album.album_name);
-				li.children('button').click(function(){
-					PlayList.add($(this).parent().data('album'));
-				})
+				Collection.addButtons(li);
 				ul.append(li);
 			}
 			artistLi.append(ul);
@@ -102,10 +100,9 @@ Collection={
 			li.removeClass('template');
 			li.addClass('song');
 			li.data('song',song);
+			li.data('type','song');
 			li.children('span').text(song.song_name);
-			li.children('button').click(function(){
-				PlayList.add($(this).parent().data('song'));
-			})
+			Collection.addButtons(li);
 			ul.append(li);
 		}
 		albumLi.append(ul);
@@ -124,6 +121,18 @@ Collection={
 				}
 			}
 		}
+	},
+	addButtons:function(parent){
+		parent.children('button.add').click(function(){
+			var type=$(this).parent().data('type');
+			PlayList.add($(this).parent().data(type));
+		});
+		parent.children('button.play').click(function(){
+			var type=$(this).parent().data('type');
+			var oldSize=PlayList.items.length;
+			PlayList.add($(this).parent().data(type));
+			PlayList.play(oldSize);
+		});
 	}
 }
 

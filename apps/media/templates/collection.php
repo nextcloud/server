@@ -4,6 +4,7 @@
 	</li>
 	<li class='template'>
 		<span></span>
-		<button>Add</button>
+		<button class='add'>Add</button>
+		<button class='play'>Play</button>
 	</li>
 </ul>
