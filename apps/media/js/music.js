@@ -24,25 +24,22 @@ $(document).ready(function(){
 			data[itemParts[0]]=decodeURIComponent(itemParts[1]).replace(/\+/g,' ');
 		}
 		var media=Collection.find(data.artist,data.album,data.song);
-		if(!PlayList.playing()){
-			var button=$('<input type="button" class="play"></input>');
-			button.css('background-image','url('+OC.imagePath('core','actions/play')+')')
-			button.click(function(){
-				var oldSize=PlayList.items.length;
-				PlayList.add(media);
-				PlayList.play(oldSize);
-				PlayList.render();
-			});
-			row.find('div.name').append(button);
-		}else{
-			var button=$('<input type="button" class="add"></input>');
-			button.css('background-image','url('+OC.imagePath('core','actions/play-add')+')')
-			button.click(function(){
-				PlayList.add(media);
-				PlayList.render();
-			});
-			row.find('div.name').append(button);
-		}
+		var a=row.find('a');
+		a.attr('href','#');
+		a.click(function(){
+			var oldSize=PlayList.items.length;
+			PlayList.add(media);
+			PlayList.play(oldSize);
+			PlayList.render();
+		});
+		var button=$('<input type="button" title="Add to playlist" class="add"></input>');
+		button.css('background-image','url('+OC.imagePath('core','actions/play-add')+')')
+		button.click(function(event){
+			event.stopPropagation();
+			PlayList.add(media);
+			PlayList.render();
+		});
+		row.find('div.name').append(button);
 	}
 });
 
