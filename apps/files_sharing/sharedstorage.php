@@ -59,7 +59,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
-				if (OC_SHARE::isWriteable($this->datadir.$path)) {
+				if ($this->is_writeable($path)) {
 					$storage = OC_FILESYSTEM::getStorage($source);
 					return $storage->mkdir($this->getInternalPath($source));
 				}
@@ -214,7 +214,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 	
 	public function getFolderSize($path) {
 		if ($path == "" || $path == "/") {
-			$dbpath = OC_USER::getUser()."/files/Share/";
+			$dbpath = $this->datadir;
 		} else {
 			$source = $this->getSource($path);
 			$dbpath = $this->getInternalPath($source);
@@ -267,10 +267,10 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 	}
 	
 	public function is_writeable($path) {
-		if ($path == "" || $path == "/") {
+		if ($path == "" || $path == "/" || OC_SHARE::getPermissions($this->datadir.$path) & OC_SHARE::WRITE) {
 			return true;
 		} else {
-			return OC_SHARE::isWriteable($this->datadir.$path);
+			return false;
 		}
 	}
 	
@@ -362,42 +362,68 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		}
 	}
 	
-	// TODO OC_SHARE::getPermissions()
 	public function file_put_contents($path, $data) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_FILESYSTEM::getStorage($source);
-			return $storage->file_put_contents($this->getInternalPath($source), $data);
+		if ($this->is_writeable($path)) {
+			$source = $this->getSource($path);
+			if ($source) {
+				$storage = OC_FILESYSTEM::getStorage($source);
+				return $storage->file_put_contents($this->getInternalPath($source), $data);
+			}
 		}
 	}
 	
 	public function unlink($path) {
-		// The file will be removed from the database, but won't be touched on the owner's filesystem
 		$target = $this->datadir.$path;
-		// If file is inside a shared folder
-		if (OC_SHARE::getParentFolders($target)) {
-			// If entry for file already exists
-			if (OC_SHARE::getItem($target)) {
-				OC_SHARE::setTarget($target, "/");
-			} else {
-				OC_SHARE::pullOutOfFolder($target, "/");
+		// If the user has delete permission for the item, the source item will be deleted
+		if (OC_SHARE::getPermissions($target) & OC_SHARE::DELETE) {
+			$source = $this->getSource($path);
+			if ($source) {
+				$storage = OC_FILESYSTEM::getStorage($source);
+				return $storage->unlink($this->getInternalPath($source));
 			}
+		// The item will be removed from the database, but won't be touched on the owner's filesystem
 		} else {
-			OC_SHARE::unshareFromMySelf($target);
+			// Check if the item is inside a shared folder
+			if (OC_SHARE::getParentFolders($target)) {
+				// If entry for item already exists
+				if (OC_SHARE::getItem($target)) {
+					OC_SHARE::setTarget($target, "/");
+				} else {
+					OC_SHARE::pullOutOfFolder($target, "/");
+					// If this is a folder being deleted, call setTarget in case there are any database entries inside the folder
+					if (self::is_dir($path)) {
+						OC_SHARE::setTarget($target, "/");
+					}
+				}
+			// Delete the database entry
+			} else {
+				OC_SHARE::unshareFromMySelf($target);
+			}
 		}
 		return true;
 	}
 	
 	public function rename($path1, $path2) {
-		// The file will be renamed in the database, but won't be touched on the owner's filesystem
-		$oldTarget = $this->datadir.$path1;
-		$newTarget = $this->datadir.$path2;
-		if (OC_SHARE::getItem($oldTarget)) {
-			OC_SHARE::setTarget($oldTarget, $newTarget);
+		// If the user has write permission for the item, the source item will be renamed
+		if ($this->is_writeable($path1)) {
+			$source = $this->getSource($path1);
+			if ($source) {
+				$storage = OC_FILESYSTEM::getStorage($source);
+				return $storage->rename($path1, $path2);
+			}
+		// The item will be renamed in the database, but won't be touched on the owner's filesystem
 		} else {
-			OC_SHARE::pullOutOfFolder($oldTarget, $newTarget);
-			if (self::is_dir($path1)) {
+			$oldTarget = $this->datadir.$path1;
+			$newTarget = $this->datadir.$path2;
+			if (OC_SHARE::getItem($oldTarget)) {
 				OC_SHARE::setTarget($oldTarget, $newTarget);
+			// There is no entry in the database for the item, it must be inside a shared folder
+			} else {
+				OC_SHARE::pullOutOfFolder($oldTarget, $newTarget);
+				// If this is a folder being renamed, call setTarget in case there are any database entries inside the folder
+				if (self::is_dir($path1)) {
+					OC_SHARE::setTarget($oldTarget, $newTarget);
+				}
 			}
 		}
 		return true;
@@ -407,7 +433,7 @@ class OC_FILESTORAGE_SHARED extends OC_FILESTORAGE {
 		if ($path2 == "" || $path2 == "/") {
 			// TODO Construct new shared item or should this not be allowed?
 		} else {
-			if ($this->is_writeable($path)) {
+			if ($this->is_writeable($path2)) {
 				$tmpFile = $this->toTmpFile($path1);
 				return $this->fromTmpFile($tmpFile, $path2);
 			} else {

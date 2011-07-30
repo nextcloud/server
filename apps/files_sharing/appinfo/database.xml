@@ -32,7 +32,7 @@
 				<length>128</length>
 			</field>
 			<field>
-				<name>is_writeable</name>
+				<name>permissions</name>
 				<type>integer</type>
 				<notnull>true</notnull>
 				<length>1</length>

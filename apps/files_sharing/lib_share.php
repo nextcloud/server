@@ -27,7 +27,10 @@ OC_HOOK::connect("OC_FILESYSTEM","post_rename", "OC_SHARE", "renameItem");
  * This class manages shared items within the database. 
  */
 class OC_SHARE {
-	
+
+	const WRITE = 1;
+	const DELETE = 2;
+      
 	/**
 	 * TODO notify user a file is being shared with them?
 	 * Share an item, adds an entry into the database
@@ -101,7 +104,7 @@ class OC_SHARE {
 		$source = $folders['source'].substr($oldTarget, strlen($folders['target']));
 		$item = self::getItem($folders['target']);
 		$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-		$query->execute(array($item[0]['uid_owner'], OC_USER::getUser(), $source, $newTarget, $item[0]['is_writeable']));
+		$query->execute(array($item[0]['uid_owner'], OC_USER::getUser(), $source, $newTarget, $item[0]['permissions']));
 	}
 
 	/**
@@ -111,7 +114,7 @@ class OC_SHARE {
 	 */
 	public static function getItem($target) {
 		$target = self::cleanPath($target);
-		$query = OC_DB::prepare("SELECT uid_owner, source, is_writeable  FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
+		$query = OC_DB::prepare("SELECT uid_owner, source, permissions FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
 		return $query->execute(array($target, OC_USER::getUser()))->fetchAll();
 	}
 	
@@ -120,7 +123,7 @@ class OC_SHARE {
 	 * @return An array with all items the user is sharing
 	 */
 	public static function getMySharedItems() {
-		$query = OC_DB::prepare("SELECT uid_shared_with, source, is_writeable FROM *PREFIX*sharing WHERE uid_owner = ?");
+		$query = OC_DB::prepare("SELECT uid_shared_with, source, permissions FROM *PREFIX*sharing WHERE uid_owner = ?");
 		return $query->execute(array(OC_USER::getUser()))->fetchAll();
 	}
 	
@@ -185,32 +188,33 @@ class OC_SHARE {
 			return $result[0]['source'];
 		} else {
 			$folders = self::getParentFolders($target);
-			if ($folders == false) {
-				return false;
-			} else {
+			if ($folders == true) {
 				return $folders['source'].substr($target, strlen($folders['target']));
+			} else {
+				return false;
 			}
 		}
 	}
 
 	/**
-	 * Check if the user has write permission for the item at the specified target location
+	 * Get the user's permissions for the item at the specified target location
 	 * @param $target The target location of the item
-	 * @return True if the user has write permission or false if read only
+	 * @return The permissions, use bitwise operators to check against the constants WRITE and DELETE
 	 */
-	public static function isWriteable($target) {
+	public static function getPermissions($target) {
 		$target = self::cleanPath($target);
 		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT is_writeable FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
+		$query = OC_DB::prepare("SELECT permissions FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
 		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
 		if (count($result) > 0) {
-			return $result[0]['is_writeable'];
+			return $result[0]['permissions'];
 		} else {
-			// Check if the folder is writeable
-			$folders = OC_SHARE::getParentFolders($target);
-			$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
-			if (count($result) > 0) {
-				return $result[0]['is_writeable'];
+			$folders =self::getParentFolders($target);
+			if ($folders == true) {
+				$result = $query->execute(array_merge(array($folders), $userAndGroups))->fetchAll();
+				if (count($result) > 0) {
+					return $result[0]['permissions'];
+				}
 			} else {
 				return false;
 			}
@@ -245,18 +249,18 @@ class OC_SHARE {
 	}
 	
 	/**
-	* Change write permission for the specified item and user
+	* Change the permissions for the specified item and user
 	*
-	* You must construct a new shared item to change the write permission of a file inside a shared folder if the write permission differs from the folder
+	* You must construct a new shared item to change the permissions of a file inside a shared folder if the permissions differ from the folder
 	*
 	* @param $source The source location of the item
-	* @param $uid_shared_with Array of users to change the write permission for
-	* @param $is_writeable True if the user has write permission or false if read only
+	* @param $uid_shared_with The user to change the permissions for
+	* @param $permissions The permissions, use the constants WRITE and DELETE
 	*/
-	public static function setIsWriteable($source, $uid_shared_with, $is_writeable) {
+	public static function setPermissions($source, $uid_shared_with, $permissions) {
 		$source = self::cleanPath($source);
-		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET is_writeable = ? WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
-		$query->execute(array($is_writeable, strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET permissions = ? WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
+		$query->execute(array($permissions, strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
 	}
 	
 	/**
