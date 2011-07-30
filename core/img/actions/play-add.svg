@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.1 r9760"
    sodipodi:docname="play.svg"
-   inkscape:export-filename="/home/jancborchardt/owncloud/core/img/actions/play.png"
+   inkscape:export-filename="/home/jancborchardt/delete.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -65,9 +65,14 @@
      transform="translate(0,-1036.3622)">
     <path
        style="fill:#808080;fill-opacity:1;stroke:none"
-       d="m 6,1037.3622 4,0 1,7 4,0 -7,7 -7,-7 4,0 z"
+       d="m 2,1038.3622 12,6 -12,6 z"
        id="path3086"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccc" />
+       sodipodi:nodetypes="cccc" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       d="m 12,1046.3622 0,2 -2,0 0,1 2,0 0,2 1,0 0,-2 2,0 0,-1 -2,0 0,-2 -1,0 z"
+       id="rect2984" />
   </g>
 </svg>
