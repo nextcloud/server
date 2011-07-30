@@ -87,9 +87,9 @@ input[type="search"] { font-size:1em; padding-left:2em; background:#eee url('../
 #plugins a { display:block; padding:0.5em 0.5em 0.5em 3em; background-position:1.5em center; background-repeat:no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; }
 #plugins a.active, #plugins a:hover, #plugins a:focus, #plugins a.selected { background-color:#ccc; border-top:1px solid #ccc; border-bottom:1px solid #ccc; color:#000; outline:0; }
 #plugins a:active { outline:0; }
-#plugins .subentry { background-color:#ddd; border-top:1px solid #aaa; border-bottom:1px solid #ccc; color:#000; outline:0; }
-#plugins .subentry.active { background-color:#bbb; border-top:1px solid #aaa; border-bottom:1px solid #ccc; color:#000; outline:0; }
-#plugins li.subentry a {padding-left:4em;}
+#plugins .subentry { background-color:#ddd; border-top:1px solid #aaa; color:#000; outline:0; }
+#plugins .subentry.active { background-color:#bbb; border-top:1px solid #aaa; color:#000; outline:0; }
+#plugins li.subentry a { padding-left:3.7em; font-size:1em; }
 
 /* CONTENT ------------------------------------------------------------------ */
 #content { margin:3.5em 0 0 15.7em; }
