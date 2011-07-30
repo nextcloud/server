@@ -77,6 +77,7 @@ OC={
 		}
 	}
 }
+OC.search.customResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 

@@ -16,6 +16,31 @@ $(document).ready(function(){
 	if(tab=='collection'){
 		$('#plugins a[href="#collection"]').trigger('click');
 	}
+	OC.search.customResults.Music=function(row,item){
+		var parts=item.link.substr(item.link.indexOf('#')+1).split('&');
+		var data={};
+		for(var i=0;i<parts.length;i++){
+			var itemParts=parts[i].split('=');
+			data[itemParts[0]]=decodeURIComponent(itemParts[1]).replace(/\+/g,' ');
+		}
+		var media=Collection.find(data.artist,data.album,data.song);
+		var button=$('<input type="button" class="play"></input>');
+		button.css('background-image','url('+OC.imagePath('core','actions/play')+')')
+		button.click(function(){
+			var oldSize=PlayList.items.length;
+			PlayList.add(media);
+			PlayList.play(oldSize);
+			PlayList.render();
+		});
+		row.find('div.name').append(button);
+		var button=$('<input type="button" class="add"></input>');
+		button.css('background-image','url('+OC.imagePath('core','actions/play-add')+')')
+		button.click(function(){
+			PlayList.add(media);
+			PlayList.render();
+		});
+		row.find('div.name').append(button);
+	}
 });
 
 

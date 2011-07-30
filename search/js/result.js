@@ -43,6 +43,9 @@ OC.search.showResults=function(results){
 				row.find('td.result a').attr('href',type[0].link);
 				row.find('td.result div.name').text(type[0].name);
 				row.find('td.result div.text').text(type[0].text);
+				if(OC.search.customResults[name]){//give plugins the ability to customize the entries in here
+					OC.search.customResults[name](row,type[0]);
+				}
 				$('#searchresults tbody').append(row);
 				for(var i=1;i<type.length;i++){
 					var row=$('#searchresults tr.template').clone();
@@ -51,6 +54,9 @@ OC.search.showResults=function(results){
 					row.find('td.result a').attr('href',type[i].link);
 					row.find('td.result div.name').text(type[i].name);
 					row.find('td.result div.text').text(type[i].text);
+					if(OC.search.customResults[name]){//give plugins the ability to customize the entries in here
+						OC.search.customResults[name](row,type[i]);
+					}
 					$('#searchresults tbody').append(row);
 				}
 			}

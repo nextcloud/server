@@ -109,18 +109,8 @@ Collection={
 	},
 	registerPlay:function(){
 		var item=PlayList.items[PlayList.current];
-		for(var i=0;i<Collection.artists.length;i++){
-			var artist=Collection.artists[i];
-			for(var j=0;j<artist.albums.length;j++){
-				var album=artist.albums[j]
-				for(var w=0;w<album.songs.length;w++){
-					var song=album.songs[w];
-					if(song.song_name==item.name && song.artist_name==item.artist && song.album_name==item.album){
-						song.song_playcount++;
-					}
-				}
-			}
-		}
+		var song=Collection.findSong(item.artist,item.album,item.name);
+		song.song_playcount++;
 	},
 	addButtons:function(parent){
 		parent.children('button.add').click(function(){
@@ -133,6 +123,42 @@ Collection={
 			PlayList.add($(this).parent().data(type));
 			PlayList.play(oldSize);
 		});
+	},
+	find:function(artistName,albumName,songName){
+		if(songName){
+			return Collection.findSong(artistName,albumName,songName);
+		}else if(albumName){
+			return Collection.findAlbum(artistName,albumName);
+		}else{
+			return Collection.findArtist(artistName);
+		}
+	},
+	findArtist:function(name){
+		for(var i=0;i<Collection.artists.length;i++){
+			if(Collection.artists[i].artist_name==name){
+				return Collection.artists[i];
+			}
+		}
+	},
+	findAlbum:function(artistName,albumName){
+		var artist=Collection.findArtist(artistName);
+		if(artist){
+			for(var i=0;i<artist.albums.length;i++){
+				if(artist.albums[i].album_name==albumName){
+					return artist.albums[i];
+				}
+			}
+		}
+	},
+	findSong:function(artistName,albumName,songName){
+		var album=Collection.findAlbum(artistName,albumName);
+		if(album){
+			for(var i=0;i<album.songs.length;i++){
+				if(album.songs[i].song_name==songName){
+					return album.songs[i];
+				}
+			}
+		}
 	}
 }
 
