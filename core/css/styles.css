@@ -23,6 +23,7 @@ form input[type="submit"]:active { outline:0; }
 form input[type="button"], form input[type="text"] { font-size:0.9em; }
 fieldset { padding:1em; background-color:#f7f7f7; border:1px solid #ddd; max-width:600px; margin:2em 2em 2em 3em; }
 legend { padding:0.5em; font-size:1.2em; }
+.template{display:none;}
 
 div.controls { width:100%; margin:0px; background-color:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:2; }
 
