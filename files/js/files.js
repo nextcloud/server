@@ -342,7 +342,7 @@ function procesSelection(){
 		$('#headerName>span.name').text('Name');
 		$('#headerSize').text('Size MB');
 		$('#modified').text('Modified');
-		$('th').css({background:'#fff',fontWeight:'normal'});
+		$('th').removeClass('multiselect');
 		$('.selectedActions').hide();
 	}else{
 		$('.selectedActions').show();
@@ -376,7 +376,7 @@ function procesSelection(){
 		}
 		$('#headerName>span.name').text(selection);
 		$('#modified').text('');
-		$('th').css({background:'#ddd', fontWeight:'bold'});
+		$('th').addClass('multiselect');
 	}
 }
 
