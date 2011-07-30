@@ -73,7 +73,6 @@ $(document).ready(function() {
 				$('#file_newfolder_name').blur();
 			});}
 		});
-		$('#emptyfolder').remove();
 	});
 	
 	$('#file_newfolder_name').click(function(){
@@ -186,7 +185,6 @@ $(document).ready(function() {
 			clone.insertBefore(form);
 			form.hide();
 		}
-		$('#emptyfolder').remove();
 	});
 	
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
