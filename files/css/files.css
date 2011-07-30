@@ -6,6 +6,7 @@
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
 .file_upload_filename, #file_newfolder_name { background-repeat:no-repeat; background-position:0.5em 0; padding-left:2em; }
 .file_upload_filename { background-image:url("../img/file.png"); font-weight:bold; }.file_upload_start { opacity:0;filter:alpha(opacity = 0); }
+input.highlight{ background-color:#ffc100; border:#dda600 1px solid; }
 
 #file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:11em; }
 .file_upload_start, .file_upload_filename { position:absolute; top:0px; left:0px; width:11em; font-size:0.9em; }

@@ -66,6 +66,10 @@ FileList={
 	remove:function(name){
 		$('tr[data-file="'+name+'"] td.filename').draggable('destroy');
 		$('tr[data-file="'+name+'"]').remove();
+		if($('tr[data-file]').length==0){
+			$('#emptyfolder').show();
+			$('.file_upload_filename').addClass('highlight');
+		}
 	},
 	insertElement:function(name,type,element){
 		//find the correct spot to insert the file or folder
@@ -93,6 +97,8 @@ FileList={
 		}else{
 			$('#fileList').append(element);
 		}
+		$('#emptyfolder').hide();
+		$('.file_upload_filename').removeClass('highlight');
 	},
 	loadingDone:function(name){
 		$('tr[data-file="'+name+'"]').data('loading',false);
