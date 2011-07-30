@@ -8,60 +8,59 @@ msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
 "POT-Creation-Date: 2011-07-27 12:03+0200\n"
-"PO-Revision-Date: 2011-07-30 20:10+0000\n"
-"Last-Translator: rom1dep <rom1dep@gmail.com>\n"
-"Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
+"PO-Revision-Date: 2011-07-30 21:03+0000\n"
+"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../templates/404.php:15
 msgid "Error 404, Cloud not found"
-msgstr "Erreur 404, la page demandée n'existe pas"
+msgstr "Error 404, La pagina no se pudo encontrar"
 
 #: ../templates/installation.php:6
 msgid "<strong>ownCloud</strong> is your personal web storage."
-msgstr "<strong>ownCloud</strong> est votre espace de stockage web personnel."
+msgstr "<strong>ownCloud</strong> es tu web de almacenamiento personal."
 
 #: ../templates/installation.php:7
 msgid "Finish the setup by following the steps below."
-msgstr "Terminez l'installation en suivant les étapes ci-dessous."
+msgstr "Completa la instalación mediante los siguientes pasos."
 
 #: ../templates/installation.php:26
 msgid "Create an <strong>admin account</strong>."
-msgstr "Veuillez créer un <strong>compte administrateur.</strong>"
+msgstr "Crear una <strong>cuenta de administrador.</strong>"
 
 #: ../templates/installation.php:27
 msgid "Username"
-msgstr "Nom d'utilisateur"
+msgstr "Nombre de usuario"
 
 #: ../templates/installation.php:28
 msgid "Password"
-msgstr "Mot de passe"
+msgstr "Contraseña"
 
 #: ../templates/installation.php:31
 msgid "Advanced"
-msgstr "Avancé"
+msgstr "Avanzado"
 
 #: ../templates/installation.php:34
 msgid "Set where to store the data."
-msgstr "Sélectionnez où sauvegarder les données"
+msgstr "Selecciona donde quieres almacenar los datos."
 
 #: ../templates/installation.php:35
 msgid "Data directory:"
-msgstr "Répertoire de données"
+msgstr "Directorio de almacenamiento:"
 
 #: ../templates/installation.php:39
 msgid "Configure the database."
-msgstr "Configurez la base de données."
+msgstr "Configurar la base de datos."
 
 #: ../templates/installation.php:43
 msgid "SQLite will be used for the database. You have nothing to do."
 msgstr ""
-"SQLite sera utilisé comme moteur pour la base de données. Vous n'avez rien "
-"de plus à faire."
+"Se utilizará SQLite para la base de datos. No necesitas configurar nada más."
 
 #: ../templates/installation.php:46
 msgid "SQLite"
@@ -69,62 +68,62 @@ msgstr "SQLite"
 
 #: ../templates/installation.php:53
 msgid "MySQL will be used for the database."
-msgstr "MySQL sera utilisé comme moteur pour la base de données."
+msgstr "Se utilizará MySQL para la base de datos."
 
 #: ../templates/installation.php:59
 msgid "MySQL username:"
-msgstr "Nom d'utilisateur MySQL :"
+msgstr "Nombre de usuario de MySQL:"
 
 #: ../templates/installation.php:60
 msgid "MySQL password:"
-msgstr "Mot de passe MySQL :"
+msgstr "Contraseña de MySQL:"
 
 #: ../templates/installation.php:61
 msgid "Database name:"
-msgstr "Nom de la base de données :"
+msgstr "Nombre de la base de datos:"
 
 #: ../templates/installation.php:62
 msgid "Host:"
-msgstr "Hôte :"
+msgstr "Host:"
 
 #: ../templates/installation.php:63
 msgid "Table prefix:"
-msgstr "Préfixe de table :"
+msgstr "Prefijo de la tabla:"
 
 #: ../templates/installation.php:69
 msgid "Finish setup"
-msgstr "Terminer l'installation"
+msgstr "Completar la instalación"
 
 #: ../templates/layout.guest.php:33
 msgid ""
 "<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs"
 " on your own server.</p>"
 msgstr ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> est votre solution cloud "
-"personnelle propulsée par votre propre serveur.</p>"
+"<a href=\"http://owncloud.org/\">ownCloud</a> es tu nube personal que corre "
+"en tu propio servidor.</p>"
 
 #: ../templates/login.php:6
 msgid "Login failed!"
-msgstr "Échec de la connexion !"
+msgstr "¡No se pudo iniciar sesión!"
 
 #: ../templates/login.php:11 ../templates/login.php:15
 msgid "Remember login"
-msgstr "Se souvenir de moi"
+msgstr "Recordarme"
 
 #: ../templates/logout.php:1
 msgid "You are logged out."
-msgstr "Vous êtes désormais déconnecté."
+msgstr "Has cerrado sesión."
 
 #: ../templates/part.pagenavi.php:6
 msgid "prev"
-msgstr "précédent"
+msgstr "anterior"
 
 #: ../templates/part.pagenavi.php:26
 msgid "next"
-msgstr "suivant"
+msgstr "siguiente"
 
 #: ../templates/part.searchbox.php:3
 msgid "Search"
-msgstr "Rechercher"
+msgstr "Buscar"
 
 

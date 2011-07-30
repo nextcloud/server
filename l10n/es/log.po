@@ -1,0 +1,68 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+#   <rom1dep@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-07-27 12:03+0200\n"
+"PO-Revision-Date: 2011-07-30 21:03+0000\n"
+"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ../templates/index.php:4
+msgid "Filter:"
+msgstr "Filtro:"
+
+#: ../templates/index.php:7
+msgid "Logins"
+msgstr "Inicios de sesión"
+
+#: ../templates/index.php:8
+msgid "Logouts"
+msgstr "Cierres de sesión"
+
+#: ../templates/index.php:9
+msgid "Downloads"
+msgstr "Descargas"
+
+#: ../templates/index.php:10
+msgid "Uploads"
+msgstr "Subidas"
+
+#: ../templates/index.php:11
+msgid "Creations"
+msgstr "Creaciones"
+
+#: ../templates/index.php:12
+msgid "Deletions"
+msgstr "Eliminaciones"
+
+#: ../templates/index.php:15
+msgid "Show:"
+msgstr "Mostrar"
+
+#: ../templates/index.php:16
+msgid "entries per page."
+msgstr "Entradas por página."
+
+#: ../templates/index.php:26
+msgid "What"
+msgstr "Qué"
+
+#: ../templates/index.php:27
+msgid "When"
+msgstr "Cuándo"
+
+#: ../templates/index.php:45
+msgid "Clear log entries before"
+msgstr "Eliminar los registros anteriores a"
+
+
