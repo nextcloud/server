@@ -18,7 +18,7 @@
 "Host:" => "Hôte :",
 "Table prefix:" => "Préfixe de table :",
 "Finish setup" => "Terminer l'installation",
-"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs on your own server.</p>" => "<a href=\"http://owncloud.org/\">ownCloud</a> est votre solution cloud personnelle qui tourne sur votre propre serveur.</p>",
+"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs on your own server.</p>" => "<a href=\"http://owncloud.org/\">ownCloud</a> est votre solution cloud personnelle propulsée par votre propre serveur.</p>",
 "Login failed!" => "Échec de la connexion !",
 "Remember login" => "Se souvenir de moi",
 "You are logged out." => "Vous êtes désormais déconnecté.",

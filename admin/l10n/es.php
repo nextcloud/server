@@ -1,0 +1,20 @@
+<?php $TRANSLATIONS = array(
+"read more" => "leer más",
+"INSTALL" => "Instalar",
+"Apps Repository" => "Repositorio de aplicaciones ",
+"Cannot connect to apps repository" => "No se pudo conectar con el repositorio de aplicaciones",
+"Name" => "Nombre",
+"Modified" => "Modificado",
+"Administration" => "Administración",
+"System Settings" => "Ajustes del Sistema",
+"Users" => "Usuarios",
+"Groups" => "Grupos",
+"Password" => "Contraseña",
+"Create" => "Crear",
+"remove" => "Eliminar",
+"Create group" => "Crear grupo",
+"Force new password:" => "Forzar una nueva contraseña",
+"Set" => "Aplicar",
+"Do you really want to delete user" => "¿Seguro que quieres eliminar este usuario?",
+"Do you really want to delete group" => "¿Seguro que quieres eliminar este grupo?"
+);
