@@ -47,17 +47,62 @@ OC={
 	},
 	addScript:function(app,script,ready){
 		var path=OC.filePath(app,'js',script+'.js');
-		if(ready){
-			$.getScript(path,ready);
-		}else{
-			$.getScript(path);
+		if(OC.addStyle.loaded.indexOf(path)==-1){
+			OC.addStyle.loaded.push(path);
+			if(ready){
+				$.getScript(path,ready);
+			}else{
+				$.getScript(path);
+			}
 		}
 	},
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
-		var style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
-		$('head').append(style);
+		if(OC.addScript.loaded.indexOf(path)==-1){
+			OC.addScript.loaded.push(path);
+			var style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
+			$('head').append(style);
+		}
+	},
+	search:function(query){
+		if(query){
+			OC.addStyle('search','results');
+			$.getJSON(OC.filePath('search','ajax','search.php')+'?query='+encodeURIComponent(query), OC.search.showResults);
+		}
 	}
+}
+OC.addStyle.loaded=[];
+OC.addScript.loaded=[];
+
+OC.search.catagorizeResults=function(results){
+	var types={};
+	for(var i=0;i<results.length;i++){
+		var type=results[i].type;
+		if(!types[type]){
+			types[type]=[];
+		}
+		types[type].push(results[i]);
+	}
+	return types;
+}
+OC.search.showResults=function(results){
+	var types=OC.search.catagorizeResults(results);
+	$('#searchresults').remove();
+	var ul=$('<ul id="searchresults"><ul>');
+	for(var name in types){
+		var type=types[name];
+		if(type.length>0){
+			ul.append($('<li class="type">'+name+'</li>'));
+			for(var i=0;i<type.length;i++){
+				var item=type[i];
+				var li=($('<li class="'+name+'"></li>'));
+				li.append($('<a href="'+item.link+'">'+item.name+'</a>'));
+				li.append($('<span class="text">'+item.text+'</span>'));
+				ul.append(li);
+			}
+		}
+	}
+	$('body').append(ul);
 }
 
 if (!Array.prototype.filter) {
@@ -112,4 +157,13 @@ $(document).ready(function(){
 			element.attr('src',src.substr(0,src.length-3)+'png');
 		});
 	};
+	$('#searchbox').keyup(function(){
+		var query=$('#searchbox').val();
+		if(query.length>2){
+			OC.search(query);
+		}else{
+			$('#searchresults').remove();
+		}
+	});
+	$('#searchbox').click(function(){$('#searchbox').trigger('keyup')});
 });
