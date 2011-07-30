@@ -28,11 +28,6 @@ $RUNTIME_NOSETUPFS = true;
 
 require_once('../lib/base.php');
 require_once('Sabre/autoload.php');
-require_once('Connector/Sabre/auth.php');
-require_once('Connector/Sabre/node.php');
-require_once('Connector/Sabre/file.php');
-require_once('Connector/Sabre/directory.php');
-require_once('Connector/Sabre/locks.php');
 
 // Create ownCloud Dir
 $publicDir = new OC_Connector_Sabre_Directory('');

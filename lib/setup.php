@@ -1,10 +1,8 @@
 <?php
 
-include_once( 'installer.php' );
-
 $hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
-$datadir = OC_CONFIG::getValue('datadir', $SERVERROOT.'/data');
+$datadir = OC_Config::getValue('datadir', $SERVERROOT.'/data');
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
@@ -14,13 +12,13 @@ $opts = array(
 
 if(isset($_POST['install']) AND $_POST['install']=='true') {
 	// We have to launch the installation process :
-	$e = OC_SETUP::install($_POST);
+	$e = OC_Setup::install($_POST);
 	$errors = array('errors' => $e);
 	
 	if(count($e) > 0) {
-		//OC_TEMPLATE::printGuestPage("", "error", array("errors" => $errors));
+		//OC_Template::printGuestPage("", "error", array("errors" => $errors));
 		$options = array_merge($_POST, $opts, $errors);
-		OC_TEMPLATE::printGuestPage("", "installation", $options);
+		OC_Template::printGuestPage("", "installation", $options);
 	}
 	else {
 		header("Location: ".$WEBROOT.'/');
@@ -28,10 +26,10 @@ if(isset($_POST['install']) AND $_POST['install']=='true') {
 	}
 }
 else {
-	OC_TEMPLATE::printGuestPage("", "installation", $opts);
+	OC_Template::printGuestPage("", "installation", $opts);
 }
 
-class OC_SETUP {
+class OC_Setup {
 	public static function install($options) {
 		$error = array();
 		$dbtype = $options['dbtype'];
@@ -74,18 +72,18 @@ class OC_SETUP {
 			}
 
 			//write the config file
-			OC_CONFIG::setValue('datadirectory', $datadir);
- 			OC_CONFIG::setValue('dbtype', $dbtype);
- 			OC_CONFIG::setValue('version',implode('.',OC_UTIL::getVersion()));
+			OC_Config::setValue('datadirectory', $datadir);
+ 			OC_Config::setValue('dbtype', $dbtype);
+ 			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
 				$dbtableprefix = $options['dbtableprefix'];
-				OC_CONFIG::setValue('dbname', $dbname);
-				OC_CONFIG::setValue('dbhost', $dbhost);
-				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
+				OC_Config::setValue('dbname', $dbname);
+				OC_Config::setValue('dbhost', $dbhost);
+				OC_Config::setValue('dbtableprefix', $dbtableprefix);
 
 				//check if the database user has admin right
 				$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
@@ -107,15 +105,15 @@ class OC_SETUP {
 						
 						self::createDBUser($dbusername, $dbpassword, $connection);
 						
-						OC_CONFIG::setValue('dbuser', $dbusername);
-						OC_CONFIG::setValue('dbpassword', $dbpassword);
+						OC_Config::setValue('dbuser', $dbusername);
+						OC_Config::setValue('dbpassword', $dbpassword);
 
 						//create the database
 						self::createDatabase($dbname, $dbusername, $connection);
 					}
 					else {
-						OC_CONFIG::setValue('dbuser', $dbuser);
-						OC_CONFIG::setValue('dbpassword', $dbpass);
+						OC_Config::setValue('dbuser', $dbuser);
+						OC_Config::setValue('dbpassword', $dbpass);
 
 						//create the database
 						self::createDatabase($dbname, $dbuser, $connection);
@@ -141,18 +139,18 @@ class OC_SETUP {
 
 			if(count($error) == 0) {
 				//create the user and group
-				OC_USER::createUser($username, $password);
-				OC_GROUP::createGroup('admin');
-				OC_GROUP::addToGroup($username, 'admin');
+				OC_User::createUser($username, $password);
+				OC_Group::createGroup('admin');
+				OC_Group::addToGroup($username, 'admin');
 
 				//guess what this does
-				OC_INSTALLER::installShippedApps(true);
+				OC_Installer::installShippedApps(true);
 
 				//create htaccess files for apache hosts
 				self::createHtaccess(); //TODO detect if apache is used
 
 				//and we are done
-				OC_CONFIG::setValue('installed', true);
+				OC_Config::setValue('installed', true);
 			}
 		}
 
@@ -195,7 +193,7 @@ class OC_SETUP {
 		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
 		$content = "deny from all";
-		file_put_contents(OC_CONFIG::getValue('datadirectory', $SERVERROOT.'/data').'/.htaccess', $content);
+		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/.htaccess', $content);
 	}
 }
 

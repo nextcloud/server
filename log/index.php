@@ -23,15 +23,14 @@
 
 //require_once('../../config/config.php');
 require_once('../lib/base.php');
-require_once( 'template.php' );
 
-if( !OC_USER::isLoggedIn()){
-	header( 'Location: '.OC_HELPER::linkTo( 'index.php' ));
+if( !OC_User::isLoggedIn()){
+	header( 'Location: '.OC_Helper::linkTo( 'index.php' ));
 	exit();
 }
 
 //load the script
-OC_UTIL::addScript( "log", "log" );
+OC_Util::addScript( "log", "log" );
 
 $allActions=array('login','logout','read','write','create','delete');
 
@@ -43,29 +42,29 @@ if(isset($_POST['save'])){
 			$selectedActions[]=$action;
 		}
 	}
-	OC_PREFERENCES::setValue(OC_USER::getUser(),'log','actions',implode(',',$selectedActions));
-	OC_PREFERENCES::setValue(OC_USER::getUser(),'log','pagesize',$_POST['size']);
+	OC_Preferences::setValue(OC_User::getUser(),'log','actions',implode(',',$selectedActions));
+	OC_Preferences::setValue(OC_User::getUser(),'log','pagesize',$_POST['size']);
 }
 //clear log entries
 elseif(isset($_POST['clear'])){
 	$removeBeforeDate=(isset($_POST['removeBeforeDate']))?$_POST['removeBeforeDate']:0;
 	if($removeBeforeDate!==0){
 		$removeBeforeDate=strtotime($removeBeforeDate);
-		OC_LOG::deleteBefore($removeBeforeDate);
+		OC_Log::deleteBefore($removeBeforeDate);
 	}
 }
 elseif(isset($_POST['clearall'])){
-	OC_LOG::deleteAll();
+	OC_Log::deleteAll();
 }
 
-OC_APP::setActiveNavigationEntry( 'log' );
-$logs=OC_LOG::get();
+OC_App::setActiveNavigationEntry( 'log' );
+$logs=OC_Log::get();
 
 
-$selectedActions=explode(',',OC_PREFERENCES::getValue(OC_USER::getUser(),'log','actions',implode(',',$allActions)));
-$logs=OC_LOG::filterAction($logs,$selectedActions);
+$selectedActions=explode(',',OC_Preferences::getValue(OC_User::getUser(),'log','actions',implode(',',$allActions)));
+$logs=OC_Log::filterAction($logs,$selectedActions);
 
-$pageSize=OC_PREFERENCES::getValue(OC_USER::getUser(),'log','pagesize',20);
+$pageSize=OC_Preferences::getValue(OC_User::getUser(),'log','pagesize',20);
 $pageCount=ceil(count($logs)/$pageSize);
 $page=isset($_GET['page'])?$_GET['page']:0;
 if($page>=$pageCount){
@@ -78,8 +77,8 @@ foreach( $logs as &$i ){
 	$i['date'] =$i['moment'];
 }
 
-$url=OC_HELPER::linkTo( 'log', 'index.php' ).'?page=';
-$pager=OC_UTIL::getPageNavi($pageCount,$page,$url);
+$url=OC_Helper::linkTo( 'log', 'index.php' ).'?page=';
+$pager=OC_Util::getPageNavi($pageCount,$page,$url);
 if($pager){
 	$pagerHTML=$pager->fetchPage();
 }
@@ -97,7 +96,7 @@ foreach($allActions as $action){
 	}
 }
 
-$tmpl = new OC_TEMPLATE( 'log', 'index', 'admin' );
+$tmpl = new OC_Template( 'log', 'index', 'admin' );
 $tmpl->assign( 'logs', $logs );
 $tmpl->assign( 'pager', $pagerHTML );
 $tmpl->assign( 'size', $pageSize );

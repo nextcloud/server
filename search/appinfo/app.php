@@ -1,5 +1,5 @@
 <?php
 
-OC_APP::register( array( 'order' => 2, "id" => 'search', 'name' => 'Search' ));
+OC_App::register( array( 'order' => 2, "id" => 'search', 'name' => 'Search' ));
 
 ?>

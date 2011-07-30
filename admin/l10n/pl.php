@@ -7,15 +7,13 @@
 "Modified" => "Zmodyfikowano",
 "Administration" => "Administracja",
 "System Settings" => "Ustawienia systemowe",
-"Add user" => "Dodaj użytkownika",
-"Password" => "Hasło",
-"Create user" => "Utwórz użytkownika",
-"remove" => "usuń",
+"Users" => "Użytkownicy",
 "Groups" => "Grupy",
+"Password" => "Hasło",
+"remove" => "usuń",
 "Create group" => "Utwórz grupę",
 "Force new password:" => "Wymuś nowe hasło",
 "Set" => "Ustaw",
 "Do you really want to delete user" => "Czy naprawdę chcesz usunąć użytkownika",
-"Do you really want to delete group" => "Czy naprawdę chcesz usunąć grupę",
-"Users" => "Użytkownicy"
+"Do you really want to delete group" => "Czy naprawdę chcesz usunąć grupę"
 );

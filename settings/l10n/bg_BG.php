@@ -1,0 +1,19 @@
+<?php $TRANSLATIONS = array(
+"Account information" => "Информация за профила",
+"You're currently using" => "Вие ползвате",
+"of your" => "на Вашето",
+"space" => "място",
+"Change Password" => "Промяна на парола",
+"Your password got changed" => "Вашата парола е сменена",
+"Old password:" => "Стара парола",
+"New password" => "Нова парола",
+"Show new password" => "Покажи новата парола",
+"Language" => "Език",
+"Authentication error" => "Проблем с индентификацията",
+"You have to enter the old and the new password!" => "Трябва да въведете новата и старата парола!",
+"Your old password is wrong!" => "Вашата стара парола е грешна!",
+"Password changed" => "Паролата е сменена",
+"Unable to change password" => "Невъзможна смяна на паролата",
+"Language changed" => "Езика е сменен",
+"Invalid request" => "Невалидна заявка"
+);

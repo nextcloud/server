@@ -24,29 +24,28 @@
 
 // Init owncloud
 require_once('../lib/base.php');
-require( 'template.php' );
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( '', 'index.php' ));
+if( !OC_User::isLoggedIn()){
+	header( "Location: ".OC_Helper::linkTo( '', 'index.php' ));
 	exit();
 }
 
 // Load the files we need
-OC_UTIL::addStyle( "files", "files" );
-OC_UTIL::addScript( "files", "files" );
-OC_UTIL::addScript( 'files', 'filelist' );
-OC_UTIL::addScript( 'files', 'fileactions' );
+OC_Util::addStyle( "files", "files" );
+OC_Util::addScript( "files", "files" );
+OC_Util::addScript( 'files', 'filelist' );
+OC_Util::addScript( 'files', 'fileactions' );
 if(!isset($_SESSION['timezone'])){
-	OC_UTIL::addScript( 'files', 'timezone' );
+	OC_Util::addScript( 'files', 'timezone' );
 }
-OC_APP::setActiveNavigationEntry( "files_index" );
+OC_App::setActiveNavigationEntry( "files_index" );
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 
 $files = array();
-foreach( OC_FILES::getdirectorycontent( $dir ) as $i ){
-	$i["date"] = OC_UTIL::formatDate($i["mtime"] );
+foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
+	$i["date"] = OC_Util::formatDate($i["mtime"] );
 	if($i['type']=='file'){
 		$i['extention']=substr($i['name'],strrpos($i['name'],'.'));
 		$i['basename']=substr($i['name'],0,strrpos($i['name'],'.'));
@@ -68,19 +67,19 @@ foreach( explode( "/", $dir ) as $i ){
 }
 
 // make breadcrumb und filelist markup
-$list = new OC_TEMPLATE( "files", "part.list", "" );
+$list = new OC_Template( "files", "part.list", "" );
 $list->assign( "files", $files );
-$breadcrumbNav = new OC_TEMPLATE( "files", "part.breadcrumb", "" );
+$breadcrumbNav = new OC_Template( "files", "part.breadcrumb", "" );
 $breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 
-$maxUploadFilesize = OC_HELPER::computerFileSize(ini_get('upload_max_filesize'));
+$maxUploadFilesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
 
-$tmpl = new OC_TEMPLATE( "files", "index", "user" );
+$tmpl = new OC_Template( "files", "index", "user" );
 $tmpl->assign( "fileList", $list->fetchPage() );
 $tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
 $tmpl->assign( 'dir', $dir);
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assign( 'uploadMaxHumanFilesize', OC_HELPER::humanFileSize($maxUploadFilesize));
+$tmpl->assign( 'uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
 $tmpl->printPage();
 
 ?>

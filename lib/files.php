@@ -21,14 +21,11 @@
 *
 */
 
-require_once("log.php");
-
-
 /**
  * Class for fileserver access
  *
  */
-class OC_FILES {
+class OC_Files {
 	static $tmpFiles=array();
 
 	/**
@@ -45,21 +42,21 @@ class OC_FILES {
 		$dirs=array();
 		$file=array();
 		$files=array();
-		if(OC_FILESYSTEM::is_dir($directory)) {
-			if ($dh = OC_FILESYSTEM::opendir($directory)) {
+		if(OC_Filesystem::is_dir($directory)) {
+			if ($dh = OC_Filesystem::opendir($directory)) {
 			while (($filename = readdir($dh)) !== false) {
 				if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
 					$file=array();
 					$filesfound=true;
 					$file['name']=$filename;
 					$file['directory']=$directory;
-					$stat=OC_FILESYSTEM::stat($directory.'/'.$filename);
+					$stat=OC_Filesystem::stat($directory.'/'.$filename);
 					$file=array_merge($file,$stat);
-					$file['size']=OC_FILESYSTEM::filesize($directory.'/'.$filename);
-					$file['mime']=OC_FILES::getMimeType($directory .'/'. $filename);
-					$file['readable']=OC_FILESYSTEM::is_readable($directory .'/'. $filename);
-					$file['writeable']=OC_FILESYSTEM::is_writeable($directory .'/'. $filename);
-					$file['type']=OC_FILESYSTEM::filetype($directory .'/'. $filename);
+					$file['size']=OC_Filesystem::filesize($directory.'/'.$filename);
+					$file['mime']=OC_Files::getMimeType($directory .'/'. $filename);
+					$file['readable']=OC_Filesystem::is_readable($directory .'/'. $filename);
+					$file['writeable']=OC_Filesystem::is_writeable($directory .'/'. $filename);
+					$file['type']=OC_Filesystem::filetype($directory .'/'. $filename);
 					if($file['type']=='dir'){
 						$dirs[$file['name']]=$file;
 					}else{
@@ -101,16 +98,16 @@ class OC_FILES {
 			}
 			foreach($files as $file){
 				$file=$dir.'/'.$file;
-				if(OC_FILESYSTEM::is_file($file)){
-					$tmpFile=OC_FILESYSTEM::toTmpFile($file);
+				if(OC_Filesystem::is_file($file)){
+					$tmpFile=OC_Filesystem::toTmpFile($file);
 					self::$tmpFiles[]=$tmpFile;
 					$zip->addFile($tmpFile,basename($file));
-				}elseif(OC_FILESYSTEM::is_dir($file)){
+				}elseif(OC_Filesystem::is_dir($file)){
 					zipAddDir($file,$zip);
 				}
 			}
 			$zip->close();
-		}elseif(OC_FILESYSTEM::is_dir($dir.'/'.$files)){
+		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)){
 			$zip = new ZipArchive();
 			$filename = sys_get_temp_dir()."/ownCloud.zip";
 			if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
@@ -123,7 +120,7 @@ class OC_FILES {
 			$zip=false;
 			$filename=$dir.'/'.$files;
 		}
-		if($zip or OC_FILESYSTEM::is_readable($filename)){
+		if($zip or OC_Filesystem::is_readable($filename)){
 			header('Content-Disposition: attachment; filename='.basename($filename));
 			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
@@ -133,12 +130,12 @@ class OC_FILES {
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
-				header('Content-Type: ' . OC_FILESYSTEM::getMimeType($filename));
-				header('Content-Length: ' . OC_FILESYSTEM::filesize($filename));
+				header('Content-Type: ' . OC_Filesystem::getMimeType($filename));
+				header('Content-Length: ' . OC_Filesystem::filesize($filename));
 			}
-		}elseif($zip or !OC_FILESYSTEM::file_exists($filename)){
+		}elseif($zip or !OC_Filesystem::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");
-			$tmpl = new OC_TEMPLATE( '', '404', 'guest' );
+			$tmpl = new OC_Template( '', '404', 'guest' );
 			$tmpl->assign('file',$filename);
 			$tmpl->printPage();
 // 			die('404 Not Found');
@@ -147,12 +144,12 @@ class OC_FILES {
 			die('403 Forbidden');
 		}
 		ob_end_clean();
-// 		OC_LOG::event($_SESSION['username'],3,"$dir/$files");
+// 		OC_Log::event($_SESSION['username'],3,"$dir/$files");
 		if($zip){
 			readfile($filename);
 			unlink($filename);
 		}else{
-			OC_FILESYSTEM::readfile($filename);
+			OC_Filesystem::readfile($filename);
 		}
 		foreach(self::$tmpFiles as $tmpFile){
 			if(file_exists($tmpFile) and is_file($tmpFile)){
@@ -170,10 +167,10 @@ class OC_FILES {
 	* @param file $target
 	*/
 	public static function move($sourceDir,$source,$targetDir,$target){
-		if(OC_USER::isLoggedIn()){
+		if(OC_User::isLoggedIn()){
 			$targetFile=$targetDir.'/'.$target;
 			$sourceFile=$sourceDir.'/'.$source;
-			return OC_FILESYSTEM::rename($sourceFile,$targetFile);
+			return OC_Filesystem::rename($sourceFile,$targetFile);
 		}
 	}
 
@@ -186,10 +183,10 @@ class OC_FILES {
 	* @param file $target
 	*/
 	public static function copy($sourceDir,$source,$targetDir,$target){
-		if(OC_USER::isLoggedIn()){
+		if(OC_User::isLoggedIn()){
 			$targetFile=$targetDir.'/'.$target;
 			$sourceFile=$sourceDir.'/'.$source;
-			return OC_FILESYSTEM::copy($sourceFile,$targetFile);
+			return OC_Filesystem::copy($sourceFile,$targetFile);
 		}
 	}
 
@@ -201,15 +198,15 @@ class OC_FILES {
 	* @param type $type
 	*/
 	public static function newFile($dir,$name,$type){
-		if(OC_USER::isLoggedIn()){
+		if(OC_User::isLoggedIn()){
 			$file=$dir.'/'.$name;
 			if($type=='dir'){
-				return OC_FILESYSTEM::mkdir($file);
+				return OC_Filesystem::mkdir($file);
 			}elseif($type=='file'){
-				$fileHandle=OC_FILESYSTEM::fopen($file, 'w');
+				$fileHandle=OC_Filesystem::fopen($file, 'w');
 				if($fileHandle){
 					fclose($fileHandle);
-// 					OC_LOG::event($_SESSION['username'],4,"$dir/$name");
+// 					OC_Log::event($_SESSION['username'],4,"$dir/$name");
 					return true;
 				}else{
 					return false;
@@ -225,12 +222,12 @@ class OC_FILES {
 	* @param file $name
 	*/
 	public static function delete($dir,$file){
-		if(OC_USER::isLoggedIn()){
+		if(OC_User::isLoggedIn()){
 			$file=$dir.'/'.$file;
-			if(OC_FILESYSTEM::is_file($file)){
-				return OC_FILESYSTEM::unlink($file);
-			}elseif(OC_FILESYSTEM::is_dir($file)){
-				return OC_FILESYSTEM::delTree($file);
+			if(OC_Filesystem::is_file($file)){
+				return OC_Filesystem::unlink($file);
+			}elseif(OC_Filesystem::is_dir($file)){
+				return OC_Filesystem::delTree($file);
 			}
 		}
 	}
@@ -242,7 +239,7 @@ class OC_FILES {
 	* @return string  guessed mime type
 	*/
 	static function getMimeType($path){
-		return OC_FILESYSTEM::getMimeType($path);
+		return OC_Filesystem::getMimeType($path);
 	}
 
 	/**
@@ -252,7 +249,7 @@ class OC_FILES {
 	* @return array
 	*/
 	static function getTree($path){
-		return OC_FILESYSTEM::getTree($path);
+		return OC_Filesystem::getTree($path);
 	}
 
 	/**
@@ -276,7 +273,7 @@ class OC_FILES {
 		$httpCode=$info['http_code'];
 		curl_close($ch);
 		if($httpCode==200 or $httpCode==0){
-			OC_FILESYSTEM::fromTmpFile($tmpfile,$dir.'/'.$file);
+			OC_Filesystem::fromTmpFile($tmpfile,$dir.'/'.$file);
 			return true;
 		}else{
 			return false;
@@ -290,7 +287,7 @@ class OC_FILES {
 	static function setUploadLimit($size){
 		global $SERVERROOT;
 		global $WEBROOT;
-		$size=OC_HELPER::humanFileSize($size);
+		$size=OC_Helper::humanFileSize($size);
 		$size=substr($size,0,-1);//strip the B
 		$size=str_replace(' ','',$size); //remove the space between the size and the postfix
 		$content = "ErrorDocument 404 /$WEBROOT/core/templates/404.php\n";//custom 404 error page
@@ -301,79 +298,3 @@ class OC_FILES {
 		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 	}
 }
-
-function zipAddDir($dir,$zip,$internalDir=''){
-    $dirname=basename($dir);
-    $zip->addEmptyDir($internalDir.$dirname);
-    $internalDir.=$dirname.='/';
-    $files=OC_FILES::getdirectorycontent($dir);
-    foreach($files as $file){
-        $filename=$file['name'];
-        $file=$dir.'/'.$filename;
-        if(OC_FILESYSTEM::is_file($file)){
-			$tmpFile=OC_FILESYSTEM::toTmpFile($file);
-			OC_FILES::$tmpFiles[]=$tmpFile;
-            $zip->addFile($tmpFile,$internalDir.$filename);
-        }elseif(OC_FILESYSTEM::is_dir($file)){
-            zipAddDir($file,$zip,$internalDir);
-        }
-    }
-}
-
-if(!function_exists('sys_get_temp_dir')) {
-    function sys_get_temp_dir() {
-        if( $temp=getenv('TMP') )        return $temp;
-        if( $temp=getenv('TEMP') )        return $temp;
-        if( $temp=getenv('TMPDIR') )    return $temp;
-        $temp=tempnam(__FILE__,'');
-        if (file_exists($temp)) {
-          unlink($temp);
-          return dirname($temp);
-        }
-        return null;
-    }
-}
-
-global $FAKEDIRS;
-$FAKEDIRS=array();
-
-class fakeDirStream{
-	private $name;
-	private $data;
-	private $index;
-
-	public function dir_opendir($path,$options){
-		global $FAKEDIRS;
-		$url=parse_url($path);
-		$this->name=substr($path,strlen('fakedir://'));
-		$this->index=0;
-		if(isset($FAKEDIRS[$this->name])){
-			$this->data=$FAKEDIRS[$this->name];
-		}else{
-			$this->data=array();
-		}
-		return true;
-	}
-
-	public function dir_readdir(){
-		if($this->index>=count($this->data)){
-			return false;
-		}
-		$filename=$this->data[$this->index];
-		$this->index++;
-		return $filename;
-	}
-
-	public function dir_closedir() {
-		$this->data=false;
-		$this->name='';
-		return true;
-	}
-
-	public function dir_rewinddir() {
-		$this->index=0;
-		return true;
-	}
-}
-stream_wrapper_register("fakedir", "fakeDirStream");
-?>

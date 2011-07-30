@@ -20,13 +20,13 @@
  *
  */
 
-OC_HOOK::connect("OC_FILESYSTEM","post_delete", "OC_SHARE", "deleteItem");
-OC_HOOK::connect("OC_FILESYSTEM","post_rename", "OC_SHARE", "renameItem");
+OC_Hook::connect("OC_FILESYSTEM","post_delete", "OC_Share", "deleteItem");
+OC_Hook::connect("OC_FILESYSTEM","post_rename", "OC_Share", "renameItem");
 
 /**
  * This class manages shared items within the database. 
  */
-class OC_SHARE {
+class OC_Share {
 
 	const WRITE = 1;
 	const DELETE = 2;
@@ -39,8 +39,8 @@ class OC_SHARE {
 	 */
 	public function __construct($source, $uid_shared_with, $permissions, $public = false) {
 		if ($source && OC_FILESYSTEM::file_exists($source) && OC_FILESYSTEM::is_readable($source)) {
-			$source = "/".OC_USER::getUser()."/files".$source;
-			$uid_owner = OC_USER::getUser();
+			$source = "/".OC_User::getUser()."/files".$source;
+			$uid_owner = OC_User::getUser();
 			if ($public) {
 				// TODO create token for public file
 				$token = sha1("$uid_owner-$item");
@@ -85,8 +85,8 @@ class OC_SHARE {
 	* @return An array to be used by the IN operator in a query for uid_shared_with
 	*/
 	private static function getUserAndGroups() {
-		$self = OC_USER::getUser();
-		$groups = OC_GROUP::getUserGroups($self);
+		$self = OC_User::getUser();
+		$groups = OC_Group::getUserGroups($self);
 		array_unshift($groups, $self);
 		return $groups;
 	}
@@ -104,7 +104,7 @@ class OC_SHARE {
 		$source = $folders['source'].substr($oldTarget, strlen($folders['target']));
 		$item = self::getItem($folders['target']);
 		$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-		$query->execute(array($item[0]['uid_owner'], OC_USER::getUser(), $source, $newTarget, $item[0]['permissions']));
+		$query->execute(array($item[0]['uid_owner'], OC_User::getUser(), $source, $newTarget, $item[0]['permissions']));
 	}
 
 	/**
@@ -115,7 +115,7 @@ class OC_SHARE {
 	public static function getItem($target) {
 		$target = self::cleanPath($target);
 		$query = OC_DB::prepare("SELECT uid_owner, source, permissions FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
-		return $query->execute(array($target, OC_USER::getUser()))->fetchAll();
+		return $query->execute(array($target, OC_User::getUser()))->fetchAll();
 	}
 	
 	/**
@@ -124,7 +124,7 @@ class OC_SHARE {
 	 */
 	public static function getMySharedItems() {
 		$query = OC_DB::prepare("SELECT uid_shared_with, source, permissions FROM *PREFIX*sharing WHERE uid_owner = ?");
-		return $query->execute(array(OC_USER::getUser()))->fetchAll();
+		return $query->execute(array(OC_User::getUser()))->fetchAll();
 	}
 	
 	/**
@@ -230,7 +230,7 @@ class OC_SHARE {
 		$oldSource = self::cleanPath($oldSource);
 		$newSource = self::cleanPath($newSource);
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
-		$query->execute(array($oldSource, $newSource, OC_USER::getUser()));
+		$query->execute(array($oldSource, $newSource, OC_User::getUser()));
 	}
 	
 	/**
@@ -245,7 +245,7 @@ class OC_SHARE {
 		$oldTarget = self::cleanPath($oldTarget);
 		$newTarget = self::cleanPath($newTarget);
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = REPLACE(target, ?, ?) WHERE uid_shared_with = ?");
-		$query->execute(array($oldTarget, $newTarget, OC_USER::getUser()));
+		$query->execute(array($oldTarget, $newTarget, OC_User::getUser()));
 	}
 	
 	/**
@@ -260,7 +260,7 @@ class OC_SHARE {
 	public static function setPermissions($source, $uid_shared_with, $permissions) {
 		$source = self::cleanPath($source);
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET permissions = ? WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
-		$query->execute(array($permissions, strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
+		$query->execute(array($permissions, strlen($source), $source, $uid_shared_with, OC_User::getUser()));
 	}
 	
 	/**
@@ -274,7 +274,7 @@ class OC_SHARE {
 	public static function unshare($source, $uid_shared_with) {
 		$source = self::cleanPath($source);
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_shared_with = ? AND uid_owner = ?");
-		$query->execute(array(strlen($source), $source, $uid_shared_with, OC_USER::getUser()));
+		$query->execute(array(strlen($source), $source, $uid_shared_with, OC_User::getUser()));
 	}
 	
 	/**
@@ -287,7 +287,7 @@ class OC_SHARE {
 	public static function unshareFromMySelf($target) {
 		$target = self::cleanPath($target);
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with = ?");
-		$query->execute(array(strlen($target), $target, OC_USER::getUser()));
+		$query->execute(array(strlen($target), $target, OC_User::getUser()));
 	}
 
 	/**
@@ -295,10 +295,10 @@ class OC_SHARE {
 	* @param $arguments Array of arguments passed from OC_HOOK
 	*/
 	public static function deleteItem($arguments) {
-		$source = "/".OC_USER::getUser()."/files".$arguments['path'];
+		$source = "/".OC_User::getUser()."/files".$arguments['path'];
 		$source = self::cleanPath($source);
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
-		$query->execute(array(strlen($source), $source, OC_USER::getUser()));
+		$query->execute(array(strlen($source), $source, OC_User::getUser()));
 	}
 
 	/**
@@ -306,9 +306,9 @@ class OC_SHARE {
 	* @param $arguments Array of arguments passed from OC_HOOK
 	*/
 	public static function renameItem($arguments) {
-		$oldSource = "/".OC_USER::getUser()."/files".$arguments['oldpath'];
+		$oldSource = "/".OC_User::getUser()."/files".$arguments['oldpath'];
 		$oldSource = self::cleanPath($oldSource);
-		$newSource = "/".OC_USER::getUser()."/files".$arguments['newpath'];
+		$newSource = "/".OC_User::getUser()."/files".$arguments['newpath'];
 		$newSource = self::cleanPath($newSource);
 		self::setSource($oldSource, $newSource);
 	}

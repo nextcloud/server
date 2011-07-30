@@ -26,7 +26,7 @@
  * database.
  */
 
-class OC_OCSCLIENT{
+class OC_OCSClient{
 
 	/**
 	 * @brief Get all the categories from the OCS server
@@ -160,4 +160,3 @@ class OC_OCSCLIENT{
 
 
 }
-?>

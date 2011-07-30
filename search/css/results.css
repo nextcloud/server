@@ -1,0 +1,8 @@
+#searchresults { position:fixed; top:3.3em; right:0; z-index:50; background-color:white; border:1px solid black; margin-bottom:3em; overflow:auto; max-height:80%; width:40em; }
+#searchresults table{ width:100%; table-layout:fixed; top:1em;border-spacing:0}
+#searchresults td{padding-right:0.3em;padding-left:0.3em;vertical-align:top}
+#searchresults td.result div.text{padding-left:1em;}
+#searchresults div.text,div.name{width:30em; white-space:normal}
+#searchresults td.result{width:30em;}
+#searchresults td.result *{cursor:pointer}
+#searchresults td.type{width:7em;text-align:right; border-right:1px solid #aaa;border-bottom:none}

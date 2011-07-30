@@ -23,9 +23,9 @@ FileList={
 		}else{
 			simpleSize='Pending';
 		}
-		sizeColor = Math.round(200-Math.pow((size/(1024*1024)),2));
+		sizeColor = Math.round(200-size/(1024*1024)*2);
 		lastModifiedTime=Math.round(lastModified.getTime() / 1000);
-		modifiedColor=Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*5);
+		modifiedColor=Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*14);
 		html+='<td class="filesize" title="'+humanFileSize(size)+'" style="color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')">'+simpleSize+'</td>';
 		html+='<td class="date" title="'+formatDate(lastModified)+'" style="color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')">'+relative_modified_date(lastModified.getTime() / 1000)+'</td>';
 		html+='</tr>';
@@ -66,6 +66,10 @@ FileList={
 	remove:function(name){
 		$('tr[data-file="'+name+'"] td.filename').draggable('destroy');
 		$('tr[data-file="'+name+'"]').remove();
+		if($('tr[data-file]').length==0){
+			$('#emptyfolder').show();
+			$('.file_upload_filename').addClass('highlight');
+		}
 	},
 	insertElement:function(name,type,element){
 		//find the correct spot to insert the file or folder
@@ -93,6 +97,8 @@ FileList={
 		}else{
 			$('#fileList').append(element);
 		}
+		$('#emptyfolder').hide();
+		$('.file_upload_filename').removeClass('highlight');
 	},
 	loadingDone:function(name){
 		$('tr[data-file="'+name+'"]').data('loading',false);

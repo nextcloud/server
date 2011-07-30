@@ -7,7 +7,7 @@ require_once('../../lib/base.php');
 header( "Content-Type: application/jsonrequest" );
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' )){
+if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
 	exit();
 }
@@ -15,13 +15,13 @@ if( !OC_USER::isLoggedIn() || !OC_GROUP::inGroup( OC_USER::getUser(), 'admin' ))
 $groupname = $_POST["groupname"];
 
 // Does the group exist?
-if( in_array( $groupname, OC_GROUP::getGroups())){
+if( in_array( $groupname, OC_Group::getGroups())){
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Group already exists" )));
 	exit();
 }
 
 // Return Success story
-if( OC_GROUP::createGroup( $groupname )){
+if( OC_Group::createGroup( $groupname )){
 	echo json_encode( array( "status" => "success", "data" => array( "groupname" => $groupname )));
 }
 else{

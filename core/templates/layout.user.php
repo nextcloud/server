@@ -47,7 +47,7 @@
 							<?php if( sizeof( $entry["subnavigation"] )): ?>
 								<ul>
 									<?php foreach($entry["subnavigation"] as $subentry):?>
-										<li class="subentry"><a style="background-image:url(<?php echo $subentry['icon']; ?>)" href="<?php echo $subentry['href']; ?>" title="" <?php if( $subentry['active'] ): ?>class="active"<?php endif; ?>><?php echo $subentry['name'] ?></a></li>
+										<li class="subentry"><a style="background-image:url(<?php echo $subentry['icon']; ?>)" href="<?php echo $subentry['href']; ?>" title="" class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>"><?php echo $subentry['name'] ?></a></li>
 									<?php endforeach; ?>
 								</ul>
 							<?php endif; ?>

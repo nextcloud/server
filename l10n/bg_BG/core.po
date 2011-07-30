@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-07-27 12:03+0200\n"
+"PO-Revision-Date: 2011-07-28 00:33+0000\n"
+"Last-Translator: ep98 <ilivanov@gmail.com>\n"
+"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.net/projects/p/owncloud/team/bg_BG/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bg_BG\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ../templates/404.php:15
+msgid "Error 404, Cloud not found"
+msgstr "Грешка 404, обклакът не намерен"
+
+#: ../templates/installation.php:6
+msgid "<strong>ownCloud</strong> is your personal web storage."
+msgstr ""
+
+#: ../templates/installation.php:7
+msgid "Finish the setup by following the steps below."
+msgstr ""
+
+#: ../templates/installation.php:26
+msgid "Create an <strong>admin account</strong>."
+msgstr ""
+
+#: ../templates/installation.php:27
+msgid "Username"
+msgstr ""
+
+#: ../templates/installation.php:28
+msgid "Password"
+msgstr ""
+
+#: ../templates/installation.php:31
+msgid "Advanced"
+msgstr "Разширено"
+
+#: ../templates/installation.php:34
+msgid "Set where to store the data."
+msgstr "Изберете къде да записва данните"
+
+#: ../templates/installation.php:35
+msgid "Data directory:"
+msgstr "Директория за данни:"
+
+#: ../templates/installation.php:39
+msgid "Configure the database."
+msgstr ""
+
+#: ../templates/installation.php:43
+msgid "SQLite will be used for the database. You have nothing to do."
+msgstr ""
+
+#: ../templates/installation.php:46
+msgid "SQLite"
+msgstr "SQLite"
+
+#: ../templates/installation.php:53
+msgid "MySQL will be used for the database."
+msgstr ""
+
+#: ../templates/installation.php:59
+msgid "MySQL username:"
+msgstr ""
+
+#: ../templates/installation.php:60
+msgid "MySQL password:"
+msgstr ""
+
+#: ../templates/installation.php:61
+msgid "Database name:"
+msgstr "Име на базата:"
+
+#: ../templates/installation.php:62
+msgid "Host:"
+msgstr "хост:"
+
+#: ../templates/installation.php:63
+msgid "Table prefix:"
+msgstr "Префикс за таблиците:"
+
+#: ../templates/installation.php:69
+msgid "Finish setup"
+msgstr "Завършване на настройките"
+
+#: ../templates/layout.guest.php:33
+msgid ""
+"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs"
+" on your own server.</p>"
+msgstr ""
+"<a href=\"http://owncloud.org/\">ownCloud</a> е персонален облак който "
+"работи от Ваш собствен сървър.</p>"
+
+#: ../templates/login.php:6
+msgid "Login failed!"
+msgstr "Входа пропадна!"
+
+#: ../templates/login.php:11 ../templates/login.php:15
+msgid "Remember login"
+msgstr ""
+
+#: ../templates/logout.php:1
+msgid "You are logged out."
+msgstr "Вие излязохте."
+
+#: ../templates/part.pagenavi.php:6
+msgid "prev"
+msgstr "пред."
+
+#: ../templates/part.pagenavi.php:26
+msgid "next"
+msgstr "следващо"
+
+#: ../templates/part.searchbox.php:3
+msgid "Search"
+msgstr "Търсене"
+
+

@@ -7,7 +7,7 @@ require_once('../../lib/base.php');
 header( "Content-Type: application/jsonrequest" );
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
+if( !OC_User::isLoggedIn()){
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
 	exit();
 }
@@ -21,7 +21,7 @@ $filesWithError = '';
 $status = 'success';
 //Now delete
 foreach($files as $file) {
-    if( !OC_FILES::delete( $dir, $file )){
+    if( !OC_Files::delete( $dir, $file )){
 		$filesWithError .= $file . "\n";
 		$status = 'error';
 	}

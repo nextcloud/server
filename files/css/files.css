@@ -6,6 +6,7 @@
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
 .file_upload_filename, #file_newfolder_name { background-repeat:no-repeat; background-position:0.5em 0; padding-left:2em; }
 .file_upload_filename { background-image:url("../img/file.png"); font-weight:bold; }.file_upload_start { opacity:0;filter:alpha(opacity = 0); }
+input.highlight{ background-color:#ffc100; border:#dda600 1px solid; }
 
 #file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:11em; }
 .file_upload_start, .file_upload_filename { position:absolute; top:0px; left:0px; width:11em; font-size:0.9em; }
@@ -16,13 +17,15 @@
 /* FILE TABLE */
 span#emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 table { position:relative; top:37px; width:100%; }
-tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; }
+tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; height:1em; }
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
-div.crumb { float:left; display:block; background:no-repeat right 0; font-weight:bold; padding:8px 1.5em 0 1em; height:28px; /*36-8*/ }
+div.crumb { float:left; display:block; background:no-repeat right 0; padding:8px 1.5em 0 1em; height:28px; /*36-8*/ }
+div.crumb:last-child { font-weight:bold; }
 table tr.mouseOver td { background-color:#eee; }
-table th { padding:.5em; height:2em; }
+table th { height:2em; padding:0 .5em; color:#999; }
 table th .name { float:left; margin-left:.5em; }
+table th.multiselect { background:#ddd; color:#000; font-weight:bold; }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td { border-bottom:1px solid #eee; font-style:normal; }
 table th#headerSize, table td.filesize { width:5em; padding:0 1em; text-align:right; }

@@ -22,19 +22,18 @@
 
 require_once('../../lib/base.php');
 require_once('lib_share.php');
-require('template.php');
 
-if (!OC_USER::isLoggedIn()){
+if (!OC_User::isLoggedIn()){
 	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
 	exit();
 }
 
-OC_APP::setActiveNavigationEntry("files_sharing_list");
+OC_App::setActiveNavigationEntry("files_sharing_list");
 
-OC_UTIL::addScript("files_sharing", "list");
+OC_Util::addScript("files_sharing", "list");
 
-$tmpl = new OC_TEMPLATE("files_sharing", "list", "user");
-$tmpl->assign("shared_items", OC_SHARE::getMySharedItems());
+$tmpl = new OC_Template("files_sharing", "list", "user");
+$tmpl->assign("shared_items", OC_Share::getMySharedItems());
 $tmpl->printPage();
 
 ?>

@@ -33,7 +33,7 @@
 					<td x-use="username"><span x-use="usernamediv"><?php echo $user["name"]; ?></span></td>
 					<td x-use="usergroups"><div x-use="usergroupsdiv"><?php if( $user["groups"] ){ echo $user["groups"]; }else{echo "&nbsp";} ?></div></td>
 					<td>
-						<?php if($user['name']!=OC_USER::getUser()):?>
+						<?php if($user['name']!=OC_User::getUser()):?>
 							<a  class="removeuserbutton" href=""><?php echo $l->t( 'remove' ); ?></a>
 						<?php endif;?>
 					</td>

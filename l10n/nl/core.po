@@ -1,45 +1,44 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-20 22:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-07-27 12:03+0200\n"
+"PO-Revision-Date: 2011-07-28 00:33+0000\n"
+"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../templates/404.php:15
 msgid "Error 404, Cloud not found"
 msgstr "Fout 404, Cloud niet gevonden."
 
 #: ../templates/installation.php:6
-msgid "Welcome to <strong>ownCloud</strong>, your personnal cloud."
-msgstr "Welkom by <strong>ownCloud</strong>, uw persoonlijke cloud"
+msgid "<strong>ownCloud</strong> is your personal web storage."
+msgstr ""
 
 #: ../templates/installation.php:7
-msgid "To finish the installation, please follow the steps below."
-msgstr "Volg de volgende stappen om de installatie te voltooien."
+msgid "Finish the setup by following the steps below."
+msgstr ""
 
 #: ../templates/installation.php:26
-msgid "Create an <strong>admin account.</strong>"
-msgstr "Maak een <strong>beheerdersaccount</strong> aan"
+msgid "Create an <strong>admin account</strong>."
+msgstr ""
 
 #: ../templates/installation.php:27
-msgid "Login:"
-msgstr "Gebruikersnaam:"
+msgid "Username"
+msgstr ""
 
 #: ../templates/installation.php:28
-msgid "Password:"
-msgstr "Wachtwoord:"
+msgid "Password"
+msgstr ""
 
 #: ../templates/installation.php:31
 msgid "Advanced"
@@ -54,49 +53,49 @@ msgid "Data directory:"
 msgstr "Gegevensmap:"
 
 #: ../templates/installation.php:39
-msgid "Configure your database."
-msgstr "Configureer uw database."
+msgid "Configure the database."
+msgstr ""
 
 #: ../templates/installation.php:43
-msgid "I will use a SQLite database. You have nothing to do!"
-msgstr "Er zal een SQLite database gebruikt worden. U hoeft geen verdere instellingen te maken."
+msgid "SQLite will be used for the database. You have nothing to do."
+msgstr ""
 
 #: ../templates/installation.php:46
 msgid "SQLite"
 msgstr "SQLite"
 
 #: ../templates/installation.php:53
-msgid "I will use a MySQL database."
-msgstr "Er zal een MySQL database gebruikt worden."
+msgid "MySQL will be used for the database."
+msgstr ""
 
 #: ../templates/installation.php:59
-msgid "Host:"
-msgstr "Host:"
+msgid "MySQL username:"
+msgstr ""
 
 #: ../templates/installation.php:60
+msgid "MySQL password:"
+msgstr ""
+
+#: ../templates/installation.php:61
 msgid "Database name:"
 msgstr "Databasenaam:"
 
-#: ../templates/installation.php:61
+#: ../templates/installation.php:62
+msgid "Host:"
+msgstr "Host:"
+
+#: ../templates/installation.php:63
 msgid "Table prefix:"
 msgstr "Voorvoegsel voor tabelnamen:"
 
-#: ../templates/installation.php:62
-msgid "MySQL user login:"
-msgstr "MySQL gebruikersnaam."
-
-#: ../templates/installation.php:63
-msgid "MySQL user password:"
-msgstr "MySQL wachtwoord"
-
-#: ../templates/installation.php:68
+#: ../templates/installation.php:69
 msgid "Finish setup"
 msgstr "Installatie afronden"
 
-#: ../templates/layout.guest.php:20
+#: ../templates/layout.guest.php:33
 msgid ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs "
-"on your own server.</p>"
+"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs"
+" on your own server.</p>"
 msgstr ""
 "<a href=\"http://owncloud.org/\">ownCloud</a> is een persoonlijke cloud die "
 "op uw eigen server draait.</p>"
@@ -104,6 +103,10 @@ msgstr ""
 #: ../templates/login.php:6
 msgid "Login failed!"
 msgstr "Aanmelden mislukt."
+
+#: ../templates/login.php:11 ../templates/login.php:15
+msgid "Remember login"
+msgstr ""
 
 #: ../templates/logout.php:1
 msgid "You are logged out."
@@ -120,3 +123,5 @@ msgstr "volgende"
 #: ../templates/part.searchbox.php:3
 msgid "Search"
 msgstr "Zoeken"
+
+

@@ -1,10 +1,5 @@
-<?php
-/*
- * Template for error page
- */
-?>
 <div id="login">
-	<img src="<?php echo image_path("", "owncloud-logo-medium-white.png"); ?>" alt="ownCloud" />
+	<header><img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" /></header>
 	<ul>
 		<?php foreach($_["errors"] as $error):?>
 			<li class='error'>

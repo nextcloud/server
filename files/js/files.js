@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	if($('tr[data-file]').length==0){
+		$('.file_upload_filename').addClass('highlight');
+	}
+	
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
@@ -338,7 +342,7 @@ function procesSelection(){
 		$('#headerName>span.name').text('Name');
 		$('#headerSize').text('Size MB');
 		$('#modified').text('Modified');
-		$('th').css({background:'#fff',fontWeight:'normal'});
+		$('th').removeClass('multiselect');
 		$('.selectedActions').hide();
 	}else{
 		$('.selectedActions').show();
@@ -372,7 +376,7 @@ function procesSelection(){
 		}
 		$('#headerName>span.name').text(selection);
 		$('#modified').text('');
-		$('th').css({background:'#ddd', fontWeight:'bold'});
+		$('th').addClass('multiselect');
 	}
 }
 

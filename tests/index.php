@@ -26,8 +26,6 @@
  */
  $RUNTIME_NOSETUPFS=true;
 require_once('../lib/base.php');
-require_once('testcase.php');
-require_once('template.php');
 
 $testCases=loadFiles(__DIR__,array('index.php','templates'));
 ob_end_clean();
@@ -48,7 +46,7 @@ foreach($testCases as $testCaseClass){
 	$testResults[$testCaseClass]=$results;
 }
 
-$tmpl = new OC_TEMPLATE( 'tests', 'index');
+$tmpl = new OC_Template( 'tests', 'index');
 $tmpl->assign('tests',$testResults);
 $tmpl->printPage();
 

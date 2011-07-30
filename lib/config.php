@@ -38,7 +38,7 @@
  * This class is responsible for reading and writing config.php, the very basic
  * configuration file of owncloud.
  */
-class OC_CONFIG{
+class OC_Config{
 	// associative array key => value
 	private static $cache = array();
 
@@ -182,4 +182,3 @@ class OC_CONFIG{
 		return true;
 	}
 }
-?>

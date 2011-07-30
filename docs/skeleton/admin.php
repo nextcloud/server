@@ -29,15 +29,12 @@ $RUNTIME_NOSETUPFS = true;
 require_once('../lib/base.php');
 
 // We need the file system although we said do not load it! Do it by hand now
-OC_UTIL::setupFS();
-
-// We load OC_TEMPLATE, too. This one is not loaded by base
-require( 'template.php' );
+OC_Util::setupFS();
 
 // The user should have admin rights. This is an admin page!
-if( !OC_USER::isLoggedIn() || !OC_USER::ingroup( $_SESSION['username'], 'admin' )){
+if( !OC_User::isLoggedIn() || !OC_User::ingroup( $_SESSION['username'], 'admin' )){
 	// Bad boy! Go to the very first page of owncloud
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
@@ -46,7 +43,7 @@ $myvar = 2;
 $myarray = array( "foo" => array( 0, 1, 2 ), "bar" => "baz" );
 
 // Preparing for output!
-$tmpl = new OC_TEMPLATE( "skeleton", "admin", "admin" ); // Programname, template, mode
+$tmpl = new OC_Template( "skeleton", "admin", "admin" ); // Programname, template, mode
 // Assign the vars
 $tmpl->assign( "var", $myvar );
 $tmpl->assign( "array", $myarray );

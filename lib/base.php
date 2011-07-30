@@ -20,6 +20,13 @@
  *
  */
 
+// Get rid of this stupid require_once OC_...
+function OC_autoload($className) {
+	if(strpos($className,'OC_')===0) {
+		require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
+	}
+}
+spl_autoload_register('OC_autoload');
 
 // set some stuff
 //ob_start();
@@ -36,8 +43,8 @@ $DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 $SERVERROOT=str_replace("\\",'/',$SERVERROOT);
 $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
 $scriptName=$_SERVER["SCRIPT_NAME"];
-if(substr($scriptName,-1)=='/'){//if the script isn't a file assume index.php
-  $scriptName.='index.php';
+if(substr($scriptName,-1)=='/'){
+	$scriptName.='index.php';
 }
 $WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen($SUBURI));
 
@@ -58,17 +65,14 @@ if( !isset( $RUNTIME_NOAPPS )){
 	$RUNTIME_NOAPPS = false;
 }
 
-// Doing the config stuff first
-require_once('config.php');
-
 // TODO: we should get rid of this one, too
 // WARNING: to make everything even more confusing, DATADIRECTORY is a var that
 //   changes and DATATIRECTORY_ROOT stays the same, but is set by
 //   "datadirectory". Any questions?
-$CONFIG_DATADIRECTORY = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
+$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
 
 // redirect to https site if configured
-if( OC_CONFIG::getValue( "forcessl", false )){
+if( OC_Config::getValue( "forcessl", false )){
 	if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') {
 		$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 		header("Location: $url");
@@ -76,359 +80,124 @@ if( OC_CONFIG::getValue( "forcessl", false )){
 	}
 }
 
-// load core libs
-require_once('helper.php');
-require_once('database.php');
-require_once('app.php');
-require_once('appconfig.php');
-require_once('files.php');
-require_once('filesystem.php');
-require_once('filestorage.php');
+$error=(count(OC_Util::checkServer())>0);
+
+// User and Groups
+if( !OC_Config::getValue( "installed", false )){
+	$_SESSION['user_id'] = '';
+}
+
+OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
+OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
+
+// Was in required file ... put it here
+OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
 require_once('apps/files_sharing/sharedstorage.php');
-require_once('l10n.php');
-require_once('preferences.php');
-require_once('log.php');
-require_once('user.php');
-require_once('group.php');
-require_once('ocs.php');
-require_once('ocsclient.php');
-require_once('connect.php');
-require_once('remotestorage.php');
-require_once('search.php');
-
-$error=(count(OC_UTIL::checkServer())>0);
-
-OC_USER::useBackend( OC_CONFIG::getValue( "userbackend", "database" ));
-OC_GROUP::setBackend( OC_CONFIG::getValue( "groupbackend", "database" ));
+OC_Filesystem::registerStorageType('shared','OC_Filestorage_Shared',array('datadir'=>'string'));
 
 // Set up file system unless forbidden
 if(!$error and !$RUNTIME_NOSETUPFS ){
-	OC_UTIL::setupFS();
+	OC_Util::setupFS();
 }
 
 // Add the stuff we need always
-OC_UTIL::addScript( "jquery-1.6.2.min" );
-OC_UTIL::addScript( "jquery-ui-1.8.14.custom.min" );
-OC_UTIL::addScript( "js" );
-OC_UTIL::addStyle( "jquery-ui-1.8.14.custom" );
-OC_UTIL::addStyle( "styles" );
+OC_Util::addScript( "jquery-1.6.2.min" );
+OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
+OC_Util::addScript( "js" );
+OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
+OC_Util::addStyle( "styles" );
 
 // Load Apps
 if(!$error and !$RUNTIME_NOAPPS ){
-	OC_APP::loadApps();
+	OC_App::loadApps();
 }
 
-/**
- * Class for utility functions
- *
- */
-class OC_UTIL {
-	public static $scripts=array();
-	public static $styles=array();
-	public static $headers=array();
-	private static $fsSetup=false;
-
-	// Can be set up
-	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration
-		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
-			return false;
-		}
-
-		// Global Variables
-		global $SERVERROOT;
-		global $CONFIG_DATADIRECTORY;
-
-		$CONFIG_DATADIRECTORY_ROOT = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_CONFIG::getValue( "backupdirectory", "$SERVERROOT/backup" );
-
-		// Create root dir
-		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
-			@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
-		}
-
-		// If we are not forced to load a specific user we load the one that is logged in
-		if( $user == "" && OC_USER::isLoggedIn()){
-			$user = OC_USER::getUser();
-		}
-
-		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-			//first set up the local "root" storage and the backupstorage if needed
-			$rootStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT));
-// 			if( OC_CONFIG::getValue( "enablebackup", false )){
-// 				// This creates the Directorys recursively
-// 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
-// 					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0755, true );
-// 				}
-// 				$backupStorage=OC_FILESYSTEM::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
-// 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
-// 				$rootStorage->addObserver($backup);
-// 			}
-			OC_FILESYSTEM::mount($rootStorage,'/');
-
-			// TODO add this storage provider in a proper way
-			$sharedStorage = OC_FILESYSTEM::createStorage('shared',array('datadir'=>'/'.OC_USER::getUser().'/files/Share/'));
-			OC_FILESYSTEM::mount($sharedStorage,'/'.OC_USER::getUser().'/files/Share/');
-			
-			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
-			if( !is_dir( $CONFIG_DATADIRECTORY )){
-				mkdir( $CONFIG_DATADIRECTORY, 0755, true );
-			}
-
-// TODO: find a cool way for doing this
-// 			//set up the other storages according to the system settings
-// 			foreach($CONFIG_FILESYSTEM as $storageConfig){
-// 				if(OC_FILESYSTEM::hasStorageType($storageConfig['type'])){
-// 					$arguments=$storageConfig;
-// 					unset($arguments['type']);
-// 					unset($arguments['mountpoint']);
-// 					$storage=OC_FILESYSTEM::createStorage($storageConfig['type'],$arguments);
-// 					if($storage){
-// 						OC_FILESYSTEM::mount($storage,$storageConfig['mountpoint']);
-// 					}
-// 				}
-// 			}
-
-			//jail the user into his "home" directory
-			OC_FILESYSTEM::chroot("/$user/$root");
-			self::$fsSetup=true;
-		}
-	}
-
-	public static function tearDownFS(){
-		OC_FILESYSTEM::tearDown();
-		self::$fsSetup=false;
-	}
-
-	/**
-	 * get the current installed version of ownCloud
-	 * @return array
-	 */
-	public static function getVersion(){
-		return array(1,90,0);
-	}
-
-	/**
-	 * add a javascript file
-	 *
-	 * @param url  $url
-	 */
-	public static function addScript( $application, $file = null ){
-		if( is_null( $file )){
-			$file = $application;
-			$application = "";
-		}
-		if( !empty( $application )){
-			self::$scripts[] = "$application/js/$file";
-		}else{
-			self::$scripts[] = "js/$file";
-		}
-	}
-
-	/**
-	 * add a css file
-	 *
-	 * @param url  $url
-	 */
-	public static function addStyle( $application, $file = null ){
-		if( is_null( $file )){
-			$file = $application;
-			$application = "";
-		}
-		if( !empty( $application )){
-			self::$styles[] = "$application/css/$file";
-		}else{
-			self::$styles[] = "css/$file";
-		}
-	}
-
-	/**
-	 * @brief Add a custom element to the header
-	 * @param string tag tag name of the element
-	 * @param array $attributes array of attrobutes for the element
-	 * @param string $text the text content for the element
-	 */
-	public static function addHeader( $tag, $attributes, $text=''){
-		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
-	}
-
-       /**
-         * formats a timestamp in the "right" way
-         *
-         * @param int timestamp $timestamp
-         * @param bool dateOnly option to ommit time from the result
-         */
-        public static function formatDate( $timestamp,$dateOnly=false){
-			if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
-				$systemTimeZone = intval(exec('date +%z'));
-				$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
-				$clientTimeZone=$_SESSION['timezone']*60;
-				$offset=$clientTimeZone-$systemTimeZone;
-				$timestamp=$timestamp+$offset*60;
-			}
-			$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
-			return date($timeformat,$timestamp);
-        }
-
-	/**
-	 * Shows a pagenavi widget where you can jump to different pages.
-	 *
-	 * @param int $pagecount
-	 * @param int $page
-	 * @param string $url
-	 * @return OC_TEMPLATE
-	 */
-	public static function getPageNavi($pagecount,$page,$url) {
-
-		$pagelinkcount=8;
-		if ($pagecount>1) {
-			$pagestart=$page-$pagelinkcount;
-			if($pagestart<0) $pagestart=0;
-			$pagestop=$page+$pagelinkcount;
-			if($pagestop>$pagecount) $pagestop=$pagecount;
-			
-			$tmpl = new OC_TEMPLATE( '', 'part.pagenavi', '' );
-			$tmpl->assign('page',$page);
-			$tmpl->assign('pagecount',$pagecount);
-			$tmpl->assign('pagestart',$pagestart);
-			$tmpl->assign('pagestop',$pagestop);
-			$tmpl->assign('url',$url);
-			return $tmpl;
-		}
-	}
-
-
-
-	/**
-	 * check if the current server configuration is suitable for ownCloud
-	 * @return array arrays with error messages and hints
-	 */
-	public static function checkServer(){
-		global $SERVERROOT;
-		global $CONFIG_DATADIRECTORY;
-
-		$CONFIG_DATADIRECTORY_ROOT = OC_CONFIG::getValue( "datadirectory", "$SERVERROOT/data" );;
-		$CONFIG_BACKUPDIRECTORY = OC_CONFIG::getValue( "backupdirectory", "$SERVERROOT/backup" );
-		$CONFIG_INSTALLED = OC_CONFIG::getValue( "installed", false );
-		$errors=array();
-
-		//check for database drivers
-		if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
-			$errors[]=array('error'=>'No database drivers (sqlite or mysql) installed.<br/>','hint'=>'');//TODO: sane hint
-		}
-		$CONFIG_DBTYPE = OC_CONFIG::getValue( "dbtype", "sqlite" );
-		$CONFIG_DBNAME = OC_CONFIG::getValue( "dbname", "owncloud" );
-		
-		//try to get the username the httpd server runs on, used in hints
-		$stat=stat($_SERVER['DOCUMENT_ROOT']);
-		if(is_callable('posix_getpwuid')){
-			$serverUser=posix_getpwuid($stat['uid']);
-			$serverUser='\''.$serverUser['name'].'\'';
-		}else{
-			$serverUser='\'www-data\' for ubuntu/debian';//TODO: try to detect the distro and give a guess based on that
-		}
-		
-		//common hint for all file permissons error messages
-		$permissionsHint="Permissions can usually be fixed by setting the owner of the file or directory to the user the web server runs as ($serverUser)";
-		
-		//check for correct file permissions
-		if(!stristr(PHP_OS, 'WIN')){
-			$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
-			if(substr($prems,-1)!='0'){
-				OC_HELPER::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
-				clearstatcache();
-				$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
-				if(substr($prems,2,1)!='0'){
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>','hint'=>$permissionsHint);
+// FROM Connect.php
+function OC_CONNECT_TEST($path,$user,$password){
+	echo 'connecting...';
+	$remote=OC_Connect::connect($path,$user,$password);
+	if($remote->connected){
+		echo 'done<br/>';
+		if($remote->isLoggedIn()){
+			echo 'logged in, session working<br/>';
+			echo 'trying to get remote files...';
+			$files=$remote->getFiles('');
+			if($files){
+				echo count($files).' files found:<br/>';
+				foreach($files as $file){
+					echo "{$file['type']} {$file['name']}: {$file['size']} bytes<br/>";
 				}
-			}
-			if( OC_CONFIG::getValue( "enablebackup", false )){
-				$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
-				if(substr($prems,-1)!='0'){
-					OC_HELPER::chmodr($CONFIG_BACKUPDIRECTORY,0770);
-					clearstatcache();
-					$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
-					if(substr($prems,2,1)!='0'){
-						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>','hint'=>$permissionsHint);
+				echo 'getting file "'.$file['name'].'"...';
+				$size=$file['size'];
+				$file=$remote->getFile('',$file['name']);
+				if(file_exists($file)){
+					$newSize=filesize($file);
+					if($size!=$newSize){
+						echo "fail<br/>Error: $newSize bytes received, $size expected.";
+						echo '<br/><br/>Recieved file:<br/>';
+						readfile($file);
+						unlink($file);
+						return;
 					}
+					OC_Filesystem::fromTmpFile($file,'/remoteFile');
+					echo 'done<br/>';
+					echo 'sending file "burning_avatar.png"...';
+					$res=$remote->sendFile('','burning_avatar.png','','burning_avatar.png');
+					if($res){
+						echo 'done<br/>';
+					}else{
+						echo 'fail<br/>';
+					}
+				}else{
+					echo 'fail<br/>';
 				}
+			}else{
+				echo 'fail<br/>';
 			}
 		}else{
-			//TODO: premisions checks for windows hosts
+			echo 'no longer logged in, session fail<br/>';
 		}
-		if(is_dir($CONFIG_DATADIRECTORY_ROOT) and !is_writable($CONFIG_DATADIRECTORY_ROOT)){
-			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
-		}
-
-		//TODO: check for php modules
-
-		return $errors;
+	}else{
+		echo 'fail<br/>';
 	}
+	$remote->disconnect();
+	die();
 }
 
-/**
- * This class manages the hooks. It basically provides two functions: adding
- * slots and emitting signals.
- */
-class OC_HOOK{
-	static private $registered = array();
-
-	/**
-	 * @brief connects a function to a hook
-	 * @param $signalclass class name of emitter
-	 * @param $signalname name of signal
-	 * @param $slotclass class name of slot
-	 * @param $slotname name of slot
-	 * @returns true/false
-	 *
-	 * This function makes it very easy to connect to use hooks.
-	 *
-	 * TODO: write example
-	 */
-	static public function connect( $signalclass, $signalname, $slotclass, $slotname ){
-		// Cerate the data structure
-		if( !array_key_exists( $signalclass, self::$registered )){
-			self::$registered[$signalclass] = array();
-		}
-		if( !array_key_exists( $signalname, self::$registered[$signalclass] )){
-			self::$registered[$signalclass][$signalname] = array();
-		}
-
-		// register hook
-		self::$registered[$signalclass][$signalname][] = array(
-		  "class" => $slotclass,
-		  "name" => $slotname );
-
-		// No chance for failure ;-)
-		return true;
-	}
-
-	/**
-	 * @brief emitts a signal
-	 * @param $signalclass class name of emitter
-	 * @param $signalname name of signal
-	 * @param $params defautl: array() array with additional data
-	 * @returns true if slots exists or false if not
-	 *
-	 * Emits a signal. To get data from the slot use references!
-	 *
-	 * TODO: write example
-	 */
-	static public function emit( $signalclass, $signalname, $params = array()){
-		// Return false if there are no slots
-		if( !array_key_exists( $signalclass, self::$registered )){
-			return false;
-		}
-		if( !array_key_exists( $signalname, self::$registered[$signalclass] )){
-			return false;
-		}
-
-		// Call all slots
-		foreach( self::$registered[$signalclass][$signalname] as $i ){
-			call_user_func( array( $i["class"], $i["name"] ), $params );
-		}
-
-		// return true
-		return true;
-	}
+// From files.php
+function zipAddDir($dir,$zip,$internalDir=''){
+    $dirname=basename($dir);
+    $zip->addEmptyDir($internalDir.$dirname);
+    $internalDir.=$dirname.='/';
+    $files=OC_Files::getdirectorycontent($dir);
+    foreach($files as $file){
+        $filename=$file['name'];
+        $file=$dir.'/'.$filename;
+        if(OC_Filesystem::is_file($file)){
+			$tmpFile=OC_Filesystem::toTmpFile($file);
+			OC_Files::$tmpFiles[]=$tmpFile;
+            $zip->addFile($tmpFile,$internalDir.$filename);
+        }elseif(OC_Filesystem::is_dir($file)){
+            zipAddDir($file,$zip,$internalDir);
+        }
+    }
 }
-?>
+
+if(!function_exists('sys_get_temp_dir')) {
+    function sys_get_temp_dir() {
+        if( $temp=getenv('TMP') )        return $temp;
+        if( $temp=getenv('TEMP') )        return $temp;
+        if( $temp=getenv('TMPDIR') )    return $temp;
+        $temp=tempnam(__FILE__,'');
+        if (file_exists($temp)) {
+          unlink($temp);
+          return dirname($temp);
+        }
+        return null;
+    }
+}
+
+require_once('fakedirstream.php');
+
+// FROM search.php
+new OC_Search_Provider_File();

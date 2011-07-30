@@ -25,29 +25,28 @@
 // Init owncloud
 require_once('../../lib/base.php');
 require_once( 'lib_public.php' );
-require( 'template.php' );
 
 
 // Check if we are a user
-if( !OC_USER::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
+if( !OC_User::isLoggedIn()){
+	header( "Location: ".OC_Helper::linkTo( "index.php" ));
 	exit();
 }
 
-OC_APP::setActiveNavigationEntry( "files_publiclink_administration" );
+OC_App::setActiveNavigationEntry( "files_publiclink_administration" );
 
-OC_UTIL::addStyle( 'files_publiclink', 'admin' );
-OC_UTIL::addScript( 'files_publiclink', 'admin' );
+OC_Util::addStyle( 'files_publiclink', 'admin' );
+OC_Util::addScript( 'files_publiclink', 'admin' );
 
 if(isset($_SERVER['HTTPS'])) {
-	$baseUrl= "https://". $_SERVER['SERVER_NAME'] . OC_HELPER::linkTo('files_publiclink','get.php');
+	$baseUrl= "https://". $_SERVER['SERVER_NAME'] . OC_Helper::linkTo('files_publiclink','get.php');
 }else{
-	$baseUrl= "http://". $_SERVER['SERVER_NAME'] . OC_HELPER::linkTo('files_publiclink','get.php');
+	$baseUrl= "http://". $_SERVER['SERVER_NAME'] . OC_Helper::linkTo('files_publiclink','get.php');
 }
 
 
 // return template
-$tmpl = new OC_TEMPLATE( "files_publiclink", "admin", "admin" );
+$tmpl = new OC_Template( "files_publiclink", "admin", "admin" );
 $tmpl->assign( 'links', OC_PublicLink::getLinks());
 $tmpl->assign('baseUrl',$baseUrl);
 $tmpl->printPage();

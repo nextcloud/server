@@ -39,7 +39,7 @@
 /**
  * This class is for logging
  */
-class OC_LOG {
+class OC_Log {
 	/**
 	 * @brief adds an entry to the log
 	 * @param $appid id of the app
@@ -101,7 +101,7 @@ class OC_LOG {
 		$result=$query->execute($params)->fetchAll();
 		if(count($result)>0 and is_numeric($result[0]['moment'])){
 			foreach($result as &$row){
-				$row['moment']=OC_UTIL::formatDate($row['moment']);
+				$row['moment']=OC_Util::formatDate($row['moment']);
 			}
 		}
 		return $result;
@@ -149,7 +149,3 @@ class OC_LOG {
 		return $filteredLogs;
 	}
 }
-
-
-
-?>

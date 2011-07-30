@@ -24,7 +24,7 @@
 /**
  * Collection of useful functions
  */
-class OC_HELPER {
+class OC_Helper {
 	/**
 	 * @brief Creates an url
 	 * @param $app app
@@ -318,5 +318,3 @@ class OC_HELPER {
 		return false;
 	}
 }
-
-?>

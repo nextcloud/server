@@ -17,8 +17,8 @@
 		</tbody>
 	</table>
 	<?php
-		$url=OC_HELPER::linkTo( "help", "index.php" ).'?page=';
-		$pageNavi=OC_UTIL::getPageNavi($_['pagecount'],$_['page'],$url);
+		$url=OC_Helper::linkTo( "help", "index.php" ).'?page=';
+		$pageNavi=OC_Util::getPageNavi($_['pagecount'],$_['page'],$url);
 		$pageNavi->printPage();
 	?>
 	<a target="_blank" class="prettybutton" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new"><?php echo $l->t( 'ASK A QUESTION' ); ?></a>

@@ -1,3 +1,3 @@
 <?php echo $_['player'];?>
-<div id='collection'><ul/></div>
-<ul id="playlist"/>
+<?php echo $_['collection'];?>
+<?php echo $_['playlist'];?>

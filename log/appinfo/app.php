@@ -1,6 +1,6 @@
 <?php
 
-OC_APP::register( array( "order" => 1, "id" => "log", "name" => "Log" ));
-OC_APP::addSettingsPage( array( "id" => "log", "order" => 999, "href" => OC_HELPER::linkTo( "log", "index.php" ), "name" => "Log", "icon" => OC_HELPER::imagePath( "log", "logs.png" )));
+OC_App::register( array( "order" => 1, "id" => "log", "name" => "Log" ));
+OC_App::addSettingsPage( array( "id" => "log", "order" => 999, "href" => OC_Helper::linkTo( "log", "index.php" ), "name" => "Log", "icon" => OC_Helper::imagePath( "log", "logs.png" )));
 
 ?>

@@ -9,7 +9,7 @@ $uid_shared_with = $_GET['uid_shared_with'];
 $permissions = $_GET['permissions'];
 foreach ($sources as $source) {
 	foreach ($uid_shared_with as $uid) {
-		new OC_SHARE($source, $uid, $permissions);
+		new OC_Share($source, $uid, $permissions);
 	}
 }
 

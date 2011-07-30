@@ -47,18 +47,38 @@ OC={
 	},
 	addScript:function(app,script,ready){
 		var path=OC.filePath(app,'js',script+'.js');
-		if(ready){
-			$.getScript(path,ready);
+		if(OC.addStyle.loaded.indexOf(path)==-1){
+			OC.addStyle.loaded.push(path);
+			if(ready){
+				$.getScript(path,ready);
+			}else{
+				$.getScript(path);
+			}
 		}else{
-			$.getScript(path);
+			if(ready){
+				ready();
+			}
 		}
 	},
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
-		var style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
-		$('head').append(style);
+		if(OC.addScript.loaded.indexOf(path)==-1){
+			OC.addScript.loaded.push(path);
+			var style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
+			$('head').append(style);
+		}
+	},
+	search:function(query){
+		if(query){
+			OC.addScript('search','result',function(){
+				OC.addStyle('search','results');
+				$.getJSON(OC.filePath('search','ajax','search.php')+'?query='+encodeURIComponent(query), OC.search.showResults);
+			});
+		}
 	}
 }
+OC.addStyle.loaded=[];
+OC.addScript.loaded=[];
 
 if (!Array.prototype.filter) {
 	Array.prototype.filter = function(fun /*, thisp*/) {
@@ -112,4 +132,15 @@ $(document).ready(function(){
 			element.attr('src',src.substr(0,src.length-3)+'png');
 		});
 	};
+	$('#searchbox').keyup(function(){
+		var query=$('#searchbox').val();
+		if(query.length>2){
+			OC.search(query);
+		}else{
+			if(OC.search.hide){
+				OC.search.hide();
+			}
+		}
+	});
+	$('#searchbox').click(function(){$('#searchbox').trigger('keyup')});
 });

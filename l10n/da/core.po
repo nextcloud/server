@@ -1,44 +1,44 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-20 22:00+0200\n"
-"PO-Revision-Date: 2011-06-21 15:10+0100\n"
-"Last-Translator: Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-07-27 12:03+0200\n"
+"PO-Revision-Date: 2011-07-28 00:33+0000\n"
+"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../templates/404.php:15
 msgid "Error 404, Cloud not found"
 msgstr "Fejl 404, Skyen kan ikke findes"
 
 #: ../templates/installation.php:6
-msgid "Welcome to <strong>ownCloud</strong>, your personnal cloud."
-msgstr "Velkommen til <strong>ownCloud</strong>, din personlige Sky."
+msgid "<strong>ownCloud</strong> is your personal web storage."
+msgstr ""
 
 #: ../templates/installation.php:7
-msgid "To finish the installation, please follow the steps below."
-msgstr "For at fuldføre installationen, følg venligst nedenstående trin"
+msgid "Finish the setup by following the steps below."
+msgstr ""
 
 #: ../templates/installation.php:26
-msgid "Create an <strong>admin account.</strong>"
-msgstr "Lav en <strong>administrator konto.</strong>"
+msgid "Create an <strong>admin account</strong>."
+msgstr ""
 
 #: ../templates/installation.php:27
-msgid "Login:"
-msgstr "Login:"
+msgid "Username"
+msgstr ""
 
 #: ../templates/installation.php:28
-msgid "Password:"
-msgstr "Kodeord:"
+msgid "Password"
+msgstr ""
 
 #: ../templates/installation.php:31
 msgid "Advanced"
@@ -53,52 +53,60 @@ msgid "Data directory:"
 msgstr "Data mappe:"
 
 #: ../templates/installation.php:39
-msgid "Configure your database."
-msgstr "Konfigurer din database."
+msgid "Configure the database."
+msgstr ""
 
 #: ../templates/installation.php:43
-msgid "I will use a SQLite database. You have nothing to do!"
-msgstr "Jeg vil benytte en SQLite database. Du skal ikke gøre noget!"
+msgid "SQLite will be used for the database. You have nothing to do."
+msgstr ""
 
 #: ../templates/installation.php:46
 msgid "SQLite"
 msgstr "SQLite"
 
 #: ../templates/installation.php:53
-msgid "I will use a MySQL database."
-msgstr "Jeg vil benytte en MySQL database."
+msgid "MySQL will be used for the database."
+msgstr ""
 
 #: ../templates/installation.php:59
-msgid "Host:"
-msgstr "Host:"
+msgid "MySQL username:"
+msgstr ""
 
 #: ../templates/installation.php:60
+msgid "MySQL password:"
+msgstr ""
+
+#: ../templates/installation.php:61
 msgid "Database name:"
 msgstr "Database navn:"
 
-#: ../templates/installation.php:61
+#: ../templates/installation.php:62
+msgid "Host:"
+msgstr "Host:"
+
+#: ../templates/installation.php:63
 msgid "Table prefix:"
 msgstr "Tabel prefix:"
 
-#: ../templates/installation.php:62
-msgid "MySQL user login:"
-msgstr "MySQL bruger login:"
-
-#: ../templates/installation.php:63
-msgid "MySQL user password:"
-msgstr "MySQL bruger password:"
-
-#: ../templates/installation.php:68
+#: ../templates/installation.php:69
 msgid "Finish setup"
 msgstr "Afslut installation"
 
-#: ../templates/layout.guest.php:20
-msgid "<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs on your own server.</p>"
-msgstr "<a href=\"http://owncloud.org/\">ownCloud</a> er din personly sky der køre på din egen server.</p>"
+#: ../templates/layout.guest.php:33
+msgid ""
+"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs"
+" on your own server.</p>"
+msgstr ""
+"<a href=\"http://owncloud.org/\">ownCloud</a> er din personly sky der køre "
+"på din egen server.</p>"
 
 #: ../templates/login.php:6
 msgid "Login failed!"
 msgstr "Login mislykkedes"
+
+#: ../templates/login.php:11 ../templates/login.php:15
+msgid "Remember login"
+msgstr ""
 
 #: ../templates/logout.php:1
 msgid "You are logged out."
@@ -115,4 +123,5 @@ msgstr "næste"
 #: ../templates/part.searchbox.php:3
 msgid "Search"
 msgstr "Søg"
+
 

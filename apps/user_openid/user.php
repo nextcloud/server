@@ -38,7 +38,7 @@ $RUNTIME_NOAPPS=true;
 $RUNTIME_NOAPPS=false;
 require_once '../../lib/base.php';
 
-if(!OC_USER::userExists($USERNAME)){
+if(!OC_User::userExists($USERNAME)){
 	error_log($USERNAME.' doesn\'t exist');
 	$USERNAME='';
 }
