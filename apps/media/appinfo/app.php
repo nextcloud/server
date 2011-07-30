@@ -46,18 +46,18 @@ $entry = array(
 	'name' => 'Collection'
 );
 OC_APP::addNavigationSubEntry( "media_index", $entry);
-$entry = array(
-	'id' => "media_recent",
-	'order'=>1,
-	'href' => '#recent',
-	'name' => 'Most Recent'
-);
-OC_APP::addNavigationSubEntry( "media_index", $entry);
-$entry = array(
-	'id' => "media_mostplayer",
-	'order'=>1,
-	'href' => '#mostplayed',
-	'name' => 'Most Played'
-);
-OC_APP::addNavigationSubEntry( "media_index", $entry);
+// $entry = array(
+// 	'id' => "media_recent",
+// 	'order'=>1,
+// 	'href' => '#recent',
+// 	'name' => 'Most Recent'
+// );
+// OC_APP::addNavigationSubEntry( "media_index", $entry);
+// $entry = array(
+// 	'id' => "media_mostplayer",
+// 	'order'=>1,
+// 	'href' => '#mostplayed',
+// 	'name' => 'Most Played'
+// );
+// OC_APP::addNavigationSubEntry( "media_index", $entry);
 ?>
