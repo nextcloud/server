@@ -8,7 +8,7 @@ if(!isset($_)){//also provide standalone error page
 }
 ?>
 <div id="login">
-	<img src="<?php echo image_path("", "weather-clear.png"); ?>" alt="ownCloud" />
+	<header><img src="<?php echo image_path('', 'weather-clear.png'); ?>" alt="ownCloud" /></header>
 	<ul>
 		<li class='error'>
 			<?php echo $l->t( 'Error 404, Cloud not found' ); ?><br/>

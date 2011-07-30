@@ -32,7 +32,7 @@ div.controls { width:100%; margin:0px; background-color:#f7f7f7; border-bottom:1
 #body-login p.info { width:16em; margin:2em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 #body-login p.info a { font-weight:bold; }
 
-#login div.header { margin-top:-2em; height:10em;
+#body-login header { margin-top:-2em; height:10em;
  -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 20px #000; box-shadow:0 0 20px #000;
 background: #1d2d44; /* Old browsers */
 background: -moz-linear-gradient(top, #35537a 0%, #1d2d42 100%); /* FF3.6+ */
