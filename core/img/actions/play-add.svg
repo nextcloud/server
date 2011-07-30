@@ -14,8 +14,8 @@
    id="svg3875"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="play.svg"
-   inkscape:export-filename="/home/jancborchardt/delete.png"
+   sodipodi:docname="play-add.svg"
+   inkscape:export-filename="/home/jancborchardt/owncloud/core/img/actions/play-add.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="17.921875"
-     inkscape:cx="4.954364"
-     inkscape:cy="10.148736"
+     inkscape:zoom="25.345359"
+     inkscape:cx="-0.081913001"
+     inkscape:cy="8.0693339"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -65,14 +65,15 @@
      transform="translate(0,-1036.3622)">
     <path
        style="fill:#808080;fill-opacity:1;stroke:none"
-       d="m 2,1038.3622 12,6 -12,6 z"
+       d="m 2,1037.3622 11,6 -11,6 z"
        id="path3086"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
        inkscape:connector-curvature="0"
        style="fill:#808080;fill-opacity:1;stroke:none"
-       d="m 12,1046.3622 0,2 -2,0 0,1 2,0 0,2 1,0 0,-2 2,0 0,-1 -2,0 0,-2 -1,0 z"
-       id="rect2984" />
+       d="m 11,1045.3622 0,2 -2,0 0,2 2,0 0,2 2,0 0,-2 2,0 0,-2 -2,0 0,-2 z"
+       id="rect2984"
+       sodipodi:nodetypes="ccccccccccccc" />
   </g>
 </svg>
