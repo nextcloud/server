@@ -33,21 +33,21 @@ if( !OC_User::isLoggedIn()){
 require_once('lib_collection.php');
 require_once('lib_scanner.php');
 
-OC_UTIL::addScript('media','player');
-OC_UTIL::addScript('media','music');
-OC_UTIL::addScript('media','playlist');
-OC_UTIL::addScript('media','collection');
-OC_UTIL::addScript('media','jquery.jplayer.min');
-OC_UTIL::addStyle('media','player');
-OC_UTIL::addStyle('media','music');
+OC_Util::addScript('media','player');
+OC_Util::addScript('media','music');
+OC_Util::addScript('media','playlist');
+OC_Util::addScript('media','collection');
+OC_Util::addScript('media','jquery.jplayer.min');
+OC_Util::addStyle('media','player');
+OC_Util::addStyle('media','music');
 
-OC_APP::setActiveNavigationEntry( 'media_playlist' );
+OC_App::setActiveNavigationEntry( 'media_playlist' );
 
 $tmpl = new OC_Template( 'media', 'music', 'user' );
 
-$player = new OC_TEMPLATE( 'media', 'player');
-$playlist = new OC_TEMPLATE( 'media', 'playlist');
-$collection= new OC_TEMPLATE( 'media', 'collection');
+$player = new OC_Template( 'media', 'player');
+$playlist = new OC_Template( 'media', 'playlist');
+$collection= new OC_Template( 'media', 'collection');
 
 $tmpl->assign('player',$player->fetchPage());
 $tmpl->assign('playlist',$playlist->fetchPage());
