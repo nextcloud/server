@@ -19,7 +19,8 @@ table { position:relative; top:37px; width:100%; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
-div.crumb { float:left; display:block; background:no-repeat right 0; font-weight:bold; padding:8px 1.5em 0 1em; height:28px; /*36-8*/ }
+div.crumb { float:left; display:block; background:no-repeat right 0; padding:8px 1.5em 0 1em; height:28px; /*36-8*/ }
+div.crumb:last-child { font-weight:bold; }
 table tr.mouseOver td { background-color:#eee; }
 table th { padding:.5em; height:2em; }
 table th .name { float:left; margin-left:.5em; }
