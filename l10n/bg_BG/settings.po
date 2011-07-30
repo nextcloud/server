@@ -2,86 +2,87 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Stefan Ilivanov <ilivanov@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
 "POT-Creation-Date: 2011-07-27 12:03+0200\n"
-"PO-Revision-Date: 2011-07-25 16:17+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
-"Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
+"PO-Revision-Date: 2011-07-25 21:25+0000\n"
+"Last-Translator: ep98 <ilivanov@gmail.com>\n"
+"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.net/projects/p/owncloud/team/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
+"Language: bg_BG\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../templates/index.php:3
 msgid "Account information"
-msgstr "Konto information"
+msgstr "Информация за профила"
 
 #: ../templates/index.php:5
 msgid "You're currently using"
-msgstr "Du udnytter i øjeblikket"
+msgstr "Вие ползвате"
 
 #: ../templates/index.php:5
 msgid "of your"
-msgstr "af din"
+msgstr "на Вашето"
 
 #: ../templates/index.php:5
 msgid "space"
-msgstr "plads"
+msgstr "място"
 
 #: ../templates/index.php:11
 msgid "Change Password"
-msgstr "Ændre adgangskode"
+msgstr "Промяна на парола"
 
 #: ../templates/index.php:12
 msgid "Your password got changed"
-msgstr "Din adgangskode er ændret"
+msgstr "Вашата парола е сменена"
 
 #: ../templates/index.php:15
 msgid "Old password:"
-msgstr "Gamle adgangskode"
+msgstr "Стара парола"
 
 #: ../templates/index.php:19
 msgid "New password"
-msgstr "Nye adgangskode"
+msgstr "Нова парола"
 
 #: ../templates/index.php:24
 msgid "Show new password"
-msgstr "Vis den nye adgangskode"
+msgstr "Покажи новата парола"
 
 #: ../templates/index.php:34
 msgid "Language"
-msgstr "Sprog"
+msgstr "Език"
 
 #: ../ajax/changepassword.php:13 ../ajax/setlanguage.php:13
 msgid "Authentication error"
-msgstr "Godkendelsesfejl"
+msgstr "Проблем с индентификацията"
 
 #: ../ajax/changepassword.php:19
 msgid "You have to enter the old and the new password!"
-msgstr "Du skal indtaste din gamle og nye adganskode"
+msgstr "Трябва да въведете новата и старата парола!"
 
 #: ../ajax/changepassword.php:25
 msgid "Your old password is wrong!"
-msgstr "Din gamle adgangskode er forkert!"
+msgstr "Вашата стара парола е грешна!"
 
 #: ../ajax/changepassword.php:31
 msgid "Password changed"
-msgstr "Adgangskoden er ændret"
+msgstr "Паролата е сменена"
 
 #: ../ajax/changepassword.php:34
 msgid "Unable to change password"
-msgstr "Kan ikke ændre din adgangskode"
+msgstr "Невъзможна смяна на паролата"
 
 #: ../ajax/setlanguage.php:21
 msgid "Language changed"
-msgstr "Sprog ændret"
+msgstr "Езика е сменен"
 
 #: ../ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr "Invalid forespørgsel"
+msgstr "Невалидна заявка"
 
 

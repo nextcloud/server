@@ -1,66 +1,68 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+#   <rom1dep@gmail.com>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
 "POT-Creation-Date: 2011-07-27 12:03+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2011-07-30 07:16+0000\n"
+"Last-Translator: rom1dep <rom1dep@gmail.com>\n"
+"Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: ../templates/index.php:4
 msgid "Filter:"
-msgstr ""
+msgstr "Filtre :"
 
 #: ../templates/index.php:7
 msgid "Logins"
-msgstr ""
+msgstr "Connexions"
 
 #: ../templates/index.php:8
 msgid "Logouts"
-msgstr ""
+msgstr "Déconnexions"
 
 #: ../templates/index.php:9
 msgid "Downloads"
-msgstr ""
+msgstr "Téléchargements"
 
 #: ../templates/index.php:10
 msgid "Uploads"
-msgstr ""
+msgstr "Téléversements"
 
 #: ../templates/index.php:11
 msgid "Creations"
-msgstr ""
+msgstr "Créations"
 
 #: ../templates/index.php:12
 msgid "Deletions"
-msgstr ""
+msgstr "Suppressions"
 
 #: ../templates/index.php:15
 msgid "Show:"
-msgstr ""
+msgstr "Afficher :"
 
 #: ../templates/index.php:16
 msgid "entries per page."
-msgstr ""
+msgstr "entrées par page."
 
 #: ../templates/index.php:26
 msgid "What"
-msgstr ""
+msgstr "Quoi"
 
 #: ../templates/index.php:27
 msgid "When"
-msgstr ""
+msgstr "Quand"
 
 #: ../templates/index.php:45
 msgid "Clear log entries before"
-msgstr ""
+msgstr "Effacer les entrées du journal au préalable"
+
+

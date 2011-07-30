@@ -1,7 +1,7 @@
 		<?php if(!$_['files']) echo '<span id="emptyfolder">Nothing in here. Upload something!</span><style>.file_upload_filename { background-color:#ffc100; border:#dda600 1px solid; }</style>';
 		foreach($_['files'] as $file):
 			$simple_file_size = simple_file_size($file['size']);
-			$simple_size_color = 200-intval($file['size']/(1024*1024)*5);
+			$simple_size_color = 200-intval($file['size']/(1024*1024)*2);
 			if($simple_size_color<0) $simple_size_color = 0;
 			$relative_modified_date = relative_modified_date($file['mtime']);
 			$relative_date_color = round((time()-$file['mtime'])/60/60/24*7); //days ago
