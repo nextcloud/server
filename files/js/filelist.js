@@ -23,7 +23,7 @@ FileList={
 		}else{
 			simpleSize='Pending';
 		}
-		sizeColor = Math.round(200-size/1024*1024*2);
+		sizeColor = Math.round(200-size/(1024*1024)*2);
 		lastModifiedTime=Math.round(lastModified.getTime() / 1000);
 		modifiedColor=Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*14);
 		html+='<td class="filesize" title="'+humanFileSize(size)+'" style="color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')">'+simpleSize+'</td>';

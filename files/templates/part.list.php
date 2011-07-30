@@ -1,7 +1,7 @@
 		<span id="emptyfolder" <?php if(count($_['files'])) echo 'style="display:none;"';?>>Nothing in here. Upload something!</span>
 		<?php foreach($_['files'] as $file):
 			$simple_file_size = simple_file_size($file['size']);
-			$simple_size_color = intval(200-$file['size']/1024*1024*2); // the bigger the file, the darker the shade of grey; megabytes*2
+			$simple_size_color = intval(200-$file['size']/(1024*1024)*2); // the bigger the file, the darker the shade of grey; megabytes*2
 			if($simple_size_color<0) $simple_size_color = 0;
 			$relative_modified_date = relative_modified_date($file['mtime']);
 			$relative_date_color = round((time()-$file['mtime'])/60/60/24*14); // the older the file, the brighter the shade of grey; days*14
