@@ -46,7 +46,7 @@ if(isset($_SERVER['HTTPS'])) {
 
 
 // return template
-$tmpl = new OC_Template( "files_publiclink", "admin", "admin" );
+$tmpl = new OC_Template( "files_publiclink", "admin", "user" );
 $tmpl->assign( 'links', OC_PublicLink::getLinks());
 $tmpl->assign('baseUrl',$baseUrl);
 $tmpl->printPage();

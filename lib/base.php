@@ -87,8 +87,15 @@ if( !OC_Config::getValue( "installed", false )){
 	$_SESSION['user_id'] = '';
 }
 
+
 OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
+
+// Load Apps
+// This includes plugins for users and filesystems as well
+if(!$error and !$RUNTIME_NOAPPS ){
+	OC_App::loadApps();
+}
 
 // Was in required file ... put it here
 OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
@@ -107,10 +114,6 @@ OC_Util::addScript( "js" );
 OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
 OC_Util::addStyle( "styles" );
 
-// Load Apps
-if(!$error and !$RUNTIME_NOAPPS ){
-	OC_App::loadApps();
-}
 
 // FROM Connect.php
 function OC_CONNECT_TEST($path,$user,$password){

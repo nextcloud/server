@@ -104,5 +104,12 @@ var PlayList={
 		PlayList.items.splice(index,1);
 		PlayList.render();
 	},
-	render:function(){}
+	render:function(){},
+	playing:function(){
+		if(!PlayList.player){
+			return false;
+		}else{
+			return !PlayList.player.data("jPlayer").status.paused;
+		}
+	}
 }

@@ -14,4 +14,5 @@ li button.right.prettybutton{font-size:1em;}
 
 #collection{display:none}/*hide the collection initially*/
 #collection li{padding-right:10px;}
-img.remove{float:right;};
+img.remove{float:right;}
+#searchresults input.play, #searchresults input.add{float:right; height:16px; width:16px;}

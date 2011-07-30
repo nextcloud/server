@@ -48,4 +48,4 @@ table td.filename form { float:left; font-size:.85em; }
 .selectedActions a:hover, a.file_action:hover { background:#fff; -moz-box-shadow:0 0 10px #fff; -webkit-box-shadow:0 0 10px #fff; box-shadow:0 0 10px #fff; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#plugins li:first-child { background-position:15.7em 0px; background-repeat:no-repeat; background-image:url("/owncloud/core/img/breadcrumb-divider-start.png"); width:15.7em; padding-right:11px; }
+#plugins>ul>li:first-child { background-position:15.7em 0px; background-repeat:no-repeat; background-image:url("/owncloud/core/img/breadcrumb-divider-start.png"); width:15.7em; padding-right:11px; }
