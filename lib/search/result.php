@@ -3,10 +3,10 @@
  * a result of a search
  */
 class OC_Search_Result{
-	private $name;
-	private $text;
-	private $link;
-	private $type;
+	public $name;
+	public $text;
+	public $link;
+	public $type;
 
 	/**
 	 * create a new search result
@@ -20,18 +20,5 @@ class OC_Search_Result{
 		$this->text=$text;
 		$this->link=$link;
 		$this->type=$type;
-	}
-
-	public function __get($name){
-		switch($name){
-			case 'name':
-				return $this->name;
-			case 'text':
-				return $this->text;
-			case 'link':
-				return $this->link;
-			case 'type':
-				return $this->type;
-		}
 	}
 }
