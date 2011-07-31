@@ -37,6 +37,7 @@ class OC_MEDIA_SCANNER{
 	 * @return int the number of songs found
 	 */
 	public static function scanFolder($path){
+		OC_DB::beginTransaction();
 		if (OC_Filesystem::is_dir($path)) {
 			$songs=0;
 			if ($dh = OC_Filesystem::opendir($path)) {
@@ -59,6 +60,7 @@ class OC_MEDIA_SCANNER{
 		}else{
 			$songs=0;
 		}
+		OC_DB::commit();
 		return $songs;
 	}
 
