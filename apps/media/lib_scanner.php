@@ -30,6 +30,7 @@ class OC_MEDIA_SCANNER{
 	//these are used to store which artists and albums we found, it can save a lot of addArtist/addAlbum calls
 	static private $artists=array();
 	static private $albums=array();//stored as "$artist/$album" to allow albums with the same name from different artists
+	static private $useMp3Info=null;
 	
 	/**
 	 * scan a folder for music
@@ -37,7 +38,7 @@ class OC_MEDIA_SCANNER{
 	 * @return int the number of songs found
 	 */
 	public static function scanFolder($path){
-		OC_DB::beginTransaction();
+// 		OC_DB::beginTransaction();
 		if (OC_Filesystem::is_dir($path)) {
 			$songs=0;
 			if ($dh = OC_Filesystem::opendir($path)) {
@@ -47,7 +48,8 @@ class OC_MEDIA_SCANNER{
 						if(OC_Filesystem::is_dir($file)){
 							$songs+=self::scanFolder($file);
 						}elseif(OC_Filesystem::is_file($file)){
-							if(self::scanFile($file)){
+							$data=self::scanFile($file);
+							if($data){
 								$songs++;
 							}
 						}
@@ -60,7 +62,7 @@ class OC_MEDIA_SCANNER{
 		}else{
 			$songs=0;
 		}
-		OC_DB::commit();
+// 		OC_DB::commit();
 		return $songs;
 	}
 
@@ -70,45 +72,28 @@ class OC_MEDIA_SCANNER{
 	 * @return boolean
 	 */
 	public static function scanFile($path){
+		if(is_null(self::$useMp3Info)){
+			self::$useMp3Info=OC_Helper::canExecute("mp3info");
+		}
 		$file=OC_Filesystem::getLocalFile($path);
-		if(substr($path,-3)=='mp3' and OC_Helper::canExecute("id3info") and OC_Helper::canExecute("mp3info")){//use the command line tool id3info if possible
+		if(substr($path,-3)=='mp3' and self::$useMp3Info){//use the command line tool id3info if possible
 			$output=array();
 			$size=filesize($file);
-			$length=0;
-			$title='unknown';
-			$album='unknown';
-			$artist='unknown';
-			$track=0;
-			exec('id3info "'.$file.'"',$output);
-			$data=array();
-			foreach($output as $line) {
-				switch(substr($line,0,3)){
-					case '***'://comments
-						break;
-					case '==='://tag information
-						$key=substr($line,4,4);
-						$value=substr($line,strpos($line,':')+2);
-						switch(strtolower($key)){
-							case 'tit1':
-							case 'tit2':
-								$title=$value;
-								break;
-							case 'tpe1':
-							case 'tpe2':
-								$artist=$value;
-								break;
-							case 'talb':
-								$album=$value;
-								break;
-							case 'trck':
-								$track=$value;
-								break;
-						}
-						break;
-				}
+			exec('mp3info -p "%a\n%l\n%t\n%n\n%S" "'.$file.'"',$output);
+			if(count($output)>4){
+				$artist=$output[0];
+				$album=$output[1];
+				$title=$output[2];
+				$track=$output[3];
+				$length=$output[4];
+			}else{
+				return; //invalid mp3 file
 			}
-			$length=exec('mp3info -p "%S" "'.$file.'"');
 		}else{
+			$mimetype=OC_Filesystem::getMimeType($path);
+			if(substr($mimetype,0,4)!=='audio'){
+				return;
+			}
 			if(!self::$getID3){
 				self::$getID3=@new getID3();
 			}

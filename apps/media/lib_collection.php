@@ -28,6 +28,7 @@ class OC_MEDIA_COLLECTION{
 	private static $artistIdCache=array();
 	private static $albumIdCache=array();
 	private static $songIdCache=array();
+	private static $queries=array();
 	
 	/**
 	* get the id of an artist (case-insensitive)
@@ -254,8 +255,13 @@ class OC_MEDIA_COLLECTION{
 		if($songId!=0){
 			return $songId;
 		}else{
-			$query=OC_DB::prepare("INSERT INTO  `*PREFIX*media_songs` (`song_id` ,`song_name` ,`song_artist` ,`song_album` ,`song_path` ,`song_user`,`song_length`,`song_track`,`song_size`,`song_playcount`,`song_lastplayed`)
-			VALUES (NULL ,  ?, ?, ?, ?,?,?,?,?,0,0)");
+			if(!isset(self::$queries['addsong'])){
+				$query=OC_DB::prepare("INSERT INTO  `*PREFIX*media_songs` (`song_name` ,`song_artist` ,`song_album` ,`song_path` ,`song_user`,`song_length`,`song_track`,`song_size`,`song_playcount`,`song_lastplayed`)
+				VALUES (?, ?, ?, ?,?,?,?,?,0,0)");
+				self::$queries['addsong']=$query;
+			}else{
+				$query=self::$queries['addsong'];
+			}
 			$query->execute(array($name,$artist,$album,$path,$uid,$length,$track,$size));
 			$songId=OC_DB::insertid();
 // 			self::setLastUpdated();

@@ -367,6 +367,7 @@ class OC_DB {
 	 * @param string $savePoint (optional) name of the savepoint to set
 	 */
 	public static function beginTransaction($savePoint=''){
+		self::connect();
 		if (!self::$DBConnection->supports('transactions')) {
 			return false;
 		}
@@ -385,6 +386,7 @@ class OC_DB {
 	 * @param string $savePoint (optional) name of the savepoint to commit
 	 */
 	public static function commit($savePoint=''){
+		self::connect();
 		if(!self::$DBConnection->inTransaction()){
 			return false;
 		}

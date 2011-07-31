@@ -75,6 +75,7 @@ if($arguments['action']){
 			echo json_encode($artists);
 			break;
 		case 'scan':
+			OC_DB::beginTransaction();
 			set_time_limit(0); //recursive scan can take a while
 			$path=$arguments['path'];
 			if(OC_Filesystem::is_dir($path)){
@@ -85,6 +86,7 @@ if($arguments['action']){
 				}
 			}
 			echo OC_MEDIA_SCANNER::scanFolder($path);
+			OC_DB::commit();
 			flush();
 			break;
 		case 'scanFile':
