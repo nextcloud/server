@@ -68,6 +68,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	public function rmdir($path) {
 		// The folder will be removed from the database, but won't be deleted from the owner's filesystem
 		OC_Share::unshareFromMySelf($this->datadir.$path);
+		$this->clearFolderSizeCache($path);
 	}
 	
 	public function opendir($path) {
@@ -78,6 +79,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			if (empty($sharedItems)) {
 				return false;
 			}
+			$files = array();
 			foreach ($sharedItems as $item) {
 				// If item is in the root of the shared storage provider add it to the fakedirs
 				if (dirname($item['target'])."/" == $path) {
@@ -199,6 +201,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function filesize($path) {
+		
 		if ($path == "" || $path == "/" || $this->is_dir($path)) {
 			return $this->getFolderSize($path);
 		} else {
@@ -211,12 +214,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function getFolderSize($path) {
-		if ($path == "" || $path == "/") {
-			$dbpath = OC_User::getUser()."/files/Share/";
-		} else {
-			$source = $this->getSource($path);
-			$dbpath = $this->getInternalPath($source);
-		}
+		$dbpath = OC_User::getUser()."/files/Share/".$path."/";
 		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
 		$size = $query->execute(array($dbpath))->fetchAll();
 		if (count($size) > 0) {
@@ -247,17 +245,33 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 				}
 			}
 			if ($size > 0) {
-				if ($path == "" || $path == "/") {
-					$dbpath = OC_User::getUser()."/files/Share/";
-				} else {
-					$source = $this->getSource($path);
-					$dbpath = $this->getInternalPath($source);
-				}
+				$dbpath = OC_User::getUser()."/files/Share/".$path;
 				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
 				$result = $query->execute(array($dbpath, $size));
 			}
 		}
 		return $size;
+	}
+
+	public function clearFolderSizeCache($path){
+		if ($this->is_file($path)) {
+			$path = dirname($path);
+		}
+		$path = str_replace("//", "/", $path);
+		if ($this->is_dir($path) && substr($path, -1) != "/") {
+			$path .= "/";
+		}
+		$query = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
+		$result = $query->execute(array($path));
+		if ($path != "/" && $path != "") {
+			$parts = explode("/", $path);
+			$part = array_pop($parts);
+			if (empty($part)) {
+				array_pop($parts);
+			}
+			$parent = implode("/", $parts);
+			$this->clearFolderSizeCache($parent);
+		}
 	}
 
 	public function is_readable($path) {
@@ -397,6 +411,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			} else {
 				OC_Share::unshareFromMySelf($target);
 			}
+			$this->clearFolderSizeCache($this->getInternalPath($target));
 		}
 		return true;
 	}
@@ -423,6 +438,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 					OC_Share::setTarget($oldTarget, $newTarget);
 				}
 			}
+			$this->clearFolderSizeCache($this->getInternalPath($oldTarget));
+			$this->clearFolderSizeCache($this->getInternalPath($newTarget));
 		}
 		return true;
 	}
