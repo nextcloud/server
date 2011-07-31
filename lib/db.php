@@ -361,4 +361,37 @@ class OC_DB {
 			self::dropTable($name);
 		}
 	}
+	
+	/**
+	 * Start a transaction or set a savepoint.
+	 * @param string $savePoint (optional) name of the savepoint to set
+	 */
+	public static function beginTransaction($savePoint=''){
+		if (!self::$DBConnection->supports('transactions')) {
+			return false;
+		}
+		if($savePoint && !self::$DBConnection->supports('savepoints')){
+			return false;
+		}
+		if($savePoint){
+			self::$DBConnection->beginTransaction($savePoint);
+		}else{
+			self::$DBConnection->beginTransaction();
+		}
+	}
+
+	/**
+	 * Commit the database changes done during a transaction that is in progress or release a savepoint.
+	 * @param string $savePoint (optional) name of the savepoint to commit
+	 */
+	public static function commit($savePoint=''){
+		if(!self::$DBConnection->inTransaction()){
+			return false;
+		}
+		if($savePoint){
+			self::$DBConnection->commit($savePoint);
+		}else{
+			self::$DBConnection->commit();
+		}
+	}
 }
