@@ -8,7 +8,17 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 			if(OC_Filesystem::is_dir($file)){
 				$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'index.php?dir='.$file ),'Files');
 			}else{
-				$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'download.php?file='.$file ),'Files');
+				$mime=OC_Filesystem::getMimeType($file);
+				$mimeBase=substr($mime,0,strpos($mime,'/'));
+				switch($mimeBase){
+					case 'audio':
+						break;
+					case 'image':
+						$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'download.php?file='.$file ),'Images');
+						break;
+					default:
+						$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'download.php?file='.$file ),'Files');
+				}
 			}
 		}
 		return $results;
