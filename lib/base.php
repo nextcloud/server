@@ -92,6 +92,13 @@ if( !OC_Config::getValue( "installed", false )){
 OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
 
+// Add the stuff we need always
+OC_Util::addScript( "jquery-1.6.2.min" );
+OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
+OC_Util::addScript( "js" );
+OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
+OC_Util::addStyle( "styles" );
+
 // Load Apps
 // This includes plugins for users and filesystems as well
 if(!$error and !$RUNTIME_NOAPPS ){
@@ -105,13 +112,6 @@ OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir
 if(!$error and !$RUNTIME_NOSETUPFS ){
 	OC_Util::setupFS();
 }
-
-// Add the stuff we need always
-OC_Util::addScript( "jquery-1.6.2.min" );
-OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
-OC_Util::addScript( "js" );
-OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
-OC_Util::addStyle( "styles" );
 
 
 // FROM Connect.php
