@@ -47,4 +47,9 @@ $(document).ready(function() {
 	FileActions.register('application/ogg','','Play',playAudio);
 	FileActions.setDefault('audio','Play');
 	FileActions.setDefault('application/ogg','Play');
+	if(typeof localStorage !== 'undefined'){
+		if(localStorage.hasOwnProperty('oc_playlist_items')){
+			loadPlayer();
+		}
+	}
 });

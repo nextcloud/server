@@ -41,6 +41,7 @@ $(document).ready(function(){
 		});
 		row.find('div.name').append(button);
 	}
+	PlayList.init();
 });
 
 

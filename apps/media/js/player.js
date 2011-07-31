@@ -33,11 +33,13 @@ var PlayList={
 					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
 					PlayList.items[index].playcount++;
 					PlayList.player.jPlayer("play");
-					if(Collection){
+					if (typeof Collection !== 'undefined') {
 						Collection.registerPlay();
 					}
 				}
 			}else{
+				localStorage.setItem('oc_playlist_current',PlayList.current);
+				localStorage.setItem('oc_playlist_playing','true');
 				PlayList.init(PlayList.items[index].type,PlayList.play);
 			}
 		}
@@ -62,6 +64,7 @@ var PlayList={
 			ended:PlayList.next,
 			supplied:type,
 			ready:function(){
+				PlayList.load();
 				if(ready){
 					ready();
 				}
@@ -93,6 +96,7 @@ var PlayList={
 			item[type]=PlayList.urlBase+encodeURIComponent(song.song_path);
 			PlayList.items.push(item);
 		}
+		PlayList.save();
 	},
 	addFile:function(path){
 		var type=musicTypeFromFile(path);
@@ -115,6 +119,23 @@ var PlayList={
 			return false;
 		}else{
 			return !PlayList.player.data("jPlayer").status.paused;
+		}
+	},
+	save:function(){
+		if(typeof localStorage !== 'undefined'){
+			localStorage.setItem('oc_playlist_items',JSON.stringify(PlayList.items));
+		}
+	},
+	load:function(){
+		if(typeof localStorage !== 'undefined'){
+			if(localStorage.hasOwnProperty('oc_playlist_items')){
+				PlayList.items=JSON.parse(localStorage.getItem('oc_playlist_items'));
+				PlayList.current=parseInt((localStorage.getItem('oc_playlist_current')));
+				if(JSON.parse(localStorage.getItem('oc_playlist_playing'))){
+					PlayList.play();
+				}
+				PlayList.render();
+			}
 		}
 	}
 }
