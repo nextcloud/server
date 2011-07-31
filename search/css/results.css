@@ -6,3 +6,4 @@
 #searchresults td.result{width:30em;}
 #searchresults td.result *{cursor:pointer}
 #searchresults td.type{width:7em;text-align:right; border-right:1px solid #aaa;border-bottom:none}
+#searchresults tr.current{background-color:#ddd}
