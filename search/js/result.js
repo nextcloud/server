@@ -16,6 +16,9 @@ OC.search.hide=function(){
 	};
 }
 OC.search.showResults=function(results){
+	if(results.length==0){
+		return;
+	}
 	if(!OC.search.showResults.loaded){
 		var parent=$('<div/>');
 		$('body').append(parent);
