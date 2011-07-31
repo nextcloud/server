@@ -22,9 +22,7 @@
 
 require_once('apps/media/lib_media.php');
 
-if(OC_App::getCurrentApp()=='files'){
-	OC_Util::addScript('media','files');
-}
+OC_Util::addScript('media','loader');
 
 OC_App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 
