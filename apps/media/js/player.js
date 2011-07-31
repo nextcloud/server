@@ -96,7 +96,12 @@ var PlayList={
 	},
 	addFile:function(path){
 		var type=musicTypeFromFile(path);
-		var item={name:'unknown',artist:'unknown',album:'unknwon',type:type};//todo get song data
+		var item={name:'unknown',artist:'unknown',album:'unknwon',type:type};
+		$.getJSON(OC.filePath('media','ajax','api.php')+'?action=get_path_info&path='+encodeURIComponent(path),function(song){
+			item.name=song.song_name;
+			item.artist=song.artist;
+			item.album=song.album;
+		});
 		item[type]=PlayList.urlBase+encodeURIComponent(path);
 		PlayList.items.push(item);
 	},

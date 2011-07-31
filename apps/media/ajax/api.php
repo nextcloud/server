@@ -107,6 +107,19 @@ if($arguments['action']){
 		case 'get_songs':
 			echo json_encode(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
 			break;
+		case 'get_path_info':
+			$songId=OC_MEDIA_COLLECTION::getSongByPath($arguments['path']);
+			if($songId==0){
+				unset($_SESSION['collection']);
+				$songId= OC_MEDIA_SCANNER::scanFile($arguments['path']);
+			}
+			if($songId>0){
+				$song=OC_MEDIA_COLLECTION::getSong($songId);
+				$song['artist']=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
+				$song['album']=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
+				echo json_encode($song);
+			}
+			break;
 		case 'play':
 			ob_end_clean();
 			
