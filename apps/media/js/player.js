@@ -33,13 +33,13 @@ var PlayList={
 					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
 					PlayList.items[index].playcount++;
 					PlayList.player.jPlayer("play");
+					localStorage.setItem('oc_playlist_current',index);
+					localStorage.setItem('oc_playlist_playing','true');
 					if (typeof Collection !== 'undefined') {
 						Collection.registerPlay();
 					}
 				}
 			}else{
-				localStorage.setItem('oc_playlist_current',PlayList.current);
-				localStorage.setItem('oc_playlist_playing','true');
 				PlayList.init(PlayList.items[index].type,PlayList.play);
 			}
 		}
