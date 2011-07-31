@@ -35,6 +35,18 @@ var PlayList={
 					PlayList.player.jPlayer("play");
 					localStorage.setItem('oc_playlist_current',index);
 					localStorage.setItem('oc_playlist_playing','true');
+					if(index>=0){
+						var previous=index-1;
+					}else{
+						var previous=PlayList.items.length-1;
+					}
+					if(index+1<PlayList.items.length){
+						var next=index+1;
+					}else{
+						var next=0;
+					}
+					$('.jp-next').attr('title',PlayList.items[next].name);
+					$('.jp-previous').attr('title',PlayList.items[previous].name);
 					if (typeof Collection !== 'undefined') {
 						Collection.registerPlay();
 					}
