@@ -21,7 +21,7 @@ $(document).ready(function(){
 		var data={};
 		for(var i=0;i<parts.length;i++){
 			var itemParts=parts[i].split('=');
-			data[itemParts[0]]=decodeURIComponent(itemParts[1]).replace(/\+/g,' ');
+			data[itemParts[0]]=itemParts[1].replace(/\+/g,' ');
 		}
 		var media=Collection.find(data.artist,data.album,data.song);
 		var a=row.find('a');
@@ -52,7 +52,7 @@ function getUrlVars(){
 	{
 		hash = hashes[i].split('=');
 		vars.push(hash[0]);
-		vars[hash[0]] = decodeURIComponent(hash[1]).replace(/\+/g,' ');
+		vars[hash[0]] = hash[1].replace(/\+/g,' ');
 	}
 	return vars;
 }
