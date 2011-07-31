@@ -402,10 +402,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 					OC_Share::setTarget($target, "/");
 				} else {
 					OC_Share::pullOutOfFolder($target, "/");
-					// If this is a folder being deleted, call setTarget in case there are any database entries inside the folder
-					if (self::is_dir($path)) {
-						OC_Share::setTarget($target, "/");
-					}
 				}
 			// Delete the database entry
 			} else {
@@ -440,8 +436,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			}
 			$this->clearFolderSizeCache($this->getInternalPath($oldTarget));
 			$this->clearFolderSizeCache($this->getInternalPath($newTarget));
+			return true;
 		}
-		return true;
 	}
 	
 	public function copy($path1, $path2) {
@@ -502,10 +498,30 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function delTree($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->delTree($this->getInternalPath($source));
+		$target = $this->datadir.$path;
+		if (OC_Share::getPermissions($target) & OC_Share::DELETE) {
+			$source = $this->getSource($path);
+			if ($source) {
+				$storage = OC_Filesystem::getStorage($source);
+				return $storage->delTree($this->getInternalPath($source));
+			}
+		} else {
+			// Check if the folder is inside a shared folder
+			if (OC_Share::getParentFolders($target)) {
+				// If entry for folder already exists
+				if (OC_Share::getItem($target)) {
+					OC_Share::setTarget($target, "/");
+				} else {
+					OC_Share::pullOutOfFolder($target, "/");
+					// Call setTarget in case there are any database entries for items inside this folder
+					OC_Share::setTarget($target, "/");
+				}
+			// Delete the database entry
+			} else {
+				OC_Share::unshareFromMySelf($target);
+			}
+			$this->clearFolderSizeCache($this->getInternalPath($target));
+			return true;
 		}
 	}
 	
