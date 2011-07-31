@@ -49,9 +49,11 @@ $(document).ready(function() {
 		FileActions.setDefault('audio','Play');
 		FileActions.setDefault('application/ogg','Play');
 	}
-	if(typeof localStorage !== 'undefined'){
-		if(localStorage.hasOwnProperty('oc_playlist_items')){
-			loadPlayer();
+	if(typeof PlayList==='undefined'){
+		if(typeof localStorage !== 'undefined'){
+			if(localStorage.hasOwnProperty('oc_playlist_items')){
+				loadPlayer();
+			}
 		}
 	}
 });
