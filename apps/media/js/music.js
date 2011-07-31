@@ -13,9 +13,11 @@ $(document).ready(function(){
 		Collection.hide();
 	});
 	var tab=window.location.href.slice(window.location.href.indexOf('#') + 1);
-	if(tab=='collection'){
-		$('#plugins a[href="#collection"]').trigger('click');
-	}
+	PlayList.init('mp3',function(){
+		if(tab=='collection'){
+			$('#plugins a[href="#collection"]').trigger('click');
+		}
+	});
 	OC.search.customResults.Music=function(row,item){
 		var parts=item.link.substr(item.link.indexOf('#')+1).split('&');
 		var data={};
@@ -41,7 +43,6 @@ $(document).ready(function(){
 		});
 		row.find('div.name').append(button);
 	}
-	PlayList.init();
 });
 
 

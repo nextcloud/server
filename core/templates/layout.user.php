@@ -9,6 +9,7 @@
 		<?php endforeach; ?>
 		<script type="text/javascript">
 			var oc_webroot = '<?php global $WEBROOT; echo $WEBROOT; ?>';
+			var oc_current_user = '<?php echo OC_User::getUser() ?>';
 		// </script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>

@@ -33,9 +33,9 @@ var PlayList={
 					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
 					PlayList.items[index].playcount++;
 					PlayList.player.jPlayer("play");
-					localStorage.setItem('oc_playlist_current',index);
-					localStorage.setItem('oc_playlist_playing','true');
-					if(index>=0){
+					localStorage.setItem(oc_current_user+'oc_playlist_current',index);
+					localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
+					if(index>0){
 						var previous=index-1;
 					}else{
 						var previous=PlayList.items.length-1;
@@ -135,15 +135,15 @@ var PlayList={
 	},
 	save:function(){
 		if(typeof localStorage !== 'undefined'){
-			localStorage.setItem('oc_playlist_items',JSON.stringify(PlayList.items));
+			localStorage.setItem(oc_current_user+'oc_playlist_items',JSON.stringify(PlayList.items));
 		}
 	},
 	load:function(){
 		if(typeof localStorage !== 'undefined'){
-			if(localStorage.hasOwnProperty('oc_playlist_items')){
-				PlayList.items=JSON.parse(localStorage.getItem('oc_playlist_items'));
-				PlayList.current=parseInt((localStorage.getItem('oc_playlist_current')));
-				if(JSON.parse(localStorage.getItem('oc_playlist_playing'))){
+			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items')){
+				PlayList.items=JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_items'));
+				PlayList.current=parseInt((localStorage.getItem(oc_current_user+'oc_playlist_current')));
+				if(JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_playing'))){
 					PlayList.play();
 				}
 				PlayList.render();
