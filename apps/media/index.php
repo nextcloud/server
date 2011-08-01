@@ -37,6 +37,7 @@ OC_Util::addScript('media','player');
 OC_Util::addScript('media','music');
 OC_Util::addScript('media','playlist');
 OC_Util::addScript('media','collection');
+OC_Util::addScript('media','scanner');
 OC_Util::addScript('media','jquery.jplayer.min');
 OC_Util::addStyle('media','player');
 OC_Util::addStyle('media','music');

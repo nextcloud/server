@@ -53,6 +53,7 @@ if(!isset($arguments['search'])){
 	$arguments['search']='';
 }
 OC_MEDIA_COLLECTION::$uid=OC_User::getUser();
+unset($_SESSION['collection']);
 if($arguments['action']){
 	switch($arguments['action']){
 		case 'delete':
@@ -108,16 +109,18 @@ if($arguments['action']){
 			echo json_encode(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
 			break;
 		case 'get_path_info':
-			$songId=OC_MEDIA_COLLECTION::getSongByPath($arguments['path']);
-			if($songId==0){
-				unset($_SESSION['collection']);
-				$songId= OC_MEDIA_SCANNER::scanFile($arguments['path']);
-			}
-			if($songId>0){
-				$song=OC_MEDIA_COLLECTION::getSong($songId);
-				$song['artist']=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
-				$song['album']=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
-				echo json_encode($song);
+			if(OC_Filesystem::file_exists($arguments['path'])){
+				$songId=OC_MEDIA_COLLECTION::getSongByPath($arguments['path']);
+				if($songId==0){
+					unset($_SESSION['collection']);
+					$songId= OC_MEDIA_SCANNER::scanFile($arguments['path']);
+				}
+				if($songId>0){
+					$song=OC_MEDIA_COLLECTION::getSong($songId);
+					$song['artist']=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
+					$song['album']=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
+					echo json_encode($song);
+				}
 			}
 			break;
 		case 'play':
@@ -137,7 +140,30 @@ if($arguments['action']){
 			
 			OC_Filesystem::readfile($arguments['path']);
 			exit;
+		case 'find_music':
+			echo json_encode(findMusic());
+			exit;
 	}
+}
+
+function findMusic($path='/'){
+	$music=array();
+	$dh=OC_Filesystem::opendir($path);
+	if($dh){
+		while($filename=readdir($dh)){
+			if($filename[0]!='.'){
+				$file=$path.'/'.$filename;
+				if(OC_Filesystem::is_dir($file)){
+					$music=array_merge($music,findMusic($file));
+				}else{
+					if(OC_MEDIA_SCANNER::isMusic($filename)){
+						$music[]=$file;
+					}
+				}
+			}
+		}
+	}
+	return $music;
 }
 
 ?>

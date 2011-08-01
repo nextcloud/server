@@ -1,3 +1,9 @@
+<div id='scan'>
+	<p><span class='songCount'>0</span> Songs scanned</p>
+	<div id="scanprogressbar"></div>
+	<input type='button' class='start' value='Recan'></input>
+	<input type='button' class='stop' style='display:none' value='Pause'></input>
+</div>
 <ul id='collection'>
 	<li class='artist'>
 		<img src="<?php echo image_path('files','loading.gif') ?>" alt='loading'/>Loading Collection...
@@ -8,3 +14,4 @@
 		<button class='play'>Play</button>
 	</li>
 </ul>
+

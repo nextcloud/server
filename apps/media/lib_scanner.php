@@ -88,8 +88,7 @@ class OC_MEDIA_SCANNER{
 				return; //invalid mp3 file
 			}
 		}else{
-			$mimetype=OC_Filesystem::getMimeType($path);
-			if(substr($mimetype,0,4)!=='audio'){
+			if(!self::isMusic($path)){
 				return;
 			}
 			if(!self::$getID3){
@@ -140,5 +139,15 @@ class OC_MEDIA_SCANNER{
 		}
 		$songId=OC_MEDIA_COLLECTION::addSong($title,$path,$artistId,$albumId,$length,$track,$size);
 		return (!($title=='unkown' && $artist=='unkown' && $album=='unkown'))?$songId:0;
+	}
+
+	/**
+	 * quick check if a song is a music file by checking the extention, not as good as a proper mimetype check but way faster
+	 * @param string $filename
+	 * @return bool
+	 */
+	public static function isMusic($filename){
+		$ext=substr($filename,strrpos($filename,'.')+1);
+		return $ext=='mp3' || $ext=='flac' || $ext=='m4a' || $ext=='ogg' || $ext=='oga';
 	}
 }
