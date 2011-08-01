@@ -19,7 +19,7 @@ var PlayList={
 		PlayList.play(next);
 		PlayList.render();
 	},
-	play:function(index){
+	play:function(index,ready){
 		if(index==null){
 			index=PlayList.current;
 		}
@@ -28,13 +28,12 @@ var PlayList={
 			if(PlayList.player){
 				if(PlayList.player.data('jPlayer').options.supplied!=PlayList.items[index].type){//the the audio type changes we need to reinitialize jplayer
 					PlayList.player.jPlayer("destroy");
-					PlayList.init(PlayList.items[index].type,PlayList.play);
+					PlayList.init(PlayList.items[index].type,function(){PlayList.play(null,ready)});
 				}else{
 					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
 					PlayList.items[index].playcount++;
 					PlayList.player.jPlayer("play");
 					localStorage.setItem(oc_current_user+'oc_playlist_current',index);
-					localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
 					if(index>0){
 						var previous=index-1;
 					}else{
@@ -49,6 +48,9 @@ var PlayList={
 					$('.jp-previous').attr('title',PlayList.items[previous].name);
 					if (typeof Collection !== 'undefined') {
 						Collection.registerPlay();
+					}
+					if(ready){
+						ready();
 					}
 				}
 			}else{
@@ -74,6 +76,12 @@ var PlayList={
 		}
 		$(PlayList.player).jPlayer({
 			ended:PlayList.next,
+			pause:function(){
+				localStorage.setItem(oc_current_user+'oc_playlist_playing','false');
+			},
+			play:function(){
+				localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
+			},
 			supplied:type,
 			ready:function(){
 				PlayList.load();
@@ -145,6 +153,10 @@ var PlayList={
 				PlayList.current=parseInt((localStorage.getItem(oc_current_user+'oc_playlist_current')));
 				if(JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_playing'))){
 					PlayList.play();
+				}else{
+					PlayList.play(null,function(){
+						PlayList.player.jPlayer("pause");
+					});
 				}
 				PlayList.render();
 			}
