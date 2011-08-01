@@ -107,8 +107,6 @@ if(!$error and !$RUNTIME_NOAPPS ){
 
 // Was in required file ... put it here
 OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
-require_once('apps/files_sharing/sharedstorage.php');
-OC_Filesystem::registerStorageType('shared','OC_Filestorage_Shared',array('datadir'=>'string'));
 
 // Set up file system unless forbidden
 if(!$error and !$RUNTIME_NOSETUPFS ){
