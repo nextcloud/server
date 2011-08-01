@@ -1,5 +1,5 @@
 * { margin:0; padding:0; border:0; cursor:default; }
-body { background:#fefefe url('../img/body_background.jpg') repeat-y left top; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
+body { background:#fefefe; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
 #header { position:fixed; top:0; z-index:100; width:100%; height:2.5em; padding:0.5em 1.5em; background:#1d2d44; -moz-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; box-shadow:0 0 10px #000, inset 0 -2px 10px #222; }
 #body-settings #header { background:#313131; }
 #owncloud { float:left; }
@@ -83,7 +83,7 @@ form.searchbox { display:inline; position:fixed; top:.9em; right:9em; margin:0; 
 input[type="search"] { font-size:1em; padding-left:2em; background:#eee url('../img/actions/search.png') .5em center no-repeat; }
 
 /* NAVIGATION ------------------------------------------------------------- */
-#plugins { position:fixed; top:3.5em; float:left; width:15.7em; padding:0; z-index:50; }
+#plugins { position:fixed; top:3.5em; float:left; width:15.7em; padding:0; z-index:50; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; } }
 #plugins ul { list-style-type:none; border-top:1px solid #ccc; }
 #plugins a { display:block; padding:0.5em 0.5em 0.5em 3em; background-position:1.5em center; background-repeat:no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; }
 #plugins a.active, #plugins a:hover, #plugins a:focus, #plugins a.selected { background-color:#ccc; border-top:1px solid #ccc; border-bottom:1px solid #ccc; color:#000; outline:0; }
