@@ -3,6 +3,7 @@ var PlayList={
 	current:-1,
 	items:[],
 	player:null,
+	volume:0.8,
 	next:function(){
 		var next=PlayList.current+1;
 		if(next>=PlayList.items.length){
@@ -19,7 +20,7 @@ var PlayList={
 		PlayList.play(next);
 		PlayList.render();
 	},
-	play:function(index,ready){
+	play:function(index,time,ready){
 		if(index==null){
 			index=PlayList.current;
 		}
@@ -28,11 +29,11 @@ var PlayList={
 			if(PlayList.player){
 				if(PlayList.player.data('jPlayer').options.supplied!=PlayList.items[index].type){//the the audio type changes we need to reinitialize jplayer
 					PlayList.player.jPlayer("destroy");
-					PlayList.init(PlayList.items[index].type,function(){PlayList.play(null,ready)});
+					PlayList.init(PlayList.items[index].type,function(){PlayList.play(null,time,eady)});
 				}else{
 					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
 					PlayList.items[index].playcount++;
-					PlayList.player.jPlayer("play");
+					PlayList.player.jPlayer("play",time);
 					localStorage.setItem(oc_current_user+'oc_playlist_current',index);
 					if(index>0){
 						var previous=index-1;
@@ -82,6 +83,14 @@ var PlayList={
 			play:function(){
 				localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
 			},
+			timeupdate:function(){
+				var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
+				localStorage.setItem(oc_current_user+'oc_playlist_time',time);
+			},
+			volumechange:function(){
+				var volume=PlayList.player.data('jPlayer').options.volume*100;
+				localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
+			},
 			supplied:type,
 			ready:function(){
 				PlayList.load();
@@ -89,6 +98,7 @@ var PlayList={
 					ready();
 				}
 			},
+			volume:PlayList.volume,
 			cssSelectorAncestor:'#jp-interface',
 			swfPath:OC.linkTo('media','js'),
 		});
@@ -150,11 +160,20 @@ var PlayList={
 		if(typeof localStorage !== 'undefined'){
 			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items')){
 				PlayList.items=JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_items'));
-				PlayList.current=parseInt((localStorage.getItem(oc_current_user+'oc_playlist_current')));
+				PlayList.current=parseInt(localStorage.getItem(oc_current_user+'oc_playlist_current'));
+				var time=parseInt(localStorage.getItem(oc_current_user+'oc_playlist_time'));
+				if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_volume')){
+					var volume=localStorage.getItem(oc_current_user+'oc_playlist_volume');
+					PlayList.volume=volume/100;
+					$('.jp-volume-bar-value').css('width',volume+'%');
+					if(PlayList.player.data('jPlayer')){
+						PlayList.player.jPlayer("option",'volume',volume/100);
+					}
+				}
 				if(JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_playing'))){
-					PlayList.play();
+					PlayList.play(null,time);
 				}else{
-					PlayList.play(null,function(){
+					PlayList.play(null,time,function(){
 						PlayList.player.jPlayer("pause");
 					});
 				}

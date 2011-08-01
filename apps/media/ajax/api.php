@@ -132,6 +132,7 @@ if($arguments['action']){
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: public');
+			header('Accept-Ranges: bytes');
 			header('Content-Length: '.OC_Filesystem::filesize($arguments['path']));
 			
 			OC_Filesystem::readfile($arguments['path']);
