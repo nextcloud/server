@@ -82,6 +82,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', end
 form.searchbox { display:inline; position:fixed; top:.9em; right:9em; margin:0; padding:0; }
 input[type="search"] { font-size:1em; padding-left:2em; background:#eee url('../img/actions/search.png') .5em center no-repeat; }
 
+
+
 /* NAVIGATION ------------------------------------------------------------- */
 #plugins { position:fixed; top:3.5em; float:left; width:15.7em; padding:0; z-index:50; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; } }
 #plugins ul { list-style-type:none; border-top:1px solid #ccc; }
