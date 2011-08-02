@@ -117,7 +117,17 @@ class OC_Share {
 		$query = OC_DB::prepare("SELECT uid_owner, source, permissions FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ? LIMIT 1");
 		return $query->execute(array($target, OC_User::getUser()))->fetchAll();
 	}
-	
+
+	 /**
+	 * Get the item with the specified source location
+	 * @param $source The source location of the item
+	 * @return An array with the users and permissions the item is shared with
+	 */
+	public static function getMySharedItem($source) {
+		$source = self::cleanPath($source);
+		$query = OC_DB::prepare("SELECT uid_shared_with, permissions FROM *PREFIX*sharing WHERE source = ? AND uid_owner = ?");
+		return $query->execute(array($source, OC_User::getUser()))->fetchAll();
+	}
 	/**
 	 * Get all items the current user is sharing
 	 * @return An array with all items the user is sharing
