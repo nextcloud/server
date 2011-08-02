@@ -22,6 +22,7 @@
 */
 
 //require_once('../../config/config.php');
+/*
 require_once('../lib/base.php');
 
 if( !OC_User::isLoggedIn()){
@@ -103,4 +104,4 @@ $tmpl->assign( 'size', $pageSize );
 $tmpl->assign( 'showActions', $showActions );
 $tmpl->printPage();
 
-?>
+*/ ?>

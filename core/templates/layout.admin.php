@@ -37,7 +37,7 @@
 		</div>
 
 		<div id="main">
-			<div id="plugins">
+			<div id="navigation">
 				<ul>
 					<?php foreach($_['settingsnavigation'] as $entry):?>
 						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>

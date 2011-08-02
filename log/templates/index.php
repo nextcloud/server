@@ -1,4 +1,4 @@
-<div class="controls">
+<?php /*<div class="controls">
 	<form id="logs_options" method='post'>
 		<p>
 			<span><?php echo $l->t( 'Filter:' ); ?></span>
@@ -50,5 +50,4 @@
 		</p>
 	</form>
 </div>
-
-
+*/ ?>

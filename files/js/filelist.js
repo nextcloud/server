@@ -12,8 +12,8 @@ FileList={
 			var basename=name;
 			var extention=false;
 		}
-		html+='<td class="filename"><input type="checkbox" />';
-		html+='<a class="name" style="background-image:url('+img+')" href="download.php?file='+$('#dir').val()+'/'+name+'"><span class="nametext">'+basename
+		html+='<td class="filename" style="background-image:url('+img+')"><input type="checkbox" />';
+		html+='<a class="name" href="download.php?file='+$('#dir').val()+'/'+name+'"><span class="nametext">'+basename
 		if(extention){
 			html+='<span class="extention">'+extention+'</span>';
 		}
@@ -38,7 +38,7 @@ FileList={
 	},
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir" data-size="'+size+'">';
-		html+='<td class="filename"><input type="checkbox" /><a class="name" style="background-image:url(img/folder.png)" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
+		html+='<td class="filename" style="background-image:url(img/folder.png)"><input type="checkbox" /><a class="name" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
 		if(size!='Pending'){
 			simpleSize=simpleFileSize(size);
 		}else{
@@ -103,7 +103,7 @@ FileList={
 	loadingDone:function(name){
 		$('tr[data-file="'+name+'"]').data('loading',false);
 		var mime=$('tr[data-file="'+name+'"]').data('mime');
-		$('tr[data-file="'+name+'"] td.filename a').attr('style','background-image:url('+getMimeIcon(mime)+')');
+		$('tr[data-file="'+name+'"] td.filename').attr('style','background-image:url('+getMimeIcon(mime)+')');
 		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
 	},
 	isLoading:function(name){
