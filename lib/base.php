@@ -28,6 +28,30 @@ class OC{
 	 * Assoziative array for autoloading. classname => filename
 	 */
 	public static $CLASSPATH = array();
+	/**
+	 * $_SERVER['DOCUMENTROOT'] but without symlinks
+	 */
+	public static $DOCUMENTROOT = '';
+	/**
+	 * TODO: What's this for?
+	 */
+	public static $SERVERROOT = '';
+	/**
+	 * TODO: What's this for?
+	 */
+	public static $SUBURI = '';
+	/**
+	 * TODO: What's this for?
+	 */
+	public static $WEBROOT = '';
+	/**
+	 * TODO: What's this for?
+	 */
+	public static $CONFIG_DATADIRECTORY = '';
+	/**
+	 * TODO: What's this for?
+	 */
+	public static $CONFIG_DATADIRECTORY_ROOT = '';
 }
 
 // Get rid of this stupid require_once OC_...
@@ -52,9 +76,8 @@ ini_set('session.cookie_httponly','1;');
 session_start();
 
 // calculate the documentroot
-$SERVERROOT=substr(__FILE__,0,-13);
 $DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
-$SERVERROOT=str_replace("\\",'/',$SERVERROOT);
+$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
 $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
 $scriptName=$_SERVER["SCRIPT_NAME"];
 if(substr($scriptName,-1)=='/'){
