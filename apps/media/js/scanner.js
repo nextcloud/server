@@ -1,6 +1,7 @@
 Scanner={
 	songsFound:0,
 	songsScanned:0,
+	songsChecked:0,
 	startTime:null,
 	endTime:null,
 	stopScanning:false,
@@ -18,6 +19,7 @@ Scanner={
 	scanFile:function(path,ready){
 		path=encodeURIComponent(path);
 		$.getJSON(OC.linkTo('media','ajax/api.php')+'?action=get_path_info&path='+path,function(song){
+			Scanner.songsChecked++;
 			if(ready){
 				ready(song);
 			}
@@ -25,7 +27,7 @@ Scanner={
 				var artistId=song.song_artist;
 				Scanner.songsScanned++;
 				$('#scan span.songCount').text(Scanner.songsScanned);
-				var progress=(Scanner.songsScanned/Scanner.songsFound)*100;
+				var progress=(Scanner.songsChecked/Scanner.songsFound)*100;
 				$('#scanprogressbar').progressbar('value',progress)
 				Collection.addSong(song);
 			}
@@ -35,6 +37,8 @@ Scanner={
 		$('#scanprogressbar').progressbar({
 			value:0,
 		});
+		Scanner.songsChecked=0;
+		Scanner.songsScanned=0;
 		Scanner.startTime=new Date().getTime()/1000;
 		Scanner.findSongs(function(songs){
 			Scanner.songs=songs;
