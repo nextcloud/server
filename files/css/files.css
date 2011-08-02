@@ -43,7 +43,7 @@ table thead.fixed tr{position:fixed; top:6.4em;z-index:100;}
 table thead.fixed {height:2em}
 #fileList tr input[type=checkbox] { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
 #fileList tr input[type=checkbox]:checked, #fileList tr:hover input[type=checkbox] { display:inline; }
-#fileList tr.selected td.filename a, #fileList tr:hover td.filename a { background-image:none !important }
+#fileList tr.selected td.filename , #fileList tr:hover td.filename { background-image:none !important }
 #select_all { float:left; margin:0.2em; margin-left:0.6em; }
 #uploadsize-message,#delete-confirm { display:none; }
 .selectedActions a, a.file_action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
