@@ -116,4 +116,16 @@ $(document).ready(function() {
 		});
 		FileActions.setDefault('application/xml','View');
 	}
+	OC.search.customResults.Text=function(row,item){
+		var text=item.link.substr(item.link.indexOf('file=')+5);
+		var a=row.find('a');
+		a.data('file',text);
+		a.attr('href','#');
+		a.click(function(){
+			var file=$(this).data('file');
+			var text=file.split('/').pop();
+			var dir=file.substr(0,file.length-file.length-1);
+			TextViewer.showText(dir,text);
+		});
+	}
 });

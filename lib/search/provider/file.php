@@ -13,11 +13,18 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 				switch($mimeBase){
 					case 'audio':
 						break;
+					case 'text':
+						$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'download.php?file='.$file ),'Text');
+						break;
 					case 'image':
 						$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'download.php?file='.$file ),'Images');
 						break;
 					default:
-						$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'download.php?file='.$file ),'Files');
+						if($mime=='application/xml'){
+							$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'download.php?file='.$file ),'Text');
+						}else{
+							$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'download.php?file='.$file ),'Files');
+						}
 				}
 			}
 		}
