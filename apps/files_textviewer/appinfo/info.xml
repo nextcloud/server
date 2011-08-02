@@ -1,0 +1,14 @@
+<?xml version="1.0"?> 
+<plugin version='1.0'>
+	<info>
+		<id>textviewer</id>
+		<name>A simple text viewer for ownCloud</name>
+		<version>0.2</version>
+		<licence>AGPL</licence>
+		<author>Icewind</author>
+		<require>1.1</require>
+	</info>
+	<runtime>
+		<include>lib_textviewer.php</include>
+	</runtime>
+</plugin> 
