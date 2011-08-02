@@ -99,7 +99,7 @@ class OC_Setup {
 						//use the admin login data for the new database user
 
 						//add prefix to the mysql user name to prevent collissions
-						$dbusername='oc_mysql_'.$username;
+						$dbusername=substr('oc_mysql_'.$username,0,16);
 						//hash the password so we don't need to store the admin config in the config file
 						$dbpassword=md5(time().$password);
 						
