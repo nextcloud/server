@@ -20,9 +20,22 @@
  *
  */
 
+/**
+ * Class that is a namespace for all global OC variables
+ */
+class OC{
+	/**
+	 * Assoziative array for autoloading. classname => filename
+	 */
+	public static $CLASSPATH = array();
+}
+
 // Get rid of this stupid require_once OC_...
-function OC_autoload($className) {
-	if(strpos($className,'OC_')===0) {
+function OC_autoload($className){
+	if(array_key_exists($className,OC::$CLASSPATH)){
+		require_once OC::$CLASSPATH[$className];
+	}
+	elseif(strpos($className,'OC_')===0){
 		require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
 	}
 }
