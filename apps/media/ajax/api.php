@@ -125,11 +125,19 @@ if($arguments['action']){
 			OC_MEDIA_COLLECTION::registerPlay($songId);
 			
 			header('Content-Type:'.$ftype);
+			 // calc an offset of 24 hours
+			$offset = 3600 * 24;
+			// calc the string in GMT not localtime and add the offset
+			$expire = "Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT";
+			//output the HTTP header
+			Header($expire);
 			header('Expires: 0');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Cache-Control: max-age=3600, must-revalidate');
 			header('Pragma: public');
 			header('Accept-Ranges: bytes');
 			header('Content-Length: '.OC_Filesystem::filesize($arguments['path']));
+			$gmt_mtime = gmdate('D, d M Y H:i:s', OC_Filesystem::filemtime($arguments['path']) ) . ' GMT';
+			header("Last-Modified: " . $gmt_mtime );
 			
 			OC_Filesystem::readfile($arguments['path']);
 			exit;
