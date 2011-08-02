@@ -33,7 +33,7 @@ $(document).ready(function() {
 function createShareDialog(filenames, files) {
 	var html = "<div id='dialog'>";
 	html += "<div id='private'>";
-	html += "<label for='uid_shared_with'>Share with</label><input placeholder='User or Group' id='uid_shared_with' />";
+	html += "<label for='uid_shared_with'><strong>Share with</strong></label><input placeholder='User or Group' id='uid_shared_with' />";
 	html += "<input type='checkbox' name='permissions' id='permissions' value='1' /><label for='permissions'>allow editing</label><br />";
 	html += "<br />";
 	html += "<div id='shared_list'></div>";

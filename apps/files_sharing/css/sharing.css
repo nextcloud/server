@@ -1,0 +1,4 @@
+#dialog { display:block; position:absolute; z-index:100; width:25em; right:0; margin-right:3em; background:#eee; padding-bottom:1em;
+-moz-box-shadow:0 1px 1px #777; -webkit-box-shadow:0 1px 1px #777; box-shadow:0 1px 1px #777;
+-moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
+-moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
