@@ -20,12 +20,12 @@ class Sabre_CalDAV_ICalendarUtil {
      *
      * This method makes sure this ICalendar object is properly formatted.
      * If we can't parse it, we'll throw exceptions.
-     * 
+     *
      * @param string $icalData 
      * @param array $allowedComponents 
      * @return bool 
      */
-    static function validateICalendarObject($icalData, array $allowedComponents) {
+    static function validateICalendarObject($icalData, array $allowedComponents = null) {
 
         $xcal = simplexml_load_string(self::toXCal($icalData));
         if (!$xcal) throw new Sabre_CalDAV_Exception_InvalidICalendarObject('Invalid calendarobject format');
@@ -44,7 +44,9 @@ class Sabre_CalDAV_ICalendarUtil {
             throw new Sabre_CalDAV_Exception_InvalidICalendarObject('One VEVENT, VTODO, VJOURNAL or VFREEBUSY must be specified. 0 found.');
         }
         $component = $componentsFound[0];
-        
+
+        if (is_null($allowedComponents)) return true;
+
         // Check if the component is allowed
         $name = $component->getName();
         if (!in_array(strtoupper($name),$allowedComponents)) {

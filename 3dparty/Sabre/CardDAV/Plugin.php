@@ -391,7 +391,7 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
                 foreach($vProperties as $vProperty) {
                     // If we got all the way here, we'll need to validate the 
                     // text-match filter.
-                    $success = Sabre_DAV_StringUtil::textMatch($vProperty[$filter['name']]->value, $filter['text-match']['value'], $filter['text-match']['collation'], $filter['text-match']['matchType']);
+                    $success = Sabre_DAV_StringUtil::textMatch($vProperty[$filter['name']]->value, $filter['text-match']['value'], $filter['text-match']['collation'], $filter['text-match']['match-type']);
                     if ($success) break;
                 }
                 if ($filter['text-match']['negate-condition']) {
@@ -434,7 +434,7 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
             $success = false;
             foreach($texts as $haystack) {
-                $success = Sabre_DAV_StringUtil::textMatch($haystack, $filter['value'], $filter['collation'], $filter['matchType']);
+                $success = Sabre_DAV_StringUtil::textMatch($haystack, $filter['value'], $filter['collation'], $filter['match-type']);
 
                 // Breaking on the first match
                 if ($success) break;

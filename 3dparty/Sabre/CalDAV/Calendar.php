@@ -179,7 +179,12 @@ class Sabre_CalDAV_Calendar implements Sabre_DAV_ICollection, Sabre_DAV_IPropert
 
         $calendarData = stream_get_contents($calendarData);
 
-        $supportedComponents = $this->calendarInfo['{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}supported-calendar-component-set']->getValue();
+        $supportedComponents = $this->calendarInfo['{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}supported-calendar-component-set'];
+        if ($supportedComponents) {
+            $supportedComponents = $supportedComponents->getValue();
+        } else {
+            $supportedComponents = null;
+        }
         Sabre_CalDAV_ICalendarUtil::validateICalendarObject($calendarData, $supportedComponents);
 
         $this->caldavBackend->createCalendarObject($this->calendarInfo['id'],$name,$calendarData);

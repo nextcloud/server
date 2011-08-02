@@ -89,6 +89,7 @@ class Sabre_DAV_ObjectTree extends Sabre_DAV_Tree {
             list($parent, $base) = Sabre_DAV_URLUtil::splitPath($path);
 
             $parentNode = $this->getNodeForPath($parent);
+            if (!$parentNode instanceof Sabre_DAV_ICollection) return false;
             return $parentNode->childExists($base);
 
         } catch (Sabre_DAV_Exception_FileNotFound $e) {

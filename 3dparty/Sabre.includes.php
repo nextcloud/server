@@ -74,6 +74,7 @@ include 'Sabre/DAV/File.php';
 include 'Sabre/DAV/Directory.php';
 
 /* Utilities */
+include 'Sabre/DAV/SimpleCollection.php';
 include 'Sabre/DAV/SimpleDirectory.php';
 include 'Sabre/DAV/XMLUtil.php';
 include 'Sabre/DAV/URLUtil.php';

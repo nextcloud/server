@@ -13,7 +13,7 @@
 /**
  * The Card object represents a single Card from an addressbook
  */ 
-class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard {
+class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard, Sabre_DAVACL_IACL {
 
     /**
      * CardDAV backend
@@ -147,5 +147,75 @@ class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard {
         return strlen($this->cardData['carddata']);
 
     }
+
+    /**
+     * Returns the owner principal
+     *
+     * This must be a url to a principal, or null if there's no owner 
+     * 
+     * @return string|null
+     */
+    public function getOwner() {
+
+        return $this->addressBookInfo['principaluri'];
+
+    }
+
+    /**
+     * Returns a group principal
+     *
+     * This must be a url to a principal, or null if there's no owner
+     * 
+     * @return string|null 
+     */
+    public function getGroup() {
+
+        return null;
+
+    }
+
+    /**
+     * Returns a list of ACE's for this node.
+     *
+     * Each ACE has the following properties:
+     *   * 'privilege', a string such as {DAV:}read or {DAV:}write. These are 
+     *     currently the only supported privileges
+     *   * 'principal', a url to the principal who owns the node
+     *   * 'protected' (optional), indicating that this ACE is not allowed to 
+     *      be updated. 
+     * 
+     * @return array 
+     */
+    public function getACL() {
+
+        return array(
+            array(
+                'privilege' => '{DAV:}read',
+                'principal' => $this->addressBookInfo['principaluri'],
+                'protected' => true,
+            ),
+            array(
+                'privilege' => '{DAV:}write',
+                'principal' => $this->addressBookInfo['principaluri'],
+                'protected' => true,
+            ),
+        );
+
+    }
+
+    /**
+     * Updates the ACL
+     *
+     * This method will receive a list of new ACE's. 
+     * 
+     * @param array $acl 
+     * @return void
+     */
+    public function setACL(array $acl) {
+
+        throw new Sabre_DAV_Exception_MethodNotAllowed('Changing ACL is not yet supported');
+
+    }
+
 }
 

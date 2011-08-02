@@ -32,13 +32,19 @@ class Sabre_CardDAV_AddressBookRoot extends Sabre_DAVACL_AbstractPrincipalCollec
      *
      * This constructor needs both a principal and a carddav backend.
      *
+     * By default this class will show a list of addressbook collections for 
+     * principals in the 'principals' collection. If your main principals are 
+     * actually located in a different path, use the $principalPrefix argument 
+     * to override this.
+     *
      * @param Sabre_DAVACL_IPrincipalBackend $principalBackend 
-     * @param Sabre_CardDAV_Backend_Abstract $carddavBackend 
+     * @param Sabre_CardDAV_Backend_Abstract $carddavBackend
+     * @param string $principalPrefix 
      */
-    public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend,Sabre_CardDAV_Backend_Abstract $carddavBackend) {
+    public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend,Sabre_CardDAV_Backend_Abstract $carddavBackend, $principalPrefix = 'principals') {
 
         $this->carddavBackend = $carddavBackend;
-        parent::__construct($principalBackend);
+        parent::__construct($principalBackend, $principalPrefix);
 
     }
 

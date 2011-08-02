@@ -93,7 +93,12 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_DAVACL
         if (is_resource($calendarData))
             $calendarData = stream_get_contents($calendarData);
 
-        $supportedComponents = $this->calendarInfo['{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}supported-calendar-component-set']->getValue();
+        $supportedComponents = $this->calendarInfo['{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}supported-calendar-component-set'];
+        if ($supportedComponents) {
+            $supportedComponents = $supportedComponents->getValue();
+        } else {
+            $supportedComponents = null;
+        }
         Sabre_CalDAV_ICalendarUtil::validateICalendarObject($calendarData, $supportedComponents);
 
         $this->caldavBackend->updateCalendarObject($this->calendarInfo['id'],$this->objectData['uri'],$calendarData);

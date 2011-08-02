@@ -25,8 +25,15 @@ class Sabre_CalDAV_CalendarRootNode extends Sabre_DAVACL_AbstractPrincipalCollec
      *
      * This constructor needs both an authentication and a caldav backend.
      *
+     * By default this class will show a list of calendar collections for 
+     * principals in the 'principals' collection. If your main principals are 
+     * actually located in a different path, use the $principalPrefix argument 
+     * to override this.
+     *
+     *
      * @param Sabre_DAVACL_IPrincipalBackend $principalBackend 
      * @param Sabre_CalDAV_Backend_Abstract $caldavBackend 
+     * @param string $principalPrefix
      */
     public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend,Sabre_CalDAV_Backend_Abstract $caldavBackend, $principalPrefix = 'principals') {
 
