@@ -95,8 +95,12 @@ TextViewer.loadHighlighter=function(ready){
 				SyntaxHighlighter.vars.discoveredBrushes=null; //force the highlighter to refresh it's cache
 				if(ready){
 					ready();
-				};
+				}
 			});
+		}else{
+			if(ready){
+				ready();
+			};
 		}
 	});
 }
