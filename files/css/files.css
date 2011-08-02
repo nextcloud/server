@@ -21,6 +21,7 @@ tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; heig
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
 div.crumb { float:left; display:block; background:no-repeat right 0; padding:8px 1.5em 0 1em; height:28px; /*36-8*/ }
+div.crumb:first-child { padding-left:1.5em; }
 div.crumb:last-child { font-weight:bold; }
 table tr.mouseOver td { background-color:#eee; }
 table th { height:2em; padding:0 .5em; color:#999; }
@@ -48,4 +49,4 @@ table td.filename form { float:left; font-size:.85em; }
 .selectedActions a:hover, a.file_action:hover { background:#fff; -moz-box-shadow:0 0 10px #fff; -webkit-box-shadow:0 0 10px #fff; box-shadow:0 0 10px #fff; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#plugins>ul>li:first-child { background-position:15.7em 0px; background-repeat:no-repeat; background-image:url("/owncloud/core/img/breadcrumb-divider-start.png"); width:15.7em; padding-right:11px; }
+#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-divider-start.png') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }
