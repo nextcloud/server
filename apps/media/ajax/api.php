@@ -84,13 +84,6 @@ if($arguments['action']){
 			OC_DB::beginTransaction();
 			set_time_limit(0); //recursive scan can take a while
 			$path=$arguments['path'];
-			if(OC_Filesystem::is_dir($path)){
-				$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
-				if(array_search($path,$paths)===false){
-					$paths[]=$path;
-					OC_Preferences::setValue(OC_User::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
-				}
-			}
 			echo OC_MEDIA_SCANNER::scanFolder($path);
 			OC_DB::commit();
 			flush();
