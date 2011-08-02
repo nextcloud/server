@@ -49,3 +49,8 @@ table td.filename form { float:left; font-size:.85em; }
 
 /* add breadcrumb divider to the File item in navigation panel */
 #plugins>ul>li:first-child { background-position:15.7em 0px; background-repeat:no-repeat; background-image:url("/owncloud/core/img/breadcrumb-divider-start.png"); width:15.7em; padding-right:11px; }
+
+#dialog { display:block; position:absolute; z-index:100; width:25em; right:-10em; background:#eee; padding-bottom:1em;
+-moz-box-shadow:0 1px 2px #777; -webkit-box-shadow:0 1px 2px #777; box-shadow:0 1px 2px #777;
+-moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
+-moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
