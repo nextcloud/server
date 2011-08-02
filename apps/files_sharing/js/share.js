@@ -1,4 +1,11 @@
 $(document).ready(function() {
+	$('#dialog').live('mouseleave', function(event) {
+		if ($(this).is(':visible')) {
+			$(this).hide('blind', function() {
+			  $(this).remove();
+			});
+		}
+	});
 	FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
 		createShareDialog(filename, $('#dir').val()+'/'+filename);
 	});
@@ -31,7 +38,7 @@ $(document).ready(function() {
 });
 
 function createShareDialog(filenames, files) {
-	var html = "<div id='dialog'>";
+	var html = "<div id='dialog' style='display: none'>";
 	html += "<div id='private'>";
 	html += "<label for='uid_shared_with'><strong>Share with</strong></label><input placeholder='User or Group' id='uid_shared_with' />";
 	html += "<input type='checkbox' name='permissions' id='permissions' value='1' /><label for='permissions'>allow editing</label><br />";
@@ -49,11 +56,15 @@ function createShareDialog(filenames, files) {
 		$(list).appendTo('#shared_list');
 	});
 	html += "</div>";
+	html += "<hr />";
 	html += "<div id='public'>";
 	html += "<input type='checkbox' name='public_link' id='public_link' value='1' /><label for='public_link'>make public</label>";
 	html += "<input type='checkbox' name='public_link_write' id='public_link_write' value='1' /><label for='public_link_write'>allow upload</label>";
 	html += "<div id='link'>";
 	html += "</div>";
 	html += "</div>";
+	$('tr[data-file="'+filenames+'"]').addClass('mouseOver');
 	$(html).appendTo($('tr[data-file="'+filenames+'"] td.filename'));
+	$('#dialog').show('blind');
+
 }
