@@ -63,7 +63,6 @@ if($path!==false){
 		//get time mimetype and set the headers
 		$mimetype=OC_Filesystem::getMimeType($path);
 		header('Content-Transfer-Encoding: binary');
-		header('Content-Disposition: attachment; filename="'.basename($path).'"');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
