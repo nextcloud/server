@@ -38,9 +38,6 @@
 		</div>
 
 		<div id="main">
-			<div id="content">
-				<?php echo $_['content']; ?>
-			</div>
 			<div id="navigation">
 				<ul>
 					<?php foreach($_['navigation'] as $entry): ?>
@@ -55,6 +52,9 @@
 						</li>
 					<?php endforeach; ?>
 				</ul>
+			</div>
+			<div id="content">
+				<?php echo $_['content']; ?>
 			</div>
 		</div>
 	</body>
