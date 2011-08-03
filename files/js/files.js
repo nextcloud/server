@@ -92,43 +92,9 @@ $(document).ready(function() {
 	});
 	
 	$('.delete').click(function(event) {
-		var fileNames=getSelectedFiles('name');
-		var files=fileNames.join(';');
-		var lastFileName=fileNames.pop();
-		if(fileNames.length>0){
-			fileNames=fileNames.join(', ')+' and '+lastFileName;
-		}else{
-			fileNames=lastFileName;
-		}
-
-		$( "#delete-confirm" ).dialog({
-			resizable: false,
-			height:200,
-			modal: true,
-			title:"Delete "+fileNames,
-			buttons: {
-				"Delete": function() {
-					$( this ).dialog( "close" );
-					$.ajax({
-						url: 'ajax/delete.php',
-						data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(files),
-						complete: function(data){
-							boolOperationFinished(data, function(){
-								var files=getSelectedFiles('name');
-							for(var i=0;i<files.length;i++){
-								FileList.remove(files[i]);
-							}
-							procesSelection();
-							});
-						}
-					});
-				},
-				Cancel: function() {
-					$( this ).dialog( "close" );
-				}
-			}
-		});
-		
+		var files=getSelectedFiles('name');
+		event.preventDefault();
+		FileList.delete(files);
 		return false;
 	});
 

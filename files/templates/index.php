@@ -20,6 +20,7 @@
 	<div id="file_action_panel">
 	</div>
 </div>
+<div id='notification'></div>
 
 <table cellspacing="0">
 	<thead>

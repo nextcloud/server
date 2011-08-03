@@ -149,5 +149,66 @@ FileList={
 		input.blur(function(){
 			form.trigger('submit');
 		});
+	},
+	delete:function(files){
+		if(FileList.deleteFiles){//finish any ongoing deletes first
+			FileList.finishDelete(function(){
+				FileList.delete(files);
+			});
+			return;
+		}
+		if(files.substr){
+			files=[files];
+		}
+		$.each(files,function(index,file){
+			$('tr[data-file="'+file+'"]').hide();
+			$('tr[data-file="'+file+'"]').find('input[type="checkbox"]').removeAttr('checked');
+			$('tr[data-file="'+file+'"]').removeClass('selected');
+		});
+		procesSelection();
+		FileList.deleteCanceled=false;
+		FileList.deleteFiles=files;
+		$('#notification').text(files.length+' file'+((files.length>1)?'s':'')+' deleted, click here to undo');
+		
+		$('#notification').show();
+	},
+	finishDelete:function(ready,sync){
+		if(!FileList.deleteCanceled && FileList.deleteFiles){
+			var fileNames=FileList.deleteFiles.join(';');
+			$.ajax({
+				url: 'ajax/delete.php',
+				async:!sync,
+				data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(fileNames),
+				complete: function(data){
+					boolOperationFinished(data, function(){
+						$('#notification').hide();
+						$.each(FileList.deleteFiles,function(index,file){
+// 							alert(file);
+							FileList.remove(file);
+						});
+						FileList.deleteCanceled=true;
+						FileList.deleteFiles=null;
+						if(ready){
+							ready();
+						}
+					});
+				}
+			});
+		}
 	}
 }
+
+$(document).ready(function(){
+	$('#notification').click(function(){
+		FileList.deleteCanceled=true;
+		$('#notification').hide();
+		$.each(FileList.deleteFiles,function(index,file){
+			$('tr[data-file="'+file+'"]').show();
+// 			alert(file);
+		});
+		FileList.deleteFiles=null;
+	});
+	$(window).bind('beforeunload', function (){
+		FileList.finishDelete(null,true);
+	});
+});
