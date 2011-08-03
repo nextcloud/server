@@ -93,6 +93,7 @@ input[type="search"] { font-size:1em; padding-left:2em; background:#eee url('../
 
 /* CONTENT ------------------------------------------------------------------ */
 #content { margin:3.5em 0 0 12.5em; }
+#body-settings #content { padding:1em; }
 
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ddd; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
