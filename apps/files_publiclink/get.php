@@ -66,6 +66,7 @@ if($path!==false){
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
+		header('Content-Disposition: filename="'.basename($path).'"');
 		header('Content-Type: ' . $mimetype);
 		header('Content-Length: ' . OC_Filesystem::filesize($path));
 		
