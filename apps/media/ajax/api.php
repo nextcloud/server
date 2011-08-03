@@ -53,7 +53,6 @@ if(!isset($arguments['search'])){
 	$arguments['search']='';
 }
 OC_MEDIA_COLLECTION::$uid=OC_User::getUser();
-unset($_SESSION['collection']);
 if($arguments['action']){
 	switch($arguments['action']){
 		case 'delete':
