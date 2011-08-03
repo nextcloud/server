@@ -50,6 +50,7 @@ Scanner={
 	},
 	start:function(ready){
 		Scanner.stopScanning=false;
+		$('#scancount').show();
 		var scanSong=function(){
 			Scanner.currentIndex++;
 			if(!Scanner.stopScanning && Scanner.currentIndex<Scanner.songs.length){
@@ -61,6 +62,7 @@ Scanner={
 				}
 			}
 		}
+		scanSong();
 		scanSong();
 	},
 	toggle:function(){
