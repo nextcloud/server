@@ -4,6 +4,7 @@ var PlayList={
 	items:[],
 	player:null,
 	volume:0.8,
+	active:false,
 	next:function(){
 		var next=PlayList.current+1;
 		if(next>=PlayList.items.length){
@@ -34,7 +35,6 @@ var PlayList={
 					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
 					PlayList.items[index].playcount++;
 					PlayList.player.jPlayer("play",time);
-					localStorage.setItem(oc_current_user+'oc_playlist_current',index);
 					if(index>0){
 						var previous=index-1;
 					}else{
@@ -83,14 +83,6 @@ var PlayList={
 			play:function(){
 				localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
 			},
-			timeupdate:function(){
-				var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
-				localStorage.setItem(oc_current_user+'oc_playlist_time',time);
-			},
-			volumechange:function(){
-				var volume=PlayList.player.data('jPlayer').options.volume*100;
-				localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
-			},
 			supplied:type,
 			ready:function(){
 				PlayList.load();
@@ -126,7 +118,6 @@ var PlayList={
 			item[type]=PlayList.urlBase+encodeURIComponent(song.song_path);
 			PlayList.items.push(item);
 		}
-		PlayList.save();
 	},
 	addFile:function(path){
 		var type=musicTypeFromFile(path);
@@ -142,7 +133,6 @@ var PlayList={
 	remove:function(index){
 		PlayList.items.splice(index,1);
 		PlayList.render();
-		PlayList.save();
 	},
 	render:function(){},
 	playing:function(){
@@ -155,10 +145,20 @@ var PlayList={
 	save:function(){
 		if(typeof localStorage !== 'undefined'){
 			localStorage.setItem(oc_current_user+'oc_playlist_items',JSON.stringify(PlayList.items));
+			localStorage.setItem(oc_current_user+'oc_playlist_current',PlayList.current);
+			var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
+			localStorage.setItem(oc_current_user+'oc_playlist_time',time);
+			var volume=PlayList.player.data('jPlayer').options.volume*100;
+			localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
+			if(PlayList.active){
+				localStorage.setItem(oc_current_user+'oc_playlist_active','false');
+			}
 		}
 	},
 	load:function(){
 		if(typeof localStorage !== 'undefined'){
+			PlayList.active=true;
+			localStorage.setItem(oc_current_user+'oc_playlist_active','true');
 			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items')){
 				PlayList.items=JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_items'));
 				if(PlayList.items.length>0){
@@ -185,3 +185,9 @@ var PlayList={
 		}
 	}
 }
+
+$(document).ready(function(){
+	$(window).bind('beforeunload', function (){
+		PlayList.save();
+	});
+})
