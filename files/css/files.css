@@ -38,8 +38,8 @@ table td.filename a, table td.login, table td.logout, table td.download, table t
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
 table td.filename .nametext { width:80%; }
 table td.filename form { float:left; font-size:.85em; }
-#fileList tr input[type=checkbox] { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
-#fileList tr input[type=checkbox]:checked, #fileList tr:hover input[type=checkbox] { display:inline; }
+#fileList tr td.filename>input[type=checkbox]:first-child { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
+#fileList tr td.filename>input[type=checkbox]:checked:first-child, #fileList tr:hover td.filename>input[type=checkbox]:first-child { display:inline; }
 #fileList tr.selected td.filename a, #fileList tr:hover td.filename a { background-image:none !important }
 #select_all { float:left; margin:0.2em; margin-left:0.6em; }
 #uploadsize-message,#delete-confirm { display:none; }
