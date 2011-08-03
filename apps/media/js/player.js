@@ -142,6 +142,7 @@ var PlayList={
 	remove:function(index){
 		PlayList.items.splice(index,1);
 		PlayList.render();
+		PlayList.save();
 	},
 	render:function(){},
 	playing:function(){
@@ -160,24 +161,26 @@ var PlayList={
 		if(typeof localStorage !== 'undefined'){
 			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items')){
 				PlayList.items=JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_items'));
-				PlayList.current=parseInt(localStorage.getItem(oc_current_user+'oc_playlist_current'));
-				var time=parseInt(localStorage.getItem(oc_current_user+'oc_playlist_time'));
-				if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_volume')){
-					var volume=localStorage.getItem(oc_current_user+'oc_playlist_volume');
-					PlayList.volume=volume/100;
-					$('.jp-volume-bar-value').css('width',volume+'%');
-					if(PlayList.player.data('jPlayer')){
-						PlayList.player.jPlayer("option",'volume',volume/100);
+				if(PlayList.items.length>0){
+					PlayList.current=parseInt(localStorage.getItem(oc_current_user+'oc_playlist_current'));
+					var time=parseInt(localStorage.getItem(oc_current_user+'oc_playlist_time'));
+					if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_volume')){
+						var volume=localStorage.getItem(oc_current_user+'oc_playlist_volume');
+						PlayList.volume=volume/100;
+						$('.jp-volume-bar-value').css('width',volume+'%');
+						if(PlayList.player.data('jPlayer')){
+							PlayList.player.jPlayer("option",'volume',volume/100);
+						}
 					}
+					if(JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_playing'))){
+						PlayList.play(null,time);
+					}else{
+						PlayList.play(null,time,function(){
+							PlayList.player.jPlayer("pause");
+						});
+					}
+					PlayList.render();
 				}
-				if(JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_playing'))){
-					PlayList.play(null,time);
-				}else{
-					PlayList.play(null,time,function(){
-						PlayList.player.jPlayer("pause");
-					});
-				}
-				PlayList.render();
 			}
 		}
 	}

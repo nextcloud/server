@@ -135,6 +135,7 @@ function procesSelection(){
 			});
 			PlayList.items=PlayList.items.filter(function(item){return item!==null});
 			PlayList.render();
+			PlayList.save();
 			procesSelection();
 		});
 	}

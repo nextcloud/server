@@ -51,7 +51,7 @@ $(document).ready(function() {
 	}
 	if(typeof PlayList==='undefined'){
 		if(typeof localStorage !== 'undefined'){
-			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items')){
+			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items' && localStorage.getItem(oc_current_user+'oc_playlist_items')!='[]'){
 				loadPlayer();
 			}
 		}
