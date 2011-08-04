@@ -8,8 +8,8 @@
 .file_upload_filename { background-image:url("../img/file.png"); font-weight:bold; }.file_upload_start { opacity:0;filter:alpha(opacity = 0); }
 input.highlight{ background-color:#ffc100; border:#dda600 1px solid; }
 
-#file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:11em; }
-.file_upload_start, .file_upload_filename { position:absolute; top:0px; left:0px; width:11em; font-size:0.9em; }
+#file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:12em; }
+.file_upload_start, .file_upload_filename { position:absolute; top:0px; left:0px; width:12em; font-size:0.9em; }
 .file_upload_wrapper { position:relative; top:-1.2em; left:-2em; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; width:12em; }
 #file_newfolder_submit, #file_upload_submit { width:3em; }
 .file_upload_target { display:none; }
