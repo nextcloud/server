@@ -168,9 +168,8 @@ FileList={
 		procesSelection();
 		FileList.deleteCanceled=false;
 		FileList.deleteFiles=files;
-		$('#notification').text(files.length+' file'+((files.length>1)?'s':'')+' deleted, click here to undo');
-		
-		$('#notification').show();
+		$('#notification').text('undo deletion');
+		$('#notification').fadeIn();
 	},
 	finishDelete:function(ready,sync){
 		if(!FileList.deleteCanceled && FileList.deleteFiles){
@@ -181,7 +180,7 @@ FileList={
 				data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(fileNames),
 				complete: function(data){
 					boolOperationFinished(data, function(){
-						$('#notification').hide();
+						$('#notification').fadeOut();
 						$.each(FileList.deleteFiles,function(index,file){
 // 							alert(file);
 							FileList.remove(file);
@@ -199,9 +198,10 @@ FileList={
 }
 
 $(document).ready(function(){
+	$('#notification').hide();
 	$('#notification').click(function(){
 		FileList.deleteCanceled=true;
-		$('#notification').hide();
+		$('#notification').fadeOut();
 		$.each(FileList.deleteFiles,function(index,file){
 			$('tr[data-file="'+file+'"]').show();
 // 			alert(file);
