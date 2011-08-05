@@ -143,7 +143,7 @@ var PlayList={
 		}
 	},
 	save:function(){
-		if(typeof localStorage !== 'undefined'){
+		if(typeof localStorage !== 'undefined' && localStorage){
 			localStorage.setItem(oc_current_user+'oc_playlist_items',JSON.stringify(PlayList.items));
 			localStorage.setItem(oc_current_user+'oc_playlist_current',PlayList.current);
 			var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
@@ -156,7 +156,7 @@ var PlayList={
 		}
 	},
 	load:function(){
-		if(typeof localStorage !== 'undefined'){
+		if(typeof localStorage !== 'undefined' && localStorage){
 			PlayList.active=true;
 			localStorage.setItem(oc_current_user+'oc_playlist_active','true');
 			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items')){
