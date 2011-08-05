@@ -88,11 +88,11 @@ function relative_modified_date($timestamp) {
 	else if($timediff < 3600) { return $diffminutes.' minutes ago'; }
 	//else if($timediff < 7200) { return '1 hour ago'; }
 	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
-	else if((date(G)-$diffhours) > 0) { return 'today'; }
-	else if((date(G)-$diffhours) > -24) { return 'yesterday'; }
+	else if((date('G')-$diffhours) > 0) { return 'today'; }
+	else if((date('G')-$diffhours) > -24) { return 'yesterday'; }
 	else if($timediff < 2678400) { return $diffdays.' days ago'; }
 	else if($timediff < 5184000) { return 'last month'; }
-	else if((date(n)-$diffmonths) > 0) { return 'months ago'; }
+	else if((date('n')-$diffmonths) > 0) { return 'months ago'; }
 	else if($timediff < 63113852) { return 'last year'; }
 	else { return 'years ago'; }
 }
