@@ -21,8 +21,6 @@ OC_Util::addHeader('link',array('rel'=>'openid.delegate', 'href'=>$urlBase.OC_He
 
 require_once 'apps/user_openid/user_openid.php';
 
-OC_App::addSettingsPage( array( "id" => "user_openid_settings", 'order'=>1, "href" => OC_Helper::linkTo( "user_openid", "settings.php" ), "name" => "OpenID"));
-
 //active the openid backend
 OC_User::useBackend('openid');
 
