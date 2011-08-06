@@ -1,3 +1,9 @@
+/**
+ * translate a string
+ * @param app the id of the app for which to translate the string
+ * @param text the string to translate
+ * @return string
+ */
 function t(app,text){
 	if( !( app in t.cache )){
 		
@@ -22,9 +28,22 @@ t.cache={};
 OC={
 	webroot:oc_webroot,
 	coreApps:['files','admin','log','search','settings','core'],
+	/**
+	 * get an absolute url to a file in an appen
+	 * @param app the id of the app the file belongs to
+	 * @param file the file path relative to the app folder
+	 * @return string
+	 */
 	linkTo:function(app,file){
 		return OC.filePath(app,'',file);
 	},
+	/**
+	 * get the absolute url for a file in an app
+	 * @param app the id of the app
+	 * @param type the type of the file to link to (e.g. css,img,ajax.template)
+	 * @param file the filename
+	 * @return string
+	 */
 	filePath:function(app,type,file){
 		var isCore=OC.coreApps.indexOf(app)!=-1;
 		app+='/';
@@ -39,12 +58,28 @@ OC={
 		link+=file;
 		return link;
 	},
+	/**
+	 * get the absolute path to an image file
+	 * @param app the app id to which the image belongs
+	 * @param file the name of the image file
+	 * @return string
+	 * 
+	 * if no extention is given for the image, it will automatically decide between .png and .svg based on what the browser supports
+	 */ 
 	imagePath:function(app,file){
 		if(file.indexOf('.')==-1){//if no extention is given, use png or svg depending on browser support
 			file+=(SVGSupport())?'.svg':'.png'
 		}
 		return OC.filePath(app,'img',file);
 	},
+	/**
+	 * load a script for the server and load it
+	 * @param app the app id to which the script belongs
+	 * @param script the filename of the script
+	 * @param ready event handeler to be called when the script is loaded
+	 * 
+	 * if the script is already loaded, the event handeler will be called directly
+	 */
 	addScript:function(app,script,ready){
 		var path=OC.filePath(app,'js',script+'.js');
 		if(OC.addStyle.loaded.indexOf(path)==-1){
@@ -60,6 +95,11 @@ OC={
 			}
 		}
 	},
+	/**
+	 * load a css file and load it
+	 * @param app the app id to which the css style belongs
+	 * @param style the filename of the css file
+	 */
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
 		if(OC.addScript.loaded.indexOf(path)==-1){
@@ -68,6 +108,10 @@ OC={
 			$('head').append(style);
 		}
 	},
+	/**
+	 * do a search query and display the results
+	 * @param query the search query
+	 */
 	search:function(query){
 		if(query){
 			OC.addStyle('search','results');
@@ -85,6 +129,9 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+/**
+ * implement Array.filter for browsers without native support
+ */
 if (!Array.prototype.filter) {
 	Array.prototype.filter = function(fun /*, thisp*/) {
 		var len = this.length >>> 0;
@@ -103,6 +150,9 @@ if (!Array.prototype.filter) {
 		return res;
 	}
 }
+/**
+ * implement Array.indexOf for browsers without native support
+ */
 if (!Array.prototype.indexOf){
 	Array.prototype.indexOf = function(elt /*, from*/)
 	{
@@ -125,8 +175,23 @@ if (!Array.prototype.indexOf){
 	};
 }
 
+/**
+ * check if the browser support svg images
+ */
 function SVGSupport() {
 	return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
+}
+
+/**
+ * prototypal inharitence functions
+ * 
+ * usage:
+ * MySubObject=object(MyObject)
+ */
+function object(o) {
+	function F() {}
+    F.prototype = o;
+	return new F();
 }
 
 $(document).ready(function(){
