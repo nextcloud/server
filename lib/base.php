@@ -22,6 +22,8 @@
 
 /**
  * Class that is a namespace for all global OC variables
+ * No, we can not put this class in its own file because it is used by
+ * OC_autoload!
  */
 class OC{
 	/**
@@ -52,19 +54,22 @@ class OC{
 	 * TODO: What's this for?
 	 */
 	public static $CONFIG_DATADIRECTORY_ROOT = '';
+
+	/**
+	 * SPL autoload
+	 */
+	public static function autoload($className){
+		if(array_key_exists($className,OC::$CLASSPATH)){
+			require_once OC::$CLASSPATH[$className];
+		}
+		elseif(strpos($className,'OC_')===0){
+			require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
+		}
+	}
 }
 
-// Get rid of this stupid require_once OC_...
-function OC_autoload($className){
-	if(array_key_exists($className,OC::$CLASSPATH)){
-		require_once OC::$CLASSPATH[$className];
-	}
-	elseif(strpos($className,'OC_')===0){
-		require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
-	}
-}
-
-spl_autoload_register('OC_autoload');
+// this requires all our OC_* classes
+spl_autoload_register(array('OC','autoload'));
 
 // set some stuff
 //ob_start();
@@ -93,6 +98,9 @@ if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 
 // set the right include path
 set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3dparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
+
+//Some libs we really depend on
+require_once('Sabre/autoload.php');
 
 // define runtime variables - unless this already has been done
 if( !isset( $RUNTIME_NOSETUPFS )){
@@ -149,6 +157,10 @@ OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir
 if(!$error and !$RUNTIME_NOSETUPFS ){
 	OC_Util::setupFS();
 }
+
+// Last part: connect some hooks
+OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
+OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');
 
 
 // FROM Connect.php

@@ -321,6 +321,28 @@ class OC_Template{
 	}
 
 	/**
+	 * @brief Include template
+	 * @returns returns content of included template
+	 *
+	 * Includes another template. use <?php echo $this->inc('template'); ?> to
+	 * do this.
+	 */
+	public function inc( $file )
+	{
+		// $_ erstellen
+		$_ = $this->vars;
+
+		// Einbinden
+		ob_start();
+		include( $this->path.'/'.$file.'.php' );
+		$data = ob_get_contents();
+		ob_end_clean();
+
+		// Daten zurückgeben
+		return $data;
+	}
+
+	/**
 	 * @brief Shortcut to print a simple page for users
 	 * @param $application The application we render the template for
 	 * @param $name Name of the template
