@@ -35,23 +35,23 @@ class OC{
 	 */
 	public static $DOCUMENTROOT = '';
 	/**
-	 * TODO: What's this for?
+	 * The installation path for owncloud on the server (e.g. /srv/http/owncloud)
 	 */
 	public static $SERVERROOT = '';
 	/**
-	 * TODO: What's this for?
+	 * the current request path relative to the owncloud root (e.g. files/index.php)
 	 */
 	public static $SUBURI = '';
 	/**
-	 * TODO: What's this for?
+	 * the owncloud root path for http requests (e.g. owncloud/)
 	 */
 	public static $WEBROOT = '';
 	/**
-	 * TODO: What's this for?
+	 * the folder that stores that data files for the filesystem of the user (e.g. /srv/http/owncloud/data/myusername/files)
 	 */
 	public static $CONFIG_DATADIRECTORY = '';
 	/**
-	 * TODO: What's this for?
+	 * the folder that stores the data for the root filesystem (e.g. /srv/http/owncloud/data)
 	 */
 	public static $CONFIG_DATADIRECTORY_ROOT = '';
 
