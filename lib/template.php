@@ -139,12 +139,14 @@ class OC_Template{
 		}
 
 		// Templates have the ending .php
+		$path = $template;
 		$template .= "$name.php";
 
 		// Set the private data
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->template = $template;
+		$this->path = $path;
 		$this->vars = array();
 		$this->l10n = new OC_L10N($app);
 	}
@@ -327,14 +329,13 @@ class OC_Template{
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
 	 * do this.
 	 */
-	public function inc( $file )
-	{
+	public function inc( $file ){
 		// $_ erstellen
 		$_ = $this->vars;
 
 		// Einbinden
 		ob_start();
-		include( $this->path.'/'.$file.'.php' );
+		include( $this->path.$file.'.php' );
 		$data = ob_get_contents();
 		ob_end_clean();
 
