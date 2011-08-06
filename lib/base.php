@@ -125,7 +125,17 @@ if( OC_Config::getValue( "forcessl", false )){
 	}
 }
 
-$error=(count(OC_Util::checkServer())>0);
+$errors=OC_Util::checkServer();
+$error=(count($errors)>0);
+
+if($error) {
+	$tmpl = new OC_Template( '', 'error', 'guest' );
+	$tmpl->assign('errors',$errors);
+	$tmpl->printPage();
+	exit;
+}
+
+
 
 // User and Groups
 if( !OC_Config::getValue( "installed", false )){
