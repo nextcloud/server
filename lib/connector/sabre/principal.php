@@ -37,8 +37,8 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 		// We have to delete the principals and relations! Principals include 
 		while($row = $result->fetchRow()){
 			// Checking if the principal is in the prefix
-			list($rowPrefix,$rowUser) = Sabre_DAV_URLUtil::splitPath($row['uri']);
-			if ($rowUser !== $params['uid']) continue;
+			$array = explode('/',$row['uri']);
+			if ($array[1] != $params['uid']) continue;
 			$deleteprincipal->execute(array($row['id']));
 			$deletegroup->execute(array($row['id'],$row['id']));
 		}
