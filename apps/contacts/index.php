@@ -20,7 +20,7 @@
  *
  */
 
-function contactsort($a,$b){
+function contacts_namesort($a,$b){
 	return strcmp($a['name'],$b['name']);
 }
 
@@ -33,12 +33,20 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
+// Check if the user has an addressbook
+$addressbooks = OC_Contacts_Addressbook::allAddressbooks(OC_User::getUser());
+if( count($addressbooks) == 0){
+	OC_Contacts_Addressbook::addAddressbook(OC_User::getUser(),'default','Default Address Book');
+}
+
 // Load the files we need
 OC_App::setActiveNavigationEntry( 'contacts_index' );
 
 // Load a specific user?
 $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
 
+// sort addressbooks  (use contactsort)
+usort($addressbooks,'contacts_namesort');
 // Addressbooks to load
 $openaddressbooks = explode(';',OC_Preferences::getValue(OC_User::getUser(),'contacts','openaddressbooks',null));
 
@@ -51,7 +59,7 @@ foreach( $openaddressbooks as $addressbook ){
 }
 
 
-usort($contacts,'contactsort');
+usort($contacts,'contacts_namesort');
 $details = array();
 
 if( !is_null($id) || count($contacts)){
@@ -62,6 +70,7 @@ if( !is_null($id) || count($contacts)){
 
 // Process the template
 $tmpl = new OC_Template( 'contacts', 'index', 'user' );
+$tmpl->assign('addressbooks', $addressbooks);
 $tmpl->assign('contacts', $contacts);
 $tmpl->assign('details', $details );
 $tmpl->assign('id',$id);

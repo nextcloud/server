@@ -13,6 +13,6 @@ OC_App::addNavigationEntry( array(
   'order' => 10,
   'href' => OC_Helper::linkTo( 'contacts', 'index.php' ),
   'icon' => OC_Helper::imagePath( 'contacts', 'icon.png' ),
-  'name' => 'Addressbook' ));
+  'name' => 'Contacts' ));
 
 ?>

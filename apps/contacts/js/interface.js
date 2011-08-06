@@ -11,4 +11,9 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+
+	$('.contacts_addressbooksexpander').click(function(){
+		$('.contacts_addressbooksdetails').toggle();
+		return false;
+	});
 });
