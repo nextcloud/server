@@ -128,14 +128,6 @@ if( OC_Config::getValue( "forcessl", false )){
 $errors=OC_Util::checkServer();
 $error=(count($errors)>0);
 
-if($error) {
-	$tmpl = new OC_Template( '', 'error', 'guest' );
-	$tmpl->assign('errors',$errors);
-	$tmpl->printPage();
-	exit;
-}
-
-
 
 // User and Groups
 if( !OC_Config::getValue( "installed", false )){
@@ -171,6 +163,17 @@ if(!$error and !$RUNTIME_NOSETUPFS ){
 // Last part: connect some hooks
 OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
 OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');
+
+
+
+if($error) {
+	$tmpl = new OC_Template( '', 'error', 'guest' );
+	$tmpl->assign('errors',$errors);
+	$tmpl->printPage();
+	exit;
+}
+
+
 
 
 // FROM Connect.php

@@ -204,7 +204,7 @@ class OC_Helper {
 			}
 		}
 		closedir($dh);
-		if(chmod($path, $filemode))
+		if(@chmod($path, $filemode))
 			return TRUE;
 		else
 			return FALSE;
