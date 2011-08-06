@@ -82,19 +82,19 @@ function relative_modified_date($timestamp) {
 	$diffdays = round($diffhours/24);
 	$diffmonths = round($diffdays/31);
 	$diffyears = round($diffdays/365);
+
 	if($timediff < 60) { return 'seconds ago'; }
 	else if($timediff < 120) { return '1 minute ago'; }
 	else if($timediff < 3600) { return $diffminutes.' minutes ago'; }
 	//else if($timediff < 7200) { return '1 hour ago'; }
 	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
-	else if($timediff < 86400) { return 'today'; }
-	else if($timediff < 172800) { return 'yesterday'; }
+	else if((date('G')-$diffhours) > 0) { return 'today'; }
+	else if((date('G')-$diffhours) > -24) { return 'yesterday'; }
 	else if($timediff < 2678400) { return $diffdays.' days ago'; }
 	else if($timediff < 5184000) { return 'last month'; }
-	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
-	else if($timediff < 31556926) { return 'months ago'; }
+	else if((date('n')-$diffmonths) > 0) { return 'months ago'; }
 	else if($timediff < 63113852) { return 'last year'; }
-	else { return $diffyears.' years ago'; }
+	else { return 'years ago'; }
 }
 
 

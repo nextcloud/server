@@ -40,6 +40,11 @@ elseif($not_installed OR $install_called) {
 	require_once('setup.php');
 }
 
+if($_SERVER['REQUEST_METHOD']=='PROPFIND'){//handle webdav
+	header('location: '.OC_Helper::linkTo('files','webdav.php'));
+	exit();
+}
+
 // Someone is logged in :
 elseif(OC_User::isLoggedIn()) {
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
