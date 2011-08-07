@@ -1,0 +1,38 @@
+#textframe{
+	position:fixed;
+	top:0px;
+	left:0px;
+	height:100%;
+	width:100%;
+	background:rgb(20,20,20);
+	background:rgba(20,20,20,0.9);
+	text-align:center;
+	z-index:100;
+}
+
+#textframe>div{
+	vertical-align:middle;
+	text-align:left;
+	height:auto;
+	max-height:90%;
+	max-width:90%;
+	margin:20px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:10px;
+	padding:0px;
+	border: black solid 3px;
+	background:black;
+	color:white;
+	overflow:auto;
+}
+
+#textframe>div>div>div{
+	margin:0px !important;
+	top:0px !important;
+	height:100% !important;
+}
+
+#textframe>div div,#textframe>div td{
+	overflow:hidden !important;
+}

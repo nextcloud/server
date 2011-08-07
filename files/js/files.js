@@ -92,43 +92,9 @@ $(document).ready(function() {
 	});
 	
 	$('.delete').click(function(event) {
-		var fileNames=getSelectedFiles('name');
-		var files=fileNames.join(';');
-		var lastFileName=fileNames.pop();
-		if(fileNames.length>0){
-			fileNames=fileNames.join(', ')+' and '+lastFileName;
-		}else{
-			fileNames=lastFileName;
-		}
-
-		$( "#delete-confirm" ).dialog({
-			resizable: false,
-			height:200,
-			modal: true,
-			title:"Delete "+fileNames,
-			buttons: {
-				"Delete": function() {
-					$( this ).dialog( "close" );
-					$.ajax({
-						url: 'ajax/delete.php',
-						data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(files),
-						complete: function(data){
-							boolOperationFinished(data, function(){
-								var files=getSelectedFiles('name');
-							for(var i=0;i<files.length;i++){
-								FileList.remove(files[i]);
-							}
-							procesSelection();
-							});
-						}
-					});
-				},
-				Cancel: function() {
-					$( this ).dialog( "close" );
-				}
-			}
-		});
-		
+		var files=getSelectedFiles('name');
+		event.preventDefault();
+		FileList.delete(files);
 		return false;
 	});
 
@@ -344,7 +310,18 @@ function procesSelection(){
 		$('#modified').text('Modified');
 		$('th').removeClass('multiselect');
 		$('.selectedActions').hide();
+		$('thead').removeClass('fixed');
+		$('#headerName').css('width','auto');
+		$('#headerSize').css('width','auto');
+		$('#headerDate').css('width','auto');
+		$('table').css('padding-top','0');
 	}else{
+		var width={name:$('#headerName').css('width'),size:$('#headerSize').css('width'),date:$('#headerDate').css('width')};
+		$('thead').addClass('fixed');
+		$('#headerName').css('width',width.name);
+		$('#headerSize').css('width',width.size);
+		$('#headerDate').css('width',width.date);
+		$('table').css('padding-top','2em');
 		$('.selectedActions').show();
 		var totalSize=0;
 		for(var i=0;i<selectedFiles.length;i++){

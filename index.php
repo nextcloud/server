@@ -38,6 +38,12 @@ if(count($errors) > 0) {
 // Setup required :
 elseif($not_installed OR $install_called) {
 	require_once('setup.php');
+	exit();
+}
+
+if($_SERVER['REQUEST_METHOD']=='PROPFIND'){//handle webdav
+	header('location: '.OC_Helper::linkTo('files','webdav.php'));
+	exit();
 }
 
 // Someone is logged in :

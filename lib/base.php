@@ -20,13 +20,56 @@
  *
  */
 
-// Get rid of this stupid require_once OC_...
-function OC_autoload($className) {
-	if(strpos($className,'OC_')===0) {
-		require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
+/**
+ * Class that is a namespace for all global OC variables
+ * No, we can not put this class in its own file because it is used by
+ * OC_autoload!
+ */
+class OC{
+	/**
+	 * Assoziative array for autoloading. classname => filename
+	 */
+	public static $CLASSPATH = array();
+	/**
+	 * $_SERVER['DOCUMENTROOT'] but without symlinks
+	 */
+	public static $DOCUMENTROOT = '';
+	/**
+	 * The installation path for owncloud on the server (e.g. /srv/http/owncloud)
+	 */
+	public static $SERVERROOT = '';
+	/**
+	 * the current request path relative to the owncloud root (e.g. files/index.php)
+	 */
+	public static $SUBURI = '';
+	/**
+	 * the owncloud root path for http requests (e.g. owncloud/)
+	 */
+	public static $WEBROOT = '';
+	/**
+	 * the folder that stores that data files for the filesystem of the user (e.g. /srv/http/owncloud/data/myusername/files)
+	 */
+	public static $CONFIG_DATADIRECTORY = '';
+	/**
+	 * the folder that stores the data for the root filesystem (e.g. /srv/http/owncloud/data)
+	 */
+	public static $CONFIG_DATADIRECTORY_ROOT = '';
+
+	/**
+	 * SPL autoload
+	 */
+	public static function autoload($className){
+		if(array_key_exists($className,OC::$CLASSPATH)){
+			require_once OC::$CLASSPATH[$className];
+		}
+		elseif(strpos($className,'OC_')===0){
+			require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
+		}
 	}
 }
-spl_autoload_register('OC_autoload');
+
+// this requires all our OC_* classes
+spl_autoload_register(array('OC','autoload'));
 
 // set some stuff
 //ob_start();
@@ -38,9 +81,8 @@ ini_set('session.cookie_httponly','1;');
 session_start();
 
 // calculate the documentroot
-$SERVERROOT=substr(__FILE__,0,-13);
 $DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
-$SERVERROOT=str_replace("\\",'/',$SERVERROOT);
+$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
 $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
 $scriptName=$_SERVER["SCRIPT_NAME"];
 if(substr($scriptName,-1)=='/'){
@@ -55,7 +97,10 @@ if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 }
 
 // set the right include path
-set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3dparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
+set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
+
+//Some libs we really depend on
+require_once('Sabre/autoload.php');
 
 // define runtime variables - unless this already has been done
 if( !isset( $RUNTIME_NOSETUPFS )){
@@ -80,7 +125,9 @@ if( OC_Config::getValue( "forcessl", false )){
 	}
 }
 
-$error=(count(OC_Util::checkServer())>0);
+$errors=OC_Util::checkServer();
+$error=(count($errors)>0);
+
 
 // User and Groups
 if( !OC_Config::getValue( "installed", false )){
@@ -112,6 +159,21 @@ OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir
 if(!$error and !$RUNTIME_NOSETUPFS ){
 	OC_Util::setupFS();
 }
+
+// Last part: connect some hooks
+OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
+OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');
+
+
+
+if($error) {
+	$tmpl = new OC_Template( '', 'error', 'guest' );
+	$tmpl->assign('errors',$errors);
+	$tmpl->printPage();
+	exit;
+}
+
+
 
 
 // FROM Connect.php

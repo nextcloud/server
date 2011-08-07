@@ -1,11 +1,3 @@
-<?php
-/*
- * Template for Apps
- */
-?>
-<h1><?php echo $l->t( 'Apps Repository' ); ?></h1>
-
-
 <table cellspacing="0">
 	<thead>
 		<tr>

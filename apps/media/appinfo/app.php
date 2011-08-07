@@ -22,14 +22,11 @@
 
 require_once('apps/media/lib_media.php');
 
-if(OC_App::getCurrentApp()=='files'){
-	OC_Util::addScript('media','files');
-}
+OC_Util::addScript('media','loader');
 
 OC_App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 
-OC_App::addNavigationEntry( array( 'id' => 'media_index', 'order' => 2, 'href' => OC_Helper::linkTo( 'media', 'index.php' ), 'icon' => OC_Helper::imagePath( 'media', 'media.png' ), 'name' => 'Media' ));
-OC_App::addSettingsPage( array( 'id' => 'media_settings', 'order' => 5, 'href' => OC_Helper::linkTo( 'media', 'settings.php' ), 'name' => 'Media', 'icon' => OC_Helper::imagePath( 'media', 'media.png' )));
+OC_App::addNavigationEntry( array( 'id' => 'media_index', 'order' => 2, 'href' => OC_Helper::linkTo( 'media', 'index.php' ), 'icon' => OC_Helper::imagePath( 'media', 'media.png' ), 'name' => 'Music' ));
 
 // add subnavigations
 $entry = array(

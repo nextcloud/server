@@ -9,6 +9,7 @@
 		<?php endforeach; ?>
 		<script type="text/javascript">
 			var oc_webroot = '<?php global $WEBROOT; echo $WEBROOT; ?>';
+			var oc_current_user = '<?php echo OC_User::getUser() ?>';
 		// </script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
@@ -36,7 +37,7 @@
 		</div>
 
 		<div id="main">
-			<div id="plugins">
+			<div id="navigation">
 				<ul>
 					<?php foreach($_['settingsnavigation'] as $entry):?>
 						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>

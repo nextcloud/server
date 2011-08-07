@@ -1,6 +1,3 @@
-
-<h1><?php echo $l->t( 'Questions and Answers' ); ?></h1>
-
 <?php if(is_null($_["kbe"])):?>
 	Can't connect to Q&amp;A database
 <?php else:?>
@@ -21,7 +18,7 @@
 		$pageNavi=OC_Util::getPageNavi($_['pagecount'],$_['page'],$url);
 		$pageNavi->printPage();
 	?>
-	<a target="_blank" class="prettybutton" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new"><?php echo $l->t( 'ASK A QUESTION' ); ?></a>
+	<a target="_blank" class="prettybutton" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new"><?php echo $l->t( 'Ask a question' ); ?></a>
 <?php endif;?>
 
 

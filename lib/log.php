@@ -51,7 +51,7 @@ class OC_Log {
 	 * This function adds another entry to the log database
 	 */
 	public static function add( $appid, $subject, $predicate, $object = ' ' ){
-		$query=OC_DB::prepare("INSERT INTO `*PREFIX*log`(moment,appid,user,action,info) VALUES(NOW(),?,?,?,?)");
+		$query=OC_DB::prepare("INSERT INTO `*PREFIX*log`(moment,appid,`user`,action,info) VALUES(NOW(),?,?,?,?)");
 		$result=$query->execute(array($appid,$subject,$predicate,$object));
 		// Die if we have an error
 		if( PEAR::isError($result)) {
@@ -90,7 +90,7 @@ class OC_Log {
 			array_push($params,$filter('until'));
 		}
 		if(isset($filter['user'])){
-			$queryString.='AND user=? ';
+			$queryString.='AND `user`=? ';
 			array_push($params,$filter('user'));
 		}
 		if(isset($filter['app'])){

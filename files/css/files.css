@@ -8,8 +8,8 @@
 .file_upload_filename { background-image:url("../img/file.png"); font-weight:bold; }.file_upload_start { opacity:0;filter:alpha(opacity = 0); }
 input.highlight{ background-color:#ffc100; border:#dda600 1px solid; }
 
-#file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:11em; }
-.file_upload_start, .file_upload_filename { position:absolute; top:0px; left:0px; width:11em; font-size:0.9em; }
+#file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:12em; }
+.file_upload_start, .file_upload_filename { position:absolute; top:0px; left:0px; width:12em; font-size:0.9em; }
 .file_upload_wrapper { position:relative; top:-1.2em; left:-2em; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; width:12em; }
 #file_newfolder_submit, #file_upload_submit { width:3em; }
 .file_upload_target { display:none; }
@@ -21,26 +21,30 @@ tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; heig
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
 div.crumb { float:left; display:block; background:no-repeat right 0; padding:8px 1.5em 0 1em; height:28px; /*36-8*/ }
+div.crumb:first-child { padding-left:1.5em; }
 div.crumb:last-child { font-weight:bold; }
 table tr.mouseOver td { background-color:#eee; }
 table th { height:2em; padding:0 .5em; color:#999; }
 table th .name { float:left; margin-left:.5em; }
 table th.multiselect { background:#ddd; color:#000; font-weight:bold; }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
-table td { border-bottom:1px solid #eee; font-style:normal; }
+table td { border-bottom:1px solid #eee; font-style:normal; background-position:1em .5em; background-repeat:no-repeat; }
 table th#headerSize, table td.filesize { width:5em; padding:0 1em; text-align:right; }
 table th#headerDate, table td.date { width:11em; padding:0 .1em 0 1em; text-align:left; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
-table td.filename a.name { display:block; background-image:url('../img/file.png'); height:1.5em; vertical-align:middle; }
+table td.filename a.name { display:block; height:1.5em; vertical-align:middle; margin-left:3em; }
 table tr[data-type="dir"] td.filename a.name {font-weight:bold; }
 table td.filename a.name input, table td.filename a.name form { width:100%; cursor:text }
-table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 3em; background-position:1em .5em; background-repeat:no-repeat; }
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 0; }
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
-table td.filename .nametext { width:80%; }
+table td.filename .nametext { width:60%; }
 table td.filename form { float:left; font-size:.85em; }
+/* #fileList tr.selected td.filename a, #fileList tr:hover td.filename a { background-image:none !important } */
+table thead.fixed tr{position:fixed; top:6.4em;z-index:100;}
+table thead.fixed {height:2em}
 #fileList tr td.filename>input[type=checkbox]:first-child { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
 #fileList tr td.filename>input[type=checkbox]:checked:first-child, #fileList tr:hover td.filename>input[type=checkbox]:first-child { display:inline; }
-#fileList tr.selected td.filename a, #fileList tr:hover td.filename a { background-image:none !important }
+#fileList tr.selected td.filename , #fileList tr:hover td.filename { background-image:none !important }
 #select_all { float:left; margin:0.2em; margin-left:0.6em; }
 #uploadsize-message,#delete-confirm { display:none; }
 .selectedActions a, a.file_action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
@@ -48,4 +52,7 @@ table td.filename form { float:left; font-size:.85em; }
 .selectedActions a:hover, a.file_action:hover { background:#fff; -moz-box-shadow:0 0 10px #fff; -webkit-box-shadow:0 0 10px #fff; box-shadow:0 0 10px #fff; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#plugins>ul>li:first-child { background-position:15.7em 0px; background-repeat:no-repeat; background-image:url("/owncloud/core/img/breadcrumb-divider-start.png"); width:15.7em; padding-right:11px; }
+#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-divider-start.png') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }
+#notification{ z-index:150; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0;
+-moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
+-moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }

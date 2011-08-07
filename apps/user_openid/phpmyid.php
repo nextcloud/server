@@ -1646,12 +1646,12 @@ $profile['req_url'] = sprintf("%s://%s%s",
 // 		      $port,//host  already includes the path
 		      $_SERVER["REQUEST_URI"]);
 
-$fullId='user.php/'.$USERNAME.'/';
-$incompleteId='user.php/';
+// $fullId='user.php/'.$USERNAME.'/';
+// $incompleteId='user.php/';
 
-if(!strpos($profile['req_url'],$fullId)){
-	$profile['req_url']=str_replace($incompleteId,$fullId,$profile['req_url']);
-}
+// if(!strpos($profile['req_url'],$fullId)){
+// 	$profile['req_url']=str_replace($incompleteId,$fullId,$profile['req_url']);
+// }
 
 // error_log('inc id: '.$fullId);
 // error_log('req url: '.$profile['req_url']);

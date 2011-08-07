@@ -56,6 +56,7 @@ OC_MEDIA_COLLECTION::$uid=OC_User::getUser();
 if($arguments['action']){
 	switch($arguments['action']){
 		case 'delete':
+			unset($_SESSION['collection']);
 			$path=$arguments['path'];
 			OC_MEDIA_COLLECTION::deleteSongByPath($path);
 			$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
@@ -64,30 +65,30 @@ if($arguments['action']){
 				OC_Preferences::setValue(OC_User::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
 			}
 		case 'get_collection':
-			$artists=OC_MEDIA_COLLECTION::getArtists();
-			foreach($artists as &$artist){
-				$artist['albums']=OC_MEDIA_COLLECTION::getAlbums($artist['artist_id']);
-				foreach($artist['albums'] as &$album){
-					$album['songs']=OC_MEDIA_COLLECTION::getSongs($artist['artist_id'],$album['album_id']);
+			if(!isset($_SESSION['collection'])){
+				$artists=OC_MEDIA_COLLECTION::getArtists();
+				foreach($artists as &$artist){
+					$artist['albums']=OC_MEDIA_COLLECTION::getAlbums($artist['artist_id']);
+					foreach($artist['albums'] as &$album){
+						$album['songs']=OC_MEDIA_COLLECTION::getSongs($artist['artist_id'],$album['album_id']);
+					}
 				}
+
+				$_SESSION['collection']=json_encode($artists);
 			}
-			
-			echo json_encode($artists);
+			echo $_SESSION['collection'];
 			break;
 		case 'scan':
+			unset($_SESSION['collection']);
+			OC_DB::beginTransaction();
 			set_time_limit(0); //recursive scan can take a while
 			$path=$arguments['path'];
-			if(OC_Filesystem::is_dir($path)){
-				$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
-				if(array_search($path,$paths)===false){
-					$paths[]=$path;
-					OC_Preferences::setValue(OC_User::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
-				}
-			}
 			echo OC_MEDIA_SCANNER::scanFolder($path);
+			OC_DB::commit();
 			flush();
 			break;
 		case 'scanFile':
+			unset($_SESSION['collection']);
 			echo (OC_MEDIA_SCANNER::scanFile($arguments['path']))?'true':'false';
 			break;
 		case 'get_artists':
@@ -99,6 +100,21 @@ if($arguments['action']){
 		case 'get_songs':
 			echo json_encode(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
 			break;
+		case 'get_path_info':
+			if(OC_Filesystem::file_exists($arguments['path'])){
+				$songId=OC_MEDIA_COLLECTION::getSongByPath($arguments['path']);
+				if($songId==0){
+					unset($_SESSION['collection']);
+					$songId= OC_MEDIA_SCANNER::scanFile($arguments['path']);
+				}
+				if($songId>0){
+					$song=OC_MEDIA_COLLECTION::getSong($songId);
+					$song['artist']=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
+					$song['album']=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
+					echo json_encode($song);
+				}
+			}
+			break;
 		case 'play':
 			ob_end_clean();
 			
@@ -108,14 +124,46 @@ if($arguments['action']){
 			OC_MEDIA_COLLECTION::registerPlay($songId);
 			
 			header('Content-Type:'.$ftype);
+			 // calc an offset of 24 hours
+			$offset = 3600 * 24;
+			// calc the string in GMT not localtime and add the offset
+			$expire = "Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT";
+			//output the HTTP header
+			Header($expire);
 			header('Expires: 0');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Cache-Control: max-age=3600, must-revalidate');
 			header('Pragma: public');
+			header('Accept-Ranges: bytes');
 			header('Content-Length: '.OC_Filesystem::filesize($arguments['path']));
+			$gmt_mtime = gmdate('D, d M Y H:i:s', OC_Filesystem::filemtime($arguments['path']) ) . ' GMT';
+			header("Last-Modified: " . $gmt_mtime );
 			
 			OC_Filesystem::readfile($arguments['path']);
 			exit;
+		case 'find_music':
+			echo json_encode(findMusic());
+			exit;
 	}
+}
+
+function findMusic($path='/'){
+	$music=array();
+	$dh=OC_Filesystem::opendir($path);
+	if($dh){
+		while($filename=readdir($dh)){
+			if($filename[0]!='.'){
+				$file=$path.'/'.$filename;
+				if(OC_Filesystem::is_dir($file)){
+					$music=array_merge($music,findMusic($file));
+				}else{
+					if(OC_MEDIA_SCANNER::isMusic($filename)){
+						$music[]=$file;
+					}
+				}
+			}
+		}
+	}
+	return $music;
 }
 
 ?>

@@ -237,6 +237,7 @@ class OC_DB {
 	public static function createDbFromStructure( $file ){
 		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
+		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
 		self::connectScheme();
 
@@ -247,6 +248,9 @@ class OC_DB {
 		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite don't
+			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+		}
 		file_put_contents( $file2, $content );
 
 		// Try to create tables
@@ -359,6 +363,41 @@ class OC_DB {
 		unlink( $file2 );
 		foreach($definition['tables'] as $name=>$table){
 			self::dropTable($name);
+		}
+	}
+	
+	/**
+	 * Start a transaction or set a savepoint.
+	 * @param string $savePoint (optional) name of the savepoint to set
+	 */
+	public static function beginTransaction($savePoint=''){
+		self::connect();
+		if (!self::$DBConnection->supports('transactions')) {
+			return false;
+		}
+		if($savePoint && !self::$DBConnection->supports('savepoints')){
+			return false;
+		}
+		if($savePoint){
+			self::$DBConnection->beginTransaction($savePoint);
+		}else{
+			self::$DBConnection->beginTransaction();
+		}
+	}
+
+	/**
+	 * Commit the database changes done during a transaction that is in progress or release a savepoint.
+	 * @param string $savePoint (optional) name of the savepoint to commit
+	 */
+	public static function commit($savePoint=''){
+		self::connect();
+		if(!self::$DBConnection->inTransaction()){
+			return false;
+		}
+		if($savePoint){
+			self::$DBConnection->commit($savePoint);
+		}else{
+			self::$DBConnection->commit();
 		}
 	}
 }

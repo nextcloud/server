@@ -39,7 +39,7 @@
 			<legend><?php echo $l->t( 'Configure the database.' ); ?></legend>
 			<?php if($_['hasSQLite']): ?>
 			<input type='hidden' id='hasSQLite' value='true'/>
-			<?php if(!$_['hasMySQL']): ?>
+			<?php if(!$_['hasMySQL'] and !$_['hasPostgreSQL']): ?>
 			<p><?php echo $l->t( 'SQLite will be used for the database. You have nothing to do.' ); ?></p>
 			<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
 			<?php else: ?>
@@ -49,11 +49,11 @@
 
 			<?php if($_['hasMySQL']): ?>
 			<input type='hidden' id='hasMySQL' value='true'/>
-			<?php if(!$_['hasSQLite']): ?>
+			<?php if(!$_['hasSQLite'] and !$_['hasPostgreSQL']): ?>
 			<p><?php echo $l->t( 'MySQL will be used for the database.' ); ?></p>
 			<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 			<?php else: ?>
-			<p><label class="mysql" for="mysql">MySQL </label><input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_Helper::init_radio('dbtype', 'mysql', 'sqlite'); ?>/></p>
+			<p><label class="mysql" for="mysql">MySQL </label><input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/></p>
 			<?php endif; ?>
 			<div id="use_mysql">
 				<p><label for="dbuser"><?php echo $l->t( 'MySQL username:' ); ?></label><input type="text" name="dbuser" id="dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" /></p>
@@ -61,6 +61,24 @@
 				<p><label for="dbname"><?php echo $l->t( 'Database name:' ); ?></label><input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" /></p>
 				<p><label for="dbhost"><?php echo $l->t( 'Host:' ); ?></label><input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" /></p>
 				<p><label for="dbtableprefix"><?php echo $l->t( 'Table prefix:' ); ?></label><input type="text" name="dbtableprefix" id="dbtableprefix" value="<?php print OC_Helper::init_var('dbtableprefix', 'oc_'); ?>" /></p>
+				
+			</div>
+			<?php endif; ?>
+
+			<?php if($_['hasPostgreSQL']): ?>
+			<input type='hidden' id='hasPostgreSQL' value='true'/>
+			<?php if(!$_['hasSQLite'] and !$_['hasSQLite']): ?>
+			<p><?php echo $l->t( 'PostgreSQL will be used for the database.' ); ?></p>
+			<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
+			<?php else: ?>
+			<p><label class="pgsql" for="pgsql">PostgreSQL </label><input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/></p>
+			<?php endif; ?>
+			<div id="use_postgresql">
+				<p><label for="pg_dbuser"><?php echo $l->t( 'PostgreSQL username:' ); ?></label><input type="text" name="pg_dbuser" id="pg_dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" /></p>
+				<p><label for="pg_dbpass"><?php echo $l->t( 'PostgreSQL password:' ); ?></label><input type="password" name="pg_dbpass" id="pg_dbpass" value="<?php print OC_Helper::init_var('dbpass'); ?>" /></p>
+				<p><label for="pg_dbname"><?php echo $l->t( 'Database name:' ); ?></label><input type="text" name="pg_dbname" id="pg_dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" /></p>
+				<p><label for="pg_dbhost"><?php echo $l->t( 'Host:' ); ?></label><input type="text" name="pg_dbhost" id="pg_dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" /></p>
+				<p><label for="pg_dbtableprefix"><?php echo $l->t( 'Table prefix:' ); ?></label><input type="text" name="pg_dbtableprefix" id="pg_dbtableprefix" value="<?php print OC_Helper::init_var('dbtableprefix', 'oc_'); ?>" /></p>
 				
 			</div>
 			<?php endif; ?>

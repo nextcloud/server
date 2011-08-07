@@ -6,12 +6,20 @@ if (!in_array ('curl', get_loaded_extensions())){
 }
 
 $urlBase=((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'];
-OC_Util::addHeader('link',array('rel'=>'openid.server', 'href'=>$urlBase.OC_Helper::linkTo( "user_openid", "user.php" ).'/'));
-OC_Util::addHeader('link',array('rel'=>'openid.delegate', 'href'=>$urlBase.OC_Helper::linkTo( "user_openid", "user.php" ).'/'));
+
+$userName='';
+if(strpos($_SERVER["REQUEST_URI"],'?') and !strpos($_SERVER["REQUEST_URI"],'=')){
+	if(strpos($_SERVER["REQUEST_URI"],'/?')){
+		$userName=substr($_SERVER["REQUEST_URI"],strpos($_SERVER["REQUEST_URI"],'/?')+2);
+	}elseif(strpos($_SERVER["REQUEST_URI"],'.php?')){
+		$userName=substr($_SERVER["REQUEST_URI"],strpos($_SERVER["REQUEST_URI"],'.php?')+5);
+	}
+}
+
+OC_Util::addHeader('link',array('rel'=>'openid.server', 'href'=>$urlBase.OC_Helper::linkTo( "user_openid", "user.php" ).'/'.$userName));
+OC_Util::addHeader('link',array('rel'=>'openid.delegate', 'href'=>$urlBase.OC_Helper::linkTo( "user_openid", "user.php" ).'/'.$userName));
 
 require_once 'apps/user_openid/user_openid.php';
-
-OC_App::addSettingsPage( array( "id" => "user_openid_settings", 'order'=>1, "href" => OC_Helper::linkTo( "user_openid", "settings.php" ), "name" => "OpenID"));
 
 //active the openid backend
 OC_User::useBackend('openid');

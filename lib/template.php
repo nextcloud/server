@@ -82,19 +82,19 @@ function relative_modified_date($timestamp) {
 	$diffdays = round($diffhours/24);
 	$diffmonths = round($diffdays/31);
 	$diffyears = round($diffdays/365);
+
 	if($timediff < 60) { return 'seconds ago'; }
 	else if($timediff < 120) { return '1 minute ago'; }
 	else if($timediff < 3600) { return $diffminutes.' minutes ago'; }
 	//else if($timediff < 7200) { return '1 hour ago'; }
 	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
-	else if($timediff < 86400) { return 'today'; }
-	else if($timediff < 172800) { return 'yesterday'; }
+	else if((date('G')-$diffhours) > 0) { return 'today'; }
+	else if((date('G')-$diffhours) > -24) { return 'yesterday'; }
 	else if($timediff < 2678400) { return $diffdays.' days ago'; }
 	else if($timediff < 5184000) { return 'last month'; }
-	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
-	else if($timediff < 31556926) { return 'months ago'; }
+	else if((date('n')-$diffmonths) > 0) { return 'months ago'; }
 	else if($timediff < 63113852) { return 'last year'; }
-	else { return $diffyears.' years ago'; }
+	else { return 'years ago'; }
 }
 
 
@@ -139,12 +139,14 @@ class OC_Template{
 		}
 
 		// Templates have the ending .php
+		$path = $template;
 		$template .= "$name.php";
 
 		// Set the private data
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->template = $template;
+		$this->path = $path;
 		$this->vars = array();
 		$this->l10n = new OC_L10N($app);
 	}
@@ -317,6 +319,27 @@ class OC_Template{
 		ob_end_clean();
 
 		// return the data
+		return $data;
+	}
+
+	/**
+	 * @brief Include template
+	 * @returns returns content of included template
+	 *
+	 * Includes another template. use <?php echo $this->inc('template'); ?> to
+	 * do this.
+	 */
+	public function inc( $file ){
+		// $_ erstellen
+		$_ = $this->vars;
+
+		// Einbinden
+		ob_start();
+		include( $this->path.$file.'.php' );
+		$data = ob_get_contents();
+		ob_end_clean();
+
+		// Daten zurückgeben
 		return $data;
 	}
 

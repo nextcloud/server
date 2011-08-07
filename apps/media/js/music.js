@@ -1,27 +1,29 @@
 $(document).ready(function(){
 	//load the collection
-	$('#plugins a[href="#collection"]').click(function(){
-		$('#plugins li.subentry a.active').removeClass('active');
+	$('#navigation a[href="#collection"]').click(function(){
+		$('#navigation li.subentry a.active').removeClass('active');
 		$(this).addClass('active');
 		PlayList.hide();
 		Collection.display();
 	});
-	$('#plugins a[href="#playlist"]').click(function(){
-		$('#plugins li.subentry a.active').removeClass('active');
+	$('#navigation a[href="#playlist"]').click(function(){
+		$('#navigation li.subentry a.active').removeClass('active');
 		$(this).addClass('active');
 		PlayList.render();
 		Collection.hide();
 	});
 	var tab=window.location.href.slice(window.location.href.indexOf('#') + 1);
-	if(tab=='collection'){
-		$('#plugins a[href="#collection"]').trigger('click');
-	}
+	PlayList.init('mp3',function(){
+		if(tab=='collection'){
+			$('#navigation a[href="#collection"]').trigger('click');
+		}
+	});
 	OC.search.customResults.Music=function(row,item){
 		var parts=item.link.substr(item.link.indexOf('#')+1).split('&');
 		var data={};
 		for(var i=0;i<parts.length;i++){
 			var itemParts=parts[i].split('=');
-			data[itemParts[0]]=decodeURIComponent(itemParts[1]).replace(/\+/g,' ');
+			data[itemParts[0]]=itemParts[1].replace(/\+/g,' ');
 		}
 		var media=Collection.find(data.artist,data.album,data.song);
 		var a=row.find('a');
@@ -52,7 +54,7 @@ function getUrlVars(){
 	{
 		hash = hashes[i].split('=');
 		vars.push(hash[0]);
-		vars[hash[0]] = decodeURIComponent(hash[1]).replace(/\+/g,' ');
+		vars[hash[0]] = hash[1].replace(/\+/g,' ');
 	}
 	return vars;
 }

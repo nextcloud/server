@@ -25,7 +25,13 @@ class OC_Util {
 
 		// Create root dir
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
-			@mkdir($CONFIG_DATADIRECTORY_ROOT) or die("Can't create data directory ($CONFIG_DATADIRECTORY_ROOT), you can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (www-data for debian/ubuntu)");
+			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
+                        if(!$success) {
+				$tmpl = new OC_Template( '', 'error', 'guest' );
+				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory ($CONFIG_DATADIRECTORY_ROOT)",'hint'=>"You can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (".exec('whoami').")")));
+				$tmpl->printPage();
+				exit;
+  			}
 		}
 
 		// If we are not forced to load a specific user we load the one that is logged in
@@ -214,21 +220,21 @@ class OC_Util {
 
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
-			$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
+			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,-1)!='0'){
 				OC_Helper::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
 				clearstatcache();
-				$prems=substr(decoct(fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
+				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 				if(substr($prems,2,1)!='0'){
 					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>','hint'=>$permissionsHint);
 				}
 			}
 			if( OC_Config::getValue( "enablebackup", false )){
-				$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
+				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 				if(substr($prems,-1)!='0'){
 					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY,0770);
 					clearstatcache();
-					$prems=substr(decoct(fileperms($CONFIG_BACKUPDIRECTORY)),-3);
+					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 					if(substr($prems,2,1)!='0'){
 						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>','hint'=>$permissionsHint);
 					}

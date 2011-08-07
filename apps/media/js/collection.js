@@ -32,6 +32,10 @@ Collection={
 					for(var i=0;i<Collection.loadedListeners.length;i++){
 						Collection.loadedListeners[i]();
 					}
+					if(collection.length==0){
+						$('#scan input.start').val('Scan Collection');
+						$('#plugins a[href="#collection"]').trigger('click');
+					}
 					
 				}
 			});
@@ -159,6 +163,35 @@ Collection={
 				}
 			}
 		}
+	},
+	addSong:function(song){
+		var artist=false
+		var album=false;
+		for(var i=0;i<Collection.artists.length;i++){
+			if(Collection.artists[i].artist_id==song.song_artist){
+				artist=Collection.artists[i];
+				for(var j=0;j<artist.albums.length;j++){
+					if(artist.albums[j].album_id==song.song_album){
+						album=artist.albums[j];
+						break;
+					}
+				}
+				break;
+			}
+		}
+		if(!artist){
+			artist={artist_id:song.song_artist,artist_name:song.artist,albums:[]};
+			Collection.artists.push(artist);
+			if(!Collection.parent || Collection.parent.is(":visible")){
+				Collection.display();
+			}
+			
+		}
+		if(!album){
+			album={album_id:song.song_album,album_name:song.album,album_artist:song.song_artist,songs:[]};
+			artist.albums.push(album)
+		}
+		album.songs.push(song)
 	}
 }
 
@@ -172,5 +205,14 @@ $(document).ready(function(){
 	$('#collection li.album>span').live('click',function(){
 		$(this).parent().toggleClass('active');
 		Collection.showSongs($(this).parent());
+	});
+	Collection.parent.hide();
+	$('#scan input.start').click(function(){
+		$('#scan input.start').hide();
+		$('#scan input.stop').show();
+		$('#scan input.stop').click(function(){
+			Scanner.toggle();
+		});
+		Scanner.scanCollection();
 	});
 });

@@ -118,29 +118,7 @@ FileActions.register('all','Download',OC.imagePath('core','actions/download'),fu
 });
 
 FileActions.register('all','Delete',OC.imagePath('core','actions/delete'),function(filename){
-	$( "#delete-confirm" ).dialog({
-		resizable: false,
-		height:200,
-		title:"Delete "+filename,
-		modal: true,
-		buttons: {
-			"Delete": function() {
-				$( this ).dialog( "close" );
-				$.ajax({
-					url: 'ajax/delete.php',
-					data: "dir="+encodeURIComponent($('#dir').val())+"&file="+encodeURIComponent(filename),
-					complete: function(data){
-						boolOperationFinished(data, function(){
-							FileList.remove(filename);
-						});
-					}
-				});
-			},
-			Cancel: function() {
-				$( this ).dialog( "close" );
-			}
-		}
-	});
+	FileList.delete(filename);
 });
 
 FileActions.register('all','Rename',OC.imagePath('core','actions/rename'),function(filename){
