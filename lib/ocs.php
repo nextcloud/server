@@ -407,7 +407,7 @@ class OC_OCS {
     $entry=$result->fetchRow();
     $totalcount=$entry['co'];
 	
-	$query=OC_DB::prepare('select id,timestamp,user,type,message from *PREFIX*log order by timestamp desc limit ?,?');
+	$query=OC_DB::prepare('select id,timestamp,`user`,type,message from *PREFIX*log order by timestamp desc limit ?,?');
     $result = $query->execute(array(($page*$pagesize),$pagesize))->fetchAll();
     
     $itemscount=count($result);
