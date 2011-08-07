@@ -97,7 +97,7 @@ if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 }
 
 // set the right include path
-set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3dparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
+set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
 
 //Some libs we really depend on
 require_once('Sabre/autoload.php');
