@@ -237,6 +237,7 @@ class OC_DB {
 	public static function createDbFromStructure( $file ){
 		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
+		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
 		self::connectScheme();
 
@@ -247,6 +248,9 @@ class OC_DB {
 		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite don't
+			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+		}
 		file_put_contents( $file2, $content );
 
 		// Try to create tables

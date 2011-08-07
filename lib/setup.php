@@ -2,10 +2,12 @@
 
 $hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
+$hasPostgreSQL = is_callable('pg_connect');
 $datadir = OC_Config::getValue('datadir', $SERVERROOT.'/data');
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
+	'hasPostgreSQL' => $hasPostgreSQL,
 	'directory' => $datadir,
 	'errors' => array(),
 );
@@ -43,6 +45,7 @@ class OC_Setup {
 		if(empty($options['directory'])) {
 			$error[] = 'STEP 2 : data directory path is not set.';
 		}
+
 		if($dbtype=='mysql') { //mysql needs more config options
 			if(empty($options['dbuser'])) {
 				$error[] = 'STEP 3 : MySQL database user is not set.';
@@ -58,6 +61,24 @@ class OC_Setup {
 			}
 			if(!isset($options['dbtableprefix'])) {
 				$error[] = 'STEP 3 : MySQL database table prefix is not set.';
+			}
+		}
+
+		if($dbtype=='pgsql') { //postgresql needs more config options
+			if(empty($options['pg_dbuser'])) {
+				$error[] = 'STEP 3 : PostgreSQL database user is not set.';
+			}
+			if(empty($options['pg_dbpass'])) {
+				$error[] = 'STEP 3 : PostgreSQL database password is not set.';
+			}
+			if(empty($options['pg_dbname'])) {
+				$error[] = 'STEP 3 : PostgreSQL database name is not set.';
+			}
+			if(empty($options['pg_dbhost'])) {
+				$error[] = 'STEP 3 : PostgreSQL database host is not set.';
+			}
+			if(!isset($options['pg_dbtableprefix'])) {
+				$error[] = 'STEP 3 : PostgreSQL database table prefix is not set.';
 			}
 		}
 
@@ -128,6 +149,62 @@ class OC_Setup {
 					mysql_close($connection);
 				}
 			}
+			elseif($dbtype == 'pgsql') {
+				$dbuser = $options['pg_dbuser'];
+				$dbpass = $options['pg_dbpass'];
+				$dbname = $options['pg_dbname'];
+				$dbhost = $options['pg_dbhost'];
+				$dbtableprefix = $options['pg_dbtableprefix'];
+				OC_CONFIG::setValue('dbname', $dbname);
+				OC_CONFIG::setValue('dbhost', $dbhost);
+				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
+
+				//check if the database user has admin right
+				$connection_string = "host=$dbhost dbname=postgres user=$dbuser password=$dbpass";
+				$connection = @pg_connect($connection_string);
+				if(!$connection) {
+					$error[] = array(
+						'error' => 'postgresql username and/or password not valid',
+						'hint' => 'you need to enter either an existing account, or the administrative account if you wish to create a new user for ownCloud'
+					);
+				}
+				else {
+					//check for roles creation rights in postgresql
+					$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$dbuser'";
+					$result = pg_query($connection, $query);
+					if($result and pg_num_rows($result) > 0) {
+						//use the admin login data for the new database user
+
+						//add prefix to the postgresql user name to prevent collissions
+						$dbusername='oc_'.$username;
+						//hash the password so we don't need to store the admin config in the config file
+						$dbpassword=md5(time().$password);
+						
+						self::pg_createDBUser($dbusername, $dbpassword, $connection);
+						
+						OC_CONFIG::setValue('dbuser', $dbusername);
+						OC_CONFIG::setValue('dbpassword', $dbpassword);
+
+						//create the database
+						self::pg_createDatabase($dbname, $dbusername, $connection);
+					}
+					else {
+						OC_CONFIG::setValue('dbuser', $dbuser);
+						OC_CONFIG::setValue('dbpassword', $dbpass);
+
+						//create the database
+						self::pg_createDatabase($dbname, $dbuser, $connection);
+					}
+
+					//fill the database if needed
+					$query="SELECT * FROM {$dbtableprefix}users";
+					$result = pg_query($connection, $query);
+					if(!$result) {
+						OC_DB::createDbFromStructure('db_structure.xml');
+					}
+					pg_close($connection);
+				}
+			}
 			else {
 				//delete the old sqlite database first, might cause infinte loops otherwise
 				if(file_exists("$datadir/owncloud.db")){
@@ -177,6 +254,29 @@ class OC_Setup {
 		$result = mysql_query($query, $connection);
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
+	}
+
+	public static function pg_createDatabase($name,$user,$connection) {
+		//we cant user OC_BD functions here because we need to connect as the administrative user.
+		$query = "CREATE DATABASE $name OWNER $user";
+		$result = pg_query($connection, $query);
+		if(!$result) {
+			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		}
+		$query = "REVOKE ALL PRIVILEGES ON DATABASE $name FROM PUBLIC";
+		$result = pg_query($connection, $query);		
+	}
+
+	private static function pg_createDBUser($name,$password,$connection) {
+		$query = "CREATE USER $name CREATEDB PASSWORD '$password';";
+		$result = pg_query($connection, $query);
+		if(!$result) {
+			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		}
 	}
 
 	/**
