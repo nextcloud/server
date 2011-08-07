@@ -38,6 +38,7 @@ if(count($errors) > 0) {
 // Setup required :
 elseif($not_installed OR $install_called) {
 	require_once('setup.php');
+	exit();
 }
 
 if($_SERVER['REQUEST_METHOD']=='PROPFIND'){//handle webdav
