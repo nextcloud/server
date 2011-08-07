@@ -1,10 +1,12 @@
 $(document).ready(function() {
-	$(this).click(function() {
-		if ($('#dropdown').is(':visible')) {
-			$('#dropdown').hide('blind', function() {
-				$('#dropdown').remove();
-				$('tr').removeClass('mouseOver');
-			});
+	$(this).click(function(event) {
+		if ($(event.target).parents().index($('#dropdown')) == -1) {
+			if ($('#dropdown').is(':visible')) {
+				$('#dropdown').hide('blind', function() {
+					$('#dropdown').remove();
+					$('tr').removeClass('mouseOver');
+				});
+			}
 		}
 	});
 	FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
@@ -35,13 +37,29 @@ $(document).ready(function() {
 		});
 	});
 	$('.permissions').live('change', function() {
-		// TODO Modify item ajax call
+		var permissions;
+		if (this.checked) {
+			permissions = 1;
+		} else {
+			permissions = 0;
+		}
+		var source = $('#dropdown').data('file');
+		var uid_shared_with = $(this).parent().data('uid_shared_with');
+		var data = 'source='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with)+'&permissions='+encodeURIComponent(permissions);
+		$.ajax({
+			type: 'GET',
+			url: OC.linkTo('files_sharing','ajax/setpermissions.php'),
+			cache: false,
+			data: data
+		});
 	});
 	$('.unshare').live('click', function(event) {
+		// TODO Fix unshare
 		event.preventDefault();
+		event.stopPropagation();
 		var source = $('#dropdown').data('file');
-		var uid_shared_with = $(this).data('uid_shared_with');
-		var data='source='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with);
+		var uid_shared_with = $(this).parent().data('uid_shared_with');
+		var data = 'source='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with);
 		$.ajax({
 			type: 'GET',
 			url: OC.linkTo('files_sharing','ajax/unshare.php'),
@@ -84,13 +102,16 @@ $(document).ready(function() {
 			});
 		}
 	});
+	$('#link').live('click', function() {
+		$(this).focus();
+		$(this).select();
+	});
 });
 
 function createShareDropdown(filenames, files) {
 	var html = "<div id='dropdown' data-file='"+files+"'>";
 	html += "<div id='private'>";
 	html += "<input placeholder='User or Group' id='uid_shared_with' />";
-	html += "<input type='checkbox' name='permissions' id='permissions' value='1' /><label for='permissions'>can edit</label>";
 	html += "<div id='shared_list'></div>";
 	html += "</div>";
 	html += "<div id='public'>";
@@ -105,13 +126,23 @@ function createShareDropdown(filenames, files) {
 		if (users) {
 			var list = "<ul>";
 			$.each(users, function(index, row) {
-				list += "<li>";   
-				list += row.uid_shared_with;
-				list += "<input type='checkbox' name='permissions' data-uid_shared_with='"+row.uid_shared_with+"' /><label>can edit</label>";
-				list += "<a href='' title='Unshare' class='unshare' data-uid_shared_with='"+row.uid_shared_with+"'><img src='"+OC.imagePath('core','actions/delete')+"'/></a>";
-				list += "</li>";
-				if (row.permissions > 0) {
-					$('share_private_permissions').prop('checked', true);
+				if (typeof(index) == 'string') {
+					// TODO typeof not always working, group together users that have parent folders shared with them
+					list += "<li>disabled";
+					list += index;
+					list += row.uid_shared_with;
+					list += "</li>";
+				} else {
+					list += "<li data-uid_shared_with='"+row.uid_shared_with+"'>";
+					list += row.uid_shared_with;
+					var checked;
+					if (row.permissions > 0) {
+						checked = "checked='checked'";
+					}
+					list += "<input type='checkbox' name='permissions' id='"+index+"' class='permissions' "+checked+" /><label for='"+index+"'>can edit</label>";
+					list += "<a href='' title='Unshare' class='unshare' data-uid_shared_with='"+row.uid_shared_with+"'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a>";
+					list += "</li>";
+					
 				}
 			});
 			list += "</ul>";
@@ -127,7 +158,4 @@ function createShareDropdown(filenames, files) {
 		}
 	});
 	$('#dropdown').show('blind');
-	$('#dropdown').click(function(event) {
-		event.stopPropagation();
-	});
 }

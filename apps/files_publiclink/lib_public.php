@@ -57,7 +57,9 @@ class OC_PublicLink{
 	public static function getLink($path) {
 		$query=OC_DB::prepare("SELECT token FROM *PREFIX*publiclink WHERE user=? AND path=? LIMIT 1");
 		$result=$query->execute(array(OC_User::getUser(),$path))->fetchAll();
-		return $result[0]['token'];
+		if(count($result)>0){
+			return $result[0]['token'];
+		}
 	}
 
 	/**
