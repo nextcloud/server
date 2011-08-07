@@ -30,7 +30,6 @@ class OC_Util {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
 				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory ($CONFIG_DATADIRECTORY_ROOT)",'hint'=>"You can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (".exec('whoami').")")));
 				$tmpl->printPage();
-phpinfo();
 				exit;
   			}
 		}
