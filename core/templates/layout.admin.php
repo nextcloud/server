@@ -36,36 +36,34 @@
 			</ul>
 		</div>
 
-		<div id="main">
-			<div id="navigation">
-				<ul>
-					<?php foreach($_['settingsnavigation'] as $entry):?>
-						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
-						<?php if( sizeof( $entry["subnavigation"] )): ?>
-							<?php foreach($entry["subnavigation"] as $subentry):?>
-								<li><a href="<?php echo $subentry['href']; ?>" title="" <?php if( $subentry['active'] ): ?>class="active"<?php endif; ?>><?php echo $subentry['name'] ?></a></li>
-							<?php endforeach; ?>
-						<?php endif; ?>
-					<?php endforeach; ?>
-					<?php if(isset($_['adminnavigation'])):?>
-						<?php foreach($_['adminnavigation'] as $entry):?>
-							<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a>
-							<?php if( sizeof( $entry["subnavigation"] )): ?>
-								<ul>
-									<?php foreach($entry["subnavigation"] as $subentry):?>
-										<li class="subentry"><a class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
-									<?php endforeach; ?>
-								</ul>
-							<?php endif; ?>
-							</li>
+		<div id="navigation">
+			<ul>
+				<?php foreach($_['settingsnavigation'] as $entry):?>
+					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
+					<?php if( sizeof( $entry["subnavigation"] )): ?>
+						<?php foreach($entry["subnavigation"] as $subentry):?>
+							<li><a href="<?php echo $subentry['href']; ?>" title="" <?php if( $subentry['active'] ): ?>class="active"<?php endif; ?>><?php echo $subentry['name'] ?></a></li>
 						<?php endforeach; ?>
 					<?php endif; ?>
-				</ul>
-			</div>
+				<?php endforeach; ?>
+				<?php if(isset($_['adminnavigation'])):?>
+					<?php foreach($_['adminnavigation'] as $entry):?>
+						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a>
+						<?php if( sizeof( $entry["subnavigation"] )): ?>
+							<ul>
+								<?php foreach($entry["subnavigation"] as $subentry):?>
+									<li class="subentry"><a class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>" href="<?php echo $subentry['href']; ?>" title=""><?php echo $subentry['name'] ?></a></li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+						</li>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</ul>
+		</div>
 
-			<div id="content">
-				<?php echo $_['content']; ?>
-			</div>
+		<div id="content">
+			<?php echo $_['content']; ?>
 		</div>
 	</body>
 </html>

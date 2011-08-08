@@ -37,25 +37,23 @@
 			</ul>
 		</div>
 
-		<div id="main">
-			<div id="navigation">
-				<ul>
-					<?php foreach($_['navigation'] as $entry): ?>
-						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
-							<?php if( sizeof( $entry["subnavigation"] )): ?>
-								<ul>
-									<?php foreach($entry["subnavigation"] as $subentry):?>
-										<li class="subentry"><a style="background-image:url(<?php echo $subentry['icon']; ?>)" href="<?php echo $subentry['href']; ?>" title="" class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>"><?php echo $subentry['name'] ?></a></li>
-									<?php endforeach; ?>
-								</ul>
-							<?php endif; ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-			<div id="content">
-				<?php echo $_['content']; ?>
-			</div>
+		<div id="navigation">
+			<ul>
+				<?php foreach($_['navigation'] as $entry): ?>
+					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
+						<?php if( sizeof( $entry["subnavigation"] )): ?>
+							<ul>
+								<?php foreach($entry["subnavigation"] as $subentry):?>
+									<li class="subentry"><a style="background-image:url(<?php echo $subentry['icon']; ?>)" href="<?php echo $subentry['href']; ?>" title="" class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>"><?php echo $subentry['name'] ?></a></li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+		<div id="content">
+			<?php echo $_['content']; ?>
 		</div>
 	</body>
 </html>
