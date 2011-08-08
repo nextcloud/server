@@ -1,2 +1,4 @@
-#passworderror{display:none;}
-#passwordchanged{display:none;}
+#passworderror { display:none; }
+#passwordchanged { display:none; }
+
+input#identity { width:20em; }

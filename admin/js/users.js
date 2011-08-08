@@ -57,7 +57,7 @@ $(document).ready(function(){
 		// Add user to table
 		var newrow = '<tr x-uid="'+username+'"><td x-use="username"><div x-use="usernamediv">'+username+'</div></td>';
 		newrow = newrow+'<td x-use="usergroups"><div x-use="usergroupsdiv">'+groups+'</td>';
-		newrow = newrow+'<td><a class="removeuserbutton" href="">remove</a></td></tr>';
+		newrow = newrow+'<td><input type="submit" class="removeuserbutton" value="Remove" /></td></tr>';
 		$("#usertable").append( newrow  );
 
 		// Clear forms
@@ -71,7 +71,7 @@ $(document).ready(function(){
 
 	function groupCreated( groupname ){
 		var newrow = '<tr x-gid="'+groupname+'"><td>' + groupname + '</td>';
-		newrow = newrow + '<td><a class="removegroupbutton" href="">remove</a></td></tr>';
+		newrow = newrow + '<td><input type="submit" class="removeuserbutton" value="Remove" /></td></tr>';
 		$("#grouptable").append( newrow  );
 
 		// Delete form content

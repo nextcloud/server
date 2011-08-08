@@ -56,7 +56,7 @@
 					<td><?php echo $group["name"] ?></td>
 					<td>
 						<?php if( $group["name"] != "admin" ): ?>
-							<input type="submit" class="removegroupbutton" value="<?php echo $l->t( 'remove' ); ?>" />
+							<input type="submit" class="removegroupbutton" value="<?php echo $l->t( 'Remove' ); ?>" />
 						<?php else: ?>
 							&nbsp;
 						<?php endif; ?>

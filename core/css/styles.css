@@ -24,15 +24,15 @@ input[type="checkbox"] { width:auto; }
 #remember_login { margin:.8em .2em 0 1em; }
 form.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.3em; right:7em; padding:.2em .5em .2em 1.5em; background:#f8f8f8 url('../img/actions/search.png') .5em center no-repeat; border:0; -moz-border-radius:1em; -webkit-border-
 radius:1em; border-radius:1em; }
-input[type="submit"].enabled { background:#aea; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
-input[type="submit"].highlight{ background:#ffc100; border:1px solid #dda600; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
+input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
+input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
 
 form#user_settings { max-width:600px; }
 form#user_settings p label { display:block; float:left; width:35%; padding:0.4em 0.5em 0 0; text-align:right; }
 form p { padding:0.5em 4em 0.5em 0.5em; text-align:left; }
 form p.form_footer { margin:1em 0 0 0; text-align:right; }
 form label { cursor:pointer; }
-fieldset { padding:1em; width:40em; margin:1em;
+#body-settings fieldset { padding:1em; width:40em; margin:1em;
 border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f2f2f2; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;}
 legend { padding:.2em; font-size:1.2em; }
 .template{display:none;}
