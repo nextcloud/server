@@ -2,7 +2,6 @@
 	<ul class="jp-controls">
 		<li><a href="#" class="jp-play" tabindex="1">play</a></li>
 		<li><a href="#" class="jp-pause" tabindex="1">pause</a></li>
-		<li><a href="#" class="jp-stop" tabindex="1">stop</a></li>
 		<li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
 		<li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
 		<li><a href="#" class="jp-previous" tabindex="1">previous</a></li>

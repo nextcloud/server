@@ -1,23 +1,4 @@
 $(document).ready(function(){
-	//load the collection
-	$('#navigation a[href="#collection"]').click(function(){
-		$('#navigation li.subentry a.active').removeClass('active');
-		$(this).addClass('active');
-		PlayList.hide();
-		Collection.display();
-	});
-	$('#navigation a[href="#playlist"]').click(function(){
-		$('#navigation li.subentry a.active').removeClass('active');
-		$(this).addClass('active');
-		PlayList.render();
-		Collection.hide();
-	});
-	var tab=window.location.href.slice(window.location.href.indexOf('#') + 1);
-	PlayList.init('mp3',function(){
-		if(tab=='collection'){
-			$('#navigation a[href="#collection"]').trigger('click');
-		}
-	});
 	OC.search.customResults.Music=function(row,item){
 		var parts=item.link.substr(item.link.indexOf('#')+1).split('&');
 		var data={};
@@ -43,6 +24,7 @@ $(document).ready(function(){
 		});
 		row.find('div.name').append(button);
 	}
+	Collection.display();
 });
 
 

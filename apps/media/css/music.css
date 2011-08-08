@@ -3,7 +3,7 @@
 li button.right.prettybutton{font-size:1em;}
 #collection{padding-top:1em;position:relative;width:70ex;float:left;}
 #collection li.album,#collection li.song{margin-left:3ex;}
-#playlist{width:100%;border-spacing:0;}
+#playlist{border-spacing:0;}
 #playlist th{background-color:#ccc; text-align:left; font-size:1.2em; padding:0.2em}
 #playlist tr.selected{background-color:#eee;}
 #playlist tr.current{background-color:#ccc;}
@@ -12,7 +12,8 @@ li button.right.prettybutton{font-size:1em;}
 #collection li,#playlist li{list-style-type:none;}
 .template{display:none}
 
-#collection{display:none}/*hide the collection initially*/
 #collection li{padding-right:10px;}
 img.remove{float:right;}
 #searchresults input.play, #searchresults input.add{float:right; height:16px; width:16px;}
+#collection tr.collapsed td.album, #collection tr.collapsed td.title{color:#ddd}
+a.expander{float:right;display:block}
