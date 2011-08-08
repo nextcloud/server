@@ -28,7 +28,7 @@
 			<p><label for="adminpass"><?php echo $l->t( 'Password' ); ?></label><input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" /></p>
         </fieldset>
         
-        <a id='showAdvanced'><strong><?php echo $l->t( 'Advanced' ); ?></strong> <img src='<?php echo OC_Helper::imagePath('','drop-arrow.png'); ?>'></img></a>
+        <a id='showAdvanced'><strong><?php echo $l->t( 'Advanced' ); ?></strong> ▾</a>
         
         <fieldset id='datadirField'>
 			<legend><?php echo $l->t( 'Set where to store the data.' ); ?></legend>

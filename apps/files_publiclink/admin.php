@@ -35,7 +35,6 @@ if( !OC_User::isLoggedIn()){
 
 OC_App::setActiveNavigationEntry( "files_publiclink_administration" );
 
-OC_Util::addStyle( 'files_publiclink', 'admin' );
 OC_Util::addScript( 'files_publiclink', 'admin' );
 
 if(isset($_SERVER['HTTPS'])) {
