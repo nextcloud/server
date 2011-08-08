@@ -1,48 +1,8 @@
 /* APPS TABLE */
-
-table td.date
-{
-    width: 5em;
-    padding: 0.5em 1em;
-    text-align: right;
-}
-
-.preview 
-{
-    padding: 3px;
-    text-align: left;
-}
-
-table td.date
-{
-    width: 11em;
-    color: #555555;
-}
-
-table td.selection, table th.selection, table td.fileaction
-{
-    width: 2em;
-    text-align: center;
-}
-
-table td.name a
-{
-    padding: 6px;
-    text-decoration: none;
-    color: #555555;
-}
-
-.type 
-{
-    text-decoration: none;
-    color: #888888;
-    font-size: 0.8em;
-}
-
-.description 
-{
-    text-decoration: none;
-    color: #666666;
-    font-size: 0.9em;
-}
-
+table td.date { width:5em; padding:.5em 1em; text-align:right; }
+.preview  { padding:3px; text-align:left; }
+table td.date { width:11em; color:#555555; }
+table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
+table td.name a { padding:6px; text-decoration:none; color:#555555; }
+.type  { text-decoration:none; color:#888888; font-size:.8em; }
+.description  { text-decoration:none; color:#666666; font-size:.9em; }

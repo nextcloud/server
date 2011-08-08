@@ -11,28 +11,40 @@ input, select { background:#fff; color:#333; outline:0; }
 a, a img, a strong, a span, input, button, select, li { cursor:pointer; }
 input[type="text"], input[type="password"] { cursor:text; }
 
+input, select { font-size:1em; width:10em; margin:.3em; padding:.5em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+input[type="text"], input[type="password"] { background:#f8f8f8; color:#555; cursor:text; }
+input[type="text"]:hover, input[type="text"]:focus, input[type="password"]:hover, input[type="password"]:focus { background:#fff; color:#333; }
+
+input[type="submit"] { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+input[type="submit"]:hover, input[type="submit"]:focus { background:#fff; color:#333; }
+input[type="checkbox"] { width:auto; }
+
+#body-login input { font-size:1.5em; }
+#body-login input[type="submit"] { float:right; margin-right:.8em; }
+#remember_login { margin:.8em .2em 0 1em; }
+form.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.3em; right:7em; padding:.2em .5em .2em 1.5em; background:#f8f8f8 url('../img/actions/search.png') .5em center no-repeat; border:0; -moz-border-radius:1em; -webkit-border-
+radius:1em; border-radius:1em; }
+input[type="submit"].enabled { background:#aea; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
+input[type="submit"].highlight{ background:#ffc100; border:1px solid #dda600; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
+
 form#user_settings { max-width:600px; }
 form#user_settings p label { display:block; float:left; width:35%; padding:0.4em 0.5em 0 0; text-align:right; }
 form p { padding:0.5em 4em 0.5em 0.5em; text-align:left; }
 form p.form_footer { margin:1em 0 0 0; text-align:right; }
 form label { cursor:pointer; }
-form input { padding:0.2em; border:1px solid #ddd; font-size:1.2em; }
-form input[type="submit"] { padding:0.1em 1em; border:1px solid #999; font-weight:bold; font-size:0.9em; cursor:pointer; }
-form input[type="submit"]:hover, form input[type="submit"]:focus { border:1px solid #999; background-color:#999; }
-form input[type="button"], form input[type="text"] { font-size:0.9em; }
-fieldset { padding:1em; background-color:#f7f7f7; border:1px solid #ddd; max-width:600px; margin:2em 2em 2em 3em; }
-legend { padding:0.5em; font-size:1.2em; }
+fieldset { padding:1em; background-color:#f7f7f7; border:1px solid #ddd; max-width:600px; margin:2em; }
+legend { padding:.5em; font-size:1.2em; }
 .template{display:none;}
 
-div.controls { width:100%; margin:0px; background-color:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:2; }
+div.controls { width:100%; height:3em; margin:0; background-color:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:2; }
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
-#body-login { width:100%; background-image:none; background-color:#ddd; }
-#body-login p.info { width:16em; margin:2em auto; padding:1em; background-color:#eee; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+#body-login { background-color:#ddd; }
+#body-login p.info { width:16em; margin:2em auto; padding:1em; background-color:#eee; -moz-box-shadow:0 1px 0 #bbb inset; -webkit-box-shadow:0 1px 0 #bbb inset; box-shadow:0 1px 0 #bbb inset; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; }
 #body-login p.info a { font-weight:bold; }
 
-#body-login header { margin-top:-2em; height:10em;
- -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 20px #000; box-shadow:0 0 20px #000;
+#body-login header { margin:-2em auto 0; text-align:center; height:10em;
+ -moz-box-shadow:0 0 1em #000; -webkit-box-shadow:0 0 1em #000; box-shadow:0 0 1em #000;
 background: #1d2d44; /* Old browsers */
 background: -moz-linear-gradient(top, #35537a 0%, #1d2d42 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d42)); /* Chrome,Safari4+ */
@@ -41,34 +53,16 @@ background: -o-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* Opera11.10+ */
 background: -ms-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* IE10+ */
 background: linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d42',GradientType=0 ); /* IE6-9 */ }
-#login { margin:0 auto 0 auto; padding:2em 0 0 0; border-bottom:1px solid #FFF; text-align:center; background:#eee; }
-#login_form { width:20em; margin:4em auto; padding:0; }
-#login_form fieldset { background-color:transparent; border:0; }
-#login_form fieldset p { margin:0.5em 0 0 0; padding:0; text-align:left; }
-#login_form fieldset p.submit { margin:2em 0 0 0; padding:1em 0 0 0; border-top:1px solid #DDD; text-align:right; }
-#login_form label { font-size:1em; color:#666; }
-#login_form input { width:100%; margin:0 0 0.5em 0; padding:0.5em; border:1px solid #DDD; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:1.5em; color:#333; text-align:center; }
-#login_form input[type=submit] { width:auto; margin:1em 0 0 0.5em; text-align:center; border:1px solid #DDD; background-color:#FFF; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:1.5em }
-#login_form input[type=submit]:hover { border:1px solid #666; background-color:#666; color:#FFF; }
-#login_form input[type="checkbox"] { width:15px; }
-#setup_form { margin:3em auto; text-align:left; width:720px; }
-#setup_form #use_mysql { font-size:0.9em; margin:0 0 0 1em; }
-#setup_form p.intro { color:#666; font-size:1.3em; margin:4em 0 3em 0; padding:0; text-align:center; }
-#setup_form ul.errors { background-image:url(images/no.png); background-position:1em 1em; background-repeat:no-repeat; background-color:#FED7D7; border:1px solid #F00; font-size:1.2em; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
-#setup_form fieldset { margin:0 0 3em 0;	 }
-#setup_form p { line-height:1.8em; }
-#setup_form legend { font-weight:normal; }
-#setup_form label { cursor:pointer; display:block; float:left; margin:0 0 0.2em 0; text-align:right; width:40%; }
-#setup_form input[type='text'],
-#setup_form input[type='password'] { font-size:1em; margin:0 0 0 0.5em; padding:0.3em; }
-#setup_form input[type='radio'] { margin:0 0 0 1em; }
-#setup_form input[type='submit'] { background-color:#DDD; border:1px solid #999; color:#666; font-size:1.2em; }
-#setup_form input[type='submit']:hover { border-color:#000; color:#000; }
-#setup_form p.submit { padding:0 0 1em 0; text-align:center; }
 
+#login { min-height:30em; margin:2em auto 0; border-bottom:1px solid #f8f8f8; background:#eee; }
+#login form { width:18em; margin:2em auto 5em; padding:0; }
+#login form fieldset { background-color:transparent; border:0; margin:0; padding:0; }
+#login form p { position:relative; padding:0; }
+#login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
+#login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 
-.prettybutton { margin:0.1em; padding:0.2em 0.5em; border:1px solid #ddd; -moz-border-radius:15px; -webkit-border-radius:15px; border-radius:15px; font-size:1.5em; text-decoration:none; color:#666; background-color:#fff; }
-.prettybutton:hover, .prettybutton:focus { background-color:#ccc; outline:0; }
+#login form #use_mysql { font-size:.9em; margin:0 0 0 1em; }
+#login form ul.errors { background:#fed7d7 url(images/no.png) no-repeat 1em 1em; border:1px solid #f00; font-size:1.2em; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
 /* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
 #metanav { float:right; position:relative; top:.5em; right:1em; list-style:none; margin:0; padding:0; }
@@ -76,10 +70,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', end
 #metanav li a { margin:.2em; padding:.7em; }
 #metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
 #metanav li a img { vertical-align:middle; }
-
-/* SEARCH --------------------------------------------------------------------- */
-form.searchbox { display:inline; position:fixed; top:.9em; right:9em; margin:0; padding:0; }
-input[type="search"] { font-size:1em; padding-left:2em; background:#eee url('../img/actions/search.png') .5em center no-repeat; }
 
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:50; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; } }
@@ -98,16 +88,4 @@ input[type="search"] { font-size:1em; padding-left:2em; background:#eee url('../
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ddd; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 #quota_indicator div { background-color:#76A9EA; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 
-/* PAGER ------------------------------------------------------------ */
-.pager tr td { border-bottom:0px; }
-.pager tr td a { text-decoration:none; color:#666666; font-size:0.9em; text-align:center; }
-
-/* LOGS --------------------------------------------------------------------- */
-#logs_options { width:auto; margin:0; }
-#logs_options p { padding:0.5em; text-align:left; }
-#logs_options span { margin:0 2em 0 0.5em; font-weight:bold; }
-#logs_options label { margin:0 1em 0 0; }
-#logs_options input[type="submit"] { float:right; margin:0 2em 0 0; }
-#logs_options input[type="submit"].nofloat { float:none; margin:0 2em 0 0; }
-#logs_options input[type="text"] { margin:0; padding:0; border:1px solid #ccc; text-align:right; }
 li.error { list-style:none; width:640px; margin:4em auto; padding:1em 1em 1em 4em; background-color:#fee; background-image:url('../img/task-attention.png'); background-position:0.8em 0.8em; background-repeat:no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }

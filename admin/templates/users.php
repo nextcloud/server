@@ -12,8 +12,8 @@
 			<tr id="createuserform">
 				<form id="createuserdata">
 					<td>
-						<input x-use="createuserfield" type="text" name="username" placeholder='<?php echo $l->t( 'Name' ); ?>' />
-						<input x-use="createuserfield" type="password" name="password" placeholder='<?php echo $l->t( 'Password' ); ?>' />
+						<input x-use="createuserfield" type="text" name="username" placeholder="<?php echo $l->t( 'Name' ); ?>" />
+						<input x-use="createuserfield" type="password" name="password" placeholder="<?php echo $l->t( 'Password' ); ?>" />
 					</td>
 					<td id="createusergroups">
 						<?php foreach($_["groups"] as $i): ?>
@@ -22,7 +22,7 @@
 						<?php endforeach; ?>
 					</td>
 					<td>
-						<button id="createuserbutton"><?php echo $l->t( 'Create' ); ?></button>
+						<input type="submit" id="createuserbutton" value="<?php echo $l->t( 'Add user' ); ?>" />
 					</td>
 				</form>
 			</tr>
@@ -34,7 +34,7 @@
 					<td x-use="usergroups"><div x-use="usergroupsdiv"><?php if( $user["groups"] ){ echo $user["groups"]; }else{echo "&nbsp";} ?></div></td>
 					<td>
 						<?php if($user['name']!=OC_User::getUser()):?>
-							<a  class="removeuserbutton" href=""><?php echo $l->t( 'remove' ); ?></a>
+							<input type="submit" class="removeuserbutton" value="<?php echo $l->t( 'Remove' ); ?>" />
 						<?php endif;?>
 					</td>
 				</tr>
@@ -55,8 +55,8 @@
 		<tfoot>
 			<form id="creategroupdata">
 				<tr>
-					<td><input x-use="creategroupfield" type="text" name="groupname" /></td>
-					<td><button id="creategroupbutton"><?php echo $l->t( 'Create group' ); ?></button></td>
+					<td><input x-use="creategroupfield" type="text" name="groupname" placeholder="New group" /></td>
+					<td><input type="submit" id="creategroupbutton" value="<?php echo $l->t( 'Create group' ); ?>" /></td>
 				</tr>
 			</form>
 		</tfoot>
@@ -66,7 +66,7 @@
 					<td><?php echo $group["name"] ?></td>
 					<td>
 						<?php if( $group["name"] != "admin" ): ?>
-							<a class="removegroupbutton" href=""><?php echo $l->t( 'remove' ); ?></a>
+							<input type="submit" class="removegroupbutton" value="<?php echo $l->t( 'remove' ); ?>" />
 						<?php else: ?>
 							&nbsp;
 						<?php endif; ?>
@@ -94,7 +94,7 @@
 		<input id="changepassworduid" type="hidden" name="username" value="" />
 		<?php echo $l->t( 'Force new password:' ); ?>
 		<input id="changepasswordpwd" type="password" name="password" value="" />
-		<button id="changepasswordbutton"><?php echo $l->t( 'Set' ); ?></button>
+		<input type="submit" id="changepasswordbutton" value="<?php echo $l->t( 'Set' ); ?>" />
 	</form>
 </span>
 

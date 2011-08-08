@@ -11,21 +11,10 @@
 		<legend><?php echo $l->t( 'Change Password' );?></legend>
 		<div id="passwordchanged"><?php echo $l->t( 'Your password got changed');?></div>
 		<div id="passworderror"></div>
-		<p>
-			<label for="pass1"><?php echo $l->t( 'Old password:' );?></label>
-			<input type="password" id="pass1" name="oldpassword" />
-		</p>
-		<p>
-			<label for="pass2"><?php echo $l->t( 'New password' );?></label>
-			<input type="password" id="pass2" name="password" />
-		</p>
-		<p>
-			<input type="checkbox" id="show" name="show" />
-			<label for="show"><?php echo $l->t( 'Show new password' );?></label>
-		</p>
-		<p class="form_footer">
-			<input id="passwordbutton" class="prettybutton" type="submit" value="Save" />
-		</p>
+		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t( 'Old password' );?>" />
+		<input type="password" id="pass2" name="password" placeholder="<?php echo $l->t( 'New password' );?>" data-typetoggle="#show" />
+		<input type="checkbox" id="show" name="show" /><label for="show"><?php echo $l->t( 'show' );?></label>
+		<input id="passwordbutton" type="submit" value="Change password" />
 	</fieldset>
 </form>
 
@@ -33,9 +22,8 @@
 	<form id="openidform">
 		<fieldset>
 			<legend><?php echo $l->t( 'OpenID' );?></legend>
-			<p>OpenID identity for <b><?php echo OC_User::getUser();?></b></p>
-			<p><input name='identity' id='identity' value='<?php echo $_['identity']; ?>'></input></p>
-			<p><input type='submit' value='Save'></input></p>
+			<input type="text" name='identity' id='identity' value="<?php echo $_['identity']; ?>" placeholder="OpenID for <?php echo OC_User::getUser();?>" />
+			<input type="submit" value="Save" /></p>
 		</fieldset>
 	</form>
 <?php endif;?>
