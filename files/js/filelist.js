@@ -113,7 +113,7 @@ FileList={
 		var tr=$('tr[data-file="'+name+'"]');
 		tr.data('renaming',true);
 		var td=tr.children('td.filename');
-		var input=$('<input value='+name+' class="filename"></input>');
+		var input=$('<input value="'+name+'" class="filename"></input>');
 		var form=$('<form action="#"></form>')
 		form.append(input);
 		td.children('a.name').text('');
