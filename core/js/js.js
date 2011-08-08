@@ -264,6 +264,12 @@ $(document).ready(function(){
 			$('#remember_login+label').fadeIn();
 		}
 	});
+
+	if($('body').attr("id")=="body-user") { $('#settings li').hide(); }
+	$('#expand').click(function() {
+		$('#settings li').slideToggle();
+	});
+	
 });
 
 

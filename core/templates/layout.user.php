@@ -32,7 +32,7 @@
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 			<?php echo $_['searchbox']?>
 			<ul id="metanav">
-				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="Log out"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>"></a></li>
+				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="Log out"><img class='svg' src="<?php echo image_path('', 'actions/logout'); ?>" /></a></li>
 			</ul>
 		</div>
 
@@ -51,6 +51,7 @@
 				<?php endforeach; ?>
 			</ul>
 			<ul id="settings">
+				<img id="expand" class='svg' src="<?php echo image_path('', 'actions/settings'); ?>" />
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
 					<?php if( sizeof( $entry["subnavigation"] )): ?>
