@@ -8,7 +8,7 @@ table td.name a { padding:6px; text-decoration:none; color:#555; }
 .type  { text-decoration:none; color:#888; font-size:.8em; }
 .description  { text-decoration:none; color:#666; font-size:.9em; }
 
-ul#apps { width:40em; list-style:none; }
-ul#apps li { display:block; padding:.2em; clear:right; }
-ul#apps em { color:#555; }
-ul#apps input { float:right; }
+#content ul#apps { width:40em; list-style:none; }
+#content ul#apps li { display:block; padding:.2em; clear:right; }
+#content ul#apps em { color:#555; }
+#content ul#apps input { float:right; }
