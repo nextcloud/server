@@ -48,7 +48,7 @@ foreach( OC_Group::getGroups() as $i ){
 	$groups[] = array( "name" => $i );
 }
 
-$tmpl = new OC_Template( "admin", "users", "admin" );
+$tmpl = new OC_Template( "admin", "users", "user" );
 $tmpl->assign( "users", $users );
 $tmpl->assign( "groups", $groups );
 $tmpl->printPage();

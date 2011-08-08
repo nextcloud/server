@@ -1,9 +1,4 @@
 $(document).ready(function() {
-	// Hide the MySQL config div if needed :
-	if(!$('#mysql').is(':checked')) {
-		$('#use_mysql').hide();
-	}
-	
 	// Hide the PostgreSQL config div if needed:
 	if(!$('#pgsql').is(':checked')) {
 		$('#use_postgresql').hide();
@@ -35,4 +30,9 @@ $(document).ready(function() {
 			$('#databaseField').slideToggle(250);
 		}
 	});
+	
+	// Hide the MySQL config div if needed :
+	if($('#dbtype').val()=='sqlite') {
+		$('#databaseField').hide();
+	}
 });

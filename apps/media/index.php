@@ -42,17 +42,9 @@ OC_Util::addScript('media','jquery.jplayer.min');
 OC_Util::addStyle('media','player');
 OC_Util::addStyle('media','music');
 
-OC_App::setActiveNavigationEntry( 'media_playlist' );
+OC_App::setActiveNavigationEntry( 'media_index' );
 
 $tmpl = new OC_Template( 'media', 'music', 'user' );
-
-$player = new OC_Template( 'media', 'player');
-$playlist = new OC_Template( 'media', 'playlist');
-$collection= new OC_Template( 'media', 'collection');
-
-$tmpl->assign('player',$player->fetchPage());
-$tmpl->assign('playlist',$playlist->fetchPage());
-$tmpl->assign('collection',$collection->fetchPage());
 $tmpl->printPage();
 ?>
  

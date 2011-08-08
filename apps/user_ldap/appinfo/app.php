@@ -36,4 +36,4 @@ $entry = array(
 	'href' => OC_Helper::linkTo( "user_ldap", "settings.php" ),
 	'name' => 'LDAP'
 );
-OC_App::addNavigationSubEntry( "core_users", $entry);
+// OC_App::addNavigationSubEntry( "core_users", $entry);
