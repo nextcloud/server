@@ -224,7 +224,9 @@ class OC_Setup {
 				OC_Installer::installShippedApps(true);
 
 				//create htaccess files for apache hosts
-				self::createHtaccess(); //TODO detect if apache is used
+				if (strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+					self::createHtaccess();
+				}
 
 				//and we are done
 				OC_Config::setValue('installed', true);
