@@ -34,7 +34,7 @@ $(document).ready(function() {
 					html+="<td class='link'><a href='get.php?token="+token+"'>"+$('#baseUrl').val()+"?token="+token+"</a></td>"
 					html+="<td><input type='submit' class='delete' data-token='"+token+" value='Delete' /></td>"
 					html+="</tr>"
-					$(html).insertBefore($('#newlink_row'));
+					$(html).insertAfter($('#newlink_row'));
 					$('#path').val('');
 				}
 			}
