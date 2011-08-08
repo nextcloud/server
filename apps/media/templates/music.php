@@ -17,15 +17,15 @@
 	</div>
 	<div class="jp-current-time"></div>
 	<div class="jp-duration"></div>
-	<div class='player' id='jp-player'></div>
+	<div class="player" id="jp-player"></div>
 </div>
 
 <div id="leftcontent">
-<table id='playlist'>
+<table id="playlist">
 	<thead>
 		<tr>
-			<th class='name'><input id='selectAll' type='checkbox'>Name</th>
-			<th class='artist'>Artist</th>
+			<th class="name"><input id="selectAll" type="checkbox">Name</th>
+			<th class="artist">Artist</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -36,35 +36,35 @@
 		</tr>
 	</tbody>
 	<tfoot>
-		<tr class='template'>
-			<td class='name'>
-				<input type='checkbox'>
+		<tr class="template">
+			<td class="name">
+				<input type="checkbox">
 				<span></span>
 			</td>
-			<td class='artist'></td>
+			<td class="artist"></td>
 		</tr>
 	</tfoot>
 </table>
 </div>
 
 <div id="rightcontent">
-<div id='scan'>
-	<p id='scancount' style='display:none'><span class='songCount'>0</span> Songs scanned</p>
+<div id="scan">
+	<p id="scancount" style="display:none"><span class="songCount">0</span> Songs scanned</p>
 	<div id="scanprogressbar"></div>
-	<input type='button' class='start' value='Recan Collection'></input>
-	<input type='button' class='stop' style='display:none' value='Pause'></input>
+	<input type="button" class="start" value="Rescan Collection"></input>
+	<input type="button" class="stop" style="display:none" value="Pause"></input>
 </div>
-<table id='collection'>
+<table id="collection">
 	<thead>
 		<th>Artist</th>
 		<th>Album</th>
 		<th>Title</th>
 	</thead>
 	<tbody>
-		<tr class='template'>
-			<td class='artist'><a/></td>
-			<td class='album'><a/></td>
-			<td class='title'><a/></td>
+		<tr class="template">
+			<td class="artist"><a/></td>
+			<td class="album"><a/></td>
+			<td class="title"><a/></td>
 		</tr>
 	</tbody>
 </table>

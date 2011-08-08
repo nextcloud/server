@@ -1,27 +1,25 @@
 #controls ul.jp-controls{list-style-type:none;padding:0;}
 #controls ul.jp-controls li{display:inline;}
 #controls ul.jp-controls a{position:absolute;overflow:hidden;text-indent:-9999px;}
-a.jp-play,a.jp-pause{width:40px;height:40px;z-index:1;top:20px;left:48px;}
+a.jp-play,a.jp-pause{width:40px;height:40px;z-index:1;top:0;left:48px;}
 a.jp-play{background:url("../img/jplayer.blue.monday.png") 0 0 no-repeat;}
 a.jp-play:hover{background:url("../img/jplayer.blue.monday.png") -41px 0 no-repeat;}
 a.jp-pause{background:url("../img/jplayer.blue.monday.png") 0 -42px no-repeat;display:none;}
 a.jp-pause:hover{background:url("../img/jplayer.blue.monday.png") -41px -42px no-repeat;}
-a.jp-stop{top:26px;left:126px;background:url("../img/jplayer.blue.monday.png") 0 -83px no-repeat;width:28px;height:28px;z-index:1;}
-a.jp-stop:hover{background:url("../img/jplayer.blue.monday.png") -29px -83px no-repeat;}
-a.jp-previous{left:20px;top:26px;background:url("../img/jplayer.blue.monday.png") 0 -112px no-repeat;width:28px;height:28px;}
+a.jp-previous{left:20px;top:.5em;background:url("../img/jplayer.blue.monday.png") 0 -112px no-repeat;width:28px;height:28px;}
 a.jp-previous:hover{background:url("../img/jplayer.blue.monday.png") -29px -112px no-repeat;}
-a.jp-next{left:88px;top:26px;background:url("../img/jplayer.blue.monday.png") 0 -141px no-repeat;width:28px;height:28px;}
+a.jp-next{left:88px;top:.5em;background:url("../img/jplayer.blue.monday.png") 0 -141px no-repeat;width:28px;height:28px;}
 a.jp-next:hover{background:url("../img/jplayer.blue.monday.png") -29px -141px no-repeat;}
-div.jp-progress{position:absolute;overflow:hidden;background-color:#293b51;top:32px;left:164px;width:122px;height:15px;}
+div.jp-progress{position:absolute;overflow:hidden;background-color:#293b51;top:1em;left:164px;width:122px;height:15px;}
 div.jp-seek-bar{background:url("../img/jplayer.blue.monday.png") 0 -202px repeat-x;width:0;height:100%;cursor:pointer;}
 div.jp-play-bar{background:url("../img/jplayer.blue.monday.png") 0 -218px repeat-x;width:0;height:100%;}
 div.jp-seeking-bg{background:url("../img/pbar-ani.gif");}
-a.jp-mute,a.jp-unmute{height:15px;width:18px;top:32px;left:296px;}
+a.jp-mute,a.jp-unmute{height:15px;width:18px;top:1em;left:296px;}
 a.jp-mute{background:url("../img/jplayer.blue.monday.png") 0 -186px no-repeat;}
 a.jp-mute:hover{background:url("../img/jplayer.blue.monday.png") -19px -170px no-repeat;}
 a.jp-unmute{background:url("../img/jplayer.blue.monday.png") 0 -170px no-repeat;display:none;}
 a.jp-unmute:hover{background:url("../img/jplayer.blue.monday.png") -19px -186px no-repeat;}
-div.jp-volume-bar{position:absolute;overflow:hidden;background:url("../img/jplayer.blue.monday.png") 0 -250px repeat-x;width:46px;height:5px;cursor:pointer;top:37px;left:324px;}
+div.jp-volume-bar{position:absolute;overflow:hidden;background:url("../img/jplayer.blue.monday.png") 0 -250px repeat-x;width:46px;height:5px;cursor:pointer;top:1.3em;left:324px;}
 div.jp-volume-bar-value{background:url("../img/jplayer.blue.monday.png") 0 -256px repeat-x;width:0;height:5px;}
-div.jp-current-time,div.jp-duration{position:absolute;font-size:.64em;font-style:oblique;top:45px;left:164px;width:122px;}
+div.jp-current-time,div.jp-duration{position:absolute;font-size:.64em;font-style:oblique;top:1em;left:164px;width:122px;}
 div.jp-duration{text-align:right;}
