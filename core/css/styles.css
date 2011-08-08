@@ -53,7 +53,7 @@ form p { padding:0.5em 4em 0.5em 0.5em; text-align:left; }
 form p.form_footer { margin:1em 0 0 0; text-align:right; }
 form label { cursor:pointer; }
 #body-settings fieldset { padding:1em; width:40em; margin:1em;
-border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f2f2f2; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;}
+border:1px solid #ddd; font-weight:bold; background:#f2f2f2; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;}
 legend { padding:.2em; font-size:1.2em; }
 .template{display:none;}
 
