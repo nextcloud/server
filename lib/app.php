@@ -31,6 +31,9 @@ class OC_App{
 	static private $apps = array();
 	static private $activeapp = '';
 	static private $navigation = array();
+	static private $settingsForms = array();
+	static private $adminForms = array();
+	static private $personalForms = array();
 
 	/**
 	 * @brief loads all apps
@@ -283,5 +286,49 @@ class OC_App{
 		}else{
 			return $topFolder;
 		}
+	}
+	
+	
+	/**
+	 * get the forms for either settings, admin or personal
+	 */
+	public static function getForms($type){
+		$forms=array();
+		switch($type){
+			case 'settings':
+				$source=self::$settingsForms;
+				break;
+			case 'admin':
+				$source=self::$adminForms;
+				break;
+			case 'personal':
+				$source=self::$personalForms;
+				break;
+		}
+		foreach($source as $form){
+			$forms[]=include $form;
+		}
+		return $forms;
+	}
+	
+	/**
+	 * register a settings form to be shown
+	 */
+	public static function registerSettings($app,$page){
+		self::$settingsForms[]='apps/'.$app.'/'.$page.'.php';
+	}
+	
+	/**
+	 * register an admin form to be shown
+	 */
+	public static function registerAdmin($app,$page){
+		self::$adminForms[]='apps/'.$app.'/'.$page.'.php';
+	}
+	
+	/**
+	 * register a personal form to be shown
+	 */
+	public static function registerPersonal($app,$page){
+		self::$personalForms[]='apps/'.$app.'/'.$page.'.php';
 	}
 }

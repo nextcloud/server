@@ -29,10 +29,10 @@ $tmpl->assign('usage',OC_Helper::humanFileSize($used));
 $tmpl->assign('total_space',OC_Helper::humanFileSize($total));
 $tmpl->assign('usage_relative',$relative);
 $tmpl->assign('languages',$languages);
-$tmpl->assign('hasopenid',OC_App::isEnabled( 'user_openid' ));
-if(OC_App::isEnabled( 'user_openid' )){
-	$identity=OC_Preferences::getValue(OC_User::getUser(),'user_openid','identity','');
-	$tmpl->assign('identity',$identity);
+
+$forms=OC_App::getForms('personal');
+foreach($forms as $form){
+	$tmpl->append('forms',$form);
 }
 $tmpl->printPage();
 

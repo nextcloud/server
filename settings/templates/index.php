@@ -18,16 +18,6 @@
 	</fieldset>
 </form>
 
-<?php if($_['hasopenid']):?>
-	<form id="openidform">
-		<fieldset>
-			<legend><?php echo $l->t( 'OpenID' );?></legend>
-			<input type="text" name='identity' id='identity' value="<?php echo $_['identity']; ?>" placeholder="OpenID for <?php echo OC_User::getUser();?>" />
-			<input type="submit" value="Save" /></p>
-		</fieldset>
-	</form>
-<?php endif;?>
-
 <form id="languageform">
 	<fieldset>
 		<legend><?php echo $l->t( 'Language' );?></legend>
@@ -39,3 +29,7 @@
 		</select>
 	</fieldset>
 </form>
+
+<?php foreach($_['forms'] as $form){
+	echo $form;
+};?>
