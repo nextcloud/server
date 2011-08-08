@@ -24,11 +24,7 @@ class OC_PublicLink{
 	/**
 	 * get the path of that shared file
 	 */
-	public static function getPath($token){
-		//remove expired links
-		$query=OC_DB::prepare("DELETE FROM *PREFIX*publiclink WHERE expire_time < ? AND expire_time!=0");
-		$query->execute(array(time()));
-		
+	public static function getPath($token) {
 		//get the path and the user
 		$query=OC_DB::prepare("SELECT user,path FROM *PREFIX*publiclink WHERE token=?");
 		$result=$query->execute(array($token));
