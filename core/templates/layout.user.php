@@ -27,7 +27,7 @@
 		<?php endforeach; ?>
 	</head>
 
-	<body id="body-user">
+	<body id="<?php echo $_['bodyid'];?>">
 		<div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 			<?php echo $_['searchbox']?>
