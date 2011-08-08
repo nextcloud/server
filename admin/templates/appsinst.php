@@ -13,7 +13,7 @@
 				<td class="name" width="200"><?php echo($app['name']); ?></td>
 				<td class="version"><?php echo($app['version']); ?></td>
 				<td><?php echo($app['author']); ?></td>
-				<td><input x-use="appenablebutton" type="button" value="<?php echo $l->t( $app['enabled'] ? 'enabled' : 'disabled' ); ?>" class="appbutton prettybutton <?php echo( $app['enabled'] ? 'enabled' : 'disabled' ); ?>" /></td>
+				<td><input x-use="appenablebutton" type="submit" value="<?php echo $l->t( $app['enabled'] ? 'enabled' : 'disabled' ); ?>" class="appbutton <?php echo( $app['enabled'] ? 'enabled' : 'disabled' ); ?>" /></td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>

@@ -6,7 +6,7 @@
 			<?php foreach($_["kbe"] as $kb): ?>
 				<tr>
 					<td width="1"><?php if($kb["preview1"] <> "") { echo('<img class="preview" border="0" src="'.$kb["preview1"].'" />'); } ?> </a></td>
-					<td class="name"><?php echo $kb["name"]; ?><br /><?php  echo('<span class="type">'.$kb['description'].'</span>'); ?><br />
+					<td class="name"><?php echo $kb["name"]; ?><br /><?php  echo('<span class="type">'.$kb['description'].'</span>'); ?>
 					<?php if($kb['answer']<>'') echo('<br /><span class="type"><b>Answer:</b></span><br /><span class="type">'.$kb['answer'].'</span>');?>
 					</td>
 				</tr>
