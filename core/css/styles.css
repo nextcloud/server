@@ -22,7 +22,10 @@ input[type="checkbox"] { width:auto; }
 #body-login input { font-size:1.5em; }
 #body-login input[type="submit"] { float:right; margin-right:.8em; }
 #remember_login { margin:.8em .2em 0 1em; }
-form.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.3em; right:7em; padding:.2em .5em .2em 1.5em; background:#f8f8f8 url('../img/actions/search.png') .5em center no-repeat; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; }
+form.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.3em; right:7em; padding:.2em .5em .2em 1.5em; background:#f8f8f8 url('../img/actions/search.png') .5em center no-repeat; border:0; -moz-border-radius:1em; -webkit-border-
+radius:1em; border-radius:1em; }
+input[type="submit"].enabled { background:#aea; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
+input[type="submit"].highlight{ background:#ffc100; border:1px solid #dda600; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
 
 form#user_settings { max-width:600px; }
 form#user_settings p label { display:block; float:left; width:35%; padding:0.4em 0.5em 0 0; text-align:right; }

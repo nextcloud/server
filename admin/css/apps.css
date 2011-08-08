@@ -7,4 +7,3 @@ table td.selection, table th.selection, table td.fileaction { width:2em; text-al
 table td.name a { padding:6px; text-decoration:none; color:#555555; }
 .type  { text-decoration:none; color:#888888; font-size:.8em; }
 .description  { text-decoration:none; color:#666666; font-size:.9em; }
-input[type="submit"].enabled { background:#aea; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
