@@ -32,8 +32,9 @@ form#user_settings p label { display:block; float:left; width:35%; padding:0.4em
 form p { padding:0.5em 4em 0.5em 0.5em; text-align:left; }
 form p.form_footer { margin:1em 0 0 0; text-align:right; }
 form label { cursor:pointer; }
-fieldset { padding:1em; background-color:#f7f7f7; border:1px solid #ddd; max-width:600px; margin:2em; }
-legend { padding:.5em; font-size:1.2em; }
+fieldset { padding:1em; width:40em; margin:1em;
+border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f2f2f2; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;}
+legend { padding:.2em; font-size:1.2em; }
 .template{display:none;}
 
 div.controls { width:100%; height:3em; margin:0; background-color:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:2; }

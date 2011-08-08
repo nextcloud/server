@@ -8,7 +8,7 @@
 				<th></th>
 			</tr>
 		</thead>
-		<tfoot>
+		<tbody>
 			<tr id="createuserform">
 				<form id="createuserdata">
 					<td>
@@ -26,8 +26,6 @@
 					</td>
 				</form>
 			</tr>
-		</tfoot>
-		<tbody>
 			<?php foreach($_["users"] as $user): ?>
 				<tr x-uid="<?php echo $user["name"] ?>">
 					<td x-use="username"><span x-use="usernamediv"><?php echo $user["name"]; ?></span></td>
@@ -44,23 +42,15 @@
 </fieldset>
 
 <fieldset>
-		<legend><?php echo $l->t( 'Groups' ); ?></legend>
+	<legend><?php echo $l->t( 'Groups' ); ?></legend>
 	<table id="grouptable">
-		<thead>
-			<tr>
-				<th><?php echo $l->t( 'Name' ); ?></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tfoot>
+		<tbody>
 			<form id="creategroupdata">
 				<tr>
 					<td><input x-use="creategroupfield" type="text" name="groupname" placeholder="New group" /></td>
 					<td><input type="submit" id="creategroupbutton" value="<?php echo $l->t( 'Create group' ); ?>" /></td>
 				</tr>
 			</form>
-		</tfoot>
-		<tbody>
 			<?php foreach($_["groups"] as $group): ?>
 				<tr x-gid="<?php echo $group["name"]; ?>">
 					<td><?php echo $group["name"] ?></td>
