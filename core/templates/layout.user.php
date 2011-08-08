@@ -32,13 +32,12 @@
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 			<?php echo $_['searchbox']?>
 			<ul id="metanav">
-				<li><a href="<?php echo link_to('settings', 'index.php'); ?>" title="Settings"><img class='svg' src="<?php echo image_path('', 'actions/settings.svg'); ?>"></a></li>
 				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="Log out"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>"></a></li>
 			</ul>
 		</div>
 
 		<div id="navigation">
-			<ul>
+			<ul id="apps">
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
 						<?php if( sizeof( $entry["subnavigation"] )): ?>
@@ -49,6 +48,16 @@
 							</ul>
 						<?php endif; ?>
 					</li>
+				<?php endforeach; ?>
+			</ul>
+			<ul id="settings">
+				<?php foreach($_['settingsnavigation'] as $entry):?>
+					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
+					<?php if( sizeof( $entry["subnavigation"] )): ?>
+						<?php foreach($entry["subnavigation"] as $subentry):?>
+							<li><a href="<?php echo $subentry['href']; ?>" title="" <?php if( $subentry['active'] ): ?>class="active"<?php endif; ?>><?php echo $subentry['name'] ?></a></li>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
 		</div>

@@ -242,22 +242,8 @@ class OC_Template{
 
 				// Add navigation entry
 				$page->assign( "navigation", OC_App::getNavigation());
-			}
-			elseif( $this->renderas == "admin" )
-			{
-				$page = new OC_Template( "core", "layout.admin" );
-				$search=new OC_Template( 'core', 'part.searchbox');
-				$search->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
-				$page->assign('searchbox', $search->fetchPage());
-				
-				// Add menu data
-				if( OC_Group::inGroup( $_SESSION["user_id"], "admin" )){
-					$page->assign( "adminnavigation", OC_App::getAdminNavigation());
-				}
 				$page->assign( "settingsnavigation", OC_App::getSettingsNavigation());
-			}
-			else
-			{
+			}else{
 				$page = new OC_Template( "core", "layout.guest" );
 			}
 
