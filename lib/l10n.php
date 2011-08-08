@@ -146,16 +146,11 @@ class OC_L10N{
 			// If you add something don't forget to add it to $localizations
 			// at the top of the page
 			case 'date':
-				if( is_string( $data )) $data = strtotime( $data );
-				return date( $this->localizations['date'], $data );
-				break;
 			case 'datetime':
-				if( is_string( $data )) $data = strtotime( $data );
-				return date( $this->localizations['datetime'], $data );
-				break;
 			case 'time':
-				if( is_string( $data )) $data = strtotime( $data );
-				return date( $this->localizations['time'], $data );
+				if( $data instanceof DateTime ) return $data->format($this->localizations[$type]);
+				elseif( is_string( $data )) $data = strtotime( $data );
+				return date( $this->localizations[$type], $data );
 				break;
 			default:
 				return false;
