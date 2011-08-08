@@ -238,8 +238,32 @@ $(document).ready(function(){
 			}
 		}
 	});
-	
+
+	// 'show password' checkbox	
 	$('#pass2').showPassword();
+
+	// hide log in button etc. when form fields not filled
+	$('#submit').hide();
+	$('#remember_login').hide();
+	$('#remember_login+label').hide();
+	$('#body-login input').keyup(function() {
+		var empty = false;
+		$('#body-login input').each(function() {
+			if ($(this).val() == '') {
+				empty = true;
+			}
+		});
+
+		if(empty) {
+			$('#submit').fadeOut();
+			$('#remember_login').fadeOut();
+			$('#remember_login+label').fadeOut();
+		} else {
+			$('#submit').fadeIn();
+			$('#remember_login').fadeIn();
+			$('#remember_login+label').fadeIn();
+		}
+	});
 });
 
 

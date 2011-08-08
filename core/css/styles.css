@@ -15,14 +15,14 @@ input, select { font-size:1em; width:10em; margin:.3em; padding:.5em; background
 input[type="text"], input[type="password"] { background:#f8f8f8; color:#555; cursor:text; }
 input[type="text"]:hover, input[type="text"]:focus, input[type="password"]:hover, input[type="password"]:focus { background:#fff; color:#333; }
 
-input[type="submit"] { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+input[type="submit"] { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 input[type="submit"]:hover, input[type="submit"]:focus { background:#fff; color:#333; }
 input[type="checkbox"] { width:auto; }
 
 #body-login input { font-size:1.5em; }
 #body-login input[type="submit"] { float:right; margin-right:.8em; }
 #remember_login { margin:.8em .2em 0 1em; }
-form.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.3em; right:7em;  padding:.2em .5em .2em 1.5em; background:#f8f8f8 url('../img/actions/search.png') .5em center no-repeat; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; }
+form.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.3em; right:7em; padding:.2em .5em .2em 1.5em; background:#f8f8f8 url('../img/actions/search.png') .5em center no-repeat; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; }
 
 form#user_settings { max-width:600px; }
 form#user_settings p label { display:block; float:left; width:35%; padding:0.4em 0.5em 0 0; text-align:right; }
@@ -56,7 +56,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', end
 #login form fieldset { background-color:transparent; border:0; margin:0; padding:0; }
 #login form p { position:relative; padding:0; }
 #login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
-#login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; }
+#login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 
 #setup_form { margin:3em auto; text-align:left; width:720px; }
 #setup_form #use_mysql { font-size:0.9em; margin:0 0 0 1em; }
