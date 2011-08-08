@@ -20,14 +20,14 @@
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
 		<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" placeholder="<?php echo $l->t( 'Username' ); ?>" autofocus /></p>
 		<input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" placeholder="<?php echo $l->t( 'Password' ); ?>" /></p>
-</fieldset>
+	</fieldset>
 
 <a id='showAdvanced'><strong><?php echo $l->t( 'Advanced' ); ?> ▾</strong></a>
 
 <fieldset id='datadirField'>
 		<legend><?php echo $l->t( 'Set data folder' ); ?></legend>
 		<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" placeholder="<?php echo $l->t( 'Data folder' ); ?>" /></p>
-	</fieldset>
+</fieldset>
 	
 	<fieldset id='databaseField'>
 		<legend><?php echo $l->t( 'Configure the database' ); ?></legend>
