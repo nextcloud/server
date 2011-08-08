@@ -51,23 +51,15 @@ background: -ms-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* IE10+ */
 background: linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d42',GradientType=0 ); /* IE6-9 */ }
 
-#login { height:27em; margin:2em auto 0; border-bottom:1px solid #f8f8f8; background:#eee; }
-#login form { width:18em; margin:3em auto; padding:0; }
+#login { min-height:30em; margin:2em auto 0; border-bottom:1px solid #f8f8f8; background:#eee; }
+#login form { width:18em; margin:2em auto 5em; padding:0; }
 #login form fieldset { background-color:transparent; border:0; margin:0; padding:0; }
 #login form p { position:relative; padding:0; }
 #login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 
-#setup_form { margin:3em auto; text-align:left; width:720px; }
-#setup_form #use_mysql { font-size:0.9em; margin:0 0 0 1em; }
-#setup_form p.intro { color:#666; font-size:1.3em; margin:4em 0 3em 0; padding:0; text-align:center; }
-#setup_form ul.errors { background-image:url(images/no.png); background-position:1em 1em; background-repeat:no-repeat; background-color:#FED7D7; border:1px solid #F00; font-size:1.2em; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
-#setup_form fieldset { margin:0 0 3em 0; }
-#setup_form p { line-height:1.8em; }
-#setup_form legend { font-weight:normal; }
-#setup_form label { cursor:pointer; display:block; float:left; margin:0 0 0.2em 0; text-align:right; width:40%; }
-#setup_form input[type='text'],
-#setup_form input[type='radio'] { margin:0 0 0 1em; }
+#login form #use_mysql { font-size:.9em; margin:0 0 0 1em; }
+#login form ul.errors { background:#fed7d7 url(images/no.png) no-repeat 1em 1em; border:1px solid #f00; font-size:1.2em; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
 /* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
 #metanav { float:right; position:relative; top:.5em; right:1em; list-style:none; margin:0; padding:0; }
