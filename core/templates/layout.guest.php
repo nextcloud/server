@@ -29,7 +29,10 @@
 	</head>
 
 	<body id="body-login">
-		<?php echo $_['content']; ?>
+		<div id="login">
+			<div id="header"><img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" /></div>
+			<?php echo $_['content']; ?>
+		</div>
 		<p class="info"><?php echo $l->t( '<a href="http://owncloud.org/">ownCloud</a> is a personal cloud which runs on your own server.</p>' ); ?>
 	</body>
 </html>
