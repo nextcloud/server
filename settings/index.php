@@ -31,6 +31,7 @@ $tmpl->assign('usage_relative',$relative);
 $tmpl->assign('languages',$languages);
 
 $forms=OC_App::getForms('personal');
+$tmpl->assign('forms',array());
 foreach($forms as $form){
 	$tmpl->append('forms',$form);
 }
