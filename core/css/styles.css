@@ -95,7 +95,7 @@ legend { padding:.2em; font-size:1.2em; }
 #navigation .subentry.active { background-color:#bbb; border-top:1px solid #888; border-bottom:1px solid #bbb; }
 #navigation .subentry a { padding-left:3.1em; font-size:1em; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
-#navigation #expand { margin:0 0 .2em 1.2em; }
+#navigation #expand { margin:0 0 .2em 1.2em; cursor:pointer; }
 
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ddd; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
