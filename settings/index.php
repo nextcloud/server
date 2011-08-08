@@ -24,7 +24,7 @@ unset($languages[array_search($lang,$languages)]);
 array_unshift($languages,$lang);
 
 // Return template
-$tmpl = new OC_Template( "settings", "index", "admin");
+$tmpl = new OC_Template( "settings", "index", "user");
 $tmpl->assign('usage',OC_Helper::humanFileSize($used));
 $tmpl->assign('total_space',OC_Helper::humanFileSize($total));
 $tmpl->assign('usage_relative',$relative);

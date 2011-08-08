@@ -29,7 +29,7 @@ if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' ))
 
 OC_App::setActiveNavigationEntry( "administration" );
 
-$tmpl = new OC_Template( "admin", "system", "admin" );
+$tmpl = new OC_Template( "admin", "system", "user" );
 $tmpl->printPage();
 
 ?>

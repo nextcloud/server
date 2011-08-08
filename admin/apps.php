@@ -53,7 +53,7 @@ if($installed){
 		$records[]=$record;
 	}
 
-	$tmpl = new OC_Template( "admin", "appsinst", "admin" );
+	$tmpl = new OC_Template( "admin", "appsinst", "user" );
 	$tmpl->assign( "apps", $records );
 	$tmpl->printPage();
 	unset($tmpl);
@@ -63,7 +63,7 @@ if($installed){
 	if($categories==NULL){
 		OC_App::setActiveNavigationEntry( "core_apps" );
 
-		$tmpl = new OC_Template( "admin", "app_noconn", "admin" );
+		$tmpl = new OC_Template( "admin", "app_noconn", "user" );
 		$tmpl->printPage();
 		unset($tmpl);
 		exit();
@@ -82,7 +82,7 @@ if($installed){
 		}
 
 		// return template
-		$tmpl = new OC_Template( "admin", "apps", "admin" );
+		$tmpl = new OC_Template( "admin", "apps", "user" );
 
 		$tmpl->assign( "categories", $categories );
 		$tmpl->assign( "apps", $apps );
@@ -94,7 +94,7 @@ if($installed){
 
 		$app=OC_OCSClient::getApplication($id);
 
-		$tmpl = new OC_Template( "admin", "app", "admin" );
+		$tmpl = new OC_Template( "admin", "app", "user" );
 		$tmpl->assign( "categories", $categories );
 		$tmpl->assign( "app", $app );
 		$tmpl->printPage();
