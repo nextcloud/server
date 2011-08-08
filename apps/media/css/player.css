@@ -1,8 +1,6 @@
-#jp-interface{position:fixed;z-index:100;width:25em;left:201px;top:-20px;height:60px;border-bottom:none;}
-#jp-interface div.player{height:0px}
-#jp-interface ul.jp-controls{list-style-type:none;padding:0;}
-#jp-interface ul.jp-controls li{display:inline;}
-#jp-interface ul.jp-controls a{position:absolute;overflow:hidden;text-indent:-9999px;}
+#controls ul.jp-controls{list-style-type:none;padding:0;}
+#controls ul.jp-controls li{display:inline;}
+#controls ul.jp-controls a{position:absolute;overflow:hidden;text-indent:-9999px;}
 a.jp-play,a.jp-pause{width:40px;height:40px;z-index:1;top:20px;left:48px;}
 a.jp-play{background:url("../img/jplayer.blue.monday.png") 0 0 no-repeat;}
 a.jp-play:hover{background:url("../img/jplayer.blue.monday.png") -41px 0 no-repeat;}
