@@ -71,13 +71,13 @@ legend { padding:.2em; font-size:1.2em; }
 
 #login { min-height:30em; margin:2em auto 0; border-bottom:1px solid #f8f8f8; background:#eee; }
 #login form { width:18em; margin:2em auto 5em; padding:0; }
-#login form fieldset { background-color:transparent; border:0; margin:0; padding:0; }
+#login form fieldset { background-color:transparent; border:0; margin-bottom:2em; padding:0; }
+#login form fieldset legend { font-weight:bold; }
 #login form p { position:relative; padding:0; }
 #login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 
-#login form #use_mysql { font-size:.9em; margin:0 0 0 1em; }
-#login form ul.errors { background:#fed7d7 url(images/no.png) no-repeat 1em 1em; border:1px solid #f00; font-size:1.2em; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
+#login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
 /* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
 #metanav { float:right; position:relative; top:.5em; right:1em; list-style:none; margin:0; padding:0; }

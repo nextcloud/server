@@ -18,21 +18,14 @@
 
 	<fieldset>
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
-		<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" placeholder="<?php echo $l->t( 'Username' ); ?>" autofocus /></p>
-		<input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" placeholder="<?php echo $l->t( 'Password' ); ?>" /></p>
+		<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" placeholder="<?php echo $l->t( 'Username' ); ?>" autofocus required /></p>
+		<input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" placeholder="<?php echo $l->t( 'Password' ); ?>" required /></p>
 	</fieldset>
-
-<a id='showAdvanced'><strong><?php echo $l->t( 'Advanced' ); ?> ▾</strong></a>
-
-<fieldset id='datadirField'>
-		<legend><?php echo $l->t( 'Set data folder' ); ?></legend>
-		<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" placeholder="<?php echo $l->t( 'Data folder' ); ?>" /></p>
-</fieldset>
 	
 	<fieldset id='databaseField'>
 		<legend><?php echo $l->t( 'Configure the database' ); ?></legend>
 		<?php if($_['hasSQLite']): ?>
-		<input type='hidden' id='hasSQLite' value='true'/>
+		<input type='hidden' id='hasSQLite' value='true' />
 		<?php if(!$_['hasMySQL'] and !$_['hasPostgreSQL']): ?>
 		<p><?php echo $l->t( 'SQLite will be used.' ); ?></p>
 		<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
@@ -50,10 +43,10 @@
 		<label class="mysql" for="mysql">MySQL</label><input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<div id="use_mysql">
-			<input type="text" name="dbuser" id="dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" placeholder="<?php echo $l->t( 'Database user' ); ?>" />
+			<input type="text" name="dbuser" id="dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" placeholder="<?php echo $l->t( 'Database user' ); ?>" required />
 			<input type="password" name="dbpass" id="dbpass" value="<?php print OC_Helper::init_var('dbpass'); ?>" placeholder="<?php echo $l->t( 'Database password' ); ?>" />
-			<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" placeholder="<?php echo $l->t( 'Database name' ); ?>" />
-			<input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Host' ); ?>" />
+			<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" placeholder="<?php echo $l->t( 'Database name' ); ?>" required />
+			<input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Host' ); ?>" required />
 			<input type="text" name="dbtableprefix" id="dbtableprefix" value="<?php print OC_Helper::init_var('dbtableprefix', 'oc_'); ?>" placeholder="<?php echo $l->t( 'Table prefix' ); ?>" />
 			
 		</div>
@@ -68,14 +61,21 @@
 		<p><label class="pgsql" for="pgsql">PostgreSQL</label><input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/></p>
 		<?php endif; ?>
 		<div id="use_postgresql">
-			<input type="text" name="pg_dbuser" id="pg_dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" placeholder="<?php echo $l->t( 'Database user' ); ?>" />
+			<input type="text" name="pg_dbuser" id="pg_dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" placeholder="<?php echo $l->t( 'Database user' ); ?>" required />
 			<input type="password" name="pg_dbpass" id="pg_dbpass" value="<?php print OC_Helper::init_var('dbpass'); ?>" placeholder="<?php echo $l->t( 'PostgreSQL password' ); ?>" />
-			<input type="text" name="pg_dbname" id="pg_dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" placeholder="<?php echo $l->t( 'Database name' ); ?>" />
-			<input type="text" name="pg_dbhost" id="pg_dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Host' ); ?>" />
+			<input type="text" name="pg_dbname" id="pg_dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" placeholder="<?php echo $l->t( 'Database name' ); ?>" required />
+			<input type="text" name="pg_dbhost" id="pg_dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Host' ); ?>" required />
 			<input type="text" name="pg_dbtableprefix" id="pg_dbtableprefix" value="<?php print OC_Helper::init_var('dbtableprefix', 'oc_'); ?>" placeholder="<?php echo $l->t( 'Table prefix' ); ?>" />
 			
 		</div>
 		<?php endif; ?>
+	</fieldset>
+	
+	<a id='showAdvanced'><strong><?php echo $l->t( 'Advanced' ); ?> ▾</strong></a>
+
+	<fieldset id='datadirField'>
+		<legend><?php echo $l->t( 'Set data folder' ); ?></legend>
+		<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" placeholder="<?php echo $l->t( 'Data folder' ); ?>" required /></p>
 	</fieldset>
 
 	<input type="submit" value="<?php echo $l->t( 'Finish setup' ); ?>" />
