@@ -30,9 +30,11 @@
 
 	<body id="body-login">
 		<div id="login">
-			<div id="header"><img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" /></div>
+			<header><div id="header">
+				<img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" />
+			</div></header>
 			<?php echo $_['content']; ?>
 		</div>
-		<p class="info"><?php echo $l->t( '<a href="http://owncloud.org/">ownCloud</a> is a personal cloud which runs on your own server.</p>' ); ?>
+		<footer><p class="info"><?php echo $l->t( '<a href="http://owncloud.org/">ownCloud</a> is a personal cloud which runs on your own server.</p>' ); ?></p></footer>
 	</body>
 </html>
