@@ -37,6 +37,12 @@ if( !OC_User::isLoggedIn()){
 $addressbooks = OC_Contacts_Addressbook::allAddressbooks(OC_User::getUser());
 if( count($addressbooks) == 0){
 	OC_Contacts_Addressbook::addAddressbook(OC_User::getUser(),'default','Default Address Book');
+	$addressbooks = OC_Contacts_Addressbook::allAddressbooks(OC_User::getUser());
+}
+$prefbooks = OC_Preferences::getValue(OC_User::getUser(),'contacts','openaddressbooks',null);
+if(is_null($prefbooks)){
+	$prefbooks = $addressbooks[0]['id'];
+	OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',$prefbooks);
 }
 
 // Load the files we need
@@ -48,7 +54,7 @@ $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
 // sort addressbooks  (use contactsort)
 usort($addressbooks,'contacts_namesort');
 // Addressbooks to load
-$openaddressbooks = explode(';',OC_Preferences::getValue(OC_User::getUser(),'contacts','openaddressbooks',null));
+$openaddressbooks = explode(';',$prefbooks);
 
 $contacts = array();
 foreach( $openaddressbooks as $addressbook ){
