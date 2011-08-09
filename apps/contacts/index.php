@@ -63,7 +63,8 @@ usort($contacts,'contacts_namesort');
 $details = array();
 
 if( !is_null($id) || count($contacts)){
-	$contact = OC_Contacts_Addressbook::findCard(is_null($id)?$contacts[0]['id']:$id);
+	if(is_null($id)) $id = $contacts[0]['id'];
+	$contact = OC_Contacts_Addressbook::findCard($id);
 	$vcard = Sabre_VObject_Reader::read($contact['carddata']);
 	$details = OC_Contacts_Addressbook::structureContact($vcard);
 }

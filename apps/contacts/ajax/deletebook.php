@@ -19,15 +19,26 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Init owncloud
-require_once('../../lib/base.php');
-$connector = new OC_Connector_Sabre_Principal;
-$users = OC_User::getUsers();
 
-foreach($users as $user){
-	$foo = $connector->getPrincipalByPath('principals/'.$user);
-	if(!isset($foo)){
-		OC_Connector_Sabre_Principal::addPrincipal(array('uid'=>$user));
-	}
+// Init owncloud
+require_once('../../../lib/base.php');
+
+$id = $_GET['id'];
+
+$l10n = new OC_L10N('contacts');
+
+// Check if we are a user
+if( !OC_User::isLoggedIn()){
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in!'))));
+	exit();
 }
-echo "done";
+
+
+$addressbook = OC_Contacts_Addressbook::findAddressbook( $id );
+if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
+	exit();
+}
+
+OC_Contacts_Addressbook::deleteAddressbook($id);
+echo json_encode( array( 'status' => 'success', 'data' => array( 'id' => $id )));

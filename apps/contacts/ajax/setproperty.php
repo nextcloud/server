@@ -1,0 +1,93 @@
+<?php
+/**
+ * ownCloud - Addressbook
+ *
+ * @author Jakob Sack
+ * @copyright 2011 Jakob Sack mail@jakobsack.de
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+// Init owncloud
+require_once('../../../lib/base.php');
+
+$id = $_POST['id'];
+$line = $_POST['line'];
+$checksum = $_POST['checksum'];
+$l10n = new OC_L10N('contacts');
+
+// Check if we are a user
+if( !OC_User::isLoggedIn()){
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in!'))));
+	exit();
+}
+
+$card = OC_Contacts_Addressbook::findCard( $id );
+if( $card === false ){
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Can not find Contact!'))));
+	exit();
+}
+
+$addressbook = OC_Contacts_Addressbook::findAddressbook( $card['addressbookid'] );
+if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
+	exit();
+}
+
+$vcard = Sabre_VObject_Reader::read($card['carddata']);
+
+if(md5($vcard->children[$line]->serialize()) != $checksum){
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Information about vCard is incorrect. Please reload page!'))));
+	exit();
+}
+
+// Set the value
+$value = $_POST['value'];
+if(is_array($value)){
+	$value = OC_Contacts_Addressbook::escapeSemicolons($value);
+}
+$vcard->children[$line]->setValue($value);
+
+// Add parameters
+$postparameters = isset($_POST['parameters'])?$_POST['parameters']:array();
+for($i=0;$i<count($vcard->children[$line]->parameters);$i++){
+	$name = $vcard->children[$line]->parameters[$i]->name;
+	if(array_key_exists($name,$postparameters)){
+		if($postparameters[$name] == '' || is_null($postparameters[$name])){
+			unset($vcard->children[$line]->parameters[$i]);
+		}
+		else{
+			$vcard->children[$line]->parameters[$i]->value = $postparameters[$name];
+		}
+		unset($postparameters[$name]);
+	}
+}
+$missingparameters = array_keys($postparameters);
+foreach($missingparameters as $i){
+	if(!$postparameters[$i] == '' && !is_null($postparameters[$i])){
+		$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($i,$postparameters[$i]);
+	}
+}
+
+// Do checksum and be happy
+$checksum = md5($vcard->children[$line]->serialize());
+
+OC_Contacts_Addressbook::editCard($id,$vcard->serialize());
+
+$tmpl = new OC_Template('contacts','part.property');
+$tmpl->assign('property',OC_Contacts_Addressbook::structureProperty($vcard->children[$line],$line));
+$page = $tmpl->fetchPage();
+
+echo json_encode( array( 'status' => 'success', 'data' => array( 'page' => $page, 'line' => $line, 'oldchecksum' => $_POST['checksum'] )));
