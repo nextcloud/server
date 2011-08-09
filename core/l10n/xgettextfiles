@@ -1,0 +1,8 @@
+../templates/404.php
+../templates/installation.php
+../templates/layout.guest.php
+../templates/login.php
+../templates/logout.php
+../templates/part.pagenavi.php
+../templates/part.searchbox.php
+../../lib/app.php

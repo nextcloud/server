@@ -137,7 +137,7 @@ $(document).ready(function() {
 				if(files[i].size>0){
 					var size=files[i].size;
 				}else{
-					var size='Pending';
+					var size=t('files','Pending');
 				}
 				FileList.addFile(files[i].name,size,date,true);
 			}
@@ -306,8 +306,8 @@ function procesSelection(){
 	var selectedFolders=selected.filter(function(el){return el.type=='dir'});
 	if(selectedFiles.length==0 && selectedFolders.length==0){
 		$('#headerName>span.name').text('Name');
-		$('#headerSize').text('Size MB');
-		$('#modified').text('Modified');
+		$('#headerSize').text(t('files','Size MB'));
+		$('#modified').text(t('files','Modified'));
 		$('th').removeClass('multiselect');
 		$('.selectedActions').hide();
 		$('thead').removeClass('fixed');
@@ -336,9 +336,9 @@ function procesSelection(){
 		var selection='';
 		if(selectedFolders.length>0){
 			if(selectedFolders.length==1){
-				selection+='1 folder';
+				selection+='1 '+t('files','folder');
 			}else{
-				selection+=selectedFolders.length+' folders';
+				selection+=selectedFolders.length+' '+t('files','folders');
 			}
 			if(selectedFiles.length>0){
 				selection+=' & ';
@@ -346,9 +346,9 @@ function procesSelection(){
 		}
 		if(selectedFiles.length>0){
 			if(selectedFiles.length==1){
-				selection+='1 file';
+				selection+='1 '+t('files','file');
 			}else{
-				selection+=selectedFiles.length+' files';
+				selection+=selectedFiles.length+' '+t('files','files');
 			}
 		}
 		$('#headerName>span.name').text(selection);

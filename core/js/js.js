@@ -270,7 +270,11 @@ $(document).ready(function(){
 	$('#expand').click(function() {
 		$('#settings li').slideToggle();
 	});
-	
+	$('#expand').hover(function(){
+		$('#navigation #settings>span').fadeIn();
+	},function(){
+		$('#navigation #settings>span').fadeOut();
+	})
 });
 
 

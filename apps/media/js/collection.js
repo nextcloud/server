@@ -33,7 +33,7 @@ Collection={
 						Collection.loadedListeners[i]();
 					}
 					if(collection.length==0){
-						$('#scan input.start').val('Scan Collection');
+						$('#scan input.start').val(t('media','Scan Collection'));
 						$('#plugins a[href="#collection"]').trigger('click');
 					}
 					

@@ -24,14 +24,14 @@
 <table id="playlist">
 	<thead>
 		<tr>
-			<th class="name"><input id="selectAll" type="checkbox">Name</th>
-			<th class="artist">Artist</th>
+			<th class="name"><input id="selectAll" type="checkbox"><?php echo $l->t('Name')?></th>
+			<th class="artist"><?php echo $l->t('Artist')?></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>
-				The playlist is empty
+				<?php echo $l->t('The playlist is empty')?>
 			</td>
 		</tr>
 	</tbody>
@@ -49,16 +49,16 @@
 
 <div id="rightcontent">
 <div id="scan">
-	<p id="scancount" style="display:none"><span class="songCount">0</span> Songs scanned</p>
+	<p id="scancount" style="display:none"><span class="songCount">0</span> <?php echo $l->t('Songs scanned')?></p>
 	<div id="scanprogressbar"></div>
-	<input type="button" class="start" value="Rescan Collection"></input>
-	<input type="button" class="stop" style="display:none" value="Pause"></input>
+	<input type="button" class="start" value="<?php echo $l->t('Rescan Collection')?>"></input>
+	<input type="button" class="stop" style="display:none" value="<?php echo $l->t('Pause')?>"></input>
 </div>
 <table id="collection">
 	<thead>
-		<th>Artist</th>
-		<th>Album</th>
-		<th>Title</th>
+		<th><?php echo $l->t('Artist')?></th>
+		<th><?php echo $l->t('Album')?></th>
+		<th><?php echo $l->t('Title')?></th>
 	</thead>
 	<tbody>
 		<tr class="template">

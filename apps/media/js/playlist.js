@@ -19,7 +19,7 @@ PlayList.render=function(){
 			PlayList.render();
 		});
 		tr.hover(function(){
-			var button=$('<img class="remove" title="Remove"/>');
+			var button=$('<img class="remove" title="'+t('media','Remove')+'"/>');
 			button.attr('src',OC.imagePath('core','actions/delete'));
 			$(this).children().last().append(button);
 			button.click(function(event){
@@ -74,14 +74,14 @@ $(document).ready(function(){
 function procesSelection(){
 	var selected=PlayList.getSelected();
 	if(selected.length==0){
-		$('th.name span').text('Name');
-		$('th.artist').text('Artist');
-		$('th.album').text('Album');
-		$('th.time').text('Time');
+		$('th.name span').text(t('media','Name'));
+		$('th.artist').text(t('media','Artist'));
+		$('th.album').text(t('media','Album'));
+		$('th.time').text(t('media','Time'));
 		$('th.plays').empty();
-		$('th.plays').text('Plays');
+		$('th.plays').text(t('media','Plays'));
 	}else{
-		var name=selected.length+' selected';
+		var name=selected.length+' '+t('media','selected');
 		var artist=$(selected[0]).data('artist');
 		var album=$(selected[0]).data('album');
 		var time=$(selected[0]).data('time');

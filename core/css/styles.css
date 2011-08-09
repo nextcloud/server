@@ -97,6 +97,7 @@ legend { padding:.2em; font-size:1.2em; }
 #navigation .subentry a { padding-left:3.1em; font-size:1em; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
 #navigation #expand { margin:0 0 .2em 1.2em; cursor:pointer; }
+#navigation #settings>span{padding-bottom:1em};
 
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ddd; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }

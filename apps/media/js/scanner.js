@@ -68,10 +68,10 @@ Scanner={
 	toggle:function(){
 		if(Scanner.stopScanning){
 			Scanner.start();
-			$('#scan input.stop').val('Pause');
+			$('#scan input.stop').val(t('media','Pause'));
 		}else{
 			Scanner.stop();
-			$('#scan input.stop').val('Resume');
+			$('#scan input.stop').val(t('media','Resume'));
 		}
 	}
 
