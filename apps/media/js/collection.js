@@ -49,67 +49,105 @@ Collection={
 			Collection.load(Collection.display)
 		}else{
 			if(Collection.parent){
-				Collection.parent.children('li.artist').remove();
-				var template=Collection.parent.children('li.template');
-				for(var i=0;i<Collection.artists.length;i++){
-					var artist=Collection.artists[i];
-					var li=template.clone();
-					li.data('artist',artist);
-					li.removeClass('template');
-					li.addClass('artist');
-					li.data('type','artist');
-					li.children('span').text(artist.artist_name);
-					Collection.addButtons(li);
-					Collection.parent.append(li);
-				}
+				Collection.parent.find('tr:not(.template)').remove();
+				var template=Collection.parent.find('tr.template');
+				var lastArtist='';
+				var lastAlbum='';
+				$.each(Collection.artists,function(index,artist){
+					$.each(artist.albums,function(index,album){
+						$.each(album.songs,function(index,song){
+							var tr=template.clone().removeClass('template');
+							tr.find('td.title a').text(song.song_name);
+							tr.find('td.title a').click(function(event){
+								event.preventDefault();
+								PlayList.add(song);
+								PlayList.render();
+							});
+							if(artist.artist_name!=lastArtist){
+								tr.find('td.artist a').click(function(event){
+									event.preventDefault();
+									PlayList.add(artist);
+									PlayList.render();
+								});
+								tr.find('td.artist a').text(artist.artist_name);
+								if(artist.albums.length>1){
+									var expander=$('<a class="expander">&gt;</a>');
+									expander.data('expanded',true);
+									expander.click(function(event){
+										var tr=$(this).parent().parent();
+										if(expander.data('expanded')){
+											Collection.hideArtist(tr.data('artist'));
+										}else{
+											Collection.showArtist(tr.data('artist'));
+										}
+									});
+									tr.children('td.artist').append(expander);
+								}
+							}
+							if(album.album_name!=lastAlbum){
+								tr.find('td.album a').click(function(event){
+									event.preventDefault();
+									PlayList.add(album);
+									PlayList.render();
+								});
+								tr.find('td.album a').text(album.album_name);
+								if(album.songs.length>1){
+									var expander=$('<a class="expander">&gt;</a>');
+									expander.data('expanded',true);
+									expander.click(function(event){
+										var tr=$(this).parent().parent();
+										if(expander.data('expanded')){
+											Collection.hideAlbum(tr.data('album'));
+										}else{
+											Collection.showAlbum(tr.data('album'));
+										}
+									});
+									tr.children('td.album').append(expander);
+								}
+							}
+							tr.attr('data-artist',artist.artist_name);
+							tr.attr('data-album',album.album_name);
+							lastArtist=artist.artist_name;
+							lastAlbum=album.album_name;
+							
+							Collection.parent.find('tbody').append(tr);
+						});
+						Collection.hideAlbum(artist.artist_name,album.album_name);
+					});
+					Collection.hideArtist(artist.artist_name);
+				});
 			}
 		}
+	},
+	showArtist:function(artist){
+		Collection.parent.find('tr[data-artist="'+artist+'"]').show();
+		Collection.parent.find('tr[data-artist="'+artist+'"]').first().removeClass('collapsed');
+		Collection.parent.find('tr[data-artist="'+artist+'"] a.expander').data('expanded',true);
+		Collection.parent.find('tr[data-artist="'+artist+'"] a.expander').addClass('expanded');
+		Collection.parent.find('tr[data-artist="'+artist+'"] a.expander').text('v');
+	},
+	hideArtist:function(artist){
+		if(Collection.parent.find('tr[data-artist="'+artist+'"]').length>1){
+			Collection.parent.find('tr[data-artist="'+artist+'"]').hide();
+			Collection.parent.find('tr[data-artist="'+artist+'"]').first().show();
+			Collection.parent.find('tr[data-artist="'+artist+'"]').first().addClass('collapsed');
+			Collection.parent.find('tr[data-artist="'+artist+'"] a.expander').data('expanded',false);
+			Collection.parent.find('tr[data-artist="'+artist+'"] a.expander').removeClass('expanded');
+			Collection.parent.find('tr[data-artist="'+artist+'"] a.expander').text('>');
+		}
+	},
+	showAlbum:function(artist,album){
+		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').show();
+	},
+	hideAlbum:function(artist,album){
+		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').hide();
+		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').last().show();
 	},
 	parent:null,
 	hide:function(){
 		if(Collection.parent){
 			Collection.parent.hide();
 		}
-	},
-	showAlbums:function(artistLi){
-		$('ul.albums').parent().removeClass('active');
-		$('ul.albums').remove();
-		var artist=artistLi.data('artist');
-		if(artist){
-			var template=Collection.parent.children('li.template');
-			var ul=$('<ul class="albums"></ul>');
-			for(var i=0;i<artist.albums.length;i++){
-				var li=template.clone();
-				var album=artist.albums[i];
-				li.removeClass('template');
-				li.addClass('album');
-				li.data('album',album);
-				li.data('type','album');
-				li.children('span').text(album.album_name);
-				Collection.addButtons(li);
-				ul.append(li);
-			}
-			artistLi.append(ul);
-		}
-	},
-	showSongs:function(albumLi){
-		$('ul.songs').parent().removeClass('active');
-		$('ul.songs').remove();
-		var album=albumLi.data('album');
-		var template=Collection.parent.children('li.template');
-		var ul=$('<ul class="songs"></ul>');
-		for(var i=0;i<album.songs.length;i++){
-			var li=template.clone();
-			var song=album.songs[i];
-			li.removeClass('template');
-			li.addClass('song');
-			li.data('song',song);
-			li.data('type','song');
-			li.children('span').text(song.song_name);
-			Collection.addButtons(li);
-			ul.append(li);
-		}
-		albumLi.append(ul);
 	},
 	registerPlay:function(){
 		var item=PlayList.items[PlayList.current];
@@ -198,14 +236,6 @@ Collection={
 $(document).ready(function(){
 	Collection.parent=$('#collection');
 	Collection.load();
-	$('#collection li.artist>span').live('click',function(){
-		$(this).parent().toggleClass('active');
-		Collection.showAlbums($(this).parent());
-	});
-	$('#collection li.album>span').live('click',function(){
-		$(this).parent().toggleClass('active');
-		Collection.showSongs($(this).parent());
-	});
 	Collection.parent.hide();
 	$('#scan input.start').click(function(){
 		$('#scan input.start').hide();

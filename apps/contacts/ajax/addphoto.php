@@ -21,18 +21,16 @@
  */
 
 // Init owncloud
-require_once('../../lib/base.php');
+require_once('../../../lib/base.php');
 
-$id = $_GET['id'];
-
+$id = $_POST['id'];
 $l10n = new OC_L10N('contacts');
 
 // Check if we are a user
 if( !OC_User::isLoggedIn()){
-	echo $l10n->t('You need to log in!');
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in!'))));
 	exit();
 }
-
 
 $card = OC_Contacts_Addressbook::findCard( $id );
 if( $card === false ){
@@ -47,11 +45,15 @@ if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 }
 
 $vcard = Sabre_VObject_Reader::read($card['carddata']);
-$details = OC_Contacts_Addressbook::structureContact($vcard);
+$mimetype = $_FILES['photo']['type'] ? $_FILES['photo']['type'] : 'image/jpeg';
+$photobase = base64_encode(file_get_contents($_FILES['photo']['tmp_name']));
+$photo = new Sabre_VObject_Property( 'PHOTO', $photobase );
+$photo->parameters[] = new Sabre_VObject_Parameter('TYPE',$mimetype);
+$photo->parameters[] = new Sabre_VObject_Parameter('ENCODING','b');
+$vcard->add($photo);
 
-$tmpl = new OC_Template('contacts','_details');
-$tmpl->assign('details',$details);
-$tmpl->assign('id',$id);
-$page = $tmpl->fetchPage();
+$line = count($vcard->children) - 1;
+$checksum = md5($vcard->children[$line]->serialize());
 
-echo json_encode( array( 'status' => 'success', 'data' => array( 'page' => $page )));
+OC_Contacts_Addressbook::editCard($id,$vcard->serialize());
+echo json_encode( array( 'status' => 'success', 'data' => array( 'id' => $id, 'line' => $line, 'checksum' => $checksum )));

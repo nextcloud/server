@@ -1,4 +1,4 @@
-<div class="controls">
+<div id="controls">
 	<span class="nav">
 		<?php echo($_['breadcrumb']); ?>
 	</span>

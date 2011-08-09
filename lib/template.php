@@ -202,15 +202,12 @@ class OC_Template{
 	 *
 	 * This function proceeds the template and prints its output.
 	 */
-	public function printPage()
-	{
+	public function printPage(){
 		$data = $this->fetchPage();
-		if( $data === false )
-		{
+		if( $data === false ){
 			return false;
 		}
-		else
-		{
+		else{
 			print $data;
 			return true;
 		}
@@ -223,41 +220,29 @@ class OC_Template{
 	 * This function proceeds the template. If $this->renderas is set, it will
 	 * will produce a full page.
 	 */
-	public function fetchPage()
-	{
+	public function fetchPage(){
 		// global Data we need
 		global $WEBROOT;
 		global $SERVERROOT;
 		$data = $this->_fetch();
 
-		if( $this->renderas )
-		{
+		if( $this->renderas ){
 			// Decide which page we show
-			if( $this->renderas == "user" )
-			{
+			if( $this->renderas == "user" ){
 				$page = new OC_Template( "core", "layout.user" );
 				$search=new OC_Template( 'core', 'part.searchbox');
 				$search->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
 				$page->assign('searchbox', $search->fetchPage());
+				if(array_search(OC_APP::getCurrentApp(),array('settings','admin','help'))!==false){
+					$page->assign('bodyid','body-settings');
+				}else{
+					$page->assign('bodyid','body-user');
+				}
 
 				// Add navigation entry
 				$page->assign( "navigation", OC_App::getNavigation());
-			}
-			elseif( $this->renderas == "admin" )
-			{
-				$page = new OC_Template( "core", "layout.admin" );
-				$search=new OC_Template( 'core', 'part.searchbox');
-				$search->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
-				$page->assign('searchbox', $search->fetchPage());
-				
-				// Add menu data
-				if( OC_Group::inGroup( $_SESSION["user_id"], "admin" )){
-					$page->assign( "adminnavigation", OC_App::getAdminNavigation());
-				}
 				$page->assign( "settingsnavigation", OC_App::getSettingsNavigation());
-			}
-			else
-			{
+			}else{
 				$page = new OC_Template( "core", "layout.guest" );
 			}
 
@@ -295,8 +280,7 @@ class OC_Template{
 			$page->assign( "content", $data );
 			return $page->fetchPage();
 		}
-		else
-		{
+		else{
 			return $data;
 		}
 	}
@@ -329,9 +313,14 @@ class OC_Template{
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
 	 * do this.
 	 */
-	public function inc( $file ){
+	public function inc( $file, $additionalparams = null ){
 		// $_ erstellen
 		$_ = $this->vars;
+		$l = $this->l10n;
+
+		if( !is_null($additionalparams)){
+			$_ = array_merge( $additionalparams, $this->vars );
+		}
 
 		// Einbinden
 		ob_start();

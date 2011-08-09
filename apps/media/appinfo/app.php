@@ -27,34 +27,4 @@ OC_Util::addScript('media','loader');
 OC_App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 
 OC_App::addNavigationEntry( array( 'id' => 'media_index', 'order' => 2, 'href' => OC_Helper::linkTo( 'media', 'index.php' ), 'icon' => OC_Helper::imagePath( 'media', 'media.png' ), 'name' => 'Music' ));
-
-// add subnavigations
-$entry = array(
-	'id' => "media_playlist",
-	'order'=>1,
-	'href' => '#playlist',
-	'name' => 'Playlist'
-);
-OC_App::addNavigationSubEntry( "media_index", $entry);
-$entry = array(
-	'id' => "media_collection",
-	'order'=>1,
-	'href' => '#collection',
-	'name' => 'Collection'
-);
-OC_App::addNavigationSubEntry( "media_index", $entry);
-// $entry = array(
-// 	'id' => "media_recent",
-// 	'order'=>1,
-// 	'href' => '#recent',
-// 	'name' => 'Most Recent'
-// );
-// OC_App::addNavigationSubEntry( "media_index", $entry);
-// $entry = array(
-// 	'id' => "media_mostplayer",
-// 	'order'=>1,
-// 	'href' => '#mostplayed',
-// 	'name' => 'Most Played'
-// );
-// OC_App::addNavigationSubEntry( "media_index", $entry);
 ?>

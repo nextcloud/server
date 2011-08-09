@@ -46,39 +46,26 @@ class OC_Setup {
 			$error[] = 'STEP 2 : data directory path is not set.';
 		}
 
-		if($dbtype=='mysql') { //mysql needs more config options
+		if($dbtype=='mysql' or $dbtype=='pgsql') { //mysql and postgresql needs more config options
+			if($dbtype=='mysql')
+				$dbprettyname = 'MySQL';
+			else
+				$dbprettyname = 'PostgreSQL';
+
 			if(empty($options['dbuser'])) {
-				$error[] = 'STEP 3 : MySQL database user is not set.';
+				$error[] = "STEP 3 : $dbprettyname database user is not set.";
 			}
 			if(empty($options['dbpass'])) {
-				$error[] = 'STEP 3 : MySQL database password is not set.';
+				$error[] = "STEP 3 : $dbprettyname database password is not set.";
 			}
 			if(empty($options['dbname'])) {
-				$error[] = 'STEP 3 : MySQL database name is not set.';
+				$error[] = "STEP 3 : $dbprettyname database name is not set.";
 			}
 			if(empty($options['dbhost'])) {
-				$error[] = 'STEP 3 : MySQL database host is not set.';
+				$error[] = "STEP 3 : $dbprettyname database host is not set.";
 			}
 			if(!isset($options['dbtableprefix'])) {
-				$error[] = 'STEP 3 : MySQL database table prefix is not set.';
-			}
-		}
-
-		if($dbtype=='pgsql') { //postgresql needs more config options
-			if(empty($options['pg_dbuser'])) {
-				$error[] = 'STEP 3 : PostgreSQL database user is not set.';
-			}
-			if(empty($options['pg_dbpass'])) {
-				$error[] = 'STEP 3 : PostgreSQL database password is not set.';
-			}
-			if(empty($options['pg_dbname'])) {
-				$error[] = 'STEP 3 : PostgreSQL database name is not set.';
-			}
-			if(empty($options['pg_dbhost'])) {
-				$error[] = 'STEP 3 : PostgreSQL database host is not set.';
-			}
-			if(!isset($options['pg_dbtableprefix'])) {
-				$error[] = 'STEP 3 : PostgreSQL database table prefix is not set.';
+				$error[] = "STEP 3 : $dbprettyname database table prefix is not set.";
 			}
 		}
 
@@ -150,11 +137,11 @@ class OC_Setup {
 				}
 			}
 			elseif($dbtype == 'pgsql') {
-				$dbuser = $options['pg_dbuser'];
-				$dbpass = $options['pg_dbpass'];
-				$dbname = $options['pg_dbname'];
-				$dbhost = $options['pg_dbhost'];
-				$dbtableprefix = $options['pg_dbtableprefix'];
+				$dbuser = $options['dbuser'];
+				$dbpass = $options['dbpass'];
+				$dbname = $options['dbname'];
+				$dbhost = $options['dbhost'];
+				$dbtableprefix = $options['dbtableprefix'];
 				OC_CONFIG::setValue('dbname', $dbname);
 				OC_CONFIG::setValue('dbhost', $dbhost);
 				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
@@ -224,7 +211,9 @@ class OC_Setup {
 				OC_Installer::installShippedApps(true);
 
 				//create htaccess files for apache hosts
-				self::createHtaccess(); //TODO detect if apache is used
+				if (strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+					self::createHtaccess();
+				}
 
 				//and we are done
 				OC_Config::setValue('installed', true);

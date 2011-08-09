@@ -10,19 +10,9 @@ PlayList.render=function(){
 		tr.removeClass('template');
 		tr.data('name',item.name);
 		tr.data('artist',item.artist);
-		tr.data('album',item.album);
-		tr.data('time',item.length);
-		tr.data('plays',item.playcount);
 		tr.children('td.name').children('span').text(item.name);
 		tr.children('td.artist').text(item.artist);
 		tr.children('td.album').text(item.album);
-		var secconds=(item.length%60);
-		if(secconds<10){
-			secconds='0'+secconds;
-		}
-		var length=Math.floor(item.length/60)+':'+secconds;
-		tr.children('td.time').text(length);
-		tr.children('td.plays').text(item.playcount);
 		tr.data('index',i);
 		tr.click(function(){
 			PlayList.play($(this).data('index'));

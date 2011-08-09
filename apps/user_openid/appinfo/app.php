@@ -19,6 +19,8 @@ if(strpos($_SERVER["REQUEST_URI"],'?') and !strpos($_SERVER["REQUEST_URI"],'='))
 OC_Util::addHeader('link',array('rel'=>'openid.server', 'href'=>$urlBase.OC_Helper::linkTo( "user_openid", "user.php" ).'/'.$userName));
 OC_Util::addHeader('link',array('rel'=>'openid.delegate', 'href'=>$urlBase.OC_Helper::linkTo( "user_openid", "user.php" ).'/'.$userName));
 
+OC_APP::registerPersonal('user_openid','settings');
+
 require_once 'apps/user_openid/user_openid.php';
 
 //active the openid backend

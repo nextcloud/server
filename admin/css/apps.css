@@ -1,9 +1,14 @@
 /* APPS TABLE */
-table td.date { width:5em; padding:.5em 1em; text-align:right; }
-table td.version, table td.enabled, table td.disabled { padding:.5em 1em; text-align:center; }
+table td.date { width:5em; padding:.5em 1em; text-align:left; }
+table td.version, table td.enabled, table td.disabled { padding:.5em 1em; text-align:left; }
 .preview  { padding:3px; text-align:left; }
-table td.date { width:11em; color:#555555; }
-table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
-table td.name a { padding:6px; text-decoration:none; color:#555555; }
-.type  { text-decoration:none; color:#888888; font-size:.8em; }
-.description  { text-decoration:none; color:#666666; font-size:.9em; }
+table td.date { width:11em; color:#555; }
+table td.selection, table th.selection, table td.fileaction { width:2em; text-align:left; }
+table td.name a { padding:6px; text-decoration:none; color:#555; }
+.type  { text-decoration:none; color:#888; font-size:.8em; }
+.description  { text-decoration:none; color:#666; font-size:.9em; }
+
+#content ul#apps { width:40em; list-style:none; }
+#content ul#apps li { display:block; padding:.2em; clear:right; }
+#content ul#apps em { color:#555; }
+#content ul#apps input { float:right; }

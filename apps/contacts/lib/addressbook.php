@@ -78,7 +78,7 @@ class OC_Contacts_Addressbook{
 			$uris[] = $i['uri'];
 		}
 
-		$uri = self::createURI('name', $uris );
+		$uri = self::createURI($name, $uris );
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
@@ -167,14 +167,14 @@ class OC_Contacts_Addressbook{
 				$uri = $property->value.'.vcf';
 			}
 		}
-		$uri = self::createUID().'.vcf';
+		if(is_null($uri)) $uri = self::createUID().'.vcf';
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
 
-		self::touch($id);
+		self::touchAddressbook($id);
 
-		return OC_DB::insertid;
+		return OC_DB::insertid();
 	}
 
 	public static function addCardFromDAVData($id,$uri,$data){
@@ -189,13 +189,13 @@ class OC_Contacts_Addressbook{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
 
-		self::touch($id);
+		self::touchAddressbook($id);
 
-		return OC_DB::insertid;
+		return OC_DB::insertid();
 	}
 
 	public static function editCard($id, $data){
-		$oldcard = self::findCard($id,$aid,$uri);
+		$oldcard = self::findCard($id);
 		$fn = null;
 		$card = Sabre_VObject_Reader::read($data);
 		foreach($card->children as $property){
@@ -207,7 +207,7 @@ class OC_Contacts_Addressbook{
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$id));
 
-		self::touch($oldcard['addressbookid']);
+		self::touchAddressbook($oldcard['addressbookid']);
 
 		return true;
 	}
@@ -226,20 +226,20 @@ class OC_Contacts_Addressbook{
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$oldcard['id']));
 
-		self::touch($oldcard['addressbookid']);
+		self::touchAddressbook($oldcard['addressbookid']);
 
 		return true;
 	}
 	
 	public static function deleteCard($id){
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
+		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$stmt->execute(array($id));
 
 		return true;
 	}
 
 	public static function deleteCardFromDAVData($aid,$uri){
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE addressbookid = ? AND uri=?' );
+		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 
 		return true;
@@ -265,23 +265,60 @@ class OC_Contacts_Addressbook{
 		return $userid;
 	}
 
+	public static function escapeSemicolons($value){
+		foreach($value as &$i ){
+			$i = implode("\\\\;", explode(';', $i));
+		} unset($i);
+		return implode(';',$value);
+	}
+
+	public static function unescapeSemicolons($value){
+		$array = explode(';',$value);
+		for($i=0;$i<count($array);$i++){
+			if(substr($array[$i],-2,2)=="\\\\"){
+				if(isset($array[$i+1])){
+					$array[$i] = substr($array[$i],0,count($array[$i])-2).';'.$array[$i+1];
+					unset($array[$i+1]);
+				}
+				else{
+					$array[$i] = substr($array[$i],0,count($array[$i])-2).';';
+				}
+				$i = $i - 1;
+			}
+		}
+		return $array;
+	}
+
 	public static function structureContact($object){
 		$details = array();
+		$line = 0;
 		foreach($object->children as $property){
-			$temp = array(
-				'name' => $property->name,
-				'value' => ($property->name == 'PHOTO' || $property->name == 'LOGO' ? null : $property->value ),
-				'parameters' => array());
-			foreach($property->parameters as $parameter){
-				$temp['parameters'][] = array( 'name' => $parameter->name, 'value' => $parameter->value);
-			}
+			$temp = self::structureProperty($property,$line);
 			if(array_key_exists($property->name,$details)){
 				$details[$property->name][] = $temp;
 			}
 			else{
 				$details[$property->name] = array($temp);
 			}
+			$line++;
 		}
 		return $details;
+	}
+	
+	public static function structureProperty($property,$line=null){
+		$value = $property->value;
+		if($property->name == 'ADR'){
+			$value = self::unescapeSemicolons($value);
+		}
+		$temp = array(
+			'name' => $property->name,
+			'value' => $value,
+			'line' => $line,
+			'parameters' => array(),
+			'checksum' => md5($property->serialize()));
+		foreach($property->parameters as $parameter){
+			$temp['parameters'][$parameter->name] = $parameter->value;
+		}
+		return $temp;
 	}
 }

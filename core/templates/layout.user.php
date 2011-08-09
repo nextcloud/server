@@ -27,35 +27,44 @@
 		<?php endforeach; ?>
 	</head>
 
-	<body id="body-user">
-		<div id="header">
+	<body id="<?php echo $_['bodyid'];?>">
+		<header><div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 			<?php echo $_['searchbox']?>
 			<ul id="metanav">
-				<li><a href="<?php echo link_to('settings', 'index.php'); ?>" title="Settings"><img class='svg' src="<?php echo image_path('', 'actions/settings.svg'); ?>"></a></li>
-				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="Log out"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>"></a></li>
+				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="Log out"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a></li>
 			</ul>
-		</div>
+		</div></header>
 
-		<div id="main">
-			<div id="navigation">
-				<ul>
-					<?php foreach($_['navigation'] as $entry): ?>
-						<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
-							<?php if( sizeof( $entry["subnavigation"] )): ?>
-								<ul>
-									<?php foreach($entry["subnavigation"] as $subentry):?>
-										<li class="subentry"><a style="background-image:url(<?php echo $subentry['icon']; ?>)" href="<?php echo $subentry['href']; ?>" title="" class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>"><?php echo $subentry['name'] ?></a></li>
-									<?php endforeach; ?>
-								</ul>
-							<?php endif; ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-			<div id="content">
-				<?php echo $_['content']; ?>
-			</div>
+		<nav><div id="navigation">
+			<ul id="apps">
+				<?php foreach($_['navigation'] as $entry): ?>
+					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
+						<?php if( sizeof( $entry["subnavigation"] )): ?>
+							<ul>
+								<?php foreach($entry["subnavigation"] as $subentry):?>
+									<li class="subentry"><a style="background-image:url(<?php echo $subentry['icon']; ?>)" href="<?php echo $subentry['href']; ?>" title="" class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>"><?php echo $subentry['name'] ?></a></li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<ul id="settings">
+				<img id="expand" class='svg' src="<?php echo image_path('', 'actions/settings.svg'); ?>" />
+				<?php foreach($_['settingsnavigation'] as $entry):?>
+					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
+					<?php if( sizeof( $entry["subnavigation"] )): ?>
+						<?php foreach($entry["subnavigation"] as $subentry):?>
+							<li><a href="<?php echo $subentry['href']; ?>" title="" <?php if( $subentry['active'] ): ?>class="active"<?php endif; ?>><?php echo $subentry['name'] ?></a></li>
+						<?php endforeach; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</ul>
+		</div></nav>
+
+		<div id="content">
+			<?php echo $_['content']; ?>
 		</div>
 	</body>
 </html>

@@ -27,7 +27,8 @@ t.cache={};
 
 OC={
 	webroot:oc_webroot,
-	coreApps:['files','admin','log','search','settings','core'],
+	currentUser:oc_current_user,
+	coreApps:['files','admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
 	 * @param app the id of the app the file belongs to
@@ -264,6 +265,12 @@ $(document).ready(function(){
 			$('#remember_login+label').fadeIn();
 		}
 	});
+
+	if($('body').attr("id")=="body-user") { $('#settings li').hide(); }
+	$('#expand').click(function() {
+		$('#settings li').slideToggle();
+	});
+	
 });
 
 

@@ -7,12 +7,9 @@ if(!isset($_)){//also provide standalone error page
 	exit;
 }
 ?>
-<div id="login">
-	<header><img src="<?php echo image_path('', 'weather-clear.png'); ?>" alt="ownCloud" /></header>
-	<ul>
-		<li class='error'>
-			<?php echo $l->t( 'Error 404, Cloud not found' ); ?><br/>
-			<p class='hint'><?php if(isset($_['file'])) echo $_['file']?></p>
-		</li>
-	</ul>
-</div>
+<ul>
+	<li class='error'>
+		<?php echo $l->t( 'Cloud not found' ); ?><br/>
+		<p class='hint'><?php if(isset($_['file'])) echo $_['file']?></p>
+	</li>
+</ul>
