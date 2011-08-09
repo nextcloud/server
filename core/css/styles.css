@@ -73,7 +73,8 @@ legend { padding:.2em; font-size:1.2em; }
 #login form { width:18em; margin:2em auto 5em; padding:0; }
 #login form fieldset { background-color:transparent; border:0; margin-bottom:2em; padding:0; }
 #login form fieldset legend { font-weight:bold; }
-#login form label { position:absolute; display:block; margin:.95em 0 .8em -5.5em; font-size:1.5em; color:#666; }
+#login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
+#login form label#directorylabel { display:block; margin:.95em 0 .8em -5.5em; }
 
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 
