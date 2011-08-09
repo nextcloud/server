@@ -140,6 +140,7 @@ function createShareDropdown(filenames, files) {
 		if (users) {
 			var list = "<ul>";
 			$.each(users, function(index, row) {
+				$('#uid_shared_with option[value="'+row.uid_shared_with+'"]').remove();
 				if (typeof(index) == 'string') {
 					// TODO typeof not always working, group together users that have parent folders shared with them
 					list += "<li>Parent folder "+index.substr(0, index.lastIndexOf('-'))+" shared with "+row.uid_shared_with+"</li>";
@@ -158,6 +159,7 @@ function createShareDropdown(filenames, files) {
 			});
 			list += "</ul>";
 			$(list).appendTo('#shared_list');
+			$('#uid_shared_with').trigger('liszt:updated');
 		}
 	});
 	$.getJSON(OC.linkTo('files_publiclink', 'ajax/getlink.php'), { path: files }, function(token) {
