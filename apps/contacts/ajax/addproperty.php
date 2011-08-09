@@ -48,7 +48,7 @@ $vcard = Sabre_VObject_Reader::read($card['carddata']);
 
 $name = $_POST['name'];
 $value = $_POST['value'];
-$parameters = $_POST['parameters'];
+$parameters = isset($_POST['parameteres'])?$_POST['parameters']:array();
 
 if(is_array($value)){
 	$value = OC_Contacts_Addressbook::escapeSemicolons($value);
