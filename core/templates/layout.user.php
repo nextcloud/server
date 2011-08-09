@@ -28,15 +28,15 @@
 	</head>
 
 	<body id="<?php echo $_['bodyid'];?>">
-		<div id="header">
+		<header><div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
 			<?php echo $_['searchbox']?>
 			<ul id="metanav">
 				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="Log out"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a></li>
 			</ul>
-		</div>
+		</div></header>
 
-		<div id="navigation">
+		<nav><div id="navigation">
 			<ul id="apps">
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
@@ -61,7 +61,8 @@
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
-		</div>
+		</div></nav>
+
 		<div id="content">
 			<?php echo $_['content']; ?>
 		</div>
