@@ -1,10 +1,15 @@
 <?php if(array_key_exists('PHOTO',$_['details'])): ?>
 	<img src="photo.php?id=<?php echo $_['id']; ?>">
 <?php endif; ?>
-<?php echo $this->inc('part.property', array('property' => $_['details']['FN'][0])); ?>
+
+<?php if(array_key_exists('FN',$_['details'])): ?>
+	<?php echo $this->inc('part.property', array('property' => $_['details']['FN'][0])); ?>
+<?php endif; ?>
+
 <?php if(isset($_['details']['BDAY'])): // Emails first ?>
 	<?php echo $this->inc('part.property', array('property' => $_['details']['BDAY'][0])); ?>
 <?php endif; ?>
+
 <?php if(isset($_['details']['ORG'])): // Emails first ?>
 	<?php echo $this->inc('part.property', array('property' => $_['details']['ORG'][0])); ?>
 <?php endif; ?>
@@ -17,6 +22,7 @@
 		<?php endforeach; ?>
 	<?php endif; ?>
 <?php endforeach; ?>
+
 <div id="contacts_cardoptions">
 	<a id="contacts_deletecard"><img src="../../core/img/actions/delete.png"></a>
 	<a id="contacts_addproperty"><img src="../../core/img/actions/download.png"></a>
