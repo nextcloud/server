@@ -33,7 +33,6 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
-
 $addressbook = OC_Contacts_Addressbook::findAddressbook( $id );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));

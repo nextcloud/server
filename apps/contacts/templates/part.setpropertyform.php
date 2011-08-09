@@ -1,6 +1,5 @@
 <form id="contacts_setpropertyform">
 	<input type="hidden" name="checksum" value="<?php echo $_['property']['checksum']; ?>">
-	<input type="hidden" name="line" value="<?php echo $_['property']['line']; ?>">
 	<input type="hidden" name="id" value="<?php echo $_['id']; ?>">
 	<?php if($_['property']['name']=='ADR'): ?>
 		<?php echo $l->t('PO Box'); ?> <input type="text" name="value[0]" value="<?php echo $_['property']['value'][0]; ?>">
@@ -12,8 +11,6 @@
 		<?php echo $l->t('Country'); ?> <input type="text" name="value[6]" value="<?php echo $_['property']['value'][6]; ?>">
 	<?php elseif($_['property']['name']=='TEL'): ?>
 		<input type="text" name="value" value="<?php echo $_['property']['value']; ?>">
-	<?php elseif($_['property']['name']=='NOTE'): ?>
-		<textarea type="text" name="value"><?php echo $_['property']['value']; ?></textarea>
 	<?php else: ?>
 		<input type="text" name="value" value="<?php echo $_['property']['value']; ?>">
 	<?php endif; ?>

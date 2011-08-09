@@ -24,7 +24,6 @@
 require_once('../../../lib/base.php');
 
 $id = $_GET['id'];
-$line = $_GET['line'];
 $checksum = $_GET['checksum'];
 
 
@@ -50,8 +49,13 @@ if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 }
 
 $vcard = Sabre_VObject_Reader::read($card['carddata']);
-
-if(md5($vcard->children[$line]->serialize()) != $checksum ){
+$line = null;
+for($i=0;$i<count($vcard->children);$i++){
+	if(md5($vcard->children[$i]->serialize()) == $checksum ){
+		$line = $i;
+	}
+}
+if(is_null($line)){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Information about vCard is incorrect. Please reload page!'))));
 	exit();
 }

@@ -291,32 +291,35 @@ class OC_Contacts_Addressbook{
 
 	public static function structureContact($object){
 		$details = array();
-		$line = 0;
 		foreach($object->children as $property){
-			$temp = self::structureProperty($property,$line);
+			$temp = self::structureProperty($property);
 			if(array_key_exists($property->name,$details)){
 				$details[$property->name][] = $temp;
 			}
 			else{
 				$details[$property->name] = array($temp);
 			}
-			$line++;
 		}
 		return $details;
 	}
 	
-	public static function structureProperty($property,$line=null){
+	public static function structureProperty($property){
 		$value = $property->value;
-		if($property->name == 'ADR'){
+		$value = htmlspecialchars($value);
+		if($property->name == 'ADR' || $property->name == 'N'){
 			$value = self::unescapeSemicolons($value);
 		}
 		$temp = array(
 			'name' => $property->name,
 			'value' => $value,
-			'line' => $line,
 			'parameters' => array(),
 			'checksum' => md5($property->serialize()));
 		foreach($property->parameters as $parameter){
+			// Faulty entries by kaddressbook
+			if($parameter->name == 'TYPE' && $parameter->value == 'PREF'){
+				$parameter->name = 'PREF';
+				$parameter->value = '1';
+			}
 			$temp['parameters'][$parameter->name] = $parameter->value;
 		}
 		return $temp;

@@ -17,6 +17,7 @@
 		<?php endforeach; ?>
 	<?php endif; ?>
 <?php endforeach; ?>
-
-<a id="contacts_deletecard"><img src="../../core/img/actions/delete.png"></a>
-<a id="contacts_addproperty"><img src="../../core/img/actions/download.png"></a>
+<div id="contacts_cardoptions">
+	<a id="contacts_deletecard"><img src="../../core/img/actions/delete.png"></a>
+	<a id="contacts_addproperty"><img src="../../core/img/actions/download.png"></a>
+</div>
