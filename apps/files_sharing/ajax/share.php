@@ -8,9 +8,7 @@ $sources = explode(";", $_POST['sources']);
 $uid_shared_with = $_POST['uid_shared_with'];
 $permissions = $_POST['permissions'];
 foreach ($sources as $source) {
-	foreach ($uid_shared_with as $uid) {
-		new OC_Share($source, $uid, $permissions);
-	}
+	new OC_Share($source, $uid_shared_with, $permissions);
 }
 
 ?>

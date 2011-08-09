@@ -28,17 +28,21 @@ $(document).ready(function() {
 		}
 		createShareDropdown(filenames, files);
 	});
-	$('#uid_shared_with').live('keyup', function() {
-		$(this).autocomplete({
-			source: OC.linkTo('files_sharing','ajax/userautocomplete.php')
-		});
-		$('.ui-autocomplete').click(function(event) {
-			event.stopPropagation();
+	$('#uid_shared_with').live('change', function() {
+		var source = $('#dropdown').data('file');
+		var uid_shared_with = $(this).val();
+		var permissions = 0;
+		var data = 'sources='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with)+'&permissions='+encodeURIComponent(permissions);
+		$.ajax({
+			type: 'POST',
+			url: OC.linkTo('files_sharing','ajax/share.php'),
+			cache: false,
+			data: data
 		});
 	});
 	$('.permissions').live('change', function() {
 		var permissions;
-		if (this.checked) {
+		if ($(this).checked) {
 			permissions = 1;
 		} else {
 			permissions = 0;
@@ -111,7 +115,9 @@ $(document).ready(function() {
 function createShareDropdown(filenames, files) {
 	var html = "<div id='dropdown' data-file='"+files+"'>";
 	html += "<div id='private'>";
-	html += "<input placeholder='User or Group' id='uid_shared_with' />";
+	html += "<select data-placeholder='User or Group' style='width:220px;' id='uid_shared_with' class='chzen-select'>";
+	html += "<option value=''></option>";
+	html += "</select>";
 	html += "<div id='shared_list'></div>";
 	html += "</div>";
 	html += "<div id='public'>";
@@ -122,7 +128,15 @@ function createShareDropdown(filenames, files) {
 	html += "</div>";
 	$('tr[data-file="'+filenames+'"]').addClass('mouseOver');
 	$(html).appendTo($('tr[data-file="'+filenames+'"] td.filename'));
-	$.getJSON(OC.linkTo('files_sharing','ajax/getitem.php'), { source: files }, function(users) {
+	$.getJSON(OC.linkTo('files_sharing', 'ajax/userautocomplete.php'), function(users) {
+		if (users) {
+			$.each(users, function(index, row) {
+				$(row).appendTo('#uid_shared_with');
+			});
+			$('#uid_shared_with').trigger('liszt:updated');
+		}
+	});
+	$.getJSON(OC.linkTo('files_sharing', 'ajax/getitem.php'), { source: files }, function(users) {
 		if (users) {
 			var list = "<ul>";
 			$.each(users, function(index, row) {
@@ -146,7 +160,7 @@ function createShareDropdown(filenames, files) {
 			$(list).appendTo('#shared_list');
 		}
 	});
-	$.getJSON(OC.linkTo('files_publiclink','ajax/getlink.php'), { path: files }, function(token) {
+	$.getJSON(OC.linkTo('files_publiclink', 'ajax/getlink.php'), { path: files }, function(token) {
 		if (token) {
 			$('#makelink').attr('checked', true);
 			$('#link').data('token', token);
@@ -155,4 +169,5 @@ function createShareDropdown(filenames, files) {
 		}
 	});
 	$('#dropdown').show('blind');
+	$('#uid_shared_with').chosen();
 }
