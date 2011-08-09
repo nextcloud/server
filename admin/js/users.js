@@ -1,340 +1,100 @@
 $(document).ready(function(){
-	// Vars we need
-	var uid = "";
-	var gid = "";
-	var togglepassword = "";
-	var togglegroup = "";
-
-	//#########################################################################
-	// Stuff I don't understand
-	//#########################################################################
-
-	function doToggleGroup( group ){
-		$("#changegroupgid").val(group);
-
-		// Serialize the data
-		var post = $( "#changegroupsform" ).serialize();
-		// Ajax foo
-		$.post( 'ajax/togglegroups.php', post, function(data){
-			if( data.status == "success" ){
-				var groups = [];
-				$("input[x-use='togglegroup']").each( function(index){
-					if( $(this).attr("checked")){
-						groups.push($(this).val());
-					}
-				});
-				if( groups.length == 0 ){
-					$("#changegroups").prev().html( '&nbsp;' );
-				}
-				else{
-					$("#changegroups").prev().html( groups.join(", "));
-				}
+	$('select[multiple]').chosen();
+	
+	$('td.remove>img').live('click',function(event){
+		var uid=$(this).parent().parent().data('uid');
+		$.post(
+			OC.filePath('admin','ajax','removeuser.php'),
+			{username:uid},
+			function(result){
+			
 			}
-			else{
-				printError( data.data.message );
-			}
-		});
-		return false;
-	}
-
-	function printError( message ){
-		$("#errormessage").text( message );
-		$("#errordialog").dialog( "open" );
-		return false;
-	}
-
-	//#########################################################################
-	// Functions for editing the dom after user manipulation
-	//#########################################################################
-
-	// Manipulating the page after crteating a user
-	function userCreated( username, groups ){
-		// We need at least a space for showing the div
-		if( groups == "" ){
-			groups = '&nbsp;';
-		}
-
-		// Add user to table
-		var newrow = '<tr x-uid="'+username+'"><td x-use="username"><div x-use="usernamediv">'+username+'</div></td>';
-		newrow = newrow+'<td x-use="usergroups"><div x-use="usergroupsdiv">'+groups+'</td>';
-		newrow = newrow+'<td><input type="submit" class="removeuserbutton" value="Remove" /></td></tr>';
-		$("#usertable").append( newrow  );
-
-		// Clear forms
-		$("input[x-use='createuserfield']").val( "" );
-		$("input[x-use='createusercheckbox']").attr( "checked", false );
-	}
-
-	function userRemoved( username ){
-		$( "tr[x-uid='"+username+"']" ).remove();
-	}
-
-	function groupCreated( groupname ){
-		var newrow = '<tr x-gid="'+groupname+'"><td>' + groupname + '</td>';
-		newrow = newrow + '<td><input type="submit" class="removeuserbutton" value="Remove" /></td></tr>';
-		$("#grouptable").append( newrow  );
-
-		// Delete form content
-		$("input[x-use='creategroupfield']").val( "" );
-
-		// Add group option to Create User and Edit User
-		var createuser = '<input x-use="createusercheckbox" x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /> <span x-gid="'+groupname+'">'+groupname+'<br /></span>';
-		$("#createusergroups").append( createuser );
-		var changeuser = '<input x-use="togglegroup" x-gid="'+groupname+'" type="checkbox" name="groups[]" value="'+groupname+'" /> <span x-use="togglegroup" x-gid="'+groupname+'">'+groupname+'<br /></span>';
-		$("#changegroupsform").append( changeuser );
-	}
-
-	function groupRemoved( groupname ){
-		// Delete the options
-		$( "tr[x-gid='"+groupname+"']" ).remove();
-		$( "span[x-gid='"+groupname+"']" ).remove();
-		$( "input[x-gid='"+groupname+"']" ).remove();
-
-		// remove it from user list
-		$( "div[x-use='usergroupsdiv']" ).each(function(index){
-			var content = $(this).text();
-			var list = content.split( ", " );
-			var newlist = [];
-			for( var i = 0; i < list.length; i++ ){
-				var temp = list[i];
-				if( temp != groupname ){
-					newlist.push( temp );
-				}
-			}
-			var newstring = newlist.join( ", " );
-			$(this).html( newstring )
-		});
-
-	}
-
-	//#########################################################################
-	// Editing the users properties by clicking the cell
-	//#########################################################################
-
-	// Password (clicking on user name)
-	$("span[x-use='usernamediv']").live( "click", function(){
-		if( togglepassword == "" || $(this).parent().parent().attr("x-uid") != togglepassword ){
-			togglepassword = $(this).parent().parent().attr("x-uid");
-			// Set the username!
-			$("#changepassworduid").val(togglepassword);
-			$("#changepasswordpwd").val("");
-			$(this).parent().append( $('#changepassword') );
-			$('#changepassword').show();
-		}
-		else{
-			$('#changepassword').hide();
-			togglepassword = "";
-		}
+		);
+		$(this).parent().parent().remove();
 	});
-
-	$("#changepasswordbutton").click( function(){
-		// Serialize the data
-		var post = $( "#changepasswordform" ).serialize();
-		// Ajax foo
-		$.post( 'ajax/changepassword.php', post, function(data){
-			if( data.status == "success" ){
-				togglepassword = "";
-				$('#changepassword').hide();
-			}
-			else{
-				printError( data.data.message );
-			}
-		});
-		return false;
-	});
-
-	// Groups
-	$("div[x-use='usergroupsdiv']").live( "click", function(){
-		if( togglegroup == "" || $(this).parent().parent().attr("x-uid") != togglegroup){
-			togglegroup = $(this).parent().parent().attr("x-uid");
-			var groups = $(this).text();
-			groups = groups.split(", ");
-			$("input[x-use='togglegroup']").each( function(index){
-				var check = false;
-				// Group checked?
-				for( var i = 0; i < groups.length; i++ ){
-					if( $(this).val() == groups[i] ){
-						check = true;
-					}
-				}
-
-				// Check/uncheck
-				if( check ){
-					$(this).attr("checked","checked");
-				}
-				else{
-					$(this).removeAttr("checked");
-				}
-			});
-			$("#changegroupuid").val(togglegroup);
-			$(this).empty();
-			$(this).parent().append( $('#changegroups') );
-			$('#changegroups').show();
-		}
-		else{
-			var groups = [];
-			$("input[x-use='togglegroup']").each( function(index){
-				if( $(this).attr("checked")){
-					groups.push($(this).val());
-				}
-			});
-			if( groups.length == 0 ){
-				$("#changegroups").prev().html( '&nbsp;' );
-			}
-			else{
-				$("#changegroups").prev().html( groups.join(", "));
-			}
-			$('#changegroups').hide();
-			togglegroup = "";
-		}
-	});
-
-	$("span[x-use='togglegroup']").live( "click", function(){
-		if( $(this).prev().attr("checked")){
-			$(this).prev().removeAttr("checked")
-		}
-		else{
-			$(this).prev().attr("checked","checked")
-		}
-		doToggleGroup( $(this).attr("x-gid"));
-	});
-
-	$("input[x-use='togglegroup']").live( "click", function(){
-		doToggleGroup( $(this).attr("x-gid"));
-	});
-	//#########################################################################
-	// Clicking on buttons
-	//#########################################################################
-
-
-	// Create a new user
-	$( "#createuserbutton" )
-		.click(function(){
-			if(!$( "#createuserbutton" ).data('active')){
-				$( "#createuserbutton" ).data('active',true);
+	
+	$('#newuser').submit(function(event){
+		event.preventDefault();
+		var username=$('#newusername').val();
+		var password=$('#newuserpassword').val();
+		var groups=$('#newusergroups').val();
+		$.post(
+			OC.filePath('admin','ajax','createuser.php'),
+			{
+				username:username,
+				password:password,
+				groups:groups,
+			},
+			function(result){
 				
-				// Create the post data
-				var post = $( "#createuserdata" ).serialize();
-				
-				// Ajax call
-				$.post( 'ajax/createuser.php', post, function(data){
-					$( "#createuserbutton" ).data('active',false);
+			}
+		);
+		var tr=$('#rightcontent tr').first().clone();
+		tr.attr('data-uid',username);
+		tr.find('td.name').text(username);
+		tr.find('td.groups').text(groups.join(', '));
+		$('#rightcontent tr').first().after(tr);
+		if(groups.indexOf($('#leftcontent li.selected').text().trim())!=-1){
+			tr.find('td.select input').attr('checked','checked');
+		}
+	});
+	
+	$('#newgroup').submit(function(event){
+		event.preventDefault();
+		var name=$('#newgroupname').val();
+		$.post(
+			OC.filePath('admin','ajax','creategroup.php'),
+			{groupname:name},
+			function(result){
+			
+			}
+		);
+		$('#newusergroups').append('<option value="'+name+'">'+name+'</option>');
+		$('select[multiple]').trigger("liszt:updated");
+		var li=$('#leftcontent li').first().next().clone();
+		li.text(name);
+		$('#leftcontent li').first().after(li);
+	});
+	
+	$('#leftcontent li').live('click',function(event){
+		$('#leftcontent li').removeClass('selected');
+		$(this).addClass('selected');
+		$('#rightcontent tr td.select input').show();
+		$('#rightcontent tr td.select input').removeAttr('checked');
+		var group=$(this).text().trim();
+		var rows=$('#rightcontent tr').filter(function(i,tr){
+			return ($(tr).children('td.groups').text().split(', ').indexOf(group)>-1);
+		});
+		rows.find('td.select input').attr('checked','checked');
+	});
+	$('#rightcontent tr td.select input').live('change',function(event){
+		var group=$('#leftcontent li.selected').text().trim();
+		var user=$(this).parent().parent().children('td.name').text().trim();
+		if(group=='admin' && user==OC.currentUser){
+			event.preventDefault();
+			$(this).attr('checked','checked');
+			return false;
+		}
+		if(group){
+			$.post(
+				OC.filePath('admin','ajax','togglegroups.php'),
+				{
+					username:user,
+					group:group
+				},
+				function(result){
 					
-					// If it says "success" then we are happy
-					if( data.status == "success" ){
-						userCreated( data.data.username, data.data.groups );
-					}
-					else{
-						printError( data.data.message );
-					}
-				});
-			}
-			return false;
-		});
-
-	$( ".removeuserbutton" ).live( 'click', function() {
-			uid = $( this ).parent().parent().attr( 'x-uid' );
-			$("#deleteuserusername").html(uid);
-			$("#deleteusernamefield").val(uid);
-			$("#removeuserform").dialog( "open" );
-			return false;
-		});
-
-	$( "#creategroupbutton" )
-		.click(function(){
-			// Serialize the data
-			var post = $( "#creategroupdata" ).serialize();
-			// Ajax foo
-			$.post( 'ajax/creategroup.php', post, function(data){
-				if( data.status == "success" ){
-					groupCreated( data.data.groupname );
 				}
-				else{
-					printError( data.data.message );
-				}
-			});
-			return false;
-		});
-
-	$( ".removegroupbutton" ).live( 'click', function(){
-			gid = $( this ).parent().parent().attr( 'x-gid' );
-			$("#removegroupgroupname").html(gid);
-			$("#removegroupnamefield").val(gid);
-			$("#removegroupform").dialog( "open" );
-			return false;
-		});
-
-	//#########################################################################
-	// Dialogs
-	//#########################################################################
-
-	// Removing users
-	$( "#errordialog" ).dialog({
-		autoOpen: false,
-		modal: true,
-		buttons: {
-			OK: function() {
-				$( this ).dialog( "close" );
+			);
+			var groups=$(this).parent().parent().children('td.groups').text().trim().split(', ');
+			if(groups[0]=='') groups.pop();
+			var index=groups.indexOf(group);
+			if(index==-1){
+				groups.push(group);
+			}else{
+				groups.splice(index,1);
 			}
+			$(this).parent().parent().children('td.groups').text(groups.join(', '));
 		}
 	});
-
-	// Removing users
-	$( "#removeuserform" ).dialog({
-		autoOpen: false,
-		height: 300,
-		width: 350,
-		modal: true,
-		buttons: {
-			"Remove user": function() {
-				var post = $( "#removeuserdata" ).serialize();
-				$.post( 'ajax/removeuser.php', post, function(data){
-					if( data.status == "success" ){
-						userRemoved( uid );
-					}
-					else{
-						printError( data.data.message );
-					}
-				});
-				$( this ).dialog( "close" );
-			},
-			Cancel: function() {
-				$( this ).dialog( "close" );
-			}
-		},
-		close: function() {
-			true;
-		}
-	});
-
-
-	// Dialog for adding users
-	$( "#removegroupform" ).dialog({
-		autoOpen: false,
-		height: 300,
-		width: 350,
-		modal: true,
-		buttons: {
-			"Remove group": function(){
-				var post = $( "#removegroupdata" ).serialize();
-				$.post( 'ajax/removegroup.php', post, function(data){
-					if( data.status == "success" ){
-						groupRemoved( gid );
-					}
-					else{
-						printError( data.data.message );
-					}
-				});
-				$( this ).dialog( "close" );
-			},
-			Cancel: function() {
-				$( this ).dialog( "close" );
-			}
-		},
-		close: function(){
-			true;
-		}
-	});
-
-} );
-
+});
