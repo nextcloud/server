@@ -18,7 +18,7 @@
 
 	<fieldset>
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
-		<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" placeholder="<?php echo $l->t( 'Username' ); ?>" autofocus required />
+		<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" placeholder="<?php echo $l->t( 'Username' ); ?>" autocomplete="off" autofocus required />
 		<input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" placeholder="<?php echo $l->t( 'Password' ); ?>" required />
 	</fieldset>
 	
@@ -56,9 +56,9 @@
 
 		<?php if($hasOtherDB): ?>
 		<div id="use_other_db">
-			<input type="text" name="dbuser" id="dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" placeholder="<?php echo $l->t( 'Database user' ); ?>" />
+			<input type="text" name="dbuser" id="dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" placeholder="<?php echo $l->t( 'Database user' ); ?>" autocomplete="off" />
 			<input type="password" name="dbpass" id="dbpass" value="<?php print OC_Helper::init_var('dbpass'); ?>" placeholder="<?php echo $l->t( 'Database password' ); ?>" />
-			<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" placeholder="<?php echo $l->t( 'Database name' ); ?>" />
+			<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" placeholder="<?php echo $l->t( 'Database name' ); ?>" autocomplete="off" />
 			
 			
 		</div>
