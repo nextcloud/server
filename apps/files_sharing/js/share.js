@@ -37,12 +37,32 @@ $(document).ready(function() {
 			type: 'POST',
 			url: OC.linkTo('files_sharing','ajax/share.php'),
 			cache: false,
-			data: data
+			data: data,
+			success: function() {
+				$('#uid_shared_with option[value="'+uid_shared_with+'"]').remove();
+				$('#uid_shared_with').trigger('liszt:updated');
+				var list = "<li data-uid_shared_with='"+uid_shared_with+"'>";
+				list += uid_shared_with;
+				list += "<input type='checkbox' name='permissions' class='permissions' style='display:none;' /><label>can edit</label>";
+				list += "<a href='' title='Unshare' class='unshare' data-uid_shared_with='"+uid_shared_with+"' style='display:none;'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a>";
+				list += "</li>";
+				$(list).prependTo('#shared_list');
+			}
 		});
+	});
+	$('#shared_list > li').live('mouseenter', function(event) {
+		$(':hidden', this).show();
+	});
+	$('#shared_list > li').live('mouseleave', function(event) {
+		$('a', this).hide();
+		if (!$('input:[type=checkbox]', this).is(':checked')) {
+			$('input:[type=checkbox]', this).hide();
+			$('label', this).hide();
+		}
 	});
 	$('.permissions').live('change', function() {
 		var permissions;
-		if ($(this).checked) {
+		if (this.checked) {
 			permissions = 1;
 		} else {
 			permissions = 0;
@@ -118,13 +138,13 @@ function createShareDropdown(filenames, files) {
 	html += "<select data-placeholder='User or Group' style='width:220px;' id='uid_shared_with' class='chzen-select'>";
 	html += "<option value=''></option>";
 	html += "</select>";
-	html += "<div id='shared_list'></div>";
+	html += "<ul id='shared_list'></ul>";
 	html += "</div>";
 	html += "<div id='public'>";
 	html += "<input type='checkbox' name='makelink' id='makelink' value='1' /><label for='makelink'>make public</label>";
 	html += "<input type='checkbox' name='public_link_write' id='public_link_write' value='1' /><label for='public_link_write'>allow upload</label>";
 	html += "<br />";
-	html += "<input id='link' style='display:none;width:100%' />";
+	html += "<input id='link' style='display:none; width:90%;' />";
 	html += "</div>";
 	$('tr[data-file="'+filenames+'"]').addClass('mouseOver');
 	$(html).appendTo($('tr[data-file="'+filenames+'"] td.filename'));
@@ -138,7 +158,7 @@ function createShareDropdown(filenames, files) {
 	});
 	$.getJSON(OC.linkTo('files_sharing', 'ajax/getitem.php'), { source: files }, function(users) {
 		if (users) {
-			var list = "<ul>";
+			var list;
 			$.each(users, function(index, row) {
 				$('#uid_shared_with option[value="'+row.uid_shared_with+'"]').remove();
 				if (typeof(index) == 'string') {
@@ -148,16 +168,18 @@ function createShareDropdown(filenames, files) {
 					list += "<li data-uid_shared_with='"+row.uid_shared_with+"'>";
 					list += row.uid_shared_with;
 					var checked;
+					var style;
 					if (row.permissions > 0) {
 						checked = "checked='checked'";
+					} else {
+						style = "style='display:none;'";
 					}
-					list += "<input type='checkbox' name='permissions' id='"+index+"' class='permissions' "+checked+" /><label for='"+index+"'>can edit</label>";
-					list += "<a href='' title='Unshare' class='unshare' data-uid_shared_with='"+row.uid_shared_with+"'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a>";
+					list += "<input type='checkbox' name='permissions' id='"+index+"' class='permissions' "+checked+"  "+style+" /><label for='"+index+"' "+style+">can edit</label>";
+					list += "<a href='' title='Unshare' class='unshare' data-uid_shared_with='"+row.uid_shared_with+"' style='display:none;'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a>";
 					list += "</li>";
 					
 				}
 			});
-			list += "</ul>";
 			$(list).appendTo('#shared_list');
 			$('#uid_shared_with').trigger('liszt:updated');
 		}
