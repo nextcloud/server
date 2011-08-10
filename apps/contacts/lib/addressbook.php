@@ -120,10 +120,10 @@ class OC_Contacts_Addressbook{
 	}
 
 	public static function deleteAddressbook($id){
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
+		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 		$stmt->execute(array($id));
 		
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE addressbookid = ?' );
+		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ?' );
 		$stmt->execute(array($id));
 
 		return true;
