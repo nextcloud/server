@@ -12,3 +12,6 @@ OC_Util::addStyle('contacts','styles');
 <div id="contacts_details" class="rightcontent" data-id="<?php echo $_['id']; ?>">
 	<?php echo $this->inc("part.details"); ?>
 </div>
+<?php if(count($_['addressbooks']) == 1 ): ?>
+	<?php echo $l->t('The path to this addressbook is %s', array(OC::$WEBROOT.'/apps/contacts/carddav.php/addressbooks/'.$_['addressbooks'][0]['uri'])); ?>
+<?php endif; ?>
