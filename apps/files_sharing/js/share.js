@@ -161,8 +161,7 @@ function createShareDropdown(filenames, files) {
 			var list;
 			$.each(users, function(index, row) {
 				$('#uid_shared_with option[value="'+row.uid_shared_with+'"]').remove();
-				if (typeof(index) == 'string') {
-					// TODO typeof not always working, group together users that have parent folders shared with them
+				if (isNaN(index)) {
 					list += "<li>Parent folder "+index.substr(0, index.lastIndexOf('-'))+" shared with "+row.uid_shared_with+"</li>";
 				} else {
 					list += "<li data-uid_shared_with='"+row.uid_shared_with+"'>";
