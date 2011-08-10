@@ -94,7 +94,7 @@ class Sabre_DAV_Browser_Plugin extends Sabre_DAV_ServerPlugin {
     public function httpPOSTHandler($method, $uri) {
 
         if ($method!='POST') return true;
-        if (isset($_POST['action'])) switch($_POST['action']) {
+        if (isset($_POST['sabreAction'])) switch($_POST['sabreAction']) {
 
             case 'mkcol' :
                 if (isset($_POST['name']) && trim($_POST['name'])) {
@@ -249,13 +249,13 @@ class Sabre_DAV_Browser_Plugin extends Sabre_DAV_ServerPlugin {
   if ($this->enablePost) {
       $html.= '<tr><td><form method="post" action="">
             <h3>Create new folder</h3>
-            <input type="hidden" name="action" value="mkcol" />
+            <input type="hidden" name="sabreAction" value="mkcol" />
             Name: <input type="text" name="name" /><br />
             <input type="submit" value="create" />
             </form>
             <form method="post" action="" enctype="multipart/form-data">
             <h3>Upload file</h3>
-            <input type="hidden" name="action" value="put" />
+            <input type="hidden" name="sabreAction" value="put" />
             Name (optional): <input type="text" name="name" /><br />
             File: <input type="file" name="file" /><br />
             <input type="submit" value="upload" />

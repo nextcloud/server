@@ -1397,6 +1397,18 @@ class Sabre_DAV_Server {
     }
 
     /**
+     * This method is invoked by sub-systems creating a new directory.
+     *
+     * @param string $uri 
+     * @return void
+     */
+    public function createDirectory($uri) {
+
+        $this->createCollection($uri,array('{DAV:}collection'),array());
+
+    }
+
+    /**
      * Use this method to create a new collection
      *
      * The {DAV:}resourcetype is specified using the resourceType array.
