@@ -52,7 +52,7 @@ class OC_App{
 		}
 
 		// Our very own core apps are hardcoded
-		foreach( array( 'admin', 'files', 'log', 'help', 'settings' ) as $app ){
+		foreach( array( 'admin', 'files', 'help', 'settings' ) as $app ){
 			require( $app.'/appinfo/app.php' );
 		}
 

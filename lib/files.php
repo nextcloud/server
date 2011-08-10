@@ -144,7 +144,6 @@ class OC_Files {
 			die('403 Forbidden');
 		}
 		ob_end_clean();
-// 		OC_Log::event($_SESSION['username'],3,"$dir/$files");
 		if($zip){
 			readfile($filename);
 			unlink($filename);
@@ -206,7 +205,6 @@ class OC_Files {
 				$fileHandle=OC_Filesystem::fopen($file, 'w');
 				if($fileHandle){
 					fclose($fileHandle);
-// 					OC_Log::event($_SESSION['username'],4,"$dir/$name");
 					return true;
 				}else{
 					return false;
