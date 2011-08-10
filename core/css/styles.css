@@ -2,7 +2,16 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
-* { margin:0; padding:0; border:0; outline:0; cursor:default; }
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-style:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
+article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
+body { line-height:1.5; }
+table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
+caption, th, td { text-align:left; font-weight:normal; }
+table, td, th { vertical-align:middle; }
+a { border:0; color:#000; text-decoration:none;}
+a, a img, a strong, a span, input, select, li { cursor:pointer; }
+ul { list-style:none; }
 body { background:#fefefe; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; margin-bottom:2em; }
 
 
@@ -21,10 +30,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', end
 
 #owncloud { float:left; }
 h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercase; font-weight:normal; font-style:italic; color:#666; }
-p.center { text-align:center; }
-a { color:#000; text-decoration:none; }
-table { white-space:nowrap; }
-a, a img, a strong, a span, input, select, li { cursor:pointer; }
 
 
 /* INPUTS */
@@ -81,7 +86,7 @@ legend { padding:.2em; font-size:1.2em; }
 #login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
 /* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
-#metanav { float:right; position:relative; top:.5em; right:1em; list-style:none; margin:0; padding:0; }
+#metanav { float:right; position:relative; top:.5em; right:1em; margin:0; padding:0; }
 #metanav li { display:inline; }
 #metanav li a { margin:.2em; padding:.7em; }
 #metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
@@ -89,7 +94,7 @@ legend { padding:.2em; font-size:1.2em; }
 
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:250; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; } }
-#navigation ul { list-style-type:none; border-top:1px solid #ccc; }
+#navigation ul { border-top:1px solid #ccc; }
 #navigation a { display:block; padding:.6em .5em .4em 2.5em; background:1em center no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
 #navigation a.active, #navigation a:hover, #navigation a:focus, #navigation a.selected { background-color:#ccc; border-top:1px solid #c8c8c8; border-bottom:1px solid #ccc; color:#000; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
@@ -100,5 +105,5 @@ legend { padding:.2em; font-size:1.2em; }
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ccc; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 #quota_indicator div { background:#76a9ea; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 
-li.error { list-style:none; width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#fee url('../img/task-attention.png') .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#fee url('../img/task-attention.png') .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 .hidden{ display:none; }
