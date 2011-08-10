@@ -19,6 +19,10 @@ $action = "add";
 $username = $_POST["username"];
 $group = $_POST["group"];
 
+if(!OC_Group::groupExists($group)){
+	OC_Group::createGroup($group);
+}
+
 // Toggle group
 if( OC_Group::inGroup( $username, $group )){
 	$action = "remove";

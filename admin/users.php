@@ -38,12 +38,7 @@ $users = array();
 $groups = array();
 
 foreach( OC_User::getUsers() as $i ){
-	// Do some more work here soon
-	$ingroups = array();
-	foreach( OC_Group::getUserGroups( $i ) as $userGroup ){
-		$ingroups[] = $userGroup;
-	}
-	$users[] = array( "name" => $i, "groups" => join( ", ", $ingroups ));
+	$users[] = array( "name" => $i, "groups" => join( ", ", OC_Group::getUserGroups( $i ) ));
 }
 
 foreach( OC_Group::getGroups() as $i ){
