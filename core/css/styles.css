@@ -104,3 +104,4 @@ legend { padding:.2em; font-size:1.2em; }
 #quota_indicator div { background-color:#76A9EA; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
 
 li.error { list-style:none; width:640px; margin:4em auto; padding:1em 1em 1em 4em; background-color:#fee; background-image:url('../img/task-attention.png'); background-position:0.8em 0.8em; background-repeat:no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+.hidden{display:none}

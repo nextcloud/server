@@ -136,7 +136,6 @@ class OC_App{
 	 * This function returns all data it got via register().
 	 */
 	public static function get(){
-		// TODO: write function
 		return OC_App::$apps;
 	}
 
@@ -242,7 +241,7 @@ class OC_App{
 		if(is_file($appid)){
 			$file=$appid;
 		}else{
-			$file='apps/'.$appid.'/appinfo/info.xml';
+			$file=OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/info.xml';
 			if(!is_file($file)){
 				return array();
 			}
@@ -331,5 +330,19 @@ class OC_App{
 	 */
 	public static function registerPersonal($app,$page){
 		self::$personalForms[]='apps/'.$app.'/'.$page.'.php';
+	}
+	
+	/**
+	 * get a list of all apps in the apps folder
+	 */
+	public static function getAllApps(){
+		$apps=array();
+		$dh=opendir(OC::$SERVERROOT.'/apps');
+		while($file=readdir($dh)){
+			if(is_file(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/app.php')){
+				$apps[]=$file;
+			}
+		}
+		return $apps;
 	}
 }

@@ -31,76 +31,21 @@ if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' ))
 OC_Util::addStyle( "admin", "apps" );
 OC_Util::addScript( "admin", "apps" );
 
-
-if(isset($_GET['id']))  $id=$_GET['id']; else $id=0;
-if(isset($_GET['cat'])) $cat=$_GET['cat']; else $cat=0;
-if(isset($_GET['installed'])) $installed=true; else $installed=false;
-
-if($installed){
-	global $SERVERROOT;
-	OC_Installer::installShippedApps(false);
-	$apps = OC_Appconfig::getApps();
-	$records = array();
-
-	OC_App::setActiveNavigationEntry( "core_apps" );
-	foreach($apps as $app){
-		$info=OC_App::getAppInfo("$SERVERROOT/apps/$app/appinfo/info.xml");
-		$record = array( 'id' => $app,
-				 'name' => $info['name'],
-				 'version' => $info['version'],
-				 'author' => $info['author'],
-				 'enabled' => OC_App::isEnabled( $app ));
-		$records[]=$record;
-	}
-
-	$tmpl = new OC_Template( "admin", "appsinst", "user" );
-	$tmpl->assign( "apps", $records );
-	$tmpl->printPage();
-	unset($tmpl);
-	exit();
-}else{
-	$categories=OC_OCSClient::getCategories();
-	if($categories==NULL){
-		OC_App::setActiveNavigationEntry( "core_apps" );
-
-		$tmpl = new OC_Template( "admin", "app_noconn", "user" );
-		$tmpl->printPage();
-		unset($tmpl);
-		exit();
-	}
-
-
-	if($id==0) {
-		OC_App::setActiveNavigationEntry( "core_apps_get" );
-
-		if($cat==0){
-			$numcats=array();
-			foreach($categories as $key=>$value) $numcats[]=$key;
-			$apps=OC_OCSClient::getApplications($numcats);
-		}else{
-			$apps=OC_OCSClient::getApplications($cat);
-		}
-
-		// return template
-		$tmpl = new OC_Template( "admin", "apps", "user" );
-
-		$tmpl->assign( "categories", $categories );
-		$tmpl->assign( "apps", $apps );
-		$tmpl->printPage();
-		unset($tmpl);
-
-	}else{
-		OC_App::setActiveNavigationEntry( "core_apps" );
-
-		$app=OC_OCSClient::getApplication($id);
-
-		$tmpl = new OC_Template( "admin", "app", "user" );
-		$tmpl->assign( "categories", $categories );
-		$tmpl->assign( "app", $app );
-		$tmpl->printPage();
-		unset($tmpl);
-
-	}
+$registeredApps=OC_App::getAllApps();
+$apps=array();
+foreach($registeredApps as $app){
+	$info=OC_App::getAppInfo($app);
+	$active=(OC_Appconfig::getValue($app,'enabled','no')=='yes')?true:false;
+	$info['active']=$active;
+	$apps[]=$info;
 }
+
+$categories=OC_OCSClient::getCategories();
+// print_r($categories);
+
+$tmpl = new OC_Template( "admin", "apps", "user" );
+$tmpl->assign('apps',$apps);
+
+$tmpl->printPage();
 
 ?>

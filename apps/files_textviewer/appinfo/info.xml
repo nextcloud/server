@@ -4,6 +4,6 @@
 	<name>Text viewer</name>
 	<version>0.3</version>
 	<licence>AGPL</licence>
-	<author>Icewind</author>
+	<author>Robin Appelman</author>
 	<require>2</require>
 </info>

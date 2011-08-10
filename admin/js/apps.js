@@ -1,17 +1,38 @@
-$("input[x-use='appenablebutton']").live( "click", function(){
-	appid = $(this).parent().data("uid");
-
-	//alert("dsfsdfsdf");
-	if($(this).val() == "enabled"){
-		$(this).attr("value","disabled");
-		$(this).removeClass( "enabled" );
-		$(this).addClass( "disabled" );
-		$.post( "ajax/disableapp.php", 'appid='+appid);
-	}
-	else if($(this).val() == "disabled"){
-		$(this).attr("value","enabled");
-		$(this).removeClass( "disabled" );
-		$(this).addClass( "enabled" );
-		$.post( "ajax/enableapp.php", 'appid='+appid);
-	}
+$(document).ready(function(){
+	$('#leftcontent li').each(function(index,li){
+		var app=$.parseJSON($(this).children('span').text());
+		$(li).data('app',app);
+	});
+	$('#leftcontent li').click(function(){
+		var app=$(this).data('app');
+		$('#rightcontent p').show();
+		$('#rightcontent span.name').text(app.name);
+		$('#rightcontent span.version').text(app.version);
+		$('#rightcontent p.description').text(app.description);
+		$('#rightcontent span.author').text(app.author);
+		$('#rightcontent span.licence').text(app.licence);
+		
+		$('#rightcontent input.enable').show();
+		$('#rightcontent input.enable').val((app.active)?t('admin','Disable'):t('admin','Enable'));
+		$('#rightcontent input.enable').data('appid',app.id);
+		$('#rightcontent input.enable').data('active',app.active);
+	});
+	$('#rightcontent input.enable').click(function(){
+		var app=$(this).data('appid');
+		var active=$(this).data('active');
+		if(app){
+			if(active){
+				$.post(OC.filePath('admin','ajax','disableapp.php'),{appid:app});
+				$('#leftcontent li[data-id="'+app+'"]').removeClass('active');
+			}else{
+				$.post(OC.filePath('admin','ajax','enableapp.php'),{appid:app});
+				$('#leftcontent li[data-id="'+app+'"]').addClass('active');
+			}
+			active=!active;
+			$(this).data('active',active);
+			$(this).val((active)?t('admin','Disable'):t('admin','Enable'));
+			var appData=$('#leftcontent li[data-id="'+app+'"]');
+			appData.active=active;
+		}
+	});
 });

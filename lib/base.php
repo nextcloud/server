@@ -90,7 +90,8 @@ if(substr($scriptName,-1)=='/'){
 }
 $WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen($SUBURI));
 
-
+OC::$SERVERROOT=$SERVERROOT;
+OC::$WEBROOT=$WEBROOT;
 
 if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 	$WEBROOT='/'.$WEBROOT;
