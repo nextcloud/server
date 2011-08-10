@@ -83,13 +83,6 @@ legend { padding:.2em; font-size:1.2em; }
 
 #login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
-/* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
-#metanav { float:right; position:relative; top:.5em; right:1em; margin:0; padding:0; }
-#metanav li { display:inline; }
-#metanav li a { margin:.2em; padding:.7em; }
-#metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
-#metanav li a img { vertical-align:middle; }
-
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:75; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; }
 #navigation a { display:block; padding:.6em .5em .4em 2.5em; background:#eee 1em center no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
@@ -98,6 +91,8 @@ legend { padding:.2em; font-size:1.2em; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
 #expand { margin:0 0 .2em 1.2em; cursor:pointer; }
 #expand+span { position:relative; bottom:.4em; left:.2em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
+#logout { position:absolute; right:0; top:0; padding:1.2em 2em .55em 1.2em; }
+#logout:hover, #logout:focus { background:rgba(0,0,0,.5); }
 
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ccc; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }

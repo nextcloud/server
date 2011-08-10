@@ -33,9 +33,7 @@
 			<form class="searchbox" action="#" method="post">
 				<input id='searchbox' type="search" name="query" value="<?php if(isset($_POST['query'])){echo $_POST['query'];};?>" class="prettybutton" autocomplete="off" />
 			</form>
-			<ul id="metanav">
-				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="<?php echo $l->t('Log out');?>"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a></li>
-			</ul>
+			<a id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="<?php echo $l->t('Log out');?>"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
 		</div></header>
 
 		<nav><div id="navigation">
