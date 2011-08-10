@@ -65,7 +65,6 @@ legend { padding:.2em; font-size:1.2em; }
 /* CONTENT ------------------------------------------------------------------ */
 #controls { width:100%; top:3.5em; height:2.9em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:200; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #content { margin:3.5em 0 0 12.5em; padding-bottom:10em; }
-#body-settings #content { padding:1em; }
 #leftcontent { position:absolute; top:6.5em; width:20em; background:#f8f8f8; height:100%; border-right:1px solid #ddd; }
 #rightcontent { position:absolute; top:6.5em; left:33em; }
 
