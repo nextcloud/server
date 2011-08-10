@@ -50,9 +50,11 @@
 					</li>
 				<?php endforeach; ?>
 			</ul>
+
 			<ul id="settings">
 				<img id="expand" class='svg' src="<?php echo image_path('', 'actions/settings.svg'); ?>" />
 				<span style="display:none"><?php echo $l->t('Settings');?></span>
+				<div id="expanddiv">
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
 					<?php if( sizeof( $entry["subnavigation"] )): ?>
@@ -61,6 +63,7 @@
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
+				</div>
 			</ul>
 		</div></nav>
 

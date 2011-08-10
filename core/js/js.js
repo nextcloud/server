@@ -266,14 +266,12 @@ $(document).ready(function(){
 		}
 	});
 
-	if($('body').attr("id")=="body-user") { $('#settings li').hide(); }
-	$('#expand').click(function() {
-		$('#settings li').slideToggle();
+	if($('body').attr("id")=="body-user") { $('#settings #expanddiv').hide(); }
+	$('#settings #expand').click(function() {
+		$('#settings #expanddiv').slideToggle();
 	});
-	$('#expand').hover(function(){
-		$('#navigation #settings>span').fadeIn();
-	},function(){
-		$('#navigation #settings>span').fadeOut();
+	$('#settings #expand').hover(function(){
+		$('#settings #expand+span').fadeToggle();
 	})
 });
 

@@ -2,7 +2,6 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
-
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-style:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
 article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
 body { line-height:1.5; }
@@ -97,8 +96,8 @@ legend { padding:.2em; font-size:1.2em; }
 #navigation a { display:block; padding:.6em .5em .4em 2.5em; background:1em center no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
 #navigation a.active, #navigation a:hover, #navigation a:focus, #navigation a.selected { background-color:#ccc; border-top:1px solid #c8c8c8; border-bottom:1px solid #ccc; color:#000; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
-#navigation #expand { margin:0 0 .2em 1.2em; cursor:pointer; }
-#navigation #settings>span { position:relative; bottom:.4em; left:.2em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
+#expand { margin:0 0 .2em 1.2em; cursor:pointer; }
+#expand+span { position:relative; bottom:.4em; left:.2em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
 
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ccc; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
