@@ -97,16 +97,17 @@ class OC_L10N{
 	/**
 	 * @brief Translating
 	 * @param $text The text we need a translation for
+	 * @param $parameters default:array() Parameters for sprintf
 	 * @returns Translation or the same text
 	 *
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned.
 	 */
-	public function t($text){
+	public function t($text, $parameters = array()){
 		if(array_key_exists($text, $this->translations)){
-			return $this->translations[$text];
+			return vsprintf( $this->translations[$text], $parameters );
 		}
-		return $text;
+		return vsprintf( $text, $parameters );
 	}
 
 	/**
