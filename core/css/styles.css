@@ -7,7 +7,7 @@ body { background:#fefefe; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana
 
 
 /* HEADERS */
-#body-user #header, #body-settings #header { position:fixed; top:0; z-index:100; width:100%; height:2.5em; padding:.5em; background:#1d2d44; -moz-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; box-shadow:0 0 10px #000, inset 0 -2px 10px #222; }
+#body-user #header, #body-settings #header { position:fixed; top:0; z-index:300; width:100%; height:2.5em; padding:.5em; background:#1d2d44; -moz-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; box-shadow:0 0 10px #000, inset 0 -2px 10px #222; }
 #body-login #header { margin:-2em auto 0; text-align:center; height:10em;
  -moz-box-shadow:0 0 1em #000; -webkit-box-shadow:0 0 1em #000; box-shadow:0 0 1em #000;
 background: #1d2d44; /* Old browsers */
@@ -58,10 +58,10 @@ legend { padding:.2em; font-size:1.2em; }
 .template{display:none;}
 
 /* CONTENT ------------------------------------------------------------------ */
-#controls { width:100%; top:3.5em; height:3em; margin:0; background-color:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:2; }
+#controls { width:100%; top:3.5em; height:3em; margin:0; background-color:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:200; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #content { margin:3.5em 0 0 12.5em; }
 #body-settings #content { padding:1em; }
-#leftcontent { position:absolute; top:6.5em; width:50em; }
+#leftcontent { position:absolute; top:6.5em; width:20em; background:#f8f8f8; height:100%; border-right:1px solid #ddd; }
 #rightcontent { position:absolute; top:6.5em; left:32em; }
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
@@ -88,13 +88,10 @@ legend { padding:.2em; font-size:1.2em; }
 #metanav li a img { vertical-align:middle; }
 
 /* NAVIGATION ------------------------------------------------------------- */
-#navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:50; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; } }
+#navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:250; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; } }
 #navigation ul { list-style-type:none; border-top:1px solid #ccc; }
 #navigation a { display:block; padding:.5em .5em .5em 2.5em; background-position:1em center; background-repeat:no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; }
 #navigation a.active, #navigation a:hover, #navigation a:focus, #navigation a.selected { background-color:#ccc; border-top:1px solid #c8c8c8; border-bottom:1px solid #ccc; color:#000; }
-#navigation .subentry { background-color:#ddd; border-top:1px solid #aaa; color:#555; }
-#navigation .subentry.active { background-color:#bbb; border-top:1px solid #888; border-bottom:1px solid #bbb; }
-#navigation .subentry a { padding-left:3.1em; font-size:1em; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
 #navigation #expand { margin:0 0 .2em 1.2em; cursor:pointer; }
 #navigation #settings>span{padding-bottom:1em};
