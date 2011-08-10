@@ -30,7 +30,9 @@
 	<body id="<?php echo $_['bodyid'];?>">
 		<header><div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
-			<?php echo $_['searchbox']?>
+			<form class="searchbox" action="#" method="post">
+				<input id='searchbox' type="search" name="query" value="<?php if(isset($_POST['query'])){echo $_POST['query'];};?>" class="prettybutton" autocomplete="off" />
+			</form>
 			<ul id="metanav">
 				<li><a href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="<?php echo $l->t('Log out');?>"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a></li>
 			</ul>
