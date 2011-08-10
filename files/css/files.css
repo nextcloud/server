@@ -5,11 +5,9 @@
 /* FILE MENU */
 .actions { padding:.6em; float:right; margin-right:13em; }
 .actions input { margin:0; padding:.3em; }
-.actions div { position: relative; display:inline-block; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
-.file_upload_form { display: inline; z-index: 5;} 
-#file_newfolder_form { display:inline; z-index: 6;}
+.file_upload_form, #file_newfolder_form { display:inline; }
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
 .file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .3em; padding-left:2em; }
 .file_upload_wrapper { background:url("../img/file.png"); font-weight:bold; position:relative; top:-1.2em; left:-2em; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; width:8em; }
