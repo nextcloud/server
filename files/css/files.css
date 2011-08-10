@@ -20,7 +20,7 @@ table { position:relative; top:37px; width:100%; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; height:1em; }
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
-div.crumb { float:left; display:block; background:no-repeat right 0; padding:8px 1.5em 0 1em; height:28px; /*36-8*/ }
+div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
 div.crumb:first-child { padding-left:1.5em; }
 div.crumb:last-child { font-weight:bold; }
 table tr.mouseOver td { background-color:#eee; }

@@ -1,7 +1,5 @@
 <div id="controls">
-	<span class="nav">
-		<?php echo($_['breadcrumb']); ?>
-	</span>
+	<?php echo($_['breadcrumb']); ?>
 	<div class="actions">
 		<form data-upload-id='1' class="file_upload_form" action="ajax/upload.php" method="post" enctype="multipart/form-data" target="file_upload_target_1">
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
