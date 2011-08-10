@@ -28,6 +28,9 @@ if( in_array( $username, OC_User::getUsers())){
 // Return Success story
 if( OC_User::createUser( $username, $password )){
 	foreach( $groups as $i ){
+		if(!OC_Group::groupExists($i)){
+			OC_Group::createGroup($i);
+		}
 		OC_Group::addToGroup( $username, $i );
 	}
 	echo json_encode( array( "status" => "success", "data" => array( "username" => $username, "groups" => implode( ", ", OC_Group::getUserGroups( $username )))));
