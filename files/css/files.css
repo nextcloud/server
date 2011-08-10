@@ -43,7 +43,7 @@ table td.filename a, table td.login, table td.logout, table td.download, table t
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
 table td.filename .nametext { width:60%; }
 table td.filename form { float:left; font-size:.85em; }
-table thead.fixed tr{position:fixed; top:6.4em;z-index:51;  -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000;}
+table thead.fixed tr{position:fixed; top:6.4em;z-index:49;  -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000;}
 table thead.fixed {height:2em}
 #fileList tr input[type=checkbox] { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
 #fileList tr input[type=checkbox]:checked, #fileList tr:hover input[type=checkbox] { display:inline; }
