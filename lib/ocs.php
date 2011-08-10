@@ -402,33 +402,7 @@ class OC_OCS {
   private static function activityGet($format,$page,$pagesize) {
     $user=OC_OCS::checkpassword();
     
-	$query = OC_DB::prepare('select count(*) as co from *PREFIX*log');
-    $result = $query->execute();
-    $entry=$result->fetchRow();
-    $totalcount=$entry['co'];
-	
-	$query=OC_DB::prepare('select id,timestamp,`user`,type,message from *PREFIX*log order by timestamp desc limit ?,?');
-    $result = $query->execute(array(($page*$pagesize),$pagesize))->fetchAll();
-    
-    $itemscount=count($result);
-
-    $url='http://'.substr($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'],0,-11).'';
-    $xml=array();
-    foreach($result as $i=>$log) {
-      $xml[$i]['id']=$log['id'];
-      $xml[$i]['personid']=$log['user'];
-      $xml[$i]['firstname']=$log['user'];
-      $xml[$i]['lastname']='';
-      $xml[$i]['profilepage']=$url;
-
-      $pic=$url.'/img/owncloud-icon.png';
-      $xml[$i]['avatarpic']=$pic;
-
-      $xml[$i]['timestamp']=date('c',$log['timestamp']);
-      $xml[$i]['type']=1;
-      $xml[$i]['message']=OC_Log::$TYPE[$log['type']].' '.strip_tags($log['message']);
-      $xml[$i]['link']=$url;
-    }
+	//TODO
 
     $txt=OC_OCS::generatexml($format,'ok',100,'',$xml,'activity','full',2,$totalcount,$pagesize);
     echo($txt);

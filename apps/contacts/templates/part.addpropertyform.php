@@ -1,7 +1,6 @@
 <form id="contacts_addpropertyform">
 	<input type="hidden" name="id" value="<?php echo $_['id']; ?>">
 	<select name="name" size="1">
-		<option value="BDAY"><?php echo $l->t('Birthday'); ?></option>
 		<option value="ADR"><?php echo $l->t('Address'); ?></option>
 		<option value="TEL"><?php echo $l->t('Telephone'); ?></option>
 		<option value="EMAIL" selected="selected"><?php echo $l->t('Email'); ?></option>
@@ -15,8 +14,8 @@
 <div id="contacts_addcontactsparts" style="display:none;">
 	<div id="contacts_addresspart">
 		<select name="parameters[TYPE]" size="1">
-			<option value="WORK"><?php echo $l->t('Work'); ?></option>
-			<option value="HOME" selected="selected"><?php echo $l->t('Home'); ?></option>
+			<option value="adr_work"><?php echo $l->t('Work'); ?></option>
+			<option value="adr_home" selected="selected"><?php echo $l->t('Home'); ?></option>
 		</select>
 		<?php echo $l->t('PO Box'); ?> <input type="text" name="value[0]" value="">
 		<?php echo $l->t('Extended Address'); ?> <input type="text" name="value[1]" value="">
@@ -28,14 +27,16 @@
 	</div>
 	<div id="contacts_phonepart">
 		<select name="parameters[TYPE]" size="1">
-			<option value="WORK"><?php echo $l->t('Work'); ?></option>
-			<option value="CELL" selected="selected"><?php echo $l->t('Mobile'); ?></option>
-			<option value="HOME"><?php echo $l->t('Home'); ?></option>
+			<option value="home"><?php echo $l->t('tel_home'); ?></option>
+			<option value="cell" selected="selected"><?php echo $l->t('tel_cell'); ?></option>
+			<option value="work"><?php echo $l->t('tel_work'); ?></option>
+			<option value="text"><?php echo $l->t('tel_text'); ?></option>
+			<option value="voice"><?php echo $l->t('tel_voice'); ?></option>
+			<option value="fax"><?php echo $l->t('tel_fax'); ?></option>
+			<option value="video"><?php echo $l->t('tel_video'); ?></option>
+			<option value="pager"><?php echo $l->t('tel_pager'); ?></option>
 		</select>
 		<input type="text" name="value" value="">
-	</div>
-	<div id="contacts_fieldpart">
-		<textarea type="text" name="value"></textarea>
 	</div>
 	<div id="contacts_generic">
 		<input type="text" name="value" value="">

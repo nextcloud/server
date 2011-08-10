@@ -20,11 +20,13 @@
  *
  */
 
+$l=new OC_L10N('media');
+
 require_once('apps/media/lib_media.php');
 
 OC_Util::addScript('media','loader');
 
 OC_App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 
-OC_App::addNavigationEntry( array( 'id' => 'media_index', 'order' => 2, 'href' => OC_Helper::linkTo( 'media', 'index.php' ), 'icon' => OC_Helper::imagePath( 'media', 'media.png' ), 'name' => 'Music' ));
+OC_App::addNavigationEntry( array( 'id' => 'media_index', 'order' => 2, 'href' => OC_Helper::linkTo( 'media', 'index.php' ), 'icon' => OC_Helper::imagePath( 'media', 'media.png' ), 'name' => $l->t('Music') ));
 ?>

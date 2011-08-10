@@ -193,7 +193,6 @@ class OC_User {
 
 		if( $run && self::checkPassword( $uid, $password )){
 			$_SESSION['user_id'] = $uid;
-			OC_Log::add( "core", $_SESSION['user_id'], "login" );
 			OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid ));
 			return true;
 		}
@@ -210,7 +209,6 @@ class OC_User {
 	 */
 	public static function logout(){
 		OC_Hook::emit( "OC_User", "logout", array());
-		OC_Log::add( "core", $_SESSION['user_id'], "logout" );
 		$_SESSION['user_id'] = false;
 		return true;
 	}

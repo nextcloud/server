@@ -20,24 +20,22 @@
  *
  */
 
-// Init owncloud
-require_once('../../../lib/base.php');
+/**
+ * This class contains all hooks.
+ */
+class OC_Contacts_Hooks{
+	/**
+	 * @brief Deletes all Addressbooks of a certain user
+	 * @param paramters parameters from postDeleteUser-Hook
+	 * @return array
+	 */
+	public function deleteUser($parameters) {
+		$addressbooks = OC_Contacts_Addressbook::allAddressbooks($parameters['uid']);
+		
+		foreach($addressbooks as $addressbook) {
+			OC_Contacts_Addressbook::deleteAddressbook($addressbook['id']);
+		}
 
-$id = $_GET['id'];
-
-$l10n = new OC_L10N('contacts');
-
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in!'))));
-	exit();
+		return true;
+	}
 }
-
-$addressbook = OC_Contacts_Addressbook::findAddressbook( $id );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
-	exit();
-}
-
-OC_Contacts_Addressbook::deleteAddressbook($id);
-echo json_encode( array( 'status' => 'success', 'data' => array( 'id' => $id )));

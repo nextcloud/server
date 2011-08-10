@@ -1,19 +1,16 @@
-<table cellspacing="0">
-	<thead>
-		<tr>
-			<th></th>
-			<th><?php echo $l->t( 'Name' ); ?></th>
-			<th><?php echo $l->t( 'Modified' ); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php foreach($_["apps"] as $app): ?>
-			<tr>
-				<td width="1"><?php if($app["preview"] <> "") { echo('<a href="'.OC_Helper::linkTo( "admin", "apps.php" ).'?id='.$app['id'].'"><img class="preview" border="0" src="'.$app["preview"].'" /></a>'); } ?> </a></td>
-				<td class="name"><a href="<?php echo(OC_Helper::linkTo( "admin", "apps.php" ).'?id='.$app['id']); ?>" title=""><?php echo $app["name"]; ?></a><br /><?php  echo('<span class="type">'.$app['typename'].'</span>'); ?></td>
-				<td class="date"><?php echo $l->l('datetime', $app["changed"]); ?></td>
-			</tr>
-		<?php endforeach; ?>
-	</tbody>
-</table>
-
+<ul id="leftcontent">
+	<?php foreach($_['apps'] as $app):?>
+		<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>">
+			<?php  echo $app['name'] ?>
+			<span class="hidden">
+				<?php echo json_encode($app) ?>
+			</span>
+		</li>
+	<?php endforeach;?>
+</ul>
+<div id="rightcontent">
+	<h3><strong><span class="name"><?php echo $l->t('Select an App');?></span></strong><span class="version"></span></h3>
+	<p class="description"></p>
+	<p class="hidden"><span class="licence"></span><?php echo $l->t('-licensed');?> <?php echo $l->t('by');?> <span class="author"></span></p>
+	<input class="enable hidden" type="submit"></input>
+</div>

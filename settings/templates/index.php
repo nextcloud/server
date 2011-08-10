@@ -14,7 +14,7 @@
 		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t( 'Old password' );?>" />
 		<input type="password" id="pass2" name="password" placeholder="<?php echo $l->t( 'New password' );?>" data-typetoggle="#show" />
 		<input type="checkbox" id="show" name="show" /><label for="show"><?php echo $l->t( 'show' );?></label>
-		<input id="passwordbutton" type="submit" value="Change password" />
+		<input id="passwordbutton" type="submit" value="<?php echo $l->t( 'Change Password' );?>" />
 	</fieldset>
 </form>
 

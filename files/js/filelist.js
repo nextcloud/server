@@ -168,7 +168,7 @@ FileList={
 		procesSelection();
 		FileList.deleteCanceled=false;
 		FileList.deleteFiles=files;
-		$('#notification').text('undo deletion');
+		$('#notification').text(t('files','undo deletion'));
 		$('#notification').fadeIn();
 	},
 	finishDelete:function(ready,sync){

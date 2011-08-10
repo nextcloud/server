@@ -266,11 +266,13 @@ $(document).ready(function(){
 		}
 	});
 
-	if($('body').attr("id")=="body-user") { $('#settings li').hide(); }
-	$('#expand').click(function() {
-		$('#settings li').slideToggle();
+	if($('body').attr("id")=="body-user") { $('#settings #expanddiv').hide(); }
+	$('#settings #expand').click(function() {
+		$('#settings #expanddiv').slideToggle();
 	});
-	
+	$('#settings #expand').hover(function(){
+		$('#settings #expand+span').fadeToggle();
+	})
 });
 
 

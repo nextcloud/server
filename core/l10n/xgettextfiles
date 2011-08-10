@@ -5,3 +5,4 @@
 ../templates/logout.php
 ../templates/part.pagenavi.php
 ../templates/part.searchbox.php
+../../lib/app.php

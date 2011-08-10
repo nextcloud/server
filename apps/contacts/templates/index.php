@@ -3,25 +3,15 @@ OC_Util::addScript('contacts','interface');
 OC_Util::addStyle('contacts','styles');
 ?>
 
-<?php
-/*<div class="contacts_addressbooks">
-	<div class="contacts_addressbooksexpander">
-		Addressbooks
-	</div>
-	<div class="contacts_addressbooksdetails" style="display:none;">
-		<?php foreach($_['addressbooks'] as $addressbook): ?>
-			<?php echo $addressbook['displayname']; ?>: <?php echo $addressbook['description']; ?><br>
-		<?php endforeach; ?>
-		<br>To use this addressbook, use .../apps/contacts/carddav.php/addressbooks/USERNAME/addressbookname.php
-	</div>
-</div>*/
-?>
 <div id="contacts_contacts" class="leftcontent">
 	<ul>
 		<?php echo $this->inc("part.contacts"); ?>
 	</ul>
 	<a id="contacts_newcontact"><?php echo $l->t('Add Contact'); ?></a>
 </div>
-<div id="contacts_details" class="rightcontent" x-id="<?php echo $_['id']; ?>">
+<div id="contacts_details" class="rightcontent" data-id="<?php echo $_['id']; ?>">
 	<?php echo $this->inc("part.details"); ?>
 </div>
+<?php if(count($_['addressbooks']) == 1 ): ?>
+	<?php echo $l->t('The path to this addressbook is %s', array(OC::$WEBROOT.'/apps/contacts/carddav.php/addressbooks/'.$_['addressbooks'][0]['uri'])); ?>
+<?php endif; ?>
