@@ -105,3 +105,6 @@ legend { padding:.2em; font-size:1.2em; }
 
 li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#fee url('../img/task-attention.png') .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 .hidden{ display:none; }
+#notification{ z-index:400; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0;
+-moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
+-moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }

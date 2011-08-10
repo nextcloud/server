@@ -1,3 +1,7 @@
+/* Copyright (c) 2011, Jan-Christoph Borchardt
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
 /* FILE MENU */
 .actions { padding:.6em; float:right; margin-right:13em; }
 .actions input { margin:0; padding:.3em; }
@@ -54,6 +58,3 @@ table thead.fixed {height:2em}
 
 /* add breadcrumb divider to the File item in navigation panel */
 #navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-divider-start.png') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }
-#notification{ z-index:150; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0;
--moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
--moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
