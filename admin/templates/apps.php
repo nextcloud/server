@@ -9,9 +9,8 @@
 	<?php endforeach;?>
 </ul>
 <div id="rightcontent">
-	<h3><span class="name"><?php echo $l->t('Select an App');?></span><span class="version"></span></h3>
+	<h3><strong><span class="name"><?php echo $l->t('Select an App');?></span></strong><span class="version"></span></h3>
 	<p class="description"></p>
-	<p class="hidden"><?php echo $l->t('By: ');?><span class="author"></span></p>
-	<p class="hidden"><?php echo $l->t('Licence: ');?><span class="licence"></span></p>
+	<p class="hidden"><span class="licence"></span><?php echo $l->t('-licensed');?> <?php echo $l->t('by');?> <span class="author"></span></p>
 	<input class="enable hidden" type="submit"></input>
 </div>
