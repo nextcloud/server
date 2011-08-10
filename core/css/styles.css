@@ -49,12 +49,6 @@ radius:1em; border-radius:1em; }
 input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
 
-
-
-form#user_settings { max-width:600px; }
-form#user_settings p label { display:block; float:left; width:35%; padding:.4em .5em 0 0; text-align:right; }
-form p { padding:.5em 4em .5em .5em; text-align:left; }
-form p.form_footer { margin:1em 0 0 0; text-align:right; }
 form label { cursor:pointer; }
 #body-settings fieldset { padding:1em; width:40em; margin:1em;
 border:1px solid #ddd; font-weight:bold; background:#f2f2f2; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;}
@@ -78,9 +72,7 @@ legend { padding:.2em; font-size:1.2em; }
 #login form fieldset legend { font-weight:bold; }
 #login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
 #login form label#directorylabel { display:block; margin:.95em 0 .8em -5.5em; }
-
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
-
 #login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
 /* NAVIGATION ------------------------------------------------------------- */
