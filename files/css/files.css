@@ -55,4 +55,4 @@ table thead.fixed {height:2em}
 .selectedActions a:hover, a.file_action:hover { background:#fff; -moz-box-shadow:0 0 10px #fff; -webkit-box-shadow:0 0 10px #fff; box-shadow:0 0 10px #fff; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-divider-start.png') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }
+#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.png') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }
