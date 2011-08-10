@@ -96,6 +96,12 @@ if($WEBROOT!='' and $WEBROOT[0]!=='/'){
 	$WEBROOT='/'.$WEBROOT;
 }
 
+// We are going to use OC::* instead of globels soon
+OC::$WEBROOT = $WEBROOT;
+OC::$SERVERROOT = $SERVERROOT;
+OC::$DOCUMENTROOT = $DOCUMENTROOT;
+OC::$SUBURI = $SUBURI;
+
 // set the right include path
 set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
 
