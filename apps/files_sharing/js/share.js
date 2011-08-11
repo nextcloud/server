@@ -1,8 +1,10 @@
 $(document).ready(function() {
-	FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
-		createDropdown(filename, $('#dir').val()+'/'+filename);
-	});
-	
+	if (typeof FileActions !== 'undefined') {
+		FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
+			createDropdown(filename, $('#dir').val()+'/'+filename);
+		});
+	};
+
 	$('.share').click(function(event) {
 		event.preventDefault();
 		var filenames = getSelectedFiles('name');
@@ -12,6 +14,17 @@ $(document).ready(function() {
 			files += $('#dir').val()+'/'+filenames[i]+';';
 		}
 		createDropdown(false, files);
+	});
+
+	$(this).click(function(event) {
+		if ($(event.target).parents().index($('#dropdown')) == -1) {
+			if ($('#dropdown').is(':visible')) {
+				$('#dropdown').hide('blind', function() {
+					$('#dropdown').remove();
+					$('tr').removeClass('mouseOver');
+				});
+			}
+		}
 	});
 	
 	$(this).click(function(event) {
@@ -182,6 +195,6 @@ function addUser(uid_shared_with, permissions, parentFolder) {
 		user += "<a href='' title='Unshare' class='unshare' style='display:none;'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a></li>";
 	}
 	$('#share_with option[value="'+uid_shared_with+'"]').remove();
-	$('share_with').trigger('liszt:updated');
+	$('#share_with').trigger('liszt:updated');
 	$(user).appendTo('#shared_list');
 }

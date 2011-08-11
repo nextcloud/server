@@ -19,11 +19,19 @@ $action = "add";
 $username = $_POST["username"];
 $group = $_POST["group"];
 
+if(!OC_Group::groupExists($group)){
+	OC_Group::createGroup($group);
+}
+
 // Toggle group
 if( OC_Group::inGroup( $username, $group )){
 	$action = "remove";
 	$error = "remove user from";
 	$success = OC_Group::removeFromGroup( $username, $group );
+	$usersInGroup=OC_Group::usersInGroup($group);
+	if(count($usersInGroup)==0){
+		OC_Group::deleteGroup($group);
+	}
 }
 else{
 	$success = OC_Group::addToGroup( $username, $group );

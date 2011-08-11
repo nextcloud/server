@@ -4,12 +4,12 @@ $(document).ready(function(){
 		return false;
 	});*/
 
-	$('#contacts_contacts li').live('click',function(){
+	$('#leftcontent li').live('click',function(){
 		var id = $(this).data('id');
 		$.getJSON('ajax/getdetails.php',{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#contacts_details').data('id',jsondata.data.id);
-				$('#contacts_details').html(jsondata.data.page);
+				$('#rightcontent').data('id',jsondata.data.id);
+				$('#rightcontent').html(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);
@@ -19,12 +19,12 @@ $(document).ready(function(){
 	});
 
 	$('#contacts_deletecard').live('click',function(){
-		var id = $('#contacts_details').data('id');
+		var id = $('#rightcontent').data('id');
 		$.getJSON('ajax/deletecard.php',{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#contacts_contacts [data-id="'+jsondata.data.id+'"]').remove();
-				$('#contacts_details').data('id','');
-				$('#contacts_details').html('');
+				$('#leftcontent [data-id="'+jsondata.data.id+'"]').remove();
+				$('#rightcontent').data('id','');
+				$('#rightcontent').html('');
 			}
 			else{
 				alert(jsondata.data.message);
@@ -34,10 +34,10 @@ $(document).ready(function(){
 	});
 
 	$('#contacts_addproperty').live('click',function(){
-		var id = $('#contacts_details').data('id');
+		var id = $('#rightcontent').data('id');
 		$.getJSON('ajax/showaddproperty.php',{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#contacts_details').append(jsondata.data.page);
+				$('#rightcontent').append(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);
@@ -79,8 +79,8 @@ $(document).ready(function(){
 	$('#contacts_newcontact').click(function(){
 		$.getJSON('ajax/showaddcard.php',{},function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#contacts_details').data('id','');
-				$('#contacts_details').html(jsondata.data.page);
+				$('#rightcontent').data('id','');
+				$('#rightcontent').html(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);
@@ -92,8 +92,8 @@ $(document).ready(function(){
 	$('#contacts_addcardform input[type="submit"]').live('click',function(){
 		$.post('ajax/addcard.php',$('#contacts_addcardform').serialize(),function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#contacts_details').data('id',jsondata.data.id);
-				$('#contacts_details').html(jsondata.data.page);
+				$('#rightcontent').data('id',jsondata.data.id);
+				$('#rightcontent').html(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);
@@ -103,7 +103,7 @@ $(document).ready(function(){
 	});
 
 	$('.contacts_property [data-use="edit"]').live('click',function(){
-		var id = $('#contacts_details').data('id');
+		var id = $('#rightcontent').data('id');
 		var checksum = $(this).parent().parent().data('checksum');
 		$.getJSON('ajax/showsetproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){
@@ -129,7 +129,7 @@ $(document).ready(function(){
 	});
 
 	$('.contacts_property [data-use="delete"]').live('click',function(){
-		var id = $('#contacts_details').data('id');
+		var id = $('#rightcontent').data('id');
 		var checksum = $(this).parent().parent().data('checksum');
 		$.getJSON('ajax/deleteproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){

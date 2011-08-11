@@ -32,8 +32,8 @@ $carddavBackend   = new OC_Connector_Sabre_CardDAV();
 
 // Root nodes
 $nodes = array(
-    new Sabre_DAVACL_PrincipalCollection($principalBackend),
-    new Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend),
+	new Sabre_DAVACL_PrincipalCollection($principalBackend),
+	new Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend),
 );
 
 // Fire up server

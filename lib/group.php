@@ -171,11 +171,11 @@ class OC_Group {
 	 */
 	public static function addToGroup( $uid, $gid ){
 		// Does the user exist?
-		if( !in_array( $uid, OC_User::getUsers())){
+		if( !OC_User::userExists($uid)){
 			return false;
 		}
 		// Does the group exist?
-		if( !in_array( $gid, self::getGroups())){
+		if( !OC_Group::groupExists($gid)){
 			return false;
 		}
 
@@ -233,5 +233,22 @@ class OC_Group {
 	 */
 	public static function getGroups(){
 		return self::$_backend->getGroups();
+	}
+	
+	/**
+	 * check if a group exists
+	 * @param string $gid
+	 * @return bool
+	 */
+	public static function groupExists($gid){
+		return in_array( $gid, self::getGroups());
+	}
+	
+	/**
+	 * @brief get a list of all users in a group
+	 * @returns array with user ids
+	 */
+	public static function usersInGroup($gid){
+		return self::$_backend->usersInGroup();
 	}
 }

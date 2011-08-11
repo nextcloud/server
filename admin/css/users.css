@@ -1,5 +1,12 @@
-form {display:inline}
-td.remove>img,td.select>input{display:none;cursor:pointer}
-td.select,td.remove{width:1em}
-tr:hover>td.remove>img{display:inline}
-li.selected{background-color:#ddd}
+form { display:inline; }
+td.password>img, td.remove>img{ display:none;cursor:pointer; }
+td.password>span { margin-right:1.2em; }
+td.password { width:12em; }
+td.password>img { float:right; }
+
+td.remove { width:1em }
+tr:hover>td.password>span{ margin:0; }
+tr:hover>td.remove>img, tr:hover>td.password>img { display:inline; }
+li.selected { background-color:#ddd; }
+#content>table { margin-top:6.5em; }
+table { width:100%; }
