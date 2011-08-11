@@ -14,7 +14,7 @@
    id="svg3875"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="play-add.svg"
+   sodipodi:docname="play.svg"
    inkscape:export-filename="/home/jancborchardt/owncloud/core/img/actions/play-add.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="17.921875"
-     inkscape:cx="4.954364"
+     inkscape:cx="-5.3403178"
      inkscape:cy="10.148736"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -54,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -64,7 +64,7 @@
      id="layer1"
      transform="translate(0,-1036.3622)">
     <path
-       style="fill:#808080;fill-opacity:1;stroke:none"
+       style="fill:#000000;fill-opacity:1;stroke:none"
        d="m 2,1038.3622 12,6 -12,6 z"
        id="path3086"
        inkscape:connector-curvature="0"
