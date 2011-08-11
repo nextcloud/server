@@ -1,18 +1,24 @@
+/* Copyright (c) 2011, Jan-Christoph Borchardt
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
 /* FILE MENU */
 .actions { padding:.6em; float:right; margin-right:13em; }
 .actions input { margin:0; padding:.3em; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
-.file_upload_form, #file_newfolder_form { display:inline; }
+.file_upload_form, #file_newfolder_form { display:inline; float: left;}
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
 .file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .3em; padding-left:2em; }
-.file_upload_wrapper { background:url("../img/file.png"); font-weight:bold; position:relative; top:-1.2em; left:-2em; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; width:8em; }
-.file_upload_start { opacity:0; filter:alpha(opacity=0); }
+.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin-right:1.5em;}
 
 #file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:8em; }
-.file_upload_start, .file_upload_filename { position:absolute; top:0; left:0; font-size:1em; }
+.file_upload_start, .file_upload_filename { font-size:1em; }
 #file_newfolder_submit, #file_upload_submit { width:3em; }
 .file_upload_target { display:none; }
+
+.file_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; position:absolute; left:0; top:0; width:100%; cursor:pointer;}
+.file_upload_filename { z-index:100; cursor:pointer;}
 
 /* FILE TABLE */
 span#emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
@@ -39,8 +45,7 @@ table td.filename a, table td.login, table td.logout, table td.download, table t
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
 table td.filename .nametext { width:60%; }
 table td.filename form { float:left; font-size:.85em; }
-/* #fileList tr.selected td.filename a, #fileList tr:hover td.filename a { background-image:none !important } */
-table thead.fixed tr{position:fixed; top:6.4em;z-index:100;}
+table thead.fixed tr{position:fixed; top:6.3em; z-index:49;  -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000;}
 table thead.fixed {height:2em}
 #fileList tr td.filename>input[type=checkbox]:first-child { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
 #fileList tr td.filename>input[type=checkbox]:checked:first-child, #fileList tr:hover td.filename>input[type=checkbox]:first-child { display:inline; }
@@ -52,7 +57,4 @@ table thead.fixed {height:2em}
 .selectedActions a:hover, a.file_action:hover { background:#fff; -moz-box-shadow:0 0 10px #fff; -webkit-box-shadow:0 0 10px #fff; box-shadow:0 0 10px #fff; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-divider-start.png') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }
-#notification{ z-index:150; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0;
--moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
--moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.png') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }

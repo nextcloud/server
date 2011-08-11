@@ -33,11 +33,16 @@ OC_Util::addScript( "admin", "apps" );
 
 $registeredApps=OC_App::getAllApps();
 $apps=array();
+
+$blacklist=array('files_imageviewer','files_textviewer');//we dont want to show configuration for these
+
 foreach($registeredApps as $app){
-	$info=OC_App::getAppInfo($app);
-	$active=(OC_Appconfig::getValue($app,'enabled','no')=='yes')?true:false;
-	$info['active']=$active;
-	$apps[]=$info;
+	if(array_search($app,$blacklist)===false){
+		$info=OC_App::getAppInfo($app);
+		$active=(OC_Appconfig::getValue($app,'enabled','no')=='yes')?true:false;
+		$info['active']=$active;
+		$apps[]=$info;
+	}
 }
 
 $categories=OC_OCSClient::getCategories();

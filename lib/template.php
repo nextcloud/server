@@ -230,9 +230,7 @@ class OC_Template{
 			// Decide which page we show
 			if( $this->renderas == "user" ){
 				$page = new OC_Template( "core", "layout.user" );
-				$search=new OC_Template( 'core', 'part.searchbox');
-				$search->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
-				$page->assign('searchbox', $search->fetchPage());
+				$page->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
 				if(array_search(OC_APP::getCurrentApp(),array('settings','admin','help'))!==false){
 					$page->assign('bodyid','body-settings');
 				}else{

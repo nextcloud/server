@@ -15,7 +15,7 @@ body { background:#fefefe; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana
 
 
 /* HEADERS */
-#body-user #header, #body-settings #header { position:fixed; top:0; z-index:300; width:100%; height:2.5em; padding:.5em; background:#1d2d44; -moz-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; box-shadow:0 0 10px #000, inset 0 -2px 10px #222; }
+#body-user #header, #body-settings #header { position:fixed; top:0; z-index:100; width:100%; height:2.5em; padding:.5em; background:#1d2d44; -moz-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; box-shadow:0 0 10px #000, inset 0 -2px 10px #222; }
 #body-login #header { margin:-2em auto 0; text-align:center; height:10em;
  -moz-box-shadow:0 0 1em #000; -webkit-box-shadow:0 0 1em #000; box-shadow:0 0 1em #000;
 background: #1d2d44; /* Old browsers */
@@ -33,12 +33,12 @@ h1 { margin:1em 3em 1em 0; border-bottom:1px solid #666; text-transform:uppercas
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
-input, select { font-size:1em; width:10em; margin:.3em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+input, select, .button { font-size:1em; width:10em; margin:.3em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 input[type="text"], input[type="password"] { background:#f8f8f8; color:#555; cursor:text; }
 input[type="text"]:hover, input[type="text"]:focus, input[type="password"]:hover, input[type="password"]:focus { background:#fff; color:#333; }
 
-input[type="submit"], input[type="button"] { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
-input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, input[type="button"]:focus { background:#fff; color:#333; }
+input[type="submit"], input[type="button"], .button { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, input[type="button"]:focus, .button:hover { background:#fff; color:#333; }
 input[type="checkbox"] { width:auto; }
 
 #body-login input { font-size:1.5em; }
@@ -49,12 +49,6 @@ radius:1em; border-radius:1em; }
 input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
 
-
-
-form#user_settings { max-width:600px; }
-form#user_settings p label { display:block; float:left; width:35%; padding:.4em .5em 0 0; text-align:right; }
-form p { padding:.5em 4em .5em .5em; text-align:left; }
-form p.form_footer { margin:1em 0 0 0; text-align:right; }
 form label { cursor:pointer; }
 #body-settings fieldset { padding:1em; width:40em; margin:1em;
 border:1px solid #ddd; font-weight:bold; background:#f2f2f2; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;}
@@ -62,10 +56,10 @@ legend { padding:.2em; font-size:1.2em; }
 .template{display:none;}
 
 /* CONTENT ------------------------------------------------------------------ */
-#controls { width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:200; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
+#controls { width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #content { margin:3.5em 0 0 12.5em; padding-bottom:10em; }
-#leftcontent { position:absolute; top:6.5em; width:20em; background:#f8f8f8; height:100%; border-right:1px solid #ddd; }
-#rightcontent { position:absolute; top:6.5em; left:33em; }
+#leftcontent { position:absolute; top:6.4em; width:20em; background:#f8f8f8; height:100%; border-right:1px solid #ddd; }
+#rightcontent { position:absolute; top:6.4em; left:33em; }
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
 #body-login { background:#ddd; }
@@ -78,26 +72,19 @@ legend { padding:.2em; font-size:1.2em; }
 #login form fieldset legend { font-weight:bold; }
 #login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
 #login form label#directorylabel { display:block; margin:.95em 0 .8em -5.5em; }
-
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
-
 #login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
-/* META NAVIGATION (Settings, Log out) ---------------------------------------------------------------- */ 
-#metanav { float:right; position:relative; top:.5em; right:1em; margin:0; padding:0; }
-#metanav li { display:inline; }
-#metanav li a { margin:.2em; padding:.7em; }
-#metanav li a:hover, #metanav li a:focus { background:rgba(0,0,0,.5); -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; box-shadow:#555 0 1px 0; -moz-box-shadow:#555 0 1px 0; -webkit-box-shadow:#555 0 1px 0; }
-#metanav li a img { vertical-align:middle; }
-
 /* NAVIGATION ------------------------------------------------------------- */
-#navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:250; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; } }
-#navigation ul { border-top:1px solid #ccc; }
-#navigation a { display:block; padding:.6em .5em .4em 2.5em; background:1em center no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
-#navigation a.active, #navigation a:hover, #navigation a:focus, #navigation a.selected { background-color:#ccc; border-top:1px solid #c8c8c8; border-bottom:1px solid #ccc; color:#000; }
+#navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:75; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; }
+#navigation a { display:block; padding:.6em .5em .4em 2.5em; background:#eee 1em center no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
+#navigation a.active, #navigation a:hover, #navigation a:focus { background-color:#dbdbdb; border-top:1px solid #d4d4d4; border-bottom:1px solid #ccc; color:#333; }
+#navigation a.active { background-color:#ddd; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
 #expand { margin:0 0 .2em 1.2em; cursor:pointer; }
 #expand+span { position:relative; bottom:.4em; left:.2em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
+#logout { position:absolute; right:0; top:0; padding:1.2em 2em .55em 1.2em; }
+#logout:hover, #logout:focus { background:rgba(0,0,0,.5); }
 
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ccc; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
@@ -105,3 +92,6 @@ legend { padding:.2em; font-size:1.2em; }
 
 li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#fee url('../img/task-attention.png') .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 .hidden{ display:none; }
+#notification{ z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0;
+-moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
+-moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
