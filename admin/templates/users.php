@@ -19,8 +19,11 @@ foreach($_["groups"] as $group){
 <table data-groups="<?php echo implode(', ',$allGroups);?>">
 	<?php foreach($_["users"] as $user): ?>
 		<tr data-uid="<?php echo $user["name"] ?>">
-			<td class="select"><input type="checkbox"></input></td>
 			<td class="name"><?php echo $user["name"]; ?></td>
+			<td class="password">
+				<span>●●●●●●●</span>
+				<img class="svg" src="<?php echo image_path('core','actions/rename.svg')?>"/>
+			</td>
 			<td class="groups">
 				<select data-username="<?php echo $user['name'] ;?>" data-user-groups="<?php echo $user['groups'] ;?>" data-placeholder="groups" title="<?php echo $l->t('Groups')?>" multiple="multiple">
 					<?php foreach($_["groups"] as $group): ?>

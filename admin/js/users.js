@@ -45,6 +45,29 @@ $(document).ready(function(){
 		$(this).parent().parent().remove();
 	});
 	
+	$('td.password>img').live('click',function(event){
+		var img=$(this);
+		var uid=img.parent().parent().data('uid');
+		var input=$('<input type="password">');
+		img.css('display','none');
+		img.parent().children('span').replaceWith(input);
+		input.focus();
+		input.keypress(function(event) {
+			if(event.keyCode == 13) {
+				$.post(
+					OC.filePath('admin','ajax','changepassword.php'),
+					{username:uid,password:$(this).val()},
+					function(result){}
+				);
+				input.blur();
+			}
+		});
+		input.blur(function(){
+			$(this).replaceWith($('<span>●●●●●●●</span>'));
+			img.css('display','');
+		});
+	});
+	
 	$('#newuser').submit(function(event){
 		event.preventDefault();
 		var username=$('#newusername').val();
@@ -72,6 +95,9 @@ $(document).ready(function(){
 			select.append($('<option value="'+group+'">'+group+'</option>'));
 		});
 		tr.find('td.groups').append(select);
+		if(tr.find('td.remve img').length==0){
+			tr.find('td.remove').append($('<img alt="Remove" title="'+t('admin','Remove')+'" class="svg" src="'+OC.imagePath('core','actions/delete')+'"/>'));
+		}
 		applyMultiplySelect(select);
 		$('#content table tr').last().after(tr);
 	});
