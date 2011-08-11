@@ -3,9 +3,13 @@ $(document).ready(function() {
 		FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
 			if ($('#dropdown').length != 0) {
 				$('#dropdown').hide('blind', function() {
+					var dropdownFile = $('#dropdown').data('file') 
+					var file = $('#dir').val()+'/'+filename;
 					$('#dropdown').remove();
 					$('tr').removeClass('mouseOver');
-					createDropdown(filename, $('#dir').val()+'/'+filename);
+					if (dropdownFile != file) {
+						createDropdown(filename, file);
+					}
 				});
 			} else {
 				createDropdown(filename, $('#dir').val()+'/'+filename);
