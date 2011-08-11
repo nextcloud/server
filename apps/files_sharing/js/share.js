@@ -9,9 +9,11 @@ $(document).ready(function() {
 			}
 		}
 	});
-	FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
-		createShareDropdown(filename, $('#dir').val()+'/'+filename);
-	});
+	if(typeof FileActions!=='undefined'){
+		FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
+			createShareDropdown(filename, $('#dir').val()+'/'+filename);
+		});
+	};
 	$('.share').click(function(event) {
 		event.preventDefault();
 		var filenames = getSelectedFiles('name');
