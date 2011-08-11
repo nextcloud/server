@@ -9,7 +9,7 @@ table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
 caption, th, td { text-align:left; font-weight:normal; }
 table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
-a, a img, a strong, a span, input, select, li { cursor:pointer; }
+a, a *, input, input *, select, .button span, li { cursor:pointer; }
 ul { list-style:none; }
 body { background:#fefefe; font:normal 80%/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; margin-bottom:2em; }
 
@@ -99,6 +99,6 @@ legend { padding:.2em; font-size:1.2em; }
 
 li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 .hidden{ display:none; }
-#notification{ z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0;
+#notification{ z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0;
 -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
 -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }

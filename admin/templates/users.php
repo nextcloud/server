@@ -1,22 +1,22 @@
-<div id="controls">
-	<form id="newuser">
-		<input id="newusername" placeholder="<?php echo $l->t('Name')?>"></input>
-		<input type="password" id="newuserpassword" placeholder="<?php echo $l->t('Password')?>"></input>
-		<select id="newusergroups" data-placeholder="groups" title="<?php echo $l->t('Groups')?>" multiple="multiple">
-			<?php foreach($_["groups"] as $group): ?>
-				<option value="<?php echo $group['name'];?>"><?php echo $group['name'];?></option>
-			<?php endforeach;?>
-		</select>
-		<input type="submit" value="<?php echo $l->t('Create')?>"></input>
-	</form>
-</div>
 <?php
 $allGroups=array();
-foreach($_["groups"] as $group){
+foreach($_["groups"] as $group) {
 	$allGroups[]=$group['name'];
 }
 ?>
+
 <table data-groups="<?php echo implode(', ',$allGroups);?>">
+	<tbody id="controls">
+		<tr><form id="newuser">
+			<th class="name"><input id="newusername" placeholder="<?php echo $l->t('Name')?>"></input></th>
+			<th class="password"><input type="password" id="newuserpassword" placeholder="<?php echo $l->t('Password')?>"></input></th>
+			<th class="groups"><select id="newusergroups" data-placeholder="groups" title="<?php echo $l->t('Groups')?>" multiple="multiple">
+			<?php foreach($_["groups"] as $group): ?>
+				<option value="<?php echo $group['name'];?>"><?php echo $group['name'];?></option>
+			<?php endforeach;?>
+			</select></th>
+			<th><input type="submit" value="<?php echo $l->t('Create')?>"></input></th>
+		</form></tr>
 	<?php foreach($_["users"] as $user): ?>
 		<tr data-uid="<?php echo $user["name"] ?>">
 			<td class="name"><?php echo $user["name"]; ?></td>
@@ -38,4 +38,5 @@ foreach($_["groups"] as $group){
 			</td>
 		</tr>
 	<?php endforeach; ?>
+	</tbody>
 </table>
