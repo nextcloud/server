@@ -193,6 +193,7 @@ class OC_User {
 
 		if( $run && self::checkPassword( $uid, $password )){
 			$_SESSION['user_id'] = $uid;
+		        OC_Crypt::init($uid,$password);
 			OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid ));
 			return true;
 		}
