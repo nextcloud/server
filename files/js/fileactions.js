@@ -62,6 +62,9 @@ FileActions={
 		for(name in actions){
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
 				var img=FileActions.icons[name];
+				if(img.call){
+					img=img(file);
+				}
 				var html='<a href="#" title="'+name+'" class="file_action"/>';
 				var element=$(html);
 				if(img){

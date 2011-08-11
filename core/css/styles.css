@@ -91,7 +91,6 @@ legend { padding:.2em; font-size:1.2em; }
 #expand { margin:0 0 .2em 1.2em; cursor:pointer; }
 #expand+span { position:relative; bottom:.4em; left:.2em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
 #logout { position:absolute; right:0; top:0; padding:1.2em 2em .55em 1.2em; }
-#logout:hover, #logout:focus { background:rgba(0,0,0,.5); }
 
 /* USER SETTINGS ------------------------------------------------------------ */
 #quota_indicator { margin:0 4em 1em 0; padding:0; border:1px solid #ccc; border-radius:10px; -webkit-border-radius:10px; -moz-border-radius:10px; }
@@ -102,3 +101,6 @@ li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ff
 #notification{ z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0;
 -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
 -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+
+.file_action, .selectedActions a, #logout { opacity:.5; }
+.file_action:hover, .selectedActions a:hover, #logout:hover { opacity:1; }
