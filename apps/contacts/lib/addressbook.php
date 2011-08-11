@@ -167,7 +167,12 @@ class OC_Contacts_Addressbook{
 				$uri = $property->value.'.vcf';
 			}
 		}
-		if(is_null($uri)) $uri = self::createUID().'.vcf';
+		if(is_null($uri)){
+			$uid = self::createUID();
+			$uri = $uid.'.vcf';
+			$card->add(new Sabre_VObject_Property('UID',$uid));
+			$data = $card->serialize();
+		};
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
