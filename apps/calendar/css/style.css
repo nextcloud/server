@@ -1,0 +1,171 @@
+/*************************************************
+ * ownCloud - Calendar Plugin                     *
+ *                                                *
+ * (c) Copyright 2011 Georg Ehrke                 *
+ * author: Georg Ehrke                            *
+ * email: ownclouddev at georgswebsite dot de     *
+ * homepage: ownclouddev.georgswebsite.de         *
+ * manual: ownclouddev.georgswebsite.de/manual    *
+ * License: GNU General Public License (GPL)      *
+ *                                                *
+ * <http://www.gnu.org/licenses/>                 *
+ * If you are not able to view the License,       *
+ * <http://www.gnu.org/licenses/>                 *
+ * <http://ownclouddev.georgswebsite.de/license/> *
+ * please write to the Free Software Foundation.  *
+ * Address:                                       *
+ * 59 Temple Place, Suite 330, Boston,            *
+ * MA 02111-1307  USA                             *
+ **************************************************
+ *                   list of IDs                  *
+ * calendar_container - contains all calendar     *
+ * choosecalendar - choose Calender holder        *
+ * choosecalendar_dialog - Dialog to choose cal.  *
+ * newentry_dialog - Dialog for creating an event *
+ * editentry_dialog - Dialog for editing an event *
+ * view - container for view chooser              *
+ * datecontrol - Date in the top middle           *
+ * datecontrol_label - label for datecontrol      *
+ * onedayview - view for one day                  *
+ * oneweekview - view for one week                *
+ * fourweeksview - view for four weeks            *
+ * onemonthview - view for one month              *
+ *                 list of classes                *
+ * actions - owncloud native class                *
+ * center - centering an element                  *
+ * control - owncloud native class                *
+ * dateinfo - date in four weeks and month view   *
+ * calender_row - normal calender row             *
+ * calender_time - calender row for time          *
+ * fourweeksview_item - item in fourweeksview     *
+ * onemonthview_item - item in onemonthview       *
+ *************************************************/
+#calendar_container {
+	position: absolute;
+	top: 150px;
+	bottom: 10px;
+	left: 230px;
+	right: 100px;
+}
+#choosecalendar {
+	margin-right: 10px;
+	float: right;
+}
+#choosecalendar_dialog {
+	display: none;
+}
+#newentry_dialog {
+	display: none;
+}
+#editentry_dialog {
+	display: none;
+}
+#parsingfail_dialog{
+	display: none;
+}
+#view {
+	margin-left: 10px;
+	float: left;
+}
+#datecontrol {
+	text-align: center;
+}
+#datecontrol_date_label {
+	margin: 0;
+	padding: 0;
+}
+#onedayview, #oneweekview, #fourweeksview, #onemonthview, #listview {
+	display: none;
+}
+#onedayview table {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+#oneweekview table {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+#fourweeksview table {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+#onemonthview table {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+#fourweeksview_calw1, #fourweeksview_calw2, #fourweeksview_calw3, #fourweeksview_calw4{
+	vertical-align: middle;
+	text-align: center;
+	width: 50px;
+}
+#devbox {
+	position: absolute;
+	top: 0;
+	left: 300px;
+	right: 300px;
+	text-align: center;
+	height: 50px;
+}
+.actions {
+	height: 33px;
+	min-width: 800px;
+}
+.controls {
+	min-width: 800px;
+}
+.center {
+	text-align: center;
+}
+.dateinfo {
+	height: 15px;
+	width: 100%;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+.events {
+	height: 65px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.calendar_row {
+	height: 20px;
+	text-align: center;
+}
+.calendar_time {
+	height: 20px;
+	width: 50px;
+	text-align:right;
+}
+.fourweeksview_item {
+	text-align: center;
+	height: 80px;
+}
+.onemonthview_item {
+	text-align: center;
+	height: 80px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+}
+.weekend{
+	text-align: center;
+	height: 80px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	background: #F3F3F3;
+}
+
+.weekend_thead, .weekend_row{
+	height: 20px;
+	text-align: center;
+	text-align: center;
+	background: #F3F3F3;
+}
