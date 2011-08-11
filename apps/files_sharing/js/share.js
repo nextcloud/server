@@ -33,7 +33,7 @@ $(document).ready(function() {
 		if (!($(event.target).hasClass('drop')) && $(event.target).parents().index($('#dropdown')) == -1) {
 			if ($('#dropdown').is(':visible')) {
 				$('#dropdown').hide('blind', function() {
-					$('#dropdown').remove();
+					$('#dropdown').remove();S
 					$('tr').removeClass('mouseOver');
 				});
 			}
@@ -51,7 +51,7 @@ $(document).ready(function() {
 			cache: false,
 			data: data,
 			success: function() {
-				addUser(uid_shared_with, 0, false);
+				addUser(uid_shared_with, permissions, false);
 			}
 		});
 	});
@@ -80,13 +80,12 @@ $(document).ready(function() {
 			data: data
 		});
 	});
-	
+
 	$('.unshare').live('click', function(event) {
-		// TODO Fix unshare
 		event.preventDefault();
-		event.stopPropagation();
+		var user = $(this).parent();
 		var source = $('#dropdown').data('file');
-		var uid_shared_with = $(this).parent().data('uid_shared_with');
+		var uid_shared_with = user.data('uid_shared_with');
 		var data = 'source='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with);
 		$.ajax({
 			type: 'GET',
@@ -94,7 +93,10 @@ $(document).ready(function() {
 			cache: false,
 			data: data,
 			success: function() {
-				$(this).parent().remove();
+				var option = "<option value='"+uid_shared_with+"'>"+uid_shared_with+"</option>";
+				$(user).remove();
+				$(option).appendTo('#share_with');
+				$('#share_with').trigger('liszt:updated');
 			}
 		});
 	});

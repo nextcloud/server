@@ -21,7 +21,7 @@ $(document).ready(function() {
 	});
 
 	// Sets the file link behaviour :
-	$('td.filename a').live('click',function(event) {
+	$('td.filename.name a').live('click',function(event) {
 		event.preventDefault();
 		var filename=$(this).parent().parent().data('file');
 		if(!FileList.isLoading(filename)){
