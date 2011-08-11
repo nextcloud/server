@@ -202,7 +202,7 @@ class OC_App{
 		$admin=array(
 			array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "admin", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "admin", "users.png" )),
 			array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "admin", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "admin", "apps.png" )),
-			array( "id" => "files_administration", "order" => 3, "href" => OC_Helper::linkTo( "files", "admin.php" ), "name" => $l->t("Files"), "icon" => OC_Helper::imagePath( "files", "folder.png" )),
+//			array( "id" => "files_administration", "order" => 3, "href" => OC_Helper::linkTo( "files", "admin.php" ), "name" => $l->t("Files"), "icon" => OC_Helper::imagePath( "files", "folder.png" )),
 		);
 		$settings=array(
 			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "help", "index.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "help", "help.png" )),
