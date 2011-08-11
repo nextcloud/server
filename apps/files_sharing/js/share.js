@@ -1,7 +1,16 @@
 $(document).ready(function() {
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
-			createDropdown(filename, $('#dir').val()+'/'+filename);
+			if ($('#dropdown').length != 0) {
+				$('#dropdown').hide('blind', function() {
+					$('#dropdown').remove();
+					$('tr').removeClass('mouseOver');
+					createDropdown(filename, $('#dir').val()+'/'+filename);
+				});
+			} else {
+				createDropdown(filename, $('#dir').val()+'/'+filename);
+			}
+
 		});
 	};
 
@@ -14,17 +23,6 @@ $(document).ready(function() {
 			files += $('#dir').val()+'/'+filenames[i]+';';
 		}
 		createDropdown(false, files);
-	});
-
-	$(this).click(function(event) {
-		if ($(event.target).parents().index($('#dropdown')) == -1) {
-			if ($('#dropdown').is(':visible')) {
-				$('#dropdown').hide('blind', function() {
-					$('#dropdown').remove();
-					$('tr').removeClass('mouseOver');
-				});
-			}
-		}
 	});
 	
 	$(this).click(function(event) {
@@ -177,7 +175,7 @@ function createDropdown(filename, files) {
 			$('#makelink').attr('checked', true);
 			$('#link').data('token', token);
 			$('#link').val('http://'+location.host+OC.linkTo('files_publiclink','get.php')+'?token='+token);
-			$('#link').show('blind');
+			$('#link').show();
 		}
 	});
 	$('#dropdown').show('blind');
