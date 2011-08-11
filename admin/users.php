@@ -23,7 +23,7 @@
 
 require_once('../lib/base.php');
 if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-	header( "Location: ".OC_Helper::linkTo( "index.php" ));
+	header( "Location: ".OC_Helper::linkTo( "", "index.php" ));
 	exit();
 }
 
