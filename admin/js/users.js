@@ -54,12 +54,16 @@ $(document).ready(function(){
 		input.focus();
 		input.keypress(function(event) {
 			if(event.keyCode == 13) {
-				$.post(
-					OC.filePath('admin','ajax','changepassword.php'),
-					{username:uid,password:$(this).val()},
-					function(result){}
-				);
-				input.blur();
+				if($(this).val().length>0){
+					$.post(
+						OC.filePath('admin','ajax','changepassword.php'),
+						{username:uid,password:$(this).val()},
+						function(result){}
+					);
+					input.blur();
+				}else{
+					input.blur();
+				}
 			}
 		});
 		input.blur(function(){
