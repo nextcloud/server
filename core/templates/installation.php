@@ -25,16 +25,15 @@
 	<fieldset id='databaseField'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL']) $hasOtherDB = true; //other than SQLite ?>
 		<legend><?php echo $l->t( 'Configure the database' ); ?></legend>
+		<div id="selectDbType">
 		<?php if($_['hasSQLite']): ?>
 		<input type='hidden' id='hasSQLite' value='true' />
 		<?php if(!$hasOtherDB): ?>
 		<p><?php echo $l->t( 'SQLite will be used.' ); ?></p>
 		<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
 		<?php else: ?>
-		<p>
-			<input type="radio" name="dbtype" value='sqlite' id="sqlite" <?php OC_Helper::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/>
-			<label class="sqlite" for="sqlite"><?php echo $l->t( 'SQLite' ); ?></label>
-		</p>
+		<input type="radio" name="dbtype" value='sqlite' id="sqlite" <?php OC_Helper::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/>
+		<label class="sqlite" for="sqlite"><?php echo $l->t( 'SQLite' ); ?></label>
 		<?php endif; ?>
 		<?php endif; ?>
 
@@ -44,10 +43,8 @@
 		<p><?php echo $l->t( 'MySQL will be used.' ); ?></p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 		<?php else: ?>
-		<p>
-			<input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/>
-			<label class="mysql" for="mysql">MySQL</label>
-		</p>
+		<input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/>
+		<label class="mysql" for="mysql">MySQL</label>
 		<?php endif; ?>
 		<?php endif; ?>
 
@@ -59,6 +56,7 @@
 		<p><label class="pgsql" for="pgsql">PostgreSQL</label><input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/></p>
 		<?php endif; ?>
 		<?php endif; ?>
+		</div>
 
 		<?php if($hasOtherDB): ?>
 		<div id="use_other_db">
