@@ -76,10 +76,10 @@ legend { padding:.2em; font-size:1.2em; }
 #login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
 #login form #selectDbType { text-align:center; }
-#login form #selectDbType label { position:static; background:#F8F8F8 none; border:1px solid #DDD; box-shadow:0 1px 1px #FFF, 0 1px 0 #BBB inset; color: #555; font-size:1em; margin:0 -0.3em 1em; cursor:pointer; }
-#login form #selectDbType label span { cursor:pointer; font-size:0.9em; text-shadow:0 0 1em #FFF;}
-#login form #selectDbType label.ui-state-hover span, #login form #selectDbType label.ui-state-active span { text-shadow:0 0 1em #FFF; color:#FFF; }
-#login form #selectDbType label.ui-state-hover, #login form #selectDbType label.ui-state-active { color: #333; background-color: #35537A; }
+#login form #selectDbType label { position:static; font-size:1em; margin:0 -.3em 1em; cursor:pointer; padding:.4em; border:1px solid #ddd; font-weight:bold; background:#f8f8f8; color:#555; text-shadow:#eee 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; }
+#login form #selectDbType label span { cursor:pointer; font-size:0.9em; }
+#login form #selectDbType label.ui-state-hover span, #login form #selectDbType label.ui-state-active span { color:#000; }
+#login form #selectDbType label.ui-state-hover, #login form #selectDbType label.ui-state-active { color: #333; background-color: #ccc; }
 
 
 /* NAVIGATION ------------------------------------------------------------- */
