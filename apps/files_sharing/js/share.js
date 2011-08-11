@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
-			if ($('#dropdown').length != 0) {
+			if (($('#dropdown').length)) {
 				$('#dropdown').hide('blind', function() {
 					var dropdownFile = $('#dropdown').data('file') 
 					var file = $('#dir').val()+'/'+filename;
@@ -30,7 +30,7 @@ $(document).ready(function() {
 	});
 	
 	$(this).click(function(event) {
-		if ($(event.target).parents().index($('#dropdown')) == -1) {
+		if (!($(event.target).hasClass('drop')) && $(event.target).parents().index($('#dropdown')) == -1) {
 			if ($('#dropdown').is(':visible')) {
 				$('#dropdown').hide('blind', function() {
 					$('#dropdown').remove();
@@ -136,7 +136,7 @@ $(document).ready(function() {
 });
 
 function createDropdown(filename, files) {
-	var html = "<div id='dropdown' data-file='"+files+"'>";
+	var html = "<div id='dropdown' class='drop' data-file='"+files+"'>";
 	html += "<div id='private'>";
 	html += "<select data-placeholder='User or Group' style='width:220px;' id='share_with' class='chzen-select'>";
 	html += "<option value=''></option>";
