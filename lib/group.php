@@ -243,4 +243,12 @@ class OC_Group {
 	public static function groupExists($gid){
 		return in_array( $gid, self::getGroups());
 	}
+	
+	/**
+	 * @brief get a list of all users in a group
+	 * @returns array with user ids
+	 */
+	public static function usersInGroup($gid){
+		return self::$_backend->usersInGroup();
+	}
 }

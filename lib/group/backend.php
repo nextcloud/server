@@ -93,4 +93,10 @@ abstract class OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public static function getGroups(){}
+	
+	/**
+	 * @brief get a list of all users in a group
+	 * @returns array with user ids
+	 */
+	public static function usersInGroup($gid){}
 }
