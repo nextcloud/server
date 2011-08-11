@@ -45,8 +45,19 @@ foreach($registeredApps as $app){
 	}
 }
 
-$categories=OC_OCSClient::getCategories();
-// print_r($categories);
+$categories=array_keys(OC_OCSClient::getCategories());
+$externalApps=OC_OCSClient::getApplications($categories);
+foreach($externalApps as $app){
+	$apps[]=array(
+		'name'=>$app['name'],
+		'id'=>$app['id'],
+		'active'=>false,
+		'description'=>$app['description'],
+		'author'=>$app['personid'],
+	);
+}
+
+
 
 $tmpl = new OC_Template( "admin", "apps", "user" );
 $tmpl->assign('apps',$apps);

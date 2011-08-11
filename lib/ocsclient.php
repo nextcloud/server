@@ -80,15 +80,15 @@ class OC_OCSClient{
 		$tmp=$data->data->content;
 		for($i = 0; $i < count($tmp); $i++) {
 			$app=array();
-			$app['id']=$tmp[$i]->id;
-			$app['name']=$tmp[$i]->name;
-			$app['type']=$tmp[$i]->typeid;
-			$app['typename']=$tmp[$i]->typename;
-			$app['personid']=$tmp[$i]->personid;
-			$app['detailpage']=$tmp[$i]->detailpage;
-			$app['preview']=$tmp[$i]->smallpreviewpic1;
+			$app['id']=(string)$tmp[$i]->id;
+			$app['name']=(string)$tmp[$i]->name;
+			$app['type']=(string)$tmp[$i]->typeid;
+			$app['typename']=(string)$tmp[$i]->typename;
+			$app['personid']=(string)$tmp[$i]->personid;
+			$app['detailpage']=(string)$tmp[$i]->detailpage;
+			$app['preview']=(string)$tmp[$i]->smallpreviewpic1;
 			$app['changed']=strtotime($tmp[$i]->changed);
-			$app['description']=$tmp[$i]->description;
+			$app['description']=(string)$tmp[$i]->description;
 	
 			$apps[]=$app;
 		} 
