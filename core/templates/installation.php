@@ -31,7 +31,10 @@
 		<p><?php echo $l->t( 'SQLite will be used.' ); ?></p>
 		<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
 		<?php else: ?>
-		<p><label class="sqlite" for="sqlite"><?php echo $l->t( 'SQLite' ); ?></label><input type="radio" name="dbtype" value='sqlite' id="sqlite" <?php OC_Helper::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/></p>
+		<p>
+			<input type="radio" name="dbtype" value='sqlite' id="sqlite" <?php OC_Helper::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/>
+			<label class="sqlite" for="sqlite"><?php echo $l->t( 'SQLite' ); ?></label>
+		</p>
 		<?php endif; ?>
 		<?php endif; ?>
 
@@ -41,7 +44,10 @@
 		<p><?php echo $l->t( 'MySQL will be used.' ); ?></p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 		<?php else: ?>
-		<label class="mysql" for="mysql">MySQL</label><input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/>
+		<p>
+			<input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/>
+			<label class="mysql" for="mysql">MySQL</label>
+		</p>
 		<?php endif; ?>
 		<?php endif; ?>
 
