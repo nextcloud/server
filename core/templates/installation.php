@@ -53,7 +53,8 @@
 		<p><?php echo $l->t( 'PostgreSQL will be used.' ); ?></p>
 		<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
 		<?php else: ?>
-		<p><label class="pgsql" for="pgsql">PostgreSQL</label><input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/></p>
+		<label class="pgsql" for="pgsql">PostgreSQL</label>
+		<input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>
 		</div>
