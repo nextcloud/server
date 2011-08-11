@@ -31,11 +31,13 @@ $(document).ready(function() {
 				if(token){
 					var html="<tr class='link' id='"+token+"'>";
 					html+="<td class='path'>"+path+"</td>";
-					html+="<td class='link'><a href='get.php?token="+token+"'>"+$('#baseUrl').val()+"?token="+token+"</a></td>"
+					html+="<td class='link'><input type='text' value='"+$('#baseUrl').val()+"?token="+token+"' /></td>"
 					html+="<td><input type='submit' class='delete' data-token='"+token+" value='Delete' /></td>"
 					html+="</tr>"
 					$(html).insertAfter($('#newlink_row'));
 					$('#path').val('');
+					$('#'+token+' input').focus();
+					$('#'+token+' input').select();
 				}
 			}
 		});
