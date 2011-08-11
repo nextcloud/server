@@ -202,6 +202,22 @@ $(document).ready(function(){
 			var src=element.attr('src');
 			element.attr('src',src.substr(0,src.length-3)+'png');
 		});
+		$('.svg').each(function(index,element){
+			element=$(element);
+			var background=element.css('background-image');
+			if(background && background!='none'){
+				background=background.substr(0,background.length-4)+'png)';
+				element.css('background-image',background);
+			}
+			element.find('*').each(function(index,element) {
+				element=$(element);
+				var background=element.css('background-image');
+				if(background && background!='none'){
+					background=background.substr(0,background.length-4)+'png)';
+					element.css('background-image',background);
+				}
+			});
+		});
 	};
 	$('form.searchbox').submit(function(event){
 		event.preventDefault();
