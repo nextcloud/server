@@ -1,4 +1,19 @@
 $(document).ready(function() {
+	FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
+		createDropdown(filename, $('#dir').val()+'/'+filename);
+	});
+	
+	$('.share').click(function(event) {
+		event.preventDefault();
+		var filenames = getSelectedFiles('name');
+		var length = filenames.length;
+		var files = '';
+		for (var i = 0; i < length; i++) {
+			files += $('#dir').val()+'/'+filenames[i]+';';
+		}
+		createDropdown(false, files);
+	});
+	
 	$(this).click(function(event) {
 		if ($(event.target).parents().index($('#dropdown')) == -1) {
 			if ($('#dropdown').is(':visible')) {
@@ -9,26 +24,8 @@ $(document).ready(function() {
 			}
 		}
 	});
-	FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
-		createShareDropdown(filename, $('#dir').val()+'/'+filename);
-	});
-	$('.share').click(function(event) {
-		event.preventDefault();
-		var filenames = getSelectedFiles('name');
-		var length = filenames.length;
-		var files = '';
-		for (var i = 0; i < length; i++) {
-			files += $('#dir').val()+'/'+filenames[i]+';';
-		}
-		var lastFileName = filenames.pop();
-		if (filenames.length > 0) {
-			filenames = filenames.join(', ')+' and '+lastFileName;
-		} else {
-			filenames = lastFileName;
-		}
-		createShareDropdown(filenames, files);
-	});
-	$('#uid_shared_with').live('change', function() {
+	
+	$('#share_with').live('change', function() {
 		var source = $('#dropdown').data('file');
 		var uid_shared_with = $(this).val();
 		var permissions = 0;
@@ -39,20 +36,15 @@ $(document).ready(function() {
 			cache: false,
 			data: data,
 			success: function() {
-				$('#uid_shared_with option[value="'+uid_shared_with+'"]').remove();
-				$('#uid_shared_with').trigger('liszt:updated');
-				var list = "<li data-uid_shared_with='"+uid_shared_with+"'>";
-				list += uid_shared_with;
-				list += "<input type='checkbox' name='permissions' class='permissions' style='display:none;' /><label>can edit</label>";
-				list += "<a href='' title='Unshare' class='unshare' data-uid_shared_with='"+uid_shared_with+"' style='display:none;'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a>";
-				list += "</li>";
-				$(list).prependTo('#shared_list');
+				addUser(uid_shared_with, 0, false);
 			}
 		});
 	});
+	
 	$('#shared_list > li').live('mouseenter', function(event) {
 		$(':hidden', this).show();
 	});
+	
 	$('#shared_list > li').live('mouseleave', function(event) {
 		$('a', this).hide();
 		if (!$('input:[type=checkbox]', this).is(':checked')) {
@@ -60,13 +52,9 @@ $(document).ready(function() {
 			$('label', this).hide();
 		}
 	});
+	
 	$('.permissions').live('change', function() {
-		var permissions;
-		if (this.checked) {
-			permissions = 1;
-		} else {
-			permissions = 0;
-		}
+		var permissions = (this.checked) ? 1 : 0;
 		var source = $('#dropdown').data('file');
 		var uid_shared_with = $(this).parent().data('uid_shared_with');
 		var data = 'source='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with)+'&permissions='+encodeURIComponent(permissions);
@@ -77,6 +65,7 @@ $(document).ready(function() {
 			data: data
 		});
 	});
+	
 	$('.unshare').live('click', function(event) {
 		// TODO Fix unshare
 		event.preventDefault();
@@ -94,11 +83,10 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
 	$('#makelink').live('change', function() {
 		if (this.checked) {
-			var path = $('#dropdown').data('file');
-			var expire = 0;
-			var data = 'path='+path+'&expire='+expire;
+			var data = 'path='+$('#dropdown').data('file')+'&expire=0';
 			$.ajax({
 				type: 'GET',
 				url: OC.linkTo('files_publiclink','ajax/makelink.php'),
@@ -113,8 +101,7 @@ $(document).ready(function() {
 				}
 			});
 		} else {
-			var token = $('#link').data('token');
-			var data = 'token='+token;
+			var data = 'token='+$('#link').data('token');
 			$.ajax({
 				type: 'GET',
 				url: OC.linkTo('files_publiclink','ajax/deletelink.php'),
@@ -126,16 +113,17 @@ $(document).ready(function() {
 			});
 		}
 	});
+	
 	$('#link').live('click', function() {
 		$(this).focus();
 		$(this).select();
 	});
 });
 
-function createShareDropdown(filenames, files) {
+function createDropdown(filename, files) {
 	var html = "<div id='dropdown' data-file='"+files+"'>";
 	html += "<div id='private'>";
-	html += "<select data-placeholder='User or Group' style='width:220px;' id='uid_shared_with' class='chzen-select'>";
+	html += "<select data-placeholder='User or Group' style='width:220px;' id='share_with' class='chzen-select'>";
 	html += "<option value=''></option>";
 	html += "</select>";
 	html += "<ul id='shared_list'></ul>";
@@ -146,41 +134,29 @@ function createShareDropdown(filenames, files) {
 	html += "<br />";
 	html += "<input id='link' style='display:none; width:90%;' />";
 	html += "</div>";
-	$('tr[data-file="'+filenames+'"]').addClass('mouseOver');
-	$(html).appendTo($('tr[data-file="'+filenames+'"] td.filename'));
+	if (filename) {
+		$('tr[data-file="'+filename+'"]').addClass('mouseOver');
+		$(html).appendTo($('tr[data-file="'+filename+'"] td.filename'));
+	} else {
+		$(html).appendTo($('thead .share'));
+	}
 	$.getJSON(OC.linkTo('files_sharing', 'ajax/userautocomplete.php'), function(users) {
 		if (users) {
 			$.each(users, function(index, row) {
-				$(row).appendTo('#uid_shared_with');
+				$(row).appendTo('#share_with');
 			});
-			$('#uid_shared_with').trigger('liszt:updated');
+			$('#share_with').trigger('liszt:updated');
 		}
 	});
 	$.getJSON(OC.linkTo('files_sharing', 'ajax/getitem.php'), { source: files }, function(users) {
 		if (users) {
-			var list;
 			$.each(users, function(index, row) {
-				$('#uid_shared_with option[value="'+row.uid_shared_with+'"]').remove();
 				if (isNaN(index)) {
-					list += "<li>Parent folder "+index.substr(0, index.lastIndexOf('-'))+" shared with "+row.uid_shared_with+"</li>";
+					addUser(row.uid_shared_with, row.permissions, index.substr(0, index.lastIndexOf('-')));
 				} else {
-					list += "<li data-uid_shared_with='"+row.uid_shared_with+"'>";
-					list += row.uid_shared_with;
-					var checked;
-					var style;
-					if (row.permissions > 0) {
-						checked = "checked='checked'";
-					} else {
-						style = "style='display:none;'";
-					}
-					list += "<input type='checkbox' name='permissions' id='"+index+"' class='permissions' "+checked+"  "+style+" /><label for='"+index+"' "+style+">can edit</label>";
-					list += "<a href='' title='Unshare' class='unshare' data-uid_shared_with='"+row.uid_shared_with+"' style='display:none;'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a>";
-					list += "</li>";
-					
+					addUser(row.uid_shared_with, row.permissions, false);
 				}
 			});
-			$(list).appendTo('#shared_list');
-			$('#uid_shared_with').trigger('liszt:updated');
 		}
 	});
 	$.getJSON(OC.linkTo('files_publiclink', 'ajax/getlink.php'), { path: files }, function(token) {
@@ -192,5 +168,20 @@ function createShareDropdown(filenames, files) {
 		}
 	});
 	$('#dropdown').show('blind');
-	$('#uid_shared_with').chosen();
+	$('#share_with').chosen();
+}
+
+function addUser(uid_shared_with, permissions, parentFolder) {
+	if (parentFolder) {
+		var user = "<li>Parent folder "+parentFolder+" shared with "+uid_shared_with+"</li>";
+	} else {
+		var checked = ((permissions > 0) ? "checked='checked'" : "style='display:none;'");
+		var style = ((permissions == 0) ? "style='display:none;'" : "");
+		var user = "<li data-uid_shared_with='"+uid_shared_with+"'>"+uid_shared_with;
+		user += "<input type='checkbox' name='permissions' id='"+uid_shared_with+"' class='permissions' "+checked+"/><label for='"+uid_shared_with+"' "+style+">can edit</label>";
+		user += "<a href='' title='Unshare' class='unshare' style='display:none;'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a></li>";
+	}
+	$('#share_with option[value="'+uid_shared_with+'"]').remove();
+	$('share_with').trigger('liszt:updated');
+	$(user).appendTo('#shared_list');
 }
