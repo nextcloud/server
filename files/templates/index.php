@@ -7,7 +7,8 @@
 			<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 			<div class="file_upload_wrapper">
 				<input type="submit" class="file_upload_filename" value="<?php echo $l->t('Upload');?> (max. <?php echo $_['uploadMaxHumanFilesize'];?>)"/>
-				<input class="file_upload_start" type="file" name='files[]'/>
+				<input id="file_upload_start" class="file_upload_start" type="file" name='files[]'/>
+				<a href="#" id="file_upload_button_wrapper" onclick="return false;"></a>
 			</div>
 			<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
 		</form>

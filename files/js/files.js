@@ -12,6 +12,12 @@ $(document).ready(function() {
 	$('#plugins>ul>li:first-child').data('dir','');
 	$('#plugins>ul>li:first-child').droppable(crumbDropOptions);
 	
+	// Triggers invisible file input
+	$('#file_upload_button_wrapper').bind('click', function() {
+		$('#file_upload_start').trigger('click');
+		return false;
+	});
+
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
 		FileActions.display($(this).children('td.filename'));
