@@ -200,13 +200,13 @@ class OC_App{
 	public static function getSettingsNavigation(){
 		$l=new OC_L10N('core');
 		$admin=array(
-			array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "admin", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "admin", "users.png" )),
-			array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "admin", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "admin", "apps.png" )),
-			array( "id" => "files_administration", "order" => 3, "href" => OC_Helper::linkTo( "files", "admin.php" ), "name" => $l->t("Files"), "icon" => OC_Helper::imagePath( "files", "folder.png" )),
+			array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "admin", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "admin", "users.svg" )),
+			array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "admin", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "admin", "apps.svg" )),
+//			array( "id" => "files_administration", "order" => 3, "href" => OC_Helper::linkTo( "files", "admin.php" ), "name" => $l->t("Files"), "icon" => OC_Helper::imagePath( "settings", "options.svg" )),
 		);
 		$settings=array(
-			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "help", "index.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "help", "help.png" )),
-			array( "id" => "settings", "order" => 1, "href" => OC_Helper::linkTo( "settings", "index.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.png" ))
+			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "help", "index.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "help", "help.svg" )),
+			array( "id" => "settings", "order" => 1, "href" => OC_Helper::linkTo( "settings", "index.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ))
 		);
 		if( OC_Group::inGroup( $_SESSION["user_id"], "admin" )){
 			$settings=array_merge($admin,$settings);

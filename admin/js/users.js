@@ -46,6 +46,7 @@ $(document).ready(function(){
 	});
 	
 	$('td.password>img').live('click',function(event){
+		event.stopPropagation();
 		var img=$(this);
 		var uid=img.parent().parent().data('uid');
 		var input=$('<input type="password">');
@@ -71,6 +72,9 @@ $(document).ready(function(){
 			img.css('display','');
 		});
 	});
+	$('td.password').live('click',function(event){
+		$(this).children('img').click();
+	});
 	
 	$('#newuser').submit(function(event){
 		event.preventDefault();
@@ -88,7 +92,7 @@ $(document).ready(function(){
 				
 			}
 		);
-		var tr=$('#content table tr').first().clone();
+		var tr=$('#content table tr').first().next().clone();
 		tr.attr('data-uid',username);
 		tr.find('td.name').text(username);
 		var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');

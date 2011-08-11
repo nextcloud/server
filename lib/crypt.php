@@ -24,9 +24,10 @@
 
 // Todo:
 //  Crypt/decrypt button in the userinterface
+//  setting if crypto should be on by default
 //  transparent decrypt/encrpt in filesystem.php
 //  don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
-
+//  check if the block lenght of the encrypted data stays the same
 
 
 require_once('Crypt_Blowfish/Blowfish.php');
@@ -38,15 +39,50 @@ class OC_Crypt {
 
         static $encription_extension='.encrypted';
 
-	public static function createkey( $passcode) {
-		// generate a random key
-		$key=mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999);
+	public static function init($login,$password) {
+		$_SESSION['user_password'] = $password;  // save the password as passcode for the encryption
+		if(OC_User::isLoggedIn()){
+			// does key exist?
+			if(!file_exists(OC_Config::getValue( "datadirectory").'/'.$login.'/encryption.key')){
+				OC_Crypt::createkey($_SESSION['user_password']);
+			}
+		}
+	}
 
-		// encrypt the key with the passcode of the user
-		$enckey=OC_Crypt::encrypt($key,$passcode);
 
-		// Write the file
-		file_put_contents( "$SERVERROOT/config/encryption.key", $enckey );
+
+	public static function createkey($passcode) {
+		if(OC_User::isLoggedIn()){
+			// generate a random key
+			$key=mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999);
+
+			// encrypt the key with the passcode of the user
+			$enckey=OC_Crypt::encrypt($key,$passcode);
+
+			// Write the file
+		        $username=OC_USER::getUser();
+			file_put_contents(OC_Config::getValue( "datadirectory").'/'.$username.'/encryption.key', $enckey );
+		}
+	}
+
+	public static function changekeypasscode( $newpasscode) {
+		if(OC_User::isLoggedIn()){
+		        $username=OC_USER::getUser();
+
+			// read old key
+			$key=file_get_contents(OC_Config::getValue( "datadirectory").'/'.$username.'/encryption.key');
+
+			// decrypt key with old passcode
+			$key=OC_Crypt::decrypt($key, $_SESSION['user_password']);
+
+			// encrypt again with new passcode
+			$key=OC_Crypt::encrypt($key,$newpassword);
+
+			// store the new key
+			file_put_contents(OC_Config::getValue( "datadirectory").'/'.$username.'/encryption.key', $key );
+
+			 $_SESSION['user_password']=$newpasscode;
+		}
 	}
 
 	/**
@@ -59,7 +95,7 @@ class OC_Crypt {
 	 */
 	public static function encrypt( $content, $key) {
 		$bf = new Crypt_Blowfish($key);
-		return($bf->encrypt($contents));
+		return($bf->encrypt($content));
 	}
 
 

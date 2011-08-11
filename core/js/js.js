@@ -27,7 +27,7 @@ t.cache={};
 
 OC={
 	webroot:oc_webroot,
-	currentUser:oc_current_user,
+	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['files','admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
@@ -201,6 +201,22 @@ $(document).ready(function(){
 			element=$(element);
 			var src=element.attr('src');
 			element.attr('src',src.substr(0,src.length-3)+'png');
+		});
+		$('.svg').each(function(index,element){
+			element=$(element);
+			var background=element.css('background-image');
+			if(background && background!='none'){
+				background=background.substr(0,background.length-4)+'png)';
+				element.css('background-image',background);
+			}
+			element.find('*').each(function(index,element) {
+				element=$(element);
+				var background=element.css('background-image');
+				if(background && background!='none'){
+					background=background.substr(0,background.length-4)+'png)';
+					element.css('background-image',background);
+				}
+			});
 		});
 	};
 	$('form.searchbox').submit(function(event){

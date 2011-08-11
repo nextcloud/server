@@ -3,27 +3,27 @@
 		<div class="contacts_propertyname"><?php echo $l->t('Name'); ?></div>
 		<div class="contacts_propertyvalue">
 			<?php echo $_['property']['value']; ?>
-			<span style="display:none;" data-use="edit"><img src="../../core/img/actions/rename.png"></span>
+			<span style="display:none;" data-use="edit"><img class="svg" src="<?php echo image_path('', 'actions/rename.svg'); ?>" /></span>
 		</div>
 	<?php elseif($_['property']['name'] == 'BDAY'): ?>
 		<div class="contacts_propertyname"><?php echo $l->t('Birthday'); ?></div>
 		<div class="contacts_propertyvalue">
 		<?php echo $l->l('date',new DateTime($_['property']['value'])); ?>
-			<span style="display:none;" data-use="delete"><img src="../../core/img/actions/delete.png"></span>
+			<span style="display:none;" data-use="delete"><img class="svg" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
 		</div>
 	<?php elseif($_['property']['name'] == 'ORG'): ?>
 		<div class="contacts_propertyname"><?php echo $l->t('Organisation'); ?></div>
 		<div class="contacts_propertyvalue">
 			<?php echo $_['property']['value']; ?>
-			<span style="display:none;" data-use="edit"><img src="../../core/img/actions/rename.png"></span>
-			<span style="display:none;" data-use="delete"><img src="../../core/img/actions/delete.png"></span>
+			<span style="display:none;" data-use="edit"><img class="svg" src="<?php echo image_path('', 'actions/rename.svg'); ?>" /></span>
+			<span style="display:none;" data-use="delete"><img class="svg" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
 		</div>
 	<?php elseif($_['property']['name'] == 'EMAIL'): ?>
 		<div class="contacts_propertyname"><?php echo $l->t('Email'); ?></div>
 		<div class="contacts_propertyvalue">
 			<?php echo $_['property']['value']; ?>
-			<span style="display:none;" data-use="edit"><img src="../../core/img/actions/rename.png"></span>
-			<span style="display:none;" data-use="delete"><img src="../../core/img/actions/delete.png"></span>
+			<span style="display:none;" data-use="edit"><img class="svg" src="<?php echo image_path('', 'actions/rename.svg'); ?>" /></span>
+			<span style="display:none;" data-use="delete"><img class="svg" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
 		</div>
 	<?php elseif($_['property']['name'] == 'TEL'): ?>
 		<div class="contacts_propertyname"><?php echo $l->t('Telephone'); ?></div>
@@ -32,8 +32,8 @@
 			<?php if(isset($_['property']['parameters']['TYPE'])): ?>
 				(<?php echo $l->t('tel_'.strtolower($_['property']['parameters']['TYPE'])); ?>)
 			<?php endif; ?>
-			<span style="display:none;" data-use="edit"><img src="../../core/img/actions/rename.png"></span>
-			<span style="display:none;" data-use="delete"><img src="../../core/img/actions/delete.png"></span>
+			<span style="display:none;" data-use="edit"><img class="svg" src="<?php echo image_path('', 'actions/rename.svg'); ?>" /></span>
+			<span style="display:none;" data-use="delete"><img class="svg" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
 		</div>
 	<?php elseif($_['property']['name'] == 'ADR'): ?>
 		<div class="contacts_propertyname">
@@ -51,8 +51,8 @@
 			<?php echo $l->t('Region'); ?> <?php echo $_['property']['value'][4]; ?><br>
 			<?php echo $l->t('Postal Code'); ?> <?php echo $_['property']['value'][5]; ?><br>
 			<?php echo $l->t('Country'); ?> <?php echo $_['property']['value'][6]; ?> 
-			<span style="display:none;" data-use="edit"><img src="../../core/img/actions/rename.png"></span>
-			<span style="display:none;" data-use="delete"><img src="../../core/img/actions/delete.png"></span>
+			<span style="display:none;" data-use="edit"><img class="svg" src="<?php echo image_path('', 'actions/rename.svg'); ?>" /></span>
+			<span style="display:none;" data-use="delete"><img class="svg" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
 		</div>
 	<?php endif; ?>
 </div>

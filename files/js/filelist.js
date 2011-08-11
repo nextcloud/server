@@ -3,7 +3,7 @@ FileList={
 		$('#fileList').empty().html(fileListHtml);
 	},
 	addFile:function(name,size,lastModified,loading){
-		var img=(loading)?'img/loading.gif':'img/file.png';
+		var img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file.png');
 		var html='<tr data-file="'+name+'" data-type="file" data-size="'+size+'">';
 		if(name.indexOf('.')!=-1){
 			var basename=name.substr(0,name.indexOf('.'));

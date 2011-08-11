@@ -194,7 +194,7 @@ class OC_Util {
 		global $SERVERROOT;
 		global $CONFIG_DATADIRECTORY;
 
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );;
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
 		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", "$SERVERROOT/backup" );
 		$CONFIG_INSTALLED = OC_Config::getValue( "installed", false );
 		$errors=array();

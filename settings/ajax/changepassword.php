@@ -29,6 +29,7 @@ if( !OC_User::checkPassword( $_SESSION["user_id"], $_POST["oldpassword"] )){
 // Change password
 if( OC_User::setPassword( $_SESSION["user_id"], $_POST["password"] )){
 	echo json_encode( array( "status" => "success", "data" => array( "message" => $l->t("Password changed") )));
+	OC_Crypt::changekeypasscode( $_POST["password"]) {
 }
 else{
 	echo json_encode( array( "status" => "error", "data" => array( "message" => $l->t("Unable to change password") )));

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$('#selectDbType').buttonset();
 	$('#datadirField').hide(250);
 	if($('#hasSQLite').val()=='true'){
 		$('#databaseField').hide(250);

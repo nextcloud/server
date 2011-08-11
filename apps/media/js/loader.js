@@ -49,6 +49,7 @@ $(document).ready(function() {
 		FileActions.setDefault('audio','Play');
 		FileActions.setDefault('application/ogg','Play');
 	}
+	var oc_current_user=OC.currentUser;
 	if(typeof PlayList==='undefined'){
 		if(typeof localStorage !== 'undefined' && localStorage){
 			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items') && localStorage.getItem(oc_current_user+'oc_playlist_items')!='[]' && localStorage.getItem(oc_current_user+'oc_playlist_active')!='true'){
