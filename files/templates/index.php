@@ -6,7 +6,8 @@
 			<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 			<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 			<div class="file_upload_wrapper" class="svg">
-				<input type="submit" class="file_upload_filename" value="<?php echo $l->t('Upload');?> (max. <?php echo $_['uploadMaxHumanFilesize'];?>)"/>
+				<input type="submit" class="file_upload_filename" value="<?php echo $l->t('Upload');
+				 if($_['uploadMaxFilesize']<(10000000000)){echo ' (max. '.$_['uploadMaxHumanFilesize'].')';}?>"/>
 				<input class="file_upload_start" type="file" name='files[]'/>
 			</div>
 			<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
