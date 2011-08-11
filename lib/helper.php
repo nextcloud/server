@@ -89,11 +89,11 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief get path to icon of mime type
+	 * @brief get path to icon of file type
 	 * @param $mimetype mimetype
 	 * @returns the url
 	 *
-	 * Returns the path to the image of this mime type.
+	 * Returns the path to the image of this file type.
 	 */
 	public static function mimetypeIcon( $mimetype ){
 		global $SERVERROOT;
@@ -103,20 +103,20 @@ class OC_Helper {
 
 		// Is it a dir?
 		if( $mimetype == "dir" ){
-			return "$WEBROOT/core/img/places/folder.png";
+			return "$WEBROOT/core/img/places/folder.svg";
 		}
 
 		// Icon exists?
-		if( file_exists( "$SERVERROOT/core/img/mimetypes/$mimetype.png" )){
-			return "$WEBROOT/core/img/mimetypes/$mimetype.png";
+		if( file_exists( "$SERVERROOT/core/img/filetypes/$mimetype.svg" )){
+			return "$WEBROOT/core/img/filetypes/$mimetype.svg";
 		}
-		//try only the first part of the mimetype
+		//try only the first part of the filetype
 		$mimetype=substr($mimetype,0,strpos($mimetype,'-'));
-		if( file_exists( "$SERVERROOT/core/img/mimetypes/$mimetype.png" )){
-			return "$WEBROOT/core/img/mimetypes/$mimetype.png";
+		if( file_exists( "$SERVERROOT/core/img/filetypes/$mimetype.svg" )){
+			return "$WEBROOT/core/img/filetypes/$mimetype.svg";
 		}
 		else{
-			return "$WEBROOT/core/img/mimetypes/file.png";
+			return "$WEBROOT/core/img/filetypes/file.svg";
 		}
 	}
 

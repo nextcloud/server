@@ -24,6 +24,6 @@
 <?php endforeach; ?>
 
 <div id="contacts_cardoptions">
-	<a id="contacts_deletecard"><img src="../../core/img/actions/delete.png"></a>
-	<a id="contacts_addproperty"><img src="../../core/img/actions/download.png"></a>
+	<a id="contacts_deletecard"><img class="svg" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></a>
+	<a id="contacts_addproperty"><img class="svg" src="<?php echo image_path('', 'actions/download.svg'); ?>" /></a>
 </div>
