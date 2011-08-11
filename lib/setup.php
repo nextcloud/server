@@ -206,6 +206,7 @@ class OC_Setup {
 				OC_User::createUser($username, $password);
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');
+				OC_User::login($username, $password);
 
 				//guess what this does
 				OC_Installer::installShippedApps(true);
