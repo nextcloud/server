@@ -30,7 +30,7 @@ var PlayList={
 			if(PlayList.player){
 				if(PlayList.player.data('jPlayer').options.supplied!=PlayList.items[index].type){//the the audio type changes we need to reinitialize jplayer
 					PlayList.player.jPlayer("destroy");
-					PlayList.init(PlayList.items[index].type,function(){PlayList.play(null,time,eady)});
+					PlayList.init(PlayList.items[index].type,function(){PlayList.play(null,time,ready)});
 				}else{
 					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
 					PlayList.items[index].playcount++;
@@ -73,7 +73,7 @@ var PlayList={
 				PlayList.render();
 				return false;
 			});
-			PlayList.player=$('#jp-interface div.player');
+			PlayList.player=$('#controls div.player');
 		}
 		$(PlayList.player).jPlayer({
 			ended:PlayList.next,
@@ -91,7 +91,7 @@ var PlayList={
 				}
 			},
 			volume:PlayList.volume,
-			cssSelectorAncestor:'#jp-interface',
+			cssSelectorAncestor:'#controls',
 			swfPath:OC.linkTo('media','js'),
 		});
 	},

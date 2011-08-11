@@ -20,32 +20,7 @@
 	<div class="player" id="jp-player"></div>
 </div>
 
-<div id="leftcontent">
-<table id="playlist">
-	<thead>
-		<tr>
-			<th class="name"><input id="selectAll" type="checkbox"><?php echo $l->t('Name')?></th>
-			<th class="artist"><?php echo $l->t('Artist')?></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>
-				<?php echo $l->t('The playlist is empty')?>
-			</td>
-		</tr>
-	</tbody>
-	<tfoot>
-		<tr class="template">
-			<td class="name">
-				<input type="checkbox">
-				<span></span>
-			</td>
-			<td class="artist"></td>
-		</tr>
-	</tfoot>
-</table>
-</div>
+<ul id="leftcontent"></ul>
 
 <div id="rightcontent">
 <div id="scan">
