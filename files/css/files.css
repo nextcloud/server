@@ -20,6 +20,8 @@
 .file_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; position:absolute; left:0; top:0; width:100%; cursor:pointer;}
 .file_upload_filename { z-index:100; cursor:pointer;}
 
+.file_upload_form, .file_upload_wrapper, .file_upload_start, .file_upload_filename, #file_upload_submit { cursor:pointer; }
+
 /* FILE TABLE */
 span#emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 table { position:relative; top:37px; width:100%; }

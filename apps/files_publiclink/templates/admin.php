@@ -1,12 +1,10 @@
 <input type="hidden" id="baseUrl" value="<?php echo $_['baseUrl'];?>"/>
 <table id="linklist">
 	<thead id="controls">
-		<tr id="newlink_row">
-			<form action="#" id="newlink">
-				<td class="path"><input placeholder="Path" id="path"/></td>
-				<td><input type="submit" value="Share" /></td>
-			</form>
-		</tr>
+		<tr id="newlink_row"><form action="#" id="newlink">
+			<td class="path"><input placeholder="Path" id="path"/></td>
+			<td><input type="submit" value="Share" /></td>
+		</form></tr>
 	</thead>
 	<tbody>
 		<?php foreach($_['links'] as $link):?>
