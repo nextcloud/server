@@ -27,7 +27,7 @@ t.cache={};
 
 OC={
 	webroot:oc_webroot,
-	currentUser:oc_current_user,
+	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['files','admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
