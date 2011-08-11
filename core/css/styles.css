@@ -77,7 +77,7 @@ legend { padding:.2em; font-size:1.2em; }
 
 #login form p { clear:both; }
 #login form p label { float:left; position:static; margin:0; padding:0.1em;}
-#login form p input { float:left; }
+#login form p input { float:left; width: auto;}
 
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:75; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; }
