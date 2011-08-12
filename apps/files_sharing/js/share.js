@@ -1,7 +1,25 @@
 $(document).ready(function() {
 	if (typeof FileActions !== 'undefined') {
-		FileActions.register('all', 'Share', OC.imagePath('core', 'actions/share'), function(filename) {
-			if (($('#dropdown').length)) {
+		FileActions.register('all', 'Share', function(filename) {
+			var icon;
+			var file = $('#dir').val()+'/'+filename;
+			$.ajax({
+				type: 'GET',
+				url: OC.linkTo('files_sharing', 'ajax/getitem.php'),
+				dataType: 'json',
+				data: 'source='+file,
+				async: false,
+				success: function(users) {
+					if (users.length > 0) {
+						icon = OC.imagePath('core', 'actions/shared');
+					} else {
+						icon = OC.imagePath('core', 'actions/share');
+					}
+				}
+			});
+			return icon;
+		}, function(filename) {
+			if (($('#dropdown').length > 0)) {
 				$('#dropdown').hide('blind', function() {
 					var dropdownFile = $('#dropdown').data('file') 
 					var file = $('#dir').val()+'/'+filename;
