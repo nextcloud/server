@@ -39,7 +39,7 @@ table th .name { float:left; margin-left:.5em; }
 table th.multiselect { background:#ddd; color:#000; font-weight:bold; }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td { border-bottom:1px solid #eee; font-style:normal; background-position:1em .5em; background-repeat:no-repeat; }
-table th#headerSize, table td.filesize { width:5em; padding:0 1em; text-align:right; }
+table th#headerSize, table td.filesize { width:3em; padding:0 1em; text-align:right; }
 table th#headerDate, table td.date { width:11em; padding:0 .1em 0 1em; text-align:left; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name { display:block; height:1.5em; vertical-align:middle; margin-left:3em; }

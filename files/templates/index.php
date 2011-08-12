@@ -6,10 +6,9 @@
 			<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 			<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 			<div class="file_upload_wrapper" class="svg">
-				<input type="submit" class="file_upload_filename" value="<?php echo $l->t('Upload');
-				 if($_['uploadMaxFilesize']<(10000000000)){echo ' (max. '.$_['uploadMaxHumanFilesize'].')';}?>"/>
+				<input type="submit" class="file_upload_filename" value="<?php echo $l->t('Upload'); ?>"/>
 				<input id="file_upload_start" class="file_upload_start" type="file" name='files[]'/>
-				<a href="#" id="file_upload_button_wrapper" onclick="return false;"></a>
+				<a href="#" id="file_upload_button_wrapper" onclick="return false;" title="<?php echo  'max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
 			</div>
 			<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
 		</form>
@@ -33,8 +32,8 @@
 					<!--<a href="" title="" class="share">Share</a>-->
 				</span>
 			</th>
-			<th id='headerSize'><?php echo $l->t( 'Size MB' ); ?></th>
-			<th id='headerDate'><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class='selectedActions'><a href="" title="Delete" class="delete"><img class='svg' alt="<?php echo $l->t('Delete')?>" src="../core/img/actions/delete.svg" /></a></span></th>
+			<th id="headerSize"><?php echo $l->t( 'Size' ); ?></th>
+			<th id="headerDate"><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class="selectedActions"><a href="" title="Delete" class="delete"><img class="svg" alt="<?php echo $l->t('Delete')?>" src="../core/img/actions/delete.svg" /></a></span></th>
 		</tr>
 	</thead>
 	<tbody id="fileList">
