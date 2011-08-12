@@ -13,8 +13,8 @@ $(document).ready(function() {
 	$('#plugins>ul>li:first-child').droppable(crumbDropOptions);
 	
 	// Triggers invisible file input
-	$('#file_upload_button_wrapper').bind('click', function() {
-		$('#file_upload_start').trigger('click');
+	$('.file_upload_button_wrapper').live('click', function() {
+		$(this).parent().children('.file_upload_start').trigger('click');
 		return false;
 	});
 	

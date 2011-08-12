@@ -11,7 +11,7 @@
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
 .file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .3em; padding-left:2em; }
 .file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin-right:1.5em;}
-.file_upload_wrapper #file_upload_button_wrapper { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:1000; }
+.file_upload_wrapper .file_upload_button_wrapper { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:1000; }
 
 #file_newfolder_name { background-image:url('../../core/img/places/folder.svg'); font-weight:bold; width:8em; }
 .file_upload_start, .file_upload_filename { font-size:1em; }
