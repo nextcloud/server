@@ -283,11 +283,20 @@ $(document).ready(function(){
 	});
 
 	if($('body').attr("id")=="body-user") { $('#settings #expanddiv').hide(); }
-	$('#settings #expand').click(function() {
+	$('#settings #expand').click(function(event) {
 		$('#settings #expanddiv').slideToggle();
+		event.stopPropagation();
 	});
+	$('#settings #expanddiv').click(function(event){
+		event.stopPropagation();
+	})
 	$('#settings #expand').hover(function(){
 		$('#settings #expand+span').fadeToggle();
+	});
+	$(window).click(function(){//hide the settings menu when clicking oustide it
+		if($('body').attr("id")=="body-user"){
+			$('#settings #expanddiv').slideUp();
+		}
 	});
 	
 	$('.file_action').tipsy({gravity:'s', live:true});
