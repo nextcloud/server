@@ -290,7 +290,7 @@ $(document).ready(function(){
 		$('#settings #expand+span').fadeToggle();
 	});
 	
-	$('a.file_action').tipsy({gravity:'s', live:true});
+	$('.file_action').tipsy({gravity:'s', live:true});
 	$('.selectedActions a').tipsy({gravity:'n', live:true});
 	$('.selectedActions a.delete').tipsy({gravity: 'ne', live:true});
 });

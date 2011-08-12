@@ -26,10 +26,20 @@
 /* FILE TABLE */
 span#emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 table { position:relative; top:37px; width:100%; }
+table tr { -webkit-transition:background-color 100ms ease-in 100ms;
+-moz-transition:background-color 100ms ease-in 100ms;
+-o-transition:background-color 100ms ease-in 100ms;
+transition:background-color 100ms ease-in 100ms; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; height:1em; }
 tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
+span.extention { opacity:0;
+-webkit-transition:opacity 100ms ease-in 100ms;
+-moz-transition:opacity 100ms ease-in 100ms;
+-o-transition:opacity 100ms ease-in 100ms;
+transition:opacity 100ms ease-in 100ms; }
+tr:hover span.extention { opacity:1; }
 div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
 div.crumb:first-child { padding-left:1.5em; }
 div.crumb:last-child { font-weight:bold; }

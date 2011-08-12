@@ -423,5 +423,5 @@ function getMimeIcon(mime){
 	if(knownMimes.indexOf(mime)==-1){
 		mime='file';
 	}
-	return OC.imagePath('core','mimetypes/'+mime+'.png');
+	return OC.imagePath('core','filetypes/'+mime);
 }
