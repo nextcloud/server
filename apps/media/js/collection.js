@@ -60,14 +60,14 @@ Collection={
 							tr.find('td.title a').text(song.song_name);
 							tr.find('td.title a').click(function(event){
 								event.preventDefault();
-								PlayList.add(song);
-								PlayList.render();
+								PlayList.add(song,true);
+								PlayList.play(0);
 							});
 							if(artist.artist_name!=lastArtist){
 								tr.find('td.artist a').click(function(event){
 									event.preventDefault();
-									PlayList.add(artist);
-									PlayList.render();
+									PlayList.add(artist,true);
+									PlayList.play(0);
 								});
 								tr.find('td.artist a').text(artist.artist_name);
 								if(artist.albums.length>1){
@@ -87,8 +87,8 @@ Collection={
 							if(album.album_name!=lastAlbum){
 								tr.find('td.album a').click(function(event){
 									event.preventDefault();
-									PlayList.add(album);
-									PlayList.render();
+									PlayList.add(album,true);
+									PlayList.play(0);
 								});
 								tr.find('td.album a').text(album.album_name);
 								if(album.songs.length>1){
