@@ -1,64 +1,50 @@
-				<div id="devbox">
-				</div>
-				<div class="controls">
-					<div class="actions">
+				<div id="sysbox"></div>
+				<div id="controls">
+					<div>
 						<form>
 							<div id="view">
-								<input type="radio" id="onedayview_radio" name="viewchooseradio"/>
-								<label onclick="change_view('onedayview');" for="onedayview_radio">
-									1 Day
-								</label>
-								<input type="radio" id="oneweekview_radio" name="viewchooseradio"/>
-								<label onclick="change_view('oneweekview');" for="oneweekview_radio">
-									1 Week
-								</label>
-								<input type="radio" id="fourweeksview_radio" name="viewchooseradio"/>
-								<label onclick="change_view('fourweeksview');" for="fourweeksview_radio">
-									4 Weeks
-								</label>
-								<input type="radio" id="onemonthview_radio" name="viewchooseradio"/>
-								<label onclick="change_view('onemonthview');" for="onemonthview_radio">
-									1 Month
-								</label>
-								<input type="radio" id="listview_radio" name="viewchooseradio"/>
-								<label onclick="change_view('listview');" for="listview_radio">
-									List
-								</label>
+								<input type="button" value="1 Day" id="onedayview_radio" onclick="oc_cal_change_view('onedayview');"/>
+								<input type="button" value="1 Week" id="oneweekview_radio" onclick="oc_cal_change_view('oneweekview');"/>
+								<input type="button" value="4 Weeks" id="fourweeksview_radio" onclick="oc_cal_change_view('fourweeksview');"/>
+								<input type="button" value="1 Month" id="onemonthview_radio" onclick="oc_cal_change_view('onemonthview');"/>
+								<input type="button" value="Listview" id="listview_radio" onclick="oc_cal_change_view('listview');"/>
 							</div>
 						</form>
 						<form>
 							<div id="choosecalendar">
-								<input type="radio" id="today_input" checked="checked"/>
-								<label for="today_input" onclick="switch2today();">
-									Today
-								</label>
+								<input class="button" type="submit" id="today_input" value="Today" onclick="oc_cal_switch2today();"/>
 								<input type="radio" id="choosecalendar_input" checked="checked"/>
-								<label for="choosecalendar_input" onclick="choosecalendar_dialog();">
+
+<table data-groups="admin"> 
+			<tr data-uid="root"> 
+			<td class="select"><input type="checkbox"></input></td> 
+			<td class="name">root</td> 
+			<td class="groups"> 
+				<select data-username="root" data-user-groups="admin" data-placeholder="groups" title="Gruppen" multiple="multiple"> 
+											<option value="admin">admin</option> 
+									</select> 
+			</td> 
+			<td class="remove"> 
+							</td> 
+		</tr> 
+	</table> 
+
+								<!--
+								<label for="choosecalendar_input" onclick="oc_cal_choosecalendar_dialog();">
 									Choose your Calendar
-								</label>
+								</label>-->
 							</div>
 						</form>
 						<form>
 							<div id="datecontrol">
-								<input type="radio" id="datecontrol_left" />
-								<label for="datecontrol_left" onclick="update_view('', 'backward');">
-									&lt;
-								</label>
-								<input type="radio" id="datecontrol_date"  checked="checked"/>
-								<label for="datecontrol_date">
-									<p id="datecontrol_date_label">
-										&nbsp;
-									</p>
-								</label>
-								<input type="radio" id="datecontrol_right" />
-								<label for="datecontrol_right" onclick="update_view('', 'forward');">
-									&gt;
-								</label>
+								<input type="button" value="&lt;" id="datecontrol_left" onclick="oc_cal_update_view('', 'backward');"/>
+								<input id="datecontrol_date" type="button" value=""/>
+								<input type="button" value="&gt;" id="datecontrol_left" onclick="oc_cal_update_view('', 'forward');"/>
 							</div>
 						</form>
 					</div>
 				</div>
-				<div class="controls" id="calendar_holder">
+				<div id="calendar_holder">
 					<div id="onedayview">
 						<table>
 							<thead>
@@ -921,11 +907,6 @@
 					<div id="listview">
 						
 					</div>
-					<p class="center">
-						<a href="http://ownclouddev.georgswebsite.de/feedback/" target="_blank">Feedback</a>&nbsp;&nbsp;&nbsp;&diams;&nbsp;&nbsp;&nbsp;
-						<a href="http://ownclouddev.georgswebsite.de/devinfo/" target="_blank">Developer information</a>&nbsp;&nbsp;&nbsp;&diams;&nbsp;&nbsp;&nbsp;
-						<a href="http://ownclouddev.georgswebsite.de/bugs/">Bugs</a>
-					</p>
 				</div>
 				<!-- Dialogs -->
 				<div id="choosecalendar_dialog" title="Please choose visible calendars.">
@@ -965,18 +946,25 @@
 				</div>
 				<!-- End of Dialogs -->
 				<script type="text/javascript">
+				//sending ajax request on every change view and use last view as default on the next
 				<?php
-				include("cfg/" . OC_USER::getUser() . ".cfg.php");
-				echo "var currentview = \"" . $defaultview . "\";\n";
+				if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview") == ""){
+					echo "var oc_cal_currentview = \"onemonthview\";";
+				}else{
+					echo "var oc_cal_currentview = \"" . OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview") . "\";";
+				}
+				 
 				?>
-				document.getElementById(currentview).style.display = "block";
-				document.getElementById(currentview + "_radio").checked = "checked";
-				update_view(currentview);
-				function change_view(view, task){
-					document.getElementById(currentview).style.display = "none";
+				document.getElementById(oc_cal_currentview).style.display = "block";
+				document.getElementById(oc_cal_currentview + "_radio").style.color = "#0098E4";
+				oc_cal_update_view(oc_cal_currentview);
+				function oc_cal_change_view(view, task){
+					document.getElementById(oc_cal_currentview).style.display = "none";
+					document.getElementById(oc_cal_currentview + "_radio").style.color = "#000000";
 					document.getElementById(view).style.display = "block";
-					currentview = view;
-					update_view(view, task);
+					oc_cal_currentview = view;
+					document.getElementById(oc_cal_currentview + "_radio").style.color = "#0098E4";
+					oc_cal_update_view(view, task);
 				}
 				</script>
 				<script type="text/javascript" id="js_events"></script>

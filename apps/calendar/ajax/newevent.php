@@ -1,3 +1,4 @@
+<?php
 /*************************************************
  * ownCloud - Calendar Plugin                     *
  *                                                *
@@ -16,41 +17,7 @@
  * Address:                                       *
  * 59 Temple Place, Suite 330, Boston,            *
  * MA 02111-1307  USA                             *
- **************************************************
- *               list of all fx                   *
- * choosecalendar_dialog - calendar chooser       *
- * newevent_dialog - create event dialog          *
- * editevent_dialog - edit event dialog           *
- * choosecalendar_dialog_submit - submit          *
- * newevent_dialog_submit - submit                *
- * editevent_dialog_submit - submit               *
  *************************************************/
-function oc_cal_choosecalendar_dialog() {
-	$( function() {
-		$( "#choosecalendar_dialog" ).dialog();
-	});
-}
 
-function oc_cal_newevent_dialog() {
-	$( function() {
-		$( "#newevent" ).dialog();
-	});
-}
-
-function oc_cal_editevent_dialog() {
-	$( function() {
-		$( "#editevent" ).dialog();
-	});
-}
-
-function oc_cal_choosecalendar_dialog_submit() {
-
-}
-
-function oc_cal_newevent_dialog_submit() {
-
-}
-
-function oc_cal_editevent_dialog_submit() {
-
-}
+?> 
+ 

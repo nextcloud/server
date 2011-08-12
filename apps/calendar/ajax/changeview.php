@@ -1,3 +1,4 @@
+<?php
 /*************************************************
  * ownCloud - Calendar Plugin                     *
  *                                                *
@@ -8,7 +9,6 @@
  * manual: ownclouddev.georgswebsite.de/manual    *
  * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
  *                                                *
- * <http://www.gnu.org/licenses/>                 *
  * If you are not able to view the License,       *
  * <http://www.gnu.org/licenses/>                 *
  * <http://ownclouddev.georgswebsite.de/license/> *
@@ -16,41 +16,16 @@
  * Address:                                       *
  * 59 Temple Place, Suite 330, Boston,            *
  * MA 02111-1307  USA                             *
- **************************************************
- *               list of all fx                   *
- * choosecalendar_dialog - calendar chooser       *
- * newevent_dialog - create event dialog          *
- * editevent_dialog - edit event dialog           *
- * choosecalendar_dialog_submit - submit          *
- * newevent_dialog_submit - submit                *
- * editevent_dialog_submit - submit               *
  *************************************************/
-function oc_cal_choosecalendar_dialog() {
-	$( function() {
-		$( "#choosecalendar_dialog" ).dialog();
-	});
+require_once ("../../../lib/base.php");
+if(!OC_USER::isLoggedIn()) {
+	die("0");
 }
-
-function oc_cal_newevent_dialog() {
-	$( function() {
-		$( "#newevent" ).dialog();
-	});
+$currentview = $_GET["v"];
+OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", $currentview);
+if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview") == $currentview){
+	die("1");
+}else{
+	die("0");
 }
-
-function oc_cal_editevent_dialog() {
-	$( function() {
-		$( "#editevent" ).dialog();
-	});
-}
-
-function oc_cal_choosecalendar_dialog_submit() {
-
-}
-
-function oc_cal_newevent_dialog_submit() {
-
-}
-
-function oc_cal_editevent_dialog_submit() {
-
-}
+?>
