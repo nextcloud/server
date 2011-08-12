@@ -32,43 +32,42 @@ class OC_Share {
 	const DELETE = 2;
       
 	/**
-	 * TODO notify user a file is being shared with them?
 	 * Share an item, adds an entry into the database
-	 * @param string $item
-	 * @param user item shared with $uid_shared_with
+	 * @param $source The source location of the item
+	 * @param $uid_shared_with The user to share the item with
+	 * @param $permissions The permissions, use the constants WRITE and DELETE
 	 */
-	public function __construct($source, $uid_shared_with, $permissions, $public = false) {
-		if ($source && OC_FILESYSTEM::file_exists($source) && OC_FILESYSTEM::is_readable($source)) {
-			$source = "/".OC_User::getUser()."/files".$source;
-			$uid_owner = OC_User::getUser();
-			if ($public) {
-				// TODO create token for public file
-				$token = sha1("$uid_owner-$item");
-			} else { 
-				$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-				$target = "/".$uid_shared_with."/files/Share/".basename($source);
-				$check = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
-				$result = $check->execute(array($target, $uid_shared_with))->fetchAll();
-				// Check if target already exists for the user, if it does append a number to the name
-				if (count($result) > 0) {
-					if ($pos = strrpos($target, ".")) {
-						$name = substr($target, 0, $pos);
-						$ext = substr($target, $pos);
-					} else {
-						$name = $target;
-						$ext = "";
-					}
-					$counter = 1;
-					while (count($result) > 0) {
-						$newTarget = $name."_".$counter.$ext;
-						$result = $check->execute(array($newTarget, $uid_shared_with))->fetchAll();
-						$counter++;
-					}
-					$target = $newTarget;
-				}
-				$query->execute(array($uid_owner, $uid_shared_with, $source, $target, $permissions));
-			}
+	public function __construct($source, $uid_shared_with, $permissions) {
+		$uid_owner = OC_User::getUser();
+		$target = "/".$uid_shared_with."/files/Share/".basename($source);
+		// Check if this item is already shared with the user
+		$checkSource = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ?");
+		$resultCheckSource = $checkSource->execute(array($source, $uid_shared_with))->fetchAll();
+		// TODO Check if the source is inside a folder
+		if (count($resultCheckSource) > 0) {
+			throw new Exception("This item is already shared with the specified user");
 		}
+		// Check if target already exists for the user, if it does append a number to the name
+		$checkTarget = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with = ?");
+		$resultCheckTarget = $checkTarget->execute(array($target, $uid_shared_with))->fetchAll();
+		if (count($resultCheckTarget) > 0) {
+			if ($pos = strrpos($target, ".")) {
+				$name = substr($target, 0, $pos);
+				$ext = substr($target, $pos);
+			} else {
+				$name = $target;
+				$ext = "";
+			}
+			$counter = 1;
+			while (count($result) > 0) {
+				$newTarget = $name."_".$counter.$ext;
+				$resultCheckTarget = $checkTarget->execute(array($newTarget, $uid_shared_with))->fetchAll();
+				$counter++;
+			}
+			$target = $newTarget;
+		}
+		$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
+		$query->execute(array($uid_owner, $uid_shared_with, $source, $target, $permissions));
 	}
 
 	/**

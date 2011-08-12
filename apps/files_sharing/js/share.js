@@ -67,8 +67,10 @@ $(document).ready(function() {
 			url: OC.linkTo('files_sharing','ajax/share.php'),
 			cache: false,
 			data: data,
-			success: function() {
-				addUser(uid_shared_with, permissions, false);
+			success: function(result) {
+				if (result !== 'false') {
+					addUser(uid_shared_with, permissions, false);
+				}
 			}
 		});
 	});
