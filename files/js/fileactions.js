@@ -128,7 +128,7 @@ FileActions.register('all','Rename',OC.imagePath('core','actions/rename'),functi
 	FileList.rename(filename);
 });
 
-FileActions.setDefault('all','Download');
+//FileActions.setDefault('all','Download');
 
 FileActions.register('dir','Open','',function(filename){
 	window.location='index.php?dir='+$('#dir').val()+'/'+filename;
