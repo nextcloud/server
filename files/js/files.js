@@ -18,9 +18,9 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('.file_upload_button_wrapper').tipsy({gravity:'e'}); 
-	$('td.filesize').tipsy({gravity:'se', live:true});
-	$('td .modified').tipsy({gravity:'s', live:true});
+	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
+	$('td.filesize').tipsy({gravity:'se', fade:true, live:true});
+	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
