@@ -299,7 +299,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	if($('.action').attr('title')!='') $('.action').tipsy({gravity:'s', fade:true, live:true});
+	if($('.action').attr('title')) $('.action').tipsy({gravity:'s', fade:true, live:true});
 	$('.selectedActions a').tipsy({gravity:'n', fade:true, live:true});
 	$('.selectedActions a.delete').tipsy({gravity: 'ne', fade:true, live:true});
 });

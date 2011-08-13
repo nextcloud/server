@@ -59,6 +59,8 @@ legend { padding:.2em; font-size:1.2em; }
 #controls { width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #content { margin:3.5em 0 0 12.5em; padding-bottom:10em; }
 #leftcontent { position:absolute; top:6.4em; width:20em; background:#f8f8f8; height:100%; border-right:1px solid #ddd; }
+#leftcontent li { padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+#leftcontent li:hover { background:#eee; }
 #rightcontent { position:absolute; top:6.4em; left:33em; }
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
