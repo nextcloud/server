@@ -14,7 +14,7 @@
 		</tbody>
 	</table>
 	<?php
-		$url=OC_Helper::linkTo( "help", "index.php" ).'?page=';
+		$url=OC_Helper::linkTo( "settings", "help.php" ).'?page=';
 		$pageNavi=OC_Util::getPageNavi($_['pagecount'],$_['page'],$url);
 		$pageNavi->printPage();
 	?>

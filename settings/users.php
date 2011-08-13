@@ -27,9 +27,28 @@ if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' ))
 	exit();
 }
 
-OC_App::setActiveNavigationEntry( "administration" );
+// We have some javascript foo!
+OC_Util::addScript( 'settings', 'users' );
+OC_Util::addStyle( 'settings', 'settings' );
+OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
+OC_Util::addStyle( '3rdparty', 'chosen' );
+OC_App::setActiveNavigationEntry( 'core_users' );
 
-$tmpl = new OC_Template( "admin", "system", "user" );
+$users = array();
+$groups = array();
+
+foreach( OC_User::getUsers() as $i ){
+	$users[] = array( "name" => $i, "groups" => join( ", ", OC_Group::getUserGroups( $i ) ));
+}
+
+foreach( OC_Group::getGroups() as $i ){
+	// Do some more work here soon
+	$groups[] = array( "name" => $i );
+}
+
+$tmpl = new OC_Template( "settings", "users", "user" );
+$tmpl->assign( "users", $users );
+$tmpl->assign( "groups", $groups );
 $tmpl->printPage();
 
 ?>

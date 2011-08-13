@@ -28,8 +28,9 @@ if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' ))
 }
 
 // Load the files we need
-OC_Util::addStyle( "admin", "apps" );
-OC_Util::addScript( "admin", "apps" );
+OC_Util::addStyle( "settings", "settings" );
+OC_Util::addScript( "settings", "apps" );
+OC_App::setActiveNavigationEntry( "core_apps" );
 
 $registeredApps=OC_App::getAllApps();
 $apps=array();
@@ -59,7 +60,7 @@ foreach($externalApps as $app){
 
 
 
-$tmpl = new OC_Template( "admin", "apps", "user" );
+$tmpl = new OC_Template( "settings", "apps", "user" );
 $tmpl->assign('apps',$apps);
 
 $tmpl->printPage();

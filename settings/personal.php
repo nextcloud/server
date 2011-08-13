@@ -7,9 +7,9 @@ if( !OC_User::isLoggedIn()){
 }
 
 // Highlight navigation entry
-OC_App::setActiveNavigationEntry( "settings" );
-OC_Util::addScript( "settings", "main" );
+OC_Util::addScript( "settings", "personal" );
 OC_Util::addStyle( "settings", "settings" );
+OC_App::setActiveNavigationEntry( "settings" );
 
 // calculate the disc space
 $used=OC_Filesystem::filesize('/');
@@ -24,7 +24,7 @@ unset($languages[array_search($lang,$languages)]);
 array_unshift($languages,$lang);
 
 // Return template
-$tmpl = new OC_Template( "settings", "index", "user");
+$tmpl = new OC_Template( "settings", "personal", "user");
 $tmpl->assign('usage',OC_Helper::humanFileSize($used));
 $tmpl->assign('total_space',OC_Helper::humanFileSize($total));
 $tmpl->assign('usage_relative',$relative);

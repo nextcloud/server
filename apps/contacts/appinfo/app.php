@@ -14,5 +14,5 @@ OC_App::addNavigationEntry( array(
   'id' => 'contacts_index',
   'order' => 10,
   'href' => OC_Helper::linkTo( 'contacts', 'index.php' ),
-  'icon' => OC_Helper::imagePath( 'admin', 'users.svg' ),
+  'icon' => OC_Helper::imagePath( 'settings', 'users.svg' ),
   'name' => 'Contacts' ));

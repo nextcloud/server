@@ -22,7 +22,7 @@ foreach($_["groups"] as $group) {
 			<td class="name"><?php echo $user["name"]; ?></td>
 			<td class="password">
 				<span>●●●●●●●</span>
-				<img class="svg" src="<?php echo image_path('core','actions/rename.svg')?>"/>
+				<img class="svg" src="<?php echo image_path('core','actions/rename')?>"/>
 			</td>
 			<td class="groups">
 				<select data-username="<?php echo $user['name'] ;?>" data-user-groups="<?php echo $user['groups'] ;?>" data-placeholder="groups" title="<?php echo $l->t('Groups')?>" multiple="multiple">
@@ -33,7 +33,7 @@ foreach($_["groups"] as $group) {
 			</td>
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>
-					<img alt="Remove" title="<?php echo $l->t('Remove')?>" class='svg' src='<?php echo image_path('core','actions/delete.svg') ?>'/>
+					<img alt="Remove" title="<?php echo $l->t('Remove')?>" class="svg" src="<?php echo image_path('core','actions/delete') ?>" />
 				<?php endif;?>
 			</td>
 		</tr>
