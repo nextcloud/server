@@ -249,6 +249,6 @@ class OC_Group {
 	 * @returns array with user ids
 	 */
 	public static function usersInGroup($gid){
-		return self::$_backend->usersInGroup();
+		return self::$_backend->usersInGroup($gid);
 	}
 }
