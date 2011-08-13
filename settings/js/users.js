@@ -11,7 +11,7 @@ $(document).ready(function(){
 					return false;
 				}
 				$.post(
-					OC.filePath('admin','ajax','togglegroups.php'),
+					OC.filePath('settings','ajax','togglegroups.php'),
 					{
 						username:user,
 						group:group
@@ -36,7 +36,7 @@ $(document).ready(function(){
 	$('td.remove>img').live('click',function(event){
 		var uid=$(this).parent().parent().data('uid');
 		$.post(
-			OC.filePath('admin','ajax','removeuser.php'),
+			OC.filePath('settings','ajax','removeuser.php'),
 			{username:uid},
 			function(result){
 			
@@ -57,7 +57,7 @@ $(document).ready(function(){
 			if(event.keyCode == 13) {
 				if($(this).val().length>0){
 					$.post(
-						OC.filePath('admin','ajax','changepassword.php'),
+						OC.filePath('settings','ajax','changepassword.php'),
 						{username:uid,password:$(this).val()},
 						function(result){}
 					);
@@ -82,7 +82,7 @@ $(document).ready(function(){
 		var password=$('#newuserpassword').val();
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
 		$.post(
-			OC.filePath('admin','ajax','createuser.php'),
+			OC.filePath('settings','ajax','createuser.php'),
 			{
 				username:username,
 				password:password,
@@ -104,7 +104,7 @@ $(document).ready(function(){
 		});
 		tr.find('td.groups').append(select);
 		if(tr.find('td.remve img').length==0){
-			tr.find('td.remove').append($('<img alt="Remove" title="'+t('admin','Remove')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
+			tr.find('td.remove').append($('<img alt="Remove" title="'+t('settings','Remove')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
 		}
 		applyMultiplySelect(select);
 		$('#content table tr').last().after(tr);
