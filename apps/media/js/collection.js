@@ -34,7 +34,7 @@ Collection={
 					}
 					if(collection.length==0){
 						$('#scan input.start').val(t('media','Scan Collection'));
-						$('#plugins a[href="#collection"]').trigger('click');
+						$('#scan input.start').click();
 					}
 					
 				}
@@ -244,12 +244,12 @@ $(document).ready(function(){
 	Collection.parent=$('#collection');
 	Collection.load();
 	Collection.parent.hide();
-	//$('#scan input.start').click(function(){
+	$('#scan input.start').click(function(){
 		$('#scan input.start').hide();
 		$('#scan input.stop').show();
 		$('#scan input.stop').click(function(){
 			Scanner.toggle();
 		});
 		Scanner.scanCollection();
-	//});
+	});
 });
