@@ -1,16 +1,16 @@
-#folderlist li{list-style-type:none;margin-bottom:10px;}
-#folderlist button.prettybutton{font-size:1em;width:10ex;}
-li button.right.prettybutton{font-size:1em;}
-#collection{padding-top:1em;position:relative;width:70ex;float:left;}
-#collection li.album,#collection li.song{margin-left:3ex;}
+#folderlist li { margin-bottom:10px; }
+#folderlist button.prettybutton { font-size:1em; width:10ex; }
+li button.right.prettybutton { font-size:1em; }
+#collection { padding-top:1em; position:relative; width:70ex; float:left; }
+#collection li.album,#collection li.song { margin-left:3ex; }
 #leftcontent img.remove { display:none; float:right; cursor:pointer; }
 #leftcontent li:hover img.remove { display:inline; }
-#collection li button{float:right;}
-#collection li,#playlist li{list-style-type:none;}
-.template{display:none}
+#collection li button { float:right; }
+#collection li,#playlist li { list-style-type:none; }
+.template { display:none; }
 
-#collection li{padding-right:10px;}
-#searchresults input.play, #searchresults input.add{float:right; height:16px; width:16px;}
-#collection tr.collapsed td.album, #collection tr.collapsed td.title{color:#ddd}
-a.expander{ float:right; display:block; }
+#collection li { padding-right:10px; }
+#searchresults input.play, #searchresults input.add { float:right; height:16px; width:16px; }
+#collection tr.collapsed td.album, #collection tr.collapsed td.title { color:#ddd; }
+a.expander { float:right; display:block; }
 tr.active { background-color:#ccc; }
