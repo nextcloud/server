@@ -26,7 +26,6 @@
 /* FILE TABLE */
 span#emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 table { position:relative; top:37px; width:100%; }
-table tr { -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; height:1em; }
 tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }

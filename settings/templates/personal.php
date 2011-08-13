@@ -1,14 +1,9 @@
-<form id="quota">
-	<fieldset>
-		<legend><?php echo $l->t( 'Account information' );?></legend>
-		<div id="quota_indicator"><div style="width:<?php echo $_['usage_relative'] ?>%;">&nbsp;</div></div>
-		<p><?php echo $l->t( 'You\'re currently using' );?> <?php echo $_['usage_relative'] ?>% (<?php echo $_['usage'] ?>) <?php echo $l->t( 'of your' );?> <?php echo $_['total_space'] ?> <?php echo $l->t( 'space' );?>.</p>
-	</fieldset>
-</form>
+<div id="quota" class="personalblock"><div style="width:<?php echo $_['usage_relative'] ?>%;">
+	<p><?php echo $l->t( 'You\'re currently using' );?> <strong><?php echo $_['usage_relative'] ?>%</strong> (<?php echo $_['usage'] ?>) <?php echo $l->t( 'of your' );?> <?php echo $_['total_space'] ?> <?php echo $l->t( 'space' );?>.</p>
+</div></div>
 
 <form id="passwordform">
-	<fieldset>
-		<legend><?php echo $l->t( 'Change Password' );?></legend>
+	<fieldset class="personalblock">
 		<div id="passwordchanged"><?php echo $l->t( 'Your password got changed');?></div>
 		<div id="passworderror"></div>
 		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t( 'Old password' );?>" />
@@ -18,18 +13,15 @@
 	</fieldset>
 </form>
 
-<form id="languageform">
-	<fieldset>
-		<legend><?php echo $l->t( 'Language' );?></legend>
-		<label for=''></label>
-		<select id="languageinput" name='lang'>
-			<?php foreach($_['languages'] as $language):?>
-				<option value='<?php echo $language;?>'><?php echo $language;?></option>
-			<?php endforeach;?>
-		</select>
-	</fieldset>
-</form>
+<div class="personalblock">
+	<label for="languageinput"><?php echo $l->t( 'Language' );?></label>
+	<select id="languageinput" name='lang'>
+	<?php foreach($_['languages'] as $language):?>
+		<option value='<?php echo $language;?>'><?php echo $language;?></option>
+	<?php endforeach;?>
+	</select>
 
-<?php foreach($_['forms'] as $form){
-	echo $form;
-};?>
+	<?php foreach($_['forms'] as $form){
+		echo $form;
+	};?>
+</div>
