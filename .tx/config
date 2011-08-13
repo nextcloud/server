@@ -1,28 +1,27 @@
 [main]
 host = https://www.transifex.net
 
-[owncloud.admin]
-file_filter = l10n/<lang>/admin.po
-source_file = l10n/templates/admin.pot
-source_lang = en
-
 [owncloud.core]
 file_filter = l10n/<lang>/core.po
+host = http://www.transifex.net
 source_file = l10n/templates/core.pot
-source_lang = en
-
-[owncloud.help]
-file_filter = l10n/<lang>/help.po
-source_file = l10n/templates/help.pot
-source_lang = en
-
-[owncloud.log]
-file_filter = l10n/<lang>/log.po
-source_file = l10n/templates/log.pot
 source_lang = en
 
 [owncloud.settings]
 file_filter = l10n/<lang>/settings.po
+host = http://www.transifex.net
 source_file = l10n/templates/settings.pot
+source_lang = en
+
+[owncloud.files]
+file_filter = l10n/<lang>/files.po
+host = http://www.transifex.net
+source_file = l10n/templates/files.pot
+source_lang = en
+
+[owncloud.media]
+file_filter = l10n/<lang>/media.po
+host = http://www.transifex.net
+source_file = l10n/templates/media.pot
 source_lang = en
 

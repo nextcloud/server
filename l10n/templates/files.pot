@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-09 17:52+0200\n"
+"POT-Creation-Date: 2011-08-13 05:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,48 +17,52 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../appinfo/app.php:7
+#: appinfo/app.php:7
 msgid "Files"
 msgstr ""
 
-#: ../templates/index.php:11
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr ""
+
+#: templates/part.list.php:1
+msgid "Nothing in here. Upload something!"
+msgstr ""
+
+#: templates/index.php:9
 msgid "Upload"
 msgstr ""
 
-#: ../templates/index.php:17
+#: templates/index.php:16
 msgid "New Folder"
 msgstr ""
 
-#: ../templates/index.php:30
+#: templates/index.php:29
 msgid "Name"
 msgstr ""
 
-#: ../templates/index.php:32
+#: templates/index.php:31
 msgid "Download"
 msgstr ""
 
-#: ../templates/index.php:36
-msgid "Size MB"
+#: templates/index.php:35
+msgid "Size"
 msgstr ""
 
-#: ../templates/index.php:37
+#: templates/index.php:36
 msgid "Modified"
 msgstr ""
 
-#: ../templates/index.php:37
+#: templates/index.php:36
 msgid "Delete"
 msgstr ""
 
-#: ../templates/index.php:45
+#: templates/index.php:44
 msgid "Upload too large"
 msgstr ""
 
-#: ../templates/index.php:47
+#: templates/index.php:46
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
-
-#: ../templates/part.list.php:1
-msgid "Nothing in here. Upload something!"
 msgstr ""

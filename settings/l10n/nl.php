@@ -1,19 +1,13 @@
 <?php $TRANSLATIONS = array(
+"Authentication error" => "Authenticatiefout.",
+"Invalid request" => "Ongeldig verzoek",
+"Language changed" => "Taal aangepast",
 "Account information" => "Gebruikersgegevens",
 "You're currently using" => "U gebruikt momenteel",
 "of your" => "van de",
 "space" => "beschikbare ruimte.",
 "Change Password" => "Wachtwoord aanpassen",
 "Your password got changed" => "Uw wachtwoord is aangepast",
-"Old password:" => "Oud wachtwoord:",
 "New password" => "Nieuw wachtwoord",
-"Show new password" => "Toon nieuw wachtwoord",
-"Language" => "Taal",
-"Authentication error" => "Authenticatiefout.",
-"You have to enter the old and the new password!" => "U moet het oude en nieuwe wachtwoord invullen.",
-"Your old password is wrong!" => "Het oude wachtwoord is verkeerd.",
-"Password changed" => "Wachtwoord aangepast",
-"Unable to change password" => "Wachtwoord aanpassen is niet mogelijk",
-"Language changed" => "Taal aangepast",
-"Invalid request" => "Ongeldig verzoek"
+"Language" => "Taal"
 );
