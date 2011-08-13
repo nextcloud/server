@@ -81,7 +81,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation { position:fixed; top:3.5em; float:left; width:12.5em; padding:0; z-index:75; height:100%; background:#eee; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; }
-#navigation a { display:block; padding:.6em .5em .4em 2.5em; background:#eee 1em center no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; -webkit-transition:background 500ms; -moz-transition:background 500ms; -o-transition:background 500ms; transition:background 500ms; }
+#navigation a { display:block; padding:.6em .5em .4em 2.5em; background:#eee 1em center no-repeat; border-bottom:1px solid #ddd; border-top:1px solid #fff; text-decoration:none; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; -webkit-transition:background 300ms; -moz-transition:background 300ms; -o-transition:background 300ms; transition:background 300ms; }
 #navigation a.active, #navigation a:hover, #navigation a:focus { background-color:#dbdbdb; border-top:1px solid #d4d4d4; border-bottom:1px solid #ccc; color:#333; }
 #navigation a.active { background-color:#ddd; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
