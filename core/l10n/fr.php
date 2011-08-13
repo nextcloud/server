@@ -5,6 +5,7 @@
 "Username" => "Nom d'utilisateur",
 "Password" => "Mot de passe",
 "Configure the database" => "Configurer la base de données",
+"will be used" => "sera utilisé",
 "Database user" => "Utilisateur de la base de données",
 "Database password" => "Mot de passe de la base de données",
 "Database name" => "Nom de la base de données",
@@ -14,7 +15,10 @@
 "Data folder" => "Répertoire des données",
 "Finish setup" => "Terminer l'installation",
 "Cloud not found" => "Introuvable",
+"is a personal cloud which runs on your own server" => "est un service de cloud personnel propulsé par votre propre serveur",
 "prev" => "précédent",
 "next" => "suivant",
-"You are logged out." => "Vous êtes désormais déconnecté."
+"You are logged out." => "Vous êtes désormais déconnecté.",
+"Log out" => "Se déconnecter",
+"Settings" => "Paramètres"
 );

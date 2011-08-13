@@ -1,7 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Authentication error" => "Erreur d'authentification",
+"OpenID Changed" => "Identifiant OpenID changé avec succès",
 "Invalid request" => "Requète invalide",
 "Language changed" => "Langue changée avec succès",
+"Ask a question" => "Poser une question",
+"Select an App" => "Sélectionner une Application",
+"-licensed" => "sous licence",
+"by" => "par",
 "Account information" => "Informations sur le compte",
 "You're currently using" => "Vous utilisez actuellement",
 "of your" => "de votre espace de stockage de",
@@ -11,5 +16,10 @@
 "Old password" => "Ancien mot de passe",
 "New password" => "Nouveau mot de passe :",
 "show" => "Afficher",
-"Language" => "Langue"
+"Language" => "Langue",
+"Name" => "Nom",
+"Password" => "Mot de passe",
+"Groups" => "Groupes",
+"Create" => "Créer",
+"Remove" => "Supprimer"
 );
