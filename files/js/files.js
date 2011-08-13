@@ -18,7 +18,7 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$('#file_upload_button_wrapper').tipsy({gravity:'e'}); 
+	$('.file_upload_button_wrapper').tipsy({gravity:'e'}); 
 	$('td.filesize').tipsy({gravity:'se', live:true});
 	$('td .modified').tipsy({gravity:'s', live:true});
 
