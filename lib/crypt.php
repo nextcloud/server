@@ -61,7 +61,7 @@ class OC_Crypt {
 
 			// Write the file
 		        $username=OC_USER::getUser();
-			file_put_contents(OC_Config::getValue( "datadirectory").'/'.$username.'/encryption.key', $enckey );
+			@file_put_contents(OC_Config::getValue( "datadirectory").'/'.$username.'/encryption.key', $enckey );
 		}
 	}
 

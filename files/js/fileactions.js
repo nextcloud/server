@@ -53,6 +53,7 @@ FileActions={
 	},
 	display:function(parent){
 		FileActions.currentFile=parent;
+		$('.file_action').remove();
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var file=FileActions.getCurrentFile();
 		if($('tr[data-file="'+file+'"]').data('renaming')){
@@ -100,10 +101,14 @@ FileActions={
 			});
 			parent.parent().children().last().append(element);
 		}
+		$('.file_action').hide();
+		$('.file_action').fadeIn(200);
 		return false;
 	},
 	hide:function(){
-		$('.file_action').remove();
+		$('.file_action').fadeOut(200,function(){
+			$(this).remove();
+		});
 	},
 	getCurrentFile:function(){
 		return FileActions.currentFile.parent().attr('data-file');
@@ -128,7 +133,7 @@ FileActions.register('all','Rename',OC.imagePath('core','actions/rename'),functi
 	FileList.rename(filename);
 });
 
-FileActions.setDefault('all','Download');
+//FileActions.setDefault('all','Download');
 
 FileActions.register('dir','Open','',function(filename){
 	window.location='index.php?dir='+$('#dir').val()+'/'+filename;

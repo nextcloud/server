@@ -1,5 +1,5 @@
 ErrorDocument 404 //owncloud/core/templates/404.php
-php_value upload_max_filesize 2048G
-php_value post_max_size 2048G
+php_value upload_max_filesize 512M
+php_value post_max_size 512M
 SetEnv htaccessWorking true
 Options -Indexes

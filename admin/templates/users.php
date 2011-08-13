@@ -6,8 +6,8 @@ foreach($_["groups"] as $group) {
 ?>
 
 <table data-groups="<?php echo implode(', ',$allGroups);?>">
-	<tbody id="controls">
-		<tr><form id="newuser">
+	<tbody>
+		<tr id="controls"><form id="newuser">
 			<th class="name"><input id="newusername" placeholder="<?php echo $l->t('Name')?>"></input></th>
 			<th class="password"><input type="password" id="newuserpassword" placeholder="<?php echo $l->t('Password')?>"></input></th>
 			<th class="groups"><select id="newusergroups" data-placeholder="groups" title="<?php echo $l->t('Groups')?>" multiple="multiple">

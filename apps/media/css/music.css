@@ -12,4 +12,5 @@ li button.right.prettybutton{font-size:1em;}
 #collection li{padding-right:10px;}
 #searchresults input.play, #searchresults input.add{float:right; height:16px; width:16px;}
 #collection tr.collapsed td.album, #collection tr.collapsed td.title{color:#ddd}
-a.expander{float:right;display:block}
+a.expander{ float:right; display:block; }
+tr.active { background-color:#ccc; }

@@ -13,10 +13,14 @@ $(document).ready(function() {
 	$('#plugins>ul>li:first-child').droppable(crumbDropOptions);
 	
 	// Triggers invisible file input
-	$('#file_upload_button_wrapper').bind('click', function() {
-		$('#file_upload_start').trigger('click');
+	$('.file_upload_button_wrapper').live('click', function() {
+		$(this).parent().children('.file_upload_start').trigger('click');
 		return false;
 	});
+	
+	$('#file_upload_button_wrapper').tipsy({gravity:'e'}); 
+	$('td.filesize').tipsy({gravity:'se', live:true});
+	$('td .modified').tipsy({gravity:'s', live:true});
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
@@ -419,5 +423,5 @@ function getMimeIcon(mime){
 	if(knownMimes.indexOf(mime)==-1){
 		mime='file';
 	}
-	return OC.imagePath('core','mimetypes/'+mime+'.png');
+	return OC.imagePath('core','filetypes/'+mime);
 }
