@@ -32,11 +32,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', end
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
-input, select, .button, #quota { font-size:1em; width:10em; margin:.3em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+input, select, .button, #quota, div.jp-progress { font-size:1em; width:10em; margin:.3em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 input[type="text"], input[type="password"] { background:#f8f8f8; color:#555; cursor:text; }
 input[type="text"]:hover, input[type="text"]:focus, input[type="password"]:hover, input[type="password"]:focus { background:#fff; color:#333; }
 
-input[type="submit"], input[type="button"], .button, #quota { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+input[type="submit"], input[type="button"], .button, #quota, div.jp-progress { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, input[type="button"]:focus, .button:hover { background:#fff; color:#333; }
 input[type="checkbox"] { width:auto; }
 
@@ -104,6 +104,7 @@ tbody tr:hover, tr:active { background-color:#f8f8f8; }
 #body-settings .personalblock { padding:.5em 1em; margin:1em; border:1px solid #eee; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;}
 #body-settings div.personalblock:first-child { position:relative; margin-top:4.5em; padding:0; }
 
-#quota div { padding:.6em 1em; background:#e6e6e6; font-weight:normal; white-space:nowrap; }
+#quota div, div.jp-play-bar, div.jp-seek-bar { padding:.6em 1em; background:#e6e6e6; font-weight:normal; white-space:nowrap; }
+div.jp-play-bar, div.jp-seek-bar { padding:0; }
 
 li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }

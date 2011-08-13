@@ -204,4 +204,7 @@ $(document).ready(function(){
 	$(window).bind('beforeunload', function (){
 		PlayList.save();
 	});
+
+	$('jp-previous').tipsy({gravity:'n', fade:true, live:true});
+	$('jp-next').tipsy({gravity:'n', fade:true, live:true});
 })

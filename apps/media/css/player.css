@@ -1,11 +1,16 @@
-#controls ul.jp-controls{ padding:0; }
-#controls ul.jp-controls li{ display:inline; }
-div.jp-progress{position:absolute;overflow:hidden;background-color:#293b51;top:1em;left:10em;width:15em;height:1.2em;}
-div.jp-seek-bar{background:url("../img/jplayer.blue.monday.png") 0 -202px repeat-x;width:0;height:100%;cursor:pointer;}
-div.jp-play-bar{background:url("../img/jplayer.blue.monday.png") 0 -218px repeat-x;width:0;height:100%;}
-div.jp-seeking-bg{background:url("../img/pbar-ani.gif");}
-a.jp-mute,a.jp-unmute{height:1.2em;width:1.5em;top:1em;left:26em;}
-div.jp-volume-bar{position:absolute;overflow:hidden;background:url("../img/jplayer.blue.monday.png") 0 -250px repeat-x;width:4em;height:0.4em;cursor:pointer;top:1.3em;left:28em;}
-div.jp-volume-bar-value{background:url("../img/jplayer.blue.monday.png") 0 -256px repeat-x;width:0;height:0.4em;}
-div.jp-current-time,div.jp-duration{position:absolute;font-size:.64em;font-style:oblique;top:1em;left:16.8em;width:22em;}
-div.jp-duration{text-align:right;}
+#controls ul.jp-controls { padding:0; }
+#controls ul.jp-controls li { display:inline; }
+#controls ul.jp-controls li a { position:absolute; padding:.8em 1em; }
+a.jp-play, a.jp-pause { left:2.5em; }
+a.jp-next { left:5em; }
+
+div.jp-progress { position:absolute; overflow:hidden; top:.5em; left:8em; width:15em; height:1.2em; padding:0; }
+div.jp-seek-bar { background:#eee; width:0; height:100%; cursor:pointer; }
+div.jp-play-bar { background:#ccc; width:0; height:100%; }
+div.jp-seeking-bg { background:url("../img/pbar-ani.gif"); }
+div.jp-current-time,div.jp-duration { position:absolute; font-size:.64em; font-style:oblique; top:1em; left:13.5em; width:22em; }
+div.jp-duration { text-align:right; }
+
+a.jp-mute,a.jp-unmute { left:24em; }
+div.jp-volume-bar { position:absolute; overflow:hidden; background:#eee; width:4em; height:0.4em; cursor:pointer; top:1.3em; left:27em; }
+div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
