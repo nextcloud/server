@@ -1,11 +1,11 @@
 <div id="controls">
 	<ul class="jp-controls">
-		<li><a href="#" class="jp-play action"><img class="svg" src="<?php echo image_path('core', 'actions/play-big'); ?>" /></a></li>
-		<li><a href="#" class="jp-pause action"><img class="svg" src="<?php echo image_path('core', 'actions/pause-big'); ?>" /></a></li>
-		<li><a href="#" class="jp-previous action"><img class="svg" src="<?php echo image_path('core', 'actions/play-previous'); ?>" /></a></li>
-		<li><a href="#" class="jp-next action"><img class="svg" src="<?php echo image_path('core', 'actions/play-next'); ?>" /></a></li>
-		<li><a href="#" class="jp-mute action"><img class="svg" src="<?php echo image_path('core', 'actions/sound'); ?>" /></a></li>
-		<li><a href="#" class="jp-unmute action"><img class="svg" src="<?php echo image_path('core', 'actions/sound-off'); ?>" /></a></li>
+		<li><a href="#" class="jp-play action"><img class="svg" src="<?php echo image_path('core', 'actions/play-big.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-pause action"><img class="svg" src="<?php echo image_path('core', 'actions/pause-big.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-previous action"><img class="svg" src="<?php echo image_path('core', 'actions/play-previous.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-next action"><img class="svg" src="<?php echo image_path('core', 'actions/play-next.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-mute action"><img class="svg" src="<?php echo image_path('core', 'actions/sound.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-unmute action"><img class="svg" src="<?php echo image_path('core', 'actions/sound-off.svg'); ?>" /></a></li>
 	</ul>
 	<div class="jp-progress">
 		<div class="jp-seek-bar">
