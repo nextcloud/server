@@ -102,5 +102,5 @@ li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ff
 -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
 -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 
-.file_action, .selectedActions a, #logout { opacity:.5; }
-.file_action:hover, .selectedActions a:hover, #logout:hover { opacity:1; }
+.action, .selectedActions a, #logout { opacity:.3; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
+.action:hover, .selectedActions a:hover, #logout:hover { opacity:1; }
