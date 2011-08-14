@@ -10,7 +10,7 @@ if (!OC_User::isLoggedIn()) {
 $users = array();
 $ocusers = OC_User::getUsers();
 $self = OC_User::getUser();
-$groups = OC_GROUP::getUserGroups($self);
+$groups = OC_Group::getUserGroups($self);
 $users[] = "<optgroup label='Users'>";
 foreach ($ocusers as $user) {
 	if ($user != $self) {
