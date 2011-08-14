@@ -19,7 +19,7 @@ $(document).ready(function() {
 	});
 	
 	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
-	$('td.filesize').tipsy({gravity:'se', fade:true, live:true});
+	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 
 	// Sets the file-action buttons behaviour :

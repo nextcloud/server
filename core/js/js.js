@@ -298,11 +298,17 @@ $(document).ready(function(){
 			$('#settings #expanddiv').slideUp();
 		}
 	});
-	
-	if($('.action').attr('title')) $('.action').tipsy({gravity:'s', fade:true, live:true});
-	$('.selectedActions a').tipsy({gravity:'n', fade:true, live:true});
+
+	$('.remove .action').tipsy({gravity:'se', fade:true, live:true});
+	$('.date .action').tipsy({gravity:'se', fade:true, live:true});
+	$('.action').tipsy({gravity:'s', fade:true, live:true});
 	$('.selectedActions a.delete').tipsy({gravity: 'ne', fade:true, live:true});
-	$('input#identity').tipsy({gravity:'w', fade:true});
+	$('.selectedActions a').tipsy({gravity:'n', fade:true, live:true});
+	$('input').each(function(i,input) {
+		if($(input).attr('title')) {
+			$(input).tipsy({gravity:'w', fade:true});
+		}
+	});
 });
 
 if (!Array.prototype.map){

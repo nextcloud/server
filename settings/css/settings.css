@@ -11,7 +11,7 @@ td.password>img, td.remove>img { display:none; cursor:pointer; }
 td.password>span { margin-right:1.2em; }
 td.password { width:12em; cursor:pointer; }
 
-td.remove { width:1em; }
+td.remove { width:1em; padding-right:1em; }
 tr:hover>td.password>span { margin:0; cursor:pointer; }
 tr:hover>td.remove>img, tr:hover>td.password>img { display:inline;  cursor:pointer; }
 tr:hover>td.remove>img { float:right; }

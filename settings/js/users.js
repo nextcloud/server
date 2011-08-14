@@ -104,7 +104,7 @@ $(document).ready(function(){
 		});
 		tr.find('td.groups').append(select);
 		if(tr.find('td.remve img').length==0){
-			tr.find('td.remove').append($('<img alt="Remove" title="'+t('settings','Remove')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
+			tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
 		}
 		applyMultiplySelect(select);
 		$('#content table tr').last().after(tr);
