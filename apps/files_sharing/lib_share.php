@@ -105,9 +105,13 @@ class OC_Share {
 	*/
 	private static function getUserAndGroups() {
 		$self = OC_User::getUser();
+		$in = " IN('".$self."'";
 		$groups = OC_Group::getUserGroups($self);
-		array_unshift($groups, $self);
-		return $groups;
+		foreach ($groups as $group) {
+			$in .= ", '".$self."@".$group."'";
+		}
+		$in .= ")";
+		return $in;
 	}
 
 	/**
@@ -171,9 +175,8 @@ class OC_Share {
 			$folder .= "/";
 		}
 		$length = strlen($folder);
-		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).")");
-		return $query->execute(array_merge(array($length, $folder, $length, $folder), $userAndGroups))->fetchAll();
+		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with ".self::getUserAndGroups()." ");
+		return $query->execute(array($length, $folder, $length, $folder))->fetchAll();
 	}
 	
 	/**
@@ -183,14 +186,13 @@ class OC_Share {
 	 */
 	public static function getParentFolders($target) {
 		$target = self::cleanPath($target);
-		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with".self::getUserAndGroups()." LIMIT 1");
 		// Prevent searching for user directory e.g. '/MTGap/files'
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
 			// Check if the parent directory of this target location is shared
 			$target = dirname($target);
-			$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
+			$result = $query->execute(array($target))->fetchAll();
 			if (count($result) > 0) {
 				break;
 			}
@@ -210,9 +212,8 @@ class OC_Share {
 	 */
 	public static function getSource($target) {
 		$target = self::cleanPath($target);
-		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
-		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
+		$query = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with ".self::getUserAndGroups()." LIMIT 1");
+		$result = $query->execute(array($target))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['source'];
 		} else {
@@ -232,15 +233,14 @@ class OC_Share {
 	 */
 	public static function getPermissions($target) {
 		$target = self::cleanPath($target);
-		$userAndGroups = self::getUserAndGroups();
-		$query = OC_DB::prepare("SELECT permissions FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with IN(".substr(str_repeat(",?", count($userAndGroups)), 1).") LIMIT 1");
-		$result = $query->execute(array_merge(array($target), $userAndGroups))->fetchAll();
+		$query = OC_DB::prepare("SELECT permissions FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with ".self::getUserAndGroups()." LIMIT 1");
+		$result = $query->execute(array($target))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['permissions'];
 		} else {
 			$folders =self::getParentFolders($target);
 			if ($folders == true) {
-				$result = $query->execute(array_merge(array($folders), $userAndGroups))->fetchAll();
+				$result = $query->execute(array($folders))->fetchAll();
 				if (count($result) > 0) {
 					return $result[0]['permissions'];
 				}
