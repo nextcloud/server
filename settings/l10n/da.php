@@ -1,19 +1,13 @@
 <?php $TRANSLATIONS = array(
+"Authentication error" => "Godkendelsesfejl",
+"Invalid request" => "Invalid forespørgsel",
+"Language changed" => "Sprog ændret",
 "Account information" => "Konto information",
 "You're currently using" => "Du udnytter i øjeblikket",
 "of your" => "af din",
 "space" => "plads",
 "Change Password" => "Ændre adgangskode",
 "Your password got changed" => "Din adgangskode er ændret",
-"Old password:" => "Gamle adgangskode",
 "New password" => "Nye adgangskode",
-"Show new password" => "Vis den nye adgangskode",
-"Language" => "Sprog",
-"Authentication error" => "Godkendelsesfejl",
-"You have to enter the old and the new password!" => "Du skal indtaste din gamle og nye adganskode",
-"Your old password is wrong!" => "Din gamle adgangskode er forkert!",
-"Password changed" => "Adgangskoden er ændret",
-"Unable to change password" => "Kan ikke ændre din adgangskode",
-"Language changed" => "Sprog ændret",
-"Invalid request" => "Invalid forespørgsel"
+"Language" => "Sprog"
 );

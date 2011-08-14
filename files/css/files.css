@@ -3,17 +3,17 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:.6em; float:right; margin-right:13em; }
-.actions input { margin:0; padding:.3em; }
+.actions { padding:.3em; float:left; }
+.actions input { margin:0; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
 .file_upload_form, #file_newfolder_form { display:inline; float: left;}
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
-.file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .3em; padding-left:2em; }
-.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin-right:1.5em;}
+.file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .5em; padding-left:2em; }
+.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin:.1em 1em;}
 .file_upload_wrapper .file_upload_button_wrapper { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:1000; }
 
-#file_newfolder_name { background-image:url('../../core/img/places/folder.svg'); font-weight:bold; width:8em; }
+#file_newfolder_name { background-image:url('../../core/img/places/folder.svg'); font-weight:normal; width:6em; }
 .file_upload_start, .file_upload_filename { font-size:1em; }
 #file_newfolder_submit, #file_upload_submit { width:3em; }
 .file_upload_target { display:none; }
@@ -26,7 +26,6 @@
 /* FILE TABLE */
 span#emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 table { position:relative; top:37px; width:100%; }
-table tr { -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; height:1em; }
 tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
@@ -54,13 +53,14 @@ table td.filename .nametext { width:60%; }
 table td.filename form { float:left; font-size:.85em; }
 table thead.fixed tr{ position:fixed; top:6.3em; z-index:49; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 table thead.fixed { height:2em; }
-#fileList tr  td.filename>input[type=checkbox]:first-child { opacity:0; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
-#fileList tr td.filename>input[type="checkbox"]:checked:first-child, #fileList tr:hover td.filename>input[type="checkbox"]:first-child { opacity:1; }
+#fileList tr td.filename>input[type=checkbox]:first-child { opacity:0; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
+#fileList tr:hover td.filename>input[type="checkbox"]:first-child { opacity:.5; }
+#fileList tr td.filename>input[type="checkbox"]:checked:first-child { opacity:1; }
 #fileList tr td.filename { -webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms; }
 #fileList tr.selected td.filename, #fileList tr:hover td.filename { background-image:url('') !important; }
 #select_all { float:left; margin:.2em; margin-left:.6em; }
 #uploadsize-message,#delete-confirm { display:none; }
-.selectedActions a, a.file_action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
+.selectedActions a, a.action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
 .selectedActions { display:none; }
 
 /* add breadcrumb divider to the File item in navigation panel */

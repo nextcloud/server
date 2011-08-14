@@ -1,19 +1,13 @@
 <?php $TRANSLATIONS = array(
+"Authentication error" => "Błąd uwierzytelniania",
+"Invalid request" => "Nieprawidłowe żądanie",
+"Language changed" => "Język zmieniony",
 "Account information" => "Dane konta",
 "You're currently using" => "Obecnie używasz",
 "of your" => "ze swoich",
 "space" => "przestrzeni",
 "Change Password" => "Zmień hasło",
 "Your password got changed" => "Twoje hasło zostało zmienione",
-"Old password:" => "Stare hasło",
 "New password" => "Nowe hasło",
-"Show new password" => "Pokaż nowe hasło",
-"Language" => "Język",
-"Authentication error" => "Błąd uwierzytelniania",
-"You have to enter the old and the new password!" => "Musisz wprowadzić zarówno stare, jak i nowe hasło!",
-"Your old password is wrong!" => "Twoje stare hasło jest błędne!",
-"Password changed" => "Hasło zmienione",
-"Unable to change password" => "NIe można zmienić hasła",
-"Language changed" => "Język zmieniony",
-"Invalid request" => "Nieprawidłowe żądanie"
+"Language" => "Język"
 );

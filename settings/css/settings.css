@@ -1,4 +1,32 @@
+input#openid, input#webdav { width:20em; }
+
+/* PERSONAL */
 #passworderror { display:none; }
 #passwordchanged { display:none; }
-
 input#identity { width:20em; }
+
+
+/* USERS */
+form { display:inline; }
+td.name, td.password { padding-left:.8em; }
+td.password>img, td.remove>img { display:none; cursor:pointer; }
+td.password>span { margin-right:1.2em; }
+td.password { width:12em; cursor:pointer; }
+
+td.remove { width:1em; padding-right:1em; }
+tr:hover>td.password>span { margin:0; cursor:pointer; }
+tr:hover>td.remove>img, tr:hover>td.password>img { display:inline;  cursor:pointer; }
+tr:hover>td.remove>img { float:right; }
+li.selected { background-color:#ddd; }
+#content>table { margin-top:6.5em; }
+table { width:100%; }
+
+
+/* APPS */
+li{color:#888}
+li.active{color:#000}
+span.version{margin-left:3em;color:#ddd}
+
+
+/* HELP */
+table#help tr td { white-space:normal; }

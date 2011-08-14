@@ -2,12 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-07-27 12:03+0200\n"
-"PO-Revision-Date: 2011-07-25 16:15+0000\n"
+"POT-Creation-Date: 2011-08-13 04:33+0200\n"
+"PO-Revision-Date: 2011-08-13 02:37+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -16,72 +17,96 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ../templates/index.php:3
-msgid "Account information"
-msgstr "Konto-Information"
-
-#: ../templates/index.php:5
-msgid "You're currently using"
-msgstr "Du benutzt gerade"
-
-#: ../templates/index.php:5
-msgid "of your"
-msgstr "von deinem"
-
-#: ../templates/index.php:5
-msgid "space"
-msgstr "Speicherplatz"
-
-#: ../templates/index.php:11
-msgid "Change Password"
-msgstr "Passwort ändern"
-
-#: ../templates/index.php:12
-msgid "Your password got changed"
-msgstr "Dein Passwort wurde geändert."
-
-#: ../templates/index.php:15
-msgid "Old password:"
-msgstr "Aktuelles Passwort:"
-
-#: ../templates/index.php:19
-msgid "New password"
-msgstr "Neues Passwort:"
-
-#: ../templates/index.php:24
-msgid "Show new password"
-msgstr "Neues Passwort anzeigen"
-
-#: ../templates/index.php:34
-msgid "Language"
-msgstr "Sprache"
-
-#: ../ajax/changepassword.php:13 ../ajax/setlanguage.php:13
+#: ajax/openid.php:13 ajax/setlanguage.php:13
 msgid "Authentication error"
 msgstr "Berechtigungsfehler"
 
-#: ../ajax/changepassword.php:19
-msgid "You have to enter the old and the new password!"
-msgstr "Du musst das aktuelle und ein neues Passwort angeben!"
+#: ajax/openid.php:21
+msgid "OpenID Changed"
+msgstr "OpenID geändert"
 
-#: ../ajax/changepassword.php:25
-msgid "Your old password is wrong!"
-msgstr "Du hast dein aktuelles Passwort falsch eingegeben!"
+#: ajax/openid.php:23 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "Ungültige Anfrage"
 
-#: ../ajax/changepassword.php:31
-msgid "Password changed"
-msgstr "Passwort geändert"
-
-#: ../ajax/changepassword.php:34
-msgid "Unable to change password"
-msgstr "Passwort konnte nicht geändert werden"
-
-#: ../ajax/setlanguage.php:21
+#: ajax/setlanguage.php:21
 msgid "Language changed"
 msgstr "Sprache geändert"
 
-#: ../ajax/setlanguage.php:23
-msgid "Invalid request"
-msgstr "Ungültige Anfrage"
+#: templates/help.php:21
+msgid "Ask a question"
+msgstr "Stell eine Frage"
+
+#: templates/apps.php:12
+msgid "Select an App"
+msgstr "Wähle eine Anwendung aus"
+
+#: templates/apps.php:14
+msgid "-licensed"
+msgstr "-lizenziert"
+
+#: templates/apps.php:14
+msgid "by"
+msgstr "von"
+
+#: templates/personal.php:3
+msgid "Account information"
+msgstr "Konto-Information"
+
+#: templates/personal.php:5
+msgid "You're currently using"
+msgstr "Du benutzt gerade"
+
+#: templates/personal.php:5
+msgid "of your"
+msgstr "von deinem"
+
+#: templates/personal.php:5
+msgid "space"
+msgstr "Speicherplatz"
+
+#: templates/personal.php:11 templates/personal.php:17
+msgid "Change Password"
+msgstr "Passwort ändern"
+
+#: templates/personal.php:12
+msgid "Your password got changed"
+msgstr "Dein Passwort wurde geändert"
+
+#: templates/personal.php:14
+msgid "Old password"
+msgstr "Altes Passwort"
+
+#: templates/personal.php:15
+msgid "New password"
+msgstr "Neues Passwort"
+
+#: templates/personal.php:16
+msgid "show"
+msgstr "zeigen"
+
+#: templates/personal.php:23
+msgid "Language"
+msgstr "Sprache"
+
+#: templates/users.php:11
+msgid "Name"
+msgstr "Name"
+
+#: templates/users.php:12
+msgid "Password"
+msgstr "Passwort"
+
+#: templates/users.php:13 templates/users.php:28
+msgid "Groups"
+msgstr "Gruppen"
+
+#: templates/users.php:18
+msgid "Create"
+msgstr "Anlegen"
+
+#: templates/users.php:36
+msgid "Remove"
+msgstr "Entfernen"
 
 

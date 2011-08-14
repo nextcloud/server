@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-07-27 12:03+0200\n"
-"PO-Revision-Date: 2011-07-30 07:10+0000\n"
+"POT-Creation-Date: 2011-08-13 05:10+0200\n"
+"PO-Revision-Date: 2011-08-13 09:12+0000\n"
 "Last-Translator: rom1dep <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,72 +17,96 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: ../templates/index.php:3
-msgid "Account information"
-msgstr "Informations sur le compte"
-
-#: ../templates/index.php:5
-msgid "You're currently using"
-msgstr "Vous utilisez actuellement"
-
-#: ../templates/index.php:5
-msgid "of your"
-msgstr "de votre"
-
-#: ../templates/index.php:5
-msgid "space"
-msgstr "espace de stockage"
-
-#: ../templates/index.php:11
-msgid "Change Password"
-msgstr "Changer votre mot de passe"
-
-#: ../templates/index.php:12
-msgid "Your password got changed"
-msgstr "Votre mot de passe a été changé"
-
-#: ../templates/index.php:15
-msgid "Old password:"
-msgstr "Ancien mot de passe :"
-
-#: ../templates/index.php:19
-msgid "New password"
-msgstr "Nouveau mot de passe :"
-
-#: ../templates/index.php:24
-msgid "Show new password"
-msgstr "Afficher votre nouveau mot de passe"
-
-#: ../templates/index.php:34
-msgid "Language"
-msgstr "Langue"
-
-#: ../ajax/changepassword.php:13 ../ajax/setlanguage.php:13
+#: ajax/openid.php:13 ajax/setlanguage.php:13
 msgid "Authentication error"
 msgstr "Erreur d'authentification"
 
-#: ../ajax/changepassword.php:19
-msgid "You have to enter the old and the new password!"
-msgstr "Vous devez saisir l'ancien et le nouveau mot de passe !"
+#: ajax/openid.php:21
+msgid "OpenID Changed"
+msgstr "Identifiant OpenID changé avec succès"
 
-#: ../ajax/changepassword.php:25
-msgid "Your old password is wrong!"
-msgstr "Votre ancien mot de passe est erroné !"
+#: ajax/openid.php:23 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "Requète invalide"
 
-#: ../ajax/changepassword.php:31
-msgid "Password changed"
-msgstr "Mot de passe changé avec succès"
-
-#: ../ajax/changepassword.php:34
-msgid "Unable to change password"
-msgstr "Impossible de changer le mot de passe"
-
-#: ../ajax/setlanguage.php:21
+#: ajax/setlanguage.php:21
 msgid "Language changed"
 msgstr "Langue changée avec succès"
 
-#: ../ajax/setlanguage.php:23
-msgid "Invalid request"
-msgstr "Requète invalide"
+#: templates/help.php:21
+msgid "Ask a question"
+msgstr "Poser une question"
+
+#: templates/apps.php:12
+msgid "Select an App"
+msgstr "Sélectionner une Application"
+
+#: templates/apps.php:14
+msgid "-licensed"
+msgstr "sous licence"
+
+#: templates/apps.php:14
+msgid "by"
+msgstr "par"
+
+#: templates/personal.php:3
+msgid "Account information"
+msgstr "Informations sur le compte"
+
+#: templates/personal.php:5
+msgid "You're currently using"
+msgstr "Vous utilisez actuellement"
+
+#: templates/personal.php:5
+msgid "of your"
+msgstr "de votre espace de stockage de"
+
+#: templates/personal.php:5
+msgid "space"
+msgstr " "
+
+#: templates/personal.php:11 templates/personal.php:17
+msgid "Change Password"
+msgstr "Changer votre mot de passe"
+
+#: templates/personal.php:12
+msgid "Your password got changed"
+msgstr "Votre mot de passe a été changé"
+
+#: templates/personal.php:14
+msgid "Old password"
+msgstr "Ancien mot de passe"
+
+#: templates/personal.php:15
+msgid "New password"
+msgstr "Nouveau mot de passe :"
+
+#: templates/personal.php:16
+msgid "show"
+msgstr "Afficher"
+
+#: templates/personal.php:23
+msgid "Language"
+msgstr "Langue"
+
+#: templates/users.php:11
+msgid "Name"
+msgstr "Nom"
+
+#: templates/users.php:12
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/users.php:13 templates/users.php:28
+msgid "Groups"
+msgstr "Groupes"
+
+#: templates/users.php:18
+msgid "Create"
+msgstr "Créer"
+
+#: templates/users.php:36
+msgid "Remove"
+msgstr "Supprimer"
 
 
