@@ -18,10 +18,15 @@ $total=$free+$used;
 $relative=round(($used/$total)*100);
 
 $lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', 'en' );
-$languages=OC_L10N::findAvailableLanguages();
+$languageCodes=OC_L10N::findAvailableLanguages();
 //put the current language in the front
-unset($languages[array_search($lang,$languages)]);
-array_unshift($languages,$lang);
+unset($languageCodes[array_search($lang,$languageCodes)]);
+array_unshift($languageCodes,$lang);
+$languageNames=include 'languageCodes.php';
+$languages=array();
+foreach($languageCodes as $lang){
+	$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);
+}
 
 // Return template
 $tmpl = new OC_Template( "settings", "personal", "user");

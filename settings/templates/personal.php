@@ -18,7 +18,7 @@
 		<strong><label for="languageinput"><?php echo $l->t('Language');?></label></strong>
 		<select id="languageinput" name='lang'>
 		<?php foreach($_['languages'] as $language):?>
-			<option value="<?php echo $language;?>"><?php echo $language;?></option>
+			<option value="<?php echo $language['code'];?>"><?php echo $language['name'];?></option>
 		<?php endforeach;?>
 		</select>
 		<a href="https://www.transifex.net/projects/p/owncloud/"><?php echo $l->t('Help translating');?></a>
