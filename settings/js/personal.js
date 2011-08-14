@@ -32,4 +32,12 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+
+	// reset value when edited, workaround because of .select() not working with disabled inputs
+	$('#webdav').focus(function(event){
+		openidValue = $('#webdav').val();
+	});
+	$('#webdav').blur(function(event){
+		$('#webdav').val(openidValue);
+	});
 } );

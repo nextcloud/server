@@ -1,3 +1,5 @@
+input#openid, input#webdav { width:20em; }
+
 /* PERSONAL */
 #passworderror { display:none; }
 #passwordchanged { display:none; }

@@ -1,5 +1,5 @@
-<div id="quota" class="personalblock"><div style="width:<?php echo $_['usage_relative'] ?>%;">
-	<p><?php echo $l->t('You use');?> <strong><?php echo $_['usage'] ?></strong> <?php echo $l->t('of the available');?> <?php echo $_['total_space'] ?></p>
+<div id="quota" class="personalblock"><div style="width:<?php echo $_['usage_relative'];?>%;">
+	<p><?php echo $l->t('You use');?> <strong><?php echo $_['usage'];?></strong> <?php echo $l->t('of the available');?> <strong><?php echo $_['total_space'];?></strong></p>
 </div></div>
 
 <form id="passwordform">
@@ -15,7 +15,7 @@
 
 <form>
 	<fieldset class="personalblock">
-		<strong><label for="languageinput"><?php echo $l->t('Language');?></label></strong>
+		<label for="languageinput"><strong><?php echo $l->t('Language');?></strong></label>
 		<select id="languageinput" name='lang'>
 		<?php foreach($_['languages'] as $language):?>
 			<option value="<?php echo $language['code'];?>"><?php echo $language['name'];?></option>
@@ -26,9 +26,8 @@
 </form>
 
 <p class="personalblock">
-	<strong>WebDAV</strong> <a href="<?php echo ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?>" title="webdav">
-		<?php echo ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?>
-	</a>
+	<label for="webdav"><strong>WebDAV</strong></label>
+	<input id="webdav" type="text" value="<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?>" title="use this address to connect to your ownCloud in your file manager" />
 </p>
 
 <?php foreach($_['forms'] as $form){

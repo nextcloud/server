@@ -299,15 +299,21 @@ $(document).ready(function(){
 		}
 	});
 
+	// all the tipsy stuff needs to be here (in reverse order) to work
+	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
+	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.remove .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.date .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.action').tipsy({gravity:'s', fade:true, live:true});
 	$('.selectedActions a.delete').tipsy({gravity: 'ne', fade:true, live:true});
 	$('.selectedActions a').tipsy({gravity:'n', fade:true, live:true});
-	$('input').each(function(i,input) {
-		if($(input).attr('title')) {
-			$(input).tipsy({gravity:'w', fade:true});
-		}
+	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
+	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
+	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
+
+	$('input').tipsy({gravity:'w', fade:true});
+	$('input[type=text]').focus(function(){
+		this.select();
 	});
 });
 

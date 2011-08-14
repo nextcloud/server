@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('#openidform input').blur(function(event){
+	$('#openidform #identity').blur(function(event){
 		event.preventDefault();
 		var post = $( "#openidform" ).serialize();
 		$.post( 'ajax/openid.php', post, function(data){
@@ -8,5 +8,13 @@ $(document).ready(function(){
 				alert('error while setting OpenID');
 			}
 		});
+	});
+
+	// reset value when edited, workaround because of .select() not working with disabled inputs
+	$('#openid').focus(function(event){
+		openidValue = $('#openid').val();
+	});
+	$('#openid').blur(function(event){
+		$('#openid').val(openidValue);
 	});
 });
