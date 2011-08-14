@@ -26,7 +26,9 @@
 </form>
 
 <p class="personalblock">
-	<strong>WebDAV</strong> <?php echo ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$WEBROOT.'/files/webdav.php'; ?>
+	<strong>WebDAV</strong> <a href="<?php echo ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?>" title="webdav">
+		<?php echo ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?>
+	</a>
 </p>
 
 <?php foreach($_['forms'] as $form){
