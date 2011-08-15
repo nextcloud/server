@@ -222,11 +222,7 @@ class OC_Files {
 	public static function delete($dir,$file){
 		if(OC_User::isLoggedIn()){
 			$file=$dir.'/'.$file;
-			if(OC_Filesystem::is_file($file)){
-				return OC_Filesystem::unlink($file);
-			}elseif(OC_Filesystem::is_dir($file)){
-				return OC_Filesystem::delTree($file);
-			}
+			return OC_Filesystem::unlink($file);
 		}
 	}
 
