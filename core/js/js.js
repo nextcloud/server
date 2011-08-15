@@ -27,7 +27,7 @@ t.cache={};
 
 OC={
 	webroot:oc_webroot,
-	currentUser:oc_current_user,
+	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['files','admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
@@ -202,6 +202,22 @@ $(document).ready(function(){
 			var src=element.attr('src');
 			element.attr('src',src.substr(0,src.length-3)+'png');
 		});
+		$('.svg').each(function(index,element){
+			element=$(element);
+			var background=element.css('background-image');
+			if(background && background!='none'){
+				background=background.substr(0,background.length-4)+'png)';
+				element.css('background-image',background);
+			}
+			element.find('*').each(function(index,element) {
+				element=$(element);
+				var background=element.css('background-image');
+				if(background && background!='none'){
+					background=background.substr(0,background.length-4)+'png)';
+					element.css('background-image',background);
+				}
+			});
+		});
 	};
 	$('form.searchbox').submit(function(event){
 		event.preventDefault();
@@ -267,12 +283,38 @@ $(document).ready(function(){
 	});
 
 	if($('body').attr("id")=="body-user") { $('#settings #expanddiv').hide(); }
-	$('#settings #expand').click(function() {
+	$('#settings #expand').click(function(event) {
 		$('#settings #expanddiv').slideToggle();
+		event.stopPropagation();
 	});
+	$('#settings #expanddiv').click(function(event){
+		event.stopPropagation();
+	})
 	$('#settings #expand').hover(function(){
 		$('#settings #expand+span').fadeToggle();
-	})
+	});
+	$(window).click(function(){//hide the settings menu when clicking oustide it
+		if($('body').attr("id")=="body-user"){
+			$('#settings #expanddiv').slideUp();
+		}
+	});
+
+	// all the tipsy stuff needs to be here (in reverse order) to work
+	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
+	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
+	$('.remove .action').tipsy({gravity:'se', fade:true, live:true});
+	$('.date .action').tipsy({gravity:'se', fade:true, live:true});
+	$('.action').tipsy({gravity:'s', fade:true, live:true});
+	$('.selectedActions a.delete').tipsy({gravity: 'ne', fade:true, live:true});
+	$('.selectedActions a').tipsy({gravity:'n', fade:true, live:true});
+	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
+	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
+	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
+
+	$('input').tipsy({gravity:'w', fade:true});
+	$('input[type=text]').focus(function(){
+		this.select();
+	});
 });
 
 if (!Array.prototype.map){
@@ -298,118 +340,3 @@ if (!Array.prototype.map){
 	    return res;
 	};
 }
-
-
-/*
-*	@name							Show Password
-*	@descripton						
-*	@version						1.3
-*	@requires						Jquery 1.5
-*
-*	@author							Jan Jarfalk
-*	@author-email					jan.jarfalk@unwrongest.com
-*	@author-website					http://www.unwrongest.com
-*
-*	@special-thanks					Michel Gratton
-*
-*	@licens							MIT License - http://www.opensource.org/licenses/mit-license.php
-*/
-(function($){
-     $.fn.extend({
-         showPassword: function(c) {	
-            
-            // Setup callback object
-			var callback 	= {'fn':null,'args':{}}
-				callback.fn = c;
-			
-			// Clones passwords and turn the clones into text inputs
-			var cloneElement = function( element ) {
-				
-				var $element = $(element);
-					
-				$clone = $("<input />");
-					
-				// Name added for JQuery Validation compatibility
-				// Element name is required to avoid script warning.
-				$clone.attr({
-					'type'		:	'text',
-					'class'		:	$element.attr('class'),
-					'style'		:	$element.attr('style'),
-					'size'		:	$element.attr('size'),
-					'name'		:	$element.attr('name')+'-clone',
-					'tabindex' 	:	$element.attr('tabindex')
-				});
-					
-				return $clone;
-			
-			};
-			
-			// Transfers values between two elements
-			var update = function(a,b){
-				b.val(a.val());
-			};
-			
-			// Shows a or b depending on checkbox
-			var setState = function( checkbox, a, b ){
-			
-				if(checkbox.is(':checked')){
-					update(a,b);
-					b.show();
-					a.hide();
-				} else {
-					update(b,a);
-					b.hide();
-					a.show();
-				}
-				
-			};
-            
-            return this.each(function() {
-            	
-            	var $input					= $(this),
-            		$checkbox 				= $($input.data('typetoggle'));
-            	
-            	// Create clone
-				var $clone = cloneElement($input);
-					$clone.insertAfter($input);
-				
-				// Set callback arguments
-            	if(callback.fn){	
-            		callback.args.input		= $input;
-            		callback.args.checkbox	= $checkbox;
-					callback.args.clone 	= $clone;
-            	}
-				
-
-				
-				$checkbox.bind('click', function() {
-					setState( $checkbox, $input, $clone );
-				});
-				
-				$input.bind('keyup', function() {
-					update( $input, $clone )
-				});
-				
-				$clone.bind('keyup', function(){ 
-					update( $clone, $input );
-					
-					// Added for JQuery Validation compatibility
-					// This will trigger validation if it's ON for keyup event
-					$input.trigger('keyup');
-					
-				});
-				
-				// Added for JQuery Validation compatibility
-				// This will trigger validation if it's ON for blur event
-				$clone.bind('blur', function() { $input.trigger('focusout'); });
-				
-				setState( $checkbox, $input, $clone );
-				
-				if( callback.fn ){
-					callback.fn( callback.args );
-				}
-
-            });
-        }
-    });
-})(jQuery);

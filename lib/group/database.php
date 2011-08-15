@@ -53,7 +53,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 */
 	public static function createGroup( $gid ){
 		// Check for existence
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*groups` WHERE gid = ?" );
+		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*groups` WHERE gid = ?" );
 		$result = $query->execute( array( $gid ));
 
 		if( $result->numRows() > 0 ){
@@ -98,7 +98,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 */
 	public static function inGroup( $uid, $gid ){
 		// check
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE gid = ? AND uid = ?" );
+		$query = OC_DB::prepare( "SELECT uid FROM `*PREFIX*group_user` WHERE gid = ? AND uid = ?" );
 		$result = $query->execute( array( $gid, $uid ));
 
 		return $result->numRows() > 0 ? true : false;
@@ -146,7 +146,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 */
 	public static function getUserGroups( $uid ){
 		// No magic!
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*group_user` WHERE uid = ?" );
+		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*group_user` WHERE uid = ?" );
 		$result = $query->execute( array( $uid ));
 
 		$groups = array();
@@ -164,7 +164,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public static function getGroups(){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*groups`" );
+		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*groups`" );
 		$result = $query->execute();
 
 		$groups = array();
@@ -173,5 +173,19 @@ class OC_Group_Database extends OC_Group_Backend {
 		}
 
 		return $groups;
+	}
+	
+	/**
+	 * @brief get a list of all users in a group
+	 * @returns array with user ids
+	 */
+	public static function usersInGroup($gid){
+		$query=OC_DB::prepare('SELECT uid FROM *PREFIX*group_user WHERE gid=?');
+		$users=array();
+		$result=$query->execute(array($gid));
+		while($row=$result->fetchRow()){
+			$users[]=$row['uid'];
+		}
+		return $users;
 	}
 }

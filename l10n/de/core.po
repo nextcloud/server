@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+#   <georg.stefan.germany@googlemail.com>, 2011.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-07-27 12:03+0200\n"
-"PO-Revision-Date: 2011-07-28 12:04+0000\n"
+"POT-Creation-Date: 2011-08-13 04:33+0200\n"
+"PO-Revision-Date: 2011-08-13 02:35+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -17,112 +18,93 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ../templates/404.php:15
-msgid "Error 404, Cloud not found"
-msgstr "Cloud konnte nicht gefunden werden."
-
-#: ../templates/installation.php:6
-msgid "<strong>ownCloud</strong> is your personal web storage."
-msgstr "<strong>ownCloud</strong> ist dein persönlicher Online-Speicher."
-
-#: ../templates/installation.php:7
-msgid "Finish the setup by following the steps below."
-msgstr "Die Installation ist fast abgeschlossen."
-
-#: ../templates/installation.php:26
-msgid "Create an <strong>admin account</strong>."
-msgstr "<strong>Verwalter-Konto</strong> erstellen"
-
-#: ../templates/installation.php:27
-msgid "Username"
-msgstr "Nutzername"
-
-#: ../templates/installation.php:28
-msgid "Password"
-msgstr "Passwort"
-
-#: ../templates/installation.php:31
-msgid "Advanced"
-msgstr "Erweitert"
-
-#: ../templates/installation.php:34
-msgid "Set where to store the data."
-msgstr "Speicherort der Daten"
-
-#: ../templates/installation.php:35
-msgid "Data directory:"
-msgstr "Datenverzeichnis:"
-
-#: ../templates/installation.php:39
-msgid "Configure the database."
-msgstr "Datenbank einrichten"
-
-#: ../templates/installation.php:43
-msgid "SQLite will be used for the database. You have nothing to do."
-msgstr "SQLite wird als Datenbank genutzt."
-
-#: ../templates/installation.php:46
-msgid "SQLite"
-msgstr "SQLite"
-
-#: ../templates/installation.php:53
-msgid "MySQL will be used for the database."
-msgstr "MySQL wird als Datenbank genutzt."
-
-#: ../templates/installation.php:59
-msgid "MySQL username:"
-msgstr "MySQL-Nutzername:"
-
-#: ../templates/installation.php:60
-msgid "MySQL password:"
-msgstr "MySQL-Passwort:"
-
-#: ../templates/installation.php:61
-msgid "Database name:"
-msgstr "Datenbankname:"
-
-#: ../templates/installation.php:62
-msgid "Host:"
-msgstr "Host:"
-
-#: ../templates/installation.php:63
-msgid "Table prefix:"
-msgstr "Tabellenpräfix:"
-
-#: ../templates/installation.php:69
-msgid "Finish setup"
-msgstr "Installation abschließen"
-
-#: ../templates/layout.guest.php:33
-msgid ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs"
-" on your own server.</p>"
-msgstr ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> ist ein privater Online-"
-"Speicher für deinen eigenen Server.</p>"
-
-#: ../templates/login.php:6
+#: templates/login.php:4
 msgid "Login failed!"
 msgstr "Anmeldung fehlgeschlagen!"
 
-#: ../templates/login.php:11 ../templates/login.php:15
-msgid "Remember login"
-msgstr "Anmeldung merken"
+#: templates/login.php:9 templates/login.php:13
+msgid "remember"
+msgstr "merken"
 
-#: ../templates/logout.php:1
-msgid "You are logged out."
-msgstr "Erfolgreich abgemeldet."
+#: templates/installation.php:20
+msgid "Create an <strong>admin account</strong>"
+msgstr "<strong>Admin-Konto</strong> anlegen"
 
-#: ../templates/part.pagenavi.php:6
+#: templates/installation.php:21
+msgid "Username"
+msgstr "Nutzername"
+
+#: templates/installation.php:22
+msgid "Password"
+msgstr "Passwort"
+
+#: templates/installation.php:27
+msgid "Configure the database"
+msgstr "Datenbank einrichten"
+
+#: templates/installation.php:32 templates/installation.php:43
+#: templates/installation.php:53
+msgid "will be used"
+msgstr "wird genutzt"
+
+#: templates/installation.php:64
+msgid "Database user"
+msgstr "Datenbanknutzer"
+
+#: templates/installation.php:65
+msgid "Database password"
+msgstr "Datenbankpasswort"
+
+#: templates/installation.php:66
+msgid "Database name"
+msgstr "Datenbankname"
+
+#: templates/installation.php:74
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: templates/installation.php:77
+msgid "Host"
+msgstr "Host"
+
+#: templates/installation.php:78
+msgid "Table prefix"
+msgstr "Tabellenpräfix"
+
+#: templates/installation.php:80
+msgid "Data folder"
+msgstr "Datenverzeichnis"
+
+#: templates/installation.php:83
+msgid "Finish setup"
+msgstr "Installation abschließen"
+
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr "Cloud nicht verfügbar"
+
+#: templates/layout.guest.php:38
+msgid "is a personal cloud which runs on your own server"
+msgstr "ist ein persönlicher Online-Speicher für deinen eigenen Server"
+
+#: templates/part.pagenavi.php:6
 msgid "prev"
 msgstr "Zurück"
 
-#: ../templates/part.pagenavi.php:26
+#: templates/part.pagenavi.php:26
 msgid "next"
 msgstr "Weiter"
 
-#: ../templates/part.searchbox.php:3
-msgid "Search"
-msgstr "Suchen"
+#: templates/logout.php:1
+msgid "You are logged out."
+msgstr "Erfolgreich abgemeldet."
+
+#: templates/layout.user.php:36
+msgid "Log out"
+msgstr "Abmelden"
+
+#: templates/layout.user.php:56
+msgid "Settings"
+msgstr "Einstellungen"
 
 

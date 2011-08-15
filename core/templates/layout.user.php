@@ -29,39 +29,27 @@
 
 	<body id="<?php echo $_['bodyid'];?>">
 		<header><div id="header">
-			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img src="<?php echo image_path('', 'owncloud-logo-small-white.png'); ?>" alt="ownCloud" /></a>
+			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
 			<form class="searchbox" action="#" method="post">
-				<input id='searchbox' type="search" name="query" value="<?php if(isset($_POST['query'])){echo $_POST['query'];};?>" class="prettybutton" autocomplete="off" />
+				<input id="searchbox" class="svg" type="search" name="query" value="<?php if(isset($_POST['query'])){echo $_POST['query'];};?>" autocomplete="off" />
 			</form>
-			<a id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true" title="<?php echo $l->t('Log out');?>"><img class='svg' src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
+			<a id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true"><img class="svg" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
 		</div></header>
 
 		<nav><div id="navigation">
-			<ul id="apps">
+			<ul id="apps" class="svg">
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
-						<?php if( sizeof( $entry["subnavigation"] )): ?>
-							<ul>
-								<?php foreach($entry["subnavigation"] as $subentry):?>
-									<li class="subentry"><a style="background-image:url(<?php echo $subentry['icon']; ?>)" href="<?php echo $subentry['href']; ?>" title="" class="subentry<?php if( $subentry['active'] ): ?> active<?php endif; ?>"><?php echo $subentry['name'] ?></a></li>
-								<?php endforeach; ?>
-							</ul>
-						<?php endif; ?>
 					</li>
 				<?php endforeach; ?>
 			</ul>
 
-			<ul id="settings">
-				<img id="expand" class='svg' src="<?php echo image_path('', 'actions/settings.svg'); ?>" />
+			<ul id="settings" class="svg">
+				<img id="expand" class="svg" src="<?php echo image_path('', 'actions/settings.svg'); ?>" />
 				<span style="display:none"><?php echo $l->t('Settings');?></span>
 				<div id="expanddiv">
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
-					<?php if( sizeof( $entry["subnavigation"] )): ?>
-						<?php foreach($entry["subnavigation"] as $subentry):?>
-							<li><a href="<?php echo $subentry['href']; ?>" title="" <?php if( $subentry['active'] ): ?>class="active"<?php endif; ?>><?php echo $subentry['name'] ?></a></li>
-						<?php endforeach; ?>
-					<?php endif; ?>
 				<?php endforeach; ?>
 				</div>
 			</ul>

@@ -1,6 +1,0 @@
-form { display:inline }
-td.remove>img,td.select>input { display:none;cursor:pointer }
-td.select,td.remove { width:1em }
-tr:hover>td.remove>img { display:inline }
-li.selected { background-color:#ddd }
-#content>table { margin-top:6.5em }

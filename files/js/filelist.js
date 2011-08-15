@@ -3,7 +3,7 @@ FileList={
 		$('#fileList').empty().html(fileListHtml);
 	},
 	addFile:function(name,size,lastModified,loading){
-		var img=(loading)?'img/loading.gif':'img/file.png';
+		var img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file');
 		var html='<tr data-file="'+name+'" data-type="file" data-size="'+size+'">';
 		if(name.indexOf('.')!=-1){
 			var basename=name.substr(0,name.indexOf('.'));
@@ -38,7 +38,7 @@ FileList={
 	},
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir" data-size="'+size+'">';
-		html+='<td class="filename" style="background-image:url(img/folder.png)"><input type="checkbox" /><a class="name" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
+		html+='<td class="filename" style="background-image:url('+OC.imagePath('core', 'places/folder')+')"><input type="checkbox" /><a class="name" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
 		if(size!='Pending'){
 			simpleSize=simpleFileSize(size);
 		}else{

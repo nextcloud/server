@@ -121,7 +121,7 @@ class OC_Files {
 			$filename=$dir.'/'.$files;
 		}
 		if($zip or OC_Filesystem::is_readable($filename)){
-			header('Content-Disposition: attachment; filename='.basename($filename));
+			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 			header('Content-Transfer-Encoding: binary');
 			header('Expires: 0');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -222,11 +222,7 @@ class OC_Files {
 	public static function delete($dir,$file){
 		if(OC_User::isLoggedIn()){
 			$file=$dir.'/'.$file;
-			if(OC_Filesystem::is_file($file)){
-				return OC_Filesystem::unlink($file);
-			}elseif(OC_Filesystem::is_dir($file)){
-				return OC_Filesystem::delTree($file);
-			}
+			return OC_Filesystem::unlink($file);
 		}
 	}
 

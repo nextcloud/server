@@ -53,6 +53,7 @@ FileActions={
 	},
 	display:function(parent){
 		FileActions.currentFile=parent;
+		$('.action').remove();
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var file=FileActions.getCurrentFile();
 		if($('tr[data-file="'+file+'"]').data('renaming')){
@@ -62,7 +63,10 @@ FileActions={
 		for(name in actions){
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
 				var img=FileActions.icons[name];
-				var html='<a href="#" title="'+name+'" class="file_action"/>';
+				if(img.call){
+					img=img(file);
+				}
+				var html='<a href="#" title="'+name+'" class="action" />';
 				var element=$(html);
 				if(img){
 					element.append($('<img src="'+img+'"/>'));
@@ -81,7 +85,7 @@ FileActions={
 		}
 		if(actions['Delete']){
 			var img=FileActions.icons['Delete'];
-			var html='<a href="#" title="Delete" class="file_action"/>';
+			var html='<a href="#" title="Delete" class="action" />';
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));
@@ -97,10 +101,14 @@ FileActions={
 			});
 			parent.parent().children().last().append(element);
 		}
+		$('.action').hide();
+		$('.action').fadeIn(200);
 		return false;
 	},
 	hide:function(){
-		$('.file_action').remove();
+		$('.action').fadeOut(200,function(){
+			$(this).remove();
+		});
 	},
 	getCurrentFile:function(){
 		return FileActions.currentFile.parent().attr('data-file');
@@ -125,7 +133,7 @@ FileActions.register('all','Rename',OC.imagePath('core','actions/rename'),functi
 	FileList.rename(filename);
 });
 
-FileActions.setDefault('all','Download');
+//FileActions.setDefault('all','Download');
 
 FileActions.register('dir','Open','',function(filename){
 	window.location='index.php?dir='+$('#dir').val()+'/'+filename;

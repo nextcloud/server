@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-07-27 12:03+0200\n"
-"PO-Revision-Date: 2011-07-28 00:33+0000\n"
+"POT-Creation-Date: 2011-08-13 04:33+0200\n"
+"PO-Revision-Date: 2011-08-13 02:33+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
@@ -16,112 +16,93 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ../templates/404.php:15
-msgid "Error 404, Cloud not found"
-msgstr "Fejl 404, Skyen kan ikke findes"
-
-#: ../templates/installation.php:6
-msgid "<strong>ownCloud</strong> is your personal web storage."
-msgstr ""
-
-#: ../templates/installation.php:7
-msgid "Finish the setup by following the steps below."
-msgstr ""
-
-#: ../templates/installation.php:26
-msgid "Create an <strong>admin account</strong>."
-msgstr ""
-
-#: ../templates/installation.php:27
-msgid "Username"
-msgstr ""
-
-#: ../templates/installation.php:28
-msgid "Password"
-msgstr ""
-
-#: ../templates/installation.php:31
-msgid "Advanced"
-msgstr "Avanceret"
-
-#: ../templates/installation.php:34
-msgid "Set where to store the data."
-msgstr "Indstil data mappe."
-
-#: ../templates/installation.php:35
-msgid "Data directory:"
-msgstr "Data mappe:"
-
-#: ../templates/installation.php:39
-msgid "Configure the database."
-msgstr ""
-
-#: ../templates/installation.php:43
-msgid "SQLite will be used for the database. You have nothing to do."
-msgstr ""
-
-#: ../templates/installation.php:46
-msgid "SQLite"
-msgstr "SQLite"
-
-#: ../templates/installation.php:53
-msgid "MySQL will be used for the database."
-msgstr ""
-
-#: ../templates/installation.php:59
-msgid "MySQL username:"
-msgstr ""
-
-#: ../templates/installation.php:60
-msgid "MySQL password:"
-msgstr ""
-
-#: ../templates/installation.php:61
-msgid "Database name:"
-msgstr "Database navn:"
-
-#: ../templates/installation.php:62
-msgid "Host:"
-msgstr "Host:"
-
-#: ../templates/installation.php:63
-msgid "Table prefix:"
-msgstr "Tabel prefix:"
-
-#: ../templates/installation.php:69
-msgid "Finish setup"
-msgstr "Afslut installation"
-
-#: ../templates/layout.guest.php:33
-msgid ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs"
-" on your own server.</p>"
-msgstr ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> er din personly sky der køre "
-"på din egen server.</p>"
-
-#: ../templates/login.php:6
+#: templates/login.php:4
 msgid "Login failed!"
 msgstr "Login mislykkedes"
 
-#: ../templates/login.php:11 ../templates/login.php:15
-msgid "Remember login"
+#: templates/login.php:9 templates/login.php:13
+msgid "remember"
 msgstr ""
 
-#: ../templates/logout.php:1
-msgid "You are logged out."
-msgstr "Du er nu logget ud"
+#: templates/installation.php:20
+msgid "Create an <strong>admin account</strong>"
+msgstr ""
 
-#: ../templates/part.pagenavi.php:6
+#: templates/installation.php:21
+msgid "Username"
+msgstr ""
+
+#: templates/installation.php:22
+msgid "Password"
+msgstr ""
+
+#: templates/installation.php:27
+msgid "Configure the database"
+msgstr ""
+
+#: templates/installation.php:32 templates/installation.php:43
+#: templates/installation.php:53
+msgid "will be used"
+msgstr ""
+
+#: templates/installation.php:64
+msgid "Database user"
+msgstr ""
+
+#: templates/installation.php:65
+msgid "Database password"
+msgstr ""
+
+#: templates/installation.php:66
+msgid "Database name"
+msgstr ""
+
+#: templates/installation.php:74
+msgid "Advanced"
+msgstr "Avanceret"
+
+#: templates/installation.php:77
+msgid "Host"
+msgstr ""
+
+#: templates/installation.php:78
+msgid "Table prefix"
+msgstr ""
+
+#: templates/installation.php:80
+msgid "Data folder"
+msgstr ""
+
+#: templates/installation.php:83
+msgid "Finish setup"
+msgstr "Afslut installation"
+
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr ""
+
+#: templates/layout.guest.php:38
+msgid "is a personal cloud which runs on your own server"
+msgstr ""
+
+#: templates/part.pagenavi.php:6
 msgid "prev"
 msgstr "forrige"
 
-#: ../templates/part.pagenavi.php:26
+#: templates/part.pagenavi.php:26
 msgid "next"
 msgstr "næste"
 
-#: ../templates/part.searchbox.php:3
-msgid "Search"
-msgstr "Søg"
+#: templates/logout.php:1
+msgid "You are logged out."
+msgstr "Du er nu logget ud"
+
+#: templates/layout.user.php:36
+msgid "Log out"
+msgstr ""
+
+#: templates/layout.user.php:56
+msgid "Settings"
+msgstr ""
 
 

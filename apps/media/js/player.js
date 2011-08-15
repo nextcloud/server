@@ -5,48 +5,53 @@ var PlayList={
 	player:null,
 	volume:0.8,
 	active:false,
+	tempPlaylist:[],
+	isTemp:true,
 	next:function(){
+		var items=(PlayList.isTemp)?PlayList.tempPlaylist:PlayList.items;
 		var next=PlayList.current+1;
-		if(next>=PlayList.items.length){
+		if(next>=items.length){
 			next=0;
 		}
 		PlayList.play(next);
 		PlayList.render();
 	},
 	previous:function(){
+		var items=(PlayList.isTemp)?PlayList.tempPlaylist:PlayList.items;
 		var next=PlayList.current-1;
 		if(next<0){
-			next=PlayList.items.length-1;
+			next=items.length-1;
 		}
 		PlayList.play(next);
 		PlayList.render();
 	},
 	play:function(index,time,ready){
+		var items=(PlayList.isTemp)?PlayList.tempPlaylist:PlayList.items;
 		if(index==null){
 			index=PlayList.current;
 		}
-		if(index>-1 && index<PlayList.items.length){
+		if(index>-1 && index<items.length){
 			PlayList.current=index;
 			if(PlayList.player){
-				if(PlayList.player.data('jPlayer').options.supplied!=PlayList.items[index].type){//the the audio type changes we need to reinitialize jplayer
+				if(PlayList.player.data('jPlayer').options.supplied!=items[index].type){//the the audio type changes we need to reinitialize jplayer
 					PlayList.player.jPlayer("destroy");
-					PlayList.init(PlayList.items[index].type,function(){PlayList.play(null,time,eady)});
+					PlayList.init(items[index].type,function(){PlayList.play(null,time,ready)});
 				}else{
-					PlayList.player.jPlayer("setMedia", PlayList.items[PlayList.current]);
-					PlayList.items[index].playcount++;
+					PlayList.player.jPlayer("setMedia", items[PlayList.current]);
+					items[index].playcount++;
 					PlayList.player.jPlayer("play",time);
 					if(index>0){
 						var previous=index-1;
 					}else{
-						var previous=PlayList.items.length-1;
+						var previous=items.length-1;
 					}
-					if(index+1<PlayList.items.length){
+					if(index+1<items.length){
 						var next=index+1;
 					}else{
 						var next=0;
 					}
-					$('.jp-next').attr('title',PlayList.items[next].name);
-					$('.jp-previous').attr('title',PlayList.items[previous].name);
+					$('.jp-next').attr('title',items[next].name);
+					$('.jp-previous').attr('title',items[previous].name);
 					if (typeof Collection !== 'undefined') {
 						Collection.registerPlay();
 					}
@@ -55,7 +60,7 @@ var PlayList={
 					}
 				}
 			}else{
-				PlayList.init(PlayList.items[index].type,PlayList.play);
+				PlayList.init(items[index].type,PlayList.play);
 			}
 		}
 	},
@@ -73,7 +78,7 @@ var PlayList={
 				PlayList.render();
 				return false;
 			});
-			PlayList.player=$('#jp-interface div.player');
+			PlayList.player=$('#controls div.player');
 		}
 		$(PlayList.player).jPlayer({
 			ended:PlayList.next,
@@ -91,32 +96,41 @@ var PlayList={
 				}
 			},
 			volume:PlayList.volume,
-			cssSelectorAncestor:'#jp-interface',
+			cssSelectorAncestor:'#controls',
 			swfPath:OC.linkTo('media','js'),
 		});
 	},
-	add:function(song){
+	add:function(song,temp,dontReset){
+		if(!dontReset){
+			PlayList.tempPlaylist=[];//clear the temp playlist
+		}
+		PlayList.isTemp=temp;
+		PlayList.isTemp=true;
 		if(!song){
 			return;
 		}
 		if(song.substr){//we are passed a string, asume it's a url to a song
-			PlayList.addFile(song);
+			PlayList.addFile(song,temp,true);
 		}
 		if(song.albums){//a artist object was passed, add all albums inside it
 			$.each(song.albums,function(index,album){
-				PlayList.add(album);
+				PlayList.add(album,temp,true);
 			});
 		}
 		if(song.songs){//a album object was passed, add all songs inside it
 			$.each(song.songs,function(index,song){
-				PlayList.add(song);
+				PlayList.add(song,temp,true);
 			});
 		}
 		if(song.song_name){
 			var type=musicTypeFromFile(song.song_path);
 			var item={name:song.song_name,type:type,artist:song.artist_name,album:song.album_name,length:song.song_length,playcount:song.song_playcount};
 			item[type]=PlayList.urlBase+encodeURIComponent(song.song_path);
-			PlayList.items.push(item);
+			if(PlayList.isTemp){
+				PlayList.tempPlaylist.push(item);
+			}else{
+				PlayList.items.push(item);
+			}
 		}
 	},
 	addFile:function(path){
@@ -190,4 +204,7 @@ $(document).ready(function(){
 	$(window).bind('beforeunload', function (){
 		PlayList.save();
 	});
+
+	$('jp-previous').tipsy({gravity:'n', fade:true, live:true});
+	$('jp-next').tipsy({gravity:'n', fade:true, live:true});
 })

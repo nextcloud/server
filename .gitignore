@@ -1,6 +1,7 @@
 # the default generated dir + db file
 data
 owncloud
+config/config.php
 
 # just sane ignores
 .*.sw[po]
@@ -24,4 +25,6 @@ RCS/*
 # Lokalize
 *lokalize*
 
+# eclipse
 .project
+.settings

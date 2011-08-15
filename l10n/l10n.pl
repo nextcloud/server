@@ -74,9 +74,6 @@ die( "Program must be executed in a l10n-folder called 'l10n'" ) unless $wheream
 my @dirs = crawlPrograms( $place, 1 );
 
 # Languages
-rmtree( 'templates' );
-mkdir( 'templates' ) unless -d 'templates';
-
 my @languages = ();
 opendir( DIR, '.' );
 my @files = readdir( DIR );
@@ -86,6 +83,8 @@ foreach my $i ( @files ){
 }
 
 if( $task eq 'read' ){
+	rmtree( 'templates' );
+	mkdir( 'templates' ) unless -d 'templates';
 	print "Mode: reading\n";
 	foreach my $dir ( @dirs ){
 		my @temp = split( /\//, $dir );

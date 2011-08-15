@@ -12,6 +12,12 @@ $(document).ready(function() {
 	$('#plugins>ul>li:first-child').data('dir','');
 	$('#plugins>ul>li:first-child').droppable(crumbDropOptions);
 	
+	// Triggers invisible file input
+	$('.file_upload_button_wrapper').live('click', function() {
+		$(this).parent().children('.file_upload_start').trigger('click');
+		return false;
+	});
+
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
 		FileActions.display($(this).children('td.filename'));
@@ -413,5 +419,5 @@ function getMimeIcon(mime){
 	if(knownMimes.indexOf(mime)==-1){
 		mime='file';
 	}
-	return OC.imagePath('core','mimetypes/'+mime+'.png');
+	return OC.imagePath('core','filetypes/'+mime);
 }

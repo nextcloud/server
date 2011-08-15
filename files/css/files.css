@@ -3,16 +3,17 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:.6em; float:right; margin-right:13em; }
-.actions input { margin:0; padding:.3em; }
+.actions { padding:.3em; float:left; }
+.actions input { margin:0; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
 .file_upload_form, #file_newfolder_form { display:inline; float: left;}
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
-.file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .3em; padding-left:2em; }
-.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin-right:1.5em;}
+.file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .5em; padding-left:2em; }
+.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin:.1em 1em;}
+.file_upload_wrapper .file_upload_button_wrapper { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:1000; }
 
-#file_newfolder_name { background-image:url("../img/folder.png"); font-weight:bold; width:8em; }
+#file_newfolder_name { background-image:url('../../core/img/places/folder.svg'); font-weight:normal; width:6em; }
 .file_upload_start, .file_upload_filename { font-size:1em; }
 #file_newfolder_submit, #file_upload_submit { width:3em; }
 .file_upload_target { display:none; }
@@ -20,12 +21,17 @@
 .file_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; position:absolute; left:0; top:0; width:100%; cursor:pointer;}
 .file_upload_filename { z-index:100; cursor:pointer;}
 
+.file_upload_form, .file_upload_wrapper, .file_upload_start, .file_upload_filename, #file_upload_submit { cursor:pointer; }
+
 /* FILE TABLE */
 span#emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 table { position:relative; top:37px; width:100%; }
-tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#eee; height:1em; }
+tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; height:1em; }
+tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
+span.extention { opacity:0; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
+tr:hover span.extention { opacity:1; }
 div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
 div.crumb:first-child { padding-left:1.5em; }
 div.crumb:last-child { font-weight:bold; }
@@ -35,26 +41,27 @@ table th .name { float:left; margin-left:.5em; }
 table th.multiselect { background:#ddd; color:#000; font-weight:bold; }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td { border-bottom:1px solid #eee; font-style:normal; background-position:1em .5em; background-repeat:no-repeat; }
-table th#headerSize, table td.filesize { width:5em; padding:0 1em; text-align:right; }
+table th#headerSize, table td.filesize { width:3em; padding:0 1em; text-align:right; }
 table th#headerDate, table td.date { width:11em; padding:0 .1em 0 1em; text-align:left; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name { display:block; height:1.5em; vertical-align:middle; margin-left:3em; }
 table tr[data-type="dir"] td.filename a.name {font-weight:bold; }
-table td.filename a.name input, table td.filename a.name form { width:100%; cursor:text }
+table td.filename a.name input, table td.filename a.name form { width:100%; cursor:text; }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 0; }
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
 table td.filename .nametext { width:60%; }
 table td.filename form { float:left; font-size:.85em; }
-table thead.fixed tr{position:fixed; top:6.3em; z-index:49;  -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000;}
-table thead.fixed {height:2em}
-#fileList tr input[type=checkbox] { display:none; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ }
-#fileList tr input[type=checkbox]:checked, #fileList tr:hover input[type=checkbox] { display:inline; }
-#fileList tr.selected td.filename , #fileList tr:hover td.filename { background-image:none !important }
-#select_all { float:left; margin:0.2em; margin-left:0.6em; }
+table thead.fixed tr{ position:fixed; top:6.3em; z-index:49; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
+table thead.fixed { height:2em; }
+#fileList tr input[type=checkbox] { opacity:0; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
+#fileList tr:hover input[type="checkbox"] { opacity:.5; }
+#fileList tr input[type="checkbox"]:checked { opacity:1; }
+#fileList tr td.filename { -webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms; }
+#fileList tr.selected td.filename, #fileList tr:hover td.filename { background-image:url('') !important; }
+#select_all { float:left; margin:.2em; margin-left:.6em; }
 #uploadsize-message,#delete-confirm { display:none; }
-.selectedActions a, a.file_action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
+.selectedActions a, a.action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
 .selectedActions { display:none; }
-.selectedActions a:hover, a.file_action:hover { background:#fff; -moz-box-shadow:0 0 10px #fff; -webkit-box-shadow:0 0 10px #fff; box-shadow:0 0 10px #fff; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.png') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }
+#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }

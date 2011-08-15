@@ -148,12 +148,15 @@ OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
 // Add the stuff we need always
 OC_Util::addScript( "jquery-1.6.2.min" );
 OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
+OC_Util::addScript( "jquery-showpassword" );
+OC_Util::addScript( "jquery-tipsy" );
 OC_Util::addScript( "js" );
 OC_Util::addScript( "multiselect" );
 OC_Util::addScript('search','result');
-OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
 OC_Util::addStyle( "styles" );
 OC_Util::addStyle( "multiselect" );
+OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
+OC_Util::addStyle( "jquery-tipsy" );
 
 // Load Apps
 // This includes plugins for users and filesystems as well

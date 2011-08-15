@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>bookmarks</id>
+	<name>Bookmarks</name>
+	<description>Bookmark manager for ownCloud</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Arthur Schiwon</author>
+	<require>2</require>
+</info>

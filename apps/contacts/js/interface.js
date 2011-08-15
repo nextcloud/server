@@ -102,12 +102,12 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('.contacts_property [data-use="edit"]').live('click',function(){
+	$('.contacts_details_property [data-use="edit"]').live('click',function(){
 		var id = $('#rightcontent').data('id');
 		var checksum = $(this).parent().parent().data('checksum');
 		$.getJSON('ajax/showsetproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){
-				$('.contacts_property[data-checksum="'+checksum+'"] .contacts_propertyvalue').html(jsondata.data.page);
+				$('.contacts_details_property[data-checksum="'+checksum+'"] .contacts_details_right').html(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);
@@ -119,7 +119,7 @@ $(document).ready(function(){
 	$('#contacts_setpropertyform input[type="submit"]').live('click',function(){
 		$.post('ajax/setproperty.php',$('#contacts_setpropertyform').serialize(),function(jsondata){
 			if(jsondata.status == 'success'){
-				$('.contacts_property[data-checksum="'+jsondata.data.oldchecksum+'"]').replaceWith(jsondata.data.page);
+				$('.contacts_details_property[data-checksum="'+jsondata.data.oldchecksum+'"]').replaceWith(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);
@@ -128,12 +128,12 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('.contacts_property [data-use="delete"]').live('click',function(){
+	$('.contacts_details_property [data-use="delete"]').live('click',function(){
 		var id = $('#rightcontent').data('id');
 		var checksum = $(this).parent().parent().data('checksum');
 		$.getJSON('ajax/deleteproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){
-				$('.contacts_property[data-checksum="'+checksum+'"]').remove();
+				$('.contacts_details_property[data-checksum="'+checksum+'"]').remove();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -143,11 +143,11 @@ $(document).ready(function(){
 	});
 
 
-	$('.contacts_property').live('mouseenter',function(){
+	$('.contacts_details_property').live('mouseenter',function(){
 		$(this).find('span').show();
 	});
 	
-	$('.contacts_property').live('mouseleave',function(){
+	$('.contacts_details_property').live('mouseleave',function(){
 		$(this).find('span').hide();
 	});
 });

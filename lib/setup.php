@@ -37,13 +37,13 @@ class OC_Setup {
 		$dbtype = $options['dbtype'];
 		
 		if(empty($options['adminlogin'])) {
-			$error[] = 'STEP 1 : admin login is not set.';
+			$error[] = 'Set an admin username.';
 		}
 		if(empty($options['adminpass'])) {
-			$error[] = 'STEP 1 : admin password is not set.';
+			$error[] = 'Set an admin password.';
 		}
 		if(empty($options['directory'])) {
-			$error[] = 'STEP 2 : data directory path is not set.';
+			$error[] = 'Specify a data folder.';
 		}
 
 		if($dbtype=='mysql' or $dbtype=='pgsql') { //mysql and postgresql needs more config options
@@ -53,19 +53,19 @@ class OC_Setup {
 				$dbprettyname = 'PostgreSQL';
 
 			if(empty($options['dbuser'])) {
-				$error[] = "STEP 3 : $dbprettyname database user is not set.";
+				$error[] = "$dbprettyname enter the database username.";
 			}
 			if(empty($options['dbpass'])) {
-				$error[] = "STEP 3 : $dbprettyname database password is not set.";
+				$error[] = "$dbprettyname enter the database password.";
 			}
 			if(empty($options['dbname'])) {
-				$error[] = "STEP 3 : $dbprettyname database name is not set.";
+				$error[] = "$dbprettyname enter the database name.";
 			}
 			if(empty($options['dbhost'])) {
-				$error[] = "STEP 3 : $dbprettyname database host is not set.";
+				$error[] = "$dbprettyname set the database host.";
 			}
 			if(!isset($options['dbtableprefix'])) {
-				$error[] = "STEP 3 : $dbprettyname database table prefix is not set.";
+				$error[] = "$dbprettyname set a table prefix.";
 			}
 		}
 
@@ -97,8 +97,8 @@ class OC_Setup {
 				$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
 				if(!$connection) {
 					$error[] = array(
-						'error' => 'mysql username and/or password not valid',
-						'hint' => 'you need to enter either an existing account, or the administrative account if you wish to create a new user for ownCloud'
+						'error' => 'MySQL username and/or password not valid',
+						'hint' => 'You need to enter either an existing account or the administrator.'
 					);
 				}
 				else {
@@ -151,8 +151,8 @@ class OC_Setup {
 				$connection = @pg_connect($connection_string);
 				if(!$connection) {
 					$error[] = array(
-						'error' => 'postgresql username and/or password not valid',
-						'hint' => 'you need to enter either an existing account, or the administrative account if you wish to create a new user for ownCloud'
+						'error' => 'PostgreSQL username and/or password not valid',
+						'hint' => 'You need to enter either an existing account or the administrator.'
 					);
 				}
 				else {
@@ -206,6 +206,7 @@ class OC_Setup {
 				OC_User::createUser($username, $password);
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');
+				OC_User::login($username, $password);
 
 				//guess what this does
 				OC_Installer::installShippedApps(true);

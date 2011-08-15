@@ -50,9 +50,6 @@ class OC_Filestorage{
 	public function fromTmpFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
 	public function fromUploadedFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
 	public function getMimeType($path){}
-	public function delTree($path){}
-	public function find($path){}
-	public function getTree($path){}
 	public function hash($type,$path,$raw){}
 	public function free_space($path){}
 	public function search($query){}
