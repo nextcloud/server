@@ -5,7 +5,7 @@ PlayList.render=function(){
 		var item=PlayList.items[i];
 		var li=$('<li/>');
 		li.append(item.name);
-		var img=$('<img class="remove" src="'+OC.imagePath('core','actions/delete')+'"/>');
+		var img=$('<img class="remove svg action" src="'+OC.imagePath('core','actions/delete')+'"/>');
 		img.click(function(event){
 			event.stopPropagation();
 			PlayList.remove($(this).parent().data('index'));

@@ -17,10 +17,6 @@ $(document).ready(function() {
 		$(this).parent().children('.file_upload_start').trigger('click');
 		return false;
 	});
-	
-	$('#file_upload_button_wrapper').tipsy({gravity:'e'}); 
-	$('td.filesize').tipsy({gravity:'se', live:true});
-	$('td .modified').tipsy({gravity:'s', live:true});
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {

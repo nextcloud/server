@@ -53,7 +53,7 @@ FileActions={
 	},
 	display:function(parent){
 		FileActions.currentFile=parent;
-		$('.file_action').remove();
+		$('.action').remove();
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var file=FileActions.getCurrentFile();
 		if($('tr[data-file="'+file+'"]').data('renaming')){
@@ -66,7 +66,7 @@ FileActions={
 				if(img.call){
 					img=img(file);
 				}
-				var html='<a href="#" title="'+name+'" class="file_action"/>';
+				var html='<a href="#" title="'+name+'" class="action" />';
 				var element=$(html);
 				if(img){
 					element.append($('<img src="'+img+'"/>'));
@@ -85,7 +85,7 @@ FileActions={
 		}
 		if(actions['Delete']){
 			var img=FileActions.icons['Delete'];
-			var html='<a href="#" title="Delete" class="file_action"/>';
+			var html='<a href="#" title="Delete" class="action" />';
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));
@@ -101,12 +101,12 @@ FileActions={
 			});
 			parent.parent().children().last().append(element);
 		}
-		$('.file_action').hide();
-		$('.file_action').fadeIn(200);
+		$('.action').hide();
+		$('.action').fadeIn(200);
 		return false;
 	},
 	hide:function(){
-		$('.file_action').fadeOut(200,function(){
+		$('.action').fadeOut(200,function(){
 			$(this).remove();
 		});
 	},

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-07-27 12:03+0200\n"
-"PO-Revision-Date: 2011-07-25 16:16+0000\n"
+"POT-Creation-Date: 2011-08-13 04:33+0200\n"
+"PO-Revision-Date: 2011-08-13 02:19+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,72 +17,96 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: ../templates/index.php:3
-msgid "Account information"
-msgstr "Dane konta"
-
-#: ../templates/index.php:5
-msgid "You're currently using"
-msgstr "Obecnie używasz"
-
-#: ../templates/index.php:5
-msgid "of your"
-msgstr "ze swoich"
-
-#: ../templates/index.php:5
-msgid "space"
-msgstr "przestrzeni"
-
-#: ../templates/index.php:11
-msgid "Change Password"
-msgstr "Zmień hasło"
-
-#: ../templates/index.php:12
-msgid "Your password got changed"
-msgstr "Twoje hasło zostało zmienione"
-
-#: ../templates/index.php:15
-msgid "Old password:"
-msgstr "Stare hasło"
-
-#: ../templates/index.php:19
-msgid "New password"
-msgstr "Nowe hasło"
-
-#: ../templates/index.php:24
-msgid "Show new password"
-msgstr "Pokaż nowe hasło"
-
-#: ../templates/index.php:34
-msgid "Language"
-msgstr "Język"
-
-#: ../ajax/changepassword.php:13 ../ajax/setlanguage.php:13
+#: ajax/openid.php:13 ajax/setlanguage.php:13
 msgid "Authentication error"
 msgstr "Błąd uwierzytelniania"
 
-#: ../ajax/changepassword.php:19
-msgid "You have to enter the old and the new password!"
-msgstr "Musisz wprowadzić zarówno stare, jak i nowe hasło!"
+#: ajax/openid.php:21
+msgid "OpenID Changed"
+msgstr ""
 
-#: ../ajax/changepassword.php:25
-msgid "Your old password is wrong!"
-msgstr "Twoje stare hasło jest błędne!"
+#: ajax/openid.php:23 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "Nieprawidłowe żądanie"
 
-#: ../ajax/changepassword.php:31
-msgid "Password changed"
-msgstr "Hasło zmienione"
-
-#: ../ajax/changepassword.php:34
-msgid "Unable to change password"
-msgstr "NIe można zmienić hasła"
-
-#: ../ajax/setlanguage.php:21
+#: ajax/setlanguage.php:21
 msgid "Language changed"
 msgstr "Język zmieniony"
 
-#: ../ajax/setlanguage.php:23
-msgid "Invalid request"
-msgstr "Nieprawidłowe żądanie"
+#: templates/help.php:21
+msgid "Ask a question"
+msgstr ""
+
+#: templates/apps.php:12
+msgid "Select an App"
+msgstr ""
+
+#: templates/apps.php:14
+msgid "-licensed"
+msgstr ""
+
+#: templates/apps.php:14
+msgid "by"
+msgstr ""
+
+#: templates/personal.php:3
+msgid "Account information"
+msgstr "Dane konta"
+
+#: templates/personal.php:5
+msgid "You're currently using"
+msgstr "Obecnie używasz"
+
+#: templates/personal.php:5
+msgid "of your"
+msgstr "ze swoich"
+
+#: templates/personal.php:5
+msgid "space"
+msgstr "przestrzeni"
+
+#: templates/personal.php:11 templates/personal.php:17
+msgid "Change Password"
+msgstr "Zmień hasło"
+
+#: templates/personal.php:12
+msgid "Your password got changed"
+msgstr "Twoje hasło zostało zmienione"
+
+#: templates/personal.php:14
+msgid "Old password"
+msgstr ""
+
+#: templates/personal.php:15
+msgid "New password"
+msgstr "Nowe hasło"
+
+#: templates/personal.php:16
+msgid "show"
+msgstr ""
+
+#: templates/personal.php:23
+msgid "Language"
+msgstr "Język"
+
+#: templates/users.php:11
+msgid "Name"
+msgstr ""
+
+#: templates/users.php:12
+msgid "Password"
+msgstr ""
+
+#: templates/users.php:13 templates/users.php:28
+msgid "Groups"
+msgstr ""
+
+#: templates/users.php:18
+msgid "Create"
+msgstr ""
+
+#: templates/users.php:36
+msgid "Remove"
+msgstr ""
 
 

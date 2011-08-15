@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-09 17:52+0200\n"
+"POT-Creation-Date: 2011-08-13 12:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,120 +17,91 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../templates/404.php:12
-msgid "Cloud not found"
-msgstr ""
-
-#: ../templates/installation.php:20
-msgid "Create an <strong>admin account</strong>"
-msgstr ""
-
-#: ../templates/installation.php:21
-msgid "Username"
-msgstr ""
-
-#: ../templates/installation.php:22
-msgid "Password"
-msgstr ""
-
-#: ../templates/installation.php:27
-msgid "Configure the database"
-msgstr ""
-
-#: ../templates/installation.php:31
-msgid "SQLite will be used."
-msgstr ""
-
-#: ../templates/installation.php:34
-msgid "SQLite"
-msgstr ""
-
-#: ../templates/installation.php:41
-msgid "MySQL will be used."
-msgstr ""
-
-#: ../templates/installation.php:50
-msgid "PostgreSQL will be used."
-msgstr ""
-
-#: ../templates/installation.php:59
-msgid "Database user"
-msgstr ""
-
-#: ../templates/installation.php:60
-msgid "Database password"
-msgstr ""
-
-#: ../templates/installation.php:61
-msgid "Database name"
-msgstr ""
-
-#: ../templates/installation.php:62
-msgid "Host"
-msgstr ""
-
-#: ../templates/installation.php:63
-msgid "Table prefix"
-msgstr ""
-
-#: ../templates/installation.php:70
-msgid "Advanced"
-msgstr ""
-
-#: ../templates/installation.php:73
-msgid "Set data folder"
-msgstr ""
-
-#: ../templates/installation.php:74
-msgid "Data folder"
-msgstr ""
-
-#: ../templates/installation.php:77
-msgid "Finish setup"
-msgstr ""
-
-#: ../templates/layout.guest.php:38
-msgid ""
-"<a href=\"http://owncloud.org/\">ownCloud</a> is a personal cloud which runs "
-"on your own server.</p>"
-msgstr ""
-
-#: ../templates/login.php:4
+#: templates/login.php:4
 msgid "Login failed!"
 msgstr ""
 
-#: ../templates/login.php:9 ../templates/login.php:13
+#: templates/login.php:9 templates/login.php:13
 msgid "remember"
 msgstr ""
 
-#: ../templates/logout.php:1
-msgid "You are logged out."
+#: templates/installation.php:20
+msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: ../templates/part.pagenavi.php:6
+#: templates/installation.php:21
+msgid "Username"
+msgstr ""
+
+#: templates/installation.php:22
+msgid "Password"
+msgstr ""
+
+#: templates/installation.php:27
+msgid "Configure the database"
+msgstr ""
+
+#: templates/installation.php:32 templates/installation.php:43
+#: templates/installation.php:53
+msgid "will be used"
+msgstr ""
+
+#: templates/installation.php:64
+msgid "Database user"
+msgstr ""
+
+#: templates/installation.php:65
+msgid "Database password"
+msgstr ""
+
+#: templates/installation.php:66
+msgid "Database name"
+msgstr ""
+
+#: templates/installation.php:74
+msgid "Advanced"
+msgstr ""
+
+#: templates/installation.php:77
+msgid "Host"
+msgstr ""
+
+#: templates/installation.php:78
+msgid "Table prefix"
+msgstr ""
+
+#: templates/installation.php:80
+msgid "Data folder"
+msgstr ""
+
+#: templates/installation.php:83
+msgid "Finish setup"
+msgstr ""
+
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr ""
+
+#: templates/layout.guest.php:38
+msgid "is a personal cloud which runs on your own server"
+msgstr ""
+
+#: templates/part.pagenavi.php:6
 msgid "prev"
 msgstr ""
 
-#: ../templates/part.pagenavi.php:26
+#: templates/part.pagenavi.php:26
 msgid "next"
 msgstr ""
 
-#: ../../lib/app.php:204
-msgid "Users"
+#: templates/logout.php:1
+msgid "You are logged out."
 msgstr ""
 
-#: ../../lib/app.php:205
-msgid "Apps"
+#: templates/layout.user.php:36
+msgid "Log out"
 msgstr ""
 
-#: ../../lib/app.php:206
-msgid "Files"
-msgstr ""
-
-#: ../../lib/app.php:209
-msgid "Help"
-msgstr ""
-
-#: ../../lib/app.php:210
-msgid "Personal"
+#: templates/layout.user.php:49
+msgid "Settings"
 msgstr ""
