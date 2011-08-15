@@ -46,16 +46,19 @@ foreach($registeredApps as $app){
 	}
 }
 
-$categories=array_keys(OC_OCSClient::getCategories());
-$externalApps=OC_OCSClient::getApplications($categories);
-foreach($externalApps as $app){
-	$apps[]=array(
-		'name'=>$app['name'],
-		'id'=>$app['id'],
-		'active'=>false,
-		'description'=>$app['description'],
-		'author'=>$app['personid'],
-	);
+$catagoryNames=OC_OCSClient::getCategories();
+if(is_array($catagoryNames)){
+	$categories=array_keys($catagoryNames);
+	$externalApps=OC_OCSClient::getApplications($categories);
+	foreach($externalApps as $app){
+		$apps[]=array(
+			'name'=>$app['name'],
+			'id'=>$app['id'],
+			'active'=>false,
+			'description'=>$app['description'],
+			'author'=>$app['personid'],
+		);
+	}
 }
 
 
