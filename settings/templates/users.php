@@ -31,6 +31,10 @@ foreach($_["groups"] as $group) {
 					<?php endforeach;?>
 				</select>
 			</td>
+			<td class="quota" data-quota="<?php echo $user['quota']?>">
+				<span><?php echo ($user['quota']>0)?$user['quota']:'None';?></span>
+				<img class="svg action" src="<?php echo image_path('core','actions/rename.svg')?>" alt="set new password" title="set quota" />
+			</td>
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>
 					<img alt="Delete" title="<?php echo $l->t('Delete')?>" class="svg action" src="<?php echo image_path('core','actions/delete.svg') ?>" />
