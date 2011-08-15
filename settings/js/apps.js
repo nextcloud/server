@@ -13,7 +13,7 @@ $(document).ready(function(){
 		$('#rightcontent span.licence').text(app.licence);
 		
 		$('#rightcontent input.enable').show();
-		$('#rightcontent input.enable').val((app.active)?t('admin','Disable'):t('admin','Enable'));
+		$('#rightcontent input.enable').val((app.active)?t('settings','Disable'):t('settings','Enable'));
 		$('#rightcontent input.enable').data('appid',app.id);
 		$('#rightcontent input.enable').data('active',app.active);
 	});
@@ -22,15 +22,15 @@ $(document).ready(function(){
 		var active=$(this).data('active');
 		if(app){
 			if(active){
-				$.post(OC.filePath('admin','ajax','disableapp.php'),{appid:app});
+				$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:app});
 				$('#leftcontent li[data-id="'+app+'"]').removeClass('active');
 			}else{
-				$.post(OC.filePath('admin','ajax','enableapp.php'),{appid:app});
+				$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:app});
 				$('#leftcontent li[data-id="'+app+'"]').addClass('active');
 			}
 			active=!active;
 			$(this).data('active',active);
-			$(this).val((active)?t('admin','Disable'):t('admin','Enable'));
+			$(this).val((active)?t('settings','Disable'):t('settings','Enable'));
 			var appData=$('#leftcontent li[data-id="'+app+'"]');
 			appData.active=active;
 		}

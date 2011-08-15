@@ -75,6 +75,45 @@ $(document).ready(function(){
 	$('td.password').live('click',function(event){
 		$(this).children('img').click();
 	});
+
+	$('td.quota>img').live('click',function(event){
+		event.stopPropagation();
+		var img=$(this);
+		var uid=img.parent().parent().data('uid');
+		var input=$('<input>');
+		var quota=img.parent().children('span').text();
+		img
+		if(quota=='None'){
+			quota='';
+		}
+		input.val(quota);
+		img.css('display','none');
+		img.parent().children('span').replaceWith(input);
+		input.focus();
+		input.keypress(function(event) {
+			if(event.keyCode == 13) {
+				$(this).parent().attr('data-quota',$(this).val());
+				if($(this).val().length>0){
+					$.post(
+						OC.filePath('settings','ajax','setquota.php'),
+						   {username:uid,quota:$(this).val()},
+						   function(result){}
+					);
+					input.blur();
+				}else{
+					input.blur();
+				}
+			}
+		});
+		input.blur(function(){
+			var quota=$(this).parent().data('quota');
+			$(this).replaceWith($('<span>'+quota+'</span>'));
+			img.css('display','');
+		});
+	});
+	$('td.quota').live('click',function(event){
+		$(this).children('img').click();
+	});
 	
 	$('#newuser').submit(function(event){
 		event.preventDefault();

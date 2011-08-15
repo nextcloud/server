@@ -229,150 +229,71 @@ class OC_Filesystem{
 	}
 	
 	static public function mkdir($path){
-		$parent=substr($path,0,strrpos($path,'/'));
-		if(self::canWrite($parent) and $storage=self::getStorage($path)){
-			$run=true;
-			OC_Hook::emit( 'OC_Filesystem', 'create', array( 'path' => $path, 'run' => &$run));
-			if($run){
-				OC_Hook::emit( 'OC_Filesystem', 'write', array( 'path' => $path, 'run' => &$run));
-			}
-			if($run){
-				$result=$storage->mkdir(self::getInternalPath($path));
-				OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path));
-				OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path));
-				return $result;
-			}
-		}
+		return self::basicOperation('mkdir',$path,array('create','write'));
 	}
 	static public function rmdir($path){
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
-			$run=true;
-			OC_Hook::emit( 'OC_Filesystem', 'delete', array( 'path' => $path, 'run' => &$run));
-			if($run){
-				$result=$storage->rmdir(self::getInternalPath($path));
-				OC_Hook::emit( 'OC_Filesystem', 'post_delete', array( 'path' => $path));
-				return $result;
-			}
-		}
+		return self::basicOperation('rmdir',$path,array('delete'));
 	}
 	static public function opendir($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
-			return $storage->opendir(self::getInternalPath($path));
-		}
+		return self::basicOperation('opendir',$path,array('read'));
 	}
 	static public function is_dir($path){
 		if($path=='/'){
 			return true;
 		}
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			return $storage->is_dir(self::getInternalPath($path));
-		}
+		return self::basicOperation('is_dir',$path);
 	}
 	static public function is_file($path){
 		if($path=='/'){
 			return false;
 		}
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			return $storage->is_file(self::getInternalPath($path));
-		}
+		return self::basicOperation('is_file',$path);
 	}
 	static public function stat($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			return $storage->stat(self::getInternalPath($path));
-		}
+		return self::basicOperation('stat',$path);
 	}
 	static public function filetype($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			return $storage->filetype(self::getInternalPath($path));
-		}
+		return self::basicOperation('filetype',$path);
 	}
 	static public function filesize($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			return $storage->filesize(self::getInternalPath($path));
-		}
+		return self::basicOperation('filesize',$path);
 	}
 	static public function readfile($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
-			return $storage->readfile(self::getInternalPath($path));
-		}
+		return self::basicOperation('readfile',$path,array('read'));
 	}
 	static public function is_readable($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			return $storage->is_readable(self::getInternalPath($path));
-		}
-		return false;
+		return self::basicOperation('is_readable',$path);
 	}
 	static public function is_writeable($path){
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
-			return $storage->is_writeable(self::getInternalPath($path));
-		}
-		return false;
+		return self::basicOperation('is_writeable',$path);
 	}
 	static public function file_exists($path){
 		if($path=='/'){
 			return true;
 		}
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
-			return $storage->file_exists(self::getInternalPath($path));
-		}
-		return false;
+		return self::basicOperation('file_exists',$path);
 	}
 	static public function filectime($path){
-		if($storage=self::getStorage($path)){
-			return $storage->filectime(self::getInternalPath($path));
-		}
+		return self::basicOperation('filectime',$path);
 	}
 	static public function filemtime($path){
-		if($storage=self::getStorage($path)){
-			return $storage->filemtime(self::getInternalPath($path));
-		}
+		return self::basicOperation('filemtime',$path);
 	}
 	static public function fileatime($path){
-		if($storage=self::getStorage($path)){
-			return $storage->fileatime(self::getInternalPath($path));
-		}
+		return self::basicOperation('fileatime',$path);
 	}
 	static public function file_get_contents($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
-			return $storage->file_get_contents(self::getInternalPath($path));
-		}
+		return self::basicOperation('file_get_contents',$path,array('read'));
 	}
 	static public function file_put_contents($path,$data){
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
-			$run=true;
-			$exists=self::file_exists($path);
-			if(!$exists){
-				OC_Hook::emit( 'OC_Filesystem', 'create', array( 'path' => $path, 'run' => &$run));
-			}
-			if($run){
-				OC_Hook::emit( 'OC_Filesystem', 'write', array( 'path' => $path, 'run' => &$run));
-			}
-			if($run){
-				$result=$storage->file_put_contents(self::getInternalPath($path),$data);
-				if(!$exists){
-					OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path));
-				}
-				OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path));
-				return $result;
-			}
-		}
+		error_log($data);
+		return self::basicOperation('file_put_contents',$path,array('create','write'),$data);
 	}
 	static public function unlink($path){
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
-			$run=true;
-			OC_Hook::emit( 'OC_Filesystem', 'delete', array( 'path' => $path, 'run' => &$run));
-			if($run){
-				$result=$storage->unlink(self::getInternalPath($path));
-				OC_Hook::emit( 'OC_Filesystem', 'post_delete', array( 'path' => $path));
-				return $result;
-			}
-		}
+		return self::basicOperation('unlink',$path,array('delete'));
 	}
 	static public function rename($path1,$path2){
-		if(self::canWrite($path1) and self::canWrite($path2)){
+		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and self::canWrite($path1) and self::canWrite($path2)){
 			$run=true;
 			OC_Hook::emit( 'OC_Filesystem', 'rename', array( 'oldpath' => $path1 ,'newpath'=>$path2, 'run' => &$run));
 			if($run){
@@ -393,7 +314,7 @@ class OC_Filesystem{
 		}
 	}
 	static public function copy($path1,$path2){
-		if(self::canRead($path1) and self::canWrite($path2)){
+		if(OC_FileProxy::runPreProxies('copy',$path1,$path2) and self::canRead($path1) and self::canWrite($path2)){
 			$run=true;
 			OC_Hook::emit( 'OC_Filesystem', 'copy', array( 'oldpath' => $path1 ,'newpath'=>$path2, 'run' => &$run));
 			$exists=self::file_exists($path2);
@@ -424,60 +345,35 @@ class OC_Filesystem{
 		}
 	}
 	static public function fopen($path,$mode){
-		$allowed=((strpos($path,'r')===false and strpos($path,'r+')!==false and self::canRead) or self::canWrite($path));
-		if($allowed){
-			if($storage=self::getStorage($path)){
-				$run=true;
-				$exists=self::file_exists($path);
-				$write=false;
-				switch($mode){
-					case 'r':
-						OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
-						break;
-					case 'r+':
-					case 'w+':
-					case 'x+':
-					case 'a+':
-						OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
-						$write=true;
-						break;
-					case 'w':
-					case 'x':
-					case 'a':
-						$write=true;
-						break;
-				}
-				if($write){
-					if(!$exists){
-						OC_Hook::emit( 'OC_Filesystem', 'create', array( 'path' => $path));
-					}
-					if($run){
-						OC_Hook::emit( 'OC_Filesystem', 'write', array( 'path' => $path, 'run' => &$run));
-					}
-				}
-				if($run){
-					$result=$storage->fopen(self::getInternalPath($path),$mode);
-					if($write){
-						if(!$exists){
-							OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path));
-						}
-						if($run){
-							OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path));
-						}
-					}
-					return $result;
-				}
-			}
+		$hooks=array();
+		switch($mode){
+			case 'r':
+				$hooks[]='read';
+				break;
+			case 'r+':
+			case 'w+':
+			case 'x+':
+			case 'a+':
+				$hooks[]='read';
+				$hooks[]='write';
+				break;
+			case 'w':
+			case 'x':
+			case 'a':
+				$hooks[]='write';
+				break;
 		}
+		
+		return self::basicOperation('fopen',$path,$hooks);
 	}
 	static public function toTmpFile($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and self::canRead($path) and $storage=self::getStorage($path)){
 			OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
 			return $storage->toTmpFile(self::getInternalPath($path));
 		}
 	}
 	static public function fromTmpFile($tmpFile,$path){
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('copy',$tmpFile,$path) and self::canWrite($path) and $storage=self::getStorage($path)){
 			$run=true;
 			$exists=self::file_exists($path);
 			if(!$exists){
@@ -498,7 +394,7 @@ class OC_Filesystem{
 	}
 	static public function fromUploadedFile($tmpFile,$path){
 		error_log('upload');
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('fromUploadedFile',$tmpFile,$path) and self::canWrite($path) and $storage=self::getStorage($path)){
 			$run=true;
 			$exists=self::file_exists($path);
 			if(!$exists){
@@ -519,57 +415,14 @@ class OC_Filesystem{
 		}
 	}
 	static public function getMimeType($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			return $storage->getMimeType(self::getInternalPath($path));
-		}
+		return self::basicOperation('getMimeType',$path);
 	}
-	static public function delTree($path){
-		if(self::canWrite($path) and $storage=self::getStorage($path)){
-			$run=true;
-			OC_Hook::emit( 'OC_Filesystem', 'delete', array( 'path' => $path, 'run' => &$run));
-			if($run){
-				return $storage->delTree(self::getInternalPath($path));
-			}
-		}
-	}
-	static public function find($path){
-		if($storage=self::getStorage($path)){
-			$mp=self::getMountPoint($path);
-			$return=$storage->find(self::getInternalPath($path));
-			foreach($return as &$file){
-				$file=$mp.$file;
-			}
-		}
-		return $return;
-	}
-	static public function getTree($path){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			$mp=self::getMountPoint($path);
-			$return=$storage->getTree(self::getInternalPath($path));
-			foreach($return as &$file){
-				if(substr($file,0,1)=='/'){
-					$file=substr($file,1);
-				}
-				$file=$mp.$file;
-				$file=substr($file,strlen(self::$fakeRoot));
-				if($file === '' || $file === false){
-					$file = '/';
-				}
-			}
-			return $return;
-		}
-	}
-	static public function hash($type,$path,$raw=false){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
-			return $storage->hash($type,self::getInternalPath($path),$raw);
-		}
+	static public function hash($type,$path){
+		return self::basicOperation('hash',$path,array('read'));
 	}
 	
 	static public function free_space($path='/'){
-		if(self::canRead($path) and $storage=self::getStorage($path)){
-			return $storage->free_space($path);
-		}
+		return self::basicOperation('free_space',$path);
 	}
 	
 	static public function search($query){
@@ -590,5 +443,42 @@ class OC_Filesystem{
 		}
 		return $files;
 		
+	}
+
+	/**
+	 * abstraction for running most basic operations
+	 * @param string $operation
+	 * @param string #path
+	 * @param array (optional) hooks
+	 * @param mixed (optional) $extraParam
+	 * @return mixed
+	 */
+	private static function basicOperation($operation,$path,$hooks=array(),$extraParam=null){
+		if(OC_FileProxy::runPreProxies($operation,$path) and self::canRead($path) and $storage=self::getStorage($path)){
+			$interalPath=self::getInternalPath($path);
+			$run=true;
+			foreach($hooks as $hook){
+				if($hook!='read'){
+					OC_Hook::emit( 'OC_Filesystem', $hook, array( 'path' => $path, 'run' => &$run));
+				}else{
+					OC_Hook::emit( 'OC_Filesystem', $hook, array( 'path' => $path));
+				}
+			}
+			if($run){
+				if($extraParam){
+					$result=$storage->$operation($interalPath,$extraParam);
+				}else{
+					$result=$storage->$operation($interalPath);
+				}
+				$result=OC_FileProxy::runPostProxies($operation,$path,$result);
+				foreach($hooks as $hook){
+					if($hook!='read'){
+						OC_Hook::emit( 'OC_Filesystem', 'post_'.$hook, array( 'path' => $path));
+					}
+				}
+				return $result;
+			}
+		}
+		return null;
 	}
 }

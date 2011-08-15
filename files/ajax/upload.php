@@ -19,6 +19,16 @@ $files=$_FILES['files'];
 $dir = $_POST['dir'];
 if(!empty($dir)) $dir .= '/';
 $error='';
+
+$totalSize=0;
+foreach($files['size'] as $size){
+	$totalSize+=$size;
+}
+if($totalSize>OC_Filesystem::free_space('/')){
+	echo json_encode( array( "status" => "error", "data" => array( "message" => "Not enough space available" )));
+	exit();
+}
+
 $result=array();
 if(strpos($dir,'..') === false){
 	$fileCount=count($files['name']);

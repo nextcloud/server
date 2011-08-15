@@ -79,9 +79,8 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 	}
 	public function unlink($path){
-		if($return=unlink($this->datadir.$path)){
-			$this->clearFolderSizeCache($path);
-		}
+		$return=$this->delTree($path);
+		$this->clearFolderSizeCache($path);
 		return $return;
 	}
 	public function rename($path1,$path2){
@@ -195,7 +194,8 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 	}
 
-	public function delTree($dir) {
+	private function delTree($dir) {
+		error_log('del'.$dir);
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;
 		if (!file_exists($dir)) return true;
@@ -216,36 +216,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			$this->clearFolderSizeCache($dir);
 		}
 		return $return;
-	}
-
-	public function find($path){
-		$return=System::find($this->datadir.$path);
-		foreach($return as &$file){
-			$file=str_replace($file,$this->datadir,'');
-		}
-		return $return;
-	}
-
-	public function getTree($dir) {
-		if(substr($dir,-1,1)=='/'){
-			$dir=substr($dir,0,-1);
-		}
-		$tree=array();
-		$tree[]=$dir;
-		$dirRelative=$dir;
-		$dir=$this->datadir.$dir;
-		if (!file_exists($dir)) return true;
-		foreach (scandir($dir) as $item) {
-			if ($item == '.' || $item == '..') continue;
-			if(is_file($dir.'/'.$item)){
-				$tree[]=$dirRelative.'/'.$item;
-			}elseif(is_dir($dir.'/'.$item)){
-				if ($subTree=$this->getTree($dirRelative. "/" . $item)){
-					$tree=array_merge($tree,$subTree);
-				}
-			}
-		}
-		return $tree;
 	}
 
 	public function hash($type,$path,$raw){
