@@ -35,6 +35,6 @@
 			</div></header>
 			<?php echo $_['content']; ?>
 		</div>
-		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> <?php echo $l->t( 'is a personal cloud which runs on your own server' ); ?>.</p></footer>
+		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> <?php echo $l->t( 'gives you the freedom to control your own data on the internet' ); ?></p></footer>
 	</body>
 </html>
