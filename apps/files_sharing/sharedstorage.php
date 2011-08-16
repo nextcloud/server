@@ -32,6 +32,9 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	
 	public function __construct($arguments) {
 		$this->datadir = $arguments['datadir'];
+		if (!OC_Filesystem::is_dir($this->datadir)) {
+			OC_Filesystem::mkdir($this->datadir);
+		}
 	}
 	
 	public function getInternalPath($path) {
@@ -309,14 +312,15 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	public function filectime($path) {
 		if ($path == "" || $path == "/") {
 			$ctime = 0; 
-			$dir = $this->opendir($path);
-			while (($filename = readdir($dir)) != false) {
-				$tempctime = $this->filectime($filename);
-				if ($tempctime < $ctime) {
-					$ctime = $tempctime;
+			if ($dh = $this->opendir($path)) {
+				while (($filename = readdir($dh)) !== false) {
+					$tempctime = $this->filectime($filename);
+					if ($tempctime < $ctime) {
+						$ctime = $tempctime;
+					}
 				}
+				return $ctime;
 			}
-			return $ctime;
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
@@ -329,14 +333,15 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	public function filemtime($path) {
 		if ($path == "" || $path == "/") {
 			$mtime = 0; 
-			$dir = $this->opendir($path);
-			while (($filename = readdir($dir)) != false) {
-				$tempmtime = $this->filemtime($filename);
-				if ($tempmtime > $mtime) {
-					$mtime = $tempmtime;
+			if ($dh = $this->opendir($path)) {
+				while (($filename = readdir($dh)) !== false) {
+					$tempmtime = $this->filemtime($filename);
+					if ($tempmtime > $mtime) {
+						$mtime = $tempmtime;
+					}
 				}
+				return $mtime;
 			}
-			return $mtime;
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
@@ -349,14 +354,15 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	public function fileatime($path) {
 		if ($path == "" || $path == "/") {
 			$atime = 0; 
-			$dir = $this->opendir($path);
-			while (($filename = readdir($dir)) != false) {
-				$tempatime = $this->fileatime($filename);
-				if ($tempatime > $atime) {
-					$atime = $tempatime;
+			if ($dh = $this->opendir($path)) {
+				while (($filename = readdir($dh)) !== false) {
+					$tempatime = $this->fileatime($filename);
+					if ($tempatime > $atime) {
+						$atime = $tempatime;
+					}
 				}
+				return $atime;
 			}
-			return $atime;
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {

@@ -59,7 +59,7 @@ class OC_Share {
 				throw new Exception("This item is already shared with ".$uid);
 			}
 			// Check if the target already exists for the user, if it does append a number to the name
-			$target = "/".$uid."/files/Share/".basename($source);
+			$target = "/".$uid."/files/Shared/".basename($source);
 			if (self::getSource($target)) {
 				if ($pos = strrpos($target, ".")) {
 					$name = substr($target, 0, $pos);
