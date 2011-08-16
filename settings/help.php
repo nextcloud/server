@@ -6,17 +6,17 @@ if( !OC_User::isLoggedIn()){
     exit();
 }
 
-//hardcode for testing
-$pagecount=8;
-$page=2;
-
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );
 OC_App::setActiveNavigationEntry( "help" );
 
-$kbe=OC_OCSClient::getKnownledgebaseEntries();
-
+$pagesize=5;
+if(isset($_GET['page'])) $page=$_GET['page']; else $page=0;
+$kbe=OC_OCSClient::getKnownledgebaseEntries($page,$pagesize);
+$totalitems=$kbe['totalitems'];
+unset($kbe['totalitems']);
+$pagecount=ceil($totalitems/$pagesize);
 
 $tmpl = new OC_Template( "settings", "help", "user" );
 $tmpl->assign( "kbe", $kbe );

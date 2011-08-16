@@ -1,14 +1,15 @@
 <?php if(is_null($_["kbe"])):?>
 	Can't connect to Q&amp;A database
 <?php else:?>
-	<table id="help" cellspacing="20">
+	<table class="help">
 		<tbody>
 			<?php foreach($_["kbe"] as $kb): ?>
-				<tr>
+				<tr class="entryrow">
 					<td width="1"><?php if($kb["preview1"] <> "") { echo('<img class="preview" border="0" src="'.$kb["preview1"].'" />'); } ?> </a></td>
-					<td class="name"><p><strong><?php echo $kb["name"]; ?></strong></p><?php  echo('<span class="type">'.$kb['description'].'</span>'); ?>
+					<td class="entry"><p><strong><?php echo $kb["name"]; ?></strong></p><?php  echo('<span class="type">'.$kb['description'].'</span>'); ?>
 					<?php if($kb['answer']<>'') echo('<br /><span class="type"><b>Answer:</b></span><br /><span class="type">'.$kb['answer'].'</span>');?>
-					</td>
+					<?php if($kb['detailpage']<>'') echo('<br /><a target="_blank" href="'.$kb['detailpage'].'"><b>read more</b></a>')?>
+					<br /></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -18,7 +19,7 @@
 		$pageNavi=OC_Util::getPageNavi($_['pagecount'],$_['page'],$url);
 		$pageNavi->printPage();
 	?>
-	<a target="_blank" class="prettybutton" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new"><?php echo $l->t( 'Ask a question' ); ?></a>
+	<br /><a target="_blank" class="newquestion" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new"><?php echo $l->t( 'Ask a question' ); ?></a>
 <?php endif;?>
 
 
