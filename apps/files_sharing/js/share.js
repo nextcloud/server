@@ -164,7 +164,7 @@ function createDropdown(filename, files) {
 	html += "</div>";
 	html += "<div id='public'>";
 	html += "<input type='checkbox' name='makelink' id='makelink' value='1' /><label for='makelink'>make public</label>";
-	html += "<input type='checkbox' name='public_link_write' id='public_link_write' value='1' /><label for='public_link_write'>allow upload</label>";
+	//html += "<input type='checkbox' name='public_link_write' id='public_link_write' value='1' /><label for='public_link_write'>allow upload</label>";
 	html += "<br />";
 	html += "<input id='link' style='display:none; width:90%;' />";
 	html += "</div>";
