@@ -49,9 +49,16 @@ if($filterTag){
 $offset = isset($_GET["page"]) ? intval($_GET["page"]) * 10 : 0;
 $params[] = $offset;
 
+$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
+	$_gc_separator = ", ' '";
+} else {
+	$_gc_separator = "SEPARATOR ' '";
+}
+
 //FIXME: bookmarks without tags are not being retrieved
 $query = OC_DB::prepare("
-	SELECT url, title, description, GROUP_CONCAT( tag SEPARATOR ' ' ) AS tags
+	SELECT url, title, description, GROUP_CONCAT( tag $_gc_separator ) AS tags
 	FROM *PREFIX*bookmarks, *PREFIX*bookmarks_tags 
 	WHERE *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
 		AND *PREFIX*bookmarks.user_id = ?

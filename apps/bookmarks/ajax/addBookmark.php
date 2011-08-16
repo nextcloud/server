@@ -35,11 +35,20 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
+$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
+	$_ut = "strftime('%s','now')";
+} else {
+	$_ut = "UNIX_TIMESTAMP()";
+}
+
+//FIXME: Detect when user adds a known URL
 $query = OC_DB::prepare("
-	INSERT IGNORE INTO *PREFIX*bookmarks
+	INSERT INTO *PREFIX*bookmarks
 	(url, title, description, user_id, public, added, lastmodified)
-	VALUES (?, ?, ?, ?, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())
+	VALUES (?, ?, ?, ?, 0, $_ut, $_ut)
 	");
+	
 	
 $params=array(
 	urldecode($_GET["url"]),
@@ -49,6 +58,7 @@ $params=array(
 	);
 $query->execute($params);
 $b_id = OC_DB::insertid();
+
 
 if($b_id !== false) {
 	$query = OC_DB::prepare("
