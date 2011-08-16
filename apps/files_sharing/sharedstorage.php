@@ -35,6 +35,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if (!OC_Filesystem::is_dir($this->datadir)) {
 			OC_Filesystem::mkdir($this->datadir);
 		}
+		$this->datadir .= "/";
 	}
 	
 	public function getInternalPath($path) {
