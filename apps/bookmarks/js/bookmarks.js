@@ -81,7 +81,6 @@ function recordClick(event) {
 		url: 'ajax/recordClick.php',
 		data: "url=" + encodeURI($(this).attr('href')),
 	});	
-	return false;
 }
 
 function encodeEntities(s){
