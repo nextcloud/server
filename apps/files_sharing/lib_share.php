@@ -112,7 +112,7 @@ class OC_Share {
 			}
 		} else if (isset($uid)) {
 			// TODO Check if this is necessary, only constructor needs it as IN. It would be better for other queries to just return =$uid
-			$in = "'".$uid."'";
+			$in .= "'".$uid."'";
 			$groups = OC_Group::getUserGroups($uid);
 			foreach ($groups as $group) {
 				$in .= ", '".$uid."@".$group."'";
