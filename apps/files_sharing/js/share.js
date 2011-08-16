@@ -17,6 +17,20 @@ $(document).ready(function() {
 					}
 				}
 			});
+			$.ajax({
+				type: 'GET',
+				url: OC.linkTo('files_publiclink', 'ajax/getlink.php'),
+				dataType: 'json',
+				data: 'path='+file,
+				async: false,
+				success: function(link) {
+					if (link.length > 0) {
+						icon = OC.imagePath('core', 'actions/public');
+					} else {
+						icon = OC.imagePath('core', 'actions/share');
+					}
+				}
+			});
 			return icon;
 		}, function(filename) {
 			if (($('#dropdown').length > 0)) {
