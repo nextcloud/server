@@ -30,6 +30,7 @@ class OC_Share {
 
 	const WRITE = 1;
 	const DELETE = 2;
+	const UNSHARED = -1;
 	const PUBLICLINK = "public";
 
 	private $token;
@@ -369,7 +370,7 @@ class OC_Share {
 			$query->execute(array(strlen($target), $target));
 		} else {
 			$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET permissions = ? WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with ".self::getUsersAndGroups());
-			$query->execute(array(-1, strlen($target), $target));
+			$query->execute(array(self::UNSHARED, strlen($target), $target));
 		}
 	}
 

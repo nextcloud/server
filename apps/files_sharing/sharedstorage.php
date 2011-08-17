@@ -113,7 +113,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 						// If the item is in the current directory and has a different name than the source, add it to the arrays
 						if (dirname($item['target']) == $path) {
 							// If the item was unshared from self, add it it to the arrays
-							if ($item['permissions'] == -1) {
+							if ($item['permissions'] == OC_Share::UNSHARED) {
 								$sources[] = basename($item['source']);
 								$targets[] = "";
 							} else {
