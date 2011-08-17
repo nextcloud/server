@@ -11,7 +11,10 @@ foreach ($sources as $source) {
 	if ($source && OC_FILESYSTEM::file_exists($source) && OC_FILESYSTEM::is_readable($source)) {
 		$source = "/".OC_User::getUser()."/files".$source;
 		try {
-			new OC_Share($source, $uid_shared_with, $permissions);
+			$shared = new OC_Share($source, $uid_shared_with, $permissions);
+			if ($uid_shared_with == OC_Share::PUBLICLINK) {
+				echo $shared->getToken();
+			}
 		} catch (Exception $exception) {
 			echo "false";
 		}

@@ -145,9 +145,8 @@ $(document).ready(function() {
 				url: OC.linkTo('files_sharing','ajax/share.php'),
 				cache: false,
 				data: data,
-				success: function(result) {
-					if (result !== 'false') {
-						var token = 1234;
+				success: function(token) {
+					if (token) {
 						showPublicLink(token);
 					}
 				}
@@ -205,7 +204,10 @@ function createDropdown(filename, files) {
 	$.getJSON(OC.linkTo('files_sharing', 'ajax/getitem.php'), { source: files }, function(users) {
 		if (users) {
 			$.each(users, function(index, row) {
-				if (isNaN(index)) {
+				if (row.uid_shared_with == 'public') {
+					var token = 1234;
+					showPublicLink(token);
+				} else if (isNaN(index)) {
 					addUser(row.uid_shared_with, row.permissions, index.substr(0, index.lastIndexOf('-')));
 				} else {
 					addUser(row.uid_shared_with, row.permissions, false);
@@ -213,11 +215,6 @@ function createDropdown(filename, files) {
 			});
 		}
 	});
-// 	$.getJSON(OC.linkTo('files_publiclink', 'ajax/getlink.php'), { path: files }, function(token) {
-// 		if (token) {
-// 			showPublicLink(token);
-// 		}
-// 	});
 	$('#dropdown').show('blind');
 	$('#share_with').chosen();
 }

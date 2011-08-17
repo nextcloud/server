@@ -277,6 +277,29 @@ class OC_Share {
 	}
 
 	/**
+	 * Get the token for a public link
+	 * @return The token of the public link, a sha1 hash
+	 */
+	public function getToken() {
+		return $this->token;
+	}
+
+	/**
+	 * Get the token for a public link
+	 * @param $source The source location of the item
+	 * @return The token of the public link, a sha1 hash
+	 */
+	public static function getTokenFromSource($source) {
+		$query = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with = ? AND uid_owner = ? LIMIT 1");
+		$result = $query->execute(array($source, self::PUBLICLINK, OC_User::getUser()))->fetchAll();
+		if (count($result) > 0) {
+			return $result[0]['target'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Set the source location to a new value
 	 * @param $oldSource The current source location
 	 * @param $newTarget The new source location
