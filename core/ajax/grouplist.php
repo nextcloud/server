@@ -21,25 +21,31 @@
 *
 */
 
-
-// We send json data
-header( "Content-Type: application/jsonrequest" );
-
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
 require_once('../../lib/base.php');
 
-if(isset($_GET["user"]) && isset($_GET["password"]))
-{
-	if(!OC_User::checkPassword($_GET["user"], $_GET["password"]))
-        	exit();
-
-	$groups = array();
-
-	foreach( OC_Group::getGroups() as $i ){
-        	// Do some more work here soon
-	        $groups[] = array( "groupname" => $i );
+if(!OC_User::isLoggedIn()){
+	if(!isset($_SERVER['PHP_AUTH_USER'])){
+		header('WWW-Authenticate: Basic realm="ownCloud Server"');
+		header('HTTP/1.0 401 Unauthorized');
+		echo 'Valid credentials must be supplied';
+		exit();
+	} else {
+		if(!OC_User::checkPassword($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])){
+			exit();
+		}
 	}
-
-	echo json_encode($groups);
 }
+
+$groups = array();
+
+foreach( OC_Group::getGroups() as $i ){
+       	// Do some more work here soon
+        $groups[] = array( "groupname" => $i );
+}
+
+// We send json data
+header( "Content-Type: application/jsonrequest" );
+echo json_encode($groups);
+
 ?>

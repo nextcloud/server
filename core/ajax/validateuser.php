@@ -21,37 +21,21 @@
 *
 */
 
-header("Content-Type: application/jsonrequest");
-
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
-
 require_once('../../lib/base.php');
 
-$not_installed = !OC_Config::getValue('installed', false);
-
-// First step : check if the server is correctly configured for ownCloud :
-$errors = OC_Util::checkServer();
-if(count($errors) > 0) {
-        echo json_encode(array("user_valid" => "false", "comment" => $errors));
-}
-
-// Setup required :
-elseif($not_installed) {
-        echo json_encode(array("user_valid" => "false", "comment" => "not_installed"));
-
-}
-
-// Someone wants to check a user:
-elseif(isset($_GET["user"]) and isset($_GET["password"])) {
-        if(OC_User::checkPassword($_GET["user"], $_GET["password"]))
-		echo json_encode(array("user_valid" => "true", "comment" => ""));
-	else
-		echo json_encode(array("user_valid" => "false", "comment" => ""));
-}
-
-// For all others cases:
-else {
-        echo json_encode(array("user_valid" => "false", "comment" => "unknown"));
+if(!isset($_SERVER['PHP_AUTH_USER'])){
+        header('WWW-Authenticate: Basic realm="ownCloud Server"');
+        header('HTTP/1.0 401 Unauthorized');
+        echo 'Valid credentials must be supplied';
+        exit();
+} else {
+	header("Content-Type: application/jsonrequest");
+        if(OC_User::checkPassword($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])){
+		echo json_encode(array("username" => $_SERVER["PHP_AUTH_USER"], "user_valid" => "true"));
+	} else {
+	        echo json_encode(array("username" => $_SERVER["PHP_AUTH_USER"], "user_valid" => "false"));
+	}
 }
 
 ?>
