@@ -30,6 +30,9 @@ class OC_Share {
 
 	const WRITE = 1;
 	const DELETE = 2;
+	const PUBLICLINK = "public";
+
+	private $token;
       
 	/**
 	 * Share an item, adds an entry into the database
@@ -39,48 +42,54 @@ class OC_Share {
 	 */
 	public function __construct($source, $uid_shared_with, $permissions) {
 		$uid_owner = OC_User::getUser();
-		if (OC_Group::groupExists($uid_shared_with)) {
-			$gid = $uid_shared_with;
-			$uid_shared_with = OC_Group::usersInGroup($gid);
-			// Remove the owner from the list of users in the group
-			$uid_shared_with = array_diff($uid_shared_with, array($uid_owner));
-		} else if (OC_User::userExists($uid_shared_with)) {
-			$gid = null;
-			$uid_shared_with = array($uid_shared_with);
+		$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
+		if ($uid_shared_with == self::PUBLICLINK) {
+			$token = sha1("$uid_shared_with-$source");
+			$query->execute(array($uid_owner, self::PUBLICLINK, $source, $token, $permissions));
+			$this->token = $token;
 		} else {
-			throw new Exception($uid_shared_with." is not a user");
-		}
-		foreach ($uid_shared_with as $uid) {
-			// Check if this item is already shared with the user
-			$checkSource = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with ".self::getUsersAndGroups($uid));
-			$resultCheckSource = $checkSource->execute(array($source, $uid))->fetchAll();
-			// TODO Check if the source is inside a folder
-			if (count($resultCheckSource) > 0 && !isset($gid)) {
-				throw new Exception("This item is already shared with ".$uid);
+			if (OC_Group::groupExists($uid_shared_with)) {
+				$gid = $uid_shared_with;
+				$uid_shared_with = OC_Group::usersInGroup($gid);
+				// Remove the owner from the list of users in the group
+				$uid_shared_with = array_diff($uid_shared_with, array($uid_owner));
+			} else if (OC_User::userExists($uid_shared_with)) {
+				$gid = null;
+				$uid_shared_with = array($uid_shared_with);
+			} else {
+				throw new Exception($uid_shared_with." is not a user");
 			}
-			// Check if the target already exists for the user, if it does append a number to the name
-			$target = "/".$uid."/files/Shared/".basename($source);
-			if (self::getSource($target)) {
-				if ($pos = strrpos($target, ".")) {
-					$name = substr($target, 0, $pos);
-					$ext = substr($target, $pos);
-				} else {
-					$name = $target;
-					$ext = "";
+			foreach ($uid_shared_with as $uid) {
+				// Check if this item is already shared with the user
+				$checkSource = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with ".self::getUsersAndGroups($uid));
+				$resultCheckSource = $checkSource->execute(array($source, $uid))->fetchAll();
+				// TODO Check if the source is inside a folder
+				if (count($resultCheckSource) > 0 && !isset($gid)) {
+					throw new Exception("This item is already shared with ".$uid);
 				}
-				$counter = 1;
-				while ($checkTarget !== false) {
-					$newTarget = $name."_".$counter.$ext;
-					$checkTarget = self::getSource($newTarget);
-					$counter++;
+				// Check if the target already exists for the user, if it does append a number to the name
+				$target = "/".$uid."/files/Shared/".basename($source);
+				if (self::getSource($target)) {
+					if ($pos = strrpos($target, ".")) {
+						$name = substr($target, 0, $pos);
+						$ext = substr($target, $pos);
+					} else {
+						$name = $target;
+						$ext = "";
+					}
+					$counter = 1;
+					while ($checkTarget !== false) {
+						$newTarget = $name."_".$counter.$ext;
+						$checkTarget = self::getSource($newTarget);
+						$counter++;
+					}
+					$target = $newTarget;
 				}
-				$target = $newTarget;
+				if (isset($gid)) {
+					$uid = $uid."@".$gid;
+				}
+				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 			}
-			if (isset($gid)) {
-				$uid = $uid."@".$gid;
-			}
-			$query = OC_DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
-			$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 		}
 	}
 

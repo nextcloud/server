@@ -136,23 +136,29 @@ $(document).ready(function() {
 	
 	$('#makelink').live('change', function() {
 		if (this.checked) {
-			var data = 'path='+$('#dropdown').data('file')+'&expire=0';
+			var source = $('#dropdown').data('file');
+			var uid_shared_with = "public";
+			var permissions = 0;
+			var data = 'sources='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with)+'&permissions='+encodeURIComponent(permissions);
 			$.ajax({
-				type: 'GET',
-				url: OC.linkTo('files_publiclink','ajax/makelink.php'),
+				type: 'POST',
+				url: OC.linkTo('files_sharing','ajax/share.php'),
 				cache: false,
 				data: data,
-				success: function(token) {
-					if (token) {
+				success: function(result) {
+					if (result !== 'false') {
+						var token = 1234;
 						showPublicLink(token);
 					}
 				}
 			});
 		} else {
-			var data = 'token='+$('#link').data('token');
+			var source = $('#dropdown').data('file');
+			var uid_shared_with = "public";
+			var data = 'source='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with);
 			$.ajax({
 				type: 'GET',
-				url: OC.linkTo('files_publiclink','ajax/deletelink.php'),
+				url: OC.linkTo('files_sharing','ajax/unshare.php'),
 				cache: false,
 				data: data,
 				success: function(){
@@ -207,11 +213,11 @@ function createDropdown(filename, files) {
 			});
 		}
 	});
-	$.getJSON(OC.linkTo('files_publiclink', 'ajax/getlink.php'), { path: files }, function(token) {
-		if (token) {
-			showPublicLink(token);
-		}
-	});
+// 	$.getJSON(OC.linkTo('files_publiclink', 'ajax/getlink.php'), { path: files }, function(token) {
+// 		if (token) {
+// 			showPublicLink(token);
+// 		}
+// 	});
 	$('#dropdown').show('blind');
 	$('#share_with').chosen();
 }
