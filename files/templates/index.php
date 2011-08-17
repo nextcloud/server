@@ -29,7 +29,7 @@
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
 					<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="../core/img/actions/download.svg" /></a>
-					<!--<a href="" title="" class="share">Share</a>-->
+					<a href="" title="Share" class="share"><img class='svg' alt="Share" src="../core/img/actions/share.svg" /></a>
 				</span>
 			</th>
 			<th id="headerSize"><?php echo $l->t( 'Size' ); ?></th>

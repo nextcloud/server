@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+	 <name>*dbname*</name>
+	 <create>true</create>
+	 <overwrite>false</overwrite>
+	 <charset>latin1</charset>
+	 <table>
+		<name>*dbprefix*sharing</name>
+		<declaration>
+			<field>
+				<name>uid_owner</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>uid_shared_with</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>source</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>128</length>
+			</field>
+			<field>
+				<name>target</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>128</length>
+			</field>
+			<field>
+				<name>permissions</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>1</length>
+			 </field>
+		</declaration>
+	</table>
+</database>
