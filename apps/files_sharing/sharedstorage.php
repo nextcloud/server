@@ -111,19 +111,22 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 					$targets = array();
 					foreach ($modifiedItems as $item) {
 						// If the item is in the current directory and has a different name than the source, add it to the arrays
-						if (dirname($item['target']) == $path && basename($item['source']) != basename($item['target'])) {
-							$sources[] = basename($item['source']);
-							$targets[] = basename($item['target']);
-						// If the item was unshared from self, add it it to the arrays
-						} elseif ($item['target'] == "/") {
-							$sources[] = basename($item['source']);
-							$targets[] = "";
+						if (dirname($item['target']) == $path) {
+							// If the item was unshared from self, add it it to the arrays
+							if ($item['permissions'] == -1) {
+								$sources[] = basename($item['source']);
+								$targets[] = "";
+							} else {
+								$sources[] = basename($item['source']);
+								$targets[] = basename($item['target']);
+							}
 						}
 					}
 					// Don't waste time if there aren't any modified items in the current directory
 					if (empty($sources)) {
 						return $dh;
 					} else {
+						$files = array();
 						while (($filename = readdir($dh)) !== false) {
 							if ($filename != "." && $filename != "..") {
 								// If the file isn't in the sources array it isn't modified and can be added as is
@@ -402,9 +405,10 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if (OC_Share::getParentFolders($target)) {
 			// If entry for item already exists
 			if (OC_Share::getItem($target)) {
-				OC_Share::setTarget($target, "/");
+				OC_Share::unshareFromMySelf($target, false);
 			} else {
-				OC_Share::pullOutOfFolder($target, "/");
+				OC_Share::pullOutOfFolder($target, $target);
+				OC_Share::unshareFromMySelf($target, false);
 			}
 		// Delete the database entry
 		} else {

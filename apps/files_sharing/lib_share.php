@@ -199,7 +199,7 @@ class OC_Share {
 			$folder .= "/";
 		}
 		$length = strlen($folder);
-		$query = OC_DB::prepare("SELECT uid_owner, source, target FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with ".self::getUsersAndGroups());
+		$query = OC_DB::prepare("SELECT uid_owner, source, target, permissions FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with ".self::getUsersAndGroups());
 		return $query->execute(array($length, $folder, $length, $folder))->fetchAll();
 	}
 	
@@ -362,10 +362,15 @@ class OC_Share {
 	*
 	* @param $target The target location of the item
 	*/
-	public static function unshareFromMySelf($target) {
+	public static function unshareFromMySelf($target, $delete = true) {
 		$target = self::cleanPath($target);
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with ".self::getUsersAndGroups());
-		$query->execute(array(strlen($target), $target));
+		if ($delete) {
+			$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with ".self::getUsersAndGroups());
+			$query->execute(array(strlen($target), $target));
+		} else {
+			$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET permissions = ? WHERE SUBSTR(target, 1, ?) = ? AND uid_shared_with ".self::getUsersAndGroups());
+			$query->execute(array(-1, strlen($target), $target));
+		}
 	}
 
 	/**
