@@ -32,8 +32,10 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	
 	public function __construct($arguments) {
 		$this->datadir = $arguments['datadir'];
-		if (OC_Share::getItemsInFolder($this->datadir) && !OC_Filesystem::is_dir($this->datadir)) {
-			OC_Filesystem::mkdir($this->datadir);
+		if (OC_Share::getItemsInFolder($this->datadir)) {
+			if (!OC_Filesystem::is_dir($this->datadir)) { 
+				OC_Filesystem::mkdir($this->datadir);
+			}
 		} else  if (OC_Filesystem::is_dir($this->datadir)) {
 			OC_Filesystem::rmdir($this->datadir);
 		}
