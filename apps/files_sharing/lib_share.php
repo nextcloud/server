@@ -264,9 +264,9 @@ class OC_Share {
 		if (count($result) > 0) {
 			return $result[0]['permissions'];
 		} else {
-			$folders =self::getParentFolders($target);
+			$folders = self::getParentFolders($target);
 			if ($folders == true) {
-				$result = $query->execute(array($folders))->fetchAll();
+				$result = $query->execute(array($folders['target']))->fetchAll();
 				if (count($result) > 0) {
 					return $result[0]['permissions'];
 				}
