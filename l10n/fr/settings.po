@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 #   <rom1dep@gmail.com>, 2011.
+# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 10:38+0200\n"
-"PO-Revision-Date: 2011-08-18 08:39+0000\n"
+"POT-Creation-Date: 2011-08-18 18:58+0200\n"
+"PO-Revision-Date: 2011-08-18 16:59+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +24,7 @@ msgstr "Erreur d'authentification"
 
 #: ajax/openid.php:21
 msgid "OpenID Changed"
-msgstr "Identifiant OpenID changé avec succès"
+msgstr "Identifiant OpenID changé"
 
 #: ajax/openid.php:23 ajax/setlanguage.php:23
 msgid "Invalid request"
@@ -31,9 +32,21 @@ msgstr "Requète invalide"
 
 #: ajax/setlanguage.php:21
 msgid "Language changed"
-msgstr "Langue changée avec succès"
+msgstr "Langue changée"
 
-#: templates/help.php:22
+#: templates/help.php:2
+msgid "Problems connecting to help database."
+msgstr ""
+
+#: templates/help.php:3
+msgid "Go there manually."
+msgstr ""
+
+#: templates/help.php:11
+msgid "Answer"
+msgstr ""
+
+#: templates/help.php:17
 msgid "Ask a question"
 msgstr "Poser une question"
 
@@ -51,11 +64,11 @@ msgstr "par"
 
 #: templates/personal.php:2
 msgid "You use"
-msgstr ""
+msgstr "Vous utilisez"
 
 #: templates/personal.php:2
 msgid "of the available"
-msgstr ""
+msgstr "sur un total de"
 
 #: templates/personal.php:7
 msgid "Your password got changed"
@@ -63,11 +76,11 @@ msgstr "Votre mot de passe a été changé"
 
 #: templates/personal.php:9
 msgid "Current password"
-msgstr ""
+msgstr "Mot de passe actuel"
 
 #: templates/personal.php:10
 msgid "New password"
-msgstr "Nouveau mot de passe :"
+msgstr "Nouveau mot de passe"
 
 #: templates/personal.php:11
 msgid "show"
@@ -75,7 +88,7 @@ msgstr "Afficher"
 
 #: templates/personal.php:12
 msgid "Change password"
-msgstr ""
+msgstr "Changer de mot de passe"
 
 #: templates/personal.php:18
 msgid "Language"
@@ -83,6 +96,10 @@ msgstr "Langue"
 
 #: templates/personal.php:24
 msgid "Help translating"
+msgstr "Aider à traduire"
+
+#: templates/personal.php:30
+msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
 #: templates/users.php:11
@@ -103,6 +120,6 @@ msgstr "Créer"
 
 #: templates/users.php:40
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 

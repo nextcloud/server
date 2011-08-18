@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 10:38+0200\n"
-"PO-Revision-Date: 2011-08-18 08:39+0000\n"
+"POT-Creation-Date: 2011-08-18 18:58+0200\n"
+"PO-Revision-Date: 2011-08-18 16:59+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,19 @@ msgstr "Ugyldig forespørgsel"
 msgid "Language changed"
 msgstr "Sprog ændret"
 
-#: templates/help.php:22
+#: templates/help.php:2
+msgid "Problems connecting to help database."
+msgstr ""
+
+#: templates/help.php:3
+msgid "Go there manually."
+msgstr ""
+
+#: templates/help.php:11
+msgid "Answer"
+msgstr ""
+
+#: templates/help.php:17
 msgid "Ask a question"
 msgstr "Stil et spørgsmål"
 
@@ -83,6 +95,10 @@ msgstr "Sprog"
 
 #: templates/personal.php:24
 msgid "Help translating"
+msgstr ""
+
+#: templates/personal.php:30
+msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
 #: templates/users.php:11

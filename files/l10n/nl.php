@@ -3,7 +3,7 @@
 "Maximum upload size" => "Maximaale bestands groote voor uploads",
 "Nothing in here. Upload something!" => "Er bevind zich hier niks, upload een bestand.",
 "Upload" => "Uploaden",
-"New Folder" => "Nieuwer Map",
+"New Folder" => "Nieuwe Map",
 "Name" => "Naam",
 "Download" => "Download",
 "Size" => "Bestandsgroote",

@@ -11,7 +11,7 @@ if( !OC_User::isLoggedIn()){
 OC_Util::addStyle( "settings", "settings" );
 OC_App::setActiveNavigationEntry( "help" );
 
-$pagesize=5;
+$pagesize=7;
 if(isset($_GET['page'])) $page=$_GET['page']; else $page=0;
 $kbe=OC_OCSClient::getKnownledgebaseEntries($page,$pagesize);
 $totalitems=$kbe['totalitems'];

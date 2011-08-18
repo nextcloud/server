@@ -15,6 +15,7 @@
 "Data folder" => "Gegevens folder",
 "Finish setup" => "Installatie afronden",
 "Cloud not found" => "Cloud niet gevonden",
+"gives you the freedom to control your own data on the internet" => "geeft je de vrijheid om je eigen data te controleren op het internet",
 "prev" => "vorige",
 "next" => "volgende",
 "You are logged out." => "U bent afgemeld.",

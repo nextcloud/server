@@ -7,12 +7,18 @@
 "Select an App" => "Selecteer een App",
 "-licensed" => "-gelicenseerd",
 "by" => "door",
+"You use" => "U gebruikt",
+"of the available" => "van de beschikbare",
 "Your password got changed" => "Uw wachtwoord is aangepast",
+"Current password" => "Huidig wachtwoord",
 "New password" => "Nieuw wachtwoord",
 "show" => "weergeven",
+"Change password" => "Verander wachtwoord",
 "Language" => "Taal",
+"Help translating" => "Help met vertalen",
 "Name" => "Naam",
 "Password" => "Wachtwoord",
 "Groups" => "Groepen",
-"Create" => "Creëer"
+"Create" => "Creëer",
+"Delete" => "verwijderen"
 );

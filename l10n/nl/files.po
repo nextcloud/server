@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-13 12:41+0200\n"
-"PO-Revision-Date: 2011-08-14 13:51+0000\n"
+"POT-Creation-Date: 2011-08-18 18:58+0200\n"
+"PO-Revision-Date: 2011-08-18 13:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Uploaden"
 
 #: templates/index.php:16
 msgid "New Folder"
-msgstr "Nieuwer Map"
+msgstr "Nieuwe Map"
 
 #: templates/index.php:29
 msgid "Name"

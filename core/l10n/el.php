@@ -15,6 +15,7 @@
 "Data folder" => "Φάκελος δεδομένων",
 "Finish setup" => "Ολοκλήρωση εγκατάστασης",
 "Cloud not found" => "Δεν βρέθηκε σύννεφο",
+"gives you the freedom to control your own data on the internet" => "σας δίνει την ελευθερία να ελέγχετε τα δικά σας δεδομένα στο διαδίκτυο",
 "prev" => "προηγούμενο",
 "next" => "επόμενο",
 "You are logged out." => "Έχετε αποσυνδεθεί.",

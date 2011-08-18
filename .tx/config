@@ -18,7 +18,7 @@ trans.it = l10n/it/core.po
 trans.nl = l10n/nl/core.po
 trans.pl = l10n/pl/core.po
 trans.pt_BR = l10n/pt_BR/core.po
-trans.sv = l10n/l10n/sv/core.po
+trans.sv = l10n/sv/core.po
 
 [owncloud.settings]
 file_filter = l10n/<lang>/settings.po
@@ -37,7 +37,7 @@ trans.it = l10n/it/settings.po
 trans.nl = l10n/nl/settings.po
 trans.pl = l10n/pl/settings.po
 trans.pt_BR = l10n/pt_BR/settings.po
-trans.sv = l10n/l10n/sv/settings.po
+trans.sv = l10n/sv/settings.po
 
 [owncloud.files]
 file_filter = translations/owncloud.files/<lang>.po
@@ -56,7 +56,7 @@ trans.it = l10n/it/files.po
 trans.nl = l10n/nl/files.po
 trans.pl = l10n/pl/files.po
 trans.pt_BR = l10n/pt_BR/files.po
-trans.sv = l10n/l10n/sv/files.po
+trans.sv = l10n/sv/files.po
 
 [owncloud.media]
 file_filter = translations/owncloud.media/<lang>.po
@@ -75,5 +75,5 @@ trans.it = l10n/it/media.po
 trans.nl = l10n/nl/media.po
 trans.pl = l10n/pl/media.po
 trans.pt_BR = l10n/pt_BR/media.po
-trans.sv = l10n/l10n/sv/media.po
+trans.sv = l10n/sv/media.po
 

@@ -7,12 +7,18 @@
 "Select an App" => "Επιλέξτε μια εφαρμογή",
 "-licensed" => "-με άδεια",
 "by" => "με",
+"You use" => "Χρησιμοποιείτε",
+"of the available" => "από τα διαθέσιμα",
 "Your password got changed" => "Ο κωδικός πρόσβασής σας άλαλαξε",
+"Current password" => "Τρέχοντα κωδικό πρόσβασης",
 "New password" => "Νέος κωδικός",
 "show" => "Εμφάνιση",
+"Change password" => "Αλλαγή κωδικού πρόσβασης",
 "Language" => "Γλώσσα",
+"Help translating" => "Βοηθήστε στη μετάφραση",
 "Name" => "Όνομα",
 "Password" => "Κωδικός",
 "Groups" => "Ομάδες",
-"Create" => "Δημιουργία"
+"Create" => "Δημιουργία",
+"Delete" => "Διαγραφή"
 );

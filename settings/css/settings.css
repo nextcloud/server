@@ -29,17 +29,4 @@ span.version{margin-left:3em;color:#ddd}
 
 
 /* HELP */
-
-table.help { border-spacing:1em; }
-table.help tr td { white-space:normal; }
-
-
-a.newquestion { font-size:1em; width:10em; margin:1.5em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
-a.newquestion:hover { background:#ddd; }
-
-
-td.entry { padding:1em; margin:2em; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
-td.entry:hover { background:#eee; }
-tr.entryrow:hover { background:#fff; }
 tr.pager:hover { background:#fff; }
-
