@@ -1,0 +1,71 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-18 10:45+0200\n"
+"PO-Revision-Date: 2011-08-18 11:08+0000\n"
+"Last-Translator: HakanS <hakan.thn@gmail.com>\n"
+"Language-Team: Swedish (http://www.transifex.net/projects/p/owncloud/team/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:7
+msgid "Files"
+msgstr "Filer"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Maximal storlek att lägga upp"
+
+#: templates/part.list.php:1
+msgid "Nothing in here. Upload something!"
+msgstr "Ingenting här. Lägg upp något!"
+
+#: templates/index.php:9
+msgid "Upload"
+msgstr "Lägg upp"
+
+#: templates/index.php:16
+msgid "New Folder"
+msgstr "Ny katalog"
+
+#: templates/index.php:29
+msgid "Name"
+msgstr "Namn"
+
+#: templates/index.php:31
+msgid "Download"
+msgstr "Ladda ned"
+
+#: templates/index.php:35
+msgid "Size"
+msgstr "Storlek"
+
+#: templates/index.php:36
+msgid "Modified"
+msgstr "Ändrad"
+
+#: templates/index.php:36
+msgid "Delete"
+msgstr "Ta bort"
+
+#: templates/index.php:44
+msgid "Upload too large"
+msgstr "För stor överföring"
+
+#: templates/index.php:46
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Filerna du försöker lägga upp överstiger den maximala storleken för "
+"filöverföringar på servern."
+
+
