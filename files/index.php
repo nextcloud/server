@@ -69,8 +69,10 @@ foreach( explode( "/", $dir ) as $i ){
 // make breadcrumb und filelist markup
 $list = new OC_Template( "files", "part.list", "" );
 $list->assign( "files", $files );
+$list->assign( "baseUrl", OC_Helper::linkTo("files", "index.php?"));
 $breadcrumbNav = new OC_Template( "files", "part.breadcrumb", "" );
 $breadcrumbNav->assign( "breadcrumb", $breadcrumb );
+$breadcrumbNav->assign( "baseUrl", OC_Helper::linkTo("files", "index.php?"));
 
 $maxUploadFilesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
 

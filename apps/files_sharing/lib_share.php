@@ -135,6 +135,7 @@ class OC_Share {
 				$in .= ", '".$uid."@".$group."'";
 			}
 		}
+		$in .= ", '".self::PUBLICLINK."'";
 		$in .= ")";
 		return $in;
 	}
