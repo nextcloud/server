@@ -1,0 +1,22 @@
+<?php $TRANSLATIONS = array(
+"Login failed!" => "Login sem sucesso",
+"remember" => "lembrete",
+"Create an <strong>admin account</strong>" => "Criar uma <strong>conta</strong> de <strong>administrador</strong>",
+"Username" => "Nome de Usuário",
+"Password" => "Senha",
+"Configure the database" => "Configurar o banco de dados",
+"will be used" => "será usado",
+"Database user" => "Usuário de banco de dados",
+"Database password" => "Senha do banco de dados",
+"Database name" => "Nome do banco de dados",
+"Advanced" => "Avançado",
+"Host" => "Host 'servidor'",
+"Table prefix" => "Prefixo da tabela",
+"Data folder" => "Pasta de dados",
+"Finish setup" => "Concluir configuração",
+"Cloud not found" => "Cloud não encontrado",
+"prev" => "anterior",
+"next" => "próximo",
+"You are logged out." => "Você está desconectado.",
+"Settings" => "Configurações"
+);

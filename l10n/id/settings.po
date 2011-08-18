@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-18 10:38+0200\n"
+"PO-Revision-Date: 2011-08-18 08:39+0000\n"
+"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Language-Team: Indonesian (http://www.transifex.net/projects/p/owncloud/team/id/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/openid.php:13 ajax/setlanguage.php:13
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/openid.php:21
+msgid "OpenID Changed"
+msgstr ""
+
+#: ajax/openid.php:23 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr ""
+
+#: ajax/setlanguage.php:21
+msgid "Language changed"
+msgstr ""
+
+#: templates/help.php:22
+msgid "Ask a question"
+msgstr ""
+
+#: templates/apps.php:12
+msgid "Select an App"
+msgstr ""
+
+#: templates/apps.php:14
+msgid "-licensed"
+msgstr ""
+
+#: templates/apps.php:14
+msgid "by"
+msgstr ""
+
+#: templates/personal.php:2
+msgid "You use"
+msgstr ""
+
+#: templates/personal.php:2
+msgid "of the available"
+msgstr ""
+
+#: templates/personal.php:7
+msgid "Your password got changed"
+msgstr ""
+
+#: templates/personal.php:9
+msgid "Current password"
+msgstr ""
+
+#: templates/personal.php:10
+msgid "New password"
+msgstr ""
+
+#: templates/personal.php:11
+msgid "show"
+msgstr ""
+
+#: templates/personal.php:12
+msgid "Change password"
+msgstr ""
+
+#: templates/personal.php:18
+msgid "Language"
+msgstr ""
+
+#: templates/personal.php:24
+msgid "Help translating"
+msgstr ""
+
+#: templates/users.php:11
+msgid "Name"
+msgstr ""
+
+#: templates/users.php:12
+msgid "Password"
+msgstr ""
+
+#: templates/users.php:13 templates/users.php:28
+msgid "Groups"
+msgstr ""
+
+#: templates/users.php:18
+msgid "Create"
+msgstr ""
+
+#: templates/users.php:40
+msgid "Delete"
+msgstr ""
+
+

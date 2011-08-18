@@ -1,0 +1,22 @@
+<?php $TRANSLATIONS = array(
+"Login failed!" => "Η σύνδεση απέτυχε!",
+"remember" => "να με θυμάσαι",
+"Create an <strong>admin account</strong>" => "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>",
+"Username" => "Όνομα Χρήστη",
+"Password" => "Κωδικός",
+"Configure the database" => "Διαμόρφωση της βάσης δεδομένων",
+"will be used" => "θα χρησιμοποιηθούν",
+"Database user" => "Χρήστης της βάσης δεδομένων",
+"Database password" => "Κωδικός πρόσβασης βάσης δεδομένων",
+"Database name" => "Όνομα βάσης δεδομένων",
+"Advanced" => "Για προχωρημένους",
+"Host" => "Εξυπηρετητής",
+"Table prefix" => "Πρόθεμα πίνακα",
+"Data folder" => "Φάκελος δεδομένων",
+"Finish setup" => "Ολοκλήρωση εγκατάστασης",
+"Cloud not found" => "Δεν βρέθηκε σύννεφο",
+"prev" => "προηγούμενο",
+"next" => "επόμενο",
+"You are logged out." => "Έχετε αποσυνδεθεί.",
+"Settings" => "Ρυθμίσεις"
+);

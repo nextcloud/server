@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-13 12:41+0200\n"
+"PO-Revision-Date: 2011-08-18 08:32+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Indonesian (http://www.transifex.net/projects/p/owncloud/team/id/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: appinfo/app.php:31
+msgid "Music"
+msgstr ""
+
+#: templates/music.php:27
+msgid "Songs scanned"
+msgstr ""
+
+#: templates/music.php:28
+msgid "Rescan Collection"
+msgstr ""
+
+#: templates/music.php:29
+msgid "Pause"
+msgstr ""
+
+#: templates/music.php:35
+msgid "Artist"
+msgstr ""
+
+#: templates/music.php:36
+msgid "Album"
+msgstr ""
+
+#: templates/music.php:37
+msgid "Title"
+msgstr ""
+
+

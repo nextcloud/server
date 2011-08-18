@@ -7,19 +7,12 @@
 "Select an App" => "Sélectionner une Application",
 "-licensed" => "sous licence",
 "by" => "par",
-"Account information" => "Informations sur le compte",
-"You're currently using" => "Vous utilisez actuellement",
-"of your" => "de votre espace de stockage de",
-"space" => " ",
-"Change Password" => "Changer votre mot de passe",
 "Your password got changed" => "Votre mot de passe a été changé",
-"Old password" => "Ancien mot de passe",
 "New password" => "Nouveau mot de passe :",
 "show" => "Afficher",
 "Language" => "Langue",
 "Name" => "Nom",
 "Password" => "Mot de passe",
 "Groups" => "Groupes",
-"Create" => "Créer",
-"Remove" => "Supprimer"
+"Create" => "Créer"
 );

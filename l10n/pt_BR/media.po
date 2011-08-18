@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Van Der Fran <transifex@vanderland.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-13 12:41+0200\n"
+"PO-Revision-Date: 2011-08-15 15:44+0000\n"
+"Last-Translator: vanderland <transifex@vanderland.com>\n"
+"Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/owncloud/team/pt_BR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: appinfo/app.php:31
+msgid "Music"
+msgstr "Música"
+
+#: templates/music.php:27
+msgid "Songs scanned"
+msgstr "Músicas encontradas"
+
+#: templates/music.php:28
+msgid "Rescan Collection"
+msgstr "Atualizar a Coleção"
+
+#: templates/music.php:29
+msgid "Pause"
+msgstr "Pausa"
+
+#: templates/music.php:35
+msgid "Artist"
+msgstr "Artista"
+
+#: templates/music.php:36
+msgid "Album"
+msgstr "Álbum"
+
+#: templates/music.php:37
+msgid "Title"
+msgstr "Título"
+
+

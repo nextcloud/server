@@ -1,8 +1,22 @@
 <?php $TRANSLATIONS = array(
 "Login failed!" => "Aanmelden mislukt.",
+"remember" => "onthoud gegevens",
+"Create an <strong>admin account</strong>" => "Maak een <strong>admin-account</strong>",
+"Username" => "Gebruikersnaam",
+"Password" => "Wachtwoord",
+"Configure the database" => "Configureren van de database",
+"will be used" => "zal gebruikt woorden",
+"Database user" => "Database gebruiker",
+"Database password" => "Database wachtwoord",
+"Database name" => "Database naam",
 "Advanced" => "Geavanceerd",
+"Host" => "Host",
+"Table prefix" => "Tabelnaam voorvoegsel",
+"Data folder" => "Gegevens folder",
 "Finish setup" => "Installatie afronden",
+"Cloud not found" => "Cloud niet gevonden",
 "prev" => "vorige",
 "next" => "volgende",
-"You are logged out." => "U bent afgemeld."
+"You are logged out." => "U bent afgemeld.",
+"Settings" => "Instellingen"
 );

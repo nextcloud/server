@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+#   <sergioballesterossolanas@gmail.com>, 2011.
 #   <rom1dep@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-13 04:33+0200\n"
-"PO-Revision-Date: 2011-08-13 02:19+0000\n"
+"POT-Creation-Date: 2011-08-18 10:38+0200\n"
+"PO-Revision-Date: 2011-08-18 08:39+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/team/es/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +24,7 @@ msgstr "Error de autentificación"
 
 #: ajax/openid.php:21
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID Cambiado"
 
 #: ajax/openid.php:23 ajax/setlanguage.php:23
 msgid "Invalid request"
@@ -33,80 +34,76 @@ msgstr "Solicitud no válida"
 msgid "Language changed"
 msgstr "Idioma cambiado"
 
-#: templates/help.php:21
+#: templates/help.php:22
 msgid "Ask a question"
-msgstr ""
+msgstr "Hacer una pregunta"
 
 #: templates/apps.php:12
 msgid "Select an App"
-msgstr ""
+msgstr "Seleccionar una aplicación"
 
 #: templates/apps.php:14
 msgid "-licensed"
-msgstr ""
+msgstr "-autorizado"
 
 #: templates/apps.php:14
 msgid "by"
+msgstr "por"
+
+#: templates/personal.php:2
+msgid "You use"
 msgstr ""
 
-#: templates/personal.php:3
-msgid "Account information"
-msgstr "Información de la cuenta"
+#: templates/personal.php:2
+msgid "of the available"
+msgstr ""
 
-#: templates/personal.php:5
-msgid "You're currently using"
-msgstr "Estás utilizando"
-
-#: templates/personal.php:5
-msgid "of your"
-msgstr "de tus"
-
-#: templates/personal.php:5
-msgid "space"
-msgstr "de espacio total"
-
-#: templates/personal.php:11 templates/personal.php:17
-msgid "Change Password"
-msgstr "Cambiar contraseña"
-
-#: templates/personal.php:12
+#: templates/personal.php:7
 msgid "Your password got changed"
 msgstr "Tu contraseña ha sido cambiada"
 
-#: templates/personal.php:14
-msgid "Old password"
+#: templates/personal.php:9
+msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:15
+#: templates/personal.php:10
 msgid "New password"
 msgstr "Nueva contraseña:"
 
-#: templates/personal.php:16
+#: templates/personal.php:11
 msgid "show"
+msgstr "mostrar"
+
+#: templates/personal.php:12
+msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:23
+#: templates/personal.php:18
 msgid "Language"
 msgstr "Idioma"
 
+#: templates/personal.php:24
+msgid "Help translating"
+msgstr ""
+
 #: templates/users.php:11
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: templates/users.php:12
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: templates/users.php:13 templates/users.php:28
 msgid "Groups"
-msgstr ""
+msgstr "Grupos"
 
 #: templates/users.php:18
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
-#: templates/users.php:36
-msgid "Remove"
+#: templates/users.php:40
+msgid "Delete"
 msgstr ""
 
 

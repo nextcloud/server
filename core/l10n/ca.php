@@ -1,0 +1,22 @@
+<?php $TRANSLATIONS = array(
+"Login failed!" => "L'inici de sessió ha fallat!",
+"remember" => "recorda'm",
+"Create an <strong>admin account</strong>" => "Crea un <strong>compte d'administrador</strong>",
+"Username" => "Nom d'usuari",
+"Password" => "Contrasenya",
+"Configure the database" => "Configura la base de dades",
+"will be used" => "s'usarà",
+"Database user" => "Usuari de la base de dades",
+"Database password" => "Contrasenya de la base de dades",
+"Database name" => "Nom de la base de dades",
+"Advanced" => "Avançat",
+"Host" => "Host",
+"Table prefix" => "Prefix de les taules",
+"Data folder" => "Carpeta de dades",
+"Finish setup" => "Acaba la configuració",
+"Cloud not found" => "No s'ha trobat el núvol",
+"prev" => "anterior",
+"next" => "següent",
+"You are logged out." => "Heu tancat la sessió.",
+"Settings" => "Arranjament"
+);

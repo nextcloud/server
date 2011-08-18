@@ -1,0 +1,21 @@
+<?php $TRANSLATIONS = array(
+"Login failed!" => "Login fallito!",
+"remember" => "ricorda",
+"Create an <strong>admin account</strong>" => "Crea un &lt;strong&gt;account amministratore&lt;/strong&gt;",
+"Username" => "Nome utente",
+"Password" => "Password",
+"Configure the database" => "Configura il database",
+"will be used" => "sarà usato",
+"Database user" => "Utente database",
+"Database password" => "Password database",
+"Database name" => "Nome database",
+"Advanced" => "Opzioni avanzate",
+"Host" => "Host",
+"Table prefix" => "Prefisso tabella",
+"Data folder" => "Cartella dati",
+"Finish setup" => "Termina",
+"prev" => "precedente",
+"next" => "successivo",
+"You are logged out." => "Sei uscito.",
+"Settings" => "Impostazioni"
+);

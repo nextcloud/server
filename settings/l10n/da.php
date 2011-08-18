@@ -1,13 +1,18 @@
 <?php $TRANSLATIONS = array(
 "Authentication error" => "Godkendelsesfejl",
-"Invalid request" => "Invalid forespørgsel",
+"OpenID Changed" => "OpenID ændret",
+"Invalid request" => "Ugyldig forespørgsel",
 "Language changed" => "Sprog ændret",
-"Account information" => "Konto information",
-"You're currently using" => "Du udnytter i øjeblikket",
-"of your" => "af din",
-"space" => "plads",
-"Change Password" => "Ændre adgangskode",
-"Your password got changed" => "Din adgangskode er ændret",
-"New password" => "Nye adgangskode",
-"Language" => "Sprog"
+"Ask a question" => "Stil et spørgsmål",
+"Select an App" => "Vælg en App",
+"-licensed" => "-licenseret",
+"by" => "af",
+"Your password got changed" => "Din adgangskode er blevet ændret",
+"New password" => "Ny adgangskode",
+"show" => "vis",
+"Language" => "Sprog",
+"Name" => "Navn",
+"Password" => "Kodeord",
+"Groups" => "Grupper",
+"Create" => "Ny"
 );

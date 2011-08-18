@@ -1,13 +1,18 @@
 <?php $TRANSLATIONS = array(
 "Authentication error" => "Error de autentificación",
+"OpenID Changed" => "OpenID Cambiado",
 "Invalid request" => "Solicitud no válida",
 "Language changed" => "Idioma cambiado",
-"Account information" => "Información de la cuenta",
-"You're currently using" => "Estás utilizando",
-"of your" => "de tus",
-"space" => "de espacio total",
-"Change Password" => "Cambiar contraseña",
+"Ask a question" => "Hacer una pregunta",
+"Select an App" => "Seleccionar una aplicación",
+"-licensed" => "-autorizado",
+"by" => "por",
 "Your password got changed" => "Tu contraseña ha sido cambiada",
 "New password" => "Nueva contraseña:",
-"Language" => "Idioma"
+"show" => "mostrar",
+"Language" => "Idioma",
+"Name" => "Nombre",
+"Password" => "Contraseña",
+"Groups" => "Grupos",
+"Create" => "Crear"
 );

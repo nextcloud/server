@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-13 04:33+0200\n"
-"PO-Revision-Date: 2011-08-13 02:33+0000\n"
+"POT-Creation-Date: 2011-08-18 10:38+0200\n"
+"PO-Revision-Date: 2011-08-18 08:39+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgid "Cloud not found"
 msgstr ""
 
 #: templates/layout.guest.php:38
-msgid "is a personal cloud which runs on your own server"
+msgid "gives you the freedom to control your own data on the internet"
 msgstr ""
 
 #: templates/part.pagenavi.php:6
@@ -98,11 +98,7 @@ msgstr "dalej"
 msgid "You are logged out."
 msgstr "Jesteś wylogowany."
 
-#: templates/layout.user.php:36
-msgid "Log out"
-msgstr ""
-
-#: templates/layout.user.php:56
+#: templates/layout.user.php:49
 msgid "Settings"
 msgstr ""
 
