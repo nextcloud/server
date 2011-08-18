@@ -40,17 +40,15 @@ if ($source !== false) {
 		}
 		// Make breadcrumb
 		$breadcrumb = array();
-		$pathtohere = "/";
+		$pathtohere = "";
 		foreach (explode("/", $subPath) as $i) {
 			if ($i != "") {
-				$pathtohere .= "$i/";
+				$pathtohere .= "/$i";
 				$breadcrumb[] = array("dir" => $pathtohere, "name" => $i);
 			}
 		}
 		// Load the files we need
 		OC_Util::addStyle("files", "files");
-		OC_Util::addScript("files", "files");
-		OC_Util::addScript("files", "filelist");
 		$breadcrumbNav = new OC_Template("files", "part.breadcrumb", "");
 		$breadcrumbNav->assign("breadcrumb", $breadcrumb);
 		$breadcrumbNav->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
