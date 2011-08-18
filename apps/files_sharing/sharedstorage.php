@@ -423,8 +423,10 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if ($folders = OC_Share::getParentFolders($oldTarget)) {
 			$root1 = substr($path1, 0, strpos($path1, "/"));
 			$root2 = substr($path1, 0, strpos($path2, "/"));
+			// Prevent items from being moved into different shared folders until versioning (cut and paste) and prevent items going into 'Shared'
 			if ($root1 !== $root2) {
 				return false;
+			// Check if both paths have write permission
 			} else if ($this->is_writeable($path1) && $this->is_writeable($path2)) {
 				$oldSource = $this->getSource($path1);
 				$newSource = $folders['source'].substr($newTarget, strlen($folders['target']));
@@ -432,6 +434,10 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 					$storage = OC_Filesystem::getStorage($oldSource);
 					return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
 				}
+			// If the user doesn't have write permission, items can only be renamed and not moved
+			} else if (dirname($path1) !== dirname($path2)) {
+				return false;
+			// The item will be renamed in the database, but won't be touched on the owner's filesystem
 			} else {
 				OC_Share::pullOutOfFolder($oldTarget, $newTarget);
 				// If this is a folder being renamed, call setTarget in case there are any database entries inside the folder
