@@ -12,20 +12,11 @@ $(document).ready(function() {
 				success: function(users) {
 					if (users.length > 0) {
 						icon = OC.imagePath('core', 'actions/shared');
-					} else {
-						icon = OC.imagePath('core', 'actions/share');
-					}
-				}
-			});
-			$.ajax({
-				type: 'GET',
-				url: OC.linkTo('files_publiclink', 'ajax/getlink.php'),
-				dataType: 'json',
-				data: 'path='+file,
-				async: false,
-				success: function(link) {
-					if (link.length > 0) {
-						icon = OC.imagePath('core', 'actions/public');
+						$.each(users, function(index, row) {
+							if (row.uid_shared_with == 'public') {
+								icon = OC.imagePath('core', 'actions/public');
+							}
+						});
 					} else {
 						icon = OC.imagePath('core', 'actions/share');
 					}
