@@ -13,14 +13,13 @@ if ($source !== false) {
 	$user = substr($source, 1, strpos($source, "/", 1) - 1);
 	OC_Util::setupFS($user);
 	$source = substr($source, strlen("/".$user."/files"));
-	$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
-	print_r($dir);
+	$subPath = isset( $_GET['path'] ) ? $_GET['path'] : '';
 	$root = $source;
-	$source .= $dir;
+	$source .= $subPath;
 	if (!OC_Filesystem::file_exists($source)) {
 		header("HTTP/1.0 404 Not Found");
 		$tmpl = new OC_Template("", "404", "guest");
-		$tmpl->assign("file", $dir);
+		$tmpl->assign("file", $subPath);
 		$tmpl->printPage();
 		exit;
 	}
@@ -42,7 +41,7 @@ if ($source !== false) {
 		// Make breadcrumb
 		$breadcrumb = array();
 		$pathtohere = "/";
-		foreach (explode("/", $dir) as $i) {
+		foreach (explode("/", $subPath) as $i) {
 			if ($i != "") {
 				$pathtohere .= "$i/";
 				$breadcrumb[] = array("dir" => $pathtohere, "name" => $i);
@@ -54,10 +53,11 @@ if ($source !== false) {
 		OC_Util::addScript("files", "filelist");
 		$breadcrumbNav = new OC_Template("files", "part.breadcrumb", "");
 		$breadcrumbNav->assign("breadcrumb", $breadcrumb);
-		$breadcrumbNav->assign("baseUrl", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&");
+		$breadcrumbNav->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list = new OC_Template("files", "part.list", "");
 		$list->assign("files", $files);
-		$list->assign("baseUrl", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&");
+		$list->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("downloadURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$tmpl = new OC_Template("files", "index", "user");
 		$tmpl->assign("fileList", $list->fetchPage());
 		$tmpl->assign("breadcrumb", $breadcrumbNav->fetchPage());
