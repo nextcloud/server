@@ -15,6 +15,7 @@
 "Data folder" => "Répertoire des données",
 "Finish setup" => "Terminer l'installation",
 "Cloud not found" => "Introuvable",
+"gives you the freedom to control your own data on the internet" => "vous rend libre de contrôler vos propres données sur internet",
 "prev" => "précédent",
 "next" => "suivant",
 "You are logged out." => "Vous êtes désormais déconnecté.",

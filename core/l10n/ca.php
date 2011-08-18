@@ -15,6 +15,7 @@
 "Data folder" => "Carpeta de dades",
 "Finish setup" => "Acaba la configuració",
 "Cloud not found" => "No s'ha trobat el núvol",
+"gives you the freedom to control your own data on the internet" => "us dóna la llibertat per controlar les vostres dades a internet",
 "prev" => "anterior",
 "next" => "següent",
 "You are logged out." => "Heu tancat la sessió.",

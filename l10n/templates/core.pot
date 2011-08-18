@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-18 18:58+0200\n"
+"POT-Creation-Date: 2011-08-18 21:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,22 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: strings.php:5
+msgid "Users"
+msgstr ""
+
+#: strings.php:6
+msgid "Apps"
+msgstr ""
+
+#: strings.php:7
+msgid "Help"
+msgstr ""
+
+#: strings.php:8
+msgid "Personal"
+msgstr ""
 
 #: templates/login.php:4
 msgid "Login failed!"

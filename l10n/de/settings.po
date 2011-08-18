@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 18:58+0200\n"
-"PO-Revision-Date: 2011-08-18 16:59+0000\n"
+"POT-Creation-Date: 2011-08-18 21:07+0200\n"
+"PO-Revision-Date: 2011-08-18 17:25+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -33,19 +33,19 @@ msgstr "Ungültige Anfrage"
 msgid "Language changed"
 msgstr "Sprache geändert"
 
-#: templates/help.php:2
-msgid "Problems connecting to help database."
-msgstr ""
-
 #: templates/help.php:3
+msgid "Problems connecting to help database."
+msgstr "Probleme bei der Verbindung zur Hilfe-Datenbank."
+
+#: templates/help.php:4
 msgid "Go there manually."
-msgstr ""
+msgstr "Datenbank direkt besuchen."
 
-#: templates/help.php:11
+#: templates/help.php:12
 msgid "Answer"
-msgstr ""
+msgstr "Antwort"
 
-#: templates/help.php:17
+#: templates/help.php:16
 msgid "Ask a question"
 msgstr "Stell eine Frage"
 
@@ -100,6 +100,8 @@ msgstr "Hilf bei der Übersetzung"
 #: templates/personal.php:30
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
+"benutze diese Adresse, um deine ownCloud mit deinem Dateiverwalter zu "
+"verbinden"
 
 #: templates/users.php:11
 msgid "Name"
