@@ -60,15 +60,13 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function mkdir($path) {
-		if ($path == "" || $path == "/") {
+		if ($path == "" || $path == "/" || !$this->is_writeable($path)) {
 			return false; 
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
-				if ($this->is_writeable($path)) {
-					$storage = OC_Filesystem::getStorage($source);
-					return $storage->mkdir($this->getInternalPath($source));
-				}
+				$storage = OC_Filesystem::getStorage($source);
+				return $storage->mkdir($this->getInternalPath($source));
 			}
 		}
 	}
@@ -422,10 +420,14 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		$oldTarget = $this->datadir.$path1;
 		$newTarget = $this->datadir.$path2;
 		// Check if the item is inside a shared folder
-		if (OC_Share::getParentFolders($oldTarget)) {
-			if ($this->is_writeable($path1)) {
+		if ($folders = OC_Share::getParentFolders($oldTarget)) {
+			$root1 = substr($path1, 0, strpos($path1, "/"));
+			$root2 = substr($path1, 0, strpos($path2, "/"));
+			if ($root1 !== $root2) {
+				return false;
+			} else if ($this->is_writeable($path1) && $this->is_writeable($path2)) {
 				$oldSource = $this->getSource($path1);
-				$newSource = dirname($oldSource)."/".basename($path2);
+				$newSource = $folders['source'].substr($newTarget, strlen($folders['target']));
 				if ($oldSource) {
 					$storage = OC_Filesystem::getStorage($oldSource);
 					return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
