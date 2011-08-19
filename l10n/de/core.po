@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 21:07+0200\n"
-"PO-Revision-Date: 2011-08-18 19:08+0000\n"
+"POT-Creation-Date: 2011-08-19 13:10+0200\n"
+"PO-Revision-Date: 2011-08-18 19:25+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -20,19 +20,19 @@ msgstr ""
 
 #: strings.php:5
 msgid "Users"
-msgstr ""
+msgstr "Nutzer"
 
 #: strings.php:6
 msgid "Apps"
-msgstr ""
+msgstr "Anwendungen"
 
 #: strings.php:7
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: strings.php:8
 msgid "Personal"
-msgstr ""
+msgstr "Persönlich"
 
 #: templates/login.php:4
 msgid "Login failed!"

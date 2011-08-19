@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Users" => "Användare",
+"Apps" => "Program",
+"Help" => "Hjälp",
 "Login failed!" => "Inloggning misslyckades!",
 "remember" => "kom ihåg",
 "Create an <strong>admin account</strong>" => "Skapa ett <strong>administratörskonto</strong>",
