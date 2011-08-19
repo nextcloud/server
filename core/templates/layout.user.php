@@ -10,7 +10,7 @@
 		<script type="text/javascript">
 			var oc_webroot = '<?php global $WEBROOT; echo $WEBROOT; ?>';
 			var oc_current_user = '<?php echo OC_User::getUser() ?>';
-		// </script>
+		</script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
 		<?php endforeach; ?>
@@ -20,9 +20,7 @@
 				foreach($header['attributes'] as $name=>$value){
 					echo "$name='$value' ";
 				};
-				echo '>';
-				echo $header['text'];
-				echo '</'.$header['tag'].'>';
+				echo '/>';
 			?>
 		<?php endforeach; ?>
 	</head>
