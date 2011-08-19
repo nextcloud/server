@@ -37,18 +37,35 @@ function getBookmarks() {
 }
 
 function addBookmark(event) {
+	var url = $('#bookmark_add_url').val()
+	var title = $('#bookmark_add_title').val()
+	var description = $('#bookmark_add_description').val()
+	var tags = $('#bookmark_add_tags').val()
 	$.ajax({
 		url: 'ajax/addBookmark.php',
-		data: "url=" + encodeURI($('#bookmark_add_url').val()) + "&title=" + encodeURI($('#bookmark_add_title').val()) + "&description=" + encodeURI($('#bookmark_add_description').val()) + "&tags=" + encodeURI($('#bookmark_add_tags').val()),
-		success: function(data){ $('.bookmarks_add').slideToggle(); $('.bookmarks_add').children('p').children('.bookmarks_input').val(''); }
+		data: "url=" + encodeURI(url) + "&title=" + encodeURI(title) + "&description=" + encodeURI(description) + "&tags=" + encodeURI(tags),
+		success: function(data){ 
+			$('.bookmarks_add').slideToggle(); 
+			$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
+			$('.bookmarks_list').prepend(
+			"<div class=\"bookmark_single\">" +
+				"<p class=\"bookmark_title\"><a href=\"" + url + "\" target=\"_new\" class=\"bookmark_link\">" + title + "</a></p>" +
+				"<p class=\"bookmark_url\">" + url + "</p>" +
+				"<p class=\"bookmark_description\">" + description + "</p>" +
+				"<p>" + tags + "</p>" +
+				"<p class=\"bookmark_actions\"><span class=\"bookmark_delete\">Delete</span></p>" +
+			"</div>"
+			);
+		}
 	});
 }
 
 function delBookmark(event) {
+	var record = $(this).parent().parent()
 	$.ajax({
 		url: 'ajax/delBookmark.php',
 		data: "url=" + encodeURI($(this).parent().parent().children('.bookmark_url:first').text()),
-		success: function(data){ alert('deleted!'); }
+		success: function(data){ record.animate({ opacity: "hide" }, "fast"); }
 	});
 }
 
