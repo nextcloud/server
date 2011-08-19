@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-13 04:33+0200\n"
-"PO-Revision-Date: 2011-08-13 02:37+0000\n"
+"POT-Creation-Date: 2011-08-18 21:07+0200\n"
+"PO-Revision-Date: 2011-08-18 17:25+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,19 @@ msgstr "Ungültige Anfrage"
 msgid "Language changed"
 msgstr "Sprache geändert"
 
-#: templates/help.php:21
+#: templates/help.php:3
+msgid "Problems connecting to help database."
+msgstr "Probleme bei der Verbindung zur Hilfe-Datenbank."
+
+#: templates/help.php:4
+msgid "Go there manually."
+msgstr "Datenbank direkt besuchen."
+
+#: templates/help.php:12
+msgid "Answer"
+msgstr "Antwort"
+
+#: templates/help.php:16
 msgid "Ask a question"
 msgstr "Stell eine Frage"
 
@@ -49,45 +61,47 @@ msgstr "-lizenziert"
 msgid "by"
 msgstr "von"
 
-#: templates/personal.php:3
-msgid "Account information"
-msgstr "Konto-Information"
+#: templates/personal.php:2
+msgid "You use"
+msgstr "Du nutzt"
 
-#: templates/personal.php:5
-msgid "You're currently using"
-msgstr "Du benutzt gerade"
+#: templates/personal.php:2
+msgid "of the available"
+msgstr "der verfügbaren"
 
-#: templates/personal.php:5
-msgid "of your"
-msgstr "von deinem"
-
-#: templates/personal.php:5
-msgid "space"
-msgstr "Speicherplatz"
-
-#: templates/personal.php:11 templates/personal.php:17
-msgid "Change Password"
-msgstr "Passwort ändern"
-
-#: templates/personal.php:12
+#: templates/personal.php:7
 msgid "Your password got changed"
 msgstr "Dein Passwort wurde geändert"
 
-#: templates/personal.php:14
-msgid "Old password"
-msgstr "Altes Passwort"
+#: templates/personal.php:9
+msgid "Current password"
+msgstr "Aktuelles Passwort"
 
-#: templates/personal.php:15
+#: templates/personal.php:10
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: templates/personal.php:16
+#: templates/personal.php:11
 msgid "show"
 msgstr "zeigen"
 
-#: templates/personal.php:23
+#: templates/personal.php:12
+msgid "Change password"
+msgstr "Passwort ändern"
+
+#: templates/personal.php:18
 msgid "Language"
 msgstr "Sprache"
+
+#: templates/personal.php:24
+msgid "Help translating"
+msgstr "Hilf bei der Übersetzung"
+
+#: templates/personal.php:30
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr ""
+"benutze diese Adresse, um deine ownCloud mit deinem Dateiverwalter zu "
+"verbinden"
 
 #: templates/users.php:11
 msgid "Name"
@@ -105,8 +119,8 @@ msgstr "Gruppen"
 msgid "Create"
 msgstr "Anlegen"
 
-#: templates/users.php:36
-msgid "Remove"
-msgstr "Entfernen"
+#: templates/users.php:40
+msgid "Delete"
+msgstr "Löschen"
 
 

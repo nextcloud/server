@@ -117,7 +117,7 @@
 'es'=>'Espanol',
 'su'=>'Sundanese',
 'sw'=>'Swahili (Kiswahili)',
-'sv'=>'Swedish',
+'sv'=>'Svenska',
 'tl'=>'Tagalog',
 'tg'=>'Tajik',
 'ta'=>'Tamil',

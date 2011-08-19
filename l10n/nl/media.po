@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+#   <icewind1991@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-13 12:41+0200\n"
+"PO-Revision-Date: 2011-08-14 13:52+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:31
+msgid "Music"
+msgstr "Muziek"
+
+#: templates/music.php:27
+msgid "Songs scanned"
+msgstr "nummers gescanned"
+
+#: templates/music.php:28
+msgid "Rescan Collection"
+msgstr "Collectie opnieuw scannen"
+
+#: templates/music.php:29
+msgid "Pause"
+msgstr "Pauze"
+
+#: templates/music.php:35
+msgid "Artist"
+msgstr "Artiest"
+
+#: templates/music.php:36
+msgid "Album"
+msgstr "Album"
+
+#: templates/music.php:37
+msgid "Title"
+msgstr "Titel"
+
+

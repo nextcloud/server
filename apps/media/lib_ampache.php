@@ -201,6 +201,7 @@ class OC_MEDIA_AMPACHE{
 		$filter=isset($params['filter'])?$params['filter']:'';
 		$exact=isset($params['exact'])?($params['exact']=='true'):false;
 		$artists=OC_MEDIA_COLLECTION::getArtists($filter,$exact);
+		error_log('artists found: '.print_r($artists,true));
 		echo('<root>');
 		foreach($artists as $artist){
 			self::printArtist($artist);
@@ -215,8 +216,7 @@ class OC_MEDIA_AMPACHE{
 </root>");
 			return;
 		}
-		global $SITEROOT;
-		$filter=$params['filter'];
+		$filter=isset($params['filter'])?$params['filter']:'';
 		$songs=OC_MEDIA_COLLECTION::getSongs($filter);
 		$artist=OC_MEDIA_COLLECTION::getArtistName($filter);
 		echo('<root>');

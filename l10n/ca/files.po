@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+#   <rcalvoi@yahoo.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-13 12:41+0200\n"
+"PO-Revision-Date: 2011-08-16 18:04+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
+"Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/team/ca/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:7
+msgid "Files"
+msgstr "Fitxers"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Mida màxima de pujada"
+
+#: templates/part.list.php:1
+msgid "Nothing in here. Upload something!"
+msgstr "Res per aquí. Pugeu alguna cosa!"
+
+#: templates/index.php:9
+msgid "Upload"
+msgstr "Puja"
+
+#: templates/index.php:16
+msgid "New Folder"
+msgstr "Carpeta nova"
+
+#: templates/index.php:29
+msgid "Name"
+msgstr "Nom"
+
+#: templates/index.php:31
+msgid "Download"
+msgstr "Descarrega"
+
+#: templates/index.php:35
+msgid "Size"
+msgstr "Mida"
+
+#: templates/index.php:36
+msgid "Modified"
+msgstr "Modificat"
+
+#: templates/index.php:36
+msgid "Delete"
+msgstr "Esborra"
+
+#: templates/index.php:44
+msgid "Upload too large"
+msgstr "La pujada és massa gran"
+
+#: templates/index.php:46
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada "
+"d'aquest servidor"
+
+

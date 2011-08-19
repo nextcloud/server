@@ -1,0 +1,125 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+#   <hakan.thn@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-19 13:10+0200\n"
+"PO-Revision-Date: 2011-08-18 22:38+0000\n"
+"Last-Translator: HakanS <hakan.thn@gmail.com>\n"
+"Language-Team: Swedish (http://www.transifex.net/projects/p/owncloud/team/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/openid.php:13 ajax/setlanguage.php:13
+msgid "Authentication error"
+msgstr "Autentiseringsfel"
+
+#: ajax/openid.php:21
+msgid "OpenID Changed"
+msgstr "OpenID ändrat"
+
+#: ajax/openid.php:23 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "Ogiltig begäran"
+
+#: ajax/setlanguage.php:21
+msgid "Language changed"
+msgstr "Språk ändrades"
+
+#: templates/help.php:3
+msgid "Problems connecting to help database."
+msgstr "Problem med att ansluta till hjälp-databasen."
+
+#: templates/help.php:4
+msgid "Go there manually."
+msgstr "Gå dit manuellt"
+
+#: templates/help.php:12
+msgid "Answer"
+msgstr "Svar"
+
+#: templates/help.php:16
+msgid "Ask a question"
+msgstr "Ställ en fråga"
+
+#: templates/apps.php:12
+msgid "Select an App"
+msgstr "Välj en App"
+
+#: templates/apps.php:14
+msgid "-licensed"
+msgstr "-licensierat"
+
+#: templates/apps.php:14
+msgid "by"
+msgstr "av"
+
+#: templates/personal.php:2
+msgid "You use"
+msgstr "Du använder"
+
+#: templates/personal.php:2
+msgid "of the available"
+msgstr "av tillgängliga"
+
+#: templates/personal.php:7
+msgid "Your password got changed"
+msgstr "Ditt lösenord ändrades"
+
+#: templates/personal.php:9
+msgid "Current password"
+msgstr "Nuvarande lösenord"
+
+#: templates/personal.php:10
+msgid "New password"
+msgstr "Nytt lösenord"
+
+#: templates/personal.php:11
+msgid "show"
+msgstr "visa"
+
+#: templates/personal.php:12
+msgid "Change password"
+msgstr "Ändra lösenord"
+
+#: templates/personal.php:18
+msgid "Language"
+msgstr "Språk"
+
+#: templates/personal.php:24
+msgid "Help translating"
+msgstr "Hjälp till att översätta"
+
+#: templates/personal.php:30
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr ""
+"använd denna adress för att ansluta till ditt ownCloud i din filhanterare"
+
+#: templates/users.php:11
+msgid "Name"
+msgstr "Namn"
+
+#: templates/users.php:12
+msgid "Password"
+msgstr "Lösenord"
+
+#: templates/users.php:13 templates/users.php:28
+msgid "Groups"
+msgstr "Grupper"
+
+#: templates/users.php:18
+msgid "Create"
+msgstr "Skapa"
+
+#: templates/users.php:40
+msgid "Delete"
+msgstr "Ta bort"
+
+

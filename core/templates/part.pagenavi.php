@@ -1,12 +1,12 @@
 <center>
 	<table class="pager" cellspacing="0" cellpadding="0" border="0">
-		<tr>
+		<tr><td width="50%"></td>
 			<td width="1">
 				<?php if($_['page']>0):?>
 					<span class="pagerbutton1"><a href="<?php echo $_['url'].($_['page']-1);?>"><?php echo $l->t( 'prev' ); ?></a>&nbsp;&nbsp;</span>
 				<?php endif; ?>
 			</td>
-			<td>
+			<td width="1">
 				<?php if ($_['pagestart']>0):?>
 					...
 				<?php endif;?>
@@ -26,6 +26,6 @@
 					<span class="pagerbutton2"><a href="<?php echo $_['url'].($_['page']+1);?>"><?php echo $l->t( 'next' ); ?></a></span>
 				<?php endif; ?>
 			</td>
-		</tr>
+		<td width="50%"></td></tr>
 	</table>
 </center>

@@ -29,4 +29,4 @@ span.version{margin-left:3em;color:#ddd}
 
 
 /* HELP */
-table#help tr td { white-space:normal; }
+tr.pager:hover { background:#fff; }

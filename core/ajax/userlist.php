@@ -21,27 +21,30 @@
 *
 */
 
-
-// We send json data
-header( "Content-Type: application/jsonrequest" );
-
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
 require_once('../../lib/base.php');
 
-if(isset($_GET["user"]) && isset($_GET["password"]))
-{
-        if(!OC_User::checkPassword($_GET["user"], $_GET["password"]))
+if(!OC_User::isLoggedIn()){
+        if(!isset($_SERVER['PHP_AUTH_USER'])){
+                header('WWW-Authenticate: Basic realm="ownCloud Server"');
+                header('HTTP/1.0 401 Unauthorized');
+                echo 'Valid credentials must be supplied';
                 exit();
-
-        $users = array();
-
-        foreach( OC_User::getUsers() as $i ){
-        	$users[] = array( "username" => $i, "groups" => join( ", ", OC_Group::getUserGroups( $i ) ));
-	}
-
-	echo json_encode($users);
-
-
+        } else {
+                if(!OC_User::checkPassword($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])){
+                        exit();
+                }
+        }
 }
+
+$users = array();
+
+foreach( OC_User::getUsers() as $i ){
+       	$users[] = array( "username" => $i, "groups" => join( ", ", OC_Group::getUserGroups( $i ) ));
+}
+
+// We send json data
+header( "Content-Type: application/jsonrequest" );
+echo json_encode($users);
 
 ?>

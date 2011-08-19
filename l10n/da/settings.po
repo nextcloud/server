@@ -2,12 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-13 04:33+0200\n"
-"PO-Revision-Date: 2011-08-13 02:19+0000\n"
+"POT-Creation-Date: 2011-08-18 18:58+0200\n"
+"PO-Revision-Date: 2011-08-18 16:59+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
@@ -22,90 +23,102 @@ msgstr "Godkendelsesfejl"
 
 #: ajax/openid.php:21
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID ændret"
 
 #: ajax/openid.php:23 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr "Invalid forespørgsel"
+msgstr "Ugyldig forespørgsel"
 
 #: ajax/setlanguage.php:21
 msgid "Language changed"
 msgstr "Sprog ændret"
 
-#: templates/help.php:21
-msgid "Ask a question"
+#: templates/help.php:2
+msgid "Problems connecting to help database."
 msgstr ""
+
+#: templates/help.php:3
+msgid "Go there manually."
+msgstr ""
+
+#: templates/help.php:11
+msgid "Answer"
+msgstr ""
+
+#: templates/help.php:17
+msgid "Ask a question"
+msgstr "Stil et spørgsmål"
 
 #: templates/apps.php:12
 msgid "Select an App"
-msgstr ""
+msgstr "Vælg en App"
 
 #: templates/apps.php:14
 msgid "-licensed"
-msgstr ""
+msgstr "-licenseret"
 
 #: templates/apps.php:14
 msgid "by"
+msgstr "af"
+
+#: templates/personal.php:2
+msgid "You use"
 msgstr ""
 
-#: templates/personal.php:3
-msgid "Account information"
-msgstr "Konto information"
+#: templates/personal.php:2
+msgid "of the available"
+msgstr ""
 
-#: templates/personal.php:5
-msgid "You're currently using"
-msgstr "Du udnytter i øjeblikket"
+#: templates/personal.php:7
+msgid "Your password got changed"
+msgstr "Din adgangskode er blevet ændret"
 
-#: templates/personal.php:5
-msgid "of your"
-msgstr "af din"
+#: templates/personal.php:9
+msgid "Current password"
+msgstr ""
 
-#: templates/personal.php:5
-msgid "space"
-msgstr "plads"
+#: templates/personal.php:10
+msgid "New password"
+msgstr "Ny adgangskode"
 
-#: templates/personal.php:11 templates/personal.php:17
-msgid "Change Password"
-msgstr "Ændre adgangskode"
+#: templates/personal.php:11
+msgid "show"
+msgstr "vis"
 
 #: templates/personal.php:12
-msgid "Your password got changed"
-msgstr "Din adgangskode er ændret"
-
-#: templates/personal.php:14
-msgid "Old password"
+msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:15
-msgid "New password"
-msgstr "Nye adgangskode"
-
-#: templates/personal.php:16
-msgid "show"
-msgstr ""
-
-#: templates/personal.php:23
+#: templates/personal.php:18
 msgid "Language"
 msgstr "Sprog"
 
+#: templates/personal.php:24
+msgid "Help translating"
+msgstr ""
+
+#: templates/personal.php:30
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr ""
+
 #: templates/users.php:11
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: templates/users.php:12
 msgid "Password"
-msgstr ""
+msgstr "Kodeord"
 
 #: templates/users.php:13 templates/users.php:28
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 #: templates/users.php:18
 msgid "Create"
-msgstr ""
+msgstr "Ny"
 
-#: templates/users.php:36
-msgid "Remove"
+#: templates/users.php:40
+msgid "Delete"
 msgstr ""
 
 

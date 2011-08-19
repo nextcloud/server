@@ -53,6 +53,10 @@ class OC_Util {
 // 			}
 			OC_Filesystem::mount($rootStorage,'/');
 
+			// TODO add this storage provider in a proper way
+			$sharedStorage = OC_Filesystem::createStorage('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'));
+			OC_Filesystem::mount($sharedStorage,'/'.OC_User::getUser().'/files/Shared/');
+
 			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
 			if( !is_dir( $CONFIG_DATADIRECTORY )){
 				mkdir( $CONFIG_DATADIRECTORY, 0755, true );

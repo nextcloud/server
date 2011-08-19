@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+#   <sergioballesterossolanas@gmail.com>, 2011.
 #   <rom1dep@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-13 04:33+0200\n"
-"PO-Revision-Date: 2011-08-13 02:33+0000\n"
+"POT-Creation-Date: 2011-08-18 21:07+0200\n"
+"PO-Revision-Date: 2011-08-18 19:08+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/team/es/)\n"
 "MIME-Version: 1.0\n"
@@ -17,17 +18,33 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: strings.php:5
+msgid "Users"
+msgstr ""
+
+#: strings.php:6
+msgid "Apps"
+msgstr ""
+
+#: strings.php:7
+msgid "Help"
+msgstr ""
+
+#: strings.php:8
+msgid "Personal"
+msgstr ""
+
 #: templates/login.php:4
 msgid "Login failed!"
 msgstr "¡No se pudo iniciar sesión!"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
-msgstr ""
+msgstr "recuérdame"
 
 #: templates/installation.php:20
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "Crear una <strong>cuenta de administrador</strong>"
 
 #: templates/installation.php:21
 msgid "Username"
@@ -39,24 +56,24 @@ msgstr "Contraseña"
 
 #: templates/installation.php:27
 msgid "Configure the database"
-msgstr ""
+msgstr "Configurar la base de datos"
 
 #: templates/installation.php:32 templates/installation.php:43
 #: templates/installation.php:53
 msgid "will be used"
-msgstr ""
+msgstr "serán utilizados"
 
 #: templates/installation.php:64
 msgid "Database user"
-msgstr ""
+msgstr "Usuario de la base de datos"
 
 #: templates/installation.php:65
 msgid "Database password"
-msgstr ""
+msgstr "Contraseña de la base de datos"
 
 #: templates/installation.php:66
 msgid "Database name"
-msgstr ""
+msgstr "Nombre de la base de datos"
 
 #: templates/installation.php:74
 msgid "Advanced"
@@ -64,15 +81,15 @@ msgstr "Avanzado"
 
 #: templates/installation.php:77
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #: templates/installation.php:78
 msgid "Table prefix"
-msgstr ""
+msgstr "Prefijo de la tabla"
 
 #: templates/installation.php:80
 msgid "Data folder"
-msgstr ""
+msgstr "Directorio de almacenamiento"
 
 #: templates/installation.php:83
 msgid "Finish setup"
@@ -80,10 +97,10 @@ msgstr "Completar la instalación"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "No se encontró la nube"
 
 #: templates/layout.guest.php:38
-msgid "is a personal cloud which runs on your own server"
+msgid "gives you the freedom to control your own data on the internet"
 msgstr ""
 
 #: templates/part.pagenavi.php:6
@@ -98,12 +115,8 @@ msgstr "siguiente"
 msgid "You are logged out."
 msgstr "Has cerrado sesión."
 
-#: templates/layout.user.php:36
-msgid "Log out"
-msgstr ""
-
-#: templates/layout.user.php:56
+#: templates/layout.user.php:49
 msgid "Settings"
-msgstr ""
+msgstr "Ajustes"
 
 

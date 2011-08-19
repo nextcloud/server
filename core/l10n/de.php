@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Users" => "Nutzer",
+"Apps" => "Anwendungen",
+"Help" => "Hilfe",
+"Personal" => "Persönlich",
 "Login failed!" => "Anmeldung fehlgeschlagen!",
 "remember" => "merken",
 "Create an <strong>admin account</strong>" => "<strong>Admin-Konto</strong> anlegen",
@@ -15,10 +19,9 @@
 "Data folder" => "Datenverzeichnis",
 "Finish setup" => "Installation abschließen",
 "Cloud not found" => "Cloud nicht verfügbar",
-"is a personal cloud which runs on your own server" => "ist ein persönlicher Online-Speicher für deinen eigenen Server",
+"gives you the freedom to control your own data on the internet" => "gibt dir die Freiheit, deine eigenen Daten im Internet zu kontrollieren.",
 "prev" => "Zurück",
 "next" => "Weiter",
 "You are logged out." => "Erfolgreich abgemeldet.",
-"Log out" => "Abmelden",
 "Settings" => "Einstellungen"
 );

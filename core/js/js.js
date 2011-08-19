@@ -180,7 +180,7 @@ if (!Array.prototype.indexOf){
  * check if the browser support svg images
  */
 function SVGSupport() {
-	return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Shape", "1.0");
+	return !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
 }
 
 /**
@@ -302,9 +302,7 @@ $(document).ready(function(){
 	// all the tipsy stuff needs to be here (in reverse order) to work
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
-	$('.remove .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.date .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.action').tipsy({gravity:'s', fade:true, live:true});
+	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.selectedActions a.delete').tipsy({gravity: 'ne', fade:true, live:true});
 	$('.selectedActions a').tipsy({gravity:'n', fade:true, live:true});
 	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 

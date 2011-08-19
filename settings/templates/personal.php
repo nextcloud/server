@@ -16,18 +16,18 @@
 <form>
 	<fieldset class="personalblock">
 		<label for="languageinput"><strong><?php echo $l->t('Language');?></strong></label>
-		<select id="languageinput" name='lang'>
+		<select id="languageinput" name="lang">
 		<?php foreach($_['languages'] as $language):?>
 			<option value="<?php echo $language['code'];?>"><?php echo $language['name'];?></option>
 		<?php endforeach;?>
 		</select>
-		<a href="https://www.transifex.net/projects/p/owncloud/"><?php echo $l->t('Help translating');?></a>
+		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php echo $_['languages'][0]['code'];?>/" target="_blank"><em><?php echo $l->t('Help translating');?></em></a>
 	</fieldset>
 </form>
 
 <p class="personalblock">
 	<label for="webdav"><strong>WebDAV</strong></label>
-	<input id="webdav" type="text" value="<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?>" title="use this address to connect to your ownCloud in your file manager" />
+	<input id="webdav" type="text" value="<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?>" title="<?php echo $l->t('use this address to connect to your ownCloud in your file manager');?>" />
 </p>
 
 <?php foreach($_['forms'] as $form){

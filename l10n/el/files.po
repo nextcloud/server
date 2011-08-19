@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-13 12:41+0200\n"
+"PO-Revision-Date: 2011-08-13 17:44+0000\n"
+"Last-Translator: multipetros <petros.kyladitis@gmail.com>\n"
+"Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:7
+msgid "Files"
+msgstr "Αρχεία"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Μέγιστο μέγεθος μεταφόρτωσης"
+
+#: templates/part.list.php:1
+msgid "Nothing in here. Upload something!"
+msgstr "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!"
+
+#: templates/index.php:9
+msgid "Upload"
+msgstr "Μεταφόρτωση"
+
+#: templates/index.php:16
+msgid "New Folder"
+msgstr "Νέος φάκελος"
+
+#: templates/index.php:29
+msgid "Name"
+msgstr "Όνομα"
+
+#: templates/index.php:31
+msgid "Download"
+msgstr "Λήψη"
+
+#: templates/index.php:35
+msgid "Size"
+msgstr "Μέγεθος"
+
+#: templates/index.php:36
+msgid "Modified"
+msgstr "Τροποποιήθηκε"
+
+#: templates/index.php:36
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: templates/index.php:44
+msgid "Upload too large"
+msgstr "Πολύ μεγάλο το αρχείο προς μεταφόρτωση"
+
+#: templates/index.php:46
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος "
+"μεταφόρτωσης αρχείων σε αυτόν το διακομιστή."
+
+

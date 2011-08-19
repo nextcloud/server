@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-13 04:33+0200\n"
-"PO-Revision-Date: 2011-08-13 02:33+0000\n"
+"POT-Creation-Date: 2011-08-18 21:07+0200\n"
+"PO-Revision-Date: 2011-08-18 19:08+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: strings.php:5
+msgid "Users"
+msgstr ""
+
+#: strings.php:6
+msgid "Apps"
+msgstr ""
+
+#: strings.php:7
+msgid "Help"
+msgstr ""
+
+#: strings.php:8
+msgid "Personal"
+msgstr ""
 
 #: templates/login.php:4
 msgid "Login failed!"
@@ -83,7 +99,7 @@ msgid "Cloud not found"
 msgstr ""
 
 #: templates/layout.guest.php:38
-msgid "is a personal cloud which runs on your own server"
+msgid "gives you the freedom to control your own data on the internet"
 msgstr ""
 
 #: templates/part.pagenavi.php:6
@@ -98,11 +114,7 @@ msgstr "dalej"
 msgid "You are logged out."
 msgstr "Jesteś wylogowany."
 
-#: templates/layout.user.php:36
-msgid "Log out"
-msgstr ""
-
-#: templates/layout.user.php:56
+#: templates/layout.user.php:49
 msgid "Settings"
 msgstr ""
 

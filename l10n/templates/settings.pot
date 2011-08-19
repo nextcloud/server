@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-13 12:41+0200\n"
+"POT-Creation-Date: 2011-08-19 13:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,19 @@ msgstr ""
 msgid "Language changed"
 msgstr ""
 
-#: templates/help.php:21
+#: templates/help.php:3
+msgid "Problems connecting to help database."
+msgstr ""
+
+#: templates/help.php:4
+msgid "Go there manually."
+msgstr ""
+
+#: templates/help.php:12
+msgid "Answer"
+msgstr ""
+
+#: templates/help.php:16
 msgid "Ask a question"
 msgstr ""
 
@@ -49,44 +61,44 @@ msgstr ""
 msgid "by"
 msgstr ""
 
-#: templates/personal.php:3
-msgid "Account information"
+#: templates/personal.php:2
+msgid "You use"
 msgstr ""
 
-#: templates/personal.php:5
-msgid "You're currently using"
+#: templates/personal.php:2
+msgid "of the available"
 msgstr ""
 
-#: templates/personal.php:5
-msgid "of your"
-msgstr ""
-
-#: templates/personal.php:5
-msgid "space"
-msgstr ""
-
-#: templates/personal.php:11 templates/personal.php:17
-msgid "Change Password"
-msgstr ""
-
-#: templates/personal.php:12
+#: templates/personal.php:7
 msgid "Your password got changed"
 msgstr ""
 
-#: templates/personal.php:14
-msgid "Old password"
+#: templates/personal.php:9
+msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:15
+#: templates/personal.php:10
 msgid "New password"
 msgstr ""
 
-#: templates/personal.php:16
+#: templates/personal.php:11
 msgid "show"
 msgstr ""
 
-#: templates/personal.php:23
+#: templates/personal.php:12
+msgid "Change password"
+msgstr ""
+
+#: templates/personal.php:18
 msgid "Language"
+msgstr ""
+
+#: templates/personal.php:24
+msgid "Help translating"
+msgstr ""
+
+#: templates/personal.php:30
+msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
 #: templates/users.php:11
@@ -105,6 +117,6 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: templates/users.php:36
-msgid "Remove"
+#: templates/users.php:40
+msgid "Delete"
 msgstr ""

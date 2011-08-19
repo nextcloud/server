@@ -15,10 +15,9 @@
 "Data folder" => "Répertoire des données",
 "Finish setup" => "Terminer l'installation",
 "Cloud not found" => "Introuvable",
-"is a personal cloud which runs on your own server" => "est un service de cloud personnel propulsé par votre propre serveur",
+"gives you the freedom to control your own data on the internet" => "vous rend libre de contrôler vos propres données sur internet",
 "prev" => "précédent",
 "next" => "suivant",
 "You are logged out." => "Vous êtes désormais déconnecté.",
-"Log out" => "Se déconnecter",
 "Settings" => "Paramètres"
 );

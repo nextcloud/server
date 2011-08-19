@@ -129,8 +129,7 @@ if($arguments['action']){
 			// calc the string in GMT not localtime and add the offset
 			$expire = "Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT";
 			//output the HTTP header
-			Header($expire);
-			header('Expires: 0');
+			header($expire);
 			header('Cache-Control: max-age=3600, must-revalidate');
 			header('Pragma: public');
 			header('Accept-Ranges: bytes');
