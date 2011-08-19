@@ -10,7 +10,7 @@ $(document).ready(function() {
 				data: 'source='+file,
 				async: false,
 				success: function(users) {
-					if (users.length > 0) {
+					if (users) {
 						icon = OC.imagePath('core', 'actions/shared');
 						$.each(users, function(index, row) {
 							if (row.uid_shared_with == 'public') {
@@ -196,8 +196,7 @@ function createDropdown(filename, files) {
 		if (users) {
 			$.each(users, function(index, row) {
 				if (row.uid_shared_with == 'public') {
-					var token = 1234;
-					showPublicLink(token);
+					showPublicLink(row.token);
 				} else if (isNaN(index)) {
 					addUser(row.uid_shared_with, row.permissions, index.substr(0, index.lastIndexOf('-')));
 				} else {
@@ -228,6 +227,6 @@ function addUser(uid_shared_with, permissions, parentFolder) {
 function showPublicLink(token) {
 	$('#makelink').attr('checked', true);
 	$('#link').data('token', token);
-	$('#link').val(parent.location.protocol+"//"+location.host+OC.linkTo('files_publiclink','get.php')+'?token='+token);
+	$('#link').val(parent.location.protocol+"//"+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token);
 	$('#link').show('blind');
 }
