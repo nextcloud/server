@@ -21,7 +21,7 @@
 			<option value="<?php echo $language['code'];?>"><?php echo $language['name'];?></option>
 		<?php endforeach;?>
 		</select>
-		<a href="https://www.transifex.net/projects/p/owncloud/"><em><?php echo $l->t('Help translating');?></em></a>
+		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php echo $_['languages'][0]['code'];?>/" target="_blank"><em><?php echo $l->t('Help translating');?></em></a>
 	</fieldset>
 </form>
 
