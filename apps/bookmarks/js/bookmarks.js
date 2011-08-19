@@ -20,7 +20,7 @@ function getBookmarks() {
 	}
 	$.ajax({
 		url: 'ajax/updateList.php',
-		data: "tag=" + encodeURI($('#bookmarkFilterTag').val()) + "&page=" + bookmarks_page,
+		data: 'tag=' + encodeURI($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page,
 		success: function(bookmarks){
 			bookmarks_page += 1;
 			$('.bookmark_link').unbind('click', recordClick);
@@ -37,24 +37,29 @@ function getBookmarks() {
 }
 
 function addBookmark(event) {
-	var url = $('#bookmark_add_url').val()
-	var title = $('#bookmark_add_title').val()
-	var description = $('#bookmark_add_description').val()
-	var tags = $('#bookmark_add_tags').val()
+	var url = encodeEntities($('#bookmark_add_url').val())
+	var title = encodeEntities($('#bookmark_add_title').val())
+	var description = encodeEntities($('#bookmark_add_description').val())
+	var tags = encodeEntities($('#bookmark_add_tags').val())
+	var taglist = tags.split(' ')
+	var tagshtml = '';
+	for ( var i=0, len=taglist.length; i<len; ++i ){
+		tagshtml += '<a class="bookmark_tags" href="?tag=' + encodeURI(taglist[i]) + '">' + taglist[i] + '</a> ';
+	}
 	$.ajax({
 		url: 'ajax/addBookmark.php',
-		data: "url=" + encodeURI(url) + "&title=" + encodeURI(title) + "&description=" + encodeURI(description) + "&tags=" + encodeURI(tags),
+		data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&description=' + encodeURI(description) + '&tags=' + encodeURI(tags),
 		success: function(data){ 
 			$('.bookmarks_add').slideToggle(); 
 			$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
 			$('.bookmarks_list').prepend(
-			"<div class=\"bookmark_single\">" +
-				"<p class=\"bookmark_title\"><a href=\"" + url + "\" target=\"_new\" class=\"bookmark_link\">" + title + "</a></p>" +
-				"<p class=\"bookmark_url\">" + url + "</p>" +
-				"<p class=\"bookmark_description\">" + description + "</p>" +
-				"<p>" + tags + "</p>" +
-				"<p class=\"bookmark_actions\"><span class=\"bookmark_delete\">Delete</span></p>" +
-			"</div>"
+			'<div class="bookmark_single">' +
+				'<p class="bookmark_title"><a href="' + url + '" target="_new" class="bookmark_link">' + title + '</a></p>' +
+				'<p class="bookmark_url">' + url + '</p>' +
+				'<p class="bookmark_description">' + description + '</p>' +
+				'<p>' + tagshtml + '</p>' +
+				'<p class="bookmark_actions"><span class="bookmark_delete">Delete</span></p>' +
+			'</div>'
 			);
 		}
 	});
@@ -64,25 +69,25 @@ function delBookmark(event) {
 	var record = $(this).parent().parent()
 	$.ajax({
 		url: 'ajax/delBookmark.php',
-		data: "url=" + encodeURI($(this).parent().parent().children('.bookmark_url:first').text()),
-		success: function(data){ record.animate({ opacity: "hide" }, "fast"); }
+		data: 'url=' + encodeURI($(this).parent().parent().children('.bookmark_url:first').text()),
+		success: function(data){ record.animate({ opacity: 'hide' }, 'fast'); }
 	});
 }
 
 function updateBookmarksList(bookmark) {
-	var tags = encodeEntities(bookmark.tags).split(" ");
-	var taglist = "";
+	var tags = encodeEntities(bookmark.tags).split(' ');
+	var taglist = '';
 	for ( var i=0, len=tags.length; i<len; ++i ){
-		taglist = taglist + "<a class=\"bookmark_tags\" href=\"?tag=" + encodeURI(tags[i]) + "\">" + tags[i] + "</a> ";
+		taglist = taglist + '<a class="bookmark_tags" href="?tag=' + encodeURI(tags[i]) + '">' + tags[i] + '</a> ';
 	}
 	$('.bookmarks_list').append(
-		"<div class=\"bookmark_single\">" +
-			"<p class=\"bookmark_title\"><a href=\"" + encodeEntities(bookmark.url) + "\" target=\"_new\" class=\"bookmark_link\">" + encodeEntities(bookmark.title) + "</a></p>" +
-			"<p class=\"bookmark_url\">" + encodeEntities(bookmark.url) + "</p>" +
-			"<p class=\"bookmark_description\">" + encodeEntities(bookmark.description) + "</p>" +
-			"<p>" + taglist + "</p>" +
-			"<p class=\"bookmark_actions\"><span class=\"bookmark_delete\">Delete</span></p>" +
-		"</div>"
+		'<div class="bookmark_single">' +
+			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_new" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
+			'<p class="bookmark_url">' + encodeEntities(bookmark.url) + '</p>' +
+			'<p class="bookmark_description">' + encodeEntities(bookmark.description) + '</p>' +
+			'<p>' + taglist + '</p>' +
+			'<p class="bookmark_actions"><span class="bookmark_delete">Delete</span></p>' +
+		'</div>'
 	);
 }
 
@@ -96,13 +101,13 @@ function updateOnBottom() {
 function recordClick(event) {
 	$.ajax({
 		url: 'ajax/recordClick.php',
-		data: "url=" + encodeURI($(this).attr('href')),
+		data: 'url=' + encodeURI($(this).attr('href')),
 	});	
 }
 
 function encodeEntities(s){
 	try {
-		return $("<div/>").text(s).html();
+		return $('<div/>').text(s).html();
 		
 	} catch (ex) {
 		return "";
