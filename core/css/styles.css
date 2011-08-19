@@ -93,7 +93,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 /* VARIOUS REUSABLE SELECTORS */
 .hidden { display:none; }
 
-#notification { z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:block; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+#notification { z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 
 .action, .selectedActions a, #logout { opacity:.3; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
 .action:hover, .selectedActions a:hover, #logout:hover { opacity:1; }
