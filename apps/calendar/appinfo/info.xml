@@ -4,7 +4,7 @@
 	<name>Calendar</name>
 	<version>0.1</version>
 	<licence>AGPL</licence>
-	<author>Jakob Sack, Georg Ehrke (Interface)</author>
+	<author>Jakob Sack, Georg Ehrke (Userinterface)</author>
 	<require>2</require>
 	<description>CalDAV server with viewing support.</description>
 </info>

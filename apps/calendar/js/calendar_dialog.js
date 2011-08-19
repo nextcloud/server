@@ -25,24 +25,6 @@
  * newevent_dialog_submit - submit                *
  * editevent_dialog_submit - submit               *
  *************************************************/
-function oc_cal_choosecalendar_dialog() {
-	$( function() {
-		$( "#choosecalendar_dialog" ).dialog();
-	});
-}
-
-function oc_cal_newevent_dialog() {
-	$( function() {
-		$( "#newevent" ).dialog();
-	});
-}
-
-function oc_cal_editevent_dialog() {
-	$( function() {
-		$( "#editevent" ).dialog();
-	});
-}
-
 function oc_cal_choosecalendar_dialog_submit() {
 
 }

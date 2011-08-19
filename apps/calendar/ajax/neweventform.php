@@ -7,7 +7,7 @@
  * email: ownclouddev at georgswebsite dot de     *
  * homepage: ownclouddev.georgswebsite.de         *
  * manual: ownclouddev.georgswebsite.de/manual    *
- * License: GNU General Public License (GPL)      *
+ * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
  *                                                *
  * If you are not able to view the License,       *
  * <http://www.gnu.org/licenses/>                 *
@@ -17,19 +17,11 @@
  * 59 Temple Place, Suite 330, Boston,            *
  * MA 02111-1307  USA                             *
  *************************************************/
-require_once ("../../lib/base.php");
+require_once('../../../lib/base.php');
+$l10n = new OC_L10N('calendar');
 if(!OC_USER::isLoggedIn()) {
-	header("Location: " . OC_HELPER::linkTo("index.php"));
-	exit();
+	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
-if(!file_exists("cfg/" . OC_USER::getUser() . ".cfg.php")) {
-	header("Location: install.php");
-}
-OC_UTIL::addScript("calendar", "calendar");
-OC_UTIL::addScript("calendar", "calendar_init");
-OC_UTIL::addStyle("calendar", "style");
-require_once ("template.php");
-OC_APP::setActiveNavigationEntry("calendar_settings");
-$output = new OC_TEMPLATE("calendar", "settings", "admin");
+$output = new OC_TEMPLATE("calendar", "part.newevent");
 $output -> printpage();
 ?>

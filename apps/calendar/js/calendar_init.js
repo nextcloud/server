@@ -17,11 +17,16 @@
  * 59 Temple Place, Suite 330, Boston,            *
  * MA 02111-1307  USA                             *
  *************************************************/
-//loading Buttons
-$(function(){
-	$("#choosecalendar").buttonset();
-	$(".choosecalendar_check").button();
-	$("#list").button();
+//loading multiselect
+$(document).ready(function(){
+	$("#calendar_select").multiSelect({
+		selectedText: "Calendars",
+		noneSelectedText: "Calendars",
+		selectedList: 0,
+		close: function(){
+			alert("abc");
+   		}
+	});
 });
 //init date vars
 var oc_cal_date = new Date();
@@ -47,6 +52,8 @@ var oc_cal_rows;
 var oc_cal_dates;
 var oc_cal_listview_numofevents = 0;
 var oc_cal_listview_count = 0;
+var oc_cal_opendialog = 0;
+var oc_cal_datemonthyear =  String(oc_cal_dayofmonth) + String(oc_cal_month) + String(oc_cal_year);
 //event vars
 var oc_cal_events = new Array(2011);
 oc_cal_events[2011] = new Array(0,1,2,3,4,5,6,7,8,9,10,11);

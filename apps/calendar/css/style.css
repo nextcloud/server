@@ -44,12 +44,12 @@
 .actions {height: 33px;	min-width: 800px;}
 .controls {min-width: 800px;}
 .center {text-align: center;}
-.dateinfo {height: 15px; width: 100%; overflow: hidden; margin: 0; padding: 0; font-size: 12px;}
+.dateinfo {height: 15px; width: 100%; overflow: hidden; margin: 0; padding: 0; font-size: 12px;background: #F7F7F7;}
 .events {height: 65px; width: 100%; margin: 0; padding: 0;}
 .calendar_row {height: 20px; text-align: center;background: #ffffff;}
 .calendar_time {height: 20px; width: 50px; text-align:right;background: #ffffff;}
-.fourweeksview_item {text-align: center; height: 80px; background: #ffffff;}
-.onemonthview_item {text-align: center; height: 80px; margin: 0; padding: 0; vertical-align: top; background: #ffffff;}
-.weekend{text-align: center;height: 80px;margin: 0;	padding: 0;	vertical-align: top;background: #F3F3F3;}
+.fourweeksview_item {text-align: center; background: #ffffff;width: 14%;}
+.onemonthview_item {text-align: center; height: 80px; margin: 0; padding: 0;height: 100px; vertical-align: top; background: #ffffff; width: 14%; height: 16%;}
+.weekend{text-align: center;margin: 0;	padding: 0;	vertical-align: top;background: #F3F3F3;}
 .weekend_thead, .weekend_row{height: 20px;text-align: center;text-align: center;background: #F3F3F3;}
-.thisday{background: #FFFABC;}
+.thisday{background: #FFFABC;text-align: center;}
