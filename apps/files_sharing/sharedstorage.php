@@ -530,6 +530,14 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	public function search($query) { 
 		
 	}
+
+	public function getLocalFile($path) {
+		$source = $this->getSource($path);
+		if ($source) {
+			$storage = OC_Filesystem::getStorage($source);
+			return $storage->getLocalFile($this->getInternalPath($source));
+		}
+	}
 	
 }
 
