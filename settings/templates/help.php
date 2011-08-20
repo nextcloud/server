@@ -1,13 +1,13 @@
 <?php if(is_null($_["kbe"])):?>
 	<div class="personalblock">
-		<p><?php echo $l->t('Problems connecting to help database.');?>
-		<a href="http://apps.owncloud.com/kb"><?php echo $l->t('Go there manually.');?></a>
+		<p><?php echo $l->t('Problems connecting to help database.');?></p>
+		<p><a href="http://apps.owncloud.com/kb"><?php echo $l->t('Go there manually.');?></a></p>
 	</div>
 <?php else:?>
 	<?php foreach($_["kbe"] as $kb): ?>
 	<div class="personalblock">
 		<?php if($kb["preview1"] <> "") { echo('<img class="preview" src="'.$kb["preview1"].'" />'); } ?>
-		<p><strong><?php if($kb['detailpage']<>'') echo('<p><a target="_blank" href="'.$kb['detailpage'].'"><strong>'.$kb["name"].'</strong></a></p>');?></strong></p>
+		<?php if($kb['detailpage']<>'') echo('<p><a target="_blank" href="'.$kb['detailpage'].'"><strong>'.$kb["name"].'</strong></a></p>');?>
 		<p><?php echo $kb['description'];?></p>
 		<?php if($kb['answer']<>'') echo('<p><strong>'.$l->t('Answer').':</strong><p>'.$kb['answer'].'</p>');?>
 	</div>

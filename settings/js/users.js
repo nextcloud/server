@@ -131,7 +131,7 @@ $(document).ready(function(){
 				
 			}
 		);
-		var tr=$('#content table tr').first().next().clone();
+		var tr=$('#content table tbody tr').first().clone();
 		tr.attr('data-uid',username);
 		tr.find('td.name').text(username);
 		var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');
@@ -142,10 +142,10 @@ $(document).ready(function(){
 			select.append($('<option value="'+group+'">'+group+'</option>'));
 		});
 		tr.find('td.groups').append(select);
-		if(tr.find('td.remve img').length==0){
+		if(tr.find('td.remove img').length==0){
 			tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
 		}
 		applyMultiplySelect(select);
-		$('#content table tr').last().after(tr);
+		$('#content table tbody').last().after(tr);
 	});
 });

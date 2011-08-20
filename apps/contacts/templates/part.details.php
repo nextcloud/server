@@ -30,6 +30,6 @@
 <?php endif; ?>
 
 <div id="contacts_cardoptions">
-	<a id="contacts_deletecard"><img class="svg action" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></a>
-	<a id="contacts_addproperty"><img class="svg action" src="<?php echo image_path('', 'actions/download.svg'); ?>" /></a>
+	<a id="contacts_deletecard"><img class="svg action" alt="<?php echo $l->t('Delete');?>" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></a>
+	<a id="contacts_addproperty"><img class="svg action" alt="<?php echo $l->t('Download');?>" src="<?php echo image_path('', 'actions/download.svg'); ?>" /></a>
 </div>
