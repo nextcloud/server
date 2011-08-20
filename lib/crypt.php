@@ -23,11 +23,12 @@
 
 
 // Todo:
-//  Crypt/decrypt button in the userinterface
-//  setting if crypto should be on by default
-//  transparent decrypt/encrpt in filesystem.php
-//  don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
-//  check if the block lenght of the encrypted data stays the same
+//  - Crypt/decrypt button in the userinterface
+//  - Setting if crypto should be on by default
+//  - Add a setting "Don´t encrypt files larger than xx because of performance reasons"
+//  - Transparent decrypt/encrpt in filesystem.php. Autodetect if a file is encrypted (.encrypted extensio)
+//  - Don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
+//  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
 
 require_once('Crypt_Blowfish/Blowfish.php');
