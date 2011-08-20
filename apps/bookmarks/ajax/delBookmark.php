@@ -35,18 +35,33 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
-$query = OC_DB::prepare("
-	DELETE FROM *PREFIX*bookmarks
-	WHERE url LIKE ?
-		AND user_id = ?
-	");
-	
 $params=array(
 	urldecode($_GET["url"]),
 	OC_User::getUser()
 	);
-$result = $query->execute($params);
 
+$query = OC_DB::prepare("
+	SELECT id FROM *PREFIX*bookmarks 
+	WHERE url LIKE ?
+		AND user_id = ?
+	");
+
+$id = $query->execute($params)->fetchOne();
+
+$query = OC_DB::prepare("
+	DELETE FROM *PREFIX*bookmarks
+	WHERE id = $id
+	");
+	
+$result = $query->execute();
+
+
+$query = OC_DB::prepare("
+	DELETE FROM *PREFIX*bookmarks_tags
+	WHERE bookmark_id = $id
+	");
+	
+$result = $query->execute();
 // var_dump($params);
 
 echo json_encode( array( "status" => "success", "data" => array()));
