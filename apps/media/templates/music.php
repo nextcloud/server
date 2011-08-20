@@ -1,11 +1,11 @@
 <div id="controls">
 	<ul class="jp-controls">
-		<li><a href="#" class="jp-play action"><img class="svg" src="<?php echo image_path('core', 'actions/play-big.svg'); ?>" /></a></li>
-		<li><a href="#" class="jp-pause action"><img class="svg" src="<?php echo image_path('core', 'actions/pause-big.svg'); ?>" /></a></li>
-		<li><a href="#" class="jp-previous action"><img class="svg" src="<?php echo image_path('core', 'actions/play-previous.svg'); ?>" /></a></li>
-		<li><a href="#" class="jp-next action"><img class="svg" src="<?php echo image_path('core', 'actions/play-next.svg'); ?>" /></a></li>
-		<li><a href="#" class="jp-mute action"><img class="svg" src="<?php echo image_path('core', 'actions/sound.svg'); ?>" /></a></li>
-		<li><a href="#" class="jp-unmute action"><img class="svg" src="<?php echo image_path('core', 'actions/sound-off.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-play action"><img class="svg" alt="<?php echo $l->t('Play');?>" src="<?php echo image_path('core', 'actions/play-big.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-pause action"><img class="svg" alt="<?php echo $l->t('Pause');?>" src="<?php echo image_path('core', 'actions/pause-big.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-previous action"><img class="svg" alt="<?php echo $l->t('Previous');?>" src="<?php echo image_path('core', 'actions/play-previous.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-next action"><img class="svg" alt="<?php echo $l->t('Next');?>" src="<?php echo image_path('core', 'actions/play-next.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-mute action"><img class="svg" alt="<?php echo $l->t('Mute');?>" src="<?php echo image_path('core', 'actions/sound.svg'); ?>" /></a></li>
+		<li><a href="#" class="jp-unmute action"><img class="svg" alt="<?php echo $l->t('Unmute');?>" src="<?php echo image_path('core', 'actions/sound-off.svg'); ?>" /></a></li>
 	</ul>
 	<div class="jp-progress">
 		<div class="jp-seek-bar">
@@ -26,22 +26,24 @@
 <div id="rightcontent">
 <div id="scan">
 	<p id="scancount" style="display:none"><span class="songCount">0</span> <?php echo $l->t('Songs scanned')?>
-	<input type="button" class="start" value="<?php echo $l->t('Rescan Collection')?>"></input>
-	<input type="button" class="stop" style="display:none" value="<?php echo $l->t('Pause')?>"></input></p>
+	<input type="button" class="start" value="<?php echo $l->t('Rescan Collection')?>" />
+	<input type="button" class="stop" style="display:none" value="<?php echo $l->t('Pause')?>" /></p>
 	<div id="scanprogressbar"></div>
 	
 </div>
 <table id="collection">
 	<thead>
-		<th><?php echo $l->t('Artist')?></th>
-		<th><?php echo $l->t('Album')?></th>
-		<th><?php echo $l->t('Title')?></th>
+		<tr>
+			<th><?php echo $l->t('Artist')?></th>
+			<th><?php echo $l->t('Album')?></th>
+			<th><?php echo $l->t('Title')?></th>
+		</tr>
 	</thead>
 	<tbody>
 		<tr class="template">
-			<td class="artist"><a/></td>
-			<td class="album"><a/></td>
-			<td class="title"><a/></td>
+			<td class="artist"><a></a></td>
+			<td class="album"><a></a></td>
+			<td class="title"><a></a></td>
 		</tr>
 	</tbody>
 </table>

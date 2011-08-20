@@ -81,6 +81,7 @@ $tmpl = new OC_Template( "files", "index", "user" );
 $tmpl->assign( "fileList", $list->fetchPage() );
 $tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
 $tmpl->assign( 'dir', $dir);
+$tmpl->assign( "files", $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
 $tmpl->printPage();

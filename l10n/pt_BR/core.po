@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 21:07+0200\n"
-"PO-Revision-Date: 2011-08-18 19:08+0000\n"
+"POT-Creation-Date: 2011-08-20 05:08+0200\n"
+"PO-Revision-Date: 2011-08-20 03:08+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/owncloud/team/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -98,15 +98,15 @@ msgstr "Concluir configuração"
 msgid "Cloud not found"
 msgstr "Cloud não encontrado"
 
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:35
 msgid "gives you the freedom to control your own data on the internet"
 msgstr ""
 
-#: templates/part.pagenavi.php:6
+#: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "anterior"
 
-#: templates/part.pagenavi.php:26
+#: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "próximo"
 
@@ -114,7 +114,11 @@ msgstr "próximo"
 msgid "You are logged out."
 msgstr "Você está desconectado."
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:34
+msgid "Log out"
+msgstr ""
+
+#: templates/layout.user.php:46 templates/layout.user.php:47
 msgid "Settings"
 msgstr "Configurações"
 

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
+#   <mosslar@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 21:07+0200\n"
-"PO-Revision-Date: 2011-08-18 19:08+0000\n"
+"POT-Creation-Date: 2011-08-20 05:08+0200\n"
+"PO-Revision-Date: 2011-08-20 03:08+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/team/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,19 +20,19 @@ msgstr ""
 
 #: strings.php:5
 msgid "Users"
-msgstr ""
+msgstr "Użytkownicy"
 
 #: strings.php:6
 msgid "Apps"
-msgstr ""
+msgstr "Aplikacje"
 
 #: strings.php:7
 msgid "Help"
-msgstr ""
+msgstr "Pomoc"
 
 #: strings.php:8
 msgid "Personal"
-msgstr ""
+msgstr "Ustawienia osobiste"
 
 #: templates/login.php:4
 msgid "Login failed!"
@@ -39,40 +40,40 @@ msgstr "Nie udało się zalogować!"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
-msgstr ""
+msgstr "zapamiętaj"
 
 #: templates/installation.php:20
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "Stwórz jako <strong>konto administratora</strong>"
 
 #: templates/installation.php:21
 msgid "Username"
-msgstr ""
+msgstr "Użytkownik"
 
 #: templates/installation.php:22
 msgid "Password"
-msgstr ""
+msgstr "Hasło"
 
 #: templates/installation.php:27
 msgid "Configure the database"
-msgstr ""
+msgstr "Konfiguracja bazy danych"
 
 #: templates/installation.php:32 templates/installation.php:43
 #: templates/installation.php:53
 msgid "will be used"
-msgstr ""
+msgstr "zostanie użyte"
 
 #: templates/installation.php:64
 msgid "Database user"
-msgstr ""
+msgstr "Użytkownik bazy danych"
 
 #: templates/installation.php:65
 msgid "Database password"
-msgstr ""
+msgstr "Hasło do bazy danych"
 
 #: templates/installation.php:66
 msgid "Database name"
-msgstr ""
+msgstr "Nazwa bazy danych"
 
 #: templates/installation.php:74
 msgid "Advanced"
@@ -80,15 +81,15 @@ msgstr "Zaawansowane"
 
 #: templates/installation.php:77
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #: templates/installation.php:78
 msgid "Table prefix"
-msgstr ""
+msgstr "Prefiks tablicy"
 
 #: templates/installation.php:80
 msgid "Data folder"
-msgstr ""
+msgstr "Katalog danych"
 
 #: templates/installation.php:83
 msgid "Finish setup"
@@ -96,26 +97,30 @@ msgstr "Zakończ instalację"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "Konta nie znaleziono "
 
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:35
 msgid "gives you the freedom to control your own data on the internet"
-msgstr ""
+msgstr "daje Ci wolność kontroli nad Twoimi danymi w Internecie"
 
-#: templates/part.pagenavi.php:6
+#: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "wstecz"
 
-#: templates/part.pagenavi.php:26
+#: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "dalej"
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr "Jesteś wylogowany."
+msgstr "Zostałeś wylogowany."
 
-#: templates/layout.user.php:49
-msgid "Settings"
+#: templates/layout.user.php:34
+msgid "Log out"
 msgstr ""
+
+#: templates/layout.user.php:46 templates/layout.user.php:47
+msgid "Settings"
+msgstr "Ustawienia"
 
 
