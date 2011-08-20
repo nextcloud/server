@@ -494,11 +494,15 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
-	public function fromUploadedFile($tmpPath, $path) {
-		$source = $this->getSource($tmpPath);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->fromUploadedFile($this->getInternalPath($source), $path);
+	public function fromUploadedFile($tmpFile, $path) {
+		if ($this->is_writeable($path)) {
+			$source = $this->getSource($path);
+			if ($source) {
+				$storage = OC_Filesystem::getStorage($source);
+				return $storage->fromUploadedFile($tmpFile, $this->getInternalPath($source));
+			}
+		} else {
+			return false;
 		}
 	}
 	
