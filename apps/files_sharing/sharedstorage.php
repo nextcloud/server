@@ -526,9 +526,25 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
-	// TODO query all shared files?
-	public function search($query) { 
-		
+	public function search($query) {
+		return $this->searchInDir($query);
+	}
+
+	private function searchInDir($query, $path = ""){
+		$files = array();
+		if ($dh = $this->opendir($path)) {
+			while (($filename = readdir($dh)) !== false) {
+				if ($filename != "." && $filename != "..") {
+					if (strstr(strtolower($filename), strtolower($query))) {
+						$files[] = $path."/".$filename;
+					}
+					if ($this->is_dir($path."/".$filename)) {
+						$files = array_merge($files, $this->searchInDir($query, $path."/".$filename));
+					}
+				}
+			}
+		}
+		return $files;
 	}
 
 	public function getLocalFile($path) {
