@@ -54,7 +54,7 @@
 			<td width="75px"></td>
 			<td>
 			<input onclick="lock_time();" type="checkbox"<?php if($allday == true){echo "checked=\"checked\"";}  ?> id="newcalendar_allday_checkbox">
-			<?php if($allday == true){echo "<script type=\"text/javascript\">lock_time();</script>";}?>
+			<?php if($allday == true){echo "<script type=\"text/javascript\">document.getElementById(\"fromtime\").disabled = true;document.getElementById(\"totime\").disabled = true;document.getElementById(\"fromtime\").style.color = \"#A9A9A9\";document.getElementById(\"totime\").style.color = \"#A9A9A9\";</script>";}?>
 			<label for="newcalendar_allday_checkbox"><?php echo $l -> t("All Day Event");?></label></td>
 		</tr>
 		<tr>
