@@ -112,7 +112,6 @@
 	</table>
 	<span id="newcalendar_actions">
 		<input type="button" style="float: left;" value="<?php echo $l -> t("Submit");?>">
-		<input type="button" style="float: right;" value="<?php echo $l -> t("Reset");?>">
 	</span>
 </div>
 <script type="text/javascript">
