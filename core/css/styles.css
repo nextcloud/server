@@ -101,13 +101,13 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 table tr { -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
-#body-settings .personalblock, .pager li { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+#body-settings .personalblock, .pager li a { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 #body-settings .personalblock#quota { position:relative; margin-top:4.5em; padding:0; }
 
 #quota div, div.jp-play-bar, div.jp-seek-bar { padding:.6em 1em; background:#e6e6e6; font-weight:normal; white-space:nowrap; -moz-border-radius-bottomleft:.4em; -webkit-border-bottom-left-radius:.4em; border-bottom-left-radius:.4em; -moz-border-radius-topleft:.4em; -webkit-border-top-left-radius:.4em; border-top-left-radius:.4em; }
 div.jp-play-bar, div.jp-seek-bar { padding:0; }
 
-.pager { list-style:none; margin:0 1em; float:right; }
+.pager { list-style:none; margin:1em; float:right; }
 .pager li { display:inline-block; margin:0; }
 
 li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
