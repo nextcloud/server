@@ -267,8 +267,9 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if ($this->is_file($path)) {
 			$path = dirname($path);
 		}
+		$dbpath = rtrim($this->datadir.$path, "/");
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-		$result = $query->execute(array($this->datadir.$path));
+		$result = $query->execute(array($dbpath));
 		if ($path != "/" && $path != "") {
 			$parts = explode("/", $path);
 			$part = array_pop($parts);
