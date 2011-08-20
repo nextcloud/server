@@ -510,50 +510,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
-	public function delTree($path) {
-		$target = $this->datadir.$path;
-		if (OC_Share::getPermissions($target) & OC_Share::DELETE) {
-			$source = $this->getSource($path);
-			if ($source) {
-				$storage = OC_Filesystem::getStorage($source);
-				return $storage->delTree($this->getInternalPath($source));
-			}
-		} else {
-			// Check if the folder is inside a shared folder
-			if (OC_Share::getParentFolders($target)) {
-				// If entry for folder already exists
-				if (OC_Share::getItem($target)) {
-					OC_Share::setTarget($target, "/");
-				} else {
-					OC_Share::pullOutOfFolder($target, "/");
-					// Call setTarget in case there are any database entries for items inside this folder
-					OC_Share::setTarget($target, "/");
-				}
-			// Delete the database entry
-			} else {
-				OC_Share::unshareFromMySelf($target);
-			}
-			$this->clearFolderSizeCache($this->getInternalPath($target));
-			return true;
-		}
-	}
-	
-	public function find($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->find($this->getInternalPath($source));
-		}
-	}
-	
-	public function getTree($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->getTree($this->getInternalPath($source));
-		}
-	}
-	
 	public function hash($type, $path, $raw) {
 		$source = $this->getSource($path);
 		if ($source) {
