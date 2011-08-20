@@ -1,3 +1,18 @@
+				<script type="text/javascript">
+				var oc_cal_daylong = new Array("<?php echo $l -> t("Sunday");?>", "<?php echo $l -> t("Monday");?>", "<?php echo $l -> t("Tuesday");?>", "<?php echo $l -> t("Wednesday");?>", "<?php echo $l -> t("Thursday");?>", "<?php echo $l -> t("Friday");?>", "<?php echo $l -> t("Saturday");?>");
+				var oc_cal_dayshort = new Array("<?php echo $l -> t("Sun.");?>", "<?php echo $l -> t("Mon.");?>", "<?php echo $l -> t("Tue.");?>", "<?php echo $l -> t("Wed.");?>", "<?php echo $l -> t("Thu.");?>", "<?php echo $l -> t("Fri.");?>", "<?php echo $l -> t("Sat.");?>");
+				var oc_cal_monthlong = new Array("<?php echo $l -> t("January");?>", "<?php echo $l -> t("February");?>", "<?php echo $l -> t("March");?>", "<?php echo $l -> t("April");?>", "<?php echo $l -> t("May");?>", "<?php echo $l -> t("June");?>", "<?php echo $l -> t("July");?>", "<?php echo $l -> t("August");?>", "<?php echo $l -> t("September");?>", "<?php echo $l -> t("October");?>", "<?php echo $l -> t("November");?>", "<?php echo $l -> t("December");?>");
+				var oc_cal_monthshort = new Array("<?php echo $l -> t("Jan.");?>", "<?php echo $l -> t("Feb.");?>", "<?php echo $l -> t("Mar.");?>", "<?php echo $l -> t("Apr.");?>", "<?php echo $l -> t("May");?>", "<?php echo $l -> t("Jun.");?>", "<?php echo $l -> t("Jul.");?>", "<?php echo $l -> t("Aug.");?>", "<?php echo $l -> t("Sep.");?>", "<?php echo $l -> t("Oct.");?>", "<?php echo $l -> t("Nov.");?>", "<?php echo $l -> t("Dec.");?>");
+				var onedayview_radio = "1 <?php echo $l->t("Day");?>";
+				var oneweekview_radio = "1 <?php echo $l->t("Week");?>";
+				var fourweeksview_radio = "4 <?php echo $l->t("Weeks");?>";
+				var onemonthview_radio = "1 <?php echo $l->t("Month");?>";
+				var listview_radio = "<?php echo $l->t("Listview");?>";
+				var today_button_value = "<?php echo $l->t("Today");?>";
+				var choosecalendar_value = "<?php echo $l->t("Calendars");?>";
+				var cw_label = "<?php echo $l->t("CW");?>";
+				var cws_label = "<?php echo $l->t("CWs");?>";
+				</script>
 				<div id="sysbox"></div>
 				<div id="controls">
 					<div>
@@ -12,11 +27,8 @@
 						</form>
 						<form>
 							<div id="choosecalendar">
-								<input class="button" type="submit" id="today_input" value="Today" onclick="oc_cal_switch2today();"/>
-								<select id="calendar_select" multiple="multiple"> 
-									<option selected="selected">Calendar 1</option>
-									<option disabled="disabled">Calender 2</option>
-								</select>
+								<input type="button" id="today_input" value="Today" onclick="oc_cal_switch2today();"/>
+								<input type="button" id="choosecalendar_input" value="Calendars" onclick="" />
 							</div>
 						</form>
 						<form>
@@ -33,13 +45,13 @@
 						<table>
 							<thead>
 								<tr>
-									<th class="calendar_time">Time</th>
+									<th class="calendar_time"><?php echo $l->t("Time");?></th>
 									<th id="onedayview_today" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('onedayview_today').title);"></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td class="calendar_time">All day</td>
+									<td class="calendar_time"><?php echo $l->t("All day");?></td>
 									<td id="onedayview_wholeday" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('onedayview_today').title, 'allday');"></td>
 								</tr>
 								<tr>
@@ -145,7 +157,7 @@
 						<table>
 							<thead>
 								<tr>
-									<th class="calendar_time">Time</th>
+									<th class="calendar_time"><?php echo $l->t("Time");?></th>
 									<th id="oneweekview_monday" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_monday').title);"></th>
 									<th id="oneweekview_tuesday" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_tuesday').title);"></th>
 									<th id="oneweekview_wednesday" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_wednesday').title);"></th>
@@ -157,7 +169,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td class="calendar_time">All day</td>
+									<td class="calendar_time"><?php echo $l->t("All day");?></td>
 									<td id="oneweekview_monday_allday" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_monday').title, 'allday');"></td>
 									<td id="oneweekview_tuesday_allday" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_tuesday').title, 'allday');"></td>
 									<td id="oneweekview_wednesday_allday" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_wednesday').title, 'allday');"></td>
@@ -413,14 +425,14 @@
 						<table>
 							<thead>
 								<tr>
-									<th id="fourweeksview_calw_label" class="calendar_row">CW</th>
-									<th id="fourweeksview_monday" class="calendar_row">Monday</th>
-									<th id="fourweeksview_tuesday" class="calendar_row">Tuesday</th>
-									<th id="fourweeksview_wednesday" class="calendar_row">Wednesday</th>
-									<th id="fourweeksview_thursday" class="calendar_row">Thursday</th>
-									<th id="fourweeksview_friday" class="calendar_row">Friday</th>
-									<th id="fourweeksview_saturday" class="weekend_thead">Saturday</th>
-									<th id="fourweeksview_sunday" class="weekend_thead">Sunday</th>
+									<th id="fourweeksview_calw_label" class="calendar_row"><?php echo $l -> t("CW");?></th>
+									<th id="fourweeksview_monday" class="calendar_row"><?php echo $l -> t("Monday");?></th>
+									<th id="fourweeksview_tuesday" class="calendar_row"><?php echo $l -> t("Tuesday");?></th>
+									<th id="fourweeksview_wednesday" class="calendar_row"><?php echo $l -> t("Wednesday");?></th>
+									<th id="fourweeksview_thursday" class="calendar_row"><?php echo $l -> t("Thursday");?></th>
+									<th id="fourweeksview_friday" class="calendar_row"><?php echo $l -> t("Friday");?></th>
+									<th id="fourweeksview_saturday" class="weekend_thead"><?php echo $l -> t("Saturday");?></th>
+									<th id="fourweeksview_sunday" class="weekend_thead"><?php echo $l -> t("Sunday");?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -456,16 +468,16 @@
 									<div class="events" id="events_fourweeksview_friday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_1').title)">
 									</div>
 									</td>
-									<td id="fourweeksview_saturday_1" class="weekend">
+									<td id="fourweeksview_saturday_1" class="fourweeksview_item">
 									<div class="dateinfo" id="dateinfo_fourweeksview_saturday_1">
 									</div>
-									<div class="events" id="events_fourweeksview_saturday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_1').title)">
+									<div class="weekend" id="events_fourweeksview_saturday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_1').title)">
 									</div>
 									</td>
-									<td id="fourweeksview_sunday_1" class="weekend">
+									<td id="fourweeksview_sunday_1" class="fourweeksview_item">
 									<div class="dateinfo" id="dateinfo_fourweeksview_sunday_1">
 									</div>
-									<div class="events" id="events_fourweeksview_sunday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_1').title)">
+									<div class="weekend" id="events_fourweeksview_sunday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_1').title)">
 									</div>
 									</td>
 								</tr>
@@ -501,16 +513,16 @@
 									<div class="events" id="events_fourweeksview_friday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_2').title)">
 									</div>
 									</td>
-									<td id="fourweeksview_saturday_2" class="weekend">
+									<td id="fourweeksview_saturday_2" class="fourweeksview_item">
 									<div class="dateinfo" id="dateinfo_fourweeksview_saturday_2">
 									</div>
-									<div class="events" id="events_fourweeksview_saturday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_2').title)">
+									<div class="weekend" id="events_fourweeksview_saturday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_2').title)">
 									</div>
 									</td>
-									<td id="fourweeksview_sunday_2" class="weekend">
+									<td id="fourweeksview_sunday_2" class="fourweeksview_item">
 									<div class="dateinfo" id="dateinfo_fourweeksview_sunday_2">
 									</div>
-									<div class="events" id="events_fourweeksview_sunday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_2').title)">
+									<div class="weekend" id="events_fourweeksview_sunday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_2').title)">
 									</div>
 									</td>
 								</tr>
@@ -546,16 +558,16 @@
 									<div class="events" id="events_fourweeksview_friday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_3').title)">
 									</div>
 									</td>
-									<td id="fourweeksview_saturday_3" class="weekend">
+									<td id="fourweeksview_saturday_3" class="fourweeksview_item">
 									<div class="dateinfo" id="dateinfo_fourweeksview_saturday_3">
 									</div>
-									<div class="events" id="events_fourweeksview_saturday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_3').title)">
+									<div class="weekend" id="events_fourweeksview_saturday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_3').title)">
 									</div>
 									</td>
-									<td id="fourweeksview_sunday_3" class="weekend">
+									<td id="fourweeksview_sunday_3" class="fourweeksview_item">
 									<div class="dateinfo" id="dateinfo_fourweeksview_sunday_3">
 									</div>
-									<div class="events" id="events_fourweeksview_sunday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_3').title)">
+									<div class="weekend" id="events_fourweeksview_sunday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_3').title)">
 									</div>
 									</td>
 								</tr>
@@ -591,16 +603,16 @@
 									<div class="events" id="events_fourweeksview_friday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_4').title)">
 									</div>
 									</td>
-									<td id="fourweeksview_saturday_4" class="weekend">
+									<td id="fourweeksview_saturday_4" class="fourweeksview_item">
 									<div class="dateinfo" id="dateinfo_fourweeksview_saturday_4">
 									</div>
-									<div class="events" id="events_fourweeksview_saturday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_4').title)">
+									<div class="weekend" id="events_fourweeksview_saturday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_4').title)">
 									</div>
 									</td>
-									<td id="fourweeksview_sunday_4" class="weekend">
+									<td id="fourweeksview_sunday_4" class="fourweeksview_item">
 									<div class="dateinfo" id="dateinfo_fourweeksview_sunday_4">
 									</div>
-									<div class="events" id="events_fourweeksview_sunday_4"  onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_4').title)">
+									<div class="weekend" id="events_fourweeksview_sunday_4"  onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_4').title)">
 									</div>
 									</td>
 								</tr>
@@ -611,13 +623,13 @@
 						<table>
 							<thead>
 								<tr>
-									<th id="onemonthview_monday" class="calendar_row">Monday</th>
-									<th id="onemonthview_tuesday" class="calendar_row">Tuesday</th>
-									<th id="onemonthview_wednesday" class="calendar_row">Wednesday</th>
-									<th id="onemonthview_thursday" class="calendar_row">Thursday</th>
-									<th id="onemonthview_friday" class="calendar_row">Friday</th>
-									<th id="onemonthview_saturday" class="weekend_thead">Saturday</th>
-									<th id="onemonthview_sunday" class="weekend_thead">Sunday</th>
+									<th id="onemonthview_monday" class="calendar_row"><?php echo $l -> t("Monday");?></th>
+									<th id="onemonthview_tuesday" class="calendar_row"><?php echo $l -> t("Tuesday");?></th>
+									<th id="onemonthview_wednesday" class="calendar_row"><?php echo $l -> t("Wednesday");?></th>
+									<th id="onemonthview_thursday" class="calendar_row"><?php echo $l -> t("Thursday");?></th>
+									<th id="onemonthview_friday" class="calendar_row"><?php echo $l -> t("Friday");?></th>
+									<th id="onemonthview_saturday" class="weekend_thead"><?php echo $l -> t("Saturday");?></th>
+									<th id="onemonthview_sunday" class="weekend_thead"><?php echo $l -> t("Sunday");?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -655,13 +667,13 @@
 									<td id="onemonthview_saturday_1" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_1">
 									</div>
-									<div class="events" id="events_onemonthview_saturday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_1').title)">
+									<div class="weekend" id="events_onemonthview_saturday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_1').title)">
 									</div>
 									</td>
 									<td id="onemonthview_sunday_1" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_1">
 									</div>
-									<div class="events" id="events_onemonthview_sunday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_1').title)">
+									<div class="weekend" id="events_onemonthview_sunday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_1').title)">
 									</div>
 									</td>
 								</tr>
@@ -699,13 +711,13 @@
 									<td id="onemonthview_saturday_2" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_2">
 									</div>
-									<div class="events" id="events_onemonthview_saturday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_2').title)">
+									<div class="weekend" id="events_onemonthview_saturday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_2').title)">
 									</div>
 									</td>
 									<td id="onemonthview_sunday_2" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_2">
 									</div>
-									<div class="events" id="events_onemonthview_sunday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_2').title)">
+									<div class="weekend" id="events_onemonthview_sunday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_2').title)">
 									</div>
 									</td>
 								</tr>
@@ -743,13 +755,13 @@
 									<td id="onemonthview_saturday_3" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_3">
 									</div>
-									<div class="events" id="events_onemonthview_saturday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_3').title)">
+									<div class="weekend" id="events_onemonthview_saturday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_3').title)">
 									</div>
 									</td>
 									<td id="onemonthview_sunday_3" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_3">
 									</div>
-									<div class="events" id="events_onemonthview_sunday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_3').title)">
+									<div class="weekend" id="events_onemonthview_sunday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_3').title)">
 									</div>
 									</td>
 								</tr>
@@ -787,13 +799,13 @@
 									<td id="onemonthview_saturday_4" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_4">
 									</div>
-									<div class="events" id="events_onemonthview_saturday_4" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_4').title)">
+									<div class="weekend" id="events_onemonthview_saturday_4" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_4').title)">
 									</div>
 									</td>
 									<td id="onemonthview_sunday_4" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_4">
 									</div>
-									<div class="events" id="events_onemonthview_sunday_4"  onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_4').title)">
+									<div class="weekend" id="events_onemonthview_sunday_4"  onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_4').title)">
 									</div>
 									</td>
 								</tr>
@@ -831,13 +843,13 @@
 									<td id="onemonthview_saturday_5" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_5">
 									</div>
-									<div class="events" id="events_onemonthview_saturday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_5').title)">
+									<div class="weekend" id="events_onemonthview_saturday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_5').title)">
 									</div>
 									</td>
 									<td id="onemonthview_sunday_5" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_5">
 									</div>
-									<div class="events" id="events_onemonthview_sunday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_5').title)">
+									<div class="weekend" id="events_onemonthview_sunday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_5').title)">
 									</div>
 									</td>
 								</tr>
@@ -875,13 +887,13 @@
 									<td id="onemonthview_saturday_6" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_6">
 									</div>
-									<div class="events" id="events_onemonthview_saturday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_6').title)">
+									<div class="weekend" id="events_onemonthview_saturday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_6').title)">
 									</div>
 									</td>
 									<td id="onemonthview_sunday_6" class="weekend">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_6">
 									</div>
-									<div class="events" id="events_onemonthview_sunday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_6').title)">
+									<div class="weekend" id="events_onemonthview_sunday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_6').title)">
 									</div>
 									</td>
 								</tr>
@@ -919,5 +931,13 @@
 					document.getElementById(oc_cal_currentview + "_radio").style.color = "#0098E4";
 					oc_cal_update_view(view, task);
 				}
+				document.getElementById("onedayview_radio").value = onedayview_radio;
+				document.getElementById("oneweekview_radio").value = oneweekview_radio;
+				document.getElementById("fourweeksview_radio").value = fourweeksview_radio;
+				document.getElementById("onemonthview_radio").value = onemonthview_radio;
+				document.getElementById("listview_radio").value = listview_radio;
+				document.getElementById("today_input").value = today_button_value;
+				document.getElementById("choosecalendar_input").value = choosecalendar_value;
+				document.getElementById("download_input").src = oc_webroot + "/core/img/actions/download.svg";
 				</script>
 				<script type="text/javascript" id="js_events"></script>

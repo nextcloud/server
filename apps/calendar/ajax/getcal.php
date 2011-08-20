@@ -19,9 +19,6 @@
  *************************************************/
 require_once ("../../lib/base.php");
 if(!OC_USER::isLoggedIn()) {
-	header("Location: " . OC_HELPER::linkTo("", "index.php"));
-	exit ;
+	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
-require_once ("../lib/calendar.php");
-$calendar = new OC_Calendar_Calendar;
 ?>

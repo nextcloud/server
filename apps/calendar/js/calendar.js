@@ -493,7 +493,7 @@ function oc_cal_load_cal(loadview) {
 		document.getElementById('onedayview_today').title = generate_title;
 	}
 	if(loadview == "oneweek") {
-		document.getElementById("datecontrol_date").value = "CW: " + oc_cal_calw();
+		document.getElementById("datecontrol_date").value = cw_label + ": " + oc_cal_calw();
 		var dates = oc_cal_generate_dates("oneweek");
 		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
 		var weekday = 1;
@@ -569,7 +569,7 @@ function oc_cal_load_cal(loadview) {
 		document.getElementById("fourweeksview_calw2").innerHTML = calw2;
 		document.getElementById("fourweeksview_calw3").innerHTML = calw3;
 		document.getElementById("fourweeksview_calw4").innerHTML = calw4;
-		document.getElementById("datecontrol_date").value = "CWs: " + oc_cal_calw() + " - " + calwplusfour;
+		document.getElementById("datecontrol_date").value = cws_label + ": " + oc_cal_calw() + " - " + calwplusfour;
 	}
 	if(loadview == "onemonth") {
 		document.getElementById("datecontrol_date").value = oc_cal_monthlong[oc_cal_month] + oc_cal_space + oc_cal_year;

@@ -3,13 +3,13 @@
 		<tr>
 			<td width="75px"><?php echo $l -> t("Title");?>:</td>
 			<td>
-			<input type="text" style="width:350px;" size="100" placeholder="Title of the Event"  maxlength="100" />
+			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l -> t("Title of the Event");?>"  maxlength="100" />
 			</td>
 		</tr>
 		<tr>
 			<td width="75px"><?php echo $l -> t("Location");?>:</td>
 			<td>
-			<input type="text" style="width:350px;" size="100" placeholder="Location of the Event"  maxlength="100" />
+			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l -> t("Location of the Event");?>"  maxlength="100" />
 			</td>
 		</tr>
 	</table>
@@ -111,7 +111,8 @@
 		</tr>
 	</table>
 	<span id="newcalendar_actions">
-		<input type="button" value="<?php echo $l -> t('Submit');?>">
+		<input type="button" style="float: left;" value="<?php echo $l -> t("Submit");?>">
+		<input type="button" style="float: right;" value="<?php echo $l -> t("Reset");?>">
 	</span>
 </div>
 <script type="text/javascript">

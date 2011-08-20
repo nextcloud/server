@@ -19,13 +19,8 @@
  *************************************************/
 require_once ("../../../lib/base.php");
 if(!OC_USER::isLoggedIn()) {
-	die("0");
+	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
 $currentview = $_GET["v"];
 OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", $currentview);
-if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview") == $currentview){
-	die("1");
-}else{
-	die("0");
-}
 ?>

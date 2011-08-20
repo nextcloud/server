@@ -95,7 +95,12 @@
 		</tr>
 	</table>
 	<span id="editevent_actions">
+<<<<<<< HEAD
+		<input type="button" style="float: left;" value="<?php echo $l -> t("Submit");?>">
+		<input type="button" style="float: right;" value="<?php echo $l -> t("Reset");?>">
+=======
 		<input type="button" value="<?php echo $l -> t('Submit');?>">
+>>>>>>> b3f6eb22249408e927c8c83e66d60d2aba52ccaf
 	</span>
 </div>
 <script type="text/javascript">
@@ -130,4 +135,8 @@
 			document.getElementById("totime").style.color = "#A9A9A9";
 		}
 	}
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> b3f6eb22249408e927c8c83e66d60d2aba52ccaf

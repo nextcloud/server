@@ -1,5 +1,5 @@
 <?php
-
+$l=new OC_L10N('calendar');
 OC::$CLASSPATH['OC_Calendat_Calendar'] = 'apps/calendar/lib/calendar.php';
 OC::$CLASSPATH['OC_Calendar_Hooks'] = 'apps/calendar/lib/hooks.php';
 OC::$CLASSPATH['OC_Connector_Sabre_CalDAV'] = 'apps/calendar/lib/connector_sabre.php';
@@ -15,4 +15,4 @@ OC_App::addNavigationEntry( array(
   'order' => 10,
   'href' => OC_Helper::linkTo( 'calendar', 'index.php' ),
   'icon' => OC_Helper::imagePath( 'calendar', 'icon.png' ),
-  'name' => 'Calendar' ));
+  'name' => $l->t('Calendar')));
