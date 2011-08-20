@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-19 13:10+0200\n"
+"POT-Creation-Date: 2011-08-20 05:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,14 +109,14 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: templates/users.php:13 templates/users.php:28
+#: templates/users.php:13 templates/users.php:31
 msgid "Groups"
 msgstr ""
 
-#: templates/users.php:18
+#: templates/users.php:19
 msgid "Create"
 msgstr ""
 
-#: templates/users.php:40
+#: templates/users.php:43
 msgid "Delete"
 msgstr ""

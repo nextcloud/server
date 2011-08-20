@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-19 13:10+0200\n"
+"POT-Creation-Date: 2011-08-20 05:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,30 @@ msgstr ""
 msgid "Music"
 msgstr ""
 
+#: templates/music.php:3
+msgid "Play"
+msgstr ""
+
+#: templates/music.php:4 templates/music.php:30
+msgid "Pause"
+msgstr ""
+
+#: templates/music.php:5
+msgid "Previous"
+msgstr ""
+
+#: templates/music.php:6
+msgid "Next"
+msgstr ""
+
+#: templates/music.php:7
+msgid "Mute"
+msgstr ""
+
+#: templates/music.php:8
+msgid "Unmute"
+msgstr ""
+
 #: templates/music.php:28
 msgid "Songs scanned"
 msgstr ""
@@ -29,18 +53,14 @@ msgstr ""
 msgid "Rescan Collection"
 msgstr ""
 
-#: templates/music.php:30
-msgid "Pause"
-msgstr ""
-
-#: templates/music.php:36
+#: templates/music.php:37
 msgid "Artist"
 msgstr ""
 
-#: templates/music.php:37
+#: templates/music.php:38
 msgid "Album"
 msgstr ""
 
-#: templates/music.php:38
+#: templates/music.php:39
 msgid "Title"
 msgstr ""

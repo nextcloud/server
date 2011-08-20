@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Users" => "Utilisateurs",
+"Apps" => "Applications",
+"Help" => "Aide",
+"Personal" => "Personnel",
 "Login failed!" => "Échec de la connexion !",
 "remember" => "se souvenir de moi",
 "Create an <strong>admin account</strong>" => "Créer un <strong>compte administrateur</strong>",

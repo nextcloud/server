@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Music" => "Musik",
+"Pause" => "Pause",
 "Songs scanned" => "Sange skannet",
 "Rescan Collection" => "Genskan Samling",
-"Pause" => "Pause",
 "Artist" => "Kunstner",
 "Album" => "Album",
 "Title" => "Titel"
