@@ -1,6 +1,21 @@
-#folderlist li { margin-bottom:1em; }
-#folderlist button.prettybutton { font-size:1em; width:10em; }
-li button.right.prettybutton { font-size:1em; }
+#controls ul.jp-controls { padding:0; }
+#controls ul.jp-controls li { display:inline; }
+#controls ul.jp-controls li a { position:absolute; padding:.8em 1em; }
+a.jp-play, a.jp-pause { left:2.5em; }
+a.jp-pause { display:none; }
+a.jp-next { left:5em; }
+
+div.jp-progress { position:absolute; overflow:hidden; top:.5em; left:8em; width:15em; height:1.2em; padding:0; }
+div.jp-seek-bar { background:#eee; width:0; height:100%; cursor:pointer; }
+div.jp-play-bar { background:#ccc; width:0; height:100%; }
+div.jp-seeking-bg { background:url("../img/pbar-ani.gif"); }
+div.jp-current-time,div.jp-duration { position:absolute; font-size:.64em; font-style:oblique; top:1em; left:13.5em; width:22em; }
+div.jp-duration { text-align:right; }
+
+a.jp-mute,a.jp-unmute { left:24em; }
+div.jp-volume-bar { position:absolute; overflow:hidden; background:#eee; width:4em; height:0.4em; cursor:pointer; top:1.3em; left:27em; }
+div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
+
 #collection { padding-top:1em; position:relative; width:70em; float:left; }
 #collection li.album,#collection li.song { margin-left:3em; }
 #leftcontent img.remove { display:none; float:right; cursor:pointer; }

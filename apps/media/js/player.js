@@ -122,10 +122,10 @@ var PlayList={
 				PlayList.add(song,temp,true);
 			});
 		}
-		if(song.song_name){
-			var type=musicTypeFromFile(song.song_path);
-			var item={name:song.song_name,type:type,artist:song.artist_name,album:song.album_name,length:song.song_length,playcount:song.song_playcount};
-			item[type]=PlayList.urlBase+encodeURIComponent(song.song_path);
+		if(song.path){
+			var type=musicTypeFromFile(song.path);
+			var item={name:song.name,type:type,artist:song.artist,album:song.album,length:song.length,playcount:song.playCount};
+			item[type]=PlayList.urlBase+encodeURIComponent(song.path);
 			if(PlayList.isTemp){
 				PlayList.tempPlaylist.push(item);
 			}else{
