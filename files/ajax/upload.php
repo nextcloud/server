@@ -17,7 +17,7 @@ if( !OC_User::isLoggedIn()){
 $files=$_FILES['files'];
 
 $dir = $_POST['dir'];
-if(!empty($dir)) $dir .= '/';
+$dir .= '/';
 $error='';
 
 $totalSize=0;
