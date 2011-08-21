@@ -1,11 +1,14 @@
+<div id="controls">
+	<a class="button" target="_blank" href="http://apps.owncloud.com/"><?php echo $l->t('Add your application');?></a>
+</div>
 <ul id="leftcontent">
 	<?php foreach($_['apps'] as $app):?>
-		<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>">
-			<?php  echo $app['name'] ?>
-			<span class="hidden">
-				<?php echo json_encode($app) ?>
-			</span>
-		</li>
+	<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>">
+		<?php  echo $app['name'] ?>
+		<span class="hidden">
+			<?php echo json_encode($app) ?>
+		</span>
+	</li>
 	<?php endforeach;?>
 </ul>
 <div id="rightcontent">

@@ -23,10 +23,6 @@ table { width:100%; }
 
 
 /* APPS */
-li{color:#888}
-li.active{color:#000}
-span.version{margin-left:3em;color:#ddd}
-
-
-/* HELP */
-tr.pager:hover { background:#fff; }
+li { color:#888; }
+li.active { color:#000; }
+span.version { margin-left:3em; color:#ddd; }
