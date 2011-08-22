@@ -50,7 +50,7 @@ FileList={
 		html+='<td class="filesize" title="'+humanFileSize(size)+'" style="color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')">'+simpleSize+'</td>';
 		html+='<td class="date" title="'+formatDate(lastModified)+'" style="color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')">'+relative_modified_date(lastModified.getTime() / 1000)+'</td>';
 		html+='</tr>';
-		
+
 		FileList.insertElement(name,'dir',$(html));
 		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
 		$('tr[data-file="'+name+'"] td.filename').droppable(folderDropOptions);

@@ -16,6 +16,7 @@
 							<?php echo htmlspecialchars($file['basename']);?><span class='extention'><?php echo $file['extention'];?></span>
 						<?php endif;?>
 					</span>
+					<span class="actionHint"></span>
 					</a>
 				</td>
 				<td class="filesize" title="<?php echo human_file_size($file['size']); ?>" style="color:rgb(<?php echo $simple_size_color.','.$simple_size_color.','.$simple_size_color ?>)"><?php echo $simple_file_size; ?></td>
