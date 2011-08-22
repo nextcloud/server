@@ -20,9 +20,6 @@
  *
  */
 
-OC_Hook::connect("OC_FILESYSTEM","post_delete", "OC_Share", "deleteItem");
-OC_Hook::connect("OC_FILESYSTEM","post_rename", "OC_Share", "renameItem");
-
 /**
  * This class manages shared items within the database. 
  */
@@ -177,6 +174,7 @@ class OC_Share {
 		$query = OC_DB::prepare("SELECT uid_shared_with, permissions FROM *PREFIX*sharing WHERE source = ? AND uid_owner = ?");
 		return $query->execute(array($source, OC_User::getUser()))->fetchAll();
 	}
+
 	/**
 	 * Get all items the current user is sharing
 	 * @return An array with all items the user is sharing
@@ -185,7 +183,7 @@ class OC_Share {
 		$query = OC_DB::prepare("SELECT uid_shared_with, source, permissions FROM *PREFIX*sharing WHERE uid_owner = ?");
 		return $query->execute(array(OC_User::getUser()))->fetchAll();
 	}
-	
+
 	/**
 	 * Get the items within a shared folder that have their own entry for the purpose of name, location, or permissions that differ from the folder itself
 	 *
@@ -204,7 +202,7 @@ class OC_Share {
 		$query = OC_DB::prepare("SELECT uid_owner, source, target, permissions FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? OR SUBSTR(target, 1, ?) = ? AND uid_shared_with ".self::getUsersAndGroups());
 		return $query->execute(array($length, $folder, $length, $folder))->fetchAll();
 	}
-	
+
 	/**
 	 * Get the source and target parent folders of the specified target location
 	 * @param $target The target location of the item
@@ -302,18 +300,6 @@ class OC_Share {
 	}
 
 	/**
-	 * Set the source location to a new value
-	 * @param $oldSource The current source location
-	 * @param $newTarget The new source location
-	 */
-	public static function setSource($oldSource, $newSource) {
-		$oldSource = self::cleanPath($oldSource);
-		$newSource = self::cleanPath($newSource);
-		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
-		$query->execute(array($oldSource, $newSource, OC_User::getUser()));
-	}
-	
-	/**
 	 * Set the target location to a new value
 	 *
 	 * You must use the pullOutOfFolder() function to change the target location of a file inside a shared folder if the target location differs from the folder
@@ -327,7 +313,7 @@ class OC_Share {
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET target = REPLACE(target, ?, ?) WHERE uid_shared_with ".self::getUsersAndGroups());
 		$query->execute(array($oldTarget, $newTarget));
 	}
-	
+
 	/**
 	* Change the permissions for the specified item and user
 	*
@@ -342,7 +328,7 @@ class OC_Share {
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET permissions = ? WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with));
 		$query->execute(array($permissions, strlen($source), $source, OC_User::getUser()));
 	}
-	
+
 	/**
 	* Unshare the item, removes it from all specified users
 	*
@@ -356,7 +342,7 @@ class OC_Share {
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with));
 		$query->execute(array(strlen($source), $source, OC_User::getUser()));
 	}
-	
+
 	/**
 	* Unshare the item from the current user, removes it only from the database and doesn't touch the source file
 	*
@@ -378,25 +364,23 @@ class OC_Share {
 
 	/**
 	* Remove the item from the database, the owner deleted the file
-	* @param $arguments Array of arguments passed from OC_HOOK
+	* @param $arguments Array of arguments passed from OC_Hook
 	*/
 	public static function deleteItem($arguments) {
-		$source = "/".OC_User::getUser()."/files".$arguments['path'];
-		$source = self::cleanPath($source);
+		$source = "/".OC_User::getUser()."/files".self::cleanPath($arguments['path']);
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
 		$query->execute(array(strlen($source), $source, OC_User::getUser()));
 	}
 
 	/**
 	* Rename the item in the database, the owner renamed the file
-	* @param $arguments Array of arguments passed from OC_HOOK
+	* @param $arguments Array of arguments passed from OC_Hook
 	*/
 	public static function renameItem($arguments) {
-		$oldSource = "/".OC_User::getUser()."/files".$arguments['oldpath'];
-		$oldSource = self::cleanPath($oldSource);
-		$newSource = "/".OC_User::getUser()."/files".$arguments['newpath'];
-		$newSource = self::cleanPath($newSource);
-		self::setSource($oldSource, $newSource);
+		$oldSource = "/".OC_User::getUser()."/files".self::cleanPath($arguments['oldpath']);
+		$newSource = "/".OC_User::getUser()."/files".self::cleanPath($arguments['newpath']);
+		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
+		$query->execute(array($oldSource, $newSource, OC_User::getUser()));
 	}
 
 }
