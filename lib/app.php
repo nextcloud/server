@@ -208,8 +208,14 @@ class OC_App{
 		);
 		$settings=array(
 			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" )),
-			array( "id" => "settings", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ))
+			array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ))
 		);
+		if(count(self::$settingsForms)>0){
+			$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "settings.php" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
+		}
+		if(count(self::$adminForms)>0){
+			$admin[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
+		}
 		if( OC_Group::inGroup( $_SESSION["user_id"], "admin" )){
 			$settings=array_merge($admin,$settings);
 		}

@@ -1,3 +1,9 @@
+<?php /**
+ * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * This file is licensed under the Affero General Public License version 3 or later.
+ * See the COPYING-README file.
+ */?>
+
 <div id="controls">
 	<a class="button" target="_blank" href="http://apps.owncloud.com/"><?php echo $l->t('Add your application');?></a>
 </div>

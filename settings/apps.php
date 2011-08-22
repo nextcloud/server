@@ -57,6 +57,7 @@ if(is_array($catagoryNames)){
 			'active'=>false,
 			'description'=>$app['description'],
 			'author'=>$app['personid'],
+			'licence'=>$app['license'],
 		);
 	}
 }

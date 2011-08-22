@@ -1,3 +1,9 @@
+<?php /**
+ * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * This file is licensed under the Affero General Public License version 3 or later.
+ * See the COPYING-README file.
+ */?>
+
 <div id="quota" class="personalblock"><div style="width:<?php echo $_['usage_relative'];?>%;">
 	<p><?php echo $l->t('You use');?> <strong><?php echo $_['usage'];?></strong> <?php echo $l->t('of the available');?> <strong><?php echo $_['total_space'];?></strong></p>
 </div></div>

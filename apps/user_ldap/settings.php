@@ -20,14 +20,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-require_once('../../lib/base.php');
-
-if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-	header( "Location: ".OC_Helper::linkTo( '', "index.php" ));
-	exit();
-}
-
 $params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter');
 
 foreach($params as $param){
@@ -35,11 +27,9 @@ foreach($params as $param){
 		OC_Appconfig::setValue('user_ldap', $param, $_POST[$param]);
 	}
 }
-OC_App::setActiveNavigationEntry( "user_ldap_settings" );
-
 
 // fill template
-$tmpl = new OC_Template( 'user_ldap', 'settings', 'admin' );
+$tmpl = new OC_Template( 'user_ldap', 'settings');
 foreach($params as $param){
 		$value = OC_Appconfig::getValue('user_ldap', $param,'');
 		$tmpl->assign($param, $value);
@@ -48,4 +38,4 @@ foreach($params as $param){
 // ldap_port has a default value
 $tmpl->assign( 'ldap_port', OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT));
 
-$tmpl->printPage();
+return $tmpl->fetchPage();
