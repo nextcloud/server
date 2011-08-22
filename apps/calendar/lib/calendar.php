@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Addressbook
+ * ownCloud - Calendar
  *
  * @author Jakob Sack
  * @copyright 2011 Jakob Sack mail@jakobsack.de
@@ -52,22 +52,22 @@
  */
 
 /**
- * This class manages our addressbooks.
+ * This class manages our calendars
  */
 class OC_Calendar_Calendar{
 	public static function allCalendars($uid){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE userid = ?' );
 		$result = $stmt->execute(array($uid));
 		
-		$addressbooks = array();
+		$calendars = array();
 		while( $row = $result->fetchRow()){
-			$addressbooks[] = $row;
+			$calendars[] = $row;
 		}
 
-		return $addressbooks;
+		return $calendars;
 	}
 	
-	public static function allCakendarsWherePrincipalURIIs($principaluri){
+	public static function allCalendarsWherePrincipalURIIs($principaluri){
 		$uid = self::extractUserID($principaluri);
 		return self::allCalendars($uid);
 	}
@@ -79,8 +79,8 @@ class OC_Calendar_Calendar{
 		return $result->fetchRow();
 	}
 
-	public static function addAddressbook($userid,$name,$description){
-		$all = self::allAddressbooks($userid);
+	public static function addCalendar($userid,$name,$description,$components='VEVENT,VTODO',$timezone=null,$order=0,$color=null){
+		$all = self::allCalendars($userid);
 		$uris = array();
 		foreach($all as $i){
 			$uris[] = $i['uri'];
@@ -88,34 +88,35 @@ class OC_Calendar_Calendar{
 
 		$uri = self::createURI($name, $uris );
 
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
-		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
+		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,description,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?,?)' );
+		$result = $stmt->execute(array($userid,$name,$uri,1,$description,$order,$color,$timezone,$components));
 
 		return OC_DB::insertid();
 	}
 
-	public static function addAddressbookFromDAVData($principaluri,$uri,$name,$description){
+	public static function addCalendarFromDAVData($principaluri,$uri,$name,$description,$components,$timezone,$order,$color){
 		$userid = self::extractUserID($principaluri);
 		
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
-		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
+		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,description,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?,?)' );
+		$result = $stmt->execute(array($userid,$name,$uri,1,$description,$order,$color,$timezone,$components));
 
 		return OC_DB::insertid();
 	}
 
-	public static function editAddressbook($id,$name,$description){
+	public static function editCalendar($id,$name=null,$description=null,$components=null,$timezone=null,$order=null,$color=null){
 		// Need these ones for checking uri
-		$addressbook = self::find($id);
+		$calendar = self::find($id);
 
-		if(is_null($name)){
-			$name = $addressbook['name'];
-		}
-		if(is_null($description)){
-			$description = $addressbook['description'];
-		}
+		// Keep old stuff
+		if(is_null($name)) $name = $calendar['name'];
+		if(is_null($description)) $description = $calendar['description'];
+		if(is_null($components)) $components = $calendar['components'];
+		if(is_null($timezone)) $timezone = $calendar['timezone'];
+		if(is_null($order)) $order = $calendar['order'];
+		if(is_null($color)) $color = $calendar['color'];
 		
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET displayname=?,description=?, ctag=ctag+1 WHERE id=?' );
-		$result = $stmt->execute(array($name,$description,$id));
+		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,description=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
+		$result = $stmt->execute(array($name,$description,$order,$color,$timezone,$components,$id));
 
 		return true;
 	}
@@ -131,7 +132,7 @@ class OC_Calendar_Calendar{
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_calendars WHERE id = ?' );
 		$stmt->execute(array($id));
 		
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE addressbookid = ?' );
+		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ?' );
 		$stmt->execute(array($id));
 
 		return true;
@@ -141,12 +142,12 @@ class OC_Calendar_Calendar{
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?' );
 		$result = $stmt->execute(array($id));
 
-		$addressbooks = array();
+		$calendarobjects = array();
 		while( $row = $result->fetchRow()){
-			$addressbooks[] = $row;
+			$calendarobjects[] = $row;
 		}
 
-		return $addressbooks;
+		return $calendarobjects;
 	}
 	
 	public static function findCalendarObject($id){
@@ -163,27 +164,30 @@ class OC_Calendar_Calendar{
 		return $result->fetchRow();
 	}
 
-	public static function addCard($id,$data){
+	public static function addCalendarObject($id,$data){
 		$object = Sabre_VObject_Reader::read($data);
 		list($startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
-		$fn = null;
 		$uri = null;
-		$card = Sabre_VObject_Reader::read($data);
-		foreach($card->children as $property){
-			if($property->name == 'FN'){
-				$fn = $property->value;
-			}
-			elseif(is_null($uri) && $property->name == 'UID' ){
-				$uri = $property->value.'.vcf';
-			}
+		if(is_null($uri)){
+			$uid = self::createUID();
+			$object->add('UID',$uid);
+			$data = $object->serialize();
+			$uri = $uid.'.ics';
 		}
-		if(is_null($uri)) $uri = self::createUID().'.vcf';
+		else{
+			$uri = $uid.'.ics';
+		}
 
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
+		$start = is_null($startdate)?null:$startdate->format('Y-m-d H:i:s');
+		$end = is_null($enddate)?null:$enddate->format('Y-m-d H:i:s');
+		$type = $object->name;
+		$time = time();
+		
+		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
+		$result = $stmt->execute(array($id,$type,$start,$end,$repeating,$summary,$data,$uri,$time));
 
-		self::touchAddressbook($id);
+		self::touchCalendar($id);
 
 		return OC_DB::insertid();
 	}
@@ -192,8 +196,14 @@ class OC_Calendar_Calendar{
 		$object = Sabre_VObject_Reader::read($data);
 		list($startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttye,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$object->name,(is_null($startdate)?null:$startdate->format('Y-m-d H:i:s')),(is_null($enddate)?null:$enddate->format('Y-m-d H:i:s')),$repeating,$summary,$data,$uri,time()));
+		$start = is_null($startdate)?null:$startdate->format('Y-m-d H:i:s');
+		$end = is_null($enddate)?null:$enddate->format('Y-m-d H:i:s');
+		$type = $object->name;
+		$time = time();
+
+		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
+		// $result = $stmt->execute(array($id,$type,$start,$end,$repeating,$summary,$data,$uri,$time));
+		$result = $stmt->execute(array($id,$type,'2011-08-17 14:00:00','2011-08-17 15:00:00',0,'baum',$data,$uri,$time));
 
 		self::touchCalendar($id);
 
@@ -206,7 +216,7 @@ class OC_Calendar_Calendar{
 		$object = Sabre_VObject_Reader::read($data);
 		list($startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET objecttye=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
+		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($object->name,(is_null($startdate)?null:$startdate->format('Y-m-d H:i:s')),(is_null($enddate)?null:$enddate->format('Y-m-d H:i:s')),$repeating,$summary,$data,time(),$id));
 
 		self::touchCalendar($id);
@@ -220,7 +230,7 @@ class OC_Calendar_Calendar{
 		$object = Sabre_VObject_Reader::read($data);
 		list($startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET objecttye=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
+		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($object->name,(is_null($startdate)?null:$startdate->format('Y-m-d H:i:s')),(is_null($enddate)?null:$enddate->format('Y-m-d H:i:s')),$repeating,$summary,$data,time(),$oldobject['id']));
 
 		self::touchCalendar($oldobject['calendarid']);

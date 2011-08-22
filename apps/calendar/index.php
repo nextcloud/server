@@ -22,12 +22,19 @@ if(!OC_USER::isLoggedIn()) {
 	header("Location: " . OC_HELPER::linkTo("", "index.php"));
 	exit;
 }
+
+// Create default calendar ...
+$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+if( count($calendars) == 0){
+	OC_Calendar_Calendar::addCalendar(OC_User::getUser(),'default','Default calendar');
+	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+}
+
 OC_UTIL::addScript("calendar", "calendar");
 OC_UTIL::addScript("calendar", "calendar_init");
 OC_UTIL::addScript("calendar", "calendar_dialog");
 OC_UTIL::addStyle("calendar", "style");
-require_once ("template.php");
+
 OC_APP::setActiveNavigationEntry("calendar_index");
 $output = new OC_TEMPLATE("calendar", "calendar", "user");
-$output -> printpage();
-?>
+$output -> printPage();
