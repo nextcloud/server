@@ -183,6 +183,31 @@ function SVGSupport() {
 	return !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
 }
 
+//replace all svg images with png for browser compatibility
+function replaceSVG(){
+	$('img.svg').each(function(index,element){
+		element=$(element);
+		var src=element.attr('src');
+		element.attr('src',src.substr(0,src.length-3)+'png');
+	});
+	$('.svg').each(function(index,element){
+		element=$(element);
+		var background=element.css('background-image');
+		if(background && background!='none'){
+			background=background.substr(0,background.length-4)+'png)';
+			element.css('background-image',background);
+		}
+		element.find('*').each(function(index,element) {
+			element=$(element);
+			var background=element.css('background-image');
+			if(background && background!='none'){
+				background=background.substr(0,background.length-4)+'png)';
+				element.css('background-image',background);
+			}
+		});
+	});
+}
+
 /**
  * prototypal inharitence functions
  * 
@@ -197,28 +222,28 @@ function object(o) {
 
 $(document).ready(function(){
 	if(!SVGSupport()){//replace all svg images with png images for browser that dont support svg
-		$('img.svg').each(function(index,element){
-			element=$(element);
-			var src=element.attr('src');
-			element.attr('src',src.substr(0,src.length-3)+'png');
-		});
-		$('.svg').each(function(index,element){
-			element=$(element);
-			var background=element.css('background-image');
-			if(background && background!='none'){
-				background=background.substr(0,background.length-4)+'png)';
-				element.css('background-image',background);
-			}
-			element.find('*').each(function(index,element) {
-				element=$(element);
-				var background=element.css('background-image');
-				if(background && background!='none'){
-					background=background.substr(0,background.length-4)+'png)';
-					element.css('background-image',background);
+		replaceSVG();
+	};
+	$.ajax({
+		url: OC.imagePath('core','breadcrumb.svg'),
+		success:function(data,text,xhr){
+			var headerParts=xhr.getAllResponseHeaders().split("\n");
+			var headers={};
+			$.each(headerParts,function(i,text){
+				if(text){
+					var parts=text.split(':',2);
+					var value=parts[1].trim();
+					if(value[0]=='"'){
+						value=value.substr(1,value.length-2);
+					}
+					headers[parts[0]]=value;
 				}
 			});
-		});
-	};
+			if(headers["Content-Type"]!='image/svg+xml'){
+				replaceSVG();
+			}
+		}
+	});
 	$('form.searchbox').submit(function(event){
 		event.preventDefault();
 	})
