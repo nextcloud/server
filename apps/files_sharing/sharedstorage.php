@@ -79,37 +79,37 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	
 	public function opendir($path) {
 		if ($path == "" || $path == "/") {
-			global $FAKEDIRS;
 			$path = $this->datadir.$path;
 			$sharedItems = OC_Share::getItemsInFolder($path);
 			if (empty($sharedItems)) {
 				return false;
-			}
-			$files = array();
-			foreach ($sharedItems as $item) {
-				// If item is in the root of the shared storage provider add it to the fakedirs
-				if (dirname($item['target'])."/" == $path) {
-					$files[] = basename($item['target']);
+			} else {
+				global $FAKEDIRS;
+				$files = array();
+				foreach ($sharedItems as $item) {
+					// If item is in the root of the shared storage provider and the item exists add it to the fakedirs
+					if (dirname($item['target'])."/" == $path && $this->file_exists(basename($item['target']))) {
+						$files[] = basename($item['target']);
+					}
 				}
+				$FAKEDIRS['shared'] = $files;
+				return opendir('fakedir://shared');
 			}
-			$FAKEDIRS['shared'] = $files;
-			return opendir('fakedir://shared');
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
 				$dh = $storage->opendir($this->getInternalPath($source));
-				// Remove any duplicate or trailing '/'
-				$path = rtrim($this->datadir.$path, "/");
-				$path = preg_replace('{(/)\1+}', "/", $path);
 				$modifiedItems = OC_Share::getItemsInFolder($source);
 				if ($modifiedItems && $dh) {
-					global $FAKEDIRS;
 					$sources = array();
 					$targets = array();
+					// Remove any duplicate or trailing '/'
+					$path = preg_replace('{(/)\1+}', "/", $path);
+					$targetFolder = rtrim($this->datadir.$path, "/");
 					foreach ($modifiedItems as $item) {
-						// If the item is in the current directory and has a different name than the source, add it to the arrays
-						if (dirname($item['target']) == $path) {
+						// If the item is in the current directory and the item exists add it to the arrays
+						if (dirname($item['target']) == $targetFolder && $this->file_exists($path."/".basename($item['target']))) {
 							// If the item was unshared from self, add it it to the arrays
 							if ($item['permissions'] == OC_Share::UNSHARED) {
 								$sources[] = basename($item['source']);
@@ -124,6 +124,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 					if (empty($sources)) {
 						return $dh;
 					} else {
+						global $FAKEDIRS;
 						$files = array();
 						while (($filename = readdir($dh)) !== false) {
 							if ($filename != "." && $filename != "..") {
