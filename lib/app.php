@@ -95,6 +95,9 @@ class OC_App{
 	 * This function set an app as enabled in appconfig.
 	 */
 	public static function enable( $app ){
+		if(!OC_Installer::isInstalled($app)){
+			OC_Installer::installShippedApp($app);
+		}
 		OC_Appconfig::setValue( $app, 'enabled', 'yes' );
 	}
 
@@ -202,7 +205,6 @@ class OC_App{
 		$admin=array(
 			array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" )),
 			array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" )),
-//			array( "id" => "files_administration", "order" => 3, "href" => OC_Helper::linkTo( "files", "admin.php" ), "name" => $l->t("Files"), "icon" => OC_Helper::imagePath( "settings", "options.svg" )),
 		);
 		$settings=array(
 			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" )),
