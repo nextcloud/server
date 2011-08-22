@@ -360,9 +360,10 @@ class OC_Share {
 	/**
 	* Unshare the item from the current user, removes it only from the database and doesn't touch the source file
 	*
-	* You must use the pullOutOfFolder() function to unshare a file inside a shared folder and set $newTarget to nothing
+	* You must use the pullOutOfFolder() function before you call unshareFromMySelf() and set the delete parameter to false to unshare from self a file inside a shared folder
 	*
 	* @param $target The target location of the item
+	* @param $delete (Optional) If true delete the entry from the database, if false the permission is set to UNSHARED
 	*/
 	public static function unshareFromMySelf($target, $delete = true) {
 		$target = self::cleanPath($target);
