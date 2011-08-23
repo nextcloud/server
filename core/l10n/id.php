@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Personal" => "Identitas",
 "Users" => "Pengguna",
 "Apps" => "Aplikasi",
 "Help" => "Bantuan",
-"Personal" => "Identitas",
 "Login failed!" => "Gagal masuk!",
 "remember" => "selalu login",
 "Create an <strong>admin account</strong>" => "Buat sebuah <strong>akun admin</strong>",
@@ -23,5 +23,6 @@
 "prev" => "sebelum",
 "next" => "selanjutnya",
 "You are logged out." => "Anda telah keluar.",
+"Log out" => "Keluar",
 "Settings" => "Setelan"
 );

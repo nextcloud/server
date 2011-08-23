@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Personal" => "Personlig",
+"Users" => "Brugere",
+"Apps" => "Apps",
+"Help" => "Hjælp",
 "Login failed!" => "Login mislykkedes!",
 "remember" => "husk",
 "Create an <strong>admin account</strong>" => "Lav en <strong>administrator konto</strong>",
@@ -15,8 +19,10 @@
 "Data folder" => "Data mappe",
 "Finish setup" => "Afslut installation",
 "Cloud not found" => "Sky ikke fundet",
+"gives you the freedom to control your own data on the internet" => "giver dig friheden til at kontrollere dine egne data på internettet",
 "prev" => "forrige",
 "next" => "næste",
 "You are logged out." => "Du er nu logget ud",
+"Log out" => "Log ud",
 "Settings" => "Indstillinger"
 );

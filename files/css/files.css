@@ -29,10 +29,9 @@ table { position:relative; top:37px; width:100%; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; height:1em; }
 tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
-span.extention,span.actionHint, td.date { color:#999; }
-span.extention,span.actionHint { opacity:0; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
+span.extention, td.date { color:#999; }
+span.extention { opacity:0; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
 tr:hover span.extention { opacity:1; }
-tr:hover span.actionHint { opacity:1; }
 div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
 div.crumb:first-child { padding-left:1.5em; }
 div.crumb:last-child { font-weight:bold; }

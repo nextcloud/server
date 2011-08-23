@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Personal" => "Personal",
 "Users" => "Usuaris",
 "Apps" => "Aplicacions",
 "Help" => "Ajuda",
-"Personal" => "Personal",
 "Login failed!" => "L'inici de sessió ha fallat!",
 "remember" => "recorda'm",
 "Create an <strong>admin account</strong>" => "Crea un <strong>compte d'administrador</strong>",
@@ -23,5 +23,6 @@
 "prev" => "anterior",
 "next" => "següent",
 "You are logged out." => "Heu tancat la sessió.",
+"Log out" => "Sortir",
 "Settings" => "Arranjament"
 );
