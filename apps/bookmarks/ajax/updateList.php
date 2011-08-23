@@ -56,18 +56,25 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_gc_separator = 'SEPARATOR \' \'';
 }
 
-//FIXME: bookmarks without tags are not being retrieved
 $query = OC_DB::prepare('
-	SELECT url, title, description, GROUP_CONCAT( tag '.$_gc_separator.' ) AS tags
+	SELECT url, title, description, 
+	CASE WHEN *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
+			THEN GROUP_CONCAT( tag ' .$_gc_separator. ' )
+			ELSE \' \'
+		END
+		AS tags
 	FROM *PREFIX*bookmarks, *PREFIX*bookmarks_tags 
-	WHERE *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
+	WHERE (*PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
+			OR *PREFIX*bookmarks.id NOT IN (
+				SELECT *PREFIX*bookmarks_tags.bookmark_id FROM *PREFIX*bookmarks_tags
+			)
+		)
 		AND *PREFIX*bookmarks.user_id = ?
 	GROUP BY url
 	'.$sqlFilterTag.'
 	ORDER BY *PREFIX*bookmarks.id DESC 
 	LIMIT ?,  10');
 	
-
 $bookmarks = $query->execute($params)->fetchAll();
 
 echo json_encode( array( 'status' => 'success', 'data' => $bookmarks));
