@@ -519,7 +519,7 @@ function oc_cal_load_cal(loadview) {
 	}
 	if(loadview == "fourweeks") {
 		var calw1 = oc_cal_calw();
-		if(calw1 == 52) { //////////////////////////////// !!!! OPTIMIEREN  !!!! ///////////////////////////////////////////////////////////
+		if(calw1 == 52) {
 			var calw2 = 1;
 		} else {
 			var calw2 = oc_cal_calw() + 1;
@@ -548,9 +548,15 @@ function oc_cal_load_cal(loadview) {
 		for(var i = 0; i <= 27; i++){
 			var generate_dayofmonth = String(dates[i][0]);
 			var generate_month = String(dates[i][1]);
+			var generate_year = dates[i][2];
 			document.getElementById("dateinfo_fourweeksview_" + weekdays[weekday] + "_" + weeknum).innerHTML = generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]; 
 			if(parseInt(generate_dayofmonth) <= 9){
 				generate_dayofmonth = "0" + generate_dayofmonth;
+			}
+			if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
+				document.getElementById("fourweeksview_" + weekdays[weekday] + "_" + weeknum).className = "thisday";
+			}else{
+				document.getElementById("fourweeksview_" + weekdays[weekday] + "_" + weeknum).className = "fourweeksview_item";
 			}
 			generate_month++;
 			if(parseInt(generate_month) <= 9){
@@ -603,6 +609,11 @@ function oc_cal_load_cal(loadview) {
 			document.getElementById("dateinfo_onemonthview_" + weekdays[weekday] + "_" + weeknum).innerHTML = generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month];
 			if(parseInt(generate_dayofmonth) <= 9){
 				generate_dayofmonth = "0" + generate_dayofmonth;
+			}
+			if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
+				document.getElementById("onemonthview_" + weekdays[weekday] + "_" + weeknum).className = "thisday";
+			}else{
+				document.getElementById("onemonthview_" + weekdays[weekday] + "_" + weeknum).className = "onemonthview_item";
 			}
 			generate_month++;
 			if(parseInt(generate_month) <= 9){
