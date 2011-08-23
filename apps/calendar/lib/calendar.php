@@ -166,26 +166,18 @@ class OC_Calendar_Calendar{
 
 	public static function addCalendarObject($id,$data){
 		$object = Sabre_VObject_Reader::read($data);
-		list($startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
+		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
-		$uri = null;
-		if(is_null($uri)){
+		if(is_null($uid)){
 			$uid = self::createUID();
 			$object->add('UID',$uid);
 			$data = $object->serialize();
-			$uri = $uid.'.ics';
-		}
-		else{
-			$uri = $uid.'.ics';
 		}
 
-		$start = is_null($startdate)?null:$startdate->format('Y-m-d H:i:s');
-		$end = is_null($enddate)?null:$enddate->format('Y-m-d H:i:s');
-		$type = $object->name;
-		$time = time();
-		
+		$uri = 'owncloud-'.md5($data.rand().time()).'.ics';
+
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$type,$start,$end,$repeating,$summary,$data,$uri,$time));
+		$result = $stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
 
 		self::touchCalendar($id);
 
@@ -194,16 +186,10 @@ class OC_Calendar_Calendar{
 
 	public static function addCalendarObjectFromDAVData($id,$uri,$data){
 		$object = Sabre_VObject_Reader::read($data);
-		list($startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
-
-		$start = is_null($startdate)?null:$startdate->format('Y-m-d H:i:s');
-		$end = is_null($enddate)?null:$enddate->format('Y-m-d H:i:s');
-		$type = $object->name;
-		$time = time();
+		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
-		// $result = $stmt->execute(array($id,$type,$start,$end,$repeating,$summary,$data,$uri,$time));
-		$result = $stmt->execute(array($id,$type,'2011-08-17 14:00:00','2011-08-17 15:00:00',0,'baum',$data,$uri,$time));
+		$result = $stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
 
 		self::touchCalendar($id);
 
@@ -214,10 +200,10 @@ class OC_Calendar_Calendar{
 		$oldobject = self::findCard($id);
 		
 		$object = Sabre_VObject_Reader::read($data);
-		list($startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
+		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
-		$result = $stmt->execute(array($object->name,(is_null($startdate)?null:$startdate->format('Y-m-d H:i:s')),(is_null($enddate)?null:$enddate->format('Y-m-d H:i:s')),$repeating,$summary,$data,time(),$id));
+		$result = $stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
 
 		self::touchCalendar($id);
 
@@ -228,10 +214,10 @@ class OC_Calendar_Calendar{
 		$oldobject = self::findCardWhereDAVDataIs($cid,$uri);
 		
 		$object = Sabre_VObject_Reader::read($data);
-		list($startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
+		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
-		$result = $stmt->execute(array($object->name,(is_null($startdate)?null:$startdate->format('Y-m-d H:i:s')),(is_null($enddate)?null:$enddate->format('Y-m-d H:i:s')),$repeating,$summary,$data,time(),$oldobject['id']));
+		$result = $stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$oldobject['id']));
 
 		self::touchCalendar($oldobject['calendarid']);
 
@@ -273,24 +259,66 @@ class OC_Calendar_Calendar{
 	}
 
 	protected static function extractData($object){
-		$return = array(null,null,'',false,null);
-		foreach($object->children as $property){
-			if($property->name == 'DTSTART'){
-				$return[0] = $property->getDateTime();
+		$return = array('',null,null,'',0,null);
+		
+		// Child to use
+		$children = 0;
+		$use = null;
+		foreach($object->children as &$property){
+			if($property->name == 'VEVENT'){
+				$children++;
+				$thisone = true;
+
+				foreach($property->children as &$element){
+					if($element->name == 'RECURRENCE-ID'){
+						$thisone = false;
+					}
+				} unset($element);
+
+				if($thisone){
+					$use = $property;
+				}
 			}
-			elseif($property->name == 'DTEND'){
-				$return[1] = $property->getDateTime();
-			}
-			elseif($property->name == 'SUMMARY'){
-				$return[2] = $property->value;
-			}
-			elseif($property->name == 'RRULE'){
-				$return[3] = true;
-			}
-			elseif($property->name == 'UID'){
-				$return[4] = $property->value;
-			}
+		} unset($property);
+		
+		// find the data
+		if(!is_null($use)){
+			$return[0] = $use->name;
+			foreach($use->children as &$property){
+				if($property->name == 'DTSTART'){
+					$return[1] = self::getUTCforMDB($property->getDateTime());
+				}
+				elseif($property->name == 'DTEND'){
+					$return[2] = self::getUTCforMDB($property->getDateTime());
+				}
+				elseif($property->name == 'SUMMARY'){
+					$return[3] = $property->value;
+				}
+				elseif($property->name == 'RRULE'){
+					$return[4] = 1;
+				}
+				elseif($property->name == 'UID'){
+					$return[5] = $property->value;
+				}
+			} unset($property);
+		}
+		
+		// More than one child means reoccuring!
+		if($children > 1){
+			$return[4] = 1;
 		}
 		return $return;
+	}
+	
+	/**
+	 * @brief DateTime to UTC string
+	 * @param DateTime $datetime The date to convert
+	 * @returns date as YYYY-MM-DD hh:mm
+	 *
+	 * This function creates a date string that can be used by MDB2.
+	 * Furthermore it converts the time to UTC.
+	 */
+	protected static function getUTCforMDB($datetime){
+		return date('Y-m-d H:i', $datetime->format('U') - $datetime->getOffset());
 	}
 }
