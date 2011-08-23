@@ -279,6 +279,22 @@ class OC_Calendar_Calendar{
 					$use = $property;
 				}
 			}
+			elseif($property->name == 'VTODO' || $property->name == 'VJOURNAL'){
+				$return[0] = $use->name;
+				foreach($property->children as &$element){
+					if($property->name == 'SUMMARY'){
+						$return[3] = $property->value;
+					}
+					elseif($property->name == 'UID'){
+						$return[5] = $property->value;
+					}
+				};
+
+				// Only one VTODO or VJOURNAL per object
+				// (only one UID per object but a UID is required by a VTODO =>
+				//    one VTODO per object)
+				break;
+			}
 		} unset($property);
 		
 		// find the data
