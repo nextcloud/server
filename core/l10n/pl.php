@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Personal" => "Ustawienia osobiste",
 "Users" => "Użytkownicy",
 "Apps" => "Aplikacje",
 "Help" => "Pomoc",
-"Personal" => "Ustawienia osobiste",
 "Login failed!" => "Nie udało się zalogować!",
 "remember" => "zapamiętaj",
 "Create an <strong>admin account</strong>" => "Stwórz jako <strong>konto administratora</strong>",
@@ -23,5 +23,6 @@
 "prev" => "wstecz",
 "next" => "dalej",
 "You are logged out." => "Zostałeś wylogowany.",
+"Log out" => "Wyloguj się",
 "Settings" => "Ustawienia"
 );

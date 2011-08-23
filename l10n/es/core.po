@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-20 05:08+0200\n"
-"PO-Revision-Date: 2011-08-20 03:08+0000\n"
+"POT-Creation-Date: 2011-08-23 11:17+0200\n"
+"PO-Revision-Date: 2011-08-23 09:17+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/team/es/)\n"
 "MIME-Version: 1.0\n"
@@ -19,20 +19,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: strings.php:5
-msgid "Users"
-msgstr ""
+msgid "Personal"
+msgstr "Personal"
 
 #: strings.php:6
-msgid "Apps"
-msgstr ""
+msgid "Users"
+msgstr "Usuarios"
 
 #: strings.php:7
-msgid "Help"
-msgstr ""
+msgid "Apps"
+msgstr "Aplicaciones"
 
 #: strings.php:8
-msgid "Personal"
+msgid "Admin"
 msgstr ""
+
+#: strings.php:9
+msgid "Help"
+msgstr "Ayuda"
 
 #: templates/login.php:4
 msgid "Login failed!"
@@ -93,7 +97,7 @@ msgstr "Directorio de almacenamiento"
 
 #: templates/installation.php:83
 msgid "Finish setup"
-msgstr "Completar la instalación"
+msgstr "Completar instalación"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -101,7 +105,7 @@ msgstr "No se encontró la nube"
 
 #: templates/layout.guest.php:35
 msgid "gives you the freedom to control your own data on the internet"
-msgstr ""
+msgstr "te da la libertad del control de tus propios datos en internet"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -117,7 +121,7 @@ msgstr "Has cerrado sesión."
 
 #: templates/layout.user.php:34
 msgid "Log out"
-msgstr ""
+msgstr "Salir"
 
 #: templates/layout.user.php:46 templates/layout.user.php:47
 msgid "Settings"

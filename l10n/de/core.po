@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-20 05:08+0200\n"
-"PO-Revision-Date: 2011-08-20 03:08+0000\n"
+"POT-Creation-Date: 2011-08-23 11:18+0200\n"
+"PO-Revision-Date: 2011-08-23 09:18+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -19,20 +19,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: strings.php:5
+msgid "Personal"
+msgstr "Persönlich"
+
+#: strings.php:6
 msgid "Users"
 msgstr "Nutzer"
 
-#: strings.php:6
+#: strings.php:7
 msgid "Apps"
 msgstr "Anwendungen"
 
-#: strings.php:7
+#: strings.php:8
+msgid "Admin"
+msgstr "Verwaltung"
+
+#: strings.php:9
 msgid "Help"
 msgstr "Hilfe"
-
-#: strings.php:8
-msgid "Personal"
-msgstr "Persönlich"
 
 #: templates/login.php:4
 msgid "Login failed!"
@@ -118,7 +122,7 @@ msgstr "Erfolgreich abgemeldet."
 
 #: templates/layout.user.php:34
 msgid "Log out"
-msgstr ""
+msgstr "Abmelden"
 
 #: templates/layout.user.php:46 templates/layout.user.php:47
 msgid "Settings"

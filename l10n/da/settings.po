@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 18:58+0200\n"
-"PO-Revision-Date: 2011-08-18 16:59+0000\n"
+"POT-Creation-Date: 2011-08-23 11:09+0200\n"
+"PO-Revision-Date: 2011-08-23 09:09+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
@@ -33,92 +33,96 @@ msgstr "Ugyldig forespørgsel"
 msgid "Language changed"
 msgstr "Sprog ændret"
 
-#: templates/help.php:2
-msgid "Problems connecting to help database."
-msgstr ""
-
-#: templates/help.php:3
-msgid "Go there manually."
-msgstr ""
-
-#: templates/help.php:11
-msgid "Answer"
-msgstr ""
-
-#: templates/help.php:17
+#: templates/help.php:8
 msgid "Ask a question"
 msgstr "Stil et spørgsmål"
 
-#: templates/apps.php:12
+#: templates/help.php:17
+msgid "Problems connecting to help database."
+msgstr "Problemer med at forbinde til hjælpe-databasen"
+
+#: templates/help.php:18
+msgid "Go there manually."
+msgstr "Gå derhen manuelt."
+
+#: templates/help.php:26
+msgid "Answer"
+msgstr "Svar"
+
+#: templates/apps.php:8
+msgid "Add your application"
+msgstr ""
+
+#: templates/apps.php:21
 msgid "Select an App"
 msgstr "Vælg en App"
 
-#: templates/apps.php:14
+#: templates/apps.php:23
 msgid "-licensed"
 msgstr "-licenseret"
 
-#: templates/apps.php:14
+#: templates/apps.php:23
 msgid "by"
 msgstr "af"
 
-#: templates/personal.php:2
+#: templates/personal.php:8
 msgid "You use"
-msgstr ""
+msgstr "Du benytter"
 
-#: templates/personal.php:2
+#: templates/personal.php:8
 msgid "of the available"
-msgstr ""
+msgstr "af det tilgængelige"
 
-#: templates/personal.php:7
+#: templates/personal.php:13
 msgid "Your password got changed"
 msgstr "Din adgangskode er blevet ændret"
 
-#: templates/personal.php:9
+#: templates/personal.php:15
 msgid "Current password"
-msgstr ""
+msgstr "Nuværende adgangskode"
 
-#: templates/personal.php:10
+#: templates/personal.php:16
 msgid "New password"
 msgstr "Ny adgangskode"
 
-#: templates/personal.php:11
+#: templates/personal.php:17
 msgid "show"
 msgstr "vis"
 
-#: templates/personal.php:12
-msgid "Change password"
-msgstr ""
-
 #: templates/personal.php:18
+msgid "Change password"
+msgstr "Skift password"
+
+#: templates/personal.php:24
 msgid "Language"
 msgstr "Sprog"
 
-#: templates/personal.php:24
-msgid "Help translating"
-msgstr ""
-
 #: templates/personal.php:30
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgid "Help translating"
+msgstr "Hjælp med at oversætte"
 
-#: templates/users.php:11
+#: templates/personal.php:36
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr "benyt denne adresse til at forbinde til din ownCloud i din filbrowser"
+
+#: templates/users.php:16
 msgid "Name"
 msgstr "Navn"
 
-#: templates/users.php:12
+#: templates/users.php:17
 msgid "Password"
 msgstr "Kodeord"
 
-#: templates/users.php:13 templates/users.php:28
+#: templates/users.php:18 templates/users.php:36
 msgid "Groups"
 msgstr "Grupper"
 
-#: templates/users.php:18
+#: templates/users.php:24
 msgid "Create"
 msgstr "Ny"
 
-#: templates/users.php:40
+#: templates/users.php:48
 msgid "Delete"
-msgstr ""
+msgstr "Slet"
 
 

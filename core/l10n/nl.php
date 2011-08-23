@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Personal" => "Persoonlijk",
+"Users" => "Gebruikers",
+"Apps" => "Apps",
+"Help" => "Help",
 "Login failed!" => "Aanmelden mislukt.",
 "remember" => "onthoud gegevens",
 "Create an <strong>admin account</strong>" => "Maak een <strong>admin-account</strong>",
@@ -19,5 +23,6 @@
 "prev" => "vorige",
 "next" => "volgende",
 "You are logged out." => "U bent afgemeld.",
+"Log out" => "Afmelden",
 "Settings" => "Instellingen"
 );
