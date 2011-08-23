@@ -9,6 +9,8 @@ $(document).ready(function() {
 	$('#bookmark_add_submit').click(addBookmark);
 	$(window).scroll(updateOnBottom);
 	
+	$('#bookmark_add_url').focusout(getMetadata);
+	
 	$('.bookmarks_list').empty();
 	getBookmarks();
 });
@@ -34,6 +36,18 @@ function getBookmarks() {
 			bookmarks_loading = false;
 		}
 	});	
+}
+
+function getMetadata() {
+	var url = encodeEntities($('#bookmark_add_url').val())
+	$.ajax({
+		url: 'ajax/getMeta.php',
+		data: 'url=' + encodeURI(url),
+		success: function(pageinfo){ 
+			$('#bookmark_add_description').val(pageinfo.data.description);
+			$('#bookmark_add_title').val(pageinfo.data.title);
+		}
+	});
 }
 
 function addBookmark(event) {
