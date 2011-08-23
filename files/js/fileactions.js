@@ -82,11 +82,6 @@ FileActions={
 				});
 				parent.children('a.name').append(element);
 			}
-			element.hover(function(e){
-				$('span.actionHint').text($(this).data('action'));
-			}, function(e){
-				$('span.actionHint').text('');
-			});
 		}
 		if(actions['Delete']){
 			var img=FileActions.icons['Delete'];
@@ -140,11 +135,6 @@ FileActions.register('all','Delete',function(){return OC.imagePath('core','actio
 FileActions.register('all','Rename',function(){return OC.imagePath('core','actions/rename')},function(filename){
 	FileList.rename(filename);
 });
-
-// preparation for encryption embeeding in user interface
-//FileActions.register('all', 'Encrypt', function(){return OC.imagePath('core', 'actions/play-add')},function(filename){
-//	alert(filename);
-//});
 
 //FileActions.setDefault('all','Download');
 
