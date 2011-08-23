@@ -79,7 +79,7 @@ class OC_Calendar_Calendar{
 		return $result->fetchRow();
 	}
 
-	public static function addCalendar($userid,$name,$description,$components='VEVENT,VTODO',$timezone=null,$order=0,$color=null){
+	public static function addCalendar($userid,$name,$description,$components='VEVENT,VTODO,VJOURNAL',$timezone=null,$order=0,$color=null){
 		$all = self::allCalendars($userid);
 		$uris = array();
 		foreach($all as $i){
