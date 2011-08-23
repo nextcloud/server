@@ -28,7 +28,7 @@
 						<form>
 							<div id="choosecalendar">
 								<input type="button" id="today_input" value="Today" onclick="oc_cal_switch2today();"/>
-								<input type="button" id="choosecalendar_input" value="Calendars" onclick="" />
+								<input type="button" id="choosecalendar_input" value="Calendars" onclick="oc_cal_choosecalendar();" />
 							</div>
 						</form>
 						<form>

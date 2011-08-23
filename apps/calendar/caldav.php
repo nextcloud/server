@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Addressbook
+ * ownCloud - Calendar
  *
  * @author Jakob Sack
  * @copyright 2011 Jakob Sack mail@jakobsack.de

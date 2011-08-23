@@ -874,3 +874,11 @@ function oc_cal_newevent(date, time){
 		alert(t("calendar", "You can't open more than one dialog per site!"));
 	}
 }
+function oc_cal_choosecalendar(){
+	if(oc_cal_opendialog == 0){
+		$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/choosecalendar.php");
+		oc_cal_opendialog = 1;
+	}else{
+		alert(t("calendar", "You can't open more than one dialog per site!"));
+	}
+}

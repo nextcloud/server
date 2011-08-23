@@ -25,10 +25,12 @@
 			<td width="75px">&nbsp;&nbsp;&nbsp;<?php echo $l -> t("Calendar");?>:</td>
 			<td>
 			<select class="formselect" id="formcalendar_select" style="width:140px;">
-				<option>Coming soon</option><!--
-				<option>Calendar 1</option>
-				<option>Calendar 2</option>
-				<option>Calendar 3</option>-->
+				<?php
+				$option_calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+				for($i = 0; $i < count($option_calendars); $i++){
+					echo "<option id=\"option_" . $option_calendars[$i]["id"] . "\">" . $option_calendars[$i]["displayname"] . "</option>";
+				}
+				?>
 			</select></td>
 		</tr>
 	</table>
@@ -86,13 +88,13 @@
 			<td width="75px"><?php echo $l -> t("Repeat");?>:</td>
 			<td>
 			<select class="formselect" id="formrepeat_select" style="width:350px;">
-				<option id="doesnotrepeat" selected="selected">Does not repeat</option>
-				<option>Daily</option>
-				<option>Weekly</option>
-				<option>Every Weekday</option>
-				<option>Bi-Weekly</option>
-				<option>Monthly</option>
-				<option>Yearly</option>
+				<option id="repeat_doesnotrepeat" selected="selected"><?php echo $l->t("Does not repeat");?></option>
+				<option id="repeat_daily"><?php echo $l->t("Daily");?></option>
+				<option id="repeat_weekly"><?php echo $l->t("Weekly");?></option>
+				<option id="repeat_weekday"><?php echo $l->t("Every Weekday");?></option>
+				<option id="repeat_biweekly"><?php echo $l->t("Bi-Weekly");?></option>
+				<option id="repeat_monthly"><?php echo $l->t("Monthly");?></option>
+				<option id="repeat_yearly"><?php echo $l->t("Yearly");?></option>
 			</select></td>
 		</tr>
 	</table>
@@ -107,7 +109,7 @@
 	<table>
 		<tr>
 			<td width="75px" style="vertical-align: top;"><?php echo $l -> t("Description");?>:</td>
-			<td>			<textarea style="width:350px;height: 150px;"placeholder="Description of the Event"></textarea></td>
+			<td>			<textarea style="width:350px;height: 150px;"placeholder="<?php echo $l->t("Description of the Event");?>"></textarea></td>
 		</tr>
 	</table>
 	<span id="newcalendar_actions">

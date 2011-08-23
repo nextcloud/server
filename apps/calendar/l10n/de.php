@@ -63,6 +63,16 @@
 "Calendars" => "Kalender",
 "Time" => "Uhrzeit",
 "All day" => "Ganztägig",
+"Does not repeat" => "Keine Wiederholung",
+"Daily" => "Täglich",
+"Weekly" => "Wöchentlich",
+"Every Weekday" => "jeden Wochentag",
+"Bi-Weekly" => "jede 2. Woche",
+"Monthly" => "Monatlich",
+"Yearly" => "Jährlich",
+"Description of the Event" => "Beschreibung des Termins",
+"" => "",
+"" => "",
 "" => ""
 );
 ?>
