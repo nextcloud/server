@@ -36,11 +36,16 @@ if( !OC_User::isLoggedIn()){
 }
 
 $params=array(OC_User::getUser());
+$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
 //Filter for tag?
 $filterTag = isset($_GET["tag"]) ? urldecode($_GET["tag"]) : false;
 if($filterTag){
-	$sqlFilterTag = "HAVING INSTR (tags, ?) > 0";
+	if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
+		$sqlFilterTag = "HAVING tags LIKE '%' || ? || '%'";
+	} else {
+		$sqlFilterTag = "HAVING INSTR (tags, ?) > 0";
+	} 
 	$params[] = $filterTag;
 } else {
 	$sqlFilterTag = '';
@@ -49,7 +54,6 @@ if($filterTag){
 $offset = isset($_GET["page"]) ? intval($_GET["page"]) * 10 : 0;
 $params[] = $offset;
 
-$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_gc_separator = ", ' '";
 } else {
