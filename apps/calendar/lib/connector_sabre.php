@@ -235,7 +235,11 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 * @return array
 	 */
 	public function getCalendarObjects($calendarId) {
-		return OC_Calendar_Calendar::allCalendarObjects($calendarId);
+		$data = array();
+		foreach(OC_Calendar_Calendar::allCalendarObjects($calendarId) as $row){
+			$data[] = $this->OCAddETag($row);
+		}
+		return $data;
 	}
 
 	/**
@@ -251,7 +255,11 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 * @return array
 	 */
 	public function getCalendarObject($calendarId,$objectUri) {
-		return OC_Calendar_Calendar::findCalendarObjectWhereDAVDataIs($calendarId,$objectUri);
+		$data = OC_Calendar_Calendar::findCalendarObjectWhereDAVDataIs($calendarId,$objectUri);
+		if(is_array($data)){
+			$data = $this->OCAddETag($data);
+		}
+		return $data;
 	}
 
 	/**
@@ -287,5 +295,17 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 */
 	public function deleteCalendarObject($calendarId,$objectUri){
 		OC_Calendar_Calendar::deleteCalendarObjectFromDAVData($calendarID,$objectUri);
+	}
+	
+	/**
+	 * @brief Creates a etag
+	 * @param array $row Database result
+	 * @returns associative array
+	 *
+	 * Adds a key "etag" to the row
+	 */
+	private function OCAddETag($row){
+		$row['etag'] = '"'.md5($row['calendarid'].$row['uri'].$row['calendardata'].$row['lastmodified']).'"';
+		return $row;
 	}
 }
