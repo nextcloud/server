@@ -13,5 +13,5 @@ OC_Util::addStyle('contacts','styles');
 	<?php echo $this->inc("part.details"); ?>
 </div>
 <?php if(count($_['addressbooks']) == 1 ): ?>
-	<?php echo $l->t('The path to this addressbook is %s', array(OC::$WEBROOT.'/apps/contacts/carddav.php/addressbooks/'.OC_User::getUser().'/'.$_['addressbooks'][0]['uri'])); ?>
+	<?php echo $l->t('The path to this addressbook is %s', array(((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/apps/contacts/carddav.php/addressbooks/'.OC_User::getUser().'/'.$_['addressbooks'][0]['uri'])); ?>
 <?php endif; ?>
