@@ -176,7 +176,14 @@ class OC_Share {
 	public static function getMySharedItem($source) {
 		$source = self::cleanPath($source);
 		$query = OC_DB::prepare("SELECT uid_shared_with, permissions FROM *PREFIX*sharing WHERE source = ? AND uid_owner = ?");
-		return $query->execute(array($source, OC_User::getUser()))->fetchAll();
+		$result = $query->execute(array($source, OC_User::getUser()))->fetchAll();
+		if (count($result) > 0) {
+			return $result;
+		} else if ($originalSource = self::getSource($source)) {
+			return $query->execute(array($originalSource, OC_User::getUser()))->fetchAll();
+		} else {
+			return false;
+		}
 	}
 
 	/**
