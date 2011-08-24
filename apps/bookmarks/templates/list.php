@@ -1,4 +1,4 @@
-<input type="hidden" id="bookmarkFilterTag" value="<?php echo htmlentities($_GET['tag']); ?>" />
+<input type="hidden" id="bookmarkFilterTag" value="<?php if(isset($_GET['tag'])) echo htmlentities($_GET['tag']); ?>" />
 <h2 class="bookmarks_headline"><?php echo isset($_GET["tag"]) ? 'Bookmarks with tag: ' . urldecode($_GET["tag"]) : 'All bookmarks'; ?></h2>
 <div class="bookmarks_menu">
 	<input type="button" class="bookmarks_addBtn" value="Add Bookmark" />
