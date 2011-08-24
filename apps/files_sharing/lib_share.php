@@ -66,7 +66,8 @@ class OC_Share {
 					throw new Exception("This item is already shared with ".$uid);
 				}
 				// Check if the target already exists for the user, if it does append a number to the name
-				$target = "/".$uid."/files/Shared/".basename($source);
+				$sharedFolder = "/".$uid."/files/Shared";
+				$target = $sharedFolder."/".basename($source);
 				if (self::getSource($target)) {
 					if ($pos = strrpos($target, ".")) {
 						$name = substr($target, 0, $pos);
@@ -87,6 +88,9 @@ class OC_Share {
 					$uid = $uid."@".$gid;
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
+				// Clear the folder size cache for the 'Shared' folder
+				$clearFolderSize = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
+				$clearFolderSize->execute(array($sharedFolder));
 			}
 		}
 	}
