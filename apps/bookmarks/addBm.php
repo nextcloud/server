@@ -21,24 +21,28 @@
 * 
 */
 
-//no apps or filesystem
-$RUNTIME_NOSETUPFS=true;
-
-require_once('../../../lib/base.php');
-
-// We send json data
-header( 'Content-Type: application/jsonrequest' );
+require_once('../../lib/base.php');
 
 // Check if we are a user
 if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => 'Authentication error' )));
+	header( 'Location: '.OC_Helper::linkTo( '', 'index.php' ));
 	exit();
 }
 
-// $metadata = array();
+require_once('bookmarksHelper.php');
 
-require '../bookmarksHelper.php';
+OC_App::setActiveNavigationEntry( 'bookmarks_index' );
 
-$metadata = getURLMetadata(urldecode($_GET["url"]));
+OC_Util::addScript('bookmarks','addBm');
+OC_Util::addStyle('bookmarks', 'bookmarks');
 
-echo json_encode( array( 'status' => 'success', 'data' => $metadata));
+$tmpl = new OC_Template( 'bookmarks', 'addBm', 'user' );
+
+$url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
+$metadata = getURLMetadata($url);
+
+$tmpl->assign('URL', htmlentities($url));
+$tmpl->assign('TITLE', htmlentities($metadata['title']));
+$tmpl->assign('DESCRIPTION', htmlentities($metadata['description']));
+
+$tmpl->printPage();
