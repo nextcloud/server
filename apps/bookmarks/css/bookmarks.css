@@ -27,6 +27,10 @@
 	display: none;
 }
 
+.bookmarks_addBml {
+	text-decoration: underline;
+}
+
 .bookmarks_label {
 	width: 7em;
 	display: inline-block;
