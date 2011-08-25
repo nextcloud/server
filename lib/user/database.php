@@ -103,13 +103,13 @@ class OC_User_Database extends OC_User_Backend {
 	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword( $uid, $password ){
-		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users WHERE uid = ? AND password = ?" );
+		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users WHERE uid LIKE ? AND password = ?" );
 		$result = $query->execute( array( $uid, sha1( $password )));
 
 		if( $result->numRows() > 0 ){
-			return true;
-		}
-		else{
+			$row=$result->fetchRow();
+			return $row['uid'];
+		}else{
 			return false;
 		}
 	}

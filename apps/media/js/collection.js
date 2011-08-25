@@ -85,7 +85,7 @@ Collection={
 						tr.data('artistData',artist);
 						tr.find('td.artist a').click(function(event){
 							event.preventDefault();
-							PlayList.add(artist,true);
+							PlayList.add(artist);
 							PlayList.play(0);
 							Collection.parent.find('tr').removeClass('active');
 							$('tr[data-artist="'+artist.name+'"]').addClass('active');
@@ -100,6 +100,8 @@ Collection={
 								Collection.showArtist(tr.data('artist'));
 							}
 						});
+                        tr.find('td.artist').addClass('buttons');
+                        Collection.addButtons(tr,artist);
 						tr.children('td.artist').append(expander);
 						tr.attr('data-artist',artist.name);
 						Collection.parent.find('tbody').append(tr);
@@ -124,7 +126,7 @@ Collection={
 					newRow.find('td.album a').text(album.name);
 					newRow.find('td.album a').click(function(event){
 						event.preventDefault();
-						PlayList.add(album,true);
+						PlayList.add(album);
 						PlayList.play(0);
 						Collection.parent.find('tr').removeClass('active');
 						$('tr[data-album="'+album.name+'"]').addClass('active');
@@ -134,9 +136,10 @@ Collection={
 					newRow.find('td.album a').text('');
 				}
 				newRow.find('td.title a').text(song.name);
+                Collection.addButtons(newRow,song);
 				newRow.find('td.title a').click(function(event){
 					event.preventDefault();
-					PlayList.add(song,true);
+					PlayList.add(song);
 					PlayList.play(0);
 					Collection.parent.find('tr').removeClass('active');
 					$('tr[data-title="'+song.name+'"]').addClass('active');
@@ -192,16 +195,26 @@ Collection={
 			song.song_playcount++;
 		}
 	},
-	addButtons:function(parent){
-		parent.children('button.add').click(function(){
-			var type=$(this).parent().data('type');
-			PlayList.add($(this).parent().data(type));
+	addButtons:function(parent,data){
+        buttons = parent.find('.buttons');
+        if(buttons.find('.add').length<=0) {
+            buttons.append('<img class="add" src="'+OC.imagePath('core','actions/play-add')+'"/>');
+        }
+        if(buttons.find('.play').length<=0) {
+            buttons.append('<img class="play" src="'+OC.imagePath('core','actions/play')+'"/>');
+        }
+		buttons.find('.add').unbind('click');
+		buttons.find('.add').click(function(event){
+            event.preventDefault();
+			PlayList.add(data,true);
+            PlayList.render();
 		});
-		parent.children('button.play').click(function(){
-			var type=$(this).parent().data('type');
-			var oldSize=PlayList.items.length;
-			PlayList.add($(this).parent().data(type));
-			PlayList.play(oldSize);
+		buttons.find('.play').unbind('click');
+		buttons.find('.play').click(function(event){
+            event.preventDefault();
+			PlayList.add(data);
+			PlayList.play(0,0);
+            PlayList.render();
 		});
 	},
 	find:function(artistName,albumName,songName){
