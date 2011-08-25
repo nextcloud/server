@@ -36,7 +36,7 @@ if( !OC_User::isLoggedIn()){
 }
 
 $params=array(
-	urldecode($_GET["url"]),
+	htmlspecialchars_decode($_GET["url"]),
 	OC_User::getUser()
 	);
 
