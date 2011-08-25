@@ -38,7 +38,7 @@ if( !OC_User::isLoggedIn()){
 // $metadata = array();
 
 require '../bookmarksHelper.php';
+$metadata = getURLMetadata(htmlspecialchars_decode($_GET["url"]));
 
-$metadata = getURLMetadata(urldecode($_GET["url"]));
 
 echo json_encode( array( 'status' => 'success', 'data' => $metadata));

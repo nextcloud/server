@@ -51,9 +51,9 @@ $query = OC_DB::prepare("
 	
 	
 $params=array(
-	urldecode($_GET["url"]),
-	urldecode($_GET["title"]),
-	urldecode($_GET["description"]),
+	htmlspecialchars_decode($_GET["url"]),
+	htmlspecialchars_decode($_GET["title"]),
+	htmlspecialchars_decode($_GET["description"]),
 	OC_User::getUser()
 	);
 $query->execute($params);

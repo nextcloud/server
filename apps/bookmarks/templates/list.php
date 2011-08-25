@@ -2,7 +2,7 @@
 <h2 class="bookmarks_headline"><?php echo isset($_GET["tag"]) ? 'Bookmarks with tag: ' . urldecode($_GET["tag"]) : 'All bookmarks'; ?></h2>
 <div class="bookmarks_menu">
 	<input type="button" class="bookmarks_addBtn" value="Add Bookmark"/>&nbsp;
-	<a class="bookmarks_addBml" href="javascript:var url = encodeURI(location.href);window.open('<?php echo (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . OC_Helper::linkTo('bookmarks', 'addBm.php'); ?>?url='+url, 'owncloud-bookmarks');" title="Drag this to your browser bookmarks and click it, when you want to bookmark a webpage.">Add page to ownCloud</a>
+	<a class="bookmarks_addBml" href="javascript:var url = encodeURIComponent(location.href);window.open('<?php echo (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . OC_Helper::linkTo('bookmarks', 'addBm.php'); ?>?url='+url, 'owncloud-bookmarks');" title="Drag this to your browser bookmarks and click it, when you want to bookmark a webpage.">Add page to ownCloud</a>
 </div>
 <div class="bookmarks_add">
 	<p><label class="bookmarks_label">Address</label><input type="text" id="bookmark_add_url" class="bookmarks_input" /></p>

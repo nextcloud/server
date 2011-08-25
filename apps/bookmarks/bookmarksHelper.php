@@ -11,7 +11,7 @@ function getURLMetadata($url) {
 
 	$page = file_get_contents($url);
 	@preg_match( "/<title>(.*)<\/title>/si", $page, $match );
-	$metadata['title'] = htmlentities(strip_tags(@$match[1])); 
+	$metadata['title'] = htmlspecialchars_decode(@$match[1]); 
 
 	$meta = get_meta_tags($url);
 

@@ -39,7 +39,7 @@ $params=array(OC_User::getUser());
 $CONFIG_DBTYPE = OC_Config::getValue( 'dbtype', 'sqlite' );
 
 //Filter for tag?
-$filterTag = isset($_GET['tag']) ? '%' . urldecode($_GET['tag']) . '%' : false;
+$filterTag = isset($_GET['tag']) ? '%' . htmlspecialchars_decode($_GET['tag']) . '%' : false;
 if($filterTag){
 	$sqlFilterTag = 'HAVING tags LIKE ?';
 	$params[] = $filterTag;

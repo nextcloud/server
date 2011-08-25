@@ -48,7 +48,7 @@ function getMetadata() {
 	var url = encodeEntities($('#bookmark_add_url').val())
 	$.ajax({
 		url: 'ajax/getMeta.php',
-		data: 'url=' + encodeURI(url),
+		data: 'url=' + encodeURIComponent(url),
 		success: function(pageinfo){
 			$('#bookmark_add_url').val(pageinfo.data.url);
 			$('#bookmark_add_description').val(pageinfo.data.description);
