@@ -13,11 +13,8 @@ foreach ($sources as $source) {
 	if ($source && OC_FILESYSTEM::file_exists($source) && OC_FILESYSTEM::is_readable($source)) {
 		$source = $userDirectory.$source;
 	// If the file doesn't exist, it may be shared with the current user
-	} else {
-		$source = OC_Share::getSource($userDirectory.$source);
-		if (!$source) {
-			echo "false";
-		}
+	} else if (!$source = OC_Share::getSource($userDirectory.$source)) {
+		echo "false";
 	}
 	try {
 		$shared = new OC_Share($source, $uid_shared_with, $permissions);
