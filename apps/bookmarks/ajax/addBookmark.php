@@ -59,7 +59,6 @@ $params=array(
 $query->execute($params);
 $b_id = OC_DB::insertid();
 
-
 if($b_id !== false) {
 	$query = OC_DB::prepare("
 		INSERT INTO *PREFIX*bookmarks_tags

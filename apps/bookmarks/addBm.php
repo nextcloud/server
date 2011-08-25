@@ -41,7 +41,7 @@ $tmpl = new OC_Template( 'bookmarks', 'addBm', 'user' );
 $url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
 $metadata = getURLMetadata($url);
 
-$tmpl->assign('URL', htmlentities($url));
+$tmpl->assign('URL', htmlentities($metadata['url']));
 $tmpl->assign('TITLE', htmlentities($metadata['title']));
 $tmpl->assign('DESCRIPTION', htmlentities($metadata['description']));
 

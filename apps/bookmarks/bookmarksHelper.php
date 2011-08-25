@@ -7,6 +7,7 @@ function getURLMetadata($url) {
 	if(preg_match($protocols, $url) == 0) {
 		$url = 'http://' . $url;
 	} 
+	$metadata['url'] = $url;
 
 	$page = file_get_contents($url);
 	@preg_match( "/<title>(.*)<\/title>/si", $page, $match );

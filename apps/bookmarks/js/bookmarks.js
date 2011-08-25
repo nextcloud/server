@@ -49,7 +49,8 @@ function getMetadata() {
 	$.ajax({
 		url: 'ajax/getMeta.php',
 		data: 'url=' + encodeURI(url),
-		success: function(pageinfo){ 
+		success: function(pageinfo){
+			$('#bookmark_add_url').val(pageinfo.data.url);
 			$('#bookmark_add_description').val(pageinfo.data.description);
 			$('#bookmark_add_title').val(pageinfo.data.title);
 		}
@@ -111,6 +112,9 @@ function updateBookmarksList(bookmark) {
 	for ( var i=0, len=tags.length; i<len; ++i ){
 		taglist = taglist + '<a class="bookmark_tags" href="?tag=' + encodeURI(tags[i]) + '">' + tags[i] + '</a> ';
 	}
+	if(!hasProtocol(bookmark.url)) {
+		bookmark.url = 'http://' + bookmark.url;
+	}
 	$('.bookmarks_list').append(
 		'<div class="bookmark_single">' +
 			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_new" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
@@ -143,4 +147,9 @@ function encodeEntities(s){
 	} catch (ex) {
 		return "";
 	}
+}
+
+function hasProtocol(url) {
+    var regexp = /(ftp|http|https|sftp)/;
+    return regexp.test(url);
 }
