@@ -55,7 +55,7 @@ Collection={
 					for(var i=0;i<Collection.loadedListeners.length;i++){
 						Collection.loadedListeners[i]();
 					}
-					if(collection.length==0){
+					if(Collection.length==0){
 						$('#scan input.start').val(t('media','Scan Collection'));
 						$('#scan input.start').click();
 					}
@@ -79,6 +79,7 @@ Collection={
 				$.each(Collection.artists,function(i,artist){
 					if(artist.name && artist.songs.length>0){
 						var tr=template.clone().removeClass('template');
+                        tr.addClass('artist');
 						tr.find('td.title a').text(artist.songs.length+' '+t('media','songs'));
 						tr.find('td.album a').text(artist.albums.length+' '+t('media','albums'));
 						tr.find('td.artist a').text(artist.name);
@@ -90,7 +91,7 @@ Collection={
 							Collection.parent.find('tr').removeClass('active');
 							$('tr[data-artist="'+artist.name+'"]').addClass('active');
 						});
-						var expander=$('<a class="expander">&gt;</a>');
+						var expander=$('<a class="expander">&gt; </a>');
 						expander.data('expanded',false);
 						expander.click(function(event){
 							var tr=$(this).parent().parent();
@@ -100,7 +101,7 @@ Collection={
 								Collection.showArtist(tr.data('artist'));
 							}
 						});
-						tr.children('td.artist').append(expander);
+						tr.find('td.album a').before(expander);
 						tr.attr('data-artist',artist.name);
 						Collection.parent.find('tbody').append(tr);
 					}
@@ -112,48 +113,60 @@ Collection={
 		var tr=Collection.parent.find('tr[data-artist="'+artist+'"]');
 		var nextRow=tr.next();
 		var artist=tr.data('artistData');
-		var first=true;
 		$.each(artist.albums,function(foo,album){
+            var newRow=tr.clone();
+            newRow.removeClass('artist');
+            newRow.addClass('album');
+            newRow.find('.expander').remove();
+            var expander=$('<a class="expander">v </a>');
+            expander.data('expanded',true);
+            expander.click(function(event){
+                var tr=$(this).parent().parent();
+                if(expander.data('expanded')) {
+                    Collection.hideAlbum(tr.data('artist'),tr.data('album'));
+                } else {
+                    Collection.showAlbum(tr.data('artist'),tr.data('album'));
+                }
+            });
+            newRow.find('td.title').text('');
+            newRow.find('td.artist a').text(album.name);
+            newRow.find('td.album a').text(album.songs.length+" songs");
+            newRow.find('td.artist a').click(function(event){
+                event.preventDefault();
+                PlayList.add(album,true);
+                PlayList.play(0);
+                Collection.parent.find('tr').removeClass('active');
+                $('tr[data-album="'+album.name+'"]').addClass('active');
+            });
+            newRow.find('td.album a').before(expander);
+            newRow.attr('data-artist',artist.name);
+            newRow.attr('data-album',album.name);
+            nextRow.before(newRow);
 			$.each(album.songs,function(i,song){
-				if(first){
-					newRow=tr;
-				}else{
-					var newRow=tr.clone();
-				}
-				if(i==0){
-					newRow.find('td.album a').text(album.name);
-					newRow.find('td.album a').click(function(event){
-						event.preventDefault();
-						PlayList.add(album,true);
-						PlayList.play(0);
-						Collection.parent.find('tr').removeClass('active');
-						$('tr[data-album="'+album.name+'"]').addClass('active');
-					});
-				}else{
-					newRow.find('.expander').remove();
-					newRow.find('td.album a').text('');
-				}
-				newRow.find('td.title a').text(song.name);
-				newRow.find('td.title a').click(function(event){
+                var newRow=tr.clone();
+                newRow.removeClass('artist');
+                newRow.addClass('song');
+                newRow.find('.expander').remove();
+                newRow.find('td.title a').text('');
+                newRow.find('td.album a').text('');
+				newRow.find('td.artist a').text(song.name);
+				newRow.find('td.artist a').click(function(event) {
 					event.preventDefault();
 					PlayList.add(song,true);
 					PlayList.play(0);
 					Collection.parent.find('tr').removeClass('active');
 					$('tr[data-title="'+song.name+'"]').addClass('active');
 				});
+				newRow.attr('data-artist',artist.name);
 				newRow.attr('data-album',album.name);
 				newRow.attr('data-title',song.name);
-				newRow.attr('data-artist',artist.name);
-				if(!first){
-					nextRow.before(newRow);
-				}
-				first=false;
+                nextRow.before(newRow);
 			});
 		});
 		tr.removeClass('collapsed');
 		tr.find('a.expander').data('expanded',true);
 		tr.find('a.expander').addClass('expanded');
-		tr.find('a.expander').text('v');
+		tr.find('a.expander').text('v ');
 	},
 	hideArtist:function(artist){
 		var tr=Collection.parent.find('tr[data-artist="'+artist+'"]');
@@ -161,7 +174,7 @@ Collection={
 			var artist=tr.first().data('artistData');
 			tr.first().find('td.album a').text(artist.albums.length+' '+t('media','albums'));
 			tr.first().find('td.title a').text(artist.songs.length+' '+t('media','songs'));
-			tr.first().find('td.album a').unbind('click');
+			tr.first().find('td.album a').last().unbind('click');
 			tr.first().find('td.title a').unbind('click');
 			tr.each(function(i,row){
 				if(i>0){
@@ -170,15 +183,23 @@ Collection={
 			});
 			tr.find('a.expander').data('expanded',false);
 			tr.find('a.expander').removeClass('expanded');
-			tr.find('a.expander').text('>');
+			tr.find('a.expander').text('> ');
 		}
 	},
 	showAlbum:function(artist,album){
-		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').show();
+        var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
+        tr.find('a.expander').data('expanded',true);
+		tr.find('a.expander').addClass('expanded');
+		tr.find('a.expander').text('v ');
+        tr.show();
 	},
 	hideAlbum:function(artist,album){
-		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').hide();
-		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').last().show();
+		var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
+        tr.find('a.expander').data('expanded',false);
+        tr.find('a.expander').removeClass('expanded');
+        tr.find('a.expander').text('> ');
+        tr.hide();
+		tr.first().show();
 	},
 	parent:null,
 	hide:function(){
