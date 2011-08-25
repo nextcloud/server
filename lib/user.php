@@ -191,13 +191,17 @@ class OC_User {
 		$run = true;
 		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
-		if( $run && self::checkPassword( $uid, $password )){
-			$_SESSION['user_id'] = $uid;
-		        OC_Crypt::init($uid,$password);
-			OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid ));
-			return true;
-		}
-		else{
+		if( $run ){
+			$uid=self::checkPassword( $uid, $password );
+			if($uid){
+				$_SESSION['user_id'] = $uid;
+				OC_Crypt::init($uid,$password);
+				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid ));
+				return true;
+			}else{
+				return false;
+			}
+		}else{
 			return false;
 		}
 	}
@@ -292,8 +296,8 @@ class OC_User {
 		foreach(self::$_usedBackends as $backend){
 			if($backend->implementsActions(OC_USER_BACKEND_CHECK_PASSWORD)){
 				$result=$backend->checkPassword( $uid, $password );
-				if($result===true){
-					return true;
+				if($result){
+					return $result;
 				}
 			}
 		}
