@@ -1,6 +1,8 @@
 var bookmarks_page = 0;
 var bookmarks_loading = false;
 
+var bookmarks_sorting = 'bookmarks_sorting_recent';
+
 $(document).ready(function() {
 	$('.bookmarks_addBtn').click(function(event){
 		$('.bookmarks_add').slideToggle();
@@ -10,6 +12,9 @@ $(document).ready(function() {
 	$(window).scroll(updateOnBottom);
 	
 	$('#bookmark_add_url').focusout(getMetadata);
+	$('.' + bookmarks_sorting).addClass('bookmarks_sorting_active');
+	
+	$('.bookmarks_sorting li').click(function(event){changeSorting(this)});
 	
 	$('.bookmarks_list').empty();
 	getBookmarks();
@@ -20,9 +25,10 @@ function getBookmarks() {
 		//have patience :)
 		return;
 	}
+	
 	$.ajax({
 		url: 'ajax/updateList.php',
-		data: 'tag=' + encodeURI($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page,
+		data: 'tag=' + encodeURI($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
 		success: function(bookmarks){
 			bookmarks_page += 1;
 			$('.bookmark_link').unbind('click', recordClick);
@@ -48,6 +54,17 @@ function getMetadata() {
 			$('#bookmark_add_title').val(pageinfo.data.title);
 		}
 	});
+}
+
+function changeSorting(sortEl) {
+	$('.' + bookmarks_sorting).removeClass('bookmarks_sorting_active');
+	bookmarks_sorting = sortEl.className;
+	$('.' + bookmarks_sorting).addClass('bookmarks_sorting_active');
+	
+	$('.bookmarks_list').empty();
+	bookmarks_page = 0;
+	bookmarks_loading = false;
+	getBookmarks();
 }
 
 function addBookmark(event) {

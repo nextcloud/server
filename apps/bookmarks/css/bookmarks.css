@@ -23,6 +23,21 @@
 	text-decoration: underline;
 }
 
+.bookmarks_sorting {
+	float: left;
+	margin-left: 2em;
+}
+
+.bookmarks_sorting li {
+	padding: 1ex 1em;
+	border: 1px solid gray;
+	-moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em;
+}
+
+.bookmarks_sorting_active {
+	font-weight: bold;
+}
+
 .bookmarks_add {
 	display: none;
 }
@@ -64,4 +79,8 @@
 
 .bookmark_tags {
 	color: #ff3333;
+}
+
+.clear {
+	clear:both;
 }

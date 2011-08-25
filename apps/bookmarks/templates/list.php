@@ -12,6 +12,13 @@
 	<p><label class="bookmarks_label"> </label><label class="bookmarks_hint">Hint: Use space to separate tags.</label></p>
 	<p><label class="bookmarks_label"></label><input type="submit" id="bookmark_add_submit" /></p>
 </div>
+<div class="bookmarks_sorting pager">
+	<ul>
+		<li class="bookmarks_sorting_recent">Recent Bookmarks</li>
+		<li class="bookmarks_sorting_clicks">Most clicks</li>
+	</ul>
+</div>
+<div class="clear"></div>
 <div class="bookmarks_list">
 	<noscript>
 	JavaScript is needed to display your Bookmarks
