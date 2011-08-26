@@ -63,6 +63,9 @@ class OC_USER_LDAP extends OC_User_Backend {
 	private function getDs() {
 		if(!$this->ds) {
 			$this->ds = ldap_connect( $this->ldap_host, $this->ldap_port );
+			   if(ldap_set_option($this->ds, LDAP_OPT_PROTOCOL_VERSION, 3))
+				 if(ldap_set_option($this->ds, LDAP_OPT_REFERRALS, 0))
+					  ldap_start_tls($this->ds);
 		}
 
 		// login
