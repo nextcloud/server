@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-23 11:18+0200\n"
+"POT-Creation-Date: 2011-08-26 09:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,12 +37,8 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: templates/login.php:4
-msgid "Login failed!"
-msgstr ""
-
-#: templates/login.php:9 templates/login.php:13
-msgid "remember"
+#: templates/404.php:12
+msgid "Cloud not found"
 msgstr ""
 
 #: templates/installation.php:20
@@ -98,24 +94,8 @@ msgstr ""
 msgid "Finish setup"
 msgstr ""
 
-#: templates/404.php:12
-msgid "Cloud not found"
-msgstr ""
-
 #: templates/layout.guest.php:35
 msgid "gives you the freedom to control your own data on the internet"
-msgstr ""
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr ""
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr ""
-
-#: templates/logout.php:1
-msgid "You are logged out."
 msgstr ""
 
 #: templates/layout.user.php:34
@@ -124,4 +104,24 @@ msgstr ""
 
 #: templates/layout.user.php:46 templates/layout.user.php:47
 msgid "Settings"
+msgstr ""
+
+#: templates/login.php:4
+msgid "Login failed!"
+msgstr ""
+
+#: templates/login.php:9 templates/login.php:13
+msgid "remember"
+msgstr ""
+
+#: templates/logout.php:1
+msgid "You are logged out."
+msgstr ""
+
+#: templates/part.pagenavi.php:3
+msgid "prev"
+msgstr ""
+
+#: templates/part.pagenavi.php:20
+msgid "next"
 msgstr ""
