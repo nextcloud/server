@@ -461,7 +461,7 @@ function oc_cal_switch2today() {
 }
 
 function oc_cal_update_eventsvar(loadyear) {
-	$("#js_events").load(oc_webroot + "/apps/calendar/ajax/ajax.php?task=load_events&year=" + loadyear);
+	$("#js_events").load(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + loadyear);
 	if(document.getElementById("js_events").innerHTML == "nosession") {
 		alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
 		document.location(oc_webroot);
@@ -471,7 +471,7 @@ function oc_cal_update_eventsvar(loadyear) {
 			$( "#parsingfail_dialog" ).dialog();
 		});
 	} else {
-		events.concat(newevents);
+		oc_cal_events[loadyear] = newevents[loadyear];
 	}
 }
 

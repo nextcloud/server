@@ -17,8 +17,10 @@
  * 59 Temple Place, Suite 330, Boston,            *
  * MA 02111-1307  USA                             *
  *************************************************/
-require_once ("../../lib/base.php");
+require_once ("../../../lib/base.php");
 if(!OC_USER::isLoggedIn()) {
 	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
+$output = new OC_TEMPLATE("calendar", "part.getcal");
+$output -> printpage();
 ?>
