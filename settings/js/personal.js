@@ -31,6 +31,7 @@ $(document).ready(function(){
 		// Ajax foo
 		$.post( 'ajax/setlanguage.php', post, function(data){
 			if( data.status == "success" ){
+				location.reload();
 			}
 			else{
 				$('#passworderror').html( data.data.message );
