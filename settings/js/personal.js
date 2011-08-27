@@ -25,7 +25,8 @@ $(document).ready(function(){
 			});
 			return false;
 		} else {
-			$('passworderror').show();
+			$('#passwordchanged').hide();
+			$('#passworderror').show();
 			return false;
 		}
 
