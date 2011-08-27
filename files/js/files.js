@@ -100,7 +100,7 @@ $(document).ready(function() {
 	$('.delete').click(function(event) {
 		var files=getSelectedFiles('name');
 		event.preventDefault();
-		FileList.delete(files);
+		FileList.do_delete(files);
 		return false;
 	});
 

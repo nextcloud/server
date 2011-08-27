@@ -129,7 +129,7 @@ FileActions.register('all','Download',function(){return OC.imagePath('core','act
 });
 
 FileActions.register('all','Delete',function(){return OC.imagePath('core','actions/delete')},function(filename){
-	FileList.delete(filename);
+	FileList.do_delete(filename);
 });
 
 FileActions.register('all','Rename',function(){return OC.imagePath('core','actions/rename')},function(filename){

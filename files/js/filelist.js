@@ -150,10 +150,10 @@ FileList={
 			form.trigger('submit');
 		});
 	},
-	delete:function(files){
+	do_delete:function(files){
 		if(FileList.deleteFiles){//finish any ongoing deletes first
 			FileList.finishDelete(function(){
-				FileList.delete(files);
+				FileList.do_delete(files);
 			});
 			return;
 		}
