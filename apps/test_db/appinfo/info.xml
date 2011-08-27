@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<info>
+	<id>test_db</id>
+	<name>Test DB</name>
+	<description>A test of the db</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Côme BERNIGAUD</author>
+	<require>2</require>
+</info>

@@ -129,7 +129,7 @@ class OC_DB {
 		// Die if we have an error (error means: bad query, not 0 results!)
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$cmd.'<br />';
+			$entry .= 'Offending command was: '.$query.'<br />';
 			error_log( $entry );
 			die( $entry );
 		}
