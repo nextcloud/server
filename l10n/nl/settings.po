@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-23 11:09+0200\n"
-"PO-Revision-Date: 2011-08-23 09:09+0000\n"
+"POT-Creation-Date: 2011-08-28 01:13+0200\n"
+"PO-Revision-Date: 2011-08-27 23:13+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -33,22 +33,6 @@ msgstr "Ongeldig verzoek"
 msgid "Language changed"
 msgstr "Taal aangepast"
 
-#: templates/help.php:8
-msgid "Ask a question"
-msgstr "Stel een vraag"
-
-#: templates/help.php:17
-msgid "Problems connecting to help database."
-msgstr ""
-
-#: templates/help.php:18
-msgid "Go there manually."
-msgstr ""
-
-#: templates/help.php:26
-msgid "Answer"
-msgstr "Beantwoord"
-
 #: templates/apps.php:8
 msgid "Add your application"
 msgstr ""
@@ -65,6 +49,22 @@ msgstr "-gelicenseerd"
 msgid "by"
 msgstr "door"
 
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr "Stel een vraag"
+
+#: templates/help.php:17
+msgid "Problems connecting to help database."
+msgstr ""
+
+#: templates/help.php:18
+msgid "Go there manually."
+msgstr ""
+
+#: templates/help.php:26
+msgid "Answer"
+msgstr "Beantwoord"
+
 #: templates/personal.php:8
 msgid "You use"
 msgstr "U gebruikt"
@@ -76,6 +76,10 @@ msgstr "van de beschikbare"
 #: templates/personal.php:13
 msgid "Your password got changed"
 msgstr "Uw wachtwoord is aangepast"
+
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Current password"

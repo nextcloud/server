@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-23 11:09+0200\n"
-"PO-Revision-Date: 2011-08-23 09:09+0000\n"
+"POT-Creation-Date: 2011-08-28 01:13+0200\n"
+"PO-Revision-Date: 2011-08-27 23:13+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
 "MIME-Version: 1.0\n"
@@ -34,22 +34,6 @@ msgstr "Άκυρα αίτημα"
 msgid "Language changed"
 msgstr "Η γλώσσα άλλαξε"
 
-#: templates/help.php:8
-msgid "Ask a question"
-msgstr "Κάντε μια ερώτηση"
-
-#: templates/help.php:17
-msgid "Problems connecting to help database."
-msgstr "Προβλήματα κατά τη σύνδεση με τη βάση δεδομένων βοήθειας."
-
-#: templates/help.php:18
-msgid "Go there manually."
-msgstr "Χειροκίνητη μετάβαση."
-
-#: templates/help.php:26
-msgid "Answer"
-msgstr "Απάντηση"
-
 #: templates/apps.php:8
 msgid "Add your application"
 msgstr ""
@@ -66,6 +50,22 @@ msgstr "-με άδεια"
 msgid "by"
 msgstr "με"
 
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr "Κάντε μια ερώτηση"
+
+#: templates/help.php:17
+msgid "Problems connecting to help database."
+msgstr "Προβλήματα κατά τη σύνδεση με τη βάση δεδομένων βοήθειας."
+
+#: templates/help.php:18
+msgid "Go there manually."
+msgstr "Χειροκίνητη μετάβαση."
+
+#: templates/help.php:26
+msgid "Answer"
+msgstr "Απάντηση"
+
 #: templates/personal.php:8
 msgid "You use"
 msgstr "Χρησιμοποιείτε"
@@ -77,6 +77,10 @@ msgstr "από τα διαθέσιμα"
 #: templates/personal.php:13
 msgid "Your password got changed"
 msgstr "Ο κωδικός πρόσβασής σας άλαλαξε"
+
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Current password"

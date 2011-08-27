@@ -4,13 +4,14 @@
 # 
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
 #   <mosslar@gmail.com>, 2011.
+# Marcin Małecki <mosslar@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-23 11:09+0200\n"
-"PO-Revision-Date: 2011-08-23 09:09+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"POT-Creation-Date: 2011-08-28 01:11+0200\n"
+"PO-Revision-Date: 2011-08-23 10:15+0000\n"
+"Last-Translator: mosslar <gerber@tkdami.net>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/team/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,6 +35,22 @@ msgstr "Nieprawidłowe żądanie"
 msgid "Language changed"
 msgstr "Język zmieniony"
 
+#: templates/apps.php:8
+msgid "Add your application"
+msgstr "Dodaj własną aplikacje"
+
+#: templates/apps.php:21
+msgid "Select an App"
+msgstr "Zaznacz aplikacje"
+
+#: templates/apps.php:23
+msgid "-licensed"
+msgstr "-licencjonowany"
+
+#: templates/apps.php:23
+msgid "by"
+msgstr "przez"
+
 #: templates/help.php:8
 msgid "Ask a question"
 msgstr "Zadaj pytanie"
@@ -49,22 +66,6 @@ msgstr "Przejdź na stronę ręcznie."
 #: templates/help.php:26
 msgid "Answer"
 msgstr "Odpowiedź"
-
-#: templates/apps.php:8
-msgid "Add your application"
-msgstr ""
-
-#: templates/apps.php:21
-msgid "Select an App"
-msgstr "Zaznacz aplikacje"
-
-#: templates/apps.php:23
-msgid "-licensed"
-msgstr "-licencjonowany"
-
-#: templates/apps.php:23
-msgid "by"
-msgstr "przez"
 
 #: templates/personal.php:8
 msgid "You use"

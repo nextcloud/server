@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-23 11:17+0200\n"
-"PO-Revision-Date: 2011-08-23 09:14+0000\n"
+"POT-Creation-Date: 2011-08-28 01:13+0200\n"
+"PO-Revision-Date: 2011-08-27 23:13+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -33,22 +33,6 @@ msgstr "Ungültige Anfrage"
 msgid "Language changed"
 msgstr "Sprache geändert"
 
-#: templates/help.php:8
-msgid "Ask a question"
-msgstr "Stell eine Frage"
-
-#: templates/help.php:17
-msgid "Problems connecting to help database."
-msgstr "Probleme bei der Verbindung zur Hilfe-Datenbank."
-
-#: templates/help.php:18
-msgid "Go there manually."
-msgstr "Datenbank direkt besuchen."
-
-#: templates/help.php:26
-msgid "Answer"
-msgstr "Antwort"
-
 #: templates/apps.php:8
 msgid "Add your application"
 msgstr "Eigene Anwendung hinzufügen"
@@ -65,6 +49,22 @@ msgstr "-lizenziert"
 msgid "by"
 msgstr "von"
 
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr "Stell eine Frage"
+
+#: templates/help.php:17
+msgid "Problems connecting to help database."
+msgstr "Probleme bei der Verbindung zur Hilfe-Datenbank."
+
+#: templates/help.php:18
+msgid "Go there manually."
+msgstr "Datenbank direkt besuchen."
+
+#: templates/help.php:26
+msgid "Answer"
+msgstr "Antwort"
+
 #: templates/personal.php:8
 msgid "You use"
 msgstr "Du nutzt"
@@ -76,6 +76,10 @@ msgstr "der verfügbaren"
 #: templates/personal.php:13
 msgid "Your password got changed"
 msgstr "Dein Passwort wurde geändert"
+
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Current password"

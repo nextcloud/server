@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
-"Personal" => "Identitas",
+"Personal" => "Pribadi",
 "Users" => "Pengguna",
 "Apps" => "Aplikasi",
+"Admin" => "Admin",
 "Help" => "Bantuan",
-"Login failed!" => "Gagal masuk!",
-"remember" => "selalu login",
+"Cloud not found" => "Cloud tidak ditemukan",
 "Create an <strong>admin account</strong>" => "Buat sebuah <strong>akun admin</strong>",
 "Username" => "Username",
 "Password" => "Password",
@@ -18,11 +18,12 @@
 "Table prefix" => "Awalan tabel",
 "Data folder" => "Folder data",
 "Finish setup" => "Selesaikan instalasi",
-"Cloud not found" => "Cloud tidak ditemukan",
 "gives you the freedom to control your own data on the internet" => "memberikan anda kebebasan dalam mengendalikan data anda di internet",
-"prev" => "sebelum",
-"next" => "selanjutnya",
-"You are logged out." => "Anda telah keluar.",
 "Log out" => "Keluar",
-"Settings" => "Setelan"
+"Settings" => "Setelan",
+"Login failed!" => "Gagal masuk!",
+"remember" => "selalu login",
+"You are logged out." => "Anda telah keluar.",
+"prev" => "sebelum",
+"next" => "selanjutnya"
 );
