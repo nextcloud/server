@@ -764,8 +764,8 @@ function oc_cal_load_events(loadview) {
 		var weekdaynum = 0;
 		var weeknum = 1;
 		for(var i = 0; i <= 41; i++) {
-			var loadevents_month = dates[i][0];
-			var loadevents_days = dates[i][1];
+			var loadevents_month = dates[i][1];
+			var loadevents_days = dates[i][0];
 			if( typeof (oc_cal_events[oc_cal_year][loadevents_month]) != "undefined") {
 				if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]) != "undefined") {
 					var pnum = 0;
@@ -786,12 +786,12 @@ function oc_cal_load_events(loadview) {
 						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
 							var eventnumber = 1;
 							var eventcontainer = document.getElementById("events_onemonthview_" + weekdays[weekdaynum] + "_" + weeknum);
-							while( typeof (oc_cal_events[year][loadevents_month][loadevents_days][i][eventnumber]) != "undefined") {
+							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
 								var newp = document.createElement("p");
-								newp.id = "onemonthview_" + i + "_" + eventnumber;
+								newp.id = "onemonthview_" + time + "_" + eventnumber;
 								newp.className = "onemonthview_event";
 								eventcontainer.appendChild(newp);
-								document.getElementById("onemonthview_" + i + "_" + eventnumber).innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][i][eventnumber]["description"];
+								document.getElementById("onemonthview_" + time + "_" + eventnumber).innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
 								eventnumber++;
 								pnum++;
 							}
