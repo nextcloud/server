@@ -85,6 +85,7 @@ class OC_OCSClient{
 			$app['type']=(string)$tmp[$i]->typeid;
 			$app['typename']=(string)$tmp[$i]->typename;
 			$app['personid']=(string)$tmp[$i]->personid;
+			$app['license']=(string)$tmp[$i]->license;
 			$app['detailpage']=(string)$tmp[$i]->detailpage;
 			$app['preview']=(string)$tmp[$i]->smallpreviewpic1;
 			$app['changed']=strtotime($tmp[$i]->changed);
