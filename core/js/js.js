@@ -257,7 +257,7 @@ $(document).ready(function(){
 		if(event.keyCode==13){//enter
 			if(OC.search.currentResult>-1){
 				var result=$('#searchresults tr.result a')[OC.search.currentResult];
-				$(result).click();
+				window.location = $(result).attr('href');
 			}
 		}else if(event.keyCode==38){//up
 			if(OC.search.currentResult>0){
