@@ -31,7 +31,9 @@ $(document).ready(function(){
 		}
 
 	});
-	
+
+	$("#languageinput").chosen();
+
 	$("#languageinput").change( function(){
 		// Serialize the data
 		var post = $( "#languageinput" ).serialize();

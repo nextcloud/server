@@ -22,7 +22,7 @@
 <form>
 	<fieldset class="personalblock">
 		<label for="languageinput"><strong><?php echo $l->t('Language');?></strong></label>
-		<select id="languageinput" name="lang">
+		<select id="languageinput" class="chzen-select" name="lang" data-placeholder="<?php echo $l->t('Language');?>">
 		<?php foreach($_['languages'] as $language):?>
 			<option value="<?php echo $language['code'];?>"><?php echo $language['name'];?></option>
 		<?php endforeach;?>
