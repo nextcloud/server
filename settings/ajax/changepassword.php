@@ -12,7 +12,7 @@ if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' ))
 	exit();
 }
 
-$username = $_POST["username"];
+$username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
 $password = $_POST["password"];
 
 // Return Success story
