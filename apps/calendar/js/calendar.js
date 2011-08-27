@@ -461,18 +461,20 @@ function oc_cal_switch2today() {
 }
 
 function oc_cal_update_eventsvar(loadyear) {
-	$("#js_events").load(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + loadyear);
-	if(document.getElementById("js_events").innerHTML == "nosession") {
+	$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + loadyear, function(newevents, status) {
+	if(status == "nosession") {
 		alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
 		document.location(oc_webroot);
 	}
-	if(document.getElementById("js_events").innerHTML == "parsingfail" || typeof (newevents) == "undefined") {
+	if(status == "parsingfail" || typeof (newevents) == "undefined") {
 		$(function() {
 			$( "#parsingfail_dialog" ).dialog();
 		});
 	} else {
 		oc_cal_events[loadyear] = newevents[loadyear];
+		oc_cal_update_view('', '');
 	}
+	});
 }
 
 function oc_cal_load_cal(loadview) {

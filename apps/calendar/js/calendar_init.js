@@ -28,7 +28,6 @@ $(document).ready(function(){
    		}
 	});
 	oc_cal_update_eventsvar(oc_cal_year);
-	oc_cal_update_view('');
 });
 //init date vars
 var oc_cal_date = new Date();
