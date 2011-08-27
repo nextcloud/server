@@ -142,7 +142,6 @@ var PlayList={
 		PlayList.items.push(item);
 	},
 	remove:function(index){
-        alert('remove');
 		PlayList.items.splice(index,1);
 		PlayList.render();
 	},
