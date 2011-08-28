@@ -28,16 +28,35 @@ $(document).ready(function() {
 
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
-		event.preventDefault();
-		var filename=$(this).parent().parent().data('file');
-		if(!FileList.isLoading(filename)){
-			var mime=$(this).parent().parent().data('mime');
-			var type=$(this).parent().parent().data('type');
-			var action=FileActions.getDefault(mime,type);
-			if(action){
-				action(filename);
+		if (event.ctrlKey) {
+			event.preventDefault();
+			var checkbox = $(this).parent().children('input:checkbox');
+			if ($(checkbox).attr('checked')) {
+				$(checkbox).removeAttr('checked');
+				$(checkbox).parent().parent().removeClass('selected');
+				$('#select_all').removeAttr('checked');
+			} else {
+				$(checkbox).attr('checked', 'checked');
+				$(checkbox).parent().parent().toggleClass('selected');
+				var selectedCount=$('td.filename input:checkbox:checked').length;
+				if (selectedCount == $('td.filename input:checkbox').length) {
+					$('#select_all').attr('checked', 'checked');
+				}
+			}
+			procesSelection();
+		} else {
+			event.preventDefault();
+			var filename=$(this).parent().parent().data('file');
+			if(!FileList.isLoading(filename)){
+				var mime=$(this).parent().parent().data('mime');
+				var type=$(this).parent().parent().data('type');
+				var action=FileActions.getDefault(mime,type);
+				if(action){
+					action(filename);
+				}
 			}
 		}
+		
 	});
 	
 	// Sets the select_all checkbox behaviour :
