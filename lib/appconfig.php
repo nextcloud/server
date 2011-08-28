@@ -114,10 +114,10 @@ class OC_Appconfig{
 	 */
 	public static function setValue( $app, $key, $value ){
 		// Does the key exist? yes: update. No: insert
-		$exists = self::getValue( $app, $key, null );
+		$exists = self::getKeys( $app );
 
 		// null: does not exist
-		if( is_null( $exists )){
+		if( !in_array( $key, $exists )){
 			$query = OC_DB::prepare( 'INSERT INTO *PREFIX*appconfig ( appid, configkey, configvalue ) VALUES( ?, ?, ? )' );
 			$query->execute( array( $app, $key, $value ));
 		}
