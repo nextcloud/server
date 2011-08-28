@@ -26,11 +26,30 @@ $(document).ready(function() {
 		FileActions.hide();
 	});
 
+	var lastChecked;
+
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
-		if (event.ctrlKey) {
-			event.preventDefault();
+		event.preventDefault();
+		if (event.ctrlKey || event.shiftKey) {
+			if (event.shiftKey) {
+				var last = $(lastChecked).parent().parent().prevAll().length;
+				var first = $(this).parent().parent().prevAll().length;
+				var start = Math.min(first, last);
+				var end = Math.max(first, last);
+				var rows = $(this).parent().parent().parent().children('tr');
+				for (var i = start; i < end; i++) {
+					$(rows).each(function(index) {
+						if (index == i) {
+							var checkbox = $(this).children().children('input:checkbox');
+							$(checkbox).attr('checked', 'checked');
+							$(checkbox).parent().parent().addClass('selected');
+						}
+					});
+				}
+			}
 			var checkbox = $(this).parent().children('input:checkbox');
+			lastChecked = checkbox;
 			if ($(checkbox).attr('checked')) {
 				$(checkbox).removeAttr('checked');
 				$(checkbox).parent().parent().removeClass('selected');
@@ -45,7 +64,6 @@ $(document).ready(function() {
 			}
 			procesSelection();
 		} else {
-			event.preventDefault();
 			var filename=$(this).parent().parent().data('file');
 			if(!FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
@@ -73,7 +91,23 @@ $(document).ready(function() {
 		procesSelection();
 	});
 	
-	$('td.filename input:checkbox').live('click',function() {
+	$('td.filename input:checkbox').live('click',function(event) {
+		if (event.shiftKey) {
+			var last = $(lastChecked).parent().parent().prevAll().length;
+			var first = $(this).parent().parent().prevAll().length;
+			var start = Math.min(first, last);
+			var end = Math.max(first, last);
+			var rows = $(this).parent().parent().parent().children('tr');
+			for (var i = start; i < end; i++) {
+				$(rows).each(function(index) {
+					if (index == i) {
+						var checkbox = $(this).children().children('input:checkbox');
+						$(checkbox).attr('checked', 'checked');
+						$(checkbox).parent().parent().addClass('selected');
+					}
+				});
+			}
+		}
 		var selectedCount=$('td.filename input:checkbox:checked').length;
 		$(this).parent().parent().toggleClass('selected');
 		if(!$(this).attr('checked')){
