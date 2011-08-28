@@ -1,6 +1,8 @@
 var bookmarks_page = 0;
 var bookmarks_loading = false;
 
+var bookmarks_sorting = 'bookmarks_sorting_recent';
+
 $(document).ready(function() {
 	$('.bookmarks_addBtn').click(function(event){
 		$('.bookmarks_add').slideToggle();
@@ -8,6 +10,11 @@ $(document).ready(function() {
 	
 	$('#bookmark_add_submit').click(addBookmark);
 	$(window).scroll(updateOnBottom);
+	
+	$('#bookmark_add_url').focusout(getMetadata);
+	$('.' + bookmarks_sorting).addClass('bookmarks_sorting_active');
+	
+	$('.bookmarks_sorting li').click(function(event){changeSorting(this)});
 	
 	$('.bookmarks_list').empty();
 	getBookmarks();
@@ -18,9 +25,10 @@ function getBookmarks() {
 		//have patience :)
 		return;
 	}
+	
 	$.ajax({
 		url: 'ajax/updateList.php',
-		data: 'tag=' + encodeURI($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page,
+		data: 'tag=' + encodeURI($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
 		success: function(bookmarks){
 			bookmarks_page += 1;
 			$('.bookmark_link').unbind('click', recordClick);
@@ -34,6 +42,30 @@ function getBookmarks() {
 			bookmarks_loading = false;
 		}
 	});	
+}
+
+function getMetadata() {
+	var url = encodeEntities($('#bookmark_add_url').val())
+	$.ajax({
+		url: 'ajax/getMeta.php',
+		data: 'url=' + encodeURIComponent(url),
+		success: function(pageinfo){
+			$('#bookmark_add_url').val(pageinfo.data.url);
+			$('#bookmark_add_description').val(pageinfo.data.description);
+			$('#bookmark_add_title').val(pageinfo.data.title);
+		}
+	});
+}
+
+function changeSorting(sortEl) {
+	$('.' + bookmarks_sorting).removeClass('bookmarks_sorting_active');
+	bookmarks_sorting = sortEl.className;
+	$('.' + bookmarks_sorting).addClass('bookmarks_sorting_active');
+	
+	$('.bookmarks_list').empty();
+	bookmarks_page = 0;
+	bookmarks_loading = false;
+	getBookmarks();
 }
 
 function addBookmark(event) {
@@ -80,6 +112,9 @@ function updateBookmarksList(bookmark) {
 	for ( var i=0, len=tags.length; i<len; ++i ){
 		taglist = taglist + '<a class="bookmark_tags" href="?tag=' + encodeURI(tags[i]) + '">' + tags[i] + '</a> ';
 	}
+	if(!hasProtocol(bookmark.url)) {
+		bookmark.url = 'http://' + bookmark.url;
+	}
 	$('.bookmarks_list').append(
 		'<div class="bookmark_single">' +
 			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_new" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
@@ -112,4 +147,9 @@ function encodeEntities(s){
 	} catch (ex) {
 		return "";
 	}
+}
+
+function hasProtocol(url) {
+    var regexp = /(ftp|http|https|sftp)/;
+    return regexp.test(url);
 }

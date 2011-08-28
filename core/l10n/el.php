@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Personal" => "Προσωπικά",
+"Users" => "Χρήστες",
+"Apps" => "Εφαρμογές",
+"Help" => "Βοήθεια",
 "Login failed!" => "Η σύνδεση απέτυχε!",
 "remember" => "να με θυμάσαι",
 "Create an <strong>admin account</strong>" => "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>",
@@ -19,5 +23,6 @@
 "prev" => "προηγούμενο",
 "next" => "επόμενο",
 "You are logged out." => "Έχετε αποσυνδεθεί.",
+"Log out" => "Αποσύνδεση",
 "Settings" => "Ρυθμίσεις"
 );

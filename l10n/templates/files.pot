@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-19 13:10+0200\n"
+"POT-Creation-Date: 2011-08-28 01:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,10 +25,6 @@ msgstr ""
 msgid "Maximum upload size"
 msgstr ""
 
-#: templates/part.list.php:1
-msgid "Nothing in here. Upload something!"
-msgstr ""
-
 #: templates/index.php:9
 msgid "Upload"
 msgstr ""
@@ -37,31 +33,35 @@ msgstr ""
 msgid "New Folder"
 msgstr ""
 
-#: templates/index.php:29
-msgid "Name"
+#: templates/index.php:24
+msgid "Nothing in here. Upload something!"
 msgstr ""
 
 #: templates/index.php:31
+msgid "Name"
+msgstr ""
+
+#: templates/index.php:33
 msgid "Download"
 msgstr ""
 
-#: templates/index.php:35
+#: templates/index.php:37
 msgid "Size"
 msgstr ""
 
-#: templates/index.php:36
+#: templates/index.php:38
 msgid "Modified"
 msgstr ""
 
-#: templates/index.php:36
+#: templates/index.php:38
 msgid "Delete"
 msgstr ""
 
-#: templates/index.php:44
+#: templates/index.php:46
 msgid "Upload too large"
 msgstr ""
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."

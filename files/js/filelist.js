@@ -6,8 +6,8 @@ FileList={
 		var img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file');
 		var html='<tr data-file="'+name+'" data-type="file" data-size="'+size+'">';
 		if(name.indexOf('.')!=-1){
-			var basename=name.substr(0,name.indexOf('.'));
-			var extention=name.substr(name.indexOf('.'));
+			var basename=name.substr(0,name.lastIndexOf('.'));
+			var extention=name.substr(name.lastIndexOf('.'));
 		}else{
 			var basename=name;
 			var extention=false;
@@ -127,7 +127,7 @@ FileList={
 			tr.attr('data-file',newname);
 			td.children('a.name').empty();
 			if(newname.indexOf('.')>0){
-				basename=newname.substr(0,newname.indexOf('.'));
+				basename=newname.substr(0,newname.lastIndexOf('.'));
 			}else{
 				basename=newname;
 			}
@@ -135,7 +135,7 @@ FileList={
 			span.text(basename);
 			td.children('a.name').append(span);
 			if(newname.indexOf('.')>0){
-				span.append($('<span class="extention">'+newname.substr(newname.indexOf('.'))+'</span>'));
+				span.append($('<span class="extention">'+newname.substr(newname.lastIndexOf('.'))+'</span>'));
 			}
 			$.ajax({
 				url: 'ajax/rename.php',
@@ -150,10 +150,10 @@ FileList={
 			form.trigger('submit');
 		});
 	},
-	delete:function(files){
+	do_delete:function(files){
 		if(FileList.deleteFiles){//finish any ongoing deletes first
 			FileList.finishDelete(function(){
-				FileList.delete(files);
+				FileList.do_delete(files);
 			});
 			return;
 		}

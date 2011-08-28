@@ -1,27 +1,12 @@
-<form id="ldap" action='#' method='post'>
-	<fieldset>
-		<legend>LDAP</legend>
-		<div>
-			<div>
-				<span>Host: *</span><span><input type="text" name="ldap_host" width="200" value="<?php echo $_['ldap_host']; ?>"></span>
-			</div>
-			<div>
-				<span>Port: *</span><span><input type="text" name="ldap_port" width="200" value="<?php echo $_['ldap_port']; ?>"></span>
-			</div>
-			<div>
-				<span>DN:<input type="text" name="ldap_dn" width="200" value="<?php echo $_['ldap_dn']; ?>"></span>
-			</div>
-			<div>
-				<span>Password:<input type="password" name="ldap_password" width="200" value="<?php echo $_['ldap_password']; ?>"></span>
-			</div>
-			<div>
-				<span>Base: *<input type="text" name="ldap_base" width="200" value="<?php echo $_['ldap_base']; ?>"></span>
-			</div>
-			<div>
-				<span>Filter * (use %uid placeholder):<input type="text" name="ldap_filter" width="200" value="<?php echo $_['ldap_filter']; ?>"></span>
-			</div>
-		</div>
-		<input type='submit' value='Save'/>
-		<br/> * required
+<form id="ldap" action="#" method="post">
+	<fieldset class="personalblock">
+		<legend><strong>LDAP</strong></legend>
+		<p><label for="ldap_host">Host<input type="text" id="ldap_host" name="ldap_host" value="<?php echo $_['ldap_host']; ?>"></label>
+		<label for="ldap_port">Port</label><input type="text" id="ldap_port" name="ldap_port" value="<?php echo $_['ldap_port']; ?>" /></p>
+		<p><label for="ldap_dn">Name</label><input type="text" id="ldap_dn" name="ldap_dn" value="<?php echo $_['ldap_dn']; ?>" />
+		<label for="ldap_password">Password</label><input type="password" id="ldap_password" name="ldap_password" value="<?php echo $_['ldap_password']; ?>" /></p>
+		<p><label for="ldap_base">Base</label><input type="text" id="ldap_base" name="ldap_base" value="<?php echo $_['ldap_base']; ?>" />
+		<label for="ldap_filter">Filter (use %uid placeholder)</label><input type="text" id="ldap_filter" name="ldap_filter" value="<?php echo $_['ldap_filter']; ?>" /></p>
+		<input type="submit" value="Save" />
 	</fieldset>
 </form>

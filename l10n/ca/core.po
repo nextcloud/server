@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-19 13:10+0200\n"
-"PO-Revision-Date: 2011-08-18 20:01+0000\n"
+"POT-Creation-Date: 2011-08-28 01:11+0200\n"
+"PO-Revision-Date: 2011-08-23 15:32+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/team/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -18,28 +18,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: strings.php:5
-msgid "Users"
-msgstr "Usuaris"
-
-#: strings.php:6
-msgid "Apps"
-msgstr "Aplicacions"
-
-#: strings.php:7
-msgid "Help"
-msgstr "Ajuda"
-
-#: strings.php:8
 msgid "Personal"
 msgstr "Personal"
 
-#: templates/login.php:4
-msgid "Login failed!"
-msgstr "L'inici de sessió ha fallat!"
+#: strings.php:6
+msgid "Users"
+msgstr "Usuaris"
 
-#: templates/login.php:9 templates/login.php:13
-msgid "remember"
-msgstr "recorda'm"
+#: strings.php:7
+msgid "Apps"
+msgstr "Aplicacions"
+
+#: strings.php:8
+msgid "Admin"
+msgstr "Administrador"
+
+#: strings.php:9
+msgid "Help"
+msgstr "Ajuda"
+
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr "No s'ha trobat el núvol"
 
 #: templates/installation.php:20
 msgid "Create an <strong>admin account</strong>"
@@ -94,28 +94,36 @@ msgstr "Carpeta de dades"
 msgid "Finish setup"
 msgstr "Acaba la configuració"
 
-#: templates/404.php:12
-msgid "Cloud not found"
-msgstr "No s'ha trobat el núvol"
-
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:35
 msgid "gives you the freedom to control your own data on the internet"
 msgstr "us dóna la llibertat per controlar les vostres dades a internet"
 
-#: templates/part.pagenavi.php:6
-msgid "prev"
-msgstr "anterior"
+#: templates/layout.user.php:34
+msgid "Log out"
+msgstr "Sortir"
 
-#: templates/part.pagenavi.php:26
-msgid "next"
-msgstr "següent"
+#: templates/layout.user.php:46 templates/layout.user.php:47
+msgid "Settings"
+msgstr "Arranjament"
+
+#: templates/login.php:4
+msgid "Login failed!"
+msgstr "L'inici de sessió ha fallat!"
+
+#: templates/login.php:9 templates/login.php:13
+msgid "remember"
+msgstr "recorda'm"
 
 #: templates/logout.php:1
 msgid "You are logged out."
 msgstr "Heu tancat la sessió."
 
-#: templates/layout.user.php:49
-msgid "Settings"
-msgstr "Arranjament"
+#: templates/part.pagenavi.php:3
+msgid "prev"
+msgstr "anterior"
+
+#: templates/part.pagenavi.php:20
+msgid "next"
+msgstr "següent"
 
 

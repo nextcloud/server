@@ -70,8 +70,8 @@ function human_file_size( $bytes ){
 function simple_file_size($bytes) {
 	$mbytes = round($bytes/(1024*1024),1);
 	if($bytes == 0) { return '0'; }
-	else if($mbytes < 0.1) { return '< 0.1'; }
-	else if($mbytes > 1000) { return '> 1000'; }
+	else if($mbytes < 0.1) { return '&lt; 0.1'; }
+	else if($mbytes > 1000) { return '&gt; 1000'; }
 	else { return number_format($mbytes, 1); }
 }
 

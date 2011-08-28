@@ -26,18 +26,55 @@ $(document).ready(function() {
 		FileActions.hide();
 	});
 
+	var lastChecked;
+
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
 		event.preventDefault();
-		var filename=$(this).parent().parent().data('file');
-		if(!FileList.isLoading(filename)){
-			var mime=$(this).parent().parent().data('mime');
-			var type=$(this).parent().parent().data('type');
-			var action=FileActions.getDefault(mime,type);
-			if(action){
-				action(filename);
+		if (event.ctrlKey || event.shiftKey) {
+			if (event.shiftKey) {
+				var last = $(lastChecked).parent().parent().prevAll().length;
+				var first = $(this).parent().parent().prevAll().length;
+				var start = Math.min(first, last);
+				var end = Math.max(first, last);
+				var rows = $(this).parent().parent().parent().children('tr');
+				for (var i = start; i < end; i++) {
+					$(rows).each(function(index) {
+						if (index == i) {
+							var checkbox = $(this).children().children('input:checkbox');
+							$(checkbox).attr('checked', 'checked');
+							$(checkbox).parent().parent().addClass('selected');
+						}
+					});
+				}
+			}
+			var checkbox = $(this).parent().children('input:checkbox');
+			lastChecked = checkbox;
+			if ($(checkbox).attr('checked')) {
+				$(checkbox).removeAttr('checked');
+				$(checkbox).parent().parent().removeClass('selected');
+				$('#select_all').removeAttr('checked');
+			} else {
+				$(checkbox).attr('checked', 'checked');
+				$(checkbox).parent().parent().toggleClass('selected');
+				var selectedCount=$('td.filename input:checkbox:checked').length;
+				if (selectedCount == $('td.filename input:checkbox').length) {
+					$('#select_all').attr('checked', 'checked');
+				}
+			}
+			procesSelection();
+		} else {
+			var filename=$(this).parent().parent().data('file');
+			if(!FileList.isLoading(filename)){
+				var mime=$(this).parent().parent().data('mime');
+				var type=$(this).parent().parent().data('type');
+				var action=FileActions.getDefault(mime,type);
+				if(action){
+					action(filename);
+				}
 			}
 		}
+		
 	});
 	
 	// Sets the select_all checkbox behaviour :
@@ -54,7 +91,23 @@ $(document).ready(function() {
 		procesSelection();
 	});
 	
-	$('td.filename input:checkbox').live('click',function() {
+	$('td.filename input:checkbox').live('click',function(event) {
+		if (event.shiftKey) {
+			var last = $(lastChecked).parent().parent().prevAll().length;
+			var first = $(this).parent().parent().prevAll().length;
+			var start = Math.min(first, last);
+			var end = Math.max(first, last);
+			var rows = $(this).parent().parent().parent().children('tr');
+			for (var i = start; i < end; i++) {
+				$(rows).each(function(index) {
+					if (index == i) {
+						var checkbox = $(this).children().children('input:checkbox');
+						$(checkbox).attr('checked', 'checked');
+						$(checkbox).parent().parent().addClass('selected');
+					}
+				});
+			}
+		}
 		var selectedCount=$('td.filename input:checkbox:checked').length;
 		$(this).parent().parent().toggleClass('selected');
 		if(!$(this).attr('checked')){
@@ -100,7 +153,7 @@ $(document).ready(function() {
 	$('.delete').click(function(event) {
 		var files=getSelectedFiles('name');
 		event.preventDefault();
-		FileList.delete(files);
+		FileList.do_delete(files);
 		return false;
 	});
 
@@ -251,8 +304,8 @@ function simpleFileSize(bytes) {
 }
 
 function formatDate(date){
-	var monthNames = [ "January", "February", "March", "April", "May", "June",
-	"July", "August", "September", "October", "November", "December" ];
+	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
+	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
 	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
 }
 
@@ -311,8 +364,8 @@ function procesSelection(){
 	var selectedFiles=selected.filter(function(el){return el.type=='file'});
 	var selectedFolders=selected.filter(function(el){return el.type=='dir'});
 	if(selectedFiles.length==0 && selectedFolders.length==0){
-		$('#headerName>span.name').text('Name');
-		$('#headerSize').text(t('files','Size MB'));
+		$('#headerName>span.name').text(t('files','Name'));
+		$('#headerSize').text(t('files','Size'));
 		$('#modified').text(t('files','Modified'));
 		$('th').removeClass('multiselect');
 		$('.selectedActions').hide();
@@ -327,7 +380,7 @@ function procesSelection(){
 		$('#headerName').css('width',width.name);
 		$('#headerSize').css('width',width.size);
 		$('#headerDate').css('width',width.date);
-		$('table').css('padding-top','2em');
+		$('table').css('padding-top','2.1em');
 		$('.selectedActions').show();
 		var totalSize=0;
 		for(var i=0;i<selectedFiles.length;i++){
@@ -337,7 +390,7 @@ function procesSelection(){
 			totalSize+=selectedFolders[i].size;
 		};
 		simpleSize=simpleFileSize(totalSize);
-		$('#headerSize').text(simpleSize+' MB');
+		$('#headerSize').text(simpleSize);
 		$('#headerSize').attr('title',humanFileSize(totalSize));
 		var selection='';
 		if(selectedFolders.length>0){
@@ -398,19 +451,19 @@ function relative_modified_date(timestamp) {
 	var diffdays = Math.round(diffhours/24);
 	var diffmonths = Math.round(diffdays/31);
 	var diffyears = Math.round(diffdays/365);
-	if(timediff < 60) { return 'seconds ago'; }
-	else if(timediff < 120) { return '1 minute ago'; }
-	else if(timediff < 3600) { return diffminutes+' minutes ago'; }
+	if(timediff < 60) { return t('files','seconds ago'); }
+	else if(timediff < 120) { return '1 '+t('files','minute ago'); }
+	else if(timediff < 3600) { return diffminutes+' '+t('files','minutes ago'); }
 	//else if($timediff < 7200) { return '1 hour ago'; }
 	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
-	else if(timediff < 86400) { return 'today'; }
-	else if(timediff < 172800) { return 'yesterday'; }
-	else if(timediff < 2678400) { return diffdays+' days ago'; }
-	else if(timediff < 5184000) { return 'last month'; }
+	else if(timediff < 86400) { return t('files','today'); }
+	else if(timediff < 172800) { return t('files','yesterday'); }
+	else if(timediff < 2678400) { return diffdays+' '+t('files','days ago'); }
+	else if(timediff < 5184000) { return t('files','last month'); }
 	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
-	else if(timediff < 31556926) { return 'months ago'; }
-	else if(timediff < 63113852) { return 'last year'; }
-	else { return diffyears+' years ago'; }
+	else if(timediff < 31556926) { return t('files','months ago'); }
+	else if(timediff < 63113852) { return t('files','last year'); }
+	else { return diffyears+' '+t('files','years ago'); }
 }
 
 function getMimeIcon(mime){

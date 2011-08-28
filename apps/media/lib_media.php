@@ -24,10 +24,8 @@
 //we need to have the sha256 hash of passwords for ampache
 OC_Hook::connect('OC_User','post_login','OC_MEDIA','loginListener');
 
-//connect to the filesystem for auto updating if configured
-if(OC_Preferences::getValue(OC_User::getUser(),'media','autoupdate',false)){
-	OC_Hook::connect('OC_Filesystem','post_write','OC_MEDIA','updateFile');
-}
+//connect to the filesystem for auto updating
+OC_Hook::connect('OC_Filesystem','post_write','OC_MEDIA','updateFile');
 
 //listen for file deletions to clean the database if a song is deleted
 OC_Hook::connect('OC_Filesystem','delete','OC_MEDIA','deleteFile');
@@ -56,20 +54,14 @@ class OC_MEDIA{
 	 */
 	public static function updateFile($params){
 		$path=$params['path'];
-		$folderNames=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
-		foreach($folderNames as $folder){
-			if(substr($path,0,strlen($folder))==$folder){
-				require_once 'lib_scanner.php';
-				require_once 'lib_collection.php';
-				//fix a bug where there were multiply '/' in front of the path, it should only be one
-				while($path[0]=='/'){
-					$path=substr($path,1);
-				}
-				$path='/'.$path;
-				error_log($path);
-				OC_MEDIA_SCANNER::scanFile($path);
-			}
+		require_once 'lib_scanner.php';
+		require_once 'lib_collection.php';
+		//fix a bug where there were multiply '/' in front of the path, it should only be one
+		while($path[0]=='/'){
+			$path=substr($path,1);
 		}
+		$path='/'.$path;
+		OC_MEDIA_SCANNER::scanFile($path);
 	}
 
 	/**

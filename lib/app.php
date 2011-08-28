@@ -95,6 +95,9 @@ class OC_App{
 	 * This function set an app as enabled in appconfig.
 	 */
 	public static function enable( $app ){
+		if(!OC_Installer::isInstalled($app)){
+			OC_Installer::installShippedApp($app);
+		}
 		OC_Appconfig::setValue( $app, 'enabled', 'yes' );
 	}
 
@@ -202,12 +205,17 @@ class OC_App{
 		$admin=array(
 			array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" )),
 			array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" )),
-//			array( "id" => "files_administration", "order" => 3, "href" => OC_Helper::linkTo( "files", "admin.php" ), "name" => $l->t("Files"), "icon" => OC_Helper::imagePath( "settings", "options.svg" )),
 		);
 		$settings=array(
 			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" )),
-			array( "id" => "settings", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ))
+			array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ))
 		);
+		if(count(self::$settingsForms)>0){
+			$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "settings.php" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
+		}
+		if(count(self::$adminForms)>0){
+			$admin[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
+		}
 		if( OC_Group::inGroup( $_SESSION["user_id"], "admin" )){
 			$settings=array_merge($admin,$settings);
 		}

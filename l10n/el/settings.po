@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 18:58+0200\n"
-"PO-Revision-Date: 2011-08-18 16:59+0000\n"
+"POT-Creation-Date: 2011-08-28 01:13+0200\n"
+"PO-Revision-Date: 2011-08-27 23:13+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
 "MIME-Version: 1.0\n"
@@ -34,91 +34,101 @@ msgstr "Άκυρα αίτημα"
 msgid "Language changed"
 msgstr "Η γλώσσα άλλαξε"
 
-#: templates/help.php:2
-msgid "Problems connecting to help database."
+#: templates/apps.php:8
+msgid "Add your application"
 msgstr ""
 
-#: templates/help.php:3
-msgid "Go there manually."
-msgstr ""
-
-#: templates/help.php:11
-msgid "Answer"
-msgstr ""
-
-#: templates/help.php:17
-msgid "Ask a question"
-msgstr "Κάντε μια ερώτηση"
-
-#: templates/apps.php:12
+#: templates/apps.php:21
 msgid "Select an App"
 msgstr "Επιλέξτε μια εφαρμογή"
 
-#: templates/apps.php:14
+#: templates/apps.php:23
 msgid "-licensed"
 msgstr "-με άδεια"
 
-#: templates/apps.php:14
+#: templates/apps.php:23
 msgid "by"
 msgstr "με"
 
-#: templates/personal.php:2
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr "Κάντε μια ερώτηση"
+
+#: templates/help.php:17
+msgid "Problems connecting to help database."
+msgstr "Προβλήματα κατά τη σύνδεση με τη βάση δεδομένων βοήθειας."
+
+#: templates/help.php:18
+msgid "Go there manually."
+msgstr "Χειροκίνητη μετάβαση."
+
+#: templates/help.php:26
+msgid "Answer"
+msgstr "Απάντηση"
+
+#: templates/personal.php:8
 msgid "You use"
 msgstr "Χρησιμοποιείτε"
 
-#: templates/personal.php:2
+#: templates/personal.php:8
 msgid "of the available"
 msgstr "από τα διαθέσιμα"
 
-#: templates/personal.php:7
+#: templates/personal.php:13
 msgid "Your password got changed"
 msgstr "Ο κωδικός πρόσβασής σας άλαλαξε"
 
-#: templates/personal.php:9
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr ""
+
+#: templates/personal.php:15
 msgid "Current password"
 msgstr "Τρέχοντα κωδικό πρόσβασης"
 
-#: templates/personal.php:10
+#: templates/personal.php:16
 msgid "New password"
 msgstr "Νέος κωδικός"
 
-#: templates/personal.php:11
+#: templates/personal.php:17
 msgid "show"
 msgstr "Εμφάνιση"
 
-#: templates/personal.php:12
+#: templates/personal.php:18
 msgid "Change password"
 msgstr "Αλλαγή κωδικού πρόσβασης"
 
-#: templates/personal.php:18
+#: templates/personal.php:24
 msgid "Language"
 msgstr "Γλώσσα"
 
-#: templates/personal.php:24
+#: templates/personal.php:30
 msgid "Help translating"
 msgstr "Βοηθήστε στη μετάφραση"
 
-#: templates/personal.php:30
+#: templates/personal.php:36
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
+"χρησιμοποιήστε αυτή τη διεύθυνση για να συνδεθείτε στο ownCloud σας από το "
+"διαχειριστή αρχείων σας"
 
-#: templates/users.php:11
+#: templates/users.php:16
 msgid "Name"
 msgstr "Όνομα"
 
-#: templates/users.php:12
+#: templates/users.php:17
 msgid "Password"
 msgstr "Κωδικός"
 
-#: templates/users.php:13 templates/users.php:28
+#: templates/users.php:18 templates/users.php:36
 msgid "Groups"
 msgstr "Ομάδες"
 
-#: templates/users.php:18
+#: templates/users.php:24
 msgid "Create"
 msgstr "Δημιουργία"
 
-#: templates/users.php:40
+#: templates/users.php:48
 msgid "Delete"
 msgstr "Διαγραφή"
 

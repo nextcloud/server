@@ -117,7 +117,7 @@ $(document).ready(function() {
 			cache: false,
 			data: data,
 			success: function() {
-				var option = "<option value='"+uid_shared_with+"'>"+uid_shared_with+"</option>";
+				var option = '<option value="'+uid_shared_with+'">'+uid_shared_with+'</option>';
 				$(user).remove();
 				$(option).appendTo('#share_with');
 				$('#share_with').trigger('liszt:updated');
@@ -128,7 +128,7 @@ $(document).ready(function() {
 	$('#makelink').live('change', function() {
 		if (this.checked) {
 			var source = $('#dropdown').data('file');
-			var uid_shared_with = "public";
+			var uid_shared_with = 'public';
 			var permissions = 0;
 			var data = 'sources='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with)+'&permissions='+encodeURIComponent(permissions);
 			$.ajax({
@@ -144,7 +144,7 @@ $(document).ready(function() {
 			});
 		} else {
 			var source = $('#dropdown').data('file');
-			var uid_shared_with = "public";
+			var uid_shared_with = 'public';
 			var data = 'source='+encodeURIComponent(source)+'&uid_shared_with='+encodeURIComponent(uid_shared_with);
 			$.ajax({
 				type: 'GET',
@@ -165,19 +165,19 @@ $(document).ready(function() {
 });
 
 function createDropdown(filename, files) {
-	var html = "<div id='dropdown' class='drop' data-file='"+files+"'>";
-	html += "<div id='private'>";
-	html += "<select data-placeholder='User or Group' style='width:220px;' id='share_with' class='chzen-select'>";
-	html += "<option value=''></option>";
-	html += "</select>";
-	html += "<ul id='shared_list'></ul>";
-	html += "</div>";
-	html += "<div id='public'>";
-	html += "<input type='checkbox' name='makelink' id='makelink' value='1' /><label for='makelink'>make public</label>";
-	//html += "<input type='checkbox' name='public_link_write' id='public_link_write' value='1' /><label for='public_link_write'>allow upload</label>";
-	html += "<br />";
-	html += "<input id='link' style='display:none; width:90%;' />";
-	html += "</div>";
+	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
+	html += '<div id="private">';
+	html += '<select data-placeholder="User or Group" style="width:220px;" id="share_with" class="chzen-select">';
+	html += '<option value=""></option>';
+	html += '</select>';
+	html += '<ul id="shared_list"></ul>';
+	html += '</div>';
+	html += '<div id="public">';
+	html += '<input type="checkbox" name="makelink" id="makelink" value="1" /><label for="makelink">make public</label>';
+	//html += '<input type="checkbox" name="public_link_write" id="public_link_write" value="1" /><label for="public_link_write">allow upload</label>';
+	html += '<br />';
+	html += '<input id="link" style="display:none; width:90%;" />';
+	html += '</div>';
 	if (filename) {
 		$('tr[data-file="'+filename+'"]').addClass('mouseOver');
 		$(html).appendTo($('tr[data-file="'+filename+'"] td.filename'));
@@ -211,13 +211,13 @@ function createDropdown(filename, files) {
 
 function addUser(uid_shared_with, permissions, parentFolder) {
 	if (parentFolder) {
-		var user = "<li>Parent folder "+parentFolder+" shared with "+uid_shared_with+"</li>";
+		var user = '<li>Parent folder '+parentFolder+' shared with '+uid_shared_with+'</li>';
 	} else {
-		var checked = ((permissions > 0) ? "checked='checked'" : "style='display:none;'");
-		var style = ((permissions == 0) ? "style='display:none;'" : "");
-		var user = "<li data-uid_shared_with='"+uid_shared_with+"'>"+uid_shared_with;
-		user += "<input type='checkbox' name='permissions' id='"+uid_shared_with+"' class='permissions' "+checked+"/><label for='"+uid_shared_with+"' "+style+">can edit</label>";
-		user += "<a href='' title='Unshare' class='unshare' style='display:none;'><img class='svg' src='"+OC.imagePath('core','actions/delete')+"'/></a></li>";
+		var checked = ((permissions > 0) ? 'checked="checked"' : 'style="display:none;"');
+		var style = ((permissions == 0) ? 'style="display:none;"' : '');
+		var user = '<li data-uid_shared_with="'+uid_shared_with+'">'+uid_shared_with;
+		user += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" "+checked+" /><label for="'+uid_shared_with+'" '+style+'>can edit</label>';
+		user += '<a href="" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core','actions/delete')+'"/></a></li>';
 	}
 	$('#share_with option[value="'+uid_shared_with+'"]').remove();
 	$('#share_with').trigger('liszt:updated');
@@ -227,6 +227,6 @@ function addUser(uid_shared_with, permissions, parentFolder) {
 function showPublicLink(token) {
 	$('#makelink').attr('checked', true);
 	$('#link').data('token', token);
-	$('#link').val(parent.location.protocol+"//"+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token);
+	$('#link').val(parent.location.protocol+'//'+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token);
 	$('#link').show('blind');
 }

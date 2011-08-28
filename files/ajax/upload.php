@@ -17,7 +17,7 @@ if( !OC_User::isLoggedIn()){
 $files=$_FILES['files'];
 
 $dir = $_POST['dir'];
-if(!empty($dir)) $dir .= '/';
+$dir .= '/';
 $error='';
 
 $totalSize=0;
@@ -33,7 +33,7 @@ $result=array();
 if(strpos($dir,'..') === false){
 	$fileCount=count($files['name']);
 	for($i=0;$i<$fileCount;$i++){
-		$target='/' . stripslashes($dir) . $files['name'][$i];
+		$target=stripslashes($dir) . $files['name'][$i];
 		if(OC_Filesystem::fromUploadedFile($files['tmp_name'][$i],$target)){
 			$result[]=array( "status" => "success", 'mime'=>OC_Filesystem::getMimeType($target),'size'=>OC_Filesystem::filesize($target),'name'=>$files['name'][$i]);
 		}

@@ -5,10 +5,8 @@ var PlayList={
 	player:null,
 	volume:0.8,
 	active:false,
-	tempPlaylist:[],
-	isTemp:true,
 	next:function(){
-		var items=(PlayList.isTemp)?PlayList.tempPlaylist:PlayList.items;
+		var items=PlayList.items;
 		var next=PlayList.current+1;
 		if(next>=items.length){
 			next=0;
@@ -17,7 +15,7 @@ var PlayList={
 		PlayList.render();
 	},
 	previous:function(){
-		var items=(PlayList.isTemp)?PlayList.tempPlaylist:PlayList.items;
+		var items=PlayList.items;
 		var next=PlayList.current-1;
 		if(next<0){
 			next=items.length-1;
@@ -26,7 +24,7 @@ var PlayList={
 		PlayList.render();
 	},
 	play:function(index,time,ready){
-		var items=(PlayList.isTemp)?PlayList.tempPlaylist:PlayList.items;
+		var items=PlayList.items;
 		if(index==null){
 			index=PlayList.current;
 		}
@@ -34,8 +32,11 @@ var PlayList={
 			PlayList.current=index;
 			if(PlayList.player){
 				if(PlayList.player.data('jPlayer').options.supplied!=items[index].type){//the the audio type changes we need to reinitialize jplayer
+					PlayList.player.jPlayer("play",time);
+                    localStorage.setItem(oc_current_user+'oc_playlist_time',time);
 					PlayList.player.jPlayer("destroy");
-					PlayList.init(items[index].type,function(){PlayList.play(null,time,ready)});
+                    PlayList.save(); // so that the init don't lose the playlist
+					PlayList.init(items[index].type,null); // init calls load that calls play
 				}else{
 					PlayList.player.jPlayer("setMedia", items[PlayList.current]);
 					items[index].playcount++;
@@ -60,7 +61,10 @@ var PlayList={
 					}
 				}
 			}else{
-				PlayList.init(items[index].type,PlayList.play);
+				localStorage.setItem(oc_current_user+'oc_playlist_time',time);
+				localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
+                PlayList.save(); // so that the init don't lose the playlist
+				PlayList.init(items[index].type,null); // init calls load that calls play
 			}
 		}
 	},
@@ -100,37 +104,30 @@ var PlayList={
 			swfPath:OC.linkTo('media','js'),
 		});
 	},
-	add:function(song,temp,dontReset){
+	add:function(song,dontReset){
 		if(!dontReset){
-			PlayList.tempPlaylist=[];//clear the temp playlist
+			PlayList.items=[];//clear the playlist
 		}
-		PlayList.isTemp=temp;
-		PlayList.isTemp=true;
 		if(!song){
 			return;
 		}
 		if(song.substr){//we are passed a string, asume it's a url to a song
-			PlayList.addFile(song,temp,true);
+			PlayList.addFile(song,true);
 		}
 		if(song.albums){//a artist object was passed, add all albums inside it
 			$.each(song.albums,function(index,album){
-				PlayList.add(album,temp,true);
+				PlayList.add(album,true);
 			});
-		}
-		if(song.songs){//a album object was passed, add all songs inside it
+		} else if(song.songs){//a album object was passed, add all songs inside it
 			$.each(song.songs,function(index,song){
-				PlayList.add(song,temp,true);
+				PlayList.add(song,true);
 			});
 		}
-		if(song.song_name){
-			var type=musicTypeFromFile(song.song_path);
-			var item={name:song.song_name,type:type,artist:song.artist_name,album:song.album_name,length:song.song_length,playcount:song.song_playcount};
-			item[type]=PlayList.urlBase+encodeURIComponent(song.song_path);
-			if(PlayList.isTemp){
-				PlayList.tempPlaylist.push(item);
-			}else{
-				PlayList.items.push(item);
-			}
+		if(song.path){
+			var type=musicTypeFromFile(song.path);
+			var item={name:song.name,type:type,artist:song.artist,album:song.album,length:song.length,playcount:song.playCount};
+			item[type]=PlayList.urlBase+encodeURIComponent(song.path);
+            PlayList.items.push(item);
 		}
 	},
 	addFile:function(path){
@@ -160,10 +157,14 @@ var PlayList={
 		if(typeof localStorage !== 'undefined' && localStorage){
 			localStorage.setItem(oc_current_user+'oc_playlist_items',JSON.stringify(PlayList.items));
 			localStorage.setItem(oc_current_user+'oc_playlist_current',PlayList.current);
-			var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
-			localStorage.setItem(oc_current_user+'oc_playlist_time',time);
-			var volume=PlayList.player.data('jPlayer').options.volume*100;
-			localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
+            if(PlayList.player) {
+                if(PlayList.player.data('jPlayer')) {
+                    var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
+                    localStorage.setItem(oc_current_user+'oc_playlist_time',time);
+                    var volume=PlayList.player.data('jPlayer').options.volume*100;
+                    localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
+                }
+            }
 			if(PlayList.active){
 				localStorage.setItem(oc_current_user+'oc_playlist_active','false');
 			}

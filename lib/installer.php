@@ -252,17 +252,7 @@ class OC_Installer{
 			if( substr( $filename, 0, 1 ) != '.' and is_dir("$SERVERROOT/apps/$filename") ){
 				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
 					if(!OC_Installer::isInstalled($filename)){
-						//install the database
-						if(is_file("$SERVERROOT/apps/$filename/appinfo/database.xml")){
-							OC_DB::createDbFromStructure("$SERVERROOT/apps/$filename/appinfo/database.xml");
-						}
-
-						//run appinfo/install.php
-						if(is_file("$SERVERROOT/apps/$filename/appinfo/install.php")){
-							include("$SERVERROOT/apps/$filename/appinfo/install.php");
-						}
-						$info=OC_App::getAppInfo("$SERVERROOT/apps/$filename/appinfo/info.xml");
-						OC_Appconfig::setValue($filename,'installed_version',$info['version']);
+						OC_Installer::installShippedApp($filename);
 						if( $enabled ){
 							OC_Appconfig::setValue($filename,'enabled','yes');
 						}else{
@@ -273,5 +263,24 @@ class OC_Installer{
 			}
 		}
 		closedir( $dir );
+	}
+
+	/**
+	 * install an app already placed in the app folder
+	 * @param string $app id of the app to install
+	 * @return bool
+	 */
+	public static function installShippedApp($app){
+		//install the database
+		if(is_file(OC::$SERVERROOT."/apps/$app/appinfo/database.xml")){
+			OC_DB::createDbFromStructure(OC::$SERVERROOT."/apps/$app/appinfo/database.xml");
+		}
+
+		//run appinfo/install.php
+		if(is_file(OC::$SERVERROOT."/apps/$app/appinfo/install.php")){
+			include(OC::$SERVERROOT."/apps/$app/appinfo/install.php");
+		}
+		$info=OC_App::getAppInfo(OC::$SERVERROOT."/apps/$app/appinfo/info.xml");
+		OC_Appconfig::setValue($app,'installed_version',$info['version']);
 	}
 }

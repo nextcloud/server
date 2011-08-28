@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Personal" => "Personal",
 "Users" => "Usuaris",
 "Apps" => "Aplicacions",
+"Admin" => "Administrador",
 "Help" => "Ajuda",
-"Personal" => "Personal",
-"Login failed!" => "L'inici de sessió ha fallat!",
-"remember" => "recorda'm",
+"Cloud not found" => "No s'ha trobat el núvol",
 "Create an <strong>admin account</strong>" => "Crea un <strong>compte d'administrador</strong>",
 "Username" => "Nom d'usuari",
 "Password" => "Contrasenya",
@@ -18,10 +18,12 @@
 "Table prefix" => "Prefix de les taules",
 "Data folder" => "Carpeta de dades",
 "Finish setup" => "Acaba la configuració",
-"Cloud not found" => "No s'ha trobat el núvol",
 "gives you the freedom to control your own data on the internet" => "us dóna la llibertat per controlar les vostres dades a internet",
-"prev" => "anterior",
-"next" => "següent",
+"Log out" => "Sortir",
+"Settings" => "Arranjament",
+"Login failed!" => "L'inici de sessió ha fallat!",
+"remember" => "recorda'm",
 "You are logged out." => "Heu tancat la sessió.",
-"Settings" => "Arranjament"
+"prev" => "anterior",
+"next" => "següent"
 );

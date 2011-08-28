@@ -12,6 +12,7 @@ sub crawlPrograms{
 	opendir( DIR, $dir );
 	my @files = readdir( DIR );
 	closedir( DIR );
+	@files = sort( @files );
 
 	foreach my $i ( @files ){
 		next if substr( $i, 0, 1 ) eq '.';
@@ -33,9 +34,11 @@ sub crawlFiles{
 	opendir( DIR, $dir );
 	my @files = readdir( DIR );
 	closedir( DIR );
+	@files = sort( @files );
 
 	foreach my $i ( @files ){
 		next if substr( $i, 0, 1 ) eq '.';
+		next if $i eq 'l10n';
 		
 		if( -d $dir.'/'.$i ){
 			push( @found, crawlFiles( $dir.'/'.$i ));

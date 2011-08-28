@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * This file is licensed under the Affero General Public License version 3 or later.
+ * See the COPYING-README file.
+ */
+
 $(document).ready(function(){
 	$('#leftcontent li').each(function(index,li){
 		var app=$.parseJSON($(this).children('span').text());

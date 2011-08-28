@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-13 12:41+0200\n"
-"PO-Revision-Date: 2011-08-13 21:47+0000\n"
+"POT-Creation-Date: 2011-08-23 11:09+0200\n"
+"PO-Revision-Date: 2011-08-21 22:27+0000\n"
 "Last-Translator: xsergiolpx <sergioballesterossolanas@gmail.com>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/team/es/)\n"
 "MIME-Version: 1.0\n"
@@ -21,27 +21,47 @@ msgstr ""
 msgid "Music"
 msgstr "Música"
 
-#: templates/music.php:27
-msgid "Songs scanned"
-msgstr "Canciones encontradas"
+#: templates/music.php:3
+msgid "Play"
+msgstr "Reproducir"
 
-#: templates/music.php:28
-msgid "Rescan Collection"
-msgstr "Buscar música nueva"
-
-#: templates/music.php:29
+#: templates/music.php:4 templates/music.php:30
 msgid "Pause"
 msgstr "Pausa"
 
-#: templates/music.php:35
+#: templates/music.php:5
+msgid "Previous"
+msgstr "Anterior"
+
+#: templates/music.php:6
+msgid "Next"
+msgstr "Siguiente"
+
+#: templates/music.php:7
+msgid "Mute"
+msgstr "Silenciar"
+
+#: templates/music.php:8
+msgid "Unmute"
+msgstr "Sonar"
+
+#: templates/music.php:28
+msgid "Songs scanned"
+msgstr "Canciones encontradas"
+
+#: templates/music.php:29
+msgid "Rescan Collection"
+msgstr "Buscar música nueva"
+
+#: templates/music.php:37
 msgid "Artist"
 msgstr "Artista"
 
-#: templates/music.php:36
+#: templates/music.php:38
 msgid "Album"
 msgstr "Álbum"
 
-#: templates/music.php:37
+#: templates/music.php:39
 msgid "Title"
 msgstr "Título"
 

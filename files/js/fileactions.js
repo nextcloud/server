@@ -85,6 +85,9 @@ FileActions={
 		}
 		if(actions['Delete']){
 			var img=FileActions.icons['Delete'];
+			if(img.call){
+				img=img(file);
+			}
 			var html='<a href="#" title="Delete" class="action" />';
 			var element=$(html);
 			if(img){
@@ -121,15 +124,15 @@ FileActions={
 	}
 }
 
-FileActions.register('all','Download',OC.imagePath('core','actions/download'),function(filename){
+FileActions.register('all','Download',function(){return OC.imagePath('core','actions/download')},function(filename){
 	window.location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
 });
 
-FileActions.register('all','Delete',OC.imagePath('core','actions/delete'),function(filename){
-	FileList.delete(filename);
+FileActions.register('all','Delete',function(){return OC.imagePath('core','actions/delete')},function(filename){
+	FileList.do_delete(filename);
 });
 
-FileActions.register('all','Rename',OC.imagePath('core','actions/rename'),function(filename){
+FileActions.register('all','Rename',function(){return OC.imagePath('core','actions/rename')},function(filename){
 	FileList.rename(filename);
 });
 

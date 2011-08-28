@@ -180,7 +180,56 @@ if (!Array.prototype.indexOf){
  * check if the browser support svg images
  */
 function SVGSupport() {
-	return !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
+	return SVGSupport.checkMimeType.correct && !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
+}
+SVGSupport.checkMimeType=function(){
+	$.ajax({
+		url: OC.imagePath('core','breadcrumb.svg'),
+		success:function(data,text,xhr){
+			var headerParts=xhr.getAllResponseHeaders().split("\n");
+			var headers={};
+			$.each(headerParts,function(i,text){
+				if(text){
+					var parts=text.split(':',2);
+					var value=parts[1].trim();
+					if(value[0]=='"'){
+						value=value.substr(1,value.length-2);
+					}
+					headers[parts[0]]=value;
+				}
+			});
+			if(headers["Content-Type"]!='image/svg+xml'){
+				replaceSVG();
+				SVGSupport.checkMimeType.correct=false
+			}
+		}
+	});
+}
+SVGSupport.checkMimeType.correct=true;
+
+//replace all svg images with png for browser compatibility
+function replaceSVG(){
+	$('img.svg').each(function(index,element){
+		element=$(element);
+		var src=element.attr('src');
+		element.attr('src',src.substr(0,src.length-3)+'png');
+	});
+	$('.svg').each(function(index,element){
+		element=$(element);
+		var background=element.css('background-image');
+		if(background && background!='none'){
+			background=background.substr(0,background.length-4)+'png)';
+			element.css('background-image',background);
+		}
+		element.find('*').each(function(index,element) {
+			element=$(element);
+			var background=element.css('background-image');
+			if(background && background!='none'){
+				background=background.substr(0,background.length-4)+'png)';
+				element.css('background-image',background);
+			}
+		});
+	});
 }
 
 /**
@@ -197,28 +246,10 @@ function object(o) {
 
 $(document).ready(function(){
 	if(!SVGSupport()){//replace all svg images with png images for browser that dont support svg
-		$('img.svg').each(function(index,element){
-			element=$(element);
-			var src=element.attr('src');
-			element.attr('src',src.substr(0,src.length-3)+'png');
-		});
-		$('.svg').each(function(index,element){
-			element=$(element);
-			var background=element.css('background-image');
-			if(background && background!='none'){
-				background=background.substr(0,background.length-4)+'png)';
-				element.css('background-image',background);
-			}
-			element.find('*').each(function(index,element) {
-				element=$(element);
-				var background=element.css('background-image');
-				if(background && background!='none'){
-					background=background.substr(0,background.length-4)+'png)';
-					element.css('background-image',background);
-				}
-			});
-		});
-	};
+		replaceSVG();
+	}else{
+		SVGSupport.checkMimeType();
+	}
 	$('form.searchbox').submit(function(event){
 		event.preventDefault();
 	})
@@ -226,7 +257,7 @@ $(document).ready(function(){
 		if(event.keyCode==13){//enter
 			if(OC.search.currentResult>-1){
 				var result=$('#searchresults tr.result a')[OC.search.currentResult];
-				$(result).click();
+				window.location = $(result).attr('href');
 			}
 		}else if(event.keyCode==38){//up
 			if(OC.search.currentResult>0){
@@ -303,9 +334,10 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.selectedActions a.delete').tipsy({gravity: 'ne', fade:true, live:true});
-	$('.selectedActions a').tipsy({gravity:'n', fade:true, live:true});
 	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
+	$('.selectedActions a.delete').tipsy({gravity: 'se', fade:true, live:true});
+	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
+	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
 	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 

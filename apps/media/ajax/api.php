@@ -56,7 +56,6 @@ OC_MEDIA_COLLECTION::$uid=OC_User::getUser();
 if($arguments['action']){
 	switch($arguments['action']){
 		case 'delete':
-			unset($_SESSION['collection']);
 			$path=$arguments['path'];
 			OC_MEDIA_COLLECTION::deleteSongByPath($path);
 			$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
@@ -65,21 +64,13 @@ if($arguments['action']){
 				OC_Preferences::setValue(OC_User::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
 			}
 		case 'get_collection':
-			if(!isset($_SESSION['collection'])){
-				$artists=OC_MEDIA_COLLECTION::getArtists();
-				foreach($artists as &$artist){
-					$artist['albums']=OC_MEDIA_COLLECTION::getAlbums($artist['artist_id']);
-					foreach($artist['albums'] as &$album){
-						$album['songs']=OC_MEDIA_COLLECTION::getSongs($artist['artist_id'],$album['album_id']);
-					}
-				}
-
-				$_SESSION['collection']=json_encode($artists);
-			}
-			echo $_SESSION['collection'];
+			$data=array();
+			$data['artists']=OC_MEDIA_COLLECTION::getArtists();
+			$data['albums']=OC_MEDIA_COLLECTION::getAlbums();
+			$data['songs']=OC_MEDIA_COLLECTION::getSongs();
+			echo json_encode($data);
 			break;
 		case 'scan':
-			unset($_SESSION['collection']);
 			OC_DB::beginTransaction();
 			set_time_limit(0); //recursive scan can take a while
 			$path=$arguments['path'];
@@ -88,7 +79,6 @@ if($arguments['action']){
 			flush();
 			break;
 		case 'scanFile':
-			unset($_SESSION['collection']);
 			echo (OC_MEDIA_SCANNER::scanFile($arguments['path']))?'true':'false';
 			break;
 		case 'get_artists':

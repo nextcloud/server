@@ -79,37 +79,37 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	
 	public function opendir($path) {
 		if ($path == "" || $path == "/") {
-			global $FAKEDIRS;
 			$path = $this->datadir.$path;
 			$sharedItems = OC_Share::getItemsInFolder($path);
 			if (empty($sharedItems)) {
 				return false;
-			}
-			$files = array();
-			foreach ($sharedItems as $item) {
-				// If item is in the root of the shared storage provider add it to the fakedirs
-				if (dirname($item['target'])."/" == $path) {
-					$files[] = basename($item['target']);
+			} else {
+				global $FAKEDIRS;
+				$files = array();
+				foreach ($sharedItems as $item) {
+					// If item is in the root of the shared storage provider and the item exists add it to the fakedirs
+					if (dirname($item['target'])."/" == $path && $this->file_exists(basename($item['target']))) {
+						$files[] = basename($item['target']);
+					}
 				}
+				$FAKEDIRS['shared'] = $files;
+				return opendir('fakedir://shared');
 			}
-			$FAKEDIRS['shared'] = $files;
-			return opendir('fakedir://shared');
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
 				$dh = $storage->opendir($this->getInternalPath($source));
-				// Remove any duplicate or trailing '/'
-				$path = rtrim($this->datadir.$path, "/");
-				$path = preg_replace('{(/)\1+}', "/", $path);
 				$modifiedItems = OC_Share::getItemsInFolder($source);
 				if ($modifiedItems && $dh) {
-					global $FAKEDIRS;
 					$sources = array();
 					$targets = array();
+					// Remove any duplicate or trailing '/'
+					$path = preg_replace('{(/)\1+}', "/", $path);
+					$targetFolder = rtrim($this->datadir.$path, "/");
 					foreach ($modifiedItems as $item) {
-						// If the item is in the current directory and has a different name than the source, add it to the arrays
-						if (dirname($item['target']) == $path) {
+						// If the item is in the current directory and the item exists add it to the arrays
+						if (dirname($item['target']) == $targetFolder && $this->file_exists($path."/".basename($item['target']))) {
 							// If the item was unshared from self, add it it to the arrays
 							if ($item['permissions'] == OC_Share::UNSHARED) {
 								$sources[] = basename($item['source']);
@@ -124,6 +124,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 					if (empty($sources)) {
 						return $dh;
 					} else {
+						global $FAKEDIRS;
 						$files = array();
 						while (($filename = readdir($dh)) !== false) {
 							if ($filename != "." && $filename != "..") {
@@ -210,7 +211,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function filesize($path) {
-		
 		if ($path == "" || $path == "/" || $this->is_dir($path)) {
 			return $this->getFolderSize($path);
 		} else {
@@ -221,10 +221,14 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			}
 		}
 	}
-	
+
 	public function getFolderSize($path) {
-		$dbpath = OC_User::getUser()."/files/Share/".$path."/";
-		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
+		// Shared folder sizes are cached separately from the source folder sizes because folders can have different names
+		$path = rtrim($path, "/");
+		$path = ltrim($path, "/");
+		$path = preg_replace('{(/)\1+}', "/", $path);
+		$dbpath = rtrim($this->datadir.$path, "/");
+		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path = ?");
 		$size = $query->execute(array($dbpath))->fetchAll();
 		if (count($size) > 0) {
 			return $size[0]['size'];
@@ -233,19 +237,15 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
-	public function calculateFolderSize($path) {
+	private function calculateFolderSize($path) {
 		if ($this->is_file($path)) {
 			$path = dirname($path);
-		}
-		$path = str_replace("//", "/", $path);
-		if ($this->is_dir($path) && substr($path, -1) != "/") {
-			$path .= "/";
 		}
 		$size = 0;
 		if ($dh = $this->opendir($path)) {
 			while (($filename = readdir($dh)) !== false) {
 				if ($filename != "." && $filename != "..") {
-					$subFile = $path.$filename;
+					$subFile = $path."/".$filename;
 					if ($this->is_file($subFile)) {
 						$size += $this->filesize($subFile);
 					} else {
@@ -254,7 +254,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 				}
 			}
 			if ($size > 0) {
-				$dbpath = OC_User::getUser()."/files/Share/".$path;
+				$dbpath = rtrim($this->datadir.$path, "/");
 				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
 				$result = $query->execute(array($dbpath, $size));
 			}
@@ -262,16 +262,15 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		return $size;
 	}
 
-	public function clearFolderSizeCache($path){
+	private function clearFolderSizeCache($path) {
+		$path = rtrim($path, "/");
+		$path = preg_replace('{(/)\1+}', "/", $path);
 		if ($this->is_file($path)) {
 			$path = dirname($path);
 		}
-		$path = str_replace("//", "/", $path);
-		if ($this->is_dir($path) && substr($path, -1) != "/") {
-			$path .= "/";
-		}
+		$dbpath = rtrim($this->datadir.$path, "/");
 		$query = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-		$result = $query->execute(array($path));
+		$result = $query->execute(array($dbpath));
 		if ($path != "/" && $path != "") {
 			$parts = explode("/", $path);
 			$part = array_pop($parts);
@@ -391,7 +390,11 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
-				return $storage->file_put_contents($this->getInternalPath($source), $data);
+				$result = $storage->file_put_contents($this->getInternalPath($source), $data);
+				if ($result) {
+					$this->clearFolderSizeCache($path);
+				}
+				return $result;
 			}
 		}
 	}
@@ -459,7 +462,11 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		} else {
 			if ($this->is_writeable($path2)) {
 				$tmpFile = $this->toTmpFile($path1);
-				return $this->fromTmpFile($tmpFile, $path2);
+				$result = $this->fromTmpFile($tmpFile, $path2);
+				if ($result) {
+					$this->clearFolderSizeCache($path2);
+				}
+				return $result;
 			} else {
 				return false;
 			}
@@ -487,18 +494,30 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
-				return $storage->fromTmpFile($tmpFile, $this->getInternalPath($source));
+				$result = $storage->fromTmpFile($tmpFile, $this->getInternalPath($source));
+				if ($result) {
+					$this->clearFolderSizeCache($path);
+				}
+				return $result;
 			}
 		} else {
 			return false;
 		}
 	}
 	
-	public function fromUploadedFile($tmpPath, $path) {
-		$source = $this->getSource($tmpPath);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->fromUploadedFile($this->getInternalPath($source), $path);
+	public function fromUploadedFile($tmpFile, $path) {
+		if ($this->is_writeable($path)) {
+			$source = $this->getSource($path);
+			if ($source) {
+				$storage = OC_Filesystem::getStorage($source);
+				$result = $storage->fromUploadedFile($tmpFile, $this->getInternalPath($source));
+				if ($result) {
+					$this->clearFolderSizeCache($path);
+				}
+				return $result;
+			}
+		} else {
+			return false;
 		}
 	}
 	
@@ -507,50 +526,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if ($source) {
 			$storage = OC_Filesystem::getStorage($source);
 			return $storage->getMimeType($this->getInternalPath($source));
-		}
-	}
-	
-	public function delTree($path) {
-		$target = $this->datadir.$path;
-		if (OC_Share::getPermissions($target) & OC_Share::DELETE) {
-			$source = $this->getSource($path);
-			if ($source) {
-				$storage = OC_Filesystem::getStorage($source);
-				return $storage->delTree($this->getInternalPath($source));
-			}
-		} else {
-			// Check if the folder is inside a shared folder
-			if (OC_Share::getParentFolders($target)) {
-				// If entry for folder already exists
-				if (OC_Share::getItem($target)) {
-					OC_Share::setTarget($target, "/");
-				} else {
-					OC_Share::pullOutOfFolder($target, "/");
-					// Call setTarget in case there are any database entries for items inside this folder
-					OC_Share::setTarget($target, "/");
-				}
-			// Delete the database entry
-			} else {
-				OC_Share::unshareFromMySelf($target);
-			}
-			$this->clearFolderSizeCache($this->getInternalPath($target));
-			return true;
-		}
-	}
-	
-	public function find($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->find($this->getInternalPath($source));
-		}
-	}
-	
-	public function getTree($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->getTree($this->getInternalPath($source));
 		}
 	}
 	
@@ -570,9 +545,33 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
-	// TODO query all shared files?
-	public function search($query) { 
-		
+	public function search($query) {
+		return $this->searchInDir($query);
+	}
+
+	private function searchInDir($query, $path = "") {
+		$files = array();
+		if ($dh = $this->opendir($path)) {
+			while (($filename = readdir($dh)) !== false) {
+				if ($filename != "." && $filename != "..") {
+					if (strstr(strtolower($filename), strtolower($query))) {
+						$files[] = $path."/".$filename;
+					}
+					if ($this->is_dir($path."/".$filename)) {
+						$files = array_merge($files, $this->searchInDir($query, $path."/".$filename));
+					}
+				}
+			}
+		}
+		return $files;
+	}
+
+	public function getLocalFile($path) {
+		$source = $this->getSource($path);
+		if ($source) {
+			$storage = OC_Filesystem::getStorage($source);
+			return $storage->getLocalFile($this->getInternalPath($source));
+		}
 	}
 	
 }

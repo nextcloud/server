@@ -1,6 +1,10 @@
 <?php $TRANSLATIONS = array(
-"Login failed!" => "Échec de la connexion !",
-"remember" => "se souvenir de moi",
+"Personal" => "Personnel",
+"Users" => "Utilisateurs",
+"Apps" => "Applications",
+"Admin" => "Administration",
+"Help" => "Aide",
+"Cloud not found" => "Introuvable",
 "Create an <strong>admin account</strong>" => "Créer un <strong>compte administrateur</strong>",
 "Username" => "Nom d'utilisateur",
 "Password" => "Mot de passe",
@@ -14,10 +18,12 @@
 "Table prefix" => "Préfixe des tables",
 "Data folder" => "Répertoire des données",
 "Finish setup" => "Terminer l'installation",
-"Cloud not found" => "Introuvable",
 "gives you the freedom to control your own data on the internet" => "vous rend libre de contrôler vos propres données sur internet",
-"prev" => "précédent",
-"next" => "suivant",
+"Log out" => "Se déconnecter",
+"Settings" => "Paramètres",
+"Login failed!" => "Échec de la connexion !",
+"remember" => "se souvenir de moi",
 "You are logged out." => "Vous êtes désormais déconnecté.",
-"Settings" => "Paramètres"
+"prev" => "précédent",
+"next" => "suivant"
 );

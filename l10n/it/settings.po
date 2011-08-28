@@ -2,12 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Francesco Apruzzese <cescoap@gmail.com>, 2011.
+# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 18:58+0200\n"
-"PO-Revision-Date: 2011-08-18 16:59+0000\n"
+"POT-Creation-Date: 2011-08-28 01:13+0200\n"
+"PO-Revision-Date: 2011-08-27 23:13+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +24,7 @@ msgstr "Errore nell'autenticazione"
 
 #: ajax/openid.php:21
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID Modificato"
 
 #: ajax/openid.php:23 ajax/setlanguage.php:23
 msgid "Invalid request"
@@ -32,92 +34,102 @@ msgstr "Richiesta non valida"
 msgid "Language changed"
 msgstr "Lingua modificata"
 
-#: templates/help.php:2
-msgid "Problems connecting to help database."
+#: templates/apps.php:8
+msgid "Add your application"
 msgstr ""
 
-#: templates/help.php:3
-msgid "Go there manually."
-msgstr ""
-
-#: templates/help.php:11
-msgid "Answer"
-msgstr ""
-
-#: templates/help.php:17
-msgid "Ask a question"
-msgstr "Fai una domanda"
-
-#: templates/apps.php:12
+#: templates/apps.php:21
 msgid "Select an App"
 msgstr "Seleziona un applicazione"
 
-#: templates/apps.php:14
+#: templates/apps.php:23
 msgid "-licensed"
-msgstr ""
+msgstr "-licensed"
 
-#: templates/apps.php:14
+#: templates/apps.php:23
 msgid "by"
 msgstr "da"
 
-#: templates/personal.php:2
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr "Fai una domanda"
+
+#: templates/help.php:17
+msgid "Problems connecting to help database."
+msgstr "Problemi di connessione al database di aiutare."
+
+#: templates/help.php:18
+msgid "Go there manually."
+msgstr "Vai lì manualmente."
+
+#: templates/help.php:26
+msgid "Answer"
+msgstr "Risposta"
+
+#: templates/personal.php:8
 msgid "You use"
-msgstr ""
+msgstr "Si utilizza"
 
-#: templates/personal.php:2
+#: templates/personal.php:8
 msgid "of the available"
-msgstr ""
+msgstr "su un totale di"
 
-#: templates/personal.php:7
+#: templates/personal.php:13
 msgid "Your password got changed"
 msgstr "La tua password è stata cambiata"
 
-#: templates/personal.php:9
-msgid "Current password"
+#: templates/personal.php:14
+msgid "Unable to change your password"
 msgstr ""
 
-#: templates/personal.php:10
+#: templates/personal.php:15
+msgid "Current password"
+msgstr "Password attuale"
+
+#: templates/personal.php:16
 msgid "New password"
 msgstr "Nuova password"
 
-#: templates/personal.php:11
+#: templates/personal.php:17
 msgid "show"
 msgstr "mostra"
 
-#: templates/personal.php:12
-msgid "Change password"
-msgstr ""
-
 #: templates/personal.php:18
+msgid "Change password"
+msgstr "Modifica password"
+
+#: templates/personal.php:24
 msgid "Language"
 msgstr "Lingua"
 
-#: templates/personal.php:24
-msgid "Help translating"
-msgstr ""
-
 #: templates/personal.php:30
+msgid "Help translating"
+msgstr "Aiuta nella traduzione"
+
+#: templates/personal.php:36
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
+"usa questo indirizzo per connettersi al proprio ownCloud nel tuo file "
+"manager"
 
-#: templates/users.php:11
+#: templates/users.php:16
 msgid "Name"
 msgstr "Nome"
 
-#: templates/users.php:12
+#: templates/users.php:17
 msgid "Password"
 msgstr "Password"
 
-#: templates/users.php:13 templates/users.php:28
+#: templates/users.php:18 templates/users.php:36
 msgid "Groups"
 msgstr "Gruppi"
 
-#: templates/users.php:18
+#: templates/users.php:24
 msgid "Create"
 msgstr "Crea"
 
-#: templates/users.php:40
+#: templates/users.php:48
 msgid "Delete"
-msgstr ""
+msgstr "Cancella"
 
 

@@ -122,10 +122,9 @@ $(document).ready(function() {
 		a.data('file',text);
 		a.attr('href','#');
 		a.click(function(){
-			var file=$(this).data('file');
-			var text=file.split('/').pop();
-			var dir=file.substr(0,file.length-file.length-1);
-			TextViewer.showText(dir,text);
+			var file=text.split('/').pop();
+			var dir=text.substr(0,text.length-file.length-1);
+			TextViewer.showText(dir,file);
 		});
 	}
 });

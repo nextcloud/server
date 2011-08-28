@@ -273,12 +273,14 @@ class OC_Setup {
 	 * create .htaccess files for apache hosts
 	 */
 	private static function createHtaccess() {
-		global $SERVERROOT;
-		global $WEBROOT;
-		$content = "ErrorDocument 404 /$WEBROOT/core/templates/404.php\n";//custom 404 error page
-		$content.= "php_value upload_max_filesize 20M\n";//upload limit
-		$content.= "php_value post_max_size 20M\n";
+		$SERVERROOT=OC::$SERVERROOT;
+		$WEBROOT=OC::$WEBROOT;
+		$content = "ErrorDocument 404 $WEBROOT/core/templates/404.php\n";//custom 404 error page
+		$content.= "<IfModule mod_php5.c>\n";
+		$content.= "php_value upload_max_filesize 512M\n";//upload limit
+		$content.= "php_value post_max_size 512M\n";
 		$content.= "SetEnv htaccessWorking true\n";
+		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
