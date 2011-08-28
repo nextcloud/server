@@ -79,7 +79,7 @@ class OC_Calendar_Calendar{
 		return $result->fetchRow();
 	}
 
-	public static function addCalendar($userid,$name,$description,$components='VEVENT,VTODO',$timezone=null,$order=0,$color=null){
+	public static function addCalendar($userid,$name,$description,$components='VEVENT,VTODO,VJOURNAL',$timezone=null,$order=0,$color=null){
 		$all = self::allCalendars($userid);
 		$uris = array();
 		foreach($all as $i){
@@ -278,6 +278,22 @@ class OC_Calendar_Calendar{
 				if($thisone){
 					$use = $property;
 				}
+			}
+			elseif($property->name == 'VTODO' || $property->name == 'VJOURNAL'){
+				$return[0] = $use->name;
+				foreach($property->children as &$element){
+					if($property->name == 'SUMMARY'){
+						$return[3] = $property->value;
+					}
+					elseif($property->name == 'UID'){
+						$return[5] = $property->value;
+					}
+				};
+
+				// Only one VTODO or VJOURNAL per object
+				// (only one UID per object but a UID is required by a VTODO =>
+				//    one VTODO per object)
+				break;
 			}
 		} unset($property);
 		
