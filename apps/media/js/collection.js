@@ -55,7 +55,7 @@ Collection={
 					for(var i=0;i<Collection.loadedListeners.length;i++){
 						Collection.loadedListeners[i]();
 					}
-					if(data.songs[i].length==0){
+					if(data.songs.length==0){
 						$('#scan input.start').val(t('media','Scan Collection'));
 						$('#scan input.start').click();
 					}
