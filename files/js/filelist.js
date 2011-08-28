@@ -6,7 +6,7 @@ FileList={
 		var img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file');
 		var html='<tr data-file="'+name+'" data-type="file" data-size="'+size+'">';
 		if(name.indexOf('.')!=-1){
-			var basename=name.substr(0,name.indexOf('.'));
+			var basename=name.substr(0,name.lastIndexOf('.'));
 			var extention=name.substr(name.lastIndexOf('.'));
 		}else{
 			var basename=name;
