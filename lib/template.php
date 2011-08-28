@@ -76,6 +76,7 @@ function simple_file_size($bytes) {
 }
 
 function relative_modified_date($timestamp) {
+    $l=new OC_L10N('template');
 	$timediff = time() - $timestamp;
 	$diffminutes = round($timediff/60);
 	$diffhours = round($diffminutes/60);
@@ -83,18 +84,18 @@ function relative_modified_date($timestamp) {
 	$diffmonths = round($diffdays/31);
 	$diffyears = round($diffdays/365);
 
-	if($timediff < 60) { return 'seconds ago'; }
-	else if($timediff < 120) { return '1 minute ago'; }
-	else if($timediff < 3600) { return $diffminutes.' minutes ago'; }
+	if($timediff < 60) { return $l->t('seconds ago'); }
+	else if($timediff < 120) { return $l->t('1 minute ago'); }
+	else if($timediff < 3600) { return $l->t('%d minutes ago',$diffminutes); }
 	//else if($timediff < 7200) { return '1 hour ago'; }
 	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
-	else if((date('G')-$diffhours) > 0) { return 'today'; }
-	else if((date('G')-$diffhours) > -24) { return 'yesterday'; }
-	else if($timediff < 2678400) { return $diffdays.' days ago'; }
-	else if($timediff < 5184000) { return 'last month'; }
-	else if((date('n')-$diffmonths) > 0) { return 'months ago'; }
-	else if($timediff < 63113852) { return 'last year'; }
-	else { return 'years ago'; }
+	else if((date('G')-$diffhours) > 0) { return $l->t('today'); }
+	else if((date('G')-$diffhours) > -24) { return $l->t('yesterday'); }
+	else if($timediff < 2678400) { return $l->t('%d days ago',$diffdays); }
+	else if($timediff < 5184000) { return $l->t('last month'); }
+	else if((date('n')-$diffmonths) > 0) { return $l->t('months ago'); }
+	else if($timediff < 63113852) { return $l->t('last year'); }
+	else { return $l->t('years ago'); }
 }
 
 
