@@ -339,6 +339,7 @@ $(document).ready(function(){
 	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
 	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
+	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
 
 	$('input').tipsy({gravity:'w', fade:true});
 	$('input[type=text]').focus(function(){

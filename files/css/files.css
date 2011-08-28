@@ -51,13 +51,13 @@ table td.filename a, table td.login, table td.logout, table td.download, table t
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
 table td.filename .nametext { width:60%; }
 table td.filename form { float:left; font-size:.85em; }
-table thead.fixed tr{ position:fixed; top:6.3em; z-index:49; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
+table thead.fixed tr{ position:fixed; top:6.5em; z-index:49; -moz-box-shadow:0 -3px 7px #ddd; -webkit-box-shadow:0 -3px 7px #ddd; box-shadow:0 -3px 7px #ddd; }
 table thead.fixed { height:2em; }
 #fileList tr td.filename>input[type=checkbox]:first-child { opacity:0; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
 #fileList tr:hover td.filename>input[type="checkbox"]:first-child { opacity:.8; }
 #fileList tr td.filename>input[type="checkbox"]:checked:first-child { opacity:1; }
 #fileList tr td.filename { -webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms; }
-#select_all { float:left; margin:.2em; margin-left:.6em; }
+#select_all { float:left; margin:.3em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
 .selectedActions a, a.action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
 .selectedActions { display:none; }

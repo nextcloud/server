@@ -311,8 +311,8 @@ function procesSelection(){
 	var selectedFiles=selected.filter(function(el){return el.type=='file'});
 	var selectedFolders=selected.filter(function(el){return el.type=='dir'});
 	if(selectedFiles.length==0 && selectedFolders.length==0){
-		$('#headerName>span.name').text('Name');
-		$('#headerSize').text(t('files','Size MB'));
+		$('#headerName>span.name').text(t('files','Name'));
+		$('#headerSize').text(t('files','Size'));
 		$('#modified').text(t('files','Modified'));
 		$('th').removeClass('multiselect');
 		$('.selectedActions').hide();
@@ -327,7 +327,7 @@ function procesSelection(){
 		$('#headerName').css('width',width.name);
 		$('#headerSize').css('width',width.size);
 		$('#headerDate').css('width',width.date);
-		$('table').css('padding-top','2em');
+		$('table').css('padding-top','2.1em');
 		$('.selectedActions').show();
 		var totalSize=0;
 		for(var i=0;i<selectedFiles.length;i++){
@@ -337,7 +337,7 @@ function procesSelection(){
 			totalSize+=selectedFolders[i].size;
 		};
 		simpleSize=simpleFileSize(totalSize);
-		$('#headerSize').text(simpleSize+' MB');
+		$('#headerSize').text(simpleSize);
 		$('#headerSize').attr('title',humanFileSize(totalSize));
 		var selection='';
 		if(selectedFolders.length>0){
