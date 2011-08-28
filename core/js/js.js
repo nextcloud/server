@@ -334,12 +334,12 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.selectedActions a.delete').tipsy({gravity: 'ne', fade:true, live:true});
-	$('.selectedActions a').tipsy({gravity:'n', fade:true, live:true});
 	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
+	$('.selectedActions a.delete').tipsy({gravity: 'se', fade:true, live:true});
+	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
+	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
 	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
-	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
 
 	$('input').tipsy({gravity:'w', fade:true});
 	$('input[type=text]').focus(function(){
