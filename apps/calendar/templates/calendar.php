@@ -907,7 +907,7 @@
 				<!-- Dialogs -->
 				<div id="dialog_holder"></div>
 				<div id="parsingfail_dialog" title="Parsing Fail">
-					There was a fail, while parsing the file.
+					<?php echo $l->t("There was a fail, while parsing the file."); ?>
 				</div>
 				<!-- End of Dialogs -->
 				<script type="text/javascript">
@@ -938,6 +938,16 @@
 				document.getElementById("listview_radio").value = listview_radio;
 				document.getElementById("today_input").value = today_button_value;
 				document.getElementById("choosecalendar_input").value = choosecalendar_value;
-				document.getElementById("download_input").src = oc_webroot + "/core/img/actions/download.svg";
+				//document.getElementById("download_input").src = oc_webroot + "/core/img/actions/download.svg";
 				</script>
-				<script type="text/javascript" id="js_events"></script>
+				<script type="text/javascript" id="js_events">
+				<?php
+				//
+				
+				
+				
+				
+				
+				
+				?>
+				</script>
