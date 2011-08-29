@@ -3,26 +3,32 @@ $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 $events = OC_Calendar_Calendar::allCalendarObjects($calendars[0]['id']);
 $select_year = $_GET["year"];
 $return_events = array();
+$user_timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
 foreach($events as $event)
 {
 	if ($select_year != substr($event['startdate'], 0, 4))
 		continue;
-	list($date, $time) = explode(' ', $event['startdate']);
-	list($year, $month, $day) = explode('-', $date);
-	list($hour, $min) = explode(':', $time);
-	$hour = (int)$hour;
+	$start_dt = new DateTime($event['startdate'], new DateTimeZone('UTC'));
+	$start_dt->setTimezone(new DateTimeZone($user_timezone));
+	$end_dt = new DateTime($event['enddate'], new DateTimeZone('UTC'));
+	$end_dt->setTimezone(new DateTimeZone($user_timezone));
+	$year  = $start_dt->format('Y');
+	$month = $start_dt->format('n') - 1; // return is 0 based
+	$day   = $start_dt->format('j');
+	$hour  = $start_dt->format('G');
 
 	// hack
 	if (strstr($event['calendardata'], 'DTSTART;VALUE=DATE:')) {
 		$hour = 'allday';
 	}
 	$return_event = array();
-	foreach(array('id', 'calendarid', 'objecttype', 'startdate', 'enddate', 'repeating') as $prop)
+	foreach(array('id', 'calendarid', 'objecttype', 'repeating') as $prop)
 	{
 		$return_event[$prop] = $event[$prop];
 	}
+	$return_event['startdate'] = $start_dt->format('Y-m-d H:i');
+	$return_event['enddate'] = $end_dt->format('Y-m-d H:i');
 	$return_event['description'] = $event['summary'];
-	$month--; // return is 0 based
 	if (isset($return_events[$year][$month][$day][$hour]))
 	{
 		$return_events[$year][$month][$day][$hour][] = $return_event;
