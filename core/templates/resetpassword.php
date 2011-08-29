@@ -1,4 +1,4 @@
-<form action="<?php echo "index.php?".$_SERVER['QUERY_STRING'] ?>" method="post">
+<form action="<?php echo "index.php?".$_SERVER['QUERY_STRING']; ?>" method="post">
 	<fieldset>
 		<?php if($_['success']): ?>
 			<?php echo $l->t('Your password was successfully reset'); ?>
