@@ -896,3 +896,10 @@ function oc_cal_choosecalendar(){
 		alert(t("calendar", "You can't open more than one dialog per site!"));
 	}
 }
+function oc_cal_calender_activation(checkbox, calendarid)
+{
+	$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
+	  function(data) {
+		checkbox.checked = data == 1;
+	  });
+}

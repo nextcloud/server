@@ -1,5 +1,5 @@
 <?php
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 $events = OC_Calendar_Calendar::allCalendarObjects($calendars[0]['id']);
 $select_year = $_GET["year"];
 $return_events = array();

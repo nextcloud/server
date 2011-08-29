@@ -137,6 +137,14 @@
    </field>
 
    <field>
+    <name>active</name>
+    <type>integer</type>
+    <default>1</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
     <name>ctag</name>
     <type>integer</type>
     <default>0</default>

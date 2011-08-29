@@ -42,6 +42,7 @@
  *     userid VARCHAR(255),
  *     displayname VARCHAR(100),
  *     uri VARCHAR(100),
+ *     active INTEGER UNSIGNED NOT NULL DEFAULT '0',
  *     ctag INTEGER UNSIGNED NOT NULL DEFAULT '0',
  *     description TEXT,
  *     calendarorder INTEGER UNSIGNED NOT NULL DEFAULT '0',
@@ -55,9 +56,15 @@
  * This class manages our calendars
  */
 class OC_Calendar_Calendar{
-	public static function allCalendars($uid){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE userid = ?' );
-		$result = $stmt->execute(array($uid));
+	public static function allCalendars($uid, $active=null){
+		$values = array($uid);
+		$active_where = '';
+		if (!is_null($active)){
+			$active_where = ' AND active = ?';
+			$values[] = $active;
+		}
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE userid = ?' . $active_where );
+		$result = $stmt->execute($values);
 		
 		$calendars = array();
 		while( $row = $result->fetchRow()){
@@ -117,6 +124,13 @@ class OC_Calendar_Calendar{
 		
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,description=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
 		$result = $stmt->execute(array($name,$description,$order,$color,$timezone,$components,$id));
+
+		return true;
+	}
+
+	public static function setCalendarActive($id,$active){
+		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET active = ? WHERE id = ?' );
+		$stmt->execute(array($active, $id));
 
 		return true;
 	}
