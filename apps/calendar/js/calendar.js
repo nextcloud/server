@@ -903,3 +903,20 @@ function oc_cal_calender_activation(checkbox, calendarid)
 		checkbox.checked = data == 1;
 	  });
 }
+function oc_cal_editcalendar(object, calendarid){
+	$(object).closest('tr').load(oc_webroot + "/apps/calendar/ajax/editcalendar.php?calendarid="+calendarid);
+}
+function oc_cal_editcalendar_submit(button, calendarid){
+	var displayname = $("#displayname_"+calendarid).val();
+	var active = $("#active_"+calendarid+":checked").length;
+	var description = $("#description_"+calendarid).val();
+	var calendarcolor = $("#calendarcolor_"+calendarid).val();
+
+	$.post("ajax/updatecalendar.php", { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
+		function(data){
+			if(data.error == "true"){
+			}else{
+				$(button).closest('tr').html(data.data)
+			}
+		}, 'json');
+}
