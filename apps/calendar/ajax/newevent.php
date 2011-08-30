@@ -121,11 +121,7 @@ if($errnum != 0){
 	exit;
 }else{
 	$data = "BEGIN:VCALENDAR\nPRODID:ownCloud Calendar\nVERSION:2.0\n";
-	if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone") == ""){
-		$timezone = "Europe/London";
-	}else{
-		$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone");
-	}
+	$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
 	$created = date("Ymd") . "T" . date("His");
 	$data .= "BEGIN:VEVENT\n";
 	$data .= "CREATED:" . $created . "\nLAST-MODIFIED:" . $created . "\nDTSTAMP:" . $created . "\n";
