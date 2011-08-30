@@ -143,7 +143,7 @@ class OC_Files {
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');
 		}
-		ob_end_clean();
+		@ob_end_clean();
 		if($zip){
 			readfile($filename);
 			unlink($filename);

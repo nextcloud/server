@@ -74,8 +74,8 @@
 	<a id='showAdvanced'><strong><?php echo $l->t( 'Advanced' ); ?> ▾</strong></a>
 
 	<fieldset id='datadirField'>
-		<input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Host' ); ?>" />
-		<input type="text" name="dbtableprefix" id="dbtableprefix" value="<?php print OC_Helper::init_var('dbtableprefix', 'oc_'); ?>" placeholder="<?php echo $l->t( 'Table prefix' ); ?>" />
+		<label id="dbhostlabel" for="dbhost"><?php echo $l->t( 'Database host' ); ?></label><input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Database host' ); ?>" />
+		<label id="dbtableprefixlabel" for="dbtableprefix"><?php echo $l->t( 'Table prefix' ); ?></label><input type="text" name="dbtableprefix" id="dbtableprefix" value="<?php print OC_Helper::init_var('dbtableprefix', 'oc_'); ?>" placeholder="<?php echo $l->t( 'Table prefix' ); ?>" />
 
 		<label id="directorylabel" for="directory"><?php echo $l->t( 'Data folder' ); ?></label><input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" placeholder="<?php echo $l->t( 'Data folder' ); ?>" />
 	</fieldset>
