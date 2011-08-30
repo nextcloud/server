@@ -6,14 +6,14 @@ require_once('../../lib/base.php');
 // We send json data
 header( "Content-Type: application/jsonrequest" );
 
+$username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
+$password = $_POST["password"];
+
 // Check if we are a user
-if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+if( !OC_User::isLoggedIn() || (!OC_Group::inGroup( OC_User::getUser(), 'admin' )&& $username!=OC_User::getUser())) {
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
 	exit();
 }
-
-$username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
-$password = $_POST["password"];
 
 // Return Success story
 if( OC_User::setPassword( $username, $password )){
