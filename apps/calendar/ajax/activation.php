@@ -2,7 +2,7 @@
 /*************************************************
  * ownCloud - Calendar Plugin                     *
  *                                                *
- * (c) Copyright 2011 Georg Ehrke                 *
+ * (c) Copyright 2011 Bart Visscher               *
  * author: Georg Ehrke                            *
  * email: ownclouddev at georgswebsite dot de     *
  * homepage: ownclouddev.georgswebsite.de         *
@@ -21,6 +21,7 @@ require_once ("../../../lib/base.php");
 if(!OC_USER::isLoggedIn()) {
 	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
-$output = new OC_TEMPLATE("calendar", "part.getcal");
-$output -> printpage();
-?>
+$calendarid = $_POST['calendarid'];
+OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
+$cal = OC_Calendar_Calendar::findCalendar($calendarid);
+echo $cal['active'];

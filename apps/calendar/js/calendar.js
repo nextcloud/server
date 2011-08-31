@@ -1,7 +1,7 @@
 /*************************************************
  * ownCloud - Calendar Plugin                     *
  *                                                *
- * (c) Copyright 2011 Georg Ehrke                 *
+ * (c) Copyright 2011 Georg Ehrke, Bart Visscher  *
  * author: Georg Ehrke                            *
  * email: ownclouddev at georgswebsite dot de     *
  * homepage: ownclouddev.georgswebsite.de         *
@@ -461,18 +461,20 @@ function oc_cal_switch2today() {
 }
 
 function oc_cal_update_eventsvar(loadyear) {
-	$("#js_events").load(oc_webroot + "/apps/calendar/ajax/ajax.php?task=load_events&year=" + loadyear);
-	if(document.getElementById("js_events").innerHTML == "nosession") {
+	$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + loadyear, function(newevents, status) {
+        if(status == "nosession") {
 		alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
-		document.location(oc_webroot);
+		document.location.href = oc_webroot;
 	}
-	if(document.getElementById("js_events").innerHTML == "parsingfail" || typeof (newevents) == "undefined") {
+	if(status == "parsingfail" || typeof (newevents) == "undefined") {
 		$(function() {
 			$( "#parsingfail_dialog" ).dialog();
 		});
 	} else {
-		events.concat(newevents);
+		oc_cal_events[loadyear]= newevents[loadyear];
+		oc_cal_update_view('');
 	}
+	});
 }
 
 function oc_cal_load_cal(loadview) {
@@ -652,19 +654,20 @@ function oc_cal_load_events(loadview) {
 					newp.id = "onedayview_allday_" + eventnumber;
 					newp.className = "onedayview_event";
 					eventcontainer.appendChild(newp);
-					document.getElementById("onedayview_allday_" + eventnumber).innerHTML = events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]["allday"][eventnumber]["description"];
+					newp.innerHTML = oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]["allday"][eventnumber]["description"];
 					eventnumber++;
 				}
 			}
 			for( i = 0; i <= 23; i++) {
 				if( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i]) != "undefined") {
 					var eventnumber = 1;
+					var eventcontainer = document.getElementById("onedayview_" + i);
 					while( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i][eventnumber]) != "undefined") {
 						var newp = document.createElement("p");
 						newp.id = "onedayview_" + i + "_" + eventnumber;
 						newp.className = "onedayview_event";
 						eventcontainer.appendChild(newp);
-						document.getElementById("onedayview_" + i + "_" + eventnumber).innerHTML = events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i][eventnumber]["description"];
+						newp.innerHTML = oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i][eventnumber]["description"];
 						eventnumber++;
 					}
 				}
@@ -687,7 +690,7 @@ function oc_cal_load_events(loadview) {
 							newp.id = "oneweekview_" + weekdays[i] + "_allday_" + eventnumber;
 							newp.className = "oneweekview_event";
 							eventcontainer.appendChild(newp);
-							document.getElementById("oneweekview_" + weekdays[i] + "_allday_" + eventnumber).innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
+							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
 							eventnumber++;
 						}
 					}
@@ -695,12 +698,12 @@ function oc_cal_load_events(loadview) {
 						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
 							var eventnumber = 1;
 							var eventcontainer = document.getElementById("oneweekview_" + weekdays[i] + "_" + time);
-							while( typeof (oc_cal_events[year][loadevents_month][loadevents_days][eventnumber]) != "undefined") {
+							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
 								var newp = document.createElement("p");
-								newp.id = "oneweekview_" + i + "_" + eventnumber;
+								newp.id = "oneweekview_" + weekdays[i] + "_" + time + "_" + eventnumber;
 								newp.className = "oneweekview_event";
 								eventcontainer.appendChild(newp);
-								document.getElementById("oneweekview_" + i + "_" + eventnumber).innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][i][eventnumber]["description"];
+								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
 								eventnumber++;
 							}
 						}
@@ -728,7 +731,7 @@ function oc_cal_load_events(loadview) {
 							newp.id = "fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum + "_" + pnum;
 							newp.className = "fourweeksview_event";
 							eventcontainer.appendChild(newp);
-							document.getElementById("fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum + "_" + pnum).innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
+							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
 							eventnumber++;
 							pnum++;
 						}
@@ -737,12 +740,12 @@ function oc_cal_load_events(loadview) {
 						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
 							var eventnumber = 1;
 							var eventcontainer = document.getElementById("events_fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum);
-							while( typeof (events[oc_cal_year][loadevents_month][loadevents_days][i][eventnumber]) != "undefined") {
+							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
 								var newp = document.createElement("p");
-								newp.id = "fourweeksview_" + i + "_" + eventnumber;
+								newp.id = "fourweeksview_" + weekdays[i] + "_" + i + "_" + eventnumber;
 								newp.className = "fourweeksview_event";
 								eventcontainer.appendChild(newp);
-								document.getElementById("fourweeksview_" + i + "_" + eventnumber).innerHTML = oc_cal_events[year][loadevents_month][loadevents_days][i][eventnumber]["description"];
+								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
 								eventnumber++;
 								pnum++;
 							}
@@ -777,7 +780,7 @@ function oc_cal_load_events(loadview) {
 							newp.id = "onemonthview_" + weekdays[weekdaynum] + "_" + weeknum + "_" + pnum;
 							newp.className = "onemonthview_event";
 							eventcontainer.appendChild(newp);
-							document.getElementById("onemonthview_" + weekdays[weekdaynum] + "_" + weeknum + "_" + pnum).innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
+							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
 							eventnumber++;
 							pnum++;
 						}
@@ -786,12 +789,12 @@ function oc_cal_load_events(loadview) {
 						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
 							var eventnumber = 1;
 							var eventcontainer = document.getElementById("events_onemonthview_" + weekdays[weekdaynum] + "_" + weeknum);
-							while( typeof (oc_cal_events[year][loadevents_month][loadevents_days][i][eventnumber]) != "undefined") {
+							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
 								var newp = document.createElement("p");
-								newp.id = "onemonthview_" + i + "_" + eventnumber;
+								newp.id = "onemonthview_" + weekdays[i] + "_" + time + "_" + eventnumber;
 								newp.className = "onemonthview_event";
 								eventcontainer.appendChild(newp);
-								document.getElementById("onemonthview_" + i + "_" + eventnumber).innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][i][eventnumber]["description"];
+								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
 								eventnumber++;
 								pnum++;
 							}
@@ -892,4 +895,11 @@ function oc_cal_choosecalendar(){
 	}else{
 		alert(t("calendar", "You can't open more than one dialog per site!"));
 	}
+}
+
+function oc_cal_calender_activation(checkbox, calendarid){
+	$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
+		function(data) {
+			checkbox.checked = data == 1;
+			});
 }

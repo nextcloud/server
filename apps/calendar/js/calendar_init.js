@@ -27,6 +27,7 @@ $(document).ready(function(){
 			alert("abc");
    		}
 	});
+	oc_cal_update_eventsvar(oc_cal_year);
 });
 //init date vars
 var oc_cal_date = new Date();
@@ -52,8 +53,5 @@ var oc_cal_opendialog = 0;
 var oc_cal_datemonthyear =  String(oc_cal_dayofmonth) + String(oc_cal_month) + String(oc_cal_year);
 var oc_cal_calendars = new Array();
 //event vars
-var oc_cal_events = new Array(2011);
-oc_cal_events[2011] = new Array(0,1,2,3,4,5,6,7,8,9,10,11);
-oc_cal_events[2011][7] = new Array();
-oc_cal_events[2011][7][7] = new Array();
-oc_cal_events[2011][7][13] = new Array();
+var oc_cal_events = new Array();
+oc_cal_events[oc_cal_year] = new Array(0,1,2,3,4,5,6,7,8,9,10,11);
