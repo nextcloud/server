@@ -21,58 +21,167 @@
  * calw - Calendarweek                            *
  * doy - Day of the year                          *
  * checkforleapyear - check for a leap year       *
- * update_view - update the view of the calendar  *
- * onedayview - one day view                      *
- * oneweekview - one week view                    *
- * onemonthview - four Weeks view                 *
- * onemonthview - one Month view                  *
- * listview - listview                            *
  * forward_day - switching one day forward        *
  * forward_week - switching one week forward      *
  * forward_month - switching one month forward    *
  * backward_day - switching one day backward      *
  * backward_week - switching one week backward    *
  * backward_month - switching one month backward  *
+ * update_view - update the view of the calendar  *
+ * onedayview - one day view                      *
+ * oneweekview - one week view                    *
+ * onemonthview - four Weeks view                 *
+ * onemonthview - one Month view                  *
+ * listview - listview                            *
  * generate_monthview - generating month view     *
  * generate_dates - generate other days for view  *
  * load_events - load the events                  *
  * switch2today - switching to today              *
  * remove_events - remove old events in view      *
  *************************************************/
-function oc_cal_calw() {
-	var generate_dayofweek = oc_cal_dayofweek;
-	if(generate_dayofweek == 0) {
-		generate_dayofweek = 7;
-	}
-	var calw = Math.floor((oc_cal_doy() - generate_dayofweek) / 7) + 1;
-	return calw;
-}
+Calendar={
+	Date:{
+		calw:function() {
+			var generate_dayofweek = oc_cal_dayofweek;
+			if(generate_dayofweek == 0) {
+				generate_dayofweek = 7;
+			}
+			var calw = Math.floor((this.doy() - generate_dayofweek) / 7) + 1;
+			return calw;
+		},
 
-function oc_cal_doy() {
-	if(oc_cal_checkforleapyear(oc_cal_year) == true) {
-		var cal = oc_cal_leap_cal;
-	} else {
-		var cal = oc_cal_normal_cal;
-	}
-	var doy = 0;
-	for(var i = 0; i < oc_cal_month; i++) {
-		doy = parseInt(doy) + parseInt(cal[i]);
-	}
-	doy = parseInt(doy) + oc_cal_dayofmonth;
-	return doy;
-}
+		doy:function() {
+			if(this.checkforleapyear(oc_cal_year) == true) {
+				var cal = oc_cal_leap_cal;
+			} else {
+				var cal = oc_cal_normal_cal;
+			}
+			var doy = 0;
+			for(var i = 0; i < oc_cal_month; i++) {
+				doy = doy + parseInt(cal[i]);
+			}
+			doy = doy + parseInt(oc_cal_dayofmonth);
+			return doy;
+		},
 
-function oc_cal_checkforleapyear(year2check) {
-	if((year2check / 600) == Math.floor(year2check / 400)) {
-		return true;
-	}
-	if((year2check / 4) == Math.floor(year2check / 4)) {
-		if((year2check / 100) == Math.floor(year2check / 100)) {
+		checkforleapyear:function(year2check) {
+			if((year2check / 600) == Math.floor(year2check / 400)) {
+				return true;
+			}
+			if((year2check / 4) == Math.floor(year2check / 4)) {
+				if((year2check / 100) == Math.floor(year2check / 100)) {
+					return false;
+				}
+				return true;
+			}
 			return false;
-		}
-		return true;
+		},
+
+		forward_day:function(){
+			if(this.checkforleapyear(oc_cal_year) == true) {
+				var cal = oc_cal_leap_cal;
+			} else {
+				var cal = oc_cal_normal_cal;
+			}
+			if(oc_cal_dayofmonth == cal[oc_cal_month]) {
+				if(oc_cal_month == 11) {
+					oc_cal_year++;
+					oc_cal_month = 0;
+					oc_cal_dayofmonth = 1;
+					if(oc_cal_dayofweek == 6) {
+						oc_cal_dayofweek = 0;
+					} else {
+						oc_cal_dayofweek++;
+					}
+				} else {
+					oc_cal_month++;
+					oc_cal_dayofmonth = 1;
+					if(oc_cal_dayofweek == 6) {
+						oc_cal_dayofweek = 0;
+					} else {
+						oc_cal_dayofweek++;
+					}
+				}
+			} else {
+				oc_cal_dayofmonth++;
+				if(oc_cal_dayofweek == 6) {
+					oc_cal_dayofweek = 0;
+				} else {
+					oc_cal_dayofweek++;
+				}
+			}
+		},
+
+		forward_week:function(){
+			for(var i = 1; i <= 7; i++) {
+				this.forward_day();
+			}
+		},
+
+		forward_month:function(){
+			if(this.checkforleapyear(oc_cal_year) == true) {
+				var cal = oc_cal_leap_cal;
+			} else {
+				var cal = oc_cal_normal_cal;
+			}
+			for(var i = 1; i <= cal[oc_cal_month]; i++) {
+				this.forward_day();
+			}
+		},
+
+		backward_day:function(){
+			if(this.checkforleapyear(oc_cal_year) == true) {
+				var cal = oc_cal_leap_cal;
+			} else {
+				var cal = oc_cal_normal_cal;
+			}
+			if(oc_cal_dayofmonth == 1) {
+				if(oc_cal_month == 0) {
+					oc_cal_year--;
+					oc_cal_month = 11;
+					oc_cal_dayofmonth = 31
+					if(oc_cal_dayofweek == 0) {
+						oc_cal_dayofweek = 6;
+					} else {
+						oc_cal_dayofweek--;
+					}
+				} else {
+					oc_cal_month--;
+					oc_cal_dayofmonth = cal[oc_cal_month];
+					if(oc_cal_dayofweek == 0) {
+						oc_cal_dayofweek = 6;
+					} else {
+						oc_cal_dayofweek--;
+					}
+				}
+			} else {
+				oc_cal_dayofmonth--;
+				if(oc_cal_dayofweek == 0) {
+					oc_cal_dayofweek = 6;
+				} else {
+					oc_cal_dayofweek--;
+				}
+			}
+		},
+
+		backward_week:function(){
+			for(var i = 1; i <= 7; i++) {
+				this.backward_day();
+			}
+		},
+
+		backward_month:function(){
+			if(this.checkforleapyear(oc_cal_year) == true) {
+				var cal = oc_cal_leap_cal;
+			} else {
+				var cal = oc_cal_normal_cal;
+			}
+			for(var i = cal[oc_cal_month]; i >= 1; i--) {
+				this.backward_day();
+			}
+		},
+
 	}
-	return false;
 }
 
 function oc_cal_update_view(view, task) {
@@ -84,10 +193,10 @@ function oc_cal_update_view(view, task) {
 	switch(view) {
 		case "onedayview":
 			if(task == "forward") {
-				oc_cal_forward_day();
+				Calendar.Date.forward_day();
 			}
 			if(task == "backward") {
-				oc_cal_backward_day();
+				Calendar.Date.backward_day();
 			}
 			oc_cal_remove_events("oneday");
 			oc_cal_load_cal("oneday");
@@ -95,10 +204,10 @@ function oc_cal_update_view(view, task) {
 			break;
 		case "oneweekview":
 			if(task == "forward") {
-				oc_cal_forward_week();
+				Calendar.Date.forward_week();
 			}
 			if(task == "backward") {
-				oc_cal_backward_week();
+				Calendar.Date.backward_week();
 			}
 			oc_cal_remove_events("oneweek");
 			oc_cal_load_cal("oneweek");
@@ -106,10 +215,10 @@ function oc_cal_update_view(view, task) {
 			break;
 		case "fourweeksview":
 			if(task == "forward") {
-				oc_cal_forward_week();
+				Calendar.Date.forward_week();
 			}
 			if(task == "backward") {
-				oc_cal_backward_week();
+				Calendar.Date.backward_week();
 			}
 			oc_cal_remove_events("fourweeks");
 			oc_cal_load_cal("fourweeks");
@@ -117,10 +226,10 @@ function oc_cal_update_view(view, task) {
 			break;
 		case "onemonthview":
 			if(task == "forward") {
-				oc_cal_forward_month();
+				Calendar.Date.forward_month();
 			}
 			if(task == "backward") {
-				oc_cal_backward_month();
+				Calendar.Date.backward_month();
 			}
 			oc_cal_remove_events("onemonth");
 			oc_cal_load_cal("onemonth");
@@ -128,10 +237,10 @@ function oc_cal_update_view(view, task) {
 			break;
 		case "listview":
 			if(task == "forward") {
-				oc_cal_forward_day();
+				Calendar.Date.forward_day();
 			}
 			if(task == "backward") {
-				oc_cal_backward_day();
+				Calendar.Date.backward_day();
 			}
 			oc_cal_remove_events("list");
 			oc_cal_load_cal("list");
@@ -150,116 +259,12 @@ function oc_cal_update_view(view, task) {
 
 function oc_cal_listview(task) {
 	if(task == "forward") {
-		oc_cal_forward_day();
+		Calendar.Date.forward_day();
 	}
 	if(task == "backward") {
-		oc_cal_backward_day();
+		Calendar.Date.backward_day();
 	}
 	document.getElementById("datecontrol_date").value = dayshort[dayofweek] + space + dayofmonth + space + monthshort[month] + space + year;
-}
-
-function oc_cal_forward_day() {
-	if(oc_cal_checkforleapyear(oc_cal_year) == true) {
-		var cal = oc_cal_leap_cal;
-	} else {
-		var cal = oc_cal_normal_cal;
-	}
-	if(oc_cal_dayofmonth == cal[oc_cal_month]) {
-		if(oc_cal_month == 11) {
-			oc_cal_year++;
-			oc_cal_month = 0;
-			oc_cal_dayofmonth = 1;
-			if(oc_cal_dayofweek == 6) {
-				oc_cal_dayofweek = 0;
-			} else {
-				oc_cal_dayofweek++;
-			}
-		} else {
-			oc_cal_month++;
-			oc_cal_dayofmonth = 1;
-			if(oc_cal_dayofweek == 6) {
-				oc_cal_dayofweek = 0;
-			} else {
-				oc_cal_dayofweek++;
-			}
-		}
-	} else {
-		oc_cal_dayofmonth++;
-		if(oc_cal_dayofweek == 6) {
-			oc_cal_dayofweek = 0;
-		} else {
-			oc_cal_dayofweek++;
-		}
-	}
-}
-
-function oc_cal_forward_week() {
-	for(var i = 1; i <= 7; i++) {
-		oc_cal_forward_day();
-	}
-}
-
-function oc_cal_forward_month() {
-	if(oc_cal_checkforleapyear(oc_cal_year) == true) {
-		var cal = oc_cal_leap_cal;
-	} else {
-		var cal = oc_cal_normal_cal;
-	}
-	for(var i = 1; i <= cal[oc_cal_month]; i++) {
-		oc_cal_forward_day();
-	}
-}
-
-function oc_cal_backward_day() {
-	if(oc_cal_checkforleapyear(oc_cal_year) == true) {
-		var cal = oc_cal_leap_cal;
-	} else {
-		var cal = oc_cal_normal_cal;
-	}
-	if(oc_cal_dayofmonth == 1) {
-		if(oc_cal_month == 0) {
-			oc_cal_year--;
-			oc_cal_month = 11;
-			oc_cal_dayofmonth = 31
-			if(oc_cal_dayofweek == 0) {
-				oc_cal_dayofweek = 6;
-			} else {
-				oc_cal_dayofweek--;
-			}
-		} else {
-			oc_cal_month--;
-			oc_cal_dayofmonth = cal[oc_cal_month];
-			if(oc_cal_dayofweek == 0) {
-				oc_cal_dayofweek = 6;
-			} else {
-				oc_cal_dayofweek--;
-			}
-		}
-	} else {
-		oc_cal_dayofmonth--;
-		if(oc_cal_dayofweek == 0) {
-			oc_cal_dayofweek = 6;
-		} else {
-			oc_cal_dayofweek--;
-		}
-	}
-}
-
-function oc_cal_backward_week() {
-	for(var i = 1; i <= 7; i++) {
-		oc_cal_backward_day();
-	}
-}
-
-function oc_cal_backward_month() {
-	if(oc_cal_checkforleapyear(oc_cal_year) == true) {
-		var cal = oc_cal_leap_cal;
-	} else {
-		var cal = oc_cal_normal_cal;
-	}
-	for(var i = cal[oc_cal_month]; i >= 1; i--) {
-		oc_cal_backward_day();
-	}
 }
 
 function oc_cal_generate_dates(view) {
@@ -274,7 +279,7 @@ function oc_cal_generate_dates(view) {
 			generate_dayofweek = 7;
 		}
 		for(var i = generate_dayofweek; i > 1; i--) {
-			if(oc_cal_checkforleapyear(generate_year) == true) {
+			if(Calendar.Date.checkforleapyear(generate_year) == true) {
 				var cal = oc_cal_leap_cal;
 			} else {
 				var cal = oc_cal_normal_cal;
@@ -295,7 +300,7 @@ function oc_cal_generate_dates(view) {
 		}
 		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
 		for(var i = 1; i <= 6; i++) {
-			if(oc_cal_checkforleapyear(generate_year) == true) {
+			if(Calendar.Date.checkforleapyear(generate_year) == true) {
 				var cal = oc_cal_leap_cal;
 			} else {
 				var cal = oc_cal_normal_cal;
@@ -327,7 +332,7 @@ function oc_cal_generate_dates(view) {
 			generate_dayofweek = 7;
 		}
 		for(var i = generate_dayofweek; i > 1; i--) {
-			if(oc_cal_checkforleapyear(generate_year) == true) {
+			if(Calendar.Date.checkforleapyear(generate_year) == true) {
 				var cal = oc_cal_leap_cal;
 			} else {
 				var cal = oc_cal_normal_cal;
@@ -348,7 +353,7 @@ function oc_cal_generate_dates(view) {
 		}
 		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
 		for(var i = 1; i <= 27; i++) {
-			if(oc_cal_checkforleapyear(generate_year) == true) {
+			if(Calendar.Date.checkforleapyear(generate_year) == true) {
 				var cal = oc_cal_leap_cal;
 			} else {
 				var cal = oc_cal_normal_cal;
@@ -377,7 +382,7 @@ function oc_cal_generate_dates(view) {
 		var generate_year = oc_cal_year;
 		var dates = new Array();
 		for(var i = generate_dayofmonth; i > 1; i--) {
-			if(oc_cal_checkforleapyear(generate_year) == true) {
+			if(Calendar.Date.checkforleapyear(generate_year) == true) {
 				var cal = oc_cal_leap_cal;
 			} else {
 				var cal = oc_cal_normal_cal;
@@ -405,7 +410,7 @@ function oc_cal_generate_dates(view) {
 			oc_cal_rows++;
 		}
 		for(var i = generate_dayofweek; i > 1; i--) {
-			if(oc_cal_checkforleapyear(generate_year) == true) {
+			if(Calendar.Date.checkforleapyear(generate_year) == true) {
 				var cal = oc_cal_leap_cal;
 			} else {
 				var cal = oc_cal_normal_cal;
@@ -426,7 +431,7 @@ function oc_cal_generate_dates(view) {
 		}
 		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
 		for(var i = 1; i <= 41; i++) {
-			if(oc_cal_checkforleapyear(generate_year) == true) {
+			if(Calendar.Date.checkforleapyear(generate_year) == true) {
 				var cal = oc_cal_leap_cal;
 			} else {
 				var cal = oc_cal_normal_cal;
@@ -495,7 +500,7 @@ function oc_cal_load_cal(loadview) {
 		document.getElementById('onedayview_today').title = generate_title;
 	}
 	if(loadview == "oneweek") {
-		document.getElementById("datecontrol_date").value = cw_label + ": " + oc_cal_calw();
+		document.getElementById("datecontrol_date").value = cw_label + ": " + Calendar.Date.calw();
 		var dates = oc_cal_generate_dates("oneweek");
 		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
 		var weekday = 1;
@@ -520,18 +525,18 @@ function oc_cal_load_cal(loadview) {
 		}
 	}
 	if(loadview == "fourweeks") {
-		var calw1 = oc_cal_calw();
+		var calw1 = Calendar.Date.calw();
 		if(calw1 == 52) {
 			var calw2 = 1;
 		} else {
-			var calw2 = oc_cal_calw() + 1;
+			var calw2 = Calendar.Date.calw() + 1;
 		}
 		if(calw1 == 51) {
 			var calw3 = 1;
 		} else if(calw1 == 52) {
 			var calw3 = 2;
 		} else {
-			var calw3 = oc_cal_calw() + 2;
+			var calw3 = Calendar.Date.calw() + 2;
 		}
 		if(calw1 == 50) {
 			var calw4 = 1;
@@ -540,7 +545,7 @@ function oc_cal_load_cal(loadview) {
 		} else if(calw1 == 52) {
 			var calw4 = 3;
 		} else {
-			var calw4 = oc_cal_calw() + 3;
+			var calw4 = Calendar.Date.calw() + 3;
 		}
 		var calwplusfour = calw4;
 		var dates = oc_cal_generate_dates("fourweeks");
@@ -577,11 +582,11 @@ function oc_cal_load_cal(loadview) {
 		document.getElementById("fourweeksview_calw2").innerHTML = calw2;
 		document.getElementById("fourweeksview_calw3").innerHTML = calw3;
 		document.getElementById("fourweeksview_calw4").innerHTML = calw4;
-		document.getElementById("datecontrol_date").value = cws_label + ": " + oc_cal_calw() + " - " + calwplusfour;
+		document.getElementById("datecontrol_date").value = cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour;
 	}
 	if(loadview == "onemonth") {
 		document.getElementById("datecontrol_date").value = oc_cal_monthlong[oc_cal_month] + oc_cal_space + oc_cal_year;
-		if(oc_cal_checkforleapyear(oc_cal_year) == true) {
+		if(Calendar.Date.checkforleapyear(oc_cal_year) == true) {
 			var cal = oc_cal_leap_cal;
 		} else {
 			var cal = oc_cal_normal_cal;
