@@ -255,7 +255,7 @@ function oc_cal_listview(task) {
 	if(task == "backward") {
 		Calendar.Date.backward_day();
 	}
-	document.getElementById("datecontrol_date").value = dayshort[dayofweek] + space + dayofmonth + space + monthshort[month] + space + year;
+	$("#datecontrol_date").val(dayshort[dayofweek] + space + dayofmonth + space + monthshort[month] + space + year);
 }
 
 function oc_cal_generate_dates(view) {
@@ -447,8 +447,8 @@ function oc_cal_update_eventsvar(loadyear) {
 
 function oc_cal_load_cal(loadview) {
 	if(loadview == "oneday") {
-		document.getElementById("datecontrol_date").value = oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year;
-		document.getElementById("onedayview_today").innerHTML = oc_cal_daylong[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month];
+		$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
+		$("#onedayview_today").html(oc_cal_daylong[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month]);
 		var generate_dayofmonth = oc_cal_dayofmonth;
 		var generate_month = oc_cal_month;
 		var generate_year = oc_cal_year;
@@ -460,17 +460,17 @@ function oc_cal_load_cal(loadview) {
 			generate_month = "0" + generate_month;
 		}
 		var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
-		document.getElementById('onedayview_today').title = generate_title;
+		$('#onedayview_today').attr('title', generate_title);
 	}
 	if(loadview == "oneweek") {
-		document.getElementById("datecontrol_date").value = cw_label + ": " + Calendar.Date.calw();
+		$("#datecontrol_date").val(cw_label + ": " + Calendar.Date.calw());
 		var dates = oc_cal_generate_dates("oneweek");
 		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
 		var weekday = 1;
 		for(var i = 0; i <= 6; i++){
 			var generate_dayofmonth = String(dates[i][0]);
 			var generate_month = String(dates[i][1]);
-			document.getElementById("oneweekview_" + weekdays[i]).innerHTML = oc_cal_dayshort[weekday] + oc_cal_space + dates[i][0] + oc_cal_space + oc_cal_monthshort[dates[i][1]];
+			$("#oneweekview_" + weekdays[i]).html(oc_cal_dayshort[weekday] + oc_cal_space + dates[i][0] + oc_cal_space + oc_cal_monthshort[dates[i][1]]);
 			if(parseInt(generate_dayofmonth) <= 9){
 				generate_dayofmonth = "0" + generate_dayofmonth;
 			}
@@ -479,7 +479,7 @@ function oc_cal_load_cal(loadview) {
 				generate_month = "0" + generate_month;
 			}
 			var generate_title = String(generate_dayofmonth) + String(generate_month) + String(dates[i][2]);
-			document.getElementById("oneweekview_" + weekdays[i]).title = generate_title;
+			$("#oneweekview_" + weekdays[i]).attr('title', generate_title);
 			if(weekday == 6){
 				weekday = 0;
 			}else{
@@ -519,21 +519,21 @@ function oc_cal_load_cal(loadview) {
 			var generate_dayofmonth = String(dates[i][0]);
 			var generate_month = String(dates[i][1]);
 			var generate_year = dates[i][2];
-			document.getElementById("dateinfo_fourweeksview_" + weekdays[weekday] + "_" + weeknum).innerHTML = generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]; 
+			$("#dateinfo_fourweeksview_" + weekdays[weekday] + "_" + weeknum).html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
 			if(parseInt(generate_dayofmonth) <= 9){
 				generate_dayofmonth = "0" + generate_dayofmonth;
 			}
 			if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
-				document.getElementById("fourweeksview_" + weekdays[weekday] + "_" + weeknum).className = "thisday";
+				$("#fourweeksview_" + weekdays[weekday] + "_" + weeknum).attr('class', "thisday");
 			}else{
-				document.getElementById("fourweeksview_" + weekdays[weekday] + "_" + weeknum).className = "fourweeksview_item";
+				$("#fourweeksview_" + weekdays[weekday] + "_" + weeknum).attr('class', "fourweeksview_item");
 			}
 			generate_month++;
 			if(parseInt(generate_month) <= 9){
 				generate_month = "0" + generate_month;
 			}
 			var generate_title = String(generate_dayofmonth) + String(generate_month) + String(dates[i][2]);
-			document.getElementById("fourweeksview_" + weekdays[weekday] + "_" + weeknum).title = generate_title;
+			$("#fourweeksview_" + weekdays[weekday] + "_" + weeknum).attr('title', generate_title);
 			if(weekday == 6){
 				weekday = 0;
 				weeknum++;
@@ -541,14 +541,14 @@ function oc_cal_load_cal(loadview) {
 				weekday++;
 			}
 		}
-		document.getElementById("fourweeksview_calw1").innerHTML = calw1;
-		document.getElementById("fourweeksview_calw2").innerHTML = calw2;
-		document.getElementById("fourweeksview_calw3").innerHTML = calw3;
-		document.getElementById("fourweeksview_calw4").innerHTML = calw4;
-		document.getElementById("datecontrol_date").value = cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour;
+		$("#fourweeksview_calw1").html(calw1);
+		$("#fourweeksview_calw2").html(calw2);
+		$("#fourweeksview_calw3").html(calw3);
+		$("#fourweeksview_calw4").html(calw4);
+		$("#datecontrol_date").val(cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour);
 	}
 	if(loadview == "onemonth") {
-		document.getElementById("datecontrol_date").value = oc_cal_monthlong[oc_cal_month] + oc_cal_space + oc_cal_year;
+		$("#datecontrol_date").val(oc_cal_monthlong[oc_cal_month] + oc_cal_space + oc_cal_year);
 		var cal = Calendar.Date.getnumberofdays(oc_cal_year);
 		var monthview_dayofweek = oc_cal_dayofweek;
 		var monthview_dayofmonth = oc_cal_dayofmonth;
@@ -559,8 +559,8 @@ function oc_cal_load_cal(loadview) {
 				monthview_dayofweek--;
 			}
 		}
-		document.getElementById("onemonthview_week_5").style.display = "none";
-		document.getElementById("onemonthview_week_6").style.display = "none";
+		$("#onemonthview_week_5").css('display', "none");
+		$("#onemonthview_week_6").css('display', "none");
 		oc_cal_rows = parseInt(monthview_dayofweek) + parseInt(cal[oc_cal_month]);
 		oc_cal_rows = oc_cal_rows / 7;
 		oc_cal_rows = Math.ceil(oc_cal_rows);
@@ -572,21 +572,21 @@ function oc_cal_load_cal(loadview) {
 			var generate_dayofmonth = dates[i][0];
 			var generate_month = dates[i][1];
 			var generate_year = dates[i][2];
-			document.getElementById("dateinfo_onemonthview_" + weekdays[weekday] + "_" + weeknum).innerHTML = generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month];
+			$("#dateinfo_onemonthview_" + weekdays[weekday] + "_" + weeknum).html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
 			if(parseInt(generate_dayofmonth) <= 9){
 				generate_dayofmonth = "0" + generate_dayofmonth;
 			}
 			if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
-				document.getElementById("onemonthview_" + weekdays[weekday] + "_" + weeknum).className = "thisday";
+				$("#onemonthview_" + weekdays[weekday] + "_" + weeknum).attr('class', "thisday");
 			}else{
-				document.getElementById("onemonthview_" + weekdays[weekday] + "_" + weeknum).className = "onemonthview_item";
+				$("#onemonthview_" + weekdays[weekday] + "_" + weeknum).attr('class', "onemonthview_item");
 			}
 			generate_month++;
 			if(parseInt(generate_month) <= 9){
 				generate_month = "0" + generate_month;
 			}
 			var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
-			document.getElementById("onemonthview_" + weekdays[weekday] + "_" + weeknum).title = generate_title;
+			$("#onemonthview_" + weekdays[weekday] + "_" + weeknum).attr('title', generate_title);
 			if(weekday == 6){
 				weekday = 0;
 				weeknum++;
@@ -595,15 +595,15 @@ function oc_cal_load_cal(loadview) {
 			}
 		}
 		if(oc_cal_rows == 5) {
-			document.getElementById("onemonthview_week_5").style.display = "table-row";
+			$("#onemonthview_week_5").css('display', "table-row");
 		}
 		if(oc_cal_rows == 6) {
-			document.getElementById("onemonthview_week_5").style.display = "table-row";
-			document.getElementById("onemonthview_week_6").style.display = "table-row";
+			$("#onemonthview_week_5").css('display', "table-row");
+			$("#onemonthview_week_6").css('display', "table-row");
 		}
 	}
 	if(loadview == "list") {
-		document.getElementById("datecontrol_date").value = oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year;
+		$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
 	}
 }
 
@@ -612,12 +612,12 @@ function oc_cal_load_events(loadview) {
 		if( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]) != "undefined") {
 			if( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]["allday"]) != "undefined") {
 				var eventnumber = 1;
-				var eventcontainer = document.getElementById("onedayview_wholeday");
+				var eventcontainer = $("#onedayview_wholeday");
 				while( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]["allday"][eventnumber]) != "undefined") {
 					var newp = document.createElement("p");
 					newp.id = "onedayview_allday_" + eventnumber;
 					newp.className = "onedayview_event";
-					eventcontainer.appendChild(newp);
+					eventcontainer.append(newp);
 					newp.innerHTML = oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]["allday"][eventnumber]["description"];
 					eventnumber++;
 				}
@@ -625,12 +625,12 @@ function oc_cal_load_events(loadview) {
 			for( i = 0; i <= 23; i++) {
 				if( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i]) != "undefined") {
 					var eventnumber = 1;
-					var eventcontainer = document.getElementById("onedayview_" + i);
+					var eventcontainer = $("#onedayview_" + i);
 					while( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i][eventnumber]) != "undefined") {
 						var newp = document.createElement("p");
 						newp.id = "onedayview_" + i + "_" + eventnumber;
 						newp.className = "onedayview_event";
-						eventcontainer.appendChild(newp);
+						eventcontainer.append(newp);
 						newp.innerHTML = oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i][eventnumber]["description"];
 						eventnumber++;
 					}
@@ -648,12 +648,12 @@ function oc_cal_load_events(loadview) {
 				if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]) != "undefined") {
 					if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"]) != "undefined") {
 						var eventnumber = 1;
-						var eventcontainer = document.getElementById("oneweekview_" + weekdays[i] + "_allday");
+						var eventcontainer = $("#oneweekview_" + weekdays[i] + "_allday");
 						while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]) != "undefined") {
 							var newp = document.createElement("p");
 							newp.id = "oneweekview_" + weekdays[i] + "_allday_" + eventnumber;
 							newp.className = "oneweekview_event";
-							eventcontainer.appendChild(newp);
+							eventcontainer.append(newp);
 							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
 							eventnumber++;
 						}
@@ -661,12 +661,12 @@ function oc_cal_load_events(loadview) {
 					for(var time = 0; time <= 23; time++) {
 						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
 							var eventnumber = 1;
-							var eventcontainer = document.getElementById("oneweekview_" + weekdays[i] + "_" + time);
+							var eventcontainer = $("#oneweekview_" + weekdays[i] + "_" + time);
 							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
 								var newp = document.createElement("p");
 								newp.id = "oneweekview_" + weekdays[i] + "_" + time + "_" + eventnumber;
 								newp.className = "oneweekview_event";
-								eventcontainer.appendChild(newp);
+								eventcontainer.append(newp);
 								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
 								eventnumber++;
 							}
@@ -689,12 +689,12 @@ function oc_cal_load_events(loadview) {
 					var pnum = 0;
 					if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"]) != "undefined") {
 						var eventnumber = 1;
-						var eventcontainer = document.getElementById("events_fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum);
+						var eventcontainer = $("#events_fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum);
 						while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]) != "undefined") {
 							var newp = document.createElement("p");
 							newp.id = "fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum + "_" + pnum;
 							newp.className = "fourweeksview_event";
-							eventcontainer.appendChild(newp);
+							eventcontainer.append(newp);
 							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
 							eventnumber++;
 							pnum++;
@@ -703,12 +703,12 @@ function oc_cal_load_events(loadview) {
 					for(var time = 0; time <= 23; time++) {
 						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
 							var eventnumber = 1;
-							var eventcontainer = document.getElementById("events_fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum);
+							var eventcontainer = $("#events_fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum);
 							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
 								var newp = document.createElement("p");
 								newp.id = "fourweeksview_" + weekdays[i] + "_" + i + "_" + eventnumber;
 								newp.className = "fourweeksview_event";
-								eventcontainer.appendChild(newp);
+								eventcontainer.append(newp);
 								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
 								eventnumber++;
 								pnum++;
@@ -738,12 +738,12 @@ function oc_cal_load_events(loadview) {
 					var pnum = 0;
 					if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"]) != "undefined") {
 						var eventnumber = 1;
-						var eventcontainer = document.getElementById("events_onemonthview_" + weekdays[weekdaynum] + "_" + weeknum);
+						var eventcontainer = $("#events_onemonthview_" + weekdays[weekdaynum] + "_" + weeknum);
 						while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]) != "undefined") {
 							var newp = document.createElement("p");
 							newp.id = "onemonthview_" + weekdays[weekdaynum] + "_" + weeknum + "_" + pnum;
 							newp.className = "onemonthview_event";
-							eventcontainer.appendChild(newp);
+							eventcontainer.append(newp);
 							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
 							eventnumber++;
 							pnum++;
@@ -752,12 +752,12 @@ function oc_cal_load_events(loadview) {
 					for(var time = 0; time <= 23; time++) {
 						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
 							var eventnumber = 1;
-							var eventcontainer = document.getElementById("events_onemonthview_" + weekdays[weekdaynum] + "_" + weeknum);
+							var eventcontainer = $("#events_onemonthview_" + weekdays[weekdaynum] + "_" + weeknum);
 							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
 								var newp = document.createElement("p");
 								newp.id = "onemonthview_" + weekdays[i] + "_" + time + "_" + eventnumber;
 								newp.className = "onemonthview_event";
-								eventcontainer.appendChild(newp);
+								eventcontainer.append(newp);
 								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
 								eventnumber++;
 								pnum++;
@@ -781,57 +781,57 @@ function oc_cal_load_events(loadview) {
 
 function oc_cal_remove_events(removeview) {
 	if(removeview == "oneday") {
-		document.getElementById("onedayview_wholeday").innerHTML = "";
+		$("#onedayview_wholeday").html("");
 		for(var i = 0; i <= 23; i++) {
-			document.getElementById("onedayview_" + i).innerHTML = "";
+			$("#onedayview_" + i).html("");
 		}
 	}
 	if(removeview == "oneweek") {
 		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
 		for( i = 0; i <= 6; i++) {
-			document.getElementById("oneweekview_" + weekdays[i] + "_allday").innerHTML = "";
+			$("#oneweekview_" + weekdays[i] + "_allday").html("");
 			for(var time = 0; time <= 23; time++) {
-				document.getElementById("oneweekview_" + weekdays[i] + "_" + time).innerHTML = "";
+				$("#oneweekview_" + weekdays[i] + "_" + time).html("");
 			}
 		}
 	}
 	if(removeview == "fourweeks") {
-		document.getElementById("events_fourweeksview_monday_1").innerHTML = "";
-		document.getElementById("events_fourweeksview_tuesday_1").innerHTML = "";
-		document.getElementById("events_fourweeksview_wednesday_1").innerHTML = "";
-		document.getElementById("events_fourweeksview_thursday_1").innerHTML = "";
-		document.getElementById("events_fourweeksview_friday_1").innerHTML = "";
-		document.getElementById("events_fourweeksview_saturday_1").innerHTML = "";
-		document.getElementById("events_fourweeksview_sunday_1").innerHTML = "";
-		document.getElementById("events_fourweeksview_monday_2").innerHTML = "";
-		document.getElementById("events_fourweeksview_tuesday_2").innerHTML = "";
-		document.getElementById("events_fourweeksview_wednesday_2").innerHTML = "";
-		document.getElementById("events_fourweeksview_thursday_2").innerHTML = "";
-		document.getElementById("events_fourweeksview_friday_2").innerHTML = "";
-		document.getElementById("events_fourweeksview_saturday_2").innerHTML = "";
-		document.getElementById("events_fourweeksview_sunday_2").innerHTML = "";
-		document.getElementById("events_fourweeksview_monday_3").innerHTML = "";
-		document.getElementById("events_fourweeksview_tuesday_3").innerHTML = "";
-		document.getElementById("events_fourweeksview_wednesday_3").innerHTML = "";
-		document.getElementById("events_fourweeksview_thursday_3").innerHTML = "";
-		document.getElementById("events_fourweeksview_friday_3").innerHTML = "";
-		document.getElementById("events_fourweeksview_saturday_3").innerHTML = "";
-		document.getElementById("events_fourweeksview_sunday_3").innerHTML = "";
-		document.getElementById("events_fourweeksview_monday_4").innerHTML = "";
-		document.getElementById("events_fourweeksview_tuesday_4").innerHTML = "";
-		document.getElementById("events_fourweeksview_wednesday_4").innerHTML = "";
-		document.getElementById("events_fourweeksview_thursday_4").innerHTML = "";
-		document.getElementById("events_fourweeksview_friday_4").innerHTML = "";
-		document.getElementById("events_fourweeksview_saturday_4").innerHTML = "";
-		document.getElementById("events_fourweeksview_sunday_4").innerHTML = "";
+		$("#events_fourweeksview_monday_1").html("");
+		$("#events_fourweeksview_tuesday_1").html("");
+		$("#events_fourweeksview_wednesday_1").html("");
+		$("#events_fourweeksview_thursday_1").html("");
+		$("#events_fourweeksview_friday_1").html("");
+		$("#events_fourweeksview_saturday_1").html("");
+		$("#events_fourweeksview_sunday_1").html("");
+		$("#events_fourweeksview_monday_2").html("");
+		$("#events_fourweeksview_tuesday_2").html("");
+		$("#events_fourweeksview_wednesday_2").html("");
+		$("#events_fourweeksview_thursday_2").html("");
+		$("#events_fourweeksview_friday_2").html("");
+		$("#events_fourweeksview_saturday_2").html("");
+		$("#events_fourweeksview_sunday_2").html("");
+		$("#events_fourweeksview_monday_3").html("");
+		$("#events_fourweeksview_tuesday_3").html("");
+		$("#events_fourweeksview_wednesday_3").html("");
+		$("#events_fourweeksview_thursday_3").html("");
+		$("#events_fourweeksview_friday_3").html("");
+		$("#events_fourweeksview_saturday_3").html("");
+		$("#events_fourweeksview_sunday_3").html("");
+		$("#events_fourweeksview_monday_4").html("");
+		$("#events_fourweeksview_tuesday_4").html("");
+		$("#events_fourweeksview_wednesday_4").html("");
+		$("#events_fourweeksview_thursday_4").html("");
+		$("#events_fourweeksview_friday_4").html("");
+		$("#events_fourweeksview_saturday_4").html("");
+		$("#events_fourweeksview_sunday_4").html("");
 	}
 	if(removeview == "onemonth") {
 		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
 		var weeknum = 1;
 		var weekday = 0;
 		for(var i = 0; i <= 41; i++){//events_onemonthview_saturday_6
-			document.getElementById("events_onemonthview_" + weekdays[weekday] + "_" + weeknum).innerHTML = "";
-			document.getElementById("onemonthview_" + weekdays[weekday] + "_" + weeknum).className = "onemonthview_item";
+			$("#events_onemonthview_" + weekdays[weekday] + "_" + weeknum).html("");
+			$("#onemonthview_" + weekdays[weekday] + "_" + weeknum).attr('class', "onemonthview_item");
 			if(weekday == 6){
 				weekday = 0;
 				weeknum++;
@@ -841,7 +841,7 @@ function oc_cal_remove_events(removeview) {
 		}
 	}
 	if(removeview == "list") {
-		document.getElementById("listview").innerHTML = "";
+		$("#listview").html("");
 	}
 }
 function oc_cal_newevent(date, time){
