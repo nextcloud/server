@@ -194,6 +194,9 @@
 				}else{
 					window.location.reload();
 				}
+				if(data.success == true){
+					location.reload();
+				}
 			},"json");
 	}
 </script>
