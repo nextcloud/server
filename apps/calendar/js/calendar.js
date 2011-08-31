@@ -41,6 +41,8 @@
  *************************************************/
 Calendar={
 	Date:{
+		normal_year_cal: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+		leap_year_cal: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 		calw:function() {
 			var generate_dayofweek = oc_cal_dayofweek;
 			if(generate_dayofweek == 0) {
@@ -51,17 +53,22 @@ Calendar={
 		},
 
 		doy:function() {
-			if(this.checkforleapyear(oc_cal_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = this.getnumberofdays(oc_cal_year);
 			var doy = 0;
 			for(var i = 0; i < oc_cal_month; i++) {
 				doy = doy + parseInt(cal[i]);
 			}
 			doy = doy + parseInt(oc_cal_dayofmonth);
 			return doy;
+		},
+
+		getnumberofdays:function(year) {
+			if(this.checkforleapyear(year) == true) {
+				var cal = this.leap_year_cal;
+			} else {
+				var cal = this.normal_year_cal;
+			}
+			return cal;
 		},
 
 		checkforleapyear:function(year2check) {
@@ -78,11 +85,7 @@ Calendar={
 		},
 
 		forward_day:function(){
-			if(this.checkforleapyear(oc_cal_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = this.getnumberofdays(oc_cal_year);
 			if(oc_cal_dayofmonth == cal[oc_cal_month]) {
 				if(oc_cal_month == 11) {
 					oc_cal_year++;
@@ -119,22 +122,14 @@ Calendar={
 		},
 
 		forward_month:function(){
-			if(this.checkforleapyear(oc_cal_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = this.getnumberofdays(oc_cal_year);
 			for(var i = 1; i <= cal[oc_cal_month]; i++) {
 				this.forward_day();
 			}
 		},
 
 		backward_day:function(){
-			if(this.checkforleapyear(oc_cal_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = this.getnumberofdays(oc_cal_year);
 			if(oc_cal_dayofmonth == 1) {
 				if(oc_cal_month == 0) {
 					oc_cal_year--;
@@ -171,11 +166,7 @@ Calendar={
 		},
 
 		backward_month:function(){
-			if(this.checkforleapyear(oc_cal_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = this.getnumberofdays(oc_cal_year);
 			for(var i = cal[oc_cal_month]; i >= 1; i--) {
 				this.backward_day();
 			}
@@ -279,11 +270,7 @@ function oc_cal_generate_dates(view) {
 			generate_dayofweek = 7;
 		}
 		for(var i = generate_dayofweek; i > 1; i--) {
-			if(Calendar.Date.checkforleapyear(generate_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = Calendar.Date.getnumberofdays(generate_year);
 			if(generate_dayofmonth == 1) {
 				if(generate_month == 0) {
 					generate_year--;
@@ -300,11 +287,7 @@ function oc_cal_generate_dates(view) {
 		}
 		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
 		for(var i = 1; i <= 6; i++) {
-			if(Calendar.Date.checkforleapyear(generate_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = Calendar.Date.getnumberofdays(generate_year);
 			if(generate_dayofmonth == cal[generate_month]) {
 				if(generate_month == 11) {
 					generate_year++;
@@ -332,11 +315,7 @@ function oc_cal_generate_dates(view) {
 			generate_dayofweek = 7;
 		}
 		for(var i = generate_dayofweek; i > 1; i--) {
-			if(Calendar.Date.checkforleapyear(generate_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = Calendar.Date.getnumberofdays(generate_year);
 			if(generate_dayofmonth == 1) {
 				if(generate_month == 0) {
 					generate_year--;
@@ -353,11 +332,7 @@ function oc_cal_generate_dates(view) {
 		}
 		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
 		for(var i = 1; i <= 27; i++) {
-			if(Calendar.Date.checkforleapyear(generate_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = Calendar.Date.getnumberofdays(generate_year);
 			if(generate_dayofmonth == cal[generate_month]) {
 				if(generate_month == 11) {
 					generate_year++;
@@ -382,11 +357,7 @@ function oc_cal_generate_dates(view) {
 		var generate_year = oc_cal_year;
 		var dates = new Array();
 		for(var i = generate_dayofmonth; i > 1; i--) {
-			if(Calendar.Date.checkforleapyear(generate_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = Calendar.Date.getnumberofdays(generate_year);
 			if(generate_dayofmonth == 1) {
 				if(generate_month == 0) {
 					generate_year--;
@@ -410,11 +381,7 @@ function oc_cal_generate_dates(view) {
 			oc_cal_rows++;
 		}
 		for(var i = generate_dayofweek; i > 1; i--) {
-			if(Calendar.Date.checkforleapyear(generate_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = Calendar.Date.getnumberofdays(generate_year);
 			if(generate_dayofmonth == 1) {
 				if(generate_month == 0) {
 					generate_year--;
@@ -431,11 +398,7 @@ function oc_cal_generate_dates(view) {
 		}
 		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
 		for(var i = 1; i <= 41; i++) {
-			if(Calendar.Date.checkforleapyear(generate_year) == true) {
-				var cal = oc_cal_leap_cal;
-			} else {
-				var cal = oc_cal_normal_cal;
-			}
+			var cal = Calendar.Date.getnumberofdays(generate_year);
 			if(generate_dayofmonth == cal[generate_month]) {
 				if(generate_month == 11) {
 					generate_year++;
@@ -586,11 +549,7 @@ function oc_cal_load_cal(loadview) {
 	}
 	if(loadview == "onemonth") {
 		document.getElementById("datecontrol_date").value = oc_cal_monthlong[oc_cal_month] + oc_cal_space + oc_cal_year;
-		if(Calendar.Date.checkforleapyear(oc_cal_year) == true) {
-			var cal = oc_cal_leap_cal;
-		} else {
-			var cal = oc_cal_normal_cal;
-		}
+		var cal = Calendar.Date.getnumberofdays(oc_cal_year);
 		var monthview_dayofweek = oc_cal_dayofweek;
 		var monthview_dayofmonth = oc_cal_dayofmonth;
 		for(var i = monthview_dayofmonth; i > 1; i--) {

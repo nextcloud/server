@@ -36,8 +36,6 @@ var oc_cal_month = oc_cal_date.getMonth();
 var oc_cal_dayofmonth = oc_cal_date.getDate();
 var oc_cal_year = oc_cal_date.getFullYear();
 var oc_cal_space = " ";
-var oc_cal_normal_cal = new Array("31","28", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31");
-var oc_cal_leap_cal = new Array("31","29", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31");
 //init today date vars
 var oc_cal_today = new Date();
 var oc_cal_todaydayofweek = oc_cal_today.getDay();
