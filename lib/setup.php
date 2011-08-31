@@ -287,6 +287,7 @@ class OC_Setup {
 		$content = "deny from all\n";
 		$content.= "IndexIgnore *";
 		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/.htaccess', $content);
+		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/index.html', '');
 	}
 }
 
