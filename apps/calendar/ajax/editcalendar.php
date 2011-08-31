@@ -17,11 +17,13 @@
  * 59 Temple Place, Suite 330, Boston,            *
  * MA 02111-1307  USA                             *
  *************************************************/
-require_once ("../../../lib/base.php");
+require_once('../../../lib/base.php');
+$l10n = new OC_L10N('calendar');
 if(!OC_USER::isLoggedIn()) {
 	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
-$calendarid = $_POST['calendarid'];
-OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
-$cal = OC_Calendar_Calendar::findCalendar($calendarid);
-echo $cal['active'];
+$calendar = OC_Calendar_Calendar::findCalendar($_GET['calendarid']);
+$tmpl = new OC_Template("calendar", "part.editcalendar");
+$tmpl->assign('calendar',$calendar);
+$tmpl->printPage();
+?>

@@ -4,16 +4,13 @@
 $option_calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
 for($i = 0; $i < count($option_calendars); $i++){
 	echo "<tr>";
-	echo "<td width=\"20px\"><input id=\"active_" . $option_calendars[$i]["id"] . "\" type=\"checkbox\" onClick=\"oc_cal_calender_activation(this, " . $option_calendars[$i]["id"] . ")\"></td>";
-	echo "<td><label for=\"active_" . $option_calendars[$i]["id"] . "\">" . $option_calendars[$i]["displayname"] . "</label></td>";
-	echo "<td width=\"20px\"><a style=\"display: block; opacity: 0.214133;\" href=\"#\" title=\"" . $l->t("Download") . "\" class=\"action\"><img src=\"/owncloud/core/img/actions/download.svg\"></a></td><td width=\"20px\"><a style=\"display: block; opacity: 0.214133;\" href=\"#\" title=\"" . $l->t("Rename") . "\" class=\"action\"><img src=\"/owncloud/core/img/actions/rename.svg\"></a></td>";
+	$tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
+	$tmpl->assign('calendar', $option_calendars[$i]);
+	$tmpl->printpage();
 	echo "</tr>";
 }
 ?>
 </table>
-<br /><br /><br />
-<input style="float: left;" type="button" onclick="oc_cal_choosecalendar_submit();" value="<?php echo $l->t("Submit"); ?>">
-</div>
 <script type="text/javascript">
 	$( "#choosecalendar_dialog" ).dialog({
 		width : 500,

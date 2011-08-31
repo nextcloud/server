@@ -1,7 +1,7 @@
 /*************************************************
  * ownCloud - Calendar Plugin                     *
  *                                                *
- * (c) Copyright 2011 Georg Ehrke, Bart Visscher  *
+ * (c) Copyright 2011 Georg Ehrke                 *
  * author: Georg Ehrke                            *
  * email: ownclouddev at georgswebsite dot de     *
  * homepage: ownclouddev.georgswebsite.de         *
@@ -462,17 +462,17 @@ function oc_cal_switch2today() {
 
 function oc_cal_update_eventsvar(loadyear) {
 	$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + loadyear, function(newevents, status) {
-        if(status == "nosession") {
+	if(status == "nosession") {
 		alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
-		document.location.href = oc_webroot;
+		document.location(oc_webroot);
 	}
 	if(status == "parsingfail" || typeof (newevents) == "undefined") {
 		$(function() {
 			$( "#parsingfail_dialog" ).dialog();
 		});
 	} else {
-		oc_cal_events[loadyear]= newevents[loadyear];
-		oc_cal_update_view('');
+		oc_cal_events[loadyear] = newevents[loadyear];
+		oc_cal_update_view('', '');
 	}
 	});
 }
@@ -678,8 +678,8 @@ function oc_cal_load_events(loadview) {
 		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
 		var dates = oc_cal_generate_dates("oneweek");
 		for(var i = 0; i <= 6; i++) {
-			var loadevents_month = dates[i][0];
-			var loadevents_days = dates[i][1];
+			var loadevents_month = dates[i][1];
+			var loadevents_days = dates[i][0];
 			if( typeof (oc_cal_events[oc_cal_year][loadevents_month]) != "undefined") {
 				if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]) != "undefined") {
 					if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"]) != "undefined") {
@@ -718,8 +718,8 @@ function oc_cal_load_events(loadview) {
 		var weekdaynum = 0;
 		var weeknum = 1;
 		for(var i = 0; i <= 27; i++) {
-			var loadevents_month = dates[i][0];
-			var loadevents_days = dates[i][1];
+			var loadevents_month = dates[i][1];
+			var loadevents_days = dates[i][0];
 			if( typeof (oc_cal_events[oc_cal_year][loadevents_month]) != "undefined") {
 				if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]) != "undefined") {
 					var pnum = 0;
@@ -767,8 +767,8 @@ function oc_cal_load_events(loadview) {
 		var weekdaynum = 0;
 		var weeknum = 1;
 		for(var i = 0; i <= 41; i++) {
-			var loadevents_month = dates[i][0];
-			var loadevents_days = dates[i][1];
+			var loadevents_month = dates[i][1];
+			var loadevents_days = dates[i][0];
 			if( typeof (oc_cal_events[oc_cal_year][loadevents_month]) != "undefined") {
 				if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]) != "undefined") {
 					var pnum = 0;
@@ -896,10 +896,27 @@ function oc_cal_choosecalendar(){
 		alert(t("calendar", "You can't open more than one dialog per site!"));
 	}
 }
-
-function oc_cal_calender_activation(checkbox, calendarid){
+function oc_cal_calender_activation(checkbox, calendarid)
+{
 	$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
-		function(data) {
-			checkbox.checked = data == 1;
-			});
+	  function(data) {
+		checkbox.checked = data == 1;
+	  });
+}
+function oc_cal_editcalendar(object, calendarid){
+	$(object).closest('tr').load(oc_webroot + "/apps/calendar/ajax/editcalendar.php?calendarid="+calendarid);
+}
+function oc_cal_editcalendar_submit(button, calendarid){
+	var displayname = $("#displayname_"+calendarid).val();
+	var active = $("#active_"+calendarid+":checked").length;
+	var description = $("#description_"+calendarid).val();
+	var calendarcolor = $("#calendarcolor_"+calendarid).val();
+
+	$.post("ajax/updatecalendar.php", { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
+		function(data){
+			if(data.error == "true"){
+			}else{
+				$(button).closest('tr').html(data.data)
+			}
+		}, 'json');
 }

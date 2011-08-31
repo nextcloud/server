@@ -16,3 +16,5 @@ OC_App::addNavigationEntry( array(
   'href' => OC_Helper::linkTo( 'calendar', 'index.php' ),
   'icon' => OC_Helper::imagePath( 'calendar', 'icon.png' ),
   'name' => $l->t('Calendar')));
+
+OC_App::registerPersonal('calendar', 'settings');

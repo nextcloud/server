@@ -54,4 +54,4 @@ var oc_cal_datemonthyear =  String(oc_cal_dayofmonth) + String(oc_cal_month) + S
 var oc_cal_calendars = new Array();
 //event vars
 var oc_cal_events = new Array();
-oc_cal_events[oc_cal_year] = new Array(0,1,2,3,4,5,6,7,8,9,10,11);
+oc_cal_events[oc_cal_year] = new Array();

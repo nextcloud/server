@@ -1,22 +1,4 @@
 <?php
-/*************************************************
- * ownCloud - Calendar Plugin                     *
- *                                                *
- * (c) Copyright 2011 Bart Visscher               *
- * author: Georg Ehrke                            *
- * email: ownclouddev at georgswebsite dot de     *
- * homepage: ownclouddev.georgswebsite.de         *
- * manual: ownclouddev.georgswebsite.de/manual    *
- * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
- *                                                *
- * If you are not able to view the License,       *
- * <http://www.gnu.org/licenses/>                 *
- * <http://ownclouddev.georgswebsite.de/license/> *
- * please write to the Free Software Foundation.  *
- * Address:                                       *
- * 59 Temple Place, Suite 330, Boston,            *
- * MA 02111-1307  USA                             *
- *************************************************/
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 $events = OC_Calendar_Calendar::allCalendarObjects($calendars[0]['id']);
 $select_year = $_GET["year"];
@@ -30,10 +12,10 @@ foreach($events as $event)
 	$start_dt->setTimezone(new DateTimeZone($user_timezone));
 	$end_dt = new DateTime($event['enddate'], new DateTimeZone('UTC'));
 	$end_dt->setTimezone(new DateTimeZone($user_timezone));
-	$year = $start_dt->format('Y');
+	$year  = $start_dt->format('Y');
 	$month = $start_dt->format('n') - 1; // return is 0 based
-	$day = $start_dt->format('j');
-	$hour = $start_dt->format('G');
+	$day   = $start_dt->format('j');
+	$hour  = $start_dt->format('G');
 
 	// hack
 	if (strstr($event['calendardata'], 'DTSTART;VALUE=DATE:')) {
@@ -47,9 +29,12 @@ foreach($events as $event)
 	$return_event['startdate'] = $start_dt->format('Y-m-d H:i');
 	$return_event['enddate'] = $end_dt->format('Y-m-d H:i');
 	$return_event['description'] = $event['summary'];
-	if (isset($return_events[$year][$month][$day][$hour])){
+	if (isset($return_events[$year][$month][$day][$hour]))
+	{
 		$return_events[$year][$month][$day][$hour][] = $return_event;
-	}else{
+	}
+	else
+	{
 		$return_events[$year][$month][$day][$hour] = array(1 => $return_event);
 	}
 }

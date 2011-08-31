@@ -56,15 +56,15 @@
  * This class manages our calendars
  */
 class OC_Calendar_Calendar{
-	public static function allCalendars($uid){
+	public static function allCalendars($uid, $active=null){
 		$values = array($uid);
-			$active_where = '';
-			if (!is_null($active)){
-				$active_where = ' AND active = ?';
-				$values[] = $active;
-			}
-			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE userid = ?' . $active_where );
-			$result = $stmt->execute($values);
+		$active_where = '';
+		if (!is_null($active)){
+			$active_where = ' AND active = ?';
+			$values[] = $active;
+		}
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE userid = ?' . $active_where );
+		$result = $stmt->execute($values);
 		
 		$calendars = array();
 		while( $row = $result->fetchRow()){
@@ -112,14 +112,14 @@ class OC_Calendar_Calendar{
 
 	public static function editCalendar($id,$name=null,$description=null,$components=null,$timezone=null,$order=null,$color=null){
 		// Need these ones for checking uri
-		$calendar = self::find($id);
+		$calendar = self::findCalendar($id);
 
 		// Keep old stuff
 		if(is_null($name)) $name = $calendar['name'];
 		if(is_null($description)) $description = $calendar['description'];
 		if(is_null($components)) $components = $calendar['components'];
 		if(is_null($timezone)) $timezone = $calendar['timezone'];
-		if(is_null($order)) $order = $calendar['order'];
+		if(is_null($order)) $order = $calendar['calendarorder'];
 		if(is_null($color)) $color = $calendar['color'];
 		
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,description=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
@@ -131,6 +131,7 @@ class OC_Calendar_Calendar{
 	public static function setCalendarActive($id,$active){
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET active = ? WHERE id = ?' );
 		$stmt->execute(array($active, $id));
+
 		return true;
 	}
 
