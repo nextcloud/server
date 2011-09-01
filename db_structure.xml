@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+
+ <name>*dbname*</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+
+ <charset>utf8</charset>
+
+ <table>
+
+  <name>*dbprefix*appconfig</name>
+
+  <declaration>
+
+   <field>
+    <name>appid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>configkey</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>configvalue</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*foldersize</name>
+
+  <declaration>
+
+   <field>
+    <name>path</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>512</length>
+   </field>
+
+   <field>
+    <name>size</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <index>
+    <name>path_index</name>
+    <field>
+     <name>path</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*group_user</name>
+
+  <declaration>
+
+   <field>
+    <name>gid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <field>
+    <name>uid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*groups</name>
+
+  <declaration>
+
+   <field>
+    <name>gid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <index>
+    <name>groups_pKey</name>
+    <primary>true</primary>
+    <field>
+     <name>gid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*locks</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <unsigned>true</unsigned>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>200</length>
+   </field>
+
+   <field>
+    <name>owner</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>100</length>
+   </field>
+
+   <field>
+    <name>timeout</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <unsigned>true</unsigned>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>created</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>token</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>100</length>
+   </field>
+
+   <field>
+    <name>scope</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>1</length>
+   </field>
+
+   <field>
+    <name>depth</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>1</length>
+   </field>
+
+   <field>
+    <name>uri</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*log</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <unsigned>true</unsigned>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>moment</name>
+    <type>timestamp</type>
+    <default>0000-00-00 00:00:00</default>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>appid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>user</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>action</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>info</name>
+    <type>clob</type>
+    <notnull>true</notnull>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*preferences</name>
+
+  <declaration>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>appid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>configkey</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>configvalue</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*principalgroups</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <unsigned>true</unsigned>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>principal_id</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <unsigned>true</unsigned>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>member_id</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <unsigned>true</unsigned>
+    <length>4</length>
+   </field>
+
+   <index>
+    <name>principals_members_index</name>
+    <unique>true</unique>
+    <field>
+     <name>principal_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>member_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*principals</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <unsigned>true</unsigned>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>uri</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>displayname</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>255</length>
+   </field>
+
+   <index>
+    <name>uri</name>
+    <unique>true</unique>
+    <field>
+     <name>uri</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+ 
+ <table>
+
+  <name>*dbprefix*properties</name>
+
+  <declaration>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>200</length>
+   </field>
+
+   <field>
+    <name>propertypath</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>propertyname</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>propertyvalue</name>
+    <type>clob</type>
+    <notnull>true</notnull>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*users</name>
+
+  <declaration>
+
+   <field>
+    <name>uid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <field>
+    <name>password</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <index>
+    <name>users_pKey</name>
+    <primary>true</primary>
+    <field>
+     <name>uid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>

@@ -1,6 +1,7 @@
 # the default generated dir + db file
 data
 owncloud
+config/config.php
 
 # just sane ignores
 .*.sw[po]
@@ -16,3 +17,14 @@ _darcs/*
 CVS/*
 .svn/*
 RCS/*
+
+# kdevelop
+.kdev
+*.kdev4
+
+# Lokalize
+*lokalize*
+
+# eclipse
+.project
+.settings

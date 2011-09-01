@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+#   <rom1dep@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-13 05:10+0200\n"
+"PO-Revision-Date: 2011-08-13 09:14+0000\n"
+"Last-Translator: rom1dep <rom1dep@gmail.com>\n"
+"Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: appinfo/app.php:7
+msgid "Files"
+msgstr "Fichiers"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Taille max. d'envoi"
+
+#: templates/part.list.php:1
+msgid "Nothing in here. Upload something!"
+msgstr "Il n'y a rien ici ! Envoyez donc quelque chose :)"
+
+#: templates/index.php:9
+msgid "Upload"
+msgstr "Envoyer"
+
+#: templates/index.php:16
+msgid "New Folder"
+msgstr "Nouveau dossier"
+
+#: templates/index.php:29
+msgid "Name"
+msgstr "Nom"
+
+#: templates/index.php:31
+msgid "Download"
+msgstr "Téléchargement"
+
+#: templates/index.php:35
+msgid "Size"
+msgstr "Taille"
+
+#: templates/index.php:36
+msgid "Modified"
+msgstr "Modifié"
+
+#: templates/index.php:36
+msgid "Delete"
+msgstr "Supprimer"
+
+#: templates/index.php:44
+msgid "Upload too large"
+msgstr "Fichier trop volumineux"
+
+#: templates/index.php:46
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise"
+" par ce serveur."
+
+

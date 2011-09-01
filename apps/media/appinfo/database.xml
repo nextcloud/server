@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+
+ <name>*dbname*</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+
+ <charset>latin1</charset>
+
+ <table>
+
+  <name>*dbprefix*media_albums</name>
+
+  <declaration>
+
+   <field>
+    <name>album_id</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>album_name</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>200</length>
+   </field>
+
+   <field>
+    <name>album_artist</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>album_art</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>200</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*media_artists</name>
+
+  <declaration>
+
+   <field>
+    <name>artist_id</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>artist_name</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>200</length>
+   </field>
+
+   <index>
+    <name>artist_name</name>
+    <unique>true</unique>
+    <field>
+     <name>artist_name</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*media_sessions</name>
+
+  <declaration>
+
+   <field>
+    <name>session_id</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>token</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <field>
+    <name>user_id</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+	<length>64</length>
+   </field>
+
+   <field>
+    <name>start</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*media_songs</name>
+
+  <declaration>
+
+   <field>
+    <name>song_id</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>song_name</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>200</length>
+   </field>
+
+   <field>
+    <name>song_artist</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>song_album</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>song_path</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>200</length>
+   </field>
+
+   <field>
+    <name>song_user</name>
+    <type>text</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <field>
+    <name>song_length</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>song_track</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>song_size</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+	   <name>song_playcount</name>
+	   <type>integer</type>
+	   <default>
+	   </default>
+	   <notnull>true</notnull>
+	   <length>4</length>
+   </field>
+
+   <field>
+	   <name>song_lastplayed</name>
+	   <type>integer</type>
+	   <default>
+	   </default>
+	   <notnull>true</notnull>
+	   <length>4</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*media_users</name>
+
+  <declaration>
+
+   <field>
+    <name>user_id</name>
+    <type>text</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+    <length>64</length>
+   </field>
+
+   <field>
+    <name>user_password_sha256</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+
+</database>

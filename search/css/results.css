@@ -1,0 +1,9 @@
+#searchresults { list-style:none; position:fixed; top:3.5em; right:0; z-index:75; background-color:#fff; overflow:hidden; text-overflow:ellipsis; max-height:80%; width:26.5em; padding-bottom:1em; -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; }
+#searchresults li.resultHeader { font-size:1.2em; font-weight:bold; border-bottom:solid 1px #CCC; padding:.2em; background-color:#eee; }
+#searchresults li.result { margin-left:2em; }
+#searchresults table { width:100%; table-layout:fixed; top:0; border-spacing:0; }
+#searchresults td { padding:0 .3em; vertical-align:top; }
+#searchresults td.result div.text { padding-left:1em; white-space:nowrap; }
+#searchresults td.result * { cursor:pointer; }
+#searchresults td.type { width:3.5em; text-align:right; border-right:1px solid #aaa; border-bottom:none; font-weight:bold; }
+#searchresults tr.current { background-color:#ddd; }

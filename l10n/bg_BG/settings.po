@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-08-28 01:13+0200\n"
+"PO-Revision-Date: 2011-08-27 23:13+0000\n"
+"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.net/projects/p/owncloud/team/bg_BG/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bg_BG\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/openid.php:13 ajax/setlanguage.php:13
+msgid "Authentication error"
+msgstr "Проблем с индентификацията"
+
+#: ajax/openid.php:21
+msgid "OpenID Changed"
+msgstr ""
+
+#: ajax/openid.php:23 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "Невалидна заявка"
+
+#: ajax/setlanguage.php:21
+msgid "Language changed"
+msgstr "Езика е сменен"
+
+#: templates/apps.php:8
+msgid "Add your application"
+msgstr ""
+
+#: templates/apps.php:21
+msgid "Select an App"
+msgstr ""
+
+#: templates/apps.php:23
+msgid "-licensed"
+msgstr ""
+
+#: templates/apps.php:23
+msgid "by"
+msgstr ""
+
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr ""
+
+#: templates/help.php:17
+msgid "Problems connecting to help database."
+msgstr ""
+
+#: templates/help.php:18
+msgid "Go there manually."
+msgstr ""
+
+#: templates/help.php:26
+msgid "Answer"
+msgstr ""
+
+#: templates/personal.php:8
+msgid "You use"
+msgstr ""
+
+#: templates/personal.php:8
+msgid "of the available"
+msgstr ""
+
+#: templates/personal.php:13
+msgid "Your password got changed"
+msgstr "Вашата парола е сменена"
+
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr ""
+
+#: templates/personal.php:15
+msgid "Current password"
+msgstr ""
+
+#: templates/personal.php:16
+msgid "New password"
+msgstr "Нова парола"
+
+#: templates/personal.php:17
+msgid "show"
+msgstr ""
+
+#: templates/personal.php:18
+msgid "Change password"
+msgstr ""
+
+#: templates/personal.php:24
+msgid "Language"
+msgstr "Език"
+
+#: templates/personal.php:30
+msgid "Help translating"
+msgstr ""
+
+#: templates/personal.php:36
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr ""
+
+#: templates/users.php:16
+msgid "Name"
+msgstr ""
+
+#: templates/users.php:17
+msgid "Password"
+msgstr ""
+
+#: templates/users.php:18 templates/users.php:36
+msgid "Groups"
+msgstr ""
+
+#: templates/users.php:24
+msgid "Create"
+msgstr ""
+
+#: templates/users.php:48
+msgid "Delete"
+msgstr ""
+
+

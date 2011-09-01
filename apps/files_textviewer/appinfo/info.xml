@@ -1,0 +1,9 @@
+<?xml version="1.0"?> 
+<info>
+	<id>files_textviewer</id>
+	<name>Text viewer</name>
+	<version>0.3</version>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<require>2</require>
+</info>

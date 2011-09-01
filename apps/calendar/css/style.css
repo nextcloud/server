@@ -1,0 +1,55 @@
+/*************************************************
+ * ownCloud - Calendar Plugin                     *
+ *                                                *
+ * (c) Copyright 2011 Georg Ehrke                 *
+ * author: Georg Ehrke                            *
+ * email: ownclouddev at georgswebsite dot de     *
+ * homepage: ownclouddev.georgswebsite.de         *
+ * manual: ownclouddev.georgswebsite.de/manual    *
+ * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
+ *                                                *
+ * <http://www.gnu.org/licenses/>                 *
+ * If you are not able to view the License,       *
+ * <http://www.gnu.org/licenses/>                 *
+ * <http://ownclouddev.georgswebsite.de/license/> *
+ * please write to the Free Software Foundation.  *
+ * Address:                                       *
+ * 59 Temple Place, Suite 330, Boston,            *
+ * MA 02111-1307  USA                             *
+ *************************************************/
+#calendar_holder{position: absolute; top: 80px; bottom: 0px; left: 160px; right: 0px;}
+
+#view {margin-left: 10px; float: left; font-size: 12px;}
+#datecontrol {text-align: center;}
+#datecontrol_left{font-size: 12px;}
+#datecontrol_right{font-size: 12px;}
+#datecontrol_date_label {margin: 0; padding: 0; font-size: 12px;}
+#choosecalendar {margin-right: 170px; float: right; font-size: 12px;}
+
+#choosecalendar_dialog {display: none;}
+#newentry_dialog {display: none;}
+#editentry_dialog {display: none;}
+#parsingfail_dialog{display: none;}
+
+#view {margin-left: 10px; float: left; font-size: 12px;}
+#onedayview, #oneweekview, #fourweeksview, #onemonthview, #listview {display: none;}
+#onedayview table {margin: 0; padding: 0; width: 100%; border-spacing:1px; background: #EEEEEE;}
+#oneweekview table {margin: 0; padding: 0; width: 100%; border-spacing:1px; background: #EEEEEE;}
+#fourweeksview table {margin: 0; padding: 0; width: 100%; border-spacing:1px; background: #EEEEEE;}
+#onemonthview table {margin: 0;	padding: 0; width: 100%; border-spacing:1px; background: #EEEEEE;}
+#fourweeksview_calw1, #fourweeksview_calw2, #fourweeksview_calw3, #fourweeksview_calw4{vertical-align: middle;text-align: center;width: 50px;}
+
+#sysbox{display: none;}
+
+.actions {height: 33px;	min-width: 800px;}
+.controls {min-width: 800px;}
+.center {text-align: center;}
+.dateinfo {height: 15px; width: 100%; overflow: hidden; margin: 0; padding: 0; font-size: 12px;background: #F7F7F7;}
+.events {height: 80px; width: 100%; margin: 0; padding: 0;}
+.calendar_row {height: 20px; text-align: center;background: #ffffff;}
+.calendar_time {height: 20px; width: 50px; text-align:right;background: #ffffff;}
+.fourweeksview_item {text-align: center; background: #ffffff;width: 14%;}
+.onemonthview_item {text-align: center; height: 80px; margin: 0; padding: 0; vertical-align: top; background: #ffffff; width: 14%; height: 16%;}
+.weekend{text-align: center;margin: 0;	padding: 0;vertical-align: top;background: #F3F3F3; height: 80px;width: 100%; }
+.weekend_thead, .weekend_row{height: 20px;text-align: center;text-align: center;background: #F3F3F3;}
+.thisday{background: #FFFABC;text-align: center;}

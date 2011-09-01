@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_sharing</id>
+	<name>Share Files</name>
+	<description>File sharing between users</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Michael Gapczynski</author>
+	<require>2</require>
+</info>

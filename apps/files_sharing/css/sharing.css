@@ -1,0 +1,8 @@
+#dropdown { display:block;  position:absolute; z-index:100; width:16em; right:0; margin-right:7em; background:#eee; padding:1em;
+-moz-box-shadow:0 1px 1px #777; -webkit-box-shadow:0 1px 1px #777; box-shadow:0 1px 1px #777;
+-moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
+-moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+#shared_list { padding:0.5em; list-style-type: none; }
+#public { border-top:1px solid #ddd; padding-top:0.5em; }
+a.unshare { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; opacity:.5; }
+a.unshare:hover { opacity:1; }

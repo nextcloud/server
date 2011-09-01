@@ -1,0 +1,79 @@
+[main]
+host = https://www.transifex.net
+
+[owncloud.core]
+file_filter = l10n/<lang>/core.po
+host = http://www.transifex.net
+source_file = l10n/templates/core.pot
+source_lang = en
+trans.bg_BG = l10n/bg_BG/core.po
+trans.ca = l10n/ca/core.po
+trans.da = l10n/da/core.po
+trans.de = l10n/de/core.po
+trans.el = l10n/el/core.po
+trans.es = l10n/es/core.po
+trans.fr = l10n/fr/core.po
+trans.id = l10n/id/core.po
+trans.it = l10n/it/core.po
+trans.nl = l10n/nl/core.po
+trans.pl = l10n/pl/core.po
+trans.pt_BR = l10n/pt_BR/core.po
+trans.sv = l10n/sv/core.po
+
+[owncloud.settings]
+file_filter = l10n/<lang>/settings.po
+host = http://www.transifex.net
+source_file = l10n/templates/settings.pot
+source_lang = en
+trans.bg_BG = l10n/bg_BG/settings.po
+trans.ca = l10n/ca/settings.po
+trans.da = l10n/da/settings.po
+trans.de = l10n/de/settings.po
+trans.el = l10n/el/settings.po
+trans.es = l10n/es/settings.po
+trans.fr = l10n/fr/settings.po
+trans.id = l10n/id/settings.po
+trans.it = l10n/it/settings.po
+trans.nl = l10n/nl/settings.po
+trans.pl = l10n/pl/settings.po
+trans.pt_BR = l10n/pt_BR/settings.po
+trans.sv = l10n/sv/settings.po
+
+[owncloud.files]
+file_filter = translations/owncloud.files/<lang>.po
+host = http://www.transifex.net
+source_file = l10n/templates/files.pot
+source_lang = en
+trans.bg_BG = l10n/bg_BG/files.po
+trans.ca = l10n/ca/files.po
+trans.da = l10n/da/files.po
+trans.de = l10n/de/files.po
+trans.el = l10n/el/files.po
+trans.es = l10n/es/files.po
+trans.fr = l10n/fr/files.po
+trans.id = l10n/id/files.po
+trans.it = l10n/it/files.po
+trans.nl = l10n/nl/files.po
+trans.pl = l10n/pl/files.po
+trans.pt_BR = l10n/pt_BR/files.po
+trans.sv = l10n/sv/files.po
+
+[owncloud.media]
+file_filter = translations/owncloud.media/<lang>.po
+host = http://www.transifex.net
+source_file = l10n/templates/media.pot
+source_lang = en
+trans.bg_BG = l10n/bg_BG/media.po
+trans.ca = l10n/ca/media.po
+trans.da = l10n/da/media.po
+trans.de = l10n/de/media.po
+trans.el = l10n/el/media.po
+trans.es = l10n/es/media.po
+trans.fr = l10n/fr/media.po
+trans.id = l10n/id/media.po
+trans.it = l10n/it/media.po
+trans.nl = l10n/nl/media.po
+trans.pl = l10n/pl/media.po
+trans.pt_BR = l10n/pt_BR/media.po
+trans.sv = l10n/sv/media.po
+

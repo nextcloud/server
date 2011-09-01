@@ -1,0 +1,10 @@
+<?xml version="1.0"?> 
+<info>
+	<id>contacts</id>
+	<name>Contacts</name>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Jakob Sack</author>
+	<require>2</require>
+	<description>Address book with CardDAV support.</description>
+</info>
