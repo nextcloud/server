@@ -799,6 +799,8 @@ function oc_cal_calender_activation(checkbox, calendarid)
 	$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
 	  function(data) {
 		checkbox.checked = data == 1;
+		oc_cal_update_eventsvar(oc_cal_year);
+		oc_cal_update_view('');
 	  });
 }
 function oc_cal_editcalendar(object, calendarid){
