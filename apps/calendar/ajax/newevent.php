@@ -27,8 +27,7 @@ if(!OC_USER::isLoggedIn()) {
 $title = $_POST["title"];
 $location = $_POST["location"];
 $cat = $_POST["cat"];
-$cal = $_POST["cal"];
-$cal = "1";
+$cal = str_replace("option_","", $_POST["cal"]);
 $allday = $_POST["allday"];
 $from = $_POST["from"];
 $fromtime = $_POST["fromtime"];

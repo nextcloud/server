@@ -153,8 +153,8 @@
 	function validate_newevent_form(){
 		var newevent_title = document.getElementById("newevent_title").value;
 		var newevent_location = document.getElementById("newevent_location").value;
-		var newevent_cat;// = document.getElementById("newevent_cat").options[document.getElementById("newevent_cat").selectedIndex].value;
-		var newevent_cal;// = document.getElementById("newevent_cal").options[document.getElementById("newevent_cal").selectedIndex].value;
+		var newevent_cat = document.getElementById("formcategorie_select").options[document.getElementById("formcategorie_select").selectedIndex].value;
+		var newevent_cal = document.getElementById("formcalendar_select").options[document.getElementById("formcalendar_select").selectedIndex].id;
 		var newevent_allday = document.getElementById("newcalendar_allday_checkbox").checked;
 		var newevent_from = document.getElementById("from").value;
 		var newevent_fromtime = document.getElementById("fromtime").value;
