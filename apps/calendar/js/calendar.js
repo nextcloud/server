@@ -155,14 +155,18 @@ Calendar={
 	},
 	UI:{
 		weekdays: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
-		update:function(view, task) {
-			this.setCurrentView(view);
-			this.updateDate(task);
+		updateView:function(task) {
 			this.current.removeEvents();
 			this.current.renderCal();
-			this.current.loadEvents();
+			this.current.showEvents();
 		},
 		setCurrentView:function(view){
+			if (view == oc_cal_currentview){
+				return;
+			}
+			oc_cal_currentview = view;
+			$("#sysbox").load(oc_webroot + "/apps/calendar/ajax/changeview.php?v="+view);
+			//not necessary to check whether the response is true or not
 			switch(view) {
 				case "onedayview":
 					this.current = Calendar.UI.OneDay;
@@ -186,10 +190,34 @@ Calendar={
 		updateDate:function(direction){
 			if(direction == "forward") {
 				this.current.forward();
+				if(oc_cal_month == 11){
+					this.loadEvents(oc_cal_year + 1);
+				}
 			}
 			if(direction == "backward") {
 				this.current.backward();
+				if(oc_cal_month == 0){
+					this.loadEvents(oc_cal_year - 1);
+				}
 			}
+		},
+		loadEvents:function(year){
+			$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + year, function(newevents, status) {
+				if(status == "nosession") {
+					alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
+					document.location(oc_webroot);
+				}
+				if(status == "parsingfail" || typeof (newevents) == "undefined") {
+					$.ready(function() {
+						$( "#parsingfail_dialog" ).dialog();
+					});
+				} else {
+					oc_cal_events[year] = newevents[year];
+					//$.ready(function() {
+					Calendar.UI.updateView();
+					//});
+				}
+			});
 		},
 		createEventsForDate:function(date, week, weekday){
 			var day = date[0];
@@ -255,7 +283,7 @@ Calendar={
 				var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
 				$('#onedayview_today').attr('title', generate_title);
 			},
-			loadEvents:function(){
+			showEvents:function(){
 				Calendar.UI.createEventsForDate([oc_cal_dayofmonth, oc_cal_month, oc_cal_year], 0, 0);
 			},
 			getEventContainer:function(week, weekday, when){
@@ -311,7 +339,7 @@ Calendar={
 					}
 				}
 			},
-			loadEvents:function(){
+			showEvents:function(){
 				var dates = this.generateDates();
 				for(var weekday = 0; weekday <= 6; weekday++) {
 					Calendar.UI.createEventsForDate(dates[weekday], 0, weekday);
@@ -447,7 +475,7 @@ Calendar={
 				$("#fourweeksview_calw4").html(calw4);
 				$("#datecontrol_date").val(cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour);
 			},
-			loadEvents:function(){
+			showEvents:function(){
 				var dates = this.generateDates();
 				var weekdaynum = 0;
 				var weeknum = 1;
@@ -591,7 +619,7 @@ Calendar={
 					$("#onemonthview_week_6").css('display', "table-row");
 				}
 			},
-			loadEvents:function(){
+			showEvents:function(){
 				var dates = this.generateDates();
 				var weekdaynum = 0;
 				var weeknum = 1;
@@ -694,7 +722,7 @@ Calendar={
 			renderCal:function(){
 				$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
 			},
-			loadEvents:function(){
+			showEvents:function(){
 			},
 			getEventContainer:function(week, weekday, when){
 			},
@@ -709,45 +737,13 @@ Calendar={
 	}
 }
 
-function oc_cal_update_view(view, task) {
-	if(view == "") {
-		view = oc_cal_currentview;
-	}
-	$("#sysbox").load(oc_webroot + "/apps/calendar/ajax/changeview.php?v="+view+"");
-	//not necessary to check whether the response is true or not
-	Calendar.UI.update(view, task);
-	if(oc_cal_month == 0){
-		oc_cal_update_eventsvar(oc_cal_year - 1);
-	}
-	if(oc_cal_month == 11){
-		oc_cal_update_eventsvar(oc_cal_year + 1);
-	}
-}
-
 function oc_cal_switch2today() {
 	oc_cal_date = oc_cal_today;
 	oc_cal_dayofweek = oc_cal_todaydayofweek;
 	oc_cal_month = oc_cal_todaymonth;
 	oc_cal_dayofmonth = oc_cal_todaydayofmonth;
 	oc_cal_year = oc_cal_todayyear;
-	oc_cal_update_view('', '');
-}
-
-function oc_cal_update_eventsvar(loadyear) {
-	$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + loadyear, function(newevents, status) {
-	if(status == "nosession") {
-		alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
-		document.location(oc_webroot);
-	}
-	if(status == "parsingfail" || typeof (newevents) == "undefined") {
-		$(function() {
-			$( "#parsingfail_dialog" ).dialog();
-		});
-	} else {
-		oc_cal_events[loadyear] = newevents[loadyear];
-		oc_cal_update_view('', '');
-	}
-	});
+	Calendar.UI.updateView();
 }
 
 function oc_cal_newevent(date, time){
@@ -771,8 +767,7 @@ function oc_cal_calender_activation(checkbox, calendarid)
 	$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
 	  function(data) {
 		checkbox.checked = data == 1;
-		oc_cal_update_eventsvar(oc_cal_year);
-		oc_cal_update_view('');
+		Calendar.UI.loadEvents(oc_cal_year);
 	  });
 }
 function oc_cal_editcalendar(object, calendarid){

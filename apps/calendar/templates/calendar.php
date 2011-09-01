@@ -33,9 +33,9 @@
 						</form>
 						<form>
 							<div id="datecontrol">
-								<input type="button" value="&nbsp;&lt;&nbsp;" id="datecontrol_left" onclick="oc_cal_update_view('', 'backward');"/>
+								<input type="button" value="&nbsp;&lt;&nbsp;" id="datecontrol_left" onclick="Calendar.UI.updateDate('backward');Calendar.UI.updateView();"/>
 								<input id="datecontrol_date" type="button" value=""/>
-								<input type="button" value="&nbsp;&gt;&nbsp;" id="datecontrol_left" onclick="oc_cal_update_view('', 'forward');"/>
+								<input type="button" value="&nbsp;&gt;&nbsp;" id="datecontrol_left" onclick="Calendar.UI.updateDate('forward');Calendar.UI.updateView();"/>
 							</div>
 						</form>
 					</div>
@@ -913,23 +913,19 @@
 				<script type="text/javascript">
 				//sending ajax request on every change view and use last view as default on the next
 				<?php
-				if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview") == ""){
-					echo "var oc_cal_currentview = \"onemonthview\";";
-				}else{
-					echo "var oc_cal_currentview = \"" . OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview") . "\";";
-				}
+				echo "var view = \"" . OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview", "onemonthview") . "\";";
 				 
 				?>
+				Calendar.UI.setCurrentView(view);
 				document.getElementById(oc_cal_currentview).style.display = "block";
 				document.getElementById(oc_cal_currentview + "_radio").style.color = "#0098E4";
-				oc_cal_update_view(oc_cal_currentview);
-				function oc_cal_change_view(view, task){
+				function oc_cal_change_view(view){
 					document.getElementById(oc_cal_currentview).style.display = "none";
 					document.getElementById(oc_cal_currentview + "_radio").style.color = "#000000";
 					document.getElementById(view).style.display = "block";
-					oc_cal_currentview = view;
+					Calendar.UI.setCurrentView(view);
 					document.getElementById(oc_cal_currentview + "_radio").style.color = "#0098E4";
-					oc_cal_update_view(view, task);
+					Calendar.UI.updateView();
 				}
 				document.getElementById("onedayview_radio").value = onedayview_radio;
 				document.getElementById("oneweekview_radio").value = oneweekview_radio;

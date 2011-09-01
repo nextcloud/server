@@ -27,7 +27,6 @@ $(document).ready(function(){
 			alert("abc");
    		}
 	});
-	oc_cal_update_eventsvar(oc_cal_year);
 });
 //init date vars
 var oc_cal_date = new Date();
@@ -53,3 +52,5 @@ var oc_cal_calendars = new Array();
 //event vars
 var oc_cal_events = new Array();
 oc_cal_events[oc_cal_year] = new Array();
+var oc_cal_currentview;
+Calendar.UI.loadEvents(oc_cal_year);
