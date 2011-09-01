@@ -122,6 +122,7 @@ Collection={
 				}else{
 					var newRow=tr.clone();
 				}
+                newRow.find('.expander').remove();
 				if(i==0){
 					newRow.find('td.album a').text(album.name);
 					newRow.find('td.album a').click(function(event){
@@ -131,12 +132,23 @@ Collection={
 						Collection.parent.find('tr').removeClass('active');
 						$('tr[data-album="'+album.name+'"]').addClass('active');
 					});
-				}else{
-					newRow.find('.expander').remove();
+                    var expander=$('<a class="expander">v </a>');
+                    expander.data('expanded',true);
+                    expander.click(function(event){
+                        var tr=$(this).parent().parent();
+                        if(expander.data('expanded')) {
+                            Collection.hideAlbum(tr.data('artist'),tr.data('album'));
+                        } else {
+                            Collection.showAlbum(tr.data('artist'),tr.data('album'));
+                        }
+                    });
+                    newRow.children('td.artist').append(expander);
+                    Collection.addButtons(newRow,album);
+				} else {
 					newRow.find('td.album a').text('');
+                    Collection.addButtons(newRow,song);
 				}
 				newRow.find('td.title a').text(song.name);
-                Collection.addButtons(newRow,song);
 				newRow.find('td.title a').click(function(event){
 					event.preventDefault();
 					PlayList.add(song);
@@ -174,15 +186,33 @@ Collection={
 			tr.find('a.expander').data('expanded',false);
 			tr.find('a.expander').removeClass('expanded');
 			tr.find('a.expander').text('>');
+            Collection.addButtons(tr,artist);
 		}
 	},
+	//~ showAlbum:function(artist,album){
+        //~ alert(album.name);
+		//~ Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').show();
+	//~ },
 	showAlbum:function(artist,album){
-		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').show();
+        var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
+        tr.find('a.expander').data('expanded',true);
+		tr.find('a.expander').addClass('expanded');
+		tr.find('a.expander').text('v ');
+        tr.show();
 	},
 	hideAlbum:function(artist,album){
-		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').hide();
-		Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').last().show();
+		var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
+        tr.find('a.expander').data('expanded',false);
+        tr.find('a.expander').removeClass('expanded');
+        tr.find('a.expander').text('> ');
+        tr.hide();
+		tr.first().show();
 	},
+	//~ hideAlbum:function(artist,album){
+		//~ Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').hide();
+		//~ Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').last().show();
+        //~ alert(album.name);
+	//~ },
 	parent:null,
 	hide:function(){
 		if(Collection.parent){
