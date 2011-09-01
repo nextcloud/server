@@ -1,3 +1,4 @@
+
 <div id="newevent" title="<?php echo $l -> t("Create a new event");?>">
 	<form id="newevent_form">
 	<table id="newevent_table" width="100%">
@@ -19,9 +20,23 @@
 			<td width="75px"><?php echo $l -> t("Category");?>:</td>
 			<td>
 			<select class="formselect" id="formcategorie_select" style="width:140px;" id="newevent_cat">
-				<option>Coming soon</option>
-				<option>Work</option>
+				<option>none</option>
+				<option>Birthday</option>
+				<option>Business</option>
 				<option>Call</option>
+				<option>Clients</option>
+				<option>Customer</option>
+				<option>Deliverer</option>
+				<option>Holidays</option>
+				<option>Ideas</option>
+				<option>Journey</option>
+				<option>Jubilee</option>
+				<option>Meeting</option>
+				<option>Other</option>
+				<option>Personal</option>
+				<option>Projects</option>
+				<option>Questions</option>
+				<option>Work</option>
 			</select></td>
 			<td width="75px">&nbsp;&nbsp;&nbsp;<?php echo $l -> t("Calendar");?>:</td>
 			<td>
