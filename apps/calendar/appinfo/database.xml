@@ -187,7 +187,7 @@
     <type>text</type>
     <default></default>
     <notnull>false</notnull>
-    <length>20</length>
+    <length>100</length>
    </field>
 
   </declaration>

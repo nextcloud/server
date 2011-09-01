@@ -2,9 +2,9 @@
 <info>
 	<id>calendar</id>
 	<name>Calendar</name>
-	<version>0.1</version>
+	<version>0.2</version>
 	<licence>AGPL</licence>
-	<author>Jakob Sack, Georg Ehrke (Userinterface)</author>
+	<author>Georg Ehrke (Userinterface), Jakob Sack</author>
 	<require>2</require>
-	<description>CalDAV server with viewing support.</description>
+	<description>Calendar with CalDAV support</description>
 </info>
