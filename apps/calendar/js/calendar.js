@@ -289,7 +289,7 @@ Calendar={
 			},
 			renderCal:function(){
 				$("#datecontrol_date").val(cw_label + ": " + Calendar.Date.calw());
-				var dates = oc_cal_generate_dates("oneweek");
+				var dates = this.generateDates();
 				var weekday = 1;
 				for(var i = 0; i <= 6; i++){
 					var generate_dayofmonth = String(dates[i][0]);
@@ -312,7 +312,7 @@ Calendar={
 				}
 			},
 			loadEvents:function(){
-				var dates = oc_cal_generate_dates("oneweek");
+				var dates = this.generateDates();
 				for(var weekday = 0; weekday <= 6; weekday++) {
 					Calendar.UI.createEventsForDate(dates[weekday], 0, weekday);
 				}
@@ -326,6 +326,50 @@ Calendar={
 				newp.className = "oneweekview_event";
 				newp.innerHTML = day_events[when][eventnumber]["description"];
 				return newp;
+			},
+			generateDates:function(){
+				var generate_dayofweek = oc_cal_dayofweek;
+				var generate_dayofmonth = oc_cal_dayofmonth;
+				var generate_month = oc_cal_month;
+				var generate_year = oc_cal_year;
+				var dates = new Array();
+				if(generate_dayofweek == 0) {
+					generate_dayofweek = 7;
+				}
+				for(var i = generate_dayofweek; i > 1; i--) {
+					var cal = Calendar.Date.getnumberofdays(generate_year);
+					if(generate_dayofmonth == 1) {
+						if(generate_month == 0) {
+							generate_year--;
+							generate_month = 11;
+							generate_dayofmonth = cal[generate_month];
+						} else {
+							generate_month--;
+							generate_dayofmonth = cal[generate_month];
+						}
+					} else {
+						generate_dayofmonth--;
+					}
+					generate_dayofweek--;
+				}
+				dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
+				for(var i = 1; i <= 6; i++) {
+					var cal = Calendar.Date.getnumberofdays(generate_year);
+					if(generate_dayofmonth == cal[generate_month]) {
+						if(generate_month == 11) {
+							generate_year++;
+							generate_month = 0;
+							generate_dayofmonth = 1;
+						} else {
+							generate_month++;
+							generate_dayofmonth = 1;
+						}
+					} else {
+						generate_dayofmonth++;
+					}
+					dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
+				}
+				return dates;
 			},
 		},
 		FourWeeks:{
@@ -368,14 +412,14 @@ Calendar={
 						break;
 				}
 				var calwplusfour = calw4;
-				var dates = oc_cal_generate_dates("fourweeks");
+				var dates = this.generateDates();
 				var week = 1;
 				var weekday = 0;
 				for(var i = 0; i <= 27; i++){
 					var generate_dayofmonth = String(dates[i][0]);
 					var generate_month = String(dates[i][1]);
 					var generate_year = dates[i][2];
-					$("#dateinfo_fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week).html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
+					$("#dateinfo_fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week).html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]); 
 					if(parseInt(generate_dayofmonth) <= 9){
 						generate_dayofmonth = "0" + generate_dayofmonth;
 					}
@@ -404,7 +448,7 @@ Calendar={
 				$("#datecontrol_date").val(cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour);
 			},
 			loadEvents:function(){
-				var dates = oc_cal_generate_dates("fourweeks");
+				var dates = this.generateDates();
 				var weekdaynum = 0;
 				var weeknum = 1;
 				for(var i = 0; i <= 27; i++) {
@@ -426,6 +470,50 @@ Calendar={
 				newp.className = "fourweeksview_event";
 				newp.innerHTML = day_events[when][eventnumber]["description"];
 				return newp;
+			},
+			generateDates:function(){
+				var generate_dayofweek = oc_cal_dayofweek;
+				var generate_dayofmonth = oc_cal_dayofmonth;
+				var generate_month = oc_cal_month;
+				var generate_year = oc_cal_year;
+				var dates = new Array();
+				if(generate_dayofweek == 0) {
+					generate_dayofweek = 7;
+				}
+				for(var i = generate_dayofweek; i > 1; i--) {
+					var cal = Calendar.Date.getnumberofdays(generate_year);
+					if(generate_dayofmonth == 1) {
+						if(generate_month == 0) {
+							generate_year--;
+							generate_month = 11;
+							generate_dayofmonth = cal[generate_month];
+						} else {
+							generate_month--;
+							generate_dayofmonth = cal[generate_month];
+						}
+					} else {
+						generate_dayofmonth--;
+					}
+					generate_dayofweek--;
+				}
+				dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
+				for(var i = 1; i <= 27; i++) {
+					var cal = Calendar.Date.getnumberofdays(generate_year);
+					if(generate_dayofmonth == cal[generate_month]) {
+						if(generate_month == 11) {
+							generate_year++;
+							generate_month = 0;
+							generate_dayofmonth = 1;
+						} else {
+							generate_month++;
+							generate_dayofmonth = 1;
+						}
+					} else {
+						generate_dayofmonth++;
+					}
+					dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
+				}
+				return dates;
 			},
 		},
 		OneMonth:{
@@ -466,7 +554,7 @@ Calendar={
 				oc_cal_rows = parseInt(monthview_dayofweek) + parseInt(cal[oc_cal_month]);
 				oc_cal_rows = oc_cal_rows / 7;
 				oc_cal_rows = Math.ceil(oc_cal_rows);
-				var dates = oc_cal_generate_dates("onemonth");
+				var dates = this.generateDates();
 				var week = 1;
 				var weekday = 0;
 				for(var i = 0; i <= 41; i++){
@@ -504,7 +592,7 @@ Calendar={
 				}
 			},
 			loadEvents:function(){
-				var dates = oc_cal_generate_dates("onemonth");
+				var dates = this.generateDates();
 				var weekdaynum = 0;
 				var weeknum = 1;
 				for(var i = 0; i <= 41; i++) {
@@ -526,6 +614,71 @@ Calendar={
 				newp.className = "onemonthview_event";
 				newp.innerHTML = day_events[when][eventnumber]["description"];
 				return newp;
+			},
+			generateDates:function(){
+				var generate_dayofweek = oc_cal_dayofweek;
+				var generate_dayofmonth = oc_cal_dayofmonth;
+				var generate_month = oc_cal_month;
+				var generate_year = oc_cal_year;
+				var dates = new Array();
+				for(var i = generate_dayofmonth; i > 1; i--) {
+					var cal = Calendar.Date.getnumberofdays(generate_year);
+					if(generate_dayofmonth == 1) {
+						if(generate_month == 0) {
+							generate_year--;
+							generate_month = 11;
+							generate_dayofmonth = cal[generate_month];
+						} else {
+							generate_month--;
+							generate_dayofmonth = cal[generate_month];
+						}
+					} else {
+						generate_dayofmonth--;
+					}
+					if(generate_dayofweek == 0) {
+						generate_dayofweek = 6;
+					} else {
+						generate_dayofweek--;
+					}
+				}
+				if(generate_dayofweek == 0) {
+					generate_dayofweek = 7;
+					oc_cal_rows++;
+				}
+				for(var i = generate_dayofweek; i > 1; i--) {
+					var cal = Calendar.Date.getnumberofdays(generate_year);
+					if(generate_dayofmonth == 1) {
+						if(generate_month == 0) {
+							generate_year--;
+							generate_month = 11;
+							generate_dayofmonth = cal[generate_month];
+						} else {
+							generate_month--;
+							generate_dayofmonth = cal[generate_month];
+						}
+					} else {
+						generate_dayofmonth--;
+					}
+					generate_dayofweek--;
+				}
+				dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
+				for(var i = 1; i <= 41; i++) {
+					var cal = Calendar.Date.getnumberofdays(generate_year);
+					if(generate_dayofmonth == cal[generate_month]) {
+						if(generate_month == 11) {
+							generate_year++;
+							generate_month = 0;
+							generate_dayofmonth = 1;
+						} else {
+							generate_month++;
+							generate_dayofmonth = 1;
+						}
+					} else {
+						generate_dayofmonth++;
+					}
+					dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
+				}
+				return dates;
 			},
 		},
 		List:{
@@ -568,167 +721,6 @@ function oc_cal_update_view(view, task) {
 	}
 	if(oc_cal_month == 11){
 		oc_cal_update_eventsvar(oc_cal_year + 1);
-	}
-}
-
-function oc_cal_generate_dates(view) {
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if(view == "oneweek") {
-		var generate_dayofweek = oc_cal_dayofweek;
-		var generate_dayofmonth = oc_cal_dayofmonth;
-		var generate_month = oc_cal_month;
-		var generate_year = oc_cal_year;
-		var dates = new Array();
-		if(generate_dayofweek == 0) {
-			generate_dayofweek = 7;
-		}
-		for(var i = generate_dayofweek; i > 1; i--) {
-			var cal = Calendar.Date.getnumberofdays(generate_year);
-			if(generate_dayofmonth == 1) {
-				if(generate_month == 0) {
-					generate_year--;
-					generate_month = 11;
-					generate_dayofmonth = cal[generate_month];
-				} else {
-					generate_month--;
-					generate_dayofmonth = cal[generate_month];
-				}
-			} else {
-				generate_dayofmonth--;
-			}
-			generate_dayofweek--;
-		}
-		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
-		for(var i = 1; i <= 6; i++) {
-			var cal = Calendar.Date.getnumberofdays(generate_year);
-			if(generate_dayofmonth == cal[generate_month]) {
-				if(generate_month == 11) {
-					generate_year++;
-					generate_month = 0;
-					generate_dayofmonth = 1;
-				} else {
-					generate_month++;
-					generate_dayofmonth = 1;
-				}
-			} else {
-				generate_dayofmonth++;
-			}
-			dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
-		}
-		return dates;
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if(view == "fourweeks") {
-		var generate_dayofweek = oc_cal_dayofweek;
-		var generate_dayofmonth = oc_cal_dayofmonth;
-		var generate_month = oc_cal_month;
-		var generate_year = oc_cal_year;
-		var dates = new Array();
-		if(generate_dayofweek == 0) {
-			generate_dayofweek = 7;
-		}
-		for(var i = generate_dayofweek; i > 1; i--) {
-			var cal = Calendar.Date.getnumberofdays(generate_year);
-			if(generate_dayofmonth == 1) {
-				if(generate_month == 0) {
-					generate_year--;
-					generate_month = 11;
-					generate_dayofmonth = cal[generate_month];
-				} else {
-					generate_month--;
-					generate_dayofmonth = cal[generate_month];
-				}
-			} else {
-				generate_dayofmonth--;
-			}
-			generate_dayofweek--;
-		}
-		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
-		for(var i = 1; i <= 27; i++) {
-			var cal = Calendar.Date.getnumberofdays(generate_year);
-			if(generate_dayofmonth == cal[generate_month]) {
-				if(generate_month == 11) {
-					generate_year++;
-					generate_month = 0;
-					generate_dayofmonth = 1;
-				} else {
-					generate_month++;
-					generate_dayofmonth = 1;
-				}
-			} else {
-				generate_dayofmonth++;
-			}
-			dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
-		}
-		return dates;
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if(view == "onemonth") {
-		var generate_dayofweek = oc_cal_dayofweek;
-		var generate_dayofmonth = oc_cal_dayofmonth;
-		var generate_month = oc_cal_month;
-		var generate_year = oc_cal_year;
-		var dates = new Array();
-		for(var i = generate_dayofmonth; i > 1; i--) {
-			var cal = Calendar.Date.getnumberofdays(generate_year);
-			if(generate_dayofmonth == 1) {
-				if(generate_month == 0) {
-					generate_year--;
-					generate_month = 11;
-					generate_dayofmonth = cal[generate_month];
-				} else {
-					generate_month--;
-					generate_dayofmonth = cal[generate_month];
-				}
-			} else {
-				generate_dayofmonth--;
-			}
-			if(generate_dayofweek == 0) {
-				generate_dayofweek = 6;
-			} else {
-				generate_dayofweek--;
-			}
-		}
-		if(generate_dayofweek == 0) {
-			generate_dayofweek = 7;
-			oc_cal_rows++;
-		}
-		for(var i = generate_dayofweek; i > 1; i--) {
-			var cal = Calendar.Date.getnumberofdays(generate_year);
-			if(generate_dayofmonth == 1) {
-				if(generate_month == 0) {
-					generate_year--;
-					generate_month = 11;
-					generate_dayofmonth = cal[generate_month];
-				} else {
-					generate_month--;
-					generate_dayofmonth = cal[generate_month];
-				}
-			} else {
-				generate_dayofmonth--;
-			}
-			generate_dayofweek--;
-		}
-		dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
-		for(var i = 1; i <= 41; i++) {
-			var cal = Calendar.Date.getnumberofdays(generate_year);
-			if(generate_dayofmonth == cal[generate_month]) {
-				if(generate_month == 11) {
-					generate_year++;
-					generate_month = 0;
-					generate_dayofmonth = 1;
-				} else {
-					generate_month++;
-					generate_dayofmonth = 1;
-				}
-			} else {
-				generate_dayofmonth++;
-			}
-			dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
-		}
-		return dates;
-	} else {////////////////////////////////////////////////////////////////////////////////////////////////////
-		return false;
 	}
 }
 
