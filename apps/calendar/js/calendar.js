@@ -35,9 +35,9 @@
  * listview - listview                            *
  * generate_monthview - generating month view     *
  * generate_dates - generate other days for view  *
- * load_events - load the events                  *
  * switch2today - switching to today              *
- * remove_events - remove old events in view      *
+ * removeEvents - remove old events in view       *
+ * loadEvents - load the events                   *
  *************************************************/
 Calendar={
 	Date:{
@@ -172,6 +172,407 @@ Calendar={
 			}
 		},
 
+	},
+	UI:{
+		weekdays: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+		update:function(view, task) {
+			this.setCurrentView(view);
+			this.updateDate(task);
+			this.current.removeEvents();
+			this.current.renderCal();
+			this.current.loadEvents();
+		},
+		setCurrentView:function(view){
+			switch(view) {
+				case "onedayview":
+					this.current = Calendar.UI.OneDay;
+					break;
+				case "oneweekview":
+					this.current = Calendar.UI.OneWeek;
+					break;
+				case "fourweeksview":
+					this.current = Calendar.UI.FourWeeks;
+					break;
+				case "onemonthview":
+					this.current = Calendar.UI.OneMonth;
+					break;
+				case "listview":
+					this.current = Calendar.UI.List;
+					break;
+				default:
+					break;
+			}
+		},
+		updateDate:function(direction){
+			if(direction == "forward") {
+				this.current.forward();
+			}
+			if(direction == "backward") {
+				this.current.backward();
+			}
+		},
+		createEventsForDate:function(date, week, weekday){
+			var day = date[0];
+			var month = date[1];
+			var year = date[2];
+			if( typeof (oc_cal_events[year]) == "undefined") {
+				return;
+			}
+			if( typeof (oc_cal_events[year][month]) == "undefined") {
+				return;
+			}
+			if( typeof (oc_cal_events[year][month][day]) == "undefined") {
+				return;
+			}
+			events = oc_cal_events[year][month][day];
+			if( typeof (events["allday"]) != "undefined") {
+				var eventnumber = 1;
+				var eventcontainer = this.current.getEventContainer(week, weekday, "allday");
+				while( typeof (events["allday"][eventnumber]) != "undefined") {
+					var newp = this.current.createEventBox(events, week, weekday, "allday", eventnumber);
+					eventcontainer.append(newp);
+					eventnumber++;
+				}
+			}
+			for(var time = 0; time <= 23; time++) {
+				if( typeof (events[time]) != "undefined") {
+					var eventnumber = 1;
+					var eventcontainer = this.current.getEventContainer(week, weekday, time);
+					while( typeof (events[time][eventnumber]) != "undefined") {
+						var newp = this.current.createEventBox(events, week, weekday, time, eventnumber);
+						eventcontainer.append(newp);
+						eventnumber++;
+					}
+				}
+			}
+		},
+		OneDay:{
+			forward:function(){
+				Calendar.Date.forward_day();
+			},
+			backward:function(){
+				Calendar.Date.backward_day();
+			},
+			removeEvents:function(){
+				$("#onedayview_wholeday").html("");
+				for(var i = 0; i <= 23; i++) {
+					$("#onedayview_" + i).html("");
+				}
+			},
+			renderCal:function(){
+				$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
+				$("#onedayview_today").html(oc_cal_daylong[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month]);
+				var generate_dayofmonth = oc_cal_dayofmonth;
+				var generate_month = oc_cal_month;
+				var generate_year = oc_cal_year;
+				if(parseInt(generate_dayofmonth) <= 9){
+					generate_dayofmonth = "0" + generate_dayofmonth;
+				}
+				generate_month++;
+				if(parseInt(generate_month) <= 9){
+					generate_month = "0" + generate_month;
+				}
+				var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
+				$('#onedayview_today').attr('title', generate_title);
+			},
+			loadEvents:function(){
+				Calendar.UI.createEventsForDate([oc_cal_dayofmonth, oc_cal_month, oc_cal_year], 0, 0);
+			},
+			getEventContainer:function(week, weekday, when){
+				if (when == "allday"){
+					when = "wholeday";
+				}
+				return $("#onedayview_" + when);
+			},
+			createEventBox:function(day_events, week, weekday, when, eventnumber){
+				var newp = document.createElement("p");
+				newp.id = "onedayview_" + when + "_" + eventnumber;
+				newp.className = "onedayview_event";
+				newp.innerHTML = day_events[when][eventnumber]["description"];
+				return newp;
+			},
+		},
+		OneWeek:{
+			forward:function(){
+				Calendar.Date.forward_week();
+			},
+			backward:function(){
+				Calendar.Date.backward_week();
+			},
+			removeEvents:function(){
+				for( i = 0; i <= 6; i++) {
+					$("#oneweekview_" + Calendar.UI.weekdays[i] + "_allday").html("");
+					for(var time = 0; time <= 23; time++) {
+						$("#oneweekview_" + Calendar.UI.weekdays[i] + "_" + time).html("");
+					}
+				}
+			},
+			renderCal:function(){
+				$("#datecontrol_date").val(cw_label + ": " + Calendar.Date.calw());
+				var dates = oc_cal_generate_dates("oneweek");
+				var weekday = 1;
+				for(var i = 0; i <= 6; i++){
+					var generate_dayofmonth = String(dates[i][0]);
+					var generate_month = String(dates[i][1]);
+					$("#oneweekview_" + Calendar.UI.weekdays[i]).html(oc_cal_dayshort[weekday] + oc_cal_space + dates[i][0] + oc_cal_space + oc_cal_monthshort[dates[i][1]]);
+					if(parseInt(generate_dayofmonth) <= 9){
+						generate_dayofmonth = "0" + generate_dayofmonth;
+					}
+					generate_month++;
+					if(parseInt(generate_month) <= 9){
+						generate_month = "0" + generate_month;
+					}
+					var generate_title = String(generate_dayofmonth) + String(generate_month) + String(dates[i][2]);
+					$("#oneweekview_" + Calendar.UI.weekdays[i]).attr('title', generate_title);
+					if(weekday == 6){
+						weekday = 0;
+					}else{
+						weekday++;
+					}
+				}
+			},
+			loadEvents:function(){
+				var dates = oc_cal_generate_dates("oneweek");
+				for(var weekday = 0; weekday <= 6; weekday++) {
+					Calendar.UI.createEventsForDate(dates[weekday], 0, weekday);
+				}
+			},
+			getEventContainer:function(week, weekday, when){
+				return $("#oneweekview_" + Calendar.UI.weekdays[weekday] + "_" + when);
+			},
+			createEventBox:function(day_events, week, weekday, when, eventnumber){
+				var newp = document.createElement("p");
+				newp.id = "oneweekview_" + Calendar.UI.weekdays[weekday] + "_" + when + "_" + eventnumber;
+				newp.className = "oneweekview_event";
+				newp.innerHTML = day_events[when][eventnumber]["description"];
+				return newp;
+			},
+		},
+		FourWeeks:{
+			forward:function(){
+				Calendar.Date.forward_week();
+			},
+			backward:function(){
+				Calendar.Date.backward_week();
+			},
+			removeEvents:function(){
+				var week = 1;
+				var weekday = 0;
+				for(var i = 0; i <= 41; i++){//events_onemonthview_saturday_6
+					$("#events_fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week).html("");
+					if(weekday == 6){
+						weekday = 0;
+						week++;
+					}else{
+						weekday++;
+					}
+				}
+			},
+			renderCal:function(){
+				var calw1 = Calendar.Date.calw();
+				var calw2 = calw1 + 1;
+				var calw3 = calw1 + 2;
+				var calw4 = calw1 + 3;
+				switch(calw1) {
+					case 50:
+						calw4 = 1;
+						break;
+					case 51:
+						calw3 = 1;
+						calw4 = 2;
+						break;
+					case 52:
+						calw2 = 1;
+						calw3 = 2;
+						calw4 = 3;
+						break;
+				}
+				var calwplusfour = calw4;
+				var dates = oc_cal_generate_dates("fourweeks");
+				var week = 1;
+				var weekday = 0;
+				for(var i = 0; i <= 27; i++){
+					var generate_dayofmonth = String(dates[i][0]);
+					var generate_month = String(dates[i][1]);
+					var generate_year = dates[i][2];
+					$("#dateinfo_fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week).html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
+					if(parseInt(generate_dayofmonth) <= 9){
+						generate_dayofmonth = "0" + generate_dayofmonth;
+					}
+					if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
+						$("#fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week).attr('class', "thisday");
+					}else{
+						$("#fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week).attr('class', "fourweeksview_item");
+					}
+					generate_month++;
+					if(parseInt(generate_month) <= 9){
+						generate_month = "0" + generate_month;
+					}
+					var generate_title = String(generate_dayofmonth) + String(generate_month) + String(dates[i][2]);
+					$("#fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week).attr('title', generate_title);
+					if(weekday == 6){
+						weekday = 0;
+						week++;
+					}else{
+						weekday++;
+					}
+				}
+				$("#fourweeksview_calw1").html(calw1);
+				$("#fourweeksview_calw2").html(calw2);
+				$("#fourweeksview_calw3").html(calw3);
+				$("#fourweeksview_calw4").html(calw4);
+				$("#datecontrol_date").val(cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour);
+			},
+			loadEvents:function(){
+				var dates = oc_cal_generate_dates("fourweeks");
+				var weekdaynum = 0;
+				var weeknum = 1;
+				for(var i = 0; i <= 27; i++) {
+					Calendar.UI.createEventsForDate(dates[i], weeknum, weekdaynum);
+					if(weekdaynum == 6){
+						weekdaynum = 0;
+						weeknum++;
+					}else{
+						weekdaynum++;
+					}
+				}
+			},
+			getEventContainer:function(week, weekday, when){
+				return $("#events_fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week);
+			},
+			createEventBox:function(day_events, week, weekday, when, eventnumber){
+				var newp = document.createElement("p");
+				newp.id = "fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week + "_" + when + "_" + eventnumber;
+				newp.className = "fourweeksview_event";
+				newp.innerHTML = day_events[when][eventnumber]["description"];
+				return newp;
+			},
+		},
+		OneMonth:{
+			forward:function(){
+				Calendar.Date.forward_month();
+			},
+			backward:function(){
+				Calendar.Date.backward_month();
+			},
+			removeEvents:function(){
+				var week = 1;
+				var weekday = 0;
+				for(var i = 0; i <= 41; i++){//events_onemonthview_saturday_6
+					$("#events_onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week).html("");
+					$("#onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week).attr('class', "onemonthview_item");
+					if(weekday == 6){
+						weekday = 0;
+						week++;
+					}else{
+						weekday++;
+					}
+				}
+			},
+			renderCal:function(){
+				$("#datecontrol_date").val(oc_cal_monthlong[oc_cal_month] + oc_cal_space + oc_cal_year);
+				var cal = Calendar.Date.getnumberofdays(oc_cal_year);
+				var monthview_dayofweek = oc_cal_dayofweek;
+				var monthview_dayofmonth = oc_cal_dayofmonth;
+				for(var i = monthview_dayofmonth; i > 1; i--) {
+					if(monthview_dayofweek == 0) {
+						monthview_dayofweek = 6;
+					} else {
+						monthview_dayofweek--;
+					}
+				}
+				$("#onemonthview_week_5").css('display', "none");
+				$("#onemonthview_week_6").css('display', "none");
+				oc_cal_rows = parseInt(monthview_dayofweek) + parseInt(cal[oc_cal_month]);
+				oc_cal_rows = oc_cal_rows / 7;
+				oc_cal_rows = Math.ceil(oc_cal_rows);
+				var dates = oc_cal_generate_dates("onemonth");
+				var week = 1;
+				var weekday = 0;
+				for(var i = 0; i <= 41; i++){
+					var generate_dayofmonth = dates[i][0];
+					var generate_month = dates[i][1];
+					var generate_year = dates[i][2];
+					$("#dateinfo_onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week).html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
+					if(parseInt(generate_dayofmonth) <= 9){
+						generate_dayofmonth = "0" + generate_dayofmonth;
+					}
+					if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
+						$("#onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week).attr('class', "thisday");
+					}else{
+						$("#onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week).attr('class', "onemonthview_item");
+					}
+					generate_month++;
+					if(parseInt(generate_month) <= 9){
+						generate_month = "0" + generate_month;
+					}
+					var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
+					$("#onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week).attr('title', generate_title);
+					if(weekday == 6){
+						weekday = 0;
+						week++;
+					}else{
+						weekday++;
+					}
+				}
+				if(oc_cal_rows == 5) {
+					$("#onemonthview_week_5").css('display', "table-row");
+				}
+				if(oc_cal_rows == 6) {
+					$("#onemonthview_week_5").css('display', "table-row");
+					$("#onemonthview_week_6").css('display', "table-row");
+				}
+			},
+			loadEvents:function(){
+				var dates = oc_cal_generate_dates("onemonth");
+				var weekdaynum = 0;
+				var weeknum = 1;
+				for(var i = 0; i <= 41; i++) {
+					Calendar.UI.createEventsForDate(dates[i], weeknum, weekdaynum);
+					if(weekdaynum == 6){
+						weekdaynum = 0;
+						weeknum++;
+					}else{
+						weekdaynum++;
+					}
+				}
+			},
+			getEventContainer:function(week, weekday, when){
+				return $("#events_onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week);
+			},
+			createEventBox:function(day_events, week, weekday, when, eventnumber){
+				var newp = document.createElement("p");
+				newp.id = "onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week + "_" + when + "_" + eventnumber;
+				newp.className = "onemonthview_event";
+				newp.innerHTML = day_events[when][eventnumber]["description"];
+				return newp;
+			},
+		},
+		List:{
+			forward:function(){
+				Calendar.Date.forward_day();
+			},
+			backward:function(){
+				Calendar.Date.backward_day();
+			},
+			removeEvents:function(){
+				$("#listview").html("");
+			},
+			renderCal:function(){
+				$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
+			},
+			loadEvents:function(){
+			},
+			getEventContainer:function(week, weekday, when){
+			},
+			createEventBox:function(day_events, week, weekday, when, eventnumber){
+				var newp = document.createElement("p");
+				newp.id = "listview_" + Calendar.UI.weekdays[weekday] + "_" + when + "_" + eventnumber;
+				newp.className = "listview_event";
+				newp.innerHTML = day_events[when][eventnumber]["description"];
+				return newp;
+			},
+		}
 	}
 }
 
@@ -180,82 +581,14 @@ function oc_cal_update_view(view, task) {
 		view = oc_cal_currentview;
 	}
 	$("#sysbox").load(oc_webroot + "/apps/calendar/ajax/changeview.php?v="+view+"");
-	//no necessary to check whether the response is true or not
-	switch(view) {
-		case "onedayview":
-			if(task == "forward") {
-				Calendar.Date.forward_day();
-			}
-			if(task == "backward") {
-				Calendar.Date.backward_day();
-			}
-			oc_cal_remove_events("oneday");
-			oc_cal_load_cal("oneday");
-			oc_cal_load_events("oneday");
-			break;
-		case "oneweekview":
-			if(task == "forward") {
-				Calendar.Date.forward_week();
-			}
-			if(task == "backward") {
-				Calendar.Date.backward_week();
-			}
-			oc_cal_remove_events("oneweek");
-			oc_cal_load_cal("oneweek");
-			oc_cal_load_events("oneweek");
-			break;
-		case "fourweeksview":
-			if(task == "forward") {
-				Calendar.Date.forward_week();
-			}
-			if(task == "backward") {
-				Calendar.Date.backward_week();
-			}
-			oc_cal_remove_events("fourweeks");
-			oc_cal_load_cal("fourweeks");
-			oc_cal_load_events("fourweeks");
-			break;
-		case "onemonthview":
-			if(task == "forward") {
-				Calendar.Date.forward_month();
-			}
-			if(task == "backward") {
-				Calendar.Date.backward_month();
-			}
-			oc_cal_remove_events("onemonth");
-			oc_cal_load_cal("onemonth");
-			oc_cal_load_events("onemonth");
-			break;
-		case "listview":
-			if(task == "forward") {
-				Calendar.Date.forward_day();
-			}
-			if(task == "backward") {
-				Calendar.Date.backward_day();
-			}
-			oc_cal_remove_events("list");
-			oc_cal_load_cal("list");
-			oc_cal_load_events("list");
-			break;
-		default:
-			break;
-	}
+	//not necessary to check whether the response is true or not
+	Calendar.UI.update(view, task);
 	if(oc_cal_month == 0){
 		oc_cal_update_eventsvar(oc_cal_year - 1);
 	}
 	if(oc_cal_month == 11){
 		oc_cal_update_eventsvar(oc_cal_year + 1);
 	}
-}
-
-function oc_cal_listview(task) {
-	if(task == "forward") {
-		Calendar.Date.forward_day();
-	}
-	if(task == "backward") {
-		Calendar.Date.backward_day();
-	}
-	$("#datecontrol_date").val(dayshort[dayofweek] + space + dayofmonth + space + monthshort[month] + space + year);
 }
 
 function oc_cal_generate_dates(view) {
@@ -445,405 +778,6 @@ function oc_cal_update_eventsvar(loadyear) {
 	});
 }
 
-function oc_cal_load_cal(loadview) {
-	if(loadview == "oneday") {
-		$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
-		$("#onedayview_today").html(oc_cal_daylong[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month]);
-		var generate_dayofmonth = oc_cal_dayofmonth;
-		var generate_month = oc_cal_month;
-		var generate_year = oc_cal_year;
-		if(parseInt(generate_dayofmonth) <= 9){
-			generate_dayofmonth = "0" + generate_dayofmonth;
-		}
-		generate_month++;
-		if(parseInt(generate_month) <= 9){
-			generate_month = "0" + generate_month;
-		}
-		var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
-		$('#onedayview_today').attr('title', generate_title);
-	}
-	if(loadview == "oneweek") {
-		$("#datecontrol_date").val(cw_label + ": " + Calendar.Date.calw());
-		var dates = oc_cal_generate_dates("oneweek");
-		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-		var weekday = 1;
-		for(var i = 0; i <= 6; i++){
-			var generate_dayofmonth = String(dates[i][0]);
-			var generate_month = String(dates[i][1]);
-			$("#oneweekview_" + weekdays[i]).html(oc_cal_dayshort[weekday] + oc_cal_space + dates[i][0] + oc_cal_space + oc_cal_monthshort[dates[i][1]]);
-			if(parseInt(generate_dayofmonth) <= 9){
-				generate_dayofmonth = "0" + generate_dayofmonth;
-			}
-			generate_month++;
-			if(parseInt(generate_month) <= 9){
-				generate_month = "0" + generate_month;
-			}
-			var generate_title = String(generate_dayofmonth) + String(generate_month) + String(dates[i][2]);
-			$("#oneweekview_" + weekdays[i]).attr('title', generate_title);
-			if(weekday == 6){
-				weekday = 0;
-			}else{
-				weekday++;
-			}
-		}
-	}
-	if(loadview == "fourweeks") {
-		var calw1 = Calendar.Date.calw();
-		if(calw1 == 52) {
-			var calw2 = 1;
-		} else {
-			var calw2 = Calendar.Date.calw() + 1;
-		}
-		if(calw1 == 51) {
-			var calw3 = 1;
-		} else if(calw1 == 52) {
-			var calw3 = 2;
-		} else {
-			var calw3 = Calendar.Date.calw() + 2;
-		}
-		if(calw1 == 50) {
-			var calw4 = 1;
-		} else if(calw1 == 51) {
-			var calw4 = 2;
-		} else if(calw1 == 52) {
-			var calw4 = 3;
-		} else {
-			var calw4 = Calendar.Date.calw() + 3;
-		}
-		var calwplusfour = calw4;
-		var dates = oc_cal_generate_dates("fourweeks");
-		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-		var weeknum = 1;
-		var weekday = 0;
-		for(var i = 0; i <= 27; i++){
-			var generate_dayofmonth = String(dates[i][0]);
-			var generate_month = String(dates[i][1]);
-			var generate_year = dates[i][2];
-			$("#dateinfo_fourweeksview_" + weekdays[weekday] + "_" + weeknum).html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
-			if(parseInt(generate_dayofmonth) <= 9){
-				generate_dayofmonth = "0" + generate_dayofmonth;
-			}
-			if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
-				$("#fourweeksview_" + weekdays[weekday] + "_" + weeknum).attr('class', "thisday");
-			}else{
-				$("#fourweeksview_" + weekdays[weekday] + "_" + weeknum).attr('class', "fourweeksview_item");
-			}
-			generate_month++;
-			if(parseInt(generate_month) <= 9){
-				generate_month = "0" + generate_month;
-			}
-			var generate_title = String(generate_dayofmonth) + String(generate_month) + String(dates[i][2]);
-			$("#fourweeksview_" + weekdays[weekday] + "_" + weeknum).attr('title', generate_title);
-			if(weekday == 6){
-				weekday = 0;
-				weeknum++;
-			}else{
-				weekday++;
-			}
-		}
-		$("#fourweeksview_calw1").html(calw1);
-		$("#fourweeksview_calw2").html(calw2);
-		$("#fourweeksview_calw3").html(calw3);
-		$("#fourweeksview_calw4").html(calw4);
-		$("#datecontrol_date").val(cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour);
-	}
-	if(loadview == "onemonth") {
-		$("#datecontrol_date").val(oc_cal_monthlong[oc_cal_month] + oc_cal_space + oc_cal_year);
-		var cal = Calendar.Date.getnumberofdays(oc_cal_year);
-		var monthview_dayofweek = oc_cal_dayofweek;
-		var monthview_dayofmonth = oc_cal_dayofmonth;
-		for(var i = monthview_dayofmonth; i > 1; i--) {
-			if(monthview_dayofweek == 0) {
-				monthview_dayofweek = 6;
-			} else {
-				monthview_dayofweek--;
-			}
-		}
-		$("#onemonthview_week_5").css('display', "none");
-		$("#onemonthview_week_6").css('display', "none");
-		oc_cal_rows = parseInt(monthview_dayofweek) + parseInt(cal[oc_cal_month]);
-		oc_cal_rows = oc_cal_rows / 7;
-		oc_cal_rows = Math.ceil(oc_cal_rows);
-		var dates = oc_cal_generate_dates("onemonth");
-		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-		var weeknum = 1;
-		var weekday = 0;
-		for(var i = 0; i <= 41; i++){
-			var generate_dayofmonth = dates[i][0];
-			var generate_month = dates[i][1];
-			var generate_year = dates[i][2];
-			$("#dateinfo_onemonthview_" + weekdays[weekday] + "_" + weeknum).html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
-			if(parseInt(generate_dayofmonth) <= 9){
-				generate_dayofmonth = "0" + generate_dayofmonth;
-			}
-			if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
-				$("#onemonthview_" + weekdays[weekday] + "_" + weeknum).attr('class', "thisday");
-			}else{
-				$("#onemonthview_" + weekdays[weekday] + "_" + weeknum).attr('class', "onemonthview_item");
-			}
-			generate_month++;
-			if(parseInt(generate_month) <= 9){
-				generate_month = "0" + generate_month;
-			}
-			var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
-			$("#onemonthview_" + weekdays[weekday] + "_" + weeknum).attr('title', generate_title);
-			if(weekday == 6){
-				weekday = 0;
-				weeknum++;
-			}else{
-				weekday++;
-			}
-		}
-		if(oc_cal_rows == 5) {
-			$("#onemonthview_week_5").css('display', "table-row");
-		}
-		if(oc_cal_rows == 6) {
-			$("#onemonthview_week_5").css('display', "table-row");
-			$("#onemonthview_week_6").css('display', "table-row");
-		}
-	}
-	if(loadview == "list") {
-		$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
-	}
-}
-
-function oc_cal_load_events(loadview) {
-	if(loadview == "oneday") {
-		if( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]) != "undefined") {
-			if( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]["allday"]) != "undefined") {
-				var eventnumber = 1;
-				var eventcontainer = $("#onedayview_wholeday");
-				while( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]["allday"][eventnumber]) != "undefined") {
-					var newp = document.createElement("p");
-					newp.id = "onedayview_allday_" + eventnumber;
-					newp.className = "onedayview_event";
-					eventcontainer.append(newp);
-					newp.innerHTML = oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth]["allday"][eventnumber]["description"];
-					eventnumber++;
-				}
-			}
-			for( i = 0; i <= 23; i++) {
-				if( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i]) != "undefined") {
-					var eventnumber = 1;
-					var eventcontainer = $("#onedayview_" + i);
-					while( typeof (oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i][eventnumber]) != "undefined") {
-						var newp = document.createElement("p");
-						newp.id = "onedayview_" + i + "_" + eventnumber;
-						newp.className = "onedayview_event";
-						eventcontainer.append(newp);
-						newp.innerHTML = oc_cal_events[oc_cal_year][oc_cal_month][oc_cal_dayofmonth][i][eventnumber]["description"];
-						eventnumber++;
-					}
-				}
-			}
-		}
-	}
-	if(loadview == "oneweek") {//(generate_dayofmonth, generate_month, generate_year);
-		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-		var dates = oc_cal_generate_dates("oneweek");
-		for(var i = 0; i <= 6; i++) {
-			var loadevents_month = dates[i][1];
-			var loadevents_days = dates[i][0];
-			if( typeof (oc_cal_events[oc_cal_year][loadevents_month]) != "undefined") {
-				if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]) != "undefined") {
-					if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"]) != "undefined") {
-						var eventnumber = 1;
-						var eventcontainer = $("#oneweekview_" + weekdays[i] + "_allday");
-						while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]) != "undefined") {
-							var newp = document.createElement("p");
-							newp.id = "oneweekview_" + weekdays[i] + "_allday_" + eventnumber;
-							newp.className = "oneweekview_event";
-							eventcontainer.append(newp);
-							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
-							eventnumber++;
-						}
-					}
-					for(var time = 0; time <= 23; time++) {
-						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
-							var eventnumber = 1;
-							var eventcontainer = $("#oneweekview_" + weekdays[i] + "_" + time);
-							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
-								var newp = document.createElement("p");
-								newp.id = "oneweekview_" + weekdays[i] + "_" + time + "_" + eventnumber;
-								newp.className = "oneweekview_event";
-								eventcontainer.append(newp);
-								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
-								eventnumber++;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	if(loadview == "fourweeks") {
-		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-		var dates = oc_cal_generate_dates("fourweeks");
-		var weekdaynum = 0;
-		var weeknum = 1;
-		for(var i = 0; i <= 27; i++) {
-			var loadevents_month = dates[i][1];
-			var loadevents_days = dates[i][0];
-			if( typeof (oc_cal_events[oc_cal_year][loadevents_month]) != "undefined") {
-				if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]) != "undefined") {
-					var pnum = 0;
-					if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"]) != "undefined") {
-						var eventnumber = 1;
-						var eventcontainer = $("#events_fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum);
-						while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]) != "undefined") {
-							var newp = document.createElement("p");
-							newp.id = "fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum + "_" + pnum;
-							newp.className = "fourweeksview_event";
-							eventcontainer.append(newp);
-							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
-							eventnumber++;
-							pnum++;
-						}
-					}
-					for(var time = 0; time <= 23; time++) {
-						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
-							var eventnumber = 1;
-							var eventcontainer = $("#events_fourweeksview_" + weekdays[weekdaynum] + "_" + weeknum);
-							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
-								var newp = document.createElement("p");
-								newp.id = "fourweeksview_" + weekdays[i] + "_" + i + "_" + eventnumber;
-								newp.className = "fourweeksview_event";
-								eventcontainer.append(newp);
-								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
-								eventnumber++;
-								pnum++;
-							}
-						}
-					}
-				}
-			}
-			if(weekdaynum == 6){
-				weekdaynum = 0;
-				weeknum++;
-			}else{
-				weekdaynum++;
-			}
-		}
-	}
-	if(loadview == "onemonth") {
-		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-		var dates = oc_cal_generate_dates("onemonth");
-		var weekdaynum = 0;
-		var weeknum = 1;
-		for(var i = 0; i <= 41; i++) {
-			var loadevents_month = dates[i][1];
-			var loadevents_days = dates[i][0];
-			if( typeof (oc_cal_events[oc_cal_year][loadevents_month]) != "undefined") {
-				if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]) != "undefined") {
-					var pnum = 0;
-					if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"]) != "undefined") {
-						var eventnumber = 1;
-						var eventcontainer = $("#events_onemonthview_" + weekdays[weekdaynum] + "_" + weeknum);
-						while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]) != "undefined") {
-							var newp = document.createElement("p");
-							newp.id = "onemonthview_" + weekdays[weekdaynum] + "_" + weeknum + "_" + pnum;
-							newp.className = "onemonthview_event";
-							eventcontainer.append(newp);
-							newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days]["allday"][eventnumber]["description"];
-							eventnumber++;
-							pnum++;
-						}
-					}
-					for(var time = 0; time <= 23; time++) {
-						if( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time]) != "undefined") {
-							var eventnumber = 1;
-							var eventcontainer = $("#events_onemonthview_" + weekdays[weekdaynum] + "_" + weeknum);
-							while( typeof (oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]) != "undefined") {
-								var newp = document.createElement("p");
-								newp.id = "onemonthview_" + weekdays[i] + "_" + time + "_" + eventnumber;
-								newp.className = "onemonthview_event";
-								eventcontainer.append(newp);
-								newp.innerHTML = oc_cal_events[oc_cal_year][loadevents_month][loadevents_days][time][eventnumber]["description"];
-								eventnumber++;
-								pnum++;
-							}
-						}
-					}
-				}
-			}
-			if(weekdaynum == 6){
-				weekdaynum = 0;
-				weeknum++;
-			}else{
-				weekdaynum++;
-			}
-		}
-	}
-	if(loadview == "list") {
-		//
-	}
-}
-
-function oc_cal_remove_events(removeview) {
-	if(removeview == "oneday") {
-		$("#onedayview_wholeday").html("");
-		for(var i = 0; i <= 23; i++) {
-			$("#onedayview_" + i).html("");
-		}
-	}
-	if(removeview == "oneweek") {
-		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-		for( i = 0; i <= 6; i++) {
-			$("#oneweekview_" + weekdays[i] + "_allday").html("");
-			for(var time = 0; time <= 23; time++) {
-				$("#oneweekview_" + weekdays[i] + "_" + time).html("");
-			}
-		}
-	}
-	if(removeview == "fourweeks") {
-		$("#events_fourweeksview_monday_1").html("");
-		$("#events_fourweeksview_tuesday_1").html("");
-		$("#events_fourweeksview_wednesday_1").html("");
-		$("#events_fourweeksview_thursday_1").html("");
-		$("#events_fourweeksview_friday_1").html("");
-		$("#events_fourweeksview_saturday_1").html("");
-		$("#events_fourweeksview_sunday_1").html("");
-		$("#events_fourweeksview_monday_2").html("");
-		$("#events_fourweeksview_tuesday_2").html("");
-		$("#events_fourweeksview_wednesday_2").html("");
-		$("#events_fourweeksview_thursday_2").html("");
-		$("#events_fourweeksview_friday_2").html("");
-		$("#events_fourweeksview_saturday_2").html("");
-		$("#events_fourweeksview_sunday_2").html("");
-		$("#events_fourweeksview_monday_3").html("");
-		$("#events_fourweeksview_tuesday_3").html("");
-		$("#events_fourweeksview_wednesday_3").html("");
-		$("#events_fourweeksview_thursday_3").html("");
-		$("#events_fourweeksview_friday_3").html("");
-		$("#events_fourweeksview_saturday_3").html("");
-		$("#events_fourweeksview_sunday_3").html("");
-		$("#events_fourweeksview_monday_4").html("");
-		$("#events_fourweeksview_tuesday_4").html("");
-		$("#events_fourweeksview_wednesday_4").html("");
-		$("#events_fourweeksview_thursday_4").html("");
-		$("#events_fourweeksview_friday_4").html("");
-		$("#events_fourweeksview_saturday_4").html("");
-		$("#events_fourweeksview_sunday_4").html("");
-	}
-	if(removeview == "onemonth") {
-		var weekdays = new Array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
-		var weeknum = 1;
-		var weekday = 0;
-		for(var i = 0; i <= 41; i++){//events_onemonthview_saturday_6
-			$("#events_onemonthview_" + weekdays[weekday] + "_" + weeknum).html("");
-			$("#onemonthview_" + weekdays[weekday] + "_" + weeknum).attr('class', "onemonthview_item");
-			if(weekday == 6){
-				weekday = 0;
-				weeknum++;
-			}else{
-				weekday++;
-			}
-		}
-	}
-	if(removeview == "list") {
-		$("#listview").html("");
-	}
-}
 function oc_cal_newevent(date, time){
 	if(oc_cal_opendialog == 0){
 		$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/neweventform.php?d=" + date + "&t=" + time);
