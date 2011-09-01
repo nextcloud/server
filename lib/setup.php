@@ -284,8 +284,10 @@ class OC_Setup {
 		$content.= "Options -Indexes\n";
 		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
-		$content = "deny from all";
+		$content = "deny from all\n";
+		$content.= "IndexIgnore *";
 		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/.htaccess', $content);
+		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/index.html', '');
 	}
 }
 
