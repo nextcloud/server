@@ -189,10 +189,6 @@ Collection={
             Collection.addButtons(tr,artist);
 		}
 	},
-	//~ showAlbum:function(artist,album){
-        //~ alert(album.name);
-		//~ Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').show();
-	//~ },
 	showAlbum:function(artist,album){
         var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
         tr.find('a.expander').data('expanded',true);
@@ -208,11 +204,6 @@ Collection={
         tr.hide();
 		tr.first().show();
 	},
-	//~ hideAlbum:function(artist,album){
-		//~ Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').hide();
-		//~ Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]').last().show();
-        //~ alert(album.name);
-	//~ },
 	parent:null,
 	hide:function(){
 		if(Collection.parent){
