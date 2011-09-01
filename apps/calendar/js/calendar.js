@@ -91,27 +91,17 @@ Calendar={
 					oc_cal_year++;
 					oc_cal_month = 0;
 					oc_cal_dayofmonth = 1;
-					if(oc_cal_dayofweek == 6) {
-						oc_cal_dayofweek = 0;
-					} else {
-						oc_cal_dayofweek++;
-					}
 				} else {
 					oc_cal_month++;
 					oc_cal_dayofmonth = 1;
-					if(oc_cal_dayofweek == 6) {
-						oc_cal_dayofweek = 0;
-					} else {
-						oc_cal_dayofweek++;
-					}
 				}
 			} else {
 				oc_cal_dayofmonth++;
-				if(oc_cal_dayofweek == 6) {
-					oc_cal_dayofweek = 0;
-				} else {
-					oc_cal_dayofweek++;
-				}
+			}
+			if(oc_cal_dayofweek == 6) {
+				oc_cal_dayofweek = 0;
+			} else {
+				oc_cal_dayofweek++;
 			}
 		},
 
@@ -135,27 +125,17 @@ Calendar={
 					oc_cal_year--;
 					oc_cal_month = 11;
 					oc_cal_dayofmonth = 31
-					if(oc_cal_dayofweek == 0) {
-						oc_cal_dayofweek = 6;
-					} else {
-						oc_cal_dayofweek--;
-					}
 				} else {
 					oc_cal_month--;
 					oc_cal_dayofmonth = cal[oc_cal_month];
-					if(oc_cal_dayofweek == 0) {
-						oc_cal_dayofweek = 6;
-					} else {
-						oc_cal_dayofweek--;
-					}
 				}
 			} else {
 				oc_cal_dayofmonth--;
-				if(oc_cal_dayofweek == 0) {
-					oc_cal_dayofweek = 6;
-				} else {
-					oc_cal_dayofweek--;
-				}
+			}
+			if(oc_cal_dayofweek == 0) {
+				oc_cal_dayofweek = 6;
+			} else {
+				oc_cal_dayofweek--;
 			}
 		},
 
