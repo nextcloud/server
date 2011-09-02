@@ -164,8 +164,8 @@ Calendar={
 			if (view == oc_cal_currentview){
 				return;
 			}
-			$('#'+oc_cal_currentview).css('display', "none");
-			$('#'+oc_cal_currentview + "_radio").css('color', "#000000");
+			$('#'+oc_cal_currentview).hide();
+			$('#'+oc_cal_currentview + "_radio").removeClass('active');
 			oc_cal_currentview = view;
 			//sending ajax request on every change view
 			$("#sysbox").load(oc_webroot + "/apps/calendar/ajax/changeview.php?v="+view);
@@ -189,8 +189,8 @@ Calendar={
 				default:
 					break;
 			}
-			$('#'+oc_cal_currentview).css('display', "block");
-			$('#'+oc_cal_currentview + "_radio").css('color', "#0098E4");
+			$('#'+oc_cal_currentview).show();
+			$('#'+oc_cal_currentview + "_radio").addClass('active');
 			this.updateView();
 		},
 		updateDate:function(direction){
@@ -560,8 +560,8 @@ Calendar={
 						monthview_dayofweek--;
 					}
 				}
-				$("#onemonthview .week_5").css('display', "none");
-				$("#onemonthview .week_6").css('display', "none");
+				$("#onemonthview .week_5").hide();
+				$("#onemonthview .week_6").hide();
 				oc_cal_rows = parseInt(monthview_dayofweek) + parseInt(cal[oc_cal_month]);
 				oc_cal_rows = oc_cal_rows / 7;
 				oc_cal_rows = Math.ceil(oc_cal_rows);
@@ -598,14 +598,14 @@ Calendar={
 					}
 				}
 				if(oc_cal_rows == 5) {
-					$("#onemonthview .week_5").css('display', "table-row");
+					$("#onemonthview .week_5").show();
 					for(var i = 1;i <= 6;i++){
 						$("#onemonthview .week_" + String(i)).height("18%");
 					}
 				}
 				if(oc_cal_rows == 6) {
-					$("#onemonthview .week_5").css('display', "table-row");
-					$("#onemonthview .week_6").css('display', "table-row");
+					$("#onemonthview .week_5").show();
+					$("#onemonthview .week_6").show();
 					for(var i = 1;i <= 6;i++){
 						$("#onemonthview .week_" + String(i)).height("14%");
 					}
