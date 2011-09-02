@@ -164,7 +164,10 @@ Calendar={
 			if (view == oc_cal_currentview){
 				return;
 			}
+			$('#'+oc_cal_currentview).css('display', "none");
+			$('#'+oc_cal_currentview + "_radio").css('color', "#000000");
 			oc_cal_currentview = view;
+			//sending ajax request on every change view
 			$("#sysbox").load(oc_webroot + "/apps/calendar/ajax/changeview.php?v="+view);
 			//not necessary to check whether the response is true or not
 			switch(view) {
@@ -186,6 +189,9 @@ Calendar={
 				default:
 					break;
 			}
+			$('#'+oc_cal_currentview).css('display', "block");
+			$('#'+oc_cal_currentview + "_radio").css('color', "#0098E4");
+			this.updateView();
 		},
 		updateDate:function(direction){
 			if(direction == "forward") {
@@ -193,12 +199,14 @@ Calendar={
 				if(oc_cal_month == 11){
 					this.loadEvents(oc_cal_year + 1);
 				}
+				Calendar.UI.updateView();
 			}
 			if(direction == "backward") {
 				this.current.backward();
 				if(oc_cal_month == 0){
 					this.loadEvents(oc_cal_year - 1);
 				}
+				Calendar.UI.updateView();
 			}
 		},
 		loadEvents:function(year){
@@ -262,7 +270,7 @@ Calendar={
 				Calendar.Date.backward_day();
 			},
 			removeEvents:function(){
-				$("#onedayview_wholeday").html("");
+				$("#onedayview_allday").html("");
 				for(var i = 0; i <= 23; i++) {
 					$("#onedayview_" + i).html("");
 				}
@@ -287,9 +295,6 @@ Calendar={
 				Calendar.UI.createEventsForDate([oc_cal_dayofmonth, oc_cal_month, oc_cal_year], 0, 0);
 			},
 			getEventContainer:function(week, weekday, when){
-				if (when == "allday"){
-					when = "wholeday";
-				}
 				return $("#onedayview_" + when);
 			},
 			createEventBox:function(day_events, week, weekday, when, eventnumber){
