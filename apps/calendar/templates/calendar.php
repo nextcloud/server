@@ -374,7 +374,7 @@
 									<td id="oneweekview_tuesday_19" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_tuesday').title, '19');"></td>
 									<td id="oneweekview_wednesday_19" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_wednesday').title, '19');"></td>
 									<td id="oneweekview_thursday_19" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_thursday').title, '19');"></td>
-									<td id="oneweekview_friday_19" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_friday').title, '19');"</td>
+									<td id="oneweekview_friday_19" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_friday').title, '19');"></td>
 									<td id="oneweekview_saturday_19" class="weekend_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_saturday').title, '19');"></td>
 									<td id="oneweekview_sunday_19" class="weekend_row" onclick="oc_cal_newevent(document.getElementById('oneweekview_sunday').title, '19');"></td>
 								</tr>
