@@ -37,7 +37,7 @@
 #oneweekview table {margin: 0; padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;}
 #fourweeksview table {margin: 0; padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;overflow: hidden;}
 #onemonthview table {margin: 0;	padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;}
-#fourweeksview_calw1, #fourweeksview_calw2, #fourweeksview_calw3, #fourweeksview_calw4{vertical-align: middle;text-align: center;width: 50px;}
+#fourweeksview .calw{vertical-align: middle;text-align: center;width: 50px;}
 
 #sysbox{display: none;}
 
@@ -48,8 +48,7 @@
 .events {width: 100%; margin: 0; padding: 0;}
 .calendar_row {height: 20px; text-align: center;background: #ffffff;}
 .calendar_time {height: 20px; width: 50px; text-align:right;background: #ffffff;}
-.fourweeksview_item {text-align: center; background: #ffffff; margin: 0; padding: 0; vertical-align: top; width: 14%; height: 22%;}
-.onemonthview_item {text-align: center; background: #ffffff; margin: 0; padding: 0; vertical-align: top; width: 14%;}
-.weekend{text-align: center;margin: 0;	padding: 0;vertical-align: top;background: #F3F3F3; width: 100%; }
+.day {text-align: center; background: #ffffff; margin: 0; padding: 0; vertical-align: top; width: 14%; height: 22%;}
+.weekend .events{text-align: center;margin: 0;	padding: 0;vertical-align: top;background: #F3F3F3; width: 100%; }
 .weekend_thead, .weekend_row{height: 20px;text-align: center;text-align: center;background: #F3F3F3;}
 .thisday{background: #FFFABC;text-align: center;margin: 0;padding: 0;vertical-align: top;height: 20px;}

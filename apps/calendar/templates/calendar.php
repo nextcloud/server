@@ -69,14 +69,14 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 							<thead>
 								<tr>
 									<th class="calendar_time"><?php echo $l->t("Time");?></th>
-									<th id="onedayview_today" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('onedayview_today').title);"></th>
+									<th id="onedayview_today" class="calendar_row" onclick="oc_cal_newevent($('#onedayview_today').attr('title'));"></th>
 								</tr>
 							</thead>
 							<tbody>
 <?php foreach($hours as $time => $time_label): ?>
 								<tr>
 									<td class="calendar_time"><?php echo $time_label ?></td>
-									<td id="onedayview_<?php echo $time ?>" class="calendar_row" onclick="oc_cal_newevent(document.getElementById('onedayview_today').title, '<?php echo $time ?>');"></td>
+									<td class="calendar_row <?php echo $time ?>" onclick="oc_cal_newevent($('#onedayview_today').attr('title'), '<?php echo $time ?>');"></td>
 								</tr>
 <?php endforeach; ?>
 							</tbody>
@@ -88,7 +88,7 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 								<tr>
 									<th class="calendar_time"><?php echo $l->t("Time");?></th>
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
-									<th id="oneweekview_<?php echo $weekday ?>" class="<?php echo $weekdaynr > 4 ? 'weekend_thead' : 'calendar_row' ?>" onclick="oc_cal_newevent(document.getElementById('oneweekview_<?php echo $weekday ?>').title);"></th>
+									<th class="calendar_row <?php echo $weekday ?> <?php echo $weekdaynr > 4 ? 'weekend_thead' : '' ?>" onclick="oc_cal_newevent($('#oneweekview th.<?php echo $weekday ?>').title);"></th>
 <?php endforeach; ?>
 								</tr>
 							</thead>
@@ -97,7 +97,7 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 								<tr>
 									<td class="calendar_time"><?php echo $time_label?></td>
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
-									<td id="oneweekview_<?php echo $weekday ?>_<?php echo $time ?>" class="<?php echo $weekdaynr > 4 ? 'weekend_thead' : 'calendar_row' ?>" onclick="oc_cal_newevent(document.getElementById('oneweekview_<?php echo $weekday ?>').title, '<?php echo $time ?>');"></td>
+									<td class="<?php echo $weekday ?> <?php echo $time ?> calendar_row <?php echo $weekdaynr > 4 ? 'weekend_row' : '' ?>" onclick="oc_cal_newevent($('#oneweekview th.<?php echo $weekday ?>').title, '<?php echo $time ?>');"></td>
 <?php endforeach; ?>
 								</tr>
 <?php endforeach; ?>
@@ -108,22 +108,20 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 						<table>
 							<thead>
 								<tr>
-									<th id="fourweeksview_calw_label" class="calendar_row"><?php echo $l -> t("CW");?></th>
+									<th class="calendar_row calw"><?php echo $l -> t("CW");?></th>
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
-									<th id="fourweeksview_<?php echo $weekday ?>" class="<?php echo $weekdaynr > 4 ? 'weekend_thead' : 'calendar_row' ?>"><?php echo $l->t(ucfirst($weekday)) ?></th>
+									<th class="calendar_row <?php echo $weekdaynr > 4 ? 'weekend_thead' : '' ?>"><?php echo $l->t(ucfirst($weekday)) ?></th>
 <?php endforeach; ?>
 								</tr>
 							</thead>
 							<tbody>
-<?php foreach(range(1, 4) as $weekrow): ?>
-								<tr id="fourweeksview_week_<?php echo $weekrow ?>">
-									<td id="fourweeksview_calw<?php echo $weekrow ?>"></td>
+<?php foreach(range(1, 4) as $week): ?>
+								<tr class="week_<?php echo $week ?>">
+									<td class="calw"></td>
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
-									<td id="fourweeksview_<?php echo $weekday ?>_<?php echo $weekrow ?>" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_<?php echo $weekday ?>_<?php echo $weekrow ?>').title)">
-									<div class="dateinfo" id="dateinfo_fourweeksview_<?php echo $weekday ?>_<?php echo $weekrow ?>">
-									</div>
-									<div class="<?php echo $weekdaynr > 4 ? 'weekend' : 'events' ?>" id="events_fourweeksview_<?php echo $weekday ?>_<?php echo $weekrow ?>">
-									</div>
+									<td class="day <?php echo $weekday ?> <?php echo $weekdaynr > 4 ? 'weekend' : '' ?>" onclick="oc_cal_newevent($('#fourweeksview .week_<?php echo $week ?> .<?php echo $weekday ?>').attr('title'))">
+									<div class="dateinfo"></div>
+									<div class="events"></div>
 									</td>
 <?php endforeach; ?>
 								</tr>
@@ -136,19 +134,17 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 							<thead>
 								<tr>
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
-									<th id="onemonthview_<?php echo $weekday ?>" class="<?php echo $weekdaynr > 4 ? 'weekend_thead' : 'calendar_row' ?>"><?php echo $l->t(ucfirst($weekday));?></th>
+									<th class="calendar_row <?php echo $weekdaynr > 4 ? 'weekend_thead' : '' ?> <?php echo $weekday ?>"><?php echo $l->t(ucfirst($weekday));?></th>
 <?php endforeach; ?>
 								</tr>
 							</thead>
 							<tbody>
-<?php foreach(range(1, 6) as $weekrow): ?>
-								<tr id="onemonthview_week_<?php echo $weekrow ?>">
+<?php foreach(range(1, 6) as $week): ?>
+								<tr class="week_<?php echo $week ?>">
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
-									<td id="onemonthview_<?php echo $weekday ?>_<?php echo $weekrow ?>" class="<?php echo $weekdaynr > 4 ? 'weekend' : 'onemonthview_item' ?>" onclick="oc_cal_newevent(document.getElementById('onemonthview_<?php echo $weekday ?>_<?php echo $weekrow ?>').title)">
-									<div class="dateinfo" id="dateinfo_onemonthview_<?php echo $weekday ?>_<?php echo $weekrow ?>">
-									</div>
-									<div class="<?php echo $weekdaynr > 4 ? 'weekend' : 'events' ?>" id="events_onemonthview_<?php echo $weekday ?>_<?php echo $weekrow ?>">
-									</div>
+									<td class="day <?php echo $weekday ?> <?php echo $weekdaynr > 4 ? 'weekend' : '' ?>" onclick="oc_cal_newevent($('#onemonthview .week_<?php echo $week ?> .<?php echo $weekday ?>').attr('title'))">
+									<div class="dateinfo"></div>
+									<div class="events"></div>
 									</td>
 <?php endforeach; ?>
 								</tr>
