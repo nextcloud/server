@@ -88,7 +88,7 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 								<tr>
 									<th class="calendar_time"><?php echo $l->t("Time");?></th>
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
-									<th class="calendar_row <?php echo $weekday ?> <?php echo $weekdaynr > 4 ? 'weekend_thead' : '' ?>" onclick="oc_cal_newevent($('#oneweekview th.<?php echo $weekday ?>').title);"></th>
+									<th class="calendar_row <?php echo $weekday ?> <?php echo $weekdaynr > 4 ? 'weekend_thead' : '' ?>" onclick="oc_cal_newevent($('#oneweekview th.<?php echo $weekday ?>').attr('title'));"></th>
 <?php endforeach; ?>
 								</tr>
 							</thead>
@@ -97,7 +97,7 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 								<tr>
 									<td class="calendar_time"><?php echo $time_label?></td>
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
-									<td class="<?php echo $weekday ?> <?php echo $time ?> calendar_row <?php echo $weekdaynr > 4 ? 'weekend_row' : '' ?>" onclick="oc_cal_newevent($('#oneweekview th.<?php echo $weekday ?>').title, '<?php echo $time ?>');"></td>
+									<td class="<?php echo $weekday ?> <?php echo $time ?> calendar_row <?php echo $weekdaynr > 4 ? 'weekend_row' : '' ?>" onclick="oc_cal_newevent($('#oneweekview th.<?php echo $weekday ?>').attr('title'), '<?php echo $time ?>');"></td>
 <?php endforeach; ?>
 								</tr>
 <?php endforeach; ?>
