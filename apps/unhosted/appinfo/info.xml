@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>unhosted</id>
+	<name>Unhosted Web</name>
+	<description>On websites that allow unhosted accounts, use your owncloud as the storage for your user data</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Michiel de Jong</author>
+	<require>2</require>
+</info>
