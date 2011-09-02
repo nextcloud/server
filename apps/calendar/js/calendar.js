@@ -613,24 +613,24 @@ Calendar={
 				}
 				if(oc_cal_rows == 4){
 					for(var i = 1;i <= 6;i++){
-						$("#fourweeksview_week_" + i).height("25%");
+						$("#onemonthview_week_" + i).height("23%");
 					}
-					$("td.thisday").height("25%");
+					$("td.thisday").height("23%");
 				}
 				if(oc_cal_rows == 5) {
 					$("#onemonthview_week_5").css('display', "table-row");
 					for(var i = 1;i <= 6;i++){
-						$("#fourweeksview_week_" + i).height("20%");
+						$("#onemonthview_week_" + i).height("18%");
 					}
-					$("td.thisday").height("20%");
+					$("td.thisday").height("18%");
 				}
 				if(oc_cal_rows == 6) {
 					$("#onemonthview_week_5").css('display', "table-row");
 					$("#onemonthview_week_6").css('display', "table-row");
 					for(var i = 1;i <= 6;i++){
-						$("#fourweeksview_week_" + i).height("16%");
+						$("#onemonthview_week_" + i).height("14%");
 					}
-					$("td.thisday").height("16%");
+					$("td.thisday").height("14%");
 				}
 			},
 			showEvents:function(){

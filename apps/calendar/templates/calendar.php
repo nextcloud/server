@@ -438,181 +438,181 @@
 							<tbody>
 								<tr id="fourweeksview_week_1">
 									<td id="fourweeksview_calw1"></td>
-									<td id="fourweeksview_monday_1" class="fourweeksview_item">
+									<td id="fourweeksview_monday_1" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_monday_1').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_monday_1">
 									</div>
-									<div class="events" id="events_fourweeksview_monday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_monday_1').title)">
+									<div class="events" id="events_fourweeksview_monday_1">
 									</div>
 									</td>
-									<td id="fourweeksview_tuesday_1" class="fourweeksview_item">
+									<td id="fourweeksview_tuesday_1" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_tuesday_1').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_tuesday_1">
 									</div>
-									<div class="events" id="events_fourweeksview_tuesday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_tuesday_1').title)">
+									<div class="events" id="events_fourweeksview_tuesday_1">
 									</div>
 									</td>
-									<td id="fourweeksview_wednesday_1" class="fourweeksview_item">
+									<td id="fourweeksview_wednesday_1" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_wednesday_1').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_wednesday_1">
 									</div>
-									<div class="events" id="events_fourweeksview_wednesday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_wednesday_1').title)">
+									<div class="events" id="events_fourweeksview_wednesday_1">
 									</div>
 									</td>
-									<td id="fourweeksview_thursday_1" class="fourweeksview_item">
+									<td id="fourweeksview_thursday_1" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_thursday_1').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_thursday_1">
 									</div>
-									<div class="events" id="events_fourweeksview_thursday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_thursday_1').title)">
+									<div class="events" id="events_fourweeksview_thursday_1">
 									</div>
 									</td>
-									<td id="fourweeksview_friday_1" class="fourweeksview_item">
+									<td id="fourweeksview_friday_1" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_1').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_friday_1">
 									</div>
-									<div class="events" id="events_fourweeksview_friday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_1').title)">
+									<div class="events" id="events_fourweeksview_friday_1">
 									</div>
 									</td>
-									<td id="fourweeksview_saturday_1" class="fourweeksview_item">
+									<td id="fourweeksview_saturday_1" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_1').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_saturday_1">
 									</div>
-									<div class="weekend" id="events_fourweeksview_saturday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_1').title)">
+									<div class="weekend" id="events_fourweeksview_saturday_1">
 									</div>
 									</td>
-									<td id="fourweeksview_sunday_1" class="fourweeksview_item">
+									<td id="fourweeksview_sunday_1" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_1').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_sunday_1">
 									</div>
-									<div class="weekend" id="events_fourweeksview_sunday_1" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_1').title)">
+									<div class="weekend" id="events_fourweeksview_sunday_1">
 									</div>
 									</td>
 								</tr>
 								<tr id="fourweeksview_week_2">
 									<td id="fourweeksview_calw2"></td>
-									<td id="fourweeksview_monday_2" class="fourweeksview_item">
+									<td id="fourweeksview_monday_2" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_monday_2').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_monday_2">
 									</div>
-									<div class="events" id="events_fourweeksview_monday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_monday_2').title)">
+									<div class="events" id="events_fourweeksview_monday_2">
 									</div>
 									</td>
-									<td id="fourweeksview_tuesday_2" class="fourweeksview_item">
+									<td id="fourweeksview_tuesday_2" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_tuesday_2').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_tuesday_2">
 									</div>
-									<div class="events" id="events_fourweeksview_tuesday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_tuesday_2').title)">
+									<div class="events" id="events_fourweeksview_tuesday_2">
 									</div>
 									</td>
-									<td id="fourweeksview_wednesday_2" class="fourweeksview_item">
+									<td id="fourweeksview_wednesday_2" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_wednesday_2').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_wednesday_2">
 									</div>
-									<div class="events" id="events_fourweeksview_wednesday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_wednesday_2').title)">
+									<div class="events" id="events_fourweeksview_wednesday_2">
 									</div>
 									</td>
-									<td id="fourweeksview_thursday_2" class="fourweeksview_item">
+									<td id="fourweeksview_thursday_2" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_thursday_2').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_thursday_2">
 									</div>
-									<div class="events" id="events_fourweeksview_thursday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_thursday_2').title)">
+									<div class="events" id="events_fourweeksview_thursday_2">
 									</div>
 									</td>
-									<td id="fourweeksview_friday_2" class="fourweeksview_item">
+									<td id="fourweeksview_friday_2" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_2').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_friday_2">
 									</div>
-									<div class="events" id="events_fourweeksview_friday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_2').title)">
+									<div class="events" id="events_fourweeksview_friday_2">
 									</div>
 									</td>
-									<td id="fourweeksview_saturday_2" class="fourweeksview_item">
+									<td id="fourweeksview_saturday_2" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_2').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_saturday_2">
 									</div>
-									<div class="weekend" id="events_fourweeksview_saturday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_2').title)">
+									<div class="weekend" id="events_fourweeksview_saturday_2">
 									</div>
 									</td>
-									<td id="fourweeksview_sunday_2" class="fourweeksview_item">
+									<td id="fourweeksview_sunday_2" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_2').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_sunday_2">
 									</div>
-									<div class="weekend" id="events_fourweeksview_sunday_2" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_2').title)">
+									<div class="weekend" id="events_fourweeksview_sunday_2">
 									</div>
 									</td>
 								</tr>
 								<tr id="fourweeksview_week_3">
 									<td id="fourweeksview_calw3"></td>
-									<td id="fourweeksview_monday_3" class="fourweeksview_item">
+									<td id="fourweeksview_monday_3" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_monday_3').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_monday_3">
 									</div>
-									<div class="events" id="events_fourweeksview_monday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_monday_3').title)">
+									<div class="events" id="events_fourweeksview_monday_3">
 									</div>
 									</td>
-									<td id="fourweeksview_tuesday_3" class="fourweeksview_item">
+									<td id="fourweeksview_tuesday_3" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_tuesday_3').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_tuesday_3">
 									</div>
-									<div class="events" id="events_fourweeksview_tuesday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_tuesday_3').title)">
+									<div class="events" id="events_fourweeksview_tuesday_3">
 									</div>
 									</td>
-									<td id="fourweeksview_wednesday_3" class="fourweeksview_item">
+									<td id="fourweeksview_wednesday_3" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_wednesday_3').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_wednesday_3">
 									</div>
-									<div class="events" id="events_fourweeksview_wednesday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_wednesday_3').title)">
+									<div class="events" id="events_fourweeksview_wednesday_3">
 									</div>
 									</td>
-									<td id="fourweeksview_thursday_3" class="fourweeksview_item">
+									<td id="fourweeksview_thursday_3" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_thursday_3').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_thursday_3">
 									</div>
-									<div class="events" id="events_fourweeksview_thursday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_thursday_3').title)">
+									<div class="events" id="events_fourweeksview_thursday_3">
 									</div>
 									</td>
-									<td id="fourweeksview_friday_3" class="fourweeksview_item">
+									<td id="fourweeksview_friday_3" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_3').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_friday_3">
 									</div>
-									<div class="events" id="events_fourweeksview_friday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_3').title)">
+									<div class="events" id="events_fourweeksview_friday_3">
 									</div>
 									</td>
-									<td id="fourweeksview_saturday_3" class="fourweeksview_item">
+									<td id="fourweeksview_saturday_3" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_3').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_saturday_3">
 									</div>
-									<div class="weekend" id="events_fourweeksview_saturday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_3').title)">
+									<div class="weekend" id="events_fourweeksview_saturday_3">
 									</div>
 									</td>
-									<td id="fourweeksview_sunday_3" class="fourweeksview_item">
+									<td id="fourweeksview_sunday_3" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_3').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_sunday_3">
 									</div>
-									<div class="weekend" id="events_fourweeksview_sunday_3" onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_3').title)">
+									<div class="weekend" id="events_fourweeksview_sunday_3">
 									</div>
 									</td>
 								</tr>
 								<tr id="fourweeksview_week_4">
 									<td id="fourweeksview_calw4"></td>
-									<td id="fourweeksview_monday_4" class="fourweeksview_item">
+									<td id="fourweeksview_monday_4" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_monday_4').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_monday_4">
 									</div>
-									<div class="events" id="events_fourweeksview_monday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_monday_4').title)">
+									<div class="events" id="events_fourweeksview_monday_4">
 									</div>
 									</td>
-									<td id="fourweeksview_tuesday_4" class="fourweeksview_item">
+									<td id="fourweeksview_tuesday_4" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_tuesday_4').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_tuesday_4">
 									</div>
-									<div class="events" id="events_fourweeksview_tuesday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_tuesday_4').title)">
+									<div class="events" id="events_fourweeksview_tuesday_4">
 									</div>
 									</td>
-									<td id="fourweeksview_wednesday_4" class="fourweeksview_item">
+									<td id="fourweeksview_wednesday_4" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_wednesday_4').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_wednesday_4">
 									</div>
-									<div class="events" id="events_fourweeksview_wednesday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_wednesday_4').title)">
+									<div class="events" id="events_fourweeksview_wednesday_4">
 									</div>
 									</td>
-									<td id="fourweeksview_thursday_4" class="fourweeksview_item">
+									<td id="fourweeksview_thursday_4" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_thursday_4').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_thursday_4">
 									</div>
-									<div class="events" id="events_fourweeksview_thursday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_thursday_4').title)">
+									<div class="events" id="events_fourweeksview_thursday_4">
 									</div>
 									</td>
-									<td id="fourweeksview_friday_4" class="fourweeksview_item">
+									<td id="fourweeksview_friday_4" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_4').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_friday_4">
 									</div>
-									<div class="events" id="events_fourweeksview_friday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_friday_4').title)">
+									<div class="events" id="events_fourweeksview_friday_4">
 									</div>
 									</td>
-									<td id="fourweeksview_saturday_4" class="fourweeksview_item">
+									<td id="fourweeksview_saturday_4" class="fourweeksview_item" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_4').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_saturday_4">
 									</div>
-									<div class="weekend" id="events_fourweeksview_saturday_4" onclick="oc_cal_newevent(document.getElementById('fourweeksview_saturday_4').title)">
+									<div class="weekend" id="events_fourweeksview_saturday_4">
 									</div>
 									</td>
-									<td id="fourweeksview_sunday_4" class="fourweeksview_item">
+									<td id="fourweeksview_sunday_4" class="fourweeksview_item"  onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_4').title)">
 									<div class="dateinfo" id="dateinfo_fourweeksview_sunday_4">
 									</div>
-									<div class="weekend" id="events_fourweeksview_sunday_4"  onclick="oc_cal_newevent(document.getElementById('fourweeksview_sunday_4').title)">
+									<div class="weekend" id="events_fourweeksview_sunday_4">
 									</div>
 									</td>
 								</tr>
@@ -635,265 +635,265 @@
 							<tbody>
 								<tr id="onemonthview_week_1">
 									<td id="onemonthview_monday_1" class="onemonthview_item">
-									<div class="dateinfo" id="dateinfo_onemonthview_monday_1">
+									<div class="dateinfo" id="dateinfo_onemonthview_monday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_1').title)">
 									</div>
-									<div class="events" id="events_onemonthview_monday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_1').title)">
+									<div class="events" id="events_onemonthview_monday_1">
 									</div>
 									</td>
-									<td id="onemonthview_tuesday_1" class="onemonthview_item">
+									<td id="onemonthview_tuesday_1" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_1').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_tuesday_1">
 									</div>
-									<div class="events" id="events_onemonthview_tuesday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_1').title)">
+									<div class="events" id="events_onemonthview_tuesday_1">
 									</div>
 									</td>
-									<td id="onemonthview_wednesday_1" class="onemonthview_item">
+									<td id="onemonthview_wednesday_1" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_1').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_wednesday_1">
 									</div>
-									<div class="events" id="events_onemonthview_wednesday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_1').title)">
+									<div class="events" id="events_onemonthview_wednesday_1">
 									</div>
 									</td>
-									<td id="onemonthview_thursday_1" class="onemonthview_item">
+									<td id="onemonthview_thursday_1" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_1').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_thursday_1">
 									</div>
-									<div class="events" id="events_onemonthview_thursday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_1').title)">
+									<div class="events" id="events_onemonthview_thursday_1">
 									</div>
 									</td>
-									<td id="onemonthview_friday_1" class="onemonthview_item">
+									<td id="onemonthview_friday_1" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_1').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_friday_1">
 									</div>
-									<div class="events" id="events_onemonthview_friday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_1').title)">
+									<div class="events" id="events_onemonthview_friday_1">
 									</div>
 									</td>
-									<td id="onemonthview_saturday_1" class="weekend">
+									<td id="onemonthview_saturday_1" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_1').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_1">
 									</div>
-									<div class="weekend" id="events_onemonthview_saturday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_1').title)">
+									<div class="weekend" id="events_onemonthview_saturday_1">
 									</div>
 									</td>
-									<td id="onemonthview_sunday_1" class="weekend">
+									<td id="onemonthview_sunday_1" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_1').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_1">
 									</div>
-									<div class="weekend" id="events_onemonthview_sunday_1" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_1').title)">
+									<div class="weekend" id="events_onemonthview_sunday_1">
 									</div>
 									</td>
 								</tr>
 								<tr id="onemonthview_week_2">
-									<td id="onemonthview_monday_2" class="onemonthview_item">
+									<td id="onemonthview_monday_2" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_2').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_monday_2">
 									</div>
-									<div class="events" id="events_onemonthview_monday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_2').title)">
+									<div class="events" id="events_onemonthview_monday_2">
 									</div>
 									</td>
-									<td id="onemonthview_tuesday_2" class="onemonthview_item">
+									<td id="onemonthview_tuesday_2" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_2').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_tuesday_2">
 									</div>
-									<div class="events" id="events_onemonthview_tuesday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_2').title)">
+									<div class="events" id="events_onemonthview_tuesday_2">
 									</div>
 									</td>
-									<td id="onemonthview_wednesday_2" class="onemonthview_item">
+									<td id="onemonthview_wednesday_2" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_2').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_wednesday_2">
 									</div>
-									<div class="events" id="events_onemonthview_wednesday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_2').title)">
+									<div class="events" id="events_onemonthview_wednesday_2">
 									</div>
 									</td>
-									<td id="onemonthview_thursday_2" class="onemonthview_item">
+									<td id="onemonthview_thursday_2" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_2').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_thursday_2">
 									</div>
-									<div class="events" id="events_onemonthview_thursday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_2').title)">
+									<div class="events" id="events_onemonthview_thursday_2">
 									</div>
 									</td>
-									<td id="onemonthview_friday_2" class="onemonthview_item">
+									<td id="onemonthview_friday_2" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_2').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_friday_2">
 									</div>
-									<div class="events" id="events_onemonthview_friday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_2').title)">
+									<div class="events" id="events_onemonthview_friday_2">
 									</div>
 									</td>
-									<td id="onemonthview_saturday_2" class="weekend">
+									<td id="onemonthview_saturday_2" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_2').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_2">
 									</div>
-									<div class="weekend" id="events_onemonthview_saturday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_2').title)">
+									<div class="weekend" id="events_onemonthview_saturday_2">
 									</div>
 									</td>
-									<td id="onemonthview_sunday_2" class="weekend">
+									<td id="onemonthview_sunday_2" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_2').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_2">
 									</div>
-									<div class="weekend" id="events_onemonthview_sunday_2" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_2').title)">
+									<div class="weekend" id="events_onemonthview_sunday_2">
 									</div>
 									</td>
 								</tr>
 								<tr id="onemonthview_week_3">
-									<td id="onemonthview_monday_3" class="onemonthview_item">
+									<td id="onemonthview_monday_3" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_3').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_monday_3">
 									</div>
-									<div class="events" id="events_onemonthview_monday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_3').title)">
+									<div class="events" id="events_onemonthview_monday_3">
 									</div>
 									</td>
-									<td id="onemonthview_tuesday_3" class="onemonthview_item">
+									<td id="onemonthview_tuesday_3" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_3').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_tuesday_3">
 									</div>
-									<div class="events" id="events_onemonthview_tuesday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_3').title)">
+									<div class="events" id="events_onemonthview_tuesday_3">
 									</div>
 									</td>
-									<td id="onemonthview_wednesday_3" class="onemonthview_item">
+									<td id="onemonthview_wednesday_3" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_3').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_wednesday_3">
 									</div>
-									<div class="events" id="events_onemonthview_wednesday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_3').title)">
+									<div class="events" id="events_onemonthview_wednesday_3">
 									</div>
 									</td>
-									<td id="onemonthview_thursday_3" class="onemonthview_item">
+									<td id="onemonthview_thursday_3" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_3').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_thursday_3">
 									</div>
-									<div class="events" id="events_onemonthview_thursday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_3').title)">
+									<div class="events" id="events_onemonthview_thursday_3">
 									</div>
 									</td>
-									<td id="onemonthview_friday_3" class="onemonthview_item">
+									<td id="onemonthview_friday_3" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_3').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_friday_3">
 									</div>
-									<div class="events" id="events_onemonthview_friday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_3').title)">
+									<div class="events" id="events_onemonthview_friday_3">
 									</div>
 									</td>
-									<td id="onemonthview_saturday_3" class="weekend">
+									<td id="onemonthview_saturday_3" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_3').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_3">
 									</div>
-									<div class="weekend" id="events_onemonthview_saturday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_3').title)">
+									<div class="weekend" id="events_onemonthview_saturday_3">
 									</div>
 									</td>
-									<td id="onemonthview_sunday_3" class="weekend">
+									<td id="onemonthview_sunday_3" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_3').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_3">
 									</div>
-									<div class="weekend" id="events_onemonthview_sunday_3" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_3').title)">
+									<div class="weekend" id="events_onemonthview_sunday_3">
 									</div>
 									</td>
 								</tr>
 								<tr id="onemonthview_week_4">
-									<td id="onemonthview_monday_4" class="onemonthview_item">
+									<td id="onemonthview_monday_4" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_4').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_monday_4">
 									</div>
-									<div class="events" id="events_onemonthview_monday_4" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_4').title)">
+									<div class="events" id="events_onemonthview_monday_4">
 									</div>
 									</td>
-									<td id="onemonthview_tuesday_4" class="onemonthview_item">
+									<td id="onemonthview_tuesday_4" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_4').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_tuesday_4">
 									</div>
-									<div class="events" id="events_onemonthview_tuesday_4" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_4').title)">
+									<div class="events" id="events_onemonthview_tuesday_4">
 									</div>
 									</td>
-									<td id="onemonthview_wednesday_4" class="onemonthview_item">
+									<td id="onemonthview_wednesday_4" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_4').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_wednesday_4">
 									</div>
-									<div class="events" id="events_onemonthview_wednesday_4" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_4').title)">
+									<div class="events" id="events_onemonthview_wednesday_4">
 									</div>
 									</td>
-									<td id="onemonthview_thursday_4" class="onemonthview_item">
+									<td id="onemonthview_thursday_4" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_4').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_thursday_4">
 									</div>
-									<div class="events" id="events_onemonthview_thursday_4" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_4').title)">
+									<div class="events" id="events_onemonthview_thursday_4">
 									</div>
 									</td>
-									<td id="onemonthview_friday_4" class="onemonthview_item">
+									<td id="onemonthview_friday_4" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_4').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_friday_4">
 									</div>
-									<div class="events" id="events_onemonthview_friday_4" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_4').title)">
+									<div class="events" id="events_onemonthview_friday_4">
 									</div>
 									</td>
-									<td id="onemonthview_saturday_4" class="weekend">
+									<td id="onemonthview_saturday_4" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_4').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_4">
 									</div>
-									<div class="weekend" id="events_onemonthview_saturday_4" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_4').title)">
+									<div class="weekend" id="events_onemonthview_saturday_4">
 									</div>
 									</td>
-									<td id="onemonthview_sunday_4" class="weekend">
+									<td id="onemonthview_sunday_4" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_4').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_4">
 									</div>
-									<div class="weekend" id="events_onemonthview_sunday_4"  onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_4').title)">
+									<div class="weekend" id="events_onemonthview_sunday_4">
 									</div>
 									</td>
 								</tr>
 								<tr id="onemonthview_week_5">
-									<td id="onemonthview_monday_5" class="onemonthview_item">
+									<td id="onemonthview_monday_5" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_5').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_monday_5">
 									</div>
-									<div class="events" id="events_onemonthview_monday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_5').title)">
+									<div class="events" id="events_onemonthview_monday_5">
 									</div>
 									</td>
-									<td id="onemonthview_tuesday_5" class="onemonthview_item">
+									<td id="onemonthview_tuesday_5" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_5').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_tuesday_5">
 									</div>
-									<div class="events" id="events_onemonthview_tuesday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_5').title)">
+									<div class="events" id="events_onemonthview_tuesday_5">
 									</div>
 									</td>
-									<td id="onemonthview_wednesday_5" class="onemonthview_item">
+									<td id="onemonthview_wednesday_5" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_5').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_wednesday_5">
 									</div>
-									<div class="events" id="events_onemonthview_wednesday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_5').title)">
+									<div class="events" id="events_onemonthview_wednesday_5">
 									</div>
 									</td>
-									<td id="onemonthview_thursday_5" class="onemonthview_item">
+									<td id="onemonthview_thursday_5" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_5').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_thursday_5">
 									</div>
-									<div class="events" id="events_onemonthview_thursday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_5').title)">
+									<div class="events" id="events_onemonthview_thursday_5">
 									</div>
 									</td>
-									<td id="onemonthview_friday_5" class="onemonthview_item">
+									<td id="onemonthview_friday_5" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_5').title)"> 
 									<div class="dateinfo" id="dateinfo_onemonthview_friday_5">
 									</div>
-									<div class="events" id="events_onemonthview_friday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_5').title)">
+									<div class="events" id="events_onemonthview_friday_5">
 									</div>
 									</td>
-									<td id="onemonthview_saturday_5" class="weekend">
+									<td id="onemonthview_saturday_5" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_5').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_5">
 									</div>
-									<div class="weekend" id="events_onemonthview_saturday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_5').title)">
+									<div class="weekend" id="events_onemonthview_saturday_5">
 									</div>
 									</td>
-									<td id="onemonthview_sunday_5" class="weekend">
+									<td id="onemonthview_sunday_5" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_5').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_5">
 									</div>
-									<div class="weekend" id="events_onemonthview_sunday_5" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_5').title)">
+									<div class="weekend" id="events_onemonthview_sunday_5">
 									</div>
 									</td>
 								</tr>
 								<tr id="onemonthview_week_6">
-									<td id="onemonthview_monday_6" class="onemonthview_item">
+									<td id="onemonthview_monday_6" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_6').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_monday_6">
 									</div>
-									<div class="events" id="events_onemonthview_monday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_monday_6').title)">
+									<div class="events" id="events_onemonthview_monday_6">
 									</div>
 									</td>
-									<td id="onemonthview_tuesday_6" class="onemonthview_item">
+									<td id="onemonthview_tuesday_6" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_6').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_tuesday_6">
 									</div>
-									<div class="events" id="events_onemonthview_tuesday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_tuesday_6').title)">
+									<div class="events" id="events_onemonthview_tuesday_6">
 									</div>
 									</td>
-									<td id="onemonthview_wednesday_6" class="onemonthview_item">
+									<td id="onemonthview_wednesday_6" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_6').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_wednesday_6">
 									</div>
-									<div class="events" id="events_onemonthview_wednesday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_wednesday_6').title)">
+									<div class="events" id="events_onemonthview_wednesday_6">
 									</div>
 									</td>
-									<td id="onemonthview_thursday_6" class="onemonthview_item">
+									<td id="onemonthview_thursday_6" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_6').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_thursday_6">
 									</div>
-									<div class="events" id="events_onemonthview_thursday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_thursday_6').title)">
+									<div class="events" id="events_onemonthview_thursday_6">
 									</div>
 									</td>
-									<td id="onemonthview_friday_6" class="onemonthview_item">
+									<td id="onemonthview_friday_6" class="onemonthview_item" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_6').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_friday_6">
 									</div>
-									<div class="events" id="events_onemonthview_friday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_friday_6').title)">
+									<div class="events" id="events_onemonthview_friday_6">
 									</div>
 									</td>
-									<td id="onemonthview_saturday_6" class="weekend">
+									<td id="onemonthview_saturday_6" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_6').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_saturday_6">
 									</div>
-									<div class="weekend" id="events_onemonthview_saturday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_saturday_6').title)">
+									<div class="weekend" id="events_onemonthview_saturday_6">
 									</div>
 									</td>
-									<td id="onemonthview_sunday_6" class="weekend">
+									<td id="onemonthview_sunday_6" class="weekend" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_6').title)">
 									<div class="dateinfo" id="dateinfo_onemonthview_sunday_6">
 									</div>
-									<div class="weekend" id="events_onemonthview_sunday_6" onclick="oc_cal_newevent(document.getElementById('onemonthview_sunday_6').title)">
+									<div class="weekend" id="events_onemonthview_sunday_6">
 									</div>
 									</td>
 								</tr>
