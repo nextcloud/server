@@ -245,8 +245,7 @@ Calendar={
 				var eventnumber = 1;
 				var eventcontainer = this.current.getEventContainer(week, weekday, "allday");
 				while( typeof (events["allday"][eventnumber]) != "undefined") {
-					var newp = this.current.createEventBox(events, week, weekday, "allday", eventnumber);
-					eventcontainer.append(newp);
+					this.addEventLabel(eventcontainer, events['allday'][eventnumber]);
 					eventnumber++;
 				}
 			}
@@ -255,12 +254,17 @@ Calendar={
 					var eventnumber = 1;
 					var eventcontainer = this.current.getEventContainer(week, weekday, time);
 					while( typeof (events[time][eventnumber]) != "undefined") {
-						var newp = this.current.createEventBox(events, week, weekday, time, eventnumber);
-						eventcontainer.append(newp);
+						this.addEventLabel(eventcontainer, events[time][eventnumber]);
 						eventnumber++;
 					}
 				}
 			}
+		},
+		addEventLabel:function(eventcontainer, event){
+			var event_holder = this.current.createEventLabel(event)
+				.addClass('event')
+				.data('event_info', event);
+			eventcontainer.append(event_holder);
 		},
 		OneDay:{
 			forward:function(){
@@ -294,12 +298,13 @@ Calendar={
 			getEventContainer:function(week, weekday, when){
 				return $("#onedayview ." + when);
 			},
-			createEventBox:function(day_events, week, weekday, when, eventnumber){
-				var newp = document.createElement("p");
-				newp.id = "onedayview_" + when + "_" + eventnumber;
-				newp.className = "onedayview_event";
-				newp.innerHTML = day_events[when][eventnumber]["description"];
-				return newp;
+			createEventLabel:function(event){
+				var time = '';
+				if (!event['allday']){
+					time = '<strong>' + event['startdate'][3] + ':' + event['startdate'][4] + ' - ' + event['enddate'][3] + ':' + event['enddate'][4] + '</strong> ';
+				}
+				return $(document.createElement('p'))
+					.html(time + event['description'])
 			},
 		},
 		OneWeek:{
@@ -352,12 +357,13 @@ Calendar={
 			getEventContainer:function(week, weekday, when){
 				return $("#oneweekview ." + Calendar.UI.weekdays[weekday] + "." + when);
 			},
-			createEventBox:function(day_events, week, weekday, when, eventnumber){
-				var newp = document.createElement("p");
-				newp.id = "oneweekview_" + Calendar.UI.weekdays[weekday] + "_" + when + "_" + eventnumber;
-				newp.className = "oneweekview_event";
-				newp.innerHTML = day_events[when][eventnumber]["description"];
-				return newp;
+			createEventLabel:function(event){
+				var time = '';
+				if (!event['allday']){
+					time = '<strong>' + event['startdate'][3] + ':' + event['startdate'][4] + ' - ' + event['enddate'][3] + ':' + event['enddate'][4] + '</strong> ';
+				}
+				return $(document.createElement('p'))
+					.html(time + event['description'])
 			},
 			generateDates:function(){
 				var generate_dayofweek = oc_cal_dayofweek;
@@ -485,12 +491,13 @@ Calendar={
 			getEventContainer:function(week, weekday, when){
 				return $("#fourweeksview .week_" + week + " .day." + Calendar.UI.weekdays[weekday] + " .events");
 			},
-			createEventBox:function(day_events, week, weekday, when, eventnumber){
-				var newp = document.createElement("p");
-				newp.id = "fourweeksview_" + Calendar.UI.weekdays[weekday] + "_" + week + "_" + when + "_" + eventnumber;
-				newp.className = "fourweeksview_event";
-				newp.innerHTML = day_events[when][eventnumber]["description"];
-				return newp;
+			createEventLabel:function(event){
+				var time = '';
+				if (!event['allday']){
+					time = '<strong>' + event['startdate'][3] + ':' + event['startdate'][4] + '</strong> ';
+				}
+				return $(document.createElement('p'))
+					.html(time + event['description'])
 			},
 			generateDates:function(){
 				var generate_dayofweek = oc_cal_dayofweek;
@@ -628,12 +635,13 @@ Calendar={
 			getEventContainer:function(week, weekday, when){
 				return $("#onemonthview .week_" + week + " .day." + Calendar.UI.weekdays[weekday] + " .events");
 			},
-			createEventBox:function(day_events, week, weekday, when, eventnumber){
-				var newp = document.createElement("p");
-				newp.id = "onemonthview_" + Calendar.UI.weekdays[weekday] + "_" + week + "_" + when + "_" + eventnumber;
-				newp.className = "onemonthview_event";
-				newp.innerHTML = day_events[when][eventnumber]["description"];
-				return newp;
+			createEventLabel:function(event){
+				var time = '';
+				if (!event['allday']){
+					time = '<strong>' + event['startdate'][3] + ':' + event['startdate'][4] + '</strong> ';
+				}
+				return $(document.createElement('p'))
+					.html(time + event['description'])
 			},
 			generateDates:function(){
 				var generate_dayofweek = oc_cal_dayofweek;
@@ -718,12 +726,13 @@ Calendar={
 			},
 			getEventContainer:function(week, weekday, when){
 			},
-			createEventBox:function(day_events, week, weekday, when, eventnumber){
-				var newp = document.createElement("p");
-				newp.id = "listview_" + Calendar.UI.weekdays[weekday] + "_" + when + "_" + eventnumber;
-				newp.className = "listview_event";
-				newp.innerHTML = day_events[when][eventnumber]["description"];
-				return newp;
+			createEventLabel:function(event){
+				var time = '';
+				if (!event['allday']){
+					time = event['startdate'][3] + ':' + event['startdate'][4] + ' - ' + event['enddate'][3] + ':' + event['enddate'][4] + ' ';
+				}
+				return $(document.createElement('p'))
+					.html(time + event['description'])
 			},
 		}
 	}

@@ -26,9 +26,13 @@ foreach($events as $event)
 	{
 		$return_event[$prop] = $event[$prop];
 	}
-	$return_event['startdate'] = $start_dt->format('Y-m-d H:i');
-	$return_event['enddate'] = $end_dt->format('Y-m-d H:i');
+	$return_event['startdate'] = explode('|', $start_dt->format('Y|m|d|H|i'));
+	$return_event['enddate'] = explode('|', $end_dt->format('Y|m|d|H|i'));
 	$return_event['description'] = $event['summary'];
+	if ($hour == 'allday')
+	{
+		$return_event['allday'] = true;
+	}
 	if (isset($return_events[$year][$month][$day][$hour]))
 	{
 		$return_events[$year][$month][$day][$hour][] = $return_event;

@@ -47,6 +47,7 @@
 .dateinfo {height: 20px;width: 100%; overflow: hidden; margin-top: 0; padding: 0; font-size: 12px;background: #F7F7F7;}
 .events {width: 100%; margin: 0; padding: 0;}
 .calendar_row {height: 20px; text-align: center;background: #ffffff;}
+#oneweekview .calendar_row {width: 13.5%;}
 .calendar_time {height: 20px; width: 50px; text-align:right;background: #ffffff;}
 .day {text-align: center; background: #ffffff; margin: 0; padding: 0; vertical-align: top; width: 14%; height: 22%;}
 .weekend .events{text-align: center;margin: 0;	padding: 0;vertical-align: top;background: #F3F3F3; width: 100%; }
