@@ -14,16 +14,15 @@
 "Database password" => "Password database",
 "Database name" => "Nama database",
 "Advanced" => "Tingkat Lanjut",
-"Host" => "Host",
 "Table prefix" => "Awalan tabel",
 "Data folder" => "Folder data",
 "Finish setup" => "Selesaikan instalasi",
 "gives you the freedom to control your own data on the internet" => "memberikan anda kebebasan dalam mengendalikan data anda di internet",
 "Log out" => "Keluar",
 "Settings" => "Setelan",
-"Login failed!" => "Gagal masuk!",
 "remember" => "selalu login",
 "You are logged out." => "Anda telah keluar.",
+"Login failed!" => "Gagal masuk!",
 "prev" => "sebelum",
 "next" => "selanjutnya"
 );

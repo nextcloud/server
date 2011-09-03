@@ -14,16 +14,15 @@
 "Database password" => "Database-kodeord",
 "Database name" => "Database-navn",
 "Advanced" => "Avanceret",
-"Host" => "Vært",
 "Table prefix" => "Tabel præfiks",
 "Data folder" => "Data mappe",
 "Finish setup" => "Afslut installation",
 "gives you the freedom to control your own data on the internet" => "giver dig friheden til at kontrollere dine egne data på internettet",
 "Log out" => "Log ud",
 "Settings" => "Indstillinger",
-"Login failed!" => "Login mislykkedes!",
 "remember" => "husk",
 "You are logged out." => "Du er nu logget ud",
+"Login failed!" => "Login mislykkedes!",
 "prev" => "forrige",
 "next" => "næste"
 );

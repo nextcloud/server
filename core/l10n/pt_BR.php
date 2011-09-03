@@ -14,16 +14,15 @@
 "Database password" => "Senha do banco de dados",
 "Database name" => "Nome do banco de dados",
 "Advanced" => "Avançado",
-"Host" => "Host 'servidor'",
 "Table prefix" => "Prefixo da tabela",
 "Data folder" => "Pasta de dados",
 "Finish setup" => "Concluir configuração",
 "gives you the freedom to control your own data on the internet" => "te dá a liberdade de controlar seus próprios dados na internet",
 "Log out" => "Sair",
 "Settings" => "Configurações",
-"Login failed!" => "Login sem sucesso",
 "remember" => "lembrete",
 "You are logged out." => "Você está desconectado.",
+"Login failed!" => "Login sem sucesso",
 "prev" => "anterior",
 "next" => "próximo"
 );

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-23 11:17+0200\n"
-"PO-Revision-Date: 2011-08-23 09:17+0000\n"
+"POT-Creation-Date: 2011-09-03 14:50+0200\n"
+"PO-Revision-Date: 2011-09-03 12:50+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
 "MIME-Version: 1.0\n"
@@ -32,19 +32,15 @@ msgstr "Εφαρμογές"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Διαχειριστής"
 
 #: strings.php:9
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: templates/login.php:4
-msgid "Login failed!"
-msgstr "Η σύνδεση απέτυχε!"
-
-#: templates/login.php:9 templates/login.php:13
-msgid "remember"
-msgstr "να με θυμάσαι"
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr "Δεν βρέθηκε σύννεφο"
 
 #: templates/installation.php:20
 msgid "Create an <strong>admin account</strong>"
@@ -84,8 +80,8 @@ msgid "Advanced"
 msgstr "Για προχωρημένους"
 
 #: templates/installation.php:77
-msgid "Host"
-msgstr "Εξυπηρετητής"
+msgid "Database host"
+msgstr ""
 
 #: templates/installation.php:78
 msgid "Table prefix"
@@ -99,14 +95,50 @@ msgstr "Φάκελος δεδομένων"
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
-#: templates/404.php:12
-msgid "Cloud not found"
-msgstr "Δεν βρέθηκε σύννεφο"
-
 #: templates/layout.guest.php:35
 msgid "gives you the freedom to control your own data on the internet"
 msgstr ""
 "σας δίνει την ελευθερία να ελέγχετε τα δικά σας δεδομένα στο διαδίκτυο"
+
+#: templates/layout.user.php:34
+msgid "Log out"
+msgstr "Αποσύνδεση"
+
+#: templates/layout.user.php:46 templates/layout.user.php:47
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: templates/login.php:4
+msgid "Lost your password?"
+msgstr ""
+
+#: templates/login.php:9 templates/login.php:13
+msgid "remember"
+msgstr "να με θυμάσαι"
+
+#: templates/logout.php:1
+msgid "You are logged out."
+msgstr "Έχετε αποσυνδεθεί."
+
+#: templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr ""
+
+#: templates/lostpassword.php:5
+msgid "Requested"
+msgstr ""
+
+#: templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "Η σύνδεση απέτυχε!"
+
+#: templates/lostpassword.php:10
+msgid "Username or Email"
+msgstr ""
+
+#: templates/lostpassword.php:11
+msgid "Request reset"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -116,16 +148,16 @@ msgstr "προηγούμενο"
 msgid "next"
 msgstr "επόμενο"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Έχετε αποσυνδεθεί."
+#: templates/resetpassword.php:4
+msgid "Your password was successfully reset"
+msgstr ""
 
-#: templates/layout.user.php:34
-msgid "Log out"
-msgstr "Αποσύνδεση"
+#: templates/resetpassword.php:6
+msgid "New password"
+msgstr ""
 
-#: templates/layout.user.php:46 templates/layout.user.php:47
-msgid "Settings"
-msgstr "Ρυθμίσεις"
+#: templates/resetpassword.php:7
+msgid "Reset password"
+msgstr ""
 
 

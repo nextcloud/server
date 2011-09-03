@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Personal" => "Personnel",
+"Personal" => "Personnels",
 "Users" => "Utilisateurs",
 "Apps" => "Applications",
 "Admin" => "Administration",
@@ -14,16 +14,15 @@
 "Database password" => "Mot de passe de la base de données",
 "Database name" => "Nom de la base de données",
 "Advanced" => "Avancé",
-"Host" => "Hôte",
 "Table prefix" => "Préfixe des tables",
 "Data folder" => "Répertoire des données",
 "Finish setup" => "Terminer l'installation",
 "gives you the freedom to control your own data on the internet" => "vous rend libre de contrôler vos propres données sur internet",
 "Log out" => "Se déconnecter",
 "Settings" => "Paramètres",
-"Login failed!" => "Échec de la connexion !",
 "remember" => "se souvenir de moi",
 "You are logged out." => "Vous êtes désormais déconnecté.",
+"Login failed!" => "Échec de la connexion !",
 "prev" => "précédent",
 "next" => "suivant"
 );

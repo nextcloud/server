@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-23 11:18+0200\n"
-"PO-Revision-Date: 2011-08-23 09:18+0000\n"
+"POT-Creation-Date: 2011-09-03 14:50+0200\n"
+"PO-Revision-Date: 2011-09-03 12:50+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -38,13 +38,9 @@ msgstr "Verwaltung"
 msgid "Help"
 msgstr "Hilfe"
 
-#: templates/login.php:4
-msgid "Login failed!"
-msgstr "Anmeldung fehlgeschlagen!"
-
-#: templates/login.php:9 templates/login.php:13
-msgid "remember"
-msgstr "merken"
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr "Cloud nicht verfügbar"
 
 #: templates/installation.php:20
 msgid "Create an <strong>admin account</strong>"
@@ -84,8 +80,8 @@ msgid "Advanced"
 msgstr "Erweitert"
 
 #: templates/installation.php:77
-msgid "Host"
-msgstr "Host"
+msgid "Database host"
+msgstr ""
 
 #: templates/installation.php:78
 msgid "Table prefix"
@@ -99,14 +95,50 @@ msgstr "Datenverzeichnis"
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
-#: templates/404.php:12
-msgid "Cloud not found"
-msgstr "Cloud nicht verfügbar"
-
 #: templates/layout.guest.php:35
 msgid "gives you the freedom to control your own data on the internet"
 msgstr ""
 "gibt dir die Freiheit, deine eigenen Daten im Internet zu kontrollieren."
+
+#: templates/layout.user.php:34
+msgid "Log out"
+msgstr "Abmelden"
+
+#: templates/layout.user.php:46 templates/layout.user.php:47
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: templates/login.php:4
+msgid "Lost your password?"
+msgstr ""
+
+#: templates/login.php:9 templates/login.php:13
+msgid "remember"
+msgstr "merken"
+
+#: templates/logout.php:1
+msgid "You are logged out."
+msgstr "Erfolgreich abgemeldet."
+
+#: templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr ""
+
+#: templates/lostpassword.php:5
+msgid "Requested"
+msgstr ""
+
+#: templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "Anmeldung fehlgeschlagen!"
+
+#: templates/lostpassword.php:10
+msgid "Username or Email"
+msgstr ""
+
+#: templates/lostpassword.php:11
+msgid "Request reset"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -116,16 +148,16 @@ msgstr "Zurück"
 msgid "next"
 msgstr "Weiter"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Erfolgreich abgemeldet."
+#: templates/resetpassword.php:4
+msgid "Your password was successfully reset"
+msgstr ""
 
-#: templates/layout.user.php:34
-msgid "Log out"
-msgstr "Abmelden"
+#: templates/resetpassword.php:6
+msgid "New password"
+msgstr ""
 
-#: templates/layout.user.php:46 templates/layout.user.php:47
-msgid "Settings"
-msgstr "Einstellungen"
+#: templates/resetpassword.php:7
+msgid "Reset password"
+msgstr ""
 
 

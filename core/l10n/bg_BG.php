@@ -1,13 +1,12 @@
 <?php $TRANSLATIONS = array(
-"Login failed!" => "Входа пропадна!",
+"Cloud not found" => "обклакът не намерен",
 "Database name" => "Име на базата",
 "Advanced" => "Разширено",
-"Host" => "хост",
 "Table prefix" => "Префикс за таблиците",
 "Data folder" => "Директория за данни",
 "Finish setup" => "Завършване на настройките",
-"Cloud not found" => "обклакът не намерен",
+"You are logged out." => "Вие излязохте.",
+"Login failed!" => "Входа пропадна!",
 "prev" => "пред.",
-"next" => "следващо",
-"You are logged out." => "Вие излязохте."
+"next" => "следващо"
 );

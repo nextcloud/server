@@ -14,16 +14,15 @@
 "Database password" => "Contrasenya de la base de dades",
 "Database name" => "Nom de la base de dades",
 "Advanced" => "Avançat",
-"Host" => "Host",
 "Table prefix" => "Prefix de les taules",
 "Data folder" => "Carpeta de dades",
 "Finish setup" => "Acaba la configuració",
 "gives you the freedom to control your own data on the internet" => "us dóna la llibertat per controlar les vostres dades a internet",
 "Log out" => "Sortir",
 "Settings" => "Arranjament",
-"Login failed!" => "L'inici de sessió ha fallat!",
 "remember" => "recorda'm",
 "You are logged out." => "Heu tancat la sessió.",
+"Login failed!" => "L'inici de sessió ha fallat!",
 "prev" => "anterior",
 "next" => "següent"
 );

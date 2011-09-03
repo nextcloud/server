@@ -14,16 +14,15 @@
 "Database password" => "Contraseña de la base de datos",
 "Database name" => "Nombre de la base de datos",
 "Advanced" => "Avanzado",
-"Host" => "Host",
 "Table prefix" => "Prefijo de la tabla",
 "Data folder" => "Directorio de almacenamiento",
 "Finish setup" => "Completar instalación",
 "gives you the freedom to control your own data on the internet" => "te da la libertad del control de tus propios datos en internet",
 "Log out" => "Salir",
 "Settings" => "Ajustes",
-"Login failed!" => "¡No se pudo iniciar sesión!",
 "remember" => "recuérdame",
 "You are logged out." => "Has cerrado sesión.",
+"Login failed!" => "¡No se pudo iniciar sesión!",
 "prev" => "anterior",
 "next" => "siguiente"
 );

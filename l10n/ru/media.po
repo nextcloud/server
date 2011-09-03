@@ -1,0 +1,68 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+#   <tony.mccourin@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-09-03 14:50+0200\n"
+"PO-Revision-Date: 2011-09-03 12:59+0000\n"
+"Last-Translator: tonymc <tony.mccourin@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/team/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: appinfo/app.php:31
+msgid "Music"
+msgstr "Музыка"
+
+#: templates/music.php:3
+msgid "Play"
+msgstr "Проиграть"
+
+#: templates/music.php:4 templates/music.php:30
+msgid "Pause"
+msgstr "Пауза"
+
+#: templates/music.php:5
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: templates/music.php:6
+msgid "Next"
+msgstr "Следующий"
+
+#: templates/music.php:7
+msgid "Mute"
+msgstr "Отключить звук"
+
+#: templates/music.php:8
+msgid "Unmute"
+msgstr "Включить звук"
+
+#: templates/music.php:28
+msgid "Songs scanned"
+msgstr "Песен просканировано"
+
+#: templates/music.php:29
+msgid "Rescan Collection"
+msgstr "Пересканировать коллекцию"
+
+#: templates/music.php:37
+msgid "Artist"
+msgstr "Исполнитель"
+
+#: templates/music.php:38
+msgid "Album"
+msgstr "Альбом"
+
+#: templates/music.php:39
+msgid "Title"
+msgstr "Название"
+
+

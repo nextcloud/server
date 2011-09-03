@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Claudiu  <claudiu@tanaselia.ro>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-09-03 14:50+0200\n"
+"PO-Revision-Date: 2011-08-31 08:24+0000\n"
+"Last-Translator: rawbeef64 <claudiu@tanaselia.ro>\n"
+"Language-Team: Romanian (http://www.transifex.net/projects/p/owncloud/team/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1))\n"
+
+#: ajax/openid.php:13 ajax/setlanguage.php:13
+msgid "Authentication error"
+msgstr "Eroare autentificare"
+
+#: ajax/openid.php:21
+msgid "OpenID Changed"
+msgstr "OpenID schimbat"
+
+#: ajax/openid.php:23 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "Cerere eronată"
+
+#: ajax/setlanguage.php:21
+msgid "Language changed"
+msgstr "Limba a fost schimbată"
+
+#: templates/apps.php:8
+msgid "Add your application"
+msgstr "Adaugă propria ta aplicație"
+
+#: templates/apps.php:21
+msgid "Select an App"
+msgstr "Selectează o aplicație"
+
+#: templates/apps.php:23
+msgid "-licensed"
+msgstr "-autorizat"
+
+#: templates/apps.php:23
+msgid "by"
+msgstr "de"
+
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr "Întreabă"
+
+#: templates/help.php:17
+msgid "Problems connecting to help database."
+msgstr "Sunt probleme cu conectarea la baza de date"
+
+#: templates/help.php:18
+msgid "Go there manually."
+msgstr "Manual"
+
+#: templates/help.php:26
+msgid "Answer"
+msgstr "Răspuns"
+
+#: templates/personal.php:8
+msgid "You use"
+msgstr "Folosești"
+
+#: templates/personal.php:8
+msgid "of the available"
+msgstr "din"
+
+#: templates/personal.php:13
+msgid "Your password got changed"
+msgstr "Parola a fost schimbată"
+
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr "Imposibil de schimbat parola"
+
+#: templates/personal.php:15
+msgid "Current password"
+msgstr "Parola curentă"
+
+#: templates/personal.php:16
+msgid "New password"
+msgstr "Noua parolă"
+
+#: templates/personal.php:17
+msgid "show"
+msgstr "arată"
+
+#: templates/personal.php:18
+msgid "Change password"
+msgstr "Schimbă parola"
+
+#: templates/personal.php:24 templates/personal.php:25
+msgid "Language"
+msgstr "Limba"
+
+#: templates/personal.php:30
+msgid "Help translating"
+msgstr "Ajută la traducere"
+
+#: templates/personal.php:36
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr ""
+"folosește această adresă pentru a te conecta la managerul tău de fișiere din"
+" ownCloud"
+
+#: templates/users.php:16
+msgid "Name"
+msgstr "Nume"
+
+#: templates/users.php:17
+msgid "Password"
+msgstr "Parola"
+
+#: templates/users.php:18 templates/users.php:36
+msgid "Groups"
+msgstr "Grupuri"
+
+#: templates/users.php:24
+msgid "Create"
+msgstr "Crează"
+
+#: templates/users.php:48
+msgid "Delete"
+msgstr "Șterge"
+
+

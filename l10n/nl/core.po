@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+#   <koen@vervloesem.eu>, 2011.
 #   <icewind1991@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-23 11:17+0200\n"
-"PO-Revision-Date: 2011-08-23 09:17+0000\n"
+"POT-Creation-Date: 2011-09-03 14:50+0200\n"
+"PO-Revision-Date: 2011-09-03 12:50+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -31,23 +32,19 @@ msgstr "Apps"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Beheerder"
 
 #: strings.php:9
 msgid "Help"
 msgstr "Help"
 
-#: templates/login.php:4
-msgid "Login failed!"
-msgstr "Aanmelden mislukt."
-
-#: templates/login.php:9 templates/login.php:13
-msgid "remember"
-msgstr "onthoud gegevens"
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr "Cloud niet gevonden"
 
 #: templates/installation.php:20
 msgid "Create an <strong>admin account</strong>"
-msgstr "Maak een <strong>admin-account</strong>"
+msgstr "Maak een <strong>beheerdersaccount</strong> aan"
 
 #: templates/installation.php:21
 msgid "Username"
@@ -59,52 +56,88 @@ msgstr "Wachtwoord"
 
 #: templates/installation.php:27
 msgid "Configure the database"
-msgstr "Configureren van de database"
+msgstr "Configureer de databank"
 
 #: templates/installation.php:32 templates/installation.php:43
 #: templates/installation.php:53
 msgid "will be used"
-msgstr "zal gebruikt woorden"
+msgstr "zal gebruikt worden"
 
 #: templates/installation.php:64
 msgid "Database user"
-msgstr "Database gebruiker"
+msgstr "Gebruiker databank"
 
 #: templates/installation.php:65
 msgid "Database password"
-msgstr "Database wachtwoord"
+msgstr "Wachtwoord databank"
 
 #: templates/installation.php:66
 msgid "Database name"
-msgstr "Database naam"
+msgstr "Naam databank"
 
 #: templates/installation.php:74
 msgid "Advanced"
 msgstr "Geavanceerd"
 
 #: templates/installation.php:77
-msgid "Host"
-msgstr "Host"
+msgid "Database host"
+msgstr ""
 
 #: templates/installation.php:78
 msgid "Table prefix"
-msgstr "Tabelnaam voorvoegsel"
+msgstr "Voorvoegsel tabel"
 
 #: templates/installation.php:80
 msgid "Data folder"
-msgstr "Gegevens folder"
+msgstr "Gegevensmap"
 
 #: templates/installation.php:83
 msgid "Finish setup"
 msgstr "Installatie afronden"
 
-#: templates/404.php:12
-msgid "Cloud not found"
-msgstr "Cloud niet gevonden"
-
 #: templates/layout.guest.php:35
 msgid "gives you the freedom to control your own data on the internet"
-msgstr "geeft je de vrijheid om je eigen data te controleren op het internet"
+msgstr "geeft u de vrijheid om uw eigen gegevens te beheren op internet"
+
+#: templates/layout.user.php:34
+msgid "Log out"
+msgstr "Afmelden"
+
+#: templates/layout.user.php:46 templates/layout.user.php:47
+msgid "Settings"
+msgstr "Instellingen"
+
+#: templates/login.php:4
+msgid "Lost your password?"
+msgstr ""
+
+#: templates/login.php:9 templates/login.php:13
+msgid "remember"
+msgstr "onthoud gegevens"
+
+#: templates/logout.php:1
+msgid "You are logged out."
+msgstr "U bent afgemeld."
+
+#: templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr ""
+
+#: templates/lostpassword.php:5
+msgid "Requested"
+msgstr ""
+
+#: templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "Aanmelden mislukt!"
+
+#: templates/lostpassword.php:10
+msgid "Username or Email"
+msgstr ""
+
+#: templates/lostpassword.php:11
+msgid "Request reset"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -114,16 +147,16 @@ msgstr "vorige"
 msgid "next"
 msgstr "volgende"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "U bent afgemeld."
+#: templates/resetpassword.php:4
+msgid "Your password was successfully reset"
+msgstr ""
 
-#: templates/layout.user.php:34
-msgid "Log out"
-msgstr "Afmelden"
+#: templates/resetpassword.php:6
+msgid "New password"
+msgstr ""
 
-#: templates/layout.user.php:46 templates/layout.user.php:47
-msgid "Settings"
-msgstr "Instellingen"
+#: templates/resetpassword.php:7
+msgid "Reset password"
+msgstr ""
 
 

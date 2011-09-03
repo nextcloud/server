@@ -14,16 +14,15 @@
 "Database password" => "Hasło do bazy danych",
 "Database name" => "Nazwa bazy danych",
 "Advanced" => "Zaawansowane",
-"Host" => "Host",
 "Table prefix" => "Prefiks tablicy",
 "Data folder" => "Katalog danych",
 "Finish setup" => "Zakończ instalację",
 "gives you the freedom to control your own data on the internet" => "daje Ci wolność kontroli nad Twoimi danymi w Internecie",
 "Log out" => "Wyloguj się",
 "Settings" => "Ustawienia",
-"Login failed!" => "Nie udało się zalogować!",
 "remember" => "zapamiętaj",
 "You are logged out." => "Zostałeś wylogowany.",
+"Login failed!" => "Nie udało się zalogować!",
 "prev" => "wstecz",
 "next" => "dalej"
 );

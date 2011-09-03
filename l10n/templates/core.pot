@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-28 01:13+0200\n"
+"POT-Creation-Date: 2011-09-03 15:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,7 @@ msgid "Advanced"
 msgstr ""
 
 #: templates/installation.php:77
-msgid "Host"
+msgid "Database host"
 msgstr ""
 
 #: templates/installation.php:78
@@ -107,7 +107,7 @@ msgid "Settings"
 msgstr ""
 
 #: templates/login.php:4
-msgid "Login failed!"
+msgid "Lost your password?"
 msgstr ""
 
 #: templates/login.php:9 templates/login.php:13
@@ -118,10 +118,42 @@ msgstr ""
 msgid "You are logged out."
 msgstr ""
 
+#: templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr ""
+
+#: templates/lostpassword.php:5
+msgid "Requested"
+msgstr ""
+
+#: templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr ""
+
+#: templates/lostpassword.php:10
+msgid "Username or Email"
+msgstr ""
+
+#: templates/lostpassword.php:11
+msgid "Request reset"
+msgstr ""
+
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
+msgstr ""
+
+#: templates/resetpassword.php:4
+msgid "Your password was successfully reset"
+msgstr ""
+
+#: templates/resetpassword.php:6
+msgid "New password"
+msgstr ""
+
+#: templates/resetpassword.php:7
+msgid "Reset password"
 msgstr ""

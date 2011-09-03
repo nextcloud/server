@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+#   <tony.mccourin@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
+"POT-Creation-Date: 2011-09-03 14:50+0200\n"
+"PO-Revision-Date: 2011-09-03 12:58+0000\n"
+"Last-Translator: tonymc <tony.mccourin@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/team/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: appinfo/app.php:7
+msgid "Files"
+msgstr "Файлы"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Максимальный размер файла"
+
+#: templates/index.php:9
+msgid "Upload"
+msgstr "Закачать"
+
+#: templates/index.php:16
+msgid "New Folder"
+msgstr "Новая папка"
+
+#: templates/index.php:24
+msgid "Nothing in here. Upload something!"
+msgstr "Здесь ничего нет. Закачайте что-нибудь!"
+
+#: templates/index.php:31
+msgid "Name"
+msgstr "Название"
+
+#: templates/index.php:33
+msgid "Download"
+msgstr "Скачать"
+
+#: templates/index.php:37
+msgid "Size"
+msgstr "Размер"
+
+#: templates/index.php:38
+msgid "Modified"
+msgstr "Изменен"
+
+#: templates/index.php:38
+msgid "Delete"
+msgstr "Удалить"
+
+#: templates/index.php:46
+msgid "Upload too large"
+msgstr "Файл слишком большой"
+
+#: templates/index.php:48
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Файлы, которые Вы пытаетесь закачать, превышают лимит для файлов на этом "
+"сервере."
+
+
