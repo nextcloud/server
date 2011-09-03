@@ -263,8 +263,54 @@ Calendar={
 		addEventLabel:function(eventcontainer, event){
 			var event_holder = this.current.createEventLabel(event)
 				.addClass('event')
-				.data('event_info', event);
+				.data('event_info', event)
+				.hover(this.createEventPopup,
+				       this.hideEventPopup);
 			eventcontainer.append(event_holder);
+		},
+		createEventPopup:function(e){
+			var event = $(this).data('event_info');
+			var popup = $(this).data('popup');
+			if (!popup){
+				popup = $(document.createElement('div'));
+				$(this).data('popup', popup).append(popup);
+				popup.addClass('event_popup')
+					.html(Calendar.UI.getEventPopupText(event));
+			}
+			popup.css('left', -(popup.width() - $(this).width())/2)
+				.show();
+		},
+		hideEventPopup:function(){
+			$(this).data('popup').hide();
+		},
+		getEventPopupText:function(event){
+			var startdate = this.formatDate(event.startdate)
+			var starttime = this.formatTime(event.startdate)
+			var enddate = this.formatDate(event.enddate)
+			var endtime = this.formatTime(event.enddate)
+			if (event.allday){
+				var timespan = startdate;
+				if (event.startdate[2] != parseInt(event.enddate[2])-1){
+					timespan += ' - ' + enddate;
+				}
+			}else{
+				var start = startdate + ' ' + starttime;
+				if (startdate == enddate){
+					var end = endtime;
+				}else{
+					var end = enddate + ' ' + endtime;
+				}
+				var timespan = start + ' - ' + end;
+			}
+			return '<span class="timespan">' + timespan + '</span>'
+				+ ' '
+				+ '<span class="summary">' + event.description + '</span>';
+		},
+		formatDate:function(date){
+			return date[0] + '-' + date[1] + '-' + date[2];
+		},
+		formatTime:function(date){
+			return date[3] + ':' + date[4];
 		},
 		OneDay:{
 			forward:function(){
@@ -301,7 +347,7 @@ Calendar={
 			createEventLabel:function(event){
 				var time = '';
 				if (!event['allday']){
-					time = '<strong>' + event['startdate'][3] + ':' + event['startdate'][4] + ' - ' + event['enddate'][3] + ':' + event['enddate'][4] + '</strong> ';
+					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + ' - ' + Calendar.UI.formatTime(event['enddate']) + '</strong> ';
 				}
 				return $(document.createElement('p'))
 					.html(time + event['description'])
@@ -360,7 +406,7 @@ Calendar={
 			createEventLabel:function(event){
 				var time = '';
 				if (!event['allday']){
-					time = '<strong>' + event['startdate'][3] + ':' + event['startdate'][4] + ' - ' + event['enddate'][3] + ':' + event['enddate'][4] + '</strong> ';
+					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + ' - ' + Calendar.UI.formatTime(event['enddate']) + '</strong> ';
 				}
 				return $(document.createElement('p'))
 					.html(time + event['description'])
@@ -494,7 +540,7 @@ Calendar={
 			createEventLabel:function(event){
 				var time = '';
 				if (!event['allday']){
-					time = '<strong>' + event['startdate'][3] + ':' + event['startdate'][4] + '</strong> ';
+					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + '</strong> ';
 				}
 				return $(document.createElement('p'))
 					.html(time + event['description'])
@@ -638,7 +684,7 @@ Calendar={
 			createEventLabel:function(event){
 				var time = '';
 				if (!event['allday']){
-					time = '<strong>' + event['startdate'][3] + ':' + event['startdate'][4] + '</strong> ';
+					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + '</strong> ';
 				}
 				return $(document.createElement('p'))
 					.html(time + event['description'])
@@ -729,7 +775,7 @@ Calendar={
 			createEventLabel:function(event){
 				var time = '';
 				if (!event['allday']){
-					time = event['startdate'][3] + ':' + event['startdate'][4] + ' - ' + event['enddate'][3] + ':' + event['enddate'][4] + ' ';
+					time = Calendar.UI.formatTime(event['startdate']) + ' - ' + Calendar.UI.formatTime(event['enddate']) + ' ';
 				}
 				return $(document.createElement('p'))
 					.html(time + event['description'])
