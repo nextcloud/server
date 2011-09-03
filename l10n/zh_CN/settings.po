@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 15:05+0200\n"
-"PO-Revision-Date: 2011-09-03 13:03+0000\n"
+"POT-Creation-Date: 2011-09-03 15:07+0200\n"
+"PO-Revision-Date: 2011-09-03 13:29+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/team/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgstr "您使用了"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr "的空间，总计可用空间为"
+msgstr "的空间，总容量为"
 
 #: templates/personal.php:13
 msgid "Your password got changed"

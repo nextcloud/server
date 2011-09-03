@@ -12,6 +12,7 @@ return array(
 'da'=>'Dansk',
 'nl'=>'Nederlands',
 'en'=>'English',
+'et_EE'=>'Eesti',
 'fr'=>'Francais',
 'de'=>'Deutsch',
 'el'=>'Ellinika',
@@ -23,6 +24,8 @@ return array(
 'pt_BR'=>'Portugues',
 'ro'=>'română',
 'ru'=>'Русский язык',
+'sr'=>'Српски',
+'sr@latin'=>'Srpski',
 'es'=>'Espanol',
 'sv'=>'Svenska'
 );

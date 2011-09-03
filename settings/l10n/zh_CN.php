@@ -12,7 +12,7 @@
 "Go there manually." => "手动访问",
 "Answer" => "回答",
 "You use" => "您使用了",
-"of the available" => "的空间，总计可用空间为",
+"of the available" => "的空间，总容量为",
 "Your password got changed" => "密码已修改",
 "Unable to change your password" => "无法修改密码",
 "Current password" => "当前密码",
