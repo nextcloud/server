@@ -64,8 +64,6 @@
 			<input type="text" name="dbuser" id="dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" placeholder="<?php echo $l->t( 'Database user' ); ?>" autocomplete="off" />
 			<input type="password" name="dbpass" id="dbpass" value="<?php print OC_Helper::init_var('dbpass'); ?>" placeholder="<?php echo $l->t( 'Database password' ); ?>" />
 			<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" placeholder="<?php echo $l->t( 'Database name' ); ?>" autocomplete="off" />
-			
-			
 		</div>
 		<?php endif; ?>
 
