@@ -32,8 +32,9 @@
 </form>
 
 <p class="personalblock">
-	<label for="webdav"><strong>WebDAV</strong></label>
-	<input id="webdav" type="text" value="<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?>" title="<?php echo $l->t('use this address to connect to your ownCloud in your file manager');?>" />
+	<strong>WebDAV</strong>
+	<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?><br />
+	<em><?php echo $l->t('use this address to connect to your ownCloud in your file manager');?></em>
 </p>
 
 <?php foreach($_['forms'] as $form){
