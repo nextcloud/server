@@ -29,7 +29,6 @@
 "Request reset" => "请求重置",
 "prev" => "上一页",
 "next" => "下一页",
-"Your password was successfully reset" => "您的密码已成功重置。",
 "New password" => "新密码",
 "Reset password" => "重置密码"
 );

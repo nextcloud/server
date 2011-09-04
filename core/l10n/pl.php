@@ -29,7 +29,6 @@
 "Request reset" => "Zresetuj hasło",
 "prev" => "wstecz",
 "next" => "dalej",
-"Your password was successfully reset" => "Twoje hasło zostało pomyślnie zresetowane",
 "New password" => "Nowe hasło",
 "Reset password" => "Zresetuj hasło"
 );

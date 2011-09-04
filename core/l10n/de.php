@@ -30,7 +30,6 @@
 "Request reset" => "Zurücksetzen",
 "prev" => "Zurück",
 "next" => "Weiter",
-"Your password was successfully reset" => "Dein Passwort wurde zurückgesetzt",
 "New password" => "Neues Passwort",
 "Reset password" => "Zurücksetzen"
 );

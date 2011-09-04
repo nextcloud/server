@@ -29,7 +29,6 @@
 "Request reset" => "Demande de réinitialisation",
 "prev" => "précédent",
 "next" => "suivant",
-"Your password was successfully reset" => "Votre mot de passe a été réinitialisé avec succès",
 "New password" => "Nouveau mot de passe",
 "Reset password" => "Réinitialisation du mot de passe"
 );

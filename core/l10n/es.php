@@ -29,7 +29,6 @@
 "Request reset" => "Solicitar restablecimiento",
 "prev" => "anterior",
 "next" => "siguiente",
-"Your password was successfully reset" => "Tu contraseña se ha restablecido con exito",
 "New password" => "Nueva contraseña",
 "Reset password" => "Restablecer contraseña"
 );

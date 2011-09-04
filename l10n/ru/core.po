@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:11+0200\n"
-"PO-Revision-Date: 2011-09-04 15:12+0000\n"
-"Last-Translator: tonymc <tony.mccourin@gmail.com>\n"
+"POT-Creation-Date: 2011-09-04 18:14+0200\n"
+"PO-Revision-Date: 2011-09-04 16:14+0000\n"
+"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/team/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,8 +143,8 @@ msgid "next"
 msgstr "след"
 
 #: templates/resetpassword.php:4
-msgid "Your password was successfully reset"
-msgstr "Ваш пароль был сброшен"
+msgid "Your password was reset"
+msgstr ""
 
 #: templates/resetpassword.php:6
 msgid "New password"

@@ -30,7 +30,6 @@
 "Request reset" => "Запросить сброс",
 "prev" => "пред",
 "next" => "след",
-"Your password was successfully reset" => "Ваш пароль был сброшен",
 "New password" => "Новый пароль",
 "Reset password" => "Сбросить пароль"
 );

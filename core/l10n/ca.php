@@ -30,7 +30,6 @@
 "Request reset" => "Sol.licitud de restabliment",
 "prev" => "anterior",
 "next" => "següent",
-"Your password was successfully reset" => "La contrasenya s'ha restablert",
 "New password" => "Nova contrasenya",
 "Reset password" => "Restabliment de la contrasenya"
 );
