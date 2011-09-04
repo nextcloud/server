@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 14:50+0200\n"
-"PO-Revision-Date: 2011-09-03 12:50+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-04 18:11+0200\n"
+"PO-Revision-Date: 2011-09-04 14:56+0000\n"
+"Last-Translator: radifar <m_radifar05@yahoo.com>\n"
 "Language-Team: Indonesian (http://www.transifex.net/projects/p/owncloud/team/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,29 +74,25 @@ msgstr "Password database"
 msgid "Database name"
 msgstr "Nama database"
 
-#: templates/installation.php:74
+#: templates/installation.php:72
 msgid "Advanced"
 msgstr "Tingkat Lanjut"
 
-#: templates/installation.php:77
+#: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Host database"
 
-#: templates/installation.php:78
-msgid "Table prefix"
-msgstr "Awalan tabel"
-
-#: templates/installation.php:80
+#: templates/installation.php:76
 msgid "Data folder"
 msgstr "Folder data"
 
-#: templates/installation.php:83
+#: templates/installation.php:79
 msgid "Finish setup"
 msgstr "Selesaikan instalasi"
 
 #: templates/layout.guest.php:35
-msgid "gives you the freedom to control your own data on the internet"
-msgstr "memberikan anda kebebasan dalam mengendalikan data anda di internet"
+msgid "gives you freedom and control over your own data"
+msgstr "memberikan anda kebebasan dan kendali atas data anda sendiri"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -108,7 +104,7 @@ msgstr "Setelan"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Lupa password anda?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
@@ -120,11 +116,11 @@ msgstr "Anda telah keluar."
 
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Anda akan menerima tautan untuk menset ulang password anda via Email."
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Telah diminta"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -132,11 +128,11 @@ msgstr "Gagal masuk!"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Nama Pengguna atau Email"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Meminta set ulang"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -148,14 +144,14 @@ msgstr "selanjutnya"
 
 #: templates/resetpassword.php:4
 msgid "Your password was successfully reset"
-msgstr ""
+msgstr "Password anda telah diset ulang dengan sukses"
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Password Baru"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Set Ulang Password"
 
 

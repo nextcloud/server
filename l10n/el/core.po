@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 14:50+0200\n"
-"PO-Revision-Date: 2011-09-03 12:50+0000\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-04 16:39+0200\n"
+"PO-Revision-Date: 2011-09-04 14:39+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
 "MIME-Version: 1.0\n"
@@ -75,30 +75,25 @@ msgstr "Κωδικός πρόσβασης βάσης δεδομένων"
 msgid "Database name"
 msgstr "Όνομα βάσης δεδομένων"
 
-#: templates/installation.php:74
+#: templates/installation.php:72
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
-#: templates/installation.php:77
+#: templates/installation.php:75
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:78
-msgid "Table prefix"
-msgstr "Πρόθεμα πίνακα"
-
-#: templates/installation.php:80
+#: templates/installation.php:76
 msgid "Data folder"
 msgstr "Φάκελος δεδομένων"
 
-#: templates/installation.php:83
+#: templates/installation.php:79
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
 #: templates/layout.guest.php:35
-msgid "gives you the freedom to control your own data on the internet"
+msgid "gives you freedom and control over your own data"
 msgstr ""
-"σας δίνει την ελευθερία να ελέγχετε τα δικά σας δεδομένα στο διαδίκτυο"
 
 #: templates/layout.user.php:34
 msgid "Log out"

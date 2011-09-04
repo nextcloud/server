@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-28 01:11+0200\n"
-"PO-Revision-Date: 2011-08-26 15:34+0000\n"
-"Last-Translator: rom1dep <rom1dep@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-04 16:48+0200\n"
+"PO-Revision-Date: 2011-09-03 18:25+0000\n"
+"Last-Translator: bibzor <borjan@tchaka.fr>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr "Identifiant OpenID changé"
 
 #: ajax/openid.php:23 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr "Requète invalide"
+msgstr "Requête invalide"
 
 #: ajax/setlanguage.php:21
 msgid "Language changed"
@@ -78,6 +78,10 @@ msgstr "sur un total de"
 msgid "Your password got changed"
 msgstr "Votre mot de passe a été changé"
 
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr "Impossible de changer votre mot de passe"
+
 #: templates/personal.php:15
 msgid "Current password"
 msgstr "Mot de passe actuel"
@@ -94,7 +98,7 @@ msgstr "Afficher"
 msgid "Change password"
 msgstr "Changer de mot de passe"
 
-#: templates/personal.php:24
+#: templates/personal.php:24 templates/personal.php:25
 msgid "Language"
 msgstr "Langue"
 
@@ -102,10 +106,10 @@ msgstr "Langue"
 msgid "Help translating"
 msgstr "Aider à traduire"
 
-#: templates/personal.php:36
+#: templates/personal.php:37
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
-"utilisez cette adresse pour vous connecter à votre ownCloud depuis votre "
+"utilisez cette adresse pour vous connecter à votre ownCloud depuis un "
 "explorateur de fichiers"
 
 #: templates/users.php:16

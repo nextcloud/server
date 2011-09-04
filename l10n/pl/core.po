@@ -4,13 +4,14 @@
 # 
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
 #   <mosslar@gmail.com>, 2011.
+# Marcin Małecki <gerber@tkdami.net>, 2011.
 # Marcin Małecki <mosslar@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 14:50+0200\n"
-"PO-Revision-Date: 2011-09-03 12:50+0000\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-04 16:48+0200\n"
+"PO-Revision-Date: 2011-09-04 14:39+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/team/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -76,29 +77,25 @@ msgstr "Hasło do bazy danych"
 msgid "Database name"
 msgstr "Nazwa bazy danych"
 
-#: templates/installation.php:74
+#: templates/installation.php:72
 msgid "Advanced"
 msgstr "Zaawansowane"
 
-#: templates/installation.php:77
+#: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Host bazy danych"
 
-#: templates/installation.php:78
-msgid "Table prefix"
-msgstr "Prefiks tablicy"
-
-#: templates/installation.php:80
+#: templates/installation.php:76
 msgid "Data folder"
 msgstr "Katalog danych"
 
-#: templates/installation.php:83
+#: templates/installation.php:79
 msgid "Finish setup"
 msgstr "Zakończ instalację"
 
 #: templates/layout.guest.php:35
-msgid "gives you the freedom to control your own data on the internet"
-msgstr "daje Ci wolność kontroli nad Twoimi danymi w Internecie"
+msgid "gives you freedom and control over your own data"
+msgstr ""
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -110,7 +107,7 @@ msgstr "Ustawienia"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Nie pamiętasz hasła?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
@@ -122,11 +119,11 @@ msgstr "Zostałeś wylogowany."
 
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Otrzymasz link do resetowania hasła poprzez e-mail."
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Żądane"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -134,11 +131,11 @@ msgstr "Nie udało się zalogować!"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Użytkownik lub email"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Zresetuj hasło"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -150,14 +147,14 @@ msgstr "dalej"
 
 #: templates/resetpassword.php:4
 msgid "Your password was successfully reset"
-msgstr ""
+msgstr "Twoje hasło zostało pomyślnie zresetowane"
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Nowe hasło"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Zresetuj hasło"
 
 

@@ -2,6 +2,7 @@
 "Personal" => "Personale",
 "Users" => "Utenti",
 "Apps" => "Applicazioni",
+"Admin" => "Admin",
 "Help" => "Aiuto",
 "Cloud not found" => "Cloud non trovata",
 "Create an <strong>admin account</strong>" => "Crea un &lt;strong&gt;account amministratore&lt;/strong&gt;",
@@ -13,15 +14,15 @@
 "Database password" => "Password database",
 "Database name" => "Nome database",
 "Advanced" => "Opzioni avanzate",
-"Table prefix" => "Prefisso tabella",
 "Data folder" => "Cartella dati",
 "Finish setup" => "Termina",
-"gives you the freedom to control your own data on the internet" => "da la libertà di controllare i tuoi dati su internet",
 "Log out" => "Log out",
 "Settings" => "Impostazioni",
+"Lost your password?" => "Password persa?",
 "remember" => "ricorda",
 "You are logged out." => "Sei uscito.",
 "Login failed!" => "Login fallito!",
 "prev" => "precedente",
-"next" => "successivo"
+"next" => "successivo",
+"New password" => "Nuova password"
 );
