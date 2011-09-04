@@ -64,9 +64,6 @@ class OC_Setup {
 			if(empty($options['dbhost'])) {
 				$error[] = "$dbprettyname set the database host.";
 			}
-			if(!isset($options['dbtableprefix'])) {
-				$error[] = "$dbprettyname set a table prefix.";
-			}
 		}
 
 		if(count($error) == 0) { //no errors, good
@@ -88,10 +85,10 @@ class OC_Setup {
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
-				$dbtableprefix = $options['dbtableprefix'];
+				$dbtableprefix = 'oc_';
 				OC_Config::setValue('dbname', $dbname);
 				OC_Config::setValue('dbhost', $dbhost);
-				OC_Config::setValue('dbtableprefix', $dbtableprefix);
+				OC_Config::setValue('dbtableprefix', 'oc_');
 
 				//check if the database user has admin right
 				$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
