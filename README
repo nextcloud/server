@@ -1,12 +1,13 @@
-ownCloud is a personal cloud which runs on your own server.
+ownCloud gives you freedom and control over your own data.
+A personal cloud which runs on your own server.
 It is alpha software in development and should be treated accordingly.
 
-http://owncloud.org
+http://ownCloud.org
 
 Installation instructions: http://owncloud.org/index.php/Installation
-Source code: http://projects.kde.org/owncloud
+Source code: http://gitorious.org/owncloud
 
-Mailing list: https://mail.kde.org/mailman/listinfo/owncloud
-IRC channel: http://webchat.freenode.net/?channels=#owncloud
+Mailing list: http://mail.kde.org/mailman/listinfo/owncloud
+IRC channel: http://webchat.freenode.net/?channels=owncloud
 Diaspora: https://joindiaspora.com/u/owncloud
 Identi.ca: http://identi.ca/owncloud
