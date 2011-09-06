@@ -18,6 +18,7 @@ $(document).ready(function() {
 	
 	$('.bookmarks_list').empty();
 	getBookmarks();
+	
 });
 
 function getBookmarks() {
@@ -45,7 +46,8 @@ function getBookmarks() {
 }
 
 function getMetadata() {
-	var url = encodeEntities($('#bookmark_add_url').val())
+	var url = encodeEntities($('#bookmark_add_url').val());
+	$('.loading_meta').css('display','inline');
 	$.ajax({
 		url: 'ajax/getMeta.php',
 		data: 'url=' + encodeURIComponent(url),
@@ -55,6 +57,7 @@ function getMetadata() {
 			if (pageinfo.data.description !== undefined){
 				$('#bookmark_add_description').val(pageinfo.data.description);
 			}
+			$('.loading_meta').css('display','none');
 		}
 	});
 }

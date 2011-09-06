@@ -84,3 +84,8 @@
 .clear {
 	clear:both;
 }
+
+.loading_meta {
+	display: none;
+	margin-left: 5px;
+}
