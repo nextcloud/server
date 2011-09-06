@@ -412,46 +412,16 @@ Calendar={
 					.html(time + event['description'])
 			},
 			generateDates:function(){
-				var generate_dayofweek = oc_cal_dayofweek;
-				var generate_dayofmonth = oc_cal_dayofmonth;
-				var generate_month = oc_cal_month;
-				var generate_year = oc_cal_year;
 				var dates = new Array();
+				var generate_date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				var generate_dayofweek = generate_date.getDay();
 				if(generate_dayofweek == 0) {
 					generate_dayofweek = 7;
 				}
-				for(var i = generate_dayofweek; i > 1; i--) {
-					var cal = Calendar.Date.getnumberofdays(generate_year);
-					if(generate_dayofmonth == 1) {
-						if(generate_month == 0) {
-							generate_year--;
-							generate_month = 11;
-							generate_dayofmonth = cal[generate_month];
-						} else {
-							generate_month--;
-							generate_dayofmonth = cal[generate_month];
-						}
-					} else {
-						generate_dayofmonth--;
-					}
-					generate_dayofweek--;
-				}
-				dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
-				for(var i = 1; i <= 6; i++) {
-					var cal = Calendar.Date.getnumberofdays(generate_year);
-					if(generate_dayofmonth == cal[generate_month]) {
-						if(generate_month == 11) {
-							generate_year++;
-							generate_month = 0;
-							generate_dayofmonth = 1;
-						} else {
-							generate_month++;
-							generate_dayofmonth = 1;
-						}
-					} else {
-						generate_dayofmonth++;
-					}
-					dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
+				generate_date.setDate(generate_date.getDate() - generate_dayofweek + 1);
+				for(var i = 0; i <= 6; i++) {
+					dates[i] = new Array(generate_date.getDate(), generate_date.getMonth(), generate_date.getFullYear());
+					generate_date.setDate(generate_date.getDate() + 1);
 				}
 				return dates;
 			},
@@ -546,46 +516,16 @@ Calendar={
 					.html(time + event['description'])
 			},
 			generateDates:function(){
-				var generate_dayofweek = oc_cal_dayofweek;
-				var generate_dayofmonth = oc_cal_dayofmonth;
-				var generate_month = oc_cal_month;
-				var generate_year = oc_cal_year;
 				var dates = new Array();
+				var generate_date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				var generate_dayofweek = generate_date.getDay();
 				if(generate_dayofweek == 0) {
 					generate_dayofweek = 7;
 				}
-				for(var i = generate_dayofweek; i > 1; i--) {
-					var cal = Calendar.Date.getnumberofdays(generate_year);
-					if(generate_dayofmonth == 1) {
-						if(generate_month == 0) {
-							generate_year--;
-							generate_month = 11;
-							generate_dayofmonth = cal[generate_month];
-						} else {
-							generate_month--;
-							generate_dayofmonth = cal[generate_month];
-						}
-					} else {
-						generate_dayofmonth--;
-					}
-					generate_dayofweek--;
-				}
-				dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
-				for(var i = 1; i <= 27; i++) {
-					var cal = Calendar.Date.getnumberofdays(generate_year);
-					if(generate_dayofmonth == cal[generate_month]) {
-						if(generate_month == 11) {
-							generate_year++;
-							generate_month = 0;
-							generate_dayofmonth = 1;
-						} else {
-							generate_month++;
-							generate_dayofmonth = 1;
-						}
-					} else {
-						generate_dayofmonth++;
-					}
-					dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
+				generate_date.setDate(generate_date.getDate() - generate_dayofweek + 1);
+				for(var i = 0; i <= 27; i++) {
+					dates[i] = new Array(generate_date.getDate(), generate_date.getMonth(), generate_date.getFullYear());
+					generate_date.setDate(generate_date.getDate() + 1);
 				}
 				return dates;
 			},
@@ -690,67 +630,18 @@ Calendar={
 					.html(time + event['description'])
 			},
 			generateDates:function(){
-				var generate_dayofweek = oc_cal_dayofweek;
-				var generate_dayofmonth = oc_cal_dayofmonth;
-				var generate_month = oc_cal_month;
-				var generate_year = oc_cal_year;
 				var dates = new Array();
-				for(var i = generate_dayofmonth; i > 1; i--) {
-					var cal = Calendar.Date.getnumberofdays(generate_year);
-					if(generate_dayofmonth == 1) {
-						if(generate_month == 0) {
-							generate_year--;
-							generate_month = 11;
-							generate_dayofmonth = cal[generate_month];
-						} else {
-							generate_month--;
-							generate_dayofmonth = cal[generate_month];
-						}
-					} else {
-						generate_dayofmonth--;
-					}
-					if(generate_dayofweek == 0) {
-						generate_dayofweek = 6;
-					} else {
-						generate_dayofweek--;
-					}
-				}
+				var generate_date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				generate_date.setDate(1);
+				var generate_dayofweek = generate_date.getDay();
 				if(generate_dayofweek == 0) {
 					generate_dayofweek = 7;
 					oc_cal_rows++;
 				}
-				for(var i = generate_dayofweek; i > 1; i--) {
-					var cal = Calendar.Date.getnumberofdays(generate_year);
-					if(generate_dayofmonth == 1) {
-						if(generate_month == 0) {
-							generate_year--;
-							generate_month = 11;
-							generate_dayofmonth = cal[generate_month];
-						} else {
-							generate_month--;
-							generate_dayofmonth = cal[generate_month];
-						}
-					} else {
-						generate_dayofmonth--;
-					}
-					generate_dayofweek--;
-				}
-				dates[0] = new Array(generate_dayofmonth, generate_month, generate_year);
-				for(var i = 1; i <= 41; i++) {
-					var cal = Calendar.Date.getnumberofdays(generate_year);
-					if(generate_dayofmonth == cal[generate_month]) {
-						if(generate_month == 11) {
-							generate_year++;
-							generate_month = 0;
-							generate_dayofmonth = 1;
-						} else {
-							generate_month++;
-							generate_dayofmonth = 1;
-						}
-					} else {
-						generate_dayofmonth++;
-					}
-					dates[i] = new Array(generate_dayofmonth, generate_month, generate_year);
+				generate_date.setDate(generate_date.getDate() - generate_dayofweek + 1);
+				for(var i = 0; i <= 41; i++) {
+					dates[i] = new Array(generate_date.getDate(), generate_date.getMonth(), generate_date.getFullYear());
+					generate_date.setDate(generate_date.getDate() + 1);
 				}
 				return dates;
 			},
