@@ -29,7 +29,6 @@ if( count($calendars) == 0){
 	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
 }
 OC_UTIL::addScript("calendar", "calendar");
-OC_UTIL::addScript("calendar", "calendar_init");
 OC_UTIL::addStyle("calendar", "style");
 OC_APP::setActiveNavigationEntry("calendar_index");
 $output = new OC_TEMPLATE("calendar", "calendar", "user");

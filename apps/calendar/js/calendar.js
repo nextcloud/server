@@ -39,11 +39,12 @@
  * loadEvents - load the events                   *
  *************************************************/
 Calendar={
+	space:' ',
 	Date:{
 		normal_year_cal: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 		leap_year_cal: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 		calw:function() {
-			var dayofweek = oc_cal_dayofweek;
+			var dayofweek = this.current.getDay();
 			if(dayofweek == 0) {
 				dayofweek = 7;
 			}
@@ -52,12 +53,12 @@ Calendar={
 		},
 
 		doy:function() {
-			var cal = this.getnumberofdays(oc_cal_year);
+			var cal = this.getnumberofdays(this.current.getFullYear());
 			var doy = 0;
-			for(var i = 0; i < oc_cal_month; i++) {
-				doy = doy + parseInt(cal[i]);
+			for(var i = 0; i < this.current.getMonth(); i++) {
+				doy = doy + cal[i];
 			}
-			doy = doy + parseInt(oc_cal_dayofmonth);
+			doy = doy + this.current.getDate();
 			return doy;
 		},
 
@@ -83,132 +84,119 @@ Calendar={
 			return false;
 		},
 
+		current:new Date(),
 		forward_day:function(){
-			var cal = this.getnumberofdays(oc_cal_year);
-			if(oc_cal_dayofmonth == cal[oc_cal_month]) {
-				if(oc_cal_month == 11) {
-					oc_cal_year++;
-					oc_cal_month = 0;
-					oc_cal_dayofmonth = 1;
-				} else {
-					oc_cal_month++;
-					oc_cal_dayofmonth = 1;
-				}
-			} else {
-				oc_cal_dayofmonth++;
-			}
-			if(oc_cal_dayofweek == 6) {
-				oc_cal_dayofweek = 0;
-			} else {
-				oc_cal_dayofweek++;
-			}
+			this.current.setDate(this.current.getDate()+1);
 		},
 
 		forward_week:function(){
-			for(var i = 1; i <= 7; i++) {
-				this.forward_day();
-			}
+			this.current.setDate(this.current.getDate()+7);
 		},
 
 		forward_month:function(){
-			var cal = this.getnumberofdays(oc_cal_year);
-			for(var i = 1; i <= cal[oc_cal_month]; i++) {
-				this.forward_day();
-			}
+			this.current.setMonth(this.current.getMonth()+1);
 		},
 
 		backward_day:function(){
-			var cal = this.getnumberofdays(oc_cal_year);
-			if(oc_cal_dayofmonth == 1) {
-				if(oc_cal_month == 0) {
-					oc_cal_year--;
-					oc_cal_month = 11;
-					oc_cal_dayofmonth = 31
-				} else {
-					oc_cal_month--;
-					oc_cal_dayofmonth = cal[oc_cal_month];
-				}
-			} else {
-				oc_cal_dayofmonth--;
-			}
-			if(oc_cal_dayofweek == 0) {
-				oc_cal_dayofweek = 6;
-			} else {
-				oc_cal_dayofweek--;
-			}
+			this.current.setDate(this.current.getDate()-1);
 		},
 
 		backward_week:function(){
-			for(var i = 1; i <= 7; i++) {
-				this.backward_day();
-			}
+			this.current.setDate(this.current.getDate()-7);
 		},
 
 		backward_month:function(){
-			var cal = this.getnumberofdays(oc_cal_year);
-			for(var i = cal[oc_cal_month]; i >= 1; i--) {
-				this.backward_day();
-			}
+			this.current.setMonth(this.current.getMonth()-1);
 		},
 
 	},
 	UI:{
 		weekdays: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+		formatDayShort:function(day){
+			if (typeof(day) == 'undefined'){
+				day = Calendar.Date.current.getDay();
+			}
+			return this.dayshort[day];
+		},
+		formatDayLong:function(day){
+			if (typeof(day) == 'undefined'){
+				day = Calendar.Date.current.getDay();
+			}
+			return this.daylong[day];
+		},
+		formatMonthShort:function(month){
+			if (typeof(month) == 'undefined'){
+				month = Calendar.Date.current.getMonth();
+			}
+			return this.monthshort[month];
+		},
+		formatMonthLong:function(month){
+			if (typeof(month) == 'undefined'){
+				month = Calendar.Date.current.getMonth();
+			}
+			return this.monthlong[month];
+		},
 		updateView:function(task) {
 			this.current.removeEvents();
 			this.current.renderCal();
 			this.current.showEvents();
 		},
+		currentview:'none',
 		setCurrentView:function(view){
-			if (view == oc_cal_currentview){
+			if (view == this.currentview){
 				return;
 			}
-			$('#'+oc_cal_currentview).hide();
-			$('#'+oc_cal_currentview + "_radio").removeClass('active');
-			oc_cal_currentview = view;
+			$('#'+this.currentview).hide();
+			$('#'+this.currentview + "_radio").removeClass('active');
+			this.currentview = view;
 			//sending ajax request on every change view
 			$("#sysbox").load(oc_webroot + "/apps/calendar/ajax/changeview.php?v="+view);
 			//not necessary to check whether the response is true or not
 			switch(view) {
 				case "onedayview":
-					this.current = Calendar.UI.OneDay;
+					this.current = this.OneDay;
 					break;
 				case "oneweekview":
-					this.current = Calendar.UI.OneWeek;
+					this.current = this.OneWeek;
 					break;
 				case "fourweeksview":
-					this.current = Calendar.UI.FourWeeks;
+					this.current = this.FourWeeks;
 					break;
 				case "onemonthview":
-					this.current = Calendar.UI.OneMonth;
+					this.current = this.OneMonth;
 					break;
 				case "listview":
-					this.current = Calendar.UI.List;
+					this.current = this.List;
 					break;
 				default:
+					alert('Unknown view:'+view);
 					break;
 			}
-			$('#'+oc_cal_currentview).show();
-			$('#'+oc_cal_currentview + "_radio").addClass('active');
+			$('#'+this.currentview).show();
+			$('#'+this.currentview + "_radio").addClass('active');
 			this.updateView();
 		},
 		updateDate:function(direction){
 			if(direction == "forward") {
 				this.current.forward();
-				if(oc_cal_month == 11){
-					this.loadEvents(oc_cal_year + 1);
+				if(Calendar.Date.current.getMonth() == 11){
+					this.loadEvents(Calendar.Date.current.getFullYear() + 1);
 				}
-				Calendar.UI.updateView();
+				this.updateView();
 			}
 			if(direction == "backward") {
 				this.current.backward();
-				if(oc_cal_month == 0){
-					this.loadEvents(oc_cal_year - 1);
+				if(Calendar.Date.current.getMonth() == 0){
+					this.loadEvents(Calendar.Date.current.getFullYear() - 1);
 				}
-				Calendar.UI.updateView();
+				this.updateView();
 			}
 		},
+		events:[],
 		loadEvents:function(year){
+			if( typeof (this.events[year]) == "undefined") {
+				this.events[year] = []
+			}
 			$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + year, function(newevents, status) {
 				if(status == "nosession") {
 					alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
@@ -219,10 +207,10 @@ Calendar={
 						$( "#parsingfail_dialog" ).dialog();
 					});
 				} else {
-					oc_cal_events[year] = newevents[year];
-					//$.ready(function() {
-					Calendar.UI.updateView();
-					//});
+					Calendar.UI.events[year] = newevents[year];
+					$(document).ready(function() {
+						Calendar.UI.updateView();
+					});
 				}
 			});
 		},
@@ -230,16 +218,16 @@ Calendar={
 			var day = date[0];
 			var month = date[1];
 			var year = date[2];
-			if( typeof (oc_cal_events[year]) == "undefined") {
+			if( typeof (this.events[year]) == "undefined") {
 				return;
 			}
-			if( typeof (oc_cal_events[year][month]) == "undefined") {
+			if( typeof (this.events[year][month]) == "undefined") {
 				return;
 			}
-			if( typeof (oc_cal_events[year][month][day]) == "undefined") {
+			if( typeof (this.events[year][month][day]) == "undefined") {
 				return;
 			}
-			events = oc_cal_events[year][month][day];
+			events = this.events[year][month][day];
 			if( typeof (events["allday"]) != "undefined") {
 				var eventnumber = 1;
 				var eventcontainer = this.current.getEventContainer(week, weekday, "allday");
@@ -315,11 +303,11 @@ Calendar={
 			var dayofmonth = date[0];
 			var month = date[1];
 			var year = date[2];
-			if(parseInt(dayofmonth) <= 9){
+			if(dayofmonth <= 9){
 				dayofmonth = "0" + dayofmonth;
 			}
 			month++;
-			if(parseInt(month) <= 9){
+			if(month <= 9){
 				month = "0" + month;
 			}
 			var title = String(dayofmonth) + String(month) + String(year);
@@ -336,12 +324,12 @@ Calendar={
 				$("#onedayview .calendar_row").html("");
 			},
 			renderCal:function(){
-				$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
-				$("#onedayview_today").html(oc_cal_daylong[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month]);
-				Calendar.UI.addDateInfo('#onedayview_today', [oc_cal_dayofmonth, oc_cal_month, oc_cal_year]);
+				$("#datecontrol_date").val(Calendar.UI.formatDayShort() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort() + Calendar.space + Calendar.Date.current.getFullYear());
+				$("#onedayview_today").html(Calendar.UI.formatDayLong() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort());
+				Calendar.UI.addDateInfo('#onedayview_today', [Calendar.Date.current.getDate(), Calendar.Date.current.getMonth(), Calendar.Date.current.getFullYear()]);
 			},
 			showEvents:function(){
-				Calendar.UI.createEventsForDate([oc_cal_dayofmonth, oc_cal_month, oc_cal_year], 0, 0);
+				Calendar.UI.createEventsForDate([Calendar.Date.current.getDate(), Calendar.Date.current.getMonth(), Calendar.Date.current.getFullYear()], 0, 0);
 			},
 			getEventContainer:function(week, weekday, when){
 				return $("#onedayview ." + when);
@@ -369,11 +357,12 @@ Calendar={
 				$("#oneweekview .thisday").removeClass("thisday");
 			},
 			renderCal:function(){
-				$("#datecontrol_date").val(cw_label + ": " + Calendar.Date.calw());
+				$("#datecontrol_date").val(Calendar.UI.cw_label + ": " + Calendar.Date.calw());
 				var dates = this.generateDates();
+				var today = new Date();
 				for(var i = 0; i <= 6; i++){
-					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(oc_cal_dayshort[(i+1)%7] + oc_cal_space + dates[i][0] + oc_cal_space + oc_cal_monthshort[dates[i][1]]);
-					if(dates[i][0] == oc_cal_todaydayofmonth && dates[i][1] == oc_cal_todaymonth && dates[i][2] == oc_cal_todayyear){
+					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(Calendar.UI.formatDayShort((i+1)%7) + Calendar.space + dates[i][0] + Calendar.space + Calendar.UI.formatMonthShort(dates[i][1]));
+					if(dates[i][0] == today.getDate() && dates[i][1] == today.getMonth() && dates[i][2] == today.getFullYear()){
 						$("#oneweekview ." + Calendar.UI.weekdays[i]).addClass("thisday");
 					}
 					Calendar.UI.addDateInfo('#oneweekview th.' + Calendar.UI.weekdays[i], dates[i]);
@@ -398,7 +387,7 @@ Calendar={
 			},
 			generateDates:function(){
 				var dates = new Array();
-				var date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				var date = new Date(Calendar.Date.current)
 				var dayofweek = date.getDay();
 				if(dayofweek == 0) {
 					dayofweek = 7;
@@ -445,12 +434,13 @@ Calendar={
 				var dates = this.generateDates();
 				var week = 1;
 				var weekday = 0;
+				var today = new Date();
 				for(var i = 0; i <= 27; i++){
 					var dayofmonth = dates[i][0];
 					var month = dates[i][1];
 					var year = dates[i][2];
-					$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + oc_cal_space + oc_cal_monthshort[month]);
-					if(dayofmonth == oc_cal_todaydayofmonth && month == oc_cal_todaymonth && year == oc_cal_todayyear){
+					$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + Calendar.space + Calendar.UI.formatMonthShort(month));
+					if(dayofmonth == today.getDate() && month == today.getMonth() && year == today.getFullYear()){
 						$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
 					}
 					Calendar.UI.addDateInfo('#fourweeksview .week_' + week + ' .' + Calendar.UI.weekdays[weekday], dates[i]);
@@ -465,7 +455,7 @@ Calendar={
 				$("#fourweeksview .week_2 .calw").html(calw2);
 				$("#fourweeksview .week_3 .calw").html(calw3);
 				$("#fourweeksview .week_4 .calw").html(calw4);
-				$("#datecontrol_date").val(cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour);
+				$("#datecontrol_date").val(Calendar.UI.cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour);
 			},
 			showEvents:function(){
 				var dates = this.generateDates();
@@ -494,7 +484,7 @@ Calendar={
 			},
 			generateDates:function(){
 				var dates = new Array();
-				var date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				var date = new Date(Calendar.Date.current)
 				var dayofweek = date.getDay();
 				if(dayofweek == 0) {
 					dayofweek = 7;
@@ -519,10 +509,10 @@ Calendar={
 				$('#onemonthview .day .events').html('');
 			},
 			renderCal:function(){
-				$("#datecontrol_date").val(oc_cal_monthlong[oc_cal_month] + oc_cal_space + oc_cal_year);
-				var cal = Calendar.Date.getnumberofdays(oc_cal_year);
-				var monthview_dayofweek = oc_cal_dayofweek;
-				var monthview_dayofmonth = oc_cal_dayofmonth;
+				$("#datecontrol_date").val(Calendar.UI.formatMonthLong() + Calendar.space + Calendar.Date.current.getFullYear());
+				var cal = Calendar.Date.getnumberofdays(Calendar.Date.current.getFullYear());
+				var monthview_dayofweek = Calendar.Date.current.getDay();
+				var monthview_dayofmonth = Calendar.Date.current.getDate();
 				for(var i = monthview_dayofmonth; i > 1; i--) {
 					if(monthview_dayofweek == 0) {
 						monthview_dayofweek = 6;
@@ -532,18 +522,19 @@ Calendar={
 				}
 				$("#onemonthview .week_5").hide();
 				$("#onemonthview .week_6").hide();
-				oc_cal_rows = parseInt(monthview_dayofweek) + parseInt(cal[oc_cal_month]);
-				oc_cal_rows = oc_cal_rows / 7;
-				oc_cal_rows = Math.ceil(oc_cal_rows);
+				this.rows = monthview_dayofweek + cal[Calendar.Date.current.getMonth()];
+				this.rows = this.rows / 7;
+				this.rows = Math.ceil(this.rows);
 				var dates = this.generateDates();
 				var week = 1;
 				var weekday = 0;
+				var today = new Date();
 				for(var i = 0; i <= 41; i++){
 					var dayofmonth = dates[i][0];
 					var month = dates[i][1];
 					var year = dates[i][2];
-					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + oc_cal_space + oc_cal_monthshort[month]);
-					if(dayofmonth == oc_cal_todaydayofmonth && month == oc_cal_todaymonth && year == oc_cal_todayyear){
+					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + Calendar.space + Calendar.UI.formatMonthShort(month));
+					if(dayofmonth == today.getDate() && month == today.getMonth() && year == today.getFullYear()){
 						$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
 					}
 					Calendar.UI.addDateInfo('#onemonthview .week_' + week + ' .' + Calendar.UI.weekdays[weekday], dates[i]);
@@ -554,18 +545,18 @@ Calendar={
 						weekday++;
 					}
 				}
-				if(oc_cal_rows == 4){
+				if(this.rows == 4){
 					for(var i = 1;i <= 6;i++){
 						$("#onemonthview .week_" + String(i)).height("23%");
 					}
 				}
-				if(oc_cal_rows == 5) {
+				if(this.rows == 5) {
 					$("#onemonthview .week_5").show();
 					for(var i = 1;i <= 6;i++){
 						$("#onemonthview .week_" + String(i)).height("18%");
 					}
 				}
-				if(oc_cal_rows == 6) {
+				if(this.rows == 6) {
 					$("#onemonthview .week_5").show();
 					$("#onemonthview .week_6").show();
 					for(var i = 1;i <= 6;i++){
@@ -600,12 +591,12 @@ Calendar={
 			},
 			generateDates:function(){
 				var dates = new Array();
-				var date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				var date = new Date(Calendar.Date.current)
 				date.setDate(1);
 				var dayofweek = date.getDay();
 				if(dayofweek == 0) {
 					dayofweek = 7;
-					oc_cal_rows++;
+					this.rows++;
 				}
 				date.setDate(date.getDate() - dayofweek + 1);
 				for(var i = 0; i <= 41; i++) {
@@ -626,7 +617,7 @@ Calendar={
 				$("#listview").html("");
 			},
 			renderCal:function(){
-				$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
+				$("#datecontrol_date").val(Calendar.UI.formatDayShort() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort() + Calendar.space + Calendar.Date.current.getFullYear());
 			},
 			showEvents:function(){
 			},
@@ -643,16 +634,15 @@ Calendar={
 		}
 	}
 }
+//event vars
+Calendar.UI.loadEvents(Calendar.Date.current.getFullYear());
 
 function oc_cal_switch2today() {
-	oc_cal_date = oc_cal_today;
-	oc_cal_dayofweek = oc_cal_todaydayofweek;
-	oc_cal_month = oc_cal_todaymonth;
-	oc_cal_dayofmonth = oc_cal_todaydayofmonth;
-	oc_cal_year = oc_cal_todayyear;
+	Calendar.Date.current = new Date();
 	Calendar.UI.updateView();
 }
 
+var oc_cal_opendialog = 0;
 function oc_cal_newevent(selector, time){
 	var date = $(selector).data('date_info');
 	if(oc_cal_opendialog == 0){
@@ -675,7 +665,7 @@ function oc_cal_calender_activation(checkbox, calendarid)
 	$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
 	  function(data) {
 		checkbox.checked = data == 1;
-		Calendar.UI.loadEvents(oc_cal_year);
+		Calendar.UI.loadEvents(Calendar.Date.current.getFullYear());
 	  });
 }
 function oc_cal_editcalendar(object, calendarid){
