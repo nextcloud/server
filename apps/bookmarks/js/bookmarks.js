@@ -51,8 +51,10 @@ function getMetadata() {
 		data: 'url=' + encodeURIComponent(url),
 		success: function(pageinfo){
 			$('#bookmark_add_url').val(pageinfo.data.url);
-			$('#bookmark_add_description').val(pageinfo.data.description);
 			$('#bookmark_add_title').val(pageinfo.data.title);
+			if (pageinfo.data.description !== undefined){
+				$('#bookmark_add_description').val(pageinfo.data.description);
+			}
 		}
 	});
 }
