@@ -312,6 +312,20 @@ Calendar={
 		formatTime:function(date){
 			return date[3] + ':' + date[4];
 		},
+		addDateInfo:function(selector, date){
+			var generate_dayofmonth = date[0];
+			var generate_month = date[1];
+			var generate_year = date[2];
+			if(parseInt(generate_dayofmonth) <= 9){
+				generate_dayofmonth = "0" + generate_dayofmonth;
+			}
+			generate_month++;
+			if(parseInt(generate_month) <= 9){
+				generate_month = "0" + generate_month;
+			}
+			var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
+			$(selector).data('date_info', generate_title);
+		},
 		OneDay:{
 			forward:function(){
 				Calendar.Date.forward_day();
@@ -325,18 +339,7 @@ Calendar={
 			renderCal:function(){
 				$("#datecontrol_date").val(oc_cal_dayshort[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month] + oc_cal_space + oc_cal_year);
 				$("#onedayview_today").html(oc_cal_daylong[oc_cal_dayofweek] + oc_cal_space + oc_cal_dayofmonth + oc_cal_space + oc_cal_monthshort[oc_cal_month]);
-				var generate_dayofmonth = oc_cal_dayofmonth;
-				var generate_month = oc_cal_month;
-				var generate_year = oc_cal_year;
-				if(parseInt(generate_dayofmonth) <= 9){
-					generate_dayofmonth = "0" + generate_dayofmonth;
-				}
-				generate_month++;
-				if(parseInt(generate_month) <= 9){
-					generate_month = "0" + generate_month;
-				}
-				var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
-				$('#onedayview_today').attr('title', generate_title);
+				Calendar.UI.addDateInfo('#onedayview_today', [oc_cal_dayofmonth, oc_cal_month, oc_cal_year]);
 			},
 			showEvents:function(){
 				Calendar.UI.createEventsForDate([oc_cal_dayofmonth, oc_cal_month, oc_cal_year], 0, 0);
@@ -378,15 +381,7 @@ Calendar={
 					if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
 						$("#oneweekview ." + Calendar.UI.weekdays[i]).addClass("thisday");
 					}
-					if(parseInt(generate_dayofmonth) <= 9){
-						generate_dayofmonth = "0" + generate_dayofmonth;
-					}
-					generate_month++;
-					if(parseInt(generate_month) <= 9){
-						generate_month = "0" + generate_month;
-					}
-					var generate_title = String(generate_dayofmonth) + String(generate_month) + String(dates[i][2]);
-					$("#oneweekview th." + Calendar.UI.weekdays[i]).attr('title', generate_title);
+					Calendar.UI.addDateInfo('#oneweekview th.' + Calendar.UI.weekdays[i], dates[i]);
 					if(weekday == 6){
 						weekday = 0;
 					}else{
@@ -468,15 +463,7 @@ Calendar={
 					if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
 						$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
 					}
-					if(parseInt(generate_dayofmonth) <= 9){
-						generate_dayofmonth = "0" + generate_dayofmonth;
-					}
-					generate_month++;
-					if(parseInt(generate_month) <= 9){
-						generate_month = "0" + generate_month;
-					}
-					var generate_title = String(generate_dayofmonth) + String(generate_month) + String(dates[i][2]);
-					$("#fourweeksview ." + ".week_" + week + " ." + Calendar.UI.weekdays[weekday]).attr('title', generate_title);
+					Calendar.UI.addDateInfo('#fourweeksview .week_' + week + ' .' + Calendar.UI.weekdays[weekday], dates[i]);
 					if(weekday == 6){
 						weekday = 0;
 						week++;
@@ -569,15 +556,7 @@ Calendar={
 					if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
 						$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
 					}
-					if(parseInt(generate_dayofmonth) <= 9){
-						generate_dayofmonth = "0" + generate_dayofmonth;
-					}
-					generate_month++;
-					if(parseInt(generate_month) <= 9){
-						generate_month = "0" + generate_month;
-					}
-					var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
-					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).attr('title', generate_title);
+					Calendar.UI.addDateInfo('#onemonthview .week_' + week + ' .' + Calendar.UI.weekdays[weekday], dates[i]);
 					if(weekday == 6){
 						weekday = 0;
 						week++;
@@ -684,7 +663,8 @@ function oc_cal_switch2today() {
 	Calendar.UI.updateView();
 }
 
-function oc_cal_newevent(date, time){
+function oc_cal_newevent(selector, time){
+	var date = $(selector).data('date_info');
 	if(oc_cal_opendialog == 0){
 		$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/neweventform.php?d=" + date + "&t=" + time);
 		oc_cal_opendialog = 1;
