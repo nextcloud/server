@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-03 15:43+0200\n"
+"POT-Creation-Date: 2011-09-04 18:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-#: js/calendar.js:746 js/calendar.js:754
+#: js/calendar.js:801 js/calendar.js:809
 msgid "You can't open more than one dialog per site!"
 msgstr ""
 
@@ -190,24 +190,16 @@ msgstr ""
 msgid "Dec."
 msgstr ""
 
-#: templates/calendar.php:36 templates/calendar.php:111
-msgid "CW"
+#: templates/calendar.php:36 templates/calendar.php:45
+msgid "Week"
 msgstr ""
 
-#: templates/calendar.php:37
-msgid "CWs"
+#: templates/calendar.php:37 templates/calendar.php:46
+msgid "Weeks"
 msgstr ""
 
 #: templates/calendar.php:44
 msgid "Day"
-msgstr ""
-
-#: templates/calendar.php:45
-msgid "Week"
-msgstr ""
-
-#: templates/calendar.php:46
-msgid "Weeks"
 msgstr ""
 
 #: templates/calendar.php:47
@@ -228,6 +220,10 @@ msgstr ""
 
 #: templates/calendar.php:71 templates/calendar.php:89
 msgid "Time"
+msgstr ""
+
+#: templates/calendar.php:111
+msgid "CW"
 msgstr ""
 
 #: templates/calendar.php:162

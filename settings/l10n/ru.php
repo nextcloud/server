@@ -4,7 +4,7 @@
 "Invalid request" => "Неверный запрос",
 "Language changed" => "Язык изменён",
 "Add your application" => "Добавить ваше приложение",
-"Select an App" => "Выбрать приложение",
+"Select an App" => "Выберите приложение",
 "-licensed" => "-лицензия",
 "by" => "от",
 "Ask a question" => "Задать вопрос",

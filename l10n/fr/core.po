@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 14:50+0200\n"
-"PO-Revision-Date: 2011-09-03 12:50+0000\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-04 18:14+0200\n"
+"PO-Revision-Date: 2011-09-04 16:14+0000\n"
 "Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -74,29 +74,25 @@ msgstr "Mot de passe de la base de données"
 msgid "Database name"
 msgstr "Nom de la base de données"
 
-#: templates/installation.php:74
+#: templates/installation.php:72
 msgid "Advanced"
 msgstr "Avancé"
 
-#: templates/installation.php:77
+#: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Serveur de la base de données"
 
-#: templates/installation.php:78
-msgid "Table prefix"
-msgstr "Préfixe des tables"
-
-#: templates/installation.php:80
+#: templates/installation.php:76
 msgid "Data folder"
 msgstr "Répertoire des données"
 
-#: templates/installation.php:83
+#: templates/installation.php:79
 msgid "Finish setup"
 msgstr "Terminer l'installation"
 
 #: templates/layout.guest.php:35
-msgid "gives you the freedom to control your own data on the internet"
-msgstr "vous rend libre de contrôler vos propres données sur internet"
+msgid "gives you freedom and control over your own data"
+msgstr ""
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -108,7 +104,7 @@ msgstr "Paramètres"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Mot de passe perdu ?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
@@ -121,10 +117,12 @@ msgstr "Vous êtes désormais déconnecté."
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
+"Vous allez recevoir un lien par email qui vous permettra de réinitialiser "
+"votre mot de passe."
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Nécessaire"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -132,11 +130,11 @@ msgstr "Échec de la connexion !"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Nom d'utilisateur ou Email"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Demande de réinitialisation"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -147,15 +145,15 @@ msgid "next"
 msgstr "suivant"
 
 #: templates/resetpassword.php:4
-msgid "Your password was successfully reset"
+msgid "Your password was reset"
 msgstr ""
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Nouveau mot de passe"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Réinitialisation du mot de passe"
 
 

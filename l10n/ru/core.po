@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 14:50+0200\n"
-"PO-Revision-Date: 2011-09-03 12:56+0000\n"
-"Last-Translator: tonymc <tony.mccourin@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-04 18:14+0200\n"
+"PO-Revision-Date: 2011-09-04 16:14+0000\n"
+"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/team/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,29 +74,25 @@ msgstr "Пароль для базы данных"
 msgid "Database name"
 msgstr "Название базы данных"
 
-#: templates/installation.php:74
+#: templates/installation.php:72
 msgid "Advanced"
 msgstr "Дополнительно"
 
-#: templates/installation.php:77
+#: templates/installation.php:75
 msgid "Database host"
 msgstr "Хост базы данных"
 
-#: templates/installation.php:78
-msgid "Table prefix"
-msgstr "Префикс для таблиц"
-
-#: templates/installation.php:80
+#: templates/installation.php:76
 msgid "Data folder"
 msgstr "Директория с данными"
 
-#: templates/installation.php:83
+#: templates/installation.php:79
 msgid "Finish setup"
 msgstr "Завершить установку"
 
 #: templates/layout.guest.php:35
-msgid "gives you the freedom to control your own data on the internet"
-msgstr "дает Вам свободу управления Вашими данными в сети Интернет"
+msgid "gives you freedom and control over your own data"
+msgstr "даёт Вам свободу и контроль над Вашими данными"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -147,8 +143,8 @@ msgid "next"
 msgstr "след"
 
 #: templates/resetpassword.php:4
-msgid "Your password was successfully reset"
-msgstr "Ваш пароль был сброшен"
+msgid "Your password was reset"
+msgstr ""
 
 #: templates/resetpassword.php:6
 msgid "New password"

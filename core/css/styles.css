@@ -68,7 +68,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #login form fieldset { background:0; border:0; margin-bottom:2em; padding:0; }
 #login form fieldset legend { font-weight:bold; }
 #login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
-#login #dbhostlabel, #login #dbtableprefixlabel, #login #directorylabel { display:block; margin:.95em 0 .8em -7em; }
+#login #dbhostlabel, #login #directorylabel { display:block; margin:.95em 0 .8em -7em; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 

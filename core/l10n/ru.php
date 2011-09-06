@@ -15,10 +15,9 @@
 "Database name" => "Название базы данных",
 "Advanced" => "Дополнительно",
 "Database host" => "Хост базы данных",
-"Table prefix" => "Префикс для таблиц",
 "Data folder" => "Директория с данными",
 "Finish setup" => "Завершить установку",
-"gives you the freedom to control your own data on the internet" => "дает Вам свободу управления Вашими данными в сети Интернет",
+"gives you freedom and control over your own data" => "даёт Вам свободу и контроль над Вашими данными",
 "Log out" => "Выйти",
 "Settings" => "Настройки",
 "Lost your password?" => "Забыли пароль?",
@@ -31,7 +30,6 @@
 "Request reset" => "Запросить сброс",
 "prev" => "пред",
 "next" => "след",
-"Your password was successfully reset" => "Ваш пароль был сброшен",
 "New password" => "Новый пароль",
 "Reset password" => "Сбросить пароль"
 );

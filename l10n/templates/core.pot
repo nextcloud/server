@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-03 15:43+0200\n"
+"POT-Creation-Date: 2011-09-04 18:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,28 +74,24 @@ msgstr ""
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:74
+#: templates/installation.php:72
 msgid "Advanced"
 msgstr ""
 
-#: templates/installation.php:77
+#: templates/installation.php:75
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:78
-msgid "Table prefix"
-msgstr ""
-
-#: templates/installation.php:80
+#: templates/installation.php:76
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:83
+#: templates/installation.php:79
 msgid "Finish setup"
 msgstr ""
 
 #: templates/layout.guest.php:35
-msgid "gives you the freedom to control your own data on the internet"
+msgid "gives you freedom and control over your own data"
 msgstr ""
 
 #: templates/layout.user.php:34
@@ -147,7 +143,7 @@ msgid "next"
 msgstr ""
 
 #: templates/resetpassword.php:4
-msgid "Your password was successfully reset"
+msgid "Your password was reset"
 msgstr ""
 
 #: templates/resetpassword.php:6

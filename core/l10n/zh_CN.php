@@ -15,10 +15,8 @@
 "Database name" => "数据库名",
 "Advanced" => "高级",
 "Database host" => "数据库主机",
-"Table prefix" => "表名前缀",
 "Data folder" => "数据目录",
 "Finish setup" => "安装完成",
-"gives you the freedom to control your own data on the internet" => "在网络上为您提供自由的数据访问",
 "Log out" => "注销",
 "Settings" => "设置",
 "Lost your password?" => "忘记密码？",
@@ -31,7 +29,6 @@
 "Request reset" => "请求重置",
 "prev" => "上一页",
 "next" => "下一页",
-"Your password was successfully reset" => "您的密码已成功重置。",
 "New password" => "新密码",
 "Reset password" => "重置密码"
 );

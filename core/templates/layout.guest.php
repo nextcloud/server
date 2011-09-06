@@ -32,6 +32,6 @@
 			</div></header>
 			<?php echo $_['content']; ?>
 		</div>
-		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> <?php echo $l->t( 'gives you the freedom to control your own data on the internet' ); ?></p></footer>
+		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> <?php echo $l->t( 'gives you freedom and control over your own data' ); ?></p></footer>
 	</body>
 </html>
