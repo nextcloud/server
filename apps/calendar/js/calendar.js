@@ -33,8 +33,7 @@
  * fourweekview - four Weeks view                 *
  * onemonthview - one Month view                  *
  * listview - listview                            *
- * generate_monthview - generating month view     *
- * generate_dates - generate other days for view  *
+ * generateDates - generate other days for view  *
  * switch2today - switching to today              *
  * removeEvents - remove old events in view       *
  * loadEvents - load the events                   *
@@ -44,11 +43,11 @@ Calendar={
 		normal_year_cal: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 		leap_year_cal: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 		calw:function() {
-			var generate_dayofweek = oc_cal_dayofweek;
-			if(generate_dayofweek == 0) {
-				generate_dayofweek = 7;
+			var dayofweek = oc_cal_dayofweek;
+			if(dayofweek == 0) {
+				dayofweek = 7;
 			}
-			var calw = Math.floor((this.doy() - generate_dayofweek) / 7) + 1;
+			var calw = Math.floor((this.doy() - dayofweek) / 7) + 1;
 			return calw;
 		},
 
@@ -313,18 +312,18 @@ Calendar={
 			return date[3] + ':' + date[4];
 		},
 		addDateInfo:function(selector, date){
-			var generate_dayofmonth = date[0];
-			var generate_month = date[1];
-			var generate_year = date[2];
-			if(parseInt(generate_dayofmonth) <= 9){
-				generate_dayofmonth = "0" + generate_dayofmonth;
+			var dayofmonth = date[0];
+			var month = date[1];
+			var year = date[2];
+			if(parseInt(dayofmonth) <= 9){
+				dayofmonth = "0" + dayofmonth;
 			}
-			generate_month++;
-			if(parseInt(generate_month) <= 9){
-				generate_month = "0" + generate_month;
+			month++;
+			if(parseInt(month) <= 9){
+				month = "0" + month;
 			}
-			var generate_title = String(generate_dayofmonth) + String(generate_month) + String(generate_year);
-			$(selector).data('date_info', generate_title);
+			var title = String(dayofmonth) + String(month) + String(year);
+			$(selector).data('date_info', title);
 		},
 		OneDay:{
 			forward:function(){
@@ -372,21 +371,12 @@ Calendar={
 			renderCal:function(){
 				$("#datecontrol_date").val(cw_label + ": " + Calendar.Date.calw());
 				var dates = this.generateDates();
-				var weekday = 1;
 				for(var i = 0; i <= 6; i++){
-					var generate_dayofmonth = String(dates[i][0]);
-					var generate_month = String(dates[i][1]);
-					var generate_year = String(dates[i][2]);
-					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(oc_cal_dayshort[weekday] + oc_cal_space + dates[i][0] + oc_cal_space + oc_cal_monthshort[dates[i][1]]);
-					if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
+					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(oc_cal_dayshort[(i+1)%7] + oc_cal_space + dates[i][0] + oc_cal_space + oc_cal_monthshort[dates[i][1]]);
+					if(dates[i][0] == oc_cal_todaydayofmonth && dates[i][1] == oc_cal_todaymonth && dates[i][2] == oc_cal_todayyear){
 						$("#oneweekview ." + Calendar.UI.weekdays[i]).addClass("thisday");
 					}
 					Calendar.UI.addDateInfo('#oneweekview th.' + Calendar.UI.weekdays[i], dates[i]);
-					if(weekday == 6){
-						weekday = 0;
-					}else{
-						weekday++;
-					}
 				}
 			},
 			showEvents:function(){
@@ -408,15 +398,15 @@ Calendar={
 			},
 			generateDates:function(){
 				var dates = new Array();
-				var generate_date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
-				var generate_dayofweek = generate_date.getDay();
-				if(generate_dayofweek == 0) {
-					generate_dayofweek = 7;
+				var date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				var dayofweek = date.getDay();
+				if(dayofweek == 0) {
+					dayofweek = 7;
 				}
-				generate_date.setDate(generate_date.getDate() - generate_dayofweek + 1);
+				date.setDate(date.getDate() - dayofweek + 1);
 				for(var i = 0; i <= 6; i++) {
-					dates[i] = new Array(generate_date.getDate(), generate_date.getMonth(), generate_date.getFullYear());
-					generate_date.setDate(generate_date.getDate() + 1);
+					dates[i] = new Array(date.getDate(), date.getMonth(), date.getFullYear());
+					date.setDate(date.getDate() + 1);
 				}
 				return dates;
 			},
@@ -456,11 +446,11 @@ Calendar={
 				var week = 1;
 				var weekday = 0;
 				for(var i = 0; i <= 27; i++){
-					var generate_dayofmonth = String(dates[i][0]);
-					var generate_month = String(dates[i][1]);
-					var generate_year = dates[i][2];
-					$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
-					if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
+					var dayofmonth = dates[i][0];
+					var month = dates[i][1];
+					var year = dates[i][2];
+					$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + oc_cal_space + oc_cal_monthshort[month]);
+					if(dayofmonth == oc_cal_todaydayofmonth && month == oc_cal_todaymonth && year == oc_cal_todayyear){
 						$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
 					}
 					Calendar.UI.addDateInfo('#fourweeksview .week_' + week + ' .' + Calendar.UI.weekdays[weekday], dates[i]);
@@ -504,15 +494,15 @@ Calendar={
 			},
 			generateDates:function(){
 				var dates = new Array();
-				var generate_date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
-				var generate_dayofweek = generate_date.getDay();
-				if(generate_dayofweek == 0) {
-					generate_dayofweek = 7;
+				var date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				var dayofweek = date.getDay();
+				if(dayofweek == 0) {
+					dayofweek = 7;
 				}
-				generate_date.setDate(generate_date.getDate() - generate_dayofweek + 1);
+				date.setDate(date.getDate() - dayofweek + 1);
 				for(var i = 0; i <= 27; i++) {
-					dates[i] = new Array(generate_date.getDate(), generate_date.getMonth(), generate_date.getFullYear());
-					generate_date.setDate(generate_date.getDate() + 1);
+					dates[i] = new Array(date.getDate(), date.getMonth(), date.getFullYear());
+					date.setDate(date.getDate() + 1);
 				}
 				return dates;
 			},
@@ -549,11 +539,11 @@ Calendar={
 				var week = 1;
 				var weekday = 0;
 				for(var i = 0; i <= 41; i++){
-					var generate_dayofmonth = dates[i][0];
-					var generate_month = dates[i][1];
-					var generate_year = dates[i][2];
-					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(generate_dayofmonth + oc_cal_space + oc_cal_monthshort[generate_month]);
-					if(generate_dayofmonth == oc_cal_todaydayofmonth && generate_month == oc_cal_todaymonth && generate_year == oc_cal_todayyear){
+					var dayofmonth = dates[i][0];
+					var month = dates[i][1];
+					var year = dates[i][2];
+					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + oc_cal_space + oc_cal_monthshort[month]);
+					if(dayofmonth == oc_cal_todaydayofmonth && month == oc_cal_todaymonth && year == oc_cal_todayyear){
 						$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
 					}
 					Calendar.UI.addDateInfo('#onemonthview .week_' + week + ' .' + Calendar.UI.weekdays[weekday], dates[i]);
@@ -610,17 +600,17 @@ Calendar={
 			},
 			generateDates:function(){
 				var dates = new Array();
-				var generate_date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
-				generate_date.setDate(1);
-				var generate_dayofweek = generate_date.getDay();
-				if(generate_dayofweek == 0) {
-					generate_dayofweek = 7;
+				var date = new Date(oc_cal_year, oc_cal_month, oc_cal_dayofmonth);
+				date.setDate(1);
+				var dayofweek = date.getDay();
+				if(dayofweek == 0) {
+					dayofweek = 7;
 					oc_cal_rows++;
 				}
-				generate_date.setDate(generate_date.getDate() - generate_dayofweek + 1);
+				date.setDate(date.getDate() - dayofweek + 1);
 				for(var i = 0; i <= 41; i++) {
-					dates[i] = new Array(generate_date.getDate(), generate_date.getMonth(), generate_date.getFullYear());
-					generate_date.setDate(generate_date.getDate() + 1);
+					dates[i] = new Array(date.getDate(), date.getMonth(), date.getFullYear());
+					date.setDate(date.getDate() + 1);
 				}
 				return dates;
 			},
