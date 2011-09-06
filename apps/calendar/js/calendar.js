@@ -136,6 +136,12 @@ Calendar={
 			}
 			return this.monthlong[month];
 		},
+		formatDate:function(date){
+			return date[0] + '-' + date[1] + '-' + date[2];
+		},
+		formatTime:function(date){
+			return date[3] + ':' + date[4];
+		},
 		updateView:function(task) {
 			this.current.removeEvents();
 			this.current.renderCal();
@@ -214,10 +220,10 @@ Calendar={
 				}
 			});
 		},
-		createEventsForDate:function(date, week, weekday){
-			var day = date[0];
-			var month = date[1];
-			var year = date[2];
+		createEventsForDate:function(date, week){
+			var day = date.getDate();
+			var month = date.getMonth();
+			var year = date.getFullYear();
 			if( typeof (this.events[year]) == "undefined") {
 				return;
 			}
@@ -227,6 +233,7 @@ Calendar={
 			if( typeof (this.events[year][month][day]) == "undefined") {
 				return;
 			}
+			var weekday = (date.getDay()+6)%7;
 			events = this.events[year][month][day];
 			if( typeof (events["allday"]) != "undefined") {
 				var eventnumber = 1;
@@ -293,25 +300,8 @@ Calendar={
 				+ ' '
 				+ '<span class="summary">' + event.description + '</span>';
 		},
-		formatDate:function(date){
-			return date[0] + '-' + date[1] + '-' + date[2];
-		},
-		formatTime:function(date){
-			return date[3] + ':' + date[4];
-		},
 		addDateInfo:function(selector, date){
-			var dayofmonth = date[0];
-			var month = date[1];
-			var year = date[2];
-			if(dayofmonth <= 9){
-				dayofmonth = "0" + dayofmonth;
-			}
-			month++;
-			if(month <= 9){
-				month = "0" + month;
-			}
-			var title = String(dayofmonth) + String(month) + String(year);
-			$(selector).data('date_info', title);
+			$(selector).data('date_info', date);
 		},
 		OneDay:{
 			forward:function(){
@@ -326,10 +316,10 @@ Calendar={
 			renderCal:function(){
 				$("#datecontrol_date").val(Calendar.UI.formatDayShort() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort() + Calendar.space + Calendar.Date.current.getFullYear());
 				$("#onedayview_today").html(Calendar.UI.formatDayLong() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort());
-				Calendar.UI.addDateInfo('#onedayview_today', [Calendar.Date.current.getDate(), Calendar.Date.current.getMonth(), Calendar.Date.current.getFullYear()]);
+				Calendar.UI.addDateInfo('#onedayview_today', new Date(Calendar.Date.current));
 			},
 			showEvents:function(){
-				Calendar.UI.createEventsForDate([Calendar.Date.current.getDate(), Calendar.Date.current.getMonth(), Calendar.Date.current.getFullYear()], 0, 0);
+				Calendar.UI.createEventsForDate(Calendar.Date.current, 0);
 			},
 			getEventContainer:function(week, weekday, when){
 				return $("#onedayview ." + when);
@@ -361,8 +351,8 @@ Calendar={
 				var dates = this.generateDates();
 				var today = new Date();
 				for(var i = 0; i <= 6; i++){
-					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(Calendar.UI.formatDayShort((i+1)%7) + Calendar.space + dates[i][0] + Calendar.space + Calendar.UI.formatMonthShort(dates[i][1]));
-					if(dates[i][0] == today.getDate() && dates[i][1] == today.getMonth() && dates[i][2] == today.getFullYear()){
+					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(Calendar.UI.formatDayShort((i+1)%7) + Calendar.space + dates[i].getDate() + Calendar.space + Calendar.UI.formatMonthShort(dates[i].getMonth()));
+					if(dates[i].getDate() == today.getDate() && dates[i].getMonth() == today.getMonth() && dates[i].getFullYear() == today.getFullYear()){
 						$("#oneweekview ." + Calendar.UI.weekdays[i]).addClass("thisday");
 					}
 					Calendar.UI.addDateInfo('#oneweekview th.' + Calendar.UI.weekdays[i], dates[i]);
@@ -371,7 +361,7 @@ Calendar={
 			showEvents:function(){
 				var dates = this.generateDates();
 				for(var weekday = 0; weekday <= 6; weekday++) {
-					Calendar.UI.createEventsForDate(dates[weekday], 0, weekday);
+					Calendar.UI.createEventsForDate(dates[weekday], 0);
 				}
 			},
 			getEventContainer:function(week, weekday, when){
@@ -394,7 +384,7 @@ Calendar={
 				}
 				date.setDate(date.getDate() - dayofweek + 1);
 				for(var i = 0; i <= 6; i++) {
-					dates[i] = new Array(date.getDate(), date.getMonth(), date.getFullYear());
+					dates[i] = new Date(date)
 					date.setDate(date.getDate() + 1);
 				}
 				return dates;
@@ -436,9 +426,9 @@ Calendar={
 				var weekday = 0;
 				var today = new Date();
 				for(var i = 0; i <= 27; i++){
-					var dayofmonth = dates[i][0];
-					var month = dates[i][1];
-					var year = dates[i][2];
+					var dayofmonth = dates[i].getDate();
+					var month = dates[i].getMonth();
+					var year = dates[i].getFullYear();
 					$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + Calendar.space + Calendar.UI.formatMonthShort(month));
 					if(dayofmonth == today.getDate() && month == today.getMonth() && year == today.getFullYear()){
 						$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
@@ -462,7 +452,7 @@ Calendar={
 				var weekdaynum = 0;
 				var weeknum = 1;
 				for(var i = 0; i <= 27; i++) {
-					Calendar.UI.createEventsForDate(dates[i], weeknum, weekdaynum);
+					Calendar.UI.createEventsForDate(dates[i], weeknum);
 					if(weekdaynum == 6){
 						weekdaynum = 0;
 						weeknum++;
@@ -491,7 +481,7 @@ Calendar={
 				}
 				date.setDate(date.getDate() - dayofweek + 1);
 				for(var i = 0; i <= 27; i++) {
-					dates[i] = new Array(date.getDate(), date.getMonth(), date.getFullYear());
+					dates[i] = new Date(date)
 					date.setDate(date.getDate() + 1);
 				}
 				return dates;
@@ -530,9 +520,9 @@ Calendar={
 				var weekday = 0;
 				var today = new Date();
 				for(var i = 0; i <= 41; i++){
-					var dayofmonth = dates[i][0];
-					var month = dates[i][1];
-					var year = dates[i][2];
+					var dayofmonth = dates[i].getDate();
+					var month = dates[i].getMonth();
+					var year = dates[i].getFullYear();
 					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + Calendar.space + Calendar.UI.formatMonthShort(month));
 					if(dayofmonth == today.getDate() && month == today.getMonth() && year == today.getFullYear()){
 						$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
@@ -569,7 +559,7 @@ Calendar={
 				var weekdaynum = 0;
 				var weeknum = 1;
 				for(var i = 0; i <= 41; i++) {
-					Calendar.UI.createEventsForDate(dates[i], weeknum, weekdaynum);
+					Calendar.UI.createEventsForDate(dates[i], weeknum);
 					if(weekdaynum == 6){
 						weekdaynum = 0;
 						weeknum++;
@@ -600,7 +590,7 @@ Calendar={
 				}
 				date.setDate(date.getDate() - dayofweek + 1);
 				for(var i = 0; i <= 41; i++) {
-					dates[i] = new Array(date.getDate(), date.getMonth(), date.getFullYear());
+					dates[i] = new Date(date)
 					date.setDate(date.getDate() + 1);
 				}
 				return dates;
@@ -644,7 +634,18 @@ function oc_cal_switch2today() {
 
 var oc_cal_opendialog = 0;
 function oc_cal_newevent(selector, time){
-	var date = $(selector).data('date_info');
+	var date_info = $(selector).data('date_info');
+	var dayofmonth = date_info.getDate();
+	var month = date_info.getMonth();
+	var year = date_info.getFullYear();
+	if(dayofmonth <= 9){
+		dayofmonth = "0" + dayofmonth;
+	}
+	month++;
+	if(month <= 9){
+		month = "0" + month;
+	}
+	var date = String(dayofmonth) + String(month) + String(year);
 	if(oc_cal_opendialog == 0){
 		$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/neweventform.php?d=" + date + "&t=" + time);
 		oc_cal_opendialog = 1;
