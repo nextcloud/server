@@ -183,14 +183,14 @@ Calendar={
 			this.updateView();
 		},
 		updateDate:function(direction){
-			if(direction == "forward") {
+			if(direction == 'forward' && this.current.forward) {
 				this.current.forward();
 				if(Calendar.Date.current.getMonth() == 11){
 					this.loadEvents(Calendar.Date.current.getFullYear() + 1);
 				}
 				this.updateView();
 			}
-			if(direction == "backward") {
+			if(direction == 'backward' && this.current.backward) {
 				this.current.backward();
 				if(Calendar.Date.current.getMonth() == 0){
 					this.loadEvents(Calendar.Date.current.getFullYear() - 1);
@@ -220,21 +220,28 @@ Calendar={
 				}
 			});
 		},
-		createEventsForDate:function(date, week){
+		getEventsForDate:function(date){
 			var day = date.getDate();
 			var month = date.getMonth();
 			var year = date.getFullYear();
 			if( typeof (this.events[year]) == "undefined") {
-				return;
+				this.loadEvents(year);
+				return false;
 			}
 			if( typeof (this.events[year][month]) == "undefined") {
-				return;
+				return false;
 			}
 			if( typeof (this.events[year][month][day]) == "undefined") {
+				return false;
+			}
+			return this.events[year][month][day];
+		},
+		createEventsForDate:function(date, week){
+			events = this.getEventsForDate(date);
+			if (!events) {
 				return;
 			}
 			var weekday = (date.getDay()+6)%7;
-			events = this.events[year][month][day];
 			if( typeof (events["allday"]) != "undefined") {
 				var eventnumber = 1;
 				var eventcontainer = this.current.getEventContainer(week, weekday, "allday");
@@ -597,21 +604,62 @@ Calendar={
 			},
 		},
 		List:{
-			forward:function(){
-				Calendar.Date.forward_day();
-			},
-			backward:function(){
-				Calendar.Date.backward_day();
-			},
 			removeEvents:function(){
-				$("#listview").html("");
+				this.eventContainer = $('#listview #events').html('');
+				this.startdate = new Date();
+				this.enddate = new Date();
+				this.enddate.setDate(this.enddate.getDate());
 			},
 			renderCal:function(){
-				$("#datecontrol_date").val(Calendar.UI.formatDayShort() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort() + Calendar.space + Calendar.Date.current.getFullYear());
+				var today = new Date();
+				$('#datecontrol_date').val(this.formatDate(Calendar.Date.current));
 			},
 			showEvents:function(){
+				this.renderMoreBefore();
+				this.renderMoreAfter();
+			},
+			formatDate:function(date){
+				return Calendar.UI.formatDayShort(date.getDay())
+					+ Calendar.space
+					+ date.getDate()
+					+ Calendar.space
+					+ Calendar.UI.formatMonthShort(date.getMonth())
+					+ Calendar.space
+					+ date.getFullYear();
+			},
+			createDay:function(date) {
+				return $(document.createElement('div'))
+					.addClass('day')
+					.html(this.formatDate(date));
+			},
+			renderMoreBefore:function(){
+				var date = Calendar.UI.List.startdate;
+				for(var i = 0; i <= 13; i++) {
+					if (Calendar.UI.getEventsForDate(date)) {
+						Calendar.UI.List.dayContainer=Calendar.UI.List.createDay(date);
+						Calendar.UI.createEventsForDate(date, 0);
+						Calendar.UI.List.eventContainer.prepend(Calendar.UI.List.dayContainer);
+					}
+					date.setDate(date.getDate()-1);
+				}
+				var start = Calendar.UI.List.formatDate(date);
+				$('#listview #more_before').html(String(Calendar.UI.more_before).replace('{startdate}', start));
+			},
+			renderMoreAfter:function(){
+				var date = Calendar.UI.List.enddate;
+				for(var i = 0; i <= 13; i++) {
+					if (Calendar.UI.getEventsForDate(date)) {
+						Calendar.UI.List.dayContainer=Calendar.UI.List.createDay(date);
+						Calendar.UI.createEventsForDate(date, 0);
+						Calendar.UI.List.eventContainer.append(Calendar.UI.List.dayContainer);
+					}
+					date.setDate(date.getDate()+1);
+				}
+				var end = Calendar.UI.List.formatDate(date);
+				$('#listview #more_after').html(String(Calendar.UI.more_after).replace('{enddate}', end));
 			},
 			getEventContainer:function(week, weekday, when){
+				return this.dayContainer;
 			},
 			createEventLabel:function(event){
 				var time = '';
@@ -624,6 +672,10 @@ Calendar={
 		}
 	}
 }
+$(document).ready(function(){
+	$('#listview #more_before').click(Calendar.UI.List.renderMoreBefore);
+	$('#listview #more_after').click(Calendar.UI.List.renderMoreAfter);
+});
 //event vars
 Calendar.UI.loadEvents(Calendar.Date.current.getFullYear());
 

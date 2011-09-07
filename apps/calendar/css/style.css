@@ -37,6 +37,10 @@
 #oneweekview table {margin: 0; padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;}
 #fourweeksview table {margin: 0; padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;overflow: hidden;}
 #onemonthview table {margin: 0;	padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;}
+#listview {margin: 0; padding: 10px; background: #EEEEEE;}
+#listview #more_before, #listview #more_after {border: 1px solid #1a1a1a; width:25em;padding: 3px;text-align: center;}
+#listview #events {width:25em;padding: 4px;}
+#listview #events .day {width:auto;padding-left:10px;border-bottom: 2px solid #EEEEEE;text-align:left;}
 #fourweeksview .calw{vertical-align: middle;text-align: center;width: 50px;}
 
 #sysbox{display: none;}

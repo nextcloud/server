@@ -35,6 +35,8 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 				Calendar.UI.monthshort = new Array("<?php echo $l -> t("Jan.");?>", "<?php echo $l -> t("Feb.");?>", "<?php echo $l -> t("Mar.");?>", "<?php echo $l -> t("Apr.");?>", "<?php echo $l -> t("May");?>", "<?php echo $l -> t("Jun.");?>", "<?php echo $l -> t("Jul.");?>", "<?php echo $l -> t("Aug.");?>", "<?php echo $l -> t("Sep.");?>", "<?php echo $l -> t("Oct.");?>", "<?php echo $l -> t("Nov.");?>", "<?php echo $l -> t("Dec.");?>");
 				Calendar.UI.cw_label = "<?php echo $l->t("Week");?>";
 				Calendar.UI.cws_label = "<?php echo $l->t("Weeks");?>";
+				Calendar.UI.more_before = String('<?php echo $l->t('More before {startdate}') ?>');
+				Calendar.UI.more_after = String('<?php echo $l->t('More after {enddate}') ?>');
 				</script>
 				<div id="sysbox"></div>
 				<div id="controls">
@@ -153,7 +155,9 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 						</table>
 					</div>
 					<div id="listview">
-						
+						<div id="more_before"></div>
+						<div id="events"></div>
+						<div id="more_after"></div>
 					</div>
 				</div>
 				<!-- Dialogs -->
