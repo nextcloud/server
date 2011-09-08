@@ -60,6 +60,9 @@ $contacts = array();
 foreach( $openaddressbooks as $addressbook ){
 	$addressbookcontacts = OC_Contacts_Addressbook::allCards($addressbook);
 	foreach( $addressbookcontacts as $contact ){
+		if(is_null($contact['fullname'])){
+			continue;
+		}
 		$contacts[] = array( 'name' => $contact['fullname'], 'id' => $contact['id'] );
 	}
 }

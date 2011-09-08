@@ -47,6 +47,11 @@
  * This class manages our addressbooks.
  */
 class OC_Contacts_Addressbook{
+	/**
+	 * @brief Returns the list of addressbooks for a specific user.
+	 * @param string $uid
+	 * @return array
+	 */
 	public static function allAddressbooks($uid){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ?' );
 		$result = $stmt->execute(array($uid));
@@ -59,11 +64,21 @@ class OC_Contacts_Addressbook{
 		return $addressbooks;
 	}
 	
+	/**
+	 * @brief Returns the list of addressbooks for a principal (DAV term of user)
+	 * @param string $principaluri
+	 * @return array
+	 */
 	public static function allAddressbooksWherePrincipalURIIs($principaluri){
 		$uid = self::extractUserID($principaluri);
 		return self::allAddressbooks($uid);
 	}
 
+	/**
+	 * @brief Gets the data of one address book
+	 * @param integer $id
+	 * @return associative array
+	 */
 	public static function findAddressbook($id){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 		$result = $stmt->execute(array($id));
@@ -71,6 +86,13 @@ class OC_Contacts_Addressbook{
 		return $result->fetchRow();
 	}
 
+	/**
+	 * @brief Creates a new address book
+	 * @param string $userid
+	 * @param string $name
+	 * @param string $description
+	 * @return insertid
+	 */
 	public static function addAddressbook($userid,$name,$description){
 		$all = self::allAddressbooks($userid);
 		$uris = array();
@@ -86,6 +108,14 @@ class OC_Contacts_Addressbook{
 		return OC_DB::insertid();
 	}
 
+	/**
+	 * @brief Creates a new address book from the data sabredav provides
+	 * @param string $principaluri
+	 * @param string $uri
+	 * @param string $name
+	 * @param string $description
+	 * @return insertid
+	 */
 	public static function addAddressbookFromDAVData($principaluri,$uri,$name,$description){
 		$userid = self::extractUserID($principaluri);
 		
@@ -95,6 +125,13 @@ class OC_Contacts_Addressbook{
 		return OC_DB::insertid();
 	}
 
+	/**
+	 * @brief Edits an addressbook
+	 * @param integer $id
+	 * @param string $name
+	 * @param string $description
+	 * @return boolean
+	 */
 	public static function editAddressbook($id,$name,$description){
 		// Need these ones for checking uri
 		$addressbook = self::find($id);
@@ -112,6 +149,11 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 
+	/**
+	 * @brief Updates ctag for addressbook
+	 * @param integer $id
+	 * @return boolean
+	 */
 	public static function touchAddressbook($id){
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET ctag = ctag + 1 WHERE id = ?' );
 		$stmt->execute(array($id));
@@ -119,6 +161,11 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 
+	/**
+	 * @brief removes an address book
+	 * @param integer $id
+	 * @return boolean
+	 */
 	public static function deleteAddressbook($id){
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 		$stmt->execute(array($id));
@@ -129,6 +176,14 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 
+	/**
+	 * @brief Returns all cards of an address book
+	 * @param integer $id
+	 * @return array
+	 *
+	 * The cards are associative arrays. You'll find the original vCard in
+	 * ['carddata']
+	 */
 	public static function allCards($id){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ?' );
 		$result = $stmt->execute(array($id));
@@ -141,6 +196,11 @@ class OC_Contacts_Addressbook{
 		return $addressbooks;
 	}
 	
+	/**
+	 * @brief Returns a card
+	 * @param integer $id
+	 * @return associative array
+	 */
 	public static function findCard($id){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$result = $stmt->execute(array($id));
@@ -148,6 +208,12 @@ class OC_Contacts_Addressbook{
 		return $result->fetchRow();
 	}
 
+	/**
+	 * @brief finds a card by its DAV Data
+	 * @param integer $aid Addressbook id
+	 * @param string $uri the uri ('filename')
+	 * @return associative array
+	 */
 	public static function findCardWhereDAVDataIs($aid,$uri){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
 		$result = $stmt->execute(array($aid,$uri));
@@ -155,23 +221,36 @@ class OC_Contacts_Addressbook{
 		return $result->fetchRow();
 	}
 
+	/**
+	 * @brief Adds a card
+	 * @param integer $id Addressbook id
+	 * @param string $data  vCard file
+	 * @return insertid
+	 */
 	public static function addCard($id,$data){
 		$fn = null;
 		$uri = null;
-		$card = Sabre_VObject_Reader::read($data);
-		foreach($card->children as $property){
-			if($property->name == 'FN'){
-				$fn = $property->value;
+		if(self::isValidVObject($data)){
+			$card = Sabre_VObject_Reader::read($data);
+			foreach($card->children as $property){
+				if($property->name == 'FN'){
+					$fn = $property->value;
+				}
+				elseif(is_null($uri) && $property->name == 'UID' ){
+					$uri = $property->value.'.vcf';
+				}
 			}
-			elseif(is_null($uri) && $property->name == 'UID' ){
-				$uri = $property->value.'.vcf';
-			}
+			if(is_null($uri)){
+				$uid = self::createUID();
+				$uri = $uid.'.vcf';
+				$card->add(new Sabre_VObject_Property('UID',$uid));
+				$data = $card->serialize();
+			};
 		}
-		if(is_null($uri)){
+		else{
+			// that's hard. Creating a UID and not saving it
 			$uid = self::createUID();
 			$uri = $uid.'.vcf';
-			$card->add(new Sabre_VObject_Property('UID',$uid));
-			$data = $card->serialize();
 		};
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
@@ -182,12 +261,21 @@ class OC_Contacts_Addressbook{
 		return OC_DB::insertid();
 	}
 
+	/**
+	 * @brief Adds a card with the data provided by sabredav
+	 * @param integer $id Addressbook id
+	 * @param string $uri   the uri the card will have
+	 * @param string $data  vCard file
+	 * @return insertid
+	 */
 	public static function addCardFromDAVData($id,$uri,$data){
 		$fn = null;
-		$card = Sabre_VObject_Reader::read($data);
-		foreach($card->children as $property){
-			if($property->name == 'FN'){
-				$fn = $property->value;
+		if(self::isValidVObject($data)){
+			$card = Sabre_VObject_Reader::read($data);
+			foreach($card->children as $property){
+				if($property->name == 'FN'){
+					$fn = $property->value;
+				}
 			}
 		}
 
@@ -199,13 +287,21 @@ class OC_Contacts_Addressbook{
 		return OC_DB::insertid();
 	}
 
+	/**
+	 * @brief edits a card
+	 * @param integer $id id of card
+	 * @param string $data  vCard file
+	 * @return boolean
+	 */
 	public static function editCard($id, $data){
 		$oldcard = self::findCard($id);
 		$fn = null;
-		$card = Sabre_VObject_Reader::read($data);
-		foreach($card->children as $property){
-			if($property->name == 'FN'){
-				$fn = $property->value;
+		if(self::isValidVObject($data)){
+			$card = Sabre_VObject_Reader::read($data);
+			foreach($card->children as $property){
+				if($property->name == 'FN'){
+					$fn = $property->value;
+				}
 			}
 		}
 
@@ -217,14 +313,23 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 
+	/**
+	 * @brief edits a card with the data provided by sabredav
+	 * @param integer $id Addressbook id
+	 * @param string $uri   the uri of the card
+	 * @param string $data  vCard file
+	 * @return boolean
+	 */
 	public static function editCardFromDAVData($aid,$uri,$data){
 		$oldcard = self::findCardWhereDAVDataIs($aid,$uri);
 
 		$fn = null;
-		$card = Sabre_VObject_Reader::read($data);
-		foreach($card->children as $property){
-			if($property->name == 'FN'){
-				$fn = $property->value;
+		if(self::isValidVObject($data)){
+			$card = Sabre_VObject_Reader::read($data);
+			foreach($card->children as $property){
+				if($property->name == 'FN'){
+					$fn = $property->value;
+				}
 			}
 		}
 
@@ -236,6 +341,11 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 	
+	/**
+	 * @brief deletes a card
+	 * @param integer $id id of card
+	 * @return boolean
+	 */
 	public static function deleteCard($id){
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$stmt->execute(array($id));
@@ -243,6 +353,12 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 
+	/**
+	 * @brief deletes a card with the data provided by sabredav
+	 * @param integer $id Addressbook id
+	 * @param string $uri the uri of the card
+	 * @return boolean
+	 */
 	public static function deleteCardFromDAVData($aid,$uri){
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
@@ -250,6 +366,12 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 	
+	/**
+	 * @brief Creates a URI for Addressbook
+	 * @param string $name name of the addressbook
+	 * @param array  $existing the uri of the card
+	 * @return boolean
+	 */
 	public static function createURI($name,$existing){
 		$name = strtolower($name);
 		$newname = $name;
@@ -261,15 +383,28 @@ class OC_Contacts_Addressbook{
 		return $newname;
 	}
 
+	/**
+	 * @brief Creates a UID
+	 * @return string
+	 */
 	public static function createUID(){
 		return substr(md5(rand().time()),0,10);
 	}
 	
+	/**
+	 * @brief gets the userid from a principal path
+	 * @return string
+	 */
 	public static function extractUserID($principaluri){
 		list($prefix,$userid) = Sabre_DAV_URLUtil::splitPath($principaluri);
 		return $userid;
 	}
 
+	/**
+	 * @brief Escapes semicolons
+	 * @param string $value
+	 * @return string
+	 */
 	public static function escapeSemicolons($value){
 		foreach($value as &$i ){
 			$i = implode("\\\\;", explode(';', $i));
@@ -277,6 +412,11 @@ class OC_Contacts_Addressbook{
 		return implode(';',$value);
 	}
 
+	/**
+	 * @brief Creates an array out of a multivalue property
+	 * @param string $value
+	 * @return array
+	 */
 	public static function unescapeSemicolons($value){
 		$array = explode(';',$value);
 		for($i=0;$i<count($array);$i++){
@@ -294,6 +434,13 @@ class OC_Contacts_Addressbook{
 		return $array;
 	}
 
+	/**
+	 * @brief Data structure of vCard
+	 * @param object $property
+	 * @return associative array
+	 *
+	 * look at code ...
+	 */
 	public static function structureContact($object){
 		$details = array();
 		foreach($object->children as $property){
@@ -308,6 +455,17 @@ class OC_Contacts_Addressbook{
 		return $details;
 	}
 	
+	/**
+	 * @brief Data structure of properties
+	 * @param object $property
+	 * @return associative array
+	 *
+	 * returns an associative array with 
+	 * ['name'] name of property
+	 * ['value'] htmlspecialchars escaped value of property
+	 * ['parameters'] associative array name=>value
+	 * ['checksum'] checksum of whole property
+	 */
 	public static function structureProperty($property){
 		$value = $property->value;
 		$value = htmlspecialchars($value);
@@ -328,5 +486,21 @@ class OC_Contacts_Addressbook{
 			$temp['parameters'][$parameter->name] = $parameter->value;
 		}
 		return $temp;
+	}
+
+	/**
+	 * @brief Checks if SabreDAV can parse the file
+	 * @param string vCard
+	 * @return boolean
+	 *
+	 * The code is largely copypasted from Sabre_VObject_Reader
+	 */
+	public static function isValidVObject($data){
+		try {
+			Sabre_VObject_Reader::read($data);
+			return true;
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 }

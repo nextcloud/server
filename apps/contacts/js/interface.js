@@ -1,15 +1,25 @@
 $(document).ready(function(){
-	/* $('.contacts_addressbooksexpander').click(function(){
-		$('.contacts_addressbooksdetails').toggle();
-		return false;
-	});*/
+	/*-------------------------------------------------------------------------
+	 * Actions for startup
+	 *-----------------------------------------------------------------------*/
+	if( $('#leftcontent li').length > 0 ){
+		$('#leftcontent li').first().addClass('active');
+	}
 
+	/*-------------------------------------------------------------------------
+	 * Event handlers
+	 *-----------------------------------------------------------------------*/
 	$('#leftcontent li').live('click',function(){
 		var id = $(this).data('id');
+		var oldid = $('#rightcontent').data('id');
+		if(oldid != 0){
+			$('#leftcontent li[data-id="'+oldid+'"]').removeClass('active');
+		}
 		$.getJSON('ajax/getdetails.php',{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
 				$('#rightcontent').data('id',jsondata.data.id);
 				$('#rightcontent').html(jsondata.data.page);
+				$('#leftcontent li[data-id="'+jsondata.data.id+'"]').addClass('active');
 			}
 			else{
 				alert(jsondata.data.message);

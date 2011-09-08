@@ -45,6 +45,12 @@ if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	exit();
 }
 
+// Check if the card is valid
+if( !OC_Contacts_Addressbook::isValidVObject($card['carddata'])){
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Unable to parse vCard!'))));
+	exit();
+}
+
 $vcard = Sabre_VObject_Reader::read($card['carddata']);
 $line = null;
 for($i=0;$i<count($vcard->children);$i++){
