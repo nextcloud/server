@@ -30,10 +30,10 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
-$calendarid = $_POST['id'];
-OC_Calendar_Calendar::editCalendar($calendarid, $_POST['name'], $_POST['description'], null, null, null, $_POST['color']);
-OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
+$userid = OC_User::getUser();
+$calendarid = OC_Calendar_Calendar::addCalendar($userid, $_POST['name'], $_POST['description'], 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);
+OC_Calendar_Calendar::setCalendarActive($calendarid, 1);
 $calendar = OC_Calendar_Calendar::findCalendar($calendarid);
 $tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
 $tmpl->assign('calendar', $calendar);
-echo json_encode( array( "status" => "success", "data" => $tmpl->fetchPage() ));
+echo json_encode( array( "status" => "error", "data" => $tmpl->fetchPage().'' ));

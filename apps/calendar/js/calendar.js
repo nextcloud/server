@@ -200,6 +200,10 @@ Calendar={
 		},
 		events:[],
 		loadEvents:function(year){
+			if( typeof (year) == 'undefined') {
+				this.events = [];
+				year = Calendar.Date.current.getFullYear();
+			}
 			if( typeof (this.events[year]) == "undefined") {
 				this.events[year] = []
 			}
@@ -213,7 +217,9 @@ Calendar={
 						$( "#parsingfail_dialog" ).dialog();
 					});
 				} else {
-					Calendar.UI.events[year] = newevents[year];
+					if (typeof(newevents[year]) != 'undefined'){
+						Calendar.UI.events[year] = newevents[year];
+					}
 					$(document).ready(function() {
 						Calendar.UI.updateView();
 					});
@@ -677,7 +683,7 @@ $(document).ready(function(){
 	$('#listview #more_after').click(Calendar.UI.List.renderMoreAfter);
 });
 //event vars
-Calendar.UI.loadEvents(Calendar.Date.current.getFullYear());
+Calendar.UI.loadEvents();
 
 function oc_cal_switch2today() {
 	Calendar.Date.current = new Date();
@@ -718,23 +724,40 @@ function oc_cal_calender_activation(checkbox, calendarid)
 	$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
 	  function(data) {
 		checkbox.checked = data == 1;
-		Calendar.UI.loadEvents(Calendar.Date.current.getFullYear());
+		Calendar.UI.loadEvents();
 	  });
 }
 function oc_cal_editcalendar(object, calendarid){
-	$(object).closest('tr').load(oc_webroot + "/apps/calendar/ajax/editcalendar.php?calendarid="+calendarid);
+	var tr = $(document.createElement('tr'))
+		.load(oc_webroot + "/apps/calendar/ajax/editcalendar.php?calendarid="+calendarid);
+	$(object).closest('tr').after(tr).hide();
 }
-function oc_cal_editcalendar_submit(button, calendarid){
+function oc_cal_newcalendar(object){
+	var tr = $(document.createElement('tr'))
+		.load(oc_webroot + "/apps/calendar/ajax/newcalendar.php");
+	$(object).closest('tr').after(tr).hide();
+}
+function oc_cal_calendar_submit(button, calendarid){
 	var displayname = $("#displayname_"+calendarid).val();
 	var active = $("#active_"+calendarid+":checked").length;
 	var description = $("#description_"+calendarid).val();
 	var calendarcolor = $("#calendarcolor_"+calendarid).val();
 
-	$.post("ajax/updatecalendar.php", { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
+	var url;
+	if (calendarid == 'new'){
+		url = "ajax/createcalendar.php";
+	}else{
+		url = "ajax/updatecalendar.php";
+	}
+	$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
 		function(data){
 			if(data.error == "true"){
 			}else{
-				$(button).closest('tr').html(data.data)
+				$(button).closest('tr').prev().html(data.data).show().next().remove();
+				Calendar.UI.loadEvents();
 			}
 		}, 'json');
+}
+function oc_cal_calendar_cancel(button, calendarid){
+	$(button).closest('tr').prev().show().next().remove();
 }

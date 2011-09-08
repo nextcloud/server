@@ -1,4 +1,4 @@
-<td id="editcalendar_dialog" title="<?php echo $l->t("Edit calendar"); ?>" colspan="4">
+<td id="<?php echo $_['new'] ? 'new' : 'edit' ?>calendar_dialog" title="<?php echo $_['new'] ? $l->t("New calendar") : $l->t("Edit calendar"); ?>" colspan="4">
 <table width="100%" style="border: 0;">
 <tr>
 	<th><?php echo $l->t('Displayname') ?></th>
@@ -6,15 +6,17 @@
 		<input id="displayname_<?php echo $_['calendar']['id'] ?>" type="text" value="<?php echo $_['calendar']['displayname'] ?>">
 	</td>
 </tr>
+<?php if (!$_['new']): ?>
 <tr>
 	<td></td>
 	<td>
-		<input id="active_<?php echo $_['calendar']['id'] ?>" type="checkbox"<?php echo ($_['calendar']['active'] ? ' checked="checked"' : '' ) ?>>
+		<input id="active_<?php echo $_['calendar']['id'] ?>" type="checkbox"<?php echo $_['calendar']['active'] ? ' checked="checked"' : '' ?>>
 		<label for="active_<?php echo $_['calendar']['id'] ?>">
 			<?php echo $l->t('Active') ?>
 		</label>
 	</td>
 </tr>
+<?php endif; ?>
 <tr>
 	<th><?php echo $l->t('Description') ?></th>
 	<td>
@@ -28,5 +30,6 @@
 	</td>
 </tr>
 </table>
-<input style="float: left;" type="button" onclick="oc_cal_editcalendar_submit(this, <?php echo $_['calendar']['id'] ?>);" value="<?php echo $l->t("Submit"); ?>">
+<input style="float: left;" type="button" onclick="oc_cal_calendar_submit(this, <?php echo $_['new'] ? "'new'" : $_['calendar']['id'] ?>);" value="<?php echo $_['new'] ? $l->t("Save") : $l->t("Submit"); ?>">
+<input style="float: left;" type="button" onclick="oc_cal_calendar_cancel(this, <?php echo $_['new'] ? "'new'" : $_['calendar']['id'] ?>);" value="<?php echo $l->t("Cancel"); ?>">
 </td>

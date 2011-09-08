@@ -10,6 +10,11 @@ for($i = 0; $i < count($option_calendars); $i++){
 	echo "</tr>";
 }
 ?>
+<tr>
+	<td colspan="4">
+		<a href="#" onclick="oc_cal_newcalendar(this);"><?php echo $l->t('New Calendar') ?></a>
+	</td>
+</tr>
 </table>
 <script type="text/javascript">
 	$( "#choosecalendar_dialog" ).dialog({

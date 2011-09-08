@@ -24,6 +24,7 @@ if(!OC_USER::isLoggedIn()) {
 }
 $calendar = OC_Calendar_Calendar::findCalendar($_GET['calendarid']);
 $tmpl = new OC_Template("calendar", "part.editcalendar");
-$tmpl->assign('calendar',$calendar);
+$tmpl->assign('new', false);
+$tmpl->assign('calendar', $calendar);
 $tmpl->printPage();
 ?>
