@@ -43,7 +43,7 @@ if(!OC_User::userExists($USERNAME)){
 	$USERNAME='';
 }
 global $WEBROOT;
-$IDENTITY=((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$WEBROOT.'/apps/user_openid/user.php/'.$USERNAME;
+$IDENTITY=OC_Helper::linkTo( "user_openid", "user.php", null, true ).'/'.$USERNAME;
 
 require_once 'phpmyid.php';
 

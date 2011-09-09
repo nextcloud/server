@@ -5,8 +5,6 @@ if (!in_array ('curl', get_loaded_extensions())){
 	return;
 }
 
-$urlBase=((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'];
-
 $userName='';
 if(strpos($_SERVER["REQUEST_URI"],'?') and !strpos($_SERVER["REQUEST_URI"],'=')){
 	if(strpos($_SERVER["REQUEST_URI"],'/?')){
@@ -16,8 +14,8 @@ if(strpos($_SERVER["REQUEST_URI"],'?') and !strpos($_SERVER["REQUEST_URI"],'='))
 	}
 }
 
-OC_Util::addHeader('link',array('rel'=>'openid.server', 'href'=>$urlBase.OC_Helper::linkTo( "user_openid", "user.php" ).'/'.$userName));
-OC_Util::addHeader('link',array('rel'=>'openid.delegate', 'href'=>$urlBase.OC_Helper::linkTo( "user_openid", "user.php" ).'/'.$userName));
+OC_Util::addHeader('link',array('rel'=>'openid.server', 'href'=>OC_Helper::linkTo( "user_openid", "user.php", null, true ).'/'.$userName));
+OC_Util::addHeader('link',array('rel'=>'openid.delegate', 'href'=>$OC_Helper::linkTo( "user_openid", "user.php", null, true ).'/'.$userName));
 
 OC_APP::registerPersonal('user_openid','settings');
 

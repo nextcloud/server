@@ -34,7 +34,7 @@ class OC_Helper {
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public static function linkTo( $app, $file , $redirect_url=NULL ){
+	public static function linkTo( $app, $file, $redirect_url=NULL, $absolute=false ){
 		global $WEBROOT;
 		global $SERVERROOT;
 		
@@ -55,6 +55,12 @@ class OC_Helper {
 			else{
 				$urlLinkTo =  $WEBROOT . '/'.$file;
 			}
+		}
+
+		if($absolute){
+			// Checking if the request was made through HTTPS. The last in line is for IIS
+			$protocol = isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
+			$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
 		}
 
 		if($redirect_url)

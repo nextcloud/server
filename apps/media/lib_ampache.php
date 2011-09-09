@@ -166,11 +166,6 @@ class OC_MEDIA_AMPACHE{
 		}
 		$artistName=utf8_decode(htmlentities($artistName));
 		$albumName=utf8_decode(htmlentities($albumName));
-		if (isset($_SERVER['HTTPS'])) {
-			$PROTO="https://";
-		} else {
-			$PROTO="http://";
-		}
 		$id=$song['song_id'];
 		$name=utf8_decode(htmlentities($song['song_name']));
 		$artist=$song['song_artist'];
@@ -179,7 +174,7 @@ class OC_MEDIA_AMPACHE{
 		echo("\t\t<title>$name</title>\n");
 		echo("\t\t<artist id='$artist'>$artistName</artist>\n");
 		echo("\t\t<album id='$album'>$albumName</album>\n");
-		$url="$PROTO{$_SERVER["HTTP_HOST"]}$WEBROOT/apps/media/server/xml.server.php?action=play&song=$id&auth={$_GET['auth']}";
+		$url=OC_Helper::linkTo('media', 'server/xml.server.php', null, true)."?action=play&song=$id&auth={$_GET['auth']}";
 		$url=htmlentities($url);
 		echo("\t\t<url>$url</url>\n");
 		echo("\t\t<time>{$song['song_length']}</time>\n");

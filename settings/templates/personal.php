@@ -33,7 +33,7 @@
 
 <p class="personalblock">
 	<strong>WebDAV</strong>
-	<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/files/webdav.php'; ?><br />
+	<?php echo OC_Helper::linkTo('files', 'webdav.php', null, true); ?><br />
 	<em><?php echo $l->t('use this address to connect to your ownCloud in your file manager');?></em>
 </p>
 

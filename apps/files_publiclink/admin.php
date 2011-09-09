@@ -37,11 +37,7 @@ OC_App::setActiveNavigationEntry( "files_publiclink_administration" );
 
 OC_Util::addScript( 'files_publiclink', 'admin' );
 
-if(isset($_SERVER['HTTPS'])) {
-	$baseUrl= "https://". $_SERVER['SERVER_NAME'] . OC_Helper::linkTo('files_publiclink','get.php');
-}else{
-	$baseUrl= "http://". $_SERVER['SERVER_NAME'] . OC_Helper::linkTo('files_publiclink','get.php');
-}
+$baseUrl = OC_Helper::linkTo('files_publiclink','get.php', null, true);
 
 
 // return template
