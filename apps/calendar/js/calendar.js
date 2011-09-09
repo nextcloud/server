@@ -276,11 +276,12 @@ Calendar={
 			eventcontainer.append(event_holder);
 		},
 		createEventPopup:function(e){
-			var event = $(this).data('event_info');
 			var popup = $(this).data('popup');
 			if (!popup){
+				var event = $(this).data('event_info');
 				popup = $(document.createElement('div'));
 				$(this).data('popup', popup).append(popup);
+				popup.addClass('popup')
 				popup.addClass('event_popup')
 					.html(Calendar.UI.getEventPopupText(event));
 			}

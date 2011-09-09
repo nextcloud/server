@@ -58,6 +58,7 @@
 .weekend_thead, .weekend_row{height: 20px;text-align: center;text-align: center;background: #F3F3F3;}
 .thisday{background: #FFFABC;text-align: center;margin: 0;padding: 0;vertical-align: top;height: 20px;}
 .event {position:relative;}
-.event_popup {display: none; position: absolute; width: 280px; height: 40px; padding: 10px; background: #eeeeee; color: #000000; border: 1px solid #1a1a1a; font-size: 90%;}
+.popup {display: none; position: absolute; z-index: 1000; background: #eeeeee; color: #000000; border: 1px solid #1a1a1a; font-size: 90%;}
+.event_popup {width: 280px; height: 40px; padding: 10px;}
 
 input[type="button"].active {color: #0098E4}
