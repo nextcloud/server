@@ -20,23 +20,22 @@
 			<td width="75px"><?php echo $l -> t("Category");?>:</td>
 			<td>
 			<select class="formselect" id="formcategorie_select" style="width:140px;" id="newevent_cat">
-				<option>none</option>
-				<option>Birthday</option>
-				<option>Business</option>
-				<option>Call</option>
-				<option>Clients</option>
-				<option>Customer</option>
-				<option>Deliverer</option>
-				<option>Holidays</option>
-				<option>Ideas</option>
-				<option>Journey</option>
-				<option>Jubilee</option>
-				<option>Meeting</option>
-				<option>Other</option>
-				<option>Personal</option>
-				<option>Projects</option>
-				<option>Questions</option>
-				<option>Work</option>
+				<option><?php echo $l->t("None"); ?></option>
+				<option><?php echo $l->t("Birthday"); ?></option>
+				<option><?php echo $l->t("Business"); ?></option>
+				<option><?php echo $l->t("Call"); ?></option>
+				<option><?php echo $l->t("Clients"); ?></option>
+				<option><?php echo $l->t("Deliverer"); ?></option>
+				<option><?php echo $l->t("Holidays"); ?></option>
+				<option><?php echo $l->t("Ideas"); ?></option>
+				<option><?php echo $l->t("Journey"); ?></option>
+				<option><?php echo $l->t("Jubilee"); ?></option>
+				<option><?php echo $l->t("Meeting"); ?></option>
+				<option><?php echo $l->t("Other"); ?></option>
+				<option><?php echo $l->t("Personal"); ?></option>
+				<option><?php echo $l->t("Projects"); ?></option>
+				<option><?php echo $l->t("Questions"); ?></option>
+				<option><?php echo $l->t("Work"); ?></option>
 			</select></td>
 			<td width="75px">&nbsp;&nbsp;&nbsp;<?php echo $l -> t("Calendar");?>:</td>
 			<td>

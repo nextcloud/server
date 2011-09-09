@@ -144,7 +144,7 @@ if($errnum != 0){
 		$des = str_replace("\n","\\n", $description);
 		$data .= "DESCRIPTION:" . $des . "\n";
 	}
-	if($cat != "none"){
+	if($cat != $l->t("None")){
 		$data .= "CATEGORIES:" . $cat . "\n";
 	}
 	if($repeat == "true"){
