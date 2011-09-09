@@ -15,10 +15,16 @@ for($i = 0; $i < count($option_calendars); $i++){
 		<a href="#" onclick="oc_cal_newcalendar(this);"><?php echo $l->t('New Calendar') ?></a>
 	</td>
 </tr>
+<tr>
+	<td colspan="4">
+		<input style="display:none;width: 90%;margin: 0 auto;" type="text" id="caldav_url" onmouseover="document.getElementById('caldav_url').select();" title="<?php echo $l->t("CalDav Link"); ?>">
+	</td>
+</tr>
 </table>
 <script type="text/javascript">
+	var totalurl = "<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/apps/calendar/caldav.php/calendars'; ?>";
 	$( "#choosecalendar_dialog" ).dialog({
-		width : 500,
+		width : 600,
 		close : function() {
 					oc_cal_opendialog = 0;
 					var lastchild = document.getElementById("body-user").lastChild
@@ -28,4 +34,8 @@ for($i = 0; $i < count($option_calendars); $i++){
 					}
 			}
 	});
-</script> 
+	function showcaldavurl(username, calname){
+		document.getElementById("caldav_url").value = totalurl + "/" + username + "/" + calname;
+		document.getElementById("caldav_url").style.display = "block";
+	}
+</script>
