@@ -2,7 +2,9 @@
         <fieldset class="personalblock">
                 <label for="timezone"><strong><?php echo $l->t('Timezone');?></strong></label>
 		<select id="timezone" name="timezone">
-                <?php foreach($_['timezones'] as $timezone):
+                <?php
+		$continent = '';
+		foreach($_['timezones'] as $timezone):
 			if ( preg_match( '/^(America|Antartica|Arctic|Asia|Atlantic|Europe|Indian|Pacific)\//', $timezone ) ):
 				$ex=explode('/', $timezone, 2);//obtain continent,city
 				if ($continent!=$ex[0]):
