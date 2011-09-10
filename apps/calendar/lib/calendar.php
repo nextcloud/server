@@ -211,7 +211,7 @@ class OC_Calendar_Calendar{
 	}
 
 	public static function editCalendarObject($id, $data){
-		$oldobject = self::findCard($id);
+		$oldobject = self::findCalendarObject($id);
 		
 		$object = Sabre_VObject_Reader::read($data);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
@@ -225,7 +225,7 @@ class OC_Calendar_Calendar{
 	}
 
 	public static function editCalendarObjectFromDAVData($cid,$uri,$data){
-		$oldobject = self::findCardWhereDAVDataIs($cid,$uri);
+		$oldobject = self::findCalendarObjectWhereDAVDataIs($cid,$uri);
 		
 		$object = Sabre_VObject_Reader::read($data);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
