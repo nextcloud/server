@@ -88,9 +88,9 @@
 "Projects" => "Projekte",
 "Questions" => "Fragen",
 "Work" => "Arbeit",
-"New Calendar" => "Neuer Kalendar",
+"New Calendar" => "Neuer Kalender",
 "Displayname" => "Anzeigename",
-"Calendar color" => "Kalendarfarbe",
+"Calendar color" => "Kalenderfarbe",
 "" => "",
 "" => ""
 );
