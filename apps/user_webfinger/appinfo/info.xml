@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>user_webfinger</id>
+	<name>Webfinger</name>
+	<description>Provide webfinger for all users, so that they can use their ownCloud account as their remote storage on the web. If you don't run owncloud in the root of your domain, for instance if you run it on http://example.com/owncloud/, then makes sure you link http://example.com/.well-known/ to http://example.com/owncloud/apps/user_webfinger/ - for instance by running something like "ln -s /var/www/owncloud/apps/user_webfinger /var/www/.well-known". Only enable this app if you run this owncloud installation on a public web address, not if you run it on an intranet or on localhost.</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Michiel de Jong</author>
+	<require>2</require>
+</info>
