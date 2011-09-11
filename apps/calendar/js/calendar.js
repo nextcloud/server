@@ -2,6 +2,7 @@
  * ownCloud - Calendar Plugin                     *
  *                                                *
  * (c) Copyright 2011 Georg Ehrke                 *
+ * (c) Copyright 2011 Bart Visscher               *
  * author: Georg Ehrke                            *
  * email: ownclouddev at georgswebsite dot de     *
  * homepage: ownclouddev.georgswebsite.de         *
