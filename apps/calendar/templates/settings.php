@@ -31,6 +31,6 @@
 				echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
 			endif;
                 endforeach;?>
-                </select><span id="timezoneerror"></span>
+                </select><span class="msg"></span>
         </fieldset>
 </form>

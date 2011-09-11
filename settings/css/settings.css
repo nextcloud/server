@@ -5,6 +5,9 @@ input#openid, input#webdav { width:20em; }
 #passwordchanged { display:none; }
 input#identity { width:20em; }
 
+.msg.success{ color:#fff; background-color:#0f0; padding:3px; text-shadow:1px 1px #000; }
+.msg.error{ color:#fff; background-color:#f00; padding:3px; text-shadow:1px 1px #000; }
+
 
 /* USERS */
 form { display:inline; }
