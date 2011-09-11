@@ -144,12 +144,12 @@ if($errnum != 0){
 		$des = str_replace("\n","\\n", $description);
 		$data .= "DESCRIPTION:" . $des . "\n";
 	}
-	if($cat != $l->t("None")){
+	/*if($cat != $l->t("None")){
 		$data .= "CATEGORIES:" . $cat . "\n";
-	}
-	if($repeat == "true"){
+	}*/
+	/*if($repeat == "true"){
 		$data .= "RRULE:" . $repeat . "\n";
-	}
+	}*/
 	$data .= "END:VEVENT\nEND:VCALENDAR";
 	$result = OC_Calendar_Calendar::addCalendarObject($cal, $data);
 	echo json_encode(array("success"=>"true"));
