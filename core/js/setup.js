@@ -3,9 +3,9 @@ $(document).ready(function() {
 	$('#datadirField').hide(250);
 	if($('#hasSQLite').val()=='true'){
 		$('#databaseField').hide();
-		$('#use_other_db').slideUp();
-		$('#dbhost').hide(250);
-		$('#dbhostlabel').hide(250);
+		$('#use_other_db').hide();
+		$('#dbhost').hide();
+		$('#dbhostlabel').hide();
 	}
 
 	$('#sqlite').click(function() {

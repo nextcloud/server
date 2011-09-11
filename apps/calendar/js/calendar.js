@@ -318,6 +318,62 @@ Calendar={
 		addDateInfo:function(selector, date){
 			$(selector).data('date_info', date);
 		},
+		switch2Today:function(){
+			Calendar.Date.current = new Date();
+			Calendar.UI.updateView();
+		},
+		Calendar:{
+			overview:function(){
+				if(oc_cal_opendialog == 0){
+					$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/choosecalendar.php");
+					oc_cal_opendialog = 1;
+				}else{
+					alert(t("calendar", "You can't open more than one dialog per site!"));
+				}
+			},
+			activation:function(checkbox, calendarid)
+			{
+				$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
+				  function(data) {
+					checkbox.checked = data == 1;
+					Calendar.UI.loadEvents();
+				  });
+			},
+			new:function(object){
+				var tr = $(document.createElement('tr'))
+					.load(oc_webroot + "/apps/calendar/ajax/newcalendar.php");
+				$(object).closest('tr').after(tr).hide();
+			},
+			edit:function(object, calendarid){
+				var tr = $(document.createElement('tr'))
+					.load(oc_webroot + "/apps/calendar/ajax/editcalendar.php?calendarid="+calendarid);
+				$(object).closest('tr').after(tr).hide();
+			},
+			submit:function(button, calendarid){
+				var displayname = $("#displayname_"+calendarid).val();
+				var active = $("#active_"+calendarid+":checked").length;
+				var description = $("#description_"+calendarid).val();
+				var calendarcolor = $("#calendarcolor_"+calendarid).val();
+
+				var url;
+				if (calendarid == 'new'){
+					url = "ajax/createcalendar.php";
+				}else{
+					url = "ajax/updatecalendar.php";
+				}
+				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
+					function(data){
+						if(data.error == "true"){
+						}else{
+							$(button).closest('tr').prev().html(data.data).show().next().remove();
+							Calendar.UI.loadEvents();
+						}
+					}, 'json');
+			},
+			cancel:function(button, calendarid){
+				$(button).closest('tr').prev().show().next().remove();
+			},
+		},
 		OneDay:{
 			forward:function(){
 				Calendar.Date.forward_day();
@@ -687,11 +743,6 @@ $(document).ready(function(){
 //event vars
 Calendar.UI.loadEvents();
 
-function oc_cal_switch2today() {
-	Calendar.Date.current = new Date();
-	Calendar.UI.updateView();
-}
-
 var oc_cal_opendialog = 0;
 function oc_cal_newevent(selector, time){
 	var date_info = $(selector).data('date_info');
@@ -712,54 +763,4 @@ function oc_cal_newevent(selector, time){
 	}else{
 		alert(t("calendar", "You can't open more than one dialog per site!"));
 	}
-}
-function oc_cal_choosecalendar(){
-	if(oc_cal_opendialog == 0){
-		$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/choosecalendar.php");
-		oc_cal_opendialog = 1;
-	}else{
-		alert(t("calendar", "You can't open more than one dialog per site!"));
-	}
-}
-function oc_cal_calender_activation(checkbox, calendarid)
-{
-	$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
-	  function(data) {
-		checkbox.checked = data == 1;
-		Calendar.UI.loadEvents();
-	  });
-}
-function oc_cal_editcalendar(object, calendarid){
-	var tr = $(document.createElement('tr'))
-		.load(oc_webroot + "/apps/calendar/ajax/editcalendar.php?calendarid="+calendarid);
-	$(object).closest('tr').after(tr).hide();
-}
-function oc_cal_newcalendar(object){
-	var tr = $(document.createElement('tr'))
-		.load(oc_webroot + "/apps/calendar/ajax/newcalendar.php");
-	$(object).closest('tr').after(tr).hide();
-}
-function oc_cal_calendar_submit(button, calendarid){
-	var displayname = $("#displayname_"+calendarid).val();
-	var active = $("#active_"+calendarid+":checked").length;
-	var description = $("#description_"+calendarid).val();
-	var calendarcolor = $("#calendarcolor_"+calendarid).val();
-
-	var url;
-	if (calendarid == 'new'){
-		url = "ajax/createcalendar.php";
-	}else{
-		url = "ajax/updatecalendar.php";
-	}
-	$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
-		function(data){
-			if(data.error == "true"){
-			}else{
-				$(button).closest('tr').prev().html(data.data).show().next().remove();
-				Calendar.UI.loadEvents();
-			}
-		}, 'json');
-}
-function oc_cal_calendar_cancel(button, calendarid){
-	$(button).closest('tr').prev().show().next().remove();
 }

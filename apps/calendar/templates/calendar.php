@@ -52,8 +52,8 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 						</form>
 						<form>
 							<div id="choosecalendar">
-								<input type="button" id="today_input" value="<?php echo $l->t("Today");?>" onclick="oc_cal_switch2today();"/>
-								<input type="button" id="choosecalendar_input" value="<?php echo $l->t("Calendars");?>" onclick="oc_cal_choosecalendar();" />
+								<input type="button" id="today_input" value="<?php echo $l->t("Today");?>" onclick="Calendar.UI.switch2Today();"/>
+								<input type="button" id="choosecalendar_input" value="<?php echo $l->t("Calendars");?>" onclick="Calendar.UI.Calendar.overview();" />
 							</div>
 						</form>
 						<form>
