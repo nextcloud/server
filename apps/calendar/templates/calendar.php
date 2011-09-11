@@ -110,7 +110,7 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 						<table>
 							<thead>
 								<tr>
-									<th class="calendar_row calw"><?php echo $l -> t("CW");?></th>
+									<th class="calendar_row calw"><?php echo $l -> t("Week");?></th>
 <?php foreach($weekdays as $weekdaynr => $weekday): ?>
 									<th class="calendar_row <?php echo $weekdaynr > 4 ? 'weekend_thead' : '' ?>"><?php echo $l->t(ucfirst($weekday)) ?></th>
 <?php endforeach; ?>
