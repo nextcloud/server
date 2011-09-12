@@ -67,7 +67,7 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' 
 	$server = new Sabre_DAV_Server($publicDir);
 
 	// Path to our script
-	$server->setBaseUri("$WEBROOT/apps/core_unhosted/compat.php/$ownCloudUser");
+	$server->setBaseUri("$WEBROOT/apps/unhosted/compat.php/$ownCloudUser");
 
 	// Auth backend
 	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(OC_UnhostedWeb::getValidTokens($ownCloudUser, $userName.'@'.$userHost, $dataScope));
@@ -100,7 +100,12 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' 
 			$token=OC_UnhostedWeb::createDataScope($appUrl, $userAddress, $dataScope);
 			header('Location: '.$_GET['redirect_uri'].'#access_token='.$token.'&token_type=unhosted');
 		} else {
-			die('not logged in: '.var_export($pathParts, true));
+			die('Please '
+				.'<input type="submit" onclick="'
+				."window.open('https://myfavouritesandwich.org:444/','Close me!','height=600,width=300');"
+				.'" value="log in">'
+				.', close the pop-up, and '
+				.'<form method="POST"><input name="allow" type="submit" value="Try again"></form>');
 		}
 	} else {
 		echo '<form method="POST"><input name="allow" type="submit" value="Allow this web app to store stuff on your owncloud."></form>';
