@@ -100,9 +100,16 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' 
 			$token=OC_UnhostedWeb::createDataScope($appUrl, $userAddress, $dataScope);
 			header('Location: '.$_GET['redirect_uri'].'#access_token='.$token.'&token_type=unhosted');
 		} else {
+			if($_SERVER['HTTPS']){
+				$url = "https://";
+			} else {
+				$url = "http://";
+			}
+			$url .= $_SERVER['SERVER_NAME'];
+			$url .= substr($_SERVER['SCRIPT_NAME'], 0, -strlen('apps/unhosted/compat.php'));
 			die('Please '
 				.'<input type="submit" onclick="'
-				."window.open('https://myfavouritesandwich.org:444/','Close me!','height=600,width=300');"
+				."window.open('$url','Close me!','height=600,width=300');"
 				.'" value="log in">'
 				.', close the pop-up, and '
 				.'<form method="POST"><input name="allow" type="submit" value="Try again"></form>');
