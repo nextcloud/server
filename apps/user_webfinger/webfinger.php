@@ -1,5 +1,5 @@
 <?php
-if($_SERVER['SCRIPT_NAME'] == '/.well-known/host-meta.php') {
+if($_SERVER['SCRIPT_NAME'] == '/.well-known/webfinger.php') {
 	header("Access-Control-Allow-Origin: *");
 } else {
 	header('Please-first: activate');
