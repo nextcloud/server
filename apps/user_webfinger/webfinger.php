@@ -1,5 +1,9 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+if($_SERVER['SCRIPT_NAME'] == '/.well-known/host-meta.php') {
+	header("Access-Control-Allow-Origin: *");
+} else {
+	header('Please-first: activate');
+}
 header("Content-Type: application/xml+xrd");
 
 if($_GET['q']) {

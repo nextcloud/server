@@ -2,7 +2,7 @@
 if($_SERVER['SCRIPT_NAME'] == '/.well-known/host-meta.php') {
 	header("Access-Control-Allow-Origin: *");
 } else {
-	header('Please visit /apps/user_webfinger/activate.php first');
+	header('Please-first: activate');
 }
 header("Content-Type: application/xml+xrd");
 echo "<";
