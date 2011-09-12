@@ -251,7 +251,7 @@ class OC_L10N{
 		if( file_exists($dir)){
 			$dh = opendir($dir);
 			while(( $file = readdir( $dh )) !== false ){
-				if( substr( $file, -4, 4 ) == '.php' and strlen($file)==6 ){
+				if(substr($file, -4, 4) == '.php' and (strlen($file) == 6 || strlen($file) == 9)){
 					$i = substr( $file, 0, -4 );
 					if( $i != '' ){
 						$available[] = $i;
