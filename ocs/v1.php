@@ -21,7 +21,7 @@
 * 
 */
 
-require_once('../inc/lib_base.php');
+require_once('../lib/base.php');
 ob_clean();
 OC_OCS::handle();
 

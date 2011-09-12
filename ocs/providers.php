@@ -21,7 +21,7 @@
 * 
 */
 
-require_once('../inc/lib_base.php');
+require_once('../lib/base.php');
 
 $url='http://'.substr($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],0,-17).'ocs/v1.php/';
 
