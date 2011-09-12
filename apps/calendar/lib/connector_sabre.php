@@ -294,7 +294,7 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 * @return void
 	 */
 	public function deleteCalendarObject($calendarId,$objectUri){
-		OC_Calendar_Calendar::deleteCalendarObjectFromDAVData($calendarID,$objectUri);
+		OC_Calendar_Calendar::deleteCalendarObjectFromDAVData($calendarId,$objectUri);
 	}
 	
 	/**
