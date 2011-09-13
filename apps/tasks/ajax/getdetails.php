@@ -14,7 +14,10 @@ if( !OC_User::isLoggedIn()){
 $id = $_GET['id'];
 $task = OC_Calendar_Object::find($id);
 $details = Sabre_VObject_Reader::read($task['calendardata'])->VTODO;
+
+$priority_options = OC_Task_VTodo::getPriorityOptions($l10n);
 $tmpl = new OC_Template('tasks','part.details');
+$tmpl->assign('priority_options', $priority_options);
 $tmpl->assign('details',$details);
 $tmpl->assign('id',$id);
 $page = $tmpl->fetchPage();

@@ -18,20 +18,19 @@ if( $calendar === false || $calendar['userid'] != OC_USER::getUser()){
 	exit();
 }
 
-$summary = $_POST['summary'];
+$errors = OC_Task_VTodo::validateRequest($_POST, $l10n);
+if (!empty($errors)) {
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'errors' => $errors )));
+	exit();
+}
 
-$vcalendar = new Sabre_VObject_Component('VCALENDAR');
-$vcalendar->add(new Sabre_VObject_Property('PRODID', 'ownCloud Calendar'));
-$vcalendar->add(new Sabre_VObject_Property('VERSION', '2.0'));
-$vtodo = new Sabre_VObject_Component('VTODO');
-$vtodo->add(new Sabre_VObject_Property('SUMMARY',$summary));
-$vtodo->add(new Sabre_VObject_Property('UID',OC_Calendar_Calendar::createUID()));
-$vcalendar->add($vtodo);
+$vcalendar = OC_Task_VTodo::createVCalendarFromRequest($_POST);
 $id = OC_Calendar_Object::add($cid, $vcalendar->serialize());
 
-$details = OC_Contacts_Addressbook::structureContact($vtodo);
+$priority_options = OC_Task_VTodo::getPriorityOptions($l10n);
 $tmpl = new OC_Template('tasks','part.details');
-$tmpl->assign('details',$details);
+$tmpl->assign('priority_options', $priority_options);
+$tmpl->assign('details',$vcalendar->VTODO);
 $tmpl->assign('id',$id);
 $page = $tmpl->fetchPage();
 

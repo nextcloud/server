@@ -82,6 +82,14 @@ $(document).ready(function(){
 		return false;
 	});
 
+	$('#tasks_edittaskform #percent_complete').live('change',function(event){
+		if ($(event.target).val() == 100){
+			$('#tasks_edittaskform #complete').show();
+		}else{
+			$('#tasks_edittaskform #complete').hide();
+		}
+	});
+
 	$('#tasks_edittaskform input[type="submit"]').live('click',function(){
 		$.post('ajax/edittask.php',$('#tasks_edittaskform').serialize(),function(jsondata){
 			if(jsondata.status == 'success'){
@@ -89,7 +97,7 @@ $(document).ready(function(){
 				$('#task_details').html(jsondata.data.page);
 			}
 			else{
-				alert(jsondata.data.message);
+				alert(jsondata.data.errors);//TODO
 			}
 		}, 'json');
 		return false;
