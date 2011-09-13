@@ -96,16 +96,17 @@ function addOrEditBookmark(event) {
 		$.ajax({
 			url: 'ajax/addBookmark.php',
 			data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&description=' + encodeURI(description) + '&tags=' + encodeURI(tags),
-			success: function(data){ 
+			success: function(response){ 
+				var bookmark_id = response.data;
 				$('.bookmarks_add').slideToggle(); 
 				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
 				$('.bookmarks_list').prepend(
-				'<div class="bookmark_single">' +
+				'<div class="bookmark_single" data-id="' + bookmark_id + '" >' +
 					'<p class="bookmark_title"><a href="' + url + '" target="_new" class="bookmark_link">' + title + '</a></p>' +
 					'<p class="bookmark_url">' + url + '</p>' +
 					'<p class="bookmark_description">' + description + '</p>' +
 					'<p class="bookmark_tags">' + tagshtml + '</p>' +
-					'<p class="bookmark_actions"><span class="bookmark_delete">Delete</span></p>' +
+					'<p class="bookmark_actions"><span class="bookmark_delete">Delete</span>&nbsp;<span class="bookmark_edit">Edit</span></p>' +
 				'</div>'
 				);
 			}
@@ -119,6 +120,8 @@ function addOrEditBookmark(event) {
 			success: function(){ 
 				$('.bookmarks_add').slideToggle(); 
 				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
+				$('#bookmark_add_id').val('0');
+				
 				var record = $('.bookmark_single[data-id = "' + id + '"]');
 				record.children('.bookmark_url:first').text(url);
 				record.children('.bookmark_description:first').text(description);

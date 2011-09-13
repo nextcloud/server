@@ -75,5 +75,7 @@ if($b_id !== false) {
 		$params = array($b_id, trim($tag));
 	    $query->execute($params);
 	}
+
+	echo json_encode( array( 'status' => 'success', 'data' => $b_id));
 }
 
