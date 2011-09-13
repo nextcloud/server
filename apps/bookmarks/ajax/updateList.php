@@ -64,7 +64,7 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 }
 
 $query = OC_DB::prepare('
-	SELECT url, title, description, 
+	SELECT id, url, title, description, 
 	CASE WHEN *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
 			THEN GROUP_CONCAT( tag ' .$_gc_separator. ' )
 			ELSE \' \'

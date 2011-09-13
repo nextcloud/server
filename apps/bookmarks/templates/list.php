@@ -5,6 +5,7 @@
 	<a class="bookmarks_addBml" href="javascript:var url = encodeURIComponent(location.href);window.open('<?php echo OC_Helper::linkTo('bookmarks', 'addBm.php', null, true); ?>?url='+url, 'owncloud-bookmarks');" title="Drag this to your browser bookmarks and click it, when you want to bookmark a webpage.">Add page to ownCloud</a>
 </div>
 <div class="bookmarks_add">
+	<input type="hidden" id="bookmark_add_id" value="0" />
 	<p><label class="bookmarks_label">Address</label><input type="text" id="bookmark_add_url" class="bookmarks_input" /></p>
 	<p><label class="bookmarks_label">Title</label><input type="text" id="bookmark_add_title" class="bookmarks_input" />
        <img class="loading_meta" src="<?php echo OC_Helper::imagePath('core', 'loading.gif'); ?>" /></p>
