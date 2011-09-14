@@ -34,7 +34,7 @@ $fromtime = $_POST["fromtime"];
 $to  = $_POST["to"];
 $totime = $_POST["totime"];
 $description = $_POST["description"];
-$repeat = $_POST["repeat"];
+//$repeat = $_POST["repeat"];
 /*switch($_POST["repeatfreq"]){
 	case "DAILY":
 		$repeatfreq = "DAILY";
