@@ -372,8 +372,8 @@ class OC_Contacts_Addressbook{
 	/**
 	 * @brief Creates a URI for Addressbook
 	 * @param string $name name of the addressbook
-	 * @param array  $existing the uri of the card
-	 * @return boolean
+	 * @param array  $existing existing addressbook URIs
+	 * @return string new name
 	 */
 	public static function createURI($name,$existing){
 		$name = strtolower($name);
