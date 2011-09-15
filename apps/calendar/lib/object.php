@@ -217,13 +217,13 @@ class OC_Calendar_Object{
 				}
 			}
 			elseif($property->name == 'VTODO' || $property->name == 'VJOURNAL'){
-				$return[0] = $use->name;
+				$return[0] = $property->name;
 				foreach($property->children as &$element){
-					if($property->name == 'SUMMARY'){
-						$return[3] = $property->value;
+					if($element->name == 'SUMMARY'){
+						$return[3] = $element->value;
 					}
-					elseif($property->name == 'UID'){
-						$return[5] = $property->value;
+					elseif($element->name == 'UID'){
+						$return[5] = $element->value;
 					}
 				};
 
