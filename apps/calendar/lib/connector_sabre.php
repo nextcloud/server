@@ -236,7 +236,7 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 */
 	public function getCalendarObjects($calendarId) {
 		$data = array();
-		foreach(OC_Calendar_Calendar::allCalendarObjects($calendarId) as $row){
+		foreach(OC_Calendar_Object::all($calendarId) as $row){
 			$data[] = $this->OCAddETag($row);
 		}
 		return $data;
@@ -255,7 +255,7 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 * @return array
 	 */
 	public function getCalendarObject($calendarId,$objectUri) {
-		$data = OC_Calendar_Calendar::findCalendarObjectWhereDAVDataIs($calendarId,$objectUri);
+		$data = OC_Calendar_Object::findWhereDAVDataIs($calendarId,$objectUri);
 		if(is_array($data)){
 			$data = $this->OCAddETag($data);
 		}
@@ -271,7 +271,7 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 * @return void
 	 */
 	public function createCalendarObject($calendarId,$objectUri,$calendarData) {
-		OC_Calendar_Calendar::addCalendarObjectFromDAVData($calendarId,$objectUri,$calendarData);
+		OC_Calendar_Object::addFromDAVData($calendarId,$objectUri,$calendarData);
 	}
 
 	/**
@@ -283,7 +283,7 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 * @return void
 	 */
 	public function updateCalendarObject($calendarId,$objectUri,$calendarData){
-		OC_Calendar_Calendar::editCalendarObjectFromDAVData($calendarId,$objectUri,$calendarData);
+		OC_Calendar_Object::editFromDAVData($calendarId,$objectUri,$calendarData);
 	}
 
 	/**
@@ -294,7 +294,7 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 * @return void
 	 */
 	public function deleteCalendarObject($calendarId,$objectUri){
-		OC_Calendar_Calendar::deleteCalendarObjectFromDAVData($calendarId,$objectUri);
+		OC_Calendar_Object::deleteFromDAVData($calendarId,$objectUri);
 	}
 	
 	/**

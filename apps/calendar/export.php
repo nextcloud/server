@@ -28,7 +28,7 @@ if($calendar["userid"] != OC_User::getUser()){
 	header("Location: " . OC_HELPER::linkTo("", "index.php"));
 	exit;
 }
-$calobjects = OC_Calendar_Calendar::allCalendarObjects($cal);
+$calobjects = OC_Calendar_Object::all($cal);
 header("Content-Type: text/Calendar");
 header("Content-Disposition: inline; filename=calendar.ics"); 
 for($i = 0;$i <= count($calobjects); $i++){

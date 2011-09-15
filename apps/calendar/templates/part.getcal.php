@@ -13,7 +13,7 @@
  * MA 02111-1307  USA                             *
  *************************************************/
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
-$events = OC_Calendar_Calendar::allCalendarObjects($calendars[0]['id']);
+$events = OC_Calendar_Object::all($calendars[0]['id']);
 $select_year = $_GET["year"];
 $return_events = array();
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");

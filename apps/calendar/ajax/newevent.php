@@ -151,7 +151,7 @@ if($errnum != 0){
 		$data .= "RRULE:" . $repeat . "\n";
 	}*/
 	$data .= "END:VEVENT\nEND:VCALENDAR";
-	$result = OC_Calendar_Calendar::addCalendarObject($cal, $data);
+	$result = OC_Calendar_Object::add($cal, $data);
 	echo json_encode(array("success"=>"true"));
 }
 ?>
