@@ -358,7 +358,7 @@ class OC_Contacts_Addressbook{
 
 	/**
 	 * @brief deletes a card with the data provided by sabredav
-	 * @param integer $id Addressbook id
+	 * @param integer $aid Addressbook id
 	 * @param string $uri the uri of the card
 	 * @return boolean
 	 */
