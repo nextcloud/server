@@ -32,7 +32,7 @@
  * description TEXT,
  * ctag INT(11) UNSIGNED NOT NULL DEFAULT '1'
  * );
- * 
+ *
  * CREATE TABLE contacts_cards (
  * id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
  * addressbookid INT(11) UNSIGNED NOT NULL,
@@ -55,7 +55,7 @@ class OC_Contacts_Addressbook{
 	public static function allAddressbooks($uid){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ?' );
 		$result = $stmt->execute(array($uid));
-		
+
 		$addressbooks = array();
 		while( $row = $result->fetchRow()){
 			$addressbooks[] = $row;
@@ -63,7 +63,7 @@ class OC_Contacts_Addressbook{
 
 		return $addressbooks;
 	}
-	
+
 	/**
 	 * @brief Returns the list of addressbooks for a principal (DAV term of user)
 	 * @param string $principaluri
@@ -118,7 +118,7 @@ class OC_Contacts_Addressbook{
 	 */
 	public static function addAddressbookFromDAVData($principaluri,$uri,$name,$description){
 		$userid = self::extractUserID($principaluri);
-		
+
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
 
@@ -142,7 +142,7 @@ class OC_Contacts_Addressbook{
 		if(is_null($description)){
 			$description = $addressbook['description'];
 		}
-		
+
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET displayname=?,description=?, ctag=ctag+1 WHERE id=?' );
 		$result = $stmt->execute(array($name,$description,$id));
 
@@ -169,7 +169,7 @@ class OC_Contacts_Addressbook{
 	public static function deleteAddressbook($id){
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 		$stmt->execute(array($id));
-		
+
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ?' );
 		$stmt->execute(array($id));
 
@@ -195,7 +195,7 @@ class OC_Contacts_Addressbook{
 
 		return $addressbooks;
 	}
-	
+
 	/**
 	 * @brief Returns a card
 	 * @param integer $id
@@ -230,8 +230,9 @@ class OC_Contacts_Addressbook{
 	public static function addCard($id,$data){
 		$fn = null;
 		$uri = null;
-		if(self::isValidVObject($data)){
-			$card = Sabre_VObject_Reader::read($data);
+
+		$card = self::parse($data);
+		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
@@ -270,8 +271,8 @@ class OC_Contacts_Addressbook{
 	 */
 	public static function addCardFromDAVData($id,$uri,$data){
 		$fn = null;
-		if(self::isValidVObject($data)){
-			$card = Sabre_VObject_Reader::read($data);
+		$card = self::parse($data);
+		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
@@ -296,8 +297,9 @@ class OC_Contacts_Addressbook{
 	public static function editCard($id, $data){
 		$oldcard = self::findCard($id);
 		$fn = null;
-		if(self::isValidVObject($data)){
-			$card = Sabre_VObject_Reader::read($data);
+
+		$card = self::parse($data);
+		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
@@ -324,7 +326,8 @@ class OC_Contacts_Addressbook{
 		$oldcard = self::findCardWhereDAVDataIs($aid,$uri);
 
 		$fn = null;
-		if(self::isValidVObject($data)){
+		$card = self::parse($data);
+		if(!is_null($card)){
 			$card = Sabre_VObject_Reader::read($data);
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
@@ -340,7 +343,7 @@ class OC_Contacts_Addressbook{
 
 		return true;
 	}
-	
+
 	/**
 	 * @brief deletes a card
 	 * @param integer $id id of card
@@ -365,7 +368,7 @@ class OC_Contacts_Addressbook{
 
 		return true;
 	}
-	
+
 	/**
 	 * @brief Creates a URI for Addressbook
 	 * @param string $name name of the addressbook
@@ -390,7 +393,7 @@ class OC_Contacts_Addressbook{
 	public static function createUID(){
 		return substr(md5(rand().time()),0,10);
 	}
-	
+
 	/**
 	 * @brief gets the userid from a principal path
 	 * @return string
@@ -454,13 +457,13 @@ class OC_Contacts_Addressbook{
 		}
 		return $details;
 	}
-	
+
 	/**
 	 * @brief Data structure of properties
 	 * @param object $property
 	 * @return associative array
 	 *
-	 * returns an associative array with 
+	 * returns an associative array with
 	 * ['name'] name of property
 	 * ['value'] htmlspecialchars escaped value of property
 	 * ['parameters'] associative array name=>value
@@ -489,18 +492,18 @@ class OC_Contacts_Addressbook{
 	}
 
 	/**
-	 * @brief Checks if SabreDAV can parse the file
+	 * @brief Parses a vcard file
 	 * @param string vCard
-	 * @return boolean
+	 * @return Sabre_VObject or null
 	 *
-	 * The code is largely copypasted from Sabre_VObject_Reader
+	 * Will retun the vobject if sabre DAV is able to parse the file.
 	 */
-	public static function isValidVObject($data){
+	public static function parse($data){
 		try {
-			Sabre_VObject_Reader::read($data);
-			return true;
+			$card = Sabre_VObject_Reader::read($data);
+			return $card;
 		} catch (Exception $e) {
-			return false;
+			return null;
 		}
 	}
 }
