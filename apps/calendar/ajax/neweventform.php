@@ -26,33 +26,8 @@ if(!OC_USER::isLoggedIn()) {
 }
 
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-$categories = array(
-	$l10n->t('None'),
-	$l10n->t('Birthday'),
-	$l10n->t('Business'),
-	$l10n->t('Call'),
-	$l10n->t('Clients'),
-	$l10n->t('Deliverer'),
-	$l10n->t('Holidays'),
-	$l10n->t('Ideas'),
-	$l10n->t('Journey'),
-	$l10n->t('Jubilee'),
-	$l10n->t('Meeting'),
-	$l10n->t('Other'),
-	$l10n->t('Personal'),
-	$l10n->t('Projects'),
-	$l10n->t('Questions'),
-	$l10n->t('Work'),
-);
-$repeat_options = array(
-	'doesnotrepeat' => $l10n->t('Does not repeat'),
-	'daily'         => $l10n->t('Daily'),
-	'weekly'        => $l10n->t('Weekly'),
-	'weekday'       => $l10n->t('Every Weekday'),
-	'biweekly'      => $l10n->t('Bi-Weekly'),
-	'monthly'       => $l10n->t('Monthly'),
-	'yearly'        => $l10n->t('Yearly'),
-);
+$categories = OC_Calendar_Object::getCategoryOptions($l10n);
+$repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
 $startday   = substr($_GET['d'], 0, 2);
 $startmonth = substr($_GET['d'], 2, 2);
 $startyear  = substr($_GET['d'], 4, 4);

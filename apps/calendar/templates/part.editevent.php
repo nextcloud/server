@@ -1,8 +1,12 @@
 <div id="editevent" title="<?php echo $l->t("Edit an event");?>">
+	<form id="event_form">
+		<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
 <?php echo $this->inc("part.eventform"); ?>
-	<span id="editevent_actions">
-		<input type="button" style="float: left;" value="<?php echo $l->t("Submit");?>">
+	<div style="width: 100%;text-align: center;color: #FF1D1D;" id="errorbox"></div>
+	<span id="actions">
+		<input type="button" class="submit" style="float: left;" value="<?php echo $l->t("Submit");?>" onclick="validate_event_form('ajax/editevent.php');">
 	</span>
+	</form>
 </div>
 <script type="text/javascript">
 	$( "#editevent" ).dialog({
@@ -14,8 +18,7 @@
 						document.getElementById("body-user").removeChild(lastchild);
 						lastchild = document.getElementById("body-user").lastChild;
 					}
-			},
-		open : function(){alert("Doesn't work yet.");}
+			}
 	});
 	$( "#from" ).datepicker({
 		dateFormat : 'dd-mm-yy'
@@ -27,13 +30,13 @@
 		if(document.getElementById("totime").disabled == true) {
 			document.getElementById("fromtime").disabled = false;
 			document.getElementById("totime").disabled = false;
-			document.getElementById("fromtime").style.color = "#333";
-			document.getElementById("totime").style.color = "#333";
+			$("#fromtime").css('color', "#333");
+			$("#totime").css('color', "#333");
 		} else {
 			document.getElementById("fromtime").disabled = true;
 			document.getElementById("totime").disabled = true;
-			document.getElementById("fromtime").style.color = "#A9A9A9";
-			document.getElementById("totime").style.color = "#A9A9A9";
+			$("#fromtime").css('color', "#A9A9A9");
+			$("#totime").css('color', "#A9A9A9");
 		}
 	}
 </script>

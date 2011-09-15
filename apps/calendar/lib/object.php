@@ -288,4 +288,214 @@ class OC_Calendar_Object{
 			return null;
 		}
 	}
+
+	public static function getCategoryOptions($l10n)
+	{
+		return array(
+			$l10n->t('None'),
+			$l10n->t('Birthday'),
+			$l10n->t('Business'),
+			$l10n->t('Call'),
+			$l10n->t('Clients'),
+			$l10n->t('Deliverer'),
+			$l10n->t('Holidays'),
+			$l10n->t('Ideas'),
+			$l10n->t('Journey'),
+			$l10n->t('Jubilee'),
+			$l10n->t('Meeting'),
+			$l10n->t('Other'),
+			$l10n->t('Personal'),
+			$l10n->t('Projects'),
+			$l10n->t('Questions'),
+			$l10n->t('Work'),
+		);
+	}
+
+	public static function getRepeatOptions($l10n)
+	{
+		return array(
+			'doesnotrepeat' => $l10n->t('Does not repeat'),
+			'daily'         => $l10n->t('Daily'),
+			'weekly'        => $l10n->t('Weekly'),
+			'weekday'       => $l10n->t('Every Weekday'),
+			'biweekly'      => $l10n->t('Bi-Weekly'),
+			'monthly'       => $l10n->t('Monthly'),
+			'yearly'        => $l10n->t('Yearly'),
+		);
+	}
+	public static function validateRequest($request)
+	{
+		$errnum = 0;
+		$errarr = array('title'=>'false', 'cal'=>'false', 'from'=>'false', 'fromtime'=>'false', 'to'=>'false', 'totime'=>'false', 'endbeforestart'=>'false');
+		if($request['title'] == ''){
+			$errarr['title'] = 'true';
+			$errnum++;
+		}
+		$calendar = OC_Calendar_Calendar::findCalendar($request['calendar']);
+		if($calendar['userid'] != OC_User::getUser()){
+			$errarr['cal'] = 'true';
+			$errnum++;
+		}
+		$fromday = substr($request['from'], 0, 2);
+		$frommonth = substr($request['from'], 3, 2);
+		$fromyear = substr($request['from'], 6, 4);
+		if(!checkdate($frommonth, $fromday, $fromyear)){
+			$errarr['from'] = 'true';
+			$errnum++;
+		}
+		$allday = isset($request['allday']);
+		if(!$allday && self::checkTime(urldecode($request['fromtime']))) {
+			$errarr['fromtime'] = 'true';
+			$errnum++;
+		}
+
+		$today = substr($request['to'], 0, 2);
+		$tomonth = substr($request['to'], 3, 2);
+		$toyear = substr($request['to'], 6, 4);
+		if(!checkdate($tomonth, $today, $toyear)){
+			$errarr['to'] = 'true';
+			$errnum++;
+		}
+		;
+		if(!$allday && self::checkTime(urldecode($request['totime']))) {
+			$errarr['totime'] = 'true';
+			$errnum++;
+		}
+		if($today < $fromday && $frommonth == $tomonth && $fromyear == $toyear){
+			$errarr['endbeforestart'] = 'true';
+			$errnum++;
+		}
+		if($today == $fromday && $frommonth > $tomonth && $fromyear == $toyear){
+			$errarr['endbeforestart'] = 'true';
+			$errnum++;
+		}
+		if($today == $fromday && $frommonth == $tomonth && $fromyear > $toyear){
+			$errarr['endbeforestart'] = 'true';
+			$errnum++;
+		}
+		if($fromday == $today && $frommonth == $tomonth && $fromyear == $toyear){
+			list($tohours, $tominutes) = explode(':', $request['totime']);
+			list($fromhours, $fromminutes) = explode(':', $request['fromtime']);
+			if($tohours < $fromhours){
+				$errarr['endbeforestart'] = 'true';
+				$errnum++;
+			}
+			if($tohours == $fromhours && $tominutes < $fromminutes){
+				$errarr['endbeforestart'] = 'true';
+				$errnum++;
+			}
+		}
+		if ($errnum)
+		{
+			return $errarr;
+		}
+		return false;
+	}
+
+	protected static function checkTime($time)
+	{
+		list($hours, $minutes) = explode(':', $time);
+		return empty($time)
+			|| $hours < 0 || $hours > 24
+			|| $minutes < 0 || $minutes > 60;
+	}
+
+	public static function createVCalendarFromRequest($request)
+	{
+		$vcalendar = new Sabre_VObject_Component('VCALENDAR');
+		$vcalendar->add('PRODID', 'ownCloud Calendar');
+		$vcalendar->add('VERSION', '2.0');
+
+		$now = new DateTime();
+
+		$vevent = new Sabre_VObject_Component('VEVENT');
+		$vcalendar->add($vevent);
+
+		$created = new Sabre_VObject_Element_DateTime('CREATED');
+		$created->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
+		$vevent->add($created);
+
+		return self::updateVCalendarFromRequest($request, $vcalendar);
+	}
+
+	public static function updateVCalendarFromRequest($request, $vcalendar)
+	{
+		$title = $request["title"];
+		$location = $request["location"];
+		$cat = $request["category"];
+		$allday = isset($request["allday"]);
+		$from = $request["from"];
+		$fromtime = $request["fromtime"];
+		$to  = $request["to"];
+		$totime = $request["totime"];
+		$description = $request["description"];
+		//$repeat = $request["repeat"];
+		/*switch($request["repeatfreq"]){
+			case "DAILY":
+				$repeatfreq = "DAILY";
+			case "WEEKLY":
+				$repeatfreq = "WEEKLY";
+			case "WEEKDAY":
+				$repeatfreq = "DAILY;BYDAY=MO,TU,WE,TH,FR"; //load weeksdayss from userconfig when weekdays are choosable
+			case "":
+				$repeatfreq = "";
+			case "":
+				$repeatfreq = "";
+			case "":
+				$repeatfreq = "";
+			default:
+				$repeat = "false";
+		}*/
+		$repeat = "false";
+
+		$now = new DateTime();
+		$vevent = $vcalendar->VEVENT[0];
+
+		$last_modified = new Sabre_VObject_Element_DateTime('LAST-MODIFIED');
+		$last_modified->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
+		$vevent->__set('LAST-MODIFIED', $last_modified);
+
+		$dtstamp = new Sabre_VObject_Element_DateTime('DTSTAMP');
+		$dtstamp->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
+		$vevent->DTSTAMP = $dtstamp;
+
+		$vevent->SUMMARY = $title;
+
+		$dtstart = new Sabre_VObject_Element_DateTime('DTSTART');
+		$dtend = new Sabre_VObject_Element_DateTime('DTEND');
+		if($allday){
+			$start = new DateTime($from);
+			$end = new DateTime($to.' +1 day');
+			$dtstart->setDateTime($start, Sabre_VObject_Element_DateTime::DATE);
+			$dtend->setDateTime($end, Sabre_VObject_Element_DateTime::DATE);
+		}else{
+			$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+			$timezone = new DateTimeZone($timezone);
+			$start = new DateTime($from.' '.$fromtime, $timezone);
+			$end = new DateTime($to.' '.$totime, $timezone);
+			$dtstart->setDateTime($start, Sabre_VObject_Element_DateTime::LOCALTZ);
+			$dtend->setDateTime($end, Sabre_VObject_Element_DateTime::LOCALTZ);
+		}
+		$vevent->DTSTART = $dtstart;
+		$vevent->DTEND = $dtend;
+
+		if($location != ""){
+			$vevent->LOCATION = $location;
+		}
+
+		if($description != ""){
+			$des = str_replace("\n","\\n", $description);
+			$vevent->DESCRIPTION = $des;
+		}
+
+		if($cat != ""){
+			$vevent->CATEGORIES = $cat;
+		}
+
+		/*if($repeat == "true"){
+			$vevent->RRULE = $repeat;
+		}*/
+
+		return $vcalendar;
+	}
 }

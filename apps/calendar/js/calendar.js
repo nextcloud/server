@@ -273,8 +273,20 @@ Calendar={
 				.addClass('event')
 				.data('event_info', event)
 				.hover(this.createEventPopup,
-				       this.hideEventPopup);
+				       this.hideEventPopup)
+				.click(this.editEventPopup);
 			eventcontainer.append(event_holder);
+		},
+		editEventPopup:function(event){
+			event.stopPropagation();
+			var event_data = $(this).data('event_info');
+			var id = event_data.id;
+			if(oc_cal_opendialog == 0){
+				$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/editeventform.php?id="+id);
+				oc_cal_opendialog = 1;
+			}else{
+				alert(t("calendar", "You can't open more than one dialog per site!"));
+			}
 		},
 		createEventPopup:function(e){
 			var popup = $(this).data('popup');
@@ -763,4 +775,45 @@ function oc_cal_newevent(selector, time){
 	}else{
 		alert(t("calendar", "You can't open more than one dialog per site!"));
 	}
+}
+
+function validate_event_form(url){
+	var post = $( "#event_form" ).serialize();
+	$("#errorbox").html("");
+	$.post(url, post,
+		function(data){
+			if(data.error == "true"){
+				var output = "Missing fields: <br />";
+				if(data.title == "true"){
+					output = output + "Title<br />";
+				}
+				if(data.cal == "true"){
+					output = output + "Calendar<br />";
+				}
+				if(data.from == "true"){
+					output = output + "From Date<br />";
+				}
+				if(data.fromtime == "true"){
+					output = output + "From Time<br />";
+				}
+				if(data.to == "true"){
+					output = output + "To Date<br />";
+				}
+				if(data.totime == "true"){
+					output = output + "To Time<br />";
+				}
+				if(data.endbeforestart == "true"){
+					output = "The event ends before it starts!";
+				}
+				if(data.dberror == "true"){
+					output = "There was a database fail!";
+				}
+				$("#errorbox").html(output);
+			}else{
+				window.location.reload();
+			}
+			if(data.success == true){
+				location.reload();
+			}
+		},"json");
 }
