@@ -26,6 +26,11 @@ $repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
 
 $id = $_GET['id'];
 $data = OC_Calendar_Object::find($id);
+$calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
+if($calendar['userid'] != OC_User::getUser()){
+		echo $l10n->t('Wrong calendar');
+		exit;
+}
 $object = Sabre_VObject_Reader::read($data['calendardata']);
 $vevent = $object->VEVENT;
 $dtstart = $vevent->DTSTART;
@@ -38,11 +43,19 @@ switch($dtstart->getDateType()) {
 		$endtime = $dtend->getDateTime()->format('H:i');
 		$allday = false;
 		break;
+	case Sabre_VObject_Element_DateTime::DATE:
+		$startdate = $dtstart->getDateTime()->format('d-m-Y');
+		$starttime = '';
+		$dtend->getDateTime()->modify('-1 day');
+		$enddate = $dtend->getDateTime()->format('d-m-Y');
+		$endtime = '';
+		$allday = true;
+		break;
 }
 
 $summary = isset($vevent->SUMMARY) ? $vevent->SUMMARY->value : '';
 $location = isset($vevent->LOCATION) ? $vevent->LOCATION->value : '';
-$category = isset($vevent->CATEGORY) ? $vevent->CATEGORY->value : '';
+$category = isset($vevent->CATEGORIES) ? $vevent->CATEGORIES->value : '';
 $repeat = isset($vevent->CATEGORY) ? $vevent->CATEGORY->value : '';
 $description = isset($vevent->DESCRIPTION) ? $vevent->DESCRIPTION->value : '';
 

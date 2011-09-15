@@ -180,6 +180,15 @@ class OC_Calendar_Object{
 		return true;
 	}
 
+	public static function moveToCalendar($id, $calendarid){
+		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET calendarid=? WHERE id = ?' );
+		$result = $stmt->execute(array($calendarid,$id));
+
+		OC_Calendar_Calendar::touchCalendar($id);
+
+		return true;
+	}
+
 	/**
 	 * @brief Creates a UID
 	 * @return string
@@ -414,6 +423,9 @@ class OC_Calendar_Object{
 		$created = new Sabre_VObject_Element_DateTime('CREATED');
 		$created->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
 		$vevent->add($created);
+
+		$uid = self::createUID();
+		$vevent->add('UID',$uid);
 
 		return self::updateVCalendarFromRequest($request, $vcalendar);
 	}

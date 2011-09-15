@@ -29,15 +29,25 @@ if($errarr){
 	exit;
 }else{
 	$id = $_POST['id'];
+	$cal = $_POST['calendar'];
 	$data = OC_Calendar_Object::find($id);
 	if (!$data)
 	{
 		echo json_encode(array("error"=>"true"));
 		exit;
 	}
+	$calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
+	if($calendar['userid'] != OC_User::getUser()){
+		echo json_encode(array("error"=>"true"));
+		exit;
+	}
 	$vcalendar = Sabre_VObject_Reader::read($data['calendardata']);
 	OC_Calendar_Object::updateVCalendarFromRequest($_POST, $vcalendar);
 	$result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
+	if ($data['calendarid'] != $cal) {
+		$calendar = OC_Calendar_Calendar::findCalendar($request['calendar']);
+		OC_Calendar_Object::moveToCalendar($id, $cal);
+	}
 	echo json_encode(array("success"=>"true"));
 }
 ?> 
