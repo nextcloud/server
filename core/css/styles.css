@@ -52,10 +52,10 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #controls { width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
 #content { margin:3.5em 0 0 12.5em; }
-#leftcontent { position:absolute; top:6.4em; width:20em; background:#f8f8f8; height:100%; border-right:1px solid #ddd; }
-#leftcontent li { padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
-#leftcontent li:hover, #leftcontent li:active, #leftcontent li.active { background:#eee; }
-#rightcontent { position:absolute; top:6.4em; left:33em; }
+#leftcontent, .leftcontent { position:absolute; top:6.4em; width:20em; background:#f8f8f8; height:100%; border-right:1px solid #ddd; }
+#leftcontent li, .leftcontent li { padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+#leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
+#rightcontent, .rightcontent { position:absolute; top:6.4em; left:33em; }
 
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
