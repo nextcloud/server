@@ -383,11 +383,17 @@ Calendar={
 		},
 		Calendar:{
 			overview:function(){
-				if(oc_cal_opendialog == 0){
-					$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/choosecalendar.php");
-					oc_cal_opendialog = 1;
+				if($('#choosecalendar_dialog').dialog('isOpen') == true){
+					$('#choosecalendar_dialog').dialog('moveToTop');
 				}else{
-					alert(t("calendar", "You can't open more than one dialog per site!"));
+					$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/choosecalendar.php', function(){
+						$('#choosecalendar_dialog').dialog({
+							width : 600,
+							close : function(event, ui) {
+								$(this).dialog('destroy').remove();
+							}
+						});
+					});
 				}
 			},
 			activation:function(checkbox, calendarid)
@@ -801,8 +807,6 @@ $(document).ready(function(){
 });
 //event vars
 Calendar.UI.loadEvents();
-
-var oc_cal_opendialog = 0;
 
 function validate_event_form(url){
 	var post = $( "#event_form" ).serialize();

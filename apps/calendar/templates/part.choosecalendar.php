@@ -23,17 +23,6 @@ for($i = 0; $i < count($option_calendars); $i++){
 </table>
 <script type="text/javascript">
 	var totalurl = "<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/apps/calendar/caldav.php/calendars'; ?>";
-	$( "#choosecalendar_dialog" ).dialog({
-		width : 600,
-		close : function() {
-					oc_cal_opendialog = 0;
-					var lastchild = document.getElementById("body-user").lastChild
-					while(lastchild.id != "lightbox"){
-						document.getElementById("body-user").removeChild(lastchild);
-						lastchild = document.getElementById("body-user").lastChild;
-					}
-			}
-	});
 	function showcaldavurl(username, calname){
 		document.getElementById("caldav_url").value = totalurl + "/" + username + "/" + calname;
 		document.getElementById("caldav_url").style.display = "block";
