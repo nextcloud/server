@@ -45,7 +45,6 @@ if($errarr){
 	OC_Calendar_Object::updateVCalendarFromRequest($_POST, $vcalendar);
 	$result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
 	if ($data['calendarid'] != $cal) {
-		$calendar = OC_Calendar_Calendar::findCalendar($request['calendar']);
 		OC_Calendar_Object::moveToCalendar($id, $cal);
 	}
 	echo json_encode(array('status' => 'success'));
