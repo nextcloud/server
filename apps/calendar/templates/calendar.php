@@ -37,6 +37,9 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 				Calendar.UI.cws_label = "<?php echo $l->t("Weeks");?>";
 				Calendar.UI.more_before = String('<?php echo $l->t('More before {startdate}') ?>');
 				Calendar.UI.more_after = String('<?php echo $l->t('More after {enddate}') ?>');
+				//use last view as default on the next
+				Calendar.UI.setCurrentView("<?php echo OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview", "onemonthview") ?>");
+				var totalurl = "<?php echo OC_Helper::linkTo('calendar', 'caldav.php', null, true) . '/calendars'; ?>";
 				</script>
 				<div id="sysbox"></div>
 				<div id="controls">
@@ -166,10 +169,3 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 					<?php echo $l->t("There was a fail, while parsing the file."); ?>
 				</div>
 				<!-- End of Dialogs -->
-				<script type="text/javascript">
-				<?php
-				//use last view as default on the next
-				echo "Calendar.UI.setCurrentView(\"" . OC_Preferences::getValue(OC_USER::getUser(), "calendar", "currentview", "onemonthview") . "\");\n";
-				 
-				?>
-				</script>

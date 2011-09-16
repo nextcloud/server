@@ -17,15 +17,7 @@ for($i = 0; $i < count($option_calendars); $i++){
 </tr>
 <tr>
 	<td colspan="4">
-		<p style="margin: 0 auto;width: 90%;"><input style="display:none;width: 90%;float: left;" type="text" id="caldav_url" onmouseover="document.getElementById('caldav_url').select();" title="<?php echo $l->t("CalDav Link"); ?>"><img id="caldav_url_close" style="height: 20px;vertical-align: middle;display: none;" src="../../core/img/actions/delete.svg" alt="close" onclick="document.getElementById('caldav_url').style.display = 'none';document.getElementById('caldav_url_close').style.display = 'none';"/></p>
+		<p style="margin: 0 auto;width: 90%;"><input style="display:none;width: 90%;float: left;" type="text" id="caldav_url" onmouseover="$('#caldav_url').select();" title="<?php echo $l->t("CalDav Link"); ?>"><img id="caldav_url_close" style="height: 20px;vertical-align: middle;display: none;" src="../../core/img/actions/delete.svg" alt="close" onclick="$('#caldav_url').hide();$('#caldav_url_close').hide();"/></p>
 	</td>
 </tr>
 </table>
-<script type="text/javascript">
-	var totalurl = "<?php echo ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].OC::$WEBROOT.'/apps/calendar/caldav.php/calendars'; ?>";
-	function showcaldavurl(username, calname){
-		document.getElementById("caldav_url").value = totalurl + "/" + username + "/" + calname;
-		document.getElementById("caldav_url").style.display = "block";
-		document.getElementById("caldav_url_close").style.display = "block";
-	}
-</script>

@@ -179,9 +179,12 @@ Calendar={
 					alert('Unknown view:'+view);
 					break;
 			}
-			$('#'+this.currentview).show();
-			$('#'+this.currentview + "_radio").addClass('active');
-			this.updateView();
+			$(document).ready(function() {
+				$('#'+Calendar.UI.currentview).show();
+				$('#'+Calendar.UI.currentview + "_radio")
+					.addClass('active');
+				Calendar.UI.updateView()
+			});
 		},
 		updateDate:function(direction){
 			if(direction == 'forward' && this.current.forward) {
@@ -277,6 +280,21 @@ Calendar={
 				.click(this.editEvent);
 			eventcontainer.append(event_holder);
 		},
+		startEventDialog:function(){
+			Calendar.UI.lockTime();
+			$( "#from" ).datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
+			$( "#to" ).datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
+			$('#event').dialog({
+				width : 500,
+				close : function(event, ui) {
+					$(this).dialog('destroy').remove();
+				}
+			});
+		},
 		newEvent:function(selector, time){
 			var date_info = $(selector).data('date_info');
 			var dayofmonth = date_info.getDate();
@@ -294,14 +312,7 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/neweventform.php?d=' + date + '&t=' + time, function(){
-					$('#event').dialog({
-						width : 500,
-						close : function(event, ui) {
-							$(this).dialog('destroy').remove();
-						}
-					});
-				});
+				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/neweventform.php?d=' + date + '&t=' + time, Calendar.UI.startEventDialog);
 			}
 		},
 		editEvent:function(event){
@@ -312,14 +323,7 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/editeventform.php?id=' + id, function(){
-					$('#event').dialog({
-						width : 500,
-						close : function(event, ui) {
-							$(this).dialog('destroy').remove();
-						}
-					});
-				});
+				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/editeventform.php?id=' + id, Calendar.UI.startEventDialog);
 			}
 		},
 		validateEventForm:function(url){
@@ -419,6 +423,11 @@ Calendar={
 				$("#totime").attr('disabled', false)
 					.removeClass('disabled');
 			}
+		},
+		showCalDAVUrl:function(username, calname){
+			$('#caldav_url').val(totalurl + '/' + username + '/' + calname);
+			$('#caldav_url').show();
+			$("#caldav_url_close").show();
 		},
 		Calendar:{
 			overview:function(){
@@ -846,4 +855,3 @@ $(document).ready(function(){
 });
 //event vars
 Calendar.UI.loadEvents();
-

@@ -85,12 +85,3 @@
 			<td><textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo $_['description'] ?></textarea></td>
 		</tr>
 	</table>
-<script type="text/javascript">
-	Calendar.UI.lockTime();
-	$( "#from" ).datepicker({
-		dateFormat : 'dd-mm-yy'
-	});
-	$( "#to" ).datepicker({
-		dateFormat : 'dd-mm-yy'
-	});
-</script>
