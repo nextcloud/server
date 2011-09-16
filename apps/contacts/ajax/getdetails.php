@@ -34,7 +34,7 @@ if( !OC_User::isLoggedIn()){
 }
 
 
-$card = OC_Contacts_VCard::findCard( $id );
+$card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Can not find Contact!'))));
 	exit();
