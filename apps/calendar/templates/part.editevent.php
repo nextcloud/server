@@ -1,4 +1,4 @@
-<div id="editevent" title="<?php echo $l->t("Edit an event");?>">
+<div id="event" title="<?php echo $l->t("Edit an event");?>">
 	<form id="event_form">
 		<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
 <?php echo $this->inc("part.eventform"); ?>
@@ -8,35 +8,3 @@
 	</span>
 	</form>
 </div>
-<script type="text/javascript">
-	$( "#editevent" ).dialog({
-		width : 500,
-		close : function() {
-					oc_cal_opendialog = 0;
-					var lastchild = document.getElementById("body-user").lastChild
-					while(lastchild.id != "lightbox"){
-						document.getElementById("body-user").removeChild(lastchild);
-						lastchild = document.getElementById("body-user").lastChild;
-					}
-			}
-	});
-	$( "#from" ).datepicker({
-		dateFormat : 'dd-mm-yy'
-	});
-	$( "#to" ).datepicker({
-		dateFormat : 'dd-mm-yy'
-	});
-	function lock_time() {
-		if(document.getElementById("totime").disabled == true) {
-			document.getElementById("fromtime").disabled = false;
-			document.getElementById("totime").disabled = false;
-			$("#fromtime").css('color', "#333");
-			$("#totime").css('color', "#333");
-		} else {
-			document.getElementById("fromtime").disabled = true;
-			document.getElementById("totime").disabled = true;
-			$("#fromtime").css('color', "#A9A9A9");
-			$("#totime").css('color', "#A9A9A9");
-		}
-	}
-</script>

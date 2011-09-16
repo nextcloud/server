@@ -274,18 +274,52 @@ Calendar={
 				.data('event_info', event)
 				.hover(this.createEventPopup,
 				       this.hideEventPopup)
-				.click(this.editEventPopup);
+				.click(this.editEvent);
 			eventcontainer.append(event_holder);
 		},
-		editEventPopup:function(event){
+		newEvent:function(selector, time){
+			var date_info = $(selector).data('date_info');
+			var dayofmonth = date_info.getDate();
+			var month = date_info.getMonth();
+			var year = date_info.getFullYear();
+			if(dayofmonth <= 9){
+				dayofmonth = '0' + dayofmonth;
+			}
+			month++;
+			if(month <= 9){
+				month = '0' + month;
+			}
+			var date = String(dayofmonth) + String(month) + String(year);
+			if($('#event').dialog('isOpen') == true){
+				// TODO: save event
+				$('#event').dialog('destroy').remove();
+			}else{
+				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/neweventform.php?d=' + date + '&t=' + time, function(){
+					$('#event').dialog({
+						width : 500,
+						close : function(event, ui) {
+							$(this).dialog('destroy').remove();
+						}
+					});
+				});
+			}
+		},
+		editEvent:function(event){
 			event.stopPropagation();
 			var event_data = $(this).data('event_info');
 			var id = event_data.id;
-			if(oc_cal_opendialog == 0){
-				$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/editeventform.php?id="+id);
-				oc_cal_opendialog = 1;
+			if($('#event').dialog('isOpen') == true){
+				// TODO: save event
+				$('#event').dialog('destroy').remove();
 			}else{
-				alert(t("calendar", "You can't open more than one dialog per site!"));
+				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/editeventform.php?id=' + id, function(){
+					$('#event').dialog({
+						width : 500,
+						close : function(event, ui) {
+							$(this).dialog('destroy').remove();
+						}
+					});
+				});
 			}
 		},
 		createEventPopup:function(e){
@@ -333,6 +367,19 @@ Calendar={
 		switch2Today:function(){
 			Calendar.Date.current = new Date();
 			Calendar.UI.updateView();
+		},
+		lockTime:function(){
+			if($('#allday_checkbox').is(':checked')) {
+				$("#fromtime").attr('disabled', true)
+					.addClass('disabled');
+				$("#totime").attr('disabled', true)
+					.addClass('disabled');
+			} else {
+				$("#fromtime").attr('disabled', false)
+					.removeClass('disabled');
+				$("#totime").attr('disabled', false)
+					.removeClass('disabled');
+			}
 		},
 		Calendar:{
 			overview:function(){
@@ -756,26 +803,6 @@ $(document).ready(function(){
 Calendar.UI.loadEvents();
 
 var oc_cal_opendialog = 0;
-function oc_cal_newevent(selector, time){
-	var date_info = $(selector).data('date_info');
-	var dayofmonth = date_info.getDate();
-	var month = date_info.getMonth();
-	var year = date_info.getFullYear();
-	if(dayofmonth <= 9){
-		dayofmonth = "0" + dayofmonth;
-	}
-	month++;
-	if(month <= 9){
-		month = "0" + month;
-	}
-	var date = String(dayofmonth) + String(month) + String(year);
-	if(oc_cal_opendialog == 0){
-		$("#dialog_holder").load(oc_webroot + "/apps/calendar/ajax/neweventform.php?d=" + date + "&t=" + time);
-		oc_cal_opendialog = 1;
-	}else{
-		alert(t("calendar", "You can't open more than one dialog per site!"));
-	}
-}
 
 function validate_event_form(url){
 	var post = $( "#event_form" ).serialize();

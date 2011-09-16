@@ -39,8 +39,7 @@
 		<tr>
 			<th width="75px"></th>
 			<td>
-			<input onclick="lock_time();" type="checkbox"<?php if($_['allday']){echo 'checked="checked"';} ?> id="allday_checkbox" name="allday">
-			<?php if($_['allday']){echo '<script type="text/javascript">document.getElementById("fromtime").disabled = true;document.getElementById("totime").disabled = true;document.getElementById("fromtime").style.color = "#A9A9A9";document.getElementById("totime").style.color = "#A9A9A9";</script>';}?>
+			<input onclick="Calendar.UI.lockTime();" type="checkbox"<?php if($_['allday']){echo 'checked="checked"';} ?> id="allday_checkbox" name="allday">
 			<label for="allday_checkbox"><?php echo $l->t("All Day Event");?></label></td>
 		</tr>
 		<tr>
@@ -86,3 +85,12 @@
 			<td><textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo $_['description'] ?></textarea></td>
 		</tr>
 	</table>
+<script type="text/javascript">
+	Calendar.UI.lockTime();
+	$( "#from" ).datepicker({
+		dateFormat : 'dd-mm-yy'
+	});
+	$( "#to" ).datepicker({
+		dateFormat : 'dd-mm-yy'
+	});
+</script>
