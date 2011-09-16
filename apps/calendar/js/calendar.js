@@ -322,6 +322,45 @@ Calendar={
 				});
 			}
 		},
+		validateEventForm:function(url){
+			var post = $( "#event_form" ).serialize();
+			$("#errorbox").html("");
+			$.post(url, post,
+				function(data){
+					if(data.status == "error"){
+						var output = "Missing fields: <br />";
+						if(data.title == "true"){
+							output = output + "Title<br />";
+						}
+						if(data.cal == "true"){
+							output = output + "Calendar<br />";
+						}
+						if(data.from == "true"){
+							output = output + "From Date<br />";
+						}
+						if(data.fromtime == "true"){
+							output = output + "From Time<br />";
+						}
+						if(data.to == "true"){
+							output = output + "To Date<br />";
+						}
+						if(data.totime == "true"){
+							output = output + "To Time<br />";
+						}
+						if(data.endbeforestart == "true"){
+							output = "The event ends before it starts!";
+						}
+						if(data.dberror == "true"){
+							output = "There was a database fail!";
+						}
+						$("#errorbox").html(output);
+					} else
+					if(data.status == 'success'){
+						$('#event').dialog('destroy').remove();
+						Calendar.UI.loadEvents();
+					}
+				},"json");
+		},
 		createEventPopup:function(e){
 			var popup = $(this).data('popup');
 			if (!popup){
@@ -808,43 +847,3 @@ $(document).ready(function(){
 //event vars
 Calendar.UI.loadEvents();
 
-function validate_event_form(url){
-	var post = $( "#event_form" ).serialize();
-	$("#errorbox").html("");
-	$.post(url, post,
-		function(data){
-			if(data.error == "true"){
-				var output = "Missing fields: <br />";
-				if(data.title == "true"){
-					output = output + "Title<br />";
-				}
-				if(data.cal == "true"){
-					output = output + "Calendar<br />";
-				}
-				if(data.from == "true"){
-					output = output + "From Date<br />";
-				}
-				if(data.fromtime == "true"){
-					output = output + "From Time<br />";
-				}
-				if(data.to == "true"){
-					output = output + "To Date<br />";
-				}
-				if(data.totime == "true"){
-					output = output + "To Time<br />";
-				}
-				if(data.endbeforestart == "true"){
-					output = "The event ends before it starts!";
-				}
-				if(data.dberror == "true"){
-					output = "There was a database fail!";
-				}
-				$("#errorbox").html(output);
-			}else{
-				window.location.reload();
-			}
-			if(data.success == true){
-				location.reload();
-			}
-		},"json");
-}

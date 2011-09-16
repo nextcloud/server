@@ -24,7 +24,7 @@ if(!OC_USER::isLoggedIn()) {
 $errarr = OC_Calendar_Object::validateRequest($_POST);
 if($errarr){
 	//show validate errors
-	$errarr["error"] = "true";
+	$errarr['status'] = 'error';
 	echo json_encode($errarr);
 	exit;
 }else{
@@ -48,6 +48,6 @@ if($errarr){
 		$calendar = OC_Calendar_Calendar::findCalendar($request['calendar']);
 		OC_Calendar_Object::moveToCalendar($id, $cal);
 	}
-	echo json_encode(array("success"=>"true"));
+	echo json_encode(array('status' => 'success'));
 }
 ?> 
