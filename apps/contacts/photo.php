@@ -34,20 +34,25 @@ if( !OC_User::isLoggedIn()){
 }
 
 
-$card = OC_Contacts_Addressbook::findCard( $id );
+$card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
 	echo $l10n->t('Can not find Contact!');
 	exit();
 }
 
-$addressbook = OC_Contacts_Addressbook::findAddressbook( $card['addressbookid'] );
+$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	echo $l10n->t('This is not your contact!');
 	exit();
 }
 
-$content = Sabre_VObject_Reader::read($card['carddata']);
+$content = OC_Contacts_Card::parse($card['carddata']);
 
+// invalid vcard
+if( is_null($content)){
+	echo $l10n->t('This card is not RFC compatible!');
+	exit();
+}
 // Photo :-)
 foreach($content->children as $child){
 	if($child->name == 'PHOTO'){

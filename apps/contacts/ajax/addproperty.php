@@ -32,19 +32,19 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
-$card = OC_Contacts_Addressbook::findCard( $id );
+$card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Can not find Contact!'))));
 	exit();
 }
 
-$addressbook = OC_Contacts_Addressbook::findAddressbook( $card['addressbookid'] );
+$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
 	exit();
 }
 
-$vcard = OC_Contacts_Addressbook::parse($card['carddata']);
+$vcard = OC_Contacts_VCard::parse($card['carddata']);
 // Check if the card is valid
 if(is_null($vcard)){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Unable to parse vCard!'))));
@@ -56,7 +56,7 @@ $value = $_POST['value'];
 $parameters = isset($_POST['parameteres'])?$_POST['parameters']:array();
 
 if(is_array($value)){
-	$value = OC_Contacts_Addressbook::escapeSemicolons($value);
+	$value = OC_Contacts_VCard::escapeSemicolons($value);
 }
 $property = new Sabre_VObject_Property( $name, $value );
 $parameternames = array_keys($parameters);
@@ -69,10 +69,10 @@ $vcard->add($property);
 $line = count($vcard->children) - 1;
 $checksum = md5($property->serialize());
 
-OC_Contacts_Addressbook::editCard($id,$vcard->serialize());
+OC_Contacts_VCard::edit($id,$vcard->serialize());
 
 $tmpl = new OC_Template('contacts','part.property');
-$tmpl->assign('property',OC_Contacts_Addressbook::structureProperty($property,$line));
+$tmpl->assign('property',OC_Contacts_VCard::structureProperty($property,$line));
 $page = $tmpl->fetchPage();
 
 echo json_encode( array( 'status' => 'success', 'data' => array( 'page' => $page )));

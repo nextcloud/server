@@ -33,19 +33,19 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
-$card = OC_Contacts_Addressbook::findCard( $id );
+$card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Can not find Contact!'))));
 	exit();
 }
 
-$addressbook = OC_Contacts_Addressbook::findAddressbook( $card['addressbookid'] );
+$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
 	exit();
 }
 
-$vcard = OC_Contacts_Addressbook::parse($card['carddata']);
+$vcard = OC_Contacts_VCard::parse($card['carddata']);
 // Check if the card is valid
 if(is_null($vcard)){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Unable to parse vCard!'))));
@@ -67,7 +67,7 @@ if(is_null($line)){
 $tmpl = new OC_Template('contacts','part.setpropertyform');
 $tmpl->assign('id',$id);
 $tmpl->assign('checksum',$checksum);
-$tmpl->assign('property',OC_Contacts_Addressbook::structureProperty($vcard->children[$line]));
+$tmpl->assign('property',OC_Contacts_VCard::structureProperty($vcard->children[$line]));
 $page = $tmpl->fetchPage();
 
 echo json_encode( array( 'status' => 'success', 'data' => array( 'page' => $page )));

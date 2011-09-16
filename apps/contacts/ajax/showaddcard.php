@@ -31,7 +31,7 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
-$addressbooks = OC_Contacts_Addressbook::allAddressbooks(OC_USER::getUser());
+$addressbooks = OC_Contacts_Addressbook::all(OC_USER::getUser());
 $tmpl = new OC_Template('contacts','part.addcardform');
 $tmpl->assign('addressbooks',$addressbooks);
 $page = $tmpl->fetchPage();

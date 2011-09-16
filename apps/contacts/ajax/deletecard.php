@@ -34,17 +34,17 @@ if( !OC_User::isLoggedIn()){
 }
 
 
-$card = OC_Contacts_Addressbook::findCard( $id );
+$card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Can not find Contact!'))));
 	exit();
 }
 
-$addressbook = OC_Contacts_Addressbook::findAddressbook( $card['addressbookid'] );
+$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
 	exit();
 }
 
-OC_Contacts_Addressbook::deleteCard($id);
+OC_Contacts_VCard::delete($id);
 echo json_encode( array( 'status' => 'success', 'data' => array( 'id' => $id )));

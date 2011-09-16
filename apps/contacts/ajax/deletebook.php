@@ -33,11 +33,11 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
-$addressbook = OC_Contacts_Addressbook::findAddressbook( $id );
+$addressbook = OC_Contacts_Addressbook::find( $id );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
 	exit();
 }
 
-OC_Contacts_Addressbook::deleteAddressbook($id);
+OC_Contacts_Addressbook::delete($id);
 echo json_encode( array( 'status' => 'success', 'data' => array( 'id' => $id )));

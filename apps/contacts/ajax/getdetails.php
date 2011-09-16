@@ -34,26 +34,26 @@ if( !OC_User::isLoggedIn()){
 }
 
 
-$card = OC_Contacts_Addressbook::findCard( $id );
+$card = OC_Contacts_VCard::findCard( $id );
 if( $card === false ){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Can not find Contact!'))));
 	exit();
 }
 
-$addressbook = OC_Contacts_Addressbook::findAddressbook( $card['addressbookid'] );
+$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
 	exit();
 }
 
-$vcard = OC_Contacts_Addressbook::parse($card['carddata']);
+$vcard = OC_Contacts_VCard::parse($card['carddata']);
 // Check if the card is valid
 if(is_null($vcard)){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Unable to parse vCard!'))));
 	exit();
 }
 
-$details = OC_Contacts_Addressbook::structureContact($vcard);
+$details = OC_Contacts_VCard::structureContact($vcard);
 $tmpl = new OC_Template('contacts','part.details');
 $tmpl->assign('details',$details);
 $tmpl->assign('id',$id);

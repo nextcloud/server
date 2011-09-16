@@ -32,7 +32,7 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
-$addressbook = OC_Contacts_Addressbook::findAddressbook( $aid );
+$addressbook = OC_Contacts_Addressbook::find( $aid );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your addressbook!'))));
 	exit();
@@ -42,10 +42,10 @@ $fn = $_POST['fn'];
 
 $vcard = new Sabre_VObject_Component('VCARD');
 $vcard->add(new Sabre_VObject_Property('FN',$fn));
-$vcard->add(new Sabre_VObject_Property('UID',OC_Contacts_Addressbook::createUID()));
-$id = OC_Contacts_Addressbook::addCard($aid,$vcard->serialize());
+$vcard->add(new Sabre_VObject_Property('UID',OC_Contacts_VCard::createUID()));
+$id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 
-$details = OC_Contacts_Addressbook::structureContact($vcard);
+$details = OC_Contacts_VCard::structureContact($vcard);
 $tmpl = new OC_Template('contacts','part.details');
 $tmpl->assign('details',$details);
 $tmpl->assign('id',$id);
