@@ -25,7 +25,13 @@
  * MDB2 with some adaptions.
  */
 class OC_DB {
-	static private $DBConnection=false;
+	const BACKEND_PDO=0;
+	const BACKEND_MDB2=1;
+	
+	static private $connection; //the prefered conenction to use, either PDO or MDB2
+	static private $backend=null;
+	static private $MDB2=false;
+	static private $PDO=false;
 	static private $schema=false;
 	static private $affected=0;
 	static private $result=false;
@@ -36,18 +42,77 @@ class OC_DB {
 	 *
 	 * Connects to the database as specified in config.php
 	 */
-	static public function connect(){
+	public static function connect(){
+		if(class_exists('PDO')){//check if we can use PDO, else use MDB2
+			self::connectPDO();
+			self::$connection=self::$PDO;
+			self::$backend=self::BACKEND_PDO;
+		}else{
+			self::connectMDB2();
+			die('bar');
+			self::$connection=self::$MDB2;
+			self::$backend=self::BACKEND_MDB2;
+		}
+	}
+
+	/**
+	 * connect to the database using pdo
+	 */
+	private static function connectPDO(){
 		// The global data we need
-		$CONFIG_DBNAME = OC_Config::getValue( "dbname", "owncloud" );;
-		$CONFIG_DBHOST = OC_Config::getValue( "dbhost", "" );;
-		$CONFIG_DBUSER = OC_Config::getValue( "dbuser", "" );;
-		$CONFIG_DBPASSWORD = OC_Config::getValue( "dbpassword", "" );;
-		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );;
-		global $SERVERROOT;
+		$name = OC_Config::getValue( "dbname", "owncloud" );
+		$host = OC_Config::getValue( "dbhost", "" );
+		$user = OC_Config::getValue( "dbuser", "" );
+		$pass = OC_Config::getValue( "dbpassword", "" );
+		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		$SERVERROOT=OC::$SERVERROOT;
+		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+		
+		// do nothing if the connection already has been established
+		if(!self::$PDO){
+			// Add the dsn according to the database type
+			switch($type){
+				case 'sqlite':
+					$dsn='sqlite2:'.$datadir.'/'.$name.'.db';
+					break;
+				case 'sqlite3':
+					$dsn='sqlite:'.$datadir.'/'.$name.'.db';
+					break;
+				case 'mysql':
+					$dsn='mysql:dbname='.$name.';host='.$host;
+					break;
+				case 'pgsql':
+					$dsn='pgsql:dbname='.$name.';host='.$host;
+					break;
+			}
+			try{
+				self::$PDO=new PDO($dsn,$user,$pass);
+			}catch(PDOException $e){
+				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
+				die();
+			}
+			// We always, really always want associative arrays
+			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+			self::$PDO->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+		}
+		return true;
+	}
+	
+	/**
+	 * connect to the database using mdb2
+	 */
+	static private function connectMDB2(){
+		// The global data we need
+		$name = OC_Config::getValue( "dbname", "owncloud" );
+		$host = OC_Config::getValue( "dbhost", "" );
+		$user = OC_Config::getValue( "dbuser", "" );
+		$pass = OC_Config::getValue( "dbpassword", "" );
+		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		$SERVERROOT=OC::$SERVERROOT;
 		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
 
 		// do nothing if the connection already has been established
-		if(!self::$DBConnection){
+		if(!self::$MDB2){
 			// Require MDB2.php (not required in the head of the file so we only load it when needed)
 			require_once('MDB2.php');
 
@@ -60,81 +125,53 @@ class OC_DB {
 			  'quote_identifier' => true  );
 
 			// Add the dsn according to the database type
-			if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
-				// sqlite
-				$dsn = array(
-				  'phptype'  => $CONFIG_DBTYPE,
-				  'database' => "$datadir/$CONFIG_DBNAME.db",
-				  'mode' => '0644' );
+			switch($type){
+				case 'sqlite':
+				case 'sqlite3':
+					$dsn = array(
+						'phptype'  => $type,
+						'database' => "$datadir/$name.db",
+						'mode' => '0644'
+					);
+					break;
+				case 'mysql':
+					$dsn = array(
+						'phptype'  => 'mysql',
+						'username' => $user,
+						'password' => $pass,
+						'hostspec' => $host,
+						'database' => $name
+					);
+					break;
+				case 'pgsql':
+					$dsn = array(
+						'phptype'  => 'pgsql',
+						'username' => $user,
+						'password' => $pass,
+						'hostspec' => $host,
+						'database' => $name
+					);
+					break;
 			}
-			elseif( $CONFIG_DBTYPE == 'mysql' ){
-				// MySQL
-				$dsn = array(
-				  'phptype'  => 'mysql',
-				  'username' => $CONFIG_DBUSER,
-				  'password' => $CONFIG_DBPASSWORD,
-				  'hostspec' => $CONFIG_DBHOST,
-				  'database' => $CONFIG_DBNAME );
-			}
-			elseif( $CONFIG_DBTYPE == 'pgsql' ){
-				// PostgreSQL
-				$dsn = array(
-				  'phptype'  => 'pgsql',
-				  'username' => $CONFIG_DBUSER,
-				  'password' => $CONFIG_DBPASSWORD,
-				  'hostspec' => $CONFIG_DBHOST,
-				  'database' => $CONFIG_DBNAME );
-			}
-
+			
 			// Try to establish connection
-			self::$DBConnection = MDB2::factory( $dsn, $options );
-
+			self::$MDB2 = MDB2::factory( $dsn, $options );
+			
 			// Die if we could not connect
-			if( PEAR::isError( self::$DBConnection )){
-				echo( '<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
-				$error = self::$DBConnection->getMessage();
+			if( PEAR::isError( self::$MDB2 )){
+				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
+				$error = self::$MDB2->getMessage();
 				error_log( $error);
-				error_log( self::$DBConnection->getUserInfo());
+				error_log( self::$MDB2->getUserInfo());
 				die( $error );
 			}
-
+			
 			// We always, really always want associative arrays
-			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
-
-			//we need to function module for query pre-procesing
-			self::$DBConnection->loadModule('Function');
+			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
 		}
-
+		
 		// we are done. great!
 		return true;
-	}
-
-	/**
-	 * @brief SQL query
-	 * @param $query Query string
-	 * @returns result as MDB2_Result
-	 *
-	 * SQL query via MDB2 query()
-	 */
-	static public function query( $query ){
-		// Optimize the query
-		$query = self::processQuery( $query );
-
-		self::connect();
-		//fix differences between sql versions
-
-		// return the result
-		$result = self::$DBConnection->exec( $query );
-
-		// Die if we have an error (error means: bad query, not 0 results!)
-		if( PEAR::isError($result)) {
-			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$query.'<br />';
-			error_log( $entry );
-			die( $entry );
-		}
-
-		return $result;
 	}
 
 	/**
@@ -150,16 +187,27 @@ class OC_DB {
 
 		self::connect();
 		// return the result
-		$result = self::$DBConnection->prepare( $query );
+		if(self::$backend==self::BACKEND_MDB2){
+			$result = self::$connection->prepare( $query );
 
-		// Die if we have an error (error means: bad query, not 0 results!)
-		if( PEAR::isError($result)) {
-			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$query.'<br />';
-			error_log( $entry );
-			die( $entry );
+			// Die if we have an error (error means: bad query, not 0 results!)
+			if( PEAR::isError($result)) {
+				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+				$entry .= 'Offending command was: '.$query.'<br />';
+				error_log( $entry );
+				die( $entry );
+			}
+		}else{
+			try{
+				$result=self::$connection->prepare($query);
+			}catch(PDOException $e){
+				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
+				$entry .= 'Offending command was: '.$query.'<br />';
+				error_log( $entry );
+				die( $entry );
+			}
+			$result=new PDOStatementWrapper($result);
 		}
-
 		return $result;
 	}
 
@@ -174,7 +222,7 @@ class OC_DB {
 	 */
 	public static function insertid(){
 		self::connect();
-		return self::$DBConnection->lastInsertID();
+		return self::$connection->lastInsertId();
 	}
 
 	/**
@@ -185,24 +233,16 @@ class OC_DB {
 	 */
 	public static function disconnect(){
 		// Cut connection if required
-		if(self::$DBConnection){
-			self::$DBConnection->disconnect();
-			self::$DBConnection=false;
+		if(self::$connection){
+			if(self::$backend==self::BACKEND_MDB2){
+				self::$connection->disconnect();
+			}
+			self::$connection=false;
+			self::$mdb2=false;
+			self::$pdo=false;
 		}
 
 		return true;
-	}
-
-	/**
-	 * @brief Escapes bad characters
-	 * @param $string string with dangerous characters
-	 * @returns escaped string
-	 *
-	 * MDB2 escape()
-	 */
-	public static function escape( $string ){
-		self::connect();
-		return self::$DBConnection->escape( $string );
 	}
 
 	/**
@@ -283,13 +323,13 @@ class OC_DB {
 	 * Connects to a MDB2 database scheme
 	 */
 	private static function connectScheme(){
-		// We need a database connection
-		self::connect();
+		// We need a mdb2 database connection
+		self::connectMDB2();
 
 		// Connect if this did not happen before
 		if(!self::$schema){
 			require_once('MDB2/Schema.php');
-			self::$schema=MDB2_Schema::factory(self::$DBConnection);
+			self::$schema=MDB2_Schema::factory(self::$MDB2);
 		}
 
 		return true;
@@ -306,24 +346,25 @@ class OC_DB {
 	private static function processQuery( $query ){
 		self::connect();
 		// We need Database type and table prefix
-		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
-		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
+		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 		
-		// differences is getting the current timestamp
-		$query = str_replace( 'NOW()', self::$DBConnection->now(), $query );
-		$query = str_replace( 'now()', self::$DBConnection->now(), $query );
-		
-		// differences in escaping of table names (` for mysql)
-		// Problem: what if there is a ` in the value we want to insert?
-		if( $CONFIG_DBTYPE == 'sqlite' ){
+		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
+		if( $type == 'sqlite' ){
 			$query = str_replace( '`', '\'', $query );
-		}
-		elseif( $CONFIG_DBTYPE == 'pgsql' ){
+			$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
+			$query = str_replace( 'now()', 'datetime(\'now\')', $query );
+		}elseif( $type == 'mysql' ){
+			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
+			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
+		}elseif( $type == 'pgsql' ){
 			$query = str_replace( '`', '"', $query );
+			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
+			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
 		}
 
 		// replace table name prefix
-		$query = str_replace( '*PREFIX*', $CONFIG_DBTABLEPREFIX, $query );
+		$query = str_replace( '*PREFIX*', $prefix, $query );
 
 		return $query;
 	}
@@ -333,9 +374,9 @@ class OC_DB {
 	 * @param string $tableNamme the table to drop
 	 */
 	public static function dropTable($tableName){
-		self::connect();
-		self::$DBConnection->loadModule('Manager');
-		self::$DBConnection->dropTable($tableName);
+		self::connectMDB2();
+		self::$MDB2->loadModule('Manager');
+		self::$MDB2->dropTable($tableName);
 	}
 	
 	/**
@@ -367,37 +408,76 @@ class OC_DB {
 	}
 	
 	/**
-	 * Start a transaction or set a savepoint.
-	 * @param string $savePoint (optional) name of the savepoint to set
+	 * Start a transaction
 	 */
-	public static function beginTransaction($savePoint=''){
+	public static function beginTransaction(){
 		self::connect();
-		if (!self::$DBConnection->supports('transactions')) {
+		if (self::$backend=self::BACKEND_MDB2 && !self::$connection->supports('transactions')) {
 			return false;
 		}
-		if($savePoint && !self::$DBConnection->supports('savepoints')){
-			return false;
-		}
-		if($savePoint){
-			self::$DBConnection->beginTransaction($savePoint);
-		}else{
-			self::$DBConnection->beginTransaction();
-		}
+		self::$connection->beginTransaction();
 	}
 
 	/**
-	 * Commit the database changes done during a transaction that is in progress or release a savepoint.
-	 * @param string $savePoint (optional) name of the savepoint to commit
+	 * Commit the database changes done during a transaction that is in progress
 	 */
 	public static function commit($savePoint=''){
 		self::connect();
-		if(!self::$DBConnection->inTransaction()){
+		if(!self::$connection->inTransaction()){
 			return false;
 		}
-		if($savePoint){
-			self::$DBConnection->commit($savePoint);
+		self::$connection->commit();
+	}
+}
+
+/**
+ * small wrapper around PDOStatement to make it behave ,more like an MDB2 Statement
+ */
+class PDOStatementWrapper{
+	private $statement=null;
+	private $lastArguments=array();
+
+	public function __construct($statement){
+		$this->statement=$statement;
+	}
+	
+	/**
+	 * make exucute return the result instead of a bool
+	 */
+	public function execute($input=array()){
+		$this->lastArguments=$input;
+		if(count($input)>0){
+			$this->statement->execute($input);
 		}else{
-			self::$DBConnection->commit();
+			$this->statement->execute();
 		}
+		return $this;
+	}
+	
+	/**
+	 * provide numRows
+	 */
+	public function numRows(){
+		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
+		if (preg_match($regex, $this->statement->queryString, $output) > 0) {
+			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}", PDO::FETCH_NUM);
+			return $query->execute($this->lastArguments)->fetchColumn();
+		}else{
+			return $this->statement->rowCount();
+		}
+	}
+	
+	/**
+	 * provide an alias for fetch
+	 */
+	public function fetchRow(){
+		return $this->statement->fetch();
+	}
+	
+	/**
+	 * pass all other function directly to the PDOStatement
+	 */
+	public function __call($name,$arguments){
+		return call_user_func_array(array($this->statement,$name),$arguments);
 	}
 }
