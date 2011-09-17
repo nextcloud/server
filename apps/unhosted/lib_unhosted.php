@@ -2,9 +2,6 @@
 
 class OC_UnhostedWeb {
 	public static function getValidTokens($ownCloudUser, $userAddress, $dataScope) {
-		$user=OC_DB::escape($ownCloudUser);
-		$userAddress=OC_DB::escape($userAddress);
-		$dataScope=OC_DB::escape($dataScope);
 		$query=OC_DB::prepare("SELECT token,appUrl FROM *PREFIX*authtoken WHERE user=? AND userAddress=? AND dataScope=? LIMIT 100");
 		$result=$query->execute(array($user,$userAddress,$dataScope));
 		if( PEAR::isError($result)) {
@@ -43,7 +40,6 @@ class OC_UnhostedWeb {
 
 	public static function deleteToken($token) {
 		$user=OC_User::getUser();
-		$token=OC_DB::escape($token);
 		$query=OC_DB::prepare("DELETE FROM *PREFIX*authtoken WHERE token=? AND user=?");
 		$result=$query->execute(array($token,$user));
 		if( PEAR::isError($result)) {
@@ -55,10 +51,6 @@ class OC_UnhostedWeb {
 	}
 	private static function addToken($token, $appUrl, $userAddress, $dataScope){
 		$user=OC_User::getUser();
-		$token=OC_DB::escape($token);
-		$appUrl=OC_DB::escape($appUrl);
-		$userAddress=OC_DB::escape($userAddress);
-		$dataScope=OC_DB::escape($dataScope);
 		$query=OC_DB::prepare("INSERT INTO *PREFIX*authtoken (`token`,`appUrl`,`user`,`userAddress`,`dataScope`) VALUES(?,?,?,?,?)");
 		$result=$query->execute(array($token,$appUrl,$user,$userAddress,$dataScope));
 		if( PEAR::isError($result)) {
