@@ -93,14 +93,12 @@ class OC_Appconfig{
 		// At least some magic in here :-)
 		$query = OC_DB::prepare( 'SELECT configvalue FROM *PREFIX*appconfig WHERE appid = ? AND configkey = ?' );
 		$result = $query->execute( array( $app, $key ));
-
-		if( !$result->numRows()){
+		$row = $result->fetchRow();
+		if($row){
+			return $row["configvalue"];
+		}else{
 			return $default;
 		}
-
-		$row = $result->fetchRow();
-
-		return $row["configvalue"];
 	}
 
 	/**
