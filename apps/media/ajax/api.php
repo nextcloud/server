@@ -41,7 +41,6 @@ if(!isset($_POST['action']) and isset($_GET['action'])){
 foreach($arguments as &$argument){
 	$argument=stripslashes($argument);
 }
-global $CONFIG_DATADIRECTORY;
 @ob_clean();
 if(!isset($arguments['artist'])){
 	$arguments['artist']=0;

@@ -38,7 +38,7 @@ $query=(isset($_POST['query']))?$_POST['query']:'';
 if($query){
 	$results=OC_Search::search($query);
 }else{
-	header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
+	header("Location: ".OC::$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 	exit();
 }
 

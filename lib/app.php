@@ -44,8 +44,6 @@ class OC_App{
 	 * exists.
 	 */
 	public static function loadApps(){
-		global $SERVERROOT;
-
 		// Did we allready load everything?
 		if( self::$init ){
 			return true;
@@ -60,7 +58,7 @@ class OC_App{
 		$apps = OC_Appconfig::getApps();
 		foreach( $apps as $app ){
 			if( self::isEnabled( $app )){
-				if(is_file($SERVERROOT.'/apps/'.$app.'/appinfo/app.php')){
+				if(is_file(OC::$SERVERROOT.'/apps/'.$app.'/appinfo/app.php')){
 					require( 'apps/'.$app.'/appinfo/app.php' );
 				}
 			}
@@ -285,8 +283,7 @@ class OC_App{
 	 * @return string
 	 */
 	public static function getCurrentApp(){
-		global $WEBROOT;
-		$script=substr($_SERVER["SCRIPT_NAME"],strlen($WEBROOT)+1);
+		$script=substr($_SERVER["SCRIPT_NAME"],strlen(OC::$WEBROOT)+1);
 		$topFolder=substr($script,0,strpos($script,'/'));
 		if($topFolder=='apps'){
 			$length=strlen($topFolder);

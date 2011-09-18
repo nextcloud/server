@@ -50,11 +50,11 @@ if($_SERVER['REQUEST_METHOD']=='PROPFIND'){//handle webdav
 elseif(OC_User::isLoggedIn()) {
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
 		OC_User::logout();
-		header("Location: ".$WEBROOT.'/');
+		header("Location: ".OC::$WEBROOT.'/');
 		exit();
 	}
 	else {
-		header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
+		header("Location: ".OC::$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 		exit();
 	}
 }
@@ -67,7 +67,7 @@ elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
 	if(OC_User::userExists($_COOKIE['oc_username']) &&
 	   OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") == $_COOKIE['oc_token']) {
 		OC_User::setUserId($_COOKIE['oc_username']);
-		header("Location: ". $WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
+		header("Location: ". OC::$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 	}
 	else {
 		OC_Template::printGuestPage("", "login", array("error" => true));
@@ -78,7 +78,7 @@ elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
 elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 	OC_App::loadApps();
 	if(OC_User::login($_POST["user"], $_POST["password"])) {
-		header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
+		header("Location: ".OC::$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 		if(!empty($_POST["remember_login"])){
 			error_log("Setting remember login to cookie");
 			$token = md5($_POST["user"].time());

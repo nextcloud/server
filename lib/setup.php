@@ -3,7 +3,7 @@
 $hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
-$datadir = OC_Config::getValue('datadirectory', $SERVERROOT.'/data');
+$datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
@@ -23,7 +23,7 @@ if(isset($_POST['install']) AND $_POST['install']=='true') {
 		OC_Template::printGuestPage("", "installation", $options);
 	}
 	else {
-		header("Location: ".$WEBROOT.'/');
+		header("Location: ".OC::$WEBROOT.'/');
 		exit();
 	}
 }
@@ -270,21 +270,19 @@ class OC_Setup {
 	 * create .htaccess files for apache hosts
 	 */
 	private static function createHtaccess() {
-		$SERVERROOT=OC::$SERVERROOT;
-		$WEBROOT=OC::$WEBROOT;
-		$content = "ErrorDocument 404 $WEBROOT/core/templates/404.php\n";//custom 404 error page
+		$content = "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
 		$content.= "<IfModule mod_php5.c>\n";
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit
 		$content.= "php_value post_max_size 512M\n";
 		$content.= "SetEnv htaccessWorking true\n";
 		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
-		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
+		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
 		$content = "deny from all\n";
 		$content.= "IndexIgnore *";
-		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/.htaccess', $content);
-		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/index.html', '');
+		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
+		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/index.html', '');
 	}
 }
 

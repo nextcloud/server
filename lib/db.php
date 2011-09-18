@@ -43,8 +43,7 @@ class OC_DB {
 		$CONFIG_DBUSER = OC_Config::getValue( "dbuser", "" );;
 		$CONFIG_DBPASSWORD = OC_Config::getValue( "dbpassword", "" );;
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );;
-		global $SERVERROOT;
-		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 
 		// do nothing if the connection already has been established
 		if(!self::$DBConnection){

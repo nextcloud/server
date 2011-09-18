@@ -32,13 +32,12 @@ if(isset($_GET['openid_mode']) and $_GET['openid_mode'] == 'id_res'){
 	$openid_validation_result = $openid->ValidateWithServer();
 	if ($openid_validation_result == true){         // OK HERE KEY IS VALID
 		error_log('auth sucessfull');
-		global $WEBROOT;
 		$identity=$openid->GetIdentity();
 		error_log("auth as $identity");
 		$user=OC_USER_OPENID::findUserForIdentity($identity);
 		if($user){
 			$_SESSION['user_id']=$user;
-			header("Location: $WEBROOT");
+			header("Location: ".OC::$WEBROOT);
 		}
 	}else if($openid->IsError() == true){            // ON THE WAY, WE GOT SOME ERROR
 		$error = $openid->GetError();

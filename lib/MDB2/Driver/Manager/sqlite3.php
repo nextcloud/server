@@ -69,8 +69,7 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
      */
     function createDatabase($name, $options = array())
     {
-		global $SERVERROOT;
-		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
         $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;

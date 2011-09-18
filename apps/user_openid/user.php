@@ -42,7 +42,6 @@ if(!OC_User::userExists($USERNAME)){
 	error_log($USERNAME.' doesn\'t exist');
 	$USERNAME='';
 }
-global $WEBROOT;
 $IDENTITY=OC_Helper::linkTo( "user_openid", "user.php", null, true ).'/'.$USERNAME;
 
 require_once 'phpmyid.php';

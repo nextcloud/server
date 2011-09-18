@@ -57,7 +57,6 @@ class OC_L10N{
 	 * language.
 	 */
 	public function __construct($app, $lang = null){
-		global $SERVERROOT;
 		// Find the right language
 		if(is_null($lang)){
 			$lang = self::findLanguage($app);
@@ -81,9 +80,9 @@ class OC_L10N{
 				}
 			}
 
-			if(file_exists($SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')){
+			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')){
 				// Include the file, save the data from $CONFIG
-				include($SERVERROOT.'/core/l10n/l10n-'.$lang.'.php');
+				include(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php');
 				if(isset($LOCALIZATIONS) && is_array($LOCALIZATIONS)){
 					$this->localizations = array_merge($this->localizations, $LOCALIZATIONS);
 				}
@@ -224,17 +223,15 @@ class OC_L10N{
 	 * @returns directory
 	 */
 	protected static function findI18nDir($app){
-		global $SERVERROOT;
-		
 		// find the i18n dir
-		$i18ndir = $SERVERROOT.'/core/l10n/';
+		$i18ndir = OC::$SERVERROOT.'/core/l10n/';
 		if($app != ''){
 			// Check if the app is in the app folder
-			if(file_exists($SERVERROOT.'/apps/'.$app.'/l10n/')){
-				$i18ndir = $SERVERROOT.'/apps/'.$app.'/l10n/';
+			if(file_exists(OC::$SERVERROOT.'/apps/'.$app.'/l10n/')){
+				$i18ndir = OC::$SERVERROOT.'/apps/'.$app.'/l10n/';
 			}
 			else{
-				$i18ndir = $SERVERROOT.'/'.$app.'/l10n/';
+				$i18ndir = OC::$SERVERROOT.'/'.$app.'/l10n/';
 			}
 		}
 		return $i18ndir;

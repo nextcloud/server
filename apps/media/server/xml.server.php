@@ -35,7 +35,6 @@ foreach($arguments as &$argument){
 	$argument=stripslashes($argument);
 }
 ob_clean();
-global $CONFIG_DATADIRECTORY;
 if(isset($arguments['action'])){
 	error_log($arguments['action']);
 	switch($arguments['action']){

@@ -16,19 +16,15 @@ class OC_Util {
 			return false;
 		}
 
-		// Global Variables
-		global $SERVERROOT;
-		global $CONFIG_DATADIRECTORY;
-
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", "$SERVERROOT/backup" );
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
 
 		// Create root dir
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
                         if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory ($CONFIG_DATADIRECTORY_ROOT)",'hint'=>"You can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (".exec('whoami').")")));
+				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by setting the owner of '".OC::$SERVERROOT."' to the user that the web server uses (".exec('whoami').")")));
 				$tmpl->printPage();
 				exit;
   			}
@@ -57,9 +53,9 @@ class OC_Util {
 			$sharedStorage = OC_Filesystem::createStorage('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'));
 			OC_Filesystem::mount($sharedStorage,'/'.OC_User::getUser().'/files/Shared/');
 
-			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
-			if( !is_dir( $CONFIG_DATADIRECTORY )){
-				mkdir( $CONFIG_DATADIRECTORY, 0755, true );
+			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
+			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
+				mkdir( OC::$CONFIG_DATADIRECTORY, 0755, true );
 			}
 
 // TODO: find a cool way for doing this
@@ -193,11 +189,8 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(){
-		global $SERVERROOT;
-		global $CONFIG_DATADIRECTORY;
-
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", "$SERVERROOT/backup" );
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
 		$CONFIG_INSTALLED = OC_Config::getValue( "installed", false );
 		$errors=array();
 

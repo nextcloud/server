@@ -55,8 +55,6 @@ class OC_Installer{
 	 * needed to get the app working.
 	 */
 	public static function installApp( $data = array()){
-		global $SERVERROOT;
-		
 		if(!isset($data['source'])){
 			error_log("No source specified when installing app");
 			return false;
@@ -105,7 +103,7 @@ class OC_Installer{
 			return false;
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml');
-		$basedir=$SERVERROOT.'/apps/'.$info['id'];
+		$basedir=OC::$SERVERROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
@@ -246,11 +244,10 @@ class OC_Installer{
 	 * If $enabled is false, apps are installed as disabled.
 	 */
 	public static function installShippedApps( $enabled ){
-		global $SERVERROOT;
-		$dir = opendir( "$SERVERROOT/apps" );
+		$dir = opendir( OC::$SERVERROOT."/apps" );
 		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' and is_dir("$SERVERROOT/apps/$filename") ){
-				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
+			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$SERVERROOT."/apps/$filename") ){
+				if( file_exists( OC::$SERVERROOT."/apps/$filename/appinfo/app.php" )){
 					if(!OC_Installer::isInstalled($filename)){
 						OC_Installer::installShippedApp($filename);
 						if( $enabled ){

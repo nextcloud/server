@@ -157,7 +157,6 @@ class OC_MEDIA_AMPACHE{
 	}
 	
 	private static function printSong($song,$artistName=false,$albumName=false){
-		global $WEBROOT;
 		if(!$artistName){
 			$artistName=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
 		}

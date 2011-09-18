@@ -81,30 +81,21 @@ ini_set('session.cookie_httponly','1;');
 session_start();
 
 // calculate the documentroot
-$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
-$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
-$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
+OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
+OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
+OC::$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen(OC::$SERVERROOT));
 $scriptName=$_SERVER["SCRIPT_NAME"];
 if(substr($scriptName,-1)=='/'){
 	$scriptName.='index.php';
 }
-$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen($SUBURI));
+OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
 
-OC::$SERVERROOT=$SERVERROOT;
-OC::$WEBROOT=$WEBROOT;
-
-if($WEBROOT!='' and $WEBROOT[0]!=='/'){
-	$WEBROOT='/'.$WEBROOT;
+if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
+	OC::$WEBROOT='/'.OC::$WEBROOT;
 }
 
-// We are going to use OC::* instead of globels soon
-OC::$WEBROOT = $WEBROOT;
-OC::$SERVERROOT = $SERVERROOT;
-OC::$DOCUMENTROOT = $DOCUMENTROOT;
-OC::$SUBURI = $SUBURI;
-
 // set the right include path
-set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
+set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
 
 //Some libs we really depend on
 require_once('Sabre/autoload.php');
@@ -119,9 +110,9 @@ if( !isset( $RUNTIME_NOAPPS )){
 
 // TODO: we should get rid of this one, too
 // WARNING: to make everything even more confusing, DATADIRECTORY is a var that
-//   changes and DATATIRECTORY_ROOT stays the same, but is set by
+//   changes and DATADIRECTORY_ROOT stays the same, but is set by
 //   "datadirectory". Any questions?
-$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+OC::$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 
 // redirect to https site if configured
 if( OC_Config::getValue( "forcessl", false )){

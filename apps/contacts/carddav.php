@@ -38,7 +38,7 @@ $nodes = array(
 
 // Fire up server
 $server = new Sabre_DAV_Server($nodes);
-$server->setBaseUri($WEBROOT.'/apps/contacts/carddav.php');
+$server->setBaseUri(OC::$WEBROOT.'/apps/contacts/carddav.php');
 // Add plugins
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
 $server->addPlugin(new Sabre_CardDAV_Plugin());

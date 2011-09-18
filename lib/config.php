@@ -131,14 +131,12 @@ class OC_Config{
 			return true;
 		}
 
-		global $SERVERROOT;
-
-		if( !file_exists( "$SERVERROOT/config/config.php" )){
+		if( !file_exists( OC::$SERVERROOT."/config/config.php" )){
 			return false;
 		}
 
 		// Include the file, save the data from $CONFIG
-		include( "$SERVERROOT/config/config.php" );
+		include( OC::$SERVERROOT."/config/config.php" );
 		if( isset( $CONFIG ) && is_array( $CONFIG )){
 			self::$cache = $CONFIG;
 		}
@@ -158,9 +156,6 @@ class OC_Config{
 	 * Known flaws: Strings are not escaped properly
 	 */
 	public static function writeData(){
-		// We need the serverroot path
-		global $SERVERROOT;
-
 		// Create a php file ...
 		$content = "<?php\n\$CONFIG = array(\n";
 
@@ -177,7 +172,7 @@ class OC_Config{
 		$content .= ");\n?>\n";
 
 		// Write the file
-		$result=@file_put_contents( "$SERVERROOT/config/config.php", $content );
+		$result=@file_put_contents( OC::$SERVERROOT."/config/config.php", $content );
 		if(!$result) {
 			$tmpl = new OC_Template( '', 'error', 'guest' );
 			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by setting the owner of 'config' to the user that the web server uses (".exec('whoami').")")));

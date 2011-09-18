@@ -35,25 +35,22 @@ class OC_Helper {
 	 * Returns a url to the given app and file.
 	 */
 	public static function linkTo( $app, $file, $redirect_url=NULL, $absolute=false ){
-		global $WEBROOT;
-		global $SERVERROOT;
-		
 		if( $app != '' ){
 			$app .= '/';
 			// Check if the app is in the app folder
-			if( file_exists( $SERVERROOT . '/apps/'. $app.$file )){
-				$urlLinkTo =  $WEBROOT . '/apps/' . $app . $file;
+			if( file_exists( OC::$SERVERROOT . '/apps/'. $app.$file )){
+				$urlLinkTo =  OC::$WEBROOT . '/apps/' . $app . $file;
 			}
 			else{
-				$urlLinkTo =  $WEBROOT . '/' . $app . $file;
+				$urlLinkTo =  OC::$WEBROOT . '/' . $app . $file;
 			}
 		}
 		else{
-			if( file_exists( $SERVERROOT . '/core/'. $file )){
-				$urlLinkTo =  $WEBROOT . '/core/'.$file;
+			if( file_exists( OC::$SERVERROOT . '/core/'. $file )){
+				$urlLinkTo =  OC::$WEBROOT . '/core/'.$file;
 			}
 			else{
-				$urlLinkTo =  $WEBROOT . '/'.$file;
+				$urlLinkTo =  OC::$WEBROOT . '/'.$file;
 			}
 		}
 
@@ -79,18 +76,15 @@ class OC_Helper {
 	 * Returns the path to the image.
 	 */
 	public static function imagePath( $app, $image ){
-		global $SERVERROOT;
-		global $WEBROOT;
-		
 		// Check if the app is in the app folder
-		if( file_exists( "$SERVERROOT/apps/$app/img/$image" )){
-			return "$WEBROOT/apps/$app/img/$image";
+		if( file_exists( OC::$SERVERROOT."/apps/$app/img/$image" )){
+			return OC::$WEBROOT."/apps/$app/img/$image";
 		}
 		elseif( !empty( $app )){
-			return "$WEBROOT/$app/img/$image";
+			return OC::$WEBROOT."/$app/img/$image";
 		}
 		else{
-			return "$WEBROOT/core/img/$image";
+			return OC::$WEBROOT."/core/img/$image";
 		}
 	}
 
@@ -102,27 +96,25 @@ class OC_Helper {
 	 * Returns the path to the image of this file type.
 	 */
 	public static function mimetypeIcon( $mimetype ){
-		global $SERVERROOT;
-		global $WEBROOT;
 		// Replace slash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
 
 		// Is it a dir?
 		if( $mimetype == "dir" ){
-			return "$WEBROOT/core/img/places/folder.svg";
+			return OC::$WEBROOT."/core/img/places/folder.svg";
 		}
 
 		// Icon exists?
-		if( file_exists( "$SERVERROOT/core/img/filetypes/$mimetype.svg" )){
-			return "$WEBROOT/core/img/filetypes/$mimetype.svg";
+		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.svg" )){
+			return OC::$WEBROOT."/core/img/filetypes/$mimetype.svg";
 		}
 		//try only the first part of the filetype
 		$mimetype=substr($mimetype,0,strpos($mimetype,'-'));
-		if( file_exists( "$SERVERROOT/core/img/filetypes/$mimetype.svg" )){
-			return "$WEBROOT/core/img/filetypes/$mimetype.svg";
+		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.svg" )){
+			return OC::$WEBROOT."/core/img/filetypes/$mimetype.svg";
 		}
 		else{
-			return "$WEBROOT/core/img/filetypes/file.svg";
+			return OC::$WEBROOT."/core/img/filetypes/file.svg";
 		}
 	}
 
