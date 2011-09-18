@@ -29,13 +29,13 @@ if(!OC_USER::isLoggedIn()) {
 $errarr = OC_Calendar_Object::validateRequest($_POST);
 if($errarr){
 	//show validate errors
-	$errarr["error"] = "true";
+	$errarr['status'] = 'error';
 	echo json_encode($errarr);
 	exit;
 }else{
 	$cal = $_POST['calendar'];
 	$vcalendar = OC_Calendar_Object::createVCalendarFromRequest($_POST);
 	$result = OC_Calendar_Object::add($cal, $vcalendar->serialize());
-	echo json_encode(array("success"=>"true"));
+	echo json_encode(array('status'=>'success'));
 }
 ?>

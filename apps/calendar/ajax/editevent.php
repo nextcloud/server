@@ -33,12 +33,12 @@ if($errarr){
 	$data = OC_Calendar_Object::find($id);
 	if (!$data)
 	{
-		echo json_encode(array("error"=>"true"));
+		echo json_encode(array('status'=>'error'));
 		exit;
 	}
 	$calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
 	if($calendar['userid'] != OC_User::getUser()){
-		echo json_encode(array("error"=>"true"));
+		echo json_encode(array('status'=>'error'));
 		exit;
 	}
 	$vcalendar = Sabre_VObject_Reader::read($data['calendardata']);
