@@ -43,13 +43,12 @@ class OC_DB {
 	 * Connects to the database as specified in config.php
 	 */
 	public static function connect(){
-		if(class_exists('PDO')){//check if we can use PDO, else use MDB2
+		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
 			self::connectPDO();
 			self::$connection=self::$PDO;
 			self::$backend=self::BACKEND_PDO;
 		}else{
 			self::connectMDB2();
-			die('bar');
 			self::$connection=self::$MDB2;
 			self::$backend=self::BACKEND_MDB2;
 		}
