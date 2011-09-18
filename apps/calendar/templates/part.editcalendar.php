@@ -25,8 +25,8 @@
 <tr>
 	<td></td>
 	<td>
-		<input id="active_<?php echo $_['calendar']['id'] ?>" type="checkbox"<?php echo $_['calendar']['active'] ? ' checked="checked"' : '' ?>>
-		<label for="active_<?php echo $_['calendar']['id'] ?>">
+		<input id="edit_active_<?php echo $_['calendar']['id'] ?>" type="checkbox"<?php echo $_['calendar']['active'] ? ' checked="checked"' : '' ?>>
+		<label for="edit_active_<?php echo $_['calendar']['id'] ?>">
 			<?php echo $l->t('Active') ?>
 		</label>
 	</td>

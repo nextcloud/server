@@ -464,7 +464,7 @@ Calendar={
 			},
 			submit:function(button, calendarid){
 				var displayname = $("#displayname_"+calendarid).val();
-				var active = $("#active_"+calendarid+":checked").length;
+				var active = $("#edit_active_"+calendarid+":checked").length;
 				var description = $("#description_"+calendarid).val();
 				var calendarcolor = $("#calendarcolor_"+calendarid).val();
 
