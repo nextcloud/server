@@ -25,23 +25,17 @@ $RUNTIME_NOAPPS = TRUE; //no apps, yet
 
 require_once('lib/base.php');
 
-OC_Util::addScript('setup');
-
+// Setup required :
 $not_installed = !OC_Config::getValue('installed', false);
 $install_called = (isset($_POST['install']) AND $_POST['install']=='true');
-// First step : check if the server is correctly configured for ownCloud :
-$errors = OC_Util::checkServer();
-if(count($errors) > 0) {
-	OC_Template::printGuestPage("", "error", array("errors" => $errors));
-}
-
-// Setup required :
-elseif($not_installed OR $install_called) {
+if($not_installed OR $install_called) {
+	OC_Util::addScript('setup');
 	require_once('setup.php');
 	exit();
 }
 
-if($_SERVER['REQUEST_METHOD']=='PROPFIND'){//handle webdav
+// Handle WebDAV
+if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
 	header('location: '.OC_Helper::linkTo('files','webdav.php'));
 	exit();
 }

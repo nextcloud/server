@@ -102,7 +102,7 @@ class OC_Files {
 					self::$tmpFiles[]=$tmpFile;
 					$zip->addFile($tmpFile,basename($file));
 				}elseif(OC_Filesystem::is_dir($file)){
-					zipAddDir($file,$zip);
+					self::zipAddDir($file,$zip);
 				}
 			}
 			$zip->close();
@@ -113,7 +113,7 @@ class OC_Files {
 				exit("cannot open <$filename>\n");
 			}
 			$file=$dir.'/'.$files;
-			zipAddDir($file,$zip);
+			self::zipAddDir($file,$zip);
 			$zip->close();
 		}else{
 			$zip=false;
@@ -156,6 +156,23 @@ class OC_Files {
 		}
 	}
 
+	public static function zipAddDir($dir,$zip,$internalDir=''){
+		$dirname=basename($dir);
+		$zip->addEmptyDir($internalDir.$dirname);
+		$internalDir.=$dirname.='/';
+		$files=OC_Files::getdirectorycontent($dir);
+		foreach($files as $file){
+			$filename=$file['name'];
+			$file=$dir.'/'.$filename;
+			if(OC_Filesystem::is_file($file)){
+				$tmpFile=OC_Filesystem::toTmpFile($file);
+				OC_Files::$tmpFiles[]=$tmpFile;
+				$zip->addFile($tmpFile,$internalDir.$filename);
+			}elseif(OC_Filesystem::is_dir($file)){
+				self::zipAddDir($file,$zip,$internalDir);
+			}
+		}
+	}
 	/**
 	* move a file or folder
 	*
