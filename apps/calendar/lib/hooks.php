@@ -29,7 +29,7 @@ class OC_Calendar_Hooks{
 	 * @param paramters parameters from postDeleteUser-Hook
 	 * @return array
 	 */
-	public function deleteUser($parameters) {
+	public static function deleteUser($parameters) {
 		$calendars = OC_Calendar_Calendar::allCalendars($parameters['uid']);
 		
 		foreach($calendars as $calendar) {
