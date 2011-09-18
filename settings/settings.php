@@ -6,10 +6,7 @@
  */
 
 require_once('../lib/base.php');
-if( !OC_User::isLoggedIn()){
-    header( "Location: ".OC_Helper::linkTo( "", "index.php" ));
-    exit();
-}
+OC_Util::checkLoggedIn();
 
 OC_Util::addStyle( "settings", "settings" );
 OC_App::setActiveNavigationEntry( "settings" );

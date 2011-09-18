@@ -18,14 +18,11 @@
  * MA 02111-1307  USA                             *
  *************************************************/
 require_once ("../../lib/base.php");
-if(!OC_USER::isLoggedIn()) {
-	header("Location: " . OC_HELPER::linkTo("", "index.php"));
-	exit;
-} 
+OC_Util::checkLoggedIn();
 $cal = $_GET["calid"];
 $calendar = OC_Calendar_Calendar::findCalendar($cal);
 if($calendar["userid"] != OC_User::getUser()){
-	header("Location: " . OC_HELPER::linkTo("", "index.php"));
+	header( 'Location: '.OC_Helper::linkTo('', 'index.php'));
 	exit;
 }
 $calobjects = OC_Calendar_Object::all($cal);

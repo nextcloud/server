@@ -24,10 +24,7 @@
 require_once('../../lib/base.php');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	header( 'Location: '.OC_Helper::linkTo( '', 'index.php' ));
-	exit();
-}
+OC_Util::checkLoggedIn();
 
 require_once('bookmarksHelper.php');
 

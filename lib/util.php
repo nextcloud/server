@@ -246,4 +246,35 @@ class OC_Util {
 
 		return $errors;
 	}
+
+	/**
+	* Check if the user is logged in, redirects to home if not
+	*/
+	public static function checkLoggedIn(){
+		// Check if we are a user
+		if( !OC_User::isLoggedIn()){
+			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			exit();
+		}
+	}
+
+	/**
+	* Check if the user is a admin, redirects to home if not
+	*/
+	public static function checkAdminUser(){
+		// Check if we are a user
+		self::checkLoggedIn();
+		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			exit();
+		}
+	}
+
+	/**
+	* Redirect to the user default page
+	*/
+	public static function redirectToDefaultPage(){
+		header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', 'files/index.php'));
+		exit();
+	}
 }

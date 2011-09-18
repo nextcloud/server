@@ -18,10 +18,7 @@
  * MA 02111-1307  USA                             *
  *************************************************/
 require_once ("../../lib/base.php");
-if(!OC_USER::isLoggedIn()) {
-	header("Location: " . OC_HELPER::linkTo("", "index.php"));
-	exit;
-}
+OC_Util::checkLoggedIn();
 // Create default calendar ...
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
 if( count($calendars) == 0){

@@ -6,10 +6,7 @@
  */
 
 require_once('../lib/base.php');
-if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-	header( "Location: ".OC_Helper::linkTo( "", "index.php" ));
-	exit();
-}
+OC_Util::checkAdminUser();
 
 // We have some javascript foo!
 OC_Util::addScript( 'settings', 'users' );

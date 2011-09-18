@@ -48,8 +48,7 @@ elseif(OC_User::isLoggedIn()) {
 		exit();
 	}
 	else {
-		header("Location: ".OC::$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
-		exit();
+		OC_Util::redirectToDefaultPage();
 	}
 }
 
@@ -61,7 +60,7 @@ elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
 	if(OC_User::userExists($_COOKIE['oc_username']) &&
 	   OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") == $_COOKIE['oc_token']) {
 		OC_User::setUserId($_COOKIE['oc_username']);
-		header("Location: ". OC::$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
+		OC_Util::redirectToDefaultPage();
 	}
 	else {
 		OC_Template::printGuestPage("", "login", array("error" => true));
@@ -72,7 +71,6 @@ elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
 elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 	OC_App::loadApps();
 	if(OC_User::login($_POST["user"], $_POST["password"])) {
-		header("Location: ".OC::$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 		if(!empty($_POST["remember_login"])){
 			error_log("Setting remember login to cookie");
 			$token = md5($_POST["user"].time());
@@ -82,7 +80,7 @@ elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 		else {
 			OC_User::unsetMagicInCookie();
 		}
-		exit();
+		OC_Util::redirectToDefaultPage();
 	}
 	else {
 		if(isset($_COOKIE["oc_username"])){
