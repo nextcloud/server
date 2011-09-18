@@ -215,6 +215,7 @@ class OC_User {
 	public static function logout(){
 		OC_Hook::emit( "OC_User", "logout", array());
 		$_SESSION['user_id'] = false;
+		OC_User::unsetUsernameInCookie();
 		return true;
 	}
 
@@ -340,15 +341,21 @@ class OC_User {
 	 * @brief Set cookie value to use in next page load
 	 * @param string $username username to be set
 	 */
-	public static function setUsernameInCookie($username){
-		setcookie("username", $username, mktime().time()+60*60*24*15);
+	public static function setUsernameInCookie($username, $password){
+		setcookie("oc_username", $username, time()+60*60*24*15);
+		setcookie("oc_password", $password, time()+60*60*24*15);
+		setcookie("oc_remember_login", true, time()+60*60*24*15);
 	}
 
 	/**
 	 * @brief Remove cookie for "remember username"
 	 */
 	public static function unsetUsernameInCookie(){
-		unset($_COOKIE["username"]);
-		setcookie("username", NULL, -1);
+		unset($_COOKIE["oc_username"]);
+		unset($_COOKIE["oc_password"]);
+		unset($_COOKIE["oc_remember_login"]);
+		setcookie("oc_username", NULL, -1);
+		setcookie("oc_password", NULL, -1);
+		setcookie("oc_remember_login", NULL, -1);
 	}
 }
