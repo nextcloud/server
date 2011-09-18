@@ -59,13 +59,14 @@ elseif(OC_User::isLoggedIn()) {
 	}
 }
 
-// Someone wants to log in :
-elseif(isset($_POST["user"]) && isset($_POST['password'])) {
+// Semeone set remember login when login
+elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
 	OC_App::loadApps();
-	if(OC_User::login($_POST["user"], $_POST["password"])) {
-		header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
+	error_log("Trying to login from cookie");
+	if(OC_User::login($_COOKIE["oc_username"], $_COOKIE["oc_password"])) {
+		header("Location: ". $WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
 		if(!empty($_POST["remember_login"])){
-			OC_User::setUsernameInCookie($_POST["user"]);
+			OC_User::setUsernameInCookie($_POST["user"], $_POST["password"]);
 		}
 		else {
 			OC_User::unsetUsernameInCookie();
@@ -75,6 +76,29 @@ elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 	else {
 		if(isset($_COOKIE["username"])){
 			OC_Template::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["username"]));
+		}else{
+			OC_Template::printGuestPage("", "login", array("error" => true));
+		}
+	}
+}
+
+// Someone wants to log in :
+elseif(isset($_POST["user"]) && isset($_POST['password'])) {
+	OC_App::loadApps();
+	if(OC_User::login($_POST["user"], $_POST["password"])) {
+		header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
+		if(!empty($_POST["remember_login"])){
+			error_log("Setting remember login to cookie");
+			OC_User::setUsernameInCookie($_POST["user"], $_POST["password"]);
+		}
+		else {
+			OC_User::unsetUsernameInCookie();
+		}
+		exit();
+	}
+	else {
+		if(isset($_COOKIE["oc_username"])){
+			OC_Template::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["oc_username"]));
 		}else{
 			OC_Template::printGuestPage("", "login", array("error" => true));
 		}
