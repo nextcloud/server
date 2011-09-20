@@ -21,7 +21,7 @@
  */
 
 /**
- * This class manages our calendars
+ * This class manages our calendar objects
  */
 class OC_Calendar_Object{
 	/**
