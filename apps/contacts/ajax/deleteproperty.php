@@ -45,7 +45,7 @@ if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	exit();
 }
 
-$vcard = OC_Contacts_VCard::parse($card['carddata']);
+$vcard = OC_VObject::parse($card['carddata']);
 // Check if the card is valid
 if(is_null($vcard)){
 	OC_JSON::error(array('data' => array( 'message' => $l10n->t('vCard could not be read.'))));

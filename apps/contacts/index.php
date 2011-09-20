@@ -71,7 +71,7 @@ $details = array();
 if( !is_null($id) || count($contacts)){
 	if(is_null($id)) $id = $contacts[0]['id'];
 	$contact = OC_Contacts_VCard::find($id);
-	$vcard = OC_Contacts_VCard::parse($contact['carddata']);
+	$vcard = OC_VObject::parse($contact['carddata']);
 	$details = OC_Contacts_VCard::structureContact($vcard);
 }
 
