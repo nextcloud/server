@@ -92,12 +92,20 @@ $(document).ready(function(){
 
 	$('#tasks_edittaskform input[type="submit"]').live('click',function(){
 		$.post('ajax/edittask.php',$('#tasks_edittaskform').serialize(),function(jsondata){
+			$('.error_msg').remove();
+			$('.error').removeClass('error');
 			if(jsondata.status == 'success'){
 				$('#task_details').data('id',jsondata.data.id);
 				$('#task_details').html(jsondata.data.page);
 			}
 			else{
-				alert(jsondata.data.errors);//TODO
+				var errors = jsondata.data.errors;
+				for (k in errors){
+					$('#'+k).addClass('error')
+						.after('<span class="error_msg">'+errors[k]+'</span>');
+				}
+				$('.error_msg').effect('highlight', {}, 3000);
+				$('.error').effect('highlight', {}, 3000);
 			}
 		}, 'json');
 		return false;

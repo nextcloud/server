@@ -1,2 +1,4 @@
 #task_details th { padding:2px; text-align:right ;vertical-align:top; }
 #task_details td { padding:2px; text-align:left ;vertical-align:top; }
+.error_msg{color:red;}
+.error{border-color:red;border-width:2px;}
