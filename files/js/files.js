@@ -163,8 +163,10 @@ $(document).ready(function() {
 		var files=this.files;
 		var target=form.children('iframe');
 		var totalSize=0;
-		for(var i=0;i<files.length;i++){
-			totalSize+=files[i].size;
+		if(files){
+			for(var i=0;i<files.length;i++){
+				totalSize+=files[i].size;
+			}
 		}
 		if(totalSize>$('#max_upload').val()){
 			$( "#uploadsize-message" ).dialog({
@@ -192,13 +194,20 @@ $(document).ready(function() {
 			});
 			form.submit();
 			var date=new Date();
-			for(var i=0;i<files.length;i++){
-				if(files[i].size>0){
-					var size=files[i].size;
-				}else{
-					var size=t('files','Pending');
+			if(files){
+				for(var i=0;i<files.length;i++){
+					if(files[i].size>0){
+						var size=files[i].size;
+					}else{
+						var size=t('files','Pending');
+					}
+					if(files){
+						FileList.addFile(files[i].name,size,date,true);
+					}
 				}
-				FileList.addFile(files[i].name,size,date,true);
+			}else{
+				var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
+				FileList.addFile(filename,'Pending',date,true);
 			}
 
 			//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
