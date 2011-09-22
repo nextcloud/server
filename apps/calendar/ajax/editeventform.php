@@ -20,8 +20,8 @@ if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
 
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-$categories = OC_Calendar_Object::getCategoryOptions($l10n);
+$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$category_options = OC_Calendar_Object::getCategoryOptions($l10n);
 $repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
 
 $id = $_GET['id'];
@@ -55,19 +55,23 @@ switch($dtstart->getDateType()) {
 
 $summary = isset($vevent->SUMMARY) ? $vevent->SUMMARY->value : '';
 $location = isset($vevent->LOCATION) ? $vevent->LOCATION->value : '';
-$category = isset($vevent->CATEGORIES) ? $vevent->CATEGORIES->value : '';
+$categories = array();
+if (isset($vevent->CATEGORIES)){
+       $categories = explode(',', $vevent->CATEGORIES->value);
+       $categories = array_map('trim', $categories);
+}
 $repeat = isset($vevent->CATEGORY) ? $vevent->CATEGORY->value : '';
 $description = isset($vevent->DESCRIPTION) ? $vevent->DESCRIPTION->value : '';
 
 $tmpl = new OC_Template('calendar', 'part.editevent');
 $tmpl->assign('id', $id);
-$tmpl->assign('calendars', $calendars);
-$tmpl->assign('categories', $categories);
+$tmpl->assign('calendar_options', $calendar_options);
+$tmpl->assign('category_options', $category_options);
 $tmpl->assign('repeat_options', $repeat_options);
 
 $tmpl->assign('title', $summary);
 $tmpl->assign('location', $location);
-$tmpl->assign('category', $category);
+$tmpl->assign('categories', $categories);
 $tmpl->assign('calendar', $data['calendarid']);
 $tmpl->assign('allday', $allday);
 $tmpl->assign('startdate', $startdate);

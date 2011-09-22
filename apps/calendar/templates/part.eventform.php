@@ -16,10 +16,10 @@
 		<tr>
 			<th width="75px"><?php echo $l->t("Category");?>:</th>
 			<td>
-			<select style="width:140px;" name="category">
+			<select id="category" name="categories[]" multiple="multiple" title="<?php echo $l->t("Select category") ?>">
 				<?php
-				foreach($_['categories'] as $category){
-					echo '<option value="' . $category . '"' . ($_['category'] == $category ? ' selected="selected"' : '') . '>' . $category . '</option>';
+				foreach($_['category_options'] as $category){
+					echo '<option value="' . $category . '"' . (in_array($category, $_['categories']) ? ' selected="selected"' : '') . '>' . $category . '</option>';
 				}
 				?>
 			</select></td>
@@ -27,7 +27,7 @@
 			<td>
 			<select style="width:140px;" name="calendar">
 				<?php
-				foreach($_['calendars'] as $calendar){
+				foreach($_['calendar_options'] as $calendar){
 					echo '<option value="' . $calendar['id'] . '"' . ($_['calendar'] == $calendar['id'] ? ' selected="selected"' : '') . '>' . $calendar['displayname'] . '</option>';
 				}
 				?>

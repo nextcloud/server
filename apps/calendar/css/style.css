@@ -68,3 +68,5 @@ color:#333;
 #fromtime.disabled, #totime.disabled {
 color:#A9A9A9;
 }
+select#category{width:140px;}
+button.category{margin:0 3px;}

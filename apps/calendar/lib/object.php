@@ -301,7 +301,6 @@ class OC_Calendar_Object{
 	public static function getCategoryOptions($l10n)
 	{
 		return array(
-			$l10n->t('None'),
 			$l10n->t('Birthday'),
 			$l10n->t('Business'),
 			$l10n->t('Call'),
@@ -345,6 +344,11 @@ class OC_Calendar_Object{
 			$errarr['cal'] = 'true';
 			$errnum++;
 		}
+
+		if(isset($request['categories']) && !is_array($request['categories'])){
+			$errors['categories'] = $l10n->t('Not an array');
+		}
+
 		$fromday = substr($request['from'], 0, 2);
 		$frommonth = substr($request['from'], 3, 2);
 		$fromyear = substr($request['from'], 6, 4);
@@ -434,7 +438,7 @@ class OC_Calendar_Object{
 	{
 		$title = $request["title"];
 		$location = $request["location"];
-		$cat = $request["category"];
+		$categories = $request["categories"];
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
 		$fromtime = $request["fromtime"];
@@ -493,15 +497,21 @@ class OC_Calendar_Object{
 
 		if($location != ""){
 			$vevent->LOCATION = $location;
+		}else{
+			unset($vevent->LOCATION);
 		}
 
 		if($description != ""){
 			$des = str_replace("\n","\\n", $description);
 			$vevent->DESCRIPTION = $des;
+		}else{
+			unset($vevent->DESCRIPTION);
 		}
 
-		if($cat != ""){
-			$vevent->CATEGORIES = $cat;
+		if(!empty($categories)){
+			$vevent->CATEGORIES = join(',', $categories);
+		}else{
+			unset($vevent->CATEGORIES);
 		}
 
 		/*if($repeat == "true"){

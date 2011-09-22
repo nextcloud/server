@@ -288,6 +288,13 @@ Calendar={
 			$( "#to" ).datepicker({
 				dateFormat : 'dd-mm-yy'
 			});
+			$('#category').multiselect({
+					header: false,
+					noneSelectedText: $('#category').attr('title'),
+					selectedList: 2,
+					minWidth:'auto',
+					classes: 'category',
+			});
 			$('#event').dialog({
 				width : 500,
 				close : function(event, ui) {

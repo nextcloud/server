@@ -17,7 +17,7 @@
  * 59 Temple Place, Suite 330, Boston,            *
  * MA 02111-1307  USA                             *
  *************************************************/
-require_once ("../../lib/base.php");
+require_once ('../../lib/base.php');
 OC_Util::checkLoggedIn();
 // Create default calendar ...
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
@@ -25,8 +25,10 @@ if( count($calendars) == 0){
 	OC_Calendar_Calendar::addCalendar(OC_User::getUser(),'default','Default calendar');
 	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
 }
-OC_UTIL::addScript("calendar", "calendar");
-OC_UTIL::addStyle("calendar", "style");
-OC_APP::setActiveNavigationEntry("calendar_index");
-$output = new OC_TEMPLATE("calendar", "calendar", "user");
+OC_UTIL::addScript('calendar', 'calendar');
+OC_UTIL::addStyle('calendar', 'style');
+OC_UTIL::addScript('', 'jquery.multiselect');
+OC_UTIL::addStyle('', 'jquery.multiselect');
+OC_APP::setActiveNavigationEntry('calendar_index');
+$output = new OC_TEMPLATE('calendar', 'calendar', 'user');
 $output -> printPage();
