@@ -488,8 +488,7 @@ class OC_Calendar_Object{
 		}
 
 		if($description != ""){
-			$des = str_replace("\n","\\n", $description);
-			$vevent->DESCRIPTION = $des;
+			$vevent->DESCRIPTION = $description;
 		}else{
 			unset($vevent->DESCRIPTION);
 		}
