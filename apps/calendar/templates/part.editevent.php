@@ -5,6 +5,7 @@
 	<div style="width: 100%;text-align: center;color: #FF1D1D;" id="errorbox"></div>
 	<span id="actions">
 		<input type="button" class="submit" style="float: left;" value="<?php echo $l->t("Submit");?>" onclick="Calendar.UI.validateEventForm('ajax/editevent.php');">
+		<input type="button" class="submit" style="float: left;" name="delete" value="<?php echo $l->t("Delete");?>" onclick="Calendar.UI.submitDeleteEventForm('ajax/deleteevent.php');">
 	</span>
 	</form>
 </div>
