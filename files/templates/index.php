@@ -21,7 +21,11 @@
 </div>
 <div id='notification'></div>
 
-<div id="emptyfolder" <?php if(count($_['files'])) echo 'style="display:none;"';?>><?php echo $l->t('Nothing in here. Upload something!')?></div>
+<?php
+if (isset($_['files'])) {
+ if (!count($_['files'])) { ?>
+<div id="emptyfolder"><?php echo $l->t('Nothing in here. Upload something!')?></div>
+<?php }}?>
 
 <table>
 	<thead>
