@@ -1054,7 +1054,7 @@ function debug ($x, $m = null) {
 		$x .= "\n";
 	}
 
-	error_log($x . "\n", 3, $profile['logfile']);
+	if(defined("DEBUG") && DEBUG) {error_log($x . "\n", 3, $profile['logfile']);}
 }
 
 
@@ -1501,7 +1501,7 @@ function wrap_html ( $message ) {
 </body>
 </html>
 ';
-	error_log($html);
+	if(defined("DEBUG") && DEBUG) {error_log($html);}
 	echo $html;
 	exit(0);
 }
@@ -1653,8 +1653,8 @@ $profile['req_url'] = sprintf("%s://%s%s",
 // 	$profile['req_url']=str_replace($incompleteId,$fullId,$profile['req_url']);
 // }
 
-// error_log('inc id: '.$fullId);
-// error_log('req url: '.$profile['req_url']);
+// if(defined("DEBUG") && DEBUG) {error_log('inc id: '.$fullId);}
+// if(defined("DEBUG") && DEBUG) {error_log('req url: '.$profile['req_url']);}
 
 // Set the default allowance for testing
 if (! array_key_exists('allow_test', $profile))

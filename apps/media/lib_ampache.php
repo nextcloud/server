@@ -195,7 +195,7 @@ class OC_MEDIA_AMPACHE{
 		$filter=isset($params['filter'])?$params['filter']:'';
 		$exact=isset($params['exact'])?($params['exact']=='true'):false;
 		$artists=OC_MEDIA_COLLECTION::getArtists($filter,$exact);
-		error_log('artists found: '.print_r($artists,true));
+		if(defined("DEBUG") && DEBUG) {error_log('artists found: '.print_r($artists,true));}
 		echo('<root>');
 		foreach($artists as $artist){
 			self::printArtist($artist);

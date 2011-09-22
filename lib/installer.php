@@ -56,7 +56,7 @@ class OC_Installer{
 	 */
 	public static function installApp( $data = array()){
 		if(!isset($data['source'])){
-			error_log("No source specified when installing app");
+			if(defined("DEBUG") && DEBUG) {error_log("No source specified when installing app");}
 			return false;
 		}
 		
@@ -64,13 +64,13 @@ class OC_Installer{
 		if($data['source']=='http'){
 			$path=tempnam(sys_get_temp_dir(),'oc_installer_');
 			if(!isset($data['href'])){
-				error_log("No href specified when installing app from http");
+				if(defined("DEBUG") && DEBUG) {error_log("No href specified when installing app from http");}
 				return false;
 			}
 			copy($data['href'],$path);
 		}else{
 			if(!isset($data['path'])){
-				error_log("No path specified when installing app from local file");
+				if(defined("DEBUG") && DEBUG) {error_log("No path specified when installing app from local file");}
 				return false;
 			}
 			$path=$data['path'];
@@ -85,7 +85,7 @@ class OC_Installer{
 			$zip->extractTo($extractDir);
 			$zip->close();
 		} else {
-			error_log("Failed to open archive when installing app");
+			if(defined("DEBUG") && DEBUG) {error_log("Failed to open archive when installing app");}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -95,7 +95,7 @@ class OC_Installer{
 		
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')){
-			error_log("App does not provide an info.xml file");
+			if(defined("DEBUG") && DEBUG) {error_log("App does not provide an info.xml file");}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -107,7 +107,7 @@ class OC_Installer{
 		
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
-			error_log("App already installed");
+			if(defined("DEBUG") && DEBUG) {error_log("App already installed");}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -117,7 +117,7 @@ class OC_Installer{
 
 		//check if the destination directory already exists
 		if(is_dir($basedir)){
-			error_log("App's directory already exists");
+			if(defined("DEBUG") && DEBUG) {error_log("App's directory already exists");}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -131,7 +131,7 @@ class OC_Installer{
 		
 		//copy the app to the correct place
 		if(!mkdir($basedir)){
-			error_log('Can\'t create app folder ('.$basedir.')');
+			if(defined("DEBUG") && DEBUG) {error_log('Can\'t create app folder ('.$basedir.')');}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);

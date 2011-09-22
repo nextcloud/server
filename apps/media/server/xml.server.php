@@ -36,7 +36,7 @@ foreach($arguments as &$argument){
 }
 ob_clean();
 if(isset($arguments['action'])){
-	error_log($arguments['action']);
+	if(defined("DEBUG") && DEBUG) {error_log($arguments['action']);}
 	switch($arguments['action']){
 		case 'url_to_song':
 			OC_MEDIA_AMPACHE::url_to_song($arguments);

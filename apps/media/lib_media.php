@@ -37,7 +37,7 @@ class OC_MEDIA{
 	 */
 	public static function loginListener($params){
 		if(isset($_POST['user']) and $_POST['password']){
-			error_log('postlogin');
+			if(defined("DEBUG") && DEBUG) {error_log('postlogin');}
 			$name=$_POST['user'];
 			$query=OC_DB::prepare("SELECT user_id from *PREFIX*media_users WHERE user_id LIKE ?");
 			$uid=$query->execute(array($name))->fetchAll();

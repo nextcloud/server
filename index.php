@@ -55,7 +55,7 @@ elseif(OC_User::isLoggedIn()) {
 // remember was checked after last login
 elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
 	OC_App::loadApps();
-	error_log("Trying to login from cookie");
+	if(defined("DEBUG") && DEBUG) {error_log("Trying to login from cookie");}
 	// confirm credentials in cookie
 	if(OC_User::userExists($_COOKIE['oc_username']) &&
 	   OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") == $_COOKIE['oc_token']) {
@@ -72,7 +72,7 @@ elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 	OC_App::loadApps();
 	if(OC_User::login($_POST["user"], $_POST["password"])) {
 		if(!empty($_POST["remember_login"])){
-			error_log("Setting remember login to cookie");
+			if(defined("DEBUG") && DEBUG) {error_log("Setting remember login to cookie");}
 			$token = md5($_POST["user"].time());
 			OC_Preferences::setValue($_POST['user'], 'login', 'token', $token);
 			OC_User::setMagicInCookie($_POST["user"], $token);

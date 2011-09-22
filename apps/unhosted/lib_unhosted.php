@@ -7,7 +7,7 @@ class OC_UnhostedWeb {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			error_log( $entry );
+			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
 			die( $entry );
 		}
 		$ret = array();
@@ -24,7 +24,7 @@ class OC_UnhostedWeb {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			error_log( $entry );
+			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
 			die( $entry );
 		}
 		$ret = array();
@@ -45,7 +45,7 @@ class OC_UnhostedWeb {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			error_log( $entry );
+			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
 			die( $entry );
 		}
 	}
@@ -56,7 +56,7 @@ class OC_UnhostedWeb {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			error_log( $entry );
+			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
 			die( $entry );
 		}
 	}

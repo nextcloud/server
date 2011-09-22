@@ -14,7 +14,7 @@ class OC_PublicLink{
 			if( PEAR::isError($result)) {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-				error_log( $entry );
+				if(defined("DEBUG") && DEBUG) {error_log( $entry );}
 				die( $entry );
 			}
 			$this->token=$token;

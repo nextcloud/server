@@ -39,7 +39,7 @@ $RUNTIME_NOAPPS=false;
 require_once '../../lib/base.php';
 
 if(!OC_User::userExists($USERNAME)){
-	error_log($USERNAME.' doesn\'t exist');
+	if(defined("DEBUG") && DEBUG) {error_log($USERNAME.' doesn\'t exist');}
 	$USERNAME='';
 }
 $IDENTITY=OC_Helper::linkTo( "user_openid", "user.php", null, true ).'/'.$USERNAME;
