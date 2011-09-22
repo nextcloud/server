@@ -30,12 +30,12 @@
 				<input type="checkbox" id="select_all" />
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
-					<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="../core/img/actions/download.svg" /></a>
-					<a href="" title="Share" class="share"><img class='svg' alt="Share" src="../core/img/actions/share.svg" /></a>
+				<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /></a>
+				<a href="" title="Share" class="share"><img class='svg' alt="Share" src="<?php echo image_path("core", "actions/share.svg"); ?>" /></a>
 				</span>
 			</th>
 			<th id="headerSize"><?php echo $l->t( 'Size' ); ?></th>
-			<th id="headerDate"><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class="selectedActions"><a href="" title="Delete" class="delete"><img class="svg" alt="<?php echo $l->t('Delete')?>" src="../core/img/actions/delete.svg" /></a></span></th>
+			<th id="headerDate"><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class="selectedActions"><a href="" title="Delete" class="delete"><img class="svg" alt="<?php echo $l->t('Delete')?>" src="<?php echo image_path("core", "actions/delete.svg"); ?>" /></a></span></th>
 		</tr>
 	</thead>
 	<tbody id="fileList">
