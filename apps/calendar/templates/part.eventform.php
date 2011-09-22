@@ -2,13 +2,13 @@
 		<tr>
 			<th width="75px"><?php echo $l->t("Title");?>:</th>
 			<td>
-			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Title of the Event");?>" value="<?php echo $_['title'] ?>" maxlength="100" name="title"/>
+			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Title of the Event");?>" value="<?php echo isset($_['title']) ? $_['title'] : '' ?>" maxlength="100" name="title"/>
 			</td>
 		</tr>
 		<tr>
 			<th width="75px"><?php echo $l->t("Location");?>:</th>
 			<td>
-			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo $_['location'] ?>" maxlength="100"  name="location" />
+			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? $_['location'] : '' ?>" maxlength="100"  name="location" />
 			</td>
 		</tr>
 	</table>
@@ -19,6 +19,7 @@
 			<select id="category" name="categories[]" multiple="multiple" title="<?php echo $l->t("Select category") ?>">
 				<?php
 				foreach($_['category_options'] as $category){
+					if (!isset($_['categories'])) {$_['categories'] = array();}
 					echo '<option value="' . $category . '"' . (in_array($category, $_['categories']) ? ' selected="selected"' : '') . '>' . $category . '</option>';
 				}
 				?>
@@ -28,6 +29,7 @@
 			<select style="width:140px;" name="calendar">
 				<?php
 				foreach($_['calendar_options'] as $calendar){
+					if (!isset($_['calendar'])) {$_['calendar'] = false;}
 					echo '<option value="' . $calendar['id'] . '"' . ($_['calendar'] == $calendar['id'] ? ' selected="selected"' : '') . '>' . $calendar['displayname'] . '</option>';
 				}
 				?>
@@ -64,8 +66,10 @@
 			<td>
 			<select name="repeat" style="width:350px;">
 				<?php
-				foreach($_['repeat_options'] as $id => $label){
-					echo '<option value="' . $id . '"' . ($_['repeat'] == $id ? ' selected="selected"' : '') . '>' . $label . '</option>';
+				if (isset($_['repeat_options'])) {
+					foreach($_['repeat_options'] as $id => $label){
+						echo '<option value="' . $id . '"' . ($_['repeat'] == $id ? ' selected="selected"' : '') . '>' . $label . '</option>';
+					}
 				}
 				?>
 			</select></td>
@@ -82,6 +86,6 @@
 	<table>
 		<tr>
 			<th width="75px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
-			<td><textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo $_['description'] ?></textarea></td>
+			<td><textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo isset($_['description']) ? $_['description'] : '' ?></textarea></td>
 		</tr>
 	</table>
