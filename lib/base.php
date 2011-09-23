@@ -80,8 +80,6 @@ class OC{
 
 		date_default_timezone_set('Europe/Berlin');
 		ini_set('arg_separator.output','&amp;');
-		ini_set('session.cookie_httponly','1;');
-		session_start();
 
 		// calculate the documentroot
 		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
@@ -102,12 +100,16 @@ class OC{
 
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )){
+			ini_set("session.cookie_secure", "on");
 			if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') {
 				$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 				header("Location: $url");
 				exit();
 			}
 		}
+
+		ini_set('session.cookie_httponly','1;');
+		session_start();
 
 		// Add the stuff we need always
 		OC_Util::addScript( "jquery-1.6.4.min" );

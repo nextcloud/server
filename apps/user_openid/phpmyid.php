@@ -1069,6 +1069,9 @@ function destroy_assoc_handle ( $id ) {
 	session_write_close();
 
 	session_id($id);
+	if (OC_Config::getValue( "forcessl", false )) {
+		ini_set("session.cookie_secure", "on");
+	}
 	session_start();
 	session_destroy();
 
@@ -1194,6 +1197,9 @@ function new_assoc ( $expiration ) {
 		session_write_close();
 	}
 
+	if (OC_Config::getValue( "forcessl", false )) {
+		ini_set("session.cookie_secure", "on");
+	}
 	session_start();
 	session_regenerate_id('false');
 
@@ -1265,6 +1271,9 @@ function secret ( $handle ) {
 	}
 
 	session_id($handle);
+	if (OC_Config::getValue( "forcessl", false )) {
+		ini_set("session.cookie_secure", "on");
+	}
 	session_start();
 	debug('Started session to acquire key: ' . session_id());
 
@@ -1467,6 +1476,9 @@ function user_session () {
 	global $proto, $profile;
 
 	session_name('phpMyID_Server');
+	if (OC_Config::getValue( "forcessl", false )) {
+		ini_set("session.cookie_secure", "on");
+	}
 	@session_start();
 
 	$profile['authorized'] = (isset($_SESSION['auth_username'])
