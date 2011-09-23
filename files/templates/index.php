@@ -1,5 +1,6 @@
 <div id="controls">
 	<?php echo($_['breadcrumb']); ?>
+	<?php if (!isset($_['readonly']) || !$_['readonly']) {?>
 	<div class="actions">
 		<form data-upload-id='1' class="file_upload_form" action="ajax/upload.php" method="post" enctype="multipart/form-data" target="file_upload_target_1">
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
@@ -19,6 +20,9 @@
 	<div id="file_action_panel">
 	</div>
 </div>
+<?php
+}
+?>
 <div id='notification'></div>
 
 <?php
@@ -31,7 +35,7 @@ if (isset($_['files'])) {
 	<thead>
 		<tr>
 			<th id='headerName'>
-				<input type="checkbox" id="select_all" />
+				<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" id="select_all" /><?php } ?>
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
 				<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /></a>
