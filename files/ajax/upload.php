@@ -14,6 +14,24 @@ if( !OC_User::isLoggedIn()){
 	exit();
 }
 
+if (!isset($_FILES['files'])) {
+	echo json_encode( array( "status" => "error", "data" => array( "message" => "No file was uploaded. Unknown error" )));
+	exit();
+}
+foreach ($_FILES['files']['error'] as $error) {
+	if ($error != 0) {
+		$errors = array(
+			0=>$l->t("There is no error, the file uploaded with success"),
+			1=>$l->t("The uploaded file exceeds the upload_max_filesize directive in php.ini"),
+			2=>$l->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
+			3=>$l->t("The uploaded file was only partially uploaded"),
+			4=>$l->t("No file was uploaded"),
+			6=>$l->t("Missing a temporary folder")
+		);
+		echo json_encode( array( "status" => "error", "data" => array( "message" => $errors[$error] )));
+		exit();
+	}
+}
 $files=$_FILES['files'];
 
 $dir = $_POST['dir'];
