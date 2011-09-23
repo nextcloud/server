@@ -28,16 +28,13 @@ $id = $_GET['id'];
 $l10n = new OC_L10N('contacts');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in.'))));
-	exit();
-}
+OC_JSON::checkLoggedIn();
 
 $addressbook = OC_Contacts_Addressbook::find( $id );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact.'))));
+	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your contact.'))));
 	exit();
 }
 
 OC_Contacts_Addressbook::delete($id);
-echo json_encode( array( 'status' => 'success', 'data' => array( 'id' => $id )));
+OC_JSON::success(array('data' => array( 'id' => $id )));

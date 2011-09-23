@@ -3,14 +3,7 @@
 // Init owncloud
 require_once('../../lib/base.php');
 
-// We send json data
-header( "Content-Type: application/jsonrequest" );
-
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
-	exit();
-}
+OC_JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
@@ -45,6 +38,6 @@ $list = new OC_Template( "files", "part.list", "" );
 $list->assign( "files", $files );
 $data = array('files' => $list->fetchPage());
 
-echo json_encode( array( "status" => "success", "data" => $data));
+OC_JSON::success(array('data' => $data));
 
 ?>

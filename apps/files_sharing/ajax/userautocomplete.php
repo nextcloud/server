@@ -3,10 +3,8 @@ $RUNTIME_NOAPPS = true;
 
 require_once('../../../lib/base.php');
 
-if (!OC_User::isLoggedIn()) {
-	echo json_encode(array("status" => "error", "data" => array("message" => "Authentication error")));
-	exit();
-}
+OC_JSON::checkLoggedIn();
+
 $users = array();
 $ocusers = OC_User::getUsers();
 $self = OC_User::getUser();
@@ -23,6 +21,6 @@ foreach ($groups as $group) {
 	$users[] = "<option value='".$group."'>".$group."</option>";
 }
 $users[] = "</optgroup>";
-echo json_encode($users);
+OC_JSON::encodedPrint($users);
 
 ?>

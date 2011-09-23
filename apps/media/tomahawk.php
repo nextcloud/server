@@ -77,5 +77,5 @@ foreach($songs as $song) {
 		'score' => (float)1.0
 	);
 }
-echo json_encode($results);
+OC_JSON::encodedPrint($results);
 ?>

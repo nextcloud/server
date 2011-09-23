@@ -27,11 +27,7 @@ $RUNTIME_NOSETUPFS=true;
 require_once('../../../lib/base.php');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	header( "Content-Type: application/jsonrequest" );
-	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
-	exit();
-}
+OC_JSON::checkLoggedIn();
 
 $query = OC_DB::prepare("
 	UPDATE *PREFIX*bookmarks

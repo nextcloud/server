@@ -16,13 +16,13 @@ if(!OC_USER::isLoggedIn()) {
 $cal = $_POST["calendarid"];
 $calendar = OC_Calendar_Calendar::findCalendar($cal);
 if($calendar["userid"] != OC_User::getUser()){
-	echo json_encode(array('status'=>'error','error'=>'permission_denied'));
+	OC_JSON::error(array('error'=>'permission_denied'));
 	exit;
 }
 $del = OC_Calendar_Calendar::deleteCalendar($cal);
 if($del == true){
-	echo json_encode(array('status' => 'success'));
+	OC_JSON::success();
 }else{
-	echo json_encode(array('status'=>'error', 'error'=>'dberror'));
+	OC_JSON::error(array('error'=>'dberror'));
 }
 ?> 

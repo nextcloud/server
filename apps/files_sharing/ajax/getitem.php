@@ -30,7 +30,7 @@ while ($source != "" && $source != "/" && $source != "." && $source != $userDire
 	$source = dirname($source);
 }
 if (!empty($users)) {
-	echo json_encode($users);
+	OC_JSON::encodedPrint($users);
 }
 
 ?>

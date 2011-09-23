@@ -26,14 +26,8 @@ $RUNTIME_NOSETUPFS=true;
 
 require_once('../../../lib/base.php');
 
-// We send json data
-header( 'Content-Type: application/jsonrequest' );
-
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => 'Authentication error' )));
-	exit();
-}
+OC_JSON::checkLoggedIn();
 
 $params=array(OC_User::getUser());
 $CONFIG_DBTYPE = OC_Config::getValue( 'dbtype', 'sqlite' );
@@ -85,4 +79,4 @@ $query = OC_DB::prepare('
 	
 $bookmarks = $query->execute($params)->fetchAll();
 
-echo json_encode( array( 'status' => 'success', 'data' => $bookmarks));
+OC_JSON::success(array('data' => $bookmarks));

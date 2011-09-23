@@ -35,5 +35,5 @@ if(defined("DEBUG") && DEBUG) {error_log((integer)$autoUpdate);}
 
 OC_Preferences::setValue(OC_User::getUser(),'media','autoupdate',(integer)$autoUpdate);
 
-echo json_encode( array( "status" => "success", "data" => $autoUpdate));
+OC_JSON::success(array('data' => $autoUpdate));
 ?>
