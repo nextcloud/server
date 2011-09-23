@@ -44,6 +44,9 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	}
 
 	public function preFile_put_contents($path,$data){
+		if (is_resource($data)) {
+			$data = stream_get_contents($data);
+		}
 		return (strlen($data)<$this->getFreeSpace() or $this->getFreeSpace()==0);
 	}
 

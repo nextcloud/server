@@ -454,7 +454,7 @@ class OC_Filesystem{
 	 * @return mixed
 	 */
 	private static function basicOperation($operation,$path,$hooks=array(),$extraParam=null){
-		if(OC_FileProxy::runPreProxies($operation,$path) and self::canRead($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and self::canRead($path) and $storage=self::getStorage($path)){
 			$interalPath=self::getInternalPath($path);
 			$run=true;
 			foreach($hooks as $hook){
