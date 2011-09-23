@@ -17,6 +17,7 @@
 "Database host" => "Serveur de la base de données",
 "Data folder" => "Répertoire des données",
 "Finish setup" => "Terminer l'installation",
+"gives you freedom and control over your own data" => "vous donne la liberté et le contrôle de vos propres données",
 "Log out" => "Se déconnecter",
 "Settings" => "Paramètres",
 "Lost your password?" => "Mot de passe perdu ?",
@@ -29,6 +30,7 @@
 "Request reset" => "Demande de réinitialisation",
 "prev" => "précédent",
 "next" => "suivant",
+"Your password was reset" => "Votre mot de passe a été réinitialisé",
 "New password" => "Nouveau mot de passe",
 "Reset password" => "Réinitialisation du mot de passe"
 );

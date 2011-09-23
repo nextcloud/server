@@ -2,14 +2,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
+#   <mikkelbjerglarsen@gmail.com>, 2011.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:14+0200\n"
-"PO-Revision-Date: 2011-09-04 16:14+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"POT-Creation-Date: 2011-09-23 18:17+0200\n"
+"PO-Revision-Date: 2011-09-14 07:41+0000\n"
+"Last-Translator: mikkel_ilu <mikkelbjerglarsen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,7 +82,7 @@ msgstr "Avanceret"
 
 #: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Database host"
 
 #: templates/installation.php:76
 msgid "Data folder"
@@ -92,7 +94,7 @@ msgstr "Afslut installation"
 
 #: templates/layout.guest.php:35
 msgid "gives you freedom and control over your own data"
-msgstr ""
+msgstr "giver dig frihed og kontrol over dine egne data"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -104,7 +106,7 @@ msgstr "Indstillinger"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Mistet dit kodeord?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
@@ -116,11 +118,11 @@ msgstr "Du er nu logget ud"
 
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Du vil modtage et link til at nulstille din adgangskode via e-mail."
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Anmodet"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -128,11 +130,11 @@ msgstr "Login mislykkedes!"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Brugernavn eller E-mail"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Anmod om nulstilling"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -144,14 +146,14 @@ msgstr "næste"
 
 #: templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Din adgangskode blev nulstillet"
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Ny adgangskode"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Nulstil adgangskode"
 
 

@@ -1,0 +1,369 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Slobodan Terzić <githzerai06@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-04 18:15+0200\n"
+"PO-Revision-Date: 2011-09-13 22:12+0000\n"
+"Last-Translator: Xabre <githzerai06@gmail.com>\n"
+"Language-Team: Serbian (Latin) (http://www.transifex.net/projects/p/owncloud/team/sr@latin/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sr@latin\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: ajax/settimezone.php:13 ajax/updatecalendar.php:29
+msgid "Authentication error"
+msgstr "Greška autentifikacije"
+
+#: ajax/settimezone.php:21
+msgid "Timezone changed"
+msgstr "Vremenska zona je promenjena"
+
+#: ajax/settimezone.php:23
+msgid "Invalid request"
+msgstr "Neispravan zahtev"
+
+#: appinfo/app.php:18 templates/part.editevent.php:25
+#: templates/part.eventinfo.php:18 templates/part.newevent.php:41
+msgid "Calendar"
+msgstr "Kalendar"
+
+#: js/calendar.js:801 js/calendar.js:809
+msgid "You can't open more than one dialog per site!"
+msgstr "Ne možete da otvorite više od jednog dijaloga po sajtu!"
+
+#: templates/calendar.php:3
+msgid "All day"
+msgstr "Ceo dan"
+
+#: templates/calendar.php:32
+msgid "Sunday"
+msgstr "Nedelja"
+
+#: templates/calendar.php:32
+msgid "Monday"
+msgstr "Ponedeljak"
+
+#: templates/calendar.php:32
+msgid "Tuesday"
+msgstr "Utorak"
+
+#: templates/calendar.php:32
+msgid "Wednesday"
+msgstr "Sreda"
+
+#: templates/calendar.php:32
+msgid "Thursday"
+msgstr "Četvrtak"
+
+#: templates/calendar.php:32
+msgid "Friday"
+msgstr "Petak"
+
+#: templates/calendar.php:32
+msgid "Saturday"
+msgstr "Subota"
+
+#: templates/calendar.php:33
+msgid "Sun."
+msgstr "Ned"
+
+#: templates/calendar.php:33
+msgid "Mon."
+msgstr "Pon"
+
+#: templates/calendar.php:33
+msgid "Tue."
+msgstr "Uto"
+
+#: templates/calendar.php:33
+msgid "Wed."
+msgstr "Sre"
+
+#: templates/calendar.php:33
+msgid "Thu."
+msgstr "Čet"
+
+#: templates/calendar.php:33
+msgid "Fri."
+msgstr "Pet"
+
+#: templates/calendar.php:33
+msgid "Sat."
+msgstr "Sub"
+
+#: templates/calendar.php:34
+msgid "January"
+msgstr "Januar"
+
+#: templates/calendar.php:34
+msgid "February"
+msgstr "Februar"
+
+#: templates/calendar.php:34
+msgid "March"
+msgstr "Mart"
+
+#: templates/calendar.php:34
+msgid "April"
+msgstr "April"
+
+#: templates/calendar.php:34 templates/calendar.php:35
+msgid "May"
+msgstr "Maj"
+
+#: templates/calendar.php:34
+msgid "June"
+msgstr "Jun"
+
+#: templates/calendar.php:34
+msgid "July"
+msgstr "Jul"
+
+#: templates/calendar.php:34
+msgid "August"
+msgstr "Avgust"
+
+#: templates/calendar.php:34
+msgid "September"
+msgstr "Septembar"
+
+#: templates/calendar.php:34
+msgid "October"
+msgstr "Oktobar"
+
+#: templates/calendar.php:34
+msgid "November"
+msgstr "Novembar"
+
+#: templates/calendar.php:34
+msgid "December"
+msgstr "Decembar"
+
+#: templates/calendar.php:35
+msgid "Jan."
+msgstr "Jan"
+
+#: templates/calendar.php:35
+msgid "Feb."
+msgstr "Feb"
+
+#: templates/calendar.php:35
+msgid "Mar."
+msgstr "Mar"
+
+#: templates/calendar.php:35
+msgid "Apr."
+msgstr "Apr"
+
+#: templates/calendar.php:35
+msgid "Jun."
+msgstr "Jun"
+
+#: templates/calendar.php:35
+msgid "Jul."
+msgstr "Jul"
+
+#: templates/calendar.php:35
+msgid "Aug."
+msgstr "Avg"
+
+#: templates/calendar.php:35
+msgid "Sep."
+msgstr "Sep"
+
+#: templates/calendar.php:35
+msgid "Oct."
+msgstr "Okt"
+
+#: templates/calendar.php:35
+msgid "Nov."
+msgstr "Nov"
+
+#: templates/calendar.php:35
+msgid "Dec."
+msgstr "Dec"
+
+#: templates/calendar.php:36 templates/calendar.php:45
+msgid "Week"
+msgstr "Nedelja"
+
+#: templates/calendar.php:37 templates/calendar.php:46
+msgid "Weeks"
+msgstr "Nedelja"
+
+#: templates/calendar.php:44
+msgid "Day"
+msgstr "Dan"
+
+#: templates/calendar.php:47
+msgid "Month"
+msgstr "Mesec"
+
+#: templates/calendar.php:48
+msgid "Listview"
+msgstr "Prikaz spika"
+
+#: templates/calendar.php:53
+msgid "Today"
+msgstr "Danas"
+
+#: templates/calendar.php:54
+msgid "Calendars"
+msgstr "Kalendari"
+
+#: templates/calendar.php:71 templates/calendar.php:89
+msgid "Time"
+msgstr "Vreme"
+
+#: templates/calendar.php:111
+msgid "CW"
+msgstr "TN"
+
+#: templates/calendar.php:162
+msgid "There was a fail, while parsing the file."
+msgstr "došlo je do greške pri rasčlanjivanju fajla."
+
+#: templates/part.choosecalendar.php:1
+msgid "Choose active calendars"
+msgstr "Izaberite aktivne kalendare"
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Download"
+msgstr "Preuzmi"
+
+#: templates/part.choosecalendar.rowfields.php:4
+#: templates/part.eventinfo.php:64
+msgid "Edit"
+msgstr "Uredi"
+
+#: templates/part.editcalendar.php:1
+msgid "Edit calendar"
+msgstr "Uredi kalendar"
+
+#: templates/part.editcalendar.php:4
+msgid "Displayname"
+msgstr "Prikazanoime"
+
+#: templates/part.editcalendar.php:14
+msgid "Active"
+msgstr "Aktivan"
+
+#: templates/part.editcalendar.php:19 templates/part.editevent.php:93
+#: templates/part.eventinfo.php:58 templates/part.newevent.php:127
+msgid "Description"
+msgstr "Opis"
+
+#: templates/part.editcalendar.php:25
+msgid "Calendar color"
+msgstr "Boja kalendara"
+
+#: templates/part.editcalendar.php:31 templates/part.editevent.php:98
+#: templates/part.newevent.php:133
+msgid "Submit"
+msgstr "Pošalji"
+
+#: templates/part.editevent.php:1 templates/part.eventinfo.php:1
+msgid "Edit an event"
+msgstr "Uredi događaj"
+
+#: templates/part.editevent.php:4 templates/part.eventinfo.php:4
+#: templates/part.newevent.php:6
+msgid "Title"
+msgstr "Naslov"
+
+#: templates/part.editevent.php:10 templates/part.eventinfo.php:9
+#: templates/part.newevent.php:12
+msgid "Location"
+msgstr "Lokacija"
+
+#: templates/part.editevent.php:18 templates/part.eventinfo.php:16
+#: templates/part.newevent.php:20
+msgid "Category"
+msgstr "Kategorija"
+
+#: templates/part.editevent.php:41 templates/part.eventinfo.php:28
+#: templates/part.newevent.php:76
+msgid "All Day Event"
+msgstr "Celodnevni događaj"
+
+#: templates/part.editevent.php:48 templates/part.eventinfo.php:31
+#: templates/part.newevent.php:80
+msgid "From"
+msgstr "Od"
+
+#: templates/part.editevent.php:62 templates/part.eventinfo.php:38
+#: templates/part.newevent.php:96
+msgid "To"
+msgstr "Do"
+
+#: templates/part.editevent.php:70 templates/part.eventinfo.php:44
+#: templates/part.newevent.php:104
+msgid "Repeat"
+msgstr "Ponavljaj"
+
+#: templates/part.editevent.php:86 templates/part.eventinfo.php:51
+#: templates/part.newevent.php:120
+msgid "Attendees"
+msgstr "Prisutni"
+
+#: templates/part.eventinfo.php:63
+msgid "Close"
+msgstr "Zatvori"
+
+#: templates/part.newevent.php:2
+msgid "Create a new event"
+msgstr "Napravi novi događaj"
+
+#: templates/part.newevent.php:8
+msgid "Title of the Event"
+msgstr "Naslov događaja"
+
+#: templates/part.newevent.php:14
+msgid "Location of the Event"
+msgstr "Lokacija događaja"
+
+#: templates/part.newevent.php:107
+msgid "Does not repeat"
+msgstr "Ne ponavlja se"
+
+#: templates/part.newevent.php:108
+msgid "Daily"
+msgstr "dnevno"
+
+#: templates/part.newevent.php:109
+msgid "Weekly"
+msgstr "nedeljno"
+
+#: templates/part.newevent.php:110
+msgid "Every Weekday"
+msgstr "svakog dana u nedelji"
+
+#: templates/part.newevent.php:111
+msgid "Bi-Weekly"
+msgstr "dvonedeljno"
+
+#: templates/part.newevent.php:112
+msgid "Monthly"
+msgstr "mesečno"
+
+#: templates/part.newevent.php:113
+msgid "Yearly"
+msgstr "godišnje"
+
+#: templates/part.newevent.php:128
+msgid "Description of the Event"
+msgstr "Opis događaja"
+
+#: templates/settings.php:3
+msgid "Timezone"
+msgstr "Vremenska zona"
+
+

@@ -17,6 +17,7 @@
 "Database host" => "Host de la base de datos",
 "Data folder" => "Directorio de almacenamiento",
 "Finish setup" => "Completar la instalación",
+"gives you freedom and control over your own data" => "te da la libertad y el control sobre tus propios datos",
 "Log out" => "Salir",
 "Settings" => "Ajustes",
 "Lost your password?" => "¿Has perdido tu contraseña?",
@@ -29,6 +30,7 @@
 "Request reset" => "Solicitar restablecimiento",
 "prev" => "anterior",
 "next" => "siguiente",
+"Your password was reset" => "Tu contraseña se ha restablecido",
 "New password" => "Nueva contraseña",
 "Reset password" => "Restablecer contraseña"
 );

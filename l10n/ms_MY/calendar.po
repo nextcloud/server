@@ -1,0 +1,369 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <hadri.hilmi@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-04 18:15+0200\n"
+"PO-Revision-Date: 2011-09-15 13:58+0000\n"
+"Last-Translator: hadrihilmi <hadri.hilmi@gmail.com>\n"
+"Language-Team: Malay (Malaysia) (http://www.transifex.net/projects/p/owncloud/team/ms_MY/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ms_MY\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/settimezone.php:13 ajax/updatecalendar.php:29
+msgid "Authentication error"
+msgstr "Ralat pengesahan"
+
+#: ajax/settimezone.php:21
+msgid "Timezone changed"
+msgstr "Zon waktu diubah"
+
+#: ajax/settimezone.php:23
+msgid "Invalid request"
+msgstr "Permintaan tidak sah"
+
+#: appinfo/app.php:18 templates/part.editevent.php:25
+#: templates/part.eventinfo.php:18 templates/part.newevent.php:41
+msgid "Calendar"
+msgstr "Kalendar"
+
+#: js/calendar.js:801 js/calendar.js:809
+msgid "You can't open more than one dialog per site!"
+msgstr "Anda tidak dibenarkan membuka lebih dari satu laman dialog"
+
+#: templates/calendar.php:3
+msgid "All day"
+msgstr "Sepanjang hari"
+
+#: templates/calendar.php:32
+msgid "Sunday"
+msgstr "Ahad"
+
+#: templates/calendar.php:32
+msgid "Monday"
+msgstr "Isnin"
+
+#: templates/calendar.php:32
+msgid "Tuesday"
+msgstr "Selasa"
+
+#: templates/calendar.php:32
+msgid "Wednesday"
+msgstr "Rabu"
+
+#: templates/calendar.php:32
+msgid "Thursday"
+msgstr "Khamis"
+
+#: templates/calendar.php:32
+msgid "Friday"
+msgstr "Jumaat"
+
+#: templates/calendar.php:32
+msgid "Saturday"
+msgstr "Sabtu"
+
+#: templates/calendar.php:33
+msgid "Sun."
+msgstr "Ahad"
+
+#: templates/calendar.php:33
+msgid "Mon."
+msgstr "Isnin"
+
+#: templates/calendar.php:33
+msgid "Tue."
+msgstr "Selasa"
+
+#: templates/calendar.php:33
+msgid "Wed."
+msgstr "Rabu"
+
+#: templates/calendar.php:33
+msgid "Thu."
+msgstr "Khamis"
+
+#: templates/calendar.php:33
+msgid "Fri."
+msgstr "Jumaat"
+
+#: templates/calendar.php:33
+msgid "Sat."
+msgstr "Sabtu"
+
+#: templates/calendar.php:34
+msgid "January"
+msgstr "Januari"
+
+#: templates/calendar.php:34
+msgid "February"
+msgstr "Februari"
+
+#: templates/calendar.php:34
+msgid "March"
+msgstr "Mac"
+
+#: templates/calendar.php:34
+msgid "April"
+msgstr "April "
+
+#: templates/calendar.php:34 templates/calendar.php:35
+msgid "May"
+msgstr "Mei"
+
+#: templates/calendar.php:34
+msgid "June"
+msgstr "Jun"
+
+#: templates/calendar.php:34
+msgid "July"
+msgstr "Julai"
+
+#: templates/calendar.php:34
+msgid "August"
+msgstr "Ogos"
+
+#: templates/calendar.php:34
+msgid "September"
+msgstr "September"
+
+#: templates/calendar.php:34
+msgid "October"
+msgstr "Oktober"
+
+#: templates/calendar.php:34
+msgid "November"
+msgstr "November"
+
+#: templates/calendar.php:34
+msgid "December"
+msgstr "Disember"
+
+#: templates/calendar.php:35
+msgid "Jan."
+msgstr "Jan"
+
+#: templates/calendar.php:35
+msgid "Feb."
+msgstr "Feb"
+
+#: templates/calendar.php:35
+msgid "Mar."
+msgstr "Mac"
+
+#: templates/calendar.php:35
+msgid "Apr."
+msgstr "Apr"
+
+#: templates/calendar.php:35
+msgid "Jun."
+msgstr "Jun"
+
+#: templates/calendar.php:35
+msgid "Jul."
+msgstr "Jul"
+
+#: templates/calendar.php:35
+msgid "Aug."
+msgstr "Ogos"
+
+#: templates/calendar.php:35
+msgid "Sep."
+msgstr "Sep"
+
+#: templates/calendar.php:35
+msgid "Oct."
+msgstr "Okt"
+
+#: templates/calendar.php:35
+msgid "Nov."
+msgstr "Nov"
+
+#: templates/calendar.php:35
+msgid "Dec."
+msgstr "Dis"
+
+#: templates/calendar.php:36 templates/calendar.php:45
+msgid "Week"
+msgstr "Minggu"
+
+#: templates/calendar.php:37 templates/calendar.php:46
+msgid "Weeks"
+msgstr "Minggu"
+
+#: templates/calendar.php:44
+msgid "Day"
+msgstr "Hari"
+
+#: templates/calendar.php:47
+msgid "Month"
+msgstr "Bulan"
+
+#: templates/calendar.php:48
+msgid "Listview"
+msgstr "Senarai paparan"
+
+#: templates/calendar.php:53
+msgid "Today"
+msgstr "Hari ini"
+
+#: templates/calendar.php:54
+msgid "Calendars"
+msgstr "Kalendar"
+
+#: templates/calendar.php:71 templates/calendar.php:89
+msgid "Time"
+msgstr "Waktu"
+
+#: templates/calendar.php:111
+msgid "CW"
+msgstr "Bilangan minggu"
+
+#: templates/calendar.php:162
+msgid "There was a fail, while parsing the file."
+msgstr "Berlaku kegagalan ketika penguraian fail. "
+
+#: templates/part.choosecalendar.php:1
+msgid "Choose active calendars"
+msgstr "Pilih kalendar yang aktif"
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Download"
+msgstr "Muat turun"
+
+#: templates/part.choosecalendar.rowfields.php:4
+#: templates/part.eventinfo.php:64
+msgid "Edit"
+msgstr "Edit"
+
+#: templates/part.editcalendar.php:1
+msgid "Edit calendar"
+msgstr "Edit kalendar"
+
+#: templates/part.editcalendar.php:4
+msgid "Displayname"
+msgstr "Paparan nama"
+
+#: templates/part.editcalendar.php:14
+msgid "Active"
+msgstr "Aktif"
+
+#: templates/part.editcalendar.php:19 templates/part.editevent.php:93
+#: templates/part.eventinfo.php:58 templates/part.newevent.php:127
+msgid "Description"
+msgstr "Huraian"
+
+#: templates/part.editcalendar.php:25
+msgid "Calendar color"
+msgstr "Warna kalendar"
+
+#: templates/part.editcalendar.php:31 templates/part.editevent.php:98
+#: templates/part.newevent.php:133
+msgid "Submit"
+msgstr "Hantar"
+
+#: templates/part.editevent.php:1 templates/part.eventinfo.php:1
+msgid "Edit an event"
+msgstr "Edit agenda"
+
+#: templates/part.editevent.php:4 templates/part.eventinfo.php:4
+#: templates/part.newevent.php:6
+msgid "Title"
+msgstr "Tajuk"
+
+#: templates/part.editevent.php:10 templates/part.eventinfo.php:9
+#: templates/part.newevent.php:12
+msgid "Location"
+msgstr "Lokasi"
+
+#: templates/part.editevent.php:18 templates/part.eventinfo.php:16
+#: templates/part.newevent.php:20
+msgid "Category"
+msgstr "kategori"
+
+#: templates/part.editevent.php:41 templates/part.eventinfo.php:28
+#: templates/part.newevent.php:76
+msgid "All Day Event"
+msgstr "Agenda di sepanjang hari "
+
+#: templates/part.editevent.php:48 templates/part.eventinfo.php:31
+#: templates/part.newevent.php:80
+msgid "From"
+msgstr "Dari"
+
+#: templates/part.editevent.php:62 templates/part.eventinfo.php:38
+#: templates/part.newevent.php:96
+msgid "To"
+msgstr "ke"
+
+#: templates/part.editevent.php:70 templates/part.eventinfo.php:44
+#: templates/part.newevent.php:104
+msgid "Repeat"
+msgstr "Ulang"
+
+#: templates/part.editevent.php:86 templates/part.eventinfo.php:51
+#: templates/part.newevent.php:120
+msgid "Attendees"
+msgstr "Hadirin"
+
+#: templates/part.eventinfo.php:63
+msgid "Close"
+msgstr "Tutup"
+
+#: templates/part.newevent.php:2
+msgid "Create a new event"
+msgstr "Buat agenda baru"
+
+#: templates/part.newevent.php:8
+msgid "Title of the Event"
+msgstr "Tajuk agenda"
+
+#: templates/part.newevent.php:14
+msgid "Location of the Event"
+msgstr "Lokasi agenda"
+
+#: templates/part.newevent.php:107
+msgid "Does not repeat"
+msgstr "Tidak berulang"
+
+#: templates/part.newevent.php:108
+msgid "Daily"
+msgstr "Harian"
+
+#: templates/part.newevent.php:109
+msgid "Weekly"
+msgstr "Mingguan"
+
+#: templates/part.newevent.php:110
+msgid "Every Weekday"
+msgstr "Setiap hari minggu"
+
+#: templates/part.newevent.php:111
+msgid "Bi-Weekly"
+msgstr "Dua kali seminggu"
+
+#: templates/part.newevent.php:112
+msgid "Monthly"
+msgstr "Bulanan"
+
+#: templates/part.newevent.php:113
+msgid "Yearly"
+msgstr "Tahunan"
+
+#: templates/part.newevent.php:128
+msgid "Description of the Event"
+msgstr "Huraian agenda"
+
+#: templates/settings.php:3
+msgid "Timezone"
+msgstr "Zon waktu"
+
+

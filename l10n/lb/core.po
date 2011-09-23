@@ -2,14 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
 #   <sim0n@trypill.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:14+0200\n"
-"PO-Revision-Date: 2011-09-04 16:14+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"POT-Creation-Date: 2011-09-23 18:17+0200\n"
+"PO-Revision-Date: 2011-09-17 14:32+0000\n"
+"Last-Translator: sim0n <sim0n@trypill.org>\n"
 "Language-Team: Luxembourgish (http://www.transifex.net/projects/p/owncloud/team/lb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,7 +81,7 @@ msgstr "Erweidert"
 
 #: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Datebank Server"
 
 #: templates/installation.php:76
 msgid "Data folder"
@@ -92,7 +93,7 @@ msgstr "Installatioun ofschléissen"
 
 #: templates/layout.guest.php:35
 msgid "gives you freedom and control over your own data"
-msgstr ""
+msgstr "gëtt dir Fräiheet an Kontroll iwwert deng eegen Daten"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -104,7 +105,7 @@ msgstr "Astellungen"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Passwuert vergiess?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
@@ -117,10 +118,11 @@ msgstr "Du bass ausgeloggt."
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
+"Du kriss per E-mail en Link geschéckt fir däin Passwuert nei ze setzen."
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Verlaangt"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -128,11 +130,11 @@ msgstr "Aloggen feelgeschloen!"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Benotzernumm oder E-Mail"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Reset ufroen"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -144,14 +146,14 @@ msgstr "weider"
 
 #: templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Dän Passwuert ass nei gesat ginn"
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Neit Passwuert"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Passwuert nei setzen"
 
 
