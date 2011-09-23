@@ -29,20 +29,20 @@ $l10n = new OC_L10N('contacts');
 
 // Check if we are a user
 if( !OC_User::isLoggedIn()){
-	echo $l10n->t('You need to log in!');
+	echo $l10n->t('You need to log in.');
 	exit();
 }
 
 
 $card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
-	echo $l10n->t('Can not find Contact!');
+	echo $l10n->t('Contact could not be found.');
 	exit();
 }
 
 $addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo $l10n->t('This is not your contact!');
+	echo $l10n->t('This is not your contact.'); // This is a weird error, why would it come up? (Better feedback for users?)
 	exit();
 }
 
@@ -50,7 +50,7 @@ $content = OC_Contacts_VCard::parse($card['carddata']);
 
 // invalid vcard
 if( is_null($content)){
-	echo $l10n->t('This card is not RFC compatible!');
+	echo $l10n->t('This card is not RFC compatible.');
 	exit();
 }
 // Photo :-)
@@ -87,4 +87,4 @@ foreach($content->children as $child){
 }
 
 // Not found :-(
-echo $l10n->t('This card does not contain photo data!');
+echo $l10n->t('This card does not contain a photo.');

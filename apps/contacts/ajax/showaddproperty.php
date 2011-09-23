@@ -28,19 +28,19 @@ $l10n = new OC_L10N('contacts');
 
 // Check if we are a user
 if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in!'))));
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in.'))));
 	exit();
 }
 
 $card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Can not find Contact!'))));
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Contact could not be found.'))));
 	exit();
 }
 
 $addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact!'))));
+	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact.'))));
 	exit();
 }
 

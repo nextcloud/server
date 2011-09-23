@@ -1,178 +1,181 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# Francesco Apruzzese <cescoap@gmail.com>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
 "POT-Creation-Date: 2011-09-23 20:10+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2011-09-23 18:10+0000\n"
+"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ajax/addcard.php:31 ajax/addproperty.php:31 ajax/deletebook.php:32
 #: ajax/deletecard.php:32 ajax/deleteproperty.php:34 ajax/getdetails.php:32
 #: ajax/setproperty.php:32 ajax/showaddcard.php:30 ajax/showaddproperty.php:31
 #: ajax/showsetproperty.php:32 photo.php:32
 msgid "You need to log in."
-msgstr ""
+msgstr "Bisogna effettuare il login."
 
 #: ajax/addcard.php:37
 msgid "This is not your addressbook."
-msgstr ""
+msgstr "Questa non è la tua rubrica."
 
 #: ajax/addproperty.php:37 ajax/deletecard.php:39 ajax/deleteproperty.php:41
 #: ajax/getdetails.php:39 ajax/setproperty.php:38 ajax/showaddproperty.php:37
 #: ajax/showsetproperty.php:38 photo.php:39
 msgid "Contact could not be found."
-msgstr ""
+msgstr "Il contatto non può essere trovato"
 
 #: ajax/addproperty.php:43 ajax/deletebook.php:38 ajax/deletecard.php:45
 #: ajax/deleteproperty.php:47 ajax/getdetails.php:45 ajax/setproperty.php:44
 #: ajax/showaddproperty.php:43 ajax/showsetproperty.php:44 photo.php:45
 msgid "This is not your contact."
-msgstr ""
+msgstr "Questo non è un tuo contatto."
 
 #: ajax/addproperty.php:50 ajax/deleteproperty.php:54 ajax/getdetails.php:52
 #: ajax/setproperty.php:51 ajax/showsetproperty.php:51
 msgid "vCard could not be read."
-msgstr ""
+msgstr "La vCard non può essere letta"
 
 #: ajax/deleteproperty.php:65 ajax/setproperty.php:62
 #: ajax/showsetproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page."
-msgstr ""
+msgstr "Informazioni sulla vCard incorrette. Ricaricare la pagina."
 
 #: photo.php:53
 msgid "This card is not RFC compatible."
-msgstr ""
+msgstr "Questa card non è compatibile con il protocollo RFC."
 
 #: photo.php:90
 msgid "This card does not contain a photo."
-msgstr ""
+msgstr "Questa card non contiene una foto."
 
 #: templates/index.php:8
 msgid "Add Contact"
-msgstr ""
+msgstr "Aggiungi contatto"
 
 #: templates/part.addcardform.php:5
 msgid "Group"
-msgstr ""
+msgstr "Gruppo"
 
 #: templates/part.addcardform.php:12 templates/part.property.php:3
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: templates/part.addcardform.php:14
 msgid "Create Contact"
-msgstr ""
+msgstr "Crea contatto"
 
 #: templates/part.addpropertyform.php:4 templates/part.property.php:40
 msgid "Address"
-msgstr ""
+msgstr "Indirizzo"
 
 #: templates/part.addpropertyform.php:5
 msgid "Telephone"
-msgstr ""
+msgstr "Telefono"
 
 #: templates/part.addpropertyform.php:6 templates/part.property.php:22
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/part.addpropertyform.php:7 templates/part.property.php:15
 msgid "Organization"
-msgstr ""
+msgstr "Organizzazione"
 
 #: templates/part.addpropertyform.php:17 templates/part.addpropertyform.php:32
 msgid "Work"
-msgstr ""
+msgstr "Lavoro"
 
 #: templates/part.addpropertyform.php:18 templates/part.addpropertyform.php:30
 msgid "Home"
-msgstr ""
+msgstr "Casa"
 
 #: templates/part.addpropertyform.php:20 templates/part.property.php:48
 #: templates/part.setpropertyform.php:5
 msgid "PO Box"
-msgstr ""
+msgstr "PO Box"
 
 #: templates/part.addpropertyform.php:21 templates/part.property.php:51
 #: templates/part.setpropertyform.php:6
 msgid "Extended"
-msgstr ""
+msgstr "Estendi"
 
 #: templates/part.addpropertyform.php:22 templates/part.property.php:54
 #: templates/part.setpropertyform.php:7
 msgid "Street"
-msgstr ""
+msgstr "Via"
 
 #: templates/part.addpropertyform.php:23 templates/part.property.php:57
 #: templates/part.setpropertyform.php:8
 msgid "City"
-msgstr ""
+msgstr "Città"
 
 #: templates/part.addpropertyform.php:24 templates/part.property.php:60
 #: templates/part.setpropertyform.php:9
 msgid "Region"
-msgstr ""
+msgstr "Regione"
 
 #: templates/part.addpropertyform.php:25 templates/part.property.php:63
 #: templates/part.setpropertyform.php:10
 msgid "Zipcode"
-msgstr ""
+msgstr "CAP"
 
 #: templates/part.addpropertyform.php:26 templates/part.property.php:66
 #: templates/part.setpropertyform.php:11
 msgid "Country"
-msgstr ""
+msgstr "Stato"
 
 #: templates/part.addpropertyform.php:31
 msgid "Mobile"
-msgstr ""
+msgstr "Cellulare"
 
 #: templates/part.addpropertyform.php:33
 msgid "Text"
-msgstr ""
+msgstr "Testo"
 
 #: templates/part.addpropertyform.php:34
 msgid "Voice"
-msgstr ""
+msgstr "Voce"
 
 #: templates/part.addpropertyform.php:35
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: templates/part.addpropertyform.php:36
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: templates/part.addpropertyform.php:37
 msgid "Pager"
-msgstr ""
+msgstr "Pager"
 
 #: templates/part.details.php:33
 msgid "Delete"
-msgstr ""
+msgstr "Cancella"
 
 #: templates/part.details.php:34
 msgid "Add Property"
-msgstr ""
+msgstr "Aggiungi proprietà"
 
 #: templates/part.property.php:9
 msgid "Birthday"
-msgstr ""
+msgstr "Compleanno"
 
 #: templates/part.property.php:29
 msgid "Phone"
-msgstr ""
+msgstr "Telefono"
 
 #: templates/part.setpropertyform.php:17
 msgid "Edit"
-msgstr ""
+msgstr "Modifica"
+
+
