@@ -1,30 +1,30 @@
 <?php
 $hours = array(
 	'allday' => $l->t('All day'),
-	 0 => '00:00',
-	 1 => '01:00',
-	 2 => '02:00',
-	 3 => '03:00',
-	 4 => '04:00',
-	 5 => '05:00',
-	 6 => '06:00',
-	 7 => '07:00',
-	 8 => '08:00',
-	 9 => '09:00',
-	10 => '10:00',
-	11 => '11:00',
-	12 => '12:00',
-	13 => '13:00',
-	14 => '14:00',
-	15 => '15:00',
-	16 => '16:00',
-	17 => '17:00',
-	18 => '18:00',
-	19 => '19:00',
-	20 => '20:00',
-	21 => '21:00',
-	22 => '22:00',
-	23 => '23:00',
+	 0 => '0',
+	 1 => '1',
+	 2 => '2',
+	 3 => '3',
+	 4 => '4',
+	 5 => '5',
+	 6 => '6',
+	 7 => '7',
+	 8 => '8',
+	 9 => '9',
+	10 => '10',
+	11 => '11',
+	12 => '12',
+	13 => '13',
+	14 => '14',
+	15 => '15',
+	16 => '16',
+	17 => '17',
+	18 => '18',
+	19 => '19',
+	20 => '20',
+	21 => '21',
+	22 => '22',
+	23 => '23',
 );
 $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
 ?>
@@ -32,7 +32,7 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 				Calendar.UI.daylong = new Array("<?php echo $l -> t("Sunday");?>", "<?php echo $l -> t("Monday");?>", "<?php echo $l -> t("Tuesday");?>", "<?php echo $l -> t("Wednesday");?>", "<?php echo $l -> t("Thursday");?>", "<?php echo $l -> t("Friday");?>", "<?php echo $l -> t("Saturday");?>");
 				Calendar.UI.dayshort = new Array("<?php echo $l -> t("Sun.");?>", "<?php echo $l -> t("Mon.");?>", "<?php echo $l -> t("Tue.");?>", "<?php echo $l -> t("Wed.");?>", "<?php echo $l -> t("Thu.");?>", "<?php echo $l -> t("Fri.");?>", "<?php echo $l -> t("Sat.");?>");
 				Calendar.UI.monthlong = new Array("<?php echo $l -> t("January");?>", "<?php echo $l -> t("February");?>", "<?php echo $l -> t("March");?>", "<?php echo $l -> t("April");?>", "<?php echo $l -> t("May");?>", "<?php echo $l -> t("June");?>", "<?php echo $l -> t("July");?>", "<?php echo $l -> t("August");?>", "<?php echo $l -> t("September");?>", "<?php echo $l -> t("October");?>", "<?php echo $l -> t("November");?>", "<?php echo $l -> t("December");?>");
-				Calendar.UI.monthshort = new Array("<?php echo $l -> t("Jan.");?>", "<?php echo $l -> t("Feb.");?>", "<?php echo $l -> t("Mar.");?>", "<?php echo $l -> t("Apr.");?>", "<?php echo $l -> t("May");?>", "<?php echo $l -> t("Jun.");?>", "<?php echo $l -> t("Jul.");?>", "<?php echo $l -> t("Aug.");?>", "<?php echo $l -> t("Sep.");?>", "<?php echo $l -> t("Oct.");?>", "<?php echo $l -> t("Nov.");?>", "<?php echo $l -> t("Dec.");?>");
+				Calendar.UI.monthshort = new Array("<?php echo $l -> t("Jan.");?>", "<?php echo $l -> t("Feb.");?>", "<?php echo $l -> t("Mar.");?>", "<?php echo $l -> t("Apr.");?>", "<?php echo $l -> t("May.");?>", "<?php echo $l -> t("Jun.");?>", "<?php echo $l -> t("Jul.");?>", "<?php echo $l -> t("Aug.");?>", "<?php echo $l -> t("Sep.");?>", "<?php echo $l -> t("Oct.");?>", "<?php echo $l -> t("Nov.");?>", "<?php echo $l -> t("Dec.");?>");
 				Calendar.UI.cw_label = "<?php echo $l->t("Week");?>";
 				Calendar.UI.cws_label = "<?php echo $l->t("Weeks");?>";
 				Calendar.UI.more_before = String('<?php echo $l->t('More before {startdate}') ?>');
@@ -47,10 +47,10 @@ $weekdays = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'satur
 						<form>
 							<div id="view">
 								<!-- <input type="button" value="1 <?php echo $l->t('Day');?>" id="onedayview_radio" onclick="Calendar.UI.setCurrentView('onedayview');"/> -->
-								<input type="button" value="1 <?php echo $l->t('Week');?>" id="oneweekview_radio" onclick="Calendar.UI.setCurrentView('oneweekview');"/>
+								<input type="button" value="<?php echo $l->t('Week');?>" id="oneweekview_radio" onclick="Calendar.UI.setCurrentView('oneweekview');"/>
 								<!-- <input type="button" value="4 <?php echo $l->t('Weeks');?>" id="fourweeksview_radio" onclick="Calendar.UI.setCurrentView('fourweeksview');"/> -->
-								<input type="button" value="1 <?php echo $l->t('Month');?>" id="onemonthview_radio" onclick="Calendar.UI.setCurrentView('onemonthview');"/>
-								<input type="button" value="<?php echo $l->t("Listview");?>" id="listview_radio" onclick="Calendar.UI.setCurrentView('listview');"/>
+								<input type="button" value="<?php echo $l->t('Month');?>" id="onemonthview_radio" onclick="Calendar.UI.setCurrentView('onemonthview');"/>
+								<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio" onclick="Calendar.UI.setCurrentView('listview');"/>
 							</div>
 						</form>
 						<form>
