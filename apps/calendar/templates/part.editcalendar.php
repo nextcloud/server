@@ -1,17 +1,10 @@
 <?php
-/*************************************************
- * ownCloud - Calendar Plugin                     *
- *                                                *
- * (c) Copyright 2011 Bart Visscher               *
- * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
- *                                                *
- * If you are not able to view the License,       *
- * <http://www.gnu.org/licenses/>                 *
- * please write to the Free Software Foundation.  *
- * Address:                                       *
- * 59 Temple Place, Suite 330, Boston,            *
- * MA 02111-1307  USA                             *
- *************************************************/
+/**
+ * Copyright (c) 2011 Bart Visscher <bartv@thisnet.nl>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
 ?>
 <td id="<?php echo $_['new'] ? 'new' : 'edit' ?>calendar_dialog" title="<?php echo $_['new'] ? $l->t("New calendar") : $l->t("Edit calendar"); ?>" colspan="4">
 <table width="100%" style="border: 0;">

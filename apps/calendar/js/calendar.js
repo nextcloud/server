@@ -1,44 +1,11 @@
-/*************************************************
- * ownCloud - Calendar Plugin                     *
- *                                                *
- * (c) Copyright 2011 Georg Ehrke                 *
- * (c) Copyright 2011 Bart Visscher               *
- * author: Georg Ehrke                            *
- * email: ownclouddev at georgswebsite dot de     *
- * homepage: ownclouddev.georgswebsite.de         *
- * manual: ownclouddev.georgswebsite.de/manual    *
- * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
- *                                                *
- * <http://www.gnu.org/licenses/>                 *
- * If you are not able to view the License,       *
- * <http://www.gnu.org/licenses/>                 *
- * <http://ownclouddev.georgswebsite.de/license/> *
- * please write to the Free Software Foundation.  *
- * Address:                                       *
- * 59 Temple Place, Suite 330, Boston,            *
- * MA 02111-1307  USA                             *
- **************************************************
- *               list of all fx                   *
- * calw - Calendarweek                            *
- * doy - Day of the year                          *
- * checkforleapyear - check for a leap year       *
- * forward_day - switching one day forward        *
- * forward_week - switching one week forward      *
- * forward_month - switching one month forward    *
- * backward_day - switching one day backward      *
- * backward_week - switching one week backward    *
- * backward_month - switching one month backward  *
- * update_view - update the view of the calendar  *
- * onedayview - one day view                      *
- * oneweekview - one week view                    *
- * fourweekview - four Weeks view                 *
- * onemonthview - one Month view                  *
- * listview - listview                            *
- * generateDates - generate other days for view  *
- * switch2today - switching to today              *
- * removeEvents - remove old events in view       *
- * loadEvents - load the events                   *
- *************************************************/
+/**
+ * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2011 Bart Visscher <bartv@thisnet.nl>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
 Calendar={
 	space:' ',
 	Date:{
