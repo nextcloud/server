@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-23 20:10+0200\n"
+"POT-Creation-Date: 2011-09-23 20:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,95 +40,95 @@ msgid "Calendar"
 msgstr ""
 
 #: lib/object.php:304
-msgid "None"
-msgstr ""
-
-#: lib/object.php:305
 msgid "Birthday"
 msgstr ""
 
-#: lib/object.php:306
+#: lib/object.php:305
 msgid "Business"
 msgstr ""
 
-#: lib/object.php:307
+#: lib/object.php:306
 msgid "Call"
 msgstr ""
 
-#: lib/object.php:308
+#: lib/object.php:307
 msgid "Clients"
 msgstr ""
 
-#: lib/object.php:309
+#: lib/object.php:308
 msgid "Deliverer"
 msgstr ""
 
-#: lib/object.php:310
+#: lib/object.php:309
 msgid "Holidays"
 msgstr ""
 
-#: lib/object.php:311
+#: lib/object.php:310
 msgid "Ideas"
 msgstr ""
 
-#: lib/object.php:312
+#: lib/object.php:311
 msgid "Journey"
 msgstr ""
 
-#: lib/object.php:313
+#: lib/object.php:312
 msgid "Jubilee"
 msgstr ""
 
-#: lib/object.php:314
+#: lib/object.php:313
 msgid "Meeting"
 msgstr ""
 
-#: lib/object.php:315
+#: lib/object.php:314
 msgid "Other"
 msgstr ""
 
-#: lib/object.php:316
+#: lib/object.php:315
 msgid "Personal"
 msgstr ""
 
-#: lib/object.php:317
+#: lib/object.php:316
 msgid "Projects"
 msgstr ""
 
-#: lib/object.php:318
+#: lib/object.php:317
 msgid "Questions"
 msgstr ""
 
-#: lib/object.php:319
+#: lib/object.php:318
 msgid "Work"
 msgstr ""
 
-#: lib/object.php:326
+#: lib/object.php:325
 msgid "Does not repeat"
 msgstr ""
 
-#: lib/object.php:327
+#: lib/object.php:326
 msgid "Daily"
 msgstr ""
 
-#: lib/object.php:328
+#: lib/object.php:327
 msgid "Weekly"
 msgstr ""
 
-#: lib/object.php:329
+#: lib/object.php:328
 msgid "Every Weekday"
 msgstr ""
 
-#: lib/object.php:330
+#: lib/object.php:329
 msgid "Bi-Weekly"
 msgstr ""
 
-#: lib/object.php:331
+#: lib/object.php:330
 msgid "Monthly"
 msgstr ""
 
-#: lib/object.php:332
+#: lib/object.php:331
 msgid "Yearly"
+msgstr ""
+
+#: lib/object.php:349
+msgid "Not an array"
 msgstr ""
 
 #: templates/calendar.php:3
@@ -207,7 +207,7 @@ msgstr ""
 msgid "April"
 msgstr ""
 
-#: templates/calendar.php:34 templates/calendar.php:35
+#: templates/calendar.php:34
 msgid "May"
 msgstr ""
 
@@ -253,6 +253,10 @@ msgstr ""
 
 #: templates/calendar.php:35
 msgid "Apr."
+msgstr ""
+
+#: templates/calendar.php:35
+msgid "May."
 msgstr ""
 
 #: templates/calendar.php:35
@@ -309,7 +313,7 @@ msgid "Month"
 msgstr ""
 
 #: templates/calendar.php:53
-msgid "Listview"
+msgid "List"
 msgstr ""
 
 #: templates/calendar.php:58
@@ -410,6 +414,10 @@ msgstr ""
 
 #: templates/part.eventform.php:17 templates/part.eventinfo.php:16
 msgid "Category"
+msgstr ""
+
+#: templates/part.eventform.php:19
+msgid "Select category"
 msgstr ""
 
 #: templates/part.eventform.php:43 templates/part.eventinfo.php:28

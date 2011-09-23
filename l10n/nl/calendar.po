@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <hadri.hilmi@gmail.com>, 2011.
+#   <bart.formosus@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
@@ -11,17 +11,17 @@ msgstr ""
 "POT-Creation-Date: 2011-09-23 20:34+0200\n"
 "PO-Revision-Date: 2011-09-23 18:27+0000\n"
 "Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
-"Language-Team: Malay (Malaysia) (http://www.transifex.net/projects/p/owncloud/team/ms_MY/)\n"
+"Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ms_MY\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ajax/createcalendar.php:24 ajax/settimezone.php:26
 #: ajax/updatecalendar.php:24
 msgid "Authentication error"
-msgstr "Ralat pengesahan"
+msgstr "Foute aanvraag"
 
 #: ajax/editeventform.php:31
 msgid "Wrong calendar"
@@ -29,16 +29,16 @@ msgstr ""
 
 #: ajax/settimezone.php:34
 msgid "Timezone changed"
-msgstr "Zon waktu diubah"
+msgstr "U kunt maar een venster tegelijk openen."
 
 #: ajax/settimezone.php:36
 msgid "Invalid request"
-msgstr "Permintaan tidak sah"
+msgstr "Ongeldige aanvraag"
 
 #: appinfo/app.php:19 templates/part.eventform.php:26
 #: templates/part.eventinfo.php:18
 msgid "Calendar"
-msgstr "Kalendar"
+msgstr "Weergavenaam"
 
 #: lib/object.php:304
 msgid "Birthday"
@@ -102,31 +102,31 @@ msgstr ""
 
 #: lib/object.php:325
 msgid "Does not repeat"
-msgstr "Tidak berulang"
+msgstr "Wordt niet herhaald"
 
 #: lib/object.php:326
 msgid "Daily"
-msgstr "Harian"
+msgstr "Dagelijks"
 
 #: lib/object.php:327
 msgid "Weekly"
-msgstr "Mingguan"
+msgstr "Wekelijks"
 
 #: lib/object.php:328
 msgid "Every Weekday"
-msgstr "Setiap hari minggu"
+msgstr "Elke weekdag"
 
 #: lib/object.php:329
 msgid "Bi-Weekly"
-msgstr "Dua kali seminggu"
+msgstr "Tweewekelijks"
 
 #: lib/object.php:330
 msgid "Monthly"
-msgstr "Bulanan"
+msgstr "Maandelijks"
 
 #: lib/object.php:331
 msgid "Yearly"
-msgstr "Tahunan"
+msgstr "Jaarlijks"
 
 #: lib/object.php:349
 msgid "Not an array"
@@ -134,63 +134,63 @@ msgstr ""
 
 #: templates/calendar.php:3
 msgid "All day"
-msgstr "Sepanjang hari"
+msgstr "Tweewekelijks"
 
 #: templates/calendar.php:32
 msgid "Sunday"
-msgstr "Ahad"
+msgstr "Zondag"
 
 #: templates/calendar.php:32
 msgid "Monday"
-msgstr "Isnin"
+msgstr "Maandag"
 
 #: templates/calendar.php:32
 msgid "Tuesday"
-msgstr "Selasa"
+msgstr "Dinsdag"
 
 #: templates/calendar.php:32
 msgid "Wednesday"
-msgstr "Rabu"
+msgstr "Woensdag"
 
 #: templates/calendar.php:32
 msgid "Thursday"
-msgstr "Khamis"
+msgstr "Donderdag"
 
 #: templates/calendar.php:32
 msgid "Friday"
-msgstr "Jumaat"
+msgstr "Vrijdag"
 
 #: templates/calendar.php:32
 msgid "Saturday"
-msgstr "Sabtu"
+msgstr "Zaterdag"
 
 #: templates/calendar.php:33
 msgid "Sun."
-msgstr "Ahad"
+msgstr "Zo"
 
 #: templates/calendar.php:33
 msgid "Mon."
-msgstr "Isnin"
+msgstr "Ma"
 
 #: templates/calendar.php:33
 msgid "Tue."
-msgstr "Selasa"
+msgstr "Di"
 
 #: templates/calendar.php:33
 msgid "Wed."
-msgstr "Rabu"
+msgstr "Wo"
 
 #: templates/calendar.php:33
 msgid "Thu."
-msgstr "Khamis"
+msgstr "Do"
 
 #: templates/calendar.php:33
 msgid "Fri."
-msgstr "Jumaat"
+msgstr "Vr"
 
 #: templates/calendar.php:33
 msgid "Sat."
-msgstr "Sabtu"
+msgstr "Za"
 
 #: templates/calendar.php:34
 msgid "January"
@@ -202,11 +202,11 @@ msgstr "Februari"
 
 #: templates/calendar.php:34
 msgid "March"
-msgstr "Mac"
+msgstr "Maart"
 
 #: templates/calendar.php:34
 msgid "April"
-msgstr "April "
+msgstr "April"
 
 #: templates/calendar.php:34
 msgid "May"
@@ -214,15 +214,15 @@ msgstr "Mei"
 
 #: templates/calendar.php:34
 msgid "June"
-msgstr "Jun"
+msgstr "Juni"
 
 #: templates/calendar.php:34
 msgid "July"
-msgstr "Julai"
+msgstr "Juli"
 
 #: templates/calendar.php:34
 msgid "August"
-msgstr "Ogos"
+msgstr "Augustus"
 
 #: templates/calendar.php:34
 msgid "September"
@@ -238,7 +238,7 @@ msgstr "November"
 
 #: templates/calendar.php:34
 msgid "December"
-msgstr "Disember"
+msgstr "December"
 
 #: templates/calendar.php:35
 msgid "Jan."
@@ -250,7 +250,7 @@ msgstr "Feb"
 
 #: templates/calendar.php:35
 msgid "Mar."
-msgstr "Mac"
+msgstr "Maa"
 
 #: templates/calendar.php:35
 msgid "Apr."
@@ -270,11 +270,11 @@ msgstr "Jul"
 
 #: templates/calendar.php:35
 msgid "Aug."
-msgstr "Ogos"
+msgstr "Aug"
 
 #: templates/calendar.php:35
 msgid "Sep."
-msgstr "Sep"
+msgstr "Sept"
 
 #: templates/calendar.php:35
 msgid "Oct."
@@ -286,16 +286,16 @@ msgstr "Nov"
 
 #: templates/calendar.php:35
 msgid "Dec."
-msgstr "Dis"
+msgstr "Dec"
 
 #: templates/calendar.php:36 templates/calendar.php:50
 #: templates/calendar.php:116
 msgid "Week"
-msgstr "Minggu"
+msgstr "Week"
 
 #: templates/calendar.php:37 templates/calendar.php:51
 msgid "Weeks"
-msgstr "Minggu"
+msgstr "Weken"
 
 #: templates/calendar.php:38
 msgid "More before {startdate}"
@@ -307,11 +307,11 @@ msgstr ""
 
 #: templates/calendar.php:49
 msgid "Day"
-msgstr "Hari"
+msgstr "Dag"
 
 #: templates/calendar.php:52
 msgid "Month"
-msgstr "Bulan"
+msgstr "Maand"
 
 #: templates/calendar.php:53
 msgid "List"
@@ -319,23 +319,23 @@ msgstr ""
 
 #: templates/calendar.php:58
 msgid "Today"
-msgstr "Hari ini"
+msgstr "Vandaag"
 
 #: templates/calendar.php:59
 msgid "Calendars"
-msgstr "Kalendar"
+msgstr "Kalenders"
 
 #: templates/calendar.php:76 templates/calendar.php:94
 msgid "Time"
-msgstr "Waktu"
+msgstr "Tijd"
 
 #: templates/calendar.php:169
 msgid "There was a fail, while parsing the file."
-msgstr "Berlaku kegagalan ketika penguraian fail. "
+msgstr "Er is een fout opgetreden bij het verwerken van het bestand."
 
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
-msgstr "Pilih kalendar yang aktif"
+msgstr "Kies actieve kalenders"
 
 #: templates/part.choosecalendar.php:15
 msgid "New Calendar"
@@ -348,12 +348,12 @@ msgstr ""
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Download"
-msgstr "Muat turun"
+msgstr "Download"
 
 #: templates/part.choosecalendar.rowfields.php:4
 #: templates/part.eventinfo.php:64
 msgid "Edit"
-msgstr "Edit"
+msgstr "Bewerken"
 
 #: templates/part.editcalendar.php:16
 msgid "New calendar"
@@ -361,24 +361,24 @@ msgstr ""
 
 #: templates/part.editcalendar.php:16
 msgid "Edit calendar"
-msgstr "Edit kalendar"
+msgstr "Bewerk kalender"
 
 #: templates/part.editcalendar.php:19
 msgid "Displayname"
-msgstr "Paparan nama"
+msgstr "Weergavenaam"
 
 #: templates/part.editcalendar.php:30
 msgid "Active"
-msgstr "Aktif"
+msgstr "Actief"
 
 #: templates/part.editcalendar.php:36 templates/part.eventform.php:84
 #: templates/part.eventinfo.php:58
 msgid "Description"
-msgstr "Huraian"
+msgstr "Beschrijving"
 
 #: templates/part.editcalendar.php:42
 msgid "Calendar color"
-msgstr "Warna kalendar"
+msgstr "Kalender kleur"
 
 #: templates/part.editcalendar.php:48
 msgid "Save"
@@ -387,7 +387,7 @@ msgstr ""
 #: templates/part.editcalendar.php:48 templates/part.editevent.php:7
 #: templates/part.newevent.php:6
 msgid "Submit"
-msgstr "Hantar"
+msgstr "Opslaan"
 
 #: templates/part.editcalendar.php:49
 msgid "Cancel"
@@ -395,27 +395,27 @@ msgstr ""
 
 #: templates/part.editevent.php:1 templates/part.eventinfo.php:1
 msgid "Edit an event"
-msgstr "Edit agenda"
+msgstr "Bewerken een evenement"
 
 #: templates/part.eventform.php:3 templates/part.eventinfo.php:4
 msgid "Title"
-msgstr "Tajuk"
+msgstr "Titel"
 
 #: templates/part.eventform.php:5
 msgid "Title of the Event"
-msgstr "Tajuk agenda"
+msgstr "Titel van het evenement"
 
 #: templates/part.eventform.php:9 templates/part.eventinfo.php:9
 msgid "Location"
-msgstr "Lokasi"
+msgstr "Locatie"
 
 #: templates/part.eventform.php:11
 msgid "Location of the Event"
-msgstr "Lokasi agenda"
+msgstr "Locatie van het evenement"
 
 #: templates/part.eventform.php:17 templates/part.eventinfo.php:16
 msgid "Category"
-msgstr "kategori"
+msgstr "Categorie"
 
 #: templates/part.eventform.php:19
 msgid "Select category"
@@ -423,38 +423,38 @@ msgstr ""
 
 #: templates/part.eventform.php:43 templates/part.eventinfo.php:28
 msgid "All Day Event"
-msgstr "Agenda di sepanjang hari "
+msgstr "Hele dag"
 
 #: templates/part.eventform.php:47 templates/part.eventinfo.php:31
 msgid "From"
-msgstr "Dari"
+msgstr "Van"
 
 #: templates/part.eventform.php:55 templates/part.eventinfo.php:38
 msgid "To"
-msgstr "ke"
+msgstr "Aan"
 
 #: templates/part.eventform.php:63 templates/part.eventinfo.php:44
 msgid "Repeat"
-msgstr "Ulang"
+msgstr "Herhalen"
 
 #: templates/part.eventform.php:77 templates/part.eventinfo.php:51
 msgid "Attendees"
-msgstr "Hadirin"
+msgstr "Deelnemers"
 
 #: templates/part.eventform.php:85
 msgid "Description of the Event"
-msgstr "Huraian agenda"
+msgstr "Beschrijving van het evenement"
 
 #: templates/part.eventinfo.php:63
 msgid "Close"
-msgstr "Tutup"
+msgstr "Sluiten"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"
-msgstr "Buat agenda baru"
+msgstr "Maak een nieuw evenement"
 
 #: templates/settings.php:18
 msgid "Timezone"
-msgstr "Zon waktu"
+msgstr "Tijdzone"
 
 

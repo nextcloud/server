@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:15+0200\n"
-"PO-Revision-Date: 2011-09-05 14:52+0000\n"
-"Last-Translator: Eraser <eraser@eraser.ee>\n"
+"POT-Creation-Date: 2011-09-23 20:34+0200\n"
+"PO-Revision-Date: 2011-09-23 18:27+0000\n"
+"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.net/projects/p/owncloud/team/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,26 +18,119 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/settimezone.php:13 ajax/updatecalendar.php:29
+#: ajax/createcalendar.php:24 ajax/settimezone.php:26
+#: ajax/updatecalendar.php:24
 msgid "Authentication error"
 msgstr "Autentimise viga"
 
-#: ajax/settimezone.php:21
+#: ajax/editeventform.php:31
+msgid "Wrong calendar"
+msgstr ""
+
+#: ajax/settimezone.php:34
 msgid "Timezone changed"
 msgstr "Ajavöönd on muudetud"
 
-#: ajax/settimezone.php:23
+#: ajax/settimezone.php:36
 msgid "Invalid request"
 msgstr "Vigane päring"
 
-#: appinfo/app.php:18 templates/part.editevent.php:25
-#: templates/part.eventinfo.php:18 templates/part.newevent.php:41
+#: appinfo/app.php:19 templates/part.eventform.php:26
+#: templates/part.eventinfo.php:18
 msgid "Calendar"
 msgstr "Kalender"
 
-#: js/calendar.js:801 js/calendar.js:809
-msgid "You can't open more than one dialog per site!"
-msgstr "Sa saad avada saidi kohta ainult ühe dialoogi."
+#: lib/object.php:304
+msgid "Birthday"
+msgstr ""
+
+#: lib/object.php:305
+msgid "Business"
+msgstr ""
+
+#: lib/object.php:306
+msgid "Call"
+msgstr ""
+
+#: lib/object.php:307
+msgid "Clients"
+msgstr ""
+
+#: lib/object.php:308
+msgid "Deliverer"
+msgstr ""
+
+#: lib/object.php:309
+msgid "Holidays"
+msgstr ""
+
+#: lib/object.php:310
+msgid "Ideas"
+msgstr ""
+
+#: lib/object.php:311
+msgid "Journey"
+msgstr ""
+
+#: lib/object.php:312
+msgid "Jubilee"
+msgstr ""
+
+#: lib/object.php:313
+msgid "Meeting"
+msgstr ""
+
+#: lib/object.php:314
+msgid "Other"
+msgstr ""
+
+#: lib/object.php:315
+msgid "Personal"
+msgstr ""
+
+#: lib/object.php:316
+msgid "Projects"
+msgstr ""
+
+#: lib/object.php:317
+msgid "Questions"
+msgstr ""
+
+#: lib/object.php:318
+msgid "Work"
+msgstr ""
+
+#: lib/object.php:325
+msgid "Does not repeat"
+msgstr "Ei kordu"
+
+#: lib/object.php:326
+msgid "Daily"
+msgstr "Iga päev"
+
+#: lib/object.php:327
+msgid "Weekly"
+msgstr "Iga nädal"
+
+#: lib/object.php:328
+msgid "Every Weekday"
+msgstr "Igal nädalapäeval"
+
+#: lib/object.php:329
+msgid "Bi-Weekly"
+msgstr "Üle nädala"
+
+#: lib/object.php:330
+msgid "Monthly"
+msgstr "Igal kuul"
+
+#: lib/object.php:331
+msgid "Yearly"
+msgstr "Igal aastal"
+
+#: lib/object.php:349
+msgid "Not an array"
+msgstr ""
 
 #: templates/calendar.php:3
 msgid "All day"
@@ -115,7 +208,7 @@ msgstr "Märts"
 msgid "April"
 msgstr "Aprill"
 
-#: templates/calendar.php:34 templates/calendar.php:35
+#: templates/calendar.php:34
 msgid "May"
 msgstr "Mai"
 
@@ -164,6 +257,10 @@ msgid "Apr."
 msgstr "Apr."
 
 #: templates/calendar.php:35
+msgid "May."
+msgstr ""
+
+#: templates/calendar.php:35
 msgid "Jun."
 msgstr "Jun."
 
@@ -191,49 +288,63 @@ msgstr "Nov."
 msgid "Dec."
 msgstr "Dets."
 
-#: templates/calendar.php:36 templates/calendar.php:45
+#: templates/calendar.php:36 templates/calendar.php:50
+#: templates/calendar.php:116
 msgid "Week"
 msgstr "Nädal"
 
-#: templates/calendar.php:37 templates/calendar.php:46
+#: templates/calendar.php:37 templates/calendar.php:51
 msgid "Weeks"
 msgstr "Nädalat"
 
-#: templates/calendar.php:44
+#: templates/calendar.php:38
+msgid "More before {startdate}"
+msgstr ""
+
+#: templates/calendar.php:39
+msgid "More after {enddate}"
+msgstr ""
+
+#: templates/calendar.php:49
 msgid "Day"
 msgstr "Päev"
 
-#: templates/calendar.php:47
+#: templates/calendar.php:52
 msgid "Month"
 msgstr "Kuu"
 
-#: templates/calendar.php:48
-msgid "Listview"
-msgstr "Nimekirja vaade"
-
 #: templates/calendar.php:53
+msgid "List"
+msgstr ""
+
+#: templates/calendar.php:58
 msgid "Today"
 msgstr "Täna"
 
-#: templates/calendar.php:54
+#: templates/calendar.php:59
 msgid "Calendars"
 msgstr "Kalendrid"
 
-#: templates/calendar.php:71 templates/calendar.php:89
+#: templates/calendar.php:76 templates/calendar.php:94
 msgid "Time"
 msgstr "Kellaaeg"
 
-#: templates/calendar.php:111
-msgid "CW"
-msgstr "CW"
-
-#: templates/calendar.php:162
+#: templates/calendar.php:169
 msgid "There was a fail, while parsing the file."
 msgstr "Faili parsimisel tekkis viga."
 
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
 msgstr "Vali aktiivsed kalendrid"
+
+#: templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr ""
+
+#: templates/part.choosecalendar.php:20
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "CalDav Link"
+msgstr ""
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Download"
@@ -244,125 +355,105 @@ msgstr "Lae alla"
 msgid "Edit"
 msgstr "Muuda"
 
-#: templates/part.editcalendar.php:1
+#: templates/part.editcalendar.php:16
+msgid "New calendar"
+msgstr ""
+
+#: templates/part.editcalendar.php:16
 msgid "Edit calendar"
 msgstr "Muuda kalendrit"
 
-#: templates/part.editcalendar.php:4
+#: templates/part.editcalendar.php:19
 msgid "Displayname"
 msgstr "Näidatav nimi"
 
-#: templates/part.editcalendar.php:14
+#: templates/part.editcalendar.php:30
 msgid "Active"
 msgstr "Aktiivne"
 
-#: templates/part.editcalendar.php:19 templates/part.editevent.php:93
-#: templates/part.eventinfo.php:58 templates/part.newevent.php:127
+#: templates/part.editcalendar.php:36 templates/part.eventform.php:84
+#: templates/part.eventinfo.php:58
 msgid "Description"
 msgstr "Kirjeldus"
 
-#: templates/part.editcalendar.php:25
+#: templates/part.editcalendar.php:42
 msgid "Calendar color"
 msgstr "Kalendri värv"
 
-#: templates/part.editcalendar.php:31 templates/part.editevent.php:98
-#: templates/part.newevent.php:133
+#: templates/part.editcalendar.php:48
+msgid "Save"
+msgstr ""
+
+#: templates/part.editcalendar.php:48 templates/part.editevent.php:7
+#: templates/part.newevent.php:6
 msgid "Submit"
 msgstr "OK"
+
+#: templates/part.editcalendar.php:49
+msgid "Cancel"
+msgstr ""
 
 #: templates/part.editevent.php:1 templates/part.eventinfo.php:1
 msgid "Edit an event"
 msgstr "Muuda sündmust"
 
-#: templates/part.editevent.php:4 templates/part.eventinfo.php:4
-#: templates/part.newevent.php:6
+#: templates/part.eventform.php:3 templates/part.eventinfo.php:4
 msgid "Title"
 msgstr "Pealkiri"
 
-#: templates/part.editevent.php:10 templates/part.eventinfo.php:9
-#: templates/part.newevent.php:12
+#: templates/part.eventform.php:5
+msgid "Title of the Event"
+msgstr "Sündmuse pealkiri"
+
+#: templates/part.eventform.php:9 templates/part.eventinfo.php:9
 msgid "Location"
 msgstr "Asukoht"
 
-#: templates/part.editevent.php:18 templates/part.eventinfo.php:16
-#: templates/part.newevent.php:20
+#: templates/part.eventform.php:11
+msgid "Location of the Event"
+msgstr "Sündmuse toimumiskoht"
+
+#: templates/part.eventform.php:17 templates/part.eventinfo.php:16
 msgid "Category"
 msgstr "Kategooria"
 
-#: templates/part.editevent.php:41 templates/part.eventinfo.php:28
-#: templates/part.newevent.php:76
+#: templates/part.eventform.php:19
+msgid "Select category"
+msgstr ""
+
+#: templates/part.eventform.php:43 templates/part.eventinfo.php:28
 msgid "All Day Event"
 msgstr "Kogu päeva sündmus"
 
-#: templates/part.editevent.php:48 templates/part.eventinfo.php:31
-#: templates/part.newevent.php:80
+#: templates/part.eventform.php:47 templates/part.eventinfo.php:31
 msgid "From"
 msgstr "Alates"
 
-#: templates/part.editevent.php:62 templates/part.eventinfo.php:38
-#: templates/part.newevent.php:96
+#: templates/part.eventform.php:55 templates/part.eventinfo.php:38
 msgid "To"
 msgstr "Kuni"
 
-#: templates/part.editevent.php:70 templates/part.eventinfo.php:44
-#: templates/part.newevent.php:104
+#: templates/part.eventform.php:63 templates/part.eventinfo.php:44
 msgid "Repeat"
 msgstr "Korda"
 
-#: templates/part.editevent.php:86 templates/part.eventinfo.php:51
-#: templates/part.newevent.php:120
+#: templates/part.eventform.php:77 templates/part.eventinfo.php:51
 msgid "Attendees"
 msgstr "Osalejad"
+
+#: templates/part.eventform.php:85
+msgid "Description of the Event"
+msgstr "Sündmuse kirjeldus"
 
 #: templates/part.eventinfo.php:63
 msgid "Close"
 msgstr "Sulge"
 
-#: templates/part.newevent.php:2
+#: templates/part.newevent.php:1
 msgid "Create a new event"
 msgstr "Loo sündmus"
 
-#: templates/part.newevent.php:8
-msgid "Title of the Event"
-msgstr "Sündmuse pealkiri"
-
-#: templates/part.newevent.php:14
-msgid "Location of the Event"
-msgstr "Sündmuse toimumiskoht"
-
-#: templates/part.newevent.php:107
-msgid "Does not repeat"
-msgstr "Ei kordu"
-
-#: templates/part.newevent.php:108
-msgid "Daily"
-msgstr "Iga päev"
-
-#: templates/part.newevent.php:109
-msgid "Weekly"
-msgstr "Iga nädal"
-
-#: templates/part.newevent.php:110
-msgid "Every Weekday"
-msgstr "Igal nädalapäeval"
-
-#: templates/part.newevent.php:111
-msgid "Bi-Weekly"
-msgstr "Üle nädala"
-
-#: templates/part.newevent.php:112
-msgid "Monthly"
-msgstr "Igal kuul"
-
-#: templates/part.newevent.php:113
-msgid "Yearly"
-msgstr "Igal aastal"
-
-#: templates/part.newevent.php:128
-msgid "Description of the Event"
-msgstr "Sündmuse kirjeldus"
-
-#: templates/settings.php:3
+#: templates/settings.php:18
 msgid "Timezone"
 msgstr "Ajavöönd"
 

@@ -121,6 +121,36 @@ trans.sr@latin = l10n/sr@latin/media.po
 trans.sv = l10n/sv/media.po
 trans.zh_CN = l10n/zh_CN/media.po
 
+[owncloud.calendar]
+file_filter = l10n/<lang>/calendar.po
+host = http://www.transifex.net
+source_file = l10n/templates/calendar.pot
+source_lang = en
+trans.bg_BG = l10n/bg_BG/calendar.po
+trans.ca = l10n/ca/calendar.po
+trans.cs_CZ = l10n/cs_CZ/calendar.po
+trans.da = l10n/da/calendar.po
+trans.de = l10n/de/calendar.po
+trans.el = l10n/el/calendar.po
+trans.es = l10n/es/calendar.po
+trans.et_EE = l10n/et_EE/calendar.po
+trans.fr = l10n/fr/calendar.po
+trans.id = l10n/id/calendar.po
+trans.it = l10n/it/calendar.po
+trans.lb = l10n/lb/calendar.po
+trans.ms_MY = l10n/ms_MY/calendar.po
+trans.nb_NO = l10n/nb_NO/calendar.po
+trans.nl = l10n/nl/calendar.po
+trans.pl = l10n/pl/calendar.po
+trans.pt_BR = l10n/pt_BR/calendar.po
+trans.pt_PT = l10n/pt_PT/calendar.po
+trans.ro = l10n/ro/calendar.po
+trans.ru = l10n/ru/calendar.po
+trans.sr = l10n/sr/calendar.po
+trans.sr@latin = l10n/sr@latin/calendar.po
+trans.sv = l10n/sv/calendar.po
+trans.zh_CN = l10n/zh_CN/calendar.po
+
 [owncloud.contacts]
 file_filter = translations/owncloud.contacts/<lang>.po
 host = http://www.transifex.net
