@@ -5,7 +5,7 @@
  */?>
 
 <div id="quota" class="personalblock"><div style="width:<?php echo $_['usage_relative'];?>%;">
-	<p><?php echo $l->t('You use');?> <strong><?php echo $_['usage'];?></strong> <?php echo $l->t('of the available');?> <strong><?php echo $_['total_space'];?></strong></p>
+	<p id="quotatext"><?php echo $l->t('You use');?> <strong><?php echo $_['usage'];?></strong> <?php echo $l->t('of the available');?> <strong><?php echo $_['total_space'];?></strong></p>
 </div></div>
 
 <form id="passwordform">
