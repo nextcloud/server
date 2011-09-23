@@ -17,7 +17,7 @@ OC_App::setActiveNavigationEntry( "personal" );
 $used=OC_Filesystem::filesize('/');
 $free=OC_Filesystem::free_space();
 $total=$free+$used;
-$relative=round(($used/$total)*100);
+$relative=round(($used/$total)*10000)/100;
 
 $lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', 'en' );
 $languageCodes=OC_L10N::findAvailableLanguages();
