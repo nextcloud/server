@@ -459,7 +459,7 @@ Calendar={
 					Calendar.UI.loadEvents();
 				  });
 			},
-			new:function(object){
+			newCalendar:function(object){
 				var tr = $(document.createElement('tr'))
 					.load(oc_webroot + "/apps/calendar/ajax/newcalendar.php");
 				$(object).closest('tr').after(tr).hide();

@@ -12,7 +12,7 @@ for($i = 0; $i < count($option_calendars); $i++){
 ?>
 <tr>
 	<td colspan="4">
-		<a href="#" onclick="Calendar.UI.Calendar.new(this);"><?php echo $l->t('New Calendar') ?></a>
+		<a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><?php echo $l->t('New Calendar') ?></a>
 	</td>
 </tr>
 <tr>
