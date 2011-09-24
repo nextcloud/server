@@ -46,7 +46,6 @@ $(document).ready(function() {
 		var form = $('<form>');
 		form.attr('action', $(this).attr('action'));
 		form.attr('method', 'POST');
-		if(true){ form.attr('target', '_blank'); }
 
 		for(var i=0; i<post.length; i++){
 			var input = $('<input type="hidden">');
