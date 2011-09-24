@@ -286,7 +286,6 @@ class OC_Filesystem{
 		return self::basicOperation('file_get_contents',$path,array('read'));
 	}
 	static public function file_put_contents($path,$data){
-		if(defined("DEBUG") && DEBUG) {error_log($data);}
 		return self::basicOperation('file_put_contents',$path,array('create','write'),$data);
 	}
 	static public function unlink($path){
@@ -393,7 +392,6 @@ class OC_Filesystem{
 		}
 	}
 	static public function fromUploadedFile($tmpFile,$path){
-		if(defined("DEBUG") && DEBUG) {error_log('upload');}
 		if(OC_FileProxy::runPreProxies('fromUploadedFile',$tmpFile,$path) and self::canWrite($path) and $storage=self::getStorage($path)){
 			$run=true;
 			$exists=self::file_exists($path);
@@ -403,7 +401,6 @@ class OC_Filesystem{
 			if($run){
 				OC_Hook::emit( 'OC_Filesystem', 'write', array( 'path' => $path, 'run' => &$run));
 			}
-			if(defined("DEBUG") && DEBUG) {error_log('upload2');}
 			if($run){
 				$result=$storage->fromUploadedFile($tmpFile,self::getInternalPath($path));
 				if(!$exists){
