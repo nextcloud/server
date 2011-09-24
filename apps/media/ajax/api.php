@@ -134,7 +134,7 @@ if($arguments['action']){
 	}
 }
 
-function findMusic($path='/'){
+function findMusic($path=''){
 	$music=array();
 	$dh=OC_Filesystem::opendir($path);
 	if($dh){

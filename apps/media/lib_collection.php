@@ -251,10 +251,12 @@ class OC_MEDIA_COLLECTION{
 		if($name=='' or $path==''){
 			return 0;
 		}
-		$uid=$_SESSION['user_id'];
+		$uid=OC_User::getUser();
 		//check if the song is already in the database
 		$songId=self::getSongId($name,$artist,$album);
 		if($songId!=0){
+			$songInfo=self::getSong($songId);
+			self::moveSong($songInfo['song_path'],$path);
 			return $songId;
 		}else{
 			if(!isset(self::$queries['addsong'])){
@@ -357,12 +359,22 @@ class OC_MEDIA_COLLECTION{
 	 */
 	public static function getSongByPath($path){
 		$query=OC_DB::prepare("SELECT song_id FROM *PREFIX*media_songs WHERE song_path = ?");
-		$result=$query->execute(array($path))->fetchAll();
-		if(count($result)>0){
-			return $result[0]['song_id'];
+		$result=$query->execute(array($path));
+		if($row=$result->fetchRow()){
+			return $row['song_id'];
 		}else{
 			return 0;
 		}
+	}
+	
+	/**
+	 * set the path of a song
+	 * @param string $oldPath
+	 * @param string $newPath
+	 */
+	public static function moveSong($oldPath,$newPath){
+		$query=OC_DB::prepare("UPDATE *PREFIX*media_songs SET song_path = ? WHERE song_path = ?");
+		$query->execute(array($newPath,$oldPath));
 	}
 }
 
