@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Files" => "Berkas",
 "Maximum upload size" => "Ukuran unggah maksimum",
-"Nothing in here. Upload something!" => "Tidak ada apa-apa di sini. Unggah sesuatu!",
 "Upload" => "Unggah",
 "New Folder" => "Folder Baru",
+"Nothing in here. Upload something!" => "Tidak ada apa-apa di sini. Unggah sesuatu!",
 "Name" => "Nama",
 "Download" => "Unduh",
 "Size" => "Ukuran",

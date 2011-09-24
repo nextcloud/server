@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Files" => "Αρχεία",
 "Maximum upload size" => "Μέγιστο μέγεθος μεταφόρτωσης",
-"Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!",
 "Upload" => "Μεταφόρτωση",
 "New Folder" => "Νέος φάκελος",
+"Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!",
 "Name" => "Όνομα",
 "Download" => "Λήψη",
 "Size" => "Μέγεθος",

@@ -2,14 +2,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
 #   <icewind1991@gmail.com>, 2011.
+#   <koen@vervloesem.eu>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-18 18:58+0200\n"
-"PO-Revision-Date: 2011-08-18 13:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-24 23:05+0200\n"
+"PO-Revision-Date: 2011-09-24 21:05+0000\n"
+"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,56 +19,82 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: ajax/upload.php:24
+msgid "There is no error, the file uploaded with success"
+msgstr ""
+
+#: ajax/upload.php:25
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
+
+#: ajax/upload.php:26
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+
+#: ajax/upload.php:27
+msgid "The uploaded file was only partially uploaded"
+msgstr ""
+
+#: ajax/upload.php:28
+msgid "No file was uploaded"
+msgstr ""
+
+#: ajax/upload.php:29
+msgid "Missing a temporary folder"
+msgstr ""
+
 #: appinfo/app.php:7
 msgid "Files"
 msgstr "Bestanden"
 
 #: templates/admin.php:5
 msgid "Maximum upload size"
-msgstr "Maximaale bestands groote voor uploads"
+msgstr "Maximale bestandsgrootte voor uploads"
 
-#: templates/part.list.php:1
-msgid "Nothing in here. Upload something!"
-msgstr "Er bevind zich hier niks, upload een bestand."
-
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Upload"
-msgstr "Uploaden"
+msgstr "Upload"
 
-#: templates/index.php:16
+#: templates/index.php:17
 msgid "New Folder"
-msgstr "Nieuwe Map"
+msgstr "Nieuwe map"
 
-#: templates/index.php:29
+#: templates/index.php:31
+msgid "Nothing in here. Upload something!"
+msgstr "Er bevindt zich hier niets. Upload een bestand!"
+
+#: templates/index.php:39
 msgid "Name"
 msgstr "Naam"
 
-#: templates/index.php:31
+#: templates/index.php:41
 msgid "Download"
 msgstr "Download"
 
-#: templates/index.php:35
+#: templates/index.php:45
 msgid "Size"
-msgstr "Bestandsgroote"
+msgstr "Bestandsgrootte"
 
-#: templates/index.php:36
+#: templates/index.php:46
 msgid "Modified"
 msgstr "Laatst aangepast"
 
-#: templates/index.php:36
+#: templates/index.php:46
 msgid "Delete"
-msgstr "Verwijderen"
+msgstr "Verwijder"
 
-#: templates/index.php:44
+#: templates/index.php:54
 msgid "Upload too large"
 msgstr "Bestanden te groot"
 
-#: templates/index.php:46
+#: templates/index.php:56
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
-"De bestanden die U probeert up te loaden zijn grooter dan de maximaal "
-"toegstane  groote voor deze server."
+"De bestanden die u probeert te uploaden zijn groter dan de maximaal "
+"toegestane  bestandsgrootte voor deze server."
 
 
