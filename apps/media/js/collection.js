@@ -217,25 +217,15 @@ Collection={
 		}
 	},
 	addButtons:function(parent,data){
-        buttons = parent.find('.buttons');
-        if(buttons.find('.add').length<=0) {
-            buttons.append('<img class="add" src="'+OC.imagePath('core','actions/play-add')+'"/>');
-        }
-        if(buttons.find('.play').length<=0) {
-            buttons.append('<img class="play" src="'+OC.imagePath('core','actions/play')+'"/>');
-        }
+		buttons = parent.find('.buttons');
+		if(buttons.find('.add').length<=0) {
+			buttons.prepend('<img class="add action" src="'+OC.imagePath('core','actions/play-add')+'" title="Add to playlist" />');
+		}
 		buttons.find('.add').unbind('click');
 		buttons.find('.add').click(function(event){
-            event.preventDefault();
+			event.preventDefault();
 			PlayList.add(data,true);
-            PlayList.render();
-		});
-		buttons.find('.play').unbind('click');
-		buttons.find('.play').click(function(event){
-            event.preventDefault();
-			PlayList.add(data);
-			PlayList.play(0,0);
-            PlayList.render();
+			PlayList.render();
 		});
 	},
 	find:function(artistName,albumName,songName){

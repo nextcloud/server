@@ -9,7 +9,8 @@ div.jp-progress { position:absolute; overflow:hidden; top:.5em; left:8em; width:
 div.jp-seek-bar { background:#eee; width:0; height:100%; cursor:pointer; }
 div.jp-play-bar { background:#ccc; width:0; height:100%; }
 div.jp-seeking-bg { background:url("../img/pbar-ani.gif"); }
-div.jp-current-time,div.jp-duration { position:absolute; font-size:.64em; font-style:oblique; top:1em; left:13.5em; width:22em; }
+div.jp-current-time,div.jp-duration { position:absolute; font-size:.64em; font-style:oblique; top:1em; left:13.5em; }
+div.jp-duration { left:33em; }
 div.jp-duration { text-align:right; }
 
 a.jp-mute,a.jp-unmute { left:24em; }
@@ -27,14 +28,9 @@ div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
 #collection li { padding-right:10px; }
 #searchresults input.play, #searchresults input.add { float:left; height:1em; width:1em; }
 #collection tr.collapsed td.album, #collection tr.collapsed td.title { color:#ddd; }
-a.expander {  }
-tr.active { background-color:#eee; }
-tr.artist, tr.artist td {
-    border-top: 1px solid lightgrey;
-}
-tr.album td.artist {
-    padding-left: 20px;
-}
-tr.song td.artist {
-    padding-left: 40px;
-}
+a.expander { float:right; padding:0 1em; }
+tr.active td { background-color:#eee; font-weight:bold; }
+tr td { border-top:1px solid #eee; height:2.2em; }
+tr .artist img { vertical-align:middle; }
+tr.album td.artist { padding-left:1em; }
+tr.song td.artist { padding-left:2em; }
