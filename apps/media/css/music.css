@@ -34,3 +34,8 @@ tr td { border-top:1px solid #eee; height:2.2em; }
 tr .artist img { vertical-align:middle; }
 tr.album td.artist { padding-left:1em; }
 tr.song td.artist { padding-left:2em; }
+
+#scan { position:absolute; right:13em; top:0em; }
+#scan .start { position:relative; display:inline; float:right; }
+#scan .stop { position:relative; display:inline; float:right; }
+#scan #scanprogressbar { position:relative; display:inline-block; width:10em; height:1.5em; top:.4em; }

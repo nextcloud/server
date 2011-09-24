@@ -19,18 +19,17 @@
 	</div>
 
 	<div class="player" id="jp-player"></div>
+
+	<div id="scan">
+		<input type="button" class="start" value="<?php echo $l->t('Rescan Collection')?>" />
+		<input type="button" class="stop" style="display:none" value="<?php echo $l->t('Pause')?>" />
+		<div id="scanprogressbar"></div>
+	</div>
 </div>
 
 <ul id="leftcontent"></ul>
 
 <div id="rightcontent">
-<div id="scan">
-	<p id="scancount" style="display:none"><span class="songCount">0</span> <?php echo $l->t('Songs scanned')?></p>
-	<input type="button" class="start" value="<?php echo $l->t('Rescan Collection')?>" />
-	<input type="button" class="stop" style="display:none" value="<?php echo $l->t('Pause')?>" />
-	<div id="scanprogressbar"></div>
-	
-</div>
 <table id="collection">
 	<thead>
 		<tr>
