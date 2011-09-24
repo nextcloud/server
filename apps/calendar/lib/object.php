@@ -115,7 +115,7 @@ class OC_Calendar_Object{
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
 
-		OC_Calendar_Calendar::touchCalendar($id);
+		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
 		return true;
 	}
@@ -147,8 +147,10 @@ class OC_Calendar_Object{
 	 * @return boolean
 	 */
 	public static function delete($id){
+		$oldobject = self::find($id);
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE id = ?' );
 		$stmt->execute(array($id));
+		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
 		return true;
 	}
@@ -424,7 +426,7 @@ class OC_Calendar_Object{
 	{
 		$title = $request["title"];
 		$location = $request["location"];
-		$categories = $request["categories"];
+		$categories = isset($request["categories"]) ? $request["categories"] : null;
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
 		$fromtime = $request["fromtime"];
@@ -488,8 +490,7 @@ class OC_Calendar_Object{
 		}
 
 		if($description != ""){
-			$des = str_replace("\n","\\n", $description);
-			$vevent->DESCRIPTION = $des;
+			$vevent->DESCRIPTION = $description;
 		}else{
 			unset($vevent->DESCRIPTION);
 		}

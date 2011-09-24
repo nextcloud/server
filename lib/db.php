@@ -92,8 +92,8 @@ class OC_DB {
 			if( PEAR::isError( self::$DBConnection )){
 				echo( '<b>can not connect to database, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo().')</center>');
 				$error = self::$DBConnection->getMessage();
-				error_log( $error);
-				error_log( self::$DBConnection->getUserInfo());
+				if(defined("DEBUG") && DEBUG) {error_log( $error);}
+				if(defined("DEBUG") && DEBUG) {error_log( self::$DBConnection->getUserInfo());}
 				die( $error );
 			}
 
@@ -129,7 +129,7 @@ class OC_DB {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$query.'<br />';
-			error_log( $entry );
+			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
 			die( $entry );
 		}
 
@@ -155,7 +155,7 @@ class OC_DB {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$query.'<br />';
-			error_log( $entry );
+			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
 			die( $entry );
 		}
 

@@ -56,9 +56,11 @@ if ($source !== false) {
 		$list->assign("files", $files);
 		$list->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list->assign("downloadURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("readonly", true);
 		$tmpl = new OC_Template("files", "index", "user");
 		$tmpl->assign("fileList", $list->fetchPage());
 		$tmpl->assign("breadcrumb", $breadcrumbNav->fetchPage());
+		$tmpl->assign("readonly", true);
 		$tmpl->printPage();
 	} else {
 		//get time mimetype and set the headers

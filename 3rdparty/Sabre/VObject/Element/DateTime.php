@@ -70,20 +70,20 @@ class Sabre_VObject_Element_DateTime extends Sabre_VObject_Property {
                 $this->setValue($dt->format('Ymd\\THis'));
                 $this->offsetUnset('VALUE');
                 $this->offsetUnset('TZID');
-                $this->offsetSet('VALUE','DATETIME'); 
+                $this->offsetSet('VALUE','DATE-TIME');
                 break;
             case self::UTC :
                 $dt->setTimeZone(new DateTimeZone('UTC'));
                 $this->setValue($dt->format('Ymd\\THis\\Z'));
                 $this->offsetUnset('VALUE');
                 $this->offsetUnset('TZID');
-                $this->offsetSet('VALUE','DATETIME');
+                $this->offsetSet('VALUE','DATE-TIME');
                 break;
             case self::LOCALTZ :
                 $this->setValue($dt->format('Ymd\\THis'));
                 $this->offsetUnset('VALUE');
                 $this->offsetUnset('TZID');
-                $this->offsetSet('VALUE','DATETIME');
+                $this->offsetSet('VALUE','DATE-TIME');
                 $this->offsetSet('TZID', $dt->getTimeZone()->getName());
                 break; 
             case self::DATE :

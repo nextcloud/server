@@ -70,7 +70,8 @@ $query = OC_DB::prepare('
 			ELSE \' \'
 		END
 		AS tags
-	FROM *PREFIX*bookmarks, *PREFIX*bookmarks_tags 
+	FROM *PREFIX*bookmarks
+	LEFT JOIN *PREFIX*bookmarks_tags ON 1=1
 	WHERE (*PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
 			OR *PREFIX*bookmarks.id NOT IN (
 				SELECT *PREFIX*bookmarks_tags.bookmark_id FROM *PREFIX*bookmarks_tags

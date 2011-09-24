@@ -300,6 +300,19 @@ Calendar={
 				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/editeventform.php?id=' + id, Calendar.UI.startEventDialog);
 			}
 		},
+		submitDeleteEventForm:function(url){
+			var post = $( "#event_form" ).serialize();
+			$("#errorbox").html("");
+			$.post(url, post, function(data){
+					if(data.status == 'success'){
+						$('#event').dialog('destroy').remove();
+						Calendar.UI.loadEvents();
+					} else {
+						$("#errorbox").html("Deletion failed");
+					}
+
+			}, "json");
+		},
 		validateEventForm:function(url){
 			var post = $( "#event_form" ).serialize();
 			$("#errorbox").html("");

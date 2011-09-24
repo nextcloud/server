@@ -1365,7 +1365,7 @@ class XML_RPC_Message extends XML_RPC_Base
             !preg_match('@^HTTP/[0-9\.]+ 10[0-9]([A-Za-z ]+)?[\r\n]+HTTP/[0-9\.]+ 200@', $data))
         {
                 $errstr = substr($data, 0, strpos($data, "\n") - 1);
-                error_log('HTTP error, got response: ' . $errstr);
+                if(defined("DEBUG") && DEBUG) {error_log('HTTP error, got response: ' . $errstr);}
                 $r = new XML_RPC_Response(0, $XML_RPC_err['http_error'],
                                           $XML_RPC_str['http_error'] . ' (' .
                                           $errstr . ')');
@@ -1396,7 +1396,7 @@ class XML_RPC_Message extends XML_RPC_Base
                                   xml_error_string(xml_get_error_code($parser_resource)),
                                   xml_get_current_line_number($parser_resource));
             }
-            error_log($errstr);
+            if(defined("DEBUG") && DEBUG) {error_log($errstr);}
             $r = new XML_RPC_Response(0, $XML_RPC_err['invalid_return'],
                                       $XML_RPC_str['invalid_return']);
             xml_parser_free($parser_resource);

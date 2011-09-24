@@ -9,7 +9,12 @@ function getURLMetadata($url) {
 	} 
 	$metadata['url'] = $url;
 
-	$page = file_get_contents($url);
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	$page = curl_exec($ch);
+	curl_close($ch);
+
 	@preg_match( "/<title>(.*)<\/title>/si", $page, $match );
 	$metadata['title'] = htmlspecialchars_decode(@$match[1]); 
 

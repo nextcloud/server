@@ -1006,7 +1006,7 @@ class getid3_lib
 	}
 
 
-	function MultiByteCharString2HTML($string, $charset='ISO-8859-1') {
+	static function MultiByteCharString2HTML($string, $charset='ISO-8859-1') {
 		$HTMLstring = '';
 
 		switch ($charset) {
@@ -1187,7 +1187,7 @@ class getid3_lib
 		return (isset($ImageTypesLookup[$imagetypeid]) ? $ImageTypesLookup[$imagetypeid] : '');
 	}
 
-	function CopyTagsToComments(&$ThisFileInfo) {
+	static function CopyTagsToComments(&$ThisFileInfo) {
 
 		// Copy all entries from ['tags'] into common ['comments']
 		if (!empty($ThisFileInfo['tags'])) {

@@ -20,7 +20,7 @@ if($foldername == '') {
 	echo json_encode( array( "status" => "error", "data" => array( "message" => "Empty Foldername" )));
 	exit();
 }
-error_log('try to create ' . $foldername . ' in ' . $dir);
+if(defined("DEBUG") && DEBUG) {error_log('try to create ' . $foldername . ' in ' . $dir);}
 if(OC_Files::newFile($dir, $foldername, 'dir')) {
 	echo json_encode( array( "status" => "success", "data" => array()));
 	exit();

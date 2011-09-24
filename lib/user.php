@@ -348,9 +348,10 @@ class OC_User {
 	 * @param string $username username to be set
 	 */
 	public static function setMagicInCookie($username, $token){
-		setcookie("oc_username", $username, time()+60*60*24*15);
-		setcookie("oc_token", $token, time()+60*60*24*15);
-		setcookie("oc_remember_login", true, time()+60*60*24*15);
+		$secure_cookie = OC_Config::getValue("forcessl", false);
+		setcookie("oc_username", $username, time()+60*60*24*15, '', '', $secure_cookie);
+		setcookie("oc_token", $token, time()+60*60*24*15, '', '', $secure_cookie);
+		setcookie("oc_remember_login", true, time()+60*60*24*15, '', '', $secure_cookie);
 	}
 
 	/**

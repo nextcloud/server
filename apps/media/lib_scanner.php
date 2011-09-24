@@ -97,25 +97,25 @@ class OC_MEDIA_SCANNER{
 			$data=@self::$getID3->analyze($file);
 			getid3_lib::CopyTagsToComments($data);
 			if(!isset($data['comments'])){
-				error_log("error reading id3 tags in '$file'");
+				if(defined("DEBUG") && DEBUG) {error_log("error reading id3 tags in '$file'");}
 				return;
 			}
 			if(!isset($data['comments']['artist'])){
-				error_log("error reading artist tag in '$file'");
+				if(defined("DEBUG") && DEBUG) {error_log("error reading artist tag in '$file'");}
 				$artist='unknown';
 			}else{
 				$artist=stripslashes($data['comments']['artist'][0]);
 				$artist=utf8_encode($artist);
 			}
 			if(!isset($data['comments']['album'])){
-				error_log("error reading album tag in '$file'");
+				if(defined("DEBUG") && DEBUG) {error_log("error reading album tag in '$file'");}
 				$album='unknown';
 			}else{
 				$album=stripslashes($data['comments']['album'][0]);
 				$album=utf8_encode($album);
 			}
 			if(!isset($data['comments']['title'])){
-				error_log("error reading title tag in '$file'");
+				if(defined("DEBUG") && DEBUG) {error_log("error reading title tag in '$file'");}
 				$title='unknown';
 			}else{
 				$title=stripslashes($data['comments']['title'][0]);
