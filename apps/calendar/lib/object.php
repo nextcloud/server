@@ -426,7 +426,7 @@ class OC_Calendar_Object{
 	{
 		$title = $request["title"];
 		$location = $request["location"];
-		$categories = $request["categories"];
+		$categories = isset($request["categories"]) ? $request["categories"] : null;
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
 		$fromtime = $request["fromtime"];
