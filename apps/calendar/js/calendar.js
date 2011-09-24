@@ -416,6 +416,19 @@ Calendar={
 			$('#caldav_url').show();
 			$("#caldav_url_close").show();
 		},
+		deleteCalendar:function(calid){
+			var check = confirm("Do you really want to delete this calendar?");
+			if(check == false){
+				return false;
+			}else{
+				$.post(oc_webroot + "/apps/calendar/ajax/deletecalendar.php", { calendarid: calid},
+				  function(data) {
+					Calendar.UI.loadEvents();
+					$('#choosecalendar_dialog').dialog('destroy').remove();
+					Calendar.UI.Calendar.overview();
+				  });
+			}
+		},
 		Calendar:{
 			overview:function(){
 				if($('#choosecalendar_dialog').dialog('isOpen') == true){
