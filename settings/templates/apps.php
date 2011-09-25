@@ -12,7 +12,7 @@
 	<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>">
 		<?php  echo $app['name'] ?>
 		<span class="hidden">
-			<?php OC_JSON::encodedPrint($app) ?>
+			<?php OC_JSON::encodedPrint($app,false) ?>
 		</span>
 	</li>
 	<?php endforeach;?>
