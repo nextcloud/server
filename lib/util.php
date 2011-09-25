@@ -247,6 +247,13 @@ class OC_Util {
 		return $errors;
 	}
 
+	public static function displayLoginPage($parameters = array()){
+		if(isset($_COOKIE["username"])){
+			$parameters["username"] = $_COOKIE["username"];
+		}
+		OC_Template::printGuestPage("", "login", $parameters);
+	}
+
 	/**
 	* Check if the user is logged in, redirects to home if not
 	*/

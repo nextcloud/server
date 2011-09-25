@@ -63,7 +63,7 @@ elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
 		OC_Util::redirectToDefaultPage();
 	}
 	else {
-		OC_Template::printGuestPage("", "login", array("error" => true));
+		OC_Util::displayLoginPage(array('error' => true));
 	}
 }
 
@@ -83,11 +83,7 @@ elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 		OC_Util::redirectToDefaultPage();
 	}
 	else {
-		if(isset($_COOKIE["oc_username"])){
-			OC_Template::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["oc_username"]));
-		}else{
-			OC_Template::printGuestPage("", "login", array("error" => true));
-		}
+		OC_Util::displayLoginPage(array('error' => true));
 	}
 }
 
@@ -126,11 +122,7 @@ elseif(isset($_GET['resetpassword']) && isset($_GET['token']) && isset($_GET['us
 // For all others cases, we display the guest page :
 else {
 	OC_App::loadApps();
-	if(isset($_COOKIE["username"])){
-		OC_Template::printGuestPage("", "login", array("error" => false, "username" => $_COOKIE["username"]));
-	}else{
-		OC_Template::printGuestPage("", "login", array("error" => false));
-	}
+	OC_Util::displayLoginPage(array('error' => false));
 }
 
 ?>
