@@ -26,12 +26,12 @@
 require_once('../../lib/base.php');
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
+OC_JSON::checkLoggedIn();
 
 $query=(isset($_GET['query']))?$_GET['query']:'';
 if($query){
 	$result=OC_Search::search($query);
-	echo json_encode($result);
+	OC_JSON::encodedPrint($result);
 }else{
 	echo 'false';
 }

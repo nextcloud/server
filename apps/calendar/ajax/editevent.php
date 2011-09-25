@@ -17,8 +17,7 @@ if(!OC_USER::isLoggedIn()) {
 $errarr = OC_Calendar_Object::validateRequest($_POST);
 if($errarr){
 	//show validate errors
-	$errarr['status'] = 'error';
-	echo json_encode($errarr);
+	OC_JSON::error($errarr);
 	exit;
 }else{
 	$id = $_POST['id'];
@@ -26,12 +25,12 @@ if($errarr){
 	$data = OC_Calendar_Object::find($id);
 	if (!$data)
 	{
-		echo json_encode(array('status'=>'error'));
+		OC_JSON::error();
 		exit;
 	}
 	$calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
 	if($calendar['userid'] != OC_User::getUser()){
-		echo json_encode(array('status'=>'error'));
+		OC_JSON::error();
 		exit;
 	}
 	$vcalendar = Sabre_VObject_Reader::read($data['calendardata']);
@@ -40,6 +39,6 @@ if($errarr){
 	if ($data['calendarid'] != $cal) {
 		OC_Calendar_Object::moveToCalendar($id, $cal);
 	}
-	echo json_encode(array('status' => 'success'));
+	OC_JSON::success();
 }
-?> 
+?>

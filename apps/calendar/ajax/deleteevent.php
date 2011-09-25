@@ -17,14 +17,14 @@ $id = $_POST['id'];
 $data = OC_Calendar_Object::find($id);
 if (!$data)
 {
-	echo json_encode(array('status'=>'error'));
+	OC_JSON::error();
 	exit;
 }
 $calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
 if($calendar['userid'] != OC_User::getUser()){
-	echo json_encode(array('status'=>'error'));
+	OC_JSON::error();
 	exit;
 }
 $result = OC_Calendar_Object::delete($id);
-echo json_encode(array('status' => 'success'));
+OC_JSON::success();
 ?> 

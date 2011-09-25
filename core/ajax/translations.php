@@ -26,9 +26,7 @@ require_once('../../lib/base.php');
 
 $app = $_POST["app"];
 
-// We send json data
-header( "Content-Type: application/jsonrequest" );
 $l = new OC_L10N( $app );
 
-echo json_encode( array( 'status' => 'success', 'data' => $l->getTranslations()));
+OC_JSON::success(array('data' => $l->getTranslations()));
 ?>

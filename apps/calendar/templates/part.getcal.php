@@ -53,5 +53,5 @@ foreach($events as $event)
 		$return_events[$year][$month][$day][$hour] = array(1 => $return_event);
 	}
 }
-echo json_encode($return_events);
+OC_JSON::encodedPrint($return_events);
 ?>

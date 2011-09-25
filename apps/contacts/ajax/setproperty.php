@@ -28,27 +28,24 @@ $checksum = $_POST['checksum'];
 $l10n = new OC_L10N('contacts');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in.'))));
-	exit();
-}
+OC_JSON::checkLoggedIn();
 
 $card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Contact could not be found.'))));
+	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Contact could not be found.'))));
 	exit();
 }
 
 $addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your contact.'))));
+	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your contact.'))));
 	exit();
 }
 
 $vcard = OC_Contacts_VCard::parse($card['carddata']);
 // Check if the card is valid
 if(is_null($vcard)){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('vCard could not be read.'))));
+	OC_JSON::error(array('data' => array( 'message' => $l10n->t('vCard could not be read.'))));
 	exit();
 }
 
@@ -59,7 +56,7 @@ for($i=0;$i<count($vcard->children);$i++){
 	}
 }
 if(is_null($line)){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('Information about vCard is incorrect. Please reload the page.'))));
+	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Information about vCard is incorrect. Please reload the page.'))));
 	exit();
 }
 
@@ -100,4 +97,4 @@ $tmpl = new OC_Template('contacts','part.property');
 $tmpl->assign('property',OC_Contacts_VCard::structureProperty($vcard->children[$line],$line));
 $page = $tmpl->fetchPage();
 
-echo json_encode( array( 'status' => 'success', 'data' => array( 'page' => $page, 'line' => $line, 'oldchecksum' => $_POST['checksum'] )));
+OC_JSON::success(array('data' => array( 'page' => $page, 'line' => $line, 'oldchecksum' => $_POST['checksum'] )));
