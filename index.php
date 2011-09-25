@@ -87,38 +87,6 @@ elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 	}
 }
 
-// Someone lost their password:
-elseif(isset($_GET['lostpassword'])) {
-	OC_App::loadApps();
-	if (isset($_POST['user'])) {
-		if (OC_User::userExists($_POST['user'])) {
-			$token = sha1($_POST['user']+uniqId());
-			OC_Preferences::setValue($_POST['user'], "owncloud", "lostpassword", $token);
-			// TODO send email with link+token
-			OC_Template::printGuestPage("", "lostpassword", array("error" => false, "requested" => true));
-		} else {
-			OC_Template::printGuestPage("", "lostpassword", array("error" => true, "requested" => false));
-		}
-	} else {
-		OC_Template::printGuestPage("", "lostpassword", array("error" => false, "requested" => false));
-	}
-}
-
-// Someone wants to reset their password:
-elseif(isset($_GET['resetpassword']) && isset($_GET['token']) && isset($_GET['user']) && OC_Preferences::getValue($_GET['user'], "owncloud", "lostpassword") === $_GET['token']) {
-	OC_App::loadApps();
-	if (isset($_POST['password'])) {
-		if (OC_User::setPassword($_GET['user'], $_POST['password'])) {
-			OC_Preferences::deleteKey($_GET['user'], "owncloud", "lostpassword");
-			OC_Template::printGuestPage("", "resetpassword", array("success" => true));
-		} else {
-			OC_Template::printGuestPage("", "resetpassword", array("success" => false));
-		}
-	} else {
-		OC_Template::printGuestPage("", "resetpassword", array("success" => false));
-	}
-}
-
 // For all others cases, we display the guest page :
 else {
 	OC_App::loadApps();

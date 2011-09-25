@@ -1,4 +1,4 @@
-<form action="index.php?lostpassword" method="post">
+<form action="index.php" method="post">
 	<fieldset>
 		<?php echo $l->t('You will receive a link to reset your password via Email.'); ?>
 		<?php if ($_['requested']): ?>
