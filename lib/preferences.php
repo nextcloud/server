@@ -63,7 +63,7 @@ class OC_Preferences{
 	 * @param $user user
 	 * @returns array with app ids
 	 *
-	 * This function returns a list of all apps of the userthat have at least
+	 * This function returns a list of all apps of the user that have at least
 	 * one entry in the preferences table.
 	 */
 	public static function getApps( $user ){

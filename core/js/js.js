@@ -83,8 +83,8 @@ OC={
 	 */
 	addScript:function(app,script,ready){
 		var path=OC.filePath(app,'js',script+'.js');
-		if(OC.addStyle.loaded.indexOf(path)==-1){
-			OC.addStyle.loaded.push(path);
+		if(OC.addScript.loaded.indexOf(path)==-1){
+			OC.addScript.loaded.push(path);
 			if(ready){
 				$.getScript(path,ready);
 			}else{
@@ -103,8 +103,8 @@ OC={
 	 */
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
-		if(OC.addScript.loaded.indexOf(path)==-1){
-			OC.addScript.loaded.push(path);
+		if(OC.addStyle.loaded.indexOf(path)==-1){
+			OC.addStyle.loaded.push(path);
 			var style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
 			$('head').append(style);
 		}
