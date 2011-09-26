@@ -385,11 +385,9 @@ function procesSelection(){
 		$('table').css('padding-top','0');
 	}else{
 		var width={name:$('#headerName').css('width'),size:$('#headerSize').css('width'),date:$('#headerDate').css('width')};
-		$('thead').addClass('fixed');
 		$('#headerName').css('width',width.name);
 		$('#headerSize').css('width',width.size);
 		$('#headerDate').css('width',width.date);
-		$('table').css('padding-top','2.1em');
 		$('.selectedActions').show();
 		var totalSize=0;
 		for(var i=0;i<selectedFiles.length;i++){
