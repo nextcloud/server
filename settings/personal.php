@@ -19,6 +19,8 @@ $free=OC_Filesystem::free_space();
 $total=$free+$used;
 $relative=round(($used/$total)*10000)/100;
 
+$email=OC_Preferences::getValue(OC_User::getUser(), 'settings','email','');
+
 $lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', 'en' );
 $languageCodes=OC_L10N::findAvailableLanguages();
 //put the current language in the front
@@ -35,6 +37,7 @@ $tmpl = new OC_Template( "settings", "personal", "user");
 $tmpl->assign('usage',OC_Helper::humanFileSize($used));
 $tmpl->assign('total_space',OC_Helper::humanFileSize($total));
 $tmpl->assign('usage_relative',$relative);
+$tmpl->assign('email',$email);
 $tmpl->assign('languages',$languages);
 
 $forms=OC_App::getForms('personal');
