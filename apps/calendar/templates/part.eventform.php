@@ -5,12 +5,6 @@
 			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Title of the Event");?>" value="<?php echo isset($_['title']) ? $_['title'] : '' ?>" maxlength="100" name="title"/>
 			</td>
 		</tr>
-		<tr>
-			<th width="75px"><?php echo $l->t("Location");?>:</th>
-			<td>
-			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? $_['location'] : '' ?>" maxlength="100"  name="location" />
-			</td>
-		</tr>
 	</table>
 	<table>
 		<tr>
@@ -60,7 +54,12 @@
 			&nbsp;&nbsp;
 			<input type="time" value="<?php echo $_['endtime'];?>" name="totime" id="totime">
 			</td><!--use jquery-->
-		</tr><!--
+		</tr>
+	</table>
+	<input type="button" class="submit" value="<?php echo $l->t("Advanced options"); ?>" onclick="Calendar.UI.showadvancedoptions();" id="advanced_options_button">
+	<div id="advanced_options" style="display: none;">
+	<!--
+	<table>
 		<tr>
 			<th width="75px"><?php echo $l->t("Repeat");?>:</th>
 			<td>
@@ -85,7 +84,16 @@
 	<hr>-->
 	<table>
 		<tr>
-			<th width="75px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
+			<th width="85px"><?php echo $l->t("Location");?>:</th>
+			<td>
+			<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? $_['location'] : '' ?>" maxlength="100"  name="location" />
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<th width="85px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
 			<td><textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo isset($_['description']) ? $_['description'] : '' ?></textarea></td>
 		</tr>
 	</table>
+	</div>
