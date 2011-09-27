@@ -57,7 +57,7 @@ elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
 	OC_App::loadApps();
 	if(defined("DEBUG") && DEBUG) {error_log("Trying to login from cookie");}
 	// confirm credentials in cookie
-	if(OC_User::userExists($_COOKIE['oc_username']) &&
+	if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username']) &&
 	   OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") == $_COOKIE['oc_token']) {
 		OC_User::setUserId($_COOKIE['oc_username']);
 		OC_Util::redirectToDefaultPage();
