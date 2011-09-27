@@ -242,7 +242,14 @@ class OC_Util {
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
-		//TODO: check for php modules
+		// check if all required php modules are present
+		if(!class_exists('ZipArchive')){
+			$errors[]=array('error'=>'PHP module ZipArchive not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
+
+		if(!function_exists('mb_detect_encoding')){
+			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
 
 		return $errors;
 	}
