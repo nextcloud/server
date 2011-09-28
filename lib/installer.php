@@ -243,13 +243,14 @@ class OC_Installer{
 	 * If $enabled is true, apps are installed as enabled.
 	 * If $enabled is false, apps are installed as disabled.
 	 */
-	public static function installShippedApps( $enabled ){
+	public static function installShippedApps(){
 		$dir = opendir( OC::$SERVERROOT."/apps" );
 		while( false !== ( $filename = readdir( $dir ))){
 			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$SERVERROOT."/apps/$filename") ){
 				if( file_exists( OC::$SERVERROOT."/apps/$filename/appinfo/app.php" )){
 					if(!OC_Installer::isInstalled($filename)){
-						OC_Installer::installShippedApp($filename);
+						$info = OC_Installer::installShippedApp($filename);
+						$enabled = isset($info['default_enable']);
 						if( $enabled ){
 							OC_Appconfig::setValue($filename,'enabled','yes');
 						}else{
@@ -265,7 +266,7 @@ class OC_Installer{
 	/**
 	 * install an app already placed in the app folder
 	 * @param string $app id of the app to install
-	 * @return bool
+	 * @returns array see OC_App::getAppInfo
 	 */
 	public static function installShippedApp($app){
 		//install the database
@@ -279,5 +280,6 @@ class OC_Installer{
 		}
 		$info=OC_App::getAppInfo(OC::$SERVERROOT."/apps/$app/appinfo/info.xml");
 		OC_Appconfig::setValue($app,'installed_version',$info['version']);
+		return $info;
 	}
 }

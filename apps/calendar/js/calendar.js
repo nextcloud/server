@@ -352,6 +352,10 @@ Calendar={
 					}
 				},"json");
 		},
+		showadvancedoptions:function(){
+			$("#advanced_options").css("display", "block");
+			$("#advanced_options_button").css("display", "none");
+		},
 		createEventPopup:function(e){
 			var popup = $(this).data('popup');
 			if (!popup){

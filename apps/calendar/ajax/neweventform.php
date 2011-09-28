@@ -29,6 +29,9 @@ if($starttime != 'undefined' && !is_nan($starttime) && !$allday){
 	$startminutes = '00';
 }else{
 	$starttime = date('H');
+	if(strlen($starttime) == 2 && $starttime <= 9){
+		$starttime = substr($starttime, 1, 1);
+	}
 	$startminutes = date('i');
 }
 
@@ -38,7 +41,18 @@ $endyear     = $startyear;
 $endtime     = $starttime;
 $endminutes  = $startminutes;
 if($endtime == 23) {
-	$endday++;
+	if($startday == date(t, mktime($starttime, $startminutes, 0, $startmonth, $startday, $startyear))){
+		$datetimestamp = mktime(0, 0, 0, $startmonth, $startday, $startyear);
+		$datetimestamp = $datetimestamp + 86400;
+		$endmonth = date("m", $datetimestamp);
+		$endday = date("d", $datetimestamp);
+		$endyear = date("Y", $datetimestamp);
+	}else{
+		$endday++;
+		if($endday <= 9){
+			$endday = "0" . $endday;
+		}
+	}
 	$endtime = 0;
 } else {
 	$endtime++;

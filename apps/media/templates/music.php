@@ -17,6 +17,7 @@
 	<div class="jp-volume-bar">
 		<div class="jp-volume-bar-value"></div>
 	</div>
+        <div class="jp-current-song"></div>
 
 	<div class="player" id="jp-player"></div>
 

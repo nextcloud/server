@@ -24,7 +24,7 @@ class OC_Util {
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
                         if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by setting the owner of '".OC::$SERVERROOT."' to the user that the web server uses (".exec('whoami').")")));
+				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by setting the owner of '".OC::$SERVERROOT."' to the user that the web server uses (".OC_Util::checkWebserverUser().")")));
 				$tmpl->printPage();
 				exit;
   			}
@@ -208,28 +208,21 @@ class OC_Util {
 		}
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBNAME = OC_Config::getValue( "dbname", "owncloud" );
-
-		//try to get the username the httpd server runs on, used in hints
-		$stat=stat($_SERVER['DOCUMENT_ROOT']);
-		if(is_callable('posix_getpwuid')){
-			$serverUser=posix_getpwuid($stat['uid']);
-			$serverUser='\''.$serverUser['name'].'\'';
-		}else{
-			$serverUser='\'www-data\' for ubuntu/debian';//TODO: try to detect the distro and give a guess based on that
-		}
+                $serverUser=OC_Util::checkWebserverUser();
 
 		//common hint for all file permissons error messages
 		$permissionsHint="Permissions can usually be fixed by setting the owner of the file or directory to the user the web server runs as ($serverUser)";
 
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
+                	$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
 			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,-1)!='0'){
 				OC_Helper::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
 				clearstatcache();
 				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 				if(substr($prems,2,1)!='0'){
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>','hint'=>$permissionsHint);
+					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable for other users<br/>','hint'=>$permissionsModHint);
 				}
 			}
 			if( OC_Config::getValue( "enablebackup", false )){
@@ -239,7 +232,7 @@ class OC_Util {
 					clearstatcache();
 					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 					if(substr($prems,2,1)!='0'){
-						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>','hint'=>$permissionsHint);
+						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>','hint'=>$permissionsModHint);
 					}
 				}
 			}
@@ -250,10 +243,38 @@ class OC_Util {
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
-		//TODO: check for php modules
+		// check if all required php modules are present
+		if(!class_exists('ZipArchive')){
+			$errors[]=array('error'=>'PHP module ZipArchive not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
+
+		if(!function_exists('mb_detect_encoding')){
+			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
+		if(!function_exists('ctype_digit')){
+			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
 
 		return $errors;
 	}
+
+
+	/**
+	* Try to get the username the httpd server runs on, used in hints
+	*/
+        public static function checkWebserverUser(){
+		$stat=stat($_SERVER['DOCUMENT_ROOT']);
+		if(is_callable('posix_getpwuid')){
+			$serverUser=posix_getpwuid($stat['uid']);
+			$serverUser='\''.$serverUser['name'].'\'';
+		}elseif(exec('whoami')){
+                	$serverUser=exec('whoami');
+                }else{
+			$serverUser='\'www-data\' for ubuntu/debian'; //TODO: try to detect the distro and give a guess based on that
+		}
+                return $serverUser;
+        }
+
 
 	/**
 	* Check if the user is logged in, redirects to home if not

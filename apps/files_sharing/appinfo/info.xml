@@ -7,4 +7,5 @@
 	<licence>AGPL</licence>
 	<author>Michael Gapczynski</author>
 	<require>2</require>
+	<default_enable/>
 </info>
