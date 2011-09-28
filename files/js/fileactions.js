@@ -135,14 +135,21 @@ FileActions.register('all','Delete',function(){return OC.imagePath('core','actio
 FileActions.register('all','Rename',function(){return OC.imagePath('core','actions/rename')},function(filename){
 	FileList.rename(filename);
 });
-FileActions.register('text','Edit',function(){return OC.imagePath('core','actions/rename')},function(filename){
-	window.location='/apps/editor/index.php?file='+filename+'&dir='+$('#dir').val();
-});
-
-//FileActions.setDefault('all','Download');
 
 FileActions.register('dir','Open','',function(filename){
 	window.location='index.php?dir='+$('#dir').val()+'/'+filename;
 });
 
 FileActions.setDefault('dir','Open');  
+
+FileActions.register('text','Edit','',function(filename){
+	window.location=OC.linkTo('editor', 'index.php')+'?file='+filename+'&dir='+$('#dir').val();
+});
+
+FileActions.setDefault('text','Edit');
+
+FileActions.register('application/xml','Edit','',function(filename){
+	window.location=OC.linkTo('editor', 'index.php')+'?file='+filename+'&dir='+$('#dir').val();
+});
+
+FileActions.setDefault('application/xml','Edit');

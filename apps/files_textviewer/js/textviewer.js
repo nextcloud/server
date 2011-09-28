@@ -106,6 +106,7 @@ TextViewer.loadHighlighter=function(ready){
 }
 
 $(document).ready(function() {
+	/*
 	if(typeof FileActions!=='undefined'){
 		FileActions.register('text','View','',function(filename){
 			TextViewer.showText($('#dir').val(),filename);
@@ -116,6 +117,7 @@ $(document).ready(function() {
 		});
 		FileActions.setDefault('application/xml','View');
 	}
+	*/
 	OC.search.customResults.Text=function(row,item){
 		var text=item.link.substr(item.link.indexOf('file=')+5);
 		var a=row.find('a');

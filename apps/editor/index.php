@@ -45,6 +45,7 @@ if(substr_count($file,'.')!=0){
 	$plaintypes = array('txt','doc','rtf');
 	$filetype = 'plain';
 	if(!in_array($parts[1],$plaintypes)){
+		// TODO ADD THESE
 		$types = array('php' => 'php',
 						'js' => 'javascript',
 						'html' => 'html');
@@ -58,7 +59,7 @@ if(substr_count($file,'.')!=0){
 }
 
 // Add theme
-OC_UTIL::addScript('editor','aceeditor/theme-cobalt');
+OC_UTIL::addScript('editor','aceeditor/theme-clouds');
 
 OC_App::setActiveNavigationEntry( 'editor_index' );
 

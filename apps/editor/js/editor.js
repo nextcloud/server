@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	
+		
+	
 	// Set the editor size.
 	doEditorResize();
 	
@@ -15,7 +17,7 @@ $(document).ready(function(){
 	}
 	
 	// Set the theme
-	aceEditor.setTheme("ace/theme/cobalt");
+	aceEditor.setTheme("ace/theme/clouds");
 	
 	// Process the save button click event
 	$('#editor_save').click(function(){
@@ -53,18 +55,6 @@ $(document).ready(function(){
 	// TODO give focus back to the editor
 	// window.aceEditor.focus();
 	});
-	
-	/*
-	// Process the gotoline button click event
-	$('#editor_goToLine').click(function(){
-		var html = '<div id="dropdown" class="drop"><input type="text" id="editot_goToLine_line" size="20"><input type="button" id="editor_goToLine_gp" value="<?php echo $l->t(\'Go\'); ?>"></div>';
-		$(html).appendTo($('#editor_goToLine'));
-		$('#dropdown').show('blind');
-		
-		//window.aceEditor.gotoLine(100);
-		//TODO GIVE FOCUS BACK
-	});
-	*/
     
     // Process the window resize event 
 	$(window).resize(function() {
