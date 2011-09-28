@@ -25,5 +25,8 @@
 			endif;
                 endforeach;?>
                 </select><span class="msg"></span>
+		<br />
+		Calendar CalDAV Syncing URL: 
+  		<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?><br />
         </fieldset>
 </form>
