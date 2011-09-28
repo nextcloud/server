@@ -48,7 +48,13 @@ if(substr_count($file,'.')!=0){
 		// TODO ADD THESE
 		$types = array('php' => 'php',
 						'js' => 'javascript',
-						'html' => 'html');
+						'html' => 'html',
+						'css' => 'css',
+						'pl' => 'perl',
+						'py' => 'python',
+						'rb' => 'ruby',
+						'xml' => 'xml',
+						'svg' => 'svg');
 		$filetype = $types[$parts[1]];
 		OC_UTIL::addScript('editor','aceeditor/mode-'.$filetype);		
 	}
