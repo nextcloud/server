@@ -178,18 +178,19 @@ Calendar={
 			if( typeof (this.events[year]) == "undefined") {
 				this.events[year] = []
 			}
-			$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + year, function(newevents, status) {
+			$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + year, function(jsondata, status) {
 				if(status == "nosession") {
 					alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
 					document.location(oc_webroot);
 				}
-				if(status == "parsingfail" || typeof (newevents) == "undefined") {
+				if(status == "parsingfail" || typeof (jsondata) == "undefined") {
 					$.ready(function() {
 						$( "#parsingfail_dialog" ).dialog();
 					});
 				} else {
-					if (typeof(newevents[year]) != 'undefined'){
-						Calendar.UI.events[year] = newevents[year];
+					if (typeof(jsondata[year]) != 'undefined'){
+						Calendar.UI.calendars = jsondata['calendars'];
+						Calendar.UI.events[year] = jsondata[year];
 					}
 					$(document).ready(function() {
 						Calendar.UI.updateView();
@@ -245,6 +246,11 @@ Calendar={
 				.hover(this.createEventPopup,
 				       this.hideEventPopup)
 				.click(this.editEvent);
+			var color = this.calendars[event['calendarid']]['color'];
+			if (color){
+				event_holder.css('background-color', color)
+					.addClass('colored');
+			}
 			eventcontainer.append(event_holder);
 		},
 		startEventDialog:function(){

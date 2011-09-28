@@ -8,12 +8,16 @@
 
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 $events = array();
+$return = array('calendars'=>array());
 foreach($calendars as $calendar) {
 	$tmp = OC_Calendar_Object::all($calendar['id']);
 	$events = array_merge($events, $tmp);
+	$return['calendars'][$calendar['id']] = array(
+		'displayname' => $calendar['displayname'],
+		'color'       => $calendar['calendarcolor']
+	);
 }
 $select_year = $_GET["year"];
-$return_events = array();
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
 foreach($events as $event)
 {
@@ -44,14 +48,14 @@ foreach($events as $event)
 	{
 		$return_event['allday'] = true;
 	}
-	if (isset($return_events[$year][$month][$day][$hour]))
+	if (isset($return[$year][$month][$day][$hour]))
 	{
-		$return_events[$year][$month][$day][$hour][] = $return_event;
+		$return[$year][$month][$day][$hour][] = $return_event;
 	}
 	else
 	{
-		$return_events[$year][$month][$day][$hour] = array(1 => $return_event);
+		$return[$year][$month][$day][$hour] = array(1 => $return_event);
 	}
 }
-OC_JSON::encodedPrint($return_events);
+OC_JSON::encodedPrint($return);
 ?>
