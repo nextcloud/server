@@ -90,7 +90,15 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(1,90,0);
+		return array(1,91,0);
+	}
+
+	/**
+	 * get the current installed version string of ownCloud
+	 * @return string
+	 */
+	public static function getVersionString(){
+		return '2 beta 2';
 	}
 
 	/**

@@ -40,3 +40,11 @@
 <?php foreach($_['forms'] as $form){
 	echo $form;
 };?>
+
+<p class="personalblock">
+	<strong>ownCloud</strong>
+	<?php echo(OC_Util::getVersionString()); ?>
+</p>
+
+
+
