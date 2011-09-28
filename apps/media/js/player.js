@@ -170,9 +170,7 @@ var PlayList={
 					localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
 				}
 			}
-			if(PlayList.active){
-				localStorage.setItem(oc_current_user+'oc_playlist_active','false');
-			}
+			localStorage.setItem(oc_current_user+'oc_playlist_active','true');
 		}
 	},
 	load:function(){
@@ -209,6 +207,9 @@ var PlayList={
 $(document).ready(function(){
 	$(window).bind('beforeunload', function (){
 		PlayList.save();
+		if(PlayList.active){
+			localStorage.setItem(oc_current_user+'oc_playlist_active','false');
+		}
 	});
 
 	$('jp-previous').tipsy({gravity:'n', fade:true, live:true});
