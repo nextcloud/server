@@ -30,13 +30,13 @@
 	<td>
 		<textarea id="description_<?php echo $_['calendar']['id'] ?>"><?php echo $_['calendar']['description'] ?></textarea>
 	</td>
-</tr><!--
+</tr>
 <tr>
 	<th><?php echo $l->t('Calendar color') ?></th>
 	<td>
 		<input id="calendarcolor_<?php echo $_['calendar']['id'] ?>" type="text" value="<?php echo $_['calendar']['calendarcolor'] ?>">
 	</td>
-</tr>-->
+</tr>
 </table>
 <input style="float: left;" type="button" onclick="Calendar.UI.Calendar.submit(this, <?php echo $_['new'] ? "'new'" : $_['calendar']['id'] ?>);" value="<?php echo $_['new'] ? $l->t("Save") : $l->t("Submit"); ?>">
 <input style="float: left;" type="button" onclick="Calendar.UI.Calendar.cancel(this, <?php echo $_['new'] ? "'new'" : $_['calendar']['id'] ?>);" value="<?php echo $l->t("Cancel"); ?>">
