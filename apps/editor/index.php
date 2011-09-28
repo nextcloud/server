@@ -27,7 +27,7 @@ require_once('../../lib/base.php');
 // Check if we are a user
 OC_Util::checkLoggedIn();
 
-$filecontents = urlencode(OC_Filesystem::file_get_contents($_GET['dir'].'/'.$_GET['file'] ));
+$filecontents = htmlspecialchars(OC_Filesystem::file_get_contents($_GET['dir'].'/'.$_GET['file'] ));
 $filehash = md5($filecontents);
 $file = $_GET['file'];
 $dir = $_GET['dir'];
@@ -69,7 +69,7 @@ $_SESSION[$sessionname] = $filehash;
 // Process the template
 $tmpl = new OC_Template( 'editor', 'index', 'user' );
 $tmpl->assign('filetype',$filetype);
-$tmpl->assign('filecontents', urlencode(OC_Filesystem::file_get_contents($path)) );
+$tmpl->assign('filecontents', $filecontents);
 $tmpl->assign('file',$file);
 $tmpl->assign('dir',$dir);
 $tmpl->printPage();
