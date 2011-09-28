@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Addressbook
+ * ownCloud - Editor
  *
  * @author Tom Needham
  * @copyright 2011 Tom Needham contact@tomneedham.com
@@ -57,8 +57,7 @@ if(isset($_SESSION[$sessionname])){
             	OC_JSON::success();
             } else {	
             	// No force
-            	// Show error
-            	OC_JSON::faliure();
+            	OC_JSON::error(array('data' => array( 'message' => $l10n->t('The file has been edited since you opened it. Overwrite the file?'))));
             }
         } else  {
             // No body has edited it whilst you were, so save the file

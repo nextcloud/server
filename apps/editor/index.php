@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Addressbook
+ * ownCloud - Editor
  *
  * @author Tom Needham
  * @copyright 2011 Tom Needham contact@tomneedham.com

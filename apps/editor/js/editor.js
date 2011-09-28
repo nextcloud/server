@@ -24,8 +24,8 @@ $(document).ready(function(){
 		var dir =  $('#editor').attr('data-dir');
 		var file =  $('#editor').attr('data-file');
 		$.post('ajax/savefile.php',{ filecontents: filecontents, file: file, dir: dir },function(jsondata){
-			if(jsondata.satus == 'failure'){
-				var answer = confirm('The file has been modified after you opened it. Do you want to overwrite the file with your changes?');
+			if(jsondata.status == 'failure'){
+				var answer = confirm(jsondata.data.message);
 				if(answer){
 					$.post('ajax/savefile.php',{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
 						if(jsondata.status =='success'){
@@ -34,7 +34,7 @@ $(document).ready(function(){
 						} 
 						else {
 							// Save error
-							alert('Error saving the file. Please report this!');	
+							alert(jsondata.data.message);	
 						}
 					}, 'json');
 				} 
