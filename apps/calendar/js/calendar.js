@@ -124,7 +124,7 @@ Calendar={
 			$('#'+this.currentview + "_radio").removeClass('active');
 			this.currentview = view;
 			//sending ajax request on every change view
-			$("#sysbox").load(oc_webroot + "/apps/calendar/ajax/changeview.php?v="+view);
+			$("#sysbox").load(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view);
 			//not necessary to check whether the response is true or not
 			switch(view) {
 				case "onedayview":
@@ -178,7 +178,7 @@ Calendar={
 			if( typeof (this.events[year]) == "undefined") {
 				this.events[year] = []
 			}
-			$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + year, function(jsondata, status) {
+			$.getJSON(OC.filePath('calendar', 'ajax', 'getcal.php') + "?year=" + year, function(jsondata, status) {
 				if(status == "nosession") {
 					alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
 					document.location(oc_webroot);
@@ -292,7 +292,7 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/neweventform.php?d=' + date + '&t=' + time, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php') + '?d=' + date + '&t=' + time, Calendar.UI.startEventDialog);
 			}
 		},
 		editEvent:function(event){
@@ -303,7 +303,7 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/editeventform.php?id=' + id, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'editeventform.php') + '?id=' + id, Calendar.UI.startEventDialog);
 			}
 		},
 		submitDeleteEventForm:function(url){
@@ -431,7 +431,7 @@ Calendar={
 			if(check == false){
 				return false;
 			}else{
-				$.post(oc_webroot + "/apps/calendar/ajax/deletecalendar.php", { calendarid: calid},
+				$.post(OC.filePath('calendar', 'ajax', 'deletecalendar.php'), { calendarid: calid},
 				  function(data) {
 					Calendar.UI.loadEvents();
 					$('#choosecalendar_dialog').dialog('destroy').remove();
@@ -444,7 +444,7 @@ Calendar={
 				if($('#choosecalendar_dialog').dialog('isOpen') == true){
 					$('#choosecalendar_dialog').dialog('moveToTop');
 				}else{
-					$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/choosecalendar.php', function(){
+					$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'choosecalendar.php'), function(){
 						$('#choosecalendar_dialog').dialog({
 							width : 600,
 							close : function(event, ui) {
@@ -456,7 +456,7 @@ Calendar={
 			},
 			activation:function(checkbox, calendarid)
 			{
-				$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
+				$.post(OC.filePath('calendar', 'ajax', 'activation.php'), { calendarid: calendarid, active: checkbox.checked?1:0 },
 				  function(data) {
 					checkbox.checked = data == 1;
 					Calendar.UI.loadEvents();
@@ -464,12 +464,12 @@ Calendar={
 			},
 			newCalendar:function(object){
 				var tr = $(document.createElement('tr'))
-					.load(oc_webroot + "/apps/calendar/ajax/newcalendar.php");
+					.load(OC.filePath('calendar', 'ajax', 'newcalendar.php'));
 				$(object).closest('tr').after(tr).hide();
 			},
 			edit:function(object, calendarid){
 				var tr = $(document.createElement('tr'))
-					.load(oc_webroot + "/apps/calendar/ajax/editcalendar.php?calendarid="+calendarid);
+					.load(OC.filePath('calendar', 'ajax', 'editcalendar.php') + "?calendarid="+calendarid);
 				$(object).closest('tr').after(tr).hide();
 			},
 			submit:function(button, calendarid){
