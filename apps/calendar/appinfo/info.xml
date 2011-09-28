@@ -7,4 +7,5 @@
 	<author>Georg Ehrke (Userinterface), Jakob Sack</author>
 	<require>2</require>
 	<description>Calendar with CalDAV support</description>
+	<default_enable/>
 </info>

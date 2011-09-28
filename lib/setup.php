@@ -206,7 +206,7 @@ class OC_Setup {
 				OC_User::login($username, $password);
 
 				//guess what this does
-				OC_Installer::installShippedApps(true);
+				OC_Installer::installShippedApps();
 
 				//create htaccess files for apache hosts
 				if (strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
