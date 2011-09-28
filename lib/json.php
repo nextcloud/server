@@ -11,7 +11,7 @@ class OC_JSON{
 	/**
 	 * set Content-Type header to jsonrequest
 	 */
-	public static function setContentTypeHeader($type='application/jsonrequest'){
+	public static function setContentTypeHeader($type='application/json'){
 		if (!self::$send_content_type_header){
 			// We send json data
 			header( 'Content-Type: '.$type );
