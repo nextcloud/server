@@ -1,0 +1,10 @@
+<?xml version="1.0"?> 
+<info>
+	<id>editor</id>
+	<name>Editor</name>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Tom Needham</author>
+	<require>3</require>
+	<description>File editor (Ace Editor)</description>
+</info>
