@@ -31,6 +31,7 @@ $dtstart = $vevent->DTSTART;
 $dtend = $vevent->DTEND;
 switch($dtstart->getDateType()) {
 	case Sabre_VObject_Element_DateTime::LOCALTZ:
+	case Sabre_VObject_Element_DateTime::LOCAL:
 		$startdate = $dtstart->getDateTime()->format('d-m-Y');
 		$starttime = $dtstart->getDateTime()->format('H:i');
 		$enddate = $dtend->getDateTime()->format('d-m-Y');
