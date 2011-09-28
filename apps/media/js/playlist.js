@@ -30,6 +30,7 @@ PlayList.hide=function(){
 
 $(document).ready(function(){
 	PlayList.parent=$('#leftcontent');
+	PlayList.init();
 	$('#selectAll').click(function(){
 		if($(this).attr('checked')){
 			// Check all

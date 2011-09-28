@@ -1,4 +1,4 @@
-<div id="controls">
+<div class='player-controls' id="controls">
 	<ul class="jp-controls">
 		<li><a href="#" class="jp-play action"><img class="svg" alt="<?php echo $l->t('Play');?>" src="<?php echo image_path('core', 'actions/play-big.svg'); ?>" /></a></li>
 		<li><a href="#" class="jp-pause action"><img class="svg" alt="<?php echo $l->t('Pause');?>" src="<?php echo image_path('core', 'actions/pause-big.svg'); ?>" /></a></li>
