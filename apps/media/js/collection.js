@@ -50,6 +50,10 @@ Collection={
 						}
 					}
 					
+					Collection.artists.sort(function(a,b){
+						return a.name.localeCompare(b.name);
+					});
+					
 					Collection.loaded=true;
 					Collection.loading=false;
 					for(var i=0;i<Collection.loadedListeners.length;i++){
