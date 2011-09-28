@@ -308,7 +308,7 @@ Calendar={
 		},
 		submitDeleteEventForm:function(url){
 			var post = $( "#event_form" ).serialize();
-			$("#errorbox").html("");
+			$("#errorbox").empty();
 			$.post(url, post, function(data){
 					if(data.status == 'success'){
 						$('#event').dialog('destroy').remove();
@@ -321,7 +321,7 @@ Calendar={
 		},
 		validateEventForm:function(url){
 			var post = $( "#event_form" ).serialize();
-			$("#errorbox").html("");
+			$("#errorbox").empty();
 			$.post(url, post,
 				function(data){
 					if(data.status == "error"){
@@ -505,7 +505,7 @@ Calendar={
 				Calendar.Date.backward_day();
 			},
 			removeEvents:function(){
-				$("#onedayview .calendar_row").html("");
+				$("#onedayview .calendar_row").empty();
 			},
 			renderCal:function(){
 				$("#datecontrol_date").val(Calendar.UI.formatDayShort() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort() + Calendar.space + Calendar.Date.current.getFullYear());
@@ -536,7 +536,7 @@ Calendar={
 			},
 			removeEvents:function(){
 				for( i = 0; i <= 6; i++) {
-					$("#oneweekview ." + Calendar.UI.weekdays[i]).html("");
+					$("#oneweekview ." + Calendar.UI.weekdays[i]).empty();
 				}
 				$("#oneweekview .thisday").removeClass("thisday");
 			},
@@ -593,7 +593,7 @@ Calendar={
 			},
 			removeEvents:function(){
 				$('#fourweeksview .day.thisday').removeClass('thisday');
-				$('#fourweeksview .day .events').html('');
+				$('#fourweeksview .day .events').empty();
 			},
 			renderCal:function(){
 				var calw1 = Calendar.Date.calw();
@@ -690,7 +690,7 @@ Calendar={
 			},
 			removeEvents:function(){
 				$('#onemonthview .day.thisday').removeClass('thisday');
-				$('#onemonthview .day .events').html('');
+				$('#onemonthview .day .events').empty();
 			},
 			renderCal:function(){
 				$("#datecontrol_date").val(Calendar.UI.formatMonthLong() + Calendar.space + Calendar.Date.current.getFullYear());
@@ -792,7 +792,7 @@ Calendar={
 		},
 		List:{
 			removeEvents:function(){
-				this.eventContainer = $('#listview #events').html('');
+				this.eventContainer = $('#listview #events').empty();
 				this.startdate = new Date();
 				this.enddate = new Date();
 				this.enddate.setDate(this.enddate.getDate());
