@@ -17,3 +17,6 @@ OC_App::addNavigationEntry( array(
   'href' => OC_Helper::linkTo( 'contacts', 'index.php' ),
   'icon' => OC_Helper::imagePath( 'settings', 'users.svg' ),
   'name' => 'Contacts' ));
+
+
+OC_APP::registerPersonal('contacts','settings');
