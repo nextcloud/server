@@ -441,6 +441,10 @@ class OC_Filesystem{
 		return $files;
 		
 	}
+	
+	static public function update_session_file_hash($sessionname,$sessionvalue){
+		$_SESSION[$sessionname] = $sessionvalue;
+	}
 
 	/**
 	 * abstraction for running most basic operations
