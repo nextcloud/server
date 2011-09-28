@@ -28,7 +28,7 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 
 // Save the file data
-$filecontents = $_POST['filecontents'];
+$filecontents = htmlspecialchars_decode($_POST['filecontents']);
 $file = $_POST['file'];
 $dir = $_POST['dir'];
 $path = $dir.'/'.$file;
@@ -37,7 +37,7 @@ $sessionname = md5('oc_file_hash_'.$path);
 
 function do_save($path,$filecontents){
 	$sessionname = md5('oc_file_hash_'.$path);
-	OC_Filesystem::update_session_file_hash($sessionname,md5(urlencode($filecontents)));
+	OC_Filesystem::update_session_file_hash($sessionname,md5(htmlspecialchars($filecontents)));
 	OC_Filesystem::file_put_contents($path, $filecontents);
 }
 
@@ -45,7 +45,7 @@ function do_save($path,$filecontents){
 if(isset($_SESSION[$sessionname])){
     if(!empty($_SESSION[$sessionname])){
         // Compare to current hash of file.
-        $savedfilecontents = urlencode(OC_Filesystem::file_get_contents($path));
+        $savedfilecontents = htmlspecialchars(OC_Filesystem::file_get_contents($path));
         $hash = md5($savedfilecontents);
         $originalhash = $_SESSION[$sessionname];
         // Compare with hash taken when file was opened
