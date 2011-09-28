@@ -9,8 +9,9 @@ div.jp-progress { position:absolute; overflow:hidden; top:.5em; left:8em; width:
 div.jp-seek-bar { background:#eee; width:0; height:100%; cursor:pointer; }
 div.jp-play-bar { background:#ccc; width:0; height:100%; }
 div.jp-seeking-bg { background:url("../img/pbar-ani.gif"); }
-div.jp-current-time,div.jp-duration { position:absolute; font-size:.64em; font-style:oblique; top:1em; left:13.5em; }
-div.jp-duration { left:33em; }
+div.jp-current-time,div.jp-duration { position:absolute; font-size:.64em; font-style:oblique; top:0.9em; left:13.5em; }
+div.jp-duration { display: none }
+div.jp-current-song { left: 33em; position: absolute; top: 0.9em; }
 div.jp-duration { text-align:right; }
 
 a.jp-mute,a.jp-unmute { left:24em; }
@@ -21,9 +22,11 @@ div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
 #collection li.album,#collection li.song { margin-left:3em; }
 #leftcontent img.remove { display:none; float:right; cursor:pointer; }
 #leftcontent li:hover img.remove { display:inline; }
+#leftcontent li {white-space: normal; }
 #collection li button { float:right; }
 #collection li,#playlist li { list-style-type:none; }
 .template { display:none; }
+.collection_playing { background:#eee; }
 
 #collection li { padding-right:10px; }
 #searchresults input.play, #searchresults input.add { float:left; height:1em; width:1em; }
@@ -34,6 +37,7 @@ tr td { border-top:1px solid #eee; height:2.2em; }
 tr .artist img { vertical-align:middle; }
 tr.album td.artist { padding-left:1em; }
 tr.song td.artist { padding-left:2em; }
+.add {margin: 0 0.5em 0 0; }
 
 #scan { position:absolute; right:13em; top:0em; }
 #scan .start { position:relative; display:inline; float:right; }
