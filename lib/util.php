@@ -250,6 +250,9 @@ class OC_Util {
 		if(!function_exists('mb_detect_encoding')){
 			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
+		if(!function_exists('ctype_digit')){
+			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
 
 		return $errors;
 	}
