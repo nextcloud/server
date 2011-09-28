@@ -39,6 +39,7 @@ var PlayList={
 					PlayList.init(items[index].type,null); // init calls load that calls play
 				}else{
 					PlayList.player.jPlayer("setMedia", items[PlayList.current]);
+                                        $(".jp-current-song").text(items[PlayList.current].name);
 					items[index].playcount++;
 					PlayList.player.jPlayer("play",time);
 					if(index>0){
@@ -67,6 +68,8 @@ var PlayList={
 				PlayList.init(items[index].type,null); // init calls load that calls play
 			}
 		}
+                $(".song").removeClass("collection_playing");
+                $(".jp-playlist-" + index).addClass("collection_playing");
 	},
 	init:function(type,ready){
 		if(!PlayList.player){
