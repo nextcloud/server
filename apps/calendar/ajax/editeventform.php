@@ -28,7 +28,7 @@ if($calendar['userid'] != OC_User::getUser()){
 $object = Sabre_VObject_Reader::read($data['calendardata']);
 $vevent = $object->VEVENT;
 $dtstart = $vevent->DTSTART;
-$dtend = $vevent->DTEND;
+$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 switch($dtstart->getDateType()) {
 	case Sabre_VObject_Element_DateTime::LOCALTZ:
 	case Sabre_VObject_Element_DateTime::LOCAL:
@@ -54,6 +54,11 @@ $categories = array();
 if (isset($vevent->CATEGORIES)){
        $categories = explode(',', $vevent->CATEGORIES->value);
        $categories = array_map('trim', $categories);
+}
+foreach($categories as $category){
+	if (!in_array($category, $category_options)){
+		array_unshift($category_options, $category);
+	}
 }
 $repeat = isset($vevent->CATEGORY) ? $vevent->CATEGORY->value : '';
 $description = isset($vevent->DESCRIPTION) ? $vevent->DESCRIPTION->value : '';
