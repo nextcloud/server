@@ -1,7 +1,5 @@
 $(document).ready(function(){
 	
-		
-	
 	// Set the editor size.
 	doEditorResize();
 	
