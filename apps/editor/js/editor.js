@@ -23,27 +23,33 @@ $(document).ready(function(){
 		var filecontents = window.aceEditor.getSession().getValue();
 		var dir =  $('#editor').attr('data-dir');
 		var file =  $('#editor').attr('data-file');
-		$.post('ajax/savefile.php',{ filecontents: filecontents, file: file, dir: dir },function(data){
-			if(data=='2'){
+		$.post('ajax/savefile.php',{ filecontents: filecontents, file: file, dir: dir },function(jsondata){
+			if(jsondata.satus == 'failure'){
 				var answer = confirm('The file has been modified after you opened it. Do you want to overwrite the file with your changes?');
-			           if(answer){
-			               $.post('ajax/savefile.php',{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(data){
-			               	if(data=='1'){
-			               		$('#editor_save').val('Save');
-			               		$('#editor_save').effect("highlight", {color:'#4BFF8D'}, 3000);
-			               	}
-			               });
-			   			} else {
-			   				// Don't save!
-			   				$('#editor_save').effect("highlight", {color:'#FF5757'}, 3000);
-			   				$('#editor_save').val('Save');	
-			   			}
-			} else if(data=='1'){
+				if(answer){
+					$.post('ajax/savefile.php',{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
+						if(jsondata.status =='success'){
+							$('#editor_save').val('Save');
+							$('#editor_save').effect("highlight", {color:'#4BFF8D'}, 3000);
+						} 
+						else {
+							// Save error
+							alert('Error saving the file. Please report this!');	
+						}
+					}, 'json');
+				} 
+		   		else {
+					// Don't save!
+					$('#editor_save').effect("highlight", {color:'#FF5757'}, 3000);
+					$('#editor_save').val('Save');	
+		   		}
+			} 
+			else if(jsondata.status == 'success'){
 				// Success
 				$('#editor_save').val('Save');
 				$('#editor_save').effect("highlight", {color:'#4BFF8D'}, 3000);
 			}
-		});
+		}, 'json');
 	// TODO give focus back to the editor
 	// window.aceEditor.focus();
 	});

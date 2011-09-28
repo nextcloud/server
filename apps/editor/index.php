@@ -2,8 +2,8 @@
 /**
  * ownCloud - Addressbook
  *
- * @author Jakob Sack
- * @copyright 2011 Jakob Sack mail@jakobsack.de
+ * @author Tom Needham
+ * @copyright 2011 Tom Needham contact@tomneedham.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -33,11 +33,12 @@ $file = $_GET['file'];
 $dir = $_GET['dir'];
 $path = $dir.'/'.$file;
 
+// Add scripts
 OC_UTIL::addStyle('editor', 'styles');
 OC_UTIL::addScript('editor','editor');
 OC_UTIL::addScript('editor','aceeditor/ace');
 
-//Get file type
+// Get file type
 if(substr_count($file,'.')!=0){
 	// Find extension
 	$parts = explode(".",$file);
@@ -56,10 +57,10 @@ if(substr_count($file,'.')!=0){
 		
 }
 
+// Add theme
 OC_UTIL::addScript('editor','aceeditor/theme-cobalt');
 
 OC_App::setActiveNavigationEntry( 'editor_index' );
-
 
 // Save a hash of the file for later
 $sessionname = md5('oc_file_hash_'.$path);

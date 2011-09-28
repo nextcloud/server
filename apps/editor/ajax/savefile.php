@@ -54,17 +54,17 @@ if(isset($_SESSION[$sessionname])){
             // Force save?
             if($force){
             	do_save($path, $filecontents);
-            	echo '1';
+            	OC_JSON::success();
             } else {	
             	// No force
             	// Show error
-            	echo '2';
+            	OC_JSON::faliure();
             }
         } else  {
             // No body has edited it whilst you were, so save the file
             // Update the session hash.
             do_save($path,$filecontents);
-            echo '1';
+            OC_JSON::success();
         }
         
         
@@ -72,8 +72,5 @@ if(isset($_SESSION[$sessionname])){
 } else {
     // No session value set for soem reason, just save the file.
 	do_save($path,$filecontents);
-     echo '1';
+	OC_JSON::success();
 }
-
-
-//OC_JSON::success(array('data' => array( 'success' => 'true' )));
