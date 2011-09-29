@@ -11,12 +11,12 @@ for($i = 0; $i < count($option_calendars); $i++){
 }
 ?>
 <tr>
-	<td colspan="4">
+	<td colspan="6">
 		<a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><?php echo $l->t('New Calendar') ?></a>
 	</td>
 </tr>
 <tr>
-	<td colspan="4">
+	<td colspan="6">
 		<p style="margin: 0 auto;width: 90%;"><input style="display:none;width: 90%;float: left;" type="text" id="caldav_url" onmouseover="$('#caldav_url').select();" title="<?php echo $l->t("CalDav Link"); ?>"><img id="caldav_url_close" style="height: 20px;vertical-align: middle;display: none;" src="../../core/img/actions/delete.svg" alt="close" onclick="$('#caldav_url').hide();$('#caldav_url_close').hide();"/></p>
 	</td>
 </tr>
