@@ -245,7 +245,7 @@ class OC_Util {
 
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')){
-			$errors[]=array('error'=>'PHP module ZipArchive not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module zip not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
 
 		if(!function_exists('mb_detect_encoding')){
