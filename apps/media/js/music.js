@@ -23,8 +23,8 @@ $(document).ready(function(){
 			PlayList.render();
 		});
 		row.find('div.name').append(button);
+		button.tipsy({gravity:'n', fade:true, delayIn: 400, live:true});
 	}
-        $('.add').tipsy({gravity:'n', fade:true, delayIn: 400, live:true});
 	Collection.display();
 });
 

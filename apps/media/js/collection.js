@@ -274,7 +274,7 @@ Collection={
 	},
 	findArtist:function(name){
 		for(var i=0;i<Collection.artists.length;i++){
-			if(Collection.artists[i].artist_name==name){
+			if(Collection.artists[i].name==name){
 				return Collection.artists[i];
 			}
 		}
@@ -283,7 +283,7 @@ Collection={
 		var artist=Collection.findArtist(artistName);
 		if(artist){
 			for(var i=0;i<artist.albums.length;i++){
-				if(artist.albums[i].album_name==albumName){
+				if(artist.albums[i].name==albumName){
 					return artist.albums[i];
 				}
 			}
@@ -293,7 +293,7 @@ Collection={
 		var album=Collection.findAlbum(artistName,albumName);
 		if(album){
 			for(var i=0;i<album.songs.length;i++){
-				if(album.songs[i].song_name==songName){
+				if(album.songs[i].name==songName){
 					return album.songs[i];
 				}
 			}
