@@ -175,7 +175,7 @@ class OC_Config{
 		$result=@file_put_contents( OC::$SERVERROOT."/config/config.php", $content );
 		if(!$result) {
 			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by setting the owner of 'config' to the user that the web server uses (".exec('whoami').")")));
+			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by setting the owner of 'config' to the user that the web server uses (".OC_Util::checkWebserverUser().")")));
 			$tmpl->printPage();
 			exit;
 		}
