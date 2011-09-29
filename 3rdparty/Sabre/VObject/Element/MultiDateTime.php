@@ -60,7 +60,7 @@ class Sabre_VObject_Element_MultiDateTime extends Sabre_VObject_Property {
                     $val[] = $i->format('Ymd\\THis');
                 }
                 $this->setValue(implode(',',$val));
-                $this->offsetSet('VALUE','DATE-TIME');
+                $this->offsetSet('VALUE','DATETIME'); 
                 break;
             case Sabre_VObject_Element_DateTime::UTC :
                 $val = array();
@@ -69,7 +69,7 @@ class Sabre_VObject_Element_MultiDateTime extends Sabre_VObject_Property {
                     $val[] = $i->format('Ymd\\THis\\Z');
                 }
                 $this->setValue(implode(',',$val));
-                $this->offsetSet('VALUE','DATE-TIME');
+                $this->offsetSet('VALUE','DATETIME');
                 break;
             case Sabre_VObject_Element_DateTime::LOCALTZ :
                 $val = array();
@@ -77,7 +77,7 @@ class Sabre_VObject_Element_MultiDateTime extends Sabre_VObject_Property {
                     $val[] = $i->format('Ymd\\THis');
                 }
                 $this->setValue(implode(',',$val));
-                $this->offsetSet('VALUE','DATE-TIME');
+                $this->offsetSet('VALUE','DATETIME');
                 $this->offsetSet('TZID', $dt[0]->getTimeZone()->getName());
                 break; 
             case Sabre_VObject_Element_DateTime::DATE :

@@ -18,11 +18,11 @@ class Sabre_CardDAV_Version {
     /**
      * Full version number
      */
-    const VERSION = '0.2';
+    const VERSION = '1.5.3';
 
     /**
      * Stability : alpha, beta, stable
      */
-    const STABILITY = 'alpha';
+    const STABILITY = 'stable';
 
 }

@@ -114,7 +114,7 @@ class Sabre_CalDAV_Plugin extends Sabre_DAV_ServerPlugin {
     public function getSupportedReportSet($uri) {
 
         $node = $this->server->tree->getNodeForPath($uri);
-        if ($node instanceof Sabre_CalDAV_Calendar || $node instanceof Sabre_CalDAV_CalendarObject) {
+        if ($node instanceof Sabre_CalDAV_ICalendar || $node instanceof Sabre_CalDAV_ICalendarObject) {
             return array(
                  '{' . self::NS_CALDAV . '}calendar-multiget',
                  '{' . self::NS_CALDAV . '}calendar-query',
@@ -143,7 +143,7 @@ class Sabre_CalDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
         $server->propertyMap['{' . self::NS_CALDAV . '}supported-calendar-component-set'] = 'Sabre_CalDAV_Property_SupportedCalendarComponentSet';
 
-        $server->resourceTypeMapping['Sabre_CalDAV_Calendar'] = '{urn:ietf:params:xml:ns:caldav}calendar';
+        $server->resourceTypeMapping['Sabre_CalDAV_ICalendar'] = '{urn:ietf:params:xml:ns:caldav}calendar';
         $server->resourceTypeMapping['Sabre_CalDAV_Principal_ProxyRead'] = '{http://calendarserver.org/ns/}calendar-proxy-read';
         $server->resourceTypeMapping['Sabre_CalDAV_Principal_ProxyWrite'] = '{http://calendarserver.org/ns/}calendar-proxy-write';
 
@@ -326,7 +326,7 @@ class Sabre_CalDAV_Plugin extends Sabre_DAV_ServerPlugin {
         } // instanceof IPrincipal
 
 
-        if ($node instanceof Sabre_CalDAV_CalendarObject) {
+        if ($node instanceof Sabre_CalDAV_ICalendarObject) {
             // The calendar-data property is not supposed to be a 'real' 
             // property, but in large chunks of the spec it does act as such. 
             // Therefore we simply expose it as a property.

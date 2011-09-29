@@ -30,9 +30,14 @@ class Sabre_DAV_URLUtil {
      */
     static function encodePath($path) {
 
-        $path = explode('/',$path);
-        return implode('/',array_map(array('Sabre_DAV_URLUtil','encodePathSegment'), $path));
-
+    	$valid_chars = '/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-.~()';
+        $newStr = '';
+        for( $i=0; isset($path[$i]); ++$i ) {
+            if( strpos($valid_chars,($c=$path[$i]))===false ) $newStr .= '%'.sprintf('%02x',ord($c));
+            else $newStr .= $c;
+        }
+        return $newStr;
+    	
     }
 
     /**
@@ -45,35 +50,13 @@ class Sabre_DAV_URLUtil {
      */
     static function encodePathSegment($pathSegment) {
 
+    	$valid_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-.~()';
         $newStr = '';
-        for($i=0;$i<strlen($pathSegment);$i++) {
-            $c = ord($pathSegment[$i]);
-
-            if(
-                
-                /* Unreserved chacaters */
-
-                ($c>=0x41 /* A */ && $c<=0x5a /* Z */) ||
-                ($c>=0x61 /* a */ && $c<=0x7a /* z */) ||
-                ($c>=0x30 /* 0 */ && $c<=0x39 /* 9 */) ||
-                $c===0x5f /* _ */ ||
-                $c===0x2d /* - */ ||
-                $c===0x2e /* . */ ||
-                $c===0x7E /* ~ */ ||
-
-                /* Reserved, but no reserved purpose */
-                $c===0x28 /* ( */ ||
-                $c===0x29 /* ) */
-
-            ) { 
-                $newStr.=$pathSegment[$i];
-            } else {
-                $newStr.='%' . str_pad(dechex($c), 2, '0', STR_PAD_LEFT);
-            }
-                
+        for( $i=0; isset($pathSegment[$i]); ++$i ) {
+            if( strpos($valid_chars,($c=$pathSegment[$i]))===false ) $newStr .= '%'.sprintf('%02x',ord($c));
+            else $newStr .= $c;
         }
         return $newStr;
-
     }
 
     /**
@@ -103,6 +86,7 @@ class Sabre_DAV_URLUtil {
 
             case 'ISO-8859-1' : 
                 $path = utf8_encode($path);
+
         }
 
         return $path;

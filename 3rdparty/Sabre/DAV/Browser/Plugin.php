@@ -68,9 +68,16 @@ class Sabre_DAV_Browser_Plugin extends Sabre_DAV_ServerPlugin {
     public function httpGetInterceptor($method, $uri) {
 
         if ($method!='GET') return true;
-        
-        $node = $this->server->tree->getNodeForPath($uri);
-        if ($node instanceof Sabre_DAV_IFile) return true;
+
+        try { 
+            $node = $this->server->tree->getNodeForPath($uri);
+        } catch (Sabre_DAV_Exception_FileNotFound $e) {
+            // We're simply stopping when the file isn't found to not interfere 
+            // with other plugins.
+            return;
+        }
+        if ($node instanceof Sabre_DAV_IFile) 
+            return;
 
         $this->server->httpResponse->sendStatus(200);
         $this->server->httpResponse->setHeader('Content-Type','text/html; charset=utf-8');
@@ -165,6 +172,8 @@ class Sabre_DAV_Browser_Plugin extends Sabre_DAV_ServerPlugin {
         '{DAV:}getlastmodified',
     ),1);
 
+    $parent = $this->server->tree->getNodeForPath($path);
+
 
     if ($path) {
 
@@ -188,6 +197,7 @@ class Sabre_DAV_Browser_Plugin extends Sabre_DAV_ServerPlugin {
         list(, $name) = Sabre_DAV_URLUtil::splitPath($file['href']);
 
         $type = null;
+
 
         if (isset($file[200]['{DAV:}resourcetype'])) {
             $type = $file[200]['{DAV:}resourcetype']->getValue();
@@ -246,7 +256,7 @@ class Sabre_DAV_Browser_Plugin extends Sabre_DAV_ServerPlugin {
 
   $html.= "<tr><td colspan=\"4\"><hr /></td></tr>";
 
-  if ($this->enablePost) {
+  if ($this->enablePost && $parent instanceof Sabre_DAV_ICollection) {
       $html.= '<tr><td><form method="post" action="">
             <h3>Create new folder</h3>
             <input type="hidden" name="sabreAction" value="mkcol" />

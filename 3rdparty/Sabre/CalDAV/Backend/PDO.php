@@ -129,7 +129,6 @@ class Sabre_CalDAV_Backend_PDO extends Sabre_CalDAV_Backend_Abstract {
      * @param string $principalUri
      * @param string $calendarUri
      * @param array $properties
-     * @return mixed
      */
     public function createCalendar($principalUri,$calendarUri, array $properties) {
 
@@ -173,9 +172,9 @@ class Sabre_CalDAV_Backend_PDO extends Sabre_CalDAV_Backend_Abstract {
     }
 
     /**
-     * Updates a calendars properties 
+     * Updates properties for a calendar.
      *
-     * The properties array uses the propertyName in clark-notation as key,
+     * The mutations array uses the propertyName in clark-notation as key,
      * and the array value for the property value. In the case a property
      * should be deleted, the property value will be null.
      *
@@ -205,10 +204,10 @@ class Sabre_CalDAV_Backend_PDO extends Sabre_CalDAV_Backend_Abstract {
      * (424 Failed Dependency) because the request needs to be atomic.
      *
      * @param string $calendarId
-     * @param array $properties
+     * @param array $mutations 
      * @return bool|array 
      */
-    public function updateCalendar($calendarId, array $properties) {
+    public function updateCalendar($calendarId, array $mutations) {
 
         $newValues = array();
         $result = array(
@@ -219,13 +218,13 @@ class Sabre_CalDAV_Backend_PDO extends Sabre_CalDAV_Backend_Abstract {
 
         $hasError = false;
 
-        foreach($properties as $propertyName=>$propertyValue) {
+        foreach($mutations as $propertyName=>$propertyValue) {
 
             // We don't know about this property. 
             if (!isset($this->propertyMap[$propertyName])) {
                 $hasError = true;
                 $result[403][$propertyName] = null;
-                unset($properties[$propertyName]);
+                unset($mutations[$propertyName]);
                 continue;
             }
 
@@ -237,7 +236,7 @@ class Sabre_CalDAV_Backend_PDO extends Sabre_CalDAV_Backend_Abstract {
         // If there were any errors we need to fail the request
         if ($hasError) {
             // Properties has the remaining properties
-            foreach($properties as $propertyName=>$propertyValue) {
+            foreach($mutations as $propertyName=>$propertyValue) {
                 $result[424][$propertyName] = null;
             }
 
@@ -284,7 +283,7 @@ class Sabre_CalDAV_Backend_PDO extends Sabre_CalDAV_Backend_Abstract {
     }
 
     /**
-     * Returns all calendar objects within a calendar object.
+     * Returns all calendar objects within a calendar. 
      *
      * Every item contains an array with the following keys:
      *   * id - unique identifier which will be used for subsequent updates

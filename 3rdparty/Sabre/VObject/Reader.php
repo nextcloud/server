@@ -42,16 +42,10 @@ class Sabre_VObject_Reader {
      */
     static function read($data) {
 
-        // Detecting line endings
-        if (strpos($data,"\r\n")!==false) {
-            $newLine = "\r\n";
-        } elseif (strpos($data,"\r")) {
-            $newLine = "\r";
-        } else {
-            $newLine = "\n";
-        }
+        // Normalizing newlines
+        $data = str_replace(array("\r","\n\n"), array("\n","\n"), $data);
 
-        $lines = explode($newLine, $data);
+        $lines = explode("\n", $data);
 
         // Unfolding lines
         $lines2 = array();
