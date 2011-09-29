@@ -69,7 +69,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #login form fieldset { background:0; border:0; margin-bottom:2em; padding:0; }
 #login form fieldset legend { font-weight:bold; }
 #login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
-#login #dbhostlabel, #login #directorylabel { display:block; margin:.95em 0 .8em -7em; }
+#login #dbhostlabel, #login #directorylabel { display:block; margin:.95em 0 .8em -8em; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 4em 0; padding:1em 1em 1em 5em; }
 
@@ -105,6 +105,7 @@ tbody tr:hover, tr:active { background-color:#f8f8f8; }
 #body-settings .personalblock, #body-settings .helpblock { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 #body-settings .personalblock#quota { position:relative; margin-top:4.5em; padding:0; }
 #body-settings #controls+.helpblock { position:relative; margin-top:7.3em; }
+.personalblock > legend { margin-top:2em; }
 
 #quota div, div.jp-play-bar, div.jp-seek-bar { padding:0; background:#e6e6e6; font-weight:normal; white-space:nowrap; -moz-border-radius-bottomleft:.4em; -webkit-border-bottom-left-radius:.4em; border-bottom-left-radius:.4em; -moz-border-radius-topleft:.4em; -webkit-border-top-left-radius:.4em; border-top-left-radius:.4em; }
 #quotatext {padding: .6em 1em;}
