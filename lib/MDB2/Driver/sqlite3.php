@@ -582,12 +582,6 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         return $query;
     }
 
-    /* Dummy interface for sqlite, to stay compatible with the database abstraction */
-    function getUserInfo() {
-	return "sqlite standard user";
-    }
-
-
     // }}}
     // {{{ getServerVersion()
 
