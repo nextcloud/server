@@ -258,6 +258,14 @@ class OC_Util {
 		return $errors;
 	}
 
+	public static function displayLoginPage($parameters = array()){
+		if(isset($_COOKIE["username"])){
+			$parameters["username"] = $_COOKIE["username"];
+		} else {
+			$parameters["username"] = '';
+		}
+		OC_Template::printGuestPage("", "login", $parameters);
+	}
 
 	/**
 	* Try to get the username the httpd server runs on, used in hints

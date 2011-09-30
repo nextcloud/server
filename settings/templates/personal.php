@@ -19,6 +19,14 @@
 	</fieldset>
 </form>
 
+<form id="lostpassword">
+	<fieldset class="personalblock">
+		<label for="email"><strong><?php echo $l->t('Email');?></strong></label>
+		<input type="text" name="email" id="email" value="<?php echo $_['email']; ?>" placeholder="<?php echo $l->t('Your email address');?>" /><span class="msg"></span><br />
+		<em><?php echo $l->t('Fill in an email address to enable password recovery');?></em>
+	</fieldset>
+</form>
+
 <form>
 	<fieldset class="personalblock">
 		<label for="languageinput"><strong><?php echo $l->t('Language');?></strong></label>

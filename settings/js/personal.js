@@ -32,6 +32,15 @@ $(document).ready(function(){
 
 	});
 
+	$('#lostpassword #email').blur(function(event){
+		event.preventDefault();
+		OC.msg.startSaving('#lostpassword .msg');
+		var post = $( "#lostpassword" ).serialize();
+		$.post( 'ajax/lostpassword.php', post, function(data){
+			OC.msg.finishedSaving('#lostpassword .msg', data);
+		});
+	});
+
 	$("#languageinput").chosen();
 
 	$("#languageinput").change( function(){

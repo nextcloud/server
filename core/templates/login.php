@@ -1,8 +1,8 @@
 <form action="index.php" method="post">
 	<fieldset>
-		<?php /*if($_['error']): ?>
+		<?php if($_['error']): ?>
 			<a href="index.php?lostpassword"><?php echo $l->t('Lost your password?'); ?></a>
-		<?php endif;*/ ?>
+		<?php endif; ?>
 		<?php if(empty($_['username'])): ?>
 			<input type="text" name="user" id="user" placeholder="<?php echo $l->t( 'Username' ); ?>" value="<?php echo !empty($_POST['user'])?$_POST['user'].'"':'" autofocus'; ?> autocomplete="off" required />
 			<input type="password" name="password" id="password" placeholder="<?php echo $l->t( 'Password' ); ?>" value="" required <?php echo !empty($_POST['user'])?'autofocus':''; ?> />
