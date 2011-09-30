@@ -277,6 +277,16 @@ class OC_Util {
 
 
 	/**
+	* Check if the app is enabled, send json error msg if not
+	*/
+	public static function checkAppEnabled($app){
+		if( !OC_App::isEnabled($app)){
+			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			exit();
+		}
+	}
+
+	/**
 	* Check if the user is logged in, redirects to home if not
 	*/
 	public static function checkLoggedIn(){

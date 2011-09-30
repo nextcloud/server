@@ -26,6 +26,7 @@ require_once('../../lib/base.php');
 
 // Check if we are a user
 OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('media');
 
 require_once('lib_collection.php');
 require_once('lib_scanner.php');

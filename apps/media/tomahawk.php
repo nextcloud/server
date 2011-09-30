@@ -24,6 +24,7 @@
 $_POST=$_GET; //debug
 
 require_once('../../lib/base.php');
+OC_JSON::checkAppEnabled('media');
 require_once('lib_collection.php');
 
 $user=isset($_POST['user'])?$_POST['user']:'';

@@ -20,6 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+OC_Util::checkAppEnabled('admin_export');
 if (isset($_POST['admin_export'])) {
     $root = OC::$SERVERROOT . "/";
     $zip = new ZipArchive();

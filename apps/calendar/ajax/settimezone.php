@@ -13,6 +13,7 @@ $l=new OC_L10N('calendar');
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('calendar');
 
 // Get data
 if( isset( $_POST['timezone'] ) ){

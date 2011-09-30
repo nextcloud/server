@@ -22,6 +22,7 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
+OC_Util::checkAppEnabled('contacts');
 
 $id = $_GET['id'];
 

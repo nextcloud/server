@@ -13,6 +13,7 @@ $l10n = new OC_L10N('calendar');
 if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
+OC_JSON::checkAppEnabled('calendar');
 
 $calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
 $category_options = OC_Calendar_Object::getCategoryOptions($l10n);

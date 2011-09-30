@@ -8,6 +8,7 @@
 
 require_once ("../../lib/base.php");
 OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('calendar');
 $cal = $_GET["calid"];
 $calendar = OC_Calendar_Calendar::findCalendar($cal);
 if($calendar["userid"] != OC_User::getUser()){

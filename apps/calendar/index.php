@@ -8,6 +8,7 @@
 
 require_once ('../../lib/base.php');
 OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('calendar');
 // Create default calendar ...
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
 if( count($calendars) == 0){

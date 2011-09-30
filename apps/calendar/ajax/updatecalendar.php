@@ -12,6 +12,7 @@ $l10n = new OC_L10N('calendar');
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('calendar');
 
 $calendarid = $_POST['id'];
 OC_Calendar_Calendar::editCalendar($calendarid, $_POST['name'], $_POST['description'], null, null, null, $_POST['color']);

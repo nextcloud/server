@@ -30,6 +30,7 @@
 $RUNTIME_NOSETUPFS = true;
 
 require_once('../../lib/base.php');
+OC_Util::checkAppEnabled('unhosted');
 require_once('Sabre/autoload.php');
 require_once('lib_unhosted.php');
 require_once('oauth_ro_auth.php');
