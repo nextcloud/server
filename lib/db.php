@@ -97,6 +97,14 @@ class OC_DB {
 				die( $error );
 			}
 
+			self::$DBConnection->loadModule('Manager');
+			if (count(self::$DBConnection->listTables()) == 0) {
+				$error = 'database tables not initialized, using '.$CONFIG_DBTYPE.'. ('.self::$DBConnection->getUserInfo() . ')';
+				if(defined("DEBUG") && DEBUG) {error_log( $error);}
+				if(defined("DEBUG") && DEBUG) {error_log( self::$DBConnection->getUserInfo());}
+				die( $error );
+			    }
+
 			// We always, really always want associative arrays
 			self::$DBConnection->setFetchMode(MDB2_FETCHMODE_ASSOC);
 
