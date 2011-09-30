@@ -26,6 +26,7 @@
  */
  $RUNTIME_NOSETUPFS=true;
 require_once('../lib/base.php');
+OC_Util::checkAdminUser();
 
 $testCases=loadFiles(__DIR__,array('index.php','templates'));
 ob_end_clean();
