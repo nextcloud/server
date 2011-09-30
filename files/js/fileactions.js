@@ -125,7 +125,7 @@ FileActions={
 }
 
 FileActions.register('all','Download',function(){return OC.imagePath('core','actions/download')},function(filename){
-	window.location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
+	window.location='ajax/download.php?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
 });
 
 FileActions.register('all','Delete',function(){return OC.imagePath('core','actions/delete')},function(filename){
