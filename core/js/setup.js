@@ -1,8 +1,7 @@
 $(document).ready(function() {
 	$('#selectDbType').buttonset();
-	$('#datadirField').hide(250);
+	$('#datadirContent').hide(250);
 	if($('#hasSQLite').val()=='true'){
-		$('#databaseField').hide();
 		$('#use_other_db').hide();
 		$('#dbhost').hide();
 		$('#dbhostlabel').hide();
@@ -26,11 +25,10 @@ $(document).ready(function() {
 		$('#dbhostlabel').show(250);
 	});
 
+	$('input[checked]').trigger('click');
+
 	$('#showAdvanced').click(function() {
-		$('#datadirField').slideToggle(250);
-		if($('#hasSQLite').val()=='true'){
-			$('#databaseField').slideToggle(250);
-		}
+		$('#datadirContent').slideToggle(250);
 	});
 	$("form").submit(function(){
 		// Save form parameters

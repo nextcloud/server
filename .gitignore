@@ -31,3 +31,5 @@ RCS/*
 
 # netbeans 
 nbproject
+
+.DS_Store

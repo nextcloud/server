@@ -290,6 +290,7 @@ $(document).ready(function(){
 	// 'show password' checkbox	
 	$('#pass2').showPassword();
 
+	/* @TODO: Currently not working perfect. Remember-Checkbox is flashing.
 	// hide log in button etc. when form fields not filled
 	$('#submit').hide();
 	$('#remember_login').hide();
@@ -312,6 +313,7 @@ $(document).ready(function(){
 			$('#remember_login+label').fadeIn();
 		}
 	});
+	*/
 
 	if($('body').attr("id")=="body-user") { $('#settings #expanddiv').hide(); }
 	$('#settings #expand').click(function(event) {

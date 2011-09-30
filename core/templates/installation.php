@@ -27,12 +27,12 @@
 		<legend><?php echo $l->t( 'Configure the database' ); ?></legend>
 		<div id="selectDbType">
 		<?php if($_['hasSQLite']): ?>
-		<input type='hidden' id='hasSQLite' value='true' />
+		<input type='hidden' id='hasSQLite' value="true" />
 		<?php if(!$hasOtherDB): ?>
 		<p>SQLite <?php echo $l->t( 'will be used' ); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
 		<?php else: ?>
-		<input type="radio" name="dbtype" value='sqlite' id="sqlite" <?php OC_Helper::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value="sqlite" id="sqlite" <?php OC_Helper::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/>
 		<label class="sqlite" for="sqlite">SQLite</label>
 		<?php endif; ?>
 		<?php endif; ?>
@@ -43,7 +43,7 @@
 		<p>MySQL <?php echo $l->t( 'will be used' ); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 		<?php else: ?>
-		<input type="radio" name="dbtype" value='mysql' id="mysql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value="mysql" id="mysql" <?php OC_Helper::init_radio('dbtype','mysql', 'sqlite'); ?>/>
 		<label class="mysql" for="mysql">MySQL</label>
 		<?php endif; ?>
 		<?php endif; ?>
@@ -54,7 +54,7 @@
 		<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
 		<?php else: ?>
 		<label class="pgsql" for="pgsql">PostgreSQL</label>
-		<input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'mysql', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>
 		</div>
@@ -68,13 +68,14 @@
 		<?php endif; ?>
 
 	</fieldset>
-	
-	<a id='showAdvanced'><strong><?php echo $l->t( 'Advanced' ); ?> ▾</strong></a>
 
-	<fieldset id='datadirField'>
-		<label id="dbhostlabel" for="dbhost"><?php echo $l->t( 'Database host' ); ?></label><input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Database host' ); ?>" />
-		<label id="directorylabel" for="directory"><?php echo $l->t( 'Data folder' ); ?></label><input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" placeholder="<?php echo $l->t( 'Data folder' ); ?>" />
+	<fieldset id="datadirField">
+		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> ▾</a></legend>
+		<div id="datadirContent">
+			<input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Database host' ); ?>" />
+			<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" placeholder="<?php echo $l->t( 'Data folder' ); ?>" />
+		</div>
 	</fieldset>
 
-	<input type="submit" value="<?php echo $l->t( 'Finish setup' ); ?>" />
+	<div class="buttons"><input type="submit" value="<?php echo $l->t( 'Finish setup' ); ?>" /></div>
 </form>
