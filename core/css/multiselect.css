@@ -1,5 +1,5 @@
 ul.multiselectoptions { z-index:49; position:absolute; background-color:#fff; padding-top:.5em; border:1px solid #ddd; border-top:none; -moz-border-radius-bottomleft:.5em; -webkit-border-bottom-left-radius:.5em; border-bottom-left-radius:.5em; -moz-border-radius-bottomright:.5em; -webkit-border-bottom-right-radius:.5em; border-bottom-right-radius:.5em; -moz-box-shadow:0 1px 1px #ddd; -webkit-box-shadow:0 1px 1px #ddd; box-shadow:0 1px 1px #ddd; }
-div.multiselect { padding-right:.6em; display:inline; position:relative; display:inline-block }
+div.multiselect { padding-right:.6em; display:inline; position:relative; display:inline-block; vertical-align: bottom; }
 div.multiselect.active { background-color:#fff; border-bottom:none; border-bottom-left-radius:0; border-bottom-right-radius:0; z-index:50; position:relative }
 div.multiselect>span:first-child { margin-right:2em; float:left; }
 div.multiselect>span:last-child { float:right; position:relative }

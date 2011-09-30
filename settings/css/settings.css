@@ -12,6 +12,8 @@ input#identity { width:20em; }
 
 /* USERS */
 form { display:inline; }
+table th { height:2em; padding:0 .5em; color:#999; padding-left:.8em; }
+table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
 td.password>img, td.remove>img, td.quota>img { visibility:hidden; }
 td.password>span { margin-right:1.2em; }
