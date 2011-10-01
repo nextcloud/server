@@ -71,6 +71,7 @@ if(strlen($newdate) > 10){
 		$newdatestringarray[1] = "00:00";
 	}else{
 		$allday = false;
+		$difference = 3600;
 	}
 }else{
 	$newdatestringarray = array();
