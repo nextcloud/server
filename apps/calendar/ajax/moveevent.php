@@ -70,8 +70,10 @@ if(strlen($newdate) > 10){
 		$allday = true;
 		$newdatestringarray[1] = "00:00";
 	}else{
+		if($allday == true){
+			$difference = 3600;
+		}
 		$allday = false;
-		$difference = 3600;
 	}
 }else{
 	$newdatestringarray = array();
