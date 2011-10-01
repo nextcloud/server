@@ -8,6 +8,8 @@
 
 Calendar={
 	space:' ',
+	firstdayofweek: '',
+	weekend: '',
 	Date:{
 		normal_year_cal: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 		leap_year_cal: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
@@ -79,7 +81,7 @@ Calendar={
 
 	},
 	UI:{
-		weekdays: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+		weekdays: '',
 		formatDayShort:function(day){
 			if (typeof(day) == 'undefined'){
 				day = Calendar.Date.current.getDay();
@@ -219,7 +221,7 @@ Calendar={
 			if (!events) {
 				return;
 			}
-			var weekday = (date.getDay()+6)%7;
+			var weekday = (date.getDay()+7-Calendar.firstdayofweek)%7;
 			if( typeof (events["allday"]) != "undefined") {
 				var eventnumber = 1;
 				var eventcontainer = this.current.getEventContainer(week, weekday, "allday");
@@ -496,7 +498,7 @@ Calendar={
 			cancel:function(button, calendarid){
 				$(button).closest('tr').prev().show().next().remove();
 			},
-		},
+		},/*
 		OneDay:{
 			forward:function(){
 				Calendar.Date.forward_day();
@@ -526,7 +528,7 @@ Calendar={
 				return $(document.createElement('p'))
 					.html(time + event['description'])
 			},
-		},
+		},*/
 		OneWeek:{
 			forward:function(){
 				Calendar.Date.forward_week();
@@ -545,7 +547,7 @@ Calendar={
 				var dates = this.generateDates();
 				var today = new Date();
 				for(var i = 0; i <= 6; i++){
-					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(Calendar.UI.formatDayShort((i+1)%7) + Calendar.space + dates[i].getDate() + Calendar.space + Calendar.UI.formatMonthShort(dates[i].getMonth()));
+					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(Calendar.UI.formatDayShort((i+Calendar.firstdayofweek)%7) + Calendar.space + dates[i].getDate() + Calendar.space + Calendar.UI.formatMonthShort(dates[i].getMonth()));
 					if(dates[i].getDate() == today.getDate() && dates[i].getMonth() == today.getMonth() && dates[i].getFullYear() == today.getFullYear()){
 						$("#oneweekview ." + Calendar.UI.weekdays[i]).addClass("thisday");
 					}
@@ -576,14 +578,18 @@ Calendar={
 				if(dayofweek == 0) {
 					dayofweek = 7;
 				}
-				date.setDate(date.getDate() - dayofweek + 1);
+				if(Calendar.firstdayofweek > dayofweek){
+					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek - 7);
+				}else{
+					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek);
+				}
 				for(var i = 0; i <= 6; i++) {
 					dates[i] = new Date(date)
 					date.setDate(date.getDate() + 1);
 				}
 				return dates;
 			},
-		},
+		},/*
 		FourWeeks:{
 			forward:function(){
 				Calendar.Date.forward_week();
@@ -680,7 +686,7 @@ Calendar={
 				}
 				return dates;
 			},
-		},
+		},*/
 		OneMonth:{
 			forward:function(){
 				Calendar.Date.forward_month();
@@ -782,7 +788,11 @@ Calendar={
 					dayofweek = 7;
 					this.rows++;
 				}
-				date.setDate(date.getDate() - dayofweek + 1);
+				if(Calendar.firstdayofweek > dayofweek){
+					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek - 7);
+				}else{
+					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek);
+				}
 				for(var i = 0; i <= 41; i++) {
 					dates[i] = new Date(date)
 					date.setDate(date.getDate() + 1);
