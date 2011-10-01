@@ -39,8 +39,6 @@ class OC_GALLERY_SCANNER {
     $albumId = $result->fetchRow();
     $albumId = $albumId['album_id'];
     foreach ($current_album['images'] as $img) {
-      error_log($img);
-      error_log($albumId);
       $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_photos WHERE "album_id" = ? AND "file_path" = ?');
       $result = $stmt->execute(array($albumId, $img));
       if ($result->numRows() == 0) {

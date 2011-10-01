@@ -49,7 +49,6 @@ $box_size = 200;
 $img = $_GET['img'];
 
 $tmp = OC::$CONFIG_DATADIRECTORY . $img;
-$imagesize = getimagesize($tmp);
 
 header('Content-Type: image/png');
 $image = CroppedThumbnail($tmp, $box_size, $box_size);
