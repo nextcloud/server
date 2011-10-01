@@ -63,7 +63,7 @@ $startunix = mktime($starttimearray[0], $starttimearray[1], 0, $startdatearray[1
 $enddatearray = explode("-", $enddate);
 $endtimearray = explode(":", $endtime);
 $endunix = mktime($endtimearray[0], $endtimearray[1], 0, $enddatearray[1], $enddatearray[0], $enddatearray[2]);
-$difference = $endunix - $startunix;echo $difference . "\n";
+$difference = $endunix - $startunix;
 if(strlen($newdate) > 10){
 	$newdatestringarray = explode("-", $newdate);
 	if($newdatestringarray[1] == "allday"){
@@ -85,9 +85,9 @@ if($allday == true){
 	unset($caldata["allday"]);
 }
 $caldata["from"] = date("d-m-Y", $newstartunix);
-$caldata["fromtime"] = date("H:i", $newstartunix); echo $caldata["fromtime"];
+$caldata["fromtime"] = date("H:i", $newstartunix);
 $caldata["to"]  = date("d-m-Y", $newendunix);
-$caldata["totime"] = date("H:i", $newendunix); echo $caldata["totime"];
+$caldata["totime"] = date("H:i", $newendunix);
 //modified part of editevent.php
 $vcalendar = Sabre_VObject_Reader::read($data["calendardata"]);
 OC_Calendar_Object::updateVCalendarFromRequest($caldata, $vcalendar);
