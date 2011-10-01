@@ -1,27 +1,20 @@
 var actual_cover;
-$('body').ready(function() {
-  $('div[class=gallery_album_box]').each(function(i, e) {
-      $.getJSON('ajax/getCovers.php', { album: $(e).children('h1:last').text() }, function(a) {
-        if (a.status == "success") {
-          e.ic = a.imageCount;
-          e.images = a.images;
-          if (e.ic > 0) {
-            $(e).find('img[class=gallery_album_cover]').attr('src', 'ajax/thumbnail.php?img=' + e.images[0]);
-            actual_cover = 0;
-          }
-        }
-      });
-  });
-  $('img[class=gallery_album_cover]').each(function(i, e) {
-    $(e).mousemove(function(a) {
-      if (e.parentNode.parentNode.ic!=0) {
-        var x = Math.min(Math.floor((a.clientX - this.offsetLeft)/(200/e.parentNode.parentNode.ic)), e.parentNode.parentNode.ic-1);
-        if (actual_cover != x) {
-          $(e).attr('src', 'ajax/thumbnail.php?img=' + e.parentNode.parentNode.images[x]);
-          actual_cover = x;
-        }
+$(document).ready(function() {
+  $.getJSON('ajax/getAlbums.php', function(r) {
+    if (r.status == 'success') {
+      for (var i in r.albums) {
+        var a = r.albums[i];
+        Albums.add(a.name, a.numOfItems);
       }
-    });
+      var targetDiv = document.getElementById('gallery_list');
+      if (targetDiv) {
+        Albums.display(targetDiv);
+      } else {
+        alert('Error occured: no such layer `gallery_list`');
+      }
+    } else {
+      alert('Error occured: ' + r.message);
+    }
   });
 });
 
