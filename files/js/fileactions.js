@@ -143,13 +143,13 @@ FileActions.register('dir','Open','',function(filename){
 FileActions.setDefault('dir','Open');  
 
 FileActions.register('text','Edit','',function(filename){
-	window.location=OC.linkTo('editor', 'index.php')+'?file='+filename+'&dir='+$('#dir').val();
+	showFileEditor($('#dir').val(),filename);
 });
 
 FileActions.setDefault('text','Edit');
 
 FileActions.register('application/xml','Edit','',function(filename){
-	window.location=OC.linkTo('editor', 'index.php')+'?file='+filename+'&dir='+$('#dir').val();
+	showFileEditor($('#dir').val(),filename);
 });
 
 FileActions.setDefault('application/xml','Edit');

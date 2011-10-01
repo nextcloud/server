@@ -1,5 +1,6 @@
 <?php
 
+
 $l=new OC_L10N('files');
 
 OC_App::register( array( "order" => 2, "id" => "files", "name" => "Files" ));

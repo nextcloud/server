@@ -1,0 +1,16 @@
+#editor{
+	position: absoloute;
+	height: 0;
+	width: 0;
+	top: 41px;
+	left: 160px;
+	z-index: -1;
+}
+#editorwrapper{
+	position: absoloute;
+	height: 0;
+	width: 0;
+	top: 41px;
+	left: 160px;
+	display: none;
+}
