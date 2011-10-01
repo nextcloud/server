@@ -69,6 +69,8 @@ if(strlen($newdate) > 10){
 	if($newdatestringarray[1] == "allday"){
 		$allday = true;
 		$newdatestringarray[1] = "00:00";
+	}else{
+		$allday = false;
 	}
 }else{
 	$newdatestringarray = array();
