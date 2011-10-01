@@ -50,7 +50,9 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 		<select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
 			<option value="24" id="24h"><?php echo $l->t("24 h"); ?></option>
 			<option value="ampm" id="ampm"><?php echo $l->t("am/pm"); ?></option>
-		</select>
+		</select>&nbsp;&nbsp;
+		<label for="duration"><strong><?php echo $l->t('Event duration');?></strong></label>
+		<input type="text" maxlength="3" size="3" style="width: 2em;" id="duration" name="duration" /> <strong><?php echo $l->t("Minutes");?></strong>
 		<br />
 		Calendar CalDAV syncing address: 
   		<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?><br />
