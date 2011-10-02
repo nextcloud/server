@@ -27,7 +27,12 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 				echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
 			endif;
                 endforeach;?>
-                </select><span class="msg"></span>&nbsp;&nbsp;
+                </select>&nbsp;&nbsp;
+		<label for="timeformat"><strong><?php echo $l->t('Timeformat');?></strong></label>
+		<select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
+			<option value="24" id="24h"><?php echo $l->t("24h"); ?></option>
+			<option value="ampm" id="ampm"><?php echo $l->t("12h"); ?></option>
+		</select><br />
 		<label for="firstdayofweek"><strong><?php echo $l->t('First day of the week');?></strong></label>
 		<select style="display: none;" id="firstdayofweek" name="firstdayofweek">
 		<?php
@@ -36,21 +41,16 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 			echo '<option value="'.$i.'" id="select_'.$i.'">' . $l->t($weekdays[$i]) . '</option>';
 		}
 		?>
-		</select>&nbsp;&nbsp;
+		</select><br />
 		<label for="weekend"><strong><?php echo $l->t('Days of weekend');?></strong></label>
-		<select id="weekend" name="weekend[]" multiple="multiple" title="<?php echo $l->t("Weekend"); ?>">
+		<select id="weekend" name="weekend[]" style="width: 50%;" multiple="multiple" title="<?php echo $l->t("Weekend"); ?>">
 		<?php
 		$weekdays = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 		for($i = 0;$i <= 6;$i++){
 			echo '<option value="'.$weekdays[$i].'" id="selectweekend_' . $weekdays[$i] . '">' . $l->t($weekdays[$i]) . '</option>';
 		}
 		?>
-		</select>&nbsp;&nbsp;
-		<label for="timeformat"><strong><?php echo $l->t('Timeformat');?></strong></label>
-		<select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
-			<option value="24" id="24h"><?php echo $l->t("24 h"); ?></option>
-			<option value="ampm" id="ampm"><?php echo $l->t("am/pm"); ?></option>
-		</select>&nbsp;&nbsp;
+		</select><br />
 		<label for="duration"><strong><?php echo $l->t('Event duration');?></strong></label>
 		<input type="text" maxlength="3" size="3" style="width: 2em;" id="duration" name="duration" /> <strong><?php echo $l->t("Minutes");?></strong>
 		<br />

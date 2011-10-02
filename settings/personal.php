@@ -9,9 +9,12 @@ require_once('../lib/base.php');
 OC_Util::checkLoggedIn();
 
 // Highlight navigation entry
-OC_Util::addScript( "settings", "personal" );
-OC_Util::addStyle( "settings", "settings" );
-OC_App::setActiveNavigationEntry( "personal" );
+OC_Util::addScript( 'settings', 'personal' );
+OC_Util::addScript( 'core', 'multiselect' );
+OC_Util::addStyle( 'settings', 'settings' );
+OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
+OC_Util::addStyle( '3rdparty', 'chosen' );
+OC_App::setActiveNavigationEntry( 'personal' );
 
 // calculate the disc space
 $used=OC_Filesystem::filesize('/');
@@ -33,7 +36,7 @@ foreach($languageCodes as $lang){
 }
 
 // Return template
-$tmpl = new OC_Template( "settings", "personal", "user");
+$tmpl = new OC_Template( 'settings', 'personal', 'user');
 $tmpl->assign('usage',OC_Helper::humanFileSize($used));
 $tmpl->assign('total_space',OC_Helper::humanFileSize($total));
 $tmpl->assign('usage_relative',$relative);

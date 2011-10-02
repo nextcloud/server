@@ -8,8 +8,8 @@
 require_once('../lib/base.php');
 OC_Util::checkLoggedIn();
 
-OC_Util::addStyle( "settings", "settings" );
-OC_App::setActiveNavigationEntry( "settings" );
+OC_Util::addStyle( 'settings', 'settings' );
+OC_App::setActiveNavigationEntry( 'settings' );
 
 $tmpl = new OC_Template( 'settings', 'settings', 'user');
 $forms=OC_App::getForms('settings');
