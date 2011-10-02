@@ -1,4 +1,4 @@
-<?
+<?php
 OC_Util::addStyle('gallery', 'styles');
 OC_Util::addScript('gallery', 'albums');
 OC_Util::addScript('gallery', 'album_cover');

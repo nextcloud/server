@@ -30,7 +30,7 @@ class OC_GALLERY_SCANNER {
     $albums[] = $current_album;
     $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE "uid_owner" = ? AND "album_name" = ?');
     $result = $stmt->execute(array(OC_User::getUser(), $current_album['name']));
-    if ($result->numRows() == 0) {
+    if ($result->numRows() == 0 && count($current_album['images'])) {
       $stmt = OC_DB::prepare('INSERT OR REPLACE INTO *PREFIX*gallery_albums ("uid_owner", "album_name") VALUES (?, ?)');
       $stmt->execute(array(OC_User::getUser(), $current_album['name']));
     }
