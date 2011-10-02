@@ -1,0 +1,10 @@
+<?xml version="1.0"?> 
+<info>
+	<id>gallery</id>
+	<name>Gallery</name>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Bartosz Przybylski</author>
+	<require>2</require>
+	<description></description>
+</info>
