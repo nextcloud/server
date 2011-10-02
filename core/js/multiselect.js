@@ -43,25 +43,25 @@
 			});
 			button.addClass('active');
 			event.stopPropagation();
-			var options=$(this).parent().next().children().map(function(){return $(this).val()});
+			var options=$(this).parent().next().children().map(function(){return $(this).val();});
 			var list=$('<ul class="multiselectoptions"/>').hide().appendTo($(this).parent());
 			function createItem(item,checked){
 				var id='ms'+multiSelectId+'-option-'+item;
 				var input=$('<input id="'+id+'" type="checkbox"/>');
 				var label=$('<label for="'+id+'">'+item+'</label>');
 				if(settings.checked.indexOf(item)!=-1 || checked){
-					input.attr('checked','checked');
+					input.attr('checked',true);
 				}
 				if(checked){
 					settings.checked.push(item);
 				}
 				input.change(function(){
 					var groupname=$(this).next().text();
-					if($(this).attr('checked')){
+					if($(this).is(':checked')){
 						settings.checked.push(groupname);
 						if(settings.oncheck){
 							if(settings.oncheck(groupname)===false){
-								$(this).removeAttr('checked');
+								$(this).attr('checked', false);
 								return;
 							}
 						}
@@ -70,7 +70,7 @@
 						settings.checked.splice(index,1);
 						if(settings.onuncheck){
 							if(settings.onuncheck(groupname)===false){
-								$(this).attr('checked','checked');
+								$(this).attr('checked',true);
 								return;
 							}
 						}
@@ -81,7 +81,7 @@
 					}else{
 						button.children('span').first().text(settings.title);
 					}
-					var newOuterWidth=Math.max((button.outerWidth()-2),settings.minOuterWidth)+'px'
+					var newOuterWidth=Math.max((button.outerWidth()-2),settings.minOuterWidth)+'px';
 					var newWidth=Math.max(button.width(),settings.minWidth);
 					button.css('height',button.height());
 					button.css('white-space','nowrap');
