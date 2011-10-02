@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('../../../lib/base.php');
 require_once('../lib_scanner.php');

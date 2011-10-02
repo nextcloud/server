@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('base.php'); // base lib
 

@@ -1,4 +1,4 @@
-<?
+<?php
 require_once('../../../lib/base.php');
 
 function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSrc is a FILE - Returns an image resource.

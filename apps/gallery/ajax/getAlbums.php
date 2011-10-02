@@ -1,4 +1,4 @@
-<?
+<?php
 require_once('../../../lib/base.php');
 
 if (!OC_User::IsLoggedIn()) {
