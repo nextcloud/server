@@ -54,7 +54,7 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 		<label for="duration"><strong><?php echo $l->t('Event duration');?></strong></label>
 		<input type="text" maxlength="3" size="3" style="width: 2em;" id="duration" name="duration" /> <strong><?php echo $l->t("Minutes");?></strong>
 		<br />
-		Calendar CalDAV syncing address: 
+		<?php echo $l->t('Calendar CalDAV syncing address:');?> 
   		<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?><br />
         </fieldset>
 </form>
