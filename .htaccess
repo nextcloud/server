@@ -1,8 +1,8 @@
-ErrorDocument 404 //owncloud/core/templates/404.php
+ErrorDocument 404 /owncloud/core/templates/404.php
 <IfModule mod_php5.c>
-	php_value upload_max_filesize 512M
-	php_value post_max_size 512M
-  php_value memory_limit 128M
-	SetEnv htaccessWorking true
+php_value upload_max_filesize 512M
+php_value post_max_size 512M
+php_value memory_limit 128M
+SetEnv htaccessWorking true
 </IfModule>
 Options -Indexes
