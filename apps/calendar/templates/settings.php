@@ -38,14 +38,21 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 		?>
 		</select>&nbsp;&nbsp;
 		<label for="weekend"><strong><?php echo $l->t('Days of weekend');?></strong></label>
-		<select id="weekend" name="weekend[]" multiple="multiple" title="<?php echo "Wochenende"; ?>">
+		<select id="weekend" name="weekend[]" multiple="multiple" title="<?php echo $l->t("Weekend"); ?>">
 		<?php
 		$weekdays = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 		for($i = 0;$i <= 6;$i++){
 			echo '<option value="'.$weekdays[$i].'" id="selectweekend_' . $weekdays[$i] . '">' . $l->t($weekdays[$i]) . '</option>';
 		}
 		?>
-		</select>
+		</select>&nbsp;&nbsp;
+		<label for="timeformat"><strong><?php echo $l->t('Timeformat');?></strong></label>
+		<select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
+			<option value="24" id="24h"><?php echo $l->t("24 h"); ?></option>
+			<option value="ampm" id="ampm"><?php echo $l->t("am/pm"); ?></option>
+		</select>&nbsp;&nbsp;
+		<label for="duration"><strong><?php echo $l->t('Event duration');?></strong></label>
+		<input type="text" maxlength="3" size="3" style="width: 2em;" id="duration" name="duration" /> <strong><?php echo $l->t("Minutes");?></strong>
 		<br />
 		Calendar CalDAV syncing address: 
   		<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?><br />

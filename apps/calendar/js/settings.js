@@ -34,6 +34,29 @@ $(document).ready(function(){
 			minWidth:'auto',
 		});
 	});
+	$("#timeformat").change( function(){
+		var data = $("#timeformat").serialize();
+		$.post( OC.filePath('calendar', 'ajax', 'settimeformat.php'), data, function(data){
+			if(data == "error"){
+				console.log("saving timeformat failed");
+			}
+		});
+	});
+	$.getJSON(OC.filePath('calendar', 'ajax', 'timeformat.php'), function(jsondata, status) {
+		$("#" + jsondata.timeformat).attr('selected',true);
+		$("#timeformat").chosen();
+	});
+	$("#duration").blur( function(){
+		var data = $("#duration").val();
+		$.post( OC.filePath('calendar', 'ajax', 'setduration.php'), {duration: data}, function(data){
+			if(data == "error"){
+				console.log("saving duration failed");
+			}
+		});
+	});
+	$.getJSON(OC.filePath('calendar', 'ajax', 'duration.php'), function(jsondata, status) {
+		$("#duration").val(jsondata.duration);
+	});
 	$("#weekend").change( function(){
 		var data = $("#weekend").serialize();
 		$.post( OC.filePath('calendar', 'ajax', 'setdaysofweekend.php'), data, function(data){
