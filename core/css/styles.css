@@ -67,7 +67,6 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #body-login p.info a { font-weight:bold; color:#777; }
 
 #login { min-height:30em; margin:2em auto 0; border-bottom:1px solid #f8f8f8; background:#eee; }
-#login a#showAdvanced { color: #555; }
 #login form { width:22em; margin:2em auto 2em; padding:0; }
 #login form fieldset { background:0; border:0; margin-bottom:2em; padding:0; }
 #login form fieldset legend { font-weight:bold; }

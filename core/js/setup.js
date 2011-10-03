@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('#selectDbType').buttonset();
 	$('#datadirContent').hide(250);
+	$('#databaseField').hide(250);
 	if($('#hasSQLite').val()=='true'){
 		$('#use_other_db').hide();
 		$('#dbhost').hide();
@@ -29,6 +30,7 @@ $(document).ready(function() {
 
 	$('#showAdvanced').click(function() {
 		$('#datadirContent').slideToggle(250);
+		$('#databaseField').slideToggle(250);
 	});
 	$("form").submit(function(){
 		// Save form parameters

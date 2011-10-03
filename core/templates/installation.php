@@ -21,7 +21,14 @@
 		<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" placeholder="<?php echo $l->t( 'Username' ); ?>" autocomplete="off" autofocus required />
 		<input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" placeholder="<?php echo $l->t( 'Password' ); ?>" required />
 	</fieldset>
-	
+
+	<fieldset id="datadirField">
+		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> ▾</a></legend>
+		<div id="datadirContent">
+			<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" placeholder="<?php echo $l->t( 'Data folder' ); ?>" />
+		</div>
+	</fieldset>
+
 	<fieldset id='databaseField'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL']) $hasOtherDB = true; //other than SQLite ?>
 		<legend><?php echo $l->t( 'Configure the database' ); ?></legend>
@@ -66,15 +73,8 @@
 			<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" placeholder="<?php echo $l->t( 'Database name' ); ?>" autocomplete="off" />
 		</div>
 		<?php endif; ?>
-
-	</fieldset>
-
-	<fieldset id="datadirField">
-		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> ▾</a></legend>
-		<div id="datadirContent">
 			<input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" placeholder="<?php echo $l->t( 'Database host' ); ?>" />
-			<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" placeholder="<?php echo $l->t( 'Data folder' ); ?>" />
-		</div>
+
 	</fieldset>
 
 	<div class="buttons"><input type="submit" value="<?php echo $l->t( 'Finish setup' ); ?>" /></div>
