@@ -67,13 +67,22 @@ function editorIsShown(){
 	} 	
 }
 
+function updateSessionFileHash(path){
+	$.get(OC.filePath('apps','files_texteditor','ajax','loadfile.php'),
+		{ path: path },
+   		function(jsondata){
+   			if(jsondata.status=='failure'){
+   				alert('Failed to update session file hash.');	
+   			}
+   	}, "json");}
+
 function doFileSave(){
 	if(editorIsShown()){
 	$('#editor_save').val(t('files_texteditor','Saving')+'...');
 		var filecontents = window.aceEditor.getSession().getValue();
 		var dir =  $('#editor').attr('data-dir');
 		var file =  $('#editor').attr('data-filename');
-		$.post('http://cloud.tomneedham.com/apps/files_texteditor/ajax/savefile.php', { filecontents: filecontents, file: file, dir: dir },function(jsondata){
+		$.post(OC.filePath('apps','files_texteditor','ajax','savefile.php'), { filecontents: filecontents, file: file, dir: dir },function(jsondata){
 			
 			if(jsondata.status == 'failure'){
 				var answer = confirm(jsondata.data.message);
@@ -118,6 +127,7 @@ function showFileEditor(dir,filename){
 			complete: function(data){
 				var data = data.responseText;
 				// Initialise the editor
+				updateSessionFileHash(dir+'/'+filename);
 				showControlBar(filename);
 				$('table').fadeOut('slow', function() {
 					$('#editor').html(data);

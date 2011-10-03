@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Editor
+ * ownCloud - files_texteditor
  *
  * @author Tom Needham
  * @copyright 2011 Tom Needham contact@tomneedham.com
@@ -32,15 +32,15 @@ $filecontents = htmlspecialchars_decode($_POST['filecontents']);
 $file = $_POST['file'];
 $dir = $_POST['dir'];
 $path = $dir.'/'.$file;
-//$force = isset($_POST['force']) ? $_POST['force'] : false;
-//$sessionname = md5('oc_file_hash_'.$path);
+$force = isset($_POST['force']) ? $_POST['force'] : false;
+$sessionname = sha1('oc_file_hash_'.$path);
 
 function do_save($path,$filecontents){
-	//$sessionname = md5('oc_file_hash_'.$path);
-	//OC_Filesystem::update_session_file_hash($sessionname,md5(htmlspecialchars($filecontents)));
+	$sessionname = md5('oc_file_hash_'.$path);
+	OC_Filesystem::update_session_file_hash($sessionname,sha1(htmlspecialchars($filecontents)));
 	OC_Filesystem::file_put_contents($path, $filecontents);
 }
-/*
+
 // Check if file modified whilst editing?
 if(isset($_SESSION[$sessionname])){
     if(!empty($_SESSION[$sessionname])){
@@ -65,14 +65,9 @@ if(isset($_SESSION[$sessionname])){
             do_save($path,$filecontents);
             OC_JSON::success();
         }
-        
-        
-}
+	}
 } else {
     // No session value set for soem reason, just save the file.
 	do_save($path,$filecontents);
 	OC_JSON::success();
 }
-*/
-do_save($path,$filecontents);
-OC_JSON::success();
