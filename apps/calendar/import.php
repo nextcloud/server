@@ -7,7 +7,7 @@
  */
 
 require_once ('../../lib/base.php');
-//OC_JSON::checkLoggedIn();
+OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
 
 if($_GET["import"] == "existing"){
