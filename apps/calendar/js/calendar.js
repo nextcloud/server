@@ -483,8 +483,37 @@ Calendar={
 			},
 			edit:function(object, calendarid){
 				var tr = $(document.createElement('tr'))
-					.load(OC.filePath('calendar', 'ajax', 'editcalendar.php') + "?calendarid="+calendarid);
+					.load(OC.filePath('calendar', 'ajax', 'editcalendar.php') + "?calendarid="+calendarid,
+						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
+			},
+			colorPicker:function(container){
+				// based on jquery-colorpicker at jquery.webspirited.com
+				var obj = $('.colorpicker', container);
+				var picker = $('<div class="calendar-colorpicker"></div>');
+				var size = 20;
+
+				//build an array of colors
+				var colors = {};
+				$(obj).children('option').each(function(i, elm) {
+					colors[i] = {};
+					colors[i].color = $(elm).val();
+					colors[i].label = $(elm).text();
+				});
+				for (var i in colors) {
+					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: #' + colors[i].color + '; width: ' + size + 'px; height: ' + size + 'px;"></span>');
+				}
+				picker.delegate(".calendar-colorpicker-color", "click", function() {
+					$(obj).val($(this).attr('rel'));
+					$(obj).change();
+					picker.children('.calendar-colorpicker-color.active').removeClass('active');
+					$(this).addClass('active');
+				});
+				$(obj).after(picker);
+				$(obj).css({
+					position: 'absolute',
+					left: -10000
+				});
 			},
 			submit:function(button, calendarid){
 				var displayname = $("#displayname_"+calendarid).val();
