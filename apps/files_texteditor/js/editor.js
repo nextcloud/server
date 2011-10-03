@@ -68,7 +68,7 @@ function editorIsShown(){
 }
 
 function updateSessionFileHash(path){
-	$.get(OC.filePath('apps','files_texteditor','ajax','loadfile.php'),
+	$.get(OC.filePath('files_texteditor','ajax','loadfile.php'),
 		{ path: path },
    		function(jsondata){
    			if(jsondata.status=='failure'){
@@ -82,12 +82,12 @@ function doFileSave(){
 		var filecontents = window.aceEditor.getSession().getValue();
 		var dir =  $('#editor').attr('data-dir');
 		var file =  $('#editor').attr('data-filename');
-		$.post(OC.filePath('apps','files_texteditor','ajax','savefile.php'), { filecontents: filecontents, file: file, dir: dir },function(jsondata){
+		$.post(OC.filePath('files_texteditor','ajax','savefile.php'), { filecontents: filecontents, file: file, dir: dir },function(jsondata){
 			
 			if(jsondata.status == 'failure'){
 				var answer = confirm(jsondata.data.message);
 				if(answer){
-					$.post(OC.filePath('apps','files_texteditor','ajax','savefile.php'),{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
+					$.post(OC.filePath('files_texteditor','ajax','savefile.php'),{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
 						if(jsondata.status =='success'){
 							$('#editor_save').val(t('files_texteditor','Save'));
 							$('#editor_save').effect("highlight", {color:'#4BFF8D'}, 3000);
