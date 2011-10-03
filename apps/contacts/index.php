@@ -29,6 +29,7 @@ require_once('../../lib/base.php');
 
 // Check if we are a user
 OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('contacts');
 
 // Check if the user has an addressbook
 $addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());

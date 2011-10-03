@@ -266,8 +266,14 @@ class OC_Helper {
 		return $r;
 	}
 	
+	/**
+	 * returns "checked"-attribut if request contains selected radio element OR if radio element is the default one -- maybe?
+	 * @param string $s Name of radio-button element name
+	 * @param string $v Value of current radio-button element
+	 * @param string $d Value of default radio-button element
+	 */
 	public static function init_radio($s, $v, $d) {
-		if((isset($_REQUEST[$s]) && $_REQUEST[$s]==$v) || $v == $d)
+		if((isset($_REQUEST[$s]) && $_REQUEST[$s]==$v) || (!isset($_REQUEST[$s]) && $v == $d))
 			print "checked=\"checked\" ";
 	}
 

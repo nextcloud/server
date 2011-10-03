@@ -52,85 +52,43 @@ elseif(OC_User::isLoggedIn()) {
 	}
 }
 
-// remember was checked after last login
-elseif(isset($_COOKIE["oc_remember_login"]) && $_COOKIE["oc_remember_login"]) {
-	OC_App::loadApps();
-	if(defined("DEBUG") && DEBUG) {error_log("Trying to login from cookie");}
-	// confirm credentials in cookie
-	if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username']) &&
-	   OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") == $_COOKIE['oc_token']) {
-		OC_User::setUserId($_COOKIE['oc_username']);
-		OC_Util::redirectToDefaultPage();
-	}
-	else {
-		OC_Template::printGuestPage("", "login", array("error" => true));
-	}
-}
-
-// Someone wants to log in :
-elseif(isset($_POST["user"]) && isset($_POST['password'])) {
-	OC_App::loadApps();
-	if(OC_User::login($_POST["user"], $_POST["password"])) {
-		if(!empty($_POST["remember_login"])){
-			if(defined("DEBUG") && DEBUG) {error_log("Setting remember login to cookie");}
-			$token = md5($_POST["user"].time());
-			OC_Preferences::setValue($_POST['user'], 'login', 'token', $token);
-			OC_User::setMagicInCookie($_POST["user"], $token);
-		}
-		else {
-			OC_User::unsetMagicInCookie();
-		}
-		OC_Util::redirectToDefaultPage();
-	}
-	else {
-		if(isset($_COOKIE["oc_username"])){
-			OC_Template::printGuestPage("", "login", array("error" => true, "username" => $_COOKIE["oc_username"]));
-		}else{
-			OC_Template::printGuestPage("", "login", array("error" => true));
-		}
-	}
-}
-
-// Someone lost their password:
-elseif(isset($_GET['lostpassword'])) {
-	OC_App::loadApps();
-	if (isset($_POST['user'])) {
-		if (OC_User::userExists($_POST['user'])) {
-			$token = sha1($_POST['user']+uniqId());
-			OC_Preferences::setValue($_POST['user'], "owncloud", "lostpassword", $token);
-			// TODO send email with link+token
-			OC_Template::printGuestPage("", "lostpassword", array("error" => false, "requested" => true));
-		} else {
-			OC_Template::printGuestPage("", "lostpassword", array("error" => true, "requested" => false));
-		}
-	} else {
-		OC_Template::printGuestPage("", "lostpassword", array("error" => false, "requested" => false));
-	}
-}
-
-// Someone wants to reset their password:
-elseif(isset($_GET['resetpassword']) && isset($_GET['token']) && isset($_GET['user']) && OC_Preferences::getValue($_GET['user'], "owncloud", "lostpassword") === $_GET['token']) {
-	OC_App::loadApps();
-	if (isset($_POST['password'])) {
-		if (OC_User::setPassword($_GET['user'], $_POST['password'])) {
-			OC_Preferences::deleteKey($_GET['user'], "owncloud", "lostpassword");
-			OC_Template::printGuestPage("", "resetpassword", array("success" => true));
-		} else {
-			OC_Template::printGuestPage("", "resetpassword", array("success" => false));
-		}
-	} else {
-		OC_Template::printGuestPage("", "resetpassword", array("success" => false));
-	}
-}
-
 // For all others cases, we display the guest page :
 else {
 	OC_App::loadApps();
-	if(isset($_COOKIE["username"])){
-		OC_Template::printGuestPage("", "login", array("error" => false, "username" => $_COOKIE["username"]));
-	}else{
-		OC_Template::printGuestPage("", "login", array("error" => false));
-	}
-}
+	$error = false;
 
-?>
+	// remember was checked after last login
+	if(isset($_COOKIE["oc_remember_login"]) && isset($_COOKIE["oc_token"]) && isset($_COOKIE["oc_username"]) && $_COOKIE["oc_remember_login"]) {
+		if(defined("DEBUG") && DEBUG) {
+			error_log("Trying to login from cookie");
+		}
+		// confirm credentials in cookie
+		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username']) &&
+		OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") == $_COOKIE['oc_token']) {
+			OC_User::setUserId($_COOKIE['oc_username']);
+			OC_Util::redirectToDefaultPage();
+		}
+	}
+	
+	// Someone wants to log in :
+	elseif(isset($_POST["user"]) && isset($_POST['password'])) {
+		if(OC_User::login($_POST["user"], $_POST["password"])) {
+			if(!empty($_POST["remember_login"])){
+				if(defined("DEBUG") && DEBUG) {
+					error_log("Setting remember login to cookie");
+				}
+				$token = md5($_POST["user"].time());
+				OC_Preferences::setValue($_POST['user'], 'login', 'token', $token);
+				OC_User::setMagicInCookie($_POST["user"], $token);
+			}
+			else {
+				OC_User::unsetMagicInCookie();
+			}
+			OC_Util::redirectToDefaultPage();
+		} else {
+			$error = true;
+		}
+	}
+
+	OC_Template::printGuestPage('', 'login', array('error' => $error ));
+}

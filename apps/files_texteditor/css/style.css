@@ -14,3 +14,9 @@
 	left: 160px;
 	display: none;
 }
+#editorbar{
+	margin-left: auto;
+	margin-right: 10px;	
+	display: block;
+	width: 300px;
+}

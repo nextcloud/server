@@ -33,6 +33,9 @@
 /* states and images */
 .ui-icon { display: block; text-indent: -99999px; overflow: hidden; background-repeat: no-repeat; }
 
+/* states and images */
+.ui-icon { width: 16px; height: 16px; }
+.ui-icon-closethick { background-image: url(../img/actions/delete.png); }
 
 /* Misc visuals
 ----------------------------------*/

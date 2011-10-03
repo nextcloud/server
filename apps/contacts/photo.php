@@ -22,17 +22,12 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
+OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('contacts');
 
 $id = $_GET['id'];
 
 $l10n = new OC_L10N('contacts');
-
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo $l10n->t('You need to log in.');
-	exit();
-}
-
 
 $card = OC_Contacts_VCard::find( $id );
 if( $card === false ){

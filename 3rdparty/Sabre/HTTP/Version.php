@@ -14,7 +14,7 @@ class Sabre_HTTP_Version {
     /**
      * Full version number
      */
-    const VERSION = '1.4.1';
+    const VERSION = '1.5.3';
 
     /**
      * Stability : alpha, beta, stable

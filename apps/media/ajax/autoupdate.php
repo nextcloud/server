@@ -28,6 +28,7 @@ $RUNTIME_NOAPPS=true;
 $RUNTIME_NOSETUPFS=true;
 
 require_once('../../../lib/base.php');
+OC_JSON::checkAppEnabled('media');
 
 if(defined("DEBUG") && DEBUG) {error_log($_GET['autoupdate']);}
 $autoUpdate=(isset($_GET['autoupdate']) and $_GET['autoupdate']=='true');

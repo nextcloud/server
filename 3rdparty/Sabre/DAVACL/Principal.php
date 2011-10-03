@@ -68,11 +68,18 @@ class Sabre_DAVACL_Principal extends Sabre_DAV_Node implements Sabre_DAVACL_IPri
      */
     public function getAlternateUriSet() {
 
-        if (isset($this->principalProperties['{http://sabredav.org/ns}email-address'])) {
-            return array('mailto:' . $this->principalProperties['{http://sabredav.org/ns}email-address']);
-        } else {
-            return array();
+        $uris = array();
+        if (isset($this->principalProperties['{DAV:}alternate-URI-set'])) {
+
+            $uris = $this->principalProperties['{DAV:}alternate-URI-set'];
+
         }
+
+        if (isset($this->principalProperties['{http://sabredav.org/ns}email-address'])) {
+            $uris[] = 'mailto:' . $this->principalProperties['{http://sabredav.org/ns}email-address'];
+        }
+
+        return array_unique($uris); 
 
     }
 

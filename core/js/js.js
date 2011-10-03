@@ -252,7 +252,7 @@ $(document).ready(function(){
 	}
 	$('form.searchbox').submit(function(event){
 		event.preventDefault();
-	})
+	});
 	$('#searchbox').keyup(function(event){
 		if(event.keyCode==13){//enter
 			if(OC.search.currentResult>-1){
@@ -290,6 +290,9 @@ $(document).ready(function(){
 	// 'show password' checkbox	
 	$('#pass2').showPassword();
 
+	//use infield labels
+	$("label.infield").inFieldLabels();
+
 	// hide log in button etc. when form fields not filled
 	$('#submit').hide();
 	$('#remember_login').hide();
@@ -301,14 +304,13 @@ $(document).ready(function(){
 				empty = true;
 			}
 		});
-
 		if(empty) {
 			$('#submit').fadeOut();
-			$('#remember_login').fadeOut();
+			$('#remember_login').hide();
 			$('#remember_login+label').fadeOut();
 		} else {
 			$('#submit').fadeIn();
-			$('#remember_login').fadeIn();
+			$('#remember_login').show();
 			$('#remember_login+label').fadeIn();
 		}
 	});
@@ -320,7 +322,7 @@ $(document).ready(function(){
 	});
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
-	})
+	});
 	$('#settings #expand').hover(function(){
 		$('#settings #expand+span').fadeToggle();
 	});

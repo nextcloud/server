@@ -24,6 +24,7 @@
 $RUNTIME_NOSETUPFS = true;
 
 require_once('../../lib/base.php');
+OC_Util::checkAppEnabled('contacts');
 
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();

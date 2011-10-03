@@ -28,6 +28,7 @@ require_once('../../../lib/base.php');
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('bookmarks');
 
 $params=array(OC_User::getUser());
 $CONFIG_DBTYPE = OC_Config::getValue( 'dbtype', 'sqlite' );

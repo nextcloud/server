@@ -6,6 +6,7 @@ require_once('../../lib/base.php');
 $l=new OC_L10N('settings');
 
 OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('user_openid');
 
 // Get data
 if( isset( $_POST['identity'] ) ){

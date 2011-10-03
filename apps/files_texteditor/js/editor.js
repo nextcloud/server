@@ -1,7 +1,7 @@
 function setEditorSize(){
 	// Sets the size of the text editor window.
-	$('#editor').css('height', $(window).height()-90);
-	$('#editor').css('width', $(window).width()-180);
+	$('#editor').css('height', $(window).height()-81);
+	$('#editor').css('width', $(window).width()-160);
 	$('#editor').css('padding-top', '40px');		
 }
 
@@ -33,31 +33,54 @@ function setSyntaxMode(ext){
 	}	
 }
 
-function showControlBar(){
+function showControlBar(filename){
 	// Loads the control bar at the top.
-	$('.actions,#file_action_panel').fadeOut('slow', function(){
+	$('.actions,#file_action_panel').fadeOut('slow').promise().done(function() {
 		// Load the new toolbar.
-		var html = '<div id="editorbar"><input type="button" id="editor_save" value="'+t('files_texteditor','Save')+'"><input type="button" id="editor_close" value="Close"></div>';
+		var html = '<div id="editorbar"><input type="button" id="editor_save" value="'+t('files_texteditor','Save')+'"><input type="button" id="editor_close" value="'+t('files_texteditor','Close Editor')+'"></div>';
 		if($('#editorbar').length==0){
-			$('#controls').append(html).fadeIn('slow');	
+			$('#controls').append(html);
+			$('#editorbar').fadeIn('slow');	
 		}
-		bindControlEvents();
+		var breadcrumbhtml = '<div class="crumb svg" style="background-image:url(&quot;/core/img/breadcrumb.png&quot;)"><a href="#">'+filename+'</a></div>';
+		$('.actions').before(breadcrumbhtml);
 	});
 }
-
+ 
 function bindControlEvents(){
-	$('#editor_save').bind('click', function() {
-		$(this).val('Saving...');
+	$("#editor_save").live('click',function() {
+		doFileSave();
+	});	
+	
+	$('#editor_close').live('click',function() {
+		hideFileEditor();	
+	});
+	
+	$(document).bind('keydown', 'Ctrl+s', doFileSave);
+}
+
+function editorIsShown(){
+	if($('#editor').length!=0){
+		return true;
+	} else {
+		return false;	
+	} 	
+}
+
+function doFileSave(){
+	if(editorIsShown()){
+	$('#editor_save').val(t('files_texteditor','Saving')+'...');
 		var filecontents = window.aceEditor.getSession().getValue();
 		var dir =  $('#editor').attr('data-dir');
-		var file =  $('#editor').attr('data-file');
+		var file =  $('#editor').attr('data-filename');
 		$.post('http://cloud.tomneedham.com/apps/files_texteditor/ajax/savefile.php', { filecontents: filecontents, file: file, dir: dir },function(jsondata){
+			
 			if(jsondata.status == 'failure'){
 				var answer = confirm(jsondata.data.message);
 				if(answer){
 					$.post(OC.filePath('apps','files_texteditor','ajax','savefile.php'),{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
 						if(jsondata.status =='success'){
-							$('#editor_save').val('Save');
+							$('#editor_save').val(t('files_texteditor','Save'));
 							$('#editor_save').effect("highlight", {color:'#4BFF8D'}, 3000);
 						} 
 						else {
@@ -69,23 +92,24 @@ function bindControlEvents(){
 		   		else {
 					// Don't save!
 					$('#editor_save').effect("highlight", {color:'#FF5757'}, 3000);
-					$('#editor_save').val('Save');	
+					$('#editor_save').val(t('files_texteditor','Save'));	
 		   		}
 			} 
 			else if(jsondata.status == 'success'){
 				// Success
-				$('#editor_save').val('Save');
+				$('#editor_save').val(t('files_texteditor','Save'));
 				$('#editor_save').effect("highlight", {color:'#4BFF8D'}, 3000);
 			}
 		}, 'json');
-	// TODO give focus back to the editor
-	// window.aceEditor.focus();
-	});	
-	
-	$('#editor_close').bind('click', function() {
-		hideFileEditor();	
-	});
-}
+	giveEditorFocus();
+	} else {
+		return;	
+	}	
+};
+
+function giveEditorFocus(){
+	window.aceEditor.focus();
+};
 
 function showFileEditor(dir,filename){
 	// Loads the file editor and display it.
@@ -94,7 +118,7 @@ function showFileEditor(dir,filename){
 			complete: function(data){
 				var data = data.responseText;
 				// Initialise the editor
-				showControlBar();
+				showControlBar(filename);
 				$('table').fadeOut('slow', function() {
 					$('#editor').html(data);
 					// encodeURIComponenet?
@@ -106,8 +130,8 @@ function showFileEditor(dir,filename){
 					OC.addScript('files_texteditor','aceeditor/theme-clouds', function(){
 						window.aceEditor.setTheme("ace/theme/clouds");
 					});
-					showControlBar();
 				});
+			bindControlEvents();
 			// End success
 			}
 			// End ajax
@@ -116,10 +140,17 @@ function showFileEditor(dir,filename){
 }
 
 function hideFileEditor(){
+	// Fade out controls
 	$('#editorbar').fadeOut('slow');
+	// Fade out breadcrumb
+	$('.actions').prev().fadeOut('slow');
+	// Fade out editor
 	$('#editor').fadeOut('slow', function(){
-		$('#editorbar').html('');
-		$('#editor').html('');
+		$('#editorbar').remove();
+		$('#editor').remove();
+		$('.actions').prev().remove();
+		var editorhtml = '<div id="editor"></div>';
+		$('table').after(editorhtml);
 		$('.actions,#file_access_panel').fadeIn('slow');
 		$('table').fadeIn('slow');	
 	});

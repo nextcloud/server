@@ -55,9 +55,6 @@ class OC_Setup {
 			if(empty($options['dbuser'])) {
 				$error[] = "$dbprettyname enter the database username.";
 			}
-			if(empty($options['dbpass'])) {
-				$error[] = "$dbprettyname enter the database password.";
-			}
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
 			}

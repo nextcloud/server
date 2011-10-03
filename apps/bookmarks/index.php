@@ -25,6 +25,7 @@ require_once('../../lib/base.php');
 
 // Check if we are a user
 OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('bookmarks');
 
 OC_App::setActiveNavigationEntry( 'bookmarks_index' );
 

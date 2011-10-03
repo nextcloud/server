@@ -8,6 +8,8 @@
 
 Calendar={
 	space:' ',
+	firstdayofweek: '',
+	weekend: '',
 	Date:{
 		normal_year_cal: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 		leap_year_cal: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
@@ -79,7 +81,7 @@ Calendar={
 
 	},
 	UI:{
-		weekdays: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+		weekdays: '',
 		formatDayShort:function(day){
 			if (typeof(day) == 'undefined'){
 				day = Calendar.Date.current.getDay();
@@ -124,7 +126,7 @@ Calendar={
 			$('#'+this.currentview + "_radio").removeClass('active');
 			this.currentview = view;
 			//sending ajax request on every change view
-			$("#sysbox").load(oc_webroot + "/apps/calendar/ajax/changeview.php?v="+view);
+			$("#sysbox").load(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view);
 			//not necessary to check whether the response is true or not
 			switch(view) {
 				case "onedayview":
@@ -153,6 +155,7 @@ Calendar={
 				Calendar.UI.updateView()
 			});
 		},
+		drageventid: '',
 		updateDate:function(direction){
 			if(direction == 'forward' && this.current.forward) {
 				this.current.forward();
@@ -178,18 +181,19 @@ Calendar={
 			if( typeof (this.events[year]) == "undefined") {
 				this.events[year] = []
 			}
-			$.getJSON(oc_webroot + "/apps/calendar/ajax/getcal.php?year=" + year, function(newevents, status) {
+			$.getJSON(OC.filePath('calendar', 'ajax', 'getcal.php') + "?year=" + year, function(jsondata, status) {
 				if(status == "nosession") {
 					alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
 					document.location(oc_webroot);
 				}
-				if(status == "parsingfail" || typeof (newevents) == "undefined") {
+				if(status == "parsingfail" || typeof (jsondata) == "undefined") {
 					$.ready(function() {
 						$( "#parsingfail_dialog" ).dialog();
 					});
 				} else {
-					if (typeof(newevents[year]) != 'undefined'){
-						Calendar.UI.events[year] = newevents[year];
+					if (typeof(jsondata[year]) != 'undefined'){
+						Calendar.UI.calendars = jsondata['calendars'];
+						Calendar.UI.events[year] = jsondata[year];
 					}
 					$(document).ready(function() {
 						Calendar.UI.updateView();
@@ -218,7 +222,7 @@ Calendar={
 			if (!events) {
 				return;
 			}
-			var weekday = (date.getDay()+6)%7;
+			var weekday = (date.getDay()+7-Calendar.firstdayofweek)%7;
 			if( typeof (events["allday"]) != "undefined") {
 				var eventnumber = 1;
 				var eventcontainer = this.current.getEventContainer(week, weekday, "allday");
@@ -244,7 +248,17 @@ Calendar={
 				.data('event_info', event)
 				.hover(this.createEventPopup,
 				       this.hideEventPopup)
+				.draggable({
+					drag: function() {
+						Calendar.UI.drageventid = event.id;
+					}
+				})
 				.click(this.editEvent);
+			var color = this.calendars[event['calendarid']]['color'];
+			if (color){
+				event_holder.css('background-color', color)
+					.addClass('colored');
+			}
 			eventcontainer.append(event_holder);
 		},
 		startEventDialog:function(){
@@ -286,7 +300,7 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/neweventform.php?d=' + date + '&t=' + time, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php') + '?d=' + date + '&t=' + time, Calendar.UI.startEventDialog);
 			}
 		},
 		editEvent:function(event){
@@ -297,12 +311,12 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/editeventform.php?id=' + id, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'editeventform.php') + '?id=' + id, Calendar.UI.startEventDialog);
 			}
 		},
 		submitDeleteEventForm:function(url){
 			var post = $( "#event_form" ).serialize();
-			$("#errorbox").html("");
+			$("#errorbox").empty();
 			$.post(url, post, function(data){
 					if(data.status == 'success'){
 						$('#event').dialog('destroy').remove();
@@ -315,7 +329,7 @@ Calendar={
 		},
 		validateEventForm:function(url){
 			var post = $( "#event_form" ).serialize();
-			$("#errorbox").html("");
+			$("#errorbox").empty();
 			$.post(url, post,
 				function(data){
 					if(data.status == "error"){
@@ -351,6 +365,12 @@ Calendar={
 						Calendar.UI.loadEvents();
 					}
 				},"json");
+		},
+		moveevent:function(eventid, newstartdate){
+			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: eventid, newdate: newstartdate},
+			function(data) {
+				console.log("Event moved successfully");
+			});
 		},
 		showadvancedoptions:function(){
 			$("#advanced_options").css("display", "block");
@@ -425,7 +445,7 @@ Calendar={
 			if(check == false){
 				return false;
 			}else{
-				$.post(oc_webroot + "/apps/calendar/ajax/deletecalendar.php", { calendarid: calid},
+				$.post(OC.filePath('calendar', 'ajax', 'deletecalendar.php'), { calendarid: calid},
 				  function(data) {
 					Calendar.UI.loadEvents();
 					$('#choosecalendar_dialog').dialog('destroy').remove();
@@ -438,7 +458,7 @@ Calendar={
 				if($('#choosecalendar_dialog').dialog('isOpen') == true){
 					$('#choosecalendar_dialog').dialog('moveToTop');
 				}else{
-					$('#dialog_holder').load(oc_webroot + '/apps/calendar/ajax/choosecalendar.php', function(){
+					$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'choosecalendar.php'), function(){
 						$('#choosecalendar_dialog').dialog({
 							width : 600,
 							close : function(event, ui) {
@@ -450,7 +470,7 @@ Calendar={
 			},
 			activation:function(checkbox, calendarid)
 			{
-				$.post(oc_webroot + "/apps/calendar/ajax/activation.php", { calendarid: calendarid, active: checkbox.checked?1:0 },
+				$.post(OC.filePath('calendar', 'ajax', 'activation.php'), { calendarid: calendarid, active: checkbox.checked?1:0 },
 				  function(data) {
 					checkbox.checked = data == 1;
 					Calendar.UI.loadEvents();
@@ -458,13 +478,42 @@ Calendar={
 			},
 			newCalendar:function(object){
 				var tr = $(document.createElement('tr'))
-					.load(oc_webroot + "/apps/calendar/ajax/newcalendar.php");
+					.load(OC.filePath('calendar', 'ajax', 'newcalendar.php'));
 				$(object).closest('tr').after(tr).hide();
 			},
 			edit:function(object, calendarid){
 				var tr = $(document.createElement('tr'))
-					.load(oc_webroot + "/apps/calendar/ajax/editcalendar.php?calendarid="+calendarid);
+					.load(OC.filePath('calendar', 'ajax', 'editcalendar.php') + "?calendarid="+calendarid,
+						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
+			},
+			colorPicker:function(container){
+				// based on jquery-colorpicker at jquery.webspirited.com
+				var obj = $('.colorpicker', container);
+				var picker = $('<div class="calendar-colorpicker"></div>');
+				var size = 20;
+
+				//build an array of colors
+				var colors = {};
+				$(obj).children('option').each(function(i, elm) {
+					colors[i] = {};
+					colors[i].color = $(elm).val();
+					colors[i].label = $(elm).text();
+				});
+				for (var i in colors) {
+					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: #' + colors[i].color + '; width: ' + size + 'px; height: ' + size + 'px;"></span>');
+				}
+				picker.delegate(".calendar-colorpicker-color", "click", function() {
+					$(obj).val($(this).attr('rel'));
+					$(obj).change();
+					picker.children('.calendar-colorpicker-color.active').removeClass('active');
+					$(this).addClass('active');
+				});
+				$(obj).after(picker);
+				$(obj).css({
+					position: 'absolute',
+					left: -10000
+				});
 			},
 			submit:function(button, calendarid){
 				var displayname = $("#displayname_"+calendarid).val();
@@ -490,7 +539,7 @@ Calendar={
 			cancel:function(button, calendarid){
 				$(button).closest('tr').prev().show().next().remove();
 			},
-		},
+		},/*
 		OneDay:{
 			forward:function(){
 				Calendar.Date.forward_day();
@@ -499,7 +548,7 @@ Calendar={
 				Calendar.Date.backward_day();
 			},
 			removeEvents:function(){
-				$("#onedayview .calendar_row").html("");
+				$("#onedayview .calendar_row").empty();
 			},
 			renderCal:function(){
 				$("#datecontrol_date").val(Calendar.UI.formatDayShort() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort() + Calendar.space + Calendar.Date.current.getFullYear());
@@ -520,7 +569,7 @@ Calendar={
 				return $(document.createElement('p'))
 					.html(time + event['description'])
 			},
-		},
+		},*/
 		OneWeek:{
 			forward:function(){
 				Calendar.Date.forward_week();
@@ -530,7 +579,7 @@ Calendar={
 			},
 			removeEvents:function(){
 				for( i = 0; i <= 6; i++) {
-					$("#oneweekview ." + Calendar.UI.weekdays[i]).html("");
+					$("#oneweekview ." + Calendar.UI.weekdays[i]).empty();
 				}
 				$("#oneweekview .thisday").removeClass("thisday");
 			},
@@ -539,7 +588,23 @@ Calendar={
 				var dates = this.generateDates();
 				var today = new Date();
 				for(var i = 0; i <= 6; i++){
-					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(Calendar.UI.formatDayShort((i+1)%7) + Calendar.space + dates[i].getDate() + Calendar.space + Calendar.UI.formatMonthShort(dates[i].getMonth()));
+					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(Calendar.UI.formatDayShort((i+Calendar.firstdayofweek)%7) + Calendar.space + dates[i].getDate() + Calendar.space + Calendar.UI.formatMonthShort(dates[i].getMonth()));
+					$("#oneweekview td." + Calendar.UI.weekdays[i] + ".allday").attr('title', dates[i].getDate() + "." + String(parseInt(dates[i].getMonth()) + 1) + "." + dates[i].getFullYear() + "-" + "allday");
+					$("#oneweekview td." + Calendar.UI.weekdays[i] + ".allday").droppable({
+						drop: function() {
+							Calendar.UI.moveevent(Calendar.UI.drageventid, this.title);
+							Calendar.UI.loadEvents();
+						}
+					});
+					for(var ii = 0;ii <= 23; ii++){
+						$("#oneweekview td." + Calendar.UI.weekdays[i] + "." + String(ii)).attr('title', dates[i].getDate() + "." + String(parseInt(dates[i].getMonth()) + 1) + "." + dates[i].getFullYear() + "-" + String(ii) + ":00");
+						$("#oneweekview td." + Calendar.UI.weekdays[i] + "." + String(ii)).droppable({
+							drop: function() {
+								Calendar.UI.moveevent(Calendar.UI.drageventid, this.title);
+								Calendar.UI.loadEvents();
+							}
+						});
+					}
 					if(dates[i].getDate() == today.getDate() && dates[i].getMonth() == today.getMonth() && dates[i].getFullYear() == today.getFullYear()){
 						$("#oneweekview ." + Calendar.UI.weekdays[i]).addClass("thisday");
 					}
@@ -570,14 +635,18 @@ Calendar={
 				if(dayofweek == 0) {
 					dayofweek = 7;
 				}
-				date.setDate(date.getDate() - dayofweek + 1);
+				if(Calendar.firstdayofweek > dayofweek){
+					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek - 7);
+				}else{
+					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek);
+				}
 				for(var i = 0; i <= 6; i++) {
 					dates[i] = new Date(date)
 					date.setDate(date.getDate() + 1);
 				}
 				return dates;
 			},
-		},
+		},/*
 		FourWeeks:{
 			forward:function(){
 				Calendar.Date.forward_week();
@@ -587,7 +656,7 @@ Calendar={
 			},
 			removeEvents:function(){
 				$('#fourweeksview .day.thisday').removeClass('thisday');
-				$('#fourweeksview .day .events').html('');
+				$('#fourweeksview .day .events').empty();
 			},
 			renderCal:function(){
 				var calw1 = Calendar.Date.calw();
@@ -674,7 +743,7 @@ Calendar={
 				}
 				return dates;
 			},
-		},
+		},*/
 		OneMonth:{
 			forward:function(){
 				Calendar.Date.forward_month();
@@ -684,7 +753,7 @@ Calendar={
 			},
 			removeEvents:function(){
 				$('#onemonthview .day.thisday').removeClass('thisday');
-				$('#onemonthview .day .events').html('');
+				$('#onemonthview .day .events').empty();
 			},
 			renderCal:function(){
 				$("#datecontrol_date").val(Calendar.UI.formatMonthLong() + Calendar.space + Calendar.Date.current.getFullYear());
@@ -712,6 +781,13 @@ Calendar={
 					var month = dates[i].getMonth();
 					var year = dates[i].getFullYear();
 					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + Calendar.space + Calendar.UI.formatMonthShort(month));
+					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).attr('title', dayofmonth + "." + String(parseInt(month) + 1) + "." + year);
+					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).droppable({
+						drop: function() {
+							Calendar.UI.moveevent(Calendar.UI.drageventid, this.title);
+							Calendar.UI.loadEvents();
+						}
+					});
 					if(dayofmonth == today.getDate() && month == today.getMonth() && year == today.getFullYear()){
 						$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
 					}
@@ -776,7 +852,11 @@ Calendar={
 					dayofweek = 7;
 					this.rows++;
 				}
-				date.setDate(date.getDate() - dayofweek + 1);
+				if(Calendar.firstdayofweek > dayofweek){
+					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek - 7);
+				}else{
+					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek);
+				}
 				for(var i = 0; i <= 41; i++) {
 					dates[i] = new Date(date)
 					date.setDate(date.getDate() + 1);
@@ -786,7 +866,7 @@ Calendar={
 		},
 		List:{
 			removeEvents:function(){
-				this.eventContainer = $('#listview #events').html('');
+				this.eventContainer = $('#listview #events').empty();
 				this.startdate = new Date();
 				this.enddate = new Date();
 				this.enddate.setDate(this.enddate.getDate());

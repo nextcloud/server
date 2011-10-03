@@ -286,6 +286,30 @@ class OC_Calendar_Object{
 		}
 	}
 
+	public static function getDTEndFromVEvent($vevent)
+	{
+		if ($vevent->DTEND) {
+			$dtend = $vevent->DTEND;
+		}else{
+			$dtend = clone $vevent->DTSTART;
+			if ($vevent->DURATION){
+				$duration = strval($vevent->DURATION);
+				$invert = 0;
+				if ($duration[0] == '-'){
+					$duration = substr($duration, 1);
+					$invert = 1;
+				}
+				if ($duration[0] == '+'){
+					$duration = substr($duration, 1);
+				}
+				$interval = new DateInterval($duration);
+				$interval->invert = $invert;
+				$dtend->getDateTime()->add($interval);
+			}
+		}
+		return $dtend;
+	}
+
 	public static function getCategoryOptions($l10n)
 	{
 		return array(
@@ -482,6 +506,7 @@ class OC_Calendar_Object{
 		}
 		$vevent->DTSTART = $dtstart;
 		$vevent->DTEND = $dtend;
+		unset($vevent->DURATION);
 
 		if($location != ""){
 			$vevent->LOCATION = $location;

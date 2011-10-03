@@ -34,7 +34,7 @@ $(document).ready(function(){
 			if(jsondata.status == 'success'){
 				$('#leftcontent [data-id="'+jsondata.data.id+'"]').remove();
 				$('#rightcontent').data('id','');
-				$('#rightcontent').html('');
+				$('#rightcontent').empty();
 			}
 			else{
 				alert(jsondata.data.message);

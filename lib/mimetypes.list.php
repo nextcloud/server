@@ -32,6 +32,8 @@ return array(
 	'gz'=>'application/x-gzip',
 	'html'=>'text/html',
 	'htm'=>'text/html',
+	'ics'=>'text/calendar',
+	'ical'=>'text/calendar',
 	'jpeg'=>'image/jpeg',
 	'jpg'=>'image/jpeg',
 	'js'=>'application/javascript',

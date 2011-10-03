@@ -45,6 +45,7 @@
 .weekend_thead, .weekend_row{height: 20px;text-align: center;text-align: center;background: #F3F3F3;}
 .thisday{background: #FFFABC;}
 .event {position:relative;}
+.event.colored {border-bottom: 1px solid white;}
 .popup {display: none; position: absolute; z-index: 1000; background: #eeeeee; color: #000000; border: 1px solid #1a1a1a; font-size: 90%;}
 .event_popup {width: 280px; height: 40px; padding: 10px;}
 
@@ -57,3 +58,6 @@ color:#A9A9A9;
 }
 select#category{width:140px;}
 button.category{margin:0 3px;}
+
+.calendar-colorpicker-color{display:inline-block;width:20px;height:20px;margin-right:2px;cursor:pointer;}
+.calendar-colorpicker-color.active{background-image:url("../../../core/img/jquery-ui/ui-icons_222222_256x240.png");background-position:-62px -143px;}

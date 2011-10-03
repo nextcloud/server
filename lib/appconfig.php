@@ -100,7 +100,18 @@ class OC_Appconfig{
 			return $default;
 		}
 	}
-
+	
+	/**
+	 * @brief check if a key is set in the appconfig
+	 * @param string $app
+	 * @param string $key
+	 * @return bool
+	 */
+	public static function hasKey($app,$key){
+		$exists = self::getKeys( $app );
+		return in_array( $key, $exists );
+	}
+	
 	/**
 	 * @brief sets a value in the appconfig
 	 * @param $app app
@@ -112,10 +123,7 @@ class OC_Appconfig{
 	 */
 	public static function setValue( $app, $key, $value ){
 		// Does the key exist? yes: update. No: insert
-		$exists = self::getKeys( $app );
-
-		// null: does not exist
-		if( !in_array( $key, $exists )){
+		if(! self::hasKey($app,$key)){
 			$query = OC_DB::prepare( 'INSERT INTO *PREFIX*appconfig ( appid, configkey, configvalue ) VALUES( ?, ?, ? )' );
 			$query->execute( array( $app, $key, $value ));
 		}

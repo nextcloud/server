@@ -12,6 +12,7 @@ $l10n = new OC_L10N('calendar');
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('calendar');
 
 $userid = OC_User::getUser();
 $calendarid = OC_Calendar_Calendar::addCalendar($userid, $_POST['name'], $_POST['description'], 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);

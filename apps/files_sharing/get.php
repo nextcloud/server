@@ -3,6 +3,7 @@ $RUNTIME_NOAPPS=true; //no need to load the apps
 $RUNTIME_NOSETUPFS=true; //don't setup the fs yet
 
 require_once '../../lib/base.php';
+OC_JSON::checkAppEnabled('files_sharing');
 require_once 'lib_share.php';
 
 //get the path of the shared file

@@ -738,6 +738,34 @@ class Sabre_DAV_Server {
 
         $body = $this->httpRequest->getBody();
 
+        // Intercepting Content-Range
+        if ($this->httpRequest->getHeader('Content-Range')) {
+            /**
+            Content-Range is dangerous for PUT requests:  PUT per definition
+            stores a full resource.  draft-ietf-httpbis-p2-semantics-15 says
+            in section 7.6:
+              An origin server SHOULD reject any PUT request that contains a
+              Content-Range header field, since it might be misinterpreted as
+              partial content (or might be partial content that is being mistakenly
+              PUT as a full representation).  Partial content updates are possible
+              by targeting a separately identified resource with state that
+              overlaps a portion of the larger resource, or by using a different
+              method that has been specifically defined for partial updates (for
+              example, the PATCH method defined in [RFC5789]).
+            This clarifies RFC2616 section 9.6:
+              The recipient of the entity MUST NOT ignore any Content-*
+              (e.g. Content-Range) headers that it does not understand or implement
+              and MUST return a 501 (Not Implemented) response in such cases.
+            OTOH is a PUT request with a Content-Range currently the only way to
+            continue an aborted upload request and is supported by curl, mod_dav,
+            Tomcat and others.  Since some clients do use this feature which results
+            in unexpected behaviour (cf PEAR::HTTP_WebDAV_Client 1.0.1), we reject
+            all PUT requests with a Content-Range for now.
+            */
+
+            throw new Sabre_DAV_Exception_NotImplemented('PUT with Content-Range is not allowed.');
+        }
+
         // Intercepting the Finder problem
         if (($expected = $this->httpRequest->getHeader('X-Expected-Entity-Length')) && $expected > 0) {
            
@@ -798,7 +826,10 @@ class Sabre_DAV_Server {
         } else {
 
             // If we got here, the resource didn't exist yet.
-            $this->createFile($this->getRequestUri(),$body);
+            if (!$this->createFile($this->getRequestUri(),$body)) {
+                // For one reason or another the file was not created.
+                return;
+            }
             $this->httpResponse->setHeader('Content-Length','0');
             $this->httpResponse->sendStatus(201);
 
@@ -1377,23 +1408,27 @@ class Sabre_DAV_Server {
      * Currently this is done by HTTP PUT and HTTP LOCK (in the Locks_Plugin).
      * It was important to get this done through a centralized function, 
      * allowing plugins to intercept this using the beforeCreateFile event.
+     *
+     * This method will return true if the file was actually created
      * 
      * @param string $uri 
      * @param resource $data 
-     * @return void
+     * @return bool 
      */
     public function createFile($uri,$data) {
 
         list($dir,$name) = Sabre_DAV_URLUtil::splitPath($uri);
 
-        if (!$this->broadcastEvent('beforeBind',array($uri))) return;
-        if (!$this->broadcastEvent('beforeCreateFile',array($uri,$data))) return;
+        if (!$this->broadcastEvent('beforeBind',array($uri))) return false;
+        if (!$this->broadcastEvent('beforeCreateFile',array($uri,$data))) return false;
 
         $parent = $this->tree->getNodeForPath($dir);
         $parent->createFile($name,$data);
         $this->tree->markDirty($dir);
 
         $this->broadcastEvent('afterBind',array($uri));
+
+        return true;
     }
 
     /**

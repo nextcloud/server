@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 ?>
-<td id="<?php echo $_['new'] ? 'new' : 'edit' ?>calendar_dialog" title="<?php echo $_['new'] ? $l->t("New calendar") : $l->t("Edit calendar"); ?>" colspan="4">
+<td id="<?php echo $_['new'] ? 'new' : 'edit' ?>calendar_dialog" title="<?php echo $_['new'] ? $l->t("New calendar") : $l->t("Edit calendar"); ?>" colspan="6">
 <table width="100%" style="border: 0;">
 <tr>
 	<th><?php echo $l->t('Displayname') ?></th>
@@ -34,7 +34,14 @@
 <tr>
 	<th><?php echo $l->t('Calendar color') ?></th>
 	<td>
-		<input id="calendarcolor_<?php echo $_['calendar']['id'] ?>" type="text" value="<?php echo $_['calendar']['calendarcolor'] ?>">
+		<select id="calendarcolor_<?php echo $_['calendar']['id'] ?>" class="colorpicker">
+			<?php
+			if (!isset($_['calendar']['calendarcolor'])) {$_['calendar']['calendarcolor'] = false;}
+			foreach($_['calendarcolor_options'] as $color){
+				echo '<option value="' . $color . '"' . ($_['calendar']['calendarcolor'] == $color ? ' selected="selected"' : '') . '>' . $color . '</option>';
+			}
+			?>
+		</select>
 	</td>
 </tr>
 </table>

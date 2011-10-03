@@ -64,6 +64,27 @@ class Sabre_DAV_StringUtil {
 
         }
         
+    }
+
+    /**
+     * This method takes an input string, checks if it's not valid UTF-8 and 
+     * attempts to convert it to UTF-8 if it's not.
+     *
+     * Note that currently this can only convert ISO-8559-1 to UTF-8 (latin-1), 
+     * anything else will likely fail.
+     *
+     * @param string $input 
+     * @return string 
+     */
+    static public function ensureUTF8($input) {
+
+        $encoding = mb_detect_encoding($input , array('UTF-8','ISO-8859-1'), true);
+
+        if ($encoding === 'ISO-8859-1') {
+            return utf8_encode($input);
+        } else {
+            return $input;
+        } 
 
     }
 

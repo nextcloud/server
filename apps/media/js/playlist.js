@@ -5,6 +5,7 @@ PlayList.render=function(){
 		var item=PlayList.items[i];
 		var li=$('<li/>');
 		li.append(item.name);
+                li.attr('class', 'jp-playlist-' + i);
 		var img=$('<img class="remove svg action" src="'+OC.imagePath('core','actions/delete')+'"/>');
 		img.click(function(event){
 			event.stopPropagation();
@@ -18,6 +19,7 @@ PlayList.render=function(){
 		li.addClass('song');
 		PlayList.parent.append(li);
 	}
+        $(".jp-playlist-" + PlayList.current).addClass("collection_playing");
 }
 PlayList.getSelected=function(){
 	return $('tbody td.name input:checkbox:checked').parent().parent();
@@ -28,6 +30,7 @@ PlayList.hide=function(){
 
 $(document).ready(function(){
 	PlayList.parent=$('#leftcontent');
+	PlayList.init();
 	$('#selectAll').click(function(){
 		if($(this).attr('checked')){
 			// Check all

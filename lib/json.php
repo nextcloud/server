@@ -11,11 +11,22 @@ class OC_JSON{
 	/**
 	 * set Content-Type header to jsonrequest
 	 */
-	public static function setContentTypeHeader($type='application/jsonrequest'){
+	public static function setContentTypeHeader($type='application/json'){
 		if (!self::$send_content_type_header){
 			// We send json data
 			header( 'Content-Type: '.$type );
 			self::$send_content_type_header = true;
+		}
+	}
+
+	/**
+	* Check if the app is enabled, send json error msg if not
+	*/
+	public static function checkAppEnabled($app){
+		if( !OC_App::isEnabled($app)){
+			$l = new OC_L10N('core');
+			self::error(array( 'data' => array( 'message' => $l->t('Application is not enabled') )));
+			exit();
 		}
 	}
 

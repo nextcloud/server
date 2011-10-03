@@ -11,6 +11,7 @@ $l10n = new OC_L10N('calendar');
 if(!OC_USER::isLoggedIn()) {
 	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
+OC_JSON::checkAppEnabled('calendar');
 $output = new OC_TEMPLATE("calendar", "part.choosecalendar");
 $output -> printpage();
 ?>

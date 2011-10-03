@@ -1,0 +1,23 @@
+#playercontrols{
+	display:inline;
+	margin-left:1em;
+	width:7em;
+	height:1em;
+	position:fixed;
+	top:auto;
+	left:auto;
+	background:transparent;
+	box-shadow:none;
+	-webkit-box-shadow:none;
+}
+#playercontrols li{
+	float:left;
+}
+#playercontrols a, #playercontrols li{
+	margin:0px;
+	padding:0;
+	left:0;
+	background:transparent !important;
+	border:none !important;
+	text-shadow:none;
+}

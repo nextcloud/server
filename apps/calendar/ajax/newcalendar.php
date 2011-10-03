@@ -11,11 +11,12 @@ $l10n = new OC_L10N('calendar');
 if(!OC_USER::isLoggedIn()) {
 	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
+OC_JSON::checkAppEnabled('calendar');
 $calendar = array(
 	'id' => 'new',
-	'displayname' => 'Test',
-	'description' => 'Test calendar',
-	'calendarcolor' => 'black',
+	'displayname' => '',
+	'description' => '',
+	'calendarcolor' => '',
 );
 $tmpl = new OC_Template('calendar', 'part.editcalendar');
 $tmpl->assign('new', true);
