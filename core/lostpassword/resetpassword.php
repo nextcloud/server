@@ -7,21 +7,21 @@
 */
 
 $RUNTIME_NOAPPS = TRUE; //no apps
-require_once('../lib/base.php');
+require_once('../../lib/base.php');
 
 // Someone wants to reset their password:
 if(isset($_GET['token']) && isset($_GET['user']) && OC_Preferences::getValue($_GET['user'], 'owncloud', 'lostpassword') === $_GET['token']) {
 	if (isset($_POST['password'])) {
 		if (OC_User::setPassword($_GET['user'], $_POST['password'])) {
 			OC_Preferences::deleteKey($_GET['user'], 'owncloud', 'lostpassword');
-			OC_Template::printGuestPage('lostpassword', 'resetpassword', array('success' => true));
+			OC_Template::printGuestPage('core/lostpassword', 'resetpassword', array('success' => true));
 		} else {
-			OC_Template::printGuestPage('lostpassword', 'resetpassword', array('success' => false));
+			OC_Template::printGuestPage('core/lostpassword', 'resetpassword', array('success' => false));
 		}
 	} else {
-		OC_Template::printGuestPage('lostpassword', 'resetpassword', array('success' => false));
+		OC_Template::printGuestPage('core/lostpassword', 'resetpassword', array('success' => false));
 	}
 } else {
 	// Someone lost their password
-	OC_Template::printGuestPage('lostpassword', 'lostpassword', array('error' => false, 'requested' => false));
+	OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => false));
 }

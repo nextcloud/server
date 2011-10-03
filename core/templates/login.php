@@ -1,7 +1,7 @@
 <form action="index.php" method="post">
 	<fieldset>
 		<?php if($_['error']): ?>
-			<a href="./lostpassword/"><?php echo $l->t('Lost your password?'); ?></a>
+			<a href="./core/lostpassword/"><?php echo $l->t('Lost your password?'); ?></a>
 		<?php endif; ?>
 		<p class="infield">
 			<label for="user" class="infield"><?php echo $l->t( 'Username' ); ?></label>
