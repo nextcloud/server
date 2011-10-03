@@ -49,7 +49,6 @@ form.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.4em;
 input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
 
-
 /* CONTENT ------------------------------------------------------------------ */
 #controls { width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
@@ -70,7 +69,11 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #login form { width:22em; margin:2em auto 2em; padding:0; }
 #login form fieldset { background:0; border:0; margin-bottom:2em; padding:0; }
 #login form fieldset legend { font-weight:bold; }
-#login form label { position:absolute; margin:.8em .8em; font-size:1.5em; color:#666; }
+#login form label { margin:.8em .8em; color:#666; }
+/* NEEDED FOR INFIELD LABELS */
+p.infield { position: relative; }
+label.infield { cursor: text !important; }
+#login form label.infield { position:absolute; font-size:1.5em; color:#AAA; }
 #login #dbhostlabel, #login #directorylabel { display:block; margin:.95em 0 .8em -8em; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }

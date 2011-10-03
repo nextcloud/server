@@ -28,7 +28,7 @@ require_once('lib/base.php');
 // Setup required :
 $not_installed = !OC_Config::getValue('installed', false);
 $install_called = (isset($_POST['install']) AND $_POST['install']=='true');
-if($not_installed OR true) {
+if($not_installed) {
 	OC_Util::addScript('setup');
 	require_once('setup.php');
 	exit();

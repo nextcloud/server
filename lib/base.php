@@ -115,6 +115,7 @@ class OC{
 		OC_Util::addScript( "jquery-1.6.4.min" );
 		OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
 		OC_Util::addScript( "jquery-showpassword" );
+		OC_Util::addScript( "jquery.infieldlabel.min" );
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "js" );
 		//OC_Util::addScript( "multiselect" );
