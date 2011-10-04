@@ -14,9 +14,12 @@
 	left: 160px;
 	display: none;
 }
-#editorbar{
+#editor_close{
 	margin-left: auto;
-	margin-right: 10px;	
+	margin-right: 167px;	
 	display: block;
-	width: 300px;
+}
+#editor_save{
+	margin-left: 7px;
+	float: left;	
 }
