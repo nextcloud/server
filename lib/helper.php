@@ -61,7 +61,7 @@ class OC_Helper {
 		}
 
 		if($redirect_url)
-			return $urlLinkTo.'?redirect_url='.$redirect_url;
+			return $urlLinkTo.'?redirect_url='.urlencode($_SERVER["REQUEST_URI"]);
 		else
 			return $urlLinkTo;
 

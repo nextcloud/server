@@ -90,5 +90,5 @@ else {
 		}
 	}
 
-	OC_Template::printGuestPage('', 'login', array('error' => $error ));
+	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
 }
