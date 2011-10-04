@@ -68,6 +68,9 @@ else {
 			OC_User::setUserId($_COOKIE['oc_username']);
 			OC_Util::redirectToDefaultPage();
 		}
+		else {
+			OC_User::unsetMagicInCookie();
+		}
 	}
 	
 	// Someone wants to log in :
