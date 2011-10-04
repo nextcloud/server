@@ -55,14 +55,6 @@ function bindControlEvents(){
 	$('#editor_close').live('click',function() {
 		hideFileEditor();	
 	});
-	
-	$(window).keypress(function(event) {
-    	if (!(event.which == 115 && (event.ctrlKey || event.metaKey)) && !(event.which == 19)) return true;
-    	event.preventDefault();
-		alert("Saved file");
-		doFileSave();
-    	return false;
-	});
 }
 
 function editorIsShown(){
@@ -84,7 +76,7 @@ function updateSessionFileHash(path){
 
 function doFileSave(){
 	if(editorIsShown()){
-	$('#editor_save').val(t('files_texteditor','Saving')+'...');
+	$('#editor_save').after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
 		var filecontents = window.aceEditor.getSession().getValue();
 		var dir =  $('#editor').attr('data-dir');
 		var file =  $('#editor').attr('data-filename');
@@ -95,7 +87,7 @@ function doFileSave(){
 				if(answer){
 					$.post(OC.filePath('files_texteditor','ajax','savefile.php'),{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
 						if(jsondata.status =='success'){
-							$('#editor_save').val(t('files_texteditor','Save'));
+							$('#saving_icon').remove();
 						} 
 						else {
 							// Save error
@@ -105,13 +97,12 @@ function doFileSave(){
 				} 
 		   		else {
 					// Don't save!
-					$('#editor_save').effect("highlight", {color:'#FF5757'}, 3000);
-					$('#editor_save').val(t('files_texteditor','Save'));	
+					$('#editor_save').effect("highlight", {color:'#FF5757'}, 1000);
 		   		}
 			} 
 			else if(jsondata.status == 'success'){
 				// Success
-				$('#editor_save').val(t('files_texteditor','Save'));
+				$('#saving_icon').remove();
 			}
 		}, 'json');
 	giveEditorFocus();
