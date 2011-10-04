@@ -134,7 +134,6 @@ function showFileEditor(dir,filename){
 						window.aceEditor.setTheme("ace/theme/clouds");
 					});
 				});
-				bindControlEvents();
 			// End success
 			}
 			// End ajax
@@ -163,4 +162,8 @@ function hideFileEditor(){
 
 $(window).resize(function() {
   setEditorSize();
+});
+
+$(document).ready(function() {
+	bindControlEvents();	
 });
