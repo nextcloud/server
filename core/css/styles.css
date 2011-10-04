@@ -69,7 +69,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #login form { width:22em; margin:2em auto 2em; padding:0; }
 #login form fieldset { background:0; border:0; margin-bottom:2em; padding:0; }
 #login form fieldset legend { font-weight:bold; }
-#login form label { margin:.8em .8em; color:#666; }
+#login form label { margin:.9em .8em .7em;; color:#666; }
 /* NEEDED FOR INFIELD LABELS */
 p.infield { position: relative; }
 label.infield { cursor: text !important; }
