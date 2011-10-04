@@ -65,7 +65,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			$this->ds = ldap_connect( $this->ldap_host, $this->ldap_port );
 			   if(ldap_set_option($this->ds, LDAP_OPT_PROTOCOL_VERSION, 3))
 				 if(ldap_set_option($this->ds, LDAP_OPT_REFERRALS, 0))
-					  ldap_start_tls($this->ds);
+					  @ldap_start_tls($this->ds);
 		}
 
 		// login
@@ -116,6 +116,35 @@ class OC_USER_LDAP extends OC_User_Backend {
 		}
 		$dn = $this->getDn($uid);
 		return !empty($dn);
+	}
+	
+	public function getUsers()
+	{
+		if(!$this->configured)
+		return false;
+	
+		// connect to server
+		$ds = $this->getDs();
+		if( !$ds )
+			return false;
+	
+		// get users
+		$filter = "objectClass=person";
+		$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
+		$entries = ldap_get_entries( $this->getDs(), $sr );
+	
+		if( $entries["count"] == 0 )
+			return false;
+		else {
+			$users = array();
+			foreach($entries as $row) {
+				if(isset($row['uid'])) {
+					$users[] = $row['uid'][0];
+				}
+			}
+		}
+	
+		return $users;
 	}
 
 }
