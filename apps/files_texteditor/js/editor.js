@@ -78,7 +78,7 @@ function updateSessionFileHash(path){
 
 function doFileSave(){
 	if(editorIsShown()){
-	$('#editor_save').val(t('files_texteditor','Saving')+'...');
+	$('#editor_save').val(t('files_texteditor','Saving')+'...').css('background-color','#84E79F');
 		var filecontents = window.aceEditor.getSession().getValue();
 		var dir =  $('#editor').attr('data-dir');
 		var file =  $('#editor').attr('data-filename');
@@ -125,12 +125,11 @@ function showFileEditor(dir,filename){
 	var data = $.ajax({
 			url: OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
 			complete: function(data){
-				var data = data.responseText;
 				// Initialise the editor
 				updateSessionFileHash(dir+'/'+filename);
 				showControlBar(filename);
 				$('table').fadeOut('slow', function() {
-					$('#editor').html(data);
+					$('#editor').text(data.responseText);
 					// encodeURIComponenet?
 					$('#editor').attr('data-dir', dir);
 					$('#editor').attr('data-filename', filename);
