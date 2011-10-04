@@ -98,13 +98,14 @@ label.infield { cursor: text !important; }
 
 /* VARIOUS REUSABLE SELECTORS */
 .hidden { display:none; }
+.bold { font-weight: bold; }
 
 #notification { z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 
 .action, .selectedActions a, #logout { opacity:.3; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
 .action:hover, .selectedActions a:hover, #logout:hover { opacity:1; }
 
-table tr { -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+table:not(.nostyle) tr { -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
 #body-settings .personalblock, #body-settings .helpblock { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
