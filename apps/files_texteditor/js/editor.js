@@ -151,6 +151,7 @@ function hideFileEditor(){
 	// Fade out editor
 	$('#editor').fadeOut('slow', function(){
 		$('#editor_close').remove();
+		$('#editor_save').remove();
 		$('#editor').remove();
 		$('.actions').prev().remove();
 		var editorhtml = '<div id="editor"></div>';
