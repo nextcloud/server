@@ -246,7 +246,7 @@ class OC_Contacts_VCard{
 	public static function escapeSemicolons($value){
 		foreach($value as &$i ){
 			$i = implode("\\\\;", explode(';', $i));
-		} unset($i);
+		}
 		return implode(';',$value);
 	}
 

@@ -44,10 +44,9 @@ $vcard->add(new Sabre_VObject_Property('UID',OC_Contacts_VCard::createUID()));
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 
 $details = OC_Contacts_VCard::structureContact($vcard);
-$name = $details['FN'][0]['value'];
 $tmpl = new OC_Template('contacts','part.details');
 $tmpl->assign('details',$details);
 $tmpl->assign('id',$id);
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'id' => $id, 'name' => $name, 'page' => $page )));
+OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page )));
