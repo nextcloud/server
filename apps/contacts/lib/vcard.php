@@ -273,6 +273,26 @@ class OC_Contacts_VCard{
 	}
 
 	/**
+	 * @brief Add property to vcard object
+	 * @param object $vcard
+	 * @param object $name of property
+	 * @param object $value of property
+	 * @param object $paramerters of property
+	 */
+	public static function addVCardProperty($vcard, $name, $value, $parameters=array()){
+		if(is_array($value)){
+			$value = OC_Contacts_VCard::escapeSemicolons($value);
+		}
+		$property = new Sabre_VObject_Property( $name, $value );
+		$parameternames = array_keys($parameters);
+		foreach($parameternames as $i){
+			$property->parameters[] = new Sabre_VObject_Parameter($i,$parameters[$i]);
+		}
+
+		$vcard->add($property);
+	}
+
+	/**
 	 * @brief Data structure of vCard
 	 * @param object $property
 	 * @return associative array
