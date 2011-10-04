@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>remoteStorage</id>
+	<name>remoteStorage compatibility</name>
+	<description>Enables your users to use ownCloud as their remote storage for unhosted applications.</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Michiel de Jong</author>
+	<require>2</require>
+</info>

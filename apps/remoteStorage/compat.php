@@ -30,16 +30,16 @@
 $RUNTIME_NOSETUPFS = true;
 
 require_once('../../lib/base.php');
-OC_Util::checkAppEnabled('unhosted');
+OC_Util::checkAppEnabled('remoteStorage');
 require_once('Sabre/autoload.php');
-require_once('lib_unhosted.php');
+require_once('lib_remoteStorage.php');
 require_once('oauth_ro_auth.php');
 
 ini_set('default_charset', 'UTF-8');
 #ini_set('error_reporting', '');
 @ob_clean();
 
-//allow use as unhosted storage for other websites
+//allow use as remote storage for other websites
 if(isset($_SERVER['HTTP_ORIGIN'])) {
 	header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
 	header('Access-Control-Max-Age: 3600');
@@ -53,12 +53,12 @@ $path = substr($_SERVER["REQUEST_URI"], strlen($_SERVER["SCRIPT_NAME"]));
 $pathParts =  explode('/', $path);
 // for webdav:
 // 0/     1       /   2    /   3  /   4     /    5     /   6     / 7
-//  /$ownCloudUser/unhosted/webdav/$userHost/$userName/$dataScope/$key
+//  /$ownCloudUser/remoteStorage/webdav/$userHost/$userName/$dataScope/$key
 // for oauth:
 // 0/      1      /  2     /  3  / 4
-//  /$ownCloudUser/unhosted/oauth/auth
+//  /$ownCloudUser/remoteStorage/oauth/auth
 
-if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' && $pathParts[3] == 'webdav') {
+if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'remoteStorage' && $pathParts[3] == 'webdav') {
 	list($dummy0, $ownCloudUser, $dummy2, $dummy3, $userHost, $userName, $dataScope) = $pathParts;
 
 	OC_Util::setupFS($ownCloudUser);
@@ -68,10 +68,10 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' 
 	$server = new Sabre_DAV_Server($publicDir);
 
 	// Path to our script
-	$server->setBaseUri(OC::$WEBROOT."/apps/unhosted/compat.php/$ownCloudUser");
+	$server->setBaseUri(OC::$WEBROOT."/apps/remoteStorage/compat.php/$ownCloudUser");
 
 	// Auth backend
-	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(OC_UnhostedWeb::getValidTokens($ownCloudUser, $userName.'@'.$userHost, $dataScope));
+	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(OC_remoteStorage::getValidTokens($ownCloudUser, $userName.'@'.$userHost, $dataScope));
 
 	$authPlugin = new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud');//should use $validTokens here
 	$server->addPlugin($authPlugin);
@@ -83,7 +83,7 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' 
 
 	// And off we go!
 	$server->exec();
-} else if(count($pathParts) >= 4 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' && $pathParts[3] == 'oauth2' && $pathParts[4] = 'auth') {
+} else if(count($pathParts) >= 4 && $pathParts[0] == '' && $pathParts[2] == 'remoteStorage' && $pathParts[3] == 'oauth2' && $pathParts[4] = 'auth') {
 	if(isset($_POST['allow'])) {
 		//TODO: input checking. these explodes may fail to produces the desired arrays:
 		$ownCloudUser = $pathParts[1];
@@ -98,8 +98,8 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' 
 		}
 		if(OC_User::getUser() == $ownCloudUser) {
 			//TODO: check if this can be faked by editing the cookie in firebug!
-			$token=OC_UnhostedWeb::createDataScope($appUrl, $userAddress, $dataScope);
-			header('Location: '.$_GET['redirect_uri'].'#access_token='.$token.'&token_type=unhosted');
+			$token=OC_remoteStorage::createDataScope($appUrl, $userAddress, $dataScope);
+			header('Location: '.$_GET['redirect_uri'].'#access_token='.$token.'&token_type=remoteStorage');
 		} else {
 			if($_SERVER['HTTPS']){
 				$url = "https://";
@@ -107,7 +107,7 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'unhosted' 
 				$url = "http://";
 			}
 			$url .= $_SERVER['SERVER_NAME'];
-			$url .= substr($_SERVER['SCRIPT_NAME'], 0, -strlen('apps/unhosted/compat.php'));
+			$url .= substr($_SERVER['SCRIPT_NAME'], 0, -strlen('apps/remoteStorage/compat.php'));
 			die('Please '
 				.'<input type="submit" onclick="'
 				."window.open('$url','Close me!','height=600,width=300');"

@@ -11,8 +11,8 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 ?>
 <form id="calendar">
         <fieldset class="personalblock">
-                <label for="timezone"><strong><?php echo $l->t('Timezone');?></strong></label>
-		<select style="display: none;" id="timezone" name="timezone">
+		<table class="nostyle">
+			<tr><td><label for="timezone" class="bold"><?php echo $l->t('Timezone');?></label></td><td><select style="display: none;" id="timezone" name="timezone">
                 <?php
 		$continent = '';
 		foreach($_['timezones'] as $timezone):
@@ -27,33 +27,40 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 				echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
 			endif;
                 endforeach;?>
-                </select>&nbsp;&nbsp;
-		<label for="timeformat"><strong><?php echo $l->t('Timeformat');?></strong></label>
-		<select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
-			<option value="24" id="24h"><?php echo $l->t("24h"); ?></option>
-			<option value="ampm" id="ampm"><?php echo $l->t("12h"); ?></option>
-		</select><br />
-		<label for="firstdayofweek"><strong><?php echo $l->t('First day of the week');?></strong></label>
-		<select style="display: none;" id="firstdayofweek" name="firstdayofweek">
-		<?php
-		$weekdays = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-		for($i = 0;$i <= 6;$i++){
-			echo '<option value="'.$i.'" id="select_'.$i.'">' . $l->t($weekdays[$i]) . '</option>';
-		}
-		?>
-		</select><br />
-		<label for="weekend"><strong><?php echo $l->t('Days of weekend');?></strong></label>
-		<select id="weekend" name="weekend[]" style="width: 50%;" multiple="multiple" title="<?php echo $l->t("Weekend"); ?>">
-		<?php
-		$weekdays = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-		for($i = 0;$i <= 6;$i++){
-			echo '<option value="'.$weekdays[$i].'" id="selectweekend_' . $weekdays[$i] . '">' . $l->t($weekdays[$i]) . '</option>';
-		}
-		?>
-		</select><br />
-		<label for="duration"><strong><?php echo $l->t('Event duration');?></strong></label>
-		<input type="text" maxlength="3" size="3" style="width: 2em;" id="duration" name="duration" /> <?php echo $l->t("Minutes");?>
-		<br />
+                </select></td></tr>
+
+			<tr><td><label for="timeformat" class="bold"><?php echo $l->t('Timeformat');?></label></td><td>
+				<select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
+					<option value="24" id="24h"><?php echo $l->t("24h"); ?></option>
+					<option value="ampm" id="ampm"><?php echo $l->t("12h"); ?></option>
+				</select>
+			</td></tr>
+
+			<tr><td><label for="firstdayofweek" class="bold"><?php echo $l->t('First day of the week');?></label></td><td>
+				<select style="display: none;" id="firstdayofweek" name="firstdayofweek">
+				<?php
+				$weekdays = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+				for($i = 0;$i <= 6;$i++){
+					echo '<option value="'.$i.'" id="select_'.$i.'">' . $l->t($weekdays[$i]) . '</option>';
+				}
+				?>
+				</select>
+			</td></tr>
+
+			<tr><td><label for="weekend" class="bold"><?php echo $l->t('Days of weekend');?></label></td><td>
+				<select id="weekend" name="weekend[]" style="width: 30em;" multiple="multiple" title="<?php echo $l->t("Weekend"); ?>">
+				<?php
+				$weekdays = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+				for($i = 0;$i <= 6;$i++){
+					echo '<option value="'.$weekdays[$i].'" id="selectweekend_' . $weekdays[$i] . '">' . $l->t($weekdays[$i]) . '</option>';
+				}
+				?>
+				</select>
+			</td></tr>
+
+			<tr><td><label for="duration" class="bold"><?php echo $l->t('Event duration');?></label></td><td><input type="text" maxlength="3" size="3" style="width: 2em;" id="duration" name="duration" /> <?php echo $l->t("Minutes");?></td></tr>
+		</table>
+
 		<?php echo $l->t('Calendar CalDAV syncing address:');?> 
   		<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?><br />
         </fieldset>

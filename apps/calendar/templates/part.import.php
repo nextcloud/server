@@ -58,13 +58,18 @@ function importcal(importtype){
 	var file = $("#filename").val();
 	if(importtype == "existing"){
 		var calid = $("input:radio[name='calendar']:checked").val();
-		$.getJSON(OC.filePath('calendar', '', 'import.php') + "?import=existing&calid=" + calid + "&path=" + path + "&file=" + file);
+		$.getJSON(OC.filePath('calendar', '', 'import.php') + "?import=existing&calid=" + calid + "&path=" + path + "&file=" + file, function(){
+			$("#importdialog").dialog('destroy').remove();
+			$("#importdialogholder").remove();
+		});
 	}
 	if(importtype == "new"){
 		var calname = $("#displayname").val();
 		var description = $("#description").val();
-		$.post(OC.filePath('calendar', '', 'import.php'), {'import':'new', 'calname':calname, 'description':description, 'path':path, 'file':file});
+		$.post(OC.filePath('calendar', '', 'import.php'), {'import':'new', 'calname':calname, 'description':description, 'path':path, 'file':file}, function(){
+			$("#importdialog").dialog('destroy').remove();
+			$("#importdialogholder").remove();
+		});
 	}
-	window.location = oc_webroot + "/apps/calendar/";
 }
 </script>

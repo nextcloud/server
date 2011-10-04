@@ -244,7 +244,36 @@ function object(o) {
 	return new F();
 }
 
+
+/**
+ * Fills height of window. (more precise than height: 100%;)
+ */
+function fillHeight(selector) {
+	var height = parseFloat($(window).height())-parseFloat(selector.css('top'));
+	selector.css('height', height + 'px');
+	if(selector.outerHeight() > selector.height())
+		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
+}
+
+/**
+ * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
+ */
+function fillWindow(selector) {
+	fillHeight(selector);
+	var width = parseFloat($(window).width())-parseFloat(selector.css('left'));
+	selector.css('width', width + 'px');
+	if(selector.outerWidth() > selector.width())
+		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
+}
+
 $(document).ready(function(){
+
+	$(window).resize(function () {
+		fillHeight($('#leftcontent'));
+		fillWindow($('#rightcontent'));
+	});
+	$(window).trigger('resize');
+	
 	if(!SVGSupport()){//replace all svg images with png images for browser that dont support svg
 		replaceSVG();
 	}else{
