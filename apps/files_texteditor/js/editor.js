@@ -147,7 +147,7 @@ function hideFileEditor(){
 	// Fade out the save button
 	$('#editor_save').fadeOut('slow');
 	// Fade out breadcrumb
-	$('#breadcrumb_file').fadeOut('slow');
+	$('#breadcrumb_file').fadeOut('slow', function(){ $(this).remove();});
 	// Fade out editor
 	$('#editor').fadeOut('slow', function(){
 		$('#editor_close').remove();
