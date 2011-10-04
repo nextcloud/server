@@ -43,7 +43,7 @@
 				<length>64</length>
 			 </field>
 			<index>
-				<name>a_app_unhostedweb_user</name>
+				<name>a_app_remotestorage_user</name>
 				<unique>true</unique>
 				<field>
 					<name>user</name>
