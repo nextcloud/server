@@ -50,7 +50,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
 
 /* CONTENT ------------------------------------------------------------------ */
-#controls { width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
+#controls { padding: 0 0.5em; width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
 #content { margin:3.5em 0 0 12.5em; }
 #leftcontent, .leftcontent { position:fixed; overflow: auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; }
@@ -117,7 +117,7 @@ tbody tr:hover, tr:active { background-color:#f8f8f8; }
 #quotatext {padding: .6em 1em;}
 div.jp-play-bar, div.jp-seek-bar { padding:0; }
 
-.pager { list-style:none; float:right; display:inline; margin:.7em 12.7em 0 0; }
+.pager { list-style:none; float:right; display:inline; margin:.7em 13em 0 0; }
 .pager li { display:inline-block; }
 
 li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
