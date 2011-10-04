@@ -1,9 +1,9 @@
 function setEditorSize(){
 	// Sets the size of the text editor window.
 	//$('#editor').css('height', $(window).height()-81);
-	$('#editor').css('height', $(window).height()-121);
-	$('#editor').css('width', $(window).width()-160);
-	$('#editor').css('padding-top', '40px');		
+	//$('#editor').css('height', $(window).height()-121);
+	fillHeight($('#editor'));
+	//$('#editor').css('width', $(window).width()-160);
 }
 
 function getFileExtension(file){
@@ -137,11 +137,11 @@ function showFileEditor(dir,filename){
 					});
 				});
 			bindControlEvents();
+			setEditorSize();
 			// End success
 			}
 			// End ajax
 			});
-	setEditorSize();
 }
 
 function hideFileEditor(){
