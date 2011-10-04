@@ -1,9 +1,6 @@
 function setEditorSize(){
 	// Sets the size of the text editor window.
-	//$('#editor').css('height', $(window).height()-81);
-	//$('#editor').css('height', $(window).height()-121);
-	fillHeight($('#editor'));
-	//$('#editor').css('width', $(window).width()-160);
+	fillWindow($('#editor'));
 }
 
 function getFileExtension(file){
@@ -13,7 +10,7 @@ function getFileExtension(file){
 
 function setSyntaxMode(ext){
 	// Loads the syntax mode files and tells the editor
-	var filetype = new Array()
+	var filetype = new Array();
 	// Todo finish these
 	filetype["php"] = "php";
 	filetype["html"] = "html";
@@ -42,7 +39,7 @@ function showControls(filename){
 		var html = '<input type="button" id="editor_close" value="Close">';
 		$('#controls').append(html);
 		$('#editorbar').fadeIn('slow');	
-		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;/core/img/breadcrumb.png&quot;)"><a href="#">'+filename+'</a></div>';
+		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><a href="#">'+filename+'</a></div>';
 		$('.actions').before(breadcrumbhtml);
 		$('.actions').before(savebtnhtml);
 	});
@@ -131,13 +128,13 @@ function showFileEditor(dir,filename){
 					$('#editor').attr('data-filename', filename);
 					window.aceEditor = ace.edit("editor");  
 					aceEditor.setShowPrintMargin(false);
+					setEditorSize();
 					setSyntaxMode(getFileExtension(filename));
 					OC.addScript('files_texteditor','aceeditor/theme-clouds', function(){
 						window.aceEditor.setTheme("ace/theme/clouds");
 					});
 				});
-			bindControlEvents();
-			setEditorSize();
+				bindControlEvents();
 			// End success
 			}
 			// End ajax

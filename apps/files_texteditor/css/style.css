@@ -1,11 +1,8 @@
 #editor{
 	position: absoloute;
 	display: block;
-	padding-top: 40px
-/*	
-	top: 41px;
+	top: 80px;
 	left: 160px;
-*/
 }
 #editorwrapper{
 	position: absoloute;
