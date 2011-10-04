@@ -1,6 +1,7 @@
 function setEditorSize(){
 	// Sets the size of the text editor window.
-	$('#editor').css('height', $(window).height()-81);
+	//$('#editor').css('height', $(window).height()-81);
+	$('#editor').css('height', $(window).height()-121);
 	$('#editor').css('width', $(window).width()-160);
 	$('#editor').css('padding-top', '40px');		
 }
@@ -38,10 +39,10 @@ function showControls(filename){
 	$('.actions,#file_action_panel').fadeOut('slow').promise().done(function() {
 		// Load the new toolbar.
 		var savebtnhtml = '<input type="button" id="editor_save" value="'+t('files_texteditor','Save')+'">';
-		var html = '<input type="button" id="editor_close" value="'+t('files_texteditor','Close Editor')+'">';
+		var html = '<input type="button" id="editor_close" value="Close">';
 		$('#controls').append(html);
 		$('#editorbar').fadeIn('slow');	
-		var breadcrumbhtml = '<div class="crumb svg" style="background-image:url(&quot;/core/img/breadcrumb.png&quot;)"><a href="#">'+filename+'</a></div>';
+		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;/core/img/breadcrumb.png&quot;)"><a href="#">'+filename+'</a></div>';
 		$('.actions').before(breadcrumbhtml);
 		$('.actions').before(savebtnhtml);
 	});
@@ -146,8 +147,10 @@ function showFileEditor(dir,filename){
 function hideFileEditor(){
 	// Fade out controls
 	$('#editor_close').fadeOut('slow');
+	// Fade out the save button
+	$('#editor_save').fadeOut('slow');
 	// Fade out breadcrumb
-	$('.actions').prev().fadeOut('slow');
+	$('#breadcrumb_file').fadeOut('slow');
 	// Fade out editor
 	$('#editor').fadeOut('slow', function(){
 		$('#editor_close').remove();
