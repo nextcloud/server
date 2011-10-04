@@ -12,14 +12,30 @@ function setSyntaxMode(ext){
 	// Loads the syntax mode files and tells the editor
 	var filetype = new Array();
 	// Todo finish these
-	filetype["php"] = "php";
-	filetype["html"] = "html";
-	filetype["rb"] = "ruby";
+    filetype["h"] = "c_cpp";
+    filetype["c"] = "c_cpp";
+    filetype["cpp"] = "c_cpp";
+    filetype["clj"] = "clojure";
+    filetype["coffee"] = "coffee"; // coffescript can be compiled to javascript
+    filetype["cs"] = "csharp";
 	filetype["css"] = "css";
-	filetype["pl"] = "perl";
-	filetype["py"] = "python";
-	filetype["xml"] = "xml";
+    filetype["groovy"] = "groovy";
+	filetype["html"] = "html";
+    filetype["java"] = "java";
 	filetype["js"] = "javascript";
+    filetype["json"] = "json";
+    filetype["ml"] = "ocaml";
+    filetype["mli"] = "ocaml";
+	filetype["pl"] = "perl";
+	filetype["php"] = "php";
+	filetype["py"] = "python";
+	filetype["rb"] = "ruby";
+    filetype["scad"] = "scad"; // seems to be something like 3d model files printed with e.g. reprap
+    filetype["scala"] = "scala";
+    filetype["scss"] = "scss"; // "sassy css"
+    filetype["svg"] = "svg";
+    filetype["textile"] = "textile"; // related to markdown
+	filetype["xml"] = "xml";
 
 	if(filetype[ext]!=null){
 		// Then it must be in the array, so load the custom syntax mode
