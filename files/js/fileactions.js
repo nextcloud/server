@@ -141,15 +141,3 @@ FileActions.register('dir','Open','',function(filename){
 });
 
 FileActions.setDefault('dir','Open');  
-
-FileActions.register('text','Edit','',function(filename){
-	showFileEditor($('#dir').val(),filename);
-});
-
-FileActions.setDefault('text','Edit');
-
-FileActions.register('application/xml','Edit','',function(filename){
-	showFileEditor($('#dir').val(),filename);
-});
-
-FileActions.setDefault('application/xml','Edit');

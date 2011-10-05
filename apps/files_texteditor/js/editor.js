@@ -183,3 +183,16 @@ $(window).resize(function() {
 $(document).ready(function() {
 	bindControlEvents();	
 });
+
+$(document).ready(function(){
+	if(typeof FileActions!=='undefined'){
+		FileActions.register('text','Edit','',function(filename){
+			showFileEditor($('#dir').val(),filename);
+		});
+		FileActions.setDefault('text','Edit');
+		FileActions.register('application/xml','Edit','',function(filename){
+			showFileEditor($('#dir').val(),filename);
+		});
+		FileActions.setDefault('application/xml','Edit');
+	}
+});
