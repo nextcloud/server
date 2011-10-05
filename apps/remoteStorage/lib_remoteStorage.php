@@ -1,6 +1,6 @@
 <?php
 
-class OC_UnhostedWeb {
+class OC_remoteStorage {
 	public static function getValidTokens($ownCloudUser, $userAddress, $dataScope) {
 		$query=OC_DB::prepare("SELECT token,appUrl FROM *PREFIX*authtoken WHERE user=? AND userAddress=? AND dataScope=? LIMIT 100");
 		$result=$query->execute(array($user,$userAddress,$dataScope));
@@ -66,7 +66,7 @@ class OC_UnhostedWeb {
 		//TODO: input checking on $userAddress and $dataScope
 		list($userName, $userHost) = explode('@', $userAddress);
 		OC_Util::setupFS(OC_User::getUser());
-		$scopePathParts = array('unhosted', 'webdav', $userHost, $userName, $dataScope);
+		$scopePathParts = array('remoteStorage', 'webdav', $userHost, $userName, $dataScope);
 		for($i=0;$i<=count($scopePathParts);$i++){
 			$thisPath = '/'.implode('/', array_slice($scopePathParts, 0, $i));
 			if(!OC_Filesystem::file_exists($thisPath)) {

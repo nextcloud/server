@@ -4,7 +4,7 @@ $(document).ready(function(){
 		// Serialize the data
 		var post = $( "#timezone" ).serialize();
 		$.post( OC.filePath('calendar', 'ajax', 'settimezone.php'), post, function(data){
-			OC.msg.finishedSaving('#calendar .msg', data);
+			//OC.msg.finishedSaving('#calendar .msg', data);
 		});
 		return false;
 	});
@@ -27,12 +27,7 @@ $(document).ready(function(){
 				$("#selectweekend_" + day).attr('selected',true);
 			}
 		}
-		$("#weekend").multiselect({
-			header: false,
-			noneSelectedText: $('#weekend').attr('title'),
-			selectedList: 2,
-			minWidth:'auto',
-		});
+		$("#weekend").chosen();
 	});
 	$("#timeformat").change( function(){
 		var data = $("#timeformat").serialize();

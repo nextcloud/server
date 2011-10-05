@@ -68,6 +68,9 @@ else {
 			OC_User::setUserId($_COOKIE['oc_username']);
 			OC_Util::redirectToDefaultPage();
 		}
+		else {
+			OC_User::unsetMagicInCookie();
+		}
 	}
 	
 	// Someone wants to log in :
@@ -90,5 +93,5 @@ else {
 		}
 	}
 
-	OC_Template::printGuestPage('', 'login', array('error' => $error ));
+	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
 }

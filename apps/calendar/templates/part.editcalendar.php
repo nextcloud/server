@@ -34,7 +34,14 @@
 <tr>
 	<th><?php echo $l->t('Calendar color') ?></th>
 	<td>
-		<input id="calendarcolor_<?php echo $_['calendar']['id'] ?>" type="text" value="<?php echo $_['calendar']['calendarcolor'] ?>">
+		<select id="calendarcolor_<?php echo $_['calendar']['id'] ?>" class="colorpicker">
+			<?php
+			if (!isset($_['calendar']['calendarcolor'])) {$_['calendar']['calendarcolor'] = false;}
+			foreach($_['calendarcolor_options'] as $color){
+				echo '<option value="' . $color . '"' . ($_['calendar']['calendarcolor'] == $color ? ' selected="selected"' : '') . '>' . $color . '</option>';
+			}
+			?>
+		</select>
 	</td>
 </tr>
 </table>

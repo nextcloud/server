@@ -18,7 +18,7 @@ a.jp-mute,a.jp-unmute { left:24em; }
 div.jp-volume-bar { position:absolute; overflow:hidden; background:#eee; width:4em; height:0.4em; cursor:pointer; top:1.3em; left:27em; }
 div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
 
-#collection { padding-top:1em; position:relative; width:70em; float:left; }
+#collection { padding-top:1em; position:relative; width:100%; float:left; }
 #collection li.album,#collection li.song { margin-left:3em; }
 #leftcontent img.remove { display:none; float:right; cursor:pointer; }
 #leftcontent li:hover img.remove { display:inline; }

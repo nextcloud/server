@@ -20,7 +20,7 @@ foreach($calendars as $calendar) {
 	$events = array_merge($events, $tmp);
 	$return['calendars'][$calendar['id']] = array(
 		'displayname' => $calendar['displayname'],
-		'color'       => $calendar['calendarcolor']
+		'color'       => '#'.$calendar['calendarcolor']
 	);
 }
 

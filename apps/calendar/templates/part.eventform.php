@@ -12,8 +12,8 @@
 			<td>
 			<select id="category" name="categories[]" multiple="multiple" title="<?php echo $l->t("Select category") ?>">
 				<?php
+				if (!isset($_['categories'])) {$_['categories'] = array();}
 				foreach($_['category_options'] as $category){
-					if (!isset($_['categories'])) {$_['categories'] = array();}
 					echo '<option value="' . $category . '"' . (in_array($category, $_['categories']) ? ' selected="selected"' : '') . '>' . $category . '</option>';
 				}
 				?>
@@ -22,8 +22,8 @@
 			<td>
 			<select style="width:140px;" name="calendar">
 				<?php
+				if (!isset($_['calendar'])) {$_['calendar'] = false;}
 				foreach($_['calendar_options'] as $calendar){
-					if (!isset($_['calendar'])) {$_['calendar'] = false;}
 					echo '<option value="' . $calendar['id'] . '"' . ($_['calendar'] == $calendar['id'] ? ' selected="selected"' : '') . '>' . $calendar['displayname'] . '</option>';
 				}
 				?>

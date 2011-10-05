@@ -12,8 +12,6 @@ OC_Util::checkAdminUser();
 OC_Util::addScript( 'settings', 'users' );
 OC_Util::addScript( 'core', 'multiselect' );
 OC_Util::addStyle( 'settings', 'settings' );
-OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
-OC_Util::addStyle( '3rdparty', 'chosen' );
 OC_App::setActiveNavigationEntry( 'core_users' );
 
 $users = array();

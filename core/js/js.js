@@ -244,7 +244,36 @@ function object(o) {
 	return new F();
 }
 
+
+/**
+ * Fills height of window. (more precise than height: 100%;)
+ */
+function fillHeight(selector) {
+	var height = parseFloat($(window).height())-parseFloat(selector.css('top'));
+	selector.css('height', height + 'px');
+	if(selector.outerHeight() > selector.height())
+		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
+}
+
+/**
+ * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
+ */
+function fillWindow(selector) {
+	fillHeight(selector);
+	var width = parseFloat($(window).width())-parseFloat(selector.css('left'));
+	selector.css('width', width + 'px');
+	if(selector.outerWidth() > selector.width())
+		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
+}
+
 $(document).ready(function(){
+
+	$(window).resize(function () {
+		fillHeight($('#leftcontent'));
+		fillWindow($('#rightcontent'));
+	});
+	$(window).trigger('resize');
+	
 	if(!SVGSupport()){//replace all svg images with png images for browser that dont support svg
 		replaceSVG();
 	}else{
@@ -252,7 +281,7 @@ $(document).ready(function(){
 	}
 	$('form.searchbox').submit(function(event){
 		event.preventDefault();
-	})
+	});
 	$('#searchbox').keyup(function(event){
 		if(event.keyCode==13){//enter
 			if(OC.search.currentResult>-1){
@@ -290,7 +319,9 @@ $(document).ready(function(){
 	// 'show password' checkbox	
 	$('#pass2').showPassword();
 
-	/* @TODO: Currently not working perfect. Remember-Checkbox is flashing.
+	//use infield labels
+	$("label.infield").inFieldLabels();
+
 	// hide log in button etc. when form fields not filled
 	$('#submit').hide();
 	$('#remember_login').hide();
@@ -302,18 +333,16 @@ $(document).ready(function(){
 				empty = true;
 			}
 		});
-
 		if(empty) {
 			$('#submit').fadeOut();
-			$('#remember_login').fadeOut();
+			$('#remember_login').hide();
 			$('#remember_login+label').fadeOut();
 		} else {
 			$('#submit').fadeIn();
-			$('#remember_login').fadeIn();
+			$('#remember_login').show();
 			$('#remember_login+label').fadeIn();
 		}
 	});
-	*/
 
 	if($('body').attr("id")=="body-user") { $('#settings #expanddiv').hide(); }
 	$('#settings #expand').click(function(event) {
@@ -322,7 +351,7 @@ $(document).ready(function(){
 	});
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
-	})
+	});
 	$('#settings #expand').hover(function(){
 		$('#settings #expand+span').fadeToggle();
 	});

@@ -1,11 +1,4 @@
 <?php
-
-// comment out this line:
-	die("This feature is still experimental. Please comment out this line in the code, then try again\n");
-//
-
-
-
 $ownCloudBaseUri = substr($_SERVER['REQUEST_URI'],0, -(strlen('/apps/user_webfinger/activate.php')));
 $thisAppDir = __DIR__;
 $appsDir = dirname($thisAppDir);
