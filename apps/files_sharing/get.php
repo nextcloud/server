@@ -30,8 +30,9 @@ if ($source !== false) {
 		foreach (OC_Files::getdirectorycontent($source) as $i) {
 			$i['date'] = OC_Util::formatDate($i['mtime'] );
 			if ($i['type'] == 'file') {
-				$i['extention'] = substr($i['name'], strrpos($i['name'], "."));
-				$i['basename'] = substr($i['name'], 0, strrpos($i['name'], "."));
+				$fileinfo = pathinfo($i['name']);
+				$i['basename'] = $fileinfo['filename'];
+				$i['extention'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
 			}
 			$i['directory'] = substr($i['directory'], $rootLength);
 			if ($i['directory'] == "/") {
