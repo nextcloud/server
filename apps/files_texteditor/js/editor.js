@@ -102,21 +102,39 @@ function doFileSave(){
 					$.post(OC.filePath('files_texteditor','ajax','savefile.php'),{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
 						if(jsondata.status =='success'){
 							$('#saving_icon').remove();
+							$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>')
+							setTimeout(function() {
+  								$('#save_result').remove();
+							}, 2000);
 						} 
 						else {
 							// Save error
-							alert(jsondata.data.message);	
+							$('#saving_icon').remove();
+							$('#editor_save').after('<p id="save_result" style="float: left">Failed!</p>');
+							setTimeout(function() {
+								$('#save_result').fadeOut('slow',function(){ $(this).remove(); });
+							}, 2000);	
 						}
 					}, 'json');
 				} 
 		   		else {
 					// Don't save!
-					$('#editor_save').effect("highlight", {color:'#FF5757'}, 1000);
-		   		}
+					$('#saving_icon').remove();
+					// Temporary measure until we get a tick icon
+					$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
+					setTimeout(function() {
+								$('#save_result').fadeOut('slow',function(){ $(this).remove(); });
+					}, 2000);
+			   	}
 			} 
 			else if(jsondata.status == 'success'){
 				// Success
 				$('#saving_icon').remove();
+				// Temporary measure until we get a tick icon
+				$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
+				setTimeout(function() {
+							$('#save_result').fadeOut('slow',function(){ $(this).remove(); });
+				}, 2000);
 			}
 		}, 'json');
 	giveEditorFocus();
