@@ -45,7 +45,7 @@ $box_size = 200;
 $album_name = $_GET['album'];
 $x = $_GET['x'];
 
-$stmt = OC_DB::prepare('SELECT file_path FROM *PREFIX*gallery_photos,*PREFIX*gallery_albums WHERE *PREFIX*gallery_albums.uid_owner = ? AND album_name = ? AND *PREFIX*gallery_photos.album_id == *PREFIX*gallery_albums.album_id');
+$stmt = OC_DB::prepare('SELECT `file_path` FROM *PREFIX*gallery_photos,*PREFIX*gallery_albums WHERE *PREFIX*gallery_albums.`uid_owner` = ? AND `album_name` = ? AND *PREFIX*gallery_photos.`album_id` == *PREFIX*gallery_albums.`album_id`');
 $result = $stmt->execute(array(OC_User::getUser(), $album_name));
 $x = min((int)($x/($box_size/$result->numRows())), $result->numRows()-1); // get image to display
 $result->seek($x); // never throws

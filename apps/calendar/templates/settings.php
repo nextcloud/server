@@ -36,29 +36,6 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 				</select>
 			</td></tr>
 
-			<tr><td><label for="firstdayofweek" class="bold"><?php echo $l->t('First day of the week');?></label></td><td>
-				<select style="display: none;" id="firstdayofweek" name="firstdayofweek">
-				<?php
-				$weekdays = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-				for($i = 0;$i <= 6;$i++){
-					echo '<option value="'.$i.'" id="select_'.$i.'">' . $l->t($weekdays[$i]) . '</option>';
-				}
-				?>
-				</select>
-			</td></tr>
-
-			<tr><td><label for="weekend" class="bold"><?php echo $l->t('Days of weekend');?></label></td><td>
-				<select id="weekend" name="weekend[]" style="width: 30em;" multiple="multiple" title="<?php echo $l->t("Weekend"); ?>">
-				<?php
-				$weekdays = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-				for($i = 0;$i <= 6;$i++){
-					echo '<option value="'.$weekdays[$i].'" id="selectweekend_' . $weekdays[$i] . '">' . $l->t($weekdays[$i]) . '</option>';
-				}
-				?>
-				</select>
-			</td></tr>
-
-			<tr><td><label for="duration" class="bold"><?php echo $l->t('Event duration');?></label></td><td><input type="text" maxlength="3" size="3" style="width: 2em;" id="duration" name="duration" /> <?php echo $l->t("Minutes");?></td></tr>
 		</table>
 
 		<?php echo $l->t('Calendar CalDAV syncing address:');?> 
