@@ -168,7 +168,6 @@ function hideFileEditor(){
 		$('#editor_close').remove();
 		$('#editor_save').remove();
 		$('#editor').remove();
-		$('.actions').prev().remove();
 		var editorhtml = '<div id="editor"></div>';
 		$('table').after(editorhtml);
 		$('.actions,#file_access_panel').fadeIn('slow');
@@ -177,11 +176,7 @@ function hideFileEditor(){
 }
 
 $(window).resize(function() {
-  setEditorSize();
-});
-
-$(document).ready(function() {
-	bindControlEvents();	
+	setEditorSize();
 });
 
 $(document).ready(function(){
@@ -206,4 +201,6 @@ $(document).ready(function(){
 			showFileEditor(dir,file);
 		});
 	}
+	// Binds the file save and close editor events to the buttons
+	bindControlEvents();
 });
