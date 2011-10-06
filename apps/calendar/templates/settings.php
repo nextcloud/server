@@ -25,7 +25,7 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
 				if ($continent!="") echo '</optgroup>';
 				echo '<optgroup label="'.$ex[0].'">';
 			endif;
-			$city=$ex[1];
+			$city=strtr($ex[1], '_', ' ');
 			$continent=$ex[0];
 			echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
                 endforeach;?>
