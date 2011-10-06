@@ -60,4 +60,4 @@ select#category{width:140px;}
 button.category{margin:0 3px;}
 
 .calendar-colorpicker-color{display:inline-block;width:20px;height:20px;margin-right:2px;cursor:pointer;}
-.calendar-colorpicker-color.active{background-image:url("../../../core/img/jquery-ui/ui-icons_222222_256x240.png");background-position:-62px -143px;}
+.calendar-colorpicker-color.active{background-image:url("../../../core/img/actions/selected.svg");background-position:2px 2px;}
