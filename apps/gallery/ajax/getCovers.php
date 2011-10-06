@@ -1,5 +1,7 @@
 <?php
 require_once('../../../lib/base.php');
+OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('gallery');
 
 function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $shift) { 
     //getting the image dimensions
@@ -38,15 +40,10 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $
     imagedestroy($myImage);
 }
 
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => 'You need to log in.')));
-	exit();
-}
 $box_size = 200;
 $album_name= $_GET['album_name'];
 
-$stmt = OC_DB::prepare('SELECT file_path FROM *PREFIX*gallery_photos,*PREFIX*gallery_albums WHERE *PREFIX*gallery_albums.uid_owner = ? AND album_name = ? AND *PREFIX*gallery_photos.album_id == *PREFIX*gallery_albums.album_id');
+$stmt = OC_DB::prepare('SELECT `file_path` FROM *PREFIX*gallery_photos,*PREFIX*gallery_albums WHERE *PREFIX*gallery_albums.`uid_owner` = ? AND `album_name` = ? AND *PREFIX*gallery_photos.`album_id` = *PREFIX*gallery_albums.`album_id`');
 $result = $stmt->execute(array(OC_User::getUser(), $album_name));
 
 $numOfItems = min($result->numRows(),10);

@@ -32,4 +32,7 @@ RCS/*
 # netbeans 
 nbproject
 
+# geany
+*.geany
+
 .DS_Store
