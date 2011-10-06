@@ -25,10 +25,8 @@
 require_once('../../lib/base.php');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	header( "Location: ".OC_Helper::linkTo( '', 'index.php' ));
-	exit();
-}
+OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('media');
 
 require_once('lib_collection.php');
 require_once('lib_scanner.php');
@@ -39,7 +37,6 @@ OC_Util::addScript('media','playlist');
 OC_Util::addScript('media','collection');
 OC_Util::addScript('media','scanner');
 OC_Util::addScript('media','jquery.jplayer.min');
-OC_Util::addStyle('media','player');
 OC_Util::addStyle('media','music');
 
 OC_App::setActiveNavigationEntry( 'media_index' );

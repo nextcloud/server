@@ -9,7 +9,7 @@
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_DAVACL_IACL {
+class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV_ICalendarObject, Sabre_DAVACL_IACL {
 
     /**
      * Sabre_CalDAV_Backend_Abstract 
@@ -92,6 +92,9 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_DAVACL
 
         if (is_resource($calendarData))
             $calendarData = stream_get_contents($calendarData);
+
+        // Converting to UTF-8, if needed
+        $calendarData = Sabre_DAV_StringUtil::ensureUTF8($calendarData);
 
         $supportedComponents = $this->calendarInfo['{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}supported-calendar-component-set'];
         if ($supportedComponents) {

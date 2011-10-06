@@ -2,15 +2,17 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
-#   <koen@vervloesem.eu>, 2011.
+# Translators:
+#   <bart.formosus@gmail.com>, 2011.
 #   <icewind1991@gmail.com>, 2011.
+#   <koen@vervloesem.eu>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:14+0200\n"
-"PO-Revision-Date: 2011-09-04 16:14+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"POT-Creation-Date: 2011-09-23 18:17+0200\n"
+"PO-Revision-Date: 2011-09-15 09:12+0000\n"
+"Last-Translator: isama <bart.formosus@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +83,7 @@ msgstr "Geavanceerd"
 
 #: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Database server"
 
 #: templates/installation.php:76
 msgid "Data folder"
@@ -93,7 +95,7 @@ msgstr "Installatie afronden"
 
 #: templates/layout.guest.php:35
 msgid "gives you freedom and control over your own data"
-msgstr ""
+msgstr "geeft u vrijheid en controle over uw eigen data"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -105,7 +107,7 @@ msgstr "Instellingen"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Uw wachtwoord vergeten?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
@@ -117,11 +119,11 @@ msgstr "U bent afgemeld."
 
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "U ontvangt een link om uw wachtwoord te wijzigen via Email"
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Aangevraagd"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -129,11 +131,11 @@ msgstr "Aanmelden mislukt!"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Gebruikersnaam of Email"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Wachtwoordreset aanvragen"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -145,14 +147,14 @@ msgstr "volgende"
 
 #: templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Uw wachtwoord is opnieuw ingesteld"
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Nieuw wachtwoord"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Reset wachtwoord"
 
 

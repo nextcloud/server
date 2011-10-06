@@ -2,14 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
 # Claudiu  <claudiu@tanaselia.ro>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:14+0200\n"
-"PO-Revision-Date: 2011-09-04 16:14+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"POT-Creation-Date: 2011-09-23 18:17+0200\n"
+"PO-Revision-Date: 2011-09-05 11:11+0000\n"
+"Last-Translator: rawbeef64 <claudiu@tanaselia.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/owncloud/team/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +32,7 @@ msgstr "Aplicații"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administrator"
+msgstr "Administrare"
 
 #: strings.php:9
 msgid "Help"
@@ -80,7 +81,7 @@ msgstr "Avansat"
 
 #: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Baza de date"
 
 #: templates/installation.php:76
 msgid "Data folder"
@@ -92,7 +93,7 @@ msgstr "Finalizează instalarea"
 
 #: templates/layout.guest.php:35
 msgid "gives you freedom and control over your own data"
-msgstr ""
+msgstr "îți oferă libertatea de a-ți controla datele"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -104,7 +105,7 @@ msgstr "Setări"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Ai uitat parola?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
@@ -116,11 +117,11 @@ msgstr "Ai ieșit"
 
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Vei primi prin email un link pentru resetarea parolei"
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Cerută"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -128,11 +129,11 @@ msgstr "Autentificare eșuată!"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Utilizator sau email"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Cere schimbarea parolei"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -144,14 +145,14 @@ msgstr "următorul"
 
 #: templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Parola a fost schimbată"
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Parola nouă"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Schimbă parola"
 
 

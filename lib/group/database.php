@@ -56,7 +56,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*groups` WHERE gid = ?" );
 		$result = $query->execute( array( $gid ));
 
-		if( !$result->fetchRow() ){
+		if( $result->fetchRow() ){
 			// Can not add an existing group
 			return false;
 		}
@@ -101,7 +101,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		$query = OC_DB::prepare( "SELECT uid FROM `*PREFIX*group_user` WHERE gid = ? AND uid = ?" );
 		$result = $query->execute( array( $gid, $uid ));
 
-		return $result->numRows() > 0 ? true : false;
+		return $result->fetchRow() ? true : false;
 	}
 
 	/**

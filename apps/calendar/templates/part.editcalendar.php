@@ -1,19 +1,12 @@
 <?php
-/*************************************************
- * ownCloud - Calendar Plugin                     *
- *                                                *
- * (c) Copyright 2011 Bart Visscher               *
- * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
- *                                                *
- * If you are not able to view the License,       *
- * <http://www.gnu.org/licenses/>                 *
- * please write to the Free Software Foundation.  *
- * Address:                                       *
- * 59 Temple Place, Suite 330, Boston,            *
- * MA 02111-1307  USA                             *
- *************************************************/
+/**
+ * Copyright (c) 2011 Bart Visscher <bartv@thisnet.nl>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
 ?>
-<td id="<?php echo $_['new'] ? 'new' : 'edit' ?>calendar_dialog" title="<?php echo $_['new'] ? $l->t("New calendar") : $l->t("Edit calendar"); ?>" colspan="4">
+<td id="<?php echo $_['new'] ? 'new' : 'edit' ?>calendar_dialog" title="<?php echo $_['new'] ? $l->t("New calendar") : $l->t("Edit calendar"); ?>" colspan="6">
 <table width="100%" style="border: 0;">
 <tr>
 	<th><?php echo $l->t('Displayname') ?></th>
@@ -25,8 +18,8 @@
 <tr>
 	<td></td>
 	<td>
-		<input id="active_<?php echo $_['calendar']['id'] ?>" type="checkbox"<?php echo $_['calendar']['active'] ? ' checked="checked"' : '' ?>>
-		<label for="active_<?php echo $_['calendar']['id'] ?>">
+		<input id="edit_active_<?php echo $_['calendar']['id'] ?>" type="checkbox"<?php echo $_['calendar']['active'] ? ' checked="checked"' : '' ?>>
+		<label for="edit_active_<?php echo $_['calendar']['id'] ?>">
 			<?php echo $l->t('Active') ?>
 		</label>
 	</td>
@@ -41,7 +34,14 @@
 <tr>
 	<th><?php echo $l->t('Calendar color') ?></th>
 	<td>
-		<input id="calendarcolor_<?php echo $_['calendar']['id'] ?>" type="text" value="<?php echo $_['calendar']['calendarcolor'] ?>">
+		<select id="calendarcolor_<?php echo $_['calendar']['id'] ?>" class="colorpicker">
+			<?php
+			if (!isset($_['calendar']['calendarcolor'])) {$_['calendar']['calendarcolor'] = false;}
+			foreach($_['calendarcolor_options'] as $color){
+				echo '<option value="' . $color . '"' . ($_['calendar']['calendarcolor'] == $color ? ' selected="selected"' : '') . '>' . $color . '</option>';
+			}
+			?>
+		</select>
 	</td>
 </tr>
 </table>

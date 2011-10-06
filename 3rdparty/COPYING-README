@@ -1,7 +1,0 @@
-HTTP is three clause BSD licence
-MDB2 uses a custom licence in the BSD style
-User is AGPL
-XML/RPC is both MIT and PHP License
-
-The rest all licenced under the PHP License see packages/ directory
-for details

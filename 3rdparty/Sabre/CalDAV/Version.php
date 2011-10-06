@@ -14,7 +14,7 @@ class Sabre_CalDAV_Version {
     /**
      * Full version number
      */
-    const VERSION = '1.5.0';
+    const VERSION = '1.5.3';
 
     /**
      * Stability : alpha, beta, stable

@@ -14,6 +14,7 @@
 "You use" => "Você usa",
 "of the available" => "do disponível",
 "Your password got changed" => "Sua senha foi modificada",
+"Unable to change your password" => "Não é possivel alterar a sua senha",
 "Current password" => "Senha atual",
 "New password" => "Nova senha",
 "show" => "mostrar",

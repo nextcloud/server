@@ -33,9 +33,8 @@ class OC_Files {
 	* @param dir $directory
 	*/
 	public static function getDirectoryContent($directory){
-		global $CONFIG_DATADIRECTORY;
-		if(strpos($directory,$CONFIG_DATADIRECTORY)===0){
-			$directory=substr($directory,strlen($CONFIG_DATADIRECTORY));
+		if(strpos($directory,OC::$CONFIG_DATADIRECTORY)===0){
+			$directory=substr($directory,strlen(OC::$CONFIG_DATADIRECTORY));
 		}
 		$filesfound=true;
 		$content=array();
@@ -103,7 +102,7 @@ class OC_Files {
 					self::$tmpFiles[]=$tmpFile;
 					$zip->addFile($tmpFile,basename($file));
 				}elseif(OC_Filesystem::is_dir($file)){
-					zipAddDir($file,$zip);
+					self::zipAddDir($file,$zip);
 				}
 			}
 			$zip->close();
@@ -114,7 +113,7 @@ class OC_Files {
 				exit("cannot open <$filename>\n");
 			}
 			$file=$dir.'/'.$files;
-			zipAddDir($file,$zip);
+			self::zipAddDir($file,$zip);
 			$zip->close();
 		}else{
 			$zip=false;
@@ -157,6 +156,23 @@ class OC_Files {
 		}
 	}
 
+	public static function zipAddDir($dir,$zip,$internalDir=''){
+		$dirname=basename($dir);
+		$zip->addEmptyDir($internalDir.$dirname);
+		$internalDir.=$dirname.='/';
+		$files=OC_Files::getdirectorycontent($dir);
+		foreach($files as $file){
+			$filename=$file['name'];
+			$file=$dir.'/'.$filename;
+			if(OC_Filesystem::is_file($file)){
+				$tmpFile=OC_Filesystem::toTmpFile($file);
+				OC_Files::$tmpFiles[]=$tmpFile;
+				$zip->addFile($tmpFile,$internalDir.$filename);
+			}elseif(OC_Filesystem::is_dir($file)){
+				self::zipAddDir($file,$zip,$internalDir);
+			}
+		}
+	}
 	/**
 	* move a file or folder
 	*
@@ -279,16 +295,14 @@ class OC_Files {
 	 * @param int size filesisze in bytes
 	 */
 	static function setUploadLimit($size){
-		global $SERVERROOT;
-		global $WEBROOT;
 		$size=OC_Helper::humanFileSize($size);
 		$size=substr($size,0,-1);//strip the B
 		$size=str_replace(' ','',$size); //remove the space between the size and the postfix
-		$content = "ErrorDocument 404 /$WEBROOT/core/templates/404.php\n";//custom 404 error page
+		$content = "ErrorDocument 404 /".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
 		$content.= "php_value upload_max_filesize $size\n";//upload limit
 		$content.= "php_value post_max_size $size\n";
 		$content.= "SetEnv htaccessWorking true\n";
 		$content.= "Options -Indexes\n";
-		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
+		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 	}
 }

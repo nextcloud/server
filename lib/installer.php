@@ -55,10 +55,8 @@ class OC_Installer{
 	 * needed to get the app working.
 	 */
 	public static function installApp( $data = array()){
-		global $SERVERROOT;
-		
 		if(!isset($data['source'])){
-			error_log("No source specified when installing app");
+			if(defined("DEBUG") && DEBUG) {error_log("No source specified when installing app");}
 			return false;
 		}
 		
@@ -66,13 +64,13 @@ class OC_Installer{
 		if($data['source']=='http'){
 			$path=tempnam(sys_get_temp_dir(),'oc_installer_');
 			if(!isset($data['href'])){
-				error_log("No href specified when installing app from http");
+				if(defined("DEBUG") && DEBUG) {error_log("No href specified when installing app from http");}
 				return false;
 			}
 			copy($data['href'],$path);
 		}else{
 			if(!isset($data['path'])){
-				error_log("No path specified when installing app from local file");
+				if(defined("DEBUG") && DEBUG) {error_log("No path specified when installing app from local file");}
 				return false;
 			}
 			$path=$data['path'];
@@ -87,7 +85,7 @@ class OC_Installer{
 			$zip->extractTo($extractDir);
 			$zip->close();
 		} else {
-			error_log("Failed to open archive when installing app");
+			if(defined("DEBUG") && DEBUG) {error_log("Failed to open archive when installing app");}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -97,7 +95,7 @@ class OC_Installer{
 		
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')){
-			error_log("App does not provide an info.xml file");
+			if(defined("DEBUG") && DEBUG) {error_log("App does not provide an info.xml file");}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -105,11 +103,11 @@ class OC_Installer{
 			return false;
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml');
-		$basedir=$SERVERROOT.'/apps/'.$info['id'];
+		$basedir=OC::$SERVERROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
-			error_log("App already installed");
+			if(defined("DEBUG") && DEBUG) {error_log("App already installed");}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -119,7 +117,7 @@ class OC_Installer{
 
 		//check if the destination directory already exists
 		if(is_dir($basedir)){
-			error_log("App's directory already exists");
+			if(defined("DEBUG") && DEBUG) {error_log("App's directory already exists");}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -133,7 +131,7 @@ class OC_Installer{
 		
 		//copy the app to the correct place
 		if(!mkdir($basedir)){
-			error_log('Can\'t create app folder ('.$basedir.')');
+			if(defined("DEBUG") && DEBUG) {error_log('Can\'t create app folder ('.$basedir.')');}
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -245,14 +243,14 @@ class OC_Installer{
 	 * If $enabled is true, apps are installed as enabled.
 	 * If $enabled is false, apps are installed as disabled.
 	 */
-	public static function installShippedApps( $enabled ){
-		global $SERVERROOT;
-		$dir = opendir( "$SERVERROOT/apps" );
+	public static function installShippedApps(){
+		$dir = opendir( OC::$SERVERROOT."/apps" );
 		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' and is_dir("$SERVERROOT/apps/$filename") ){
-				if( file_exists( "$SERVERROOT/apps/$filename/appinfo/app.php" )){
+			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$SERVERROOT."/apps/$filename") ){
+				if( file_exists( OC::$SERVERROOT."/apps/$filename/appinfo/app.php" )){
 					if(!OC_Installer::isInstalled($filename)){
-						OC_Installer::installShippedApp($filename);
+						$info = OC_Installer::installShippedApp($filename);
+						$enabled = isset($info['default_enable']);
 						if( $enabled ){
 							OC_Appconfig::setValue($filename,'enabled','yes');
 						}else{
@@ -268,7 +266,7 @@ class OC_Installer{
 	/**
 	 * install an app already placed in the app folder
 	 * @param string $app id of the app to install
-	 * @return bool
+	 * @returns array see OC_App::getAppInfo
 	 */
 	public static function installShippedApp($app){
 		//install the database
@@ -282,5 +280,6 @@ class OC_Installer{
 		}
 		$info=OC_App::getAppInfo(OC::$SERVERROOT."/apps/$app/appinfo/info.xml");
 		OC_Appconfig::setValue($app,'installed_version',$info['version']);
+		return $info;
 	}
 }

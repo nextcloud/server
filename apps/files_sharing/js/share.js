@@ -215,9 +215,12 @@ function addUser(uid_shared_with, permissions, parentFolder) {
 	} else {
 		var checked = ((permissions > 0) ? 'checked="checked"' : 'style="display:none;"');
 		var style = ((permissions == 0) ? 'style="display:none;"' : '');
-		var user = '<li data-uid_shared_with="'+uid_shared_with+'">'+uid_shared_with;
-		user += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" "+checked+" /><label for="'+uid_shared_with+'" '+style+'>can edit</label>';
-		user += '<a href="" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core','actions/delete')+'"/></a></li>';
+		var user = '<li data-uid_shared_with="'+uid_shared_with+'">';
+		user += '<a href="" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core','actions/delete')+'"/></a>';
+		user += uid_shared_with;
+		user += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" "+checked+" />';
+		user += '<label for="'+uid_shared_with+'" '+style+'>can edit</label>';
+		user += '</li>';
 	}
 	$('#share_with option[value="'+uid_shared_with+'"]').remove();
 	$('#share_with').trigger('liszt:updated');

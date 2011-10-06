@@ -5,7 +5,7 @@
  */?>
 
 <div id="quota" class="personalblock"><div style="width:<?php echo $_['usage_relative'];?>%;">
-	<p><?php echo $l->t('You use');?> <strong><?php echo $_['usage'];?></strong> <?php echo $l->t('of the available');?> <strong><?php echo $_['total_space'];?></strong></p>
+	<p id="quotatext"><?php echo $l->t('You use');?> <strong><?php echo $_['usage'];?></strong> <?php echo $l->t('of the available');?> <strong><?php echo $_['total_space'];?></strong></p>
 </div></div>
 
 <form id="passwordform">
@@ -16,6 +16,14 @@
 		<input type="password" id="pass2" name="password" placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#show" />
 		<input type="checkbox" id="show" name="show" /><label for="show"><?php echo $l->t('show');?></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
+	</fieldset>
+</form>
+
+<form id="lostpassword">
+	<fieldset class="personalblock">
+		<label for="email"><strong><?php echo $l->t('Email');?></strong></label>
+		<input type="text" name="email" id="email" value="<?php echo $_['email']; ?>" placeholder="<?php echo $l->t('Your email address');?>" /><span class="msg"></span><br />
+		<em><?php echo $l->t('Fill in an email address to enable password recovery');?></em>
 	</fieldset>
 </form>
 
@@ -40,3 +48,11 @@
 <?php foreach($_['forms'] as $form){
 	echo $form;
 };?>
+
+<p class="personalblock">
+	<strong>ownCloud</strong>
+	<?php echo(OC_Util::getVersionString()); ?>
+</p>
+
+
+

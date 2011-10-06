@@ -30,6 +30,9 @@ OC_Hook::connect('OC_Filesystem','post_write','OC_MEDIA','updateFile');
 //listen for file deletions to clean the database if a song is deleted
 OC_Hook::connect('OC_Filesystem','delete','OC_MEDIA','deleteFile');
 
+//list for file moves to update the database
+OC_Hook::connect('OC_Filesystem','post_rename','OC_MEDIA','moveFile');
+
 class OC_MEDIA{
 	/**
 	 * get the sha256 hash of the password needed for ampache
@@ -37,7 +40,7 @@ class OC_MEDIA{
 	 */
 	public static function loginListener($params){
 		if(isset($_POST['user']) and $_POST['password']){
-			error_log('postlogin');
+			if(defined("DEBUG") && DEBUG) {error_log('postlogin');}
 			$name=$_POST['user'];
 			$query=OC_DB::prepare("SELECT user_id from *PREFIX*media_users WHERE user_id LIKE ?");
 			$uid=$query->execute(array($name))->fetchAll();
@@ -61,6 +64,7 @@ class OC_MEDIA{
 			$path=substr($path,1);
 		}
 		$path='/'.$path;
+		error_log("$path was updated");
 		OC_MEDIA_SCANNER::scanFile($path);
 	}
 
@@ -71,6 +75,11 @@ class OC_MEDIA{
 		$path=$params['path'];
 		require_once 'lib_collection.php';
 		OC_MEDIA_COLLECTION::deleteSongByPath($path);
+	}
+
+	public static function moveFile($params){
+		require_once 'lib_collection.php';
+		OC_MEDIA_COLLECTION::moveSong($params['oldpath'],$params['newpath']);
 	}
 }
 

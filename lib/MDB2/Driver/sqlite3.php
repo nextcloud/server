@@ -351,8 +351,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
 		if($this->connection instanceof SQLite3){
 			return MDB2_OK;
 		}
-		global $SERVERROOT;
-		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
         $database_file = $this->_getDatabaseFile($this->database_name);
         if (is_resource($this->connection)) {
             //if (count(array_diff($this->connected_dsn, $this->dsn)) == 0

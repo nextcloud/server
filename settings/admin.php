@@ -6,14 +6,7 @@
  */
 
 require_once('../lib/base.php');
-if( !OC_User::isLoggedIn()){
-    header( "Location: ".OC_Helper::linkTo( "", "index.php" ));
-    exit();
-}
-if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-	header( "Location: ".OC_Helper::linkTo( '', "index.php" ));
-	exit();
-}
+OC_Util::checkAdminUser();
 
 OC_Util::addStyle( "settings", "settings" );
 OC_App::setActiveNavigationEntry( "admin" );

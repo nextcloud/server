@@ -8,7 +8,7 @@
 			<link rel="stylesheet" href="<?php echo $cssfile; ?>" type="text/css" media="screen" />
 		<?php endforeach; ?>
 		<script type="text/javascript">
-			var oc_webroot = '<?php global $WEBROOT; echo $WEBROOT; ?>';
+			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
 			var oc_current_user = '<?php echo OC_User::getUser() ?>';
 		</script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>

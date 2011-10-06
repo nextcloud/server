@@ -124,18 +124,15 @@ class OC_Template{
 	 * "admin".
 	 */
 	public function __construct( $app, $name, $renderas = "" ){
-		// Global vars we need
-		global $SERVERROOT;
-
 		// Get the right template folder
-		$template = "$SERVERROOT/core/templates/";
+		$template = OC::$SERVERROOT."/core/templates/";
 		if( $app != "" ){
 			// Check if the app is in the app folder
-			if( file_exists( "$SERVERROOT/apps/$app/templates/" )){
-				$template = "$SERVERROOT/apps/$app/templates/";
+			if( file_exists( OC::$SERVERROOT."/apps/$app/templates/" )){
+				$template = OC::$SERVERROOT."/apps/$app/templates/";
 			}
 			else{
-				$template = "$SERVERROOT/$app/templates/";
+				$template = OC::$SERVERROOT."/$app/templates/";
 			}
 		}
 
@@ -222,9 +219,6 @@ class OC_Template{
 	 * will produce a full page.
 	 */
 	public function fetchPage(){
-		// global Data we need
-		global $WEBROOT;
-		global $SERVERROOT;
 		$data = $this->_fetch();
 
 		if( $this->renderas ){
@@ -247,25 +241,25 @@ class OC_Template{
 
 			// Add the css and js files
 			foreach(OC_Util::$scripts as $script){
-				if(is_file("$SERVERROOT/apps/$script.js" )){
-					$page->append( "jsfiles", "$WEBROOT/apps/$script.js" );
+				if(is_file(OC::$SERVERROOT."/apps/$script.js" )){
+					$page->append( "jsfiles", OC::$WEBROOT."/apps/$script.js" );
 				}
-				elseif(is_file("$SERVERROOT/$script.js" )){
-					$page->append( "jsfiles", "$WEBROOT/$script.js" );
+				elseif(is_file(OC::$SERVERROOT."/$script.js" )){
+					$page->append( "jsfiles", OC::$WEBROOT."/$script.js" );
 				}
 				else{
-					$page->append( "jsfiles", "$WEBROOT/core/$script.js" );
+					$page->append( "jsfiles", OC::$WEBROOT."/core/$script.js" );
 				}
 			}
 			foreach(OC_Util::$styles as $style){
-				if(is_file("$SERVERROOT/apps/$style.css" )){
-					$page->append( "cssfiles", "$WEBROOT/apps/$style.css" );
+				if(is_file(OC::$SERVERROOT."/apps/$style.css" )){
+					$page->append( "cssfiles", OC::$WEBROOT."/apps/$style.css" );
 				}
-				elseif(is_file("$SERVERROOT/$style.css" )){
-					$page->append( "cssfiles", "$WEBROOT/$style.css" );
+				elseif(is_file(OC::$SERVERROOT."/$style.css" )){
+					$page->append( "cssfiles", OC::$WEBROOT."/$style.css" );
 				}
 				else{
-					$page->append( "cssfiles", "$WEBROOT/core/$style.css" );
+					$page->append( "cssfiles", OC::$WEBROOT."/core/$style.css" );
 				}
 			}
 			

@@ -1,27 +1,13 @@
 <?php
 /**
- * ownCloud - Calendar
- *
- * @author Jakob Sack
- * @copyright 2011 Jakob Sack mail@jakobsack.de
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * Copyright (c) 2011 Jakob Sack <mail@jakobsack.de>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
  */
 
 /**
- * This class manages our calendars
+ * This class manages our calendar objects
  */
 class OC_Calendar_Object{
 	/**
@@ -129,7 +115,7 @@ class OC_Calendar_Object{
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
 
-		OC_Calendar_Calendar::touchCalendar($id);
+		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
 		return true;
 	}
@@ -161,8 +147,10 @@ class OC_Calendar_Object{
 	 * @return boolean
 	 */
 	public static function delete($id){
+		$oldobject = self::find($id);
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE id = ?' );
 		$stmt->execute(array($id));
+		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
 		return true;
 	}
@@ -298,10 +286,33 @@ class OC_Calendar_Object{
 		}
 	}
 
+	public static function getDTEndFromVEvent($vevent)
+	{
+		if ($vevent->DTEND) {
+			$dtend = $vevent->DTEND;
+		}else{
+			$dtend = clone $vevent->DTSTART;
+			if ($vevent->DURATION){
+				$duration = strval($vevent->DURATION);
+				$invert = 0;
+				if ($duration[0] == '-'){
+					$duration = substr($duration, 1);
+					$invert = 1;
+				}
+				if ($duration[0] == '+'){
+					$duration = substr($duration, 1);
+				}
+				$interval = new DateInterval($duration);
+				$interval->invert = $invert;
+				$dtend->getDateTime()->add($interval);
+			}
+		}
+		return $dtend;
+	}
+
 	public static function getCategoryOptions($l10n)
 	{
 		return array(
-			$l10n->t('None'),
 			$l10n->t('Birthday'),
 			$l10n->t('Business'),
 			$l10n->t('Call'),
@@ -345,6 +356,11 @@ class OC_Calendar_Object{
 			$errarr['cal'] = 'true';
 			$errnum++;
 		}
+
+		if(isset($request['categories']) && !is_array($request['categories'])){
+			$errors['categories'] = $l10n->t('Not an array');
+		}
+
 		$fromday = substr($request['from'], 0, 2);
 		$frommonth = substr($request['from'], 3, 2);
 		$fromyear = substr($request['from'], 6, 4);
@@ -434,7 +450,7 @@ class OC_Calendar_Object{
 	{
 		$title = $request["title"];
 		$location = $request["location"];
-		$cat = $request["category"];
+		$categories = isset($request["categories"]) ? $request["categories"] : null;
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
 		$fromtime = $request["fromtime"];
@@ -490,18 +506,24 @@ class OC_Calendar_Object{
 		}
 		$vevent->DTSTART = $dtstart;
 		$vevent->DTEND = $dtend;
+		unset($vevent->DURATION);
 
 		if($location != ""){
 			$vevent->LOCATION = $location;
+		}else{
+			unset($vevent->LOCATION);
 		}
 
 		if($description != ""){
-			$des = str_replace("\n","\\n", $description);
-			$vevent->DESCRIPTION = $des;
+			$vevent->DESCRIPTION = $description;
+		}else{
+			unset($vevent->DESCRIPTION);
 		}
 
-		if($cat != ""){
-			$vevent->CATEGORIES = $cat;
+		if(!empty($categories)){
+			$vevent->CATEGORIES = join(',', $categories);
+		}else{
+			unset($vevent->CATEGORIES);
 		}
 
 		/*if($repeat == "true"){

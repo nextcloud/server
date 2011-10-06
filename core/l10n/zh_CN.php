@@ -17,6 +17,7 @@
 "Database host" => "数据库主机",
 "Data folder" => "数据目录",
 "Finish setup" => "安装完成",
+"gives you freedom and control over your own data" => "自由掌控您的数据",
 "Log out" => "注销",
 "Settings" => "设置",
 "Lost your password?" => "忘记密码？",
@@ -29,6 +30,7 @@
 "Request reset" => "请求重置",
 "prev" => "上一页",
 "next" => "下一页",
+"Your password was reset" => "您的密码已重置",
 "New password" => "新密码",
 "Reset password" => "重置密码"
 );

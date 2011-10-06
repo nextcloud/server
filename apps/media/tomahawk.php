@@ -24,6 +24,7 @@
 $_POST=$_GET; //debug
 
 require_once('../../lib/base.php');
+OC_JSON::checkAppEnabled('media');
 require_once('lib_collection.php');
 
 $user=isset($_POST['user'])?$_POST['user']:'';
@@ -77,5 +78,5 @@ foreach($songs as $song) {
 		'score' => (float)1.0
 	);
 }
-echo json_encode($results);
+OC_JSON::encodedPrint($results);
 ?>

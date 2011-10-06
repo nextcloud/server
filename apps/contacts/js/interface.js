@@ -34,7 +34,7 @@ $(document).ready(function(){
 			if(jsondata.status == 'success'){
 				$('#leftcontent [data-id="'+jsondata.data.id+'"]').remove();
 				$('#rightcontent').data('id','');
-				$('#rightcontent').html('');
+				$('#rightcontent').empty();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -104,6 +104,8 @@ $(document).ready(function(){
 			if(jsondata.status == 'success'){
 				$('#rightcontent').data('id',jsondata.data.id);
 				$('#rightcontent').html(jsondata.data.page);
+				$('#leftcontent .active').removeClass('active');
+				$('#leftcontent ul').append('<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'">'+jsondata.data.name+'</a></li>');
 			}
 			else{
 				alert(jsondata.data.message);

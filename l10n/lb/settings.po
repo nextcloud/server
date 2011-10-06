@@ -2,14 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
 #   <sim0n@trypill.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 14:50+0200\n"
-"PO-Revision-Date: 2011-08-27 23:13+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-23 18:17+0200\n"
+"PO-Revision-Date: 2011-09-17 14:28+0000\n"
+"Last-Translator: sim0n <sim0n@trypill.org>\n"
 "Language-Team: Luxembourgish (http://www.transifex.net/projects/p/owncloud/team/lb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +82,7 @@ msgstr "Däin Passwuert ass geännert ginn"
 
 #: templates/personal.php:14
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Konnt däin Passwuert net änneren"
 
 #: templates/personal.php:15
 msgid "Current password"
@@ -107,7 +108,7 @@ msgstr "Sprooch"
 msgid "Help translating"
 msgstr "Hëllef ze Iwwersetzen"
 
-#: templates/personal.php:36
+#: templates/personal.php:37
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 "benotz dës Adress fir dech un deng ownCloud iwwert däin Datei Manager ze "

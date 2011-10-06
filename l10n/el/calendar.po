@@ -1,0 +1,465 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-24 23:05+0200\n"
+"PO-Revision-Date: 2011-09-24 21:05+0000\n"
+"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/createcalendar.php:18 ajax/settimezone.php:19
+#: ajax/updatecalendar.php:18
+msgid "Authentication error"
+msgstr "Σφάλμα ταυτοποίησης"
+
+#: ajax/editeventform.php:25
+msgid "Wrong calendar"
+msgstr "Λάθος ημερολόγιο"
+
+#: ajax/settimezone.php:27
+msgid "Timezone changed"
+msgstr "Η ζώνη ώρας άλλαξε"
+
+#: ajax/settimezone.php:29
+msgid "Invalid request"
+msgstr "Μη έγκυρο αίτημα"
+
+#: appinfo/app.php:19 templates/part.eventform.php:27
+#: templates/part.eventinfo.php:18
+msgid "Calendar"
+msgstr "Ημερολόγιο"
+
+#: lib/object.php:292
+msgid "Birthday"
+msgstr "Γενέθλια"
+
+#: lib/object.php:293
+msgid "Business"
+msgstr "Επιχείρηση"
+
+#: lib/object.php:294
+msgid "Call"
+msgstr "Κλήση"
+
+#: lib/object.php:295
+msgid "Clients"
+msgstr "Πελάτες"
+
+#: lib/object.php:296
+msgid "Deliverer"
+msgstr ""
+
+#: lib/object.php:297
+msgid "Holidays"
+msgstr "Διακοπές"
+
+#: lib/object.php:298
+msgid "Ideas"
+msgstr "Ιδέες"
+
+#: lib/object.php:299
+msgid "Journey"
+msgstr "Ταξίδι"
+
+#: lib/object.php:300
+msgid "Jubilee"
+msgstr ""
+
+#: lib/object.php:301
+msgid "Meeting"
+msgstr ""
+
+#: lib/object.php:302
+msgid "Other"
+msgstr "Άλλο"
+
+#: lib/object.php:303
+msgid "Personal"
+msgstr "Προσωπικό"
+
+#: lib/object.php:304
+msgid "Projects"
+msgstr "Έργα"
+
+#: lib/object.php:305
+msgid "Questions"
+msgstr "Ερωτήσεις"
+
+#: lib/object.php:306
+msgid "Work"
+msgstr "Εργασία"
+
+#: lib/object.php:313
+msgid "Does not repeat"
+msgstr "Μη επαναλαμβανόμενο"
+
+#: lib/object.php:314
+msgid "Daily"
+msgstr "Καθημερινά"
+
+#: lib/object.php:315
+msgid "Weekly"
+msgstr "Εβδομαδιαία"
+
+#: lib/object.php:316
+msgid "Every Weekday"
+msgstr "Κάθε μέρα"
+
+#: lib/object.php:317
+msgid "Bi-Weekly"
+msgstr "Δύο φορές την εβδομάδα"
+
+#: lib/object.php:318
+msgid "Monthly"
+msgstr "Μηνιαία"
+
+#: lib/object.php:319
+msgid "Yearly"
+msgstr "Ετήσια"
+
+#: lib/object.php:337
+msgid "Not an array"
+msgstr "Δεν είναι μια σειρά"
+
+#: templates/calendar.php:3
+msgid "All day"
+msgstr "Ολοήμερο"
+
+#: templates/calendar.php:32
+msgid "Sunday"
+msgstr "Κυριακή"
+
+#: templates/calendar.php:32
+msgid "Monday"
+msgstr "Δευτέρα"
+
+#: templates/calendar.php:32
+msgid "Tuesday"
+msgstr "Τρίτη"
+
+#: templates/calendar.php:32
+msgid "Wednesday"
+msgstr "Τετάρτη"
+
+#: templates/calendar.php:32
+msgid "Thursday"
+msgstr "Πέμπτη"
+
+#: templates/calendar.php:32
+msgid "Friday"
+msgstr "Παρασκευή"
+
+#: templates/calendar.php:32
+msgid "Saturday"
+msgstr "Σάββατο"
+
+#: templates/calendar.php:33
+msgid "Sun."
+msgstr "Κυρ."
+
+#: templates/calendar.php:33
+msgid "Mon."
+msgstr "Δευτ."
+
+#: templates/calendar.php:33
+msgid "Tue."
+msgstr "Τρ."
+
+#: templates/calendar.php:33
+msgid "Wed."
+msgstr "Τετ."
+
+#: templates/calendar.php:33
+msgid "Thu."
+msgstr "Πέμ."
+
+#: templates/calendar.php:33
+msgid "Fri."
+msgstr "Παρ."
+
+#: templates/calendar.php:33
+msgid "Sat."
+msgstr "Σάβ."
+
+#: templates/calendar.php:34
+msgid "January"
+msgstr "Ιανουάριος"
+
+#: templates/calendar.php:34
+msgid "February"
+msgstr "Φεβρουάριος"
+
+#: templates/calendar.php:34
+msgid "March"
+msgstr "Μάρτιος"
+
+#: templates/calendar.php:34
+msgid "April"
+msgstr "Απρίλιος"
+
+#: templates/calendar.php:34
+msgid "May"
+msgstr "Μάιος"
+
+#: templates/calendar.php:34
+msgid "June"
+msgstr "Ιούνιος"
+
+#: templates/calendar.php:34
+msgid "July"
+msgstr "Ιούλιος"
+
+#: templates/calendar.php:34
+msgid "August"
+msgstr "Αύγουστος"
+
+#: templates/calendar.php:34
+msgid "September"
+msgstr "Σεπτέμβριος"
+
+#: templates/calendar.php:34
+msgid "October"
+msgstr "Οκτώβριος"
+
+#: templates/calendar.php:34
+msgid "November"
+msgstr "Νοέμβριος"
+
+#: templates/calendar.php:34
+msgid "December"
+msgstr "Δεκέμβριος"
+
+#: templates/calendar.php:35
+msgid "Jan."
+msgstr "Ιαν."
+
+#: templates/calendar.php:35
+msgid "Feb."
+msgstr "Φεβ."
+
+#: templates/calendar.php:35
+msgid "Mar."
+msgstr "Μαρ."
+
+#: templates/calendar.php:35
+msgid "Apr."
+msgstr "Απρ."
+
+#: templates/calendar.php:35
+msgid "May."
+msgstr ""
+
+#: templates/calendar.php:35
+msgid "Jun."
+msgstr "Ιούν."
+
+#: templates/calendar.php:35
+msgid "Jul."
+msgstr "Ιούλ."
+
+#: templates/calendar.php:35
+msgid "Aug."
+msgstr "Αύγ."
+
+#: templates/calendar.php:35
+msgid "Sep."
+msgstr "Σεπ."
+
+#: templates/calendar.php:35
+msgid "Oct."
+msgstr "Οκτ."
+
+#: templates/calendar.php:35
+msgid "Nov."
+msgstr "Νοέ."
+
+#: templates/calendar.php:35
+msgid "Dec."
+msgstr "Δεκ."
+
+#: templates/calendar.php:36 templates/calendar.php:50
+#: templates/calendar.php:116
+msgid "Week"
+msgstr "Εβδομάδα"
+
+#: templates/calendar.php:37 templates/calendar.php:51
+msgid "Weeks"
+msgstr "Εβδομάδες"
+
+#: templates/calendar.php:38
+msgid "More before {startdate}"
+msgstr ""
+
+#: templates/calendar.php:39
+msgid "More after {enddate}"
+msgstr ""
+
+#: templates/calendar.php:49
+msgid "Day"
+msgstr "Ημέρα"
+
+#: templates/calendar.php:52
+msgid "Month"
+msgstr "Μήνας"
+
+#: templates/calendar.php:53
+msgid "List"
+msgstr "Λίστα"
+
+#: templates/calendar.php:58
+msgid "Today"
+msgstr "Σήμερα"
+
+#: templates/calendar.php:59
+msgid "Calendars"
+msgstr "Ημερολόγια"
+
+#: templates/calendar.php:76 templates/calendar.php:94
+msgid "Time"
+msgstr "Ώρα"
+
+#: templates/calendar.php:169
+msgid "There was a fail, while parsing the file."
+msgstr "Υπήρχε μια αποτυχία, κατά την ανάλυση του αρχείου."
+
+#: templates/part.choosecalendar.php:1
+msgid "Choose active calendars"
+msgstr "Επιλέξτε τα ενεργά ημερολόγια"
+
+#: templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr "Νέα Ημερολόγιο"
+
+#: templates/part.choosecalendar.php:20
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "CalDav Link"
+msgstr ""
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Download"
+msgstr "Λήψη"
+
+#: templates/part.choosecalendar.rowfields.php:4
+#: templates/part.eventinfo.php:64
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: templates/part.choosecalendar.rowfields.php:4
+#: templates/part.editevent.php:8
+msgid "Delete"
+msgstr ""
+
+#: templates/part.editcalendar.php:9
+msgid "New calendar"
+msgstr "Νέο ημερολόγιο"
+
+#: templates/part.editcalendar.php:9
+msgid "Edit calendar"
+msgstr "Επεξεργασία ημερολογίου"
+
+#: templates/part.editcalendar.php:12
+msgid "Displayname"
+msgstr "Προβολή ονόματος"
+
+#: templates/part.editcalendar.php:23
+msgid "Active"
+msgstr "Ενεργό"
+
+#: templates/part.editcalendar.php:29 templates/part.eventform.php:88
+#: templates/part.eventinfo.php:58
+msgid "Description"
+msgstr "Περιγραφή"
+
+#: templates/part.editcalendar.php:35
+msgid "Calendar color"
+msgstr "Χρώμα ημερολογίου"
+
+#: templates/part.editcalendar.php:41
+msgid "Save"
+msgstr ""
+
+#: templates/part.editcalendar.php:41 templates/part.editevent.php:7
+#: templates/part.newevent.php:6
+msgid "Submit"
+msgstr "Υποβολή"
+
+#: templates/part.editcalendar.php:42
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: templates/part.editevent.php:1 templates/part.eventinfo.php:1
+msgid "Edit an event"
+msgstr "Επεξεργασία ενός γεγονότος"
+
+#: templates/part.eventform.php:3 templates/part.eventinfo.php:4
+msgid "Title"
+msgstr "Τίτλος"
+
+#: templates/part.eventform.php:5
+msgid "Title of the Event"
+msgstr "Τίτλος συμβάντος"
+
+#: templates/part.eventform.php:9 templates/part.eventinfo.php:9
+msgid "Location"
+msgstr "Τοποθεσία"
+
+#: templates/part.eventform.php:11
+msgid "Location of the Event"
+msgstr "Τοποθεσία συμβάντος"
+
+#: templates/part.eventform.php:17 templates/part.eventinfo.php:16
+msgid "Category"
+msgstr "Κατηγορία"
+
+#: templates/part.eventform.php:19
+msgid "Select category"
+msgstr "Επιλέξτε κατηγορία"
+
+#: templates/part.eventform.php:45 templates/part.eventinfo.php:28
+msgid "All Day Event"
+msgstr "Ολοήμερο συμβάν"
+
+#: templates/part.eventform.php:49 templates/part.eventinfo.php:31
+msgid "From"
+msgstr "Από"
+
+#: templates/part.eventform.php:57 templates/part.eventinfo.php:38
+msgid "To"
+msgstr "Έως"
+
+#: templates/part.eventform.php:65 templates/part.eventinfo.php:44
+msgid "Repeat"
+msgstr "Επαναλαμβανόμενο"
+
+#: templates/part.eventform.php:81 templates/part.eventinfo.php:51
+msgid "Attendees"
+msgstr "Παρευρισκόμενοι"
+
+#: templates/part.eventform.php:89
+msgid "Description of the Event"
+msgstr "Περιγραφή του συμβάντος"
+
+#: templates/part.eventinfo.php:63
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: templates/part.newevent.php:1
+msgid "Create a new event"
+msgstr "Δημιουργήστε ένα νέο συμβάν"
+
+#: templates/settings.php:11
+msgid "Timezone"
+msgstr "Ζώνη ώρας"
+
+

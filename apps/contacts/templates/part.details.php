@@ -27,9 +27,8 @@
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</table>
+	<form>
+		<input type="button" id="contacts_deletecard" value="<?php echo $l->t('Delete');?>">
+		<input type="button" id="contacts_addproperty" value="<?php echo $l->t('Add Property');?>">
+	</form>
 <?php endif; ?>
-
-<form>
-	<input type="button" id="contacts_deletecard" value="<?php echo $l->t('Delete');?>">
-	<input type="button" id="contacts_addproperty" value="<?php echo $l->t('Add Property');?>">
-</form>

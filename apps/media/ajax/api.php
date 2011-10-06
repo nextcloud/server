@@ -27,6 +27,7 @@ header('Content-type: text/html; charset=UTF-8') ;
 $RUNTIME_NOAPPS=true;
 
 require_once('../../../lib/base.php');
+OC_JSON::checkAppEnabled('media');
 require_once('../lib_collection.php');
 require_once('../lib_scanner.php');
 
@@ -41,7 +42,6 @@ if(!isset($_POST['action']) and isset($_GET['action'])){
 foreach($arguments as &$argument){
 	$argument=stripslashes($argument);
 }
-global $CONFIG_DATADIRECTORY;
 @ob_clean();
 if(!isset($arguments['artist'])){
 	$arguments['artist']=0;
@@ -68,7 +68,7 @@ if($arguments['action']){
 			$data['artists']=OC_MEDIA_COLLECTION::getArtists();
 			$data['albums']=OC_MEDIA_COLLECTION::getAlbums();
 			$data['songs']=OC_MEDIA_COLLECTION::getSongs();
-			echo json_encode($data);
+			OC_JSON::encodedPrint($data);
 			break;
 		case 'scan':
 			OC_DB::beginTransaction();
@@ -82,13 +82,13 @@ if($arguments['action']){
 			echo (OC_MEDIA_SCANNER::scanFile($arguments['path']))?'true':'false';
 			break;
 		case 'get_artists':
-			echo json_encode(OC_MEDIA_COLLECTION::getArtists($arguments['search']));
+			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getArtists($arguments['search']));
 			break;
 		case 'get_albums':
-			echo json_encode(OC_MEDIA_COLLECTION::getAlbums($arguments['artist'],$arguments['search']));
+			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getAlbums($arguments['artist'],$arguments['search']));
 			break;
 		case 'get_songs':
-			echo json_encode(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
+			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
 			break;
 		case 'get_path_info':
 			if(OC_Filesystem::file_exists($arguments['path'])){
@@ -101,7 +101,7 @@ if($arguments['action']){
 					$song=OC_MEDIA_COLLECTION::getSong($songId);
 					$song['artist']=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
 					$song['album']=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
-					echo json_encode($song);
+					OC_JSON::encodedPrint($song);
 				}
 			}
 			break;
@@ -130,12 +130,12 @@ if($arguments['action']){
 			OC_Filesystem::readfile($arguments['path']);
 			exit;
 		case 'find_music':
-			echo json_encode(findMusic());
+			OC_JSON::encodedPrint(findMusic());
 			exit;
 	}
 }
 
-function findMusic($path='/'){
+function findMusic($path=''){
 	$music=array();
 	$dh=OC_Filesystem::opendir($path);
 	if($dh){

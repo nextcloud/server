@@ -16,19 +16,15 @@ class OC_Util {
 			return false;
 		}
 
-		// Global Variables
-		global $SERVERROOT;
-		global $CONFIG_DATADIRECTORY;
-
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", "$SERVERROOT/backup" );
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
 
 		// Create root dir
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
                         if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory ($CONFIG_DATADIRECTORY_ROOT)",'hint'=>"You can usually fix this by setting the owner of '$SERVERROOT' to the user that the web server uses (".exec('whoami').")")));
+				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by setting the owner of '".OC::$SERVERROOT."' to the user that the web server uses (".OC_Util::checkWebserverUser().")")));
 				$tmpl->printPage();
 				exit;
   			}
@@ -57,9 +53,9 @@ class OC_Util {
 			$sharedStorage = OC_Filesystem::createStorage('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'));
 			OC_Filesystem::mount($sharedStorage,'/'.OC_User::getUser().'/files/Shared/');
 
-			$CONFIG_DATADIRECTORY = "$CONFIG_DATADIRECTORY_ROOT/$user/$root";
-			if( !is_dir( $CONFIG_DATADIRECTORY )){
-				mkdir( $CONFIG_DATADIRECTORY, 0755, true );
+			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
+			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
+				mkdir( OC::$CONFIG_DATADIRECTORY, 0755, true );
 			}
 
 // TODO: find a cool way for doing this
@@ -94,7 +90,15 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(1,90,0);
+		return array(1,92,0);
+	}
+
+	/**
+	 * get the current installed version string of ownCloud
+	 * @return string
+	 */
+	public static function getVersionString(){
+		return '2 beta 3';
 	}
 
 	/**
@@ -193,11 +197,8 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(){
-		global $SERVERROOT;
-		global $CONFIG_DATADIRECTORY;
-
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", "$SERVERROOT/backup" );
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
 		$CONFIG_INSTALLED = OC_Config::getValue( "installed", false );
 		$errors=array();
 
@@ -207,28 +208,21 @@ class OC_Util {
 		}
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBNAME = OC_Config::getValue( "dbname", "owncloud" );
-
-		//try to get the username the httpd server runs on, used in hints
-		$stat=stat($_SERVER['DOCUMENT_ROOT']);
-		if(is_callable('posix_getpwuid')){
-			$serverUser=posix_getpwuid($stat['uid']);
-			$serverUser='\''.$serverUser['name'].'\'';
-		}else{
-			$serverUser='\'www-data\' for ubuntu/debian';//TODO: try to detect the distro and give a guess based on that
-		}
+                $serverUser=OC_Util::checkWebserverUser();
 
 		//common hint for all file permissons error messages
 		$permissionsHint="Permissions can usually be fixed by setting the owner of the file or directory to the user the web server runs as ($serverUser)";
 
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
+                	$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
 			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 			if(substr($prems,-1)!='0'){
 				OC_Helper::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
 				clearstatcache();
 				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
 				if(substr($prems,2,1)!='0'){
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable from the web<br/>','hint'=>$permissionsHint);
+					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable for other users<br/>','hint'=>$permissionsModHint);
 				}
 			}
 			if( OC_Config::getValue( "enablebackup", false )){
@@ -238,19 +232,100 @@ class OC_Util {
 					clearstatcache();
 					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 					if(substr($prems,2,1)!='0'){
-						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable from the web<br/>','hint'=>$permissionsHint);
+						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>','hint'=>$permissionsModHint);
 					}
 				}
 			}
 		}else{
-			//TODO: premisions checks for windows hosts
+			//TODO: permissions checks for windows hosts
 		}
 		if(is_dir($CONFIG_DATADIRECTORY_ROOT) and !is_writable($CONFIG_DATADIRECTORY_ROOT)){
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
-		//TODO: check for php modules
+		// check if all required php modules are present
+		if(!class_exists('ZipArchive')){
+			$errors[]=array('error'=>'PHP module zip not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
+
+		if(!function_exists('mb_detect_encoding')){
+			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
+		if(!function_exists('ctype_digit')){
+			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
 
 		return $errors;
+	}
+
+	public static function displayLoginPage($parameters = array()){
+		if(isset($_COOKIE["username"])){
+			$parameters["username"] = $_COOKIE["username"];
+		} else {
+			$parameters["username"] = '';
+		}
+		OC_Template::printGuestPage("", "login", $parameters);
+	}
+
+	/**
+	* Try to get the username the httpd server runs on, used in hints
+	*/
+        public static function checkWebserverUser(){
+		$stat=stat($_SERVER['DOCUMENT_ROOT']);
+		if(is_callable('posix_getpwuid')){
+			$serverUser=posix_getpwuid($stat['uid']);
+			$serverUser='\''.$serverUser['name'].'\'';
+		}elseif(exec('whoami')){
+                	$serverUser=exec('whoami');
+                }else{
+			$serverUser='\'www-data\' for ubuntu/debian'; //TODO: try to detect the distro and give a guess based on that
+		}
+                return $serverUser;
+        }
+
+
+	/**
+	* Check if the app is enabled, send json error msg if not
+	*/
+	public static function checkAppEnabled($app){
+		if( !OC_App::isEnabled($app)){
+			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			exit();
+		}
+	}
+
+	/**
+	* Check if the user is logged in, redirects to home if not
+	*/
+	public static function checkLoggedIn(){
+		// Check if we are a user
+		if( !OC_User::isLoggedIn()){
+			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			exit();
+		}
+	}
+
+	/**
+	* Check if the user is a admin, redirects to home if not
+	*/
+	public static function checkAdminUser(){
+		// Check if we are a user
+		self::checkLoggedIn();
+		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			exit();
+		}
+	}
+
+	/**
+	* Redirect to the user default page
+	*/
+	public static function redirectToDefaultPage(){
+		if(isset($_REQUEST['redirect_url'])) {
+			header( 'Location: '.$_REQUEST['redirect_url']);
+		} else {
+			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', 'files/index.php'));
+		}
+		exit();
 	}
 }

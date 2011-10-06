@@ -128,6 +128,44 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
 
     }
 
+    /**
+     * Adds a new componenten or element
+     *
+     * You can call this method with the following syntaxes:
+     *
+     * add(Sabre_VObject_Parameter $element)
+     * add(string $name, $value)
+     *
+     * The first version adds an Parameter 
+     * The second adds a property as a string. 
+     * 
+     * @param mixed $item 
+     * @param mixed $itemValue 
+     * @return void
+     */
+    public function add($item, $itemValue = null) {
+
+        if ($item instanceof Sabre_VObject_Parameter) {
+            if (!is_null($itemValue)) {
+                throw new InvalidArgumentException('The second argument must not be specified, when passing a VObject');
+            }
+            $this->parameters[] = $item;
+        } elseif(is_string($item)) {
+
+            if (!is_scalar($itemValue)) {
+                throw new InvalidArgumentException('The second argument must be scalar');
+            }
+            $this->parameters[] = new Sabre_VObject_Parameter($item,$itemValue);
+
+        } else {
+            
+            throw new InvalidArgumentException('The first argument must either be a Sabre_VObject_Element or a string');
+
+        }
+
+    }
+
+
     /* ArrayAccess interface {{{ */
 
     /**

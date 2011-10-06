@@ -43,8 +43,6 @@ foreach( OC_User::getUsers() as $i ){
        	$users[] = array( "username" => $i, "groups" => join( ", ", OC_Group::getUserGroups( $i ) ));
 }
 
-// We send json data
-header( "Content-Type: application/jsonrequest" );
-echo json_encode($users);
+OC_JSON::encodedPrint($users);
 
 ?>

@@ -22,10 +22,7 @@
 */
 
 require_once('../lib/base.php');
-if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-	header( "Location: ".OC_Helper::linkTo( "", "index.php" ));
-	exit();
-}
+OC_Util::checkAdminUser();
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );
@@ -46,21 +43,22 @@ foreach($registeredApps as $app){
 	}
 }
 
-$catagoryNames=OC_OCSClient::getCategories();
-if(is_array($catagoryNames)){
-	$categories=array_keys($catagoryNames);
-	$externalApps=OC_OCSClient::getApplications($categories);
-	foreach($externalApps as $app){
-		$apps[]=array(
-			'name'=>$app['name'],
-			'id'=>$app['id'],
-			'active'=>false,
-			'description'=>$app['description'],
-			'author'=>$app['personid'],
-			'license'=>$app['license'],
-		);
-	}
-}
+// dissabled for now
+// $catagoryNames=OC_OCSClient::getCategories();
+// if(is_array($catagoryNames)){
+// 	$categories=array_keys($catagoryNames);
+// 	$externalApps=OC_OCSClient::getApplications($categories);
+// 	foreach($externalApps as $app){
+// 		$apps[]=array(
+// 			'name'=>$app['name'],
+// 			'id'=>$app['id'],
+// 			'active'=>false,
+// 			'description'=>$app['description'],
+// 			'author'=>$app['personid'],
+// 			'license'=>$app['license'],
+// 		);
+// 	}
+// }
 
 
 

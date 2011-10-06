@@ -23,13 +23,14 @@
 "Lost your password?" => "Passwort vergessen?",
 "remember" => "merken",
 "You are logged out." => "Abgemeldet",
-"You will receive a link to reset your password via Email." => "Du wirst eine Email erhalten.",
+"You will receive a link to reset your password via Email." => "Du wirst per Email einen Link zum Zurücksetzen deines Passworts erhalten.",
 "Requested" => "zurückgesetzt",
 "Login failed!" => "Anmeldung fehlgeschlagen!",
 "Username or Email" => "Nutzername oder Email",
 "Request reset" => "Zurücksetzen",
 "prev" => "Zurück",
 "next" => "Weiter",
+"Your password was reset" => "Dein Passwort wurde zurückgesetzt.",
 "New password" => "Neues Passwort",
 "Reset password" => "Zurücksetzen"
 );

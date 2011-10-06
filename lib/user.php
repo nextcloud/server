@@ -194,16 +194,22 @@ class OC_User {
 		if( $run ){
 			$uid=self::checkPassword( $uid, $password );
 			if($uid){
-				$_SESSION['user_id'] = $uid;
 				OC_Crypt::init($uid,$password);
-				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid ));
-				return true;
-			}else{
-				return false;
+				return self::setUserId($uid);
 			}
-		}else{
-			return false;
 		}
+		return false;
+	}
+
+	/**
+	 * @brief Sets user id for session and triggers emit
+	 * @returns true
+	 *
+	 */
+	public static function setUserId($uid) {
+		$_SESSION['user_id'] = $uid;
+		OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid ));
+		return true;
 	}
 
 	/**
@@ -215,6 +221,7 @@ class OC_User {
 	public static function logout(){
 		OC_Hook::emit( "OC_User", "logout", array());
 		$_SESSION['user_id'] = false;
+		OC_User::unsetMagicInCookie();
 		return true;
 	}
 
@@ -340,15 +347,22 @@ class OC_User {
 	 * @brief Set cookie value to use in next page load
 	 * @param string $username username to be set
 	 */
-	public static function setUsernameInCookie($username){
-		setcookie("username", $username, mktime().time()+60*60*24*15);
+	public static function setMagicInCookie($username, $token){
+		$secure_cookie = OC_Config::getValue("forcessl", false);
+		setcookie("oc_username", $username, time()+60*60*24*15, '', '', $secure_cookie);
+		setcookie("oc_token", $token, time()+60*60*24*15, '', '', $secure_cookie);
+		setcookie("oc_remember_login", true, time()+60*60*24*15, '', '', $secure_cookie);
 	}
 
 	/**
 	 * @brief Remove cookie for "remember username"
 	 */
-	public static function unsetUsernameInCookie(){
-		unset($_COOKIE["username"]);
-		setcookie("username", NULL, -1);
+	public static function unsetMagicInCookie(){
+		unset($_COOKIE["oc_username"]);
+		unset($_COOKIE["oc_token"]);
+		unset($_COOKIE["oc_remember_login"]);
+		setcookie("oc_username", NULL, -1);
+		setcookie("oc_token", NULL, -1);
+		setcookie("oc_remember_login", NULL, -1);
 	}
 }

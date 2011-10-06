@@ -44,8 +44,6 @@ foreach( OC_Group::getGroups() as $i ){
         $groups[] = array( "groupname" => $i );
 }
 
-// We send json data
-header( "Content-Type: application/jsonrequest" );
-echo json_encode($groups);
+OC_JSON::encodedPrint($groups);
 
 ?>

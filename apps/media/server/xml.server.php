@@ -23,6 +23,7 @@
 
 
 require_once('../../../lib/base.php');
+OC_Util::checkAppEnabled('media');
 require_once('../lib_collection.php');
 require_once('../lib_ampache.php');
 
@@ -35,9 +36,8 @@ foreach($arguments as &$argument){
 	$argument=stripslashes($argument);
 }
 ob_clean();
-global $CONFIG_DATADIRECTORY;
 if(isset($arguments['action'])){
-	error_log($arguments['action']);
+	if(defined("DEBUG") && DEBUG) {error_log($arguments['action']);}
 	switch($arguments['action']){
 		case 'url_to_song':
 			OC_MEDIA_AMPACHE::url_to_song($arguments);
