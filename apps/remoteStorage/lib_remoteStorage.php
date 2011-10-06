@@ -3,7 +3,7 @@
 class OC_remoteStorage {
 	public static function getValidTokens($ownCloudUser, $userAddress, $dataScope) {
 		$query=OC_DB::prepare("SELECT token,appUrl FROM *PREFIX*authtoken WHERE user=? AND userAddress=? AND dataScope=? LIMIT 100");
-		$result=$query->execute(array($user,$userAddress,$dataScope));
+		$result=$query->execute(array($ownCloudUser,$userAddress,$dataScope));
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';

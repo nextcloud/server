@@ -15,9 +15,9 @@ body { background:#fefefe; font:normal .8em/1.6em "Lucida Grande", Arial, Verdan
 
 
 /* HEADERS */
-#body-user #header, #body-settings #header { position:fixed; top:0; z-index:100; width:100%; height:2.5em; padding:.5em; background:#1d2d44; -moz-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px #000, inset 0 -2px 10px #222; box-shadow:0 0 10px #000, inset 0 -2px 10px #222; }
+#body-user #header, #body-settings #header { position:fixed; top:0; z-index:100; width:100%; height:2.5em; padding:.5em; background:#1d2d44; -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; }
 #body-login #header { margin: -2em auto 0; text-align:center; height:10em;
- -moz-box-shadow:0 0 1em #000; -webkit-box-shadow:0 0 1em #000; box-shadow:0 0 1em #000;
+ -moz-box-shadow:0 0 1em rgba(0, 0, 0, .5); -webkit-box-shadow:0 0 1em rgba(0, 0, 0, .5); box-shadow:0 0 1em rgba(0, 0, 0, .5);
 background: #1d2d44; /* Old browsers */
 background: -moz-linear-gradient(top, #35537a 0%, #1d2d42 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d42)); /* Chrome,Safari4+ */
@@ -53,7 +53,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #controls { width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
 #content { margin:3.5em 0 0 12.5em; }
-#leftcontent, .leftcontent { position:absolute; top:6.4em; width:20em; background:#f8f8f8; height:100%; border-right:1px solid #ddd; }
+#leftcontent, .leftcontent { position:fixed; overflow: auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; }
 #leftcontent li, .leftcontent li { padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
 #rightcontent, .rightcontent { position:absolute; top:6.4em; left:33em; }
@@ -69,7 +69,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #login form { width:22em; margin:2em auto 2em; padding:0; }
 #login form fieldset { background:0; border:0; margin-bottom:2em; padding:0; }
 #login form fieldset legend { font-weight:bold; }
-#login form label { margin:.8em .8em; color:#666; }
+#login form label { margin:.9em .8em .7em;; color:#666; }
 /* NEEDED FOR INFIELD LABELS */
 p.infield { position: relative; }
 label.infield { cursor: text !important; }
@@ -98,13 +98,14 @@ label.infield { cursor: text !important; }
 
 /* VARIOUS REUSABLE SELECTORS */
 .hidden { display:none; }
+.bold { font-weight: bold; }
 
 #notification { z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 
 .action, .selectedActions a, #logout { opacity:.3; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
 .action:hover, .selectedActions a:hover, #logout:hover { opacity:1; }
 
-table tr { -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+table:not(.nostyle) tr { -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
 #body-settings .personalblock, #body-settings .helpblock { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }

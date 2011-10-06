@@ -9,11 +9,13 @@ input#identity { width:20em; }
 .msg.success{ color:#fff; background-color:#0f0; padding:3px; text-shadow:1px 1px #000; }
 .msg.error{ color:#fff; background-color:#f00; padding:3px; text-shadow:1px 1px #000; }
 
+table.nostyle label { margin-right: 2em; }
+table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
 form { display:inline; }
-table th { height:2em; color:#999; }
-table th, table td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
+table:not(.nostyle) th { height:2em; color:#999; }
+table:not(.nostyle) th, table:not(.nostyle) td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
 td.password>img, td.remove>img, td.quota>img { visibility:hidden; }
 td.password, td.quota { width:12em; cursor:pointer; }
@@ -24,8 +26,8 @@ tr:hover>td.password>span { margin:0; cursor:pointer; }
 tr:hover>td.remove>img, tr:hover>td.password>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>img { float:right; }
 li.selected { background-color:#ddd; }
-#content>table { margin-top:6.5em; }
-table { width:100%; }
+#content>table:not(.nostyle) { margin-top:6.5em; }
+table:not(.nostyle) { width:100%; }
 
 
 /* APPS */

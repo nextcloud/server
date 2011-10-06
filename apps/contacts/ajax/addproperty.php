@@ -53,16 +53,7 @@ $name = $_POST['name'];
 $value = $_POST['value'];
 $parameters = isset($_POST['parameteres'])?$_POST['parameters']:array();
 
-if(is_array($value)){
-	$value = OC_Contacts_VCard::escapeSemicolons($value);
-}
-$property = new Sabre_VObject_Property( $name, $value );
-$parameternames = array_keys($parameters);
-foreach($parameternames as $i){
-	$property->parameters[] = new Sabre_VObject_Parameter($i,$parameters[$i]);
-}
-
-$vcard->add($property);
+OC_Contacts_VCard::addVCardProperty($vcard, $name, $value, $parameters);
 
 $line = count($vcard->children) - 1;
 $checksum = md5($property->serialize());
