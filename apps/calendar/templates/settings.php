@@ -16,16 +16,18 @@ OC_UTIL::addStyle('', 'jquery.multiselect');
                 <?php
 		$continent = '';
 		foreach($_['timezones'] as $timezone):
-			if ( preg_match( '/^(America|Antartica|Arctic|Asia|Atlantic|Europe|Indian|Pacific)\//', $timezone ) ):
-				$ex=explode('/', $timezone, 2);//obtain continent,city
-				if ($continent!=$ex[0]):
-					if ($continent!="") echo '</optgroup>';
-					echo '<optgroup label="'.$ex[0].'">';
-				endif;
-				$city=$ex[1];
-				$continent=$ex[0];
-				echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
+			$ex=explode('/', $timezone, 2);//obtain continent,city
+			if (!isset($ex[1])) {
+				$ex[1] = $ex[0];
+				$ex[0] = "Other";
+			}
+			if ($continent!=$ex[0]):
+				if ($continent!="") echo '</optgroup>';
+				echo '<optgroup label="'.$ex[0].'">';
 			endif;
+			$city=$ex[1];
+			$continent=$ex[0];
+			echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
                 endforeach;?>
                 </select></td></tr>
 
