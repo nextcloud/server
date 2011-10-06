@@ -2,25 +2,21 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
+OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('tasks');
 
 $l10n = new OC_L10N('tasks');
-
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in!'))));
-	exit();
-}
 
 $cid = $_POST['id'];
 $calendar = OC_Calendar_Calendar::findCalendar( $cid );
 if( $calendar === false || $calendar['userid'] != OC_USER::getUser()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your calendar!'))));
+	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your calendar!'))));
 	exit();
 }
 
 $errors = OC_Task_VTodo::validateRequest($_POST, $l10n);
 if (!empty($errors)) {
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'errors' => $errors )));
+	OC_JSON::error(array('data' => array( 'errors' => $errors )));
 	exit();
 }
 
@@ -34,4 +30,4 @@ $tmpl->assign('details',$vcalendar->VTODO);
 $tmpl->assign('id',$id);
 $page = $tmpl->fetchPage();
 
-echo json_encode( array( 'status' => 'success', 'data' => array( 'id' => $id, 'page' => $page )));
+OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page )));

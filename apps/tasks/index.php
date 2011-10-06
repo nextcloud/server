@@ -9,10 +9,8 @@
  *************************************************/
 
 require_once ('../../lib/base.php');
-if(!OC_USER::isLoggedIn()) {
-	header('Location: ' . OC_HELPER::linkTo('', 'index.php'));
-	exit;
-}
+OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('tasks');
 
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), true);
 if( count($calendars) == 0){
