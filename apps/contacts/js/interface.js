@@ -129,7 +129,7 @@ $(document).ready(function(){
 	});
 
 	$('#contacts_setpropertyform input[type="submit"]').live('click',function(){
-		$.post('ajax/setproperty.php',$('#contacts_setpropertyform').serialize(),function(jsondata){
+		$.post('ajax/setproperty.php',$(this).parent('form').serialize(),function(jsondata){
 			if(jsondata.status == 'success'){
 				$('.contacts_details_property[data-checksum="'+jsondata.data.oldchecksum+'"]').replaceWith(jsondata.data.page);
 			}
