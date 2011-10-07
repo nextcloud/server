@@ -1,5 +1,7 @@
 <?php
 require_once('../../../lib/base.php');
+OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('gallery');
 
 function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSrc is a FILE - Returns an image resource.
     //getting the image dimensions  
@@ -36,11 +38,6 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSr
     return $thumb;
 }
 
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => 'You need to log in.')));
-	exit();
-}
 $box_size = 200;
 $album_name = $_GET['album'];
 $x = $_GET['x'];

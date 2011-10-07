@@ -42,7 +42,7 @@ class OC_GALLERY_SCANNER {
       $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_photos WHERE `album_id` = ? AND `file_path` = ?');
       $result = $stmt->execute(array($albumId, $img));
       if ($result->numRows() == 0) {
-        $stmt = OC_DB::prepare('INSERT OR REPLACE INTO *PREFIX*gallery_photos (`album_id`, `file_path`) VALUES (?, ?)');
+        $stmt = OC_DB::prepare('REPLACE INTO *PREFIX*gallery_photos (`album_id`, `file_path`) VALUES (?, ?)');
         $stmt->execute(array($albumId, $img));
       }
     }

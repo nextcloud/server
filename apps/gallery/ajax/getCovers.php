@@ -1,5 +1,7 @@
 <?php
 require_once('../../../lib/base.php');
+OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('gallery');
 
 function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $shift) { 
     //getting the image dimensions
@@ -38,11 +40,6 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $
     imagedestroy($myImage);
 }
 
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => 'You need to log in.')));
-	exit();
-}
 $box_size = 200;
 $album_name= $_GET['album_name'];
 
@@ -60,6 +57,12 @@ while (($i = $result->fetchRow()) && $counter < $numOfItems) {
 }
 
 header('Content-Type: image/png');
+
+$offset = 3600 * 24;
+// calc the string in GMT not localtime and add the offset
+header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
+header('Cache-Control: max-age=3600, must-revalidate');
+header('Pragma: public');
 
 imagepng($targetImg);
 imagedestroy($targetImg);

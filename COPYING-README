@@ -2,12 +2,13 @@ Files in ownCloud are licensed under the Affero General Public License version 3
 the text of which can be found in COPYING-AGPL, or any later version of the AGPL,
 unless otherwise noted.
 
-Components of ownCloud:
-* jQuery is dual licensed under MIT and GPL
-* HTTP is three clause BSD license
-* MDB2 uses a custom license in the BSD style
-* User is AGPL
-* XML/RPC is both MIT and PHP license
+Licensing of components:
+* jQuery: MIT / GPL
+* HTTP: 3 clause BSD
+* MDB2: BSD style custom
+* User: AGPL
+* XML/RPC: MIT / PHP
+* Silk icons: Creative Commons Attribution 
 All unmodified files from these and other sources retain their original copyright
 and license notices: see the relevant individual files.
 
