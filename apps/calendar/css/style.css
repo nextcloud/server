@@ -58,5 +58,5 @@ color:#A9A9A9;
 select#category{width:140px;}
 button.category{margin:0 3px;}
 
-.calendar-colorpicker-color{display:inline-block;width:20px;height:20px;margin-right:2px;cursor:pointer;}
-.calendar-colorpicker-color.active{background-image:url("../../../core/img/actions/selected.svg");background-position:2px 2px;}
+.calendar-colorpicker-color{display:inline-block;width:20px;height:20px;margin-right:2px;cursor:pointer;border:2px solid transparent;}
+.calendar-colorpicker-color.active{border:2px solid black;}
