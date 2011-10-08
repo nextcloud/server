@@ -15,7 +15,7 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
 $calendarid = $_POST['id'];
-OC_Calendar_Calendar::editCalendar($calendarid, $_POST['name'], $_POST['description'], null, null, null, $_POST['color']);
+OC_Calendar_Calendar::editCalendar($calendarid, $_POST['name'], null, null, null, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
 $calendar = OC_Calendar_Calendar::findCalendar($calendarid);
 $tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
