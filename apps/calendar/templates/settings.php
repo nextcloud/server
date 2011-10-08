@@ -6,8 +6,6 @@
  * later.
  * See the COPYING-README file.
  */
-OC_UTIL::addScript('', 'jquery.multiselect');
-OC_UTIL::addStyle('', 'jquery.multiselect');
 ?>
 <form id="calendar">
         <fieldset class="personalblock">

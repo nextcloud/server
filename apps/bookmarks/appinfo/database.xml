@@ -30,13 +30,6 @@
 				<length>140</length>
 			</field>
 			<field>
-				<name>description</name>
-				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>255</length>
-			</field>
-			<field>
 				<name>user_id</name>
 				<type>text</type>
 				<default></default>

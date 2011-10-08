@@ -15,7 +15,6 @@ OC_JSON::checkAppEnabled('calendar');
 $calendar = array(
 	'id' => 'new',
 	'displayname' => '',
-	'description' => '',
 	'calendarcolor' => '',
 );
 $tmpl = new OC_Template('calendar', 'part.editcalendar');

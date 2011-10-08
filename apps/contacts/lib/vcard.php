@@ -290,6 +290,7 @@ class OC_Contacts_VCard{
 		}
 
 		$vcard->add($property);
+		return $property;
 	}
 
 	/**

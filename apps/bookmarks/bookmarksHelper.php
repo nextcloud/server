@@ -19,10 +19,6 @@ function getURLMetadata($url) {
 	$metadata['title'] = htmlspecialchars_decode(@$match[1]); 
 
 	$meta = get_meta_tags($url);
-
-	if(array_key_exists('description', $meta)) {
-		$metadata['description'] = $meta['description'];
-	}
 	
 	return $metadata;
 }

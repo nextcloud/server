@@ -1,8 +1,8 @@
 <tr class="contacts_details_property" data-checksum="<?php echo $_['property']['checksum']; ?>">
 	<?php if($_['property']['name'] == 'FN'): ?>
-		<td class="contacts_details_left"><?php echo $l->t('Name'); ?></td>
+		<td class="contacts_details_left"></td>
 		<td class="contacts_details_right">
-			<?php echo $_['property']['value']; ?>
+			<strong><?php echo $_['property']['value']; ?></strong>
 			<span style="display:none;" data-use="edit"><img class="svg action" src="<?php echo image_path('', 'actions/rename.svg'); ?>" /></span>
 		</td>
 	<?php elseif($_['property']['name'] == 'BDAY'): ?>

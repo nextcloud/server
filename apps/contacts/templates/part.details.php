@@ -1,5 +1,5 @@
 <?php if(array_key_exists('FN',$_['details'])): ?>
-	<table>
+	<table id="contacts_details">
 		<?php if(isset($_['details']['PHOTO'])): // Emails first ?>
 			<tr class="contacts_details_property">
 				<td class="contacts_details_left">&nbsp;</td>
