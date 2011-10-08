@@ -65,7 +65,5 @@ function getURLMetadata($url) {
 	@preg_match( "/<title>(.*)<\/title>/si", $page, $match );
 	$metadata['title'] = htmlspecialchars_decode(@$match[1]); 
 
-	$meta = get_meta_tags($url);
-	
 	return $metadata;
 }
