@@ -12,9 +12,6 @@ $(document).ready(function() {
 	$(window).scroll(updateOnBottom);
 	
 	$('#bookmark_add_url').focusout(getMetadata);
-	$('.' + bookmarks_sorting).addClass('bookmarks_sorting_active');
-	
-	$('.bookmarks_sorting li').click(function(event){changeSorting(this)});
 	
 	$('.bookmarks_list').empty();
 	getBookmarks();
@@ -39,6 +36,7 @@ function getBookmarks() {
 			for(var i in bookmarks.data) {
 				updateBookmarksList(bookmarks.data[i]);
 			}
+
 			$('.bookmark_link').click(recordClick);
 			$('.bookmark_delete').click(delBookmark);
 			$('.bookmark_edit').click(showBookmark);
@@ -57,23 +55,9 @@ function getMetadata() {
 		success: function(pageinfo){
 			$('#bookmark_add_url').val(pageinfo.data.url);
 			$('#bookmark_add_title').val(pageinfo.data.title);
-			if (pageinfo.data.description !== undefined){
-				$('#bookmark_add_description').val(pageinfo.data.description);
-			}
 			$('.loading_meta').css('display','none');
 		}
 	});
-}
-
-function changeSorting(sortEl) {
-	$('.' + bookmarks_sorting).removeClass('bookmarks_sorting_active');
-	bookmarks_sorting = sortEl.className;
-	$('.' + bookmarks_sorting).addClass('bookmarks_sorting_active');
-	
-	$('.bookmarks_list').empty();
-	bookmarks_page = 0;
-	bookmarks_loading = false;
-	getBookmarks();
 }
 
 // function addBookmark() {
@@ -82,11 +66,10 @@ function changeSorting(sortEl) {
 
 function addOrEditBookmark(event) {
 	var id = $('#bookmark_add_id').val();
-	var url = encodeEntities($('#bookmark_add_url').val())
-	var title = encodeEntities($('#bookmark_add_title').val())
-	var description = encodeEntities($('#bookmark_add_description').val())
-	var tags = encodeEntities($('#bookmark_add_tags').val())
-	var taglist = tags.split(' ')
+	var url = encodeEntities($('#bookmark_add_url').val());
+	var title = encodeEntities($('#bookmark_add_title').val());
+	var tags = encodeEntities($('#bookmark_add_tags').val());
+	var taglist = tags.split(' ');
 	var tagshtml = '';
 	for ( var i=0, len=taglist.length; i<len; ++i ){
 		tagshtml += '<a class="bookmark_tag" href="?tag=' + encodeURI(taglist[i]) + '">' + taglist[i] + '</a> ';
@@ -95,16 +78,15 @@ function addOrEditBookmark(event) {
 	if (id == 0) {
 		$.ajax({
 			url: 'ajax/addBookmark.php',
-			data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&description=' + encodeURI(description) + '&tags=' + encodeURI(tags),
+			data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
 			success: function(response){ 
 				var bookmark_id = response.data;
 				$('.bookmarks_add').slideToggle(); 
 				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
 				$('.bookmarks_list').prepend(
 				'<div class="bookmark_single" data-id="' + bookmark_id + '" >' +
-					'<p class="bookmark_title"><a href="' + url + '" target="_new" class="bookmark_link">' + title + '</a></p>' +
+					'<p class="bookmark_title"><a href="' + url + '" target="_blank" class="bookmark_link">' + title + '</a></p>' +
 					'<p class="bookmark_url">' + url + '</p>' +
-					'<p class="bookmark_description">' + description + '</p>' +
 					'<p class="bookmark_tags">' + tagshtml + '</p>' +
 					'<p class="bookmark_actions"><span class="bookmark_delete">Delete</span>&nbsp;<span class="bookmark_edit">Edit</span></p>' +
 				'</div>'
@@ -115,8 +97,7 @@ function addOrEditBookmark(event) {
 	else {
 		$.ajax({
 			url: 'ajax/editBookmark.php',
-			data: 'id=' + id + '&url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&description=' + 
-				encodeURI(description) + '&tags=' + encodeURI(tags),
+			data: 'id=' + id + '&url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
 			success: function(){ 
 				$('.bookmarks_add').slideToggle(); 
 				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
@@ -124,7 +105,6 @@ function addOrEditBookmark(event) {
 				
 				var record = $('.bookmark_single[data-id = "' + id + '"]');
 				record.children('.bookmark_url:first').text(url);
-				record.children('.bookmark_description:first').text(description);
 				
 				var record_title = record.children('.bookmark_title:first').children('a:first');
 				record_title.attr('href', url);
@@ -138,7 +118,7 @@ function addOrEditBookmark(event) {
 }
 
 function delBookmark(event) {
-	var record = $(this).parent().parent()
+	var record = $(this).parent().parent();
 	$.ajax({
 		url: 'ajax/delBookmark.php',
 		data: 'url=' + encodeURI($(this).parent().parent().children('.bookmark_url:first').text()),
@@ -151,7 +131,6 @@ function showBookmark(event) {
 	$('#bookmark_add_id').val(record.attr('data-id'));
 	$('#bookmark_add_url').val(record.children('.bookmark_url:first').text());
 	$('#bookmark_add_title').val(record.children('.bookmark_title:first').text());
-	$('#bookmark_add_description').val(record.children('.bookmark_description:first').text());
 	$('#bookmark_add_tags').val(record.children('.bookmark_tags:first').text());
 	
 	if ($('.bookmarks_add').css('display') == 'none') {
@@ -161,10 +140,6 @@ function showBookmark(event) {
 			scrollTop: $('.bookmarks_menu').offset().top
 		}, 500);
 
-}
-
-function editBookmark(event) {
-	
 }
 
 function updateBookmarksList(bookmark) {
@@ -178,9 +153,8 @@ function updateBookmarksList(bookmark) {
 	}
 	$('.bookmarks_list').append(
 		'<div class="bookmark_single" data-id="' + bookmark.id +'" >' +
-			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_new" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
+			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
 			'<p class="bookmark_url">' + encodeEntities(bookmark.url) + '</p>' +
-			'<p class="bookmark_description">' + encodeEntities(bookmark.description) + '</p>' +
 			'<p class="bookmark_tags">' + taglist + '</p>' +
 			'<p class="bookmark_actions"><span class="bookmark_delete">Delete</span>&nbsp;<span class="bookmark_edit">Edit</span></p>' +
 		'</div>'

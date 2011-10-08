@@ -41,6 +41,5 @@ $metadata = getURLMetadata($url);
 
 $tmpl->assign('URL', htmlentities($metadata['url']));
 $tmpl->assign('TITLE', htmlentities($metadata['title']));
-$tmpl->assign('DESCRIPTION', htmlentities($metadata['description']));
 
 $tmpl->printPage();
