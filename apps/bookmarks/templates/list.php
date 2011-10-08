@@ -1,8 +1,16 @@
+<?php 
+/**
+ * Copyright (c) 2011 Marvin Thomas Rabe <m.rabe@echtzeitraum.de>
+ * Copyright (c) 2011 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+?>
 <input type="hidden" id="bookmarkFilterTag" value="<?php if(isset($_GET['tag'])) echo htmlentities($_GET['tag']); ?>" />
 <h2 class="bookmarks_headline"><?php echo isset($_GET["tag"]) ? $l->t('Bookmarks with tag: ') . urldecode($_GET["tag"]) : $l->t('All bookmarks'); ?></h2>
 <div class="bookmarks_menu">
-	<input type="button" class="bookmarks_addBtn" value="<?php echo $l->t('Add bookmark'); ?>"/>&nbsp;
-	<a class="bookmarks_addBml" href="javascript:var url = encodeURIComponent(location.href);window.open('<?php echo OC_Helper::linkTo('bookmarks', 'addBm.php', null, true); ?>?url='+url, 'owncloud-bookmarks');" title="<?php echo $l->t('Drag this to your browser bookmarks and click it, when you want to bookmark a webpage.'); ?>"><?php echo $l->t('Add page to ownCloud'); ?></a>
+	<input type="button" class="bookmarks_addBtn" value="<?php echo $l->t('Add bookmark'); ?>"/>
 </div>
 <div class="bookmarks_add">
 	<input type="hidden" id="bookmark_add_id" value="0" />
