@@ -55,7 +55,7 @@ function showControls(filename){
 		var html = '<input type="button" id="editor_close" value="Close">';
 		$('#controls').append(html);
 		$('#editorbar').fadeIn('slow');	
-		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><a href="#">'+filename+'</a></div>';
+		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><p>'+filename+'</p></div>';
 		$('.actions').before(breadcrumbhtml);
 		$('.actions').before(savebtnhtml);
 	});
@@ -72,11 +72,12 @@ function bindControlEvents(){
 }
 
 function editorIsShown(){
-	if($('#editor').length!=0){
+	// Not working as intended. Always returns true.
+	if(window.aceEditor){
 		return true;
 	} else {
 		return false;	
-	} 	
+	}
 }
 
 function updateSessionFileHash(path){
@@ -148,30 +149,32 @@ function giveEditorFocus(){
 };
 
 function showFileEditor(dir,filename){
-	// Loads the file editor and display it.
-	var data = $.ajax({
-			url: OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
-			complete: function(data){
-				// Initialise the editor
-				updateSessionFileHash(dir+'/'+filename);
-				showControls(filename);
-				$('table').fadeOut('slow', function() {
-					$('#editor').text(data.responseText);
-					// encodeURIComponenet?
-					$('#editor').attr('data-dir', dir);
-					$('#editor').attr('data-filename', filename);
-					window.aceEditor = ace.edit("editor");  
-					aceEditor.setShowPrintMargin(false);
-					setEditorSize();
-					setSyntaxMode(getFileExtension(filename));
-					OC.addScript('files_texteditor','aceeditor/theme-clouds', function(){
-						window.aceEditor.setTheme("ace/theme/clouds");
+	if(!editorIsShown()){
+		// Loads the file editor and display it.
+		var data = $.ajax({
+				url: OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
+				complete: function(data){
+					// Initialise the editor
+					updateSessionFileHash(dir+'/'+filename);
+					showControls(filename);
+					$('table').fadeOut('slow', function() {
+						$('#editor').text(data.responseText);
+						// encodeURIComponenet?
+						$('#editor').attr('data-dir', dir);
+						$('#editor').attr('data-filename', filename);
+						window.aceEditor = ace.edit("editor");  
+						aceEditor.setShowPrintMargin(false);
+						setEditorSize();
+						setSyntaxMode(getFileExtension(filename));
+						OC.addScript('files_texteditor','aceeditor/theme-clouds', function(){
+							window.aceEditor.setTheme("ace/theme/clouds");
+						});
 					});
+				// End success
+				}
+				// End ajax
 				});
-			// End success
-			}
-			// End ajax
-			});
+	}
 }
 
 function hideFileEditor(){
