@@ -23,7 +23,7 @@ if($_GET["import"] == "existing"){
 		$filename = "/" . $_GET["file"];
 	}
 }else{
-	$id = OC_Calendar_Calendar::addCalendar(OC_User::getUser(), $_POST['calname'], $_POST['description']);
+	$id = OC_Calendar_Calendar::addCalendar(OC_User::getUser(), $_POST['calname']);
 	OC_Calendar_Calendar::setCalendarActive($id, 1);
 	$calid = $id;
 	if($_POST["path"] != ""){

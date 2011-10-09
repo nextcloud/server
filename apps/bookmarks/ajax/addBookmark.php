@@ -40,15 +40,14 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 //FIXME: Detect when user adds a known URL
 $query = OC_DB::prepare("
 	INSERT INTO *PREFIX*bookmarks
-	(url, title, description, user_id, public, added, lastmodified)
-	VALUES (?, ?, ?, ?, 0, $_ut, $_ut)
+	(url, title, user_id, public, added, lastmodified)
+	VALUES (?, ?, ?, 0, $_ut, $_ut)
 	");
 	
 	
 $params=array(
 	htmlspecialchars_decode($_GET["url"]),
 	htmlspecialchars_decode($_GET["title"]),
-	htmlspecialchars_decode($_GET["description"]),
 	OC_User::getUser()
 	);
 $query->execute($params);

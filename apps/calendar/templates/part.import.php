@@ -31,11 +31,6 @@ foreach($calendars as $calendar){
 <input id="displayname" type="text" value="">
 </td>
 </tr>
-<th><?php echo $l->t('Description') ?></th>
-<td>
-<textarea id="description"></textarea>
-</td>
-</tr>
 </table>
 <!-- end of modified part -->
 <br><br>
@@ -65,8 +60,7 @@ function importcal(importtype){
 	}
 	if(importtype == "new"){
 		var calname = $("#displayname").val();
-		var description = $("#description").val();
-		$.post(OC.filePath('calendar', '', 'import.php'), {'import':'new', 'calname':calname, 'description':description, 'path':path, 'file':file}, function(){
+		$.post(OC.filePath('calendar', '', 'import.php'), {'import':'new', 'calname':calname, 'path':path, 'file':file}, function(){
 			$("#importdialog").dialog('destroy').remove();
 			$("#importdialogholder").remove();
 		});

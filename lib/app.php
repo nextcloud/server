@@ -200,23 +200,36 @@ class OC_App{
 	 */
 	public static function getSettingsNavigation(){
 		$l=new OC_L10N('core');
-		$admin=array(
-			array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" )),
-			array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" )),
-		);
-		$settings=array(
-			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" )),
-			array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ))
-		);
-		if(count(self::$settingsForms)>0){
-			$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "settings.php" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
-		}
-		if(count(self::$adminForms)>0){
-			$admin[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
-		}
-		if( OC_Group::inGroup( $_SESSION["user_id"], "admin" )){
-			$settings=array_merge($admin,$settings);
-		}
+
+		// by default, settings only contain the help menu
+		$settings = array(
+			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
+ 		);
+
+		// if the user is logged-in
+		if (OC_User::isLoggedIn()) {
+			// personal menu
+			$settings[] = array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ));
+
+			// if there're some settings forms
+			if(!empty(self::$settingsForms))
+				// settings menu
+				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "settings.php" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
+
+			// if the user is an admin
+			if(OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
+				// admin users menu
+				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
+				// admin apps menu
+				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
+
+				// if there're some admin forms
+				if(!empty(self::$adminForms))
+					// admins menu
+					$settings[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
+			}
+ 		}
+
 		$navigation = self::proceedNavigation($settings);
 		return $navigation;
 	}
@@ -237,7 +250,7 @@ class OC_App{
 
 		return $list;
 	}
-	
+
 	/**
 	 * @brief Read app metadata from the info.xml file
 	 * @param string $appid id of the app or the path of the info.xml file
@@ -261,7 +274,7 @@ class OC_App{
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * @brief Returns the navigation
 	 * @returns associative array
@@ -277,7 +290,7 @@ class OC_App{
 		$navigation = self::proceedNavigation( self::$navigation );
 		return $navigation;
 	}
-	
+
 	/**
 	 * get the id of loaded app
 	 * @return string
@@ -292,8 +305,8 @@ class OC_App{
 			return $topFolder;
 		}
 	}
-	
-	
+
+
 	/**
 	 * get the forms for either settings, admin or personal
 	 */
@@ -315,28 +328,28 @@ class OC_App{
 		}
 		return $forms;
 	}
-	
+
 	/**
 	 * register a settings form to be shown
 	 */
 	public static function registerSettings($app,$page){
 		self::$settingsForms[]='apps/'.$app.'/'.$page.'.php';
 	}
-	
+
 	/**
 	 * register an admin form to be shown
 	 */
 	public static function registerAdmin($app,$page){
 		self::$adminForms[]='apps/'.$app.'/'.$page.'.php';
 	}
-	
+
 	/**
 	 * register a personal form to be shown
 	 */
 	public static function registerPersonal($app,$page){
 		self::$personalForms[]='apps/'.$app.'/'.$page.'.php';
 	}
-	
+
 	/**
 	 * get a list of all apps in the apps folder
 	 */

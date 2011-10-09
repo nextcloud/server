@@ -1,6 +1,6 @@
 #controls ul.jp-controls { padding:0; }
 #controls ul.jp-controls li { display:inline; }
-#controls ul.jp-controls li a { position:absolute; padding:.8em 1em; }
+#controls ul.jp-controls li a { position:absolute; padding:.8em 1em .8em 0; }
 a.jp-play, a.jp-pause { left:2.5em; }
 a.jp-pause { display:none; }
 a.jp-next { left:5em; }
@@ -39,7 +39,7 @@ tr.album td.artist { padding-left:1em; }
 tr.song td.artist { padding-left:2em; }
 .add {margin: 0 0.5em 0 0; }
 
-#scan { position:absolute; right:13em; top:0em; }
+#scan { position:absolute; right:13.5em; top:0em; }
 #scan .start { position:relative; display:inline; float:right; }
 #scan .stop { position:relative; display:inline; float:right; }
 #scan #scanprogressbar { position:relative; display:inline-block; width:10em; height:1.5em; top:.4em; }

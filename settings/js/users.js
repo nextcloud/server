@@ -123,6 +123,10 @@ $(document).ready(function(){
 	$('#newuser').submit(function(event){
 		event.preventDefault();
 		var username=$('#newusername').val();
+		if(username == '') {
+			alert('Please provide a username!');
+			return false;
+		}
 		var password=$('#newuserpassword').val();
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
 		$.post(
