@@ -72,7 +72,7 @@ function bindControlEvents(){
 }
 
 function editorIsShown(){
-	// Not working as intended. Always returns true.
+	// Not working as intended.
 	if(window.aceEditor){
 		return true;
 	} else {
