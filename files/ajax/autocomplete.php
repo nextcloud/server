@@ -5,14 +5,7 @@
 // Init owncloud
 require_once('../../lib/base.php');
 
-// We send json data
-// header( "Content-Type: application/jsonrequest" );
-
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( "status" => "error", "data" => array( "message" => "Authentication error" )));
-	exit();
-}
+OC_JSON::checkLoggedIn();
 
 // Get data
 $query = $_GET['term'];
@@ -58,6 +51,6 @@ if(OC_Filesystem::file_exists($base) and OC_Filesystem::is_dir($base)){
 		}
 	}
 }
-echo json_encode($files);
+OC_JSON::encodedPrint($files);
 
 ?>

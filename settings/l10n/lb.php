@@ -14,6 +14,7 @@
 "You use" => "Du benotz",
 "of the available" => "vun den disponibelen",
 "Your password got changed" => "Däin Passwuert ass geännert ginn",
+"Unable to change your password" => "Konnt däin Passwuert net änneren",
 "Current password" => "Momentan 't Passwuert",
 "New password" => "Neit Passwuert",
 "show" => "weisen",

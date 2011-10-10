@@ -26,10 +26,7 @@
 require_once('../lib/base.php');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	header( "Location: ".OC_Helper::linkTo( '', 'index.php' ));
-	exit();
-}
+OC_Util::checkLoggedIn();
 
 // Load the files we need
 OC_Util::addStyle( "files", "files" );
@@ -81,7 +78,9 @@ $breadcrumbNav = new OC_Template( "files", "part.breadcrumb", "" );
 $breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 $breadcrumbNav->assign( "baseURL", OC_Helper::linkTo("files", "index.php?dir="));
 
-$maxUploadFilesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
+$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
+$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
+$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 $tmpl = new OC_Template( "files", "index", "user" );
 $tmpl->assign( "fileList", $list->fetchPage() );

@@ -2,15 +2,17 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
-# Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+# Translators:
+#   <adn.adin@gmail.com>, 2011.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
+# Stefan Ilivanov <ilivanov@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:14+0200\n"
-"PO-Revision-Date: 2011-09-04 16:14+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"POT-Creation-Date: 2011-09-23 18:17+0200\n"
+"PO-Revision-Date: 2011-09-06 19:20+0000\n"
+"Last-Translator: adin <adn.adin@gmail.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.net/projects/p/owncloud/team/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,56 +22,56 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Лични"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Потребители"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "Програми"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Админ"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Помощ"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "обклакът не намерен"
+msgstr "облакът не намерен"
 
 #: templates/installation.php:20
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "Създаване на <strong>админ профил</strong>"
 
 #: templates/installation.php:21
 msgid "Username"
-msgstr ""
+msgstr "Потребител"
 
 #: templates/installation.php:22
 msgid "Password"
-msgstr ""
+msgstr "Парола"
 
 #: templates/installation.php:27
 msgid "Configure the database"
-msgstr ""
+msgstr "Конфигуриране на базата"
 
 #: templates/installation.php:32 templates/installation.php:43
 #: templates/installation.php:53
 msgid "will be used"
-msgstr ""
+msgstr "ще се ползва"
 
 #: templates/installation.php:64
 msgid "Database user"
-msgstr ""
+msgstr "Потребител за базата"
 
 #: templates/installation.php:65
 msgid "Database password"
-msgstr ""
+msgstr "Парола за базата"
 
 #: templates/installation.php:66
 msgid "Database name"
@@ -81,7 +83,7 @@ msgstr "Разширено"
 
 #: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Хост за базата"
 
 #: templates/installation.php:76
 msgid "Data folder"
@@ -93,23 +95,23 @@ msgstr "Завършване на настройките"
 
 #: templates/layout.guest.php:35
 msgid "gives you freedom and control over your own data"
-msgstr ""
+msgstr "дава Ви свобода и контрол на Вашите лични данни"
 
 #: templates/layout.user.php:34
 msgid "Log out"
-msgstr ""
+msgstr "Изход"
 
 #: templates/layout.user.php:46 templates/layout.user.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Забравена парола?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
-msgstr ""
+msgstr "запомни"
 
 #: templates/logout.php:1
 msgid "You are logged out."
@@ -117,11 +119,11 @@ msgstr "Вие излязохте."
 
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Ще получите връзка за да нулирате паролата си."
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Заявено"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -129,11 +131,11 @@ msgstr "Входа пропадна!"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Потребителско име или Email"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Заявка за нулиране"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -145,14 +147,14 @@ msgstr "следващо"
 
 #: templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Вашата парола е нулирана"
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Нова парола"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Нулиране на парола"
 
 

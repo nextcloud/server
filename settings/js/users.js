@@ -7,7 +7,7 @@
 $(document).ready(function(){
 	function applyMultiplySelect(element){
 		var checked=[];
-		var user=element.data('username')
+		var user=element.data('username');
 		if(element.data('userGroups')){
 			checked=element.data('userGroups').split(', ');
 		}
@@ -24,7 +24,7 @@ $(document).ready(function(){
 					},
 					function(){}
 				);
-			}
+			};
 		}else{
 			checkHandeler=false;
 		}
@@ -88,7 +88,6 @@ $(document).ready(function(){
 		var uid=img.parent().parent().data('uid');
 		var input=$('<input>');
 		var quota=img.parent().children('span').text();
-		img
 		if(quota=='None'){
 			quota='';
 		}
@@ -124,6 +123,10 @@ $(document).ready(function(){
 	$('#newuser').submit(function(event){
 		event.preventDefault();
 		var username=$('#newusername').val();
+		if(username == '') {
+			alert('Please provide a username!');
+			return false;
+		}
 		var password=$('#newuserpassword').val();
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
 		$.post(

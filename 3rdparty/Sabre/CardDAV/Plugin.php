@@ -95,9 +95,10 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
     public function getSupportedReportSet($uri) {
 
         $node = $this->server->tree->getNodeForPath($uri);
-        if ($node instanceof Sabre_CardDAV_AddressBook || $node instanceof Sabre_CardDAV_ICard) {
+        if ($node instanceof Sabre_CardDAV_IAddressBook || $node instanceof Sabre_CardDAV_ICard) {
             return array(
                  '{' . self::NS_CARDDAV . '}addressbook-multiget',
+                 '{' . self::NS_CARDDAV . '}addressbook-query',
             );
         }
         return array();

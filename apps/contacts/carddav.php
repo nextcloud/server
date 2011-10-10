@@ -24,6 +24,7 @@
 $RUNTIME_NOSETUPFS = true;
 
 require_once('../../lib/base.php');
+OC_Util::checkAppEnabled('contacts');
 
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();
@@ -38,11 +39,12 @@ $nodes = array(
 
 // Fire up server
 $server = new Sabre_DAV_Server($nodes);
-$server->setBaseUri($WEBROOT.'/apps/contacts/carddav.php');
+$server->setBaseUri(OC::$WEBROOT.'/apps/contacts/carddav.php');
 // Add plugins
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
 $server->addPlugin(new Sabre_CardDAV_Plugin());
 $server->addPlugin(new Sabre_DAVACL_Plugin());
+$server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
 
 // And off we go!
 $server->exec();

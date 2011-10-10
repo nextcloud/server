@@ -2,15 +2,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
-# Van Der Fran <transifex@vanderland.com>, 2011.
+# Translators:
 #   <duda.nogueira@metasys.com.br>, 2011.
+# Van Der Fran <transifex@vanderland.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:14+0200\n"
-"PO-Revision-Date: 2011-09-04 16:14+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"POT-Creation-Date: 2011-09-23 18:17+0200\n"
+"PO-Revision-Date: 2011-09-06 12:04+0000\n"
+"Last-Translator: vanderland <transifex@vanderland.com>\n"
 "Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/owncloud/team/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +82,7 @@ msgstr "Avançado"
 
 #: templates/installation.php:75
 msgid "Database host"
-msgstr ""
+msgstr "Banco de dados do host"
 
 #: templates/installation.php:76
 msgid "Data folder"
@@ -93,7 +94,7 @@ msgstr "Concluir configuração"
 
 #: templates/layout.guest.php:35
 msgid "gives you freedom and control over your own data"
-msgstr ""
+msgstr "proporciona  liberdade e controle sobre seus próprios dados"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -105,7 +106,7 @@ msgstr "Configurações"
 
 #: templates/login.php:4
 msgid "Lost your password?"
-msgstr ""
+msgstr "Esqueçeu sua senha?"
 
 #: templates/login.php:9 templates/login.php:13
 msgid "remember"
@@ -117,11 +118,11 @@ msgstr "Você está desconectado."
 
 #: templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Você receberá um link para redefinir sua senha via e-mail."
 
 #: templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Solicitado"
 
 #: templates/lostpassword.php:8
 msgid "Login failed!"
@@ -129,11 +130,11 @@ msgstr "Login sem sucesso"
 
 #: templates/lostpassword.php:10
 msgid "Username or Email"
-msgstr ""
+msgstr "Nome de usuário ou e-mail"
 
 #: templates/lostpassword.php:11
 msgid "Request reset"
-msgstr ""
+msgstr "Pedido de troca"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -145,14 +146,14 @@ msgstr "próximo"
 
 #: templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Sua senha foi trocada"
 
 #: templates/resetpassword.php:6
 msgid "New password"
-msgstr ""
+msgstr "Nova senha"
 
 #: templates/resetpassword.php:7
 msgid "Reset password"
-msgstr ""
+msgstr "Toca de senha"
 
 

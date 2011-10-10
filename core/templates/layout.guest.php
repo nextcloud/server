@@ -8,7 +8,7 @@
 			<link rel="stylesheet" href="<?php echo $cssfile; ?>" type="text/css" media="screen" />
 		<?php endforeach; ?>
 		<script type="text/javascript">
-			var oc_webroot = '<?php global $WEBROOT; echo $WEBROOT; ?>';
+			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
 		</script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
@@ -32,6 +32,6 @@
 			</div></header>
 			<?php echo $_['content']; ?>
 		</div>
-		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> <?php echo $l->t( 'gives you freedom and control over your own data' ); ?></p></footer>
+		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash; <?php echo $l->t( 'web services under your control' ); ?></p></footer>
 	</body>
 </html>

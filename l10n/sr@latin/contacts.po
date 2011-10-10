@@ -1,0 +1,180 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-23 20:10+0200\n"
+"PO-Revision-Date: 2011-09-23 18:10+0000\n"
+"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"Language-Team: Serbian (Latin) (http://www.transifex.net/projects/p/owncloud/team/sr@latin/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sr@latin\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: ajax/addcard.php:31 ajax/addproperty.php:31 ajax/deletebook.php:32
+#: ajax/deletecard.php:32 ajax/deleteproperty.php:34 ajax/getdetails.php:32
+#: ajax/setproperty.php:32 ajax/showaddcard.php:30 ajax/showaddproperty.php:31
+#: ajax/showsetproperty.php:32 photo.php:32
+msgid "You need to log in."
+msgstr ""
+
+#: ajax/addcard.php:37
+msgid "This is not your addressbook."
+msgstr ""
+
+#: ajax/addproperty.php:37 ajax/deletecard.php:39 ajax/deleteproperty.php:41
+#: ajax/getdetails.php:39 ajax/setproperty.php:38 ajax/showaddproperty.php:37
+#: ajax/showsetproperty.php:38 photo.php:39
+msgid "Contact could not be found."
+msgstr ""
+
+#: ajax/addproperty.php:43 ajax/deletebook.php:38 ajax/deletecard.php:45
+#: ajax/deleteproperty.php:47 ajax/getdetails.php:45 ajax/setproperty.php:44
+#: ajax/showaddproperty.php:43 ajax/showsetproperty.php:44 photo.php:45
+msgid "This is not your contact."
+msgstr ""
+
+#: ajax/addproperty.php:50 ajax/deleteproperty.php:54 ajax/getdetails.php:52
+#: ajax/setproperty.php:51 ajax/showsetproperty.php:51
+msgid "vCard could not be read."
+msgstr ""
+
+#: ajax/deleteproperty.php:65 ajax/setproperty.php:62
+#: ajax/showsetproperty.php:62
+msgid "Information about vCard is incorrect. Please reload the page."
+msgstr ""
+
+#: photo.php:53
+msgid "This card is not RFC compatible."
+msgstr ""
+
+#: photo.php:90
+msgid "This card does not contain a photo."
+msgstr ""
+
+#: templates/index.php:8
+msgid "Add Contact"
+msgstr ""
+
+#: templates/part.addcardform.php:5
+msgid "Group"
+msgstr ""
+
+#: templates/part.addcardform.php:12 templates/part.property.php:3
+msgid "Name"
+msgstr ""
+
+#: templates/part.addcardform.php:14
+msgid "Create Contact"
+msgstr ""
+
+#: templates/part.addpropertyform.php:4 templates/part.property.php:40
+msgid "Address"
+msgstr ""
+
+#: templates/part.addpropertyform.php:5
+msgid "Telephone"
+msgstr ""
+
+#: templates/part.addpropertyform.php:6 templates/part.property.php:22
+msgid "Email"
+msgstr ""
+
+#: templates/part.addpropertyform.php:7 templates/part.property.php:15
+msgid "Organization"
+msgstr ""
+
+#: templates/part.addpropertyform.php:17 templates/part.addpropertyform.php:32
+msgid "Work"
+msgstr ""
+
+#: templates/part.addpropertyform.php:18 templates/part.addpropertyform.php:30
+msgid "Home"
+msgstr ""
+
+#: templates/part.addpropertyform.php:20 templates/part.property.php:48
+#: templates/part.setpropertyform.php:5
+msgid "PO Box"
+msgstr ""
+
+#: templates/part.addpropertyform.php:21 templates/part.property.php:51
+#: templates/part.setpropertyform.php:6
+msgid "Extended"
+msgstr ""
+
+#: templates/part.addpropertyform.php:22 templates/part.property.php:54
+#: templates/part.setpropertyform.php:7
+msgid "Street"
+msgstr ""
+
+#: templates/part.addpropertyform.php:23 templates/part.property.php:57
+#: templates/part.setpropertyform.php:8
+msgid "City"
+msgstr ""
+
+#: templates/part.addpropertyform.php:24 templates/part.property.php:60
+#: templates/part.setpropertyform.php:9
+msgid "Region"
+msgstr ""
+
+#: templates/part.addpropertyform.php:25 templates/part.property.php:63
+#: templates/part.setpropertyform.php:10
+msgid "Zipcode"
+msgstr ""
+
+#: templates/part.addpropertyform.php:26 templates/part.property.php:66
+#: templates/part.setpropertyform.php:11
+msgid "Country"
+msgstr ""
+
+#: templates/part.addpropertyform.php:31
+msgid "Mobile"
+msgstr ""
+
+#: templates/part.addpropertyform.php:33
+msgid "Text"
+msgstr ""
+
+#: templates/part.addpropertyform.php:34
+msgid "Voice"
+msgstr ""
+
+#: templates/part.addpropertyform.php:35
+msgid "Fax"
+msgstr ""
+
+#: templates/part.addpropertyform.php:36
+msgid "Video"
+msgstr ""
+
+#: templates/part.addpropertyform.php:37
+msgid "Pager"
+msgstr ""
+
+#: templates/part.details.php:33
+msgid "Delete"
+msgstr ""
+
+#: templates/part.details.php:34
+msgid "Add Property"
+msgstr ""
+
+#: templates/part.property.php:9
+msgid "Birthday"
+msgstr ""
+
+#: templates/part.property.php:29
+msgid "Phone"
+msgstr ""
+
+#: templates/part.setpropertyform.php:17
+msgid "Edit"
+msgstr ""
+
+

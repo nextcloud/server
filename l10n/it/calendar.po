@@ -1,0 +1,467 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <cosenal@gmail.com>, 2011.
+# Francesco Apruzzese <cescoap@gmail.com>, 2011.
+#   <rb.colombo@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2011-09-24 23:05+0200\n"
+"PO-Revision-Date: 2011-09-24 21:05+0000\n"
+"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/createcalendar.php:18 ajax/settimezone.php:19
+#: ajax/updatecalendar.php:18
+msgid "Authentication error"
+msgstr "Errore di autenticazione"
+
+#: ajax/editeventform.php:25
+msgid "Wrong calendar"
+msgstr "Calendario sbagliato"
+
+#: ajax/settimezone.php:27
+msgid "Timezone changed"
+msgstr "Fuso orario cambiato"
+
+#: ajax/settimezone.php:29
+msgid "Invalid request"
+msgstr "Richiesta non validia"
+
+#: appinfo/app.php:19 templates/part.eventform.php:27
+#: templates/part.eventinfo.php:18
+msgid "Calendar"
+msgstr "Calendario"
+
+#: lib/object.php:292
+msgid "Birthday"
+msgstr "Compleanno"
+
+#: lib/object.php:293
+msgid "Business"
+msgstr "Azienda"
+
+#: lib/object.php:294
+msgid "Call"
+msgstr "Chiama"
+
+#: lib/object.php:295
+msgid "Clients"
+msgstr "Clienti"
+
+#: lib/object.php:296
+msgid "Deliverer"
+msgstr "Consegna"
+
+#: lib/object.php:297
+msgid "Holidays"
+msgstr "Vacanze"
+
+#: lib/object.php:298
+msgid "Ideas"
+msgstr "Idee"
+
+#: lib/object.php:299
+msgid "Journey"
+msgstr "Viaggio"
+
+#: lib/object.php:300
+msgid "Jubilee"
+msgstr "Anniversario"
+
+#: lib/object.php:301
+msgid "Meeting"
+msgstr "Riunione"
+
+#: lib/object.php:302
+msgid "Other"
+msgstr "Altro"
+
+#: lib/object.php:303
+msgid "Personal"
+msgstr "Personale"
+
+#: lib/object.php:304
+msgid "Projects"
+msgstr "Progetti"
+
+#: lib/object.php:305
+msgid "Questions"
+msgstr "Domande"
+
+#: lib/object.php:306
+msgid "Work"
+msgstr "Lavoro"
+
+#: lib/object.php:313
+msgid "Does not repeat"
+msgstr "Non ripetere"
+
+#: lib/object.php:314
+msgid "Daily"
+msgstr "Giornaliero"
+
+#: lib/object.php:315
+msgid "Weekly"
+msgstr "Settimanale"
+
+#: lib/object.php:316
+msgid "Every Weekday"
+msgstr "Ogni settimana"
+
+#: lib/object.php:317
+msgid "Bi-Weekly"
+msgstr "Ogni due settimane"
+
+#: lib/object.php:318
+msgid "Monthly"
+msgstr "Mensile"
+
+#: lib/object.php:319
+msgid "Yearly"
+msgstr "Annuale"
+
+#: lib/object.php:337
+msgid "Not an array"
+msgstr "Non è un array"
+
+#: templates/calendar.php:3
+msgid "All day"
+msgstr "Tutti i giorni"
+
+#: templates/calendar.php:32
+msgid "Sunday"
+msgstr "Domenica"
+
+#: templates/calendar.php:32
+msgid "Monday"
+msgstr "Lunedì"
+
+#: templates/calendar.php:32
+msgid "Tuesday"
+msgstr "Martedì"
+
+#: templates/calendar.php:32
+msgid "Wednesday"
+msgstr "Mercoledì"
+
+#: templates/calendar.php:32
+msgid "Thursday"
+msgstr "Giovedì"
+
+#: templates/calendar.php:32
+msgid "Friday"
+msgstr "Venerdì"
+
+#: templates/calendar.php:32
+msgid "Saturday"
+msgstr "Sabato"
+
+#: templates/calendar.php:33
+msgid "Sun."
+msgstr "Dom."
+
+#: templates/calendar.php:33
+msgid "Mon."
+msgstr "Lun."
+
+#: templates/calendar.php:33
+msgid "Tue."
+msgstr "Mar."
+
+#: templates/calendar.php:33
+msgid "Wed."
+msgstr "Mer."
+
+#: templates/calendar.php:33
+msgid "Thu."
+msgstr "Gio."
+
+#: templates/calendar.php:33
+msgid "Fri."
+msgstr "Ven."
+
+#: templates/calendar.php:33
+msgid "Sat."
+msgstr "Sab."
+
+#: templates/calendar.php:34
+msgid "January"
+msgstr "Gennaio"
+
+#: templates/calendar.php:34
+msgid "February"
+msgstr "Febbraio"
+
+#: templates/calendar.php:34
+msgid "March"
+msgstr "Marzo"
+
+#: templates/calendar.php:34
+msgid "April"
+msgstr "Aprile"
+
+#: templates/calendar.php:34
+msgid "May"
+msgstr "Maggio"
+
+#: templates/calendar.php:34
+msgid "June"
+msgstr "Giugno"
+
+#: templates/calendar.php:34
+msgid "July"
+msgstr "Luglio"
+
+#: templates/calendar.php:34
+msgid "August"
+msgstr "Agosto"
+
+#: templates/calendar.php:34
+msgid "September"
+msgstr "Settembre"
+
+#: templates/calendar.php:34
+msgid "October"
+msgstr "Ottobre"
+
+#: templates/calendar.php:34
+msgid "November"
+msgstr "Novembre"
+
+#: templates/calendar.php:34
+msgid "December"
+msgstr "Dicembre"
+
+#: templates/calendar.php:35
+msgid "Jan."
+msgstr "Gen."
+
+#: templates/calendar.php:35
+msgid "Feb."
+msgstr "Feb."
+
+#: templates/calendar.php:35
+msgid "Mar."
+msgstr "Mar."
+
+#: templates/calendar.php:35
+msgid "Apr."
+msgstr "Apr."
+
+#: templates/calendar.php:35
+msgid "May."
+msgstr "Maggio."
+
+#: templates/calendar.php:35
+msgid "Jun."
+msgstr "Giu."
+
+#: templates/calendar.php:35
+msgid "Jul."
+msgstr "Lug."
+
+#: templates/calendar.php:35
+msgid "Aug."
+msgstr "Ago."
+
+#: templates/calendar.php:35
+msgid "Sep."
+msgstr "Set."
+
+#: templates/calendar.php:35
+msgid "Oct."
+msgstr "Ott."
+
+#: templates/calendar.php:35
+msgid "Nov."
+msgstr "Nov."
+
+#: templates/calendar.php:35
+msgid "Dec."
+msgstr "Dic."
+
+#: templates/calendar.php:36 templates/calendar.php:50
+#: templates/calendar.php:116
+msgid "Week"
+msgstr "Settimana"
+
+#: templates/calendar.php:37 templates/calendar.php:51
+msgid "Weeks"
+msgstr "Settimane"
+
+#: templates/calendar.php:38
+msgid "More before {startdate}"
+msgstr "Prima di {startdate}"
+
+#: templates/calendar.php:39
+msgid "More after {enddate}"
+msgstr "Dopo {enddate}"
+
+#: templates/calendar.php:49
+msgid "Day"
+msgstr "Giorno"
+
+#: templates/calendar.php:52
+msgid "Month"
+msgstr "Mese"
+
+#: templates/calendar.php:53
+msgid "List"
+msgstr "Lista"
+
+#: templates/calendar.php:58
+msgid "Today"
+msgstr "Oggi"
+
+#: templates/calendar.php:59
+msgid "Calendars"
+msgstr "Calendari"
+
+#: templates/calendar.php:76 templates/calendar.php:94
+msgid "Time"
+msgstr "Ora"
+
+#: templates/calendar.php:169
+msgid "There was a fail, while parsing the file."
+msgstr "C'è stato un errore nel parsing del file."
+
+#: templates/part.choosecalendar.php:1
+msgid "Choose active calendars"
+msgstr "Selezionare calendari attivi"
+
+#: templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr "Nuovo Calendario"
+
+#: templates/part.choosecalendar.php:20
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "CalDav Link"
+msgstr "CalDav Link"
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Download"
+msgstr "Download"
+
+#: templates/part.choosecalendar.rowfields.php:4
+#: templates/part.eventinfo.php:64
+msgid "Edit"
+msgstr "Modifica"
+
+#: templates/part.choosecalendar.rowfields.php:4
+#: templates/part.editevent.php:8
+msgid "Delete"
+msgstr ""
+
+#: templates/part.editcalendar.php:9
+msgid "New calendar"
+msgstr "Nuovo calendario"
+
+#: templates/part.editcalendar.php:9
+msgid "Edit calendar"
+msgstr "Modifica calendario"
+
+#: templates/part.editcalendar.php:12
+msgid "Displayname"
+msgstr "Mostra nome"
+
+#: templates/part.editcalendar.php:23
+msgid "Active"
+msgstr "Attivo"
+
+#: templates/part.editcalendar.php:29 templates/part.eventform.php:88
+#: templates/part.eventinfo.php:58
+msgid "Description"
+msgstr "Descrizione"
+
+#: templates/part.editcalendar.php:35
+msgid "Calendar color"
+msgstr "Colore calendario"
+
+#: templates/part.editcalendar.php:41
+msgid "Save"
+msgstr "Salva"
+
+#: templates/part.editcalendar.php:41 templates/part.editevent.php:7
+#: templates/part.newevent.php:6
+msgid "Submit"
+msgstr "Invia"
+
+#: templates/part.editcalendar.php:42
+msgid "Cancel"
+msgstr "Annulla"
+
+#: templates/part.editevent.php:1 templates/part.eventinfo.php:1
+msgid "Edit an event"
+msgstr "Modifica evento"
+
+#: templates/part.eventform.php:3 templates/part.eventinfo.php:4
+msgid "Title"
+msgstr "Titolo"
+
+#: templates/part.eventform.php:5
+msgid "Title of the Event"
+msgstr "Titolo evento"
+
+#: templates/part.eventform.php:9 templates/part.eventinfo.php:9
+msgid "Location"
+msgstr "Luogo"
+
+#: templates/part.eventform.php:11
+msgid "Location of the Event"
+msgstr "Luogo evento"
+
+#: templates/part.eventform.php:17 templates/part.eventinfo.php:16
+msgid "Category"
+msgstr "Categoria"
+
+#: templates/part.eventform.php:19
+msgid "Select category"
+msgstr "Seleziona categoria"
+
+#: templates/part.eventform.php:45 templates/part.eventinfo.php:28
+msgid "All Day Event"
+msgstr "Tutti gli eventi del giorno"
+
+#: templates/part.eventform.php:49 templates/part.eventinfo.php:31
+msgid "From"
+msgstr "Da"
+
+#: templates/part.eventform.php:57 templates/part.eventinfo.php:38
+msgid "To"
+msgstr "A"
+
+#: templates/part.eventform.php:65 templates/part.eventinfo.php:44
+msgid "Repeat"
+msgstr "Ripeti"
+
+#: templates/part.eventform.php:81 templates/part.eventinfo.php:51
+msgid "Attendees"
+msgstr "Partecipanti"
+
+#: templates/part.eventform.php:89
+msgid "Description of the Event"
+msgstr "Descrizione evento"
+
+#: templates/part.eventinfo.php:63
+msgid "Close"
+msgstr "Chiuso"
+
+#: templates/part.newevent.php:1
+msgid "Create a new event"
+msgstr "Crea evento"
+
+#: templates/settings.php:11
+msgid "Timezone"
+msgstr "Timezone"
+
+

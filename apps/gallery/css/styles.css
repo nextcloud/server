@@ -1,0 +1,23 @@
+div#gallery_list {
+  margin: 90pt 20pt;
+}
+
+div#gallery_album_box {
+  width: 200px;
+  text-align: center;
+  border: 0;
+  float: left;
+  margin: 5pt;
+}
+
+div#gallery_album_box h1 {
+  font-size: 12pt;
+  font-family: Arial;
+}
+
+div#gallery_album_cover {
+  width: 199px;
+  height: 199px;
+  border: solid 1px black;
+}
+

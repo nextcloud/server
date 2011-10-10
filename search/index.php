@@ -26,10 +26,7 @@
 require_once('../lib/base.php');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	header( "Location: ".OC_Helper::linkTo( '', 'index.php' ));
-	exit();
-}
+OC_Util::checkLoggedIn();
 
 // Load the files we need
 OC_Util::addStyle( 'search', 'search' );
@@ -38,8 +35,7 @@ $query=(isset($_POST['query']))?$_POST['query']:'';
 if($query){
 	$results=OC_Search::search($query);
 }else{
-	header("Location: ".$WEBROOT.'/'.OC_Appconfig::getValue("core", "defaultpage", "files/index.php"));
-	exit();
+	OC_Util::redirectToDefaultPage();
 }
 
 $resultTypes=array();

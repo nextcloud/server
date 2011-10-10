@@ -27,28 +27,38 @@ $aid = $_POST['id'];
 $l10n = new OC_L10N('contacts');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('You need to log in!'))));
-	exit();
-}
+OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('contacts');
 
 $addressbook = OC_Contacts_Addressbook::find( $aid );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => $l10n->t('This is not your addressbook!'))));
+	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
 	exit();
 }
 
 $fn = $_POST['fn'];
+$values = $_POST['value'];
+$parameters = $_POST['parameters'];
 
 $vcard = new Sabre_VObject_Component('VCARD');
 $vcard->add(new Sabre_VObject_Property('FN',$fn));
 $vcard->add(new Sabre_VObject_Property('UID',OC_Contacts_VCard::createUID()));
+foreach(array('ADR', 'TEL', 'EMAIL', 'ORG') as $propname){
+	$value = $values[$propname];
+	if (isset($parameters[$propname])){
+		$prop_parameters = $parameters[$propname];
+	} else {
+		$prop_parameters = array();
+	}
+	OC_Contacts_VCard::addVCardProperty($vcard, $propname, $value, $prop_parameters);
+}
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 
 $details = OC_Contacts_VCard::structureContact($vcard);
+$name = $details['FN'][0]['value'];
 $tmpl = new OC_Template('contacts','part.details');
 $tmpl->assign('details',$details);
 $tmpl->assign('id',$id);
 $page = $tmpl->fetchPage();
 
-echo json_encode( array( 'status' => 'success', 'data' => array( 'id' => $id, 'page' => $page )));
+OC_JSON::success(array('data' => array( 'id' => $id, 'name' => $name, 'page' => $page )));

@@ -88,6 +88,9 @@ class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard, 
         if (is_resource($cardData))
             $cardData = stream_get_contents($cardData);
 
+        // Converting to UTF-8, if needed
+        $cardData = Sabre_DAV_StringUtil::ensureUTF8($cardData);
+
         $this->carddavBackend->updateCard($this->addressBookInfo['id'],$this->cardData['uri'],$cardData);
         $this->cardData['carddata'] = $cardData;
 

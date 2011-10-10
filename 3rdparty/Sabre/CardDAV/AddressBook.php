@@ -112,6 +112,8 @@ class Sabre_CardDAV_AddressBook extends Sabre_DAV_Collection implements Sabre_Ca
     public function createFile($name,$vcardData = null) {
 
         $vcardData = stream_get_contents($vcardData);
+        // Converting to UTF-8, if needed
+        $vcardData = Sabre_DAV_StringUtil::ensureUTF8($vcardData);
 
         $this->carddavBackend->createCard($this->addressBookInfo['id'],$name,$vcardData);
 

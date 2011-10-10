@@ -23,10 +23,8 @@
 require_once('../../lib/base.php');
 require_once('lib_share.php');
 
-if (!OC_User::isLoggedIn()){
-	header( "Location: ".OC_HELPER::linkTo( "index.php" ));
-	exit();
-}
+OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('files_sharing');
 
 OC_App::setActiveNavigationEntry("files_sharing_list");
 

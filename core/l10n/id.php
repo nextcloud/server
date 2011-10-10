@@ -30,6 +30,7 @@
 "Request reset" => "Meminta set ulang",
 "prev" => "sebelum",
 "next" => "selanjutnya",
+"Your password was reset" => "Password anda telah diset ulang",
 "New password" => "Password Baru",
 "Reset password" => "Set Ulang Password"
 );

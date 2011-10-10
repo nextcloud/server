@@ -17,24 +17,24 @@
 			<option value="adr_work"><?php echo $l->t('Work'); ?></option>
 			<option value="adr_home" selected="selected"><?php echo $l->t('Home'); ?></option>
 		</select>
-		<?php echo $l->t('PO Box'); ?> <input type="text" name="value[0]" value="">
-		<?php echo $l->t('Extended Address'); ?> <input type="text" name="value[1]" value="">
-		<?php echo $l->t('Street Name'); ?> <input type="text" name="value[2]" value="">
-		<?php echo $l->t('City'); ?> <input type="text" name="value[3]" value="">
-		<?php echo $l->t('Region'); ?> <input type="text" name="value[4]" value="">
-		<?php echo $l->t('Postal Code'); ?> <input type="text" name="value[5]" value="">
-		<?php echo $l->t('Country'); ?> <input type="text" name="value[6]" value="">
+		<p><label><?php echo $l->t('PO Box'); ?></label> <input type="text" name="value[0]" value=""></p>
+		<p><label><?php echo $l->t('Extended'); ?></label> <input type="text" name="value[1]" value=""></p>
+		<p><label><?php echo $l->t('Street'); ?></label> <input type="text" name="value[2]" value=""></p>
+		<p><label><?php echo $l->t('City'); ?></label> <input type="text" name="value[3]" value=""></p>
+		<p><label><?php echo $l->t('Region'); ?></label> <input type="text" name="value[4]" value=""></p>
+		<p><label><?php echo $l->t('Zipcode'); ?></label> <input type="text" name="value[5]" value=""></p>
+		<p><label><?php echo $l->t('Country'); ?></label> <input type="text" name="value[6]" value=""></p>
 	</div>
 	<div id="contacts_phonepart">
 		<select name="parameters[TYPE]" size="1">
-			<option value="home"><?php echo $l->t('tel_home'); ?></option>
-			<option value="cell" selected="selected"><?php echo $l->t('tel_cell'); ?></option>
-			<option value="work"><?php echo $l->t('tel_work'); ?></option>
-			<option value="text"><?php echo $l->t('tel_text'); ?></option>
-			<option value="voice"><?php echo $l->t('tel_voice'); ?></option>
-			<option value="fax"><?php echo $l->t('tel_fax'); ?></option>
-			<option value="video"><?php echo $l->t('tel_video'); ?></option>
-			<option value="pager"><?php echo $l->t('tel_pager'); ?></option>
+			<option value="home"><?php echo $l->t('Home'); ?></option>
+			<option value="cell" selected="selected"><?php echo $l->t('Mobile'); ?></option>
+			<option value="work"><?php echo $l->t('Work'); ?></option>
+			<option value="text"><?php echo $l->t('Text'); ?></option>
+			<option value="voice"><?php echo $l->t('Voice'); ?></option>
+			<option value="fax"><?php echo $l->t('Fax'); ?></option>
+			<option value="video"><?php echo $l->t('Video'); ?></option>
+			<option value="pager"><?php echo $l->t('Pager'); ?></option>
 		</select>
 		<input type="text" name="value" value="">
 	</div>

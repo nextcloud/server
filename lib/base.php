@@ -65,49 +65,108 @@ class OC{
 		elseif(strpos($className,'OC_')===0){
 			require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
 		}
+		elseif(strpos($className,'Sabre_')===0) {
+			require_once str_replace('_','/',$className) . '.php';
+		}
+	}
+
+	public static function init(){
+		// register autoloader
+		spl_autoload_register(array('OC','autoload'));
+
+		// set some stuff
+		//ob_start();
+		error_reporting(E_ALL | E_STRICT);
+
+		date_default_timezone_set('Europe/Berlin');
+		ini_set('arg_separator.output','&amp;');
+
+		// calculate the documentroot
+		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
+		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
+		OC::$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen(OC::$SERVERROOT));
+		$scriptName=$_SERVER["SCRIPT_NAME"];
+		if(substr($scriptName,-1)=='/'){
+			$scriptName.='index.php';
+		}
+		OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
+
+		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
+			OC::$WEBROOT='/'.OC::$WEBROOT;
+		}
+
+		// set the right include path
+		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
+
+		// redirect to https site if configured
+		if( OC_Config::getValue( "forcessl", false )){
+			ini_set("session.cookie_secure", "on");
+			if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') {
+				$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+				header("Location: $url");
+				exit();
+			}
+		}
+
+		ini_set('session.cookie_httponly','1;');
+		session_start();
+
+		// Add the stuff we need always
+		OC_Util::addScript( "jquery-1.6.4.min" );
+		OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
+		OC_Util::addScript( "jquery-showpassword" );
+		OC_Util::addScript( "jquery.infieldlabel.min" );
+		OC_Util::addScript( "jquery-tipsy" );
+		OC_Util::addScript( "js" );
+		//OC_Util::addScript( "multiselect" );
+		OC_Util::addScript('search','result');
+		OC_Util::addStyle( "styles" );
+		OC_Util::addStyle( "multiselect" );
+		OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
+		OC_Util::addStyle( "jquery-tipsy" );
+
+		$errors=OC_Util::checkServer();
+		if(count($errors)>0) {
+			OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+			exit;
+		}
+
+		// TODO: we should get rid of this one, too
+		// WARNING: to make everything even more confusing,
+		//   DATADIRECTORY is a var that changes and DATADIRECTORY_ROOT
+		//   stays the same, but is set by "datadirectory".
+		//   Any questions?
+		OC::$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+
+		// User and Groups
+		if( !OC_Config::getValue( "installed", false )){
+			$_SESSION['user_id'] = '';
+		}
+
+		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
+		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
+
+		// Load Apps
+		// This includes plugins for users and filesystems as well
+		global $RUNTIME_NOAPPS;
+		if(!$RUNTIME_NOAPPS ){
+			OC_App::loadApps();
+		}
+
+		// Was in required file ... put it here
+		OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
+
+		// Set up file system unless forbidden
+		global $RUNTIME_NOSETUPFS;
+		if(!$RUNTIME_NOSETUPFS ){
+			OC_Util::setupFS();
+		}
+
+		// Last part: connect some hooks
+		OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
+		OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');
 	}
 }
-
-// this requires all our OC_* classes
-spl_autoload_register(array('OC','autoload'));
-
-// set some stuff
-//ob_start();
-error_reporting(E_ALL | E_STRICT);
-
-date_default_timezone_set('Europe/Berlin');
-ini_set('arg_separator.output','&amp;');
-ini_set('session.cookie_httponly','1;');
-session_start();
-
-// calculate the documentroot
-$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
-$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
-$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
-$scriptName=$_SERVER["SCRIPT_NAME"];
-if(substr($scriptName,-1)=='/'){
-	$scriptName.='index.php';
-}
-$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen($SUBURI));
-
-OC::$SERVERROOT=$SERVERROOT;
-OC::$WEBROOT=$WEBROOT;
-
-if($WEBROOT!='' and $WEBROOT[0]!=='/'){
-	$WEBROOT='/'.$WEBROOT;
-}
-
-// We are going to use OC::* instead of globels soon
-OC::$WEBROOT = $WEBROOT;
-OC::$SERVERROOT = $SERVERROOT;
-OC::$DOCUMENTROOT = $DOCUMENTROOT;
-OC::$SUBURI = $SUBURI;
-
-// set the right include path
-set_include_path($SERVERROOT.'/lib'.PATH_SEPARATOR.$SERVERROOT.'/config'.PATH_SEPARATOR.$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.$SERVERROOT);
-
-//Some libs we really depend on
-require_once('Sabre/autoload.php');
 
 // define runtime variables - unless this already has been done
 if( !isset( $RUNTIME_NOSETUPFS )){
@@ -117,147 +176,7 @@ if( !isset( $RUNTIME_NOAPPS )){
 	$RUNTIME_NOAPPS = false;
 }
 
-// TODO: we should get rid of this one, too
-// WARNING: to make everything even more confusing, DATADIRECTORY is a var that
-//   changes and DATATIRECTORY_ROOT stays the same, but is set by
-//   "datadirectory". Any questions?
-$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
-
-// redirect to https site if configured
-if( OC_Config::getValue( "forcessl", false )){
-	if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') {
-		$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-		header("Location: $url");
-		exit();
-	}
-}
-
-$errors=OC_Util::checkServer();
-$error=(count($errors)>0);
-
-
-// User and Groups
-if( !OC_Config::getValue( "installed", false )){
-	$_SESSION['user_id'] = '';
-}
-
-
-OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
-OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
-
-// Add the stuff we need always
-OC_Util::addScript( "jquery-1.6.2.min" );
-OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
-OC_Util::addScript( "jquery-showpassword" );
-OC_Util::addScript( "jquery-tipsy" );
-OC_Util::addScript( "js" );
-OC_Util::addScript( "multiselect" );
-OC_Util::addScript('search','result');
-OC_Util::addStyle( "styles" );
-OC_Util::addStyle( "multiselect" );
-OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
-OC_Util::addStyle( "jquery-tipsy" );
-
-// Load Apps
-// This includes plugins for users and filesystems as well
-if(!$error and !$RUNTIME_NOAPPS ){
-	OC_App::loadApps();
-}
-
-// Was in required file ... put it here
-OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
-
-// Set up file system unless forbidden
-if(!$error and !$RUNTIME_NOSETUPFS ){
-	OC_Util::setupFS();
-}
-
-// Last part: connect some hooks
-OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
-OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');
-
-
-
-if($error) {
-	$tmpl = new OC_Template( '', 'error', 'guest' );
-	$tmpl->assign('errors',$errors);
-	$tmpl->printPage();
-	exit;
-}
-
-
-
-
-// FROM Connect.php
-function OC_CONNECT_TEST($path,$user,$password){
-	echo 'connecting...';
-	$remote=OC_Connect::connect($path,$user,$password);
-	if($remote->connected){
-		echo 'done<br/>';
-		if($remote->isLoggedIn()){
-			echo 'logged in, session working<br/>';
-			echo 'trying to get remote files...';
-			$files=$remote->getFiles('');
-			if($files){
-				echo count($files).' files found:<br/>';
-				foreach($files as $file){
-					echo "{$file['type']} {$file['name']}: {$file['size']} bytes<br/>";
-				}
-				echo 'getting file "'.$file['name'].'"...';
-				$size=$file['size'];
-				$file=$remote->getFile('',$file['name']);
-				if(file_exists($file)){
-					$newSize=filesize($file);
-					if($size!=$newSize){
-						echo "fail<br/>Error: $newSize bytes received, $size expected.";
-						echo '<br/><br/>Recieved file:<br/>';
-						readfile($file);
-						unlink($file);
-						return;
-					}
-					OC_Filesystem::fromTmpFile($file,'/remoteFile');
-					echo 'done<br/>';
-					echo 'sending file "burning_avatar.png"...';
-					$res=$remote->sendFile('','burning_avatar.png','','burning_avatar.png');
-					if($res){
-						echo 'done<br/>';
-					}else{
-						echo 'fail<br/>';
-					}
-				}else{
-					echo 'fail<br/>';
-				}
-			}else{
-				echo 'fail<br/>';
-			}
-		}else{
-			echo 'no longer logged in, session fail<br/>';
-		}
-	}else{
-		echo 'fail<br/>';
-	}
-	$remote->disconnect();
-	die();
-}
-
-// From files.php
-function zipAddDir($dir,$zip,$internalDir=''){
-    $dirname=basename($dir);
-    $zip->addEmptyDir($internalDir.$dirname);
-    $internalDir.=$dirname.='/';
-    $files=OC_Files::getdirectorycontent($dir);
-    foreach($files as $file){
-        $filename=$file['name'];
-        $file=$dir.'/'.$filename;
-        if(OC_Filesystem::is_file($file)){
-			$tmpFile=OC_Filesystem::toTmpFile($file);
-			OC_Files::$tmpFiles[]=$tmpFile;
-            $zip->addFile($tmpFile,$internalDir.$filename);
-        }elseif(OC_Filesystem::is_dir($file)){
-            zipAddDir($file,$zip,$internalDir);
-        }
-    }
-}
+OC::init();
 
 if(!function_exists('sys_get_temp_dir')) {
     function sys_get_temp_dir() {

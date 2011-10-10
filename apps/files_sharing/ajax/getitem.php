@@ -2,6 +2,7 @@
 $RUNTIME_NOAPPS = true;
 
 require_once('../../../lib/base.php');
+OC_JSON::checkAppEnabled('files_sharing');
 require_once('../lib_share.php');
 
 $userDirectory = "/".OC_User::getUser()."/files";
@@ -30,7 +31,7 @@ while ($source != "" && $source != "/" && $source != "." && $source != $userDire
 	$source = dirname($source);
 }
 if (!empty($users)) {
-	echo json_encode($users);
+	OC_JSON::encodedPrint($users);
 }
 
 ?>

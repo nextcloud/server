@@ -15,7 +15,7 @@ $(document).ready(function(){
 			PlayList.play(oldSize);
 			PlayList.render();
 		});
-		var button=$('<input type="button" title="'+t('media','Add to playlist')+'" class="add"></input>');
+		var button=$('<input type="button" title="'+t('media','Add album to playlist')+'" class="add"></input>');
 		button.css('background-image','url('+OC.imagePath('core','actions/play-add')+')')
 		button.click(function(event){
 			event.stopPropagation();
@@ -23,6 +23,7 @@ $(document).ready(function(){
 			PlayList.render();
 		});
 		row.find('div.name').append(button);
+		button.tipsy({gravity:'n', fade:true, delayIn: 400, live:true});
 	}
 	Collection.display();
 });

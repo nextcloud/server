@@ -30,11 +30,10 @@ if(!isset($_SERVER['PHP_AUTH_USER'])){
         echo 'Valid credentials must be supplied';
         exit();
 } else {
-	header("Content-Type: application/jsonrequest");
         if(OC_User::checkPassword($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])){
-		echo json_encode(array("username" => $_SERVER["PHP_AUTH_USER"], "user_valid" => "true"));
+		OC_JSON::encodedPrint(array("username" => $_SERVER["PHP_AUTH_USER"], "user_valid" => "true"));
 	} else {
-	        echo json_encode(array("username" => $_SERVER["PHP_AUTH_USER"], "user_valid" => "false"));
+	        OC_JSON::encodedPrint(array("username" => $_SERVER["PHP_AUTH_USER"], "user_valid" => "false"));
 	}
 }
 

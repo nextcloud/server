@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Files" => "Filer",
 "Maximum upload size" => "Maximal storlek att lägga upp",
-"Nothing in here. Upload something!" => "Ingenting här. Lägg upp något!",
 "Upload" => "Lägg upp",
 "New Folder" => "Ny katalog",
+"Nothing in here. Upload something!" => "Ingenting här. Lägg upp något!",
 "Name" => "Namn",
 "Download" => "Ladda ned",
 "Size" => "Storlek",

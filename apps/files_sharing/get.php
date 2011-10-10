@@ -3,6 +3,7 @@ $RUNTIME_NOAPPS=true; //no need to load the apps
 $RUNTIME_NOSETUPFS=true; //don't setup the fs yet
 
 require_once '../../lib/base.php';
+OC_JSON::checkAppEnabled('files_sharing');
 require_once 'lib_share.php';
 
 //get the path of the shared file
@@ -29,8 +30,9 @@ if ($source !== false) {
 		foreach (OC_Files::getdirectorycontent($source) as $i) {
 			$i['date'] = OC_Util::formatDate($i['mtime'] );
 			if ($i['type'] == 'file') {
-				$i['extention'] = substr($i['name'], strrpos($i['name'], "."));
-				$i['basename'] = substr($i['name'], 0, strrpos($i['name'], "."));
+				$fileinfo = pathinfo($i['name']);
+				$i['basename'] = $fileinfo['filename'];
+				$i['extention'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
 			}
 			$i['directory'] = substr($i['directory'], $rootLength);
 			if ($i['directory'] == "/") {
@@ -56,9 +58,11 @@ if ($source !== false) {
 		$list->assign("files", $files);
 		$list->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list->assign("downloadURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("readonly", true);
 		$tmpl = new OC_Template("files", "index", "user");
 		$tmpl->assign("fileList", $list->fetchPage());
 		$tmpl->assign("breadcrumb", $breadcrumbNav->fetchPage());
+		$tmpl->assign("readonly", true);
 		$tmpl->printPage();
 	} else {
 		//get time mimetype and set the headers
@@ -67,7 +71,7 @@ if ($source !== false) {
 		header("Expires: 0");
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Pragma: public");
-		header("Content-Disposition: filename=".basename($source));
+		header('Content-Disposition: filename="'.basename($source).'"');
 		header("Content-Type: " . $mimetype);
 		header("Content-Length: " . OC_Filesystem::filesize($source));
 		//download the file

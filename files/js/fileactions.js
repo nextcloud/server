@@ -53,7 +53,7 @@ FileActions={
 	},
 	display:function(parent){
 		FileActions.currentFile=parent;
-		$('.action').remove();
+		$('#fileList .action').remove();
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var file=FileActions.getCurrentFile();
 		if($('tr[data-file="'+file+'"]').data('renaming')){
@@ -104,12 +104,12 @@ FileActions={
 			});
 			parent.parent().children().last().append(element);
 		}
-		$('.action').hide();
-		$('.action').fadeIn(200);
+		$('#fileList .action').hide();
+		$('#fileList .action').fadeIn(200);
 		return false;
 	},
 	hide:function(){
-		$('.action').fadeOut(200,function(){
+		$('#fileList .action').fadeOut(200,function(){
 			$(this).remove();
 		});
 	},
@@ -125,7 +125,7 @@ FileActions={
 }
 
 FileActions.register('all','Download',function(){return OC.imagePath('core','actions/download')},function(filename){
-	window.location='ajax/download.php?files='+filename+'&dir='+$('#dir').val();
+	window.location='ajax/download.php?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
 });
 
 FileActions.register('all','Delete',function(){return OC.imagePath('core','actions/delete')},function(filename){

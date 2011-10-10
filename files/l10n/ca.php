@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Files" => "Fitxers",
 "Maximum upload size" => "Mida màxima de pujada",
-"Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",
 "Upload" => "Puja",
 "New Folder" => "Carpeta nova",
+"Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",
 "Name" => "Nom",
 "Download" => "Descarrega",
 "Size" => "Mida",

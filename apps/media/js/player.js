@@ -28,17 +28,19 @@ var PlayList={
 		if(index==null){
 			index=PlayList.current;
 		}
+		PlayList.save();
 		if(index>-1 && index<items.length){
 			PlayList.current=index;
 			if(PlayList.player){
 				if(PlayList.player.data('jPlayer').options.supplied!=items[index].type){//the the audio type changes we need to reinitialize jplayer
 					PlayList.player.jPlayer("play",time);
-                    localStorage.setItem(oc_current_user+'oc_playlist_time',time);
+					localStorage.setItem(oc_current_user+'oc_playlist_time',time);
 					PlayList.player.jPlayer("destroy");
-                    PlayList.save(); // so that the init don't lose the playlist
+// 					PlayList.save(); // so that the init don't lose the playlist
 					PlayList.init(items[index].type,null); // init calls load that calls play
 				}else{
 					PlayList.player.jPlayer("setMedia", items[PlayList.current]);
+					$(".jp-current-song").text(items[PlayList.current].name);
 					items[index].playcount++;
 					PlayList.player.jPlayer("play",time);
 					if(index>0){
@@ -56,6 +58,7 @@ var PlayList={
 					if (typeof Collection !== 'undefined') {
 						Collection.registerPlay();
 					}
+					PlayList.render();
 					if(ready){
 						ready();
 					}
@@ -63,10 +66,12 @@ var PlayList={
 			}else{
 				localStorage.setItem(oc_current_user+'oc_playlist_time',time);
 				localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
-                PlayList.save(); // so that the init don't lose the playlist
+//                 PlayList.save(); // so that the init don't lose the playlist
 				PlayList.init(items[index].type,null); // init calls load that calls play
 			}
 		}
+		$(".song").removeClass("collection_playing");
+		$(".jp-playlist-" + index).addClass("collection_playing");
 	},
 	init:function(type,ready){
 		if(!PlayList.player){
@@ -82,7 +87,7 @@ var PlayList={
 				PlayList.render();
 				return false;
 			});
-			PlayList.player=$('#controls div.player');
+			PlayList.player=$('#jp-player');
 		}
 		$(PlayList.player).jPlayer({
 			ended:PlayList.next,
@@ -100,7 +105,7 @@ var PlayList={
 				}
 			},
 			volume:PlayList.volume,
-			cssSelectorAncestor:'#controls',
+			cssSelectorAncestor:'.player-controls',
 			swfPath:OC.linkTo('media','js'),
 		});
 	},
@@ -127,7 +132,7 @@ var PlayList={
 			var type=musicTypeFromFile(song.path);
 			var item={name:song.name,type:type,artist:song.artist,album:song.album,length:song.length,playcount:song.playCount};
 			item[type]=PlayList.urlBase+encodeURIComponent(song.path);
-            PlayList.items.push(item);
+			PlayList.items.push(item);
 		}
 	},
 	addFile:function(path){
@@ -157,17 +162,15 @@ var PlayList={
 		if(typeof localStorage !== 'undefined' && localStorage){
 			localStorage.setItem(oc_current_user+'oc_playlist_items',JSON.stringify(PlayList.items));
 			localStorage.setItem(oc_current_user+'oc_playlist_current',PlayList.current);
-            if(PlayList.player) {
-                if(PlayList.player.data('jPlayer')) {
-                    var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
-                    localStorage.setItem(oc_current_user+'oc_playlist_time',time);
-                    var volume=PlayList.player.data('jPlayer').options.volume*100;
-                    localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
-                }
-            }
-			if(PlayList.active){
-				localStorage.setItem(oc_current_user+'oc_playlist_active','false');
+			if(PlayList.player) {
+				if(PlayList.player.data('jPlayer')) {
+					var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
+					localStorage.setItem(oc_current_user+'oc_playlist_time',time);
+					var volume=PlayList.player.data('jPlayer').options.volume*100;
+					localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
+				}
 			}
+			localStorage.setItem(oc_current_user+'oc_playlist_active','true');
 		}
 	},
 	load:function(){
@@ -204,6 +207,9 @@ var PlayList={
 $(document).ready(function(){
 	$(window).bind('beforeunload', function (){
 		PlayList.save();
+		if(PlayList.active){
+			localStorage.setItem(oc_current_user+'oc_playlist_active','false');
+		}
 	});
 
 	$('jp-previous').tipsy({gravity:'n', fade:true, live:true});

@@ -28,3 +28,11 @@ RCS/*
 # eclipse
 .project
 .settings
+
+# netbeans 
+nbproject
+
+# geany
+*.geany
+
+.DS_Store

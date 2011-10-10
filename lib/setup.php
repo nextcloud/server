@@ -3,7 +3,7 @@
 $hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
-$datadir = OC_Config::getValue('datadirectory', $SERVERROOT.'/data');
+$datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
@@ -23,7 +23,7 @@ if(isset($_POST['install']) AND $_POST['install']=='true') {
 		OC_Template::printGuestPage("", "installation", $options);
 	}
 	else {
-		header("Location: ".$WEBROOT.'/');
+		header("Location: ".OC::$WEBROOT.'/');
 		exit();
 	}
 }
@@ -54,9 +54,6 @@ class OC_Setup {
 
 			if(empty($options['dbuser'])) {
 				$error[] = "$dbprettyname enter the database username.";
-			}
-			if(empty($options['dbpass'])) {
-				$error[] = "$dbprettyname enter the database password.";
 			}
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
@@ -206,7 +203,7 @@ class OC_Setup {
 				OC_User::login($username, $password);
 
 				//guess what this does
-				OC_Installer::installShippedApps(true);
+				OC_Installer::installShippedApps();
 
 				//create htaccess files for apache hosts
 				if (strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
@@ -235,7 +232,7 @@ class OC_Setup {
 	}
 
 	private static function createDBUser($name,$password,$connection) {
-		// we need to create 2 accounts, one for global use and one for local user. if we don't speccify the local one,
+		// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 		// the anonymous user would take precedence when there is one.
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
@@ -270,21 +267,19 @@ class OC_Setup {
 	 * create .htaccess files for apache hosts
 	 */
 	private static function createHtaccess() {
-		$SERVERROOT=OC::$SERVERROOT;
-		$WEBROOT=OC::$WEBROOT;
-		$content = "ErrorDocument 404 $WEBROOT/core/templates/404.php\n";//custom 404 error page
+		$content = "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
 		$content.= "<IfModule mod_php5.c>\n";
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit
 		$content.= "php_value post_max_size 512M\n";
 		$content.= "SetEnv htaccessWorking true\n";
 		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
-		@file_put_contents($SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
+		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
 		$content = "deny from all\n";
 		$content.= "IndexIgnore *";
-		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/.htaccess', $content);
-		file_put_contents(OC_Config::getValue('datadirectory', $SERVERROOT.'/data').'/index.html', '');
+		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
+		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/index.html', '');
 	}
 }
 

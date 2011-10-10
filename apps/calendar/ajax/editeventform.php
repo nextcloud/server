@@ -1,17 +1,11 @@
 <?php
-/*************************************************
- * ownCloud - Calendar Plugin                     *
- *                                                *
- * (c) Copyright 2011 Bart Visscher               *
- * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
- *                                                *
- * If you are not able to view the License,       *
- * <http://www.gnu.org/licenses/>                 *
- * please write to the Free Software Foundation.  *
- * Address:                                       *
- * 59 Temple Place, Suite 330, Boston,            *
- * MA 02111-1307  USA                             *
- *************************************************/
+/**
+ * Copyright (c) 2011 Bart Visscher <bartv@thisnet.nl>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
 require_once('../../../lib/base.php');
 
 $l10n = new OC_L10N('calendar');
@@ -19,9 +13,10 @@ $l10n = new OC_L10N('calendar');
 if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
+OC_JSON::checkAppEnabled('calendar');
 
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-$categories = OC_Calendar_Object::getCategoryOptions($l10n);
+$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$category_options = OC_Calendar_Object::getCategoryOptions($l10n);
 $repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
 
 $id = $_GET['id'];
@@ -34,9 +29,10 @@ if($calendar['userid'] != OC_User::getUser()){
 $object = Sabre_VObject_Reader::read($data['calendardata']);
 $vevent = $object->VEVENT;
 $dtstart = $vevent->DTSTART;
-$dtend = $vevent->DTEND;
+$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 switch($dtstart->getDateType()) {
 	case Sabre_VObject_Element_DateTime::LOCALTZ:
+	case Sabre_VObject_Element_DateTime::LOCAL:
 		$startdate = $dtstart->getDateTime()->format('d-m-Y');
 		$starttime = $dtstart->getDateTime()->format('H:i');
 		$enddate = $dtend->getDateTime()->format('d-m-Y');
@@ -55,19 +51,28 @@ switch($dtstart->getDateType()) {
 
 $summary = isset($vevent->SUMMARY) ? $vevent->SUMMARY->value : '';
 $location = isset($vevent->LOCATION) ? $vevent->LOCATION->value : '';
-$category = isset($vevent->CATEGORIES) ? $vevent->CATEGORIES->value : '';
+$categories = array();
+if (isset($vevent->CATEGORIES)){
+       $categories = explode(',', $vevent->CATEGORIES->value);
+       $categories = array_map('trim', $categories);
+}
+foreach($categories as $category){
+	if (!in_array($category, $category_options)){
+		array_unshift($category_options, $category);
+	}
+}
 $repeat = isset($vevent->CATEGORY) ? $vevent->CATEGORY->value : '';
 $description = isset($vevent->DESCRIPTION) ? $vevent->DESCRIPTION->value : '';
 
 $tmpl = new OC_Template('calendar', 'part.editevent');
 $tmpl->assign('id', $id);
-$tmpl->assign('calendars', $calendars);
-$tmpl->assign('categories', $categories);
+$tmpl->assign('calendar_options', $calendar_options);
+$tmpl->assign('category_options', $category_options);
 $tmpl->assign('repeat_options', $repeat_options);
 
 $tmpl->assign('title', $summary);
 $tmpl->assign('location', $location);
-$tmpl->assign('category', $category);
+$tmpl->assign('categories', $categories);
 $tmpl->assign('calendar', $data['calendarid']);
 $tmpl->assign('allday', $allday);
 $tmpl->assign('startdate', $startdate);

@@ -26,14 +26,9 @@ $RUNTIME_NOSETUPFS=true;
 
 require_once('../../../lib/base.php');
 
-// We send json data
-header( 'Content-Type: application/jsonrequest' );
-
 // Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => 'Authentication error' )));
-	exit();
-}
+OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('bookmarks');
 
 $params=array(OC_User::getUser());
 $CONFIG_DBTYPE = OC_Config::getValue( 'dbtype', 'sqlite' );
@@ -64,13 +59,14 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 }
 
 $query = OC_DB::prepare('
-	SELECT id, url, title, description, 
+	SELECT id, url, title, 
 	CASE WHEN *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
 			THEN GROUP_CONCAT( tag ' .$_gc_separator. ' )
 			ELSE \' \'
 		END
 		AS tags
-	FROM *PREFIX*bookmarks, *PREFIX*bookmarks_tags 
+	FROM *PREFIX*bookmarks
+	LEFT JOIN *PREFIX*bookmarks_tags ON 1=1
 	WHERE (*PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
 			OR *PREFIX*bookmarks.id NOT IN (
 				SELECT *PREFIX*bookmarks_tags.bookmark_id FROM *PREFIX*bookmarks_tags
@@ -84,4 +80,4 @@ $query = OC_DB::prepare('
 	
 $bookmarks = $query->execute($params)->fetchAll();
 
-echo json_encode( array( 'status' => 'success', 'data' => $bookmarks));
+OC_JSON::success(array('data' => $bookmarks));

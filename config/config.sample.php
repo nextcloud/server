@@ -1,5 +1,7 @@
 <?php
 
+define("DEBUG", true);
+
 $CONFIG = array(
 "installed" => false,
 "dbtype" => "sqlite",

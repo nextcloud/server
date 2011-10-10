@@ -10,6 +10,7 @@ select.chzn-select {
   display: inline-block;
   zoom: 1;
   *display: inline;
+  vertical-align: bottom;
 }
 .chzn-container .chzn-drop {
   background: #fff;

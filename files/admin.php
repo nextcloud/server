@@ -25,19 +25,16 @@
 // Init owncloud
 require_once('../lib/base.php');
 
-
-// Check if we are a user
-if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-	header( "Location: ".OC_Helper::linkTo( "files", "index.php" ));
-	exit();
-}
+OC_User::checkAdminUser();
 
 $htaccessWorking=(getenv('htaccessWorking')=='true');
 if(isset($_POST['maxUploadSize'])){
 	$maxUploadFilesize=$_POST['maxUploadSize'];
 	OC_Files::setUploadLimit(OC_Helper::computerFileSize($maxUploadFilesize));
 }else{
-	$maxUploadFilesize = ini_get('upload_max_filesize').'B';
+	$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
+	$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
+	$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 }
 
 OC_App::setActiveNavigationEntry( "files_administration" );

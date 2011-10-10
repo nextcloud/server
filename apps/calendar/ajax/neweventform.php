@@ -1,22 +1,11 @@
 <?php
-/*************************************************
- * ownCloud - Calendar Plugin                     *
- *                                                *
- * (c) Copyright 2011 Georg Ehrke                 *
- * author: Georg Ehrke                            *
- * email: ownclouddev at georgswebsite dot de     *
- * homepage: ownclouddev.georgswebsite.de         *
- * manual: ownclouddev.georgswebsite.de/manual    *
- * License: GNU AFFERO GENERAL PUBLIC LICENSE     *
- *                                                *
- * If you are not able to view the License,       *
- * <http://www.gnu.org/licenses/>                 *
- * <http://ownclouddev.georgswebsite.de/license/> *
- * please write to the Free Software Foundation.  *
- * Address:                                       *
- * 59 Temple Place, Suite 330, Boston,            *
- * MA 02111-1307  USA                             *
- *************************************************/
+/**
+ * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
 require_once('../../../lib/base.php');
 
 $l10n = new OC_L10N('calendar');
@@ -24,9 +13,10 @@ $l10n = new OC_L10N('calendar');
 if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
+OC_JSON::checkAppEnabled('calendar');
 
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-$categories = OC_Calendar_Object::getCategoryOptions($l10n);
+$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$category_options = OC_Calendar_Object::getCategoryOptions($l10n);
 $repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
 $startday   = substr($_GET['d'], 0, 2);
 $startmonth = substr($_GET['d'], 2, 2);
@@ -39,25 +29,25 @@ if($starttime != 'undefined' && !is_nan($starttime) && !$allday){
 	$starttime = '0';
 	$startminutes = '00';
 }else{
-	$starttime = date('H');
+	$starttime = date('G');
+
 	$startminutes = date('i');
 }
 
-$endday      = $startday;
-$endmonth    = $startmonth;
-$endyear     = $startyear;
-$endtime     = $starttime;
-$endminutes  = $startminutes;
-if($endtime == 23) {
-	$endday++;
-	$endtime = 0;
-} else {
-	$endtime++;
-}
+$datetimestamp = mktime($starttime, $startminutes, 0, $startmonth, $startday, $startyear);
+$duration = OC_Preferences::getValue( OC_User::getUser(), 'calendar', 'duration', "60");
+$datetimestamp = $datetimestamp + ($duration * 60);
+$endmonth = date("m", $datetimestamp);
+$endday = date("d", $datetimestamp);
+$endyear = date("Y", $datetimestamp);
+$endtime = date("G", $datetimestamp);
+$endminutes = date("i", $datetimestamp);
+
+
 
 $tmpl = new OC_Template('calendar', 'part.newevent');
-$tmpl->assign('calendars', $calendars);
-$tmpl->assign('categories', $categories);
+$tmpl->assign('calendar_options', $calendar_options);
+$tmpl->assign('category_options', $category_options);
 $tmpl->assign('startdate', $startday . '-' . $startmonth . '-' . $startyear);
 $tmpl->assign('starttime', ($starttime <= 9 ? '0' : '') . $starttime . ':' . $startminutes);
 $tmpl->assign('enddate', $endday . '-' . $endmonth . '-' . $endyear);

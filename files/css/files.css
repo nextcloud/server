@@ -10,7 +10,7 @@
 .file_upload_form, #file_newfolder_form { display:inline; float: left;}
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
 .file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .5em; padding-left:2em; }
-.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin:.1em 1em;}
+.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin:.1em 1em .1em 0em;}
 .file_upload_wrapper .file_upload_button_wrapper { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:1000; }
 
 #file_newfolder_name { background-image:url('../../core/img/places/folder.svg'); font-weight:normal; width:7em; }
@@ -59,7 +59,7 @@ table thead.fixed { height:2em; }
 #fileList tr td.filename { -webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms; }
 #select_all { float:left; margin:.3em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
-.selectedActions a, a.action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
+.selectedActions a,#fileList a.action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
 .selectedActions { display:none; }
 
 /* add breadcrumb divider to the File item in navigation panel */

@@ -22,16 +22,17 @@ function addAudio(filename){
 
 function loadPlayer(type,ready){
 	if(!loadPlayer.done){
+		loadPlayer.done=true;
+		OC.addStyle('media','player');
 		OC.addScript('media','jquery.jplayer.min',function(){
 			OC.addScript('media','player',function(){
-				$('body').append($('<div id="playerPlaceholder"/>'))
-				$('#playerPlaceholder').append($('<div/>')).load(OC.filePath('media','templates','player.php'),function(){
-					loadPlayer.done=true;
+				var navItem=$('#apps a[href="'+OC.linkTo('media','index.php')+'"]');
+				navItem.height(navItem.height());
+				navItem.load(OC.filePath('media','templates','player.php'),function(){
 					PlayList.init(type,ready);
 				});
 			});
 		});
-		OC.addStyle('media','player');
 	}else{
 		ready();
 	}
@@ -52,7 +53,7 @@ $(document).ready(function() {
 	var oc_current_user=OC.currentUser;
 	if(typeof PlayList==='undefined'){
 		if(typeof localStorage !== 'undefined' && localStorage){
-			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items') && localStorage.getItem(oc_current_user+'oc_playlist_items')!='[]' && localStorage.getItem(oc_current_user+'oc_playlist_active')!='true'){
+			if(localStorage.getItem(oc_current_user+'oc_playlist_items') && localStorage.getItem(oc_current_user+'oc_playlist_items')!='[]' && localStorage.getItem(oc_current_user+'oc_playlist_active')!='true'){
 				loadPlayer();
 			}
 		}
