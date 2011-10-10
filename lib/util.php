@@ -90,7 +90,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(1,92,0);
+		return array(2,90,0);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '2 beta 3';
+		return '3 alpha 1';
 	}
 
 	/**
