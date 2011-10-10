@@ -28,7 +28,7 @@
 		<?php endforeach; ?>
 	</table>
 	<form>
-		<input type="button" id="contacts_deletecard" value="<?php echo $l->t('Delete');?>">
+		<img class="svg action" id="contacts_deletecard" src="<?php echo image_path('', 'actions/delete.svg'); ?>" title="<?php echo $l->t('Delete contact');?>" />
 		<input type="button" id="contacts_addproperty" value="<?php echo $l->t('Add Property');?>">
 	</form>
 <?php endif; ?>

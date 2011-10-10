@@ -44,7 +44,7 @@ if(isset($_SERVER['HTTP_ORIGIN'])) {
 	header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
 	header('Access-Control-Max-Age: 3600');
 	header('Access-Control-Allow-Methods: OPTIONS, GET, PUT, DELETE, PROPFIND');
-  	header('Access-Control-Allow-Headers: Authorization');
+  	header('Access-Control-Allow-Headers: Authorization, Content-Type');
 } else {
 	header('Access-Control-Allow-Origin: *');
 }

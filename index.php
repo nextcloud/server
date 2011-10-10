@@ -27,8 +27,16 @@ require_once('lib/base.php');
 
 // Setup required :
 $not_installed = !OC_Config::getValue('installed', false);
-$install_called = (isset($_POST['install']) AND $_POST['install']=='true');
 if($not_installed) {
+	// Check for autosetup:
+	$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
+	if( file_exists( $autosetup_file )){
+		error_log("Autoconfig file found, setting up owncloud...");
+		include( $autosetup_file );
+		$_POST['install'] = 'true';
+		$_POST = array_merge ($_POST, $AUTOCONFIG);
+	        unlink($autosetup_file);
+	}
 	OC_Util::addScript('setup');
 	require_once('setup.php');
 	exit();

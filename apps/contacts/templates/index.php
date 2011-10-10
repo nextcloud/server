@@ -14,5 +14,5 @@ OC_Util::addStyle('contacts','styles');
 	</ul>
 </div>
 <div id="rightcontent" class="rightcontent" data-id="<?php echo $_['id']; ?>">
-	<?php echo $this->inc("part.details"); ?>
+	<?php echo $this->inc("part.addcardform"); ?>
 </div>
