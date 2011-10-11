@@ -271,9 +271,8 @@ class OC_Util {
 	* Try to get the username the httpd server runs on, used in hints
 	*/
         public static function checkWebserverUser(){
-		$stat=stat($_SERVER['DOCUMENT_ROOT']);
-		if(is_callable('posix_getpwuid')){
-			$serverUser=posix_getpwuid($stat['uid']);
+		if(is_callable('posix_getuid')){
+			$serverUser=posix_getpwuid(posix_getuid());
 			$serverUser='\''.$serverUser['name'].'\'';
 		}elseif(exec('whoami')){
                 	$serverUser=exec('whoami');
