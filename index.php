@@ -100,6 +100,18 @@ else {
 			$error = true;
 		}
 	}
-
+        // The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+        elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"]))
+        {
+                if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))
+                {
+                        OC_User::unsetMagicInCookie();
+                        OC_Util::redirectToDefaultPage();
+                }
+                else
+                {
+                        $error = true;
+                }
+        }
 	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
 }
