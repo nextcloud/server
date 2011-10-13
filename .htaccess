@@ -4,4 +4,8 @@ php_value upload_max_filesize 512M
 php_value post_max_size 512M
 SetEnv htaccessWorking true
 </IfModule>
+<IfModule !mod_php5.c>
+RewriteEngine on
+RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]
+</IfModule>
 Options -Indexes

@@ -473,11 +473,14 @@ function relative_modified_date(timestamp) {
 	else { return diffyears+' '+t('files','years ago'); }
 }
 
-function getMimeIcon(mime){
-	mime=mime.substr(0,mime.indexOf('/'));
-	var knownMimes=['image','audio'];
-	if(knownMimes.indexOf(mime)==-1){
-		mime='file';
+function getMimeIcon(mime, ready){
+	if(getMimeIcon.cache[mime]){
+		ready(getMimeIcon.cache[mime]);
+	}else{
+		$.get( OC.filePath('files','ajax','mimeicon.php')+'?mime='+mime, function(path){
+			getMimeIcon.cache[mime]=path;
+			ready(getMimeIcon.cache[mime]);
+		});
 	}
-	return OC.imagePath('core','filetypes/'+mime);
 }
+getMimeIcon.cache={};

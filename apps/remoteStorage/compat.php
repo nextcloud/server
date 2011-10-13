@@ -101,7 +101,7 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'remoteStor
 			$token=OC_remoteStorage::createDataScope($appUrl, $userAddress, $dataScope);
 			header('Location: '.$_GET['redirect_uri'].'#access_token='.$token.'&token_type=remoteStorage');
 		} else {
-			if($_SERVER['HTTPS']){
+			if((isset($_SERVER['HTTPS'])) && ($_SERVER['HTTPS'])) {
 				$url = "https://";
 			} else {
 				$url = "http://";
