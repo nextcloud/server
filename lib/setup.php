@@ -273,6 +273,10 @@ class OC_Setup {
 		$content.= "php_value post_max_size 512M\n";
 		$content.= "SetEnv htaccessWorking true\n";
 		$content.= "</IfModule>\n";
+		$content.= "<IfModule !mod_php5.c>\n";
+		$content.= "RewriteEngine on\n";
+		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]\n";
+		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
