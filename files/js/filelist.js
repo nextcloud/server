@@ -101,10 +101,14 @@ FileList={
 		$('.file_upload_filename').removeClass('highlight');
 	},
 	loadingDone:function(name){
-		$('tr[data-file="'+name+'"]').data('loading',false);
-		var mime=$('tr[data-file="'+name+'"]').data('mime');
-		$('tr[data-file="'+name+'"] td.filename').attr('style','background-image:url('+getMimeIcon(mime)+')');
-		$('tr[data-file="'+name+'"] td.filename').draggable(dragOptions);
+		var tr=$('tr[data-file="'+name+'"]');
+		tr.data('loading',false);
+		var mime=tr.data('mime');
+		tr.attr('data-mime',mime);
+		getMimeIcon(mime,function(path){
+			tr.find('td.filename').attr('style','background-image:url('+path+')');
+		});
+		tr.find('td.filename').draggable(dragOptions);
 	},
 	isLoading:function(name){
 		return $('tr[data-file="'+name+'"]').data('loading');

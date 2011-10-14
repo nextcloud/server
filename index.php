@@ -27,8 +27,16 @@ require_once('lib/base.php');
 
 // Setup required :
 $not_installed = !OC_Config::getValue('installed', false);
-$install_called = (isset($_POST['install']) AND $_POST['install']=='true');
 if($not_installed) {
+	// Check for autosetup:
+	$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
+	if( file_exists( $autosetup_file )){
+		error_log("Autoconfig file found, setting up owncloud...");
+		include( $autosetup_file );
+		$_POST['install'] = 'true';
+		$_POST = array_merge ($_POST, $AUTOCONFIG);
+	        unlink($autosetup_file);
+	}
 	OC_Util::addScript('setup');
 	require_once('setup.php');
 	exit();
@@ -92,6 +100,14 @@ else {
 			$error = true;
 		}
 	}
-
+		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+		elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
+			if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{
+				OC_User::unsetMagicInCookie();
+				OC_Util::redirectToDefaultPage();
+			}else{
+				$error = true;
+			}
+		}
 	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
 }

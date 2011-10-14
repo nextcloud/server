@@ -200,6 +200,7 @@ Calendar={
 					});
 				}
 			});
+			window.setTimeout("Calendar.UI.loadEvents(" + year + ")", 120000);
 		},
 		getEventsForDate:function(date){
 			var day = date.getDate();

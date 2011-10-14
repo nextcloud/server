@@ -1,2 +1,3 @@
 .contacts_details_left {text-align:right;vertical-align:top;padding:2px;}
 .contacts_details_right {text-align:left;vertical-align:top;padding:2px;}
+#contacts_deletecard {position:absolute;top:15px;right:0;}

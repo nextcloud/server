@@ -122,3 +122,4 @@ div.jp-play-bar, div.jp-seek-bar { padding:0; }
 .pager li { display:inline-block; }
 
 li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { overflow: hidden; text-overflow: ellipsis; }

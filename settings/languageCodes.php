@@ -21,7 +21,7 @@ return array(
 'ms_MY'=>'Bahasa Melayu',
 'nb_NO'=>'Norwegian Bokmål',
 'nl'=>'Nederlands',
-'pl'=>'język polski',
+'pl'=>'Polski',
 'pt_BR'=>'Português brasileiro',
 'pt_PT'=>'Português',
 'ro'=>'română',
