@@ -2,11 +2,17 @@
 var lightBoxShown=false;
 $(document).ready(function() {
 	images={};//image cache
-	var overlay=$('<div id="lightbox_overlay"/>');
+	loading_str = t('files_imageviewer','Loading');
+	var overlay=$('<div id="lightbox_overlay"><div id="lightbox_loader"><img /></div></div>');
+	overlay.find('#lightbox_loader img')
+		.attr('src',OC.imagePath('core', 'loading-dark.gif'))
+		.attr('alt',loading_str)
+		.after(loading_str);
 	$( 'body' ).append(overlay);
 	var container=$('<div id="lightbox"/>');
 	$( 'body' ).append(container);
-	$( 'body' ).click(hideLightbox);
+	$( '#lightbox_overlay' ).click(hideLightbox);
+	$( '#lightbox' ).click(hideLightbox);
 	if(typeof FileActions!=='undefined'){
 		FileActions.register('image','View','',function(filename){
 			viewImage($('#dir').val(),filename);
@@ -35,7 +41,8 @@ function viewImage(dir,file){
 		var img = new Image();
 		img.onload = function(){
 			images[location]=img;
-			showLightbox(container,img);
+			if($('#lightbox_overlay').is(':visible'))
+				showLightbox(container,img);
 		}
 		img.src = location;
 	}else{
@@ -67,7 +74,7 @@ function showLightbox(container,img){
 }
 
 function hideLightbox(event){
-	if(lightBoxShown){
+	if(event){
 		event.stopPropagation();
 		$('#lightbox_overlay').hide();
 		$('#lightbox').hide();
