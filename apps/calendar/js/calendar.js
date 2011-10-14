@@ -479,7 +479,8 @@ Calendar={
 			},
 			newCalendar:function(object){
 				var tr = $(document.createElement('tr'))
-					.load(OC.filePath('calendar', 'ajax', 'newcalendar.php'));
+					.load(OC.filePath('calendar', 'ajax', 'newcalendar.php'),
+						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
 			},
 			edit:function(object, calendarid){
