@@ -4,6 +4,7 @@ function setEditorSize(){
 }
 
 function getFileExtension(file){
+	// Extracts the file extension from the full filename
 	var parts=file.split('.');
 	return parts[parts.length-1];
 }
@@ -11,7 +12,6 @@ function getFileExtension(file){
 function setSyntaxMode(ext){
 	// Loads the syntax mode files and tells the editor
 	var filetype = new Array();
-	// Todo finish these
     filetype["h"] = "c_cpp";
     filetype["c"] = "c_cpp";
     filetype["cpp"] = "c_cpp";
@@ -63,17 +63,21 @@ function showControls(filename){
  
 function bindControlEvents(){
 	$("#editor_save").live('click',function() {
-		doFileSave();
+		if(editorIsShown()){
+			doFileSave();
+		}
 	});	
 	
 	$('#editor_close').live('click',function() {
-		hideFileEditor();	
+		if(editorIsShown()){
+			hideFileEditor();
+		}	
 	});
 }
 
 function editorIsShown(){
 	// Not working as intended.
-	if(window.aceEditor){
+	if($('#editor').attr('editorshown')=='true'){
 		return true;
 	} else {
 		return false;	
@@ -91,55 +95,56 @@ function updateSessionFileHash(path){
 
 function doFileSave(){
 	if(editorIsShown()){
-	$('#editor_save').after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
-		var filecontents = window.aceEditor.getSession().getValue();
-		var dir =  $('#editor').attr('data-dir');
-		var file =  $('#editor').attr('data-filename');
-		$.post(OC.filePath('files_texteditor','ajax','savefile.php'), { filecontents: filecontents, file: file, dir: dir },function(jsondata){
-			
-			if(jsondata.status == 'failure'){
-				var answer = confirm(jsondata.data.message);
-				if(answer){
-					$.post(OC.filePath('files_texteditor','ajax','savefile.php'),{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
-						if(jsondata.status =='success'){
-							$('#saving_icon').remove();
-							$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>')
-							setTimeout(function() {
-  								$('#save_result').remove();
-							}, 2000);
-						} 
-						else {
-							// Save error
-							$('#saving_icon').remove();
-							$('#editor_save').after('<p id="save_result" style="float: left">Failed!</p>');
-							setTimeout(function() {
-								$('#save_result').fadeOut('slow',function(){ $(this).remove(); });
-							}, 2000);	
-						}
-					}, 'json');
+		$('#editor_save').after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
+			var filecontents = window.aceEditor.getSession().getValue();
+			var dir =  $('#editor').attr('data-dir');
+			var file =  $('#editor').attr('data-filename');
+			$.post(OC.filePath('files_texteditor','ajax','savefile.php'), { filecontents: filecontents, file: file, dir: dir },function(jsondata){
+				
+				if(jsondata.status == 'failure'){
+					var answer = confirm(jsondata.data.message);
+					if(answer){
+						$.post(OC.filePath('files_texteditor','ajax','savefile.php'),{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
+							if(jsondata.status =='success'){
+								$('#saving_icon').remove();
+								$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>')
+								setTimeout(function() {
+	  								$('#save_result').remove();
+								}, 2000);
+							} 
+							else {
+								// Save error
+								$('#saving_icon').remove();
+								$('#editor_save').after('<p id="save_result" style="float: left">Failed!</p>');
+								setTimeout(function() {
+									$('#save_result').fadeOut('slow',function(){ $(this).remove(); });
+								}, 2000);	
+							}
+						}, 'json');
+					} 
+			   		else {
+						// Don't save!
+						$('#saving_icon').remove();
+						// Temporary measure until we get a tick icon
+						$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
+						setTimeout(function() {
+									$('#save_result').fadeOut('slow',function(){ $(this).remove(); });
+						}, 2000);
+				   	}
 				} 
-		   		else {
-					// Don't save!
+				else if(jsondata.status == 'success'){
+					// Success
 					$('#saving_icon').remove();
 					// Temporary measure until we get a tick icon
 					$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
 					setTimeout(function() {
 								$('#save_result').fadeOut('slow',function(){ $(this).remove(); });
 					}, 2000);
-			   	}
-			} 
-			else if(jsondata.status == 'success'){
-				// Success
-				$('#saving_icon').remove();
-				// Temporary measure until we get a tick icon
-				$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
-				setTimeout(function() {
-							$('#save_result').fadeOut('slow',function(){ $(this).remove(); });
-				}, 2000);
-			}
-		}, 'json');
-	giveEditorFocus();
+				}
+			}, 'json');
+		giveEditorFocus();
 	} else {
+		$('#editor').data('editor','false');
 		return;	
 	}	
 };
@@ -155,6 +160,7 @@ function showFileEditor(dir,filename){
 				url: OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
 				complete: function(data){
 					// Initialise the editor
+					$('#editor').attr('editorshown','true');
 					updateSessionFileHash(dir+'/'+filename);
 					showControls(filename);
 					$('table').fadeOut('slow', function() {
@@ -178,6 +184,7 @@ function showFileEditor(dir,filename){
 }
 
 function hideFileEditor(){
+	$('#editor').attr('editorshown','false');	
 	// Fade out controls
 	$('#editor_close').fadeOut('slow');
 	// Fade out the save button
