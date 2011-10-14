@@ -37,7 +37,7 @@
 	</fieldset>
 
 	<fieldset id='databaseField'>
-		<?php if($_['hasMySQL'] or $_['hasPostgreSQL']) $hasOtherDB = true; //other than SQLite ?>
+		<?php if($_['hasMySQL'] or $_['hasPostgreSQL']) $hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
 		<legend><?php echo $l->t( 'Configure the database' ); ?></legend>
 		<div id="selectDbType">
 		<?php if($_['hasSQLite']): ?>
