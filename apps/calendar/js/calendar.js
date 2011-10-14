@@ -454,6 +454,43 @@ Calendar={
 				  });
 			}
 		},
+		initscroll:function(){ 
+			if(window.addEventListener)
+				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollcalendar);
+			//}else{
+				document.onmousewheel = Calendar.UI.scrollcalendar;
+			//}
+		},
+		scrollcalendar:function(event){
+			var direction;
+			if(event.detail){
+				if(event.detail < 0){
+					direction = "top";
+				}else{
+					direction = "down";
+				}
+			}
+			if (event.wheelDelta){
+				if(event.wheelDelta > 0){
+					direction = "top";
+				}else{
+					direction = "down";
+				}
+			}
+			if(Calendar.UI.currentview == "onemonthview"){
+				if(direction == "down"){
+					Calendar.UI.updateDate("forward");
+				}else{
+					Calendar.UI.updateDate("backward");
+				}
+			}else if(Calendar.UI.currentview == "oneweekview"){
+				if(direction == "down"){
+					Calendar.UI.updateDate("forward");
+				}else{
+					Calendar.UI.updateDate("backward");
+				}
+			}
+		},
 		Calendar:{
 			overview:function(){
 				if($('#choosecalendar_dialog').dialog('isOpen') == true){
@@ -935,6 +972,7 @@ Calendar={
 $(document).ready(function(){
 	$('#listview #more_before').click(Calendar.UI.List.renderMoreBefore);
 	$('#listview #more_after').click(Calendar.UI.List.renderMoreAfter);
+	Calendar.UI.initscroll();
 });
 //event vars
 Calendar.UI.loadEvents();
