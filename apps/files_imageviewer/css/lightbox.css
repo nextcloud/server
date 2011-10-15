@@ -21,3 +21,12 @@
 	margin-right:auto;
 	z-index:9999;
 }
+
+#lightbox_loader{
+  text-align:center;
+  position:fixed;
+  top: 40%;
+  left: 50%;
+  color:white;
+}
+#lightbox_loader img { margin-right: 1em;}

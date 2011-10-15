@@ -112,7 +112,7 @@ Calendar={
 		formatTime:function(date){
 			return date[3] + ':' + date[4];
 		},
-		updateView:function(task) {
+		updateView:function() {
 			this.current.removeEvents();
 			this.current.renderCal();
 			this.current.showEvents();
@@ -516,7 +516,8 @@ Calendar={
 			},
 			newCalendar:function(object){
 				var tr = $(document.createElement('tr'))
-					.load(OC.filePath('calendar', 'ajax', 'newcalendar.php'));
+					.load(OC.filePath('calendar', 'ajax', 'newcalendar.php'),
+						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
 			},
 			edit:function(object, calendarid){
