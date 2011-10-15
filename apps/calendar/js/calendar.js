@@ -112,7 +112,7 @@ Calendar={
 		formatTime:function(date){
 			return date[3] + ':' + date[4];
 		},
-		updateView:function(task) {
+		updateView:function() {
 			this.current.removeEvents();
 			this.current.renderCal();
 			this.current.showEvents();
