@@ -1,0 +1,10 @@
+<?xml version="1.0"?> 
+<info>
+	<id>files_texteditor</id>
+	<name>Text Editor</name>
+	<version>0.3</version>
+	<licence>AGPL</licence>
+	<author>Tom Needham</author>
+	<require>2</require>
+	<default_enable/>
+</info>
