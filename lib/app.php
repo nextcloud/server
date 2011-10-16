@@ -225,10 +225,7 @@ class OC_App{
 				// admin log menu
 				$settings[] = array( "id" => "core_log", "order" => 4, "href" => OC_Helper::linkTo( "settings", "log.php" ), "name" => $l->t("Log"), "icon" => OC_Helper::imagePath( "log", "apps.svg" ));
 
-				// if there're some admin forms
-				if(!empty(self::$adminForms))
-					// admins menu
-					$settings[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
+				$settings[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
 			}
  		}
 
