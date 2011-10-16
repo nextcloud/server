@@ -350,7 +350,7 @@ class OC_DB {
 		$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 		
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
-		if( $type == 'sqlite' ){
+		if( $type == 'sqlite' || $type == 'sqlite3' ){
 			$query = str_replace( '`', '\'', $query );
 			$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
 			$query = str_replace( 'now()', 'datetime(\'now\')', $query );
