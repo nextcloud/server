@@ -121,5 +121,6 @@ div.jp-play-bar, div.jp-seek-bar { padding:0; }
 .pager { list-style:none; float:right; display:inline; margin:.7em 13em 0 0; }
 .pager li { display:inline-block; }
 
-li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; color: #FF3B3B; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { overflow: hidden; text-overflow: ellipsis; }
+.hint { background-image: url('/core/img/actions/info.png'); background-repeat:no-repeat; color: #777777; padding-left: 25px; background-position: 0 0.3em;}
