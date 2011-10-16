@@ -312,9 +312,8 @@ class OC_DB {
 		$query = str_replace( 'NOW()', self::$DBConnection->now(), $query );
 		$query = str_replace( 'now()', self::$DBConnection->now(), $query );
 		
-		// differences in escaping of table names (` for mysql)
-		// Problem: what if there is a ` in the value we want to insert?
-		if( $CONFIG_DBTYPE == 'sqlite' ){
+		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
+		if( $type == 'sqlite' || $type == 'sqlite3' ){
 			$query = str_replace( '`', '\'', $query );
 		}
 		elseif( $CONFIG_DBTYPE == 'pgsql' ){
