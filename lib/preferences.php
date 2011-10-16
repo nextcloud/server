@@ -140,7 +140,6 @@ class OC_Preferences{
 		// Check if the key does exist
 		$query = OC_DB::prepare( 'SELECT configvalue FROM *PREFIX*preferences WHERE userid = ? AND appid = ? AND configkey = ?' );
 		$values=$query->execute(array($user,$app,$key))->fetchAll();
-		if(defined("DEBUG") && DEBUG) {error_log(print_r($values,true));}
 		$exists=(count($values)>0);
 
 		if( !$exists ){

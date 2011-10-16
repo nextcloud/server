@@ -13,7 +13,7 @@ if($foldername == '') {
 	OC_JSON::error(array("data" => array( "message" => "Empty Foldername" )));
 	exit();
 }
-if(defined("DEBUG") && DEBUG) {error_log('try to create ' . $foldername . ' in ' . $dir);}
+
 if(OC_Files::newFile($dir, $foldername, 'dir')) {
 	OC_JSON::success(array("data" => array()));
 	exit();

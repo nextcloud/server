@@ -161,9 +161,8 @@ class OC_DB {
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )){
 				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
-				$error = self::$MDB2->getMessage();
-				error_log( $error);
-				error_log( self::$MDB2->getUserInfo());
+				OC_Log::write('core',self::$MDB2->getUserInfo(),OC_Log::FATAL);
+				OC_Log::write('core',self::$MDB2->getMessage(),OC_Log::FATAL);
 				die( $error );
 			}
 			
@@ -195,7 +194,7 @@ class OC_DB {
 			if( PEAR::isError($result)) {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
-				error_log( $entry );
+				OC_Log::write('core',$entry,OC_Log::FATAL);
 				die( $entry );
 			}
 		}else{
@@ -204,7 +203,7 @@ class OC_DB {
 			}catch(PDOException $e){
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
-				error_log( $entry );
+				OC_Log::write('core',$entry,OC_Log::FATAL);
 				die( $entry );
 			}
 			$result=new PDOStatementWrapper($result);

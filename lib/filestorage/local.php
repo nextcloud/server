@@ -195,7 +195,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	private function delTree($dir) {
-		if(defined("DEBUG") && DEBUG) {error_log('del'.$dir);}
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;
 		if (!file_exists($dir)) return true;

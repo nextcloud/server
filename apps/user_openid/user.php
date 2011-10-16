@@ -40,7 +40,7 @@ require_once '../../lib/base.php';
 OC_Util::checkAppEnabled('user_openid');
 
 if(!OC_User::userExists($USERNAME)){
-	if(defined("DEBUG") && DEBUG) {error_log($USERNAME.' doesn\'t exist');}
+	OC_Log::write('user_openid',$USERNAME.' doesn\'t exist',OC_Log::WARN);
 	$USERNAME='';
 }
 $IDENTITY=OC_Helper::linkTo( "user_openid", "user.php", null, true ).'/'.$USERNAME;

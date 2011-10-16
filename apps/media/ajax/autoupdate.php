@@ -30,9 +30,7 @@ $RUNTIME_NOSETUPFS=true;
 require_once('../../../lib/base.php');
 OC_JSON::checkAppEnabled('media');
 
-if(defined("DEBUG") && DEBUG) {error_log($_GET['autoupdate']);}
 $autoUpdate=(isset($_GET['autoupdate']) and $_GET['autoupdate']=='true');
-if(defined("DEBUG") && DEBUG) {error_log((integer)$autoUpdate);}
 
 OC_Preferences::setValue(OC_User::getUser(),'media','autoupdate',(integer)$autoUpdate);
 

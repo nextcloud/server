@@ -7,7 +7,7 @@ class OC_remoteStorage {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
+			OC_Log::write('removeStorage',$entry,OC_Log::ERROR);
 			die( $entry );
 		}
 		$ret = array();
@@ -24,7 +24,7 @@ class OC_remoteStorage {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
+			OC_Log::write('removeStorage',$entry,OC_Log::ERROR);
 			die( $entry );
 		}
 		$ret = array();
@@ -45,7 +45,7 @@ class OC_remoteStorage {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
+			OC_Log::write('removeStorage',$entry,OC_Log::ERROR);
 			die( $entry );
 		}
 	}
@@ -56,7 +56,7 @@ class OC_remoteStorage {
 		if( PEAR::isError($result)) {
 			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$result->getDebugInfo().'<br />';
-			if(defined("DEBUG") && DEBUG) {error_log( $entry );}
+			OC_Log::write('removeStorage',$entry,OC_Log::ERROR);
 			die( $entry );
 		}
 	}
