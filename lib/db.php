@@ -43,6 +43,9 @@ class OC_DB {
 	 * Connects to the database as specified in config.php
 	 */
 	public static function connect(){
+		if(self::$connection){
+			return;
+		}
 		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
 			self::connectPDO();
 			self::$connection=self::$PDO;
@@ -64,8 +67,7 @@ class OC_DB {
 		$user = OC_Config::getValue( "dbuser", "" );
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		$SERVERROOT=OC::$SERVERROOT;
-		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 		
 		// do nothing if the connection already has been established
 		if(!self::$PDO){
