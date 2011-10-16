@@ -118,7 +118,7 @@ class getid3_write_real
 							$this->errors[] = 'Could not open '.$tempfilename.' mode "wb" - '.strip_tags(ob_get_contents());
 
 						}
-						ob_end_clean();
+						@ob_end_clean();
 					}
 					fclose($fp_source);
 					return false;
@@ -275,7 +275,7 @@ class getid3_write_real
 						$this->errors[] = 'Could not open '.$tempfilename.' mode "wb" - '.strip_tags(ob_get_contents());
 
 					}
-					ob_end_clean();
+					@ob_end_clean();
 				}
 				fclose($fp_source);
 				return false;
