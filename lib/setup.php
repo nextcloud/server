@@ -82,10 +82,10 @@ class OC_Setup {
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
-				$dbtableprefix = 'oc_';
+				$dbtableprefix = OC_Config::gsetValue('dbtableprefix','oc_');
 				OC_Config::setValue('dbname', $dbname);
 				OC_Config::setValue('dbhost', $dbhost);
-				OC_Config::setValue('dbtableprefix', 'oc_');
+				OC_Config::setValue('dbtableprefix', $dbtableprefix);
 
 				//check if the database user has admin right
 				$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
@@ -135,7 +135,7 @@ class OC_Setup {
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
-				$dbtableprefix = 'oc_';
+				$dbtableprefix = OC_Config::getValue('dbtableprefix','oc_');
 				OC_CONFIG::setValue('dbname', $dbname);
 				OC_CONFIG::setValue('dbhost', $dbhost);
 				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
