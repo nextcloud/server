@@ -106,7 +106,7 @@ if($arguments['action']){
 			}
 			break;
 		case 'play':
-			ob_end_clean();
+			@ob_end_clean();
 			
 			$ftype=OC_Filesystem::getMimeType( $arguments['path'] );
 			
