@@ -135,7 +135,7 @@ class OC_Setup {
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
-				$dbtableprefix = $options['dbtableprefix'];
+				$dbtableprefix = 'oc_';
 				OC_CONFIG::setValue('dbname', $dbname);
 				OC_CONFIG::setValue('dbhost', $dbhost);
 				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
@@ -178,7 +178,7 @@ class OC_Setup {
 					}
 
 					//fill the database if needed
-					$query="SELECT * FROM {$dbtableprefix}users";
+					$query = "SELECT relname FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
 					$result = pg_query($connection, $query);
 					if(!$result) {
 						OC_DB::createDbFromStructure('db_structure.xml');
