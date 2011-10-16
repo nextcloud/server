@@ -87,7 +87,7 @@ class OC_FILEYSYSTEM_Test extends OC_TestCase
 		ob_start();
 		OC_Filesystem::readfile('/dummy');
 		$this->assertEquals('foo', ob_get_contents(),'Unexpected output of readfile');
-		ob_end_clean();
+		@ob_end_clean();
 	}
 
 	public function isReadable(){

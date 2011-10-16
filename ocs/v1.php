@@ -22,7 +22,7 @@
 */
 
 require_once('../lib/base.php');
-ob_clean();
+@ob_clean();
 OC_OCS::handle();
 
 ?>
