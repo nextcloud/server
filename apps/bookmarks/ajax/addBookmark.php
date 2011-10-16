@@ -33,6 +33,8 @@ OC_JSON::checkAppEnabled('bookmarks');
 $CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_ut = "strftime('%s','now')";
+} elseif($CONFIG_DBTYPE == 'pgsql') {
+	$_ut = 'date_part(\'epoch\',now())::integer';
 } else {
 	$_ut = "UNIX_TIMESTAMP()";
 }
@@ -51,7 +53,15 @@ $params=array(
 	OC_User::getUser()
 	);
 $query->execute($params);
-$b_id = OC_DB::insertid();
+
+if($CONFIG_DBTYPE == 'pgsql')
+{
+	$query = OC_DB::prepare("SELECT currval('*PREFIX*bookmarks_id_seq')");
+	$b_id = $query->execute()->fetchOne();
+} else {
+	$b_id = OC_DB::insertid();
+}
+
 
 if($b_id !== false) {
 	$query = OC_DB::prepare("

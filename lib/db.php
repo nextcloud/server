@@ -28,7 +28,7 @@ class OC_DB {
 	const BACKEND_PDO=0;
 	const BACKEND_MDB2=1;
 	
-	static private $connection; //the prefered conenction to use, either PDO or MDB2
+	static private $connection; //the prefered connection to use, either PDO or MDB2
 	static private $backend=null;
 	static private $MDB2=false;
 	static private $PDO=false;
@@ -479,5 +479,14 @@ class PDOStatementWrapper{
 	 */
 	public function __call($name,$arguments){
 		return call_user_func_array(array($this->statement,$name),$arguments);
+	}
+	
+	/**
+	 * Provide a simple fetchOne.
+	 * fetch single column from the next row
+	 * @param int $colnum the column number to fetch
+	 */
+	public function fetchOne($colnum = 0){
+		return $this->statement->fetchColumn($colnum);
 	}
 }

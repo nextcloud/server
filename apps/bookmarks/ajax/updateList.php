@@ -38,6 +38,9 @@ $filterTag = isset($_GET['tag']) ? '%' . htmlspecialchars_decode($_GET['tag']) .
 if($filterTag){
 	$sqlFilterTag = 'HAVING tags LIKE ?';
 	$params[] = $filterTag;
+	if($CONFIG_DBTYPE == 'pgsql' ) {
+		$sqlFilterTag = 'HAVING array_to_string(array_agg(tag), \' \')  LIKE ?';
+	}
 } else {
 	$sqlFilterTag = '';
 }
@@ -58,26 +61,40 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_gc_separator = 'SEPARATOR \' \'';
 }
 
-$query = OC_DB::prepare('
-	SELECT id, url, title, 
-	CASE WHEN *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
-			THEN GROUP_CONCAT( tag ' .$_gc_separator. ' )
-			ELSE \' \'
-		END
-		AS tags
-	FROM *PREFIX*bookmarks
-	LEFT JOIN *PREFIX*bookmarks_tags ON 1=1
-	WHERE (*PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
-			OR *PREFIX*bookmarks.id NOT IN (
-				SELECT *PREFIX*bookmarks_tags.bookmark_id FROM *PREFIX*bookmarks_tags
+if($CONFIG_DBTYPE == 'pgsql' ){
+	$query = OC_DB::prepare('
+		SELECT id, url, title, array_to_string(array_agg(tag), \' \') as tags
+		FROM *PREFIX*bookmarks
+		LEFT JOIN *PREFIX*bookmarks_tags ON *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
+		WHERE 
+			*PREFIX*bookmarks.user_id = ?
+		GROUP BY id, url, title
+		'.$sqlFilterTag.'
+		ORDER BY *PREFIX*bookmarks.'.$sqlSort.' 
+		LIMIT 10
+		OFFSET ?');
+} else {
+	$query = OC_DB::prepare('
+		SELECT id, url, title, 
+		CASE WHEN *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
+				THEN GROUP_CONCAT( tag ' .$_gc_separator. ' )
+				ELSE \' \'
+			END
+			AS tags
+		FROM *PREFIX*bookmarks
+		LEFT JOIN *PREFIX*bookmarks_tags ON 1=1
+		WHERE (*PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
+				OR *PREFIX*bookmarks.id NOT IN (
+					SELECT *PREFIX*bookmarks_tags.bookmark_id FROM *PREFIX*bookmarks_tags
+				)
 			)
-		)
-		AND *PREFIX*bookmarks.user_id = ?
-	GROUP BY url
-	'.$sqlFilterTag.'
-	ORDER BY *PREFIX*bookmarks.'.$sqlSort.' 
-	LIMIT ?,  10');
-	
+			AND *PREFIX*bookmarks.user_id = ?
+		GROUP BY url
+		'.$sqlFilterTag.'
+		ORDER BY *PREFIX*bookmarks.'.$sqlSort.' 
+		LIMIT ?,  10');
+}
+
 $bookmarks = $query->execute($params)->fetchAll();
 
 OC_JSON::success(array('data' => $bookmarks));
