@@ -15,10 +15,12 @@ if( count($calendars) == 0){
 	OC_Calendar_Calendar::addCalendar(OC_User::getUser(),'default','Default calendar');
 	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
 }
-OC_UTIL::addScript('calendar', 'calendar');
-OC_UTIL::addStyle('calendar', 'style');
-OC_UTIL::addScript('', 'jquery.multiselect');
-OC_UTIL::addStyle('', 'jquery.multiselect');
-OC_APP::setActiveNavigationEntry('calendar_index');
-$output = new OC_TEMPLATE('calendar', 'calendar', 'user');
+OC_Util::addScript('calendar', 'calendar');
+OC_Util::addStyle('calendar', 'style');
+OC_Util::addScript('', 'jquery.multiselect');
+OC_Util::addStyle('', 'jquery.multiselect');
+OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
+OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
+OC_App::setActiveNavigationEntry('calendar_index');
+$output = new OC_Template('calendar', 'calendar', 'user');
 $output -> printPage();
