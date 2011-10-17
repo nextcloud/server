@@ -182,13 +182,21 @@ $(document).ready(function() {
 				var response=jQuery.parseJSON(target.contents().find('body').text());
 				//set mimetype and if needed filesize
 				if(response){
-					for(var i=0;i<response.length;i++){
-						var file=response[i];
-						$('tr[data-file="'+file.name+'"]').data('mime',file.mime);
-						if(size=='Pending'){
-							$('tr[data-file='+file.name+'] td.filesize').text(file.size);
+					if(response[0] != undefined && response[0].status == 'success'){
+						for(var i=0;i<response.length;i++){
+							var file=response[i];
+							$('tr[data-file="'+file.name+'"]').data('mime',file.mime);
+							if(size=='Pending'){
+								$('tr[data-file='+file.name+'] td.filesize').text(file.size);
+							}
+							FileList.loadingDone(file.name);
 						}
-						FileList.loadingDone(file.name);
+					}
+					else{
+						$('#notification').text(t('files',response.data.message));
+						$('#notification').fadeIn();
+						$('#fileList > tr').not('[data-mime]').fadeOut();
+						$('#fileList > tr').not('[data-mime]').remove();
 					}
 				}
 			});
