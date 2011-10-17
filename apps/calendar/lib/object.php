@@ -31,6 +31,34 @@ class OC_Calendar_Object{
 	}
 
 	/**
+	 * @brief Returns all objects of a calendar between $start and $end
+	 * @param integer $id
+	 * @param DateTime $start
+	 * @param DateTime $end
+	 * @return array
+	 *
+	 * The objects are associative arrays. You'll find the original vObject
+	 * in ['calendardata']
+	 */
+	public static function allInPeriod($id, $start, $end){
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?'
+		.' AND ((startdate >= ? AND startdate <= ? AND repeating = 0)'
+		.' OR (startdate <= ? AND enddate >= ? AND repeating = 1))' );
+		$start = self::getUTCforMDB($start);
+		$end = self::getUTCforMDB($end);
+		$result = $stmt->execute(array($id,
+					$start, $end,
+					$end, $start));
+
+		$calendarobjects = array();
+		while( $row = $result->fetchRow()){
+			$calendarobjects[] = $row;
+		}
+
+		return $calendarobjects;
+	}
+
+	/**
 	 * @brief Returns an object
 	 * @param integer $id
 	 * @return associative array
