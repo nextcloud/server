@@ -153,7 +153,7 @@ class OC_Util {
          */
         public static function formatDate( $timestamp,$dateOnly=false){
 			if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
-				$systemTimeZone = intval(exec('date +%z'));
+				$systemTimeZone = intval(date('O'));
 				$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
 				$clientTimeZone=$_SESSION['timezone']*60;
 				$offset=$clientTimeZone-$systemTimeZone;
@@ -270,17 +270,17 @@ class OC_Util {
 	/**
 	* Try to get the username the httpd server runs on, used in hints
 	*/
-        public static function checkWebserverUser(){
+	public static function checkWebserverUser(){
 		if(is_callable('posix_getuid')){
 			$serverUser=posix_getpwuid(posix_getuid());
 			$serverUser='\''.$serverUser['name'].'\'';
 		}elseif(exec('whoami')){
-                	$serverUser=exec('whoami');
-                }else{
+			$serverUser=exec('whoami');
+		}else{
 			$serverUser='\'www-data\' for ubuntu/debian'; //TODO: try to detect the distro and give a guess based on that
 		}
-                return $serverUser;
-        }
+		return $serverUser;
+	}
 
 
 	/**
