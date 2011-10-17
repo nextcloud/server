@@ -60,7 +60,7 @@ class OC_Share {
 			foreach ($uid_shared_with as $uid) {
 				// Check if this item is already shared with the user
 				$checkSource = OC_DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with ".self::getUsersAndGroups($uid));
-				$resultCheckSource = $checkSource->execute(array($source, $uid))->fetchAll();
+				$resultCheckSource = $checkSource->execute(array($source))->fetchAll();
 				// TODO Check if the source is inside a folder
 				if (count($resultCheckSource) > 0 && !isset($gid)) {
 					throw new Exception("This item is already shared with ".$uid);
