@@ -46,7 +46,6 @@ if($filterTag){
 }
 
 $offset = isset($_GET['page']) ? intval($_GET['page']) * 10 : 0;
-$params[] = $offset;
 
 $sort = isset($_GET['sort']) ? ($_GET['sort']) : 'bookmarks_sorting_recent';
 if($sort == 'bookmarks_sorting_clicks') {
@@ -62,6 +61,7 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 }
 
 if($CONFIG_DBTYPE == 'pgsql' ){
+	$params[] = $offset;
 	$query = OC_DB::prepare('
 		SELECT id, url, title, array_to_string(array_agg(tag), \' \') as tags
 		FROM *PREFIX*bookmarks
@@ -92,7 +92,7 @@ if($CONFIG_DBTYPE == 'pgsql' ){
 		GROUP BY url
 		'.$sqlFilterTag.'
 		ORDER BY *PREFIX*bookmarks.'.$sqlSort.' 
-		LIMIT ?,  10');
+		LIMIT '.$offset.',  10');
 }
 
 $bookmarks = $query->execute($params)->fetchAll();
