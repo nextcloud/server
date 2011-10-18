@@ -658,6 +658,29 @@ $(document).ready(function(){
 	$('#listview #more_before').click(Calendar.UI.List.renderMoreBefore);
 	$('#listview #more_after').click(Calendar.UI.List.renderMoreAfter);
 	Calendar.UI.initscroll();
+	$('#calendar_holder').fullCalendar({
+		header: false,
+		firstDay: 1,
+		editable: true,
+		eventSources: eventSources,
+		viewDisplay: function(view) {
+			$('#datecontrol_date').html(view.title);
+		}
+	});
+	$('#oneweekview_radio').click(function(){
+		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');
+	});
+	$('#onemonthview_radio').click(function(){
+		$('#calendar_holder').fullCalendar('changeView', 'month');
+	});
+	//$('#listview_radio').click();
+	$('#today_input').click(function(){
+		$('#calendar_holder').fullCalendar('today');
+	});
+	$('#datecontrol_left').click(function(){
+		$('#calendar_holder').fullCalendar('prev');
+	});
+	$('#datecontrol_right').click(function(){
+		$('#calendar_holder').fullCalendar('next');
+	});
 });
-//event vars
-Calendar.UI.loadEvents();

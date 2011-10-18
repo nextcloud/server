@@ -19,7 +19,8 @@ $eventSources = array();
 foreach($calendars as $calendar){
 	$eventSources[] = array(
 		'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
-		'color' => '#'.$calendar['calendarcolor'],
+		'backgroundColor' => '#'.$calendar['calendarcolor'],
+		'borderColor' => '#888',
 		'textColor' => 'black',
 	);
 }
