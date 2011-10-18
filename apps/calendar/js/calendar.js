@@ -662,9 +662,21 @@ $(document).ready(function(){
 		header: false,
 		firstDay: 1,
 		editable: true,
+		defaultView: defaultView,
+		timeFormat: {
+			agenda: 'HH:mm{ - HH:mm}',
+			'': 'HH:mm'
+			},
+		axisFormat: 'HH:mm',
+		monthNames: monthNames,
+		monthNamesShort: monthNamesShort,
+		dayNames: dayNames,
+		dayNamesShort: dayNamesShort,
+		allDayText: allDayText,
 		eventSources: eventSources,
 		viewDisplay: function(view) {
 			$('#datecontrol_date').html(view.title);
+			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
 		}
 	});
 	$('#oneweekview_radio').click(function(){
