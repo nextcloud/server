@@ -36,41 +36,16 @@ class OC_Util {
 		}
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-			//first set up the local "root" storage and the backupstorage if needed
-			$rootStorage=OC_Filesystem::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT));
-// 			if( OC_Config::getValue( "enablebackup", false )){
-// 				// This creates the Directorys recursively
-// 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
-// 					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0755, true );
-// 				}
-// 				$backupStorage=OC_Filesystem::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
-// 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
-// 				$rootStorage->addObserver($backup);
-// 			}
-			OC_Filesystem::mount($rootStorage,'/');
+			//first set up the local "root" storage
+			OC_Filesystem::mount('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
 
 			// TODO add this storage provider in a proper way
-			$sharedStorage = OC_Filesystem::createStorage('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'));
-			OC_Filesystem::mount($sharedStorage,'/'.OC_User::getUser().'/files/Shared/');
+			OC_Filesystem::mount('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
 
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
 			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
 				mkdir( OC::$CONFIG_DATADIRECTORY, 0755, true );
 			}
-
-// TODO: find a cool way for doing this
-// 			//set up the other storages according to the system settings
-// 			foreach($CONFIG_FILESYSTEM as $storageConfig){
-// 				if(OC_Filesystem::hasStorageType($storageConfig['type'])){
-// 					$arguments=$storageConfig;
-// 					unset($arguments['type']);
-// 					unset($arguments['mountpoint']);
-// 					$storage=OC_Filesystem::createStorage($storageConfig['type'],$arguments);
-// 					if($storage){
-// 						OC_Filesystem::mount($storage,$storageConfig['mountpoint']);
-// 					}
-// 				}
-// 			}
 
 			//jail the user into his "home" directory
 			OC_Filesystem::chroot("/$user/$root");

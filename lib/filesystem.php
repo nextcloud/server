@@ -44,6 +44,7 @@
  */
 class OC_Filesystem{
 	static private $storages=array();
+	static private $mounts=array();
 	static private $fakeRoot='';
 	static private $storageTypes=array();
 	
@@ -91,7 +92,7 @@ class OC_Filesystem{
 	* @param  array  arguments
 	* @return OC_Filestorage
 	*/
-	static public function createStorage($type,$arguments){
+	static private function createStorage($type,$arguments){
 		if(!self::hasStorageType($type)){
 			return false;
 		}
@@ -163,11 +164,11 @@ class OC_Filesystem{
 	* @param OC_Filestorage storage
 	* @param string mountpoint
 	*/
-	static public function mount($storage,$mountpoint){
+	static public function mount($type,$arguments,$mountpoint){
 		if(substr($mountpoint,0,1)!=='/'){
 			$mountpoint='/'.$mountpoint;
 		}
-		self::$storages[self::$fakeRoot.$mountpoint]=$storage;
+		self::$mounts[self::$fakeRoot.$mountpoint]=array('type'=>$type,'arguments'=>$arguments);
 	}
 	
 	/**
@@ -178,6 +179,10 @@ class OC_Filesystem{
 	static public function getStorage($path){
 		$mountpoint=self::getMountPoint($path);
 		if($mountpoint){
+			if(!isset(self::$storages[$mountpoint])){
+				$mount=self::$mounts[$mountpoint];
+				self::$storages[$mountpoint]=self::createStorage($mount['type'],$mount['arguments']);
+			}
 			return self::$storages[$mountpoint];
 		}
 	}
@@ -201,7 +206,7 @@ class OC_Filesystem{
 		}
 		$path=self::$fakeRoot.$path;
 		$foundMountPoint='';
-		foreach(self::$storages as $mountpoint=>$storage){
+		foreach(self::$mounts as $mountpoint=>$storage){
 			if(substr($mountpoint,-1)!=='/'){
 				$mountpoint=$mountpoint.'/';
 			}
