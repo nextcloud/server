@@ -201,10 +201,9 @@ Calendar={
 			$("#advanced_options").css("display", "block");
 			$("#advanced_options_button").css("display", "none");
 		},
-		createEventPopup:function(e){
+		createEventPopup:function(event, e, view){
 			var popup = $(this).data('popup');
 			if (!popup){
-				var event = $(this).data('event_info');
 				popup = $(document.createElement('div'));
 				$(this).data('popup', popup).append(popup);
 				popup.addClass('popup')
@@ -218,27 +217,15 @@ Calendar={
 			$(this).data('popup').hide();
 		},
 		getEventPopupText:function(event){
-			var startdate = this.formatDate(event.startdate)
-			var starttime = this.formatTime(event.startdate)
-			var enddate = this.formatDate(event.enddate)
-			var endtime = this.formatTime(event.enddate)
-			if (event.allday){
-				var timespan = startdate;
-				if (event.startdate[2] != parseInt(event.enddate[2])-1){
-					timespan += ' - ' + enddate;
-				}
+			if (event.allDay){
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "MMMM d[ yyyy]{ '&#8212;'[ MMMM][ d] yyyy}"));
 			}else{
-				var start = startdate + ' ' + starttime;
-				if (startdate == enddate){
-					var end = endtime;
-				}else{
-					var end = enddate + ' ' + endtime;
-				}
-				var timespan = start + ' - ' + end;
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "HH:mm[ MMMM d yyyy]{ '&#8212;' HH:mm MMMM d yyyy}"));
 			}
 			return '<span class="timespan">' + timespan + '</span>'
 				+ ' '
-				+ '<span class="summary">' + event.description + '</span>';
+				+ '<span class="summary">' + event.title + '</span>'
+				+ '<span class="description">' + event.description + '</span>';
 		},
 		addDateInfo:function(selector, date){
 			$(selector).data('date_info', date);
@@ -501,13 +488,15 @@ $(document).ready(function(){
 		dayNames: dayNames,
 		dayNamesShort: dayNamesShort,
 		allDayText: allDayText,
-		eventSources: eventSources,
 		viewDisplay: function(view) {
 			$('#datecontrol_date').html(view.title);
 			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
 		},
 		dayClick: Calendar.UI.newEvent,
-		eventClick: Calendar.UI.editEvent
+		eventClick: Calendar.UI.editEvent,
+		eventMouseover: Calendar.UI.createEventPopup,
+		eventMouseout: Calendar.UI.hideEventPopup,
+		eventSources: eventSources
 	});
 	$('#oneweekview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');

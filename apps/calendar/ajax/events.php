@@ -32,14 +32,15 @@ foreach($events as $event)
 	$return_event = array();
 	$return_event['id'] = $event['id'];
 	$return_event['title'] = $event['summary'];
-	$return_event['start'] = $start_dt->format('Y-m-d H:i');
-	$return_event['end'] = $end_dt->format('Y-m-d H:i');
+	$return_event['description'] = isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION:'';
+	$return_event['start'] = $start_dt->format('Y-m-d H:i:s');
+	$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
 	$return_event['allDay'] = false;
 	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE)
 	{
 		$return_event['allDay'] = true;
 		$end_dt->modify('-1 sec');
-		$return_event['end'] = $end_dt->format('Y-m-d H:i');
+		$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
 	}
 	$return[] = $return_event;
 }
