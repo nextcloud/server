@@ -201,6 +201,16 @@ Calendar={
 				}
 			});
 		},
+		resizeEvent:function(event, dayDelta, minuteDelta, revertFunc){
+			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta},
+			function(data) {
+				if (data.status == 'success'){
+					console.log("Event resized successfully");
+				}else{
+					revertFunc();
+				}
+			});
+		},
 		showadvancedoptions:function(){
 			$("#advanced_options").css("display", "block");
 			$("#advanced_options_button").css("display", "none");
@@ -476,6 +486,7 @@ $(document).ready(function(){
 		dayClick: Calendar.UI.newEvent,
 		eventClick: Calendar.UI.editEvent,
 		eventDrop: Calendar.UI.moveEvent,
+		eventResize: Calendar.UI.resizeEvent,
 		eventMouseover: Calendar.UI.createEventPopup,
 		eventMouseout: Calendar.UI.hideEventPopup,
 		eventSources: eventSources
