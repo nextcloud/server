@@ -7,7 +7,6 @@ var monthNames = <?php echo json_encode($l->tA(array('January', 'February', 'Mar
 var monthNamesShort = <?php echo json_encode($l->tA(array('Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'))) ?>;
 var allDayText = '<?php echo $l->t('All day') ?>';
 </script>
-				<div id="sysbox"></div>
 				<div id="controls">
 					<div>
 						<form>

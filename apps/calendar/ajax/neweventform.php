@@ -21,20 +21,16 @@ $repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
 $startday   = substr($_GET['d'], 0, 2);
 $startmonth = substr($_GET['d'], 2, 2);
 $startyear  = substr($_GET['d'], 4, 4);
-$starttime  = $_GET['t'];
-$allday = $starttime == 'allday';
-if($starttime != 'undefined' && !is_nan($starttime) && !$allday){
-	$startminutes = '00';
-}elseif($allday){
-	$starttime = '0';
-	$startminutes = '00';
+$allday = $_GET['t'] == 'allday';
+if(!$allday){
+	$starthour    = substr($_GET['t'], 0, 2);
+	$startminutes = substr($_GET['t'], 2, 2);
 }else{
-	$starttime = date('G');
-
-	$startminutes = date('i');
+	$starthour = '00';
+	$startminutes = '00';
 }
 
-$datetimestamp = mktime($starttime, $startminutes, 0, $startmonth, $startday, $startyear);
+$datetimestamp = mktime($starthour, $startminutes, 0, $startmonth, $startday, $startyear);
 $duration = OC_Preferences::getValue( OC_User::getUser(), 'calendar', 'duration', "60");
 $datetimestamp = $datetimestamp + ($duration * 60);
 $endmonth = date("m", $datetimestamp);
@@ -49,7 +45,7 @@ $tmpl = new OC_Template('calendar', 'part.newevent');
 $tmpl->assign('calendar_options', $calendar_options);
 $tmpl->assign('category_options', $category_options);
 $tmpl->assign('startdate', $startday . '-' . $startmonth . '-' . $startyear);
-$tmpl->assign('starttime', ($starttime <= 9 ? '0' : '') . $starttime . ':' . $startminutes);
+$tmpl->assign('starttime', $starthour . ':' . $startminutes);
 $tmpl->assign('enddate', $endday . '-' . $endmonth . '-' . $endyear);
 $tmpl->assign('endtime', ($endtime <= 9 ? '0' : '') . $endtime . ':' . $endminutes);
 $tmpl->assign('allday', $allday);
