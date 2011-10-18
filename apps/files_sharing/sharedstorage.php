@@ -22,6 +22,11 @@
 
 require_once( 'lib_share.php' );
 
+if (!OC_Filesystem::is_dir('/Shared')) {
+	OC_Filesystem::mkdir('/Shared');
+}
+OC_Filesystem::mount('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
+
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
@@ -32,13 +37,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	
 	public function __construct($arguments) {
 		$this->datadir = $arguments['datadir'];
-		if (OC_Share::getItemsInFolder($this->datadir)) {
-			if (!OC_Filesystem::is_dir($this->datadir)) { 
-				OC_Filesystem::mkdir($this->datadir);
-			}
-		} else  if (OC_Filesystem::is_dir($this->datadir)) {
-			OC_Filesystem::rmdir($this->datadir);
-		}
 		$this->datadir .= "/";
 	}
 	

@@ -39,9 +39,6 @@ class OC_Util {
 			//first set up the local "root" storage
 			OC_Filesystem::mount('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
 
-			// TODO add this storage provider in a proper way
-			OC_Filesystem::mount('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
-
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
 			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
 				mkdir( OC::$CONFIG_DATADIRECTORY, 0755, true );

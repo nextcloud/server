@@ -168,7 +168,7 @@ class OC_Filesystem{
 		if(substr($mountpoint,0,1)!=='/'){
 			$mountpoint='/'.$mountpoint;
 		}
-		self::$mounts[self::$fakeRoot.$mountpoint]=array('type'=>$type,'arguments'=>$arguments);
+		self::$mounts[$mountpoint]=array('type'=>$type,'arguments'=>$arguments);
 	}
 	
 	/**

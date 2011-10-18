@@ -154,13 +154,6 @@ class OC{
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
 
-		// Load Apps
-		// This includes plugins for users and filesystems as well
-		global $RUNTIME_NOAPPS;
-		if(!$RUNTIME_NOAPPS ){
-			OC_App::loadApps();
-		}
-
 		// Was in required file ... put it here
 		OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
 
@@ -168,6 +161,13 @@ class OC{
 		global $RUNTIME_NOSETUPFS;
 		if(!$RUNTIME_NOSETUPFS ){
 			OC_Util::setupFS();
+		}
+
+		// Load Apps
+		// This includes plugins for users and filesystems as well
+		global $RUNTIME_NOAPPS;
+		if(!$RUNTIME_NOAPPS ){
+			OC_App::loadApps();
 		}
 
 		// Last part: connect some hooks
