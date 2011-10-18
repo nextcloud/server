@@ -11,7 +11,7 @@ while ($r = $result->fetchRow()) {
   $album_name = $r['album_name'];
   $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_photos WHERE `album_id` = ?');
   $tmp_res = $stmt->execute(array($r['album_id']));
-  $a[] = array('name' => $album_name, 'numOfItems' => min($tmp_res->numRows(), 10));
+  $a[] = array('name' => $album_name, 'numOfItems' => min($tmp_res->numRows(), 10), 'bgPath' => OC::$WEBROOT.'/data/'.OC_User::getUser().'/gallery/'.$album_name.'.png');
 }
 
 OC_JSON::success(array('albums'=>$a));

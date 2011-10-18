@@ -12,13 +12,13 @@ Albums={
   // album with the same name wont be insered,
   // and false will be returned
   // true on success
-  add: function(album_name, num) {
+  add: function(album_name, num, bgPath) {
     for (var a in Albums.albums) {
       if (a.name == album_name) {
         return false;
       }
     }
-    Albums.albums.push({name: album_name, numOfCovers: num});
+    Albums.albums.push({name: album_name, numOfCovers: num, backgroundPath: bgPath});
     return true;
   },
   // remove element with given name
@@ -63,7 +63,7 @@ Albums={
       var local = $(displayTemplate.replace(/\*NAME\*/g, a.name));
       local.css('background-repeat', 'no-repeat');
       local.css('background-position', '0 0');
-      local.css('background-image','url("ajax/getCovers.php?album_name='+a.name+'")');
+      local.css('background-image','url("'+a.backgroundPath+'")');
       local.mousemove(function(e) {
         var albumMetadata = Albums.find(this.title);
         if (albumMetadata == undefined) {

@@ -1,6 +1,7 @@
 <?php
 
 require_once('base.php'); // base lib
+require_once('lib/images_utils.php');
 
 class OC_GALLERY_SCANNER {
 
@@ -8,6 +9,13 @@ class OC_GALLERY_SCANNER {
     $albums = array();
     self::scanDir($root, $albums);
     return $albums;
+  }
+
+  public static function cleanUp() {
+    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_albums');
+    $stmt->execute(array());
+    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos');
+    $stmt->execute(array());
   }
 
   public static function scanDir($path, &$albums) {
@@ -24,7 +32,7 @@ class OC_GALLERY_SCANNER {
         } elseif (self::isPhoto($path.'/'.$filename)) {
           $current_album['images'][] = $filepath;
         }
-      } 
+      }
     }
     $current_album['imagesCount'] = count($current_album['images']);
     $albums[] = $current_album;
@@ -46,6 +54,18 @@ class OC_GALLERY_SCANNER {
         $stmt->execute(array($albumId, $img));
       }
     }
+    if (count($current_album['images'])) {
+      self::createThumbnail($current_album['name'],$current_album['images']);
+    }
+  }
+
+  public static function createThumbnail($albumName, $files) {
+    $file_count = min(count($files), 10);
+    $thumbnail = imagecreatetruecolor($file_count*200, 200);
+    for ($i = 0; $i < $file_count; $i++) {
+      CroppedThumbnail(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/files/'.$files[$i], 200, 200, $thumbnail, $i*200);
+    }
+    imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
   }
 
   public static function isPhoto($filename) {

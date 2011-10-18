@@ -4,7 +4,7 @@ $(document).ready(function() {
     if (r.status == 'success') {
       for (var i in r.albums) {
         var a = r.albums[i];
-        Albums.add(a.name, a.numOfItems);
+        Albums.add(a.name, a.numOfItems, a.bgPath);
       }
       var targetDiv = document.getElementById('gallery_list');
       if (targetDiv) {
