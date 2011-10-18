@@ -191,10 +191,14 @@ Calendar={
 					}
 				},"json");
 		},
-		moveevent:function(eventid, newstartdate){
-			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: eventid, newdate: newstartdate},
+		moveEvent:function(event, dayDelta, minuteDelta, allDay, revertFunc){
+			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0},
 			function(data) {
-				console.log("Event moved successfully");
+				if (data.status == 'success'){
+					console.log("Event moved successfully");
+				}else{
+					revertFunc();
+				}
 			});
 		},
 		showadvancedoptions:function(){
@@ -226,9 +230,6 @@ Calendar={
 				+ ' '
 				+ '<span class="summary">' + event.title + '</span>'
 				+ '<span class="description">' + event.description + '</span>';
-		},
-		addDateInfo:function(selector, date){
-			$(selector).data('date_info', date);
 		},
 		lockTime:function(){
 			if($('#allday_checkbox').is(':checked')) {
@@ -384,26 +385,6 @@ Calendar={
 				$(button).closest('tr').prev().show().next().remove();
 			},
 		},
-		OneWeek:{
-			createEventLabel:function(event){
-				var time = '';
-				if (!event['allday']){
-					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + ' - ' + Calendar.UI.formatTime(event['enddate']) + '</strong> ';
-				}
-				return $(document.createElement('p'))
-					.html(time + event['description'])
-			},
-		},
-		OneMonth:{
-			createEventLabel:function(event){
-				var time = '';
-				if (!event['allday']){
-					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + '</strong> ';
-				}
-				return $(document.createElement('p'))
-					.html(time + event['description'])
-			},
-		},
 		List:{
 			removeEvents:function(){
 				this.eventContainer = $('#listview #events').empty();
@@ -494,6 +475,7 @@ $(document).ready(function(){
 		},
 		dayClick: Calendar.UI.newEvent,
 		eventClick: Calendar.UI.editEvent,
+		eventDrop: Calendar.UI.moveEvent,
 		eventMouseover: Calendar.UI.createEventPopup,
 		eventMouseout: Calendar.UI.hideEventPopup,
 		eventSources: eventSources
