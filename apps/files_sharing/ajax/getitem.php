@@ -33,5 +33,3 @@ while ($source != "" && $source != "/" && $source != "." && $source != $userDire
 if (!empty($users)) {
 	OC_JSON::encodedPrint($users);
 }
-
-?>
