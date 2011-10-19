@@ -73,11 +73,7 @@ function bindControlEvents(){
 
 function editorIsShown(){
 	// Not working as intended. Always returns true.
-	if(window.aceEditor){
-		return true;
-	} else {
-		return false;	
-	}
+	return is_editor_shown;
 }
 
 function updateSessionFileHash(path){
@@ -174,6 +170,7 @@ function showFileEditor(dir,filename){
 				}
 				// End ajax
 				});
+		is_editor_shown = true;
 	}
 }
 
@@ -194,12 +191,13 @@ function hideFileEditor(){
 		$('.actions,#file_access_panel').fadeIn('slow');
 		$('table').fadeIn('slow');	
 	});
+	is_editor_shown = false;
 }
 
 $(window).resize(function() {
 	setEditorSize();
 });
-
+var is_editor_shown = false;
 $(document).ready(function(){
 	if(typeof FileActions!=='undefined'){
 		FileActions.register('text','Edit','',function(filename){
