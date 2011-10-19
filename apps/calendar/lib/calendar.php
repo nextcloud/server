@@ -240,4 +240,12 @@ class OC_Calendar_Calendar{
 			'ecc255', // dark yellow
 		);
 	}
+	public static function getEventSourceInfo($calendar){
+		return array(
+			'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
+			'backgroundColor' => '#'.$calendar['calendarcolor'],
+			'borderColor' => '#888',
+			'textColor' => 'black',
+		);
+	}
 }

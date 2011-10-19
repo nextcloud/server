@@ -259,19 +259,6 @@ Calendar={
 			$('#caldav_url').show();
 			$("#caldav_url_close").show();
 		},
-		deleteCalendar:function(calid){
-			var check = confirm("Do you really want to delete this calendar?");
-			if(check == false){
-				return false;
-			}else{
-				$.post(OC.filePath('calendar', 'ajax', 'deletecalendar.php'), { calendarid: calid},
-				  function(data) {
-					Calendar.UI.refetchEvents();
-					$('#choosecalendar_dialog').dialog('destroy').remove();
-					Calendar.UI.Calendar.overview();
-				  });
-			}
-		},
 		initscroll:function(){ 
 			if(window.addEventListener)
 				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollcalendar);
@@ -328,8 +315,14 @@ Calendar={
 			{
 				$.post(OC.filePath('calendar', 'ajax', 'activation.php'), { calendarid: calendarid, active: checkbox.checked?1:0 },
 				  function(data) {
-					checkbox.checked = data == 1;
-					Calendar.UI.refetchEvents();
+					if (data.status == 'success'){
+						checkbox.checked = data.active == 1;
+						if (data.active == 1){
+							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+						}else{
+							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
+						}
+					}
 				  });
 			},
 			newCalendar:function(object){
@@ -343,6 +336,46 @@ Calendar={
 					.load(OC.filePath('calendar', 'ajax', 'editcalendar.php') + "?calendarid="+calendarid,
 						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
+			},
+			deleteCalendar:function(calid){
+				var check = confirm("Do you really want to delete this calendar?");
+				if(check == false){
+					return false;
+				}else{
+					$.post(OC.filePath('calendar', 'ajax', 'deletecalendar.php'), { calendarid: calid},
+					  function(data) {
+						if (data.status == 'success'){
+							var url = 'ajax/events.php?calendar_id='+calid;
+							$('#calendar_holder').fullCalendar('removeEventSource', url);
+							$('#choosecalendar_dialog').dialog('destroy').remove();
+							Calendar.UI.Calendar.overview();
+						}
+					  });
+				}
+			},
+			submit:function(button, calendarid){
+				var displayname = $("#displayname_"+calendarid).val();
+				var active = $("#edit_active_"+calendarid+":checked").length;
+				var description = $("#description_"+calendarid).val();
+				var calendarcolor = $("#calendarcolor_"+calendarid).val();
+
+				var url;
+				if (calendarid == 'new'){
+					url = "ajax/createcalendar.php";
+				}else{
+					url = "ajax/updatecalendar.php";
+				}
+				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
+					function(data){
+						if(data.status == 'success'){
+							$(button).closest('tr').prev().html(data.page).show().next().remove();
+							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
+							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+						}
+					}, 'json');
+			},
+			cancel:function(button, calendarid){
+				$(button).closest('tr').prev().show().next().remove();
 			},
 			colorPicker:function(container){
 				// based on jquery-colorpicker at jquery.webspirited.com
@@ -369,31 +402,7 @@ Calendar={
 					position: 'absolute',
 					left: -10000
 				});
-			},
-			submit:function(button, calendarid){
-				var displayname = $("#displayname_"+calendarid).val();
-				var active = $("#edit_active_"+calendarid+":checked").length;
-				var description = $("#description_"+calendarid).val();
-				var calendarcolor = $("#calendarcolor_"+calendarid).val();
-
-				var url;
-				if (calendarid == 'new'){
-					url = "ajax/createcalendar.php";
-				}else{
-					url = "ajax/updatecalendar.php";
-				}
-				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
-					function(data){
-						if(data.error == "true"){
-						}else{
-							$(button).closest('tr').prev().html(data.data).show().next().remove();
-							Calendar.UI.refetchEvents();
-						}
-					}, 'json');
-			},
-			cancel:function(button, calendarid){
-				$(button).closest('tr').prev().show().next().remove();
-			},
+			}
 		},
 		List:{
 			removeEvents:function(){

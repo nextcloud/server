@@ -17,12 +17,7 @@ if( count($calendars) == 0){
 }
 $eventSources = array();
 foreach($calendars as $calendar){
-	$eventSources[] = array(
-		'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
-		'backgroundColor' => '#'.$calendar['calendarcolor'],
-		'borderColor' => '#888',
-		'textColor' => 'black',
-	);
+	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
 }
 OC_Util::addScript('calendar', 'calendar');
 OC_Util::addStyle('calendar', 'style');
