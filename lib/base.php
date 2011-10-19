@@ -186,18 +186,19 @@ if( !isset( $RUNTIME_NOAPPS )){
 
 OC::init();
 
-if(!function_exists('sys_get_temp_dir')) {
-    function sys_get_temp_dir() {
-        if( $temp=getenv('TMP') )        return $temp;
-        if( $temp=getenv('TEMP') )        return $temp;
-        if( $temp=getenv('TMPDIR') )    return $temp;
-        $temp=tempnam(__FILE__,'');
-        if (file_exists($temp)) {
-          unlink($temp);
-          return dirname($temp);
-        }
-        return null;
-    }
+if(!function_exists('get_temp_dir')) {
+	function get_temp_dir() {
+		if( $temp=ini_get('upload_tmp_dir') )        return $temp;
+		if( $temp=getenv('TMP') )        return $temp;
+		if( $temp=getenv('TEMP') )        return $temp;
+		if( $temp=getenv('TMPDIR') )    return $temp;
+		$temp=tempnam(__FILE__,'');
+		if (file_exists($temp)) {
+			unlink($temp);
+			return dirname($temp);
+		}
+		return null;
+	}
 }
 
 require_once('fakedirstream.php');

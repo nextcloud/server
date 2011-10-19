@@ -285,7 +285,7 @@ class OC_DB {
 		$content = file_get_contents( $file );
 		
 		// Make changes and save them to a temporary file
-		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
+		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite don't
@@ -392,7 +392,7 @@ class OC_DB {
 		$content = file_get_contents( $file );
 
 		// Make changes and save them to a temporary file
-		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
+		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		file_put_contents( $file2, $content );
