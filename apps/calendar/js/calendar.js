@@ -10,9 +10,6 @@ Calendar={
 	space:' ',
 	firstdayofweek: '',
 	UI:{
-		refetchEvents:function() {
-			$('#calendar_holder').fullCalendar('refetchEvents');
-		},
 		drageventid: '',
 		loadEvents:function(year){
 		},
@@ -140,14 +137,14 @@ Calendar={
 			}
 		},
 		submitDeleteEventForm:function(url){
-			var post = $( "#event_form" ).serialize();
-			$("#errorbox").empty();
+			var post = $( '#event_form' ).serialize();
+			$('#errorbox').empty();
 			$.post(url, post, function(data){
 					if(data.status == 'success'){
+						$('#calendar_holder').fullCalendar('removeEvents', $('#event_form input[name=id]').val());
 						$('#event').dialog('destroy').remove();
-						Calendar.UI.refetchEvents();
 					} else {
-						$("#errorbox").html("Deletion failed");
+						$('#errorbox').html(t('calendar', 'Deletion failed'));
 					}
 
 			}, "json");
@@ -187,7 +184,7 @@ Calendar={
 					} else
 					if(data.status == 'success'){
 						$('#event').dialog('destroy').remove();
-						Calendar.UI.refetchEvents();
+						$('#calendar_holder').fullCalendar('refetchEvents');
 					}
 				},"json");
 		},
