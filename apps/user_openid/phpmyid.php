@@ -1373,41 +1373,6 @@ function str_diff_at ($a, $b) {
 	return $n;
 }
 
-
-if (! function_exists('get_temp_dir')) {
-/**
- * Create function if missing
- * @return string
- */
-	if (ini_get('open_basedir') == false) {
-		function get_temp_dir () {
-			$keys = array('TMP', 'TMPDIR', 'TEMP');
-			foreach ($keys as $key) {
-				if (isset($_ENV[$key]) && is_dir($_ENV[$key]) && is_writable($_ENV[$key]))
-					return realpath($_ENV[$key]);
-			}
-
-			$tmp = tempnam(false, null);
-			if (file_exists($tmp)) {
-				$dir = realpath(dirname($tmp));
-				unlink($tmp);
-				return realpath($dir);
-			}
-
-			return realpath(dirname(__FILE__));
-		}
-	}
-	else {
-		function get_temp_dir () {
-			if (isset(ini_get('upload_tmp_dir')) && is_dir(ini_get('upload_tmp_dir')) && is_writable(ini_get('upload_tmp_dir')))
-				return ini_get('upload_tmp_dir');
-			else
-				return realpath(dirname(__FILE__));
-		}
-	}
-}
-
-
 /**
  * Determine if a child URL actually decends from the parent, and that the
  * parent is a good URL.
