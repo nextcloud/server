@@ -62,7 +62,7 @@ class OC_Installer{
 		
 		//download the file if necesary
 		if($data['source']=='http'){
-			$path=tempnam(sys_get_temp_dir(),'oc_installer_');
+			$path=tempnam(get_temp_dir(),'oc_installer_');
 			if(!isset($data['href'])){
 				OC_Log::write('core','No href specified when installing app from http',OC_Log::ERROR);
 				return false;
@@ -77,7 +77,7 @@ class OC_Installer{
 		}
 		
 		//extract the archive in a temporary folder
-		$extractDir=tempnam(sys_get_temp_dir(),'oc_installer_uncompressed_');
+		$extractDir=tempnam(get_temp_dir(),'oc_installer_uncompressed_');
 		unlink($extractDir);
 		mkdir($extractDir);
 		$zip = new ZipArchive;

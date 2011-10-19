@@ -161,7 +161,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	public function toTmpFile($path){
-		$tmpFolder=sys_get_temp_dir();
+		$tmpFolder=get_temp_dir();
 		$filename=tempnam($tmpFolder,'OC_TEMP_FILE_'.substr($path,strrpos($path,'.')));
 		$fileStats = stat($this->datadir.$path);
 		if(copy($this->datadir.$path,$filename)){

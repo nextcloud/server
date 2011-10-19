@@ -91,7 +91,7 @@ class OC_Files {
 
 		if(is_array($files)){
 			$zip = new ZipArchive();
-			$filename = sys_get_temp_dir()."/ownCloud.zip";
+			$filename = get_temp_dir()."/ownCloud.zip";
 			if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
@@ -108,7 +108,7 @@ class OC_Files {
 			$zip->close();
 		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)){
 			$zip = new ZipArchive();
-			$filename = sys_get_temp_dir()."/ownCloud.zip";
+			$filename = get_temp_dir()."/ownCloud.zip";
 			if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
@@ -271,7 +271,7 @@ class OC_Files {
 	* @return string  guessed mime type
 	*/
 	static function pull($source,$token,$dir,$file){
-		$tmpfile=tempnam(sys_get_temp_dir(),'remoteCloudFile');
+		$tmpfile=tempnam(get_temp_dir(),'remoteCloudFile');
 		$fp=fopen($tmpfile,'w+');
 		$url=$source.="/files/pull.php?token=$token";
 		$ch=curl_init();

@@ -603,7 +603,7 @@ function test_mode () {
 		$res['gmp'] = 'pass - n/a';
 	}
 
-	// sys_get_temp_dir
+	// get_temp_dir
 	$res['logfile'] = is_writable($profile['logfile'])
 		? 'pass' : "warn - log is not writable";
 
@@ -1374,30 +1374,38 @@ function str_diff_at ($a, $b) {
 }
 
 
-if (! function_exists('sys_get_temp_dir') && ini_get('open_basedir') == false) {
+if (! function_exists('get_temp_dir')) {
 /**
  * Create function if missing
  * @return string
  */
-function sys_get_temp_dir () {
-	$keys = array('TMP', 'TMPDIR', 'TEMP');
-	foreach ($keys as $key) {
-		if (isset($_ENV[$key]) && is_dir($_ENV[$key]) && is_writable($_ENV[$key]))
-			return realpath($_ENV[$key]);
-	}
+	if (ini_get('open_basedir') == false) {
+		function get_temp_dir () {
+			$keys = array('TMP', 'TMPDIR', 'TEMP');
+			foreach ($keys as $key) {
+				if (isset($_ENV[$key]) && is_dir($_ENV[$key]) && is_writable($_ENV[$key]))
+					return realpath($_ENV[$key]);
+			}
 
-	$tmp = tempnam(false, null);
-	if (file_exists($tmp)) {
-		$dir = realpath(dirname($tmp));
-		unlink($tmp);
-		return realpath($dir);
-	}
+			$tmp = tempnam(false, null);
+			if (file_exists($tmp)) {
+				$dir = realpath(dirname($tmp));
+				unlink($tmp);
+				return realpath($dir);
+			}
 
-	return realpath(dirname(__FILE__));
-}} elseif (! function_exists('sys_get_temp_dir')) {
-function sys_get_temp_dir () {
-	return realpath(dirname(__FILE__));
-}}
+			return realpath(dirname(__FILE__));
+		}
+	}
+	else {
+		function get_temp_dir () {
+			if (isset(ini_get('upload_tmp_dir')) && is_dir(ini_get('upload_tmp_dir')) && is_writable(ini_get('upload_tmp_dir')))
+				return ini_get('upload_tmp_dir');
+			else
+				return realpath(dirname(__FILE__));
+		}
+	}
+}
 
 
 /**
@@ -1694,7 +1702,7 @@ if (! array_key_exists('lifetime', $profile)) {
 
 // Set a default log file
 if (! array_key_exists('logfile', $profile))
-	$profile['logfile'] = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $profile['auth_realm'] . '.debug.log';
+	$profile['logfile'] = get_temp_dir() . DIRECTORY_SEPARATOR . $profile['auth_realm'] . '.debug.log';
 
 
 /*
