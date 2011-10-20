@@ -193,41 +193,33 @@ Calendar={
 			$('#caldav_url').show();
 			$("#caldav_url_close").show();
 		},
-		initscroll:function(){ 
+		initScroll:function(){
 			if(window.addEventListener)
-				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollcalendar);
+				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar);
 			//}else{
-				document.onmousewheel = Calendar.UI.scrollcalendar;
+				document.onmousewheel = Calendar.UI.scrollCalendar;
 			//}
 		},
-		scrollcalendar:function(event){
+		scrollCalendar:function(event){
 			var direction;
 			if(event.detail){
 				if(event.detail < 0){
-					direction = "top";
+					direction = 'top';
 				}else{
-					direction = "down";
+					direction = 'down';
 				}
 			}
 			if (event.wheelDelta){
 				if(event.wheelDelta > 0){
-					direction = "top";
+					direction = 'top';
 				}else{
-					direction = "down";
+					direction = 'down';
 				}
 			}
-			if(Calendar.UI.currentview == "onemonthview"){
-				if(direction == "down"){
-					Calendar.UI.updateDate("forward");
-				}else{
-					Calendar.UI.updateDate("backward");
-				}
-			}else if(Calendar.UI.currentview == "oneweekview"){
-				if(direction == "down"){
-					Calendar.UI.updateDate("forward");
-				}else{
-					Calendar.UI.updateDate("backward");
-				}
+			if(direction == 'down'){
+				$('#calendar_holder').fullCalendar('next');
+			}else{
+				$('#calendar_holder').fullCalendar('prev');
 			}
 		},
 		Calendar:{
@@ -503,7 +495,7 @@ function ListView(element, calendar) {
 	}
 }
 $(document).ready(function(){
-	Calendar.UI.initscroll();
+	//Calendar.UI.initScroll();
 	$('#calendar_holder').fullCalendar({
 		header: false,
 		firstDay: 1,
