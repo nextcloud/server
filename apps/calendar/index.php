@@ -19,12 +19,12 @@ $eventSources = array();
 foreach($calendars as $calendar){
 	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
 }
+OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
+OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
 OC_Util::addScript('calendar', 'calendar');
 OC_Util::addStyle('calendar', 'style');
 OC_Util::addScript('', 'jquery.multiselect');
 OC_Util::addStyle('', 'jquery.multiselect');
-OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
-OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
 OC_App::setActiveNavigationEntry('calendar_index');
 $tmpl = new OC_Template('calendar', 'calendar', 'user');
 $tmpl->assign('eventSources', $eventSources);

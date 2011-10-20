@@ -55,3 +55,47 @@ button.category{margin:0 3px;}
 
 .calendar-colorpicker-color{display:inline-block;width:20px;height:20px;margin-right:2px;cursor:pointer;border:2px solid transparent;}
 .calendar-colorpicker-color.active{border:2px solid black;}
+
+.fc-list-table
+{
+    margin: 10px;
+    border-style: hidden;
+    border-width: 10px;
+    padding: 10px;
+    vertical-align: top;
+    width: 100%;
+}
+.fc-list-table tr:hover
+{
+    color: #0000FF;
+    background-color: #CCFFCC;
+}
+
+
+.fc-list-date
+{
+    margin: 16px;
+    white-space: nowrap;
+    text-align: left;
+    width: 100%;
+    background-color: #808080;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.fc-list-time
+{
+    text-align: center;
+    white-space: nowrap;
+    width: 1%;
+}
+
+.fc-list-event
+{
+     text-align: left;
+}
+
+.fc-list-event .fc-event-title
+{
+     cursor: pointer;
+}

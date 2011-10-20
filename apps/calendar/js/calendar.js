@@ -8,71 +8,7 @@
 
 Calendar={
 	space:' ',
-	firstdayofweek: '',
 	UI:{
-		drageventid: '',
-		loadEvents:function(year){
-		},
-		getEventsForDate:function(date){
-			var day = date.getDate();
-			var month = date.getMonth();
-			var year = date.getFullYear();
-			if( typeof (this.events[year]) == "undefined") {
-				this.loadEvents(year);
-				return false;
-			}
-			if( typeof (this.events[year][month]) == "undefined") {
-				return false;
-			}
-			if( typeof (this.events[year][month][day]) == "undefined") {
-				return false;
-			}
-			return this.events[year][month][day];
-		},
-		createEventsForDate:function(date, week){
-			events = this.getEventsForDate(date);
-			if (!events) {
-				return;
-			}
-			var weekday = (date.getDay()+7-Calendar.firstdayofweek)%7;
-			if( typeof (events["allday"]) != "undefined") {
-				var eventnumber = 1;
-				var eventcontainer = this.current.getEventContainer(week, weekday, "allday");
-				while( typeof (events["allday"][eventnumber]) != "undefined") {
-					this.addEventLabel(eventcontainer, events['allday'][eventnumber]);
-					eventnumber++;
-				}
-			}
-			for(var time = 0; time <= 23; time++) {
-				if( typeof (events[time]) != "undefined") {
-					var eventnumber = 1;
-					var eventcontainer = this.current.getEventContainer(week, weekday, time);
-					while( typeof (events[time][eventnumber]) != "undefined") {
-						this.addEventLabel(eventcontainer, events[time][eventnumber]);
-						eventnumber++;
-					}
-				}
-			}
-		},
-		addEventLabel:function(eventcontainer, event){
-			var event_holder = this.current.createEventLabel(event)
-				.addClass('event')
-				.data('event_info', event)
-				.hover(this.createEventPopup,
-				       this.hideEventPopup)
-				.draggable({
-					drag: function() {
-						Calendar.UI.drageventid = event.id;
-					}
-				})
-				.click(this.editEvent);
-			var color = this.calendars[event['calendarid']]['color'];
-			if (color){
-				event_holder.css('background-color', color)
-					.addClass('colored');
-			}
-			eventcontainer.append(event_holder);
-		},
 		startEventDialog:function(){
 			Calendar.UI.lockTime();
 			$( "#from" ).datepicker({
@@ -232,6 +168,7 @@ Calendar={
 				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "MMMM d[ yyyy]{ '&#8212;'[ MMMM][ d] yyyy}"));
 			}else{
 				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "HH:mm[ MMMM d yyyy]{ '&#8212;' HH:mm MMMM d yyyy}"));
+				// Tue 18 October 2011 08:00 - 16:00
 			}
 			return '<span class="timespan">' + timespan + '</span>'
 				+ ' '
@@ -400,75 +337,172 @@ Calendar={
 					left: -10000
 				});
 			}
-		},
-		List:{
-			removeEvents:function(){
-				this.eventContainer = $('#listview #events').empty();
-				this.startdate = new Date();
-				this.enddate = new Date();
-				this.enddate.setDate(this.enddate.getDate());
-			},
-			showEvents:function(){
-				this.renderMoreBefore();
-				this.renderMoreAfter();
-			},
-			formatDate:function(date){
-				return Calendar.UI.formatDayShort(date.getDay())
-					+ Calendar.space
-					+ date.getDate()
-					+ Calendar.space
-					+ Calendar.UI.formatMonthShort(date.getMonth())
-					+ Calendar.space
-					+ date.getFullYear();
-			},
-			createDay:function(date) {
-				return $(document.createElement('div'))
-					.addClass('day')
-					.html(this.formatDate(date));
-			},
-			renderMoreBefore:function(){
-				var date = Calendar.UI.List.startdate;
-				for(var i = 0; i <= 13; i++) {
-					if (Calendar.UI.getEventsForDate(date)) {
-						Calendar.UI.List.dayContainer=Calendar.UI.List.createDay(date);
-						Calendar.UI.createEventsForDate(date, 0);
-						Calendar.UI.List.eventContainer.prepend(Calendar.UI.List.dayContainer);
-					}
-					date.setDate(date.getDate()-1);
-				}
-				var start = Calendar.UI.List.formatDate(date);
-				$('#listview #more_before').html(String(Calendar.UI.more_before).replace('{startdate}', start));
-			},
-			renderMoreAfter:function(){
-				var date = Calendar.UI.List.enddate;
-				for(var i = 0; i <= 13; i++) {
-					if (Calendar.UI.getEventsForDate(date)) {
-						Calendar.UI.List.dayContainer=Calendar.UI.List.createDay(date);
-						Calendar.UI.createEventsForDate(date, 0);
-						Calendar.UI.List.eventContainer.append(Calendar.UI.List.dayContainer);
-					}
-					date.setDate(date.getDate()+1);
-				}
-				var end = Calendar.UI.List.formatDate(date);
-				$('#listview #more_after').html(String(Calendar.UI.more_after).replace('{enddate}', end));
-			},
-			getEventContainer:function(week, weekday, when){
-				return this.dayContainer;
-			},
-			createEventLabel:function(event){
-				var time = '';
-				if (!event['allday']){
-					time = Calendar.UI.formatTime(event['startdate']) + ' - ' + Calendar.UI.formatTime(event['enddate']) + ' ';
-				}
-				return $(document.createElement('p'))
-					.html(time + event['description'])
-			},
 		}
 	}
 }
+$.fullCalendar.views.list = ListView;
+function ListView(element, calendar) {
+	var t = this;
+
+	// imports
+	jQuery.fullCalendar.views.month.call(t, element, calendar);
+	var opt = t.opt;
+	var trigger = t.trigger;
+	var eventElementHandlers = t.eventElementHandlers;
+	var reportEventElement = t.reportEventElement;
+	var formatDate = calendar.formatDate;
+	var formatDates = calendar.formatDates;
+	var addDays = $.fullCalendar.addDays;
+	var cloneDate = $.fullCalendar.cloneDate;
+	function skipWeekend(date, inc, excl) {
+		inc = inc || 1;
+		while (!date.getDay() || (excl && date.getDay()==1 || !excl && date.getDay()==6)) {
+			addDays(date, inc);
+		}
+		return date;
+	}
+
+	// overrides
+	t.name='list';
+	t.render=render;
+	t.renderEvents=renderEvents;
+	t.setHeight=setHeight;
+	t.setWidth=setWidth;
+	t.clearEvents=clearEvents;
+
+	function setHeight(height, dateChanged) {
+	}
+
+	function setWidth(width) {
+	}
+
+	function clearEvents() {
+		this.reportEventClear();
+	}
+
+	// main
+	function sortEvent(a, b) {
+		return a.start - b.start;
+	}
+
+	function render(date, delta) {
+		if (!t.start){
+			t.start = addDays(cloneDate(date, true), -7);
+			t.end = addDays(cloneDate(date, true), 7);
+		}
+		if (delta) {
+			if (delta < 0){
+				addDays(t.start, -7);
+				if (!opt('weekends')) {
+					skipWeekend(t.start, delta < 0 ? -1 : 1);
+				}
+			}else{
+				addDays(t.end, 7);
+				if (!opt('weekends')) {
+					skipWeekend(t.end, delta < 0 ? -1 : 1);
+				}
+			}
+		}
+		t.title = formatDates(
+			t.start,
+			t.end,
+			opt('titleFormat', 'week')
+		);
+		t.visStart = cloneDate(t.start);
+		t.visEnd = cloneDate(t.end);
+	}
+
+	function eventsOfThisDay(events, theDate) {
+		var start = cloneDate(theDate, true);
+		var end = addDays(cloneDate(start), 1);
+		var retArr = new Array();
+		for (i in events) {
+			var event_end = t.eventEnd(events[i]);
+			if (events[i].start < end && event_end >= start) {
+				retArr.push(events[i]);
+			}
+		}
+		return retArr;
+	}
+
+	function renderEvent(event) {
+		if (event.allDay) { //all day event
+			var time = opt('allDayText');
+		}
+		else {
+			var time = formatDates(event.start, event.end, opt('timeFormat', 'agenda'));
+		}
+		var classes = ['fc-event', 'fc-list-event'];
+		classes = classes.concat(event.className);
+		if (event.source) {
+			classes = classes.concat(event.source.className || []);
+		}
+		var html = '<tr>' +
+			'<td>&nbsp;</td>' +
+			'<td class="fc-list-time">' +
+			time +
+			'</td>' +
+			'<td>&nbsp;</td>' +
+			'<td class="fc-list-event">' +
+			'<span id="list' + event.id + '"' +
+			' class="' + classes.join(' ') + '"' +
+			'>' +
+			'<span class="fc-event-title">' +
+			event.title +
+			'</span>' +
+			'</span>' +
+			'</td>' +
+			'</tr>';
+		return html;
+	}
+
+	function renderDay(date, events) {
+		var dayRows = $('<tr>' +
+			'<td colspan="4" class="fc-list-date">' +
+			'<span>' +
+			formatDate(date, opt('titleFormat', 'day')) +
+			'</span>' +
+			'</td>' +
+			'</tr>');
+		for (i in events) {
+			var event = events[i];
+			var eventElement = $(renderEvent(event));
+			triggerRes = trigger('eventRender', event, event, eventElement);
+			if (triggerRes === false) {
+				eventElement.remove();
+			}else{
+				if (triggerRes && triggerRes !== true) {
+					eventElement.remove();
+					eventElement = $(triggerRes);
+				}
+				$.merge(dayRows, eventElement);
+				eventElementHandlers(event, eventElement);
+				reportEventElement(event, eventElement);
+			}
+		}
+		return dayRows;
+	}
+
+	function renderEvents(events, modifiedEventId) {
+		events = events.sort(sortEvent);
+
+		var table = $('<table class="fc-list-table"></table>');
+		var total = events.length;
+		if (total > 0) {
+			var date = cloneDate(t.visStart);
+			while (date <= t.visEnd) {
+				var dayEvents = eventsOfThisDay(events, date);
+				if (dayEvents.length > 0) {
+					table.append(renderDay(date, dayEvents));
+				}
+				date=addDays(date, 1);
+			}
+		}
+
+		this.element.html(table);
+	}
+}
 $(document).ready(function(){
-	$('#listview #more_before').click(Calendar.UI.List.renderMoreBefore);
-	$('#listview #more_after').click(Calendar.UI.List.renderMoreAfter);
 	Calendar.UI.initscroll();
 	$('#calendar_holder').fullCalendar({
 		header: false,
@@ -478,6 +512,9 @@ $(document).ready(function(){
 		timeFormat: {
 			agenda: 'HH:mm{ - HH:mm}',
 			'': 'HH:mm'
+			},
+		titleFormat: {
+			list: 'yyyy/MMM/d dddd'
 			},
 		axisFormat: 'HH:mm',
 		monthNames: monthNames,
@@ -503,7 +540,9 @@ $(document).ready(function(){
 	$('#onemonthview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'month');
 	});
-	//$('#listview_radio').click();
+	$('#listview_radio').click(function(){
+		$('#calendar_holder').fullCalendar('changeView', 'list');
+	});
 	$('#today_input').click(function(){
 		$('#calendar_holder').fullCalendar('today');
 	});
