@@ -1,8 +1,11 @@
 $(document).ready(function() {
+	var shared_status = {};
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Share', function(filename) {
 			var icon;
 			var file = $('#dir').val()+'/'+filename;
+			if(shared_status[file])
+				return shared_status[file].icon;
 			$.ajax({
 				type: 'GET',
 				url: OC.linkTo('files_sharing', 'ajax/getitem.php'),
@@ -20,6 +23,7 @@ $(document).ready(function() {
 					} else {
 						icon = OC.imagePath('core', 'actions/share');
 					}
+					shared_status[file]= { timestamp: new Date().getTime(), icon: icon };
 				}
 			});
 			return icon;
@@ -54,6 +58,7 @@ $(document).ready(function() {
 	$(this).click(function(event) {
 		if (!($(event.target).hasClass('drop')) && $(event.target).parents().index($('#dropdown')) == -1) {
 			if ($('#dropdown').is(':visible')) {
+				delete shared_status[$('#dropdown').data('file')]; //Remove File from icon cache
 				$('#dropdown').hide('blind', function() {
 					$('#dropdown').remove();
 					$('tr').removeClass('mouseOver');
