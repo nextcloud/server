@@ -143,6 +143,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			if ($mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
 				// it looks like we have a 'file' command,
 				// lets see it it does have mime support
+				$fspath=str_replace("'","\'",$fspath);
 				$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
 				$reply = fgets($fp);
 				pclose($fp);
