@@ -83,16 +83,16 @@ class OC_FileProxy{
 		return $proxies;
 	}
 
-	public static function runPreProxies($operation,$filepath,$filepath2=null){
+	public static function runPreProxies($operation,&$filepath,&$filepath2=null){
 		$proxies=self::getProxies($operation,false);
 		$operation='pre'.$operation;
 		foreach($proxies as $proxy){
-			if($filepath2){
-				if(!$proxy->$operation(&$filepath,&$filepath2)){
+			if(!is_null($filepath2)){
+				if($proxy->$operation($filepath,$filepath2)===false){
 					return false;
 				}
 			}else{
-				if(!$proxy->$operation(&$filepath)){
+				if($proxy->$operation($filepath)===false){
 					return false;
 				}
 			}

@@ -302,7 +302,7 @@ class OC_FilesystemView {
 				}
 			}
 			if($run){
-				if($extraParam){
+				if(!is_null($extraParam)){
 					$result=$storage->$operation($interalPath,$extraParam);
 				}else{
 					$result=$storage->$operation($interalPath);

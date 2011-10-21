@@ -74,7 +74,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function file_get_contents($path){
 		return file_get_contents($this->datadir.$path);
 	}
-	public function file_put_contents($path,$data){
+	public function file_put_contents($path,$data=null){
 		if($return=file_put_contents($this->datadir.$path,$data)){
 		}
 	}

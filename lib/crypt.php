@@ -113,14 +113,13 @@ class OC_Crypt {
 		return($bf->encrypt($contents));
         }       
 
-
-        /**
-         * @brief encryption of a file
-         * @param $filename
-         * @param $key the encryption key
-         *
-         * This function encrypts a file
-         */
+	/**
+	* @brief encryption of a file
+	* @param $filename
+	* @param $key the encryption key
+	*
+	* This function encrypts a file
+	*/
 	public static function encryptfile( $filename, $key) {
 		$handleread  = fopen($filename, "rb");
 		if($handleread<>FALSE) {
@@ -157,6 +156,30 @@ class OC_Crypt {
 			unlink($filename.OC_Crypt::$encription_extension);
 		}
 		fclose($handleread);
+	}
+	
+	/**
+	 * encrypt data in 8192b sized blocks
+	 */
+	public static function blockEncrypt($data){
+		$result='';
+		while(strlen($data)){
+			$result=self::encrypt(substr($data,0,8192));
+			$data=substr($data,8192);
+		}
+		return $result;
+	}
+	
+	/**
+	 * decrypt data in 8192b sized blocks
+	 */
+	public static function blockDecrypt($data){
+		$result='';
+		while(strlen($data)){
+			$result=self::decrypt(substr($data,0,8192));
+			$data=substr($data,8192);
+		}
+		return $result;
 	}
 
 
