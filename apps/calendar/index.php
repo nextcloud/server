@@ -27,7 +27,7 @@ if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'mont
 	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "month");
 }
 if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "listview"){
-	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "month");
+	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "list");
 }
 
 OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');

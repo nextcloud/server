@@ -13,7 +13,7 @@ var allDayText = '<?php echo $l->t('All day') ?>';
 							<div id="view">
 								<input type="button" value="<?php echo $l->t('Week');?>" id="oneweekview_radio"/>
 								<input type="button" value="<?php echo $l->t('Month');?>" id="onemonthview_radio"/>
-								<!--<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio"/>-->
+								<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio"/>
 							</div>
 						</form>
 						<form>
