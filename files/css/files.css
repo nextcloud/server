@@ -7,10 +7,10 @@
 .actions input { margin:0; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
-.file_upload_form, #file_newfolder_form { display:inline; float: left;}
+.file_upload_form, #file_newfolder_form { display:inline; float: left; margin-left:.5em; }
 #fileSelector, #file_upload_submit, #file_newfolder_submit { display:none; }
 .file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .5em; padding-left:2em; }
-.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin:.1em 1em .1em 0em;}
+.file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin:.1em .1em .1em 0em;}
 .file_upload_wrapper .file_upload_button_wrapper { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:1000; }
 
 #file_newfolder_name { background-image:url('../../core/img/places/folder.svg'); font-weight:normal; width:7em; }
@@ -33,7 +33,7 @@ span.extention, td.date { color:#999; }
 span.extention { opacity:0; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
 tr:hover span.extention { opacity:1; }
 div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
-div.crumb:first-child { padding-left:1.5em; }
+div.crumb:first-child { padding-left:1em; }
 div.crumb:last-child { font-weight:bold; }
 table tr.mouseOver td { background-color:#eee; }
 table th { height:2em; padding:0 .5em; color:#999; }
@@ -63,4 +63,5 @@ table thead.fixed { height:2em; }
 .selectedActions { display:none; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; }
+#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; position:fixed; }
+#navigation>ul>li:first-child+li { padding-top:2.9em; }
