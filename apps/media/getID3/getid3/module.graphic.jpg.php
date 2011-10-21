@@ -62,7 +62,7 @@ class getid3_jpg
 							$ThisFileInfo['warning'][] = strip_tags($errors);
 							unset($ThisFileInfo['jpg']['exif']);
 						}
-						ob_end_clean();
+						@ob_end_clean();
 
 					} else {
 

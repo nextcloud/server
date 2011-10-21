@@ -293,7 +293,7 @@ class OC_Template{
 		ob_start();
 		include( $this->template ); // <-- we have to use include because we pass $_!
 		$data = ob_get_contents();
-		ob_end_clean();
+		@ob_end_clean();
 
 		// return the data
 		return $data;
@@ -319,7 +319,7 @@ class OC_Template{
 		ob_start();
 		include( $this->path.$file.'.php' );
 		$data = ob_get_contents();
-		ob_end_clean();
+		@ob_end_clean();
 
 		// Daten zurückgeben
 		return $data;

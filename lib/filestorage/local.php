@@ -140,6 +140,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			} else if (OC_Helper::canExecute("file")) {
 				// it looks like we have a 'file' command,
 				// lets see it it does have mime support
+				$fspath=str_replace("'","\'",$fspath);
 				$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
 				$reply = fgets($fp);
 				pclose($fp);
@@ -161,7 +162,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	public function toTmpFile($path){
-		$tmpFolder=sys_get_temp_dir();
+		$tmpFolder=get_temp_dir();
 		$filename=tempnam($tmpFolder,'OC_TEMP_FILE_'.substr($path,strrpos($path,'.')));
 		$fileStats = stat($this->datadir.$path);
 		if(copy($this->datadir.$path,$filename)){
@@ -195,7 +196,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	private function delTree($dir) {
-		if(defined("DEBUG") && DEBUG) {error_log('del'.$dir);}
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;
 		if (!file_exists($dir)) return true;

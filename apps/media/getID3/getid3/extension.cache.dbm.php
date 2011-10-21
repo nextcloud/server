@@ -90,7 +90,7 @@ class getID3_cached_dbm extends getID3
 			ob_start(); // nasty, buy the only way to check...
 			phpinfo();
 			$contents = ob_get_contents();
-			ob_end_clean();
+			@ob_end_clean();
 			if (!strstr($contents, $cache_type)) {
 				die('PHP is not compiled --with '.$cache_type.' support, required to use DBM style cache.');
 			}

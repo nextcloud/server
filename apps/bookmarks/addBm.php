@@ -39,7 +39,7 @@ $tmpl = new OC_Template( 'bookmarks', 'addBm', 'user' );
 $url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
 $metadata = getURLMetadata($url);
 
-$tmpl->assign('URL', htmlentities($metadata['url']));
-$tmpl->assign('TITLE', htmlentities($metadata['title']));
+$tmpl->assign('URL', htmlentities($metadata['url'],ENT_COMPAT,'utf-8'));
+$tmpl->assign('TITLE', htmlentities($metadata['title'],ENT_COMPAT,'utf-8'));
 
 $tmpl->printPage();

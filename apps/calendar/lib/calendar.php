@@ -228,4 +228,16 @@ class OC_Calendar_Calendar{
 		list($prefix,$userid) = Sabre_DAV_URLUtil::splitPath($principaluri);
 		return $userid;
 	}
+	public static function getCalendarColorOptions(){
+		return array(
+			'ff0000', // "Red"
+			'00ff00', // "Green"
+			'ffff00', // "Yellow"
+			'808000', // "Olive"
+			'ffa500', // "Orange"
+			'ff7f50', // "Coral"
+			'ee82ee', // "Violet"
+			'ecc255', // dark yellow
+		);
+	}
 }

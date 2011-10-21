@@ -43,7 +43,7 @@ class OC_MEDIA_COLLECTION{
 		if(isset(self::$artistIdCache[$name])){
 			return self::$artistIdCache[$name];
 		}else{
-			$query=OC_DB::prepare("SELECT artist_id FROM *PREFIX*media_artists WHERE artist_name LIKE ?");
+			$query=OC_DB::prepare("SELECT artist_id FROM *PREFIX*media_artists WHERE lower(artist_name) LIKE ?");
 			$artists=$query->execute(array($name))->fetchAll();
 			if(is_array($artists) and isset($artists[0])){
 				self::$artistIdCache[$name]=$artists[0]['artist_id'];
@@ -71,7 +71,7 @@ class OC_MEDIA_COLLECTION{
 		if(isset(self::$albumIdCache[$artistId][$name])){
 			return self::$albumIdCache[$artistId][$name];
 		}else{
-			$query=OC_DB::prepare("SELECT album_id FROM *PREFIX*media_albums WHERE album_name LIKE ? AND album_artist=?");
+			$query=OC_DB::prepare("SELECT album_id FROM *PREFIX*media_albums WHERE lower(album_name) LIKE ? AND album_artist=?");
 			$albums=$query->execute(array($name,$artistId))->fetchAll();
 			if(is_array($albums) and isset($albums[0])){
 				self::$albumIdCache[$artistId][$name]=$albums[0]['album_id'];
@@ -146,7 +146,7 @@ class OC_MEDIA_COLLECTION{
 		if($artistId!=0){
 			return $artistId;
 		}else{
-			$query=OC_DB::prepare("INSERT INTO `*PREFIX*media_artists` (`artist_id` ,`artist_name`) VALUES (NULL ,  ?)");
+			$query=OC_DB::prepare("INSERT INTO `*PREFIX*media_artists` (`artist_name`) VALUES (?)");
 			$result=$query->execute(array($name));
 			return self::getArtistId($name);;
 		}
@@ -193,7 +193,7 @@ class OC_MEDIA_COLLECTION{
 		if($albumId!=0){
 			return $albumId;
 		}else{
-			$query=OC_DB::prepare("INSERT INTO  `*PREFIX*media_albums` (`album_id` ,`album_name` ,`album_artist`) VALUES (NULL , ?, ?)");
+			$query=OC_DB::prepare("INSERT INTO  `*PREFIX*media_albums` (`album_name` ,`album_artist`) VALUES ( ?, ?)");
 			$query->execute(array($name,$artist));
 			return self::getAlbumId($name,$artist);
 		}

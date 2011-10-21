@@ -63,25 +63,16 @@ function showControls(filename){
  
 function bindControlEvents(){
 	$("#editor_save").live('click',function() {
-		if(editorIsShown()){
+		if(is_editor_shown){
 			doFileSave();
 		}
 	});	
 	
 	$('#editor_close').live('click',function() {
-		if(editorIsShown()){
+		if(is_editor_shown){
 			hideFileEditor();
 		}	
 	});
-}
-
-function editorIsShown(){
-	// Not working as intended.
-	if($('#editor').attr('editorshown')=='true'){
-		return true;
-	} else {
-		return false;	
-	}
 }
 
 function updateSessionFileHash(path){
@@ -94,7 +85,7 @@ function updateSessionFileHash(path){
    	}, "json");}
 
 function doFileSave(){
-	if(editorIsShown()){
+	if(is_editor_shown){
 		$('#editor_save').after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
 			var filecontents = window.aceEditor.getSession().getValue();
 			var dir =  $('#editor').attr('data-dir');
@@ -154,13 +145,12 @@ function giveEditorFocus(){
 };
 
 function showFileEditor(dir,filename){
-	if(!editorIsShown()){
+	if(!is_editor_shown){
 		// Loads the file editor and display it.
 		var data = $.ajax({
 				url: OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
 				complete: function(data){
 					// Initialise the editor
-					$('#editor').attr('editorshown','true');
 					updateSessionFileHash(dir+'/'+filename);
 					showControls(filename);
 					$('table').fadeOut('slow', function() {
@@ -180,6 +170,7 @@ function showFileEditor(dir,filename){
 				}
 				// End ajax
 				});
+		is_editor_shown = true;
 	}
 }
 
@@ -201,11 +192,13 @@ function hideFileEditor(){
 		$('.actions,#file_access_panel').fadeIn('slow');
 		$('table').fadeIn('slow');	
 	});
+	is_editor_shown = false;
 }
 
 $(window).resize(function() {
 	setEditorSize();
 });
+var is_editor_shown = false;
 
 $(document).ready(function(){
 	if(typeof FileActions!=='undefined'){
@@ -226,6 +219,7 @@ $(document).ready(function(){
 		a.click(function(){
 			var file=text.split('/').pop();
 			var dir=text.substr(0,text.length-file.length-1);
+			// TODO this will only work in the files app.
 			showFileEditor(dir,file);
 		});
 	}
