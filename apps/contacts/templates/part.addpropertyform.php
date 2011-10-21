@@ -14,8 +14,8 @@
 <div id="contacts_addcontactsparts" style="display:none;">
 	<div id="contacts_addresspart">
 		<select name="parameters[TYPE]" size="1">
-			<option value="adr_work"><?php echo $l->t('Work'); ?></option>
-			<option value="adr_home" selected="selected"><?php echo $l->t('Home'); ?></option>
+			<option value="work"><?php echo $l->t('Work'); ?></option>
+			<option value="home" selected="selected"><?php echo $l->t('Home'); ?></option>
 		</select>
 		<p><label><?php echo $l->t('PO Box'); ?></label> <input type="text" name="value[0]" value=""></p>
 		<p><label><?php echo $l->t('Extended'); ?></label> <input type="text" name="value[1]" value=""></p>

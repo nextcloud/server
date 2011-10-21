@@ -30,7 +30,7 @@
 		<td class="contacts_details_right">
 			<?php echo $_['property']['value']; ?>
 			<?php if(isset($_['property']['parameters']['TYPE'])): ?>
-				(<?php echo strtolower($_['property']['parameters']['TYPE']); ?>)
+				(<?php echo $l->t(ucwords(str_replace('cell','mobile',strtolower($_['property']['parameters']['TYPE'])))); ?>)
 			<?php endif; ?>
 			<span style="display:none;" data-use="edit"><img class="svg action" src="<?php echo image_path('', 'actions/rename.svg'); ?>" /></span>
 			<span style="display:none;" data-use="delete"><img class="svg action" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
@@ -40,7 +40,7 @@
 			<?php echo $l->t('Address'); ?>
 			<?php if(isset($_['property']['parameters']['TYPE'])): ?>
 				<br>
-				(<?php echo strtolower($_['property']['parameters']['TYPE']); ?>)
+				(<?php echo $l->t(ucwords($_['property']['parameters']['TYPE'])); ?>)
 			<?php endif; ?>
 		</td>
 		<td class="contacts_details_right">
