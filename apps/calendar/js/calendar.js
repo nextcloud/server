@@ -148,32 +148,20 @@ Calendar={
 			$("#advanced_options").css("display", "block");
 			$("#advanced_options_button").css("display", "none");
 		},
-		createEventPopup:function(event, e, view){
-			var popup = $(this).data('popup');
-			if (!popup){
-				popup = $(document.createElement('div'));
-				$(this).data('popup', popup).append(popup);
-				popup.addClass('popup')
-				popup.addClass('event_popup')
-					.html(Calendar.UI.getEventPopupText(event));
-			}
-			popup.css('left', -(popup.width() - $(this).width())/2)
-				.show();
-		},
-		hideEventPopup:function(){
-			$(this).data('popup').hide();
-		},
 		getEventPopupText:function(event){
 			if (event.allDay){
-				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "MMMM d[ yyyy]{ '&#8212;'[ MMMM][ d] yyyy}"));
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "ddd d MMMM[ yyyy]{ -[ddd d] MMMM yyyy}"));
 			}else{
-				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "HH:mm[ MMMM d yyyy]{ '&#8212;' HH:mm MMMM d yyyy}"));
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "ddd d MMMM[ yyyy] HH:mm{ -[ ddd d MMMM yyyy] HH:mm}"));
 				// Tue 18 October 2011 08:00 - 16:00
 			}
-			return '<span class="timespan">' + timespan + '</span>'
-				+ ' '
-				+ '<span class="summary">' + event.title + '</span>'
-				+ '<span class="description">' + event.description + '</span>';
+			var html =
+				'<div class="summary">' + event.title + '</div>' +
+				'<div class="timespan">' + timespan + '</div>';
+			if (event.description){
+				html += '<div class="description">' + event.description + '</div>';
+			}
+			return html;
 		},
 		lockTime:function(){
 			if($('#allday_checkbox').is(':checked')) {
@@ -522,8 +510,19 @@ $(document).ready(function(){
 		eventClick: Calendar.UI.editEvent,
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
-		eventMouseover: Calendar.UI.createEventPopup,
-		eventMouseout: Calendar.UI.hideEventPopup,
+		eventRender: function(event, element) {
+			element.tipsy({
+				className: 'tipsy-event',
+				opacity: 0.9,
+				gravity:$.fn.tipsy.autoBounds(150, 's'),
+				fade:true,
+				delayIn: 400,
+				html:true,
+				title:function() {
+					return Calendar.UI.getEventPopupText(event);
+				}
+			});
+		},
 		eventSources: eventSources
 	});
 	$('#oneweekview_radio').click(function(){

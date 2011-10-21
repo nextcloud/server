@@ -24,8 +24,6 @@
 #listview #events {width:25em;padding: 4px;}
 #listview #events .day {width:auto;padding-left:10px;border-bottom: 2px solid #EEEEEE;text-align:left;}
 
-#sysbox{display: none;}
-
 .actions {height: 33px;	min-width: 800px;}
 .controls {min-width: 800px;}
 .center {text-align: center;}
@@ -98,4 +96,32 @@ button.category{margin:0 3px;}
 .fc-list-event .fc-event-title
 {
      cursor: pointer;
+}
+.tipsy-event .tipsy-inner{
+background-color:#0098E4;
+border:2px solid #1d2d44;
+max-width:400px;
+padding:0;
+}
+.tipsy-event .tipsy-arrow-s{
+border-top-color:#1d2d44;
+}
+.tipsy-event .tipsy-arrow-n{
+border-bottom-color:#1d2d44;
+}
+.tipsy-event .summary,
+.tipsy-event .timespan,
+.tipsy-event .description{
+padding:0 8px;
+}
+.tipsy-event .summary{
+background-color:#1d2d44;
+font-size:1.2em;
+font-weight:bold;
+text-align:left;
+padding:0 8px 2px;
+}
+.tipsy-event .description{
+line-height:1.2;
+margin-bottom:4px;
 }
