@@ -20,6 +20,7 @@ $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timez
 $return = array();
 foreach($events as $event)
 {
+	$return_event = array();
 	$object = Sabre_VObject_Reader::read($event['calendardata']);
 	$vevent = $object->VEVENT;
 	$dtstart = $vevent->DTSTART;
@@ -39,12 +40,9 @@ foreach($events as $event)
 		$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
 		$return_event['allDay'] = false;
 	}
-	$return_event = array();
 	$return_event['id'] = $event['id'];
 	$return_event['title'] = $event['summary'];
 	$return_event['description'] = isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'';
-	$return_event['start'] = $start_dt->format('Y-m-d H:i:s');
-	$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
 	$return[] = $return_event;
 }
 OC_JSON::encodedPrint($return);
