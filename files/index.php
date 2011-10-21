@@ -41,7 +41,7 @@ if(!isset($_SESSION['timezone'])){
 }
 OC_App::setActiveNavigationEntry( "files_index" );
 // Load the files
-$dir = isset( $_GET['dir'] ) && $_GET['dir'] != '/' ? $_GET['dir'] : '';
+$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 
 $files = array();
 foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
@@ -63,7 +63,7 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 }
 
 // Make breadcrumb
-$breadcrumb = array('/');
+$breadcrumb = array();
 $pathtohere = "";
 foreach( explode( "/", $dir ) as $i ){
 	if( $i != "" ){
