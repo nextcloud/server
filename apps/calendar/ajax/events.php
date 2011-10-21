@@ -25,23 +25,26 @@ foreach($events as $event)
 	$dtstart = $vevent->DTSTART;
 	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 	$start_dt = $dtstart->getDateTime();
-	$start_dt->setTimezone(new DateTimeZone($user_timezone));
 	$end_dt = $dtend->getDateTime();
-	$end_dt->setTimezone(new DateTimeZone($user_timezone));
-
+	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE)
+	{
+		$return_event['allDay'] = true;
+		$return_event['start'] = $start_dt->format('Y-m-d');
+		$end_dt->modify('-1 sec');
+		$return_event['end'] = $end_dt->format('Y-m-d');
+	}else{
+		$start_dt->setTimezone(new DateTimeZone($user_timezone));
+		$end_dt->setTimezone(new DateTimeZone($user_timezone));
+		$return_event['start'] = $start_dt->format('Y-m-d H:i:s');
+		$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
+		$return_event['allDay'] = false;
+	}
 	$return_event = array();
 	$return_event['id'] = $event['id'];
 	$return_event['title'] = $event['summary'];
 	$return_event['description'] = isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'';
 	$return_event['start'] = $start_dt->format('Y-m-d H:i:s');
 	$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
-	$return_event['allDay'] = false;
-	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE)
-	{
-		$return_event['allDay'] = true;
-		$end_dt->modify('-1 sec');
-		$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
-	}
 	$return[] = $return_event;
 }
 OC_JSON::encodedPrint($return);
