@@ -531,10 +531,10 @@ $(document).ready(function(){
 	});
 	$('#onemonthview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'month');
-	});
+	});/*
 	$('#listview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'list');
-	});
+	});*/
 	$('#today_input').click(function(){
 		$('#calendar_holder').fullCalendar('today');
 	});
