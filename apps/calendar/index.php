@@ -19,6 +19,17 @@ $eventSources = array();
 foreach($calendars as $calendar){
 	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
 }
+//Fix currentview for fullcalendar
+if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "oneweekview"){
+	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "agendaWeek");
+}
+if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "onemonthview"){
+	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "month");
+}
+if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "listview"){
+	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "list");
+}
+
 OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
 OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
 OC_Util::addScript('calendar', 'calendar');
