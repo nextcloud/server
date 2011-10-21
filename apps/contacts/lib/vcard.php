@@ -231,7 +231,7 @@ class OC_Contacts_VCard{
 	 * @param string $uri the uri of the card
 	 * @return boolean
 	 */
-	public static function deleteCardFromDAVData($aid,$uri){
+	public static function deleteFromDAVData($aid,$uri){
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 
