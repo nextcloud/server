@@ -88,11 +88,11 @@ class OC_FileProxy{
 		$operation='pre'.$operation;
 		foreach($proxies as $proxy){
 			if($filepath2){
-				if(!$proxy->$operation($filepath,$filepath2)){
+				if(!$proxy->$operation(&$filepath,&$filepath2)){
 					return false;
 				}
 			}else{
-				if(!$proxy->$operation($filepath)){
+				if(!$proxy->$operation(&$filepath)){
 					return false;
 				}
 			}
