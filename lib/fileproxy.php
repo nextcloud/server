@@ -39,6 +39,7 @@
 
 class OC_FileProxy{
 	private static $proxies=array();
+	public static $enabled=true;
 	
 	/**
 	 * check if this proxy implments a specific proxy operation
@@ -84,6 +85,9 @@ class OC_FileProxy{
 	}
 
 	public static function runPreProxies($operation,&$filepath,&$filepath2=null){
+		if(!self::$enabled){
+			return true;
+		}
 		$proxies=self::getProxies($operation,false);
 		$operation='pre'.$operation;
 		foreach($proxies as $proxy){
@@ -101,6 +105,9 @@ class OC_FileProxy{
 	}
 
 	public static function runPostProxies($operation,$path,$result){
+		if(!self::$enabled){
+			return $result;
+		}
 		$proxies=self::getProxies($operation,true);
 		$operation='post'.$operation;
 		foreach($proxies as $proxy){
