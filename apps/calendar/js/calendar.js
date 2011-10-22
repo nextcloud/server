@@ -91,27 +91,27 @@ Calendar={
 			$.post(url, post,
 				function(data){
 					if(data.status == "error"){
-						var output = "Missing fields: <br />";
+						var output = missing_field + ": <br />";
 						if(data.title == "true"){
-							output = output + "Title<br />";
+							output = output + missing_field_title + "<br />";
 						}
 						if(data.cal == "true"){
-							output = output + "Calendar<br />";
+							output = output + missing_field_calendar + "<br />";
 						}
 						if(data.from == "true"){
-							output = output + "From Date<br />";
+							output = output + missing_field_fromdate + "<br />";
 						}
 						if(data.fromtime == "true"){
-							output = output + "From Time<br />";
+							output = output + missing_field_fromtime + "<br />";
 						}
 						if(data.to == "true"){
-							output = output + "To Date<br />";
+							output = output + missing_field_todate + "<br />";
 						}
 						if(data.totime == "true"){
-							output = output + "To Time<br />";
+							output = output + missing_field_totime + "<br />";
 						}
 						if(data.endbeforestart == "true"){
-							output = "The event ends before it starts!";
+							output = output + missing_field_startsbeforeends + "!<br/>";
 						}
 						if(data.dberror == "true"){
 							output = "There was a database fail!";

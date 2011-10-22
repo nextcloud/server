@@ -6,6 +6,15 @@ var dayNamesShort = <?php echo json_encode($l->tA(array('Sun.', 'Mon.', 'Tue.', 
 var monthNames = <?php echo json_encode($l->tA(array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'))) ?>;
 var monthNamesShort = <?php echo json_encode($l->tA(array('Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'))) ?>;
 var allDayText = '<?php echo $l->t('All day') ?>';
+var missing_field = '<?php echo $l->t('Missing fields') ?>';
+var missing_field_title = '<?php echo $l->t('Title') ?>';
+var missing_field_calendar = '<?php echo $l->t('Calendar') ?>';
+var missing_field_fromdate = '<?php echo $l->t('From Date') ?>';
+var missing_field_fromtime = '<?php echo $l->t('From Time') ?>';
+var missing_field_todate = '<?php echo $l->t('To Date') ?>';
+var missing_field_totime = '<?php echo $l->t('To Time') ?>';
+var missing_field_startsbeforeends = '<?php echo $l->t('The event ends before it starts') ?>';
+var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
 </script>
 				<div id="controls">
 					<div>
@@ -25,7 +34,7 @@ var allDayText = '<?php echo $l->t('All day') ?>';
 						<form>
 							<div id="datecontrol">
 								<input type="button" value="&nbsp;&lt;&nbsp;" id="datecontrol_left"/>
-								<span id="datecontrol_date"></span>
+								<span class="button" id="datecontrol_date"></span>
 								<input type="button" value="&nbsp;&gt;&nbsp;" id="datecontrol_right"/>
 							</div>
 						</form>

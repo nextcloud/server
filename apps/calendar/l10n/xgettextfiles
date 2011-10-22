@@ -1,7 +1,11 @@
 ../appinfo/app.php
+../lib/object.php
 ../templates/calendar.php
-../templates/part.editevent.php
-../templates/part.eventinfo.php
-../templates/part.newevent.php
 ../templates/part.choosecalendar.php
-../js/calendar.js
+../templates/part.choosecalendar.rowfields.php
+../templates/part.editcalendar.php
+../templates/part.editevent.php
+../templates/part.eventform.php
+../templates/part.import.php
+../templates/part.newevent.php
+../templates/settings.php
