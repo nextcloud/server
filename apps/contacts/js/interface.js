@@ -40,7 +40,8 @@ $(document).ready(function(){
 		var id = $('#rightcontent').data('id');
 		$.getJSON('ajax/showaddproperty.php',{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#rightcontent').append(jsondata.data.page);
+				$('#contacts_details_list').append(jsondata.data.page);
+				$('#contacts_addproperty').hide();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -68,9 +69,10 @@ $(document).ready(function(){
 	$('#contacts_addpropertyform input[type="submit"]').live('click',function(){
 		$.post('ajax/addproperty.php',$('#contacts_addpropertyform').serialize(),function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#contacts_details').append(jsondata.data.page);
+				$('#contacts_details_list').append(jsondata.data.page);
 				$('#contacts_addpropertyform').remove();
 				$('#contacts_addcontactsparts').remove();
+				$('#contacts_addproperty').show();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -78,7 +80,7 @@ $(document).ready(function(){
 		}, 'json');
 		return false;
 	});
-	
+
 	$('#contacts_newcontact').click(function(){
 		$.getJSON('ajax/showaddcard.php',{},function(jsondata){
 			if(jsondata.status == 'success'){
@@ -107,12 +109,12 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('.contacts_details_property [data-use="edit"]').live('click',function(){
+	$('.contacts_property [data-use="edit"]').live('click',function(){
 		var id = $('#rightcontent').data('id');
-		var checksum = $(this).parent().parent().data('checksum');
+		var checksum = $(this).parents('li').first().data('checksum');
 		$.getJSON('ajax/showsetproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){
-				$('.contacts_details_property[data-checksum="'+checksum+'"] .contacts_details_right').html(jsondata.data.page);
+				$('.contacts_property[data-checksum="'+checksum+'"]').html(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);
@@ -122,9 +124,9 @@ $(document).ready(function(){
 	});
 
 	$('#contacts_setpropertyform input[type="submit"]').live('click',function(){
-		$.post('ajax/setproperty.php',$(this).parent('form').serialize(),function(jsondata){
+		$.post('ajax/setproperty.php',$(this).parents('form').first().serialize(),function(jsondata){
 			if(jsondata.status == 'success'){
-				$('.contacts_details_property[data-checksum="'+jsondata.data.oldchecksum+'"]').replaceWith(jsondata.data.page);
+				$('.contacts_property[data-checksum="'+jsondata.data.oldchecksum+'"]').replaceWith(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);
@@ -133,12 +135,12 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('.contacts_details_property [data-use="delete"]').live('click',function(){
+	$('.contacts_property [data-use="delete"]').live('click',function(){
 		var id = $('#rightcontent').data('id');
-		var checksum = $(this).parent().parent().data('checksum');
+		var checksum = $(this).parents('li').first().data('checksum');
 		$.getJSON('ajax/deleteproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){
-				$('.contacts_details_property[data-checksum="'+checksum+'"]').remove();
+				$('.contacts_property[data-checksum="'+checksum+'"]').remove();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -148,11 +150,11 @@ $(document).ready(function(){
 	});
 
 
-	$('.contacts_details_property').live('mouseenter',function(){
+	$('.contacts_property').live('mouseenter',function(){
 		$(this).find('span').show();
 	});
-	
-	$('.contacts_details_property').live('mouseleave',function(){
+
+	$('.contacts_property').live('mouseleave',function(){
 		$(this).find('span').hide();
 	});
 });
