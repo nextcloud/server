@@ -69,10 +69,7 @@ $(document).ready(function(){
 	$('#contacts_addpropertyform input[type="submit"]').live('click',function(){
 		$.post('ajax/addproperty.php',$('#contacts_addpropertyform').serialize(),function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#contacts_details_list').append(jsondata.data.page);
-				$('#contacts_addpropertyform').remove();
-				$('#contacts_addcontactsparts').remove();
-				$('#contacts_addproperty').show();
+				$('#contacts_addpropertyform').before(jsondata.data.page);
 			}
 			else{
 				alert(jsondata.data.message);

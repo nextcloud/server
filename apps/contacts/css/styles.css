@@ -1,19 +1,16 @@
-.contacts_details_left {text-align:right;vertical-align:top;padding:2px;}
-.contacts_details_right {text-align:left;vertical-align:top;padding:2px;}
-
 #contacts_details_name { font-weight:bold;font-size:1.1em;margin-left:25%;}
 #contacts_details_photo { margin:.5em 0em .5em 25%; }
 
 #contacts_deletecard {position:absolute;top:15px;right:0;}
 #contacts_details_list { list-style:none; }
 #contacts_details_list li { overflow:hidden; }
-#contacts_details_list li p.contacts_property_name { width:25%; float:left; }
+#contacts_details_list li p.contacts_property_name { width:25%; float:left;text-align:right;padding-right:0.3em; }
 #contacts_details_list li p.contacts_property_data, #contacts_details_list li ul.contacts_property_data { width:72%; overflow:hidden; }
 #contacts_addproperty, #contacts_addproperty_button { margin-left:25%; }
 
 .contacts_property_data ul, .contacts_property_data ol { list-style:none; }
 .contacts_property_data li { overflow: hidden; }
-.contacts_property_data li label { width:20%; float:left; }
+.contacts_property_data li label { width:20%; float:left; text-align:right;padding-right:0.3em; }
 .contacts_property_data li input { width:70%;overflow:hidden; }
 
 /* Form setup ----------------------------------------------------------------*/
