@@ -21,6 +21,7 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSr
       default:
         exit();
     }
+		if(!$myImage) exit();
     $ratio_orig = $width_orig/$height_orig;
     
     if ($thumbnail_width/$thumbnail_height > $ratio_orig) {
@@ -50,9 +51,10 @@ $img = $_GET['img'];
 
 $tmp = OC::$CONFIG_DATADIRECTORY . $img;
 
-header('Content-Type: image/png');
-$image = CroppedThumbnail($tmp, $box_size, $box_size);
-
-imagepng($image);
-imagedestroy($image);
-?>
+if(file_exists($tmp))
+{
+  header('Content-Type: image/png');
+	$image = CroppedThumbnail($tmp, $box_size, $box_size);
+	imagepng($image);
+	imagedestroy($image);
+}

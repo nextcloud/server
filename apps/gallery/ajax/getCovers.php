@@ -18,6 +18,7 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $
       default:
         exit();
     }
+		if(!$myImage) exit();
     $ratio_orig = $width_orig/$height_orig;
     
     if ($thumbnail_width/$thumbnail_height > $ratio_orig) {
@@ -52,8 +53,11 @@ $targetImg = imagecreatetruecolor($numOfItems*$box_size, $box_size);
 $counter = 0;
 while (($i = $result->fetchRow()) && $counter < $numOfItems) {
   $imagePath = OC::$CONFIG_DATADIRECTORY . $i['file_path'];
-  CroppedThumbnail($imagePath, $box_size, $box_size, $targetImg, $counter*$box_size);
-  $counter++;
+	if(file_exists($imagePath))
+	{
+		CroppedThumbnail($imagePath, $box_size, $box_size, $targetImg, $counter*$box_size);
+		$counter++;
+	}
 }
 
 header('Content-Type: image/png');
