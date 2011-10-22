@@ -24,7 +24,7 @@ class OC_Util {
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
                         if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by setting the owner of '".OC::$SERVERROOT."' to the user that the web server uses (".OC_Util::checkWebserverUser().")")));
+				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' ")));
 				$tmpl->printPage();
 				exit;
   			}
@@ -183,7 +183,7 @@ class OC_Util {
                 $serverUser=OC_Util::checkWebserverUser();
 
 		//common hint for all file permissons error messages
-		$permissionsHint="Permissions can usually be fixed by setting the owner of the file or directory to the user the web server runs as ($serverUser)";
+		$permissionsHint="Permissions can usually be fixed by giving the webserver write access to the ownCloud directory";
 
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
