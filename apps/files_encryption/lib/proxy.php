@@ -28,7 +28,6 @@
 class OC_FileProxy_Encryption extends OC_FileProxy{
 	public function preFile_put_contents($path,&$data){
 		if(substr($path,-4)=='.enc'){
-			OC_Log::write('files_encryption','file put contents',OC_Log::DEBUG);
 			if (is_resource($data)) {
 				$newData='';
 				while(!feof($data)){
@@ -44,27 +43,33 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	
 	public function postFile_get_contents($path,$data){
 		if(substr($path,-4)=='.enc'){
-			OC_Log::write('files_encryption','file get contents',OC_Log::DEBUG);
 			return OC_Crypt::blockDecrypt($data);
 		}
 	}
 	
 	public function postFopen($path,&$result){
 		if(substr($path,-4)=='.enc'){
-			OC_Log::write('files_encryption','fopen',OC_Log::DEBUG);
+			$meta=stream_get_meta_data($result);
 			fclose($result);
-			$result=fopen('crypt://'.substr($path,0,-4));//remove the .enc extention so we don't catch the fopen request made by cryptstream
+			OC_log::write('file_encryption','mode: '.$meta['mode']);
+			$result=fopen('crypt://'.$path,$meta['mode']);
 		}
 	}
 	
 	public function preReadFile($path){
 		if(substr($path,-4)=='.enc'){
-			OC_Log::write('files_encryption','readline',OC_Log::DEBUG);
-			$stream=fopen('crypt://'.substr($path,0,-4));
+			$stream=fopen('crypt://'.$path,'r');
 			while(!feof($stream)){
 				print(fread($stream,8192));
 			}
 			return false;//cancel the original request
 		}
+	}
+	
+	public function postGetMimeType($path,$result){
+		if(substr($path,-4)=='.enc'){
+			return 'text/plain';
+		}
+		return $result;
 	}
 }

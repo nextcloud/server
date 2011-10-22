@@ -29,9 +29,12 @@ class OC_CryptStream{
 
 	public function stream_open($path, $mode, $options, &$opened_path){
 		$path=str_replace('crypt://','',$path);
-		$this->source=OC_FileSystem::fopen($path.'.enc',$mode);
+		OC_Log::write('files_encryption','open encrypted '.$path. ' in '.$mode,OC_Log::DEBUG);
+		OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
+		$this->source=OC_FileSystem::fopen($path,$mode);
+		OC_FileProxy::$enabled=true;
 		if(!is_resource($this->source)){
-			OC_Log::write('files_encryption','failed to open '.$path.'.enc',OC_Log::ERROR);
+			OC_Log::write('files_encryption','failed to open '.$path,OC_Log::ERROR);
 		}
 		return is_resource($this->source);
 	}
