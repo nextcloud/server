@@ -5,6 +5,9 @@ OC_JSON::checkAppEnabled('gallery');
 
 function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSrc is a FILE - Returns an image resource.
     //getting the image dimensions  
+		if(! function_exists('imagecreatefromjpeg'))
+			OC_Log::write('gallery','GD module not installed',OC_Log::ERROR);
+
     list($width_orig, $height_orig) = getimagesize($imgSrc);   
     switch (strtolower(substr($imgSrc, strrpos($imgSrc, '.')+1))) {
       case "jpeg":
