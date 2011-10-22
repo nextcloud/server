@@ -31,7 +31,7 @@ class OC_GALLERY_SCANNER {
     $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE `uid_owner` = ? AND `album_name` = ?');
     $result = $stmt->execute(array(OC_User::getUser(), $current_album['name']));
     if ($result->numRows() == 0 && count($current_album['images'])) {
-      $stmt = OC_DB::prepare('REPLACE INTO *PREFIX*gallery_albums (`uid_owner`, `album_name`) VALUES (?, ?)');
+      $stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_albums (`uid_owner`, `album_name`) VALUES (?, ?)');
       $stmt->execute(array(OC_User::getUser(), $current_album['name']));
     }
     $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE `uid_owner` = ? AND `album_name` = ?');
@@ -42,7 +42,7 @@ class OC_GALLERY_SCANNER {
       $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_photos WHERE `album_id` = ? AND `file_path` = ?');
       $result = $stmt->execute(array($albumId, $img));
       if ($result->numRows() == 0) {
-        $stmt = OC_DB::prepare('REPLACE INTO *PREFIX*gallery_photos (`album_id`, `file_path`) VALUES (?, ?)');
+        $stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_photos (`album_id`, `file_path`) VALUES (?, ?)');
         $stmt->execute(array($albumId, $img));
       }
     }

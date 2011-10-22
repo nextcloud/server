@@ -38,7 +38,7 @@ FileList={
 	},
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir" data-size="'+size+'">';
-		html+='<td class="filename" style="background-image:url('+OC.imagePath('core', 'places/folder')+')"><input type="checkbox" /><a class="name" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
+		html+='<td class="filename" style="background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')"><input type="checkbox" /><a class="name" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
 		if(size!='Pending'){
 			simpleSize=simpleFileSize(size);
 		}else{
