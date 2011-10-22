@@ -41,14 +41,13 @@ $bookmark_id = (int)$_GET["id"];
 
 $query = OC_DB::prepare("
 	UPDATE *PREFIX*bookmarks
-	SET url = ?, title =?, description = ?, lastmodified = $_ut
+	SET url = ?, title =?, lastmodified = $_ut
 	WHERE id = $bookmark_id
 	");
 
 $params=array(
 	htmlspecialchars_decode($_GET["url"]),
 	htmlspecialchars_decode($_GET["title"]),
-	htmlspecialchars_decode($_GET["description"]),
 	);
 $query->execute($params);
 

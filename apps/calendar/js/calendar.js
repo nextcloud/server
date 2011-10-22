@@ -200,6 +200,7 @@ Calendar={
 					});
 				}
 			});
+			window.setTimeout("Calendar.UI.loadEvents(" + year + ")", 120000);
 		},
 		getEventsForDate:function(date){
 			var day = date.getDate();
@@ -491,8 +492,6 @@ Calendar={
 				// based on jquery-colorpicker at jquery.webspirited.com
 				var obj = $('.colorpicker', container);
 				var picker = $('<div class="calendar-colorpicker"></div>');
-				var size = 20;
-
 				//build an array of colors
 				var colors = {};
 				$(obj).children('option').each(function(i, elm) {
@@ -501,7 +500,7 @@ Calendar={
 					colors[i].label = $(elm).text();
 				});
 				for (var i in colors) {
-					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: #' + colors[i].color + '; width: ' + size + 'px; height: ' + size + 'px;"></span>');
+					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: #' + colors[i].color + ';"></span>');
 				}
 				picker.delegate(".calendar-colorpicker-color", "click", function() {
 					$(obj).val($(this).attr('rel'));

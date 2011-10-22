@@ -50,8 +50,7 @@
 };?>
 
 <p class="personalblock">
-	<strong>ownCloud</strong>
-	<?php echo(OC_Util::getVersionString()); ?>
+	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?>, <a href="http://gitorious.org/owncloud" target="_blank">source code</a> licensed freely under <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">AGPL</a>
 </p>
 
 

@@ -37,16 +37,28 @@ if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 }
 
 $fn = $_POST['fn'];
+$values = $_POST['value'];
+$parameters = $_POST['parameters'];
 
 $vcard = new Sabre_VObject_Component('VCARD');
 $vcard->add(new Sabre_VObject_Property('FN',$fn));
 $vcard->add(new Sabre_VObject_Property('UID',OC_Contacts_VCard::createUID()));
+foreach(array('ADR', 'TEL', 'EMAIL', 'ORG') as $propname){
+	$value = $values[$propname];
+	if (isset($parameters[$propname])){
+		$prop_parameters = $parameters[$propname];
+	} else {
+		$prop_parameters = array();
+	}
+	OC_Contacts_VCard::addVCardProperty($vcard, $propname, $value, $prop_parameters);
+}
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 
 $details = OC_Contacts_VCard::structureContact($vcard);
+$name = $details['FN'][0]['value'];
 $tmpl = new OC_Template('contacts','part.details');
 $tmpl->assign('details',$details);
 $tmpl->assign('id',$id);
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page )));
+OC_JSON::success(array('data' => array( 'id' => $id, 'name' => $name, 'page' => $page )));

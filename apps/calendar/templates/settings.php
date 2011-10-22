@@ -6,41 +6,39 @@
  * later.
  * See the COPYING-README file.
  */
-OC_UTIL::addScript('', 'jquery.multiselect');
-OC_UTIL::addStyle('', 'jquery.multiselect');
 ?>
 <form id="calendar">
         <fieldset class="personalblock">
-		<table class="nostyle">
-			<tr><td><label for="timezone" class="bold"><?php echo $l->t('Timezone');?></label></td><td><select style="display: none;" id="timezone" name="timezone">
+        <table class="nostyle">
+            <tr><td><label for="timezone" class="bold"><?php echo $l->t('Timezone');?></label></td><td><select style="display: none;" id="timezone" name="timezone">
                 <?php
-		$continent = '';
-		foreach($_['timezones'] as $timezone):
-			$ex=explode('/', $timezone, 2);//obtain continent,city
-			if (!isset($ex[1])) {
-				$ex[1] = $ex[0];
-				$ex[0] = "Other";
-			}
-			if ($continent!=$ex[0]):
-				if ($continent!="") echo '</optgroup>';
-				echo '<optgroup label="'.$ex[0].'">';
-			endif;
-			$city=strtr($ex[1], '_', ' ');
-			$continent=$ex[0];
-			echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
+                $continent = '';
+                foreach($_['timezones'] as $timezone):
+                    $ex=explode('/', $timezone, 2);//obtain continent,city
+                    if (!isset($ex[1])) {
+                            $ex[1] = $ex[0];
+                            $ex[0] = "Other";
+                    }
+                    if ($continent!=$ex[0]):
+                        if ($continent!="") echo '</optgroup>';
+                        echo '<optgroup label="'.$ex[0].'">';
+                    endif;
+					$city=strtr($ex[1], '_', ' ');
+                    $continent=$ex[0];
+                    echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
                 endforeach;?>
-                </select></td></tr>
+            </select></td></tr>
 
-			<tr><td><label for="timeformat" class="bold"><?php echo $l->t('Timeformat');?></label></td><td>
-				<select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
-					<option value="24" id="24h"><?php echo $l->t("24h"); ?></option>
-					<option value="ampm" id="ampm"><?php echo $l->t("12h"); ?></option>
-				</select>
-			</td></tr>
+            <tr><td><label for="timeformat" class="bold"><?php echo $l->t('Timeformat');?></label></td><td>
+                <select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
+                    <option value="24" id="24h"><?php echo $l->t("24h"); ?></option>
+                    <option value="ampm" id="ampm"><?php echo $l->t("12h"); ?></option>
+                </select>
+            </td></tr>
 
-		</table>
+        </table>
 
-		<?php echo $l->t('Calendar CalDAV syncing address:');?> 
-  		<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?><br />
+        <?php echo $l->t('Calendar CalDAV syncing address:');?>
+        <?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?><br />
         </fieldset>
 </form>

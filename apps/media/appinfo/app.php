@@ -29,5 +29,5 @@ OC_APP::registerPersonal('media','settings');
 
 OC_App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 
-OC_App::addNavigationEntry( array( 'id' => 'media_index', 'order' => 2, 'href' => OC_Helper::linkTo( 'media', 'index.php' ), 'icon' => OC_Helper::imagePath( 'core', 'filetypes/audio.svg' ), 'name' => $l->t('Music') ));
+OC_App::addNavigationEntry(array('id' => 'media_index', 'order' => 2, 'href' => OC_Helper::linkTo('media', 'index.php'), 'icon' => OC_Helper::imagePath('core', 'places/music.svg'), 'name' => $l->t('Music')));
 ?>

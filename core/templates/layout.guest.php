@@ -32,6 +32,6 @@
 			</div></header>
 			<?php echo $_['content']; ?>
 		</div>
-		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a>: <?php echo $l->t( 'web services under your control' ); ?></p></footer>
+		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash; <?php echo $l->t( 'web services under your control' ); ?></p></footer>
 	</body>
 </html>
