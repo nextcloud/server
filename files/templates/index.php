@@ -7,9 +7,9 @@
 				<?php echo $l->t('New');?>
 			</a>
 			<ul class="popup popupTop">
-				<li style="background:url('<?php echo mimetype_icon('text/plain') ?>')" data-type='file'><p><?php echo $l->t('File');?></p></li>
-				<li style="background:url('<?php echo mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
-<!-- 				<li style="background:url('<?php echo mimetype_icon('dir') ?>')" data-type='web'><p><?php echo $l->t('From the web');?></p></li> -->
+				<li style="background-image:url('<?php echo mimetype_icon('text/plain') ?>')" data-type='file'><p><?php echo $l->t('Text file');?></p></li>
+				<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
+<!-- 				<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='web'><p><?php echo $l->t('From the web');?></p></li> -->
 			</ul>
 		</button>
 		<div class="file_upload_wrapper svg">
@@ -17,9 +17,9 @@
 				<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 				<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 				<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
-				<input type="submit" class="file_upload_filename" value="^"/>
+				<button class="file_upload_filename"><img class='svg action' alt="Upload" src="<?php echo image_path("core", "actions/upload.svg"); ?>" /></button>
 				<input class="file_upload_start" type="file" name='files[]'/>
-					<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="Upload. <?php echo  'max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
+					<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="<?php echo $l->t('Upload'); echo  ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
 				<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
 			</form>
 		</div>
