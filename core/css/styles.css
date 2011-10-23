@@ -72,14 +72,14 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #login form { width:22em; margin:2em auto 2em; padding:0; }
 #login form fieldset { background:0; border:0; margin-bottom:2em; padding:0; }
 #login form fieldset legend { font-weight:bold; }
-#login form label { margin:.9em .8em .7em;; color:#666; }
+#login form label { margin:.95em 0 0 .85em; color:#666; }
 /* NEEDED FOR INFIELD LABELS */
 p.infield { position: relative; }
 label.infield { cursor: text !important; }
 #login form label.infield { position:absolute; font-size:1.5em; color:#AAA; }
 #login #dbhostlabel, #login #directorylabel { display:block; margin:.95em 0 .8em -8em; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
-#login form ul.errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
+#login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 
 #login form #selectDbType { text-align:center; }
 #login form #selectDbType label { position:static; font-size:1em; margin:0 -.3em 1em; cursor:pointer; padding:.4em; border:1px solid #ddd; font-weight:bold; background:#f8f8f8; color:#555; text-shadow:#eee 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; }
