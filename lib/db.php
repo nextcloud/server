@@ -42,11 +42,22 @@ class OC_DB {
 	 *
 	 * Connects to the database as specified in config.php
 	 */
-	public static function connect(){
+	public static function connect($backend=null){
 		if(self::$connection){
 			return;
 		}
-		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+		if(is_null($backend)){
+			$backend=self::BACKEND_MDB2;
+			if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+				$type = OC_Config::getValue( "dbtype", "sqlite" );
+				if($type=='sqlite3') $type='sqlite';
+				$drivers=PDO::getAvailableDrivers();
+				if(array_search($type,$drivers)!==false){
+					$backend=self::BACKEND_PDO;
+				}
+			}
+		}
+		if($backend==self::BACKEND_PDO){
 			self::connectPDO();
 			self::$connection=self::$PDO;
 			self::$backend=self::BACKEND_PDO;
