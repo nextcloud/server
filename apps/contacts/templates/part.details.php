@@ -35,7 +35,8 @@
 				</p>
 				<p class="contacts_property_data" id="contacts_generic">
 					<input type="text" name="value" value="">
-				</p><br>
+				</p>
+				<br>
 				<input id="contacts_addproperty_button" type="submit" value="<?php echo $l->t('Add'); ?>">
 			</form>
 			<div id="contacts_addcontactsparts" style="display:none;">
