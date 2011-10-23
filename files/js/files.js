@@ -255,31 +255,76 @@ $(document).ready(function() {
 		text=text.substr(0,text.length-6)+'...';
 		crumb.text(text);
 	}
+	
+	$(window).click(function(){
+		$('#new>ul').hide();
+		$('#new').removeClass('active');
+		$('input.file_upload_filename').removeClass('active');
+		$('#new li').each(function(i,element){
+			if($(element).children('p').length==0){
+				$(element).children('input').remove();
+				$(element).append('<p>'+$(element).data('text')+'</p>');
+			}
+		});
+	});
+	$('#new').click(function(event){
+		event.stopPropagation();
+	});
+	$('#new>a').click(function(){
+		$('#new>ul').toggle();
+		$('#new').toggleClass('active');
+		$('input.file_upload_filename').toggleClass('active');
+	});
+	$('#new li').click(function(){
+		if($(this).children('p').length==0){
+			return;
+		}
+		
+		$('#new li').each(function(i,element){
+			if($(element).children('p').length==0){
+				$(element).children('input').remove();
+				$(element).append('<p>'+$(element).data('text')+'</p>');
+			}
+		});
+		
+		var type=$(this).data('type');
+		var text=$(this).children('p').text();
+		$(this).data('text',text);
+		$(this).children('p').remove();
+		var input=$('<input>');
+		$(this).append(input);
+		input.focus();
+		input.change(function(){
+			var name=$(this).val();
+			switch(type){
+				case 'file':
+					$.ajax({
+						url: OC.filePath('files','ajax','newfile.php'),
+						data: "dir="+encodeURIComponent($('#dir').val())+"&filename="+encodeURIComponent(name)+'&content=%20%0A',
+						complete: function(data){boolOperationFinished(data, function(){
+							var date=new Date();
+							FileList.addFile(name,0,date);
+						});}
+					});
+					break;
+				case 'folder':
+					$.ajax({
+						url: OC.filePath('files','ajax','newfolder.php'),
+						data: "dir="+encodeURIComponent($('#dir').val())+"&foldername="+encodeURIComponent(name),
+						complete: function(data){boolOperationFinished(data, function(){
+							var date=new Date();
+							FileList.addDir(name,0,date);
+						});}
+					});
+					break;
+			}
+			var li=$(this).parent();
+			$(this).remove();
+			li.append('<p>'+li.data('text')+'</p>');
+			$('#new>a').click();
+		});
+	});
 });
-
-var adjustNewFolderSize = function() {
-	if($('#file_newfolder_name').val() != '') {
-		splitSize($('#file_newfolder_name'),$('#file_newfolder_submit'));
-		$('#file_newfolder_name').unbind('keyup', adjustNewFolderSize);
-	};
-}
-
-function splitSize(existingEl, appearingEl) {
-	nw = parseInt($(existingEl).css('width')) - parseInt($(appearingEl).css('width'));
-	$(existingEl).css('width', nw + 'px');
-	$(appearingEl).fadeIn(250);
-}
-
-function unsplitSize(stayingEl, vanishingEl) {
-	nw = parseInt($(stayingEl).css('width')) + parseInt($(vanishingEl).css('width'));
-	$(stayingEl).css('width', nw + 'px');
-	$(vanishingEl).fadeOut(250);
-}
-
-function resetFileActionPanel() {
-	$('#file_action_panel form').css({"display":"none"});
-	$('#file_action_panel').attr('activeAction', false);
-}
 
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);
