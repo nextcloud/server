@@ -12,7 +12,7 @@ OC_Util::checkAppEnabled('calendar');
 // Create default calendar ...
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 if( count($calendars) == 0){
-	OC_Calendar_Calendar::addCalendar(OC_User::getUser(),'default','Default calendar');
+	OC_Calendar_Calendar::addCalendar(OC_User::getUser(),'Default calendar');
 	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 }
 $eventSources = array();

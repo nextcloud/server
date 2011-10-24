@@ -366,9 +366,11 @@ class OC_Filesystem{
 			case 'a':
 				$hooks[]='write';
 				break;
+			default:
+				OC_Log::write('core','invalid mode ('.$mode.') for '.$path,OC_Log::ERROR);
 		}
 		
-		return self::basicOperation('fopen',$path,$hooks);
+		return self::basicOperation('fopen',$path,$hooks,$mode);
 	}
 	static public function toTmpFile($path){
 		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and self::canRead($path) and $storage=self::getStorage($path)){
