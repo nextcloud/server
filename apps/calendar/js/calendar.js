@@ -31,36 +31,17 @@ Calendar={
 				}
 			});
 		},
-		newEvent:function(date, allDay, jsEvent, view){
-			var dayofmonth = date.getDate();
-			var month = date.getMonth();
-			var year = date.getFullYear();
-			var hour = date.getHours();
-			var min = date.getMinutes();
-			if(dayofmonth <= 9){
-				dayofmonth = '0' + dayofmonth;
+		newEvent:function(start, end, allday){
+			start = Math.round(start.getTime()/1000);
+			if (end){
+				end = Math.round(end.getTime()/1000);
 			}
-			month++;
-			if(month <= 9){
-				month = '0' + month;
-			}
-			if(hour <= 9){
-				hour = '0' + hour;
-			}
-			if(min <= 9){
-				min = '0' + min;
-			}
-			var date = String(dayofmonth) + String(month) + String(year);
-			if (allDay){
-				var time = 'allday';
-			}else{
-				var time = String(hour) + String(min);
-			}
+			$('#calendar_holder').fullCalendar('unselect');
 			if($('#event').dialog('isOpen') == true){
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php') + '?d=' + date + '&t=' + time, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php'), {start:start, end:end, allday:allday?1:0}, Calendar.UI.startEventDialog);
 			}
 		},
 		editEvent:function(calEvent, jsEvent, view){
@@ -509,7 +490,9 @@ $(document).ready(function(){
 			$('#datecontrol_date').html(view.title);
 			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
 		},
-		dayClick: Calendar.UI.newEvent,
+		selectable: true,
+		selectHelper: true,
+		select: Calendar.UI.newEvent,
 		eventClick: Calendar.UI.editEvent,
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
