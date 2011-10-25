@@ -204,9 +204,12 @@ Calendar={
 					direction = 'down';
 				}
 			}
-			if(direction == 'down'){
+			var scroll = $(document).scrollTop(),
+				doc_height = $(document).height(),
+				win_height = $(window).height();
+			if(direction == 'down' && win_height == (doc_height - scroll)){
 				$('#calendar_holder').fullCalendar('next');
-			}else{
+			}else if (direction == 'top' && scroll == 0) {
 				$('#calendar_holder').fullCalendar('prev');
 			}
 		},
@@ -483,7 +486,7 @@ function ListView(element, calendar) {
 	}
 }
 $(document).ready(function(){
-	//Calendar.UI.initScroll();
+	Calendar.UI.initScroll();
 	$('#calendar_holder').fullCalendar({
 		header: false,
 		firstDay: 1,
