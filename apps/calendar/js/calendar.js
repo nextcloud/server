@@ -10,6 +10,7 @@ Calendar={
 	space:' ',
 	UI:{
 		startEventDialog:function(){
+			$('.tipsy').remove();
 			Calendar.UI.lockTime();
 			$( "#from" ).datepicker({
 				dateFormat : 'dd-mm-yy'
