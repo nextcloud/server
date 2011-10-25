@@ -1,6 +1,7 @@
 <?php // Include Style and Script
 OC_Util::addScript('contacts','interface');
 OC_Util::addStyle('contacts','styles');
+OC_Util::addStyle('contacts','formtastic');
 ?>
 
 <div id="controls">

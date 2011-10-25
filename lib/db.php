@@ -42,11 +42,22 @@ class OC_DB {
 	 *
 	 * Connects to the database as specified in config.php
 	 */
-	public static function connect(){
+	public static function connect($backend=null){
 		if(self::$connection){
 			return;
 		}
-		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+		if(is_null($backend)){
+			$backend=self::BACKEND_MDB2;
+			if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+				$type = OC_Config::getValue( "dbtype", "sqlite" );
+				if($type=='sqlite3') $type='sqlite';
+				$drivers=PDO::getAvailableDrivers();
+				if(array_search($type,$drivers)!==false){
+					$backend=self::BACKEND_PDO;
+				}
+			}
+		}
+		if($backend==self::BACKEND_PDO){
 			self::connectPDO();
 			self::$connection=self::$PDO;
 			self::$backend=self::BACKEND_PDO;
@@ -252,7 +263,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $file ){
+	public static function getDbStructure( $file ,$mode=MDB2_SCHEMA_DUMP_STRUCTURE){
 		self::connectScheme();
 
 		// write the scheme
@@ -288,7 +299,7 @@ class OC_DB {
 		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite don't
+		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		}
 		file_put_contents( $file2, $content );
@@ -313,6 +324,39 @@ class OC_DB {
 			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
 		}
 
+		return true;
+	}
+	
+	/**
+	 * @brief update the database scheme
+	 * @param $file file to read structure from
+	 */
+	public static function updateDbFromStructure($file){
+		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
+		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
+		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+
+		self::connectScheme();
+
+		// read file
+		$content = file_get_contents( $file );
+		
+		// Make changes and save them to a temporary file
+		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
+		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
+		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
+			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+		}
+		file_put_contents( $file2, $content );
+		$previousSchema = self::$schema->getDefinitionFromDatabase();
+		$op = $schema->updateDatabase($file2, $previousSchema, array(), false);
+
+		if (PEAR::isError($op)) {
+		    $error = $op->getMessage();
+		    OC_Log::write('core','Failed to update database structure ('.$error.')',OC_Log::FATAL);
+		    return false;
+		}
 		return true;
 	}
 
