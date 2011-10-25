@@ -426,7 +426,7 @@ class OC_Calendar_Object{
 			$errarr['endbeforestart'] = 'true';
 			$errnum++;
 		}
-		if($fromday == $today && $frommonth == $tomonth && $fromyear == $toyear){
+		if(!$allday && $fromday == $today && $frommonth == $tomonth && $fromyear == $toyear){
 			list($tohours, $tominutes) = explode(':', $request['totime']);
 			list($fromhours, $fromminutes) = explode(':', $request['fromtime']);
 			if($tohours < $fromhours){
@@ -481,9 +481,11 @@ class OC_Calendar_Object{
 		$categories = isset($request["categories"]) ? $request["categories"] : null;
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
-		$fromtime = $request["fromtime"];
 		$to  = $request["to"];
-		$totime = $request["totime"];
+		if (!$allday){
+			$fromtime = $request['fromtime'];
+			$totime = $request['totime'];
+		}
 		$description = $request["description"];
 		//$repeat = $request["repeat"];
 		/*switch($request["repeatfreq"]){
