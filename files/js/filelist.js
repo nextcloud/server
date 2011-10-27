@@ -38,7 +38,7 @@ FileList={
 	},
 	addDir:function(name,size,lastModified){
 		var html='<tr data-file="'+name+'" data-type="dir" data-size="'+size+'">';
-		html+='<td class="filename" style="background-image:url('+OC.imagePath('core', 'places/folder')+')"><input type="checkbox" /><a class="name" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
+		html+='<td class="filename" style="background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')"><input type="checkbox" /><a class="name" href="index.php?dir='+$('#dir').val()+'/'+name+'">'+name+'</a></td>';
 		if(size!='Pending'){
 			simpleSize=simpleFileSize(size);
 		}else{
@@ -173,6 +173,7 @@ FileList={
 		FileList.deleteCanceled=false;
 		FileList.deleteFiles=files;
 		$('#notification').text(t('files','undo deletion'));
+		$('#notification').data('deletefile',true);
 		$('#notification').fadeIn();
 	},
 	finishDelete:function(ready,sync){
@@ -204,14 +205,18 @@ FileList={
 $(document).ready(function(){
 	$('#notification').hide();
 	$('#notification').click(function(){
-		FileList.deleteCanceled=true;
-		$('#notification').fadeOut();
-		$.each(FileList.deleteFiles,function(index,file){
-			$('tr[data-file="'+file+'"]').show();
+		if($('#notification').data('deletefile'))
+		{
+			$.each(FileList.deleteFiles,function(index,file){
+				$('tr[data-file="'+file+'"]').show();
 // 			alert(file);
-		});
-		FileList.deleteFiles=null;
+			});
+			FileList.deleteCanceled=true;
+			FileList.deleteFiles=null;
+		}
+		$('#notification').fadeOut();
 	});
+	
 	$(window).bind('beforeunload', function (){
 		FileList.finishDelete(null,true);
 	});

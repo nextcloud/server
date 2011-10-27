@@ -111,7 +111,7 @@ $(document).ready(function(){
 			}
 		});
 		input.blur(function(){
-			var quota=$(this).parent().data('quota');
+			var quota=$(this).parent().attr('data-quota');
 			$(this).replaceWith($('<span>'+quota+'</span>'));
 			img.css('display','');
 		});

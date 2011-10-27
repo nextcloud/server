@@ -31,7 +31,7 @@ OC_App::setActiveNavigationEntry( "core_log" );
 $entries=OC_Log::getEntries();
 
 function compareEntries($a,$b){
-	return $b->time-$a>time;
+	return $b->time - $a->time;
 }
 usort($entries, 'compareEntries');
 

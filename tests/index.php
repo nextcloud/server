@@ -29,7 +29,7 @@ require_once('../lib/base.php');
 OC_Util::checkAdminUser();
 
 $testCases=loadFiles(__DIR__,array('index.php','templates'));
-ob_end_clean();
+@ob_end_clean();
 $testResults=array();
 foreach($testCases as $testCaseClass){
 	$testCase=new $testCaseClass();

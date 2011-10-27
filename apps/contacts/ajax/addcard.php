@@ -43,11 +43,25 @@ $parameters = $_POST['parameters'];
 $vcard = new Sabre_VObject_Component('VCARD');
 $vcard->add(new Sabre_VObject_Property('FN',$fn));
 $vcard->add(new Sabre_VObject_Property('UID',OC_Contacts_VCard::createUID()));
-foreach(array('ADR', 'TEL', 'EMAIL', 'ORG') as $propname){
+
+// Data to add ...
+$add = array('TEL', 'EMAIL', 'ORG');
+$address = false;
+for($i = 0; $i < 7; $i++){
+	if( isset($values['ADR'][$i] ) && $values['ADR'][$i]) $address = true;
+}
+if( $address ) $add[] = 'ADR';
+
+// Add data
+foreach( $add as $propname){
+	if( !( isset( $values[$propname] ) && $values[$propname] )){
+		continue;
+	}
 	$value = $values[$propname];
-	if (isset($parameters[$propname])){
+	if( isset( $parameters[$propname] ) && count( $parameters[$propname] )){
 		$prop_parameters = $parameters[$propname];
-	} else {
+	}
+	else{
 		$prop_parameters = array();
 	}
 	OC_Contacts_VCard::addVCardProperty($vcard, $propname, $value, $prop_parameters);

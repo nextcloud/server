@@ -211,7 +211,7 @@ class OC_Filestorage_Remote extends OC_Filestorage{
 		$parent=dirname($path);
 		$name=substr($path,strlen($parent)+1);
 		$file=$this->remote->getFile($parent,$name);
-		$file=tempnam(sys_get_temp_dir(),'oc_');
+		$file=tempnam(get_temp_dir(),'oc_');
 		file_put_contents($file,$data);
 		if($return=$this->remote->sendTmpFile($file,$parent,$name)){
 			$this->notifyObservers($path,OC_FILEACTION_WRITE);

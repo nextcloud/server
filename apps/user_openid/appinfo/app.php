@@ -26,14 +26,14 @@ OC_User::useBackend('openid');
 
 //check for results from openid requests
 if(isset($_GET['openid_mode']) and $_GET['openid_mode'] == 'id_res'){
-	if(defined("DEBUG") && DEBUG) {error_log('openid retured');}
+	OC_Log::write('user_openid','openid retured',OC_Log::DEBUG);
 	$openid = new SimpleOpenID;
 	$openid->SetIdentity($_GET['openid_identity']);
 	$openid_validation_result = $openid->ValidateWithServer();
 	if ($openid_validation_result == true){         // OK HERE KEY IS VALID
-		if(defined("DEBUG") && DEBUG) {error_log('auth sucessfull');}
+		OC_Log::write('user_openid','auth sucessfull',OC_Log::DEBUG);
 		$identity=$openid->GetIdentity();
-		if(defined("DEBUG") && DEBUG) {error_log("auth as $identity");}
+		OC_Log::write('user_openid','auth as '.$identity,OC_Log::DEBUG);
 		$user=OC_USER_OPENID::findUserForIdentity($identity);
 		if($user){
 			$_SESSION['user_id']=$user;
@@ -41,13 +41,13 @@ if(isset($_GET['openid_mode']) and $_GET['openid_mode'] == 'id_res'){
 		}
 	}else if($openid->IsError() == true){            // ON THE WAY, WE GOT SOME ERROR
 		$error = $openid->GetError();
-		if(defined("DEBUG") && DEBUG) {error_log("ERROR CODE: " . $error['code']);}
-		if(defined("DEBUG") && DEBUG) {error_log("ERROR DESCRIPTION: " . $error['description']);}
+		OC_Log::write('user_openid','ERROR CODE: '. $error['code'],OC_Log::ERROR);
+		OC_Log::write('user_openid','ERROR DESCRIPTION: '. $error['description'],OC_Log::ERROR);
 	}else{                                            // Signature Verification Failed
-		if(defined("DEBUG") && DEBUG) {error_log("INVALID AUTHORIZATION");}
+		OC_Log::write('user_openid','INVALID AUTHORIZATION',OC_Log::ERROR);
 	}
 }else if (isset($_GET['openid_mode']) and $_GET['openid_mode'] == 'cancel'){ // User Canceled your Request
-	if(defined("DEBUG") && DEBUG) {error_log("USER CANCELED REQUEST");}
+	OC_Log::write('user_openid','USER CANCELED REQUEST',OC_Log::DEBUG);
 	return false;
 }
 

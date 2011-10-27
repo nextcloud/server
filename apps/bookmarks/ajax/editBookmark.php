@@ -33,6 +33,8 @@ OC_JSON::checkAppEnabled('bookmarks');
 $CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_ut = "strftime('%s','now')";
+} elseif($CONFIG_DBTYPE == 'pgsql') {
+	$_ut = 'date_part(\'epoch\',now())::integer';
 } else {
 	$_ut = "UNIX_TIMESTAMP()";
 }

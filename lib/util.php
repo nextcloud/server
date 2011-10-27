@@ -24,7 +24,7 @@ class OC_Util {
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
                         if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by setting the owner of '".OC::$SERVERROOT."' to the user that the web server uses (".OC_Util::checkWebserverUser().")")));
+				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' ")));
 				$tmpl->printPage();
 				exit;
   			}
@@ -36,41 +36,13 @@ class OC_Util {
 		}
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-			//first set up the local "root" storage and the backupstorage if needed
-			$rootStorage=OC_Filesystem::createStorage('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT));
-// 			if( OC_Config::getValue( "enablebackup", false )){
-// 				// This creates the Directorys recursively
-// 				if(!is_dir( "$CONFIG_BACKUPDIRECTORY/$user/$root" )){
-// 					mkdir( "$CONFIG_BACKUPDIRECTORY/$user/$root", 0755, true );
-// 				}
-// 				$backupStorage=OC_Filesystem::createStorage('local',array('datadir'=>$CONFIG_BACKUPDIRECTORY));
-// 				$backup=new OC_FILEOBSERVER_BACKUP(array('storage'=>$backupStorage));
-// 				$rootStorage->addObserver($backup);
-// 			}
-			OC_Filesystem::mount($rootStorage,'/');
-
-			// TODO add this storage provider in a proper way
-			$sharedStorage = OC_Filesystem::createStorage('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'));
-			OC_Filesystem::mount($sharedStorage,'/'.OC_User::getUser().'/files/Shared/');
+			//first set up the local "root" storage
+			OC_Filesystem::mount('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
 
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
 			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
 				mkdir( OC::$CONFIG_DATADIRECTORY, 0755, true );
 			}
-
-// TODO: find a cool way for doing this
-// 			//set up the other storages according to the system settings
-// 			foreach($CONFIG_FILESYSTEM as $storageConfig){
-// 				if(OC_Filesystem::hasStorageType($storageConfig['type'])){
-// 					$arguments=$storageConfig;
-// 					unset($arguments['type']);
-// 					unset($arguments['mountpoint']);
-// 					$storage=OC_Filesystem::createStorage($storageConfig['type'],$arguments);
-// 					if($storage){
-// 						OC_Filesystem::mount($storage,$storageConfig['mountpoint']);
-// 					}
-// 				}
-// 			}
 
 			//jail the user into his "home" directory
 			OC_Filesystem::chroot("/$user/$root");
@@ -153,7 +125,7 @@ class OC_Util {
          */
         public static function formatDate( $timestamp,$dateOnly=false){
 			if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
-				$systemTimeZone = intval(exec('date +%z'));
+				$systemTimeZone = intval(date('O'));
 				$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
 				$clientTimeZone=$_SESSION['timezone']*60;
 				$offset=$clientTimeZone-$systemTimeZone;
@@ -211,7 +183,7 @@ class OC_Util {
                 $serverUser=OC_Util::checkWebserverUser();
 
 		//common hint for all file permissons error messages
-		$permissionsHint="Permissions can usually be fixed by setting the owner of the file or directory to the user the web server runs as ($serverUser)";
+		$permissionsHint="Permissions can usually be fixed by giving the webserver write access to the ownCloud directory";
 
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
@@ -270,17 +242,17 @@ class OC_Util {
 	/**
 	* Try to get the username the httpd server runs on, used in hints
 	*/
-        public static function checkWebserverUser(){
+	public static function checkWebserverUser(){
 		if(is_callable('posix_getuid')){
 			$serverUser=posix_getpwuid(posix_getuid());
 			$serverUser='\''.$serverUser['name'].'\'';
 		}elseif(exec('whoami')){
-                	$serverUser=exec('whoami');
-                }else{
+			$serverUser=exec('whoami');
+		}else{
 			$serverUser='\'www-data\' for ubuntu/debian'; //TODO: try to detect the distro and give a guess based on that
 		}
-                return $serverUser;
-        }
+		return $serverUser;
+	}
 
 
 	/**

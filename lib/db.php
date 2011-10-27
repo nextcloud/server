@@ -28,7 +28,7 @@ class OC_DB {
 	const BACKEND_PDO=0;
 	const BACKEND_MDB2=1;
 	
-	static private $connection; //the prefered conenction to use, either PDO or MDB2
+	static private $connection; //the prefered connection to use, either PDO or MDB2
 	static private $backend=null;
 	static private $MDB2=false;
 	static private $PDO=false;
@@ -42,11 +42,22 @@ class OC_DB {
 	 *
 	 * Connects to the database as specified in config.php
 	 */
-	public static function connect(){
+	public static function connect($backend=null){
 		if(self::$connection){
 			return;
 		}
-		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+		if(is_null($backend)){
+			$backend=self::BACKEND_MDB2;
+			if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+				$type = OC_Config::getValue( "dbtype", "sqlite" );
+				if($type=='sqlite3') $type='sqlite';
+				$drivers=PDO::getAvailableDrivers();
+				if(array_search($type,$drivers)!==false){
+					$backend=self::BACKEND_PDO;
+				}
+			}
+		}
+		if($backend==self::BACKEND_PDO){
 			self::connectPDO();
 			self::$connection=self::$PDO;
 			self::$backend=self::BACKEND_PDO;
@@ -161,9 +172,8 @@ class OC_DB {
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )){
 				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
-				$error = self::$MDB2->getMessage();
-				error_log( $error);
-				error_log( self::$MDB2->getUserInfo());
+				OC_Log::write('core',self::$MDB2->getUserInfo(),OC_Log::FATAL);
+				OC_Log::write('core',self::$MDB2->getMessage(),OC_Log::FATAL);
 				die( $error );
 			}
 			
@@ -195,7 +205,7 @@ class OC_DB {
 			if( PEAR::isError($result)) {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
-				error_log( $entry );
+				OC_Log::write('core',$entry,OC_Log::FATAL);
 				die( $entry );
 			}
 		}else{
@@ -204,7 +214,7 @@ class OC_DB {
 			}catch(PDOException $e){
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
-				error_log( $entry );
+				OC_Log::write('core',$entry,OC_Log::FATAL);
 				die( $entry );
 			}
 			$result=new PDOStatementWrapper($result);
@@ -253,7 +263,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $file ){
+	public static function getDbStructure( $file ,$mode=MDB2_SCHEMA_DUMP_STRUCTURE){
 		self::connectScheme();
 
 		// write the scheme
@@ -286,10 +296,10 @@ class OC_DB {
 		$content = file_get_contents( $file );
 		
 		// Make changes and save them to a temporary file
-		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
+		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite don't
+		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		}
 		file_put_contents( $file2, $content );
@@ -314,6 +324,39 @@ class OC_DB {
 			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
 		}
 
+		return true;
+	}
+	
+	/**
+	 * @brief update the database scheme
+	 * @param $file file to read structure from
+	 */
+	public static function updateDbFromStructure($file){
+		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
+		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
+		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+
+		self::connectScheme();
+
+		// read file
+		$content = file_get_contents( $file );
+		
+		// Make changes and save them to a temporary file
+		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
+		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
+		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
+			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+		}
+		file_put_contents( $file2, $content );
+		$previousSchema = self::$schema->getDefinitionFromDatabase();
+		$op = $schema->updateDatabase($file2, $previousSchema, array(), false);
+
+		if (PEAR::isError($op)) {
+		    $error = $op->getMessage();
+		    OC_Log::write('core','Failed to update database structure ('.$error.')',OC_Log::FATAL);
+		    return false;
+		}
 		return true;
 	}
 
@@ -351,7 +394,7 @@ class OC_DB {
 		$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 		
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
-		if( $type == 'sqlite' ){
+		if( $type == 'sqlite' || $type == 'sqlite3' ){
 			$query = str_replace( '`', '\'', $query );
 			$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
 			$query = str_replace( 'now()', 'datetime(\'now\')', $query );
@@ -393,7 +436,7 @@ class OC_DB {
 		$content = file_get_contents( $file );
 
 		// Make changes and save them to a temporary file
-		$file2 = tempnam( sys_get_temp_dir(), 'oc_db_scheme_' );
+		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		file_put_contents( $file2, $content );
@@ -480,5 +523,14 @@ class PDOStatementWrapper{
 	 */
 	public function __call($name,$arguments){
 		return call_user_func_array(array($this->statement,$name),$arguments);
+	}
+	
+	/**
+	 * Provide a simple fetchOne.
+	 * fetch single column from the next row
+	 * @param int $colnum the column number to fetch
+	 */
+	public function fetchOne($colnum = 0){
+		return $this->statement->fetchColumn($colnum);
 	}
 }
