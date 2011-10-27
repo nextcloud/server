@@ -11,6 +11,7 @@ Calendar={
 	UI:{
 		startEventDialog:function(){
 			$('.tipsy').remove();
+			$('#calendar_holder').fullCalendar('unselect');
 			Calendar.UI.lockTime();
 			$( "#from" ).datepicker({
 				dateFormat : 'dd-mm-yy'
@@ -37,7 +38,6 @@ Calendar={
 			if (end){
 				end = Math.round(end.getTime()/1000);
 			}
-			$('#calendar_holder').fullCalendar('unselect');
 			if($('#event').dialog('isOpen') == true){
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
