@@ -107,6 +107,7 @@ Calendar={
 				},"json");
 		},
 		moveEvent:function(event, dayDelta, minuteDelta, allDay, revertFunc){
+			$('.tipsy').remove();
 			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0},
 			function(data) {
 				if (data.status == 'success'){
@@ -117,6 +118,7 @@ Calendar={
 			});
 		},
 		resizeEvent:function(event, dayDelta, minuteDelta, revertFunc){
+			$('.tipsy').remove();
 			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta},
 			function(data) {
 				if (data.status == 'success'){
@@ -171,6 +173,7 @@ Calendar={
 			//}
 		},
 		scrollCalendar:function(event){
+			$('.tipsy').remove();
 			var direction;
 			if(event.detail){
 				if(event.detail < 0){
