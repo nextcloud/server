@@ -71,6 +71,7 @@ include 'Sabre/DAV/IExtendedCollection.php';
 /* Node abstract implementations */
 include 'Sabre/DAV/Node.php';
 include 'Sabre/DAV/File.php';
+include 'Sabre/DAV/Collection.php';
 include 'Sabre/DAV/Directory.php';
 
 /* Utilities */
@@ -123,5 +124,4 @@ include 'Sabre/DAV/Auth/Backend/PDO.php';
 
 /* DavMount plugin */
 include 'Sabre/DAV/Mount/Plugin.php';
-
 

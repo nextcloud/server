@@ -9,7 +9,7 @@
  * The users are instances of Sabre_DAV_Auth_Principal
  * 
  * @package Sabre
- * @subpackage DAV
+ * @subpackage DAVACL
  * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License

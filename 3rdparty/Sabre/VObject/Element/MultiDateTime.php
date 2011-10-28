@@ -60,7 +60,7 @@ class Sabre_VObject_Element_MultiDateTime extends Sabre_VObject_Property {
                     $val[] = $i->format('Ymd\\THis');
                 }
                 $this->setValue(implode(',',$val));
-                $this->offsetSet('VALUE','DATE-TIME');
+                $this->offsetSet('VALUE','DATE-TIME'); 
                 break;
             case Sabre_VObject_Element_DateTime::UTC :
                 $val = array();
@@ -121,7 +121,7 @@ class Sabre_VObject_Element_MultiDateTime extends Sabre_VObject_Property {
             list(
                 $type,
                 $dt
-            ) = Sabre_VObject_Element_DateTime::parseData($val, $this->offsetGet('TZID'));
+            ) = Sabre_VObject_Element_DateTime::parseData($val, $this);
             $dts[] = $dt;
             $this->dateType = $type;
         }
@@ -154,7 +154,7 @@ class Sabre_VObject_Element_MultiDateTime extends Sabre_VObject_Property {
             list(
                 $type,
                 $dt
-            ) = Sabre_VObject_Element_DateTime::parseData($val, $this->offsetGet('TZID'));
+            ) = Sabre_VObject_Element_DateTime::parseData($val, $this);
             $dts[] = $dt;
             $this->dateType = $type; 
         }

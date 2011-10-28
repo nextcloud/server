@@ -1,18 +1,14 @@
 <?php
 
 /**
- * Card class
+ * The Card object represents a single Card from an addressbook
  * 
  * @package Sabre
  * @subpackage CardDAV
  * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
- *
- /
-/**
- * The Card object represents a single Card from an addressbook
- */ 
+ */
 class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard, Sabre_DAVACL_IACL {
 
     /**
