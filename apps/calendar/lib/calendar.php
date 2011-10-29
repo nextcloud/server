@@ -111,7 +111,7 @@ class OC_Calendar_Calendar{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_calendar');
 	}
 
 	/**
@@ -131,7 +131,7 @@ class OC_Calendar_Calendar{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_calendars');
 	}
 
 	/**
