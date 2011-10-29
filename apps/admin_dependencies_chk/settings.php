@@ -20,8 +20,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-$l=new OC_L10N('dependencies_chk');
-$tmpl = new OC_Template( 'dependencies_chk', 'settings');
+$l=new OC_L10N('admin_dependencies_chk');
+$tmpl = new OC_Template( 'admin_dependencies_chk', 'settings');
 
 $modules = array();
 
@@ -30,7 +30,7 @@ $modules[] =array(
 	'status' => function_exists('json_encode') ? 'ok' : 'error',
 	'part'=> 'php-json',
 	'modules'=> array('core'),
-	'message'=> $l->t('The php-json module is needed by the many application for inter communications'));
+	'message'=> $l->t('The php-json module is needed by the many applications for inter communications'));
 
 $modules[] =array(
 	'status' => function_exists('curl_init') ? 'ok' : 'error',
@@ -85,7 +85,7 @@ foreach($modules as $key => $module) {
 	if($enabled == false) unset($modules[$key]);
 }
 
-OC_UTIL::addStyle('dependencies_chk', 'style');
+OC_UTIL::addStyle('admin_dependencies_chk', 'style');
 $tmpl->assign( 'items', $modules );
 
 return $tmpl->fetchPage();

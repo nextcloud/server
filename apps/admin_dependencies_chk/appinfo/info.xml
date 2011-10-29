@@ -1,6 +1,6 @@
 <?xml version="1.0"?> 
 <info>
-	<id>dependencies_chk</id>
+	<id>admin_dependencies_chk</id>
 	<name>Owncloud dependencies info</name>
 	<version>0.01</version>
 	<licence>MIT</licence>
