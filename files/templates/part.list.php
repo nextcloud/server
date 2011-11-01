@@ -5,7 +5,7 @@
 			$relative_modified_date = relative_modified_date($file['mtime']);
 			$relative_date_color = round((time()-$file['mtime'])/60/60/24*14); // the older the file, the brighter the shade of grey; days*14
 			if($relative_date_color>200) $relative_date_color = 200; ?>
-			<tr data-file="<?php echo $file['name'];?>" data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>" data-mime="<?php echo $file['mime']?>" data-size='<?php echo $file['size'];?>'>
+			<tr data-file="<?php echo urlencode($file['name']);?>" data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>" data-mime="<?php echo $file['mime']?>" data-size='<?php echo $file['size'];?>'>
 				<td class="filename svg" style="background-image:url(<?php if($file['type'] == 'dir') echo mimetype_icon('dir'); else echo mimetype_icon($file['mime']); ?>)">
 					<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" /><?php } ?>
 					<a class="name" href="<?php if($file['type'] == 'dir') echo $_['baseURL'].$file['directory'].'/'.$file['name']; else echo $_['downloadURL'].urlencode($file['directory']).'/'.urlencode($file['name']); ?>" title="">

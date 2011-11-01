@@ -56,7 +56,7 @@ FileActions={
 		$('#fileList .action').remove();
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var file=FileActions.getCurrentFile();
-		if($('tr[data-file="'+file+'"]').data('renaming')){
+		if($('tr').filterAttr('data-file',file).data('renaming')){
 			return;
 		}
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
