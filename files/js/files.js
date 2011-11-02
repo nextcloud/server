@@ -2,6 +2,7 @@ $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
 		$(this).attr('data-file',unescape($(this).data('file')));
+		$(this).data('file',unescape($(this).data('file')));
 	});
 		
 	if($('tr[data-file]').length==0){
@@ -69,7 +70,7 @@ $(document).ready(function() {
 			}
 			procesSelection();
 		} else {
-			var filename=$(this).parent().parent().data('file');
+			var filename=$(this).parent().parent().attr('data-file');
 			if(!FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
