@@ -1,8 +1,7 @@
 $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
-		$(this).attr('data-file',unescape($(this).data('file')));
-		$(this).data('file',unescape($(this).data('file')));
+		$(this).attr('data-file',unescape($(this).attr('data-file')));
 	});
 		
 	if($('tr[data-file]').length==0){
@@ -501,7 +500,7 @@ function getSelectedFiles(property){
 	var files=[];
 	elements.each(function(i,element){
 		var file={
-			name:$(element).data('file'),
+			name:$(element).attr('data-file'),
 			mime:$(element).data('mime'),
 			type:$(element).data('type'),
 			size:$(element).data('size'),
