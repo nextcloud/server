@@ -4,7 +4,7 @@
 
 /* FILE MENU */
 .actions { padding:.3em; float:left; height:2em; }
-.actions input, .actions button { margin:0; }
+.actions input, .actions button, .actions .button { margin:0; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
 .file_upload_form, #file_newfolder_form { display:inline; float: left; margin-left:0; }
@@ -12,10 +12,10 @@
 .file_upload_wrapper, #file_newfolder_name { background-repeat:no-repeat; background-position:.5em .5em; padding-left:2em; }
 .file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin:0;}
 .file_upload_wrapper .file_upload_button_wrapper { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:1000; }
-#new { float:left; border-top-right-radius:0; border-bottom-right-radius:0; margin:-.075em 0 0 1em; border-right:none; z-index:1010; }
-#new.active { border-bottom-left-radius:0; border-bottom:none; }
+#new { float:left; border-top-right-radius:0; border-bottom-right-radius:0; margin:0 0 0 1em; border-right:none; z-index:1010; height:1.3em; }
+#new.active { border-bottom-left-radius:0; border-bottom:none; background:#f8f8f8 }
 #new>a{ padding-left:1em; padding-right:1em; }
-#new>ul { display:none; position:fixed; text-align:left; padding:.5em; background:#f8f8f8; margin-top:.4em; border:1px solid #ddd; min-width:7em; margin-left:-.5em; z-index:-1; }
+#new>ul { display:none; position:fixed; text-align:left; padding:.5em; background:#f8f8f8; margin-top:0.075em; border:1px solid #ddd; min-width:7em; margin-left:-.5em; z-index:-1; }
 #new>ul>li { margin:.3em; padding-left:2em; background-repeat:no-repeat; cursor:pointer; padding-bottom:0.1em }
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>input { padding:0.3em; margin:-0.3em; }

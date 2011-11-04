@@ -2,7 +2,7 @@
 	<?php echo($_['breadcrumb']); ?>
 	<?php if (!isset($_['readonly']) || !$_['readonly']) {?>
 	<div class="actions">
-		<button id='new'>
+		<div id='new' class='button'>
 			<a>
 				<?php echo $l->t('New');?>
 			</a>
@@ -11,7 +11,7 @@
 				<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
 <!-- 				<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='web'><p><?php echo $l->t('From the web');?></p></li> -->
 			</ul>
-		</button>
+		</div>
 		<div class="file_upload_wrapper svg">
 			<form data-upload-id='1' class="file_upload_form" action="ajax/upload.php" method="post" enctype="multipart/form-data" target="file_upload_target_1">
 				<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
