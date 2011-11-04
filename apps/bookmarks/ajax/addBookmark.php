@@ -54,13 +54,7 @@ $params=array(
 	);
 $query->execute($params);
 
-if($CONFIG_DBTYPE == 'pgsql')
-{
-	$query = OC_DB::prepare("SELECT currval('*PREFIX*bookmarks_id_seq')");
-	$b_id = $query->execute()->fetchOne();
-} else {
-	$b_id = OC_DB::insertid();
-}
+$b_id = OC_DB::insertid('*PREFIX*bookmarks');
 
 
 if($b_id !== false) {

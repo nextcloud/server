@@ -401,3 +401,10 @@ if (!Array.prototype.map){
 	    return res;
 	};
 }
+
+/**
+ * Filter Jquery selector by attribute value
+ **/
+$.fn.filterAttr = function(attr_name, attr_value) {  
+   return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
+};

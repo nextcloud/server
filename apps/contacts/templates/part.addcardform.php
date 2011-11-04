@@ -19,7 +19,7 @@
 		<ol>
 			<li class="input stringish">
 				<label class="label" for="fn"><?php echo $l->t('Name'); ?></label>
-				<input type="text" name="fn" value=""><br>
+				<input id="fn" type="text" name="fn" value=""><br>
 			</li>
 			<li class="input stringish">
 				<label class="label" for="org"><?php echo $l->t('Organization'); ?></label>
@@ -81,19 +81,19 @@
 			</li>
 			<li class="input stringish">
 				<label class="label" for="adr_street"><?php echo $l->t('Street'); ?></label>
-				<input type="text" for="adr_street" name="value[ADR][2]" value="">
+				<input type="text" id="adr_street" name="value[ADR][2]" value="">
 			</li>
 			<li class="input stringish">
 				<label class="label" for="adr_city"><?php echo $l->t('City'); ?></label>
-				<input type="text" for="adr_city" name="value[ADR][3]" value="">
+				<input type="text" id="adr_city" name="value[ADR][3]" value="">
 			</li>
 			<li class="input stringish">
 				<label class="label" for="adr_region"><?php echo $l->t('Region'); ?></label>
-				<input type="text" for="adr_region" name="value[ADR][4]" value="">
+				<input type="text" id="adr_region" name="value[ADR][4]" value="">
 			</li>
 			<li class="input stringish">
 				<label class="label" for="adr_zipcode"><?php echo $l->t('Zipcode'); ?></label>
-				<input type="text" for="adr_zipcode" name="value[ADR][5]" value="">
+				<input type="text" id="adr_zipcode" name="value[ADR][5]" value="">
 			</li>
 			<li class="input stringish">
 				<label class="label" for="adr_country"><?php echo $l->t('Country'); ?></label>

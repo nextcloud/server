@@ -1,4 +1,10 @@
 $(document).ready(function() {
+	$('#fileList tr').each(function(){
+		//little hack to set unescape filenames in attribute
+		$(this).attr('data-file',unescape($(this).data('file')));
+		$(this).data('file',unescape($(this).data('file')));
+	});
+		
 	if($('tr[data-file]').length==0){
 		$('.file_upload_filename').addClass('highlight');
 	}
@@ -64,7 +70,7 @@ $(document).ready(function() {
 			}
 			procesSelection();
 		} else {
-			var filename=$(this).parent().parent().data('file');
+			var filename=$(this).parent().parent().attr('data-file');
 			if(!FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
@@ -185,9 +191,9 @@ $(document).ready(function() {
 					if(response[0] != undefined && response[0].status == 'success'){
 						for(var i=0;i<response.length;i++){
 							var file=response[i];
-							$('tr[data-file="'+file.name+'"]').data('mime',file.mime);
+							$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
 							if(size=='Pending'){
-								$('tr[data-file='+file.name+'] td.filesize').text(file.size);
+								$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 							}
 							FileList.loadingDone(file.name);
 						}
@@ -388,7 +394,7 @@ var folderDropOptions={
 			url: 'ajax/move.php',
 		data: "dir="+dir+"&file="+file+'&target='+dir+'/'+target,
 		complete: function(data){boolOperationFinished(data, function(){
-			var el=$('#fileList tr[data-file="'+file+'"] td.filename');
+			var el = $('#fileList tr').filterAttr('data-file',file).find('td.filename');
 			el.draggable('destroy');
 			FileList.remove(file);
 		});}

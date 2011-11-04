@@ -95,7 +95,7 @@ class Sabre_VObject_Reader {
 
             while(stripos($nextLine,"END:")!==0) {
 
-                $obj->children[] = self::readLine($lines);
+                $obj->add(self::readLine($lines));
                 $nextLine = current($lines);
 
                 if ($nextLine===false) 
@@ -140,7 +140,9 @@ class Sabre_VObject_Reader {
 
         if ($matches['parameters']) {
 
-            $obj->parameters = self::readParameters($matches['parameters']);
+            foreach(self::readParameters($matches['parameters']) as $param) {
+                $obj->add($param);
+            }
         } 
 
         return $obj;

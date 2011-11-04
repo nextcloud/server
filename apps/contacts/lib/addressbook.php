@@ -96,7 +96,7 @@ class OC_Contacts_Addressbook{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*contacts_addressbooks');
 	}
 
 	/**
@@ -113,7 +113,7 @@ class OC_Contacts_Addressbook{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*contacts_addressbooks');
 	}
 
 	/**

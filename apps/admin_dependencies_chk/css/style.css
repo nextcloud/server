@@ -1,0 +1,9 @@
+#status_list legend { font-weight: bold; color: #888888; }
+.state > li { margin-bottom: 3px; padding-left: 0.5em; list-style-type: circle; }
+.state .state_module {  font-weight:bold; text-shadow: 0 1px 0 #DDD; cursor:help;}
+
+.state_used ul,  .state_used li { display:inline;   }
+
+.state_ok .state_module	{ color: #009700; }
+.state_warning .state_module	{ color: #FF9B29; }
+.state_error .state_module	{ color: #FF3B3B; }
