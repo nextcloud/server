@@ -310,6 +310,11 @@ $(document).ready(function() {
 						complete: function(data){boolOperationFinished(data, function(){
 							var date=new Date();
 							FileList.addFile(name,0,date);
+							var tr=$('tr').filterAttr('data-file',name);
+							tr.data('mime','text/plain');
+							getMimeIcon('text/plain',function(path){
+								tr.find('td.filename').attr('style','background-image:url('+path+')');
+							});
 						});}
 					});
 					break;
