@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:.3em; float:left; }
+.actions { padding:.3em; float:left; height:2em; }
 .actions input, .actions button { margin:0; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
@@ -16,8 +16,9 @@
 #new.active { border-bottom-left-radius:0; border-bottom:none; }
 #new>a{ padding-left:1em; padding-right:1em; }
 #new>ul { display:none; position:fixed; text-align:left; padding:.5em; background:#f8f8f8; margin-top:.4em; border:1px solid #ddd; min-width:7em; margin-left:-.5em; z-index:-1; }
-#new>ul>li { margin:.3em; padding-left:2em; background-repeat:no-repeat; cursor:pointer; }
+#new>ul>li { margin:.3em; padding-left:2em; background-repeat:no-repeat; cursor:pointer; padding-bottom:0.1em }
 #new>ul>li>p { cursor:pointer; }
+#new>ul>li>input { padding:0.3em; margin:-0.3em; }
 
 #file_newfolder_name { background-image:url('../../core/img/places/folder.svg'); font-weight:normal; width:7em; }
 .file_upload_start, .file_upload_filename { font-size:1em; }

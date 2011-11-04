@@ -265,7 +265,7 @@ $(document).ready(function() {
 	$(window).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
-		$('input.file_upload_filename').removeClass('active');
+		$('button.file_upload_filename').removeClass('active');
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
 				$(element).children('input').remove();
@@ -279,7 +279,7 @@ $(document).ready(function() {
 	$('#new>a').click(function(){
 		$('#new>ul').toggle();
 		$('#new').toggleClass('active');
-		$('input.file_upload_filename').toggleClass('active');
+		$('button.file_upload_filename').toggleClass('active');
 	});
 	$('#new li').click(function(){
 		if($(this).children('p').length==0){
