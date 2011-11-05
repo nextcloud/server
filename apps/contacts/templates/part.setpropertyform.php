@@ -5,6 +5,12 @@
 		<?php if($_['property']['name']=='ADR'): ?>
 			<p class="contacts_property_name"><label for="adr_pobox"><?php echo $l->t('Address'); ?></label></p>
 			<ol class="contacts_property_data" id="contacts_addresspart">
+				<li class="input">
+					<label class="label" for="adr_type"><?php echo $l->t('Type'); ?></label>
+					<select id="adr_type" name="parameters[TYPE]" size="1">
+						<?php echo html_select_options($_['adr_types'], strtoupper($_['property']['parameters']['TYPE'])) ?>
+					</select>
+				</li>
 				<li>
 					<label for="adr_pobox"><?php echo $l->t('PO Box'); ?></label>
 					<input id="adr_pobox" type="text" name="value[0]" value="<?php echo $_['property']['value'][0] ?>">

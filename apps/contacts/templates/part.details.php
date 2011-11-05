@@ -27,10 +27,7 @@
 				<input type="hidden" name="id" value="<?php echo $_['id']; ?>">
 				<p class="contacts_property_name">
 					<select name="name" size="1">
-						<option value="ADR"><?php echo $l->t('Address'); ?></option>
-						<option value="TEL"><?php echo $l->t('Telephone'); ?></option>
-						<option value="EMAIL" selected="selected"><?php echo $l->t('Email'); ?></option>
-						<option value="ORG"><?php echo $l->t('Organization'); ?></option>
+						<?php echo html_select_options($_['property_types'], 'EMAIL') ?>
 					</select>
 				</p>
 				<p class="contacts_property_data" id="contacts_generic">
@@ -44,8 +41,7 @@
 					<li>
 						<label for="adr_type"><?php echo $l->t('Type'); ?></label>
 						<select id="adr_type" name="parameters[TYPE]" size="1">
-							<option value="work"><?php echo $l->t('Work'); ?></option>
-							<option value="home" selected="selected"><?php echo $l->t('Home'); ?></option>
+							<?php echo html_select_options($_['adr_types'], 'HOME') ?>
 						</select>
 					</li>
 					<li>
@@ -80,14 +76,7 @@
 				<p class="contacts_property_data" id="contacts_phonepart">
 					<input type="text" name="value" value="">
 					<select name="parameters[TYPE]" size="1">
-						<option value="home"><?php echo $l->t('Home'); ?></option>
-						<option value="cell" selected="selected"><?php echo $l->t('Mobile'); ?></option>
-						<option value="work"><?php echo $l->t('Work'); ?></option>
-						<option value="text"><?php echo $l->t('Text'); ?></option>
-						<option value="voice"><?php echo $l->t('Voice'); ?></option>
-						<option value="fax"><?php echo $l->t('Fax'); ?></option>
-						<option value="video"><?php echo $l->t('Video'); ?></option>
-						<option value="pager"><?php echo $l->t('Pager'); ?></option>
+						<?php echo html_select_options($_['phone_types'], 'CELL') ?>
 					</select>
 				</p>
 				<p class="contacts_property_data" id="contacts_generic">

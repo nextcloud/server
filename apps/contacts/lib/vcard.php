@@ -372,4 +372,24 @@ class OC_Contacts_VCard{
 			return null;
 		}
 	}
+	public static function getTypesOfProperty($l, $prop){
+		switch($prop){
+		case 'ADR':
+			return array(
+				'WORK' => $l->t('Work'),
+				'HOME' => $l->t('Home'),
+			);
+		case 'TEL':
+			return array(
+				'HOME'  =>  $l->t('Home'),
+				'CELL'  =>  $l->t('Mobile'),
+				'WORK'  =>  $l->t('Work'),
+				'TEXT'  =>  $l->t('Text'),
+				'VOICE' =>  $l->t('Voice'),
+				'FAX'   =>  $l->t('Fax'),
+				'VIDEO' =>  $l->t('Video'),
+				'PAGER' =>  $l->t('Pager'),
+			);
+		}
+	}
 }
