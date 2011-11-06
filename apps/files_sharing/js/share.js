@@ -46,6 +46,7 @@ $(document).ready(function() {
 
 	$('.share').click(function(event) {
 		event.preventDefault();
+		event.stopPropagation();
 		var filenames = getSelectedFiles('name');
 		var length = filenames.length;
 		var files = '';
