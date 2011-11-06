@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
-		$(this).attr('data-file',decodeURI($(this).attr('data-file')));
+		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
 	});
 		
 	if($('tr[data-file]').length==0){
