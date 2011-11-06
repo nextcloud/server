@@ -74,6 +74,11 @@ $modules[] =array(
 	'modules'=> array('core'),
 	'message'=> $l->t('The php-ctype module is needed validate data.'));
 
+$modules[] =array(
+	'status' => ini_get('allow_url_fopen') == '1' ? 'ok' : 'error',
+	'part'=> 'allow_url_fopen',
+	'modules'=> array('core'),
+	'message'=> $l->t('The allow_url_fopen directive of your php.ini should be set to 1 to retrieve knowledge base from OCS servers'));
 
 foreach($modules as $key => $module) {
 	$enabled = false ;
