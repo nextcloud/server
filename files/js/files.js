@@ -163,7 +163,7 @@ $(document).ready(function() {
 	});
 
 	$('.file_upload_start').live('change',function(){
-		var form=$(this).parent().parent();
+		var form=$(this).closest('form');
 		var uploadId=form.attr('data-upload-id');
 		var files=this.files;
 		var target=form.children('iframe');
