@@ -78,7 +78,7 @@ class OC_Calendar_Object{
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_objects');
 	}
 
 	/**
@@ -97,7 +97,7 @@ class OC_Calendar_Object{
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_objects');
 	}
 
 	/**

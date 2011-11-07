@@ -121,7 +121,7 @@ class OC_Contacts_VCard{
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*contacts_cards');
 	}
 
 	/**
@@ -147,7 +147,7 @@ class OC_Contacts_VCard{
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*contacts_cards');
 	}
 
 	/**

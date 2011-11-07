@@ -77,6 +77,9 @@ class OC{
 		// set some stuff
 		//ob_start();
 		error_reporting(E_ALL | E_STRICT);
+		if (defined('DEBUG') && DEBUG){
+			ini_set('display_errors', 1);
+		}
 
 		date_default_timezone_set('Europe/Berlin');
 		ini_set('arg_separator.output','&amp;');
