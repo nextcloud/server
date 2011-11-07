@@ -62,17 +62,8 @@ function showControls(filename){
 }
  
 function bindControlEvents(){
-	$("#editor_save").live('click',function() {
-		if(is_editor_shown){
-			doFileSave();
-		}
-	});	
-	
-	$('#editor_close').live('click',function() {
-		if(is_editor_shown){
-			hideFileEditor();
-		}	
-	});
+	$("#editor_save").die('click', doFileSave).live('click', doFileSave);	
+	$('#editor_close').live('click', hideFileEditor);
 }
 
 function updateSessionFileHash(path){
@@ -175,24 +166,26 @@ function showFileEditor(dir,filename){
 }
 
 function hideFileEditor(){
-	$('#editor').attr('editorshown','false');	
-	// Fade out controls
-	$('#editor_close').fadeOut('slow');
-	// Fade out the save button
-	$('#editor_save').fadeOut('slow');
-	// Fade out breadcrumb
-	$('#breadcrumb_file').fadeOut('slow', function(){ $(this).remove();});
-	// Fade out editor
-	$('#editor').fadeOut('slow', function(){
-		$('#editor_close').remove();
-		$('#editor_save').remove();
-		$('#editor').remove();
-		var editorhtml = '<div id="editor"></div>';
-		$('table').after(editorhtml);
-		$('.actions,#file_access_panel').fadeIn('slow');
-		$('table').fadeIn('slow');	
-	});
-	is_editor_shown = false;
+	if(!is_editor_shown){
+		$('#editor').attr('editorshown','false');	
+		// Fade out controls
+		$('#editor_close').fadeOut('slow');
+		// Fade out the save button
+		$('#editor_save').fadeOut('slow');
+		// Fade out breadcrumb
+		$('#breadcrumb_file').fadeOut('slow', function(){ $(this).remove();});
+		// Fade out editor
+		$('#editor').fadeOut('slow', function(){
+			$('#editor_close').remove();
+			$('#editor_save').remove();
+			$('#editor').remove();
+			var editorhtml = '<div id="editor"></div>';
+			$('table').after(editorhtml);
+			$('.actions,#file_access_panel').fadeIn('slow');
+			$('table').fadeIn('slow');	
+		});
+		is_editor_shown = false;
+	}
 }
 
 $(window).resize(function() {
