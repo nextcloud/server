@@ -73,7 +73,9 @@ function updateSessionFileHash(path){
    			if(jsondata.status=='failure'){
    				alert('Failed to update session file hash.');	
    			}
-   	}, "json");}
+   		},
+   		"json");
+}
 
 function doFileSave(){
 	if(is_editor_shown){
@@ -166,7 +168,7 @@ function showFileEditor(dir,filename){
 }
 
 function hideFileEditor(){
-	if(!is_editor_shown){
+	if(is_editor_shown){
 		$('#editor').attr('editorshown','false');	
 		// Fade out controls
 		$('#editor_close').fadeOut('slow');
