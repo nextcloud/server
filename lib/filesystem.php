@@ -251,9 +251,6 @@ class OC_Filesystem{
 	static public function filemtime($path){
 		return self::basicOperation('filemtime',$path);
 	}
-	static public function fileatime($path){
-		return self::basicOperation('filemtime',$path);
-	}
 	static public function file_get_contents($path){
 		return self::basicOperation('file_get_contents',$path,array('read'));
 	}

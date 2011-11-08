@@ -39,7 +39,6 @@ class OC_Filestorage{
 	public function readfile($path){}
 	public function filectime($path){}
 	public function filemtime($path){}
-	public function fileatime($path){}
 	public function file_get_contents($path){}
 	public function file_put_contents($path,$data){}
 	public function unlink($path){}

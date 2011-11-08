@@ -67,9 +67,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function filemtime($path){
 		return filemtime($this->datadir.$path);
 	}
-	public function fileatime($path){
-		return fileatime($this->datadir.$path);
-	}
 	public function file_get_contents($path){
 		return file_get_contents($this->datadir.$path);
 	}

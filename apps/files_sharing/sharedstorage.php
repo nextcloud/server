@@ -180,7 +180,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			$stat["gid"] = "";
 			$stat["rdev"] = "";
 			$stat["size"] = $this->filesize($path);
-			$stat["atime"] = $this->fileatime($path);
 			$stat["mtime"] = $this->filemtime($path);
 			$stat["ctime"] = $this->filectime($path);
 			$stat["blksize"] = "";
@@ -350,27 +349,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
 				return $storage->filemtime($this->getInternalPath($source));
-			}
-		}
-	}
-	
-	public function fileatime($path) {
-		if ($path == "" || $path == "/") {
-			$atime = 0; 
-			if ($dh = $this->opendir($path)) {
-				while (($filename = readdir($dh)) !== false) {
-					$tempatime = $this->fileatime($filename);
-					if ($tempatime > $atime) {
-						$atime = $tempatime;
-					}
-				}
-				return $atime;
-			}
-		} else {
-			$source = $this->getSource($path);
-			if ($source) {
-				$storage = OC_Filesystem::getStorage($source);
-				return $storage->fileatime($this->getInternalPath($source));
 			}
 		}
 	}
