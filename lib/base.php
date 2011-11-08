@@ -157,9 +157,6 @@ class OC{
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
 
-		// Was in required file ... put it here
-		OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
-
 		// Set up file system unless forbidden
 		global $RUNTIME_NOSETUPFS;
 		if(!$RUNTIME_NOSETUPFS ){

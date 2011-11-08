@@ -46,35 +46,6 @@ class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
 	static private $fakeRoot='';
-	static private $storageTypes=array();
-	
-	
-	/**
-	* register a storage type
-	* @param  string  type
-	* @param  string  classname
-	* @param  array  arguments     an associative array in the form of name=>type (eg array('datadir'=>'string'))
-	*/
-	static public function registerStorageType($type,$classname,$arguments){
-		self::$storageTypes[$type]=array('type'=>$type,'classname'=>$classname,'arguments'=>$arguments);
-	}
-	
-	/**
-	* check if the filesystem supports a specific storagetype
-	* @param  string  type
-	* @return bool
-	*/
-	static public function hasStorageType($type){
-		return isset(self::$storageTypes[$type]);
-	}
-	
-	/**
-	* get the list of names of storagetypes that the filesystem supports
-	* @return array
-	*/
-	static public function getStorageTypeNames(){
-		return array_keys(self::$storageTypes);
-	}
 	
 	/**
 	 * tear down the filesystem, removing all storage providers
@@ -92,13 +63,9 @@ class OC_Filesystem{
 	* @param  array  arguments
 	* @return OC_Filestorage
 	*/
-	static private function createStorage($type,$arguments){
-		if(!self::hasStorageType($type)){
-			return false;
-		}
-		$className=self::$storageTypes[$type]['classname'];
-		if(class_exists($className)){
-			return new $className($arguments);
+	static private function createStorage($class,$arguments){
+		if(class_exists($class)){
+			return new $class($arguments);
 		}else{
 			return false;
 		}
@@ -164,11 +131,11 @@ class OC_Filesystem{
 	* @param OC_Filestorage storage
 	* @param string mountpoint
 	*/
-	static public function mount($type,$arguments,$mountpoint){
+	static public function mount($class,$arguments,$mountpoint){
 		if(substr($mountpoint,0,1)!=='/'){
 			$mountpoint='/'.$mountpoint;
 		}
-		self::$mounts[$mountpoint]=array('type'=>$type,'arguments'=>$arguments);
+		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
 	}
 	
 	/**
@@ -181,7 +148,7 @@ class OC_Filesystem{
 		if($mountpoint){
 			if(!isset(self::$storages[$mountpoint])){
 				$mount=self::$mounts[$mountpoint];
-				self::$storages[$mountpoint]=self::createStorage($mount['type'],$mount['arguments']);
+				self::$storages[$mountpoint]=self::createStorage($mount['class'],$mount['arguments']);
 			}
 			return self::$storages[$mountpoint];
 		}
@@ -285,7 +252,7 @@ class OC_Filesystem{
 		return self::basicOperation('filemtime',$path);
 	}
 	static public function fileatime($path){
-		return self::basicOperation('fileatime',$path);
+		return self::basicOperation('filemtime',$path);
 	}
 	static public function file_get_contents($path){
 		return self::basicOperation('file_get_contents',$path,array('read'));

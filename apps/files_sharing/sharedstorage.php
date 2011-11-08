@@ -25,7 +25,7 @@ require_once( 'lib_share.php' );
 if (!OC_Filesystem::is_dir('/Shared')) {
 	OC_Filesystem::mkdir('/Shared');
 }
-OC_Filesystem::mount('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
+OC_Filesystem::mount('OC_Filestorage_Shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
