@@ -37,7 +37,7 @@ $sessionname = sha1('oc_file_hash_'.$path);
 
 function do_save($path,$filecontents){
 	$sessionname = md5('oc_file_hash_'.$path);
-	OC_Filesystem::update_session_file_hash($sessionname,sha1(htmlspecialchars($filecontents)));
+	$_SESSION[$sessionname] = sha1(htmlspecialchars($filecontents));
 	OC_Filesystem::file_put_contents($path, $filecontents);
 }
 

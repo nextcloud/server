@@ -189,17 +189,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 	}
 
-	public function fromUploadedFile($tmpFile,$path){
-		$fileStats = stat($tmpFile);
-		if(move_uploaded_file($tmpFile,$this->datadir.$path)){
-			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
-			$this->clearFolderSizeCache($path);
-			return true;
-		}else{
-			return false;
-		}
-	}
-
 	private function delTree($dir) {
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;

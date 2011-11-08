@@ -47,7 +47,6 @@ class OC_Filestorage{
 	public function fopen($path,$mode){}
 	public function toTmpFile($path){}//copy the file to a temporary file, used for cross-storage file actions
 	public function fromTmpFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
-	public function fromUploadedFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
 	public function getMimeType($path){}
 	public function hash($type,$path,$raw){}
 	public function free_space($path){}

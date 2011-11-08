@@ -200,6 +200,10 @@ class OC_Filesystem{
 		}
 	}
 	
+	/**
+	 * following functions are equivilent to their php buildin equivilents for arguments/return values.
+	 */
+	
 	static public function mkdir($path){
 		return self::basicOperation('mkdir',$path,array('create','write'));
 	}
@@ -362,26 +366,6 @@ class OC_Filesystem{
 			}
 		}
 	}
-	static public function fromUploadedFile($tmpFile,$path){
-		if(OC_FileProxy::runPreProxies('fromUploadedFile',$tmpFile,$path) and self::canWrite($path) and $storage=self::getStorage($path)){
-			$run=true;
-			$exists=self::file_exists($path);
-			if(!$exists){
-				OC_Hook::emit( 'OC_Filesystem', 'create', array( 'path' => $path, 'run' => &$run));
-			}
-			if($run){
-				OC_Hook::emit( 'OC_Filesystem', 'write', array( 'path' => $path, 'run' => &$run));
-			}
-			if($run){
-				$result=$storage->fromUploadedFile($tmpFile,self::getInternalPath($path));
-				if(!$exists){
-					OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path));
-				}
-				OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path));
-				return $result;
-			}
-		}
-	}
 	static public function getMimeType($path){
 		return self::basicOperation('getMimeType',$path);
 	}
@@ -413,10 +397,6 @@ class OC_Filesystem{
 		
 	}
 	
-	static public function update_session_file_hash($sessionname,$sessionvalue){
-		$_SESSION[$sessionname] = $sessionvalue;
-	}
-
 	/**
 	 * abstraction for running most basic operations
 	 * @param string $operation

@@ -481,22 +481,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
-	public function fromUploadedFile($tmpFile, $path) {
-		if ($this->is_writeable($path)) {
-			$source = $this->getSource($path);
-			if ($source) {
-				$storage = OC_Filesystem::getStorage($source);
-				$result = $storage->fromUploadedFile($tmpFile, $this->getInternalPath($source));
-				if ($result) {
-					$this->clearFolderSizeCache($path);
-				}
-				return $result;
-			}
-		} else {
-			return false;
-		}
-	}
-	
 	public function getMimeType($path) {
 		$source = $this->getSource($path);
 		if ($source) {
