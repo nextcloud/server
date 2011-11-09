@@ -42,6 +42,7 @@
  *
  *   the &run parameter can be set to false to prevent the operation from occuring
  */
+
 class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
@@ -83,6 +84,14 @@ class OC_Filesystem{
 			}
 		}
 		self::$fakeRoot=$fakeRoot;
+	}
+
+	/**
+	 * get the fake root
+	 * @return string
+	 */
+	static public function getRoot(){
+		return self::$fakeRoot;
 	}
 	
 	/**

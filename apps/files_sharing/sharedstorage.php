@@ -225,8 +225,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		$path = ltrim($path, "/");
 		$path = preg_replace('{(/)\1+}', "/", $path);
 		$dbpath = rtrim($this->datadir.$path, "/");
-		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path = ?");
-		$size = $query->execute(array($dbpath))->fetchAll();
+// 		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path = ?");
+// 		$size = $query->execute(array($dbpath))->fetchAll();
 		if (count($size) > 0) {
 			return $size[0]['size'];
 		} else {
@@ -252,8 +252,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			}
 			if ($size > 0) {
 				$dbpath = rtrim($this->datadir.$path, "/");
-				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
-				$result = $query->execute(array($dbpath, $size));
+// 				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
+// 				$result = $query->execute(array($dbpath, $size));
 			}
 		}
 		return $size;
@@ -266,8 +266,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			$path = dirname($path);
 		}
 		$dbpath = rtrim($this->datadir.$path, "/");
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-		$result = $query->execute(array($dbpath));
+// 		$query = OC_DB::prepare("DELETE FROM *PREFIX*/*foldersize*/ WHERE path = ?");
+// 		$result = $query->execute(array($dbpath));
 		if ($path != "/" && $path != "") {
 			$parts = explode("/", $path);
 			$part = array_pop($parts);

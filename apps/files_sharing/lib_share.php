@@ -89,8 +89,8 @@ class OC_Share {
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 				// Clear the folder size cache for the 'Shared' folder
-				$clearFolderSize = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-				$clearFolderSize->execute(array($sharedFolder));
+// 				$clearFolderSize = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
+// 				$clearFolderSize->execute(array($sharedFolder));
 			}
 		}
 	}

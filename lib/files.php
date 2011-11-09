@@ -36,44 +36,13 @@ class OC_Files {
 		if(strpos($directory,OC::$CONFIG_DATADIRECTORY)===0){
 			$directory=substr($directory,strlen(OC::$CONFIG_DATADIRECTORY));
 		}
-		$filesfound=true;
-		$content=array();
-		$dirs=array();
-		$file=array();
-		$files=array();
-		if(OC_Filesystem::is_dir($directory)) {
-			if ($dh = OC_Filesystem::opendir($directory)) {
-			while (($filename = readdir($dh)) !== false) {
-				if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
-					$file=array();
-					$filesfound=true;
-					$file['name']=$filename;
-					$file['directory']=$directory;
-					$stat=OC_Filesystem::stat($directory.'/'.$filename);
-					$file=array_merge($file,$stat);
-					$file['size']=OC_Filesystem::filesize($directory.'/'.$filename);
-					$file['mime']=OC_Files::getMimeType($directory .'/'. $filename);
-					$file['readable']=OC_Filesystem::is_readable($directory .'/'. $filename);
-					$file['writeable']=OC_Filesystem::is_writeable($directory .'/'. $filename);
-					$file['type']=OC_Filesystem::filetype($directory .'/'. $filename);
-					if($file['type']=='dir'){
-						$dirs[$file['name']]=$file;
-					}else{
-						$files[$file['name']]=$file;
-					}
-				}
-			}
-			closedir($dh);
-			}
+		$files=OC_FileCache::getFolderContent($directory);
+		foreach($files as &$file){
+			$file['directory']=$directory;
+			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
 		}
-		uksort($dirs, "strnatcasecmp");
 		uksort($files, "strnatcasecmp");
-		$content=array_merge($dirs,$files);
-		if($filesfound){
-			return $content;
-		}else{
-			return false;
-		}
+		return $files;
 	}
 
 
