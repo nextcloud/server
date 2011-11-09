@@ -34,7 +34,7 @@ if($errarr){
 		OC_JSON::error();
 		exit;
 	}
-	$vcalendar = Sabre_VObject_Reader::read($data['calendardata']);
+	$vcalendar = OC_Calendar_Object::parse($data['calendardata']);
 	OC_Calendar_Object::updateVCalendarFromRequest($_POST, $vcalendar);
 	$result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
 	if ($data['calendarid'] != $cal) {

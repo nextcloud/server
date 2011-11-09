@@ -26,7 +26,7 @@ if($calendar['userid'] != OC_User::getUser()){
 		echo $l10n->t('Wrong calendar');
 		exit;
 }
-$object = Sabre_VObject_Reader::read($data['calendardata']);
+$object = OC_Calendar_Object::parse($data['calendardata']);
 $vevent = $object->VEVENT;
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);

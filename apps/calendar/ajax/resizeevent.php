@@ -22,7 +22,7 @@ $delta = new DateInterval('P0D');
 $delta->d = $_POST['dayDelta'];
 $delta->i = $_POST['minuteDelta'];
 
-$vcalendar = Sabre_VObject_Reader::read($data['calendardata']);
+$vcalendar = OC_Calendar_Object::parse($data['calendardata']);
 $vevent = $vcalendar->VEVENT;
 
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);

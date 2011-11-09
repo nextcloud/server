@@ -21,7 +21,7 @@ $return = array();
 foreach($events as $event)
 {
 	$return_event = array();
-	$object = Sabre_VObject_Reader::read($event['calendardata']);
+	$object = OC_Calendar_Object::parse($event['calendardata']);
 	$vevent = $object->VEVENT;
 	$dtstart = $vevent->DTSTART;
 	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
