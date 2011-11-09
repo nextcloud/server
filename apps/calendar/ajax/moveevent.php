@@ -25,6 +25,12 @@ $delta->i = $_POST['minuteDelta'];
 $vcalendar = OC_Calendar_Object::parse($data['calendardata']);
 $vevent = $vcalendar->VEVENT;
 
+$last_modified = $vevent->__get('LAST-MODIFIED');
+if($last_modified && $_POST['lastmodified'] != $last_modified->getDateTime()->format('U')){
+	OC_JSON::error();
+	exit;
+}
+
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 $start_type = $dtstart->getDateType();
@@ -50,4 +56,4 @@ $dtstamp->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
 $vevent->DTSTAMP = $dtstamp;
 
 $result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
-OC_JSON::success();
+OC_JSON::success(array('lastmodified'=>(int)$now->format('U')));

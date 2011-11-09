@@ -63,9 +63,16 @@ foreach($categories as $category){
 }
 $repeat = isset($vevent->CATEGORY) ? $vevent->CATEGORY->value : '';
 $description = isset($vevent->DESCRIPTION) ? $vevent->DESCRIPTION->value : '';
+$last_modified = $vevent->__get('LAST-MODIFIED');
+if ($last_modified){
+	$lastmodified = $last_modified->getDateTime()->format('U');
+}else{
+	$lastmodified = 0;
+}
 
 $tmpl = new OC_Template('calendar', 'part.editevent');
 $tmpl->assign('id', $id);
+$tmpl->assign('lastmodified', $lastmodified);
 $tmpl->assign('calendar_options', $calendar_options);
 $tmpl->assign('category_options', $category_options);
 $tmpl->assign('repeat_options', $repeat_options);

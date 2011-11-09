@@ -108,23 +108,27 @@ Calendar={
 		},
 		moveEvent:function(event, dayDelta, minuteDelta, allDay, revertFunc){
 			$('.tipsy').remove();
-			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0},
+			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0, lastmodified: event.lastmodified},
 			function(data) {
 				if (data.status == 'success'){
+					event.lastmodified = data.lastmodified;
 					console.log("Event moved successfully");
 				}else{
 					revertFunc();
+					$('#calendar_holder').fullCalendar('refetchEvents');
 				}
 			});
 		},
 		resizeEvent:function(event, dayDelta, minuteDelta, revertFunc){
 			$('.tipsy').remove();
-			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta},
+			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, lastmodified: event.lastmodified},
 			function(data) {
 				if (data.status == 'success'){
+					event.lastmodified = data.lastmodified;
 					console.log("Event resized successfully");
 				}else{
 					revertFunc();
+					$('#calendar_holder').fullCalendar('refetchEvents');
 				}
 			});
 		},

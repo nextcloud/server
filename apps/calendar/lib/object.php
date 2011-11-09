@@ -307,6 +307,7 @@ class OC_Calendar_Object{
 	 */
 	public static function parse($data){
 		try {
+			Sabre_VObject_Reader::$elementMap['LAST-MODIFIED'] = 'Sabre_VObject_Element_DateTime';
 			$calendar = Sabre_VObject_Reader::read($data);
 			return $calendar;
 		} catch (Exception $e) {

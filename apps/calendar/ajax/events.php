@@ -40,9 +40,16 @@ foreach($events as $event)
 		$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
 		$return_event['allDay'] = false;
 	}
-	$return_event['id'] = $event['id'];
+	$return_event['id'] = (int)$event['id'];
 	$return_event['title'] = $event['summary'];
 	$return_event['description'] = isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'';
+	$last_modified = $vevent->__get('LAST-MODIFIED');
+	if ($last_modified){
+		$lastmodified = $last_modified->getDateTime()->format('U');
+	}else{
+		$lastmodified = 0;
+	}
+	$return_event['lastmodified'] = (int)$lastmodified;
 	$return[] = $return_event;
 }
 OC_JSON::encodedPrint($return);
