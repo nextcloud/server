@@ -4,7 +4,7 @@
 #contacts_deletecard {position:absolute;top:15px;right:0;}
 #contacts_details_list { list-style:none; }
 #contacts_details_list li { overflow:hidden; }
-#contacts_details_list li p.contacts_property_name { width:25%; float:left;text-align:right;padding-right:0.3em; }
+#contacts_details_list li p.contacts_property_name { width:25%; float:left;text-align:right;padding-right:0.3em;color:#666; }
 #contacts_details_list li p.contacts_property_data, #contacts_details_list li ul.contacts_property_data { width:72%; overflow:hidden; }
 #contacts_addproperty_button, #contacts_setproperty_button { margin-left:25%; }
 
