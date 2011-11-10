@@ -443,3 +443,5 @@ class OC_Filesystem{
 		return null;
 	}
 }
+
+require_once('filecache.php');
