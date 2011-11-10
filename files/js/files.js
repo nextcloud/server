@@ -346,7 +346,7 @@ $(document).ready(function() {
 function scanFiles(force){
 	force=!!force; //cast to bool
 	$('#scanning-message').show();
-	$.get(OC.filePath('files','ajax','scan.php'), function(response) {
+	$.get(OC.filePath('files','ajax','scan.php'),{force:force}, function(response) {
 		if(response && response.data && response.data.done){
 			window.location.reload();
 		}else{
