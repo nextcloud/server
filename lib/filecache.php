@@ -62,6 +62,7 @@ class OC_FileCache{
 		$path=OC_Filesystem::getRoot().$path;
 		if($id=self::getFileId($path)!=-1){
 			self::update($id,$data);
+			return;
 		}
 		if($path=='/'){
 			$parent=-1;
@@ -115,9 +116,9 @@ class OC_FileCache{
 	 * @param string $query
 	 * @return array of filepaths
 	 */
-	public static function search($query){
+	public static function search($search){
 		$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE name LIKE ?');
-		$result=$query->execute(array("%$query%"));
+		$result=$query->execute(array("%$search%"));
 		$names=array();
 		while($row=$result->fetchRow()){
 			$names[]=$row['path'];
@@ -330,4 +331,3 @@ class OC_FileCache{
 OC_Hook::connect('OC_Filesystem','post_write','OC_FileCache','fileSystemWatcherWrite');
 OC_Hook::connect('OC_Filesystem','delete','OC_FileCache','fileSystemWatcherDelete');
 OC_Hook::connect('OC_Filesystem','rename','OC_FileCache','fileSystemWatcherRename');
-

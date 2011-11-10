@@ -390,15 +390,13 @@ class OC_Filesystem{
 		$files=array();
 		$fakeRoot=self::$fakeRoot;
 		$fakeRootLength=strlen($fakeRoot);
-		foreach(self::$storages as $mountpoint=>$storage){
-			$results=$storage->search($query);
-			if(is_array($results)){
-				foreach($results as $result){
-					$file=str_replace('//','/',$mountpoint.$result);
-					if(substr($file,0,$fakeRootLength)==$fakeRoot){
-						$file=substr($file,$fakeRootLength);
-						$files[]=$file;
-					}
+		$results=OC_FileCache::search($query);
+		if(is_array($results)){
+			foreach($results as $result){
+				$file=str_replace('//','/',$mountpoint.$result);
+				if(substr($file,0,$fakeRootLength)==$fakeRoot){
+					$file=substr($file,$fakeRootLength);
+					$files[]=$file;
 				}
 			}
 		}
