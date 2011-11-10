@@ -74,3 +74,5 @@ table thead.fixed { height:2em; }
 /* add breadcrumb divider to the File item in navigation panel */
 #navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; position:fixed; }
 #navigation>ul>li:first-child+li { padding-top:2.9em; }
+
+#scanning-message{ top:40%; left:40%; position:absolute; display:none }

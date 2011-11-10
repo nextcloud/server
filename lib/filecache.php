@@ -70,6 +70,8 @@ class OC_FileCache{
 		}
 		$mimePart=dirname($data['mimetype']);
 		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart) VALUES(?,?,?,?,?,?,?,?)');
+// 		echo $path;
+// 		print_r($data);
 		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart));
 		
 	}

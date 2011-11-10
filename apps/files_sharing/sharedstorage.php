@@ -172,18 +172,9 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	// TODO fill in other components of array
 	public function stat($path) {
 		if ($path == "" || $path == "/") {
-			$stat["dev"] = "";
-			$stat["ino"] = "";
-			$stat["mode"] = "";
-			$stat["nlink"] = "";
-			$stat["uid"] = "";
-			$stat["gid"] = "";
-			$stat["rdev"] = "";
 			$stat["size"] = $this->filesize($path);
 			$stat["mtime"] = $this->filemtime($path);
 			$stat["ctime"] = $this->filectime($path);
-			$stat["blksize"] = "";
-			$stat["blocks"] = "";
 			return $stat;
 		} else {
 			$source = $this->getSource($path);
@@ -220,18 +211,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 
 	public function getFolderSize($path) {
-		// Shared folder sizes are cached separately from the source folder sizes because folders can have different names
-		$path = rtrim($path, "/");
-		$path = ltrim($path, "/");
-		$path = preg_replace('{(/)\1+}', "/", $path);
-		$dbpath = rtrim($this->datadir.$path, "/");
-// 		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path = ?");
-// 		$size = $query->execute(array($dbpath))->fetchAll();
-		if (count($size) > 0) {
-			return $size[0]['size'];
-		} else {
-			return $this->calculateFolderSize($path);
-		}
+		return 0; //depricated
 	}
 	
 	private function calculateFolderSize($path) {
@@ -321,8 +301,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 						$ctime = $tempctime;
 					}
 				}
-				return $ctime;
 			}
+			return $ctime;
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
@@ -342,8 +322,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 						$mtime = $tempmtime;
 					}
 				}
-				return $mtime;
 			}
+			return $mtime;
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
@@ -482,6 +462,9 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function getMimeType($path) {
+		if ($path2 == "" || $path2 == "/") {
+			return 'httpd/unix-directory';
+		}
 		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_Filesystem::getStorage($source);

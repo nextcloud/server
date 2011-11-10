@@ -63,3 +63,8 @@ if (isset($_['files'])) {
 		<?php echo $l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.');?>
 	</p>
 </div>
+<div id="scanning-message">
+	<p>
+		<?php echo $l->t('Files are being scanned, please wait.');?>
+	</p>
+</div>

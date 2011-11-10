@@ -49,11 +49,6 @@ class OC_Util {
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
-
-			//create the file cache if necesary
-			if(!OC_FileCache::inCache('')){
-				OC_FileCache::scan('');
-			}
 		}
 	}
 
