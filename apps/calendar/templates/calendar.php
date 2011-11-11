@@ -1,21 +1,21 @@
-<script type='text/javascript'>
-var defaultView = '<?php echo OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') ?>';
-var eventSources = <?php echo json_encode($_['eventSources']) ?>;
-var dayNames = <?php echo json_encode($l->tA(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'))) ?>;
-var dayNamesShort = <?php echo json_encode($l->tA(array('Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'))) ?>;
-var monthNames = <?php echo json_encode($l->tA(array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'))) ?>;
-var monthNamesShort = <?php echo json_encode($l->tA(array('Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'))) ?>;
-var allDayText = '<?php echo $l->t('All day') ?>';
-var missing_field = '<?php echo $l->t('Missing fields') ?>';
-var missing_field_title = '<?php echo $l->t('Title') ?>';
-var missing_field_calendar = '<?php echo $l->t('Calendar') ?>';
-var missing_field_fromdate = '<?php echo $l->t('From Date') ?>';
-var missing_field_fromtime = '<?php echo $l->t('From Time') ?>';
-var missing_field_todate = '<?php echo $l->t('To Date') ?>';
-var missing_field_totime = '<?php echo $l->t('To Time') ?>';
-var missing_field_startsbeforeends = '<?php echo $l->t('The event ends before it starts') ?>';
-var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
-</script>
+				<script type='text/javascript'>
+				var defaultView = '<?php echo OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') ?>';
+				var eventSources = <?php echo json_encode($_['eventSources']) ?>;
+				var dayNames = <?php echo json_encode($l->tA(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'))) ?>;
+				var dayNamesShort = <?php echo json_encode($l->tA(array('Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'))) ?>;
+				var monthNames = <?php echo json_encode($l->tA(array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'))) ?>;
+				var monthNamesShort = <?php echo json_encode($l->tA(array('Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'))) ?>;
+				var allDayText = '<?php echo $l->t('All day') ?>';
+				var missing_field = '<?php echo $l->t('Missing fields') ?>';
+				var missing_field_title = '<?php echo $l->t('Title') ?>';
+				var missing_field_calendar = '<?php echo $l->t('Calendar') ?>';
+				var missing_field_fromdate = '<?php echo $l->t('From Date') ?>';
+				var missing_field_fromtime = '<?php echo $l->t('From Time') ?>';
+				var missing_field_todate = '<?php echo $l->t('To Date') ?>';
+				var missing_field_totime = '<?php echo $l->t('To Time') ?>';
+				var missing_field_startsbeforeends = '<?php echo $l->t('The event ends before it starts') ?>';
+				var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
+				</script>
 				<div id="controls">
 					<div>
 						<form>
@@ -40,6 +40,7 @@ var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
 						</form>
 					</div>
 				</div>
+				<div id="notification" style="display:none;"></div>
 				<div id="calendar_holder">
 				</div>
 				<!-- Dialogs -->
