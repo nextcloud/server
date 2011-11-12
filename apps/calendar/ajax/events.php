@@ -39,7 +39,9 @@ foreach($events as $event){
 	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 	$return_event = array();
 	$start_dt = $dtstart->getDateTime();
+	$start_dt->setTimezone(new DateTimeZone($user_timezone));
 	$end_dt = $dtend->getDateTime();
+	$end_dt->setTimezone(new DateTimeZone($user_timezone));
 	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
 		$return_event['allDay'] = true;
 	}else{
@@ -49,7 +51,7 @@ foreach($events as $event){
 	if($event['repeating'] == 1){
 		$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
 		$r = new When();
-		$r->recur((string) $dtstart)->rrule((string) $vevent->RRULE);
+		$r->recur((string) $start_dt->format('Ymd\THis'))->rrule((string) $vevent->RRULE);
 		while($result = $r->next()){
 			if($result->format('U') > $_GET['end']){
 				break;
@@ -71,8 +73,6 @@ foreach($events as $event){
 			$end_dt->modify('-1 sec');
 			$return_event['end'] = $end_dt->format('Y-m-d');
 		}else{
-			$start_dt->setTimezone(new DateTimeZone($user_timezone));
-			$end_dt->setTimezone(new DateTimeZone($user_timezone));
 			$return_event['start'] = $start_dt->format('Y-m-d H:i:s');
 			$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
 			$return_event['allDay'] = false;
