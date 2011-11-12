@@ -8,6 +8,6 @@
 
 $tmpl = new OC_Template( 'bookmarks', 'settings');
 
-OC_Util::addScript('bookmarks','settings');
+//OC_Util::addScript('bookmarks','settings');
 
 return $tmpl->fetchPage();

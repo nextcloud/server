@@ -2,20 +2,18 @@
 
 /**
  * Abstract Backend class
+ *
+ * This class serves as a base-class for addressbook backends
+ *
+ * Note that there are references to 'addressBookId' scattered throughout the 
+ * class. The value of the addressBookId is completely up to you, it can be any 
+ * arbitrary value you can use as an unique identifier.
  * 
  * @package Sabre
  * @subpackage CardDAV
  * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
- */
-
-/**
- * This class serves as a base-class for addressbook backends
- *
- * Note that there are references to 'addressBookId' scattered throughout the 
- * class. The value of the addressBookId is completely up to you, it can be any 
- * arbitrary value you can use as an unique identifier.
  */
 abstract class Sabre_CardDAV_Backend_Abstract {
 

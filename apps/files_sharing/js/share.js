@@ -10,7 +10,7 @@ $(document).ready(function() {
 				type: 'GET',
 				url: OC.linkTo('files_sharing', 'ajax/getitem.php'),
 				dataType: 'json',
-				data: 'source='+file,
+				data: {source: file},
 				async: false,
 				success: function(users) {
 					if (users) {
@@ -46,6 +46,7 @@ $(document).ready(function() {
 
 	$('.share').click(function(event) {
 		event.preventDefault();
+		event.stopPropagation();
 		var filenames = getSelectedFiles('name');
 		var length = filenames.length;
 		var files = '';
@@ -184,8 +185,8 @@ function createDropdown(filename, files) {
 	html += '<input id="link" style="display:none; width:90%;" />';
 	html += '</div>';
 	if (filename) {
-		$('tr[data-file="'+filename+'"]').addClass('mouseOver');
-		$(html).appendTo($('tr[data-file="'+filename+'"] td.filename'));
+		$('tr').filterAttr('data-file',filename).addClass('mouseOver');
+		$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
 	} else {
 		$(html).appendTo($('thead .share'));
 	}

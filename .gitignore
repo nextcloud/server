@@ -35,4 +35,11 @@ nbproject
 # geany
 *.geany
 
+# Cloud9IDE
+.settings.xml
+
+# Mac OS
 .DS_Store
+
+# WebFinger
+.well-known

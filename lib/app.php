@@ -100,11 +100,11 @@ class OC_App{
 	}
 
 	/**
-	 * @brief enables an app
+	 * @brief disables an app
 	 * @param $app app
 	 * @returns true/false
 	 *
-	 * This function set an app as enabled in appconfig.
+	 * This function set an app as disabled in appconfig.
 	 */
 	public static function disable( $app ){
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );

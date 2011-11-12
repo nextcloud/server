@@ -41,7 +41,7 @@ class OC_Log{
 	 */
 	public static function write($app,$message,$level){
 		$minLevel=OC_Config::getValue( "loglevel", 2 );
-		if($level>$minLevel){
+		if($level>=$minLevel){
 			$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 			$logFile=OC_Config::getValue( "logfile", $datadir.'/owncloud.log' );
 			$entry=array('app'=>$app,'message'=>$message,'level'=>$level,'time'=>time());
@@ -59,6 +59,9 @@ class OC_Log{
 			return array();
 		}
 		$fh=fopen($logFile,'r');
+		if($fh === false){ // Unable to read log file!
+			return array();
+		}
 		while(!feof($fh)){
 			$line=fgets($fh);
 			if($line){

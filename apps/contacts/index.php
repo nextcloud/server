@@ -65,7 +65,6 @@ foreach( $openaddressbooks as $addressbook ){
 	}
 }
 
-
 usort($contacts,'contacts_namesort');
 $details = array();
 
