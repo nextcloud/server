@@ -15,6 +15,7 @@
 				var missing_field_totime = '<?php echo $l->t('To Time') ?>';
 				var missing_field_startsbeforeends = '<?php echo $l->t('The event ends before it starts') ?>';
 				var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
+				var totalurl = '<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?>';
 				</script>
 				<div id="controls">
 					<div>
