@@ -38,10 +38,12 @@ class OC_FileCache{
 	 * - mtime
 	 * - ctime
 	 * - mimetype
+	 * - encrypted
+	 * - versioned
 	 */
 	public static function get($path){
 		$path=OC_Filesystem::getRoot().$path;
-		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size FROM *PREFIX*fscache WHERE path=?');
+		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned FROM *PREFIX*fscache WHERE path=?');
 		$result=$query->execute(array($path))->fetchRow();
 		if(is_array($result)){
 			return $result;
@@ -60,19 +62,24 @@ class OC_FileCache{
 	 */
 	public static function put($path,$data){
 		$path=OC_Filesystem::getRoot().$path;
-		if($id=self::getFileId($path)!=-1){
-			self::update($id,$data);
-			return;
-		}
 		if($path=='/'){
 			$parent=-1;
 		}else{
 			$parent=self::getFileId(dirname($path));
 		}
+		$id=self::getFileId($path);
+		if($id!=-1){
+			self::update($id,$data);
+			return;
+		}
+		if(!isset($data['encrypted'])){
+			$data['encrypted']=false;
+		}
+		if(!isset($data['versioned'])){
+			$data['versioned']=false;
+		}
 		$mimePart=dirname($data['mimetype']);
 		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart) VALUES(?,?,?,?,?,?,?,?)');
-// 		echo $path;
-// 		print_r($data);
 		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart));
 		
 	}
@@ -83,9 +90,21 @@ class OC_FileCache{
 	 * @param array $data
 	 */
 	private static function update($id,$data){
-		$mimePart=dirname($data['mimetype']);
-		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET size=? ,mtime=? ,ctime=? ,mimetype=? , mimepart=? WHERE id=?');
-		$query->execute(array($data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$id));
+		$arguments=array();
+		$queryParts=array();
+		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned') as $attribute){
+			if(isset($data[$attribute])){
+				$arguments[]=$data[$attribute];
+				$queryParts[]=$attribute.'=?';
+			}
+		}
+		if(isset($data['mimetype'])){
+			$arguments[]=dirname($data['mimetype']);
+			$queryParts[]='mimepart=?';
+		}
+		$arguments[]=$id;
+		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET '.implode(' , ',$queryParts).' WHERE id=?');
+		$query->execute($arguments);
 	}
 
 	/**
@@ -137,11 +156,13 @@ class OC_FileCache{
 	 * - mtime
 	 * - ctime
 	 * - mimetype
+	 * - encrypted
+	 * - versioned
 	 */
 	public static function getFolderContent($path){
 		$path=OC_Filesystem::getRoot().$path;
 		$parent=self::getFileId($path);
-		$query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size FROM *PREFIX*fscache WHERE parent=?');
+		$query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned FROM *PREFIX*fscache WHERE parent=?');
 		$result=$query->execute(array($parent))->fetchAll();
 		if(is_array($result)){
 			return $result;
@@ -201,8 +222,9 @@ class OC_FileCache{
 		if($mimetype=='httpd/unix-directory'){
 			$size=0;
 		}else{
-			if(($id=self::getFileId($fullPath))!=-1){
-				$oldInfo=self::get($fullPath);
+			$id=self::getFileId($fullPath);
+			if($id!=-1){
+				$oldInfo=self::get($path);
 				$oldSize=$oldInfo['size'];
 			}else{
 				$oldSize=0;
@@ -221,7 +243,6 @@ class OC_FileCache{
 	public static function fileSystemWatcherDelete($params){
 		$path=$params['path'];
 		$fullPath=OC_Filesystem::getRoot().$path;
-		error_log("delete $path");
 		if(self::getFileId($fullPath)==-1){
 			return;
 		}
@@ -258,7 +279,6 @@ class OC_FileCache{
 	private static function increaseSize($path,$sizeDiff){
 		while(($id=self::getFileId($path))!=-1){
 			$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET size=size+? WHERE id=?');
-			error_log('diff '.$path.' '.$sizeDiff);
 			$query->execute(array($sizeDiff,$id));
 			$path=dirname($path);
 		}

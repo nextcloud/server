@@ -126,6 +126,22 @@
 	   <length>32</length>
    </field>
 
+   <field>
+	   <name>encrypted</name>
+	   <type>integer</type>
+	   <default>0</default>
+	   <notnull>true</notnull>
+	   <length>1</length>
+   </field>
+
+   <field>
+	   <name>versioned</name>
+	   <type>integer</type>
+	   <default>0</default>
+	   <notnull>true</notnull>
+	   <length>1</length>
+   </field>
+
    <index>
     <name>path_index</name>
 	<unique>true</unique>
