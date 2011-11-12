@@ -43,12 +43,12 @@ class OC_Calendar_Object{
 	public static function allInPeriod($id, $start, $end){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?'
 		.' AND ((startdate >= ? AND startdate <= ? AND repeating = 0)'
-		.' OR (startdate <= ? AND enddate >= ? AND repeating = 1))' );
+		.' OR (startdate <= ? AND repeating = 1))' );
 		$start = self::getUTCforMDB($start);
 		$end = self::getUTCforMDB($end);
 		$result = $stmt->execute(array($id,
 					$start, $end,
-					$end, $start));
+					$end));
 
 		$calendarobjects = array();
 		while( $row = $result->fetchRow()){
