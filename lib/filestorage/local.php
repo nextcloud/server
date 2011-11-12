@@ -84,6 +84,11 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return $return;
 	}
 	public function rename($path1,$path2){
+		if(! $this->file_exists($path1)){
+			OC_Log::write('core','unable to rename, file does not exists : '.$path1,OC_Log::ERROR);
+			return false;
+		}
+
 		if($return=rename($this->datadir.$path1,$this->datadir.$path2)){
 			$this->clearFolderSizeCache($path1);
 			$this->clearFolderSizeCache($path2);

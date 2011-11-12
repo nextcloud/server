@@ -224,6 +224,7 @@ class OC_DB {
 
 	/**
 	 * @brief gets last value of autoincrement
+	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @returns id
 	 *
 	 * MDB2 lastInsertID()
@@ -231,9 +232,14 @@ class OC_DB {
 	 * Call this method right after the insert command or other functions may
 	 * cause trouble!
 	 */
-	public static function insertid(){
+	public static function insertid($table=null){
 		self::connect();
-		return self::$connection->lastInsertId();
+		if($table !== null){
+			$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+			$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
+			$table = str_replace( '*PREFIX*', $prefix, $table );
+		}
+		return self::$connection->lastInsertId($table.$suffix);
 	}
 
 	/**
