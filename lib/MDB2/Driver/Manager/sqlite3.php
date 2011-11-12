@@ -798,7 +798,7 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
             return $db;
         }
 
-        $query = "SELECT name FROM sqlite_master WHERE type='table' AND sql NOT NULL ORDER BY name";
+        $query = "SELECT name FROM sqlite_master WHERE type='table' AND sql NOT NULL AND name!='sqlite_sequence' ORDER BY name";
         $table_names = $db->queryCol($query);
         if (PEAR::isError($table_names)) {
             return $table_names;
