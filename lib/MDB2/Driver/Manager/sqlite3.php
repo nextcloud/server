@@ -168,9 +168,6 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
         if (PEAR::isError($query_fields)) {
             return $query_fields;
         }
-        if (!empty($options['primary'])) {
-            $query_fields.= ', PRIMARY KEY ('.implode(', ', array_keys($options['primary'])).')';
-        }
         if (!empty($options['foreign_keys'])) {
             foreach ($options['foreign_keys'] as $fkname => $fkdef) {
                 if (empty($fkdef)) {
