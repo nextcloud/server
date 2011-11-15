@@ -156,6 +156,7 @@ class OC{
 		$currentVersion=implode('.',OC_Util::getVersion());
 		if (version_compare($currentVersion, $installedVersion, '>')) {
 			OC_DB::updateDbFromStructure('../db_structure.xml');
+			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 		}
 
 		ini_set('session.cookie_httponly','1;');
