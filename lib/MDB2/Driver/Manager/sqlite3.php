@@ -660,13 +660,15 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
             return $result;
         }
 
-        foreach ($indexes as $index => $definition) {
-            $this->createIndex($name_new, $index, $definition);
-        }
+        //these seem to only give errors
 
-        foreach ($constraints as $constraint => $definition) {
-            $this->createConstraint($name_new, $constraint, $definition);
-        }
+//         foreach ($indexes as $index => $definition) {
+//             $this->createIndex($name_new, $index, $definition);
+//         }
+
+//         foreach ($constraints as $constraint => $definition) {
+//             $this->createConstraint($name_new, $constraint, $definition);
+//         }
 
         //fill the new table with data from the old one
         if (!empty($select_fields)) {
@@ -691,7 +693,6 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
 //                 }
 //             }
 //         }
-        echo "changes $name";
 
         //remove the old table
         $result = $this->dropTable('__'.$name);
