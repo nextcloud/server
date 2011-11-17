@@ -42,7 +42,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->ldap_password = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
 		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
 		$this->ldap_filter = OC_Appconfig::getValue('user_ldap', 'ldap_filter','');
-		$this->ldap_tls = OC_Appconfig::getValue('user_tls', 'ldap_tls', 0);
+		$this->ldap_tls = OC_Appconfig::getValue('user_ldap', 'ldap_tls', 0);
 
 		if( !empty($this->ldap_host)
 			&& !empty($this->ldap_port)
