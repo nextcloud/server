@@ -34,6 +34,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	protected $ldap_base;
 	protected $ldap_filter;
 	protected $ldap_tls;
+	protected $ldap_display_name;
 
 	function __construct() {
 		$this->ldap_host = OC_Appconfig::getValue('user_ldap', 'ldap_host','');
@@ -43,12 +44,14 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
 		$this->ldap_filter = OC_Appconfig::getValue('user_ldap', 'ldap_filter','');
 		$this->ldap_tls = OC_Appconfig::getValue('user_ldap', 'ldap_tls', 0);
+		$this->ldap_display_name = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
 
 		if( !empty($this->ldap_host)
 			&& !empty($this->ldap_port)
 			&& ((!empty($this->ldap_dn) && !empty($this->ldap_password)) || (empty($this->ldap_dn) && empty($this->ldap_password)))
 			&& !empty($this->ldap_base)
 			&& !empty($this->ldap_filter)
+			&& !empty($this->ldap_display_name)
 		)
 		{
 			$this->configured = true;
@@ -90,15 +93,16 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 
 		// get dn
-		$filter = str_replace("%uid", $uid, $this->ldap_filter);
+		$filter = str_replace('%uid', $uid, $this->ldap_filter);
 		$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
 		$entries = ldap_get_entries( $this->getDs(), $sr );
 
-		if( $entries["count"] == 0 )
+		if( $entries['count'] == 0 )
 			return false;
 
-		return $entries[0]["dn"];
+		return $entries[0]['dn'];
 	}
+
 	public function checkPassword( $uid, $password ) {
 		if(!$this->configured){
 			return false;
@@ -131,22 +135,22 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 	
 		// get users
-		$filter = "objectClass=person";
+		$filter = 'objectClass=person';
 		$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
 		$entries = ldap_get_entries( $this->getDs(), $sr );
-	
-		if( $entries["count"] == 0 )
+		if( $entries['count'] == 0 )
 			return false;
 		else {
 			$users = array();
 			foreach($entries as $row) {
-				if(isset($row['uid'])) {
-					$users[] = $row['uid'][0];
+				if(isset($row[$this->ldap_display_name])) {
+					$users[] = $row[$this->ldap_display_name][0];
 				}
 			}
+			// TODO language specific sorting of user names
+			sort($users);
+			return $users;
 		}
-	
-		return $users;
 	}
 
 }

@@ -20,7 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter', 'ldap_tls');
+$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter', 'ldap_display_name', 'ldap_tls');
 
 foreach($params as $param){
 	if(isset($_POST[$param])){
@@ -41,5 +41,8 @@ foreach($params as $param){
 
 // ldap_port has a default value
 $tmpl->assign( 'ldap_port', OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT));
+
+// ldap_display_name has a default value
+$tmpl->assign( 'ldap_display_name', OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME));
 
 return $tmpl->fetchPage();
