@@ -198,8 +198,12 @@ Calendar={
 				win_height = $(window).height();
 			if(direction == 'down' && win_height == (doc_height - scroll)){
 				$('#calendar_holder').fullCalendar('next');
+				$(document).scrollTop(0);
+				event.preventDefault();
 			}else if (direction == 'top' && scroll == 0) {
 				$('#calendar_holder').fullCalendar('prev');
+				$(document).scrollTop(win_height);
+				event.preventDefault();
 			}
 		},
 		Calendar:{
