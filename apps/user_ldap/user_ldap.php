@@ -143,8 +143,10 @@ class OC_USER_LDAP extends OC_User_Backend {
 		else {
 			$users = array();
 			foreach($entries as $row) {
-				if(isset($row[$this->ldap_display_name])) {
-					$users[] = $row[$this->ldap_display_name][0];
+				// TODO ldap_get_entries() seems to lower all keys => needs review
+				$ldap_display_name  = strtolower($this->ldap_display_name);
+				if(isset($row[$ldap_display_name])) {
+					$users[] = $row[$ldap_display_name][0];
 				}
 			}
 			// TODO language specific sorting of user names
