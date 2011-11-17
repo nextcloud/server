@@ -33,6 +33,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	protected $ldap_password;
 	protected $ldap_base;
 	protected $ldap_filter;
+	protected $ldap_tls;
 
 	function __construct() {
 		$this->ldap_host = OC_Appconfig::getValue('user_ldap', 'ldap_host','');
@@ -41,11 +42,11 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->ldap_password = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
 		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
 		$this->ldap_filter = OC_Appconfig::getValue('user_ldap', 'ldap_filter','');
+		$this->ldap_tls = OC_Appconfig::getValue('user_tls', 'ldap_tls', 0);
 
 		if( !empty($this->ldap_host)
 			&& !empty($this->ldap_port)
-			&& !empty($this->ldap_dn)
-			&& !empty($this->ldap_password)
+			&& ((!empty($this->ldap_dn) && !empty($this->ldap_password)) || (empty($this->ldap_dn) && empty($this->ldap_password)))
 			&& !empty($this->ldap_base)
 			&& !empty($this->ldap_filter)
 		)
@@ -63,9 +64,10 @@ class OC_USER_LDAP extends OC_User_Backend {
 	private function getDs() {
 		if(!$this->ds) {
 			$this->ds = ldap_connect( $this->ldap_host, $this->ldap_port );
-			   if(ldap_set_option($this->ds, LDAP_OPT_PROTOCOL_VERSION, 3))
-				 if(ldap_set_option($this->ds, LDAP_OPT_REFERRALS, 0))
-					  @ldap_start_tls($this->ds);
+				if(ldap_set_option($this->ds, LDAP_OPT_PROTOCOL_VERSION, 3))
+					if(ldap_set_option($this->ds, LDAP_OPT_REFERRALS, 0))
+						if($this->ldap_tls)
+							ldap_start_tls($this->ds);
 		}
 
 		// login

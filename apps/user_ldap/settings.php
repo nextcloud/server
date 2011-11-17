@@ -20,11 +20,15 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter');
+$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter', 'ldap_tls');
 
 foreach($params as $param){
 	if(isset($_POST[$param])){
 		OC_Appconfig::setValue('user_ldap', $param, $_POST[$param]);
+	}
+	elseif('ldap_tls' == $param) {
+		// unchecked checkboxes are not included in the post paramters
+		OC_Appconfig::setValue('user_ldap', $param, 0);
 	}
 }
 
