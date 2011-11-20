@@ -138,9 +138,9 @@ Calendar={
 		},
 		getEventPopupText:function(event){
 			if (event.allDay){
-				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "ddd d MMMM[ yyyy]{ -[ddd d] MMMM yyyy}"));
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, 'ddd d MMMM[ yyyy]{ -[ddd d] MMMM yyyy}', {monthNamesShort: monthNamesShort, monthNames: monthNames, dayNames: dayNames, dayNamesShort: dayNamesShort}); //t('calendar', "ddd d MMMM[ yyyy]{ -[ddd d] MMMM yyyy}")
 			}else{
-				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "ddd d MMMM[ yyyy] HH:mm{ -[ ddd d MMMM yyyy] HH:mm}"));
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, 'ddd d MMMM[ yyyy] ' + defaulttime + '{ -[ ddd d MMMM yyyy]' + defaulttime + '}', {monthNamesShort: monthNamesShort, monthNames: monthNames, dayNames: dayNames, dayNamesShort: dayNamesShort}); //t('calendar', "ddd d MMMM[ yyyy] HH:mm{ -[ ddd d MMMM yyyy] HH:mm}")
 				// Tue 18 October 2011 08:00 - 16:00
 			}
 			var html =
@@ -482,13 +482,13 @@ $(document).ready(function(){
 		editable: true,
 		defaultView: defaultView,
 		timeFormat: {
-			agenda: 'HH:mm{ - HH:mm}',
-			'': 'HH:mm'
+			agenda: agendatime,
+			'': defaulttime
 			},
 		titleFormat: {
 			list: 'yyyy/MMM/d dddd'
 			},
-		axisFormat: 'HH:mm',
+		axisFormat: defaulttime,
 		monthNames: monthNames,
 		monthNamesShort: monthNamesShort,
 		dayNames: dayNames,
