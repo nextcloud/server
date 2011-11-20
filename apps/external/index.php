@@ -35,7 +35,7 @@ if(isset($_GET['id'])){
 	$id=$_GET['id'];
 	$id = (int) $id;
 
-	$url=OC_Config::getValue( "external-site".$id."url", '' );
+	$url=OC_Appconfig::getValue( "external","site".$id."url", '' );
 	OC_App::setActiveNavigationEntry( 'external_index'.$id );
 
 	$tmpl = new OC_Template( 'external', 'frame', 'user' );
