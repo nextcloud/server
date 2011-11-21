@@ -115,7 +115,14 @@ class OC_USER_LDAP extends OC_User_Backend {
 
 		if (!@ldap_bind( $this->getDs(), $dn, $password ))
 			return false;
-		return $uid;
+		
+		if($this->ldap_nocase) {
+			return strtolower($uid);
+		}
+		else {
+			return $uid;
+		}
+		
 	}
 
 	public function userExists( $uid ) {
