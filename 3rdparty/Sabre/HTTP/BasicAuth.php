@@ -36,6 +36,15 @@ class Sabre_HTTP_BasicAuth extends Sabre_HTTP_AbstractAuth {
         // Most other webservers 
         $auth = $this->httpRequest->getHeader('Authorization');
 
+	// Support PHP running as CGI which does not set the auth header automatically.
+	// Note: Redirect Rule is needed in .htaccess to make this work:
+	//   RewriteEngine on
+	//   RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+	//
+	if (!$auth && isSet($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+	    $auth = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+	}
+
         if (!$auth) return false;
 
         if (strpos(strtolower($auth),'basic')!==0) return false; 
