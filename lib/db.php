@@ -313,7 +313,7 @@ class OC_DB {
 		$query = str_replace( 'now()', self::$DBConnection->now(), $query );
 		
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
-		if( $type == 'sqlite' || $type == 'sqlite3' ){
+		if( $CONFIG_DBTYPE == 'sqlite' || $CONFIG_DBTYPE == 'sqlite3' ){
 			$query = str_replace( '`', '\'', $query );
 		}
 		elseif( $CONFIG_DBTYPE == 'pgsql' ){
