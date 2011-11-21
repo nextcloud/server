@@ -34,6 +34,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	protected $ldap_base;
 	protected $ldap_filter;
 	protected $ldap_tls;
+	protected $ldap_nocase;
 	protected $ldap_display_name;
 
 	function __construct() {
@@ -44,6 +45,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
 		$this->ldap_filter = OC_Appconfig::getValue('user_ldap', 'ldap_filter','');
 		$this->ldap_tls = OC_Appconfig::getValue('user_ldap', 'ldap_tls', 0);
+		$this->ldap_nocase = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
 		$this->ldap_display_name = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
 
 		if( !empty($this->ldap_host)
@@ -146,7 +148,13 @@ class OC_USER_LDAP extends OC_User_Backend {
 				// TODO ldap_get_entries() seems to lower all keys => needs review
 				$ldap_display_name  = strtolower($this->ldap_display_name);
 				if(isset($row[$ldap_display_name])) {
-					$users[] = $row[$ldap_display_name][0];
+					if($this->ldap_nocase) {
+						$users[] = strtolower($row[$ldap_display_name][0]);
+					}
+					else 
+					{
+						$users[] = $row[$ldap_display_name][0];
+					}
 				}
 			}
 			// TODO language specific sorting of user names
