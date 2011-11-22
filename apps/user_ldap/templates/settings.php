@@ -11,7 +11,7 @@
 		<p><label for="ldap_display_name"><?php echo $l->t('Display Name Field');?></label><input type="text" id="ldap_display_name" name="ldap_display_name" value="<?php echo $_['ldap_display_name']; ?>" />
 		<small><?php echo $l->t('Currently the display name field needs to be the same you matched %%uid against in the filter above, because ownCloud doesn\'t distinguish between user id and user name.');?></small></p>
 		<p><input type="checkbox" id="ldap_tls" name="ldap_tls" value="1"<?php if ($_['ldap_tls']) echo ' checked'; ?>><label for="ldap_tls"><?php echo $l->t('Use TLS');?></label></p>
-		<p><input type="checkbox" id="ldap_nocase" name="ldap_nocase" value="1"<?php if ($_['ldap_nocase']) echo ' checked'; ?>><label for="ldap_nocase"><?php echo $l->t('Conver UID lowercase');?></label></p>
+		<p><input type="checkbox" id="ldap_nocase" name="ldap_nocase" value="1"<?php if ($_['ldap_nocase']) echo ' checked'; ?>><label for="ldap_nocase"><?php echo $l->t('Case insensitve LDAP server (Windows)');?></label></p>
 		<input type="submit" value="Save" />
 	</fieldset>
 </form>

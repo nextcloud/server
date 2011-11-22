@@ -22,16 +22,19 @@
  */
 $params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter', 'ldap_display_name', 'ldap_tls', 'ldap_nocase');
 
-foreach($params as $param){
-	if(isset($_POST[$param])){
-		OC_Appconfig::setValue('user_ldap', $param, $_POST[$param]);
-	}
-	elseif('ldap_tls' == $param) {
-		// unchecked checkboxes are not included in the post paramters
-		OC_Appconfig::setValue('user_ldap', $param, 0);		
-	}
-	elseif('ldap_nocase' == $param) {
-		OC_Appconfig::setValue('user_ldap', $param, 0);
+if ($_POST) {
+	foreach($params as $param){
+		if(isset($_POST[$param])){
+			OC_Appconfig::setValue('user_ldap', $param, $_POST[$param]);
+		}
+		elseif('ldap_tls' == $param) {
+			// unchecked checkboxes are not included in the post paramters
+				OC_Appconfig::setValue('user_ldap', $param, 0);		
+		}
+		elseif('ldap_nocase' == $param) {
+			OC_Appconfig::setValue('user_ldap', $param, 0);
+		}
+		
 	}
 }
 

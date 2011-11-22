@@ -117,7 +117,21 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 		
 		if($this->ldap_nocase) {
-			return strtolower($uid);
+			$filter = str_replace('%uid', $uid, $this->ldap_filter);
+			$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
+			$entries = ldap_get_entries( $this->getDs(), $sr );
+			if( $entries['count'] == 1 ) {
+				foreach($entries as $row) {
+					$ldap_display_name  = strtolower($this->ldap_display_name);					
+					if(isset($row[$ldap_display_name])) {					
+						return $row[$ldap_display_name][0];
+					}
+				}
+			}
+			else {
+				return $uid;
+			}
+			
 		}
 		else {
 			return $uid;
@@ -155,13 +169,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 				// TODO ldap_get_entries() seems to lower all keys => needs review
 				$ldap_display_name  = strtolower($this->ldap_display_name);
 				if(isset($row[$ldap_display_name])) {
-					if($this->ldap_nocase) {
-						$users[] = strtolower($row[$ldap_display_name][0]);
-					}
-					else 
-					{
-						$users[] = $row[$ldap_display_name][0];
-					}
+					$users[] = $row[$ldap_display_name][0];					
 				}
 			}
 			// TODO language specific sorting of user names
