@@ -271,6 +271,8 @@ if(!function_exists('get_temp_dir')) {
 			unlink($temp);
 			return dirname($temp);
 		}
+		if( $temp=sys_get_temp_dir())    return $temp;
+		
 		return null;
 	}
 }
