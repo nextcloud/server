@@ -1,4 +1,3 @@
-<li class="contacts_property_edit" data-checksum="<?php echo $_['property']['checksum']; ?>">
 	<form id="contacts_setpropertyform">
 		<input type="hidden" name="checksum" value="<?php echo $_['property']['checksum']; ?>">
 		<input type="hidden" name="id" value="<?php echo $_['id']; ?>">
@@ -55,4 +54,3 @@
 		<?php endif; ?>
 		<input id="contacts_setproperty_button" type="submit" value="<?php echo $l->t('Edit'); ?>">
 	</form>
-</li>
