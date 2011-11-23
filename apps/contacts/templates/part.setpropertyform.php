@@ -42,9 +42,9 @@
 			</ol>
 		<?php elseif($_['property']['name']=='TEL'): ?>
 			<p class="contacts_property_name"><label for="tel"><?php echo $l->t('Phone'); ?></label></p>
-			<p class="contacts_property_data"><input id="tel" type="phone" name="value" value="<?php echo $_['property']['value']; ?>">
-				<select id="tel_type" name="parameters[TYPE]" size="1">
-					<?php echo html_select_options($_['phone_types'], strtoupper($_['property']['parameters']['TYPE'])) ?>
+			<p class="contacts_property_data"><input id="tel" type="phone" name="value" value="<?php echo $_['property']['value'] ?>">
+				<select id="tel_type<?php echo $_['property']['checksum'] ?>" name="parameters[TYPE][]" multiple="multiple">
+					<?php echo html_select_options($_['phone_types'], ($_['property']['parameters']['TYPE'])) ?>
 				</select></p>
 		<?php elseif($_['property']['name']=='EMAIL'): ?>
 			<p class="contacts_property_name"><label for="email"><?php echo $l->t('Email'); ?></label></p>

@@ -82,7 +82,8 @@ $(document).ready(function(){
 		$.getJSON('ajax/showaddcard.php',{},function(jsondata){
 			if(jsondata.status == 'success'){
 				$('#rightcontent').data('id','');
-				$('#rightcontent').html(jsondata.data.page);
+				$('#rightcontent').html(jsondata.data.page)
+					.find('select').chosen();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -111,7 +112,8 @@ $(document).ready(function(){
 		var checksum = $(this).parents('li').first().data('checksum');
 		$.getJSON('ajax/showsetproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){
-				$('.contacts_property[data-checksum="'+checksum+'"]').html(jsondata.data.page);
+				$('.contacts_property[data-checksum="'+checksum+'"]').html(jsondata.data.page)
+					.find('select').chosen();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -148,10 +150,12 @@ $(document).ready(function(){
 
 
 	$('.contacts_property').live('mouseenter',function(){
-		$(this).find('span').show();
+		$(this).find('span[data-use]').show();
 	});
 
 	$('.contacts_property').live('mouseleave',function(){
-		$(this).find('span').hide();
+		$(this).find('span[data-use]').hide();
 	});
+
+	$('#contacts_addcardform select').chosen();
 });

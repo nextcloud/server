@@ -94,14 +94,12 @@ This stylesheet forms part of the Formtastic Rails Plugin
 /* INPUTS
 --------------------------------------------------------------------------------------------------*/
 .formtastic .inputs {
-  overflow:hidden; /* clear containing floats */
-}
-
-.formtastic .input {
-  overflow:hidden; /* clear containing floats */
   padding:0.5em 0; /* padding and negative margin juggling is for Firefox */
   margin-top:-0.5em;
   margin-bottom:1em;
+}
+
+.formtastic .input {
 }
 
 

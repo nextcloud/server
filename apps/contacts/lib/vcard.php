@@ -296,7 +296,13 @@ class OC_Contacts_VCard{
 		$property = new Sabre_VObject_Property( $name, $value );
 		$parameternames = array_keys($parameters);
 		foreach($parameternames as $i){
-			$property->parameters[] = new Sabre_VObject_Parameter($i,$parameters[$i]);
+			$values = $parameters[$i];
+			if (!is_array($values)){
+				$values = array($values);
+			}
+			foreach($values as $value){
+				$property->add($i, $value);
+			}
 		}
 
 		$vcard->add($property);
@@ -352,7 +358,17 @@ class OC_Contacts_VCard{
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
-			$temp['parameters'][$parameter->name] = $parameter->value;
+			if ($property->name == 'TEL' && $parameter->name == 'TYPE'){
+				if (isset($temp['parameters'][$parameter->name])){
+					$temp['parameters'][$parameter->name][] = $parameter->value;
+				}
+				else{
+					$temp['parameters'][$parameter->name] = array($parameter->value);
+				}
+			}
+			else{
+				$temp['parameters'][$parameter->name] = $parameter->value;
+			}
 		}
 		return $temp;
 	}

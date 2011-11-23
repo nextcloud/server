@@ -3,15 +3,20 @@
 
 #contacts_deletecard {position:absolute;top:15px;right:0;}
 #contacts_details_list { list-style:none; }
-#contacts_details_list li { overflow:hidden; }
 #contacts_details_list li p.contacts_property_name { width:25%; float:left;text-align:right;padding-right:0.3em;color:#666; }
-#contacts_details_list li p.contacts_property_data, #contacts_details_list li ul.contacts_property_data { width:72%; overflow:hidden; }
+#contacts_details_list li p.contacts_property_data, #contacts_details_list li ul.contacts_property_data { width:72%;float:left; }
 #contacts_addproperty_button, #contacts_setproperty_button { margin-left:25%; }
 
-.contacts_property_data ul, .contacts_property_data ol { list-style:none; }
+.contacts_property_data ul, ol.contacts_property_data { list-style:none; }
 .contacts_property_data li { overflow: hidden; }
 .contacts_property_data li label { width:20%; float:left; text-align:right;padding-right:0.3em; }
+.contacts_property_data input { float:left; }
 .contacts_property_data li input { width:70%;overflow:hidden; }
+
+.chzn-container { margin:3px 0 0; }
+.chzn-container .chzn-choices { border-radius: 0.5em; }
+.chzn-container.chzn-container-active .chzn-choices { border-bottom-left-radius: 0;border-bottom-right-radius: 0; }
+.chzn-container .chzn-drop { border-bottom-left-radius: 0.5em;border-bottom-right-radius: 0.5em; }
 
 /* Form setup ----------------------------------------------------------------*/
 /* .forme {} */

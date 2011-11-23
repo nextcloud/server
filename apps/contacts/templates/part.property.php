@@ -23,15 +23,18 @@
 		<p class="contacts_property_name"><?php echo $l->t('Phone'); ?></p>
 		<p class="contacts_property_data">
 			<?php echo $_['property']['value']; ?>
-			<?php if(isset($_['property']['parameters']['TYPE'])): ?>
+			<?php if(isset($_['property']['parameters']['TYPE']) && !empty($_['property']['parameters']['TYPE'])): ?>
 <?php
-	$type = $_['property']['parameters']['TYPE'];
-	if (isset($_['phone_types'][strtoupper($type)])){
-		$label=$_['phone_types'][strtoupper($type)];
-	}
-	else{
-		$label=$l->t(ucwords(strtolower($type)));
-	}
+	$types = array();
+	foreach($_['property']['parameters']['TYPE'] as $type):
+		if (isset($_['phone_types'][strtoupper($type)])){
+			$types[]=$_['phone_types'][strtoupper($type)];
+		}
+		else{
+			$types[]=$l->t(ucwords(strtolower($type)));
+		}
+	endforeach;
+	$label = join(' ', $types);
 ?>
 				(<?php echo $label; ?>)
 			<?php endif; ?>
