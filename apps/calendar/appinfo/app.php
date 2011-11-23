@@ -21,3 +21,5 @@ OC_App::addNavigationEntry( array(
   'name' => $l->t('Calendar')));
 
 OC_App::registerPersonal('calendar', 'settings');
+
+require_once('apps/calendar/lib/search.php');
