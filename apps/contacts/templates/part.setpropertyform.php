@@ -52,5 +52,5 @@
 			<p class="contacts_property_name"><label for="org"><?php echo $l->t('Organization'); ?></label></p>
 			<p class="contacts_property_data"><input id="org" type="text" name="value" value="<?php echo $_['property']['value']; ?>"></p>
 		<?php endif; ?>
-		<input id="contacts_setproperty_button" type="submit" value="<?php echo $l->t('Edit'); ?>">
+		<input id="contacts_setproperty_button" type="submit" value="<?php echo $l->t('Update'); ?>">
 	</form>
