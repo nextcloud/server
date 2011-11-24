@@ -22,19 +22,35 @@
 
 /**
  * transparently encrypted filestream
+ *
+ * you can use it as wrapper around an existing stream by setting OC_CryptStream::$sourceStreams['foo']=array('path'=>$path,'stream'=>$stream)
+ *   and then fopen('crypt://streams/foo');
  */
 
 class OC_CryptStream{
+	public static $sourceStreams=array();
 	private $source;
+	private $path;
+	private $readBuffer;//for streams that dont support seeking
+	private $meta=array();//header/meta for source stream
 
 	public function stream_open($path, $mode, $options, &$opened_path){
 		$path=str_replace('crypt://','',$path);
-		OC_Log::write('files_encryption','open encrypted '.$path. ' in '.$mode,OC_Log::DEBUG);
-		OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
-		$this->source=OC_FileSystem::fopen($path,$mode);
-		OC_FileProxy::$enabled=true;
-		if(!is_resource($this->source)){
-			OC_Log::write('files_encryption','failed to open '.$path,OC_Log::ERROR);
+		if(dirname($path)=='streams' and isset(self::$sourceStreams[basename($path)])){
+			$this->source=self::$sourceStreams[basename($path)]['stream'];
+			$this->path=self::$sourceStreams[basename($path)]['path'];
+		}else{
+			$this->path=$path;
+			OC_Log::write('files_encryption','open encrypted '.$path. ' in '.$mode,OC_Log::DEBUG);
+			OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
+			$this->source=OC_FileSystem::fopen($path,$mode);
+			OC_FileProxy::$enabled=true;
+			if(!is_resource($this->source)){
+				OC_Log::write('files_encryption','failed to open '.$path,OC_Log::ERROR);
+			}
+		}
+		if(is_resource($this->source)){
+			$this->meta=stream_get_meta_data($this->source);
 		}
 		return is_resource($this->source);
 	}
@@ -51,14 +67,26 @@ class OC_CryptStream{
 		$pos=0;
 		$currentPos=ftell($this->source);
 		$offset=$currentPos%8192;
-		fseek($this->source,-$offset,SEEK_CUR);
 		$result='';
+		if($offset>0){
+			if($this->meta['seekable']){
+				fseek($this->source,-$offset,SEEK_CUR);//if seeking isnt supported the internal read buffer will be used
+			}else{
+				$pos=strlen($this->readBuffer);
+				$result=$this->readBuffer;
+			}
+		}
 		while($count>$pos){
 			$data=fread($this->source,8192);
 			$pos+=8192;
-			$result.=OC_Crypt::decrypt($data);
+			if(strlen($data)){
+				$result.=OC_Crypt::decrypt($data);
+			}
 		}
-		return substr($result,$offset,$count);
+		if(!$this->meta['seekable']){
+			$this->readBuffer=substr($result,$count);
+		}
+		return substr($result,0,$count);
 	}
 	
 	public function stream_write($data){
@@ -119,6 +147,9 @@ class OC_CryptStream{
 	}
 
 	public function stream_close(){
+		if(OC_FileCache::inCache($this->path)){
+			OC_FileCache::put($this->path,array('encrypted'=>true));
+		}
 		return fclose($this->source);
 	}
 }

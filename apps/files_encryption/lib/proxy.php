@@ -26,50 +26,103 @@
  */
 
 class OC_FileProxy_Encryption extends OC_FileProxy{
+	private static $blackList=null; //mimetypes blacklisted from encryption
+	private static $metaData=array(); //metadata cache
+	
+	/**
+	 * check if a file should be encrypted during write
+	 * @param string $path
+	 * @return bool
+	 */
+	private static function shouldEncrypt($path){
+		if(is_null(self::$blackList)){
+			self::$blackList=explode(',',OC_Appconfig::getValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
+		}
+		if(isset(self::$metaData[$path])){
+			$metadata=self::$metaData[$path];
+		}else{
+			$metadata=OC_FileCache::get($path);
+			self::$metaData[$path]=$metadata;
+		}
+		if($metadata['encrypted']){
+			return true;
+		}
+		$extention=substr($path,strrpos($path,'.')+1);
+		if(array_search($extention,self::$blackList)===false){
+			return true;
+		}
+	}
+
+	/**
+	 * check if a file is encrypted
+	 * @param string $path
+	 * @return bool
+	 */
+	private static function isEncrypted($path){
+		if(isset(self::$metaData[$path])){
+			$metadata=self::$metaData[$path];
+		}else{
+			$metadata=OC_FileCache::get($path);
+			self::$metaData[$path]=$metadata;
+		}
+		return (bool)$metadata['encrypted'];
+	}
+	
 	public function preFile_put_contents($path,&$data){
-		if(substr($path,-4)=='.enc'){
+		if(self::shouldEncrypt($path)){
+			$exists=OC_Filesystem::file_exists($path);
+			$target=fopen('crypt://'.$path,'w');
 			if (is_resource($data)) {
-				$newData='';
 				while(!feof($data)){
-					$block=fread($data,8192);
-					$newData.=OC_Crypt::encrypt($block);
+					fwrite($target,fread($data,8192));
 				}
-				$data=$newData;
 			}else{
-				$data=OC_Crypt::blockEncrypt($data);
+				fwrite($target,$data);
 			}
+			//fake the normal hooks
+			OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path));
+			OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path));
+			return false;
 		}
 	}
 	
 	public function postFile_get_contents($path,$data){
-		if(substr($path,-4)=='.enc'){
-			return OC_Crypt::blockDecrypt($data);
+		if(self::isEncrypted($path)){
+			$data=OC_Crypt::blockDecrypt($data);
 		}
+		return $data;
 	}
 	
 	public function postFopen($path,&$result){
-		if(substr($path,-4)=='.enc'){
-			$meta=stream_get_meta_data($result);
+		if(!$result){
+			return $result;
+		}
+		$meta=stream_get_meta_data($result);
+		if(self::isEncrypted($path)){
 			fclose($result);
-			OC_log::write('file_encryption','mode: '.$meta['mode']);
+			$result=fopen('crypt://'.$path,$meta['mode']);
+		}elseif(self::shouldEncrypt($path) and $meta['mode']!='r'){
+			if(OC_Filesystem::file_exists($path)){
+				//first encrypt the target file so we don't end up with a half encrypted file
+				OC_Log::write('files_encryption','Decrypting '.$path.' before writing',OC_Log::DEBUG);
+				if($result){
+					fclose($result);
+				}
+				$tmpFile=OC_Filesystem::toTmpFile($path);
+				OC_Filesystem::fromTmpFile($tmpFile,$path);
+			}
 			$result=fopen('crypt://'.$path,$meta['mode']);
 		}
+		return $result;
 	}
 	
 	public function preReadFile($path){
-		if(substr($path,-4)=='.enc'){
+		if(self::isEncrypted($path)){
 			$stream=fopen('crypt://'.$path,'r');
 			while(!feof($stream)){
 				print(fread($stream,8192));
 			}
 			return false;//cancel the original request
 		}
-	}
-	
-	public function postGetMimeType($path,$result){
-		if(substr($path,-4)=='.enc'){
-			return 'text/plain';
-		}
-		return $result;
 	}
 }

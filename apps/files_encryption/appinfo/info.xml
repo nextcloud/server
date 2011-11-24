@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_encryption</id>
+	<name>Encryption</name>
+	<description>Server side encryption of files</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<require>3</require>
+	<default_enable/>
+</info>

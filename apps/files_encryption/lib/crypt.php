@@ -37,20 +37,42 @@ require_once('Crypt_Blowfish/Blowfish.php');
  * This class is for crypting and decrypting
  */
 class OC_Crypt {
+	static private $bf = null;
 
-        static $encription_extension='.encrypted';
+	public static function loginListener($params){
+		self::init($params['uid'],$params['password']);
+	}
 
 	public static function init($login,$password) {
-		$_SESSION['user_password'] = $password;  // save the password as passcode for the encryption
 		if(OC_User::isLoggedIn()){
-			// does key exist?
-			if(!file_exists(OC_Config::getValue( "datadirectory").'/'.$login.'/encryption.key')){
-				OC_Crypt::createkey($_SESSION['user_password']);
+			$view=new OC_FilesystemView('/'.$login);
+			if(!$view->file_exists('/encryption.key')){// does key exist?
+				OC_Crypt::createkey($password);
 			}
+			$key=$view->file_get_contents('/encryption.key');
+			$_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
 		}
 	}
 
-
+	/**
+	 * get the blowfish encryption handeler for a key
+	 * @param string $key (optional)
+	 *
+	 * if the key is left out, the default handeler will be used
+	 */
+	public static function getBlowfish($key=''){
+		if($key){
+			return new Crypt_Blowfish($key);
+		}else{
+			if(!isset($_SESSION['enckey'])){
+				return false;
+			}
+			if(!self::$bf){
+				self::$bf=new Crypt_Blowfish($_SESSION['enckey']);
+			}
+			return self::$bf;
+		}
+	}
 
 	public static function createkey($passcode) {
 		if(OC_User::isLoggedIn()){
@@ -61,57 +83,58 @@ class OC_Crypt {
 			$enckey=OC_Crypt::encrypt($key,$passcode);
 
 			// Write the file
-		        $username=OC_USER::getUser();
-			@file_put_contents(OC_Config::getValue( "datadirectory").'/'.$username.'/encryption.key', $enckey );
+			$username=OC_USER::getUser();
+			OC_FileProxy::$enabled=false;
+			$view=new OC_FilesystemView('/'.$username);
+			$view->file_put_contents('/encryption.key',$enckey);
+			OC_FileProxy::$enabled=true;
 		}
 	}
 
-	public static function changekeypasscode( $newpasscode) {
+	public static function changekeypasscode($oldPassword, $newPassword) {
 		if(OC_User::isLoggedIn()){
-		        $username=OC_USER::getUser();
+			$username=OC_USER::getUser();
+			$view=new OC_FilesystemView('/'.$username);
 
 			// read old key
-			$key=file_get_contents(OC_Config::getValue( "datadirectory").'/'.$username.'/encryption.key');
+			$key=$view->file_get_contents('/encryption.key');
 
 			// decrypt key with old passcode
-			$key=OC_Crypt::decrypt($key, $_SESSION['user_password']);
+			$key=OC_Crypt::decrypt($key, $oldPassword);
 
 			// encrypt again with new passcode
-			$key=OC_Crypt::encrypt($key,$newpassword);
+			$key=OC_Crypt::encrypt($key, $newPassword);
 
 			// store the new key
-			file_put_contents(OC_Config::getValue( "datadirectory").'/'.$username.'/encryption.key', $key );
-
-			 $_SESSION['user_password']=$newpasscode;
+			$view->file_put_contents('/encryption.key', $key );
 		}
 	}
 
 	/**
 	 * @brief encrypts an content
 	 * @param $content the cleartext message you want to encrypt
-	 * @param $key the encryption key
+	 * @param $key the encryption key (optional)
 	 * @returns encrypted content
 	 *
 	 * This function encrypts an content
 	 */
-	public static function encrypt( $content, $key) {
-		$bf = new Crypt_Blowfish($key);
+	public static function encrypt( $content, $key='') {
+		$bf = self::getBlowfish($key);
 		return($bf->encrypt($content));
 	}
 
-
-        /**
-         * @brief decryption of an content
-         * @param $content the cleartext message you want to decrypt
-         * @param $key the encryption key
-         * @returns cleartext content
-         *
-         * This function decrypts an content
-         */
-        public static function decrypt( $content, $key) {
-		$bf = new Crypt_Blowfish($key);
+	/**
+	* @brief decryption of an content
+	* @param $content the cleartext message you want to decrypt
+	* @param $key the encryption key (optional)
+	* @returns cleartext content
+	*
+	* This function decrypts an content
+	*/
+	public static function decrypt( $content, $key='') {
+		$bf = self::getBlowfish($key);
 		return($bf->encrypt($contents));
-        }       
+	}
 
 	/**
 	* @brief encryption of a file
@@ -181,8 +204,4 @@ class OC_Crypt {
 		}
 		return $result;
 	}
-
-
-
-
 }
