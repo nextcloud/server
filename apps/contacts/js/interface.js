@@ -64,6 +64,7 @@ $(document).ready(function(){
 		else{
 			$('#contacts_generic').clone().insertAfter($('#contacts_addpropertyform .contacts_property_name'));
 		}
+		$('#contacts_addpropertyform .contacts_property_data select').chosen();
 	});
 
 	$('#contacts_addpropertyform input[type="submit"]').live('click',function(){

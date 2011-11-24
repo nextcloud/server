@@ -75,7 +75,7 @@
 				</ul>
 				<p class="contacts_property_data" id="contacts_phonepart">
 					<input type="text" name="value" value="">
-					<select name="parameters[TYPE]" size="1">
+					<select name="parameters[TYPE][]" multiple="multiple" data-placeholder="<?php echo $l->t('Type') ?>">
 						<?php echo html_select_options($_['phone_types'], 'CELL') ?>
 					</select>
 				</p>
