@@ -158,8 +158,8 @@ class OC_Setup {
 
 						//add prefix to the postgresql user name to prevent collissions
 						$dbusername='oc_'.$username;
-						//hash the password so we don't need to store the admin config in the config file
-						$dbpassword=md5(time().$password);
+						//create a new password so we don't need to store the admin config in the config file
+						$dbpassword=md5(time());
 						
 						self::pg_createDBUser($dbusername, $dbpassword, $connection);
 						
@@ -219,7 +219,7 @@ class OC_Setup {
 	}
 
 	public static function createDatabase($name,$user,$connection) {
-		//we cant user OC_BD functions here because we need to connect as the administrative user.
+		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$query = "CREATE DATABASE IF NOT EXISTS  `$name`";
 		$result = mysql_query($query, $connection);
 		if(!$result) {
@@ -241,7 +241,7 @@ class OC_Setup {
 	}
 
 	public static function pg_createDatabase($name,$user,$connection) {
-		//we cant user OC_BD functions here because we need to connect as the administrative user.
+		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$query = "CREATE DATABASE $name OWNER $user";
 		$result = pg_query($connection, $query);
 		if(!$result) {

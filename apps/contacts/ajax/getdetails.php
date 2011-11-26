@@ -51,10 +51,22 @@ if(is_null($vcard)){
 	exit();
 }
 
+$property_types = array(
+	'ADR'   => $l10n->t('Address'),
+	'TEL'   => $l10n->t('Telephone'),
+	'EMAIL' => $l10n->t('Email'),
+	'ORG'   => $l10n->t('Organization'),
+);
+$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
+$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
+
 $details = OC_Contacts_VCard::structureContact($vcard);
 $tmpl = new OC_Template('contacts','part.details');
 $tmpl->assign('details',$details);
 $tmpl->assign('id',$id);
+$tmpl->assign('property_types',$property_types);
+$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('phone_types',$phone_types);
 $page = $tmpl->fetchPage();
 
 OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page )));

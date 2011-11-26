@@ -56,13 +56,13 @@ $(document).ready(function(){
 		$('#contacts_addpropertyform #contacts_fieldpart').remove();
 		$('#contacts_addpropertyform #contacts_generic').remove();
 		if($(this).val() == 'ADR'){
-			$('#contacts_addresspart').clone().insertBefore($('#contacts_addpropertyform input[type="submit"]'));
+			$('#contacts_addresspart').clone().insertAfter($('#contacts_addpropertyform .contacts_property_name'));
 		}
 		else if($(this).val() == 'TEL'){
-			$('#contacts_phonepart').clone().insertBefore($('#contacts_addpropertyform input[type="submit"]'));
+			$('#contacts_phonepart').clone().insertAfter($('#contacts_addpropertyform .contacts_property_name'));
 		}
 		else{
-			$('#contacts_generic').clone().insertBefore($('#contacts_addpropertyform input[type="submit"]'));
+			$('#contacts_generic').clone().insertAfter($('#contacts_addpropertyform .contacts_property_name'));
 		}
 	});
 

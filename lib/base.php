@@ -119,6 +119,13 @@ class OC{
 			}
 		}
 
+		$installedVersion=OC_Config::getValue('version','0.0.0');
+		$currentVersion=implode('.',OC_Util::getVersion());
+		if (version_compare($currentVersion, $installedVersion, '>')) {
+			OC_DB::updateDbFromStructure('../db_structure.xml');
+			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+		}
+
 		ini_set('session.cookie_httponly','1;');
 		session_start();
 
@@ -184,8 +191,6 @@ if( !isset( $RUNTIME_NOAPPS )){
 	$RUNTIME_NOAPPS = false;
 }
 
-OC::init();
-
 if(!function_exists('get_temp_dir')) {
 	function get_temp_dir() {
 		if( $temp=ini_get('upload_tmp_dir') )        return $temp;
@@ -200,6 +205,8 @@ if(!function_exists('get_temp_dir')) {
 		return null;
 	}
 }
+
+OC::init();
 
 require_once('fakedirstream.php');
 
