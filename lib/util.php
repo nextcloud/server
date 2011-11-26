@@ -62,7 +62,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(2,90,0);
+		return array(2,90,1);
 	}
 
 	/**
