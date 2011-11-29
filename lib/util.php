@@ -180,7 +180,6 @@ class OC_Util {
 		}
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBNAME = OC_Config::getValue( "dbname", "owncloud" );
-                $serverUser=OC_Util::checkWebserverUser();
 
 		//common hint for all file permissons error messages
 		$permissionsHint="Permissions can usually be fixed by giving the webserver write access to the ownCloud directory";
@@ -237,21 +236,6 @@ class OC_Util {
 			$parameters["username"] = '';
 		}
 		OC_Template::printGuestPage("", "login", $parameters);
-	}
-
-	/**
-	* Try to get the username the httpd server runs on, used in hints
-	*/
-	public static function checkWebserverUser(){
-		if(is_callable('posix_getuid')){
-			$serverUser=posix_getpwuid(posix_getuid());
-			$serverUser='\''.$serverUser['name'].'\'';
-		}elseif(exec('whoami')){
-			$serverUser=exec('whoami');
-		}else{
-			$serverUser='\'www-data\' for ubuntu/debian'; //TODO: try to detect the distro and give a guess based on that
-		}
-		return $serverUser;
 	}
 
 

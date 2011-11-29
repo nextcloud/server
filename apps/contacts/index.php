@@ -75,8 +75,14 @@ if( !is_null($id) || count($contacts)){
 	$details = OC_Contacts_VCard::structureContact($vcard);
 }
 
+$l10n = new OC_L10N('contacts');
+$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
+$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
+
 // Process the template
 $tmpl = new OC_Template( 'contacts', 'index', 'user' );
+$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('addressbooks', $addressbooks);
 $tmpl->assign('contacts', $contacts);
 $tmpl->assign('details', $details );

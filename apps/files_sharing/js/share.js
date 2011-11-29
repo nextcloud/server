@@ -224,7 +224,7 @@ function addUser(uid_shared_with, permissions, parentFolder) {
 		var user = '<li data-uid_shared_with="'+uid_shared_with+'">';
 		user += '<a href="" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core','actions/delete')+'"/></a>';
 		user += uid_shared_with;
-		user += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" "+checked+" />';
+		user += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" '+checked+' />';
 		user += '<label for="'+uid_shared_with+'" '+style+'>can edit</label>';
 		user += '</li>';
 	}

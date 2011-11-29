@@ -98,14 +98,6 @@ label.infield { cursor: text !important; }
 #expand+span { position:relative; bottom:.4em; left:.2em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
 #logout { position:absolute; right:0; top:0; padding:1.2em 2em .55em 1.2em; }
 
-/* BREADCRUMB */
-
-div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
-div.crumb:first-child { padding-left:1em; }
-div.crumb.last { font-weight:bold; }
-/* add breadcrumb divider to the File item in navigation panel */
-#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; position:fixed; }
-#navigation>ul>li:first-child+li { padding-top:2.9em; }
 
 /* VARIOUS REUSABLE SELECTORS */
 .hidden { display:none; }

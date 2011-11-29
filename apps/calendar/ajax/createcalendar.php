@@ -20,4 +20,7 @@ OC_Calendar_Calendar::setCalendarActive($calendarid, 1);
 $calendar = OC_Calendar_Calendar::findCalendar($calendarid);
 $tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
 $tmpl->assign('calendar', $calendar);
-OC_JSON::success(array('data' => $tmpl->fetchPage()));
+OC_JSON::success(array(
+	'page' => $tmpl->fetchPage(),
+	'eventSource' => OC_Calendar_Calendar::getEventSourceInfo($calendar),
+));

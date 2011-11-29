@@ -56,14 +56,15 @@ $(document).ready(function(){
 		$('#contacts_addpropertyform #contacts_fieldpart').remove();
 		$('#contacts_addpropertyform #contacts_generic').remove();
 		if($(this).val() == 'ADR'){
-			$('#contacts_addresspart').clone().insertBefore($('#contacts_addpropertyform input[type="submit"]'));
+			$('#contacts_addresspart').clone().insertAfter($('#contacts_addpropertyform .contacts_property_name'));
 		}
 		else if($(this).val() == 'TEL'){
-			$('#contacts_phonepart').clone().insertBefore($('#contacts_addpropertyform input[type="submit"]'));
+			$('#contacts_phonepart').clone().insertAfter($('#contacts_addpropertyform .contacts_property_name'));
 		}
 		else{
-			$('#contacts_generic').clone().insertBefore($('#contacts_addpropertyform input[type="submit"]'));
+			$('#contacts_generic').clone().insertAfter($('#contacts_addpropertyform .contacts_property_name'));
 		}
+		$('#contacts_addpropertyform .contacts_property_data select').chosen();
 	});
 
 	$('#contacts_addpropertyform input[type="submit"]').live('click',function(){
@@ -82,7 +83,8 @@ $(document).ready(function(){
 		$.getJSON('ajax/showaddcard.php',{},function(jsondata){
 			if(jsondata.status == 'success'){
 				$('#rightcontent').data('id','');
-				$('#rightcontent').html(jsondata.data.page);
+				$('#rightcontent').html(jsondata.data.page)
+					.find('select').chosen();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -111,7 +113,8 @@ $(document).ready(function(){
 		var checksum = $(this).parents('li').first().data('checksum');
 		$.getJSON('ajax/showsetproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){
-				$('.contacts_property[data-checksum="'+checksum+'"]').html(jsondata.data.page);
+				$('.contacts_property[data-checksum="'+checksum+'"]').html(jsondata.data.page)
+					.find('select').chosen();
 			}
 			else{
 				alert(jsondata.data.message);
@@ -148,10 +151,12 @@ $(document).ready(function(){
 
 
 	$('.contacts_property').live('mouseenter',function(){
-		$(this).find('span').show();
+		$(this).find('span[data-use]').show();
 	});
 
 	$('.contacts_property').live('mouseleave',function(){
-		$(this).find('span').hide();
+		$(this).find('span[data-use]').hide();
 	});
+
+	$('#contacts_addcardform select').chosen();
 });

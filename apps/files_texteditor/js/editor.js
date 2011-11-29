@@ -4,7 +4,6 @@ function setEditorSize(){
 }
 
 function getFileExtension(file){
-	// Extracts the file extension from the full filename
 	var parts=file.split('.');
 	return parts[parts.length-1];
 }
@@ -12,6 +11,7 @@ function getFileExtension(file){
 function setSyntaxMode(ext){
 	// Loads the syntax mode files and tells the editor
 	var filetype = new Array();
+	// Todo finish these
     filetype["h"] = "c_cpp";
     filetype["c"] = "c_cpp";
     filetype["cpp"] = "c_cpp";
@@ -56,14 +56,18 @@ function showControls(filename){
 		$('#controls').append(html);
 		$('#editorbar').fadeIn('slow');	
 		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><p>'+filename+'</p></div>';
-		$('.actions').before(breadcrumbhtml);
-		$('.actions').before(savebtnhtml);
+		$('.actions').before(breadcrumbhtml).before(savebtnhtml);
 	});
 }
  
 function bindControlEvents(){
-	$("#editor_save").die('click', doFileSave).live('click', doFileSave);	
-	$('#editor_close').live('click', hideFileEditor);
+	$("#editor_save").die('click',doFileSave).live('click',doFileSave);	
+	$('#editor_close').die('click',hideFileEditor).live('click',hideFileEditor);
+}
+
+function editorIsShown(){
+	// Not working as intended. Always returns true.
+	return is_editor_shown;
 }
 
 function updateSessionFileHash(path){
@@ -73,20 +77,17 @@ function updateSessionFileHash(path){
    			if(jsondata.status=='failure'){
    				alert('Failed to update session file hash.');	
    			}
-   		},
-   		"json");
-}
+   	}, "json");}
 
-var editor_is_saving = false;
 function doFileSave(){
-	if(is_editor_shown){
-		editor_is_saving = true;
+	if(editorIsShown()){
+		$("#editor_save").die('click',doFileSave);
 		$('#editor_save').after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
 			var filecontents = window.aceEditor.getSession().getValue();
 			var dir =  $('#editor').attr('data-dir');
 			var file =  $('#editor').attr('data-filename');
 			$.post(OC.filePath('files_texteditor','ajax','savefile.php'), { filecontents: filecontents, file: file, dir: dir },function(jsondata){
-				
+			
 				if(jsondata.status == 'failure'){
 					var answer = confirm(jsondata.data.message);
 					if(answer){
@@ -95,10 +96,10 @@ function doFileSave(){
 								$('#saving_icon').remove();
 								$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>')
 								setTimeout(function() {
-	  								$('#save_result').fadeOut('slow',function(){
-	  									$(this).remove();
-	  									editor_is_saving = false;	
-	  								});
+  									$('#save_result').fadeOut('slow',function(){
+  										$(this).remove();	
+  										$("#editor_save").live('click',doFileSave);
+  									});
 								}, 2000);
 							} 
 							else {
@@ -107,25 +108,25 @@ function doFileSave(){
 								$('#editor_save').after('<p id="save_result" style="float: left">Failed!</p>');
 								setTimeout(function() {
 									$('#save_result').fadeOut('slow',function(){ 
-										$(this).remove(); 
-										editor_is_saving = false;
+										$(this).remove();
+										$("#editor_save").live('click',doFileSave); 
 									});
 								}, 2000);	
 							}
 						}, 'json');
 					} 
-			   		else {
+		   			else {
 						// Don't save!
 						$('#saving_icon').remove();
 						// Temporary measure until we get a tick icon
 						$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
 						setTimeout(function() {
 									$('#save_result').fadeOut('slow',function(){ 
-										$(this).remove();
-										editor_is_saving = false;
+										$(this).remove(); 
+										$("#editor_save").live('click',doFileSave);
 									});
 						}, 2000);
-				   	}
+			   		}
 				} 
 				else if(jsondata.status == 'success'){
 					// Success
@@ -133,19 +134,25 @@ function doFileSave(){
 					// Temporary measure until we get a tick icon
 					$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
 					setTimeout(function() {
-								$('#save_result').fadeOut('slow',function(){ 
-									$(this).remove(); 
-									editor_is_saving = false;
-								});
+						$('#save_result').fadeOut('slow',function(){ 
+							$(this).remove(); 
+							$("#editor_save").live('click',doFileSave);
+						});
 					}, 2000);
 				}
 			}, 'json');
-		window.aceEditor.focus();
+		giveEditorFocus();
+	} else {
+		return;	
 	}	
 };
 
+function giveEditorFocus(){
+	window.aceEditor.focus();
+};
+
 function showFileEditor(dir,filename){
-	if(!is_editor_shown){
+	if(!editorIsShown()){
 		// Loads the file editor and display it.
 		var data = $.ajax({
 				url: OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
@@ -175,26 +182,23 @@ function showFileEditor(dir,filename){
 }
 
 function hideFileEditor(){
-	if(is_editor_shown){
-		$('#editor').attr('editorshown','false');	
-		// Fade out controls
-		$('#editor_close').fadeOut('slow');
-		// Fade out the save button
-		$('#editor_save').fadeOut('slow');
-		// Fade out breadcrumb
-		$('#breadcrumb_file').fadeOut('slow', function(){ $(this).remove();});
-		// Fade out editor
-		$('#editor').fadeOut('slow', function(){
-			$('#editor_close').remove();
-			$('#editor_save').remove();
-			$('#editor').remove();
-			var editorhtml = '<div id="editor"></div>';
-			$('table').after(editorhtml);
-			$('.actions,#file_access_panel').fadeIn('slow');
-			$('table').fadeIn('slow');	
-		});
-		is_editor_shown = false;
-	}
+	// Fade out controls
+	$('#editor_close').fadeOut('slow');
+	// Fade out the save button
+	$('#editor_save').fadeOut('slow');
+	// Fade out breadcrumb
+	$('#breadcrumb_file').fadeOut('slow', function(){ $(this).remove();});
+	// Fade out editor
+	$('#editor').fadeOut('slow', function(){
+		$('#editor_close').remove();
+		$('#editor_save').remove();
+		$('#editor').remove();
+		var editorhtml = '<div id="editor"></div>';
+		$('table').after(editorhtml);
+		$('.actions,#file_access_panel').fadeIn('slow');
+		$('table').fadeIn('slow');	
+	});
+	is_editor_shown = false;
 }
 
 // Keyboard Shortcuts
@@ -205,25 +209,18 @@ function checkForCtrlKey(e){
 	}
 	
 function checkForSaveKeyPress(e){
-	if(!editor_is_saving){
 		if(e.which == 17 || e.which == 91) ctrlBtn=true;
    		if(e.which == 83 && ctrlBtn == true) {
    			e.preventDefault();
-        	doFileSave();
+        	$('#editor_save').trigger('click');
 			return false;
    		}
-   	} else {
-   		e.preventDefault();	
-   	}
 }
 
-// Sets the correct size of the editor window
 $(window).resize(function() {
 	setEditorSize();
 });
-
 var is_editor_shown = false;
-
 $(document).ready(function(){
 	if(typeof FileActions!=='undefined'){
 		FileActions.register('text','Edit','',function(filename){
@@ -243,7 +240,6 @@ $(document).ready(function(){
 		a.click(function(){
 			var file=text.split('/').pop();
 			var dir=text.substr(0,text.length-file.length-1);
-			// TODO this will only work in the files app.
 			showFileEditor(dir,file);
 		});
 	}
@@ -252,5 +248,4 @@ $(document).ready(function(){
 	
 	// Binds the save keyboard shortcut events
 	$(document).unbind('keyup').bind('keyup',checkForCtrlKey).unbind('keydown').bind('keydown',checkForSaveKeyPress);
-	
-	});
+});

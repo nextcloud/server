@@ -7,9 +7,7 @@
 				<li class="input stringish">
 					<label class="label" for="id"><?php echo $l->t('Group'); ?></label>
 					<select name="id" size="1">
-						<?php foreach($_['addressbooks'] as $addressbook): ?>
-							<option value="<?php echo $addressbook['id']; ?>"><?php echo $addressbook['displayname']; ?></option>
-						<?php endforeach; ?>
+						<?php echo html_select_options($_['addressbooks'], null, array('value'=>'id', 'label'=>'displayname')); ?>
 					</select>
 				</li>
 			</ol>
@@ -45,15 +43,8 @@
 						</li>
 						<li class="fragment">
 							<label for="tel_type"><?php echo $l->t('Type'); ?></label>
-							<select id="TEL" name="parameters[TEL][TYPE]" size="1">
-								<option value="home"><?php echo $l->t('Home'); ?></option>
-								<option value="cell" selected="selected"><?php echo $l->t('Mobile'); ?></option>
-								<option value="work"><?php echo $l->t('Work'); ?></option>
-								<option value="text"><?php echo $l->t('Text'); ?></option>
-								<option value="voice"><?php echo $l->t('Voice'); ?></option>
-								<option value="fax"><?php echo $l->t('Fax'); ?></option>
-								<option value="video"><?php echo $l->t('Video'); ?></option>
-								<option value="pager"><?php echo $l->t('Pager'); ?></option>
+							<select id="TEL" name="parameters[TEL][TYPE][]" multiple="multiple">
+								<?php echo html_select_options($_['phone_types'], 'CELL') ?>
 							</select>
 						</li>
 					</ol>
@@ -67,8 +58,7 @@
 			<li class="input">
 				<label class="label" for="adr_type"><?php echo $l->t('Type'); ?></label>
 				<select id="adr_type" name="parameters[ADR][TYPE]" size="1">
-					<option value="work"><?php echo $l->t('Work'); ?></option>
-					<option value="home" selected="selected"><?php echo $l->t('Home'); ?></option>
+					<?php echo html_select_options($_['adr_types'], 'HOME') ?>
 				</select>
 			</li>
 			<li class="input stringish">

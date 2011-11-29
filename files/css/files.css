@@ -41,6 +41,9 @@ tbody a { color:#000; }
 span.extention, td.date { color:#999; }
 span.extention { opacity:0; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
 tr:hover span.extention { opacity:1; }
+div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
+div.crumb:first-child { padding-left:1em; }
+div.crumb.last { font-weight:bold; }
 table tr.mouseOver td { background-color:#eee; }
 table th { height:2em; padding:0 .5em; color:#999; }
 table th .name { float:left; margin-left:.5em; }
@@ -67,3 +70,7 @@ table thead.fixed { height:2em; }
 #uploadsize-message,#delete-confirm { display:none; }
 .selectedActions a,#fileList a.action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
 .selectedActions { display:none; }
+
+/* add breadcrumb divider to the File item in navigation panel */
+#navigation>ul>li:first-child { background:url('../../core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; position:fixed; }
+#navigation>ul>li:first-child+li { padding-top:2.9em; }

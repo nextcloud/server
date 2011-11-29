@@ -34,7 +34,14 @@ if($errarr){
 		OC_JSON::error();
 		exit;
 	}
-	$vcalendar = Sabre_VObject_Reader::read($data['calendardata']);
+	$vcalendar = OC_Calendar_Object::parse($data['calendardata']);
+
+	$last_modified = $vcalendar->VEVENT->__get('LAST-MODIFIED');
+	if($last_modified && $_POST['lastmodified'] != $last_modified->getDateTime()->format('U')){
+		OC_JSON::error(array('modified'=>true));
+		exit;
+	}
+
 	OC_Calendar_Object::updateVCalendarFromRequest($_POST, $vcalendar);
 	$result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
 	if ($data['calendarid'] != $cal) {
