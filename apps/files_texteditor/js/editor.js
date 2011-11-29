@@ -243,7 +243,7 @@ $(document).ready(function(){
 			showFileEditor(dir,file);
 		});
 	}
-	// Binds the file save and close editor events to the buttons
+	// Binds the file save and close editor events
 	bindControlEvents();
 	
 	// Binds the save keyboard shortcut events
