@@ -528,7 +528,7 @@ class OC_Calendar_Object{
 			$dtstart->setDateTime($start, Sabre_VObject_Element_DateTime::DATE);
 			$dtend->setDateTime($end, Sabre_VObject_Element_DateTime::DATE);
 		}else{
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
 			$start = new DateTime($from.' '.$fromtime, $timezone);
 			$end = new DateTime($to.' '.$totime, $timezone);
