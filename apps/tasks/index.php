@@ -34,6 +34,7 @@ foreach( $calendars as $calendar ){
         }
 }
 
+$details = null;
 if( !is_null($id) || count($tasks)){
         if(is_null($id)) $id = $tasks[0]['id'];
         $task = OC_Calendar_Object::find($id);

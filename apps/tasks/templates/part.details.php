@@ -38,5 +38,5 @@ endif; ?>
 	<input type="button" id="tasks_edit" value="<?php echo $l->t('Edit');?>">
 </form>
 <?php else: ?>
-<?php var_dump($_['details']); ?>
+<?php //var_dump($_['details']); ?>
 <?php endif ?>
