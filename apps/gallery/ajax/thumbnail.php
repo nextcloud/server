@@ -1,8 +1,13 @@
 <?php
 require_once('../../../lib/base.php');
+OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('gallery');
 
 function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSrc is a FILE - Returns an image resource.
     //getting the image dimensions  
+		if(! function_exists('imagecreatefromjpeg'))
+			OC_Log::write('gallery','GD module not installed',OC_Log::ERROR);
+
     list($width_orig, $height_orig) = getimagesize($imgSrc);   
     switch (strtolower(substr($imgSrc, strrpos($imgSrc, '.')+1))) {
       case "jpeg":
@@ -16,6 +21,7 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSr
       default:
         exit();
     }
+		if(!$myImage) exit();
     $ratio_orig = $width_orig/$height_orig;
     
     if ($thumbnail_width/$thumbnail_height > $ratio_orig) {
@@ -40,19 +46,15 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSr
     return $thumb;
 }
 
-// Check if we are a user
-if( !OC_User::isLoggedIn()){
-	echo json_encode( array( 'status' => 'error', 'data' => array( 'message' => 'You need to log in.')));
-	exit();
-}
 $box_size = 200;
 $img = $_GET['img'];
 
 $tmp = OC::$CONFIG_DATADIRECTORY . $img;
 
-header('Content-Type: image/png');
-$image = CroppedThumbnail($tmp, $box_size, $box_size);
-
-imagepng($image);
-imagedestroy($image);
-?>
+if(file_exists($tmp))
+{
+  header('Content-Type: image/png');
+	$image = CroppedThumbnail($tmp, $box_size, $box_size);
+	imagepng($image);
+	imagedestroy($image);
+}

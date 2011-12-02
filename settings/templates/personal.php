@@ -35,7 +35,7 @@
 			<option value="<?php echo $language['code'];?>"><?php echo $language['name'];?></option>
 		<?php endforeach;?>
 		</select>
-		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php echo $_['languages'][0]['code'];?>/" target="_blank"><em><?php echo $l->t('Help translating');?></em></a>
+		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php echo $_['languages'][0]['code'];?>/" target="_blank"><em><?php echo $l->t('Help translate');?></em></a>
 	</fieldset>
 </form>
 
@@ -50,8 +50,9 @@
 };?>
 
 <p class="personalblock">
-	<strong>ownCloud</strong>
-	<?php echo(OC_Util::getVersionString()); ?>
+	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?><br />
+	<?php echo(OC_Updater::ShowUpdatingHint());     ?><br />
+	<a href="http://gitorious.org/owncloud" target="_blank">source code</a> licensed freely under <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">AGPL</a>
 </p>
 
 

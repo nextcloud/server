@@ -2,20 +2,27 @@
 	<?php echo($_['breadcrumb']); ?>
 	<?php if (!isset($_['readonly']) || !$_['readonly']) {?>
 	<div class="actions">
-		<form data-upload-id='1' class="file_upload_form" action="ajax/upload.php" method="post" enctype="multipart/form-data" target="file_upload_target_1">
-			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
-			<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
-			<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
-			<div class="file_upload_wrapper svg">
-				<input type="submit" class="file_upload_filename" value="<?php echo $l->t('Upload'); ?>"/>
+		<div id='new' class='button'>
+			<a>
+				<?php echo $l->t('New');?>
+			</a>
+			<ul class="popup popupTop">
+				<li style="background-image:url('<?php echo mimetype_icon('text/plain') ?>')" data-type='file'><p><?php echo $l->t('Text file');?></p></li>
+				<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
+<!-- 				<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='web'><p><?php echo $l->t('From the web');?></p></li> -->
+			</ul>
+		</div>
+		<div class="file_upload_wrapper svg">
+			<form data-upload-id='1' class="file_upload_form" action="ajax/upload.php" method="post" enctype="multipart/form-data" target="file_upload_target_1">
+				<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
+				<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
+				<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
+				<button class="file_upload_filename"><img class='svg action' alt="Upload" src="<?php echo image_path("core", "actions/upload.svg"); ?>" /></button>
 				<input class="file_upload_start" type="file" name='files[]'/>
-				<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="<?php echo  'max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
-			</div>
-			<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
-		</form>
-		<form id="file_newfolder_form">
-			<input class="svg" type="text" name="file_newfolder_name" id="file_newfolder_name" value="" placeholder="<?php echo $l->t('New Folder')?>" />
-		</form>
+					<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="<?php echo $l->t('Upload'); echo  ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
+				<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
+			</form>
+		</div>
 	</div>
 	<div id="file_action_panel">
 	</div>
@@ -50,7 +57,7 @@ if (isset($_['files'])) {
 		<?php echo($_['fileList']); ?>
 	</tbody>
 </table>
-
+<div id="editor"></div>
 <div id="uploadsize-message" title="<?php echo $l->t('Upload too large')?>">
 	<p>
 		<?php echo $l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.');?>

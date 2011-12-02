@@ -44,6 +44,7 @@
  */
 class OC_Filesystem{
 	static private $storages=array();
+	static private $mounts=array();
 	static private $fakeRoot='';
 	static private $storageTypes=array();
 	
@@ -91,7 +92,7 @@ class OC_Filesystem{
 	* @param  array  arguments
 	* @return OC_Filestorage
 	*/
-	static public function createStorage($type,$arguments){
+	static private function createStorage($type,$arguments){
 		if(!self::hasStorageType($type)){
 			return false;
 		}
@@ -163,11 +164,11 @@ class OC_Filesystem{
 	* @param OC_Filestorage storage
 	* @param string mountpoint
 	*/
-	static public function mount($storage,$mountpoint){
+	static public function mount($type,$arguments,$mountpoint){
 		if(substr($mountpoint,0,1)!=='/'){
 			$mountpoint='/'.$mountpoint;
 		}
-		self::$storages[self::$fakeRoot.$mountpoint]=$storage;
+		self::$mounts[$mountpoint]=array('type'=>$type,'arguments'=>$arguments);
 	}
 	
 	/**
@@ -178,6 +179,10 @@ class OC_Filesystem{
 	static public function getStorage($path){
 		$mountpoint=self::getMountPoint($path);
 		if($mountpoint){
+			if(!isset(self::$storages[$mountpoint])){
+				$mount=self::$mounts[$mountpoint];
+				self::$storages[$mountpoint]=self::createStorage($mount['type'],$mount['arguments']);
+			}
 			return self::$storages[$mountpoint];
 		}
 	}
@@ -201,7 +206,7 @@ class OC_Filesystem{
 		}
 		$path=self::$fakeRoot.$path;
 		$foundMountPoint='';
-		foreach(self::$storages as $mountpoint=>$storage){
+		foreach(self::$mounts as $mountpoint=>$storage){
 			if(substr($mountpoint,-1)!=='/'){
 				$mountpoint=$mountpoint.'/';
 			}
@@ -361,9 +366,11 @@ class OC_Filesystem{
 			case 'a':
 				$hooks[]='write';
 				break;
+			default:
+				OC_Log::write('core','invalid mode ('.$mode.') for '.$path,OC_Log::ERROR);
 		}
 		
-		return self::basicOperation('fopen',$path,$hooks);
+		return self::basicOperation('fopen',$path,$hooks,$mode);
 	}
 	static public function toTmpFile($path){
 		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and self::canRead($path) and $storage=self::getStorage($path)){
@@ -440,6 +447,10 @@ class OC_Filesystem{
 		}
 		return $files;
 		
+	}
+	
+	static public function update_session_file_hash($sessionname,$sessionvalue){
+		$_SESSION[$sessionname] = $sessionvalue;
 	}
 
 	/**

@@ -56,7 +56,7 @@ FileActions={
 		$('#fileList .action').remove();
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var file=FileActions.getCurrentFile();
-		if($('tr[data-file="'+file+'"]').data('renaming')){
+		if($('tr').filterAttr('data-file',file).data('renaming')){
 			return;
 		}
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
@@ -136,10 +136,8 @@ FileActions.register('all','Rename',function(){return OC.imagePath('core','actio
 	FileList.rename(filename);
 });
 
-//FileActions.setDefault('all','Download');
-
 FileActions.register('dir','Open','',function(filename){
 	window.location='index.php?dir='+$('#dir').val()+'/'+filename;
 });
 
-FileActions.setDefault('dir','Open');
+FileActions.setDefault('dir','Open');  

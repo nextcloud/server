@@ -1,13 +1,16 @@
 $(document).ready(function() {
+	var shared_status = {};
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Share', function(filename) {
 			var icon;
 			var file = $('#dir').val()+'/'+filename;
+			if(shared_status[file])
+				return shared_status[file].icon;
 			$.ajax({
 				type: 'GET',
 				url: OC.linkTo('files_sharing', 'ajax/getitem.php'),
 				dataType: 'json',
-				data: 'source='+file,
+				data: {source: file},
 				async: false,
 				success: function(users) {
 					if (users) {
@@ -20,6 +23,7 @@ $(document).ready(function() {
 					} else {
 						icon = OC.imagePath('core', 'actions/share');
 					}
+					shared_status[file]= { timestamp: new Date().getTime(), icon: icon };
 				}
 			});
 			return icon;
@@ -42,6 +46,7 @@ $(document).ready(function() {
 
 	$('.share').click(function(event) {
 		event.preventDefault();
+		event.stopPropagation();
 		var filenames = getSelectedFiles('name');
 		var length = filenames.length;
 		var files = '';
@@ -54,6 +59,7 @@ $(document).ready(function() {
 	$(this).click(function(event) {
 		if (!($(event.target).hasClass('drop')) && $(event.target).parents().index($('#dropdown')) == -1) {
 			if ($('#dropdown').is(':visible')) {
+				delete shared_status[$('#dropdown').data('file')]; //Remove File from icon cache
 				$('#dropdown').hide('blind', function() {
 					$('#dropdown').remove();
 					$('tr').removeClass('mouseOver');
@@ -179,8 +185,8 @@ function createDropdown(filename, files) {
 	html += '<input id="link" style="display:none; width:90%;" />';
 	html += '</div>';
 	if (filename) {
-		$('tr[data-file="'+filename+'"]').addClass('mouseOver');
-		$(html).appendTo($('tr[data-file="'+filename+'"] td.filename'));
+		$('tr').filterAttr('data-file',filename).addClass('mouseOver');
+		$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
 	} else {
 		$(html).appendTo($('thead .share'));
 	}
@@ -218,7 +224,7 @@ function addUser(uid_shared_with, permissions, parentFolder) {
 		var user = '<li data-uid_shared_with="'+uid_shared_with+'">';
 		user += '<a href="" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core','actions/delete')+'"/></a>';
 		user += uid_shared_with;
-		user += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" "+checked+" />';
+		user += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" '+checked+' />';
 		user += '<label for="'+uid_shared_with+'" '+style+'>can edit</label>';
 		user += '</li>';
 	}

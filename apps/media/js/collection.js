@@ -26,11 +26,17 @@ Collection={
 					}
 					for(var i=0;i<data.albums.length;i++){
 						var album=data.albums[i];
-						var artistName=Collection.artistsById[album.album_artist].name;
+						if(Collection.artistsById[album.album_artist]){
+							var artistName=Collection.artistsById[album.album_artist].name;
+						}else{
+							var artistName='unknown';
+						}
 						var albumData={name:album.album_name,artist:artistName,songs:[]};
 						Collection.albumsById[album.album_id]=albumData;
 						Collection.albums.push(albumData);
-						Collection.artistsById[album.album_artist].albums.push(albumData);
+						if(Collection.artistsById[album.album_artist]){
+							Collection.artistsById[album.album_artist].albums.push(albumData);
+						}
 					}
 					for(var i=0;i<data.songs.length;i++){
 						var song=data.songs[i];
@@ -51,6 +57,9 @@ Collection={
 					}
 					
 					Collection.artists.sort(function(a,b){
+						if(!a.name){
+							return -1;
+						}
 						return a.name.localeCompare(b.name);
 					});
 					

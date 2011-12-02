@@ -33,6 +33,8 @@ OC_JSON::checkAppEnabled('bookmarks');
 $CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_ut = "strftime('%s','now')";
+} elseif($CONFIG_DBTYPE == 'pgsql') {
+	$_ut = 'date_part(\'epoch\',now())::integer';
 } else {
 	$_ut = "UNIX_TIMESTAMP()";
 }
@@ -41,14 +43,13 @@ $bookmark_id = (int)$_GET["id"];
 
 $query = OC_DB::prepare("
 	UPDATE *PREFIX*bookmarks
-	SET url = ?, title =?, description = ?, lastmodified = $_ut
+	SET url = ?, title =?, lastmodified = $_ut
 	WHERE id = $bookmark_id
 	");
 
 $params=array(
 	htmlspecialchars_decode($_GET["url"]),
 	htmlspecialchars_decode($_GET["title"]),
-	htmlspecialchars_decode($_GET["description"]),
 	);
 $query->execute($params);
 

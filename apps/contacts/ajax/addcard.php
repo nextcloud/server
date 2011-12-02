@@ -37,16 +37,47 @@ if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 }
 
 $fn = $_POST['fn'];
+$values = $_POST['value'];
+$parameters = $_POST['parameters'];
 
 $vcard = new Sabre_VObject_Component('VCARD');
 $vcard->add(new Sabre_VObject_Property('FN',$fn));
 $vcard->add(new Sabre_VObject_Property('UID',OC_Contacts_VCard::createUID()));
+
+// Data to add ...
+$add = array('TEL', 'EMAIL', 'ORG');
+$address = false;
+for($i = 0; $i < 7; $i++){
+	if( isset($values['ADR'][$i] ) && $values['ADR'][$i]) $address = true;
+}
+if( $address ) $add[] = 'ADR';
+
+// Add data
+foreach( $add as $propname){
+	if( !( isset( $values[$propname] ) && $values[$propname] )){
+		continue;
+	}
+	$value = $values[$propname];
+	if( isset( $parameters[$propname] ) && count( $parameters[$propname] )){
+		$prop_parameters = $parameters[$propname];
+	}
+	else{
+		$prop_parameters = array();
+	}
+	OC_Contacts_VCard::addVCardProperty($vcard, $propname, $value, $prop_parameters);
+}
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 
+$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
+$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
+
 $details = OC_Contacts_VCard::structureContact($vcard);
+$name = $details['FN'][0]['value'];
 $tmpl = new OC_Template('contacts','part.details');
 $tmpl->assign('details',$details);
 $tmpl->assign('id',$id);
+$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('phone_types',$phone_types);
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page )));
+OC_JSON::success(array('data' => array( 'id' => $id, 'name' => $name, 'page' => $page )));

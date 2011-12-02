@@ -98,6 +98,33 @@ function relative_modified_date($timestamp) {
 	else { return $l->t('years ago'); }
 }
 
+function html_select_options($options, $selected, $params=array()) {
+	if (!is_array($selected)){
+		$selected=array($selected);
+	}
+	if (isset($params['combine']) && $params['combine']){
+		$options = array_combine($options, $options);
+	}
+	$value_name = $label_name = false;
+	if (isset($params['value'])){
+		$value_name = $params['value'];
+	}
+	if (isset($params['label'])){
+		$label_name = $params['label'];
+	}
+	$html = '';
+	foreach($options as $value => $label){
+		if ($value_name && is_array($label)){
+			$value = $label[$value_name];
+		}
+		if ($label_name && is_array($label)){
+			$label = $label[$label_name];
+		}
+		$select = in_array($value, $selected) ? ' selected="selected"' : '';
+		$html .= '<option value="' . $value . '"' . $select . '>' . $label . '</option>'."\n";
+	}
+	return $html;
+}
 
 /**
  * This class provides the templates for owncloud.
@@ -293,7 +320,7 @@ class OC_Template{
 		ob_start();
 		include( $this->template ); // <-- we have to use include because we pass $_!
 		$data = ob_get_contents();
-		ob_end_clean();
+		@ob_end_clean();
 
 		// return the data
 		return $data;
@@ -319,7 +346,7 @@ class OC_Template{
 		ob_start();
 		include( $this->path.$file.'.php' );
 		$data = ob_get_contents();
-		ob_end_clean();
+		@ob_end_clean();
 
 		// Daten zurückgeben
 		return $data;

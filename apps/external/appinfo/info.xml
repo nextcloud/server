@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>external</id>
+	<name>External</name>
+	<description>Show external Application in the ownCloud menu</description>
+	<version>1.0</version>
+	<licence>AGPL</licence>
+	<author>Frank Karlitschek</author>
+	<require>2</require>
+</info>

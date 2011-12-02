@@ -2,6 +2,7 @@
 require_once('../../lib/base.php');
 
 OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('gallery');
 OC_App::setActiveNavigationEntry( 'gallery_index' );
 
 

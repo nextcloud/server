@@ -13,9 +13,7 @@
 			<select id="category" name="categories[]" multiple="multiple" title="<?php echo $l->t("Select category") ?>">
 				<?php
 				if (!isset($_['categories'])) {$_['categories'] = array();}
-				foreach($_['category_options'] as $category){
-					echo '<option value="' . $category . '"' . (in_array($category, $_['categories']) ? ' selected="selected"' : '') . '>' . $category . '</option>';
-				}
+				echo html_select_options($_['category_options'], $_['categories'], array('combine'=>true));
 				?>
 			</select></td>
 			<th width="75px">&nbsp;&nbsp;&nbsp;<?php echo $l->t("Calendar");?>:</th>
@@ -23,9 +21,7 @@
 			<select style="width:140px;" name="calendar">
 				<?php
 				if (!isset($_['calendar'])) {$_['calendar'] = false;}
-				foreach($_['calendar_options'] as $calendar){
-					echo '<option value="' . $calendar['id'] . '"' . ($_['calendar'] == $calendar['id'] ? ' selected="selected"' : '') . '>' . $calendar['displayname'] . '</option>';
-				}
+				echo html_select_options($_['calendar_options'], $_['calendar'], array('value'=>'id', 'label'=>'displayname'));
 				?>
 			</select></td>
 		</tr>
@@ -66,9 +62,7 @@
 			<select name="repeat" style="width:350px;">
 				<?php
 				if (isset($_['repeat_options'])) {
-					foreach($_['repeat_options'] as $id => $label){
-						echo '<option value="' . $id . '"' . ($_['repeat'] == $id ? ' selected="selected"' : '') . '>' . $label . '</option>';
-					}
+					echo html_select_options($_['repeat_options'], $_['repeat']);
 				}
 				?>
 			</select></td>

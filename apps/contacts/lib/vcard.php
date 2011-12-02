@@ -95,9 +95,14 @@ class OC_Contacts_VCard{
 
 		$card = self::parse($data);
 		if(!is_null($card)){
+			// VCARD must have a version
+			$hasversion = false;
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+				}
+				elseif($property->name == 'VERSION'){
+					$hasversion = true;
 				}
 				elseif(is_null($uri) && $property->name == 'UID' ){
 					$uri = $property->value.'.vcf';
@@ -109,6 +114,11 @@ class OC_Contacts_VCard{
 				$card->add(new Sabre_VObject_Property('UID',$uid));
 				$data = $card->serialize();
 			};
+			// Add version if needed
+			if(!$hasversion){
+				$card->add(new Sabre_VObject_Property('VERSION','3.0'));
+				$data = $card->serialize();
+			}
 		}
 		else{
 			// that's hard. Creating a UID and not saving it
@@ -121,7 +131,7 @@ class OC_Contacts_VCard{
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*contacts_cards');
 	}
 
 	/**
@@ -147,7 +157,7 @@ class OC_Contacts_VCard{
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*contacts_cards');
 	}
 
 	/**
@@ -231,7 +241,7 @@ class OC_Contacts_VCard{
 	 * @param string $uri the uri of the card
 	 * @return boolean
 	 */
-	public static function deleteCardFromDAVData($aid,$uri){
+	public static function deleteFromDAVData($aid,$uri){
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 
@@ -286,10 +296,17 @@ class OC_Contacts_VCard{
 		$property = new Sabre_VObject_Property( $name, $value );
 		$parameternames = array_keys($parameters);
 		foreach($parameternames as $i){
-			$property->parameters[] = new Sabre_VObject_Parameter($i,$parameters[$i]);
+			$values = $parameters[$i];
+			if (!is_array($values)){
+				$values = array($values);
+			}
+			foreach($values as $value){
+				$property->add($i, $value);
+			}
 		}
 
 		$vcard->add($property);
+		return $property;
 	}
 
 	/**
@@ -341,7 +358,17 @@ class OC_Contacts_VCard{
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
-			$temp['parameters'][$parameter->name] = $parameter->value;
+			if ($property->name == 'TEL' && $parameter->name == 'TYPE'){
+				if (isset($temp['parameters'][$parameter->name])){
+					$temp['parameters'][$parameter->name][] = $parameter->value;
+				}
+				else{
+					$temp['parameters'][$parameter->name] = array($parameter->value);
+				}
+			}
+			else{
+				$temp['parameters'][$parameter->name] = $parameter->value;
+			}
 		}
 		return $temp;
 	}
@@ -359,6 +386,26 @@ class OC_Contacts_VCard{
 			return $card;
 		} catch (Exception $e) {
 			return null;
+		}
+	}
+	public static function getTypesOfProperty($l, $prop){
+		switch($prop){
+		case 'ADR':
+			return array(
+				'WORK' => $l->t('Work'),
+				'HOME' => $l->t('Home'),
+			);
+		case 'TEL':
+			return array(
+				'HOME'  =>  $l->t('Home'),
+				'CELL'  =>  $l->t('Mobile'),
+				'WORK'  =>  $l->t('Work'),
+				'TEXT'  =>  $l->t('Text'),
+				'VOICE' =>  $l->t('Voice'),
+				'FAX'   =>  $l->t('Fax'),
+				'VIDEO' =>  $l->t('Video'),
+				'PAGER' =>  $l->t('Pager'),
+			);
 		}
 	}
 }

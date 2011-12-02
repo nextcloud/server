@@ -26,12 +26,6 @@
 </tr>
 <?php endif; ?>
 <tr>
-	<th><?php echo $l->t('Description') ?></th>
-	<td>
-		<textarea id="description_<?php echo $_['calendar']['id'] ?>"><?php echo $_['calendar']['description'] ?></textarea>
-	</td>
-</tr>
-<tr>
 	<th><?php echo $l->t('Calendar color') ?></th>
 	<td>
 		<select id="calendarcolor_<?php echo $_['calendar']['id'] ?>" class="colorpicker">

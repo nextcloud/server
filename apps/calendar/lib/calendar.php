@@ -30,7 +30,6 @@
  *     uri VARCHAR(100),
  *     active INTEGER UNSIGNED NOT NULL DEFAULT '0',
  *     ctag INTEGER UNSIGNED NOT NULL DEFAULT '0',
- *     description TEXT,
  *     calendarorder INTEGER UNSIGNED NOT NULL DEFAULT '0',
  *     calendarcolor VARCHAR(10),
  *     timezone TEXT,
@@ -94,14 +93,13 @@ class OC_Calendar_Calendar{
 	 * @brief Creates a new calendar
 	 * @param string $userid
 	 * @param string $name
-	 * @param string $description
 	 * @param string $components Default: "VEVENT,VTODO,VJOURNAL"
 	 * @param string $timezone Default: null
 	 * @param integer $order Default: 1
 	 * @param string $color Default: null
 	 * @return insertid
 	 */
-	public static function addCalendar($userid,$name,$description,$components='VEVENT,VTODO,VJOURNAL',$timezone=null,$order=0,$color=null){
+	public static function addCalendar($userid,$name,$components='VEVENT,VTODO,VJOURNAL',$timezone=null,$order=0,$color=null){
 		$all = self::allCalendars($userid);
 		$uris = array();
 		foreach($all as $i){
@@ -110,10 +108,10 @@ class OC_Calendar_Calendar{
 
 		$uri = self::createURI($name, $uris );
 
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,description,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?,?)' );
-		$result = $stmt->execute(array($userid,$name,$uri,1,$description,$order,$color,$timezone,$components));
+		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
+		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_calendar');
 	}
 
 	/**
@@ -121,27 +119,25 @@ class OC_Calendar_Calendar{
 	 * @param string $principaluri
 	 * @param string $uri
 	 * @param string $name
-	 * @param string $description
 	 * @param string $components
 	 * @param string $timezone
 	 * @param integer $order
 	 * @param string $color
 	 * @return insertid
 	 */
-	public static function addCalendarFromDAVData($principaluri,$uri,$name,$description,$components,$timezone,$order,$color){
+	public static function addCalendarFromDAVData($principaluri,$uri,$name,$components,$timezone,$order,$color){
 		$userid = self::extractUserID($principaluri);
 
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,description,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?,?)' );
-		$result = $stmt->execute(array($userid,$name,$uri,1,$description,$order,$color,$timezone,$components));
+		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
+		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_calendars');
 	}
 
 	/**
 	 * @brief Edits a calendar
 	 * @param integer $id
 	 * @param string $name Default: null
-	 * @param string $description Default: null
 	 * @param string $components Default: null
 	 * @param string $timezone Default: null
 	 * @param integer $order Default: null
@@ -150,20 +146,19 @@ class OC_Calendar_Calendar{
 	 *
 	 * Values not null will be set
 	 */
-	public static function editCalendar($id,$name=null,$description=null,$components=null,$timezone=null,$order=null,$color=null){
+	public static function editCalendar($id,$name=null,$components=null,$timezone=null,$order=null,$color=null){
 		// Need these ones for checking uri
 		$calendar = self::findCalendar($id);
 
 		// Keep old stuff
 		if(is_null($name)) $name = $calendar['name'];
-		if(is_null($description)) $description = $calendar['description'];
 		if(is_null($components)) $components = $calendar['components'];
 		if(is_null($timezone)) $timezone = $calendar['timezone'];
 		if(is_null($order)) $order = $calendar['calendarorder'];
 		if(is_null($color)) $color = $calendar['color'];
 
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,description=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
-		$result = $stmt->execute(array($name,$description,$order,$color,$timezone,$components,$id));
+		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
+		$result = $stmt->execute(array($name,$order,$color,$timezone,$components,$id));
 
 		return true;
 	}
@@ -232,5 +227,25 @@ class OC_Calendar_Calendar{
 	public static function extractUserID($principaluri){
 		list($prefix,$userid) = Sabre_DAV_URLUtil::splitPath($principaluri);
 		return $userid;
+	}
+	public static function getCalendarColorOptions(){
+		return array(
+			'ff0000', // "Red"
+			'00ff00', // "Green"
+			'ffff00', // "Yellow"
+			'808000', // "Olive"
+			'ffa500', // "Orange"
+			'ff7f50', // "Coral"
+			'ee82ee', // "Violet"
+			'ecc255', // dark yellow
+		);
+	}
+	public static function getEventSourceInfo($calendar){
+		return array(
+			'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
+			'backgroundColor' => '#'.$calendar['calendarcolor'],
+			'borderColor' => '#888',
+			'textColor' => 'black',
+		);
 	}
 }

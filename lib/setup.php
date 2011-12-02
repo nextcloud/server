@@ -77,15 +77,17 @@ class OC_Setup {
 			OC_Config::setValue('datadirectory', $datadir);
  			OC_Config::setValue('dbtype', $dbtype);
  			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+ 			OC_Config::setValue('installedat',microtime(true));
+ 			OC_Config::setValue('lastupdatedat',microtime(true));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
-				$dbtableprefix = 'oc_';
+				$dbtableprefix = $options['dbtableprefix'];
 				OC_Config::setValue('dbname', $dbname);
 				OC_Config::setValue('dbhost', $dbhost);
-				OC_Config::setValue('dbtableprefix', 'oc_');
+				OC_Config::setValue('dbtableprefix', $dbtableprefix);
 
 				//check if the database user has admin right
 				$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
@@ -178,7 +180,7 @@ class OC_Setup {
 					}
 
 					//fill the database if needed
-					$query="SELECT * FROM {$dbtableprefix}users";
+					$query = "SELECT relname FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
 					$result = pg_query($connection, $query);
 					if(!$result) {
 						OC_DB::createDbFromStructure('db_structure.xml');
@@ -272,6 +274,10 @@ class OC_Setup {
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit
 		$content.= "php_value post_max_size 512M\n";
 		$content.= "SetEnv htaccessWorking true\n";
+		$content.= "</IfModule>\n";
+		$content.= "<IfModule !mod_php5.c>\n";
+		$content.= "RewriteEngine on\n";
+		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]\n";
 		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it

@@ -29,6 +29,9 @@ require_once('../lib/base.php');
 OC_Util::checkLoggedIn();
 
 // Load the files we need
+OC_Util::addStyle( 'files_texteditor', 'style' );
+OC_Util::addScript( 'files_texteditor', 'editor');
+OC_Util::addScript( 'files_texteditor', 'aceeditor/ace');
 OC_Util::addStyle( "files", "files" );
 OC_Util::addScript( "files", "files" );
 OC_Util::addScript( 'files', 'filelist' );
@@ -39,6 +42,10 @@ if(!isset($_SESSION['timezone'])){
 OC_App::setActiveNavigationEntry( "files_index" );
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+// Redirect if directory does not exist
+if(!OC_Filesystem::is_dir($dir)) {
+	header("Location: ".$_SERVER['PHP_SELF']."");
+}
 
 $files = array();
 foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
@@ -81,6 +88,10 @@ $breadcrumbNav->assign( "baseURL", OC_Helper::linkTo("files", "index.php?dir="))
 $upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+
+$freeSpace=OC_Filesystem::free_space('/');
+$freeSpace=max($freeSpace,0);
+$maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
 $tmpl = new OC_Template( "files", "index", "user" );
 $tmpl->assign( "fileList", $list->fetchPage() );

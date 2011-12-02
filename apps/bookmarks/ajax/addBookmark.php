@@ -33,6 +33,8 @@ OC_JSON::checkAppEnabled('bookmarks');
 $CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_ut = "strftime('%s','now')";
+} elseif($CONFIG_DBTYPE == 'pgsql') {
+	$_ut = 'date_part(\'epoch\',now())::integer';
 } else {
 	$_ut = "UNIX_TIMESTAMP()";
 }
@@ -40,19 +42,20 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 //FIXME: Detect when user adds a known URL
 $query = OC_DB::prepare("
 	INSERT INTO *PREFIX*bookmarks
-	(url, title, description, user_id, public, added, lastmodified)
-	VALUES (?, ?, ?, ?, 0, $_ut, $_ut)
+	(url, title, user_id, public, added, lastmodified)
+	VALUES (?, ?, ?, 0, $_ut, $_ut)
 	");
 	
 	
 $params=array(
 	htmlspecialchars_decode($_GET["url"]),
 	htmlspecialchars_decode($_GET["title"]),
-	htmlspecialchars_decode($_GET["description"]),
 	OC_User::getUser()
 	);
 $query->execute($params);
-$b_id = OC_DB::insertid();
+
+$b_id = OC_DB::insertid('*PREFIX*bookmarks');
+
 
 if($b_id !== false) {
 	$query = OC_DB::prepare("

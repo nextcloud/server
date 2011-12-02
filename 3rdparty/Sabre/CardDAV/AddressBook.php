@@ -1,19 +1,15 @@
 <?php
 
 /**
- * UserAddressBook class
+ * The AddressBook class represents a CardDAV addressbook, owned by a specific user
+ *
+ * The AddressBook can contain multiple vcards
  *
  * @package Sabre
  * @subpackage CardDAV
  * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
- */
-
-/**
- * The AddressBook class represents a CardDAV addressbook, owned by a specific user
- *
- * The AddressBook can contain multiple vcards
  */
 class Sabre_CardDAV_AddressBook extends Sabre_DAV_Collection implements Sabre_CardDAV_IAddressBook, Sabre_DAV_IProperties, Sabre_DAVACL_IACL {
 

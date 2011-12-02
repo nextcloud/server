@@ -15,9 +15,12 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
 $userid = OC_User::getUser();
-$calendarid = OC_Calendar_Calendar::addCalendar($userid, $_POST['name'], $_POST['description'], 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);
+$calendarid = OC_Calendar_Calendar::addCalendar($userid, $_POST['name'], 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, 1);
 $calendar = OC_Calendar_Calendar::findCalendar($calendarid);
 $tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
 $tmpl->assign('calendar', $calendar);
-OC_JSON::success(array('data' => $tmpl->fetchPage()));
+OC_JSON::success(array(
+	'page' => $tmpl->fetchPage(),
+	'eventSource' => OC_Calendar_Calendar::getEventSourceInfo($calendar),
+));

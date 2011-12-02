@@ -96,25 +96,31 @@ class OC_Helper {
 	 * Returns the path to the image of this file type.
 	 */
 	public static function mimetypeIcon( $mimetype ){
+		$alias=array('application/xml'=>'code/xml');
+// 		echo $mimetype;
+		if(isset($alias[$mimetype])){
+			$mimetype=$alias[$mimetype];
+// 			echo $mimetype;
+		}
 		// Replace slash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
 
 		// Is it a dir?
 		if( $mimetype == "dir" ){
-			return OC::$WEBROOT."/core/img/places/folder.svg";
+			return OC::$WEBROOT."/core/img/filetypes/folder.png";
 		}
 
 		// Icon exists?
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.svg" )){
-			return OC::$WEBROOT."/core/img/filetypes/$mimetype.svg";
+		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )){
+			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
 		}
 		//try only the first part of the filetype
 		$mimetype=substr($mimetype,0,strpos($mimetype,'-'));
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.svg" )){
-			return OC::$WEBROOT."/core/img/filetypes/$mimetype.svg";
+		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )){
+			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
 		}
 		else{
-			return OC::$WEBROOT."/core/img/filetypes/file.svg";
+			return OC::$WEBROOT."/core/img/filetypes/file.png";
 		}
 	}
 

@@ -1,10 +1,7 @@
 <?php
 require_once('../../../lib/base.php');
-
-if (!OC_User::IsLoggedIn()) {
-  echo json_encode(array('status' => 'error', 'message' => 'You need to log in'));
-  exit();
-}
+OC_JSON::checkLoggedIn();
+OC_JSON::checkAppEnabled('gallery');
 
 $a = array();
 $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE `uid_owner` = ?');
@@ -17,6 +14,6 @@ while ($r = $result->fetchRow()) {
   $a[] = array('name' => $album_name, 'numOfItems' => min($tmp_res->numRows(), 10));
 }
 
-echo json_encode(array('status'=>'success', 'albums'=>$a));
+OC_JSON::success(array('albums'=>$a));
 
 ?>

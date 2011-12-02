@@ -13,5 +13,8 @@ if(!OC_USER::isLoggedIn()) {
 OC_JSON::checkAppEnabled('calendar');
 $calendarid = $_POST['calendarid'];
 OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
-$cal = OC_Calendar_Calendar::findCalendar($calendarid);
-echo $cal['active'];
+$calendar = OC_Calendar_Calendar::findCalendar($calendarid);
+OC_JSON::success(array(
+	'active' => $calendar['active'],
+	'eventSource' => OC_Calendar_Calendar::getEventSourceInfo($calendar),
+));

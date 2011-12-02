@@ -111,7 +111,7 @@ $(document).ready(function(){
 			}
 		});
 		input.blur(function(){
-			var quota=$(this).parent().data('quota');
+			var quota=$(this).parent().attr('data-quota');
 			$(this).replaceWith($('<span>'+quota+'</span>'));
 			img.css('display','');
 		});
@@ -123,6 +123,10 @@ $(document).ready(function(){
 	$('#newuser').submit(function(event){
 		event.preventDefault();
 		var username=$('#newusername').val();
+		if(username == '') {
+			alert('Please provide a username!');
+			return false;
+		}
 		var password=$('#newuserpassword').val();
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
 		$.post(

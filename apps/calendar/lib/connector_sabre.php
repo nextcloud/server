@@ -10,7 +10,6 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 */
 	public $propertyMap = array(
 		'{DAV:}displayname'						  => 'displayname',
-		'{urn:ietf:params:xml:ns:caldav}calendar-description' => 'description',
 		'{urn:ietf:params:xml:ns:caldav}calendar-timezone'	=> 'timezone',
 		'{http://apple.com/ns/ical/}calendar-order'  => 'calendarorder',
 		'{http://apple.com/ns/ical/}calendar-color'  => 'calendarcolor',
@@ -102,13 +101,12 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 		}
 
 		if(!isset($newValues['displayname'])) $newValues['displayname'] = 'unnamed';
-		if(!isset($newValues['description'])) $newValues['description'] = '';
 		if(!isset($newValues['components'])) $newValues['components'] = 'VEVENT,VTODO';
 		if(!isset($newValues['timezone'])) $newValues['timezone'] = null;
 		if(!isset($newValues['calendarorder'])) $newValues['calendarorder'] = 0;
 		if(!isset($newValues['calendarcolor'])) $newValues['calendarcolor'] = null;
 		
-		return OC_Calendar_Calendar::addCalendarFromDAVData($principalUri,$calendarUri,$newValues['displayname'],$newValues['description'],$newValues['components'],$newValues['timezone'],$newValues['calendarorder'],$newValues['calendarcolor']);
+		return OC_Calendar_Calendar::addCalendarFromDAVData($principalUri,$calendarUri,$newValues['displayname'],$newValues['components'],$newValues['timezone'],$newValues['calendarorder'],$newValues['calendarcolor']);
 	}
 
 	/**
@@ -191,12 +189,11 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 
 		// Success
 		if(!isset($newValues['displayname'])) $newValues['displayname'] = null;
-		if(!isset($newValues['description'])) $newValues['description'] = null;
 		if(!isset($newValues['timezone'])) $newValues['timezone'] = null;
 		if(!isset($newValues['calendarorder'])) $newValues['calendarorder'] = null;
 		if(!isset($newValues['calendarcolor'])) $newValues['calendarcolor'] = null;
 
-		OC_Calendar_Calendar::editCalendar($calendarId,$newValues['displayname'],$newValues['description'],null,$newValues['timezone'],$newValues['calendarorder'],$newValues['calendarcolor']);
+		OC_Calendar_Calendar::editCalendar($calendarId,$newValues['displayname'],null,$newValues['timezone'],$newValues['calendarorder'],$newValues['calendarcolor']);
 
 		return true;
 

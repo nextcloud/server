@@ -17,7 +17,7 @@ class OC_REMOTE_CLOUD{
 	*/
 	private function apiCall($action,$parameters=false,$assoc=false){
 		if(!$this->cookiefile){
-			$this->cookiefile=sys_get_temp_dir().'/remoteCloudCookie'.uniqid();
+			$this->cookiefile=get_temp_dir().'/remoteCloudCookie'.uniqid();
 		}
 		$url=$this->path.='/files/api.php';
 		$fields_string="action=$action&";
@@ -168,9 +168,9 @@ class OC_REMOTE_CLOUD{
 		}
 		$ch=curl_init();
 		if(!$this->cookiefile){
-			$this->cookiefile=sys_get_temp_dir().'/remoteCloudCookie'.uniqid();
+			$this->cookiefile=get_temp_dir().'/remoteCloudCookie'.uniqid();
 		}
-		$tmpfile=tempnam(sys_get_temp_dir(),'remoteCloudFile');
+		$tmpfile=tempnam(get_temp_dir(),'remoteCloudFile');
 		$fp=fopen($tmpfile,'w+');
 		$url=$this->path.="/files/api.php?action=get&dir=$dir&file=$file";
 		curl_setopt($ch,CURLOPT_URL,$url);
@@ -191,7 +191,7 @@ class OC_REMOTE_CLOUD{
 
 	public function sendTmpFile($tmp,$targetDir,$targetFile){
 		$token=sha1(uniqid().$tmp);
-		$file=sys_get_temp_dir().'/'.'remoteCloudFile'.$token;
+		$file=get_temp_dir().'/'.'remoteCloudFile'.$token;
 		rename($tmp,$file);
 		if( OC_Config::getValue( "forcessl", false ) or isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
 			$url = "https://". $_SERVER['SERVER_NAME'] . OC::$WEBROOT;

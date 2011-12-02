@@ -77,9 +77,28 @@ class OC{
 		// set some stuff
 		//ob_start();
 		error_reporting(E_ALL | E_STRICT);
+		if (defined('DEBUG') && DEBUG){
+			ini_set('display_errors', 1);
+		}
 
 		date_default_timezone_set('Europe/Berlin');
 		ini_set('arg_separator.output','&amp;');
+
+		//set http auth headers for apache+php-cgi work around
+		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches))
+		{
+			list($name, $password) = explode(':', base64_decode($matches[1]));
+			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+		}
+
+		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
+		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches))
+		{
+			list($name, $password) = explode(':', base64_decode($matches[1]));
+			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+		}
 
 		// calculate the documentroot
 		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
@@ -146,13 +165,6 @@ class OC{
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
 
-		// Load Apps
-		// This includes plugins for users and filesystems as well
-		global $RUNTIME_NOAPPS;
-		if(!$RUNTIME_NOAPPS ){
-			OC_App::loadApps();
-		}
-
 		// Was in required file ... put it here
 		OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
 
@@ -160,6 +172,13 @@ class OC{
 		global $RUNTIME_NOSETUPFS;
 		if(!$RUNTIME_NOSETUPFS ){
 			OC_Util::setupFS();
+		}
+
+		// Load Apps
+		// This includes plugins for users and filesystems as well
+		global $RUNTIME_NOAPPS;
+		if(!$RUNTIME_NOAPPS ){
+			OC_App::loadApps();
 		}
 
 		// Last part: connect some hooks
@@ -178,18 +197,19 @@ if( !isset( $RUNTIME_NOAPPS )){
 
 OC::init();
 
-if(!function_exists('sys_get_temp_dir')) {
-    function sys_get_temp_dir() {
-        if( $temp=getenv('TMP') )        return $temp;
-        if( $temp=getenv('TEMP') )        return $temp;
-        if( $temp=getenv('TMPDIR') )    return $temp;
-        $temp=tempnam(__FILE__,'');
-        if (file_exists($temp)) {
-          unlink($temp);
-          return dirname($temp);
-        }
-        return null;
-    }
+if(!function_exists('get_temp_dir')) {
+	function get_temp_dir() {
+		if( $temp=ini_get('upload_tmp_dir') )        return $temp;
+		if( $temp=getenv('TMP') )        return $temp;
+		if( $temp=getenv('TEMP') )        return $temp;
+		if( $temp=getenv('TMPDIR') )    return $temp;
+		$temp=tempnam(__FILE__,'');
+		if (file_exists($temp)) {
+			unlink($temp);
+			return dirname($temp);
+		}
+		return null;
+	}
 }
 
 require_once('fakedirstream.php');

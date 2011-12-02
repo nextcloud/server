@@ -821,7 +821,7 @@ class Sabre_DAV_Server {
 
             $node->put($body);
             $this->httpResponse->setHeader('Content-Length','0');
-            $this->httpResponse->sendStatus(200);
+            $this->httpResponse->sendStatus(204);
 
         } else {
 

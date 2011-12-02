@@ -68,7 +68,7 @@ class getid3_write_id3v2
 						} else {
 							$this->errors[] = 'Could not open '.$this->filename.' mode "r+b" - '.strip_tags(ob_get_contents());
 						}
-						ob_end_clean();
+						@ob_end_clean();
 
 					} else {
 
@@ -80,7 +80,7 @@ class getid3_write_id3v2
 						} else {
 							$this->errors[] = 'Could not open '.$this->filename.' mode "wb" - '.strip_tags(ob_get_contents());
 						}
-						ob_end_clean();
+						@ob_end_clean();
 
 					}
 
@@ -106,7 +106,7 @@ class getid3_write_id3v2
 								fclose($fp_source);
 								copy($tempfilename, $this->filename);
 								unlink($tempfilename);
-								ob_end_clean();
+								@ob_end_clean();
 								return true;
 
 							} else {
@@ -121,7 +121,7 @@ class getid3_write_id3v2
 							$this->errors[] = 'Could not open '.$this->filename.' mode "rb" - '.strip_tags(ob_get_contents());
 
 						}
-						ob_end_clean();
+						@ob_end_clean();
 					}
 					return false;
 

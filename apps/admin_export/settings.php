@@ -25,15 +25,15 @@ OC_Util::checkAppEnabled('admin_export');
 if (isset($_POST['admin_export'])) {
     $root = OC::$SERVERROOT . "/";
     $zip = new ZipArchive();
-    $filename = sys_get_temp_dir() . "/owncloud_export_" . date("y-m-d_H-i-s") . ".zip";
-    error_log("Creating export file at: " . $filename);
+    $filename = get_temp_dir() . "/owncloud_export_" . date("y-m-d_H-i-s") . ".zip";
+    OC_Log::write('admin_export',"Creating export file at: " . $filename,OC_Log::INFO);
     if ($zip->open($filename, ZIPARCHIVE::CREATE) !== TRUE) {
 	exit("Cannot open <$filename>\n");
     }
 
     if (isset($_POST['owncloud_system'])) {
 	// adding owncloud system files
-	error_log("Adding owncloud system files to export");
+	OC_Log::write('admin_export',"Adding owncloud system files to export",OC_Log::INFO);
 	zipAddDir($root, $zip, false);
 	foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dirname) {
 	    zipAddDir($root . $dirname, $zip, true, basename($root) . "/");
@@ -43,7 +43,7 @@ if (isset($_POST['admin_export'])) {
     if (isset($_POST['owncloud_config'])) {
 	// adding owncloud config
 	// todo: add database export
-	error_log("Adding owncloud config to export");
+	OC_Log::write('admin_export',"Adding owncloud config to export",OC_Log::INFO);
 	zipAddDir($root . "config/", $zip, true, basename($root) . "/");
 	$zip->addFile($root . '/data/.htaccess', basename($root) . "/data/owncloud.db");
     }
@@ -53,7 +53,7 @@ if (isset($_POST['admin_export'])) {
 	$zip->addFile($root . '/data/.htaccess', basename($root) . "/data/.htaccess");
 	$zip->addFile($root . '/data/index.html', basename($root) . "/data/index.html");
 	foreach (OC_User::getUsers() as $i) {
-	    error_log("Adding owncloud user files of $i to export");
+		OC_Log::write('admin_export',"Adding owncloud user files of $i to export",OC_Log::INFO);
 	    zipAddDir($root . "data/" . $i, $zip, true, basename($root) . "/data/");
 	}
     }
@@ -63,7 +63,7 @@ if (isset($_POST['admin_export'])) {
     header("Content-Type: application/zip");
     header("Content-Disposition: attachment; filename=" . basename($filename));
     header("Content-Length: " . filesize($filename));
-    ob_end_clean();
+    @ob_end_clean();
     readfile($filename);
     unlink($filename);
 } else {
@@ -78,19 +78,19 @@ function zipAddDir($dir, $zip, $recursive=true, $internalDir='') {
     $internalDir.=$dirname.='/';
 
     if ($dirhandle = opendir($dir)) {
-	while (false !== ( $file = readdir($dirhandle))) {
+		while (false !== ( $file = readdir($dirhandle))) {
 
-	    if (( $file != '.' ) && ( $file != '..' )) {
+			if (( $file != '.' ) && ( $file != '..' )) {
 
-		if (is_dir($dir . '/' . $file) && $recursive) {
-		    zipAddDir($dir . '/' . $file, $zip, $recursive, $internalDir);
-		} elseif (is_file($dir . '/' . $file)) {
-		    $zip->addFile($dir . '/' . $file, $internalDir . $file);
+			if (is_dir($dir . '/' . $file) && $recursive) {
+				zipAddDir($dir . '/' . $file, $zip, $recursive, $internalDir);
+			} elseif (is_file($dir . '/' . $file)) {
+				$zip->addFile($dir . '/' . $file, $internalDir . $file);
+			}
+			}
 		}
-	    }
-	}
-	closedir($dirhandle);
+		closedir($dirhandle);
     } else {
-	error_log("Was not able to open directory: " . $dir);
+		OC_Log::write('admin_export',"Was not able to open directory: " . $dir,OC_Log::ERROR);
     }
 }

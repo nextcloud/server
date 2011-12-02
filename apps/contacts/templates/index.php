@@ -1,6 +1,7 @@
 <?php // Include Style and Script
 OC_Util::addScript('contacts','interface');
 OC_Util::addStyle('contacts','styles');
+OC_Util::addStyle('contacts','formtastic');
 ?>
 
 <div id="controls">
@@ -14,5 +15,5 @@ OC_Util::addStyle('contacts','styles');
 	</ul>
 </div>
 <div id="rightcontent" class="rightcontent" data-id="<?php echo $_['id']; ?>">
-	<?php echo $this->inc("part.details"); ?>
+	<?php echo $this->inc("part.addcardform"); ?>
 </div>

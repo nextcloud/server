@@ -12,14 +12,15 @@ if(!OC_USER::isLoggedIn()) {
 	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
 OC_JSON::checkAppEnabled('calendar');
+$calendarcolor_options = OC_Calendar_Calendar::getCalendarColorOptions();
 $calendar = array(
 	'id' => 'new',
 	'displayname' => '',
-	'description' => '',
 	'calendarcolor' => '',
 );
 $tmpl = new OC_Template('calendar', 'part.editcalendar');
 $tmpl->assign('new', true);
+$tmpl->assign('calendarcolor_options', $calendarcolor_options);
 $tmpl->assign('calendar', $calendar);
 $tmpl->printPage();
 ?>

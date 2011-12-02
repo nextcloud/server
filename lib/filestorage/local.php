@@ -84,6 +84,11 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return $return;
 	}
 	public function rename($path1,$path2){
+		if(! $this->file_exists($path1)){
+			OC_Log::write('core','unable to rename, file does not exists : '.$path1,OC_Log::ERROR);
+			return false;
+		}
+
 		if($return=rename($this->datadir.$path1,$this->datadir.$path2)){
 			$this->clearFolderSizeCache($path1);
 			$this->clearFolderSizeCache($path2);
@@ -126,42 +131,46 @@ class OC_Filestorage_Local extends OC_Filestorage{
 
 	public function getMimeType($fspath){
 		if($this->is_readable($fspath)){
+			$mimeType='application/octet-stream';
 			if (@is_dir($this->datadir.$fspath)) {
 				// directories are easy
 				return "httpd/unix-directory";
-			}elseif (function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
+			}
+			if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
 				$mimeType =strtolower(finfo_file($finfo,$this->datadir.$fspath));
 				$mimeType=substr($mimeType,0,strpos($mimeType,';'));
 				finfo_close($finfo);
-				return $mimeType;
-			} else if (function_exists("mime_content_type")) {
+			}
+			if ($mimeType=='application/octet-stream' && function_exists("mime_content_type")) {
 				// use mime magic extension if available
-				$mime_type = mime_content_type($this->datadir.$fspath);
-			} else if (OC_Helper::canExecute("file")) {
+				$mimeType = mime_content_type($this->datadir.$fspath);
+			}
+			if ($mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
 				// it looks like we have a 'file' command,
 				// lets see it it does have mime support
+				$fspath=str_replace("'","\'",$fspath);
 				$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
 				$reply = fgets($fp);
 				pclose($fp);
 
 				//trim the character set from the end of the response
-				$mime_type=substr($reply,0,strrpos($reply,' '));
+				$mimeType=substr($reply,0,strrpos($reply,' '));
 			}
-			if (empty($mime_type)) {
+			if ($mimeType=='application/octet-stream') {
 				// Fallback solution: (try to guess the type by the file extension
 				if(!self::$mimetypes){
 					self::$mimetypes=include('mimetypes.list.php');
 				}
 				$extention=strtolower(strrchr(basename($fspath), "."));
 				$extention=substr($extention,1);//remove leading .
-				$mime_type=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+				$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
 			}
-			return $mime_type;
+			return $mimeType;
 		}
 	}
 
 	public function toTmpFile($path){
-		$tmpFolder=sys_get_temp_dir();
+		$tmpFolder=get_temp_dir();
 		$filename=tempnam($tmpFolder,'OC_TEMP_FILE_'.substr($path,strrpos($path,'.')));
 		$fileStats = stat($this->datadir.$path);
 		if(copy($this->datadir.$path,$filename)){
@@ -195,7 +204,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	private function delTree($dir) {
-		if(defined("DEBUG") && DEBUG) {error_log('del'.$dir);}
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;
 		if (!file_exists($dir)) return true;

@@ -53,7 +53,7 @@ $name = $_POST['name'];
 $value = $_POST['value'];
 $parameters = isset($_POST['parameteres'])?$_POST['parameters']:array();
 
-OC_Contacts_VCard::addVCardProperty($vcard, $name, $value, $parameters);
+$property = OC_Contacts_VCard::addVCardProperty($vcard, $name, $value, $parameters);
 
 $line = count($vcard->children) - 1;
 $checksum = md5($property->serialize());
