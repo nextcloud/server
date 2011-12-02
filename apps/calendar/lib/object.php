@@ -43,10 +43,12 @@ class OC_Calendar_Object{
 	public static function allInPeriod($id, $start, $end){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?'
 		.' AND ((startdate >= ? AND startdate <= ? AND repeating = 0)'
+		.' OR (enddate >= ? AND enddate <= ? AND repeating = 0)'
 		.' OR (startdate <= ? AND repeating = 1))' );
 		$start = self::getUTCforMDB($start);
 		$end = self::getUTCforMDB($end);
 		$result = $stmt->execute(array($id,
+					$start, $end,
 					$start, $end,
 					$end));
 
@@ -528,7 +530,7 @@ class OC_Calendar_Object{
 			$dtstart->setDateTime($start, Sabre_VObject_Element_DateTime::DATE);
 			$dtend->setDateTime($end, Sabre_VObject_Element_DateTime::DATE);
 		}else{
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
 			$start = new DateTime($from.' '.$fromtime, $timezone);
 			$end = new DateTime($to.' '.$totime, $timezone);
