@@ -107,7 +107,12 @@ OC_Contacts_VCard::edit($id,$vcard->serialize());
 $adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
 $phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
 
-$tmpl = new OC_Template('contacts','part.property');
+if ($vcard->children[$line]->name == 'FN'){
+	$tmpl = new OC_Template('contacts','part.property.FN');
+}
+else{
+	$tmpl = new OC_Template('contacts','part.property');
+}
 $tmpl->assign('adr_types',$adr_types);
 $tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('property',OC_Contacts_VCard::structureProperty($vcard->children[$line],$line));
