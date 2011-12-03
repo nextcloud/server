@@ -117,7 +117,7 @@ class Sabre_VObject_Reader {
         //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
 
 
-        $token = '[A-Z0-9-\.]+';
+        $token = '[A-Z0-9-\/\.]+';
         $parameters = "(?:;(?P<parameters>([^:^\"]|\"([^\"]*)\")*))?";
         $regex = "/^(?P<name>$token)$parameters:(?P<value>.*)$/i";
 

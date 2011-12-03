@@ -14,8 +14,8 @@ $(document).ready(function() {
 	$('#fileList tr td.filename').draggable(dragOptions);
 	$('#fileList tr[data-type="dir"] td.filename').droppable(folderDropOptions);
 	$('div.crumb').droppable(crumbDropOptions);
-	$('#plugins>ul>li:first-child').data('dir','');
-	$('#plugins>ul>li:first-child').droppable(crumbDropOptions);
+	$('ul#apps>li:first-child').data('dir','');
+	$('ul#apps>li:first-child').droppable(crumbDropOptions);
 	
 	// Triggers invisible file input
 	$('.file_upload_button_wrapper').live('click', function() {

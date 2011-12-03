@@ -43,7 +43,7 @@
 						</li>
 						<li class="fragment">
 							<label for="tel_type"><?php echo $l->t('Type'); ?></label>
-							<select id="TEL" name="parameters[TEL][TYPE]" size="1">
+							<select id="TEL" name="parameters[TEL][TYPE][]" multiple="multiple">
 								<?php echo html_select_options($_['phone_types'], 'CELL') ?>
 							</select>
 						</li>

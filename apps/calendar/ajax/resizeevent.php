@@ -22,8 +22,14 @@ $delta = new DateInterval('P0D');
 $delta->d = $_POST['dayDelta'];
 $delta->i = $_POST['minuteDelta'];
 
-$vcalendar = Sabre_VObject_Reader::read($data['calendardata']);
+$vcalendar = OC_Calendar_Object::parse($data['calendardata']);
 $vevent = $vcalendar->VEVENT;
+
+$last_modified = $vevent->__get('LAST-MODIFIED');
+if($last_modified && $_POST['lastmodified'] != $last_modified->getDateTime()->format('U')){
+	OC_JSON::error();
+	exit;
+}
 
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 $end_type = $dtend->getDateType();
@@ -40,4 +46,4 @@ $dtstamp->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
 $vevent->DTSTAMP = $dtstamp;
 
 $result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
-OC_JSON::success();
+OC_JSON::success(array('lastmodified'=>$now->format('U')));

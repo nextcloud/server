@@ -13,7 +13,7 @@ OC_Util::checkAppEnabled('calendar');
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 if( count($calendars) == 0){
 	OC_Calendar_Calendar::addCalendar(OC_User::getUser(),'Default calendar');
-	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 }
 $eventSources = array();
 foreach($calendars as $calendar){
@@ -32,6 +32,9 @@ if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'mont
 
 OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
 OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
+if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone") == null){
+	OC_UTIL::addScript('calendar', 'geo');
+}
 OC_Util::addScript('calendar', 'calendar');
 OC_Util::addStyle('calendar', 'style');
 OC_Util::addScript('', 'jquery.multiselect');

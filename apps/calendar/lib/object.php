@@ -43,12 +43,14 @@ class OC_Calendar_Object{
 	public static function allInPeriod($id, $start, $end){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?'
 		.' AND ((startdate >= ? AND startdate <= ? AND repeating = 0)'
-		.' OR (startdate <= ? AND enddate >= ? AND repeating = 1))' );
+		.' OR (enddate >= ? AND enddate <= ? AND repeating = 0)'
+		.' OR (startdate <= ? AND repeating = 1))' );
 		$start = self::getUTCforMDB($start);
 		$end = self::getUTCforMDB($end);
 		$result = $stmt->execute(array($id,
 					$start, $end,
-					$end, $start));
+					$start, $end,
+					$end));
 
 		$calendarobjects = array();
 		while( $row = $result->fetchRow()){
@@ -307,6 +309,7 @@ class OC_Calendar_Object{
 	 */
 	public static function parse($data){
 		try {
+			Sabre_VObject_Reader::$elementMap['LAST-MODIFIED'] = 'Sabre_VObject_Element_DateTime';
 			$calendar = Sabre_VObject_Reader::read($data);
 			return $calendar;
 		} catch (Exception $e) {
@@ -426,7 +429,7 @@ class OC_Calendar_Object{
 			$errarr['endbeforestart'] = 'true';
 			$errnum++;
 		}
-		if($fromday == $today && $frommonth == $tomonth && $fromyear == $toyear){
+		if(!$allday && $fromday == $today && $frommonth == $tomonth && $fromyear == $toyear){
 			list($tohours, $tominutes) = explode(':', $request['totime']);
 			list($fromhours, $fromminutes) = explode(':', $request['fromtime']);
 			if($tohours < $fromhours){
@@ -481,9 +484,11 @@ class OC_Calendar_Object{
 		$categories = isset($request["categories"]) ? $request["categories"] : null;
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
-		$fromtime = $request["fromtime"];
 		$to  = $request["to"];
-		$totime = $request["totime"];
+		if (!$allday){
+			$fromtime = $request['fromtime'];
+			$totime = $request['totime'];
+		}
 		$description = $request["description"];
 		//$repeat = $request["repeat"];
 		/*switch($request["repeatfreq"]){
@@ -525,7 +530,7 @@ class OC_Calendar_Object{
 			$dtstart->setDateTime($start, Sabre_VObject_Element_DateTime::DATE);
 			$dtend->setDateTime($end, Sabre_VObject_Element_DateTime::DATE);
 		}else{
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
 			$start = new DateTime($from.' '.$fromtime, $timezone);
 			$end = new DateTime($to.' '.$totime, $timezone);

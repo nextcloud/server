@@ -10,6 +10,8 @@ Calendar={
 	space:' ',
 	UI:{
 		startEventDialog:function(){
+			$('.tipsy').remove();
+			$('#calendar_holder').fullCalendar('unselect');
 			Calendar.UI.lockTime();
 			$( "#from" ).datepicker({
 				dateFormat : 'dd-mm-yy'
@@ -31,36 +33,16 @@ Calendar={
 				}
 			});
 		},
-		newEvent:function(date, allDay, jsEvent, view){
-			var dayofmonth = date.getDate();
-			var month = date.getMonth();
-			var year = date.getFullYear();
-			var hour = date.getHours();
-			var min = date.getMinutes();
-			if(dayofmonth <= 9){
-				dayofmonth = '0' + dayofmonth;
-			}
-			month++;
-			if(month <= 9){
-				month = '0' + month;
-			}
-			if(hour <= 9){
-				hour = '0' + hour;
-			}
-			if(min <= 9){
-				min = '0' + min;
-			}
-			var date = String(dayofmonth) + String(month) + String(year);
-			if (allDay){
-				var time = 'allday';
-			}else{
-				var time = String(hour) + String(min);
+		newEvent:function(start, end, allday){
+			start = Math.round(start.getTime()/1000);
+			if (end){
+				end = Math.round(end.getTime()/1000);
 			}
 			if($('#event').dialog('isOpen') == true){
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php') + '?d=' + date + '&t=' + time, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php'), {start:start, end:end, allday:allday?1:0}, Calendar.UI.startEventDialog);
 			}
 		},
 		editEvent:function(calEvent, jsEvent, view){
@@ -91,27 +73,27 @@ Calendar={
 			$.post(url, post,
 				function(data){
 					if(data.status == "error"){
-						var output = "Missing fields: <br />";
+						var output = missing_field + ": <br />";
 						if(data.title == "true"){
-							output = output + "Title<br />";
+							output = output + missing_field_title + "<br />";
 						}
 						if(data.cal == "true"){
-							output = output + "Calendar<br />";
+							output = output + missing_field_calendar + "<br />";
 						}
 						if(data.from == "true"){
-							output = output + "From Date<br />";
+							output = output + missing_field_fromdate + "<br />";
 						}
 						if(data.fromtime == "true"){
-							output = output + "From Time<br />";
+							output = output + missing_field_fromtime + "<br />";
 						}
 						if(data.to == "true"){
-							output = output + "To Date<br />";
+							output = output + missing_field_todate + "<br />";
 						}
 						if(data.totime == "true"){
-							output = output + "To Time<br />";
+							output = output + missing_field_totime + "<br />";
 						}
 						if(data.endbeforestart == "true"){
-							output = "The event ends before it starts!";
+							output = output + missing_field_startsbeforeends + "!<br/>";
 						}
 						if(data.dberror == "true"){
 							output = "There was a database fail!";
@@ -125,22 +107,28 @@ Calendar={
 				},"json");
 		},
 		moveEvent:function(event, dayDelta, minuteDelta, allDay, revertFunc){
-			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0},
+			$('.tipsy').remove();
+			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0, lastmodified: event.lastmodified},
 			function(data) {
 				if (data.status == 'success'){
+					event.lastmodified = data.lastmodified;
 					console.log("Event moved successfully");
 				}else{
 					revertFunc();
+					$('#calendar_holder').fullCalendar('refetchEvents');
 				}
 			});
 		},
 		resizeEvent:function(event, dayDelta, minuteDelta, revertFunc){
-			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta},
+			$('.tipsy').remove();
+			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, lastmodified: event.lastmodified},
 			function(data) {
 				if (data.status == 'success'){
+					event.lastmodified = data.lastmodified;
 					console.log("Event resized successfully");
 				}else{
 					revertFunc();
+					$('#calendar_holder').fullCalendar('refetchEvents');
 				}
 			});
 		},
@@ -148,32 +136,20 @@ Calendar={
 			$("#advanced_options").css("display", "block");
 			$("#advanced_options_button").css("display", "none");
 		},
-		createEventPopup:function(event, e, view){
-			var popup = $(this).data('popup');
-			if (!popup){
-				popup = $(document.createElement('div'));
-				$(this).data('popup', popup).append(popup);
-				popup.addClass('popup')
-				popup.addClass('event_popup')
-					.html(Calendar.UI.getEventPopupText(event));
-			}
-			popup.css('left', -(popup.width() - $(this).width())/2)
-				.show();
-		},
-		hideEventPopup:function(){
-			$(this).data('popup').hide();
-		},
 		getEventPopupText:function(event){
 			if (event.allDay){
-				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "MMMM d[ yyyy]{ '&#8212;'[ MMMM][ d] yyyy}"));
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, 'ddd d MMMM[ yyyy]{ -[ddd d] MMMM yyyy}', {monthNamesShort: monthNamesShort, monthNames: monthNames, dayNames: dayNames, dayNamesShort: dayNamesShort}); //t('calendar', "ddd d MMMM[ yyyy]{ -[ddd d] MMMM yyyy}")
 			}else{
-				var timespan = $.fullCalendar.formatDates(event.start, event.end, t('calendar', "HH:mm[ MMMM d yyyy]{ '&#8212;' HH:mm MMMM d yyyy}"));
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, 'ddd d MMMM[ yyyy] ' + defaulttime + '{ -[ ddd d MMMM yyyy]' + defaulttime + '}', {monthNamesShort: monthNamesShort, monthNames: monthNames, dayNames: dayNames, dayNamesShort: dayNamesShort}); //t('calendar', "ddd d MMMM[ yyyy] HH:mm{ -[ ddd d MMMM yyyy] HH:mm}")
 				// Tue 18 October 2011 08:00 - 16:00
 			}
-			return '<span class="timespan">' + timespan + '</span>'
-				+ ' '
-				+ '<span class="summary">' + event.title + '</span>'
-				+ '<span class="description">' + event.description + '</span>';
+			var html =
+				'<div class="summary">' + event.title + '</div>' +
+				'<div class="timespan">' + timespan + '</div>';
+			if (event.description){
+				html += '<div class="description">' + event.description + '</div>';
+			}
+			return html;
 		},
 		lockTime:function(){
 			if($('#allday_checkbox').is(':checked')) {
@@ -201,6 +177,7 @@ Calendar={
 			//}
 		},
 		scrollCalendar:function(event){
+			$('.tipsy').remove();
 			var direction;
 			if(event.detail){
 				if(event.detail < 0){
@@ -216,10 +193,17 @@ Calendar={
 					direction = 'down';
 				}
 			}
-			if(direction == 'down'){
+			var scroll = $(document).scrollTop(),
+				doc_height = $(document).height(),
+				win_height = $(window).height();
+			if(direction == 'down' && win_height == (doc_height - scroll)){
 				$('#calendar_holder').fullCalendar('next');
-			}else{
+				$(document).scrollTop(0);
+				event.preventDefault();
+			}else if (direction == 'top' && scroll == 0) {
 				$('#calendar_holder').fullCalendar('prev');
+				$(document).scrollTop(win_height);
+				event.preventDefault();
 			}
 		},
 		Calendar:{
@@ -495,20 +479,20 @@ function ListView(element, calendar) {
 	}
 }
 $(document).ready(function(){
-	//Calendar.UI.initScroll();
+	Calendar.UI.initScroll();
 	$('#calendar_holder').fullCalendar({
 		header: false,
 		firstDay: 1,
 		editable: true,
 		defaultView: defaultView,
 		timeFormat: {
-			agenda: 'HH:mm{ - HH:mm}',
-			'': 'HH:mm'
+			agenda: agendatime,
+			'': defaulttime
 			},
 		titleFormat: {
 			list: 'yyyy/MMM/d dddd'
 			},
-		axisFormat: 'HH:mm',
+		axisFormat: defaulttime,
 		monthNames: monthNames,
 		monthNamesShort: monthNamesShort,
 		dayNames: dayNames,
@@ -518,12 +502,25 @@ $(document).ready(function(){
 			$('#datecontrol_date').html(view.title);
 			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
 		},
-		dayClick: Calendar.UI.newEvent,
+		selectable: true,
+		selectHelper: true,
+		select: Calendar.UI.newEvent,
 		eventClick: Calendar.UI.editEvent,
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
-		eventMouseover: Calendar.UI.createEventPopup,
-		eventMouseout: Calendar.UI.hideEventPopup,
+		eventRender: function(event, element) {
+			element.tipsy({
+				className: 'tipsy-event',
+				opacity: 0.9,
+				gravity:$.fn.tipsy.autoBounds(150, 's'),
+				fade:true,
+				delayIn: 400,
+				html:true,
+				title:function() {
+					return Calendar.UI.getEventPopupText(event);
+				}
+			});
+		},
 		eventSources: eventSources
 	});
 	$('#oneweekview_radio').click(function(){

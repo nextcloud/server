@@ -31,7 +31,8 @@ div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
 #collection li { padding-right:10px; }
 #searchresults input.play, #searchresults input.add { float:left; height:1em; width:1em; }
 #collection tr.collapsed td.album, #collection tr.collapsed td.title { color:#ddd; }
-a.expander { float:right; padding:0 1em; }
+td.artist img, td.artist a, td.album img, td.album a { float: left; }
+td.artist a.expander, td.album a.expander { float:right; padding:0 1em; }
 tr.active td { background-color:#eee; font-weight:bold; }
 tr td { border-top:1px solid #eee; height:2.2em; }
 tr .artist img { vertical-align:middle; }

@@ -25,13 +25,13 @@ OC_APP::registerAdmin('external','settings');
 
 OC_App::register( array( 'order' => 70, 'id' => 'external', 'name' => 'External' ));
 
-if(OC_Config::getValue( "external-site1name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index1', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=1', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Config::getValue( "external-site1name", '' )));
+if(OC_Appconfig::getValue( "external","site1name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index1', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=1', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Appconfig::getValue( "external","site1name", '' )));
 
-if(OC_Config::getValue( "external-site2name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index2', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=2', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Config::getValue( "external-site2name", '' )));
+if(OC_Appconfig::getValue( "external","site2name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index2', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=2', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Appconfig::getValue( "external","site2name", '' )));
 
-if(OC_Config::getValue( "external-site3name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index3', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=3', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Config::getValue( "external-site3name", '' )));
+if(OC_Appconfig::getValue( "external","site3name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index3', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=3', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Appconfig::getValue( "external","site3name", '' )));
 
-if(OC_Config::getValue( "external-site4name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index4', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=4', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Config::getValue( "external-site4name", '' )));
+if(OC_Appconfig::getValue( "external","site4name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index4', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=4', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Appconfig::getValue( "external","site4name", '' )));
 
-if(OC_Config::getValue( "external-site5name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index5', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=5', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Config::getValue( "external-site5name", '' )));
+if(OC_Appconfig::getValue( "external","site5name", '' )<>'')  OC_App::addNavigationEntry( array( 'id' => 'external_index5', 'order' => 80, 'href' => OC_Helper::linkTo( 'external', 'index.php' ).'?id=5', 'icon' => OC_Helper::imagePath( 'external', 'external.png' ), 'name' => OC_Appconfig::getValue( "external","site5name", '' )));
 
