@@ -1,3 +1,106 @@
+Contacts={
+	space:' ',
+	UI:{
+		showCardDAVUrl:function(username, bookname){
+			$('#carddav_url').val(totalurl + '/' + username + '/' + bookname);
+			$('#carddav_url').show();
+			$('#carddav_url_close').show();
+		},
+		Addressbooks:{
+			overview:function(){
+				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
+					/*alert('Address books.moveToTop');*/
+					$('#chooseaddressbook_dialog').dialog('moveToTop');
+				}else{
+					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(){
+						/*alert('Address books.load');*/
+						$('#chooseaddressbook_dialog').dialog({
+							width : 600,
+							close : function(event, ui) {
+								$(this).dialog('destroy').remove();
+							}
+						});
+					});
+				}
+			},
+			activation:function(checkbox, bookid)
+			{
+				/* TODO: 
+				 * Add integer field 'active' to table 'contacts_addressbooks'. See apps/contacts/README.tanghus */
+				$.post(OC.filePath('contacts', 'ajax', 'activation.php'), { bookid: bookid, active: checkbox.checked?1:0 },
+				  function(data) {
+					/*
+					 * Arguments:
+					 * data.status
+					 * data.bookid
+					 */
+					if (data.status == 'success'){
+						checkbox.checked = data.active == 1;
+						alert('Update Contacts list.');
+						/* TODO: Update Contacts list.
+						if (data.active == 1){
+							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+						}else{
+							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
+						}
+						*/
+					}
+				  });
+			},
+			newAddressbook:function(object){
+				var tr = $(document.createElement('tr'))
+					.load(OC.filePath('contacts', 'ajax', 'addbook.php'));
+				$(object).closest('tr').after(tr).hide();
+				/* TODO: Shouldn't there be some kinda error checking here? */
+			},
+			deleteAddressbook:function(bookid){
+				var check = confirm("Do you really want to delete this address book?");
+				if(check == false){
+					return false;
+				}else{
+					$.post(OC.filePath('contacts', 'ajax', 'deletebook.php'), { id: bookid},
+					  function(data) {
+						if (data.status == 'success'){
+							alert('TODO: Update Contacts list.');
+							/* TODO: Update Contacts list.
+							var url = 'ajax/deletebook.php?id='+bookid;
+							$('#calendar_holder').fullCalendar('removeEventSource', url);
+							$('#choosecalendar_dialog').dialog('destroy').remove();*/
+							Contacts.UI.Addressbooks.overview();
+						}
+					  });
+				}
+			},
+			submit:function(button, bookid){
+				alert('TODO: Add or update address book.');
+				/* TODO: Add or update address book.
+				var displayname = $("#displayname_"+calendarid).val();
+				var active = $("#edit_active_"+calendarid+":checked").length;
+				var description = $("#description_"+calendarid).val();
+				var calendarcolor = $("#calendarcolor_"+calendarid).val();
+
+				var url;
+				if (calendarid == 'new'){
+					url = "ajax/createcalendar.php";
+				}else{
+					url = "ajax/updatecalendar.php";
+				}
+				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
+					function(data){
+						if(data.status == 'success'){
+							$(button).closest('tr').prev().html(data.page).show().next().remove();
+							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
+							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+						}
+					}, 'json');*/
+			},
+			cancel:function(button, bookid){
+				$(button).closest('tr').prev().show().next().remove();
+			}
+		}
+	}
+}
+
 $(document).ready(function(){
 	/*-------------------------------------------------------------------------
 	 * Event handlers
@@ -79,6 +182,23 @@ $(document).ready(function(){
 		return false;
 	});
 
+	$('#chooseaddressbook').click(function(){
+		Contacts.UI.Addressbooks.overview();
+		/*
+		$.getJSON('ajax/showaddcard.php',{},function(jsondata){
+			if(jsondata.status == 'success'){
+				$('#rightcontent').data('id','');
+				$('#rightcontent').html(jsondata.data.page)
+					.find('select').chosen();
+			}
+			else{
+				alert(jsondata.data.message);
+			}
+		});
+		*/
+		return false;
+	});
+	
 	$('#contacts_newcontact').click(function(){
 		$.getJSON('ajax/showaddcard.php',{},function(jsondata){
 			if(jsondata.status == 'success'){

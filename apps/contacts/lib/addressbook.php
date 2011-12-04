@@ -141,6 +141,26 @@ class OC_Contacts_Addressbook{
 	}
 
 	/**
+	 * @brief Activates an addressbook
+	 * @param integer $id
+	 * @param integer $name
+	 * @return boolean
+	 */
+	public static function setActive($id,$active){
+		// Need these ones for checking uri
+		//$addressbook = self::find($id);
+
+		if(is_null($id)){
+			$id = 0;
+		}
+
+		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET active=?, ctag=ctag+1 WHERE id=?' );
+		$result = $stmt->execute(array($active,$id));
+
+		return true;
+	}
+
+	/**
 	 * @brief removes an address book
 	 * @param integer $id
 	 * @return boolean

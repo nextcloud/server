@@ -79,6 +79,13 @@ $l10n = new OC_L10N('contacts');
 $adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
 $phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
 
+// Include Style and Script
+OC_Util::addScript('contacts','interface');
+OC_Util::addStyle('contacts','styles');
+OC_Util::addStyle('contacts','formtastic');
+OC_Util::addScript('', 'jquery.multiselect');
+OC_Util::addStyle('', 'jquery.multiselect');
+
 // Process the template
 $tmpl = new OC_Template( 'contacts', 'index', 'user' );
 $tmpl->assign('adr_types',$adr_types);
