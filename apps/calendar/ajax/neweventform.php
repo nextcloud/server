@@ -29,7 +29,7 @@ if (!$end){
 }
 $start = new DateTime('@'.$start);
 $end = new DateTime('@'.$end);
-$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', 'Europe/London');
+$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $start->setTimezone(new DateTimeZone($timezone));
 $end->setTimezone(new DateTimeZone($timezone));
 
