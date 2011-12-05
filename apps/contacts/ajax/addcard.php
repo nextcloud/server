@@ -23,16 +23,14 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$aid = $_POST['id'];
-$l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
+$aid = $_POST['id'];
 $addressbook = OC_Contacts_Addressbook::find( $aid );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
+	OC_JSON::error(array('data' => array( 'message' => OC_Contacts_App::$l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
 	exit();
 }
 
@@ -68,16 +66,4 @@ foreach( $add as $propname){
 }
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 
-$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
-$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
-
-$details = OC_Contacts_VCard::structureContact($vcard);
-$name = $details['FN'][0]['value'];
-$tmpl = new OC_Template('contacts','part.details');
-$tmpl->assign('details',$details);
-$tmpl->assign('id',$id);
-$tmpl->assign('adr_types',$adr_types);
-$tmpl->assign('phone_types',$phone_types);
-$page = $tmpl->fetchPage();
-
-OC_JSON::success(array('data' => array( 'id' => $id, 'name' => $name, 'page' => $page )));
+OC_Contacts_App::renderDetails($id, $vcard);

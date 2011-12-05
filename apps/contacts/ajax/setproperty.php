@@ -104,8 +104,8 @@ $checksum = md5($vcard->children[$line]->serialize());
 
 OC_Contacts_VCard::edit($id,$vcard->serialize());
 
-$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
-$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
+$adr_types = OC_Contacts_App::getTypesOfProperty($l10n, 'ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty($l10n, 'TEL');
 
 if ($vcard->children[$line]->name == 'FN'){
 	$tmpl = new OC_Template('contacts','part.property.FN');

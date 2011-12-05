@@ -61,8 +61,8 @@ if(is_null($line)){
 	exit();
 }
 
-$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
-$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
+$adr_types = OC_Contacts_App::getTypesOfProperty($l10n, 'ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty($l10n, 'TEL');
 
 $tmpl = new OC_Template('contacts','part.setpropertyform');
 $tmpl->assign('id',$id);
