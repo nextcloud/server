@@ -125,7 +125,7 @@ FileList={
 		tr.data('renaming',true);
 		var td=tr.children('td.filename');
 		var input=$('<input class="filename"></input>').val(name);
-		var form=$('<form action="#"></form>')
+		var form=$('<form></form>')
 		form.append(input);
 		td.children('a.name').text('');
 		td.children('a.name').append(form)
@@ -134,7 +134,6 @@ FileList={
 			event.stopPropagation();
 			event.preventDefault();
 			var newname=input.val();
-			tr.data('renaming',false);
 			tr.attr('data-file',newname);
 			td.children('a.name').empty();
 			if(newname.indexOf('.')>0){
@@ -148,12 +147,12 @@ FileList={
 			if(newname.indexOf('.')>0){
 				span.append($('<span class="extention">'+newname.substr(newname.lastIndexOf('.'))+'</span>'));
 			}
-			$.ajax({
-				url: 'ajax/rename.php',
-				data: { dir : $('#dir').val(), newname: newname, file: name }
+			$.get(OC.filePath('files','ajax','rename.php'), { dir : $('#dir').val(), newname: newname, file: name },function(){
+				tr.data('renaming',false);
 			});
+			return false;
 		});
-		form.click(function(event){
+		input.click(function(event){
 			event.stopPropagation();
 			event.preventDefault();
 		});
