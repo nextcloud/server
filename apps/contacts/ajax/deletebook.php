@@ -23,7 +23,9 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$id = $_GET['id'];
+$id = $_POST['id'];
+
+OC_Log::write('contacts','deletebook.php: '.$id,OC_Log::DEBUG);	
 
 $l10n = new OC_L10N('contacts');
 

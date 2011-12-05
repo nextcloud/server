@@ -36,7 +36,7 @@ Contacts={
 					 */
 					if (data.status == 'success'){
 						checkbox.checked = data.active == 1;
-						alert('Update Contacts list.');
+						alert('TODO: Update Contacts list.');
 						/* TODO: Update Contacts list.
 						if (data.active == 1){
 							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
@@ -53,6 +53,11 @@ Contacts={
 				$(object).closest('tr').after(tr).hide();
 				/* TODO: Shouldn't there be some kinda error checking here? */
 			},
+			editAddressbook:function(object, bookid){
+				var tr = $(document.createElement('tr'))
+					.load(OC.filePath('contacts', 'ajax', 'editaddressbook.php') + "?bookid="+bookid);
+				$(object).closest('tr').after(tr).hide();
+			},
 			deleteAddressbook:function(bookid){
 				var check = confirm("Do you really want to delete this address book?");
 				if(check == false){
@@ -61,38 +66,35 @@ Contacts={
 					$.post(OC.filePath('contacts', 'ajax', 'deletebook.php'), { id: bookid},
 					  function(data) {
 						if (data.status == 'success'){
-							alert('TODO: Update Contacts list.');
+							/* alert('TODO: Update Contacts list.'); */
 							/* TODO: Update Contacts list.
 							var url = 'ajax/deletebook.php?id='+bookid;
-							$('#calendar_holder').fullCalendar('removeEventSource', url);
-							$('#choosecalendar_dialog').dialog('destroy').remove();*/
+							$('#calendar_holder').fullCalendar('removeEventSource', url);*/
+							$('#chooseaddressbook_dialog').dialog('destroy').remove();
 							Contacts.UI.Addressbooks.overview();
+						} else {
+							alert('Error: ' + data.message);
 						}
 					  });
 				}
 			},
 			submit:function(button, bookid){
-				alert('TODO: Add or update address book.');
-				/* TODO: Add or update address book.
-				var displayname = $("#displayname_"+calendarid).val();
-				var active = $("#edit_active_"+calendarid+":checked").length;
-				var description = $("#description_"+calendarid).val();
-				var calendarcolor = $("#calendarcolor_"+calendarid).val();
+				var displayname = $("#displayname_"+bookid).val();
+				var active = $("#edit_active_"+bookid+":checked").length;
+				var description = $("#description_"+bookid).val();
 
 				var url;
-				if (calendarid == 'new'){
-					url = "ajax/createcalendar.php";
+				if (bookid == 'new'){
+					url = OC.filePath('contacts', 'ajax', 'createaddressbook.php');
 				}else{
-					url = "ajax/updatecalendar.php";
+					url = OC.filePath('contacts', 'ajax', 'updateaddressbook.php');
 				}
-				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
+				$.post(url, { id: bookid, name: displayname, active: active, description: description },
 					function(data){
 						if(data.status == 'success'){
 							$(button).closest('tr').prev().html(data.page).show().next().remove();
-							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
-							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
 						}
-					}, 'json');*/
+					});
 			},
 			cancel:function(button, bookid){
 				$(button).closest('tr').prev().show().next().remove();

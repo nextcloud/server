@@ -12,8 +12,12 @@ if(!OC_USER::isLoggedIn()) {
 	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
 OC_JSON::checkAppEnabled('contacts');
+$book = array(
+	'id' => 'new',
+	'displayname' => '',
+);
 $tmpl = new OC_Template('contacts', 'part.editaddressbook');
 $tmpl->assign('new', true);
-$tmpl->assign('book', $book);
+$tmpl->assign('addressbook', $book);
 $tmpl->printPage();
 ?>
