@@ -66,9 +66,9 @@ foreach( $openaddressbooks as $addressbook ){
 }
 
 usort($contacts,'contacts_namesort');
-$details = array();
 
-if( !is_null($id) || count($contacts)){
+$details = array();
+if( !is_null($id)/* || count($contacts)*/){
 	if(is_null($id)) $id = $contacts[0]['id'];
 	$vcard = OC_Contacts_App::getContactVCard($id);
 	$details = OC_Contacts_VCard::structureContact($vcard);
