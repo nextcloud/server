@@ -32,7 +32,7 @@ $vcard = OC_Contacts_App::getContactVCard( $id );
 
 $name = $_POST['name'];
 $value = $_POST['value'];
-$parameters = isset($_POST['parameteres'])?$_POST['parameters']:array();
+$parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
 
 $property = $vcard->addProperty($name, $value, $parameters);
 
