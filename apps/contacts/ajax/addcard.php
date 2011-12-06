@@ -28,11 +28,7 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
 $aid = $_POST['id'];
-$addressbook = OC_Contacts_Addressbook::find( $aid );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => OC_Contacts_App::$l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
-	exit();
-}
+$addressbook = OC_Contacts_App::getAddressbook( $aid );
 
 $fn = $_POST['fn'];
 $values = $_POST['value'];

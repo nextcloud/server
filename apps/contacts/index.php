@@ -70,13 +70,12 @@ $details = array();
 
 if( !is_null($id) || count($contacts)){
 	if(is_null($id)) $id = $contacts[0]['id'];
-	$contact = OC_Contacts_VCard::find($id);
-	$vcard = OC_VObject::parse($contact['carddata']);
+	$vcard = OC_Contacts_App::getContactVCard($id);
 	$details = OC_Contacts_VCard::structureContact($vcard);
 }
 
-$adr_types = OC_Contacts_App::getTypesOfProperty(OC_Contacts_App::$l10n, 'ADR');
-$phone_types = OC_Contacts_App::getTypesOfProperty(OC_Contacts_App::$l10n, 'TEL');
+$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 // Process the template
 $tmpl = new OC_Template( 'contacts', 'index', 'user' );

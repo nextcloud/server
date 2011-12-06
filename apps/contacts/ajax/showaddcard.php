@@ -27,8 +27,8 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$adr_types = OC_Contacts_App::getTypesOfProperty(OC_Contacts_App::$l10n, 'ADR');
-$phone_types = OC_Contacts_App::getTypesOfProperty(OC_Contacts_App::$l10n, 'TEL');
+$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 $addressbooks = OC_Contacts_Addressbook::all(OC_USER::getUser());
 $tmpl = new OC_Template('contacts','part.addcardform');

@@ -23,43 +23,15 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$id = $_POST['id'];
-$checksum = $_POST['checksum'];
-$l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$card = OC_Contacts_VCard::find( $id );
-if( $card === false ){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Contact could not be found.'))));
-	exit();
-}
+$id = $_POST['id'];
+$checksum = $_POST['checksum'];
 
-$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your contact.'))));
-	exit();
-}
-
-$vcard = OC_VObject::parse($card['carddata']);
-// Check if the card is valid
-if(is_null($vcard)){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('vCard could not be read.'))));
-	exit();
-}
-
-$line = null;
-for($i=0;$i<count($vcard->children);$i++){
-	if(md5($vcard->children[$i]->serialize()) == $checksum ){
-		$line = $i;
-	}
-}
-if(is_null($line)){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Information about vCard is incorrect. Please reload the page.'))));
-	exit();
-}
+$vcard = OC_Contacts_App::getContactVCard( $id );
+$line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 
 // Set the value
 $value = $_POST['value'];
@@ -104,8 +76,8 @@ $checksum = md5($vcard->children[$line]->serialize());
 
 OC_Contacts_VCard::edit($id,$vcard->serialize());
 
-$adr_types = OC_Contacts_App::getTypesOfProperty($l10n, 'ADR');
-$phone_types = OC_Contacts_App::getTypesOfProperty($l10n, 'TEL');
+$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 if ($vcard->children[$line]->name == 'FN'){
 	$tmpl = new OC_Template('contacts','part.property.FN');

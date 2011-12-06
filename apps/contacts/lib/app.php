@@ -19,9 +19,9 @@ class OC_Contacts_App{
 	* @param Sabre_VObject_Component $vcard to render
 	*/
 	public static function renderDetails($id, $vcard){
-		$property_types = self::getAddPropertyOptions(self::$l10n);
-		$adr_types = self::getTypesOfProperty(self::$l10n, 'ADR');
-		$phone_types = self::getTypesOfProperty(self::$l10n, 'TEL');
+		$property_types = self::getAddPropertyOptions();
+		$adr_types = self::getTypesOfProperty('ADR');
+		$phone_types = self::getTypesOfProperty('TEL');
 
 		$details = OC_Contacts_VCard::structureContact($vcard);
 		$name = $details['FN'][0]['value'];
@@ -36,10 +36,57 @@ class OC_Contacts_App{
 		OC_JSON::success(array('data' => array( 'id' => $id, 'name' => $name, 'page' => $page )));
 	}
 
+	public static function getAddressbook($id){
+		$addressbook = OC_Contacts_Addressbook::find( $id );
+		if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
+			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
+			exit();
+		}
+		return $addressbook;
+	}
+
+	public static function getContactObject($id){
+		$card = OC_Contacts_VCard::find( $id );
+		if( $card === false ){
+			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.'))));
+			exit();
+		}
+
+		self::getAddressbook( $card['addressbookid'] );
+		return $card;
+	}
+
+	public static function getContactVCard($id){
+		$card = self::getContactObject( $id );
+
+		$vcard = OC_VObject::parse($card['carddata']);
+		// Check if the card is valid
+		if(is_null($vcard)){
+			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('vCard could not be read.'))));
+			exit();
+		}
+		return $vcard;
+	}
+
+	public static function getPropertyLineByChecksum($vcard, $checksum){
+		$line = null;
+		for($i=0;$i<count($vcard->children);$i++){
+			if(md5($vcard->children[$i]->serialize()) == $checksum ){
+				$line = $i;
+			}
+		}
+		if(is_null($line)){
+			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Information about vCard is incorrect. Please reload the page.'))));
+			exit();
+		}
+		return $line;
+	}
+
 	/**
 	 * @return array of vcard prop => label
 	 */
-	public static function getAddPropertyOptions($l10n){
+	public static function getAddPropertyOptions(){
+		$l10n = self::$l10n;
 		return array(
 				'ADR'   => $l10n->t('Address'),
 				'TEL'   => $l10n->t('Telephone'),
@@ -51,7 +98,8 @@ class OC_Contacts_App{
 	/**
 	 * @return types for property $prop
 	 */
-	public static function getTypesOfProperty($l, $prop){
+	public static function getTypesOfProperty($prop){
+		$l = self::$l10n;
 		switch($prop){
 		case 'ADR':
 			return array(
