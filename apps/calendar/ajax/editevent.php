@@ -34,7 +34,7 @@ if($errarr){
 		OC_JSON::error();
 		exit;
 	}
-	$vcalendar = OC_Calendar_Object::parse($data['calendardata']);
+	$vcalendar = OC_VObject::parse($data['calendardata']);
 
 	$last_modified = $vcalendar->VEVENT->__get('LAST-MODIFIED');
 	if($last_modified && $_POST['lastmodified'] != $last_modified->getDateTime()->format('U')){
