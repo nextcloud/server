@@ -1,13 +1,21 @@
 div#gallery_list {
   margin: 90pt 20pt;
 }
+div#gallery_list.leftcontent {
+  padding-top: 15px;
+  margin: 0;
+  text-align: center;
+}
 
 div#gallery_album_box {
   width: 200px;
   text-align: center;
   border: 0;
-  float: left;
+  display: inline-block;
   margin: 5pt;
+}
+.leftcontent div#gallery_album_box {
+  margin: 5px;
 }
 
 div#gallery_album_box h1 {
@@ -21,3 +29,6 @@ div#gallery_album_cover {
   border: solid 1px black;
 }
 
+#gallery_images {
+padding:10px 5px;
+}
