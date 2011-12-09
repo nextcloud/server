@@ -77,7 +77,6 @@ if( !is_null($id)/* || count($contacts)*/){
 	$details = OC_Contacts_VCard::structureContact($vcard);
 }
 
-<<<<<<< HEAD
 // Include Style and Script
 OC_Util::addScript('contacts','interface');
 OC_Util::addStyle('contacts','styles');
@@ -85,13 +84,8 @@ OC_Util::addStyle('contacts','formtastic');
 OC_Util::addScript('', 'jquery.multiselect');
 OC_Util::addStyle('', 'jquery.multiselect');
 
-$l10n = new OC_L10N('contacts');
-$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
-$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
-=======
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
->>>>>>> eeaf539a4414e3081b6f6652167363a3221a1973
 
 // Process the template
 $tmpl = new OC_Template( 'contacts', 'index', 'user' );
