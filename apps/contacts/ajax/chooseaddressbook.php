@@ -12,7 +12,7 @@ if(!OC_USER::isLoggedIn()) {
 	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
 }
 OC_JSON::checkAppEnabled('contacts');
-/* OC_Log::write('contacts','chooseaddressbook.php',OC_Log::DEBUG); */
+OC_Log::write('contacts','chooseaddressbook.php',OC_Log::DEBUG);
 
 $output = new OC_TEMPLATE("contacts", "part.chooseaddressbook");
 $output -> printpage();

@@ -30,7 +30,7 @@ class OC_Contacts_Hooks{
 	 * @return array
 	 */
 	public function deleteUser($parameters) {
-		$addressbooks = OC_Contacts_Addressbook::all($parameters['uid']);
+		$addressbooks = OC_Contacts_Addressbook::allAddressbooks($parameters['uid']);
 
 		foreach($addressbooks as $addressbook) {
 			OC_Contacts_Addressbook::delete($addressbook['id']);

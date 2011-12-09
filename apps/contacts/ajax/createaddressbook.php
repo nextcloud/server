@@ -17,10 +17,10 @@ OC_JSON::checkAppEnabled('contacts');
 $userid = OC_User::getUser();
 $bookid = OC_Contacts_Addressbook::add($userid, $_POST['name'], null);
 OC_Contacts_Addressbook::setActive($bookid, 1);
-$book = OC_Contacts_Addressbook::find($bookid);
+$addressbook = OC_Contacts_Addressbook::find($bookid);
 $tmpl = new OC_Template('contacts', 'part.chooseaddressbook.rowfields');
-$tmpl->assign('addressbook', $book);
+$tmpl->assign('addressbook', $addressbook);
 OC_JSON::success(array(
 	'page' => $tmpl->fetchPage(),
-	'bookid' => $bookid,
+	'addressbook' => $addressbook,
 ));

@@ -43,9 +43,28 @@ class OC_Contacts_Addressbook{
 	 * @param string $uid
 	 * @return array
 	 */
-	public static function all($uid){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ?' );
+	public static function allAddressbooks($uid){
+		OC_Log::write('contacts','allAddressbooks',OC_Log::DEBUG);
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ORDER BY displayname' );
 		$result = $stmt->execute(array($uid));
+
+		$addressbooks = array();
+		while( $row = $result->fetchRow()){
+			$addressbooks[] = $row;
+		}
+
+		return $addressbooks;
+	}
+
+	/**
+	 * @brief Returns the list of active addressbooks for a specific user.
+	 * @param string $uid
+	 * @return array
+	 */
+	public static function activeAddressbooks($uid){
+		$active = implode(',', self::activeAddressbookIds());
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id IN (?) AND userid = ? ORDER BY displayname' );
+		$result = $stmt->execute(array($active, $uid));
 
 		$addressbooks = array();
 		while( $row = $result->fetchRow()){
@@ -62,7 +81,7 @@ class OC_Contacts_Addressbook{
 	 */
 	public static function allWherePrincipalURIIs($principaluri){
 		$uid = self::extractUserID($principaluri);
-		return self::all($uid);
+		return self::allAddressbooks($uid);
 	}
 
 	/**
@@ -85,7 +104,7 @@ class OC_Contacts_Addressbook{
 	 * @return insertid
 	 */
 	public static function add($userid,$name,$description){
-		$all = self::all($userid);
+		$all = self::allAddressbooks($userid);
 		$uris = array();
 		foreach($all as $i){
 			$uris[] = $i['uri'];
@@ -141,6 +160,28 @@ class OC_Contacts_Addressbook{
 	}
 
 	/**
+	 * @brief Get active addressbooks for a user.
+	 * @param integer $uid User id. If null current user will be used.
+	 * @return array
+	 */
+	public static function activeAddressbookIds($uid){
+		if(is_null($uid)){
+			$uid = OC_User::getUser();
+		}
+		$prefbooks = OC_Preferences::getValue($uid,'contacts','openaddressbooks',null);
+		if(is_null($prefbooks)){
+			$addressbooks = OC_Contacts_Addressbook::allAddressbooks($uid);
+			if(count($addressbooks) == 0){
+				OC_Contacts_Addressbook::add($uid,'default','Default Address Book');
+				$addressbooks = OC_Contacts_Addressbook::allAddressbooks($uid);
+			}
+			$prefbooks = $addressbooks[0]['id'];
+			OC_Preferences::setValue($uid,'contacts','openaddressbooks',$prefbooks);
+		}
+		return explode(';',$prefbooks);
+	}
+
+	/**
 	 * @brief Activates an addressbook
 	 * @param integer $id
 	 * @param integer $name
@@ -149,15 +190,48 @@ class OC_Contacts_Addressbook{
 	public static function setActive($id,$active){
 		// Need these ones for checking uri
 		//$addressbook = self::find($id);
+		OC_Log::write('contacts','setActive('.$id.'): '.$active,OC_Log::DEBUG);
 
 		if(is_null($id)){
 			$id = 0;
 		}
 
+		/**
+		* For now I have active state redundant both in preferences and in the address book
+		* table as I can't get the OC_Contacts_Addressbook::isActive() call to work when
+		* iterating over several results.
+		*/
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET active=?, ctag=ctag+1 WHERE id=?' );
 		$result = $stmt->execute(array($active,$id));
+		$openaddressbooks = self::activeAddressbookIds();
+		if($active) {
+			if(!in_array($id, $openaddressbooks)) {
+				// TODO: Test this instead
+				//$openaddressbooks[] = $id;
+				array_push($openaddressbooks, $id);
+			}
+		} else {
+			if(in_array($id, $openaddressbooks)) {
+				array_pop($openaddressbooks, $id);
+				$openaddressbooks = array_diff( $openaddressbooks, array($id) );
+			}
+		}
+		sort($openaddressbooks, SORT_NUMERIC);
+		OC_Log::write('contacts','setActive('.$id.'):all '.implode(';', $openaddressbooks),OC_Log::DEBUG);
+		OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',implode(';', $openaddressbooks));
 
 		return true;
+	}
+
+	/**
+	 * @brief Checks if an addressbook is active.
+	 * @param integer $id ID of the address book.
+	 * @return boolean
+	 */
+	public static function isActive($id){
+		OC_Log::write('contacts','isActive('.$id.')',OC_Log::DEBUG);
+		OC_Log::write('contacts','isActive('.$id.'): '.in_array($id, self::activeAddressbookIds()),OC_Log::DEBUG);
+		return in_array($id, self::activeAddressbookIds());
 	}
 
 	/**

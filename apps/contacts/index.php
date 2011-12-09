@@ -21,7 +21,7 @@
  */
 
 function contacts_namesort($a,$b){
-	return strcmp($a['name'],$b['name']);
+	return strcmp($a['fullname'],$b['fullname']);
 }
 
 // Init owncloud
@@ -32,16 +32,17 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 // Check if the user has an addressbook
-$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
-if( count($addressbooks) == 0){
-	OC_Contacts_Addressbook::add(OC_User::getUser(),'default','Default Address Book');
-	$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
-}
-$prefbooks = OC_Preferences::getValue(OC_User::getUser(),'contacts','openaddressbooks',null);
-if(is_null($prefbooks)){
-	$prefbooks = $addressbooks[0]['id'];
-	OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',$prefbooks);
-}
+$openaddressbooks = OC_Contacts_Addressbook::activeAddressbookIds(OC_User::getUser());
+OC_Log::write('contacts','Got IDs'.implode(',', $openaddressbooks),OC_Log::DEBUG);
+// if( count($addressbooks) == 0){
+// 	OC_Contacts_Addressbook::add(OC_User::getUser(),'default','Default Address Book');
+// 	$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+// }
+// $prefbooks = OC_Preferences::getValue(OC_User::getUser(),'contacts','openaddressbooks',null);
+// if(is_null($prefbooks)){
+// 	$prefbooks = $addressbooks[0]['id'];
+// 	OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',$prefbooks);
+// }
 
 // Load the files we need
 OC_App::setActiveNavigationEntry( 'contacts_index' );
@@ -52,16 +53,18 @@ $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
 // sort addressbooks  (use contactsort)
 usort($addressbooks,'contacts_namesort');
 // Addressbooks to load
-$openaddressbooks = explode(';',$prefbooks);
+//$openaddressbooks = explode(';',$prefbooks);
 
 $contacts = array();
 foreach( $openaddressbooks as $addressbook ){
 	$addressbookcontacts = OC_Contacts_VCard::all($addressbook);
+	OC_Log::write('contacts','index.php. Getting contacts for: '.$addressbook,OC_Log::DEBUG);
 	foreach( $addressbookcontacts as $contact ){
 		if(is_null($contact['fullname'])){
 			continue;
 		}
-		$contacts[] = array( 'name' => $contact['fullname'], 'id' => $contact['id'] );
+		$contacts[] = $contact;
+		//$contacts[] = array( 'name' => $contact['fullname'], 'id' => $contact['id'] );
 	}
 }
 
@@ -75,16 +78,16 @@ if( !is_null($id) || count($contacts)){
 	$details = OC_Contacts_VCard::structureContact($vcard);
 }
 
-$l10n = new OC_L10N('contacts');
-$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
-$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
-
 // Include Style and Script
 OC_Util::addScript('contacts','interface');
 OC_Util::addStyle('contacts','styles');
 OC_Util::addStyle('contacts','formtastic');
 OC_Util::addScript('', 'jquery.multiselect');
 OC_Util::addStyle('', 'jquery.multiselect');
+
+$l10n = new OC_L10N('contacts');
+$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
+$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
 
 // Process the template
 $tmpl = new OC_Template( 'contacts', 'index', 'user' );

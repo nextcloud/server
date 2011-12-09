@@ -32,7 +32,7 @@ OC_JSON::checkAppEnabled('contacts');
 $adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
 $phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
 
-$addressbooks = OC_Contacts_Addressbook::all(OC_USER::getUser());
+$addressbooks = OC_Contacts_Addressbook::allAddressbooks(OC_USER::getUser());
 $tmpl = new OC_Template('contacts','part.addcardform');
 $tmpl->assign('addressbooks',$addressbooks);
 $tmpl->assign('adr_types',$adr_types);

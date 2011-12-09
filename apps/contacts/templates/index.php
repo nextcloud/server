@@ -8,7 +8,7 @@
 	</form>
 </div>
 <div id="leftcontent" class="leftcontent">
-	<ul>
+	<ul id="contacts">
 		<?php echo $this->inc("part.contacts"); ?>
 	</ul>
 </div>

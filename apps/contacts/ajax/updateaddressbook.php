@@ -19,7 +19,7 @@ OC_Contacts_Addressbook::edit($bookid, $_POST['name'], null);
 OC_Contacts_Addressbook::setActive($bookid, $_POST['active']);
 $addressbook = OC_Contacts_Addressbook::find($bookid);
 $tmpl = new OC_Template('contacts', 'part.chooseaddressbook.rowfields');
-$tmpl->assign('book', $book);
+$tmpl->assign('addressbook', $addressbook);
 OC_JSON::success(array(
 	'page' => $tmpl->fetchPage(),
 	'addressbook' => $addressbook,

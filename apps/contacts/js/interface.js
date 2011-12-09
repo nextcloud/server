@@ -6,10 +6,15 @@ Contacts={
 			$('#carddav_url').show();
 			$('#carddav_url_close').show();
 		},
+		Contacts:{
+			update:function(){
+				alert('Contacts.update()');
+			}
+		},
 		Addressbooks:{
 			overview:function(){
+				/* alert('overview');*/
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
-					/*alert('Address books.moveToTop');*/
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
 				}else{
 					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(){
@@ -71,6 +76,7 @@ Contacts={
 							var url = 'ajax/deletebook.php?id='+bookid;
 							$('#calendar_holder').fullCalendar('removeEventSource', url);*/
 							$('#chooseaddressbook_dialog').dialog('destroy').remove();
+							Contacts.UI.Contacts.update();
 							Contacts.UI.Addressbooks.overview();
 						} else {
 							alert('Error: ' + data.message);
