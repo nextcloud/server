@@ -26,7 +26,7 @@ if (!empty($errors)) {
 	exit();
 }
 
-$vcalendar = Sabre_VObject_Reader::read($task['calendardata']);
+$vcalendar = OC_VObject::parse($task['calendardata']);
 OC_Task_VTodo::updateVCalendarFromRequest($_POST, $vcalendar);
 OC_Calendar_Object::edit($id, $vcalendar->serialize());
 

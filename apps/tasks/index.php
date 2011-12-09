@@ -44,8 +44,12 @@ if( !is_null($id) || count($tasks)){
 OC_UTIL::addScript('tasks', 'tasks');
 OC_UTIL::addStyle('tasks', 'style');
 OC_APP::setActiveNavigationEntry('tasks_index');
+
+$l10n = new OC_L10N('tasks');
+$priority_options = OC_Task_VTodo::getPriorityOptions($l10n);
 $output = new OC_Template('tasks', 'tasks', 'user');
 $output->assign('tasks', $tasks);
 $output->assign('details', $details);
+$output->assign('priority_options', $priority_options);
 $output->assign('id',$id);
 $output -> printPage();

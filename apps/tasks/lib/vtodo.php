@@ -39,7 +39,7 @@ class OC_Task_VTodo extends OC_Calendar_Object{
 			'9' => $l10n->t('9=lowest'),
 		);
 	}
-	public static function validateRequest($request, $l10n)
+	public static function validateRequest($request, $l10n=null)
 	{
 		$errors = array();
 		if($request['summary'] == ''){
@@ -102,7 +102,7 @@ class OC_Task_VTodo extends OC_Calendar_Object{
 	public static function updateVCalendarFromRequest($request, $vcalendar)
 	{
 		$summary = $request['summary'];
-		$categories = $request['categories'];
+		$categories = isset($request["categories"]) ? $request["categories"] : array();
 		$priority = $request['priority'];
 		$percent_complete = $request['percent_complete'];
 		$completed = $request['completed'];
@@ -110,55 +110,28 @@ class OC_Task_VTodo extends OC_Calendar_Object{
 		$due = $request['due'];
 		$description = $request['description'];
 
-		$now = new DateTime();
-		$vtodo = $vcalendar->VTODO[0];
+		$vtodo = $vcalendar->VTODO;
 
-		$last_modified = new Sabre_VObject_Element_DateTime('LAST-MODIFIED');
-		$last_modified->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
-		$vtodo->__set('LAST-MODIFIED', $last_modified);
+		$vtodo->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Element_DateTime::UTC);
+		$vtodo->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
+		$vtodo->setString('SUMMARY', $summary);
 
-		$dtstamp = new Sabre_VObject_Element_DateTime('DTSTAMP');
-		$dtstamp->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
-		$vtodo->DTSTAMP = $dtstamp;
-
-		$vtodo->SUMMARY = $summary;
-
-		if ($location != '') {
-			$vtodo->LOCATION = $location;
-		}else{
-			unset($vtodo->LOCATION);
-		}
-
-		if ($categories != '') {
-			$vtodo->CATEGORIES = join(',',$categories);
-		}else{
-			unset($vtodo->CATEGORIES);
-		}
-
-		if ($priority != '') {
-			$vtodo->PRIORITY = $priority;
-		}else{
-			unset($vtodo->PRIORITY);
-		}
-
-		if ($description != '') {
-			$vtodo->DESCRIPTION = $description;
-		}else{
-			unset($vtodo->DESCRIPTION);
-		}
+		$vtodo->setString('LOCATION', $location);
+		$vtodo->setString('DESCRIPTION', $description);
+		$vtodo->setString('CATEGORIES', join(',', $categories));
+		$vtodo->setString('PRIORITY', $priority);
 
 		if ($due) {
-			$due_property = new Sabre_VObject_Element_DateTime('DUE');
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
-			$due_property->setDateTime(new DateTime($due, $timezone));
-			$vtodo->DUE = $due_property;
+			$due = new DateTime($due, $timezone);
+			$vtodo->setDateTime('DUE', $due);
 		} else {
 			unset($vtodo->DUE);
 		}
 
 		if (!empty($percent_complete)) {
-			$vtodo->__set('PERCENT-COMPLETE', $percent_complete);
+			$vtodo->setString('PERCENT-COMPLETE', $percent_complete);
 		}else{
 			$vtodo->__unset('PERCENT-COMPLETE');
 		}
@@ -171,11 +144,10 @@ class OC_Task_VTodo extends OC_Calendar_Object{
 			$completed = null;
 		}
 		if ($completed) {
-			$completed_property = new Sabre_VObject_Element_DateTime('COMPLETED');
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
-			$completed_property->setDateTime(new DateTime($completed, $timezone));
-			$vtodo->COMPLETED = $completed_property;
+			$completed = new DateTime($completed, $timezone);
+			$vtodo->setDateTime('COMPLETED', $completed);
 		} else {
 			unset($vtodo->COMPLETED);
 		}
