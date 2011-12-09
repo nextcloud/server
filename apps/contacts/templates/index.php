@@ -13,7 +13,14 @@
 	</ul>
 </div>
 <div id="rightcontent" class="rightcontent" data-id="<?php echo $_['id']; ?>">
-	<?php echo $this->inc("part.addcardform"); ?>
+	<?php
+		if ($_['id']){
+			echo $this->inc("part.details");
+		}
+		else{
+			echo $this->inc("part.addcardform");
+		}
+	?>
 </div>
 <!-- Dialogs -->
 <div id="dialog_holder"></div>

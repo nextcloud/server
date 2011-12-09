@@ -92,7 +92,7 @@ class OC_Calendar_Object{
 	 * @return insertid
 	 */
 	public static function add($id,$data){
-		$object = self::parse($data);
+		$object = OC_VObject::parse($data);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		if(is_null($uid)){
@@ -119,7 +119,7 @@ class OC_Calendar_Object{
 	 * @return insertid
 	 */
 	public static function addFromDAVData($id,$uri,$data){
-		$object = self::parse($data);
+		$object = OC_VObject::parse($data);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
@@ -139,7 +139,7 @@ class OC_Calendar_Object{
 	public static function edit($id, $data){
 		$oldobject = self::find($id);
 
-		$object = self::parse($data);
+		$object = OC_VObject::parse($data);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
@@ -160,7 +160,7 @@ class OC_Calendar_Object{
 	public static function editFromDAVData($cid,$uri,$data){
 		$oldobject = self::findWhereDAVDataIs($cid,$uri);
 
-		$object = self::parse($data);
+		$object = OC_VObject::parse($data);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
@@ -228,7 +228,7 @@ class OC_Calendar_Object{
 		// Child to use
 		$children = 0;
 		$use = null;
-		foreach($object->children as &$property){
+		foreach($object->children as $property){
 			if($property->name == 'VEVENT'){
 				$children++;
 				$thisone = true;
@@ -259,12 +259,12 @@ class OC_Calendar_Object{
 				//    one VTODO per object)
 				break;
 			}
-		} unset($property);
+		}
 
 		// find the data
 		if(!is_null($use)){
 			$return[0] = $use->name;
-			foreach($use->children as &$property){
+			foreach($use->children as $property){
 				if($property->name == 'DTSTART'){
 					$return[1] = self::getUTCforMDB($property->getDateTime());
 				}
@@ -280,7 +280,7 @@ class OC_Calendar_Object{
 				elseif($property->name == 'UID'){
 					$return[5] = $property->value;
 				}
-			} unset($property);
+			}
 		}
 
 		// More than one child means reoccuring!
@@ -300,21 +300,6 @@ class OC_Calendar_Object{
 	 */
 	protected static function getUTCforMDB($datetime){
 		return date('Y-m-d H:i', $datetime->format('U') - $datetime->getOffset());
-	}
-
-	/**
-	 * @brief Parses the VObject
-	 * @param string VObject as string
-	 * @returns Sabre_VObject or null
-	 */
-	public static function parse($data){
-		try {
-			Sabre_VObject_Reader::$elementMap['LAST-MODIFIED'] = 'Sabre_VObject_Element_DateTime';
-			$calendar = Sabre_VObject_Reader::read($data);
-			return $calendar;
-		} catch (Exception $e) {
-			return null;
-		}
 	}
 
 	public static function getDTEndFromVEvent($vevent)
@@ -458,22 +443,16 @@ class OC_Calendar_Object{
 
 	public static function createVCalendarFromRequest($request)
 	{
-		$vcalendar = new Sabre_VObject_Component('VCALENDAR');
+		$vcalendar = new OC_VObject('VCALENDAR');
 		$vcalendar->add('PRODID', 'ownCloud Calendar');
 		$vcalendar->add('VERSION', '2.0');
 
-		$now = new DateTime();
-
-		$vevent = new Sabre_VObject_Component('VEVENT');
+		$vevent = new OC_VObject('VEVENT');
 		$vcalendar->add($vevent);
 
-		$created = new Sabre_VObject_Element_DateTime('CREATED');
-		$created->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
-		$vevent->add($created);
+		$vevent->setDateTime('CREATED', 'now', Sabre_VObject_Element_DateTime::UTC);
 
-		$uid = self::createUID();
-		$vevent->add('UID',$uid);
-
+		$vevent->setUID();
 		return self::updateVCalendarFromRequest($request, $vcalendar);
 	}
 
@@ -509,43 +488,31 @@ class OC_Calendar_Object{
 		}*/
 		$repeat = "false";
 
-		$now = new DateTime();
-		$vevent = $vcalendar->VEVENT[0];
+		$vevent = $vcalendar->VEVENT;
 
-		$last_modified = new Sabre_VObject_Element_DateTime('LAST-MODIFIED');
-		$last_modified->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
-		$vevent->__set('LAST-MODIFIED', $last_modified);
-
-		$dtstamp = new Sabre_VObject_Element_DateTime('DTSTAMP');
-		$dtstamp->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
-		$vevent->DTSTAMP = $dtstamp;
-
-		$vevent->SUMMARY = $title;
+		$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Element_DateTime::UTC);
+		$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
+		$vevent->setString('SUMMARY', $title);
 
 		$dtstart = new Sabre_VObject_Element_DateTime('DTSTART');
 		$dtend = new Sabre_VObject_Element_DateTime('DTEND');
 		if($allday){
 			$start = new DateTime($from);
 			$end = new DateTime($to.' +1 day');
-			$dtstart->setDateTime($start, Sabre_VObject_Element_DateTime::DATE);
-			$dtend->setDateTime($end, Sabre_VObject_Element_DateTime::DATE);
+			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Element_DateTime::DATE);
+			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Element_DateTime::DATE);
 		}else{
 			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
 			$start = new DateTime($from.' '.$fromtime, $timezone);
 			$end = new DateTime($to.' '.$totime, $timezone);
-			$dtstart->setDateTime($start, Sabre_VObject_Element_DateTime::LOCALTZ);
-			$dtend->setDateTime($end, Sabre_VObject_Element_DateTime::LOCALTZ);
+			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Element_DateTime::LOCALTZ);
+			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Element_DateTime::LOCALTZ);
 		}
-		$vevent->DTSTART = $dtstart;
-		$vevent->DTEND = $dtend;
 		unset($vevent->DURATION);
 
-		if($location != ""){
-			$vevent->LOCATION = $location;
-		}else{
-			unset($vevent->LOCATION);
-		}
+
+		$vevent->setString('LOCATION', $location);
 
 		if($description != ""){
 			$vevent->DESCRIPTION = $description;

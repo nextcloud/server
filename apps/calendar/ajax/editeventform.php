@@ -26,7 +26,7 @@ if($calendar['userid'] != OC_User::getUser()){
 		echo $l10n->t('Wrong calendar');
 		exit;
 }
-$object = OC_Calendar_Object::parse($data['calendardata']);
+$object = OC_VObject::parse($data['calendardata']);
 $vevent = $object->VEVENT;
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
@@ -49,20 +49,16 @@ switch($dtstart->getDateType()) {
 		break;
 }
 
-$summary = isset($vevent->SUMMARY) ? $vevent->SUMMARY->value : '';
-$location = isset($vevent->LOCATION) ? $vevent->LOCATION->value : '';
-$categories = array();
-if (isset($vevent->CATEGORIES)){
-       $categories = explode(',', $vevent->CATEGORIES->value);
-       $categories = array_map('trim', $categories);
-}
+$summary = $vevent->getAsString('SUMMARY');
+$location = $vevent->getAsString('LOCATION');
+$categories = $vevent->getAsArray('CATEGORIES');
+$repeat = $vevent->getAsString('CATEGORY');
+$description = $vevent->getAsString('DESCRIPTION');
 foreach($categories as $category){
 	if (!in_array($category, $category_options)){
 		array_unshift($category_options, $category);
 	}
 }
-$repeat = isset($vevent->CATEGORY) ? $vevent->CATEGORY->value : '';
-$description = isset($vevent->DESCRIPTION) ? $vevent->DESCRIPTION->value : '';
 $last_modified = $vevent->__get('LAST-MODIFIED');
 if ($last_modified){
 	$lastmodified = $last_modified->getDateTime()->format('U');

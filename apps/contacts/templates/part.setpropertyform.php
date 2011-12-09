@@ -1,7 +1,9 @@
 	<form id="contacts_setpropertyform">
 		<input type="hidden" name="checksum" value="<?php echo $_['property']['checksum']; ?>">
 		<input type="hidden" name="id" value="<?php echo $_['id']; ?>">
-		<?php if($_['property']['name']=='ADR'): ?>
+		<?php if($_['property']['name']=='FN'): ?>
+			<p class="contacts_property_data"><input id="fn" type="text" name="value" value="<?php echo $_['property']['value']; ?>"></p>
+		<?php elseif($_['property']['name']=='ADR'): ?>
 			<p class="contacts_property_name"><label for="adr_pobox"><?php echo $l->t('Address'); ?></label></p>
 			<ol class="contacts_property_data" id="contacts_addresspart">
 				<li class="input">

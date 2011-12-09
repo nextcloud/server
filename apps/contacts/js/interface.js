@@ -238,7 +238,7 @@ $(document).ready(function(){
 
 	$('.contacts_property [data-use="edit"]').live('click',function(){
 		var id = $('#rightcontent').data('id');
-		var checksum = $(this).parents('li').first().data('checksum');
+		var checksum = $(this).parents('.contacts_property').first().data('checksum');
 		$.getJSON('ajax/showsetproperty.php',{'id': id, 'checksum': checksum },function(jsondata){
 			if(jsondata.status == 'success'){
 				$('.contacts_property[data-checksum="'+checksum+'"]').html(jsondata.data.page)
