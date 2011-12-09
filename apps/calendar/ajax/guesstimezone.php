@@ -28,7 +28,7 @@ $geolocation = file_get_contents('http://ws.geonames.org/timezone?lat=' . $lat .
 //Information are by Geonames (http://www.geonames.org) and licensed under the Creative Commons Attribution 3.0 License
 $geoxml = simplexml_load_string($geolocation);
 $geoarray = make_array_out_of_xml($geoxml);
-if(isset($geoarray['timezone']['timezoneId']) && $geoarray['timezone']['timezoneId'] != ''){
+if(in_array($geoarray['timezone']['timezoneId'], DateTimeZone::listIdentifiers())){
 	OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'timezone', $geoarray['timezone']['timezoneId']);
 	$message = array('message'=> $l->t('New Timezone:') . $geoarray['timezone']['timezoneId']);
 	OC_JSON::success($message);
