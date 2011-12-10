@@ -52,12 +52,8 @@ class OC_Updater{
                 $tmp['url'] = $data->url;
                 $tmp['web'] = $data->web;
 
-
                 return $tmp;
-
 	}
-
-
 
 	public static function ShowUpdatingHint(){
 		$data=OC_Updater::check();
@@ -67,9 +63,7 @@ class OC_Updater{
 			$txt='Your ownCloud is up to date';
 		}
 		return($txt);
-
 	}
-
 
 	/**
 	 * do ownCloud update
@@ -83,9 +77,5 @@ class OC_Updater{
 		//update version in config
 
 	}
-
 }
-
-
-
 ?>
