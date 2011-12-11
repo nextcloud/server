@@ -7,10 +7,9 @@
  */
 
 require_once ("../../../lib/base.php");
-if(!OC_USER::isLoggedIn()) {
-	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
-}
+OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 $currentview = $_GET["v"];
 OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", $currentview);
+OC_JSON::success();
 ?>

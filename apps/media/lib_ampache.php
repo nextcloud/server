@@ -128,7 +128,7 @@ class OC_MEDIA_AMPACHE{
 		$albums=count(OC_MEDIA_COLLECTION::getAlbums($artist['artist_id']));
 		$songs=count(OC_MEDIA_COLLECTION::getSongs($artist['artist_id']));
 		$id=$artist['artist_id'];
-		$name=utf8_decode(htmlentities($artist['artist_name']));
+		$name=htmlentities($artist['artist_name'], ENT_COMPAT, 'UTF-8');
 		echo("\t<artist id='$id'>\n");
 		echo("\t\t<name>$name</name>\n");
 		echo("\t\t<albums>$albums</albums>\n");
@@ -142,10 +142,10 @@ class OC_MEDIA_AMPACHE{
 		if(!$artistName){
 			$artistName=OC_MEDIA_COLLECTION::getArtistName($album['album_artist']);
 		}
-		$artistName=utf8_decode(htmlentities($artistName));
+		$artistName=htmlentities($artistName, ENT_COMPAT, 'UTF-8');
 		$songs=count(OC_MEDIA_COLLECTION::getSongs($album['album_artist'],$album['album_id']));
 		$id=$album['album_id'];
-		$name=utf8_decode(htmlentities($album['album_name']));
+		$name=htmlentities($album['album_name'], ENT_COMPAT, 'UTF-8');
 		$artist=$album['album_artist'];
 		echo("\t<album id='$id'>\n");
 		echo("\t\t<name>$name</name>\n");
@@ -163,10 +163,10 @@ class OC_MEDIA_AMPACHE{
 		if(!$albumName){
 			$albumName=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
 		}
-		$artistName=utf8_decode(htmlentities($artistName));
-		$albumName=utf8_decode(htmlentities($albumName));
+		$artistName=htmlentities($artistName, ENT_COMPAT, 'UTF-8');
+		$albumName=htmlentities($albumName, ENT_COMPAT, 'UTF-8');
 		$id=$song['song_id'];
-		$name=utf8_decode(htmlentities($song['song_name']));
+		$name=htmlentities($song['song_name'], ENT_COMPAT, 'UTF-8');
 		$artist=$song['song_artist'];
 		$album=$song['song_album'];
 		echo("\t<song id='$id'>\n");

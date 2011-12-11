@@ -121,7 +121,7 @@ function html_select_options($options, $selected, $params=array()) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
-		$html .= '<option value="' . $value . '"' . $select . '>' . $label . '</option>';
+		$html .= '<option value="' . $value . '"' . $select . '>' . $label . '</option>'."\n";
 	}
 	return $html;
 }

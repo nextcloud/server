@@ -18,7 +18,7 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $
       default:
         exit();
     }
-		if(!$myImage) exit();
+    if(!$myImage) exit();
     $ratio_orig = $width_orig/$height_orig;
     
     if ($thumbnail_width/$thumbnail_height > $ratio_orig) {
@@ -44,15 +44,19 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $
 $box_size = 200;
 $album_name= $_GET['album_name'];
 
-$stmt = OC_DB::prepare('SELECT `file_path` FROM *PREFIX*gallery_photos,*PREFIX*gallery_albums WHERE *PREFIX*gallery_albums.`uid_owner` = ? AND `album_name` = ? AND *PREFIX*gallery_photos.`album_id` = *PREFIX*gallery_albums.`album_id`');
-$result = $stmt->execute(array(OC_User::getUser(), $album_name));
+$result = OC_Gallery_Photo::findForAlbum(OC_User::getUser(), $album_name);
 
 $numOfItems = min($result->numRows(),10);
 
-$targetImg = imagecreatetruecolor($numOfItems*$box_size, $box_size);
+if ($numOfItems){
+	$targetImg = imagecreatetruecolor($numOfItems*$box_size, $box_size);
+}
+else{
+	$targetImg = imagecreatetruecolor($box_size, $box_size);
+}
 $counter = 0;
 while (($i = $result->fetchRow()) && $counter < $numOfItems) {
-  $imagePath = OC::$CONFIG_DATADIRECTORY . $i['file_path'];
+	$imagePath = OC_Filesystem::getLocalFile($i['file_path']);
 	if(file_exists($imagePath))
 	{
 		CroppedThumbnail($imagePath, $box_size, $box_size, $targetImg, $counter*$box_size);
@@ -65,7 +69,7 @@ header('Content-Type: image/png');
 $offset = 3600 * 24;
 // calc the string in GMT not localtime and add the offset
 header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
-header('Cache-Control: max-age=3600, must-revalidate');
+header('Cache-Control: max-age='.$offset.', must-revalidate');
 header('Pragma: public');
 
 imagepng($targetImg);

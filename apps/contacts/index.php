@@ -66,17 +66,21 @@ foreach( $openaddressbooks as $addressbook ){
 }
 
 usort($contacts,'contacts_namesort');
-$details = array();
 
-if( !is_null($id) || count($contacts)){
+$details = array();
+if( !is_null($id)/* || count($contacts)*/){
 	if(is_null($id)) $id = $contacts[0]['id'];
-	$contact = OC_Contacts_VCard::find($id);
-	$vcard = OC_Contacts_VCard::parse($contact['carddata']);
+	$vcard = OC_Contacts_App::getContactVCard($id);
 	$details = OC_Contacts_VCard::structureContact($vcard);
 }
 
+$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
+
 // Process the template
 $tmpl = new OC_Template( 'contacts', 'index', 'user' );
+$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('addressbooks', $addressbooks);
 $tmpl->assign('contacts', $contacts);
 $tmpl->assign('details', $details );

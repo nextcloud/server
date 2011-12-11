@@ -491,7 +491,7 @@ class PDOStatementWrapper{
 	}
 	
 	/**
-	 * make exucute return the result instead of a bool
+	 * make execute return the result instead of a bool
 	 */
 	public function execute($input=array()){
 		$this->lastArguments=$input;

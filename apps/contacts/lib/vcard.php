@@ -91,31 +91,21 @@ class OC_Contacts_VCard{
 	 */
 	public static function add($id,$data){
 		$fn = null;
-		$uri = null;
 
-		$card = self::parse($data);
+		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
-			// VCARD must have a version
-			$hasversion = false;
-			foreach($card->children as $property){
-				if($property->name == 'FN'){
-					$fn = $property->value;
-				}
-				elseif($property->name == 'VERSION'){
-					$hasversion = true;
-				}
-				elseif(is_null($uri) && $property->name == 'UID' ){
-					$uri = $property->value.'.vcf';
-				}
-			}
-			if(is_null($uri)){
-				$uid = self::createUID();
-				$uri = $uid.'.vcf';
-				$card->add(new Sabre_VObject_Property('UID',$uid));
+			$fn = $card->getAsString('FN');
+			$uid = $card->getAsString('UID');
+			if(is_null($uid)){
+				$card->setUID();
+				$uid = $card->getAsString('UID');
 				$data = $card->serialize();
 			};
+			$uri = $uid.'.vcf';
+			// VCARD must have a version
+			$version = $card->getAsString('VERSION');
 			// Add version if needed
-			if(!$hasversion){
+			if(is_null($version)){
 				$card->add(new Sabre_VObject_Property('VERSION','3.0'));
 				$data = $card->serialize();
 			}
@@ -143,7 +133,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function addFromDAVData($id,$uri,$data){
 		$fn = null;
-		$card = self::parse($data);
+		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
@@ -170,7 +160,7 @@ class OC_Contacts_VCard{
 		$oldcard = self::find($id);
 		$fn = null;
 
-		$card = self::parse($data);
+		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
@@ -198,7 +188,7 @@ class OC_Contacts_VCard{
 		$oldcard = self::findWhereDAVDataIs($aid,$uri);
 
 		$fn = null;
-		$card = self::parse($data);
+		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
@@ -249,61 +239,6 @@ class OC_Contacts_VCard{
 	}
 
 	/**
-	 * @brief Escapes semicolons
-	 * @param string $value
-	 * @return string
-	 */
-	public static function escapeSemicolons($value){
-		foreach($value as &$i ){
-			$i = implode("\\\\;", explode(';', $i));
-		}
-		return implode(';',$value);
-	}
-
-	/**
-	 * @brief Creates an array out of a multivalue property
-	 * @param string $value
-	 * @return array
-	 */
-	public static function unescapeSemicolons($value){
-		$array = explode(';',$value);
-		for($i=0;$i<count($array);$i++){
-			if(substr($array[$i],-2,2)=="\\\\"){
-				if(isset($array[$i+1])){
-					$array[$i] = substr($array[$i],0,count($array[$i])-2).';'.$array[$i+1];
-					unset($array[$i+1]);
-				}
-				else{
-					$array[$i] = substr($array[$i],0,count($array[$i])-2).';';
-				}
-				$i = $i - 1;
-			}
-		}
-		return $array;
-	}
-
-	/**
-	 * @brief Add property to vcard object
-	 * @param object $vcard
-	 * @param object $name of property
-	 * @param object $value of property
-	 * @param object $paramerters of property
-	 */
-	public static function addVCardProperty($vcard, $name, $value, $parameters=array()){
-		if(is_array($value)){
-			$value = OC_Contacts_VCard::escapeSemicolons($value);
-		}
-		$property = new Sabre_VObject_Property( $name, $value );
-		$parameternames = array_keys($parameters);
-		foreach($parameternames as $i){
-			$property->parameters[] = new Sabre_VObject_Parameter($i,$parameters[$i]);
-		}
-
-		$vcard->add($property);
-		return $property;
-	}
-
-	/**
 	 * @brief Data structure of vCard
 	 * @param object $property
 	 * @return associative array
@@ -339,7 +274,7 @@ class OC_Contacts_VCard{
 		$value = $property->value;
 		$value = htmlspecialchars($value);
 		if($property->name == 'ADR' || $property->name == 'N'){
-			$value = self::unescapeSemicolons($value);
+			$value = OC_VObject::unescapeSemicolons($value);
 		}
 		$temp = array(
 			'name' => $property->name,
@@ -352,44 +287,18 @@ class OC_Contacts_VCard{
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
-			$temp['parameters'][$parameter->name] = $parameter->value;
+			if ($property->name == 'TEL' && $parameter->name == 'TYPE'){
+				if (isset($temp['parameters'][$parameter->name])){
+					$temp['parameters'][$parameter->name][] = $parameter->value;
+				}
+				else{
+					$temp['parameters'][$parameter->name] = array($parameter->value);
+				}
+			}
+			else{
+				$temp['parameters'][$parameter->name] = $parameter->value;
+			}
 		}
 		return $temp;
-	}
-
-	/**
-	 * @brief Parses a vcard file
-	 * @param string vCard
-	 * @return Sabre_VObject or null
-	 *
-	 * Will retun the vobject if sabre DAV is able to parse the file.
-	 */
-	public static function parse($data){
-		try {
-			$card = Sabre_VObject_Reader::read($data);
-			return $card;
-		} catch (Exception $e) {
-			return null;
-		}
-	}
-	public static function getTypesOfProperty($l, $prop){
-		switch($prop){
-		case 'ADR':
-			return array(
-				'WORK' => $l->t('Work'),
-				'HOME' => $l->t('Home'),
-			);
-		case 'TEL':
-			return array(
-				'HOME'  =>  $l->t('Home'),
-				'CELL'  =>  $l->t('Mobile'),
-				'WORK'  =>  $l->t('Work'),
-				'TEXT'  =>  $l->t('Text'),
-				'VOICE' =>  $l->t('Voice'),
-				'FAX'   =>  $l->t('Fax'),
-				'VIDEO' =>  $l->t('Video'),
-				'PAGER' =>  $l->t('Pager'),
-			);
-		}
 	}
 }
