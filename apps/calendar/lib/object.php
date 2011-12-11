@@ -460,7 +460,7 @@ class OC_Calendar_Object{
 	{
 		$title = $request["title"];
 		$location = $request["location"];
-		$categories = isset($request["categories"]) ? $request["categories"] : null;
+		$categories = isset($request["categories"]) ? $request["categories"] : array();
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
 		$to  = $request["to"];
@@ -511,20 +511,9 @@ class OC_Calendar_Object{
 		}
 		unset($vevent->DURATION);
 
-
 		$vevent->setString('LOCATION', $location);
-
-		if($description != ""){
-			$vevent->DESCRIPTION = $description;
-		}else{
-			unset($vevent->DESCRIPTION);
-		}
-
-		if(!empty($categories)){
-			$vevent->CATEGORIES = join(',', $categories);
-		}else{
-			unset($vevent->CATEGORIES);
-		}
+		$vevent->setString('DESCRIPTION', $description);
+		$vevent->setString('CATEGORIES', join(',', $categories));
 
 		/*if($repeat == "true"){
 			$vevent->RRULE = $repeat;

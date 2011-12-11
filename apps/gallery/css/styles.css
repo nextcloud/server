@@ -13,6 +13,7 @@ div#gallery_album_box {
   border: 0;
   display: inline-block;
   margin: 5pt;
+  vertical-align: top;
 }
 .leftcontent div#gallery_album_box {
   margin: 5px;

@@ -48,6 +48,7 @@ class OC_VObject{
 			}
 			return $vobject;
 		} catch (Exception $e) {
+			OC_Log::write('vobject', $e->getMessage(), OC_Log::ERROR);
 			return null;
 		}
 	}
@@ -132,6 +133,7 @@ class OC_VObject{
 
 	public function setString($name, $string){
 		if ($string != ''){
+			$string = strtr($string, array("\r\n"=>"\n"));
 			$this->vobject->__set($name, $string);
 		}else{
 			$this->vobject->__unset($name);
@@ -193,6 +195,10 @@ class OC_VObject{
 
 	public function __unset($name){
 		return $this->vobject->__unset($name);
+	}
+
+	public function __isset($name){
+		return $this->vobject->__isset($name);
 	}
 
 	public function __call($function,$arguments){
