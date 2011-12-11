@@ -104,7 +104,7 @@ $(document).ready(function(){
 						{username:uid,quota:$(this).val()},
 						function(result){
 							img.parent().children('span').text(result.data.quota)
-							alert(result.data.quota);
+							$(this).parent().attr('data-quota',result.data.quota);
 						}
 					);
 					input.blur();
