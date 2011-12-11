@@ -1,5 +1,6 @@
 <?php
 
+OC::$CLASSPATH['OC_Contacts_App'] = 'apps/contacts/lib/app.php';
 OC::$CLASSPATH['OC_Contacts_Addressbook'] = 'apps/contacts/lib/addressbook.php';
 OC::$CLASSPATH['OC_Contacts_VCard'] = 'apps/contacts/lib/vcard.php';
 OC::$CLASSPATH['OC_Contacts_Hooks'] = 'apps/contacts/lib/hooks.php';

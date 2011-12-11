@@ -13,6 +13,7 @@
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
+
 class OC_Connector_Sabre_Auth_ro_oauth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 	private $validTokens;
 
@@ -52,7 +53,7 @@ die('not getting in with "'.$username.'"/"'.$password.'"!');
 		$auth->setRealm($realm);
 		$userpass = $auth->getUserPass();
 		if (!$userpass) {
-			if(in_array($_SERVER['REQUEST_METHOD'], array('GET', 'HEAD', 'OPTIONS'))) {
+			if(in_array($_SERVER['REQUEST_METHOD'], array('OPTIONS'))) {
 				$userpass = array('', '');
 			} else {
 				$auth->requireLogin();

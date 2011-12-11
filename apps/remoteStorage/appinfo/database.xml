@@ -29,14 +29,7 @@
 				<length>64</length>
 			 </field>
 			<field>
-				<name>dataScope</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>64</length>
-			 </field>
-			<field>
-				<name>userAddress</name>
+				<name>category</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>

@@ -41,7 +41,7 @@ if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	exit();
 }
 
-$content = OC_Contacts_VCard::parse($card['carddata']);
+$content = OC_VObject::parse($card['carddata']);
 
 // invalid vcard
 if( is_null($content)){

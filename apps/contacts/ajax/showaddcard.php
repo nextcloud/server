@@ -23,14 +23,12 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
-$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
+$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 $addressbooks = OC_Contacts_Addressbook::all(OC_USER::getUser());
 $tmpl = new OC_Template('contacts','part.addcardform');

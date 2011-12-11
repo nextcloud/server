@@ -7,7 +7,6 @@
  */
 
 Calendar={
-	space:' ',
 	UI:{
 		startEventDialog:function(){
 			$('.tipsy').remove();
@@ -271,9 +270,9 @@ Calendar={
 
 				var url;
 				if (calendarid == 'new'){
-					url = "ajax/createcalendar.php";
+					url = OC.filePath('calendar', 'ajax', 'createcalendar.php');
 				}else{
-					url = "ajax/updatecalendar.php";
+					url = OC.filePath('calendar', 'ajax', 'updatecalendar.php');
 				}
 				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
 					function(data){
