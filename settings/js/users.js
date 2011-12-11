@@ -101,8 +101,11 @@ $(document).ready(function(){
 				if($(this).val().length>0){
 					$.post(
 						OC.filePath('settings','ajax','setquota.php'),
-						   {username:uid,quota:$(this).val()},
-						   function(result){}
+						{username:uid,quota:$(this).val()},
+						function(result){
+							img.parent().children('span').text(result.data.quota)
+							alert(result.data.quota);
+						}
 					);
 					input.blur();
 				}else{
