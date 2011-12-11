@@ -18,6 +18,6 @@ $book = OC_Contacts_Addressbook::find($bookid);
 
 /* is there an OC_JSON::error() ? */
 OC_JSON::success(array(
-	'active' => $book['active'],
+	'active' => OC_Contacts_Addressbook::isActive($bookid),
 	'bookid' => $bookid,
 ));

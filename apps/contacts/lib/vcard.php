@@ -47,33 +47,13 @@ class OC_Contacts_VCard{
 	 * ['carddata']
 	 */
 	public static function all($id){
-  		OC_Log::write('contacts','OC_Contacts_VCard::all ids: '.$id,OC_Log::DEBUG);
-//		if(is_array($id)) {
-// 			OC_Log::write('contacts','OC_Contacts_VCard::all Array?: '.$id,OC_Log::DEBUG);
-// 			OC_Log::write('contacts','count: '.implode(',', $id),OC_Log::DEBUG);
-//  			$ids = implode(',', $id);
-// 			$prep = '?'.str_repeat ( ',?' , count($id)-1 );
-// 			//$repeat = str_repeat ( ',?' , count($id)-1 );
-// 			//OC_Log::write('contacts','OC_Contacts_VCard::all: repeat: '.$repeat,OC_Log::DEBUG);
-//  			OC_Log::write('contacts','OC_Contacts_VCard::all: from: '.$ids,OC_Log::DEBUG);
-//  			OC_Log::write('contacts','OC_Contacts_VCard::all: PREP: SELECT * FROM contacts_cards WHERE addressbookid IN ('.$prep.')',OC_Log::DEBUG);
-//  			OC_Log::write('contacts','OC_Contacts_VCard::all: SQL: SELECT * FROM contacts_cards WHERE addressbookid IN ('.$prep.')',OC_Log::DEBUG);
-//  			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.'?,?,?'.') ORDER BY fullname' );
-//  		} else {
-// 			$ids = $id;
-//  			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
-//  		}
-
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ?' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
 		$result = $stmt->execute(array($id));
-		OC_Log::write('contacts','OC_Contacts_VCard::all: result->numRows(): '.$result->numRows(),OC_Log::DEBUG);
 
 		$cards = array();
 		while( $row = $result->fetchRow()){
 			$cards[] = $row;
-			//OC_Log::write('contacts','OC_Contacts_VCard::all: fullname: '.$row['fullname'],OC_Log::DEBUG);
 		}
-		OC_Log::write('contacts','OC_Contacts_VCard::all: count($cards): '.count($cards),OC_Log::DEBUG);
 
 		return $cards;
 	}

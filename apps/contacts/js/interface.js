@@ -6,19 +6,12 @@ Contacts={
 			$('#carddav_url').show();
 			$('#carddav_url_close').show();
 		},
-		Contacts:{
-			update:function(){
-				alert('Contacts.update()');
-			}
-		},
 		Addressbooks:{
 			overview:function(){
-				/* alert('overview');*/
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
 				}else{
 					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(){
-						/*alert('Address books.load');*/
 						$('#chooseaddressbook_dialog').dialog({
 							width : 600,
 							close : function(event, ui) {
@@ -30,25 +23,17 @@ Contacts={
 			},
 			activation:function(checkbox, bookid)
 			{
-				/* TODO: 
-				 * Add integer field 'active' to table 'contacts_addressbooks'. See apps/contacts/README.tanghus */
 				$.post(OC.filePath('contacts', 'ajax', 'activation.php'), { bookid: bookid, active: checkbox.checked?1:0 },
 				  function(data) {
 					/*
 					 * Arguments:
 					 * data.status
 					 * data.bookid
+					 * data.active
 					 */
 					if (data.status == 'success'){
 						checkbox.checked = data.active == 1;
-						alert('TODO: Update Contacts list.');
-						/* TODO: Update Contacts list.
-						if (data.active == 1){
-							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
-						}else{
-							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
-						}
-						*/
+						Contacts.UI.Contacts.update();
 					}
 				  });
 			},
@@ -71,10 +56,6 @@ Contacts={
 					$.post(OC.filePath('contacts', 'ajax', 'deletebook.php'), { id: bookid},
 					  function(data) {
 						if (data.status == 'success'){
-							/* alert('TODO: Update Contacts list.'); */
-							/* TODO: Update Contacts list.
-							var url = 'ajax/deletebook.php?id='+bookid;
-							$('#calendar_holder').fullCalendar('removeEventSource', url);*/
 							$('#chooseaddressbook_dialog').dialog('destroy').remove();
 							Contacts.UI.Contacts.update();
 							Contacts.UI.Addressbooks.overview();
@@ -104,6 +85,29 @@ Contacts={
 			},
 			cancel:function(button, bookid){
 				$(button).closest('tr').prev().show().next().remove();
+			}
+		},
+		Contacts:{
+			update:function(){
+				$.getJSON('ajax/contacts.php',{},function(jsondata){
+					if(jsondata.status == 'success'){
+						$('#contacts').html(jsondata.data.page);
+					}
+					else{
+						alert(jsondata.data.message);
+					}
+				});
+				/*
+				var contactlist = $('#contacts');
+				var contacts = contactlist.children('li').get();
+				//alert(contacts);
+				contacts.sort(function(a, b) {
+					var compA = $(a).text().toUpperCase();
+					var compB = $(b).text().toUpperCase();
+					return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+				})
+				$.each(contacts, function(idx, itm) { contactlist.append(itm); });
+				*/
 			}
 		}
 	}
@@ -192,18 +196,6 @@ $(document).ready(function(){
 
 	$('#chooseaddressbook').click(function(){
 		Contacts.UI.Addressbooks.overview();
-		/*
-		$.getJSON('ajax/showaddcard.php',{},function(jsondata){
-			if(jsondata.status == 'success'){
-				$('#rightcontent').data('id','');
-				$('#rightcontent').html(jsondata.data.page)
-					.find('select').chosen();
-			}
-			else{
-				alert(jsondata.data.message);
-			}
-		});
-		*/
 		return false;
 	});
 	
