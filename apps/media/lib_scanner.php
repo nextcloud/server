@@ -93,6 +93,7 @@ class OC_MEDIA_SCANNER{
 			}
 			if(!self::$getID3){
 				self::$getID3=@new getID3();
+				self::$getID3->encoding='UTF-8';
 			}
 			$data=@self::$getID3->analyze($file);
 			getid3_lib::CopyTagsToComments($data);
@@ -105,21 +106,18 @@ class OC_MEDIA_SCANNER{
 				$artist='unknown';
 			}else{
 				$artist=stripslashes($data['comments']['artist'][0]);
-				$artist=utf8_encode($artist);
 			}
 			if(!isset($data['comments']['album'])){
 				OC_Log::write('media',"error reading album tag in '$file'",OC_Log::WARN);
 				$album='unknown';
 			}else{
 				$album=stripslashes($data['comments']['album'][0]);
-				$album=utf8_encode($album);
 			}
 			if(!isset($data['comments']['title'])){
 				OC_Log::write('media',"error reading title tag in '$file'",OC_Log::WARN);
 				$title='unknown';
 			}else{
 				$title=stripslashes($data['comments']['title'][0]);
-				$title=utf8_encode($title);
 			}
 			$size=$data['filesize'];
 			$track=(isset($data['comments']['track']))?$data['comments']['track'][0]:0;

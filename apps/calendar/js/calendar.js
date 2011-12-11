@@ -8,261 +8,10 @@
 
 Calendar={
 	space:' ',
-	firstdayofweek: '',
-	weekend: '',
-	Date:{
-		normal_year_cal: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-		leap_year_cal: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-		calw:function() {
-			var dayofweek = this.current.getDay();
-			if(dayofweek == 0) {
-				dayofweek = 7;
-			}
-			var calw = Math.floor((this.doy() - dayofweek) / 7) + 1;
-			return calw;
-		},
-
-		doy:function() {
-			var cal = this.getnumberofdays(this.current.getFullYear());
-			var doy = 0;
-			for(var i = 0; i < this.current.getMonth(); i++) {
-				doy = doy + cal[i];
-			}
-			doy = doy + this.current.getDate();
-			return doy;
-		},
-
-		getnumberofdays:function(year) {
-			if(this.checkforleapyear(year) == true) {
-				var cal = this.leap_year_cal;
-			} else {
-				var cal = this.normal_year_cal;
-			}
-			return cal;
-		},
-
-		checkforleapyear:function(year2check) {
-			if((year2check / 600) == Math.floor(year2check / 400)) {
-				return true;
-			}
-			if((year2check / 4) == Math.floor(year2check / 4)) {
-				if((year2check / 100) == Math.floor(year2check / 100)) {
-					return false;
-				}
-				return true;
-			}
-			return false;
-		},
-
-		current:new Date(),
-		forward_day:function(){
-			this.current.setDate(this.current.getDate()+1);
-		},
-
-		forward_week:function(){
-			this.current.setDate(this.current.getDate()+7);
-		},
-
-		forward_month:function(){
-			this.current.setMonth(this.current.getMonth()+1);
-		},
-
-		backward_day:function(){
-			this.current.setDate(this.current.getDate()-1);
-		},
-
-		backward_week:function(){
-			this.current.setDate(this.current.getDate()-7);
-		},
-
-		backward_month:function(){
-			this.current.setMonth(this.current.getMonth()-1);
-		},
-
-	},
 	UI:{
-		weekdays: '',
-		formatDayShort:function(day){
-			if (typeof(day) == 'undefined'){
-				day = Calendar.Date.current.getDay();
-			}
-			return this.dayshort[day];
-		},
-		formatDayLong:function(day){
-			if (typeof(day) == 'undefined'){
-				day = Calendar.Date.current.getDay();
-			}
-			return this.daylong[day];
-		},
-		formatMonthShort:function(month){
-			if (typeof(month) == 'undefined'){
-				month = Calendar.Date.current.getMonth();
-			}
-			return this.monthshort[month];
-		},
-		formatMonthLong:function(month){
-			if (typeof(month) == 'undefined'){
-				month = Calendar.Date.current.getMonth();
-			}
-			return this.monthlong[month];
-		},
-		formatDate:function(date){
-			return date[0] + '-' + date[1] + '-' + date[2];
-		},
-		formatTime:function(date){
-			return date[3] + ':' + date[4];
-		},
-		updateView:function() {
-			this.current.removeEvents();
-			this.current.renderCal();
-			this.current.showEvents();
-		},
-		currentview:'none',
-		setCurrentView:function(view){
-			if (view == this.currentview){
-				return;
-			}
-			$('#'+this.currentview).hide();
-			$('#'+this.currentview + "_radio").removeClass('active');
-			this.currentview = view;
-			//sending ajax request on every change view
-			$("#sysbox").load(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view);
-			//not necessary to check whether the response is true or not
-			switch(view) {
-				case "onedayview":
-					this.current = this.OneDay;
-					break;
-				case "oneweekview":
-					this.current = this.OneWeek;
-					break;
-				case "fourweeksview":
-					this.current = this.FourWeeks;
-					break;
-				case "onemonthview":
-					this.current = this.OneMonth;
-					break;
-				case "listview":
-					this.current = this.List;
-					break;
-				default:
-					alert('Unknown view:'+view);
-					break;
-			}
-			$(document).ready(function() {
-				$('#'+Calendar.UI.currentview).show();
-				$('#'+Calendar.UI.currentview + "_radio")
-					.addClass('active');
-				Calendar.UI.updateView()
-			});
-		},
-		drageventid: '',
-		updateDate:function(direction){
-			if(direction == 'forward' && this.current.forward) {
-				this.current.forward();
-				if(Calendar.Date.current.getMonth() == 11){
-					this.loadEvents(Calendar.Date.current.getFullYear() + 1);
-				}
-				this.updateView();
-			}
-			if(direction == 'backward' && this.current.backward) {
-				this.current.backward();
-				if(Calendar.Date.current.getMonth() == 0){
-					this.loadEvents(Calendar.Date.current.getFullYear() - 1);
-				}
-				this.updateView();
-			}
-		},
-		events:[],
-		loadEvents:function(year){
-			if( typeof (year) == 'undefined') {
-				this.events = [];
-				year = Calendar.Date.current.getFullYear();
-			}
-			if( typeof (this.events[year]) == "undefined") {
-				this.events[year] = []
-			}
-			$.getJSON(OC.filePath('calendar', 'ajax', 'getcal.php') + "?year=" + year, function(jsondata, status) {
-				if(status == "nosession") {
-					alert("You are not logged in. That can happen if you don't use owncloud for a long time.");
-					document.location(oc_webroot);
-				}
-				if(status == "parsingfail" || typeof (jsondata) == "undefined") {
-					$.ready(function() {
-						$( "#parsingfail_dialog" ).dialog();
-					});
-				} else {
-					if (typeof(jsondata[year]) != 'undefined'){
-						Calendar.UI.calendars = jsondata['calendars'];
-						Calendar.UI.events[year] = jsondata[year];
-					}
-					$(document).ready(function() {
-						Calendar.UI.updateView();
-					});
-				}
-			});
-			window.setTimeout("Calendar.UI.loadEvents(" + year + ")", 120000);
-		},
-		getEventsForDate:function(date){
-			var day = date.getDate();
-			var month = date.getMonth();
-			var year = date.getFullYear();
-			if( typeof (this.events[year]) == "undefined") {
-				this.loadEvents(year);
-				return false;
-			}
-			if( typeof (this.events[year][month]) == "undefined") {
-				return false;
-			}
-			if( typeof (this.events[year][month][day]) == "undefined") {
-				return false;
-			}
-			return this.events[year][month][day];
-		},
-		createEventsForDate:function(date, week){
-			events = this.getEventsForDate(date);
-			if (!events) {
-				return;
-			}
-			var weekday = (date.getDay()+7-Calendar.firstdayofweek)%7;
-			if( typeof (events["allday"]) != "undefined") {
-				var eventnumber = 1;
-				var eventcontainer = this.current.getEventContainer(week, weekday, "allday");
-				while( typeof (events["allday"][eventnumber]) != "undefined") {
-					this.addEventLabel(eventcontainer, events['allday'][eventnumber]);
-					eventnumber++;
-				}
-			}
-			for(var time = 0; time <= 23; time++) {
-				if( typeof (events[time]) != "undefined") {
-					var eventnumber = 1;
-					var eventcontainer = this.current.getEventContainer(week, weekday, time);
-					while( typeof (events[time][eventnumber]) != "undefined") {
-						this.addEventLabel(eventcontainer, events[time][eventnumber]);
-						eventnumber++;
-					}
-				}
-			}
-		},
-		addEventLabel:function(eventcontainer, event){
-			var event_holder = this.current.createEventLabel(event)
-				.addClass('event')
-				.data('event_info', event)
-				.hover(this.createEventPopup,
-				       this.hideEventPopup)
-				.draggable({
-					drag: function() {
-						Calendar.UI.drageventid = event.id;
-					}
-				})
-				.click(this.editEvent);
-			var color = this.calendars[event['calendarid']]['color'];
-			if (color){
-				event_holder.css('background-color', color)
-					.addClass('colored');
-			}
-			eventcontainer.append(event_holder);
-		},
 		startEventDialog:function(){
+			$('.tipsy').remove();
+			$('#calendar_holder').fullCalendar('unselect');
 			Calendar.UI.lockTime();
 			$( "#from" ).datepicker({
 				dateFormat : 'dd-mm-yy'
@@ -284,30 +33,20 @@ Calendar={
 				}
 			});
 		},
-		newEvent:function(selector, time){
-			var date_info = $(selector).data('date_info');
-			var dayofmonth = date_info.getDate();
-			var month = date_info.getMonth();
-			var year = date_info.getFullYear();
-			if(dayofmonth <= 9){
-				dayofmonth = '0' + dayofmonth;
+		newEvent:function(start, end, allday){
+			start = Math.round(start.getTime()/1000);
+			if (end){
+				end = Math.round(end.getTime()/1000);
 			}
-			month++;
-			if(month <= 9){
-				month = '0' + month;
-			}
-			var date = String(dayofmonth) + String(month) + String(year);
 			if($('#event').dialog('isOpen') == true){
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
-				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php') + '?d=' + date + '&t=' + time, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php'), {start:start, end:end, allday:allday?1:0}, Calendar.UI.startEventDialog);
 			}
 		},
-		editEvent:function(event){
-			event.stopPropagation();
-			var event_data = $(this).data('event_info');
-			var id = event_data.id;
+		editEvent:function(calEvent, jsEvent, view){
+			var id = calEvent.id;
 			if($('#event').dialog('isOpen') == true){
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
@@ -316,14 +55,14 @@ Calendar={
 			}
 		},
 		submitDeleteEventForm:function(url){
-			var post = $( "#event_form" ).serialize();
-			$("#errorbox").empty();
+			var post = $( '#event_form' ).serialize();
+			$('#errorbox').empty();
 			$.post(url, post, function(data){
 					if(data.status == 'success'){
+						$('#calendar_holder').fullCalendar('removeEvents', $('#event_form input[name=id]').val());
 						$('#event').dialog('destroy').remove();
-						Calendar.UI.loadEvents();
 					} else {
-						$("#errorbox").html("Deletion failed");
+						$('#errorbox').html(t('calendar', 'Deletion failed'));
 					}
 
 			}, "json");
@@ -334,27 +73,27 @@ Calendar={
 			$.post(url, post,
 				function(data){
 					if(data.status == "error"){
-						var output = "Missing fields: <br />";
+						var output = missing_field + ": <br />";
 						if(data.title == "true"){
-							output = output + "Title<br />";
+							output = output + missing_field_title + "<br />";
 						}
 						if(data.cal == "true"){
-							output = output + "Calendar<br />";
+							output = output + missing_field_calendar + "<br />";
 						}
 						if(data.from == "true"){
-							output = output + "From Date<br />";
+							output = output + missing_field_fromdate + "<br />";
 						}
 						if(data.fromtime == "true"){
-							output = output + "From Time<br />";
+							output = output + missing_field_fromtime + "<br />";
 						}
 						if(data.to == "true"){
-							output = output + "To Date<br />";
+							output = output + missing_field_todate + "<br />";
 						}
 						if(data.totime == "true"){
-							output = output + "To Time<br />";
+							output = output + missing_field_totime + "<br />";
 						}
 						if(data.endbeforestart == "true"){
-							output = "The event ends before it starts!";
+							output = output + missing_field_startsbeforeends + "!<br/>";
 						}
 						if(data.dberror == "true"){
 							output = "There was a database fail!";
@@ -363,65 +102,54 @@ Calendar={
 					} else
 					if(data.status == 'success'){
 						$('#event').dialog('destroy').remove();
-						Calendar.UI.loadEvents();
+						$('#calendar_holder').fullCalendar('refetchEvents');
 					}
 				},"json");
 		},
-		moveevent:function(eventid, newstartdate){
-			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: eventid, newdate: newstartdate},
+		moveEvent:function(event, dayDelta, minuteDelta, allDay, revertFunc){
+			$('.tipsy').remove();
+			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0, lastmodified: event.lastmodified},
 			function(data) {
-				console.log("Event moved successfully");
+				if (data.status == 'success'){
+					event.lastmodified = data.lastmodified;
+					console.log("Event moved successfully");
+				}else{
+					revertFunc();
+					$('#calendar_holder').fullCalendar('refetchEvents');
+				}
+			});
+		},
+		resizeEvent:function(event, dayDelta, minuteDelta, revertFunc){
+			$('.tipsy').remove();
+			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, lastmodified: event.lastmodified},
+			function(data) {
+				if (data.status == 'success'){
+					event.lastmodified = data.lastmodified;
+					console.log("Event resized successfully");
+				}else{
+					revertFunc();
+					$('#calendar_holder').fullCalendar('refetchEvents');
+				}
 			});
 		},
 		showadvancedoptions:function(){
 			$("#advanced_options").css("display", "block");
 			$("#advanced_options_button").css("display", "none");
 		},
-		createEventPopup:function(e){
-			var popup = $(this).data('popup');
-			if (!popup){
-				var event = $(this).data('event_info');
-				popup = $(document.createElement('div'));
-				$(this).data('popup', popup).append(popup);
-				popup.addClass('popup')
-				popup.addClass('event_popup')
-					.html(Calendar.UI.getEventPopupText(event));
-			}
-			popup.css('left', -(popup.width() - $(this).width())/2)
-				.show();
-		},
-		hideEventPopup:function(){
-			$(this).data('popup').hide();
-		},
 		getEventPopupText:function(event){
-			var startdate = this.formatDate(event.startdate)
-			var starttime = this.formatTime(event.startdate)
-			var enddate = this.formatDate(event.enddate)
-			var endtime = this.formatTime(event.enddate)
-			if (event.allday){
-				var timespan = startdate;
-				if (event.startdate[2] != parseInt(event.enddate[2])-1){
-					timespan += ' - ' + enddate;
-				}
+			if (event.allDay){
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, 'ddd d MMMM[ yyyy]{ -[ddd d] MMMM yyyy}', {monthNamesShort: monthNamesShort, monthNames: monthNames, dayNames: dayNames, dayNamesShort: dayNamesShort}); //t('calendar', "ddd d MMMM[ yyyy]{ -[ddd d] MMMM yyyy}")
 			}else{
-				var start = startdate + ' ' + starttime;
-				if (startdate == enddate){
-					var end = endtime;
-				}else{
-					var end = enddate + ' ' + endtime;
-				}
-				var timespan = start + ' - ' + end;
+				var timespan = $.fullCalendar.formatDates(event.start, event.end, 'ddd d MMMM[ yyyy] ' + defaulttime + '{ -[ ddd d MMMM yyyy]' + defaulttime + '}', {monthNamesShort: monthNamesShort, monthNames: monthNames, dayNames: dayNames, dayNamesShort: dayNamesShort}); //t('calendar', "ddd d MMMM[ yyyy] HH:mm{ -[ ddd d MMMM yyyy] HH:mm}")
+				// Tue 18 October 2011 08:00 - 16:00
 			}
-			return '<span class="timespan">' + timespan + '</span>'
-				+ ' '
-				+ '<span class="summary">' + event.description + '</span>';
-		},
-		addDateInfo:function(selector, date){
-			$(selector).data('date_info', date);
-		},
-		switch2Today:function(){
-			Calendar.Date.current = new Date();
-			Calendar.UI.updateView();
+			var html =
+				'<div class="summary">' + event.title + '</div>' +
+				'<div class="timespan">' + timespan + '</div>';
+			if (event.description){
+				html += '<div class="description">' + event.description + '</div>';
+			}
+			return html;
 		},
 		lockTime:function(){
 			if($('#allday_checkbox').is(':checked')) {
@@ -441,54 +169,41 @@ Calendar={
 			$('#caldav_url').show();
 			$("#caldav_url_close").show();
 		},
-		deleteCalendar:function(calid){
-			var check = confirm("Do you really want to delete this calendar?");
-			if(check == false){
-				return false;
-			}else{
-				$.post(OC.filePath('calendar', 'ajax', 'deletecalendar.php'), { calendarid: calid},
-				  function(data) {
-					Calendar.UI.loadEvents();
-					$('#choosecalendar_dialog').dialog('destroy').remove();
-					Calendar.UI.Calendar.overview();
-				  });
-			}
-		},
-		initscroll:function(){ 
+		initScroll:function(){
 			if(window.addEventListener)
-				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollcalendar);
+				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar);
 			//}else{
-				document.onmousewheel = Calendar.UI.scrollcalendar;
+				document.onmousewheel = Calendar.UI.scrollCalendar;
 			//}
 		},
-		scrollcalendar:function(event){
+		scrollCalendar:function(event){
+			$('.tipsy').remove();
 			var direction;
 			if(event.detail){
 				if(event.detail < 0){
-					direction = "top";
+					direction = 'top';
 				}else{
-					direction = "down";
+					direction = 'down';
 				}
 			}
 			if (event.wheelDelta){
 				if(event.wheelDelta > 0){
-					direction = "top";
+					direction = 'top';
 				}else{
-					direction = "down";
+					direction = 'down';
 				}
 			}
-			if(Calendar.UI.currentview == "onemonthview"){
-				if(direction == "down"){
-					Calendar.UI.updateDate("forward");
-				}else{
-					Calendar.UI.updateDate("backward");
-				}
-			}else if(Calendar.UI.currentview == "oneweekview"){
-				if(direction == "down"){
-					Calendar.UI.updateDate("forward");
-				}else{
-					Calendar.UI.updateDate("backward");
-				}
+			var scroll = $(document).scrollTop(),
+				doc_height = $(document).height(),
+				win_height = $(window).height();
+			if(direction == 'down' && win_height == (doc_height - scroll)){
+				$('#calendar_holder').fullCalendar('next');
+				$(document).scrollTop(0);
+				event.preventDefault();
+			}else if (direction == 'top' && scroll == 0) {
+				$('#calendar_holder').fullCalendar('prev');
+				$(document).scrollTop(win_height);
+				event.preventDefault();
 			}
 		},
 		Calendar:{
@@ -510,8 +225,14 @@ Calendar={
 			{
 				$.post(OC.filePath('calendar', 'ajax', 'activation.php'), { calendarid: calendarid, active: checkbox.checked?1:0 },
 				  function(data) {
-					checkbox.checked = data == 1;
-					Calendar.UI.loadEvents();
+					if (data.status == 'success'){
+						checkbox.checked = data.active == 1;
+						if (data.active == 1){
+							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+						}else{
+							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
+						}
+					}
 				  });
 			},
 			newCalendar:function(object){
@@ -525,6 +246,46 @@ Calendar={
 					.load(OC.filePath('calendar', 'ajax', 'editcalendar.php') + "?calendarid="+calendarid,
 						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
+			},
+			deleteCalendar:function(calid){
+				var check = confirm("Do you really want to delete this calendar?");
+				if(check == false){
+					return false;
+				}else{
+					$.post(OC.filePath('calendar', 'ajax', 'deletecalendar.php'), { calendarid: calid},
+					  function(data) {
+						if (data.status == 'success'){
+							var url = 'ajax/events.php?calendar_id='+calid;
+							$('#calendar_holder').fullCalendar('removeEventSource', url);
+							$('#choosecalendar_dialog').dialog('destroy').remove();
+							Calendar.UI.Calendar.overview();
+						}
+					  });
+				}
+			},
+			submit:function(button, calendarid){
+				var displayname = $("#displayname_"+calendarid).val();
+				var active = $("#edit_active_"+calendarid+":checked").length;
+				var description = $("#description_"+calendarid).val();
+				var calendarcolor = $("#calendarcolor_"+calendarid).val();
+
+				var url;
+				if (calendarid == 'new'){
+					url = "ajax/createcalendar.php";
+				}else{
+					url = "ajax/updatecalendar.php";
+				}
+				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
+					function(data){
+						if(data.status == 'success'){
+							$(button).closest('tr').prev().html(data.page).show().next().remove();
+							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
+							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+						}
+					}, 'json');
+			},
+			cancel:function(button, calendarid){
+				$(button).closest('tr').prev().show().next().remove();
 			},
 			colorPicker:function(container){
 				// based on jquery-colorpicker at jquery.webspirited.com
@@ -551,429 +312,233 @@ Calendar={
 					position: 'absolute',
 					left: -10000
 				});
-			},
-			submit:function(button, calendarid){
-				var displayname = $("#displayname_"+calendarid).val();
-				var active = $("#edit_active_"+calendarid+":checked").length;
-				var description = $("#description_"+calendarid).val();
-				var calendarcolor = $("#calendarcolor_"+calendarid).val();
-
-				var url;
-				if (calendarid == 'new'){
-					url = "ajax/createcalendar.php";
-				}else{
-					url = "ajax/updatecalendar.php";
-				}
-				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
-					function(data){
-						if(data.error == "true"){
-						}else{
-							$(button).closest('tr').prev().html(data.data).show().next().remove();
-							Calendar.UI.loadEvents();
-						}
-					}, 'json');
-			},
-			cancel:function(button, calendarid){
-				$(button).closest('tr').prev().show().next().remove();
-			},
-		},/*
-		OneDay:{
-			forward:function(){
-				Calendar.Date.forward_day();
-			},
-			backward:function(){
-				Calendar.Date.backward_day();
-			},
-			removeEvents:function(){
-				$("#onedayview .calendar_row").empty();
-			},
-			renderCal:function(){
-				$("#datecontrol_date").val(Calendar.UI.formatDayShort() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort() + Calendar.space + Calendar.Date.current.getFullYear());
-				$("#onedayview_today").html(Calendar.UI.formatDayLong() + Calendar.space + Calendar.Date.current.getDate() + Calendar.space + Calendar.UI.formatMonthShort());
-				Calendar.UI.addDateInfo('#onedayview_today', new Date(Calendar.Date.current));
-			},
-			showEvents:function(){
-				Calendar.UI.createEventsForDate(Calendar.Date.current, 0);
-			},
-			getEventContainer:function(week, weekday, when){
-				return $("#onedayview ." + when);
-			},
-			createEventLabel:function(event){
-				var time = '';
-				if (!event['allday']){
-					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + ' - ' + Calendar.UI.formatTime(event['enddate']) + '</strong> ';
-				}
-				return $(document.createElement('p'))
-					.html(time + event['description'])
-			},
-		},*/
-		OneWeek:{
-			forward:function(){
-				Calendar.Date.forward_week();
-			},
-			backward:function(){
-				Calendar.Date.backward_week();
-			},
-			removeEvents:function(){
-				for( i = 0; i <= 6; i++) {
-					$("#oneweekview ." + Calendar.UI.weekdays[i]).empty();
-				}
-				$("#oneweekview .thisday").removeClass("thisday");
-			},
-			renderCal:function(){
-				$("#datecontrol_date").val(Calendar.UI.cw_label + ": " + Calendar.Date.calw());
-				var dates = this.generateDates();
-				var today = new Date();
-				for(var i = 0; i <= 6; i++){
-					$("#oneweekview th." + Calendar.UI.weekdays[i]).html(Calendar.UI.formatDayShort((i+Calendar.firstdayofweek)%7) + Calendar.space + dates[i].getDate() + Calendar.space + Calendar.UI.formatMonthShort(dates[i].getMonth()));
-					$("#oneweekview td." + Calendar.UI.weekdays[i] + ".allday").attr('title', dates[i].getDate() + "." + String(parseInt(dates[i].getMonth()) + 1) + "." + dates[i].getFullYear() + "-" + "allday");
-					$("#oneweekview td." + Calendar.UI.weekdays[i] + ".allday").droppable({
-						drop: function() {
-							Calendar.UI.moveevent(Calendar.UI.drageventid, this.title);
-							Calendar.UI.loadEvents();
-						}
-					});
-					for(var ii = 0;ii <= 23; ii++){
-						$("#oneweekview td." + Calendar.UI.weekdays[i] + "." + String(ii)).attr('title', dates[i].getDate() + "." + String(parseInt(dates[i].getMonth()) + 1) + "." + dates[i].getFullYear() + "-" + String(ii) + ":00");
-						$("#oneweekview td." + Calendar.UI.weekdays[i] + "." + String(ii)).droppable({
-							drop: function() {
-								Calendar.UI.moveevent(Calendar.UI.drageventid, this.title);
-								Calendar.UI.loadEvents();
-							}
-						});
-					}
-					if(dates[i].getDate() == today.getDate() && dates[i].getMonth() == today.getMonth() && dates[i].getFullYear() == today.getFullYear()){
-						$("#oneweekview ." + Calendar.UI.weekdays[i]).addClass("thisday");
-					}
-					Calendar.UI.addDateInfo('#oneweekview th.' + Calendar.UI.weekdays[i], dates[i]);
-				}
-			},
-			showEvents:function(){
-				var dates = this.generateDates();
-				for(var weekday = 0; weekday <= 6; weekday++) {
-					Calendar.UI.createEventsForDate(dates[weekday], 0);
-				}
-			},
-			getEventContainer:function(week, weekday, when){
-				return $("#oneweekview ." + Calendar.UI.weekdays[weekday] + "." + when);
-			},
-			createEventLabel:function(event){
-				var time = '';
-				if (!event['allday']){
-					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + ' - ' + Calendar.UI.formatTime(event['enddate']) + '</strong> ';
-				}
-				return $(document.createElement('p'))
-					.html(time + event['description'])
-			},
-			generateDates:function(){
-				var dates = new Array();
-				var date = new Date(Calendar.Date.current)
-				var dayofweek = date.getDay();
-				if(dayofweek == 0) {
-					dayofweek = 7;
-				}
-				if(Calendar.firstdayofweek > dayofweek){
-					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek - 7);
-				}else{
-					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek);
-				}
-				for(var i = 0; i <= 6; i++) {
-					dates[i] = new Date(date)
-					date.setDate(date.getDate() + 1);
-				}
-				return dates;
-			},
-		},/*
-		FourWeeks:{
-			forward:function(){
-				Calendar.Date.forward_week();
-			},
-			backward:function(){
-				Calendar.Date.backward_week();
-			},
-			removeEvents:function(){
-				$('#fourweeksview .day.thisday').removeClass('thisday');
-				$('#fourweeksview .day .events').empty();
-			},
-			renderCal:function(){
-				var calw1 = Calendar.Date.calw();
-				var calw2 = calw1 + 1;
-				var calw3 = calw1 + 2;
-				var calw4 = calw1 + 3;
-				switch(calw1) {
-					case 50:
-						calw4 = 1;
-						break;
-					case 51:
-						calw3 = 1;
-						calw4 = 2;
-						break;
-					case 52:
-						calw2 = 1;
-						calw3 = 2;
-						calw4 = 3;
-						break;
-				}
-				var calwplusfour = calw4;
-				var dates = this.generateDates();
-				var week = 1;
-				var weekday = 0;
-				var today = new Date();
-				for(var i = 0; i <= 27; i++){
-					var dayofmonth = dates[i].getDate();
-					var month = dates[i].getMonth();
-					var year = dates[i].getFullYear();
-					$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + Calendar.space + Calendar.UI.formatMonthShort(month));
-					if(dayofmonth == today.getDate() && month == today.getMonth() && year == today.getFullYear()){
-						$("#fourweeksview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
-					}
-					Calendar.UI.addDateInfo('#fourweeksview .week_' + week + ' .' + Calendar.UI.weekdays[weekday], dates[i]);
-					if(weekday == 6){
-						weekday = 0;
-						week++;
-					}else{
-						weekday++;
-					}
-				}
-				$("#fourweeksview .week_1 .calw").html(calw1);
-				$("#fourweeksview .week_2 .calw").html(calw2);
-				$("#fourweeksview .week_3 .calw").html(calw3);
-				$("#fourweeksview .week_4 .calw").html(calw4);
-				$("#datecontrol_date").val(Calendar.UI.cws_label + ": " + Calendar.Date.calw() + " - " + calwplusfour);
-			},
-			showEvents:function(){
-				var dates = this.generateDates();
-				var weekdaynum = 0;
-				var weeknum = 1;
-				for(var i = 0; i <= 27; i++) {
-					Calendar.UI.createEventsForDate(dates[i], weeknum);
-					if(weekdaynum == 6){
-						weekdaynum = 0;
-						weeknum++;
-					}else{
-						weekdaynum++;
-					}
-				}
-			},
-			getEventContainer:function(week, weekday, when){
-				return $("#fourweeksview .week_" + week + " .day." + Calendar.UI.weekdays[weekday] + " .events");
-			},
-			createEventLabel:function(event){
-				var time = '';
-				if (!event['allday']){
-					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + '</strong> ';
-				}
-				return $(document.createElement('p'))
-					.html(time + event['description'])
-			},
-			generateDates:function(){
-				var dates = new Array();
-				var date = new Date(Calendar.Date.current)
-				var dayofweek = date.getDay();
-				if(dayofweek == 0) {
-					dayofweek = 7;
-				}
-				date.setDate(date.getDate() - dayofweek + 1);
-				for(var i = 0; i <= 27; i++) {
-					dates[i] = new Date(date)
-					date.setDate(date.getDate() + 1);
-				}
-				return dates;
-			},
-		},*/
-		OneMonth:{
-			forward:function(){
-				Calendar.Date.forward_month();
-			},
-			backward:function(){
-				Calendar.Date.backward_month();
-			},
-			removeEvents:function(){
-				$('#onemonthview .day.thisday').removeClass('thisday');
-				$('#onemonthview .day .events').empty();
-			},
-			renderCal:function(){
-				$("#datecontrol_date").val(Calendar.UI.formatMonthLong() + Calendar.space + Calendar.Date.current.getFullYear());
-				var cal = Calendar.Date.getnumberofdays(Calendar.Date.current.getFullYear());
-				var monthview_dayofweek = Calendar.Date.current.getDay();
-				var monthview_dayofmonth = Calendar.Date.current.getDate();
-				for(var i = monthview_dayofmonth; i > 1; i--) {
-					if(monthview_dayofweek == 0) {
-						monthview_dayofweek = 6;
-					} else {
-						monthview_dayofweek--;
-					}
-				}
-				$("#onemonthview .week_5").hide();
-				$("#onemonthview .week_6").hide();
-				this.rows = monthview_dayofweek + cal[Calendar.Date.current.getMonth()];
-				this.rows = this.rows / 7;
-				this.rows = Math.ceil(this.rows);
-				var dates = this.generateDates();
-				var week = 1;
-				var weekday = 0;
-				var today = new Date();
-				for(var i = 0; i <= 41; i++){
-					var dayofmonth = dates[i].getDate();
-					var month = dates[i].getMonth();
-					var year = dates[i].getFullYear();
-					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday] + " .dateinfo").html(dayofmonth + Calendar.space + Calendar.UI.formatMonthShort(month));
-					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).attr('title', dayofmonth + "." + String(parseInt(month) + 1) + "." + year);
-					$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).droppable({
-						drop: function() {
-							Calendar.UI.moveevent(Calendar.UI.drageventid, this.title);
-							Calendar.UI.loadEvents();
-						}
-					});
-					if(dayofmonth == today.getDate() && month == today.getMonth() && year == today.getFullYear()){
-						$("#onemonthview .week_" + week + " ." + Calendar.UI.weekdays[weekday]).addClass('thisday');
-					}
-					Calendar.UI.addDateInfo('#onemonthview .week_' + week + ' .' + Calendar.UI.weekdays[weekday], dates[i]);
-					if(weekday == 6){
-						weekday = 0;
-						week++;
-					}else{
-						weekday++;
-					}
-				}
-				if(this.rows == 4){
-					for(var i = 1;i <= 6;i++){
-						$("#onemonthview .week_" + String(i)).height("23%");
-					}
-				}
-				if(this.rows == 5) {
-					$("#onemonthview .week_5").show();
-					for(var i = 1;i <= 6;i++){
-						$("#onemonthview .week_" + String(i)).height("18%");
-					}
-				}
-				if(this.rows == 6) {
-					$("#onemonthview .week_5").show();
-					$("#onemonthview .week_6").show();
-					for(var i = 1;i <= 6;i++){
-						$("#onemonthview .week_" + String(i)).height("14%");
-					}
-				}
-			},
-			showEvents:function(){
-				var dates = this.generateDates();
-				var weekdaynum = 0;
-				var weeknum = 1;
-				for(var i = 0; i <= 41; i++) {
-					Calendar.UI.createEventsForDate(dates[i], weeknum);
-					if(weekdaynum == 6){
-						weekdaynum = 0;
-						weeknum++;
-					}else{
-						weekdaynum++;
-					}
-				}
-			},
-			getEventContainer:function(week, weekday, when){
-				return $("#onemonthview .week_" + week + " .day." + Calendar.UI.weekdays[weekday] + " .events");
-			},
-			createEventLabel:function(event){
-				var time = '';
-				if (!event['allday']){
-					time = '<strong>' + Calendar.UI.formatTime(event['startdate']) + '</strong> ';
-				}
-				return $(document.createElement('p'))
-					.html(time + event['description'])
-			},
-			generateDates:function(){
-				var dates = new Array();
-				var date = new Date(Calendar.Date.current)
-				date.setDate(1);
-				var dayofweek = date.getDay();
-				if(dayofweek == 0) {
-					dayofweek = 7;
-					this.rows++;
-				}
-				if(Calendar.firstdayofweek > dayofweek){
-					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek - 7);
-				}else{
-					date.setDate(date.getDate() - dayofweek + Calendar.firstdayofweek);
-				}
-				for(var i = 0; i <= 41; i++) {
-					dates[i] = new Date(date)
-					date.setDate(date.getDate() + 1);
-				}
-				return dates;
-			},
-		},
-		List:{
-			removeEvents:function(){
-				this.eventContainer = $('#listview #events').empty();
-				this.startdate = new Date();
-				this.enddate = new Date();
-				this.enddate.setDate(this.enddate.getDate());
-			},
-			renderCal:function(){
-				var today = new Date();
-				$('#datecontrol_date').val(this.formatDate(Calendar.Date.current));
-			},
-			showEvents:function(){
-				this.renderMoreBefore();
-				this.renderMoreAfter();
-			},
-			formatDate:function(date){
-				return Calendar.UI.formatDayShort(date.getDay())
-					+ Calendar.space
-					+ date.getDate()
-					+ Calendar.space
-					+ Calendar.UI.formatMonthShort(date.getMonth())
-					+ Calendar.space
-					+ date.getFullYear();
-			},
-			createDay:function(date) {
-				return $(document.createElement('div'))
-					.addClass('day')
-					.html(this.formatDate(date));
-			},
-			renderMoreBefore:function(){
-				var date = Calendar.UI.List.startdate;
-				for(var i = 0; i <= 13; i++) {
-					if (Calendar.UI.getEventsForDate(date)) {
-						Calendar.UI.List.dayContainer=Calendar.UI.List.createDay(date);
-						Calendar.UI.createEventsForDate(date, 0);
-						Calendar.UI.List.eventContainer.prepend(Calendar.UI.List.dayContainer);
-					}
-					date.setDate(date.getDate()-1);
-				}
-				var start = Calendar.UI.List.formatDate(date);
-				$('#listview #more_before').html(String(Calendar.UI.more_before).replace('{startdate}', start));
-			},
-			renderMoreAfter:function(){
-				var date = Calendar.UI.List.enddate;
-				for(var i = 0; i <= 13; i++) {
-					if (Calendar.UI.getEventsForDate(date)) {
-						Calendar.UI.List.dayContainer=Calendar.UI.List.createDay(date);
-						Calendar.UI.createEventsForDate(date, 0);
-						Calendar.UI.List.eventContainer.append(Calendar.UI.List.dayContainer);
-					}
-					date.setDate(date.getDate()+1);
-				}
-				var end = Calendar.UI.List.formatDate(date);
-				$('#listview #more_after').html(String(Calendar.UI.more_after).replace('{enddate}', end));
-			},
-			getEventContainer:function(week, weekday, when){
-				return this.dayContainer;
-			},
-			createEventLabel:function(event){
-				var time = '';
-				if (!event['allday']){
-					time = Calendar.UI.formatTime(event['startdate']) + ' - ' + Calendar.UI.formatTime(event['enddate']) + ' ';
-				}
-				return $(document.createElement('p'))
-					.html(time + event['description'])
-			},
+			}
 		}
 	}
 }
+$.fullCalendar.views.list = ListView;
+function ListView(element, calendar) {
+	var t = this;
+
+	// imports
+	jQuery.fullCalendar.views.month.call(t, element, calendar);
+	var opt = t.opt;
+	var trigger = t.trigger;
+	var eventElementHandlers = t.eventElementHandlers;
+	var reportEventElement = t.reportEventElement;
+	var formatDate = calendar.formatDate;
+	var formatDates = calendar.formatDates;
+	var addDays = $.fullCalendar.addDays;
+	var cloneDate = $.fullCalendar.cloneDate;
+	function skipWeekend(date, inc, excl) {
+		inc = inc || 1;
+		while (!date.getDay() || (excl && date.getDay()==1 || !excl && date.getDay()==6)) {
+			addDays(date, inc);
+		}
+		return date;
+	}
+
+	// overrides
+	t.name='list';
+	t.render=render;
+	t.renderEvents=renderEvents;
+	t.setHeight=setHeight;
+	t.setWidth=setWidth;
+	t.clearEvents=clearEvents;
+
+	function setHeight(height, dateChanged) {
+	}
+
+	function setWidth(width) {
+	}
+
+	function clearEvents() {
+		this.reportEventClear();
+	}
+
+	// main
+	function sortEvent(a, b) {
+		return a.start - b.start;
+	}
+
+	function render(date, delta) {
+		if (!t.start){
+			t.start = addDays(cloneDate(date, true), -7);
+			t.end = addDays(cloneDate(date, true), 7);
+		}
+		if (delta) {
+			if (delta < 0){
+				addDays(t.start, -7);
+				if (!opt('weekends')) {
+					skipWeekend(t.start, delta < 0 ? -1 : 1);
+				}
+			}else{
+				addDays(t.end, 7);
+				if (!opt('weekends')) {
+					skipWeekend(t.end, delta < 0 ? -1 : 1);
+				}
+			}
+		}
+		t.title = formatDates(
+			t.start,
+			t.end,
+			opt('titleFormat', 'week')
+		);
+		t.visStart = cloneDate(t.start);
+		t.visEnd = cloneDate(t.end);
+	}
+
+	function eventsOfThisDay(events, theDate) {
+		var start = cloneDate(theDate, true);
+		var end = addDays(cloneDate(start), 1);
+		var retArr = new Array();
+		for (i in events) {
+			var event_end = t.eventEnd(events[i]);
+			if (events[i].start < end && event_end >= start) {
+				retArr.push(events[i]);
+			}
+		}
+		return retArr;
+	}
+
+	function renderEvent(event) {
+		if (event.allDay) { //all day event
+			var time = opt('allDayText');
+		}
+		else {
+			var time = formatDates(event.start, event.end, opt('timeFormat', 'agenda'));
+		}
+		var classes = ['fc-event', 'fc-list-event'];
+		classes = classes.concat(event.className);
+		if (event.source) {
+			classes = classes.concat(event.source.className || []);
+		}
+		var html = '<tr>' +
+			'<td>&nbsp;</td>' +
+			'<td class="fc-list-time">' +
+			time +
+			'</td>' +
+			'<td>&nbsp;</td>' +
+			'<td class="fc-list-event">' +
+			'<span id="list' + event.id + '"' +
+			' class="' + classes.join(' ') + '"' +
+			'>' +
+			'<span class="fc-event-title">' +
+			event.title +
+			'</span>' +
+			'</span>' +
+			'</td>' +
+			'</tr>';
+		return html;
+	}
+
+	function renderDay(date, events) {
+		var dayRows = $('<tr>' +
+			'<td colspan="4" class="fc-list-date">' +
+			'<span>' +
+			formatDate(date, opt('titleFormat', 'day')) +
+			'</span>' +
+			'</td>' +
+			'</tr>');
+		for (i in events) {
+			var event = events[i];
+			var eventElement = $(renderEvent(event));
+			triggerRes = trigger('eventRender', event, event, eventElement);
+			if (triggerRes === false) {
+				eventElement.remove();
+			}else{
+				if (triggerRes && triggerRes !== true) {
+					eventElement.remove();
+					eventElement = $(triggerRes);
+				}
+				$.merge(dayRows, eventElement);
+				eventElementHandlers(event, eventElement);
+				reportEventElement(event, eventElement);
+			}
+		}
+		return dayRows;
+	}
+
+	function renderEvents(events, modifiedEventId) {
+		events = events.sort(sortEvent);
+
+		var table = $('<table class="fc-list-table"></table>');
+		var total = events.length;
+		if (total > 0) {
+			var date = cloneDate(t.visStart);
+			while (date <= t.visEnd) {
+				var dayEvents = eventsOfThisDay(events, date);
+				if (dayEvents.length > 0) {
+					table.append(renderDay(date, dayEvents));
+				}
+				date=addDays(date, 1);
+			}
+		}
+
+		this.element.html(table);
+	}
+}
 $(document).ready(function(){
-	$('#listview #more_before').click(Calendar.UI.List.renderMoreBefore);
-	$('#listview #more_after').click(Calendar.UI.List.renderMoreAfter);
-	Calendar.UI.initscroll();
+	Calendar.UI.initScroll();
+	$('#calendar_holder').fullCalendar({
+		header: false,
+		firstDay: 1,
+		editable: true,
+		defaultView: defaultView,
+		timeFormat: {
+			agenda: agendatime,
+			'': defaulttime
+			},
+		titleFormat: {
+			list: 'yyyy/MMM/d dddd'
+			},
+		axisFormat: defaulttime,
+		monthNames: monthNames,
+		monthNamesShort: monthNamesShort,
+		dayNames: dayNames,
+		dayNamesShort: dayNamesShort,
+		allDayText: allDayText,
+		viewDisplay: function(view) {
+			$('#datecontrol_date').html(view.title);
+			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+		},
+		selectable: true,
+		selectHelper: true,
+		select: Calendar.UI.newEvent,
+		eventClick: Calendar.UI.editEvent,
+		eventDrop: Calendar.UI.moveEvent,
+		eventResize: Calendar.UI.resizeEvent,
+		eventRender: function(event, element) {
+			element.tipsy({
+				className: 'tipsy-event',
+				opacity: 0.9,
+				gravity:$.fn.tipsy.autoBounds(150, 's'),
+				fade:true,
+				delayIn: 400,
+				html:true,
+				title:function() {
+					return Calendar.UI.getEventPopupText(event);
+				}
+			});
+		},
+		eventSources: eventSources
+	});
+	$('#oneweekview_radio').click(function(){
+		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');
+	});
+	$('#onemonthview_radio').click(function(){
+		$('#calendar_holder').fullCalendar('changeView', 'month');
+	});
+	$('#listview_radio').click(function(){
+		$('#calendar_holder').fullCalendar('changeView', 'list');
+	});
+	$('#today_input').click(function(){
+		$('#calendar_holder').fullCalendar('today');
+	});
+	$('#datecontrol_left').click(function(){
+		$('#calendar_holder').fullCalendar('prev');
+	});
+	$('#datecontrol_right').click(function(){
+		$('#calendar_holder').fullCalendar('next');
+	});
 });
-//event vars
-Calendar.UI.loadEvents();

@@ -70,6 +70,9 @@ $vcard->children[$line]->setValue($value);
 
 // Add parameters
 $postparameters = isset($_POST['parameters'])?$_POST['parameters']:array();
+if ($vcard->children[$line]->name == 'TEL' && !array_key_exists('TYPE', $postparameters)){
+	$postparameters['TYPE']='';
+}
 for($i=0;$i<count($vcard->children[$line]->parameters);$i++){
 	$name = $vcard->children[$line]->parameters[$i]->name;
 	if(array_key_exists($name,$postparameters)){
@@ -77,7 +80,14 @@ for($i=0;$i<count($vcard->children[$line]->parameters);$i++){
 			unset($vcard->children[$line]->parameters[$i]);
 		}
 		else{
-			$vcard->children[$line]->parameters[$i]->value = $postparameters[$name];
+			unset($vcard->children[$line][$name]);
+			$values = $postparameters[$name];
+			if (!is_array($values)){
+				$values = array($values);
+			}
+			foreach($values as $value){
+				$vcard->children[$line]->add($name, $value);
+			}
 		}
 		unset($postparameters[$name]);
 	}
@@ -94,7 +104,17 @@ $checksum = md5($vcard->children[$line]->serialize());
 
 OC_Contacts_VCard::edit($id,$vcard->serialize());
 
-$tmpl = new OC_Template('contacts','part.property');
+$adr_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'ADR');
+$phone_types = OC_Contacts_VCard::getTypesOfProperty($l10n, 'TEL');
+
+if ($vcard->children[$line]->name == 'FN'){
+	$tmpl = new OC_Template('contacts','part.property.FN');
+}
+else{
+	$tmpl = new OC_Template('contacts','part.property');
+}
+$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('property',OC_Contacts_VCard::structureProperty($vcard->children[$line],$line));
 $page = $tmpl->fetchPage();
 

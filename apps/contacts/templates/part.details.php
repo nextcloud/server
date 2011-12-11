@@ -1,5 +1,5 @@
 <?php if(array_key_exists('FN',$_['details'])): ?>
-	<p id="contacts_details_name"><?php echo $_['details']['FN'][0]['value']; ?></p>
+	<?php echo $this->inc('part.property.FN', array('property' => $_['details']['FN'][0])); ?>
 	<img class="svg action" id="contacts_deletecard" src="<?php echo image_path('', 'actions/delete.svg'); ?>" title="<?php echo $l->t('Delete contact');?>" />
 
 	<?php if(isset($_['details']['PHOTO'])): // Emails first ?>
@@ -29,12 +29,12 @@
 					<select name="name" size="1">
 						<?php echo html_select_options($_['property_types'], 'EMAIL') ?>
 					</select>
+					<br>
+					<input id="contacts_addproperty_button" type="submit" value="<?php echo $l->t('Add'); ?>">
 				</p>
 				<p class="contacts_property_data" id="contacts_generic">
 					<input type="text" name="value" value="">
 				</p>
-				<br>
-				<input id="contacts_addproperty_button" type="submit" value="<?php echo $l->t('Add'); ?>">
 			</form>
 			<div id="contacts_addcontactsparts" style="display:none;">
 				<ul class="contacts_property_data" id="contacts_addresspart">
@@ -75,7 +75,7 @@
 				</ul>
 				<p class="contacts_property_data" id="contacts_phonepart">
 					<input type="text" name="value" value="">
-					<select name="parameters[TYPE]" size="1">
+					<select name="parameters[TYPE][]" multiple="multiple" data-placeholder="<?php echo $l->t('Type') ?>">
 						<?php echo html_select_options($_['phone_types'], 'CELL') ?>
 					</select>
 				</p>
