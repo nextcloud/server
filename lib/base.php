@@ -159,6 +159,8 @@ class OC{
 			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 		}
 
+		OC_App::updateApps();
+
 		ini_set('session.cookie_httponly','1;');
 		session_start();
 

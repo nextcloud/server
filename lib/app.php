@@ -371,4 +371,33 @@ class OC_App{
 		}
 		return $apps;
 	}
+	
+	/**
+	 * check if any apps need updating and update those
+	 */
+	public static function updateApps(){
+		// The rest comes here
+		$apps = OC_Appconfig::getApps();
+		foreach( $apps as $app ){
+			$installedVersion=OC_Appconfig::getValue($app,'installed_version');
+			$appInfo=OC_App::getAppInfo($app);
+			$currentVersion=$appInfo['version'];
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				OC_App::updateApp($app);
+			}
+		}
+	}
+	
+	/**
+	 * update the database for the app and call the update script
+	 * @param string appid
+	 */
+	public static function updateApp($appid){
+		if(file_exists(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/database.xml')){
+			OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/database.xml');
+		}
+		if(file_exists(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/update.php')){
+			include OC::$SERVERROOT.'/apps/'.$file.'/appinfo/update.php';
+		}
+	}
 }
