@@ -17,3 +17,6 @@ contacts in the active address book(s).
 When an address book is activated the setting is saved using OC_Preferences::setValue().
 
 Most of the code is copy/paste from the Calendar and Contacts apps ;-)
+
+Tested with fresh clone from git@gitorious.org:~tanghus/owncloud/tanghus-owncloud.git, removed
+database and config.php.
