@@ -27,8 +27,10 @@
 
 class OC_FileProxy_Quota extends OC_FileProxy{
 	private function getFreeSpace(){
-		$usedSpace=OC_Filesystem::filesize('');
+		$rootInfo=OC_FileCache::get('');
+		$usedSpace=$rootInfo['size'];
 		$totalSpace=OC_Preferences::getValue(OC_User::getUser(),'files','quota',0);
+		$totalSpace=OC_Helper::computerFileSize($totalSpace);
 		if($totalSpace==0){
 			return 0;
 		}
