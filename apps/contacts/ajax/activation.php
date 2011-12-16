@@ -8,16 +8,15 @@
  */
 
 require_once ("../../../lib/base.php");
-if(!OC_USER::isLoggedIn()) {
-	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
-}
+OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 $bookid = $_POST['bookid'];
 OC_Contacts_Addressbook::setActive($bookid, $_POST['active']);
-$book = OC_Contacts_Addressbook::find($bookid);
+$book = OC_Contacts_App::getAddressbook($bookid);
 
 /* is there an OC_JSON::error() ? */
 OC_JSON::success(array(
 	'active' => OC_Contacts_Addressbook::isActive($bookid),
 	'bookid' => $bookid,
+	'book'   => $book,
 ));

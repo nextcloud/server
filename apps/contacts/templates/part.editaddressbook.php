@@ -18,7 +18,7 @@
 <tr>
 	<td></td>
 	<td>
-		<input id="edit_active_<?php echo $_['addressbook']['id'] ?>" type="checkbox"<?php echo $_['addressbook']['active'] ? ' checked="checked"' : '' ?>>
+		<input id="edit_active_<?php echo $_['addressbook']['id'] ?>" type="checkbox"<?php echo  OC_Contacts_Addressbook::isActive($_['addressbook']['id']) ? ' checked="checked"' : '' ?>>
 		<label for="edit_active_<?php echo $_['addressbook']['id'] ?>">
 			<?php echo $l->t('Active') ?>
 		</label>

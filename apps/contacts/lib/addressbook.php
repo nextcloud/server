@@ -43,7 +43,7 @@ class OC_Contacts_Addressbook{
 	 * @param string $uid
 	 * @return array
 	 */
-	public static function allAddressbooks($uid){
+	public static function all($uid){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ORDER BY displayname' );
 		$result = $stmt->execute(array($uid));
 
@@ -62,7 +62,7 @@ class OC_Contacts_Addressbook{
 	 */
 	public static function allWherePrincipalURIIs($principaluri){
 		$uid = self::extractUserID($principaluri);
-		return self::allAddressbooks($uid);
+		return self::all($uid);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class OC_Contacts_Addressbook{
 	 * @return insertid
 	 */
 	public static function add($userid,$name,$description){
-		$all = self::allAddressbooks($userid);
+		$all = self::all($userid);
 		$uris = array();
 		foreach($all as $i){
 			$uris[] = $i['uri'];
@@ -145,16 +145,16 @@ class OC_Contacts_Addressbook{
 	 * @param integer $uid User id. If null current user will be used.
 	 * @return array
 	 */
-	public static function activeAddressbookIds($uid){
+	public static function activeIds($uid){
 		if(is_null($uid)){
 			$uid = OC_User::getUser();
 		}
 		$prefbooks = OC_Preferences::getValue($uid,'contacts','openaddressbooks',null);
 		if(is_null($prefbooks)){
-			$addressbooks = OC_Contacts_Addressbook::allAddressbooks($uid);
+			$addressbooks = OC_Contacts_Addressbook::all($uid);
 			if(count($addressbooks) == 0){
 				OC_Contacts_Addressbook::add($uid,'default','Default Address Book');
-				$addressbooks = OC_Contacts_Addressbook::allAddressbooks($uid);
+				$addressbooks = OC_Contacts_Addressbook::all($uid);
 			}
 			$prefbooks = $addressbooks[0]['id'];
 			OC_Preferences::setValue($uid,'contacts','openaddressbooks',$prefbooks);
@@ -167,8 +167,8 @@ class OC_Contacts_Addressbook{
 	 * @param string $uid
 	 * @return array
 	 */
-	public static function activeAddressbooks($uid){
-		$active = self::activeAddressbookIds($uid);
+	public static function active($uid){
+		$active = self::activeIds($uid);
 		$addressbooks = array();
 		/** FIXME: Is there a way to prepare a statement 'WHERE id IN ([range])'?
 		*/
@@ -198,7 +198,7 @@ class OC_Contacts_Addressbook{
 			$id = 0;
 		}
 
-		$openaddressbooks = self::activeAddressbookIds();
+		$openaddressbooks = self::activeIds();
 		if($active) {
 			if(!in_array($id, $openaddressbooks)) {
 				$openaddressbooks[] = $id;
@@ -221,7 +221,10 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function isActive($id){
-		return in_array($id, self::activeAddressbookIds());
+		//if(defined("DEBUG") && DEBUG) {
+			OC_Log::write('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()),OC_Log::DEBUG);
+		//}
+		return in_array($id, self::activeIds());
 	}
 
 	/**

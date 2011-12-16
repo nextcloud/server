@@ -17,7 +17,7 @@ OC_JSON::checkAppEnabled('contacts');
 $bookid = $_POST['id'];
 OC_Contacts_Addressbook::edit($bookid, $_POST['name'], null);
 OC_Contacts_Addressbook::setActive($bookid, $_POST['active']);
-$addressbook = OC_Contacts_Addressbook::find($bookid);
+$addressbook = OC_Contacts_App::getAddressbook($bookid);
 $tmpl = new OC_Template('contacts', 'part.chooseaddressbook.rowfields');
 $tmpl->assign('addressbook', $addressbook);
 OC_JSON::success(array(

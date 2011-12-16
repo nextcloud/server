@@ -32,7 +32,7 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 // Get active address books. This creates a default one if none exists.
-$addressbooks = OC_Contacts_Addressbook::activeAddressbooks(OC_User::getUser());
+$addressbooks = OC_Contacts_Addressbook::active(OC_User::getUser());
 
 // Load the files we need
 OC_App::setActiveNavigationEntry( 'contacts_index' );

@@ -12,21 +12,22 @@ OC_Util::checkAppEnabled('contacts');
 $book = isset($_GET['bookid']) ? $_GET['bookid'] : NULL;
 $contact = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
 if(isset($book)){
-	$addressbook = OC_Contacts_Addressbook::find($book);
+	$addressbook = OC_Contacts_App::getAddressbook($book);
 	if($addressbook['userid'] != OC_User::getUser()){
 		OC_JSON::error();
 		exit;
 	}
 	$cardobjects = OC_Contacts_VCard::all($book);
 	header('Content-Type: text/directory');
-	header('Content-Disposition: inline; filename=' . $addressbook['displayname'] . '.vcf'); 
+	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $addressbook['displayname']) . '.vcf'); 
 	for($i = 0;$i <= count($cardobjects); $i++){
-		echo trim($cardobjects[$i]['carddata']) . '\n';
+		echo $cardobjects[$i]['carddata'];
+		//echo '\r\n';
 	}
 }elseif(isset($contact)){	
-	$data = OC_Contacts_VCard::find($contact);
+	$data = OC_Contacts_App::getContactObject($contact);
 	$addressbookid = $data['addressbookid'];
-	$addressbook = OC_Contacts_Addressbook::find($addressbookid);
+	$addressbook = OC_Contacts_App::getAddressbook($addressbookid);
 	if($addressbook['userid'] != OC_User::getUser()){
 		OC_JSON::error();
 		exit;

@@ -1,7 +1,7 @@
 <div id="chooseaddressbook_dialog" title="<?php echo $l->t("Choose active Address Books"); ?>">
 <table width="100%" style="border: 0;">
 <?php
-$option_addressbooks = OC_Contacts_Addressbook::allAddressbooks(OC_User::getUser());
+$option_addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
 for($i = 0; $i < count($option_addressbooks); $i++){
 	echo "<tr>";
 	$tmpl = new OC_Template('contacts', 'part.chooseaddressbook.rowfields');

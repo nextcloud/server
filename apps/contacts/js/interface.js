@@ -1,5 +1,4 @@
 Contacts={
-	space:' ',
 	UI:{
 		showCardDAVUrl:function(username, bookname){
 			$('#carddav_url').val(totalurl + '/' + username + '/' + bookname);
@@ -82,6 +81,7 @@ Contacts={
 							$(button).closest('tr').prev().html(data.page).show().next().remove();
 						}
 					});
+				Contacts.UI.Contacts.update();
 			},
 			cancel:function(button, bookid){
 				$(button).closest('tr').prev().show().next().remove();

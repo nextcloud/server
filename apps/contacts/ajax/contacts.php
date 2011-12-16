@@ -7,16 +7,14 @@
  */
 
 function contacts_namesort($a,$b){
-	return strcmp($a['fullname'],$b['fullname']);
+	return strcasecmp($a['fullname'],$b['fullname']);
 }
 
 require_once('../../../lib/base.php');
-if(!OC_USER::isLoggedIn()) {
-	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
-}
+OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$addressbooks = OC_Contacts_Addressbook::activeAddressbooks(OC_User::getUser());
+$addressbooks = OC_Contacts_Addressbook::active(OC_User::getUser());
 $contacts = array();
 foreach( $addressbooks as $addressbook ){
 	$addressbookcontacts = OC_Contacts_VCard::all($addressbook['id']);
