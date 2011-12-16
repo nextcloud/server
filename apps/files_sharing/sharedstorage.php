@@ -285,7 +285,9 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function is_writeable($path) {
-		if ($path == "" || $path == "/" || OC_Share::getPermissions($this->datadir.$path) & OC_Share::WRITE) {
+		if($path == "" || $path == "/"){
+			return false;
+		}elseif (OC_Share::getPermissions($this->datadir.$path) & OC_Share::WRITE) {
 			return true;
 		} else {
 			return false;
