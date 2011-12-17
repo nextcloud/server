@@ -1,5 +1,6 @@
 <?php // Include Style and Script
 OC_Util::addScript('contacts','interface');
+OC_Util::addScript('contacts','jquery.inview');
 OC_Util::addStyle('contacts','styles');
 OC_Util::addStyle('contacts','formtastic');
 ?>
@@ -10,7 +11,7 @@ OC_Util::addStyle('contacts','formtastic');
 	</form>
 </div>
 <div id="leftcontent" class="leftcontent">
-	<ul>
+	<ul id="contacts">
 		<?php echo $this->inc("part.contacts"); ?>
 	</ul>
 </div>
