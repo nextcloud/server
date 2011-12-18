@@ -12,11 +12,7 @@ OC_Util::checkAppEnabled('calendar');
 $cal = isset($_GET["calid"]) ? $_GET["calid"] : NULL;
 $event = isset($_GET["eventid"]) ? $_GET["eventid"] : NULL;
 if(isset($cal)){
-	$calendar = OC_Calendar_Calendar::findCalendar($cal);
-	if($calendar["userid"] != OC_User::getUser()){
-		OC_JSON::error();
-		exit;
-	}
+	$calendar = OC_Calendar_App::getCalendar($cal);
 	$calobjects = OC_Calendar_Object::all($cal);
 	header("Content-Type: text/Calendar");
 	header("Content-Disposition: inline; filename=calendar.ics"); 
@@ -24,13 +20,9 @@ if(isset($cal)){
 		echo $calobjects[$i]["calendardata"] . "\n";
 	}
 }elseif(isset($event)){
-	$data = OC_Calendar_Object::find($_GET["eventid"]);
+	$data = OC_Calendar_App::getEventObject($_GET["eventid"]);
 	$calendarid = $data["calendarid"];
-	$calendar = OC_Calendar_Calendar::findCalendar($calendarid);
-	if($calendar["userid"] != OC_User::getUser()){
-		OC_JSON::error();
-		exit;
-	}
+	$calendar = OC_Calendar_App::getCalendar($calendarid);
 	header("Content-Type: text/Calendar");
 	header("Content-Disposition: inline; filename=" . $data["summary"] . ".ics"); 
 	echo $data["calendardata"];

@@ -8,26 +8,16 @@
 
 require_once('../../../lib/base.php');
 
-$l10n = new OC_L10N('calendar');
-
 if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
 OC_JSON::checkAppEnabled('calendar');
 
-$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-$category_options = OC_Calendar_Object::getCategoryOptions($l10n);
-$repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
-
 $id = $_GET['id'];
-$data = OC_Calendar_Object::find($id);
-$calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
-if($calendar['userid'] != OC_User::getUser()){
-		echo $l10n->t('Wrong calendar');
-		exit;
-}
+$data = OC_Calendar_App::getEventObject($id);
 $object = OC_VObject::parse($data['calendardata']);
 $vevent = $object->VEVENT;
+
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 switch($dtstart->getDateType()) {
@@ -65,6 +55,10 @@ if ($last_modified){
 }else{
 	$lastmodified = 0;
 }
+
+$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$category_options = OC_Calendar_App::getCategoryOptions();
+$repeat_options = OC_Calendar_App::getRepeatOptions();
 
 $tmpl = new OC_Template('calendar', 'part.editevent');
 $tmpl->assign('id', $id);
