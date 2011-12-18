@@ -16,8 +16,8 @@ if(isset($cal)){
 	$calobjects = OC_Calendar_Object::all($cal);
 	header("Content-Type: text/Calendar");
 	header("Content-Disposition: inline; filename=calendar.ics"); 
-	for($i = 0;$i <= count($calobjects); $i++){
-		echo $calobjects[$i]["calendardata"] . "\n";
+	foreach($calobjects as $calobject){
+		echo $calobject["calendardata"] . "\n";
 	}
 }elseif(isset($event)){
 	$data = OC_Calendar_App::getEventObject($_GET["eventid"]);
