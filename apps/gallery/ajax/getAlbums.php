@@ -4,6 +4,7 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('gallery');
 
 $a = array();
+
 $result = OC_Gallery_Album::find(OC_User::getUser());
 
 while ($r = $result->fetchRow()) {
