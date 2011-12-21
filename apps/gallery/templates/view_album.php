@@ -15,7 +15,8 @@ OC_Util::addStyle( 'files_imageviewer', 'jquery.fancybox-1.3.4' );
 </script>
 
 <div id="controls">
-  <a href="?"><input type="button" value="Back" /></a><br/>
+  <a href="?"><input type="button" value="Back" /></a>
+<br/>
 </div>
 
 <div id="gallery_list" class="leftcontent">

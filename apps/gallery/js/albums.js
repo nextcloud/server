@@ -57,14 +57,15 @@ Albums={
   // displays gallery in linear representation
   // on given element, and apply default styles for gallery
   display: function(element) {
-    var displayTemplate = '<div id="gallery_album_box" title="*NAME*"><a href="?view=*NAME*"><div id="gallery_album_cover"></div></a><h1>*NAME*</h1></div></div>';
+    var displayTemplate = '<div id="gallery_album_box" title="*NAME*"><a href="#?view=*NAME*"><div id="#gallery_control_overlay"><div id="gallery_album_cover" title="*NAME*"></div></div></a><h1>*NAME*</h1></div></div>';
     for (var i in Albums.albums) {
       var a = Albums.albums[i];
       var local = $(displayTemplate.replace(/\*NAME\*/g, a.name));
-      local.css('background-repeat', 'no-repeat');
-      local.css('background-position', '0 0');
-      local.css('background-image','url("'+a.backgroundPath+'")');
-      local.mousemove(function(e) {
+      $("#gallery_album_cover", local).css('background-repeat', 'no-repeat');
+      $("#gallery_album_cover", local).css('background-position', '0');
+      $("#gallery_album_cover", local).css('background-image','url("ajax/getCovers.php?album_name='+a.name+'")');
+      $("#gallery_album_cover", local).mousemove(function(e) {
+
         var albumMetadata = Albums.find(this.title);
         if (albumMetadata == undefined) {
           return;
@@ -75,6 +76,13 @@ Albums={
       });
       $(element).append(local);
     }
+  },
+  rename: function(element, new_name) {
+    if (new_name) {
+		$(element).attr("title", new_name);
+		$("a", element).attr("href", "?view="+new_name);
+		$("h1", element).text(new_name);
+	}
   }
 
 }

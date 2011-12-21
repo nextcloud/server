@@ -14,6 +14,8 @@ div#gallery_album_box {
   display: inline-block;
   margin: 5pt;
   vertical-align: top;
+  padding: 10px;
+  border: solid 1px black;
 }
 .leftcontent div#gallery_album_box {
   margin: 5px;
@@ -27,7 +29,14 @@ div#gallery_album_box h1 {
 div#gallery_album_cover {
   width: 199px;
   height: 199px;
-  border: solid 1px black;
+  border: solid 1px #999;
+  padding: 0;
+}
+
+div#gallery_control_overlay {
+  width:199px;
+  height:199px;
+  position:relative;
 }
 
 #gallery_images {
