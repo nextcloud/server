@@ -1,5 +1,5 @@
 <?php if(array_key_exists('FN',$_['details'])): ?>
-	<p id="contacts_details_name"><?php echo $_['details']['FN'][0]['value']; ?></p>
+	<?php echo $this->inc('part.property.FN', array('property' => $_['details']['FN'][0])); ?>
 	<img class="svg action" id="contacts_deletecard" src="<?php echo image_path('', 'actions/delete.svg'); ?>" title="<?php echo $l->t('Delete contact');?>" />
 
 	<?php if(isset($_['details']['PHOTO'])): // Emails first ?>
@@ -27,24 +27,21 @@
 				<input type="hidden" name="id" value="<?php echo $_['id']; ?>">
 				<p class="contacts_property_name">
 					<select name="name" size="1">
-						<option value="ADR"><?php echo $l->t('Address'); ?></option>
-						<option value="TEL"><?php echo $l->t('Telephone'); ?></option>
-						<option value="EMAIL" selected="selected"><?php echo $l->t('Email'); ?></option>
-						<option value="ORG"><?php echo $l->t('Organization'); ?></option>
+						<?php echo html_select_options($_['property_types'], 'EMAIL') ?>
 					</select>
+					<br>
+					<input id="contacts_addproperty_button" type="submit" value="<?php echo $l->t('Add'); ?>">
 				</p>
 				<p class="contacts_property_data" id="contacts_generic">
 					<input type="text" name="value" value="">
-				</p><br>
-				<input id="contacts_addproperty_button" type="submit" value="<?php echo $l->t('Add'); ?>">
+				</p>
 			</form>
 			<div id="contacts_addcontactsparts" style="display:none;">
 				<ul class="contacts_property_data" id="contacts_addresspart">
 					<li>
 						<label for="adr_type"><?php echo $l->t('Type'); ?></label>
 						<select id="adr_type" name="parameters[TYPE]" size="1">
-							<option value="work"><?php echo $l->t('Work'); ?></option>
-							<option value="home" selected="selected"><?php echo $l->t('Home'); ?></option>
+							<?php echo html_select_options($_['adr_types'], 'HOME') ?>
 						</select>
 					</li>
 					<li>
@@ -78,15 +75,8 @@
 				</ul>
 				<p class="contacts_property_data" id="contacts_phonepart">
 					<input type="text" name="value" value="">
-					<select name="parameters[TYPE]" size="1">
-						<option value="home"><?php echo $l->t('Home'); ?></option>
-						<option value="cell" selected="selected"><?php echo $l->t('Mobile'); ?></option>
-						<option value="work"><?php echo $l->t('Work'); ?></option>
-						<option value="text"><?php echo $l->t('Text'); ?></option>
-						<option value="voice"><?php echo $l->t('Voice'); ?></option>
-						<option value="fax"><?php echo $l->t('Fax'); ?></option>
-						<option value="video"><?php echo $l->t('Video'); ?></option>
-						<option value="pager"><?php echo $l->t('Pager'); ?></option>
+					<select name="parameters[TYPE][]" multiple="multiple" data-placeholder="<?php echo $l->t('Type') ?>">
+						<?php echo html_select_options($_['phone_types'], 'CELL') ?>
 					</select>
 				</p>
 				<p class="contacts_property_data" id="contacts_generic">

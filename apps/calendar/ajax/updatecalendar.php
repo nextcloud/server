@@ -8,16 +8,19 @@
 
 require_once('../../../lib/base.php');
 
-$l10n = new OC_L10N('calendar');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
 $calendarid = $_POST['id'];
+$calendar = OC_Calendar_App::getCalendar($calendarid);//access check
 OC_Calendar_Calendar::editCalendar($calendarid, $_POST['name'], null, null, null, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
-$calendar = OC_Calendar_Calendar::findCalendar($calendarid);
+
+$calendar = OC_Calendar_App::getCalendar($calendarid);
 $tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
 $tmpl->assign('calendar', $calendar);
-OC_JSON::success(array('data' => $tmpl->fetchPage()));
+OC_JSON::success(array(
+	'page' => $tmpl->fetchPage(),
+	'eventSource' => OC_Calendar_Calendar::getEventSourceInfo($calendar),
+));

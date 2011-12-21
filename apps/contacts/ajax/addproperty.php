@@ -23,40 +23,20 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$id = $_POST['id'];
-$l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$card = OC_Contacts_VCard::find( $id );
-if( $card === false ){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Contact could not be found.'))));
-	exit();
-}
-
-$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your contact.'))));
-	exit();
-}
-
-$vcard = OC_Contacts_VCard::parse($card['carddata']);
-// Check if the card is valid
-if(is_null($vcard)){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('vCard could not be read.'))));
-	exit();
-}
+$id = $_POST['id'];
+$vcard = OC_Contacts_App::getContactVCard( $id );
 
 $name = $_POST['name'];
 $value = $_POST['value'];
-$parameters = isset($_POST['parameteres'])?$_POST['parameters']:array();
+$parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
 
-$property = OC_Contacts_VCard::addVCardProperty($vcard, $name, $value, $parameters);
+$property = $vcard->addProperty($name, $value, $parameters);
 
 $line = count($vcard->children) - 1;
-$checksum = md5($property->serialize());
 
 OC_Contacts_VCard::edit($id,$vcard->serialize());
 

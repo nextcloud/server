@@ -59,6 +59,9 @@ class OC_Log{
 			return array();
 		}
 		$fh=fopen($logFile,'r');
+		if($fh === false){ // Unable to read log file!
+			return array();
+		}
 		while(!feof($fh)){
 			$line=fgets($fh);
 			if($line){

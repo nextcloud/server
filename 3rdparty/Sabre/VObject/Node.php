@@ -25,6 +25,13 @@ abstract class Sabre_VObject_Node implements IteratorAggregate, ArrayAccess, Cou
      */
     protected $iterator = null;
 
+    /**
+     * A link to the parent node
+     * 
+     * @var Sabre_VObject_Node 
+     */
+    protected $parent = null;
+
     /* {{{ IteratorAggregator interface */
 
     /**

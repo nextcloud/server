@@ -1,9 +1,9 @@
 <?php
 
 require_once('base.php'); // base lib
-require_once('lib/images_utils.php');
+require_once('images_utils.php');
 
-class OC_GALLERY_SCANNER {
+class OC_Gallery_Scanner {
 
   public static function scan($root) {
     $albums = array();
@@ -36,22 +36,18 @@ class OC_GALLERY_SCANNER {
     }
     $current_album['imagesCount'] = count($current_album['images']);
     $albums[] = $current_album;
-    $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner LIKE ? AND album_name LIKE ?');
-    $result = $stmt->execute(array(OC_User::getUser(), $current_album['name']));
+
+    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     if ($result->numRows() == 0 && count($current_album['images'])) {
-      $stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_albums (uid_owner, album_name) VALUES (?, ?)');
-      $stmt->execute(array(OC_User::getUser(), $current_album['name']));
+	    OC_Gallery_Album::create(OC_User::getUser(), $current_album['name']);
+	    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     }
-    $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner LIKE ? AND album_name LIKE ?');
-    $result = $stmt->execute(array(OC_User::getUser(), $current_album['name']));
-    $albumId = $result->fetchAll();
-    $albumId = $albumId[0]['album_id'];
+    $albumId = $result->fetchRow();
+    $albumId = $albumId['album_id'];
     foreach ($current_album['images'] as $img) {
-      $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_photos WHERE album_id = ? AND file_path LIKE ?');
-      $result = $stmt->execute(array($albumId, $img));
+      $result = OC_Gallery_Photo::find($albumId, $img);
       if ($result->numRows() == 0) {
-        $stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_photos (album_id, file_path) VALUES (?, ?)');
-        $stmt->execute(array($albumId, $img));
+	      OC_Gallery_Photo::create($albumId, $img);
       }
     }
     if (count($current_album['images'])) {

@@ -365,7 +365,7 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
+	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true}); 
 	$('.selectedActions a.delete').tipsy({gravity: 'se', fade:true, live:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
 	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
@@ -401,3 +401,10 @@ if (!Array.prototype.map){
 	    return res;
 	};
 }
+
+/**
+ * Filter Jquery selector by attribute value
+ **/
+$.fn.filterAttr = function(attr_name, attr_value) {  
+   return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
+};

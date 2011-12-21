@@ -82,7 +82,7 @@ class OC_Calendar_Calendar{
 	 * @param integer $id
 	 * @return associative array
 	 */
-	public static function findCalendar($id){
+	public static function find($id){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE id = ?' );
 		$result = $stmt->execute(array($id));
 
@@ -111,7 +111,7 @@ class OC_Calendar_Calendar{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_calendar');
 	}
 
 	/**
@@ -131,7 +131,7 @@ class OC_Calendar_Calendar{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_calendars');
 	}
 
 	/**
@@ -148,7 +148,7 @@ class OC_Calendar_Calendar{
 	 */
 	public static function editCalendar($id,$name=null,$components=null,$timezone=null,$order=null,$color=null){
 		// Need these ones for checking uri
-		$calendar = self::findCalendar($id);
+		$calendar = self::find($id);
 
 		// Keep old stuff
 		if(is_null($name)) $name = $calendar['name'];
@@ -238,6 +238,14 @@ class OC_Calendar_Calendar{
 			'ff7f50', // "Coral"
 			'ee82ee', // "Violet"
 			'ecc255', // dark yellow
+		);
+	}
+	public static function getEventSourceInfo($calendar){
+		return array(
+			'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
+			'backgroundColor' => '#'.$calendar['calendarcolor'],
+			'borderColor' => '#888',
+			'textColor' => 'black',
 		);
 	}
 }

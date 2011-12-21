@@ -20,11 +20,23 @@
 			<span style="display:none;" data-use="delete"><img class="svg action" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
 		</p>
 	<?php elseif($_['property']['name'] == 'TEL'): ?>
-		<p class="contacts_property_name"><?php echo $l->t('Phone'); ?></p>
+		<p class="contacts_property_name"><?php echo (isset($_['property']['parameters']['PREF']) && $_['property']['parameters']['PREF']) ? $l->t('Preferred').' ' : '' ?><?php echo $l->t('Phone'); ?></p>
 		<p class="contacts_property_data">
 			<?php echo $_['property']['value']; ?>
-			<?php if(isset($_['property']['parameters']['TYPE'])): ?>
-				(<?php echo $l->t(ucwords(str_replace('cell','mobile',strtolower($_['property']['parameters']['TYPE'])))); ?>)
+			<?php if(isset($_['property']['parameters']['TYPE']) && !empty($_['property']['parameters']['TYPE'])): ?>
+<?php
+	$types = array();
+	foreach($_['property']['parameters']['TYPE'] as $type):
+		if (isset($_['phone_types'][strtoupper($type)])){
+			$types[]=$_['phone_types'][strtoupper($type)];
+		}
+		else{
+			$types[]=$l->t(ucwords(strtolower($type)));
+		}
+	endforeach;
+	$label = join(' ', $types);
+?>
+				(<?php echo $label; ?>)
 			<?php endif; ?>
 			<span style="display:none;" data-use="edit"><img class="svg action" src="<?php echo image_path('', 'actions/rename.svg'); ?>" /></span>
 			<span style="display:none;" data-use="delete"><img class="svg action" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
@@ -34,7 +46,16 @@
 			<?php echo $l->t('Address'); ?>
 			<?php if(isset($_['property']['parameters']['TYPE'])): ?>
 				<br>
-				(<?php echo $l->t(ucwords($_['property']['parameters']['TYPE'])); ?>)
+<?php
+	$type = $_['property']['parameters']['TYPE'];
+	if (isset($_['adr_types'][strtoupper($type)])){
+		$label=$_['adr_types'][strtoupper($type)];
+	}
+	else{
+		$label=$l->t(ucwords(strtolower($type)));
+	}
+?>
+				(<?php echo $label; ?>)
 			<?php endif; ?>
 		</p>
 		<p class="contacts_property_data">

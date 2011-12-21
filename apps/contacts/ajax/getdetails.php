@@ -23,38 +23,11 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$id = $_GET['id'];
-
-$l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
+$id = $_GET['id'];
+$vcard = OC_Contacts_App::getContactVCard( $id );
 
-$card = OC_Contacts_VCard::find( $id );
-if( $card === false ){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Contact could not be found.'))));
-	exit();
-}
-
-$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your contact.'))));
-	exit();
-}
-
-$vcard = OC_Contacts_VCard::parse($card['carddata']);
-// Check if the card is valid
-if(is_null($vcard)){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('vCard could not be read.'))));
-	exit();
-}
-
-$details = OC_Contacts_VCard::structureContact($vcard);
-$tmpl = new OC_Template('contacts','part.details');
-$tmpl->assign('details',$details);
-$tmpl->assign('id',$id);
-$page = $tmpl->fetchPage();
-
-OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page )));
+OC_Contacts_App::renderDetails($id, $vcard);

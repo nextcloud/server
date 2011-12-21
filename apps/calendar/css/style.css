@@ -17,19 +17,12 @@
 #editentry_dialog {display: none;}
 #parsingfail_dialog{display: none;}
 
-#calendar_holder {height: 100%; width: 100%;}
-#onedayview, #oneweekview, #fourweeksview, #onemonthview, #listview {display: none; position: absolute;bottom: 0; right: 0; left: 160px; top: 80px;}
-#onedayview table {margin: 0; padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;}
-#oneweekview table {margin: 0; padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;}
-#fourweeksview table {margin: 0; padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;overflow: hidden;}
-#onemonthview table {margin: 0;	padding: 0; width: 100%; height: 100%; border-spacing:1px; background: #EEEEEE;}
+#calendar_holder {position: relative;bottom: 0; right: 0; left: 0; top: 3em;}
+.fc-content{padding:2px 4px;}
 #listview {margin: 0; padding: 10px; background: #EEEEEE;}
 #listview #more_before, #listview #more_after {border: 1px solid #1a1a1a; width:25em;padding: 3px;text-align: center;}
 #listview #events {width:25em;padding: 4px;}
 #listview #events .day {width:auto;padding-left:10px;border-bottom: 2px solid #EEEEEE;text-align:left;}
-#fourweeksview .calw{vertical-align: middle;text-align: center;width: 50px;}
-
-#sysbox{display: none;}
 
 .actions {height: 33px;	min-width: 800px;}
 .controls {min-width: 800px;}
@@ -60,3 +53,75 @@ button.category{margin:0 3px;}
 
 .calendar-colorpicker-color{display:inline-block;width:20px;height:20px;margin-right:2px;cursor:pointer;border:2px solid transparent;}
 .calendar-colorpicker-color.active{border:2px solid black;}
+
+.fc-list-table
+{
+    margin: 10px;
+    border-style: hidden;
+    border-width: 10px;
+    padding: 10px;
+    vertical-align: top;
+    width: 100%;
+}
+.fc-list-table tr:hover
+{
+    color: #0000FF;
+    background-color: #CCFFCC;
+}
+
+
+.fc-list-date
+{
+    margin: 16px;
+    white-space: nowrap;
+    text-align: left;
+    width: 100%;
+    background-color: #808080;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.fc-list-time
+{
+    text-align: center;
+    white-space: nowrap;
+    width: 1%;
+}
+
+.fc-list-event
+{
+     text-align: left;
+}
+
+.fc-list-event .fc-event-title
+{
+     cursor: pointer;
+}
+.tipsy-event .tipsy-inner{
+background-color:#0098E4;
+border:2px solid #1d2d44;
+max-width:400px;
+padding:0;
+}
+.tipsy-event .tipsy-arrow-s{
+border-top-color:#1d2d44;
+}
+.tipsy-event .tipsy-arrow-n{
+border-bottom-color:#1d2d44;
+}
+.tipsy-event .summary,
+.tipsy-event .timespan,
+.tipsy-event .description{
+padding:0 8px;
+}
+.tipsy-event .summary{
+background-color:#1d2d44;
+font-size:1.2em;
+font-weight:bold;
+text-align:left;
+padding:0 8px 2px;
+}
+.tipsy-event .description{
+line-height:1.2;
+margin-bottom:4px;
+}

@@ -69,7 +69,7 @@ Albums={
         if (albumMetadata == undefined) {
           return;
         }
-        var x = Math.min(Math.floor((e.clientX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers)), albumMetadata.numOfCovers-1);
+        var x = Math.min(Math.floor((e.layerX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers)), albumMetadata.numOfCovers-1);
         x *= this.offsetWidth;
         $(this).css('background-position', -x+'px 0');
       });

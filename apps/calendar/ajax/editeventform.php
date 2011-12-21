@@ -8,26 +8,16 @@
 
 require_once('../../../lib/base.php');
 
-$l10n = new OC_L10N('calendar');
-
 if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
 OC_JSON::checkAppEnabled('calendar');
 
-$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-$category_options = OC_Calendar_Object::getCategoryOptions($l10n);
-$repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
-
 $id = $_GET['id'];
-$data = OC_Calendar_Object::find($id);
-$calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
-if($calendar['userid'] != OC_User::getUser()){
-		echo $l10n->t('Wrong calendar');
-		exit;
-}
-$object = Sabre_VObject_Reader::read($data['calendardata']);
+$data = OC_Calendar_App::getEventObject($id);
+$object = OC_VObject::parse($data['calendardata']);
 $vevent = $object->VEVENT;
+
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 switch($dtstart->getDateType()) {
@@ -49,23 +39,30 @@ switch($dtstart->getDateType()) {
 		break;
 }
 
-$summary = isset($vevent->SUMMARY) ? $vevent->SUMMARY->value : '';
-$location = isset($vevent->LOCATION) ? $vevent->LOCATION->value : '';
-$categories = array();
-if (isset($vevent->CATEGORIES)){
-       $categories = explode(',', $vevent->CATEGORIES->value);
-       $categories = array_map('trim', $categories);
-}
+$summary = $vevent->getAsString('SUMMARY');
+$location = $vevent->getAsString('LOCATION');
+$categories = $vevent->getAsArray('CATEGORIES');
+$repeat = $vevent->getAsString('CATEGORY');
+$description = $vevent->getAsString('DESCRIPTION');
 foreach($categories as $category){
 	if (!in_array($category, $category_options)){
 		array_unshift($category_options, $category);
 	}
 }
-$repeat = isset($vevent->CATEGORY) ? $vevent->CATEGORY->value : '';
-$description = isset($vevent->DESCRIPTION) ? $vevent->DESCRIPTION->value : '';
+$last_modified = $vevent->__get('LAST-MODIFIED');
+if ($last_modified){
+	$lastmodified = $last_modified->getDateTime()->format('U');
+}else{
+	$lastmodified = 0;
+}
+
+$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$category_options = OC_Calendar_App::getCategoryOptions();
+$repeat_options = OC_Calendar_App::getRepeatOptions();
 
 $tmpl = new OC_Template('calendar', 'part.editevent');
 $tmpl->assign('id', $id);
+$tmpl->assign('lastmodified', $lastmodified);
 $tmpl->assign('calendar_options', $calendar_options);
 $tmpl->assign('category_options', $category_options);
 $tmpl->assign('repeat_options', $repeat_options);

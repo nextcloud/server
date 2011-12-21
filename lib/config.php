@@ -94,7 +94,6 @@ class OC_Config{
 
 		// Write changes
 		self::writeData();
-
 		return true;
 	}
 

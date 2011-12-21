@@ -52,14 +52,11 @@ if(isset($_SERVER['HTTP_ORIGIN'])) {
 $path = substr($_SERVER["REQUEST_URI"], strlen($_SERVER["SCRIPT_NAME"]));
 $pathParts =  explode('/', $path);
 // for webdav:
-// 0/     1       /   2    /   3  /   4     /    5     /   6     / 7
-//  /$ownCloudUser/remoteStorage/webdav/$userHost/$userName/$dataScope/$key
-// for oauth:
-// 0/      1      /  2     /  3  / 4
-//  /$ownCloudUser/remoteStorage/oauth/auth
+// 0/     1       /   2    /   3...
+//  /$ownCloudUser/remoteStorage/$category/
 
-if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'remoteStorage' && $pathParts[3] == 'webdav') {
-	list($dummy0, $ownCloudUser, $dummy2, $dummy3, $userHost, $userName, $dataScope) = $pathParts;
+if(count($pathParts) >= 3 && $pathParts[0] == '') {
+	list($dummy, $ownCloudUser, $dummy2, $category) = $pathParts;
 
 	OC_Util::setupFS($ownCloudUser);
 
@@ -68,10 +65,10 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'remoteStor
 	$server = new Sabre_DAV_Server($publicDir);
 
 	// Path to our script
-	$server->setBaseUri(OC::$WEBROOT."/apps/remoteStorage/compat.php/$ownCloudUser");
+	$server->setBaseUri(OC::$WEBROOT."/apps/remoteStorage/WebDAV.php/$ownCloudUser");
 
 	// Auth backend
-	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(OC_remoteStorage::getValidTokens($ownCloudUser, $userName.'@'.$userHost, $dataScope));
+	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(OC_remoteStorage::getValidTokens($ownCloudUser, $category));
 
 	$authPlugin = new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud');//should use $validTokens here
 	$server->addPlugin($authPlugin);
@@ -83,41 +80,6 @@ if(count($pathParts) >= 8 && $pathParts[0] == '' && $pathParts[2] == 'remoteStor
 
 	// And off we go!
 	$server->exec();
-} else if(count($pathParts) >= 4 && $pathParts[0] == '' && $pathParts[2] == 'remoteStorage' && $pathParts[3] == 'oauth2' && $pathParts[4] = 'auth') {
-	if(isset($_POST['allow'])) {
-		//TODO: input checking. these explodes may fail to produces the desired arrays:
-		$ownCloudUser = $pathParts[1];
-		foreach($_GET as $k => $v) {
-			if($k=='user_address'){
-				$userAddress=$v;
-			} else if($k=='redirect_uri'){
-				$appUrl=$v;
-			} else if($k=='scope'){
-				$dataScope=$v;
-			}
-		}
-		if(OC_User::getUser() == $ownCloudUser) {
-			//TODO: check if this can be faked by editing the cookie in firebug!
-			$token=OC_remoteStorage::createDataScope($appUrl, $userAddress, $dataScope);
-			header('Location: '.$_GET['redirect_uri'].'#access_token='.$token.'&token_type=remoteStorage');
-		} else {
-			if((isset($_SERVER['HTTPS'])) && ($_SERVER['HTTPS'])) {
-				$url = "https://";
-			} else {
-				$url = "http://";
-			}
-			$url .= $_SERVER['SERVER_NAME'];
-			$url .= substr($_SERVER['SCRIPT_NAME'], 0, -strlen('apps/remoteStorage/compat.php'));
-			die('Please '
-				.'<input type="submit" onclick="'
-				."window.open('$url','Close me!','height=600,width=300');"
-				.'" value="log in">'
-				.', close the pop-up, and '
-				.'<form method="POST"><input name="allow" type="submit" value="Try again"></form>');
-		}
-	} else {
-		echo '<form method="POST"><input name="allow" type="submit" value="Allow this web app to store stuff on your owncloud."></form>';
-	}
 } else {
-	die('not webdav and not oauth. dont know what to do '.var_export($pathParts, true));
+	die('not the right address format '.var_export($pathParts, true));
 }

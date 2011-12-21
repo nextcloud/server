@@ -108,6 +108,7 @@ class OC_OCSClient{
 
 		$xml=@file_get_contents($url);
 		if($xml==FALSE){
+			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
 			return NULL;
 		}
 		$data=simplexml_load_string($xml);
@@ -143,6 +144,7 @@ class OC_OCSClient{
 		$kbe=array();
 		$xml=@file_get_contents($url);
 		if($xml==FALSE){
+			OC_Log::write('core','Unable to parse knowledgebase content',OC_Log::FATAL);
 			return NULL;
 		}
 		$data=simplexml_load_string($xml);

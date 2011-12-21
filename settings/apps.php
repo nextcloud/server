@@ -43,6 +43,14 @@ foreach($registeredApps as $app){
 	}
 }
 
+function app_sort($a, $b){
+	if ($a['active'] != $b['active']){
+		return $b['active'] - $a['active'];
+	}
+	return strcmp($a['name'], $b['name']);
+}
+usort($apps, 'app_sort');
+
 // dissabled for now
 // $catagoryNames=OC_OCSClient::getCategories();
 // if(is_array($catagoryNames)){

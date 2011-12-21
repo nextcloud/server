@@ -23,24 +23,12 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$id = $_GET['id'];
-$l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$card = OC_Contacts_VCard::find( $id );
-if( $card === false ){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Contact could not be found.'))));
-	exit();
-}
-
-$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your contact.'))));
-	exit();
-}
+$id = $_GET['id'];
+$card = OC_Contacts_App::getContactObject( $id );
 
 $tmpl = new OC_Template('contacts','part.addpropertyform');
 $tmpl->assign('id',$id);
