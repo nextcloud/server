@@ -367,7 +367,7 @@ class OC_Calendar_Object{
 			$errarr['title'] = 'true';
 			$errnum++;
 		}
-		$calendar = OC_Calendar_Calendar::findCalendar($request['calendar']);
+		$calendar = OC_Calendar_Calendar::find($request['calendar']);
 		if($calendar['userid'] != OC_User::getUser()){
 			$errarr['cal'] = 'true';
 			$errnum++;

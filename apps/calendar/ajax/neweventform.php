@@ -8,8 +8,6 @@
 
 require_once('../../../lib/base.php');
 
-$l10n = new OC_L10N('calendar');
-
 if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
@@ -34,8 +32,8 @@ $start->setTimezone(new DateTimeZone($timezone));
 $end->setTimezone(new DateTimeZone($timezone));
 
 $calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-$category_options = OC_Calendar_Object::getCategoryOptions($l10n);
-$repeat_options = OC_Calendar_Object::getRepeatOptions($l10n);
+$category_options = OC_Calendar_App::getCategoryOptions();
+$repeat_options = OC_Calendar_App::getRepeatOptions();
 
 $tmpl = new OC_Template('calendar', 'part.newevent');
 $tmpl->assign('calendar_options', $calendar_options);
