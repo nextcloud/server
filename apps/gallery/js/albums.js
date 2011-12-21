@@ -57,13 +57,19 @@ Albums={
   // displays gallery in linear representation
   // on given element, and apply default styles for gallery
   display: function(element) {
-    var displayTemplate = '<div id="gallery_album_box" title="*NAME*"><a href="#?view=*NAME*"><div id="#gallery_control_overlay"><div id="gallery_album_cover" title="*NAME*"></div></div></a><h1>*NAME*</h1></div></div>';
+    var displayTemplate = '<div id="gallery_album_box" title="*NAME*"><div id="gallery_control_overlay"><a href="#" onclick="galleryRename(\'*NAME*\');return false;">rename</a> | <a href="#" onclick="galleryRemove(\'*NAME*\');">remove</a></div><a href="?view=*NAME*"><div id="gallery_album_cover" title="*NAME*"></div></a><h1>*NAME*</h1></div></div>';
     for (var i in Albums.albums) {
       var a = Albums.albums[i];
       var local = $(displayTemplate.replace(/\*NAME\*/g, a.name));
       $("#gallery_album_cover", local).css('background-repeat', 'no-repeat');
       $("#gallery_album_cover", local).css('background-position', '0');
       $("#gallery_album_cover", local).css('background-image','url("ajax/getCovers.php?album_name='+a.name+'")');
+      local.mouseover(function(e) {
+	    $("#gallery_control_overlay", this).css('visibility','visible');
+      });
+      local.mouseout(function(e) {
+	    $("#gallery_control_overlay", this).css('visibility','hidden');
+	  });
       $("#gallery_album_cover", local).mousemove(function(e) {
 
         var albumMetadata = Albums.find(this.title);
@@ -71,7 +77,7 @@ Albums={
           return;
         }
         var x = Math.min(Math.floor((e.layerX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers)), albumMetadata.numOfCovers-1);
-        x *= this.offsetWidth;
+        x *= this.offsetWidth-1;
         $(this).css('background-position', -x+'px 0');
       });
       $(element).append(local);
