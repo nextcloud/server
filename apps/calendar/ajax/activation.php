@@ -7,9 +7,7 @@
  */
 
 require_once ("../../../lib/base.php");
-if(!OC_USER::isLoggedIn()) {
-	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
-}
+OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 $calendarid = $_POST['calendarid'];
 $calendar = OC_Calendar_App::getCalendar($calendarid);//access check
