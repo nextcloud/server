@@ -356,9 +356,98 @@ class OC_Calendar_Object{
 			'weekday'       => $l10n->t('Every Weekday'),
 			'biweekly'      => $l10n->t('Bi-Weekly'),
 			'monthly'       => $l10n->t('Monthly'),
-			'yearly'        => $l10n->t('Yearly'),
+			'yearly'        => $l10n->t('Yearly')
 		);
 	}
+
+	public static function getEndOptions($l10n)
+	{
+		return array(
+			'never' => $l10n->t('never'),
+			'count' => $l10n->t('by occurrences'),
+			'date'  => $l10n->t('by date')
+		);
+	}
+
+	public static function getMonthOptions($l10n)
+	{
+		return array(
+			'monthday' => $l10n->t('by monthday'),
+			'weekday'  => $l10n->t('by weekday')
+		);
+	}
+
+	public static function getWeeklyOptions($l10n)
+	{
+		return array(
+			'MO' => $l10n->t('Monday'),
+			'TU' => $l10n->t('Tuesday'),
+			'WE' => $l10n->t('Wednesday'),
+			'TH' => $l10n->t('Thursday'),
+			'FR' => $l10n->t('Friday'),
+			'SA' => $l10n->t('Saturday'),
+			'SU' => $l10n->t('Sunday')
+		);
+	}
+
+	public static function getWeekofMonth($l10n)
+	{
+		return array(
+			'auto' => $l10n->t('events week of month'),
+			'1' => $l10n->t('first'),
+			'2' => $l10n->t('second'),
+			'3' => $l10n->t('third'),
+			'4' => $l10n->t('fourth'),
+			'5' => $l10n->t('fifth'),
+			'-1' => $l10n->t('last')
+		);
+	}
+
+	public static function getByYearDayOptions(){
+		$return = array();
+		foreach(range(1,366) as $num){
+			$return[(string) $num] = (string) $num;
+		}
+		return $return;
+	}
+
+	public static function getByMonthDayOptions(){
+		$return = array();
+		foreach(range(1,31) as $num){
+			$return[(string) $num] = (string) $num;
+		}
+		return $return;
+	}
+
+	public static function getByMonthOptions($l10n){
+		return array(
+			'1'  => $l10n->t('January'),
+			'2'  => $l10n->t('February'),
+			'3'  => $l10n->t('March'),
+			'4'  => $l10n->t('April'),
+			'5'  => $l10n->t('May'),
+			'6'  => $l10n->t('June'),
+			'7'  => $l10n->t('July'),
+			'8'  => $l10n->t('August'),
+			'9'  => $l10n->t('September'),
+			'10' => $l10n->t('October'),
+			'11' => $l10n->t('November'),
+			'12' => $l10n->t('December')
+		);
+	}
+
+	public static function getYearOptions($l10n){
+		return array(
+			'byyearday' => $l10n->t('by yearday(s)'),
+			'byweekno'  => $l10n->t('by weeknumber(s)'),
+			'bydaymonth'  => $l10n->t('by day and month')
+		);
+	}
+
+	public static function getByWeekNoOptions(){
+		return range(1, 52);
+	}
+
 	public static function validateRequest($request)
 	{
 		$errnum = 0;
@@ -397,7 +486,91 @@ class OC_Calendar_Object{
 			$errarr['to'] = 'true';
 			$errnum++;
 		}
-		;
+		if($request['repeat'] != 'doesnotrepeat'){
+			if(is_nan($request['interval']) && $request['interval'] != ''){
+				$errarr['interval'] = 'true';
+				$ernum++;
+			}
+			if(array_key_exists('repeat', $request) && !array_key_exists($request['repeat'], self::getRepeatOptions(OC_Calendar_App::$l10n))){
+				$errarr['repeat'] = 'true';
+				$ernum++;
+			}
+			if(array_key_exists('advanced_month_select', $request) && !array_key_exists($request['advanced_month_select'], self::getMonthOptions(OC_Calendar_App::$l10n))){
+				$errarr['advanced_month_select'] = 'true';
+				$errnum++;
+			}
+			if(array_key_exists('advanced_year_select', $request) && !array_key_exists($request['advanced_year_select'], self::getYearOptions(OC_Calendar_App::$l10n))){
+				$errarr['advanced_year_select'] = 'true';
+				$errnum++;
+			}
+			if(array_key_exists('weekofmonthoptions', $request) && !array_key_exists($request['weekofmonthoptions'], self::getWeekofMonth(OC_Calendar_App::$l10n))){
+				$errarr['weekofmonthoptions'] = 'true';
+				$errnum++;
+			}
+			if($request['end'] != 'never'){
+				if(!array_key_exists($request['end'], self::getEndOptions(OC_Calendar_App::$l10n))){
+					$errarr['end'] = 'true';
+					$errnum++;
+				}
+				if($request['end'] == 'count' && is_nan($request['byoccurrences'])){
+					$errarr['byoccurrences'] = 'true';
+					$errnum++;
+				}
+				if($request['end'] == 'date'){
+					list($bydate_day, $bydate_month, $bydate_year) = explode('-', $request['bydate']);
+					if(!checkdate($bydate_month, $bydate_day, $bydate_year)){
+						$errarr['bydate'] = 'true';
+						$errnum++;
+					}
+				}
+			}
+			if(array_key_exists('weeklyoptions', $request)){
+				foreach($request['weeklyoptions'] as $option){
+					if(!in_array($option, self::getWeeklyOptions(OC_Calendar_App::$l10n))){
+						$errarr['weeklyoptions'] = 'true';
+						$errnum++;
+					}
+				}
+			}
+			if(array_key_exists('byyearday', $request)){
+				foreach($request['byyearday'] as $option){
+					if(!array_key_exists($option, self::getByYearDayOptions())){
+						$errarr['byyearday'] = 'true';
+						$errnum++;
+					}
+				}
+			}
+			if(array_key_exists('weekofmonthoptions', $request)){
+				if(is_nan((double)$request['weekofmonthoptions'])){
+					$errarr['weekofmonthoptions'] = 'true';
+					$errnum++;
+				}
+			}
+			if(array_key_exists('bymonth', $request)){
+				foreach($request['bymonth'] as $option){
+					if(!in_array($option, self::getByMonthOptions(OC_Calendar_App::$l10n))){
+						$errarr['bymonth'] = 'true';
+						$errnum++;
+					}
+				}
+			}
+			if(array_key_exists('byweekno', $request)){
+				foreach($request['byweekno'] as $option){
+					if(!array_key_exists($option, self::getByWeekNoOptions())){
+						$errarr['byweekno'] = 'true';
+						$errnum++;
+					}
+				}
+			}
+			if(array_key_exists('bymonthday', $request)){
+				foreach($request['bymonthday'] as $option){
+					if(!array_key_exists($option, self::getByMonthDayOptions())){
+						$errarr['bymonthday'] = 'true';
+						$errnum++;
+					}
+				}
+			}
+		}
 		if(!$allday && self::checkTime(urldecode($request['totime']))) {
 			$errarr['totime'] = 'true';
 			$errnum++;
@@ -468,27 +641,146 @@ class OC_Calendar_Object{
 			$fromtime = $request['fromtime'];
 			$totime = $request['totime'];
 		}
-		$description = $request["description"];
-		//$repeat = $request["repeat"];
-		/*switch($request["repeatfreq"]){
-			case "DAILY":
-				$repeatfreq = "DAILY";
-			case "WEEKLY":
-				$repeatfreq = "WEEKLY";
-			case "WEEKDAY":
-				$repeatfreq = "DAILY;BYDAY=MO,TU,WE,TH,FR"; //load weeksdayss from userconfig when weekdays are choosable
-			case "":
-				$repeatfreq = "";
-			case "":
-				$repeatfreq = "";
-			case "":
-				$repeatfreq = "";
-			default:
-				$repeat = "false";
-		}*/
-		$repeat = "false";
-
 		$vevent = $vcalendar->VEVENT;
+		$description = $request["description"];
+		$repeat = $request["repeat"];
+		if($repeat != 'doesnotrepeat'){
+			$rrule = '';
+			$interval = $request['interval'];
+			$end = $request['end'];
+			$byoccurrences = $request['byoccurrences'];
+			switch($repeat){
+				case 'daily':
+					$rrule .= 'FREQ=DAILY';
+					break;
+				case 'weekly':
+					$rrule .= 'FREQ=WEEKLY';
+					if(array_key_exists('weeklyoptions', $request)){
+						$byday = '';
+						$daystrings = array_flip(self::getWeeklyOptions(OC_Calendar_App::$l10n));
+						foreach($request['weeklyoptions'] as $days){
+							if($byday == ''){
+								$byday .= $daystrings[$days];
+							}else{
+								$byday .= ',' .$daystrings[$days];
+							}
+						}
+						$rrule .= ';BYDAY=' . $byday;
+					}
+					break;
+				case 'weekday':
+					$rrule .= 'FREQ=DAILY';
+					$rrule .= ';BYDAY=MO,TU,WE,TH,FR';
+					break;
+				case 'biweekly':
+					$rrule .= 'FREQ=WEEKLY';
+					$interval = $interval * 2;
+					break;
+				case 'monthly':
+					$rrule .= 'FREQ=MONTHLY';
+					if($request['advanced_month_select'] == 'monthday'){
+						break;
+					}elseif($request['advanced_month_select'] == 'weekday'){
+						if($request['weekofmonthoptions'] == 'auto'){
+							$weekofmonth = floor($request['weekofmonthoptions']/7);
+						}else{
+							$weekofmonth = $request['weekofmonthoptions'];
+						}
+						$days = array_flip(self::getWeeklyOptions(OC_Calendar_App::$l10n));
+						$byday = '';
+						foreach($request['weeklyoptions'] as $day){
+							if($byday == ''){
+								$byday .= $weekofmonth . $days[$day];
+							}else{
+								$byday .= ',' . $weekofmonth . $days[$day];
+							}
+						}
+						$rrule .= ';BYDAY=' . $byday;
+					}
+					break;
+				case 'yearly':
+					$rrule .= 'FREQ=YEARLY';
+					if($request['advanced_year_select'] == 'byyearday'){
+						$byyearday = '';
+						foreach($request['byyearday'] as $yearday){
+							if($byyearday == ''){
+								$byyearday = $yearday;
+							}else{
+								$byyearday .= ',' . $yearday;
+							}
+						}
+						$rrule .= ';BYYEARDAY=' . $byyearday;
+					}elseif($request['advanced_year_select'] == 'byweekno'){
+						list($_day, $_month, $_year) = explode('-', $from);
+						$rrule .= ';BYDAY=' . strtoupper(substr(date('l', mktime(0,0,0, $_month, $_day, $_year)), 0, 2));
+						$byweekno = '';
+						foreach($request['byweekno'] as $weekno){
+							if($byweekno == ''){
+								$byweekno = $weekno;
+							}else{
+								$byweekno .= ',' . $weekno;
+							}
+						}
+						$rrule .= ';BYWEEKNO=' . $byweekno;
+					}elseif($request['advanced_year_select'] == 'bydaymonth'){
+						if(array_key_exists('weeklyoptions', $request)){
+							$days = array_flip(self::getWeeklyOptions(OC_Calendar_App::$l10n));
+							$byday = '';
+							foreach($request['weeklyoptions'] as $day){
+								if($byday == ''){
+								      $byday .= $days[$day];
+								}else{
+								      $byday .= ',' . $days[$day];
+								}
+							}
+							$rrule .= ';BYDAY=' . $byday;
+						}
+						if(array_key_exists('bymonth', $request)){
+							$monthes = array_flip(self::getByMonthOptions(OC_Calendar_App::$l10n));
+							$bymonth = '';
+							foreach($request['bymonth'] as $month){
+								if($bymonth == ''){
+								      $bymonth .= $monthes[$month];
+								}else{
+								      $bymonth .= ',' . $monthes[$month];
+								}
+							}
+							$rrule .= ';BYMONTH=' . $bymonth;
+							
+						}
+						if(array_key_exists('bymonthday', $request)){
+							$bymonthday = '';
+							foreach($request['bymonthday'] as $monthday){
+								if($bymonthday == ''){
+								      $bymonthday .= $monthday;
+								}else{
+								      $bymonthday .= ',' . $monthday;
+								}
+							}
+							$rrule .= ';BYMONTHDAY=' . $bymonthday;
+							
+						}
+					}
+					break;
+				default:
+					break;
+			}
+			if($interval != ''){
+				$rrule .= ';INTERVAL=' . $interval;
+			}
+			if($end == 'count'){
+				$rrule .= ';COUNT=' . $byoccurrences;
+			}
+			if($end == 'date'){
+				list($bydate_day, $bydate_month, $bydate_year) = explode('-', $request['bydate']);
+				$rrule .= ';UNTIL=' . $bydate_year . $bydate_month . $bydate_day;
+			}
+			$vevent->setString('RRULE', $rrule);
+			$repeat = "true";
+		}else{
+			$repeat = "false";
+		}
+
 
 		$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Element_DateTime::UTC);
 		$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
