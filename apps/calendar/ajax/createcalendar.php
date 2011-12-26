@@ -8,8 +8,6 @@
 
 require_once('../../../lib/base.php');
 
-$l10n = new OC_L10N('calendar');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
@@ -17,7 +15,8 @@ OC_JSON::checkAppEnabled('calendar');
 $userid = OC_User::getUser();
 $calendarid = OC_Calendar_Calendar::addCalendar($userid, $_POST['name'], 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, 1);
-$calendar = OC_Calendar_Calendar::findCalendar($calendarid);
+
+$calendar = OC_Calendar_Calendar::find($calendarid);
 $tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
 $tmpl->assign('calendar', $calendar);
 OC_JSON::success(array(

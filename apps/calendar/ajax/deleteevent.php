@@ -15,17 +15,7 @@ if(!OC_USER::isLoggedIn()) {
 OC_JSON::checkAppEnabled('calendar');
 
 $id = $_POST['id'];
-$data = OC_Calendar_Object::find($id);
-if (!$data)
-{
-	OC_JSON::error();
-	exit;
-}
-$calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
-if($calendar['userid'] != OC_User::getUser()){
-	OC_JSON::error();
-	exit;
-}
+$event_object = OC_Calendar_App::getEventObject($id);
 $result = OC_Calendar_Object::delete($id);
 OC_JSON::success();
 ?> 
