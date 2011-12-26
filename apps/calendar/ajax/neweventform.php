@@ -69,6 +69,6 @@ $tmpl->assign('repeat_end', 'never');
 $tmpl->assign('repeat_count', '10');
 $tmpl->assign('repeat_weekofmonth', 'auto');
 $tmpl->assign('repeat_date', '');
-$tmpl->assign('repeat_year', 'byyearday');
+$tmpl->assign('repeat_year', 'bydate');
 $tmpl->printpage();
 ?>

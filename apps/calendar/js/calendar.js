@@ -292,7 +292,6 @@ Calendar={
 				}
 				if($('#repeat option:selected').val() == 'yearly'){
 					$('#advanced_year').css('display', 'block');
-					$('#advanced_byyearday').css('display', 'block');
 				}
 				if($('#repeat option:selected').val() == 'doesnotrepeat'){
 					$('#advanced_options_repeating').slideUp('slow');
@@ -312,14 +311,13 @@ Calendar={
 				$('#advanced_bymonth').css('display', 'none');
 				$('#advanced_byweekno').css('display', 'none');
 				$('#advanced_bymonthday').css('display', 'none');
-				if($('#advanced_year option:selected').val() == 'byyearday'){
-					$('#advanced_byyearday').css('display', 'block');
+				if($('#advanced_year_select option:selected').val() == 'byyearday'){
+					//$('#advanced_byyearday').css('display', 'block');
 				}
-				if($('#advanced_year option:selected').val() == 'byweekno'){
+				if($('#advanced_year_select option:selected').val() == 'byweekno'){
 					$('#advanced_byweekno').css('display', 'block');
-					
 				}
-				if($('#advanced_year option:selected').val() == 'bydaymonth'){
+				if($('#advanced_year_select option:selected').val() == 'bydaymonth'){
 					$('#advanced_bymonth').css('display', 'block');
 					$('#advanced_bymonthday').css('display', 'block');
 					$('#advanced_weekday').css('display', 'block');

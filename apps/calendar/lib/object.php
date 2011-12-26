@@ -438,6 +438,7 @@ class OC_Calendar_Object{
 
 	public static function getYearOptions($l10n){
 		return array(
+			'bydate' => $l10n->t('by events date'),
 			'byyearday' => $l10n->t('by yearday(s)'),
 			'byweekno'  => $l10n->t('by weeknumber(s)'),
 			'bydaymonth'  => $l10n->t('by day and month')
@@ -700,12 +701,13 @@ class OC_Calendar_Object{
 					break;
 				case 'yearly':
 					$rrule .= 'FREQ=YEARLY';
-					if($request['advanced_year_select'] == 'byyearday'){
-						$byyearday = '';
-						foreach($request['byyearday'] as $yearday){
-							if($byyearday == ''){
-								$byyearday = $yearday;
-							}else{
+					if($request['advanced_year_select'] == 'bydate'){
+						
+					}elseif($request['advanced_year_select'] == 'byyearday'){
+						list($_day, $_month, $_year) = explode('-', $from);
+						$byyearday = date('z', mktime(0,0,0, $_month, $_day, $_year)) + 1;
+						if(array_key_exists('byyearday', $request)){
+							foreach($request['byyearday'] as $yearday){
 								$byyearday .= ',' . $yearday;
 							}
 						}
