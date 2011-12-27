@@ -145,7 +145,7 @@ class OC_Contacts_Addressbook{
 	 * @param integer $uid User id. If null current user will be used.
 	 * @return array
 	 */
-	public static function activeIds($uid){
+	public static function activeIds($uid = null){
 		if(is_null($uid)){
 			$uid = OC_User::getUser();
 		}
@@ -221,9 +221,7 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function isActive($id){
-		//if(defined("DEBUG") && DEBUG) {
-			OC_Log::write('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()),OC_Log::DEBUG);
-		//}
+		OC_Log::write('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()), OC_Log::DEBUG);
 		return in_array($id, self::activeIds());
 	}
 
