@@ -13,14 +13,6 @@
   display: none;
 }
 
-/* === Toolbar === */
-#controls2 {
-  padding-top:2.8em;
-  width: 100%;
-  white-space:nowrap;
-  overflow: hidden;
-}
-
 .separator {
   display: inline;
   border-left: 1px solid #d3d3d3;
@@ -222,7 +214,7 @@ canvas {
 
 #viewer {
   /*overflow:auto;*/
-  margin: 44px 0px 0px 0px;
+  margin: 6.3em 0 0 0;
   margin-right:12.5em;
   padding: 8px 0px;
   position:static;
