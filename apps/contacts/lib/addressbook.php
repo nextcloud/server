@@ -44,7 +44,7 @@ class OC_Contacts_Addressbook{
 	 * @return array
 	 */
 	public static function all($uid){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ?' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ORDER BY displayname' );
 		$result = $stmt->execute(array($uid));
 
 		$addressbooks = array();
@@ -141,11 +141,99 @@ class OC_Contacts_Addressbook{
 	}
 
 	/**
+	 * @brief Get active addressbooks for a user.
+	 * @param integer $uid User id. If null current user will be used.
+	 * @return array
+	 */
+	public static function activeIds($uid){
+		if(is_null($uid)){
+			$uid = OC_User::getUser();
+		}
+		$prefbooks = OC_Preferences::getValue($uid,'contacts','openaddressbooks',null);
+		if(is_null($prefbooks)){
+			$addressbooks = OC_Contacts_Addressbook::all($uid);
+			if(count($addressbooks) == 0){
+				OC_Contacts_Addressbook::add($uid,'default','Default Address Book');
+				$addressbooks = OC_Contacts_Addressbook::all($uid);
+			}
+			$prefbooks = $addressbooks[0]['id'];
+			OC_Preferences::setValue($uid,'contacts','openaddressbooks',$prefbooks);
+		}
+		return explode(';',$prefbooks);
+	}
+
+	/**
+	 * @brief Returns the list of active addressbooks for a specific user.
+	 * @param string $uid
+	 * @return array
+	 */
+	public static function active($uid){
+		$active = self::activeIds($uid);
+		$addressbooks = array();
+		/** FIXME: Is there a way to prepare a statement 'WHERE id IN ([range])'?
+		*/
+		foreach( $active as $aid ){
+			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ? ORDER BY displayname' );
+			$result = $stmt->execute(array($aid,));
+
+			while( $row = $result->fetchRow()){
+				$addressbooks[] = $row;
+			}
+		}
+
+		return $addressbooks;
+	}
+
+	/**
+	 * @brief Activates an addressbook
+	 * @param integer $id
+	 * @param integer $name
+	 * @return boolean
+	 */
+	public static function setActive($id,$active){
+		// Need these ones for checking uri
+		//$addressbook = self::find($id);
+
+		if(is_null($id)){
+			$id = 0;
+		}
+
+		$openaddressbooks = self::activeIds();
+		if($active) {
+			if(!in_array($id, $openaddressbooks)) {
+				$openaddressbooks[] = $id;
+			}
+		} else { 
+			if(in_array($id, $openaddressbooks)) {
+				unset($openaddressbooks[array_search($id, $openaddressbooks)]);
+			}
+		}
+		sort($openaddressbooks, SORT_NUMERIC);
+		// FIXME: I alway end up with a ';' prepending when imploding the array..?
+		OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',implode(';', $openaddressbooks));
+
+		return true;
+	}
+
+	/**
+	 * @brief Checks if an addressbook is active.
+	 * @param integer $id ID of the address book.
+	 * @return boolean
+	 */
+	public static function isActive($id){
+		//if(defined("DEBUG") && DEBUG) {
+			OC_Log::write('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()),OC_Log::DEBUG);
+		//}
+		return in_array($id, self::activeIds());
+	}
+
+	/**
 	 * @brief removes an address book
 	 * @param integer $id
 	 * @return boolean
 	 */
 	public static function delete($id){
+		self::setActive($id, false);
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 		$stmt->execute(array($id));
 
