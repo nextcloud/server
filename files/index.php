@@ -71,7 +71,7 @@ $breadcrumb = array();
 $pathtohere = "";
 foreach( explode( "/", $dir ) as $i ){
 	if( $i != "" ){
-		$pathtohere .= "/$i";
+		$pathtohere .= "/".urlencode($i);
 		$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
 	}
 }
