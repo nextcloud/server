@@ -354,7 +354,6 @@ var PageView = function pageView(container, content, id, pageWidth, pageHeight,
 
     var container = document.getElementById('viewer');
     container.style.left = (document.getElementById("content").offsetWidth-(this.width))/2 + 'px';
-    console.log(document.getElementById("content").offsetWidth,this.width);
 
     while (div.hasChildNodes())
       div.removeChild(div.lastChild);
