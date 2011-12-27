@@ -19,6 +19,7 @@
 				var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
 				var totalurl = '<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?>/calendars';
 				</script>
+				<div id="loading"><img src="<?php echo OC_Helper::imagePath('core', 'loading.gif'); ?>" /></div>
 				<div id="controls">
 					<div>
 						<form>
