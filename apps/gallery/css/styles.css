@@ -14,6 +14,9 @@ div#gallery_album_box {
   display: inline-block;
   margin: 5pt;
   vertical-align: top;
+  padding: 10px;
+  border: solid 1px black;
+  position: relative;
 }
 .leftcontent div#gallery_album_box {
   margin: 5px;
@@ -21,13 +24,28 @@ div#gallery_album_box {
 
 div#gallery_album_box h1 {
   font-size: 12pt;
-  font-family: Arial;
+  font-family: Verdana;
 }
 
 div#gallery_album_cover {
   width: 199px;
   height: 199px;
-  border: solid 1px black;
+  border: solid 1pt #999;
+  padding: 0;
+}
+
+div#gallery_control_overlay {
+  border: 0;
+  position:absolute;
+  right: 10pt;
+  background-color: #333;
+  opacity: 0.5;
+  visibility:hidden;
+  padding: 0 5pt;
+}
+
+div#gallery_control_overlay a {
+  color:white;
 }
 
 #gallery_images {

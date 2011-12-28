@@ -5,9 +5,13 @@ OC_Util::addStyle('contacts','styles');
 OC_Util::addStyle('contacts','formtastic');
 ?>
 
+<script type='text/javascript'>
+	var totalurl = '<?php echo OC_Helper::linkTo('contacts', 'carddav.php', null, true); ?>/addressbooks';
+</script>
 <div id="controls">
 	<form>
 		<input type="button" id="contacts_newcontact" value="<?php echo $l->t('Add Contact'); ?>">
+		<input type="button" id="chooseaddressbook" value="<?php echo $l->t('Address Books'); ?>">
 	</form>
 </div>
 <div id="leftcontent" class="leftcontent">
@@ -25,3 +29,9 @@ OC_Util::addStyle('contacts','formtastic');
 		}
 	?>
 </div>
+<!-- Dialogs -->
+<div id="dialog_holder"></div>
+<div id="parsingfail_dialog" title="Parsing Fail">
+	<?php echo $l->t("There was a fail, while parsing the file."); ?>
+</div>
+<!-- End of Dialogs -->

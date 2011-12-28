@@ -47,15 +47,15 @@ class OC_Contacts_VCard{
 	 * ['carddata']
 	 */
 	public static function all($id){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ?' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
 		$result = $stmt->execute(array($id));
 
-		$addressbooks = array();
+		$cards = array();
 		while( $row = $result->fetchRow()){
-			$addressbooks[] = $row;
+			$cards[] = $row;
 		}
 
-		return $addressbooks;
+		return $cards;
 	}
 
 	/**

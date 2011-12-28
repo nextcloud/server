@@ -4,7 +4,7 @@ $(document).ready(function() {
     if (r.status == 'success') {
       for (var i in r.albums) {
         var a = r.albums[i];
-        Albums.add(a.name, a.numOfItems);
+        Albums.add(a.name, a.numOfItems, a.bgPath);
       }
       var targetDiv = document.getElementById('gallery_list');
       if (targetDiv) {
@@ -39,3 +39,37 @@ function scanForAlbums() {
     }
   });
 }
+
+function galleryRemove(albumName) {
+  if (confirm("Do you wan't to remove album " + albumName + "?")) {
+	$.getJSON("ajax/galleryOp.php", {operation: "remove", name: albumName}, function(r) {
+	  if (r.status == "success") {
+		$("#gallery_album_box[title='"+albumName+"']").remove();
+		Albums.remove(albumName);
+	  } else {
+		alert("Error: " + r.cause);
+	  }
+	});
+  }
+}
+
+function galleryRename(name) {
+  var result = window.prompt("Input new gallery name", "");
+  if (result) {
+	if (Albums.find(result)) {
+	  alert("Album named '" + result + "' already exists");
+	  return;
+	}
+	$.getJSON("ajax/galleryOp.php", {operation: "rename", oldname: name, newname: result}, function(r) {
+	  if (r.status == "success") {
+        Albums.rename($("#gallery_album_box[title='"+name+"']"), result);
+      } else {
+	    alert("Error: " + r.cause);
+      }
+	});
+	
+  } else {
+    alert("Album name can't be empty")
+  }
+}
+
