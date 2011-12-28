@@ -71,7 +71,7 @@ $breadcrumb = array();
 $pathtohere = "";
 foreach( explode( "/", $dir ) as $i ){
 	if( $i != "" ){
-		$pathtohere .= "/$i";
+		$pathtohere .= "/".urlencode($i);
 		$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
 	}
 }
@@ -97,6 +97,7 @@ $tmpl = new OC_Template( "files", "index", "user" );
 $tmpl->assign( "fileList", $list->fetchPage() );
 $tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
 $tmpl->assign( 'dir', $dir);
+$tmpl->assign( 'readonly', !OC_Filesystem::is_writeable($dir));
 $tmpl->assign( "files", $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));

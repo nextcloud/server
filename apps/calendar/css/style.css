@@ -17,6 +17,8 @@
 #editentry_dialog {display: none;}
 #parsingfail_dialog{display: none;}
 
+#loading { display: none; left: 40%; position: fixed; top: 4.4em; z-index: 100; }
+
 #calendar_holder {position: relative;bottom: 0; right: 0; left: 0; top: 3em;}
 .fc-content{padding:2px 4px;}
 #listview {margin: 0; padding: 10px; background: #EEEEEE;}

@@ -9,7 +9,7 @@ OC_JSON::checkLoggedIn();
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 $foldername = isset( $_GET['foldername'] ) ? $_GET['foldername'] : '';
 
-if($foldername == '') {
+if(trim($foldername) == '') {
 	OC_JSON::error(array("data" => array( "message" => "Empty Foldername" )));
 	exit();
 }
