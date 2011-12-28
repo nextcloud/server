@@ -108,6 +108,18 @@ Contacts={
 				})
 				$.each(contacts, function(idx, itm) { contactlist.append(itm); });
 				*/
+				setTimeout(Contacts.UI.Contacts.lazyupdate(), 500);
+			},
+			lazyupdate:function(){
+				//alert('lazyupdate');
+				$('#contacts li').live('inview', function(){
+					if (!$(this).attr('style')) {
+						//alert($(this).data('id') + ' has background: ' + $(this).attr('style'));
+						$(this).css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
+					}/* else {
+						alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
+					}*/
+				});
 			}
 		}
 	}
