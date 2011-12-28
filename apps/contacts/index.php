@@ -21,7 +21,7 @@
  */
 
 function contacts_namesort($a,$b){
-	return strcmp($a['name'],$b['name']);
+	return strcmp($a['fullname'],$b['fullname']);
 }
 
 // Init owncloud
@@ -31,17 +31,8 @@ require_once('../../lib/base.php');
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
-// Check if the user has an addressbook
-$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
-if( count($addressbooks) == 0){
-	OC_Contacts_Addressbook::add(OC_User::getUser(),'default','Default Address Book');
-	$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
-}
-$prefbooks = OC_Preferences::getValue(OC_User::getUser(),'contacts','openaddressbooks',null);
-if(is_null($prefbooks)){
-	$prefbooks = $addressbooks[0]['id'];
-	OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',$prefbooks);
-}
+// Get active address books. This creates a default one if none exists.
+$addressbooks = OC_Contacts_Addressbook::active(OC_User::getUser());
 
 // Load the files we need
 OC_App::setActiveNavigationEntry( 'contacts_index' );
@@ -51,17 +42,15 @@ $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
 
 // sort addressbooks  (use contactsort)
 usort($addressbooks,'contacts_namesort');
-// Addressbooks to load
-$openaddressbooks = explode(';',$prefbooks);
 
 $contacts = array();
-foreach( $openaddressbooks as $addressbook ){
-	$addressbookcontacts = OC_Contacts_VCard::all($addressbook);
+foreach( $addressbooks as $addressbook ){
+	$addressbookcontacts = OC_Contacts_VCard::all($addressbook['id']);
 	foreach( $addressbookcontacts as $contact ){
 		if(is_null($contact['fullname'])){
 			continue;
 		}
-		$contacts[] = array( 'name' => $contact['fullname'], 'id' => $contact['id'] );
+		$contacts[] = $contact;
 	}
 }
 
@@ -73,6 +62,13 @@ if( !is_null($id)/* || count($contacts)*/){
 	$vcard = OC_Contacts_App::getContactVCard($id);
 	$details = OC_Contacts_VCard::structureContact($vcard);
 }
+
+// Include Style and Script
+OC_Util::addScript('contacts','interface');
+OC_Util::addStyle('contacts','styles');
+OC_Util::addStyle('contacts','formtastic');
+OC_Util::addScript('', 'jquery.multiselect');
+OC_Util::addStyle('', 'jquery.multiselect');
 
 $property_types = OC_Contacts_App::getAddPropertyOptions();
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
