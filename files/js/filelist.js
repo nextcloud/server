@@ -136,6 +136,8 @@ FileList={
 			var newname=input.val();
 			tr.attr('data-file',newname);
 			td.children('a.name').empty();
+			var path = td.children('a.name').attr('href');
+			td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
 			if(newname.indexOf('.')>0){
 				basename=newname.substr(0,newname.lastIndexOf('.'));
 			}else{
