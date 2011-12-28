@@ -1,3 +1,10 @@
+<?php // Include Style and Script
+OC_Util::addScript('contacts','interface');
+OC_Util::addScript('contacts','jquery.inview');
+OC_Util::addStyle('contacts','styles');
+OC_Util::addStyle('contacts','formtastic');
+?>
+
 <script type='text/javascript'>
 	var totalurl = '<?php echo OC_Helper::linkTo('contacts', 'carddav.php', null, true); ?>/addressbooks';
 </script>
