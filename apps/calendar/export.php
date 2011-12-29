@@ -6,25 +6,25 @@
  * See the COPYING-README file.
  */
 
-require_once ("../../lib/base.php");
+require_once ('../../lib/base.php');
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
-$cal = isset($_GET["calid"]) ? $_GET["calid"] : NULL;
-$event = isset($_GET["eventid"]) ? $_GET["eventid"] : NULL;
+$cal = isset($_GET['calid']) ? $_GET['calid'] : NULL;
+$event = isset($_GET['eventid']) ? $_GET['eventid'] : NULL;
 if(isset($cal)){
 	$calendar = OC_Calendar_App::getCalendar($cal);
 	$calobjects = OC_Calendar_Object::all($cal);
-	header("Content-Type: text/Calendar");
-	header("Content-Disposition: inline; filename=calendar.ics"); 
+	header('Content-Type: text/Calendar');
+	header('Content-Disposition: inline; filename=' . $calendar['displayname'] . '.ics'); 
 	foreach($calobjects as $calobject){
-		echo $calobject["calendardata"] . "\n";
+		echo $calobject['calendardata'] . '\n';
 	}
 }elseif(isset($event)){
-	$data = OC_Calendar_App::getEventObject($_GET["eventid"]);
-	$calendarid = $data["calendarid"];
+	$data = OC_Calendar_App::getEventObject($_GET['eventid']);
+	$calendarid = $data['calendarid'];
 	$calendar = OC_Calendar_App::getCalendar($calendarid);
-	header("Content-Type: text/Calendar");
-	header("Content-Disposition: inline; filename=" . $data["summary"] . ".ics"); 
-	echo $data["calendardata"];
+	header('Content-Type: text/Calendar');
+	header('Content-Disposition: inline; filename=' . $data['summary'] . '.ics'); 
+	echo $data['calendardata'];
 }
 ?>

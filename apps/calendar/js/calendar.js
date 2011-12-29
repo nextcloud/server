@@ -8,7 +8,15 @@
 
 Calendar={
 	UI:{
+		loading: function(isLoading){
+			if (isLoading){
+				$('#loading').show();
+			}else{
+				$('#loading').hide();
+			}
+		},
 		startEventDialog:function(){
+			Calendar.UI.loading(false);
 			$('.tipsy').remove();
 			$('#calendar_holder').fullCalendar('unselect');
 			Calendar.UI.lockTime();
@@ -54,6 +62,7 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
+				Calendar.UI.loading(true);
 				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php'), {start:start, end:end, allday:allday?1:0}, Calendar.UI.startEventDialog);
 			}
 		},
@@ -63,13 +72,16 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
+				Calendar.UI.loading(true);
 				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'editeventform.php') + '?id=' + id, Calendar.UI.startEventDialog);
 			}
 		},
 		submitDeleteEventForm:function(url){
 			var post = $( '#event_form' ).serialize();
 			$('#errorbox').empty();
+			Calendar.UI.loading(true);
 			$.post(url, post, function(data){
+					Calendar.UI.loading(false);
 					if(data.status == 'success'){
 						$('#calendar_holder').fullCalendar('removeEvents', $('#event_form input[name=id]').val());
 						$('#event').dialog('destroy').remove();
@@ -82,8 +94,10 @@ Calendar={
 		validateEventForm:function(url){
 			var post = $( "#event_form" ).serialize();
 			$("#errorbox").empty();
+			Calendar.UI.loading(true);
 			$.post(url, post,
 				function(data){
+					Calendar.UI.loading(false);
 					if(data.status == "error"){
 						var output = missing_field + ": <br />";
 						if(data.title == "true"){
@@ -120,8 +134,10 @@ Calendar={
 		},
 		moveEvent:function(event, dayDelta, minuteDelta, allDay, revertFunc){
 			$('.tipsy').remove();
+			Calendar.UI.loading(true);
 			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0, lastmodified: event.lastmodified},
 			function(data) {
+				Calendar.UI.loading(false);
 				if (data.status == 'success'){
 					event.lastmodified = data.lastmodified;
 					console.log("Event moved successfully");
@@ -133,8 +149,10 @@ Calendar={
 		},
 		resizeEvent:function(event, dayDelta, minuteDelta, revertFunc){
 			$('.tipsy').remove();
+			Calendar.UI.loading(true);
 			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, lastmodified: event.lastmodified},
 			function(data) {
+				Calendar.UI.loading(false);
 				if (data.status == 'success'){
 					event.lastmodified = data.lastmodified;
 					console.log("Event resized successfully");
@@ -329,6 +347,7 @@ Calendar={
 				if($('#choosecalendar_dialog').dialog('isOpen') == true){
 					$('#choosecalendar_dialog').dialog('moveToTop');
 				}else{
+					Calendar.UI.loading(true);
 					$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'choosecalendar.php'), function(){
 						$('#choosecalendar_dialog').dialog({
 							width : 600,
@@ -336,13 +355,16 @@ Calendar={
 								$(this).dialog('destroy').remove();
 							}
 						});
+						Calendar.UI.loading(false);
 					});
 				}
 			},
 			activation:function(checkbox, calendarid)
 			{
+				Calendar.UI.loading(true);
 				$.post(OC.filePath('calendar', 'ajax', 'activation.php'), { calendarid: calendarid, active: checkbox.checked?1:0 },
 				  function(data) {
+					Calendar.UI.loading(false);
 					if (data.status == 'success'){
 						checkbox.checked = data.active == 1;
 						if (data.active == 1){
@@ -639,6 +661,7 @@ $(document).ready(function(){
 				}
 			});
 		},
+		loading: Calendar.UI.loading,
 		eventSources: eventSources
 	});
 	$('#oneweekview_radio').click(function(){

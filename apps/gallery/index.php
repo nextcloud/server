@@ -5,6 +5,12 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('gallery');
 OC_App::setActiveNavigationEntry( 'gallery_index' );
 
+if (!file_exists(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery')) {
+  mkdir(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery');
+  $f = fopen(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/.htaccess', 'w');
+  fwrite($f, "allow from all");
+  fclose($f);
+}
 
 if (!isset($_GET['view'])) {
   $result = OC_Gallery_Album::find(OC_User::getUser());
