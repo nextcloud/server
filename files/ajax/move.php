@@ -14,7 +14,7 @@ $target = $_GET["target"];
 if(OC_Files::move($dir,$file,$target,$file)){
 	OC_JSON::success(array("data" => array( "dir" => $dir, "files" => $file )));
 }else{
-	OC_JSON::error(array("data" => array( "message" => "Could move $file" )));
+	OC_JSON::error(array("data" => array( "message" => "Couldn't move $file" )));
 }
 
 ?>
