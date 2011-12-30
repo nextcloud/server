@@ -140,6 +140,25 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 
+	public static function cleanArray($array, $remove_null_number = true){
+		$new_array = array();
+
+		$null_exceptions = array();
+
+		foreach ($array as $key => $value){
+			$value = trim($value);
+
+			if($remove_null_number){
+				$null_exceptions[] = '0';
+			}
+
+			if(!in_array($value, $null_exceptions) && $value != "")	{
+				$new_array[] = $value;
+			}
+		}
+		return $new_array;
+	}
+
 	/**
 	 * @brief Get active addressbooks for a user.
 	 * @param integer $uid User id. If null current user will be used.
@@ -170,7 +189,8 @@ class OC_Contacts_Addressbook{
 	public static function active($uid){
 		$active = self::activeIds($uid);
 		$addressbooks = array();
-		/** FIXME: Is there a way to prepare a statement 'WHERE id IN ([range])'?
+		/* FIXME: Is there a way to prepare a statement 'WHERE id IN ([range])'?
+		 * See OC_Contacts_VCard:all.
 		*/
 		foreach( $active as $aid ){
 			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ? ORDER BY displayname' );
@@ -208,6 +228,7 @@ class OC_Contacts_Addressbook{
 				unset($openaddressbooks[array_search($id, $openaddressbooks)]);
 			}
 		}
+		$openaddressbooks = self::cleanArray($openaddressbooks, false);
 		sort($openaddressbooks, SORT_NUMERIC);
 		// FIXME: I alway end up with a ';' prepending when imploding the array..?
 		OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',implode(';', $openaddressbooks));
@@ -221,7 +242,7 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function isActive($id){
-		OC_Log::write('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()), OC_Log::DEBUG);
+		//OC_Log::write('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()), OC_Log::DEBUG);
 		return in_array($id, self::activeIds());
 	}
 

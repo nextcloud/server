@@ -61,5 +61,6 @@ foreach( $add as $propname){
 	$vcard->addProperty($propname, $value, $prop_parameters);
 }
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
+OC_Log::write('contacts','ajax/addcard.php - adding id: '.$id,OC_Log::DEBUG);
 
 OC_Contacts_App::renderDetails($id, $vcard);
