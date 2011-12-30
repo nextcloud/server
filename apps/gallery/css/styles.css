@@ -17,7 +17,14 @@ div#gallery_album_box {
   padding: 10px;
   border: solid 1px black;
   position: relative;
+  overflow: hidden;
+  color: #999;
 }
+
+div#gallery_album_box:hover {
+  color: black; 
+}
+
 .leftcontent div#gallery_album_box {
   margin: 5px;
 }
