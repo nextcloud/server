@@ -203,18 +203,15 @@ function hideFileEditor(){
 
 // Keyboard Shortcuts
 var ctrlBtn = false;
-
-function checkForCtrlKey(e){
-		if(e.which == 17 || e.which == 91) ctrlBtn=false;
-	}
 	
 function checkForSaveKeyPress(e){
-		if(e.which == 17 || e.which == 91) ctrlBtn=true;
-   		if(e.which == 83 && ctrlBtn == true) {
-   			e.preventDefault();
-        	$('#editor_save').trigger('click');
-			return false;
-   		}
+	if(e.which == 17 || e.which == 91) ctrlBtn=true;
+	if(e.which == 83 && ctrlBtn == true) {
+	e.preventDefault();
+	$('#editor_save').trigger('click');
+	return false;
+		
+	}
 }
 
 $(window).resize(function() {
@@ -247,5 +244,5 @@ $(document).ready(function(){
 	bindControlEvents();
 	
 	// Binds the save keyboard shortcut events
-	$(document).unbind('keyup').bind('keyup',checkForCtrlKey).unbind('keydown').bind('keydown',checkForSaveKeyPress);
+	$(document).unbind('keydown').bind('keydown',checkForSaveKeyPress);
 });
