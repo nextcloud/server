@@ -29,9 +29,6 @@ require_once('../lib/base.php');
 OC_Util::checkLoggedIn();
 
 // Load the files we need
-OC_Util::addStyle( 'files_texteditor', 'style' );
-OC_Util::addScript( 'files_texteditor', 'editor');
-OC_Util::addScript( 'files_texteditor', 'aceeditor/ace');
 OC_Util::addStyle( "files", "files" );
 OC_Util::addScript( "files", "files" );
 OC_Util::addScript( 'files', 'filelist' );
