@@ -47,9 +47,6 @@ class OC_Contacts_VCard{
 	 * ['carddata']
 	 */
 	public static function all($id){
-		//$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
-		//$result = $stmt->execute(array($id));
-
 		if(is_array($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
 			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname';

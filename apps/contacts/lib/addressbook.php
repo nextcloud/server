@@ -189,9 +189,21 @@ class OC_Contacts_Addressbook{
 	public static function active($uid){
 		$active = self::activeIds($uid);
 		$addressbooks = array();
-		/* FIXME: Is there a way to prepare a statement 'WHERE id IN ([range])'?
-		 * See OC_Contacts_VCard:all.
-		*/
+		$ids_sql = join(',', array_fill(0, count($active), '?'));
+		$prep = 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id IN ('.$ids_sql.') ORDER BY displayname';
+		try {
+			$stmt = OC_DB::prepare( $prep );
+			$result = $stmt->execute($active);
+		} catch(Exception $e) {
+			OC_Log::write('contacts','OC_Contacts_Addressbook:active:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+			OC_Log::write('contacts','OC_Contacts_Addressbook:active, ids: '.join(',', $active),OC_Log::DEBUG);
+			OC_Log::write('contacts','OC_Contacts_Addressbook::active, SQL:'.$prep,OC_Log::DEBUG);
+		}
+
+		while( $row = $result->fetchRow()){
+			$addressbooks[] = $row;
+		}
+		/*
 		foreach( $active as $aid ){
 			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ? ORDER BY displayname' );
 			$result = $stmt->execute(array($aid,));
@@ -199,7 +211,7 @@ class OC_Contacts_Addressbook{
 			while( $row = $result->fetchRow()){
 				$addressbooks[] = $row;
 			}
-		}
+		}*/
 
 		return $addressbooks;
 	}
