@@ -1,3 +1,4 @@
+#contacts li { padding-left:25px;background:url('../img/person.svg') no-repeat; }
 #chooseaddressbook {margin-right: 170px; float: right;}
 #contacts_details_name { font-weight:bold;font-size:1.1em;margin-left:25%;}
 #contacts_details_photo { margin:.5em 0em .5em 25%; }
