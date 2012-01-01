@@ -7,9 +7,6 @@
  */
 
 require_once('../../../lib/base.php');
-
-$l10n = new OC_L10N('calendar');
-
 if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
@@ -23,26 +20,12 @@ if($errarr){
 }else{
 	$id = $_POST['id'];
 	$cal = $_POST['calendar'];
-	$data = OC_Calendar_Object::find($id);
-	if (!$data)
-	{
-		OC_JSON::error();
-		exit;
-	}
-	$calendar = OC_Calendar_Calendar::findCalendar($data['calendarid']);
-	if($calendar['userid'] != OC_User::getUser()){
-		OC_JSON::error();
-		exit;
-	}
-	$vcalendar = OC_Calendar_Object::parse($data['calendardata']);
+	$data = OC_Calendar_App::getEventObject($id);
+	$vcalendar = OC_VObject::parse($data['calendardata']);
 
-	$last_modified = $vcalendar->VEVENT->__get('LAST-MODIFIED');
-	if($last_modified && $_POST['lastmodified'] != $last_modified->getDateTime()->format('U')){
-		OC_JSON::error(array('modified'=>true));
-		exit;
-	}
-
+	OC_Calendar_App::isNotModified($vcalendar->VEVENT, $_POST['lastmodified']);
 	OC_Calendar_Object::updateVCalendarFromRequest($_POST, $vcalendar);
+
 	$result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
 	if ($data['calendarid'] != $cal) {
 		OC_Calendar_Object::moveToCalendar($id, $cal);

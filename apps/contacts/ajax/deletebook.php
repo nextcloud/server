@@ -23,19 +23,14 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$id = $_GET['id'];
-
 $l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$addressbook = OC_Contacts_Addressbook::find( $id );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your contact.'))));
-	exit();
-}
+//$id = $_GET['id'];
+$id = $_POST['id'];
+$addressbook = OC_Contacts_App::getAddressbook( $id );
 
 OC_Contacts_Addressbook::delete($id);
 OC_JSON::success(array('data' => array( 'id' => $id )));

@@ -88,7 +88,7 @@ else {
 				if(defined("DEBUG") && DEBUG) {
 					OC_Log::write('core','Setting remember login to cookie',OC_Log::DEBUG);
 				}
-				$token = md5($_POST["user"].time());
+				$token = md5($_POST["user"].time().$_POST['password']);
 				OC_Preferences::setValue($_POST['user'], 'login', 'token', $token);
 				OC_User::setMagicInCookie($_POST["user"], $token);
 			}
@@ -100,14 +100,15 @@ else {
 			$error = true;
 		}
 	}
-		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-		elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
-			if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{
-				OC_User::unsetMagicInCookie();
-				OC_Util::redirectToDefaultPage();
-			}else{
-				$error = true;
-			}
+	// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+	elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
+		if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{
+			//OC_Log::write('core',"Logged in with HTTP Authentication",OC_Log::DEBUG);
+			OC_User::unsetMagicInCookie();
+			OC_Util::redirectToDefaultPage();
+		}else{
+			$error = true;
 		}
+	}
 	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
 }

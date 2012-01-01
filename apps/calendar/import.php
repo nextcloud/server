@@ -12,11 +12,7 @@ OC_Util::checkAppEnabled('calendar');
 
 if($_GET["import"] == "existing"){
 	$calid = $_GET["calid"];
-	$calendar = OC_Calendar_Calendar::findCalendar($calid);
-	if($calendar['userid'] != OC_User::getUser()){
-		OC_JSON::error();
-		exit;
-	}
+	$calendar = OC_Calendar_App::getCalendar($calid);
 	if($_GET["path"] != ""){
 		$filename = $_GET["path"] . "/" . $_GET["file"];
 	}else{

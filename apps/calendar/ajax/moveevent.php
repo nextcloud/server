@@ -5,31 +5,20 @@
  * later.
  * See the COPYING-README file.
  */
-error_reporting(E_ALL);
 require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
-$data = OC_Calendar_Object::find($_POST["id"]);
-$calendarid = $data["calendarid"];
-$cal = $calendarid;
+
 $id = $_POST['id'];
-$calendar = OC_Calendar_Calendar::findCalendar($calendarid);
-if(OC_User::getUser() != $calendar['userid']){
-	OC_JSON::error();
-	exit;
-}
+
+$vcalendar = OC_Calendar_App::getVCalendar($id);
+$vevent = $vcalendar->VEVENT;
+
 $allday = $_POST['allDay'];
 $delta = new DateInterval('P0D');
 $delta->d = $_POST['dayDelta'];
 $delta->i = $_POST['minuteDelta'];
 
-$vcalendar = OC_Calendar_Object::parse($data['calendardata']);
-$vevent = $vcalendar->VEVENT;
-
-$last_modified = $vevent->__get('LAST-MODIFIED');
-if($last_modified && $_POST['lastmodified'] != $last_modified->getDateTime()->format('U')){
-	OC_JSON::error();
-	exit;
-}
+OC_Calendar_App::isNotModified($vevent, $_POST['lastmodified']);
 
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
@@ -46,14 +35,9 @@ $dtstart->setDateTime($dtstart->getDateTime()->add($delta), $start_type);
 $dtend->setDateTime($dtend->getDateTime()->add($delta), $end_type);
 unset($vevent->DURATION);
 
-$now = new DateTime();
-$last_modified = new Sabre_VObject_Element_DateTime('LAST-MODIFIED');
-$last_modified->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
-$vevent->__set('LAST-MODIFIED', $last_modified);
-
-$dtstamp = new Sabre_VObject_Element_DateTime('DTSTAMP');
-$dtstamp->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
-$vevent->DTSTAMP = $dtstamp;
+$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Element_DateTime::UTC);
+$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
 
 $result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
-OC_JSON::success(array('lastmodified'=>(int)$now->format('U')));
+$lastmodified = $vevent->__get('LAST-MODIFIED')->getDateTime();
+OC_JSON::success(array('lastmodified'=>(int)$lastmodified->format('U')));

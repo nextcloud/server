@@ -1,5 +1,6 @@
 <?php
 OC_Util::addStyle('gallery', 'styles');
+OC_Util::addScript('gallery', 'albums');
 OC_Util::addScript('gallery', 'album_cover');
 OC_Util::addScript('files_imageviewer', 'jquery.mousewheel-3.0.4.pack');
 OC_Util::addScript('files_imageviewer', 'jquery.fancybox-1.3.4.pack');
@@ -14,15 +15,19 @@ OC_Util::addStyle( 'files_imageviewer', 'jquery.fancybox-1.3.4' );
 </script>
 
 <div id="controls">
-  <a href="?"><input type="button" value="Back" /></a><br/>
+  <a href="?"><input type="button" value="Back" /></a>
+<br/>
 </div>
-<div id="gallery_list">
+
+<div id="gallery_list" class="leftcontent">
+</div>
+
+<div id="gallery_images" class="rightcontent">
 <?php
 foreach ($_['photos'] as $a) {
 ?>
-<a rel="images" href="../../files/ajax/download.php?files=<?php echo $a; ?>"><img src="ajax/thumbnail.php?img=<?php echo $a ?>"></a>
+<a rel="images" href="../../files/download.php?file=<?php echo urlencode($a); ?>"><img src="ajax/thumbnail.php?img=<?php echo urlencode($a) ?>"></a>
 <?php
   }
 ?>
-
 </div>

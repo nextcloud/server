@@ -30,10 +30,10 @@ $start = DateTime::createFromFormat('U', $_GET['start']);
 $end = DateTime::createFromFormat('U', $_GET['end']);
 
 $events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
-$user_timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+$user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $return = array();
 foreach($events as $event){
-	$object = OC_Calendar_Object::parse($event['calendardata']);
+	$object = OC_VObject::parse($event['calendardata']);
 	$vevent = $object->VEVENT;
 	$dtstart = $vevent->DTSTART;
 	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);

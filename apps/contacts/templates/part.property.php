@@ -20,7 +20,7 @@
 			<span style="display:none;" data-use="delete"><img class="svg action" src="<?php echo image_path('', 'actions/delete.svg'); ?>" /></span>
 		</p>
 	<?php elseif($_['property']['name'] == 'TEL'): ?>
-		<p class="contacts_property_name"><?php echo $l->t('Phone'); ?></p>
+		<p class="contacts_property_name"><?php echo (isset($_['property']['parameters']['PREF']) && $_['property']['parameters']['PREF']) ? $l->t('Preferred').' ' : '' ?><?php echo $l->t('Phone'); ?></p>
 		<p class="contacts_property_data">
 			<?php echo $_['property']['value']; ?>
 			<?php if(isset($_['property']['parameters']['TYPE']) && !empty($_['property']['parameters']['TYPE'])): ?>

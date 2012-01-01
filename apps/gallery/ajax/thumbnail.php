@@ -49,12 +49,19 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height) { //$imgSr
 $box_size = 200;
 $img = $_GET['img'];
 
-$tmp = OC::$CONFIG_DATADIRECTORY . $img;
+$imagePath = OC_Filesystem::getLocalFile($img);
 
-if(file_exists($tmp))
+if(file_exists($imagePath))
 {
-  header('Content-Type: image/png');
-	$image = CroppedThumbnail($tmp, $box_size, $box_size);
+	$image = CroppedThumbnail($imagePath, $box_size, $box_size);
+
+	header('Content-Type: image/png');
+	$offset = 3600 * 24;
+	// calc the string in GMT not localtime and add the offset
+	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
+	header('Cache-Control: max-age='.$offset.', must-revalidate');
+	header('Pragma: public');
+
 	imagepng($image);
 	imagedestroy($image);
 }

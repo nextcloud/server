@@ -1,5 +1,5 @@
 <?php if(array_key_exists('FN',$_['details'])): ?>
-	<p id="contacts_details_name"><?php echo $_['details']['FN'][0]['value']; ?></p>
+	<?php echo $this->inc('part.property.FN', array('property' => $_['details']['FN'][0])); ?>
 	<img class="svg action" id="contacts_deletecard" src="<?php echo image_path('', 'actions/delete.svg'); ?>" title="<?php echo $l->t('Delete contact');?>" />
 
 	<?php if(isset($_['details']['PHOTO'])): // Emails first ?>
