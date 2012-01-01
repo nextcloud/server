@@ -21,6 +21,18 @@
 *
 */
 
+/** From user comments at http://dk2.php.net/manual/en/function.exif-imagetype.php
+ * Don't know if it can come in handy?
+if ( ! function_exists( 'exif_imagetype' ) ) {
+    function exif_imagetype ( $filename ) {
+        if ( ( list($width, $height, $type, $attr) = getimagesize( $filename ) ) !== false ) {
+            return $type;
+        }
+    return false;
+    }
+}
+*/
+
 /**
  * Class for image manipulation
  * Ideas: imagerotate, chunk_split(base64_encode())
@@ -29,6 +41,7 @@
 class OC_Image {
 	static private $resource = false; // tmp resource.
 	static private $destroy = false; // if the resource is created withing the object.
+	static private $imagetype = IMAGETYPE_PNG; // Default to png if file type isn't evident.
 	/**
 	* @brief Constructor.
 	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.
@@ -50,26 +63,69 @@ class OC_Image {
 	* @brief Destructor.
 	*/
 	function __destruct() {
-		if(self::$resource && self::$destroy) {
+		if(is_resource(self::$resource) && self::$destroy) {
 			imagedestroy(self::$resource); // Why does this issue a warning.
 		}
 	}
 
 	/**
 	* @brief Determine whether the object contains an image resource.
-	* returns bool
+	* @returns bool
 	*/
-	function empty() {
-		if(self::$resource && self::$destroy) {
-		}
+	public function valid() { // apparently you can't name a method 'empty'...
+		$ret = is_resource(self::$resource);
+		return $ret;
+	}
+
+	/**
+	* @brief Returns the MIME type of the image or an empty string if no image is loaded.
+	* @returns int
+	*/
+	public function mimeType() {
+		return is_resource(self::$resource) ? image_type_to_mime_type(self::$imagetype) : '';
+	}
+
+	/**
+	* @brief Returns the width of the image or -1 if no image is loaded.
+	* @returns int
+	*/
+	public function width() {
+		return is_resource(self::$resource) ? imagesx(self::$resource) : -1;
+	}
+
+	/**
+	* @brief Returns the height of the image or -1 if no image is loaded.
+	* @returns int
+	*/
+	public function height() {
+		return is_resource(self::$resource) ? imagesy(self::$resource) : -1;
 	}
 
 	/**
 	* @brief Prints the image.
 	*/
 	public function show() {
-		header('Content-Type: image/png');
-		imagepng(self::$resource);
+		header('Content-Type: '.self::mimeType());
+		switch(self::$imagetype) {
+			case IMAGETYPE_GIF:
+				imagegif(self::$resource);
+				break;
+			case IMAGETYPE_JPEG:
+				imagepng(self::$resource);
+				break;
+			case IMAGETYPE_PNG:
+				imagejpeg(self::$resource);
+				break;
+			case IMAGETYPE_XBM:
+				imagexbm(self::$resource);
+				break;
+			case IMAGETYPE_WBMP:
+			case IMAGETYPE_BMP:
+				imagewbmp(self::$resource);
+				break;
+			default:
+				imagepng(self::$resource);
+		}
 	}
 
 	/**
@@ -82,7 +138,7 @@ class OC_Image {
 	/**
 	* @returns Returns the image resource in any.
 	*/
-	public function imageResource() {
+	public function resource() {
 		return self::$resource;
 	}
 
@@ -126,11 +182,72 @@ class OC_Image {
 	*/
 	static public function loadFromFile($imagepath=false) {
 		if(!is_file($imagepath) || !file_exists($imagepath) || !is_readable($imagepath)) {
-			OC_Log::write('core','OC_Image::loadFromFile, couldn\'t load'.$imagepath, OC_Log::DEBUG);
+			OC_Log::write('core','OC_Image::loadFromFile, couldn\'t load', OC_Log::DEBUG);
 			return false;
 		}
-		self::$resource = imagecreatefromstring(file_get_contents($imagepath));
-		self::$destroy = true;
+		$itype = exif_imagetype($imagepath);
+		switch($itype) {
+			case IMAGETYPE_GIF:
+				if (imagetypes() & IMG_GIF) {
+					self::$resource = imagecreatefromgif($imagepath);
+				}
+				break;
+			case IMAGETYPE_JPEG:
+				if (imagetypes() & IMG_JPG) {
+					self::$resource = imagecreatefromjpeg($imagepath);
+				}
+				break;
+			case IMAGETYPE_PNG:
+				if (imagetypes() & IMG_PNG) {
+					self::$resource = imagecreatefrompng($imagepath);
+				}
+				break;
+			case IMAGETYPE_XBM:
+				if (imagetypes() & IMG_XPM) {
+					self::$resource = imagecreatefromxbm($imagepath);
+				}
+				break;
+			case IMAGETYPE_WBMP:
+			case IMAGETYPE_BMP:
+				if (imagetypes() & IMG_WBMP) {
+					self::$resource = imagecreatefromwbmp($imagepath);
+				}
+				break;
+			/*
+			case IMAGETYPE_TIFF_II: // (intel byte order)
+				break;
+			case IMAGETYPE_TIFF_MM: // (motorola byte order)
+				break;
+			case IMAGETYPE_JPC:
+				break;
+			case IMAGETYPE_JP2:
+				break;
+			case IMAGETYPE_JPX:
+				break;
+			case IMAGETYPE_JB2:
+				break;
+			case IMAGETYPE_SWC:
+				break;
+			case IMAGETYPE_IFF:
+				break;
+			case IMAGETYPE_ICO:
+				break;
+			case IMAGETYPE_SWF:
+				break;
+			case IMAGETYPE_PSD:
+				break;
+			*/
+			default:
+				self::$resource = imagecreatefromstring(file_get_contents($imagepath));
+				$itype = IMAGETYPE_PNG;
+				OC_Log::write('core','OC_Image::loadFromFile, Default', OC_Log::DEBUG);
+				break;
+		}
+		// if($this->valid()) { // FIXME: I get an error: "PHP Fatal error:  Using $this when not in object context..." WTF?
+		if(self::valid()) { // And here I get a warning: "PHP Strict Standards:  Non-static method OC_Image::valid() should not be called statically..." valid() shouldn't be a static member as it would fail on a non-instantiated class.
+			self::$imagetype = $itype;
+			self::$destroy = true;
+		}
 		return self::$resource;
 	}
 
