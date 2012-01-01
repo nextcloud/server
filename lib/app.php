@@ -381,9 +381,11 @@ class OC_App{
 		foreach( $apps as $app ){
 			$installedVersion=OC_Appconfig::getValue($app,'installed_version');
 			$appInfo=OC_App::getAppInfo($app);
-			$currentVersion=$appInfo['version'];
-			if (version_compare($currentVersion, $installedVersion, '>')) {
-				OC_App::updateApp($app);
+			if (isset($appInfo['version'])) {
+				$currentVersion=$appInfo['version'];
+				if (version_compare($currentVersion, $installedVersion, '>')) {
+					OC_App::updateApp($app);
+				}
 			}
 		}
 	}
@@ -393,11 +395,11 @@ class OC_App{
 	 * @param string appid
 	 */
 	public static function updateApp($appid){
-		if(file_exists(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/database.xml')){
-			OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/database.xml');
+		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml')){
+			OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml');
 		}
-		if(file_exists(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/update.php')){
-			include OC::$SERVERROOT.'/apps/'.$file.'/appinfo/update.php';
+		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php')){
+			include OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php';
 		}
 	}
 }
