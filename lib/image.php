@@ -56,6 +56,15 @@ class OC_Image {
 	}
 
 	/**
+	* @brief Determine whether the object contains an image resource.
+	* returns bool
+	*/
+	function empty() {
+		if(self::$resource && self::$destroy) {
+		}
+	}
+
+	/**
 	* @brief Prints the image.
 	*/
 	public function show() {
@@ -116,9 +125,6 @@ class OC_Image {
 	* @returns An image resource or false on error
 	*/
 	static public function loadFromFile($imagepath=false) {
-		if(!is_string($imagepath)) {
-			return false;
-		}
 		if(!is_file($imagepath) || !file_exists($imagepath) || !is_readable($imagepath)) {
 			OC_Log::write('core','OC_Image::loadFromFile, couldn\'t load'.$imagepath, OC_Log::DEBUG);
 			return false;
