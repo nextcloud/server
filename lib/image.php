@@ -160,7 +160,7 @@ class OC_Image {
 	*					If a resource is passed it is the job of the caller to destroy it using imagedestroy($var)
 	* @returns An image resource or false on error
 	*/
-	static public function load($imageref) {
+	public function load($imageref) {
 		if(self::loadFromFile($imageref) !== false) {
 			return self::$resource;
 		} elseif(self::loadFromBase64($imageref) !== false) {
@@ -180,7 +180,7 @@ class OC_Image {
 	* @param $imageref The path to a local file.
 	* @returns An image resource or false on error
 	*/
-	static public function loadFromFile($imagepath=false) {
+	public function loadFromFile($imagepath=false) {
 		if(!is_file($imagepath) || !file_exists($imagepath) || !is_readable($imagepath)) {
 			OC_Log::write('core','OC_Image::loadFromFile, couldn\'t load', OC_Log::DEBUG);
 			return false;
@@ -243,8 +243,7 @@ class OC_Image {
 				OC_Log::write('core','OC_Image::loadFromFile, Default', OC_Log::DEBUG);
 				break;
 		}
-		// if($this->valid()) { // FIXME: I get an error: "PHP Fatal error:  Using $this when not in object context..." WTF?
-		if(self::valid()) { // And here I get a warning: "PHP Strict Standards:  Non-static method OC_Image::valid() should not be called statically..." valid() shouldn't be a static member as it would fail on a non-instantiated class.
+		if($this->valid()) {
 			self::$imagetype = $itype;
 			self::$destroy = true;
 		}
@@ -256,7 +255,7 @@ class OC_Image {
 	* @param $str A string of image data as read from a file.
 	* @returns An image resource or false on error
 	*/
-	static public function loadFromData($str) {
+	public function loadFromData($str) {
 		if(is_resource($str)) {
 			return false;
 		}
@@ -274,7 +273,7 @@ class OC_Image {
 	* @param $str A string base64 encoded string of image data.
 	* @returns An image resource or false on error
 	*/
-	static public function loadFromBase64($str) {
+	public function loadFromBase64($str) {
 		if(!is_string($str)) {
 			return false;
 		}
@@ -297,7 +296,7 @@ class OC_Image {
 	* @param $res An image resource.
 	* @returns An image resource or false on error
 	*/
-	static public function loadFromResource($res) {
+	public function loadFromResource($res) {
 		if(!is_resource($res)) {
 			return false;
 		}
