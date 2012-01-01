@@ -189,7 +189,7 @@ class OC_Image {
 	public function resize($maxsize) {
 		if(!self::$resource) {
 			OC_Log::write('core','OC_Image::resize, No image loaded', OC_Log::ERROR);
-			throw new Exception('OC_Image::resize, No image loaded!', self::ERR_NO_IMAGE);
+			return false;
 		}
 		$width_orig=imageSX(self::$resource);
 		$height_orig=imageSY(self::$resource);
@@ -231,14 +231,11 @@ class OC_Image {
 		}
 		$width_orig=imageSX(self::$resource);
 		$height_orig=imageSY(self::$resource);
-		OC_Log::write('core','OC_Image::centerCrop. Original size: '.$width_orig.'x'.$height_orig, OC_Log::DEBUG);
 		if($width_orig === $height_orig) {
 			return true;
 		}
 		$ratio_orig = $width_orig/$height_orig;
-		OC_Log::write('core','OC_Image::centerCrop. Ratio: '.$ratio_orig, OC_Log::DEBUG);
 		$width = $height = min($width_orig, $height_orig);
-		OC_Log::write('core','OC_Image::centerCrop. New size: '.$width.'x'.$height, OC_Log::DEBUG);
 
 		if ($ratio_orig > 1) {
 			$x = ($width_orig/2) - ($width/2);
