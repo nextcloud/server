@@ -111,10 +111,10 @@ class OC_Image {
 				imagegif(self::$resource);
 				break;
 			case IMAGETYPE_JPEG:
-				imagepng(self::$resource);
+				imagejpeg(self::$resource);
 				break;
 			case IMAGETYPE_PNG:
-				imagejpeg(self::$resource);
+				imagepng(self::$resource);
 				break;
 			case IMAGETYPE_XBM:
 				imagexbm(self::$resource);
