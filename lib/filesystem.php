@@ -131,35 +131,6 @@ class OC_Filesystem{
 	}
 	
 	/**
-	* check if the current users has the right premissions to read a file
-	* @param  string  path
-	* @return bool
-	*/
-	static private function canRead($path){
-		if(substr($path,0,1)!=='/'){
-			$path='/'.$path;
-		}
-		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
-			return false;
-		}
-		return true;//dummy untill premissions are correctly implemented, also the correcty value because for now users are locked in their seperate data dir and can read/write everything in there
-	}
-	/**
-	* check if the current users has the right premissions to write a file
-	* @param  string  path
-	* @return bool
-	*/
-	static private function canWrite($path){
-		if(substr($path,0,1)!=='/'){
-			$path='/'.$path;
-		}
-		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
-			return false;
-		}
-		return true;//dummy untill premissions are correctly implemented, also the correcty value because for now users are locked in their seperate data dir and can read/write everything in there
-	}
-	
-	/**
 	* mount an OC_Filestorage in our virtual filesystem
 	* @param OC_Filestorage storage
 	* @param string mountpoint
@@ -228,7 +199,7 @@ class OC_Filesystem{
 	*/
 	static public function getLocalFile($path){
 		$parent=substr($path,0,strrpos($path,'/'));
-		if(self::canRead($parent) and $storage=self::getStorage($path)){
+		if(self::is_readable($parent) and $storage=self::getStorage($path)){
 			return $storage->getLocalFile(self::getInternalPath($path));
 		}
 	}
@@ -267,10 +238,24 @@ class OC_Filesystem{
 		return self::basicOperation('readfile',$path,array('read'));
 	}
 	static public function is_readable($path){
-		return self::basicOperation('is_readable',$path);
+		if(substr($path,0,1)!=='/'){
+			$path='/'.$path;
+		}
+		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
+			return false;
+		}
+		$storage=self::getStorage($path);
+		return $storage->is_readable($path);
 	}
 	static public function is_writeable($path){
-		return self::basicOperation('is_writeable',$path);
+		if(substr($path,0,1)!=='/'){
+			$path='/'.$path;
+		}
+		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
+			return false;
+		}
+		$storage=self::getStorage($path);
+		return $storage->is_writeable($path);
 	}
 	static public function file_exists($path){
 		if($path=='/'){
@@ -297,7 +282,7 @@ class OC_Filesystem{
 		return self::basicOperation('unlink',$path,array('delete'));
 	}
 	static public function rename($path1,$path2){
-		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and self::canWrite($path1) and self::canWrite($path2)){
+		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and self::is_writeable($path1) and self::is_writeable($path2)){
 			$run=true;
 			OC_Hook::emit( 'OC_Filesystem', 'rename', array( 'oldpath' => $path1 ,'newpath'=>$path2, 'run' => &$run));
 			if($run){
@@ -318,7 +303,7 @@ class OC_Filesystem{
 		}
 	}
 	static public function copy($path1,$path2){
-		if(OC_FileProxy::runPreProxies('copy',$path1,$path2) and self::canRead($path1) and self::canWrite($path2)){
+		if(OC_FileProxy::runPreProxies('copy',$path1,$path2) and self::is_readable($path1) and self::is_writeable($path2)){
 			$run=true;
 			OC_Hook::emit( 'OC_Filesystem', 'copy', array( 'oldpath' => $path1 ,'newpath'=>$path2, 'run' => &$run));
 			$exists=self::file_exists($path2);
@@ -373,13 +358,13 @@ class OC_Filesystem{
 		return self::basicOperation('fopen',$path,$hooks,$mode);
 	}
 	static public function toTmpFile($path){
-		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and self::canRead($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and self::is_readable($path) and $storage=self::getStorage($path)){
 			OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
 			return $storage->toTmpFile(self::getInternalPath($path));
 		}
 	}
 	static public function fromTmpFile($tmpFile,$path){
-		if(OC_FileProxy::runPreProxies('copy',$tmpFile,$path) and self::canWrite($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('copy',$tmpFile,$path) and self::is_writeable($path) and $storage=self::getStorage($path)){
 			$run=true;
 			$exists=self::file_exists($path);
 			if(!$exists){
@@ -399,7 +384,7 @@ class OC_Filesystem{
 		}
 	}
 	static public function fromUploadedFile($tmpFile,$path){
-		if(OC_FileProxy::runPreProxies('fromUploadedFile',$tmpFile,$path) and self::canWrite($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('fromUploadedFile',$tmpFile,$path) and self::is_writeable($path) and $storage=self::getStorage($path)){
 			$run=true;
 			$exists=self::file_exists($path);
 			if(!$exists){
@@ -462,7 +447,7 @@ class OC_Filesystem{
 	 * @return mixed
 	 */
 	private static function basicOperation($operation,$path,$hooks=array(),$extraParam=null){
-		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and self::canRead($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and self::is_readable($path) and $storage=self::getStorage($path)){
 			$interalPath=self::getInternalPath($path);
 			$run=true;
 			foreach($hooks as $hook){
