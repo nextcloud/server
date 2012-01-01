@@ -70,7 +70,9 @@ $(document).ready(function() {
 			procesSelection();
 		} else {
 			var filename=$(this).parent().parent().attr('data-file');
-			if(!FileList.isLoading(filename)){
+			var tr=$('tr').filterAttr('data-file',filename);
+			var renaming=tr.data('renaming');
+			if(!renaming && !FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
 				var action=FileActions.getDefault(mime,type);
