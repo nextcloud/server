@@ -11,8 +11,8 @@ $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
-	$('#fileList tr[data-file!=Shared] td.filename').draggable(dragOptions);
-	$('#fileList tr[data-type="dir"][data-file!=Shared] td.filename').droppable(folderDropOptions);
+	$('#fileList tr[data-file!="Shared"] td.filename').draggable(dragOptions);
+	$('#fileList tr[data-type="dir"][data-file!="Shared"] td.filename').droppable(folderDropOptions);
 	$('div.crumb').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	$('ul#apps>li:first-child').droppable(crumbDropOptions);
@@ -70,9 +70,7 @@ $(document).ready(function() {
 			procesSelection();
 		} else {
 			var filename=$(this).parent().parent().attr('data-file');
-			var tr=$('tr').filterAttr('data-file',filename);
-			var renaming=tr.data('renaming')
-				if(!renaming && !FileList.isLoading(filename)){
+			if(!FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
 				var action=FileActions.getDefault(mime,type);
