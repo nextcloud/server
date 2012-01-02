@@ -178,7 +178,7 @@ class OC_Image {
 	* @brief Prints the image when called as $image().
 	*/
 	public function __invoke() {
-		self::show();
+		return self::show();
 	}
 
 	/**
