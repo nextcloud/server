@@ -42,23 +42,6 @@ OC_App::setActiveNavigationEntry( 'contacts_index' );
 
 // Load a specific user?
 $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
-/*
-// sort addressbooks  (use contactsort)
-usort($addressbooks,'contacts_namesort');
-
-$contacts = array();
-foreach( $addressbooks as $addressbook ){
-	$addressbookcontacts = OC_Contacts_VCard::all($addressbook['id']);
-	foreach( $addressbookcontacts as $contact ){
-		if(is_null($contact['fullname'])){
-			continue;
-		}
-		$contacts[] = $contact;
-	}
-}
-
-usort($contacts,'contacts_namesort');
-*/
 $details = array();
 
 // FIXME: This cannot work..?
