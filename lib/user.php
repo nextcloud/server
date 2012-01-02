@@ -120,7 +120,7 @@ class OC_User {
 			return false;
 		}
 		// No empty username
-		if( !$uid ){
+		if(trim($uid) == ''){
 			return false;
 		}
 		// Check if user already exists
