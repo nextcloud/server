@@ -42,6 +42,7 @@ class OC_Image {
 	static private $resource = false; // tmp resource.
 	static private $destroy = false; // if the resource is created withing the object.
 	static private $imagetype = IMAGETYPE_PNG; // Default to png if file type isn't evident.
+	static private $filepath = null;
 	/**
 	* @brief Constructor.
 	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.
@@ -49,7 +50,7 @@ class OC_Image {
 	* @returns bool False on error
 	*/
 	function __construct($imageref = null) {
-		OC_Log::write('core','OC_Image::__construct, start', OC_Log::DEBUG);
+		//OC_Log::write('core','OC_Image::__construct, start', OC_Log::DEBUG);
 		if(!function_exists('imagecreatefromjpeg')) { // FIXME: Find a better way to check for GD
 			OC_Log::write('core','OC_Image::__construct, GD module not installed', OC_Log::ERROR);
 			return false;
@@ -102,30 +103,63 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Prints the image.
+	* @brief Outputs the image.
+	* @returns bool
 	*/
 	public function show() {
+		return $this->_output();
+	}
+
+	/**
+	* @brief Saves the image.
+	* @returns bool
+	*/
+	public function save($filepath=null) {
+		if($filepath === null && $this->filepath === null) {
+			OC_Log::write('core','OC_Image::save. save() called with no path.', OC_Log::ERROR);
+			return false;
+		} elseif($filepath === null && $this->filepath !== null) {
+			$filepath = $this->filepath;
+		}
+		return $this->_output($filepath, true);
+	}
+
+	/**
+	* @brief Outputs/saves the image.
+	*/
+	private function _output($filepath=null, $really=false) {
 		header('Content-Type: '.self::mimeType());
+		if($really === false) {
+			$filepath = null; // Just being cautious ;-)
+		} else {
+			// TODO: Check for writability etc.
+			if(!is_writable($filepath)) {
+				OC_Log::write('core','OC_Image::save. \''.$filepath.'\' is not writable.', OC_Log::ERROR);
+				return false;
+			}
+		}
+		$retval = false;
 		switch(self::$imagetype) {
 			case IMAGETYPE_GIF:
-				imagegif(self::$resource);
+				$retval = imagegif(self::$resource, $filepath);
 				break;
 			case IMAGETYPE_JPEG:
-				imagejpeg(self::$resource);
+				$retval = imagejpeg(self::$resource, $filepath);
 				break;
 			case IMAGETYPE_PNG:
-				imagepng(self::$resource);
+				$retval = imagepng(self::$resource, $filepath);
 				break;
 			case IMAGETYPE_XBM:
-				imagexbm(self::$resource);
+				$retval = imagexbm(self::$resource, $filepath);
 				break;
 			case IMAGETYPE_WBMP:
 			case IMAGETYPE_BMP:
-				imagewbmp(self::$resource);
+				$retval = imagewbmp(self::$resource, $filepath);
 				break;
 			default:
-				imagepng(self::$resource);
+				$retval = imagepng(self::$resource, $filepath);
 		}
+		return $retval;
 	}
 
 	/**
@@ -186,7 +220,7 @@ class OC_Image {
 			return false;
 		}
 		$itype = exif_imagetype($imagepath);
-		switch($itype) {
+		switch($itype) { // TODO: Log if image type is not supported.
 			case IMAGETYPE_GIF:
 				if (imagetypes() & IMG_GIF) {
 					self::$resource = imagecreatefromgif($imagepath);
@@ -245,6 +279,7 @@ class OC_Image {
 		}
 		if($this->valid()) {
 			self::$imagetype = $itype;
+			self::$filepath = $imagepath;
 			self::$destroy = true;
 		}
 		return self::$resource;
