@@ -8,7 +8,7 @@ if (navigator.geolocation) {
 	navigator.geolocation.getCurrentPosition(function(position) {
 		$.getJSON(OC.filePath('calendar', 'ajax', 'guesstimezone.php?lat=' + position.coords.latitude + '&long=' + position.coords.longitude + ''),
 		function(data){
-			if (data.status == 'success'){
+			if (data.status == 'success' && typeof(data.message) != 'undefined'){
 				$('#notification').html(data.message);
 				$('#notification').attr('title', 'CC BY 3.0 by Geonames.org');
 				$('#notification').slideDown();

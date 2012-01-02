@@ -8,6 +8,12 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+	$('#timezonedetection').change( function(){
+		var post = $('#timezonedetection').serialize();
+		$.post( OC.filePath('calendar', 'ajax', 'timezonedetection.php'), post, function(data){
+			
+		});
+	});
 	$("#timezone").chosen();
 	$("#firstdayofweek").change( function(){
 		var data = $("#firstdayofweek").serialize();
@@ -51,6 +57,11 @@ $(document).ready(function(){
 	});
 	$.getJSON(OC.filePath('calendar', 'ajax', 'duration.php'), function(jsondata, status) {
 		$("#duration").val(jsondata.duration);
+	});
+	$.getJSON(OC.filePath('calendar', 'ajax', 'gettimezonedetection.php'), function(jsondata, status){
+		if(jsondata.detection == 'true'){
+			$('#timezonedetection').attr('checked', 'checked');
+		}
 	});
 	$("#weekend").change( function(){
 		var data = $("#weekend").serialize();

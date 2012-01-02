@@ -27,7 +27,7 @@
                     $continent=$ex[0];
                     echo '<option value="'.$timezone.'"'.($_['timezone'] == $timezone?' selected="selected"':'').'>'.$city.'</option>';
                 endforeach;?>
-            </select></td></tr>
+            </select><input type="checkbox" name="timezonedetection" id="timezonedetection"><label for="timezonedetection"><?php echo $l->t('Check always for changes of the timezone'); ?></label></td></tr>
 
             <tr><td><label for="timeformat" class="bold"><?php echo $l->t('Timeformat');?></label></td><td>
                 <select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
