@@ -245,7 +245,7 @@ class OC_Filesystem{
 			return false;
 		}
 		$storage=self::getStorage($path);
-		return $storage->is_readable($path);
+		return $storage->is_readable(self::getInternalPath($path));
 	}
 	static public function is_writeable($path){
 		if(substr($path,0,1)!=='/'){
@@ -255,7 +255,7 @@ class OC_Filesystem{
 			return false;
 		}
 		$storage=self::getStorage($path);
-		return $storage->is_writeable($path);
+		return $storage->is_writeable(self::getInternalPath($path));
 	}
 	static public function file_exists($path){
 		if($path=='/'){
