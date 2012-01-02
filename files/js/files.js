@@ -11,8 +11,8 @@ $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
-	$('#fileList tr[data-file!="Shared"] td.filename').draggable(dragOptions);
-	$('#fileList tr[data-type="dir"][data-file!="Shared"] td.filename').droppable(folderDropOptions);
+	$('#fileList tr td.filename').draggable(dragOptions);
+	$('#fileList tr[data-type="dir"][data-read="false"][data-write="false"] td.filename').droppable(folderDropOptions);
 	$('div.crumb').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	$('ul#apps>li:first-child').droppable(crumbDropOptions);
