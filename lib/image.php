@@ -33,6 +33,14 @@ if ( ! function_exists( 'exif_imagetype' ) ) {
 }
 */
 
+function ellipsis($str, $maxlen) {
+	if (strlen($str) > $maxlen) {
+		$characters = floor($maxlen / 2);
+		return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
+	}
+	return $str;
+}
+
 /**
  * Class for image manipulation
  * Ideas: imagerotate, chunk_split(base64_encode())
@@ -51,7 +59,8 @@ class OC_Image {
 	*/
 	function __construct($imageref = null) {
 		//OC_Log::write('core','OC_Image::__construct, start', OC_Log::DEBUG);
-		if(!function_exists('imagecreatefromjpeg')) { // FIXME: Find a better way to check for GD
+		if(!extension_loaded('gd') || !function_exists('gd_info')) {
+		//if(!function_exists('imagecreatefromjpeg')) {
 			OC_Log::write('core','OC_Image::__construct, GD module not installed', OC_Log::ERROR);
 			return false;
 		}
@@ -114,6 +123,7 @@ class OC_Image {
 	* @brief Saves the image.
 	* @returns bool
 	*/
+
 	public function save($filepath=null) {
 		if($filepath === null && $this->filepath === null) {
 			OC_Log::write('core','OC_Image::save. save() called with no path.', OC_Log::ERROR);
@@ -132,9 +142,11 @@ class OC_Image {
 		if($really === false) {
 			$filepath = null; // Just being cautious ;-)
 		} else {
-			// TODO: Check for writability etc.
-			if(!is_writable($filepath)) {
-				OC_Log::write('core','OC_Image::save. \''.$filepath.'\' is not writable.', OC_Log::ERROR);
+			if(!is_writable(dirname($filepath))) {
+				OC_Log::write('core','OC_Image::save. Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
+				return false;
+			} elseif(is_writable(dirname($filepath)) && !is_writable($filepath)) {
+				OC_Log::write('core','OC_Image::save. File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
 				return false;
 			}
 		}
@@ -216,35 +228,46 @@ class OC_Image {
 	*/
 	public function loadFromFile($imagepath=false) {
 		if(!is_file($imagepath) || !file_exists($imagepath) || !is_readable($imagepath)) {
-			OC_Log::write('core','OC_Image::loadFromFile, couldn\'t load', OC_Log::DEBUG);
+			// Debug output disabled because this method is tried before loadFromBase64?
+			OC_Log::write('core','OC_Image::loadFromFile, couldn\'t load: '.ellipsis($imagepath, 50), OC_Log::DEBUG);
 			return false;
 		}
 		$itype = exif_imagetype($imagepath);
-		switch($itype) { // TODO: Log if image type is not supported.
+		switch($itype) {
 			case IMAGETYPE_GIF:
 				if (imagetypes() & IMG_GIF) {
 					self::$resource = imagecreatefromgif($imagepath);
+				} else {
+					OC_Log::write('core','OC_Image::loadFromFile, GIF images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_JPEG:
 				if (imagetypes() & IMG_JPG) {
 					self::$resource = imagecreatefromjpeg($imagepath);
+				} else {
+					OC_Log::write('core','OC_Image::loadFromFile, JPG images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_PNG:
 				if (imagetypes() & IMG_PNG) {
 					self::$resource = imagecreatefrompng($imagepath);
+				} else {
+					OC_Log::write('core','OC_Image::loadFromFile, PNG images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_XBM:
 				if (imagetypes() & IMG_XPM) {
 					self::$resource = imagecreatefromxbm($imagepath);
+				} else {
+					OC_Log::write('core','OC_Image::loadFromFile, XBM/XPM images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_WBMP:
 			case IMAGETYPE_BMP:
 				if (imagetypes() & IMG_WBMP) {
 					self::$resource = imagecreatefromwbmp($imagepath);
+				} else {
+					OC_Log::write('core','OC_Image::loadFromFile, (W)BMP images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			/*
