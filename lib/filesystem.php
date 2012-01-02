@@ -199,9 +199,24 @@ class OC_Filesystem{
 	*/
 	static public function getLocalFile($path){
 		$parent=substr($path,0,strrpos($path,'/'));
-		if(self::is_readable($parent) and $storage=self::getStorage($path)){
+		if(self::isValidPath($parent) and $storage=self::getStorage($path)){
 			return $storage->getLocalFile(self::getInternalPath($path));
 		}
+	}
+	
+	/**
+	 * check if the requested path is valid
+	 * @param string path
+	 * @return bool
+	 */
+	static public function isValidPath($path){
+		if(substr($path,0,1)!=='/'){
+			$path='/'.$path;
+		}
+		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
+			return false;
+		}
+		return true;
 	}
 	
 	static public function mkdir($path){
@@ -238,24 +253,10 @@ class OC_Filesystem{
 		return self::basicOperation('readfile',$path,array('read'));
 	}
 	static public function is_readable($path){
-		if(substr($path,0,1)!=='/'){
-			$path='/'.$path;
-		}
-		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
-			return false;
-		}
-		$storage=self::getStorage($path);
-		return $storage->is_readable(self::getInternalPath($path));
+		return self::basicOperation('is_readable',$path);
 	}
 	static public function is_writeable($path){
-		if(substr($path,0,1)!=='/'){
-			$path='/'.$path;
-		}
-		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
-			return false;
-		}
-		$storage=self::getStorage($path);
-		return $storage->is_writeable(self::getInternalPath($path));
+		return self::basicOperation('is_writeable',$path);
 	}
 	static public function file_exists($path){
 		if($path=='/'){
@@ -358,7 +359,7 @@ class OC_Filesystem{
 		return self::basicOperation('fopen',$path,$hooks,$mode);
 	}
 	static public function toTmpFile($path){
-		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and self::is_readable($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and self::isValidPath($path) and $storage=self::getStorage($path)){
 			OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
 			return $storage->toTmpFile(self::getInternalPath($path));
 		}
@@ -447,7 +448,7 @@ class OC_Filesystem{
 	 * @return mixed
 	 */
 	private static function basicOperation($operation,$path,$hooks=array(),$extraParam=null){
-		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and self::is_readable($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and self::isValidPath($path) and $storage=self::getStorage($path)){
 			$interalPath=self::getInternalPath($path);
 			$run=true;
 			foreach($hooks as $hook){
