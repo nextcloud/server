@@ -7,7 +7,9 @@ $(document).ready(function() {
 		$('#dbhost').hide();
 		$('#dbhostlabel').hide();
 	}
-
+	$('#adminlogin').change(function(){
+		$('#adminlogin').val($.trim($('#adminlogin').val()));
+	});
 	$('#sqlite').click(function() {
 		$('#use_other_db').slideUp(250);
 		$('#dbhost').hide(250);

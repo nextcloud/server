@@ -6,14 +6,14 @@
  * See the COPYING-README file.
  */
 
-function contacts_namesort($a,$b){
-	return strcasecmp($a['fullname'],$b['fullname']);
-}
-
 require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
+$ids = OC_Contacts_Addressbook::activeIds(OC_User::getUser());
+$contacts = OC_Contacts_VCard::all($ids);
+//OC_Log::write('contacts','contacts.php: '.count($contacts).' contacts.',OC_Log::DEBUG);
+/*
 $addressbooks = OC_Contacts_Addressbook::active(OC_User::getUser());
 $contacts = array();
 foreach( $addressbooks as $addressbook ){
@@ -26,6 +26,7 @@ foreach( $addressbooks as $addressbook ){
 	}
 }
 usort($contacts,'contacts_namesort');
+*/
 $tmpl = new OC_TEMPLATE("contacts", "part.contacts");
 $tmpl->assign('contacts', $contacts);
 $page = $tmpl->fetchPage();

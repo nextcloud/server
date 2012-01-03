@@ -113,9 +113,9 @@ Contacts={
 			lazyupdate:function(){
 				//alert('lazyupdate');
 				$('#contacts li').live('inview', function(){
-					if (!$(this).attr('style')) {
+					if (!$(this).find('a').attr('style')) {
 						//alert($(this).data('id') + ' has background: ' + $(this).attr('style'));
-						$(this).css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
+						$(this).find('a').css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
 					}/* else {
 						alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
 					}*/
@@ -301,9 +301,9 @@ $(document).ready(function(){
 				// bottom part of element is visible
 			} else {
 				// whole part of element is visible
-				if (!$(this).attr('style')) {
+				if (!$(this).find('a').attr('style')) {
 					//alert($(this).data('id') + ' has background: ' + $(this).attr('style'));
-					$(this).css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
+					$(this).find('a').css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
 				}/* else {
 					alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
 				}*/

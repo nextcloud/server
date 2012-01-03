@@ -32,6 +32,9 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 // Get active address books. This creates a default one if none exists.
+$ids = OC_Contacts_Addressbook::activeIds(OC_User::getUser());
+$contacts = OC_Contacts_VCard::all($ids);
+
 $addressbooks = OC_Contacts_Addressbook::active(OC_User::getUser());
 
 // Load the files we need
@@ -39,7 +42,7 @@ OC_App::setActiveNavigationEntry( 'contacts_index' );
 
 // Load a specific user?
 $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
-
+/*
 // sort addressbooks  (use contactsort)
 usort($addressbooks,'contacts_namesort');
 
@@ -55,8 +58,10 @@ foreach( $addressbooks as $addressbook ){
 }
 
 usort($contacts,'contacts_namesort');
-
+*/
 $details = array();
+
+// FIXME: This cannot work..?
 if( !is_null($id)/* || count($contacts)*/){
 	if(is_null($id)) $id = $contacts[0]['id'];
 	$vcard = OC_Contacts_App::getContactVCard($id);
