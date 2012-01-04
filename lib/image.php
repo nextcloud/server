@@ -143,10 +143,10 @@ class OC_Image {
 			$filepath = null; // Just being cautious ;-)
 		} else {
 			if(!is_writable(dirname($filepath))) {
-				OC_Log::write('core','OC_Image::save. Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
+				OC_Log::write('core','OC_Image::_output. Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
 				return false;
-			} elseif(is_writable(dirname($filepath)) && !is_writable($filepath)) {
-				OC_Log::write('core','OC_Image::save. File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
+			} elseif(is_writable(dirname($filepath)) && file_exists($filepath) && !is_writable($filepath)) {
+				OC_Log::write('core','OC_Image::_output. File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
 				return false;
 			}
 		}
