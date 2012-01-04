@@ -126,7 +126,7 @@ $(document).ready(function(){
 	$('#newuser').submit(function(event){
 		event.preventDefault();
 		var username=$('#newusername').val();
-		if(username == '') {
+		if($.trim(username) == '') {
 			alert('Please provide a username!');
 			return false;
 		}
