@@ -48,9 +48,10 @@ $details = array();
 if(is_null($id) && count($contacts) > 0) {
 	$id = $contacts[0]['id'];
 }
-$vcard = OC_Contacts_App::getContactVCard($id);
-$details = OC_Contacts_VCard::structureContact($vcard);
-
+if(!is_null($id)) {
+	$vcard = OC_Contacts_App::getContactVCard($id);
+	$details = OC_Contacts_VCard::structureContact($vcard);
+}
 // if( !is_null($id)/* || count($contacts)*/){
 // 	if(is_null($id)) $id = $contacts[0]['id'];
 // 	$vcard = OC_Contacts_App::getContactVCard($id);
