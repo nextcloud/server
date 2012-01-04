@@ -125,7 +125,7 @@ class OC_Image {
 	*/
 
 	public function save($filepath=null) {
-		if($filepath === null && $this->filepath === null) {
+		if($filepath === null && self::$filepath === null) {
 			OC_Log::write('core','OC_Image::save. save() called with no path.', OC_Log::ERROR);
 			return false;
 		} elseif($filepath === null && $this->filepath !== null) {
@@ -138,8 +138,8 @@ class OC_Image {
 	* @brief Outputs/saves the image.
 	*/
 	private function _output($filepath=null, $really=false) {
-		header('Content-Type: '.self::mimeType());
 		if($really === false) {
+			header('Content-Type: '.self::mimeType());
 			$filepath = null; // Just being cautious ;-)
 		} else {
 			if(!is_writable(dirname($filepath))) {
