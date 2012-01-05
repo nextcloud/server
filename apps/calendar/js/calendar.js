@@ -279,9 +279,9 @@ Calendar={
 					minWidth:'auto'
 				});
 				Calendar.UI.repeat('end');
-				Calendar.UI.repeat('repeat');
 				Calendar.UI.repeat('month');
 				Calendar.UI.repeat('year');
+				Calendar.UI.repeat('repeat');
 			}
 			if(task == 'end'){
 				$('#byoccurrences').css('display', 'none');
@@ -304,12 +304,14 @@ Calendar={
 				$('#advanced_bymonthday').css('display', 'none');
 				if($('#repeat option:selected').val() == 'monthly'){
 					$('#advanced_month').css('display', 'block');
+					Calendar.UI.repeat('month');
 				}
 				if($('#repeat option:selected').val() == 'weekly'){
 					$('#advanced_weekday').css('display', 'block');
 				}
 				if($('#repeat option:selected').val() == 'yearly'){
 					$('#advanced_year').css('display', 'block');
+					Calendar.UI.repeat('year');
 				}
 				if($('#repeat option:selected').val() == 'doesnotrepeat'){
 					$('#advanced_options_repeating').slideUp('slow');
@@ -341,6 +343,7 @@ Calendar={
 					$('#advanced_weekday').css('display', 'block');
 				}
 			}
+			
 		},
 		Calendar:{
 			overview:function(){
