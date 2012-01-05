@@ -683,7 +683,8 @@ class OC_Calendar_Object{
 						break;
 					}elseif($request['advanced_month_select'] == 'weekday'){
 						if($request['weekofmonthoptions'] == 'auto'){
-							$weekofmonth = floor($request['weekofmonthoptions']/7);
+							list($_day, $_month, $_year) = explode('-', $from);
+							$weekofmonth = floor($_day/7);
 						}else{
 							$weekofmonth = $request['weekofmonthoptions'];
 						}
