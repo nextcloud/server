@@ -670,7 +670,7 @@ class OC_Calendar_Object{
 					}
 					break;
 				case 'weekday':
-					$rrule .= 'FREQ=DAILY';
+					$rrule .= 'FREQ=WEEKLY';
 					$rrule .= ';BYDAY=MO,TU,WE,TH,FR';
 					break;
 				case 'biweekly':
