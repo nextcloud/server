@@ -42,8 +42,7 @@ function ellipsis($str, $maxlen) {
 }
 
 /**
- * Class for image manipulation
- * Ideas: imagerotate, chunk_split(base64_encode())
+ * Class for basic image manipulation
  *
  */
 class OC_Image {
@@ -125,7 +124,7 @@ class OC_Image {
 	*/
 
 	public function save($filepath=null) {
-		if($filepath === null && $this->filepath === null) {
+		if($filepath === null && self::$filepath === null) {
 			OC_Log::write('core','OC_Image::save. save() called with no path.', OC_Log::ERROR);
 			return false;
 		} elseif($filepath === null && $this->filepath !== null) {
@@ -138,15 +137,15 @@ class OC_Image {
 	* @brief Outputs/saves the image.
 	*/
 	private function _output($filepath=null, $really=false) {
-		header('Content-Type: '.self::mimeType());
 		if($really === false) {
+			header('Content-Type: '.self::mimeType());
 			$filepath = null; // Just being cautious ;-)
 		} else {
 			if(!is_writable(dirname($filepath))) {
-				OC_Log::write('core','OC_Image::save. Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
+				OC_Log::write('core','OC_Image::_output. Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
 				return false;
-			} elseif(is_writable(dirname($filepath)) && !is_writable($filepath)) {
-				OC_Log::write('core','OC_Image::save. File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
+			} elseif(is_writable(dirname($filepath)) && file_exists($filepath) && !is_writable($filepath)) {
+				OC_Log::write('core','OC_Image::_output. File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
 				return false;
 			}
 		}
@@ -198,6 +197,87 @@ class OC_Image {
 			OC_Log::write('core','OC_Image::_string. Error writing image',OC_Log::ERROR);
 		}
 		return chunk_split(base64_encode(ob_get_clean()));
+	}
+
+	/**
+	* @brief Fixes orientation based on EXIF data.
+	* @returns bool.
+	*/
+	public function fixOrientation() {
+		if(!is_resource(self::$resource)) {
+			OC_Log::write('core','OC_Image::fixOrientation() No image loaded.', OC_Log::DEBUG);
+			return false;
+		}
+		if(is_null(self::$filepath) || !is_readable(self::$filepath)) {
+			OC_Log::write('core','OC_Image::fixOrientation() No readable file path set.', OC_Log::DEBUG);
+			return false;
+		}
+		$exif = exif_read_data(self::$filepath, 'IFD0');
+		if(!$exif) {
+			return false;
+		}
+		if(!isset($exif['Orientation'])) {
+			return true; // Nothing to fix
+		}
+		$o = $exif['Orientation'];
+		OC_Log::write('core','OC_Image::fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
+		$rotate = 0;
+		$flip = false;
+		switch($o) {
+			case 1:
+				$rotate = 0;
+				$flip = false;
+				break;
+			case 2: // Not tested
+				$rotate = 0;
+				$flip = true;
+				break;
+			case 3:
+				$rotate = 180;
+				$flip = false;
+				break;
+			case 4: // Not tested
+				$rotate = 180;
+				$flip = true;
+				break;
+			case 5: // Not tested
+				$rotate = 90;
+				$flip = true;
+				break;
+			case 6:
+				//$rotate = 90;
+				$rotate = 270;
+				$flip = false;
+				break;
+			case 7: // Not tested
+				$rotate = 270;
+				$flip = true;
+				break;
+			case 8:
+				$rotate = 270;
+				$flip = false;
+				break;
+		}
+		if($rotate) {
+			$res = imagerotate(self::$resource, $rotate, -1);
+			if($res) {
+				if(imagealphablending($res, true)) {
+					if(imagesavealpha($res, true)) {
+						self::$resource = $res;
+						return true;
+					} else {
+						OC_Log::write('core','OC_Image::fixOrientation() Error during alphasaving.', OC_Log::DEBUG);
+						return false;
+					}
+				} else {
+					OC_Log::write('core','OC_Image::fixOrientation() Error during alphablending.', OC_Log::DEBUG);
+					return false;
+				}
+			} else {
+				OC_Log::write('core','OC_Image::fixOrientation() Error during oriention fixing.', OC_Log::DEBUG);
+				return false;
+			}
+		}
 	}
 
 	/**

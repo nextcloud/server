@@ -283,7 +283,7 @@ class OC_Filesystem{
 		return self::basicOperation('unlink',$path,array('delete'));
 	}
 	static public function rename($path1,$path2){
-		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and self::is_writeable($path1) and self::is_writeable($path2)){
+		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and self::is_writeable($path1) and self::isValidPath($path2)){
 			$run=true;
 			OC_Hook::emit( 'OC_Filesystem', 'rename', array( 'oldpath' => $path1 ,'newpath'=>$path2, 'run' => &$run));
 			if($run){
@@ -304,7 +304,7 @@ class OC_Filesystem{
 		}
 	}
 	static public function copy($path1,$path2){
-		if(OC_FileProxy::runPreProxies('copy',$path1,$path2) and self::is_readable($path1) and self::is_writeable($path2)){
+		if(OC_FileProxy::runPreProxies('copy',$path1,$path2) and self::is_readable($path1) and self::isValidPath($path2)){
 			$run=true;
 			OC_Hook::emit( 'OC_Filesystem', 'copy', array( 'oldpath' => $path1 ,'newpath'=>$path2, 'run' => &$run));
 			$exists=self::file_exists($path2);
@@ -365,7 +365,7 @@ class OC_Filesystem{
 		}
 	}
 	static public function fromTmpFile($tmpFile,$path){
-		if(OC_FileProxy::runPreProxies('copy',$tmpFile,$path) and self::is_writeable($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('copy',$tmpFile,$path) and self::isValidPath($path) and $storage=self::getStorage($path)){
 			$run=true;
 			$exists=self::file_exists($path);
 			if(!$exists){
@@ -385,7 +385,7 @@ class OC_Filesystem{
 		}
 	}
 	static public function fromUploadedFile($tmpFile,$path){
-		if(OC_FileProxy::runPreProxies('fromUploadedFile',$tmpFile,$path) and self::is_writeable($path) and $storage=self::getStorage($path)){
+		if(OC_FileProxy::runPreProxies('fromUploadedFile',$tmpFile,$path) and self::isValidPath($path) and $storage=self::getStorage($path)){
 			$run=true;
 			$exists=self::file_exists($path);
 			if(!$exists){

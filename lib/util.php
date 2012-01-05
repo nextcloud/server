@@ -175,7 +175,7 @@ class OC_Util {
 		$errors=array();
 
 		//check for database drivers
-		if(!is_callable('sqlite_open') and !is_callable('mysql_connect') and !is_callable('pg_connect')){
+		if(!(is_callable('sqlite_open') or class_exists('SQLite3')) and !is_callable('mysql_connect') and !is_callable('pg_connect')){
 			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>','hint'=>'');//TODO: sane hint
 		}
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
