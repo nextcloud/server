@@ -67,22 +67,22 @@ if($data['repeating'] == 1){
 			if(strlen($rrulearr['BYDAY']) == 2){
 				$repeat['weekdays'] = array($rrulearr['BYDAY']);
 			}elseif(strlen($rrulearr['BYDAY']) == 3){
-				$repeat['weekofmonth'] = substr($rrulearr['BYDAY'] , 0, 1);
-				$repeat['weekdays'] = array(substr($rrulearr['BYDAY'] , 1, 2));
+				$repeat['weekofmonth'] = substr($rrulearr['BYDAY'], 0, 1);
+				$repeat['weekdays'] = array(substr($rrulearr['BYDAY'], 1, 2));
 			}elseif(strlen($rrulearr['BYDAY']) == 4){
-				$repeat['weekofmonth'] = substr($rrulearr['BYDAY'] , 0, 2);
-				$repeat['weekdays'] = array(substr($rrulearr['BYDAY'] , 2, 2));
+				$repeat['weekofmonth'] = substr($rrulearr['BYDAY'], 0, 2);
+				$repeat['weekdays'] = array(substr($rrulearr['BYDAY'], 2, 2));
 			}
 		}else{
 			$byday_days = explode(',', $rrulearr['BYDAY']);
 			foreach($byday_days as $byday_day){
 				if(strlen($byday_day) == 2){
 					$repeat['weekdays'][] = $byday_day;
-				}elseif(strlen($rrulearr['BYDAY']) == 3){
+				}elseif(strlen($byday_day) == 3){
 					$repeat['weekofmonth'] = substr($byday_day , 0, 1);
 					$repeat['weekdays'][] = substr($byday_day , 1, 2);
-				}elseif(strlen($rrulearr['BYDAY']) == 4){
-					$repeat['byweekno'] = substr($byday_day , 0, 2);
+				}elseif(strlen($byday_day) == 4){
+					$repeat['weekofmonth'] = substr($byday_day , 0, 2);
 					$repeat['weekdays'][] = substr($byday_day , 2, 2);
 				}
 			}
