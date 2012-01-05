@@ -163,16 +163,16 @@ if($data['repeating'] == 1){
 	}
 	$repeat['interval'] = $rrulearr['INTERVAL'];
 	if(array_key_exists('COUNT', $rrulearr)){
-		$end = 'count';
-		$count = $rrulearr['COUNT'];
+		$repeat['end'] = 'count';
+		$repeat['count'] = $rrulearr['COUNT'];
 	}elseif(array_key_exists('UNTIL', $rrulearr)){
-		$end = 'date';
+		$repeat['end'] = 'date';
 		$endbydate_day = substr($rrulearr['UNTIL'], 6, 2);
 		$endbydate_month = substr($rrulearr['UNTIL'], 4, 2);
 		$endbydate_year = substr($rrulearr['UNTIL'], 0, 4);
-		$endbydate = $endbydate_day . $endbydate_month . $endbydate_year;
+		$repeat['date'] = $endbydate_day . '-' .  $endbydate_month . '-' . $endbydate_year;
 	}else{
-		$end = 'never';
+		$repeat['end'] = 'never';
 	}
 	if(array_key_exists('weekdays', $repeat)){
 		$repeat_weekdays_ = array();
