@@ -42,8 +42,7 @@ function ellipsis($str, $maxlen) {
 }
 
 /**
- * Class for image manipulation
- * Ideas: imagerotate, chunk_split(base64_encode())
+ * Class for basic image manipulation
  *
  */
 class OC_Image {
@@ -198,6 +197,87 @@ class OC_Image {
 			OC_Log::write('core','OC_Image::_string. Error writing image',OC_Log::ERROR);
 		}
 		return chunk_split(base64_encode(ob_get_clean()));
+	}
+
+	/**
+	* @brief Fixes orientation based on EXIF data.
+	* @returns bool.
+	*/
+	public function fixOrientation() {
+		if(!is_resource(self::$resource)) {
+			OC_Log::write('core','OC_Image::fixOrientation() No image loaded.', OC_Log::DEBUG);
+			return false;
+		}
+		if(is_null(self::$filepath) || !is_readable(self::$filepath)) {
+			OC_Log::write('core','OC_Image::fixOrientation() No readable file path set.', OC_Log::DEBUG);
+			return false;
+		}
+		$exif = exif_read_data(self::$filepath, 'IFD0');
+		if(!$exif) {
+			return false;
+		}
+		if(!isset($exif['Orientation'])) {
+			return true; // Nothing to fix
+		}
+		$o = $exif['Orientation'];
+		OC_Log::write('core','OC_Image::fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
+		$rotate = 0;
+		$flip = false;
+		switch($o) {
+			case 1:
+				$rotate = 0;
+				$flip = false;
+				break;
+			case 2: // Not tested
+				$rotate = 0;
+				$flip = true;
+				break;
+			case 3:
+				$rotate = 180;
+				$flip = false;
+				break;
+			case 4: // Not tested
+				$rotate = 180;
+				$flip = true;
+				break;
+			case 5: // Not tested
+				$rotate = 90;
+				$flip = true;
+				break;
+			case 6:
+				//$rotate = 90;
+				$rotate = 270;
+				$flip = false;
+				break;
+			case 7: // Not tested
+				$rotate = 270;
+				$flip = true;
+				break;
+			case 8:
+				$rotate = 270;
+				$flip = false;
+				break;
+		}
+		if($rotate) {
+			$res = imagerotate(self::$resource, $rotate, -1);
+			if($res) {
+				if(imagealphablending($res, true)) {
+					if(imagesavealpha($res, true)) {
+						self::$resource = $res;
+						return true;
+					} else {
+						OC_Log::write('core','OC_Image::fixOrientation() Error during alphasaving.', OC_Log::DEBUG);
+						return false;
+					}
+				} else {
+					OC_Log::write('core','OC_Image::fixOrientation() Error during alphablending.', OC_Log::DEBUG);
+					return false;
+				}
+			} else {
+				OC_Log::write('core','OC_Image::fixOrientation() Error during oriention fixing.', OC_Log::DEBUG);
+				return false;
+			}
+		}
 	}
 
 	/**
