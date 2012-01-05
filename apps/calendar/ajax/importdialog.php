@@ -10,7 +10,9 @@ require_once('../../../lib/base.php');
 
 $l10n = new OC_L10N('calendar');
 
-OC_JSON::checkLoggedIn();
+if(!OC_USER::isLoggedIn()) {
+	die('<script type="text/javascript">document.location = oc_webroot;</script>');
+}
 OC_JSON::checkAppEnabled('calendar');
 
 $tmpl = new OC_Template('calendar', 'part.import');
