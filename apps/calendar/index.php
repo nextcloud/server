@@ -42,4 +42,7 @@ OC_Util::addStyle('', 'jquery.multiselect');
 OC_App::setActiveNavigationEntry('calendar_index');
 $tmpl = new OC_Template('calendar', 'calendar', 'user');
 $tmpl->assign('eventSources', $eventSources);
+if(array_key_exists('showevent', $_GET)){
+	$tmpl->assign('showevent', $_GET['showevent']);
+}
 $tmpl->printPage();

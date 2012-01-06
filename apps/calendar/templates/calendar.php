@@ -18,6 +18,16 @@
 				var missing_field_startsbeforeends = '<?php echo $l->t('The event ends before it starts') ?>';
 				var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
 				var totalurl = '<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?>/calendars';
+				$(document).ready(function() {
+				<?php
+				if(array_key_exists('showevent', $_)){
+					$data = OC_Calendar_App::getEventObject($_['showevent']);
+					$date = substr($data['startdate'], 0, 10);
+					list($year, $month, $day) = explode('-', $date);
+					echo '$(\'#calendar_holder\').fullCalendar(\'gotoDate\', ' . $year . ', ' . --$month . ', ' . $day . ');';
+				}
+				?>
+				});
 				</script>
 				<div id="loading"><img src="<?php echo OC_Helper::imagePath('core', 'loading.gif'); ?>" /></div>
 				<div id="controls">
