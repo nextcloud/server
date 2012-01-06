@@ -279,7 +279,7 @@ class OC_DB {
 			'output' => $file,
 			'end_of_line' => "\n"
 		);
-		self::$schema->dumpDatabase( $definition, $dump_options, MDB2_SCHEMA_DUMP_STRUCTURE );
+		self::$schema->dumpDatabase( $definition, $dump_options, $mode );
 
 		return true;
 	}
