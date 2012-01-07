@@ -25,4 +25,6 @@ class OC_Gallery_Photo{
 				.' AND photos.album_id = albums.album_id');
 		return $stmt->execute(array($owner, $album_name));
 	}
+
 }
+

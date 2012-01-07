@@ -1,6 +1,6 @@
 <?
 require_once('../../../lib/base.php');
-require_once('../lib/album.php');
+require_once(OC::$CLASSPATH['OC_Gallery_Album']);
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('gallery');
 

@@ -21,13 +21,13 @@ class OC_Gallery_Scanner {
   public static function scanDir($path, &$albums) {
     $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
     $current_album['name'] = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $current_album['name']));
-    $current_album['name'] = ($current_album['name']==='') ?
+    $current_album['name'] = ($current_album['name']==='.') ?
                              'main' :
                              trim($current_album['name'],'.');
 
     if ($dh = OC_Filesystem::opendir($path)) {
       while (($filename = readdir($dh)) !== false) {
-        $filepath = $path.'/'.$filename;
+        $filepath = ($path[strlen($path)-1]=='/'?$path:$path.'/').$filename;
         if (substr($filename, 0, 1) == '.') continue;
         if (OC_Filesystem::is_dir($filepath)) {
           self::scanDir($filepath, $albums);
@@ -41,7 +41,7 @@ class OC_Gallery_Scanner {
 
     $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     if ($result->numRows() == 0 && count($current_album['images'])) {
-	    OC_Gallery_Album::create(OC_User::getUser(), $current_album['name']);
+	    OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
 	    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     }
     $albumId = $result->fetchRow();
