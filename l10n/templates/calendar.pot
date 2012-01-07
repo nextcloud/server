@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-06 21:55+0100\n"
+"POT-Creation-Date: 2012-01-07 18:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,31 +146,31 @@ msgstr ""
 msgid "by weekday"
 msgstr ""
 
-#: lib/object.php:383
+#: lib/object.php:383 templates/lAfix.php:3
 msgid "Monday"
 msgstr ""
 
-#: lib/object.php:384
+#: lib/object.php:384 templates/lAfix.php:4
 msgid "Tuesday"
 msgstr ""
 
-#: lib/object.php:385
+#: lib/object.php:385 templates/lAfix.php:5
 msgid "Wednesday"
 msgstr ""
 
-#: lib/object.php:386
+#: lib/object.php:386 templates/lAfix.php:6
 msgid "Thursday"
 msgstr ""
 
-#: lib/object.php:387
+#: lib/object.php:387 templates/lAfix.php:7
 msgid "Friday"
 msgstr ""
 
-#: lib/object.php:388
+#: lib/object.php:388 templates/lAfix.php:8
 msgid "Saturday"
 msgstr ""
 
-#: lib/object.php:389
+#: lib/object.php:389 templates/lAfix.php:2
 msgid "Sunday"
 msgstr ""
 
@@ -202,51 +202,51 @@ msgstr ""
 msgid "last"
 msgstr ""
 
-#: lib/object.php:424
+#: lib/object.php:424 templates/lAfix.php:16
 msgid "January"
 msgstr ""
 
-#: lib/object.php:425
+#: lib/object.php:425 templates/lAfix.php:17
 msgid "February"
 msgstr ""
 
-#: lib/object.php:426
+#: lib/object.php:426 templates/lAfix.php:18
 msgid "March"
 msgstr ""
 
-#: lib/object.php:427
+#: lib/object.php:427 templates/lAfix.php:19
 msgid "April"
 msgstr ""
 
-#: lib/object.php:428
+#: lib/object.php:428 templates/lAfix.php:20
 msgid "May"
 msgstr ""
 
-#: lib/object.php:429
+#: lib/object.php:429 templates/lAfix.php:21
 msgid "June"
 msgstr ""
 
-#: lib/object.php:430
+#: lib/object.php:430 templates/lAfix.php:22
 msgid "July"
 msgstr ""
 
-#: lib/object.php:431
+#: lib/object.php:431 templates/lAfix.php:23
 msgid "August"
 msgstr ""
 
-#: lib/object.php:432
+#: lib/object.php:432 templates/lAfix.php:24
 msgid "September"
 msgstr ""
 
-#: lib/object.php:433
+#: lib/object.php:433 templates/lAfix.php:25
 msgid "October"
 msgstr ""
 
-#: lib/object.php:434
+#: lib/object.php:434 templates/lAfix.php:26
 msgid "November"
 msgstr ""
 
-#: lib/object.php:435
+#: lib/object.php:435 templates/lAfix.php:27
 msgid "December"
 msgstr ""
 
@@ -314,28 +314,104 @@ msgstr ""
 msgid "There was a database fail"
 msgstr ""
 
-#: templates/calendar.php:37
+#: templates/calendar.php:38
 msgid "Week"
 msgstr ""
 
-#: templates/calendar.php:38
+#: templates/calendar.php:39
 msgid "Month"
 msgstr ""
 
-#: templates/calendar.php:39
+#: templates/calendar.php:40
 msgid "List"
 msgstr ""
 
-#: templates/calendar.php:44
+#: templates/calendar.php:45
 msgid "Today"
 msgstr ""
 
-#: templates/calendar.php:45
+#: templates/calendar.php:46
 msgid "Calendars"
 msgstr ""
 
-#: templates/calendar.php:63
+#: templates/calendar.php:64
 msgid "There was a fail, while parsing the file."
+msgstr ""
+
+#: templates/lAfix.php:9
+msgid "Sun."
+msgstr ""
+
+#: templates/lAfix.php:10
+msgid "Mon."
+msgstr ""
+
+#: templates/lAfix.php:11
+msgid "Tue."
+msgstr ""
+
+#: templates/lAfix.php:12
+msgid "Wed."
+msgstr ""
+
+#: templates/lAfix.php:13
+msgid "Thu."
+msgstr ""
+
+#: templates/lAfix.php:14
+msgid "Fri."
+msgstr ""
+
+#: templates/lAfix.php:15
+msgid "Sat."
+msgstr ""
+
+#: templates/lAfix.php:28
+msgid "Jan."
+msgstr ""
+
+#: templates/lAfix.php:29
+msgid "Feb."
+msgstr ""
+
+#: templates/lAfix.php:30
+msgid "Mar."
+msgstr ""
+
+#: templates/lAfix.php:31
+msgid "Apr."
+msgstr ""
+
+#: templates/lAfix.php:32
+msgid "May."
+msgstr ""
+
+#: templates/lAfix.php:33
+msgid "Jun."
+msgstr ""
+
+#: templates/lAfix.php:34
+msgid "Jul."
+msgstr ""
+
+#: templates/lAfix.php:35
+msgid "Aug."
+msgstr ""
+
+#: templates/lAfix.php:36
+msgid "Sep."
+msgstr ""
+
+#: templates/lAfix.php:37
+msgid "Oct."
+msgstr ""
+
+#: templates/lAfix.php:38
+msgid "Nov."
+msgstr ""
+
+#: templates/lAfix.php:39
+msgid "Dec."
 msgstr ""
 
 #: templates/part.choosecalendar.php:1
