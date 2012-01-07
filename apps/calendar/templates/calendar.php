@@ -25,6 +25,7 @@
 					$date = substr($data['startdate'], 0, 10);
 					list($year, $month, $day) = explode('-', $date);
 					echo '$(\'#calendar_holder\').fullCalendar(\'gotoDate\', ' . $year . ', ' . --$month . ', ' . $day . ');';
+					echo '$(\'#dialog_holder\').load(OC.filePath(\'calendar\', \'ajax\', \'editeventform.php\') + \'?id=\' +  ' . $_['showevent'] . ' , Calendar.UI.startEventDialog);';
 				}
 				?>
 				});
