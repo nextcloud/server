@@ -22,11 +22,11 @@ div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
 #collection li.album,#collection li.song { margin-left:3em; }
 #leftcontent img.remove { display:none; float:right; cursor:pointer; }
 #leftcontent li:hover img.remove { display:inline; }
-#leftcontent li {white-space: normal; }
+#leftcontent li div.label { float: left; width: 200px; overflow: hidden; text-overflow: ellipsis; }
 #collection li button { float:right; }
 #collection li,#playlist li { list-style-type:none; }
 .template { display:none; }
-.collection_playing { background:#eee; }
+.collection_playing { background:#eee; font-weight: bold; }
 
 #collection li { padding-right:10px; }
 #searchresults input.play, #searchresults input.add { float:left; height:1em; width:1em; }

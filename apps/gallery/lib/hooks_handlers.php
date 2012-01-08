@@ -1,5 +1,26 @@
 <?php
 
+/**
+* ownCloud - gallery application
+*
+* @author Bartek Przybylski
+* @copyright 2012 Bartek Przybylski bart.p.pl@gmail.com
+* 
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either 
+* version 3 of the License, or any later version.
+* 
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*  
+* You should have received a copy of the GNU Lesser General Public 
+* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+* 
+*/
+
 OC_Hook::connect("OC_Filesystem", "post_write", "OC_Gallery_Hooks_Handlers", "addPhotoFromPath");
 OC_Hook::connect("OC_Filesystem", "delete", "OC_Gallery_Hooks_Handlers", "removePhoto");
 OC_Hook::connect("OC_Filesystem", "post_rename", "OC_Gallery_Hooks_Handlers", "renamePhoto");
@@ -11,6 +32,7 @@ class OC_Gallery_Hooks_Handlers {
   private static $APP_TAG = "Gallery";
 
   private static function isPhoto($filename) {
+    OC_Log::write(self::$APP_TAG, "Checking file ".$filename." with mimetype ".OC_Filesystem::getMimeType($filename), OC_Log::DEBUG);
     if (substr(OC_Filesystem::getMimeType($filename), 0, 6) == "image/")
       return 1;
     return 0;
@@ -18,7 +40,8 @@ class OC_Gallery_Hooks_Handlers {
 
   private static function createAlbum($path) {
     $new_album_name = trim(str_replace('/', '.', $path), '.');
-    if ($new_album_name == '') $new_album_name = 'main';
+    if ($new_album_name == '')
+      $new_album_name = 'main';
 
     OC_Log::write(self::$APP_TAG, 'Creating new album '.$new_album_name, OC_Log::DEBUG);
     OC_Gallery_Album::create(OC_User::getUser(), $new_album_name, $path);
@@ -31,6 +54,7 @@ class OC_Gallery_Hooks_Handlers {
     $fullpath = $params['path'];
     OC_Log::write(self::$APP_TAG, 'Adding file with path '. $fullpath, OC_Log::DEBUG);
     $path = substr($fullpath, 0, strrpos($fullpath, '/'));
+    if ($path == '') $path = '/';
     $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
 
     if ($album->numRows() == 0) {
@@ -55,7 +79,10 @@ class OC_Gallery_Hooks_Handlers {
   public static function renamePhoto($params) {
     $olddir = substr($params['oldpath'], 0, strrpos($params['oldpath'], '/'));
     $newdir = substr($params['newpath'], 0, strrpos($params['newpath'], '/'));
+    if ($olddir == '') $olddir = '/';
+    if ($newdir == '') $newdir = '/';
     if (!self::isPhoto($params['newpath'])) return;
+    OC_Log::write(self::$APP_TAG, 'Moving photo from '.$params['oldpath'].' to '.$params['newpath'], OC_Log::DEBUG);
     $album;
     $newAlbumId;
     $oldAlbumId;

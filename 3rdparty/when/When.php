@@ -621,7 +621,13 @@ class When
 		
 		if($interval == "month")
 		{
-			$this->try_date->modify('+1 month');
+			
+			$this->try_date->modify('first day of next month');
+			if((int) date('t', $this->try_date->format('U')) > (int) $this->start_date->format('j')){
+				$this->try_date->modify('+' . (int) $this->start_date->format('j') - 1 . ' day'); 
+			}else{
+				$this->try_date->modify('+' . (int) date('t', $this->try_date->format('U')) - 1 . ' day'); 
+			}
 		}
 		else
 		{

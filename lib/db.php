@@ -71,7 +71,14 @@ class OC_DB {
 	/**
 	 * connect to the database using pdo
 	 */
-	private static function connectPDO(){
+	public static function connectPDO(){
+		if(self::$connection){
+			if(self::$backend==self::BACKEND_MDB2){
+				self::disconnect();
+			}else{
+				return;
+			}
+		}
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -113,7 +120,14 @@ class OC_DB {
 	/**
 	 * connect to the database using mdb2
 	 */
-	static private function connectMDB2(){
+	public static function connectMDB2(){
+		if(self::$connection){
+			if(self::$backend==self::BACKEND_PDO){
+				self::disconnect();
+			}else{
+				return;
+			}
+		}
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -255,8 +269,8 @@ class OC_DB {
 				self::$connection->disconnect();
 			}
 			self::$connection=false;
-			self::$mdb2=false;
-			self::$pdo=false;
+			self::$MDB2=false;
+			self::$PDO=false;
 		}
 
 		return true;
@@ -374,6 +388,8 @@ class OC_DB {
 	private static function connectScheme(){
 		// We need a mdb2 database connection
 		self::connectMDB2();
+		self::$MDB2->loadModule('Manager');
+		self::$MDB2->loadModule('Reverse');
 
 		// Connect if this did not happen before
 		if(!self::$schema){
