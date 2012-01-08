@@ -152,14 +152,16 @@ class OC{
 			}
 		}
 
-		$installedVersion=OC_Config::getValue('version','0.0.0');
-		$currentVersion=implode('.',OC_Util::getVersion());
-		if (version_compare($currentVersion, $installedVersion, '>')) {
-			OC_DB::updateDbFromStructure('../db_structure.xml');
-			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
-		}
+		if(OC_Config::getValue('installed', false)){
+			$installedVersion=OC_Config::getValue('version','0.0.0');
+			$currentVersion=implode('.',OC_Util::getVersion());
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				OC_DB::updateDbFromStructure('../db_structure.xml');
+				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+			}
 
-		OC_App::updateApps();
+			OC_App::updateApps();
+		}
 
 		ini_set('session.cookie_httponly','1;');
 		session_start();
