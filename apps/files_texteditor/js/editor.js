@@ -77,81 +77,42 @@ function editorIsShown(){
 	return is_editor_shown;
 }
 
-function updateSessionFileHash(path){
-	$.get(OC.filePath('files_texteditor','ajax','loadfile.php'),
-		{ path: path },
-   		function(jsondata){
-   			if(jsondata.status=='failure'){
-   				alert('Failed to update session file hash.');	
-   			}
-   	}, "json");}
-
 function doFileSave(){
 	if(editorIsShown()){
+		// Get file path
+		var path = $('#editor').attr('data-dir')+'/'+$('#editor').attr('data-filename');
+		// Get original mtime
+		var mtime = $('#editor').attr('data-mtime');
+		// Show saving spinner
 		$("#editor_save").die('click',doFileSave);
 		$('#editor_save').after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
-			var filecontents = window.aceEditor.getSession().getValue();
-			var dir =  $('#editor').attr('data-dir');
-			var file =  $('#editor').attr('data-filename');
-			$.post(OC.filePath('files_texteditor','ajax','savefile.php'), { filecontents: filecontents, file: file, dir: dir },function(jsondata){
-			
-				if(jsondata.status == 'failure'){
-					var answer = confirm(jsondata.data.message);
-					if(answer){
-						$.post(OC.filePath('files_texteditor','ajax','savefile.php'),{ filecontents: filecontents, file: file, dir: dir, force: 'true' },function(jsondata){
-							if(jsondata.status =='success'){
-								$('#saving_icon').remove();
-								$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>')
-								setTimeout(function() {
-  									$('#save_result').fadeOut('slow',function(){
-  										$(this).remove();	
-  										$("#editor_save").live('click',doFileSave);
-  									});
-								}, 2000);
-							} 
-							else {
-								// Save error
-								$('#saving_icon').remove();
-								$('#editor_save').after('<p id="save_result" style="float: left">Failed!</p>');
-								setTimeout(function() {
-									$('#save_result').fadeOut('slow',function(){ 
-										$(this).remove();
-										$("#editor_save").live('click',doFileSave); 
-									});
-								}, 2000);	
-							}
-						}, 'json');
-					} 
-		   			else {
-						// Don't save!
-						$('#saving_icon').remove();
-						// Temporary measure until we get a tick icon
-						$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
-						setTimeout(function() {
-									$('#save_result').fadeOut('slow',function(){ 
-										$(this).remove(); 
-										$("#editor_save").live('click',doFileSave);
-									});
-						}, 2000);
-			   		}
-				} 
-				else if(jsondata.status == 'success'){
-					// Success
-					$('#saving_icon').remove();
-					// Temporary measure until we get a tick icon
-					$('#editor_save').after('<p id="save_result" style="float: left">Saved!</p>');
-					setTimeout(function() {
-						$('#save_result').fadeOut('slow',function(){ 
-							$(this).remove(); 
-							$("#editor_save").live('click',doFileSave);
-						});
-					}, 2000);
-				}
-			}, 'json');
-		giveEditorFocus();
-	} else {
-		return;	
-	}	
+		// Get the data
+		var filecontents = window.aceEditor.getSession().getValue();
+		// Send the data
+		$.post(OC.filePath('files_texteditor','ajax','savefile.php'), { filecontents: filecontents, path: path, mtime: mtime },function(jsondata){
+			if(jsondata.status!='success'){
+				// Save failed
+				$('#saving_icon').remove();
+				$('#editor_save').after('<p id="save_result" style="float: left">Failed to save file</p>');
+				setTimeout(function() {
+					$('#save_result').fadeOut('slow',function(){ 
+						$(this).remove();
+						$("#editor_save").live('click',doFileSave); 
+					});
+				}, 2000);  	
+			} else {
+				// Save OK	
+				$('#saving_icon').remove();
+				$('#editor_save').after('<p id="save_result" style="float: left">Saved</p>')
+				setTimeout(function() {
+					$('#save_result').fadeOut('slow',function(){
+						$(this).remove();       
+						$("#editor_save").live('click',doFileSave);
+					});
+				}, 2000);
+			}
+		},'json');
+	}
 };
 
 function giveEditorFocus(){
@@ -162,24 +123,34 @@ function showFileEditor(dir,filename){
 	if(!editorIsShown()){
 		// Loads the file editor and display it.
 		var data = $.ajax({
-				url: OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
+				url: OC.filePath('files_texteditor','ajax','loadfile.php'),
+				data: 'file='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
 				complete: function(data){
-					// Initialise the editor
-					updateSessionFileHash(dir+'/'+filename);
-					showControls(filename);
-					$('table').fadeOut('slow', function() {
-						$('#editor').text(data.responseText);
-						// encodeURIComponenet?
-						$('#editor').attr('data-dir', dir);
-						$('#editor').attr('data-filename', filename);
-						window.aceEditor = ace.edit("editor");  
-						aceEditor.setShowPrintMargin(false);
-						setEditorSize();
-						setSyntaxMode(getFileExtension(filename));
-						OC.addScript('files_texteditor','aceeditor/theme-clouds', function(){
-							window.aceEditor.setTheme("ace/theme/clouds");
+					result = jQuery.parseJSON(data.responseText);
+					if(result.status == 'success'){
+						// Save mtime
+						$('#editor').attr('data-mtime', result.data.mtime);
+						// Initialise the editor
+						showControls(filename);
+						$('table').fadeOut('slow', function() {
+							$('#editor').text(result.data.filecontents);
+							$('#editor').attr('data-dir', dir);
+							$('#editor').attr('data-filename', filename);
+							window.aceEditor = ace.edit("editor");  
+							aceEditor.setShowPrintMargin(false);
+							if(result.data.write=='false'){
+								aceEditor.setReadOnly(true);	
+							}
+							setEditorSize();
+							setSyntaxMode(getFileExtension(filename));
+							OC.addScript('files_texteditor','aceeditor/theme-clouds', function(){
+								window.aceEditor.setTheme("ace/theme/clouds");
+							});
 						});
-					});
+					} else {
+						// Failed to get the file.
+						alert(result.data.message);	
+					}
 				// End success
 				}
 				// End ajax

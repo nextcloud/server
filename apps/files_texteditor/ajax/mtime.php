@@ -27,36 +27,23 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 
-// Get paramteres
-$filecontents = htmlspecialchars_decode($_POST['filecontents']);
-$path = isset($_POST['path']) ? $_POST['path'] : '';
-$mtime = isset($_POST['mtime']) ? $_POST['mtime'] : '';
+// Get the path from GET
+$path = isset($_GEt['path']) ? $_GET['path'] : '';
 
-
-if($path != '' && $mtime != '')
+if($path != '')
 {
-	// Get file mtime
-	$filemtime = OC_Filesystem::filemtime($path);
-	if($mtime != $filemtime)
+	// Find the mtime
+	$mtime = OC_Filesystem::filemtime($path);
+	if($mtime)
 	{
-		// Then the file has changed since opening
-		OC_JSON::error();	
+		OC_JSON::success(array('data' => array('path' => $path, 'mtime' => $mtime)));
 	}
 	else
 	{
-		// File same as when opened
-		// Save file
-		if(OC_Filesystem::is_writeable($path))	
-		{
-			OC_Filesystem::file_put_contents($path, $filecontents);
-			OC_JSON::success();
-		}
-		else
-		{
-			// Not writeable!
-			OC_JSON::error(array('data' => array( 'message' => 'Insufficient permissions')));	
-		}
-	}
-} else {
-	OC_JSON::error(array('data' => array( 'message' => 'File path or mtime not supplied')));	
+		OC_JSON::error();
+	}	
+}
+else
+{
+	OC_JSON::error();	
 }
