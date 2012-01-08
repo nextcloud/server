@@ -288,7 +288,7 @@ class OC_Setup {
 		$content.= "php_value post_max_size 512M\n";
 		$content.= "SetEnv htaccessWorking true\n";
 		$content.= "</IfModule>\n";
-		$content.= "<IfModule mod_rewrite.c>";
+		$content.= "<IfModule mod_rewrite.c>\n";
 		$content.= "RewriteEngine on\n";
 		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]\n";
 		$content.= "</IfModule>\n";
