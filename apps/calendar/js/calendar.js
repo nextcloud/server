@@ -33,6 +33,19 @@ Calendar={
 					minWidth:'auto',
 					classes: 'category',
 			});
+			Calendar.UI.repeat('init');
+			$('#end').change(function(){
+				Calendar.UI.repeat('end');
+			});
+			$('#repeat').change(function(){
+				Calendar.UI.repeat('repeat');
+			});
+			$('#advanced_year').change(function(){
+				Calendar.UI.repeat('year');
+			});
+			$('#advanced_month').change(function(){
+				Calendar.UI.repeat('month');
+			});
 			$('#event').dialog({
 				width : 500,
 				close : function(event, ui) {
@@ -150,8 +163,15 @@ Calendar={
 			});
 		},
 		showadvancedoptions:function(){
-			$("#advanced_options").css("display", "block");
+			$("#advanced_options").slideDown('slow');
 			$("#advanced_options_button").css("display", "none");
+		},
+		showadvancedoptionsforrepeating:function(){
+			if($("#advanced_options_repeating").is(":hidden")){
+				$('#advanced_options_repeating').slideDown('slow');
+			}else{
+				$('#advanced_options_repeating').slideUp('slow');
+			}
 		},
 		getEventPopupText:function(event){
 			if (event.allDay){
@@ -222,6 +242,108 @@ Calendar={
 				$(document).scrollTop(win_height);
 				event.preventDefault();
 			}
+		},
+		repeat:function(task){
+			if(task=='init'){
+				$('#byweekno').multiselect({
+					header: false,
+					noneSelectedText: $('#advanced_byweekno').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				$('#weeklyoptions').multiselect({
+					header: false,
+					noneSelectedText: $('#weeklyoptions').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				$('input[name="bydate"]').datepicker({
+					dateFormat : 'dd-mm-yy'
+				});
+				$('#byyearday').multiselect({
+					header: false,
+					noneSelectedText: $('#byyearday').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				$('#bymonth').multiselect({
+					header: false,
+					noneSelectedText: $('#bymonth').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				$('#bymonthday').multiselect({
+					header: false,
+					noneSelectedText: $('#bymonthday').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				Calendar.UI.repeat('end');
+				Calendar.UI.repeat('month');
+				Calendar.UI.repeat('year');
+				Calendar.UI.repeat('repeat');
+			}
+			if(task == 'end'){
+				$('#byoccurrences').css('display', 'none');
+				$('#bydate').css('display', 'none');
+				if($('#end option:selected').val() == 'count'){
+					$('#byoccurrences').css('display', 'block');
+				}
+				if($('#end option:selected').val() == 'date'){
+					$('#bydate').css('display', 'block');
+				}
+			}
+			if(task == 'repeat'){
+				$('#advanced_month').css('display', 'none');
+				$('#advanced_weekday').css('display', 'none');
+				$('#advanced_weekofmonth').css('display', 'none');
+				$('#advanced_byyearday').css('display', 'none');
+				$('#advanced_bymonth').css('display', 'none');
+				$('#advanced_byweekno').css('display', 'none');
+				$('#advanced_year').css('display', 'none');
+				$('#advanced_bymonthday').css('display', 'none');
+				if($('#repeat option:selected').val() == 'monthly'){
+					$('#advanced_month').css('display', 'block');
+					Calendar.UI.repeat('month');
+				}
+				if($('#repeat option:selected').val() == 'weekly'){
+					$('#advanced_weekday').css('display', 'block');
+				}
+				if($('#repeat option:selected').val() == 'yearly'){
+					$('#advanced_year').css('display', 'block');
+					Calendar.UI.repeat('year');
+				}
+				if($('#repeat option:selected').val() == 'doesnotrepeat'){
+					$('#advanced_options_repeating').slideUp('slow');
+				}
+			}
+			if(task == 'month'){
+				$('#advanced_weekday').css('display', 'none');
+				$('#advanced_weekofmonth').css('display', 'none');
+				if($('#advanced_month_select option:selected').val() == 'weekday'){
+					$('#advanced_weekday').css('display', 'block');
+					$('#advanced_weekofmonth').css('display', 'block');
+				}
+			}
+			if(task == 'year'){
+				$('#advanced_weekday').css('display', 'none');
+				$('#advanced_byyearday').css('display', 'none');
+				$('#advanced_bymonth').css('display', 'none');
+				$('#advanced_byweekno').css('display', 'none');
+				$('#advanced_bymonthday').css('display', 'none');
+				if($('#advanced_year_select option:selected').val() == 'byyearday'){
+					//$('#advanced_byyearday').css('display', 'block');
+				}
+				if($('#advanced_year_select option:selected').val() == 'byweekno'){
+					$('#advanced_byweekno').css('display', 'block');
+				}
+				if($('#advanced_year_select option:selected').val() == 'bydaymonth'){
+					$('#advanced_bymonth').css('display', 'block');
+					$('#advanced_bymonthday').css('display', 'block');
+					$('#advanced_weekday').css('display', 'block');
+				}
+			}
+			
 		},
 		Calendar:{
 			overview:function(){

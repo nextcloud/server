@@ -127,7 +127,7 @@ class OC_MEDIA_COLLECTION{
 			$search='%';
 		}
 		$query=OC_DB::prepare("SELECT DISTINCT *PREFIX*media_artists.artist_name AS artist_name , *PREFIX*media_artists.artist_id AS artist_id FROM *PREFIX*media_artists
-			INNER JOIN *PREFIX*media_songs ON *PREFIX*media_artists.artist_id=*PREFIX*media_songs.song_artist WHERE artist_name LIKE ? AND *PREFIX*media_songs.song_user=?");
+			INNER JOIN *PREFIX*media_songs ON *PREFIX*media_artists.artist_id=*PREFIX*media_songs.song_artist WHERE artist_name LIKE ? AND *PREFIX*media_songs.song_user=? ORDER BY artist_name");
 		return $query->execute(array($search,self::$uid))->fetchAll();
 	}
 	
@@ -160,7 +160,7 @@ class OC_MEDIA_COLLECTION{
 	*/
 	static public function getAlbums($artist=0,$search='%',$exact=false){
 		$cmd="SELECT DISTINCT *PREFIX*media_albums.album_name AS album_name , *PREFIX*media_albums.album_artist AS album_artist , *PREFIX*media_albums.album_id AS album_id
-			FROM *PREFIX*media_albums INNER JOIN *PREFIX*media_songs ON *PREFIX*media_albums.album_id=*PREFIX*media_songs.song_album WHERE *PREFIX*media_songs.song_user=? ";
+			FROM *PREFIX*media_albums INNER JOIN *PREFIX*media_songs ON *PREFIX*media_albums.album_id=*PREFIX*media_songs.song_album WHERE *PREFIX*media_songs.song_user=? ORDER BY album_name";
 		$params=array(self::$uid);
 		if($artist!=0){
 			$cmd.="AND *PREFIX*media_albums.album_artist = ? ";
@@ -233,7 +233,7 @@ class OC_MEDIA_COLLECTION{
 		}else{
 			$searchString='';
 		}
-		$query=OC_DB::prepare("SELECT * FROM *PREFIX*media_songs WHERE song_user=? $artistString $albumString $searchString");
+		$query=OC_DB::prepare("SELECT * FROM *PREFIX*media_songs WHERE song_user=? $artistString $albumString $searchString ORDER BY song_track, song_name");
 		return $query->execute($params)->fetchAll();
 	}
 	

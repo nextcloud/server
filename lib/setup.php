@@ -98,35 +98,45 @@ class OC_Setup {
 					);
 				}
 				else {
+					$oldUser=OC_Config::getValue('dbuser', false);
+					$oldPassword=OC_Config::getValue('dbpassword', false);
+					
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
 					if(mysql_query($query, $connection)) {
 						//use the admin login data for the new database user
 
 						//add prefix to the mysql user name to prevent collissions
-						$dbusername=substr('oc_mysql_'.$username,0,16);
-						//hash the password so we don't need to store the admin config in the config file
-						$dbpassword=md5(time().$password);
-						
-						self::createDBUser($dbusername, $dbpassword, $connection);
-						
-						OC_Config::setValue('dbuser', $dbusername);
-						OC_Config::setValue('dbpassword', $dbpassword);
+						$dbusername=substr('oc_'.$username,0,16);
+						if($dbusername!=$oldUser){
+							//hash the password so we don't need to store the admin config in the config file
+							$dbpassword=md5(time().$password);
+
+							self::createDBUser($dbusername, $dbpassword, $connection);
+
+							OC_Config::setValue('dbuser', $dbusername);
+							OC_Config::setValue('dbpassword', $dbpassword);
+						}
 
 						//create the database
 						self::createDatabase($dbname, $dbusername, $connection);
 					}
 					else {
-						OC_Config::setValue('dbuser', $dbuser);
-						OC_Config::setValue('dbpassword', $dbpass);
+						if($dbuser!=$oldUser){
+							OC_Config::setValue('dbuser', $dbuser);
+							OC_Config::setValue('dbpassword', $dbpass);
+						}
 
 						//create the database
 						self::createDatabase($dbname, $dbuser, $connection);
 					}
 
 					//fill the database if needed
-					$query="SELECT * FROM $dbname.{$dbtableprefix}users";
+					$query="select count(*) from information_schema.tables where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
 					$result = mysql_query($query,$connection);
-					if(!$result) {
+					if($result){
+						$row=mysql_fetch_row($result);
+					}
+					if(!$result or $row[0]==0) {
 						OC_DB::createDbFromStructure('db_structure.xml');
 					}
 					mysql_close($connection);
@@ -160,8 +170,8 @@ class OC_Setup {
 
 						//add prefix to the postgresql user name to prevent collissions
 						$dbusername='oc_'.$username;
-						//hash the password so we don't need to store the admin config in the config file
-						$dbpassword=md5(time().$password);
+						//create a new password so we don't need to store the admin config in the config file
+						$dbpassword=md5(time());
 						
 						self::pg_createDBUser($dbusername, $dbpassword, $connection);
 						
@@ -221,7 +231,7 @@ class OC_Setup {
 	}
 
 	public static function createDatabase($name,$user,$connection) {
-		//we cant user OC_BD functions here because we need to connect as the administrative user.
+		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$query = "CREATE DATABASE IF NOT EXISTS  `$name`";
 		$result = mysql_query($query, $connection);
 		if(!$result) {
@@ -243,7 +253,7 @@ class OC_Setup {
 	}
 
 	public static function pg_createDatabase($name,$user,$connection) {
-		//we cant user OC_BD functions here because we need to connect as the administrative user.
+		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$query = "CREATE DATABASE $name OWNER $user";
 		$result = pg_query($connection, $query);
 		if(!$result) {

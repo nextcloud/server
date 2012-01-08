@@ -70,6 +70,31 @@ class OC{
 		}
 	}
 
+	/**
+	 * autodetects the formfactor of the used device
+	 * default -> the normal desktop browser interface
+	 * mobile -> interface for smartphones
+	 * tablet -> interface for tablets
+	 * standalone -> the default interface but without header, footer and sidebar. just the application. useful to ue just a specific app on the desktop in a standalone window.
+	 */
+	public static function detectFormfactor(){
+		// please add more useragent strings for other devices
+		if(isset($_SERVER['HTTP_USER_AGENT'])){
+			if(stripos($_SERVER['HTTP_USER_AGENT'],'ipad')>0) {
+				$mode='tablet';
+			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0){
+				$mode='mobile';
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)){
+				$mode='mobile';
+			}else{
+				$mode='default';
+			}
+		}else{
+			$mode='default';
+		}
+		return($mode);
+	}
+
 	public static function init(){
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
@@ -127,8 +152,29 @@ class OC{
 			}
 		}
 
+		if(OC_Config::getValue('installed', false)){
+			$installedVersion=OC_Config::getValue('version','0.0.0');
+			$currentVersion=implode('.',OC_Util::getVersion());
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				OC_DB::updateDbFromStructure('../db_structure.xml');
+				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+			}
+
+			OC_App::updateApps();
+		}
+
 		ini_set('session.cookie_httponly','1;');
 		session_start();
+
+		// if the formfactor is not yet autodetected do the autodetection now. For possible forfactors check the detectFormfactor documentation
+		if(!isset($_SESSION['formfactor'])){
+			$_SESSION['formfactor']=OC::detectFormfactor();
+		}
+		// allow manual override via GET parameter
+		if(isset($_GET['formfactor'])){
+			$_SESSION['formfactor']=$_GET['formfactor'];
+		}
+
 
 		// Add the stuff we need always
 		OC_Util::addScript( "jquery-1.6.4.min" );
@@ -195,8 +241,6 @@ if( !isset( $RUNTIME_NOAPPS )){
 	$RUNTIME_NOAPPS = false;
 }
 
-OC::init();
-
 if(!function_exists('get_temp_dir')) {
 	function get_temp_dir() {
 		if( $temp=ini_get('upload_tmp_dir') )        return $temp;
@@ -212,7 +256,11 @@ if(!function_exists('get_temp_dir')) {
 	}
 }
 
+OC::init();
+
 require_once('fakedirstream.php');
+
+
 
 // FROM search.php
 new OC_Search_Provider_File();

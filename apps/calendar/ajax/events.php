@@ -58,7 +58,7 @@ foreach($events as $event){
 			}
 			if($return_event['allDay'] == true){
 				$return_event['start'] = $result->format('Y-m-d');
-				$return_event['end'] = date('Y-m-d', $result->format('U') + $duration--);
+				$return_event['end'] = date('Y-m-d', $result->format('U') + --$duration);
 			}else{
 				$return_event['start'] = $result->format('Y-m-d H:i:s');
 				$return_event['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);

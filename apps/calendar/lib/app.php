@@ -75,8 +75,43 @@ class OC_Calendar_App{
 		);
 	}
 
-	public static function getRepeatOptions()
-	{
-		OC_Calendar_Object::getRepeatOptions(self::$l10n);
+	public static function getRepeatOptions(){
+		return OC_Calendar_Object::getRepeatOptions(self::$l10n);
+	}
+
+	public static function getEndOptions(){
+		return OC_Calendar_Object::getEndOptions(self::$l10n);
+	}
+
+	public static function getMonthOptions(){
+		return OC_Calendar_Object::getMonthOptions(self::$l10n);
+	}
+
+	public static function getWeeklyOptions(){
+		return OC_Calendar_Object::getWeeklyOptions(self::$l10n);
+	}
+
+	public static function getYearOptions(){
+		return OC_Calendar_Object::getYearOptions(self::$l10n);
+	}
+
+	public static function getByYearDayOptions(){
+		return OC_Calendar_Object::getByYearDayOptions();
+	}
+
+	public static function getByMonthOptions(){
+		return OC_Calendar_Object::getByMonthOptions(self::$l10n);
+	}
+	
+	public static function getByWeekNoOptions(){
+		return OC_Calendar_Object::getByWeekNoOptions();
+	}
+
+	public static function getByMonthDayOptions(){
+		return OC_Calendar_Object::getByMonthDayOptions();
+	}
+	
+	public static function getWeekofMonth(){
+		return OC_Calendar_Object::getWeekofMonth(self::$l10n);
 	}
 }

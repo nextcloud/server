@@ -10,9 +10,7 @@ require_once('../../../lib/base.php');
 
 $l10n = new OC_L10N('calendar');
 
-if(!OC_USER::isLoggedIn()) {
-	die("<script type=\"text/javascript\">document.location = oc_webroot;</script>");
-}
+OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
 $errarr = OC_Calendar_Object::validateRequest($_POST);

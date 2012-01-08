@@ -169,7 +169,8 @@ class OC_User {
 			foreach( OC_Group::getUserGroups( $uid ) as $i ){
 				OC_Group::removeFromGroup( $uid, $i );
 			}
-
+			// Delete the user's keys in preferences
+			OC_Preferences::deleteUser($uid);
 			// Emit and exit
 			OC_Hook::emit( "OC_User", "post_deleteUser", array( "uid" => $uid ));
 			return true;

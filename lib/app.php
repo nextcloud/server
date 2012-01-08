@@ -94,7 +94,15 @@ class OC_App{
 	 */
 	public static function enable( $app ){
 		if(!OC_Installer::isInstalled($app)){
-			OC_Installer::installShippedApp($app);
+			// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
+			if(!is_numeric($app)){
+				OC_Installer::installShippedApp($app);
+			}else{
+                                $download=OC_OCSClient::getApplicationDownload($app,1);
+				if(isset($download['downloadlink']) and $download['downloadlink']<>'') {
+					OC_Installer::installApp(array('source'=>'http','href'=>$download['downloadlink']));
+				}
+			}
 		}
 		OC_Appconfig::setValue( $app, 'enabled', 'yes' );
 	}
@@ -107,6 +115,7 @@ class OC_App{
 	 * This function set an app as disabled in appconfig.
 	 */
 	public static function disable( $app ){
+		// check if app is a shiped app or not. if not delete
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
 	}
 
@@ -361,5 +370,36 @@ class OC_App{
 			}
 		}
 		return $apps;
+	}
+	
+	/**
+	 * check if any apps need updating and update those
+	 */
+	public static function updateApps(){
+		// The rest comes here
+		$apps = OC_Appconfig::getApps();
+		foreach( $apps as $app ){
+			$installedVersion=OC_Appconfig::getValue($app,'installed_version');
+			$appInfo=OC_App::getAppInfo($app);
+			if (isset($appInfo['version'])) {
+				$currentVersion=$appInfo['version'];
+				if (version_compare($currentVersion, $installedVersion, '>')) {
+					OC_App::updateApp($app);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * update the database for the app and call the update script
+	 * @param string appid
+	 */
+	public static function updateApp($appid){
+		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml')){
+			OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml');
+		}
+		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php')){
+			include OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php';
+		}
 	}
 }
