@@ -628,12 +628,6 @@ class When
 			}else{
 				$this->try_date->modify('+' . (int) date('t', $this->try_date->format('U')) - 1 . ' day'); 
 			}
-			//$this->try_date->setDate(date('y/n/j', mktime(0,0,0,$this->try_date->format('j'), $this->try_date->format('n') + 1, $year = $this->try_date->format('Y'))));
-			//echo date('t', $this->try_date->format('U')) . '-' . $this->try_date->format('U') . ' ';
-			/*$month_day = $this->try_date->format('j');
-		$month = $this->try_date->format('n');
-		$year = $this->try_date->format('Y');*/
-		
 		}
 		else
 		{
