@@ -2,7 +2,7 @@
 <database>
 	 <name>*dbname*</name>
 	 <create>true</create>
-	 <overwrite>true</overwrite>
+	 <overwrite>false</overwrite>
 	 <charset>latin1</charset>
 	 <table>
 		<name>*dbprefix*gallery_albums</name>
