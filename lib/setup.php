@@ -103,7 +103,7 @@ class OC_Setup {
 						//use the admin login data for the new database user
 
 						//add prefix to the mysql user name to prevent collissions
-						$dbusername=substr('oc_mysql_'.$username,0,16);
+						$dbusername=substr('oc_'.$username,0,16);
 						//hash the password so we don't need to store the admin config in the config file
 						$dbpassword=md5(time().$password);
 						
@@ -124,9 +124,12 @@ class OC_Setup {
 					}
 
 					//fill the database if needed
-					$query="SELECT * FROM $dbname.{$dbtableprefix}users";
+					$query="select count(*) from information_schema.tables where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
 					$result = mysql_query($query,$connection);
-					if(!$result) {
+					if($result){
+						$row=mysql_fetch_row($result);
+					}
+					if(!$result or $row[0]==0) {
 						OC_DB::createDbFromStructure('db_structure.xml');
 					}
 					mysql_close($connection);
