@@ -32,6 +32,7 @@ class OC_Gallery_Hooks_Handlers {
   private static $APP_TAG = "Gallery";
 
   private static function isPhoto($filename) {
+    OC_Log::write(self::$APP_TAG, "Checking file ".$filename." with mimetype ".OC_Filesystem::getMimeType($filename), OC_Log::DEBUG);
     if (substr(OC_Filesystem::getMimeType($filename), 0, 6) == "image/")
       return 1;
     return 0;
@@ -53,6 +54,7 @@ class OC_Gallery_Hooks_Handlers {
     $fullpath = $params['path'];
     OC_Log::write(self::$APP_TAG, 'Adding file with path '. $fullpath, OC_Log::DEBUG);
     $path = substr($fullpath, 0, strrpos($fullpath, '/'));
+    if ($path == '') $path = '/';
     $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
 
     if ($album->numRows() == 0) {
@@ -75,9 +77,12 @@ class OC_Gallery_Hooks_Handlers {
   }
 
   public static function renamePhoto($params) {
-    $olddir = substr($params['oldpath'], 0, strrpos($params['oldpath'], '/')+1);
-    $newdir = substr($params['newpath'], 0, strrpos($params['newpath'], '/')+1);
+    $olddir = substr($params['oldpath'], 0, strrpos($params['oldpath'], '/'));
+    $newdir = substr($params['newpath'], 0, strrpos($params['newpath'], '/'));
+    if ($olddir == '') $olddir = '/';
+    if ($newdir == '') $newdir = '/';
     if (!self::isPhoto($params['newpath'])) return;
+    OC_Log::write(self::$APP_TAG, 'Moving photo from '.$params['oldpath'].' to '.$params['newpath'], OC_Log::DEBUG);
     $album;
     $newAlbumId;
     $oldAlbumId;
