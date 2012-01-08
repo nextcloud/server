@@ -190,9 +190,12 @@ class OC_Setup {
 					}
 
 					//fill the database if needed
-					$query = "SELECT relname FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
+					$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
 					$result = pg_query($connection, $query);
-					if(!$result) {
+					if($result){
+						$row = pg_fetch_row($result);
+					}
+					if(!$result or $row[0]==0) {
 						OC_DB::createDbFromStructure('db_structure.xml');
 					}
 					pg_close($connection);
