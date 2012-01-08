@@ -8,7 +8,6 @@ a.jp-next { left:5em; }
 div.jp-progress { position:absolute; overflow:hidden; top:.5em; left:8em; width:15em; height:1.2em; padding:0; }
 div.jp-seek-bar { background:#eee; width:0; height:100%; cursor:pointer; }
 div.jp-play-bar { background:#ccc; width:0; height:100%; }
-div.jp-seeking-bg { background:url("../img/pbar-ani.gif"); }
 div.jp-current-time,div.jp-duration { position:absolute; font-size:.64em; font-style:oblique; top:0.9em; left:13.5em; }
 div.jp-duration { display: none }
 div.jp-current-song { left: 33em; position: absolute; top: 0.9em; }
