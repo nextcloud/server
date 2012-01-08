@@ -389,6 +389,7 @@ class OC_DB {
 		// We need a mdb2 database connection
 		self::connectMDB2();
 		self::$MDB2->loadModule('Manager');
+		self::$MDB2->loadModule('Reverse');
 
 		// Connect if this did not happen before
 		if(!self::$schema){
