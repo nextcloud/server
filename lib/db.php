@@ -71,7 +71,14 @@ class OC_DB {
 	/**
 	 * connect to the database using pdo
 	 */
-	private static function connectPDO(){
+	public static function connectPDO(){
+		if(self::$connection){
+			if(self::$backend==self::BACKEND_MDB2){
+				self::disconnect();
+			}else{
+				return;
+			}
+		}
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -113,7 +120,14 @@ class OC_DB {
 	/**
 	 * connect to the database using mdb2
 	 */
-	static private function connectMDB2(){
+	public static function connectMDB2(){
+		if(self::$connection){
+			if(self::$backend==self::BACKEND_PDO){
+				self::disconnect();
+			}else{
+				return;
+			}
+		}
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -255,8 +269,8 @@ class OC_DB {
 				self::$connection->disconnect();
 			}
 			self::$connection=false;
-			self::$mdb2=false;
-			self::$pdo=false;
+			self::$MDB2=false;
+			self::$PDO=false;
 		}
 
 		return true;
@@ -338,7 +352,6 @@ class OC_DB {
 	 * @param $file file to read structure from
 	 */
 	public static function updateDbFromStructure($file){
-		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
@@ -347,17 +360,17 @@ class OC_DB {
 		// read file
 		$content = file_get_contents( $file );
 		
+		$previousSchema = self::$schema->getDefinitionFromDatabase();
+
 		// Make changes and save them to a temporary file
 		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
-		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
+		$content = str_replace( '*dbname*', $previousSchema['name'], $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		}
 		file_put_contents( $file2, $content );
-		$previousSchema = self::$schema->getDefinitionFromDatabase();
-		$op = $schema->updateDatabase($file2, $previousSchema, array(), false);
-
+		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
 		if (PEAR::isError($op)) {
 		    $error = $op->getMessage();
 		    OC_Log::write('core','Failed to update database structure ('.$error.')',OC_Log::FATAL);
@@ -375,6 +388,8 @@ class OC_DB {
 	private static function connectScheme(){
 		// We need a mdb2 database connection
 		self::connectMDB2();
+		self::$MDB2->loadModule('Manager');
+		self::$MDB2->loadModule('Reverse');
 
 		// Connect if this did not happen before
 		if(!self::$schema){
