@@ -98,26 +98,33 @@ class OC_Setup {
 					);
 				}
 				else {
+					$oldUser=OC_Config::getValue('dbuser', false);
+					$oldPassword=OC_Config::getValue('dbpassword', false);
+					
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
 					if(mysql_query($query, $connection)) {
 						//use the admin login data for the new database user
 
 						//add prefix to the mysql user name to prevent collissions
 						$dbusername=substr('oc_'.$username,0,16);
-						//hash the password so we don't need to store the admin config in the config file
-						$dbpassword=md5(time().$password);
-						
-						self::createDBUser($dbusername, $dbpassword, $connection);
-						
-						OC_Config::setValue('dbuser', $dbusername);
-						OC_Config::setValue('dbpassword', $dbpassword);
+						if($dbusername!=$oldUser){
+							//hash the password so we don't need to store the admin config in the config file
+							$dbpassword=md5(time().$password);
+
+							self::createDBUser($dbusername, $dbpassword, $connection);
+
+							OC_Config::setValue('dbuser', $dbusername);
+							OC_Config::setValue('dbpassword', $dbpassword);
+						}
 
 						//create the database
 						self::createDatabase($dbname, $dbusername, $connection);
 					}
 					else {
-						OC_Config::setValue('dbuser', $dbuser);
-						OC_Config::setValue('dbpassword', $dbpass);
+						if($dbuser!=$oldUser){
+							OC_Config::setValue('dbuser', $dbuser);
+							OC_Config::setValue('dbpassword', $dbpass);
+						}
 
 						//create the database
 						self::createDatabase($dbname, $dbuser, $connection);
