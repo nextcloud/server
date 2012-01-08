@@ -79,20 +79,16 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if ($path == "" || $path == "/") {
 			$path = $this->datadir.$path;
 			$sharedItems = OC_Share::getItemsInFolder($path);
-			if (empty($sharedItems)) {
-				return false;
-			} else {
-				global $FAKEDIRS;
-				$files = array();
-				foreach ($sharedItems as $item) {
-					// If item is in the root of the shared storage provider and the item exists add it to the fakedirs
-					if (dirname($item['target'])."/" == $path && $this->file_exists(basename($item['target']))) {
-						$files[] = basename($item['target']);
-					}
+			global $FAKEDIRS;
+			$files = array();
+			foreach ($sharedItems as $item) {
+				// If item is in the root of the shared storage provider and the item exists add it to the fakedirs
+				if (dirname($item['target'])."/" == $path && $this->file_exists(basename($item['target']))) {
+					$files[] = basename($item['target']);
 				}
-				$FAKEDIRS['shared'] = $files;
-				return opendir('fakedir://shared');
 			}
+			$FAKEDIRS['shared'] = $files;
+			return opendir('fakedir://shared');
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
@@ -264,7 +260,9 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function is_writeable($path) {
-		if ($path == "" || $path == "/" || OC_Share::getPermissions($this->datadir.$path) & OC_Share::WRITE) {
+		if($path == "" || $path == "/"){
+			return false;
+		}elseif (OC_Share::getPermissions($this->datadir.$path) & OC_Share::WRITE) {
 			return true;
 		} else {
 			return false;

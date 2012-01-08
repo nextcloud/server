@@ -14,9 +14,10 @@ if (!isset($_FILES['files'])) {
 }
 foreach ($_FILES['files']['error'] as $error) {
 	if ($error != 0) {
+		$l=new OC_L10N('files');
 		$errors = array(
 			0=>$l->t("There is no error, the file uploaded with success"),
-			1=>$l->t("The uploaded file exceeds the upload_max_filesize directive in php.ini"),
+			1=>$l->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
 			2=>$l->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
 			3=>$l->t("The uploaded file was only partially uploaded"),
 			4=>$l->t("No file was uploaded"),

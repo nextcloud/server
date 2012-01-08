@@ -32,7 +32,7 @@ if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'mont
 
 OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
 OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
-if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone") == null){
+if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone") == null || OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezonedetection') == 'true'){
 	OC_UTIL::addScript('calendar', 'geo');
 }
 OC_Util::addScript('calendar', 'calendar');
@@ -42,4 +42,7 @@ OC_Util::addStyle('', 'jquery.multiselect');
 OC_App::setActiveNavigationEntry('calendar_index');
 $tmpl = new OC_Template('calendar', 'calendar', 'user');
 $tmpl->assign('eventSources', $eventSources);
+if(array_key_exists('showevent', $_GET)){
+	$tmpl->assign('showevent', $_GET['showevent']);
+}
 $tmpl->printPage();

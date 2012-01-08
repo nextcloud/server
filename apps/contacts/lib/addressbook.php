@@ -44,7 +44,7 @@ class OC_Contacts_Addressbook{
 	 * @return array
 	 */
 	public static function all($uid){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ?' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ORDER BY displayname' );
 		$result = $stmt->execute(array($uid));
 
 		$addressbooks = array();
@@ -140,12 +140,131 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 
+	public static function cleanArray($array, $remove_null_number = true){
+		$new_array = array();
+
+		$null_exceptions = array();
+
+		foreach ($array as $key => $value){
+			$value = trim($value);
+
+			if($remove_null_number){
+				$null_exceptions[] = '0';
+			}
+
+			if(!in_array($value, $null_exceptions) && $value != "")	{
+				$new_array[] = $value;
+			}
+		}
+		return $new_array;
+	}
+
+	/**
+	 * @brief Get active addressbooks for a user.
+	 * @param integer $uid User id. If null current user will be used.
+	 * @return array
+	 */
+	public static function activeIds($uid = null){
+		if(is_null($uid)){
+			$uid = OC_User::getUser();
+		}
+		$prefbooks = OC_Preferences::getValue($uid,'contacts','openaddressbooks',null);
+		if(is_null($prefbooks)){
+			$addressbooks = OC_Contacts_Addressbook::all($uid);
+			if(count($addressbooks) == 0){
+				OC_Contacts_Addressbook::add($uid,'default','Default Address Book');
+				$addressbooks = OC_Contacts_Addressbook::all($uid);
+			}
+			$prefbooks = $addressbooks[0]['id'];
+			OC_Preferences::setValue($uid,'contacts','openaddressbooks',$prefbooks);
+		}
+		return explode(';',$prefbooks);
+	}
+
+	/**
+	 * @brief Returns the list of active addressbooks for a specific user.
+	 * @param string $uid
+	 * @return array
+	 */
+	public static function active($uid){
+		$active = self::activeIds($uid);
+		$addressbooks = array();
+		$ids_sql = join(',', array_fill(0, count($active), '?'));
+		$prep = 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id IN ('.$ids_sql.') ORDER BY displayname';
+		try {
+			$stmt = OC_DB::prepare( $prep );
+			$result = $stmt->execute($active);
+		} catch(Exception $e) {
+			OC_Log::write('contacts','OC_Contacts_Addressbook:active:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+			OC_Log::write('contacts','OC_Contacts_Addressbook:active, ids: '.join(',', $active),OC_Log::DEBUG);
+			OC_Log::write('contacts','OC_Contacts_Addressbook::active, SQL:'.$prep,OC_Log::DEBUG);
+		}
+
+		while( $row = $result->fetchRow()){
+			$addressbooks[] = $row;
+		}
+		/*
+		foreach( $active as $aid ){
+			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ? ORDER BY displayname' );
+			$result = $stmt->execute(array($aid,));
+
+			while( $row = $result->fetchRow()){
+				$addressbooks[] = $row;
+			}
+		}*/
+
+		return $addressbooks;
+	}
+
+	/**
+	 * @brief Activates an addressbook
+	 * @param integer $id
+	 * @param integer $name
+	 * @return boolean
+	 */
+	public static function setActive($id,$active){
+		// Need these ones for checking uri
+		//$addressbook = self::find($id);
+
+		if(is_null($id)){
+			$id = 0;
+		}
+
+		$openaddressbooks = self::activeIds();
+		if($active) {
+			if(!in_array($id, $openaddressbooks)) {
+				$openaddressbooks[] = $id;
+			}
+		} else { 
+			if(in_array($id, $openaddressbooks)) {
+				unset($openaddressbooks[array_search($id, $openaddressbooks)]);
+			}
+		}
+		$openaddressbooks = self::cleanArray($openaddressbooks, false);
+		sort($openaddressbooks, SORT_NUMERIC);
+		// FIXME: I alway end up with a ';' prepending when imploding the array..?
+		OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',implode(';', $openaddressbooks));
+
+		return true;
+	}
+
+	/**
+	 * @brief Checks if an addressbook is active.
+	 * @param integer $id ID of the address book.
+	 * @return boolean
+	 */
+	public static function isActive($id){
+		//OC_Log::write('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()), OC_Log::DEBUG);
+		return in_array($id, self::activeIds());
+	}
+
 	/**
 	 * @brief removes an address book
 	 * @param integer $id
 	 * @return boolean
 	 */
 	public static function delete($id){
+		self::setActive($id, false);
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 		$stmt->execute(array($id));
 

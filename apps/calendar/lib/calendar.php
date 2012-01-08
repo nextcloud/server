@@ -82,7 +82,7 @@ class OC_Calendar_Calendar{
 	 * @param integer $id
 	 * @return associative array
 	 */
-	public static function findCalendar($id){
+	public static function find($id){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE id = ?' );
 		$result = $stmt->execute(array($id));
 
@@ -148,7 +148,7 @@ class OC_Calendar_Calendar{
 	 */
 	public static function editCalendar($id,$name=null,$components=null,$timezone=null,$order=null,$color=null){
 		// Need these ones for checking uri
-		$calendar = self::findCalendar($id);
+		$calendar = self::find($id);
 
 		// Keep old stuff
 		if(is_null($name)) $name = $calendar['name'];

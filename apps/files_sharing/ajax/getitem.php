@@ -19,6 +19,7 @@ $source = dirname($source);
 while ($source != "" && $source != "/" && $source != "." && $source != $userDirectory) {
 	if ($values = OC_Share::getMySharedItem($source)) {
 		$values = array_values($values);
+		$users = array();
 		$parentUsers = array();
 		for ($i = 0; $i < count($values); $i++) {
 			if ($values[$i]['uid_shared_with'] == OC_Share::PUBLICLINK) {

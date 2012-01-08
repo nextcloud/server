@@ -120,7 +120,20 @@ class OC_MEDIA_SCANNER{
 				$title=stripslashes($data['comments']['title'][0]);
 			}
 			$size=$data['filesize'];
-			$track=(isset($data['comments']['track']))?$data['comments']['track'][0]:0;
+			if (isset($data['comments']['track']))
+			{
+				$track = $data['comments']['track'][0];
+			}
+			else if (isset($data['comments']['track_number']))
+			{
+				$track = $data['comments']['track_number'][0];
+				$track = explode('/',$track);
+				$track = $track[0];
+			}
+			else
+			{
+				$track = 0;
+			}
 			$length=isset($data['playtime_seconds'])?round($data['playtime_seconds']):0;
 		}
 		if(!isset(self::$artists[$artist])){

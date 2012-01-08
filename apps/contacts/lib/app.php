@@ -38,7 +38,7 @@ class OC_Contacts_App{
 
 	public static function getAddressbook($id){
 		$addressbook = OC_Contacts_Addressbook::find( $id );
-		if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
+		if( $addressbook === false || $addressbook['userid'] != OC_User::getUser()){
 			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
 			exit();
 		}

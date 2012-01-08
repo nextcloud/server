@@ -27,6 +27,12 @@
 				<notnull>true</notnull>
 				<length>100</length>
 			</field>
+      <field>
+        <name>album_path</name>
+        <type>text</type>
+        <notnull>true</notnull>
+        <length>100</length>
+      </field>
 		</declaration>
 	</table>
 	<table>

@@ -7,4 +7,5 @@
 	<licence>AGPL</licence>
 	<author>Thomas Schmidt</author>
 	<require>2</require>
+	<default_enable/>
 </info>

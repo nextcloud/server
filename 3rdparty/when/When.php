@@ -586,7 +586,7 @@ class When
 				}
 			}
 		}
-		elseif($this->gobyday || $interval == "month")
+		elseif($this->gobyday && $interval == "month")
 		{
 			$_mdays = range(1, date('t',mktime(0,0,0,$month,1,$year)));
 			foreach($_mdays as $_mday)
@@ -621,7 +621,7 @@ class When
 		
 		if($interval == "month")
 		{
-			$this->try_date->modify('last day of ' . $this->interval . ' ' . $interval);
+			$this->try_date->modify('+1 month');
 		}
 		else
 		{

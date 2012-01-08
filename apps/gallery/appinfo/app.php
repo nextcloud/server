@@ -2,6 +2,7 @@
 OC::$CLASSPATH['OC_Gallery_Album'] = 'apps/gallery/lib/album.php';
 OC::$CLASSPATH['OC_Gallery_Photo'] = 'apps/gallery/lib/photo.php';
 OC::$CLASSPATH['OC_Gallery_Scanner'] = 'apps/gallery/lib/scanner.php';
+OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'apps/gallery/lib/hooks_handlers.php';
 
 OC_App::register(array(
   'order' => 20,
@@ -28,4 +29,6 @@ OC_App::addNavigationEntry( array(
 }
 
 new OC_GallerySearchProvider();
+
+require_once('apps/gallery/lib/hooks_handlers.php');
 ?>

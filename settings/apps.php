@@ -51,22 +51,22 @@ function app_sort($a, $b){
 }
 usort($apps, 'app_sort');
 
-// dissabled for now
-// $catagoryNames=OC_OCSClient::getCategories();
-// if(is_array($catagoryNames)){
-// 	$categories=array_keys($catagoryNames);
-// 	$externalApps=OC_OCSClient::getApplications($categories);
-// 	foreach($externalApps as $app){
-// 		$apps[]=array(
-// 			'name'=>$app['name'],
-// 			'id'=>$app['id'],
-// 			'active'=>false,
-// 			'description'=>$app['description'],
-// 			'author'=>$app['personid'],
-// 			'license'=>$app['license'],
-// 		);
-// 	}
-// }
+// apps from external repo via OCS
+ $catagoryNames=OC_OCSClient::getCategories();
+ if(is_array($catagoryNames)){
+ 	$categories=array_keys($catagoryNames);
+ 	$externalApps=OC_OCSClient::getApplications($categories);
+ 	foreach($externalApps as $app){
+ 		$apps[]=array(
+ 			'name'=>$app['name'],
+ 			'id'=>$app['id'],
+ 			'active'=>false,
+ 			'description'=>$app['description'],
+ 			'author'=>$app['personid'],
+ 			'license'=>$app['license'],
+ 		);
+ 	}
+ }
 
 
 
