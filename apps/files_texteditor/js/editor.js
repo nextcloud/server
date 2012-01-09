@@ -102,6 +102,9 @@ function doFileSave(){
 				}, 2000);  	
 			} else {
 				// Save OK	
+				// Update mtime
+				$('#editor').attr('data-mtime',jsondata.data.mtime);
+				// Show result
 				$('#saving_icon').remove();
 				$('#editor_save').after('<p id="save_result" style="float: left">Saved</p>')
 				setTimeout(function() {
