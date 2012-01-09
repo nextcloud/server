@@ -54,11 +54,14 @@ function setSyntaxMode(ext){
 	}	
 }
 
-function showControls(filename){
+function showControls(filename,writeperms){
 	// Loads the control bar at the top.
 	$('.actions,#file_action_panel').fadeOut('slow').promise().done(function() {
 		// Load the new toolbar.
-		var savebtnhtml = '<input type="button" id="editor_save" value="'+t('files_texteditor','Save')+'">';
+		var savebtnhtml;
+		if(writeperms=="true"){
+			var savebtnhtml = '<input type="button" id="editor_save" value="'+t('files_texteditor','Save')+'">';
+		}
 		var html = '<input type="button" id="editor_close" value="Close">';
 		$('#controls').append(html);
 		$('#editorbar').fadeIn('slow');	
@@ -134,7 +137,7 @@ function showFileEditor(dir,filename){
 						// Save mtime
 						$('#editor').attr('data-mtime', result.data.mtime);
 						// Initialise the editor
-						showControls(filename);
+						showControls(filename,result.data.write);
 						$('table').fadeOut('slow', function() {
 							$('#editor').text(result.data.filecontents);
 							$('#editor').attr('data-dir', dir);
