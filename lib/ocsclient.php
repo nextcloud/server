@@ -130,6 +130,33 @@ class OC_OCSClient{
 		return $app;
 	}
 
+        /**
+         * @brief Get the download url for an application from the OCS server
+         * @returns array with application data
+         *
+         * This function returns an download url for an applications from the OCS server
+         */
+        public static function getApplicationDownload($id,$item){
+                $url='http://api.apps.owncloud.com/v1/content/download/'.urlencode($id).'/'.urlencode($item);
+
+                $xml=@file_get_contents($url);
+                if($xml==FALSE){
+                        OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
+                        return NULL;
+                }
+                $data=simplexml_load_string($xml);
+
+                $tmp=$data->data->content;
+                $app=array();
+                if(isset($tmp->downloadlink)) { 
+	 		$app['downloadlink']=$tmp->downloadlink;
+		}else{
+	 		$app['downloadlink']='';
+		}
+                return $app;
+        }
+
+
 	/**
 	 * @brief Get all the knowledgebase entries from the OCS server
 	 * @returns array with q and a data

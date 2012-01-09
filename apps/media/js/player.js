@@ -93,9 +93,11 @@ var PlayList={
 			ended:PlayList.next,
 			pause:function(){
 				localStorage.setItem(oc_current_user+'oc_playlist_playing','false');
+				document.title = "ownCloud";
 			},
-			play:function(){
+			play:function(event){
 				localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
+				document.title = "\u25b8 " + event.jPlayer.status.media.name + " - " + event.jPlayer.status.media.artist + " - ownCloud";
 			},
 			supplied:type,
 			ready:function(){

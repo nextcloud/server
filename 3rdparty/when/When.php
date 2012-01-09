@@ -586,7 +586,7 @@ class When
 				}
 			}
 		}
-		elseif($this->gobyday || $interval == "month")
+		elseif($this->gobyday && $interval == "month")
 		{
 			$_mdays = range(1, date('t',mktime(0,0,0,$month,1,$year)));
 			foreach($_mdays as $_mday)
@@ -621,7 +621,13 @@ class When
 		
 		if($interval == "month")
 		{
-			$this->try_date->modify('last day of ' . $this->interval . ' ' . $interval);
+			
+			$this->try_date->modify('first day of next month');
+			if((int) date('t', $this->try_date->format('U')) > (int) $this->start_date->format('j')){
+				$this->try_date->modify('+' . (int) $this->start_date->format('j') - 1 . ' day'); 
+			}else{
+				$this->try_date->modify('+' . (int) date('t', $this->try_date->format('U')) - 1 . ' day'); 
+			}
 		}
 		else
 		{

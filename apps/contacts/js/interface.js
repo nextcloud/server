@@ -1,3 +1,29 @@
+/**
+ * ownCloud - Addressbook
+ *
+ * @author Jakob Sack
+ * @copyright 2011 Jakob Sack mail@jakobsack.de
+ * @copyright 2011-2012 Thomas Tanghus <thomas@tanghus.net>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * TODO:  
+ * If you add a contact, its thumbnail doesnt show in the list. But when you add another one it shows up, but not for the second contact added.
+ *  Place a new contact in correct alphabetic order
+ */
+
+
 Contacts={
 	UI:{
 		showCardDAVUrl:function(username, bookname){
@@ -113,9 +139,9 @@ Contacts={
 			lazyupdate:function(){
 				//alert('lazyupdate');
 				$('#contacts li').live('inview', function(){
-					if (!$(this).attr('style')) {
+					if (!$(this).find('a').attr('style')) {
 						//alert($(this).data('id') + ' has background: ' + $(this).attr('style'));
-						$(this).css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
+						$(this).find('a').css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
 					}/* else {
 						alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
 					}*/
@@ -301,9 +327,9 @@ $(document).ready(function(){
 				// bottom part of element is visible
 			} else {
 				// whole part of element is visible
-				if (!$(this).attr('style')) {
+				if (!$(this).find('a').attr('style')) {
 					//alert($(this).data('id') + ' has background: ' + $(this).attr('style'));
-					$(this).css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
+					$(this).find('a').css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
 				}/* else {
 					alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
 				}*/

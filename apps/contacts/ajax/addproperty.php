@@ -34,13 +34,31 @@ $name = $_POST['name'];
 $value = $_POST['value'];
 $parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
 
-$property = $vcard->addProperty($name, $value, $parameters);
+$property = $vcard->addProperty($name, $value); //, $parameters);
 
 $line = count($vcard->children) - 1;
 
+// Apparently Sabre_VObject_Parameter doesn't do well with multiple values or I don't know how to do it. Tanghus.
+foreach ($parameters as $key=>$element) {
+	if(is_array($element) && strtoupper($key) == 'TYPE') { 
+		// FIXME: Maybe this doesn't only apply for TYPE?
+		// And it probably shouldn't be done here anyways :-/
+		foreach($element as $e){
+			if($e != '' && !is_null($e)){
+				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
+			}
+		}
+	}
+}
+
 OC_Contacts_VCard::edit($id,$vcard->serialize());
 
+$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
+
 $tmpl = new OC_Template('contacts','part.property');
+$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('property',OC_Contacts_VCard::structureProperty($property,$line));
 $page = $tmpl->fetchPage();
 

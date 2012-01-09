@@ -2,9 +2,10 @@
 <info>
 	<id>gallery</id>
 	<name>Gallery</name>
-	<version>0.1</version>
+	<version>0.2</version>
 	<licence>AGPL</licence>
-	<author>Bartosz Przybylski</author>
+	<author>Bartek Przybylski</author>
 	<require>2</require>
-	<description></description>
+	<description>Gallery application for ownCloud</description>
+	<default_enable/>
 </info>

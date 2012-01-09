@@ -1,5 +1,26 @@
 <?php
 
+/**
+* ownCloud - gallery application
+*
+* @author Bartek Przybylski
+* @copyright 2012 Bartek Przybylski bart.p.pl@gmail.com
+* 
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either 
+* version 3 of the License, or any later version.
+* 
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*  
+* You should have received a copy of the GNU Lesser General Public 
+* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+* 
+*/
+
 require_once('base.php'); // base lib
 require_once('images_utils.php');
 
@@ -21,13 +42,13 @@ class OC_Gallery_Scanner {
   public static function scanDir($path, &$albums) {
     $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
     $current_album['name'] = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $current_album['name']));
-    $current_album['name'] = ($current_album['name']==='') ?
+    $current_album['name'] = ($current_album['name']==='.') ?
                              'main' :
                              trim($current_album['name'],'.');
 
     if ($dh = OC_Filesystem::opendir($path)) {
       while (($filename = readdir($dh)) !== false) {
-        $filepath = $path.'/'.$filename;
+        $filepath = ($path[strlen($path)-1]=='/'?$path:$path.'/').$filename;
         if (substr($filename, 0, 1) == '.') continue;
         if (OC_Filesystem::is_dir($filepath)) {
           self::scanDir($filepath, $albums);
@@ -41,7 +62,7 @@ class OC_Gallery_Scanner {
 
     $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     if ($result->numRows() == 0 && count($current_album['images'])) {
-	    OC_Gallery_Album::create(OC_User::getUser(), $current_album['name']);
+	    OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
 	    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     }
     $albumId = $result->fetchRow();

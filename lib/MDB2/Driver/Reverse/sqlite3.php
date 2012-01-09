@@ -69,7 +69,7 @@ class MDB2_Driver_Reverse_sqlite3 extends MDB2_Driver_Reverse_Common
             return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'unexpected empty table column definition list', __FUNCTION__);
         }
-        $regexp = '/^\s*([^\s]+) +(CHAR|VARCHAR|VARCHAR2|TEXT|BOOLEAN|SMALLINT|INT|INTEGER|DECIMAL|BIGINT|DOUBLE|FLOAT|DATETIME|DATE|TIME|LONGTEXT|LONGBLOB)( ?\(([1-9][0-9]*)(:([1-9][0-9]*))?\))?( NULL| NOT NULL)?( UNSIGNED)?( NULL| NOT NULL)?( PRIMARY KEY)?( DEFAULT (\'[^\']*\'|[^ ]+))?( NULL| NOT NULL)?( PRIMARY KEY)?(\s*\-\-.*)?$/i';
+        $regexp = '/^\s*([^\s]+) +(CHAR|VARCHAR|VARCHAR2|TEXT|BOOLEAN|SMALLINT|INT|INTEGER|DECIMAL|BIGINT|DOUBLE|FLOAT|DATETIME|DATE|TIME|LONGTEXT|LONGBLOB)( ?\(([1-9][0-9]*)(:([1-9][0-9]*))?\))?( NULL| NOT NULL)?( UNSIGNED)?( NULL| NOT NULL)?( PRIMARY KEY)?( AUTOINCREMENT)?( DEFAULT (\'[^\']*\'|[^ ]+))?( NULL| NOT NULL)?( PRIMARY KEY)?(\s*\-\-.*)?$/i';
         $regexp2 = '/^\s*([^ ]+) +(PRIMARY|UNIQUE|CHECK)$/i';
         for ($i=0, $j=0; $i<$count; ++$i) {
             if (!preg_match($regexp, trim($column_sql[$i]), $matches)) {
@@ -90,11 +90,16 @@ class MDB2_Driver_Reverse_sqlite3 extends MDB2_Driver_Reverse_Common
             if (isset($matches[8]) && strlen($matches[8])) {
                 $columns[$j]['unsigned'] = true;
             }
-            if (isset($matches[9]) && strlen($matches[9])) {
+            if (isset($matches[10]) && strlen($matches[10])) {
                 $columns[$j]['autoincrement'] = true;
+                $columns[$j]['notnull']=true;
             }
-            if (isset($matches[12]) && strlen($matches[12])) {
-                $default = $matches[12];
+            if (isset($matches[10]) && strlen($matches[10])) {
+                $columns[$j]['autoincrement'] = true;
+                $columns[$j]['notnull']=true;
+            }
+            if (isset($matches[13]) && strlen($matches[13])) {
+                $default = $matches[13];
                 if (strlen($default) && $default[0]=="'") {
                     $default = str_replace("''", "'", substr($default, 1, strlen($default)-2));
                 }
@@ -107,8 +112,8 @@ class MDB2_Driver_Reverse_sqlite3 extends MDB2_Driver_Reverse_Common
                 $columns[$j]['notnull'] = ($matches[7] === ' NOT NULL');
             } else if (isset($matches[9]) && strlen($matches[9])) {
                 $columns[$j]['notnull'] = ($matches[9] === ' NOT NULL');
-            } else if (isset($matches[13]) && strlen($matches[13])) {
-                $columns[$j]['notnull'] = ($matches[13] === ' NOT NULL');
+            } else if (isset($matches[14]) && strlen($matches[14])) {
+                $columns[$j]['notnull'] = ($matches[14] === ' NOT NULL');
             }
             ++$j;
         }
