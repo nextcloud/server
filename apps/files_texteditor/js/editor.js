@@ -60,7 +60,7 @@ function showControls(filename,writeperms){
 		// Load the new toolbar.
 		var savebtnhtml;
 		if(writeperms=="true"){
-			var editorcontrols = '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div><button id="gotolinebtn">Go to line:</button><input type="text" id="gotolineval"><div class="separator"></div>';
+			var editorcontrols = '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div><label for="gotolineval">Go to line:</label><input type="text" id="gotolineval"><div class="separator"></div>';
 		}
 		var html = '<label for="editorseachval">Search:</label><input type="text" name="editorsearchval" id="editorsearchval"><div class="separator"></div><button id="editor_close">'+t('files_texteditor','Close')+'</button>';
 		$('#controls').append(html);
@@ -73,7 +73,7 @@ function showControls(filename,writeperms){
 function bindControlEvents(){
 	$("#editor_save").die('click',doFileSave).live('click',doFileSave);	
 	$('#editor_close').die('click',hideFileEditor).live('click',hideFileEditor);
-	$('#gotolinebtn').die('click', goToLine).live('click', goToLine);
+	$('#gotolineval').die('keyup', goToLine).live('keyup', goToLine);
 	$('#editorsearchval').die('keyup', doSearch).live('keyup', doSearch);
 	$('#clearsearchbtn').die('click', resetSearch).live('click', resetSearch);
 	$('#nextsearchbtn').die('click', nextSearchResult).live('click', nextSearchResult);
