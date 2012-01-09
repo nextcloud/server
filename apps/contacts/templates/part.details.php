@@ -86,3 +86,8 @@
 		</li>
 	</ul>
 <?php endif; ?>
+<script language="Javascript">
+/* Re-tipsify ;-)*/
+	$('.action').tipsy();
+	$('.button').tipsy();
+</script>

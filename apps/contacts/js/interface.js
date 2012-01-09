@@ -236,7 +236,10 @@ $(document).ready(function(){
 		Contacts.UI.Addressbooks.overview();
 		return false;
 	});
-	
+
+	/**
+	 * Open blank form to add new contact.
+	 */
 	$('#contacts_newcontact').click(function(){
 		$.getJSON('ajax/showaddcard.php',{},function(jsondata){
 			if(jsondata.status == 'success'){
@@ -250,14 +253,28 @@ $(document).ready(function(){
 		});
 		return false;
 	});
-
+	
+	/**
+	 * Add and insert a new contact into the list.
+	 */
 	$('#contacts_addcardform input[type="submit"]').live('click',function(){
 		$.post('ajax/addcard.php',$('#contacts_addcardform').serialize(),function(jsondata){
 			if(jsondata.status == 'success'){
 				$('#rightcontent').data('id',jsondata.data.id);
 				$('#rightcontent').html(jsondata.data.page);
 				$('#leftcontent .active').removeClass('active');
-				$('#leftcontent ul').append('<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'">'+jsondata.data.name+'</a></li>');
+				var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+jsondata.data.name+'</a></li>';
+				var added = false;
+				$('#leftcontent ul li').each(function(){
+					if ($(this).text().toLowerCase() > jsondata.data.name.toLowerCase()) {
+						$(this).before(item).fadeIn('fast');
+						added = true;
+						return false;
+					}
+				});
+				if(!added) {
+					$('#leftcontent ul').append(item);
+				}
 			}
 			else{
 				alert(jsondata.data.message);
@@ -265,7 +282,6 @@ $(document).ready(function(){
 		}, 'json');
 		return false;
 	});
-
 	$('.contacts_property [data-use="edit"]').live('click',function(){
 		var id = $('#rightcontent').data('id');
 		var checksum = $(this).parents('.contacts_property').first().data('checksum');
@@ -338,4 +354,7 @@ $(document).ready(function(){
 			// element has gone out of viewport
 		}
 	});
+	
+	$('.action').tipsy();
+	$('.button').tipsy();
 });
