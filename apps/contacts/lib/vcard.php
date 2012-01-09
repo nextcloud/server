@@ -130,10 +130,11 @@ class OC_Contacts_VCard{
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
+		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid('*PREFIX*contacts_cards');
+		return $newid;
 	}
 
 	/**
