@@ -185,6 +185,8 @@ function showFileEditor(dir,filename){
 						// Initialise the editor
 						showControls(filename,result.data.write);
 						$('table').fadeOut('slow', function() {
+							// Update document title
+							document.title = filename;
 							$('#editor').text(result.data.filecontents);
 							$('#editor').attr('data-dir', dir);
 							$('#editor').attr('data-filename', filename);
@@ -220,6 +222,8 @@ function hideFileEditor(){
 	// Fade out editor
 	$('#editor').fadeOut('slow', function(){
 		$(this).remove();
+		// Reset document title
+		document.title = "ownCloud";
 		var editorhtml = '<div id="editor"></div>';
 		$('table').after(editorhtml);
 		$('.actions,#file_access_panel').fadeIn('slow');
