@@ -60,9 +60,9 @@ function showControls(filename,writeperms){
 		// Load the new toolbar.
 		var savebtnhtml;
 		if(writeperms=="true"){
-			var editorcontrols = '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div><button id="gotolinebtn">Go to line:</button><input type="text" id="gotolineval">';
+			var editorcontrols = '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div><button id="gotolinebtn">Go to line:</button><input type="text" id="gotolineval"><div class="separator"></div>';
 		}
-		var html = '<button id="editor_close">X</button>';
+		var html = '<label for="editorseachval">Search:</label><input type="text" name="editorsearchval" id="editorsearchval"><div class="separator"></div><button id="editor_close">'+t('files_texteditor','Close')+'</button>';
 		$('#controls').append(html);
 		$('#editorbar').fadeIn('slow');	
 		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><p>'+filename+'</p></div>';
@@ -74,6 +74,9 @@ function bindControlEvents(){
 	$("#editor_save").die('click',doFileSave).live('click',doFileSave);	
 	$('#editor_close').die('click',hideFileEditor).live('click',hideFileEditor);
 	$('#gotolinebtn').die('click', goToLine).live('click', goToLine);
+	$('#editorsearchval').die('keyup', doSearch).live('keyup', doSearch);
+	$('#clearsearchbtn').die('click', resetSearch).live('click', resetSearch);
+	$('#nextsearchbtn').die('click', nextSearchResult).live('click', nextSearchResult);
 }
 
 // returns true or false if the editor is in view or not
@@ -87,6 +90,48 @@ function goToLine(){
 	// Go to the line specified
 	window.aceEditor.gotoLine($('#gotolineval').val());
 	
+}
+
+//resets the search
+function resetSearch(){
+	$('#editorsearchval').val('');
+	$('#nextsearchbtn').remove();
+	$('#clearsearchbtn').remove();
+	window.aceEditor.gotoLine(0);	
+}
+
+// moves the cursor to the next search resukt
+function nextSearchResult(){
+	window.aceEditor.findNext();
+}
+// Performs the initial search
+function doSearch(){	
+	// check if search box empty?
+	if($('#editorsearchval').val()==''){
+		// Hide clear button	
+		window.aceEditor.gotoLine(0);
+		$('#nextsearchbtn').remove();
+		$('#clearsearchbtn').remove();
+	} else {
+		// New search
+		// Reset cursor
+		window.aceEditor.gotoLine(0);
+		// Do search
+		window.aceEditor.find($('#editorsearchval').val(),{
+			backwards: false,
+			wrap: false,
+			caseSensitive: false,
+			wholeWord: false,
+			regExp: false
+		});	
+		// Show next and clear buttons
+		// check if already there
+		if($('#nextsearchbtn').length==0){
+			var nextbtnhtml = '<button id="nextsearchbtn">Next</button>';
+			var clearbtnhtml = '<button id="clearsearchbtn">Clear</button>';
+			$('#editorsearchval').after(nextbtnhtml).after(clearbtnhtml);
+		}
+	}
 }
 
 // Tries to save the file.
@@ -168,22 +213,13 @@ function showFileEditor(dir,filename){
 
 // Fades out the editor.
 function hideFileEditor(){
-	// Fade out controls
-	$('#editor_close').fadeOut('slow');
-	// Fade out the save button
-	$('#editor_save').fadeOut('slow');
-	// Goto line items
-	$('#gotolinebtn').fadeOut('slow');
-	$('#gotolineval').fadeOut('slow');
-	// Fade out separators
-	$('.separator').fadeOut('slow');
-	// Fade out breadcrumb
-	$('#breadcrumb_file').fadeOut('slow', function(){ $(this).remove();});
+	// Fades out editor controls
+	$('#controls > :not(.actions,#file_access_panel),#breadcrumb_file').fadeOut('slow',function(){
+		$(this).remove();
+	});
 	// Fade out editor
 	$('#editor').fadeOut('slow', function(){
-		$('#editor_close').remove();
-		$('#editor_save').remove();
-		$('#editor').remove();
+		$(this).remove();
 		var editorhtml = '<div id="editor"></div>';
 		$('table').after(editorhtml);
 		$('.actions,#file_access_panel').fadeIn('slow');
