@@ -46,8 +46,8 @@ $l10n = new OC_L10N('contacts');
 
 $card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
-	OC_Log::write('contacts','thumbnail.php. Contact could not be found.',OC_Log::ERROR);
-	//echo $l10n->t('Contact could not be found.');
+	OC_Log::write('contacts','thumbnail.php. Contact could not be found: '.$id,OC_Log::ERROR);
+	getStandardImage();
 	exit();
 }
 
@@ -55,7 +55,6 @@ if( $card === false ){
 $addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 	OC_Log::write('contacts','thumbnail.php. Wrong contact/addressbook - WTF?',OC_Log::ERROR);
-	//echo $l10n->t('This is not your contact.'); // This is a weird error, why would it come up? (Better feedback for users?)
 	exit();
 }
 
