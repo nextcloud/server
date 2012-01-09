@@ -25,15 +25,14 @@
 			<?php echo $_['property']['value']; ?>
 			<?php if(isset($_['property']['parameters']['TYPE']) && !empty($_['property']['parameters']['TYPE'])): ?>
 <?php
-	$types = array();
-	foreach($_['property']['parameters']['TYPE'] as $type):
+	foreach($_['property']['parameters']['TYPE'] as $type) {
 		if (isset($_['phone_types'][strtoupper($type)])){
 			$types[]=$_['phone_types'][strtoupper($type)];
 		}
 		else{
 			$types[]=$l->t(ucwords(strtolower($type)));
 		}
-	endforeach;
+	}
 	$label = join(' ', $types);
 ?>
 				(<?php echo $label; ?>)
