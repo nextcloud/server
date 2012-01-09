@@ -60,26 +60,36 @@ function showControls(filename,writeperms){
 		// Load the new toolbar.
 		var savebtnhtml;
 		if(writeperms=="true"){
-			var savebtnhtml = '<button id="editor_save">'+t('files_texteditor','Save')+'</button>';
+			var editorcontrols = '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div><button id="gotolinebtn">Go to line:</button><input type="text" id="gotolineval">';
 		}
 		var html = '<button id="editor_close">X</button>';
 		$('#controls').append(html);
 		$('#editorbar').fadeIn('slow');	
 		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><p>'+filename+'</p></div>';
-		$('.actions').before(breadcrumbhtml).before(savebtnhtml);
+		$('.actions').before(breadcrumbhtml).before(editorcontrols);
 	});
 }
  
 function bindControlEvents(){
 	$("#editor_save").die('click',doFileSave).live('click',doFileSave);	
 	$('#editor_close').die('click',hideFileEditor).live('click',hideFileEditor);
+	$('#gotolinebtn').die('click', goToLine).live('click', goToLine);
 }
 
+// returns true or false if the editor is in view or not
 function editorIsShown(){
 	// Not working as intended. Always returns true.
 	return is_editor_shown;
 }
 
+// Moves the editor view to the line number speificed in #gotolineval
+function goToLine(){
+	// Go to the line specified
+	window.aceEditor.gotoLine($('#gotolineval').val());
+	
+}
+
+// Tries to save the file.
 function doFileSave(){
 	if(editorIsShown()){
 		// Get file path
@@ -110,10 +120,12 @@ function doFileSave(){
 	}
 };
 
+// Gives the editor focus
 function giveEditorFocus(){
 	window.aceEditor.focus();
 };
 
+// Loads the file editor. Accepts two parameters, dir and filename.
 function showFileEditor(dir,filename){
 	if(!editorIsShown()){
 		// Loads the file editor and display it.
@@ -154,11 +166,17 @@ function showFileEditor(dir,filename){
 	}
 }
 
+// Fades out the editor.
 function hideFileEditor(){
 	// Fade out controls
 	$('#editor_close').fadeOut('slow');
 	// Fade out the save button
 	$('#editor_save').fadeOut('slow');
+	// Goto line items
+	$('#gotolinebtn').fadeOut('slow');
+	$('#gotolineval').fadeOut('slow');
+	// Fade out separators
+	$('.separator').fadeOut('slow');
 	// Fade out breadcrumb
 	$('#breadcrumb_file').fadeOut('slow', function(){ $(this).remove();});
 	// Fade out editor
@@ -176,7 +194,8 @@ function hideFileEditor(){
 
 // Keyboard Shortcuts
 var ctrlBtn = false;
-	
+
+// returns true if ctrl+s or cmd+s is being pressed
 function checkForSaveKeyPress(e){
 	if(e.which == 17 || e.which == 91) ctrlBtn=true;
 	if(e.which == 83 && ctrlBtn == true) {
@@ -187,6 +206,7 @@ function checkForSaveKeyPress(e){
 	}
 }
 
+// resizes the editor window
 $(window).resize(function() {
 	setEditorSize();
 });
@@ -213,7 +233,7 @@ $(document).ready(function(){
 			showFileEditor(dir,file);
 		});
 	}
-	// Binds the file save and close editor events
+	// Binds the file save and close editor events, and gotoline button
 	bindControlEvents();
 	
 	// Binds the save keyboard shortcut events
