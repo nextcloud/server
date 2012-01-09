@@ -60,9 +60,9 @@ function showControls(filename,writeperms){
 		// Load the new toolbar.
 		var savebtnhtml;
 		if(writeperms=="true"){
-			var savebtnhtml = '<input type="button" id="editor_save" value="'+t('files_texteditor','Save')+'">';
+			var savebtnhtml = '<button id="editor_save">'+t('files_texteditor','Save')+'</button>';
 		}
-		var html = '<input type="button" id="editor_close" value="Close">';
+		var html = '<button id="editor_close">X</button>';
 		$('#controls').append(html);
 		$('#editorbar').fadeIn('slow');	
 		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><p>'+filename+'</p></div>';
@@ -88,34 +88,23 @@ function doFileSave(){
 		var mtime = $('#editor').attr('data-mtime');
 		// Show saving spinner
 		$("#editor_save").die('click',doFileSave);
-		$('#editor_save').after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
+		$('#save_result').remove();
+		$('#editor_save').text(t('files_texteditor','Saving...'));//after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
 		// Get the data
 		var filecontents = window.aceEditor.getSession().getValue();
 		// Send the data
 		$.post(OC.filePath('files_texteditor','ajax','savefile.php'), { filecontents: filecontents, path: path, mtime: mtime },function(jsondata){
 			if(jsondata.status!='success'){
 				// Save failed
-				$('#saving_icon').remove();
+				$('#editor_save').text(t('files_texteditor','Save'));
 				$('#editor_save').after('<p id="save_result" style="float: left">Failed to save file</p>');
-				setTimeout(function() {
-					$('#save_result').fadeOut('slow',function(){ 
-						$(this).remove();
-						$("#editor_save").live('click',doFileSave); 
-					});
-				}, 2000);  	
+				$("#editor_save").live('click',doFileSave); 
 			} else {
 				// Save OK	
 				// Update mtime
 				$('#editor').attr('data-mtime',jsondata.data.mtime);
-				// Show result
-				$('#saving_icon').remove();
-				$('#editor_save').after('<p id="save_result" style="float: left">Saved</p>')
-				setTimeout(function() {
-					$('#save_result').fadeOut('slow',function(){
-						$(this).remove();       
-						$("#editor_save").live('click',doFileSave);
-					});
-				}, 2000);
+				$('#editor_save').text(t('files_texteditor','Save'));     
+				$("#editor_save").live('click',doFileSave);
 			}
 		},'json');
 	}
