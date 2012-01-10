@@ -84,7 +84,7 @@ class OC_Setup {
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
-				$dbtableprefix = $options['dbtableprefix'];
+				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
 				OC_Config::setValue('dbname', $dbname);
 				OC_Config::setValue('dbhost', $dbhost);
 				OC_Config::setValue('dbtableprefix', $dbtableprefix);
