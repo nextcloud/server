@@ -1,3 +1,4 @@
+<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 <div id="controls">
 	<?php echo($_['breadcrumb']); ?>
 	<?php if (!isset($_['readonly']) || !$_['readonly']):?>
@@ -16,7 +17,6 @@
 				<form data-upload-id='1' class="file_upload_form" action="ajax/upload.php" method="post" enctype="multipart/form-data" target="file_upload_target_1">
 					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 					<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
-					<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 					<button class="file_upload_filename"><img class='svg action' alt="Upload" src="<?php echo image_path("core", "actions/upload.svg"); ?>" /></button>
 					<input class="file_upload_start" type="file" name='files[]'/>
 						<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="<?php echo $l->t('Upload'); echo  ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
