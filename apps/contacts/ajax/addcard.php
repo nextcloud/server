@@ -54,11 +54,24 @@ foreach( $add as $propname){
 	$value = $values[$propname];
 	if( isset( $parameters[$propname] ) && count( $parameters[$propname] )){
 		$prop_parameters = $parameters[$propname];
-	}
 	else{
 		$prop_parameters = array();
 	}
-	$vcard->addProperty($propname, $value, $prop_parameters);
+	$vcard->addProperty($propname, $value); //, $prop_parameters);
+	$line = count($vcard->children) - 1;
+	foreach ($prop_parameters as $key=>$element) {
+		if(is_array($element) && strtoupper($key) == 'TYPE') { 
+			// FIXME: Maybe this doesn't only apply for TYPE?
+			// And it probably shouldn't be done here anyways :-/
+			foreach($element as $e){
+				if($e != '' && !is_null($e)){
+					$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
+				}
+			}
+		} else {
+			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
+		}
+	}
 }
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 
