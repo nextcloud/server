@@ -54,7 +54,7 @@ foreach( $add as $propname){
 	$value = $values[$propname];
 	if( isset( $parameters[$propname] ) && count( $parameters[$propname] )){
 		$prop_parameters = $parameters[$propname];
-	else{
+	} else {
 		$prop_parameters = array();
 	}
 	$vcard->addProperty($propname, $value); //, $prop_parameters);
