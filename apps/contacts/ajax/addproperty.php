@@ -48,6 +48,8 @@ foreach ($parameters as $key=>$element) {
 				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
 			}
 		}
+	} else {
+			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
 	}
 }
 

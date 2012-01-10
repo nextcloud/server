@@ -31,7 +31,4 @@ OC_Util::addStyle('contacts','formtastic');
 </div>
 <!-- Dialogs -->
 <div id="dialog_holder"></div>
-<div id="parsingfail_dialog" title="Parsing Fail">
-	<?php echo $l->t("There was a fail, while parsing the file."); ?>
-</div>
 <!-- End of Dialogs -->
