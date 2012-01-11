@@ -1,5 +1,5 @@
 div#gallery_list { margin: 90pt 20pt; }
-div#gallery_list.leftcontent { padding-top: 15px; margin: 0; text-align: center; }
+div#gallery_list.leftcontent { padding-top: 15pt; margin: 0; height: 80%; text-align: center; overflow: scroll; }
 div#gallery_album_box { width: 200px; text-align: center; border: 0; display: inline-block; margin: 5pt; vertical-align: top; padding: 10px; border: solid 1px black; position: relative; overflow: hidden; color: #999; }
 div#gallery_album_box:hover { color: black; }
 .leftcontent div#gallery_album_box { margin: 5px; }

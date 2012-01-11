@@ -23,15 +23,32 @@
 
 require_once('../../../lib/base.php');
 require_once(OC::$CLASSPATH['OC_Gallery_Album']);
-OC_JSON::checkLoggedIn();
+require_once(OC::$CLASSPATH['OC_Gallery_Scanner']);
 OC_JSON::checkAppEnabled('gallery');
 
 function handleRename($oldname, $newname) {
+  OC_JSON::checkLoggedIn();
   OC_Gallery_Album::rename($oldname, $newname, OC_User::getUser());
 }
 
 function handleRemove($name) {
+  OC_JSON::checkLoggedIn();
   OC_Gallery_Album::remove(OC_User::getUser(), $name);
+}
+
+function handleGetThumbnails($albumname)
+{
+  OC_JSON::checkLoggedIn();
+  $photo = new OC_Image();
+  $photo->loadFromFile(OC::$CONFIG_DATADIRECTORY.'/../gallery/'.$albumname.'.png');
+  $photo->show();
+}
+
+function handleGalleryScanning()
+{
+  OC_JSON::checkLoggedIn();
+  OC_Gallery_Scanner::cleanup();
+  OC_JSON::success(array('albums' => OC_Gallery_Scanner::scan('/')));
 }
 
 if ($_GET['operation']) {
@@ -43,8 +60,14 @@ if ($_GET['operation']) {
 	case "remove":
 	  handleRemove($_GET['name']);
 	  OC_JSON::success();
-	  break;
-    default:
+    break;
+  case "get_covers":
+    handleGetThumbnails($_GET['albumname']);
+    break;
+  case "scan":
+    handleGalleryScanning();
+    break;
+  default:
      OC_JSON::error(array('cause' => "Unknown operation"));
   }
 }
