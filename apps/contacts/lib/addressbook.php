@@ -256,6 +256,7 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function delete($id){
+		// FIXME: There's no error checking at all.
 		self::setActive($id, false);
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 		$stmt->execute(array($id));

@@ -106,7 +106,7 @@ Contacts={
 							Contacts.UI.Contacts.update();
 							Contacts.UI.Addressbooks.overview();
 						} else {
-							Contacts.UI.messageBox('Error', data.message);
+							Contacts.UI.messageBox(t('contacts', 'Error'), data.message);
 							//alert('Error: ' + data.message);
 						}
 					  });
@@ -145,7 +145,7 @@ Contacts={
 						$('#contacts').html(jsondata.data.page);
 					}
 					else{
-						Contacts.UI.messageBox('Error',jsondata.data.message);
+						Contacts.UI.messageBox(t('contacts', 'Error'),jsondata.data.message);
 						//alert(jsondata.data.message);
 					}
 				});
@@ -186,7 +186,7 @@ $(document).ready(function(){
 				$('#leftcontent li[data-id="'+jsondata.data.id+'"]').addClass('active');
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 				//alert(jsondata.data.message);
 			}
 		});
@@ -206,7 +206,7 @@ $(document).ready(function(){
 				$('#rightcontent').empty();
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 				//alert(jsondata.data.message);
 			}
 		});
@@ -225,7 +225,7 @@ $(document).ready(function(){
 				$('#contacts_addproperty').hide();
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 				alert('From handler: '+jsondata.data.message);
 			}
 		});
@@ -258,7 +258,7 @@ $(document).ready(function(){
 				$('#contacts_addpropertyform').before(jsondata.data.page);
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 			}
 		}, 'json');
 		return false;
@@ -283,7 +283,7 @@ $(document).ready(function(){
 					.find('select').chosen();
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 				//alert(jsondata.data.message);
 			}
 		});
@@ -313,7 +313,7 @@ $(document).ready(function(){
 				}
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 				//alert(jsondata.data.message);
 			}
 		}, 'json');
@@ -332,7 +332,7 @@ $(document).ready(function(){
 					.find('select').chosen();
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 				//alert(jsondata.data.message);
 			}
 		});
@@ -348,7 +348,7 @@ $(document).ready(function(){
 				$('.contacts_property[data-checksum="'+jsondata.data.oldchecksum+'"]').replaceWith(jsondata.data.page);
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 				//alert(jsondata.data.message);
 			}
 		},'json');
@@ -363,7 +363,7 @@ $(document).ready(function(){
 				$('.contacts_property[data-checksum="'+checksum+'"]').remove();
 			}
 			else{
-				Contacts.UI.messageBox('Error', jsondata.data.message);
+				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 				//alert(jsondata.data.message);
 			}
 		});

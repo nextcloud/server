@@ -240,6 +240,7 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function delete($id){
+		// FIXME: Add error checking.
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$stmt->execute(array($id));
 
@@ -261,6 +262,7 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function deleteFromDAVData($aid,$uri){
+		// FIXME: Add error checking. Deleting a card gives an Kontact/Akonadi error.
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 

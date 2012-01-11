@@ -5,7 +5,7 @@
 		<fieldset class="inputs">
 			<dl class="form">
 				<dt>
-					<label class="label" for="id"><?php echo $l->t('Group'); ?></label>
+					<label class="label" for="id"><?php echo $l->t('Addressbook'); ?></label>
 				</dt>
 				<dd>
 					<select name="id" size="1">
@@ -106,11 +106,5 @@
 			</dd>
 		</dl>
 	</fieldset>
-	<fieldset class="buttons">
-		<ol>
-			<li class="commit button">
-				<input class="create" type="submit" name="submit" value="<?php echo $l->t('Create Contact'); ?>">
-			</li>
-		</ol>
-	</fieldset>
+	<input class="create" type="submit" name="submit" value="<?php echo $l->t('Create Contact'); ?>">
 </form>

@@ -26,6 +26,7 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
+$l=new OC_L10N('contacts');
 
 $aid = $_POST['id'];
 $addressbook = OC_Contacts_App::getAddressbook( $aid );
@@ -74,5 +75,11 @@ foreach( $add as $propname){
 	}
 }
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
+if(!$id) {
+	OC_JSON::error(array('data' => array('message' => $l->t('There was an error adding the contact.'))));
+	OC_Log::write('contacts','ajax/addcard.php: Recieved non-positive ID on adding card: '.$name, OC_Log::ERROR);
+	exit();
+}
 
+// NOTE: Why is this in OC_Contacts_App?
 OC_Contacts_App::renderDetails($id, $vcard);

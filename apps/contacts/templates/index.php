@@ -4,7 +4,7 @@
 <div id="controls">
 	<form>
 		<input type="button" id="contacts_newcontact" value="<?php echo $l->t('Add Contact'); ?>">
-		<input type="button" id="chooseaddressbook" value="<?php echo $l->t('Address Books'); ?>">
+		<input type="button" id="chooseaddressbook" value="<?php echo $l->t('Addressbooks'); ?>">
 	</form>
 </div>
 <div id="leftcontent" class="leftcontent">
