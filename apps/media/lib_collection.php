@@ -159,20 +159,21 @@ class OC_MEDIA_COLLECTION{
 	* @return array the list of albums found
 	*/
 	static public function getAlbums($artist=0,$search='%',$exact=false){
-		$cmd="SELECT DISTINCT *PREFIX*media_albums.album_name AS album_name , *PREFIX*media_albums.album_artist AS album_artist , *PREFIX*media_albums.album_id AS album_id
-			FROM *PREFIX*media_albums INNER JOIN *PREFIX*media_songs ON *PREFIX*media_albums.album_id=*PREFIX*media_songs.song_album WHERE *PREFIX*media_songs.song_user=? ORDER BY album_name";
+		$cmd="SELECT DISTINCT album_name, album_artist, album_id
+			FROM *PREFIX*media_albums INNER JOIN *PREFIX*media_songs ON album_id=song_album WHERE song_user=? ";
 		$params=array(self::$uid);
 		if($artist!=0){
-			$cmd.="AND *PREFIX*media_albums.album_artist = ? ";
+			$cmd.="AND album_artist = ? ";
 			array_push($params,$artist);
 		}
 		if($search!='%'){
-			$cmd.="AND *PREFIX*media_albums.album_name LIKE ? ";
+			$cmd.="AND album_name LIKE ? ";
 			if(!$exact){
 				$search="%$search%";
 			}
 			array_push($params,$search);
 		}
+		$cmd.=' ORDER BY album_name';
 		$query=OC_DB::prepare($cmd);
 		return $query->execute($params)->fetchAll();
 	}
