@@ -33,7 +33,7 @@ if(isset($book)){
 		exit;
 	}
 	header('Content-Type: text/directory');
-	header('Content-Disposition: inline; filename=' . $data['fullname'] . '.vcf'); 
+	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $data['fullname']) . '.vcf'); 
 	echo $data['carddata'];
 }
 ?>

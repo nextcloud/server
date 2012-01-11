@@ -197,6 +197,7 @@ $(document).ready(function(){
 	 * Delete currently selected contact (and clear form?)
 	 */
 	$('#contacts_deletecard').live('click',function(){
+		$('#contacts_deletecard').tipsy('hide');
 		var id = $('#rightcontent').data('id');
 		$.getJSON('ajax/deletecard.php',{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
@@ -401,7 +402,8 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('.action').tipsy();
+	$('#contacts_deletecard').tipsy();
+	$('#contacts_downloadcard').tipsy();
 	$('.button').tipsy();
 	//Contacts.UI.messageBox('Hello','Sailor');
 });

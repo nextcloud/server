@@ -4,7 +4,8 @@
 #contacts_details_name { font-weight:bold;font-size:1.1em;margin-left:25%;}
 #contacts_details_photo { margin:.5em 0em .5em 25%; }
 
-#contacts_deletecard {position:absolute;top:15px;right:15px;}
+#contacts_deletecard {position:absolute;top:15px;right:25px;}
+#contacts_downloadcard {position:absolute;top:15px;right:50px;}
 #contacts_details_list { list-style:none; }
 #contacts_details_list li { overflow:visible; }
 #contacts_details_list li p.contacts_property_name { width:25%; float:left;text-align:right;padding-right:0.3em;color:#666; }

@@ -111,16 +111,21 @@ class OC_Contacts_VCard{
 			if(is_null($uid)){
 				$card->setUID();
 				$uid = $card->getAsString('UID');
-				$data = $card->serialize();
+				//$data = $card->serialize();
 			};
 			$uri = $uid.'.vcf';
 			// VCARD must have a version
 			$version = $card->getAsString('VERSION');
 			// Add version if needed
-			if(is_null($version)){
+			if(!$version){
 				$card->add(new Sabre_VObject_Property('VERSION','3.0'));
-				$data = $card->serialize();
-			}
+				//$data = $card->serialize();
+			}/* else {
+				OC_Log::write('contacts','OC_Contacts_VCard::add. Version already set as: '.$version,OC_Log::DEBUG);
+			}*/
+			$now = new DateTime;
+			$card->setString('REV', $now->format(DateTime::W3C));
+			$data = $card->serialize();
 		}
 		else{
 			// that's hard. Creating a UID and not saving it
@@ -182,7 +187,12 @@ class OC_Contacts_VCard{
 					break;
 				}
 			}
+		} else {
+			return false;
 		}
+		$now = new DateTime;
+		$card->setString('REV', $now->format(DateTime::W3C));
+		$data = $card->serialize();
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$id));
@@ -212,6 +222,9 @@ class OC_Contacts_VCard{
 				}
 			}
 		}
+		$now = new DateTime;
+		$card->setString('REV', $now->format(DateTime::W3C));
+		$data = $card->serialize();
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$oldcard['id']));
