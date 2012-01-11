@@ -402,8 +402,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('#contacts_deletecard').tipsy();
-	$('#contacts_downloadcard').tipsy();
 	$('.button').tipsy();
 	//Contacts.UI.messageBox('Hello','Sailor');
 });

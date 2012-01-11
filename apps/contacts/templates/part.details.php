@@ -89,6 +89,7 @@
 <?php endif; ?>
 <script language="Javascript">
 /* Re-tipsify ;-)*/
-	$('.action').tipsy();
+	$('#contacts_deletecard').tipsy({gravity: 'ne'});
+	$('#contacts_downloadcard').tipsy({gravity: 'ne'});
 	$('.button').tipsy();
 </script>
