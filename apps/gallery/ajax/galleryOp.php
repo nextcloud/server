@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
 * ownCloud - gallery application
