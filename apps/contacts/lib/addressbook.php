@@ -203,15 +203,6 @@ class OC_Contacts_Addressbook{
 		while( $row = $result->fetchRow()){
 			$addressbooks[] = $row;
 		}
-		/*
-		foreach( $active as $aid ){
-			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ? ORDER BY displayname' );
-			$result = $stmt->execute(array($aid,));
-
-			while( $row = $result->fetchRow()){
-				$addressbooks[] = $row;
-			}
-		}*/
 
 		return $addressbooks;
 	}
@@ -240,6 +231,7 @@ class OC_Contacts_Addressbook{
 				unset($openaddressbooks[array_search($id, $openaddressbooks)]);
 			}
 		}
+		// NOTE: Ugly hack...
 		$openaddressbooks = self::cleanArray($openaddressbooks, false);
 		sort($openaddressbooks, SORT_NUMERIC);
 		// FIXME: I alway end up with a ';' prepending when imploding the array..?

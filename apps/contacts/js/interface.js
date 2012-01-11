@@ -29,18 +29,28 @@ Contacts={
 			$('#carddav_url_close').show();
 		},
 		messageBox:function(title, msg) {
-			var $dialog = $('<div></div>')
-				.html(msg)
-				.dialog({
-					autoOpen: true,
-					title: title,buttons: [
+			if($('#messagebox').dialog('isOpen') == true){
+				// NOTE: Do we ever get here?
+				$('#messagebox').dialog('moveToTop');
+			}else{
+				$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'messagebox.php'), function(){
+					$('#messagebox').dialog(
 						{
-							text: "Ok",
-							click: function() { $(this).dialog("close"); }
-						}
-					]
-				}
-			);			
+							autoOpen: true,
+							title: title,
+							buttons: [{
+										text: "Ok",
+										click: function() { $(this).dialog("close"); }
+									}],
+							close: function(event, ui) {
+								$(this).dialog('destroy').remove();
+							},
+							open: function(event, ui) {
+								$('#messagebox_msg').html(msg);
+							}
+					});
+				});
+			}
 		},
 		Addressbooks:{
 			overview:function(){
@@ -159,6 +169,10 @@ $(document).ready(function(){
 	/*-------------------------------------------------------------------------
 	 * Event handlers
 	 *-----------------------------------------------------------------------*/
+	
+	/**
+	 * Load the details view for a contact.
+	 */
 	$('#leftcontent li').live('click',function(){
 		var id = $(this).data('id');
 		var oldid = $('#rightcontent').data('id');
@@ -179,6 +193,9 @@ $(document).ready(function(){
 		return false;
 	});
 
+	/**
+	 * Delete currently selected contact (and clear form?)
+	 */
 	$('#contacts_deletecard').live('click',function(){
 		var id = $('#rightcontent').data('id');
 		$.getJSON('ajax/deletecard.php',{'id':id},function(jsondata){
@@ -195,6 +212,10 @@ $(document).ready(function(){
 		return false;
 	});
 
+	/**
+	 * Add a property to the contact.
+	 * NOTE: Where does 'contacts_addproperty' exist?
+	 */
 	$('#contacts_addproperty').live('click',function(){
 		var id = $('#rightcontent').data('id');
 		$.getJSON('ajax/showaddproperty.php',{'id':id},function(jsondata){
@@ -204,12 +225,15 @@ $(document).ready(function(){
 			}
 			else{
 				Contacts.UI.messageBox('Error', jsondata.data.message);
-				//alert(jsondata.data.message);
+				alert('From handler: '+jsondata.data.message);
 			}
 		});
 		return false;
 	});
 
+	/**
+	 * Change the inputs based on which type of property is selected for addition.
+	 */
 	$('#contacts_addpropertyform [name="name"]').live('change',function(){
 		$('#contacts_addpropertyform #contacts_addresspart').remove();
 		$('#contacts_addpropertyform #contacts_phonepart').remove();
@@ -234,12 +258,14 @@ $(document).ready(function(){
 			}
 			else{
 				Contacts.UI.messageBox('Error', jsondata.data.message);
-				//alert(jsondata.data.message);
 			}
 		}, 'json');
 		return false;
 	});
 
+	/**
+	 * Show the Addressbook chooser
+	 */
 	$('#chooseaddressbook').click(function(){
 		Contacts.UI.Addressbooks.overview();
 		return false;
@@ -292,6 +318,10 @@ $(document).ready(function(){
 		}, 'json');
 		return false;
 	});
+	
+	/**
+	 * Show inputs for editing a property.
+	 */
 	$('.contacts_property [data-use="edit"]').live('click',function(){
 		var id = $('#rightcontent').data('id');
 		var checksum = $(this).parents('.contacts_property').first().data('checksum');
@@ -308,6 +338,9 @@ $(document).ready(function(){
 		return false;
 	});
 
+	/**
+	 * Save the edited property
+	 */
 	$('#contacts_setpropertyform input[type="submit"]').live('click',function(){
 		$.post('ajax/setproperty.php',$(this).parents('form').first().serialize(),function(jsondata){
 			if(jsondata.status == 'success'){

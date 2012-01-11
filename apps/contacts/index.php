@@ -60,10 +60,10 @@ if(!is_null($id)) {
 
 // Include Style and Script
 OC_Util::addScript('contacts','interface');
-OC_Util::addStyle('contacts','styles');
-OC_Util::addStyle('contacts','formtastic');
+OC_Util::addScript('contacts','jquery.inview');
 OC_Util::addScript('', 'jquery.multiselect');
-OC_Util::addStyle('', 'jquery.multiselect');
+OC_Util::addStyle('contacts','styles');
+//OC_Util::addStyle('contacts','formtastic');
 
 $property_types = OC_Contacts_App::getAddPropertyOptions();
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');

@@ -26,13 +26,21 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
+$l=new OC_L10N('contacts');
 
 $id = $_POST['id'];
 $vcard = OC_Contacts_App::getContactVCard( $id );
 
 $name = $_POST['name'];
 $value = $_POST['value'];
-$parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
+if(!is_array($value)){
+	$value = trim($value);
+	if(!$value && in_array($name, array('TEL', 'EMAIL'))) {
+		OC_JSON::error(array('data' => array('message' => $l->t('Cannot add empty property.'))));
+		exit();
+	}
+}
+$parameters = isset($_POST['parameters']) ? $_POST['parameters'] : array();
 
 $property = $vcard->addProperty($name, $value); //, $parameters);
 

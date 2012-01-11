@@ -151,6 +151,7 @@ class OC_Contacts_VCard{
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+					break;
 				}
 			}
 		}
@@ -178,6 +179,7 @@ class OC_Contacts_VCard{
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+					break;
 				}
 			}
 		}
@@ -206,6 +208,7 @@ class OC_Contacts_VCard{
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+					break;
 				}
 			}
 		}
