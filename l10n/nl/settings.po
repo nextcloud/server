@@ -2,14 +2,17 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
+#   <bart.formosus@gmail.com>, 2011.
 #   <icewind1991@gmail.com>, 2011.
+#   <koen@vervloesem.eu>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-28 01:13+0200\n"
-"PO-Revision-Date: 2011-08-27 23:13+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,33 +20,37 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Authenticatiefout."
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr ""
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID is aangepast"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Ongeldig verzoek"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID is aangepast"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Taal aangepast"
 
+#: templates/admin.php:13
+msgid "Log level"
+msgstr ""
+
 #: templates/apps.php:8
 msgid "Add your application"
-msgstr ""
+msgstr "Voeg uw applicatie toe"
 
 #: templates/apps.php:21
 msgid "Select an App"
-msgstr "Selecteer een App"
+msgstr "Selecteer een app"
 
 #: templates/apps.php:23
 msgid "-licensed"
-msgstr "-gelicenseerd"
+msgstr "-gelicentieerd"
 
 #: templates/apps.php:23
 msgid "by"
@@ -53,15 +60,15 @@ msgstr "door"
 msgid "Ask a question"
 msgstr "Stel een vraag"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
-msgstr ""
+msgstr "Problemen bij het verbinden met de helpdatabank."
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
-msgstr ""
+msgstr "Ga er zelf heen."
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Beantwoord"
 
@@ -79,7 +86,7 @@ msgstr "Uw wachtwoord is aangepast"
 
 #: templates/personal.php:14
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Niet in staat om uw wachtwoord te wijzigen"
 
 #: templates/personal.php:15
 msgid "Current password"
@@ -95,39 +102,55 @@ msgstr "weergeven"
 
 #: templates/personal.php:18
 msgid "Change password"
-msgstr "Verander wachtwoord"
+msgstr "Wijzig wachtwoord"
 
 #: templates/personal.php:24
+msgid "Email"
+msgstr ""
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr ""
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr ""
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Taal"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Help met vertalen"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr ""
 
-#: templates/personal.php:36
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
-"gebruik dit adres om verbinding te maken met ownCloud in uw bestandsbeheer "
-"programa"
+"gebruik dit adres om verbinding te maken met ownCloud in uw "
+"bestandsbeheerprogramma"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Naam"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Groepen"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Creëer"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr ""
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "verwijderen"
 

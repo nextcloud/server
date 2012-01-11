@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mikkelbjerglarsen@gmail.com>, 2011.
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-24 23:05+0200\n"
-"PO-Revision-Date: 2011-09-24 20:41+0000\n"
-"Last-Translator: pascal_a <pascal@dhermilly.dk>\n"
+"POT-Creation-Date: 2012-01-11 00:18+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,164 +20,222 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/addcard.php:31 ajax/addproperty.php:31 ajax/deletebook.php:32
-#: ajax/deletecard.php:32 ajax/deleteproperty.php:34 ajax/getdetails.php:32
-#: ajax/setproperty.php:32 ajax/showaddcard.php:30 ajax/showaddproperty.php:31
-#: ajax/showsetproperty.php:32 photo.php:32
-msgid "You need to log in."
-msgstr "Du skal logge ind."
-
-#: ajax/addcard.php:37
+#: lib/app.php:42
 msgid "This is not your addressbook."
 msgstr "Dette er ikke din adressebog."
 
-#: ajax/addproperty.php:37 ajax/deletecard.php:39 ajax/deleteproperty.php:41
-#: ajax/getdetails.php:39 ajax/setproperty.php:38 ajax/showaddproperty.php:37
-#: ajax/showsetproperty.php:38 photo.php:39
+#: lib/app.php:51 photo.php:34
 msgid "Contact could not be found."
-msgstr "Kontakt kunne ikke findes."
+msgstr "Kontaktperson kunne ikke findes."
 
-#: ajax/addproperty.php:43 ajax/deletebook.php:38 ajax/deletecard.php:45
-#: ajax/deleteproperty.php:47 ajax/getdetails.php:45 ajax/setproperty.php:44
-#: ajax/showaddproperty.php:43 ajax/showsetproperty.php:44 photo.php:45
-msgid "This is not your contact."
-msgstr "Dette er ikke din kontakt."
-
-#: ajax/addproperty.php:50 ajax/deleteproperty.php:54 ajax/getdetails.php:52
-#: ajax/setproperty.php:51 ajax/showsetproperty.php:51
+#: lib/app.php:65
 msgid "vCard could not be read."
 msgstr "Kunne ikke læse vCard."
 
-#: ajax/deleteproperty.php:65 ajax/setproperty.php:62
-#: ajax/showsetproperty.php:62
+#: lib/app.php:79
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "Informationen om vCard er forkert. Genindlæs siden."
 
-#: photo.php:53
-msgid "This card is not RFC compatible."
-msgstr "Dette kort er ikke RFC-kompatibelt."
-
-#: photo.php:90
-msgid "This card does not contain a photo."
-msgstr "Dette kort indeholder ikke et foto."
-
-#: templates/index.php:8
-msgid "Add Contact"
-msgstr "Tilføj kontakt"
-
-#: templates/part.addcardform.php:5
-msgid "Group"
-msgstr "Gruppe"
-
-#: templates/part.addcardform.php:12 templates/part.property.php:3
-msgid "Name"
-msgstr "Navn"
-
-#: templates/part.addcardform.php:14
-msgid "Create Contact"
-msgstr "Ny Kontakt"
-
-#: templates/part.addpropertyform.php:4 templates/part.property.php:40
+#: lib/app.php:91 templates/part.addcardform.php:56
+#: templates/part.property.php:45 templates/part.setpropertyform.php:7
 msgid "Address"
 msgstr "Adresse"
 
-#: templates/part.addpropertyform.php:5
+#: lib/app.php:92 templates/part.addcardform.php:37
 msgid "Telephone"
 msgstr "Telefon"
 
-#: templates/part.addpropertyform.php:6 templates/part.property.php:22
+#: lib/app.php:93 templates/part.addcardform.php:31
+#: templates/part.property.php:16 templates/part.setpropertyform.php:51
 msgid "Email"
 msgstr "Email"
 
-#: templates/part.addpropertyform.php:7 templates/part.property.php:15
+#: lib/app.php:94 templates/part.addcardform.php:23
+#: templates/part.property.php:9 templates/part.setpropertyform.php:54
 msgid "Organization"
 msgstr "Organisation"
 
-#: templates/part.addpropertyform.php:17 templates/part.addpropertyform.php:32
+#: lib/app.php:106 lib/app.php:113
 msgid "Work"
 msgstr "Arbejde"
 
-#: templates/part.addpropertyform.php:18 templates/part.addpropertyform.php:30
+#: lib/app.php:107 lib/app.php:111
 msgid "Home"
-msgstr "Hjem"
+msgstr "Hjemme"
 
-#: templates/part.addpropertyform.php:20 templates/part.property.php:48
-#: templates/part.setpropertyform.php:5
-msgid "PO Box"
-msgstr "Postboks"
-
-#: templates/part.addpropertyform.php:21 templates/part.property.php:51
-#: templates/part.setpropertyform.php:6
-msgid "Extended"
-msgstr "Udvidet"
-
-#: templates/part.addpropertyform.php:22 templates/part.property.php:54
-#: templates/part.setpropertyform.php:7
-msgid "Street"
-msgstr "Vej"
-
-#: templates/part.addpropertyform.php:23 templates/part.property.php:57
-#: templates/part.setpropertyform.php:8
-msgid "City"
-msgstr "By"
-
-#: templates/part.addpropertyform.php:24 templates/part.property.php:60
-#: templates/part.setpropertyform.php:9
-msgid "Region"
-msgstr "Region"
-
-#: templates/part.addpropertyform.php:25 templates/part.property.php:63
-#: templates/part.setpropertyform.php:10
-msgid "Zipcode"
-msgstr "Postnummer"
-
-#: templates/part.addpropertyform.php:26 templates/part.property.php:66
-#: templates/part.setpropertyform.php:11
-msgid "Country"
-msgstr "Land"
-
-#: templates/part.addpropertyform.php:31
+#: lib/app.php:112
 msgid "Mobile"
 msgstr "Mobil"
 
-#: templates/part.addpropertyform.php:33
+#: lib/app.php:114
 msgid "Text"
 msgstr "SMS"
 
-#: templates/part.addpropertyform.php:34
+#: lib/app.php:115
 msgid "Voice"
 msgstr "Telefonsvarer"
 
-#: templates/part.addpropertyform.php:35
+#: lib/app.php:116
 msgid "Fax"
 msgstr "Fax"
 
-#: templates/part.addpropertyform.php:36
+#: lib/app.php:117
 msgid "Video"
 msgstr "Video"
 
-#: templates/part.addpropertyform.php:37
+#: lib/app.php:118
 msgid "Pager"
 msgstr "Personsøger"
 
-#: templates/part.details.php:31
+#: photo.php:40
+msgid "This is not your contact."
+msgstr "Dette er ikke din kontaktperson."
+
+#: photo.php:48
+msgid "This card is not RFC compatible."
+msgstr "Dette kort er ikke RFC-kompatibelt."
+
+#: photo.php:85
+msgid "This card does not contain a photo."
+msgstr "Dette kort indeholder ikke et foto."
+
+#: templates/index.php:13
+msgid "Add Contact"
+msgstr "Tilføj kontaktperson"
+
+#: templates/index.php:14
+msgid "Address Books"
+msgstr ""
+
+#: templates/part.addcardform.php:8
+msgid "Group"
+msgstr "Gruppe"
+
+#: templates/part.addcardform.php:19
+msgid "Name"
+msgstr "Navn"
+
+#: templates/part.addcardform.php:41
+msgid "Number"
+msgstr ""
+
+#: templates/part.addcardform.php:45 templates/part.addcardform.php:59
+#: templates/part.details.php:42 templates/part.details.php:78
+#: templates/part.setpropertyform.php:10 templates/part.setpropertyform.php:47
+msgid "Type"
+msgstr ""
+
+#: templates/part.addcardform.php:65 templates/part.details.php:48
+#: templates/part.setpropertyform.php:16
+msgid "PO Box"
+msgstr "Postboks"
+
+#: templates/part.addcardform.php:69 templates/part.details.php:52
+#: templates/part.setpropertyform.php:20
+msgid "Extended"
+msgstr "Udvidet"
+
+#: templates/part.addcardform.php:73 templates/part.details.php:56
+#: templates/part.setpropertyform.php:24
+msgid "Street"
+msgstr "Vej"
+
+#: templates/part.addcardform.php:77 templates/part.details.php:60
+#: templates/part.setpropertyform.php:28
+msgid "City"
+msgstr "By"
+
+#: templates/part.addcardform.php:81 templates/part.details.php:64
+#: templates/part.setpropertyform.php:32
+msgid "Region"
+msgstr "Region"
+
+#: templates/part.addcardform.php:85 templates/part.details.php:68
+#: templates/part.setpropertyform.php:36
+msgid "Zipcode"
+msgstr "Postnummer"
+
+#: templates/part.addcardform.php:89 templates/part.details.php:72
+#: templates/part.setpropertyform.php:40
+msgid "Country"
+msgstr "Land"
+
+#: templates/part.addcardform.php:97
+msgid "Create Contact"
+msgstr "Ny kontaktperson"
+
+#: templates/part.chooseaddressbook.php:1
+msgid "Choose active Address Books"
+msgstr ""
+
+#: templates/part.chooseaddressbook.php:16
+#: templates/part.editaddressbook.php:9
+msgid "New Address Book"
+msgstr ""
+
+#: templates/part.chooseaddressbook.php:21
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "CardDav Link"
+msgstr ""
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Download"
+msgstr ""
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Edit"
+msgstr "Rediger"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Delete"
 msgstr "Slet"
 
-#: templates/part.details.php:32
-msgid "Add Property"
-msgstr "Tilføj Egenskab"
+#: templates/part.details.php:3
+msgid "Delete contact"
+msgstr ""
 
-#: templates/part.property.php:9
+#: templates/part.details.php:33
+msgid "Add"
+msgstr ""
+
+#: templates/part.editaddressbook.php:9
+msgid "Edit Address Book"
+msgstr ""
+
+#: templates/part.editaddressbook.php:12
+msgid "Displayname"
+msgstr ""
+
+#: templates/part.editaddressbook.php:23
+msgid "Active"
+msgstr ""
+
+#: templates/part.editaddressbook.php:29
+msgid "Save"
+msgstr ""
+
+#: templates/part.editaddressbook.php:29
+msgid "Submit"
+msgstr ""
+
+#: templates/part.editaddressbook.php:30
+msgid "Cancel"
+msgstr ""
+
+#: templates/part.property.php:3
 msgid "Birthday"
 msgstr "Fødselsdag"
 
-#: templates/part.property.php:29
+#: templates/part.property.php:23
+msgid "Preferred"
+msgstr ""
+
+#: templates/part.property.php:23 templates/part.setpropertyform.php:45
 msgid "Phone"
 msgstr "Telefon"
 
-#: templates/part.setpropertyform.php:17
-msgid "Edit"
-msgstr "Redigér"
+#: templates/part.setpropertyform.php:57
+msgid "Update"
+msgstr ""
 
 

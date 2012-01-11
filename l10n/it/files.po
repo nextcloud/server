@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <cosenal@gmail.com>, 2011.
+# Francesco Apruzzese <cescoap@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-24 23:05+0200\n"
-"PO-Revision-Date: 2011-09-24 21:05+0000\n"
-"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,33 +19,34 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:19
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Non ci sono errori, file caricato con successo"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:20
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Il file caricato supera il valore upload_max_filesize in php.ini"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
+"Il file caricato supera il valore MAX_FILE_SIZE definito nel form HTML"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:22
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Il file è stato parzialmente caricato"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:23
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nessun file è stato caricato"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:24
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Cartella temporanea mancante"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:8
 msgid "Files"
 msgstr "File"
 
@@ -52,43 +54,55 @@ msgstr "File"
 msgid "Maximum upload size"
 msgstr "Dimensione massima upload"
 
+#: templates/index.php:7
+msgid "New"
+msgstr ""
+
 #: templates/index.php:10
+msgid "Text file"
+msgstr ""
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr ""
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr ""
+
+#: templates/index.php:22
 msgid "Upload"
 msgstr "Carica"
 
-#: templates/index.php:17
-msgid "New Folder"
-msgstr "Nuova Cartella"
-
-#: templates/index.php:31
+#: templates/index.php:35
 msgid "Nothing in here. Upload something!"
 msgstr "Non c'è niente qui. Carica qualcosa!"
 
-#: templates/index.php:39
+#: templates/index.php:43
 msgid "Name"
 msgstr "Nome"
 
-#: templates/index.php:41
+#: templates/index.php:45
 msgid "Download"
 msgstr "Scarica"
 
-#: templates/index.php:45
+#: templates/index.php:49
 msgid "Size"
 msgstr "Dimensione"
 
-#: templates/index.php:46
+#: templates/index.php:50
 msgid "Modified"
 msgstr "Modificato"
 
-#: templates/index.php:46
+#: templates/index.php:50
 msgid "Delete"
 msgstr "Cancella"
 
-#: templates/index.php:54
+#: templates/index.php:58
 msgid "Upload too large"
 msgstr "Il file caricato è troppo grande"
 
-#: templates/index.php:56
+#: templates/index.php:60
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."

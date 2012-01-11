@@ -6,7 +6,6 @@
 "Next" => "Seterus",
 "Mute" => "Bisu",
 "Unmute" => "Nyahbisu",
-"Songs scanned" => "Lagu telah diimbas",
 "Rescan Collection" => "Imbas semula koleksi",
 "Artist" => "Artis",
 "Album" => "Album",

@@ -1,0 +1,240 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Asier Urio Larrea <asieriko@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:18+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Basque (http://www.transifex.net/projects/p/owncloud/team/eu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: lib/app.php:42
+msgid "This is not your addressbook."
+msgstr "Hau ez da zure helbide liburua."
+
+#: lib/app.php:51 photo.php:34
+msgid "Contact could not be found."
+msgstr "Ezin izan da kontaktua aurkitu."
+
+#: lib/app.php:65
+msgid "vCard could not be read."
+msgstr "Ezin izan da vCard-a irakurri."
+
+#: lib/app.php:79
+msgid "Information about vCard is incorrect. Please reload the page."
+msgstr ""
+"vCard-aren inguruko informazioa okerra da. Mesedez birkargatu orrialdea."
+
+#: lib/app.php:91 templates/part.addcardform.php:56
+#: templates/part.property.php:45 templates/part.setpropertyform.php:7
+msgid "Address"
+msgstr "Helbidea"
+
+#: lib/app.php:92 templates/part.addcardform.php:37
+msgid "Telephone"
+msgstr "Telefonoa"
+
+#: lib/app.php:93 templates/part.addcardform.php:31
+#: templates/part.property.php:16 templates/part.setpropertyform.php:51
+msgid "Email"
+msgstr "Eposta"
+
+#: lib/app.php:94 templates/part.addcardform.php:23
+#: templates/part.property.php:9 templates/part.setpropertyform.php:54
+msgid "Organization"
+msgstr "Erakundea"
+
+#: lib/app.php:106 lib/app.php:113
+msgid "Work"
+msgstr "Lana"
+
+#: lib/app.php:107 lib/app.php:111
+msgid "Home"
+msgstr "Etxea"
+
+#: lib/app.php:112
+msgid "Mobile"
+msgstr "Mugikorra"
+
+#: lib/app.php:114
+msgid "Text"
+msgstr "Testua"
+
+#: lib/app.php:115
+msgid "Voice"
+msgstr "Ahotsa"
+
+#: lib/app.php:116
+msgid "Fax"
+msgstr "Fax-a"
+
+#: lib/app.php:117
+msgid "Video"
+msgstr "Bideoa"
+
+#: lib/app.php:118
+msgid "Pager"
+msgstr "Bilagailua"
+
+#: photo.php:40
+msgid "This is not your contact."
+msgstr "Hau ez da zure kontaktua."
+
+#: photo.php:48
+msgid "This card is not RFC compatible."
+msgstr "Txartel hau ez da RFC bateragarria."
+
+#: photo.php:85
+msgid "This card does not contain a photo."
+msgstr "Txartel honek ez dauka argazkirik."
+
+#: templates/index.php:13
+msgid "Add Contact"
+msgstr "Gehitu Kontaktua"
+
+#: templates/index.php:14
+msgid "Address Books"
+msgstr ""
+
+#: templates/part.addcardform.php:8
+msgid "Group"
+msgstr "Taldea"
+
+#: templates/part.addcardform.php:19
+msgid "Name"
+msgstr "Izena"
+
+#: templates/part.addcardform.php:41
+msgid "Number"
+msgstr ""
+
+#: templates/part.addcardform.php:45 templates/part.addcardform.php:59
+#: templates/part.details.php:42 templates/part.details.php:78
+#: templates/part.setpropertyform.php:10 templates/part.setpropertyform.php:47
+msgid "Type"
+msgstr ""
+
+#: templates/part.addcardform.php:65 templates/part.details.php:48
+#: templates/part.setpropertyform.php:16
+msgid "PO Box"
+msgstr "Posta kutxa"
+
+#: templates/part.addcardform.php:69 templates/part.details.php:52
+#: templates/part.setpropertyform.php:20
+msgid "Extended"
+msgstr "Hedatua"
+
+#: templates/part.addcardform.php:73 templates/part.details.php:56
+#: templates/part.setpropertyform.php:24
+msgid "Street"
+msgstr "Kalea"
+
+#: templates/part.addcardform.php:77 templates/part.details.php:60
+#: templates/part.setpropertyform.php:28
+msgid "City"
+msgstr "Hiria"
+
+#: templates/part.addcardform.php:81 templates/part.details.php:64
+#: templates/part.setpropertyform.php:32
+msgid "Region"
+msgstr "Eskualdea"
+
+#: templates/part.addcardform.php:85 templates/part.details.php:68
+#: templates/part.setpropertyform.php:36
+msgid "Zipcode"
+msgstr "Posta Kodea"
+
+#: templates/part.addcardform.php:89 templates/part.details.php:72
+#: templates/part.setpropertyform.php:40
+msgid "Country"
+msgstr "Herrialdea"
+
+#: templates/part.addcardform.php:97
+msgid "Create Contact"
+msgstr "Sortu Kontaktua"
+
+#: templates/part.chooseaddressbook.php:1
+msgid "Choose active Address Books"
+msgstr ""
+
+#: templates/part.chooseaddressbook.php:16
+#: templates/part.editaddressbook.php:9
+msgid "New Address Book"
+msgstr ""
+
+#: templates/part.chooseaddressbook.php:21
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "CardDav Link"
+msgstr ""
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Download"
+msgstr ""
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Edit"
+msgstr "Editatu"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Delete"
+msgstr "Ezabatu"
+
+#: templates/part.details.php:3
+msgid "Delete contact"
+msgstr ""
+
+#: templates/part.details.php:33
+msgid "Add"
+msgstr ""
+
+#: templates/part.editaddressbook.php:9
+msgid "Edit Address Book"
+msgstr ""
+
+#: templates/part.editaddressbook.php:12
+msgid "Displayname"
+msgstr ""
+
+#: templates/part.editaddressbook.php:23
+msgid "Active"
+msgstr ""
+
+#: templates/part.editaddressbook.php:29
+msgid "Save"
+msgstr ""
+
+#: templates/part.editaddressbook.php:29
+msgid "Submit"
+msgstr ""
+
+#: templates/part.editaddressbook.php:30
+msgid "Cancel"
+msgstr ""
+
+#: templates/part.property.php:3
+msgid "Birthday"
+msgstr "Jaioteguna"
+
+#: templates/part.property.php:23
+msgid "Preferred"
+msgstr ""
+
+#: templates/part.property.php:23 templates/part.setpropertyform.php:45
+msgid "Phone"
+msgstr "Telefonoa"
+
+#: templates/part.setpropertyform.php:57
+msgid "Update"
+msgstr ""
+
+

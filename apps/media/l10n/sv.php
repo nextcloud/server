@@ -6,7 +6,6 @@
 "Next" => "Nästa",
 "Mute" => "Ljudlös",
 "Unmute" => "Ljud på",
-"Songs scanned" => "Skannade låtar",
 "Rescan Collection" => "Sök igenom samlingen",
 "Artist" => "Artist",
 "Album" => "Album",

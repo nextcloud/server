@@ -2,7 +2,6 @@
 "Files" => "fail",
 "Maximum upload size" => "Saiz maksimum muat naik",
 "Upload" => "Muat naik",
-"New Folder" => "Folder baru",
 "Nothing in here. Upload something!" => "Tiada apa-apa di sini. Muat naik sesuatu!",
 "Name" => "Nama ",
 "Download" => "Muat turun",

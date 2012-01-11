@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Authentication error" => "Erro de autenticação",
-"OpenID Changed" => "Mudou OpenID",
 "Invalid request" => "Pedido inválido",
+"OpenID Changed" => "Mudou OpenID",
 "Language changed" => "Mudou Idioma",
 "Add your application" => "Adicionar o seu aplicativo",
 "Select an App" => "Selecione uma Aplicação",
@@ -20,7 +19,6 @@
 "show" => "mostrar",
 "Change password" => "Alterar senha",
 "Language" => "Idioma",
-"Help translating" => "Ajuda na Tradução",
 "use this address to connect to your ownCloud in your file manager" => "use este endereço para se conectar ao seu ownCloud no seu gerenciador de arquvos",
 "Name" => "Nome",
 "Password" => "Senha",

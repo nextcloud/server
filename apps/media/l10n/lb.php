@@ -6,7 +6,6 @@
 "Next" => "Weider",
 "Mute" => "Toun ausmaachen",
 "Unmute" => "Toun umaachen",
-"Songs scanned" => "Lidder gescannt",
 "Rescan Collection" => "Kollektioun nei scannen",
 "Artist" => "Artist",
 "Album" => "Album",
