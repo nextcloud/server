@@ -2,8 +2,8 @@
 /**
  * ownCloud - Addressbook
  *
- * @author Jakob Sack
- * @copyright 2011 Jakob Sack mail@jakobsack.de
+ * @author Thomas Tanghus
+ * @copyright 2011-2012 Thomas Tanghus <thomas@tanghus.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,7 +26,7 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 if(!function_exists('imagecreatefromjpeg')) {
-	OC_Log::write('contacts','GD module not installed',OC_Log::ERROR);
+	OC_Log::write('contacts','thumbnail.php. GD module not installed',OC_Log::DEBUG);
 	header('Content-Type: image/png');
 	// TODO: Check if it works to read the file and echo the content.
 	return 'img/person.png';
@@ -46,13 +46,15 @@ $l10n = new OC_L10N('contacts');
 
 $card = OC_Contacts_VCard::find( $id );
 if( $card === false ){
-	echo $l10n->t('Contact could not be found.');
+	OC_Log::write('contacts','thumbnail.php. Contact could not be found: '.$id,OC_Log::ERROR);
+	getStandardImage();
 	exit();
 }
 
+// FIXME: Is this check necessary? It just takes up CPU time.
 $addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
 if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo $l10n->t('This is not your contact.'); // This is a weird error, why would it come up? (Better feedback for users?)
+	OC_Log::write('contacts','thumbnail.php. Wrong contact/addressbook - WTF?',OC_Log::ERROR);
 	exit();
 }
 
@@ -60,17 +62,14 @@ $content = OC_VObject::parse($card['carddata']);
 
 // invalid vcard
 if( is_null($content)){
-	echo $l10n->t('This card is not RFC compatible.');
+	OC_Log::write('contacts','thumbnail.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
+	getStandardImage();
 	exit();
 }
 
-// define the width and height for the thumbnail
-// note that theese dimmensions are considered the maximum dimmension and are not fixed,
-// because we have to keep the image ratio intact or it will be deformed
-$thumbnail_width = 23;
-$thumbnail_height = 23;
+$thumbnail_size = 23;
 
-// Photo :-)
+// Finf the photo from VCard.
 foreach($content->children as $child){
 	if($child->name == 'PHOTO'){
 		foreach($child->parameters as $parameter){
@@ -78,73 +77,31 @@ foreach($content->children as $child){
 				$mime = $parameter->value;
 			}
 		}
-		$data = base64_decode($child->value);
-		$src_img = imagecreatefromstring($data);
-		if ($src_img !== false) {
-			//gets the dimmensions of the image
-			$width_orig=imageSX($src_img);
-			$height_orig=imageSY($src_img);
-			$ratio_orig = $width_orig/$height_orig;
-			
-			if ($thumbnail_width/$thumbnail_height > $ratio_orig) {
-				$new_height = $thumbnail_width/$ratio_orig;
-				$new_width = $thumbnail_width;
-			} else {
-				$new_width = $thumbnail_height*$ratio_orig;
-				$new_height = $thumbnail_height;
-			}
-			
-			$x_mid = $new_width/2;  //horizontal middle
-			$y_mid = $new_height/2; //vertical middle
-			
-			$process = imagecreatetruecolor(round($new_width), round($new_height)); 
-			if ($process == false) {
+		$image = new OC_Image();
+		if($image->loadFromBase64($child->value)) {
+			if($image->centerCrop()) {
+				if($image->resize($thumbnail_size)) {
+					if(!$image()) {
+						OC_Log::write('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OC_Log::ERROR);
+						getStandardImage();
+						exit();
+					}
+				} else {
+					OC_Log::write('contacts','thumbnail.php. Couldn\'t resize thumbnail for ID '.$id,OC_Log::ERROR);
+					getStandardImage();
+					exit();
+				}
+			}else{
+				OC_Log::write('contacts','thumbnail.php. Couldn\'t crop thumbnail for ID '.$id,OC_Log::ERROR);
 				getStandardImage();
-				//echo 'Error creating process image: '.$new_width.'x'.$new_height;
-				OC_Log::write('contacts','Error creating process image for '.$id.' '.$new_width.'x'.$new_height,OC_Log::ERROR);
-				imagedestroy($process);
-				imagedestroy($src_img);
 				exit();
 			}
-
-			imagecopyresampled($process, $src_img, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
-			if ($process == false) {
-				getStandardImage();
-				//echo 'Error resampling process image: '.$new_width.'x'.$new_height;
-				OC_Log::write('contacts','Error resampling process image for '.$id.' '.$new_width.'x'.$new_height,OC_Log::ERROR);
-				imagedestroy($process);
-				imagedestroy($src_img);
-				exit();
-			}
-			$thumb = imagecreatetruecolor($thumbnail_width, $thumbnail_height); 
-			if ($process == false) {
-				getStandardImage();
-				//echo 'Error creating thumb image: '.$thumbnail_width.'x'.$thumbnail_height;
-				OC_Log::write('contacts','Error creating thumb image for '.$id.' '.$thumbnail_width.'x'.$thumbnail_height,OC_Log::ERROR);
-				imagedestroy($process);
-				imagedestroy($src_img);
-				exit();
-			}
-			imagecopyresampled($thumb, $process, 0, 0, ($x_mid-($thumbnail_width/2)), ($y_mid-($thumbnail_height/2)), $thumbnail_width, $thumbnail_height, $thumbnail_width, $thumbnail_height);
-			if ($thumb !== false) {
-				header('Content-Type: image/png');
-				imagepng($thumb);
-			} else {
-				getStandardImage();
-				OC_Log::write('contacts','Error resampling thumb image for '.$id.' '.$thumbnail_width.'x'.$thumbnail_height,OC_Log::ERROR);
-				//echo 'An error occurred resampling thumb.';
-			}
-			imagedestroy($thumb);
-			imagedestroy($process);
-			imagedestroy($src_img);
-		}
-		else {
+		} else {
+			OC_Log::write('contacts','thumbnail.php. Couldn\'t load image string for ID '.$id,OC_Log::ERROR);
 			getStandardImage();
+			exit();
 		}
 		exit();
 	}
 }
 getStandardImage();
-
-// Not found :-(
-//echo $l10n->t('This card does not contain a photo.');

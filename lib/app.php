@@ -385,6 +385,7 @@ class OC_App{
 				$currentVersion=$appInfo['version'];
 				if (version_compare($currentVersion, $installedVersion, '>')) {
 					OC_App::updateApp($app);
+					OC_Appconfig::setValue($app,'installed_version',$appInfo['version']);
 				}
 			}
 		}

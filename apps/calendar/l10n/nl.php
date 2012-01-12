@@ -2,7 +2,7 @@
 "Authentication error" => "Foute aanvraag",
 "Timezone changed" => "U kunt maar een venster tegelijk openen.",
 "Invalid request" => "Ongeldige aanvraag",
-"Calendar" => "Weergavenaam",
+"Calendar" => "Kalender",
 "Does not repeat" => "Wordt niet herhaald",
 "Daily" => "Dagelijks",
 "Weekly" => "Wekelijks",

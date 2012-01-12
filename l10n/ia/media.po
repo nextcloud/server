@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Emilio Sepúlveda <djfunkinmixer@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Interlingua (http://www.transifex.net/projects/p/owncloud/team/ia/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ia\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:32
+msgid "Music"
+msgstr "Musica"
+
+#: templates/music.php:3 templates/player.php:13
+msgid "Play"
+msgstr "Reproducer"
+
+#: templates/music.php:4 templates/music.php:26 templates/player.php:14
+msgid "Pause"
+msgstr "Pausa"
+
+#: templates/music.php:5
+msgid "Previous"
+msgstr "Previe"
+
+#: templates/music.php:6 templates/player.php:15
+msgid "Next"
+msgstr "Proxime"
+
+#: templates/music.php:7
+msgid "Mute"
+msgstr "Mute"
+
+#: templates/music.php:8
+msgid "Unmute"
+msgstr "Con sono"
+
+#: templates/music.php:25
+msgid "Rescan Collection"
+msgstr "Rescannar collection"
+
+#: templates/music.php:37
+msgid "Artist"
+msgstr "Artista"
+
+#: templates/music.php:38
+msgid "Album"
+msgstr "Album"
+
+#: templates/music.php:39
+msgid "Title"
+msgstr "Titulo"
+
+

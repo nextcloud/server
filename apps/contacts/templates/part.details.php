@@ -1,5 +1,6 @@
 <?php if(array_key_exists('FN',$_['details'])): ?>
 	<?php echo $this->inc('part.property.FN', array('property' => $_['details']['FN'][0])); ?>
+	<a href="export?contactid=<?php echo $_['id']; ?>"><img class="svg action" id="contacts_downloadcard" src="<?php echo image_path('', 'actions/download.svg'); ?>" title="<?php echo $l->t('Download contact');?>" /></a>
 	<img class="svg action" id="contacts_deletecard" src="<?php echo image_path('', 'actions/delete.svg'); ?>" title="<?php echo $l->t('Delete contact');?>" />
 
 	<?php if(isset($_['details']['PHOTO'])): // Emails first ?>
@@ -86,3 +87,9 @@
 		</li>
 	</ul>
 <?php endif; ?>
+<script language="Javascript">
+/* Re-tipsify ;-)*/
+	$('#contacts_deletecard').tipsy({gravity: 'ne'});
+	$('#contacts_downloadcard').tipsy({gravity: 'ne'});
+	$('.button').tipsy();
+</script>

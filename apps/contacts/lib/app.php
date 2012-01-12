@@ -73,6 +73,7 @@ class OC_Contacts_App{
 		for($i=0;$i<count($vcard->children);$i++){
 			if(md5($vcard->children[$i]->serialize()) == $checksum ){
 				$line = $i;
+				break;
 			}
 		}
 		if(is_null($line)){

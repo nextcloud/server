@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 	//drag/drop of files
 	$('#fileList tr td.filename').draggable(dragOptions);
-	$('#fileList tr[data-type="dir"] td.filename').droppable(folderDropOptions);
+	$('#fileList tr[data-type="dir"][data-write="true"] td.filename').droppable(folderDropOptions);
 	$('div.crumb').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	$('ul#apps>li:first-child').droppable(crumbDropOptions);
@@ -71,8 +71,8 @@ $(document).ready(function() {
 		} else {
 			var filename=$(this).parent().parent().attr('data-file');
 			var tr=$('tr').filterAttr('data-file',filename);
-			var renaming=tr.data('renaming')
-				if(!renaming && !FileList.isLoading(filename)){
+			var renaming=tr.data('renaming');
+			if(!renaming && !FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
 				var action=FileActions.getDefault(mime,type);

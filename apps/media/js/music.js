@@ -26,18 +26,25 @@ $(document).ready(function(){
 		button.tipsy({gravity:'n', fade:true, delayIn: 400, live:true});
 	}
 	Collection.display();
+
+	Collection.load(function(){
+		var urlVars=getUrlVars();
+		if(urlVars.artist){
+			var song=Collection.find(urlVars.artist,urlVars.album,urlVars.song);
+			PlayList.add(song);
+			PlayList.play(0);
+		}
+	})
 });
 
 
 
 function getUrlVars(){
-	var vars = [], hash;
-	var hashes = window.location.href.slice(window.location.href.indexOf('#') + 1).split('&');
-	for(var i = 0; i < hashes.length; i++)
-	{
+	var vars = {}, hash;
+	var hashes = window.location.hash.substr(1).split('&');
+	for(var i = 0; i < hashes.length; i++){
 		hash = hashes[i].split('=');
-		vars.push(hash[0]);
-		vars[hash[0]] = hash[1].replace(/\+/g,' ');
+		vars[hash[0]] = decodeURIComponent(hash[1]).replace(/\+/g,' ');
 	}
 	return vars;
 }

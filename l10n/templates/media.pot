@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-24 23:05+0200\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: appinfo/app.php:31
+#: appinfo/app.php:32
 msgid "Music"
 msgstr ""
 
-#: templates/music.php:3
+#: templates/music.php:3 templates/player.php:13
 msgid "Play"
 msgstr ""
 
-#: templates/music.php:4 templates/music.php:30
+#: templates/music.php:4 templates/music.php:26 templates/player.php:14
 msgid "Pause"
 msgstr ""
 
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: templates/music.php:6
+#: templates/music.php:6 templates/player.php:15
 msgid "Next"
 msgstr ""
 
@@ -45,11 +45,7 @@ msgstr ""
 msgid "Unmute"
 msgstr ""
 
-#: templates/music.php:28
-msgid "Songs scanned"
-msgstr ""
-
-#: templates/music.php:29
+#: templates/music.php:25
 msgid "Rescan Collection"
 msgstr ""
 

@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Aranel Surion <aranel@aranelsurion.org>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Turkish (http://www.transifex.net/projects/p/owncloud/team/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: appinfo/app.php:32
+msgid "Music"
+msgstr "Müzik"
+
+#: templates/music.php:3 templates/player.php:13
+msgid "Play"
+msgstr "Oynat"
+
+#: templates/music.php:4 templates/music.php:26 templates/player.php:14
+msgid "Pause"
+msgstr "Beklet"
+
+#: templates/music.php:5
+msgid "Previous"
+msgstr "Önceki"
+
+#: templates/music.php:6 templates/player.php:15
+msgid "Next"
+msgstr "Sonraki"
+
+#: templates/music.php:7
+msgid "Mute"
+msgstr "Sesi kapat"
+
+#: templates/music.php:8
+msgid "Unmute"
+msgstr "Sesi aç"
+
+#: templates/music.php:25
+msgid "Rescan Collection"
+msgstr "Koleksiyonu Tara"
+
+#: templates/music.php:37
+msgid "Artist"
+msgstr "Sanatç"
+
+#: templates/music.php:38
+msgid "Album"
+msgstr "Albüm"
+
+#: templates/music.php:39
+msgid "Title"
+msgstr "Başlık"
+
+

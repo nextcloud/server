@@ -6,7 +6,7 @@ if(!isset($_)){//allow the template to be loaded standalone
 	exit;
 }
 ?>
-Music
+<?php echo $l->t('Music');?>
 <div class='player-controls' id="playercontrols">
 	<div class="player" id="jp-player"></div>
 	<ul class="jp-controls">

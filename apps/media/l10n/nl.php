@@ -1,7 +1,11 @@
 <?php $TRANSLATIONS = array(
 "Music" => "Muziek",
-"Pause" => "Pauze",
-"Songs scanned" => "nummers gescanned",
+"Play" => "Afspelen",
+"Pause" => "Pauzeer",
+"Previous" => "Vorige",
+"Next" => "Volgende",
+"Mute" => "Dempen",
+"Unmute" => "Dempen uit",
 "Rescan Collection" => "Collectie opnieuw scannen",
 "Artist" => "Artiest",
 "Album" => "Album",

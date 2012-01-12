@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Authentication error" => "Greška autentifikacije",
-"OpenID Changed" => "OpenID je izmenjen",
 "Invalid request" => "Neispravan zahtev",
+"OpenID Changed" => "OpenID je izmenjen",
 "Language changed" => "Jezik je izmenjen",
 "Add your application" => "Dodajte svoj program",
 "Select an App" => "Izaberite program",
@@ -20,7 +19,6 @@
 "show" => "prikaži",
 "Change password" => "Izmeni lozinku",
 "Language" => "Jezik",
-"Help translating" => "Pomozite u prevođenju",
 "use this address to connect to your ownCloud in your file manager" => "koristite ovu adresu da bi se povezali na ownCloud putem menadžnjera fajlova",
 "Name" => "Ime",
 "Password" => "Lozinka",

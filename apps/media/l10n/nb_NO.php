@@ -6,7 +6,6 @@
 "Next" => "Neste",
 "Mute" => "Demp",
 "Unmute" => "Skru på lyd",
-"Songs scanned" => "Sanger skannet",
 "Rescan Collection" => "Skan samling på nytt",
 "Artist" => "Artist",
 "Album" => "Album",

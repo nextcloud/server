@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Authentication error" => "Проблем с идентификацията",
-"OpenID Changed" => "OpenID е сменено",
 "Invalid request" => "Невалидна заявка",
+"OpenID Changed" => "OpenID е сменено",
 "Language changed" => "Езика е сменен",
 "Add your application" => "Добавете Ваша програма",
 "Select an App" => "Изберете програма",
@@ -20,7 +19,6 @@
 "show" => "показва",
 "Change password" => "Промяна на парола",
 "Language" => "Език",
-"Help translating" => "Помогнете с превода",
 "use this address to connect to your ownCloud in your file manager" => "ползвай този адрес за връзка с Вашия ownCloud във файловия мениджър",
 "Name" => "Име",
 "Password" => "Парола",
