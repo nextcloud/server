@@ -165,7 +165,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			}
 			if ($mimeType=='application/octet-stream') {
 				// Fallback solution: (try to guess the type by the file extension
-				if(!self::$mimetypes || self::$mimetypes == include('mimetypes.list.php')){
+				if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
 					self::$mimetypes=include('mimetypes.list.php');
 				}
 				$extention=strtolower(strrchr(basename($fspath), "."));
