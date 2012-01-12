@@ -51,7 +51,7 @@ $vcard = null;
 $details = null;
 if(!is_null($id)) {
 	$vcard = OC_Contacts_App::getContactVCard($id);
-	if(!is_null($vcard) {
+	if(!is_null($vcard)) {
 		$details = OC_Contacts_VCard::structureContact($vcard);
 	}
 }
