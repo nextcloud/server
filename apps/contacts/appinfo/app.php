@@ -1,5 +1,5 @@
 <?php
-$l=new OC_L10N('calendar');
+$l=new OC_L10N('contacts');
 
 OC::$CLASSPATH['OC_Contacts_App'] = 'apps/contacts/lib/app.php';
 OC::$CLASSPATH['OC_Contacts_Addressbook'] = 'apps/contacts/lib/addressbook.php';
