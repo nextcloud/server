@@ -189,16 +189,29 @@ class OC_Setup {
 						self::pg_createDatabase($dbname, $dbuser, $connection);
 					}
 
-					//fill the database if needed
-					$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
-					$result = pg_query($connection, $query);
-					if($result){
-						$row = pg_fetch_row($result);
-					}
-					if(!$result or $row[0]==0) {
-						OC_DB::createDbFromStructure('db_structure.xml');
-					}
+					// the connection to dbname=postgres is not needed anymore
 					pg_close($connection);
+
+					// connect to the ownCloud database (dbname=$dbname) an check if it needs to be filled
+					$dbuser = OC_CONFIG::getValue('dbuser');
+					$dbpass = OC_CONFIG::getValue('dbpassword');
+					$connection_string = "host=$dbhost dbname=$dbname user=$dbuser password=$dbpass";
+					$connection = @pg_connect($connection_string);
+					if(!$connection) {
+						$error[] = array(
+							'error' => 'PostgreSQL username and/or password not valid',
+							'hint' => 'You need to enter either an existing account or the administrator.'
+						);
+					} else {
+						$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
+						$result = pg_query($connection, $query);
+						if($result) {
+							$row = pg_fetch_row($result);
+						}
+						if(!$result or $row[0]==0) {
+							OC_DB::createDbFromStructure('db_structure.xml');
+						}
+					}
 				}
 			}
 			else {
