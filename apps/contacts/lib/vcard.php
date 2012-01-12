@@ -114,6 +114,14 @@ class OC_Contacts_VCard{
 				//$data = $card->serialize();
 			};
 			$uri = $uid.'.vcf';
+
+			// Add product ID.
+			$prodid = trim($card->getAsString('PRODID'));
+			if(!$prodid) {
+				$appinfo = $info=OC_App::getAppInfo('contacts');
+				$prodid = 'PRODID:-//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
+				$card->setString('PRODID', $prodid);
+			}
 			// VCARD must have a version
 			$version = $card->getAsString('VERSION');
 			// Add version if needed
