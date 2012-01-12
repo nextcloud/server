@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Slovenian (http://www.transifex.net/projects/p/owncloud/team/sl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
+
+#: ajax/upload.php:19
+msgid "There is no error, the file uploaded with success"
+msgstr "datoteka je bila naložena uspešno."
+
+#: ajax/upload.php:20
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
+"Velikost željene naložene datoteke je prevelika. (upload_max_filesize - "
+"php.ini) Kontaktirajte Administratorja."
+
+#: ajax/upload.php:21
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+"Velikost željene naložene datoteke je prevelika. (MAX_FILE_SIZE - html "
+"formi) Kontaktirajte Administratorja."
+
+#: ajax/upload.php:22
+msgid "The uploaded file was only partially uploaded"
+msgstr "Datoteka je bila le delno naložena."
+
+#: ajax/upload.php:23
+msgid "No file was uploaded"
+msgstr "Naloženih ni bilo nič Datotek."
+
+#: ajax/upload.php:24
+msgid "Missing a temporary folder"
+msgstr "Ni potrebne začasne datoteke. (temporary folder)"
+
+#: appinfo/app.php:8
+msgid "Files"
+msgstr "Datoteke"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Maksimalna velikost"
+
+#: templates/index.php:7
+msgid "New"
+msgstr ""
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr ""
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr ""
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr ""
+
+#: templates/index.php:22
+msgid "Upload"
+msgstr "Naloži gor"
+
+#: templates/index.php:35
+msgid "Nothing in here. Upload something!"
+msgstr "Naloženih še ni bilo nič datotek."
+
+#: templates/index.php:43
+msgid "Name"
+msgstr "Ime"
+
+#: templates/index.php:45
+msgid "Download"
+msgstr "Naloži dol"
+
+#: templates/index.php:49
+msgid "Size"
+msgstr "Velikost"
+
+#: templates/index.php:50
+msgid "Modified"
+msgstr "Urejeno"
+
+#: templates/index.php:50
+msgid "Delete"
+msgstr "Izbriši"
+
+#: templates/index.php:58
+msgid "Upload too large"
+msgstr "Nalaganje ni mogoče, ker je preveliko."
+
+#: templates/index.php:60
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Datoteke ki jih želiš naložiti presegajo maksimalno velikost na tem "
+"strežniku. Kontaktirajte Administratorja."
+
+

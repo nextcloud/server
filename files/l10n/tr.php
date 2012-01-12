@@ -1,0 +1,19 @@
+<?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Bir hata yok, dosya başarıyla yüklendi",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Yüklenen dosya php.ini de belirtilen upload_max_filesize sınırını aşıyor",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Yüklenen dosya HTML formundaki MAX_FILE_SIZE sınırını aşıyor",
+"The uploaded file was only partially uploaded" => "Yüklenen dosyanın sadece bir kısmı yüklendi",
+"No file was uploaded" => "Hiç dosya yüklenmedi",
+"Missing a temporary folder" => "Geçici bir klasör eksik",
+"Files" => "Dosyalar",
+"Maximum upload size" => "Maksimum yükleme boyutu",
+"Upload" => "Yükle",
+"Nothing in here. Upload something!" => "Burada hiçbir şey yok. Birşeyler yükleyin!",
+"Name" => "Ad",
+"Download" => "İndir",
+"Size" => "Boyut",
+"Modified" => "Değiştirilme",
+"Delete" => "Sil",
+"Upload too large" => "Yüklemeniz çok büyük",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor."
+);

@@ -26,6 +26,7 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
+$l10n = new OC_L10N('contacts');
 
 $id = $_GET['id'];
 $checksum = $_GET['checksum'];
@@ -35,5 +36,10 @@ $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 
 unset($vcard->children[$line]);
 
-OC_Contacts_VCard::edit($id,$vcard->serialize());
+if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+	OC_JSON::error(array('data' => array('message' => $l->t('Error deleting contact property.'))));
+	OC_Log::write('contacts','ajax/deleteproperty.php: Error deleting contact property', OC_Log::ERROR);
+	exit();
+}
+
 OC_JSON::success(array('data' => array( 'id' => $id )));

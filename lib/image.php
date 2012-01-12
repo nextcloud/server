@@ -200,6 +200,7 @@ class OC_Image {
 	}
 
 	/**
+	* (I'm open for suggestions on better method name ;)
 	* @brief Fixes orientation based on EXIF data.
 	* @returns bool.
 	*/

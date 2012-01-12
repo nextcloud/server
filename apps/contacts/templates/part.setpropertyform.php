@@ -45,7 +45,7 @@
 			<p class="contacts_property_name"><label for="tel"><?php echo $l->t('Phone'); ?></label></p>
 			<p class="contacts_property_data"><input id="tel" type="phone" name="value" value="<?php echo $_['property']['value'] ?>">
 				<select id="tel_type<?php echo $_['property']['checksum'] ?>" name="parameters[TYPE][]" multiple="multiple" data-placeholder="<?php echo $l->t('Type') ?>">
-					<?php echo html_select_options($_['phone_types'], isset($_['property']['parameters']['TYPE'])?$_['property']['parameters']['TYPE']:'') ?>
+					<?php echo html_select_options($_['phone_types'], isset($_['property']['parameters']['TYPE'])?$_['property']['parameters']['TYPE']:array()) ?>
 				</select></p>
 		<?php elseif($_['property']['name']=='EMAIL'): ?>
 			<p class="contacts_property_name"><label for="email"><?php echo $l->t('Email'); ?></label></p>

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-24 23:05+0200\n"
-"PO-Revision-Date: 2011-09-24 21:05+0000\n"
-"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/team/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,33 +18,37 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:19
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "El fitxer s'ha pujat correctament"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:20
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
+"El fitxer de pujada excedeix la directiva upload_max_filesize establerta a "
+"php.ini"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
+"El fitxer de pujada excedeix la directiva MAX_FILE_SIZE especificada al "
+"formulari HTML"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:22
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "El fitxer només s'ha pujat parcialment"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:23
 msgid "No file was uploaded"
-msgstr ""
+msgstr "El fitxer no s'ha pujat"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:24
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "S'ha perdut un fitxer temporal"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:8
 msgid "Files"
 msgstr "Fitxers"
 
@@ -52,43 +56,55 @@ msgstr "Fitxers"
 msgid "Maximum upload size"
 msgstr "Mida màxima de pujada"
 
+#: templates/index.php:7
+msgid "New"
+msgstr ""
+
 #: templates/index.php:10
+msgid "Text file"
+msgstr ""
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr ""
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr ""
+
+#: templates/index.php:22
 msgid "Upload"
 msgstr "Puja"
 
-#: templates/index.php:17
-msgid "New Folder"
-msgstr "Carpeta nova"
-
-#: templates/index.php:31
+#: templates/index.php:35
 msgid "Nothing in here. Upload something!"
 msgstr "Res per aquí. Pugeu alguna cosa!"
 
-#: templates/index.php:39
+#: templates/index.php:43
 msgid "Name"
 msgstr "Nom"
 
-#: templates/index.php:41
+#: templates/index.php:45
 msgid "Download"
 msgstr "Descarrega"
 
-#: templates/index.php:45
+#: templates/index.php:49
 msgid "Size"
 msgstr "Mida"
 
-#: templates/index.php:46
+#: templates/index.php:50
 msgid "Modified"
 msgstr "Modificat"
 
-#: templates/index.php:46
+#: templates/index.php:50
 msgid "Delete"
 msgstr "Esborra"
 
-#: templates/index.php:54
+#: templates/index.php:58
 msgid "Upload too large"
 msgstr "La pujada és massa gran"
 
-#: templates/index.php:56
+#: templates/index.php:60
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."

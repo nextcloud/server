@@ -6,7 +6,6 @@
 "Next" => "后一首",
 "Mute" => "静音",
 "Unmute" => "取消静音",
-"Songs scanned" => "歌曲已扫描",
 "Rescan Collection" => "重新扫描收藏",
 "Artist" => "艺术家",
 "Album" => "专辑",

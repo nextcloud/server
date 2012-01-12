@@ -33,7 +33,7 @@ function createNewAlbum() {
 function scanForAlbums() {
   $("#notification").fadeIn();
   $("#notification").slideDown();
-  $.getJSON('ajax/scanForAlbums.php', function(r) {
+  $.getJSON('ajax/galleryOp.php?operation=scan', function(r) {
     $("#notification").fadeOut();
     $("#notification").slideUp();
     if (r.status == 'success') {

@@ -6,8 +6,7 @@
 "Next" => "Successiva",
 "Mute" => "Disattiva audio",
 "Unmute" => "Riattiva audio",
-"Songs scanned" => "Canzoni analizzate",
-"Rescan Collection" => "Rianalizza colezione",
+"Rescan Collection" => "Rianalizza collezione",
 "Artist" => "Artista",
 "Album" => "Album",
 "Title" => "Titolo"

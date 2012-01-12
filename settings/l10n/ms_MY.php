@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Authentication error" => "Ralat pengesahan",
-"OpenID Changed" => "OpenID ditukar",
 "Invalid request" => "Permintaan tidak sah",
+"OpenID Changed" => "OpenID ditukar",
 "Language changed" => "Bahasa ditukar",
 "Add your application" => "Tambah aplikasi anda",
 "Select an App" => "Pilih aplikasi",
@@ -20,7 +19,6 @@
 "show" => "Papar",
 "Change password" => "Tukar kata laluan",
 "Language" => "Bahasa",
-"Help translating" => "Bantu perterjemahan",
 "use this address to connect to your ownCloud in your file manager" => "guna alamat ini untuk menyambung owncloud anda dalam pengurus fail anda",
 "Name" => "Nama",
 "Password" => "Kata laluan ",

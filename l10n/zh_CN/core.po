@@ -8,15 +8,60 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 18:17+0200\n"
-"PO-Revision-Date: 2011-09-04 17:07+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/team/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0\n"
+
+#: lostpassword/index.php:24
+msgid "Owncloud password reset"
+msgstr ""
+
+#: lostpassword/templates/email.php:1
+msgid "Use the following link to reset your password: {link}"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr "您将会收到包含可以重置密码链接的邮件。"
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Requested"
+msgstr "已请求"
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "登录失败！"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:22
+#: templates/login.php:8
+msgid "Username"
+msgstr "用户名"
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr "请求重置"
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "您的密码已重置"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr ""
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "新密码"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr "重置密码"
 
 #: strings.php:5
 msgid "Personal"
@@ -46,54 +91,50 @@ msgstr "未找到云"
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:21
-msgid "Username"
-msgstr "用户名"
-
-#: templates/installation.php:22
+#: templates/installation.php:26 templates/login.php:12
 msgid "Password"
 msgstr "密码"
 
-#: templates/installation.php:27
-msgid "Configure the database"
-msgstr "配置数据库"
-
-#: templates/installation.php:32 templates/installation.php:43
-#: templates/installation.php:53
-msgid "will be used"
-msgstr "将被使用"
-
-#: templates/installation.php:64
-msgid "Database user"
-msgstr "数据库用户"
-
-#: templates/installation.php:65
-msgid "Database password"
-msgstr "数据库密码"
-
-#: templates/installation.php:66
-msgid "Database name"
-msgstr "数据库名"
-
-#: templates/installation.php:72
+#: templates/installation.php:32
 msgid "Advanced"
 msgstr "高级"
 
-#: templates/installation.php:75
-msgid "Database host"
-msgstr "数据库主机"
-
-#: templates/installation.php:76
+#: templates/installation.php:34
 msgid "Data folder"
 msgstr "数据目录"
 
+#: templates/installation.php:41
+msgid "Configure the database"
+msgstr "配置数据库"
+
+#: templates/installation.php:46 templates/installation.php:57
+#: templates/installation.php:67
+msgid "will be used"
+msgstr "将被使用"
+
 #: templates/installation.php:79
+msgid "Database user"
+msgstr "数据库用户"
+
+#: templates/installation.php:83
+msgid "Database password"
+msgstr "数据库密码"
+
+#: templates/installation.php:87
+msgid "Database name"
+msgstr "数据库名"
+
+#: templates/installation.php:93
+msgid "Database host"
+msgstr "数据库主机"
+
+#: templates/installation.php:98
 msgid "Finish setup"
 msgstr "安装完成"
 
 #: templates/layout.guest.php:35
-msgid "gives you freedom and control over your own data"
-msgstr "自由掌控您的数据"
+msgid "web services under your control"
+msgstr ""
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -103,37 +144,21 @@ msgstr "注销"
 msgid "Settings"
 msgstr "设置"
 
-#: templates/login.php:4
+#: templates/login.php:5
 msgid "Lost your password?"
 msgstr "忘记密码？"
 
-#: templates/login.php:9 templates/login.php:13
+#: templates/login.php:15
 msgid "remember"
 msgstr "记住"
+
+#: templates/login.php:16
+msgid "Log in"
+msgstr ""
 
 #: templates/logout.php:1
 msgid "You are logged out."
 msgstr "您已注销。"
-
-#: templates/lostpassword.php:3
-msgid "You will receive a link to reset your password via Email."
-msgstr "您将通过邮件收到一个用于重置密码的链接"
-
-#: templates/lostpassword.php:5
-msgid "Requested"
-msgstr "请求已发送"
-
-#: templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "登陆失败！"
-
-#: templates/lostpassword.php:10
-msgid "Username or Email"
-msgstr "用户名或电子邮件"
-
-#: templates/lostpassword.php:11
-msgid "Request reset"
-msgstr "请求重置"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -142,17 +167,5 @@ msgstr "上一页"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "下一页"
-
-#: templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "您的密码已重置"
-
-#: templates/resetpassword.php:6
-msgid "New password"
-msgstr "新密码"
-
-#: templates/resetpassword.php:7
-msgid "Reset password"
-msgstr "重置密码"
 
 

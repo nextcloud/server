@@ -45,12 +45,6 @@ $modules[] =array(
 	'message'=> $l->t('The php-gd module is needed to create thumbnails of your images'));
 
 $modules[] =array(
-	'status' => OC_Helper::canExecute("mp3info") ? 'ok' : 'warning',
-	'part'=> 'mp3info',
-	'modules'=> array('media'),
-	'message'=> $l->t('The program mp3info is useful to discover ID3 tags of your music files'));
-
-$modules[] =array(
 	'status' => function_exists("ldap_bind") ? 'ok' : 'error',
 	'part'=> 'php-ldap',
 	'modules'=> array('user_ldap'),

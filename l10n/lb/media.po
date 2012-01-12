@@ -2,14 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
 #   <sim0n@trypill.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 14:50+0200\n"
-"PO-Revision-Date: 2011-08-25 14:24+0000\n"
-"Last-Translator: sim0n <sim0n@trypill.org>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Luxembourgish (http://www.transifex.net/projects/p/owncloud/team/lb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,15 +18,15 @@ msgstr ""
 "Language: lb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: appinfo/app.php:31
+#: appinfo/app.php:32
 msgid "Music"
 msgstr "Musek"
 
-#: templates/music.php:3
+#: templates/music.php:3 templates/player.php:13
 msgid "Play"
 msgstr "Ofspillen"
 
-#: templates/music.php:4 templates/music.php:30
+#: templates/music.php:4 templates/music.php:26 templates/player.php:14
 msgid "Pause"
 msgstr "Paus"
 
@@ -33,7 +34,7 @@ msgstr "Paus"
 msgid "Previous"
 msgstr "Zeréck"
 
-#: templates/music.php:6
+#: templates/music.php:6 templates/player.php:15
 msgid "Next"
 msgstr "Weider"
 
@@ -45,11 +46,7 @@ msgstr "Toun ausmaachen"
 msgid "Unmute"
 msgstr "Toun umaachen"
 
-#: templates/music.php:28
-msgid "Songs scanned"
-msgstr "Lidder gescannt"
-
-#: templates/music.php:29
+#: templates/music.php:25
 msgid "Rescan Collection"
 msgstr "Kollektioun nei scannen"
 

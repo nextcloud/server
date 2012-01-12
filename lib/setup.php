@@ -84,7 +84,7 @@ class OC_Setup {
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
-				$dbtableprefix = $options['dbtableprefix'];
+				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
 				OC_Config::setValue('dbname', $dbname);
 				OC_Config::setValue('dbhost', $dbhost);
 				OC_Config::setValue('dbtableprefix', $dbtableprefix);
@@ -190,9 +190,12 @@ class OC_Setup {
 					}
 
 					//fill the database if needed
-					$query = "SELECT relname FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
+					$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
 					$result = pg_query($connection, $query);
-					if(!$result) {
+					if($result){
+						$row = pg_fetch_row($result);
+					}
+					if(!$result or $row[0]==0) {
 						OC_DB::createDbFromStructure('db_structure.xml');
 					}
 					pg_close($connection);
@@ -285,7 +288,7 @@ class OC_Setup {
 		$content.= "php_value post_max_size 512M\n";
 		$content.= "SetEnv htaccessWorking true\n";
 		$content.= "</IfModule>\n";
-		$content.= "<IfModule mod_rewrite.c>";
+		$content.= "<IfModule mod_rewrite.c>\n";
 		$content.= "RewriteEngine on\n";
 		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]\n";
 		$content.= "</IfModule>\n";

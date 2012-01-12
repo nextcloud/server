@@ -72,9 +72,14 @@ foreach($missingparameters as $i){
 }
 
 // Do checksum and be happy
+// NOTE: This checksum is not used..?
 $checksum = md5($vcard->children[$line]->serialize());
 
-OC_Contacts_VCard::edit($id,$vcard->serialize());
+if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+	OC_JSON::error(array('data' => array('message' => $l->t('Error updating contact property.'))));
+	OC_Log::write('contacts','ajax/setproperty.php: Error updating contact property: '.$value, OC_Log::ERROR);
+	exit();
+}
 
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
