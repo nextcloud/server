@@ -196,7 +196,7 @@ class OC_Image {
 		if (!$res) {
 			OC_Log::write('core','OC_Image::_string. Error writing image',OC_Log::ERROR);
 		}
-		return chunk_split(base64_encode(ob_get_clean()));
+		return base64_encode(ob_get_clean());
 	}
 
 	/**
