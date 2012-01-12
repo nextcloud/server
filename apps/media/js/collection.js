@@ -231,6 +231,13 @@ Collection={
 				var newRow=tr;
 			}
 			newRow.find('td.title a').text(song.name);
+			newRow.find('td.title a').click(function(event){
+				event.preventDefault();
+				PlayList.add(song);
+				PlayList.play(0);
+				Collection.parent.find('tr').removeClass('active');
+				$('tr[data-title="'+song.name+'"]').addClass('active');
+			});
 			if(i>0){
 				lastRow.after(newRow);
 			}
