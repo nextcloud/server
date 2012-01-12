@@ -35,8 +35,20 @@ $name = $_POST['name'];
 $value = $_POST['value'];
 if(!is_array($value)){
 	$value = trim($value);
-	if(!$value && in_array($name, array('TEL', 'EMAIL'))) {
+	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG'))) {
 		OC_JSON::error(array('data' => array('message' => $l->t('Cannot add empty property.'))));
+		exit();
+	}
+} elseif($name === 'ADR') { // only add if non-empty elements.
+	$empty = true;
+	foreach($value as $part) {
+		if(trim($part) != '') {
+			$empty = false;
+			break;
+		}
+	}
+	if($empty) {
+		OC_JSON::error(array('data' => array('message' => $l->t('At least one of the address fields has to be filled out.'))));
 		exit();
 	}
 }
@@ -49,7 +61,7 @@ $line = count($vcard->children) - 1;
 // Apparently Sabre_VObject_Parameter doesn't do well with multiple values or I don't know how to do it. Tanghus.
 foreach ($parameters as $key=>$element) {
 	if(is_array($element) && strtoupper($key) == 'TYPE') { 
-		// FIXME: Maybe this doesn't only apply for TYPE?
+		// NOTE: Maybe this doesn't only apply for TYPE?
 		// And it probably shouldn't be done here anyways :-/
 		foreach($element as $e){
 			if($e != '' && !is_null($e)){
