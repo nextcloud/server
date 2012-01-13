@@ -1,69 +1,18 @@
-<div id="importdialog" title="<?php echo $l->t("Import Ical File"); ?>">
+<div id="calendar_import_dialog" title="<?php echo $l->t("Import a calendar file"); ?>">
 <input type="hidden" id="filename" value="<?php echo $_GET["filename"];?>">
 <input type="hidden" id="path" value="<?php echo $_GET["path"];?>">
-<div id="first"><strong style="text-align: center;margin: 0 auto;"><?php echo $l->t("How to import the new calendar?");?></strong>
-<br><br>
-<input style="float: left;" type="button" value="<?php echo $l->t("Import into an existing calendar"); ?>" onclick="$('#first').css('display', 'none');$('#existingcal').css('display', 'block');">
-<input style="float: right;" type="button" value="<?php echo $l->t("Import into a new calendar");?>" onclick="$('#first').css('display', 'none');$('#newcal').css('display', 'block');">
-</div>
-<div id="existingcal" style="display: none;">
-<strong><?php echo $l->t("Please choose the calendar"); ?></strong><br><br>
-<form id="inputradioform">
+<p style="text-align:center;"><b><?php echo $l->t('Please choose the calendar'); ?></b></h2>
+<select style="width:100%;" id="calendar" name="calendar">
 <?php
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-foreach($calendars as $calendar){
-	echo '<input type="radio" style="width: 20px;" name="calendar" id="radio_' . $calendar["id"] . '" value="' . $calendar["id"] . '">' . $calendar["displayname"] . '<br>';
-}
+$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$calendar_options[] = array('id'=>'newcal', 'displayname'=>$l->t('create a new calendar'));
+echo html_select_options($calendar_options, $calendar_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
 ?>
-</form>
-<br><br>
-<input type="button" value="<?php echo $l->t("Import");?>!" onclick="importcal('existing');">
-<br><br>
-<input type="button" value="<?php echo $l->t("Back");?>" onclick="$('#existingcal').css('display', 'none');$('#first').css('display', 'block');">
+</select>
+<div id="newcalform" style="display: none;">
+	<input type="text" style="width: 97%;" placeholder="<?php echo $l->t('Name of new calendar'); ?>" id="newcalendar" name="newcalendar">
 </div>
-<div id="newcal" style="display: none;">
-<strong><?php echo $l->t("Please fill out the form"); ?></strong>
-<!-- modified part of part.editcalendar.php -->
-<table width="100%" style="border: 0;">
-<tr>
-<th><?php echo $l->t('Displayname') ?></th>
-<td>
-<input id="displayname" type="text" value="">
-</td>
-</tr>
-</table>
-<!-- end of modified part -->
+<input type="button" value="<?php echo $l->t("Import");?>!" id="startimport">
 <br><br>
-<input type="button" value="<?php echo $l->t("Import");?>!" onclick="importcal('new');">
-<br><br>
-<input type="button" value="<?php echo $l->t("Back");?>" onclick="$('#newcal').css('display', 'none');$('#first').css('display', 'block');">
+<div id="progressbar" style="display: none;"></div>
 </div>
-</div>
-<script type="text/javascript">
-$("input:radio[name='calendar']:first").attr("checked","checked");
-$("#importdialog").dialog({
-	width : 500,
-	close : function(event, ui) {
-		$(this).dialog('destroy').remove();
-		$("#importdialogholder").remove();
-	}
-});
-function importcal(importtype){
-	var path = $("#path").val();
-	var file = $("#filename").val();
-	if(importtype == "existing"){
-		var calid = $("input:radio[name='calendar']:checked").val();
-		$.getJSON(OC.filePath('calendar', '', 'import.php') + "?import=existing&calid=" + calid + "&path=" + path + "&file=" + file, function(){
-			$("#importdialog").dialog('destroy').remove();
-			$("#importdialogholder").remove();
-		});
-	}
-	if(importtype == "new"){
-		var calname = $("#displayname").val();
-		$.post(OC.filePath('calendar', '', 'import.php'), {'import':'new', 'calname':calname, 'path':path, 'file':file}, function(){
-			$("#importdialog").dialog('destroy').remove();
-			$("#importdialogholder").remove();
-		});
-	}
-}
-</script>
