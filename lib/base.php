@@ -156,7 +156,7 @@ class OC{
 			$installedVersion=OC_Config::getValue('version','0.0.0');
 			$currentVersion=implode('.',OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
-				OC_DB::updateDbFromStructure('../db_structure.xml');
+				OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
 				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 			}
 
