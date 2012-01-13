@@ -371,6 +371,10 @@ class OC_DB {
 		}
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
+		
+		// Delete our temporary file
+		unlink( $file2 );
+		
 		if (PEAR::isError($op)) {
 		    $error = $op->getMessage();
 		    OC_Log::write('core','Failed to update database structure ('.$error.')',OC_Log::FATAL);
