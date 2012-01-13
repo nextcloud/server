@@ -26,13 +26,33 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
+$l=new OC_L10N('contacts');
 
 $id = $_POST['id'];
 $vcard = OC_Contacts_App::getContactVCard( $id );
 
 $name = $_POST['name'];
 $value = $_POST['value'];
-$parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
+if(!is_array($value)){
+	$value = trim($value);
+	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG'))) {
+		OC_JSON::error(array('data' => array('message' => $l->t('Cannot add empty property.'))));
+		exit();
+	}
+} elseif($name === 'ADR') { // only add if non-empty elements.
+	$empty = true;
+	foreach($value as $part) {
+		if(trim($part) != '') {
+			$empty = false;
+			break;
+		}
+	}
+	if($empty) {
+		OC_JSON::error(array('data' => array('message' => $l->t('At least one of the address fields has to be filled out.'))));
+		exit();
+	}
+}
+$parameters = isset($_POST['parameters']) ? $_POST['parameters'] : array();
 
 $property = $vcard->addProperty($name, $value); //, $parameters);
 
@@ -41,17 +61,23 @@ $line = count($vcard->children) - 1;
 // Apparently Sabre_VObject_Parameter doesn't do well with multiple values or I don't know how to do it. Tanghus.
 foreach ($parameters as $key=>$element) {
 	if(is_array($element) && strtoupper($key) == 'TYPE') { 
-		// FIXME: Maybe this doesn't only apply for TYPE?
+		// NOTE: Maybe this doesn't only apply for TYPE?
 		// And it probably shouldn't be done here anyways :-/
 		foreach($element as $e){
 			if($e != '' && !is_null($e)){
 				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
 			}
 		}
+	} else {
+			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
 	}
 }
 
-OC_Contacts_VCard::edit($id,$vcard->serialize());
+if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+	OC_JSON::error(array('data' => array('message' => $l->t('Error adding contact property.'))));
+	OC_Log::write('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OC_Log::ERROR);
+	exit();
+}
 
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');

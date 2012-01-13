@@ -1,0 +1,19 @@
+<?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Ingen feil, fila vart lasta opp",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Den opplasta fila er større enn variabelen upload_max_filesize i php.ini",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Den opplasta fila er større enn variabelen MAX_FILE_SIZE i HTML-skjemaet",
+"The uploaded file was only partially uploaded" => "Fila vart berre delvis lasta opp",
+"No file was uploaded" => "Ingen filer vart lasta opp",
+"Missing a temporary folder" => "Manglar ei mellombels mappe",
+"Files" => "Filer",
+"Maximum upload size" => "Maksimal opplastingsstorleik",
+"Upload" => "Last opp",
+"Nothing in here. Upload something!" => "Ingenting her. Last noko opp!",
+"Name" => "Namn",
+"Download" => "Last ned",
+"Size" => "Storleik",
+"Modified" => "Endra",
+"Delete" => "Slett",
+"Upload too large" => "For stor opplasting",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filene du prøver å laste opp er større enn maksgrensa til denne tenaren."
+);

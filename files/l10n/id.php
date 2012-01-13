@@ -2,7 +2,6 @@
 "Files" => "Berkas",
 "Maximum upload size" => "Ukuran unggah maksimum",
 "Upload" => "Unggah",
-"New Folder" => "Folder Baru",
 "Nothing in here. Upload something!" => "Tidak ada apa-apa di sini. Unggah sesuatu!",
 "Name" => "Nama",
 "Download" => "Unduh",

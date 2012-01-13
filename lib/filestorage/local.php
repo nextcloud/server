@@ -132,6 +132,13 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function getMimeType($fspath){
 		if($this->is_readable($fspath)){
 			$mimeType='application/octet-stream';
+			if ($mimeType=='application/octet-stream') {
+				self::$mimetypes = include('mimetypes.fixlist.php');
+				$extention=strtolower(strrchr(basename($fspath), "."));
+				$extention=substr($extention,1);//remove leading .
+				$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+				
+			}
 			if (@is_dir($this->datadir.$fspath)) {
 				// directories are easy
 				return "httpd/unix-directory";
@@ -158,7 +165,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			}
 			if ($mimeType=='application/octet-stream') {
 				// Fallback solution: (try to guess the type by the file extension
-				if(!self::$mimetypes){
+				if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
 					self::$mimetypes=include('mimetypes.list.php');
 				}
 				$extention=strtolower(strrchr(basename($fspath), "."));

@@ -4,12 +4,50 @@
 #contacts_details_name { font-weight:bold;font-size:1.1em;margin-left:25%;}
 #contacts_details_photo { margin:.5em 0em .5em 25%; }
 
-#contacts_deletecard {position:absolute;top:15px;right:0;}
+#contacts_deletecard {position:absolute;top:15px;right:25px;}
+#contacts_downloadcard {position:absolute;top:15px;right:50px;}
 #contacts_details_list { list-style:none; }
 #contacts_details_list li { overflow:visible; }
 #contacts_details_list li p.contacts_property_name { width:25%; float:left;text-align:right;padding-right:0.3em;color:#666; }
-#contacts_details_list li p.contacts_property_data, #contacts_details_list li ul.contacts_property_data { width:72%;float:left; }
+#contacts_details_list li p.contacts_property_data, #contacts_details_list li ul.contacts_property_data { width:72%;float:left; clear: right; }
 #contacts_setproperty_button { margin-left:25%; }
+
+dl.form
+{
+	width: 100%;
+	float: left;
+	clear: right;
+	margin: 1em;
+	padding: 0;
+}
+
+.form dt
+{
+	display: table-cell;
+	clear: left;
+	float: left;
+	min-width: 10em;
+	margin: 0;
+	padding-top: 0.5em;
+	padding-right: 1em;
+	font-weight: bold;
+	text-align:right;
+	vertical-align: text-bottom;
+	bottom: 0px;
+}
+
+.form dd
+{
+	display: table-cell;
+	clear: right;
+	float: left;
+	min-width: 20em;
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+	top: 0px;
+}
+.form input { position: relative; width: 20em; }
 
 .contacts_property_data ul, ol.contacts_property_data { list-style:none; }
 .contacts_property_data li { overflow: hidden; }

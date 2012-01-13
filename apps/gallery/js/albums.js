@@ -63,7 +63,7 @@ Albums={
       var local = $(displayTemplate.replace(/\*NAME\*/g, a.name));
       $("#gallery_album_cover", local).css('background-repeat', 'no-repeat');
       $("#gallery_album_cover", local).css('background-position', '0');
-      $("#gallery_album_cover", local).css('background-image','url("ajax/getCovers.php?album_name='+a.name+'")');
+      $("#gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+a.name+'")');
       local.mouseover(function(e) {
 	    $("#gallery_control_overlay", this).css('visibility','visible');
       });

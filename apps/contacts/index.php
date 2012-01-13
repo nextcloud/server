@@ -44,26 +44,24 @@ OC_App::setActiveNavigationEntry( 'contacts_index' );
 $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
 $details = array();
 
-// FIXME: This cannot work..?
 if(is_null($id) && count($contacts) > 0) {
 	$id = $contacts[0]['id'];
 }
+$vcard = null;
+$details = null;
 if(!is_null($id)) {
 	$vcard = OC_Contacts_App::getContactVCard($id);
-	$details = OC_Contacts_VCard::structureContact($vcard);
+	if(!is_null($vcard)) {
+		$details = OC_Contacts_VCard::structureContact($vcard);
+	}
 }
-// if( !is_null($id)/* || count($contacts)*/){
-// 	if(is_null($id)) $id = $contacts[0]['id'];
-// 	$vcard = OC_Contacts_App::getContactVCard($id);
-// 	$details = OC_Contacts_VCard::structureContact($vcard);
-// }
 
 // Include Style and Script
 OC_Util::addScript('contacts','interface');
-OC_Util::addStyle('contacts','styles');
-OC_Util::addStyle('contacts','formtastic');
+OC_Util::addScript('contacts','jquery.inview');
 OC_Util::addScript('', 'jquery.multiselect');
-OC_Util::addStyle('', 'jquery.multiselect');
+OC_Util::addStyle('contacts','styles');
+//OC_Util::addStyle('contacts','formtastic');
 
 $property_types = OC_Contacts_App::getAddPropertyOptions();
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');

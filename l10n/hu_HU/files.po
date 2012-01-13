@@ -1,0 +1,116 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <mail@tamas-nagy.net>, 2011.
+# Peter Borsa <peter.borsa@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Hungarian (Hungary) (http://www.transifex.net/projects/p/owncloud/team/hu_HU/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu_HU\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/upload.php:19
+msgid "There is no error, the file uploaded with success"
+msgstr "Nincs hiba, a fájl sikeresen feltöltve."
+
+#: ajax/upload.php:20
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
+"A feltöltött file meghaladja az upload_max_filesize direktívát a php.ini-"
+"ben."
+
+#: ajax/upload.php:21
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+"A feltöltött fájl meghaladja a MAX_FILE_SIZE direktívát ami meghatározott a "
+"HTML form-ban."
+
+#: ajax/upload.php:22
+msgid "The uploaded file was only partially uploaded"
+msgstr "Az eredeti fájl csak részlegesen van feltöltve."
+
+#: ajax/upload.php:23
+msgid "No file was uploaded"
+msgstr "Nem lett fájl feltöltve."
+
+#: ajax/upload.php:24
+msgid "Missing a temporary folder"
+msgstr "Hiányzik az ideiglenes könyvtár"
+
+#: appinfo/app.php:8
+msgid "Files"
+msgstr "Fájlok"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Maximális feltölthető fájlméret"
+
+#: templates/index.php:7
+msgid "New"
+msgstr ""
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr ""
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr ""
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr ""
+
+#: templates/index.php:22
+msgid "Upload"
+msgstr "Feltöltés"
+
+#: templates/index.php:35
+msgid "Nothing in here. Upload something!"
+msgstr "Töltsön fel egy fájlt."
+
+#: templates/index.php:43
+msgid "Name"
+msgstr "Név"
+
+#: templates/index.php:45
+msgid "Download"
+msgstr "Letöltés"
+
+#: templates/index.php:49
+msgid "Size"
+msgstr "Méret"
+
+#: templates/index.php:50
+msgid "Modified"
+msgstr "Módosítva"
+
+#: templates/index.php:50
+msgid "Delete"
+msgstr "Törlés"
+
+#: templates/index.php:58
+msgid "Upload too large"
+msgstr "Feltöltés túl nagy"
+
+#: templates/index.php:60
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"A fájlokat amit próbálsz feltölteni meghaladta a legnagyobb fájlméretet ezen"
+" a szerveren."
+
+

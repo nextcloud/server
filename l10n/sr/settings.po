@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 18:17+0200\n"
-"PO-Revision-Date: 2011-09-13 22:02+0000\n"
-"Last-Translator: Xabre <githzerai06@gmail.com>\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.net/projects/p/owncloud/team/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,21 +18,25 @@ msgstr ""
 "Language: sr\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Грешка аутентификације"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr ""
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID је измењен"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Неисправан захтев"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID је измењен"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Језик је измењен"
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr ""
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -54,15 +58,15 @@ msgstr "од"
 msgid "Ask a question"
 msgstr "Поставите питање"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
 msgstr "Проблем у повезивању са базом помоћи"
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "Отиђите тамо ручно."
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Одговор"
 
@@ -98,36 +102,52 @@ msgstr "прикажи"
 msgid "Change password"
 msgstr "Измени лозинку"
 
-#: templates/personal.php:24 templates/personal.php:25
+#: templates/personal.php:24
+msgid "Email"
+msgstr ""
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr ""
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr ""
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Језик"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Помозите у превођењу"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr ""
 
-#: templates/personal.php:37
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 "користите ову адресу да би се повезали на ownCloud путем менаџњера фајлова"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Име"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Лозинка"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Групе"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Направи"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr ""
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "Обриши"
 
