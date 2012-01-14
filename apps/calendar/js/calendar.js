@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
  * Copyright (c) 2011 Bart Visscher <bartv@thisnet.nl>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -345,6 +345,11 @@ Calendar={
 			}
 			
 		},
+		reseticonhighlight: function(){
+			$('#oneweekview_radio').css('color', '#000000');
+			$('#onemonthview_radio').css('color', '#000000');
+			$('#listview_radio').css('color', '#000000');
+		},
 		Calendar:{
 			overview:function(){
 				if($('#choosecalendar_dialog').dialog('isOpen') == true){
@@ -669,12 +674,18 @@ $(document).ready(function(){
 	});
 	$('#oneweekview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');
+		Calendar.UI.reseticonhighlight();
+		$('#oneweekview_radio').css('color', '#6193CF');
 	});
 	$('#onemonthview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'month');
+		Calendar.UI.reseticonhighlight();
+		$('#onemonthview_radio').css('color', '#6193CF');
 	});
 	$('#listview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'list');
+		Calendar.UI.reseticonhighlight();
+		$('#listview_radio').css('color', '#6193CF');
 	});
 	$('#today_input').click(function(){
 		$('#calendar_holder').fullCalendar('today');
