@@ -216,7 +216,7 @@ function showFileEditor(dir,filename){
 // Fades out the editor.
 function hideFileEditor(){
 	// Fades out editor controls
-	$('#controls > :not(.actions,#file_access_panel),#breadcrumb_file').fadeOut('slow',function(){
+	$('#controls > :not(.actions,#file_access_panel,.crumb),#breadcrumb_file').fadeOut('slow',function(){
 		$(this).remove();
 	});
 	// Fade out editor
