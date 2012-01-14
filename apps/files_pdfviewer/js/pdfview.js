@@ -31,6 +31,7 @@ var cache = new Cache(kCacheSize);
 var currentPageNumber = 1;
 
 var PDFView = {
+  active: false,
   pages: [],
   thumbnails: [],
   currentScale: kDefaultScale,
@@ -146,6 +147,9 @@ var PDFView = {
 
   navigateTo: function pdfViewNavigateTo(dest) {
     if (typeof dest === 'string')
+		if(!this.destinations || ! this.destinations[dest]){
+			return; // invalid destination
+		}
       dest = this.destinations[dest];
     if (!(dest instanceof Array))
       return; // invalid destination
@@ -628,10 +632,16 @@ function updateViewarea() {
 }
 
 window.addEventListener('scroll', function webViewerScroll(evt) {
+	if(!PDFView.active){
+		return;
+	}
   updateViewarea();
 }, true);
 
 window.addEventListener('resize', function webViewerResize(evt) {
+	if(!PDFView.active){
+		return;
+	}
   if (document.getElementById('pageWidthOption').selected ||
       document.getElementById('pageFitOption').selected)
       PDFView.parseScale(document.getElementById('scaleSelect').value);
@@ -639,10 +649,16 @@ window.addEventListener('resize', function webViewerResize(evt) {
 });
 
 window.addEventListener('hashchange', function webViewerHashchange(evt) {
+	if(!PDFView.active){
+		return;
+	}
   PDFView.setHash(document.location.hash.substring(1));
 });
 
 window.addEventListener('change', function webViewerChange(evt) {
+	if(!PDFView.active){
+		return;
+	}
   var files = evt.target.files;
   if (!files || files.length == 0)
     return;
@@ -671,6 +687,9 @@ window.addEventListener('change', function webViewerChange(evt) {
 }, true);
 
 window.addEventListener('scalechange', function scalechange(evt) {
+	if(!PDFView.active){
+		return;
+	}
   var customScaleOption = document.getElementById('customScaleOption');
   customScaleOption.selected = false;
 
@@ -703,6 +722,9 @@ window.addEventListener('scalechange', function scalechange(evt) {
 }, true);
 
 window.addEventListener('pagechange', function pagechange(evt) {
+	if(!PDFView.active){
+		return;
+	}
   var page = evt.pageNumber;
   if (document.getElementById('pageNumber').value != page)
     document.getElementById('pageNumber').value = page;
@@ -711,6 +733,9 @@ window.addEventListener('pagechange', function pagechange(evt) {
 }, true);
 
 window.addEventListener('keydown', function keydown(evt) {
+	if(!PDFView.active){
+		return;
+	}
   var curElement = document.activeElement;
   var controlsElement = document.getElementById('controls2');
   while (curElement) {
