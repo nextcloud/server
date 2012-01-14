@@ -191,11 +191,13 @@ SVGSupport.checkMimeType=function(){
 			$.each(headerParts,function(i,text){
 				if(text){
 					var parts=text.split(':',2);
-					var value=parts[1].trim();
-					if(value[0]=='"'){
-						value=value.substr(1,value.length-2);
+					if(parts.length==2){
+						var value=parts[1].trim();
+						if(value[0]=='"'){
+							value=value.substr(1,value.length-2);
+						}
+						headers[parts[0]]=value;
 					}
-					headers[parts[0]]=value;
 				}
 			});
 			if(headers["Content-Type"]!='image/svg+xml'){
