@@ -61,22 +61,22 @@
 				input.change(function(){
 					var groupname=$(this).next().text();
 					if($(this).is(':checked')){
-						settings.checked.push(groupname);
 						if(settings.oncheck){
 							if(settings.oncheck(groupname)===false){
 								$(this).attr('checked', false);
 								return;
 							}
 						}
+						settings.checked.push(groupname);
 					}else{
 						var index=settings.checked.indexOf(groupname);
-						settings.checked.splice(index,1);
 						if(settings.onuncheck){
 							if(settings.onuncheck(groupname)===false){
 								$(this).attr('checked',true);
 								return;
 							}
 						}
+						settings.checked.splice(index,1);
 					}
 					var oldWidth=button.width();
 					if(settings.checked.length>0){
