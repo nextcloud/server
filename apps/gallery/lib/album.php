@@ -42,6 +42,13 @@ class OC_Gallery_Album {
 		$stmt = OC_DB::prepare($sql);
 		return $stmt->execute($args);
 	}
+
+  public static function removeByPath($path, $owner) {
+    $album = self::find($owner, null, $path);
+    $album = $album->fetchRow();
+    self::remove($owner, $album['album_name']);
+    OC_Gallery_Photo::removeByAlbumId($album['album_id']);
+  }
 	
   public static function find($owner, $name=null, $path=null){
 		$sql = 'SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ?';

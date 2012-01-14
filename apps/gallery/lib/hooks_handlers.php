@@ -83,8 +83,11 @@ class OC_Gallery_Hooks_Handlers {
 
   public static function removePhoto($params) {
     $path = $params['path'];
-    if (!self::isPhoto($path)) return;
-    OC_Gallery_Photo::removeByPath($path);
+    if (OC_Filesystem::is_dir($path) && self::directoryContainsPhotos($path)) {
+      OC_Gallery_Album::removeByPath($path, OC_User::getUser());
+    } elseif (self::isPhoto($path)) {
+      OC_Gallery_Photo::removeByPath($path);
+    }
   }
 
   public static function renamePhoto($params) {
