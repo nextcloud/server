@@ -11,8 +11,7 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 $book = isset($_GET['bookid']) ? $_GET['bookid'] : NULL;
 $contact = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
-$nl = '
-';
+$nl = "\n";
 if(isset($book)){
 	$addressbook = OC_Contacts_App::getAddressbook($book);
 	if($addressbook['userid'] != OC_User::getUser()){
