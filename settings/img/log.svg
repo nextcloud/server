@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="16px"
+   height="16px"
+   viewBox="0 0 100 100"
+   enable-background="new 0 0 100 100"
+   xml:space="preserve"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="log.svg"><metadata
+   id="metadata21"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs19" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1680"
+   inkscape:window-height="1004"
+   id="namedview17"
+   showgrid="false"
+   inkscape:zoom="3.06"
+   inkscape:cx="50"
+   inkscape:cy="50"
+   inkscape:window-x="-2"
+   inkscape:window-y="23"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1" />
+<rect
+   x="75"
+   y="45"
+   width="4"
+   height="19"
+   id="rect3"
+   style="fill:#4d4d4d" />
+<polygon
+   points="21,0 21,19 25,19 25,4 75,4 75,19 79,19 79,0 "
+   id="polygon5"
+   style="fill:#4d4d4d" />
+<polygon
+   points="75,45 75,96 44,96 44,77 25,77 25,45 21,45 21,80 41,100 79,100 79,45 "
+   id="polygon7"
+   style="fill:#4d4d4d" />
+<rect
+   x="31"
+   y="45"
+   width="38"
+   height="3"
+   id="rect9"
+   style="fill:#4d4d4d" />
+<rect
+   x="31"
+   y="56"
+   width="38"
+   height="3"
+   id="rect11"
+   style="fill:#4d4d4d" />
+<rect
+   x="31"
+   y="67"
+   width="38"
+   height="3"
+   id="rect13"
+   style="fill:#4d4d4d" />
+<path
+   d="M0,21v48h19V59h-9V31h80v28h-9v10h19V21H0z M97,28h-4v-4h4V28z"
+   id="path15"
+   style="fill:#4d4d4d" />
+</svg>
