@@ -4,8 +4,10 @@ function hidePDFviewer() {
 	$('#controls').html(showPDFviewer.oldcode);
 	$("#viewer").remove();
 	$("#loading").remove()
+	$("#editor").show();
 	document.title = showPDFviewer.lastTitle;
 	PDFView.active=false;
+	$('iframe').remove();
 }
 
 function showPDFviewer(dir,filename){
