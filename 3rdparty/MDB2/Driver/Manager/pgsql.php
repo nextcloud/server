@@ -633,7 +633,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
      */
     function listTables($database = null)
     {
-        $db =& $this->getDBInstance();
+        $db =$this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
