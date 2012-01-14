@@ -183,8 +183,8 @@ class OC_Files {
 	*/
 	public static function move($sourceDir,$source,$targetDir,$target){
 		if(OC_User::isLoggedIn()){
-			$targetFile=$targetDir.'/'.$target;
-			$sourceFile=$sourceDir.'/'.$source;
+			$targetFile=self::normalizePath($targetDir.'/'.$target);
+			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
 			return OC_Filesystem::rename($sourceFile,$targetFile);
 		}
 	}
@@ -304,5 +304,20 @@ class OC_Files {
 		$content.= "SetEnv htaccessWorking true\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
+	}
+
+	/**
+	 * normalize a path, removing any double, add leading /, etc
+	 * @param string $path
+	 * @return string
+	 */
+	static public function normalizePath($path){
+		$path='/'.$path;
+		$old='';
+		while($old!=$path){//replace any multiplicity of slashes with a single one
+			$old=$path;
+			$path=str_replace('//','/',$path);
+		}
+		return $path;
 	}
 }
