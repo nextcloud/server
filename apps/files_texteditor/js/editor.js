@@ -58,7 +58,7 @@ function showControls(filename,writeperms){
 	// Loads the control bar at the top.
 	$('.actions,#file_action_panel').fadeOut('slow').promise().done(function() {
 		// Load the new toolbar.
-		var savebtnhtml;
+		var editorcontrols;
 		if(writeperms=="true"){
 			var editorcontrols = '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div><label for="gotolineval">Go to line:</label><input type="text" id="gotolineval"><div class="separator"></div>';
 		}
@@ -181,7 +181,7 @@ function showFileEditor(dir,filename){
 					result = jQuery.parseJSON(data.responseText);
 					if(result.status == 'success'){
 						// Save mtime
-						$('#editor').attr('data-mtime', result.data.mtime);
+						$('#editor').attr('data-mtime', result.data.mtime);	
 						// Initialise the editor
 						showControls(filename,result.data.write);
 						$('table').fadeOut('slow', function() {
