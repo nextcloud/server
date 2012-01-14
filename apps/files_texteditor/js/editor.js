@@ -174,41 +174,40 @@ function giveEditorFocus(){
 function showFileEditor(dir,filename){
 	if(!editorIsShown()){
 		// Loads the file editor and display it.
-		var data = $.ajax({
-				url: OC.filePath('files_texteditor','ajax','loadfile.php'),
-				data: 'file='+encodeURIComponent(filename)+'&dir='+encodeURIComponent(dir),
-				complete: function(data){
-					result = jQuery.parseJSON(data.responseText);
-					if(result.status == 'success'){
-						// Save mtime
-						$('#editor').attr('data-mtime', result.data.mtime);	
-						// Initialise the editor
-						showControls(filename,result.data.write);
-						$('table').fadeOut('slow', function() {
-							// Update document title
-							document.title = filename;
-							$('#editor').text(result.data.filecontents);
-							$('#editor').attr('data-dir', dir);
-							$('#editor').attr('data-filename', filename);
-							window.aceEditor = ace.edit("editor");  
-							aceEditor.setShowPrintMargin(false);
-							if(result.data.write=='false'){
-								aceEditor.setReadOnly(true);	
-							}
-							setEditorSize();
-							setSyntaxMode(getFileExtension(filename));
-							OC.addScript('files_texteditor','aceeditor/theme-clouds', function(){
-								window.aceEditor.setTheme("ace/theme/clouds");
-							});
+		var data = $.getJSON(
+			OC.filePath('files_texteditor','ajax','loadfile.php'),
+			{file:filename,dir:dir},
+			function(result){
+				if(result.status == 'success'){
+					// Save mtime
+					$('#editor').attr('data-mtime', result.data.mtime);
+					// Initialise the editor
+					showControls(filename,result.data.write);
+					$('table').fadeOut('slow', function() {
+						// Update document title
+						document.title = filename;
+						$('#editor').text(result.data.filecontents);
+						$('#editor').attr('data-dir', dir);
+						$('#editor').attr('data-filename', filename);
+						window.aceEditor = ace.edit("editor");
+						aceEditor.setShowPrintMargin(false);
+						if(result.data.write=='false'){
+							aceEditor.setReadOnly(true);
+						}
+						setEditorSize();
+						setSyntaxMode(getFileExtension(filename));
+						OC.addScript('files_texteditor','aceeditor/theme-clouds', function(){
+							window.aceEditor.setTheme("ace/theme/clouds");
 						});
-					} else {
-						// Failed to get the file.
-						alert(result.data.message);	
-					}
-				// End success
+					});
+				} else {
+					// Failed to get the file.
+					alert(result.data.message);
 				}
-				// End ajax
-				});
+			// End success
+			}
+		// End ajax
+		);
 		is_editor_shown = true;
 	}
 }
