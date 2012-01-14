@@ -47,8 +47,93 @@ class OC_Filesystem{
 	static private $mounts=array();
 	static private $fakeRoot='';
 	static private $storageTypes=array();
+
+  /**
+   * classname which used for hooks handling
+   * used as signalclass in OC_Hooks::emit()
+   */
+  const CLASSNAME = 'OC_Filesystem';
+
+  /**
+   * signalname emited before file renaming
+   * @param oldpath
+   * @param newpath
+   */
+  const signal_rename = 'rename';
+
+  /**
+   * signal emited after file renaming
+   * @param oldpath
+   * @param newpath
+   */
+  const signal_post_rename = 'post_rename';
 	
+  /**
+   * signal emited before file/dir creation
+   * @param path
+   * @param run changing this flag to false in hook handler will cancel event
+   */
+  const signal_create = 'create';
+
+  /**
+   * signal emited after file/dir creation
+   * @param path
+   * @param run changing this flag to false in hook handler will cancel event
+   */
+  const signal_post_create = 'post_create';
+
+  /**
+   * signal emits before file/dir copy
+   * @param oldpath
+   * @param newpath
+   * @param run changing this flag to false in hook handler will cancel event
+   */
+  const signal_copy = 'copy';
+
+  /**
+   * signal emits after file/dir copy
+   * @param oldpath
+   * @param newpath
+   */
+  const signal_post_copy = 'post_copy';
+
+  /**
+   * signal emits before file/dir save
+   * @param path
+   * @param run changing this flag to false in hook handler will cancel event
+   */
+  const signal_write = 'write';
+
+  /**
+   * signal emits after file/dir save
+   * @param path
+   */
+  const signal_post_write = 'post_write';
 	
+  /**
+   * signal emits when reading file/dir
+   * @param path
+   */
+  const signal_read = 'read';
+
+  /**
+   * signal emits when removing file/dir
+   * @param path
+   */
+  const signal_delete = 'delete';
+
+  /**
+   * parameters definitions for signals
+   */
+  const signal_param_path = 'path';
+  const signal_param_oldpath = 'oldpath';
+  const signal_param_newpath = 'newpath';
+
+  /**
+   * run - changing this flag to false in hook handler will cancel event
+   */
+  const signal_param_run = 'run';
+
 	/**
 	* register a storage type
 	* @param  string  type
@@ -285,7 +370,7 @@ class OC_Filesystem{
 	static public function rename($path1,$path2){
 		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and self::is_writeable($path1) and self::isValidPath($path2)){
 			$run=true;
-			OC_Hook::emit( 'OC_Filesystem', 'rename', array( 'oldpath' => $path1 ,'newpath'=>$path2, 'run' => &$run));
+      OC_Hook::emit( self::CLASSNAME, self::signal_rename, array( self::signal_param_oldpath => $path1 , self::signal_param_newpath=>$path2, self::signal_param_run => &$run));
 			if($run){
 				$mp1=self::getMountPoint($path1);
 				$mp2=self::getMountPoint($path2);
@@ -298,7 +383,7 @@ class OC_Filesystem{
 					$result=$storage2->fromTmpFile($tmpFile,self::getInternalPath($path2));
 					$storage1->unlink(self::getInternalPath($path1));
 				}
-				OC_Hook::emit( 'OC_Filesystem', 'post_rename', array( 'oldpath' => $path1, 'newpath'=>$path2));
+        OC_Hook::emit( self::CLASSNAME, self::signal_post_rename, array( self::signal_param_oldpath => $path1, self::signal_param_newpath=>$path2));
 				return $result;
 			}
 		}
@@ -306,13 +391,13 @@ class OC_Filesystem{
 	static public function copy($path1,$path2){
 		if(OC_FileProxy::runPreProxies('copy',$path1,$path2) and self::is_readable($path1) and self::isValidPath($path2)){
 			$run=true;
-			OC_Hook::emit( 'OC_Filesystem', 'copy', array( 'oldpath' => $path1 ,'newpath'=>$path2, 'run' => &$run));
+      OC_Hook::emit( self::CLASSNAME, self::signal_copy, array( self::signal_param_oldpath => $path1 , self::signal_param_newpath=>$path2, self::signal_param_run => &$run));
 			$exists=self::file_exists($path2);
 			if($run and !$exists){
-				OC_Hook::emit( 'OC_Filesystem', 'create', array( 'path' => $path2, 'run' => &$run));
+        OC_Hook::emit( self::CLASSNAME, self::signal_create, array( self::signal_param_path => $path2, self::signal_param_run => &$run));
 			}
 			if($run){
-				OC_Hook::emit( 'OC_Filesystem', 'write', array( 'path' => $path2, 'run' => &$run));
+        OC_Hook::emit( self::CLASSNAME, self::signal_write, array( self::signal_param_path => $path2, self::signal_param_run => &$run));
 			}
 			if($run){
 				$mp1=self::getMountPoint($path1);
@@ -325,11 +410,11 @@ class OC_Filesystem{
 					$tmpFile=$storage1->toTmpFile(self::getInternalPath($path1));
 					$result=$storage2->fromTmpFile($tmpFile,self::getInternalPath($path2));
 				}
-				OC_Hook::emit( 'OC_Filesystem', 'post_copy', array( 'oldpath' => $path1 ,'newpath'=>$path2));
+        OC_Hook::emit( self::CLASSNAME, self::signal_post_copy, array( self::signal_param_oldpath => $path1 , self::signal_param_newpath=>$path2));
 				if(!$exists){
-					OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path2));
+          OC_Hook::emit( self::CLASSNAME, self::signal_post_create, array( self::signal_param_path => $path2));
 				}
-				OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path2));
+        OC_Hook::emit( self::CLASSNAME, self::signal_post_write, array( self::signal_param_path => $path2));
 				return $result;
 			}
 		}
@@ -360,7 +445,7 @@ class OC_Filesystem{
 	}
 	static public function toTmpFile($path){
 		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and self::isValidPath($path) and $storage=self::getStorage($path)){
-			OC_Hook::emit( 'OC_Filesystem', 'read', array( 'path' => $path));
+      OC_Hook::emit( self::CLASSNAME, self::signal_read, array( self::signal_param_path => $path));
 			return $storage->toTmpFile(self::getInternalPath($path));
 		}
 	}
@@ -369,17 +454,17 @@ class OC_Filesystem{
 			$run=true;
 			$exists=self::file_exists($path);
 			if(!$exists){
-				OC_Hook::emit( 'OC_Filesystem', 'create', array( 'path' => $path, 'run' => &$run));
+        OC_Hook::emit( self::CLASSNAME, self::signal_create, array( self::signal_param_path => $path, self::signal_param_run => &$run));
 			}
 			if($run){
-				OC_Hook::emit( 'OC_Filesystem', 'write', array( 'path' => $path, 'run' => &$run));
+        OC_Hook::emit( self::CLASSNAME, self::signal_write, array( self::signal_param_path => $path, self::signal_param_run => &$run));
 			}
 			if($run){
 				$result=$storage->fromTmpFile($tmpFile,self::getInternalPath($path));
 				if(!$exists){
-					OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path));
+          OC_Hook::emit( self::CLASSNAME, self::signal_post_create, array( self::signal_param_path => $path));
 				}
-				OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path));
+        OC_Hook::emit( self::CLASSNAME, self::signal_post_write, array( self::signal_param_path => $path));
 				return $result;
 			}
 		}
@@ -389,17 +474,17 @@ class OC_Filesystem{
 			$run=true;
 			$exists=self::file_exists($path);
 			if(!$exists){
-				OC_Hook::emit( 'OC_Filesystem', 'create', array( 'path' => $path, 'run' => &$run));
+        OC_Hook::emit( self::CLASSNAME, self::signal_create, array( self::signal_param_path => $path, self::signal_param_run => &$run));
 			}
 			if($run){
-				OC_Hook::emit( 'OC_Filesystem', 'write', array( 'path' => $path, 'run' => &$run));
+        OC_Hook::emit( self::CLASSNAME, self::signal_write, array( self::signal_param_path => $path, self::signal_param_run => &$run));
 			}
 			if($run){
 				$result=$storage->fromUploadedFile($tmpFile,self::getInternalPath($path));
 				if(!$exists){
-					OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path));
+          OC_Hook::emit( self::CLASSNAME, self::signal_post_create, array( self::signal_param_path => $path));
 				}
-				OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path));
+        OC_Hook::emit( self::CLASSNAME, self::signal_post_write, array( self::signal_param_path => $path));
 				return $result;
 			}
 		}
@@ -453,9 +538,9 @@ class OC_Filesystem{
 			$run=true;
 			foreach($hooks as $hook){
 				if($hook!='read'){
-					OC_Hook::emit( 'OC_Filesystem', $hook, array( 'path' => $path, 'run' => &$run));
+          OC_Hook::emit( self::CLASSNAME, $hook, array( self::signal_param_path => $path, self::signal_param_run => &$run));
 				}else{
-					OC_Hook::emit( 'OC_Filesystem', $hook, array( 'path' => $path));
+          OC_Hook::emit( self::CLASSNAME, $hook, array( self::signal_param_path => $path));
 				}
 			}
 			if($run){
@@ -467,7 +552,7 @@ class OC_Filesystem{
 				$result=OC_FileProxy::runPostProxies($operation,$path,$result);
 				foreach($hooks as $hook){
 					if($hook!='read'){
-						OC_Hook::emit( 'OC_Filesystem', 'post_'.$hook, array( 'path' => $path));
+            OC_Hook::emit( self::CLASSNAME, 'post_'.$hook, array( self::signal_param_path => $path));
 					}
 				}
 				return $result;
