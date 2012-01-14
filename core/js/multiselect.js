@@ -9,23 +9,26 @@
 			'checked':[],
 			'oncheck':false,
 			'onuncheck':false,
+			'minWidth': 'default;',
 		};
-		$.extend(settings,options);			
+		$.extend(settings,options);
 		var button=$('<div class="multiselect button"><span>'+settings.title+'</span><span>▾</span></div>');
-		if(settings.checked.length>0){
-			button.children('span').first().text(settings.checked.join(', '));
-		}
 		var span=$('<span/>');
 		span.append(button);
 		button.data('id',multiSelectId);
 		button.selectedItems=[];
 		this.hide();
 		this.before(span);
-		settings.minWidth=button.width();
+		if(settings.minWidth=='default'){
+			settings.minWidth=button.width();
+		}
 		button.css('min-width',settings.minWidth);
 		settings.minOuterWidth=button.outerWidth()-2;
 		button.data('settings',settings);
-		
+		if(settings.checked.length>0){
+			button.children('span').first().text(settings.checked.join(', '));
+		}
+
 		button.click(function(event){
 			var button=$(this);
 			if(button.parent().children('ul').length>0){
@@ -83,13 +86,14 @@
 					}
 					var newOuterWidth=Math.max((button.outerWidth()-2),settings.minOuterWidth)+'px';
 					var newWidth=Math.max(button.width(),settings.minWidth);
+					var pos=button.position();
 					button.css('height',button.height());
 					button.css('white-space','nowrap');
 					button.css('width',oldWidth);
 					button.animate({'width':newWidth},undefined,undefined,function(){
 						button.css('width','');
 					});
-					list.animate({'width':newOuterWidth});
+					list.animate({'width':newOuterWidth,'left':pos.left+3});
 				});
 				var li=$('<li></li>');
 				li.append(input).append(label);
