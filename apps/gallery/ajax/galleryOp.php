@@ -29,6 +29,7 @@ OC_JSON::checkAppEnabled('gallery');
 function handleRename($oldname, $newname) {
   OC_JSON::checkLoggedIn();
   OC_Gallery_Album::rename($oldname, $newname, OC_User::getUser());
+  OC_Gallery_Album::changeThumbnailPath($oldname, $newname);
 }
 
 function handleRemove($name) {

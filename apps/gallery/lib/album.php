@@ -58,6 +58,17 @@ class OC_Gallery_Album {
 		return $stmt->execute($args);
 	}
 
+  public static function changePath($oldname, $newname, $owner) {
+    $stmt = OC_DB::prepare('UPDATE OR IGNORE *PREFIX*gallery_albums SET album_path=? WHERE uid_owner=? AND album_path=?');
+    $stmt->execute(array($newname, $owner, $oldname));
+  }
+
+  public static function changeThumbnailPath($oldname, $newname) {
+    require_once('../../../lib/base.php');
+    $thumbpath = OC::$CONFIG_DATADIRECTORY.'/../gallery/';
+    rename($thumbpath.$oldname.'.png', $thumbpath.$newname.'.png');
+  }
+
 }
 
 ?>
