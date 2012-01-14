@@ -56,6 +56,11 @@ class OC_Gallery_Photo{
     $stmt->execute(array($id));
   }
 
+  public static function removeByAlbumId($albumid) {
+    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE album_id = ?');
+    $stmt->execute(array($albumid));
+  }
+
   public static function changePath($oldAlbumId, $newAlbumId, $oldpath, $newpath) {
     $stmt = OC_DB::prepare("UPDATE *PREFIX*gallery_photos SET file_path = ?, album_id = ? WHERE album_id = ? and file_path = ?");
     $stmt->execute(array($newpath, $newAlbumId, $oldAlbumId, $oldpath));

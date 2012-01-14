@@ -58,7 +58,7 @@ function galleryRemove(albumName) {
 }
 
 function galleryRename(name) {
-  var result = window.prompt("Input new gallery name", "");
+  var result = window.prompt("Input new gallery name", name);
   if (result) {
 	if (Albums.find(result)) {
 	  alert("Album named '" + result + "' already exists");
