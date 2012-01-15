@@ -16,7 +16,7 @@ $l = new OC_L10N('gallery');
 </script>
 
 <div id="controls">
-  <a href="?"><input type="button" value="<? echo $l->t('Back');?>" /></a>
+  <a href="?"><input type="button" value="<?php echo $l->t('Back');?>" /></a>
 <br/>
 </div>
 
