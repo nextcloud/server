@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
-# Marcin Małecki <gerber@tkdami.net>, 2011.
+# Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
 # Marcin Małecki <mosslar@gmail.com>, 2011.
 #   <mosslar@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 13:08+0000\n"
+"Last-Translator: Marcin Małecki <gerber@tkdami.net>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/team/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgstr ""
 
 #: lostpassword/index.php:24
 msgid "Owncloud password reset"
-msgstr ""
+msgstr "Resetowani hasła"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Użyj tego linku do zresetowania hasła: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
@@ -56,7 +56,7 @@ msgstr "Twoje hasło zostało zresetowane"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Do strony logowania"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
@@ -137,7 +137,7 @@ msgstr "Zakończ instalację"
 
 #: templates/layout.guest.php:35
 msgid "web services under your control"
-msgstr ""
+msgstr "usługi internetowe twoją pod kontrolą"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -157,7 +157,7 @@ msgstr "zapamiętaj"
 
 #: templates/login.php:16
 msgid "Log in"
-msgstr ""
+msgstr "Zaloguj się"
 
 #: templates/logout.php:1
 msgid "You are logged out."

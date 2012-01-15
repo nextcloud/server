@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This is not your addressbook." => "זהו אינו ספר הכתובות שלך",
 "Contact could not be found." => "לא ניתן לאתר איש קשר",
-"vCard could not be read." => "לא ניתן לקרוא vCard.",
 "Information about vCard is incorrect. Please reload the page." => "המידע אודות vCard אינו נכון. נא לטעון מחדש את הדף.",
 "Address" => "כתובת",
 "Telephone" => "טלפון",
@@ -19,7 +18,6 @@
 "This card is not RFC compatible." => "כרטיס זה אינו תואם ל־RFC",
 "This card does not contain a photo." => "כרטיס זה אינו כולל תמונה",
 "Add Contact" => "הוספת איש קשר",
-"Group" => "קבוצה",
 "Name" => "שם",
 "PO Box" => "תא דואר",
 "Extended" => "מורחב",

@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This is not your addressbook." => "See pole sinu aadressiraamat.",
 "Contact could not be found." => "Kontakti ei leitud.",
-"vCard could not be read." => "Visiitkaardi lugemine ebaõnnestus,",
 "Information about vCard is incorrect. Please reload the page." => "Visiitkaardi info pole korrektne. Palun lae leht uuesti.",
 "Address" => "Aadress",
 "Telephone" => "Telefon",
@@ -19,7 +18,6 @@
 "This card is not RFC compatible." => "See kaart ei ühildu RFC-ga.",
 "This card does not contain a photo." => "Sellel kaardil pole fotot.",
 "Add Contact" => "Lisa kontakt",
-"Group" => "Grupp",
 "Name" => "Nimi",
 "PO Box" => "Postkontori postkast",
 "Extended" => "Laiendatud",

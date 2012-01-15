@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
-# Marcin Małecki <gerber@tkdami.net>, 2011.
+# Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
 # Marcin Małecki <mosslar@gmail.com>, 2011.
 #   <mosslar@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 13:11+0000\n"
+"Last-Translator: Marcin Małecki <gerber@tkdami.net>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/team/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "email Changed"
-msgstr ""
+msgstr "email zmieniony"
 
 #: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
@@ -39,7 +39,7 @@ msgstr "Język zmieniony"
 
 #: templates/admin.php:13
 msgid "Log level"
-msgstr ""
+msgstr "Poziom logowania"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -107,15 +107,15 @@ msgstr "Zmień hasło"
 
 #: templates/personal.php:24
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/personal.php:25
 msgid "Your email address"
-msgstr ""
+msgstr "Twój adres email"
 
 #: templates/personal.php:26
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Podaj adres email żeby odzyskać hasło"
 
 #: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
@@ -123,7 +123,7 @@ msgstr "Język"
 
 #: templates/personal.php:38
 msgid "Help translate"
-msgstr ""
+msgstr "Pomóż w tłumaczeniu"
 
 #: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -149,7 +149,7 @@ msgstr "Stwórz"
 
 #: templates/users.php:33
 msgid "Quota"
-msgstr ""
+msgstr "Udział"
 
 #: templates/users.php:58
 msgid "Delete"

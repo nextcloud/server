@@ -5,15 +5,15 @@
 # Translators:
 # Francesco Apruzzese <cescoap@gmail.com>, 2011.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
-#   <marco@carnazzo.it>, 2011.
+#   <marco@carnazzo.it>, 2011, 2012.
 #   <rb.colombo@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-12 20:56+0000\n"
+"Last-Translator: ufic <marco@carnazzo.it>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "email Changed"
-msgstr ""
+msgstr "email modificata"
 
 #: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
@@ -39,7 +39,7 @@ msgstr "Lingua modificata"
 
 #: templates/admin.php:13
 msgid "Log level"
-msgstr ""
+msgstr "Livello di log"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -107,15 +107,15 @@ msgstr "Modifica password"
 
 #: templates/personal.php:24
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/personal.php:25
 msgid "Your email address"
-msgstr ""
+msgstr "Il tuo indirizzo email"
 
 #: templates/personal.php:26
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Inserici il tuo indirizzo email per abilitare il recupero password"
 
 #: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
@@ -123,7 +123,7 @@ msgstr "Lingua"
 
 #: templates/personal.php:38
 msgid "Help translate"
-msgstr ""
+msgstr "Migliora la traduzione"
 
 #: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -149,7 +149,7 @@ msgstr "Crea"
 
 #: templates/users.php:33
 msgid "Quota"
-msgstr ""
+msgstr "Quota"
 
 #: templates/users.php:58
 msgid "Delete"

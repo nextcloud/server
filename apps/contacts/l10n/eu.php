@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This is not your addressbook." => "Hau ez da zure helbide liburua.",
 "Contact could not be found." => "Ezin izan da kontaktua aurkitu.",
-"vCard could not be read." => "Ezin izan da vCard-a irakurri.",
 "Information about vCard is incorrect. Please reload the page." => "vCard-aren inguruko informazioa okerra da. Mesedez birkargatu orrialdea.",
 "Address" => "Helbidea",
 "Telephone" => "Telefonoa",
@@ -19,7 +18,6 @@
 "This card is not RFC compatible." => "Txartel hau ez da RFC bateragarria.",
 "This card does not contain a photo." => "Txartel honek ez dauka argazkirik.",
 "Add Contact" => "Gehitu Kontaktua",
-"Group" => "Taldea",
 "Name" => "Izena",
 "PO Box" => "Posta kutxa",
 "Extended" => "Hedatua",

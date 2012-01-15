@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This is not your addressbook." => "Tai ne jūsų adresų knygelė.",
 "Contact could not be found." => "Kontaktas nerastas",
-"vCard could not be read." => "Nenuskaitoma vCard.",
 "Information about vCard is incorrect. Please reload the page." => "Informacija apie vCard yra neteisinga. ",
 "Address" => "Adresas",
 "Telephone" => "Telefonas",
@@ -17,7 +16,6 @@
 "Pager" => "Pranešimų gaviklis",
 "This is not your contact." => "Tai ne jūsų kontaktas",
 "Add Contact" => "Pridėti kontaktą",
-"Group" => "Grupė",
 "Name" => "Vardas",
 "PO Box" => "Pašto dėžutė",
 "Street" => "Gatvė",
