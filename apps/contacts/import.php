@@ -5,7 +5,7 @@
  * later.
  * See the COPYING-README file.
  */
-//check for calendar rights or create new one
+//check for addressbooks rights or create new one
 ob_start();
 require_once ('../../lib/base.php');
 OC_JSON::checkLoggedIn();
@@ -29,7 +29,7 @@ if($_POST['method'] == 'new'){
 	}
 	$id = $_POST['id'];
 }
-//analyse the calendar file
+//analyse the contacts file
 if(is_writable('import_tmp/')){
 	$progressfopen = fopen($progressfile, 'w');
 	fwrite($progressfopen, '20');
@@ -57,7 +57,7 @@ foreach($filearr as $line){
 	}
 	$i++;
 }
-//import the calendar
+//import the contacts
 if(is_writable('import_tmp/')){
 	$progressfopen = fopen($progressfile, 'w');
 	fwrite($progressfopen, '40');
