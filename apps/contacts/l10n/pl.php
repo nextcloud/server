@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Contacts" => "Kontakty",
+"Addressbooks" => "Książki adresowe",
+"Add" => "Dodaj",
 "This is not your addressbook." => "To nie jest twoja książka adresowa.",
 "Contact could not be found." => "Kontakt nie znaleziony.",
 "vCard could not be read." => "Nie można odczytać vCard.",
