@@ -16,7 +16,7 @@ if(version_compare(PHP_VERSION, '5.3.0', '>')){
 	  'id' => 'calendar_index',
 	  'order' => 10,
 	  'href' => OC_Helper::linkTo( 'calendar', 'index.php' ),
-	  'icon' => OC_Helper::imagePath( 'calendar', 'icon.png' ),
+	  'icon' => OC_Helper::imagePath( 'calendar', 'icon.svg' ),
 	  'name' => $l->t('Calendar')));
 	OC_App::registerPersonal('calendar', 'settings');
 	require_once('apps/calendar/lib/search.php');
