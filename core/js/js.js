@@ -6,10 +6,14 @@
  */
 function t(app,text){
 	if( !( app in t.cache )){
-		
-		$.post( OC.filePath('core','ajax','translations.php'), {'app': app}, function(jsondata){
-			t.cache[app] = jsondata.data;
-		});
+		$.ajax(OC.filePath('core','ajax','translations.php'),{
+			async:false,//todo a proper sollution for this without sync ajax calls
+			data:{'app': app},
+			type:'POST',
+			success:function(jsondata){
+				t.cache[app] = jsondata.data;
+			},
+		})
 
 		// Bad answer ...
 		if( !( app in t.cache )){
