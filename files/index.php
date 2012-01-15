@@ -38,7 +38,7 @@ if(!isset($_SESSION['timezone'])){
 }
 OC_App::setActiveNavigationEntry( "files_index" );
 // Load the files
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+$dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
 if(!OC_Filesystem::is_dir($dir)) {
 	header("Location: ".$_SERVER['PHP_SELF']."");

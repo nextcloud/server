@@ -6,9 +6,9 @@ require_once('../../lib/base.php');
 OC_JSON::checkLoggedIn();
 
 // Get data
-$dir = $_GET["dir"];
-$file = $_GET["file"];
-$newname = $_GET["newname"];
+$dir = stripslashes($_GET["dir"]);
+$file = stripslashes($_GET["file"]);
+$newname = stripslashes($_GET["newname"]);
 
 // Delete
 if( OC_Files::move( $dir, $file, $dir, $newname )) {
