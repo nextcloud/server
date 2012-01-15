@@ -237,7 +237,7 @@ class OC_Calendar_Calendar{
 			'ffa500', // "Orange"
 			'ff7f50', // "Coral"
 			'ee82ee', // "Violet"
-			'9fc6e7', // dark yellow
+			'9fc6e7', // "light blue"
 		);
 	}
 	public static function getEventSourceInfo($calendar){
