@@ -1,7 +1,9 @@
 <?php $TRANSLATIONS = array(
+"email Changed" => "mailadres aangepast",
 "Invalid request" => "Ongeldig verzoek",
 "OpenID Changed" => "OpenID is aangepast",
 "Language changed" => "Taal aangepast",
+"Log level" => "Logniveau",
 "Add your application" => "Voeg uw applicatie toe",
 "Select an App" => "Selecteer een app",
 "-licensed" => "-gelicentieerd",
@@ -18,11 +20,16 @@
 "New password" => "Nieuw wachtwoord",
 "show" => "weergeven",
 "Change password" => "Wijzig wachtwoord",
+"Email" => "mailadres",
+"Your email address" => "Jouw mailadres",
+"Fill in an email address to enable password recovery" => "Vul een mailadres in om je wachtwoord te kunnen herstellen",
 "Language" => "Taal",
+"Help translate" => "Help met vertalen",
 "use this address to connect to your ownCloud in your file manager" => "gebruik dit adres om verbinding te maken met ownCloud in uw bestandsbeheerprogramma",
 "Name" => "Naam",
 "Password" => "Wachtwoord",
 "Groups" => "Groepen",
 "Create" => "Creëer",
+"Quota" => "Limieten",
 "Delete" => "verwijderen"
 );

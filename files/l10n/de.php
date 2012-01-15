@@ -7,6 +7,8 @@
 "Missing a temporary folder" => "Temporärer Ordner fehlt.",
 "Files" => "Dateien",
 "Maximum upload size" => "Maximale Größe",
+"Text file" => "Text Datei",
+"Folder" => "Ordner",
 "Upload" => "Hochladen",
 "Nothing in here. Upload something!" => "Alles leer. Lad’ was hoch!",
 "Name" => "Name",

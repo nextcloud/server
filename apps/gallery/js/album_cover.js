@@ -4,10 +4,11 @@ $(document).ready(function() {
     if (r.status == 'success') {
       for (var i in r.albums) {
         var a = r.albums[i];
-        Albums.add(a.name, a.numOfItems, a.bgPath);
+        Albums.add(a.name, a.numOfItems);
       }
       var targetDiv = document.getElementById('gallery_list');
       if (targetDiv) {
+        $(targetDiv).html('');
         Albums.display(targetDiv);
       } else {
         alert('Error occured: no such layer `gallery_list`');
@@ -30,14 +31,42 @@ function createNewAlbum() {
   }
 }
 
+var albumCounter = 0;
+var totalAlbums = 0;
+
 function scanForAlbums() {
+  var albumCounter = 0;
+  var totalAlbums = 0;
+  $('#notification').text("Scanning directories");
   $("#notification").fadeIn();
   $("#notification").slideDown();
-  $.getJSON('ajax/galleryOp.php?operation=scan', function(r) {
-    $("#notification").fadeOut();
-    $("#notification").slideUp();
+  $.getJSON('ajax/galleryOp.php?operation=filescan', function(r) {
+
     if (r.status == 'success') {
-      window.location.reload(true);
+      totalAlbums = r.paths.length;
+      $('#notification').text("Creating thumbnails ... " + Math.floor((albumCounter/totalAlbums)*100) + "%");
+      for(var a in r.paths) {
+        $.getJSON('ajax/galleryOp.php?operation=partial_create&path='+r.paths[a], function(r) {
+
+          if (r.status == 'success') {
+            Albums.add(r.album_details.albumName, r.album_details.imagesCount);
+          }
+
+          albumCounter++;
+          $('#notification').text("Creating thumbnails ... " + Math.floor((albumCounter/totalAlbums)*100) + "%");
+          if (albumCounter == totalAlbums) {
+            $("#notification").fadeOut();
+            $("#notification").slideUp();
+            var targetDiv = document.getElementById('gallery_list');
+            if (targetDiv) {
+              targetDiv.innerHTML = '';
+              Albums.display(targetDiv);
+            } else {
+              alert('Error occured: no such layer `gallery_list`');
+            }
+          }
+        });
+      }
     } else {
       alert('Error occured: ' + r.message);
     }
@@ -48,8 +77,8 @@ function galleryRemove(albumName) {
   if (confirm("Do you wan't to remove album " + albumName + "?")) {
 	$.getJSON("ajax/galleryOp.php", {operation: "remove", name: albumName}, function(r) {
 	  if (r.status == "success") {
-		$("#gallery_album_box[title='"+albumName+"']").remove();
-		Albums.remove(albumName);
+      $("#gallery_album_box[title='"+albumName+"']").remove();
+      Albums.remove(albumName);
 	  } else {
 		alert("Error: " + r.cause);
 	  }

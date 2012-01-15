@@ -4,7 +4,7 @@
 	<name>Calendar</name>
 	<version>0.2</version>
 	<licence>AGPL</licence>
-	<author>Georg Ehrke (Userinterface), Jakob Sack</author>
+	<author>Georg Ehrke, Bart Visscher, Jakob Sack</author>
 	<require>2</require>
 	<description>Calendar with CalDAV support</description>
 	<default_enable/>

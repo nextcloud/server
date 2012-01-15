@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This is not your addressbook." => "Ovo nije vaš adresar.",
 "Contact could not be found." => "Kontakt se ne može naći.",
-"vCard could not be read." => "vKarta se ne može čitati.",
 "Information about vCard is incorrect. Please reload the page." => "Podaci o vKarti su neispravni. Ponovo učitajte stranicu.",
 "Address" => "Adresa",
 "Telephone" => "Telefon",
@@ -19,7 +18,6 @@
 "This card is not RFC compatible." => "Ova karta nije saglasna sa RFC-om.",
 "This card does not contain a photo." => "Ova karta ne sadrži fotografiju.",
 "Add Contact" => "Dodaj kontakt",
-"Group" => "Grupa",
 "Name" => "Ime",
 "PO Box" => "Poštanski broj",
 "Extended" => "Proširi",

@@ -26,6 +26,8 @@ OC::$CLASSPATH['OC_Gallery_Photo'] = 'apps/gallery/lib/photo.php';
 OC::$CLASSPATH['OC_Gallery_Scanner'] = 'apps/gallery/lib/scanner.php';
 OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'apps/gallery/lib/hooks_handlers.php';
 
+$l = new OC_L10N('gallery');
+
 OC_App::register(array(
   'order' => 20,
   'id' => 'gallery',
@@ -36,7 +38,7 @@ OC_App::addNavigationEntry( array(
  'order' => 20,
  'href' => OC_Helper::linkTo('gallery', 'index.php'),
  'icon' => OC_Helper::imagePath('core', 'places/picture.svg'),
- 'name' => 'Gallery'));
+ 'name' => $l->t('Gallery')));
 
  class OC_GallerySearchProvider extends OC_Search_Provider{
 	function search($query){

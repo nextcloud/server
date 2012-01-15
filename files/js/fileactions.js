@@ -66,7 +66,7 @@ FileActions={
 				if(img.call){
 					img=img(file);
 				}
-				var html='<a href="#" title="'+name+'" class="action" />';
+				var html='<a href="#" title="'+name+'" class="action" style="display:none" />';
 				var element=$(html);
 				if(img){
 					element.append($('<img src="'+img+'"/>'));
@@ -80,6 +80,7 @@ FileActions={
 					FileActions.hide();
 					action(currentFile);
 				});
+				element.hide();
 				parent.children('a.name').append(element);
 			}
 		}
@@ -88,7 +89,7 @@ FileActions={
 			if(img.call){
 				img=img(file);
 			}
-			var html='<a href="#" title="Delete" class="action" />';
+			var html='<a href="#" title="Delete" class="action" style="display:none" />';
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));
@@ -102,10 +103,13 @@ FileActions={
 				FileActions.hide();
 				action(currentFile);
 			});
+			element.hide();
 			parent.parent().children().last().append(element);
 		}
-		$('#fileList .action').hide();
-		$('#fileList .action').fadeIn(200);
+		$('#fileList .action').css('-o-transition-property','none');//temporarly disable 
+		$('#fileList .action').fadeIn(200,function(){
+			$('#fileList .action').css('-o-transition-property','opacity');
+		});
 		return false;
 	},
 	hide:function(){

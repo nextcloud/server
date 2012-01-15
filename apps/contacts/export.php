@@ -11,6 +11,7 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 $book = isset($_GET['bookid']) ? $_GET['bookid'] : NULL;
 $contact = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
+$nl = "\n";
 if(isset($book)){
 	$addressbook = OC_Contacts_App::getAddressbook($book);
 	if($addressbook['userid'] != OC_User::getUser()){
@@ -22,7 +23,7 @@ if(isset($book)){
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $addressbook['displayname']) . '.vcf'); 
 
 	foreach($cardobjects as $card) {
-		echo $card['carddata'];
+		echo $card['carddata'] . $nl;
 	}
 }elseif(isset($contact)){	
 	$data = OC_Contacts_App::getContactObject($contact);

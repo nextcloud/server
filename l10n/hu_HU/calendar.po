@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-07 18:29+0100\n"
-"PO-Revision-Date: 2012-01-08 08:41+0000\n"
-"Last-Translator: george <georg.stefan.germany@googlemail.com>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-15 13:45+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.net/projects/p/owncloud/team/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -315,27 +315,27 @@ msgstr "Az esemény véget ér a kezdés előtt."
 msgid "There was a database fail"
 msgstr "Adatbázis hiba történt"
 
-#: templates/calendar.php:38
+#: templates/calendar.php:52
 msgid "Week"
 msgstr "Hét"
 
-#: templates/calendar.php:39
+#: templates/calendar.php:53
 msgid "Month"
 msgstr "Hónap"
 
-#: templates/calendar.php:40
+#: templates/calendar.php:54
 msgid "List"
 msgstr "Lista"
 
-#: templates/calendar.php:45
+#: templates/calendar.php:59
 msgid "Today"
 msgstr "Ma"
 
-#: templates/calendar.php:46
+#: templates/calendar.php:60
 msgid "Calendars"
 msgstr "Naptárak"
 
-#: templates/calendar.php:64
+#: templates/calendar.php:78
 msgid "There was a fail, while parsing the file."
 msgstr "Probléma volt a fájl elemzése közben."
 
@@ -449,7 +449,7 @@ msgstr "Új naptár"
 msgid "Edit calendar"
 msgstr "Naptár szerkesztése"
 
-#: templates/part.editcalendar.php:12 templates/part.import.php:29
+#: templates/part.editcalendar.php:12
 msgid "Displayname"
 msgstr "Megjelenítési név"
 
@@ -575,36 +575,36 @@ msgid "Description of the Event"
 msgstr "Az esemény leírása"
 
 #: templates/part.import.php:1
-msgid "Import Ical File"
-msgstr "Ical fájl importálása"
-
-#: templates/part.import.php:4
-msgid "How to import the new calendar?"
-msgstr "Hogyan legyen importálva az új naptár?"
+msgid "Import a calendar file"
+msgstr ""
 
 #: templates/part.import.php:6
-msgid "Import into an existing calendar"
-msgstr "Létező naptárba importálás"
-
-#: templates/part.import.php:7
-msgid "Import into a new calendar"
-msgstr "Új naptárba importálás"
-
-#: templates/part.import.php:10
 msgid "Please choose the calendar"
 msgstr "Válassz naptárat"
 
-#: templates/part.import.php:20 templates/part.import.php:37
+#: templates/part.import.php:10
+msgid "create a new calendar"
+msgstr ""
+
+#: templates/part.import.php:15
+msgid "Name of new calendar"
+msgstr ""
+
+#: templates/part.import.php:17
 msgid "Import"
 msgstr "Importálás"
 
-#: templates/part.import.php:22 templates/part.import.php:39
-msgid "Back"
-msgstr "Vissza"
+#: templates/part.import.php:20
+msgid "Importing calendar"
+msgstr ""
 
-#: templates/part.import.php:25
-msgid "Please fill out the form"
-msgstr "Töltsd ki az űrlapot"
+#: templates/part.import.php:23
+msgid "Calendar imported successfully"
+msgstr ""
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr ""
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"

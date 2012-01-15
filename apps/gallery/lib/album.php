@@ -48,6 +48,14 @@ class OC_Gallery_Album {
     $album = $album->fetchRow();
     self::remove($owner, $album['album_name']);
     OC_Gallery_Photo::removeByAlbumId($album['album_id']);
+    // find and remove any gallery which might be stored lower in dir hierarchy
+    $path = $path.'/%';
+    $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE album_path LIKE ? AND uid_owner = ?');
+    $result = $stmt->execute(array($path, $owner));
+    while (($album = $result->fetchRow())) {
+      OC_Gallery_Photo::removeByAlbumId($album['album_id']);
+      self::remove($owner, $album['album_name']);
+    }
   }
 	
   public static function find($owner, $name=null, $path=null){

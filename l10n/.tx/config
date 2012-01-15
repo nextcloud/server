@@ -31,3 +31,8 @@ file_filter = <lang>/settings.po
 source_file = templates/settings.pot
 source_lang = en
 
+[owncloud.gallery]
+file_filter = <lang>/gallery.po
+source_file = templates/gallery.pot
+source_lang = en
+

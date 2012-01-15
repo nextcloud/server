@@ -231,13 +231,13 @@ class OC_Calendar_Calendar{
 	public static function getCalendarColorOptions(){
 		return array(
 			'ff0000', // "Red"
-			'00ff00', // "Green"
+			'b3dc6c', // "Green"
 			'ffff00', // "Yellow"
 			'808000', // "Olive"
 			'ffa500', // "Orange"
 			'ff7f50', // "Coral"
 			'ee82ee', // "Violet"
-			'ecc255', // dark yellow
+			'9fc6e7', // "light blue"
 		);
 	}
 	public static function getEventSourceInfo($calendar){

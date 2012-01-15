@@ -5,13 +5,14 @@
 # Translators:
 #   <cosenal@gmail.com>, 2011.
 # Francesco Apruzzese <cescoap@gmail.com>, 2011.
+#   <marco@carnazzo.it>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-12 20:53+0000\n"
+"Last-Translator: ufic <marco@carnazzo.it>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,19 +57,19 @@ msgstr "Dimensione massima upload"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Nuovo"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "File di testo"
 
 #: templates/index.php:11
 msgid "Folder"
-msgstr ""
+msgstr "Cartella"
 
 #: templates/index.php:12
 msgid "From the web"
-msgstr ""
+msgstr "Dal web"
 
 #: templates/index.php:22
 msgid "Upload"

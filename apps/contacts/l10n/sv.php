@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This is not your addressbook." => "Det här är inte din adressbok.",
 "Contact could not be found." => "Kontakt kunde inte hittas.",
-"vCard could not be read." => "vCard kunde inte läsas in.",
 "Information about vCard is incorrect. Please reload the page." => "Information om vCard är felaktigt. Vänligen ladda om sidan.",
 "Address" => "Adress",
 "Telephone" => "Telefon",
@@ -19,7 +18,6 @@
 "This card is not RFC compatible." => "Detta kort är inte RFC-kompatibelt.",
 "This card does not contain a photo." => "Detta kort innehåller inte något foto.",
 "Add Contact" => "Lägg till kontakt",
-"Group" => "Grupp",
 "Name" => "Namn",
 "PO Box" => "Postbox",
 "Extended" => "Utökad",

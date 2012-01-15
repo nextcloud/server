@@ -1,7 +1,9 @@
 <?php $TRANSLATIONS = array(
+"email Changed" => "email ændret",
 "Invalid request" => "Ugyldig forespørgsel",
 "OpenID Changed" => "OpenID ændret",
 "Language changed" => "Sprog ændret",
+"Log level" => "Log-niveau",
 "Add your application" => "Tilføj dit program",
 "Select an App" => "Vælg en App",
 "-licensed" => "-licenseret",
@@ -18,11 +20,16 @@
 "New password" => "Ny adgangskode",
 "show" => "vis",
 "Change password" => "Skift kodeord",
+"Email" => "Email",
+"Your email address" => "Din emailadresse",
+"Fill in an email address to enable password recovery" => "Indtast en emailadresse for at kunne få påmindelse om adgangskode",
 "Language" => "Sprog",
+"Help translate" => "Hjælp med oversættelsen",
 "use this address to connect to your ownCloud in your file manager" => "benyt denne adresse til at forbinde til din ownCloud i din filbrowser",
 "Name" => "Navn",
 "Password" => "Kodeord",
 "Groups" => "Grupper",
 "Create" => "Ny",
+"Quota" => "Kvote",
 "Delete" => "Slet"
 );

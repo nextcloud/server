@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This is not your addressbook." => "Esta no es tu agenda de contactos.",
 "Contact could not be found." => "No se pudo encontrar el contacto.",
-"vCard could not be read." => "No se pudo leer el vCard.",
 "Information about vCard is incorrect. Please reload the page." => "La información sobre el vCard es incorrecta. Por favor vuelve a cargar la página.",
 "Address" => "Dirección",
 "Telephone" => "Teléfono",
@@ -19,8 +18,8 @@
 "This card is not RFC compatible." => "Esta tarjeta no es compatible con RFC.",
 "This card does not contain a photo." => "Esta tarjeta no contiene ninguna foto.",
 "Add Contact" => "Agregar contacto",
-"Group" => "Grupo",
 "Name" => "Nombre",
+"Type" => "Tipo",
 "PO Box" => "Código postal",
 "Extended" => "Extendido",
 "Street" => "Calle",
@@ -29,8 +28,19 @@
 "Zipcode" => "Código Postal",
 "Country" => "País",
 "Create Contact" => "Crear contacto",
+"New Address Book" => "Nueva libreta de direcciones",
+"CardDav Link" => "Link Card Dav",
+"Download" => "Descargar",
 "Edit" => "Editar",
 "Delete" => "Borrar",
+"Delete contact" => "Eliminar contacto",
+"Add" => "Añadir",
+"Active" => "Activo",
+"Save" => "Guardar",
+"Submit" => "Aceptar",
+"Cancel" => "Cancelar",
 "Birthday" => "Cumpleaños",
-"Phone" => "Teléfono"
+"Preferred" => "Preferido",
+"Phone" => "Teléfono",
+"Update" => "Actualizar"
 );

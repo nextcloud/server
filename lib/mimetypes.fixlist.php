@@ -9,4 +9,6 @@ return array(
 	'odp'=>'application/vnd.oasis.opendocument.presentation',
 	'pl'=>'text/x-script.perl',
 	'py'=>'text/x-script.phyton',
+	'vcf' => 'text/vcard',
+	'vcard' => 'text/vcard'
 );

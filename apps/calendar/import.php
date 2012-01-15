@@ -10,6 +10,7 @@ ob_start();
 require_once ('../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
+$nl = "\n";
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
 if(is_writable('import_tmp/')){
 	$progressfopen = fopen($progressfile, 'w');
@@ -36,8 +37,7 @@ if(is_writable('import_tmp/')){
 }
 $searchfor = array('VEVENT', 'VTODO', 'VJOURNAL');
 $parts = $searchfor;
-$filearr = explode('
-', $file);
+$filearr = explode($nl, $file);
 $inelement = false;
 $parts = array();
 $i = 0;
@@ -64,8 +64,6 @@ if(is_writable('import_tmp/')){
 	fclose($progressfopen);
 }
 $start = '';
-$nl = '
-';
 for ($i = 0; $i < $parts[0]['begin']; $i++) { 
 	if($i == 0){
 		$start = $filearr[0];

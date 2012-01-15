@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-07 18:29+0100\n"
-"PO-Revision-Date: 2012-01-08 08:41+0000\n"
-"Last-Translator: george <georg.stefan.germany@googlemail.com>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-15 13:45+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.net/projects/p/owncloud/team/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -315,27 +315,27 @@ msgstr "Događaj završava prije nego počinje"
 msgid "There was a database fail"
 msgstr "Pogreška u bazi podataka"
 
-#: templates/calendar.php:38
+#: templates/calendar.php:52
 msgid "Week"
 msgstr "Tjedan"
 
-#: templates/calendar.php:39
+#: templates/calendar.php:53
 msgid "Month"
 msgstr "Mjesec"
 
-#: templates/calendar.php:40
+#: templates/calendar.php:54
 msgid "List"
 msgstr "Lista"
 
-#: templates/calendar.php:45
+#: templates/calendar.php:59
 msgid "Today"
 msgstr "Danas"
 
-#: templates/calendar.php:46
+#: templates/calendar.php:60
 msgid "Calendars"
 msgstr "Kalendari"
 
-#: templates/calendar.php:64
+#: templates/calendar.php:78
 msgid "There was a fail, while parsing the file."
 msgstr "Pogreška pri čitanju datoteke."
 
@@ -449,7 +449,7 @@ msgstr "Novi kalendar"
 msgid "Edit calendar"
 msgstr "Uredi kalendar"
 
-#: templates/part.editcalendar.php:12 templates/part.import.php:29
+#: templates/part.editcalendar.php:12
 msgid "Displayname"
 msgstr "Naziv"
 
@@ -575,36 +575,36 @@ msgid "Description of the Event"
 msgstr "Opis događaja"
 
 #: templates/part.import.php:1
-msgid "Import Ical File"
-msgstr "Uvoz Ical datoteke"
-
-#: templates/part.import.php:4
-msgid "How to import the new calendar?"
-msgstr "Kako uvesti novi kalendar?"
+msgid "Import a calendar file"
+msgstr ""
 
 #: templates/part.import.php:6
-msgid "Import into an existing calendar"
-msgstr "Uvoz u postojeći kalendar"
-
-#: templates/part.import.php:7
-msgid "Import into a new calendar"
-msgstr "Uvoz u novi kalendar"
-
-#: templates/part.import.php:10
 msgid "Please choose the calendar"
 msgstr "Odaberite kalendar"
 
-#: templates/part.import.php:20 templates/part.import.php:37
+#: templates/part.import.php:10
+msgid "create a new calendar"
+msgstr ""
+
+#: templates/part.import.php:15
+msgid "Name of new calendar"
+msgstr ""
+
+#: templates/part.import.php:17
 msgid "Import"
 msgstr "Uvoz"
 
-#: templates/part.import.php:22 templates/part.import.php:39
-msgid "Back"
-msgstr "Natrag"
+#: templates/part.import.php:20
+msgid "Importing calendar"
+msgstr ""
 
-#: templates/part.import.php:25
-msgid "Please fill out the form"
-msgstr "Molimo popunite obrazac"
+#: templates/part.import.php:23
+msgid "Calendar imported successfully"
+msgstr ""
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr ""
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"

@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This is not your addressbook." => "这不是您的地址簿。",
 "Contact could not be found." => "无法找到联系人。",
-"vCard could not be read." => "vCard 无法读取。",
 "Information about vCard is incorrect. Please reload the page." => "vCard 的信息不正确。请重新加载页面。",
 "Address" => "地址",
 "Telephone" => "电话",
@@ -19,7 +18,6 @@
 "This card is not RFC compatible." => "这张名片和RFC 标准不兼容。",
 "This card does not contain a photo." => "这张名片不包含照片。",
 "Add Contact" => "添加联系人",
-"Group" => "分组",
 "Name" => "名称",
 "PO Box" => "邮箱",
 "Extended" => "扩展",
