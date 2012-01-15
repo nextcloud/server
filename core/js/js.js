@@ -130,6 +130,35 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+if(typeof localStorage !='undefined'){
+	//user and instance awere localstorage
+	OC.localStorage={
+		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
+		hasItem:function(name){
+			return OC.localStorage.getItem(name)!=null;
+		},
+		setItem:function(name,item){
+			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
+		},
+		getItem:function(name){
+			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
+		}
+	}
+}else{
+	//dummy localstorage
+	OC.localStorage={
+		hasItem:function(name){
+			return false;
+		},
+		setItem:function(name,item){
+			return false;
+		},
+		getItem:function(name){
+			return null;
+		}
+	}
+}
+
 /**
  * implement Array.filter for browsers without native support
  */
@@ -410,3 +439,5 @@ if (!Array.prototype.map){
 $.fn.filterAttr = function(attr_name, attr_value) {  
    return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
+
+
