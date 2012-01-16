@@ -26,6 +26,12 @@ Calendar={
 			$( "#to" ).datepicker({
 				dateFormat : 'dd-mm-yy'
 			});
+			$('#fromtime').timepicker({
+			    showPeriodLabels: false
+			});
+			$('#totime').timepicker({
+			    showPeriodLabels: false
+			});
 			$('#category').multiselect({
 					header: false,
 					noneSelectedText: $('#category').attr('title'),

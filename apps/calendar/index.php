@@ -32,6 +32,8 @@ if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'mont
 
 OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
 OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
+OC_Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
+OC_Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
 if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone") == null || OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezonedetection') == 'true'){
 	OC_UTIL::addScript('calendar', 'geo');
 }
