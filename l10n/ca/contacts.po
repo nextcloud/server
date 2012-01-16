@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 15:26+0100\n"
+"PO-Revision-Date: 2012-01-15 21:19+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/team/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,47 +20,47 @@ msgstr ""
 
 #: ajax/activation.php:17 ajax/updateaddressbook.php:26
 msgid "Error (de)activating addressbook."
-msgstr ""
+msgstr "Error en (des)activar la llibreta d'adreces."
 
 #: ajax/addcard.php:79
 msgid "There was an error adding the contact."
-msgstr ""
+msgstr "S'ha produït un error en afegir el contacte."
 
 #: ajax/addproperty.php:39
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "No es pot afegir una propietat buida."
 
 #: ajax/addproperty.php:51
 msgid "At least one of the address fields has to be filled out."
-msgstr ""
+msgstr "Almenys heu d'omplir un dels camps d'adreça."
 
 #: ajax/addproperty.php:77
 msgid "Error adding contact property."
-msgstr ""
+msgstr "Error en afegir la propietat del contacte."
 
 #: ajax/createaddressbook.php:20
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "Error en afegir la llibreta d'adreces."
 
 #: ajax/createaddressbook.php:26
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "Error en activar la llibreta d'adreces."
 
 #: ajax/deleteproperty.php:40
 msgid "Error deleting contact property."
-msgstr ""
+msgstr "Error en eliminar la propietat del contacte."
 
 #: ajax/setproperty.php:79
 msgid "Error updating contact property."
-msgstr ""
+msgstr "Error en actualitzar la propietat del contacte."
 
 #: ajax/updateaddressbook.php:20
 msgid "Error updating addressbook."
-msgstr ""
+msgstr "Error en actualitzar la llibreta d'adreces."
 
 #: appinfo/app.php:21 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "Contactes"
 
 #: lib/app.php:42
 msgid "This is not your addressbook."
@@ -127,7 +127,7 @@ msgstr "Paginador"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "Contacte"
 
 #: photo.php:40
 msgid "This is not your contact."
@@ -147,11 +147,11 @@ msgstr "Afegiu un contacte"
 
 #: templates/index.php:7
 msgid "Addressbooks"
-msgstr ""
+msgstr "Llibretes d'adreces"
 
 #: templates/part.addcardform.php:8
 msgid "Addressbook"
-msgstr ""
+msgstr "Llibreta d'adreces"
 
 #: templates/part.addcardform.php:21
 msgid "Name"
@@ -229,7 +229,7 @@ msgstr "Elimina"
 
 #: templates/part.details.php:3
 msgid "Download contact"
-msgstr ""
+msgstr "Baixa el contacte"
 
 #: templates/part.details.php:4
 msgid "Delete contact"
@@ -241,11 +241,11 @@ msgstr "Afegeix"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "Nova llibreta d'adreces"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "Edita la llibreta d'adreces"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
@@ -285,6 +285,6 @@ msgstr "Actualitza"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing address:"
-msgstr ""
+msgstr "Adreça de sincronització CardDAV:"
 
 

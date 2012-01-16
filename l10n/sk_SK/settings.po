@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <intense.feel@gmail.com>, 2011.
+#   <intense.feel@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-16 16:32+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.net/projects/p/owncloud/team/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "email Changed"
-msgstr ""
+msgstr "email Zmenený"
 
 #: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
@@ -34,9 +34,13 @@ msgstr "OpenID zmenené"
 msgid "Language changed"
 msgstr "Jazyk zmenený"
 
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr ""
+
 #: templates/admin.php:13
 msgid "Log level"
-msgstr ""
+msgstr "Úroveň záznamov"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -104,15 +108,15 @@ msgstr "Zmeniť heslo"
 
 #: templates/personal.php:24
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/personal.php:25
 msgid "Your email address"
-msgstr ""
+msgstr "Vaša emailová adresa"
 
 #: templates/personal.php:26
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Vyplňte emailovú adresu pre aktivovanie obnovy hesla"
 
 #: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
@@ -120,7 +124,7 @@ msgstr "Jazyk"
 
 #: templates/personal.php:38
 msgid "Help translate"
-msgstr ""
+msgstr "Pomôcť s prekladom"
 
 #: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -144,7 +148,7 @@ msgstr "Vytvoriť"
 
 #: templates/users.php:33
 msgid "Quota"
-msgstr ""
+msgstr "Kvóta"
 
 #: templates/users.php:58
 msgid "Delete"

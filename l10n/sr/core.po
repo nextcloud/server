@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Slobodan Terzić <githzerai06@gmail.com>, 2011.
+# Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-16 02:01+0000\n"
+"Last-Translator: Slobodan Terzić <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.net/projects/p/owncloud/team/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: lostpassword/index.php:24
 msgid "Owncloud password reset"
-msgstr ""
+msgstr "Ресетовање лозинке за Оунклауд"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Овом везом ресетујте своју лозинку: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
@@ -53,7 +53,7 @@ msgstr "Ваша лозинка је ресетована"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "На страницу за пријаву"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
@@ -134,7 +134,7 @@ msgstr "Заврши подешавање"
 
 #: templates/layout.guest.php:35
 msgid "web services under your control"
-msgstr ""
+msgstr "веб сервиси под контролом"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -154,7 +154,7 @@ msgstr "упамти"
 
 #: templates/login.php:16
 msgid "Log in"
-msgstr ""
+msgstr "Пријава"
 
 #: templates/logout.php:1
 msgid "You are logged out."

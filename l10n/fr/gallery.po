@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <rom1dep@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:48+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 15:26+0100\n"
+"PO-Revision-Date: 2012-01-15 14:12+0000\n"
+"Last-Translator: rom1dep <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,14 +20,14 @@ msgstr ""
 
 #: appinfo/app.php:41
 msgid "Gallery"
-msgstr ""
+msgstr "Galerie"
 
 #: templates/index.php:10
 msgid "Rescan"
-msgstr ""
+msgstr "Analyser à nouveau"
 
 #: templates/view_album.php:19
 msgid "Back"
-msgstr ""
+msgstr "Retour"
 
 

@@ -5,6 +5,7 @@
 # Translators:
 # Andrea Scarpino <andrea@archlinux.org>, 2011.
 #   <cosenal@gmail.com>, 2011.
+#   <formalist@email.it>, 2012.
 # Francesco Apruzzese <cescoap@gmail.com>, 2011.
 # Lorenzo Beltrami <lorenzo.beba@gmail.com>, 2011.
 #   <marco@carnazzo.it>, 2011, 2012.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 15:26+0100\n"
+"PO-Revision-Date: 2012-01-15 17:18+0000\n"
+"Last-Translator: formalist <formalist@email.it>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,7 +183,7 @@ msgstr "Domenica"
 
 #: lib/object.php:396
 msgid "events week of month"
-msgstr ""
+msgstr "settimana del mese degli eventi"
 
 #: lib/object.php:397
 msgid "first"
@@ -258,19 +259,19 @@ msgstr "Dicembre"
 
 #: lib/object.php:441
 msgid "by events date"
-msgstr ""
+msgstr "per data evento"
 
 #: lib/object.php:442
 msgid "by yearday(s)"
-msgstr ""
+msgstr "per giorno/i dell'anno"
 
 #: lib/object.php:443
 msgid "by weeknumber(s)"
-msgstr ""
+msgstr "per numero/i settimana"
 
 #: lib/object.php:444
 msgid "by day and month"
-msgstr ""
+msgstr "per giorno e mese"
 
 #: lib/object.php:467
 msgid "Not an array"
@@ -346,79 +347,79 @@ msgstr "C'è stato un errore nel parsing del file."
 
 #: templates/lAfix.php:9
 msgid "Sun."
-msgstr ""
+msgstr "Dom."
 
 #: templates/lAfix.php:10
 msgid "Mon."
-msgstr ""
+msgstr "Lun."
 
 #: templates/lAfix.php:11
 msgid "Tue."
-msgstr ""
+msgstr "Mar."
 
 #: templates/lAfix.php:12
 msgid "Wed."
-msgstr ""
+msgstr "Mer."
 
 #: templates/lAfix.php:13
 msgid "Thu."
-msgstr ""
+msgstr "Gio."
 
 #: templates/lAfix.php:14
 msgid "Fri."
-msgstr ""
+msgstr "Ven."
 
 #: templates/lAfix.php:15
 msgid "Sat."
-msgstr ""
+msgstr "Sab."
 
 #: templates/lAfix.php:28
 msgid "Jan."
-msgstr ""
+msgstr "Gen."
 
 #: templates/lAfix.php:29
 msgid "Feb."
-msgstr ""
+msgstr "Feb."
 
 #: templates/lAfix.php:30
 msgid "Mar."
-msgstr ""
+msgstr "Mar."
 
 #: templates/lAfix.php:31
 msgid "Apr."
-msgstr ""
+msgstr "Apr."
 
 #: templates/lAfix.php:32
 msgid "May."
-msgstr ""
+msgstr "Mag."
 
 #: templates/lAfix.php:33
 msgid "Jun."
-msgstr ""
+msgstr "Giu."
 
 #: templates/lAfix.php:34
 msgid "Jul."
-msgstr ""
+msgstr "Lug."
 
 #: templates/lAfix.php:35
 msgid "Aug."
-msgstr ""
+msgstr "Ago."
 
 #: templates/lAfix.php:36
 msgid "Sep."
-msgstr ""
+msgstr "Set."
 
 #: templates/lAfix.php:37
 msgid "Oct."
-msgstr ""
+msgstr "Ott."
 
 #: templates/lAfix.php:38
 msgid "Nov."
-msgstr ""
+msgstr "Nov."
 
 #: templates/lAfix.php:39
 msgid "Dec."
-msgstr ""
+msgstr "Dic."
 
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
@@ -521,7 +522,7 @@ msgstr "Ripeti"
 
 #: templates/part.eventform.php:68
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzato"
 
 #: templates/part.eventform.php:112
 msgid "Select weekdays"
@@ -533,11 +534,11 @@ msgstr "Seleziona i giorni"
 
 #: templates/part.eventform.php:130
 msgid "and the events day of year."
-msgstr ""
+msgstr "e il giorno dell'anno degli eventi"
 
 #: templates/part.eventform.php:143
 msgid "and the events day of month."
-msgstr ""
+msgstr "e il giorno del mese degli eventi"
 
 #: templates/part.eventform.php:151
 msgid "Select months"
@@ -549,7 +550,7 @@ msgstr "Seleziona le settimane"
 
 #: templates/part.eventform.php:169
 msgid "and the events week of year."
-msgstr ""
+msgstr "e la settimana dell'anno degli eventi"
 
 #: templates/part.eventform.php:175
 msgid "Interval"
@@ -561,7 +562,7 @@ msgstr "Fine"
 
 #: templates/part.eventform.php:193
 msgid "occurrences"
-msgstr ""
+msgstr "occorrenze"
 
 #: templates/part.eventform.php:208
 msgid "Location"
@@ -581,7 +582,7 @@ msgstr "Descrizione evento"
 
 #: templates/part.import.php:1
 msgid "Import a calendar file"
-msgstr ""
+msgstr "Importa un file calendario"
 
 #: templates/part.import.php:6
 msgid "Please choose the calendar"
@@ -589,11 +590,11 @@ msgstr "Per favore scegli il calendario"
 
 #: templates/part.import.php:10
 msgid "create a new calendar"
-msgstr ""
+msgstr "Crea un nuovo calendario"
 
 #: templates/part.import.php:15
 msgid "Name of new calendar"
-msgstr ""
+msgstr "Nome del nuovo calendario"
 
 #: templates/part.import.php:17
 msgid "Import"
@@ -601,15 +602,15 @@ msgstr "Importa"
 
 #: templates/part.import.php:20
 msgid "Importing calendar"
-msgstr ""
+msgstr "Sto importando il calendario"
 
 #: templates/part.import.php:23
 msgid "Calendar imported successfully"
-msgstr ""
+msgstr "Calendario importato con successo"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Chiudi la finestra di dialogo"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"

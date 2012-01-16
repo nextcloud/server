@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-11 09:47+0000\n"
-"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-16 16:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/team/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,6 +33,10 @@ msgstr "OpenID ha canviat"
 #: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "S'ha canviat l'idioma"
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr ""
 
 #: templates/admin.php:13
 msgid "Log level"
