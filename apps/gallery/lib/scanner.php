@@ -50,15 +50,14 @@ class OC_Gallery_Scanner {
       while (($filename = readdir($dh)) !== false) {
         $filepath = ($path[strlen($path)-1]=='/'?$path:$path.'/').$filename;
         if (substr($filename, 0, 1) == '.') continue;
-        if (OC_Filesystem::is_dir($filepath)) {
-          self::scanDir($filepath, $albums);
-        } elseif (self::isPhoto($path.'/'.$filename)) {
+        if (self::isPhoto($path.'/'.$filename)) {
           $current_album['images'][] = $filepath;
         }
       }
     }
     $current_album['imagesCount'] = count($current_album['images']);
-    $albums[] = $current_album;
+    $albums['imagesCount'] = $current_album['imagesCount'];
+    $albums['albumName'] = $current_album['name'];
 
     $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     if ($result->numRows() == 0 && count($current_album['images'])) {
@@ -91,6 +90,24 @@ class OC_Gallery_Scanner {
     if (substr(OC_Filesystem::getMimeType($filename), 0, 6) == "image/")
       return 1;
     return 0;
+  }
+
+  public static function find_paths($path) {
+    $ret = array();
+    $dirres;
+    $addpath = FALSE;
+    if (($dirres = OC_Filesystem::opendir($path)) == FALSE) return $ret;
+
+    while (($file = readdir($dirres)) != FALSE) {
+      if ($file[0] == '.') continue;
+      if (OC_Filesystem::is_dir($path.$file))
+        $ret = array_merge($ret, self::find_paths($path.$file.'/'));
+      if (self::isPhoto($path.$file)) $addpath = TRUE;
+    }
+
+    if ($addpath) $ret[] = $path;
+
+    return $ret;
   }
 }
 ?>

@@ -151,11 +151,11 @@ class OC_Calendar_Calendar{
 		$calendar = self::find($id);
 
 		// Keep old stuff
-		if(is_null($name)) $name = $calendar['name'];
+		if(is_null($name)) $name = $calendar['displayname'];
 		if(is_null($components)) $components = $calendar['components'];
 		if(is_null($timezone)) $timezone = $calendar['timezone'];
 		if(is_null($order)) $order = $calendar['calendarorder'];
-		if(is_null($color)) $color = $calendar['color'];
+		if(is_null($color)) $color = $calendar['calendarcolor'];
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
 		$result = $stmt->execute(array($name,$order,$color,$timezone,$components,$id));
@@ -231,13 +231,13 @@ class OC_Calendar_Calendar{
 	public static function getCalendarColorOptions(){
 		return array(
 			'ff0000', // "Red"
-			'00ff00', // "Green"
+			'b3dc6c', // "Green"
 			'ffff00', // "Yellow"
 			'808000', // "Olive"
 			'ffa500', // "Orange"
 			'ff7f50', // "Coral"
 			'ee82ee', // "Violet"
-			'ecc255', // dark yellow
+			'9fc6e7', // "light blue"
 		);
 	}
 	public static function getEventSourceInfo($calendar){

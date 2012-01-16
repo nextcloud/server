@@ -4,20 +4,68 @@
 # 
 # Translators:
 #   <petros.kyladitis@gmail.com>, 2011.
-# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011.
+# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 18:17+0200\n"
-"PO-Revision-Date: 2011-09-07 09:13+0000\n"
-"Last-Translator: multipetros <petros.kyladitis@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 17:25+0000\n"
+"Last-Translator: Petros Kyladitis <petros.kyladitis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: lostpassword/index.php:24
+msgid "Owncloud password reset"
+msgstr "Επανέκδοση κωδικού για το Qwncloud"
+
+#: lostpassword/templates/email.php:1
+msgid "Use the following link to reset your password: {link}"
+msgstr ""
+"Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}"
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr ""
+"Θα λάβετε ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας μέσω "
+"ηλεκτρονικού ταχυδρομείου."
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Requested"
+msgstr "Ζητήθησαν"
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "Η σύνδεση απέτυχε!"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:22
+#: templates/login.php:8
+msgid "Username"
+msgstr "Όνομα Χρήστη"
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr "Επαναφορά αίτησης"
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "Ο κωδικός πρόσβασής σας επαναφέρθηκε"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr "Σελίδα εισόδου"
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "Νέος κωδικός"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr "Επαναφορά κωδικού πρόσβασης"
 
 #: strings.php:5
 msgid "Personal"
@@ -47,54 +95,50 @@ msgstr "Δεν βρέθηκε σύννεφο"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>"
 
-#: templates/installation.php:21
-msgid "Username"
-msgstr "Όνομα Χρήστη"
-
-#: templates/installation.php:22
+#: templates/installation.php:26 templates/login.php:12
 msgid "Password"
 msgstr "Κωδικός"
 
-#: templates/installation.php:27
-msgid "Configure the database"
-msgstr "Διαμόρφωση της βάσης δεδομένων"
-
-#: templates/installation.php:32 templates/installation.php:43
-#: templates/installation.php:53
-msgid "will be used"
-msgstr "θα χρησιμοποιηθούν"
-
-#: templates/installation.php:64
-msgid "Database user"
-msgstr "Χρήστης της βάσης δεδομένων"
-
-#: templates/installation.php:65
-msgid "Database password"
-msgstr "Κωδικός πρόσβασης βάσης δεδομένων"
-
-#: templates/installation.php:66
-msgid "Database name"
-msgstr "Όνομα βάσης δεδομένων"
-
-#: templates/installation.php:72
+#: templates/installation.php:32
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
-#: templates/installation.php:75
-msgid "Database host"
-msgstr "Διακομιστής βάσης δεδομένων"
-
-#: templates/installation.php:76
+#: templates/installation.php:34
 msgid "Data folder"
 msgstr "Φάκελος δεδομένων"
 
+#: templates/installation.php:41
+msgid "Configure the database"
+msgstr "Διαμόρφωση της βάσης δεδομένων"
+
+#: templates/installation.php:46 templates/installation.php:57
+#: templates/installation.php:67
+msgid "will be used"
+msgstr "θα χρησιμοποιηθούν"
+
 #: templates/installation.php:79
+msgid "Database user"
+msgstr "Χρήστης της βάσης δεδομένων"
+
+#: templates/installation.php:83
+msgid "Database password"
+msgstr "Κωδικός πρόσβασης βάσης δεδομένων"
+
+#: templates/installation.php:87
+msgid "Database name"
+msgstr "Όνομα βάσης δεδομένων"
+
+#: templates/installation.php:93
+msgid "Database host"
+msgstr "Διακομιστής βάσης δεδομένων"
+
+#: templates/installation.php:98
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
 #: templates/layout.guest.php:35
-msgid "gives you freedom and control over your own data"
-msgstr "σας δίνει την ελευθερία και τον έλεγχο επί των δικών σας δεδομένων"
+msgid "web services under your control"
+msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -104,39 +148,21 @@ msgstr "Αποσύνδεση"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: templates/login.php:4
+#: templates/login.php:5
 msgid "Lost your password?"
 msgstr "Ξεχάσατε τον κωδικό σας;"
 
-#: templates/login.php:9 templates/login.php:13
+#: templates/login.php:15
 msgid "remember"
 msgstr "να με θυμάσαι"
+
+#: templates/login.php:16
+msgid "Log in"
+msgstr "Είσοδος"
 
 #: templates/logout.php:1
 msgid "You are logged out."
 msgstr "Έχετε αποσυνδεθεί."
-
-#: templates/lostpassword.php:3
-msgid "You will receive a link to reset your password via Email."
-msgstr ""
-"Θα λάβετε ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας, μέσω "
-"ηλεκτρονικού ταχυδρομείου."
-
-#: templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Αιτήθησαν"
-
-#: templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Η σύνδεση απέτυχε!"
-
-#: templates/lostpassword.php:10
-msgid "Username or Email"
-msgstr "Όνομα Χρήστη ή Email"
-
-#: templates/lostpassword.php:11
-msgid "Request reset"
-msgstr "Επαναφοράς αίτησης"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -145,17 +171,5 @@ msgstr "προηγούμενο"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "επόμενο"
-
-#: templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Έγινε επαναφορά του κωδικού πρόσβασής σας"
-
-#: templates/resetpassword.php:6
-msgid "New password"
-msgstr "Νέος κωδικός"
-
-#: templates/resetpassword.php:7
-msgid "Reset password"
-msgstr "Επαναφορά κωδικού πρόσβασης"
 
 

@@ -56,15 +56,14 @@ class OC_Contacts_App{
 		return $card;
 	}
 
+	/**
+	 * @brief Gets the VCard as text
+	 * @returns The card or null if the card could not be parsed.
+	 */
 	public static function getContactVCard($id){
 		$card = self::getContactObject( $id );
 
 		$vcard = OC_VObject::parse($card['carddata']);
-		// Check if the card is valid
-		if(is_null($vcard)){
-			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('vCard could not be read.'))));
-			exit();
-		}
 		return $vcard;
 	}
 
@@ -73,6 +72,7 @@ class OC_Contacts_App{
 		for($i=0;$i<count($vcard->children);$i++){
 			if(md5($vcard->children[$i]->serialize()) == $checksum ){
 				$line = $i;
+				break;
 			}
 		}
 		if(is_null($line)){

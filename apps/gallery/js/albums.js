@@ -12,13 +12,9 @@ Albums={
   // album with the same name wont be insered,
   // and false will be returned
   // true on success
-  add: function(album_name, num, bgPath) {
-    for (var a in Albums.albums) {
-      if (a.name == album_name) {
-        return false;
-      }
-    }
-    Albums.albums.push({name: album_name, numOfCovers: num, backgroundPath: bgPath});
+  add: function(album_name, num) {
+    if (Albums.albums[album_name] != undefined) return false;
+    Albums.albums[album_name] = {name: album_name, numOfCovers: num};
     return true;
   },
   // remove element with given name
@@ -40,19 +36,7 @@ Albums={
   // return element which match given name
   // of undefined if such element do not exist
   find: function(name) {
-    var i = -1, tmp = 0;
-    for (var k in Albums.albums) {
-      var a = Albums.albums[k];
-      if (a.name == name) {
-        i = tmp;
-        break;
-      }
-      tmp++;
-    }
-    if (i != -1) {
-      return Albums.albums[i];
-    }
-    return undefined;
+    return Albums.albums[name];
   },
   // displays gallery in linear representation
   // on given element, and apply default styles for gallery
@@ -63,7 +47,7 @@ Albums={
       var local = $(displayTemplate.replace(/\*NAME\*/g, a.name));
       $("#gallery_album_cover", local).css('background-repeat', 'no-repeat');
       $("#gallery_album_cover", local).css('background-position', '0');
-      $("#gallery_album_cover", local).css('background-image','url("ajax/getCovers.php?album_name='+a.name+'")');
+      $("#gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+a.name+'")');
       local.mouseover(function(e) {
 	    $("#gallery_control_overlay", this).css('visibility','visible');
       });

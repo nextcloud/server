@@ -26,6 +26,7 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
+$l=new OC_L10N('contacts');
 
 $aid = $_POST['id'];
 $addressbook = OC_Contacts_App::getAddressbook( $aid );
@@ -54,13 +55,31 @@ foreach( $add as $propname){
 	$value = $values[$propname];
 	if( isset( $parameters[$propname] ) && count( $parameters[$propname] )){
 		$prop_parameters = $parameters[$propname];
-	}
-	else{
+	} else {
 		$prop_parameters = array();
 	}
-	$vcard->addProperty($propname, $value, $prop_parameters);
+	$vcard->addProperty($propname, $value); //, $prop_parameters);
+	$line = count($vcard->children) - 1;
+	foreach ($prop_parameters as $key=>$element) {
+		if(is_array($element) && strtoupper($key) == 'TYPE') { 
+			// FIXME: Maybe this doesn't only apply for TYPE?
+			// And it probably shouldn't be done here anyways :-/
+			foreach($element as $e){
+				if($e != '' && !is_null($e)){
+					$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
+				}
+			}
+		} else {
+			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
+		}
+	}
 }
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
-OC_Log::write('contacts','ajax/addcard.php - adding id: '.$id,OC_Log::DEBUG);
+if(!$id) {
+	OC_JSON::error(array('data' => array('message' => $l->t('There was an error adding the contact.'))));
+	OC_Log::write('contacts','ajax/addcard.php: Recieved non-positive ID on adding card: '.$name, OC_Log::ERROR);
+	exit();
+}
 
+// NOTE: Why is this in OC_Contacts_App?
 OC_Contacts_App::renderDetails($id, $vcard);

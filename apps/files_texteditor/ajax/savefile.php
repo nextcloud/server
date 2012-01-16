@@ -27,47 +27,42 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 
-// Save the file data
+// Get paramteres
 $filecontents = htmlspecialchars_decode($_POST['filecontents']);
-$file = $_POST['file'];
-$dir = $_POST['dir'];
-$path = $dir.'/'.$file;
-$force = isset($_POST['force']) ? $_POST['force'] : false;
-$sessionname = sha1('oc_file_hash_'.$path);
+$path = isset($_POST['path']) ? $_POST['path'] : '';
+$mtime = isset($_POST['mtime']) ? $_POST['mtime'] : '';
 
-function do_save($path,$filecontents){
-	$sessionname = md5('oc_file_hash_'.$path);
-	$_SESSION[$sessionname] = sha1(htmlspecialchars($filecontents));
-	OC_Filesystem::file_put_contents($path, $filecontents);
-}
-
-// Check if file modified whilst editing?
-if(isset($_SESSION[$sessionname])){
-    if(!empty($_SESSION[$sessionname])){
-        // Compare to current hash of file.
-        $savedfilecontents = htmlspecialchars(OC_Filesystem::file_get_contents($path));
-        $hash = md5($savedfilecontents);
-        $originalhash = $_SESSION[$sessionname];
-        // Compare with hash taken when file was opened
-        if($hash != $originalhash){
-            // Someone has played with the file while you were editing
-            // Force save?
-            if($force){
-            	do_save($path, $filecontents);
-            	OC_JSON::success();
-            } else {	
-            	// No force
-            	OC_JSON::error(array('data' => array( 'message' => $l10n->t('The file has been edited since you opened it. Overwrite the file?'))));
-            }
-        } else  {
-            // No body has edited it whilst you were, so save the file
-            // Update the session hash.
-            do_save($path,$filecontents);
-            OC_JSON::success();
-        }
+if($path != '' && $mtime != '')
+{
+	// Get file mtime
+	$filemtime = OC_Filesystem::filemtime($path);
+	if($mtime != $filemtime)
+	{
+		// Then the file has changed since opening
+		OC_JSON::error();
+		OC_Log::write('files_texteditor',"File: ".$path." modified since opening.",OC_Log::ERROR);	
+	}
+	else
+	{
+		// File same as when opened
+		// Save file
+		if(OC_Filesystem::is_writeable($path))	
+		{
+			OC_Filesystem::file_put_contents($path, $filecontents);
+			// Clear statcache
+			clearstatcache();
+			// Get new mtime
+			$newmtime = OC_Filesystem::filemtime($path);
+			OC_JSON::success(array('data' => array('mtime' => $newmtime)));
+		}
+		else
+		{
+			// Not writeable!
+			OC_JSON::error(array('data' => array( 'message' => 'Insufficient permissions')));	
+			OC_Log::write('files_texteditor',"User does not have permission to write to file: ".$path,OC_Log::ERROR);
+		}
 	}
 } else {
-    // No session value set for soem reason, just save the file.
-	do_save($path,$filecontents);
-	OC_JSON::success();
+	OC_JSON::error(array('data' => array( 'message' => 'File path or mtime not supplied')));
+	OC_Log::write('files_texteditor',"Invalid path supplied:".$path,OC_Log::ERROR);	
 }

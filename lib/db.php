@@ -144,7 +144,7 @@ class OC_DB {
 
 			// Prepare options array
 			$options = array(
-			  'portability' => MDB2_PORTABILITY_ALL,
+			  'portability' => MDB2_PORTABILITY_ALL & (!MDB2_PORTABILITY_FIX_CASE),
 			  'log_line_break' => '<br>',
 			  'idxname_format' => '%s',
 			  'debug' => true,
@@ -361,6 +361,11 @@ class OC_DB {
 		$content = file_get_contents( $file );
 		
 		$previousSchema = self::$schema->getDefinitionFromDatabase();
+		if (PEAR::isError($previousSchema)) {
+			$error = $previousSchema->getMessage();
+			OC_Log::write('core','Failed to get existing database structure for upgrading ('.$error.')',OC_Log::FATAL);
+			return false;
+		}
 
 		// Make changes and save them to a temporary file
 		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
@@ -371,10 +376,14 @@ class OC_DB {
 		}
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
+		
+		// Delete our temporary file
+		unlink( $file2 );
+		
 		if (PEAR::isError($op)) {
-		    $error = $op->getMessage();
-		    OC_Log::write('core','Failed to update database structure ('.$error.')',OC_Log::FATAL);
-		    return false;
+			$error = $op->getMessage();
+			OC_Log::write('core','Failed to update database structure ('.$error.')',OC_Log::FATAL);
+			return false;
 		}
 		return true;
 	}

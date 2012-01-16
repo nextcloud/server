@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Authentication error" => "Autentimise viga",
-"OpenID Changed" => "OpenID on muudetud",
 "Invalid request" => "Vigane päring",
+"OpenID Changed" => "OpenID on muudetud",
 "Language changed" => "Keel on muudetud",
 "Add your application" => "Lisa oma programm",
 "Select an App" => "Vali programm",
@@ -20,7 +19,6 @@
 "show" => "näita",
 "Change password" => "Muuda parooli",
 "Language" => "Keel",
-"Help translating" => "Abiinfo tõlkimine",
 "use this address to connect to your ownCloud in your file manager" => "kasuta seda aadressi oma ownCloudiga ühendamiseks failihalduriga",
 "Name" => "Nimi",
 "Password" => "Parool",

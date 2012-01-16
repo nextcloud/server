@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2011-2012 Thomas Tanghus <thomas@tanghus.net>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -11,6 +11,7 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 $book = isset($_GET['bookid']) ? $_GET['bookid'] : NULL;
 $contact = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
+$nl = "\n";
 if(isset($book)){
 	$addressbook = OC_Contacts_App::getAddressbook($book);
 	if($addressbook['userid'] != OC_User::getUser()){
@@ -20,9 +21,9 @@ if(isset($book)){
 	$cardobjects = OC_Contacts_VCard::all($book);
 	header('Content-Type: text/directory');
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $addressbook['displayname']) . '.vcf'); 
-	for($i = 0;$i <= count($cardobjects); $i++){
-		echo $cardobjects[$i]['carddata'];
-		//echo '\r\n';
+
+	foreach($cardobjects as $card) {
+		echo $card['carddata'] . $nl;
 	}
 }elseif(isset($contact)){	
 	$data = OC_Contacts_App::getContactObject($contact);
@@ -33,7 +34,7 @@ if(isset($book)){
 		exit;
 	}
 	header('Content-Type: text/directory');
-	header('Content-Disposition: inline; filename=' . $data['fullname'] . '.vcf'); 
+	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $data['fullname']) . '.vcf'); 
 	echo $data['carddata'];
 }
 ?>

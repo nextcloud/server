@@ -111,16 +111,29 @@ class OC_Contacts_VCard{
 			if(is_null($uid)){
 				$card->setUID();
 				$uid = $card->getAsString('UID');
-				$data = $card->serialize();
+				//$data = $card->serialize();
 			};
 			$uri = $uid.'.vcf';
+
+			// Add product ID.
+			$prodid = trim($card->getAsString('PRODID'));
+			if(!$prodid) {
+				$appinfo = $info=OC_App::getAppInfo('contacts');
+				$prodid = 'PRODID:-//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
+				$card->setString('PRODID', $prodid);
+			}
 			// VCARD must have a version
 			$version = $card->getAsString('VERSION');
 			// Add version if needed
-			if(is_null($version)){
+			if(!$version){
 				$card->add(new Sabre_VObject_Property('VERSION','3.0'));
-				$data = $card->serialize();
-			}
+				//$data = $card->serialize();
+			}/* else {
+				OC_Log::write('contacts','OC_Contacts_VCard::add. Version already set as: '.$version,OC_Log::DEBUG);
+			}*/
+			$now = new DateTime;
+			$card->setString('REV', $now->format(DateTime::W3C));
+			$data = $card->serialize();
 		}
 		else{
 			// that's hard. Creating a UID and not saving it
@@ -130,10 +143,11 @@ class OC_Contacts_VCard{
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
+		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid('*PREFIX*contacts_cards');
+		return $newid;
 	}
 
 	/**
@@ -150,6 +164,7 @@ class OC_Contacts_VCard{
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+					break;
 				}
 			}
 		}
@@ -177,9 +192,15 @@ class OC_Contacts_VCard{
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+					break;
 				}
 			}
+		} else {
+			return false;
 		}
+		$now = new DateTime;
+		$card->setString('REV', $now->format(DateTime::W3C));
+		$data = $card->serialize();
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$id));
@@ -205,9 +226,13 @@ class OC_Contacts_VCard{
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+					break;
 				}
 			}
 		}
+		$now = new DateTime;
+		$card->setString('REV', $now->format(DateTime::W3C));
+		$data = $card->serialize();
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$oldcard['id']));
@@ -223,6 +248,7 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function delete($id){
+		// FIXME: Add error checking.
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$stmt->execute(array($id));
 
@@ -244,6 +270,7 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function deleteFromDAVData($aid,$uri){
+		// FIXME: Add error checking. Deleting a card gives an Kontact/Akonadi error.
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 

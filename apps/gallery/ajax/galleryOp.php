@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
 * ownCloud - gallery application
@@ -23,29 +23,75 @@
 
 require_once('../../../lib/base.php');
 require_once(OC::$CLASSPATH['OC_Gallery_Album']);
-OC_JSON::checkLoggedIn();
+require_once(OC::$CLASSPATH['OC_Gallery_Scanner']);
 OC_JSON::checkAppEnabled('gallery');
 
 function handleRename($oldname, $newname) {
+  OC_JSON::checkLoggedIn();
   OC_Gallery_Album::rename($oldname, $newname, OC_User::getUser());
+  OC_Gallery_Album::changeThumbnailPath($oldname, $newname);
 }
 
 function handleRemove($name) {
+  OC_JSON::checkLoggedIn();
   OC_Gallery_Album::remove(OC_User::getUser(), $name);
+}
+
+function handleGetThumbnails($albumname) {
+  OC_JSON::checkLoggedIn();
+  $photo = new OC_Image();
+  $photo->loadFromFile(OC::$CONFIG_DATADIRECTORY.'/../gallery/'.$albumname.'.png');
+  $photo->show();
+}
+
+function handleGalleryScanning() {
+  OC_JSON::checkLoggedIn();
+  OC_Gallery_Scanner::cleanup();
+  OC_JSON::success(array('albums' => OC_Gallery_Scanner::scan('/')));
+}
+
+function handleFilescan() {
+  OC_JSON::checkLoggedIn();
+  $pathlist = OC_Gallery_Scanner::find_paths('/');
+  sort($pathlist);
+  OC_JSON::success(array('paths' => $pathlist));
+}
+
+function handlePartialCreate($path) {
+  OC_JSON::checkLoggedIn();
+  if (empty($path)) OC_JSON::error(array('cause' => 'No path specified'));
+  if (!OC_Filesystem::is_dir($path)) OC_JSON::error(array('cause' => 'Invalid path given'));
+
+  $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
+  $albums;
+  OC_Gallery_Scanner::scanDir($path, $albums);
+  OC_JSON::success(array('album_details' => $albums));
 }
 
 if ($_GET['operation']) {
   switch($_GET['operation']) {
-	case "rename":
+  case 'rename':
 	  handleRename($_GET['oldname'], $_GET['newname']);
 	  OC_JSON::success(array('newname' => $_GET['newname']));
 	break;
-	case "remove":
+  case 'remove':
 	  handleRemove($_GET['name']);
 	  OC_JSON::success();
-	  break;
-    default:
-     OC_JSON::error(array('cause' => "Unknown operation"));
+    break;
+  case 'get_covers':
+    handleGetThumbnails($_GET['albumname']);
+    break;
+  case 'scan':
+    handleGalleryScanning();
+    break;
+  case 'filescan':
+    handleFilescan();
+    break;
+  case 'partial_create':
+    handlePartialCreate($_GET['path']);
+    break;
+  default:
+    OC_JSON::error(array('cause' => 'Unknown operation'));
   }
 }
 ?>

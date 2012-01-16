@@ -42,6 +42,21 @@ class OC_Gallery_Album {
 		$stmt = OC_DB::prepare($sql);
 		return $stmt->execute($args);
 	}
+
+  public static function removeByPath($path, $owner) {
+    $album = self::find($owner, null, $path);
+    $album = $album->fetchRow();
+    self::remove($owner, $album['album_name']);
+    OC_Gallery_Photo::removeByAlbumId($album['album_id']);
+    // find and remove any gallery which might be stored lower in dir hierarchy
+    $path = $path.'/%';
+    $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE album_path LIKE ? AND uid_owner = ?');
+    $result = $stmt->execute(array($path, $owner));
+    while (($album = $result->fetchRow())) {
+      OC_Gallery_Photo::removeByAlbumId($album['album_id']);
+      self::remove($owner, $album['album_name']);
+    }
+  }
 	
   public static function find($owner, $name=null, $path=null){
 		$sql = 'SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ?';
@@ -57,6 +72,17 @@ class OC_Gallery_Album {
 		$stmt = OC_DB::prepare($sql);
 		return $stmt->execute($args);
 	}
+
+  public static function changePath($oldname, $newname, $owner) {
+    $stmt = OC_DB::prepare('UPDATE OR IGNORE *PREFIX*gallery_albums SET album_path=? WHERE uid_owner=? AND album_path=?');
+    $stmt->execute(array($newname, $owner, $oldname));
+  }
+
+  public static function changeThumbnailPath($oldname, $newname) {
+    require_once('../../../lib/base.php');
+    $thumbpath = OC::$CONFIG_DATADIRECTORY.'/../gallery/';
+    rename($thumbpath.$oldname.'.png', $thumbpath.$newname.'.png');
+  }
 
 }
 

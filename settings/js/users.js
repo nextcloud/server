@@ -30,9 +30,10 @@ $(document).ready(function(){
 		}
 		element.multiSelect({
 			createText:'add group',
-			 checked:checked,
-			 oncheck:checkHandeler,
-			 onuncheck:checkHandeler
+			checked:checked,
+			oncheck:checkHandeler,
+			onuncheck:checkHandeler,
+			minWidth: 100,
 		});
 	}
 	$('select[multiple]').each(function(index,element){

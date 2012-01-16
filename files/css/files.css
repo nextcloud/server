@@ -36,6 +36,7 @@
 #emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 table { position:relative; top:37px; width:100%; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; height:1em; }
+tbody tr { background-color:#fff; }
 tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
 span.extention, td.date { color:#999; }
@@ -69,6 +70,7 @@ table thead.fixed { height:2em; }
 #select_all { float:left; margin:.3em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
 .selectedActions a,#fileList a.action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
+a.action>img{ max-height:16px; max-width:16px; }
 .selectedActions { display:none; }
 
 /* add breadcrumb divider to the File item in navigation panel */

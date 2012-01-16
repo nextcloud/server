@@ -2,20 +2,67 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
-# Martin  <fireball@atlas.cz>, 2011.
+# Translators:
+# Jan Krejci <krejca85@gmail.com>, 2011.
+# Martin  <fireball@atlas.cz>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 18:14+0200\n"
-"PO-Revision-Date: 2011-09-04 16:14+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 11:30+0000\n"
+"Last-Translator: Martin <fireball@atlas.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.net/projects/p/owncloud/team/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+
+#: lostpassword/index.php:24
+msgid "Owncloud password reset"
+msgstr "Reset hesla Owncloud"
+
+#: lostpassword/templates/email.php:1
+msgid "Use the following link to reset your password: {link}"
+msgstr "Heslo vyresetujete použitím následujícího odkazu: {link}"
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr "Bude Vám zaslán odkaz pro obnovu hesla"
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Requested"
+msgstr "Požadováno"
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "Přihlášení selhalo"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:22
+#: templates/login.php:8
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr "Vyžádat obnovu"
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "Vaše heslo bylo obnoveno"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr "Na stránku přihlášení"
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "Nové heslo"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr "Obnovit heslo"
 
 #: strings.php:5
 msgid "Personal"
@@ -45,54 +92,50 @@ msgstr "Cloud nebyl nalezen"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvořit <strong>účet správce</strong>"
 
-#: templates/installation.php:21
-msgid "Username"
-msgstr "Uživatelské jméno"
-
-#: templates/installation.php:22
+#: templates/installation.php:26 templates/login.php:12
 msgid "Password"
 msgstr "Heslo"
 
-#: templates/installation.php:27
-msgid "Configure the database"
-msgstr "Konfigurace databáze"
-
-#: templates/installation.php:32 templates/installation.php:43
-#: templates/installation.php:53
-msgid "will be used"
-msgstr "bude použito"
-
-#: templates/installation.php:64
-msgid "Database user"
-msgstr "Uživatel databáze"
-
-#: templates/installation.php:65
-msgid "Database password"
-msgstr "Heslo k databázi"
-
-#: templates/installation.php:66
-msgid "Database name"
-msgstr "Název databáze"
-
-#: templates/installation.php:72
+#: templates/installation.php:32
 msgid "Advanced"
 msgstr "Rozšířené volby"
 
-#: templates/installation.php:75
-msgid "Database host"
-msgstr ""
-
-#: templates/installation.php:76
+#: templates/installation.php:34
 msgid "Data folder"
 msgstr "Datový adresář"
 
+#: templates/installation.php:41
+msgid "Configure the database"
+msgstr "Konfigurace databáze"
+
+#: templates/installation.php:46 templates/installation.php:57
+#: templates/installation.php:67
+msgid "will be used"
+msgstr "bude použito"
+
 #: templates/installation.php:79
+msgid "Database user"
+msgstr "Uživatel databáze"
+
+#: templates/installation.php:83
+msgid "Database password"
+msgstr "Heslo k databázi"
+
+#: templates/installation.php:87
+msgid "Database name"
+msgstr "Název databáze"
+
+#: templates/installation.php:93
+msgid "Database host"
+msgstr "Hostitel databáze"
+
+#: templates/installation.php:98
 msgid "Finish setup"
 msgstr "Dokončit instalaci"
 
 #: templates/layout.guest.php:35
-msgid "gives you freedom and control over your own data"
-msgstr ""
+msgid "web services under your control"
+msgstr "webové služby pod Vaší kontrolou"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -102,37 +145,21 @@ msgstr "Odhlásit se"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: templates/login.php:4
+#: templates/login.php:5
 msgid "Lost your password?"
-msgstr ""
+msgstr "Zapomenuté heslo?"
 
-#: templates/login.php:9 templates/login.php:13
+#: templates/login.php:15
 msgid "remember"
 msgstr "zapamatovat si"
+
+#: templates/login.php:16
+msgid "Log in"
+msgstr "Login"
 
 #: templates/logout.php:1
 msgid "You are logged out."
 msgstr "Jste odhlášeni."
-
-#: templates/lostpassword.php:3
-msgid "You will receive a link to reset your password via Email."
-msgstr ""
-
-#: templates/lostpassword.php:5
-msgid "Requested"
-msgstr ""
-
-#: templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Přihlášení se nezdařilo!"
-
-#: templates/lostpassword.php:10
-msgid "Username or Email"
-msgstr ""
-
-#: templates/lostpassword.php:11
-msgid "Request reset"
-msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -141,17 +168,5 @@ msgstr "zpět"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "vpřed"
-
-#: templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr ""
-
-#: templates/resetpassword.php:6
-msgid "New password"
-msgstr ""
-
-#: templates/resetpassword.php:7
-msgid "Reset password"
-msgstr ""
 
 

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 18:17+0200\n"
-"PO-Revision-Date: 2011-09-17 14:28+0000\n"
-"Last-Translator: sim0n <sim0n@trypill.org>\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Luxembourgish (http://www.transifex.net/projects/p/owncloud/team/lb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,21 +18,25 @@ msgstr ""
 "Language: lb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Authentifikatioun's Feeler"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr ""
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID huet geännert"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Ongülteg Requête"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID huet geännert"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Sprooch huet geännert"
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr ""
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -54,17 +58,17 @@ msgstr "vun"
 msgid "Ask a question"
 msgstr "Stell eng Fro"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
 msgstr ""
 "Problemer sinn opgetrueden beim Versuch sech un d'Hëllef Datebank ze "
 "verbannen."
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "Gei manuell dohinner."
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Äntwert"
 
@@ -100,37 +104,53 @@ msgstr "weisen"
 msgid "Change password"
 msgstr "Passwuert änneren"
 
-#: templates/personal.php:24 templates/personal.php:25
+#: templates/personal.php:24
+msgid "Email"
+msgstr ""
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr ""
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr ""
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Sprooch"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Hëllef ze Iwwersetzen"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr ""
 
-#: templates/personal.php:37
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 "benotz dës Adress fir dech un deng ownCloud iwwert däin Datei Manager ze "
 "verbannen"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Numm"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Passwuert"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Gruppen"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Erstellen"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr ""
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "Läschen"
 

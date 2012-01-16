@@ -156,7 +156,11 @@ class OC{
 			$installedVersion=OC_Config::getValue('version','0.0.0');
 			$currentVersion=implode('.',OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
-				OC_DB::updateDbFromStructure('../db_structure.xml');
+				$result=OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
+				if(!$result){
+					echo 'Error while upgrading the database';
+					die();
+				}
 				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 			}
 
@@ -178,7 +182,7 @@ class OC{
 
 		// Add the stuff we need always
 		OC_Util::addScript( "jquery-1.6.4.min" );
-		OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
+		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
 		OC_Util::addScript( "jquery-showpassword" );
 		OC_Util::addScript( "jquery.infieldlabel.min" );
 		OC_Util::addScript( "jquery-tipsy" );
@@ -187,7 +191,7 @@ class OC{
 		OC_Util::addScript('search','result');
 		OC_Util::addStyle( "styles" );
 		OC_Util::addStyle( "multiselect" );
-		OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
+		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
 		OC_Util::addStyle( "jquery-tipsy" );
 
 		$errors=OC_Util::checkServer();

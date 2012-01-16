@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 ?>
-<td id="<?php echo $_['new'] ? 'new' : 'edit' ?>addressbook_dialog" title="<?php echo $_['new'] ? $l->t("New Address Book") : $l->t("Edit Address Book"); ?>" colspan="6">
+<td id="<?php echo $_['new'] ? 'new' : 'edit' ?>addressbook_dialog" title="<?php echo $_['new'] ? $l->t("New Addressbook") : $l->t("Edit Addressbook"); ?>" colspan="6">
 <table width="100%" style="border: 0;">
 <tr>
 	<th><?php echo $l->t('Displayname') ?></th>

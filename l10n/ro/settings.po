@@ -2,14 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
-# Claudiu  <claudiu@tanaselia.ro>, 2011.
+# Translators:
+# Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 14:50+0200\n"
-"PO-Revision-Date: 2011-08-31 08:24+0000\n"
-"Last-Translator: rawbeef64 <claudiu@tanaselia.ro>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-12 13:22+0000\n"
+"Last-Translator: Claudiu <claudiu@tanaselia.ro>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/owncloud/team/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,21 +18,25 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1))\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Eroare autentificare"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "email schimbat"
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID schimbat"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Cerere eronată"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID schimbat"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Limba a fost schimbată"
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr "Nivel log-uri"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -53,15 +58,15 @@ msgstr "de"
 msgid "Ask a question"
 msgstr "Întreabă"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
 msgstr "Sunt probleme cu conectarea la baza de date"
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "Manual"
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Răspuns"
 
@@ -97,37 +102,53 @@ msgstr "arată"
 msgid "Change password"
 msgstr "Schimbă parola"
 
-#: templates/personal.php:24 templates/personal.php:25
+#: templates/personal.php:24
+msgid "Email"
+msgstr "Email"
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr "Adresa ta de email"
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr "Completați adresa de mail pentru a vă putea recupera parola"
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Limba"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Ajută la traducere"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr "Ajutați la traducere"
 
-#: templates/personal.php:36
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 "folosește această adresă pentru a te conecta la managerul tău de fișiere din"
 " ownCloud"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Nume"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Parola"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Grupuri"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Crează"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr "Quota"
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "Șterge"
 

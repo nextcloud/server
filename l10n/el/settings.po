@@ -2,15 +2,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
 #   <petros.kyladitis@gmail.com>, 2011.
-# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011.
+# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-28 01:13+0200\n"
-"PO-Revision-Date: 2011-08-27 23:13+0000\n"
-"Last-Translator: JanCBorchardt <JanCBorchardt@fsfe.org>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 17:35+0000\n"
+"Last-Translator: Petros Kyladitis <petros.kyladitis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,25 +19,29 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Σφάλμα ταυτοποίησης"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "το email άλλαξε"
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "Το OpenID άλλαξε"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Άκυρα αίτημα"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "Το OpenID άλλαξε"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Η γλώσσα άλλαξε"
 
+#: templates/admin.php:13
+msgid "Log level"
+msgstr "Επίπεδο καταγραφής"
+
 #: templates/apps.php:8
 msgid "Add your application"
-msgstr ""
+msgstr "Προσθέστε την δική σας εφαρμογή"
 
 #: templates/apps.php:21
 msgid "Select an App"
@@ -54,15 +59,15 @@ msgstr "με"
 msgid "Ask a question"
 msgstr "Κάντε μια ερώτηση"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
 msgstr "Προβλήματα κατά τη σύνδεση με τη βάση δεδομένων βοήθειας."
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "Χειροκίνητη μετάβαση."
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Απάντηση"
 
@@ -80,7 +85,7 @@ msgstr "Ο κωδικός πρόσβασής σας άλαλαξε"
 
 #: templates/personal.php:14
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Δεν ήταν δυνατή η αλλαγή του κωδικού πρόσβασης"
 
 #: templates/personal.php:15
 msgid "Current password"
@@ -99,36 +104,54 @@ msgid "Change password"
 msgstr "Αλλαγή κωδικού πρόσβασης"
 
 #: templates/personal.php:24
+msgid "Email"
+msgstr "Email"
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr "Το διεύθυνση ηλεκτρονικού ταχυδρομείου σας"
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr ""
+"Συμπληρώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για να ενεργοποιηθεί ή "
+"ανάκτηση κωδικού πρόσβασης"
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Γλώσσα"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Βοηθήστε στη μετάφραση"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr "Βοηθήστε στην μετάφραση"
 
-#: templates/personal.php:36
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 "χρησιμοποιήστε αυτή τη διεύθυνση για να συνδεθείτε στο ownCloud σας από το "
 "διαχειριστή αρχείων σας"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Όνομα"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Κωδικός"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Ομάδες"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Δημιουργία"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr "Αναλογία χώρου"
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "Διαγραφή"
 

@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
-#   <rcalvoi@yahoo.com>, 2011.
+# Translators:
+#   <rcalvoi@yahoo.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-28 01:11+0200\n"
-"PO-Revision-Date: 2011-08-23 15:33+0000\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 09:47+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/team/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -17,21 +18,25 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Error d'autenticació"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "el correu electrònic ha canviat"
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID ha canviat"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Sol.licitud no vàlida"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID ha canviat"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "S'ha canviat l'idioma"
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr "Nivell de registres"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -39,7 +44,7 @@ msgstr "Afegir una aplicació"
 
 #: templates/apps.php:21
 msgid "Select an App"
-msgstr "Sel·leccioneu una aplicació"
+msgstr "Seleccioneu una aplicació"
 
 #: templates/apps.php:23
 msgid "-licensed"
@@ -47,21 +52,21 @@ msgstr "- amb llicència"
 
 #: templates/apps.php:23
 msgid "by"
-msgstr "per"
+msgstr "de"
 
 #: templates/help.php:8
 msgid "Ask a question"
 msgstr "Feu una pregunta"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
-msgstr "Problemes per connectar-se a la base de dades d'ajuda."
+msgstr "Problemes per connectar amb la base de dades d'ajuda."
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "Vés-hi manualment."
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Resposta"
 
@@ -77,9 +82,13 @@ msgstr "del disponible"
 msgid "Your password got changed"
 msgstr "La contrasenya ha canviat"
 
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr "No s'ha pogut canviar la contrasenya"
+
 #: templates/personal.php:15
 msgid "Current password"
-msgstr "contrasenya actual"
+msgstr "Contrasenya actual"
 
 #: templates/personal.php:16
 msgid "New password"
@@ -91,38 +100,54 @@ msgstr "mostra"
 
 #: templates/personal.php:18
 msgid "Change password"
-msgstr "canvia la contrasenya"
+msgstr "Canvia la contrasenya"
 
 #: templates/personal.php:24
+msgid "Email"
+msgstr "Correu electrònic"
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr "Correu electrònic"
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr "Ompliu el correu electrònic per activar la recuperació de contrasenya"
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Ajudeu amb la traducció"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr "Ajudeu-nos amb la traducció"
 
-#: templates/personal.php:36
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 "useu aquesta adreça per connectar-vos a ownCloud des del gestor de fitxers"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Nom"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Contrasenya"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Grups"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Crea"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr "Quota"
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "Esborra"
 

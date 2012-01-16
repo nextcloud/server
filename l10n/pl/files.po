@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
 #   <mosslar@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-24 23:05+0200\n"
-"PO-Revision-Date: 2011-09-24 21:05+0000\n"
-"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 13:09+0000\n"
+"Last-Translator: Marcin Małecki <gerber@tkdami.net>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/team/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,33 +19,36 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:19
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Brak błędu, plik przesłany z sukcesem"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:20
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
+"Przesłany plik przekracza ustawienie upload_max_filesize w pliku php.ini"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
+"Przesłany plik przekracza MAX_FILE_SIZE ustawienia, które zostało określono "
+"w formularzu HTML"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:22
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Plik został przesłany tylko częściowo."
 
-#: ajax/upload.php:28
+#: ajax/upload.php:23
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Żaden plik nie został przesłany"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:24
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Brakuje folderu tymczasowego"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:8
 msgid "Files"
 msgstr "Pliki"
 
@@ -52,43 +56,55 @@ msgstr "Pliki"
 msgid "Maximum upload size"
 msgstr "Maksymalna wielkość przesyłanego pliku"
 
+#: templates/index.php:7
+msgid "New"
+msgstr "Nowy"
+
 #: templates/index.php:10
+msgid "Text file"
+msgstr "Plik tekstowy"
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr "Katalog"
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr "Z Internetu"
+
+#: templates/index.php:22
 msgid "Upload"
 msgstr "Prześlij"
 
-#: templates/index.php:17
-msgid "New Folder"
-msgstr "Nowy katalog"
-
-#: templates/index.php:31
+#: templates/index.php:35
 msgid "Nothing in here. Upload something!"
 msgstr "Nic tu nie ma. Prześlij jakieś pliki!"
 
-#: templates/index.php:39
+#: templates/index.php:43
 msgid "Name"
 msgstr "Nazwa"
 
-#: templates/index.php:41
+#: templates/index.php:45
 msgid "Download"
 msgstr "Ściąganie"
 
-#: templates/index.php:45
+#: templates/index.php:49
 msgid "Size"
 msgstr "Wielkość"
 
-#: templates/index.php:46
+#: templates/index.php:50
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: templates/index.php:46
+#: templates/index.php:50
 msgid "Delete"
 msgstr "Skasuj"
 
-#: templates/index.php:54
+#: templates/index.php:58
 msgid "Upload too large"
 msgstr "Przesyłany plik jest za duży"
 
-#: templates/index.php:56
+#: templates/index.php:60
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."

@@ -1,4 +1,5 @@
 		<?php foreach($_['files'] as $file):
+			$write = ($file['writeable']) ? 'true' : 'false';
 			$simple_file_size = simple_file_size($file['size']);
 			$simple_size_color = intval(200-$file['size']/(1024*1024)*2); // the bigger the file, the darker the shade of grey; megabytes*2
 			if($simple_size_color<0) $simple_size_color = 0;
@@ -9,7 +10,7 @@
 			$name = str_replace('%2F','/', $name);
 			$directory = str_replace('+','%20',urlencode($file['directory']));
 			$directory = str_replace('%2F','/', $directory); ?>
-			<tr data-file="<?php echo $name;?>" data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>" data-mime="<?php echo $file['mimetype']?>" data-size='<?php echo $file['size'];?>'>
+			<tr data-file="<?php echo $name;?>" data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>" data-mime="<?php echo $file['mimetype']?>" data-size='<?php echo $file['size'];?>' data-write='<?php echo $write;?>'>
 				<td class="filename svg" style="background-image:url(<?php if($file['type'] == 'dir') echo mimetype_icon('dir'); else echo mimetype_icon($file['mimetype']); ?>)">
 					<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" /><?php } ?>
 					<a class="name" href="<?php if($file['type'] == 'dir') echo $_['baseURL'].$directory.'/'.$name; else echo $_['downloadURL'].$directory.'/'.$name; ?>" title="">

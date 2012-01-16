@@ -13,15 +13,6 @@
   display: none;
 }
 
-.separator {
-  display: inline;
-  border-left: 1px solid #d3d3d3;
-  border-right: 1px solid #fff;
-  height: 10px;
-  width:0px;
-  margin: 4px;
-}
-
 #controls2 > a > img {
     margin: 4px;
     height: 10px;

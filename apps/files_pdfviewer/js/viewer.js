@@ -4,7 +4,10 @@ function hidePDFviewer() {
 	$('#controls').html(showPDFviewer.oldcode);
 	$("#viewer").remove();
 	$("#loading").remove()
+	$("#editor").show();
 	document.title = showPDFviewer.lastTitle;
+	PDFView.active=false;
+	$('iframe').remove();
 }
 
 function showPDFviewer(dir,filename){
@@ -21,8 +24,21 @@ function showPDFviewer(dir,filename){
 		var oldcontent = $("#content").html();
 		$("#content").html(oldcontent+'<div id="loading">Loading... 0%</div><div id="viewer"></div>');
 		showPDFviewer.lastTitle = document.title;
-		PDFView.Ptitle = filename;
-		PDFView.open(url,1.00);
+		if(!showPDFviewer.loaded){
+			OC.addScript( 'files_pdfviewer', 'pdfjs/build/pdf',function(){
+				OC.addScript( 'files_pdfviewer', 'pdfview',function(){
+					showPDFviewer.loaded=true;
+					PDFJS.workerSrc = OC.filePath('files_pdfviewer','js','pdfjs/build/pdf.js');
+					PDFView.Ptitle = filename;
+					PDFView.open(url,1.00);
+					PDFView.active=true;
+				});
+			});
+		}else{
+			PDFView.Ptitle = filename;
+			PDFView.open(url,1.00);
+			PDFView.active=true;
+		}
 		$("#pageWidthOption").attr("selected","selected");
 		showPDFviewer.shown = true;
 	}
@@ -30,8 +46,7 @@ function showPDFviewer(dir,filename){
 showPDFviewer.shown=false;
 showPDFviewer.oldCode='';
 showPDFviewer.lastTitle='';
-
-var extrahtml = '<li id="extra" style="display:none;"><a title="" href="'+OC.webroot+"/apps/files_pdfviewer/lastopened.php"+'" style="background-image:url(/owncloud/apps/files_pdfviewer/css/history.png)">Last opened</a></li>';
+showPDFviewer.loaded=false;
 
 $(document).ready(function(){
 	if(location.href.indexOf("files")!=-1) {

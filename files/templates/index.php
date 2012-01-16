@@ -25,6 +25,8 @@
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
+	<?php else:?>
+		<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 	<?php endif;?>
 </div>
 <div id='notification'></div>
