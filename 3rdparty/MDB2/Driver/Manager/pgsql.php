@@ -396,6 +396,9 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                     }
                     $db->loadModule('Datatype', null, true);
                     $type = $db->datatype->getTypeDeclaration($field['definition']);
+                    if($type=='SERIAL PRIMARY KEY'){//not correct when altering a table
+						$type='integer';//use this instead
+                    }
                     $query = "ALTER $field_name TYPE $type USING CAST($field_name AS $type)";
                     $result = $db->exec("ALTER TABLE $name $query");
                     if (PEAR::isError($result)) {
@@ -692,7 +695,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             $table = $db->quoteIdentifier($schema, true) . '.' .$table;
         }
         $db->setLimit(1);
-        $result2 = $db->query("SELECT * FROM $table");
+        $result2 = $db->query("SELECT * FROM $table LIMIT 1");
         if (PEAR::isError($result2)) {
             return $result2;
         }
