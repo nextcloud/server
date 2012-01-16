@@ -226,7 +226,7 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
 
-		if(!is_writeable(OC::$SERVERROOT."/config/config.php")){
+		if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writeable(OC::$SERVERROOT."/config/config.php")){
 			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver use write access to the config directory in owncloud");
 		}
 
