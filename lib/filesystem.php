@@ -446,29 +446,7 @@ class OC_Filesystem{
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
-	static public function fromUploadedFile($tmpFile,$path){
-		if(OC_FileProxy::runPreProxies('fromUploadedFile',$tmpFile,$path) and self::isValidPath($path) and $storage=self::getStorage($path)){
-			$run=true;
-			$exists=self::file_exists($path);
-			if(!$exists){
-        OC_Hook::emit( self::CLASSNAME, self::signal_create, array( self::signal_param_path => $path, self::signal_param_run => &$run));
-			}
-			if($run){
-        OC_Hook::emit( self::CLASSNAME, self::signal_write, array( self::signal_param_path => $path, self::signal_param_run => &$run));
-			}
-			if($run){
-				$result=$storage->fromUploadedFile($tmpFile,self::getInternalPath($path));
-				if(!$exists){
-          OC_Hook::emit( self::CLASSNAME, self::signal_post_create, array( self::signal_param_path => $path));
-				}
-        OC_Hook::emit( self::CLASSNAME, self::signal_post_write, array( self::signal_param_path => $path));
-				return $result;
-			}
-		}
-	}
->>>>>>> master
+
 	static public function getMimeType($path){
 		return self::basicOperation('getMimeType',$path);
 	}
