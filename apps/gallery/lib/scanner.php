@@ -59,9 +59,10 @@ class OC_Gallery_Scanner {
     $albums['imagesCount'] = $current_album['imagesCount'];
     $albums['albumName'] = $current_album['name'];
 
-    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
+    $result = OC_Gallery_Album::find(OC_User::getUser(), /*$current_album['name']*/ null, $path);
+    // don't duplicate galleries with same path (bug oc-33)
     if ($result->numRows() == 0 && count($current_album['images'])) {
-	    OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
+      OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
 	    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     }
     $albumId = $result->fetchRow();
