@@ -69,6 +69,8 @@ class OC_Gallery_Album {
       $sql .= ' AND album_path = ?';
       $args[] = $path;
     }
+    $sql .= ' ORDER BY album_name ASC';
+
 		$stmt = OC_DB::prepare($sql);
 		return $stmt->execute($args);
 	}
