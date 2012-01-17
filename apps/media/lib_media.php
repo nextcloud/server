@@ -28,7 +28,7 @@ OC_Hook::connect('OC_User','post_login','OC_MEDIA','loginListener');
 OC_Hook::connect('OC_Filesystem','post_write','OC_MEDIA','updateFile');
 
 //listen for file deletions to clean the database if a song is deleted
-OC_Hook::connect('OC_Filesystem','delete','OC_MEDIA','deleteFile');
+OC_Hook::connect('OC_Filesystem','post_delete','OC_MEDIA','deleteFile');
 
 //list for file moves to update the database
 OC_Hook::connect('OC_Filesystem','post_rename','OC_MEDIA','moveFile');

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Slobodan Terzić <githzerai06@gmail.com>, 2011.
+# Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-16 01:59+0000\n"
+"Last-Translator: Slobodan Terzić <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.net/projects/p/owncloud/team/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +60,7 @@ msgstr ""
 
 #: appinfo/app.php:21 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "Контакти"
 
 #: lib/app.php:42
 msgid "This is not your addressbook."
@@ -127,7 +127,7 @@ msgstr "Пејџер"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "Контакт"
 
 #: photo.php:40
 msgid "This is not your contact."
@@ -147,11 +147,11 @@ msgstr "Додај контакт"
 
 #: templates/index.php:7
 msgid "Addressbooks"
-msgstr ""
+msgstr "Адресар"
 
 #: templates/part.addcardform.php:8
 msgid "Addressbook"
-msgstr ""
+msgstr "Адресар"
 
 #: templates/part.addcardform.php:21
 msgid "Name"
@@ -161,7 +161,7 @@ msgstr "Име"
 #: templates/part.details.php:79 templates/part.setpropertyform.php:10
 #: templates/part.setpropertyform.php:47
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: templates/part.addcardform.php:65 templates/part.details.php:49
 #: templates/part.setpropertyform.php:16
@@ -204,11 +204,11 @@ msgstr "Направи контакт"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Choose active Address Books"
-msgstr ""
+msgstr "Изаберите активне адресаре"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
-msgstr ""
+msgstr "Нови адресар"
 
 #: templates/part.chooseaddressbook.php:21
 #: templates/part.chooseaddressbook.rowfields.php:5
@@ -217,7 +217,7 @@ msgstr ""
 
 #: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Download"
-msgstr ""
+msgstr "Преузимање"
 
 #: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Edit"
@@ -229,43 +229,43 @@ msgstr "Обриши"
 
 #: templates/part.details.php:3
 msgid "Download contact"
-msgstr ""
+msgstr "Преузми контакт"
 
 #: templates/part.details.php:4
 msgid "Delete contact"
-msgstr ""
+msgstr "Обриши контакт"
 
 #: templates/part.details.php:34
 msgid "Add"
-msgstr ""
+msgstr "Додај"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "Нови адресар"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "Уреди адресар"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
-msgstr ""
+msgstr "Приказано име"
 
 #: templates/part.editaddressbook.php:23
 msgid "Active"
-msgstr ""
+msgstr "Активан"
 
 #: templates/part.editaddressbook.php:29
 msgid "Save"
-msgstr ""
+msgstr "Сними"
 
 #: templates/part.editaddressbook.php:29
 msgid "Submit"
-msgstr ""
+msgstr "Пошаљи"
 
 #: templates/part.editaddressbook.php:30
 msgid "Cancel"
-msgstr ""
+msgstr "Откажи"
 
 #: templates/part.property.php:3
 msgid "Birthday"
@@ -273,7 +273,7 @@ msgstr "Рођендан"
 
 #: templates/part.property.php:23
 msgid "Preferred"
-msgstr ""
+msgstr "Пожељан"
 
 #: templates/part.property.php:23 templates/part.setpropertyform.php:45
 msgid "Phone"
@@ -281,7 +281,7 @@ msgstr "Телефон"
 
 #: templates/part.setpropertyform.php:57
 msgid "Update"
-msgstr ""
+msgstr "Ажурирај"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing address:"

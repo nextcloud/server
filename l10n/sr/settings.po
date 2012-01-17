@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Slobodan Terzić <githzerai06@gmail.com>, 2011.
+# Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-16 16:32+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.net/projects/p/owncloud/team/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,10 @@ msgstr "OpenID је измењен"
 #: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Језик је измењен"
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr ""
 
 #: templates/admin.php:13
 msgid "Log level"
@@ -104,11 +108,11 @@ msgstr "Измени лозинку"
 
 #: templates/personal.php:24
 msgid "Email"
-msgstr ""
+msgstr "Е-пошта"
 
 #: templates/personal.php:25
 msgid "Your email address"
-msgstr ""
+msgstr "Ваша адреса е-поште"
 
 #: templates/personal.php:26
 msgid "Fill in an email address to enable password recovery"
@@ -120,7 +124,7 @@ msgstr "Језик"
 
 #: templates/personal.php:38
 msgid "Help translate"
-msgstr ""
+msgstr " Помозите у превођењу"
 
 #: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"

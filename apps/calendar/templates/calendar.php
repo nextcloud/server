@@ -7,16 +7,17 @@
 				var monthNamesShort = <?php echo json_encode($l->tA(array('Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'))) ?>;
 				var agendatime = '<?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>{ - <?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>}';
 				var defaulttime = '<?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>';
-				var allDayText = '<?php echo $l->t('All day') ?>';
-				var missing_field = '<?php echo $l->t('Missing fields') ?>';
-				var missing_field_title = '<?php echo $l->t('Title') ?>';
-				var missing_field_calendar = '<?php echo $l->t('Calendar') ?>';
-				var missing_field_fromdate = '<?php echo $l->t('From Date') ?>';
-				var missing_field_fromtime = '<?php echo $l->t('From Time') ?>';
-				var missing_field_todate = '<?php echo $l->t('To Date') ?>';
-				var missing_field_totime = '<?php echo $l->t('To Time') ?>';
-				var missing_field_startsbeforeends = '<?php echo $l->t('The event ends before it starts') ?>';
-				var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
+				var allDayText = '<?php echo addslashes($l->t('All day')) ?>';
+				var newcalendar = '<?php echo addslashes($l->t('New Calendar')) ?>';
+				var missing_field = '<?php echo addslashes($l->t('Missing fields')) ?>';
+				var missing_field_title = '<?php echo addslashes($l->t('Title')) ?>';
+				var missing_field_calendar = '<?php echo addslashes($l->t('Calendar')) ?>';
+				var missing_field_fromdate = '<?php echo addslashes($l->t('From Date')) ?>';
+				var missing_field_fromtime = '<?php echo addslashes($l->t('From Time')) ?>';
+				var missing_field_todate = '<?php echo addslashes($l->t('To Date')) ?>';
+				var missing_field_totime = '<?php echo addslashes($l->t('To Time')) ?>';
+				var missing_field_startsbeforeends = '<?php echo addslashes($l->t('The event ends before it starts')) ?>';
+				var missing_field_dberror = '<?php echo addslashes($l->t('There was a database fail')) ?>';
 				var totalurl = '<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?>/calendars';
 				$(document).ready(function() {
 				<?php

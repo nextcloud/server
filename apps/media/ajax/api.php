@@ -23,9 +23,6 @@
 
 header('Content-type: text/html; charset=UTF-8') ;
 
-//no apps
-$RUNTIME_NOAPPS=true;
-
 require_once('../../../lib/base.php');
 OC_JSON::checkAppEnabled('media');
 require_once('../lib_collection.php');

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <formalist@email.it>, 2012.
 # Francesco Apruzzese <cescoap@gmail.com>, 2011.
 #   <marco@carnazzo.it>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 15:26+0100\n"
+"PO-Revision-Date: 2012-01-15 17:11+0000\n"
+"Last-Translator: formalist <formalist@email.it>\n"
 "Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,47 +22,47 @@ msgstr ""
 
 #: ajax/activation.php:17 ajax/updateaddressbook.php:26
 msgid "Error (de)activating addressbook."
-msgstr ""
+msgstr "Errore nel (dis)attivare la rubrica"
 
 #: ajax/addcard.php:79
 msgid "There was an error adding the contact."
-msgstr ""
+msgstr "Si è verificato un errore nell'aggiunta del contatto."
 
 #: ajax/addproperty.php:39
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "Impossibile aggiungere una proprietà vuota."
 
 #: ajax/addproperty.php:51
 msgid "At least one of the address fields has to be filled out."
-msgstr ""
+msgstr "Deve essere riempito almeno un indirizzo ."
 
 #: ajax/addproperty.php:77
 msgid "Error adding contact property."
-msgstr ""
+msgstr "Errore durante l'aggiunta della proprietà del contatto."
 
 #: ajax/createaddressbook.php:20
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "Errore nell'aggiunta della rubrica."
 
 #: ajax/createaddressbook.php:26
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "Errore nell'attivazione della rubrica."
 
 #: ajax/deleteproperty.php:40
 msgid "Error deleting contact property."
-msgstr ""
+msgstr "Errore nella cancellazione della proprietà del contatto."
 
 #: ajax/setproperty.php:79
 msgid "Error updating contact property."
-msgstr ""
+msgstr "Errore nell'aggiornamento della proprietà del contatto."
 
 #: ajax/updateaddressbook.php:20
 msgid "Error updating addressbook."
-msgstr ""
+msgstr "Errore nell'aggiornamento della rubrica."
 
 #: appinfo/app.php:21 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "Contatti"
 
 #: lib/app.php:42
 msgid "This is not your addressbook."
@@ -128,7 +129,7 @@ msgstr "Cercapersone"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "Contatto"
 
 #: photo.php:40
 msgid "This is not your contact."
@@ -148,11 +149,11 @@ msgstr "Aggiungi contatto"
 
 #: templates/index.php:7
 msgid "Addressbooks"
-msgstr ""
+msgstr "Rubriche"
 
 #: templates/part.addcardform.php:8
 msgid "Addressbook"
-msgstr ""
+msgstr "Rubrica"
 
 #: templates/part.addcardform.php:21
 msgid "Name"
@@ -230,7 +231,7 @@ msgstr "Cancella"
 
 #: templates/part.details.php:3
 msgid "Download contact"
-msgstr ""
+msgstr "Scarica contatto"
 
 #: templates/part.details.php:4
 msgid "Delete contact"
@@ -242,11 +243,11 @@ msgstr "Aggiungi"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "Nuova Rubrica"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "Modifica Rubrica"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
@@ -286,6 +287,6 @@ msgstr "Aggiorna"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing address:"
-msgstr ""
+msgstr "Indirizzo di sincronizzazione CarDAV:"
 
 

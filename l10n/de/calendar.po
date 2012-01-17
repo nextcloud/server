@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <admin@s-goecker.de>, 2011.
+#   <admin@s-goecker.de>, 2011, 2012.
 #   <georg.stefan.germany@googlemail.com>, 2011, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-16 16:32+0000\n"
+"Last-Translator: goeck <admin@s-goecker.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -344,79 +344,79 @@ msgstr "Fehler beim Einlesen der Datei."
 
 #: templates/lAfix.php:9
 msgid "Sun."
-msgstr ""
+msgstr "So"
 
 #: templates/lAfix.php:10
 msgid "Mon."
-msgstr ""
+msgstr "Mo"
 
 #: templates/lAfix.php:11
 msgid "Tue."
-msgstr ""
+msgstr "Die"
 
 #: templates/lAfix.php:12
 msgid "Wed."
-msgstr ""
+msgstr "Mi"
 
 #: templates/lAfix.php:13
 msgid "Thu."
-msgstr ""
+msgstr "Do"
 
 #: templates/lAfix.php:14
 msgid "Fri."
-msgstr ""
+msgstr "Fr"
 
 #: templates/lAfix.php:15
 msgid "Sat."
-msgstr ""
+msgstr "Sa"
 
 #: templates/lAfix.php:28
 msgid "Jan."
-msgstr ""
+msgstr "Jan"
 
 #: templates/lAfix.php:29
 msgid "Feb."
-msgstr ""
+msgstr "Feb"
 
 #: templates/lAfix.php:30
 msgid "Mar."
-msgstr ""
+msgstr "Mär"
 
 #: templates/lAfix.php:31
 msgid "Apr."
-msgstr ""
+msgstr "Apr"
 
 #: templates/lAfix.php:32
 msgid "May."
-msgstr ""
+msgstr "Mai"
 
 #: templates/lAfix.php:33
 msgid "Jun."
-msgstr ""
+msgstr "Juni"
 
 #: templates/lAfix.php:34
 msgid "Jul."
-msgstr ""
+msgstr "Juli"
 
 #: templates/lAfix.php:35
 msgid "Aug."
-msgstr ""
+msgstr "Aug"
 
 #: templates/lAfix.php:36
 msgid "Sep."
-msgstr ""
+msgstr "Sep"
 
 #: templates/lAfix.php:37
 msgid "Oct."
-msgstr ""
+msgstr "Okt"
 
 #: templates/lAfix.php:38
 msgid "Nov."
-msgstr ""
+msgstr "Nov"
 
 #: templates/lAfix.php:39
 msgid "Dec."
-msgstr ""
+msgstr "Dez"
 
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
