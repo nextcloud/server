@@ -91,6 +91,9 @@ class OC_Share {
 				// Clear the folder size cache for the 'Shared' folder
 				$clearFolderSize = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
 				$clearFolderSize->execute(array($sharedFolder));
+				// Emit post_create and post_write hooks to notify of a new file in the user's filesystem
+				OC_Hook::emit("OC_Filesystem", "post_create", array('path' => $target));
+				OC_Hook::emit("OC_Filesystem", "post_write", array('path' => $target));
 			}
 		}
 	}
@@ -263,6 +266,18 @@ class OC_Share {
 		}
 	}
 
+	public static function getTarget($source) {
+		$source = self::cleanPath($source);
+		$query = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE source = ? AND uid_owner = ? LIMIT 1");
+		$result = $query->execute(array($source, OC_User::getUser()))->fetchAll();
+		if (count($result) > 0) {
+			return $result[0]['target'];
+		} else {
+			// TODO Check in folders
+			return false;
+		}
+	}
+
 	/**
 	 * Get the user's permissions for the item at the specified target location
 	 * @param $target The target location of the item
@@ -380,8 +395,13 @@ class OC_Share {
 	*/
 	public static function deleteItem($arguments) {
 		$source = "/".OC_User::getUser()."/files".self::cleanPath($arguments['path']);
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
-		$query->execute(array(strlen($source), $source, OC_User::getUser()));
+		if ($target = self::getTarget($source)) {
+			// Forward hook to notify of changes to target file
+			OC_Hook::emit("OC_Filesystem", "post_delete", array('path' => $target));
+			$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
+			$query->execute(array(strlen($source), $source, OC_User::getUser()));
+		}
+		
 	}
 
 	/**
@@ -393,6 +413,14 @@ class OC_Share {
 		$newSource = "/".OC_User::getUser()."/files".self::cleanPath($arguments['newpath']);
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
 		$query->execute(array($oldSource, $newSource, OC_User::getUser()));
+	}
+
+	public static function updateItem($arguments) {
+		$source = "/".OC_User::getUser()."/files".self::cleanPath($arguments['path']);
+		if ($target = self::getTarget($source)) {
+			// Forward hook to notify of changes to target file
+			OC_Hook::emit("OC_Filesystem", "post_write", array('path' => $target));
+		}
 	}
 
 }
