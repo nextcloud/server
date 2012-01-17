@@ -8,6 +8,7 @@
 				var agendatime = '<?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>{ - <?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>}';
 				var defaulttime = '<?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>';
 				var allDayText = '<?php echo addslashes($l->t('All day')) ?>';
+				var newcalendar = '<?php echo addslashes($l->t('New Calendar')) ?>';
 				var missing_field = '<?php echo addslashes($l->t('Missing fields')) ?>';
 				var missing_field_title = '<?php echo addslashes($l->t('Title')) ?>';
 				var missing_field_calendar = '<?php echo addslashes($l->t('Calendar')) ?>';
