@@ -658,6 +658,12 @@ $(document).ready(function(){
 		viewDisplay: function(view) {
 			$('#datecontrol_date').html(view.title);
 			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+			if (view.name == 'agendaWeek') {
+				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 0.1);
+			}
+			else {
+				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 1.35);
+			}
 		},
 		selectable: true,
 		selectHelper: true,
