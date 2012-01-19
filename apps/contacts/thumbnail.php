@@ -22,8 +22,8 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
-//OC_JSON::checkLoggedIn();
-OC_Util::checkLoggedIn();
+OC_JSON::checkLoggedIn();
+//OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 function getStandardImage(){
