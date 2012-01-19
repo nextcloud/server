@@ -435,7 +435,9 @@ Calendar={
 							$(button).closest('tr').prev().html(data.page).show().next().remove();
 							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
 							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
-							$('#choosecalendar_dialog > table').append('<tr><td colspan="6"><a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><input type="button" value="' + newcalendar + '"></a></td></tr>');
+							if (calendarid == 'new'){
+								$('#choosecalendar_dialog > table').append('<tr><td colspan="6"><a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><input type="button" value="' + newcalendar + '"></a></td></tr>');
+							}
 						}
 					}, 'json');
 			},
