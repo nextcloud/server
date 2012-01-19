@@ -22,22 +22,16 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
-OC_JSON::checkLoggedIn();
-//OC_Util::checkLoggedIn();
+//OC_JSON::checkLoggedIn();
+OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
-
-if(!function_exists('imagecreatefromjpeg')) {
-	OC_Log::write('contacts','thumbnail.php. GD module not installed',OC_Log::DEBUG);
-	header('Content-Type: image/png');
-	// TODO: Check if it works to read the file and echo the content.
-	return 'img/person.png';
-}
 
 function getStandardImage(){
 	$date = new DateTime('now');
 	$date->add(new DateInterval('P10D'));
 	header('Expires: '.$date->format(DateTime::RFC850));
 	header('Cache-Control: cache');
+	header('Pragma: cache');
 	header('Location: '.OC_Helper::imagePath('contacts', 'person.png'));
 	exit();
 // 	$src_img = imagecreatefrompng('img/person.png');
@@ -46,6 +40,11 @@ function getStandardImage(){
 // 	imagedestroy($src_img);
 }
 
+if(!function_exists('imagecreatefromjpeg')) {
+	OC_Log::write('contacts','thumbnail.php. GD module not installed',OC_Log::DEBUG);
+	getStandardImage();
+	exit();
+}
 
 $id = $_GET['id'];
 
@@ -76,18 +75,14 @@ if( is_null($content)){
 
 $thumbnail_size = 23;
 
-// Finf the photo from VCard.
+// Find the photo from VCard.
 foreach($content->children as $child){
 	if($child->name == 'PHOTO'){
-		foreach($child->parameters as $parameter){
-			if( $parameter->name == 'TYPE' ){
-				$mime = $parameter->value;
-			}
-		}
 		$image = new OC_Image();
 		if($image->loadFromBase64($child->value)) {
 			if($image->centerCrop()) {
 				if($image->resize($thumbnail_size)) {
+					header('ETag: '.md5($child->value));
 					if(!$image()) {
 						OC_Log::write('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OC_Log::ERROR);
 						getStandardImage();
