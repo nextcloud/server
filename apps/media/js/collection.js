@@ -122,7 +122,7 @@ Collection={
 						}
 						tr.find('td.artist').addClass('buttons');
 						Collection.addButtons(tr,artist);
-						tr.children('td.artist').append(expander);
+						tr.children('td.artist-expander').append(expander);
 						tr.attr('data-artist',artist.name);
 						Collection.parent.find('tbody').append(tr);
 					}
@@ -144,7 +144,7 @@ Collection={
 					newRow.find('td.artist').text('');
 					newRow.find('.expander').remove();
 				}
-				newRow.find('td.album .expander').remove();
+				newRow.find('td.album-expander .expander').remove();
 				if(i==0){
 					newRow.find('td.album a').text(album.name);
 					newRow.find('td.album a').click(function(event){
@@ -165,7 +165,7 @@ Collection={
 								Collection.showAlbum(tr.data('artist'),tr.data('album'));
 							}
 						});
-						newRow.children('td.album').append(expander);
+						newRow.children('td.album-expander').append(expander);
 					}
 					Collection.addButtons(newRow,album);
 				} else {
@@ -192,15 +192,15 @@ Collection={
 			});
 		});
 		tr.removeClass('collapsed');
-		tr.find('td.artist a.expander').data('expanded',true);
-		tr.find('td.artist a.expander').addClass('expanded');
-		tr.find('td.artist a.expander').text('v');
+		tr.find('td.artist-expander a.expander').data('expanded',true);
+		tr.find('td.artist-expander a.expander').addClass('expanded');
+		tr.find('td.artist-expander a.expander').text('v');
 	},
 	hideArtist:function(artist){
 		var tr=Collection.parent.find('tr[data-artist="'+artist+'"]');
 		var artist=tr.first().data('artistData');
 		tr.first().find('td.album a').first().text(artist.albums.length+' '+t('media','albums'));
-		tr.first().find('td.album a.expander').remove();
+		tr.first().find('td.album-expander a.expander').remove();
 		tr.first().find('td.title a').text(artist.songs.length+' '+t('media','songs'));
 		tr.first().find('td.album a').unbind('click');
 		tr.first().find('td.title a').unbind('click');
@@ -209,18 +209,18 @@ Collection={
 				$(row).remove();
 			}
 		});
-		tr.find('td.artist a.expander').data('expanded',false);
-		tr.find('td.artist a.expander').removeClass('expanded');
-		tr.find('td.artist a.expander').text('>');
+		tr.find('td.artist-expander a.expander').data('expanded',false);
+		tr.find('td.artist-expander a.expander').removeClass('expanded');
+		tr.find('td.artist-expander a.expander').text('>');
 		Collection.addButtons(tr,artist);
 	},
 	showAlbum:function(artist,album){
 		var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
 		var lastRow=tr;
 		var albumData=tr.data('albumData');
-		tr.find('td.album a.expander').data('expanded',true);
-		tr.find('td.album a.expander').addClass('expanded');
-		tr.find('td.album a.expander').text('v');
+		tr.find('td.album-expander a.expander').data('expanded',true);
+		tr.find('td.album-expander a.expander').addClass('expanded');
+		tr.find('td.album-expander a.expander').text('v');
 		$.each(albumData.songs,function(i,song){
 			if(i>0){
 				var newRow=tr.clone();
@@ -248,9 +248,9 @@ Collection={
 		var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
 		var albumData=tr.data('albumData');
 		tr.first().find('td.title a').text(albumData.songs.length+' '+t('media','songs'));
-		tr.find('td.album a.expander').data('expanded',false);
-		tr.find('td.album a.expander').removeClass('expanded');
-		tr.find('td.album a.expander').text('> ');
+		tr.find('td.album-expander a.expander').data('expanded',false);
+		tr.find('td.album-expander a.expander').removeClass('expanded');
+		tr.find('td.album-expander a.expander').text('> ');
 		tr.each(function(i,row){
 			if(i>0){
 				$(row).remove();

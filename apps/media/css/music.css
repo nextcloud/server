@@ -17,20 +17,18 @@ a.jp-mute,a.jp-unmute { left:24em; }
 div.jp-volume-bar { position:absolute; overflow:hidden; background:#eee; width:4em; height:0.4em; cursor:pointer; top:1.3em; left:27em; }
 div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
 
-#collection { padding-top:1em; position:relative; width:100%; float:left; }
-#collection li.album,#collection li.song { margin-left:3em; }
+#collection { padding-top:1em; position:relative; width:100%; float:left; table-layout:fixed; }
+#collection td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 #leftcontent img.remove { display:none; float:right; cursor:pointer; opacity: 0; }
 #leftcontent li:hover img.remove { display:inline; opacity: .3; }
 #leftcontent li div.label { float: left; width: 200px; overflow: hidden; text-overflow: ellipsis; }
-#collection li button { float:right; }
-#collection li,#playlist li { list-style-type:none; }
+#playlist li { list-style-type:none; }
 .template { display:none; }
 .collection_playing { background:#eee; font-weight: bold; }
 
-#collection li { padding-right:10px; }
 #searchresults input.play, #searchresults input.add { float:left; height:1em; width:1em; }
 #collection tr.collapsed td.album, #collection tr.collapsed td.title { color:#ddd; }
-td.artist img, td.artist a, td.album img, td.album a { float: left; }
+#collection td.artist-expander, #collection td.album-expander { width:2em; text-align:center; }
 td.artist a.expander, td.album a.expander { float:right; padding:0 1em; }
 tr.active td { background-color:#eee; font-weight:bold; }
 tr td { border-top:1px solid #eee; height:2.2em; }
