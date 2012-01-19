@@ -351,10 +351,21 @@ Calendar={
 			}
 			
 		},
-		reseticonhighlight: function(){
-			$('#oneweekview_radio').css('color', '#000000');
-			$('#onemonthview_radio').css('color', '#000000');
-			$('#listview_radio').css('color', '#000000');
+		setViewActive: function(view){
+			$('#view input[type="button"]').removeClass('active');
+			var id;
+			switch (view) {
+				case 'agendaWeek':
+					id = 'oneweekview_radio';
+					break;
+				case 'month':
+					id = 'onemonthview_radio';
+					break;
+				case 'list':
+					id = 'listview_radio';
+					break;
+			}
+			$('#'+id).addClass('active');
 		},
 		Calendar:{
 			overview:function(){
@@ -658,6 +669,7 @@ $(document).ready(function(){
 		viewDisplay: function(view) {
 			$('#datecontrol_date').html(view.title);
 			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+			Calendar.UI.setViewActive(view.name);
 			if (view.name == 'agendaWeek') {
 				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 0.1);
 			}
@@ -689,18 +701,12 @@ $(document).ready(function(){
 	});
 	$('#oneweekview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');
-		Calendar.UI.reseticonhighlight();
-		$('#oneweekview_radio').css('color', '#6193CF');
 	});
 	$('#onemonthview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'month');
-		Calendar.UI.reseticonhighlight();
-		$('#onemonthview_radio').css('color', '#6193CF');
 	});
 	$('#listview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'list');
-		Calendar.UI.reseticonhighlight();
-		$('#listview_radio').css('color', '#6193CF');
 	});
 	$('#today_input').click(function(){
 		$('#calendar_holder').fullCalendar('today');

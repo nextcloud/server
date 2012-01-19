@@ -28,20 +28,6 @@
 					echo '$(\'#calendar_holder\').fullCalendar(\'gotoDate\', ' . $year . ', ' . --$month . ', ' . $day . ');';
 					echo '$(\'#dialog_holder\').load(OC.filePath(\'calendar\', \'ajax\', \'editeventform.php\') + \'?id=\' +  ' . $_['showevent'] . ' , Calendar.UI.startEventDialog);';
 				}
-				
-				switch(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month')){
-					case 'agendaWeek':
-						echo '$(\'#oneweekview_radio\').css(\'color\', \'#6193CF\');';
-						break;
-					case 'month':
-						echo '$(\'#onemonthview_radio\').css(\'color\', \'#6193CF\');';
-						break;
-					case 'list':
-						echo '$(\'#listview_radio\').css(\'color\', \'#6193CF\');';
-						break;
-					default:
-						break;
-				}
 				?>
 				});
 				</script>

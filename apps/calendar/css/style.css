@@ -43,7 +43,7 @@
 .popup {display: none; position: absolute; z-index: 1000; background: #eeeeee; color: #000000; border: 1px solid #1a1a1a; font-size: 90%;}
 .event_popup {width: 280px; height: 40px; padding: 10px;}
 
-input[type="button"].active {color: #0098E4}
+input[type="button"].active {color: #6193CF}
 #fromtime, #totime {
 color:#333;
 }
