@@ -35,7 +35,7 @@ $name = $_POST['name'];
 $value = $_POST['value'];
 if(!is_array($value)){
 	$value = trim($value);
-	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG'))) {
+	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME'))) {
 		OC_JSON::error(array('data' => array('message' => $l->t('Cannot add empty property.'))));
 		exit();
 	}
@@ -72,6 +72,7 @@ foreach ($parameters as $key=>$element) {
 			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
 	}
 }
+$checksum = md5($vcard->children[$line]->serialize());
 
 if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
 	OC_JSON::error(array('data' => array('message' => $l->t('Error adding contact property.'))));
@@ -88,4 +89,4 @@ $tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('property',OC_Contacts_VCard::structureProperty($property,$line));
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OC_JSON::success(array('data' => array( 'checksum' => $checksum, 'page' => $page )));

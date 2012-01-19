@@ -26,7 +26,9 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 $id = $_GET['id'];
-
+if(isset($GET['refresh'])) {
+	header("Cache-Control: no-cache, no-store, must-revalidate");
+}
 $l10n = new OC_L10N('contacts');
 
 $card = OC_Contacts_VCard::find( $id );
@@ -42,28 +44,45 @@ if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
 }
 
 $content = OC_VObject::parse($card['carddata']);
-
+$image = new OC_Image();
 // invalid vcard
 if( is_null($content)){
-	echo $l10n->t('This card is not RFC compatible.');
+	$image->loadFromFile('img/person_large.png');
+	header('Content-Type: '.$image->mimeType());
+	$image();
+	//echo $l10n->t('This card is not RFC compatible.');
 	exit();
-}
-// Photo :-)
-foreach($content->children as $child){
-	if($child->name == 'PHOTO'){
-		$mime = 'image/jpeg';
-		foreach($child->parameters as $parameter){
-			if( $parameter->name == 'TYPE' ){
-				$mime = $parameter->value;
+} else {
+	// Photo :-)
+	foreach($content->children as $child){
+		if($child->name == 'PHOTO'){
+			$mime = 'image/jpeg';
+			foreach($child->parameters as $parameter){
+				if( $parameter->name == 'TYPE' ){
+					$mime = $parameter->value;
+				}
 			}
+			if($image->loadFromBase64($child->value)) {
+				header('Content-Type: '.$mime);
+				$image();
+				exit();
+			} else {
+				$image->loadFromFile('img/person_large.png');
+				header('Content-Type: '.$image->mimeType());
+				$image();
+			}
+			//$photo = base64_decode($child->value);
+			//header('Content-Type: '.$mime);
+			//header('Content-Length: ' . strlen($photo));
+			//echo $photo;
+			//exit();
 		}
-		$photo = base64_decode($child->value);
-		header('Content-Type: '.$mime);
-		header('Content-Length: ' . strlen($photo));
-		echo $photo;
-		exit();
 	}
 }
+$image->loadFromFile('img/person_large.png');
+header('Content-Type: '.$image->mimeType());
+$image();
+/*
 // Logo :-/
 foreach($content->children as $child){
 	if($child->name == 'PHOTO'){
@@ -80,6 +99,6 @@ foreach($content->children as $child){
 		exit();
 	}
 }
-
+*/
 // Not found :-(
-echo $l10n->t('This card does not contain a photo.');
+//echo $l10n->t('This card does not contain a photo.');

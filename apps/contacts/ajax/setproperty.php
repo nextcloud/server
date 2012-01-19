@@ -95,4 +95,4 @@ $tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('property',OC_Contacts_VCard::structureProperty($vcard->children[$line],$line));
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page, 'line' => $line, 'oldchecksum' => $_POST['checksum'] )));
+OC_JSON::success(array('data' => array( 'page' => $page, 'line' => $line, 'checksum' => $checksum, 'oldchecksum' => $_POST['checksum'] )));

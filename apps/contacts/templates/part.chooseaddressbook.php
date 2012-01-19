@@ -12,8 +12,8 @@ for($i = 0; $i < count($option_addressbooks); $i++){
 }
 ?>
 <tr>
-	<td colspan="5">
-		<a href="#" onclick="Contacts.UI.Addressbooks.newAddressbook(this);"><?php echo $l->t('New Address Book') ?></a>
+	<td colspan="5" style="padding: 0.5em;">
+		<a class="button" href="#" onclick="Contacts.UI.Addressbooks.newAddressbook(this);"><?php echo $l->t('New Address Book') ?></a>
 	</td>
 </tr>
 <tr>
