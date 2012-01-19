@@ -45,7 +45,7 @@ class OC_Util {
 			}
 
 			//jail the user into his "home" directory
-			OC_Filesystem::chroot("/$user/$root");
+			OC_Filesystem::init('/'.$user.'/'.$root);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
