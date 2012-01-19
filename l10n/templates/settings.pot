@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,6 +31,10 @@ msgstr ""
 
 #: ajax/setlanguage.php:14
 msgid "Language changed"
+msgstr ""
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
 msgstr ""
 
 #: templates/admin.php:13

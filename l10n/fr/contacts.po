@@ -6,14 +6,14 @@
 #   <fboulogne@april.org>, 2011.
 #   <gp4004@arghh.org>, 2011.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
-#   <rom1dep@gmail.com>, 2011.
+#   <rom1dep@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 15:26+0100\n"
+"PO-Revision-Date: 2012-01-15 14:18+0000\n"
+"Last-Translator: rom1dep <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,46 +24,48 @@ msgstr ""
 #: ajax/activation.php:17 ajax/updateaddressbook.php:26
 msgid "Error (de)activating addressbook."
 msgstr ""
+"Des erreurs se sont produites lors de l'activation/désactivation du carnet "
+"d'adresses."
 
 #: ajax/addcard.php:79
 msgid "There was an error adding the contact."
-msgstr ""
+msgstr "Une erreur s'est produite lors de l'ajout du contact."
 
 #: ajax/addproperty.php:39
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "Impossible d'ajouter un champ vide."
 
 #: ajax/addproperty.php:51
 msgid "At least one of the address fields has to be filled out."
-msgstr ""
+msgstr "Au moins un des champs d'adresses doit être complété."
 
 #: ajax/addproperty.php:77
 msgid "Error adding contact property."
-msgstr ""
+msgstr "Erreur lors de l'ajout du champ."
 
 #: ajax/createaddressbook.php:20
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "Erreur lors de l'ajout du carnet d'adresses."
 
 #: ajax/createaddressbook.php:26
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "Erreur lors de l'activation du carnet d'adresses."
 
 #: ajax/deleteproperty.php:40
 msgid "Error deleting contact property."
-msgstr ""
+msgstr "Erreur lors de la suppression du champ."
 
 #: ajax/setproperty.php:79
 msgid "Error updating contact property."
-msgstr ""
+msgstr "Erreur lors de la mise à jour du champ."
 
 #: ajax/updateaddressbook.php:20
 msgid "Error updating addressbook."
-msgstr ""
+msgstr "Erreur lors de la mise à jour du carnet d'adresses."
 
 #: appinfo/app.php:21 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "Contacts"
 
 #: lib/app.php:42
 msgid "This is not your addressbook."
@@ -132,7 +134,7 @@ msgstr "Bipeur"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #: photo.php:40
 msgid "This is not your contact."
@@ -152,11 +154,11 @@ msgstr "Ajouter un Contact"
 
 #: templates/index.php:7
 msgid "Addressbooks"
-msgstr ""
+msgstr "Carnets d'adresses"
 
 #: templates/part.addcardform.php:8
 msgid "Addressbook"
-msgstr ""
+msgstr "Carnet d'adresses"
 
 #: templates/part.addcardform.php:21
 msgid "Name"
@@ -234,7 +236,7 @@ msgstr "Supprimer"
 
 #: templates/part.details.php:3
 msgid "Download contact"
-msgstr ""
+msgstr "Télécharger le contact"
 
 #: templates/part.details.php:4
 msgid "Delete contact"
@@ -246,11 +248,11 @@ msgstr "Ajouter"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "Nouveau carnet d'adresses"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "Éditer le carnet d'adresses"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
@@ -290,6 +292,6 @@ msgstr "Enregistrer"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing address:"
-msgstr ""
+msgstr "Adresse de synchronisation CardDAV :"
 
 
