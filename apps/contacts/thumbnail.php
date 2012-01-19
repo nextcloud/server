@@ -22,7 +22,8 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
-OC_Util::checkLoggedIn();
+OC_JSON::checkLoggedIn();
+//OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 if(!function_exists('imagecreatefromjpeg')) {
@@ -33,10 +34,16 @@ if(!function_exists('imagecreatefromjpeg')) {
 }
 
 function getStandardImage(){
-	$src_img = imagecreatefrompng('img/person.png');
-	header('Content-Type: image/png');
-	imagepng($src_img);
-	imagedestroy($src_img);
+	$date = new DateTime('now');
+	$date->add(new DateInterval('P10D'));
+	header('Expires: '.$date->format(DateTime::RFC850));
+	header('Cache-Control: cache');
+	header('Location: '.OC_Helper::imagePath('contacts', 'person.png'));
+	exit();
+// 	$src_img = imagecreatefrompng('img/person.png');
+// 	header('Content-Type: image/png');
+// 	imagepng($src_img);
+// 	imagedestroy($src_img);
 }
 
 
