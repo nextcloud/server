@@ -7,7 +7,6 @@
 			$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
 		}
 	}
-	echo '<!-- '.$display.' -->';
 ?>
 	<li book-id="<?php echo $contact['addressbookid']; ?>" data-id="<?php echo $contact['id']; ?>"><a href="index.php?id=<?php echo $contact['id']; ?>"><?php echo $display; ?></a></li>
 <?php endforeach; ?>
