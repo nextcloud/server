@@ -88,6 +88,9 @@ function galleryRemove(albumName) {
 
 function galleryRename(name) {
   var result = window.prompt(t('gallery',"Input new gallery name"), name);
+  if(result=='' || result==name){
+	return;
+  }
   if (result) {
 	if (Albums.find(result)) {
 	  alert("Album named '" + result + "' already exists");
@@ -101,8 +104,6 @@ function galleryRename(name) {
       }
 	});
 	
-  } else {
-	  alert(t('gallery',"Album name can't be empty"))
   }
 }
 
