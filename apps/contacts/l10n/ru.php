@@ -15,8 +15,6 @@
 "Video" => "Видео",
 "Pager" => "Пейджер",
 "This is not your contact." => "Это не контакт.",
-"This card is not RFC compatible." => "Эта карточка не соответствует RFC.",
-"This card does not contain a photo." => "Эта карточка не содержит фотографии.",
 "Add Contact" => "Добавить Контакт",
 "Name" => "Имя",
 "PO Box" => "АО",

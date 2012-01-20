@@ -27,8 +27,6 @@
 "Pager" => "Paxinador",
 "Contact" => "Contacto",
 "This is not your contact." => "Este non é un dos seus contactos",
-"This card is not RFC compatible." => "Esta tarxeta non é compatible con RFC",
-"This card does not contain a photo." => "Esta tarxeta non ten fotografía",
 "Add Contact" => "Engadir contacto",
 "Addressbooks" => "Directorios",
 "Addressbook" => "Directorio",

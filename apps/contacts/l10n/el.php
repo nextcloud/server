@@ -15,8 +15,6 @@
 "Video" => "Βίντεο",
 "Pager" => "Βομβητής",
 "This is not your contact." => "Αυτή δεν είναι επαφή σας.",
-"This card is not RFC compatible." => "Αυτή η κάρτα δεν είναι RFC συμβατή.",
-"This card does not contain a photo." => "Αυτή η κάρτα δεν περιέχει φωτογραφία.",
 "Add Contact" => "Προσθήκη επαφής",
 "Name" => "Όνομα",
 "Type" => "Τύπος",

@@ -27,8 +27,6 @@
 "Pager" => "Cercapersone",
 "Contact" => "Contatto",
 "This is not your contact." => "Questo non è un tuo contatto.",
-"This card is not RFC compatible." => "Questa card non è compatibile con il protocollo RFC.",
-"This card does not contain a photo." => "Questa card non contiene una foto.",
 "Add Contact" => "Aggiungi contatto",
 "Addressbooks" => "Rubriche",
 "Addressbook" => "Rubrica",

@@ -15,8 +15,6 @@
 "Video" => "视频",
 "Pager" => "传呼机",
 "This is not your contact." => "这不是您的联系人。",
-"This card is not RFC compatible." => "这张名片和RFC 标准不兼容。",
-"This card does not contain a photo." => "这张名片不包含照片。",
 "Add Contact" => "添加联系人",
 "Name" => "名称",
 "PO Box" => "邮箱",

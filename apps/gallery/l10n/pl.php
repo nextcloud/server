@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
-  "Gallery" => "Galeria",
-  "Rescan" => "Przeskanuj",
-  "Back" => "Wróć"
+"Gallery" => "Galeria",
+"Rescan" => "Przeskanuj",
+"Back" => "Wróć"
 );
-?>

@@ -27,6 +27,7 @@
 "Settings" => "Beállítások",
 "Lost your password?" => "Elfelejtett jelszó?",
 "remember" => "emlékezni",
+"Log in" => "Bejelentkezés",
 "You are logged out." => "Kilépés sikerült.",
 "prev" => "Előző",
 "next" => "Következő"

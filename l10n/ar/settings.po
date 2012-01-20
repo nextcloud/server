@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <tarek.taha@gmail.com>, 2011.
+#   <icewind1991@gmail.com>, 2012.
+#   <tarek.taha@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-16 17:31+0100\n"
-"PO-Revision-Date: 2012-01-16 16:32+0000\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-20 16:49+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.net/projects/p/owncloud/team/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "email Changed"
-msgstr ""
+msgstr "تم تغير العنوان البريدي"
 
 #: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
@@ -40,7 +41,7 @@ msgstr ""
 
 #: templates/admin.php:13
 msgid "Log level"
-msgstr ""
+msgstr "مستوى المراقبه"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -108,15 +109,15 @@ msgstr "عدل كلمة السر"
 
 #: templates/personal.php:24
 msgid "Email"
-msgstr ""
+msgstr "العنوان البريدي"
 
 #: templates/personal.php:25
 msgid "Your email address"
-msgstr ""
+msgstr "عنوانك البريدي"
 
 #: templates/personal.php:26
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور"
 
 #: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
@@ -124,7 +125,7 @@ msgstr "اللغة"
 
 #: templates/personal.php:38
 msgid "Help translate"
-msgstr ""
+msgstr "ساعد في الترجمه"
 
 #: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -148,7 +149,7 @@ msgstr "انشئ"
 
 #: templates/users.php:33
 msgid "Quota"
-msgstr ""
+msgstr "حصه"
 
 #: templates/users.php:58
 msgid "Delete"

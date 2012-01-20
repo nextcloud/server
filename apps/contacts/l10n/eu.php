@@ -15,8 +15,6 @@
 "Video" => "Bideoa",
 "Pager" => "Bilagailua",
 "This is not your contact." => "Hau ez da zure kontaktua.",
-"This card is not RFC compatible." => "Txartel hau ez da RFC bateragarria.",
-"This card does not contain a photo." => "Txartel honek ez dauka argazkirik.",
 "Add Contact" => "Gehitu Kontaktua",
 "Name" => "Izena",
 "PO Box" => "Posta kutxa",

@@ -4,15 +4,15 @@
 # 
 # Translators:
 #   <bart.formosus@gmail.com>, 2011.
-#   <icewind1991@gmail.com>, 2011.
+#   <icewind1991@gmail.com>, 2011, 2012.
 #   <koen@vervloesem.eu>, 2011.
 #   <pietje8501@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-16 17:31+0100\n"
-"PO-Revision-Date: 2012-01-16 16:32+0000\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-16 16:36+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Taal aangepast"
 
 #: personal.php:36 personal.php:37
 msgid "__language_name__"
-msgstr ""
+msgstr "Nederlands"
 
 #: templates/admin.php:13
 msgid "Log level"

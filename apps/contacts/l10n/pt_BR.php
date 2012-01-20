@@ -15,8 +15,6 @@
 "Video" => "Vídeo",
 "Pager" => "Pager",
 "This is not your contact." => "Este não é o seu contato.",
-"This card is not RFC compatible." => "Este cartão não é compatível com RFC.",
-"This card does not contain a photo." => "Este cartão não contém uma foto.",
 "Add Contact" => "Adicionar Contato",
 "Name" => "Nome",
 "PO Box" => "Caixa Postal",

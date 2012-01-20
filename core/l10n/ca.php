@@ -27,7 +27,7 @@
 "Database name" => "Nom de la base de dades",
 "Database host" => "Ordinador central de la base de dades",
 "Finish setup" => "Acaba la configuració",
-"web services under your control" => "serveis web controlats per vós",
+"web services under your control" => "tingueu el control dels serveis web",
 "Log out" => "Sortir",
 "Settings" => "Arranjament",
 "Lost your password?" => "Heu perdut la contrasenya?",

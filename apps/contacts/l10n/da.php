@@ -15,8 +15,6 @@
 "Video" => "Video",
 "Pager" => "Personsøger",
 "This is not your contact." => "Dette er ikke din kontaktperson.",
-"This card is not RFC compatible." => "Dette kort er ikke RFC-kompatibelt.",
-"This card does not contain a photo." => "Dette kort indeholder ikke et foto.",
 "Add Contact" => "Tilføj kontaktperson",
 "Name" => "Navn",
 "Type" => "Type",

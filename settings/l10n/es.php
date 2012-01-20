@@ -3,6 +3,7 @@
 "Invalid request" => "Solicitud no válida",
 "OpenID Changed" => "OpenID Cambiado",
 "Language changed" => "Idioma cambiado",
+"__language_name__" => "Español",
 "Log level" => "Nivel de log",
 "Add your application" => "Añadir tu aplicación",
 "Select an App" => "Seleccionar una aplicación",

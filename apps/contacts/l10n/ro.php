@@ -15,8 +15,6 @@
 "Video" => "Video",
 "Pager" => "Pager",
 "This is not your contact." => "Nu este contactul tău",
-"This card is not RFC compatible." => "Nu este compatibil RFC",
-"This card does not contain a photo." => "Nu conține o fotografie",
 "Add Contact" => "Adaugă contact",
 "Name" => "Nume",
 "Type" => "Tip",

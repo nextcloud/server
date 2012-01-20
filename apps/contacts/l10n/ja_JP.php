@@ -15,8 +15,6 @@
 "Video" => "テレビ電話",
 "Pager" => "ポケベル",
 "This is not your contact." => "あなたの連絡先ではありません。",
-"This card is not RFC compatible." => "このカードはRFCに準拠していません。",
-"This card does not contain a photo." => "このカードは写真を含んでおりません。",
 "Add Contact" => "連絡先の追加",
 "Name" => "氏名",
 "PO Box" => "私書箱",

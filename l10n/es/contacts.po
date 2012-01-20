@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <juanma@kde.org.ar>, 2011.
+#   <juanma@kde.org.ar>, 2011, 2012.
 #   <sergioballesterossolanas@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-20 16:50+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/team/es/)\n"
 "MIME-Version: 1.0\n"
@@ -21,128 +21,120 @@ msgstr ""
 
 #: ajax/activation.php:17 ajax/updateaddressbook.php:26
 msgid "Error (de)activating addressbook."
-msgstr ""
+msgstr "Error al (des)activar libreta de direcciones."
 
 #: ajax/addcard.php:79
 msgid "There was an error adding the contact."
-msgstr ""
+msgstr "Ocurrió un error al agregar el contacto."
 
 #: ajax/addproperty.php:39
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "No se puede agregar una propiedad vacía."
 
 #: ajax/addproperty.php:51
 msgid "At least one of the address fields has to be filled out."
-msgstr ""
+msgstr "Al menos uno de los campos de direcciones tiene que ser llenado."
 
-#: ajax/addproperty.php:77
+#: ajax/addproperty.php:78
 msgid "Error adding contact property."
-msgstr ""
+msgstr "Error al agregar una propiedad del contacto."
 
 #: ajax/createaddressbook.php:20
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "Error al agregar la libreta de direcciones."
 
 #: ajax/createaddressbook.php:26
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "Error al activar la libreta de direcciones."
 
 #: ajax/deleteproperty.php:40
 msgid "Error deleting contact property."
-msgstr ""
+msgstr "Error al borrar una propiedad del contacto."
 
 #: ajax/setproperty.php:79
 msgid "Error updating contact property."
-msgstr ""
+msgstr "Error al actualizar una propiedad del contacto."
 
 #: ajax/updateaddressbook.php:20
 msgid "Error updating addressbook."
-msgstr ""
+msgstr "Error al actualizar la libreta de direcciones."
 
 #: appinfo/app.php:21 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "Contactos"
 
-#: lib/app.php:42
+#: lib/app.php:52
 msgid "This is not your addressbook."
 msgstr "Esta no es tu agenda de contactos."
 
-#: lib/app.php:51 photo.php:34
+#: lib/app.php:61 photo.php:36
 msgid "Contact could not be found."
 msgstr "No se pudo encontrar el contacto."
 
-#: lib/app.php:79
+#: lib/app.php:89
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr ""
 "La información sobre el vCard es incorrecta. Por favor vuelve a cargar la "
 "página."
 
-#: lib/app.php:91 templates/part.addcardform.php:54
+#: lib/app.php:101 templates/part.addcardform.php:54
 #: templates/part.property.php:45 templates/part.setpropertyform.php:7
 msgid "Address"
 msgstr "Dirección"
 
-#: lib/app.php:92 templates/part.addcardform.php:43
+#: lib/app.php:102 templates/part.addcardform.php:43
 msgid "Telephone"
 msgstr "Teléfono"
 
-#: lib/app.php:93 templates/part.addcardform.php:37
+#: lib/app.php:103 templates/part.addcardform.php:37
 #: templates/part.property.php:16 templates/part.setpropertyform.php:51
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: lib/app.php:94 templates/part.addcardform.php:27
+#: lib/app.php:104 templates/part.addcardform.php:27
 #: templates/part.property.php:9 templates/part.setpropertyform.php:54
 msgid "Organization"
 msgstr "Organización"
 
-#: lib/app.php:106 lib/app.php:113
+#: lib/app.php:116 lib/app.php:123
 msgid "Work"
 msgstr "Trabajo"
 
-#: lib/app.php:107 lib/app.php:111
+#: lib/app.php:117 lib/app.php:121
 msgid "Home"
 msgstr "Particular"
 
-#: lib/app.php:112
+#: lib/app.php:122
 msgid "Mobile"
 msgstr "Móvil"
 
-#: lib/app.php:114
+#: lib/app.php:124
 msgid "Text"
 msgstr "Texto"
 
-#: lib/app.php:115
+#: lib/app.php:125
 msgid "Voice"
 msgstr "Voz"
 
-#: lib/app.php:116
+#: lib/app.php:126
 msgid "Fax"
 msgstr "Fax"
 
-#: lib/app.php:117
+#: lib/app.php:127
 msgid "Video"
 msgstr "Video"
 
-#: lib/app.php:118
+#: lib/app.php:128
 msgid "Pager"
 msgstr "Localizador"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
-#: photo.php:40
+#: photo.php:42
 msgid "This is not your contact."
 msgstr "Este no es tu contacto."
-
-#: photo.php:48
-msgid "This card is not RFC compatible."
-msgstr "Esta tarjeta no es compatible con RFC."
-
-#: photo.php:85
-msgid "This card does not contain a photo."
-msgstr "Esta tarjeta no contiene ninguna foto."
 
 #: templates/index.php:6
 msgid "Add Contact"
@@ -150,11 +142,11 @@ msgstr "Agregar contacto"
 
 #: templates/index.php:7
 msgid "Addressbooks"
-msgstr ""
+msgstr "Libretas de direcciones"
 
 #: templates/part.addcardform.php:8
 msgid "Addressbook"
-msgstr ""
+msgstr "Libreta de direcciones"
 
 #: templates/part.addcardform.php:21
 msgid "Name"
@@ -207,7 +199,7 @@ msgstr "Crear contacto"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Choose active Address Books"
-msgstr ""
+msgstr "Elige libreta de direcciones activa"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -232,7 +224,7 @@ msgstr "Borrar"
 
 #: templates/part.details.php:3
 msgid "Download contact"
-msgstr ""
+msgstr "Descargar contacto"
 
 #: templates/part.details.php:4
 msgid "Delete contact"
@@ -244,15 +236,15 @@ msgstr "Añadir"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "Nueva libreta de direcciones"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "Editar libreta de direcciones"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
-msgstr ""
+msgstr "Nombre a mostrar"
 
 #: templates/part.editaddressbook.php:23
 msgid "Active"
@@ -288,6 +280,6 @@ msgstr "Actualizar"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing address:"
-msgstr ""
+msgstr "Dirección de sincronización CardDAV:"
 
 

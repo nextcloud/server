@@ -15,8 +15,6 @@
 "Video" => "Video",
 "Pager" => "Lapozó",
 "This is not your contact." => "Nem a te kapcsolatod.",
-"This card is not RFC compatible." => "A kártya nem RFC kompatibilis.",
-"This card does not contain a photo." => "A kártya nem tartlmaz fényképet.",
 "Add Contact" => "Kontakt hozzáadása",
 "Name" => "Név",
 "PO Box" => "Postafiók",

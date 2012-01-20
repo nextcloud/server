@@ -3,6 +3,7 @@
 "Invalid request" => "Petición non correcta",
 "OpenID Changed" => "Mudou o OpenID",
 "Language changed" => "O idioma mudou",
+"__language_name__" => "Galego",
 "Log level" => "Nivel de rexistro",
 "Add your application" => "Engada o seu aplicativo",
 "Select an App" => "Escolla un Aplicativo",

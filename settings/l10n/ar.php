@@ -1,7 +1,9 @@
 <?php $TRANSLATIONS = array(
+"email Changed" => "تم تغير العنوان البريدي",
 "Invalid request" => "طلبك غير مفهوم",
 "OpenID Changed" => "تم تغيير ال OpenID",
 "Language changed" => "تم تغيير اللغة",
+"Log level" => "مستوى المراقبه",
 "Add your application" => "أضف تطبيقاتك",
 "Select an App" => "إختر تطبيقاً",
 "-licensed" => "-مسجل",
@@ -18,11 +20,16 @@
 "New password" => "كلمات سر جديدة",
 "show" => "أظهر",
 "Change password" => "عدل كلمة السر",
+"Email" => "العنوان البريدي",
+"Your email address" => "عنوانك البريدي",
+"Fill in an email address to enable password recovery" => "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور",
 "Language" => "اللغة",
+"Help translate" => "ساعد في الترجمه",
 "use this address to connect to your ownCloud in your file manager" => "إستخدم هذا العنوان للإتصال ب ownCloud داخل نظام الملفات ",
 "Name" => "الاسم",
 "Password" => "كلمات السر",
 "Groups" => "مجموعات",
 "Create" => "انشئ",
+"Quota" => "حصه",
 "Delete" => "حذف"
 );
