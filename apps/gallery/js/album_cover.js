@@ -37,14 +37,14 @@ var totalAlbums = 0;
 function scanForAlbums() {
   var albumCounter = 0;
   var totalAlbums = 0;
-  $('#notification').text("Scanning directories");
+  $('#notification').text(t('gallery',"Scanning directories"));
   $("#notification").fadeIn();
   $("#notification").slideDown();
   $.getJSON('ajax/galleryOp.php?operation=filescan', function(r) {
 
     if (r.status == 'success') {
       totalAlbums = r.paths.length;
-      $('#notification').text("Creating thumbnails ... " + Math.floor((albumCounter/totalAlbums)*100) + "%");
+      $('#notification').text(t('gallery','Creating thumbnails')+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
       for(var a in r.paths) {
         $.getJSON('ajax/galleryOp.php?operation=partial_create&path='+r.paths[a], function(r) {
 
@@ -53,7 +53,7 @@ function scanForAlbums() {
           }
 
           albumCounter++;
-          $('#notification').text("Creating thumbnails ... " + Math.floor((albumCounter/totalAlbums)*100) + "%");
+		  $('#notification').text(t('gallery','Creating thumbnails')+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
           if (albumCounter == totalAlbums) {
             $("#notification").fadeOut();
             $("#notification").slideUp();
@@ -74,7 +74,7 @@ function scanForAlbums() {
 }
 
 function galleryRemove(albumName) {
-  if (confirm("Do you wan't to remove album " + albumName + "?")) {
+  if (confirm(t('gallery',"Do you wan't to remove album")+' ' + albumName + "?")) {
 	$.getJSON("ajax/galleryOp.php", {operation: "remove", name: albumName}, function(r) {
 	  if (r.status == "success") {
       $("#gallery_album_box[title='"+albumName+"']").remove();
@@ -87,7 +87,7 @@ function galleryRemove(albumName) {
 }
 
 function galleryRename(name) {
-  var result = window.prompt("Input new gallery name", name);
+  var result = window.prompt(t('gallery',"Input new gallery name"), name);
   if (result) {
 	if (Albums.find(result)) {
 	  alert("Album named '" + result + "' already exists");
@@ -102,7 +102,7 @@ function galleryRename(name) {
 	});
 	
   } else {
-    alert("Album name can't be empty")
+	  alert(t('gallery',"Album name can't be empty"))
   }
 }
 
