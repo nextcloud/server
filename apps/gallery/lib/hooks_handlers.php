@@ -32,10 +32,8 @@ class OC_Gallery_Hooks_Handlers {
   private static $APP_TAG = "Gallery";
 
   private static function isPhoto($filename) {
-    OC_Log::write(self::$APP_TAG, "Checking file ".$filename." with mimetype ".OC_Filesystem::getMimeType($filename), OC_Log::DEBUG);
-    if (substr(OC_Filesystem::getMimeType($filename), 0, 6) == "image/")
-      return true;
-    return false;
+    $ext = strtolower(substr($filename, strrpos($filename, '.')+1));
+    return $ext=='png' || $ext=='jpeg' || $ext=='jpg' || $ext=='gif';
   }
 
   private static function directoryContainsPhotos($dirpath) {

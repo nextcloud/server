@@ -88,9 +88,8 @@ class OC_Gallery_Scanner {
   }
 
   public static function isPhoto($filename) {
-    if (substr(OC_Filesystem::getMimeType($filename), 0, 6) == "image/")
-      return 1;
-    return 0;
+    $ext = strtolower(substr($filename, strrpos($filename, '.')+1));
+    return $ext=='png' || $ext=='jpeg' || $ext=='jpg' || $ext=='gif';
   }
 
   public static function find_paths($path) {
