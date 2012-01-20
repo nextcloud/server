@@ -44,7 +44,7 @@ function scanForAlbums() {
 
     if (r.status == 'success') {
       totalAlbums = r.paths.length;
-      $('#notification').text(t('gallery','Creating thumbnails')+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
+	  $('#notification').text(t('gallery',"Creating thumbnails")+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
       for(var a in r.paths) {
         $.getJSON('ajax/galleryOp.php?operation=partial_create&path='+r.paths[a], function(r) {
 
@@ -53,7 +53,7 @@ function scanForAlbums() {
           }
 
           albumCounter++;
-		  $('#notification').text(t('gallery','Creating thumbnails')+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
+		  $('#notification').text(t('gallery',"Creating thumbnails")+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
           if (albumCounter == totalAlbums) {
             $("#notification").fadeOut();
             $("#notification").slideUp();
