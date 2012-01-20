@@ -28,7 +28,7 @@ class OC_Gallery_Album {
 	}
 	
 	public static function rename($oldname, $newname, $owner) {
-	    $stmt = OC_DB::prepare('UPDATE OR IGNORE *PREFIX*gallery_albums SET album_name=? WHERE uid_owner=? AND album_name=?');
+	    $stmt = OC_DB::prepare('UPDATE *PREFIX*gallery_albums SET album_name=? WHERE uid_owner=? AND album_name=?');
 		$stmt->execute(array($newname, $owner, $oldname));
 	}
 	
@@ -76,7 +76,7 @@ class OC_Gallery_Album {
 	}
 
   public static function changePath($oldname, $newname, $owner) {
-    $stmt = OC_DB::prepare('UPDATE OR IGNORE *PREFIX*gallery_albums SET album_path=? WHERE uid_owner=? AND album_path=?');
+    $stmt = OC_DB::prepare('UPDATE *PREFIX*gallery_albums SET album_path=? WHERE uid_owner=? AND album_path=?');
     $stmt->execute(array($newname, $owner, $oldname));
   }
 

@@ -75,8 +75,8 @@ Albums={
   },
   rename: function(element, new_name) {
     if (new_name) {
-		$(element).attr("title", new_name);
-		$("a", element).attr("href", "?view="+new_name);
+		$(element).attr("data-album", new_name);
+		$("a.view", element).attr("href", "?view="+new_name);
 		$("h1", element).text(new_name);
 	}
   }

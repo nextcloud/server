@@ -98,7 +98,7 @@ function galleryRename(name) {
 	}
 	$.getJSON("ajax/galleryOp.php", {operation: "rename", oldname: name, newname: result}, function(r) {
 	  if (r.status == "success") {
-		  Albums.rename($(".gallery_album_box").filterAttr('data-album',albumName), result);
+		  Albums.rename($(".gallery_album_box").filterAttr('data-album',name), result);
       } else {
 	    alert("Error: " + r.cause);
       }
