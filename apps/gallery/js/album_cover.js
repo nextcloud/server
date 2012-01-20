@@ -77,8 +77,8 @@ function galleryRemove(albumName) {
   if (confirm(t('gallery',"Do you wan't to remove album")+' ' + albumName + "?")) {
 	$.getJSON("ajax/galleryOp.php", {operation: "remove", name: albumName}, function(r) {
 	  if (r.status == "success") {
-      $("#gallery_album_box[title='"+albumName+"']").remove();
-      Albums.remove(albumName);
+		$(".gallery_album_box").filterAttr('data-album',albumName).remove();
+		Albums.remove(albumName);
 	  } else {
 		alert("Error: " + r.cause);
 	  }
@@ -95,7 +95,7 @@ function galleryRename(name) {
 	}
 	$.getJSON("ajax/galleryOp.php", {operation: "rename", oldname: name, newname: result}, function(r) {
 	  if (r.status == "success") {
-        Albums.rename($("#gallery_album_box[title='"+name+"']"), result);
+		  Albums.rename($(".gallery_album_box").filterAttr('data-album',albumName), result);
       } else {
 	    alert("Error: " + r.cause);
       }
