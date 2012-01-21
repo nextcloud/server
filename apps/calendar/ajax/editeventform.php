@@ -184,6 +184,8 @@ if($data['repeating'] == 1){
 		}
 		$repeat['weekdays'] = $repeat_weekdays_;
 	}
+}else{
+	$repeat['repeat'] = 'doesnotrepeat';
 }
 
 $calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
@@ -242,4 +244,3 @@ $tmpl->assign('repeat_byweekno', $repeat['byweekno']);
 $tmpl->printpage();
 
 ?>
- 
