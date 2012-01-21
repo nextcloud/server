@@ -429,11 +429,17 @@ Calendar={
 				}
 			},
 			submit:function(button, calendarid){
-				var displayname = $("#displayname_"+calendarid).val();
+				var displayname = $.trim($("#displayname_"+calendarid).val());
 				var active = $("#edit_active_"+calendarid+":checked").length;
 				var description = $("#description_"+calendarid).val();
 				var calendarcolor = $("#calendarcolor_"+calendarid).val();
-
+				if(displayname == ''){
+					$("#displayname_"+calendarid).css('background-color', '#FF2626');
+					$("#displayname_"+calendarid).focus(function(){
+						$("#displayname_"+calendarid).css('background-color', '#F8F8F8');
+					});
+				}
+				
 				var url;
 				if (calendarid == 'new'){
 					url = OC.filePath('calendar', 'ajax', 'createcalendar.php');
@@ -449,6 +455,11 @@ Calendar={
 							if (calendarid == 'new'){
 								$('#choosecalendar_dialog > table').append('<tr><td colspan="6"><a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><input type="button" value="' + newcalendar + '"></a></td></tr>');
 							}
+						}else{
+							$("#displayname_"+calendarid).css('background-color', '#FF2626');
+							$("#displayname_"+calendarid).focus(function(){
+								$("#displayname_"+calendarid).css('background-color', '#F8F8F8');
+							});
 						}
 					}, 'json');
 			},
@@ -676,6 +687,9 @@ $(document).ready(function(){
 			else {
 				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 1.35);
 			}
+		},
+		columnFormat: {
+		    week: 'ddd d. MMM'
 		},
 		selectable: true,
 		selectHelper: true,
