@@ -41,20 +41,26 @@ Albums={
   // displays gallery in linear representation
   // on given element, and apply default styles for gallery
   display: function(element) {
-    var displayTemplate = '<div id="gallery_album_box" title="*NAME*"><div id="gallery_control_overlay"><a href="#" onclick="galleryRename(\'*NAME*\');return false;">rename</a> | <a href="#" onclick="galleryRemove(\'*NAME*\');">remove</a></div><a href="?view=*NAME*"><div id="gallery_album_cover" title="*NAME*"></div></a><h1>*NAME*</h1></div></div>';
+    var displayTemplate = '<div class="gallery_album_box"><div class="gallery_control_overlay"><a href="#" class="rename">rename</a> | <a href="#" class="remove">remove</a></div><a class="view"><div class="gallery_album_cover"></div></a><h1></h1></div></div>';
     for (var i in Albums.albums) {
       var a = Albums.albums[i];
-      var local = $(displayTemplate.replace(/\*NAME\*/g, a.name));
-      $("#gallery_album_cover", local).css('background-repeat', 'no-repeat');
-      $("#gallery_album_cover", local).css('background-position', '0');
-      $("#gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+a.name+'")');
-      local.mouseover(function(e) {
-	    $("#gallery_control_overlay", this).css('visibility','visible');
-      });
-      local.mouseout(function(e) {
-	    $("#gallery_control_overlay", this).css('visibility','hidden');
-	  });
-      $("#gallery_album_cover", local).mousemove(function(e) {
+	  var local=$(displayTemplate);
+	  local.attr('data-album',a.name);
+	  $(".gallery_control_overlay a.rename", local).click(function(name,event){
+			event.preventDefault();
+			galleryRename(name);
+		}.bind(null,a.name));
+	  $(".gallery_control_overlay a.remove", local).click(function(name,event){
+		  event.preventDefault();
+		  galleryRemove(name);
+	  }.bind(null,a.name));
+	  $("a.view", local).attr('href','?view='+a.name);
+	  $('h1',local).text(a.name);
+	  $(".gallery_album_cover", local).attr('title',a.name);
+      $(".gallery_album_cover", local).css('background-repeat', 'no-repeat');
+      $(".gallery_album_cover", local).css('background-position', '0');
+      $(".gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+a.name+'")');
+      $(".gallery_album_cover", local).mousemove(function(e) {
 
         var albumMetadata = Albums.find(this.title);
         if (albumMetadata == undefined) {
@@ -69,8 +75,8 @@ Albums={
   },
   rename: function(element, new_name) {
     if (new_name) {
-		$(element).attr("title", new_name);
-		$("a", element).attr("href", "?view="+new_name);
+		$(element).attr("data-album", new_name);
+		$("a.view", element).attr("href", "?view="+new_name);
 		$("h1", element).text(new_name);
 	}
   }

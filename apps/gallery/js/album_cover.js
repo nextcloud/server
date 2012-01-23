@@ -44,7 +44,11 @@ function scanForAlbums() {
 
     if (r.status == 'success') {
       totalAlbums = r.paths.length;
-	  $('#notification').text(t('gallery',"Creating thumbnails")+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
+      if (totalAlbums == 0) {
+        $('#notification').text(t('gallery', "No photos found")).fadeIn().slideDown().delay(3000).fadeOut().slideUp();
+        return;
+      }
+	    $('#notification').text(t('gallery',"Creating thumbnails")+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
       for(var a in r.paths) {
         $.getJSON('ajax/galleryOp.php?operation=partial_create&path='+r.paths[a], function(r) {
 
@@ -77,8 +81,8 @@ function galleryRemove(albumName) {
   if (confirm(t('gallery',"Do you wan't to remove album")+' ' + albumName + "?")) {
 	$.getJSON("ajax/galleryOp.php", {operation: "remove", name: albumName}, function(r) {
 	  if (r.status == "success") {
-      $("#gallery_album_box[title='"+albumName+"']").remove();
-      Albums.remove(albumName);
+		$(".gallery_album_box").filterAttr('data-album',albumName).remove();
+		Albums.remove(albumName);
 	  } else {
 		alert("Error: " + r.cause);
 	  }
@@ -88,6 +92,9 @@ function galleryRemove(albumName) {
 
 function galleryRename(name) {
   var result = window.prompt(t('gallery',"Input new gallery name"), name);
+  if(result=='' || result==name){
+	return;
+  }
   if (result) {
 	if (Albums.find(result)) {
 	  alert("Album named '" + result + "' already exists");
@@ -95,14 +102,12 @@ function galleryRename(name) {
 	}
 	$.getJSON("ajax/galleryOp.php", {operation: "rename", oldname: name, newname: result}, function(r) {
 	  if (r.status == "success") {
-        Albums.rename($("#gallery_album_box[title='"+name+"']"), result);
+		  Albums.rename($(".gallery_album_box").filterAttr('data-album',name), result);
       } else {
 	    alert("Error: " + r.cause);
       }
 	});
 	
-  } else {
-	  alert(t('gallery',"Album name can't be empty"))
   }
 }
 
