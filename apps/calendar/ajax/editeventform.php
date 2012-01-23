@@ -229,18 +229,20 @@ $tmpl->assign('endtime', $endtime);
 $tmpl->assign('description', $description);
 
 $tmpl->assign('repeat', $repeat['repeat']);
-$tmpl->assign('repeat_month', $repeat['month']);
-$tmpl->assign('repeat_weekdays', $repeat['weekdays']);
-$tmpl->assign('repeat_interval', $repeat['interval']);
-$tmpl->assign('repeat_end', $repeat['end']);
-$tmpl->assign('repeat_count', $repeat['count']);
-$tmpl->assign('repeat_weekofmonth', $repeat['weekofmonth']);
-$tmpl->assign('repeat_date', $repeat['date']);
-$tmpl->assign('repeat_year', $repeat['year']);
-$tmpl->assign('repeat_byyearday', $repeat['byyearday']);
-$tmpl->assign('repeat_bymonthday', $repeat['bymonthday']);
-$tmpl->assign('repeat_bymonth', $repeat['bymonth']);
-$tmpl->assign('repeat_byweekno', $repeat['byweekno']);
+if($repeat['repeat'] != 'doesnotrepeat'){
+	$tmpl->assign('repeat_month', $repeat['month']);
+	$tmpl->assign('repeat_weekdays', $repeat['weekdays']);
+	$tmpl->assign('repeat_interval', $repeat['interval']);
+	$tmpl->assign('repeat_end', $repeat['end']);
+	$tmpl->assign('repeat_count', $repeat['count']);
+	$tmpl->assign('repeat_weekofmonth', $repeat['weekofmonth']);
+	$tmpl->assign('repeat_date', $repeat['date']);
+	$tmpl->assign('repeat_year', $repeat['year']);
+	$tmpl->assign('repeat_byyearday', $repeat['byyearday']);
+	$tmpl->assign('repeat_bymonthday', $repeat['bymonthday']);
+	$tmpl->assign('repeat_bymonth', $repeat['bymonth']);
+	$tmpl->assign('repeat_byweekno', $repeat['byweekno']);
+}
 $tmpl->printpage();
 
 ?>
