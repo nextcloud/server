@@ -127,6 +127,9 @@ $(document).ready(function(){
 	$('#newuser').submit(function(event){
 		event.preventDefault();
 		var username=$('#newusername').val();
+		if($('#content table tbody tr').filterAttr('data-uid',username).length>0){
+			return;
+		}
 		if($.trim(username) == '') {
 			alert('Please provide a username!');
 			return false;
