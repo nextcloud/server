@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-20 17:48+0100\n"
-"PO-Revision-Date: 2012-01-20 16:50+0000\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-23 23:25+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
@@ -22,47 +22,47 @@ msgstr ""
 
 #: ajax/activation.php:17 ajax/updateaddressbook.php:26
 msgid "Error (de)activating addressbook."
-msgstr ""
+msgstr "Fejl ved (de)aktivering af adressebogen"
 
 #: ajax/addcard.php:79
 msgid "There was an error adding the contact."
-msgstr ""
+msgstr "Der opstod en fejl ved tilføjelse af kontaktpersonen."
 
 #: ajax/addproperty.php:39
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "Kan ikke tilføje en egenskab uden indhold."
 
 #: ajax/addproperty.php:51
 msgid "At least one of the address fields has to be filled out."
-msgstr ""
+msgstr "Der skal udfyldes mindst et adressefelt."
 
 #: ajax/addproperty.php:78
 msgid "Error adding contact property."
-msgstr ""
+msgstr "Fejl ved tilføjelse af egenskab."
 
 #: ajax/createaddressbook.php:20
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "Fejl ved tilføjelse af adressebog."
 
 #: ajax/createaddressbook.php:26
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "Fejl ved aktivering af adressebog."
 
 #: ajax/deleteproperty.php:40
 msgid "Error deleting contact property."
-msgstr ""
+msgstr "Fejl ved sletning af egenskab for kontaktperson."
 
 #: ajax/setproperty.php:79
 msgid "Error updating contact property."
-msgstr ""
+msgstr "Fejl ved opdatering af egenskab for kontaktperson."
 
 #: ajax/updateaddressbook.php:20
 msgid "Error updating addressbook."
-msgstr ""
+msgstr "Fejl ved opdatering af adressebog"
 
 #: appinfo/app.php:21 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "Kontaktpersoner"
 
 #: lib/app.php:52
 msgid "This is not your addressbook."
@@ -129,7 +129,7 @@ msgstr "Personsøger"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "Kontaktperson"
 
 #: photo.php:42
 msgid "This is not your contact."
@@ -141,11 +141,11 @@ msgstr "Tilføj kontaktperson"
 
 #: templates/index.php:7
 msgid "Addressbooks"
-msgstr ""
+msgstr "Adressebøger"
 
 #: templates/part.addcardform.php:8
 msgid "Addressbook"
-msgstr ""
+msgstr "Adressebog"
 
 #: templates/part.addcardform.php:21
 msgid "Name"
@@ -223,7 +223,7 @@ msgstr "Slet"
 
 #: templates/part.details.php:3
 msgid "Download contact"
-msgstr ""
+msgstr "Download kontaktperson"
 
 #: templates/part.details.php:4
 msgid "Delete contact"
@@ -235,11 +235,11 @@ msgstr "Tilføj"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "Ny adressebog"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "Rediger adressebog"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
@@ -279,6 +279,6 @@ msgstr "Opdater"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing address:"
-msgstr ""
+msgstr "Synkroniseringsadresse for CardDAV:"
 
 

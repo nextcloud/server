@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <icewind1991@gmail.com>, 2012.
+#   <jekader@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-16 17:31+0100\n"
-"PO-Revision-Date: 2012-01-16 16:32+0000\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-21 23:05+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/team/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +22,7 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "email Changed"
-msgstr ""
+msgstr "адрес электронной почты изменён"
 
 #: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
@@ -40,7 +42,7 @@ msgstr ""
 
 #: templates/admin.php:13
 msgid "Log level"
-msgstr ""
+msgstr "Уровень детализации журнала"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -108,15 +110,17 @@ msgstr "Сменить пароль"
 
 #: templates/personal.php:24
 msgid "Email"
-msgstr ""
+msgstr "e-mail"
 
 #: templates/personal.php:25
 msgid "Your email address"
-msgstr ""
+msgstr "Ваш адрес электронной почты"
 
 #: templates/personal.php:26
 msgid "Fill in an email address to enable password recovery"
 msgstr ""
+"Введите адрес электронной почты чтобы появилась возможность восстановления "
+"пароля"
 
 #: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
@@ -124,7 +128,7 @@ msgstr "Язык"
 
 #: templates/personal.php:38
 msgid "Help translate"
-msgstr ""
+msgstr "Помочь с переводом"
 
 #: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -150,7 +154,7 @@ msgstr "Создать"
 
 #: templates/users.php:33
 msgid "Quota"
-msgstr ""
+msgstr "Квота"
 
 #: templates/users.php:58
 msgid "Delete"

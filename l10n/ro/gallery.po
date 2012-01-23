@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-20 17:48+0100\n"
-"PO-Revision-Date: 2012-01-20 16:50+0000\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-23 23:25+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/owncloud/team/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -25,20 +25,20 @@ msgstr ""
 msgid "Scanning directories"
 msgstr ""
 
-#: js/album_cover.js:47 js/album_cover.js:56
+#: js/album_cover.js:48
+msgid "No photos found"
+msgstr ""
+
+#: js/album_cover.js:51 js/album_cover.js:60
 msgid "Creating thumbnails"
 msgstr ""
 
-#: js/album_cover.js:77
+#: js/album_cover.js:81
 msgid "Do you wan't to remove album"
 msgstr ""
 
-#: js/album_cover.js:90
+#: js/album_cover.js:94
 msgid "Input new gallery name"
-msgstr ""
-
-#: js/album_cover.js:105
-msgid "Album name can't be empty"
 msgstr ""
 
 #: templates/index.php:10

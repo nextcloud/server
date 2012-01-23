@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-20 17:48+0100\n"
-"PO-Revision-Date: 2012-01-20 09:18+0000\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-22 15:39+0000\n"
 "Last-Translator: AriesAnywhere Anywhere <ariesanywherer@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.net/projects/p/owncloud/team/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -133,7 +133,7 @@ msgstr ""
 
 #: lib/object.php:367
 msgid "by occurrences"
-msgstr ""
+msgstr "ตามจำนวนที่ปรากฏ"
 
 #: lib/object.php:368
 msgid "by date"
@@ -556,7 +556,7 @@ msgstr "สิ้นสุด"
 
 #: templates/part.eventform.php:193
 msgid "occurrences"
-msgstr ""
+msgstr "จำนวนที่ปรากฏ"
 
 #: templates/part.eventform.php:208
 msgid "Location"

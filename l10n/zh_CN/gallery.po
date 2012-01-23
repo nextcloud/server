@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Bartek  <bart.p.pl@gmail.com>, 2012.
+#   <wengxt@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-20 17:48+0100\n"
-"PO-Revision-Date: 2012-01-20 16:50+0000\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-23 23:25+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/team/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -20,27 +21,27 @@ msgstr ""
 
 #: appinfo/app.php:41
 msgid "Gallery"
-msgstr "画廊"
+msgstr "图库"
 
 #: js/album_cover.js:40
 msgid "Scanning directories"
+msgstr "扫描目录"
+
+#: js/album_cover.js:48
+msgid "No photos found"
 msgstr ""
 
-#: js/album_cover.js:47 js/album_cover.js:56
+#: js/album_cover.js:51 js/album_cover.js:60
 msgid "Creating thumbnails"
-msgstr ""
+msgstr "创建缩略图"
 
-#: js/album_cover.js:77
+#: js/album_cover.js:81
 msgid "Do you wan't to remove album"
-msgstr ""
+msgstr "您是否想要移除相册"
 
-#: js/album_cover.js:90
+#: js/album_cover.js:94
 msgid "Input new gallery name"
-msgstr ""
-
-#: js/album_cover.js:105
-msgid "Album name can't be empty"
-msgstr ""
+msgstr "输入新图库名称"
 
 #: templates/index.php:10
 msgid "Rescan"
