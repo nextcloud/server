@@ -133,6 +133,7 @@ $(document).ready(function(){
 		}
 		var password=$('#newuserpassword').val();
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
+		var tr
 		$.post(
 			OC.filePath('settings','ajax','createuser.php'),
 			{
@@ -141,10 +142,12 @@ $(document).ready(function(){
 				groups:groups,
 			},
 			function(result){
-				
+				if(result.status!='success'){
+					tr.remove();
+				}
 			}
 		);
-		var tr=$('#content table tbody tr').first().clone();
+		tr=$('#content table tbody tr').first().clone();
 		tr.attr('data-uid',username);
 		tr.find('td.name').text(username);
 		var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');
