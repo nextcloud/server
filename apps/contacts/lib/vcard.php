@@ -323,7 +323,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function structureProperty($property){
 		$value = $property->value;
-		$value = htmlspecialchars($value);
+		//$value = htmlspecialchars($value);
 		if($property->name == 'ADR' || $property->name == 'N'){
 			$value = OC_VObject::unescapeSemicolons($value);
 		}
