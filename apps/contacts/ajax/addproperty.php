@@ -74,6 +74,14 @@ foreach ($parameters as $key=>$element) {
 }
 $checksum = md5($vcard->children[$line]->serialize());
 
+/* FIXME: OC_Contacts_App::getPropertyLineByChecksum throws an OC_JSON error when doing this check.
+   Fix for v. 3.1
+if(!is_null(OC_Contacts_App::getPropertyLineByChecksum($id, $checksum))) {
+	OC_JSON::error(array('data' => array('message' => $l->t('Trying to add duplicate property.'))));
+	OC_Log::write('contacts','ajax/addproperty.php: Trying to add duplicate property: '.$name, OC_Log::DEBUG);
+	exit();
+}
+*/
 if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
 	OC_JSON::error(array('data' => array('message' => $l->t('Error adding contact property.'))));
 	OC_Log::write('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OC_Log::ERROR);
