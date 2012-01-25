@@ -63,21 +63,8 @@ class OC_Gallery_Hooks_Handlers {
 
     if (!self::isPhoto($fullpath)) return;
 
-    OC_Log::write(self::$APP_TAG, 'Adding file with path '. $fullpath, OC_Log::DEBUG);
     $path = substr($fullpath, 0, strrpos($fullpath, '/'));
-    if ($path == '') $path = '/';
-    $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
-
-    if ($album->numRows() == 0) {
-      $album = self::createAlbum($path);
-    }
-    $album = $album->fetchRow();
-    $albumId = $album['album_id'];
-    $photo = OC_Gallery_Photo::find($albumId, $fullpath);
-    if ($photo->numRows() == 0) { // don't duplicate photo entries
-      OC_Log::write(self::$APP_TAG, 'Adding new photo to album', OC_Log::DEBUG);
-      OC_Gallery_Photo::create($albumId, $fullpath);
-    }
+    OC_Gallery_Scanner::scanDir($path, $albums);
 
   }
 
@@ -85,6 +72,7 @@ class OC_Gallery_Hooks_Handlers {
     $path = $params[OC_Filesystem::signal_param_path];
     if (OC_Filesystem::is_dir($path) && self::directoryContainsPhotos($path)) {
       OC_Gallery_Album::removeByPath($path, OC_User::getUser());
+      OC_Gallery_Photo::removeByPath($path.'/%');
     } elseif (self::isPhoto($path)) {
       OC_Gallery_Photo::removeByPath($path);
     }
