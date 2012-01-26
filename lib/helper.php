@@ -56,7 +56,7 @@ class OC_Helper {
 
 		if($absolute){
 			// Checking if the request was made through HTTPS. The last in line is for IIS
-			$protocol = isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
+			$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
 			$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
 		}
 
