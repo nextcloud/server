@@ -226,6 +226,17 @@ class OC_Filesystem{
 		}
 		self::$mounts[$mountpoint]=array('type'=>$type,'arguments'=>$arguments);
 	}
+
+	/**
+	 * create all storage backends mounted in the filesystem
+	 */
+	static private function mountAll(){
+		foreach(self::$mounts as $mountPoint=>$mount){
+			if(!isset(self::$storages[$mountPoint])){
+				self::$storages[$mountPoint]=self::createStorage($mount['type'],$mount['arguments']);
+			}
+		}
+	}
 	
 	/**
 	* get the storage object for a path
@@ -501,6 +512,7 @@ class OC_Filesystem{
 	}
 	
 	static public function search($query){
+		self::mountAll();
 		$files=array();
 		$fakeRoot=self::$fakeRoot;
 		$fakeRootLength=strlen($fakeRoot);
