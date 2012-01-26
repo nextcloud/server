@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-25 14:20+0000\n"
+"Last-Translator: nn nn <dev.nnnn@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/team/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: lostpassword/index.php:24
 msgid "Owncloud password reset"
-msgstr ""
+msgstr "Owncloud のパスワードをリセット"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "パスワードをリセットするには次のリンクをクリックして下さい: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
@@ -52,7 +52,7 @@ msgstr "あなたのパスワードはリセットされました。"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "ログインページへ戻る"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
@@ -133,7 +133,7 @@ msgstr "セットアップを完了します"
 
 #: templates/layout.guest.php:35
 msgid "web services under your control"
-msgstr ""
+msgstr "管理下にあるウェブサービス"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -153,7 +153,7 @@ msgstr "パスワードを記憶する"
 
 #: templates/login.php:16
 msgid "Log in"
-msgstr ""
+msgstr "ログイン"
 
 #: templates/logout.php:1
 msgid "You are logged out."

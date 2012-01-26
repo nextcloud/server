@@ -42,6 +42,7 @@
 "Create Contact" => "สร้างข้อมูลการติดต่อใหม่",
 "Choose active Address Books" => "เลือกสมุดบันทึกข้อมูลติดต่อที่ต้องการใช้งาน",
 "New Address Book" => "สร้างสมุดบันทึกข้อมูลการติดต่อใหม่",
+"CardDav Link" => "ลิงค์ CardDav",
 "Download" => "ดาวน์โหลด",
 "Edit" => "แก้ไข",
 "Delete" => "ลบ",
@@ -56,6 +57,8 @@
 "Submit" => "ส่งข้อมูล",
 "Cancel" => "ยกเลิก",
 "Birthday" => "วันเกิด",
+"Preferred" => "พิเศษ",
 "Phone" => "โทรศัพท์",
-"Update" => "อัพเดท"
+"Update" => "อัพเดท",
+"CardDAV syncing address:" => "ที่อยู่ในการเชื่อมข้อมูลกับระบบบันทึกที่อยู่ CardDAV:"
 );

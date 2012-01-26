@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
 "POT-Creation-Date: 2012-01-24 00:24+0100\n"
-"PO-Revision-Date: 2012-01-23 23:25+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"PO-Revision-Date: 2012-01-25 14:02+0000\n"
+"Last-Translator: nn nn <dev.nnnn@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/team/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,47 +19,47 @@ msgstr ""
 
 #: ajax/activation.php:17 ajax/updateaddressbook.php:26
 msgid "Error (de)activating addressbook."
-msgstr ""
+msgstr "電話帳の有効/無効化に失敗しました。"
 
 #: ajax/addcard.php:79
 msgid "There was an error adding the contact."
-msgstr ""
+msgstr "連絡先の追加でエラーが発生しました。"
 
 #: ajax/addproperty.php:39
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "項目の新規追加に失敗しました。"
 
 #: ajax/addproperty.php:51
 msgid "At least one of the address fields has to be filled out."
-msgstr ""
+msgstr "アドレス項目の１つは記入して下さい。"
 
 #: ajax/addproperty.php:78
 msgid "Error adding contact property."
-msgstr ""
+msgstr "連絡先の追加に失敗しました。"
 
 #: ajax/createaddressbook.php:20
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "電話帳の追加に失敗しました。"
 
 #: ajax/createaddressbook.php:26
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "電話帳の有効化に失敗しました。"
 
 #: ajax/deleteproperty.php:40
 msgid "Error deleting contact property."
-msgstr ""
+msgstr "連絡先の削除に失敗しました。"
 
 #: ajax/setproperty.php:79
 msgid "Error updating contact property."
-msgstr ""
+msgstr "連絡先の更新に失敗しました。"
 
 #: ajax/updateaddressbook.php:20
 msgid "Error updating addressbook."
-msgstr ""
+msgstr "電話帳の更新に失敗しました。"
 
 #: appinfo/app.php:21 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "連絡先"
 
 #: lib/app.php:52
 msgid "This is not your addressbook."
@@ -126,7 +126,7 @@ msgstr "ポケベル"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "連絡先"
 
 #: photo.php:42
 msgid "This is not your contact."
@@ -138,11 +138,11 @@ msgstr "連絡先の追加"
 
 #: templates/index.php:7
 msgid "Addressbooks"
-msgstr ""
+msgstr "電話帳"
 
 #: templates/part.addcardform.php:8
 msgid "Addressbook"
-msgstr ""
+msgstr "電話帳"
 
 #: templates/part.addcardform.php:21
 msgid "Name"
@@ -152,7 +152,7 @@ msgstr "氏名"
 #: templates/part.details.php:79 templates/part.setpropertyform.php:10
 #: templates/part.setpropertyform.php:47
 msgid "Type"
-msgstr ""
+msgstr "種類"
 
 #: templates/part.addcardform.php:65 templates/part.details.php:49
 #: templates/part.setpropertyform.php:16
@@ -195,20 +195,20 @@ msgstr "追加"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Choose active Address Books"
-msgstr ""
+msgstr "有効な電話帳の選択"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
-msgstr ""
+msgstr "新規電話帳"
 
 #: templates/part.chooseaddressbook.php:21
 #: templates/part.chooseaddressbook.rowfields.php:5
 msgid "CardDav Link"
-msgstr ""
+msgstr "CardDAV リンク"
 
 #: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Download"
-msgstr ""
+msgstr "ダウンロード"
 
 #: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Edit"
@@ -220,43 +220,43 @@ msgstr "削除"
 
 #: templates/part.details.php:3
 msgid "Download contact"
-msgstr ""
+msgstr "連絡先のダウンロード"
 
 #: templates/part.details.php:4
 msgid "Delete contact"
-msgstr ""
+msgstr "連絡先の削除"
 
 #: templates/part.details.php:34
 msgid "Add"
-msgstr ""
+msgstr "追加"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "電話帳の新規作成"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "電話帳の編集"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
-msgstr ""
+msgstr "表示名"
 
 #: templates/part.editaddressbook.php:23
 msgid "Active"
-msgstr ""
+msgstr "アクティブ"
 
 #: templates/part.editaddressbook.php:29
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: templates/part.editaddressbook.php:29
 msgid "Submit"
-msgstr ""
+msgstr "送信"
 
 #: templates/part.editaddressbook.php:30
 msgid "Cancel"
-msgstr ""
+msgstr "取り消し"
 
 #: templates/part.property.php:3
 msgid "Birthday"
@@ -264,7 +264,7 @@ msgstr "生年月日"
 
 #: templates/part.property.php:23
 msgid "Preferred"
-msgstr ""
+msgstr "推奨"
 
 #: templates/part.property.php:23 templates/part.setpropertyform.php:45
 msgid "Phone"
@@ -272,10 +272,10 @@ msgstr "電話番号"
 
 #: templates/part.setpropertyform.php:57
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing address:"
-msgstr ""
+msgstr "CardDAV 同期アドレス:"
 
 

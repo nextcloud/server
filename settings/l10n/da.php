@@ -3,6 +3,7 @@
 "Invalid request" => "Ugyldig forespørgsel",
 "OpenID Changed" => "OpenID ændret",
 "Language changed" => "Sprog ændret",
+"__language_name__" => "Dansk",
 "Log level" => "Log-niveau",
 "Add your application" => "Tilføj dit program",
 "Select an App" => "Vælg en App",

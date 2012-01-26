@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <tarek.taha@gmail.com>, 2011.
+#   <tarek.taha@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
 "POT-Creation-Date: 2012-01-24 00:24+0100\n"
-"PO-Revision-Date: 2012-01-23 23:25+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"PO-Revision-Date: 2012-01-25 09:34+0000\n"
+"Last-Translator: blackcoder <tarek.taha@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.net/projects/p/owncloud/team/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,47 +20,47 @@ msgstr ""
 
 #: ajax/activation.php:17 ajax/updateaddressbook.php:26
 msgid "Error (de)activating addressbook."
-msgstr ""
+msgstr "خطء خلال توقيف كتاب العناوين."
 
 #: ajax/addcard.php:79
 msgid "There was an error adding the contact."
-msgstr ""
+msgstr "خطء خلال اضافة معرفه جديده."
 
 #: ajax/addproperty.php:39
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "لا يمكنك اضافه صفه خاليه."
 
 #: ajax/addproperty.php:51
 msgid "At least one of the address fields has to be filled out."
-msgstr ""
+msgstr "يجب ملء على الاقل خانه واحده من العنوان."
 
 #: ajax/addproperty.php:78
 msgid "Error adding contact property."
-msgstr ""
+msgstr "خطء خلال اضافة صفة المعرفه."
 
 #: ajax/createaddressbook.php:20
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "خطء خلال اضافة كتاب عناوين."
 
 #: ajax/createaddressbook.php:26
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "خطء خلال تفعيل كتاب العناوين."
 
 #: ajax/deleteproperty.php:40
 msgid "Error deleting contact property."
-msgstr ""
+msgstr "خطء خلال محي الصفه."
 
 #: ajax/setproperty.php:79
 msgid "Error updating contact property."
-msgstr ""
+msgstr "خطء خلال تعديل الصفه."
 
 #: ajax/updateaddressbook.php:20
 msgid "Error updating addressbook."
-msgstr ""
+msgstr "خطء خلال تعديل كتاب العناوين"
 
 #: appinfo/app.php:21 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "المعارف"
 
 #: lib/app.php:52
 msgid "This is not your addressbook."
@@ -127,7 +127,7 @@ msgstr "الرنان"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "معرفه"
 
 #: photo.php:42
 msgid "This is not your contact."
@@ -139,11 +139,11 @@ msgstr "أضف شخص "
 
 #: templates/index.php:7
 msgid "Addressbooks"
-msgstr ""
+msgstr "كتب العناوين"
 
 #: templates/part.addcardform.php:8
 msgid "Addressbook"
-msgstr ""
+msgstr "كتاب العناوين"
 
 #: templates/part.addcardform.php:21
 msgid "Name"
@@ -153,7 +153,7 @@ msgstr "الاسم"
 #: templates/part.details.php:79 templates/part.setpropertyform.php:10
 #: templates/part.setpropertyform.php:47
 msgid "Type"
-msgstr ""
+msgstr "نوع"
 
 #: templates/part.addcardform.php:65 templates/part.details.php:49
 #: templates/part.setpropertyform.php:16
@@ -196,20 +196,20 @@ msgstr "أضف شخص "
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Choose active Address Books"
-msgstr ""
+msgstr "أختر كتاب العناوين الفعال"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
-msgstr ""
+msgstr "كتاب عناوين جديد"
 
 #: templates/part.chooseaddressbook.php:21
 #: templates/part.chooseaddressbook.rowfields.php:5
 msgid "CardDav Link"
-msgstr ""
+msgstr "وصلة CardDav"
 
 #: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Download"
-msgstr ""
+msgstr "انزال"
 
 #: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Edit"
@@ -221,43 +221,43 @@ msgstr "حذف"
 
 #: templates/part.details.php:3
 msgid "Download contact"
-msgstr ""
+msgstr "انزال المعرفه"
 
 #: templates/part.details.php:4
 msgid "Delete contact"
-msgstr ""
+msgstr "امحي المعرفه"
 
 #: templates/part.details.php:34
 msgid "Add"
-msgstr ""
+msgstr "أدخل"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "كتاب عناوين جديد"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "عدل كتاب العناوين"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
-msgstr ""
+msgstr "الاسم المعروض"
 
 #: templates/part.editaddressbook.php:23
 msgid "Active"
-msgstr ""
+msgstr "فعال"
 
 #: templates/part.editaddressbook.php:29
 msgid "Save"
-msgstr ""
+msgstr "حفظ"
 
 #: templates/part.editaddressbook.php:29
 msgid "Submit"
-msgstr ""
+msgstr "ارسال"
 
 #: templates/part.editaddressbook.php:30
 msgid "Cancel"
-msgstr ""
+msgstr "الغاء"
 
 #: templates/part.property.php:3
 msgid "Birthday"
@@ -265,7 +265,7 @@ msgstr "تاريخ الميلاد"
 
 #: templates/part.property.php:23
 msgid "Preferred"
-msgstr ""
+msgstr "مفضل"
 
 #: templates/part.property.php:23 templates/part.setpropertyform.php:45
 msgid "Phone"
@@ -273,10 +273,10 @@ msgstr "الهاتف"
 
 #: templates/part.setpropertyform.php:57
 msgid "Update"
-msgstr ""
+msgstr "تعديل"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing address:"
-msgstr ""
+msgstr "CardDAV مزامنه العناوين:"
 
 
