@@ -100,7 +100,7 @@ class OC_App{
 			}else{
                                 $download=OC_OCSClient::getApplicationDownload($app,1);
 				if(isset($download['downloadlink']) and $download['downloadlink']<>'') {
-					OC_Installer::installApp(array('source'=>'http','href'=>$download['downloadlink']));
+					$app=OC_Installer::installApp(array('source'=>'http','href'=>$download['downloadlink']));
 				}
 			}
 		}
