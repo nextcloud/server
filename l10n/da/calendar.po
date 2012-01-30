@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-21 00:41+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "Tidszone ændret"
 msgid "Invalid request"
 msgstr "Ugyldig forespørgsel"
 
-#: appinfo/app.php:20 templates/calendar.php:13
+#: appinfo/app.php:20 templates/calendar.php:14
 #: templates/part.eventform.php:20
 msgid "Calendar"
 msgstr "Kalender"
@@ -179,7 +179,7 @@ msgstr "øndag"
 
 #: lib/object.php:396
 msgid "events week of month"
-msgstr ""
+msgstr "begivenhedens uge i måneden"
 
 #: lib/object.php:397
 msgid "first"
@@ -259,7 +259,7 @@ msgstr "efter begivenheders dato"
 
 #: lib/object.php:442
 msgid "by yearday(s)"
-msgstr ""
+msgstr "efter dag(e) i året"
 
 #: lib/object.php:443
 msgid "by weeknumber(s)"
@@ -285,59 +285,63 @@ msgstr "Kal."
 msgid "All day"
 msgstr "Hele dagen"
 
-#: templates/calendar.php:11
+#: templates/calendar.php:11 templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr "Ny Kalender"
+
+#: templates/calendar.php:12
 msgid "Missing fields"
 msgstr "Manglende felter"
 
-#: templates/calendar.php:12 templates/part.eventform.php:3
+#: templates/calendar.php:13 templates/part.eventform.php:3
 msgid "Title"
 msgstr "Titel"
 
-#: templates/calendar.php:14
+#: templates/calendar.php:15
 msgid "From Date"
 msgstr "Fra dato"
 
-#: templates/calendar.php:15
+#: templates/calendar.php:16
 msgid "From Time"
 msgstr "Fra tidspunkt"
 
-#: templates/calendar.php:16
+#: templates/calendar.php:17
 msgid "To Date"
 msgstr "Til dato"
 
-#: templates/calendar.php:17
+#: templates/calendar.php:18
 msgid "To Time"
 msgstr "Til tidspunkt"
 
-#: templates/calendar.php:18
+#: templates/calendar.php:19
 msgid "The event ends before it starts"
 msgstr "Begivenheden slutter, inden den begynder"
 
-#: templates/calendar.php:19
+#: templates/calendar.php:20
 msgid "There was a database fail"
 msgstr "Der var en fejl i databasen"
 
-#: templates/calendar.php:52
+#: templates/calendar.php:38
 msgid "Week"
 msgstr "Uge"
 
-#: templates/calendar.php:53
+#: templates/calendar.php:39
 msgid "Month"
 msgstr "Måned"
 
-#: templates/calendar.php:54
+#: templates/calendar.php:40
 msgid "List"
 msgstr "Liste"
 
-#: templates/calendar.php:59
+#: templates/calendar.php:46
 msgid "Today"
 msgstr "I dag"
 
-#: templates/calendar.php:60
+#: templates/calendar.php:47
 msgid "Calendars"
 msgstr "Kalendere"
 
-#: templates/calendar.php:78
+#: templates/calendar.php:65
 msgid "There was a fail, while parsing the file."
 msgstr "Der opstod en fejl under gennemlæsning af filen."
 
@@ -420,10 +424,6 @@ msgstr "Dec."
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
 msgstr "Vælg aktive kalendere"
-
-#: templates/part.choosecalendar.php:15
-msgid "New Calendar"
-msgstr "Ny Kalender"
 
 #: templates/part.choosecalendar.php:20
 #: templates/part.choosecalendar.rowfields.php:4
@@ -530,11 +530,11 @@ msgstr "Vælg dage"
 
 #: templates/part.eventform.php:130
 msgid "and the events day of year."
-msgstr ""
+msgstr "og begivenhedens dag i året."
 
 #: templates/part.eventform.php:143
 msgid "and the events day of month."
-msgstr ""
+msgstr "og begivenhedens sag på måneden"
 
 #: templates/part.eventform.php:151
 msgid "Select months"
@@ -546,7 +546,7 @@ msgstr "Vælg uger"
 
 #: templates/part.eventform.php:169
 msgid "and the events week of year."
-msgstr ""
+msgstr "og begivenhedens uge i året."
 
 #: templates/part.eventform.php:175
 msgid "Interval"
@@ -578,7 +578,7 @@ msgstr "Beskrivelse af begivenheden"
 
 #: templates/part.import.php:1
 msgid "Import a calendar file"
-msgstr ""
+msgstr "Importer en kalenderfil"
 
 #: templates/part.import.php:6
 msgid "Please choose the calendar"
@@ -586,11 +586,11 @@ msgstr "Vælg venligst kalender"
 
 #: templates/part.import.php:10
 msgid "create a new calendar"
-msgstr ""
+msgstr "opret en ny kalender"
 
 #: templates/part.import.php:15
 msgid "Name of new calendar"
-msgstr ""
+msgstr "Navn på ny kalender"
 
 #: templates/part.import.php:17
 msgid "Import"
@@ -598,15 +598,15 @@ msgstr "Importer"
 
 #: templates/part.import.php:20
 msgid "Importing calendar"
-msgstr ""
+msgstr "Importerer kalender"
 
 #: templates/part.import.php:23
 msgid "Calendar imported successfully"
-msgstr ""
+msgstr "Kalender importeret korrekt"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Luk dialog"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"

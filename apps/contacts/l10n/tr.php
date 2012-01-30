@@ -15,8 +15,6 @@
 "Video" => "Video",
 "Pager" => "Sayfalayıcı",
 "This is not your contact." => "Bu sizin kişiniz değil.",
-"This card is not RFC compatible." => "Bu kart RFC uyumlu değil.",
-"This card does not contain a photo." => "Bu kart resim içermiyor.",
 "Add Contact" => "Kişi Ekle",
 "Name" => "Ad",
 "PO Box" => "Posta Kutusu",

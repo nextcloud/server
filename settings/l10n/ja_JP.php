@@ -1,7 +1,10 @@
 <?php $TRANSLATIONS = array(
+"email Changed" => "メールアドレスを変更しました",
 "Invalid request" => "無効なリクエストです",
 "OpenID Changed" => "OpenIDが変更されました",
 "Language changed" => "言語が変更されました",
+"__language_name__" => "Japanese(日本語)",
+"Log level" => "ログレベル",
 "Add your application" => "アプリを追加してください",
 "Select an App" => "アプリを選択してください",
 "-licensed" => "権利を保持されています",
@@ -18,11 +21,16 @@
 "New password" => "新しいパスワード",
 "show" => "表示",
 "Change password" => "パスワードを変更する",
+"Email" => "メールアドレス",
+"Your email address" => "あなたのメールアドレス",
+"Fill in an email address to enable password recovery" => "パスワードの回復を有効にするにはメールアドレスを入力してください",
 "Language" => "言語",
+"Help translate" => "翻訳を手伝う",
 "use this address to connect to your ownCloud in your file manager" => "ファイルマネージャーであなたのownCloudに接続するときはこのアドレスを使用してください",
 "Name" => "名前",
 "Password" => "パスワード",
 "Groups" => "グループ",
 "Create" => "作成",
+"Quota" => "クオータ",
 "Delete" => "削除"
 );

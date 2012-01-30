@@ -17,7 +17,7 @@
 #editentry_dialog {display: none;}
 #parsingfail_dialog{display: none;}
 
-#loading { display: none; left: 40%; position: fixed; top: 4.4em; z-index: 100; }
+#loading { display: none;margin: 0;padding:0;margin-top:5px;}
 
 #calendar_holder {position: relative;bottom: 0; right: 0; left: 0; top: 3em;}
 .fc-content{padding:2px 4px;}
@@ -43,7 +43,7 @@
 .popup {display: none; position: absolute; z-index: 1000; background: #eeeeee; color: #000000; border: 1px solid #1a1a1a; font-size: 90%;}
 .event_popup {width: 280px; height: 40px; padding: 10px;}
 
-input[type="button"].active {color: #0098E4}
+input[type="button"].active {color: #6193CF}
 #fromtime, #totime {
 color:#333;
 }

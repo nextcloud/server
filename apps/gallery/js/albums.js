@@ -41,27 +41,34 @@ Albums={
   // displays gallery in linear representation
   // on given element, and apply default styles for gallery
   display: function(element) {
-    var displayTemplate = '<div id="gallery_album_box" title="*NAME*"><div id="gallery_control_overlay"><a href="#" onclick="galleryRename(\'*NAME*\');return false;">rename</a> | <a href="#" onclick="galleryRemove(\'*NAME*\');">remove</a></div><a href="?view=*NAME*"><div id="gallery_album_cover" title="*NAME*"></div></a><h1>*NAME*</h1></div></div>';
+    var displayTemplate = '<div class="gallery_album_box"><div class="dummy"></div><a class="view"><div class="gallery_album_cover"></div></a><h1></h1><div class="gallery_album_decoration"><a><img src="img/share.png" title="Share"></a><a class="rename"><img src="img/rename.png" title="Rename"></a><a class="remove"><img src="img/delete.png" title="Delete"></a></div></div>';
     for (var i in Albums.albums) {
       var a = Albums.albums[i];
-      var local = $(displayTemplate.replace(/\*NAME\*/g, a.name));
-      $("#gallery_album_cover", local).css('background-repeat', 'no-repeat');
-      $("#gallery_album_cover", local).css('background-position', '0');
-      $("#gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+a.name+'")');
-      local.mouseover(function(e) {
-	    $("#gallery_control_overlay", this).css('visibility','visible');
-      });
-      local.mouseout(function(e) {
-	    $("#gallery_control_overlay", this).css('visibility','hidden');
-	  });
-      $("#gallery_album_cover", local).mousemove(function(e) {
+	  var local=$(displayTemplate);
+	  local.attr('data-album',a.name);
+	  $(".gallery_album_decoration a.rename", local).click(function(name,event){
+			event.preventDefault();
+			galleryRename(name);
+		}.bind(null,a.name));
+	  $(".gallery_album_decoration a.remove", local).click(function(name,event){
+		  event.preventDefault();
+		  galleryRemove(name);
+	  }.bind(null,a.name));
+	  $("a.view", local).attr('href','?view='+a.name);
+	  $('h1',local).text(a.name);
+	  $(".gallery_album_cover", local).attr('title',a.name);
+      $(".gallery_album_cover", local).css('background-repeat', 'no-repeat');
+      $(".gallery_album_cover", local).css('background-position', '0');
+      $(".gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+a.name+'")');
+      $(".gallery_album_cover", local).mousemove(function(e) {
 
         var albumMetadata = Albums.find(this.title);
         if (albumMetadata == undefined) {
           return;
         }
-        var x = Math.min(Math.floor((e.layerX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers)), albumMetadata.numOfCovers-1);
-        x *= this.offsetWidth-1;
+        var x = Math.floor((e.layerX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers));
+        x *= this.offsetWidth;
+        if (x < 0) x=0;
         $(this).css('background-position', -x+'px 0');
       });
       $(element).append(local);
@@ -69,8 +76,8 @@ Albums={
   },
   rename: function(element, new_name) {
     if (new_name) {
-		$(element).attr("title", new_name);
-		$("a", element).attr("href", "?view="+new_name);
+		$(element).attr("data-album", new_name);
+		$("a.view", element).attr("href", "?view="+new_name);
 		$("h1", element).text(new_name);
 	}
   }

@@ -2,7 +2,7 @@
 <info>
 	<id>gallery</id>
 	<name>Gallery</name>
-	<version>0.2</version>
+	<version>0.3</version>
 	<licence>AGPL</licence>
 	<author>Bartek Przybylski</author>
 	<require>2</require>

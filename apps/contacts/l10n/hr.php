@@ -15,8 +15,6 @@
 "Video" => "Video",
 "Pager" => "Pager",
 "This is not your contact." => "Ovo nije vaš kontakt.",
-"This card is not RFC compatible." => "Ova kartica nije sukladna prema RFC direktivama.",
-"This card does not contain a photo." => "Ova kartica ne sadrži fotografiju.",
 "Add Contact" => "Dodaj kontakt",
 "Name" => "Naziv",
 "PO Box" => "Poštanski Pretinac",

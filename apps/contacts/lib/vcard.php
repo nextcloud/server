@@ -159,14 +159,26 @@ class OC_Contacts_VCard{
 	 */
 	public static function addFromDAVData($id,$uri,$data){
 		$fn = null;
+		$email = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
-					break;
+				}
+				if($property->name == 'EMAIL' && is_null($email)){
+					$email = $property->value;
 				}
 			}
+		}
+		if(!$fn) {
+			if($email) {
+				$fn = $email;
+			} else {
+				$fn = 'Unknown';
+			}
+			$card->addProperty('EMAIL', $email);
+			$data = $card->serialize();
 		}
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
@@ -311,7 +323,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function structureProperty($property){
 		$value = $property->value;
-		$value = htmlspecialchars($value);
+		//$value = htmlspecialchars($value);
 		if($property->name == 'ADR' || $property->name == 'N'){
 			$value = OC_VObject::unescapeSemicolons($value);
 		}

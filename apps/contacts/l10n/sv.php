@@ -15,8 +15,6 @@
 "Video" => "Video",
 "Pager" => "Personsökare",
 "This is not your contact." => "Det här är inte din kontakt.",
-"This card is not RFC compatible." => "Detta kort är inte RFC-kompatibelt.",
-"This card does not contain a photo." => "Detta kort innehåller inte något foto.",
 "Add Contact" => "Lägg till kontakt",
 "Name" => "Namn",
 "PO Box" => "Postbox",

@@ -13,7 +13,6 @@
 "Video" => "Video",
 "Pager" => "Pager",
 "This is not your contact." => "Iste non es tu contacto",
-"This card is not RFC compatible." => "Iste carta non es compatibile con RFC",
 "Add Contact" => "Adder contacto",
 "Name" => "Nomine",
 "PO Box" => "Cassa postal",

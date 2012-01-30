@@ -25,6 +25,31 @@
 class OC_MEDIA_AMPACHE{
 	
 	/**
+	* fix the string to be XML compatible
+	* @param string name
+	* @return string
+	*/
+	
+	/* this is an ugly hack(tm), this should be: */
+	/* htmlentities($name, ENT_XML1, 'UTF-8');   */
+	/* with PHP 5.4 and later		     */
+	public static function fixXmlString($name){
+	       $result=str_replace("&", "&amp;", $name);
+	       $result=str_replace("'", "&apos;", $result);
+	       $result=str_replace("<", "&lt;", $result);
+	       $result=str_replace(">", "&gt;", $result);
+	       $result=str_replace("\"", "&quot;", $result);
+       	       $result=str_replace("Ä", "&#196;", $result);
+       	       $result=str_replace("Ö", "&#214;", $result);
+       	       $result=str_replace("Ü", "&#220;", $result);
+       	       $result=str_replace("ä", "&#228;", $result);
+       	       $result=str_replace("ö", "&#246;", $result);
+       	       $result=str_replace("ü", "&#252;", $result);
+       	       $result=str_replace("ß", "&#223;", $result);
+	       return $result;
+	}
+	
+	/**
 	* do the initial handshake
 	* @param array params
 	*/
@@ -34,6 +59,7 @@ class OC_MEDIA_AMPACHE{
 		$time=(isset($params['timestamp']))?$params['timestamp']:false;
 		$now=time();
 		if($now-$time>(10*60)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>timestamp is more then 10 minutes old</error>
 </root>");
@@ -54,6 +80,7 @@ class OC_MEDIA_AMPACHE{
 					$query=OC_DB::prepare("INSERT INTO *PREFIX*media_sessions (`session_id`, `token`, `user_id`, `start`) VALUES (NULL, ?, ?, now());");
 					$query->execute(array($token,$user));
 					$expire=date('c',time()+600);
+					echo('<?xml version="1.0" encoding="UTF-8"?>');
 					echo("<root>
 	<auth>$token</auth>
 	<version>350001</version>
@@ -71,10 +98,12 @@ class OC_MEDIA_AMPACHE{
 					return;
 				}
 			}
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
 		}else{
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Missing arguments</error>
 </root>");
@@ -86,12 +115,14 @@ class OC_MEDIA_AMPACHE{
 			if(self::checkAuth($params['auth'])){
 				self::updateAuth($params['auth']);
 			}else{
+				echo('<?xml version="1.0" encoding="UTF-8"?>');
 				echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
 				return;
 			}
 		}
+		echo('<?xml version="1.0" encoding="UTF-8"?>');
 		echo('<root>');
 		echo('<version>350001</version>');
 		echo('</root>');
@@ -128,7 +159,7 @@ class OC_MEDIA_AMPACHE{
 		$albums=count(OC_MEDIA_COLLECTION::getAlbums($artist['artist_id']));
 		$songs=count(OC_MEDIA_COLLECTION::getSongs($artist['artist_id']));
 		$id=$artist['artist_id'];
-		$name=htmlentities($artist['artist_name'], ENT_COMPAT, 'UTF-8');
+		$name=self::fixXmlString($artist['artist_name']);
 		echo("\t<artist id='$id'>\n");
 		echo("\t\t<name>$name</name>\n");
 		echo("\t\t<albums>$albums</albums>\n");
@@ -142,16 +173,19 @@ class OC_MEDIA_AMPACHE{
 		if(!$artistName){
 			$artistName=OC_MEDIA_COLLECTION::getArtistName($album['album_artist']);
 		}
-		$artistName=htmlentities($artistName, ENT_COMPAT, 'UTF-8');
+		$artistName=self::fixXmlString($artistName);
 		$songs=count(OC_MEDIA_COLLECTION::getSongs($album['album_artist'],$album['album_id']));
 		$id=$album['album_id'];
-		$name=htmlentities($album['album_name'], ENT_COMPAT, 'UTF-8');
+		$name=self::fixXmlString($album['album_name']);
 		$artist=$album['album_artist'];
 		echo("\t<album id='$id'>\n");
 		echo("\t\t<name>$name</name>\n");
 		echo("\t\t<artist id='$artist'>$artistName</artist>\n");
 		echo("\t\t<tracks>$songs</tracks>\n");
 		echo("\t\t<rating>0</rating>\n");
+		echo("\t\t<year>0</year>\n"); /* make Viridian happy */
+		echo("\t\t<disk>1</disk>\n"); /* make Viridian happy */
+		echo("\t\t<art> </art>\n"); /* single space to make quickplay happy enough */
 		echo("\t\t<preciserating>0</preciserating>\n");
 		echo("\t</album>\n");
 	}
@@ -163,10 +197,10 @@ class OC_MEDIA_AMPACHE{
 		if(!$albumName){
 			$albumName=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
 		}
-		$artistName=htmlentities($artistName, ENT_COMPAT, 'UTF-8');
-		$albumName=htmlentities($albumName, ENT_COMPAT, 'UTF-8');
+		$artistName=self::fixXmlString($artistName);
+		$albumName=self::fixXmlString($albumName);
 		$id=$song['song_id'];
-		$name=htmlentities($song['song_name'], ENT_COMPAT, 'UTF-8');
+		$name=self::fixXmlString($song['song_name']);
 		$artist=$song['song_artist'];
 		$album=$song['song_album'];
 		echo("\t<song id='$id'>\n");
@@ -174,12 +208,12 @@ class OC_MEDIA_AMPACHE{
 		echo("\t\t<artist id='$artist'>$artistName</artist>\n");
 		echo("\t\t<album id='$album'>$albumName</album>\n");
 		$url=OC_Helper::linkTo('media', 'server/xml.server.php', null, true)."?action=play&song=$id&auth={$_GET['auth']}";
-		$url=htmlentities($url);
+		$url=self::fixXmlString($url);
 		echo("\t\t<url>$url</url>\n");
 		echo("\t\t<time>{$song['song_length']}</time>\n");
 		echo("\t\t<track>{$song['song_track']}</track>\n");
 		echo("\t\t<size>{$song['song_size']}</size>\n");
-		echo("\t\t<art></art>\n");
+		echo("\t\t<art> </art>\n"); /* single space to make Viridian happy enough */
 		echo("\t\t<rating>0</rating>\n");
 		echo("\t\t<preciserating>0</preciserating>\n");
 		echo("\t</song>\n");
@@ -187,6 +221,7 @@ class OC_MEDIA_AMPACHE{
 	
 	public static function artists($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -195,6 +230,7 @@ class OC_MEDIA_AMPACHE{
 		$filter=isset($params['filter'])?$params['filter']:'';
 		$exact=isset($params['exact'])?($params['exact']=='true'):false;
 		$artists=OC_MEDIA_COLLECTION::getArtists($filter,$exact);
+		echo('<?xml version="1.0" encoding="UTF-8"?>');
 		echo('<root>');
 		foreach($artists as $artist){
 			self::printArtist($artist);
@@ -204,6 +240,7 @@ class OC_MEDIA_AMPACHE{
 	
 	public static function artist_songs($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -212,6 +249,7 @@ class OC_MEDIA_AMPACHE{
 		$filter=isset($params['filter'])?$params['filter']:'';
 		$songs=OC_MEDIA_COLLECTION::getSongs($filter);
 		$artist=OC_MEDIA_COLLECTION::getArtistName($filter);
+		echo('<?xml version="1.0" encoding="UTF-8"?>');
 		echo('<root>');
 		foreach($songs as $song){
 			self::printSong($song,$artist);
@@ -221,6 +259,7 @@ class OC_MEDIA_AMPACHE{
 	
 	public static function artist_albums($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -230,6 +269,7 @@ class OC_MEDIA_AMPACHE{
 		$filter=$params['filter'];
 		$albums=OC_MEDIA_COLLECTION::getAlbums($filter);
 		$artist=OC_MEDIA_COLLECTION::getArtistName($filter);
+		echo('<?xml version="1.0" encoding="UTF-8"?>');
 		echo('<root>');
 		foreach($albums as $album){
 			self::printAlbum($album,$artist);
@@ -239,6 +279,7 @@ class OC_MEDIA_AMPACHE{
 	
 	public static function albums($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -247,15 +288,17 @@ class OC_MEDIA_AMPACHE{
 		$filter=isset($params['filter'])?$params['filter']:'';
 		$exact=isset($params['exact'])?($params['exact']=='true'):false;
 		$albums=OC_MEDIA_COLLECTION::getAlbums(0,$filter,$exact);
+		echo('<?xml version="1.0" encoding="UTF-8"?>');	
 		echo('<root>');
 		foreach($albums as $album){
-			self::printAlbum($album,$artist);
+			self::printAlbum($album,false);
 		}
 		echo('</root>');
 	}
 	
 	public static function album_songs($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -265,6 +308,7 @@ class OC_MEDIA_AMPACHE{
 		if(count($songs)>0){
 			$artist=OC_MEDIA_COLLECTION::getArtistName($songs[0]['song_artist']);
 		}
+		echo('<?xml version="1.0" encoding="UTF-8"?>');
 		echo('<root>');
 		foreach($songs as $song){
 			self::printSong($song,$artist);
@@ -274,6 +318,7 @@ class OC_MEDIA_AMPACHE{
 	
 	public static function songs($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -282,6 +327,7 @@ class OC_MEDIA_AMPACHE{
 		$filter=isset($params['filter'])?$params['filter']:'';
 		$exact=isset($params['exact'])?($params['exact']=='true'):false;
 		$songs=OC_MEDIA_COLLECTION::getSongs(0,0,$filter,$exact);
+		echo('<?xml version="1.0" encoding="UTF-8"?>');
 		echo('<root>');
 		foreach($songs as $song){
 			self::printSong($song);
@@ -291,12 +337,14 @@ class OC_MEDIA_AMPACHE{
 	
 	public static function song($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
 			return;
 		}
 		if($song=OC_MEDIA_COLLECTION::getSong($params['filter'])){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo('<root>');
 			self::printSong($song);
 			echo('</root>');
@@ -306,6 +354,7 @@ class OC_MEDIA_AMPACHE{
 	public static function play($params){
 		$username=!self::checkAuth($params);
 		if($username){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -322,6 +371,7 @@ class OC_MEDIA_AMPACHE{
 	
 	public static function url_to_song($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -330,6 +380,7 @@ class OC_MEDIA_AMPACHE{
 		$url=$params['url'];
 		$songId=substr($url,strrpos($url,'song=')+5);
 		if($song=OC_MEDIA_COLLECTION::getSong($songId)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo('<root>');
 			self::printSong($song);
 			echo('</root>');
@@ -338,6 +389,7 @@ class OC_MEDIA_AMPACHE{
 	
 	public static function search_songs($params){
 		if(!self::checkAuth($params)){
+			echo('<?xml version="1.0" encoding="UTF-8"?>');
 			echo("<root>
 	<error code='400'>Invalid login</error>
 </root>");
@@ -353,6 +405,7 @@ class OC_MEDIA_AMPACHE{
 		foreach($albums as $album){
 			$songs=array_merge($songs,OC_MEDIA_COLLECTION::getSongs($album['album_artist'],$album['album_id']));
 		}
+		echo('<?xml version="1.0" encoding="UTF-8"?>');
 		echo('<root>');
 		foreach($songs as $song){
 			self::printSong($song);

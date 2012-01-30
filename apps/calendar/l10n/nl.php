@@ -29,6 +29,7 @@
 "never" => "nooit meer",
 "by occurrences" => "volgens gebeurtenissen",
 "by date" => "op datum",
+"by monthday" => "per dag van de maand",
 "by weekday" => "op weekdag",
 "Monday" => "Maandag",
 "Tuesday" => "Dinsdag",

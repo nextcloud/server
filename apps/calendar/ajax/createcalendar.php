@@ -12,6 +12,18 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
+if(trim($_POST['name']) == ''){
+	OC_JSON::error(array('message'=>'empty'));
+	exit;
+}
+$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+foreach($calendars as $cal){
+	if($cal['displayname'] == $_POST['name']){
+		OC_JSON::error(array('message'=>'namenotavailable'));
+		exit;
+	}
+}
+
 $userid = OC_User::getUser();
 $calendarid = OC_Calendar_Calendar::addCalendar($userid, $_POST['name'], 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, 1);

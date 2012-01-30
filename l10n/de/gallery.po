@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <admin@s-goecker.de>, 2012.
 # Bartek  <bart.p.pl@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 15:26+0100\n"
-"PO-Revision-Date: 2012-01-15 21:46+0000\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-25 19:47+0000\n"
 "Last-Translator: Bartek <bart.p.pl@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +22,26 @@ msgstr ""
 #: appinfo/app.php:41
 msgid "Gallery"
 msgstr "Galerie"
+
+#: js/album_cover.js:40
+msgid "Scanning directories"
+msgstr "Ordner werden durchsucht."
+
+#: js/album_cover.js:48
+msgid "No photos found"
+msgstr "Keine Fotos gefunden"
+
+#: js/album_cover.js:51 js/album_cover.js:60
+msgid "Creating thumbnails"
+msgstr "Thumbnails werden erstellt."
+
+#: js/album_cover.js:81
+msgid "Do you wan't to remove album"
+msgstr "Soll das Album entfernt werden?"
+
+#: js/album_cover.js:94
+msgid "Input new gallery name"
+msgstr "Gib den Albumnamen ein."
 
 #: templates/index.php:10
 msgid "Rescan"

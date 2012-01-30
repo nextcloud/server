@@ -234,6 +234,7 @@ function hideFileEditor(){
 // Keyboard Shortcuts
 var ctrlBtn = false;
 
+// TODO fix detection of ctrl keyup
 // returns true if ctrl+s or cmd+s is being pressed
 function checkForSaveKeyPress(e){
 	if(e.which == 17 || e.which == 91) ctrlBtn=true;
@@ -276,5 +277,5 @@ $(document).ready(function(){
 	bindControlEvents();
 	
 	// Binds the save keyboard shortcut events
-	$(document).unbind('keydown').bind('keydown',checkForSaveKeyPress);
+	//$(document).unbind('keydown').bind('keydown',checkForSaveKeyPress);
 });

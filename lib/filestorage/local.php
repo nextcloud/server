@@ -36,7 +36,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function filetype($path){
 		$filetype=filetype($this->datadir.$path);
 		if($filetype=='link'){
-			$filetype=filetype(readlink($this->datadir.$path));
+			$filetype=filetype(realpath($this->datadir.$path));
 		}
 		return $filetype;
 	}

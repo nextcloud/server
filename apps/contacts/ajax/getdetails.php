@@ -28,6 +28,7 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
 $id = $_GET['id'];
+$new = isset($_GET['new']) ? true : false;
 $vcard = OC_Contacts_App::getContactVCard( $id );
 
-OC_Contacts_App::renderDetails($id, $vcard);
+OC_Contacts_App::renderDetails($id, $vcard, $new);

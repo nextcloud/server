@@ -27,8 +27,6 @@
 "Pager" => "Pager",
 "Contact" => "Kontakt",
 "This is not your contact." => "To nie jest twój kontakt.",
-"This card is not RFC compatible." => "Ta karta nie jest zgodna ze specyfikacją RFC.",
-"This card does not contain a photo." => "Ta karta nie zawiera zdjęć.",
 "Add Contact" => "Dodaj kontakt",
 "Addressbooks" => "Książki adresowe",
 "Addressbook" => "Książka adresowa",

@@ -21,8 +21,7 @@
 *
 */
 
-/** From user comments at http://dk2.php.net/manual/en/function.exif-imagetype.php
- * Don't know if it can come in handy?
+//From user comments at http://dk2.php.net/manual/en/function.exif-imagetype.php
 if ( ! function_exists( 'exif_imagetype' ) ) {
     function exif_imagetype ( $filename ) {
         if ( ( list($width, $height, $type, $attr) = getimagesize( $filename ) ) !== false ) {
@@ -31,7 +30,6 @@ if ( ! function_exists( 'exif_imagetype' ) ) {
     return false;
     }
 }
-*/
 
 function ellipsis($str, $maxlen) {
 	if (strlen($str) > $maxlen) {
@@ -205,6 +203,10 @@ class OC_Image {
 	* @returns bool.
 	*/
 	public function fixOrientation() {
+		if(!is_callable('exif_read_data')){
+			OC_Log::write('core','OC_Image::fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
+			return false;
+		}
 		if(!is_resource(self::$resource)) {
 			OC_Log::write('core','OC_Image::fixOrientation() No image loaded.', OC_Log::DEBUG);
 			return false;

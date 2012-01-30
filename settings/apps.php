@@ -57,14 +57,22 @@ usort($apps, 'app_sort');
  	$categories=array_keys($catagoryNames);
  	$externalApps=OC_OCSClient::getApplications($categories);
  	foreach($externalApps as $app){
- 		$apps[]=array(
- 			'name'=>$app['name'],
- 			'id'=>$app['id'],
- 			'active'=>false,
- 			'description'=>$app['description'],
- 			'author'=>$app['personid'],
- 			'license'=>$app['license'],
- 		);
+		// show only external apps that are not exist yet
+		$local=false;
+ 		foreach($apps as $a){
+			if($a['name']==$app['name']) $local=true;			
+		}
+
+		if(!$local) {
+	 		$apps[]=array(
+ 				'name'=>$app['name'],
+ 				'id'=>$app['id'],
+ 				'active'=>false,
+ 				'description'=>$app['description'],
+ 				'author'=>$app['personid'],
+ 				'license'=>$app['license'],
+ 			);
+		}
  	}
  }
 

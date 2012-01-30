@@ -243,7 +243,7 @@ class OC_MEDIA_COLLECTION{
 		}else{
 			$searchString='';
 		}
-		$query=OC_DB::prepare("SELECT * FROM *PREFIX*media_songs WHERE song_user=? $artistString $albumString $searchString ORDER BY song_track, song_name");
+		$query=OC_DB::prepare("SELECT * FROM *PREFIX*media_songs WHERE song_user=? $artistString $albumString $searchString ORDER BY song_track, song_name, song_path");
 		return $query->execute($params)->fetchAll();
 	}
 	

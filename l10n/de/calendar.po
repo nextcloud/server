@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-16 17:31+0100\n"
-"PO-Revision-Date: 2012-01-16 16:32+0000\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-16 16:51+0000\n"
 "Last-Translator: goeck <admin@s-goecker.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/team/de/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Zeitzone geändert"
 msgid "Invalid request"
 msgstr "Anfragefehler"
 
-#: appinfo/app.php:20 templates/calendar.php:13
+#: appinfo/app.php:20 templates/calendar.php:14
 #: templates/part.eventform.php:20
 msgid "Calendar"
 msgstr "Kalender"
@@ -286,59 +286,63 @@ msgstr "Kal."
 msgid "All day"
 msgstr "Ganztags"
 
-#: templates/calendar.php:11
+#: templates/calendar.php:11 templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr "Neuer Kalender"
+
+#: templates/calendar.php:12
 msgid "Missing fields"
 msgstr "fehlende Felder"
 
-#: templates/calendar.php:12 templates/part.eventform.php:3
+#: templates/calendar.php:13 templates/part.eventform.php:3
 msgid "Title"
 msgstr "Titel"
 
-#: templates/calendar.php:14
+#: templates/calendar.php:15
 msgid "From Date"
 msgstr "Startdatum"
 
-#: templates/calendar.php:15
+#: templates/calendar.php:16
 msgid "From Time"
 msgstr "Startzeit"
 
-#: templates/calendar.php:16
+#: templates/calendar.php:17
 msgid "To Date"
 msgstr "Enddatum"
 
-#: templates/calendar.php:17
+#: templates/calendar.php:18
 msgid "To Time"
 msgstr "Endzeit"
 
-#: templates/calendar.php:18
+#: templates/calendar.php:19
 msgid "The event ends before it starts"
 msgstr "Der Termin hört auf, bevor er angefangen hat."
 
-#: templates/calendar.php:19
+#: templates/calendar.php:20
 msgid "There was a database fail"
 msgstr "Datenbankfehler"
 
-#: templates/calendar.php:52
+#: templates/calendar.php:38
 msgid "Week"
 msgstr "Woche"
 
-#: templates/calendar.php:53
+#: templates/calendar.php:39
 msgid "Month"
 msgstr "Monat"
 
-#: templates/calendar.php:54
+#: templates/calendar.php:40
 msgid "List"
 msgstr "Liste"
 
-#: templates/calendar.php:59
+#: templates/calendar.php:46
 msgid "Today"
 msgstr "Heute"
 
-#: templates/calendar.php:60
+#: templates/calendar.php:47
 msgid "Calendars"
 msgstr "Kalender"
 
-#: templates/calendar.php:78
+#: templates/calendar.php:65
 msgid "There was a fail, while parsing the file."
 msgstr "Fehler beim Einlesen der Datei."
 
@@ -352,7 +356,7 @@ msgstr "Mo"
 
 #: templates/lAfix.php:11
 msgid "Tue."
-msgstr "Die"
+msgstr "Di"
 
 #: templates/lAfix.php:12
 msgid "Wed."
@@ -380,7 +384,7 @@ msgstr "Feb"
 
 #: templates/lAfix.php:30
 msgid "Mar."
-msgstr "Mär"
+msgstr "März"
 
 #: templates/lAfix.php:31
 msgid "Apr."
@@ -421,10 +425,6 @@ msgstr "Dez"
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
 msgstr "Aktive Kalender wählen"
-
-#: templates/part.choosecalendar.php:15
-msgid "New Calendar"
-msgstr "Neuer Kalender"
 
 #: templates/part.choosecalendar.php:20
 #: templates/part.choosecalendar.rowfields.php:4
@@ -579,7 +579,7 @@ msgstr "Beschreibung"
 
 #: templates/part.import.php:1
 msgid "Import a calendar file"
-msgstr ""
+msgstr "Kalender Datei Importieren"
 
 #: templates/part.import.php:6
 msgid "Please choose the calendar"
@@ -587,11 +587,11 @@ msgstr "Bitte wählen Sie den Kalender."
 
 #: templates/part.import.php:10
 msgid "create a new calendar"
-msgstr ""
+msgstr "Neuen Kalender anlegen"
 
 #: templates/part.import.php:15
 msgid "Name of new calendar"
-msgstr ""
+msgstr "Kalendername"
 
 #: templates/part.import.php:17
 msgid "Import"
@@ -599,15 +599,15 @@ msgstr "Importieren"
 
 #: templates/part.import.php:20
 msgid "Importing calendar"
-msgstr ""
+msgstr "Kalender wird importiert."
 
 #: templates/part.import.php:23
 msgid "Calendar imported successfully"
-msgstr ""
+msgstr "Kalender erfolgreich importiert"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Dialog schließen"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"

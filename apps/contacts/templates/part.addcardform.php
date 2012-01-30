@@ -94,7 +94,7 @@
 			</dd>
 			<dt>
 				<label class="label" for="adr_zipcode"><?php echo $l->t('Zipcode'); ?></label>
-			</dtl>
+			</dt>
 			<dd>
 				<input type="text" id="adr_zipcode" name="value[ADR][5]" value="">
 			</dd>

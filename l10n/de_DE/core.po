@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2011-07-25 16:05+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: lostpassword/index.php:24
+msgid "Owncloud password reset"
+msgstr ""
+
+#: lostpassword/templates/email.php:1
+msgid "Use the following link to reset your password: {link}"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Requested"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:22
+#: templates/login.php:8
+msgid "Username"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr ""
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr ""
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr ""
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr ""
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr ""
+
+#: strings.php:5
+msgid "Personal"
+msgstr ""
+
+#: strings.php:6
+msgid "Users"
+msgstr ""
+
+#: strings.php:7
+msgid "Apps"
+msgstr ""
+
+#: strings.php:8
+msgid "Admin"
+msgstr ""
+
+#: strings.php:9
+msgid "Help"
+msgstr ""
+
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr ""
+
+#: templates/installation.php:20
+msgid "Create an <strong>admin account</strong>"
+msgstr ""
+
+#: templates/installation.php:26 templates/login.php:12
+msgid "Password"
+msgstr ""
+
+#: templates/installation.php:32
+msgid "Advanced"
+msgstr ""
+
+#: templates/installation.php:34
+msgid "Data folder"
+msgstr ""
+
+#: templates/installation.php:41
+msgid "Configure the database"
+msgstr ""
+
+#: templates/installation.php:46 templates/installation.php:57
+#: templates/installation.php:67
+msgid "will be used"
+msgstr ""
+
+#: templates/installation.php:79
+msgid "Database user"
+msgstr ""
+
+#: templates/installation.php:83
+msgid "Database password"
+msgstr ""
+
+#: templates/installation.php:87
+msgid "Database name"
+msgstr ""
+
+#: templates/installation.php:93
+msgid "Database host"
+msgstr ""
+
+#: templates/installation.php:98
+msgid "Finish setup"
+msgstr ""
+
+#: templates/layout.guest.php:35
+msgid "web services under your control"
+msgstr ""
+
+#: templates/layout.user.php:34
+msgid "Log out"
+msgstr ""
+
+#: templates/layout.user.php:46 templates/layout.user.php:47
+msgid "Settings"
+msgstr ""
+
+#: templates/login.php:5
+msgid "Lost your password?"
+msgstr ""
+
+#: templates/login.php:15
+msgid "remember"
+msgstr ""
+
+#: templates/login.php:16
+msgid "Log in"
+msgstr ""
+
+#: templates/logout.php:1
+msgid "You are logged out."
+msgstr ""
+
+#: templates/part.pagenavi.php:3
+msgid "prev"
+msgstr ""
+
+#: templates/part.pagenavi.php:20
+msgid "next"
+msgstr ""
+
+

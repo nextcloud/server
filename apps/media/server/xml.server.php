@@ -69,6 +69,9 @@ if(isset($arguments['action'])){
 		case 'search_songs':
 			OC_MEDIA_AMPACHE::search_songs($arguments);
 			break;
+		case 'song':
+			OC_MEDIA_AMPACHE::song($arguments);
+			break;
 	}
 }
 

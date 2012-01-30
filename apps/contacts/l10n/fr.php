@@ -27,8 +27,6 @@
 "Pager" => "Bipeur",
 "Contact" => "Contact",
 "This is not your contact." => "Ce n'est pas votre contact.",
-"This card is not RFC compatible." => "Cette fiche n'est pas compatible RFC.",
-"This card does not contain a photo." => "Cette fiche ne contient pas de photo.",
 "Add Contact" => "Ajouter un Contact",
 "Addressbooks" => "Carnets d'adresses",
 "Addressbook" => "Carnet d'adresses",

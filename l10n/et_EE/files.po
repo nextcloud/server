@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Rivo Zängov <eraser@eraser.ee>, 2011.
+# Rivo Zängov <eraser@eraser.ee>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-18 10:38+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.net/projects/p/owncloud/team/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,19 +57,19 @@ msgstr "Maksimaalne üleslaadimise suurus"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Uus"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "Tekstifail"
 
 #: templates/index.php:11
 msgid "Folder"
-msgstr ""
+msgstr "Kaust"
 
 #: templates/index.php:12
 msgid "From the web"
-msgstr ""
+msgstr "Veebist"
 
 #: templates/index.php:22
 msgid "Upload"

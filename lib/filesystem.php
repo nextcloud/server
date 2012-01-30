@@ -254,6 +254,17 @@ class OC_Filesystem{
 		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
 	}
+
+	/**
+	 * create all storage backends mounted in the filesystem
+	 */
+	static private function mountAll(){
+		foreach(self::$mounts as $mountPoint=>$mount){
+			if(!isset(self::$storages[$mountPoint])){
+				self::$storages[$mountPoint]=self::createStorage($mount['type'],$mount['arguments']);
+			}
+		}
+	}
 	
 	/**
 	* return the path to a local version of the file

@@ -5,14 +5,15 @@
 # Translators:
 #   <bart.formosus@gmail.com>, 2011.
 #   <bartv@thisnet.nl>, 2011.
+#   <jos@gelauff.net>, 2012.
 #   <pietje8501@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-25 08:31+0000\n"
+"Last-Translator: jgelauff <jos@gelauff.net>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,7 +144,7 @@ msgstr "op datum"
 
 #: lib/object.php:375
 msgid "by monthday"
-msgstr ""
+msgstr "per dag van de maand"
 
 #: lib/object.php:376
 msgid "by weekday"

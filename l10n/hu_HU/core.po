@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <mail@tamas-nagy.net>, 2011.
+# Peter Borsa <peter.borsa@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-20 13:07+0000\n"
+"Last-Translator: Peter Borsa <peter.borsa@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.net/projects/p/owncloud/team/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,7 +155,7 @@ msgstr "emlékezni"
 
 #: templates/login.php:16
 msgid "Log in"
-msgstr ""
+msgstr "Bejelentkezés"
 
 #: templates/logout.php:1
 msgid "You are logged out."

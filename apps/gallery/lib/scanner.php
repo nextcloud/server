@@ -59,9 +59,10 @@ class OC_Gallery_Scanner {
     $albums['imagesCount'] = $current_album['imagesCount'];
     $albums['albumName'] = $current_album['name'];
 
-    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
+    $result = OC_Gallery_Album::find(OC_User::getUser(), /*$current_album['name']*/ null, $path);
+    // don't duplicate galleries with same path (bug oc-33)
     if ($result->numRows() == 0 && count($current_album['images'])) {
-	    OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
+      OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
 	    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
     }
     $albumId = $result->fetchRow();
@@ -81,15 +82,15 @@ class OC_Gallery_Scanner {
     $file_count = min(count($files), 10);
     $thumbnail = imagecreatetruecolor($file_count*200, 200);
     for ($i = 0; $i < $file_count; $i++) {
-      CroppedThumbnail(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/files/'.$files[$i], 200, 200, $thumbnail, $i*200);
+		$imagePath = OC_Filesystem::getLocalFile($files[$i]);
+      CroppedThumbnail($imagePath, 200, 200, $thumbnail, $i*200);
     }
     imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
   }
 
   public static function isPhoto($filename) {
-    if (substr(OC_Filesystem::getMimeType($filename), 0, 6) == "image/")
-      return 1;
-    return 0;
+    $ext = strtolower(substr($filename, strrpos($filename, '.')+1));
+    return $ext=='png' || $ext=='jpeg' || $ext=='jpg' || $ext=='gif';
   }
 
   public static function find_paths($path) {

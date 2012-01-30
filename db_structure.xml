@@ -142,14 +142,14 @@
 	   <length>1</length>
    </field>
 
-   <index>
+<!--   <index>
     <name>fscache_path_index</name>
 	<unique>true</unique>
     <field>
      <name>path</name>
      <sorting>ascending</sorting>
     </field>
-   </index>
+   </index>-->
 
    <index>
 	   <name>parent_index</name>

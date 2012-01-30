@@ -26,6 +26,12 @@ Calendar={
 			$( "#to" ).datepicker({
 				dateFormat : 'dd-mm-yy'
 			});
+			$('#fromtime').timepicker({
+			    showPeriodLabels: false
+			});
+			$('#totime').timepicker({
+			    showPeriodLabels: false
+			});
 			$('#category').multiselect({
 					header: false,
 					noneSelectedText: $('#category').attr('title'),
@@ -345,10 +351,21 @@ Calendar={
 			}
 			
 		},
-		reseticonhighlight: function(){
-			$('#oneweekview_radio').css('color', '#000000');
-			$('#onemonthview_radio').css('color', '#000000');
-			$('#listview_radio').css('color', '#000000');
+		setViewActive: function(view){
+			$('#view input[type="button"]').removeClass('active');
+			var id;
+			switch (view) {
+				case 'agendaWeek':
+					id = 'oneweekview_radio';
+					break;
+				case 'month':
+					id = 'onemonthview_radio';
+					break;
+				case 'list':
+					id = 'listview_radio';
+					break;
+			}
+			$('#'+id).addClass('active');
 		},
 		Calendar:{
 			overview:function(){
@@ -412,11 +429,17 @@ Calendar={
 				}
 			},
 			submit:function(button, calendarid){
-				var displayname = $("#displayname_"+calendarid).val();
+				var displayname = $.trim($("#displayname_"+calendarid).val());
 				var active = $("#edit_active_"+calendarid+":checked").length;
 				var description = $("#description_"+calendarid).val();
 				var calendarcolor = $("#calendarcolor_"+calendarid).val();
-
+				if(displayname == ''){
+					$("#displayname_"+calendarid).css('background-color', '#FF2626');
+					$("#displayname_"+calendarid).focus(function(){
+						$("#displayname_"+calendarid).css('background-color', '#F8F8F8');
+					});
+				}
+				
 				var url;
 				if (calendarid == 'new'){
 					url = OC.filePath('calendar', 'ajax', 'createcalendar.php');
@@ -429,6 +452,14 @@ Calendar={
 							$(button).closest('tr').prev().html(data.page).show().next().remove();
 							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
 							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+							if (calendarid == 'new'){
+								$('#choosecalendar_dialog > table').append('<tr><td colspan="6"><a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><input type="button" value="' + newcalendar + '"></a></td></tr>');
+							}
+						}else{
+							$("#displayname_"+calendarid).css('background-color', '#FF2626');
+							$("#displayname_"+calendarid).focus(function(){
+								$("#displayname_"+calendarid).css('background-color', '#F8F8F8');
+							});
 						}
 					}, 'json');
 			},
@@ -649,6 +680,16 @@ $(document).ready(function(){
 		viewDisplay: function(view) {
 			$('#datecontrol_date').html(view.title);
 			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+			Calendar.UI.setViewActive(view.name);
+			if (view.name == 'agendaWeek') {
+				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 0.1);
+			}
+			else {
+				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 1.35);
+			}
+		},
+		columnFormat: {
+		    week: 'ddd d. MMM'
 		},
 		selectable: true,
 		selectHelper: true,
@@ -674,18 +715,12 @@ $(document).ready(function(){
 	});
 	$('#oneweekview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');
-		Calendar.UI.reseticonhighlight();
-		$('#oneweekview_radio').css('color', '#6193CF');
 	});
 	$('#onemonthview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'month');
-		Calendar.UI.reseticonhighlight();
-		$('#onemonthview_radio').css('color', '#6193CF');
 	});
 	$('#listview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'list');
-		Calendar.UI.reseticonhighlight();
-		$('#listview_radio').css('color', '#6193CF');
 	});
 	$('#today_input').click(function(){
 		$('#calendar_holder').fullCalendar('today');

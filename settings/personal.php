@@ -34,7 +34,7 @@ $languageNames=include 'languageCodes.php';
 $languages=array();
 foreach($languageCodes as $lang){
 	$l=new OC_L10N('settings',$lang);
-	if($l->t('__language_name__')!='__language_name__'){//first check if the language name is in the translation file
+	if(substr($l->t('__language_name__'),0,1)!='_'){//first check if the language name is in the translation file
 		$languages[]=array('code'=>$lang,'name'=>$l->t('__language_name__'));
 	}elseif(isset($languageNames[$lang])){
 		$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);

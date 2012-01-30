@@ -17,8 +17,6 @@
 "Pager" => "Пејџер",
 "Contact" => "Контакт",
 "This is not your contact." => "Ово није ваш контакт.",
-"This card is not RFC compatible." => "Ова карта није сагласна са РФЦ-ом.",
-"This card does not contain a photo." => "Ова карта не садржи фотографију.",
 "Add Contact" => "Додај контакт",
 "Addressbooks" => "Адресар",
 "Addressbook" => "Адресар",

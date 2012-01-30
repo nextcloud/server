@@ -15,8 +15,6 @@
 "Video" => "וידאו",
 "Pager" => "זימונית",
 "This is not your contact." => "זהו אינו איש קשר שלך",
-"This card is not RFC compatible." => "כרטיס זה אינו תואם ל־RFC",
-"This card does not contain a photo." => "כרטיס זה אינו כולל תמונה",
 "Add Contact" => "הוספת איש קשר",
 "Name" => "שם",
 "PO Box" => "תא דואר",

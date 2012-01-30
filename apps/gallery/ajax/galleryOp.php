@@ -34,7 +34,11 @@ function handleRename($oldname, $newname) {
 
 function handleRemove($name) {
   OC_JSON::checkLoggedIn();
+  $album_id = OC_Gallery_Album::find(OC_User::getUser(), $name);
+  $album_id = $album_id->fetchRow();
+  $album_id = $album_id['album_id'];
   OC_Gallery_Album::remove(OC_User::getUser(), $name);
+  OC_Gallery_Photo::removeByAlbumId($album_id);
 }
 
 function handleGetThumbnails($albumname) {

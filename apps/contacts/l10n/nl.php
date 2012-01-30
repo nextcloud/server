@@ -15,8 +15,6 @@
 "Video" => "Video",
 "Pager" => "Pieper",
 "This is not your contact." => "Dit is niet uw contactpersoon.",
-"This card is not RFC compatible." => "Deze kaart is niet RFC compatibel.",
-"This card does not contain a photo." => "Deze contact bevat geen foto.",
 "Add Contact" => "Contact toevoegen",
 "Name" => "Naam",
 "Type" => "Type",

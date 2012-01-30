@@ -3,6 +3,7 @@
 "Invalid request" => "Ongeldig verzoek",
 "OpenID Changed" => "OpenID is aangepast",
 "Language changed" => "Taal aangepast",
+"__language_name__" => "Nederlands",
 "Log level" => "Logniveau",
 "Add your application" => "Voeg uw applicatie toe",
 "Select an App" => "Selecteer een app",

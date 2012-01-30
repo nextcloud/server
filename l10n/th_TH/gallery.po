@@ -1,0 +1,53 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-26 07:08+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywherer@gmail.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.net/projects/p/owncloud/team/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: appinfo/app.php:41
+msgid "Gallery"
+msgstr "แกลอรี่"
+
+#: js/album_cover.js:40
+msgid "Scanning directories"
+msgstr "กำลังสแกนไดเร็กทอรี่"
+
+#: js/album_cover.js:48
+msgid "No photos found"
+msgstr "ไม่พบรูปภาพที่ต้องการ"
+
+#: js/album_cover.js:51 js/album_cover.js:60
+msgid "Creating thumbnails"
+msgstr "การสร้างรูปขนาดย่อ"
+
+#: js/album_cover.js:81
+msgid "Do you wan't to remove album"
+msgstr "คุณต้องการลบอัลบั้มนี้ออกหรือไม่"
+
+#: js/album_cover.js:94
+msgid "Input new gallery name"
+msgstr "กรอกชื่อแกลอรี่ใหม่"
+
+#: templates/index.php:10
+msgid "Rescan"
+msgstr "ตรวจสอบอีกครั้ง"
+
+#: templates/view_album.php:19
+msgid "Back"
+msgstr "ย้อนกลับ"
+
+

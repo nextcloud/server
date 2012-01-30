@@ -15,8 +15,6 @@
 "Video" => "Videaĵo",
 "Pager" => "Televokilo",
 "This is not your contact." => "Tiu ĉi ne estas via kontakto.",
-"This card is not RFC compatible." => "Ĉi tiu karto ne kongruas kun RFC.",
-"This card does not contain a photo." => "Ĉi tiu karto ne havas foton.",
 "Add Contact" => "Aldoni kontakton",
 "Name" => "Nomo",
 "PO Box" => "Abonkesto",

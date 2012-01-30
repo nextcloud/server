@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-15 13:45+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-19 00:56+0000\n"
+"Last-Translator: Petros Kyladitis <petros.kyladitis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr "Η ζώνη ώρας άλλαξε"
 msgid "Invalid request"
 msgstr "Μη έγκυρο αίτημα"
 
-#: appinfo/app.php:20 templates/calendar.php:13
+#: appinfo/app.php:20 templates/calendar.php:14
 #: templates/part.eventform.php:20
 msgid "Calendar"
 msgstr "Ημερολόγιο"
@@ -284,59 +284,63 @@ msgstr "Ημερ."
 msgid "All day"
 msgstr "Ολοήμερο"
 
-#: templates/calendar.php:11
+#: templates/calendar.php:11 templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr "Νέα Ημερολόγιο"
+
+#: templates/calendar.php:12
 msgid "Missing fields"
 msgstr "Πεδία που λείπουν"
 
-#: templates/calendar.php:12 templates/part.eventform.php:3
+#: templates/calendar.php:13 templates/part.eventform.php:3
 msgid "Title"
 msgstr "Τίτλος"
 
-#: templates/calendar.php:14
+#: templates/calendar.php:15
 msgid "From Date"
 msgstr "Από Ημερομηνία"
 
-#: templates/calendar.php:15
+#: templates/calendar.php:16
 msgid "From Time"
 msgstr "Από Ώρα"
 
-#: templates/calendar.php:16
+#: templates/calendar.php:17
 msgid "To Date"
 msgstr "Έως Ημερομηνία"
 
-#: templates/calendar.php:17
+#: templates/calendar.php:18
 msgid "To Time"
 msgstr "Έως Ώρα"
 
-#: templates/calendar.php:18
+#: templates/calendar.php:19
 msgid "The event ends before it starts"
 msgstr "Το γεγονός ολοκληρώνεται πριν από την έναρξή του"
 
-#: templates/calendar.php:19
+#: templates/calendar.php:20
 msgid "There was a database fail"
 msgstr "Υπήρξε σφάλμα στη βάση δεδομένων"
 
-#: templates/calendar.php:52
+#: templates/calendar.php:38
 msgid "Week"
 msgstr "Εβδομάδα"
 
-#: templates/calendar.php:53
+#: templates/calendar.php:39
 msgid "Month"
 msgstr "Μήνας"
 
-#: templates/calendar.php:54
+#: templates/calendar.php:40
 msgid "List"
 msgstr "Λίστα"
 
-#: templates/calendar.php:59
+#: templates/calendar.php:46
 msgid "Today"
 msgstr "Σήμερα"
 
-#: templates/calendar.php:60
+#: templates/calendar.php:47
 msgid "Calendars"
 msgstr "Ημερολόγια"
 
-#: templates/calendar.php:78
+#: templates/calendar.php:65
 msgid "There was a fail, while parsing the file."
 msgstr "Υπήρξε μια αποτυχία, κατά την αξιολόγηση του αρχείου."
 
@@ -419,10 +423,6 @@ msgstr "Δεκ."
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
 msgstr "Επιλέξτε τα ενεργά ημερολόγια"
-
-#: templates/part.choosecalendar.php:15
-msgid "New Calendar"
-msgstr "Νέα Ημερολόγιο"
 
 #: templates/part.choosecalendar.php:20
 #: templates/part.choosecalendar.rowfields.php:4
@@ -577,7 +577,7 @@ msgstr "Περιγραφή του συμβάντος"
 
 #: templates/part.import.php:1
 msgid "Import a calendar file"
-msgstr ""
+msgstr "Εισαγωγή αρχείου ημερολογίου"
 
 #: templates/part.import.php:6
 msgid "Please choose the calendar"
@@ -585,11 +585,11 @@ msgstr "Παρακαλώ επιλέξτε το ημερολόγιο"
 
 #: templates/part.import.php:10
 msgid "create a new calendar"
-msgstr ""
+msgstr "δημιουργία νέου ημερολογίου"
 
 #: templates/part.import.php:15
 msgid "Name of new calendar"
-msgstr ""
+msgstr "Όνομα νέου ημερολογίου"
 
 #: templates/part.import.php:17
 msgid "Import"
@@ -597,15 +597,15 @@ msgstr "Εισαγωγή"
 
 #: templates/part.import.php:20
 msgid "Importing calendar"
-msgstr ""
+msgstr "Εισαγωγή ημερολογίου"
 
 #: templates/part.import.php:23
 msgid "Calendar imported successfully"
-msgstr ""
+msgstr "Το ημερολόγιο εισήχθει επιτυχώς"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Κλείσιμο Διαλόγου"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"

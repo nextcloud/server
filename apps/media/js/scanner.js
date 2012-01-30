@@ -5,13 +5,14 @@ Scanner={
 	startTime:null,
 	endTime:null,
 	stopScanning:false,
-	currentIndex:-1,
+	currentIndex:0,
 	songs:[],
 	findSongs:function(ready){
 		$.getJSON(OC.linkTo('media','ajax/api.php')+'?action=find_music',function(songs){
 			Scanner.songsFound=songs.length;
 			Scanner.currentIndex=-1
 			if(ready){
+				
 				ready(songs)
 			}
 		});
@@ -37,12 +38,22 @@ Scanner={
 		$('#scanprogressbar').progressbar({
 			value:0,
 		});
+		$('#scanprogressbar').show();
 		Scanner.songsChecked=0;
+		Scanner.currentIndex=0;
 		Scanner.songsScanned=0;
 		Scanner.startTime=new Date().getTime()/1000;
 		Scanner.findSongs(function(songs){
 			Scanner.songs=songs;
-			Scanner.start();
+			Scanner.start(function(){
+				$('#scan input.start').show();
+				$('#scan input.stop').hide();
+				$('#scanprogressbar').hide();
+				Collection.display();
+				if(ready){
+					ready();
+				}
+			});
 		});
 	},
 	stop:function(){
@@ -52,15 +63,16 @@ Scanner={
 		Scanner.stopScanning=false;
 		$('#scancount').show();
 		var scanSong=function(){
-			Scanner.currentIndex++;
-			if(!Scanner.stopScanning && Scanner.currentIndex<Scanner.songs.length){
+			if(!Scanner.stopScanning && Scanner.currentIndex<=Scanner.songs.length){
 				Scanner.scanFile(Scanner.songs[Scanner.currentIndex],scanSong)
-			}else{
+			}else if(!Scanner.stopScanning){
 				Scanner.endTime=new Date().getTime()/1000;
 				if(ready){
 					ready();
+					ready=null;//only call ready once
 				}
 			}
+			Scanner.currentIndex++;
 		}
 		scanSong();
 		scanSong();

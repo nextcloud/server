@@ -140,7 +140,7 @@ class OC_MEDIA_SCANNER{
 	 * @return bool
 	 */
 	public static function isMusic($filename){
-		$ext=substr($filename,strrpos($filename,'.')+1);
+		$ext=strtolower(substr($filename,strrpos($filename,'.')+1));
 		return $ext=='mp3' || $ext=='flac' || $ext=='m4a' || $ext=='ogg' || $ext=='oga';
 	}
 }

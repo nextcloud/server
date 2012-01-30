@@ -1,7 +1,10 @@
 <?php $TRANSLATIONS = array(
+"email Changed" => "e-posti on muudetud",
 "Invalid request" => "Vigane päring",
 "OpenID Changed" => "OpenID on muudetud",
 "Language changed" => "Keel on muudetud",
+"__language_name__" => "Eesti",
+"Log level" => "Logi tase",
 "Add your application" => "Lisa oma programm",
 "Select an App" => "Vali programm",
 "-licensed" => "-litsenseeritud",
@@ -18,11 +21,16 @@
 "New password" => "Uus parool",
 "show" => "näita",
 "Change password" => "Muuda parooli",
+"Email" => "E-post",
+"Your email address" => "Sinu e-posti aadress",
+"Fill in an email address to enable password recovery" => "Parooli taastamise sisse lülitamiseks sisesta e-posti aadress",
 "Language" => "Keel",
+"Help translate" => "Aita tõlkida",
 "use this address to connect to your ownCloud in your file manager" => "kasuta seda aadressi oma ownCloudiga ühendamiseks failihalduriga",
 "Name" => "Nimi",
 "Password" => "Parool",
 "Groups" => "Grupid",
 "Create" => "Lisa",
+"Quota" => "Mahupiir",
 "Delete" => "Kustuta"
 );

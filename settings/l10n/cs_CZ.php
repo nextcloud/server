@@ -3,6 +3,7 @@
 "Invalid request" => "Chybný dotaz",
 "OpenID Changed" => "OpenID změněn",
 "Language changed" => "Jazyk byl změněn",
+"__language_name__" => "Česky",
 "Log level" => "Úroveň logu",
 "Add your application" => "Přidejte svou aplikaci",
 "Select an App" => "Vyberte aplikaci",

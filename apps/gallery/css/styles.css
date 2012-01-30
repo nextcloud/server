@@ -1,11 +1,14 @@
-div#gallery_list { margin: 90pt 20pt; }
-div#gallery_list.leftcontent { padding-top: 15pt; margin: 0; position: absolute; bottom:0px; text-align: center; overflow: scroll; }
-div#gallery_album_box { width: 200px; text-align: center; border: 0; display: inline-block; margin: 5pt; vertical-align: top; padding: 10px; position: relative; overflow: hidden; color: #999; }
-div#gallery_album_box:hover { color: black; }
-.leftcontent div#gallery_album_box { margin: 5px; }
-div#gallery_album_box h1 { font-size: 9pt; font-family: Verdana; }
-div#gallery_album_cover { width: 199px; height: 199px; border: solid 1pt #999; padding: 0; }
-div#gallery_control_overlay { border: 0; position:absolute; right: 10pt; background-color: #333; opacity: 0.5; visibility:hidden; padding: 0 5pt; }
-div#gallery_control_overlay a { color:white; }
-#gallery_images.rightcontent { padding:10px 5px; position:absolute; bottom: 0px; overflow: scroll; }
-
+div#gallery_list { margin: 70pt 20pt 0 20pt; }
+div#gallery_list.leftcontent { padding-top: 15pt; margin: 0; position: absolute; bottom:0px; text-align: center; overflow: auto; }
+div.gallery_album_box { width: 200px; position:relative; text-align: center; border: 0; display: inline-block; margin: 5pt; vertical-align: top; padding: 20px 5px 5px 5px; position: relative; -webkit-transition: color 0.5s ease-in-out; -o-transition: color 0.5s ease-in-out; -moz-transition: color 0.5s ease-in-out;color: #BBB;}
+div.gallery_album_box h1 { font-size: 9pt; font-family: Verdana; }
+div.gallery_album_decoration { width: 200px; position: absolute; border: 0; height: 20px; top: 20px; text-align:right; vertical-align:middle; background-color: #eee; opacity: 0; -webkit-transition: opacity 0.5s ease-in-out; -moz-transition: opacity 0.5s ease-in-out; -o-transition: opacity 0.5s ease-in-out; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; -moz-border-radius-bottomright: 7px; -moz-border-radius-bottomleft:7px;}
+div.gallery_album_box:hover { color: black; }
+div.gallery_album_box:hover div.gallery_album_decoration { opacity: 0.7;}
+div.gallery_album_decoration a {padding: 0 4pt; cursor: pointer;}
+div.gallery_album_cover { width: 200px; height: 200px; border: 0; padding: 0; position:relative;}
+div.gallery_album_box:hover div.gallery_control_overlay { opacity:0.5 }
+div.gallery_control_overlay a { color:white; }
+#gallery_images.rightcontent { padding:10px 5px; bottom: 0px; overflow: auto; right:0px}
+#scan { position:absolute; right:13.5em; top:0em; }
+#scan #scanprogressbar { position:relative; display:inline-block; width:10em; height:1.5em; top:.4em; }

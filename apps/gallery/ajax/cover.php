@@ -70,11 +70,11 @@ $x = min((int)($x/($box_size/$result->numRows())), $result->numRows()-1); // get
 $result->seek($x); // never throws
 $path = $result->fetchRow();
 $path = $path['file_path'];
-$tmp = OC::$CONFIG_DATADIRECTORY . $path;
-$imagesize = getimagesize($tmp);
+$imagePath = OC_Filesystem::getLocalFile($img);
+$imagesize = getimagesize($imagePath);
 
 header('Content-Type: image/png');
-$image = CroppedThumbnail($tmp, $box_size, $box_size);
+$image = CroppedThumbnail($imagePath, $box_size, $box_size);
 
 imagepng($image);
 imagedestroy($image);
