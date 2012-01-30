@@ -56,7 +56,7 @@ class OC_Helper {
 
 		if($absolute){
 			// Checking if the request was made through HTTPS. The last in line is for IIS
-			$protocol = isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
+			$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
 			$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
 		}
 
@@ -96,6 +96,12 @@ class OC_Helper {
 	 * Returns the path to the image of this file type.
 	 */
 	public static function mimetypeIcon( $mimetype ){
+		$alias=array('application/xml'=>'code/xml');
+// 		echo $mimetype;
+		if(isset($alias[$mimetype])){
+			$mimetype=$alias[$mimetype];
+// 			echo $mimetype;
+		}
 		// Replace slash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
 
@@ -154,24 +160,25 @@ class OC_Helper {
 	 */
 	public static function computerFileSize( $str ){
 		$bytes = 0;
+		$str=strtolower($str);
 
 		$bytes_array = array(
-			'B' => 1,
-			'K' => 1024,
-			'KB' => 1024,
-			'MB' => 1024 * 1024,
-			'M'  => 1024 * 1024,
-			'GB' => 1024 * 1024 * 1024,
-			'G'  => 1024 * 1024 * 1024,
-			'TB' => 1024 * 1024 * 1024 * 1024,
-			'T'  => 1024 * 1024 * 1024 * 1024,
-			'PB' => 1024 * 1024 * 1024 * 1024 * 1024,
-			'P'  => 1024 * 1024 * 1024 * 1024 * 1024,
+			'b' => 1,
+			'k' => 1024,
+			'kb' => 1024,
+			'mb' => 1024 * 1024,
+			'm'  => 1024 * 1024,
+			'gb' => 1024 * 1024 * 1024,
+			'g'  => 1024 * 1024 * 1024,
+			'tb' => 1024 * 1024 * 1024 * 1024,
+			't'  => 1024 * 1024 * 1024 * 1024,
+			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
+			'p'  => 1024 * 1024 * 1024 * 1024 * 1024,
 		);
 
 		$bytes = floatval($str);
 
-		if (preg_match('#([KMGTP]?B?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
+		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
 			$bytes *= $bytes_array[$matches[1]];
 		}
 

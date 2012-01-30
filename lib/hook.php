@@ -20,7 +20,7 @@ class OC_Hook{
 	 * TODO: write example
 	 */
 	static public function connect( $signalclass, $signalname, $slotclass, $slotname ){
-		// Cerate the data structure
+		// Create the data structure
 		if( !array_key_exists( $signalclass, self::$registered )){
 			self::$registered[$signalclass] = array();
 		}

@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Davor Kustec <dkustec@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Croatian (http://www.transifex.net/projects/p/owncloud/team/hr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+
+#: ajax/upload.php:19
+msgid "There is no error, the file uploaded with success"
+msgstr "Datoteka je poslana uspješno i bez pogrešaka"
+
+#: ajax/upload.php:20
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
+"Poslana datoteka izlazi iz okvira upload_max_size direktive postavljene u "
+"php.ini konfiguracijskoj datoteci"
+
+#: ajax/upload.php:21
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+"Poslana datoteka izlazi iz okvira MAX_FILE_SIZE direktive postavljene u HTML"
+" obrascu"
+
+#: ajax/upload.php:22
+msgid "The uploaded file was only partially uploaded"
+msgstr "Datoteka je poslana samo djelomično"
+
+#: ajax/upload.php:23
+msgid "No file was uploaded"
+msgstr "Ni jedna datoteka nije poslana"
+
+#: ajax/upload.php:24
+msgid "Missing a temporary folder"
+msgstr "Nedostaje privremena mapa"
+
+#: appinfo/app.php:8
+msgid "Files"
+msgstr "Datoteke"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Maksimalna veličina prijenosa"
+
+#: templates/index.php:7
+msgid "New"
+msgstr ""
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr ""
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr ""
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr ""
+
+#: templates/index.php:22
+msgid "Upload"
+msgstr "Pošalji"
+
+#: templates/index.php:35
+msgid "Nothing in here. Upload something!"
+msgstr "Nema ničega u ovoj mapi. Pošalji nešto!"
+
+#: templates/index.php:43
+msgid "Name"
+msgstr "Naziv"
+
+#: templates/index.php:45
+msgid "Download"
+msgstr "Preuzmi"
+
+#: templates/index.php:49
+msgid "Size"
+msgstr "Veličina"
+
+#: templates/index.php:50
+msgid "Modified"
+msgstr "Zadnja promjena"
+
+#: templates/index.php:50
+msgid "Delete"
+msgstr "Briši"
+
+#: templates/index.php:58
+msgid "Upload too large"
+msgstr "Prijenos je preobiman"
+
+#: templates/index.php:60
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Datoteke koje pokušavate prenijeti prelaze maksimalnu veličinu za prijenos "
+"datoteka na ovom poslužitelju."
+
+

@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Bartek  <bart.p.pl@gmail.com>, 2012.
+#   <wengxt@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-23 23:25+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/team/zh_CN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: appinfo/app.php:41
+msgid "Gallery"
+msgstr "图库"
+
+#: js/album_cover.js:40
+msgid "Scanning directories"
+msgstr "扫描目录"
+
+#: js/album_cover.js:48
+msgid "No photos found"
+msgstr ""
+
+#: js/album_cover.js:51 js/album_cover.js:60
+msgid "Creating thumbnails"
+msgstr "创建缩略图"
+
+#: js/album_cover.js:81
+msgid "Do you wan't to remove album"
+msgstr "您是否想要移除相册"
+
+#: js/album_cover.js:94
+msgid "Input new gallery name"
+msgstr "输入新图库名称"
+
+#: templates/index.php:10
+msgid "Rescan"
+msgstr "重新扫描"
+
+#: templates/view_album.php:19
+msgid "Back"
+msgstr "返回"
+
+

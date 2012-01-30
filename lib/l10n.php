@@ -110,6 +110,22 @@ class OC_L10N{
 	}
 
 	/**
+	 * @brief Translating
+	 * @param $textArray The text array we need a translation for
+	 * @returns Translation or the same text
+	 *
+	 * Returns the translation. If no translation is found, $textArray will be
+	 * returned.
+	 */
+	public function tA($textArray){
+		$result = array();
+		foreach($textArray as $key => $text){
+			$result[$key] = $this->t($text);
+		}
+		return $result;
+	}
+
+	/**
 	 * @brief getTranslations
 	 * @returns Fetch all translations
 	 *

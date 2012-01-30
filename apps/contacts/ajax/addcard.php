@@ -23,42 +23,63 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$aid = $_POST['id'];
-$l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
+$l=new OC_L10N('contacts');
 
-$addressbook = OC_Contacts_Addressbook::find( $aid );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
-	exit();
-}
+$aid = $_POST['id'];
+$addressbook = OC_Contacts_App::getAddressbook( $aid );
 
 $fn = $_POST['fn'];
 $values = $_POST['value'];
 $parameters = $_POST['parameters'];
 
-$vcard = new Sabre_VObject_Component('VCARD');
-$vcard->add(new Sabre_VObject_Property('FN',$fn));
-$vcard->add(new Sabre_VObject_Property('UID',OC_Contacts_VCard::createUID()));
-foreach(array('ADR', 'TEL', 'EMAIL', 'ORG') as $propname){
+$vcard = new OC_VObject('VCARD');
+$vcard->setUID();
+$vcard->setString('FN',$fn);
+
+// Data to add ...
+$add = array('TEL', 'EMAIL', 'ORG');
+$address = false;
+for($i = 0; $i < 7; $i++){
+	if( isset($values['ADR'][$i] ) && $values['ADR'][$i]) $address = true;
+}
+if( $address ) $add[] = 'ADR';
+
+// Add data
+foreach( $add as $propname){
+	if( !( isset( $values[$propname] ) && $values[$propname] )){
+		continue;
+	}
 	$value = $values[$propname];
-	if (isset($parameters[$propname])){
+	if( isset( $parameters[$propname] ) && count( $parameters[$propname] )){
 		$prop_parameters = $parameters[$propname];
 	} else {
 		$prop_parameters = array();
 	}
-	OC_Contacts_VCard::addVCardProperty($vcard, $propname, $value, $prop_parameters);
+	$vcard->addProperty($propname, $value); //, $prop_parameters);
+	$line = count($vcard->children) - 1;
+	foreach ($prop_parameters as $key=>$element) {
+		if(is_array($element) && strtoupper($key) == 'TYPE') { 
+			// FIXME: Maybe this doesn't only apply for TYPE?
+			// And it probably shouldn't be done here anyways :-/
+			foreach($element as $e){
+				if($e != '' && !is_null($e)){
+					$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
+				}
+			}
+		} else {
+			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
+		}
+	}
 }
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
+if(!$id) {
+	OC_JSON::error(array('data' => array('message' => $l->t('There was an error adding the contact.'))));
+	OC_Log::write('contacts','ajax/addcard.php: Recieved non-positive ID on adding card: '.$name, OC_Log::ERROR);
+	exit();
+}
 
-$details = OC_Contacts_VCard::structureContact($vcard);
-$name = $details['FN'][0]['value'];
-$tmpl = new OC_Template('contacts','part.details');
-$tmpl->assign('details',$details);
-$tmpl->assign('id',$id);
-$page = $tmpl->fetchPage();
-
-OC_JSON::success(array('data' => array( 'id' => $id, 'name' => $name, 'page' => $page )));
+// NOTE: Why is this in OC_Contacts_App?
+OC_Contacts_App::renderDetails($id, $vcard);

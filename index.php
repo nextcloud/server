@@ -31,7 +31,7 @@ if($not_installed) {
 	// Check for autosetup:
 	$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
 	if( file_exists( $autosetup_file )){
-		error_log("Autoconfig file found, setting up owncloud...");
+		OC_Log::write('core','Autoconfig file found, setting up owncloud...',OC_Log::INFO);
 		include( $autosetup_file );
 		$_POST['install'] = 'true';
 		$_POST = array_merge ($_POST, $AUTOCONFIG);
@@ -68,7 +68,7 @@ else {
 	// remember was checked after last login
 	if(isset($_COOKIE["oc_remember_login"]) && isset($_COOKIE["oc_token"]) && isset($_COOKIE["oc_username"]) && $_COOKIE["oc_remember_login"]) {
 		if(defined("DEBUG") && DEBUG) {
-			error_log("Trying to login from cookie");
+			OC_Log::write('core','Trying to login from cookie',OC_Log::DEBUG);
 		}
 		// confirm credentials in cookie
 		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username']) &&
@@ -86,7 +86,7 @@ else {
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
 			if(!empty($_POST["remember_login"])){
 				if(defined("DEBUG") && DEBUG) {
-					error_log("Setting remember login to cookie");
+					OC_Log::write('core','Setting remember login to cookie',OC_Log::DEBUG);
 				}
 				$token = md5($_POST["user"].time().$_POST['password']);
 				OC_Preferences::setValue($_POST['user'], 'login', 'token', $token);
@@ -100,6 +100,15 @@ else {
 			$error = true;
 		}
 	}
-
+	// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+	elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
+		if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{
+			//OC_Log::write('core',"Logged in with HTTP Authentication",OC_Log::DEBUG);
+			OC_User::unsetMagicInCookie();
+			OC_Util::redirectToDefaultPage();
+		}else{
+			$error = true;
+		}
+	}
 	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
 }

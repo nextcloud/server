@@ -38,7 +38,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function filetype($path){
 		$filetype=filetype($this->datadir.$path);
 		if($filetype=='link'){
-			$filetype=filetype(readlink($this->datadir.$path));
+			$filetype=filetype(realpath($this->datadir.$path));
 		}
 		return $filetype;
 	}
@@ -53,7 +53,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return is_readable($this->datadir.$path);
 	}
 	public function is_writeable($path){
-		return is_writeable($this->datadir.$path);
+		return is_writable($this->datadir.$path);
 	}
 	public function file_exists($path){
 		return file_exists($this->datadir.$path);
@@ -84,6 +84,11 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return $return;
 	}
 	public function rename($path1,$path2){
+		if(! $this->file_exists($path1)){
+			OC_Log::write('core','unable to rename, file does not exists : '.$path1,OC_Log::ERROR);
+			return false;
+		}
+
 		if($return=rename($this->datadir.$path1,$this->datadir.$path2)){
 			$this->clearFolderSizeCache($path1);
 			$this->clearFolderSizeCache($path2);
@@ -127,6 +132,13 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function getMimeType($fspath){
 		if($this->is_readable($fspath)){
 			$mimeType='application/octet-stream';
+			if ($mimeType=='application/octet-stream') {
+				self::$mimetypes = include('mimetypes.fixlist.php');
+				$extention=strtolower(strrchr(basename($fspath), "."));
+				$extention=substr($extention,1);//remove leading .
+				$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+				
+			}
 			if (@is_dir($this->datadir.$fspath)) {
 				// directories are easy
 				return "httpd/unix-directory";
@@ -153,7 +165,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			}
 			if ($mimeType=='application/octet-stream') {
 				// Fallback solution: (try to guess the type by the file extension
-				if(!self::$mimetypes){
+				if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
 					self::$mimetypes=include('mimetypes.list.php');
 				}
 				$extention=strtolower(strrchr(basename($fspath), "."));
@@ -165,7 +177,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	public function toTmpFile($path){
-		$tmpFolder=sys_get_temp_dir();
+		$tmpFolder=get_temp_dir();
 		$filename=tempnam($tmpFolder,'OC_TEMP_FILE_'.substr($path,strrpos($path,'.')));
 		$fileStats = stat($this->datadir.$path);
 		if(copy($this->datadir.$path,$filename)){
@@ -199,7 +211,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	private function delTree($dir) {
-		if(defined("DEBUG") && DEBUG) {error_log('del'.$dir);}
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;
 		if (!file_exists($dir)) return true;

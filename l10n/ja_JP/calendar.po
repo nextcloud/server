@@ -1,0 +1,636 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-25 13:53+0000\n"
+"Last-Translator: nn nn <dev.nnnn@gmail.com>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/team/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/guesstimezone.php:42
+msgid "New Timezone:"
+msgstr "新しいタイムゾーン:"
+
+#: ajax/settimezone.php:22
+msgid "Timezone changed"
+msgstr "タイムゾーンが変更されました"
+
+#: ajax/settimezone.php:24
+msgid "Invalid request"
+msgstr "無効なリクエストです"
+
+#: appinfo/app.php:20 templates/calendar.php:13
+#: templates/part.eventform.php:20
+msgid "Calendar"
+msgstr "カレンダー"
+
+#: lib/app.php:19
+msgid "Wrong calendar"
+msgstr "誤ったカレンダーです"
+
+#: lib/app.php:60 lib/object.php:332
+msgid "Birthday"
+msgstr "誕生日"
+
+#: lib/app.php:61 lib/object.php:333
+msgid "Business"
+msgstr "ビジネス"
+
+#: lib/app.php:62 lib/object.php:334
+msgid "Call"
+msgstr "電話をかける"
+
+#: lib/app.php:63 lib/object.php:335
+msgid "Clients"
+msgstr "顧客"
+
+#: lib/app.php:64 lib/object.php:336
+msgid "Deliverer"
+msgstr "運送会社"
+
+#: lib/app.php:65 lib/object.php:337
+msgid "Holidays"
+msgstr "休日"
+
+#: lib/app.php:66 lib/object.php:338
+msgid "Ideas"
+msgstr "アイデア"
+
+#: lib/app.php:67 lib/object.php:339
+msgid "Journey"
+msgstr "旅行"
+
+#: lib/app.php:68 lib/object.php:340
+msgid "Jubilee"
+msgstr "記念祭"
+
+#: lib/app.php:69 lib/object.php:341
+msgid "Meeting"
+msgstr "ミーティング"
+
+#: lib/app.php:70 lib/object.php:342
+msgid "Other"
+msgstr "その他"
+
+#: lib/app.php:71 lib/object.php:343
+msgid "Personal"
+msgstr "個人"
+
+#: lib/app.php:72 lib/object.php:344
+msgid "Projects"
+msgstr "プロジェクト"
+
+#: lib/app.php:73 lib/object.php:345
+msgid "Questions"
+msgstr "質問事項"
+
+#: lib/app.php:74 lib/object.php:346
+msgid "Work"
+msgstr "仕事"
+
+#: lib/object.php:353
+msgid "Does not repeat"
+msgstr "繰り返さない"
+
+#: lib/object.php:354
+msgid "Daily"
+msgstr "毎日"
+
+#: lib/object.php:355
+msgid "Weekly"
+msgstr "毎週"
+
+#: lib/object.php:356
+msgid "Every Weekday"
+msgstr "毎平日"
+
+#: lib/object.php:357
+msgid "Bi-Weekly"
+msgstr "2週間ごと"
+
+#: lib/object.php:358
+msgid "Monthly"
+msgstr "毎月"
+
+#: lib/object.php:359
+msgid "Yearly"
+msgstr "毎年"
+
+#: lib/object.php:366
+msgid "never"
+msgstr "無し"
+
+#: lib/object.php:367
+msgid "by occurrences"
+msgstr "回数で指定"
+
+#: lib/object.php:368
+msgid "by date"
+msgstr "日付で指定"
+
+#: lib/object.php:375
+msgid "by monthday"
+msgstr "日にちで指定"
+
+#: lib/object.php:376
+msgid "by weekday"
+msgstr "曜日で指定"
+
+#: lib/object.php:383 templates/lAfix.php:3
+msgid "Monday"
+msgstr "月曜日"
+
+#: lib/object.php:384 templates/lAfix.php:4
+msgid "Tuesday"
+msgstr "火曜日"
+
+#: lib/object.php:385 templates/lAfix.php:5
+msgid "Wednesday"
+msgstr "水曜日"
+
+#: lib/object.php:386 templates/lAfix.php:6
+msgid "Thursday"
+msgstr "木曜日"
+
+#: lib/object.php:387 templates/lAfix.php:7
+msgid "Friday"
+msgstr "金曜日"
+
+#: lib/object.php:388 templates/lAfix.php:8
+msgid "Saturday"
+msgstr "土曜日"
+
+#: lib/object.php:389 templates/lAfix.php:2
+msgid "Sunday"
+msgstr "日曜日"
+
+#: lib/object.php:396
+msgid "events week of month"
+msgstr "予定のある週を指定"
+
+#: lib/object.php:397
+msgid "first"
+msgstr "１週目"
+
+#: lib/object.php:398
+msgid "second"
+msgstr "２週目"
+
+#: lib/object.php:399
+msgid "third"
+msgstr "３週目"
+
+#: lib/object.php:400
+msgid "fourth"
+msgstr "４週目"
+
+#: lib/object.php:401
+msgid "fifth"
+msgstr "５週目"
+
+#: lib/object.php:402
+msgid "last"
+msgstr "最終週"
+
+#: lib/object.php:424 templates/lAfix.php:16
+msgid "January"
+msgstr "１月"
+
+#: lib/object.php:425 templates/lAfix.php:17
+msgid "February"
+msgstr "２月"
+
+#: lib/object.php:426 templates/lAfix.php:18
+msgid "March"
+msgstr "３月"
+
+#: lib/object.php:427 templates/lAfix.php:19
+msgid "April"
+msgstr "４月"
+
+#: lib/object.php:428 templates/lAfix.php:20
+msgid "May"
+msgstr "５月"
+
+#: lib/object.php:429 templates/lAfix.php:21
+msgid "June"
+msgstr "６月"
+
+#: lib/object.php:430 templates/lAfix.php:22
+msgid "July"
+msgstr "７月"
+
+#: lib/object.php:431 templates/lAfix.php:23
+msgid "August"
+msgstr "８月"
+
+#: lib/object.php:432 templates/lAfix.php:24
+msgid "September"
+msgstr "９月"
+
+#: lib/object.php:433 templates/lAfix.php:25
+msgid "October"
+msgstr "１０月"
+
+#: lib/object.php:434 templates/lAfix.php:26
+msgid "November"
+msgstr "１１月"
+
+#: lib/object.php:435 templates/lAfix.php:27
+msgid "December"
+msgstr "１２月"
+
+#: lib/object.php:441
+msgid "by events date"
+msgstr "日付で指定"
+
+#: lib/object.php:442
+msgid "by yearday(s)"
+msgstr "日番号で指定"
+
+#: lib/object.php:443
+msgid "by weeknumber(s)"
+msgstr "週番号で指定"
+
+#: lib/object.php:444
+msgid "by day and month"
+msgstr "月と日で指定"
+
+#: lib/object.php:467
+msgid "Not an array"
+msgstr "配列ではありません"
+
+#: lib/search.php:32 lib/search.php:34 lib/search.php:37
+msgid "Date"
+msgstr "日付"
+
+#: lib/search.php:40
+msgid "Cal."
+msgstr "カレンダー"
+
+#: templates/calendar.php:10
+msgid "All day"
+msgstr "終日"
+
+#: templates/calendar.php:11
+msgid "Missing fields"
+msgstr "項目がありません"
+
+#: templates/calendar.php:12 templates/part.eventform.php:3
+msgid "Title"
+msgstr "タイトル"
+
+#: templates/calendar.php:14
+msgid "From Date"
+msgstr "開始日"
+
+#: templates/calendar.php:15
+msgid "From Time"
+msgstr "開始時間"
+
+#: templates/calendar.php:16
+msgid "To Date"
+msgstr "終了日"
+
+#: templates/calendar.php:17
+msgid "To Time"
+msgstr "終了時間"
+
+#: templates/calendar.php:18
+msgid "The event ends before it starts"
+msgstr "イベント終了時間が開始時間より先です"
+
+#: templates/calendar.php:19
+msgid "There was a database fail"
+msgstr "データベースフェイルがありました"
+
+#: templates/calendar.php:52
+msgid "Week"
+msgstr "週"
+
+#: templates/calendar.php:53
+msgid "Month"
+msgstr "月"
+
+#: templates/calendar.php:54
+msgid "List"
+msgstr "リスト"
+
+#: templates/calendar.php:59
+msgid "Today"
+msgstr "今日"
+
+#: templates/calendar.php:60
+msgid "Calendars"
+msgstr "カレンダー"
+
+#: templates/calendar.php:78
+msgid "There was a fail, while parsing the file."
+msgstr "ファイルを構文解析する際に失敗しました"
+
+#: templates/lAfix.php:9
+msgid "Sun."
+msgstr "日"
+
+#: templates/lAfix.php:10
+msgid "Mon."
+msgstr "月"
+
+#: templates/lAfix.php:11
+msgid "Tue."
+msgstr "火"
+
+#: templates/lAfix.php:12
+msgid "Wed."
+msgstr "水"
+
+#: templates/lAfix.php:13
+msgid "Thu."
+msgstr "木"
+
+#: templates/lAfix.php:14
+msgid "Fri."
+msgstr "金"
+
+#: templates/lAfix.php:15
+msgid "Sat."
+msgstr "土"
+
+#: templates/lAfix.php:28
+msgid "Jan."
+msgstr "１月"
+
+#: templates/lAfix.php:29
+msgid "Feb."
+msgstr "２月"
+
+#: templates/lAfix.php:30
+msgid "Mar."
+msgstr "３月"
+
+#: templates/lAfix.php:31
+msgid "Apr."
+msgstr "４月"
+
+#: templates/lAfix.php:32
+msgid "May."
+msgstr "５月"
+
+#: templates/lAfix.php:33
+msgid "Jun."
+msgstr "６月"
+
+#: templates/lAfix.php:34
+msgid "Jul."
+msgstr "７月"
+
+#: templates/lAfix.php:35
+msgid "Aug."
+msgstr "８月"
+
+#: templates/lAfix.php:36
+msgid "Sep."
+msgstr "９月"
+
+#: templates/lAfix.php:37
+msgid "Oct."
+msgstr "１０月"
+
+#: templates/lAfix.php:38
+msgid "Nov."
+msgstr "１１月"
+
+#: templates/lAfix.php:39
+msgid "Dec."
+msgstr "１２月"
+
+#: templates/part.choosecalendar.php:1
+msgid "Choose active calendars"
+msgstr "アクティブなカレンダーを選択してください"
+
+#: templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr "新しくカレンダーを作成する"
+
+#: templates/part.choosecalendar.php:20
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "CalDav Link"
+msgstr "CalDavへのリンク"
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Download"
+msgstr "ダウンロード"
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Edit"
+msgstr "編集"
+
+#: templates/part.choosecalendar.rowfields.php:4
+#: templates/part.editevent.php:9
+msgid "Delete"
+msgstr "削除"
+
+#: templates/part.editcalendar.php:9
+msgid "New calendar"
+msgstr "新しくカレンダーを作成する"
+
+#: templates/part.editcalendar.php:9
+msgid "Edit calendar"
+msgstr "カレンダーを編集"
+
+#: templates/part.editcalendar.php:12
+msgid "Displayname"
+msgstr "表示名"
+
+#: templates/part.editcalendar.php:23
+msgid "Active"
+msgstr "アクティブ"
+
+#: templates/part.editcalendar.php:29
+msgid "Calendar color"
+msgstr "カレンダーの色"
+
+#: templates/part.editcalendar.php:42
+msgid "Save"
+msgstr "保存"
+
+#: templates/part.editcalendar.php:42 templates/part.editevent.php:8
+#: templates/part.newevent.php:6
+msgid "Submit"
+msgstr "完了"
+
+#: templates/part.editcalendar.php:43
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: templates/part.editevent.php:1
+msgid "Edit an event"
+msgstr "イベントを編集"
+
+#: templates/part.editevent.php:10
+msgid "Export"
+msgstr "エクスポート"
+
+#: templates/part.eventform.php:5
+msgid "Title of the Event"
+msgstr "イベントのタイトル"
+
+#: templates/part.eventform.php:11
+msgid "Category"
+msgstr "カテゴリー"
+
+#: templates/part.eventform.php:13
+msgid "Select category"
+msgstr "カテゴリーを選択してください"
+
+#: templates/part.eventform.php:37
+msgid "All Day Event"
+msgstr "終日イベント"
+
+#: templates/part.eventform.php:41
+msgid "From"
+msgstr "開始"
+
+#: templates/part.eventform.php:49
+msgid "To"
+msgstr "終了"
+
+#: templates/part.eventform.php:57
+msgid "Advanced options"
+msgstr "詳細設定"
+
+#: templates/part.eventform.php:61
+msgid "Repeat"
+msgstr "繰り返す"
+
+#: templates/part.eventform.php:68
+msgid "Advanced"
+msgstr "詳細設定"
+
+#: templates/part.eventform.php:112
+msgid "Select weekdays"
+msgstr "曜日を指定"
+
+#: templates/part.eventform.php:125 templates/part.eventform.php:138
+msgid "Select days"
+msgstr "日付を指定"
+
+#: templates/part.eventform.php:130
+msgid "and the events day of year."
+msgstr "対象の年を選択する。"
+
+#: templates/part.eventform.php:143
+msgid "and the events day of month."
+msgstr "対象の月を選択する。"
+
+#: templates/part.eventform.php:151
+msgid "Select months"
+msgstr "月を指定する"
+
+#: templates/part.eventform.php:164
+msgid "Select weeks"
+msgstr "週を指定する"
+
+#: templates/part.eventform.php:169
+msgid "and the events week of year."
+msgstr "対象の週を選択する。"
+
+#: templates/part.eventform.php:175
+msgid "Interval"
+msgstr "周期"
+
+#: templates/part.eventform.php:181
+msgid "End"
+msgstr "繰り返す期間"
+
+#: templates/part.eventform.php:193
+msgid "occurrences"
+msgstr "回繰り返す"
+
+#: templates/part.eventform.php:208
+msgid "Location"
+msgstr "場所"
+
+#: templates/part.eventform.php:210
+msgid "Location of the Event"
+msgstr "イベントの場所"
+
+#: templates/part.eventform.php:216
+msgid "Description"
+msgstr "メモ"
+
+#: templates/part.eventform.php:218
+msgid "Description of the Event"
+msgstr "イベントのメモ"
+
+#: templates/part.import.php:1
+msgid "Import a calendar file"
+msgstr "カレンダーファイルをインポート"
+
+#: templates/part.import.php:6
+msgid "Please choose the calendar"
+msgstr "カレンダーを選択してください"
+
+#: templates/part.import.php:10
+msgid "create a new calendar"
+msgstr "新規カレンダーの作成"
+
+#: templates/part.import.php:15
+msgid "Name of new calendar"
+msgstr "新規カレンダーの名称"
+
+#: templates/part.import.php:17
+msgid "Import"
+msgstr "インポート"
+
+#: templates/part.import.php:20
+msgid "Importing calendar"
+msgstr "カレンダーを取り込み中"
+
+#: templates/part.import.php:23
+msgid "Calendar imported successfully"
+msgstr "カレンダーの取り込みに成功しました"
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr "閉じる"
+
+#: templates/part.newevent.php:1
+msgid "Create a new event"
+msgstr "新しいイベントを作成する"
+
+#: templates/settings.php:13
+msgid "Timezone"
+msgstr "タイムゾーン"
+
+#: templates/settings.php:30
+msgid "Check always for changes of the timezone"
+msgstr "タイムゾーン変更を常に確認する"
+
+#: templates/settings.php:32
+msgid "Timeformat"
+msgstr "時刻のフォーマット"
+
+#: templates/settings.php:34
+msgid "24h"
+msgstr "24時間制"
+
+#: templates/settings.php:35
+msgid "12h"
+msgstr "12時間制"
+
+#: templates/settings.php:41
+msgid "Calendar CalDAV syncing address:"
+msgstr "カレンダーのCalDAVシンクアドレス"
+
+

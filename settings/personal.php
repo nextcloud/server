@@ -28,10 +28,18 @@ $languageCodes=OC_L10N::findAvailableLanguages();
 //put the current language in the front
 unset($languageCodes[array_search($lang,$languageCodes)]);
 array_unshift($languageCodes,$lang);
+
 $languageNames=include 'languageCodes.php';
 $languages=array();
 foreach($languageCodes as $lang){
-	$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);
+	$l=new OC_L10N('settings',$lang);
+	if(substr($l->t('__language_name__'),0,1)!='_'){//first check if the language name is in the translation file
+		$languages[]=array('code'=>$lang,'name'=>$l->t('__language_name__'));
+	}elseif(isset($languageNames[$lang])){
+		$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);
+	}else{//fallback to language code
+		$languages[]=array('code'=>$lang,'name'=>$lang);
+	}
 }
 
 // Return template

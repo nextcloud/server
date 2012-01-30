@@ -1,48 +1,24 @@
 <?php
-// vim: set et ts=4 sw=4 fdm=marker:
-// +----------------------------------------------------------------------+
-// | PHP versions 5                                                 |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2011 Robin Appelman                                    |
-// | All rights reserved.                                                 |
-// +----------------------------------------------------------------------+
-// | MDB2 is a merge of PEAR DB and Metabases that provides a unified DB  |
-// | API as well as database abstraction for PHP applications.            |
-// | This LICENSE is in the BSD license style.                            |
-// |                                                                      |
-// | Redistribution and use in source and binary forms, with or without   |
-// | modification, are permitted provided that the following conditions   |
-// | are met:                                                             |
-// |                                                                      |
-// | Redistributions of source code must retain the above copyright       |
-// | notice, this list of conditions and the following disclaimer.        |
-// |                                                                      |
-// | Redistributions in binary form must reproduce the above copyright    |
-// | notice, this list of conditions and the following disclaimer in the  |
-// | documentation and/or other materials provided with the distribution. |
-// |                                                                      |
-// | Neither the name of Manuel Lemos, Tomas V.V.Cox, Stig. S. Bakken,    |
-// | Lukas Smith nor the names of his contributors may be used to endorse |
-// | or promote products derived from this software without specific prior|
-// | written permission.                                                  |
-// |                                                                      |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS  |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT    |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS    |
-// | FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE      |
-// | REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,          |
-// | INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, |
-// | BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS|
-// |  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED  |
-// | AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT          |
-// | LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY|
-// | WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          |
-// | POSSIBILITY OF SUCH DAMAGE.                                          |
-// +----------------------------------------------------------------------+
-// | Author: Robin Appelman <icewind1991@gmail.com>                       |
-// +----------------------------------------------------------------------+
-//
-//
+/**
+ * ownCloud
+ *
+ * @author Robin Appelman
+ * @copyright 2011 Robin Appelman icewind1991@gmail.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 require_once('MDB2/Driver/Manager/Common.php');
 
@@ -191,9 +167,6 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
         $query_fields = $this->getFieldDeclarationList($fields);
         if (PEAR::isError($query_fields)) {
             return $query_fields;
-        }
-        if (!empty($options['primary'])) {
-            $query_fields.= ', PRIMARY KEY ('.implode(', ', array_keys($options['primary'])).')';
         }
         if (!empty($options['foreign_keys'])) {
             foreach ($options['foreign_keys'] as $fkname => $fkdef) {
@@ -558,9 +531,26 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
             return MDB2_OK;
         }
 
+        if (empty($changes['remove']) and empty($changes['rename']) and empty($changes['change']) ){//if only rename or add changes are required, we can use ALTER TABLE
+			$query = '';
+			if (!empty($changes['name'])) {
+				$change_name = $db->quoteIdentifier($changes['name'], true);
+				$query = 'RENAME TO ' . $change_name;
+				$db->exec("ALTER TABLE $name $query");
+			}
+
+			if (!empty($changes['add']) && is_array($changes['add'])) {
+				foreach ($changes['add'] as $field_name => $field) {
+					$query= 'ADD ' . $db->getDeclaration($field['type'], $field_name, $field);
+					$db->exec("ALTER TABLE $name $query");
+				}
+			}
+			return MDB2_OK;
+        }
+
         $db->loadModule('Reverse', null, true);
 
-        // actually sqlite 2.x supports no ALTER TABLE at all .. so we emulate it
+        // for other operations we need to emulate them with sqlite3
         $fields = $db->manager->listTableFields($name);
         if (PEAR::isError($fields)) {
             return $fields;
@@ -660,44 +650,54 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
             }
         }
 
+		//rename the old table so we can create the new one
+        $db->exec("ALTER TABLE $name RENAME TO __$name");
         $data = null;
-        if (!empty($select_fields)) {
-            $query = 'SELECT '.implode(', ', $select_fields).' FROM '.$db->quoteIdentifier($name, true);
-            $data = $db->queryAll($query, null, MDB2_FETCHMODE_ORDERED);
-        }
 
-        $result = $this->dropTable($name);
-        if (PEAR::isError($result)) {
-            return $result;
-        }
 
         $result = $this->createTable($name_new, $fields, $options);
         if (PEAR::isError($result)) {
             return $result;
         }
 
-        foreach ($indexes as $index => $definition) {
-            $this->createIndex($name_new, $index, $definition);
+        //these seem to only give errors
+
+//         foreach ($indexes as $index => $definition) {
+//             $this->createIndex($name_new, $index, $definition);
+//         }
+
+//         foreach ($constraints as $constraint => $definition) {
+//             $this->createConstraint($name_new, $constraint, $definition);
+//         }
+
+        //fill the new table with data from the old one
+        if (!empty($select_fields)) {
+			$query = 'INSERT INTO '.$db->quoteIdentifier($name_new, true);
+			$query.= '('.implode(', ', array_slice(array_keys($fields), 0, count($select_fields))).')';
+            $query .= ' SELECT '.implode(', ', $select_fields).' FROM '.$db->quoteIdentifier('__'.$name, true);
+            $db->exec($query);
         }
 
-        foreach ($constraints as $constraint => $definition) {
-            $this->createConstraint($name_new, $constraint, $definition);
-        }
+//         if (!empty($select_fields) && !empty($data)) {
+//             $query = 'INSERT INTO '.$db->quoteIdentifier($name_new, true);
+//             $query.= '('.implode(', ', array_slice(array_keys($fields), 0, count($select_fields))).')';
+//             $query.=' VALUES (?'.str_repeat(', ?', (count($select_fields) - 1)).')';
+//             $stmt =$db->prepare($query, null, MDB2_PREPARE_MANIP);
+//             if (PEAR::isError($stmt)) {
+//                 return $stmt;
+//             }
+//             foreach ($data as $row) {
+//                 $result = $stmt->execute($row);
+//                 if (PEAR::isError($result)) {
+//                     return $result;
+//                 }
+//             }
+//         }
 
-        if (!empty($select_fields) && !empty($data)) {
-            $query = 'INSERT INTO '.$db->quoteIdentifier($name_new, true);
-            $query.= '('.implode(', ', array_slice(array_keys($fields), 0, count($select_fields))).')';
-            $query.=' VALUES (?'.str_repeat(', ?', (count($select_fields) - 1)).')';
-            $stmt =$db->prepare($query, null, MDB2_PREPARE_MANIP);
-            if (PEAR::isError($stmt)) {
-                return $stmt;
-            }
-            foreach ($data as $row) {
-                $result = $stmt->execute($row);
-                if (PEAR::isError($result)) {
-                    return $result;
-                }
-            }
+        //remove the old table
+        $result = $this->dropTable('__'.$name);
+        if (PEAR::isError($result)) {
+            return $result;
         }
         return MDB2_OK;
     }
@@ -822,7 +822,7 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
             return $db;
         }
 
-        $query = "SELECT name FROM sqlite_master WHERE type='table' AND sql NOT NULL ORDER BY name";
+        $query = "SELECT name FROM sqlite_master WHERE type='table' AND sql NOT NULL AND name!='sqlite_sequence' ORDER BY name";
         $table_names = $db->queryCol($query);
         if (PEAR::isError($table_names)) {
             return $table_names;

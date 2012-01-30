@@ -1,0 +1,25 @@
+#editor{
+	position: absoloute;
+	display: block;
+	top: 80px;
+	left: 160px;
+}
+#editorwrapper{
+	position: absoloute;
+	height: 0;
+	width: 0;
+	top: 41px;
+	left: 160px;
+	display: none;
+}
+#editor_save{
+	margin-left: 7px;
+	float: left;	
+}
+#saving_icon{
+	margin-top: 3px;
+	float: left;	
+}
+#gotolineval{
+	width: 30px;
+}

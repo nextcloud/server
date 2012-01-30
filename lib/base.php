@@ -70,6 +70,31 @@ class OC{
 		}
 	}
 
+	/**
+	 * autodetects the formfactor of the used device
+	 * default -> the normal desktop browser interface
+	 * mobile -> interface for smartphones
+	 * tablet -> interface for tablets
+	 * standalone -> the default interface but without header, footer and sidebar. just the application. useful to ue just a specific app on the desktop in a standalone window.
+	 */
+	public static function detectFormfactor(){
+		// please add more useragent strings for other devices
+		if(isset($_SERVER['HTTP_USER_AGENT'])){
+			if(stripos($_SERVER['HTTP_USER_AGENT'],'ipad')>0) {
+				$mode='tablet';
+			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0){
+				$mode='mobile';
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)){
+				$mode='mobile';
+			}else{
+				$mode='default';
+			}
+		}else{
+			$mode='default';
+		}
+		return($mode);
+	}
+
 	public static function init(){
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
@@ -77,12 +102,23 @@ class OC{
 		// set some stuff
 		//ob_start();
 		error_reporting(E_ALL | E_STRICT);
+		if (defined('DEBUG') && DEBUG){
+			ini_set('display_errors', 1);
+		}
 
 		date_default_timezone_set('Europe/Berlin');
 		ini_set('arg_separator.output','&amp;');
 
 		//set http auth headers for apache+php-cgi work around
 		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches))
+		{
+			list($name, $password) = explode(':', base64_decode($matches[1]));
+			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+		}
+
+		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
+		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches))
 		{
 			list($name, $password) = explode(':', base64_decode($matches[1]));
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
@@ -116,12 +152,37 @@ class OC{
 			}
 		}
 
+		if(OC_Config::getValue('installed', false)){
+			$installedVersion=OC_Config::getValue('version','0.0.0');
+			$currentVersion=implode('.',OC_Util::getVersion());
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				$result=OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
+				if(!$result){
+					echo 'Error while upgrading the database';
+					die();
+				}
+				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+			}
+
+			OC_App::updateApps();
+		}
+
 		ini_set('session.cookie_httponly','1;');
 		session_start();
 
+		// if the formfactor is not yet autodetected do the autodetection now. For possible forfactors check the detectFormfactor documentation
+		if(!isset($_SESSION['formfactor'])){
+			$_SESSION['formfactor']=OC::detectFormfactor();
+		}
+		// allow manual override via GET parameter
+		if(isset($_GET['formfactor'])){
+			$_SESSION['formfactor']=$_GET['formfactor'];
+		}
+
+
 		// Add the stuff we need always
 		OC_Util::addScript( "jquery-1.6.4.min" );
-		OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
+		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
 		OC_Util::addScript( "jquery-showpassword" );
 		OC_Util::addScript( "jquery.infieldlabel.min" );
 		OC_Util::addScript( "jquery-tipsy" );
@@ -130,7 +191,7 @@ class OC{
 		OC_Util::addScript('search','result');
 		OC_Util::addStyle( "styles" );
 		OC_Util::addStyle( "multiselect" );
-		OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
+		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
 		OC_Util::addStyle( "jquery-tipsy" );
 
 		$errors=OC_Util::checkServer();
@@ -154,13 +215,6 @@ class OC{
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
 
-		// Load Apps
-		// This includes plugins for users and filesystems as well
-		global $RUNTIME_NOAPPS;
-		if(!$RUNTIME_NOAPPS ){
-			OC_App::loadApps();
-		}
-
 		// Was in required file ... put it here
 		OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
 
@@ -168,6 +222,13 @@ class OC{
 		global $RUNTIME_NOSETUPFS;
 		if(!$RUNTIME_NOSETUPFS ){
 			OC_Util::setupFS();
+		}
+
+		// Load Apps
+		// This includes plugins for users and filesystems as well
+		global $RUNTIME_NOAPPS;
+		if(!$RUNTIME_NOAPPS ){
+			OC_App::loadApps();
 		}
 
 		// Last part: connect some hooks
@@ -184,23 +245,26 @@ if( !isset( $RUNTIME_NOAPPS )){
 	$RUNTIME_NOAPPS = false;
 }
 
-OC::init();
-
-if(!function_exists('sys_get_temp_dir')) {
-    function sys_get_temp_dir() {
-        if( $temp=getenv('TMP') )        return $temp;
-        if( $temp=getenv('TEMP') )        return $temp;
-        if( $temp=getenv('TMPDIR') )    return $temp;
-        $temp=tempnam(__FILE__,'');
-        if (file_exists($temp)) {
-          unlink($temp);
-          return dirname($temp);
-        }
-        return null;
-    }
+if(!function_exists('get_temp_dir')) {
+	function get_temp_dir() {
+		if( $temp=ini_get('upload_tmp_dir') )        return $temp;
+		if( $temp=getenv('TMP') )        return $temp;
+		if( $temp=getenv('TEMP') )        return $temp;
+		if( $temp=getenv('TMPDIR') )    return $temp;
+		$temp=tempnam(__FILE__,'');
+		if (file_exists($temp)) {
+			unlink($temp);
+			return dirname($temp);
+		}
+		return null;
+	}
 }
 
+OC::init();
+
 require_once('fakedirstream.php');
+
+
 
 // FROM search.php
 new OC_Search_Provider_File();

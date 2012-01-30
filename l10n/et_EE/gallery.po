@@ -1,0 +1,53 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Rivo Zängov <eraser@eraser.ee>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-23 23:25+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Estonian (Estonia) (http://www.transifex.net/projects/p/owncloud/team/et_EE/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: et_EE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:41
+msgid "Gallery"
+msgstr "Galerii"
+
+#: js/album_cover.js:40
+msgid "Scanning directories"
+msgstr ""
+
+#: js/album_cover.js:48
+msgid "No photos found"
+msgstr ""
+
+#: js/album_cover.js:51 js/album_cover.js:60
+msgid "Creating thumbnails"
+msgstr ""
+
+#: js/album_cover.js:81
+msgid "Do you wan't to remove album"
+msgstr ""
+
+#: js/album_cover.js:94
+msgid "Input new gallery name"
+msgstr ""
+
+#: templates/index.php:10
+msgid "Rescan"
+msgstr "Skänni uuesti"
+
+#: templates/view_album.php:19
+msgid "Back"
+msgstr "Tagasi"
+
+

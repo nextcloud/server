@@ -82,7 +82,7 @@ class OC_Calendar_Calendar{
 	 * @param integer $id
 	 * @return associative array
 	 */
-	public static function findCalendar($id){
+	public static function find($id){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE id = ?' );
 		$result = $stmt->execute(array($id));
 
@@ -111,7 +111,7 @@ class OC_Calendar_Calendar{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_calendar');
 	}
 
 	/**
@@ -131,7 +131,7 @@ class OC_Calendar_Calendar{
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*calendar_calendars');
 	}
 
 	/**
@@ -148,14 +148,14 @@ class OC_Calendar_Calendar{
 	 */
 	public static function editCalendar($id,$name=null,$components=null,$timezone=null,$order=null,$color=null){
 		// Need these ones for checking uri
-		$calendar = self::findCalendar($id);
+		$calendar = self::find($id);
 
 		// Keep old stuff
-		if(is_null($name)) $name = $calendar['name'];
+		if(is_null($name)) $name = $calendar['displayname'];
 		if(is_null($components)) $components = $calendar['components'];
 		if(is_null($timezone)) $timezone = $calendar['timezone'];
 		if(is_null($order)) $order = $calendar['calendarorder'];
-		if(is_null($color)) $color = $calendar['color'];
+		if(is_null($color)) $color = $calendar['calendarcolor'];
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
 		$result = $stmt->execute(array($name,$order,$color,$timezone,$components,$id));
@@ -231,13 +231,21 @@ class OC_Calendar_Calendar{
 	public static function getCalendarColorOptions(){
 		return array(
 			'ff0000', // "Red"
-			'00ff00', // "Green"
+			'b3dc6c', // "Green"
 			'ffff00', // "Yellow"
 			'808000', // "Olive"
 			'ffa500', // "Orange"
 			'ff7f50', // "Coral"
 			'ee82ee', // "Violet"
-			'ecc255', // dark yellow
+			'9fc6e7', // "light blue"
+		);
+	}
+	public static function getEventSourceInfo($calendar){
+		return array(
+			'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
+			'backgroundColor' => '#'.$calendar['calendarcolor'],
+			'borderColor' => '#888',
+			'textColor' => 'black',
 		);
 	}
 }

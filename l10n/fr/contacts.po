@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <fboulogne@april.org>, 2011.
+#   <gp4004@arghh.org>, 2011.
+# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
+#   <rom1dep@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 20:10+0200\n"
-"PO-Revision-Date: 2011-09-23 18:11+0000\n"
-"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-23 23:25+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,164 +21,269 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: ajax/addcard.php:31 ajax/addproperty.php:31 ajax/deletebook.php:32
-#: ajax/deletecard.php:32 ajax/deleteproperty.php:34 ajax/getdetails.php:32
-#: ajax/setproperty.php:32 ajax/showaddcard.php:30 ajax/showaddproperty.php:31
-#: ajax/showsetproperty.php:32 photo.php:32
-msgid "You need to log in."
+#: ajax/activation.php:17 ajax/updateaddressbook.php:26
+msgid "Error (de)activating addressbook."
 msgstr ""
+"Des erreurs se sont produites lors de l'activation/désactivation du carnet "
+"d'adresses."
 
-#: ajax/addcard.php:37
+#: ajax/addcard.php:79
+msgid "There was an error adding the contact."
+msgstr "Une erreur s'est produite lors de l'ajout du contact."
+
+#: ajax/addproperty.php:39
+msgid "Cannot add empty property."
+msgstr "Impossible d'ajouter un champ vide."
+
+#: ajax/addproperty.php:51
+msgid "At least one of the address fields has to be filled out."
+msgstr "Au moins un des champs d'adresses doit être complété."
+
+#: ajax/addproperty.php:78
+msgid "Error adding contact property."
+msgstr "Erreur lors de l'ajout du champ."
+
+#: ajax/createaddressbook.php:20
+msgid "Error adding addressbook."
+msgstr "Erreur lors de l'ajout du carnet d'adresses."
+
+#: ajax/createaddressbook.php:26
+msgid "Error activating addressbook."
+msgstr "Erreur lors de l'activation du carnet d'adresses."
+
+#: ajax/deleteproperty.php:40
+msgid "Error deleting contact property."
+msgstr "Erreur lors de la suppression du champ."
+
+#: ajax/setproperty.php:79
+msgid "Error updating contact property."
+msgstr "Erreur lors de la mise à jour du champ."
+
+#: ajax/updateaddressbook.php:20
+msgid "Error updating addressbook."
+msgstr "Erreur lors de la mise à jour du carnet d'adresses."
+
+#: appinfo/app.php:21 templates/settings.php:3
+msgid "Contacts"
+msgstr "Contacts"
+
+#: lib/app.php:52
 msgid "This is not your addressbook."
-msgstr ""
+msgstr "Ce n'est pas votre carnet d'adresses."
 
-#: ajax/addproperty.php:37 ajax/deletecard.php:39 ajax/deleteproperty.php:41
-#: ajax/getdetails.php:39 ajax/setproperty.php:38 ajax/showaddproperty.php:37
-#: ajax/showsetproperty.php:38 photo.php:39
+#: lib/app.php:61 photo.php:36
 msgid "Contact could not be found."
-msgstr ""
+msgstr "Ce contact n'a pas été trouvé."
 
-#: ajax/addproperty.php:43 ajax/deletebook.php:38 ajax/deletecard.php:45
-#: ajax/deleteproperty.php:47 ajax/getdetails.php:45 ajax/setproperty.php:44
-#: ajax/showaddproperty.php:43 ajax/showsetproperty.php:44 photo.php:45
-msgid "This is not your contact."
-msgstr ""
-
-#: ajax/addproperty.php:50 ajax/deleteproperty.php:54 ajax/getdetails.php:52
-#: ajax/setproperty.php:51 ajax/showsetproperty.php:51
-msgid "vCard could not be read."
-msgstr ""
-
-#: ajax/deleteproperty.php:65 ajax/setproperty.php:62
-#: ajax/showsetproperty.php:62
+#: lib/app.php:89
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr ""
+"Les informations relatives à cette vCard sont incorrectes. Veuillez "
+"recharger la page."
 
-#: photo.php:53
-msgid "This card is not RFC compatible."
-msgstr ""
-
-#: photo.php:90
-msgid "This card does not contain a photo."
-msgstr ""
-
-#: templates/index.php:8
-msgid "Add Contact"
-msgstr ""
-
-#: templates/part.addcardform.php:5
-msgid "Group"
-msgstr ""
-
-#: templates/part.addcardform.php:12 templates/part.property.php:3
-msgid "Name"
-msgstr ""
-
-#: templates/part.addcardform.php:14
-msgid "Create Contact"
-msgstr ""
-
-#: templates/part.addpropertyform.php:4 templates/part.property.php:40
+#: lib/app.php:101 templates/part.addcardform.php:54
+#: templates/part.property.php:45 templates/part.setpropertyform.php:7
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
-#: templates/part.addpropertyform.php:5
+#: lib/app.php:102 templates/part.addcardform.php:43
 msgid "Telephone"
-msgstr ""
+msgstr "Téléphone"
 
-#: templates/part.addpropertyform.php:6 templates/part.property.php:22
+#: lib/app.php:103 templates/part.addcardform.php:37
+#: templates/part.property.php:16 templates/part.setpropertyform.php:51
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
-#: templates/part.addpropertyform.php:7 templates/part.property.php:15
+#: lib/app.php:104 templates/part.addcardform.php:27
+#: templates/part.property.php:9 templates/part.setpropertyform.php:54
 msgid "Organization"
-msgstr ""
+msgstr "Société"
 
-#: templates/part.addpropertyform.php:17 templates/part.addpropertyform.php:32
+#: lib/app.php:116 lib/app.php:123
 msgid "Work"
-msgstr ""
+msgstr "Travail"
 
-#: templates/part.addpropertyform.php:18 templates/part.addpropertyform.php:30
+#: lib/app.php:117 lib/app.php:121
 msgid "Home"
-msgstr ""
+msgstr "Maison"
 
-#: templates/part.addpropertyform.php:20 templates/part.property.php:48
-#: templates/part.setpropertyform.php:5
-msgid "PO Box"
-msgstr ""
-
-#: templates/part.addpropertyform.php:21 templates/part.property.php:51
-#: templates/part.setpropertyform.php:6
-msgid "Extended"
-msgstr ""
-
-#: templates/part.addpropertyform.php:22 templates/part.property.php:54
-#: templates/part.setpropertyform.php:7
-msgid "Street"
-msgstr ""
-
-#: templates/part.addpropertyform.php:23 templates/part.property.php:57
-#: templates/part.setpropertyform.php:8
-msgid "City"
-msgstr ""
-
-#: templates/part.addpropertyform.php:24 templates/part.property.php:60
-#: templates/part.setpropertyform.php:9
-msgid "Region"
-msgstr ""
-
-#: templates/part.addpropertyform.php:25 templates/part.property.php:63
-#: templates/part.setpropertyform.php:10
-msgid "Zipcode"
-msgstr ""
-
-#: templates/part.addpropertyform.php:26 templates/part.property.php:66
-#: templates/part.setpropertyform.php:11
-msgid "Country"
-msgstr ""
-
-#: templates/part.addpropertyform.php:31
+#: lib/app.php:122
 msgid "Mobile"
-msgstr ""
+msgstr "Mobile"
 
-#: templates/part.addpropertyform.php:33
+#: lib/app.php:124
 msgid "Text"
-msgstr ""
+msgstr "Texte"
 
-#: templates/part.addpropertyform.php:34
+#: lib/app.php:125
 msgid "Voice"
-msgstr ""
+msgstr "Voix"
 
-#: templates/part.addpropertyform.php:35
+#: lib/app.php:126
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
-#: templates/part.addpropertyform.php:36
+#: lib/app.php:127
 msgid "Video"
-msgstr ""
+msgstr "Vidéo"
 
-#: templates/part.addpropertyform.php:37
+#: lib/app.php:128
 msgid "Pager"
-msgstr ""
+msgstr "Bipeur"
 
-#: templates/part.details.php:33
+#: lib/search.php:22
+msgid "Contact"
+msgstr "Contact"
+
+#: photo.php:42
+msgid "This is not your contact."
+msgstr "Ce n'est pas votre contact."
+
+#: templates/index.php:6
+msgid "Add Contact"
+msgstr "Ajouter un Contact"
+
+#: templates/index.php:7
+msgid "Addressbooks"
+msgstr "Carnets d'adresses"
+
+#: templates/part.addcardform.php:8
+msgid "Addressbook"
+msgstr "Carnet d'adresses"
+
+#: templates/part.addcardform.php:21
+msgid "Name"
+msgstr "Nom"
+
+#: templates/part.addcardform.php:57 templates/part.details.php:43
+#: templates/part.details.php:79 templates/part.setpropertyform.php:10
+#: templates/part.setpropertyform.php:47
+msgid "Type"
+msgstr "Type"
+
+#: templates/part.addcardform.php:65 templates/part.details.php:49
+#: templates/part.setpropertyform.php:16
+msgid "PO Box"
+msgstr "Boîte postale"
+
+#: templates/part.addcardform.php:72 templates/part.details.php:53
+#: templates/part.setpropertyform.php:20
+msgid "Extended"
+msgstr "Étendu"
+
+#: templates/part.addcardform.php:78 templates/part.details.php:57
+#: templates/part.setpropertyform.php:24
+msgid "Street"
+msgstr "Rue"
+
+#: templates/part.addcardform.php:84 templates/part.details.php:61
+#: templates/part.setpropertyform.php:28
+msgid "City"
+msgstr "Ville"
+
+#: templates/part.addcardform.php:90 templates/part.details.php:65
+#: templates/part.setpropertyform.php:32
+msgid "Region"
+msgstr "Région"
+
+#: templates/part.addcardform.php:96 templates/part.details.php:69
+#: templates/part.setpropertyform.php:36
+msgid "Zipcode"
+msgstr "Code postal"
+
+#: templates/part.addcardform.php:102 templates/part.details.php:73
+#: templates/part.setpropertyform.php:40
+msgid "Country"
+msgstr "Pays"
+
+#: templates/part.addcardform.php:109
+msgid "Create Contact"
+msgstr "Créer le Contact"
+
+#: templates/part.chooseaddressbook.php:1
+msgid "Choose active Address Books"
+msgstr "Choisissez le Carnet d'adresses actif"
+
+#: templates/part.chooseaddressbook.php:16
+msgid "New Address Book"
+msgstr "Nouveau Carnet d'adresses"
+
+#: templates/part.chooseaddressbook.php:21
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "CardDav Link"
+msgstr "Lien CardDav"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Download"
+msgstr "Télécharger"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Edit"
+msgstr "Modifier"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
+
+#: templates/part.details.php:3
+msgid "Download contact"
+msgstr "Télécharger le contact"
+
+#: templates/part.details.php:4
+msgid "Delete contact"
+msgstr "Supprimer le contact"
 
 #: templates/part.details.php:34
-msgid "Add Property"
-msgstr ""
+msgid "Add"
+msgstr "Ajouter"
 
-#: templates/part.property.php:9
+#: templates/part.editaddressbook.php:9
+msgid "New Addressbook"
+msgstr "Nouveau carnet d'adresses"
+
+#: templates/part.editaddressbook.php:9
+msgid "Edit Addressbook"
+msgstr "Éditer le carnet d'adresses"
+
+#: templates/part.editaddressbook.php:12
+msgid "Displayname"
+msgstr "Nom"
+
+#: templates/part.editaddressbook.php:23
+msgid "Active"
+msgstr "Carnet actif"
+
+#: templates/part.editaddressbook.php:29
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: templates/part.editaddressbook.php:29
+msgid "Submit"
+msgstr "Envoyer"
+
+#: templates/part.editaddressbook.php:30
+msgid "Cancel"
+msgstr "Annuler"
+
+#: templates/part.property.php:3
 msgid "Birthday"
-msgstr ""
+msgstr "Anniversaire"
 
-#: templates/part.property.php:29
+#: templates/part.property.php:23
+msgid "Preferred"
+msgstr "Préféré"
+
+#: templates/part.property.php:23 templates/part.setpropertyform.php:45
 msgid "Phone"
-msgstr ""
+msgstr "Téléphone"
 
-#: templates/part.setpropertyform.php:17
-msgid "Edit"
-msgstr ""
+#: templates/part.setpropertyform.php:57
+msgid "Update"
+msgstr "Enregistrer"
+
+#: templates/settings.php:4
+msgid "CardDAV syncing address:"
+msgstr "Adresse de synchronisation CardDAV :"
 
 

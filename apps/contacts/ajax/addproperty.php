@@ -23,45 +23,70 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$id = $_POST['id'];
-$l10n = new OC_L10N('contacts');
-
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
+$l=new OC_L10N('contacts');
 
-$card = OC_Contacts_VCard::find( $id );
-if( $card === false ){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Contact could not be found.'))));
-	exit();
-}
-
-$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your contact.'))));
-	exit();
-}
-
-$vcard = OC_Contacts_VCard::parse($card['carddata']);
-// Check if the card is valid
-if(is_null($vcard)){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('vCard could not be read.'))));
-	exit();
-}
+$id = $_POST['id'];
+$vcard = OC_Contacts_App::getContactVCard( $id );
 
 $name = $_POST['name'];
 $value = $_POST['value'];
-$parameters = isset($_POST['parameteres'])?$_POST['parameters']:array();
+if(!is_array($value)){
+	$value = trim($value);
+	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME'))) {
+		OC_JSON::error(array('data' => array('message' => $l->t('Cannot add empty property.'))));
+		exit();
+	}
+} elseif($name === 'ADR') { // only add if non-empty elements.
+	$empty = true;
+	foreach($value as $part) {
+		if(trim($part) != '') {
+			$empty = false;
+			break;
+		}
+	}
+	if($empty) {
+		OC_JSON::error(array('data' => array('message' => $l->t('At least one of the address fields has to be filled out.'))));
+		exit();
+	}
+}
+$parameters = isset($_POST['parameters']) ? $_POST['parameters'] : array();
 
-$property = OC_Contacts_VCard::addVCardProperty($vcard, $name, $value, $parameters);
+$property = $vcard->addProperty($name, $value); //, $parameters);
 
 $line = count($vcard->children) - 1;
-$checksum = md5($property->serialize());
 
-OC_Contacts_VCard::edit($id,$vcard->serialize());
+// Apparently Sabre_VObject_Parameter doesn't do well with multiple values or I don't know how to do it. Tanghus.
+foreach ($parameters as $key=>$element) {
+	if(is_array($element) && strtoupper($key) == 'TYPE') { 
+		// NOTE: Maybe this doesn't only apply for TYPE?
+		// And it probably shouldn't be done here anyways :-/
+		foreach($element as $e){
+			if($e != '' && !is_null($e)){
+				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
+			}
+		}
+	} else {
+			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
+	}
+}
+$checksum = md5($vcard->children[$line]->serialize());
+
+if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+	OC_JSON::error(array('data' => array('message' => $l->t('Error adding contact property.'))));
+	OC_Log::write('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OC_Log::ERROR);
+	exit();
+}
+
+$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 $tmpl = new OC_Template('contacts','part.property');
+$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('property',OC_Contacts_VCard::structureProperty($property,$line));
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OC_JSON::success(array('data' => array( 'checksum' => $checksum, 'page' => $page )));

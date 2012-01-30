@@ -1,0 +1,12 @@
+div#gallery_list { margin: 90pt 20pt; }
+div#gallery_list.leftcontent { padding-top: 15pt; margin: 0; position: absolute; bottom:0px; text-align: center; overflow: auto; }
+div.gallery_album_box { width: 200px; text-align: center; border: 0; display: inline-block; margin: 5pt; vertical-align: top; padding: 10px; position: relative; overflow: hidden; color: #999; }
+div.gallery_album_box:hover { color: black; }
+.leftcontent div.gallery_album_box { margin: 5px; }
+div.gallery_album_box h1 { font-size: 9pt; font-family: Verdana; }
+div.gallery_album_cover { width: 199px; height: 199px; border: solid 1pt #999; padding: 0; }
+div.gallery_control_overlay { border: 0; position:absolute; right: 10pt; background-color: #333; opacity: 0; padding: 0 5pt; }
+div.gallery_album_box:hover div.gallery_control_overlay { opacity:0.5 }
+div.gallery_control_overlay a { color:white; }
+#gallery_images.rightcontent { padding:10px 5px; bottom: 0px; overflow: auto; right:0px}
+

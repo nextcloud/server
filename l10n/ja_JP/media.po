@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/team/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: appinfo/app.php:32
+msgid "Music"
+msgstr "ミュージック"
+
+#: templates/music.php:3 templates/player.php:13
+msgid "Play"
+msgstr "再生"
+
+#: templates/music.php:4 templates/music.php:26 templates/player.php:14
+msgid "Pause"
+msgstr "一時停止"
+
+#: templates/music.php:5
+msgid "Previous"
+msgstr "前"
+
+#: templates/music.php:6 templates/player.php:15
+msgid "Next"
+msgstr "次"
+
+#: templates/music.php:7
+msgid "Mute"
+msgstr "ミュート"
+
+#: templates/music.php:8
+msgid "Unmute"
+msgstr "ミュート解除"
+
+#: templates/music.php:25
+msgid "Rescan Collection"
+msgstr "コレクションを再読み込みする"
+
+#: templates/music.php:37
+msgid "Artist"
+msgstr "アーティスト"
+
+#: templates/music.php:38
+msgid "Album"
+msgstr "アルバム"
+
+#: templates/music.php:39
+msgid "Title"
+msgstr "曲名"
+
+

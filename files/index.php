@@ -38,7 +38,7 @@ if(!isset($_SESSION['timezone'])){
 }
 OC_App::setActiveNavigationEntry( "files_index" );
 // Load the files
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+$dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
 if(!OC_Filesystem::is_dir($dir)) {
 	header("Location: ".$_SERVER['PHP_SELF']."");
@@ -68,7 +68,7 @@ $breadcrumb = array();
 $pathtohere = "";
 foreach( explode( "/", $dir ) as $i ){
 	if( $i != "" ){
-		$pathtohere .= "/$i";
+		$pathtohere .= "/".str_replace('+','%20', urlencode($i));
 		$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
 	}
 }
@@ -86,10 +86,15 @@ $upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'
 $post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
+$freeSpace=OC_Filesystem::free_space('/');
+$freeSpace=max($freeSpace,0);
+$maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
+
 $tmpl = new OC_Template( "files", "index", "user" );
 $tmpl->assign( "fileList", $list->fetchPage() );
 $tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
 $tmpl->assign( 'dir', $dir);
+$tmpl->assign( 'readonly', !OC_Filesystem::is_writeable($dir));
 $tmpl->assign( "files", $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));

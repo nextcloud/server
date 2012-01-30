@@ -603,7 +603,7 @@ function test_mode () {
 		$res['gmp'] = 'pass - n/a';
 	}
 
-	// sys_get_temp_dir
+	// get_temp_dir
 	$res['logfile'] = is_writable($profile['logfile'])
 		? 'pass' : "warn - log is not writable";
 
@@ -1053,8 +1053,6 @@ function debug ($x, $m = null) {
 	} else {
 		$x .= "\n";
 	}
-
-	if(defined("DEBUG") && DEBUG) {error_log($x . "\n", 3, $profile['logfile']);}
 }
 
 
@@ -1375,33 +1373,6 @@ function str_diff_at ($a, $b) {
 	return $n;
 }
 
-
-if (! function_exists('sys_get_temp_dir') && ini_get('open_basedir') == false) {
-/**
- * Create function if missing
- * @return string
- */
-function sys_get_temp_dir () {
-	$keys = array('TMP', 'TMPDIR', 'TEMP');
-	foreach ($keys as $key) {
-		if (isset($_ENV[$key]) && is_dir($_ENV[$key]) && is_writable($_ENV[$key]))
-			return realpath($_ENV[$key]);
-	}
-
-	$tmp = tempnam(false, null);
-	if (file_exists($tmp)) {
-		$dir = realpath(dirname($tmp));
-		unlink($tmp);
-		return realpath($dir);
-	}
-
-	return realpath(dirname(__FILE__));
-}} elseif (! function_exists('sys_get_temp_dir')) {
-function sys_get_temp_dir () {
-	return realpath(dirname(__FILE__));
-}}
-
-
 /**
  * Determine if a child URL actually decends from the parent, and that the
  * parent is a good URL.
@@ -1513,7 +1484,6 @@ function wrap_html ( $message ) {
 </body>
 </html>
 ';
-	if(defined("DEBUG") && DEBUG) {error_log($html);}
 	echo $html;
 	exit(0);
 }
@@ -1658,15 +1628,6 @@ $profile['req_url'] = sprintf("%s://%s%s",
 // 		      $port,//host  already includes the path
 		      $_SERVER["REQUEST_URI"]);
 
-// $fullId='user.php/'.$USERNAME.'/';
-// $incompleteId='user.php/';
-
-// if(!strpos($profile['req_url'],$fullId)){
-// 	$profile['req_url']=str_replace($incompleteId,$fullId,$profile['req_url']);
-// }
-
-// if(defined("DEBUG") && DEBUG) {error_log('inc id: '.$fullId);}
-// if(defined("DEBUG") && DEBUG) {error_log('req url: '.$profile['req_url']);}
 
 // Set the default allowance for testing
 if (! array_key_exists('allow_test', $profile))
@@ -1706,7 +1667,7 @@ if (! array_key_exists('lifetime', $profile)) {
 
 // Set a default log file
 if (! array_key_exists('logfile', $profile))
-	$profile['logfile'] = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $profile['auth_realm'] . '.debug.log';
+	$profile['logfile'] = get_temp_dir() . DIRECTORY_SEPARATOR . $profile['auth_realm'] . '.debug.log';
 
 
 /*

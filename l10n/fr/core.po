@@ -8,15 +8,63 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 18:17+0200\n"
-"PO-Revision-Date: 2011-09-05 15:01+0000\n"
-"Last-Translator: bibzor <borjan@tchaka.fr>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 20:14+0000\n"
+"Last-Translator: Borjan Tchakaloff <borjan@tchaka.fr>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/owncloud/team/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: lostpassword/index.php:24
+msgid "Owncloud password reset"
+msgstr "Réinitialisation de votre mot de passe Owncloud"
+
+#: lostpassword/templates/email.php:1
+msgid "Use the following link to reset your password: {link}"
+msgstr ""
+"Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}"
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr ""
+"Vous allez recevoir un e-mail contenant un lien pour réinitialiser votre mot"
+" de passe"
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Requested"
+msgstr "Demande envoyée"
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "Nom d'utilisateur ou e-mail invalide"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:22
+#: templates/login.php:8
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr "Demander la réinitialisation"
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "Votre mot de passe a été réinitialisé"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr "Retour à la page d'authentification"
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr "Réinitialiser le mot de passe"
 
 #: strings.php:5
 msgid "Personal"
@@ -46,54 +94,50 @@ msgstr "Introuvable"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Créer un <strong>compte administrateur</strong>"
 
-#: templates/installation.php:21
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
-#: templates/installation.php:22
+#: templates/installation.php:26 templates/login.php:12
 msgid "Password"
 msgstr "Mot de passe"
 
-#: templates/installation.php:27
-msgid "Configure the database"
-msgstr "Configurer la base de données"
-
-#: templates/installation.php:32 templates/installation.php:43
-#: templates/installation.php:53
-msgid "will be used"
-msgstr "sera utilisé"
-
-#: templates/installation.php:64
-msgid "Database user"
-msgstr "Utilisateur de la base de données"
-
-#: templates/installation.php:65
-msgid "Database password"
-msgstr "Mot de passe de la base de données"
-
-#: templates/installation.php:66
-msgid "Database name"
-msgstr "Nom de la base de données"
-
-#: templates/installation.php:72
+#: templates/installation.php:32
 msgid "Advanced"
 msgstr "Avancé"
 
-#: templates/installation.php:75
-msgid "Database host"
-msgstr "Serveur de la base de données"
-
-#: templates/installation.php:76
+#: templates/installation.php:34
 msgid "Data folder"
 msgstr "Répertoire des données"
 
+#: templates/installation.php:41
+msgid "Configure the database"
+msgstr "Configurer la base de données"
+
+#: templates/installation.php:46 templates/installation.php:57
+#: templates/installation.php:67
+msgid "will be used"
+msgstr "sera utilisé"
+
 #: templates/installation.php:79
+msgid "Database user"
+msgstr "Utilisateur de la base de données"
+
+#: templates/installation.php:83
+msgid "Database password"
+msgstr "Mot de passe de la base de données"
+
+#: templates/installation.php:87
+msgid "Database name"
+msgstr "Nom de la base de données"
+
+#: templates/installation.php:93
+msgid "Database host"
+msgstr "Serveur de la base de données"
+
+#: templates/installation.php:98
 msgid "Finish setup"
 msgstr "Terminer l'installation"
 
 #: templates/layout.guest.php:35
-msgid "gives you freedom and control over your own data"
-msgstr "vous donne la liberté et le contrôle de vos propres données"
+msgid "web services under your control"
+msgstr "services web sous votre contrôle"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -103,39 +147,21 @@ msgstr "Se déconnecter"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: templates/login.php:4
+#: templates/login.php:5
 msgid "Lost your password?"
 msgstr "Mot de passe perdu ?"
 
-#: templates/login.php:9 templates/login.php:13
+#: templates/login.php:15
 msgid "remember"
 msgstr "se souvenir de moi"
+
+#: templates/login.php:16
+msgid "Log in"
+msgstr "Connexion"
 
 #: templates/logout.php:1
 msgid "You are logged out."
 msgstr "Vous êtes désormais déconnecté."
-
-#: templates/lostpassword.php:3
-msgid "You will receive a link to reset your password via Email."
-msgstr ""
-"Vous allez recevoir un lien par email qui vous permettra de réinitialiser "
-"votre mot de passe."
-
-#: templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Nécessaire"
-
-#: templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Échec de la connexion !"
-
-#: templates/lostpassword.php:10
-msgid "Username or Email"
-msgstr "Nom d'utilisateur ou Email"
-
-#: templates/lostpassword.php:11
-msgid "Request reset"
-msgstr "Demande de réinitialisation"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -144,17 +170,5 @@ msgstr "précédent"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "suivant"
-
-#: templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Votre mot de passe a été réinitialisé"
-
-#: templates/resetpassword.php:6
-msgid "New password"
-msgstr "Nouveau mot de passe"
-
-#: templates/resetpassword.php:7
-msgid "Reset password"
-msgstr "Réinitialisation du mot de passe"
 
 

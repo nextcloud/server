@@ -1,8 +1,17 @@
 <?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Der er ingen fejl, filen blev uploadet med success",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Den uploadede fil overskrider upload_max_filesize direktivet i php.ini",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Den uploadede fil overskrider MAX_FILE_SIZE -direktivet som er specificeret i HTML-formularen",
+"The uploaded file was only partially uploaded" => "Den uploadede file blev kun delvist uploadet",
+"No file was uploaded" => "Ingen fil blev uploadet",
+"Missing a temporary folder" => "Mangler en midlertidig mappe",
 "Files" => "Filer",
 "Maximum upload size" => "Maksimal upload-størrelse",
+"New" => "Ny",
+"Text file" => "Tekstfil",
+"Folder" => "Mappe",
+"From the web" => "Fra nettet",
 "Upload" => "Upload",
-"New Folder" => "Ny Mappe",
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",
 "Name" => "Navn",
 "Download" => "Download",
@@ -10,5 +19,5 @@
 "Modified" => "Ændret",
 "Delete" => "Slet",
 "Upload too large" => "Upload for stor",
-"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerne du prøver at uploade er større end den maksimale størrelse for fil-upload på denne server."
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server."
 );

@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Authentication error" => "Authentifikatioun's Feeler",
-"OpenID Changed" => "OpenID huet geännert",
 "Invalid request" => "Ongülteg Requête",
+"OpenID Changed" => "OpenID huet geännert",
 "Language changed" => "Sprooch huet geännert",
 "Add your application" => "Sätz deng Applikatioun bäi",
 "Select an App" => "Wiel eng Applikatioun aus",
@@ -20,7 +19,6 @@
 "show" => "weisen",
 "Change password" => "Passwuert änneren",
 "Language" => "Sprooch",
-"Help translating" => "Hëllef ze Iwwersetzen",
 "use this address to connect to your ownCloud in your file manager" => "benotz dës Adress fir dech un deng ownCloud iwwert däin Datei Manager ze verbannen",
 "Name" => "Numm",
 "Password" => "Passwuert",

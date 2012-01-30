@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-25 14:15+0000\n"
+"Last-Translator: nn nn <dev.nnnn@gmail.com>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/team/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "メールアドレスを変更しました"
+
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
+msgid "Invalid request"
+msgstr "無効なリクエストです"
+
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenIDが変更されました"
+
+#: ajax/setlanguage.php:14
+msgid "Language changed"
+msgstr "言語が変更されました"
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr "Japanese(日本語)"
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr "ログレベル"
+
+#: templates/apps.php:8
+msgid "Add your application"
+msgstr "アプリを追加してください"
+
+#: templates/apps.php:21
+msgid "Select an App"
+msgstr "アプリを選択してください"
+
+#: templates/apps.php:23
+msgid "-licensed"
+msgstr "権利を保持されています"
+
+#: templates/apps.php:23
+msgid "by"
+msgstr "によって"
+
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr "質問してください"
+
+#: templates/help.php:20
+msgid "Problems connecting to help database."
+msgstr "ヘルプ用データベース接続に問題が生じました"
+
+#: templates/help.php:21
+msgid "Go there manually."
+msgstr "手動で移動してください"
+
+#: templates/help.php:29
+msgid "Answer"
+msgstr "解答"
+
+#: templates/personal.php:8
+msgid "You use"
+msgstr "あなたが使っているのは"
+
+#: templates/personal.php:8
+msgid "of the available"
+msgstr "です。利用可能容量は"
+
+#: templates/personal.php:13
+msgid "Your password got changed"
+msgstr "パスワードは変更されました"
+
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr "パスワードを変更することができません"
+
+#: templates/personal.php:15
+msgid "Current password"
+msgstr "現在のパスワード"
+
+#: templates/personal.php:16
+msgid "New password"
+msgstr "新しいパスワード"
+
+#: templates/personal.php:17
+msgid "show"
+msgstr "表示"
+
+#: templates/personal.php:18
+msgid "Change password"
+msgstr "パスワードを変更する"
+
+#: templates/personal.php:24
+msgid "Email"
+msgstr "メールアドレス"
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr "あなたのメールアドレス"
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr "パスワードの回復を有効にするにはメールアドレスを入力してください"
+
+#: templates/personal.php:32 templates/personal.php:33
+msgid "Language"
+msgstr "言語"
+
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr "翻訳を手伝う"
+
+#: templates/personal.php:45
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr "ファイルマネージャーであなたのownCloudに接続するときはこのアドレスを使用してください"
+
+#: templates/users.php:15 templates/users.php:30
+msgid "Name"
+msgstr "名前"
+
+#: templates/users.php:16 templates/users.php:31
+msgid "Password"
+msgstr "パスワード"
+
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
+msgid "Groups"
+msgstr "グループ"
+
+#: templates/users.php:23
+msgid "Create"
+msgstr "作成"
+
+#: templates/users.php:33
+msgid "Quota"
+msgstr "クオータ"
+
+#: templates/users.php:58
+msgid "Delete"
+msgstr "削除"
+
+

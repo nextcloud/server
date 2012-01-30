@@ -28,7 +28,7 @@ OC_Hook::connect('OC_User','post_login','OC_MEDIA','loginListener');
 OC_Hook::connect('OC_Filesystem','post_write','OC_MEDIA','updateFile');
 
 //listen for file deletions to clean the database if a song is deleted
-OC_Hook::connect('OC_Filesystem','delete','OC_MEDIA','deleteFile');
+OC_Hook::connect('OC_Filesystem','post_delete','OC_MEDIA','deleteFile');
 
 //list for file moves to update the database
 OC_Hook::connect('OC_Filesystem','post_rename','OC_MEDIA','moveFile');
@@ -40,7 +40,6 @@ class OC_MEDIA{
 	 */
 	public static function loginListener($params){
 		if(isset($_POST['user']) and $_POST['password']){
-			if(defined("DEBUG") && DEBUG) {error_log('postlogin');}
 			$name=$_POST['user'];
 			$query=OC_DB::prepare("SELECT user_id from *PREFIX*media_users WHERE user_id LIKE ?");
 			$uid=$query->execute(array($name))->fetchAll();
@@ -64,7 +63,6 @@ class OC_MEDIA{
 			$path=substr($path,1);
 		}
 		$path='/'.$path;
-		error_log("$path was updated");
 		OC_MEDIA_SCANNER::scanFile($path);
 	}
 

@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <intense.feel@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-16 21:09+0000\n"
+"Last-Translator: intense <intense.feel@gmail.com>\n"
+"Language-Team: Slovak (Slovakia) (http://www.transifex.net/projects/p/owncloud/team/sk_SK/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk_SK\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+
+#: ajax/upload.php:19
+msgid "There is no error, the file uploaded with success"
+msgstr "Nenastala žiadna chyba, súbor bol úspešne nahraný"
+
+#: ajax/upload.php:20
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr "Nahraný súbor presiahol direktívu upload_max_filesize v php.ini"
+
+#: ajax/upload.php:21
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+"Nahrávaný súbor presiahol MAX_FILE_SIZE direktívu, ktorá bola špecifikovaná "
+"v HTML formulári"
+
+#: ajax/upload.php:22
+msgid "The uploaded file was only partially uploaded"
+msgstr "Nahrávaný súbor bol iba čiastočne nahraný"
+
+#: ajax/upload.php:23
+msgid "No file was uploaded"
+msgstr "Žiaden súbor nebol nahraný"
+
+#: ajax/upload.php:24
+msgid "Missing a temporary folder"
+msgstr "Chýbajúci dočasný priečinok"
+
+#: appinfo/app.php:8
+msgid "Files"
+msgstr "Súbory"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Maximálna veľkosť nahratia"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "Nový"
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr "Textový súbor"
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr "Priečinok"
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr "Z webu"
+
+#: templates/index.php:22
+msgid "Upload"
+msgstr "Nahrať"
+
+#: templates/index.php:35
+msgid "Nothing in here. Upload something!"
+msgstr "Nič tu nie je. Nahrakte niečo!"
+
+#: templates/index.php:43
+msgid "Name"
+msgstr "Meno"
+
+#: templates/index.php:45
+msgid "Download"
+msgstr "Stiahnuť"
+
+#: templates/index.php:49
+msgid "Size"
+msgstr "Veľkosť"
+
+#: templates/index.php:50
+msgid "Modified"
+msgstr "Upravené"
+
+#: templates/index.php:50
+msgid "Delete"
+msgstr "Odstrániť"
+
+#: templates/index.php:58
+msgid "Upload too large"
+msgstr "Nahrávanie príliš veľké"
+
+#: templates/index.php:60
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Súbory ktoré sa snažíte nahrať presahujú maximálnu veľkosť pre nahratie "
+"súborov na tento server."
+
+

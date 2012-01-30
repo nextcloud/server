@@ -2,14 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
 # Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-28 01:11+0200\n"
-"PO-Revision-Date: 2011-08-23 09:45+0000\n"
-"Last-Translator: radifar <m_radifar05@yahoo.com>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-16 16:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.net/projects/p/owncloud/team/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,21 +18,29 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Otentikasi bermasalah"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr ""
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID telah dirubah"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Permintaan tidak valid"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID telah dirubah"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Bahasa telah diganti"
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr ""
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr ""
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -53,15 +62,15 @@ msgstr "oleh"
 msgid "Ask a question"
 msgstr "Ajukan pertanyaan"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
 msgstr "Bermasalah saat menghubungi database bantuan."
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "Pergi kesana secara manual."
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Jawab"
 
@@ -76,6 +85,10 @@ msgstr "dari yang tersedia"
 #: templates/personal.php:13
 msgid "Your password got changed"
 msgstr "Password anda telah dirubah"
+
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr "Tidak dapat merubah password anda"
 
 #: templates/personal.php:15
 msgid "Current password"
@@ -94,36 +107,52 @@ msgid "Change password"
 msgstr "Rubah password"
 
 #: templates/personal.php:24
+msgid "Email"
+msgstr ""
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr ""
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr ""
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Bahasa"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Bantu terjemahkan"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr ""
 
-#: templates/personal.php:36
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 "gunakan alamat ini untuk terhubung dengan ownCloud anda dalam file manager "
 "anda"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Nama"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Password"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Group"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Buat"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr ""
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "Hapus"
 

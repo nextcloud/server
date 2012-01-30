@@ -37,7 +37,7 @@ foreach($arguments as &$argument){
 }
 @ob_clean();
 if(isset($arguments['action'])){
-	if(defined("DEBUG") && DEBUG) {error_log($arguments['action']);}
+	OC_Log::write('media','ampache '.$arguments['action'].' request', OC_Log::DEBUG);
 	switch($arguments['action']){
 		case 'url_to_song':
 			OC_MEDIA_AMPACHE::url_to_song($arguments);
@@ -68,6 +68,9 @@ if(isset($arguments['action'])){
 			break;
 		case 'search_songs':
 			OC_MEDIA_AMPACHE::search_songs($arguments);
+			break;
+		case 'song':
+			OC_MEDIA_AMPACHE::song($arguments);
 			break;
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-$RUNTIME_NOAPPS = true;
+//$RUNTIME_NOAPPS = true;
 
 require_once('../../../lib/base.php');
 OC_JSON::checkAppEnabled('files_sharing');
@@ -15,6 +15,7 @@ foreach ($sources as $source) {
 		$source = $userDirectory.$source;
 	// If the file doesn't exist, it may be shared with the current user
 	} else if (!$source = OC_Share::getSource($userDirectory.$source)) {
+		OC_Log::write('files_sharing',"Shared file doesn't exists :".$source,OC_Log::ERROR);
 		echo "false";
 	}
 	try {
@@ -23,6 +24,7 @@ foreach ($sources as $source) {
 			echo $shared->getToken();
 		}
 	} catch (Exception $exception) {
+		OC_Log::write('files_sharing',"Unexpected Error : ".$exception->getMessage(),OC_Log::ERROR);
 		echo "false";
 	}
 }

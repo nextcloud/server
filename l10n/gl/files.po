@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-16 05:52+0000\n"
+"Last-Translator: Xosé M. Lamas <correo.xmgz@gmail.com>\n"
+"Language-Team: Galician (http://www.transifex.net/projects/p/owncloud/team/gl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: gl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/upload.php:19
+msgid "There is no error, the file uploaded with success"
+msgstr "Non hai erros, o ficheiro subeuse con éxito"
+
+#: ajax/upload.php:20
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr "O ficheiro subido supera a directiva upload_max_filesize no php.ini"
+
+#: ajax/upload.php:21
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+"O ficheiro subido supera a directiva MAX_FILE_SIZE que foi indicada no "
+"formulario HTML"
+
+#: ajax/upload.php:22
+msgid "The uploaded file was only partially uploaded"
+msgstr "O ficheiro subido foi só parcialmente subido"
+
+#: ajax/upload.php:23
+msgid "No file was uploaded"
+msgstr "Non se subeu ningún ficheiro"
+
+#: ajax/upload.php:24
+msgid "Missing a temporary folder"
+msgstr "Falta un cartafol temporal"
+
+#: appinfo/app.php:8
+msgid "Files"
+msgstr "Ficheiros"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "Tamaño máximo de subida"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "Novo"
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr "Ficheiro de texto"
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr "Cartafol"
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr "Desde a rede"
+
+#: templates/index.php:22
+msgid "Upload"
+msgstr "Subir"
+
+#: templates/index.php:35
+msgid "Nothing in here. Upload something!"
+msgstr "Nada por aquí. Sube algo!"
+
+#: templates/index.php:43
+msgid "Name"
+msgstr "Nome"
+
+#: templates/index.php:45
+msgid "Download"
+msgstr "Baixar"
+
+#: templates/index.php:49
+msgid "Size"
+msgstr "Tamaño"
+
+#: templates/index.php:50
+msgid "Modified"
+msgstr "Modificado"
+
+#: templates/index.php:50
+msgid "Delete"
+msgstr "Eliminar"
+
+#: templates/index.php:58
+msgid "Upload too large"
+msgstr "Subida demasiado grande"
+
+#: templates/index.php:60
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"Os ficheiros que tratas de subir superan o tamaño máximo permitido neste "
+"servidor"
+
+

@@ -6,10 +6,14 @@
  */
 function t(app,text){
 	if( !( app in t.cache )){
-		
-		$.post( OC.filePath('core','ajax','translations.php'), {'app': app}, function(jsondata){
-			t.cache[app] = jsondata.data;
-		});
+		$.ajax(OC.filePath('core','ajax','translations.php'),{
+			async:false,//todo a proper sollution for this without sync ajax calls
+			data:{'app': app},
+			type:'POST',
+			success:function(jsondata){
+				t.cache[app] = jsondata.data;
+			},
+		})
 
 		// Bad answer ...
 		if( !( app in t.cache )){
@@ -130,6 +134,35 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+if(typeof localStorage !='undefined'){
+	//user and instance awere localstorage
+	OC.localStorage={
+		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
+		hasItem:function(name){
+			return OC.localStorage.getItem(name)!=null;
+		},
+		setItem:function(name,item){
+			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
+		},
+		getItem:function(name){
+			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
+		}
+	}
+}else{
+	//dummy localstorage
+	OC.localStorage={
+		hasItem:function(name){
+			return false;
+		},
+		setItem:function(name,item){
+			return false;
+		},
+		getItem:function(name){
+			return null;
+		}
+	}
+}
+
 /**
  * implement Array.filter for browsers without native support
  */
@@ -191,11 +224,13 @@ SVGSupport.checkMimeType=function(){
 			$.each(headerParts,function(i,text){
 				if(text){
 					var parts=text.split(':',2);
-					var value=parts[1].trim();
-					if(value[0]=='"'){
-						value=value.substr(1,value.length-2);
+					if(parts.length==2){
+						var value=parts[1].trim();
+						if(value[0]=='"'){
+							value=value.substr(1,value.length-2);
+						}
+						headers[parts[0]]=value;
 					}
-					headers[parts[0]]=value;
 				}
 			});
 			if(headers["Content-Type"]!='image/svg+xml'){
@@ -365,7 +400,7 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.file_upload_button_wrapper').tipsy({gravity:'e', fade:true}); 
+	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true}); 
 	$('.selectedActions a.delete').tipsy({gravity: 'se', fade:true, live:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
 	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
@@ -401,3 +436,12 @@ if (!Array.prototype.map){
 	    return res;
 	};
 }
+
+/**
+ * Filter Jquery selector by attribute value
+ **/
+$.fn.filterAttr = function(attr_name, attr_value) {  
+   return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
+};
+
+

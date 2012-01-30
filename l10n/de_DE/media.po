@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2011-08-13 02:19+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:32 templates/player.php:9
+msgid "Music"
+msgstr ""
+
+#: templates/music.php:3 templates/player.php:13
+msgid "Play"
+msgstr ""
+
+#: templates/music.php:4 templates/music.php:26 templates/player.php:14
+msgid "Pause"
+msgstr ""
+
+#: templates/music.php:5
+msgid "Previous"
+msgstr ""
+
+#: templates/music.php:6 templates/player.php:15
+msgid "Next"
+msgstr ""
+
+#: templates/music.php:7
+msgid "Mute"
+msgstr ""
+
+#: templates/music.php:8
+msgid "Unmute"
+msgstr ""
+
+#: templates/music.php:25
+msgid "Rescan Collection"
+msgstr ""
+
+#: templates/music.php:37
+msgid "Artist"
+msgstr ""
+
+#: templates/music.php:38
+msgid "Album"
+msgstr ""
+
+#: templates/music.php:39
+msgid "Title"
+msgstr ""
+
+

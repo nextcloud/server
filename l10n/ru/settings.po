@@ -2,14 +2,17 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
+#   <icewind1991@gmail.com>, 2012.
+#   <jekader@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-04 16:48+0200\n"
-"PO-Revision-Date: 2011-09-03 13:59+0000\n"
-"Last-Translator: tonymc <tony.mccourin@gmail.com>\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-21 23:05+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/team/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,21 +20,29 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Ошибка аутентификации"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "адрес электронной почты изменён"
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID был изменён"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Неверный запрос"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID был изменён"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Язык изменён"
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr ""
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr "Уровень детализации журнала"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -53,15 +64,15 @@ msgstr "от"
 msgid "Ask a question"
 msgstr "Задать вопрос"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
 msgstr "Проблема соединения с базой данных помощи."
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "Войти самостоятельно."
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Ответ"
 
@@ -97,37 +108,55 @@ msgstr "показать"
 msgid "Change password"
 msgstr "Сменить пароль"
 
-#: templates/personal.php:24 templates/personal.php:25
+#: templates/personal.php:24
+msgid "Email"
+msgstr "e-mail"
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr "Ваш адрес электронной почты"
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr ""
+"Введите адрес электронной почты чтобы появилась возможность восстановления "
+"пароля"
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Язык"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Помощь с переводом"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr "Помочь с переводом"
 
-#: templates/personal.php:37
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr ""
 "используйте данный адрес для подключения к ownCloud в вашем файловом "
 "менеджере"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Имя"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Пароль"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Группы"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Создать"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr "Квота"
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "Удалить"
 

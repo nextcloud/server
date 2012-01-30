@@ -9,7 +9,10 @@
 	<?php
 		$url=OC_Helper::linkTo( "settings", "help.php" ).'?page=';
 		$pageNavi=OC_Util::getPageNavi($_['pagecount'],$_['page'],$url);
-		$pageNavi->printPage();
+		if($pageNavi)
+		{
+			$pageNavi->printPage();
+		}
 	?>
 </diV>
 <?php if(is_null($_["kbe"])):?>

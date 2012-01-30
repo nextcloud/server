@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <wengxt@gmail.com>, 2011.
+#   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-24 23:05+0200\n"
-"PO-Revision-Date: 2011-09-24 21:05+0000\n"
-"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-22 07:42+0000\n"
+"Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/team/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,351 +18,432 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: ajax/createcalendar.php:18 ajax/settimezone.php:19
-#: ajax/updatecalendar.php:18
-msgid "Authentication error"
-msgstr "验证错误"
+#: ajax/guesstimezone.php:42
+msgid "New Timezone:"
+msgstr "新时区："
 
-#: ajax/editeventform.php:25
-msgid "Wrong calendar"
-msgstr ""
-
-#: ajax/settimezone.php:27
+#: ajax/settimezone.php:22
 msgid "Timezone changed"
 msgstr "时区已修改"
 
-#: ajax/settimezone.php:29
+#: ajax/settimezone.php:24
 msgid "Invalid request"
 msgstr "非法请求"
 
-#: appinfo/app.php:19 templates/part.eventform.php:27
-#: templates/part.eventinfo.php:18
+#: appinfo/app.php:20 templates/calendar.php:14
+#: templates/part.eventform.php:20
 msgid "Calendar"
 msgstr "日历"
 
-#: lib/object.php:292
+#: lib/app.php:19
+msgid "Wrong calendar"
+msgstr "错误的日历"
+
+#: lib/app.php:60 lib/object.php:332
 msgid "Birthday"
-msgstr ""
+msgstr "生日"
 
-#: lib/object.php:293
+#: lib/app.php:61 lib/object.php:333
 msgid "Business"
-msgstr ""
+msgstr "商务"
 
-#: lib/object.php:294
+#: lib/app.php:62 lib/object.php:334
 msgid "Call"
-msgstr ""
+msgstr "呼叫"
 
-#: lib/object.php:295
+#: lib/app.php:63 lib/object.php:335
 msgid "Clients"
-msgstr ""
+msgstr "客户"
 
-#: lib/object.php:296
+#: lib/app.php:64 lib/object.php:336
 msgid "Deliverer"
-msgstr ""
+msgstr "派送"
 
-#: lib/object.php:297
+#: lib/app.php:65 lib/object.php:337
 msgid "Holidays"
-msgstr ""
+msgstr "节日"
 
-#: lib/object.php:298
+#: lib/app.php:66 lib/object.php:338
 msgid "Ideas"
-msgstr ""
+msgstr "想法"
 
-#: lib/object.php:299
+#: lib/app.php:67 lib/object.php:339
 msgid "Journey"
-msgstr ""
+msgstr "旅行"
 
-#: lib/object.php:300
+#: lib/app.php:68 lib/object.php:340
 msgid "Jubilee"
-msgstr ""
+msgstr "周年纪念"
 
-#: lib/object.php:301
+#: lib/app.php:69 lib/object.php:341
 msgid "Meeting"
-msgstr ""
+msgstr "会议"
 
-#: lib/object.php:302
+#: lib/app.php:70 lib/object.php:342
 msgid "Other"
-msgstr ""
+msgstr "其他"
 
-#: lib/object.php:303
+#: lib/app.php:71 lib/object.php:343
 msgid "Personal"
-msgstr ""
+msgstr "个人"
 
-#: lib/object.php:304
+#: lib/app.php:72 lib/object.php:344
 msgid "Projects"
-msgstr ""
+msgstr "项目"
 
-#: lib/object.php:305
+#: lib/app.php:73 lib/object.php:345
 msgid "Questions"
-msgstr ""
+msgstr "问题"
 
-#: lib/object.php:306
+#: lib/app.php:74 lib/object.php:346
 msgid "Work"
-msgstr ""
+msgstr "工作"
 
-#: lib/object.php:313
+#: lib/object.php:353
 msgid "Does not repeat"
 msgstr "不重复"
 
-#: lib/object.php:314
+#: lib/object.php:354
 msgid "Daily"
 msgstr "每天"
 
-#: lib/object.php:315
+#: lib/object.php:355
 msgid "Weekly"
 msgstr "每周"
 
-#: lib/object.php:316
+#: lib/object.php:356
 msgid "Every Weekday"
 msgstr "每个工作日"
 
-#: lib/object.php:317
+#: lib/object.php:357
 msgid "Bi-Weekly"
 msgstr "每两周"
 
-#: lib/object.php:318
+#: lib/object.php:358
 msgid "Monthly"
 msgstr "每月"
 
-#: lib/object.php:319
+#: lib/object.php:359
 msgid "Yearly"
 msgstr "每年"
 
-#: lib/object.php:337
-msgid "Not an array"
-msgstr ""
+#: lib/object.php:366
+msgid "never"
+msgstr "从不"
 
-#: templates/calendar.php:3
-msgid "All day"
-msgstr "全天"
+#: lib/object.php:367
+msgid "by occurrences"
+msgstr "按发生次数"
 
-#: templates/calendar.php:32
-msgid "Sunday"
-msgstr "星期日"
+#: lib/object.php:368
+msgid "by date"
+msgstr "按日期"
 
-#: templates/calendar.php:32
+#: lib/object.php:375
+msgid "by monthday"
+msgstr "按月的某天"
+
+#: lib/object.php:376
+msgid "by weekday"
+msgstr "按星期的某天"
+
+#: lib/object.php:383 templates/lAfix.php:3
 msgid "Monday"
 msgstr "星期一"
 
-#: templates/calendar.php:32
+#: lib/object.php:384 templates/lAfix.php:4
 msgid "Tuesday"
 msgstr "星期二"
 
-#: templates/calendar.php:32
+#: lib/object.php:385 templates/lAfix.php:5
 msgid "Wednesday"
 msgstr "星期三"
 
-#: templates/calendar.php:32
+#: lib/object.php:386 templates/lAfix.php:6
 msgid "Thursday"
 msgstr "星期四"
 
-#: templates/calendar.php:32
+#: lib/object.php:387 templates/lAfix.php:7
 msgid "Friday"
 msgstr "星期五"
 
-#: templates/calendar.php:32
+#: lib/object.php:388 templates/lAfix.php:8
 msgid "Saturday"
 msgstr "星期六"
 
-#: templates/calendar.php:33
-msgid "Sun."
-msgstr "日"
+#: lib/object.php:389 templates/lAfix.php:2
+msgid "Sunday"
+msgstr "星期日"
 
-#: templates/calendar.php:33
-msgid "Mon."
-msgstr "一"
+#: lib/object.php:396
+msgid "events week of month"
+msgstr "事件在每月的第几个星期"
 
-#: templates/calendar.php:33
-msgid "Tue."
-msgstr "二"
+#: lib/object.php:397
+msgid "first"
+msgstr "第一"
 
-#: templates/calendar.php:33
-msgid "Wed."
-msgstr "三"
+#: lib/object.php:398
+msgid "second"
+msgstr "第二"
 
-#: templates/calendar.php:33
-msgid "Thu."
-msgstr "四"
+#: lib/object.php:399
+msgid "third"
+msgstr "第三"
 
-#: templates/calendar.php:33
-msgid "Fri."
-msgstr "五"
+#: lib/object.php:400
+msgid "fourth"
+msgstr "第四"
 
-#: templates/calendar.php:33
-msgid "Sat."
-msgstr "六"
+#: lib/object.php:401
+msgid "fifth"
+msgstr "第五"
 
-#: templates/calendar.php:34
+#: lib/object.php:402
+msgid "last"
+msgstr "最后"
+
+#: lib/object.php:424 templates/lAfix.php:16
 msgid "January"
-msgstr "1月"
+msgstr "一月"
 
-#: templates/calendar.php:34
+#: lib/object.php:425 templates/lAfix.php:17
 msgid "February"
-msgstr "2月"
+msgstr "二月"
 
-#: templates/calendar.php:34
+#: lib/object.php:426 templates/lAfix.php:18
 msgid "March"
-msgstr "3月"
+msgstr "三月"
 
-#: templates/calendar.php:34
+#: lib/object.php:427 templates/lAfix.php:19
 msgid "April"
-msgstr "4月"
+msgstr "四月"
 
-#: templates/calendar.php:34
+#: lib/object.php:428 templates/lAfix.php:20
 msgid "May"
-msgstr "5月"
+msgstr "五月"
 
-#: templates/calendar.php:34
+#: lib/object.php:429 templates/lAfix.php:21
 msgid "June"
-msgstr "6月"
+msgstr "六月"
 
-#: templates/calendar.php:34
+#: lib/object.php:430 templates/lAfix.php:22
 msgid "July"
-msgstr "7月"
+msgstr "七月"
 
-#: templates/calendar.php:34
+#: lib/object.php:431 templates/lAfix.php:23
 msgid "August"
-msgstr "8月"
+msgstr "八月"
 
-#: templates/calendar.php:34
+#: lib/object.php:432 templates/lAfix.php:24
 msgid "September"
-msgstr "9月"
+msgstr "九月"
 
-#: templates/calendar.php:34
+#: lib/object.php:433 templates/lAfix.php:25
 msgid "October"
-msgstr "10月"
+msgstr "十月"
 
-#: templates/calendar.php:34
+#: lib/object.php:434 templates/lAfix.php:26
 msgid "November"
-msgstr "11月"
+msgstr "十一月"
 
-#: templates/calendar.php:34
+#: lib/object.php:435 templates/lAfix.php:27
 msgid "December"
-msgstr "12月"
+msgstr "十二月"
 
-#: templates/calendar.php:35
-msgid "Jan."
-msgstr "1月"
+#: lib/object.php:441
+msgid "by events date"
+msgstr "按事件日期"
 
-#: templates/calendar.php:35
-msgid "Feb."
-msgstr "2月"
+#: lib/object.php:442
+msgid "by yearday(s)"
+msgstr "按每年的某天"
 
-#: templates/calendar.php:35
-msgid "Mar."
-msgstr "3月"
+#: lib/object.php:443
+msgid "by weeknumber(s)"
+msgstr "按星期数"
 
-#: templates/calendar.php:35
-msgid "Apr."
-msgstr "4月"
+#: lib/object.php:444
+msgid "by day and month"
+msgstr "按天和月份"
 
-#: templates/calendar.php:35
-msgid "May."
-msgstr ""
+#: lib/object.php:467
+msgid "Not an array"
+msgstr "不是一个数组"
 
-#: templates/calendar.php:35
-msgid "Jun."
-msgstr "6月"
+#: lib/search.php:32 lib/search.php:34 lib/search.php:37
+msgid "Date"
+msgstr "日期"
 
-#: templates/calendar.php:35
-msgid "Jul."
-msgstr "7月"
+#: lib/search.php:40
+msgid "Cal."
+msgstr "日历"
 
-#: templates/calendar.php:35
-msgid "Aug."
-msgstr "8月"
+#: templates/calendar.php:10
+msgid "All day"
+msgstr "全天"
 
-#: templates/calendar.php:35
-msgid "Sep."
-msgstr "9月"
+#: templates/calendar.php:11 templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr "新日历"
 
-#: templates/calendar.php:35
-msgid "Oct."
-msgstr "10月"
+#: templates/calendar.php:12
+msgid "Missing fields"
+msgstr "缺少字段"
 
-#: templates/calendar.php:35
-msgid "Nov."
-msgstr "11月"
+#: templates/calendar.php:13 templates/part.eventform.php:3
+msgid "Title"
+msgstr "标题"
 
-#: templates/calendar.php:35
-msgid "Dec."
-msgstr "12月"
+#: templates/calendar.php:15
+msgid "From Date"
+msgstr "从"
 
-#: templates/calendar.php:36 templates/calendar.php:50
-#: templates/calendar.php:116
+#: templates/calendar.php:16
+msgid "From Time"
+msgstr "从"
+
+#: templates/calendar.php:17
+msgid "To Date"
+msgstr "至"
+
+#: templates/calendar.php:18
+msgid "To Time"
+msgstr "至"
+
+#: templates/calendar.php:19
+msgid "The event ends before it starts"
+msgstr "事件在开始前已结束"
+
+#: templates/calendar.php:20
+msgid "There was a database fail"
+msgstr "数据库访问失败"
+
+#: templates/calendar.php:38
 msgid "Week"
 msgstr "星期"
 
-#: templates/calendar.php:37 templates/calendar.php:51
-msgid "Weeks"
-msgstr "星期"
-
-#: templates/calendar.php:38
-msgid "More before {startdate}"
-msgstr ""
-
 #: templates/calendar.php:39
-msgid "More after {enddate}"
-msgstr ""
-
-#: templates/calendar.php:49
-msgid "Day"
-msgstr "天"
-
-#: templates/calendar.php:52
 msgid "Month"
 msgstr "月"
 
-#: templates/calendar.php:53
+#: templates/calendar.php:40
 msgid "List"
-msgstr ""
+msgstr "列表"
 
-#: templates/calendar.php:58
+#: templates/calendar.php:46
 msgid "Today"
 msgstr "今天"
 
-#: templates/calendar.php:59
+#: templates/calendar.php:47
 msgid "Calendars"
 msgstr "日历"
 
-#: templates/calendar.php:76 templates/calendar.php:94
-msgid "Time"
-msgstr "时间"
-
-#: templates/calendar.php:169
+#: templates/calendar.php:65
 msgid "There was a fail, while parsing the file."
 msgstr "解析文件失败"
+
+#: templates/lAfix.php:9
+msgid "Sun."
+msgstr "周日"
+
+#: templates/lAfix.php:10
+msgid "Mon."
+msgstr "周一"
+
+#: templates/lAfix.php:11
+msgid "Tue."
+msgstr "周二"
+
+#: templates/lAfix.php:12
+msgid "Wed."
+msgstr "周三"
+
+#: templates/lAfix.php:13
+msgid "Thu."
+msgstr "周四"
+
+#: templates/lAfix.php:14
+msgid "Fri."
+msgstr "周五"
+
+#: templates/lAfix.php:15
+msgid "Sat."
+msgstr "周六"
+
+#: templates/lAfix.php:28
+msgid "Jan."
+msgstr "1月"
+
+#: templates/lAfix.php:29
+msgid "Feb."
+msgstr "2月"
+
+#: templates/lAfix.php:30
+msgid "Mar."
+msgstr "3月"
+
+#: templates/lAfix.php:31
+msgid "Apr."
+msgstr "4月"
+
+#: templates/lAfix.php:32
+msgid "May."
+msgstr "5月"
+
+#: templates/lAfix.php:33
+msgid "Jun."
+msgstr "6月"
+
+#: templates/lAfix.php:34
+msgid "Jul."
+msgstr "7月"
+
+#: templates/lAfix.php:35
+msgid "Aug."
+msgstr "8月"
+
+#: templates/lAfix.php:36
+msgid "Sep."
+msgstr "9月"
+
+#: templates/lAfix.php:37
+msgid "Oct."
+msgstr "10月"
+
+#: templates/lAfix.php:38
+msgid "Nov."
+msgstr "11月"
+
+#: templates/lAfix.php:39
+msgid "Dec."
+msgstr "12月"
 
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
 msgstr "选择活动日历"
 
-#: templates/part.choosecalendar.php:15
-msgid "New Calendar"
-msgstr ""
-
 #: templates/part.choosecalendar.php:20
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "CalDav Link"
-msgstr ""
+msgstr "CalDav 链接"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Download"
 msgstr "下载"
 
 #: templates/part.choosecalendar.rowfields.php:4
-#: templates/part.eventinfo.php:64
 msgid "Edit"
 msgstr "编辑"
 
 #: templates/part.choosecalendar.rowfields.php:4
-#: templates/part.editevent.php:8
+#: templates/part.editevent.php:9
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
-msgstr ""
+msgstr "新日历"
 
 #: templates/part.editcalendar.php:9
 msgid "Edit calendar"
@@ -376,90 +457,181 @@ msgstr "显示名称"
 msgid "Active"
 msgstr "激活"
 
-#: templates/part.editcalendar.php:29 templates/part.eventform.php:88
-#: templates/part.eventinfo.php:58
-msgid "Description"
-msgstr "描述"
-
-#: templates/part.editcalendar.php:35
+#: templates/part.editcalendar.php:29
 msgid "Calendar color"
 msgstr "日历颜色"
 
-#: templates/part.editcalendar.php:41
+#: templates/part.editcalendar.php:42
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
-#: templates/part.editcalendar.php:41 templates/part.editevent.php:7
+#: templates/part.editcalendar.php:42 templates/part.editevent.php:8
 #: templates/part.newevent.php:6
 msgid "Submit"
 msgstr "提交"
 
-#: templates/part.editcalendar.php:42
+#: templates/part.editcalendar.php:43
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
-#: templates/part.editevent.php:1 templates/part.eventinfo.php:1
+#: templates/part.editevent.php:1
 msgid "Edit an event"
 msgstr "编辑事件"
 
-#: templates/part.eventform.php:3 templates/part.eventinfo.php:4
-msgid "Title"
-msgstr "标题"
+#: templates/part.editevent.php:10
+msgid "Export"
+msgstr "导出"
 
 #: templates/part.eventform.php:5
 msgid "Title of the Event"
 msgstr "事件标题"
 
-#: templates/part.eventform.php:9 templates/part.eventinfo.php:9
-msgid "Location"
-msgstr "地点"
-
 #: templates/part.eventform.php:11
-msgid "Location of the Event"
-msgstr "事件地点"
-
-#: templates/part.eventform.php:17 templates/part.eventinfo.php:16
 msgid "Category"
 msgstr "分类"
 
-#: templates/part.eventform.php:19
+#: templates/part.eventform.php:13
 msgid "Select category"
-msgstr ""
+msgstr "选择分类"
 
-#: templates/part.eventform.php:45 templates/part.eventinfo.php:28
+#: templates/part.eventform.php:37
 msgid "All Day Event"
 msgstr "全天事件"
 
-#: templates/part.eventform.php:49 templates/part.eventinfo.php:31
+#: templates/part.eventform.php:41
 msgid "From"
 msgstr "自"
 
-#: templates/part.eventform.php:57 templates/part.eventinfo.php:38
+#: templates/part.eventform.php:49
 msgid "To"
 msgstr "至"
 
-#: templates/part.eventform.php:65 templates/part.eventinfo.php:44
+#: templates/part.eventform.php:57
+msgid "Advanced options"
+msgstr "高级选项"
+
+#: templates/part.eventform.php:61
 msgid "Repeat"
 msgstr "重复"
 
-#: templates/part.eventform.php:81 templates/part.eventinfo.php:51
-msgid "Attendees"
-msgstr "参加者"
+#: templates/part.eventform.php:68
+msgid "Advanced"
+msgstr "高级"
 
-#: templates/part.eventform.php:89
+#: templates/part.eventform.php:112
+msgid "Select weekdays"
+msgstr "选择星期中的某天"
+
+#: templates/part.eventform.php:125 templates/part.eventform.php:138
+msgid "Select days"
+msgstr "选择某天"
+
+#: templates/part.eventform.php:130
+msgid "and the events day of year."
+msgstr "选择每年事件发生的日子"
+
+#: templates/part.eventform.php:143
+msgid "and the events day of month."
+msgstr "选择每月事件发生的日子"
+
+#: templates/part.eventform.php:151
+msgid "Select months"
+msgstr "选择月份"
+
+#: templates/part.eventform.php:164
+msgid "Select weeks"
+msgstr "选择星期"
+
+#: templates/part.eventform.php:169
+msgid "and the events week of year."
+msgstr "选择每年的事件发生的星期"
+
+#: templates/part.eventform.php:175
+msgid "Interval"
+msgstr "间隔"
+
+#: templates/part.eventform.php:181
+msgid "End"
+msgstr "结束"
+
+#: templates/part.eventform.php:193
+msgid "occurrences"
+msgstr "次"
+
+#: templates/part.eventform.php:208
+msgid "Location"
+msgstr "地点"
+
+#: templates/part.eventform.php:210
+msgid "Location of the Event"
+msgstr "事件地点"
+
+#: templates/part.eventform.php:216
+msgid "Description"
+msgstr "描述"
+
+#: templates/part.eventform.php:218
 msgid "Description of the Event"
 msgstr "事件描述"
 
-#: templates/part.eventinfo.php:63
-msgid "Close"
-msgstr "关闭"
+#: templates/part.import.php:1
+msgid "Import a calendar file"
+msgstr "导入日历文件"
+
+#: templates/part.import.php:6
+msgid "Please choose the calendar"
+msgstr "请选择日历"
+
+#: templates/part.import.php:10
+msgid "create a new calendar"
+msgstr "创建新日历"
+
+#: templates/part.import.php:15
+msgid "Name of new calendar"
+msgstr "新日历名称"
+
+#: templates/part.import.php:17
+msgid "Import"
+msgstr "导入"
+
+#: templates/part.import.php:20
+msgid "Importing calendar"
+msgstr "导入日历"
+
+#: templates/part.import.php:23
+msgid "Calendar imported successfully"
+msgstr "导入日历成功"
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr "关闭对话框"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"
 msgstr "创建新事件"
 
-#: templates/settings.php:11
+#: templates/settings.php:13
 msgid "Timezone"
 msgstr "时区"
+
+#: templates/settings.php:30
+msgid "Check always for changes of the timezone"
+msgstr "选中则总是按照时区变化"
+
+#: templates/settings.php:32
+msgid "Timeformat"
+msgstr "时间格式"
+
+#: templates/settings.php:34
+msgid "24h"
+msgstr "24小时"
+
+#: templates/settings.php:35
+msgid "12h"
+msgstr "12小时"
+
+#: templates/settings.php:41
+msgid "Calendar CalDAV syncing address:"
+msgstr "日历CalDAV 同步地址："
 
 

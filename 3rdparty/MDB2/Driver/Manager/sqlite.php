@@ -600,7 +600,7 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
         $constraints = array_flip($constraints);
         foreach ($constraints as $constraint => $value) {
-            if (!empty($definition['primary'])) {
+			if (!empty($definition['primary'])) {
                 if (!array_key_exists('primary', $options)) {
                     $options['primary'] = $definition['fields'];
                     //remove from the $constraint array, it's already handled by createTable()
@@ -682,7 +682,9 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
 
         foreach ($constraints as $constraint => $definition) {
-            $this->createConstraint($name_new, $constraint, $definition);
+			if(empty($definition['primary']) and empty($definition['foreign'])){
+				$this->createConstraint($name_new, $constraint, $definition);
+			}
         }
 
         if (!empty($select_fields) && !empty($data)) {

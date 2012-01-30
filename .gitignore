@@ -40,3 +40,7 @@ nbproject
 
 # Mac OS
 .DS_Store
+
+# WebFinger
+.well-known
+/.buildpath

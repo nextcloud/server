@@ -47,15 +47,27 @@ class OC_Contacts_VCard{
 	 * ['carddata']
 	 */
 	public static function all($id){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ?' );
-		$result = $stmt->execute(array($id));
-
-		$addressbooks = array();
+		if(is_array($id)) {
+			$id_sql = join(',', array_fill(0, count($id), '?'));
+			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname';
+			try {
+				$stmt = OC_DB::prepare( $prep );
+				$result = $stmt->execute($id);
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '.join(',', $id),OC_Log::DEBUG);
+				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
+			}
+		} else {
+			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
+			$result = $stmt->execute(array($id));
+		}
+		$cards = array();
 		while( $row = $result->fetchRow()){
-			$addressbooks[] = $row;
+			$cards[] = $row;
 		}
 
-		return $addressbooks;
+		return $cards;
 	}
 
 	/**
@@ -91,34 +103,37 @@ class OC_Contacts_VCard{
 	 */
 	public static function add($id,$data){
 		$fn = null;
-		$uri = null;
 
-		$card = self::parse($data);
+		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
-			// VCARD must have a version
-			$hasversion = false;
-			foreach($card->children as $property){
-				if($property->name == 'FN'){
-					$fn = $property->value;
-				}
-				elseif($property->name == 'VERSION'){
-					$hasversion = true;
-				}
-				elseif(is_null($uri) && $property->name == 'UID' ){
-					$uri = $property->value.'.vcf';
-				}
-			}
-			if(is_null($uri)){
-				$uid = self::createUID();
-				$uri = $uid.'.vcf';
-				$card->add(new Sabre_VObject_Property('UID',$uid));
-				$data = $card->serialize();
+			$fn = $card->getAsString('FN');
+			$uid = $card->getAsString('UID');
+			if(is_null($uid)){
+				$card->setUID();
+				$uid = $card->getAsString('UID');
+				//$data = $card->serialize();
 			};
-			// Add version if needed
-			if(!$hasversion){
-				$card->add(new Sabre_VObject_Property('VERSION','3.0'));
-				$data = $card->serialize();
+			$uri = $uid.'.vcf';
+
+			// Add product ID.
+			$prodid = trim($card->getAsString('PRODID'));
+			if(!$prodid) {
+				$appinfo = $info=OC_App::getAppInfo('contacts');
+				$prodid = 'PRODID:-//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
+				$card->setString('PRODID', $prodid);
 			}
+			// VCARD must have a version
+			$version = $card->getAsString('VERSION');
+			// Add version if needed
+			if(!$version){
+				$card->add(new Sabre_VObject_Property('VERSION','3.0'));
+				//$data = $card->serialize();
+			}/* else {
+				OC_Log::write('contacts','OC_Contacts_VCard::add. Version already set as: '.$version,OC_Log::DEBUG);
+			}*/
+			$now = new DateTime;
+			$card->setString('REV', $now->format(DateTime::W3C));
+			$data = $card->serialize();
 		}
 		else{
 			// that's hard. Creating a UID and not saving it
@@ -128,10 +143,11 @@ class OC_Contacts_VCard{
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
+		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid();
+		return $newid;
 	}
 
 	/**
@@ -143,13 +159,26 @@ class OC_Contacts_VCard{
 	 */
 	public static function addFromDAVData($id,$uri,$data){
 		$fn = null;
-		$card = self::parse($data);
+		$email = null;
+		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
 				}
+				if($property->name == 'EMAIL' && is_null($email)){
+					$email = $property->value;
+				}
 			}
+		}
+		if(!$fn) {
+			if($email) {
+				$fn = $email;
+			} else {
+				$fn = 'Unknown';
+			}
+			$card->addProperty('EMAIL', $email);
+			$data = $card->serialize();
 		}
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
@@ -157,7 +186,7 @@ class OC_Contacts_VCard{
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid();
+		return OC_DB::insertid('*PREFIX*contacts_cards');
 	}
 
 	/**
@@ -170,14 +199,20 @@ class OC_Contacts_VCard{
 		$oldcard = self::find($id);
 		$fn = null;
 
-		$card = self::parse($data);
+		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+					break;
 				}
 			}
+		} else {
+			return false;
 		}
+		$now = new DateTime;
+		$card->setString('REV', $now->format(DateTime::W3C));
+		$data = $card->serialize();
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$id));
@@ -198,14 +233,18 @@ class OC_Contacts_VCard{
 		$oldcard = self::findWhereDAVDataIs($aid,$uri);
 
 		$fn = null;
-		$card = self::parse($data);
+		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+					break;
 				}
 			}
 		}
+		$now = new DateTime;
+		$card->setString('REV', $now->format(DateTime::W3C));
+		$data = $card->serialize();
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$oldcard['id']));
@@ -221,6 +260,7 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function delete($id){
+		// FIXME: Add error checking.
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$stmt->execute(array($id));
 
@@ -241,66 +281,12 @@ class OC_Contacts_VCard{
 	 * @param string $uri the uri of the card
 	 * @return boolean
 	 */
-	public static function deleteCardFromDAVData($aid,$uri){
+	public static function deleteFromDAVData($aid,$uri){
+		// FIXME: Add error checking. Deleting a card gives an Kontact/Akonadi error.
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 
 		return true;
-	}
-
-	/**
-	 * @brief Escapes semicolons
-	 * @param string $value
-	 * @return string
-	 */
-	public static function escapeSemicolons($value){
-		foreach($value as &$i ){
-			$i = implode("\\\\;", explode(';', $i));
-		}
-		return implode(';',$value);
-	}
-
-	/**
-	 * @brief Creates an array out of a multivalue property
-	 * @param string $value
-	 * @return array
-	 */
-	public static function unescapeSemicolons($value){
-		$array = explode(';',$value);
-		for($i=0;$i<count($array);$i++){
-			if(substr($array[$i],-2,2)=="\\\\"){
-				if(isset($array[$i+1])){
-					$array[$i] = substr($array[$i],0,count($array[$i])-2).';'.$array[$i+1];
-					unset($array[$i+1]);
-				}
-				else{
-					$array[$i] = substr($array[$i],0,count($array[$i])-2).';';
-				}
-				$i = $i - 1;
-			}
-		}
-		return $array;
-	}
-
-	/**
-	 * @brief Add property to vcard object
-	 * @param object $vcard
-	 * @param object $name of property
-	 * @param object $value of property
-	 * @param object $paramerters of property
-	 */
-	public static function addVCardProperty($vcard, $name, $value, $parameters=array()){
-		if(is_array($value)){
-			$value = OC_Contacts_VCard::escapeSemicolons($value);
-		}
-		$property = new Sabre_VObject_Property( $name, $value );
-		$parameternames = array_keys($parameters);
-		foreach($parameternames as $i){
-			$property->parameters[] = new Sabre_VObject_Parameter($i,$parameters[$i]);
-		}
-
-		$vcard->add($property);
-		return $property;
 	}
 
 	/**
@@ -337,9 +323,9 @@ class OC_Contacts_VCard{
 	 */
 	public static function structureProperty($property){
 		$value = $property->value;
-		$value = htmlspecialchars($value);
+		//$value = htmlspecialchars($value);
 		if($property->name == 'ADR' || $property->name == 'N'){
-			$value = self::unescapeSemicolons($value);
+			$value = OC_VObject::unescapeSemicolons($value);
 		}
 		$temp = array(
 			'name' => $property->name,
@@ -352,24 +338,18 @@ class OC_Contacts_VCard{
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
-			$temp['parameters'][$parameter->name] = $parameter->value;
+			if ($property->name == 'TEL' && $parameter->name == 'TYPE'){
+				if (isset($temp['parameters'][$parameter->name])){
+					$temp['parameters'][$parameter->name][] = $parameter->value;
+				}
+				else{
+					$temp['parameters'][$parameter->name] = array($parameter->value);
+				}
+			}
+			else{
+				$temp['parameters'][$parameter->name] = $parameter->value;
+			}
 		}
 		return $temp;
-	}
-
-	/**
-	 * @brief Parses a vcard file
-	 * @param string vCard
-	 * @return Sabre_VObject or null
-	 *
-	 * Will retun the vobject if sabre DAV is able to parse the file.
-	 */
-	public static function parse($data){
-		try {
-			$card = Sabre_VObject_Reader::read($data);
-			return $card;
-		} catch (Exception $e) {
-			return null;
-		}
 	}
 }

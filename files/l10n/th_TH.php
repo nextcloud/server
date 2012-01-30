@@ -1,0 +1,23 @@
+<?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "ไม่มีข้อผิดพลาดใดๆ ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง upload_max_filesize ที่ระบุเอาไว้ในไฟล์ php.ini",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง MAX_FILE_SIZE ที่ระบุเอาไว้ในรูปแบบคำสั่งในภาษา HTML",
+"The uploaded file was only partially uploaded" => "ไฟล์ที่อัพโหลดยังไม่ได้ถูกอัพโหลดอย่างสมบูรณ์",
+"No file was uploaded" => "ยังไม่มีไฟล์ที่ถูกอัพโหลด",
+"Missing a temporary folder" => "แฟ้มเอกสารชั่วคราวเกิดการสูญหาย",
+"Files" => "ไฟล์",
+"Maximum upload size" => "ขนาดไฟล์สูงสุดที่อัพโหลดได้",
+"New" => "อัพโหลดไฟล์ใหม่",
+"Text file" => "ไฟล์ข้อความ",
+"Folder" => "แฟ้มเอกสาร",
+"From the web" => "จากเวป",
+"Upload" => "อัพโหลด",
+"Nothing in here. Upload something!" => "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!",
+"Name" => "ชื่อ",
+"Download" => "ดาวน์โหลด",
+"Size" => "ขนาด",
+"Modified" => "ปรับปรุงล่าสุด",
+"Delete" => "ลบ",
+"Upload too large" => "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
+);

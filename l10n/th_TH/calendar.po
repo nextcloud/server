@@ -1,0 +1,637 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-16 17:31+0100\n"
+"PO-Revision-Date: 2012-01-26 07:18+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywherer@gmail.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.net/projects/p/owncloud/team/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/guesstimezone.php:42
+msgid "New Timezone:"
+msgstr "สร้างโซนเวลาใหม่:"
+
+#: ajax/settimezone.php:22
+msgid "Timezone changed"
+msgstr "โซนเวลาถูกเปลี่ยนแล้ว"
+
+#: ajax/settimezone.php:24
+msgid "Invalid request"
+msgstr "คำร้องขอไม่ถูกต้อง"
+
+#: appinfo/app.php:20 templates/calendar.php:13
+#: templates/part.eventform.php:20
+msgid "Calendar"
+msgstr "ปฏิทิน"
+
+#: lib/app.php:19
+msgid "Wrong calendar"
+msgstr "ปฏิทินไม่ถูกต้อง"
+
+#: lib/app.php:60 lib/object.php:332
+msgid "Birthday"
+msgstr "วันเกิด"
+
+#: lib/app.php:61 lib/object.php:333
+msgid "Business"
+msgstr "ธุรกิจ"
+
+#: lib/app.php:62 lib/object.php:334
+msgid "Call"
+msgstr "โทรติดต่อ"
+
+#: lib/app.php:63 lib/object.php:335
+msgid "Clients"
+msgstr "ลูกค้า"
+
+#: lib/app.php:64 lib/object.php:336
+msgid "Deliverer"
+msgstr "จัดส่ง"
+
+#: lib/app.php:65 lib/object.php:337
+msgid "Holidays"
+msgstr "วันหยุด"
+
+#: lib/app.php:66 lib/object.php:338
+msgid "Ideas"
+msgstr "ไอเดีย"
+
+#: lib/app.php:67 lib/object.php:339
+msgid "Journey"
+msgstr "การเดินทาง"
+
+#: lib/app.php:68 lib/object.php:340
+msgid "Jubilee"
+msgstr "งานเลี้ยง"
+
+#: lib/app.php:69 lib/object.php:341
+msgid "Meeting"
+msgstr "นัดประชุม"
+
+#: lib/app.php:70 lib/object.php:342
+msgid "Other"
+msgstr "อื่นๆ"
+
+#: lib/app.php:71 lib/object.php:343
+msgid "Personal"
+msgstr "ส่วนตัว"
+
+#: lib/app.php:72 lib/object.php:344
+msgid "Projects"
+msgstr "โครงการ"
+
+#: lib/app.php:73 lib/object.php:345
+msgid "Questions"
+msgstr "คำถาม"
+
+#: lib/app.php:74 lib/object.php:346
+msgid "Work"
+msgstr "งาน"
+
+#: lib/object.php:353
+msgid "Does not repeat"
+msgstr "ไม่ต้องทำซ้ำ"
+
+#: lib/object.php:354
+msgid "Daily"
+msgstr "รายวัน"
+
+#: lib/object.php:355
+msgid "Weekly"
+msgstr "รายสัปดาห์"
+
+#: lib/object.php:356
+msgid "Every Weekday"
+msgstr "ทุกวันหยุด"
+
+#: lib/object.php:357
+msgid "Bi-Weekly"
+msgstr "รายปักษ์"
+
+#: lib/object.php:358
+msgid "Monthly"
+msgstr "รายเดือน"
+
+#: lib/object.php:359
+msgid "Yearly"
+msgstr "รายปี"
+
+#: lib/object.php:366
+msgid "never"
+msgstr "ไม่ต้องเลย"
+
+#: lib/object.php:367
+msgid "by occurrences"
+msgstr "ตามจำนวนที่ปรากฏ"
+
+#: lib/object.php:368
+msgid "by date"
+msgstr "ตามวันที่"
+
+#: lib/object.php:375
+msgid "by monthday"
+msgstr "จากเดือน"
+
+#: lib/object.php:376
+msgid "by weekday"
+msgstr "จากสัปดาห์"
+
+#: lib/object.php:383 templates/lAfix.php:3
+msgid "Monday"
+msgstr "วันจันทร์"
+
+#: lib/object.php:384 templates/lAfix.php:4
+msgid "Tuesday"
+msgstr "วันอังคาร"
+
+#: lib/object.php:385 templates/lAfix.php:5
+msgid "Wednesday"
+msgstr "วันพุธ"
+
+#: lib/object.php:386 templates/lAfix.php:6
+msgid "Thursday"
+msgstr "วันพฤหัสบดี"
+
+#: lib/object.php:387 templates/lAfix.php:7
+msgid "Friday"
+msgstr "วันศุกร์"
+
+#: lib/object.php:388 templates/lAfix.php:8
+msgid "Saturday"
+msgstr "วันเสาร์"
+
+#: lib/object.php:389 templates/lAfix.php:2
+msgid "Sunday"
+msgstr "วันอาทิตย์"
+
+#: lib/object.php:396
+msgid "events week of month"
+msgstr "สัปดาห์ที่มีกิจกรรมของเดือน"
+
+#: lib/object.php:397
+msgid "first"
+msgstr "ลำดับแรก"
+
+#: lib/object.php:398
+msgid "second"
+msgstr "ลำดับที่สอง"
+
+#: lib/object.php:399
+msgid "third"
+msgstr "ลำดับที่สาม"
+
+#: lib/object.php:400
+msgid "fourth"
+msgstr "ลำดับที่สี่"
+
+#: lib/object.php:401
+msgid "fifth"
+msgstr "ลำดับที่ห้า"
+
+#: lib/object.php:402
+msgid "last"
+msgstr "ลำดับสุดท้าย"
+
+#: lib/object.php:424 templates/lAfix.php:16
+msgid "January"
+msgstr "มกราคม"
+
+#: lib/object.php:425 templates/lAfix.php:17
+msgid "February"
+msgstr "กุมภาพันธ์"
+
+#: lib/object.php:426 templates/lAfix.php:18
+msgid "March"
+msgstr "มีนาคม"
+
+#: lib/object.php:427 templates/lAfix.php:19
+msgid "April"
+msgstr "เมษายน"
+
+#: lib/object.php:428 templates/lAfix.php:20
+msgid "May"
+msgstr "พฤษภาคม"
+
+#: lib/object.php:429 templates/lAfix.php:21
+msgid "June"
+msgstr "มิถุนายน"
+
+#: lib/object.php:430 templates/lAfix.php:22
+msgid "July"
+msgstr "กรกฏาคม"
+
+#: lib/object.php:431 templates/lAfix.php:23
+msgid "August"
+msgstr "สิงหาคม"
+
+#: lib/object.php:432 templates/lAfix.php:24
+msgid "September"
+msgstr "กันยายน"
+
+#: lib/object.php:433 templates/lAfix.php:25
+msgid "October"
+msgstr "ตุลาคม"
+
+#: lib/object.php:434 templates/lAfix.php:26
+msgid "November"
+msgstr "พฤศจิกายน"
+
+#: lib/object.php:435 templates/lAfix.php:27
+msgid "December"
+msgstr "ธันวาคม"
+
+#: lib/object.php:441
+msgid "by events date"
+msgstr "ตามวันที่จัดกิจกรรม"
+
+#: lib/object.php:442
+msgid "by yearday(s)"
+msgstr "ของเมื่อวานนี้"
+
+#: lib/object.php:443
+msgid "by weeknumber(s)"
+msgstr "จากหมายเลขของสัปดาห์"
+
+#: lib/object.php:444
+msgid "by day and month"
+msgstr "ตามวันและเดือน"
+
+#: lib/object.php:467
+msgid "Not an array"
+msgstr "ไม่ใช่อาเรย์"
+
+#: lib/search.php:32 lib/search.php:34 lib/search.php:37
+msgid "Date"
+msgstr "วันที่"
+
+#: lib/search.php:40
+msgid "Cal."
+msgstr "คำนวณ"
+
+#: templates/calendar.php:10
+msgid "All day"
+msgstr "ทั้งวัน"
+
+#: templates/calendar.php:11
+msgid "Missing fields"
+msgstr "ช่องฟิลด์เกิดการสูญหาย"
+
+#: templates/calendar.php:12 templates/part.eventform.php:3
+msgid "Title"
+msgstr "ชื่อกิจกรรม"
+
+#: templates/calendar.php:14
+msgid "From Date"
+msgstr "จากวันที่"
+
+#: templates/calendar.php:15
+msgid "From Time"
+msgstr "ตั้งแต่เวลา"
+
+#: templates/calendar.php:16
+msgid "To Date"
+msgstr "ถึงวันที่"
+
+#: templates/calendar.php:17
+msgid "To Time"
+msgstr "ถึงเวลา"
+
+#: templates/calendar.php:18
+msgid "The event ends before it starts"
+msgstr "วันที่สิ้นสุดกิจกรรมดังกล่าวอยู่ก่อนวันเริ่มต้น"
+
+#: templates/calendar.php:19
+msgid "There was a database fail"
+msgstr "เกิดความล้มเหลวกับฐานข้อมูล"
+
+#: templates/calendar.php:52
+msgid "Week"
+msgstr "สัปดาห์"
+
+#: templates/calendar.php:53
+msgid "Month"
+msgstr "เดือน"
+
+#: templates/calendar.php:54
+msgid "List"
+msgstr "รายการ"
+
+#: templates/calendar.php:59
+msgid "Today"
+msgstr "วันนี้"
+
+#: templates/calendar.php:60
+msgid "Calendars"
+msgstr "ปฏิทิน"
+
+#: templates/calendar.php:78
+msgid "There was a fail, while parsing the file."
+msgstr "เกิดความล้มเหลวในการแยกไฟล์"
+
+#: templates/lAfix.php:9
+msgid "Sun."
+msgstr "อา."
+
+#: templates/lAfix.php:10
+msgid "Mon."
+msgstr "จ."
+
+#: templates/lAfix.php:11
+msgid "Tue."
+msgstr "อ."
+
+#: templates/lAfix.php:12
+msgid "Wed."
+msgstr "พ."
+
+#: templates/lAfix.php:13
+msgid "Thu."
+msgstr "พฤ."
+
+#: templates/lAfix.php:14
+msgid "Fri."
+msgstr "ศ."
+
+#: templates/lAfix.php:15
+msgid "Sat."
+msgstr "ส."
+
+#: templates/lAfix.php:28
+msgid "Jan."
+msgstr "ม.ค."
+
+#: templates/lAfix.php:29
+msgid "Feb."
+msgstr "ก.พ."
+
+#: templates/lAfix.php:30
+msgid "Mar."
+msgstr "มี.ค."
+
+#: templates/lAfix.php:31
+msgid "Apr."
+msgstr "เม.ย."
+
+#: templates/lAfix.php:32
+msgid "May."
+msgstr "พ.ค."
+
+#: templates/lAfix.php:33
+msgid "Jun."
+msgstr "มิ.ย."
+
+#: templates/lAfix.php:34
+msgid "Jul."
+msgstr "ก.ค."
+
+#: templates/lAfix.php:35
+msgid "Aug."
+msgstr "ส.ค."
+
+#: templates/lAfix.php:36
+msgid "Sep."
+msgstr "ก.ย."
+
+#: templates/lAfix.php:37
+msgid "Oct."
+msgstr "ต.ค."
+
+#: templates/lAfix.php:38
+msgid "Nov."
+msgstr "พ.ย."
+
+#: templates/lAfix.php:39
+msgid "Dec."
+msgstr "ธ.ค."
+
+#: templates/part.choosecalendar.php:1
+msgid "Choose active calendars"
+msgstr "เลือกปฏิทินที่ต้องการใช้งาน"
+
+#: templates/part.choosecalendar.php:15
+msgid "New Calendar"
+msgstr "สร้างปฏิทินใหม่"
+
+#: templates/part.choosecalendar.php:20
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "CalDav Link"
+msgstr "ลิงค์ CalDav"
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Download"
+msgstr "ดาวน์โหลด"
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Edit"
+msgstr "แก้ไข"
+
+#: templates/part.choosecalendar.rowfields.php:4
+#: templates/part.editevent.php:9
+msgid "Delete"
+msgstr "ลบ"
+
+#: templates/part.editcalendar.php:9
+msgid "New calendar"
+msgstr "สร้างปฏิทินใหม่"
+
+#: templates/part.editcalendar.php:9
+msgid "Edit calendar"
+msgstr "แก้ไขปฏิทิน"
+
+#: templates/part.editcalendar.php:12
+msgid "Displayname"
+msgstr "ชื่อที่ต้องการให้แสดง"
+
+#: templates/part.editcalendar.php:23
+msgid "Active"
+msgstr "ใช้งาน"
+
+#: templates/part.editcalendar.php:29
+msgid "Calendar color"
+msgstr "สีของปฏิทิน"
+
+#: templates/part.editcalendar.php:42
+msgid "Save"
+msgstr "บันทึก"
+
+#: templates/part.editcalendar.php:42 templates/part.editevent.php:8
+#: templates/part.newevent.php:6
+msgid "Submit"
+msgstr "ส่งข้อมูล"
+
+#: templates/part.editcalendar.php:43
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+#: templates/part.editevent.php:1
+msgid "Edit an event"
+msgstr "แก้ไขกิจกรรม"
+
+#: templates/part.editevent.php:10
+msgid "Export"
+msgstr "ส่งออกข้อมูล"
+
+#: templates/part.eventform.php:5
+msgid "Title of the Event"
+msgstr "ชื่อของกิจกรรม"
+
+#: templates/part.eventform.php:11
+msgid "Category"
+msgstr "หมวดหมู่"
+
+#: templates/part.eventform.php:13
+msgid "Select category"
+msgstr "เลือกหมวดหมู่"
+
+#: templates/part.eventform.php:37
+msgid "All Day Event"
+msgstr "เป็นกิจกรรมตลอดทั้งวัน"
+
+#: templates/part.eventform.php:41
+msgid "From"
+msgstr "จาก"
+
+#: templates/part.eventform.php:49
+msgid "To"
+msgstr "ถึง"
+
+#: templates/part.eventform.php:57
+msgid "Advanced options"
+msgstr "ตัวเลือกขั้นสูง"
+
+#: templates/part.eventform.php:61
+msgid "Repeat"
+msgstr "ทำซ้ำ"
+
+#: templates/part.eventform.php:68
+msgid "Advanced"
+msgstr "ขั้นสูง"
+
+#: templates/part.eventform.php:112
+msgid "Select weekdays"
+msgstr "เลือกสัปดาห์"
+
+#: templates/part.eventform.php:125 templates/part.eventform.php:138
+msgid "Select days"
+msgstr "เลือกวัน"
+
+#: templates/part.eventform.php:130
+msgid "and the events day of year."
+msgstr "และวันที่มีเหตุการณ์เกิดขึ้นในปี"
+
+#: templates/part.eventform.php:143
+msgid "and the events day of month."
+msgstr "และวันที่มีเหตุการณ์เกิดขึ้นในเดือน"
+
+#: templates/part.eventform.php:151
+msgid "Select months"
+msgstr "เลือกเดือน"
+
+#: templates/part.eventform.php:164
+msgid "Select weeks"
+msgstr "เลือกสัปดาห์"
+
+#: templates/part.eventform.php:169
+msgid "and the events week of year."
+msgstr "และสัปดาห์ที่มีเหตุการณ์เกิดขึ้นในปี"
+
+#: templates/part.eventform.php:175
+msgid "Interval"
+msgstr "ช่วงเวลา"
+
+#: templates/part.eventform.php:181
+msgid "End"
+msgstr "สิ้นสุด"
+
+#: templates/part.eventform.php:193
+msgid "occurrences"
+msgstr "จำนวนที่ปรากฏ"
+
+#: templates/part.eventform.php:208
+msgid "Location"
+msgstr "สถานที่"
+
+#: templates/part.eventform.php:210
+msgid "Location of the Event"
+msgstr "สถานที่จัดกิจกรรม"
+
+#: templates/part.eventform.php:216
+msgid "Description"
+msgstr "คำอธิบาย"
+
+#: templates/part.eventform.php:218
+msgid "Description of the Event"
+msgstr "คำอธิบายเกี่ยวกับกิจกรรม"
+
+#: templates/part.import.php:1
+msgid "Import a calendar file"
+msgstr "นำเข้าไฟล์ปฏิทิน"
+
+#: templates/part.import.php:6
+msgid "Please choose the calendar"
+msgstr "กรณาเลือกปฏิทิน"
+
+#: templates/part.import.php:10
+msgid "create a new calendar"
+msgstr "สร้างปฏิทินใหม่"
+
+#: templates/part.import.php:15
+msgid "Name of new calendar"
+msgstr "ชื่อของปฏิทิน"
+
+#: templates/part.import.php:17
+msgid "Import"
+msgstr "นำเข้าข้อมูล"
+
+#: templates/part.import.php:20
+msgid "Importing calendar"
+msgstr "นำเข้าข้อมูลปฏิทิน"
+
+#: templates/part.import.php:23
+msgid "Calendar imported successfully"
+msgstr "ปฏิทินถูกนำเข้าข้อมูลเรียบร้อยแล้ว"
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr "ปิดกล่องข้อความโต้ตอบ"
+
+#: templates/part.newevent.php:1
+msgid "Create a new event"
+msgstr "สร้างกิจกรรมใหม่"
+
+#: templates/settings.php:13
+msgid "Timezone"
+msgstr "โซนเวลา"
+
+#: templates/settings.php:30
+msgid "Check always for changes of the timezone"
+msgstr "ตรวจสอบการเปลี่ยนแปลงโซนเวลาอยู่เสมอ"
+
+#: templates/settings.php:32
+msgid "Timeformat"
+msgstr "รูปแบบการแสดงเวลา"
+
+#: templates/settings.php:34
+msgid "24h"
+msgstr "24 ช.ม."
+
+#: templates/settings.php:35
+msgid "12h"
+msgstr "12 ช.ม."
+
+#: templates/settings.php:41
+msgid "Calendar CalDAV syncing address:"
+msgstr "ที่อยู่ในการเชื่อมข้อมูลกับปฏิทิน CalDav:"
+
+

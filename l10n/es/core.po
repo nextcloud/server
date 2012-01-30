@@ -3,21 +3,68 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <juanma@kde.org.ar>, 2011, 2012.
 #   <rom1dep@gmail.com>, 2011.
-#   <sergioballesterossolanas@gmail.com>, 2011.
+#   <sergioballesterossolanas@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 18:17+0200\n"
-"PO-Revision-Date: 2011-09-04 17:01+0000\n"
-"Last-Translator: xsergiolpx <sergioballesterossolanas@gmail.com>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-11 19:08+0000\n"
+"Last-Translator: juanman <juanma@kde.org.ar>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/team/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: lostpassword/index.php:24
+msgid "Owncloud password reset"
+msgstr "Restablecer contraseña de ownCloud"
+
+#: lostpassword/templates/email.php:1
+msgid "Use the following link to reset your password: {link}"
+msgstr "Utiliza el siguiente enlace para restablecer tu contraseña: {link}"
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr ""
+"Recibirás un enlace por correo electrónico para restablecer tu contraseña"
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Requested"
+msgstr "Pedido"
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "¡Fallo al iniciar sesión!"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:22
+#: templates/login.php:8
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr "Solicitar restablecimiento"
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "Tu contraseña se ha restablecido"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr "A la página de inicio de sesión"
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "Nueva contraseña"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr "Restablecer contraseña"
 
 #: strings.php:5
 msgid "Personal"
@@ -47,54 +94,50 @@ msgstr "No se encontró la nube"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea una <strong>cuenta de administrador</strong>"
 
-#: templates/installation.php:21
-msgid "Username"
-msgstr "Nombre de usuario"
-
-#: templates/installation.php:22
+#: templates/installation.php:26 templates/login.php:12
 msgid "Password"
 msgstr "Contraseña"
 
-#: templates/installation.php:27
-msgid "Configure the database"
-msgstr "Configurar la base de datos"
-
-#: templates/installation.php:32 templates/installation.php:43
-#: templates/installation.php:53
-msgid "will be used"
-msgstr "serán utilizados"
-
-#: templates/installation.php:64
-msgid "Database user"
-msgstr "Usuario de la base de datos"
-
-#: templates/installation.php:65
-msgid "Database password"
-msgstr "Contraseña de la base de datos"
-
-#: templates/installation.php:66
-msgid "Database name"
-msgstr "Nombre de la base de datos"
-
-#: templates/installation.php:72
+#: templates/installation.php:32
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: templates/installation.php:75
-msgid "Database host"
-msgstr "Host de la base de datos"
-
-#: templates/installation.php:76
+#: templates/installation.php:34
 msgid "Data folder"
 msgstr "Directorio de almacenamiento"
 
+#: templates/installation.php:41
+msgid "Configure the database"
+msgstr "Configurar la base de datos"
+
+#: templates/installation.php:46 templates/installation.php:57
+#: templates/installation.php:67
+msgid "will be used"
+msgstr "serán utilizados"
+
 #: templates/installation.php:79
+msgid "Database user"
+msgstr "Usuario de la base de datos"
+
+#: templates/installation.php:83
+msgid "Database password"
+msgstr "Contraseña de la base de datos"
+
+#: templates/installation.php:87
+msgid "Database name"
+msgstr "Nombre de la base de datos"
+
+#: templates/installation.php:93
+msgid "Database host"
+msgstr "Host de la base de datos"
+
+#: templates/installation.php:98
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
 #: templates/layout.guest.php:35
-msgid "gives you freedom and control over your own data"
-msgstr "te da la libertad y el control sobre tus propios datos"
+msgid "web services under your control"
+msgstr "servicios web bajo tu control"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -104,37 +147,21 @@ msgstr "Salir"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: templates/login.php:4
+#: templates/login.php:5
 msgid "Lost your password?"
 msgstr "¿Has perdido tu contraseña?"
 
-#: templates/login.php:9 templates/login.php:13
+#: templates/login.php:15
 msgid "remember"
 msgstr "recuérdame"
+
+#: templates/login.php:16
+msgid "Log in"
+msgstr "Entrar"
 
 #: templates/logout.php:1
 msgid "You are logged out."
 msgstr "Has cerrado sesión."
-
-#: templates/lostpassword.php:3
-msgid "You will receive a link to reset your password via Email."
-msgstr "Recibirás un link para restablecer tu contraseña vía Email."
-
-#: templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Solicitado"
-
-#: templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "¡No se pudo iniciar sesión!"
-
-#: templates/lostpassword.php:10
-msgid "Username or Email"
-msgstr "Nombre de usuario o Email"
-
-#: templates/lostpassword.php:11
-msgid "Request reset"
-msgstr "Solicitar restablecimiento"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -143,17 +170,5 @@ msgstr "anterior"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "siguiente"
-
-#: templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Tu contraseña se ha restablecido"
-
-#: templates/resetpassword.php:6
-msgid "New password"
-msgstr "Nueva contraseña"
-
-#: templates/resetpassword.php:7
-msgid "Reset password"
-msgstr "Restablecer contraseña"
 
 
