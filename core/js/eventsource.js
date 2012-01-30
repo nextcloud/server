@@ -44,8 +44,13 @@ OC.EventSource=function(src){
 		$('body').append(this.iframe);
 		this.useFallBack=true;
 		OC.EventSource.iframeCount++
-
 	}
+	//add close listener
+	this.listen('__internal__',function(data){
+		if(data=='close'){
+			this.close();
+		}
+	}.bind(this));
 }
 OC.EventSource.fallBackSources=[];
 OC.EventSource.iframeCount=0;//number of fallback iframes
