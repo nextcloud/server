@@ -70,4 +70,11 @@ class OC_EventSource{
 		echo PHP_EOL;
 		flush();
 	}
+
+	/**
+	 * close the connection of the even source
+	 */
+	public function close(){
+		$this->send('__internal__','close');//server side closing can be an issue, let the client do it
+	}
 }
