@@ -41,16 +41,16 @@ Albums={
   // displays gallery in linear representation
   // on given element, and apply default styles for gallery
   display: function(element) {
-    var displayTemplate = '<div class="gallery_album_box"><div class="gallery_control_overlay"><a href="#" class="rename">rename</a> | <a href="#" class="remove">remove</a></div><a class="view"><div class="gallery_album_cover"></div></a><h1></h1></div></div>';
+    var displayTemplate = '<div class="gallery_album_box"><div class="dummy"></div><a class="view"><div class="gallery_album_cover"></div></a><h1></h1><div class="gallery_album_decoration"><a><img src="img/share.png" title="Share"></a><a class="rename"><img src="img/rename.png" title="Rename"></a><a class="remove"><img src="img/delete.png" title="Delete"></a></div></div>';
     for (var i in Albums.albums) {
       var a = Albums.albums[i];
 	  var local=$(displayTemplate);
 	  local.attr('data-album',a.name);
-	  $(".gallery_control_overlay a.rename", local).click(function(name,event){
+	  $(".gallery_album_decoration a.rename", local).click(function(name,event){
 			event.preventDefault();
 			galleryRename(name);
 		}.bind(null,a.name));
-	  $(".gallery_control_overlay a.remove", local).click(function(name,event){
+	  $(".gallery_album_decoration a.remove", local).click(function(name,event){
 		  event.preventDefault();
 		  galleryRemove(name);
 	  }.bind(null,a.name));
@@ -66,8 +66,9 @@ Albums={
         if (albumMetadata == undefined) {
           return;
         }
-        var x = Math.min(Math.floor((e.layerX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers)), albumMetadata.numOfCovers-1);
-        x *= this.offsetWidth-1;
+        var x = Math.floor((e.layerX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers));
+        x *= this.offsetWidth;
+        if (x < 0) x=0;
         $(this).css('background-position', -x+'px 0');
       });
       $(element).append(local);
