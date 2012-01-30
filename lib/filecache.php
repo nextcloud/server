@@ -288,8 +288,9 @@ class OC_FileCache{
 	 * recursively scan the filesystem and fill the cache
 	 * @param string $path
 	 * @param bool $onlyChilds
+	 * @param OC_EventSource $enventSource
 	 */
-	public static function scan($path,$onlyChilds=false){//PROBLEM due to the order things are added, all parents are -1
+	public static function scan($path,$onlyChilds,$eventSource){//PROBLEM due to the order things are added, all parents are -1
 		$dh=OC_Filesystem::opendir($path);
 		$stat=OC_Filesystem::stat($path);
 		$mimetype=OC_Filesystem::getMimeType($path);
@@ -305,12 +306,13 @@ class OC_FileCache{
 				if($filename != '.' and $filename != '..'){
 					$file=$path.'/'.$filename;
 					if(OC_Filesystem::is_dir($file)){
-						self::scan($file,true);
+						self::scan($file,true,$eventSource);
 					}else{
 						$stat=OC_Filesystem::stat($file);
 						$mimetype=OC_Filesystem::getMimeType($file);
 						$stat['mimetype']=$mimetype;
 						self::put($file,$stat);
+						$eventSource->send('scanned',$file);
 						$totalSize+=$stat['size'];
 					}
 				}

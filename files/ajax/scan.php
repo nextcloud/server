@@ -2,15 +2,18 @@
 
 require_once '../../lib/base.php';
 
+$eventSource=new OC_EventSource();
+
 $force=isset($_GET['force']) and $_GET['force']=='true';
 $checkOnly=isset($_GET['checkonly']) and $_GET['checkonly']=='true';
 
 //create the file cache if necesary
 if($force or !OC_FileCache::inCache('')){
 	if(!$checkOnly){
-		OC_FileCache::scan('');
+		OC_FileCache::scan('',false,$eventSource);
 	}
-	OC_JSON::success(array("data" => array( "done" => true)));
+	$eventSource->send('success',true);
 }else{
-	OC_JSON::success(array("data" => array( "done" => false)));
+	$eventSource->send('success',false);
 }
+$eventSource->close();

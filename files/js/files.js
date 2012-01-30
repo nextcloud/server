@@ -348,13 +348,17 @@ $(document).ready(function() {
 function scanFiles(force){
 	force=!!force; //cast to bool
 	$('#scanning-message').show();
-	$.get(OC.filePath('files','ajax','scan.php'),{force:force}, function(response) {
-		if(response && response.data && response.data.done){
+	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force});
+	scannerEventSource.listen('scanned',function(file){
+		console.log(file);//TODO: make this into proper feedback
+	});
+	scannerEventSource.listen('success',function(success){
+		if(success){
 			window.location.reload();
 		}else{
-			alert('error')
+			alert('error while scanning');
 		}
-	}, "json");
+	});
 }
 
 function boolOperationFinished(data, callback) {
