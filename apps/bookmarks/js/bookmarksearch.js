@@ -5,7 +5,7 @@
  * See the COPYING-README file.
  */
 $(document).ready(function(){
-	OC.search.customResults.Bookm.=function(row,item){
+	OC.search.customResults['Bookm.'] = function(row,item){
 		var a=row.find('a');
 		a.attr('target','_blank');
 		a.click(recordClick);
