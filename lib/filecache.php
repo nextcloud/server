@@ -290,7 +290,7 @@ class OC_FileCache{
 	 * @param bool $onlyChilds
 	 * @param OC_EventSource $enventSource
 	 */
-	public static function scan($path,$onlyChilds,$eventSource){//PROBLEM due to the order things are added, all parents are -1
+	public static function scan($path,$onlyChilds,$eventSource){
 		$dh=OC_Filesystem::opendir($path);
 		$stat=OC_Filesystem::stat($path);
 		$mimetype=OC_Filesystem::getMimeType($path);
