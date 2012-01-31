@@ -26,9 +26,18 @@
  * use server side events with causion, to many open requests can hang the server
  */
 
-OC.EventSource=function(src){
+/**
+ * create a new event source
+ * @param string src
+ * @param object data to be send as GET
+ */
+OC.EventSource=function(src,data){
+	var dataStr='';
+	for(name in data){
+		dataStr+=name+'='+encodeURIComponent(data[name])+'&';
+	}
 	if(!this.useFallBack && typeof EventSource !='undefined'){
-		this.source=new EventSource(src);
+		this.source=new EventSource(src+'?'+dataStr);
 		this.source.onmessage=function(e){
 			for(var i=0;i<this.typelessListeners.length;i++){
 				this.typelessListeners[i](JSON.parse(e.data));
@@ -40,7 +49,7 @@ OC.EventSource=function(src){
 		this.iframe=$('<iframe/>');
 		this.iframe.attr('id',iframeId);
 		this.iframe.hide();
-		this.iframe.attr('src',src+'?fallback=true&fallback_id='+OC.EventSource.iframeCount);
+		this.iframe.attr('src',src+'?fallback=true&fallback_id='+OC.EventSource.iframeCount+'&'+dataStr);
 		$('body').append(this.iframe);
 		this.useFallBack=true;
 		OC.EventSource.iframeCount++
