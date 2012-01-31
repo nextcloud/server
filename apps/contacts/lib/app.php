@@ -85,11 +85,6 @@ class OC_Contacts_App{
 				break;
 			}
 		}
-		// FIXME: I'm not sure this should throw a JSON error as it might just be used to check for dupes. /Tanghus.
-		if(is_null($line)){
-			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Information about vCard is incorrect. Please reload the page.'))));
-			exit();
-		}
 		return $line;
 	}
 
