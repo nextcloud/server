@@ -81,6 +81,15 @@
 	   <notnull>true</notnull>
 	   <length>512</length>
    </field>
+
+   <field>
+	   <name>user</name>
+	   <type>text</type>
+	   <default>
+	   </default>
+	   <notnull>true</notnull>
+	   <length>64</length>
+   </field>
    
    <field>
     <name>size</name>
