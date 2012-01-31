@@ -63,6 +63,9 @@ if( is_null($content)){
 				}
 			}
 			if($image->loadFromBase64($child->value)) {
+				if($image->width() > 200 || $image->height() > 200) {
+					$image->resize(200);
+				}
 				header('Content-Type: '.$mime);
 				$image();
 				exit();

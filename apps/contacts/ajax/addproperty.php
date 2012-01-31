@@ -54,6 +54,21 @@ if(!is_array($value)){
 }
 $parameters = isset($_POST['parameters']) ? $_POST['parameters'] : array();
 
+// Prevent setting a duplicate entry
+$current = $vcard->select($name);
+foreach($current as $item) {
+	$tmpvalue = (is_array($value)?implode(';', $value):$value);
+	if($tmpvalue == $item->value) {
+		OC_JSON::error(array('data' => array('message' => $l->t('Trying to add duplicate property: ').$name.': '.$tmpvalue)));
+		OC_Log::write('contacts','ajax/addproperty.php: Trying to add duplicate property: '.$name.': '.$tmpvalue, OC_Log::DEBUG);
+		exit();
+	}
+}
+
+if(is_array($value)) {
+	ksort($value);  // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+}
+
 $property = $vcard->addProperty($name, $value); //, $parameters);
 
 $line = count($vcard->children) - 1;

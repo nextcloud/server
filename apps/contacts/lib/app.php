@@ -85,10 +85,6 @@ class OC_Contacts_App{
 				break;
 			}
 		}
-		if(is_null($line)){
-			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Information about vCard is incorrect. Please reload the page.'))));
-			exit();
-		}
 		return $line;
 	}
 
