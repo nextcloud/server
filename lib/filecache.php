@@ -325,7 +325,9 @@ class OC_FileCache{
 						$mimetype=OC_Filesystem::getMimeType($file);
 						$stat['mimetype']=$mimetype;
 						self::put($file,$stat);
-						$eventSource->send('scanned',$file);
+						if($eventSource){
+							$eventSource->send('scanned',$file);
+						}
 						$totalSize+=$stat['size'];
 					}
 				}
