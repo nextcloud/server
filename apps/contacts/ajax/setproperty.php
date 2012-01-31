@@ -36,8 +36,9 @@ $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 // Set the value
 $value = $_POST['value'];
 if(is_array($value)){
-	$value = OC_VObject::escapeSemicolons($value);
+	ksort($value);  // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
 }
+OC_Log::write('contacts','ajax/setproperty.php: setting: '.$vcard->children[$line]->name.': '.$value, OC_Log::DEBUG);
 $vcard->children[$line]->setValue($value);
 
 // Add parameters
@@ -86,6 +87,9 @@ $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 if ($vcard->children[$line]->name == 'FN'){
 	$tmpl = new OC_Template('contacts','part.property.FN');
+}
+elseif ($vcard->children[$line]->name == 'N'){
+	$tmpl = new OC_Template('contacts','part.property.N');
 }
 else{
 	$tmpl = new OC_Template('contacts','part.property');

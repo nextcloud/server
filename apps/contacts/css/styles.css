@@ -2,6 +2,7 @@
 #leftcontent a { height: 23px; display: block; margin: 0 0 0 0; padding: 0 0 0 25px; }
 #chooseaddressbook {margin-right: 170px; float: right;}
 #contacts_details_name { font-weight:bold;font-size:1.1em;margin-left:25%;}
+#contacts_details_name_n { font-size:0.8em;margin-left:25%;color:#666;}
 #contacts_details_photo { margin:.5em 0em .5em 25%; }
 
 #contacts_deletecard {position:absolute;top:15px;right:25px;}
@@ -12,41 +13,15 @@
 #contacts_details_list li p.contacts_property_data, #contacts_details_list li ul.contacts_property_data { width:72%;float:left; clear: right; }
 #contacts_setproperty_button { margin-left:25%; }
 
-dl.form
-{
-	width: 100%;
-	float: left;
-	clear: right;
-	margin: 1em;
-	padding: 0;
-}
+#contacts_addcardform legend,label { font-weight: bold; width: 10em; overflow: ellipsis; }
+#contacts_addcardform legend { padding-left: 3em; font-size:1.1em; }
+#contacts_addcardform input[type="text"] { width: 25em; }
+#contacts_addcardform input[type="email"] { width: 15em; }
+#contacts_addcardform input[type="tel"] { width: 15em; }
 
-.form dt
-{
-	display: table-cell;
-	clear: left;
-	float: left;
-	min-width: 10em;
-	margin: 0;
-	padding-top: 0.5em;
-	padding-right: 1em;
-	font-weight: bold;
-	text-align:right;
-	vertical-align: text-bottom;
-	bottom: 0px;
-}
-
-.form dd
-{
-	display: table-cell;
-	clear: right;
-	float: left;
-	min-width: 20em;
-	margin: 0;
-	padding: 0;
-	white-space: nowrap;
-	top: 0px;
-}
+dl.form { width: 100%; float: left; clear: right; margin: 1em; padding: 0; }
+.form dt { display: table-cell; clear: left; float: left; min-width: 10em; margin: 0; padding-top: 0.5em; padding-right: 1em;font-weight: bold; text-align:right; vertical-align: text-bottom; bottom: 0px; }
+.form dd { display: table-cell; clear: right; float: left; min-width: 20em; margin: 0; padding: 0; white-space: nowrap; top: 0px; }
 .form input { position: relative; width: 20em; }
 
 .contacts_property_data ul, ol.contacts_property_data { list-style:none; }
@@ -60,18 +35,3 @@ dl.form
 .chzn-container.chzn-container-active .chzn-choices { border-bottom-left-radius: 0;border-bottom-right-radius: 0; }
 .chzn-container .chzn-drop { border-bottom-left-radius: 0.5em;border-bottom-right-radius: 0.5em; }
 
-/* Form setup ----------------------------------------------------------------*/
-/* .forme {} */
-/* .forme ul, .forme ol { list-style:none; } */
-/* .forme .inputs, .forme .buttons { overflow: hidden; } */
-
-/* Labels --------------------------------------------------------------------*/
-/* .forme .input .label { width:25%; float:left; display:block; } */
-
-/* Inputs --------------------------------------------------------------------*/
-/* .forme .stringish input { width:72%; } */
-/* .forme .text textarea { width:72%; } */
-
-/* Buttons -------------------------------------------------------------------*/
-/* .forme .buttons { padding-left:25%; } */
-/* .forme .button { float:left; padding-left:0.5em; } */

@@ -22,6 +22,11 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
+function bailOut($msg) {
+	OC_JSON::error(array('data' => array('message' => $msg)));
+	OC_Log::write('contacts','ajax/addcard.php: '.$msg, OC_Log::DEBUG);
+	exit();
+}
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
@@ -31,12 +36,22 @@ $l=new OC_L10N('contacts');
 $aid = $_POST['id'];
 $addressbook = OC_Contacts_App::getAddressbook( $aid );
 
-$fn = $_POST['fn'];
+$fn = trim($_POST['fn']);
 $values = $_POST['value'];
 $parameters = $_POST['parameters'];
 
 $vcard = new OC_VObject('VCARD');
 $vcard->setUID();
+
+$n = isset($values['N'][0])?trim($values['N'][0]).';':';';
+$n .= isset($values['N'][1])?trim($values['N'][1]).';':';';
+$n .= isset($values['N'][2])?trim($values['N'][2]).';;':';;';
+
+if(!$fn || ($n == ';;;;')) {
+	bailOut('You have to enter both the extended name and the display name.');
+}
+
+$vcard->setString('N',$n);
 $vcard->setString('FN',$fn);
 
 // Data to add ...
@@ -58,6 +73,10 @@ foreach( $add as $propname){
 	} else {
 		$prop_parameters = array();
 	}
+	if(is_array($value)){
+		ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+		$value = OC_VObject::escapeSemicolons($value);
+	}
 	$vcard->addProperty($propname, $value); //, $prop_parameters);
 	$line = count($vcard->children) - 1;
 	foreach ($prop_parameters as $key=>$element) {
@@ -77,7 +96,7 @@ foreach( $add as $propname){
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 if(!$id) {
 	OC_JSON::error(array('data' => array('message' => $l->t('There was an error adding the contact.'))));
-	OC_Log::write('contacts','ajax/addcard.php: Recieved non-positive ID on adding card: '.$name, OC_Log::ERROR);
+	OC_Log::write('contacts','ajax/addcard.php: Recieved non-positive ID on adding card: '.$id, OC_Log::ERROR);
 	exit();
 }
 
