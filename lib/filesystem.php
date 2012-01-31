@@ -47,6 +47,7 @@ class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
 	static private $storageTypes=array();
+	public static $loaded=false;
 	private $fakeRoot='';
 	static private $defaultInstance;
 
@@ -200,6 +201,7 @@ class OC_Filesystem{
 			return false;
 		}
 		self::$defaultInstance=new OC_FilesystemView($root);
+		self::$loaded=true;
 	}
 	
 	/**

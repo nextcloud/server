@@ -22,7 +22,7 @@
 
 require_once( 'lib_share.php' );
 
-if (!OC_Filesystem::is_dir('/Shared')) {
+if (OC_Filesystem::$loaded and !OC_Filesystem::is_dir('/Shared')) {
 	OC_Filesystem::mkdir('/Shared');
 }
 OC_Filesystem::mount('OC_Filestorage_Shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
