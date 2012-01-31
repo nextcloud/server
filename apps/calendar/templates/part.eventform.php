@@ -2,6 +2,7 @@
 	<li><a href="#tabs-1">Eventinfo</a></li>
 	<li><a href="#tabs-2">Repeating</a></li>
 	<li><a href="#tabs-3">Attendees</a></li>
+	<li><a href="#tabs-4">Alarm</a></li>
 </ul>
 <div id="tabs-1">
 	<table width="100%">
@@ -230,3 +231,4 @@
 		</div>
 </div>
 <div id="tabs-3"></div>
+<div id="tabs-4"></div>
