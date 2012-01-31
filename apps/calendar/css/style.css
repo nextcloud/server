@@ -56,6 +56,8 @@ button.category{margin:0 3px;}
 .calendar-colorpicker-color{display:inline-block;width:20px;height:20px;margin-right:2px;cursor:pointer;border:2px solid transparent;}
 .calendar-colorpicker-color.active{border:2px solid black;}
 
+#event {padding: 0;margin: 0;margin-top:-5px}
+
 .fc-list-table
 {
     margin: 10px;
