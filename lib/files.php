@@ -41,7 +41,7 @@ class OC_Files {
 			$file['directory']=$directory;
 			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
 		}
-		uksort($files, "strnatcasecmp");
+		usort($files, "fileCmp");//TODO: remove this once ajax is merged
 		return $files;
 	}
 
@@ -288,5 +288,15 @@ class OC_Files {
 			$path=str_replace('//','/',$path);
 		}
 		return $path;
+	}
+}
+
+function fileCmp($a,$b){
+	if($a['type']=='dir' and $b['type']!='dir'){
+		return -1;
+	}elseif($a['type']!='dir' and $b['type']=='dir'){
+		return 1;
+	}else{
+		return strnatcasecmp($a['name'],$b['name']);
 	}
 }
