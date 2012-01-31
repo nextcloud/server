@@ -1,4 +1,11 @@
+var dbtypes
 $(document).ready(function() {
+	dbtypes={
+		sqlite:!!$('#hasSQLite').val(),
+		mysql:!!$('#hasMySQL').val(),
+		postgresql:!!$('#hasPostgreSQL').val(),
+	}
+	
 	$('#selectDbType').buttonset();
 	$('#datadirContent').hide(250);
 	$('#databaseField').hide(250);
@@ -60,4 +67,9 @@ $(document).ready(function() {
 		form.submit();
 		return false;
 	});
+
+	if(!dbtypes.sqlite){
+		$('#showAdvanced').click();
+		$('input[type="radio"]').first().click();
+	}
 });

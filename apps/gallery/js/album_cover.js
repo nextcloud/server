@@ -10,6 +10,10 @@ $(document).ready(function() {
       if (targetDiv) {
         $(targetDiv).html('');
         Albums.display(targetDiv);
+        $('#gallery_list').sortable({revert:true});
+        $('.gallery_album_box').each(function(i, e) {
+          $(e).draggable({connectToSortable: '#gallery_list', handle: '.dummy'})
+        });
       } else {
         alert('Error occured: no such layer `gallery_list`');
       }
@@ -37,9 +41,6 @@ var totalAlbums = 0;
 function scanForAlbums() {
   var albumCounter = 0;
   var totalAlbums = 0;
-  $('#notification').text(t('gallery',"Scanning directories"));
-  $("#notification").fadeIn();
-  $("#notification").slideDown();
   $.getJSON('ajax/galleryOp.php?operation=filescan', function(r) {
 
     if (r.status == 'success') {
@@ -48,7 +49,7 @@ function scanForAlbums() {
         $('#notification').text(t('gallery', "No photos found")).fadeIn().slideDown().delay(3000).fadeOut().slideUp();
         return;
       }
-	    $('#notification').text(t('gallery',"Creating thumbnails")+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
+      $('#scanprogressbar').progressbar({ value: (albumCounter/totalAlbums)*100 }).fadeIn();
       for(var a in r.paths) {
         $.getJSON('ajax/galleryOp.php?operation=partial_create&path='+r.paths[a], function(r) {
 
@@ -57,10 +58,9 @@ function scanForAlbums() {
           }
 
           albumCounter++;
-		  $('#notification').text(t('gallery',"Creating thumbnails")+' ... ' + Math.floor((albumCounter/totalAlbums)*100) + "%");
+          $('#scanprogressbar').progressbar({ value: (albumCounter/totalAlbums)*100 });
           if (albumCounter == totalAlbums) {
-            $("#notification").fadeOut();
-            $("#notification").slideUp();
+            $('#scanprogressbar').fadeOut();
             var targetDiv = document.getElementById('gallery_list');
             if (targetDiv) {
               targetDiv.innerHTML = '';
@@ -78,36 +78,71 @@ function scanForAlbums() {
 }
 
 function galleryRemove(albumName) {
-  if (confirm(t('gallery',"Do you wan't to remove album")+' ' + albumName + "?")) {
-	$.getJSON("ajax/galleryOp.php", {operation: "remove", name: albumName}, function(r) {
-	  if (r.status == "success") {
-		$(".gallery_album_box").filterAttr('data-album',albumName).remove();
-		Albums.remove(albumName);
-	  } else {
-		alert("Error: " + r.cause);
-	  }
-	});
-  }
+  // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+  $( "#dialog:ui-dialog" ).dialog( "destroy" );
+  $('#albumName', $("#dialog-confirm")).text(albumName);
+
+  $( '#dialog-confirm' ).dialog({
+    resizable: false,
+    height:150,
+    buttons: [{
+        text: t('gallery', 'OK'),
+        click: function() {
+          $.getJSON("ajax/galleryOp.php", {operation: "remove", name: albumName}, function(r) {
+            if (r.status == "success") {
+            $(".gallery_album_box").filterAttr('data-album',albumName).remove();
+              Albums.remove(albumName);
+            } else {
+              alert("Error: " + r.cause);
+            }
+            $('#dialog-confirm').dialog('close');
+          });
+        }},
+        {
+          text: t('gallery', 'Cancel'),
+          click: function() {
+            $( this ).dialog( 'close' );
+        }}]
+  });
 }
 
 function galleryRename(name) {
-  var result = window.prompt(t('gallery',"Input new gallery name"), name);
-  if(result=='' || result==name){
-	return;
-  }
-  if (result) {
-	if (Albums.find(result)) {
-	  alert("Album named '" + result + "' already exists");
-	  return;
-	}
-	$.getJSON("ajax/galleryOp.php", {operation: "rename", oldname: name, newname: result}, function(r) {
-	  if (r.status == "success") {
-		  Albums.rename($(".gallery_album_box").filterAttr('data-album',name), result);
-      } else {
-	    alert("Error: " + r.cause);
-      }
-	});
-	
-  }
+  $('#name', $('#dialog-form')).val(name);
+  $( "#dialog-form" ).dialog({
+        height: 140,
+        width: 350,
+        modal: false,
+        buttons: [{
+            text: t('gallery', 'Change name'),
+            click: function() {
+              var newname = $('#name', $('#dialog-form')).val();
+              if (newname == name || newname == '') {
+                $(this).dialog("close");
+                return;
+              }
+              if (Albums.find(newname)) {
+                alert("Album ", newname, " exists");
+                $(this).dialog("close");
+                return;
+              }
+              $.getJSON("ajax/galleryOp.php", {operation: "rename", oldname: name, newname: newname}, function(r) {
+                if (r.status == "success") {
+                  Albums.rename($(".gallery_album_box").filterAttr('data-album',name), newname);
+                } else {
+                  alert("Error: " + r.cause);
+                }
+                $('#dialog-form').dialog("close");
+              });
+
+            }
+          },
+          {
+            text: t('gallery', 'Cancel'),
+            click: function() {
+              $( this ).dialog( "close" );
+            }
+          }
+        ],
+  });
 }
 
