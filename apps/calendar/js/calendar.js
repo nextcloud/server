@@ -52,6 +52,7 @@ Calendar={
 			$('#advanced_month').change(function(){
 				Calendar.UI.repeat('month');
 			});
+			$( "#event" ).tabs({ selected: 0});
 			$('#event').dialog({
 				width : 500,
 				close : function(event, ui) {

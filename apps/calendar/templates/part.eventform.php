@@ -1,3 +1,9 @@
+<ul>
+	<li><a href="#tabs-1">Eventinfo</a></li>
+	<li><a href="#tabs-2">Repeating</a></li>
+	<li><a href="#tabs-3">Attendees</a></li>
+</ul>
+<div id="tabs-1">
 	<table width="100%">
 		<tr>
 			<th width="75px"><?php echo $l->t("Title");?>:</th>
@@ -56,7 +62,27 @@
 	</table>
 	<input type="button" class="submit" value="<?php echo $l->t("Advanced options"); ?>" onclick="Calendar.UI.showadvancedoptions();" id="advanced_options_button">
 	<div id="advanced_options" style="display: none;">
-		<table style="width:100%">
+		<hr>
+		<table>
+			<tr>
+				<th width="85px"><?php echo $l->t("Location");?>:</th>
+				<td>
+					<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? $_['location'] : '' ?>" maxlength="100"  name="location" />
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th width="85px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
+				<td>
+					<textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo isset($_['description']) ? $_['description'] : '' ?></textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</div>
+<div id="tabs-2">
+	<table style="width:100%">
 			<tr>
 				<th width="75px"><?php echo $l->t("Repeat");?>:</th>
 				<td>
@@ -200,23 +226,7 @@
 					</td>
 				</tr>
 			</table>
+			<?php echo $l->t('Summary'); ?>:<span id="repeatsummary"></span>
 		</div>
-		<hr>
-		<!-- support for attendees will be added in following versions --> 
-		<table>
-			<tr>
-				<th width="85px"><?php echo $l->t("Location");?>:</th>
-				<td>
-					<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? $_['location'] : '' ?>" maxlength="100"  name="location" />
-				</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<th width="85px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
-				<td>
-					<textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo isset($_['description']) ? $_['description'] : '' ?></textarea>
-				</td>
-			</tr>
-		</table>
-	</div>
+</div>
+<div id="tabs-3"></div>
