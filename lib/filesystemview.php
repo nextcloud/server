@@ -279,23 +279,6 @@ class OC_FilesystemView {
 		return $this->basicOperation('free_space',$path);
 	}
 
-	public function search($query){
-		$files=array();
-		$fakeRoot=$this->$fakeRoot;
-		$fakeRootLength=strlen($fakeRoot);
-		$results=OC_FileCache::search($query);
-		if(is_array($results)){
-			foreach($results as $result){
-				$file=str_replace('//','/',$mountpoint.$result);
-				if(substr($file,0,$fakeRootLength)==$fakeRoot){
-					$file=substr($file,$fakeRootLength);
-					$files[]=$file;
-				}
-			}
-		}
-		return $files;
-	}
-
 	/**
 	 * abstraction for running most basic operations
 	 * @param string $operation

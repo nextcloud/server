@@ -79,8 +79,9 @@ class OC_FileCache{
 			$data['versioned']=false;
 		}
 		$mimePart=dirname($data['mimetype']);
-		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart) VALUES(?,?,?,?,?,?,?,?)');
-		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart));
+		$user=OC_User::getUser();
+		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart,user) VALUES(?,?,?,?,?,?,?,?,?)');
+		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user));
 		
 	}
 
@@ -133,14 +134,26 @@ class OC_FileCache{
 	/**
 	 * return array of filenames matching the querty
 	 * @param string $query
+	 * @param boolean $returnData
 	 * @return array of filepaths
 	 */
-	public static function search($search){
-		$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE name LIKE ?');
-		$result=$query->execute(array("%$search%"));
+	public static function search($search,$returnData=false){
+		$root=OC_Filesystem::getRoot();
+		$rootLen=strlen($root);
+		if(!$returnData){
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE name LIKE ? AND user=?');
+		}else{
+			$query=OC_DB::prepare('SELECT * FROM *PREFIX*fscache WHERE name LIKE ? AND user=?');
+		}
+		$result=$query->execute(array("%$search%",OC_User::getUser()));
 		$names=array();
 		while($row=$result->fetchRow()){
-			$names[]=$row['path'];
+			if(!$returnData){
+				$names[]=substr($row['path'],$rootLen);
+			}else{
+				$row['path']=substr($row['path'],$rootLen);
+				$names[]=$row;
+			}
 		}
 		return $names;
 	}

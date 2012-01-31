@@ -374,7 +374,7 @@ class OC_Filesystem{
 	}
 	
 	static public function search($query){
-		return self::$defaultInstance->search($query);
+		return OC_FileCache::search($query);
 	}
 }
 
