@@ -320,6 +320,8 @@ class OC_Contacts_VCard{
 	 * ['value'] htmlspecialchars escaped value of property
 	 * ['parameters'] associative array name=>value
 	 * ['checksum'] checksum of whole property
+	 * NOTE: $value is not escaped anymore. It shouldn't make any difference
+	 * but we should look out for any problems.
 	 */
 	public static function structureProperty($property){
 		$value = $property->value;
