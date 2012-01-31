@@ -1,8 +1,8 @@
 <ul>
-	<li><a href="#tabs-1">Eventinfo</a></li>
-	<li><a href="#tabs-2">Repeating</a></li>
-	<li><a href="#tabs-3">Attendees</a></li>
-	<li><a href="#tabs-4">Alarm</a></li>
+	<li><a href="#tabs-1"><?php echo $l->t('Eventinfo'); ?></a></li>
+	<li><a href="#tabs-2"><?php echo $l->t('Repeating'); ?></a></li>
+	<li><a href="#tabs-3"><?php echo $l->t('Attendees'); ?></a></li>
+	<li><a href="#tabs-4"><?php echo $l->t('Alarm'); ?></a></li>
 </ul>
 <div id="tabs-1">
 	<table width="100%">
