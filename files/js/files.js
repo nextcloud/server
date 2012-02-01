@@ -347,6 +347,7 @@ $(document).ready(function() {
 
 function scanFiles(force){
 	force=!!force; //cast to bool
+	scanFiles.scanning=true;
 	$('#scanning-message').show();
 	$('#fileList').remove();
 	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force});
@@ -356,6 +357,7 @@ function scanFiles(force){
 		$('#scan-current').text(data.file+'/');
 	});
 	scannerEventSource.listen('success',function(success){
+		scanFiles.scanning=false;
 		if(success){
 			window.location.reload();
 		}else{
@@ -363,6 +365,7 @@ function scanFiles(force){
 		}
 	});
 }
+scanFiles.scanning=false;
 
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);
