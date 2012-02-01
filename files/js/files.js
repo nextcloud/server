@@ -347,15 +347,13 @@ $(document).ready(function() {
 
 function scanFiles(force){
 	force=!!force; //cast to bool
-	var fileCount=0;
 	$('#scanning-message').show();
 	$('#fileList').remove();
 	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force});
 	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
-	scannerEventSource.listen('scanned',function(file){
-		fileCount++;
-		$('#scan-count').text(fileCount+' files scanned');
-		$('#scan-current').text(file);
+	scannerEventSource.listen('scanning',function(data){
+		$('#scan-count').text(data.count+' files scanned');
+		$('#scan-current').text(data.file+'/');
 	});
 	scannerEventSource.listen('success',function(success){
 		if(success){

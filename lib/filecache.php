@@ -303,7 +303,7 @@ class OC_FileCache{
 	 * @param bool $onlyChilds
 	 * @param OC_EventSource $enventSource
 	 */
-	public static function scan($path,$onlyChilds,$eventSource){
+	public static function scan($path,$onlyChilds=false,$eventSource=false,&$count=0){
 		$dh=OC_Filesystem::opendir($path);
 		$stat=OC_Filesystem::stat($path);
 		$mimetype=OC_Filesystem::getMimeType($path);
@@ -319,15 +319,16 @@ class OC_FileCache{
 				if($filename != '.' and $filename != '..'){
 					$file=$path.'/'.$filename;
 					if(OC_Filesystem::is_dir($file)){
-						self::scan($file,true,$eventSource);
+						if($eventSource){
+							$eventSource->send('scanning',array('file'=>$file,'count'=>$count));
+						}
+						self::scan($file,true,$eventSource,$count);
 					}else{
 						$stat=OC_Filesystem::stat($file);
 						$mimetype=OC_Filesystem::getMimeType($file);
 						$stat['mimetype']=$mimetype;
 						self::put($file,$stat);
-						if($eventSource){
-							$eventSource->send('scanned',$file);
-						}
+						$count++;
 						$totalSize+=$stat['size'];
 					}
 				}
