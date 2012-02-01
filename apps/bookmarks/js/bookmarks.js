@@ -85,10 +85,10 @@ function addOrEditBookmark(event) {
 				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
 				$('.bookmarks_list').prepend(
 				'<div class="bookmark_single" data-id="' + bookmark_id + '" >' +
+					'<p class="bookmark_actions"><span class="bookmark_delete"><img src="img/delete.png" title="Delete"></span>&nbsp;<span class="bookmark_edit"><img src="img/edit.png" title="Edit"></span></p>' +
 					'<p class="bookmark_title"><a href="' + url + '" target="_blank" class="bookmark_link">' + title + '</a></p>' +
 					'<p class="bookmark_url">' + url + '</p>' +
 					'<p class="bookmark_tags">' + tagshtml + '</p>' +
-					'<p class="bookmark_actions"><span class="bookmark_delete">Delete</span>&nbsp;<span class="bookmark_edit">Edit</span></p>' +
 				'</div>'
 				);
 			}
@@ -153,10 +153,10 @@ function updateBookmarksList(bookmark) {
 	}
 	$('.bookmarks_list').append(
 		'<div class="bookmark_single" data-id="' + bookmark.id +'" >' +
+			'<p class="bookmark_actions"><span class="bookmark_delete"><img src="img/delete.png" title="Delete"></span>&nbsp;<span class="bookmark_edit"><img src="img/edit.png" title="Edit"></span></p>' +
 			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
 			'<p class="bookmark_url">' + encodeEntities(bookmark.url) + '</p>' +
 			'<p class="bookmark_tags">' + taglist + '</p>' +
-			'<p class="bookmark_actions"><span class="bookmark_delete">Delete</span>&nbsp;<span class="bookmark_edit">Edit</span></p>' +
 		'</div>'
 	);
 }
