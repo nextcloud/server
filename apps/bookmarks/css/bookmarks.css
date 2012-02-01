@@ -18,7 +18,7 @@
 }
 
 .bookmarks_list {
-	margin-top: 2.8em;
+	margin-top: 36px;
 }
 
 .bookmarks_addBml {
@@ -63,10 +63,22 @@
 .bookmark_title { font-weight: bold; display: inline-block; margin-right: 0.8em; }
 .bookmark_url { display: none; color: #999; }
 .bookmark_single:hover .bookmark_url { display: inline; }
-
-.bookmark_tag {
-	color: #ff3333;
+.bookmark_tags {
+	position: absolute;
+	top: 0.5em;
+	right: 6em;
+	text-align: right;
 }
+.bookmark_tag {
+	display: inline-block;
+	color: white;
+	margin: 0 0.2em;
+	padding: 0 0.4em;
+	background-color: #1D2D44;
+	border-radius: 0.4em;
+	opacity: 0.2;
+}
+.bookmark_tag:hover { opacity: 0.5; }
 
 .loading_meta {
 	display: none;

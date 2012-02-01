@@ -87,8 +87,8 @@ function addOrEditBookmark(event) {
 				'<div class="bookmark_single" data-id="' + bookmark_id + '" >' +
 					'<p class="bookmark_actions"><span class="bookmark_delete"><img src="img/delete.png" title="Delete"></span>&nbsp;<span class="bookmark_edit"><img src="img/edit.png" title="Edit"></span></p>' +
 					'<p class="bookmark_title"><a href="' + url + '" target="_blank" class="bookmark_link">' + title + '</a></p>' +
-					'<p class="bookmark_url">' + url + '</p>' +
 					'<p class="bookmark_tags">' + tagshtml + '</p>' +
+					'<p class="bookmark_url">' + url + '</p>' +
 				'</div>'
 				);
 			}
@@ -146,7 +146,8 @@ function updateBookmarksList(bookmark) {
 	var tags = encodeEntities(bookmark.tags).split(' ');
 	var taglist = '';
 	for ( var i=0, len=tags.length; i<len; ++i ){
-		taglist = taglist + '<a class="bookmark_tag" href="?tag=' + encodeURI(tags[i]) + '">' + tags[i] + '</a> ';
+		if(tags[i] != '')
+			taglist = taglist + '<a class="bookmark_tag" href="?tag=' + encodeURI(tags[i]) + '">' + tags[i] + '</a> ';
 	}
 	if(!hasProtocol(bookmark.url)) {
 		bookmark.url = 'http://' + bookmark.url;
@@ -156,9 +157,11 @@ function updateBookmarksList(bookmark) {
 			'<p class="bookmark_actions"><span class="bookmark_delete"><img src="img/delete.png" title="Delete"></span>&nbsp;<span class="bookmark_edit"><img src="img/edit.png" title="Edit"></span></p>' +
 			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
 			'<p class="bookmark_url">' + encodeEntities(bookmark.url) + '</p>' +
-			'<p class="bookmark_tags">' + taglist + '</p>' +
 		'</div>'
 	);
+	if(taglist != '') {
+		$('div[data-id="'+ bookmark.id +'"]').append('<p class="bookmark_tags">' + taglist + '</p>');
+	}
 }
 
 function updateOnBottom() {
@@ -178,7 +181,6 @@ function recordClick(event) {
 function encodeEntities(s){
 	try {
 		return $('<div/>').text(s).html();
-		
 	} catch (ex) {
 		return "";
 	}
