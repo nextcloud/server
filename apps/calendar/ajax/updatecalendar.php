@@ -26,7 +26,7 @@ foreach($calendars as $cal){
 
 $calendarid = $_POST['id'];
 $calendar = OC_Calendar_App::getCalendar($calendarid);//access check
-OC_Calendar_Calendar::editCalendar($calendarid, $_POST['name'], null, null, null, $_POST['color']);
+OC_Calendar_Calendar::editCalendar($calendarid, htmlspecialchars($_POST['name']), null, null, null, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
 
 $calendar = OC_Calendar_App::getCalendar($calendarid);

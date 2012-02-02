@@ -2,7 +2,7 @@
 		<tr>
 			<th width="75px"><?php echo $l->t("Title");?>:</th>
 			<td>
-				<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Title of the Event");?>" value="<?php echo isset($_['title']) ? $_['title'] : '' ?>" maxlength="100" name="title"/>
+				<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Title of the Event");?>" value="<?php echo isset($_['title']) ? htmlspecialchars($_['title']) : '' ?>" maxlength="100" name="title"/>
 			</td>
 		</tr>
 	</table>
@@ -207,7 +207,7 @@
 			<tr>
 				<th width="85px"><?php echo $l->t("Location");?>:</th>
 				<td>
-					<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? $_['location'] : '' ?>" maxlength="100"  name="location" />
+					<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? htmlspecialchars($_['location']) : '' ?>" maxlength="100"  name="location" />
 				</td>
 			</tr>
 		</table>
@@ -215,7 +215,7 @@
 			<tr>
 				<th width="85px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
 				<td>
-					<textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo isset($_['description']) ? $_['description'] : '' ?></textarea>
+					<textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo isset($_['description']) ? htmlspecialchars($_['description']) : '' ?></textarea>
 				</td>
 			</tr>
 		</table>
