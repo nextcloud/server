@@ -31,6 +31,7 @@ class OC_FileCache{
 	/**
 	 * get the filesystem info from the cache
 	 * @param string path
+	 * @param string root (optional)
 	 * @return array
 	 *
 	 * returns an assiciative array with the following keys:
@@ -41,8 +42,11 @@ class OC_FileCache{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function get($path){
-		$path=OC_Filesystem::getRoot().$path;
+	public static function get($path,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		$path=$root.$path;
 		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned FROM *PREFIX*fscache WHERE path=?');
 		$result=$query->execute(array($path))->fetchRow();
 		if(is_array($result)){
@@ -57,11 +61,15 @@ class OC_FileCache{
 	 * put filesystem info in the cache
 	 * @param string $path
 	 * @param array data
+	 * @param string root (optional)
 	 *
 	 * $data is an assiciative array in the same format as returned by get
 	 */
-	public static function put($path,$data){
-		$path=OC_Filesystem::getRoot().$path;
+	public static function put($path,$data,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		$path=$root.$path;
 		if($path=='/'){
 			$parent=-1;
 		}else{
@@ -112,10 +120,14 @@ class OC_FileCache{
 	 * register a file move in the cache
 	 * @param string oldPath
 	 * @param string newPath
+	 * @param string root (optional)
 	 */
-	public static function move($oldPath,$newPath){
-		$oldPath=OC_Filesystem::getRoot().$oldPath;
-		$newPath=OC_Filesystem::getRoot().$newPath;
+	public static function move($oldPath,$newPath,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		$oldPath=$root.$oldPath;
+		$newPath=$root.$newPath;
 		$newParent=self::getParentId($newPath);
 		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET parent=? ,name=?, path=? WHERE path=?');
 		$query->execute(array($newParent,basename($newPath),$newPath,$oldPath));
@@ -124,9 +136,13 @@ class OC_FileCache{
 	/**
 	 * delete info from the cache
 	 * @param string $path
+	 * @param string root (optional)
 	 */
-	public static function delete($path){
-		$path=OC_Filesystem::getRoot().$path;
+	public static function delete($path,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		$path=$root.$path;
 		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE path=?');
 		$query->execute(array($path));
 	}
@@ -135,10 +151,13 @@ class OC_FileCache{
 	 * return array of filenames matching the querty
 	 * @param string $query
 	 * @param boolean $returnData
+	 * @param string root (optional)
 	 * @return array of filepaths
 	 */
-	public static function search($search,$returnData=false){
-		$root=OC_Filesystem::getRoot();
+	public static function search($search,$returnData=false,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
 		$rootLen=strlen($root);
 		if(!$returnData){
 			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE name LIKE ? AND user=?');
@@ -161,6 +180,7 @@ class OC_FileCache{
 	/**
 	 * get all files and folders in a folder
 	 * @param string path
+	 * @param string root (optional)
 	 * @return array
 	 *
 	 * returns an array of assiciative arrays with the following keys:
@@ -172,8 +192,11 @@ class OC_FileCache{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFolderContent($path){
-		$path=OC_Filesystem::getRoot().$path;
+	public static function getFolderContent($path,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		$path=$root.$path;
 		$parent=self::getFileId($path);
 		$query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned FROM *PREFIX*fscache WHERE parent=?');
 		$result=$query->execute(array($parent))->fetchAll();
@@ -188,10 +211,14 @@ class OC_FileCache{
 	/**
 	 * check if a file or folder is in the cache
 	 * @param string $path
+	 * @param string root (optional)
 	 * @return bool
 	 */
-	public static function inCache($path){
-		$path=OC_Filesystem::getRoot().$path;
+	public static function inCache($path,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		$path=$root.$path;
 		$inCache=self::getFileId($path)!=-1;
 		return $inCache;
 	}
@@ -301,9 +328,14 @@ class OC_FileCache{
 	 * recursively scan the filesystem and fill the cache
 	 * @param string $path
 	 * @param bool $onlyChilds
-	 * @param OC_EventSource $enventSource
+	 * @param OC_EventSource $enventSource (optional)
+	 * @param int count (optional)
+	 * @param string root (optional)
 	 */
-	public static function scan($path,$onlyChilds=false,$eventSource=false,&$count=0){
+	public static function scan($path,$onlyChilds=false,$eventSource=false,&$count=0,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
 		$dh=OC_Filesystem::opendir($path);
 		$stat=OC_Filesystem::stat($path);
 		$mimetype=OC_Filesystem::getMimeType($path);
@@ -312,7 +344,7 @@ class OC_FileCache{
 			$path='';
 		}
 		self::put($path,$stat);
-		$fullPath=OC_Filesystem::getRoot().$path;
+		$fullPath=$root.$path;
 		$totalSize=0;
 		if($dh){
 			while (($filename = readdir($dh)) !== false) {
