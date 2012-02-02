@@ -77,7 +77,7 @@ foreach( $add as $propname){
 		ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
 		$value = OC_VObject::escapeSemicolons($value);
 	}
-	$vcard->addProperty($propname, $value); //, $prop_parameters);
+	$vcard->addProperty($propname, strip_tags($value)); //, $prop_parameters);
 	$line = count($vcard->children) - 1;
 	foreach ($prop_parameters as $key=>$element) {
 		if(is_array($element) && strtoupper($key) == 'TYPE') { 
