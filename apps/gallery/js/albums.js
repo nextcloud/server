@@ -46,14 +46,14 @@ Albums={
       var a = Albums.albums[i];
 	  var local=$(displayTemplate);
 	  local.attr('data-album',a.name);
-	  $(".gallery_album_decoration a.rename", local).click(function(name,event){
+	  $(".gallery_album_decoration a.rename", local).bind('click', {name: a.name},function(event){
 			event.preventDefault();
-			galleryRename(name);
-		}.bind(null,a.name));
-	  $(".gallery_album_decoration a.remove", local).click(function(name,event){
+			galleryRename(event.data.name);
+    });
+	  $(".gallery_album_decoration a.remove", local).bind('click', {name: a.name},function(event){
 		  event.preventDefault();
-		  galleryRemove(name);
-	  }.bind(null,a.name));
+		  galleryRemove(a.data.name);
+    });
 	  $("a.view", local).attr('href','?view='+a.name);
 	  $('h1',local).text(a.name);
 	  $(".gallery_album_cover", local).attr('title',a.name);
