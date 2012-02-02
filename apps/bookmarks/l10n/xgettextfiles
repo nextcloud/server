@@ -1,0 +1,5 @@
+../appinfo/app.php
+../lib/search.php
+../templates/settings.php
+../templates/addBm.php
+../templates/list.php

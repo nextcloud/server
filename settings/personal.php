@@ -23,8 +23,10 @@ $relative=round(($used/$total)*10000)/100;
 
 $email=OC_Preferences::getValue(OC_User::getUser(), 'settings','email','');
 
-$lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', 'en' );
+$lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
 $languageCodes=OC_L10N::findAvailableLanguages();
+sort ($languageCodes);
+
 //put the current language in the front
 unset($languageCodes[array_search($lang,$languageCodes)]);
 array_unshift($languageCodes,$lang);
