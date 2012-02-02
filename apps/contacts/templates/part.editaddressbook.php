@@ -11,7 +11,7 @@
 <tr>
 	<th><?php echo $l->t('Displayname') ?></th>
 	<td>
-		<input id="displayname_<?php echo $_['addressbook']['id'] ?>" type="text" value="<?php echo $_['addressbook']['displayname'] ?>">
+		<input id="displayname_<?php echo $_['addressbook']['id'] ?>" type="text" value="<?php echo htmlspecialchars($_['addressbook']['displayname']) ?>">
 	</td>
 </tr>
 <?php if (!$_['new']): ?>

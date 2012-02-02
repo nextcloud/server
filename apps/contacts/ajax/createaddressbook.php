@@ -15,7 +15,7 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
 $userid = OC_User::getUser();
-$bookid = OC_Contacts_Addressbook::add($userid, $_POST['name'], null);
+$bookid = OC_Contacts_Addressbook::add($userid, strip_tags($_POST['name']), null);
 if(!$bookid) {
 	OC_JSON::error(array('data' => array('message' => $l->t('Error adding addressbook.'))));
 	OC_Log::write('contacts','ajax/createaddressbook.php: Error adding addressbook: '.$_POST['name'], OC_Log::ERROR);
