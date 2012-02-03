@@ -13,3 +13,4 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 		return $xml;
 	}
 }
+new OC_Migrate_Provider_Bookmarks('bookmarks');

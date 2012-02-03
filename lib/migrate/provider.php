@@ -3,7 +3,10 @@
  * provides search functionalty
  */
 abstract class OC_Migrate_Provider{
-	public function __construct(){
+	public $appid;
+	
+	public function __construct($appid){
+		$this->appid = $appid;
 		OC_Migrate::registerProvider($this);
 	}
 	//public static $appid;

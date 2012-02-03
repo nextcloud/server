@@ -63,7 +63,7 @@ if (isset($_POST['user_migrate'])) {
     //header("Content-Disposition: attachment; filename=" . basename($filename));
     //header("Content-Length: " . filesize($filename));
     //@ob_end_clean();
-    echo $appdata;
+    echo htmlspecialchars($appdata);
     //readfile($filename);
     unlink($filename);
 } else {
