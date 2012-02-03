@@ -25,7 +25,7 @@
  * provides an interface to all search providers
  */
 class OC_Migrate{
-	static public $providers=array();
+	static private $providers=array();
 	
 	/**
 	 * register a new migration provider
@@ -33,6 +33,7 @@ class OC_Migrate{
 	 */
 	public static function registerProvider($provider){
 		self::$providers[]=$provider;
+		OC_Log::write('user_migrate','Provider registered',OC_Log::INFO);
 	}
 	
 	/**
@@ -46,7 +47,7 @@ class OC_Migrate{
 		foreach(self::$providers as $provider){
 			OC_Log::write('user_migrate','Getting app data for app:'.$provider->appid,OC_Log::INFO);
 			$xml .= '<app>';
-			$xml .= self::appInfoXML($provider->$appid);
+			//$xml .= self::appInfoXML($provider->$appid);
 			$xml .= $provider->export($uid);
 			$xml .= '</app>';
 		}

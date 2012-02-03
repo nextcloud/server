@@ -47,7 +47,7 @@ if (isset($_POST['user_migrate'])) {
     // Does the user want their app data?
     if (isset($_POST['user_appdata'])) {
 		// adding owncloud system files
-		OC_Log::write('user_migrate',"Adding app data to user export",OC_Log::INFO);
+		OC_Log::write('user_migrate',"Adding app data to user export file",OC_Log::INFO);
 		// Call to OC_Migrate for the xml file.
 		//$appdatafile = $tempdir . "/appdata.xml";
 		//$fh = fopen($appdatafile, 'w');

@@ -6,7 +6,7 @@ abstract class OC_Migrate_Provider{
 	public function __construct(){
 		OC_Migrate::registerProvider($this);
 	}
-	public static $appid;
+	//public static $appid;
 	/**
 	 * exports data for apps
 	 * @param string $uid
@@ -19,5 +19,5 @@ abstract class OC_Migrate_Provider{
 	 * @param string $query
 	 * @return array An array of OC_Search_Result's
 	 */
-	abstract function import($data);
+	//abstract function import($data);
 }

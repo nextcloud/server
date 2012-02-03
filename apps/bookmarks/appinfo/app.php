@@ -17,3 +17,7 @@ OC_App::addNavigationEntry( array( 'id' => 'bookmarks_index', 'order' => 70, 'hr
 OC_App::registerPersonal('bookmarks', 'settings');
 require_once('apps/bookmarks/lib/search.php');
 OC_Util::addScript('bookmarks','bookmarksearch');
+
+// Include the migration provider
+	
+require_once('apps/bookmarks/lib/migrate.php');
