@@ -52,7 +52,7 @@ Albums={
     });
 	  $(".gallery_album_decoration a.remove", local).bind('click', {name: a.name},function(event){
 		  event.preventDefault();
-		  galleryRemove(a.data.name);
+		  galleryRemove(event.data.name);
     });
 	  $("a.view", local).attr('href','?view='+a.name);
 	  $('h1',local).text(a.name);
@@ -80,6 +80,10 @@ Albums={
 		$("a.view", element).attr("href", "?view="+new_name);
 		$("h1", element).text(new_name);
 	}
+  },
+  clear: function(element) {
+    Albums.albums = new Array();
+    element.innerHTML = '';
   }
 
 }

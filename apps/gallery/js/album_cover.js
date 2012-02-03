@@ -38,10 +38,12 @@ function createNewAlbum() {
 var albumCounter = 0;
 var totalAlbums = 0;
 
-function scanForAlbums() {
+function scanForAlbums(cleanup) {
+  cleanup = cleanup?true:false;
   var albumCounter = 0;
   var totalAlbums = 0;
-  $.getJSON('ajax/galleryOp.php?operation=filescan', function(r) {
+  $('#g-scan-button').attr('disabled', 'true');
+  $.getJSON('ajax/galleryOp.php?operation=filescan', {cleanup: cleanup}, function(r) {
 
     if (r.status == 'success') {
       totalAlbums = r.paths.length;
@@ -68,6 +70,7 @@ function scanForAlbums() {
             } else {
               alert('Error occured: no such layer `gallery_list`');
             }
+            $('#g-scan-button').attr('disabled', null);
           }
         });
       }
@@ -125,13 +128,13 @@ function galleryRename(name) {
                 $(this).dialog("close");
                 return;
               }
-              $.getJSON("ajax/galleryOp.php", {operation: "rename", oldname: name, newname: newname}, function(r) {
+              $.getJSON('ajax/galleryOp.php', {operation: 'rename', oldname: name, newname: newname}, function(r) {
                 if (r.status == "success") {
                   Albums.rename($(".gallery_album_box").filterAttr('data-album',name), newname);
                 } else {
                   alert("Error: " + r.cause);
                 }
-                $('#dialog-form').dialog("close");
+                $('#dialog-form').dialog('close');
               });
 
             }
@@ -139,10 +142,49 @@ function galleryRename(name) {
           {
             text: t('gallery', 'Cancel'),
             click: function() {
-              $( this ).dialog( "close" );
+              $( this ).dialog('close');
             }
           }
         ],
   });
 }
 
+function settings() {
+  $( '#g-dialog-settings' ).dialog({
+        height: 180,
+        width: 350,
+        modal: false,
+        buttons: [{
+            text: t('gallery', 'Apply'),
+            click: function() {
+              var scanning_root = $('#g-scanning-root').val();
+              var disp_order = $('#g-display-order option:selected').val();
+              if (scanning_root == '') {
+                alert('Scanning root cannot be empty');
+                return;
+              }
+              $.getJSON('ajax/galleryOp.php', {operation: 'store_settings', root: scanning_root, order: disp_order}, function(r) {
+                if (r.status == 'success') {
+                  if (r.rescan == 'yes') { 
+                    $('#g-dialog-settings').dialog('close');
+                    Albums.clear(document.getElementById('gallery_list'));
+                    scanForAlbums(true);
+                    return;
+                  }
+                } else {
+                  alert('Error: ' + r.cause);
+                  return;
+                }
+                $('#g-dialog-settings').dialog('close');
+              });
+            }
+          },
+          {
+            text: t('gallery', 'Cancel'),
+            click: function() {
+              $(this).dialog('close');
+            }
+          }
+        ],
+  });
+}

@@ -31,6 +31,14 @@ class OC_Gallery_Album {
 	    $stmt = OC_DB::prepare('UPDATE *PREFIX*gallery_albums SET album_name=? WHERE uid_owner=? AND album_name=?');
 		$stmt->execute(array($newname, $owner, $oldname));
 	}
+
+  public static function cleanup() {
+    $albums = self::find(OC_User::getUser());
+    while ($r = $albums->fetchRow()) {
+      OC_Gallery_Photo::removeByAlbumId($r['album_id']);
+      self::remove(OC_User::getUser(), $r['album_name']);
+    }
+  }
 	
 	public static function remove($owner, $name=null) {
 		$sql = 'DELETE FROM *PREFIX*gallery_albums WHERE uid_owner = ?';
@@ -69,7 +77,8 @@ class OC_Gallery_Album {
       $sql .= ' AND album_path = ?';
       $args[] = $path;
     }
-    $sql .= ' ORDER BY album_name ASC';
+    $order = OC_Appconfig::getValue('gallery', 'order', 'ASC');
+    $sql .= ' ORDER BY album_name ' . $order;
 
 		$stmt = OC_DB::prepare($sql);
 		return $stmt->execute($args);
