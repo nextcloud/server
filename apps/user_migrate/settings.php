@@ -1,10 +1,8 @@
 <?php
 
 /**
- * ownCloud - admin export
+ * ownCloud - user_migrate
  *
- * @author Thomas Schmidt
- * @copyright 2011 Thomas Schmidt tom@opensuse.org
  * @author Tom Needham
  * @copyright 2012 Tom Needham tom@owncloud.com
  *
@@ -22,45 +20,41 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-OC_Util::checkAdminUser();
-OC_Util::checkAppEnabled('admin_export');
+OC_Util::checkAppEnabled('user_migrate');
 
 
-if (isset($_POST['admin_export'])) {
+if (isset($_POST['user_migrate'])) {
+	// Looks like they want to migrate
+	$errors = array();
     $root = OC::$SERVERROOT . "/";
+    $user = OC_User::getUser();
     $zip = new ZipArchive();
-    $filename = get_temp_dir() . "/owncloud_export_" . date("y-m-d_H-i-s") . ".zip";
-    OC_Log::write('admin_export',"Creating export file at: " . $filename,OC_Log::INFO);
+    $tempdir = get_temp_dir();
+    $filename = $tempdir . "/" . $user . "_export_" . date("y-m-d_H-i-s") . ".zip";
+    OC_Log::write('user_migrate',"Creating user export file at: " . $filename,OC_Log::INFO);
     if ($zip->open($filename, ZIPARCHIVE::CREATE) !== TRUE) {
 		exit("Cannot open <$filename>\n");
     }
 
-    if (isset($_POST['owncloud_system'])) {
-	// adding owncloud system files
-	OC_Log::write('admin_export',"Adding owncloud system files to export",OC_Log::INFO);
-	zipAddDir($root, $zip, false);
-	foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dirname) {
-	    zipAddDir($root . $dirname, $zip, true, basename($root) . "/");
-	}
-    }
-
-    if (isset($_POST['owncloud_config'])) {
-	// adding owncloud config
-	// todo: add database export
-	OC_Log::write('admin_export',"Adding owncloud config to export",OC_Log::INFO);
-	zipAddDir($root . "config/", $zip, true, basename($root) . "/");
-	$zip->addFile($root . '/data/.htaccess', basename($root) . "/data/owncloud.db");
-    }
-
+	// Does the user want to include their files?
     if (isset($_POST['user_files'])) {
-    // needs to handle data outside of the default data dir.
-	// adding user files
-	$zip->addFile($root . '/data/.htaccess', basename($root) . "/data/.htaccess");
-	$zip->addFile($root . '/data/index.html', basename($root) . "/data/index.html");
-	foreach (OC_User::getUsers() as $i) {
-		OC_Log::write('admin_export',"Adding owncloud user files of $i to export",OC_Log::INFO);
-	    zipAddDir($root . "data/" . $i, $zip, true, basename($root) . "/data/");
-	}
+	    // needs to handle data outside of the default data dir.
+		// adding user files
+		OC_Log::write('user_migrate',"Adding owncloud user files of $user to export",OC_Log::INFO);
+		zipAddDir($root . "data/" . $user, $zip, true, "files/");
+    }
+    
+    // Does the user want their app data?
+    if (isset($_POST['user_appdata'])) {
+		// adding owncloud system files
+		OC_Log::write('user_migrate',"Adding app data to user export",OC_Log::INFO);
+		// Call to OC_Migrate for the xml file.
+		$appdatafile = $tempdir . "/appdata.xml";
+		$fh = fopen($appdatafile, 'w');
+		$appdata = OC_Migrate::export(OC_User::getUser());
+		fwrite($fh, $appdata);
+		$zip->addFile($appdatafile, "appdata.xml");
+		fclose($fh);
     }
 
     $zip->close();
@@ -73,7 +67,7 @@ if (isset($_POST['admin_export'])) {
     unlink($filename);
 } else {
 // fill template
-    $tmpl = new OC_Template('admin_export', 'settings');
+    $tmpl = new OC_Template('user_migrate', 'settings');
     return $tmpl->fetchPage();
 }
 
