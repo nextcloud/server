@@ -41,11 +41,13 @@ class OC_Migrate{
 	 * @return string xml of app data
 	 */
 	public static function export($uid){
+		OC_Log::write('user_migrate','Starting user appdata export for: '.$uid,OC_Log::INFO);
 		$xml = '';
 		foreach(self::$providers as $provider){
+			OC_Log::write('user_migrate','Getting app data for app:'.$provider->appid,OC_Log::INFO);
 			$xml .= '<app>';
 			$xml .= self::appInfoXML($provider->$appid);
-			$xml .= $provider->export($uid));
+			$xml .= $provider->export($uid);
 			$xml .= '</app>';
 		}
 		return $xml;
