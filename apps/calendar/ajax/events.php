@@ -11,8 +11,8 @@ require_once('../../../3rdparty/when/When.php');
 
 function addoutput($event, $vevent, $return_event){
 	$return_event['id'] = (int)$event['id'];
-	$return_event['title'] = $event['summary'];
-	$return_event['description'] = isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'';
+	$return_event['title'] = htmlspecialchars($event['summary']);
+	$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
 	$last_modified = $vevent->__get('LAST-MODIFIED');
 	if ($last_modified){
 		$lastmodified = $last_modified->getDateTime()->format('U');
