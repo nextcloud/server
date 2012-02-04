@@ -54,12 +54,12 @@ Albums={
 		  event.preventDefault();
 		  galleryRemove(event.data.name);
     });
-	  $("a.view", local).attr('href','?view='+a.name);
+    $("a.view", local).attr('href','?view='+escape(a.name));
 	  $('h1',local).text(a.name);
 	  $(".gallery_album_cover", local).attr('title',a.name);
       $(".gallery_album_cover", local).css('background-repeat', 'no-repeat');
       $(".gallery_album_cover", local).css('background-position', '0');
-      $(".gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+a.name+'")');
+      $(".gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+escape(a.name)+'")');
       $(".gallery_album_cover", local).mousemove(function(e) {
 
         var albumMetadata = Albums.find(this.title);

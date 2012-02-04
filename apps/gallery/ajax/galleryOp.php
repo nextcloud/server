@@ -104,7 +104,7 @@ if ($_GET['operation']) {
 	  OC_JSON::success();
     break;
   case 'get_covers':
-    handleGetThumbnails($_GET['albumname']);
+    handleGetThumbnails(urldecode($_GET['albumname']));
     break;
   case 'scan':
     handleGalleryScanning();
@@ -113,7 +113,7 @@ if ($_GET['operation']) {
     handleFilescan($_GET['cleanup']);
     break;
   case 'partial_create':
-    handlePartialCreate($_GET['path']);
+    handlePartialCreate(urldecode($_GET['path']));
     break;
   case 'store_settings':
     handleStoreSettings($_GET['root'], $_GET['order']);

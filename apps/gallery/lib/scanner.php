@@ -106,7 +106,7 @@ class OC_Gallery_Scanner {
       if (self::isPhoto($path.$file)) $addpath = TRUE;
     }
 
-    if ($addpath) $ret[] = $path;
+    if ($addpath) $ret[] = urlencode($path);
 
     return $ret;
   }

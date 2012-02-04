@@ -54,7 +54,6 @@ class OC_Gallery_Album {
   public static function removeByPath($path, $owner) {
     $album = self::find($owner, null, $path);
     $album = $album->fetchRow();
-    error_log($path . '--' . $album['album_name']);
     self::remove($owner, $album['album_name']);
     OC_Gallery_Photo::removeByAlbumId($album['album_id']);
     // find and remove any gallery which might be stored lower in dir hierarchy
