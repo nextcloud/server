@@ -212,7 +212,7 @@
     <name>sharetype</name>
     <type>text</type>
     <notnull>true</notnull>
-    <length>5</length>
+    <length>6</length>
    </field>
 
    <field>
@@ -259,7 +259,7 @@
     <name>sharetype</name>
     <type>text</type>
     <notnull>true</notnull>
-    <length>5</length>
+    <length>6</length>
    </field>
 
    <field>

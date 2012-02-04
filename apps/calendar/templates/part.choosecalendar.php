@@ -1,4 +1,5 @@
 <div id="choosecalendar_dialog" title="<?php echo $l->t("Choose active calendars"); ?>">
+<p><b><?php echo $l->t('Your calendars'); ?>:</b></p>
 <table width="100%" style="border: 0;">
 <?php
 $option_calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
@@ -20,4 +21,24 @@ for($i = 0; $i < count($option_calendars); $i++){
 		<p style="margin: 0 auto;width: 90%;"><input style="display:none;width: 90%;float: left;" type="text" id="caldav_url" onmouseover="$('#caldav_url').select();" title="<?php echo $l->t("CalDav Link"); ?>"><img id="caldav_url_close" style="height: 20px;vertical-align: middle;display: none;" src="../../core/img/actions/delete.svg" alt="close" onclick="$('#caldav_url').hide();$('#caldav_url_close').hide();"/></p>
 	</td>
 </tr>
+</table><br>
+<p><b><?php echo $l->t('Shared calendars'); ?>: </b></p>
+<table width="100%" style="border: 0;">
+<?php
+$share = OC_Calendar_Share::allSharedwithuser(OC_User::getUser(), OC_Calendar_Share::CALENDAR);
+$count = count($share);
+for($i = 0; $i < $count; $i++){
+	echo '<tr>';
+	$tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields.shared');
+	$tmpl->assign('share', $share[$i]);
+	$tmpl->printpage();
+	echo '</tr>';
+}
+?>
 </table>
+<?php
+if($count == 0){
+	echo '<p style="text-align:center;"><b>' . $l->t('No shared calendars') . '</b></p>';
+}
+?>
+</div>

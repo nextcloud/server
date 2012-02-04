@@ -6,8 +6,11 @@ if(version_compare(PHP_VERSION, '5.3.0', '>=')){
 	OC::$CLASSPATH['OC_Calendar_Object'] = 'apps/calendar/lib/object.php';
 	OC::$CLASSPATH['OC_Calendar_Hooks'] = 'apps/calendar/lib/hooks.php';
 	OC::$CLASSPATH['OC_Connector_Sabre_CalDAV'] = 'apps/calendar/lib/connector_sabre.php';
+	OC::$CLASSPATH['OC_Calendar_Share'] = 'apps/calendar/lib/share.php';
 	OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
 	OC_Util::addScript('calendar','loader');
+	OC_Util::addScript('3rdparty', 'chosen/chosen.jquery.min');
+	OC_Util::addStyle('3rdparty', 'chosen/chosen');
 	OC_App::register( array( 
 	  'order' => 10,
 	  'id' => 'calendar',

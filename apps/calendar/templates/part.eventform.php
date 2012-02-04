@@ -231,6 +231,6 @@
 			<?php echo $l->t('Summary'); ?>:<span id="repeatsummary"></span>
 		</div>
 </div>
-<div id="tabs-3"></div>
-<div id="tabs-4"></div>
-<div id="tabs-5"></div>
+<div id="tabs-3">//Alarm</div>
+<div id="tabs-4">//Attendees</div>
+<div id="tabs-5">//Share</div>
