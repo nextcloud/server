@@ -137,7 +137,7 @@ function showBookmark(event) {
 		$('.bookmarks_add').slideToggle();
 	}
 	$('html, body').animate({
-			scrollTop: $('.bookmarks_menu').offset().top
+      scrollTop: ($('.bookmarks_menu'))?$('.bookmarks_menu').offset().top:0
 		}, 500);
 
 }
