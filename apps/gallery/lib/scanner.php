@@ -39,12 +39,19 @@ class OC_Gallery_Scanner {
     $stmt->execute(array());
   }
 
+  public static function createName($name) {
+    $root = OC_Appconfig::getValue('gallery', 'root', '/');
+    $name = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $name));
+    if (substr($name, 0, strlen($root)) == str_replace('/','.',$root)) {
+      $name = substr($name, strlen($root));
+    }
+    $name = ($name==='.') ? 'main' : trim($name,'.');
+    return $name;
+  }
+
   public static function scanDir($path, &$albums) {
     $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
-    $current_album['name'] = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $current_album['name']));
-    $current_album['name'] = ($current_album['name']==='.') ?
-                             'main' :
-                             trim($current_album['name'],'.');
+    $current_album['name'] = self::createName($current_album['name']);
 
     if ($dh = OC_Filesystem::opendir($path)) {
       while (($filename = readdir($dh)) !== false) {
