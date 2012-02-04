@@ -77,7 +77,7 @@ class OC_Gallery_Album {
       $sql .= ' AND album_path = ?';
       $args[] = $path;
     }
-    $order = OC_Appconfig::getValue('gallery', 'order', 'ASC');
+    $order = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'order', 'ASC');
     $sql .= ' ORDER BY album_name ' . $order;
 
 		$stmt = OC_DB::prepare($sql);

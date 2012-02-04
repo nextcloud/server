@@ -33,7 +33,7 @@ $l = new OC_L10N('gallery');
 
 <div id="g-dialog-settings" title="<?php echo $l->t('Settings');?>" style="display:none">
 	<form>
-    <fieldset><?php $root = OC_Appconfig::getValue('gallery', 'root', '/'); $order = OC_Appconfig::getValue('gallery', 'order', 'ASC');?>
+    <fieldset><?php $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/'); $order = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'order', 'ASC');?>
     <label for="name"><?php echo $l->t('Scanning root');?></label>
     <input type="text" name="g-scanning-root" id="g-scanning-root" class="text ui-widget-content ui-corner-all" value="<?php echo $root;?>" /><br/>
 

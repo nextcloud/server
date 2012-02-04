@@ -40,7 +40,7 @@ class OC_Gallery_Scanner {
   }
 
   public static function createName($name) {
-    $root = OC_Appconfig::getValue('gallery', 'root', '/');
+    $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
     $name = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $name));
     if (substr($name, 0, strlen($root)) == str_replace('/','.',$root)) {
       $name = substr($name, strlen($root));

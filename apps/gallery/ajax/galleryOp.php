@@ -57,7 +57,7 @@ function handleGalleryScanning() {
 function handleFilescan($cleanup) {
   OC_JSON::checkLoggedIn();
   if ($cleanup) OC_Gallery_Album::cleanup();
-  $root = OC_Appconfig::getValue('gallery', 'root', '').'/';
+  $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '').'/';
   $pathlist = OC_Gallery_Scanner::find_paths($root);
   sort($pathlist);
   OC_JSON::success(array('paths' => $pathlist));
@@ -85,11 +85,11 @@ function handleStoreSettings($root, $order) {
     return;
   }
 
-  $current_root = OC_Appconfig::getValue('gallery', 'root', '/');
+  $current_root = OC_Preferences::getValue(OC_User::getUser(),'gallery', 'root', '/');
   $root = trim(rtrim($root, '/'));
   $rescan = $current_root==$root?'no':'yes';
-  OC_Appconfig::setValue('gallery', 'root', $root);
-  OC_Appconfig::setValue('gallery', 'order', $order);
+  OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'root', $root);
+  OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'order', $order);
   OC_JSON::success(array('rescan' => $rescan));
 }
 
