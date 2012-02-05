@@ -179,9 +179,13 @@ class OC_FilesystemView {
 					if($storage=$this->getStorage($path1)){
 						$result=$storage->rename($this->getInternalPath($path1),$this->getInternalPath($path2));
 					}
-				}elseif($storage1=$this->getStorage($path1) and $storage2=$this->getStorage($path2)){
-					$tmpFile=$storage1->toTmpFile($this->getInternalPath($path1));
-					$result=$storage2->fromTmpFile($tmpFile,$this->getInternalPath($path2));
+				}else{
+					$source=$this->fopen($path1,'r');
+					$target=$this->fopen($path2,'w');
+					while (!feof($source)){
+						fwrite($target,fread($source,8192));
+					}
+					$storage1=$this->getStorage($path1);
 					$storage1->unlink($this->getInternalPath($path1));
 				}
 				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename, array( OC_Filesystem::signal_param_oldpath => $path1, OC_Filesystem::signal_param_newpath=>$path2));
@@ -207,9 +211,14 @@ class OC_FilesystemView {
 					if($storage=$this->getStorage($path1)){
 						$result=$storage->copy($this->getInternalPath($path1),$this->getInternalPath($path2));
 					}
-				}elseif($storage1=$this->getStorage($path1) and $storage2=$this->getStorage($path2)){
-					$tmpFile=$storage1->toTmpFile($this->getInternalPath($path1));
-					$result=$storage2->fromTmpFile($tmpFile,$this->getInternalPath($path2));
+				}else{
+					$source=$this->fopen($path1,'r');
+					$target=$this->fopen($path2,'w');
+					if($target and $source){
+						while (!feof($source)){
+							fwrite($target,fread($source,8192));
+						}
+					}
 				}
         OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_copy, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2));
 				if(!$exists){
