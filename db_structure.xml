@@ -151,8 +151,16 @@
 	   <length>1</length>
    </field>
 
-<!--   <index>
-    <name>fscache_path_index</name>
+   <field>
+	   <name>writable</name>
+	   <type>integer</type>
+	   <default>0</default>
+	   <notnull>true</notnull>
+	   <length>1</length>
+   </field>
+
+   <!--<index>
+	   <name>fscache_path_index</name>
 	<unique>true</unique>
     <field>
      <name>path</name>

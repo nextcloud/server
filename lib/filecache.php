@@ -57,7 +57,7 @@ class OC_FileCache{
 			$root='';
 		}
 		$path=$root.$path;
-		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned FROM *PREFIX*fscache WHERE path=?');
+		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE path=?');
 		$result=$query->execute(array($path))->fetchRow();
 		if(is_array($result)){
 			return $result;
@@ -101,8 +101,8 @@ class OC_FileCache{
 		}
 		$mimePart=dirname($data['mimetype']);
 		$user=OC_User::getUser();
-		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart,user) VALUES(?,?,?,?,?,?,?,?,?)');
-		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user));
+		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart,user,writable) VALUES(?,?,?,?,?,?,?,?,?,?)');
+		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable']));
 		
 	}
 
@@ -114,7 +114,7 @@ class OC_FileCache{
 	private static function update($id,$data){
 		$arguments=array();
 		$queryParts=array();
-		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned') as $attribute){
+		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned','writable') as $attribute){
 			if(isset($data[$attribute])){
 				$arguments[]=$data[$attribute];
 				$queryParts[]=$attribute.'=?';
@@ -226,7 +226,7 @@ class OC_FileCache{
 		}
 		$path=$root.$path;
 		$parent=self::getFileId($path);
-		$query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned FROM *PREFIX*fscache WHERE parent=?');
+		$query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=?');
 		$result=$query->execute(array($parent))->fetchAll();
 		if(is_array($result)){
 			return $result;
@@ -309,7 +309,8 @@ class OC_FileCache{
 				}
 				$mtime=$view->filemtime($path);
 				$ctime=$view->filectime($path);
-				self::put($path,array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype));
+				$writable=$view->is_writable($path);
+				self::put($path,array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype,'writable'=>$writable));
 			}else{
 				self::scan($path,null,0,$root);
 			}
@@ -450,7 +451,9 @@ class OC_FileCache{
 		if(!$view->is_readable($path)) return; //cant read, nothing we can do
 		$stat=$view->stat($path);
 		$mimetype=$view->getMimeType($path);
+		$writable=$view->is_writable($path);
 		$stat['mimetype']=$mimetype;
+		$stat['writable']=$writable;
 		if($path=='/'){
 			$path='';
 		}
