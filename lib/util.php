@@ -35,9 +35,9 @@ class OC_Util {
 			$user = OC_User::getUser();
 		}
 
+		//first set up the local "root" storage
+		OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-			//first set up the local "root" storage
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
 
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
 			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
