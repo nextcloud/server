@@ -43,8 +43,18 @@ class OC_FileCache{
 	 * - versioned
 	 */
 	public static function get($path,$root=''){
+		if(self::isUpdated($path,$root)){
+			if(!$root){//filesystem hooks are only valid for the default root
+				OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$path));
+			}else{
+				self::fileSystemWatcherWrite(array('path'=>$path),$root);
+			}
+		}
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
+		}
+		if($root=='/'){
+			$root='';
 		}
 		$path=$root.$path;
 		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned FROM *PREFIX*fscache WHERE path=?');
@@ -68,6 +78,9 @@ class OC_FileCache{
 	public static function put($path,$data,$root=''){
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
+		}
+		if($root=='/'){
+			$root='';
 		}
 		$path=$root.$path;
 		if($path=='/'){
@@ -126,6 +139,9 @@ class OC_FileCache{
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
 		}
+		if($root=='/'){
+			$root='';
+		}
 		$oldPath=$root.$oldPath;
 		$newPath=$root.$newPath;
 		$newParent=self::getParentId($newPath);
@@ -142,6 +158,9 @@ class OC_FileCache{
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
 		}
+		if($root=='/'){
+			$root='';
+		}
 		$path=$root.$path;
 		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE path=?');
 		$query->execute(array($path));
@@ -157,6 +176,9 @@ class OC_FileCache{
 	public static function search($search,$returnData=false,$root=''){
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
+		}
+		if($root=='/'){
+			$root='';
 		}
 		$rootLen=strlen($root);
 		if(!$returnData){
@@ -193,8 +215,14 @@ class OC_FileCache{
 	 * - versioned
 	 */
 	public static function getFolderContent($path,$root=''){
+		if(self::isUpdated($path,$root)){
+			self::updateFolder($path,$root);
+		}
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
+		}
+		if($root=='/'){
+			$root='';
 		}
 		$path=$root.$path;
 		$parent=self::getFileId($path);
@@ -218,9 +246,11 @@ class OC_FileCache{
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
 		}
+		if($root=='/'){
+			$root='';
+		}
 		$path=$root.$path;
-		$inCache=self::getFileId($path)!=-1;
-		return $inCache;
+		return self::getFileId($path)!=-1;
 	}
 
 	/**
@@ -254,51 +284,96 @@ class OC_FileCache{
 
 	/**
 	 * called when changes are made to files
+	 * @param array $params
+	 * @param string root (optional)
 	 */
-	public static function fileSystemWatcherWrite($params){
-		$path=$params['path'];
-		$fullPath=OC_Filesystem::getRoot().$path;
-		$mimetype=OC_Filesystem::getMimeType($path);
-		if($mimetype=='httpd/unix-directory'){
-			$size=0;
+	public static function fileSystemWatcherWrite($params,$root=''){
+		if(!$root){
+			$view=OC_Filesystem::getView();
 		}else{
-			$id=self::getFileId($fullPath);
-			if($id!=-1){
-				$oldInfo=self::get($path);
-				$oldSize=$oldInfo['size'];
-			}else{
-				$oldSize=0;
-			}
-			$size=OC_Filesystem::filesize($path);
-			self::increaseSize(dirname($fullPath),$size-$oldSize);
+			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
-		$mtime=OC_Filesystem::filemtime($path);
-		$ctime=OC_Filesystem::filectime($path);
-		self::put($path,array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype));
+		$path=$params['path'];
+		$fullPath=$view->getRoot().$path;
+		$mimetype=$view->getMimeType($path);
+		//dont use self::get here, we don't want inifinte loops when a file has changed
+		$cachedSize=self::getCachedSize($path,$root);
+		if($mimetype=='httpd/unix-directory'){
+			if(self::inCache($path,$root)){
+				$size=0;
+				$parent=self::getFileId($fullPath);
+				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
+				$query->execute(array($parent));
+				while($row=$query->fetch()){
+					$size+=$row['size'];
+				}
+				$mtime=$view->filemtime($path);
+				$ctime=$view->filectime($path);
+				self::put($path,array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype));
+			}else{
+				self::scan($path,null,0,$root);
+			}
+		}else{
+			$size=self::scanFile($path,$root);
+		}
+		self::increaseSize(dirname($fullPath),$size-$cachedSize);
+	}
+
+	private static function getCachedSize($path,$root){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}else{
+			if($root=='/'){
+				$root='';
+			}
+		}
+		$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE path=?');
+		$query->execute(array($path));
+		if($row=$query->fetch()){
+			return $row['size'];
+		}else{//file not in cache
+			return 0;
+		}
 	}
 
 	/**
 	 * called when files are deleted
+	 * @param array $params
+	 * @param string root (optional)
 	 */
-	public static function fileSystemWatcherDelete($params){
+	public static function fileSystemWatcherDelete($params,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		if($root=='/'){
+			$root='';
+		}
 		$path=$params['path'];
-		$fullPath=OC_Filesystem::getRoot().$path;
+		$fullPath=$root.$path;
 		if(self::getFileId($fullPath)==-1){
 			return;
 		}
-		$size=OC_Filesystem::filesize($path);
+		$size=self::getCachedSize($path,$root);
 		self::increaseSize(dirname($fullPath),-$size);
 		self::delete($path);
 	}
 
 	/**
 	 * called when files are deleted
+	 * @param array $params
+	 * @param string root (optional)
 	 */
-	public static function fileSystemWatcherRename($params){
+	public static function fileSystemWatcherRename($params,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		if($root=='/'){
+			$root='';
+		}
 		$oldPath=$params['oldpath'];
 		$newPath=$params['newpath'];
-		$fullOldPath=OC_Filesystem::getRoot().$oldPath;
-		$fullNewPath=OC_Filesystem::getRoot().$newPath;
+		$fullOldPath=$root.$oldPath;
+		$fullNewPath=$root.$newPath;
 		if(($id=self::getFileId($fullOldPath))!=-1){
 			$oldInfo=self::get($fullOldPath);
 			$oldSize=$oldInfo['size'];
@@ -317,7 +392,8 @@ class OC_FileCache{
 	 * @param int $sizeDiff
 	 */
 	private static function increaseSize($path,$sizeDiff){
-		while(($id=self::getFileId($path))!=-1){
+		if($sizeDiff==0) return;
+		while(($id=self::getFileId($path))!=-1){//walk up the filetree increasing the size of all parent folders
 			$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET size=size+? WHERE id=?');
 			$query->execute(array($sizeDiff,$id));
 			$path=dirname($path);
@@ -327,46 +403,59 @@ class OC_FileCache{
 	/**
 	 * recursively scan the filesystem and fill the cache
 	 * @param string $path
-	 * @param bool $onlyChilds
 	 * @param OC_EventSource $enventSource (optional)
 	 * @param int count (optional)
-	 * @param string root (optional)
+	 * @param string root (optionak)
 	 */
-	public static function scan($path,$onlyChilds=false,$eventSource=false,&$count=0,$root=''){
+	public static function scan($path,$eventSource=false,&$count=0,$root=''){
 		if(!$root){
-			$root=OC_Filesystem::getRoot();
+			$view=OC_Filesystem::getView();
+		}else{
+			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
-		$dh=OC_Filesystem::opendir($path);
-		$stat=OC_Filesystem::stat($path);
-		$mimetype=OC_Filesystem::getMimeType($path);
-		$stat['mimetype']=$mimetype;
-		if($path=='/'){
-			$path='';
-		}
-		self::put($path,$stat);
-		$fullPath=$root.$path;
+		self::scanFile($path,$root);
+		$dh=$view->opendir($path);
 		$totalSize=0;
 		if($dh){
 			while (($filename = readdir($dh)) !== false) {
 				if($filename != '.' and $filename != '..'){
 					$file=$path.'/'.$filename;
-					if(OC_Filesystem::is_dir($file)){
+					if($view->is_dir($file)){
 						if($eventSource){
 							$eventSource->send('scanning',array('file'=>$file,'count'=>$count));
 						}
-						self::scan($file,true,$eventSource,$count);
+						self::scan($file,$eventSource,$count,$root);
 					}else{
-						$stat=OC_Filesystem::stat($file);
-						$mimetype=OC_Filesystem::getMimeType($file);
-						$stat['mimetype']=$mimetype;
-						self::put($file,$stat);
+						$totalSize+=self::scanFile($file,$root);
 						$count++;
-						$totalSize+=$stat['size'];
 					}
 				}
 			}
 		}
-		self::increaseSize($fullPath,$totalSize);
+		self::increaseSize($view->getRoot().$path,$totalSize);
+	}
+
+	/**
+	 * scan a single file
+	 * @param string path
+	 * @param string root (optional)
+	 * @return int size of the scanned file
+	 */
+	public static function scanFile($path,$root=''){
+		if(!$root){
+			$view=OC_Filesystem::getView();
+		}else{
+			$view=new OC_FilesystemView(($root=='/')?'':$root);
+		}
+		if(!$view->is_readable($path)) return; //cant read, nothing we can do
+		$stat=$view->stat($path);
+		$mimetype=$view->getMimeType($path);
+		$stat['mimetype']=$mimetype;
+		if($path=='/'){
+			$path='';
+		}
+		self::put($path,$stat,$root);
+		return $stat['size'];
 	}
 
 	/**
@@ -395,9 +484,87 @@ class OC_FileCache{
 		}
 		return $names;
 	}
+
+	/**
+	 * check if a file or folder is updated outside owncloud
+	 * @param string path
+	 * @param string root (optional)
+	 * @return bool
+	 */
+	public static function isUpdated($path,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+			$view=OC_Filesystem::getView();
+		}else{
+			if($root=='/'){
+				$root='';
+			}
+			$view=new OC_FilesystemView($root);
+		}
+		$mtime=$view->filemtime($path);
+		$isDir=$view->is_dir($path);
+		$path=$root.$path;
+		$query=OC_DB::prepare('SELECT mtime FROM *PREFIX*fscache WHERE path=?');
+		$query->execute(array($path));
+		if($row=$query->fetch()){
+			$cachedMTime=$row['mtime'];
+			return ($mtime>$cachedMTime);
+		}else{//file not in cache, so it has to be updated
+			return !($isDir);//new folders are handeled sperate
+		}
+	}
+
+	/**
+	 * update the cache according to changes in the folder
+	 * @param string path
+	 * @param string root (optional)
+	 */
+	private static function updateFolder($path,$root=''){
+		if(!$root){
+			$view=OC_Filesystem::getView();
+		}else{
+			$view=new OC_FilesystemView(($root=='/')?'':$root);
+		}
+		$dh=$view->opendir($path);
+		if($dh){//check for changed/new files
+			while (($filename = readdir($dh)) !== false) {
+				if($filename != '.' and $filename != '..'){
+					$file=$path.'/'.$filename;
+					if(self::isUpdated($file,$root)){
+						if(!$root){//filesystem hooks are only valid for the default root
+							OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$file));
+						}else{
+							self::fileSystemWatcherWrite(array('path'=>$file),$root);
+						}
+					}
+				}
+			}
+		}
+
+		//check for removed files, not using getFolderContent to prevent loops
+		$parent=self::getFileId($view->getRoot().$path);
+		$query=OC_DB::prepare('SELECT name FROM *PREFIX*fscache WHERE parent=?');
+		$result=$query->execute(array($parent));
+		while($row=$result->fetch()){
+			$file=$path.'/'.$row['name'];
+			if(!$view->file_exists($file)){
+				if(!$root){//filesystem hooks are only valid for the default root
+					OC_Hook::emit('OC_Filesystem','post_delete',array('path'=>$file));
+				}else{
+					self::fileSystemWatcherDelete(array('path'=>$file),$root);
+				}
+			}
+		}
+		//update the folder last, so we can calculate the size correctly
+		if(!$root){//filesystem hooks are only valid for the default root
+			OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$path));
+		}else{
+			self::fileSystemWatcherWrite(array('path'=>$path),$root);
+		}
+	}
 }
 
 //watch for changes and try to keep the cache up to date
 OC_Hook::connect('OC_Filesystem','post_write','OC_FileCache','fileSystemWatcherWrite');
-OC_Hook::connect('OC_Filesystem','delete','OC_FileCache','fileSystemWatcherDelete');
-OC_Hook::connect('OC_Filesystem','rename','OC_FileCache','fileSystemWatcherRename');
+OC_Hook::connect('OC_Filesystem','post_delete','OC_FileCache','fileSystemWatcherDelete');
+OC_Hook::connect('OC_Filesystem','post_rename','OC_FileCache','fileSystemWatcherRename');

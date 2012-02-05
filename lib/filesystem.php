@@ -203,6 +203,14 @@ class OC_Filesystem{
 		self::$defaultInstance=new OC_FilesystemView($root);
 		self::$loaded=true;
 	}
+
+	/**
+	 * get the default filesystem view
+	 * @return OC_FilesystemView
+	 */
+	static public function getView(){
+		return self::$defaultInstance;
+	}
 	
 	/**
 	 * tear down the filesystem, removing all storage providers
