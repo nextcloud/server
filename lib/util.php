@@ -8,6 +8,7 @@ class OC_Util {
 	public static $scripts=array();
 	public static $styles=array();
 	public static $headers=array();
+	private static $rootMounted=false;
 	private static $fsSetup=false;
 
 	// Can be set up
@@ -36,7 +37,10 @@ class OC_Util {
 		}
 
 		//first set up the local "root" storage
-		OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
+		if(!self::$rootMounted){
+			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
+			self::$rootMounted=true;
+		}
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
