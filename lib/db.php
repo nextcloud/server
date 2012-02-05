@@ -486,7 +486,7 @@ class OC_DB {
 	 */
 	public static function beginTransaction(){
 		self::connect();
-		if (self::$backend=self::BACKEND_MDB2 && !self::$connection->supports('transactions')) {
+		if (self::$backend==self::BACKEND_MDB2 && !self::$connection->supports('transactions')) {
 			return false;
 		}
 		self::$connection->beginTransaction();
