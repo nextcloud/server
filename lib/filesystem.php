@@ -333,8 +333,8 @@ class OC_Filesystem{
 	static public function is_readable($path){
 		return self::$defaultInstance->is_readable($path);
 	}
-	static public function is_writeable($path){
-		return self::$defaultInstance->is_writeable($path);
+	static public function is_writable($path){
+		return self::$defaultInstance->is_writable($path);
 	}
 	static public function file_exists($path){
 		return self::$defaultInstance->file_exists($path);

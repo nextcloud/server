@@ -259,7 +259,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		return true;
 	}
 	
-	public function is_writeable($path) {
+	public function is_writable($path) {
 		if($path == "" || $path == "/"){
 			return false;
 		}elseif (OC_Share::getPermissions($this->datadir.$path) & OC_Share::WRITE) {
@@ -340,7 +340,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function file_put_contents($path, $data) {
-		if ($this->is_writeable($path)) {
+		if ($this->is_writable($path)) {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
@@ -384,7 +384,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			if ($root1 !== $root2) {
 				return false;
 			// Check if both paths have write permission
-			} else if ($this->is_writeable($path1) && $this->is_writeable($path2)) {
+			} else if ($this->is_writable($path1) && $this->is_writable($path2)) {
 				$oldSource = $this->getSource($path1);
 				$newSource = $folders['source'].substr($newTarget, strlen($folders['target']));
 				if ($oldSource) {
@@ -414,7 +414,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if ($path2 == "" || $path2 == "/") {
 			// TODO Construct new shared item or should this not be allowed?
 		} else {
-			if ($this->is_writeable($path2)) {
+			if ($this->is_writable($path2)) {
 				$tmpFile = $this->toTmpFile($path1);
 				$result = $this->fromTmpFile($tmpFile, $path2);
 				if ($result) {
@@ -444,7 +444,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function fromTmpFile($tmpFile, $path) {
-		if ($this->is_writeable($path)) {
+		if ($this->is_writable($path)) {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);

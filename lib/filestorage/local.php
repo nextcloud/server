@@ -50,7 +50,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function is_readable($path){
 		return is_readable($this->datadir.$path);
 	}
-	public function is_writeable($path){
+	public function is_writable($path){
 		return is_writable($this->datadir.$path);
 	}
 	public function file_exists($path){

@@ -1,5 +1,5 @@
 		<?php foreach($_['files'] as $file):
-			$write = ($file['writeable']) ? 'true' : 'false';
+			$write = ($file['writable']) ? 'true' : 'false';
 			$simple_file_size = simple_file_size($file['size']);
 			$simple_size_color = intval(200-$file['size']/(1024*1024)*2); // the bigger the file, the darker the shade of grey; megabytes*2
 			if($simple_size_color<0) $simple_size_color = 0;

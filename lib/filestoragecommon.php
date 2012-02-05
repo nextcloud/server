@@ -35,7 +35,7 @@ class OC_Filestorage_Common extends OC_Filestorage {
 		return $stat['size'];
 	}
 	public function is_readable($path){}
-	public function is_writeable($path){}
+	public function is_writable($path){}
 	public function file_exists($path){}
 	public function readfile($path) {
 		$handle = $this->fopen($path, "r");

@@ -141,8 +141,8 @@ class OC_FilesystemView {
 	public function is_readable($path){
 		return $this->basicOperation('is_readable',$path);
 	}
-	public function is_writeable($path){
-		return $this->basicOperation('is_writeable',$path);
+	public function is_writable($path){
+		return $this->basicOperation('is_writable',$path);
 	}
 	public function file_exists($path){
 		if($path=='/'){
@@ -166,7 +166,7 @@ class OC_FilesystemView {
 		return $this->basicOperation('unlink',$path,array('delete'));
 	}
 	public function rename($path1,$path2){
-		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and $this->is_writeable($path1) and OC_Filesystem::isValidPath($path2)){
+		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and $this->is_writable($path1) and OC_Filesystem::isValidPath($path2)){
 			$run=true;
 			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_rename, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2, OC_Filesystem::signal_param_run => &$run));
 			if($run){
