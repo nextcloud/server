@@ -15,13 +15,19 @@ if(!$checkOnly){
 //create the file cache if necesary
 if($force or !OC_FileCache::inCache('')){
 	if(!$checkOnly){
-		OC_FileCache::scan('',false,$eventSource);
+		OC_DB::beginTransaction();
+		OC_FileCache::scan('',$eventSource);
+		OC_DB::commit();
 		$eventSource->send('success',true);
 	}else{
 		OC_JSON::success(array('data'=>array('done'=>true)));
 		exit;
 	}
 }else{
+	if($checkOnly){
+		OC_JSON::success(array('data'=>array('done'=>false)));
+		exit;
+	}
 	if(isset($eventSource)){
 		$eventSource->send('success',false);
 	}else{
