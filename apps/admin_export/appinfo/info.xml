@@ -5,7 +5,7 @@
 	<description>Import/Export your owncloud data</description>
 	<version>0.1</version>
 	<licence>AGPL</licence>
-	<author>Thomas Schmidt</author>
+	<author>Thomas Schmidt and Tom Needham</author>
 	<require>2</require>
 	<default_enable/>
 </info>
