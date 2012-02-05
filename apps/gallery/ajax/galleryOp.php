@@ -54,9 +54,11 @@ function handleGalleryScanning() {
   OC_JSON::success(array('albums' => OC_Gallery_Scanner::scan('/')));
 }
 
-function handleFilescan() {
+function handleFilescan($cleanup) {
   OC_JSON::checkLoggedIn();
-  $pathlist = OC_Gallery_Scanner::find_paths('/');
+  if ($cleanup) OC_Gallery_Album::cleanup();
+  $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '').'/';
+  $pathlist = OC_Gallery_Scanner::find_paths($root);
   sort($pathlist);
   OC_JSON::success(array('paths' => $pathlist));
 }
@@ -72,6 +74,25 @@ function handlePartialCreate($path) {
   OC_JSON::success(array('album_details' => $albums));
 }
 
+function handleStoreSettings($root, $order) {
+  OC_JSON::checkLoggedIn();
+  if (!OC_Filesystem::file_exists($root)) {
+    OC_JSON::error(array('cause' => 'No such file or directory'));
+    return;
+  }
+  if (!OC_Filesystem::is_dir($root)) {
+    OC_JSON::error(array('cause' => $root . ' is not a directory'));
+    return;
+  }
+
+  $current_root = OC_Preferences::getValue(OC_User::getUser(),'gallery', 'root', '/');
+  $root = trim(rtrim($root, '/'));
+  $rescan = $current_root==$root?'no':'yes';
+  OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'root', $root);
+  OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'order', $order);
+  OC_JSON::success(array('rescan' => $rescan));
+}
+
 if ($_GET['operation']) {
   switch($_GET['operation']) {
   case 'rename':
@@ -83,16 +104,19 @@ if ($_GET['operation']) {
 	  OC_JSON::success();
     break;
   case 'get_covers':
-    handleGetThumbnails($_GET['albumname']);
+    handleGetThumbnails(urldecode($_GET['albumname']));
     break;
   case 'scan':
     handleGalleryScanning();
     break;
   case 'filescan':
-    handleFilescan();
+    handleFilescan($_GET['cleanup']);
     break;
   case 'partial_create':
-    handlePartialCreate($_GET['path']);
+    handlePartialCreate(urldecode($_GET['path']));
+    break;
+  case 'store_settings':
+    handleStoreSettings($_GET['root'], $_GET['order']);
     break;
   default:
     OC_JSON::error(array('cause' => 'Unknown operation'));
