@@ -44,19 +44,20 @@ class OC_Crypt {
 	}
 
 	public static function init($login,$password) {
-		if(OC_User::isLoggedIn()){
-			$view=new OC_FilesystemView('/'.$login);
-			if(!$view->file_exists('/encryption.key')){// does key exist?
-				OC_Crypt::createkey($password);
-			}
-			$key=$view->file_get_contents('/encryption.key');
-			$_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
+		$view=new OC_FilesystemView('/'.$login);
+		OC_FileProxy::$enabled=false;
+		if(!$view->file_exists('/encryption.key')){// does key exist?
+			OC_Crypt::createkey($login,$password);
 		}
+		$key=$view->file_get_contents('/encryption.key');
+		OC_FileProxy::$enabled=true;
+		$_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
 	}
 
 	/**
 	 * get the blowfish encryption handeler for a key
 	 * @param string $key (optional)
+	 * @return Crypt_Blowfish
 	 *
 	 * if the key is left out, the default handeler will be used
 	 */
@@ -74,21 +75,19 @@ class OC_Crypt {
 		}
 	}
 
-	public static function createkey($passcode) {
-		if(OC_User::isLoggedIn()){
-			// generate a random key
-			$key=mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999);
+	public static function createkey($username,$passcode) {
+		// generate a random key
+		$key=mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999);
 
-			// encrypt the key with the passcode of the user
-			$enckey=OC_Crypt::encrypt($key,$passcode);
+		// encrypt the key with the passcode of the user
+		$enckey=OC_Crypt::encrypt($key,$passcode);
 
-			// Write the file
-			$username=OC_USER::getUser();
-			OC_FileProxy::$enabled=false;
-			$view=new OC_FilesystemView('/'.$username);
-			$view->file_put_contents('/encryption.key',$enckey);
-			OC_FileProxy::$enabled=true;
-		}
+		// Write the file
+		$proxyEnabled=OC_FileProxy::$enabled;
+		OC_FileProxy::$enabled=false;
+		$view=new OC_FilesystemView('/'.$username);
+		$view->file_put_contents('/encryption.key',$enckey);
+		OC_FileProxy::$enabled=$proxyEnabled;
 	}
 
 	public static function changekeypasscode($oldPassword, $newPassword) {
@@ -133,7 +132,7 @@ class OC_Crypt {
 	*/
 	public static function decrypt( $content, $key='') {
 		$bf = self::getBlowfish($key);
-		return($bf->encrypt($contents));
+		return($bf->decrypt($content));
 	}
 
 	/**

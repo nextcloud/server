@@ -303,11 +303,13 @@ class OC_FilesystemView {
 		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and OC_Filesystem::isValidPath($path) and $storage=$this->getStorage($path)){
 			$interalPath=$this->getInternalPath($path);
 			$run=true;
-			foreach($hooks as $hook){
-				if($hook!='read'){
-					OC_Hook::emit( OC_Filesystem::CLASSNAME, $hook, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
-				}else{
-					OC_Hook::emit( OC_Filesystem::CLASSNAME, $hook, array( OC_Filesystem::signal_param_path => $path));
+			if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()){
+				foreach($hooks as $hook){
+					if($hook!='read'){
+						OC_Hook::emit( OC_Filesystem::CLASSNAME, $hook, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
+					}else{
+						OC_Hook::emit( OC_Filesystem::CLASSNAME, $hook, array( OC_Filesystem::signal_param_path => $path));
+					}
 				}
 			}
 			if($run){
@@ -317,10 +319,12 @@ class OC_FilesystemView {
 					$result=$storage->$operation($interalPath);
 				}
 				$result=OC_FileProxy::runPostProxies($operation,$path,$result);
-				if($operation!='fopen'){//no post hooks for fopen, the file stream is still open
-					foreach($hooks as $hook){
-						if($hook!='read'){
-							OC_Hook::emit( OC_Filesystem::CLASSNAME, 'post_'.$hook, array( OC_Filesystem::signal_param_path => $path));
+				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()){
+					if($operation!='fopen'){//no post hooks for fopen, the file stream is still open
+						foreach($hooks as $hook){
+							if($hook!='read'){
+								OC_Hook::emit( OC_Filesystem::CLASSNAME, 'post_'.$hook, array( OC_Filesystem::signal_param_path => $path));
+							}
 						}
 					}
 				}
