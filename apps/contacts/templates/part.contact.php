@@ -1,21 +1,6 @@
 <?php
 $l=new OC_L10N('contacts');
 $id = isset($_['id']) ? $_['id'] : '';
-$card = array();
-$card['id'] = $id;
-$card['FN'] = (array_key_exists('FN',$_['details'])) ? $_['details']['FN'][0] : null;
-$card['N'] = (array_key_exists('N',$_['details'])) ? $_['details']['N'][0] : array('', '', '', '', '');
-$card['ORG'] = (array_key_exists('ORG',$_['details'])) ? $_['details']['ORG'][0] : null;
-$card['PHOTO'] = (array_key_exists('PHOTO',$_['details'])) ? $_['details']['PHOTO'][0] : null;
-$card['BDAY'] = (array_key_exists('BDAY',$_['details'])) ? $_['details']['BDAY'][0] : null;
-if($card['BDAY']) {
-	$bday = new DateTime($card['BDAY']['value']);
-	$card['BDAY']['value'] = $bday->format('d-m-Y');
-}
-$card['NICKNAME'] = (array_key_exists('NICKNAME',$_['details'])) ? $_['details']['NICKNAME'][0] : null;
-$card['EMAIL'] = (array_key_exists('EMAIL',$_['details'])) ? $_['details']['EMAIL'] : array();
-$card['TEL'] = (array_key_exists('TEL',$_['details'])) ? $_['details']['TEL'] : array();
-$card['ADR'] = (array_key_exists('ADR',$_['details'])) ? $_['details']['ADR'] : array();
 ?>
 <div id="card">
 	<div id="actionbar">
@@ -35,7 +20,7 @@ $card['ADR'] = (array_key_exists('ADR',$_['details'])) ? $_['details']['ADR'] : 
 
 	<div class="contactsection">
 
-	<form <?php echo (is_null($card['PHOTO'])?'style="display:none;"':''); ?> id="file_upload_form" action="ajax/uploadphoto.php" method="post" enctype="multipart/form-data" target="file_upload_target">
+	<form style="display:none;" id="file_upload_form" action="ajax/uploadphoto.php" method="post" enctype="multipart/form-data" target="file_upload_target">
 	<fieldset id="photo" class="formfloat">
 		<div id="contacts_details_photo_wrapper" title="<?php echo $l->t('Click or drop to upload picture'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 		<!-- img style="padding: 1em;" id="contacts_details_photo" alt="Profile picture"  src="photo.php?id=<?php echo $_['id']; ?>" / -->
@@ -80,7 +65,7 @@ $card['ADR'] = (array_key_exists('ADR',$_['details'])) ? $_['details']['ADR'] : 
 	<form id="contact_communication" method="post" style="display: none;">
 	<div class="contactsection">
 		<!-- email addresses -->
-		<div id="emails" <?php echo (count($card['EMAIL'])>0?'':'style="display:none;"'); ?>>
+		<div id="emails" style="display:none;">
 		<fieldset class="contactpart">
 		<legend><?php echo $l->t('Email'); ?></legend>
 			<ul id="emaillist" class="propertylist">
@@ -100,7 +85,7 @@ $card['ADR'] = (array_key_exists('ADR',$_['details'])) ? $_['details']['ADR'] : 
 		</div> <!-- email addresses-->
 
 		<!-- Phone numbers -->
-		<div id="phones" <?php echo (count($card['TEL'])>0?'':'style="display:none;"'); ?>>
+		<div id="phones" style="display:none;">
 		<fieldset class="contactpart">
 		<legend><?php echo $l->t('Phone'); ?></legend>
 			<ul id="phonelist" class="propertylist">
@@ -126,7 +111,7 @@ $card['ADR'] = (array_key_exists('ADR',$_['details'])) ? $_['details']['ADR'] : 
 		</div> <!-- Phone numbers -->
 
 		<!-- Addresses -->
-		<div id="addresses" <?php echo (count($card['ADR'])>0?'':'style="display:none;"'); ?>>
+		<div id="addresses" style="display:none;">
 		<fieldset class="contactpart">
 		<legend><?php echo $l->t('Address'); ?></legend>
 		<div id="addressdisplay">
@@ -178,11 +163,6 @@ $card['ADR'] = (array_key_exists('ADR',$_['details'])) ? $_['details']['ADR'] : 
 	</div> 
 	</form>
 </div>
-<div class="delimiter"></div>
-<pre>
-<?php /*print_r($card);*/ ?>
-</pre>
-	<!-- div class="updatebar"><input type="button" value="Update" /></div -->
 <div id="edit_photo_dialog" title="Edit photo">
 		<div id="edit_photo_dialog_img"></div>
 </div>

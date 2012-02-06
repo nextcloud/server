@@ -177,7 +177,7 @@ class OC_Contacts_VCard{
 			} else {
 				$fn = 'Unknown';
 			}
-			$card->addProperty('EMAIL', $email);
+			$card->addProperty('FN', $fn);
 			$data = $card->serialize();
 		}
 
