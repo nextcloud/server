@@ -24,11 +24,11 @@
 require_once('../../../lib/base.php');
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('contacts','ajax/newcontact.php: '.$msg, OC_Log::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('contacts','ajax/newcontact.php: '.$msg, OC_Log::DEBUG);
 }
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.$element);
@@ -47,10 +47,14 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 $freeSpace=OC_Filesystem::free_space('/');
 $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
+$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 $tmpl = new OC_Template('contacts','part.contact');
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
+$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('addressbooks',$addressbooks);
 $tmpl->assign('id','');
 $page = $tmpl->fetchPage();

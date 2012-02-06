@@ -67,25 +67,34 @@ Contacts={
 		propertyTypeFor:function(obj) {
 			return $(obj).parents('.propertycontainer').first().data('element');
 		},
+		showHideContactInfo:function() {
+			var show = ($('#emaillist li[class*="propertycontainer"]').length > 0 || $('#phonelist li[class*="propertycontainer"]').length > 0 || $('#addressdisplay dl[class*="propertycontainer"]').length > 0);
+			console.log('showHideContactInfo: ' + show);
+			if(show) {
+				$('#contact_communication').show();
+			} else {
+				$('#contact_communication').hide();
+			}
+		},
 		checkListFor:function(obj) {
 			var type = $(obj).parents('.propertycontainer').first().data('element');
 			console.log('checkListFor: ' + type);
 			switch (type) {
 				case 'EMAIL':
 					console.log('emails: '+$('#emaillist>li').length);
-					if($('#emaillist>li').length == 1) {
+					if($('#emaillist li[class*="propertycontainer"]').length == 0) {
 						$('#emails').hide();
 					}
 					break;
 				case 'TEL':
 					console.log('phones: '+$('#phonelist>li').length);
-					if($('#phonelist>li').length == 1) {
+					if($('#phonelist li[class*="propertycontainer"]').length == 0) {
 						$('#phones').hide();
 					}
 					break;
 				case 'ADR':
 					console.log('addresses: '+$('#addressdisplay>dl').length);
-					if($('#addressdisplay>dl').length == 1) {
+					if($('#addressdisplay dl[class*="propertycontainer"]').length == 0) {
 						$('#addresses').hide();
 					}
 					break;
@@ -317,7 +326,7 @@ Contacts={
 				}
 			},
 			populateNameFields:function() {
-				this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = ''
+				this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				var full = '';
 				var narray = undefined;
 				//console.log('splitting: ' + this.data.N[0]['value']);
@@ -366,6 +375,8 @@ Contacts={
 			editNew:function(){ // add a new contact
 				//Contacts.UI.notImplemented();
 				//return false;
+				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
+
 				
 				$.getJSON('ajax/newcontact.php',{},function(jsondata){
 					if(jsondata.status == 'success'){
@@ -394,7 +405,31 @@ Contacts={
 					 */
 					if (jsondata.status == 'success'){
 						$('#rightcontent').data('id',jsondata.data.id);
-						id = jsondata.data.id;
+						var id = jsondata.data.id;
+						$.getJSON('ajax/contactdetails.php',{'id':id},function(jsondata){
+							if(jsondata.status == 'success'){
+								Contacts.UI.loadHandlers();
+								Contacts.UI.Card.loadContact(jsondata.data);
+								$('#leftcontent .active').removeClass('active');
+								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
+								var added = false;
+								$('#leftcontent ul li').each(function(){
+									if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
+										$(this).before(item).fadeIn('fast');
+										added = true;
+										return false;
+									}
+								});
+								if(!added) {
+									$('#leftcontent ul').append(item);
+								}
+								
+							}
+							else{
+								Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+								//alert(jsondata.data.message);
+							}
+						});
 						$('#contact_identity').show();
 						$('#actionbar').show();
 						// TODO: Add to contacts list.
@@ -466,7 +501,8 @@ Contacts={
 				console.log('addProperty:' + type);
 				switch (type) {
 					case 'PHOTO':
-						$('#contacts_propertymenu a[data-type="PHOTO"]').parent().hide();
+						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
+						this.loadPhoto();
 						$('#file_upload_form').show();
 						break;
 					case 'EMAIL':
@@ -475,6 +511,7 @@ Contacts={
 							$('#emails').show();
 						}
 						Contacts.UI.Card.addMail();
+						Contacts.UI.showHideContactInfo();
 						break;
 					case 'TEL':
 						//console.log('phones: '+$('#phonelist>li').length);
@@ -482,6 +519,7 @@ Contacts={
 							$('#phones').show();
 						}
 						Contacts.UI.Card.addPhone();
+						Contacts.UI.showHideContactInfo();
 						break;
 					case 'ADR':
 						//console.log('addresses: '+$('#addressdisplay>dl').length);
@@ -489,6 +527,7 @@ Contacts={
 							$('#addresses').show();
 						}
 						Contacts.UI.Card.editAddress('new', true);
+						Contacts.UI.showHideContactInfo();
 						break;
 					case 'NICKNAME':
 					case 'ORG':
@@ -509,6 +548,7 @@ Contacts={
 						if(jsondata.status == 'success'){
 							if(type == 'list') {
 								Contacts.UI.propertyContainerFor(obj).remove();
+								Contacts.UI.showHideContactInfo();
 								Contacts.UI.checkListFor(obj);
 							} else if(type == 'single') {
 								var proptype = Contacts.UI.propertyTypeFor(obj);
@@ -529,6 +569,7 @@ Contacts={
 				} else { // Property hasn't been saved so there's nothing to delete.
 					if(type == 'list') {
 						Contacts.UI.propertyContainerFor(obj).remove();
+						Contacts.UI.showHideContactInfo();
 						Contacts.UI.checkListFor(obj);
 					} else if(type == 'single') {
 						var proptype = Contacts.UI.propertyTypeFor(obj);
@@ -542,7 +583,8 @@ Contacts={
 				}
 			},
 			editName:function(){
-				console.log('editName, id: ' + this.id);
+				console.log('editName, id: ' + (this.id == ''));
+				var isnew = (this.id == '');
 				//console.log('editName');
 				/* Initialize the name edit dialog */
 				if($('#edit_name_dialog').dialog('isOpen') == true){
@@ -550,9 +592,9 @@ Contacts={
 				}else{ // TODO: If id=='' call addcontact.php (or whatever name) instead and reload view with id.
 					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'editname.php')+'?id='+this.id, function(){
 						$('#edit_name_dialog' ).dialog({
-								modal: (this.id == '' && true || false),
-								closeOnEscape: (this.id == '' && false || true),
-								title:  (this.id == '' && t('contacts', 'Add contact') || t('contacts', 'Edit name')),
+								modal: (isnew && true || false),
+								closeOnEscape: (isnew == '' && false || true),
+								title:  (isnew && t('contacts', 'Add contact') || t('contacts', 'Edit name')),
 								height: 'auto', width: 'auto',
 								buttons: {
 									'Ok':function() { 
@@ -576,7 +618,7 @@ Contacts={
 			saveName:function(dlg){
 				console.log('saveName, id: ' + this.id);
 				// TODO: Check if new, get address book id and call Contacts.UI.Card.add()
-				var n = new Array($(dlg).find('#fam').val(),$(dlg).find('#giv').val(),$(dlg).find('#add').val(),$(dlg).find('#pre').val(),$(dlg).find('#suf').val());
+				var n = new Array($(dlg).find('#fam').val().strip_tags(),$(dlg).find('#giv').val().strip_tags(),$(dlg).find('#add').val().strip_tags(),$(dlg).find('#pre').val().strip_tags(),$(dlg).find('#suf').val().strip_tags());
 				this.famname = n[0];
 				this.givname = n[1];
 				this.addname = n[2];
@@ -602,7 +644,7 @@ Contacts={
 				$('#fn').val(0);
 				if(this.id == '') {
 					var aid = $(dlg).find('#aid').val();
-					Contacts.UI.Card.add(n, $('#short').text(), aid);
+					Contacts.UI.Card.add(n.join(';'), $('#short').text(), aid);
 				} else {
 					Contacts.UI.Card.saveProperty($('#n'));
 				}
@@ -704,6 +746,7 @@ Contacts={
 										if(isnew) {
 											container.remove();
 										}
+										Contacts.UI.showHideContactInfo();
 									}
 								},
 								close : function(event, ui) {
@@ -712,6 +755,7 @@ Contacts={
 									if(isnew) {
 										container.remove();
 									}
+									Contacts.UI.showHideContactInfo();
 								}/*,
 								open : function(event, ui) {
 									// load 'ADR' property - maybe :-P
@@ -1119,7 +1163,7 @@ $(document).ready(function(){
 	});
 
 	/**
-	 * Add and insert a new contact into the list.
+	 * Add and insert a new contact into the list. NOTE: Deprecated
 	 */
 	$('#contacts_addcardform input[type="submit"]').live('click',function(){
 		$.post('ajax/addcontact.php',$('#contact_identity').serialize(),function(jsondata){

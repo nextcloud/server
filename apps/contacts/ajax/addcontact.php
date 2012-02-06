@@ -24,11 +24,11 @@
 require_once('../../../lib/base.php');
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('contacts','ajax/addcontact.php: '.$msg, OC_Log::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('contacts','ajax/addcontact.php: '.$msg, OC_Log::DEBUG);
 }
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.$element);
@@ -44,11 +44,13 @@ $addressbook = OC_Contacts_App::getAddressbook( $aid );
 
 $fn = trim($_POST['fn']);
 $n = trim($_POST['n']);
+debug('N: '.$n);
+debug('FN: '.$fn);
 
 $vcard = new OC_VObject('VCARD');
 $vcard->setUID();
-$vcard->setString('N',$n);
 $vcard->setString('FN',$fn);
+$vcard->setString('N',$n);
 
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 if(!$id) {
