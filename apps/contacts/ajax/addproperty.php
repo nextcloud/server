@@ -71,6 +71,28 @@ if(is_array($value)) {
 	$value = strip_tags($value);
 }
 
+switch($name) {
+	case 'BDAY':
+		$date = New DateTime($value);
+		$value = $date->format(DateTime::ATOM);
+	case 'FN':
+		if(!$value) {
+			// create a method thats returns an alternative for FN.
+			//$value = getOtherValue();
+		}
+	case 'N':
+	case 'ORG':
+	case 'NICKNAME':
+		break;
+	case 'EMAIL':
+		$value = strtolower($value);
+		break;
+	case 'TEL':
+	case 'ADR': // should I delete the property if empty or throw an error?
+		break;
+}
+
+
 $property = $vcard->addProperty($name, $value); //, $parameters);
 
 $line = count($vcard->children) - 1;
