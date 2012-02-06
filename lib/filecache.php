@@ -298,9 +298,9 @@ class OC_FileCache{
 		$mimetype=$view->getMimeType($path);
 		//dont use self::get here, we don't want inifinte loops when a file has changed
 		$cachedSize=self::getCachedSize($path,$root);
+		$size=0;
 		if($mimetype=='httpd/unix-directory'){
 			if(self::inCache($path,$root)){
-				$size=0;
 				$parent=self::getFileId($fullPath);
 				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
 				$query->execute(array($parent));
@@ -312,7 +312,8 @@ class OC_FileCache{
 				$writable=$view->is_writable($path);
 				self::put($path,array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype,'writable'=>$writable));
 			}else{
-				self::scan($path,null,0,$root);
+				$count=0;
+				self::scan($path,null,$count,$root);
 			}
 		}else{
 			$size=self::scanFile($path,$root);
