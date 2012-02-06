@@ -253,6 +253,7 @@ Contacts={
 				return false;
 			},
 			loadContact:function(jsondata){
+				$('#contact_communication').hide();
 				this.data = jsondata;
 				this.id = this.data.id;
 				console.log('loaded: ' + this.data.FN[0]['value']);
@@ -660,6 +661,7 @@ Contacts={
 				}
 				if($('#addressdisplay dl').length > 1) {
 					$('#addresses').show();
+					$('#contact_communication').show();
 				}
 				Contacts.UI.loadListHandlers();
 				return false;
@@ -858,6 +860,7 @@ Contacts={
 				}
 				if($('#emaillist li').length > 1) {
 					$('#emails').show();
+					$('#contact_communication').show();
 				}
 
 				$('#emaillist li:last-child').find('input[type="text"]').focus();
@@ -919,6 +922,7 @@ Contacts={
 				}
 				if($('#phonelist li').length > 1) {
 					$('#phones').show();
+					$('#contact_communication').show();
 				}
 				return false;
 			},
