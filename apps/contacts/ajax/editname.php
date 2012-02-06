@@ -17,13 +17,10 @@ function bailOut($msg) {
 function debug($msg) {
 	OC_Log::write('contacts','ajax/editname.php: '.$msg, OC_Log::DEBUG);
 }
-foreach ($_GET as $key=>$element) {
-	debug('_GET: '.$key.'=>'.$element);
-}
 
 $tmpl = new OC_TEMPLATE("contacts", "part.edit_name_dialog");
 
-$id = $_GET['id'];
+$id = isset($_GET['id'])?$_GET['id']:'';
 if($id) {
 	$vcard = OC_Contacts_App::getContactVCard($id);
 	$name = array('', '', '', '', '');

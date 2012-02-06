@@ -67,6 +67,7 @@ Contacts={
 		propertyTypeFor:function(obj) {
 			return $(obj).parents('.propertycontainer').first().data('element');
 		},
+<<<<<<< HEAD
 		showHideContactInfo:function() {
 			var show = ($('#emaillist li[class*="propertycontainer"]').length > 0 || $('#phonelist li[class*="propertycontainer"]').length > 0 || $('#addressdisplay dl[class*="propertycontainer"]').length > 0);
 			console.log('showHideContactInfo: ' + show);
@@ -76,25 +77,39 @@ Contacts={
 				$('#contact_communication').hide();
 			}
 		},
+=======
+>>>>>>> Added files for new contact editor/viewer.
 		checkListFor:function(obj) {
 			var type = $(obj).parents('.propertycontainer').first().data('element');
 			console.log('checkListFor: ' + type);
 			switch (type) {
 				case 'EMAIL':
 					console.log('emails: '+$('#emaillist>li').length);
+<<<<<<< HEAD
 					if($('#emaillist li[class*="propertycontainer"]').length == 0) {
+=======
+					if($('#emaillist>li').length == 1) {
+>>>>>>> Added files for new contact editor/viewer.
 						$('#emails').hide();
 					}
 					break;
 				case 'TEL':
 					console.log('phones: '+$('#phonelist>li').length);
+<<<<<<< HEAD
 					if($('#phonelist li[class*="propertycontainer"]').length == 0) {
+=======
+					if($('#phonelist>li').length == 1) {
+>>>>>>> Added files for new contact editor/viewer.
 						$('#phones').hide();
 					}
 					break;
 				case 'ADR':
 					console.log('addresses: '+$('#addressdisplay>dl').length);
+<<<<<<< HEAD
 					if($('#addressdisplay dl[class*="propertycontainer"]').length == 0) {
+=======
+					if($('#addressdisplay>dl').length == 1) {
+>>>>>>> Added files for new contact editor/viewer.
 						$('#addresses').hide();
 					}
 					break;
@@ -376,8 +391,6 @@ Contacts={
 				//Contacts.UI.notImplemented();
 				//return false;
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-
-				
 				$.getJSON('ajax/newcontact.php',{},function(jsondata){
 					if(jsondata.status == 'success'){
 						id = '';
@@ -583,9 +596,7 @@ Contacts={
 				}
 			},
 			editName:function(){
-				console.log('editName, id: ' + (this.id == ''));
 				var isnew = (this.id == '');
-				//console.log('editName');
 				/* Initialize the name edit dialog */
 				if($('#edit_name_dialog').dialog('isOpen') == true){
 					$('#edit_name_dialog').dialog('moveToTop');
@@ -1107,18 +1118,6 @@ $(document).ready(function(){
 	 */
 	$('#contacts_newcontact').click(function(){
 		Contacts.UI.Card.editNew();
-// 		$.getJSON('ajax/addcontact.php',{},function(jsondata){
-// 			if(jsondata.status == 'success'){
-// 				$('#rightcontent').data('id','');
-// 				$('#rightcontent').html(jsondata.data.page)
-// 					.find('select').chosen();
-// 			}
-// 			else{
-// 				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-// 				//alert(jsondata.data.message);
-// 			}
-// 		});
-// 		return false;
 	});
 	
 	/**
@@ -1139,19 +1138,6 @@ $(document).ready(function(){
 				//alert(jsondata.data.message);
 			}
 		});
-		// NOTE: Deprecated.
-// 		$.getJSON('ajax/getdetails.php',{'id':id, 'new':1},function(jsondata){
-// 			if(jsondata.status == 'success'){
-// 				$('#rightcontent').data('id',jsondata.data.id);
-// 				$('#rightcontent').html(jsondata.data.page);
-// 				$('#leftcontent li[data-id="'+jsondata.data.id+'"]').addClass('active');
-// 				//Contacts.UI.loadHandlers();
-// 			}
-// 			else{
-// 				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-// 				//alert(jsondata.data.message);
-// 			}
-// 		});
 		return false;
 	});
 
@@ -1162,36 +1148,6 @@ $(document).ready(function(){
 		Contacts.UI.Card.delete();
 	});
 
-	/**
-	 * Add and insert a new contact into the list. NOTE: Deprecated
-	 */
-	$('#contacts_addcardform input[type="submit"]').live('click',function(){
-		$.post('ajax/addcontact.php',$('#contact_identity').serialize(),function(jsondata){
-			if(jsondata.status == 'success'){
-				$('#rightcontent').data('id',jsondata.data.id);
-				$('#rightcontent').html(jsondata.data.page);
-				$('#leftcontent .active').removeClass('active');
-				var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+jsondata.data.name+'</a></li>';
-				var added = false;
-				$('#leftcontent ul li').each(function(){
-					if ($(this).text().toLowerCase() > jsondata.data.name.toLowerCase()) {
-						$(this).before(item).fadeIn('fast');
-						added = true;
-						return false;
-					}
-				});
-				if(!added) {
-					$('#leftcontent ul').append(item);
-				}
-			}
-			else{
-				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-				//alert(jsondata.data.message);
-			}
-		}, 'json');
-		return false;
-	});
-	
 	$('#contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 		if (isInView) { //NOTE: I've kept all conditions for future reference ;-)
 			// element is now visible in the viewport
