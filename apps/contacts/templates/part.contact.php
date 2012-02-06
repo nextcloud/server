@@ -77,7 +77,7 @@ $card['ADR'] = (array_key_exists('ADR',$_['details'])) ? $_['details']['ADR'] : 
 	</div>
 
 	<!-- div class="delimiter"></div -->
-	<form id="contact_communication" method="post">
+	<form id="contact_communication" method="post" style="display: none;">
 	<div class="contactsection">
 		<!-- email addresses -->
 		<div id="emails" <?php echo (count($card['EMAIL'])>0?'':'style="display:none;"'); ?>>
