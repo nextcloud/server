@@ -310,6 +310,8 @@ Contacts={
 								$('#contact_identity').find('#org_value').show();
 								break;
 						}
+					} else {
+						$('#contacts_propertymenu a[data-type="'+props[prop]+'"]').parent().show();
 					}
 				}
 			},

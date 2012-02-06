@@ -3,7 +3,7 @@
  * ownCloud - Image generator for contacts.
  *
  * @author Thomas Tanghus
- * @copyright 2011 Thomas Tanghus <thomas@tanghus.net>
+ * @copyright 2012 Thomas Tanghus <thomas@tanghus.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
