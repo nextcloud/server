@@ -21,18 +21,10 @@ $card['ADR'] = (array_key_exists('ADR',$_['details'])) ? $_['details']['ADR'] : 
 	<div id="actionbar">
 	<a id="contacts_propertymenu_button"></a>
 	<ul id="contacts_propertymenu">
-		<li <?php echo (!is_null($card['PHOTO'])?'style="display:none;"':''); ?>>
-			<a data-type="PHOTO"><?php echo $l->t('Profile picture'); ?></a>
-		</li>
-		<li <?php echo (!is_null($card['ORG'])?'style="display:none;"':''); ?>>
-			<a data-type="ORG"><?php echo $l->t('Organization'); ?></a>
-		</li>
-		<li <?php echo (!is_null($card['NICKNAME'])?'style="display:none;"':''); ?>>
-			<a data-type="NICKNAME"><?php echo $l->t('Nickname'); ?></a>
-		</li>
-		<li <?php echo (!is_null($card['BDAY'])?'style="display:none;"':''); ?>>
-			<a data-type="BDAY"><?php echo $l->t('Birthday'); ?></a>
-		</li>
+		<li><a data-type="PHOTO"><?php echo $l->t('Profile picture'); ?></a></li>
+		<li><a data-type="ORG"><?php echo $l->t('Organization'); ?></a></li>
+		<li><a data-type="NICKNAME"><?php echo $l->t('Nickname'); ?></a></li>
+		<li><a data-type="BDAY"><?php echo $l->t('Birthday'); ?></a></li>
 		<li><a data-type="TEL"><?php echo $l->t('Phone'); ?></a></li>
 		<li><a data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
 		<li><a data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
