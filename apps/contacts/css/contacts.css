@@ -16,7 +16,7 @@
 #contacts_propertymenu li:hover { background-color: #1d2d44; }
 #contacts_propertymenu li a:hover { color: #fff }
 #actionbar { height: 30px; width: 200px; position: fixed; right: 0px; top: 75px; margin: 0 0 0 0; padding: 0 0 0 0;}
-#card { /*max-width: 70em;*/ border: thin solid lightgray; display: block; }
+#card { /*max-width: 70em; border: thin solid lightgray; display: block;*/ }
 #firstrun { /*border: thin solid lightgray;*/ width: 80%; margin: 5em auto auto auto; text-align: center; font-weight:bold; font-size:1.5em;  color:#777;}
 #firstrun #selections { /*border: thin solid lightgray;*/ font-size:0.8em;  width: 100%; margin: 2em auto auto auto; clear: both; }
 
