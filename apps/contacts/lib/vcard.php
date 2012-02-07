@@ -119,7 +119,7 @@ class OC_Contacts_VCard{
 			$prodid = trim($card->getAsString('PRODID'));
 			if(!$prodid) {
 				$appinfo = $info=OC_App::getAppInfo('contacts');
-				$prodid = 'PRODID:-//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
+				$prodid = '//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
 				$card->setString('PRODID', $prodid);
 			}
 			// VCARD must have a version

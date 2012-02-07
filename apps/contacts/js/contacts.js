@@ -278,8 +278,6 @@ Contacts={
 				// Clear all elements
 				$('#ident .propertycontainer[class*="propertycontainer"]').each(function(){
 					if(props.indexOf($(this).data('element')) > -1) {
-// 						$('#contacts_propertymenu a[data-type="'+$(this).data('element')+'"]').parent().show();
-						//console.log($(this).html());
 						$(this).data('checksum', '');
 						$(this).find('input').val('');
 						$(this).hide();
@@ -287,33 +285,26 @@ Contacts={
 					}
 				});
 				for(var prop in props) {
-					//console.log('loadSingleProperties: ' + props[prop] + ': ' + this.data[props[prop]]);
 					if(this.data[props[prop]] != undefined) {
 						$('#contacts_propertymenu a[data-type="'+props[prop]+'"]').parent().hide();
 						var property = this.data[props[prop]][0];
 						var value = property['value'], checksum = property['checksum'];
-						//console.log('value: ' + property['value']);
-						//console.log('checksum: ' + property['checksum']);
 						switch(props[prop]) {
 							case 'BDAY':
 								var val = $.datepicker.parseDate('yy-mm-dd', value.substring(0, 10));
-								//console.log('Date: ' + val);
 								value = $.datepicker.formatDate('dd-mm-yy', val);
-								//console.log('Date: ' + value);
 								$('#contact_identity').find('#bday').val(value);
 								$('#contact_identity').find('#bday_value').data('checksum', checksum);
 								$('#contact_identity').find('#bday_label').show();
 								$('#contact_identity').find('#bday_value').show();
 								break;
 							case 'NICKNAME':
-								//console.log('NICKNAME: ' + value);
 								$('#contact_identity').find('#nickname').val(value);
 								$('#contact_identity').find('#nickname_value').data('checksum', checksum);
 								$('#contact_identity').find('#nickname_label').show();
 								$('#contact_identity').find('#nickname_value').show();
 								break;
 							case 'ORG':
-								//console.log('ORG: ' + value);
 								$('#contact_identity').find('#org').val(value);
 								$('#contact_identity').find('#org_value').data('checksum', checksum);
 								$('#contact_identity').find('#org_label').show();
@@ -329,9 +320,7 @@ Contacts={
 				this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				var full = '';
 				var narray = undefined;
-				//console.log('splitting: ' + this.data.N[0]['value']);
 				this.fn = this.data.FN[0]['value'];
-				//console.log('FN: ' + this.fn)
 				if(this.data.N == undefined) {
 					narray = [this.fn,'','','','']; // Checking for non-existing 'N' property :-P
 					full = this.fn;
@@ -339,7 +328,6 @@ Contacts={
 					narray = this.data.N[0]['value'];
 				}
 				this.famname = narray[0];
-				//console.log('famname: ' + this.famname)
 				this.givname = narray[1];
 				this.addname = narray[2];
 				this.honpre = narray[3];
@@ -359,7 +347,6 @@ Contacts={
 				if(this.honsuf.length > 0) {
 					this.fullname += ', ' + this.honsuf;
 				}
-				//console.log('fullname: ' + this.fullname)
 				$('#n').html(this.fullname);
 				$('.jecEditableOption').attr('title', 'Custom');
 				$('.jecEditableOption').text(this.fn);
@@ -383,7 +370,6 @@ Contacts={
 						id = '';
 						$('#rightcontent').data('id','');
 						$('#rightcontent').html(jsondata.data.page);
-						console.log('Trying to open name edit dialog');
 						Contacts.UI.Card.editName();
 					}
 					else{
@@ -393,16 +379,9 @@ Contacts={
 				});
 			},
 			add:function(n, fn, aid){ // add a new contact
-				//Contacts.UI.notImplemented();
-				//return false;
-				console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
+				//console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
 				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
 				  function(jsondata) {
-					/*
-					 * Arguments:
-					 * jsondata.status
-					 * jsondata.data.id
-					 */
 					if (jsondata.status == 'success'){
 						$('#rightcontent').data('id',jsondata.data.id);
 						var id = jsondata.data.id;
@@ -451,11 +430,8 @@ Contacts={
 					Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'This property has to be non-empty.'));
 					return false;
 				}
-				//Contacts.UI.loading(obj, false);
-				//return false;
 				container = $(obj).parents('.propertycontainer').first(); // get the parent holding the metadata.
 				Contacts.UI.loading(container, true);
-				//console.log('saveProperty. Container: ' + container.data('checksum'));
 				var checksum = container.data('checksum');
 				var name = container.data('element');
 				var q = container.find('input,select').serialize();
@@ -501,12 +477,11 @@ Contacts={
 				console.log('addProperty:' + type);
 				switch (type) {
 					case 'PHOTO':
-						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
 						this.loadPhoto();
 						$('#file_upload_form').show();
+						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
 						break;
 					case 'EMAIL':
-						//console.log('emails: '+$('#emaillist>li').length);
 						if($('#emaillist>li').length == 1) {
 							$('#emails').show();
 						}
@@ -514,7 +489,6 @@ Contacts={
 						Contacts.UI.showHideContactInfo();
 						break;
 					case 'TEL':
-						//console.log('phones: '+$('#phonelist>li').length);
 						if($('#phonelist>li').length == 1) {
 							$('#phones').show();
 						}
@@ -522,7 +496,6 @@ Contacts={
 						Contacts.UI.showHideContactInfo();
 						break;
 					case 'ADR':
-						//console.log('addresses: '+$('#addressdisplay>dl').length);
 						if($('#addressdisplay>dl').length == 1) {
 							$('#addresses').show();
 						}
@@ -541,9 +514,7 @@ Contacts={
 				//console.log('deleteProperty, id: ' + this.id);
 				Contacts.UI.loading(obj, true);
 				var checksum = Contacts.UI.checksumFor(obj);
-				//var checksum = $(obj).parent().data('checksum');
 				if(checksum != undefined) {
-					//alert('deleteProperty: ' + $(obj).val() + ' ' + checksum);
 					$.getJSON('ajax/deleteproperty.php',{'id': this.id, 'checksum': checksum },function(jsondata){
 						if(jsondata.status == 'success'){
 							if(type == 'list') {
@@ -583,10 +554,7 @@ Contacts={
 				}
 			},
 			editName:function(){
-				console.log('editName, id: ' + (this.id == ''));
 				var isnew = (this.id == '');
-				//console.log('editName');
-				/* Initialize the name edit dialog */
 				if($('#edit_name_dialog').dialog('isOpen') == true){
 					$('#edit_name_dialog').dialog('moveToTop');
 				}else{ // TODO: If id=='' call addcontact.php (or whatever name) instead and reload view with id.
@@ -604,7 +572,6 @@ Contacts={
 									'Cancel':function() { $(this).dialog('destroy').remove(); }
 								},
 								close : function(event, ui) {
-									//alert('close');
 									$(this).dialog('destroy').remove();
 									//return event;
 								}/*,
@@ -617,18 +584,13 @@ Contacts={
 			},
 			saveName:function(dlg){
 				console.log('saveName, id: ' + this.id);
-				// TODO: Check if new, get address book id and call Contacts.UI.Card.add()
 				var n = new Array($(dlg).find('#fam').val().strip_tags(),$(dlg).find('#giv').val().strip_tags(),$(dlg).find('#add').val().strip_tags(),$(dlg).find('#pre').val().strip_tags(),$(dlg).find('#suf').val().strip_tags());
 				this.famname = n[0];
 				this.givname = n[1];
 				this.addname = n[2];
 				this.honpre = n[3];
 				this.honsuf = n[4];
-				//alert('saveName: ' + n);
 				$('#n').val(n.join(';'));
-				/*$('#card > input').each(function(){
-						alert($(this).attr('id') + ' ' + $(this).val());
-				});*/
 				if(n[3].length > 0) {
 					this.fullname = n[3] + ' ';
 				}
@@ -677,25 +639,14 @@ Contacts={
 						adrtxt = adrtxt + '<li>' + adrarray[6].strip_tags() + '</li>';
 					}
 					$('#addressdisplay dl').last().find('.addresslist').html(adrtxt);
-					//console.log('ADR: ' + adr);
-					console.log('checksum: ' + this.data.ADR[adr]['checksum']);
-					//console.log('type: ' + jQuery.type(this.data.ADR[adr]['value']));
 					var types = new Array();
 					var ttypes = new Array();
 					for(var param in this.data.ADR[adr]['parameters']) {
-						//console.log('param: ' + param + ': ' + this.data.ADR[adr]['parameters'][param]);
 						if(param.toUpperCase() == 'TYPE') {
-							//console.log('param type: ' + jQuery.type(this.data.ADR[adr]['parameters'][param]));
 							types.push(t('contacts', ucwords(this.data.ADR[adr]['parameters'][param].toLowerCase())));
 							ttypes.push(this.data.ADR[adr]['parameters'][param]);
-							//for(ptype in this.data.ADR[adr]['parameters'][param]) {
-							//	var pt = this.data.ADR[adr]['parameters'][param][ptype];
-							//	// TODO: Create an array with types, translate, ucwords and join.
-							//}
 						}
 					}
-					//console.log('# types: ' + types.length);
-					//console.log('Types:' + types.join('/'));
 					$('#addressdisplay dl').last().find('.adr_type_label').text(types.join('/'));
 					$('#addressdisplay dl').last().find('.adr_type').val(ttypes.join(','));
 					$('#addressdisplay dl').last().find('.adr').val(adrarray.join(';'));
@@ -721,7 +672,6 @@ Contacts={
 				} else {
 					q = q + '&checksum='+Contacts.UI.checksumFor(obj);
 				}
-				//console.log('editAddress: checksum ' + checksum);
 				/* Initialize the address edit dialog */
 				if($('#edit_address_dialog').dialog('isOpen') == true){
 					$('#edit_address_dialog').dialog('moveToTop');
@@ -732,8 +682,6 @@ Contacts={
 								height: 'auto', width: 'auto',
 								buttons: {
 									'Ok':function() {
-										console.log('OK:isnew ' + isnew);
-										console.log('OK:obj ' + obj);
 										if(isnew) {
 											Contacts.UI.Card.saveAddress(this, $('#addressdisplay dl:last-child').find('input').first(), isnew);
 										} else {
@@ -825,7 +773,7 @@ Contacts={
 				}
 			},
 			loadPhoto:function(){
-				console.log('loadPhoto: ' + this.data.PHOTO);
+				//console.log('loadPhoto: ' + this.data.PHOTO);
 				if(this.data.PHOTO) {
 					$('#file_upload_form').show();
 					$('#contacts_propertymenu a[data-type="PHOTO"]').parent().hide();
@@ -891,16 +839,11 @@ Contacts={
 					//$('#emaillist li:first-child').clone().appendTo($('#emaillist')).show();
 					$('#emaillist li:last-child').data('checksum', this.data.EMAIL[mail]['checksum'])
 					$('#emaillist li:last-child').find('input[type="email"]').val(this.data.EMAIL[mail]['value']);
-					//console.log('EMAIL: ' + mail);
-					//console.log('value: ' + this.data.EMAIL[mail]['value']);
-					//console.log('checksum: ' + this.data.EMAIL[mail]['checksum']);
 					for(var param in this.data.EMAIL[mail]['parameters']) {
-						//console.log('param: ' + param + ': ' + this.data.EMAIL[mail]['parameters'][param]);
 						if(param.toUpperCase() == 'PREF') {
 							$('#emaillist li:last-child').find('input[type="checkbox"]').attr('checked', 'checked')
 						}
 					}
-					//console.log('parameters: ' + jQuery.type(this.data.EMAIL[mail]['parameters']));
 				}
 				if($('#emaillist li').length > 1) {
 					$('#emails').show();
@@ -934,22 +877,15 @@ Contacts={
 					$('#phonelist li:last-child').find('select').multiselect('destroy');
 					$('#phonelist li:last-child').data('checksum', this.data.TEL[phone]['checksum'])
 					$('#phonelist li:last-child').find('input[type="text"]').val(this.data.TEL[phone]['value']);
-					//console.log('TEL: ' + phone);
-					//console.log('value: ' + this.data.TEL[phone]['value']);
-					//console.log('checksum: ' + this.data.TEL[phone]['checksum']);
 					for(var param in this.data.TEL[phone]['parameters']) {
-						//console.log('param: ' + param + ': ' + this.data.TEL[phone]['parameters'][param]);
 						if(param.toUpperCase() == 'PREF') {
 							$('#phonelist li:last-child').find('input[type="checkbox"]').attr('checked', 'checked');
 						}
 						else if(param.toUpperCase() == 'TYPE') {
-							//console.log('param type: ' + jQuery.type(this.data.TEL[phone]['parameters'][param]));
 							for(ptype in this.data.TEL[phone]['parameters'][param]) {
 								var pt = this.data.TEL[phone]['parameters'][param][ptype];
 								$('#phonelist li:last-child').find('select option').each(function(){
-									//console.log('Test: ' + $(this).val().toUpperCase() + '==' + pt);
 									if ($(this).val().toUpperCase() == pt) {
-										//console.log('Selected: ' + pt);
 										$(this).attr('selected', 'selected');
 									}
 								});
@@ -962,7 +898,6 @@ Contacts={
 														selectedList: 4,
 														classes: 'typelist'
 													});
-					//console.log('parameters: ' + jQuery.type(this.data.EMAIL[mail]['parameters']));
 				}
 				if($('#phonelist li').length > 1) {
 					$('#phones').show();
@@ -990,12 +925,6 @@ Contacts={
 			{
 				$.post(OC.filePath('contacts', 'ajax', 'activation.php'), { bookid: bookid, active: checkbox.checked?1:0 },
 				  function(data) {
-					/*
-					 * Arguments:
-					 * data.status
-					 * data.bookid
-					 * data.active
-					 */
 					if (data.status == 'success'){
 						checkbox.checked = data.active == 1;
 						Contacts.UI.Contacts.update();
