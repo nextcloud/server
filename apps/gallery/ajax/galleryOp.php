@@ -69,7 +69,7 @@ function handlePartialCreate($path) {
   if (!OC_Filesystem::is_dir($path)) OC_JSON::error(array('cause' => 'Invalid path given'));
 
   $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
-  $albums;
+  $albums = array();
   OC_Gallery_Scanner::scanDir($path, $albums);
   OC_JSON::success(array('album_details' => $albums));
 }
