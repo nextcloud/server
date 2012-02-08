@@ -304,7 +304,7 @@ class OC_FileCache{
 				$parent=self::getFileId($fullPath);
 				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
 				$query->execute(array($parent));
-				while($row=$query->fetch()){
+				while($row=$query->fetchRow()){
 					$size+=$row['size'];
 				}
 				$mtime=$view->filemtime($path);
@@ -331,7 +331,7 @@ class OC_FileCache{
 		}
 		$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE path=?');
 		$query->execute(array($path));
-		if($row=$query->fetch()){
+		if($row=$query->fetchRow()){
 			return $row['size'];
 		}else{//file not in cache
 			return 0;
@@ -518,7 +518,7 @@ class OC_FileCache{
 		$path=$root.$path;
 		$query=OC_DB::prepare('SELECT mtime FROM *PREFIX*fscache WHERE path=?');
 		$query->execute(array($path));
-		if($row=$query->fetch()){
+		if($row=$query->fetchRow()){
 			$cachedMTime=$row['mtime'];
 			return ($mtime>$cachedMTime);
 		}else{//file not in cache, so it has to be updated
@@ -557,7 +557,7 @@ class OC_FileCache{
 		$parent=self::getFileId($view->getRoot().$path);
 		$query=OC_DB::prepare('SELECT name FROM *PREFIX*fscache WHERE parent=?');
 		$result=$query->execute(array($parent));
-		while($row=$result->fetch()){
+		while($row=$result->fetchRow()){
 			$file=$path.'/'.$row['name'];
 			if(!$view->file_exists($file)){
 				if(!$root){//filesystem hooks are only valid for the default root
