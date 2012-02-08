@@ -37,7 +37,7 @@ class OC_Util {
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			//first set up the local "root" storage
-			OC_Filesystem::mount('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
+			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
 
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
 			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
@@ -45,7 +45,7 @@ class OC_Util {
 			}
 
 			//jail the user into his "home" directory
-			OC_Filesystem::chroot("/$user/$root");
+			OC_Filesystem::init('/'.$user.'/'.$root);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
@@ -62,7 +62,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(3,00,0);
+		return array(3,00,1);
 	}
 
 	/**
@@ -226,7 +226,7 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
 
-		if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writeable(OC::$SERVERROOT."/config/config.php")){
+		if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writable(OC::$SERVERROOT."/config/config.php")){
 			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver use write access to the config directory in owncloud");
 		}
 
