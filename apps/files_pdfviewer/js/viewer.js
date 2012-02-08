@@ -49,13 +49,15 @@ showPDFviewer.lastTitle='';
 showPDFviewer.loaded=false;
 
 $(document).ready(function(){
-	if(location.href.indexOf("files")!=-1) {
-		PDFJS.workerSrc = OC.filePath('files_pdfviewer','js','pdfjs/build/pdf.js');
-		if(typeof FileActions!=='undefined'){
-			FileActions.register('application/pdf','Edit','',function(filename){
-				showPDFviewer($('#dir').val(),filename);
-			});
-			FileActions.setDefault('application/pdf','Edit');
+	if(!$.browser.msie){//doesnt work on IE
+		if(location.href.indexOf("files")!=-1) {
+			PDFJS.workerSrc = OC.filePath('files_pdfviewer','js','pdfjs/build/pdf.js');
+			if(typeof FileActions!=='undefined'){
+				FileActions.register('application/pdf','Edit','',function(filename){
+					showPDFviewer($('#dir').val(),filename);
+				});
+				FileActions.setDefault('application/pdf','Edit');
+			}
 		}
 	}
 });
