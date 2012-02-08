@@ -460,7 +460,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function getMimeType($path) {
-		if ($path2 == "" || $path2 == "/") {
+		if ($path == "" || $path == "/") {
 			return 'httpd/unix-directory';
 		}
 		$source = $this->getSource($path);
