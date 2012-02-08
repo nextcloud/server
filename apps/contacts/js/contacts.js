@@ -236,7 +236,6 @@ Contacts={
 			delete:function() {
 				$('#contacts_deletecard').tipsy('hide');
 				$.getJSON('ajax/deletecard.php',{'id':this.id},function(jsondata){
-					console.log('Card.delete: ' + this.id);
 					if(jsondata.status == 'success'){
 						$('#leftcontent [data-id="'+jsondata.data.id+'"]').remove();
 						$('#rightcontent').data('id','');
@@ -380,7 +379,6 @@ Contacts={
 				});
 			},
 			add:function(n, fn, aid){ // add a new contact
-				//console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
 				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
 				  function(jsondata) {
 					if (jsondata.status == 'success'){
@@ -591,6 +589,7 @@ Contacts={
 				this.addname = n[2];
 				this.honpre = n[3];
 				this.honsuf = n[4];
+
 				$('#n').val(n.join(';'));
 				if(n[3].length > 0) {
 					this.fullname = n[3] + ' ';
@@ -774,7 +773,6 @@ Contacts={
 				}
 			},
 			loadPhoto:function(){
-				//console.log('loadPhoto: ' + this.data.PHOTO);
 				if(this.data.PHOTO) {
 					$('#file_upload_form').show();
 					$('#contacts_propertymenu a[data-type="PHOTO"]').parent().hide();
@@ -1056,7 +1054,6 @@ $(document).ready(function(){
 	 */
 	$('#leftcontent li').live('click',function(){
 		var id = $(this).data('id');
-		console.log('Contact ' + id + ' clicked.');
 		var oldid = $('#rightcontent').data('id');
 		if(oldid != 0){
 			$('#leftcontent li[data-id="'+oldid+'"]').removeClass('active');
@@ -1070,59 +1067,16 @@ $(document).ready(function(){
 				//alert(jsondata.data.message);
 			}
 		});
-		// NOTE: Deprecated.
-// 		$.getJSON('ajax/getdetails.php',{'id':id, 'new':1},function(jsondata){
-// 			if(jsondata.status == 'success'){
-// 				$('#rightcontent').data('id',jsondata.data.id);
-// 				$('#rightcontent').html(jsondata.data.page);
-// 				$('#leftcontent li[data-id="'+jsondata.data.id+'"]').addClass('active');
-// 				//Contacts.UI.loadHandlers();
-// 			}
-// 			else{
-// 				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-// 				//alert(jsondata.data.message);
-// 			}
-// 		});
 		return false;
 	});
 
 	/**
-	 * Delete currently selected contact TODO: and clear page
+	 * Delete currently selected contact and TODO: clear page
 	 */
 	$('#contacts_deletecard').live('click',function(){
 		Contacts.UI.Card.delete();
 	});
 
-	/**
-	 * Add and insert a new contact into the list. NOTE: Deprecated
-	 */
-// 	$('#contacts_addcardform input[type="submit"]').live('click',function(){
-// 		$.post('ajax/addcontact.php',$('#contact_identity').serialize(),function(jsondata){
-// 			if(jsondata.status == 'success'){
-// 				$('#rightcontent').data('id',jsondata.data.id);
-// 				$('#rightcontent').html(jsondata.data.page);
-// 				$('#leftcontent .active').removeClass('active');
-// 				var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+jsondata.data.name+'</a></li>';
-// 				var added = false;
-// 				$('#leftcontent ul li').each(function(){
-// 					if ($(this).text().toLowerCase() > jsondata.data.name.toLowerCase()) {
-// 						$(this).before(item).fadeIn('fast');
-// 						added = true;
-// 						return false;
-// 					}
-// 				});
-// 				if(!added) {
-// 					$('#leftcontent ul').append(item);
-// 				}
-// 			}
-// 			else{
-// 				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-// 				//alert(jsondata.data.message);
-// 			}
-// 		}, 'json');
-// 		return false;
-// 	});
-	
 	$('#contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 		if (isInView) { //NOTE: I've kept all conditions for future reference ;-)
 			// element is now visible in the viewport
@@ -1265,6 +1219,4 @@ $(document).ready(function(){
 	$('#contacts_propertymenu a').live('click',function(){
 		Contacts.UI.Card.addProperty(this);
 	});
-
-	
 });

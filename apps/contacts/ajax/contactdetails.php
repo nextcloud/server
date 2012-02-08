@@ -37,10 +37,10 @@ OC_JSON::checkAppEnabled('contacts');
 $l=new OC_L10N('contacts');
 
 $id = isset($_GET['id'])?$_GET['id']:null;
-$vcard = OC_Contacts_App::getContactVCard( $id );
 if(is_null($id)) {
 	bailOut($l->t('Missing ID'));
 }
+$vcard = OC_Contacts_App::getContactVCard( $id );
 if(is_null($vcard)) {
 	bailOut($l->t('Error parsing VCard for ID: "'.$id.'"'));
 }
