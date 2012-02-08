@@ -3,8 +3,8 @@
 /**
 * ownCloud
 *
-* @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @author Michael Gapczynski
+* @copyright 2012 Michael Gapczynski GapczynskiM@gmail.com
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -20,10 +20,8 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Privde a common interface to all different storage options
- */
-class OC_Filestorage{
+class OC_Filestorage_Common extends OC_Filestorage {
+
 	public function __construct($parameters){}
 	public function mkdir($path){}
 	public function rmdir($path){}
@@ -32,24 +30,54 @@ class OC_Filestorage{
 	public function is_file($path){}
 	public function stat($path){}
 	public function filetype($path){}
-	public function filesize($path){}
+	public function filesize($path) {
+		$stat = $this->stat($path);
+		return $stat['size'];
+	}
 	public function is_readable($path){}
 	public function is_writable($path){}
 	public function file_exists($path){}
-	public function readfile($path){}
-	public function filectime($path){}
-	public function filemtime($path){}
-	public function file_get_contents($path){}
-	public function file_put_contents($path,$data){}
+	public function readfile($path) {
+		$handle = $this->fopen($path, "r");
+		$chunk = 1024;
+		while (!feof($handle)) {
+			echo fread($handle, $chunk);
+		}
+		return $this->filesize($path);
+	}
+	public function filectime($path) {
+		$stat = $this->stat($path);
+		return $stat['ctime'];
+	}
+	public function filemtime($path) {
+		$stat = $this->stat($path);
+		return $stat['mtime'];
+	}
+	public function fileatime($path) {
+		$stat = $this->stat($path);
+		return $stat['atime'];
+	}
+	public function file_get_contents($path) {
+		$handle = $this->fopen($path, "r");
+		return fread($handle, $this->filesize($path));
+	}
+	public function file_put_contents($path,$data) {
+		$handle = $this->fopen($path, "w");
+		return fwrite($handle, $data);
+	}
 	public function unlink($path){}
 	public function rename($path1,$path2){}
-	public function copy($path1,$path2){}
+	public function copy($path1,$path2) {
+		$data = $this->file_get_contents($path1);
+		return $this->file_put_contents($path2, $data);
+	}
 	public function fopen($path,$mode){}
-	public function toTmpFile($path){}//copy the file to a temporary file, used for cross-storage file actions
-	public function fromTmpFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
+	public function toTmpFile($path){}
+	public function fromTmpFile($tmpPath,$path){}
+	public function fromUploadedFile($tmpPath,$path){}
 	public function getMimeType($path){}
 	public function hash($type,$path,$raw){}
 	public function free_space($path){}
 	public function search($query){}
-	public function getLocalFile($path){}// get a path to a local version of the file, whether the original file is local or remote
+	public function getLocalFile($path){}
 }

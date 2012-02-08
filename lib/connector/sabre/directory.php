@@ -116,11 +116,11 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * @return array
 	 */
 	public function getQuotaInfo() {
-
+		$rootInfo=OC_FileCache::get('');
 		return array(
-			OC_Filesystem::filesize('/'),
+			$rootInfo['size'],
 			OC_Filesystem::free_space()
-			);
+		);
 
 	}
 

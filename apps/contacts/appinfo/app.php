@@ -22,4 +22,5 @@ OC_App::addNavigationEntry( array(
 
 
 OC_APP::registerPersonal('contacts','settings');
+OC_UTIL::addScript('contacts', 'loader');
 require_once('apps/contacts/lib/search.php');
