@@ -363,8 +363,6 @@ Contacts={
 				//Contacts.UI.notImplemented();
 				//return false;
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-
-				
 				$.getJSON('ajax/newcontact.php',{},function(jsondata){
 					if(jsondata.status == 'success'){
 						id = '';
@@ -379,6 +377,7 @@ Contacts={
 				});
 			},
 			add:function(n, fn, aid){ // add a new contact
+				console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
 				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
 				  function(jsondata) {
 					if (jsondata.status == 'success'){
@@ -554,6 +553,7 @@ Contacts={
 			},
 			editName:function(){
 				var isnew = (this.id == '');
+				/* Initialize the name edit dialog */
 				if($('#edit_name_dialog').dialog('isOpen') == true){
 					$('#edit_name_dialog').dialog('moveToTop');
 				}else{ // TODO: If id=='' call addcontact.php (or whatever name) instead and reload view with id.
@@ -1035,18 +1035,6 @@ $(document).ready(function(){
 	 */
 	$('#contacts_newcontact').click(function(){
 		Contacts.UI.Card.editNew();
-// 		$.getJSON('ajax/addcontact.php',{},function(jsondata){
-// 			if(jsondata.status == 'success'){
-// 				$('#rightcontent').data('id','');
-// 				$('#rightcontent').html(jsondata.data.page)
-// 					.find('select').chosen();
-// 			}
-// 			else{
-// 				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-// 				//alert(jsondata.data.message);
-// 			}
-// 		});
-// 		return false;
 	});
 	
 	/**
@@ -1071,7 +1059,7 @@ $(document).ready(function(){
 	});
 
 	/**
-	 * Delete currently selected contact and TODO: clear page
+	 * Delete currently selected contact TODO: and clear page
 	 */
 	$('#contacts_deletecard').live('click',function(){
 		Contacts.UI.Card.delete();
