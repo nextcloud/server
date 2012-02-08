@@ -67,7 +67,6 @@ Contacts={
 		propertyTypeFor:function(obj) {
 			return $(obj).parents('.propertycontainer').first().data('element');
 		},
-<<<<<<< HEAD
 		showHideContactInfo:function() {
 			var show = ($('#emaillist li[class*="propertycontainer"]').length > 0 || $('#phonelist li[class*="propertycontainer"]').length > 0 || $('#addressdisplay dl[class*="propertycontainer"]').length > 0);
 			console.log('showHideContactInfo: ' + show);
@@ -77,39 +76,25 @@ Contacts={
 				$('#contact_communication').hide();
 			}
 		},
-=======
->>>>>>> Added files for new contact editor/viewer.
 		checkListFor:function(obj) {
 			var type = $(obj).parents('.propertycontainer').first().data('element');
 			console.log('checkListFor: ' + type);
 			switch (type) {
 				case 'EMAIL':
 					console.log('emails: '+$('#emaillist>li').length);
-<<<<<<< HEAD
 					if($('#emaillist li[class*="propertycontainer"]').length == 0) {
-=======
-					if($('#emaillist>li').length == 1) {
->>>>>>> Added files for new contact editor/viewer.
 						$('#emails').hide();
 					}
 					break;
 				case 'TEL':
 					console.log('phones: '+$('#phonelist>li').length);
-<<<<<<< HEAD
 					if($('#phonelist li[class*="propertycontainer"]').length == 0) {
-=======
-					if($('#phonelist>li').length == 1) {
->>>>>>> Added files for new contact editor/viewer.
 						$('#phones').hide();
 					}
 					break;
 				case 'ADR':
 					console.log('addresses: '+$('#addressdisplay>dl').length);
-<<<<<<< HEAD
 					if($('#addressdisplay dl[class*="propertycontainer"]').length == 0) {
-=======
-					if($('#addressdisplay>dl').length == 1) {
->>>>>>> Added files for new contact editor/viewer.
 						$('#addresses').hide();
 					}
 					break;
