@@ -99,7 +99,7 @@ class OC_Contacts_VCard{
 	 * @brief Adds a card
 	 * @param integer $id Addressbook id
 	 * @param string $data  vCard file
-	 * @return insertid
+	 * @return insertid on success or null if card is not parseable.
 	 */
 	public static function add($id,$data){
 		$fn = null;
@@ -107,6 +107,22 @@ class OC_Contacts_VCard{
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			$fn = $card->getAsString('FN');
+			if(!$fn){ // Fix missing 'FN' field.
+				$n = $card->getAsString('N');
+				if(!is_null($n)){
+					$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
+					$card->setString('FN', $fn);
+					OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'FN\' field: '.$fn,OC_Log::DEBUG);
+				} else {
+					$fn = 'Unknown Name';
+				}
+			}
+			$n = $card->getAsString('N');
+			if(!$n){ // Fix missing 'N' field.
+				$n = implode(';', array_reverse(array_slice(explode(' ', $fn), 0, 2))).';;;';
+				$card->setString('N', $n);
+				OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
+			}
 			$uid = $card->getAsString('UID');
 			if(is_null($uid)){
 				$card->setUID();
@@ -137,8 +153,10 @@ class OC_Contacts_VCard{
 		}
 		else{
 			// that's hard. Creating a UID and not saving it
-			$uid = self::createUID();
-			$uri = $uid.'.vcf';
+			OC_Log::write('contacts','OC_Contacts_VCard::add. Error parsing VCard: '.$data,OC_Log::ERROR);
+			return null; // Ditch cards that can't be parsed by Sabre.
+			//$uid = self::createUID();
+			//$uri = $uid.'.vcf';
 		};
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
@@ -175,7 +193,7 @@ class OC_Contacts_VCard{
 			if($email) {
 				$fn = $email;
 			} else {
-				$fn = 'Unknown';
+				$fn = 'Unknown Name';
 			}
 			$card->addProperty('FN', $fn);
 			$data = $card->serialize();

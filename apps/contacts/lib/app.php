@@ -58,7 +58,7 @@ class OC_Contacts_App{
 	public static function getContactObject($id){
 		$card = OC_Contacts_VCard::find( $id );
 		if( $card === false ){
-			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.'))));
+			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.$id)));
 			exit();
 		}
 
