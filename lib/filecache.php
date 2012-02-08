@@ -303,8 +303,8 @@ class OC_FileCache{
 			if(self::inCache($path,$root)){
 				$parent=self::getFileId($fullPath);
 				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
-				$query->execute(array($parent));
-				while($row=$query->fetchRow()){
+				$result=$query->execute(array($parent));
+				while($row=$result->fetchRow()){
 					$size+=$row['size'];
 				}
 				$mtime=$view->filemtime($path);
@@ -330,8 +330,8 @@ class OC_FileCache{
 			}
 		}
 		$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE path=?');
-		$query->execute(array($path));
-		if($row=$query->fetchRow()){
+		$result=$query->execute(array($path));
+		if($row=$result->fetchRow()){
 			return $row['size'];
 		}else{//file not in cache
 			return 0;
@@ -517,8 +517,8 @@ class OC_FileCache{
 		$isDir=$view->is_dir($path);
 		$path=$root.$path;
 		$query=OC_DB::prepare('SELECT mtime FROM *PREFIX*fscache WHERE path=?');
-		$query->execute(array($path));
-		if($row=$query->fetchRow()){
+		$result=$query->execute(array($path));
+		if($row=$result->fetchRow()){
 			$cachedMTime=$row['mtime'];
 			return ($mtime>$cachedMTime);
 		}else{//file not in cache, so it has to be updated
