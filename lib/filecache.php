@@ -466,6 +466,7 @@ class OC_FileCache{
 	 * fine files by mimetype
 	 * @param string $part1
 	 * @param string $part2 (optional)
+	 * @param string root (optional)
 	 * @return array of file paths
 	 *
 	 * $part1 and $part2 together form the complete mimetype.
@@ -474,17 +475,24 @@ class OC_FileCache{
 	 * seccond mimetype part can be ommited
 	 * e.g. searchByMime('audio')
 	 */
-	public static function searchByMime($part1,$part2=''){
-		if($part2){
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=?');
-			$result=$query->execute(array($part1));
+	public static function searchByMime($part1,$part2='',$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}elseif($root='/'){
+			$root='';
+		}
+		$rootLen=strlen($root);
+		$user=OC_User::getUser();
+		if(!$part2){
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=?');
+			$result=$query->execute(array($part1,$user));
 		}else{
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=?');
-			$result=$query->execute(array($part1.'/'.$part2));
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND user=?');
+			$result=$query->execute(array($part1.'/'.$part2,$user));
 		}
 		$names=array();
 		while($row=$result->fetchRow()){
-			$names[]=$row['path'];
+			$names[]=substr($row['path'],$rootLen);
 		}
 		return $names;
 	}
