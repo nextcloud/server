@@ -22,10 +22,10 @@
 
 require_once( 'lib_share.php' );
 
-if (!OC_Filesystem::is_dir('/Shared')) {
+if (OC_Filesystem::$loaded and !OC_Filesystem::is_dir('/Shared')) {
 	OC_Filesystem::mkdir('/Shared');
 }
-OC_Filesystem::mount('shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
+OC_Filesystem::mount('OC_Filestorage_Shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
@@ -168,19 +168,9 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	// TODO fill in other components of array
 	public function stat($path) {
 		if ($path == "" || $path == "/") {
-			$stat["dev"] = "";
-			$stat["ino"] = "";
-			$stat["mode"] = "";
-			$stat["nlink"] = "";
-			$stat["uid"] = "";
-			$stat["gid"] = "";
-			$stat["rdev"] = "";
 			$stat["size"] = $this->filesize($path);
-			$stat["atime"] = $this->fileatime($path);
 			$stat["mtime"] = $this->filemtime($path);
 			$stat["ctime"] = $this->filectime($path);
-			$stat["blksize"] = "";
-			$stat["blocks"] = "";
 			return $stat;
 		} else {
 			$source = $this->getSource($path);
@@ -217,18 +207,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 
 	public function getFolderSize($path) {
-		// Shared folder sizes are cached separately from the source folder sizes because folders can have different names
-		$path = rtrim($path, "/");
-		$path = ltrim($path, "/");
-		$path = preg_replace('{(/)\1+}', "/", $path);
-		$dbpath = rtrim($this->datadir.$path, "/");
-		$query = OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path = ?");
-		$size = $query->execute(array($dbpath))->fetchAll();
-		if (count($size) > 0) {
-			return $size[0]['size'];
-		} else {
-			return $this->calculateFolderSize($path);
-		}
+		return 0; //depricated
 	}
 	
 	private function calculateFolderSize($path) {
@@ -249,8 +228,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			}
 			if ($size > 0) {
 				$dbpath = rtrim($this->datadir.$path, "/");
-				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
-				$result = $query->execute(array($dbpath, $size));
+// 				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
+// 				$result = $query->execute(array($dbpath, $size));
 			}
 		}
 		return $size;
@@ -263,8 +242,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			$path = dirname($path);
 		}
 		$dbpath = rtrim($this->datadir.$path, "/");
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-		$result = $query->execute(array($dbpath));
+// 		$query = OC_DB::prepare("DELETE FROM *PREFIX*/*foldersize*/ WHERE path = ?");
+// 		$result = $query->execute(array($dbpath));
 		if ($path != "/" && $path != "") {
 			$parts = explode("/", $path);
 			$part = array_pop($parts);
@@ -280,7 +259,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		return true;
 	}
 	
-	public function is_writeable($path) {
+	public function is_writable($path) {
 		if($path == "" || $path == "/"){
 			return false;
 		}elseif (OC_Share::getPermissions($this->datadir.$path) & OC_Share::WRITE) {
@@ -320,8 +299,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 						$ctime = $tempctime;
 					}
 				}
-				return $ctime;
 			}
+			return $ctime;
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
@@ -341,34 +320,13 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 						$mtime = $tempmtime;
 					}
 				}
-				return $mtime;
 			}
+			return $mtime;
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
 				return $storage->filemtime($this->getInternalPath($source));
-			}
-		}
-	}
-	
-	public function fileatime($path) {
-		if ($path == "" || $path == "/") {
-			$atime = 0; 
-			if ($dh = $this->opendir($path)) {
-				while (($filename = readdir($dh)) !== false) {
-					$tempatime = $this->fileatime($filename);
-					if ($tempatime > $atime) {
-						$atime = $tempatime;
-					}
-				}
-				return $atime;
-			}
-		} else {
-			$source = $this->getSource($path);
-			if ($source) {
-				$storage = OC_Filesystem::getStorage($source);
-				return $storage->fileatime($this->getInternalPath($source));
 			}
 		}
 	}
@@ -382,7 +340,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function file_put_contents($path, $data) {
-		if ($this->is_writeable($path)) {
+		if ($this->is_writable($path)) {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
@@ -426,7 +384,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			if ($root1 !== $root2) {
 				return false;
 			// Check if both paths have write permission
-			} else if ($this->is_writeable($path1) && $this->is_writeable($path2)) {
+			} else if ($this->is_writable($path1) && $this->is_writable($path2)) {
 				$oldSource = $this->getSource($path1);
 				$newSource = $folders['source'].substr($newTarget, strlen($folders['target']));
 				if ($oldSource) {
@@ -456,7 +414,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if ($path2 == "" || $path2 == "/") {
 			// TODO Construct new shared item or should this not be allowed?
 		} else {
-			if ($this->is_writeable($path2)) {
+			if ($this->is_writable($path2)) {
 				$tmpFile = $this->toTmpFile($path1);
 				$result = $this->fromTmpFile($tmpFile, $path2);
 				if ($result) {
@@ -486,7 +444,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function fromTmpFile($tmpFile, $path) {
-		if ($this->is_writeable($path)) {
+		if ($this->is_writable($path)) {
 			$source = $this->getSource($path);
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
@@ -501,23 +459,10 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
-	public function fromUploadedFile($tmpFile, $path) {
-		if ($this->is_writeable($path)) {
-			$source = $this->getSource($path);
-			if ($source) {
-				$storage = OC_Filesystem::getStorage($source);
-				$result = $storage->fromUploadedFile($tmpFile, $this->getInternalPath($source));
-				if ($result) {
-					$this->clearFolderSizeCache($path);
-				}
-				return $result;
-			}
-		} else {
-			return false;
-		}
-	}
-	
 	public function getMimeType($path) {
+		if ($path == "" || $path == "/") {
+			return 'httpd/unix-directory';
+		}
 		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_Filesystem::getStorage($source);

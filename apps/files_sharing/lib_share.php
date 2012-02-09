@@ -89,8 +89,8 @@ class OC_Share {
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 				// Clear the folder size cache for the 'Shared' folder
-				$clearFolderSize = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-				$clearFolderSize->execute(array($sharedFolder));
+// 				$clearFolderSize = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
+// 				$clearFolderSize->execute(array($sharedFolder));
 				// Emit post_create and post_write hooks to notify of a new file in the user's filesystem
 				OC_Hook::emit("OC_Filesystem", "post_create", array('path' => $target));
 				OC_Hook::emit("OC_Filesystem", "post_write", array('path' => $target));

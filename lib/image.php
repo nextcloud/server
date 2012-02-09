@@ -147,6 +147,10 @@ class OC_Image {
 				return false;
 			}
 		}
+		if (!$this->valid()) {
+			return false;
+		}
+
 		$retval = false;
 		switch(self::$imagetype) {
 			case IMAGETYPE_GIF:
@@ -257,7 +261,7 @@ class OC_Image {
 				$flip = true;
 				break;
 			case 8:
-				$rotate = 270;
+				$rotate = 90;
 				$flip = false;
 				break;
 		}

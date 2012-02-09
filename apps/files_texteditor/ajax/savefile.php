@@ -32,7 +32,6 @@ $filecontents = htmlspecialchars_decode($_POST['filecontents']);
 $path = isset($_POST['path']) ? $_POST['path'] : '';
 $mtime = isset($_POST['mtime']) ? $_POST['mtime'] : '';
 
-
 if($path != '' && $mtime != '')
 {
 	// Get file mtime
@@ -47,7 +46,7 @@ if($path != '' && $mtime != '')
 	{
 		// File same as when opened
 		// Save file
-		if(OC_Filesystem::is_writeable($path))	
+		if(OC_Filesystem::is_writable($path))
 		{
 			OC_Filesystem::file_put_contents($path, $filecontents);
 			// Clear statcache

@@ -336,7 +336,36 @@ $(document).ready(function() {
 			$('#new>a').click();
 		});
 	});
+
+	//check if we need to scan the filesystem
+	$.get(OC.filePath('files','ajax','scan.php'),{checkonly:'true'}, function(response) {
+		if(response.data.done){
+			scanFiles();
+		}
+	}, "json");
 });
+
+function scanFiles(force){
+	force=!!force; //cast to bool
+	scanFiles.scanning=true;
+	$('#scanning-message').show();
+	$('#fileList').remove();
+	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force});
+	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
+	scannerEventSource.listen('scanning',function(data){
+		$('#scan-count').text(data.count+' files scanned');
+		$('#scan-current').text(data.file+'/');
+	});
+	scannerEventSource.listen('success',function(success){
+		scanFiles.scanning=false;
+		if(success){
+			window.location.reload();
+		}else{
+			alert('error while scanning');
+		}
+	});
+}
+scanFiles.scanning=false;
 
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);

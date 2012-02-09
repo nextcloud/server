@@ -70,10 +70,10 @@ if($arguments['action']){
 		case 'scan':
 			OC_DB::beginTransaction();
 			set_time_limit(0); //recursive scan can take a while
-			$path=$arguments['path'];
-			echo OC_MEDIA_SCANNER::scanFolder($path);
+			$eventSource=new OC_EventSource();
+			OC_MEDIA_SCANNER::scanCollection($eventSource);
+			$eventSource->close();
 			OC_DB::commit();
-			flush();
 			break;
 		case 'scanFile':
 			echo (OC_MEDIA_SCANNER::scanFile($arguments['path']))?'true':'false';
@@ -127,29 +127,9 @@ if($arguments['action']){
 			OC_Filesystem::readfile($arguments['path']);
 			exit;
 		case 'find_music':
-			OC_JSON::encodedPrint(findMusic());
+			OC_JSON::encodedPrint(OC_FileCache::searchByMime('audio'));
 			exit;
 	}
-}
-
-function findMusic($path=''){
-	$music=array();
-	$dh=OC_Filesystem::opendir($path);
-	if($dh){
-		while($filename=readdir($dh)){
-			if($filename[0]!='.'){
-				$file=$path.'/'.$filename;
-				if(OC_Filesystem::is_dir($file)){
-					$music=array_merge($music,findMusic($file));
-				}else{
-					if(OC_MEDIA_SCANNER::isMusic($filename)){
-						$music[]=$file;
-					}
-				}
-			}
-		}
-	}
-	return $music;
 }
 
 ?>

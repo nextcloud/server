@@ -2,6 +2,7 @@ $(document).ready(function() {
 	var shared_status = {};
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Share', function(filename) {
+			if (scanFiles.scanning){return;}//workaround to prevent aditional http request block scanning feedback
 			var icon;
 			var file = $('#dir').val()+'/'+filename;
 			if(shared_status[file])
