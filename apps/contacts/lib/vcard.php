@@ -134,7 +134,7 @@ class OC_Contacts_VCard{
 			// Add product ID.
 			$prodid = trim($card->getAsString('PRODID'));
 			if(!$prodid) {
-				$appinfo = $info=OC_App::getAppInfo('contacts');
+				$appinfo = OC_App::getAppInfo('contacts');
 				$prodid = '//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
 				$card->setString('PRODID', $prodid);
 			}
@@ -176,7 +176,7 @@ class OC_Contacts_VCard{
 	 * @return insertid
 	 */
 	public static function addFromDAVData($id,$uri,$data){
-		$fn = null;
+		$fn = $n = null;
 		$email = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
@@ -184,19 +184,31 @@ class OC_Contacts_VCard{
 				if($property->name == 'FN'){
 					$fn = $property->value;
 				}
+				if($property->name == 'N'){
+					$n = $property->value;
+				}
 				if($property->name == 'EMAIL' && is_null($email)){
 					$email = $property->value;
 				}
 			}
 		}
 		if(!$fn) {
-			if($email) {
+			if($n){
+				$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
+			} elseif($email) {
 				$fn = $email;
 			} else {
 				$fn = 'Unknown Name';
 			}
 			$card->addProperty('FN', $fn);
 			$data = $card->serialize();
+			OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'FN\' field: '.$n,OC_Log::DEBUG);
+		}
+		if(!$n){ // Fix missing 'N' field.
+			$n = implode(';', array_reverse(array_slice(explode(' ', $fn), 0, 2))).';;;';
+			$card->setString('N', $n);
+			$data = $card->serialize();
+			OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
 		}
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );

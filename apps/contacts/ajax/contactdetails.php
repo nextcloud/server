@@ -60,7 +60,8 @@ if(!isset($details['FN'])) {
 
 // Make up for not supporting the 'N' field in earlier version.
 if(!isset($details['N'])) {
-	$details['N'] = array(array($details['FN'][0]['value'],'','','',''));
+	$details['N'] = array();
+	$details['N'][0] = array($details['FN'][0]['value'],'','','','');
 }
 
 // Don't wanna transfer the photo in a json string.

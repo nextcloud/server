@@ -4,8 +4,9 @@ $id = isset($_['id']) ? $_['id'] : '';
 ?>
 <div id="card">
 	<div id="actionbar">
-	<a id="contacts_propertymenu_button"></a>
-	<ul id="contacts_propertymenu">
+	<a title="<?php echo $l->t('Add field'); ?>" class="svg action" id="contacts_propertymenu_button"></a>
+	<div id="contacts_propertymenu" style="display: none;">
+	<ul>
 		<li><a data-type="PHOTO"><?php echo $l->t('Profile picture'); ?></a></li>
 		<li><a data-type="ORG"><?php echo $l->t('Organization'); ?></a></li>
 		<li><a data-type="NICKNAME"><?php echo $l->t('Nickname'); ?></a></li>
@@ -14,6 +15,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<li><a data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
 		<li><a data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
 	</ul>
+	</div>
 	<img  onclick="Contacts.UI.Card.export();" class="svg action" id="contacts_downloadcard" src="<?php echo image_path('', 'actions/download.svg'); ?>" title="<?php echo $l->t('Download contact');?>" />
 	<img class="svg action" id="contacts_deletecard" src="<?php echo image_path('', 'actions/delete.svg'); ?>" title="<?php echo $l->t('Delete contact');?>" />
 	</div>

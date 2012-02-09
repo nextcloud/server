@@ -154,7 +154,7 @@ Contacts={
 			);
 		},
 		loadHandlers:function() {
-			console.log('loadHandlers');
+			//console.log('loadHandlers');
 			/*
 			$('.formfloat').hover(
 				function () {
@@ -164,9 +164,9 @@ Contacts={
 					$(this).find('.add').fadeOut(500);
 				}
 			);*/
+			$('.button,.action').tipsy();
 			$('#contacts_deletecard').tipsy({gravity: 'ne'});
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
-			$('.button').tipsy();
 			$('#fn').jec();
 			$('.jecEditableOption').attr('title', t('contacts','Custom'));
 			$('#fn').tipsy();
@@ -265,7 +265,7 @@ Contacts={
 				$('#contact_communication').hide();
 				this.data = jsondata;
 				this.id = this.data.id;
-				console.log('loaded: ' + this.data.FN[0]['value']);
+				//console.log('loaded: ' + this.data.FN[0]['value']);
 				this.populateNameFields();
 				this.loadPhoto();
 				this.loadMails();
@@ -417,13 +417,38 @@ Contacts={
 					}
 				});
 			},
+			savePropertyInternal:function(name, fields, oldchecksum, checksum){
+				// TODO: Add functionality for new fields.
+				//console.log('savePropertyInternal: ' + name + ', checksum: ' + checksum);
+				//console.log('savePropertyInternal: ' + this.data[name]);
+				var params = {};
+				var value = undefined;
+				jQuery.each(fields, function(i, field){
+					//.substring(11,'parameters[TYPE][]'.indexOf(']'))
+					if(field.name.substring(0, 5) === 'value') {
+						value = field.value;
+					} else if(field.name.substring(0, 10) === 'parameters') {
+						var p = field.name.substring(11,'parameters[TYPE][]'.indexOf(']'));
+						if(!(p in params)) {
+							params[p] = [];
+						}
+						params[p].push(field.value);
+					}
+				});
+				for(var i in this.data[name]) {
+					if(this.data[name][i]['checksum'] == oldchecksum) {
+						this.data[name][i]['checksum'] = checksum;
+						this.data[name][i]['value'] = value;
+						this.data[name][i]['parameters'] = params;
+					}
+				}
+			},
 			saveProperty:function(obj){
 				// I couldn't get the selector to filter on 'contacts_property' so I filter by hand here :-/
 				if(!$(obj).hasClass('contacts_property')) {
 					//console.log('Filtering out object.' + obj);
 					return false;
 				}
-				console.log('saveProperty. ' + $(obj).val());
 				if($(obj).hasClass('nonempty') && $(obj).val().trim() == '') {
 					Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'This property has to be non-empty.'));
 					return false;
@@ -432,7 +457,9 @@ Contacts={
 				Contacts.UI.loading(container, true);
 				var checksum = container.data('checksum');
 				var name = container.data('element');
-				var q = container.find('input,select').serialize();
+				console.log('saveProperty: ' + name);
+				var fields = container.find('input[class*="contacts_property"],select[class*="contacts_property"]').serializeArray();
+				var q = container.find('input[class*="contacts_property"],select[class*="contacts_property"]').serialize();
 				if(q == '' || q == undefined) {
 					console.log('Couldn\'t serialize elements.');
 					Contacts.UI.loading(container, false);
@@ -445,6 +472,7 @@ Contacts={
 					$.post('ajax/saveproperty.php',q,function(jsondata){
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
+							Contacts.UI.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
 							Contacts.UI.loading(container, false);
 							return true;
 						}
@@ -459,6 +487,8 @@ Contacts={
 					$.post('ajax/addproperty.php',q,function(jsondata){
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
+							// TODO: savePropertyInternal doesn't know about new fields
+							//Contacts.UI.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
 							Contacts.UI.loading(container, false);
 							return true;
 						}
@@ -884,7 +914,7 @@ Contacts={
 							for(ptype in this.data.TEL[phone]['parameters'][param]) {
 								var pt = this.data.TEL[phone]['parameters'][param][ptype];
 								$('#phonelist li:last-child').find('select option').each(function(){
-									if ($(this).val().toUpperCase() == pt) {
+									if ($(this).val().toUpperCase() == pt.toUpperCase()) {
 										$(this).attr('selected', 'selected');
 									}
 								});
@@ -1204,7 +1234,11 @@ $(document).ready(function(){
 		xhr.send(file);
 	}
 
+	$('#contacts_propertymenu_button').live('click',function(){
+		$('#contacts_propertymenu').is(':hidden') && $('#contacts_propertymenu').show() || $('#contacts_propertymenu').hide();
+	});
 	$('#contacts_propertymenu a').live('click',function(){
 		Contacts.UI.Card.addProperty(this);
+		$('#contacts_propertymenu').hide();
 	});
 });

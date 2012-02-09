@@ -8,10 +8,10 @@
 #contacts_deletecard {position:absolute;top:15px;right:25px;}
 #contacts_downloadcard {position:absolute;top:15px;right:50px;}
 #contacts_propertymenu_button { position:absolute;top:15px;right:150px; height: 20px; width: 150px; background:url('../../../core/img/actions/add.svg') no-repeat center;	 }
-#contacts_propertymenu { position:absolute;top:35px;right:150px; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
-#contacts_propertymenu li { display: block; font-weight: bold; border-left: thin solid #1d2d44;  border-right: thin solid #1d2d44; height: 20px; width: 100px; }
-#contacts_propertymenu li:first-child { border-top: thin solid #1d2d44; -moz-border-radius-topleft:0.5em; -webkit-border-top-left-radius:0.5em; border-top-left-radius:0.5em; -moz-border-radius-topright:0.5em; -webkit-border-top-right-radius:0.5em; border-top-right-radius:0.5em; }
-#contacts_propertymenu li:last-child { border-bottom: thin solid #1d2d44; -moz-border-radius-bottomleft:0.5em; -webkit-border-bottom-left-radius:0.5em; border-bottom-left-radius:0.5em; -moz-border-radius-bottomright:0.5em; -webkit-border-bottom-right-radius:0.5em; border-bottom-right-radius:0.5em; }
+#contacts_propertymenu { position:absolute;top:40px;right:150px; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
+#contacts_propertymenu li { display: block; font-weight: bold; height: 20px; width: 100px; }
+/*#contacts_propertymenu li:first-child { border-top: thin solid #1d2d44; -moz-border-radius-topleft:0.5em; -webkit-border-top-left-radius:0.5em; border-top-left-radius:0.5em; -moz-border-radius-topright:0.5em; -webkit-border-top-right-radius:0.5em; border-top-right-radius:0.5em; }
+#contacts_propertymenu li:last-child { border-bottom: thin solid #1d2d44; -moz-border-radius-bottomleft:0.5em; -webkit-border-bottom-left-radius:0.5em; border-bottom-left-radius:0.5em; -moz-border-radius-bottomright:0.5em; -webkit-border-bottom-right-radius:0.5em; border-bottom-right-radius:0.5em; }*/
 #contacts_propertymenu li a { padding: 3px; display: block }
 #contacts_propertymenu li:hover { background-color: #1d2d44; }
 #contacts_propertymenu li a:hover { color: #fff }
