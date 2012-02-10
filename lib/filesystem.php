@@ -345,6 +345,9 @@ class OC_Filesystem{
 	static public function filemtime($path){
 		return self::$defaultInstance->filemtime($path);
 	}
+	static public function setFileMtime($path, $mtime){
+		return self::$defaultInstance->setFileMtime($path, $mtime);
+	}
 	static public function file_get_contents($path){
 		return self::$defaultInstance->file_get_contents($path);
 	}

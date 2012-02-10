@@ -62,7 +62,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result;
 		}else{
-			OC_Log::write('file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('get(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return false;
 		}
 	}
@@ -125,7 +125,9 @@ class OC_FileCache{
 			$queryParts[]='mimepart=?';
 		}
 		$arguments[]=$id;
-		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET '.implode(' , ',$queryParts).' WHERE id=?');
+		
+		$sql = 'UPDATE *PREFIX*fscache SET '.implode(' , ',$queryParts).' WHERE id=?';
+		$query=OC_DB::prepare($sql);
 		$query->execute($arguments);
 	}
 
@@ -231,7 +233,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result;
 		}else{
-			OC_Log::write('file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('getFolderContent(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return false;
 		}
 	}
@@ -264,7 +266,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result['id'];
 		}else{
-			OC_Log::write('file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('getFieldId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return -1;
 		}
 	}
@@ -293,6 +295,7 @@ class OC_FileCache{
 		}else{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
+		
 		$path=$params['path'];
 		$fullPath=$view->getRoot().$path;
 		$mimetype=$view->getMimeType($path);

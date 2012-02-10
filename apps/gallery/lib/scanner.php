@@ -93,7 +93,6 @@ class OC_Gallery_Scanner {
       if ($image && $image->valid()) {
 	      imagecopyresampled($thumbnail, $image->resource(), $i*200, 0, 0, 0, 200, 200, 200, 200);
       }
-      unset($image); // unset $image here to control the lifetime of image::$resource
     }
     imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
   }
