@@ -40,19 +40,32 @@ if (isset($_POST['admin_export'])) {
     }
 
     if (isset($_POST['owncloud_system'])) {
-	// adding owncloud system files
-	OC_Log::write('admin_export',"Adding owncloud system files to export",OC_Log::INFO);
-	zipAddDir($root, $zip, false);
-	foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dirname) {
-	    zipAddDir($root . $dirname, $zip, true, "/");
-	}
+		// adding owncloud system files
+		OC_Log::write('admin_export',"Adding owncloud system files to export",OC_Log::INFO);
+		zipAddDir($root, $zip, false);
+		foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dirname) {
+		    zipAddDir($root . $dirname, $zip, true, "/");
+		}
     }
 
     if (isset($_POST['owncloud_config'])) {
 	// adding owncloud config
 	// todo: add database export
 	$dbfile = $tempdir . "/dbexport.xml";
-	OC_DB::getDbStructure( $file, 'MDB2_SCHEMA_DUMP_ALL');
+	OC_DB::getDbStructure( $dbfile, 'MDB2_SCHEMA_DUMP_ALL');
+	
+	// Now add in *dbname* and *dbtableprefix*
+	$dbexport = file_get_contents( $dbfile );
+	
+	$dbnamestring = "<database>\n\n <name>" . OC_Config::getValue( "dbname", "owncloud" );
+	$dbtableprefixstring = "<table>\n\n  <name>" . OC_Config::getValue( "dbtableprefix", "_oc" );
+	
+	$dbexport = str_replace( $dbnamestring, "<database>\n\n <name>*dbname*", $dbexport );
+	$dbexport = str_replace( $dbtableprefixstring, "<table>\n\n  <name>*dbtableprefix*", $dbexport );
+	
+	// Write the new db export file
+	file_put_contents( $dbfile, $dbexport );
+	
 	$zip->addFile($dbfile, "dbexport.xml");
 
 	OC_Log::write('admin_export',"Adding owncloud config to export",OC_Log::INFO);
@@ -105,6 +118,9 @@ if (isset($_POST['admin_export'])) {
 	
 	// Delete uploaded file
 	unlink( get_temp_dir() . '/' . $importname . '.zip' );
+	
+	// Now we need to check if everything is present. Data and dbexport.xml
+	
 	
 	// Delete current data folder.
 	OC_Log::write('admin_export',"Deleting current data dir",OC_Log::INFO);
