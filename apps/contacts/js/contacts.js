@@ -167,8 +167,13 @@ Contacts={
 			$('.button,.action').tipsy();
 			$('#contacts_deletecard').tipsy({gravity: 'ne'});
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
-			$('#fn').jec();
-			$('.jecEditableOption').attr('title', t('contacts','Custom'));
+			//$('#fn').jec();
+			$('#fn_select').combobox({
+				'id': 'fn',
+				'name': 'value',
+				'classes': ['contacts_property'],
+				'title': t('contacts', 'Format custom, Short name, Full name, Reverse or Reverse with comma')});
+			//$('.jecEditableOption').attr('title', t('contacts','Custom'));
 			$('#fn').tipsy();
 			$('#contacts_details_photo_wrapper').tipsy();
 			$('#bday').datepicker({
@@ -348,14 +353,21 @@ Contacts={
 					this.fullname += ', ' + this.honsuf;
 				}
 				$('#n').html(this.fullname);
-				$('.jecEditableOption').attr('title', 'Custom');
-				$('.jecEditableOption').text(this.fn);
+				//$('.jecEditableOption').attr('title', 'Custom');
+				//$('.jecEditableOption').text(this.fn);
 				//$('.jecEditableOption').attr('value', 0);
-				$('#fn').val(0);
-				$('#full').text(this.fullname);
+				$('#fn_select option').remove();
+				$('#fn_select').combobox('value', this.fn);
+				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				$.each(names, function(key, value) {
+					$('#fn_select')
+						.append($('<option></option>')
+						.text(value)); 
+				});
+				/*$('#full').text(this.fullname);
 				$('#short').text(this.givname + ' ' + this.famname);
 				$('#reverse').text(this.famname + ' ' + this.givname);
-				$('#reverse_comma').text(this.famname + ', ' + this.givname);
+				$('#reverse_comma').text(this.famname + ', ' + this.givname);*/
 				$('#contact_identity').find('*[data-element="N"]').data('checksum', this.data.N[0]['checksum']);
 				$('#contact_identity').find('*[data-element="FN"]').data('checksum', this.data.FN[0]['checksum']);
 			},
@@ -628,12 +640,22 @@ Contacts={
 				if(n[4].length > 0) {
 					this.fullname += ', ' + n[4];
 				}
-				$('#short').text(n[1] + ' ' + n[0]);
+
+				$('#fn_select option').remove();
+				//$('#fn_select').combobox('value', this.fn);
+				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				$.each(names, function(key, value) {
+					$('#fn_select')
+						.append($('<option></option>')
+						.text(value)); 
+				});
+				
+				/*$('#short').text(n[1] + ' ' + n[0]);
 				$('#full').text(this.fullname);
 				$('#reverse').text(n[0] + ' ' + n[1]);
-				$('#reverse_comma').text(n[0] + ', ' + n[1]);
+				$('#reverse_comma').text(n[0] + ', ' + n[1]);*/
 				//$('#n').html(full);
-				$('#fn').val(0);
+				//$('#fn').val(0);
 				if(this.id == '') {
 					var aid = $(dlg).find('#aid').val();
 					Contacts.UI.Card.add(n.join(';'), $('#short').text(), aid);

@@ -45,7 +45,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<dd style="padding-top: 0.8em;vertical-align: text-bottom;"><span id="n" type="text"></span></dd -->
 		<dt><label for="fn"><?php echo $l->t('Display name'); ?></label></dt>
 		<dd class="propertycontainer" data-element="FN">
-		<select id="fn" name="value" required="required" class="contacts_property" title="<?php echo $l->t('Format custom, Short name, Full name, Reverse or Reverse with comma'); ?>" style="width:16em;">
+		<select id="fn_select" title="<?php echo $l->t('Format custom, Short name, Full name, Reverse or Reverse with comma'); ?>" style="width:16em;">
 			<option id="short" title="Short name"></option>
 			<option id="full" title="Full name"></option>
 			<option id="reverse" title="Reverse"></option>
