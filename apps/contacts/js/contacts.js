@@ -619,6 +619,7 @@ Contacts={
 				this.addname = n[2];
 				this.honpre = n[3];
 				this.honsuf = n[4];
+				this.fullname = '';
 
 				$('#n').val(n.join(';'));
 				if(n[3].length > 0) {
