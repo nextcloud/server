@@ -33,32 +33,22 @@ class OC_MEDIA_SCANNER{
 	
 	/**
 	 * scan a folder for music
-	 * @param string $path
+	 * @param OC_EventSource eventSource (optional)
 	 * @return int the number of songs found
 	 */
-	public static function scanFolder($path){
-		if (OC_Filesystem::is_dir($path)) {
-			$songs=0;
-			if ($dh = OC_Filesystem::opendir($path)) {
-				while (($filename = readdir($dh)) !== false) {
-					if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
-						$file=$path.'/'.$filename;
-						if(OC_Filesystem::is_dir($file)){
-							$songs+=self::scanFolder($file);
-						}elseif(OC_Filesystem::is_file($file)){
-							$data=self::scanFile($file);
-							if($data){
-								$songs++;
-							}
-						}
-					}
-				}
+	public static function scanCollection($eventSource=null){
+		$music=OC_FileCache::searchByMime('audio');
+		$eventSource->send('count',count($music));
+		$songs=0;
+		foreach($music as $file){
+			self::scanFile($file);
+			$songs++;
+			if($eventSource){
+				$eventSource->send('scanned',array('file'=>$file,'count'=>$songs));
 			}
-		}elseif(OC_Filesystem::is_file($path)){
-			$songs=1;
-			self::scanFile($path);
-		}else{
-			$songs=0;
+		}
+		if($eventSource){
+			$eventSource->send('done',$songs);
 		}
 		return $songs;
 	}

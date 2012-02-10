@@ -67,7 +67,31 @@ foreach($current as $item) {
 
 if(is_array($value)) {
 	ksort($value);  // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+} else {
+	$value = strip_tags($value);
 }
+
+switch($name) {
+	case 'BDAY':
+		$date = New DateTime($value);
+		$value = $date->format(DateTime::ATOM);
+	case 'FN':
+		if(!$value) {
+			// create a method thats returns an alternative for FN.
+			//$value = getOtherValue();
+		}
+	case 'N':
+	case 'ORG':
+	case 'NICKNAME':
+		break;
+	case 'EMAIL':
+		$value = strtolower($value);
+		break;
+	case 'TEL':
+	case 'ADR': // should I delete the property if empty or throw an error?
+		break;
+}
+
 
 $property = $vcard->addProperty($name, $value); //, $parameters);
 

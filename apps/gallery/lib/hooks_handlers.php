@@ -58,12 +58,18 @@ class OC_Gallery_Hooks_Handlers {
     return OC_Gallery_Album::find(OC_User::getUser(), null, $path);
   }
 
+  public static function pathInRoot($path) {
+    $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
+    return substr($path, 0, strlen($path)>strlen($root)?strlen($root):strlen($path)) == $root;
+  }
+
   public static function addPhotoFromPath($params) {
     $fullpath = $params[OC_Filesystem::signal_param_path];
 
     if (!self::isPhoto($fullpath)) return;
 
     $path = substr($fullpath, 0, strrpos($fullpath, '/'));
+    if (!self::pathInRoot($path)) return;
     OC_Gallery_Scanner::scanDir($path, $albums);
 
   }
@@ -71,8 +77,8 @@ class OC_Gallery_Hooks_Handlers {
   public static function removePhoto($params) {
     $path = $params[OC_Filesystem::signal_param_path];
     if (OC_Filesystem::is_dir($path) && self::directoryContainsPhotos($path)) {
-      OC_Gallery_Album::removeByPath($path, OC_User::getUser());
-      OC_Gallery_Photo::removeByPath($path.'/%');
+      if(!self::pathInRoot($path)) return;
+      OC_Gallery_Album::removeByPath($path.'/', OC_User::getUser());
     } elseif (self::isPhoto($path)) {
       OC_Gallery_Photo::removeByPath($path);
     }

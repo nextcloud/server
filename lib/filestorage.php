@@ -34,12 +34,11 @@ class OC_Filestorage{
 	public function filetype($path){}
 	public function filesize($path){}
 	public function is_readable($path){}
-	public function is_writeable($path){}
+	public function is_writable($path){}
 	public function file_exists($path){}
 	public function readfile($path){}
 	public function filectime($path){}
 	public function filemtime($path){}
-	public function fileatime($path){}
 	public function file_get_contents($path){}
 	public function file_put_contents($path,$data){}
 	public function unlink($path){}
@@ -48,7 +47,6 @@ class OC_Filestorage{
 	public function fopen($path,$mode){}
 	public function toTmpFile($path){}//copy the file to a temporary file, used for cross-storage file actions
 	public function fromTmpFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
-	public function fromUploadedFile($tmpPath,$path){}//copy a file from a temporary file, used for cross-storage file actions
 	public function getMimeType($path){}
 	public function hash($type,$path,$raw){}
 	public function free_space($path){}

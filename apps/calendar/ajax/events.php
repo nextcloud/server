@@ -11,8 +11,8 @@ require_once('../../../3rdparty/when/When.php');
 
 function addoutput($event, $vevent, $return_event){
 	$return_event['id'] = (int)$event['id'];
-	$return_event['title'] = $event['summary'];
-	$return_event['description'] = isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'';
+	$return_event['title'] = htmlspecialchars($event['summary']);
+	$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
 	$last_modified = $vevent->__get('LAST-MODIFIED');
 	if ($last_modified){
 		$lastmodified = $last_modified->getDateTime()->format('U');
@@ -39,13 +39,13 @@ foreach($events as $event){
 	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 	$return_event = array();
 	$start_dt = $dtstart->getDateTime();
-	$start_dt->setTimezone(new DateTimeZone($user_timezone));
 	$end_dt = $dtend->getDateTime();
-	$end_dt->setTimezone(new DateTimeZone($user_timezone));
 	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
 		$return_event['allDay'] = true;
 	}else{
 		$return_event['allDay'] = false;
+		$start_dt->setTimezone(new DateTimeZone($user_timezone));
+		$end_dt->setTimezone(new DateTimeZone($user_timezone));
 	}
 	//Repeating Events
 	if($event['repeating'] == 1){

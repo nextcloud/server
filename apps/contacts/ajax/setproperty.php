@@ -37,9 +37,13 @@ $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 $value = $_POST['value'];
 if(is_array($value)){
 	ksort($value);  // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+	foreach(array_keys($value) as $key) {
+		OC_Log::write('contacts','ajax/setproperty.php: setting: '.$key.': '.$value[$key], OC_Log::DEBUG);
+	}
+	$value = OC_VObject::escapeSemicolons($value);
 }
 OC_Log::write('contacts','ajax/setproperty.php: setting: '.$vcard->children[$line]->name.': '.$value, OC_Log::DEBUG);
-$vcard->children[$line]->setValue($value);
+$vcard->children[$line]->setValue(strip_tags($value));
 
 // Add parameters
 $postparameters = isset($_POST['parameters'])?$_POST['parameters']:array();

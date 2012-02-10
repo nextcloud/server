@@ -39,12 +39,19 @@ class OC_Gallery_Scanner {
     $stmt->execute(array());
   }
 
+  public static function createName($name) {
+    $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
+    $name = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $name));
+    if (substr($name, 0, strlen($root)) == str_replace('/','.',$root)) {
+      $name = substr($name, strlen($root));
+    }
+    $name = ($name==='.') ? 'main' : trim($name,'.');
+    return $name;
+  }
+
   public static function scanDir($path, &$albums) {
     $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
-    $current_album['name'] = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $current_album['name']));
-    $current_album['name'] = ($current_album['name']==='.') ?
-                             'main' :
-                             trim($current_album['name'],'.');
+    $current_album['name'] = self::createName($current_album['name']);
 
     if ($dh = OC_Filesystem::opendir($path)) {
       while (($filename = readdir($dh)) !== false) {
@@ -82,8 +89,10 @@ class OC_Gallery_Scanner {
     $file_count = min(count($files), 10);
     $thumbnail = imagecreatetruecolor($file_count*200, 200);
     for ($i = 0; $i < $file_count; $i++) {
-		$imagePath = OC_Filesystem::getLocalFile($files[$i]);
-      CroppedThumbnail($imagePath, 200, 200, $thumbnail, $i*200);
+      $image = OC_Gallery_Photo::getThumbnail($files[$i]);
+      if ($image && $image->valid()) {
+	      imagecopyresampled($thumbnail, $image->resource(), $i*200, 0, 0, 0, 200, 200, 200, 200);
+      }
     }
     imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
   }
@@ -106,7 +115,7 @@ class OC_Gallery_Scanner {
       if (self::isPhoto($path.$file)) $addpath = TRUE;
     }
 
-    if ($addpath) $ret[] = $path;
+    if ($addpath) $ret[] = urlencode($path);
 
     return $ret;
   }

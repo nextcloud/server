@@ -668,8 +668,18 @@ $(document).ready(function(){
 			agenda: agendatime,
 			'': defaulttime
 			},
+		columnFormat: {
+			month: t('calendar', 'ddd'),    // Mon
+			week: t('calendar', 'ddd M/d'), // Mon 9/7
+			day: t('calendar', 'dddd M/d')  // Monday 9/7
+			},
 		titleFormat: {
-			list: 'yyyy/MMM/d dddd'
+			month: t('calendar', 'MMMM yyyy'),
+					// September 2009
+			week: t('calendar', "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"),
+					// Sep 7 - 13 2009
+			day: t('calendar', 'dddd, MMM d, yyyy'),
+					// Tuesday, Sep 8, 2009
 			},
 		axisFormat: defaulttime,
 		monthNames: monthNames,
@@ -698,6 +708,7 @@ $(document).ready(function(){
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
 		eventRender: function(event, element) {
+			element.find('span.fc-event-title').html(element.find('span.fc-event-title').text());
 			element.tipsy({
 				className: 'tipsy-event',
 				opacity: 0.9,

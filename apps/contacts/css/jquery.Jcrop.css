@@ -1,0 +1,84 @@
+/* jquery.Jcrop.css
+   The code contained in this file is free software under MIT License
+   Copyright (c)2008-2011 Tapmodo Interactive LLC
+*/
+
+/*
+  The outer-most container in a typical Jcrop instance
+  If you are having difficulty with formatting related to styles
+  on a parent element, place any fixes here or in a like selector
+*/
+.jcrop-holder {
+  direction: ltr;
+  text-align: left;
+}
+
+.jcrop-vline, .jcrop-hline {
+	background: white url('Jcrop.gif') top left repeat;
+	font-size: 0px;
+	position: absolute;
+}
+
+.jcrop-vline {
+  height: 100%;
+  width: 1px !important;
+}
+
+.jcrop-hline {
+  width: 100%;
+  height: 1px !important;
+}
+
+.jcrop-vline.right {
+  right: 0px;
+}
+
+.jcrop-hline.bottom {
+  bottom: 0px;
+}
+
+.jcrop-handle {
+	background-color: #333;
+	border: 1px #eee solid;
+	font-size: 1px;
+}
+
+.jcrop-tracker {
+  height: 100%; 
+  -webkit-tap-highlight-color: transparent; /* "turn off" link highlight */
+  -webkit-touch-callout: none;              /* disable callout, image save panel */
+  -webkit-user-select: none;                /* disable cut copy paste */
+  width: 100%;
+}
+
+/*
+*/
+
+.jcrop-light .jcrop-vline, .jcrop-light .jcrop-hline {
+	background: white;
+  filter: Alpha(opacity=70) !important;
+  opacity: .70 !important;
+}
+
+.jcrop-light .jcrop-handle {
+	background-color: black;
+	border-color: white;
+  border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.jcrop-dark .jcrop-vline, .jcrop-dark .jcrop-hline {
+	background: black;
+  filter: Alpha(opacity=70) !important;
+  opacity: 0.70 !important;
+}
+
+.jcrop-dark .jcrop-handle {
+	background-color: white;
+	border-color: black;
+  border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+

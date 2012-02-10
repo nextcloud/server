@@ -35,6 +35,7 @@ class OC_DB {
 	static private $schema=false;
 	static private $affected=0;
 	static private $result=false;
+	static private $inTransaction=false;
 
 	/**
 	 * @brief connects to the database
@@ -486,21 +487,23 @@ class OC_DB {
 	 */
 	public static function beginTransaction(){
 		self::connect();
-		if (self::$backend=self::BACKEND_MDB2 && !self::$connection->supports('transactions')) {
+		if (self::$backend==self::BACKEND_MDB2 && !self::$connection->supports('transactions')) {
 			return false;
 		}
 		self::$connection->beginTransaction();
+		self::$inTransaction=true;
 	}
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 */
-	public static function commit($savePoint=''){
+	public static function commit(){
 		self::connect();
-		if(!self::$connection->inTransaction()){
+		if(!self::$inTransaction){
 			return false;
 		}
 		self::$connection->commit();
+		self::$inTransaction=false;
 	}
 }
 

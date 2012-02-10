@@ -13,13 +13,11 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 	public function mkdir($path){
 		if($return=mkdir($this->datadir.$path)){
-			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
 	public function rmdir($path){
 		if($return=rmdir($this->datadir.$path)){
-			$this->clearFolderSizeCache($path);
 		}
 		return $return;
 	}
@@ -52,7 +50,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function is_readable($path){
 		return is_readable($this->datadir.$path);
 	}
-	public function is_writeable($path){
+	public function is_writable($path){
 		return is_writable($this->datadir.$path);
 	}
 	public function file_exists($path){
@@ -67,20 +65,22 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function filemtime($path){
 		return filemtime($this->datadir.$path);
 	}
-	public function fileatime($path){
-		return fileatime($this->datadir.$path);
-	}
+	
+	public function setFileMtime($path, $mtime){
+                   // sets the modification time of the file to the given value. If mtime is nil the current time is set.
+                  // note that the access time of the file always changes to the current time.
+                  return touch($this->datadir.$path, $mtime);
+         }
+
 	public function file_get_contents($path){
 		return file_get_contents($this->datadir.$path);
 	}
 	public function file_put_contents($path,$data){
 		if($return=file_put_contents($this->datadir.$path,$data)){
-			$this->clearFolderSizeCache($path);
 		}
 	}
 	public function unlink($path){
 		$return=$this->delTree($path);
-		$this->clearFolderSizeCache($path);
 		return $return;
 	}
 	public function rename($path1,$path2){
@@ -90,8 +90,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 
 		if($return=rename($this->datadir.$path1,$this->datadir.$path2)){
-			$this->clearFolderSizeCache($path1);
-			$this->clearFolderSizeCache($path2);
 		}
 		return $return;
 	}
@@ -104,7 +102,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			$path2.=$source;
 		}
 		if($return=copy($this->datadir.$path1,$this->datadir.$path2)){
-			$this->clearFolderSizeCache($path2);
 		}
 		return $return;
 	}
@@ -117,12 +114,10 @@ class OC_Filestorage_Local extends OC_Filestorage{
 				case 'w+':
 				case 'x+':
 				case 'a+':
-					$this->clearFolderSizeCache($path);
 					break;
 				case 'w':
 				case 'x':
 				case 'a':
-					$this->clearFolderSizeCache($path);
 					break;
 			}
 		}
@@ -192,18 +187,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		$fileStats = stat($tmpFile);
 		if(rename($tmpFile,$this->datadir.$path)){
 			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
-			$this->clearFolderSizeCache($path);
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	public function fromUploadedFile($tmpFile,$path){
-		$fileStats = stat($tmpFile);
-		if(move_uploaded_file($tmpFile,$this->datadir.$path)){
-			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
-			$this->clearFolderSizeCache($path);
 			return true;
 		}else{
 			return false;
@@ -219,7 +202,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			if ($item == '.' || $item == '..') continue;
 			if(is_file($dir.'/'.$item)){
 				if(unlink($dir.'/'.$item)){
-					$this->clearFolderSizeCache($dir);
 				}
 			}elseif(is_dir($dir.'/'.$item)){
 				if (!$this->delTree($dirRelative. "/" . $item)){
@@ -228,7 +210,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			}
 		}
 		if($return=rmdir($dir)){
-			$this->clearFolderSizeCache($dir);
 		}
 		return $return;
 	}
@@ -268,75 +249,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	 * @return int size of folder and it's content
 	 */
 	public function getFolderSize($path){
-		$path=str_replace('//','/',$path);
-		if($this->is_dir($path) and substr($path,-1)!='/'){
-			$path.='/';
-		}
-		$query=OC_DB::prepare("SELECT size FROM *PREFIX*foldersize WHERE path=?");
-		$size=$query->execute(array($path))->fetchAll();
-		if(count($size)>0){// we already the size, just return it
-			return $size[0]['size'];
-		}else{//the size of the folder isn't know, calulate it
-			return $this->calculateFolderSize($path);
-		}
-	}
-
-	/**
-	 * @brief calulate the size of folder and it's content and cache it
-	 * @param string $path file path
-	 * @return int size of folder and it's content
-	 */
-	public function calculateFolderSize($path){
-		if($this->is_file($path)){
-			$path=dirname($path);
-		}
-		$path=str_replace('//','/',$path);
-		if($this->is_dir($path) and substr($path,-1)!='/'){
-			$path.='/';
-		}
-		$size=0;
-		if ($dh = $this->opendir($path)) {
-			while (($filename = readdir($dh)) !== false) {
-				if($filename!='.' and $filename!='..'){
-					$subFile=$path.'/'.$filename;
-					if($this->is_file($subFile)){
-						$size+=$this->filesize($subFile);
-					}else{
-						$size+=$this->getFolderSize($subFile);
-					}
-				}
-			}
-			if($size>0){
-				$query=OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
-				$result=$query->execute(array($path,$size));
-			}
-		}
-		return $size;
-	}
-
-	/**
-	 * @brief clear the folder size cache of folders containing a file
-	 * @param string $path
-	 */
-	public function clearFolderSizeCache($path){
-		if($this->is_file($path)){
-			$path=dirname($path);
-		}
-		$path=str_replace('//','/',$path);
-		if($this->is_dir($path) and substr($path,-1)!='/'){
-			$path.='/';
-		}
-		$query=OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-		$result=$query->execute(array($path));
-		if($path!='/' and $path!=''){
-			$parts=explode('/',$path);
-			//pop empty part
-			$part=array_pop($parts);
-			if(empty($part)){
-				array_pop($parts);
-			}
-			$parent=implode('/',$parts);
-			$this->clearFolderSizeCache($parent);
-		}
+		return 0;//depricated, use OC_FileCach instead
 	}
 }
