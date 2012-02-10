@@ -110,7 +110,7 @@ class OC_Util {
 	/**
 	 * @brief Add a custom element to the header
 	 * @param string tag tag name of the element
-	 * @param array $attributes array of attrobutes for the element
+	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
 	 */
 	public static function addHeader( $tag, $attributes, $text=''){

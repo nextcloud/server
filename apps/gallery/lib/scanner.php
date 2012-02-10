@@ -89,8 +89,10 @@ class OC_Gallery_Scanner {
     $file_count = min(count($files), 10);
     $thumbnail = imagecreatetruecolor($file_count*200, 200);
     for ($i = 0; $i < $file_count; $i++) {
-		$imagePath = OC_Filesystem::getLocalFile($files[$i]);
-      CroppedThumbnail($imagePath, 200, 200, $thumbnail, $i*200);
+      $image = OC_Gallery_Photo::getThumbnail($files[$i]);
+      if ($image && $image->valid()) {
+	      imagecopyresampled($thumbnail, $image->resource(), $i*200, 0, 0, 0, 200, 200, 200, 200);
+      }
     }
     imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
   }

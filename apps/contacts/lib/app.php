@@ -58,7 +58,7 @@ class OC_Contacts_App{
 	public static function getContactObject($id){
 		$card = OC_Contacts_VCard::find( $id );
 		if( $card === false ){
-			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.'))));
+			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.$id)));
 			exit();
 		}
 
@@ -67,13 +67,29 @@ class OC_Contacts_App{
 	}
 
 	/**
-	 * @brief Gets the VCard as text
+	 * @brief Gets the VCard as an OC_VObject
 	 * @returns The card or null if the card could not be parsed.
 	 */
 	public static function getContactVCard($id){
 		$card = self::getContactObject( $id );
 
 		$vcard = OC_VObject::parse($card['carddata']);
+		// Try to fix cards with missing 'N' field from pre ownCloud 4. Hot damn, this is ugly...
+		if(!is_null($vcard) && !$vcard->__isset('N')){
+			$appinfo = $info=OC_App::getAppInfo('contacts');
+			if($appinfo['version'] >= 5) {
+				OC_Log::write('contacts','OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OC_Log::DEBUG);
+			}
+			OC_Log::write('contacts','getContactVCard, Missing N field', OC_Log::DEBUG);
+			if($vcard->__isset('FN')) {
+				OC_Log::write('contacts','getContactVCard, found FN field: '.$vcard->__get('FN'), OC_Log::DEBUG);
+				$n = implode(';', array_reverse(array_slice(explode(' ', $vcard->__get('FN')), 0, 2))).';;;';
+				OC_Contacts_VCard::edit( $id, $vcard->serialize());
+			} else { // Else just add an empty 'N' field :-P
+				$vcard->setString('N', 'Unknown;Name;;;');
+			}
+			$vcard->setString('N', $n);
+		}
 		return $vcard;
 	}
 

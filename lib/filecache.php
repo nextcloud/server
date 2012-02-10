@@ -62,7 +62,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result;
 		}else{
-			OC_Log::write('file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('get(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return false;
 		}
 	}
@@ -125,7 +125,9 @@ class OC_FileCache{
 			$queryParts[]='mimepart=?';
 		}
 		$arguments[]=$id;
-		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET '.implode(' , ',$queryParts).' WHERE id=?');
+		
+		$sql = 'UPDATE *PREFIX*fscache SET '.implode(' , ',$queryParts).' WHERE id=?';
+		$query=OC_DB::prepare($sql);
 		$query->execute($arguments);
 	}
 
@@ -231,7 +233,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result;
 		}else{
-			OC_Log::write('file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('getFolderContent(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return false;
 		}
 	}
@@ -264,7 +266,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result['id'];
 		}else{
-			OC_Log::write('file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('getFieldId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return -1;
 		}
 	}
@@ -293,6 +295,7 @@ class OC_FileCache{
 		}else{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
+		
 		$path=$params['path'];
 		$fullPath=$view->getRoot().$path;
 		$mimetype=$view->getMimeType($path);
@@ -303,8 +306,8 @@ class OC_FileCache{
 			if(self::inCache($path,$root)){
 				$parent=self::getFileId($fullPath);
 				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
-				$query->execute(array($parent));
-				while($row=$query->fetch()){
+				$result=$query->execute(array($parent));
+				while($row=$result->fetchRow()){
 					$size+=$row['size'];
 				}
 				$mtime=$view->filemtime($path);
@@ -330,8 +333,8 @@ class OC_FileCache{
 			}
 		}
 		$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE path=?');
-		$query->execute(array($path));
-		if($row=$query->fetch()){
+		$result=$query->execute(array($path));
+		if($row=$result->fetchRow()){
 			return $row['size'];
 		}else{//file not in cache
 			return 0;
@@ -466,6 +469,7 @@ class OC_FileCache{
 	 * fine files by mimetype
 	 * @param string $part1
 	 * @param string $part2 (optional)
+	 * @param string root (optional)
 	 * @return array of file paths
 	 *
 	 * $part1 and $part2 together form the complete mimetype.
@@ -474,17 +478,24 @@ class OC_FileCache{
 	 * seccond mimetype part can be ommited
 	 * e.g. searchByMime('audio')
 	 */
-	public static function searchByMime($part1,$part2=''){
-		if($part2){
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=?');
-			$result=$query->execute(array($part1));
+	public static function searchByMime($part1,$part2='',$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}elseif($root='/'){
+			$root='';
+		}
+		$rootLen=strlen($root);
+		$user=OC_User::getUser();
+		if(!$part2){
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=?');
+			$result=$query->execute(array($part1,$user));
 		}else{
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=?');
-			$result=$query->execute(array($part1.'/'.$part2));
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND user=?');
+			$result=$query->execute(array($part1.'/'.$part2,$user));
 		}
 		$names=array();
 		while($row=$result->fetchRow()){
-			$names[]=$row['path'];
+			$names[]=substr($row['path'],$rootLen);
 		}
 		return $names;
 	}
@@ -509,8 +520,8 @@ class OC_FileCache{
 		$isDir=$view->is_dir($path);
 		$path=$root.$path;
 		$query=OC_DB::prepare('SELECT mtime FROM *PREFIX*fscache WHERE path=?');
-		$query->execute(array($path));
-		if($row=$query->fetch()){
+		$result=$query->execute(array($path));
+		if($row=$result->fetchRow()){
 			$cachedMTime=$row['mtime'];
 			return ($mtime>$cachedMTime);
 		}else{//file not in cache, so it has to be updated
@@ -549,7 +560,7 @@ class OC_FileCache{
 		$parent=self::getFileId($view->getRoot().$path);
 		$query=OC_DB::prepare('SELECT name FROM *PREFIX*fscache WHERE parent=?');
 		$result=$query->execute(array($parent));
-		while($row=$result->fetch()){
+		while($row=$result->fetchRow()){
 			$file=$path.'/'.$row['name'];
 			if(!$view->file_exists($file)){
 				if(!$root){//filesystem hooks are only valid for the default root

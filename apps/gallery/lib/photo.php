@@ -21,7 +21,7 @@
 * 
 */
 
-class OC_Gallery_Photo{
+class OC_Gallery_Photo {
 	public static function create($albumId, $img){
 		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_photos (album_id, file_path) VALUES (?, ?)');
 		$stmt->execute(array($albumId, $img));
@@ -65,5 +65,34 @@ class OC_Gallery_Photo{
     $stmt = OC_DB::prepare("UPDATE *PREFIX*gallery_photos SET file_path = ?, album_id = ? WHERE album_id = ? and file_path = ?");
     $stmt->execute(array($newpath, $newAlbumId, $oldAlbumId, $oldpath));
   }
-}
 
+	public static function getThumbnail($image_name) {
+		$imagePath = OC_Filesystem::getLocalFile($image_name);
+		if(!file_exists($imagePath)) {
+			return null;
+		}
+		$save_dir = OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/';
+		$save_dir .= dirname($image_name). '/';
+		$image_name = basename($image_name);
+		$thumb_file = $save_dir . $image_name;
+		if (file_exists($thumb_file)) {
+			$image = new OC_Image($thumb_file);
+		} else {
+			$image = new OC_Image($imagePath);
+			if ($image->valid()) {
+				$image->centerCrop();
+				$image->resize(200);
+				$image->fixOrientation();
+				if (!is_dir($save_dir)) {
+					mkdir($save_dir, 0777, true);
+				}
+				$image->save($thumb_file);
+			}
+		}
+		if ($image->valid()) {
+			//var_dump($image, $image->resource());
+			return $image;
+		}
+		return null;
+	}
+}
