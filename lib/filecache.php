@@ -515,6 +515,9 @@ class OC_FileCache{
 			}
 			$view=new OC_FilesystemView($root);
 		}
+		if(!$view->file_exists($path)){
+			return false;
+		}
 		$mtime=$view->filemtime($path);
 		$isDir=$view->is_dir($path);
 		$path=$root.$path;
