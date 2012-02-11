@@ -540,9 +540,10 @@ Calendar={
 						var newitem = '<li id="sharewithuser_' + $('#share_user option:selected').text() +'"><input type="checkbox" width="12px" style="visibility:hidden;" title="' + $('#share_user option:selected').text() + '">' + $('#share_user option:selected').text() + ' <img src="/owncloud/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>';
 						$('#sharewithuser_list').append(newitem);
 						$('#sharewithuser_' + $('#share_user option:selected').text() + ' > img').click(function(){
-							$('#share_user option[value="' + $(this).parent().text() + '"]').attr('disabled', 'false');
+							$('#share_user option[value="' + $(this).parent().text() + '"]').removeAttr('disabled');
 							Calendar.UI.Share.unshare(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $(this).parent().text(), 'user' );
 							$(this).parent().remove();
+							$("#share_user").trigger("liszt:updated");
 						});
 						$('#share_user option:selected').attr('disabled', 'disabled');
 						$("#share_user").trigger("liszt:updated");
@@ -553,10 +554,11 @@ Calendar={
 						Calendar.UI.Share.share(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $('#share_group option:selected').text(), 'group');
 						var newitem = '<li id="sharewithgroup_' + $('#share_group option:selected').text() +'"><input type="checkbox" width="12px" style="visibility:hidden;" title="' + $('#share_group option:selected').text() + '">' + $('#share_group option:selected').text() + ' <img src="/owncloud/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>';
 						$('#sharewithgroup_list').append(newitem);
-						$('#sharewithgroup_' + $('#share_user option:selected').text() + ' > img').click(function(){
-							$('#share_group option[value="' + $(this).parent().text() + '"]').attr('disabled', 'false');
+						$('#sharewithgroup_' + $('#share_group option:selected').text() + ' > img').click(function(){
+							$('#share_group option[value="' + $(this).parent().text() + '"]').removeAttr('disabled');
 							Calendar.UI.Share.unshare(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $(this).parent().text(), 'group');
 							$(this).parent().remove();
+							$("#share_group").trigger("liszt:updated");
 						});
 						$('#share_group option:selected').attr('disabled', 'disabled');
 						$("#share_group").trigger("liszt:updated");
