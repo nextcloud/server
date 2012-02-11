@@ -1,37 +1,32 @@
 <?php
 /**
- * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
-
 require_once ('../../../lib/base.php');
 require_once('../../../3rdparty/when/When.php');
-
-function addoutput($event, $vevent, $return_event){
-	$return_event['id'] = (int)$event['id'];
-	$return_event['title'] = htmlspecialchars($event['summary']);
-	$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
-	$last_modified = $vevent->__get('LAST-MODIFIED');
-	if ($last_modified){
-		$lastmodified = $last_modified->getDateTime()->format('U');
-	}else{
-		$lastmodified = 0;
-	}
-	$return_event['lastmodified'] = (int)$lastmodified;
-	return $return_event;
-}
 
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
 $start = DateTime::createFromFormat('U', $_GET['start']);
 $end = DateTime::createFromFormat('U', $_GET['end']);
-
-$events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
+if($_GET['calendar_id'] == 'shared'){
+	$calendars = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::CALENDAR, 1);
+	$events = array();
+	foreach($calendars as $calendar){
+		$calendarevents = OC_Calendar_Object::allInPeriod($calendar['calendarid'], $start, $end);
+		$events = array_merge($events, $calendarevents);
+	}
+}else{
+	$events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
+}
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+
 $return = array();
+
 foreach($events as $event){
 	$object = OC_VObject::parse($event['calendardata']);
 	$vevent = $object->VEVENT;
@@ -47,7 +42,6 @@ foreach($events as $event){
 		$start_dt->setTimezone(new DateTimeZone($user_timezone));
 		$end_dt->setTimezone(new DateTimeZone($user_timezone));
 	}
-	//Repeating Events
 	if($event['repeating'] == 1){
 		$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
 		$r = new When();
@@ -63,7 +57,7 @@ foreach($events as $event){
 				$return_event['start'] = $result->format('Y-m-d H:i:s');
 				$return_event['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);
 			}
-			$return[] = addoutput($event, $vevent, $return_event);
+			$return[] = OC_Calendar_App::prepareForOutput($event, $vevent, $return_event);
 		}
 	}else{
 		$return_event = array();
@@ -77,7 +71,7 @@ foreach($events as $event){
 			$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
 			$return_event['allDay'] = false;
 		}
-		$return[] = addoutput($event, $vevent, $return_event);
+		$return[] = OC_Calendar_App::prepareForOutput($event, $vevent, $return_event);
 	}
 }
 OC_JSON::encodedPrint($return);

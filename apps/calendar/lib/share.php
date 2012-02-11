@@ -17,21 +17,21 @@ class OC_Calendar_Share{
 	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
 	 * @return: (array) $return - information about calendars
 	 */
-	public static function allSharedwithuser($userid, $type){
-		$group_where = 'false';
+	public static function allSharedwithuser($userid, $type, $active=null){
+		$group_where = '';
 		$groups = OC_Group::getUserGroups($userid);
 		$i = 0;
 		foreach($groups as $group){
 			if($i == 0){
-				$group_where = '';
+				$group_where = 'OR (';
 			}else{
 				$group_where .= ' OR ';
 			}
 			$group_where .= ' (share = "' . $group . '" and sharetype = "group") ';
 			$i++;
 		}
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE (share = ? AND sharetype = "user") OR (' . $group_where . ')');
-		$result = $stmt->execute(array($userid));
+		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') AND owner <> ?' . ((!is_null($active) && $active)?' AND active = 1':''));
+		$result = $stmt->execute(array($userid, $userid));
 		$return = array();
 		while( $row = $result->fetchRow()){
 			$return[] = $row;

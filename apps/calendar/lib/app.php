@@ -114,4 +114,19 @@ class OC_Calendar_App{
 	public static function getWeekofMonth(){
 		return OC_Calendar_Object::getWeekofMonth(self::$l10n);
 	}
+	
+	public static function prepareForOutput($event, $vevent, $return_event){
+		$return_event['id'] = (int)$event['id'];
+		$return_event['title'] = htmlspecialchars($event['summary']);
+		$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
+		$last_modified = $vevent->__get('LAST-MODIFIED');
+		if ($last_modified){
+			$lastmodified = $last_modified->getDateTime()->format('U');
+		}else{
+			$lastmodified = 0;
+		}
+		$return_event['lastmodified'] = (int)$lastmodified;
+		return $return_event;
+		
+	}
 }

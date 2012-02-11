@@ -19,6 +19,7 @@ $eventSources = array();
 foreach($calendars as $calendar){
 	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
 }
+$eventSources[] = array('url' => 'ajax/events.php?calendar_id=shared', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable'=>'false');
 //Fix currentview for fullcalendar
 if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "oneweekview"){
 	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "agendaWeek");
