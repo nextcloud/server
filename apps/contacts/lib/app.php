@@ -49,6 +49,12 @@ class OC_Contacts_App{
 	public static function getAddressbook($id){
 		$addressbook = OC_Contacts_Addressbook::find( $id );
 		if( $addressbook === false || $addressbook['userid'] != OC_User::getUser()){
+			if ($addressbook === false) {
+				OC_Log::write('contacts', 'Addressbook not found: '. $id, OC_Log::ERROR);
+			}
+			else {
+				OC_Log::write('contacts', 'Addressbook('.$id.') is not from '.$OC_User::getUser(), OC_Log::ERROR);
+			}
 			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
 			exit();
 		}
@@ -58,11 +64,12 @@ class OC_Contacts_App{
 	public static function getContactObject($id){
 		$card = OC_Contacts_VCard::find( $id );
 		if( $card === false ){
+			OC_Log::write('contacts', 'Contact could not be found: '.$id, OC_Log::ERROR);
 			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.$id)));
 			exit();
 		}
 
-		self::getAddressbook( $card['addressbookid'] );
+		self::getAddressbook( $card['addressbookid'] );//access check
 		return $card;
 	}
 
