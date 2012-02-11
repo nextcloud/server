@@ -254,29 +254,25 @@ class OC_FilesystemView {
 		return $this->basicOperation('fopen',$path,$hooks,$mode);
 	}
 	public function toTmpFile($path){
-		if(OC_FileProxy::runPreProxies('toTmpFile',$path) and OC_Filesystem::isValidPath($path) and $storage=$this->getStorage($path)){
-			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_read, array( OC_Filesystem::signal_param_path => $path));
-			return $storage->toTmpFile($this->getInternalPath($path));
+		if(OC_Filesystem::isValidPath($path)){
+			$source=$this->fopen($path,'r');
+			$tmpFile=tempnam(get_temp_dir(),'OC_TMP_').substr($path,strrpos($path,'.'));
+			if($source){
+				return file_put_contents($tmpFile,$source);
+			}
 		}
 	}
 	public function fromTmpFile($tmpFile,$path){
-		if(OC_FileProxy::runPreProxies('copy',$tmpFile,$path) and OC_Filesystem::isValidPath($path) and $storage=$this->getStorage($path)){
-			$run=true;
-			$exists=$this->file_exists($path);
-			if(!$exists){
-				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_create, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
+		if(OC_Filesystem::isValidPath($path)){
+			$source=fopen($tmpFile,'r');
+			if($source){
+				$this->file_put_contents($path,$source);
+				unlink($tmpFile);
+				return true;
+			}else{
 			}
-			if($run){
-				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_write, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
-			}
-			if($run){
-				$result=$storage->fromTmpFile($tmpFile,$this->getInternalPath($path));
-				if(!$exists){
-					OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_create, array( OC_Filesystem::signal_param_path => $path));
-				}
-				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, array( OC_Filesystem::signal_param_path => $path));
-				return $result;
-			}
+		}else{
+			error_log('invalid path');
 		}
 	}
 

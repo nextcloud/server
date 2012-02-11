@@ -171,28 +171,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 	}
 
-	public function toTmpFile($path){
-		$tmpFolder=get_temp_dir();
-		$filename=tempnam($tmpFolder,'OC_TEMP_FILE_'.substr($path,strrpos($path,'.')));
-		$fileStats = stat($this->datadir.$path);
-		if(copy($this->datadir.$path,$filename)){
-			touch($filename, $fileStats['mtime'], $fileStats['atime']);
-			return $filename;
-		}else{
-			return false;
-		}
-	}
-
-	public function fromTmpFile($tmpFile,$path){
-		$fileStats = stat($tmpFile);
-		if(rename($tmpFile,$this->datadir.$path)){
-			touch($this->datadir.$path, $fileStats['mtime'], $fileStats['atime']);
-			return true;
-		}else{
-			return false;
-		}
-	}
-
 	private function delTree($dir) {
 		$dirRelative=$dir;
 		$dir=$this->datadir.$dir;
