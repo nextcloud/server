@@ -19,7 +19,7 @@ $caldavBackend    = new OC_Connector_Sabre_CalDAV();
 
 // Root nodes
 $nodes = array(
-	new Sabre_DAVACL_PrincipalCollection($principalBackend),
+	new Sabre_CalDAV_Principal_Collection($principalBackend),
 	new Sabre_CalDAV_CalendarRootNode($principalBackend, $caldavBackend),
 );
 
