@@ -31,19 +31,7 @@ if(isset($GET['refresh'])) {
 }
 $l10n = new OC_L10N('contacts');
 
-$card = OC_Contacts_VCard::find( $id );
-if( $card === false ){
-	echo $l10n->t('Contact could not be found.');
-	exit();
-}
-
-$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo $l10n->t('This is not your contact.'); // This is a weird error, why would it come up? (Better feedback for users?)
-	exit();
-}
-
-$content = OC_VObject::parse($card['carddata']);
+$content = OC_Contacts_App::getContactVCard($id);
 $image = new OC_Image();
 // invalid vcard
 if( is_null($content)){

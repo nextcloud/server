@@ -50,21 +50,7 @@ $id = $_GET['id'];
 
 $l10n = new OC_L10N('contacts');
 
-$card = OC_Contacts_VCard::find( $id );
-if( $card === false ){
-	OC_Log::write('contacts','thumbnail.php. Contact could not be found: '.$id,OC_Log::ERROR);
-	getStandardImage();
-	exit();
-}
-
-// FIXME: Is this check necessary? It just takes up CPU time.
-$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	OC_Log::write('contacts','thumbnail.php. Wrong contact/addressbook - WTF?',OC_Log::ERROR);
-	exit();
-}
-
-$content = OC_VObject::parse($card['carddata']);
+$content = OC_Contacts_App::getContactVCard($id);
 
 // invalid vcard
 if( is_null($content)){
