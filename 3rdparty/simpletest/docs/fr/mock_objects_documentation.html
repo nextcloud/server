@@ -1,0 +1,933 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Documentation SimpleTest : les objets fantaise</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>Documentation sur les objets fantaisie</h1>
+        This page...
+        <ul>
+<li>
+            <a href="#what">Que sont les objets fantaisie ?</a>
+        </li>
+<li>
+            <a href="#creation">Créer des objets fantaisie</a>.
+        </li>
+<li>
+            <a href="#expectations">Les objets fantaisie en tant que critiques</a> avec les attentes.
+        </li>
+</ul>
+<div class="content">
+        <h2>
+<a class="target" name="what"></a>Que sont les objets fantaisie ?</h2>
+            <p>
+                Les objets fantaisie - ou "mock objects" en anglais -
+                ont deux rôles pendant un scénario de test : acteur et critique.
+            </p>
+            <p>
+                Le comportement d'acteur est celui de simuler
+                des objets difficiles à initialiser ou trop consommateurs
+                en temps pendant un test.
+                Le cas classique est celui de la connexion à une base de données.
+                Mettre sur pied une base de données de test au lancement
+                de chaque test ralentirait considérablement les tests
+                et en plus exigerait l'installation d'un moteur
+                de base de données ainsi que des données sur la machine de test.
+                Si nous pouvons simuler la connexion
+                et renvoyer des données à notre guise
+                alors non seulement nous gagnons en pragmatisme
+                sur les tests mais en sus nous pouvons nourrir
+                notre base avec des données falsifiées
+                et voir comment il répond. Nous pouvons
+                simuler une base de données en suspens ou
+                d'autres cas extrêmes sans avoir à créer
+                une véritable panne de base de données.
+                En d'autres termes nous pouvons gagner
+                en contrôle sur l'environnement de test.
+            </p>
+            <p>
+                Si les objets fantaisie ne se comportaient que comme
+                des acteurs alors on les connaîtrait sous le nom de
+                <a href="server_stubs_documentation.html">bouchons serveur</a>.
+                Il s'agissait originairement d'un patron de conception
+                identifié par Robert Binder (<a href="">Testing
+                object-oriented systems</a>: models, patterns, and tools,
+                Addison-Wesley) en 1999.
+            </p>
+            <p>
+                Un bouchon serveur est une simulation d'un objet ou d'un composant.
+                Il doit remplacer exactement un composant dans un système
+                en vue d'effectuer des tests ou un prototypage,
+                tout en restant ultra-léger.
+                Il permet aux tests de s'exécuter plus rapidement, ou 
+                si la classe simulée n'a pas encore été écrite,
+                de se lancer tout court.
+            </p>
+            <p>
+                Cependant non seulement les objets fantaisie jouent
+                un rôle (en fournissant à la demande les valeurs requises)
+                mais en plus ils sont aussi sensibles aux messages qui
+                leur sont envoyés (par le biais d'attentes).
+                En posant les paramètres attendus d'une méthode
+                ils agissent comme des gardiens :
+                un appel sur eux doit être réalisé correctement.
+                Si les attentes ne sont pas atteintes ils nous épargnent
+                l'effort de l'écriture d'une assertion de test avec
+                échec en réalisant cette tâche à notre place.
+            </p>
+            <p>
+                Dans le cas d'une connexion à une base de données
+                imaginaire ils peuvent tester si la requête, disons SQL,
+                a bien été formé par l'objet qui utilise cette connexion.
+                Mettez-les sur pied avec des attentes assez précises
+                et vous verrez que vous n'aurez presque plus d'assertion à écrire manuellement.
+            </p>
+        
+        <h2>
+<a class="target" name="creation"></a>Créer des objets fantaisie</h2>
+            <p>
+                Tout ce dont nous avons besoin est une classe existante ou une interface,
+                par exemple une connexion à la base de données qui ressemblerait à...
+<pre>
+<strong>class DatabaseConnection {
+    function DatabaseConnection() { }
+    function query($sql) { }
+    function selectQuery($sql) { }
+}</strong>
+</pre>
+                Pour en créer sa version fantaisie nous devons juste
+				lancer le générateur...
+<pre>
+require_once('simpletest/autorun.php');
+require_once('database_connection.php');
+
+<strong>Mock::generate('DatabaseConnection');</strong>
+</pre>
+                Ce code génère une classe clone appelée <span class="new_code">MockDatabaseConnection</span>.
+                Cette nouvelle classe lui ressemble en tout point,
+                sauf qu'elle ne fait rien du tout.
+            </p>
+            <p>
+            	Cette nouvelle classe est génératlement
+            	une sous-classe de <span class="new_code">DatabaseConnection</span>.
+            	Malheureusement, il n'y as aucun moyen de créer une version fantaisie
+            	d'une classe avec une méthode <span class="new_code">final</span> sans avoir
+            	une version fonctionnelle de cette méthode.
+            	Ce n'est pas pas très satisfaisant.
+            	Si la cible est une interface ou si les méthodes <span class="new_code">final</span>
+            	existent dans la classe cible, alors une toute nouvelle classe
+            	est créée, elle implémente juste les même interfaces.
+            	Si vous essayer de faire passer cette classe à travers un indice de type
+            	qui spécifie le véritable nom de l'ancienne classe, alors il échouera.
+            	Du code qui forcerait un indice de type tout en utilisant
+            	des méthodes <span class="new_code">final</span> ne pourrait probablement pas être
+            	testé efficacement avec des objets fantaisie.
+            </p>
+            <p>
+                Si vous voulez voir le code généré, il suffit de faire un <span class="new_code">print</span>
+                de la sortie de <span class="new_code">Mock::generate()</span>.
+                VOici le code généré pour la classe <span class="new_code">DatabaseConnection</span>
+                à la place de son interface...
+<pre>
+class MockDatabaseConnection extends DatabaseConnection {
+    public $mock;
+    protected $mocked_methods = array('databaseconnection', 'query', 'selectquery');
+
+    function MockDatabaseConnection() {
+        $this-&gt;mock = new SimpleMock();
+        $this-&gt;mock-&gt;disableExpectationNameChecks();
+    }
+    ...
+    function DatabaseConnection() {
+        $args = func_get_args();
+        $result = &amp;$this-&gt;mock-&gt;invoke("DatabaseConnection", $args);
+        return $result;
+    }
+    function query($sql) {
+        $args = func_get_args();
+        $result = &amp;$this-&gt;mock-&gt;invoke("query", $args);
+        return $result;
+    }
+    function selectQuery($sql) {
+        $args = func_get_args();
+        $result = &amp;$this-&gt;mock-&gt;invoke("selectQuery", $args);
+        return $result;
+    }
+}
+</pre>
+                Votre sortie dépendra quelque peu de votre version précise de SimpleTest.
+            </p>
+            <p>
+                En plus des méthodes d'origine de la classe, vous en verrez d'autres
+                pour faciliter les tests.
+                Nous y reviendrons.
+            </p>
+            <p>
+                Nous pouvons désormais créer des instances de
+                cette nouvelle classe à l'intérieur même de notre scénario de test...
+<pre>
+require_once('simpletest/autorun.php');
+require_once('database_connection.php');
+
+Mock::generate('DatabaseConnection');
+
+class MyTestCase extends UnitTestCase {
+
+    function testSomething() {
+        <strong>$connection = new MockDatabaseConnection();</strong>
+    }
+}
+</pre>
+                La version fantaisie contient toutles méthodes de l'originale.
+                En outre, tous les indices de type seront préservés.
+                Dison que nos méthodes de requête attend un objet <span class="new_code">Query</span>...
+<pre>
+<strong>class DatabaseConnection {
+    function DatabaseConnection() { }
+    function query(Query $query) { }
+    function selectQuery(Query $query) { }
+}</strong>
+</pre>
+                Si nous lui passons le mauvais type d'objet
+                ou même pire un non-objet...
+<pre>
+class MyTestCase extends UnitTestCase {
+
+    function testSomething() {
+        $connection = new MockDatabaseConnection();
+        $connection-&gt;query('insert into accounts () values ()');
+    }
+}
+</pre>
+                ...alors le code renverra une violation de typage,
+                exactement comme on aurait pû s'y attendre
+                avec la classe d'origine.
+            </p>
+            <p>
+                Si la version fantaisie implémente bien toutes les méthodes
+                de l'originale, elle renvoit aussi systématiquement <span class="new_code">null</span>.
+                Et comme toutes les méthodes qui renvoient toujours <span class="new_code">null</span>
+                ne sont pas très utiles, nous avons besoin de leur faire dire
+                autre chose...
+            </p>
+        
+        <h2>
+<a class="target" name="bouchon"></a>Objets fantaisie en action</h2>
+            <p>
+                Changer le <span class="new_code">null</span> renvoyé par la méthode fantaisie
+                en autre chose est assez facile...
+<pre>
+<strong>$connection-&gt;returns('query', 37)</strong>
+</pre>
+                Désormais à chaque appel de <span class="new_code">$connection-&gt;query()</span>
+                nous obtenons un résultat de 37.
+                Il n'y a rien de particulier à cette valeur de 37.
+                Cette valeur de retour peut être aussi compliqué que nécessaire.
+            </p>
+            <p>
+                Ici les paramètres ne sont pas significatifs,
+                nous aurons systématiquement la même valeur en retour
+                une fois initialisés de la sorte.
+                Cela pourrait ne pas ressembler à une copie convaincante
+                de notre connexion à la base de données, mais pour
+                la demi-douzaine de lignes de code de notre méthode de test
+                c'est généralement largement assez.
+            </p>
+            <p>
+                Sauf que les choses ne sont pas toujours si simples.
+                Les itérateurs sont un problème récurrent, si par exemple
+                renvoyer systématiquement la même valeur entraine
+                une boucle infinie dans l'objet testé.
+                Pour ces cas-là, nous avons besoin d'une séquence de valeurs.
+				Supposons que nous avons un itérateur simple qui ressemble à...
+<pre>
+class Iterator {
+    function Iterator() { }
+    function next() { }
+}
+</pre>
+                Il s'agit là de l'itérateur le plus basique que nous puissions imaginer.
+                Supponsons que cet itérateur ne renvoit que du texte
+                jusqu'à ce qu'il atteigne la fin et qu'il renvoie alors un false,
+                nous pouvons le simuler avec...
+<pre>
+Mock::generate('Iterator');
+
+class IteratorTest extends UnitTestCase() {
+
+    function testASequence() {<strong>
+        $iterator = new MockIterator();
+        $iterator-&gt;returns('next', false);
+        $iterator-&gt;returnsAt(0, 'next', 'First string');
+        $iterator-&gt;returnsAt(1, 'next', 'Second string');</strong>
+        ...
+    }
+}
+</pre>
+                Quand <span class="new_code">next()</span> est appelé par le <span class="new_code">MockIterator</span>
+                il commencera par renvoyer "First string",
+                au deuxième passage "Second string" sera renvoyé
+                et sur n'importe quel autre appel <span class="new_code">false</span> sera renvoyé
+                à son tour.
+                Les valeurs renvoyées les unes après les autres auront la priorité
+                sur la valeur constante.
+                Cette dernière est la valeur par défaut en quelque sorte.
+            </p>
+            <p>
+                Une autre situation délicate serait une opération
+                <span class="new_code">get()</span> surchargée.
+                Un exemple serait un conteneur d'information avec des pairs clef/valeur.
+                Nous partons cette fois d'une classe de configuration telle...
+<pre>
+class Configuration {
+    function Configuration() { ... }
+    function get($key) { ... }
+}
+</pre>
+                C'est une situation courante pour utiliser des objets fantaisie,
+                étant donné que la véritable configuration sera différente
+                d'une machine à l'autre et parfois même d'un test à l'autre.
+                Cependant un problème apparaît quand toutes les données passent
+                par la méthode <span class="new_code">get()</span> et que nous souhaitons
+                quand même des résultats différents pour des clefs différentes.
+                Par chance les objets fantaisie ont un système de filtre...
+<pre>
+<strong>$config = &amp;new MockConfiguration();
+$config-&gt;returns('get', 'primary', array('db_host'));
+$config-&gt;returns('get', 'admin', array('db_user'));
+$config-&gt;returns('get', 'secret', array('db_password'));</strong>
+</pre>
+                Le dernier paramètre est une liste d'arguements
+                pour vérifier une correspondance.
+                Dans ce cas, nous essayons de faire correspondre un argument
+                qui se trouve être la clef de recherche.
+                Désormais quand l'objet fantaisie voit
+                sa méthode <span class="new_code">get()</span> invoquée...
+<pre>
+$config-&gt;get('db_user')
+</pre>
+                ...il renverra "admin".
+                Il trouve cette valeur en essayant de faire correspondre
+                l'argument reçu à ceux de ses propres listes : dès qu'une
+                correspondance complète est trouvé, il s'arrête.
+            </p>
+            <p>
+                Vous pouvez préciser un argument par défaut via...
+<pre><strong>
+$config-&gt;returns('get', false, array('*'));</strong>
+</pre>
+                Ce n'est pas la même chose que de définir la valeur renvoyée
+                sans aucun arguement...
+<pre><strong>
+$config-&gt;returns('get', false);</strong>
+</pre>
+                Dans le premier cas, il acceptera n'importe quel argument,
+                mais il en faut au moins un.
+                Dans le deuxième cas, n'importe quel nombre d'arguments
+                fera l'affaire and il agit comme un attrape-tout après
+                toutes les autres vérifications.
+                Notez que si - dans le premier cas - nous ajoutons
+                d'autres options avec paramètre unique après le joker,
+                alors elle seront ignorés puisque le joker fera
+                la première correspondance.
+                Avec des listes complexes de paramètres, l'ordre devient
+                important au risque de voir la correspondance souhaitée
+                masqué par un joker apparu plus tôt.
+                Déclarez les plus spécifiques d'abord si vous n'êtes pas sûr.
+            </p>
+            <p>
+                Il y a des moments où vous souhaitez qu'une référence
+                bien spécifique soit servie par l'objet fantaisie plutôt
+                qu'une copie.
+                C'est plutôt rare pour dire le moins, mais vous pourriez 
+                être en train de simuler un conteneur qui détiendrait
+                des primitives, tels des chaînes de caractères.
+                Par exemple.
+<pre>
+class Pad {
+    function Pad() { }
+    function &amp;note($index) { }
+}
+</pre>
+                Dans ce cas, vous pouvez définir une référence dans la liste
+                des valeurs retournées par l'objet fantaisie...
+<pre>
+function testTaskReads() {
+    $note = 'Buy books';
+    $pad = new MockPad();
+    $vector-&gt;<strong>returnsByReference(</strong>'note', $note, array(3)<strong>)</strong>;
+    $task = new Task($pad);
+    ...
+}
+</pre>
+                Avec cet assemblage vous savez qu'à chaque fois
+                que <span class="new_code">$pad-&gt;note(3)</span> est appelé
+                il renverra toujours la même <span class="new_code">$note</span>,
+                même si celle-ci est modifiée.
+            </p>
+            <p>
+                Ces trois facteurs, timing, paramètres et références,
+                peuvent être combinés orthogonalement.
+                Par exemple...
+<pre>
+$buy_books = 'Buy books';
+$write_code = 'Write code';
+$pad = new MockPad();
+$vector-&gt;<strong>returnsByReferenceAt(0, 'note', $buy_books, array('*', 3));</strong>
+$vector-&gt;<strong>returnsByReferenceAt(1, 'note', $write_code, array('*', 3));</strong>
+</pre>
+                Cela renverra une référence à <span class="new_code">$buy_books</span> et
+                ensuite à <span class="new_code">$write_code</span>, mais seuleent si deux paramètres
+                sont utilisés, le deuxième devant être l'entier 3.
+                Cela devrait couvrir la plupart des situations.
+            </p>
+            <p>
+                Un dernier cas délicat reste : celui d'un objet créant
+                un autre objet, plus connu sous le patron de conception "fabrique"
+                (ou "factory").
+                Supponsons qu'à la réussite d'une requête à
+                notre base de données imaginaire, un jeu d'enregistrements
+                est renvoyé sous la forme d'un itérateur, où chaque appel
+                au <span class="new_code">next()</span> sur notre itérateur donne une ligne
+                avant de s'arrêtre avec un false.
+                Cela semble à un cauchemar à simuler, alors qu'en fait un objet
+                fantaisie peut être créé avec les mécansimes ci-dessus...
+<pre>
+Mock::generate('DatabaseConnection');
+Mock::generate('ResultIterator');
+
+class DatabaseTest extends UnitTestCase {
+
+    function testUserFinderReadsResultsFromDatabase() {<strong>
+        $result = new MockResultIterator();
+        $result-&gt;returns('next', false);
+        $result-&gt;returnsAt(0, 'next', array(1, 'tom'));
+        $result-&gt;returnsAt(1, 'next', array(3, 'dick'));
+        $result-&gt;returnsAt(2, 'next', array(6, 'harry'));
+
+        $connection = new MockDatabaseConnection();
+        $connection-&gt;returns('selectQuery', $result);</strong>
+
+        $finder = new UserFinder(<strong>$connection</strong>);
+        $this-&gt;assertIdentical(
+                $finder-&gt;findNames(),
+                array('tom', 'dick', 'harry'));
+    }
+}
+</pre>
+                Désormais ce n'est que si notre <span class="new_code">$connection</span>
+                est appelée par la méthode <span class="new_code">query()</span>
+                que sera retourné le <span class="new_code">$result</span>,
+                lui-même s'arrêtant au troisième appel
+                à <span class="new_code">next()</span>.
+                Ce devrait être suffisant comme information
+                pour que notre classe <span class="new_code">UserFinder</span>,
+                la classe effectivement testée ici,
+                fasse son boulot.
+                Un test très précis et toujours pas
+                de base de données en vue.
+            </p>
+            <p>
+                Nous pourrsion affiner ce test encore plus
+                en insistant pour que la bonne requête
+                soit envoyée...
+<pre>
+$connection-&gt;returns('selectQuery', $result, array(<strong>'select name, id from people'</strong>));
+</pre>
+                Là, c'est une mauvaise idée.
+            </p>
+            <p>
+                Niveau objet, nous avons un <span class="new_code">UserFinder</span>
+                qui parle à une base de données à travers une interface géante -
+                l'ensemble du SQL.
+                Imaginez si nous avions écrit un grand nombre de tests
+                qui dépendrait désormais de cette requête SQL précise.
+                Ces requêtes pourraient changer en masse pour tout un tas
+                de raisons non liés à ce test spécifique.
+                Par exemple, la règle pour les quotes pourrait changer,
+                un nom de table pourrait évoluer, une table de liaison pourrait
+                être ajouté, etc.
+                Cela entrainerait une ré-écriture de tous les tests à chaque fois
+                qu'un remaniement est fait, alors même que le comportement lui
+                n'a pas bougé.
+                Les tests sont censés aider au remaniement, pas le bloquer.
+                Pour ma part, je préfère avoir une suite de tests qui passent
+                quand je fais évoluer le nom des tables.
+            </p>
+            <p>
+                Et si vous voulez une règle, c'est toujours mieux de ne pas
+                créer un objet fantaisie sur une grosse interface.
+            </p>
+            <p>
+            	Par contrast, voici le test complet...
+<pre>
+class DatabaseTest extends UnitTestCase {<strong>
+    function setUp() { ... }
+    function tearDown() { ... }</strong>
+
+    function testUserFinderReadsResultsFromDatabase() {
+        $finder = new UserFinder(<strong>new DatabaseConnection()</strong>);
+        $finder-&gt;add('tom');
+        $finder-&gt;add('dick');
+        $finder-&gt;add('harry');
+        $this-&gt;assertIdentical(
+                $finder-&gt;findNames(),
+                array('tom', 'dick', 'harry'));
+    }
+}
+</pre>
+                Ce test est immunisé contre le changement de schéma.
+                Il échouera uniquement si vous changez la fonctionnalité,
+                ce qui correspond bien à ce qu'un test doit faire.
+            </p>
+            <p>
+            	Il faut juste faire attention à ces méthodes <span class="new_code">setUp()</span>
+            	et <span class="new_code">tearDown()</span> que nous avons survolé pour l'instant.
+            	Elles doivent vider les tables de la base de données
+            	et s'assurer que le schéma est bien défini.
+            	Cela peut se engendrer un peu de travail supplémentaire,
+            	mais d'ordinaire ce type de code existe déjà - à commencer pour
+            	le déploiement.
+            </p>
+            <p>
+                Il y a au moins un endroit où vous aurez besoin d'objets fantaisie :
+                c'est la simulation des erreurs.
+                Exemple, la base de données tombe pendant que <span class="new_code">UserFinder</span>
+                fait son travail. Le <span class="new_code">UserFinder</span> se comporte-t-il bien ?
+<pre>
+class DatabaseTest extends UnitTestCase {
+
+    function testUserFinder() {
+        $connection = new MockDatabaseConnection();<strong>
+        $connection-&gt;throwOn('selectQuery', new TimedOut('Ouch!'));</strong>
+        $alert = new MockAlerts();<strong>
+        $alert-&gt;expectOnce('notify', 'Database is busy - please retry');</strong>
+        $finder = new UserFinder($connection, $alert);
+        $this-&gt;assertIdentical($finder-&gt;findNames(), array());
+    }
+}
+</pre>
+                Nous avons transmis au <span class="new_code">UserFinder</span>
+                un objet <span class="new_code">$alert</span>.
+                Il va transmettre un certain nombre de belles notifications
+                à l'interface utilisatuer en cas d'erreur.
+                Nous préfèrerions éviter de saupoudrer notre code avec
+                des commandes <span class="new_code">print</span> codées en dur si nous pouvons
+                l'éviter.
+                Emballer les moyens de sortie veut dire que nous pouvons utiliser
+                ce code partout. Et cela rend notre code plus facile.
+            </p>
+            <p>
+                Pour faire passer ce test, le finder doit écrire un message sympathique
+                et compréhensible à l'<span class="new_code">$alert</span>, plutôt que de propager
+                l'exception. Jusque là, tout va bien.
+            </p>
+            <p>
+                Comment faire en sorte que la <span class="new_code">DatabaseConnection</span> fantaisie
+                soulève une exception ?
+                Nous la générons avec la méthode <span class="new_code">throwOn</span> sur l'objet fantaisie.
+            </p>
+            <p>
+                Enfin, que se passe-t-il si la méthode voulue pour la simulation
+                n'existe pas encore ?
+                Si vous définissez une valeur de retour sur une méthode absente,
+                alors SimpleTest vous répondra avec une erreur.
+                Et si vous utilisez <span class="new_code">__call()</span> pour simuler
+                des méthodes dynamiques ?
+            </p>
+            <p>
+                Les objets avec des interfaces dynamiques, avec <span class="new_code">__call</span>,
+                peuvent être problématiques dans l'implémentation courante
+                des objets fantaisie.
+                Vous pouvez en créer un autour de la méthode <span class="new_code">__call()</span>
+                mais c'est très laid.
+                Et pourquoi un test devrait connaître quelque chose avec un niveau
+                si bas dans l'implémentation. Il n'a besoin que de simuler l'appel.
+            </p>
+            <p>
+                Il y a bien moyen de contournement : ajouter des méthodes complémentaires
+                à l'objet fantaisie à la génération.
+<pre>
+<strong>Mock::generate('DatabaseConnection', 'MockDatabaseConnection', array('setOptions'));</strong>
+</pre>
+                Dans une longue suite de tests cela pourrait entraîner des problèmes,
+                puisque vous avez probablement déjà une version fantaisie
+                de la classe appellée <span class="new_code">MockDatabaseConnection</span>
+                sans les méthodes complémentaires.
+                Le générateur de code ne générera pas la version fantaisie de la classe
+                s'il en existe déjà une version avec le même nom.
+                Il vous deviendra impossible de déterminer où est passée votre méthode
+                si une autre définition a été lancé au préalable.
+            </p>
+            <p>
+                Pour pallier à ce problème, SimpleTest vous permet de choisir
+                n'importe autre nom pour la nouvelle classe au moment même où
+                vous ajouter les méthodes complémentaires.
+<pre>
+Mock::generate('DatabaseConnection', <strong>'MockDatabaseConnectionWithOptions'</strong>, array('setOptions'));
+</pre>
+                Ici l'objet fantaisie se comportera comme si
+                <span class="new_code">setOptions()</span> existait bel et bien
+                dans la classe originale.
+            </p>
+            <p>
+                Les objets fantaisie ne peuvent être utilisés qu'à l'intérieur
+                des scénarios de test, étant donné qu'à l'apparition d'une attente
+                ils envoient des messages directement au scénario de test courant.
+                Les créer en dehors d'un scénario de test entraînera une erreur
+                de run time quand une attente est déclenchée et qu'il n'y a pas
+                de scénario de test en cours pour recevoir le message.
+                Nous pouvons désormais couvrir ces attentes.
+            </p>
+        
+        <h2>
+<a class="target" name="expectations"></a>Objets fantaisie en tant que critiques</h2>
+            <p>
+                Même si les bouchons serveur isolent vos tests des perturbations
+				du monde réel, ils n'apportent que le moitié des bénéfices possibles.
+				Vous pouvez obtenir une classe de test qui reçoive les bons messages,
+				mais cette nouvelle classe envoie-t-elle les bons ?
+				Le tester peut devenir très bordélique sans
+				une librairie d'objets fantaise.
+            </p>
+			<p>
+                Voici un exemple, prenons une classe <span class="new_code">PageController</span>
+				toute simple qui traitera un formulaire de paiement
+				par carte bleue...
+<pre>
+class PaymentForm extends PageController {
+    function __construct($alert, $payment_gateway) { ... }
+    function makePayment($request) { ... }
+}
+</pre>
+                Cette classe a besoin d'un <span class="new_code">PaymentGateway</span>
+				pour parler concrètement à la banque.
+				Il utilise aussi un objet <span class="new_code">Alert</span>
+				pour gérer les erreurs.
+				Cette dernière classe parle à la page ou au template.
+				Elle est responsable de l'affichage du message d'erreur
+				et de la mise en valeur de tout champ du formulaire
+				qui serait incorrecte.
+            </p>
+            <p>
+                Elle pourrait ressembler à...
+<pre>
+class Alert {
+    function warn($warning, $id) {
+        print '&lt;div class="warning"&gt;' . $warning . '&lt;/div&gt;';
+        print '&lt;style type="text/css"&gt;#' . $id . ' { background-color: red }&lt;/style&gt;';
+    }
+}
+</pre>
+            </p>
+            <p>
+                Portons notre attention à la méthode <span class="new_code">makePayment()</span>.
+				Si nous n'inscrivons pas un numéro "CVV2" (celui à trois
+				chiffre au dos de la carte bleue), nous souhaitons afficher
+				une erreur plutôt que d'essayer de traiter le paiement. 
+				En mode test...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+require_once('payment_form.php');
+Mock::generate('Alert');
+Mock::generate('PaymentGateway');
+
+class PaymentFormFailuresShouldBeGraceful extends UnitTestCase {
+
+    function testMissingCvv2CausesAlert() {
+        $alert = new MockAlert();
+        <strong>$alert-&gt;expectOnce(
+                    'warn',
+                    array('Missing three digit security code', 'cvv2'));</strong>
+        $controller = new PaymentForm(<strong>$alert</strong>, new MockPaymentGateway());
+        $controller-&gt;makePayment($this-&gt;requestWithMissingCvv2());
+    }
+
+    function requestWithMissingCvv2() { ... }
+}
+?&gt;
+</pre>
+                Première question : où sont passés les assertions ?
+            </p>
+            <p>
+                L'appel à <span class="new_code">expectOnce('warn', array(...))</span> annonce
+				à l'objet fantaisie qu'il faut s'attendre à un appel à <span class="new_code">warn()</span>
+				avant la fin du test.
+				Quand il débouche sur l'appel à <span class="new_code">warn()</span>, il vérifie
+				les arguments. Si ceux-ci ne correspondent pas, alors un échec
+				est généré. Il échouera aussi si la méthode n'est jamais appelée.
+            </p>
+            <p>
+                Non seulement le test ci-dessus s'assure que <span class="new_code">warn</span>
+				a bien été appelé, mais en plus qu'il a bien reçu la chaîne
+				de caractère "Missing three digit security code"
+				et même le tag "cvv2".
+				L'équivalent de <span class="new_code">assertIdentical()</span> est appliqué
+				aux deux champs quand les paramètres sont comparés.
+            </p>
+            <p>
+                Si le contenu du message vous importe peu, surtout dans le cas
+				d'une interface utilisateur qui change régulièrement,
+				nous pouvons passer ce paramètre avec l'opérateur "*"...
+<pre>
+class PaymentFormFailuresShouldBeGraceful extends UnitTestCase {
+
+    function testMissingCvv2CausesAlert() {
+        $alert = new MockAlert();
+        $alert-&gt;expectOnce('warn', array(<strong>'*'</strong>, 'cvv2'));
+        $controller = new PaymentForm($alert, new MockPaymentGateway());
+        $controller-&gt;makePayment($this-&gt;requestWithMissingCvv2());
+    }
+
+    function requestWithMissingCvv2() { ... }
+}
+</pre>
+                Nous pouvons même rendre le test encore moins spécifique
+				en supprimant complètement la liste des paramètres...
+<pre>
+function testMissingCvv2CausesAlert() {
+    $alert = new MockAlert();
+    <strong>$alert-&gt;expectOnce('warn');</strong>
+    $controller = new PaymentForm($alert, new MockPaymentGateway());
+    $controller-&gt;makePayment($this-&gt;requestWithMissingCvv2());
+}
+</pre>
+                Ceci vérifiera uniquement si la méthode a été appelé,
+				ce qui est peut-être un peu drastique dans ce cas.
+				Plus tard, nous verrons comment alléger les attentes
+				plus précisement.
+            </p>
+            <p>
+                Des tests sans assertions peuvent être à la fois compacts
+				et très expressifs. Parce que nous interceptons l'appel
+				sur le chemin de l'objet, ici de classe <span class="new_code">Alert</span>,
+				nous évitons de tester l'état par la suite.
+				Cela évite les assertions dans les tests, mais aussi
+				l'obligation d'ajouter des accesseurs uniquement
+				pour les tests dans le code original.
+				Si vous en arrivez à ajouter des accesseurs de ce type,
+				on parle alors de "state based testing" dans le jargon
+				("test piloté par l'état"),
+				il est probablement plus que temps d'utiliser
+				des objets fantaisie dans vos tests.
+				On peut alors parler de "behaviour based testing"
+				(ou "test piloté par le comportement") :
+				c'est largement mieux !
+            </p>
+            <p>
+                Ajoutons un autre test.
+				Assurons nous que nous essayons même pas un paiement sans CVV2...
+<pre>
+class PaymentFormFailuresShouldBeGraceful extends UnitTestCase {
+
+    function testMissingCvv2CausesAlert() { ... }
+
+    function testNoPaymentAttemptedWithMissingCvv2() {
+        $payment_gateway = new MockPaymentGateway();
+        <strong>$payment_gateway-&gt;expectNever('pay');</strong>
+        $controller = new PaymentForm(new MockAlert(), $payment_gateway);
+        $controller-&gt;makePayment($this-&gt;requestWithMissingCvv2());
+    }
+
+    ...
+}
+</pre>
+                Vérifier une négation peut être très difficile
+				dans les tests, mais <span class="new_code">expectNever()</span>
+				rend l'opération très facile heureusement.
+            </p>
+            <p>
+                <span class="new_code">expectOnce()</span> et <span class="new_code">expectNever()</span> sont
+				suffisants pour la plupart des tests, mais
+				occasionnellement vous voulez tester plusieurs évènements.
+				D'ordinaire pour des raisons d'usabilité, nous souhaitons
+				que tous les champs manquants du formulaire soient
+				mis en relief, et pas uniquement le premier.
+				Cela veut dire que nous devrions voir de multiples appels
+				à <span class="new_code">Alert::warn()</span>, pas juste un...
+<pre>
+function testAllRequiredFieldsHighlightedOnEmptyRequest() {
+    $alert = new MockAlert();<strong>
+    $alert-&gt;expectAt(0, 'warn', array('*', 'cc_number'));
+    $alert-&gt;expectAt(1, 'warn', array('*', 'expiry'));
+    $alert-&gt;expectAt(2, 'warn', array('*', 'cvv2'));
+    $alert-&gt;expectAt(3, 'warn', array('*', 'card_holder'));
+    $alert-&gt;expectAt(4, 'warn', array('*', 'address'));
+    $alert-&gt;expectAt(5, 'warn', array('*', 'postcode'));
+    $alert-&gt;expectAt(6, 'warn', array('*', 'country'));
+    $alert-&gt;expectCallCount('warn', 7);</strong>
+    $controller = new PaymentForm($alert, new MockPaymentGateway());
+    $controller-&gt;makePayment($this-&gt;requestWithMissingCvv2());
+}
+</pre>
+                Le compteur dans <span class="new_code">expectAt()</span> précise
+				le nombre de fois que la méthode a déjà été appelée.
+				Ici nous vérifions que chaque champ sera bien mis en relief.
+            </p>
+            <p>
+                Notez que nous sommes forcé de tester l'ordre en même temps.
+				SimpleTest n'a pas encore de moyen pour éviter cela,
+				mais dans une version future ce sera corrigé.
+            </p>
+            <p>
+                Voici la liste complètes des attentes
+				que vous pouvez préciser sur une objet fantaisie
+				dans <a href="http://simpletest.org/">SimpleTest</a>.
+				Comme pour les assertions, ces méthodes prennent en option
+				un message d'erreur.
+                <table>
+                    <thead><tr>
+<th>Attente</th>
+<th>Description</th>
+</tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="new_code">expect($method, $args)</span></td>
+                            <td>Les arguements doivent correspondre si appelés</td>
+                        </tr>
+                        <tr>
+                            <td><span class="new_code">expectAt($timing, $method, $args)</span></td>
+                            <td>Les arguements doiven correspondre si appelés lors du passage numéro <span class="new_code">$timing</span>
+</td>
+                        </tr>
+                        <tr>
+                            <td><span class="new_code">expectCallCount($method, $count)</span></td>
+                            <td>La méthode doit être appelée exactement <span class="new_code">$count</span> fois</td>
+                        </tr>
+                        <tr>
+                            <td><span class="new_code">expectMaximumCallCount($method, $count)</span></td>
+                            <td>La méthode ne doit pas être appelée plus de <span class="new_code">$count</span> fois</td>
+                        </tr>
+                        <tr>
+                            <td><span class="new_code">expectMinimumCallCount($method, $count)</span></td>
+                            <td>La méthode ne doit pas être appelée moins de <span class="new_code">$count</span> fois</td>
+                        </tr>
+                        <tr>
+                            <td><span class="new_code">expectNever($method)</span></td>
+                            <td>La méthode ne doit jamais être appelée</td>
+                        </tr>
+                        <tr>
+                            <td><span class="new_code">expectOnce($method, $args)</span></td>
+                            <td>La méthode ne doit être appelée qu'une seule fois et avec les arguments (en option)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="new_code">expectAtLeastOnce($method, $args)</span></td>
+                            <td>La méthode doit être appelée au moins une seule fois et toujours avec au moins un des arguments attendus</td>
+                        </tr>
+                    </tbody>
+                </table>
+                Où les paramètres sont...
+                <dl>
+                    <dt class="new_code">$method</dt>
+                    <dd>
+                    	Le nom de la méthode, sous la forme d'une chaîne de caractères,
+						à laquelle il faut appliquer la condition.
+					</dd>
+                    <dt class="new_code">$args</dt>
+                    <dd>
+                        Les argumetns sous la forme d'une liste.
+						Les jokers peuvent être inclus de la même manière
+						que pour <span class="new_code">setReturn()</span>.
+						Cet argument est optionnel pour <span class="new_code">expectOnce()</span>
+                        et <span class="new_code">expectAtLeastOnce()</span>.
+                    </dd>
+                    <dt class="new_code">$timing</dt>
+                    <dd>
+                        La seule marque dans le temps pour tester la condition.
+						Le premier appel commence à zéro et le comptage se fait
+						séparement sur chaque méthode.
+                    </dd>
+                    <dt class="new_code">$count</dt>
+                    <dd>Le nombre d'appels attendu.</dd>
+                </dl>
+            </p>
+            <p>
+                Si vous n'avez qu'un seul appel dans votre test, assurez vous
+				d'utiliser <span class="new_code">expectOnce</span>.<br>
+                Utiliser <span class="new_code">$mocked-&gt;expectAt(0, 'method', 'args);</span>
+				tout seul ne permettra qu'à la méthode de ne jamais être appelée.
+				Vérifier les arguements et le comptage total sont pour le moment
+				indépendants.
+				Ajouter une attente <span class="new_code">expectCallCount()</span> quand
+				vous utilisez <span class="new_code">expectAt()</span> (dans le cas sans appel)
+				est permis.
+            </p>
+            <p>
+                Comme les assertions à l'intérieur des scénarios de test,
+				toutes ces attentes peuvent incorporer une surchage
+				sur le message sous la forme d'un paramètre supplémentaire.
+				Par ailleurs le message original peut être inclus dans la sortie
+				avec "%s".
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            Le papier original sur les Objets fantaisie ou
+            <a href="http://www.mockobjects.com/">Mock objects</a>.
+        </li>
+<li>
+            La page du projet SimpleTest sur <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            La page d'accueil de SimpleTest sur <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

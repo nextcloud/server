@@ -1,0 +1,501 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SimpleTest documentation for the scriptable web browser component</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <span class="chosen">Scriptable browser</span>
+</div></div>
+<h1>PHP Scriptable Web Browser</h1>
+        This page...
+        <ul>
+<li>
+            Using the bundled <a href="#scripting">web browser in scripts</a>
+        </li>
+<li>
+            <a href="#debug">Debugging</a> failed pages
+        </li>
+<li>
+            Complex <a href="#unit">tests with multiple web browsers</a>
+        </li>
+</ul>
+<div class="content">
+        
+            <p>
+                SimpleTest's web browser component can be used not just
+                outside of the <span class="new_code">WebTestCase</span> class, but also
+                independently of the SimpleTest framework itself.
+            </p>
+        
+        <h2>
+<a class="target" name="scripting"></a>The Scriptable Browser</h2>
+            <p>
+                You can use the web browser in PHP scripts to confirm
+                services are up and running, or to extract information
+                from them at a regular basis.
+                For example, here is a small script to extract the current number of
+                open PHP 5 bugs from the <a href="http://www.php.net/">PHP web site</a>...
+<pre>
+<strong>&lt;?php
+require_once('simpletest/browser.php');
+    
+$browser = &amp;new SimpleBrowser();
+$browser-&gt;get('http://php.net/');
+$browser-&gt;click('reporting bugs');
+$browser-&gt;click('statistics');
+$page = $browser-&gt;click('PHP 5 bugs only');
+preg_match('/status=Open.*?by=Any.*?(\d+)&lt;\/a&gt;/', $page, $matches);
+print $matches[1];
+?&gt;</strong>
+</pre>
+                There are simpler methods to do this particular example in PHP
+                of course.
+                For example you can just use the PHP <span class="new_code">file()</span>
+                command against what here is a pretty fixed page.
+                However, using the web browser for scripts allows authentication,
+                correct handling of cookies, automatic loading of frames, redirects,
+                form submission and the ability to examine the page headers.
+            <p>
+            </p>
+                Methods such as periodic scraping are fragile against a site that is constantly
+                evolving and you would want a more direct way of accessing
+                data in a permanent set up, but for simple tasks this can provide
+                a very rapid solution.
+            </p>
+            <p>
+                All of the navigation methods used in the
+                <a href="web_tester_documentation.html">WebTestCase</a>
+                are present in the <span class="new_code">SimpleBrowser</span> class, but
+                the assertions are replaced with simpler accessors.
+                Here is a full list of the page navigation methods...
+                <table><tbody>
+                    <tr>
+<td><span class="new_code">addHeader($header)</span></td>
+<td>Adds a header to every fetch</td>
+</tr>
+                    <tr>
+<td><span class="new_code">useProxy($proxy, $username, $password)</span></td>
+<td>Use this proxy from now on</td>
+</tr>
+                    <tr>
+<td><span class="new_code">head($url, $parameters)</span></td>
+<td>Perform a HEAD request</td>
+</tr>
+                    <tr>
+<td><span class="new_code">get($url, $parameters)</span></td>
+<td>Fetch a page with GET</td>
+</tr>
+                    <tr>
+<td><span class="new_code">post($url, $parameters)</span></td>
+<td>Fetch a page with POST</td>
+</tr>
+                    <tr>
+<td><span class="new_code">click($label)</span></td>
+<td>Clicks visible link or button text</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clickLink($label)</span></td>
+<td>Follows a link by label</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clickLinkById($id)</span></td>
+<td>Follows a link by attribute</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getUrl()</span></td>
+<td>Current URL of page or frame</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getTitle()</span></td>
+<td>Page title</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getContent()</span></td>
+<td>Raw page or frame</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getContentAsText()</span></td>
+<td>HTML removed except for alt text</td>
+</tr>
+                    <tr>
+<td><span class="new_code">retry()</span></td>
+<td>Repeat the last request</td>
+</tr>
+                    <tr>
+<td><span class="new_code">back()</span></td>
+<td>Use the browser back button</td>
+</tr>
+                    <tr>
+<td><span class="new_code">forward()</span></td>
+<td>Use the browser forward button</td>
+</tr>
+                    <tr>
+<td><span class="new_code">authenticate($username, $password)</span></td>
+<td>Retry page or frame after a 401 response</td>
+</tr>
+                    <tr>
+<td><span class="new_code">restart($date)</span></td>
+<td>Restarts the browser for a new session</td>
+</tr>
+                    <tr>
+<td><span class="new_code">ageCookies($interval)</span></td>
+<td>Ages the cookies by the specified time</td>
+</tr>
+                    <tr>
+<td><span class="new_code">setCookie($name, $value)</span></td>
+<td>Sets an additional cookie</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getCookieValue($host, $path, $name)</span></td>
+<td>Reads the most specific cookie</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getCurrentCookieValue($name)</span></td>
+<td>Reads cookie for the current context</td>
+</tr>
+                </tbody></table>
+                The methods <span class="new_code">SimpleBrowser::useProxy()</span> and
+                <span class="new_code">SimpleBrowser::addHeader()</span> are special.
+                Once called they continue to apply to all subsequent fetches.
+            </p>
+            <p>
+                Navigating forms is similar to the
+                <a href="form_testing_documentation.html">WebTestCase form navigation</a>...
+                <table><tbody>
+                    <tr>
+<td><span class="new_code">setField($label, $value)</span></td>
+<td>Sets all form fields with that label or name</td>
+</tr>
+                    <tr>
+<td><span class="new_code">setFieldByName($name, $value)</span></td>
+<td>Sets all form fields with that name</td>
+</tr>
+                    <tr>
+<td><span class="new_code">setFieldById($id, $value)</span></td>
+<td>Sets all form fields with that id</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getField($label)</span></td>
+<td>Accessor for a form element value by label tag and then name</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getFieldByName($name)</span></td>
+<td>Accessor for a form element value using name attribute</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getFieldById($id)</span></td>
+<td>Accessor for a form element value</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clickSubmit($label)</span></td>
+<td>Submits form by button label</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clickSubmitByName($name)</span></td>
+<td>Submits form by button attribute</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clickSubmitById($id)</span></td>
+<td>Submits form by button attribute</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clickImage($label, $x, $y)</span></td>
+<td>Clicks an input tag of type image by title or alt text</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clickImageByName($name, $x, $y)</span></td>
+<td>Clicks an input tag of type image by name</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clickImageById($id, $x, $y)</span></td>
+<td>Clicks an input tag of type image by ID attribute</td>
+</tr>
+                    <tr>
+<td><span class="new_code">submitFormById($id)</span></td>
+<td>Submits by the form tag attribute</td>
+</tr>
+                </tbody></table>
+                At the moment there aren't many methods to list available links and fields.
+                <table><tbody>
+                    <tr>
+<td><span class="new_code">isClickable($label)</span></td>
+<td>Test to see if a click target exists by label or name</td>
+</tr>
+                    <tr>
+<td><span class="new_code">isSubmit($label)</span></td>
+<td>Test for the existence of a button with that label or name</td>
+</tr>
+                    <tr>
+<td><span class="new_code">isImage($label)</span></td>
+<td>Test for the existence of an image button with that label or name</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getLink($label)</span></td>
+<td>Finds a URL from its label</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getLinkById($label)</span></td>
+<td>Finds a URL from its ID attribute</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getUrls()</span></td>
+<td>Lists available links in the current page</td>
+</tr>
+                </tbody></table>
+                This will be expanded in later versions of SimpleTest.
+            </p>
+            <p>
+                Frames are a rather esoteric feature these days, but SimpleTest has
+                retained support for them.
+            </p>
+            <p>
+                Within a page, individual frames can be selected.
+                If no selection is made then all the frames are merged together
+                in one large conceptual page.
+                The content of the current page will be a concatenation of all of the
+                frames in the order that they were specified in the "frameset"
+                tags.
+                <table><tbody>
+                    <tr>
+<td><span class="new_code">getFrames()</span></td>
+<td>A dump of the current frame structure</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getFrameFocus()</span></td>
+<td>Current frame label or index</td>
+</tr>
+                    <tr>
+<td><span class="new_code">setFrameFocusByIndex($choice)</span></td>
+<td>Select a frame numbered from 1</td>
+</tr>
+                    <tr>
+<td><span class="new_code">setFrameFocus($name)</span></td>
+<td>Select frame by label</td>
+</tr>
+                    <tr>
+<td><span class="new_code">clearFrameFocus()</span></td>
+<td>Treat all the frames as a single page</td>
+</tr>
+                </tbody></table>
+                When focused on a single frame, the content will come from
+                that frame only.
+                This includes links to click and forms to submit.
+            </p>
+        
+        <h2>
+<a class="target" name="debug"></a>What went wrong?</h2>
+            <p>
+                All of this functionality is great when we actually manage to fetch pages,
+                but that doesn't always happen.
+                To help figure out what went wrong, the browser has some methods to
+                aid in debugging...
+                <table><tbody>
+                    <tr>
+<td><span class="new_code">setConnectionTimeout($timeout)</span></td>
+<td>Close the socket on overrun</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getUrl()</span></td>
+<td>Url of most recent page fetched</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getRequest()</span></td>
+<td>Raw request header of page or frame</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getHeaders()</span></td>
+<td>Raw response header of page or frame</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getTransportError()</span></td>
+<td>Any socket level errors in the last fetch</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getResponseCode()</span></td>
+<td>HTTP response of page or frame</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getMimeType()</span></td>
+<td>Mime type of page or frame</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getAuthentication()</span></td>
+<td>Authentication type in 401 challenge header</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getRealm()</span></td>
+<td>Authentication realm in 401 challenge header</td>
+</tr>
+                    <tr>
+<td><span class="new_code">getBaseUrl()</span></td>
+<td>Base url only of most recent page fetched</td>
+</tr>
+                    <tr>
+<td><span class="new_code">setMaximumRedirects($max)</span></td>
+<td>Number of redirects before page is loaded anyway</td>
+</tr>
+                    <tr>
+<td><span class="new_code">setMaximumNestedFrames($max)</span></td>
+<td>Protection against recursive framesets</td>
+</tr>
+                    <tr>
+<td><span class="new_code">ignoreFrames()</span></td>
+<td>Disables frames support</td>
+</tr>
+                    <tr>
+<td><span class="new_code">useFrames()</span></td>
+<td>Enables frames support</td>
+</tr>
+                    <tr>
+<td><span class="new_code">ignoreCookies()</span></td>
+<td>Disables sending and receiving of cookies</td>
+</tr>
+                    <tr>
+<td><span class="new_code">useCookies()</span></td>
+<td>Enables cookie support</td>
+</tr>
+                </tbody></table>
+                The methods <span class="new_code">SimpleBrowser::setConnectionTimeout()</span>
+                <span class="new_code">SimpleBrowser::setMaximumRedirects()</span>,
+                <span class="new_code">SimpleBrowser::setMaximumNestedFrames()</span>,
+                <span class="new_code">SimpleBrowser::ignoreFrames()</span>,
+                <span class="new_code">SimpleBrowser::useFrames()</span>,
+                <span class="new_code">SimpleBrowser::ignoreCookies()</span> and
+                <span class="new_code">SimpleBrowser::useCokies()</span> continue to apply
+                to every subsequent request.
+                The other methods are frames aware.
+                This means that if you have an individual frame that is not
+                loading, navigate to it using <span class="new_code">SimpleBrowser::setFrameFocus()</span>
+                and you can then use <span class="new_code">SimpleBrowser::getRequest()</span>, etc to
+                see what happened.
+            </p>
+        
+        <h2>
+<a class="target" name="unit"></a>Complex unit tests with multiple browsers</h2>
+            <p>
+                Anything that could be done in a
+                <a href="web_tester_documentation.html">WebTestCase</a> can
+                now be done in a <a href="unit_tester_documentation.html">UnitTestCase</a>.
+                This means that we could freely mix domain object testing with the
+                web interface...
+<pre>
+<strong>class TestOfRegistration extends UnitTestCase {
+    function testNewUserAddedToAuthenticator() {</strong>
+        $browser = new SimpleBrowser();
+        $browser-&gt;get('http://my-site.com/register.php');
+        $browser-&gt;setField('email', 'me@here');
+        $browser-&gt;setField('password', 'Secret');
+        $browser-&gt;click('Register');
+        <strong>
+        $authenticator = new Authenticator();
+        $member = $authenticator-&gt;findByEmail('me@here');
+        $this-&gt;assertEqual($member-&gt;getPassword(), 'Secret');
+    }
+}</strong>
+</pre>
+                While this may be a useful temporary expediency, I am not a fan
+                of this type of testing.
+                The testing has cut across application layers, make it twice as
+                likely it will need refactoring when the code changes.
+            </p>
+            <p>
+                A more useful case of where using the browser directly can be helpful
+                is where the <span class="new_code">WebTestCase</span> cannot cope.
+                An example is where two browsers are needed at the same time.
+            </p>
+            <p>
+                For example, say we want to disallow multiple simultaneous
+                usage of a site with the same username.
+                This test case will do the job...
+<pre>
+class TestOfSecurity extends UnitTestCase {
+    function testNoMultipleLoginsFromSameUser() {<strong>
+        $first_attempt = new SimpleBrowser();
+        $first_attempt-&gt;get('http://my-site.com/login.php');
+        $first_attempt-&gt;setField('name', 'Me');
+        $first_attempt-&gt;setField('password', 'Secret');
+        $first_attempt-&gt;click('Enter');
+        $this-&gt;assertEqual($first_attempt-&gt;getTitle(), 'Welcome');
+        
+        $second_attempt = new SimpleBrowser();
+        $second_attempt-&gt;get('http://my-site.com/login.php');
+        $second_attempt-&gt;setField('name', 'Me');
+        $second_attempt-&gt;setField('password', 'Secret');
+        $second_attempt-&gt;click('Enter');
+        $this-&gt;assertEqual($second_attempt-&gt;getTitle(), 'Access Denied');</strong>
+    }
+}
+</pre>
+                You can also use the <span class="new_code">SimpleBrowser</span> class
+                directly when you want to write test cases using a different
+                test tool than SimpleTest, such as PHPUnit.
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            SimpleTest download page on <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+<li>
+            The <a href="http://simpletest.org/api/">developer's API for SimpleTest</a>
+            gives full detail on the classes and assertions available.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <span class="chosen">Scriptable browser</span>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

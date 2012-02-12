@@ -1,0 +1,457 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SimpleTest for PHP partial mocks documentation</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <span class="chosen">Partial mocks</span>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>Partial mock objects documentation</h1>
+        This page...
+        <ul>
+<li>
+            <a href="#inject">The mock injection problem</a>.
+        </li>
+<li>
+            Moving creation to a <a href="#creation">protected factory</a> method.
+        </li>
+<li>
+            <a href="#partial">Partial mocks</a> generate subclasses.
+        </li>
+<li>
+            Partial mocks <a href="#less">test less than a class</a>.
+        </li>
+</ul>
+<div class="content">
+        
+            <p>
+                A partial mock is simply a pattern to alleviate a specific problem
+                in testing with mock objects,
+                that of getting mock objects into tight corners.
+                It's quite a limited tool and possibly not even a good idea.
+                It is included with SimpleTest because I have found it useful
+                on more than one occasion and has saved a lot of work at that point.
+            </p>
+        
+        <h2>
+<a class="target" name="inject"></a>The mock injection problem</h2>
+            <p>
+                When one object uses another it is very simple to just pass a mock
+                version in already set up with its expectations.
+                Things are rather tricker if one object creates another and the
+                creator is the one you want to test.
+                This means that the created object should be mocked, but we can
+                hardly tell our class under test to create a mock instead.
+                The tested class doesn't even know it is running inside a test
+                after all.
+            </p>
+            <p>
+                For example, suppose we are building a telnet client and it
+                needs to create a network socket to pass its messages.
+                The connection method might look something like...
+<pre>
+<strong>&lt;?php
+require_once('socket.php');
+
+class Telnet {
+    ...
+    function connect($ip, $port, $username, $password) {
+        $socket = new Socket($ip, $port);
+        $socket-&gt;read( ... );
+        ...
+    }
+}
+?&gt;</strong>
+</pre>
+                We would really like to have a mock object version of the socket
+                here, what can we do?
+            </p>
+            <p>
+                The first solution is to pass the socket in as a parameter,
+                forcing the creation up a level.
+                Having the client handle this is actually a very good approach
+                if you can manage it and should lead to factoring the creation from
+                the doing.
+                In fact, this is one way in which testing with mock objects actually
+                forces you to code more tightly focused solutions.
+                They improve your programming.
+            </p>
+            <p>
+                Here this would be...
+<pre>
+&lt;?php
+require_once('socket.php');
+
+class Telnet {
+    ...
+    <strong>function connect($socket, $username, $password) {
+        $socket-&gt;read( ... );
+        ...
+    }</strong>
+}
+?&gt;
+</pre>
+                This means that the test code is typical for a test involving
+                mock objects.
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $telnet = new Telnet();
+        $telnet-&gt;connect($socket, 'Me', 'Secret');
+        ...</strong>
+    }
+}
+</pre>
+                It is pretty obvious though that one level is all you can go.
+                You would hardly want your top level application creating
+                every low level file, socket and database connection ever
+                needed.
+                It wouldn't know the constructor parameters anyway.
+            </p>
+            <p>
+                The next simplest compromise is to have the created object passed
+                in as an optional parameter...
+<pre>
+&lt;?php
+require_once('socket.php');
+
+class Telnet {
+    ...<strong>
+    function connect($ip, $port, $username, $password, $socket = false) {
+        if (! $socket) {
+            $socket = new Socket($ip, $port);
+        }
+        $socket-&gt;read( ... );</strong>
+        ...
+        return $socket;
+    }
+}
+?&gt;
+</pre>
+                For a quick solution this is usually good enough.
+                The test now looks almost the same as if the parameter
+                was formally passed...
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $telnet = new Telnet();
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret', $socket);
+        ...</strong>
+    }
+}
+</pre>
+                The problem with this approach is its untidiness.
+                There is test code in the main class and parameters passed
+                in the test case that are never used.
+                This is a quick and dirty approach, but nevertheless effective
+                in most situations.
+            </p>
+            <p>
+                The next method is to pass in a factory object to do the creation...
+<pre>
+&lt;?php
+require_once('socket.php');
+
+class Telnet {<strong>
+   function Telnet($network) {
+        $this-&gt;_network = $network;
+    }</strong>
+    ...
+    function connect($ip, $port, $username, $password) {<strong>
+        $socket = $this-&gt;_network-&gt;createSocket($ip, $port);
+        $socket-&gt;read( ... );</strong>
+        ...
+        return $socket;
+    }
+}
+?&gt;
+</pre>
+                This is probably the most highly factored answer as creation
+                is now moved into a small specialist class.
+                The networking factory can now be tested separately, but mocked
+                easily when we are testing the telnet class...
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $network = new MockNetwork();
+        $network-&gt;returnsByReference('createSocket', $socket);
+        $telnet = new Telnet($network);
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret');</strong>
+    }
+}
+</pre>
+                The downside is that we are adding a lot more classes to the
+                library.
+                Also we are passing a lot of factories around which will
+                make the code a little less intuitive.
+                The most flexible solution, but the most complex.
+            </p>
+            <p>
+                Well techniques like "Dependency Injection" tackle the problem of
+                instantiating a lot of constructor parameters.
+                Unfortunately knowledge of this pattern is not widespread, and if you
+                are trying to get older code to work, rearchitecting the whole
+                application is not really an option.
+            </p>
+            <p>
+                Is there a middle ground?
+            </p>
+        
+        <h2>
+<a class="target" name="creation"></a>Protected factory method</h2>
+            <p>
+                There is a way we can circumvent the problem without creating
+                any new application classes, but it involves creating a subclass
+                when we do the actual testing.
+                Firstly we move the socket creation into its own method...
+<pre>
+&lt;?php
+require_once('socket.php');
+
+class Telnet {
+    ...
+    function connect($ip, $port, $username, $password) {
+        <strong>$socket = $this-&gt;createSocket($ip, $port);</strong>
+        $socket-&gt;read( ... );
+        ...
+    }<strong>
+
+    protected function createSocket($ip, $port) {
+        return new Socket($ip, $port);
+    }</strong>
+}
+?&gt;
+</pre>
+                This is a pretty safe step even for very tangled legacy code.
+                This is the only change we make to the application.
+            </p>
+            <p>
+                For the test case we have to create a subclass so that
+                we can intercept the socket creation...
+<pre>
+<strong>class TelnetTestVersion extends Telnet {
+    var $mock;
+
+    function TelnetTestVersion($mock) {
+        $this-&gt;mock = $mock;
+        $this-&gt;Telnet();
+    }
+
+    protected function createSocket() {
+        return $this-&gt;mock;
+    }
+}</strong>
+</pre>
+                Here I have passed the mock in the constructor, but a
+                setter would have done just as well.
+                Note that the mock was set into the object variable
+                before the constructor was chained.
+                This is necessary in case the constructor calls
+                <span class="new_code">connect()</span>.
+                Otherwise it could get a null value from
+                <span class="new_code">createSocket()</span>.
+            </p>
+            <p>
+                After the completion of all of this extra work the
+                actual test case is fairly easy.
+                We just test our new class instead...
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $telnet = new TelnetTestVersion($socket);
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret');</strong>
+    }
+}
+</pre>
+                The new class is very simple of course.
+                It just sets up a return value, rather like a mock.
+                It would be nice if it also checked the incoming parameters
+                as well.
+                Just like a mock.
+                It seems we are likely to do this often, can
+                we automate the subclass creation?
+            </p>
+        
+        <h2>
+<a class="target" name="partial"></a>A partial mock</h2>
+            <p>
+                Of course the answer is "yes" or I would have stopped writing
+                this by now!
+                The previous test case was a lot of work, but we can
+                generate the subclass using a similar approach to the mock objects.
+            </p>
+            <p>
+                Here is the partial mock version of the test...
+<pre>
+<strong>Mock::generatePartial(
+        'Telnet',
+        'TelnetTestVersion',
+        array('createSocket'));</strong>
+
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $telnet = new TelnetTestVersion();
+        $telnet-&gt;setReturnReference('createSocket', $socket);
+        $telnet-&gt;Telnet();
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret');</strong>
+    }
+}
+</pre>
+                The partial mock is a subclass of the original with
+                selected methods "knocked out" with test
+                versions.
+                The <span class="new_code">generatePartial()</span> call
+                takes three parameters: the class to be subclassed,
+                the new test class name and a list of methods to mock.
+            </p>
+            <p>
+                Instantiating the resulting objects is slightly tricky.
+                The only constructor parameter of a partial mock is
+                the unit tester reference.
+                As with the normal mock objects this is needed for sending
+                test results in response to checked expectations.
+            </p>
+            <p>
+                The original constructor is not run yet.
+                This is necessary in case the constructor is going to
+                make use of the as yet unset mocked methods.
+                We set any return values at this point and then run the
+                constructor with its normal parameters.
+                This three step construction of "new", followed
+                by setting up the methods, followed by running the constructor
+                proper is what distinguishes the partial mock code.
+            </p>
+            <p>
+                Apart from construction, all of the mocked methods have
+                the same features as mock objects and all of the unmocked
+                methods behave as before.
+                We can set expectations very easily...
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {
+        $socket = new MockSocket();
+        ...
+        $telnet = new TelnetTestVersion();
+        $telnet-&gt;setReturnReference('createSocket', $socket);
+        <strong>$telnet-&gt;expectOnce('createSocket', array('127.0.0.1', 21));</strong>
+        $telnet-&gt;Telnet();
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret');
+    }
+}
+</pre>
+                Partial mocks are not used often.
+                I consider them transitory.
+                Useful while refactoring, but once the application has
+                all of it's dependencies nicely separated then the
+                partial mocks can wither away.
+            </p>
+        
+        <h2>
+<a class="target" name="less"></a>Testing less than a class</h2>
+            <p>
+                The mocked out methods don't have to be factory methods,
+                they could be any sort of method.
+                In this way partial mocks allow us to take control of any part of
+                a class except the constructor.
+                We could even go as far as to mock every method
+                except one we actually want to test.
+            </p>
+            <p>
+                This last situation is all rather hypothetical, as I've hardly
+                tried it.
+                I am a little worried that
+                forcing object granularity may be better for the code quality.
+                I personally use partial mocks as a way of overriding creation
+                or for occasional testing of the TemplateMethod pattern.
+            </p>
+            <p>
+                It's all going to come down to the coding standards of your
+                project to decide if you allow test mechanisms like this.
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            <a href="http://simpletest.org/api/">Full API for SimpleTest</a>
+            from the PHPDoc.
+        </li>
+<li>
+            The protected factory is described in
+            <a href="http://www-106.ibm.com/developerworks/java/library/j-mocktest.html">this paper from IBM</a>.
+            This is the only formal comment I have seen on this problem.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <span class="chosen">Partial mocks</span>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

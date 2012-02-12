@@ -1,0 +1,442 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SimpleTest for PHP regression test documentation</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <span class="chosen">Unit tester</span>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>PHP Unit Test documentation</h1>
+        This page...
+        <ul>
+<li>
+            <a href="#unit">Unit test cases</a> and basic assertions.
+        </li>
+<li>
+            <a href="#extending_unit">Extending test cases</a> to
+            customise them for your own project.
+        </li>
+<li>
+            <a href="#running_unit">Running a single case</a> as
+            a single script.
+        </li>
+</ul>
+<div class="content">
+        <h2>
+<a class="target" name="unit"></a>Unit test cases</h2>
+            <p>
+                The core system is a regression testing framework built around
+                test cases.
+                A sample test case looks like this...
+<pre>
+<strong>class FileTestCase extends UnitTestCase {
+}</strong>
+</pre>
+                Actual tests are added as methods in the test case whose names
+                by default start with the string "test" and
+                when the test case is invoked all such methods are run in
+                the order that PHP introspection finds them.
+                As many test methods can be added as needed.
+            </p>
+            <p>
+                For example...
+<pre>
+require_once('simpletest/autorun.php');
+require_once('../classes/writer.php');
+
+class FileTestCase extends UnitTestCase {
+    function FileTestCase() {
+        $this-&gt;UnitTestCase('File test');
+    }<strong>
+
+    function setUp() {
+        @unlink('../temp/test.txt');
+    }
+
+    function tearDown() {
+        @unlink('../temp/test.txt');
+    }
+
+    function testCreation() {
+        $writer = &amp;new FileWriter('../temp/test.txt');
+        $writer-&gt;write('Hello');
+        $this-&gt;assertTrue(file_exists('../temp/test.txt'), 'File created');
+    }</strong>
+}
+</pre>
+                The constructor is optional and usually omitted.
+                Without a name, the class name is taken as the name of the test case.
+            </p>
+            <p>
+                Our only test method at the moment is <span class="new_code">testCreation()</span>
+                where we check that a file has been created by our
+                <span class="new_code">Writer</span> object.
+                We could have put the <span class="new_code">unlink()</span>
+                code into this method as well, but by placing it in
+                <span class="new_code">setUp()</span> and
+                <span class="new_code">tearDown()</span> we can use it with
+                other test methods that we add.
+            </p>
+            <p>
+                The <span class="new_code">setUp()</span> method is run
+                just before each and every test method.
+                <span class="new_code">tearDown()</span> is run just after
+                each and every test method.
+            </p>
+            <p>
+                You can place some test case set up into the constructor to
+                be run once for all the methods in the test case, but
+                you risk test interference that way.
+                This way is slightly slower, but it is safer.
+                Note that if you come from a JUnit background this will not
+                be the behaviour you are used to.
+                JUnit surprisingly reinstantiates the test case for each test
+                method to prevent such interference.
+                SimpleTest requires the end user to use <span class="new_code">setUp()</span>, but
+                supplies additional hooks for library writers.
+            </p>
+            <p>
+                The means of reporting test results (see below) are by a
+                visiting display class
+                that is notified by various <span class="new_code">assert...()</span>
+                methods.
+                Here is the full list for the <span class="new_code">UnitTestCase</span>
+                class, the default for SimpleTest...
+                <table><tbody>
+                    <tr>
+<td><span class="new_code">assertTrue($x)</span></td>
+<td>Fail if $x is false</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertFalse($x)</span></td>
+<td>Fail if $x is true</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertNull($x)</span></td>
+<td>Fail if $x is set</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertNotNull($x)</span></td>
+<td>Fail if $x not set</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertIsA($x, $t)</span></td>
+<td>Fail if $x is not the class or type $t</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertNotA($x, $t)</span></td>
+<td>Fail if $x is of the class or type $t</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertEqual($x, $y)</span></td>
+<td>Fail if $x == $y is false</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertNotEqual($x, $y)</span></td>
+<td>Fail if $x == $y is true</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertWithinMargin($x, $y, $m)</span></td>
+<td>Fail if abs($x - $y) &lt; $m is false</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertOutsideMargin($x, $y, $m)</span></td>
+<td>Fail if abs($x - $y) &lt; $m is true</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertIdentical($x, $y)</span></td>
+<td>Fail if $x == $y is false or a type mismatch</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertNotIdentical($x, $y)</span></td>
+<td>Fail if $x == $y is true and types match</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertReference($x, $y)</span></td>
+<td>Fail unless $x and $y are the same variable</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertClone($x, $y)</span></td>
+<td>Fail unless $x and $y are identical copies</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertPattern($p, $x)</span></td>
+<td>Fail unless the regex $p matches $x</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assertNoPattern($p, $x)</span></td>
+<td>Fail if the regex $p matches $x</td>
+</tr>
+                    <tr>
+<td><span class="new_code">expectError($x)</span></td>
+<td>Fail if matching error does not occour</td>
+</tr>
+                    <tr>
+<td><span class="new_code">expectException($x)</span></td>
+<td>Fail if matching exception is not thrown</td>
+</tr>
+                    <tr>
+<td><span class="new_code">ignoreException($x)</span></td>
+<td>Swallows any upcoming matching exception</td>
+</tr>
+                    <tr>
+<td><span class="new_code">assert($e)</span></td>
+<td>Fail on failed <a href="expectation_documentation.html">expectation</a> object $e</td>
+</tr>
+                </tbody></table>
+                All assertion methods can take an optional description as a
+                last parameter.
+                This is to label the displayed result with.
+                If omitted a default message is sent instead, which is usually
+                sufficient.
+                This default message can still be embedded in your own message
+                if you include "%s" within the string.
+                All the assertions return true on a pass or false on failure.
+            </p>
+            <p>
+                Some examples...
+<pre>
+$variable = null;
+<strong>$this-&gt;assertNull($variable, 'Should be cleared');</strong>
+</pre>
+                ...will pass and normally show no message.
+                If you have
+                <a href="http://www.lastcraft.com/display_subclass_tutorial.php">set up the tester to display passes</a>
+                as well then the message will be displayed as is.
+<pre>
+<strong>$this-&gt;assertIdentical(0, false, 'Zero is not false [%s]');</strong>
+</pre>
+                This will fail as it performs a type
+                check, as well as a comparison, between the two values.
+                The "%s" part is replaced by the default
+                error message that would have been shown if we had not
+                supplied our own.
+<pre>
+$a = 1;
+$b = $a;
+<strong>$this-&gt;assertReference($a, $b);</strong>
+</pre>
+                Will fail as the variable <span class="new_code">$a</span> is a copy of <span class="new_code">$b</span>.
+<pre>
+<strong>$this-&gt;assertPattern('/hello/i', 'Hello world');</strong>
+</pre>
+                This will pass as using a case insensitive match the string
+                <span class="new_code">hello</span> is contained in <span class="new_code">Hello world</span>.
+<pre>
+<strong>$this-&gt;expectError();</strong>
+trigger_error('Catastrophe');
+</pre>
+                Here the check catches the "Catastrophe"
+                message without checking the text and passes.
+                This removes the error from the queue.
+<pre>
+<strong>$this-&gt;expectError('Catastrophe');</strong>
+trigger_error('Catastrophe');
+</pre>
+                The next error check tests not only the existence of the error,
+                but also the text which, here matches so another pass.
+                If any unchecked errors are left at the end of a test method then
+                an exception will be reported in the test.
+            </p>
+            <p>
+                Note that SimpleTest cannot catch compile time PHP errors.
+            </p>
+            <p>
+                The test cases also have some convenience methods for debugging
+                code or extending the suite...
+                <table><tbody>
+                    <tr>
+<td><span class="new_code">setUp()</span></td>
+<td>Runs this before each test method</td>
+</tr>
+                    <tr>
+<td><span class="new_code">tearDown()</span></td>
+<td>Runs this after each test method</td>
+</tr>
+                    <tr>
+<td><span class="new_code">pass()</span></td>
+<td>Sends a test pass</td>
+</tr>
+                    <tr>
+<td><span class="new_code">fail()</span></td>
+<td>Sends a test failure</td>
+</tr>
+                    <tr>
+<td><span class="new_code">error()</span></td>
+<td>Sends an exception event</td>
+</tr>
+                    <tr>
+<td><span class="new_code">signal($type, $payload)</span></td>
+<td>Sends a user defined message to the test reporter</td>
+</tr>
+                    <tr>
+<td><span class="new_code">dump($var)</span></td>
+<td>Does a formatted <span class="new_code">print_r()</span> for quick and dirty debugging</td>
+</tr>
+                </tbody></table>
+            </p>
+        
+        <h2>
+<a class="target" name="extending_unit"></a>Extending test cases</h2>
+            <p>
+                Of course additional test methods can be added to create
+                specific types of test case, so as to extend framework...
+<pre>
+require_once('simpletest/autorun.php');
+<strong>
+class FileTester extends UnitTestCase {
+    function FileTester($name = false) {
+        $this-&gt;UnitTestCase($name);
+    }
+
+    function assertFileExists($filename, $message = '%s') {
+        $this-&gt;assertTrue(
+                file_exists($filename),
+                sprintf($message, 'File [$filename] existence check'));
+    }</strong>
+}
+</pre>
+                Here the SimpleTest library is held in a folder called
+                <em>simpletest</em> that is local.
+                Substitute your own path for this.
+            </p>
+            <p>
+                To prevent this test case being run accidently, it is
+                advisable to mark it as <span class="new_code">abstract</span>.
+            </p>
+            <p>
+                Alternatively you could add a
+                <span class="new_code">SimpleTestOptions::ignore('FileTester');</span>
+                directive in your code.
+            </p>
+            <p>
+                This new case can be now be inherited just like
+                a normal test case...
+<pre>
+class FileTestCase extends <strong>FileTester</strong> {
+
+    function setUp() {
+        @unlink('../temp/test.txt');
+    }
+
+    function tearDown() {
+        @unlink('../temp/test.txt');
+    }
+
+    function testCreation() {
+        $writer = &amp;new FileWriter('../temp/test.txt');
+        $writer-&gt;write('Hello');<strong>
+        $this-&gt;assertFileExists('../temp/test.txt');</strong>
+    }
+}
+</pre>
+            </p>
+            <p>
+                If you want a test case that does not have all of the
+                <span class="new_code">UnitTestCase</span> assertions,
+                only your own and a few basics,
+                you need to extend the <span class="new_code">SimpleTestCase</span>
+                class instead.
+                It is found in <em>simple_test.php</em> rather than
+                <em>unit_tester.php</em>.
+                See <a href="group_test_documentation.html">later</a> if you
+                want to incorporate other unit tester's
+                test cases in your test suites.
+            </p>
+        
+        <h2>
+<a class="target" name="running_unit"></a>Running a single test case</h2>
+            <p>
+                You won't often run single test cases except when bashing
+                away at a module that is having difficulty, and you don't
+                want to upset the main test suite.
+                With <em>autorun</em> no particular scaffolding is needed,
+                just launch your particular test file and you're ready to go.
+            </p>
+            <p>
+                You can even decide which reporter (for example,
+                <span class="new_code">TextReporter</span> or <span class="new_code">HtmlReporter</span>)
+                you prefer for a specific file when launched on its own...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');<strong>
+SimpleTest :: prefer(new TextReporter());</strong>
+require_once('../classes/writer.php');
+
+class FileTestCase extends UnitTestCase {
+    ...
+}
+?&gt;
+</pre>
+                This script will run as is, but of course will output zero passes
+                and zero failures until test methods are added.
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            SimpleTest download page on <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+<li>
+            <a href="http://simpletest.org/api/">Full API for SimpleTest</a>
+            from the PHPDoc.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <span class="chosen">Unit tester</span>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>
