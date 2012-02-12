@@ -153,7 +153,7 @@ class OC_Contacts_App {
 		}
 	}
 
-	public static function setLastModifiedHeader() {
+	public static function setLastModifiedHeader($contact) {
 		$rev = $contact->getAsString('REV');
 		if ($rev) {
 			$rev = DateTime::createFromFormat(DateTime::W3C, $rev);
