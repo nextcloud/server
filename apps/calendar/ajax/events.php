@@ -21,6 +21,11 @@ if($_GET['calendar_id'] == 'shared'){
 		$events = array_merge($events, $calendarevents);
 	}
 }else{
+	$calendar = OC_Calendar_Calendar::find($_GET['calendar_id']);
+	if($calendar['userid'] != OC_User::getUser()){
+		OC_JSON::error();
+		exit;
+	}
 	$events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
 }
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
