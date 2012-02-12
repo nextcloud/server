@@ -34,8 +34,7 @@ $vcard = OC_Contacts_App::getContactVCard( $id );
 
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 if(is_null($line)){
-	$l=new OC_L10N('contacts');
-	OC_JSON::error(array('data' => array( 'message' => $l->t('Information about vCard is incorrect. Please reload the page.'))));
+	OC_JSON::error(array('data' => array( 'message' => OC_Contacts_App::$l10n->t('Information about vCard is incorrect. Please reload the page.'))));
 	exit();
 }
 

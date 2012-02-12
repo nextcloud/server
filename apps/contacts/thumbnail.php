@@ -44,8 +44,6 @@ if(!function_exists('imagecreatefromjpeg')) {
 
 $id = $_GET['id'];
 
-$l10n = new OC_L10N('contacts');
-
 $contact = OC_Contacts_App::getContactVCard($id);
 
 // invalid vcard

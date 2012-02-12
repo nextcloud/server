@@ -23,7 +23,6 @@
 // Init owncloud
 require_once('../../../lib/base.php');
 
-$l10n = new OC_L10N('contacts');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');

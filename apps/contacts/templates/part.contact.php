@@ -1,5 +1,4 @@
 <?php
-$l=new OC_L10N('contacts');
 $id = isset($_['id']) ? $_['id'] : '';
 ?>
 <div id="card">

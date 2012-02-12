@@ -34,7 +34,6 @@ function debug($msg) {
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
-$l=new OC_L10N('contacts');
 
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.$element);
@@ -55,7 +54,7 @@ $vcard->setString('N',$n);
 
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 if(!$id) {
-	OC_JSON::error(array('data' => array('message' => $l->t('There was an error adding the contact.'))));
+	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
 	OC_Log::write('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OC_Log::ERROR);
 	exit();
 }

@@ -26,7 +26,6 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
-$l=new OC_L10N('contacts');
 
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
@@ -59,24 +58,24 @@ if(is_array($value)){ // FIXME: How to strip_tags for compound values?
 	$value = trim(strip_tags($value));
 }
 if(!$id) {
-	bailOut($l->t('id is not set.'));
+	bailOut(OC_Contacts_App::$l10n->t('id is not set.'));
 }
 if(!$checksum) {
-	bailOut($l->t('checksum is not set.'));
+	bailOut(OC_Contacts_App::$l10n->t('checksum is not set.'));
 }
 if(!$name) {
-	bailOut($l->t('element name is not set.'));
+	bailOut(OC_Contacts_App::$l10n->t('element name is not set.'));
 }
 
 $vcard = OC_Contacts_App::getContactVCard( $id );
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 if(is_null($line)) {
-	bailOut($l->t('Information about vCard is incorrect. Please reload the page.'.$checksum.' "'.$line.'"'));
+	bailOut(OC_Contacts_App::$l10n->t('Information about vCard is incorrect. Please reload the page.'.$checksum.' "'.$line.'"'));
 }
 $element = $vcard->children[$line]->name;
 
 if($element != $name) {
-	bailOut($l->t('Something went FUBAR. ').$name.' != '.$element);
+	bailOut(OC_Contacts_App::$l10n->t('Something went FUBAR. ').$name.' != '.$element);
 }
 
 switch($element) {
@@ -123,7 +122,7 @@ $checksum = md5($vcard->children[$line]->serialize());
 debug('New checksum: '.$checksum);
 
 if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
-	OC_JSON::error(array('data' => array('message' => $l->t('Error updating contact property.'))));
+	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error updating contact property.'))));
 	OC_Log::write('contacts','ajax/setproperty.php: Error updating contact property: '.$value, OC_Log::ERROR);
 	exit();
 }

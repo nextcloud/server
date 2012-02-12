@@ -9,7 +9,6 @@
 require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
-$l10n = new OC_L10N('contacts');
 $tmpl = new OC_Template('contacts', 'part.import');
 $tmpl->assign('path', $_POST['path']);
 $tmpl->assign('filename', $_POST['filename']);

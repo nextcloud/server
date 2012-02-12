@@ -26,7 +26,6 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
-$l=new OC_L10N('contacts');
 
 $id = $_POST['id'];
 $vcard = OC_Contacts_App::getContactVCard( $id );
@@ -36,7 +35,7 @@ $value = $_POST['value'];
 if(!is_array($value)){
 	$value = trim($value);
 	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME'))) {
-		OC_JSON::error(array('data' => array('message' => $l->t('Cannot add empty property.'))));
+		OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot add empty property.'))));
 		exit();
 	}
 } elseif($name === 'ADR') { // only add if non-empty elements.
@@ -48,7 +47,7 @@ if(!is_array($value)){
 		}
 	}
 	if($empty) {
-		OC_JSON::error(array('data' => array('message' => $l->t('At least one of the address fields has to be filled out.'))));
+		OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('At least one of the address fields has to be filled out.'))));
 		exit();
 	}
 }
@@ -59,7 +58,7 @@ $current = $vcard->select($name);
 foreach($current as $item) {
 	$tmpvalue = (is_array($value)?implode(';', $value):$value);
 	if($tmpvalue == $item->value) {
-		OC_JSON::error(array('data' => array('message' => $l->t('Trying to add duplicate property: ').$name.': '.$tmpvalue)));
+		OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Trying to add duplicate property: ').$name.': '.$tmpvalue)));
 		OC_Log::write('contacts','ajax/addproperty.php: Trying to add duplicate property: '.$name.': '.$tmpvalue, OC_Log::DEBUG);
 		exit();
 	}
@@ -114,7 +113,7 @@ foreach ($parameters as $key=>$element) {
 $checksum = md5($vcard->children[$line]->serialize());
 
 if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
-	OC_JSON::error(array('data' => array('message' => $l->t('Error adding contact property.'))));
+	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error adding contact property.'))));
 	OC_Log::write('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OC_Log::ERROR);
 	exit();
 }

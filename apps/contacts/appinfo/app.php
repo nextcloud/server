@@ -1,6 +1,4 @@
 <?php
-$l=new OC_L10N('contacts');
-
 OC::$CLASSPATH['OC_Contacts_App'] = 'apps/contacts/lib/app.php';
 OC::$CLASSPATH['OC_Contacts_Addressbook'] = 'apps/contacts/lib/addressbook.php';
 OC::$CLASSPATH['OC_Contacts_VCard'] = 'apps/contacts/lib/vcard.php';
@@ -18,7 +16,7 @@ OC_App::addNavigationEntry( array(
   'order' => 10,
   'href' => OC_Helper::linkTo( 'contacts', 'index.php' ),
   'icon' => OC_Helper::imagePath( 'settings', 'users.svg' ),
-  'name' => $l->t('Contacts') ));
+  'name' => OC_Contacts_App::$l10n->t('Contacts') ));
 
 
 OC_APP::registerPersonal('contacts','settings');
