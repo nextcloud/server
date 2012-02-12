@@ -42,6 +42,18 @@ class OC_Response {
 		header('Location: '.$location);
 	}
 
+	static public function setExpiresHeader($expires) {
+		if (is_string($expires) && $expires[0] == 'P') {
+			$interval = $expires;
+			$expires = new DateTime('now');
+			$expires->add(new DateInterval(expires));
+		}
+		if ($expires instanceof DateTime) {
+			$expires = $expires->format(DateTime::RFC2822);
+		}
+		header('Expires: '.expires);
+	}
+
 	static public function setETagHeader($etag) {
 		if (empty($etag)) {
 			return;

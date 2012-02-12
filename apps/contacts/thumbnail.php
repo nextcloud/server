@@ -27,9 +27,7 @@ OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 function getStandardImage(){
-	$date = new DateTime('now');
-	$date->add(new DateInterval('P10D'));
-	header('Expires: '.$date->format(DateTime::RFC2822));
+	OC_Response::setExpiresHeader('P10D');
 	OC_Response::enableCaching();
 	OC_Response::redirect(OC_Helper::imagePath('contacts', 'person.png'));
 }
