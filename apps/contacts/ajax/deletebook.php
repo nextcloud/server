@@ -30,7 +30,7 @@ OC_JSON::checkAppEnabled('contacts');
 
 //$id = $_GET['id'];
 $id = $_POST['id'];
-$addressbook = OC_Contacts_App::getAddressbook( $id );
+OC_Contacts_App::getAddressbook( $id ); // is owner access check
 
 OC_Contacts_Addressbook::delete($id);
 OC_JSON::success(array('data' => array( 'id' => $id )));

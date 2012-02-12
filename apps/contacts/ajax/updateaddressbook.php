@@ -15,6 +15,7 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
 $bookid = $_POST['id'];
+OC_Contacts_App::getAddressbook($bookid); // is owner access check
 
 if(!OC_Contacts_Addressbook::edit($bookid, $_POST['name'], null)) {
 	OC_JSON::error(array('data' => array('message' => $l->t('Error updating addressbook.'))));

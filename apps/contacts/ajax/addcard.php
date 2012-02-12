@@ -34,7 +34,7 @@ OC_JSON::checkAppEnabled('contacts');
 $l=new OC_L10N('contacts');
 
 $aid = $_POST['id'];
-$addressbook = OC_Contacts_App::getAddressbook( $aid );
+OC_Contacts_App::getAddressbook( $aid ); // is owner access check
 
 $fn = trim($_POST['fn']);
 $values = $_POST['value'];
