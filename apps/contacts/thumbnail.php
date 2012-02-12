@@ -29,15 +29,11 @@ OC_Util::checkAppEnabled('contacts');
 function getStandardImage(){
 	$date = new DateTime('now');
 	$date->add(new DateInterval('P10D'));
-	header('Expires: '.$date->format(DateTime::RFC850));
+	header('Expires: '.$date->format(DateTime::RFC2822));
 	header('Cache-Control: cache');
 	header('Pragma: cache');
+	header("HTTP/1.1 307 Temporary Redirect");
 	header('Location: '.OC_Helper::imagePath('contacts', 'person.png'));
-	exit();
-// 	$src_img = imagecreatefrompng('img/person.png');
-// 	header('Content-Type: image/png');
-// 	imagepng($src_img);
-// 	imagedestroy($src_img);
 }
 
 if(!function_exists('imagecreatefromjpeg')) {
@@ -50,10 +46,10 @@ $id = $_GET['id'];
 
 $l10n = new OC_L10N('contacts');
 
-$content = OC_Contacts_App::getContactVCard($id);
+$contact = OC_Contacts_App::getContactVCard($id);
 
 // invalid vcard
-if( is_null($content)){
+if( is_null($contact)){
 	OC_Log::write('contacts','thumbnail.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
 	getStandardImage();
 	exit();
@@ -62,34 +58,45 @@ if( is_null($content)){
 $thumbnail_size = 23;
 
 // Find the photo from VCard.
-foreach($content->children as $child){
-	if($child->name == 'PHOTO'){
-		$image = new OC_Image();
-		if($image->loadFromBase64($child->value)) {
-			if($image->centerCrop()) {
-				if($image->resize($thumbnail_size)) {
-					header('ETag: '.md5($child->value));
-					if(!$image()) {
-						OC_Log::write('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OC_Log::ERROR);
-						getStandardImage();
-						exit();
-					}
-				} else {
-					OC_Log::write('contacts','thumbnail.php. Couldn\'t resize thumbnail for ID '.$id,OC_Log::ERROR);
-					getStandardImage();
-					exit();
-				}
-			}else{
-				OC_Log::write('contacts','thumbnail.php. Couldn\'t crop thumbnail for ID '.$id,OC_Log::ERROR);
-				getStandardImage();
+$image = new OC_Image();
+$photo = $contact->getAsString('PHOTO');
+$etag = md5($photo);
+$rev_string = $contact->getAsString('REV');
+if ($rev_string) {
+	$rev = DateTime::createFromFormat(DateTime::W3C, $rev_string);
+	$last_modified_time = $rev->format(DateTime::RFC2822);
+} else {
+	$last_modified_time = null;
+}
+
+header('Cache-Control: cache');
+header('Pragma: cache');
+if ($rev_string) {
+	header('Last-Modified: '.$last_modified_time);
+}
+header('ETag: '.$etag);
+
+if (@trim($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $last_modified_time ||
+    @trim($_SERVER['HTTP_IF_NONE_MATCH']) == $etag) {
+	header('HTTP/1.1 304 Not Modified');
+	exit;
+}
+
+if($image->loadFromBase64($photo)) {
+	if($image->centerCrop()) {
+		if($image->resize($thumbnail_size)) {
+			if($image->show()) {
 				exit();
+			} else {
+				OC_Log::write('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OC_Log::ERROR);
 			}
 		} else {
-			OC_Log::write('contacts','thumbnail.php. Couldn\'t load image string for ID '.$id,OC_Log::ERROR);
-			getStandardImage();
-			exit();
+			OC_Log::write('contacts','thumbnail.php. Couldn\'t resize thumbnail for ID '.$id,OC_Log::ERROR);
 		}
-		exit();
+	}else{
+		OC_Log::write('contacts','thumbnail.php. Couldn\'t crop thumbnail for ID '.$id,OC_Log::ERROR);
 	}
+} else {
+	OC_Log::write('contacts','thumbnail.php. Couldn\'t load image string for ID '.$id,OC_Log::ERROR);
 }
 getStandardImage();
