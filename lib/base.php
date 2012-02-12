@@ -142,6 +142,13 @@ class OC{
 		// set the right include path
 		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
 
+		// Redirect to installer if not installed
+		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
+			$url = 'http://'.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+			header("Location: $url");
+			exit();
+		}
+
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )){
 			ini_set("session.cookie_secure", "on");

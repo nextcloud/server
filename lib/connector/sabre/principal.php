@@ -44,6 +44,7 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 		}
 		return true;
 	}
+
 	/**
 	 * Returns a list of principals based on a prefix.
 	 *
@@ -57,22 +58,17 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 * @param string $prefixPath
 	 * @return array
 	 */
-	public function getPrincipalsByPrefix( $prefixPath ){
-		$query = OC_DB::prepare('SELECT * FROM *PREFIX*principals');
-		$result = $query->execute();
-
+	public function getPrincipalsByPrefix( $prefixPath ) {
 		$principals = array();
 
-		while($row = $result->fetchRow()){
-			// Checking if the principal is in the prefix
-			list($rowPrefix) = Sabre_DAV_URLUtil::splitPath($row['uri']);
-			if ($rowPrefix !== $prefixPath) continue;
-
-			$principals[] = array(
-				'uri' => $row['uri'],
-				'{DAV:}displayname' => $row['displayname']?$row['displayname']:basename($row['uri'])
-			);
-
+		if ($prefixPath == 'principals') {
+			foreach(OC_User::getUsers() as $user) {
+				$user_uri = 'principals/'.$user;
+				$principals[] = array(
+					'uri' => $user_uri,
+					'{DAV:}displayname' => $user,
+				);
+			}
 		}
 
 		return $principals;
@@ -87,20 +83,16 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		$query = OC_DB::prepare('SELECT * FROM *PREFIX*principals WHERE uri=?');
-		$result = $query->execute(array($path));
+		list($prefix,$name) = Sabre_DAV_URLUtil::splitPath($path);
 
-		$users = array();
+		if ($prefix == 'principals' && OC_User::userExists($name)) {
+			return array(
+				'uri' => 'principals/'.$name,
+				'{DAV:}displayname' => $name,
+			);
+		}
 
-		$row = $result->fetchRow();
-		if (!$row) return;
-
-		return array(
-			'id'  => $row['id'],
-			'uri' => $row['uri'],
-			'{DAV:}displayname' => $row['displayname']?$row['displayname']:basename($row['uri'])
-		);
-
+		return null;
 	}
 
 	/**
@@ -110,17 +102,15 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 * @return array
 	 */
 	public function getGroupMemberSet($principal) {
-		$principal = $this->getPrincipalByPath($principal);
+		// TODO: for now the group principal has only one member, the user itself
+		list($prefix,$name) = Sabre_DAV_URLUtil::splitPath($principal);
+
+		$principal = $this->getPrincipalByPath($prefix);
 		if (!$principal) throw new Sabre_DAV_Exception('Principal not found');
 
-		$query = OC_DB::prepare('SELECT principals.uri as uri FROM *PREFIX*principalgroups AS groupmembers LEFT JOIN *PREFIX*principals AS principals ON groupmembers.member_id = principals.id WHERE groupmembers.principal_id = ?');
-		$result = $query->execute(array($principal['id']));
-	
-		$return = array();
-		while ($row = $result->fetchRow()){
-			$return[] = $row['uri'];
-		}
-		return $return;
+		return array(
+			$prefix
+		);
 	}
 
 	/**
@@ -130,17 +120,24 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 * @return array
 	 */
 	public function getGroupMembership($principal) {
-		$principal = $this->getPrincipalByPath($principal);
-		if (!$principal) throw new Sabre_DAV_Exception('Principal not found');
+		list($prefix,$name) = Sabre_DAV_URLUtil::splitPath($principal);
 
-		$query = OC_DB::prepare('SELECT principals.uri as uri FROM *PREFIX*principalgroups AS groupmembers LEFT JOIN *PREFIX*principals AS principals ON groupmembers.member_id = principals.id WHERE groupmembers.member_id = ?');
-		$result = $query->execute(array($principal['id']));
+		$group_membership = array();
+		if ($prefix == 'principals') {
+			$principal = $this->getPrincipalByPath($principal);
+			if (!$principal) throw new Sabre_DAV_Exception('Principal not found');
 
-		$return = array();
-		while ($row = $result->fetchRow()){
-			$return[] = $row['uri'];
+			// TODO: for now the user principal has only its own groups
+			return array(
+				'principals/'.$name.'/calendar-proxy-read',
+				'principals/'.$name.'/calendar-proxy-write',
+				// The addressbook groups are not supported in Sabre,
+				// see http://groups.google.com/group/sabredav-discuss/browse_thread/thread/ef2fa9759d55f8c#msg_5720afc11602e753
+				//'principals/'.$name.'/addressbook-proxy-read',
+				//'principals/'.$name.'/addressbook-proxy-write',
+			);
 		}
-		return $return;
+		return $group_membership;
 	}
 
 	/**
@@ -153,29 +150,6 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 * @return void
 	 */
 	public function setGroupMemberSet($principal, array $members) {
-		$query = OC_DB::prepare('SELECT id, uri FROM *PREFIX*principals WHERE uri IN (? '.str_repeat(', ?', count($members)).')');
-		$result = $query->execute(array_merge(array($principal), $members));
-
-		$memberIds = array();
-		$principalId = null;
-
-		while($row = $$result->fetchRow()) {
-			if ($row['uri'] == $principal) {
-				$principalId = $row['id'];
-			}
-			else{
-				$memberIds[] = $row['id'];
-			}
-		}
-		if (!$principalId) throw new Sabre_DAV_Exception('Principal not found');
-
-		// Wiping out old members
-		$query = OC_DB::prepare('DELETE FROM *PREFIX*principalgroups WHERE principal_id = ?');
-		$query->execute(array($principalID));
-
-		$query = OC_DB::prepare('INSERT INTO *PREFIX*principalgroups (principal_id, member_id) VALUES (?, ?);');
-		foreach($memberIds as $memberId) {
-			$query->execute(array($principalId, $memberId));
-		}
+		throw new Sabre_DAV_Exception('Setting members of the group is not supported yet');
 	}
 }
