@@ -152,4 +152,12 @@ class OC_Contacts_App {
 			);
 		}
 	}
+
+	public static function setLastModifiedHeader() {
+		$rev = $contact->getAsString('REV');
+		if ($rev) {
+			$rev = DateTime::createFromFormat(DateTime::W3C, $rev);
+			OC_Response::setLastModifiedHeader($rev);
+		}
+	}
 }

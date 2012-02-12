@@ -58,27 +58,9 @@ $thumbnail_size = 23;
 // Find the photo from VCard.
 $image = new OC_Image();
 $photo = $contact->getAsString('PHOTO');
-$etag = md5($photo);
-$rev_string = $contact->getAsString('REV');
-if ($rev_string) {
-	$rev = DateTime::createFromFormat(DateTime::W3C, $rev_string);
-	$last_modified_time = $rev->format(DateTime::RFC2822);
-} else {
-	$last_modified_time = null;
-}
 
-header('Cache-Control: cache');
-header('Pragma: cache');
-if ($rev_string) {
-	header('Last-Modified: '.$last_modified_time);
-}
-header('ETag: '.$etag);
-
-if (@trim($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $last_modified_time ||
-    @trim($_SERVER['HTTP_IF_NONE_MATCH']) == $etag) {
-	header('HTTP/1.1 304 Not Modified');
-	exit;
-}
+OC_Response::setETagHeader(md5($photo));
+OC_Contacts_App::setLastModifiedHeader($contact);
 
 if($image->loadFromBase64($photo)) {
 	if($image->centerCrop()) {

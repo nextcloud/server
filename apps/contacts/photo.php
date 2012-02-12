@@ -14,9 +14,6 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 $id = $_GET['id'];
-if(isset($GET['refresh'])) {
-	header("Cache-Control: no-cache, no-store, must-revalidate");
-}
 
 $contact = OC_Contacts_App::getContactVCard($id);
 $image = new OC_Image();
@@ -24,16 +21,18 @@ $image = new OC_Image();
 if( is_null($contact)) {
 	OC_Log::write('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
 } else {
+	OC_Contacts_App::setLastModifiedHeader($contact);
+
 	// Photo :-)
 	if($image->loadFromBase64($contact->getAsString('PHOTO'))) {
 		// OK
-		header('ETag: '.md5($contact->getAsString('PHOTO')));
+		OC_Response::setETagHeader(md5($contact->getAsString('PHOTO')));
 	}
 	else
 	// Logo :-/
 	if($image->loadFromBase64($contact->getAsString('LOGO'))) {
 		// OK
-		header('ETag: '.md5($contact->getAsString('LOGO')));
+		OC_Response::setETagHeader(md5($contact->getAsString('LOGO')));
 	}
 	if ($image->valid()) {
 		$max_size = 200;
