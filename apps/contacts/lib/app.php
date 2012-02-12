@@ -97,6 +97,10 @@ class OC_Contacts_App {
 				$vcard->setString('N', 'Unknown;Name;;;');
 			}
 		}
+		if (!is_null($vcard) && !isset($vcard->REV)) {
+			$rev = new DateTime('@'.$card['lastmodified']);
+			$vcard->setString('REV', $rev->format(DateTime::W3C));
+		}
 		return $vcard;
 	}
 
