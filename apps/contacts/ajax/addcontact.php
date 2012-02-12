@@ -30,14 +30,15 @@ function bailOut($msg) {
 function debug($msg) {
 	OC_Log::write('contacts','ajax/addcontact.php: '.$msg, OC_Log::DEBUG);
 }
-foreach ($_POST as $key=>$element) {
-	debug('_POST: '.$key.'=>'.$element);
-}
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 $l=new OC_L10N('contacts');
+
+foreach ($_POST as $key=>$element) {
+	debug('_POST: '.$key.'=>'.$element);
+}
 
 $aid = $_POST['aid'];
 OC_Contacts_App::getAddressbook( $aid ); // is owner access check
