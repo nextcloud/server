@@ -43,11 +43,12 @@ $id = $_GET['id'];
 $contact = OC_Contacts_App::getContactVCard($id);
 
 // invalid vcard
-if( is_null($contact)){
+if(is_null($contact)){
 	OC_Log::write('contacts','thumbnail.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
 	getStandardImage();
 	exit();
 }
+OC_Contacts_App::setLastModifiedHeader($contact);
 
 $thumbnail_size = 23;
 
@@ -56,12 +57,12 @@ $image = new OC_Image();
 $photo = $contact->getAsString('PHOTO');
 
 OC_Response::setETagHeader(md5($photo));
-OC_Contacts_App::setLastModifiedHeader($contact);
 
 if($image->loadFromBase64($photo)) {
 	if($image->centerCrop()) {
 		if($image->resize($thumbnail_size)) {
 			if($image->show()) {
+				// done
 				exit();
 			} else {
 				OC_Log::write('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OC_Log::ERROR);
