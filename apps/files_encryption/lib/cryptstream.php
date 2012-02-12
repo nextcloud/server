@@ -90,6 +90,7 @@ class OC_CryptStream{
 	}
 	
 	public function stream_write($data){
+		error_log('write to '. $this->path);
 		$length=strlen($data);
 		$written=0;
 		$currentPos=ftell($this->source);

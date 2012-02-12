@@ -70,19 +70,13 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	
 	public function preFile_put_contents($path,&$data){
 		if(self::shouldEncrypt($path)){
-			$exists=OC_Filesystem::file_exists($path);
-			$target=fopen('crypt://'.$path,'w');
 			if (is_resource($data)) {
-				while(!feof($data)){
-					fwrite($target,fread($data,8192));
-				}
+				$id=md5($path);
+				OC_CryptStream::$sourceStreams[$id]=array('path'=>$path,'stream'=>$data);
+				$data=fopen('crypt://streams/'.$id,'r');
 			}else{
-				fwrite($target,$data);
+				$data=OC_Crypt::blockEncrypt($data);
 			}
-			//fake the normal hooks
-			OC_Hook::emit( 'OC_Filesystem', 'post_create', array( 'path' => $path));
-			OC_Hook::emit( 'OC_Filesystem', 'post_write', array( 'path' => $path));
-			return false;
 		}
 	}
 	
