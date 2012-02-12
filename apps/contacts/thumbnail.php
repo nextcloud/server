@@ -30,10 +30,8 @@ function getStandardImage(){
 	$date = new DateTime('now');
 	$date->add(new DateInterval('P10D'));
 	header('Expires: '.$date->format(DateTime::RFC2822));
-	header('Cache-Control: cache');
-	header('Pragma: cache');
-	header("HTTP/1.1 307 Temporary Redirect");
-	header('Location: '.OC_Helper::imagePath('contacts', 'person.png'));
+	OC_Response::enableCaching();
+	OC_Response::redirect(OC_Helper::imagePath('contacts', 'person.png'));
 }
 
 if(!function_exists('imagecreatefromjpeg')) {
