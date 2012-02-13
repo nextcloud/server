@@ -3,6 +3,21 @@ function ucwords (str) {
 		return $1.toUpperCase();
 	});
 }
+/* TODO: Test this.
+ * http://snipplr.com/view/45323/remove-duplicate-values-from-array/
+Array.prototype.unique = function unique() { 
+	var i = 0; 
+	while (i < this.length) { 
+		var current = this[i]; 
+		for (k = this.length; k > i; k--) { 
+			if (this[k] === current) { 
+				this.splice(k,1);
+			}
+		} i++; 
+	} 
+	return this; 
+}
+*/
 
 String.prototype.strip_tags = function(){
 	tags = this;
