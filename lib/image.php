@@ -48,6 +48,11 @@ class OC_Image {
 	protected $imagetype = IMAGETYPE_PNG; // Default to png if file type isn't evident.
 	protected $filepath = null;
 
+	static public function getMimeTypeForFile($filepath) {
+		$imagetype = exif_imagetype($filepath);
+		return $imagetype ? image_type_to_mime_type($imagetype) : '';
+	}
+
 	/**
 	* @brief Constructor.
 	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.

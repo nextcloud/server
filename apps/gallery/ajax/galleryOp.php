@@ -41,9 +41,9 @@ function handleRemove($name) {
 
 function handleGetThumbnails($albumname) {
   OC_Response::enableCaching(3600 * 24); // 24 hour
-  $photo = new OC_Image();
-  $photo->loadFromFile(OC::$CONFIG_DATADIRECTORY.'/../gallery/'.$albumname.'.png');
-  $photo->show();
+  $thumbnail = OC::$CONFIG_DATADIRECTORY.'/../gallery/'.$albumname.'.png';
+  header('Content-Type: '.OC_Image::getMimeTypeForFile($thumbnail));
+  OC_Response::sendFile($thumbnail);
 }
 
 function handleGalleryScanning() {

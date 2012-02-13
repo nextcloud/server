@@ -10,6 +10,7 @@ class OC_Response {
 	const STATUS_FOUND = 304;
 	const STATUS_NOT_MODIFIED = 304;
 	const STATUS_TEMPORARY_REDIRECT = 307;
+	const STATUS_NOT_FOUND = 404;
 
 	static public function enableCaching($cache_time = null) {
 		if (is_numeric($cache_time)) {
@@ -46,6 +47,9 @@ class OC_Response {
 				}
 			case self::STATUS_FOUND;
 				$status = $status . ' Found';
+				break;
+			case self::STATUS_NOT_FOUND;
+				$status = $status . ' Not Found';
 				break;
 		}
 		header($protocol.' '.$status);
@@ -85,6 +89,9 @@ class OC_Response {
 		if (empty($lastModified)) {
 			return;
 		}
+		if (is_int($lastModified)) {
+			$lastModified = gmdate(DateTime::RFC2822, $lastModified);
+		}
 		if ($lastModified instanceof DateTime) {
 			$lastModified = $lastModified->format(DateTime::RFC2822);
 		}
@@ -94,5 +101,19 @@ class OC_Response {
 			exit;
 		}
 		header('Last-Modified: '.$lastModified);
+	}
+
+	static public function sendFile($filepath=null) {
+		$fp = fopen($filepath, 'rb');
+		if ($fp) {
+			self::setLastModifiedHeader(filemtime($filepath));
+			self::setETagHeader(md5_file($filepath));
+
+			header('Content-Length: '.filesize($filepath));
+			fpassthru($fp);
+		}
+		else {
+			self::setStatus(self::STATUS_NOT_FOUND);
+		}
 	}
 }
