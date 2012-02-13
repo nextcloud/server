@@ -384,4 +384,44 @@ class OC_Contacts_VCard{
 		}
 		return $temp;
 	}
+
+	/**
+	 * @brief Move card(s) to an address book
+	 * @param integer $aid Address book id
+	 * @param $id Array or integer of cards to be moved.
+	 * @return boolean
+	 *
+	 */
+	public static function moveToAddressBook($aid, $id){
+		OC_Contacts_App::getAddressbook($aid); // check for user ownership.
+		if(is_array($id)) {
+			$id_sql = join(',', array_fill(0, count($id), '?'));
+			$prep = 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id IN ('.$id_sql.')';
+			try {
+				$stmt = OC_DB::prepare( $prep );
+				//$aid = array($aid);
+				$vals = array_merge((array)$aid, $id);
+				$result = $stmt->execute($vals);
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, ids: '.join(',', $vals),OC_Log::DEBUG);
+				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
+				return false;
+			}
+		} else {
+			try {
+				$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
+				$result = $stmt->execute(array($aid, $id));
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, id: '.$id,OC_Log::DEBUG);
+				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
+				return false;
+			}
+		}
+
+		OC_Contacts_Addressbook::touch($aid);
+		return true;
+	}
+
 }
