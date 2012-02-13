@@ -23,16 +23,15 @@
 
 require_once('../../../lib/base.php');
 
+OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('gallery');
 
 function handleRename($oldname, $newname) {
-  OC_JSON::checkLoggedIn();
   OC_Gallery_Album::rename($oldname, $newname, OC_User::getUser());
   OC_Gallery_Album::changeThumbnailPath($oldname, $newname);
 }
 
 function handleRemove($name) {
-  OC_JSON::checkLoggedIn();
   $album_id = OC_Gallery_Album::find(OC_User::getUser(), $name);
   $album_id = $album_id->fetchRow();
   $album_id = $album_id['album_id'];
@@ -41,7 +40,6 @@ function handleRemove($name) {
 }
 
 function handleGetThumbnails($albumname) {
-  OC_JSON::checkLoggedIn();
   $photo = new OC_Image();
   $photo->loadFromFile(OC::$CONFIG_DATADIRECTORY.'/../gallery/'.$albumname.'.png');
   $offset = 3600 * 24; // 24 hour
@@ -53,13 +51,11 @@ function handleGetThumbnails($albumname) {
 }
 
 function handleGalleryScanning() {
-  OC_JSON::checkLoggedIn();
   OC_Gallery_Scanner::cleanup();
   OC_JSON::success(array('albums' => OC_Gallery_Scanner::scan('/')));
 }
 
 function handleFilescan($cleanup) {
-  OC_JSON::checkLoggedIn();
   if ($cleanup) OC_Gallery_Album::cleanup();
   $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '').'/';
   $pathlist = OC_Gallery_Scanner::find_paths($root);
@@ -68,7 +64,6 @@ function handleFilescan($cleanup) {
 }
 
 function handlePartialCreate($path) {
-  OC_JSON::checkLoggedIn();
   if (empty($path)) OC_JSON::error(array('cause' => 'No path specified'));
   if (!OC_Filesystem::is_dir($path)) OC_JSON::error(array('cause' => 'Invalid path given'));
 
@@ -79,7 +74,6 @@ function handlePartialCreate($path) {
 }
 
 function handleStoreSettings($root, $order) {
-  OC_JSON::checkLoggedIn();
   if (!OC_Filesystem::file_exists($root)) {
     OC_JSON::error(array('cause' => 'No such file or directory'));
     return;
