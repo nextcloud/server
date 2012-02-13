@@ -102,6 +102,7 @@ class OC_Image {
 	* @returns bool
 	*/
 	public function show() {
+		header('Content-Type: '.$this->mimeType());
 		return $this->_output();
 	}
 
@@ -117,17 +118,14 @@ class OC_Image {
 		} elseif($filepath === null && $this->filepath !== null) {
 			$filepath = $this->filepath;
 		}
-		return $this->_output($filepath, true);
+		return $this->_output($filepath);
 	}
 
 	/**
 	* @brief Outputs/saves the image.
 	*/
-	private function _output($filepath=null, $really=false) {
-		if($really === false) {
-			header('Content-Type: '.$this->mimeType());
-			$filepath = null; // Just being cautious ;-)
-		} else {
+	private function _output($filepath=null) {
+		if($filepath) {
 			if(!is_writable(dirname($filepath))) {
 				OC_Log::write('core',__METHOD__.'(): Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
 				return false;
