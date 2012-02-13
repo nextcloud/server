@@ -46,12 +46,12 @@ class OC_Response {
 		if (is_string($expires) && $expires[0] == 'P') {
 			$interval = $expires;
 			$expires = new DateTime('now');
-			$expires->add(new DateInterval(expires));
+			$expires->add(new DateInterval($interval));
 		}
 		if ($expires instanceof DateTime) {
 			$expires = $expires->format(DateTime::RFC2822);
 		}
-		header('Expires: '.expires);
+		header('Expires: '.$expires);
 	}
 
 	static public function setETagHeader($etag) {
