@@ -48,6 +48,7 @@ if(is_null($contact)){
 	getStandardImage();
 	exit();
 }
+OC_Response::enableCaching();
 OC_Contacts_App::setLastModifiedHeader($contact);
 
 $thumbnail_size = 23;

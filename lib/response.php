@@ -63,6 +63,7 @@ class OC_Response {
 			$expires->add(new DateInterval($interval));
 		}
 		if ($expires instanceof DateTime) {
+			$expires->setTimezone(new DateTimeZone('GMT'));
 			$expires = $expires->format(DateTime::RFC2822);
 		}
 		header('Expires: '.$expires);
@@ -72,7 +73,6 @@ class OC_Response {
 		if (empty($etag)) {
 			return;
 		}
-		self::enableCaching();
 		if (isset($_SERVER['HTTP_IF_NONE_MATCH']) &&
 		    trim($_SERVER['HTTP_IF_NONE_MATCH']) == $etag) {
 			self::setStatus(self::STATUS_NOT_MODIFIED);
@@ -88,7 +88,6 @@ class OC_Response {
 		if ($lastModified instanceof DateTime) {
 			$lastModified = $lastModified->format(DateTime::RFC2822);
 		}
-		self::enableCaching();
 		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
 		    trim($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified) {
 			self::setStatus(self::STATUS_NOT_MODIFIED);
