@@ -1,0 +1,351 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SimpleTest documentation for testing HTML forms</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <span class="chosen">Testing forms</span>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>Form testing documentation</h1>
+        This page...
+        <ul>
+<li>
+            Changing form values and successfully
+            <a href="#submit">Submitting a simple form</a>
+        </li>
+<li>
+            Handling <a href="#multiple">widgets with multiple values</a>
+            by setting lists.
+        </li>
+<li>
+            Bypassing javascript to <a href="#hidden-field">set a hidden field</a>.
+        </li>
+<li>
+            <a href="#raw">Raw posting</a> when you don't have a button
+            to click.
+        </li>
+</ul>
+<div class="content">
+        <h2>
+<a class="target" name="submit"></a>Submitting a simple form</h2>
+            <p>
+                When a page is fetched by the <span class="new_code">WebTestCase</span>
+                using <span class="new_code">get()</span> or
+                <span class="new_code">post()</span> the page content is
+                automatically parsed.
+                This results in any form controls that are inside &lt;form&gt; tags
+                being available from within the test case.
+                For example, if we have this snippet of HTML...
+<pre>
+&lt;form&gt;
+    &lt;input type="text" name="a" value="A default" /&gt;
+    &lt;input type="submit" value="Go" /&gt;
+&lt;/form&gt;
+</pre>
+                Which looks like this...
+            </p>
+            <p>
+                <form class="demo">
+                    <input type="text" name="a" value="A default">
+                    <input type="submit" value="Go">
+                </form>
+            </p>
+            <p>
+                We can navigate to this code, via the
+                <a href="http://www.lastcraft.com/form_testing_documentation.php">LastCraft</a>
+                site, with the following test...
+<pre>
+class SimpleFormTests extends WebTestCase {<strong>
+    function testDefaultValue() {
+        $this-&gt;get('http://www.lastcraft.com/form_testing_documentation.php');
+        $this-&gt;assertField('a', 'A default');
+    }</strong>
+}
+</pre>
+                Immediately after loading the page all of the HTML controls are set at
+                their default values just as they would appear in the web browser.
+                The assertion tests that a HTML widget exists in the page with the
+                name "a" and that it is currently set to the value
+                "A default".
+                As usual, we could use a pattern expectation instead of a fixed
+                string.
+<pre>
+class SimpleFormTests extends WebTestCase {
+    function testDefaultValue() {
+        $this-&gt;get('http://www.lastcraft.com/form_testing_documentation.php');
+        $this-&gt;assertField('a', <strong>new PatternExpectation('/default/')</strong>);
+    }
+}
+</pre>
+                We could submit the form straight away, but first we'll change
+                the value of the text field and only then submit it...
+<pre>
+class SimpleFormTests extends WebTestCase {
+    function testDefaultValue() {
+        $this-&gt;get('http://www.my-site.com/');
+        $this-&gt;assertField('a', 'A default');<strong>
+        $this-&gt;setField('a', 'New value');
+        $this-&gt;click('Go');</strong>
+    }
+}
+</pre>
+                Because we didn't specify a method attribute on the form tag, and
+                didn't specify an action either, the test case will follow
+                the usual browser behaviour of submitting the form data as a <em>GET</em>
+                request back to the same location.
+                In general SimpleTest tries to emulate typical browser behaviour as much as possible,
+                rather than attempting to catch any form of HTML omission.
+                This is because the target of the testing framework is the PHP application
+                logic, not syntax or other errors in the HTML code.
+                For HTML errors, other tools such as
+                <a href="http://www.w3.org/People/Raggett/tidy/">HTMLTidy</a> should be used,
+                or any of the HTML and CSS validators already out there.
+            </p>
+            <p>
+                If a field is not present in any form, or if an option is unavailable,
+                then <span class="new_code">WebTestCase::setField()</span> will return
+                <span class="new_code">false</span>.
+                For example, suppose we wish to verify that a "Superuser"
+                option is not present in this form...
+<pre>
+&lt;strong&gt;Select type of user to add:&lt;/strong&gt;
+&lt;select name="type"&gt;
+    &lt;option&gt;Subscriber&lt;/option&gt;
+    &lt;option&gt;Author&lt;/option&gt;
+    &lt;option&gt;Administrator&lt;/option&gt;
+&lt;/select&gt;
+</pre>
+                Which looks like...
+            </p>
+            <p>
+                <form class="demo">
+                    <strong>Select type of user to add:</strong>
+                    <select name="type">
+                        <option>Subscriber</option>
+                        <option>Author</option>
+                        <option>Administrator</option>
+                    </select>
+                </form>
+            </p>
+            <p>
+                The following test will confirm it...
+<pre>
+class SimpleFormTests extends WebTestCase {
+    ...
+    function testNoSuperuserChoiceAvailable() {<strong>
+        $this-&gt;get('http://www.lastcraft.com/form_testing_documentation.php');
+        $this-&gt;assertFalse($this-&gt;setField('type', 'Superuser'));</strong>
+    }
+}
+</pre>
+                The current selection will not be changed if the new value is not an option.
+            </p>
+            <p>
+                Here is the full list of widgets currently supported...
+                <ul>
+                    <li>Text fields, including hidden and password fields.</li>
+                    <li>Submit buttons including the button tag, although not yet reset buttons</li>
+                    <li>Text area. This includes text wrapping behaviour.</li>
+                    <li>Checkboxes, including multiple checkboxes in the same form.</li>
+                    <li>Drop down selections, including multiple selects.</li>
+                    <li>Radio buttons.</li>
+                    <li>Images.</li>
+                </ul>
+            </p>
+            <p>
+                The browser emulation offered by SimpleTest mimics
+                the actions which can be perform by a user on a
+                standard HTML page. Javascript is not supported, and
+                it's unlikely that support will be added any time
+                soon.
+            </p>
+            <p>
+                Of particular note is that the Javascript idiom of
+                passing form results by setting a hidden field cannot
+                be performed using the normal SimpleTest
+                commands. See below for a way to test such forms.
+            </p>
+        
+        <h2>
+<a class="target" name="multiple"></a>Fields with multiple values</h2>
+            <p>
+                SimpleTest can cope with two types of multivalue controls: Multiple
+                selection drop downs, and multiple checkboxes with the same name
+                within a form.
+                The multivalue nature of these means that setting and testing
+                are slightly different.
+                Using checkboxes as an example...
+<pre>
+&lt;form class="demo"&gt;
+    &lt;strong&gt;Create privileges allowed:&lt;/strong&gt;
+    &lt;input type="checkbox" name="crud" value="c" checked&gt;&lt;br&gt;
+    &lt;strong&gt;Retrieve privileges allowed:&lt;/strong&gt;
+    &lt;input type="checkbox" name="crud" value="r" checked&gt;&lt;br&gt;
+    &lt;strong&gt;Update privileges allowed:&lt;/strong&gt;
+    &lt;input type="checkbox" name="crud" value="u" checked&gt;&lt;br&gt;
+    &lt;strong&gt;Destroy privileges allowed:&lt;/strong&gt;
+    &lt;input type="checkbox" name="crud" value="d" checked&gt;&lt;br&gt;
+    &lt;input type="submit" value="Enable Privileges"&gt;
+&lt;/form&gt;
+</pre>
+                Which renders as...
+            </p>
+            <p>
+                <form class="demo">
+                    <strong>Create privileges allowed:</strong>
+                    <input type="checkbox" name="crud" value="c" checked><br>
+                    <strong>Retrieve privileges allowed:</strong>
+                    <input type="checkbox" name="crud" value="r" checked><br>
+                    <strong>Update privileges allowed:</strong>
+                    <input type="checkbox" name="crud" value="u" checked><br>
+                    <strong>Destroy privileges allowed:</strong>
+                    <input type="checkbox" name="crud" value="d" checked><br>
+                    <input type="submit" value="Enable Privileges">
+                </form>
+            </p>
+            <p>
+                If we wish to disable all but the retrieval privileges and
+                submit this information we can do it like this...
+<pre>
+class SimpleFormTests extends WebTestCase {
+    ...<strong>
+    function testDisableNastyPrivileges() {
+        $this-&gt;get('http://www.lastcraft.com/form_testing_documentation.php');
+        $this-&gt;assertField('crud', array('c', 'r', 'u', 'd'));
+        $this-&gt;setField('crud', array('r'));
+        $this-&gt;click('Enable Privileges');
+    }</strong>
+}
+</pre>
+                Instead of setting the field to a single value, we give it a list
+                of values.
+                We do the same when testing expected values.
+                We can then write other test code to confirm the effect of this, perhaps
+                by logging in as that user and attempting an update.
+            </p>
+        
+        <h2>
+<a class="target" name="hidden-field"></a>Forms which use javascript to set a hidden field</h2>
+            <p>
+                If you want to test a form which relies on javascript to set a hidden
+                field, you can't just call setField().
+                The following code will <em>not</em> work:
+<pre>
+class SimpleFormTests extends WebTestCase {
+    function testEmulateMyJavascriptForm() {
+        <strong>// This does *not* work</strong>
+        $this-&gt;setField('a_hidden_field', '123');
+        $this-&gt;clickSubmit('OK');
+    }
+}
+</pre>
+                Instead, you need to pass the additional form parameters to the
+                clickSubmit() method:
+<pre>
+class SimpleFormTests extends WebTestCase {
+    function testMyJavascriptForm() {
+        <strong>$this-&gt;clickSubmit('OK', array('a_hidden_field'=&gt;'123'));</strong>
+    }
+
+}
+</pre>
+                Bear in mind that in doing this you're effectively stubbing out a
+                part of your software (the javascript code in the form), and
+                perhaps you might be better off using something like 
+                <a href="http://selenium.openqa.org/">Selenium</a> to ensure a complete
+                test.
+            </p>
+        
+        <h2>
+<a class="target" name="raw"></a>Raw posting</h2>
+            <p>
+                If you want to test a form handler, but have not yet written
+                or do not have access to the form itself, you can create a
+                form submission by hand.
+<pre>
+class SimpleFormTests extends WebTestCase {
+    ...<strong>    
+    function testAttemptedHack() {
+        $this-&gt;post(
+                'http://www.my-site.com/add_user.php',
+                array('type' =&gt; 'superuser'));
+        $this-&gt;assertNoText('user created');
+    }</strong>
+}
+</pre>
+                By adding data to the <span class="new_code">WebTestCase::post()</span>
+                method, we are emulating a form submission.
+                You would normally only do this as a temporary expedient, or where
+                you are expecting a 3rd party to submit to a form.
+                The exception is when you want tests to protect you from
+                attempts to spoof your pages.
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            SimpleTest download page on <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+<li>
+            The <a href="http://simpletest.org/api/">developer's API for SimpleTest</a>
+            gives full detail on the classes and assertions available.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <span class="chosen">Testing forms</span>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

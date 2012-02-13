@@ -78,7 +78,7 @@ class OC_Image {
 	* @returns int
 	*/
 	public function mimeType() {
-		return is_resource($this->resource) ? image_type_to_mime_type($this->imagetype) : '';
+		return $this->valid() ? image_type_to_mime_type($this->imagetype) : '';
 	}
 
 	/**
@@ -86,7 +86,7 @@ class OC_Image {
 	* @returns int
 	*/
 	public function width() {
-		return is_resource($this->resource) ? imagesx($this->resource) : -1;
+		return $this->valid() ? imagesx($this->resource) : -1;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class OC_Image {
 	* @returns int
 	*/
 	public function height() {
-		return is_resource($this->resource) ? imagesy($this->resource) : -1;
+		return $this->valid() ? imagesy($this->resource) : -1;
 	}
 
 	/**
@@ -200,7 +200,7 @@ class OC_Image {
 			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
 			return false;
 		}
-		if(!is_resource($this->resource)) {
+		if(!$this->valid()) {
 			OC_Log::write('core','OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
 			return false;
 		}
@@ -439,7 +439,7 @@ class OC_Image {
 	* @returns bool
 	*/
 	public function resize($maxsize) {
-		if(!$this->resource) {
+		if(!$this->valid()) {
 			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
@@ -477,7 +477,7 @@ class OC_Image {
 	* @returns bool for success or failure
 	*/
 	public function centerCrop() {
-		if(!$this->resource) {
+		if(!$this->valid()) {
 			OC_Log::write('core','OC_Image->centerCrop, No image loaded', OC_Log::ERROR);
 			return false;
 		}
@@ -521,7 +521,7 @@ class OC_Image {
 	* @returns bool for success or failure
 	*/
 	public function crop($x, $y, $w, $h) {
-		if(!$this->resource) {
+		if(!$this->valid()) {
 			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}

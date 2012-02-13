@@ -68,6 +68,9 @@ class OC{
 		elseif(strpos($className,'Sabre_')===0) {
 			require_once str_replace('_','/',$className) . '.php';
 		}
+		elseif(strpos($className,'Test_')===0){
+			require_once 'tests/lib/'.strtolower(str_replace('_','/',substr($className,5)) . '.php');
+		}
 	}
 
 	/**

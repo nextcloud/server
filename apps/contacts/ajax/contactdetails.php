@@ -34,15 +34,14 @@ function debug($msg) {
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
-$l=new OC_L10N('contacts');
 
 $id = isset($_GET['id'])?$_GET['id']:null;
 if(is_null($id)) {
-	bailOut($l->t('Missing ID'));
+	bailOut(OC_Contacts_App::$l10n->t('Missing ID'));
 }
 $vcard = OC_Contacts_App::getContactVCard( $id );
 if(is_null($vcard)) {
-	bailOut($l->t('Error parsing VCard for ID: "'.$id.'"'));
+	bailOut(OC_Contacts_App::$l10n->t('Error parsing VCard for ID: "'.$id.'"'));
 }
 $details = OC_Contacts_VCard::structureContact($vcard);
 
@@ -54,7 +53,7 @@ if(!isset($details['FN'])) {
 	} elseif(isset($details['EMAIL'])) {
 		$details['FN'] = array('value' => $details['EMAIL'][0]['value']);
 	} else {
-		$details['FN'] = array('value' => $l->t('Unknown'));
+		$details['FN'] = array('value' => OC_Contacts_App::$l10n->t('Unknown'));
 	}
 }
 

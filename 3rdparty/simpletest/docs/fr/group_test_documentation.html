@@ -1,0 +1,265 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Documentation SimpleTest : Grouper des tests</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>Documentation sur le groupement des tests</h1>
+        This page...
+        <ul>
+<li>
+            Plusieurs approches pour <a href="#group">grouper des tests</a> ensemble.
+        </li>
+<li>
+            Combiner des groupes des tests dans des
+            <a href="#plus-haut">groupes plus grands</a>.
+        </li>
+</ul>
+<div class="content">
+        <h2>
+<a class="target" name="grouper"></a>Grouper des tests</h2>
+            <p>
+                Il existe beaucoup de moyens pour grouper des tests dans des suites de tests.
+                Le premier d'entre eux est tout simplement ajouter tous les scénarios de test
+				au fur et à mesure d'un unique fichier...
+<pre>
+<strong>&lt;?php
+require_once(dirname(__FILE__) . '/simpletest/autorun.php');
+require_once(dirname(__FILE__) . '/../classes/io.php');
+
+class FileTester extends UnitTestCase {
+    ...
+}
+
+class SocketTester extends UnitTestCase {
+    ...
+}
+?&gt;</strong>
+</pre>
+                Autant de scénarios que nécessaires peuvent être
+                mis dans cet unique fichier. Ils doivent contenir
+                tout le code nécessaire, entre autres la bibliothèque testée,
+                mais aucune des bibliothèques de SimpleTest.
+            </p>
+			<p>
+				Occasionnellement des sous-classes spéciales sont créés pour
+				ajouter des méthodes nécessaires à certains tests spécifiques
+				au sein de l'application.
+                Ces nouvelles classes de base sont ensuite utilisées
+				à la place de <span class="new_code">UnitTestCase</span>
+                ou de <span class="new_code">WebTestCase</span>.
+                Bien sûr vous ne souhaitez pas les lancer en tant que
+				scénario de tests : il suffit alors de les identifier
+				comme "abstraites"...
+<pre>
+<strong>abstract</strong> class MyFileTestCase extends UnitTestCase {
+    ...
+}
+
+class FileTester extends MyFileTestCase { ... }
+
+class SocketTester extends UnitTestCase { ... }
+</pre>
+                La classe <span class="new_code">FileTester</span> ne contient aucun test véritable,
+                il s'agit d'une classe de base pour d'autres scénarios de test.
+			</p>
+			<p>
+                Nous appelons ce fichier <em>file_test.php</em>.
+				Pour l'instant les scénarios de tests sont simplement groupés dans le même fichier.
+                Nous pouvons mettre en place des structures plus importantes
+				en incluant d'autres fichiers de tests.
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+require_once('file_test.php');
+?&gt;
+</pre>
+				Ceci fontionnera, tout en créant une hiérarchie tout à fait plate.
+                A la place, nous créons un fichier de suite de tests.
+                Notre suite des tests de premier niveau devient...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+
+class AllFileTests extends TestSuite {
+    function __construct() {
+        parent::__construct();
+        <strong>$this-&gt;addFile('file_test.php');</strong>
+    }
+}
+?&gt;
+</pre>
+				Voici ce qui arrive : la class <span class="new_code">TestSuite</span>
+                effecturera le <span class="new_code">require_once()</span> pour nous.
+				Ensuite elle vérifie si de nouvelles classes de test
+				ont été créées par ce nouveau fichier et les inclut
+				automatiquement dans la suite de tests.
+				Cette méthode nous donne un maximum de contrôle
+				tout comme le ferait des ajouts manuels de fichiers de tests
+				au fur et à mesure où notre suite grandit.
+            </p>
+            <p>
+                Si c'est trop de boulot pour vos petits doigts et qu'en plus
+				vous avez envie de grouper vos suites de tests par répertoire
+				ou par un tag dans le nom des fichiers, alors il y a un moyen
+				encore plus automatique... 
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+
+class AllFileTests extends TestSuite {
+    function __construct() {
+        parent::__construct();
+        $this-&gt;collect(dirname(__FILE__) . '/unit',
+                       new SimplePatternCollector('/_test.php/'));
+    }
+}
+?&gt;
+</pre>
+				Cette fonctionnalités va scanner un répertoire appelé "unit",
+				y détecter tous les fichiers finissant par "_test.php"
+				et les charger.
+                Vous n'avez pas besoin d'utiliser <span class="new_code">SimplePatternCollector</span> pour
+				filtrer en fonction d'un motif dans le nom de fichier,
+				mais c'est son usage le plus courant. 
+            </p>
+			<p>
+                Ce morceau de code est très courant.
+				Désormais la seule chose qu'il vous reste à faire, c'est de
+				déposer un fichier avec des scénarios de tests dans ce répertoire
+				et il sera lancé directement par le script de la suite de tests. 
+            </p>
+			<p>
+                Juste un bémol : vous ne pouvez pas contrôler l'ordre de lancement
+				des tests.
+				Si vous souhaitez voir des composants de bas niveau renvoyer leurs erreurs
+				dès le début de la suite de tests - en particulier pour se facilier le travail
+				de diagnostic - alors vous devriez plutôt passer par <span class="new_code">addFile()</span>
+				pour ces cas spécifiques.
+                Les scénarios de tests ne sont chargés qu'une fois, pas d'inquiétude donc
+				lors du scan de votre répertoire avec tous les tests.
+            </p>
+			<p>
+                Les tests chargés avec la méthode <span class="new_code">addFile</span> ont certaines propriétés
+				qui peuvent s'avérer intéressantes.
+				Elle vous assure que le constructeur est lancé avant la première méthode
+				de test et que le destructeur est lancé après la dernière méthode de test.
+				Cela vous permet de placer une initialisation (setUp et tearDown) globale
+				au sein de ce destructeur et desctructeur, comme dans n'importe
+				quelle classe. 
+            </p>
+        
+        <h2>
+<a class="target" name="plus-haut"></a>Groupements de plus haut niveau</h2>
+			<p>
+                La technique ci-dessus place tous les scénarios de test
+                dans un unique et grand groupe.
+                Sauf que pour des projets plus conséquents,
+                ce n'est probablement pas assez souple;
+                vous voudriez peut-être grouper les tests tout à fait différemment.
+            </p>
+<p>
+                Tout ce que nous avons décrit avec des scripts de tests 
+				s'applique pareillement avec des <span class="new_code">TestSuite</span>s...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+<strong>
+class BigTestSuite extends TestSuite {
+    function __construct() {
+        parent::__construct();
+        $this-&gt;addFile('file_tests.php');
+    }
+}</strong>
+?&gt;
+</pre>
+				Cette opération additionne nos scénarios de tests et une unique suite
+				sous la première.
+                Quand un test échoue, nous voyons le fil d'ariane avec l'enchainement.
+                Nous pouvons même mélanger groupes et tests librement en prenant
+				quand même soin d'éviter les inclusions en boucle.
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+
+class BigTestSuite extends TestSuite {
+    function __construct() {
+        parent::__construct();
+        $this-&gt;addFile('file_tests.php');
+        <strong>$this-&gt;addFile('some_other_test.php');</strong>
+    }
+}
+?&gt;
+</pre>
+                Petite précision, en cas de double inclusion, seule la première instance
+				sera lancée. 
+            </p>
+		
+    </div>
+        References and related information...
+        <ul>
+<li>
+            La page du projet SimpleTest sur
+            <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            La page de téléchargement de SimpleTest sur
+            <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

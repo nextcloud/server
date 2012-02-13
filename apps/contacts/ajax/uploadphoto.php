@@ -94,14 +94,13 @@ if (!isset($_FILES['imagefile'])) {
 }
 $error = $_FILES['imagefile']['error'];
 if($error !== UPLOAD_ERR_OK) {
-	$l=new OC_L10N('contacts');
 	$errors = array(
-		0=>$l->t("There is no error, the file uploaded with success"),
-		1=>$l->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
-		2=>$l->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
-		3=>$l->t("The uploaded file was only partially uploaded"),
-		4=>$l->t("No file was uploaded"),
-		6=>$l->t("Missing a temporary folder")
+		0=>OC_Contacts_App::$l10n->t("There is no error, the file uploaded with success"),
+		1=>OC_Contacts_App::$l10n->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
+		2=>OC_Contacts_App::$l10n->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
+		3=>OC_Contacts_App::$l10n->t("The uploaded file was only partially uploaded"),
+		4=>OC_Contacts_App::$l10n->t("No file was uploaded"),
+		6=>OC_Contacts_App::$l10n->t("Missing a temporary folder")
 	);
 	bailOut($errors[$error]);
 }

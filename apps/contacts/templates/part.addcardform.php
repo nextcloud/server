@@ -1,6 +1,3 @@
-<?php
-$l=new OC_L10N('contacts');
-?>
 <form id="contacts_addcardform">
 	<?php if(count($_['addressbooks'])==1): ?>
 		<input type="hidden" name="id" value="<?php echo $_['addressbooks'][0]['id']; ?>">

@@ -314,8 +314,15 @@ class OC_Template{
 				}
 
 				// Add navigation entry
-				$page->assign( "navigation", OC_App::getNavigation());
+				$navigation = OC_App::getNavigation();
+				$page->assign( "navigation", $navigation);
 				$page->assign( "settingsnavigation", OC_App::getSettingsNavigation());
+				foreach($navigation as $entry) {
+					if ($entry['active']) {
+						$page->assign( 'application', $entry['name'] );
+						break;
+					}
+				}
 			}else{
 				$page = new OC_Template( "core", "layout.guest" );
 			}
