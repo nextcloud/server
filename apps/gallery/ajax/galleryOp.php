@@ -40,13 +40,9 @@ function handleRemove($name) {
 }
 
 function handleGetThumbnails($albumname) {
+  OC_Response::enableCaching(3600 * 24); // 24 hour
   $photo = new OC_Image();
   $photo->loadFromFile(OC::$CONFIG_DATADIRECTORY.'/../gallery/'.$albumname.'.png');
-  $offset = 3600 * 24; // 24 hour
-  // calc the string in GMT not localtime and add the offset
-  header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
-  header('Cache-Control: max-age='.$offset.', must-revalidate');
-  header('Pragma: public');
   $photo->show();
 }
 
