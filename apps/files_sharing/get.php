@@ -67,9 +67,7 @@ if ($source !== false) {
 		//get time mimetype and set the headers
 		$mimetype = OC_Filesystem::getMimeType($source);
 		header("Content-Transfer-Encoding: binary");
-		header("Expires: 0");
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Pragma: public");
+		OC_Response::disableCaching();
 		header('Content-Disposition: filename="'.basename($source).'"');
 		header("Content-Type: " . $mimetype);
 		header("Content-Length: " . OC_Filesystem::filesize($source));

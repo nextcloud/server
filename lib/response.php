@@ -30,6 +30,9 @@ class OC_Response {
 		}
 
 	}
+	static public function disableCaching() {
+		self::enableCaching(0);
+	}
 
 	static public function setStatus($status) {
 		$protocol = $_SERVER['SERVER_PROTOCOL'];

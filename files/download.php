@@ -41,9 +41,7 @@ $ftype=OC_Filesystem::getMimeType( $filename );
 
 header('Content-Type:'.$ftype);
 header('Content-Disposition: attachment; filename="'.basename($filename).'"');
-header('Expires: 0');
-header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-header('Pragma: public');
+OC_Response::disableCaching();
 header('Content-Length: '.OC_Filesystem::filesize($filename));
 
 @ob_end_clean();
