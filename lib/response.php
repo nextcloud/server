@@ -11,9 +11,23 @@ class OC_Response {
 	const STATUS_NOT_MODIFIED = 304;
 	const STATUS_TEMPORARY_REDIRECT = 307;
 
-	static public function enableCaching() {
-		header('Cache-Control: cache');
-		header('Pragma: cache');
+	static public function enableCaching($cache_time = null) {
+		if (is_numeric($cache_time)) {
+			header('Pragma: public');// enable caching in IE
+			if ($cache_time > 0) {
+				self::setExpiresHeader('PT'.$cache_time.'S');
+				header('Cache-Control: max-age='.$cache_time.', must-revalidate');
+			}
+			else {
+				self::setExpiresHeader(0);
+				header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+			}
+		}
+		else {
+			header('Cache-Control: cache');
+			header('Pragma: cache');
+		}
+
 	}
 
 	static public function setStatus($status) {
