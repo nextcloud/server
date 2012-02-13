@@ -22,8 +22,7 @@
 */
 
 require_once('../../../lib/base.php');
-require_once(OC::$CLASSPATH['OC_Gallery_Album']);
-require_once(OC::$CLASSPATH['OC_Gallery_Scanner']);
+
 OC_JSON::checkAppEnabled('gallery');
 
 function handleRename($oldname, $newname) {
