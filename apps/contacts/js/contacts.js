@@ -132,7 +132,10 @@ Contacts={
 			$('#carddav_url_close').show();
 		},
 		messageBox:function(title, msg) {
-			//alert(msg);
+			if(msg.toLowerCase().indexOf('auth') > 0) {
+				// fugly hack, I know
+				alert(msg);
+			}
 			if($('#messagebox').dialog('isOpen') == true){
 				// NOTE: Do we ever get here?
 				$('#messagebox').dialog('moveToTop');
@@ -253,6 +256,50 @@ Contacts={
 				//$.get(OC.linkTo('contacts', 'export.php'),{'contactid':this.id},function(jsondata){
 				//});
 			},
+			import:function(){
+				Contacts.UI.notImplemented();
+			},
+			add:function(n, fn, aid){ // add a new contact
+				console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
+				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
+				  function(jsondata) {
+					if (jsondata.status == 'success'){
+						$('#rightcontent').data('id',jsondata.data.id);
+						var id = jsondata.data.id;
+						$.getJSON('ajax/contactdetails.php',{'id':id},function(jsondata){
+							if(jsondata.status == 'success'){
+								Contacts.UI.loadHandlers();
+								Contacts.UI.Card.loadContact(jsondata.data);
+								$('#leftcontent .active').removeClass('active');
+								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
+								var added = false;
+								$('#leftcontent ul li').each(function(){
+									if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
+										$(this).before(item).fadeIn('fast');
+										added = true;
+										return false;
+									}
+								});
+								if(!added) {
+									$('#leftcontent ul').append(item);
+								}
+								
+							}
+							else{
+								Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+								//alert(jsondata.data.message);
+							}
+						});
+						$('#contact_identity').show();
+						$('#actionbar').show();
+						// TODO: Add to contacts list.
+					}
+					else{
+						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						//alert(jsondata.data.message);
+					}
+				});
+			},
 			delete:function() {
 				$('#contacts_deletecard').tipsy('hide');
 				$.getJSON('ajax/deletecard.php',{'id':this.id},function(jsondata){
@@ -262,17 +309,31 @@ Contacts={
 						//$('#rightcontent').empty();
 						this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
 						this.data = undefined;
-						// Load empty page.
-						var firstid = $('#contacts li:first-child').data('id');
-						console.log('trying to load: ' + firstid);
-						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':firstid},function(jsondata){
-							if(jsondata.status == 'success'){
-								Contacts.UI.Card.loadContact(jsondata.data);
-							}
-							else{
-								Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-							}
-						});
+						// Load first in list.
+						if($('#contacts li').length > 0) {
+							var firstid = $('#contacts li:first-child').data('id');
+							console.log('trying to load: ' + firstid);
+							$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':firstid},function(jsondata){
+								if(jsondata.status == 'success'){
+									Contacts.UI.Card.loadContact(jsondata.data);
+								}
+								else{
+									Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+								}
+							});
+						} else {
+							// load intro page
+							$.getJSON('ajax/loadintro.php',{},function(jsondata){
+								if(jsondata.status == 'success'){
+									id = '';
+									$('#rightcontent').data('id','');
+									$('#rightcontent').html(jsondata.data.page);
+								}
+								else{
+									Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+								}
+							});
+						}
 					}
 					else{
 						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
@@ -285,6 +346,7 @@ Contacts={
 				$('#contact_communication').hide();
 				this.data = jsondata;
 				this.id = this.data.id;
+				$('#rightcontent').data('id',this.id);
 				//console.log('loaded: ' + this.data.FN[0]['value']);
 				this.populateNameFields();
 				this.loadPhoto();
@@ -396,47 +458,6 @@ Contacts={
 						$('#rightcontent').data('id','');
 						$('#rightcontent').html(jsondata.data.page);
 						Contacts.UI.Card.editName();
-					}
-					else{
-						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-						alert(jsondata.data.message);
-					}
-				});
-			},
-			add:function(n, fn, aid){ // add a new contact
-				console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
-				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
-				  function(jsondata) {
-					if (jsondata.status == 'success'){
-						$('#rightcontent').data('id',jsondata.data.id);
-						var id = jsondata.data.id;
-						$.getJSON('ajax/contactdetails.php',{'id':id},function(jsondata){
-							if(jsondata.status == 'success'){
-								Contacts.UI.loadHandlers();
-								Contacts.UI.Card.loadContact(jsondata.data);
-								$('#leftcontent .active').removeClass('active');
-								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
-								var added = false;
-								$('#leftcontent ul li').each(function(){
-									if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
-										$(this).before(item).fadeIn('fast');
-										added = true;
-										return false;
-									}
-								});
-								if(!added) {
-									$('#leftcontent ul').append(item);
-								}
-								
-							}
-							else{
-								Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-								//alert(jsondata.data.message);
-							}
-						});
-						$('#contact_identity').show();
-						$('#actionbar').show();
-						// TODO: Add to contacts list.
 					}
 					else{
 						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
