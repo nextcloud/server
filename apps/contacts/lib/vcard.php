@@ -108,10 +108,9 @@ class OC_Contacts_VCard{
 		if(!is_null($card)){
 			$fn = $card->getAsString('FN');
 			$uid = $card->getAsString('UID');
-			if(is_null($uid)){
+			if(!$uid){
 				$card->setUID();
 				$uid = $card->getAsString('UID');
-				//$data = $card->serialize();
 			};
 			$uri = $uid.'.vcf';
 
@@ -158,13 +157,18 @@ class OC_Contacts_VCard{
 	 * @return insertid
 	 */
 	public static function addFromDAVData($id,$uri,$data){
-		$fn = null;
-		$email = null;
+		$fn = $n = $uid = $email = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
+				}
+				if($property->name == 'N'){
+					$n = $property->value;
+				}
+				if($property->name == 'UID'){
+					$uid = $property->value;
 				}
 				if($property->name == 'EMAIL' && is_null($email)){
 					$email = $property->value;
@@ -178,6 +182,10 @@ class OC_Contacts_VCard{
 				$fn = 'Unknown';
 			}
 			$card->addProperty('EMAIL', $email);
+			$data = $card->serialize();
+		}
+		if(!$uid) {
+			$card->setUID();
 			$data = $card->serialize();
 		}
 
