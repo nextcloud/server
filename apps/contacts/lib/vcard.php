@@ -47,6 +47,7 @@ class OC_Contacts_VCard{
 	 * ['carddata']
 	 */
 	public static function all($id){
+		$result = null;
 		if(is_array($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
 			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname';
@@ -58,13 +59,20 @@ class OC_Contacts_VCard{
 				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '.join(',', $id),OC_Log::DEBUG);
 				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
 			}
-		} else {
-			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
-			$result = $stmt->execute(array($id));
+		} elseif($id) {
+			try {
+				$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
+				$result = $stmt->execute(array($id));
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '. $id,OC_Log::DEBUG);
+			}
 		}
 		$cards = array();
-		while( $row = $result->fetchRow()){
-			$cards[] = $row;
+		if(!is_null($result)) {
+			while( $row = $result->fetchRow()){
+				$cards[] = $row;
+			}
 		}
 
 		return $cards;
