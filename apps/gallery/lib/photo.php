@@ -67,10 +67,6 @@ class OC_Gallery_Photo {
   }
 
 	public static function getThumbnail($image_name) {
-		$imagePath = OC_Filesystem::getLocalFile($image_name);
-		if(!file_exists($imagePath)) {
-			return null;
-		}
 		$save_dir = OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/';
 		$save_dir .= dirname($image_name). '/';
 		$image_name = basename($image_name);
@@ -78,6 +74,10 @@ class OC_Gallery_Photo {
 		if (file_exists($thumb_file)) {
 			$image = new OC_Image($thumb_file);
 		} else {
+			$imagePath = OC_Filesystem::getLocalFile($image_name);
+			if(!file_exists($imagePath)) {
+				return null;
+			}
 			$image = new OC_Image($imagePath);
 			if ($image->valid()) {
 				$image->centerCrop();
@@ -90,7 +90,6 @@ class OC_Gallery_Photo {
 			}
 		}
 		if ($image->valid()) {
-			//var_dump($image, $image->resource());
 			return $image;
 		}
 		return null;

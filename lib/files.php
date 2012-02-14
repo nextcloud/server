@@ -91,9 +91,7 @@ class OC_Files {
 		if($zip or OC_Filesystem::is_readable($filename)){
 			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 			header('Content-Transfer-Encoding: binary');
-			header('Expires: 0');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
+			OC_Response::disableCaching();
 			if($zip){
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));

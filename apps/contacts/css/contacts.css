@@ -77,7 +77,8 @@ dl.form
 .delete { background:url('../../../core/img/actions/delete.svg') no-repeat center; }
 .edit { background:url('../../../core/img/actions/rename.svg') no-repeat center; }
 .mail { background:url('../../../core/img/actions/mail.svg') no-repeat center; }
-.globe { background:url('../img/globe.svg') no-repeat center; }
+/*.globe { background:url('../img/globe.svg') no-repeat center; }*/
+.globe { background:url('../../../core/img/actions/public.svg') no-repeat center; }
 
 #messagebox_msg { font-weight: bold; font-size: 1.2em; }
 
