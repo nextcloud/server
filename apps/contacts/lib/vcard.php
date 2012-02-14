@@ -124,10 +124,9 @@ class OC_Contacts_VCard{
 				OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
 			}
 			$uid = $card->getAsString('UID');
-			if(is_null($uid)){
+			if(!$uid){
 				$card->setUID();
 				$uid = $card->getAsString('UID');
-				//$data = $card->serialize();
 			};
 			$uri = $uid.'.vcf';
 
@@ -176,7 +175,7 @@ class OC_Contacts_VCard{
 	 * @return insertid
 	 */
 	public static function addFromDAVData($id,$uri,$data){
-		$fn = $n = null;
+		$fn = $n = $uid = null;
 		$email = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
@@ -186,6 +185,9 @@ class OC_Contacts_VCard{
 				}
 				if($property->name == 'N'){
 					$n = $property->value;
+				}
+				if($property->name == 'UID'){
+					$uid = $property->value;
 				}
 				if($property->name == 'EMAIL' && is_null($email)){
 					$email = $property->value;
@@ -209,6 +211,10 @@ class OC_Contacts_VCard{
 			$card->setString('N', $n);
 			$data = $card->serialize();
 			OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
+		}
+		if(!$uid) {
+			$card->setUID();
+			$data = $card->serialize();
 		}
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
