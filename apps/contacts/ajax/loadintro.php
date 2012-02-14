@@ -24,11 +24,11 @@
 require_once('../../../lib/base.php');
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/newcontact.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('contacts','ajax/loadintro.php: '.$msg, OC_Log::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/newcontact.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('contacts','ajax/loadintro.php: '.$msg, OC_Log::DEBUG);
 }
 // foreach ($_POST as $key=>$element) {
 // 	debug('_POST: '.$key.'=>'.$element);

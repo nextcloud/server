@@ -251,6 +251,44 @@ Contacts={
 			honpre:'',
 			honsuf:'',
 			data:undefined,
+			update:function() {
+				// Make sure proper DOM is loaded.
+				console.log('Card.update(), #n: ' + $('#n').length);
+				console.log('Card.update(), #contacts: ' + $('#contacts li').length);
+				if($('#n').length == 0 && $('#contacts li').length > 0) {
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
+						if(jsondata.status == 'success'){
+							$('#rightcontent').html(jsondata.data.page);
+							Contacts.UI.loadHandlers();
+							if($('#contacts li').length > 0) {
+								var firstid = $('#contacts li:first-child').data('id');
+								console.log('trying to load: ' + firstid);
+								$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':firstid},function(jsondata){
+									if(jsondata.status == 'success'){
+										Contacts.UI.Card.loadContact(jsondata.data);
+									} else{
+										Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+									}
+								});
+							}
+						} else{
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						}
+					});
+				}
+				if($('#contacts li').length == 0) {
+					// load intro page
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
+						if(jsondata.status == 'success'){
+							id = '';
+							$('#rightcontent').data('id','');
+							$('#rightcontent').html(jsondata.data.page);
+						} else {
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						}
+					});
+				}
+			},
 			export:function() {
 				document.location.href = OC.linkTo('contacts', 'export.php') + '?contactid=' + this.id;
 				//$.get(OC.linkTo('contacts', 'export.php'),{'contactid':this.id},function(jsondata){
@@ -311,6 +349,8 @@ Contacts={
 						this.data = undefined;
 						// Load first in list.
 						if($('#contacts li').length > 0) {
+							Contacts.UI.Card.update();
+							/*
 							var firstid = $('#contacts li:first-child').data('id');
 							console.log('trying to load: ' + firstid);
 							$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':firstid},function(jsondata){
@@ -320,7 +360,7 @@ Contacts={
 								else{
 									Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 								}
-							});
+							});*/
 						} else {
 							// load intro page
 							$.getJSON('ajax/loadintro.php',{},function(jsondata){
@@ -447,6 +487,7 @@ Contacts={
 				$('#reverse_comma').text(this.famname + ', ' + this.givname);*/
 				$('#contact_identity').find('*[data-element="N"]').data('checksum', this.data.N[0]['checksum']);
 				$('#contact_identity').find('*[data-element="FN"]').data('checksum', this.data.FN[0]['checksum']);
+				$('#contact_identity').show();
 			},
 			editNew:function(){ // add a new contact
 				//Contacts.UI.notImplemented();
@@ -1079,9 +1120,11 @@ Contacts={
 			 * Reload the contacts list.
 			 */
 			update:function(){
+				console.log('Contacts.update, start');
 				$.getJSON('ajax/contacts.php',{},function(jsondata){
 					if(jsondata.status == 'success'){
 						$('#contacts').html(jsondata.data.page);
+						Contacts.UI.Card.update();
 					}
 					else{
 						Contacts.UI.messageBox(t('contacts', 'Error'),jsondata.data.message);
