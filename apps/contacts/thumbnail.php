@@ -48,6 +48,7 @@ if(is_null($contact)){
 	getStandardImage();
 	exit();
 }
+OC_Response::enableCaching();
 OC_Contacts_App::setLastModifiedHeader($contact);
 
 $thumbnail_size = 23;
@@ -55,25 +56,26 @@ $thumbnail_size = 23;
 // Find the photo from VCard.
 $image = new OC_Image();
 $photo = $contact->getAsString('PHOTO');
+if($photo) {
+	OC_Response::setETagHeader(md5($photo));
 
-OC_Response::setETagHeader(md5($photo));
-
-if($image->loadFromBase64($photo)) {
-	if($image->centerCrop()) {
-		if($image->resize($thumbnail_size)) {
-			if($image->show()) {
-				// done
-				exit();
+	if($image->loadFromBase64($photo)) {
+		if($image->centerCrop()) {
+			if($image->resize($thumbnail_size)) {
+				if($image->show()) {
+					// done
+					exit();
+				} else {
+					OC_Log::write('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OC_Log::ERROR);
+				}
 			} else {
-				OC_Log::write('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OC_Log::ERROR);
+				OC_Log::write('contacts','thumbnail.php. Couldn\'t resize thumbnail for ID '.$id,OC_Log::ERROR);
 			}
-		} else {
-			OC_Log::write('contacts','thumbnail.php. Couldn\'t resize thumbnail for ID '.$id,OC_Log::ERROR);
+		}else{
+			OC_Log::write('contacts','thumbnail.php. Couldn\'t crop thumbnail for ID '.$id,OC_Log::ERROR);
 		}
-	}else{
-		OC_Log::write('contacts','thumbnail.php. Couldn\'t crop thumbnail for ID '.$id,OC_Log::ERROR);
+	} else {
+		OC_Log::write('contacts','thumbnail.php. Couldn\'t load image string for ID '.$id,OC_Log::ERROR);
 	}
-} else {
-	OC_Log::write('contacts','thumbnail.php. Couldn\'t load image string for ID '.$id,OC_Log::ERROR);
 }
 getStandardImage();

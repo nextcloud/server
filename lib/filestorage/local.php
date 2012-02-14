@@ -12,14 +12,10 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 	}
 	public function mkdir($path){
-		if($return=mkdir($this->datadir.$path)){
-		}
-		return $return;
+		return @mkdir($this->datadir.$path);
 	}
 	public function rmdir($path){
-		if($return=rmdir($this->datadir.$path)){
-		}
-		return $return;
+		return @rmdir($this->datadir.$path);
 	}
 	public function opendir($path){
 		return opendir($this->datadir.$path);
@@ -83,8 +79,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 	}
 	public function unlink($path){
-		$return=$this->delTree($path);
-		return $return;
+		return $this->delTree($path);
 	}
 	public function rename($path1,$path2){
 		if(! $this->file_exists($path1)){
@@ -171,6 +166,8 @@ class OC_Filestorage_Local extends OC_Filestorage{
 				$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
 			}
 			return $mimeType;
+		}else{
+			return false;
 		}
 	}
 

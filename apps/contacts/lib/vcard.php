@@ -47,6 +47,7 @@ class OC_Contacts_VCard{
 	 * ['carddata']
 	 */
 	public static function all($id){
+		$result = null;
 		if(is_array($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
 			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname';
@@ -58,13 +59,20 @@ class OC_Contacts_VCard{
 				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '.join(',', $id),OC_Log::DEBUG);
 				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
 			}
-		} else {
-			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
-			$result = $stmt->execute(array($id));
+		} elseif($id) {
+			try {
+				$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
+				$result = $stmt->execute(array($id));
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '. $id,OC_Log::DEBUG);
+			}
 		}
 		$cards = array();
-		while( $row = $result->fetchRow()){
-			$cards[] = $row;
+		if(!is_null($result)) {
+			while( $row = $result->fetchRow()){
+				$cards[] = $row;
+			}
 		}
 
 		return $cards;
@@ -124,10 +132,9 @@ class OC_Contacts_VCard{
 				OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
 			}
 			$uid = $card->getAsString('UID');
-			if(is_null($uid)){
+			if(!$uid){
 				$card->setUID();
 				$uid = $card->getAsString('UID');
-				//$data = $card->serialize();
 			};
 			$uri = $uid.'.vcf';
 
@@ -176,7 +183,7 @@ class OC_Contacts_VCard{
 	 * @return insertid
 	 */
 	public static function addFromDAVData($id,$uri,$data){
-		$fn = $n = null;
+		$fn = $n = $uid = null;
 		$email = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
@@ -186,6 +193,9 @@ class OC_Contacts_VCard{
 				}
 				if($property->name == 'N'){
 					$n = $property->value;
+				}
+				if($property->name == 'UID'){
+					$uid = $property->value;
 				}
 				if($property->name == 'EMAIL' && is_null($email)){
 					$email = $property->value;
@@ -209,6 +219,10 @@ class OC_Contacts_VCard{
 			$card->setString('N', $n);
 			$data = $card->serialize();
 			OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
+		}
+		if(!$uid) {
+			$card->setUID();
+			$data = $card->serialize();
 		}
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
@@ -384,4 +398,43 @@ class OC_Contacts_VCard{
 		}
 		return $temp;
 	}
+
+	/**
+	 * @brief Move card(s) to an address book
+	 * @param integer $aid Address book id
+	 * @param $id Array or integer of cards to be moved.
+	 * @return boolean
+	 *
+	 */
+	public static function moveToAddressBook($aid, $id){
+		OC_Contacts_App::getAddressbook($aid); // check for user ownership.
+		if(is_array($id)) {
+			$id_sql = join(',', array_fill(0, count($id), '?'));
+			$prep = 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id IN ('.$id_sql.')';
+			try {
+				$stmt = OC_DB::prepare( $prep );
+				//$aid = array($aid);
+				$vals = array_merge((array)$aid, $id);
+				$result = $stmt->execute($vals);
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, ids: '.join(',', $vals),OC_Log::DEBUG);
+				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
+				return false;
+			}
+		} else {
+			try {
+				$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
+				$result = $stmt->execute(array($aid, $id));
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, id: '.$id,OC_Log::DEBUG);
+				return false;
+			}
+		}
+
+		OC_Contacts_Addressbook::touch($aid);
+		return true;
+	}
+
 }

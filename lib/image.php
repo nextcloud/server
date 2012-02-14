@@ -48,6 +48,11 @@ class OC_Image {
 	protected $imagetype = IMAGETYPE_PNG; // Default to png if file type isn't evident.
 	protected $filepath = null;
 
+	static public function getMimeTypeForFile($filepath) {
+		$imagetype = exif_imagetype($filepath);
+		return $imagetype ? image_type_to_mime_type($imagetype) : '';
+	}
+
 	/**
 	* @brief Constructor.
 	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.
@@ -102,6 +107,7 @@ class OC_Image {
 	* @returns bool
 	*/
 	public function show() {
+		header('Content-Type: '.$this->mimeType());
 		return $this->_output();
 	}
 
@@ -117,17 +123,14 @@ class OC_Image {
 		} elseif($filepath === null && $this->filepath !== null) {
 			$filepath = $this->filepath;
 		}
-		return $this->_output($filepath, true);
+		return $this->_output($filepath);
 	}
 
 	/**
 	* @brief Outputs/saves the image.
 	*/
-	private function _output($filepath=null, $really=false) {
-		if($really === false) {
-			header('Content-Type: '.$this->mimeType());
-			$filepath = null; // Just being cautious ;-)
-		} else {
+	private function _output($filepath=null) {
+		if($filepath) {
 			if(!is_writable(dirname($filepath))) {
 				OC_Log::write('core',__METHOD__.'(): Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
 				return false;
