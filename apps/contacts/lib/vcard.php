@@ -415,7 +415,6 @@ class OC_Contacts_VCard{
 			} catch(Exception $e) {
 				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
 				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, id: '.$id,OC_Log::DEBUG);
-				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
 				return false;
 			}
 		}
