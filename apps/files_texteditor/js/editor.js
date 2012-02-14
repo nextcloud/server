@@ -217,6 +217,7 @@ function hideFileEditor(){
 	// Fades out editor controls
 	$('#editorcontrols').fadeOut('slow',function(){
 		$(this).remove();
+		$(".crumb:last").addClass('last');
 	});
 	// Fade out editor
 	$('#editor').fadeOut('slow', function(){
