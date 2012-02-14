@@ -156,8 +156,8 @@ class OC_FilesystemView {
 	public function filemtime($path){
 		return $this->basicOperation('filemtime',$path);
 	}
-	public function setFileMtime($path, $mtime){
-		return $this->basicOperation('setFileMtime',$path, array('write'), $mtime);
+	public function touch($path, $mtime){
+		return $this->basicOperation('touch', $path, array('write'), $mtime);
 	}
 	public function file_get_contents($path){
 		return $this->basicOperation('file_get_contents',$path,array('read'));
