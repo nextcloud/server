@@ -122,50 +122,9 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return $return;
 	}
 
-	public function getMimeType($fspath){
-		if($this->is_readable($fspath)){
-			$mimeType='application/octet-stream';
-			if ($mimeType=='application/octet-stream') {
-				self::$mimetypes = include('mimetypes.fixlist.php');
-				$extention=strtolower(strrchr(basename($fspath), "."));
-				$extention=substr($extention,1);//remove leading .
-				$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
-				
-			}
-			if (@is_dir($this->datadir.$fspath)) {
-				// directories are easy
-				return "httpd/unix-directory";
-			}
-			if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
-				$mimeType =strtolower(finfo_file($finfo,$this->datadir.$fspath));
-				$mimeType=substr($mimeType,0,strpos($mimeType,';'));
-				finfo_close($finfo);
-			}
-			if ($mimeType=='application/octet-stream' && function_exists("mime_content_type")) {
-				// use mime magic extension if available
-				$mimeType = mime_content_type($this->datadir.$fspath);
-			}
-			if ($mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
-				// it looks like we have a 'file' command,
-				// lets see it it does have mime support
-				$fspath=str_replace("'","\'",$fspath);
-				$fp = popen("file -i -b '{$this->datadir}$fspath' 2>/dev/null", "r");
-				$reply = fgets($fp);
-				pclose($fp);
-
-				//trim the character set from the end of the response
-				$mimeType=substr($reply,0,strrpos($reply,' '));
-			}
-			if ($mimeType=='application/octet-stream') {
-				// Fallback solution: (try to guess the type by the file extension
-				if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
-					self::$mimetypes=include('mimetypes.list.php');
-				}
-				$extention=strtolower(strrchr(basename($fspath), "."));
-				$extention=substr($extention,1);//remove leading .
-				$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
-			}
-			return $mimeType;
+	public function getMimeType($path){
+		if($this->is_readable($path)){
+			return OC_Helper::getMimeType($this->datadir.$path);
 		}else{
 			return false;
 		}

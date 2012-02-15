@@ -25,6 +25,8 @@
  * Collection of useful functions
  */
 class OC_Helper {
+	private static $mimetypes=array();
+	
 	/**
 	 * @brief Creates an url
 	 * @param $app app
@@ -266,6 +268,62 @@ class OC_Helper {
 		}elseif(file_exists($dir)){
 			unlink($dir);
 		}
+	}
+
+	/**
+	 * get the mimetype form a local file
+	 * @param string path
+	 * @return string
+	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
+	 */
+	static function getMimeType($path){
+		$isWrapped=(strpos($path,'://')!==false) and (substr($path,0,7)=='file://');
+		$mimeType='application/octet-stream';
+		if ($mimeType=='application/octet-stream') {
+			if(count(self::$mimetypes)>0){
+				self::$mimetypes = include('mimetypes.fixlist.php');
+			}
+			$extention=strtolower(strrchr(basename($path), "."));
+			$extention=substr($extention,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+
+		}
+		if (@is_dir($path)) {
+			// directories are easy
+			return "httpd/unix-directory";
+		}
+		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
+			$info = @strtolower(finfo_file($finfo,$path));
+			if($info){
+				$mimeType=substr($info,0,strpos($info,';'));
+			}
+			finfo_close($finfo);
+		}
+		if (!$isWrapped and $mimeType=='application/octet-stream' && function_exists("mime_content_type")) {
+			// use mime magic extension if available
+			$mimeType = mime_content_type($path);
+		}
+		if (!$isWrapped and $mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
+			// it looks like we have a 'file' command,
+			// lets see it it does have mime support
+			$path=str_replace("'","\'",$path);
+			$fp = popen("file -i -b '$path' 2>/dev/null", "r");
+			$reply = fgets($fp);
+			pclose($fp);
+
+			//trim the character set from the end of the response
+			$mimeType=substr($reply,0,strrpos($reply,' '));
+		}
+		if ($mimeType=='application/octet-stream') {
+			// Fallback solution: (try to guess the type by the file extension
+			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
+				self::$mimetypes=include('mimetypes.list.php');
+			}
+			$extention=strtolower(strrchr(basename($path), "."));
+			$extention=substr($extention,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+		}
+		return $mimeType;
 	}
 	
 	/**

@@ -115,4 +115,8 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			return false;//cancel the original request
 		}
 	}
+
+	public function postGetMimeType($path,$mime){
+		return OC_Helper::getMimeType('crypt://'.$path,'w');
+	}
 }
