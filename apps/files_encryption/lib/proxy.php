@@ -70,11 +70,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	
 	public function preFile_put_contents($path,&$data){
 		if(self::shouldEncrypt($path)){
-			if (is_resource($data)) {
-				$id=md5($path);
-				OC_CryptStream::$sourceStreams[$id]=array('path'=>$path,'stream'=>$data);
-				$data=fopen('crypt://streams/'.$id,'r');
-			}else{
+			if (!is_resource($data)) {//stream put contents should have been converter to fopen
 				$data=OC_Crypt::blockEncrypt($data);
 			}
 		}

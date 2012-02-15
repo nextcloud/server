@@ -163,7 +163,21 @@ class OC_FilesystemView {
 		return $this->basicOperation('file_get_contents',$path,array('read'));
 	}
 	public function file_put_contents($path,$data){
-		return $this->basicOperation('file_put_contents',$path,array('create','write'),$data);
+		if(is_resource($data)){//not having to deal with streams in file_put_contents makes life easier
+			$target=$this->fopen($path,'w');
+			if($target){
+				while(!feof($data)){
+					fwrite($target,fread($data,8192));
+				}
+				fclose($target);
+				fclose($data);
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return $this->basicOperation('file_put_contents',$path,array('create','write'),$data);
+		}
 	}
 	public function unlink($path){
 		return $this->basicOperation('unlink',$path,array('delete'));
