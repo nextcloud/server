@@ -7,8 +7,8 @@
 #chooseaddressbook {margin-right: 170px; float: right;}
 #contacts_deletecard {position:absolute;top:15px;right:25px;}
 #contacts_downloadcard {position:absolute;top:15px;right:50px;}
-#contacts_propertymenu_button { position:absolute;top:15px;right:150px; height: 20px; width: 150px; background:url('../../../core/img/actions/add.svg') no-repeat center;	 }
-#contacts_propertymenu { position:absolute;top:40px;right:150px; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
+#contacts_propertymenu_button { position:absolute;top:15px;right:150px; background:url('../../../core/img/actions/add.svg') no-repeat center;	 }
+#contacts_propertymenu { background-color: #fff; position:absolute;top:40px;right:150px; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
 #contacts_propertymenu li { display: block; font-weight: bold; height: 20px; width: 100px; }
 /*#contacts_propertymenu li:first-child { border-top: thin solid #1d2d44; -moz-border-radius-topleft:0.5em; -webkit-border-top-left-radius:0.5em; border-top-left-radius:0.5em; -moz-border-radius-topright:0.5em; -webkit-border-top-right-radius:0.5em; border-top-right-radius:0.5em; }
 #contacts_propertymenu li:last-child { border-bottom: thin solid #1d2d44; -moz-border-radius-bottomleft:0.5em; -webkit-border-bottom-left-radius:0.5em; border-bottom-left-radius:0.5em; -moz-border-radius-bottomright:0.5em; -webkit-border-bottom-right-radius:0.5em; border-bottom-right-radius:0.5em; }*/
@@ -97,21 +97,8 @@ dl.form
 #edit_address_dialog > input {
 	width: 15em;
 }
-#edit_photo_dialog_img {
-	display: block;
-	width: 150;
-	height: 200;
-	border: thin solid black;
-}
-#fn {
-	float: left;
-}
-.jecEditableOption {
-	margin: 2px;
-	border-radius: 0.5em;
-	border: thin solid #bbb;
-	content: 'Custom';
-}
+#edit_photo_dialog_img { display: block; width: 150; height: 200; border: thin solid black; }
+#fn { float: left; }
 /**
  * Create classes form, floateven and floatodd which flows left and right respectively.
  */
@@ -162,13 +149,8 @@ width:auto; padding:.3em; border:1px solid #ddd; font-weight:bold; cursor:pointe
 	background: url(../../../core/img/loading.gif) no-repeat center center;
 	clear: right;
 }
-#contacts_details_photo:hover {
-	background: #fff;
-}
-#contacts_details_photo_progress {
-	margin: 0.3em 0.3em 0.3em 7em;
-	clear: left;
-}
+#contacts_details_photo:hover { background: #fff; }
+#contacts_details_photo_progress { margin: 0.3em 0.3em 0.3em 7em; clear: left; }
 /* Address editor */
 #addressdisplay { padding: 0.5em; }
 dl.addresscard { background-color: #fff; float: left; width: 45%; margin: 0 0.3em 0.3em 0.3em; padding: 0; border: thin solid lightgray; }
@@ -187,15 +169,6 @@ dl.addresscard dd > ul { margin: 0.3em; padding: 0.3em; }
 .delimiter {
 	height: 10px;
 	clear: both;
-}
-.updatebar {
-	height: 30px;
-	clear: both;
-	padding-right: 170px;
-	border: thin solid lightgray;
-}
-.updatebar button {
-	float: left; margin: 1em;
 }
 
 /*input[type="text"] { float: left; max-width: 15em; }

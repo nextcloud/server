@@ -3,21 +3,6 @@ function ucwords (str) {
 		return $1.toUpperCase();
 	});
 }
-/* TODO: Test this.
- * http://snipplr.com/view/45323/remove-duplicate-values-from-array/
-Array.prototype.unique = function unique() { 
-	var i = 0; 
-	while (i < this.length) { 
-		var current = this[i]; 
-		for (k = this.length; k > i; k--) { 
-			if (this[k] === current) { 
-				this.splice(k,1);
-			}
-		} i++; 
-	} 
-	return this; 
-}
-*/
 
 String.prototype.strip_tags = function(){
 	tags = this;
@@ -1337,7 +1322,7 @@ $(document).ready(function(){
 	}
 
 	$('#contacts_propertymenu_button').live('click',function(){
-		$('#contacts_propertymenu').is(':hidden') && $('#contacts_propertymenu').show() || $('#contacts_propertymenu').hide();
+		$('#contacts_propertymenu').is(':hidden') && $('#contacts_propertymenu').slideDown() || $('#contacts_propertymenu').slideUp();
 	});
 	$('#contacts_propertymenu a').live('click',function(){
 		Contacts.UI.Card.addProperty(this);
