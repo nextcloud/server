@@ -279,7 +279,7 @@ if(!function_exists('get_temp_dir')) {
 
 OC::init();
 
-require_once('fakedirstream.php');
+require_once('streamwrappers.php');
 
 
 
