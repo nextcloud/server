@@ -48,6 +48,11 @@ class OC_Image {
 	protected $imagetype = IMAGETYPE_PNG; // Default to png if file type isn't evident.
 	protected $filepath = null;
 
+	/**
+	* @brief Get mime type for an image file.
+	* @param $filepath The path to a local image file.
+	* @returns string The mime type if the it could be determined, otherwise an empty string.
+	*/
 	static public function getMimeTypeForFile($filepath) {
 		$imagetype = exif_imagetype($filepath);
 		return $imagetype ? image_type_to_mime_type($imagetype) : '';
@@ -281,21 +286,43 @@ class OC_Image {
 
 	/**
 	* @brief Loads an image from a local file, a base64 encoded string or a resource created by an imagecreate* function.
-	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.
+	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle	).
 	* @returns An image resource or false on error
 	*/
 	public function load($imageref) {
-		if($this->loadFromFile($imageref) !== false) {
+		if(is_resource($imageref)) {
+			if(get_resource_type($imageref) == 'gd') {
+				$this->resource = $res;
+				return $this->resource;
+			} elseif(in_array(get_resource_type($imageref), array('file','stream'))) {
+				return $this->loadFromFileHandle($imageref);
+			}
+		} elseif($this->loadFromFile($imageref) !== false) {
 			return $this->resource;
 		} elseif($this->loadFromBase64($imageref) !== false) {
 			return $this->resource;
 		} elseif($this->loadFromData($imageref) !== false) {
 			return $this->resource;
-		} elseif($this->loadFromResource($imageref) !== false) {
-			return $this->resource;
 		} else {
 			OC_Log::write('core',__METHOD__.'(): couldn\'t load anything. Giving up!', OC_Log::DEBUG);
 			return false;
+		}
+	}
+
+	/**
+	* @brief Loads an image from an open file handle.
+	* It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
+	* @param $handle 
+	* @returns An image resource or false on error
+	*/
+	public function loadFromFileHandle($handle) {
+		OC_Log::write('core',__METHOD__.'(): Trying', OC_Log::DEBUG);
+		$contents = '';
+		while (!feof($handle)) {
+			$contents .= fread($handle, 8192);
+		}
+		if($this->loadFromData($contents)) {
+			return $this->resource;
 		}
 	}
 
@@ -422,18 +449,6 @@ class OC_Image {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	* @brief Checks if image resource is valid and assigns it to $this->resource.
-	* @param $res An image resource.
-	* @returns An image resource or false on error
-	*/
-	public function loadFromResource($res) {
-		if(!is_resource($res)) {
-			return false;
-		}
-		$this->resource = $res;
 	}
 
 	/**
