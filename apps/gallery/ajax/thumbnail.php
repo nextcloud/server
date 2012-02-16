@@ -29,10 +29,6 @@ $img = $_GET['img'];
 
 $image = OC_Gallery_Photo::getThumbnail($img);
 if ($image) {
-	$offset = 3600 * 24; // 24 hour
-	// calc the string in GMT not localtime and add the offset
-	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
-	header('Cache-Control: max-age='.$offset.', must-revalidate');
-	header('Pragma: public');
+	OC_Response::enableCaching(3600 * 24); // 24 hour
 	$image->show();
 }
