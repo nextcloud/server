@@ -46,7 +46,7 @@ OC_App::addNavigationEntry( array(
 		$result = $stmt->execute(array(OC_User::getUser(),'%'.$query.'%'));
 		$results=array();
 		while($row=$result->fetchRow()){
-			$results[]=new OC_Search_Result($row['album_name'],'',OC_Helper::linkTo('apps/gallery', 'index.php?view='.$row['album_name']),'Galleries');
+			$results[]=new OC_Search_Result($row['album_name'],'',OC_Helper::linkTo('gallery', 'index.php').'?view='.$row['album_name'],'Galleries');
 		}
 		return $results;
 	}
