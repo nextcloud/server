@@ -12,6 +12,9 @@
 		<small><?php echo $l->t('Currently the display name field needs to be the same you matched %%uid against in the filter above, because ownCloud doesn\'t distinguish between user id and user name.');?></small></p>
 		<p><input type="checkbox" id="ldap_tls" name="ldap_tls" value="1"<?php if ($_['ldap_tls']) echo ' checked'; ?>><label for="ldap_tls"><?php echo $l->t('Use TLS');?></label></p>
 		<p><input type="checkbox" id="ldap_nocase" name="ldap_nocase" value="1"<?php if ($_['ldap_nocase']) echo ' checked'; ?>><label for="ldap_nocase"><?php echo $l->t('Case insensitve LDAP server (Windows)');?></label></p>
+		<p><label for="ldap_quota">Quota Attribute</label><input type="text" id="ldap_quota" name="ldap_quota" value="<?php echo $_['ldap_quota']; ?>" />
+                <label for="ldap_quota_def">Quota Default</label><input type="text" id="ldap_quota_def" name="ldap_quota_def" value="<?php echo $_['ldap_quota_def']; ?>" />bytes</p>
+                <p><label for="ldap_email">Email Attribute</label><input type="text" id="ldap_email" name="ldap_email" value="<?php echo $_['ldap_email']; ?>" /></p>
 		<input type="submit" value="Save" />
 	</fieldset>
 </form>
