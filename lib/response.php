@@ -85,7 +85,7 @@ class OC_Response {
 			self::setStatus(self::STATUS_NOT_MODIFIED);
 			exit;
 		}
-		header('ETag: '.$etag);
+		header('ETag: "'.$etag.'"');
 	}
 
 	static public function setLastModifiedHeader($lastModified) {
