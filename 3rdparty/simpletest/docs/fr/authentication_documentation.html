@@ -1,0 +1,372 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Documentation Simple Test : tester l'authentification</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>Documentation sur l'authentification</h1>
+        This page...
+        <ul>
+<li>
+            Passer au travers d'une <a href="#basique">authentification HTTP basique</a>
+        </li>
+<li>
+            Tester l'<a href="#cookies">authentification basée sur des cookies</a>
+        </li>
+<li>
+            Gérer les <a href="#session">sessions du navigateur</a> et les timeouts
+        </li>
+</ul>
+<div class="content">
+        
+            <p>
+                Un des secteurs à la fois délicat et important lors d'un test
+                de site web reste la sécurité. Tester ces schémas est au coeur
+                des objectifs du testeur web de SimpleTest.
+            </p>
+        
+        <h2>
+<a class="target" name="basique"></a>Authentification HTTP basique</h2>
+            <p>
+                Si vous allez chercher une page web protégée
+                par une authentification basique, vous hériterez d'une entête 401.
+                Nous pouvons représenter ceci par ce test...
+<pre>
+class AuthenticationTest extends WebTestCase {<strong>
+    function test401Header() {
+        $this-&gt;get('http://www.lastcraft.com/protected/');
+        $this-&gt;showHeaders();
+    }</strong>
+}
+</pre>
+                Ce qui nous permet de voir les entêtes reçues...
+                <div class="demo">
+                    <h1>File test</h1>
+<pre style="background-color: lightgray; color: black">
+HTTP/1.1 401 Authorization Required
+Date: Sat, 18 Sep 2004 19:25:18 GMT
+Server: Apache/1.3.29 (Unix) PHP/4.3.4
+WWW-Authenticate: Basic realm="SimpleTest basic authentication"
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+</pre>
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">1/1 test cases complete.
+                    <strong>0</strong> passes, <strong>0</strong> fails and <strong>0</strong> exceptions.</div>
+                </div>
+                Sauf que nous voulons éviter l'inspection visuelle,
+                on souhaite que SimpleTest puisse nous dire si oui ou non
+                la page est protégée. Voici un test en profondeur sur nos entêtes...
+<pre>
+class AuthenticationTest extends WebTestCase {
+    function test401Header() {
+        $this-&gt;get('http://www.lastcraft.com/protected/');<strong>
+        $this-&gt;assertAuthentication('Basic');
+        $this-&gt;assertResponse(401);
+        $this-&gt;assertRealm('SimpleTest basic authentication');</strong>
+    }
+}
+</pre>
+                N'importe laquelle de ces assertions suffirait,
+                tout dépend de la masse de détails que vous souhaitez voir.
+            </p>
+            <p>
+                Un des axes qui traverse SimpleTest est la possibilité d'utiliser
+				des objets <span class="new_code">SimpleExpectation</span> à chaque fois qu'une
+				vérification simple suffit.
+				Si vous souhaitez vérifiez simplement le contenu du realm - l'identification
+				du domaine - dans notre exemple, il suffit de faire...
+<pre>
+class AuthenticationTest extends WebTestCase {
+    function test401Header() {
+        $this-&gt;get('http://www.lastcraft.com/protected/');
+        $this-&gt;assertRealm(<strong>new PatternExpectation('/simpletest/i')</strong>);
+    }
+}
+</pre>
+                Ce type de test, vérifier les réponses HTTP, n'est cependant pas commun.
+            </p>
+			<p>
+                La plupart du temps, nous ne souhaitons pas tester
+                l'authentification en elle-même, mais plutôt
+                les pages protégées par cette authentification.
+                Dès que la tentative d'authentification est reçue,
+                nous pouvons y répondre à l'aide d'une réponse d'authentification :
+<pre>
+class AuthenticationTest extends WebTestCase {
+    function testAuthentication() {
+        $this-&gt;get('http://www.lastcraft.com/protected/');<strong>
+        $this-&gt;authenticate('Me', 'Secret');</strong>
+        $this-&gt;assertTitle(...);
+    }
+}
+</pre>
+                Le nom d'utilisateur et le mot de passe seront désormais
+                envoyés à chaque requête vers ce répertoire
+                et ses sous-répertoires.
+                En revanche vous devrez vous authentifier à nouveau
+                si vous sortez de ce répertoire mais SimpleTest est assez
+                intelligent pour fusionner les sous-répertoires dans un même domaine.
+            </p>
+            <p>
+                Vous pouvez gagner une ligne en définissant
+                l'authentification au niveau de l'URL...
+<pre>
+class AuthenticationTest extends WebTestCase {
+    function testCanReadAuthenticatedPages() {
+        $this-&gt;get('http://<strong>Me:Secret@</strong>www.lastcraft.com/protected/');
+        $this-&gt;assertTitle(...);
+    }
+}
+</pre>
+                Si votre nom d'utilisateur ou mot de passe comporte
+                des caractères spéciaux, alors n'oubliez pas de les encoder,
+                sinon la requête ne sera pas analysée correctement.
+                De plus cette entête ne sera pas envoyée aux
+                sous requêtes si vous la définissez avec une URL absolue.
+                Par contre si vous naviguez avec des URL relatives,
+                l'information d'authentification sera préservée.
+            </p>
+            <p>
+                Normalement, vous utilisez l'appel <span class="new_code">authenticate()</span>. SimpleTest
+				utilisera alors vos informations de connexion à chaque requête.
+            </p>
+            <p>
+                 Pour l'instant, seule l'authentification de base est implémentée
+                 et elle n'est réellement fiable qu'en tandem avec une connexion HTTPS.
+                 C'est généralement suffisant pour protéger
+                 le serveur testé des regards malveillants.
+                 Les authentifications Digest et NTLM pourraient être ajoutées prochainement.
+            </p>
+        
+        <h2>
+<a class="target" name="cookies"></a>Cookies</h2>
+            <p>
+                L'authentification de base ne donne pas assez de contrôle
+                au développeur Web sur l'interface utilisateur.
+                Il y a de forte chance pour que cette fonctionnalité
+                soit codée directement dans l'architecture web
+                à grand renfort de cookies et de timeouts compliqués.
+            </p>
+            <p>
+                Commençons par un simple formulaire de connexion...
+<pre>
+&lt;form&gt;
+    Username:
+    &lt;input type="text" name="u" value="" /&gt;&lt;br /&gt;
+    Password:
+    &lt;input type="password" name="p" value="" /&gt;&lt;br /&gt;
+    &lt;input type="submit" value="Log in" /&gt;
+&lt;/form&gt;
+</pre>
+                Lequel doit ressembler à...
+            </p>
+            <p>
+                <form class="demo">
+                    Username:
+                    <input type="text" name="u" value=""><br>
+                    Password:
+                    <input type="password" name="p" value=""><br>
+                    <input type="submit" value="Log in">
+                </form>
+            </p>
+            <p>
+                Supposons que, durant le chargement de la page,
+                un cookie ait été inscrit avec un numéro d'identifiant de session.
+                Nous n'allons pas encore remplir le formulaire,
+                juste tester que nous pistons bien l'utilisateur.
+                Voici le test...
+<pre>
+class LogInTest extends WebTestCase {
+    function testSessionCookieSetBeforeForm() {
+        $this-&gt;get('http://www.my-site.com/login.php');<strong>
+        $this-&gt;assertCookie('SID');</strong>
+    }
+}
+</pre>
+                Nous nous contentons ici de vérifier que le cookie a bien été défini.
+                Etant donné que sa valeur est plutôt énigmatique,
+                elle ne vaudrait pas la peine d'être testée avec...
+<pre>
+class LogInTest extends WebTestCase {
+    function testSessionCookieIsCorrectPattern() {
+        $this-&gt;get('http://www.my-site.com/login.php');
+        $this-&gt;assertCookie('SID', <strong>new PatternExpectation('/[a-f0-9]{32}/i')</strong>);
+    }
+}
+</pre>
+                Si vous utilisez PHP pour gérer vos sessions alors
+				ce test est encore plus inutile, étant donné qu'il ne fait
+				que tester PHP lui-même.
+            </p>
+            <p>
+                Le test le plus simple pour vérifier que la connexion a bien eu lieu
+				reste d'inspecter visuellement la page suivante :
+				un simple appel à <span class="new_code">WebTestCase::assertText()</span> et le tour est joué.
+            </p>
+            <p>
+                Le reste du test est le même que dans n'importe quel autre formulaire,
+                mais nous pourrions souhaiter nous assurer
+                que le cookie n'a pas été modifié depuis la phase de connexion.
+                Voici comment cela pourrait être testé :
+<pre>
+class LogInTest extends WebTestCase {
+    ...
+    function testSessionCookieSameAfterLogIn() {
+        $this-&gt;get('http://www.my-site.com/login.php');<strong>
+        $session = $this-&gt;getCookie('SID');
+        $this-&gt;setField('u', 'Me');
+        $this-&gt;setField('p', 'Secret');
+        $this-&gt;clickSubmit('Log in');
+        $this-&gt;assertWantedPattern('/Welcome Me/');
+        $this-&gt;assertCookie('SID', $session);</strong>
+    }
+}
+</pre>
+                Ceci confirme que l'identifiant de session
+                est identique avant et après la connexion.
+            </p>
+            <p>
+                Nous pouvons même essayer de duper notre propre système
+                en créant un cookie arbitraire pour se connecter...
+<pre>
+class LogInTest extends WebTestCase {
+    ...
+    function testSessionCookieSameAfterLogIn() {
+        $this-&gt;get('http://www.my-site.com/login.php');<strong>
+        $this-&gt;setCookie('SID', 'Some other session');
+        $this-&gt;get('http://www.my-site.com/restricted.php');</strong>
+        $this-&gt;assertWantedPattern('/Access denied/');
+    }
+}
+</pre>
+                Votre site est-il protégé contre ce type d'attaque ?
+            </p>
+        
+        <h2>
+<a class="target" name="session"></a>Sessions de navigateur</h2>
+            <p>
+                Si vous testez un système d'authentification,
+                la reconnexion par un utilisateur est un point sensible.
+                Essayons de simuler ce qui se passe dans ce cas :
+<pre>
+class LogInTest extends WebTestCase {
+    ...
+    function testLoseAuthenticationAfterBrowserClose() {
+        $this-&gt;get('http://www.my-site.com/login.php');
+        $this-&gt;setField('u', 'Me');
+        $this-&gt;setField('p', 'Secret');
+        $this-&gt;clickSubmit('Log in');
+        $this-&gt;assertWantedPattern('/Welcome Me/');<strong>
+        
+        $this-&gt;restart();
+        $this-&gt;get('http://www.my-site.com/restricted.php');
+        $this-&gt;assertWantedPattern('/Access denied/');</strong>
+    }
+}
+</pre>
+                La méthode <span class="new_code">WebTestCase::restart()</span> préserve
+                les cookies dont le timeout n'a pas expiré,
+                mais jette les cookies temporaires ou expirés.
+                Vous pouvez spécifier l'heure et la date de leur réactivation.
+            </p>
+            <p>
+                L'expiration des cookies peut être un problème.
+                Si vous avez un cookie qui doit expirer au bout d'une heure,
+                nous n'allons pas mettre le test en veille en attendant
+                que le cookie expire...
+            </p>
+            <p>
+                Afin de provoquer leur expiration,
+                vous pouvez dater manuellement les cookies,
+                avant le début de la session.
+<pre>
+class LogInTest extends WebTestCase {
+    ...
+    function testLoseAuthenticationAfterOneHour() {
+        $this-&gt;get('http://www.my-site.com/login.php');
+        $this-&gt;setField('u', 'Me');
+        $this-&gt;setField('p', 'Secret');
+        $this-&gt;clickSubmit('Log in');
+        $this-&gt;assertWantedPattern('/Welcome Me/');
+        <strong>
+        $this-&gt;ageCookies(3600);</strong>
+        $this-&gt;restart();
+        $this-&gt;get('http://www.my-site.com/restricted.php');
+        $this-&gt;assertWantedPattern('/Access denied/');
+    }
+}
+</pre>
+                Après le redémarrage, les cookies seront plus vieux
+                d'une heure et que tous ceux dont la date d'expiration
+                sera passée auront disparus.
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            La page du projet SimpleTest sur <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            La page de téléchargement de SimpleTest sur <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+<li>
+            <a href="http://simpletest.org/api/">L'API du développeur pour SimpleTest</a> donne tous les détails sur les classes et les assertions disponibles.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>
