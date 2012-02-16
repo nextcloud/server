@@ -248,7 +248,7 @@ class OC_Util {
 	*/
 	public static function checkAppEnabled($app){
 		if( !OC_App::isEnabled($app)){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}
@@ -259,7 +259,7 @@ class OC_Util {
 	public static function checkLoggedIn(){
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}
@@ -271,7 +271,7 @@ class OC_Util {
 		// Check if we are a user
 		self::checkLoggedIn();
 		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}

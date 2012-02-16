@@ -16,7 +16,7 @@ if (isset($_POST['user'])) {
 		OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword', $token);
 		$email = OC_Preferences::getValue($_POST['user'], 'settings', 'email', '');
 		if (!empty($email)) {
-			$link = OC_Helper::linkTo('core/lostpassword', 'resetpassword.php', null, true).'?user='.$_POST['user'].'&token='.$token;
+			$link = OC_Helper::linkToAbsolute('core/lostpassword', 'resetpassword.php').'?user='.$_POST['user'].'&token='.$token;
 			$tmpl = new OC_Template('core/lostpassword', 'email');
 			$tmpl->assign('link', $link);
 			$msg = $tmpl->fetchPage();

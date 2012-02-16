@@ -54,17 +54,28 @@ class OC_Helper {
 			}
 		}
 
-		if($absolute){
-			// Checking if the request was made through HTTPS. The last in line is for IIS
-			$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
-			$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
-		}
-
 		if($redirect_url)
 			return $urlLinkTo.'?redirect_url='.urlencode($_SERVER["REQUEST_URI"]);
 		else
 			return $urlLinkTo;
 
+	}
+
+	/**
+	 * @brief Creates an absolute url
+	 * @param $app app
+	 * @param $file file
+	 * @param $redirect_url redirect_url variable is appended to the URL
+	 * @returns the url
+	 *
+	 * Returns a absolute url to the given app and file.
+	 */
+	public static function linkToAbsolute( $app, $file, $redirect_url=NULL ) {
+		$urlLinkTo = self::linkTo( $app, $file, $redirect_url );
+		// Checking if the request was made through HTTPS. The last in line is for IIS
+		$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
+		$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
+		return $urlLinkTo;
 	}
 
 	/**

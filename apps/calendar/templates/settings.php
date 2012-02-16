@@ -40,6 +40,6 @@
         </table>
 
         <?php echo $l->t('Calendar CalDAV syncing address:');?>
-        <?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?><br />
+        <?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?><br />
         </fieldset>
 </form>
