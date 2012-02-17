@@ -117,7 +117,7 @@ Contacts={
 			$('#carddav_url_close').show();
 		},
 		messageBox:function(title, msg) {
-			if(msg.toLowerCase().indexOf('auth') > 0) {
+			if(msg.toLowerCase().indexOf('auth') != -1) {
 				// fugly hack, I know
 				alert(msg);
 			}
@@ -335,17 +335,6 @@ Contacts={
 						// Load first in list.
 						if($('#contacts li').length > 0) {
 							Contacts.UI.Card.update();
-							/*
-							var firstid = $('#contacts li:first-child').data('id');
-							console.log('trying to load: ' + firstid);
-							$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':firstid},function(jsondata){
-								if(jsondata.status == 'success'){
-									Contacts.UI.Card.loadContact(jsondata.data);
-								}
-								else{
-									Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-								}
-							});*/
 						} else {
 							// load intro page
 							$.getJSON('ajax/loadintro.php',{},function(jsondata){
@@ -374,6 +363,7 @@ Contacts={
 				$('#rightcontent').data('id',this.id);
 				//console.log('loaded: ' + this.data.FN[0]['value']);
 				this.populateNameFields();
+				this.loadCategories();
 				this.loadPhoto();
 				this.loadMails();
 				this.loadPhones();
@@ -455,9 +445,6 @@ Contacts={
 					this.fullname += ', ' + this.honsuf;
 				}
 				$('#n').html(this.fullname);
-				//$('.jecEditableOption').attr('title', 'Custom');
-				//$('.jecEditableOption').text(this.fn);
-				//$('.jecEditableOption').attr('value', 0);
 				$('#fn_select option').remove();
 				$('#fn_select').combobox('value', this.fn);
 				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
@@ -466,17 +453,16 @@ Contacts={
 						.append($('<option></option>')
 						.text(value)); 
 				});
-				/*$('#full').text(this.fullname);
-				$('#short').text(this.givname + ' ' + this.famname);
-				$('#reverse').text(this.famname + ' ' + this.givname);
-				$('#reverse_comma').text(this.famname + ', ' + this.givname);*/
 				$('#contact_identity').find('*[data-element="N"]').data('checksum', this.data.N[0]['checksum']);
 				$('#contact_identity').find('*[data-element="FN"]').data('checksum', this.data.FN[0]['checksum']);
 				$('#contact_identity').show();
 			},
+			loadCategories:function(){
+				if(this.data.CATEGORIES) {
+					//
+				}
+			},
 			editNew:function(){ // add a new contact
-				//Contacts.UI.notImplemented();
-				//return false;
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				$.getJSON('ajax/newcontact.php',{},function(jsondata){
 					if(jsondata.status == 'success'){
@@ -713,12 +699,6 @@ Contacts={
 						.text(value)); 
 				});
 				
-				/*$('#short').text(n[1] + ' ' + n[0]);
-				$('#full').text(this.fullname);
-				$('#reverse').text(n[0] + ' ' + n[1]);
-				$('#reverse_comma').text(n[0] + ', ' + n[1]);*/
-				//$('#n').html(full);
-				//$('#fn').val(0);
 				if(this.id == '') {
 					var aid = $(dlg).find('#aid').val();
 					Contacts.UI.Card.add(n.join(';'), $('#short').text(), aid);
@@ -889,21 +869,22 @@ Contacts={
 			},
 			loadPhoto:function(){
 				if(this.data.PHOTO) {
+					$.getJSON('ajax/loadphoto.php',{'id':this.id},function(jsondata){
+						if(jsondata.status == 'success'){
+							//alert(jsondata.data.page);
+							$('#contacts_details_photo_wrapper').html(jsondata.data.page);
+						}
+						else{
+							Contacts.UI.messageBox(jsondata.data.message);
+						}
+					});
 					$('#file_upload_form').show();
 					$('#contacts_propertymenu a[data-type="PHOTO"]').parent().hide();
 				} else {
+					$('#contacts_details_photo_wrapper').empty();
 					$('#file_upload_form').hide();
 					$('#contacts_propertymenu a[data-type="PHOTO"]').parent().show();
 				}
-				$.getJSON('ajax/loadphoto.php',{'id':this.id},function(jsondata){
-					if(jsondata.status == 'success'){
-						//alert(jsondata.data.page);
-						$('#contacts_details_photo_wrapper').html(jsondata.data.page);
-					}
-					else{
-						Contacts.UI.messageBox(jsondata.data.message);
-					}
-				});
 			},
 			editPhoto:function(id, tmp_path){
 				//alert('editPhoto: ' + tmp_path);
@@ -1143,13 +1124,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	/**
-	 * Open blank form to add new contact.
-	 * FIXME: Load the same page but only show name data and popup the name edit dialog. 
-	 * On save load the page again with an id and show all fields.
-	 * NOTE: Or: Load the full page and popup name dialog modal. On success set the newly aquired ID, on
-	 * Cancel or failure give appropriate message and show ... something else :-P
-	 */
 	$('#contacts_newcontact').click(function(){
 		Contacts.UI.Card.editNew();
 	});
@@ -1175,9 +1149,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	/**
-	 * Delete currently selected contact TODO: and clear page
-	 */
 	$('#contacts_deletecard').live('click',function(){
 		Contacts.UI.Card.delete();
 	});

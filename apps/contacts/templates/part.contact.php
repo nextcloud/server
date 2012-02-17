@@ -70,14 +70,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 				<input type="checkbox" class="contacts_property" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
 				<input type="email" required="required" class="nonempty contacts_property" style="width:15em;" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" /><span class="listactions"><a onclick="Contacts.UI.mailTo(this)" class="mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
 				<a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
-			<?php
-			if(0) { /*foreach($card['EMAIL'] as $email) {*/
-			?>
-			<li class="propertycontainer" style="white-space: nowrap;" data-checksum="<?php echo $email['checksum'] ?>" data-element="EMAIL">
-				<input type="checkbox" class="contacts_property" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" <?php echo (isset($email['parameters']['PREF'])?'checked="checked"':''); ?> />
-				<input type="email" required="required" class="nonempty contacts_property" style="width:15em;" name="value" value="<?php echo $email['value'] ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" /><span class="listactions"><a onclick="Contacts.UI.mailTo(this)" class="mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
-				<a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
-			<?php } ?>
 			</ul><!-- a id="add_email" class="add" title="<?php echo $l->t('Add email address'); ?>"></a -->
 		</div> <!-- email addresses-->
 
@@ -93,17 +85,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 					<?php echo html_select_options($_['phone_types'], array()) ?>
 				</select>
 				<a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
-			<?php
-			if(0) { /*foreach($card['TEL'] as $phone) {*/
-			?>
-				<li class="propertycontainer" style="white-space: nowrap;" data-checksum="<?php echo $phone['checksum'] ?>" data-element="TEL">
-				<input type="checkbox" class="contacts_property" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" <?php echo (isset($phone['parameters']['PREF'])?'checked="checked"':''); ?> /> 
-				<input type="text" required="required" class="nonempty contacts_property" style="width:8em; border: 0px;" name="value" value="<?php echo $phone['value'] ?>" placeholder="<?php echo $l->t('Enter phone number'); ?>" />
-				<select class="contacts_property" multiple="multiple" name="parameters[TYPE][]">
-					<?php echo html_select_options($_['phone_types'], isset($phone['parameters']['TYPE'])?$phone['parameters']['TYPE']:array()) ?>
-				</select>
-				<a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
-			<?php } ?>
 			</ul><!-- a id="add_phone" class="add" title="<?php echo $l->t('Add phone number'); ?>"></a -->
 		</div> <!-- Phone numbers -->
 
@@ -118,40 +99,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<span class="adr_type_label"></span><a class="globe" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.searchOSM(this);" title="<?php echo $l->t('View on map'); ?>"></a><a class="edit" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.Card.editAddress(this, false);" title="<?php echo $l->t('Edit address details'); ?>"></a><a class="delete" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="Delete address"></a>
 			</dt><dd><ul class="addresslist"></ul></dd></dl>
 
-			<?php if(0) { /*foreach($card['ADR'] as $address) {*/ ?>
-			<dl class="addresscard propertycontainer" data-checksum="<?php echo $address['checksum']; ?>" data-element="ADR">
-			<dt>
-			<input class="adr contacts_property" name="value" type="hidden" value="<?php echo implode(';',$address['value']); ?>" />
-				<input type="hidden" class="adr_type contacts_property" name="parameters[TYPE][]" value="<?php echo strtoupper(implode(',',$address['parameters'])); ?>" />
-				<span class="adr_type_label">
-				<?php 
-				if(count($address['parameters']) > 0) {
-					//array_walk($address['parameters'], ) Nah, this wont work...
-					$translated = array();
-					foreach($address['parameters'] as $type) {
-						$translated[] = $l->t(ucwords(strtolower($type)));
-					}
-					echo implode('/', $translated);
-				}
-				?></span><a class="globe" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.searchOSM(this);" title="<?php echo $l->t('View on map'); ?>"></a><a class="edit" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.Card.editAddress(this, false);" title="<?php echo $l->t('Edit address details'); ?>"></a><a class="delete" style="float:right;"  onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="Delete address"></a>
-			</dt>
-			<dd>
-			<ul class="addresslist">
-				<?php
-				$adr = $address['value'];
-				$tmp = ($adr[0]?'<li>'.$adr[0].'</li>':'');
-				$tmp .= ($adr[1]?'<li>'.$adr[1].'</li>':'');
-				$tmp .= ($adr[2]?'<li>'.$adr[2].'</li>':'');
-				$tmp .= ($adr[3]||$adr[5]?'<li>'.$adr[5].' '.$adr[3].'</li>':'');
-				$tmp .= ($adr[4]?'<li>'.$adr[4].'</li>':'');
-				$tmp .= ($adr[6]?'<li>'.$adr[6].'</li>':'');
-				echo $tmp;
-				
-				?>
-			</ul>
-			</dd>
-			</dl>
-			<?php } ?>
 		</fieldset>
 		</div>
 		</div> <!-- Addresses -->
