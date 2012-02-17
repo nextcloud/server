@@ -34,9 +34,40 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertTrue($this->instance->is_readable('/'),'Root folder is not readable');
 		$this->assertTrue($this->instance->is_dir('/'),'Root folder is not a directory');
 		$this->assertFalse($this->instance->is_file('/'),'Root folder is a file');
+		$this->assertEqual('dir',$this->instance->filetype('/'));
 		
 		//without this, any further testing would be useless, not an acutal requirement for filestorage though
 		$this->assertTrue($this->instance->is_writable('/'),'Root folder is not writable');
+	}
+	
+	public function testDirectories(){
+		$this->assertFalse($this->instance->file_exists('/folder'));
+		
+		$this->assertTrue($this->instance->mkdir('/folder'));
+		
+		$this->assertTrue($this->instance->file_exists('/folder'));
+		$this->assertTrue($this->instance->is_dir('/folder'));
+		$this->assertFalse($this->instance->is_file('/folder'));
+		$this->assertEqual('dir',$this->instance->filetype('/folder'));
+		$this->assertEqual(0,$this->instance->filesize('/folder'));
+		$this->assertTrue($this->instance->is_readable('/folder'));
+		$this->assertTrue($this->instance->is_writable('/folder'));
+		
+		$dh=$this->instance->opendir('/');
+		$content=array();
+		while($file=readdir($dh)){
+			if($file!='.' and $file!='..'){
+				$content[]=$file;
+			}
+		}
+		$this->assertEqual(array('folder'),$content);
+		
+		$this->assertFalse($this->instance->mkdir('/folder'));//cant create existing folders
+		$this->assertTrue($this->instance->rmdir('/folder'));
+		
+		$this->assertFalse($this->instance->file_exists('/folder'));
+		
+		$this->assertFalse($this->instance->rmdir('/folder'));//cant remove non existing folders
 	}
 
 	/**
@@ -57,6 +88,26 @@ abstract class Test_FileStorage extends UnitTestCase {
 		//empty the file
 		$this->instance->file_put_contents('/lorem.txt','');
 		$this->assertEqual('',$this->instance->file_get_contents('/lorem.txt'),'file not emptied');
+	}
+	
+	/**
+	 * test various known mimetypes
+	 */
+	public function testMimeType(){
+		$this->assertEqual('httpd/unix-directory',$this->instance->getMimeType('/'));
+		$this->assertEqual(false,$this->instance->getMimeType('/non/existing/file'));
+		
+		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$this->instance->file_put_contents('/lorem.txt',fopen($textFile,'r'));
+		$this->assertEqual('text/plain',$this->instance->getMimeType('/lorem.txt'));
+		
+		$pngFile=OC::$SERVERROOT.'/tests/data/logo-wide.png';
+		$this->instance->file_put_contents('/logo-wide.png',fopen($pngFile,'r'));
+		$this->assertEqual('image/png',$this->instance->getMimeType('/logo-wide.png'));
+		
+		$svgFile=OC::$SERVERROOT.'/tests/data/logo-wide.svg';
+		$this->instance->file_put_contents('/logo-wide.svg',fopen($svgFile,'r'));
+		$this->assertEqual('image/svg+xml',$this->instance->getMimeType('/logo-wide.svg'));
 	}
 }
 

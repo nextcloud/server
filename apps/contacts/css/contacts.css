@@ -7,8 +7,8 @@
 #chooseaddressbook {margin-right: 170px; float: right;}
 #contacts_deletecard {position:absolute;top:15px;right:25px;}
 #contacts_downloadcard {position:absolute;top:15px;right:50px;}
-#contacts_propertymenu_button { position:absolute;top:15px;right:150px; height: 20px; width: 150px; background:url('../../../core/img/actions/add.svg') no-repeat center;	 }
-#contacts_propertymenu { position:absolute;top:40px;right:150px; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
+#contacts_propertymenu_button { position:absolute;top:15px;right:150px; background:url('../../../core/img/actions/add.svg') no-repeat center;	 }
+#contacts_propertymenu { background-color: #fff; position:absolute;top:40px;right:150px; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
 #contacts_propertymenu li { display: block; font-weight: bold; height: 20px; width: 100px; }
 /*#contacts_propertymenu li:first-child { border-top: thin solid #1d2d44; -moz-border-radius-topleft:0.5em; -webkit-border-top-left-radius:0.5em; border-top-left-radius:0.5em; -moz-border-radius-topright:0.5em; -webkit-border-top-right-radius:0.5em; border-top-right-radius:0.5em; }
 #contacts_propertymenu li:last-child { border-bottom: thin solid #1d2d44; -moz-border-radius-bottomleft:0.5em; -webkit-border-bottom-left-radius:0.5em; border-bottom-left-radius:0.5em; -moz-border-radius-bottomright:0.5em; -webkit-border-bottom-right-radius:0.5em; border-bottom-right-radius:0.5em; }*/
@@ -20,6 +20,7 @@
 #firstrun { /*border: thin solid lightgray;*/ width: 80%; margin: 5em auto auto auto; text-align: center; font-weight:bold; font-size:1.5em;  color:#777;}
 #firstrun #selections { /*border: thin solid lightgray;*/ font-size:0.8em;  width: 100%; margin: 2em auto auto auto; clear: both; }
 
+#card input[type="text"].contacts_property,input[type="email"].contacts_property { width: 16em; }
 #card input[type="text"],input[type="email"],input[type="tel"],input[type="date"], select { background-color: #f8f8f8; border: 0 !important; -webkit-appearance:none !important; -moz-appearance:none  !important; -webkit-box-sizing:none !important; -moz-box-sizing:none !important; box-sizing:none !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; float: left; }
 #card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="tel"]:active, select:hover, select:focus, select:active { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
 input[type="text"]:invalid,input[type="email"]:invalid,input[type="tel"]:invalid,input[type="date"]:invalid { background-color: #ffc0c0 !important; }
@@ -77,7 +78,8 @@ dl.form
 .delete { background:url('../../../core/img/actions/delete.svg') no-repeat center; }
 .edit { background:url('../../../core/img/actions/rename.svg') no-repeat center; }
 .mail { background:url('../../../core/img/actions/mail.svg') no-repeat center; }
-.globe { background:url('../img/globe.svg') no-repeat center; }
+/*.globe { background:url('../img/globe.svg') no-repeat center; }*/
+.globe { background:url('../../../core/img/actions/public.svg') no-repeat center; }
 
 #messagebox_msg { font-weight: bold; font-size: 1.2em; }
 
@@ -96,21 +98,8 @@ dl.form
 #edit_address_dialog > input {
 	width: 15em;
 }
-#edit_photo_dialog_img {
-	display: block;
-	width: 150;
-	height: 200;
-	border: thin solid black;
-}
-#fn {
-	float: left;
-}
-.jecEditableOption {
-	margin: 2px;
-	border-radius: 0.5em;
-	border: thin solid #bbb;
-	content: 'Custom';
-}
+#edit_photo_dialog_img { display: block; width: 150; height: 200; border: thin solid black; }
+#fn { float: left; }
 /**
  * Create classes form, floateven and floatodd which flows left and right respectively.
  */
@@ -161,13 +150,8 @@ width:auto; padding:.3em; border:1px solid #ddd; font-weight:bold; cursor:pointe
 	background: url(../../../core/img/loading.gif) no-repeat center center;
 	clear: right;
 }
-#contacts_details_photo:hover {
-	background: #fff;
-}
-#contacts_details_photo_progress {
-	margin: 0.3em 0.3em 0.3em 7em;
-	clear: left;
-}
+#contacts_details_photo:hover { background: #fff; }
+#contacts_details_photo_progress { margin: 0.3em 0.3em 0.3em 7em; clear: left; }
 /* Address editor */
 #addressdisplay { padding: 0.5em; }
 dl.addresscard { background-color: #fff; float: left; width: 45%; margin: 0 0.3em 0.3em 0.3em; padding: 0; border: thin solid lightgray; }
@@ -186,15 +170,6 @@ dl.addresscard dd > ul { margin: 0.3em; padding: 0.3em; }
 .delimiter {
 	height: 10px;
 	clear: both;
-}
-.updatebar {
-	height: 30px;
-	clear: both;
-	padding-right: 170px;
-	border: thin solid lightgray;
-}
-.updatebar button {
-	float: left; margin: 1em;
 }
 
 /*input[type="text"] { float: left; max-width: 15em; }

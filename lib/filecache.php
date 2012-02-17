@@ -380,8 +380,7 @@ class OC_FileCache{
 		$fullOldPath=$root.$oldPath;
 		$fullNewPath=$root.$newPath;
 		if(($id=self::getFileId($fullOldPath))!=-1){
-			$oldInfo=self::get($fullOldPath);
-			$oldSize=$oldInfo['size'];
+			$oldSize=self::getCachedSize($oldPath,$root);
 		}else{
 			return;
 		}

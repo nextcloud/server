@@ -21,6 +21,7 @@ $image = new OC_Image();
 if( is_null($contact)) {
 	OC_Log::write('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
 } else {
+	OC_Response::enableCaching();
 	OC_Contacts_App::setLastModifiedHeader($contact);
 
 	// Photo :-)
