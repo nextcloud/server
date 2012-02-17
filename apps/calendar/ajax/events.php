@@ -47,6 +47,17 @@ foreach($events as $event){
 		$start_dt->setTimezone(new DateTimeZone($user_timezone));
 		$end_dt->setTimezone(new DateTimeZone($user_timezone));
 	}
+
+	// Handle exceptions to recurring events
+	$exceptionDateObjects = $vevent->select('EXDATE');
+   	$exceptionDateMap = Array();
+   	foreach ($exceptionDateObjects as $exceptionObject) {
+   		foreach($exceptionObject->getDateTimes() as $datetime) {
+   			$ts = $datetime->getTimestamp();
+   			$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
+   		}
+   	}
+
 	//Repeating Events
 	if($event['repeating'] == 1){
 		$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
@@ -56,6 +67,14 @@ foreach($events as $event){
 			if($result->format('U') > $_GET['end']){
 				break;
 			}
+			
+			// Check for exceptions to recurring events
+			$ts = $result->getTimestamp();
+			if (isset($exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)])) {
+				continue;
+			}
+			unset($ts);
+
 			if($return_event['allDay'] == true){
 				$return_event['start'] = $result->format('Y-m-d');
 				$return_event['end'] = date('Y-m-d', $result->format('U') + --$duration);
