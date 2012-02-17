@@ -146,7 +146,7 @@ class OC_Response {
 	* @brief Send file as response, checking and setting caching headers
 	* @param $filepath of file to send
 	*/
-	static public function sendFile($filepath=null) {
+	static public function sendFile($filepath) {
 		$fp = fopen($filepath, 'rb');
 		if ($fp) {
 			self::setLastModifiedHeader(filemtime($filepath));
