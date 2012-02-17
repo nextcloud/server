@@ -171,6 +171,13 @@ class OC{
 					echo 'Error while upgrading the database';
 					die();
 				}
+				if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writable(OC::$SERVERROOT."/config/config.php")) {
+					$tmpl = new OC_Template( '', 'error', 'guest' );
+					$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+					$tmpl->printPage();
+					exit;
+				}
+
 				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 			}
 
