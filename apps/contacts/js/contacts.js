@@ -815,7 +815,7 @@ Contacts={
 					checksum = Contacts.UI.checksumFor(obj);
 					container = Contacts.UI.propertyContainerFor(obj);
 				}
-				var adr = new Array($(dlg).find('#adr_pobox').val(),$(dlg).find('#adr_extended').val(),$(dlg).find('#adr_street').val(),$(dlg).find('#adr_city').val(),$(dlg).find('#adr_region').val(),$(dlg).find('#adr_zipcode').val(),$(dlg).find('#adr_country').val());
+				var adr = new Array($(dlg).find('#adr_pobox').val().strip_tags(),$(dlg).find('#adr_extended').val().strip_tags(),$(dlg).find('#adr_street').val().strip_tags(),$(dlg).find('#adr_city').val().strip_tags(),$(dlg).find('#adr_region').val().strip_tags(),$(dlg).find('#adr_zipcode').val().strip_tags(),$(dlg).find('#adr_country').val().strip_tags());
 				$(container).find('.adr').val(adr.join(';'));
 				$(container).find('.adr_type').val($(dlg).find('#adr_type').val());
 				$(container).find('.adr_type_label').html(t('contacts',ucwords($(dlg).find('#adr_type').val().toLowerCase())));
