@@ -246,6 +246,7 @@ class OC_Calendar_Calendar{
 			'backgroundColor' => '#'.$calendar['calendarcolor'],
 			'borderColor' => '#888',
 			'textColor' => 'black',
+			'cache' => true,
 		);
 	}
 }

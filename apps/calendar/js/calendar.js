@@ -689,7 +689,10 @@ $(document).ready(function(){
 		allDayText: allDayText,
 		viewDisplay: function(view) {
 			$('#datecontrol_date').html(view.title);
-			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+			if (view.name != defaultView) {
+				$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+				defaultView = view.name;
+			}
 			Calendar.UI.setViewActive(view.name);
 			if (view.name == 'agendaWeek') {
 				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 0.1);

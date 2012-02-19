@@ -10,6 +10,8 @@ require_once('../../lib/base.php');
 
 // Check if we are a user
 OC_Util::checkLoggedIn();
+OC_Util::checkAppEnabled('contacts');
+
 // Get active address books. This creates a default one if none exists.
 $ids = OC_Contacts_Addressbook::activeIds(OC_User::getUser());
 $contacts = OC_Contacts_VCard::all($ids);

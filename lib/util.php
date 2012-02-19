@@ -226,10 +226,6 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
 
-		if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writable(OC::$SERVERROOT."/config/config.php")){
-			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver use write access to the config directory in owncloud");
-		}
-
 		return $errors;
 	}
 
@@ -248,7 +244,7 @@ class OC_Util {
 	*/
 	public static function checkAppEnabled($app){
 		if( !OC_App::isEnabled($app)){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}
@@ -259,7 +255,7 @@ class OC_Util {
 	public static function checkLoggedIn(){
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}
@@ -271,7 +267,7 @@ class OC_Util {
 		// Check if we are a user
 		self::checkLoggedIn();
 		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}

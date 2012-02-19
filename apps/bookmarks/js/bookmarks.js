@@ -85,7 +85,14 @@ function addOrEditBookmark(event) {
 				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
 				$('.bookmarks_list').prepend(
 				'<div class="bookmark_single" data-id="' + bookmark_id + '" >' +
-					'<p class="bookmark_actions"><span class="bookmark_delete"><img src="img/delete.png" title="Delete"></span>&nbsp;<span class="bookmark_edit"><img src="img/edit.png" title="Edit"></span></p>' +
+					'<p class="bookmark_actions">' +
+						'<span class="bookmark_delete">' +
+							'<img class="svg" src="'+OC.imagePath('core', 'actions/delete')+'" title="Delete">' +
+						'</span>&nbsp;' +
+						'<span class="bookmark_edit">' +
+							'<img class="svg" src="'+OC.imagePath('core', 'actions/rename')+'" title="Edit">' +
+						'</span>' +
+					'</p>' +
 					'<p class="bookmark_title"><a href="' + url + '" target="_blank" class="bookmark_link">' + title + '</a></p>' +
 					'<p class="bookmark_tags">' + tagshtml + '</p>' +
 					'<p class="bookmark_url">' + url + '</p>' +
@@ -154,8 +161,17 @@ function updateBookmarksList(bookmark) {
 	}
 	$('.bookmarks_list').append(
 		'<div class="bookmark_single" data-id="' + bookmark.id +'" >' +
-			'<p class="bookmark_actions"><span class="bookmark_delete"><img src="img/delete.png" title="Delete"></span>&nbsp;<span class="bookmark_edit"><img src="img/edit.png" title="Edit"></span></p>' +
-			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
+			'<p class="bookmark_actions">' +
+				'<span class="bookmark_delete">' +
+					'<img class="svg" src="'+OC.imagePath('core', 'actions/delete')+'" title="Delete">' +
+				'</span>&nbsp;' +
+				'<span class="bookmark_edit">' +
+					'<img class="svg" src="'+OC.imagePath('core', 'actions/rename')+'" title="Edit">' +
+				'</span>' +
+			'</p>' +
+			'<p class="bookmark_title">'+
+				'<a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a>' +
+			'</p>' +
 			'<p class="bookmark_url">' + encodeEntities(bookmark.url) + '</p>' +
 		'</div>'
 	);

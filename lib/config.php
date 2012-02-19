@@ -174,7 +174,7 @@ class OC_Config{
 		$result=@file_put_contents( OC::$SERVERROOT."/config/config.php", $content );
 		if(!$result) {
 			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver use write access to the config directory in owncloud")));
+			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
 			$tmpl->printPage();
 			exit;
 		}

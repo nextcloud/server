@@ -12,6 +12,13 @@ class OC_Response {
 	const STATUS_TEMPORARY_REDIRECT = 307;
 	const STATUS_NOT_FOUND = 404;
 
+	/**
+	* @brief Enable response caching by sending correct HTTP headers
+	* @param $cache_time time to cache the response
+	*  >0		cache time in seconds
+	*  0 and <0	enable default browser caching
+	*  null		cache indefinitly
+	*/
 	static public function enableCaching($cache_time = null) {
 		if (is_numeric($cache_time)) {
 			header('Pragma: public');// enable caching in IE
@@ -30,10 +37,19 @@ class OC_Response {
 		}
 
 	}
+
+	/**
+	* @brief disable browser caching
+	* @see enableCaching with cache_time = 0
+	*/
 	static public function disableCaching() {
 		self::enableCaching(0);
 	}
 
+	/**
+	* @brief Set response status
+	* @param $status a HTTP status code, see also the STATUS constants
+	*/
 	static public function setStatus($status) {
 		$protocol = $_SERVER['SERVER_PROTOCOL'];
 		switch($status) {
@@ -58,11 +74,21 @@ class OC_Response {
 		header($protocol.' '.$status);
 	}
 
+	/**
+	* @brief Send redirect response
+	* @param $location to redirect to
+	*/
 	static public function redirect($location) {
 		self::setStatus(self::STATUS_TEMPORARY_REDIRECT);
 		header('Location: '.$location);
 	}
 
+	/**
+	* @brief Set reponse expire time
+	* @param $expires date-time when the response expires
+	*  string for DateInterval from now
+	*  DateTime object when to expire response
+	*/
 	static public function setExpiresHeader($expires) {
 		if (is_string($expires) && $expires[0] == 'P') {
 			$interval = $expires;
@@ -76,6 +102,11 @@ class OC_Response {
 		header('Expires: '.$expires);
 	}
 
+	/**
+	* Checks and set ETag header, when the request matches sends a
+	* 'not modified' response
+	* @param $etag token to use for modification check
+	*/
 	static public function setETagHeader($etag) {
 		if (empty($etag)) {
 			return;
@@ -88,6 +119,11 @@ class OC_Response {
 		header('ETag: "'.$etag.'"');
 	}
 
+	/**
+	* Checks and set Last-Modified header, when the request matches sends a
+	* 'not modified' response
+	* @param $lastModified time when the reponse was last modified
+	*/
 	static public function setLastModifiedHeader($lastModified) {
 		if (empty($lastModified)) {
 			return;
@@ -106,7 +142,11 @@ class OC_Response {
 		header('Last-Modified: '.$lastModified);
 	}
 
-	static public function sendFile($filepath=null) {
+	/**
+	* @brief Send file as response, checking and setting caching headers
+	* @param $filepath of file to send
+	*/
+	static public function sendFile($filepath) {
 		$fp = fopen($filepath, 'rb');
 		if ($fp) {
 			self::setLastModifiedHeader(filemtime($filepath));

@@ -207,7 +207,7 @@ class OC_MEDIA_AMPACHE{
 		echo("\t\t<title>$name</title>\n");
 		echo("\t\t<artist id='$artist'>$artistName</artist>\n");
 		echo("\t\t<album id='$album'>$albumName</album>\n");
-		$url=OC_Helper::linkTo('media', 'server/xml.server.php', null, true)."?action=play&song=$id&auth={$_GET['auth']}";
+		$url=OC_Helper::linkToAbsolute('media', 'server/xml.server.php')."?action=play&song=$id&auth={$_GET['auth']}";
 		$url=self::fixXmlString($url);
 		echo("\t\t<url>$url</url>\n");
 		echo("\t\t<time>{$song['song_length']}</time>\n");

@@ -230,7 +230,7 @@ class OC_App{
 				// admin users menu
 				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
 				// admin apps menu
-				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
+				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php" ).'?installed', "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
 				// admin log menu
 				$settings[] = array( "id" => "core_log", "order" => 4, "href" => OC_Helper::linkTo( "settings", "log.php" ), "name" => $l->t("Log"), "icon" => OC_Helper::imagePath( "settings", "log.svg" ));
 

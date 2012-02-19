@@ -29,12 +29,12 @@ class OC_Updater{
 	 * Check if a new version is available
 	 */
 	public static function check(){
-		OC_Config::setValue('lastupdatedat',microtime(true));
+		OC_Appconfig::setValue('core', 'lastupdatedat',microtime(true));
 
 		$updaterurl='http://apps.owncloud.com/updater.php';
 		$version=OC_Util::getVersion();
-		$version['installed']=OC_Config::getValue( "installedat");
-		$version['updated']=OC_Config::getValue( "lastupdatedat");
+		$version['installed']=OC_Config::getValue('installedat');
+		$version['updated']=OC_Appconfig::getValue('core', 'lastupdatedat', OC_Config::getValue( 'lastupdatedat'));
 		$version['updatechannel']='stable';
 		$versionstring=implode('x',$version);
 
