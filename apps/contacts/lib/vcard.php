@@ -114,6 +114,8 @@ class OC_Contacts_VCard{
 
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
+			OC_Contacts_App::$categories->loadFromVObject($card);
+
 			$fn = $card->getAsString('FN');
 			if(!$fn){ // Fix missing 'FN' field.
 				$n = $card->getAsString('N');
@@ -187,6 +189,7 @@ class OC_Contacts_VCard{
 		$email = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
+			OC_Contacts_App::$categories->loadFromVObject($card);
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
@@ -245,6 +248,7 @@ class OC_Contacts_VCard{
 
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
+			OC_Contacts_App::$categories->loadFromVObject($card);
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
@@ -279,6 +283,7 @@ class OC_Contacts_VCard{
 		$fn = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
+			OC_Contacts_App::$categories->loadFromVObject($card);
 			foreach($card->children as $property){
 				if($property->name == 'FN'){
 					$fn = $property->value;
