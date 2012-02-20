@@ -4,6 +4,7 @@
 *
 * @author Thomas Tanghus
 * @copyright 2012 Thomas Tanghus <thomas@tanghus.net>
+* @copyright 2012 Bart Visscher bartv@thisnet.nl
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -23,14 +24,17 @@
 
 /**
  * Class for easy access to categories in VCARD, VEVENT, VTODO and VJOURNAL.
- * A Category can be e.g. 'Family', 'Work', 'Chore', 'Special Occation' or anything else
- * that is either parsed from a vobject or that the user chooses to add.
- * Category names are not case-sensitive, but will be saved with the case they are
- * entered in. If a user already has a category 'family' for an app, and tries to add
- * a category named 'Family' it will be silently ignored.
- * NOTE: There is a limitation in that the the configvalue field in the preferences table is a varchar(255).
+ * A Category can be e.g. 'Family', 'Work', 'Chore', 'Special Occation' or
+ * anything else that is either parsed from a vobject or that the user chooses
+ * to add.
+ * Category names are not case-sensitive, but will be saved with the case they
+ * are entered in. If a user already has a category 'family' for an app, and
+ * tries to add a category named 'Family' it will be silently ignored.
+ * NOTE: There is a limitation in that the the configvalue field in the
+ * preferences table is a varchar(255).
  */
 class OC_VCategories {
+	const PREF_CATEGORIES_LABEL = 'extra categories';
 	/**
 	 * Categories
 	 */
@@ -38,23 +42,24 @@ class OC_VCategories {
 
 	private $app = null;
 	private $user = null;
-	
+
 	/**
 	* @brief Constructor.
 	* @param $app The application identifier e.g. 'contacts' or 'calendar'.
-	* @param $user The user whos data the object will operate on. This parameter should normally be omitted
-	* 				but to make an app able to update categories for all users it is made possible to provide it.
+	* @param $user The user whos data the object will operate on. This
+	*   parameter should normally be omitted but to make an app able to
+	*   update categories for all users it is made possible to provide it.
 	*/
 	public function __construct($app, $user=null) {
 		$this->app = $app;
 		if(is_null($user)) {
 			$this->user = OC_User::getUser();
 		}
-		$this->categories = OC_VObject::unescapeSemicolons(OC_Preferences::getValue($this->user, $app, 'extra categories', ''));
+		$this->categories = OC_VObject::unescapeSemicolons(OC_Preferences::getValue($this->user, $app, self::PREF_CATEGORIES_LABEL, ''));
 	}
 
 	/**
-	* @brief Get the categories for a specific.
+	* @brief Get the categories for a specific user.
 	* @returns array containing the categories as strings.
 	*/
 	public function categories() {
@@ -67,21 +72,22 @@ class OC_VCategories {
 	* @returns bool
 	*/
 	public function hasCategory($name) {
-		return ($this->in_arrayi($name, $this->categories) == false ? false : true);
+		return $this->in_arrayi($name, $this->categories);
 	}
 
 	/**
 	* @brief Add a new category name.
-	* @param $names A string with a name or an array of strings containing the name(s) of the categor(y|ies) to add.
+	* @param $names A string with a name or an array of strings containing
+	* the name(s) of the categor(y|ies) to add.
+	* @param $sync bool When true, save the categories
 	* @returns bool Returns false on error.
 	*/
 	public function add($names, $sync=true) {
-		$user = is_null($this->user) ? OC_User::getUser() : $this->user;
-		$newones = array();
 		if(!is_array($names)) {
 			$names = array($names);
 		}
 		$names = array_map('trim', $names);
+		$newones = array();
 		foreach($names as $name) {
 			if(($this->in_arrayi($name, $this->categories) == false) && $name != '') {
 				$newones[] = $name;
@@ -89,10 +95,10 @@ class OC_VCategories {
 		}
 		if(count($newones) > 0) {
 			$this->categories = $this->cleanArray(array_merge($this->categories, $newones));
-			if($sync) {
-				OC_Preferences::setValue($user, $this->app, 'extra categories', OC_VObject::escapeSemicolons($this->categories));
-			}
 			natcasesort($this->categories); // Dunno if this is necessary
+			if($sync) {
+				$this->save();
+			}
 		}
 		return true;
 	}
@@ -100,7 +106,6 @@ class OC_VCategories {
 	/**
 	* @brief Extracts categories from a vobject and add the ones not already present.
 	* @param $vobject The instance of OC_VObject to load the categories from.
-	* @returns bool Returns false if the name already exist (case insensitive) or on error.
 	*/
 	public function loadFromVObject($vobject, $sync=true) {
 		$this->add($vobject->getAsArray('CATEGORIES'), $sync);
@@ -123,17 +128,24 @@ class OC_VCategories {
 	* 	$categories->rescan($objects);
 	*/
 	public function rescan($objects) {
-		$user = is_null($this->user) ? OC_User::getUser() : $this->user;
 		$this->categories = array();
 		foreach($objects as $object) {
 			$vobject = OC_VObject::parse($object);
-			if(!is_null($vobject)){
+			if(!is_null($vobject)) {
 				$this->loadFromVObject($vobject, false);
 			} else {
 				OC_Log::write('core','OC_VCategories::rescan, unable to parse. ID: '.$value[0].', '.substr($value[1], 0, 20).'(...)', OC_Log::DEBUG);
 			}
 		}
-		OC_Preferences::setValue($user, $this->app, 'extra categories', OC_VObject::escapeSemicolons($this->categories));
+		$this->save();
+	}
+
+	/**
+	 * @brief Save the list with categories
+	 */
+	public function save() {
+		$escaped_categories = OC_VObject::escapeSemicolons($this->categories);
+		OC_Preferences::setValue($this->user, $this->app, self::PREF_CATEGORIES_LABEL, $escaped_categories);
 	}
 
 	/**
@@ -142,13 +154,12 @@ class OC_VCategories {
 	* @param $objects An array of arrays with [id,vobject] (as text) pairs suitable for updating the apps object table.
 	*/
 	public function delete($name, array &$objects) {
-		$user = is_null($this->user) ? OC_User::getUser() : $this->user;
 		if(!$this->hasCategory($name)) {
 			return;
 		}
 		unset($this->categories[$this->array_searchi($name, $this->categories)]);
 		$this->categories = $this->cleanArray($this->categories);
-		OC_Preferences::setValue($user, $this->app, 'extra categories', OC_VObject::escapeSemicolons($this->categories));
+		$this->save();
 		foreach($objects as $key=>&$value) {
 			$vobject = OC_VObject::parse($value[1]);
 			if(!is_null($vobject)){
@@ -172,10 +183,13 @@ class OC_VCategories {
 	}
 
 	// case-insensitive array_search
-    private function array_searchi($needle, $haystack) {
+	private function array_searchi($needle, $haystack) {
 		return array_search(strtolower($needle),array_map('strtolower',$haystack)); 
 	}
 
+	/*
+	 * this is for a bug in the code, need to check if it is still needed
+	 */
 	private function cleanArray($array, $remove_null_number = true){
 		$new_array = array();
 		$null_exceptions = array();
