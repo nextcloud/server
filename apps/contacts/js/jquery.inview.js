@@ -5,18 +5,40 @@
  */
 (function ($) {
   var inviewObjects = {}, viewportSize, viewportOffset,
-      d = document, w = window, documentElement = d.documentElement, expando = $.expando;
+      d = document, w = window, documentElement = d.documentElement, expando = $.expando, isFiring = false, $elements = {};
 
   $.event.special.inview = {
     add: function(data) {
-      inviewObjects[data.guid + "-" + this[expando]] = { data: data, $element: $(this) };
+      var inviewObject = { data: data, $element: $(this) }
+      inviewObjects[data.guid + "-" + this[expando]] = inviewObject;
+      var selector  = inviewObject.data.selector,
+      $element  = inviewObject.$element;
+      var hash = parseInt(getHash( data.guid + this[expando]));
+      $elements[hash] =  selector ? $element.find(selector) : $element;
     },
 
     remove: function(data) {
       try { delete inviewObjects[data.guid + "-" + this[expando]]; } catch(e) {}
+      try {
+        var hash = parseInt(getHash(data.guid + this[expando])); 
+	delete($elements[hash]);
+      } catch (e){}
     }
   };
 
+  
+  function getHash(str){
+    str = str+'';
+    var hash = 0;
+    if (str.length == 0) return hash;
+    for (i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return Math.abs(hash);
+  }
+  
   function getViewportSize() {
     var mode, domObject, size = { height: w.innerHeight, width: w.innerWidth };
 
@@ -46,22 +68,15 @@
   }
 
   function checkInView() {
-    var $elements = $(), elementsLength, i = 0;
-
-    $.each(inviewObjects, function(i, inviewObject) {
-      var selector  = inviewObject.data.selector,
-          $element  = inviewObject.$element;
-      $elements = $elements.add(selector ? $element.find(selector) : $element);
-    });
-
-    elementsLength = $elements.length;
-    if (elementsLength) {
+    if (isFiring){
+      return;
+    }
+    isFiring = true;
       viewportSize   = viewportSize   || getViewportSize();
       viewportOffset = viewportOffset || getViewportOffset();
-
-      for (; i<elementsLength; i++) {
-        // Ignore elements that are not in the DOM tree
-        if (!$.contains(documentElement, $elements[i])) {
+      
+      for (var i in $elements) {
+        if (isNaN(parseInt(i))) {
           continue;
         }
 
@@ -72,13 +87,14 @@
             visiblePartX,
             visiblePartY,
             visiblePartsMerged;
-        
+
         // Don't ask me why because I haven't figured out yet:
         // viewportOffset and viewportSize are sometimes suddenly null in Firefox 5.
         // Even though it sounds weird:
         // It seems that the execution of this function is interferred by the onresize/onscroll event
         // where viewportOffset and viewportSize are unset
         if (!viewportOffset || !viewportSize) {
+	  isFiring = false;
           return;
         }
         
@@ -100,7 +116,7 @@
           $element.data('inview', false).trigger('inview', [false]);
         }
       }
-    }
+      isFiring = false;
   }
 
   $(w).bind("scroll resize", function() {

@@ -1043,13 +1043,13 @@ Contacts={
 					return false;
 				}else{
 					$.post(OC.filePath('contacts', 'ajax', 'deletebook.php'), { id: bookid},
-					  function(data) {
-						if (data.status == 'success'){
+					  function(jsondata) {
+						if (jsondata.status == 'success'){
 							$('#chooseaddressbook_dialog').dialog('destroy').remove();
 							Contacts.UI.Contacts.update();
 							Contacts.UI.Addressbooks.overview();
 						} else {
-							Contacts.UI.messageBox(t('contacts', 'Error'), data.message);
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 							//alert('Error: ' + data.message);
 						}
 					  });
@@ -1059,10 +1059,14 @@ Contacts={
 				Contacts.UI.notImplemented();
 			},
 			submit:function(button, bookid){
-				var displayname = $("#displayname_"+bookid).val();
+				var displayname = $("#displayname_"+bookid).val().trim();
 				var active = $("#edit_active_"+bookid+":checked").length;
 				var description = $("#description_"+bookid).val();
-
+				
+				if(displayname.length == 0) {
+					Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'Displayname cannot be empty.'));
+					return false;
+				}
 				var url;
 				if (bookid == 'new'){
 					url = OC.filePath('contacts', 'ajax', 'createaddressbook.php');
@@ -1070,12 +1074,14 @@ Contacts={
 					url = OC.filePath('contacts', 'ajax', 'updateaddressbook.php');
 				}
 				$.post(url, { id: bookid, name: displayname, active: active, description: description },
-					function(data){
-						if(data.status == 'success'){
+					function(jsondata){
+						if(jsondata.status == 'success'){
 							$(button).closest('tr').prev().html(data.page).show().next().remove();
+							Contacts.UI.Contacts.update();
+						} else {
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 						}
 					});
-				Contacts.UI.Contacts.update();
 			},
 			cancel:function(button, bookid){
 				$(button).closest('tr').prev().show().next().remove();

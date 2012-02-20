@@ -15,7 +15,14 @@ OC_JSON::checkAppEnabled('contacts');
 $bookid = $_POST['id'];
 OC_Contacts_App::getAddressbook($bookid); // is owner access check
 
-if(!OC_Contacts_Addressbook::edit($bookid, $_POST['name'], null)) {
+$name = trim(strip_tags($_POST['name']));
+if(!$name) {
+	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot update addressbook with an empty name.'))));
+	OC_Log::write('contacts','ajax/updateaddressbook.php: Cannot update addressbook with an empty name: '.strip_tags($_POST['name']), OC_Log::ERROR);
+	exit();
+}
+
+if(!OC_Contacts_Addressbook::edit($bookid, $name, null)) {
 	OC_JSON::error(array('data' => array('message' => $l->t('Error updating addressbook.'))));
 	OC_Log::write('contacts','ajax/updateaddressbook.php: Error adding addressbook: ', OC_Log::ERROR);
 	//exit();
