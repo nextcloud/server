@@ -13,8 +13,8 @@ OC_JSON::checkAppEnabled('calendar');
 
 $start = DateTime::createFromFormat('U', $_GET['start']);
 $end = DateTime::createFromFormat('U', $_GET['end']);
-if($_GET['calendar_id'] == 'shared'){
-	$calendars = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::CALENDAR, 1);
+if($_GET['calendar_id'] == 'shared_rw' || $_GET['calendar_id'] == 'shared_r'){
+	$calendars = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::CALENDAR, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 	$events = array();
 	foreach($calendars as $calendar){
 		$calendarevents = OC_Calendar_Object::allInPeriod($calendar['calendarid'], $start, $end);
