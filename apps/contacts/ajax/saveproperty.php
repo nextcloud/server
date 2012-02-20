@@ -52,6 +52,7 @@ $checksum = isset($_POST['checksum'])?$_POST['checksum']:null;
 // }
 
 if(is_array($value)){ // FIXME: How to strip_tags for compound values?
+	$value = array_map('strip_tags', $value);
 	ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
 	$value = OC_VObject::escapeSemicolons($value);
 } else {
