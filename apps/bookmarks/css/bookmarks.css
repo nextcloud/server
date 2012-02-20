@@ -84,3 +84,16 @@
 	display: none;
 	margin-left: 5px;
 }
+
+#footer {
+	color: #999;
+	font-size: medium;
+	text-align: center;
+	position: absolute;
+	bottom: 10px;
+	left: 0px;
+	width: 100%;
+	height: 20px;
+	visibility: visible;
+	display: block
+}

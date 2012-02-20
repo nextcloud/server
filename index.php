@@ -51,6 +51,7 @@ if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
 // Someone is logged in :
 elseif(OC_User::isLoggedIn()) {
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
+		OC_App::loadApps();
 		OC_User::logout();
 		header("Location: ".OC::$WEBROOT.'/');
 		exit();
@@ -80,7 +81,7 @@ else {
 			OC_User::unsetMagicInCookie();
 		}
 	}
-	
+
 	// Someone wants to log in :
 	elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
