@@ -36,18 +36,21 @@ class OC_VCategories {
 	 */
 	private $categories = array();
 
-	private $app = '';
+	private $app = null;
+	private $user = null;
 	
 	/**
 	* @brief Constructor.
 	* @param $app The application identifier e.g. 'contacts' or 'calendar'.
+	* @param $user The user whos data the object will operate on. This parameter should normally be omitted
+	* 				but to make an app able to update categories for all users it is made possible to provide it.
 	*/
 	public function __construct($app, $user=null) {
 		$this->app = $app;
 		if(is_null($user)) {
-			$user = OC_User::getUser();
+			$this->user = OC_User::getUser();
 		}
-		$this->categories = OC_VObject::unescapeSemicolons(OC_Preferences::getValue($user, $app, 'extra categories', ''));
+		$this->categories = OC_VObject::unescapeSemicolons(OC_Preferences::getValue($this->user, $app, 'extra categories', ''));
 	}
 
 	/**
@@ -72,8 +75,8 @@ class OC_VCategories {
 	* @param $names A string with a name or an array of strings containing the name(s) of the categor(y|ies) to add.
 	* @returns bool Returns false on error.
 	*/
-	public function add($names) {
-		$user = OC_User::getUser();
+	public function add($names, $sync=true) {
+		$user = is_null($this->user) ? OC_User::getUser() : $this->user;
 		$newones = array();
 		if(!is_array($names)) {
 			$names = array($names);
@@ -86,7 +89,9 @@ class OC_VCategories {
 		}
 		if(count($newones) > 0) {
 			$this->categories = $this->cleanArray(array_merge($this->categories, $newones));
-			OC_Preferences::setValue(OC_User::getUser(), $this->app, 'extra categories', OC_VObject::escapeSemicolons($this->categories));
+			if($sync) {
+				OC_Preferences::setValue($user, $this->app, 'extra categories', OC_VObject::escapeSemicolons($this->categories));
+			}
 			natcasesort($this->categories); // Dunno if this is necessary
 		}
 		return true;
@@ -97,8 +102,38 @@ class OC_VCategories {
 	* @param $vobject The instance of OC_VObject to load the categories from.
 	* @returns bool Returns false if the name already exist (case insensitive) or on error.
 	*/
-	public function loadFromVObject($vobject) {
-		$this->add($vobject->getAsArray('CATEGORIES'));
+	public function loadFromVObject($vobject, $sync=true) {
+		$this->add($vobject->getAsArray('CATEGORIES'), $sync);
+	}
+
+	/**
+	* @brief Reset saved categories and rescan supplied vobjects for categories.
+	* @param $objects An array of vobjects (as text).
+	* To get the object array, do something like:
+	*	// For Addressbook:
+	*	$categories = new OC_VCategories('contacts');
+	*	$stmt = OC_DB::prepare( 'SELECT carddata FROM *PREFIX*contacts_cards' );
+	*	$result = $stmt->execute();
+	*	$objects = array();
+	*	if(!is_null($result)) {
+	*		while( $row = $result->fetchRow()){
+	*			$objects[] = $row['carddata'];
+	*		}
+	*	}
+	* 	$categories->rescan($objects);
+	*/
+	public function rescan($objects) {
+		$user = is_null($this->user) ? OC_User::getUser() : $this->user;
+		$this->categories = array();
+		foreach($objects as $object) {
+			$vobject = OC_VObject::parse($object);
+			if(!is_null($vobject)){
+				$this->loadFromVObject($vobject, false);
+			} else {
+				OC_Log::write('core','OC_VCategories::rescan, unable to parse. ID: '.$value[0].', '.substr($value[1], 0, 20).'(...)', OC_Log::DEBUG);
+			}
+		}
+		OC_Preferences::setValue($user, $this->app, 'extra categories', OC_VObject::escapeSemicolons($this->categories));
 	}
 
 	/**
@@ -107,7 +142,7 @@ class OC_VCategories {
 	* @param $objects An array of arrays with [id,vobject] (as text) pairs suitable for updating the apps object table.
 	*/
 	public function delete($name, array &$objects) {
-		$user = OC_User::getUser();
+		$user = is_null($this->user) ? OC_User::getUser() : $this->user;
 		if(!$this->hasCategory($name)) {
 			return;
 		}
@@ -126,7 +161,7 @@ class OC_VCategories {
 					$objects[$key] = $value;
 				}
 			} else {
-				OC_Log::write('core','OC_VCategories::delete, unable to parse. ID: '.$value[0].', '.substr($value[1], 0, 10).'(...)', OC_Log::DEBUG);
+				OC_Log::write('core','OC_VCategories::delete, unable to parse. ID: '.$value[0].', '.substr($value[1], 0, 20).'(...)', OC_Log::DEBUG);
 			}
 		}
 	}
