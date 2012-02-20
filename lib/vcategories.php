@@ -52,9 +52,7 @@ class OC_VCategories {
 	*/
 	public function __construct($app, $user=null) {
 		$this->app = $app;
-		if(is_null($user)) {
-			$this->user = OC_User::getUser();
-		}
+		$this->user = is_null($user) ? OC_User::getUser() : $user;
 		$this->categories = OC_VObject::unescapeSemicolons(OC_Preferences::getValue($this->user, $app, self::PREF_CATEGORIES_LABEL, ''));
 	}
 
