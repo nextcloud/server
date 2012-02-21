@@ -9,30 +9,20 @@
 require_once ("../../lib/base.php");
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
-$book = isset($_GET['bookid']) ? $_GET['bookid'] : NULL;
-$contact = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
+$bookid = isset($_GET['bookid']) ? $_GET['bookid'] : NULL;
+$contactid = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
 $nl = "\n";
-if(isset($book)){
-	$addressbook = OC_Contacts_App::getAddressbook($book);
-	if($addressbook['userid'] != OC_User::getUser()){
-		OC_JSON::error();
-		exit;
-	}
-	$cardobjects = OC_Contacts_VCard::all($book);
+if(isset($bookid)){
+	$addressbook = OC_Contacts_App::getAddressbook($bookid);
+	$cardobjects = OC_Contacts_VCard::all($bookid);
 	header('Content-Type: text/directory');
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $addressbook['displayname']) . '.vcf'); 
 
 	foreach($cardobjects as $card) {
 		echo $card['carddata'] . $nl;
 	}
-}elseif(isset($contact)){	
-	$data = OC_Contacts_App::getContactObject($contact);
-	$addressbookid = $data['addressbookid'];
-	$addressbook = OC_Contacts_App::getAddressbook($addressbookid);
-	if($addressbook['userid'] != OC_User::getUser()){
-		OC_JSON::error();
-		exit;
-	}
+}elseif(isset($contactid)){
+	$data = OC_Contacts_App::getContactObject($contactid);
 	header('Content-Type: text/directory');
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $data['fullname']) . '.vcf'); 
 	echo $data['carddata'];

@@ -7,7 +7,6 @@
  */
 
 require_once('../../../lib/base.php');
-$l10n = new OC_L10N('contacts');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 $book = array(

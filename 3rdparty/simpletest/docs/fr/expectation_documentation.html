@@ -1,0 +1,451 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Documentation SimpleTest : étendre le testeur unitaire avec des classes d'attentes supplémentaires</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>Documentation sur les attentes</h1>
+        This page...
+        <ul>
+<li>
+            Utiliser les attentes <a href="#fantaisie">pour des tests
+            plus précis avec des objets fantaisie</a>
+        </li>
+<li>
+            <a href="#comportement">Changer le comportement d'un objet fantaisie</a>
+            avec des attentes
+        </li>
+<li>
+            <a href="#etendre">Créer des attentes</a>
+        </li>
+<li>
+            Par dessous SimpleTest <a href="#unitaire">utilise des classes d'attente</a>
+        </li>
+</ul>
+<div class="content">
+        <h2>
+<a class="target" name="fantaisie"></a>Plus de contrôle sur les objets fantaisie</h2>
+            <p>
+                Le comportement par défaut des
+                <a href="mock_objects_documentation.html">objets fantaisie</a> dans
+                <a href="http://sourceforge.net/projects/simpletest/">SimpleTest</a>
+                est soit une correspondance identique sur l'argument,
+                soit l'acceptation de n'importe quel argument.
+                Pour la plupart des tests, c'est suffisant.
+                Cependant il est parfois nécessaire de ramollir un scénario de test.
+            </p>
+            <p>
+                Un des endroits où un test peut être trop serré
+                est la reconnaissance textuelle. Prenons l'exemple
+                d'un composant qui produirait un message d'erreur
+                utile lorsque quelque chose plante. Il serait utile de tester
+                que l'erreur correcte est renvoyée,
+                mais le texte proprement dit risque d'être plutôt long.
+                Si vous testez le texte dans son ensemble alors
+                à chaque modification de ce même message
+                -- même un point ou une virgule -- vous aurez
+                à revenir sur la suite de test pour la modifier.
+            </p>
+            <p>
+                Voici un cas concret, nous avons un service d'actualités
+                qui a échoué dans sa tentative de connexion à sa source distante.
+<pre>
+<strong>class NewsService {
+    ...
+    function publish($writer) {
+        if (! $this-&gt;isConnected()) {
+            $writer-&gt;write('Cannot connect to news service "' .
+                    $this-&gt;_name . '" at this time. ' .
+                    'Please try again later.');
+        }
+        ...
+    }
+}</strong>
+</pre>
+                Là il envoie son contenu vers un classe <span class="new_code">Writer</span>.
+                Nous pourrions tester ce comportement avec un <span class="new_code">MockWriter</span>...
+<pre>
+class TestOfNewsService extends UnitTestCase {
+    ...
+    function testConnectionFailure() {<strong>
+        $writer = new MockWriter($this);
+        $writer-&gt;expectOnce('write', array(
+                'Cannot connect to news service ' .
+                '"BBC News" at this time. ' .
+                'Please try again later.'));
+        
+        $service = new NewsService('BBC News');
+        $service-&gt;publish($writer);
+        
+        $writer-&gt;tally();</strong>
+    }
+}
+</pre>
+                C'est un bon exemple d'un test fragile.
+                Si nous décidons d'ajouter des instructions complémentaires,
+                par exemple proposer une source d'actualités alternative,
+                nous casserons nos tests par la même occasion sans pourtant
+                avoir modifié une seule fonctionnalité.
+            </p>
+            <p>
+                Pour contourner ce problème, nous voudrions utiliser
+                un test avec une expression rationnelle plutôt
+                qu'une correspondance exacte. Nous pouvons y parvenir avec...
+<pre>
+class TestOfNewsService extends UnitTestCase {
+    ...
+    function testConnectionFailure() {
+        $writer = new MockWriter($this);<strong>
+        $writer-&gt;expectOnce(
+                'write',
+                array(new PatternExpectation('/cannot connect/i')));</strong>
+        
+        $service = new NewsService('BBC News');
+        $service-&gt;publish($writer);
+        
+        $writer-&gt;tally();
+    }
+}
+</pre>
+                Plutôt que de transmettre le paramètre attendu au <span class="new_code">MockWriter</span>,
+                nous envoyons une classe d'attente appelée <span class="new_code">PatternExpectation</span>.
+                L'objet fantaisie est suffisamment élégant pour reconnaître
+                qu'il s'agit d'un truc spécial et pour le traiter différemment.
+                Plutôt que de comparer l'argument entrant à cet objet,
+                il utilise l'objet attente lui-même pour exécuter le test.
+            </p>
+            <p>
+                <span class="new_code">PatternExpectation</span> utilise
+                l'expression rationnelle pour la comparaison avec son constructeur.
+                A chaque fois qu'une comparaison est fait à travers
+                <span class="new_code">MockWriter</span> par rapport à cette classe attente,
+                elle fera un <span class="new_code">preg_match()</span> avec ce motif.
+                Dans notre scénario de test ci-dessus, aussi longtemps
+                que la chaîne "cannot connect" apparaît dans le texte,
+                la fantaisie transmettra un succès au testeur unitaire.
+                Peu importe le reste du texte.
+            </p>
+            <p>
+                Les classes attente possibles sont...
+                <table><tbody>
+                    <tr>
+<td><span class="new_code">AnythingExpectation</span></td>
+<td>Sera toujours validé</td>
+</tr>
+                    <tr>
+<td><span class="new_code">EqualExpectation</span></td>
+<td>Une égalité, plutôt que la plus forte comparaison à l'identique</td>
+</tr>
+                    <tr>
+<td><span class="new_code">NotEqualExpectation</span></td>
+<td>Une comparaison sur la non-égalité</td>
+</tr>
+                    <tr>
+<td><span class="new_code">IndenticalExpectation</span></td>
+<td>La vérification par défaut de l'objet fantaisie qui doit correspondre exactement</td>
+</tr>
+                    <tr>
+<td><span class="new_code">NotIndenticalExpectation</span></td>
+<td>Inverse la logique de l'objet fantaisie</td>
+</tr>
+                    <tr>
+<td><span class="new_code">PatternExpectation</span></td>
+<td>Utilise une expression rationnelle Perl pour comparer une chaîne</td>
+</tr>
+                    <tr>
+<td><span class="new_code">NoPatternExpectation</span></td>
+<td>Passe seulement si l'expression rationnelle Perl échoue</td>
+</tr>
+                    <tr>
+<td><span class="new_code">IsAExpectation</span></td>
+<td>Vérifie le type ou le nom de la classe uniquement</td>
+</tr>
+                    <tr>
+<td><span class="new_code">NotAExpectation</span></td>
+<td>L'opposé de <span class="new_code">IsAExpectation</span>
+</td>
+</tr>
+                    <tr>
+<td><span class="new_code">MethodExistsExpectation</span></td>
+<td>Vérifie si la méthode est disponible sur un objet</td>
+</tr>
+					<tr>
+<td><span class="new_code">TrueExpectation</span></td>
+<td>Accepte n'importe quelle variable PHP qui vaut vrai</td>
+</tr>
+                    <tr>
+<td><span class="new_code">FalseExpectation</span></td>
+<td>Accepte n'importe quelle variable PHP qui vaut faux</td>
+</tr>
+                </tbody></table>
+                La plupart utilisent la valeur attendue dans le constructeur.
+                Les exceptions sont les vérifications sur motif,
+                qui utilisent une expression rationnelle, ainsi que
+                <span class="new_code">IsAExpectation</span> et <span class="new_code">NotAExpectation</span>,
+                qui prennent un type ou un nom de classe comme chaîne.
+            </p>
+        
+        <h2>
+<a class="target" name="comportement"></a>Utiliser les attentes pour contrôler les bouchons serveur</h2>
+            <p>
+                Les classes attente peuvent servir à autre chose
+                que l'envoi d'assertions depuis les objets fantaisie,
+                afin de choisir le comportement d'un
+                <a href="mock_objects_documentation.html">objet fantaisie</a>
+                ou celui d'un <a href="server_stubs_documentation.html">bouchon serveur</a>.
+                A chaque fois qu'une liste d'arguments est donnée,
+                une liste d'objets d'attente peut être insérée à la place.
+            </p>
+            <p>
+                Mettons que nous voulons qu'un bouchon serveur
+                d'autorisation simule une connexion réussie seulement
+                si il reçoit un objet de session valide.
+                Nous pouvons y arriver avec ce qui suit...
+<pre>
+Stub::generate('Authorisation');
+<strong>
+$authorisation = new StubAuthorisation();
+$authorisation-&gt;returns(
+        'isAllowed',
+        true,
+        array(new IsAExpectation('Session', 'Must be a session')));
+$authorisation-&gt;returns('isAllowed', false);</strong>
+</pre>
+                Le comportement par défaut du bouchon serveur
+                est défini pour renvoyer <span class="new_code">false</span>
+                quand <span class="new_code">isAllowed</span> est appelé.
+                Lorsque nous appelons cette méthode avec un unique paramètre
+                qui est un objet <span class="new_code">Session</span>, il renverra <span class="new_code">true</span>.
+                Nous avons aussi ajouté un deuxième paramètre comme message.
+                Il sera affiché dans le message d'erreur de l'objet fantaisie
+                si l'attente est la cause de l'échec.
+            </p>
+            <p>
+                Ce niveau de sophistication est rarement utile :
+                il n'est inclut que pour être complet.
+            </p>
+        
+        <h2>
+<a class="target" name="etendre"></a>Créer vos propres attentes</h2>
+            <p>
+                Les classes d'attentes ont une structure très simple.
+                Tellement simple qu'il devient très simple de créer
+                vos propres version de logique pour des tests utilisés couramment.
+            </p>
+            <p>
+                Par exemple voici la création d'une classe pour tester
+                la validité d'adresses IP. Pour fonctionner correctement
+                avec les bouchons serveurs et les objets fantaisie,
+                cette nouvelle classe d'attente devrait étendre
+                <span class="new_code">SimpleExpectation</span> ou une autre de ses sous-classes...
+<pre>
+<strong>class ValidIp extends SimpleExpectation {
+    
+    function test($ip) {
+        return (ip2long($ip) != -1);
+    }
+    
+    function testMessage($ip) {
+        return "Address [$ip] should be a valid IP address";
+    }
+}</strong>
+</pre> 
+               Il n'y a véritablement que deux méthodes à mettre en place.
+               La méthode <span class="new_code">test()</span> devrait renvoyer un <span class="new_code">true</span>
+               si l'attente doit passer, et une erreur <span class="new_code">false</span>
+               dans le cas contraire. La méthode <span class="new_code">testMessage()</span>
+               ne devrait renvoyer que du texte utile à la compréhension du test en lui-même.
+            </p>
+            <p>
+                Cette classe peut désormais être employée à la place
+                des classes d'attente précédentes.
+            </p>
+			<p>
+				Voici un exemple plus typique, vérifier un hash...
+<pre>
+<strong>class JustField extends EqualExpectation {
+    private $key;
+    
+    function __construct($key, $expected) {
+        parent::__construct($expected);
+        $this-&gt;key = $key;
+    }
+    
+    function test($compare) {
+        if (! isset($compare[$this-&gt;key])) {
+            return false;
+        }
+        return parent::test($compare[$this-&gt;key]);
+    }
+    
+    function testMessage($compare) {
+        if (! isset($compare[$this-&gt;key])) {
+            return 'Key [' . $this-&gt;key . '] does not exist';
+        }
+        return 'Key [' . $this-&gt;key . '] -&gt; ' .
+                parent::testMessage($compare[$this-&gt;key]);
+    }
+}</strong>
+</pre>
+                L'habitude a été prise pour séparer les clauses du message avec
+                "&amp;nbsp;-&gt;&amp;nbsp;".
+				Cela permet aux outils dérivés de reformater la sortie.
+            </p>
+            <p>
+                Supposons qu'un authentificateur s'attend à recevoir
+				une ligne de base de données correspondant à l'utilisateur,
+				et que nous avons juste besoin de valider le nom d'utilisateur.
+				Nous pouvons le faire très simplement avec... 
+<pre>
+$mock-&gt;expectOnce('authenticate',
+                  array(new JustKey('username', 'marcus')));
+</pre>
+            </p>
+        
+        <h2>
+<a class="target" name="unitaire"></a>Sous le capot du testeur unitaire</h2>
+            <p>
+                Le <a href="http://sourceforge.net/projects/simpletest/">framework
+                de test unitaire SimpleTest</a> utilise aussi dans son coeur
+                des classes d'attente pour
+                la <a href="unit_test_documentation.html">classe UnitTestCase</a>.
+                Nous pouvons aussi tirer parti de ces mécanismes pour réutiliser
+                nos propres classes attente à l'intérieur même des suites de test.
+            </p>
+            <p>
+                La méthode la plus directe est d'utiliser la méthode
+                <span class="new_code">SimpleTest::assert()</span> pour effectuer le test...
+<pre>
+<strong>class TestOfNetworking extends UnitTestCase {
+    ...
+    function testGetValidIp() {
+        $server = &amp;new Server();
+        $this-&gt;assert(
+                new ValidIp(),
+                $server-&gt;getIp(),
+                'Server IP address-&gt;%s');
+    }
+}</strong>
+</pre>
+                <span class="new_code">assert()</span> testera toute attente directement.
+            </p>
+			<p>
+				C'est plutôt sale par rapport à notre syntaxe habituelle
+                du type <span class="new_code">assert...()</span>.
+            </p>
+            <p>
+                Pour un cas aussi simple, nous créons d'ordinaire une méthode
+                d'assertion distincte en utilisant la classe d'attente.
+                Supposons un instant que notre attente soit un peu plus
+                compliquée et que par conséquent nous souhaitions la réutiliser,
+                nous obtenons...
+<pre>
+class TestOfNetworking extends UnitTestCase {
+    ...<strong>
+    function assertValidIp($ip, $message = '%s') {
+        $this-&gt;assertExpectation(new ValidIp(), $ip, $message);
+    }</strong>
+    
+    function testGetValidIp() {
+        $server = &amp;new Server();<strong>
+        $this-&gt;assertValidIp(
+                $server-&gt;getIp(),
+                'Server IP address-&gt;%s');</strong>
+    }
+}
+</pre>
+                It is rare to need the expectations for more than pattern
+                matching, but these facilities do allow testers to build
+                some sort of domain language for testing their application.
+                Also, complex expectation classes could make the tests
+                harder to read and debug.
+                In effect extending the test framework to create their own tool set.
+            
+			
+                Il est assez rare que le besoin d'une attente dépasse
+                le stade de la reconnaissance d'un motif, mais ils permettent
+				aux testeurs de construire leur propre langage dédié ou DSL
+				(Domain Specific Language) pour tester leurs applications.
+                Attention, les classes d'attente complexes peuvent rendre
+                les tests difficiles à lire et à déboguer.
+                Ces mécanismes sont véritablement là pour les auteurs
+                de système qui étendront le framework de test
+                pour leurs propres outils de test.
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            La page du projet SimpleTest sur
+            <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            La page de téléchargement de SimpleTest sur
+            <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+<li>
+            Les attentes imitent les contraintes dans
+            <a href="http://www.jmock.org/">JMock</a>.
+        </li>
+<li>
+            <a href="http://simpletest.org/api/">L'API complète pour SimpleTest</a>
+            réalisé avec PHPDoc.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

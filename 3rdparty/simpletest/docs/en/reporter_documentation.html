@@ -1,0 +1,616 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SimpleTest for PHP test runner and display documentation</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <span class="chosen">Reporting</span>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>Test reporter documentation</h1>
+        This page...
+        <ul>
+<li>
+            Displaying <a href="#html">results in HTML</a>
+        </li>
+<li>
+            Displaying and <a href="#other">reporting results</a>
+            in other formats
+        </li>
+<li>
+            Using <a href="#cli">SimpleTest from the command line</a>
+        </li>
+<li>
+            <a href="#xml">Using XML</a> for remote testing
+        </li>
+</ul>
+<div class="content">
+        
+            <p>
+                SimpleTest pretty much follows the MVC-ish pattern
+                (Model-View-Controller).
+                The reporter classes are the view and the model is your
+                test cases and their hiearchy.
+                The controller is mostly hidden from the user of
+                SimpleTest unless you want to change how the test cases
+                are actually run, in which case it is possible to
+                override the runner objects from within the test case.
+                As usual with MVC, the controller is mostly undefined
+                and there are other places to control the test run.
+            </p>
+        
+        <h2>
+<a class="target" name="html"></a>Reporting results in HTML</h2>
+            <p>
+                The default HTML display is minimal in the extreme.
+                It reports success and failure with the conventional red and
+                green bars and shows a breadcrumb trail of test groups
+                for every failed assertion.
+                Here's a fail...
+                <div class="demo">
+                    <h1>File test</h1>
+                    <span class="fail">Fail</span>: createnewfile-&gt;True assertion failed.<br>
+                    <div style="padding: 8px; margin-top: 1em; background-color: red; color: white;">1/1 test cases complete.
+                    <strong>0</strong> passes, <strong>1</strong> fails and <strong>0</strong> exceptions.</div>
+                </div>
+                And here all tests passed...
+                <div class="demo">
+                    <h1>File test</h1>
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">1/1 test cases complete.
+                    <strong>1</strong> passes, <strong>0</strong> fails and <strong>0</strong> exceptions.</div>
+                </div>
+                The good news is that there are several points in the display
+                hiearchy for subclassing.
+            </p>
+            <p>
+                For web page based displays there is the
+                <span class="new_code">HtmlReporter</span> class with the following
+                signature...
+<pre>
+class HtmlReporter extends SimpleReporter {
+    public __construct($encoding) { ... }
+    public makeDry(boolean $is_dry) { ... }
+    public void paintHeader(string $test_name) { ... }
+    public void sendNoCacheHeaders() { ... }
+    public void paintFooter(string $test_name) { ... }
+    public void paintGroupStart(string $test_name, integer $size) { ... }
+    public void paintGroupEnd(string $test_name) { ... }
+    public void paintCaseStart(string $test_name) { ... }
+    public void paintCaseEnd(string $test_name) { ... }
+    public void paintMethodStart(string $test_name) { ... }
+    public void paintMethodEnd(string $test_name) { ... }
+    public void paintFail(string $message) { ... }
+    public void paintPass(string $message) { ... }
+    public void paintError(string $message) { ... }
+    public void paintException(string $message) { ... }
+    public void paintMessage(string $message) { ... }
+    public void paintFormattedMessage(string $message) { ... }
+    protected string getCss() { ... }
+    public array getTestList() { ... }
+    public integer getPassCount() { ... }
+    public integer getFailCount() { ... }
+    public integer getExceptionCount() { ... }
+    public integer getTestCaseCount() { ... }
+    public integer getTestCaseProgress() { ... }
+}
+</pre>
+                Here is what some of these methods mean. First the display methods
+                that you will probably want to override...
+                <ul class="api">
+                    <li>
+                        <span class="new_code">HtmlReporter(string $encoding)</span><br>
+                        is the constructor.
+                        Note that the unit test sets up the link to the display
+                        rather than the other way around.
+                        The display is a mostly passive receiver of test events.
+                        This allows easy adaption of the display for other test
+                        systems beside unit tests, such as monitoring servers.
+                        The encoding is the character encoding you wish to
+                        display the test output in.
+                        In order to correctly render debug output when
+                        using the web tester, this should match the encoding
+                        of the site you are trying to test.
+                        The available character set strings are described in
+                        the PHP <a href="http://www.php.net/manual/en/function.htmlentities.php">html_entities()</a>
+                        function.
+                    </li>
+                    <li>
+                        <span class="new_code">void paintHeader(string $test_name)</span><br>
+                        is called once at the very start of the test when the first
+                        start event arrives.
+                        The first start event is usually delivered by the top level group
+                        test and so this is where <span class="new_code">$test_name</span>
+                        comes from.
+                        It paints the page title, CSS, body tag, etc.
+                        It returns nothing (<span class="new_code">void</span>).
+                    </li>
+                    <li>
+                        <span class="new_code">void paintFooter(string $test_name)</span><br>
+                        Called at the very end of the test to close any tags opened
+                        by the page header.
+                        By default it also displays the red/green bar and the final
+                        count of results.
+                        Actually the end of the test happens when a test end event
+                        comes in with the same name as the one that started it all
+                        at the same level.
+                        The tests nest you see.
+                        Closing the last test finishes the display.
+                    </li>
+                    <li>
+                        <span class="new_code">void paintMethodStart(string $test_name)</span><br>
+                        is called at the start of each test method.
+                        The name normally comes from method name.
+                        The other test start events behave the same way except
+                        that the group test one tells the reporter how large
+                        it is in number of held test cases.
+                        This is so that the reporter can display a progress bar
+                        as the runner churns through the test cases.
+                    </li>
+                    <li>
+                        <span class="new_code">void paintMethodEnd(string $test_name)</span><br>
+                        backs out of the test started with the same name.
+                    </li>
+                    <li>
+                        <span class="new_code">void paintFail(string $message)</span><br>
+                        paints a failure.
+                        By default it just displays the word fail, a breadcrumbs trail
+                        showing the current test nesting and the message issued by
+                        the assertion.
+                    </li>
+                    <li>
+                        <span class="new_code">void paintPass(string $message)</span><br>
+                        by default does nothing.
+                    </li>
+                    <li>
+                        <span class="new_code">string getCss()</span><br>
+                        Returns the CSS styles as a string for the page header
+                        method.
+                        Additional styles have to be appended here if you are
+                        not overriding the page header.
+                        You will want to use this method in an overriden page header
+                        if you want to include the original CSS.
+                    </li>
+                </ul>
+                There are also some accessors to get information on the current
+                state of the test suite.
+                Use these to enrich the display...
+                <ul class="api">
+                    <li>
+                        <span class="new_code">array getTestList()</span><br>
+                        is the first convenience method for subclasses.
+                        Lists the current nesting of the tests as a list
+                        of test names.
+                        The first, top level test case, is first in the
+                        list and the current test method will be last.
+                    </li>
+                    <li>
+                        <span class="new_code">integer getPassCount()</span><br>
+                        returns the number of passes chalked up so far.
+                        Needed for the display at the end.
+                    </li>
+                    <li>
+                        <span class="new_code">integer getFailCount()</span><br>
+                        is likewise the number of fails so far.
+                    </li>
+                    <li>
+                        <span class="new_code">integer getExceptionCount()</span><br>
+                        is likewise the number of errors so far.
+                    </li>
+                    <li>
+                        <span class="new_code">integer getTestCaseCount()</span><br>
+                        is the total number of test cases in the test run.
+                        This includes the grouping tests themselves.
+                    </li>
+                    <li>
+                        <span class="new_code">integer getTestCaseProgress()</span><br>
+                        is the number of test cases completed so far.
+                    </li>
+                </ul>
+                One simple modification is to get the HtmlReporter to display
+                the passes as well as the failures and errors...
+<pre>
+<strong>class ReporterShowingPasses extends HtmlReporter {
+    
+    function paintPass($message) {
+        parent::paintPass($message);
+        print "&lt;span class=\"pass\"&gt;Pass&lt;/span&gt;: ";
+        $breadcrumb = $this-&gt;getTestList();
+        array_shift($breadcrumb);
+        print implode("-&amp;gt;", $breadcrumb);
+        print "-&amp;gt;$message&lt;br /&gt;\n";
+    }
+    
+    protected function getCss() {
+        return parent::getCss() . ' .pass { color: green; }';
+    }
+}</strong>
+</pre>
+            </p>
+            <p>
+                One method that was glossed over was the <span class="new_code">makeDry()</span>
+                method.
+                If you run this method, with no parameters, on the reporter
+                before the test suite is run no actual test methods
+                will be called.
+                You will still get the events of entering and leaving the
+                test methods and test cases, but no passes or failures etc,
+                because the test code will not actually be executed.
+            </p>
+            <p>
+                The reason for this is to allow for more sophistcated
+                GUI displays that allow the selection of individual test
+                cases.
+                In order to build a list of possible tests they need a
+                report on the test structure for drawing, say a tree view
+                of the test suite.
+                With a reporter set to dry run that just sends drawing events
+                this is easily accomplished.
+            </p>
+        
+        <h2>
+<a class="target" name="other"></a>Extending the reporter</h2>
+            <p>
+                Rather than simply modifying the existing display, you might want to
+                produce a whole new HTML look, or even generate text or XML.
+                Rather than override every method in
+                <span class="new_code">HtmlReporter</span> we can take one
+                step up the class hiearchy to <span class="new_code">SimpleReporter</span>
+                in the <em>simple_test.php</em> source file.
+            </p>
+            <p>
+                A do nothing display, a blank canvas for your own creation, would
+                be...
+<pre>
+<strong>require_once('simpletest/simpletest.php');</strong>
+
+class MyDisplay extends SimpleReporter {<strong>
+    </strong>
+    function paintHeader($test_name) { }
+    
+    function paintFooter($test_name) { }
+    
+    function paintStart($test_name, $size) {<strong>
+        parent::paintStart($test_name, $size);</strong>
+    }
+    
+    function paintEnd($test_name, $size) {<strong>
+        parent::paintEnd($test_name, $size);</strong>
+    }
+    
+    function paintPass($message) {<strong>
+        parent::paintPass($message);</strong>
+    }
+    
+    function paintFail($message) {<strong>
+        parent::paintFail($message);</strong>
+    }
+    
+    function paintError($message) {<strong>
+        parent::paintError($message);</strong>
+    }
+    
+    function paintException($exception) {<strong>
+        parent::paintException($exception);</strong>
+    }
+}
+</pre>
+                No output would come from this class until you add it.
+            </p>
+            <p>
+                The catch with using this low level class is that you must
+                explicitely invoke it in the test script.
+                The "autorun" facility will not be able to use
+                its runtime context (whether it's running in a web browser
+                or the command line) to select the reporter.
+            </p>
+            <p>
+                You explicitely invoke the test runner like so...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+
+$test = new TestSuite('File test');
+$test-&gt;addFile('tests/file_test.php');
+$test-&gt;run(<strong>new MyReporter()</strong>);
+?&gt;
+</pre>
+                ...perhaps like this...
+<pre>
+&lt;?php
+require_once('simpletest/simpletest.php');
+require_once('my_reporter.php');
+
+class MyTest extends TestSuite {
+    function __construct() {
+        parent::__construct();
+        $this-&gt;addFile('tests/file_test.php');
+    }
+}
+
+$test = new MyTest();
+$test-&gt;run(<strong>new MyReporter()</strong>);
+?&gt;
+</pre>
+                We'll show how to fit in with "autorun" later.
+            </p>
+        
+        <h2>
+<a class="target" name="cli"></a>The command line reporter</h2>
+            <p>
+                SimpleTest also ships with a minimal command line reporter.
+                The interface mimics JUnit to some extent, but paints the
+                failure messages as they arrive.
+                To use the command line reporter explicitely, substitute it
+                for the HTML version...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+
+$test = new TestSuite('File test');
+$test-&gt;addFile('tests/file_test.php');
+$test-&gt;run(<strong>new TextReporter()</strong>);
+?&gt;
+</pre>
+                Then invoke the test suite from the command line...
+<pre class="shell">
+php file_test.php
+</pre>
+                You will need the command line version of PHP installed
+                of course.
+                A passing test suite looks like this...
+<pre class="shell">
+File test
+OK
+Test cases run: 1/1, Passes: 1, Failures: 0, Exceptions: 0
+</pre>
+                A failure triggers a display like this...
+<pre class="shell">
+File test
+1) True assertion failed.
+    in createNewFile
+FAILURES!!!
+Test cases run: 1/1, Passes: 0, Failures: 1, Exceptions: 0
+</pre>
+            </p>
+            <p>
+                One of the main reasons for using a command line driven
+                test suite is of using the tester as part of some automated
+                process.
+                To function properly in shell scripts the test script should
+                return a non-zero exit code on failure.
+                If a test suite fails the value <span class="new_code">false</span>
+                is returned from the <span class="new_code">SimpleTest::run()</span>
+                method.
+                We can use that result to exit the script with the desired return
+                code...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+
+$test = new TestSuite('File test');
+$test-&gt;addFile('tests/file_test.php');
+<strong>exit ($test-&gt;run(new TextReporter()) ? 0 : 1);</strong>
+?&gt;
+</pre>
+                Of course we wouldn't really want to create two test scripts,
+                a command line one and a web browser one, for each test suite.
+                The command line reporter includes a method to sniff out the
+                run time environment...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+
+$test = new TestSuite('File test');
+$test-&gt;addFile('tests/file_test.php');
+<strong>if (TextReporter::inCli()) {</strong>
+    exit ($test-&gt;run(new TextReporter()) ? 0 : 1);
+<strong>}</strong>
+$test-&gt;run(new HtmlReporter());
+?&gt;
+</pre>
+                This is the form used within SimpleTest itself.
+                When you use the "autorun.php", and no
+                test has been run by the end, this is pretty much
+                the code that SimpleTest will run for you implicitely.
+            </p>
+            <p>
+                In other words, this is gives the same result...
+<pre>
+&lt;?php
+require_once('simpletest/autorun.php');
+
+class MyTest extends TestSuite {
+    function __construct() {
+        parent::__construct();
+        $this-&gt;addFile('tests/file_test.php');
+    }
+}
+?&gt;
+</pre>
+            </p>
+        
+        <h2>
+<a class="target" name="xml"></a>Remote testing</h2>
+            <p>
+                SimpleTest ships with an <span class="new_code">XmlReporter</span> class
+                used for internal communication.
+                When run the output looks like...
+<pre class="shell">
+&lt;?xml version="1.0"?&gt;
+&lt;run&gt;
+  &lt;group size="4"&gt;
+    &lt;name&gt;Remote tests&lt;/name&gt;
+    &lt;group size="4"&gt;
+      &lt;name&gt;Visual test with 48 passes, 48 fails and 4 exceptions&lt;/name&gt;
+      &lt;case&gt;
+        &lt;name&gt;testofunittestcaseoutput&lt;/name&gt;
+        &lt;test&gt;
+          &lt;name&gt;testofresults&lt;/name&gt;
+          &lt;pass&gt;This assertion passed&lt;/pass&gt;
+          &lt;fail&gt;This assertion failed&lt;/fail&gt;
+        &lt;/test&gt;
+        &lt;test&gt;
+          ...
+        &lt;/test&gt;
+      &lt;/case&gt;
+    &lt;/group&gt;
+  &lt;/group&gt;
+&lt;/run&gt;
+</pre>
+                To get your normal test cases to produce this format, on the
+                command line add the <span class="new_code">--xml</span> flag.
+<pre class="shell">
+php my_test.php --xml
+</pre>
+                You can do teh same thing in the web browser by adding the
+                URL parameter <span class="new_code">xml=1</span>.
+                Any true value will do.
+            </p>
+            <p>
+                You can consume this format with the parser
+                supplied as part of SimpleTest itself.
+                This is called <span class="new_code">SimpleTestXmlParser</span> and
+                resides in <em>xml.php</em> within the SimpleTest package...
+<pre>
+&lt;?php
+require_once('simpletest/xml.php');
+    
+...
+$parser = new SimpleTestXmlParser(new HtmlReporter());
+$parser-&gt;parse($test_output);
+?&gt;
+</pre>
+                The <span class="new_code">$test_output</span> should be the XML format
+                from the XML reporter, and could come from say a command
+                line run of a test case.
+                The parser sends events to the reporter just like any
+                other test run.
+                There are some odd occasions where this is actually useful.
+            </p>
+            <p>
+                Most likely it's when you want to isolate a problematic crash
+                prone test.
+                You can collect the XML output using the backtick operator
+                from another test.
+                In that way it runs in its own process...
+<pre>
+&lt;?php
+require_once('simpletest/xml.php');
+
+if (TextReporter::inCli()) {
+    $parser = new SimpleTestXmlParser(new TextReporter());
+} else {
+    $parser = new SimpleTestXmlParser(new HtmlReporter());
+}
+$parser-&gt;parse(`php flakey_test.php --xml`);
+?&gt;
+</pre>
+            </p>
+            <p>
+                Another use is breaking up large test suites.
+            </p>
+            <p>
+                A problem with large test suites is thet they can exhaust
+                the default 16Mb memory limit on a PHP process.
+                By having the test groups output in XML and run in
+                separate processes, the output can be reparsed to
+                aggregate the results into a much smaller footprint top level
+                test.
+            </p>
+            <p>
+                Because the XML output can come from anywhere, this opens
+                up the possibility of aggregating test runs from remote
+                servers.
+                A test case already exists to do this within the SimpleTest
+                framework, but it is currently experimental...
+<pre>
+&lt;?php
+<strong>require_once('../remote.php');</strong>
+require_once('simpletest/autorun.php');
+    
+$test_url = ...;
+$dry_url = ...;
+
+class MyTestOnAnotherServer extends RemoteTestCase {
+    function __construct() {
+        $test_url = ...
+        parent::__construct($test_url, $test_url . ' --dry');
+    }
+}
+?&gt;
+</pre>
+                The <span class="new_code">RemoteTestCase</span> takes the actual location
+                of the test runner, basically a web page in XML format.
+                It also takes the URL of a reporter set to do a dry run.
+                This is so that progress can be reported upward correctly.
+                The <span class="new_code">RemoteTestCase</span> can be added to test suites
+                just like any other test suite.
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            SimpleTest download page on <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </li>
+<li>
+            The <a href="http://simpletest.org/api/">developer's API for SimpleTest</a>
+            gives full detail on the classes and assertions available.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <span class="chosen">Reporting</span>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

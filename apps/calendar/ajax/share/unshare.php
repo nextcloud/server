@@ -30,8 +30,7 @@ switch($sharetype){
 if($sharetype == 'user' && !OC_User::userExists($sharewith)){
 	OC_JSON::error(array('message'=>'user not found'));
 	exit;
-}
-if($sharetype == 'group' && !OC_Group::groupExists($sharewith)){
+}elseif($sharetype == 'group' && !OC_Group::groupExists($sharewith)){
 	OC_JSON::error(array('message'=>'group not found'));
 	exit;
 }

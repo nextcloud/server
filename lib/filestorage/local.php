@@ -12,14 +12,10 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 	}
 	public function mkdir($path){
-		if($return=mkdir($this->datadir.$path)){
-		}
-		return $return;
+		return @mkdir($this->datadir.$path);
 	}
 	public function rmdir($path){
-		if($return=rmdir($this->datadir.$path)){
-		}
-		return $return;
+		return @rmdir($this->datadir.$path);
 	}
 	public function opendir($path){
 		return opendir($this->datadir.$path);
@@ -65,13 +61,16 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function filemtime($path){
 		return filemtime($this->datadir.$path);
 	}
-	
-	public function setFileMtime($path, $mtime){
-                   // sets the modification time of the file to the given value. If mtime is nil the current time is set.
-                  // note that the access time of the file always changes to the current time.
-                  return touch($this->datadir.$path, $mtime);
-         }
-
+	public function touch($path, $mtime){
+		// sets the modification time of the file to the given value. 
+		// If mtime is nil the current time is set.
+		// note that the access time of the file always changes to the current time.
+		if( touch( $this->datadir.$path, $mtime ) ) {
+			clearstatcache( true, $this->datadir.$path );
+		}
+		
+		return touch($this->datadir.$path, $mtime);
+	}
 	public function file_get_contents($path){
 		return file_get_contents($this->datadir.$path);
 	}
@@ -80,8 +79,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		}
 	}
 	public function unlink($path){
-		$return=$this->delTree($path);
-		return $return;
+		return $this->delTree($path);
 	}
 	public function rename($path1,$path2){
 		if(! $this->file_exists($path1)){
@@ -168,6 +166,8 @@ class OC_Filestorage_Local extends OC_Filestorage{
 				$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
 			}
 			return $mimeType;
+		}else{
+			return false;
 		}
 	}
 

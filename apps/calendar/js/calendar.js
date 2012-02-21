@@ -537,13 +537,13 @@ Calendar={
 				$('#share_user').live('change', function(){
 					if($('#sharewithuser_' + $('#share_user option:selected').text()).length == 0){
 						Calendar.UI.Share.share(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $('#share_user option:selected').text(), 'user');
-						var newitem = '<li id="sharewithuser_' + $('#share_user option:selected').text() +'"><input type="checkbox" width="12px" style="visibility:hidden;" title="' + $('#share_user option:selected').text() + '">' + $('#share_user option:selected').text() + ' <img src="/owncloud/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>';
+						var newitem = '<li id="sharewithuser_' + $('#share_user option:selected').text() +'"><input type="checkbox" width="12px" style="visibility:hidden;" title="' + $('#share_user option:selected').text() + '">' + $('#share_user option:selected').text() + '<img src="/owncloud/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>';
 						$('#sharewithuser_list').append(newitem);
 						$('#sharewithuser_' + $('#share_user option:selected').text() + ' > img').click(function(){
 							$('#share_user option[value="' + $(this).parent().text() + '"]').removeAttr('disabled');
 							Calendar.UI.Share.unshare(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $(this).parent().text(), 'user' );
-							$(this).parent().remove();
 							$("#share_user").trigger("liszt:updated");
+							$(this).parent().remove();
 						});
 						$('#share_user option:selected').attr('disabled', 'disabled');
 						$("#share_user").trigger("liszt:updated");
@@ -552,13 +552,13 @@ Calendar={
 				$('#share_group').live('change', function(){
 					if($('#sharewithgroup_' + $('#share_group option:selected').text()).length == 0){
 						Calendar.UI.Share.share(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $('#share_group option:selected').text(), 'group');
-						var newitem = '<li id="sharewithgroup_' + $('#share_group option:selected').text() +'"><input type="checkbox" width="12px" style="visibility:hidden;" title="' + $('#share_group option:selected').text() + '">' + $('#share_group option:selected').text() + ' <img src="/owncloud/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>';
+						var newitem = '<li id="sharewithgroup_' + $('#share_group option:selected').text() +'"><input type="checkbox" width="12px" style="visibility:hidden;" title="' + $('#share_group option:selected').text() + '">' + $('#share_group option:selected').text() + '<img src="/owncloud/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>';
 						$('#sharewithgroup_list').append(newitem);
 						$('#sharewithgroup_' + $('#share_group option:selected').text() + ' > img').click(function(){
 							$('#share_group option[value="' + $(this).parent().text() + '"]').removeAttr('disabled');
 							Calendar.UI.Share.unshare(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $(this).parent().text(), 'group');
-							$(this).parent().remove();
 							$("#share_group").trigger("liszt:updated");
+							$(this).parent().remove();
 						});
 						$('#share_group option:selected').attr('disabled', 'disabled');
 						$("#share_group").trigger("liszt:updated");
@@ -811,7 +811,7 @@ $(document).ready(function(){
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
 		eventRender: function(event, element) {
-			element.find('span.fc-event-title').html(element.find('span.fc-event-title').text());
+			element.find('.fc-event-title').html(element.find('.fc-event-title').text());
 			element.tipsy({
 				className: 'tipsy-event',
 				opacity: 0.9,

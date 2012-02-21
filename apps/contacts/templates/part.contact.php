@@ -1,5 +1,4 @@
 <?php
-$l=new OC_L10N('contacts');
 $id = isset($_['id']) ? $_['id'] : '';
 ?>
 <div id="card">
@@ -46,10 +45,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<dt><label for="fn"><?php echo $l->t('Display name'); ?></label></dt>
 		<dd class="propertycontainer" data-element="FN">
 		<select id="fn_select" title="<?php echo $l->t('Format custom, Short name, Full name, Reverse or Reverse with comma'); ?>" style="width:16em;">
-			<option id="short" title="Short name"></option>
-			<option id="full" title="Full name"></option>
-			<option id="reverse" title="Reverse"></option>
-			<option id="reverse_comma" title="Reverse with comma"></option>
 		</select><a id="edit_name" class="edit" title="<?php echo $l->t('Edit name details'); ?>"></a>
 		</dd>
 		<dt style="display:none;" id="org_label" data-element="ORG"><label for="org"><?php echo $l->t('Organization'); ?></label></dt>

@@ -15,10 +15,10 @@
 <div id="rightcontent" class="rightcontent" data-id="<?php echo $_['id']; ?>">
 	<?php
 		if ($_['id']){
-			echo $this->inc("part.details");
+			echo $this->inc('part.contact');
 		}
 		else{
-			echo $this->inc("part.addcardform");
+			echo $this->inc('part.no_contacts');
 		}
 	?>
 </div>
