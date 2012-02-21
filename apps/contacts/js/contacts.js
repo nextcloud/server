@@ -8,7 +8,7 @@ String.prototype.strip_tags = function(){
 	tags = this;
 	stripped = tags.replace(/[\<\>]/gi, "");
 	return stripped;
-}
+};
 
 
 Contacts={
@@ -142,7 +142,7 @@ Contacts={
 							}
 					});
 				});
-			}
+			};
 		},
 		loadListHandlers:function() {
 			//$('.add,.delete').hide();
@@ -323,7 +323,7 @@ Contacts={
 					}
 				});
 			},
-			delete:function() {
+			delete: function() {
 				$('#contacts_deletecard').tipsy('hide');
 				$.getJSON('ajax/deletecard.php',{'id':this.id},function(jsondata){
 					if(jsondata.status == 'success'){

@@ -21,9 +21,11 @@
 	<p><label class="bookmarks_label"></label><input type="submit" value="<?php echo $l->t('Add bookmark'); ?>" id="bookmark_add_submit" /></p>
 </div>
 <div class="bookmarks_list">
-	<?php echo $l->t('You have no bookmarks'); ?>
 </div>
-<div id="footer">
-Bookmark pages more easily. Drag this bookmarklet to the Bookmarks bar of your browser:
-<a style='background-color:#dddddd;border:1px groove #999; padding:5px;padding-top:0px;padding-bottom:2px; text-decoration:none; margin-top:5px' href='javascript:(function(){var a=window,b=document,c=encodeURIComponent,d=a.open("<?php echo OC_Helper::linkToAbsolute('bookmarks', 'addBm.php') ?>?output=popup&url="+c(b.location)+"&title="+c(b.title),"bkmk_popup","left="+((a.screenX||a.screenLeft)+10)+",top="+((a.screenY||a.screenTop)+10)+",height=510px,width=550px,resizable=1,alwaysRaised=1");a.setTimeout(function(){d.focus()},300)})();'>ownCloud bookmark</a>
+<div id="firstrun">
+	<?php echo $l->t('You have no bookmarks'); ?>
+	<small><?php echo $l->t('Drag this to your browser bookmarks and click it, when you want to bookmark a webpage.'); ?></small>
+	<div id="selections">
+		<a class="button" href='javascript:(function(){var a=window,b=document,c=encodeURIComponent,d=a.open("<?php echo OC_Helper::linkToAbsolute('bookmarks', 'addBm.php') ?>?output=popup&url="+c(b.location)+"&title="+c(b.title),"bkmk_popup","left="+((a.screenX||a.screenLeft)+10)+",top="+((a.screenY||a.screenTop)+10)+",height=510px,width=550px,resizable=1,alwaysRaised=1");a.setTimeout(function(){d.focus()},300)})();'><?php echo $l->t('Add page to ownCloud'); ?></a>
+	</div>
 </div>

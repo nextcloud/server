@@ -35,6 +35,7 @@ function getBookmarks() {
 	
 			for(var i in bookmarks.data) {
 				updateBookmarksList(bookmarks.data[i]);
+				$("#firstrun").hide();
 			}
 
 			$('.bookmark_link').click(recordClick);
@@ -71,6 +72,8 @@ function addOrEditBookmark(event) {
 	var tags = encodeEntities($('#bookmark_add_tags').val());
 	var taglist = tags.split(' ');
 	var tagshtml = '';
+	$("#firstrun").hide();
+
 	for ( var i=0, len=taglist.length; i<len; ++i ){
 		tagshtml += '<a class="bookmark_tag" href="?tag=' + encodeURI(taglist[i]) + '">' + taglist[i] + '</a> ';
 	}
