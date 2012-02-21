@@ -48,7 +48,8 @@ if(strpos($dir,'..') === false){
 	for($i=0;$i<$fileCount;$i++){
 		$target=stripslashes($dir) . $files['name'][$i];
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i],$target)){
-			$result[]=array( "status" => "success", 'mime'=>OC_Filesystem::getMimeType($target),'size'=>OC_Filesystem::filesize($target),'name'=>$files['name'][$i]);
+			$meta=OC_FileCache::getCached($target);
+			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'],'size'=>$meta['size'],'name'=>$files['name'][$i]);
 		}
 	}
 	OC_JSON::encodedPrint($result);

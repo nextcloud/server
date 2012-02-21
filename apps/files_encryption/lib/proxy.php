@@ -38,13 +38,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		if(is_null(self::$blackList)){
 			self::$blackList=explode(',',OC_Appconfig::getValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
 		}
-		if(isset(self::$metaData[$path])){
-			$metadata=self::$metaData[$path];
-		}else{
-			$metadata=OC_FileCache::get($path);
-			self::$metaData[$path]=$metadata;
-		}
-		if($metadata['encrypted']){
+		if(self::isEncrypted($path)){
 			return true;
 		}
 		$extention=substr($path,strrpos($path,'.')+1);
@@ -62,7 +56,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		if(isset(self::$metaData[$path])){
 			$metadata=self::$metaData[$path];
 		}else{
-			$metadata=OC_FileCache::get($path);
+			$metadata=OC_FileCache::getCached($path);
 			self::$metaData[$path]=$metadata;
 		}
 		return (bool)$metadata['encrypted'];
@@ -92,14 +86,19 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			fclose($result);
 			$result=fopen('crypt://'.$path,$meta['mode']);
 		}elseif(self::shouldEncrypt($path) and $meta['mode']!='r'){
-			if(OC_Filesystem::file_exists($path)){
+			if(OC_Filesystem::file_exists($path) and OC_Filesystem::filesize($path)>0){
 				//first encrypt the target file so we don't end up with a half encrypted file
 				OC_Log::write('files_encryption','Decrypting '.$path.' before writing',OC_Log::DEBUG);
-				if($result){
-					fclose($result);
+				$tmp=fopen('php://temp');
+				while(!feof($result)){
+					$chunk=fread($result,8192);
+					if($chunk){
+						fwrite($tmp,$chunk);
+					}
 				}
-				$tmpFile=OC_Filesystem::toTmpFile($path);
-				OC_Filesystem::fromTmpFile($tmpFile,$path);
+				fclose($result);
+				OC_Filesystem::file_put_contents($path,$tmp);
+				fclose($tmp);
 			}
 			$result=fopen('crypt://'.$path,$meta['mode']);
 		}
@@ -117,6 +116,10 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	}
 
 	public function postGetMimeType($path,$mime){
-		return OC_Helper::getMimeType('crypt://'.$path,'w');
+		if((!OC_FileCache::inCache($path) and self::shouldEncrypt($path)) or self::isEncrypted($path)){
+			return OC_Helper::getMimeType('crypt://'.$path,'w');
+		}else{
+			return $mime;
+		}
 	}
 }

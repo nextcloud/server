@@ -56,6 +56,7 @@ class OC_MEDIA{
 	 */
 	public static function updateFile($params){
 		$path=$params['path'];
+		if(!$path) return;
 		require_once 'lib_scanner.php';
 		require_once 'lib_collection.php';
 		//fix a bug where there were multiply '/' in front of the path, it should only be one

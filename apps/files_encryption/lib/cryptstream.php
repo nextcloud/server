@@ -90,7 +90,6 @@ class OC_CryptStream{
 	}
 	
 	public function stream_write($data){
-		error_log('write to '. $this->path);
 		$length=strlen($data);
 		$written=0;
 		$currentPos=ftell($this->source);
@@ -148,9 +147,7 @@ class OC_CryptStream{
 	}
 
 	public function stream_close(){
-		if(OC_FileCache::inCache($this->path)){
-			OC_FileCache::put($this->path,array('encrypted'=>true));
-		}
+		OC_FileCache::put($this->path,array('encrypted'=>true));
 		return fclose($this->source);
 	}
 }

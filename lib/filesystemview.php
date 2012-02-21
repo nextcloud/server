@@ -171,6 +171,7 @@ class OC_FilesystemView {
 				}
 				fclose($target);
 				fclose($data);
+				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, array( OC_Filesystem::signal_param_path => $path));
 				return true;
 			}else{
 				return false;
@@ -278,6 +279,9 @@ class OC_FilesystemView {
 	}
 	public function fromTmpFile($tmpFile,$path){
 		if(OC_Filesystem::isValidPath($path)){
+			if(!$tmpFile){
+				debug_print_backtrace();
+			}
 			$source=fopen($tmpFile,'r');
 			if($source){
 				$this->file_put_contents($path,$source);
@@ -286,7 +290,7 @@ class OC_FilesystemView {
 			}else{
 			}
 		}else{
-			error_log('invalid path');
+			return false;
 		}
 	}
 
