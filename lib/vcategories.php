@@ -34,7 +34,7 @@
  * preferences table is a varchar(255).
  */
 class OC_VCategories {
-	const PREF_CATEGORIES_LABEL = 'extra categories';
+	const PREF_CATEGORIES_LABEL = 'extra_categories';
 	/**
 	 * Categories
 	 */
@@ -53,7 +53,8 @@ class OC_VCategories {
 	public function __construct($app, $user=null) {
 		$this->app = $app;
 		$this->user = is_null($user) ? OC_User::getUser() : $user;
-		$this->categories = OC_VObject::unescapeSemicolons(OC_Preferences::getValue($this->user, $app, self::PREF_CATEGORIES_LABEL, ''));
+		$categories = trim(OC_Preferences::getValue($this->user, $app, self::PREF_CATEGORIES_LABEL, ''));
+		$this->categories = $categories != '' ? OC_VObject::unescapeSemicolons($categories) : array();
 	}
 
 	/**
@@ -92,7 +93,7 @@ class OC_VCategories {
 			}
 		}
 		if(count($newones) > 0) {
-			$this->categories = $this->cleanArray(array_merge($this->categories, $newones));
+			$this->categories = array_merge($this->categories, $newones);
 			natcasesort($this->categories); // Dunno if this is necessary
 			if($sync) {
 				$this->save();
@@ -156,7 +157,6 @@ class OC_VCategories {
 			return;
 		}
 		unset($this->categories[$this->array_searchi($name, $this->categories)]);
-		$this->categories = $this->cleanArray($this->categories);
 		$this->save();
 		foreach($objects as $key=>&$value) {
 			$vobject = OC_VObject::parse($value[1]);
@@ -185,23 +185,5 @@ class OC_VCategories {
 		return array_search(strtolower($needle),array_map('strtolower',$haystack)); 
 	}
 
-	/*
-	 * this is for a bug in the code, need to check if it is still needed
-	 */
-	private function cleanArray($array, $remove_null_number = true){
-		$new_array = array();
-		$null_exceptions = array();
-
-		foreach ($array as $key => $value){
-			$value = trim($value);
-			if($remove_null_number){
-				$null_exceptions[] = '0';
-			}
-			if(!in_array($value, $null_exceptions) && $value != "")	{
-				$new_array[] = $value;
-			}
-		}
-		return $new_array;
-	}
 }
 ?>
