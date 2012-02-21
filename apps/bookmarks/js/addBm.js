@@ -10,7 +10,7 @@ function addBookmark(event) {
 		url: 'ajax/addBookmark.php',
 		data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
 		success: function(data){ 
-			location.href='index.php';
+			window.close();
 		}
 	});
 }
