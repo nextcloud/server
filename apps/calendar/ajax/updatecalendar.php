@@ -25,8 +25,16 @@ foreach($calendars as $cal){
 }
 
 $calendarid = $_POST['id'];
+$calendarcolor = $_POST['color'];
+if (preg_match('/^#?([0-9a-f]{6})/', $calendarcolor, $matches)) {
+	$calendarcolor = '#'.$matches[1];
+}
+else {
+	$calendarcolor = null;
+}
+
 $calendar = OC_Calendar_App::getCalendar($calendarid);//access check
-OC_Calendar_Calendar::editCalendar($calendarid, strip_tags($_POST['name']), null, null, null, $_POST['color']);
+OC_Calendar_Calendar::editCalendar($calendarid, strip_tags($_POST['name']), null, null, null, $calendarcolor);
 OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
 
 $calendar = OC_Calendar_App::getCalendar($calendarid);

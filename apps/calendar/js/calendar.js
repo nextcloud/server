@@ -478,7 +478,7 @@ Calendar={
 					colors[i].label = $(elm).text();
 				});
 				for (var i in colors) {
-					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: #' + colors[i].color + ';"></span>');
+					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: ' + colors[i].color + ';"></span>');
 				}
 				picker.delegate(".calendar-colorpicker-color", "click", function() {
 					$(obj).val($(this).attr('rel'));
