@@ -17,7 +17,7 @@ class OC_Calendar_Share{
 	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
 	 * @return: (array) $return - information about calendars
 	 */
-	public static function allSharedwithuser($userid, $type, $active=null){
+	public static function allSharedwithuser($userid, $type, $active=null, $permission=null){
 		$group_where = '';
 		$groups = OC_Group::getUserGroups($userid);
 		$i = 0;
@@ -30,7 +30,12 @@ class OC_Calendar_Share{
 			$group_where .= ' (share = \'' . $group . '\' AND sharetype = \'group\') ';
 			$i++;
 		}
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = \'user\') ' . $group_where . ') AND owner <> ?' . ((!is_null($active) && $active)?' AND active = 1)':')'));
+		$permission_where = '';
+		if(!is_null($permission)){
+			$permission_where = 'AND permissions = ';
+			$permission_where .= ($permission=='rw')?'1':'0';
+		}
+		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = \'user\') ' . $group_where . ') AND owner <> ? ' . $permission_where . ' ' . ((!is_null($active) && $active)?' AND active = 1)':')'));
 		$result = $stmt->execute(array($userid, $userid));
 		$return = array();
 		while( $row = $result->fetchRow()){
