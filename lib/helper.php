@@ -29,12 +29,11 @@ class OC_Helper {
 	 * @brief Creates an url
 	 * @param $app app
 	 * @param $file file
-	 * @param $redirect_url redirect_url variable is appended to the URL
 	 * @returns the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public static function linkTo( $app, $file, $redirect_url=NULL, $absolute=false ){
+	public static function linkTo( $app, $file ){
 		if( $app != '' ){
 			$app .= '/';
 			// Check if the app is in the app folder
@@ -54,24 +53,19 @@ class OC_Helper {
 			}
 		}
 
-		if($redirect_url)
-			return $urlLinkTo.'?redirect_url='.urlencode($_SERVER["REQUEST_URI"]);
-		else
-			return $urlLinkTo;
-
+		return $urlLinkTo;
 	}
 
 	/**
 	 * @brief Creates an absolute url
 	 * @param $app app
 	 * @param $file file
-	 * @param $redirect_url redirect_url variable is appended to the URL
 	 * @returns the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
-	public static function linkToAbsolute( $app, $file, $redirect_url=NULL ) {
-		$urlLinkTo = self::linkTo( $app, $file, $redirect_url );
+	public static function linkToAbsolute( $app, $file ) {
+		$urlLinkTo = self::linkTo( $app, $file );
 		// Checking if the request was made through HTTPS. The last in line is for IIS
 		$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
 		$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
