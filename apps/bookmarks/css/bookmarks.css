@@ -1,6 +1,7 @@
 #content { overflow: auto; height: 100%; }
 #firstrun { width: 80%; margin: 5em auto auto auto; text-align: center; font-weight:bold; font-size:1.5em;  color:#777;}
 #firstrun small { display: block; font-weight: normal; font-size: 0.5em; margin-bottom: 1.5em; }
+#firstrun .button { font-size: 0.7em; }
 #firstrun #selections { font-size:0.8em;  font-weight: normal; width: 100%; margin: 2em auto auto auto; clear: both; }
 
 .bookmarks_headline {
