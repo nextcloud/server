@@ -29,7 +29,7 @@ if (isset($details->CATEGORIES)){
 
 $category_options = OC_Calendar_Object::getCategoryOptions($l10n);
 $percent_options = range(0, 100, 10);
-$priority_options = OC_Task_VTodo::getPriorityOptions($l10n);
+$priority_options = OC_Task_App::getPriorityOptions();
 
 $tmpl = new OC_Template('tasks','part.edittaskform');
 $tmpl->assign('category_options', $category_options);

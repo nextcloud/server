@@ -46,7 +46,7 @@ OC_UTIL::addStyle('tasks', 'style');
 OC_APP::setActiveNavigationEntry('tasks_index');
 
 $l10n = new OC_L10N('tasks');
-$priority_options = OC_Task_VTodo::getPriorityOptions($l10n);
+$priority_options = OC_Task_App::getPriorityOptions();
 $output = new OC_Template('tasks', 'tasks', 'user');
 $output->assign('tasks', $tasks);
 $output->assign('details', $details);

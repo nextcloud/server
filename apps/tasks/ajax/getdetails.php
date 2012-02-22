@@ -15,7 +15,7 @@ if (!$details){
 	exit;
 }
 
-$priority_options = OC_Task_VTodo::getPriorityOptions($l10n);
+$priority_options = OC_Task_App::getPriorityOptions();
 $tmpl = new OC_Template('tasks','part.details');
 $tmpl->assign('priority_options', $priority_options);
 $tmpl->assign('details',$details->VTODO);

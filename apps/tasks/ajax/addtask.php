@@ -14,16 +14,16 @@ if( $calendar === false || $calendar['userid'] != OC_USER::getUser()){
 	exit();
 }
 
-$errors = OC_Task_VTodo::validateRequest($_POST, $l10n);
+$errors = OC_Task_App::validateRequest($_POST);
 if (!empty($errors)) {
 	OC_JSON::error(array('data' => array( 'errors' => $errors )));
 	exit();
 }
 
-$vcalendar = OC_Task_VTodo::createVCalendarFromRequest($_POST);
+$vcalendar = OC_Task_App::createVCalendarFromRequest($_POST);
 $id = OC_Calendar_Object::add($cid, $vcalendar->serialize());
 
-$priority_options = OC_Task_VTodo::getPriorityOptions($l10n);
+$priority_options = OC_Task_App::getPriorityOptions();
 $tmpl = new OC_Template('tasks','part.details');
 $tmpl->assign('priority_options', $priority_options);
 $tmpl->assign('details',$vcalendar->VTODO);
