@@ -18,24 +18,10 @@ class OC_Calendar_Share{
 	 * @return: (array) $return - information about calendars
 	 */
 	public static function allSharedwithuser($userid, $type, $active=null, $permission=null){
-		$group_where = '';
-		$groups = OC_Group::getUserGroups($userid);
-		$i = 0;
-		foreach($groups as $group){
-			if($i == 0){
-				$group_where = 'OR (';
-			}else{
-				$group_where .= ' OR ';
-			}
-			$group_where .= ' (share = \'' . $group . '\' AND sharetype = \'group\') ';
-			$i++;
-		}
-		$permission_where = '';
-		if(!is_null($permission)){
-			$permission_where = 'AND permissions = ';
-			$permission_where .= ($permission=='rw')?'1':'0';
-		}
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = \'user\') ' . $group_where . ') AND owner <> ? ' . $permission_where . ' ' . ((!is_null($active) && $active)?' AND active = 1)':')'));
+		$group_where = self::group_sql(OC_Group::getUserGroups($userid));
+		$permission_where = self::permission_sql($permission);
+		$active_where = self::active_sql($active);
+		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') AND owner <> ? ' . $permission_where . ' ' . $active_where . ')');
 		$result = $stmt->execute(array($userid, $userid));
 		$return = array();
 		while( $row = $result->fetchRow()){
@@ -157,12 +143,42 @@ class OC_Calendar_Share{
 	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
 	 * @return (bool)
 	 */
-	private static function is_already_shared($owner, $share, $sharetype, $id, $type){
+	public static function is_already_shared($owner, $share, $sharetype, $id, $type){
 		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE owner = ? AND share = ? AND sharetype = ? AND ' . $type . 'id = ?');
 		$result = $stmt->execute(array($owner, $share, $sharetype, $id));
 		if($result->numRows() > 0){
 			return true;
 		}
 		return false;
+	}
+	private static function group_sql($groups){
+		$group_where = '';
+		$i = 0;
+		foreach($groups as $group){
+			if($i == 0){
+				$group_where = 'OR (';
+			}else{
+				$group_where .= ' OR ';
+			}
+			$group_where .= ' (share = "' . $group . '" AND sharetype = "group") ';
+			$i++;
+		}
+		return $group_where;
+	}
+	private static function permission_sql($permission = null){
+		$permission_where = '';
+		if(!is_null($permission)){
+			$permission_where = 'AND permissions = ';
+			$permission_where .= ($permission=='rw')?'1':'0';
+		}
+		return $permission_where;
+	}
+	private static function active_sql($active = null){
+		$active_where = '';
+		if(!is_null($active)){
+			$active_where = 'AND active = ';
+			$active_where .= (!is_null($active) && $active)?'1':'0';
+		}
+		return $active_where;
 	}
 }
