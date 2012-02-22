@@ -10,6 +10,11 @@ OC_JSON::checkLoggedIn();
 
 $id = $_POST['id'];
 
+if(!OC_Calendar_Share::is_editing_allowed(OC_User::getUser(), $id, OC_Calendar_Share::EVENT) && OC_Calendar_Object::getowner($id) != OC_User::getUser()){
+	OC_JSON::error(array('message'=>'permissiondenied'));
+	exit;
+}
+
 $vcalendar = OC_Calendar_App::getVCalendar($id);
 $vevent = $vcalendar->VEVENT;
 
