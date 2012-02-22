@@ -12,15 +12,14 @@ foreach($_["groups"] as $group) {
 
 <div id="controls">
 	<form id="newuser">
-		<th class="name"><input id="newusername" placeholder="<?php echo $l->t('Name')?>" /></th>
-		<th class="password"><input type="password" id="newuserpassword" placeholder="<?php echo $l->t('Password')?>" /></th>
-		<th class="groups"><select id="newusergroups" data-placeholder="groups" title="<?php echo $l->t('Groups')?>" multiple="multiple">
+		<input id="newusername" placeholder="<?php echo $l->t('Name')?>" />
+		<input type="password" id="newuserpassword" placeholder="<?php echo $l->t('Password')?>" />
+		<select id="newusergroups" data-placeholder="groups" title="<?php echo $l->t('Groups')?>" multiple="multiple">
 		<?php foreach($_["groups"] as $group): ?>
 			<option value="<?php echo $group['name'];?>"><?php echo $group['name'];?></option>
 		<?php endforeach;?>
-		</select></th>
-		<th class="quota"></th>
-		<th><input type="submit" value="<?php echo $l->t('Create')?>" /></th>
+		</select>
+		<input type="submit" value="<?php echo $l->t('Create')?>" />
 	</form>
 </div>
 

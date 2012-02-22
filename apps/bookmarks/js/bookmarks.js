@@ -3,11 +3,7 @@ var bookmarks_loading = false;
 
 var bookmarks_sorting = 'bookmarks_sorting_recent';
 
-$(document).ready(function() {
-	$('.bookmarks_addBtn').click(function(event){
-		$('.bookmarks_add').slideToggle();
-	});
-	
+$(document).ready(function() {	
 	$('#bookmark_add_submit').click(addOrEditBookmark);
 	$(window).scroll(updateOnBottom);
 	
@@ -55,21 +51,14 @@ function addOrEditBookmark(event) {
 	var title = encodeEntities($('#bookmark_add_title').val());
 	var tags = encodeEntities($('#bookmark_add_tags').val());
 	var taglist = tags.split(' ');
-	var tagshtml = '';
 	$("#firstrun").hide();
-
-	for ( var i=0, len=taglist.length; i<len; ++i ){
-		tagshtml += '<a class="bookmark_tag" href="?tag=' + encodeURI(taglist[i]) + '">' + taglist[i] + '</a> ';
-	}
 	
 	if (id == 0) {
 		$.ajax({
 			url: 'ajax/addBookmark.php',
 			data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
 			success: function(response){ 
-				var bookmark_id = response.data;
-				$('.bookmarks_add').slideToggle(); 
-				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
+				$('.bookmarks_input').val(''); 
 				$('.bookmarks_list').empty();
 				bookmarks_page = 0;
 				getBookmarks();
@@ -81,8 +70,7 @@ function addOrEditBookmark(event) {
 			url: 'ajax/editBookmark.php',
 			data: 'id=' + id + '&url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
 			success: function(){ 
-				$('.bookmarks_add').slideToggle(); 
-				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
+				$('.bookmarks_input').val('');
 				$('#bookmark_add_id').val('0');
 				$('.bookmarks_list').empty();
 				bookmarks_page = 0;

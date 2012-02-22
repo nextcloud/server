@@ -9,16 +9,11 @@
 ?>
 <input type="hidden" id="bookmarkFilterTag" value="<?php if(isset($_GET['tag'])) echo htmlentities($_GET['tag']); ?>" />
 <div id="controls">
-	<input type="button" class="bookmarks_addBtn" value="<?php echo $l->t('Add bookmark'); ?>"/>
-</div>
-<div class="bookmarks_add">
 	<input type="hidden" id="bookmark_add_id" value="0" />
-	<p><label class="bookmarks_label"><?php echo $l->t('Address'); ?></label><input type="text" id="bookmark_add_url" class="bookmarks_input" /></p>
-	<p><label class="bookmarks_label"><?php echo $l->t('Title'); ?></label><input type="text" id="bookmark_add_title" class="bookmarks_input" />
-       <img class="loading_meta" src="<?php echo OC_Helper::imagePath('core', 'loading.gif'); ?>" /></p>
-	<p><label class="bookmarks_label"><?php echo $l->t('Tags'); ?></label><input type="text" id="bookmark_add_tags" class="bookmarks_input" /></p>
-	<p><label class="bookmarks_label"> </label><label class="bookmarks_hint"><?php echo $l->t('Hint: Use space to separate tags.'); ?></label></p>
-	<p><label class="bookmarks_label"></label><input type="submit" value="<?php echo $l->t('Add bookmark'); ?>" id="bookmark_add_submit" /></p>
+	<input type="text" id="bookmark_add_url" placeholder="<?php echo $l->t('Address'); ?>" class="bookmarks_input" />
+	<input type="text" id="bookmark_add_title" placeholder="<?php echo $l->t('Title'); ?>" class="bookmarks_input" />
+	<input type="text" id="bookmark_add_tags" placeholder="<?php echo $l->t('Tags'); ?>" class="bookmarks_input" />
+	<input type="submit" value="<?php echo $l->t('Add bookmark'); ?>" id="bookmark_add_submit" />
 </div>
 <div class="bookmarks_list">
 </div>
