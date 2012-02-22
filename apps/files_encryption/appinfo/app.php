@@ -15,3 +15,5 @@ if(!isset($_SESSION['enckey']) and OC_User::isLoggedIn()){//force the user to re
 	header("Location: ".OC::$WEBROOT.'/');
 	exit();
 }
+
+OC_App::registerAdmin('files_encryption', 'settings');
