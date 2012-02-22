@@ -13,8 +13,8 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('tasks');
 
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), true);
-if( count($calendars) == 0){
-	header('Location: ' . OC_HELPER::linkTo('calendar', 'index.php'));
+if( count($calendars) == 0 ) {
+	header('Location: ' . OC_Helper::linkTo('calendar', 'index.php'));
 	exit;
 }
 
