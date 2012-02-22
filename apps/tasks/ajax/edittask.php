@@ -8,17 +8,7 @@ OC_JSON::checkAppEnabled('tasks');
 $l10n = new OC_L10N('tasks');
 
 $id = $_POST['id'];
-$task = OC_Calendar_Object::find( $id );
-if( $task === false ){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('Can not find Task!'))));
-	exit();
-}
-
-$calendar = OC_Calendar_Calendar::findCalendar( $task['calendarid'] );
-if( $calendar === false || $calendar['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your task!'))));
-	exit();
-}
+$vcalendar = OC_Calendar_App::getVCalendar($id);
 
 $errors = OC_Task_App::validateRequest($_POST);
 if (!empty($errors)) {
@@ -26,7 +16,6 @@ if (!empty($errors)) {
 	exit();
 }
 
-$vcalendar = OC_VObject::parse($task['calendardata']);
 OC_Task_App::updateVCalendarFromRequest($_POST, $vcalendar);
 OC_Calendar_Object::edit($id, $vcalendar->serialize());
 
