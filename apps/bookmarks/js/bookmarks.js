@@ -9,7 +9,6 @@ $(document).ready(function() {
 	
 	$('.bookmarks_list').empty();
 	getBookmarks();
-	
 });
 
 function getBookmarks() {
@@ -50,7 +49,6 @@ function addOrEditBookmark(event) {
 	var url = encodeEntities($('#bookmark_add_url').val());
 	var title = encodeEntities($('#bookmark_add_title').val());
 	var tags = encodeEntities($('#bookmark_add_tags').val());
-	var taglist = tags.split(' ');
 	$("#firstrun").hide();
 	
 	if (id == 0) {
@@ -86,7 +84,12 @@ function delBookmark(event) {
 	$.ajax({
 		url: 'ajax/delBookmark.php',
 		data: 'url=' + encodeURI($(this).parent().parent().children('.bookmark_url:first').text()),
-		success: function(data){ record.animate({ opacity: 'hide' }, 'fast'); }
+		success: function(data){
+			record.remove();
+			if($('.bookmarks_list').is(':empty')) {
+				$("#firstrun").show();
+			}
+		}
 	});
 }
 
