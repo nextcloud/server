@@ -22,7 +22,7 @@ if($_GET['q']) {
 if(substr($userName, 0, 5) == 'acct:') {
 	$userName = substr($userName, 5);
 }
-if($_SERVER['HTTPS']) {
+if(isset($_SERVER['HTTPS'])) {
 	$baseAddress = 'https://'.$_SERVER['SERVER_NAME'].'/apps/remoteStorage/';
 } else {
 	$baseAddress = 'http://'.$_SERVER['SERVER_NAME'].'/apps/remoteStorage/';
