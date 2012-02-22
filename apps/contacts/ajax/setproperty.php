@@ -36,9 +36,14 @@ $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 // Set the value
 $value = $_POST['value'];
 if(is_array($value)){
+	ksort($value);  // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+	foreach(array_keys($value) as $key) {
+		OC_Log::write('contacts','ajax/setproperty.php: setting: '.$key.': '.$value[$key], OC_Log::DEBUG);
+	}
 	$value = OC_VObject::escapeSemicolons($value);
 }
-$vcard->children[$line]->setValue($value);
+OC_Log::write('contacts','ajax/setproperty.php: setting: '.$vcard->children[$line]->name.': '.$value, OC_Log::DEBUG);
+$vcard->children[$line]->setValue(strip_tags($value));
 
 // Add parameters
 $postparameters = isset($_POST['parameters'])?$_POST['parameters']:array();
@@ -72,15 +77,23 @@ foreach($missingparameters as $i){
 }
 
 // Do checksum and be happy
+// NOTE: This checksum is not used..?
 $checksum = md5($vcard->children[$line]->serialize());
 
-OC_Contacts_VCard::edit($id,$vcard->serialize());
+if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+	OC_JSON::error(array('data' => array('message' => $l->t('Error updating contact property.'))));
+	OC_Log::write('contacts','ajax/setproperty.php: Error updating contact property: '.$value, OC_Log::ERROR);
+	exit();
+}
 
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 if ($vcard->children[$line]->name == 'FN'){
 	$tmpl = new OC_Template('contacts','part.property.FN');
+}
+elseif ($vcard->children[$line]->name == 'N'){
+	$tmpl = new OC_Template('contacts','part.property.N');
 }
 else{
 	$tmpl = new OC_Template('contacts','part.property');
@@ -90,4 +103,4 @@ $tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('property',OC_Contacts_VCard::structureProperty($vcard->children[$line],$line));
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page, 'line' => $line, 'oldchecksum' => $_POST['checksum'] )));
+OC_JSON::success(array('data' => array( 'page' => $page, 'line' => $line, 'checksum' => $checksum, 'oldchecksum' => $_POST['checksum'] )));

@@ -42,7 +42,9 @@
 	<tbody>
 		<tr class="template">
 			<td class="artist"><a></a></td>
+			<td class="artist-expander"><a></a></td>
 			<td class="album"><a></a></td>
+			<td class="album-expander"><a></a></td>
 			<td class="title"><a></a></td>
 		</tr>
 	</tbody>

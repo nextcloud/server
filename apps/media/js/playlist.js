@@ -1,11 +1,23 @@
 PlayList.render=function(){
 	$('#playlist').show();
+
+	/*
+	 * We should not empty() PlayList.parent() but thorougly manage its
+	 * elements instead because some code might be attached to those.
+	 * JQuery tipsies are one of them. The following line make sure they
+	 * are all removed before we delete the associated <li/>.
+	 */
+	$(".tipsy").remove();
+
 	PlayList.parent.empty();
 	for(var i=0;i<PlayList.items.length;i++){
 		var item=PlayList.items[i];
 		var li=$('<li/>');
-		li.append(item.name);
-                li.attr('class', 'jp-playlist-' + i);
+		li.attr('class', 'jp-playlist-' + i);
+		li.attr('title', item.artist + ' - ' + item.name + '<br/>(' + item.album + ')');
+		var div = $('<div class="label">' + item.name + '</div>');
+		li.append(div);
+		$('.jp-playlist-' + i).tipsy({gravity:'w', fade:true, live:true, html:true});
 		var img=$('<img class="remove svg action" src="'+OC.imagePath('core','actions/delete')+'"/>');
 		img.click(function(event){
 			event.stopPropagation();

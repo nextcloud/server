@@ -2,7 +2,6 @@
 "Files" => "Filer",
 "Maximum upload size" => "Maksimum opplastingsstørrelse",
 "Upload" => "Last opp",
-"New Folder" => "Ny mappe",
 "Nothing in here. Upload something!" => "Ingenting her. Last opp noe!",
 "Name" => "Navn",
 "Download" => "Last ned",

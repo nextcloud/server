@@ -9,10 +9,11 @@
 require_once ('../../../lib/base.php');
 require_once('../../../3rdparty/when/When.php');
 
-function addoutput($event, $vevent, $return_event){
+function create_return_event($event, $vevent){
+	$return_event = array();
 	$return_event['id'] = (int)$event['id'];
-	$return_event['title'] = $event['summary'];
-	$return_event['description'] = isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'';
+	$return_event['title'] = htmlspecialchars($event['summary']);
+	$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
 	$last_modified = $vevent->__get('LAST-MODIFIED');
 	if ($last_modified){
 		$lastmodified = $last_modified->getDateTime()->format('U');
@@ -29,55 +30,62 @@ OC_JSON::checkAppEnabled('calendar');
 $start = DateTime::createFromFormat('U', $_GET['start']);
 $end = DateTime::createFromFormat('U', $_GET['end']);
 
+$calendar = OC_Calendar_App::getCalendar($_GET['calendar_id']);
+OC_Response::enableCaching(0);
+OC_Response::setETagHeader($calendar['ctag']);
+
 $events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $return = array();
 foreach($events as $event){
 	$object = OC_VObject::parse($event['calendardata']);
 	$vevent = $object->VEVENT;
+
+	$return_event = create_return_event($event, $vevent);
+
 	$dtstart = $vevent->DTSTART;
 	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
-	$return_event = array();
 	$start_dt = $dtstart->getDateTime();
-	$start_dt->setTimezone(new DateTimeZone($user_timezone));
 	$end_dt = $dtend->getDateTime();
-	$end_dt->setTimezone(new DateTimeZone($user_timezone));
 	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
 		$return_event['allDay'] = true;
 	}else{
 		$return_event['allDay'] = false;
+		$start_dt->setTimezone(new DateTimeZone($user_timezone));
+		$end_dt->setTimezone(new DateTimeZone($user_timezone));
 	}
+
 	//Repeating Events
 	if($event['repeating'] == 1){
 		$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
 		$r = new When();
-		$r->recur((string) $start_dt->format('Ymd\THis'))->rrule((string) $vevent->RRULE);
+		$r->recur($start_dt)->rrule((string) $vevent->RRULE);
 		while($result = $r->next()){
-			if($result->format('U') > $_GET['end']){
+			if($result < $start){
+				continue;
+			}
+			if($result > $end){
 				break;
 			}
 			if($return_event['allDay'] == true){
 				$return_event['start'] = $result->format('Y-m-d');
-				$return_event['end'] = date('Y-m-d', $result->format('U') + $duration--);
+				$return_event['end'] = date('Y-m-d', $result->format('U') + --$duration);
 			}else{
 				$return_event['start'] = $result->format('Y-m-d H:i:s');
 				$return_event['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);
 			}
-			$return[] = addoutput($event, $vevent, $return_event);
+			$return[] = $return_event;
 		}
 	}else{
-		$return_event = array();
-		if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
-			$return_event['allDay'] = true;
+		if($return_event['allDay'] == true){
 			$return_event['start'] = $start_dt->format('Y-m-d');
 			$end_dt->modify('-1 sec');
 			$return_event['end'] = $end_dt->format('Y-m-d');
 		}else{
 			$return_event['start'] = $start_dt->format('Y-m-d H:i:s');
 			$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
-			$return_event['allDay'] = false;
 		}
-		$return[] = addoutput($event, $vevent, $return_event);
+		$return[] = $return_event;
 	}
 }
 OC_JSON::encodedPrint($return);

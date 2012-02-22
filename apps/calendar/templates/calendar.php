@@ -7,17 +7,29 @@
 				var monthNamesShort = <?php echo json_encode($l->tA(array('Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'))) ?>;
 				var agendatime = '<?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>{ - <?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>}';
 				var defaulttime = '<?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>';
-				var allDayText = '<?php echo $l->t('All day') ?>';
-				var missing_field = '<?php echo $l->t('Missing fields') ?>';
-				var missing_field_title = '<?php echo $l->t('Title') ?>';
-				var missing_field_calendar = '<?php echo $l->t('Calendar') ?>';
-				var missing_field_fromdate = '<?php echo $l->t('From Date') ?>';
-				var missing_field_fromtime = '<?php echo $l->t('From Time') ?>';
-				var missing_field_todate = '<?php echo $l->t('To Date') ?>';
-				var missing_field_totime = '<?php echo $l->t('To Time') ?>';
-				var missing_field_startsbeforeends = '<?php echo $l->t('The event ends before it starts') ?>';
-				var missing_field_dberror = '<?php echo $l->t('There was a database fail') ?>';
-				var totalurl = '<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?>/calendars';
+				var allDayText = '<?php echo addslashes($l->t('All day')) ?>';
+				var newcalendar = '<?php echo addslashes($l->t('New Calendar')) ?>';
+				var missing_field = '<?php echo addslashes($l->t('Missing fields')) ?>';
+				var missing_field_title = '<?php echo addslashes($l->t('Title')) ?>';
+				var missing_field_calendar = '<?php echo addslashes($l->t('Calendar')) ?>';
+				var missing_field_fromdate = '<?php echo addslashes($l->t('From Date')) ?>';
+				var missing_field_fromtime = '<?php echo addslashes($l->t('From Time')) ?>';
+				var missing_field_todate = '<?php echo addslashes($l->t('To Date')) ?>';
+				var missing_field_totime = '<?php echo addslashes($l->t('To Time')) ?>';
+				var missing_field_startsbeforeends = '<?php echo addslashes($l->t('The event ends before it starts')) ?>';
+				var missing_field_dberror = '<?php echo addslashes($l->t('There was a database fail')) ?>';
+				var totalurl = '<?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?>/calendars';
+				$(document).ready(function() {
+				<?php
+				if(array_key_exists('showevent', $_)){
+					$data = OC_Calendar_App::getEventObject($_['showevent']);
+					$date = substr($data['startdate'], 0, 10);
+					list($year, $month, $day) = explode('-', $date);
+					echo '$(\'#calendar_holder\').fullCalendar(\'gotoDate\', ' . $year . ', ' . --$month . ', ' . $day . ');';
+					echo '$(\'#dialog_holder\').load(OC.filePath(\'calendar\', \'ajax\', \'editeventform.php\') + \'?id=\' +  ' . $_['showevent'] . ' , Calendar.UI.startEventDialog);';
+				}
+				?>
+				});
 				</script>
 				<div id="controls">
 					<div>
@@ -25,7 +37,8 @@
 							<div id="view">
 								<input type="button" value="<?php echo $l->t('Week');?>" id="oneweekview_radio"/>
 								<input type="button" value="<?php echo $l->t('Month');?>" id="onemonthview_radio"/>
-								<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio"/>
+								<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio"/>&nbsp;&nbsp;
+								<img id="loading" src="<?php echo OC_Helper::imagePath('core', 'loading.gif'); ?>" />
 							</div>
 						</form>
 						<form>

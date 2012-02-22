@@ -1,88 +1,68 @@
 <?php
 /**
- * ownCloud - Addressbook
- *
- * @author Jakob Sack
- * @copyright 2011 Jakob Sack mail@jakobsack.de
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * Copyright (c) 2012 Thomas Tanghus <thomas@tanghus.net>
+ * Copyright (c) 2011 Jakob Sack mail@jakobsack.de
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
  */
-
-function contacts_namesort($a,$b){
-	return strcmp($a['name'],$b['name']);
-}
-
-// Init owncloud
 require_once('../../lib/base.php');
 
 // Check if we are a user
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
-// Check if the user has an addressbook
-$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
-if( count($addressbooks) == 0){
-	OC_Contacts_Addressbook::add(OC_User::getUser(),'default','Default Address Book');
-	$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
-}
-$prefbooks = OC_Preferences::getValue(OC_User::getUser(),'contacts','openaddressbooks',null);
-if(is_null($prefbooks)){
-	$prefbooks = $addressbooks[0]['id'];
-	OC_Preferences::setValue(OC_User::getUser(),'contacts','openaddressbooks',$prefbooks);
-}
+// Get active address books. This creates a default one if none exists.
+$ids = OC_Contacts_Addressbook::activeIds(OC_User::getUser());
+$contacts = OC_Contacts_VCard::all($ids);
+
+$addressbooks = OC_Contacts_Addressbook::active(OC_User::getUser());
 
 // Load the files we need
 OC_App::setActiveNavigationEntry( 'contacts_index' );
 
 // Load a specific user?
 $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
-
-// sort addressbooks  (use contactsort)
-usort($addressbooks,'contacts_namesort');
-// Addressbooks to load
-$openaddressbooks = explode(';',$prefbooks);
-
-$contacts = array();
-foreach( $openaddressbooks as $addressbook ){
-	$addressbookcontacts = OC_Contacts_VCard::all($addressbook);
-	foreach( $addressbookcontacts as $contact ){
-		if(is_null($contact['fullname'])){
-			continue;
-		}
-		$contacts[] = array( 'name' => $contact['fullname'], 'id' => $contact['id'] );
-	}
-}
-
-usort($contacts,'contacts_namesort');
-
 $details = array();
-if( !is_null($id)/* || count($contacts)*/){
-	if(is_null($id)) $id = $contacts[0]['id'];
+
+if(is_null($id) && count($contacts) > 0) {
+	$id = $contacts[0]['id'];
+}
+if(!is_null($id)) {
 	$vcard = OC_Contacts_App::getContactVCard($id);
 	$details = OC_Contacts_VCard::structureContact($vcard);
 }
-
-$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
+$property_types = OC_Contacts_App::getAddPropertyOptions();
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
-// Process the template
-$tmpl = new OC_Template( 'contacts', 'index', 'user' );
-$tmpl->assign('adr_types',$adr_types);
+$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
+$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
+$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+
+$freeSpace=OC_Filesystem::free_space('/');
+$freeSpace=max($freeSpace,0);
+$maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
+
+OC_Util::addScript('','jquery.multiselect');
+OC_Util::addScript('contacts','contacts');
+OC_Util::addScript('contacts','jquery.combobox');
+OC_Util::addScript('contacts','jquery.inview');
+OC_Util::addScript('contacts','jquery.Jcrop');
+OC_Util::addStyle('','jquery.multiselect');
+//OC_Util::addStyle('contacts','styles');
+OC_Util::addStyle('contacts','jquery.combobox');
+OC_Util::addStyle('contacts','jquery.Jcrop');
+OC_Util::addStyle('contacts','contacts');
+
+$tmpl = new OC_Template( "contacts", "index", "user" );
+$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign('uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
+$tmpl->assign('property_types',$property_types);
 $tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('addressbooks', $addressbooks);
 $tmpl->assign('contacts', $contacts);
 $tmpl->assign('details', $details );
 $tmpl->assign('id',$id);
 $tmpl->printPage();
+
+?>

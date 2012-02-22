@@ -6,8 +6,8 @@ require_once('../../lib/base.php');
 OC_JSON::checkLoggedIn();
 
 // Get the params
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
-$filename = isset( $_GET['filename'] ) ? $_GET['filename'] : '';
+$dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
+$filename = isset( $_GET['filename'] ) ? stripslashes($_GET['filename']) : '';
 $content = isset( $_GET['content'] ) ? $_GET['content'] : '';
 
 if($filename == '') {

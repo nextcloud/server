@@ -1,0 +1,108 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-25 15:06+0000\n"
+"Last-Translator: nn nn <dev.nnnn@gmail.com>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/team/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/upload.php:19
+msgid "There is no error, the file uploaded with success"
+msgstr "エラーはありません。ファイルのアップロードは成功しました。"
+
+#: ajax/upload.php:20
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr "アップロードされたファイルはphp.iniのupload_max_filesizeに設定されたサイズを超えています"
+
+#: ajax/upload.php:21
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr "アップロードされたファイルはHTMLのフォームに設定されたMAX_FILE_SIZEに設定されたサイズを超えています"
+
+#: ajax/upload.php:22
+msgid "The uploaded file was only partially uploaded"
+msgstr "ファイルは一部分しかアップロードされませんでした"
+
+#: ajax/upload.php:23
+msgid "No file was uploaded"
+msgstr "ファイルはアップロードされませんでした"
+
+#: ajax/upload.php:24
+msgid "Missing a temporary folder"
+msgstr "テンポラリフォルダが見つかりません"
+
+#: appinfo/app.php:8
+msgid "Files"
+msgstr "ファイル"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "最大アップロードサイズ"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "新規作成"
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr "テキストファイル"
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr "フォルダ"
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr "ウェブ経由"
+
+#: templates/index.php:22
+msgid "Upload"
+msgstr "アップロード"
+
+#: templates/index.php:35
+msgid "Nothing in here. Upload something!"
+msgstr "ここには何もありません。何かアップロードしてください。"
+
+#: templates/index.php:43
+msgid "Name"
+msgstr "名前"
+
+#: templates/index.php:45
+msgid "Download"
+msgstr "ダウンロード"
+
+#: templates/index.php:49
+msgid "Size"
+msgstr "サイズ"
+
+#: templates/index.php:50
+msgid "Modified"
+msgstr "更新日時"
+
+#: templates/index.php:50
+msgid "Delete"
+msgstr "削除"
+
+#: templates/index.php:58
+msgid "Upload too large"
+msgstr "ファイルサイズが大きすぎます"
+
+#: templates/index.php:60
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr "アップロードしようとしているファイルはサーバで規定された最大サイズを超えています"
+
+

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 20:10+0200\n"
-"PO-Revision-Date: 2011-09-23 18:10+0000\n"
-"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-23 23:25+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/team/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,164 +18,265 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: ajax/addcard.php:31 ajax/addproperty.php:31 ajax/deletebook.php:32
-#: ajax/deletecard.php:32 ajax/deleteproperty.php:34 ajax/getdetails.php:32
-#: ajax/setproperty.php:32 ajax/showaddcard.php:30 ajax/showaddproperty.php:31
-#: ajax/showsetproperty.php:32 photo.php:32
-msgid "You need to log in."
-msgstr ""
+#: ajax/activation.php:17 ajax/updateaddressbook.php:26
+msgid "Error (de)activating addressbook."
+msgstr "(取消)激活地址簿错误。"
 
-#: ajax/addcard.php:37
+#: ajax/addcard.php:79
+msgid "There was an error adding the contact."
+msgstr "添加联系人时出错。"
+
+#: ajax/addproperty.php:39
+msgid "Cannot add empty property."
+msgstr "无法添加空属性。"
+
+#: ajax/addproperty.php:51
+msgid "At least one of the address fields has to be filled out."
+msgstr "至少需要填写一项地址。"
+
+#: ajax/addproperty.php:78
+msgid "Error adding contact property."
+msgstr "添加联系人属性错误。"
+
+#: ajax/createaddressbook.php:20
+msgid "Error adding addressbook."
+msgstr "添加地址簿错误。"
+
+#: ajax/createaddressbook.php:26
+msgid "Error activating addressbook."
+msgstr "激活地址簿错误。"
+
+#: ajax/deleteproperty.php:40
+msgid "Error deleting contact property."
+msgstr "删除联系人属性错误。"
+
+#: ajax/setproperty.php:79
+msgid "Error updating contact property."
+msgstr "更新联系人属性错误。"
+
+#: ajax/updateaddressbook.php:20
+msgid "Error updating addressbook."
+msgstr "更新地址簿错误"
+
+#: appinfo/app.php:21 templates/settings.php:3
+msgid "Contacts"
+msgstr "联系人"
+
+#: lib/app.php:52
 msgid "This is not your addressbook."
-msgstr ""
+msgstr "这不是您的地址簿。"
 
-#: ajax/addproperty.php:37 ajax/deletecard.php:39 ajax/deleteproperty.php:41
-#: ajax/getdetails.php:39 ajax/setproperty.php:38 ajax/showaddproperty.php:37
-#: ajax/showsetproperty.php:38 photo.php:39
+#: lib/app.php:61 photo.php:36
 msgid "Contact could not be found."
-msgstr ""
+msgstr "无法找到联系人。"
 
-#: ajax/addproperty.php:43 ajax/deletebook.php:38 ajax/deletecard.php:45
-#: ajax/deleteproperty.php:47 ajax/getdetails.php:45 ajax/setproperty.php:44
-#: ajax/showaddproperty.php:43 ajax/showsetproperty.php:44 photo.php:45
-msgid "This is not your contact."
-msgstr ""
-
-#: ajax/addproperty.php:50 ajax/deleteproperty.php:54 ajax/getdetails.php:52
-#: ajax/setproperty.php:51 ajax/showsetproperty.php:51
-msgid "vCard could not be read."
-msgstr ""
-
-#: ajax/deleteproperty.php:65 ajax/setproperty.php:62
-#: ajax/showsetproperty.php:62
+#: lib/app.php:89
 msgid "Information about vCard is incorrect. Please reload the page."
-msgstr ""
+msgstr "vCard 的信息不正确。请重新加载页面。"
 
-#: photo.php:53
-msgid "This card is not RFC compatible."
-msgstr ""
-
-#: photo.php:90
-msgid "This card does not contain a photo."
-msgstr ""
-
-#: templates/index.php:8
-msgid "Add Contact"
-msgstr ""
-
-#: templates/part.addcardform.php:5
-msgid "Group"
-msgstr ""
-
-#: templates/part.addcardform.php:12 templates/part.property.php:3
-msgid "Name"
-msgstr ""
-
-#: templates/part.addcardform.php:14
-msgid "Create Contact"
-msgstr ""
-
-#: templates/part.addpropertyform.php:4 templates/part.property.php:40
+#: lib/app.php:101 templates/part.addcardform.php:54
+#: templates/part.property.php:45 templates/part.setpropertyform.php:7
 msgid "Address"
-msgstr ""
+msgstr "地址"
 
-#: templates/part.addpropertyform.php:5
+#: lib/app.php:102 templates/part.addcardform.php:43
 msgid "Telephone"
-msgstr ""
+msgstr "电话"
 
-#: templates/part.addpropertyform.php:6 templates/part.property.php:22
+#: lib/app.php:103 templates/part.addcardform.php:37
+#: templates/part.property.php:16 templates/part.setpropertyform.php:51
 msgid "Email"
-msgstr ""
+msgstr "电子邮件"
 
-#: templates/part.addpropertyform.php:7 templates/part.property.php:15
+#: lib/app.php:104 templates/part.addcardform.php:27
+#: templates/part.property.php:9 templates/part.setpropertyform.php:54
 msgid "Organization"
-msgstr ""
+msgstr "组织"
 
-#: templates/part.addpropertyform.php:17 templates/part.addpropertyform.php:32
+#: lib/app.php:116 lib/app.php:123
 msgid "Work"
-msgstr ""
+msgstr "工作"
 
-#: templates/part.addpropertyform.php:18 templates/part.addpropertyform.php:30
+#: lib/app.php:117 lib/app.php:121
 msgid "Home"
-msgstr ""
+msgstr "家庭"
 
-#: templates/part.addpropertyform.php:20 templates/part.property.php:48
-#: templates/part.setpropertyform.php:5
-msgid "PO Box"
-msgstr ""
-
-#: templates/part.addpropertyform.php:21 templates/part.property.php:51
-#: templates/part.setpropertyform.php:6
-msgid "Extended"
-msgstr ""
-
-#: templates/part.addpropertyform.php:22 templates/part.property.php:54
-#: templates/part.setpropertyform.php:7
-msgid "Street"
-msgstr ""
-
-#: templates/part.addpropertyform.php:23 templates/part.property.php:57
-#: templates/part.setpropertyform.php:8
-msgid "City"
-msgstr ""
-
-#: templates/part.addpropertyform.php:24 templates/part.property.php:60
-#: templates/part.setpropertyform.php:9
-msgid "Region"
-msgstr ""
-
-#: templates/part.addpropertyform.php:25 templates/part.property.php:63
-#: templates/part.setpropertyform.php:10
-msgid "Zipcode"
-msgstr ""
-
-#: templates/part.addpropertyform.php:26 templates/part.property.php:66
-#: templates/part.setpropertyform.php:11
-msgid "Country"
-msgstr ""
-
-#: templates/part.addpropertyform.php:31
+#: lib/app.php:122
 msgid "Mobile"
-msgstr ""
+msgstr "移动电话"
 
-#: templates/part.addpropertyform.php:33
+#: lib/app.php:124
 msgid "Text"
-msgstr ""
+msgstr "文本"
 
-#: templates/part.addpropertyform.php:34
+#: lib/app.php:125
 msgid "Voice"
-msgstr ""
+msgstr "语音"
 
-#: templates/part.addpropertyform.php:35
+#: lib/app.php:126
 msgid "Fax"
-msgstr ""
+msgstr "传真"
 
-#: templates/part.addpropertyform.php:36
+#: lib/app.php:127
 msgid "Video"
-msgstr ""
+msgstr "视频"
 
-#: templates/part.addpropertyform.php:37
+#: lib/app.php:128
 msgid "Pager"
-msgstr ""
+msgstr "传呼机"
 
-#: templates/part.details.php:33
+#: lib/search.php:22
+msgid "Contact"
+msgstr "联系人"
+
+#: photo.php:42
+msgid "This is not your contact."
+msgstr "这不是您的联系人。"
+
+#: templates/index.php:6
+msgid "Add Contact"
+msgstr "添加联系人"
+
+#: templates/index.php:7
+msgid "Addressbooks"
+msgstr "地址簿"
+
+#: templates/part.addcardform.php:8
+msgid "Addressbook"
+msgstr "地址簿"
+
+#: templates/part.addcardform.php:21
+msgid "Name"
+msgstr "名称"
+
+#: templates/part.addcardform.php:57 templates/part.details.php:43
+#: templates/part.details.php:79 templates/part.setpropertyform.php:10
+#: templates/part.setpropertyform.php:47
+msgid "Type"
+msgstr "类型"
+
+#: templates/part.addcardform.php:65 templates/part.details.php:49
+#: templates/part.setpropertyform.php:16
+msgid "PO Box"
+msgstr "邮箱"
+
+#: templates/part.addcardform.php:72 templates/part.details.php:53
+#: templates/part.setpropertyform.php:20
+msgid "Extended"
+msgstr "扩展"
+
+#: templates/part.addcardform.php:78 templates/part.details.php:57
+#: templates/part.setpropertyform.php:24
+msgid "Street"
+msgstr "街道"
+
+#: templates/part.addcardform.php:84 templates/part.details.php:61
+#: templates/part.setpropertyform.php:28
+msgid "City"
+msgstr "城市"
+
+#: templates/part.addcardform.php:90 templates/part.details.php:65
+#: templates/part.setpropertyform.php:32
+msgid "Region"
+msgstr "地区"
+
+#: templates/part.addcardform.php:96 templates/part.details.php:69
+#: templates/part.setpropertyform.php:36
+msgid "Zipcode"
+msgstr "邮编"
+
+#: templates/part.addcardform.php:102 templates/part.details.php:73
+#: templates/part.setpropertyform.php:40
+msgid "Country"
+msgstr "国家"
+
+#: templates/part.addcardform.php:109
+msgid "Create Contact"
+msgstr "创建联系人"
+
+#: templates/part.chooseaddressbook.php:1
+msgid "Choose active Address Books"
+msgstr "选择激活地址簿"
+
+#: templates/part.chooseaddressbook.php:16
+msgid "New Address Book"
+msgstr "新建地址簿"
+
+#: templates/part.chooseaddressbook.php:21
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "CardDav Link"
+msgstr "CardDav 链接"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Download"
+msgstr "下载"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Edit"
+msgstr "编辑"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
 msgid "Delete"
-msgstr ""
+msgstr "删除"
+
+#: templates/part.details.php:3
+msgid "Download contact"
+msgstr "下载联系人"
+
+#: templates/part.details.php:4
+msgid "Delete contact"
+msgstr "删除联系人"
 
 #: templates/part.details.php:34
-msgid "Add Property"
-msgstr ""
+msgid "Add"
+msgstr "添加"
 
-#: templates/part.property.php:9
+#: templates/part.editaddressbook.php:9
+msgid "New Addressbook"
+msgstr "新建地址簿"
+
+#: templates/part.editaddressbook.php:9
+msgid "Edit Addressbook"
+msgstr "编辑地址簿"
+
+#: templates/part.editaddressbook.php:12
+msgid "Displayname"
+msgstr "显示名称"
+
+#: templates/part.editaddressbook.php:23
+msgid "Active"
+msgstr "激活"
+
+#: templates/part.editaddressbook.php:29
+msgid "Save"
+msgstr "保存"
+
+#: templates/part.editaddressbook.php:29
+msgid "Submit"
+msgstr "提交"
+
+#: templates/part.editaddressbook.php:30
+msgid "Cancel"
+msgstr "取消"
+
+#: templates/part.property.php:3
 msgid "Birthday"
-msgstr ""
+msgstr "生日"
 
-#: templates/part.property.php:29
+#: templates/part.property.php:23
+msgid "Preferred"
+msgstr "偏好"
+
+#: templates/part.property.php:23 templates/part.setpropertyform.php:45
 msgid "Phone"
-msgstr ""
+msgstr "电话"
 
-#: templates/part.setpropertyform.php:17
-msgid "Edit"
-msgstr ""
+#: templates/part.setpropertyform.php:57
+msgid "Update"
+msgstr "更新"
+
+#: templates/settings.php:4
+msgid "CardDAV syncing address:"
+msgstr "CardDAV 同步地址："
 
 

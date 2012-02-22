@@ -1,23 +1,11 @@
 <?php
 /**
- * ownCloud - Addressbook
- *
- * @author Jakob Sack
- * @copyright 2011 Jakob Sack mail@jakobsack.de
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * Copyright (c) 2012 Thomas Tanghus <thomas@tanghus.net>
+ * Copyright (c) 2011, 2012 Bart Visscher <bartv@thisnet.nl>
+ * Copyright (c) 2011 Jakob Sack mail@jakobsack.de
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
  */
 
 // Init owncloud
@@ -25,61 +13,50 @@ require_once('../../lib/base.php');
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
+function getStandardImage(){
+	OC_Response::setExpiresHeader('P10D');
+	OC_Response::enableCaching();
+	OC_Response::redirect(OC_Helper::imagePath('contacts', 'person_large.png'));
+}
+
 $id = $_GET['id'];
 
-$l10n = new OC_L10N('contacts');
-
-$card = OC_Contacts_VCard::find( $id );
-if( $card === false ){
-	echo $l10n->t('Contact could not be found.');
-	exit();
+$contact = OC_Contacts_App::getContactVCard($id);
+$image = new OC_Image();
+if(!$image) {
+	getStandardImage();
 }
-
-$addressbook = OC_Contacts_Addressbook::find( $card['addressbookid'] );
-if( $addressbook === false || $addressbook['userid'] != OC_USER::getUser()){
-	echo $l10n->t('This is not your contact.'); // This is a weird error, why would it come up? (Better feedback for users?)
-	exit();
-}
-
-$content = OC_VObject::parse($card['carddata']);
-
 // invalid vcard
-if( is_null($content)){
-	echo $l10n->t('This card is not RFC compatible.');
-	exit();
-}
-// Photo :-)
-foreach($content->children as $child){
-	if($child->name == 'PHOTO'){
-		$mime = 'image/jpeg';
-		foreach($child->parameters as $parameter){
-			if( $parameter->name == 'TYPE' ){
-				$mime = $parameter->value;
-			}
-		}
-		$photo = base64_decode($child->value);
-		header('Content-Type: '.$mime);
-		header('Content-Length: ' . strlen($photo));
-		echo $photo;
-		exit();
-	}
-}
-// Logo :-/
-foreach($content->children as $child){
-	if($child->name == 'PHOTO'){
-		$mime = 'image/jpeg';
-		foreach($child->parameters as $parameter){
-			if($parameter->name == 'TYPE'){
-				$mime = $parameter->value;
-			}
-		}
-		$photo = base64_decode($child->value());
-		header('Content-Type: '.$mime);
-		header('Content-Length: ' . strlen($photo));
-		echo $photo;
-		exit();
-	}
-}
+if( is_null($contact)) {
+	OC_Log::write('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
+} else {
+	OC_Response::enableCaching();
+	OC_Contacts_App::setLastModifiedHeader($contact);
 
-// Not found :-(
-echo $l10n->t('This card does not contain a photo.');
+	// Photo :-)
+	if($image->loadFromBase64($contact->getAsString('PHOTO'))) {
+		// OK
+		OC_Response::setETagHeader(md5($contact->getAsString('PHOTO')));
+	}
+	else
+	// Logo :-/
+	if($image->loadFromBase64($contact->getAsString('LOGO'))) {
+		// OK
+		OC_Response::setETagHeader(md5($contact->getAsString('LOGO')));
+	}
+	if ($image->valid()) {
+		$max_size = 200;
+		if($image->width() > $max_size ||
+		   $image->height() > $max_size) {
+			$image->resize($max_size);
+		}
+	}
+}
+if (!$image->valid()) {
+	// Not found :-(
+	getStandardImage();
+	//$image->loadFromFile('img/person_large.png');
+}
+header('Content-Type: '.$image->mimeType());
+$image->show();
+//echo OC_Contacts_App::$l10n->t('This card does not contain a photo.');

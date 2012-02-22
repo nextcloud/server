@@ -34,7 +34,7 @@ var PlayList={
 			if(PlayList.player){
 				if(PlayList.player.data('jPlayer').options.supplied!=items[index].type){//the the audio type changes we need to reinitialize jplayer
 					PlayList.player.jPlayer("play",time);
-					localStorage.setItem(oc_current_user+'oc_playlist_time',time);
+					OC.localStorage.setItem('playlist_time',time);
 					PlayList.player.jPlayer("destroy");
 // 					PlayList.save(); // so that the init don't lose the playlist
 					PlayList.init(items[index].type,null); // init calls load that calls play
@@ -64,9 +64,8 @@ var PlayList={
 					}
 				}
 			}else{
-				localStorage.setItem(oc_current_user+'oc_playlist_time',time);
-				localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
-//                 PlayList.save(); // so that the init don't lose the playlist
+				OC.localStorage.setItem('playlist_time',time);
+				OC.localStorage.setItem('playlist_playing',true);
 				PlayList.init(items[index].type,null); // init calls load that calls play
 			}
 		}
@@ -92,10 +91,12 @@ var PlayList={
 		$(PlayList.player).jPlayer({
 			ended:PlayList.next,
 			pause:function(){
-				localStorage.setItem(oc_current_user+'oc_playlist_playing','false');
+				OC.localStorage.setItem('playlist_playing',false);
+				document.title = "ownCloud";
 			},
-			play:function(){
-				localStorage.setItem(oc_current_user+'oc_playlist_playing','true');
+			play:function(event){
+				OC.localStorage.setItem('playlist_playing',true);
+				document.title = "\u25b8 " + event.jPlayer.status.media.name + " - " + event.jPlayer.status.media.artist + " - ownCloud";
 			},
 			supplied:type,
 			ready:function(){
@@ -159,46 +160,42 @@ var PlayList={
 		}
 	},
 	save:function(){
-		if(typeof localStorage !== 'undefined' && localStorage){
-			localStorage.setItem(oc_current_user+'oc_playlist_items',JSON.stringify(PlayList.items));
-			localStorage.setItem(oc_current_user+'oc_playlist_current',PlayList.current);
-			if(PlayList.player) {
-				if(PlayList.player.data('jPlayer')) {
-					var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
-					localStorage.setItem(oc_current_user+'oc_playlist_time',time);
-					var volume=PlayList.player.data('jPlayer').options.volume*100;
-					localStorage.setItem(oc_current_user+'oc_playlist_volume',volume);
-				}
+		OC.localStorage.setItem('playlist_items',PlayList.items);
+		OC.localStorage.setItem('playlist_current',PlayList.current);
+		if(PlayList.player) {
+			if(PlayList.player.data('jPlayer')) {
+				var time=Math.round(PlayList.player.data('jPlayer').status.currentTime);
+				OC.localStorage.setItem('playlist_time',time);
+				var volume=PlayList.player.data('jPlayer').options.volume*100;
+				OC.localStorage.setItem('playlist_volume',volume);
 			}
-			localStorage.setItem(oc_current_user+'oc_playlist_active','true');
 		}
+		OC.localStorage.setItem('playlist_active',true);
 	},
 	load:function(){
-		if(typeof localStorage !== 'undefined' && localStorage){
-			PlayList.active=true;
-			localStorage.setItem(oc_current_user+'oc_playlist_active','true');
-			if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_items')){
-				PlayList.items=JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_items'));
-				if(PlayList.items.length>0){
-					PlayList.current=parseInt(localStorage.getItem(oc_current_user+'oc_playlist_current'));
-					var time=parseInt(localStorage.getItem(oc_current_user+'oc_playlist_time'));
-					if(localStorage.hasOwnProperty(oc_current_user+'oc_playlist_volume')){
-						var volume=localStorage.getItem(oc_current_user+'oc_playlist_volume');
-						PlayList.volume=volume/100;
-						$('.jp-volume-bar-value').css('width',volume+'%');
-						if(PlayList.player.data('jPlayer')){
-							PlayList.player.jPlayer("option",'volume',volume/100);
-						}
+		PlayList.active=true;
+		OC.localStorage.setItem('playlist_active',true);
+		if(OC.localStorage.hasItem('playlist_items')){
+			PlayList.items=OC.localStorage.getItem('playlist_items');
+			if(PlayList.items && PlayList.items.length>0){
+				PlayList.current=OC.localStorage.getItem('playlist_current');
+				var time=OC.localStorage.getItem('playlist_time');
+				if(OC.localStorage.hasItem('playlist_volume')){
+					var volume=OC.localStorage.getItem('playlist_volume');
+					PlayList.volume=volume/100;
+					$('.jp-volume-bar-value').css('width',volume+'%');
+					if(PlayList.player.data('jPlayer')){
+						PlayList.player.jPlayer("option",'volume',volume/100);
 					}
-					if(JSON.parse(localStorage.getItem(oc_current_user+'oc_playlist_playing'))){
-						PlayList.play(null,time);
-					}else{
-						PlayList.play(null,time,function(){
-							PlayList.player.jPlayer("pause");
-						});
-					}
-					PlayList.render();
 				}
+				if(OC.localStorage.getItem('playlist_playing')){
+					PlayList.play(null,time);
+				}else{
+					PlayList.play(null,time,function(){
+						PlayList.player.jPlayer("pause");
+					});
+				}
+				PlayList.render();
 			}
 		}
 	}
@@ -208,7 +205,7 @@ $(document).ready(function(){
 	$(window).bind('beforeunload', function (){
 		PlayList.save();
 		if(PlayList.active){
-			localStorage.setItem(oc_current_user+'oc_playlist_active','false');
+			OC.localStorage.setItem('playlist_active',false);
 		}
 	});
 

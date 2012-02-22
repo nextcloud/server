@@ -30,9 +30,10 @@ $(document).ready(function(){
 		}
 		element.multiSelect({
 			createText:'add group',
-			 checked:checked,
-			 oncheck:checkHandeler,
-			 onuncheck:checkHandeler
+			checked:checked,
+			oncheck:checkHandeler,
+			onuncheck:checkHandeler,
+			minWidth: 100,
 		});
 	}
 	$('select[multiple]').each(function(index,element){
@@ -101,8 +102,11 @@ $(document).ready(function(){
 				if($(this).val().length>0){
 					$.post(
 						OC.filePath('settings','ajax','setquota.php'),
-						   {username:uid,quota:$(this).val()},
-						   function(result){}
+						{username:uid,quota:$(this).val()},
+						function(result){
+							img.parent().children('span').text(result.data.quota)
+							$(this).parent().attr('data-quota',result.data.quota);
+						}
 					);
 					input.blur();
 				}else{
@@ -123,12 +127,16 @@ $(document).ready(function(){
 	$('#newuser').submit(function(event){
 		event.preventDefault();
 		var username=$('#newusername').val();
-		if(username == '') {
+		if($('#content table tbody tr').filterAttr('data-uid',username).length>0){
+			return;
+		}
+		if($.trim(username) == '') {
 			alert('Please provide a username!');
 			return false;
 		}
 		var password=$('#newuserpassword').val();
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
+		var tr
 		$.post(
 			OC.filePath('settings','ajax','createuser.php'),
 			{
@@ -137,10 +145,12 @@ $(document).ready(function(){
 				groups:groups,
 			},
 			function(result){
-				
+				if(result.status!='success'){
+					tr.remove();
+				}
 			}
 		);
-		var tr=$('#content table tbody tr').first().clone();
+		tr=$('#content table tbody tr').first().clone();
 		tr.attr('data-uid',username);
 		tr.find('td.name').text(username);
 		var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');

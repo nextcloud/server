@@ -1,0 +1,52 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-25 14:05+0000\n"
+"Last-Translator: nn nn <dev.nnnn@gmail.com>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/team/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: appinfo/app.php:41
+msgid "Gallery"
+msgstr "ギャラリー"
+
+#: js/album_cover.js:40
+msgid "Scanning directories"
+msgstr "ディレクトリをスキャン中"
+
+#: js/album_cover.js:48
+msgid "No photos found"
+msgstr "写真が見つかりませんでした"
+
+#: js/album_cover.js:51 js/album_cover.js:60
+msgid "Creating thumbnails"
+msgstr "サムネイルを作成中"
+
+#: js/album_cover.js:81
+msgid "Do you wan't to remove album"
+msgstr "アルバムを削除しますか"
+
+#: js/album_cover.js:94
+msgid "Input new gallery name"
+msgstr "新しいギャラリー名を作る"
+
+#: templates/index.php:10
+msgid "Rescan"
+msgstr "再スキャン"
+
+#: templates/view_album.php:19
+msgid "Back"
+msgstr "戻る"
+
+

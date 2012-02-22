@@ -32,8 +32,17 @@ $checksum = $_GET['checksum'];
 
 $vcard = OC_Contacts_App::getContactVCard( $id );
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
+if(is_null($line)){
+	OC_JSON::error(array('data' => array( 'message' => OC_Contacts_App::$l10n->t('Information about vCard is incorrect. Please reload the page.'))));
+	exit();
+}
 
 unset($vcard->children[$line]);
 
-OC_Contacts_VCard::edit($id,$vcard->serialize());
+if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error deleting contact property.'))));
+	OC_Log::write('contacts','ajax/deleteproperty.php: Error deleting contact property', OC_Log::ERROR);
+	exit();
+}
+
 OC_JSON::success(array('data' => array( 'id' => $id )));

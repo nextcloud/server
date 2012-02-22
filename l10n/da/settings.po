@@ -2,14 +2,18 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
+# Translators:
+#   <icewind1991@gmail.com>, 2012.
+#   <mikkelbjerglarsen@gmail.com>, 2011.
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-08-28 01:11+0200\n"
-"PO-Revision-Date: 2011-08-26 13:49+0000\n"
-"Last-Translator: pascal_a <pascal@dhermilly.dk>\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-24 08:35+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,21 +21,29 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "Godkendelsesfejl"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "email ændret"
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID ændret"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "Ugyldig forespørgsel"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID ændret"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "Sprog ændret"
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr "Dansk"
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr "Log-niveau"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -53,15 +65,15 @@ msgstr "af"
 msgid "Ask a question"
 msgstr "Stil et spørgsmål"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
-msgstr "Problemer med at forbinde til hjælpe-databasen"
+msgstr "Problemer med at forbinde til hjælpe-databasen."
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "Gå derhen manuelt."
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "Svar"
 
@@ -77,6 +89,10 @@ msgstr "af det tilgængelige"
 msgid "Your password got changed"
 msgstr "Din adgangskode er blevet ændret"
 
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr "Ude af stand til at ændre dit kodeord"
+
 #: templates/personal.php:15
 msgid "Current password"
 msgstr "Nuværende adgangskode"
@@ -91,37 +107,53 @@ msgstr "vis"
 
 #: templates/personal.php:18
 msgid "Change password"
-msgstr "Skift password"
+msgstr "Skift kodeord"
 
 #: templates/personal.php:24
+msgid "Email"
+msgstr "Email"
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr "Din emailadresse"
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr "Indtast en emailadresse for at kunne få påmindelse om adgangskode"
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "Sprog"
 
-#: templates/personal.php:30
-msgid "Help translating"
-msgstr "Hjælp med at oversætte"
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr "Hjælp med oversættelsen"
 
-#: templates/personal.php:36
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "benyt denne adresse til at forbinde til din ownCloud i din filbrowser"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "Navn"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "Kodeord"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "Grupper"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "Ny"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr "Kvote"
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "Slet"
 

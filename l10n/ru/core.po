@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <jekader@gmail.com>, 2011.
+#   <jekader@gmail.com>, 2011, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 18:17+0200\n"
-"PO-Revision-Date: 2011-09-04 17:42+0000\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-21 20:30+0000\n"
 "Last-Translator: jekader <jekader@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/team/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: lostpassword/index.php:24
+msgid "Owncloud password reset"
+msgstr "Сброс пароля OwnCloud"
+
+#: lostpassword/templates/email.php:1
+msgid "Use the following link to reset your password: {link}"
+msgstr "Используйте следующую ссылку чтобы сбросить пароль: {link}"
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr "На ваш адрес Email выслана ссылка для сброса пароля."
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Requested"
+msgstr "Запрошено"
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "Не удалось войти!"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:22
+#: templates/login.php:8
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr "Запросить сброс"
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "Ваш пароль был сброшен"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr "На страницу авторизации"
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "Новый пароль"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr "Сбросить пароль"
 
 #: strings.php:5
 msgid "Personal"
@@ -47,54 +92,50 @@ msgstr "Облако не найдено"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Создать <strong>учётную запись администратора</strong>"
 
-#: templates/installation.php:21
-msgid "Username"
-msgstr "Имя пользователя"
-
-#: templates/installation.php:22
+#: templates/installation.php:26 templates/login.php:12
 msgid "Password"
 msgstr "Пароль"
 
-#: templates/installation.php:27
-msgid "Configure the database"
-msgstr "Настройка базы данных"
-
-#: templates/installation.php:32 templates/installation.php:43
-#: templates/installation.php:53
-msgid "will be used"
-msgstr "будет использовано"
-
-#: templates/installation.php:64
-msgid "Database user"
-msgstr "Имя пользователя для базы данных"
-
-#: templates/installation.php:65
-msgid "Database password"
-msgstr "Пароль для базы данных"
-
-#: templates/installation.php:66
-msgid "Database name"
-msgstr "Название базы данных"
-
-#: templates/installation.php:72
+#: templates/installation.php:32
 msgid "Advanced"
 msgstr "Дополнительно"
 
-#: templates/installation.php:75
-msgid "Database host"
-msgstr "Хост базы данных"
-
-#: templates/installation.php:76
+#: templates/installation.php:34
 msgid "Data folder"
 msgstr "Директория с данными"
 
+#: templates/installation.php:41
+msgid "Configure the database"
+msgstr "Настройка базы данных"
+
+#: templates/installation.php:46 templates/installation.php:57
+#: templates/installation.php:67
+msgid "will be used"
+msgstr "будет использовано"
+
 #: templates/installation.php:79
+msgid "Database user"
+msgstr "Имя пользователя для базы данных"
+
+#: templates/installation.php:83
+msgid "Database password"
+msgstr "Пароль для базы данных"
+
+#: templates/installation.php:87
+msgid "Database name"
+msgstr "Название базы данных"
+
+#: templates/installation.php:93
+msgid "Database host"
+msgstr "Хост базы данных"
+
+#: templates/installation.php:98
 msgid "Finish setup"
 msgstr "Завершить установку"
 
 #: templates/layout.guest.php:35
-msgid "gives you freedom and control over your own data"
-msgstr "даёт Вам свободу и контроль над Вашими данными"
+msgid "web services under your control"
+msgstr "Сетевые службы под твоим контролем"
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -104,37 +145,21 @@ msgstr "Выйти"
 msgid "Settings"
 msgstr "Настройки"
 
-#: templates/login.php:4
+#: templates/login.php:5
 msgid "Lost your password?"
 msgstr "Забыли пароль?"
 
-#: templates/login.php:9 templates/login.php:13
+#: templates/login.php:15
 msgid "remember"
 msgstr "запомнить"
+
+#: templates/login.php:16
+msgid "Log in"
+msgstr "Войти"
 
 #: templates/logout.php:1
 msgid "You are logged out."
 msgstr "Вы вышли."
-
-#: templates/lostpassword.php:3
-msgid "You will receive a link to reset your password via Email."
-msgstr "Вы получите ссылку для сброса пароля на Ваш e-mail."
-
-#: templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Запрошено"
-
-#: templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Войти не удалось!"
-
-#: templates/lostpassword.php:10
-msgid "Username or Email"
-msgstr "Имя пользователя или e-mail"
-
-#: templates/lostpassword.php:11
-msgid "Request reset"
-msgstr "Запросить сброс"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -143,17 +168,5 @@ msgstr "пред"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "след"
-
-#: templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Пароль был сброшен"
-
-#: templates/resetpassword.php:6
-msgid "New password"
-msgstr "Новый пароль"
-
-#: templates/resetpassword.php:7
-msgid "Reset password"
-msgstr "Сбросить пароль"
 
 

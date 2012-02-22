@@ -1,0 +1,158 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <icewind1991@gmail.com>, 2012.
+#   <tarek.taha@gmail.com>, 2011, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-25 09:39+0000\n"
+"Last-Translator: blackcoder <tarek.taha@gmail.com>\n"
+"Language-Team: Arabic (http://www.transifex.net/projects/p/owncloud/team/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5\n"
+
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "تم تغير العنوان البريدي"
+
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
+msgid "Invalid request"
+msgstr "طلبك غير مفهوم"
+
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "تم تغيير ال OpenID"
+
+#: ajax/setlanguage.php:14
+msgid "Language changed"
+msgstr "تم تغيير اللغة"
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr "__language_name__"
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr "مستوى المراقبه"
+
+#: templates/apps.php:8
+msgid "Add your application"
+msgstr "أضف تطبيقاتك"
+
+#: templates/apps.php:21
+msgid "Select an App"
+msgstr "إختر تطبيقاً"
+
+#: templates/apps.php:23
+msgid "-licensed"
+msgstr "-مسجل"
+
+#: templates/apps.php:23
+msgid "by"
+msgstr "من قبل"
+
+#: templates/help.php:8
+msgid "Ask a question"
+msgstr "إسأل سؤال"
+
+#: templates/help.php:20
+msgid "Problems connecting to help database."
+msgstr "الاتصال بقاعدة بيانات المساعدة لم يتم بنجاح"
+
+#: templates/help.php:21
+msgid "Go there manually."
+msgstr "إذهب هنالك بنفسك"
+
+#: templates/help.php:29
+msgid "Answer"
+msgstr "الجواب"
+
+#: templates/personal.php:8
+msgid "You use"
+msgstr "أنت تستخدم"
+
+#: templates/personal.php:8
+msgid "of the available"
+msgstr "من الموجود"
+
+#: templates/personal.php:13
+msgid "Your password got changed"
+msgstr "لقد تم تغيير كلمات السر"
+
+#: templates/personal.php:14
+msgid "Unable to change your password"
+msgstr "لم يتم تعديل كلمة السر بنجاح"
+
+#: templates/personal.php:15
+msgid "Current password"
+msgstr "كلمات السر الحالية"
+
+#: templates/personal.php:16
+msgid "New password"
+msgstr "كلمات سر جديدة"
+
+#: templates/personal.php:17
+msgid "show"
+msgstr "أظهر"
+
+#: templates/personal.php:18
+msgid "Change password"
+msgstr "عدل كلمة السر"
+
+#: templates/personal.php:24
+msgid "Email"
+msgstr "العنوان البريدي"
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr "عنوانك البريدي"
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور"
+
+#: templates/personal.php:32 templates/personal.php:33
+msgid "Language"
+msgstr "اللغة"
+
+#: templates/personal.php:38
+msgid "Help translate"
+msgstr "ساعد في الترجمه"
+
+#: templates/personal.php:45
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr "إستخدم هذا العنوان للإتصال ب ownCloud داخل نظام الملفات "
+
+#: templates/users.php:15 templates/users.php:30
+msgid "Name"
+msgstr "الاسم"
+
+#: templates/users.php:16 templates/users.php:31
+msgid "Password"
+msgstr "كلمات السر"
+
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
+msgid "Groups"
+msgstr "مجموعات"
+
+#: templates/users.php:23
+msgid "Create"
+msgstr "انشئ"
+
+#: templates/users.php:33
+msgid "Quota"
+msgstr "حصه"
+
+#: templates/users.php:58
+msgid "Delete"
+msgstr "حذف"
+
+

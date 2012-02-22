@@ -44,13 +44,14 @@ if($not_installed) {
 
 // Handle WebDAV
 if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
-	header('location: '.OC_Helper::linkTo('files','webdav.php'));
+	header('location: '.OC_Helper::linkToAbsolute('files','webdav.php'));
 	exit();
 }
 
 // Someone is logged in :
 elseif(OC_User::isLoggedIn()) {
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
+		OC_App::loadApps();
 		OC_User::logout();
 		header("Location: ".OC::$WEBROOT.'/');
 		exit();
@@ -80,7 +81,7 @@ else {
 			OC_User::unsetMagicInCookie();
 		}
 	}
-	
+
 	// Someone wants to log in :
 	elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
@@ -88,7 +89,7 @@ else {
 				if(defined("DEBUG") && DEBUG) {
 					OC_Log::write('core','Setting remember login to cookie',OC_Log::DEBUG);
 				}
-				$token = md5($_POST["user"].time());
+				$token = md5($_POST["user"].time().$_POST['password']);
 				OC_Preferences::setValue($_POST['user'], 'login', 'token', $token);
 				OC_User::setMagicInCookie($_POST["user"], $token);
 			}
@@ -100,14 +101,15 @@ else {
 			$error = true;
 		}
 	}
-		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-		elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
-			if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{
-				OC_User::unsetMagicInCookie();
-				OC_Util::redirectToDefaultPage();
-			}else{
-				$error = true;
-			}
+	// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+	elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
+		if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{
+			//OC_Log::write('core',"Logged in with HTTP Authentication",OC_Log::DEBUG);
+			OC_User::unsetMagicInCookie();
+			OC_Util::redirectToDefaultPage();
+		}else{
+			$error = true;
 		}
+	}
 	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
 }

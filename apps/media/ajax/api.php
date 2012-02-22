@@ -23,9 +23,6 @@
 
 header('Content-type: text/html; charset=UTF-8') ;
 
-//no apps
-$RUNTIME_NOAPPS=true;
-
 require_once('../../../lib/base.php');
 OC_JSON::checkAppEnabled('media');
 require_once('../lib_collection.php');
@@ -73,10 +70,10 @@ if($arguments['action']){
 		case 'scan':
 			OC_DB::beginTransaction();
 			set_time_limit(0); //recursive scan can take a while
-			$path=$arguments['path'];
-			echo OC_MEDIA_SCANNER::scanFolder($path);
+			$eventSource=new OC_EventSource();
+			OC_MEDIA_SCANNER::scanCollection($eventSource);
+			$eventSource->close();
 			OC_DB::commit();
-			flush();
 			break;
 		case 'scanFile':
 			echo (OC_MEDIA_SCANNER::scanFile($arguments['path']))?'true':'false';
@@ -114,45 +111,18 @@ if($arguments['action']){
 			OC_MEDIA_COLLECTION::registerPlay($songId);
 			
 			header('Content-Type:'.$ftype);
-			 // calc an offset of 24 hours
-			$offset = 3600 * 24;
-			// calc the string in GMT not localtime and add the offset
-			$expire = "Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT";
-			//output the HTTP header
-			header($expire);
-			header('Cache-Control: max-age=3600, must-revalidate');
-			header('Pragma: public');
+			OC_Response::enableCaching(3600 * 24); // 24 hour
 			header('Accept-Ranges: bytes');
 			header('Content-Length: '.OC_Filesystem::filesize($arguments['path']));
-			$gmt_mtime = gmdate('D, d M Y H:i:s', OC_Filesystem::filemtime($arguments['path']) ) . ' GMT';
-			header("Last-Modified: " . $gmt_mtime );
+			$mtime = OC_Filesystem::filemtime($arguments['path']);
+			OC_Response::setLastModifiedHeader($mtime);
 			
 			OC_Filesystem::readfile($arguments['path']);
 			exit;
 		case 'find_music':
-			OC_JSON::encodedPrint(findMusic());
+			OC_JSON::encodedPrint(OC_FileCache::searchByMime('audio'));
 			exit;
 	}
-}
-
-function findMusic($path=''){
-	$music=array();
-	$dh=OC_Filesystem::opendir($path);
-	if($dh){
-		while($filename=readdir($dh)){
-			if($filename[0]!='.'){
-				$file=$path.'/'.$filename;
-				if(OC_Filesystem::is_dir($file)){
-					$music=array_merge($music,findMusic($file));
-				}else{
-					if(OC_MEDIA_SCANNER::isMusic($filename)){
-						$music[]=$file;
-					}
-				}
-			}
-		}
-	}
-	return $music;
 }
 
 ?>

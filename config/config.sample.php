@@ -12,6 +12,7 @@ $CONFIG = array(
 "dbtableprefix" => "",
 "forcessl" => false,
 "enablebackup" => false,
+"theme" => "",
 // "datadirectory" => ""
 );
 ?>

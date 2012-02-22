@@ -68,6 +68,34 @@ class OC{
 		elseif(strpos($className,'Sabre_')===0) {
 			require_once str_replace('_','/',$className) . '.php';
 		}
+		elseif(strpos($className,'Test_')===0){
+			require_once 'tests/lib/'.strtolower(str_replace('_','/',substr($className,5)) . '.php');
+		}
+	}
+
+	/**
+	 * autodetects the formfactor of the used device
+	 * default -> the normal desktop browser interface
+	 * mobile -> interface for smartphones
+	 * tablet -> interface for tablets
+	 * standalone -> the default interface but without header, footer and sidebar. just the application. useful to ue just a specific app on the desktop in a standalone window.
+	 */
+	public static function detectFormfactor(){
+		// please add more useragent strings for other devices
+		if(isset($_SERVER['HTTP_USER_AGENT'])){
+			if(stripos($_SERVER['HTTP_USER_AGENT'],'ipad')>0) {
+				$mode='tablet';
+			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0){
+				$mode='mobile';
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)){
+				$mode='mobile';
+			}else{
+				$mode='default';
+			}
+		}else{
+			$mode='default';
+		}
+		return($mode);
 	}
 
 	public static function init(){
@@ -117,6 +145,13 @@ class OC{
 		// set the right include path
 		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
 
+		// Redirect to installer if not installed
+		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
+			$url = 'http://'.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+			header("Location: $url");
+			exit();
+		}
+
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )){
 			ini_set("session.cookie_secure", "on");
@@ -127,21 +162,54 @@ class OC{
 			}
 		}
 
+		if(OC_Config::getValue('installed', false)){
+			$installedVersion=OC_Config::getValue('version','0.0.0');
+			$currentVersion=implode('.',OC_Util::getVersion());
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				$result=OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
+				if(!$result){
+					echo 'Error while upgrading the database';
+					die();
+				}
+				if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writable(OC::$SERVERROOT."/config/config.php")) {
+					$tmpl = new OC_Template( '', 'error', 'guest' );
+					$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+					$tmpl->printPage();
+					exit;
+				}
+
+				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+			}
+
+			OC_App::updateApps();
+		}
+
 		ini_set('session.cookie_httponly','1;');
 		session_start();
 
+		// if the formfactor is not yet autodetected do the autodetection now. For possible forfactors check the detectFormfactor documentation
+		if(!isset($_SESSION['formfactor'])){
+			$_SESSION['formfactor']=OC::detectFormfactor();
+		}
+		// allow manual override via GET parameter
+		if(isset($_GET['formfactor'])){
+			$_SESSION['formfactor']=$_GET['formfactor'];
+		}
+
+
 		// Add the stuff we need always
 		OC_Util::addScript( "jquery-1.6.4.min" );
-		OC_Util::addScript( "jquery-ui-1.8.14.custom.min" );
+		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
 		OC_Util::addScript( "jquery-showpassword" );
 		OC_Util::addScript( "jquery.infieldlabel.min" );
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "js" );
+		OC_Util::addScript( "eventsource" );
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search','result');
 		OC_Util::addStyle( "styles" );
 		OC_Util::addStyle( "multiselect" );
-		OC_Util::addStyle( "jquery-ui-1.8.14.custom" );
+		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
 		OC_Util::addStyle( "jquery-tipsy" );
 
 		$errors=OC_Util::checkServer();
@@ -164,9 +232,6 @@ class OC{
 
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
-
-		// Was in required file ... put it here
-		OC_Filesystem::registerStorageType('local','OC_Filestorage_Local',array('datadir'=>'string'));
 
 		// Set up file system unless forbidden
 		global $RUNTIME_NOSETUPFS;
@@ -195,8 +260,6 @@ if( !isset( $RUNTIME_NOAPPS )){
 	$RUNTIME_NOAPPS = false;
 }
 
-OC::init();
-
 if(!function_exists('get_temp_dir')) {
 	function get_temp_dir() {
 		if( $temp=ini_get('upload_tmp_dir') )        return $temp;
@@ -212,7 +275,11 @@ if(!function_exists('get_temp_dir')) {
 	}
 }
 
+OC::init();
+
 require_once('fakedirstream.php');
+
+
 
 // FROM search.php
 new OC_Search_Provider_File();

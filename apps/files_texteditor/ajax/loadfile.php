@@ -28,13 +28,23 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 
 // Set the session key for the file we are about to edit.
-$path = isset($_GET['path']) ? $_GET['path'] : false;
-
-if($path){
-	$sessionname = md5('oc_file_hash_'.$path);
-	$filecontents = OC_Filesystem::file_get_contents($path);
-	OC_Filesystem::update_session_file_hash($sessionname,sha1(htmlspecialchars($filecontents)));
-	OC_JSON::success();
+$dir = isset($_GET['dir']) ? $_GET['dir'] : '';
+$filename = isset($_GET['file']) ? $_GET['file'] : '';
+if(!empty($filename))
+{	
+	$path = $dir.'/'.$filename;
+	if(OC_Filesystem::is_writable($path))
+	{
+		$mtime = OC_Filesystem::filemtime($path);
+		$filecontents = OC_Filesystem::file_get_contents($path);
+		OC_JSON::success(array('data' => array('filecontents' => $filecontents, 'write' => 'true', 'mtime' => $mtime)));
+	}
+	else
+	{
+		$mtime = OC_Filesystem::filemtime($path);
+		$filecontents = OC_Filesystem::file_get_contents($path);
+		OC_JSON::success(array('data' => array('filecontents' => $filecontents, 'write' => 'false', 'mtime' => $mtime)));	
+	}	
 } else {
-	OC_JSON::error();
-}	
+	OC_JSON::error(array('data' => array( 'message' => 'Invalid file path supplied.')));	
+}

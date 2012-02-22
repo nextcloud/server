@@ -1,0 +1,112 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <tarek.taha@gmail.com>, 2011, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-20 12:24+0000\n"
+"Last-Translator: blackcoder <tarek.taha@gmail.com>\n"
+"Language-Team: Arabic (http://www.transifex.net/projects/p/owncloud/team/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5\n"
+
+#: ajax/upload.php:19
+msgid "There is no error, the file uploaded with success"
+msgstr "تم ترفيع الملفات بنجاح."
+
+#: ajax/upload.php:20
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
+"حجم الملف الذي تريد ترفيعه أعلى مما upload_max_filesize يسمح به في ملف "
+"php.ini"
+
+#: ajax/upload.php:21
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+"حجم الملف الذي تريد ترفيعه أعلى مما MAX_FILE_SIZE يسمح به في واجهة ال HTML."
+
+#: ajax/upload.php:22
+msgid "The uploaded file was only partially uploaded"
+msgstr "تم ترفيع جزء من الملفات الذي تريد ترفيعها فقط"
+
+#: ajax/upload.php:23
+msgid "No file was uploaded"
+msgstr "لم يتم ترفيع أي من الملفات"
+
+#: ajax/upload.php:24
+msgid "Missing a temporary folder"
+msgstr "المجلد المؤقت غير موجود"
+
+#: appinfo/app.php:8
+msgid "Files"
+msgstr "الملفات"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "الحد الأقصى لحجم الملفات التي يمكن رفعها"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "جديد"
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr "ملف"
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr "مجلد"
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr "من الوب"
+
+#: templates/index.php:22
+msgid "Upload"
+msgstr "إرفع"
+
+#: templates/index.php:35
+msgid "Nothing in here. Upload something!"
+msgstr "لا يوجد شيء هنا. إرفع بعض الملفات!"
+
+#: templates/index.php:43
+msgid "Name"
+msgstr "الاسم"
+
+#: templates/index.php:45
+msgid "Download"
+msgstr "تحميل"
+
+#: templates/index.php:49
+msgid "Size"
+msgstr "حجم"
+
+#: templates/index.php:50
+msgid "Modified"
+msgstr "معدل"
+
+#: templates/index.php:50
+msgid "Delete"
+msgstr "محذوف"
+
+#: templates/index.php:58
+msgid "Upload too large"
+msgstr "حجم الترفيع أعلى من المسموح"
+
+#: templates/index.php:60
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم."
+
+

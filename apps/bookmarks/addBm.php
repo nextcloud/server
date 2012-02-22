@@ -40,6 +40,7 @@ $url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
 $metadata = getURLMetadata($url);
 
 $tmpl->assign('URL', htmlentities($metadata['url'],ENT_COMPAT,'utf-8'));
-$tmpl->assign('TITLE', htmlentities($metadata['title'],ENT_COMPAT,'utf-8'));
+$title = isset($metadata['title']) ? $metadata['title'] : (isset($_GET['title']) ? $_GET['title'] : '');
+$tmpl->assign('TITLE', htmlentities($title,ENT_COMPAT,'utf-8'));
 
 $tmpl->printPage();

@@ -37,7 +37,7 @@ class OC_Util {
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			//first set up the local "root" storage
-			OC_Filesystem::mount('local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
+			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
 
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
 			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
@@ -45,7 +45,7 @@ class OC_Util {
 			}
 
 			//jail the user into his "home" directory
-			OC_Filesystem::chroot("/$user/$root");
+			OC_Filesystem::init('/'.$user.'/'.$root);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
@@ -62,7 +62,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(2,90,0);
+		return array(3,00,1);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '3 alpha 1';
+		return '3';
 	}
 
 	/**
@@ -110,7 +110,7 @@ class OC_Util {
 	/**
 	 * @brief Add a custom element to the header
 	 * @param string tag tag name of the element
-	 * @param array $attributes array of attrobutes for the element
+	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
 	 */
 	public static function addHeader( $tag, $attributes, $text=''){
@@ -175,8 +175,8 @@ class OC_Util {
 		$errors=array();
 
 		//check for database drivers
-		if(!is_callable('sqlite_open') and !is_callable('mysql_connect')){
-			$errors[]=array('error'=>'No database drivers (sqlite or mysql) installed.<br/>','hint'=>'');//TODO: sane hint
+		if(!(is_callable('sqlite_open') or class_exists('SQLite3')) and !is_callable('mysql_connect') and !is_callable('pg_connect')){
+			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>','hint'=>'');//TODO: sane hint
 		}
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 		$CONFIG_DBNAME = OC_Config::getValue( "dbname", "owncloud" );
@@ -240,22 +240,23 @@ class OC_Util {
 
 
 	/**
-	* Check if the app is enabled, send json error msg if not
+	* Check if the app is enabled, redirects to home if not
 	*/
 	public static function checkAppEnabled($app){
 		if( !OC_App::isEnabled($app)){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}
 
 	/**
-	* Check if the user is logged in, redirects to home if not
+	* Check if the user is logged in, redirects to home if not. With
+	* redirect URL parameter to the request URI.
 	*/
 	public static function checkLoggedIn(){
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ).'?redirect_url='.urlencode($_SERVER["REQUEST_URI"]));
 			exit();
 		}
 	}
@@ -267,7 +268,7 @@ class OC_Util {
 		// Check if we are a user
 		self::checkLoggedIn();
 		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}

@@ -1,0 +1,105 @@
+Release 0.2.9 - November 13, 2011
+Fixed the zIndex problem and removed the zIndex option (Thanks everyone who reported the problem)
+Fix a bug where repeatedly clicking on hour cells made the timepicker very slow.
+Added Italian translation, thanks to Serge Margarita.
+
+Release 0.2.8 - November 5, 2011
+Updated "defaultTime" to allow for Date object (github issue #26)
+Fixed the now and deselect buttons in IE
+
+Release 0.2.7 - October 19, 2011
+Added option to omit minutes in parsed time when user select 0 for minutes. (Thanks tribalvibes, Github issue #23)
+Added support for internationalisation (fr, de and ja, Thanks Bernd Plagge).
+
+Release 0.2.6 - October 12, 2011
+Fixed a bug when input ID have more then one special char. (Thamks Jacqueline Krijnen)
+Fixed a bug when parsing hours only or minutes only time. (Thanks protron, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #20</a>)
+Added 'Now', 'Deselect' and 'Close' buttons. (Thanks Christian Grobmeier for the close button code, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #22</a>)
+
+Release 0.2.5 - September 13, 2011
+Added support for disable and enable. (Suggested by danielrex, github issue #17)
+Added an example for 2 timepicker to behave as a period selector (start time and end time). (Thanks Bill Pellowe)
+Renamed the stylesheet to jquery.ui.timepicker.css to be more consistent with jQuery UI file name convention.
+
+Release 0.2.4 - August 5, 2011
+Fixed the hand cursor in the css file. (Thanks Mike Neumegen)
+Added position option to use with the jquery ui position utility.
+Added option to display only hours or only minutes.
+
+Release 0.2.3 - July 11, 2011
+Fix github issue #3 : Bug when hours or minutes choices does not divide by number of rows (thanks wukimus)
+Changed default behavior of the defaultTime option, if set to '' and input is empty, there will be no highlighted time in the popup (Thanks Rasmus Schultz)
+Fix github issue #4 : Error when generating empty minute cell. (Thanks 123Haynes)
+Fix github issue #5 : Add functionality for "getTime" option. (Thanks edanuff)
+Added the periodSeparator option. (thanks jrchamp)
+Fixed "getTime" for inline timepickers. (thanks Mike Neumegen)
+Added "getHour" and "getMinute" to get individual values.
+
+Release 0.2.2 - June 16, 2011
+Fixed a "console.log" line that I forgot to remove before release 0.2.1
+
+Release 0.2.1 - June 12, 2011
+Timepicker does not give the focus back to the input any more after time selection. This is similar to the datepicker behaviour and is more natural to the user because it shows the dialog again when the user click on the input again, as expected.
+Added options to customize the hours and minutes ranges and interval for more customization.
+
+Release 0.2 - May 28, 2011
+So in the previous release I mixed up versions and lost some changes, I guess that's what happen when you drink and code.
+
+Release 0.1.2 - May 26, 2011
+Fixed a bug with inline timepickers that would append a #timepickr hashtag when selecting hours and minutes.
+Fixed z-index problem with IE6 (Thanks Graham Bentley)
+Added selection of highlighted text when enter is pressed on the input field (Thanks Glen Chiacchieri)
+Adjusted some focus problems, now the input gets the focus back when the used click on hours / minutes.
+
+Release 0.1.something aka the lost release - around April 11
+Fixed a bug for when input Id had a dot in it, it was getting double escaped when it should not. (Thanks Zdenek Machac)
+So in 0.1.1 I created a bug that made timepicker changes the location hash, well now it's fixed. (Thanks Lucas Falk)
+
+Release 0.1.1 - April 6, 2011
+Changed the cells click and dblclick binding for faster rendering in IE6/7 (Thanks Blair Parsons)
+Fixed a class naming bug created in 0.1.0 (Thanks Morlion Peter)
+
+Release 0.1.0 - March 23, 2011
+Fixed some bugs with release 0.0.9
+
+Release 0.0.9 - March 22, 2011
+Added zIndex option (Thanks Frank Enderle)
+Added option showPeriodLabels that defines if the AM/PM labels are displayed on the left (Thanks Frank Enderle)
+Added showOn ['focus'|'button'|'both'] and button options for alternate trigger method
+
+Release 0.0.8 - Fev 17, 2011
+Fixed close event not triggered when switching to another input with time picker (thanks Stuart Gregg)
+
+Release 0.0.7 - Fev 10, 2011
+Added function to set time after initialisation :$('#timepicker').timepicker('setTime',newTime);
+Added support for disabled period of time : onHourShow and onMinuteShow (thanks Rene Felgentr�ger)
+
+Release 0.0.6 - Jan 19, 2011
+Added standard "change" event being triggered on the input when the content changes. (Thanks Rasmus Schultz)
+Added support for inline timePicker, attached to div or span
+Added altField that receive the parsed time value when selected time changes
+Added defaultTime value to use when input field is missing (inline) or input value is empty
+      if defaultTime is missing, current time is used
+
+Release 0.0.5 - Jan 18, 2011
+Now updating time picker selected value when manually typing in the text field (thanks Rasmus Schultz)
+Fixed : with showPeriod: true and showLeadingZero: true, PM hours did not show leading zeros (thanks Chandler May)
+Fixed : with showPeriod: true and showLeadingZero: true, Selecting 12 AM shows as 00 AM in the input field, also parsing 12AM did not work correctly (thanks Rasmus Schultz)
+
+Release 0.0.4 - jan 10, 2011
+changed showLeadingZero to affect only hours, added showMinutesLeadingZero for minutes display
+Removed width:100% for tables in css
+
+Release 0.0.3 - Jan 8, 2011
+Re-added a display:none on the main div (fix a small empty div visible at the bottom of the page before timepicker is called) (Thanks Gertjan van Roekel)
+Fixed a problem where the timepicker was never displayed with jquery ui 1.8.7 css,
+    the problem was the class ui-helper-hidden-accessible, witch I removed.
+    Thanks Alexander Fietz and StackOverflow : http://stackoverflow.com/questions/4522274/jquery-timepicker-and-jqueryui-1-8-7-conflict
+
+Release 0.0.2 - Jan 6, 2011
+Updated to include common display options for USA users
+Stephen Commisso - Jan 2011
+
+As it is a timepicker, I inspired most of the code from the datepicker
+Francois Gelinas - Nov 2010
+

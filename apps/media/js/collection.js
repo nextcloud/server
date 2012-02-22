@@ -69,7 +69,6 @@ Collection={
 						Collection.loadedListeners[i]();
 					}
 					if(data.songs.length==0){
-						$('#scan input.start').val(t('media','Scan Collection'));
 						$('#scan input.start').click();
 					}
 					
@@ -122,7 +121,7 @@ Collection={
 						}
 						tr.find('td.artist').addClass('buttons');
 						Collection.addButtons(tr,artist);
-						tr.children('td.artist').append(expander);
+						tr.children('td.artist-expander').append(expander);
 						tr.attr('data-artist',artist.name);
 						Collection.parent.find('tbody').append(tr);
 					}
@@ -132,7 +131,7 @@ Collection={
 	},
 	showArtist:function(artist){
 		var tr=Collection.parent.find('tr[data-artist="'+artist+'"]');
-		var nextRow=tr.next();
+		var lastRow=tr;
 		var artist=tr.data('artistData');
 		var first=true;
 		$.each(artist.albums,function(j,album){
@@ -144,7 +143,7 @@ Collection={
 					newRow.find('td.artist').text('');
 					newRow.find('.expander').remove();
 				}
-				newRow.find('td.album .expander').remove();
+				newRow.find('td.album-expander .expander').remove();
 				if(i==0){
 					newRow.find('td.album a').text(album.name);
 					newRow.find('td.album a').click(function(event){
@@ -165,7 +164,7 @@ Collection={
 								Collection.showAlbum(tr.data('artist'),tr.data('album'));
 							}
 						});
-						newRow.children('td.album').append(expander);
+						newRow.children('td.album-expander').append(expander);
 					}
 					Collection.addButtons(newRow,album);
 				} else {
@@ -185,21 +184,22 @@ Collection={
 				newRow.attr('data-artist',artist.name);
 				newRow.data('albumData',album);
 				if(!first){
-					nextRow.before(newRow);
+					lastRow.after(newRow);
 				}
 				first=false;
+				lastRow=newRow;
 			});
 		});
 		tr.removeClass('collapsed');
-		tr.find('td.artist a.expander').data('expanded',true);
-		tr.find('td.artist a.expander').addClass('expanded');
-		tr.find('td.artist a.expander').text('v');
+		tr.find('td.artist-expander a.expander').data('expanded',true);
+		tr.find('td.artist-expander a.expander').addClass('expanded');
+		tr.find('td.artist-expander a.expander').text('v');
 	},
 	hideArtist:function(artist){
 		var tr=Collection.parent.find('tr[data-artist="'+artist+'"]');
 		var artist=tr.first().data('artistData');
 		tr.first().find('td.album a').first().text(artist.albums.length+' '+t('media','albums'));
-		tr.first().find('td.album a.expander').remove();
+		tr.first().find('td.album-expander a.expander').remove();
 		tr.first().find('td.title a').text(artist.songs.length+' '+t('media','songs'));
 		tr.first().find('td.album a').unbind('click');
 		tr.first().find('td.title a').unbind('click');
@@ -208,18 +208,18 @@ Collection={
 				$(row).remove();
 			}
 		});
-		tr.find('td.artist a.expander').data('expanded',false);
-		tr.find('td.artist a.expander').removeClass('expanded');
-		tr.find('td.artist a.expander').text('>');
+		tr.find('td.artist-expander a.expander').data('expanded',false);
+		tr.find('td.artist-expander a.expander').removeClass('expanded');
+		tr.find('td.artist-expander a.expander').text('>');
 		Collection.addButtons(tr,artist);
 	},
 	showAlbum:function(artist,album){
 		var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
+		var lastRow=tr;
 		var albumData=tr.data('albumData');
-		tr.find('td.album a.expander').data('expanded',true);
-		tr.find('td.album a.expander').addClass('expanded');
-		tr.find('td.album a.expander').text('v');
-		var nextRow=tr.next();
+		tr.find('td.album-expander a.expander').data('expanded',true);
+		tr.find('td.album-expander a.expander').addClass('expanded');
+		tr.find('td.album-expander a.expander').text('v');
 		$.each(albumData.songs,function(i,song){
 			if(i>0){
 				var newRow=tr.clone();
@@ -230,18 +230,26 @@ Collection={
 				var newRow=tr;
 			}
 			newRow.find('td.title a').text(song.name);
+			newRow.find('td.title a').click(function(event){
+				event.preventDefault();
+				PlayList.add(song);
+				PlayList.play(0);
+				Collection.parent.find('tr').removeClass('active');
+				$('tr[data-title="'+song.name+'"]').addClass('active');
+			});
 			if(i>0){
-				nextRow.before(newRow);
+				lastRow.after(newRow);
 			}
+			lastRow=newRow;
 		});
 	},
 	hideAlbum:function(artist,album){
 		var tr = Collection.parent.find('tr[data-artist="'+artist+'"][data-album="'+album+'"]');
 		var albumData=tr.data('albumData');
 		tr.first().find('td.title a').text(albumData.songs.length+' '+t('media','songs'));
-		tr.find('td.album a.expander').data('expanded',false);
-		tr.find('td.album a.expander').removeClass('expanded');
-		tr.find('td.album a.expander').text('> ');
+		tr.find('td.album-expander a.expander').data('expanded',false);
+		tr.find('td.album-expander a.expander').removeClass('expanded');
+		tr.find('td.album-expander a.expander').text('> ');
 		tr.each(function(i,row){
 			if(i>0){
 				$(row).remove();
@@ -309,33 +317,31 @@ Collection={
 		}
 	},
 	addSong:function(song){
-		var artist=false
-		var album=false;
-		for(var i=0;i<Collection.artists.length;i++){
-			if(Collection.artists[i].artist_id==song.song_artist){
-				artist=Collection.artists[i];
-				for(var j=0;j<artist.albums.length;j++){
-					if(artist.albums[j].album_id==song.song_album){
-						album=artist.albums[j];
-						break;
-					}
-				}
-				break;
-			}
-		}
+		var artist=Collection.findArtist(song.artist);
 		if(!artist){
-			artist={artist_id:song.song_artist,artist_name:song.artist,albums:[]};
+			artist={name:song.artist,albums:[],songs:[]};
 			Collection.artists.push(artist);
-			if(!Collection.parent || Collection.parent.is(":visible")){
-				Collection.display();
-			}
-			
+			Collection.artistsById[song.song_artist]=artist;
 		}
+		var album=Collection.findAlbum(song.artist,song.album);
 		if(!album){
-			album={album_id:song.song_album,album_name:song.album,album_artist:song.song_artist,songs:[]};
-			artist.albums.push(album)
+			album={name:song.album,artist:song.song_artist,songs:[]};
+			artist.albums.push(album);
+			Collection.albums.push(album);
+			Collection.albumsById[song.song_album]=album;
 		}
-		album.songs.push(song)
+		var songData={
+			name:song.song_name,
+			artist:Collection.artistsById[song.song_artist].name,
+			album:Collection.albumsById[song.song_album].name,
+			lastPlayed:song.song_lastplayed,
+			length:song.song_length,
+			path:song.song_path,
+			playCount:song.song_playcount,
+		};
+		album.songs.push(songData)
+		artist.songs.push(songData);
+		Collection.songs.push(songData);
 	}
 }
 

@@ -6,7 +6,6 @@
 "Next" => "Siguiente",
 "Mute" => "Silenciar",
 "Unmute" => "Sonar",
-"Songs scanned" => "Canciones encontradas",
 "Rescan Collection" => "Buscar música nueva",
 "Artist" => "Artista",
 "Album" => "Álbum",

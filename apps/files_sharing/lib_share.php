@@ -88,9 +88,15 @@ class OC_Share {
 					$uid = $uid."@".$gid;
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
-				// Clear the folder size cache for the 'Shared' folder
-				$clearFolderSize = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-				$clearFolderSize->execute(array($sharedFolder));
+				// Add file to filesystem cache
+				$userDirectory = "/".OC_User::getUser()."/files";
+				$data = OC_Filecache::get(substr($source, strlen($userDirectory)));
+				$parentQuery = OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path=?');
+				$parentResult = $parentQuery->execute(array($sharedFolder))->fetchRow();
+				$parent = $parentResult['id'];
+				$is_writeable = $permissions & OC_Share::WRITE;
+				$cacheQuery = OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart, user, writable) VALUES(?,?,?,?,?,?,?,?,?,?)');
+				$cacheQuery->execute(array($parent, basename($target), $target, $data['size'], $data['mtime'], $data['ctime'], $data['mimetype'], dirname($data['mimetype']), $uid, $is_writeable));
 			}
 		}
 	}
@@ -263,6 +269,18 @@ class OC_Share {
 		}
 	}
 
+	public static function getTarget($source) {
+		$source = self::cleanPath($source);
+		$query = OC_DB::prepare("SELECT target FROM *PREFIX*sharing WHERE source = ? AND uid_owner = ? LIMIT 1");
+		$result = $query->execute(array($source, OC_User::getUser()))->fetchAll();
+		if (count($result) > 0) {
+			return $result[0]['target'];
+		} else {
+			// TODO Check in folders
+			return false;
+		}
+	}
+
 	/**
 	 * Get the user's permissions for the item at the specified target location
 	 * @param $target The target location of the item
@@ -380,8 +398,13 @@ class OC_Share {
 	*/
 	public static function deleteItem($arguments) {
 		$source = "/".OC_User::getUser()."/files".self::cleanPath($arguments['path']);
-		$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
-		$query->execute(array(strlen($source), $source, OC_User::getUser()));
+		if ($target = self::getTarget($source)) {
+			// Forward hook to notify of changes to target file
+			OC_Hook::emit("OC_Filesystem", "post_delete", array('path' => $target));
+			$query = OC_DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
+			$query->execute(array(strlen($source), $source, OC_User::getUser()));
+		}
+		
 	}
 
 	/**
@@ -393,6 +416,14 @@ class OC_Share {
 		$newSource = "/".OC_User::getUser()."/files".self::cleanPath($arguments['newpath']);
 		$query = OC_DB::prepare("UPDATE *PREFIX*sharing SET source = REPLACE(source, ?, ?) WHERE uid_owner = ?");
 		$query->execute(array($oldSource, $newSource, OC_User::getUser()));
+	}
+
+	public static function updateItem($arguments) {
+		$source = "/".OC_User::getUser()."/files".self::cleanPath($arguments['path']);
+		if ($target = self::getTarget($source)) {
+			// Forward hook to notify of changes to target file
+			OC_Hook::emit("OC_Filesystem", "post_write", array('path' => $target));
+		}
 	}
 
 }

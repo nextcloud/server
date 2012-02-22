@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
-#   <wengxt@gmail.com>, 2011.
+# Translators:
+#   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.kde.org/buglist.cgi?product=owncloud\n"
-"POT-Creation-Date: 2011-09-03 15:07+0200\n"
-"PO-Revision-Date: 2011-09-03 13:29+0000\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:25+0100\n"
+"PO-Revision-Date: 2012-01-22 07:26+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/team/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -17,21 +18,29 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: ajax/openid.php:13 ajax/setlanguage.php:13
-msgid "Authentication error"
-msgstr "验证错误"
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "电子邮件已修改"
 
-#: ajax/openid.php:21
-msgid "OpenID Changed"
-msgstr "OpenID 已修改"
-
-#: ajax/openid.php:23 ajax/setlanguage.php:23
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
 msgid "Invalid request"
 msgstr "非法请求"
 
-#: ajax/setlanguage.php:21
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID 已修改"
+
+#: ajax/setlanguage.php:14
 msgid "Language changed"
 msgstr "语言已修改"
+
+#: personal.php:36 personal.php:37
+msgid "__language_name__"
+msgstr "简体中文"
+
+#: templates/admin.php:13
+msgid "Log level"
+msgstr "日志级别"
 
 #: templates/apps.php:8
 msgid "Add your application"
@@ -53,15 +62,15 @@ msgstr "由"
 msgid "Ask a question"
 msgstr "提问"
 
-#: templates/help.php:17
+#: templates/help.php:20
 msgid "Problems connecting to help database."
 msgstr "连接帮助数据库错误 "
 
-#: templates/help.php:18
+#: templates/help.php:21
 msgid "Go there manually."
 msgstr "手动访问"
 
-#: templates/help.php:26
+#: templates/help.php:29
 msgid "Answer"
 msgstr "回答"
 
@@ -97,35 +106,51 @@ msgstr "显示"
 msgid "Change password"
 msgstr "修改密码"
 
-#: templates/personal.php:24 templates/personal.php:25
+#: templates/personal.php:24
+msgid "Email"
+msgstr "电子邮件"
+
+#: templates/personal.php:25
+msgid "Your email address"
+msgstr "您的电子邮件"
+
+#: templates/personal.php:26
+msgid "Fill in an email address to enable password recovery"
+msgstr "填写电子邮件地址以启用密码恢复"
+
+#: templates/personal.php:32 templates/personal.php:33
 msgid "Language"
 msgstr "语言"
 
-#: templates/personal.php:30
-msgid "Help translating"
+#: templates/personal.php:38
+msgid "Help translate"
 msgstr "帮助翻译"
 
-#: templates/personal.php:36
+#: templates/personal.php:45
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "在文件管理器中使用这个地址来连接到您的 ownCloud"
 
-#: templates/users.php:16
+#: templates/users.php:15 templates/users.php:30
 msgid "Name"
 msgstr "名称"
 
-#: templates/users.php:17
+#: templates/users.php:16 templates/users.php:31
 msgid "Password"
 msgstr "密码"
 
-#: templates/users.php:18 templates/users.php:36
+#: templates/users.php:17 templates/users.php:32 templates/users.php:46
 msgid "Groups"
 msgstr "组"
 
-#: templates/users.php:24
+#: templates/users.php:23
 msgid "Create"
 msgstr "创建"
 
-#: templates/users.php:48
+#: templates/users.php:33
+msgid "Quota"
+msgstr "配额"
+
+#: templates/users.php:58
 msgid "Delete"
 msgstr "删除"
 

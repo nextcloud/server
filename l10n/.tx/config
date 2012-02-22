@@ -1,0 +1,38 @@
+[main]
+host = https://www.transifex.net
+
+[owncloud.core]
+file_filter = <lang>/core.po
+source_file = templates/core.pot
+source_lang = en
+
+[owncloud.calendar]
+file_filter = <lang>/calendar.po
+source_file = templates/calendar.pot
+source_lang = en
+
+[owncloud.contacts]
+file_filter = <lang>/contacts.po
+source_file = templates/contacts.pot
+source_lang = en
+
+[owncloud.files]
+file_filter = <lang>/files.po
+source_file = templates/files.pot
+source_lang = en
+
+[owncloud.media]
+file_filter = <lang>/media.po
+source_file = templates/media.pot
+source_lang = en
+
+[owncloud.settings]
+file_filter = <lang>/settings.po
+source_file = templates/settings.pot
+source_lang = en
+
+[owncloud.gallery]
+file_filter = <lang>/gallery.po
+source_file = templates/gallery.pot
+source_lang = en
+

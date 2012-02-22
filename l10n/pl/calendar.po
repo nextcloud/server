@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Marcin Małecki <gerber@tkdami.net>, 2011.
+# Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-24 23:05+0200\n"
-"PO-Revision-Date: 2011-09-24 21:05+0000\n"
-"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-15 13:45+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/team/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,320 +18,402 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: ajax/createcalendar.php:18 ajax/settimezone.php:19
-#: ajax/updatecalendar.php:18
-msgid "Authentication error"
-msgstr "Błąd uwierzytelniania"
+#: ajax/guesstimezone.php:42
+msgid "New Timezone:"
+msgstr "Nowa strefa czasowa:"
 
-#: ajax/editeventform.php:25
-msgid "Wrong calendar"
-msgstr "Zły kalendarz"
-
-#: ajax/settimezone.php:27
+#: ajax/settimezone.php:22
 msgid "Timezone changed"
 msgstr "Strefa czasowa została zmieniona"
 
-#: ajax/settimezone.php:29
+#: ajax/settimezone.php:24
 msgid "Invalid request"
 msgstr "Nieprawidłowe żądanie"
 
-#: appinfo/app.php:19 templates/part.eventform.php:27
-#: templates/part.eventinfo.php:18
+#: appinfo/app.php:20 templates/calendar.php:13
+#: templates/part.eventform.php:20
 msgid "Calendar"
 msgstr "Kalendarz"
 
-#: lib/object.php:292
+#: lib/app.php:19
+msgid "Wrong calendar"
+msgstr "Zły kalendarz"
+
+#: lib/app.php:60 lib/object.php:332
 msgid "Birthday"
 msgstr "Urodziny"
 
-#: lib/object.php:293
+#: lib/app.php:61 lib/object.php:333
 msgid "Business"
 msgstr "Interes"
 
-#: lib/object.php:294
+#: lib/app.php:62 lib/object.php:334
 msgid "Call"
 msgstr "Rozmowa"
 
-#: lib/object.php:295
+#: lib/app.php:63 lib/object.php:335
 msgid "Clients"
 msgstr "Klienci"
 
-#: lib/object.php:296
+#: lib/app.php:64 lib/object.php:336
 msgid "Deliverer"
 msgstr "Przesyłka"
 
-#: lib/object.php:297
+#: lib/app.php:65 lib/object.php:337
 msgid "Holidays"
 msgstr "Święta"
 
-#: lib/object.php:298
+#: lib/app.php:66 lib/object.php:338
 msgid "Ideas"
 msgstr "Pomysły"
 
-#: lib/object.php:299
+#: lib/app.php:67 lib/object.php:339
 msgid "Journey"
 msgstr "Podróż"
 
-#: lib/object.php:300
+#: lib/app.php:68 lib/object.php:340
 msgid "Jubilee"
 msgstr "Jubileusz"
 
-#: lib/object.php:301
+#: lib/app.php:69 lib/object.php:341
 msgid "Meeting"
 msgstr "Spotkanie"
 
-#: lib/object.php:302
+#: lib/app.php:70 lib/object.php:342
 msgid "Other"
 msgstr "Inne"
 
-#: lib/object.php:303
+#: lib/app.php:71 lib/object.php:343
 msgid "Personal"
 msgstr "Osobisty"
 
-#: lib/object.php:304
+#: lib/app.php:72 lib/object.php:344
 msgid "Projects"
 msgstr "Projekty"
 
-#: lib/object.php:305
+#: lib/app.php:73 lib/object.php:345
 msgid "Questions"
 msgstr "Pytania"
 
-#: lib/object.php:306
+#: lib/app.php:74 lib/object.php:346
 msgid "Work"
 msgstr "Praca"
 
-#: lib/object.php:313
+#: lib/object.php:353
 msgid "Does not repeat"
 msgstr "Nie powtarza się"
 
-#: lib/object.php:314
+#: lib/object.php:354
 msgid "Daily"
 msgstr "Codziennie"
 
-#: lib/object.php:315
+#: lib/object.php:355
 msgid "Weekly"
 msgstr "Tygodniowo"
 
-#: lib/object.php:316
+#: lib/object.php:356
 msgid "Every Weekday"
 msgstr "Każdy dzień tygodnia"
 
-#: lib/object.php:317
+#: lib/object.php:357
 msgid "Bi-Weekly"
 msgstr "Dwa razy w tygodniu"
 
-#: lib/object.php:318
+#: lib/object.php:358
 msgid "Monthly"
 msgstr "Miesięcznie"
 
-#: lib/object.php:319
+#: lib/object.php:359
 msgid "Yearly"
 msgstr "Rocznie"
 
-#: lib/object.php:337
-msgid "Not an array"
-msgstr "Nie ma w tablicy"
+#: lib/object.php:366
+msgid "never"
+msgstr "nigdy"
 
-#: templates/calendar.php:3
-msgid "All day"
-msgstr "Cały dzień"
+#: lib/object.php:367
+msgid "by occurrences"
+msgstr "przez wydarzenia"
 
-#: templates/calendar.php:32
-msgid "Sunday"
-msgstr "Niedziela"
+#: lib/object.php:368
+msgid "by date"
+msgstr "po dacie"
 
-#: templates/calendar.php:32
+#: lib/object.php:375
+msgid "by monthday"
+msgstr "miesięcznie"
+
+#: lib/object.php:376
+msgid "by weekday"
+msgstr "tygodniowo"
+
+#: lib/object.php:383 templates/lAfix.php:3
 msgid "Monday"
 msgstr "Poniedziałek"
 
-#: templates/calendar.php:32
+#: lib/object.php:384 templates/lAfix.php:4
 msgid "Tuesday"
 msgstr "Wtorek"
 
-#: templates/calendar.php:32
+#: lib/object.php:385 templates/lAfix.php:5
 msgid "Wednesday"
 msgstr "Środa"
 
-#: templates/calendar.php:32
+#: lib/object.php:386 templates/lAfix.php:6
 msgid "Thursday"
 msgstr "Czwartek"
 
-#: templates/calendar.php:32
+#: lib/object.php:387 templates/lAfix.php:7
 msgid "Friday"
 msgstr "Piątek"
 
-#: templates/calendar.php:32
+#: lib/object.php:388 templates/lAfix.php:8
 msgid "Saturday"
 msgstr "Sobota"
 
-#: templates/calendar.php:33
-msgid "Sun."
-msgstr "Nie."
+#: lib/object.php:389 templates/lAfix.php:2
+msgid "Sunday"
+msgstr "Niedziela"
 
-#: templates/calendar.php:33
-msgid "Mon."
-msgstr "Po."
+#: lib/object.php:396
+msgid "events week of month"
+msgstr ""
 
-#: templates/calendar.php:33
-msgid "Tue."
-msgstr "Wt."
+#: lib/object.php:397
+msgid "first"
+msgstr "pierwszy"
 
-#: templates/calendar.php:33
-msgid "Wed."
-msgstr "Śr."
+#: lib/object.php:398
+msgid "second"
+msgstr "drugi"
 
-#: templates/calendar.php:33
-msgid "Thu."
-msgstr "Cz.."
+#: lib/object.php:399
+msgid "third"
+msgstr "trzeci"
 
-#: templates/calendar.php:33
-msgid "Fri."
-msgstr "Pią."
+#: lib/object.php:400
+msgid "fourth"
+msgstr "czwarty"
 
-#: templates/calendar.php:33
-msgid "Sat."
-msgstr "So."
+#: lib/object.php:401
+msgid "fifth"
+msgstr "piąty"
 
-#: templates/calendar.php:34
+#: lib/object.php:402
+msgid "last"
+msgstr "ostatni"
+
+#: lib/object.php:424 templates/lAfix.php:16
 msgid "January"
 msgstr "Styczeń"
 
-#: templates/calendar.php:34
+#: lib/object.php:425 templates/lAfix.php:17
 msgid "February"
 msgstr "Luty"
 
-#: templates/calendar.php:34
+#: lib/object.php:426 templates/lAfix.php:18
 msgid "March"
 msgstr "Marzec"
 
-#: templates/calendar.php:34
+#: lib/object.php:427 templates/lAfix.php:19
 msgid "April"
 msgstr "Kwiecień"
 
-#: templates/calendar.php:34
+#: lib/object.php:428 templates/lAfix.php:20
 msgid "May"
 msgstr "Maj"
 
-#: templates/calendar.php:34
+#: lib/object.php:429 templates/lAfix.php:21
 msgid "June"
 msgstr "Czerwiec"
 
-#: templates/calendar.php:34
+#: lib/object.php:430 templates/lAfix.php:22
 msgid "July"
 msgstr "Lipiec"
 
-#: templates/calendar.php:34
+#: lib/object.php:431 templates/lAfix.php:23
 msgid "August"
 msgstr "Sierpień"
 
-#: templates/calendar.php:34
+#: lib/object.php:432 templates/lAfix.php:24
 msgid "September"
 msgstr "Wrzesień"
 
-#: templates/calendar.php:34
+#: lib/object.php:433 templates/lAfix.php:25
 msgid "October"
 msgstr "Październik"
 
-#: templates/calendar.php:34
+#: lib/object.php:434 templates/lAfix.php:26
 msgid "November"
 msgstr "Listopad"
 
-#: templates/calendar.php:34
+#: lib/object.php:435 templates/lAfix.php:27
 msgid "December"
 msgstr "Grudzień"
 
-#: templates/calendar.php:35
-msgid "Jan."
-msgstr "Sty."
+#: lib/object.php:441
+msgid "by events date"
+msgstr "po datach wydarzeń"
 
-#: templates/calendar.php:35
-msgid "Feb."
-msgstr "Lut."
+#: lib/object.php:442
+msgid "by yearday(s)"
+msgstr "po dniach roku"
 
-#: templates/calendar.php:35
-msgid "Mar."
-msgstr "Mar."
+#: lib/object.php:443
+msgid "by weeknumber(s)"
+msgstr "po tygodniach"
 
-#: templates/calendar.php:35
-msgid "Apr."
-msgstr "Kwi."
+#: lib/object.php:444
+msgid "by day and month"
+msgstr ""
 
-#: templates/calendar.php:35
-msgid "May."
-msgstr "Może."
+#: lib/object.php:467
+msgid "Not an array"
+msgstr "Nie ma w tablicy"
 
-#: templates/calendar.php:35
-msgid "Jun."
-msgstr "Cze."
+#: lib/search.php:32 lib/search.php:34 lib/search.php:37
+msgid "Date"
+msgstr "Data"
 
-#: templates/calendar.php:35
-msgid "Jul."
-msgstr "Lip."
+#: lib/search.php:40
+msgid "Cal."
+msgstr "Kal."
 
-#: templates/calendar.php:35
-msgid "Aug."
-msgstr "Sie."
+#: templates/calendar.php:10
+msgid "All day"
+msgstr "Cały dzień"
 
-#: templates/calendar.php:35
-msgid "Sep."
-msgstr "Wrz."
+#: templates/calendar.php:11
+msgid "Missing fields"
+msgstr "Brakujące pola"
 
-#: templates/calendar.php:35
-msgid "Oct."
-msgstr "Paź."
+#: templates/calendar.php:12 templates/part.eventform.php:3
+msgid "Title"
+msgstr "Tytuł"
 
-#: templates/calendar.php:35
-msgid "Nov."
-msgstr "Lis."
+#: templates/calendar.php:14
+msgid "From Date"
+msgstr "Od dnia"
 
-#: templates/calendar.php:35
-msgid "Dec."
-msgstr "Gru."
+#: templates/calendar.php:15
+msgid "From Time"
+msgstr "Od czasu"
 
-#: templates/calendar.php:36 templates/calendar.php:50
-#: templates/calendar.php:116
+#: templates/calendar.php:16
+msgid "To Date"
+msgstr "Do daty"
+
+#: templates/calendar.php:17
+msgid "To Time"
+msgstr "Do czasu"
+
+#: templates/calendar.php:18
+msgid "The event ends before it starts"
+msgstr "Wydarzenie kończy się przed rozpoczęciem"
+
+#: templates/calendar.php:19
+msgid "There was a database fail"
+msgstr "Awaria bazy danych"
+
+#: templates/calendar.php:52
 msgid "Week"
 msgstr "Tydzień"
 
-#: templates/calendar.php:37 templates/calendar.php:51
-msgid "Weeks"
-msgstr "Tygodnie"
-
-#: templates/calendar.php:38
-msgid "More before {startdate}"
-msgstr "Więcej przed {startdate}"
-
-#: templates/calendar.php:39
-msgid "More after {enddate}"
-msgstr "Więcej po {enddate}"
-
-#: templates/calendar.php:49
-msgid "Day"
-msgstr "Dzień"
-
-#: templates/calendar.php:52
+#: templates/calendar.php:53
 msgid "Month"
 msgstr "Miesiąc"
 
-#: templates/calendar.php:53
+#: templates/calendar.php:54
 msgid "List"
 msgstr "Lista"
 
-#: templates/calendar.php:58
+#: templates/calendar.php:59
 msgid "Today"
 msgstr "Dzisiaj"
 
-#: templates/calendar.php:59
+#: templates/calendar.php:60
 msgid "Calendars"
 msgstr "Kalendarze"
 
-#: templates/calendar.php:76 templates/calendar.php:94
-msgid "Time"
-msgstr "Czas"
-
-#: templates/calendar.php:169
+#: templates/calendar.php:78
 msgid "There was a fail, while parsing the file."
 msgstr "Nastąpił problem przy parsowaniu pliku.."
+
+#: templates/lAfix.php:9
+msgid "Sun."
+msgstr "Nie."
+
+#: templates/lAfix.php:10
+msgid "Mon."
+msgstr "Poń."
+
+#: templates/lAfix.php:11
+msgid "Tue."
+msgstr "Wto."
+
+#: templates/lAfix.php:12
+msgid "Wed."
+msgstr "Śro."
+
+#: templates/lAfix.php:13
+msgid "Thu."
+msgstr "Czw."
+
+#: templates/lAfix.php:14
+msgid "Fri."
+msgstr "Pią."
+
+#: templates/lAfix.php:15
+msgid "Sat."
+msgstr "So."
+
+#: templates/lAfix.php:28
+msgid "Jan."
+msgstr "Sty."
+
+#: templates/lAfix.php:29
+msgid "Feb."
+msgstr "Lut."
+
+#: templates/lAfix.php:30
+msgid "Mar."
+msgstr "Mar."
+
+#: templates/lAfix.php:31
+msgid "Apr."
+msgstr "Kwi."
+
+#: templates/lAfix.php:32
+msgid "May."
+msgstr "Maj"
+
+#: templates/lAfix.php:33
+msgid "Jun."
+msgstr "Cze."
+
+#: templates/lAfix.php:34
+msgid "Jul."
+msgstr "Lip."
+
+#: templates/lAfix.php:35
+msgid "Aug."
+msgstr "Sie."
+
+#: templates/lAfix.php:36
+msgid "Sep."
+msgstr "Wrz."
+
+#: templates/lAfix.php:37
+msgid "Oct."
+msgstr "Paź."
+
+#: templates/lAfix.php:38
+msgid "Nov."
+msgstr "Lis."
+
+#: templates/lAfix.php:39
+msgid "Dec."
+msgstr "Gru."
 
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
@@ -351,14 +433,13 @@ msgid "Download"
 msgstr "Pobierz"
 
 #: templates/part.choosecalendar.rowfields.php:4
-#: templates/part.eventinfo.php:64
 msgid "Edit"
 msgstr "Edytuj"
 
 #: templates/part.choosecalendar.rowfields.php:4
-#: templates/part.editevent.php:8
+#: templates/part.editevent.php:9
 msgid "Delete"
-msgstr ""
+msgstr "Usuń"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -376,90 +457,181 @@ msgstr "Displayname"
 msgid "Active"
 msgstr "Aktywny"
 
-#: templates/part.editcalendar.php:29 templates/part.eventform.php:88
-#: templates/part.eventinfo.php:58
-msgid "Description"
-msgstr "Opis"
-
-#: templates/part.editcalendar.php:35
+#: templates/part.editcalendar.php:29
 msgid "Calendar color"
 msgstr "Kalendarz kolor"
 
-#: templates/part.editcalendar.php:41
+#: templates/part.editcalendar.php:42
 msgid "Save"
 msgstr "Zapisz"
 
-#: templates/part.editcalendar.php:41 templates/part.editevent.php:7
+#: templates/part.editcalendar.php:42 templates/part.editevent.php:8
 #: templates/part.newevent.php:6
 msgid "Submit"
 msgstr "Prześlij"
 
-#: templates/part.editcalendar.php:42
+#: templates/part.editcalendar.php:43
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: templates/part.editevent.php:1 templates/part.eventinfo.php:1
+#: templates/part.editevent.php:1
 msgid "Edit an event"
 msgstr "Edycja zdarzenia"
 
-#: templates/part.eventform.php:3 templates/part.eventinfo.php:4
-msgid "Title"
-msgstr "Tytuł"
+#: templates/part.editevent.php:10
+msgid "Export"
+msgstr "Wyeksportuj"
 
 #: templates/part.eventform.php:5
 msgid "Title of the Event"
 msgstr "Tytuł zdarzenia"
 
-#: templates/part.eventform.php:9 templates/part.eventinfo.php:9
-msgid "Location"
-msgstr "Lokalizacja"
-
 #: templates/part.eventform.php:11
-msgid "Location of the Event"
-msgstr "Lokalizacja zdarzenia"
-
-#: templates/part.eventform.php:17 templates/part.eventinfo.php:16
 msgid "Category"
 msgstr "Kategoria"
 
-#: templates/part.eventform.php:19
+#: templates/part.eventform.php:13
 msgid "Select category"
 msgstr "Wybierz kategorię"
 
-#: templates/part.eventform.php:45 templates/part.eventinfo.php:28
+#: templates/part.eventform.php:37
 msgid "All Day Event"
 msgstr "Całodniowe wydarzenie"
 
-#: templates/part.eventform.php:49 templates/part.eventinfo.php:31
+#: templates/part.eventform.php:41
 msgid "From"
 msgstr "Z"
 
-#: templates/part.eventform.php:57 templates/part.eventinfo.php:38
+#: templates/part.eventform.php:49
 msgid "To"
 msgstr "Do"
 
-#: templates/part.eventform.php:65 templates/part.eventinfo.php:44
+#: templates/part.eventform.php:57
+msgid "Advanced options"
+msgstr "Opcje zaawansowane"
+
+#: templates/part.eventform.php:61
 msgid "Repeat"
 msgstr "Powtórz"
 
-#: templates/part.eventform.php:81 templates/part.eventinfo.php:51
-msgid "Attendees"
-msgstr "Uczestnicy"
+#: templates/part.eventform.php:68
+msgid "Advanced"
+msgstr "Zaawansowane"
 
-#: templates/part.eventform.php:89
+#: templates/part.eventform.php:112
+msgid "Select weekdays"
+msgstr "Wybierz dni powszechne"
+
+#: templates/part.eventform.php:125 templates/part.eventform.php:138
+msgid "Select days"
+msgstr "Wybierz dni"
+
+#: templates/part.eventform.php:130
+msgid "and the events day of year."
+msgstr "oraz wydarzenia roku"
+
+#: templates/part.eventform.php:143
+msgid "and the events day of month."
+msgstr "oraz wydarzenia miesiąca"
+
+#: templates/part.eventform.php:151
+msgid "Select months"
+msgstr "Wybierz miesiące"
+
+#: templates/part.eventform.php:164
+msgid "Select weeks"
+msgstr "Wybierz tygodnie"
+
+#: templates/part.eventform.php:169
+msgid "and the events week of year."
+msgstr "oraz wydarzenia roku."
+
+#: templates/part.eventform.php:175
+msgid "Interval"
+msgstr "Przedział"
+
+#: templates/part.eventform.php:181
+msgid "End"
+msgstr "Koniec"
+
+#: templates/part.eventform.php:193
+msgid "occurrences"
+msgstr "wystąpienia"
+
+#: templates/part.eventform.php:208
+msgid "Location"
+msgstr "Lokalizacja"
+
+#: templates/part.eventform.php:210
+msgid "Location of the Event"
+msgstr "Lokalizacja zdarzenia"
+
+#: templates/part.eventform.php:216
+msgid "Description"
+msgstr "Opis"
+
+#: templates/part.eventform.php:218
 msgid "Description of the Event"
 msgstr "Opis zdarzenia"
 
-#: templates/part.eventinfo.php:63
-msgid "Close"
-msgstr "Zamknij"
+#: templates/part.import.php:1
+msgid "Import a calendar file"
+msgstr ""
+
+#: templates/part.import.php:6
+msgid "Please choose the calendar"
+msgstr "Proszę wybrać kalendarz"
+
+#: templates/part.import.php:10
+msgid "create a new calendar"
+msgstr ""
+
+#: templates/part.import.php:15
+msgid "Name of new calendar"
+msgstr ""
+
+#: templates/part.import.php:17
+msgid "Import"
+msgstr "Import"
+
+#: templates/part.import.php:20
+msgid "Importing calendar"
+msgstr ""
+
+#: templates/part.import.php:23
+msgid "Calendar imported successfully"
+msgstr ""
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr ""
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"
 msgstr "Stwórz nowe wydarzenie"
 
-#: templates/settings.php:11
+#: templates/settings.php:13
 msgid "Timezone"
 msgstr "Strefa czasowa"
+
+#: templates/settings.php:30
+msgid "Check always for changes of the timezone"
+msgstr "Zawsze sprawdzaj zmiany strefy czasowej"
+
+#: templates/settings.php:32
+msgid "Timeformat"
+msgstr "Format czasu"
+
+#: templates/settings.php:34
+msgid "24h"
+msgstr "24h"
+
+#: templates/settings.php:35
+msgid "12h"
+msgstr "12h"
+
+#: templates/settings.php:41
+msgid "Calendar CalDAV syncing address:"
+msgstr "Adres synchronizacji kalendarza CalDAV:"
 
 

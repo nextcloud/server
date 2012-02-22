@@ -40,7 +40,7 @@ FileList={
 		html = $('<tr></tr>').attr({ "data-type": "dir", "data-size": size, "data-file": name});
 		td = $('<td></td>').attr({"class": "filename", "style": 'background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')' });
 		td.append('<input type="checkbox" />');
-		var link_elem = $('<a></a>').attr({ "class": "name", "href": "index.php?dir="+ encodeURIComponent($('#dir').val()+'/'+name) });
+		var link_elem = $('<a></a>').attr({ "class": "name", "href": "index.php?dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/') });
 		link_elem.append($('<span></span>').addClass('nametext').text(name));
 		td.append(link_elem);
 		html.append(td);
@@ -136,6 +136,8 @@ FileList={
 			var newname=input.val();
 			tr.attr('data-file',newname);
 			td.children('a.name').empty();
+			var path = td.children('a.name').attr('href');
+			td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
 			if(newname.indexOf('.')>0){
 				basename=newname.substr(0,newname.lastIndexOf('.'));
 			}else{

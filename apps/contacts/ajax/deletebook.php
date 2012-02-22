@@ -27,8 +27,9 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$id = $_GET['id'];
-$addressbook = OC_Contacts_App::getAddressbook( $id );
+//$id = $_GET['id'];
+$id = $_POST['id'];
+OC_Contacts_App::getAddressbook( $id ); // is owner access check
 
 OC_Contacts_Addressbook::delete($id);
 OC_JSON::success(array('data' => array( 'id' => $id )));

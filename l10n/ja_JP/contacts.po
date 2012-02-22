@@ -1,0 +1,281 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-25 14:02+0000\n"
+"Last-Translator: nn nn <dev.nnnn@gmail.com>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/team/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/activation.php:17 ajax/updateaddressbook.php:26
+msgid "Error (de)activating addressbook."
+msgstr "電話帳の有効/無効化に失敗しました。"
+
+#: ajax/addcard.php:79
+msgid "There was an error adding the contact."
+msgstr "連絡先の追加でエラーが発生しました。"
+
+#: ajax/addproperty.php:39
+msgid "Cannot add empty property."
+msgstr "項目の新規追加に失敗しました。"
+
+#: ajax/addproperty.php:51
+msgid "At least one of the address fields has to be filled out."
+msgstr "アドレス項目の１つは記入して下さい。"
+
+#: ajax/addproperty.php:78
+msgid "Error adding contact property."
+msgstr "連絡先の追加に失敗しました。"
+
+#: ajax/createaddressbook.php:20
+msgid "Error adding addressbook."
+msgstr "電話帳の追加に失敗しました。"
+
+#: ajax/createaddressbook.php:26
+msgid "Error activating addressbook."
+msgstr "電話帳の有効化に失敗しました。"
+
+#: ajax/deleteproperty.php:40
+msgid "Error deleting contact property."
+msgstr "連絡先の削除に失敗しました。"
+
+#: ajax/setproperty.php:79
+msgid "Error updating contact property."
+msgstr "連絡先の更新に失敗しました。"
+
+#: ajax/updateaddressbook.php:20
+msgid "Error updating addressbook."
+msgstr "電話帳の更新に失敗しました。"
+
+#: appinfo/app.php:21 templates/settings.php:3
+msgid "Contacts"
+msgstr "連絡先"
+
+#: lib/app.php:52
+msgid "This is not your addressbook."
+msgstr "これはあなたの電話帳ではありません。"
+
+#: lib/app.php:61 photo.php:36
+msgid "Contact could not be found."
+msgstr "連絡先を見つける事ができません。"
+
+#: lib/app.php:89
+msgid "Information about vCard is incorrect. Please reload the page."
+msgstr "vCardの情報に誤りがあります。ページをリロードして下さい。"
+
+#: lib/app.php:101 templates/part.addcardform.php:54
+#: templates/part.property.php:45 templates/part.setpropertyform.php:7
+msgid "Address"
+msgstr "住所"
+
+#: lib/app.php:102 templates/part.addcardform.php:43
+msgid "Telephone"
+msgstr "電話番号"
+
+#: lib/app.php:103 templates/part.addcardform.php:37
+#: templates/part.property.php:16 templates/part.setpropertyform.php:51
+msgid "Email"
+msgstr "メールアドレス"
+
+#: lib/app.php:104 templates/part.addcardform.php:27
+#: templates/part.property.php:9 templates/part.setpropertyform.php:54
+msgid "Organization"
+msgstr "所属"
+
+#: lib/app.php:116 lib/app.php:123
+msgid "Work"
+msgstr "勤務先"
+
+#: lib/app.php:117 lib/app.php:121
+msgid "Home"
+msgstr "住居"
+
+#: lib/app.php:122
+msgid "Mobile"
+msgstr "携帯電話"
+
+#: lib/app.php:124
+msgid "Text"
+msgstr "TTY TDD"
+
+#: lib/app.php:125
+msgid "Voice"
+msgstr "音声番号"
+
+#: lib/app.php:126
+msgid "Fax"
+msgstr "FAX"
+
+#: lib/app.php:127
+msgid "Video"
+msgstr "テレビ電話"
+
+#: lib/app.php:128
+msgid "Pager"
+msgstr "ポケベル"
+
+#: lib/search.php:22
+msgid "Contact"
+msgstr "連絡先"
+
+#: photo.php:42
+msgid "This is not your contact."
+msgstr "あなたの連絡先ではありません。"
+
+#: templates/index.php:6
+msgid "Add Contact"
+msgstr "連絡先の追加"
+
+#: templates/index.php:7
+msgid "Addressbooks"
+msgstr "電話帳"
+
+#: templates/part.addcardform.php:8
+msgid "Addressbook"
+msgstr "電話帳"
+
+#: templates/part.addcardform.php:21
+msgid "Name"
+msgstr "氏名"
+
+#: templates/part.addcardform.php:57 templates/part.details.php:43
+#: templates/part.details.php:79 templates/part.setpropertyform.php:10
+#: templates/part.setpropertyform.php:47
+msgid "Type"
+msgstr "種類"
+
+#: templates/part.addcardform.php:65 templates/part.details.php:49
+#: templates/part.setpropertyform.php:16
+msgid "PO Box"
+msgstr "私書箱"
+
+#: templates/part.addcardform.php:72 templates/part.details.php:53
+#: templates/part.setpropertyform.php:20
+msgid "Extended"
+msgstr "拡張番地"
+
+#: templates/part.addcardform.php:78 templates/part.details.php:57
+#: templates/part.setpropertyform.php:24
+msgid "Street"
+msgstr "街路番地"
+
+#: templates/part.addcardform.php:84 templates/part.details.php:61
+#: templates/part.setpropertyform.php:28
+msgid "City"
+msgstr "都市"
+
+#: templates/part.addcardform.php:90 templates/part.details.php:65
+#: templates/part.setpropertyform.php:32
+msgid "Region"
+msgstr "地域"
+
+#: templates/part.addcardform.php:96 templates/part.details.php:69
+#: templates/part.setpropertyform.php:36
+msgid "Zipcode"
+msgstr "郵便番号"
+
+#: templates/part.addcardform.php:102 templates/part.details.php:73
+#: templates/part.setpropertyform.php:40
+msgid "Country"
+msgstr "国名"
+
+#: templates/part.addcardform.php:109
+msgid "Create Contact"
+msgstr "追加"
+
+#: templates/part.chooseaddressbook.php:1
+msgid "Choose active Address Books"
+msgstr "有効な電話帳の選択"
+
+#: templates/part.chooseaddressbook.php:16
+msgid "New Address Book"
+msgstr "新規電話帳"
+
+#: templates/part.chooseaddressbook.php:21
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "CardDav Link"
+msgstr "CardDAV リンク"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Download"
+msgstr "ダウンロード"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Edit"
+msgstr "編集"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Delete"
+msgstr "削除"
+
+#: templates/part.details.php:3
+msgid "Download contact"
+msgstr "連絡先のダウンロード"
+
+#: templates/part.details.php:4
+msgid "Delete contact"
+msgstr "連絡先の削除"
+
+#: templates/part.details.php:34
+msgid "Add"
+msgstr "追加"
+
+#: templates/part.editaddressbook.php:9
+msgid "New Addressbook"
+msgstr "電話帳の新規作成"
+
+#: templates/part.editaddressbook.php:9
+msgid "Edit Addressbook"
+msgstr "電話帳の編集"
+
+#: templates/part.editaddressbook.php:12
+msgid "Displayname"
+msgstr "表示名"
+
+#: templates/part.editaddressbook.php:23
+msgid "Active"
+msgstr "アクティブ"
+
+#: templates/part.editaddressbook.php:29
+msgid "Save"
+msgstr "保存"
+
+#: templates/part.editaddressbook.php:29
+msgid "Submit"
+msgstr "送信"
+
+#: templates/part.editaddressbook.php:30
+msgid "Cancel"
+msgstr "取り消し"
+
+#: templates/part.property.php:3
+msgid "Birthday"
+msgstr "生年月日"
+
+#: templates/part.property.php:23
+msgid "Preferred"
+msgstr "推奨"
+
+#: templates/part.property.php:23 templates/part.setpropertyform.php:45
+msgid "Phone"
+msgstr "電話番号"
+
+#: templates/part.setpropertyform.php:57
+msgid "Update"
+msgstr "更新"
+
+#: templates/settings.php:4
+msgid "CardDAV syncing address:"
+msgstr "CardDAV 同期アドレス:"
+
+

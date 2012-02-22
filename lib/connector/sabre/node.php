@@ -92,6 +92,15 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 	}
 
+	/** 
+	 *  sets the last modification time of the file (mtime) to the value given 
+	 *  in the second parameter or to now if the second param is empty.
+	 *  Even if the modification time is set to a custom value the access time is set to now.
+	 */
+	public function touch($mtime) {
+		OC_Filesystem::touch($this->path, $mtime);
+	}
+
 	/**
 	 * Updates properties on this node,
 	 *
@@ -110,13 +119,16 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				}
 			}
 			else {
-				if(!array_key_exists( $propertyName, $existing )){
-					$query = OC_DB::prepare( 'INSERT INTO *PREFIX*properties (userid,propertypath,propertyname,propertyvalue) VALUES(?,?,?,?)' );
-					$query->execute( array( OC_User::getUser(), $this->path, $propertyName,$propertyValue ));
-				}
-				else{
-					$query = OC_DB::prepare( 'UPDATE *PREFIX*properties SET propertyvalue = ? WHERE userid = ? AND propertypath = ? AND propertyname = ?' );
-					$query->execute( array( $propertyValue,OC_User::getUser(), $this->path, $propertyName ));
+				if( strcmp( $propertyName, "lastmodified")) {
+					$this->touch($propertyValue);
+				} else {
+					if(!array_key_exists( $propertyName, $existing )){
+						$query = OC_DB::prepare( 'INSERT INTO *PREFIX*properties (userid,propertypath,propertyname,propertyvalue) VALUES(?,?,?,?)' );
+						$query->execute( array( OC_User::getUser(), $this->path, $propertyName,$propertyValue ));
+					} else {
+						$query = OC_DB::prepare( 'UPDATE *PREFIX*properties SET propertyvalue = ? WHERE userid = ? AND propertypath = ? AND propertyname = ?' );
+						$query->execute( array( $propertyValue,OC_User::getUser(), $this->path, $propertyName ));
+					}
 				}
 			}
 

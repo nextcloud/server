@@ -1,0 +1,282 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <intense.feel@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-23 23:25+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Slovak (Slovakia) (http://www.transifex.net/projects/p/owncloud/team/sk_SK/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk_SK\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+
+#: ajax/activation.php:17 ajax/updateaddressbook.php:26
+msgid "Error (de)activating addressbook."
+msgstr "Chyba (de)aktivácie adresára."
+
+#: ajax/addcard.php:79
+msgid "There was an error adding the contact."
+msgstr "Vyskytla sa chyba pri pridávaní kontaktu."
+
+#: ajax/addproperty.php:39
+msgid "Cannot add empty property."
+msgstr ""
+
+#: ajax/addproperty.php:51
+msgid "At least one of the address fields has to be filled out."
+msgstr ""
+
+#: ajax/addproperty.php:78
+msgid "Error adding contact property."
+msgstr ""
+
+#: ajax/createaddressbook.php:20
+msgid "Error adding addressbook."
+msgstr ""
+
+#: ajax/createaddressbook.php:26
+msgid "Error activating addressbook."
+msgstr "Chyba aktivovania adresára."
+
+#: ajax/deleteproperty.php:40
+msgid "Error deleting contact property."
+msgstr ""
+
+#: ajax/setproperty.php:79
+msgid "Error updating contact property."
+msgstr ""
+
+#: ajax/updateaddressbook.php:20
+msgid "Error updating addressbook."
+msgstr "Chyba aktualizácie adresára."
+
+#: appinfo/app.php:21 templates/settings.php:3
+msgid "Contacts"
+msgstr "Kontakty"
+
+#: lib/app.php:52
+msgid "This is not your addressbook."
+msgstr "Toto nie je váš adresár."
+
+#: lib/app.php:61 photo.php:36
+msgid "Contact could not be found."
+msgstr "Kontakt nebol nájdený."
+
+#: lib/app.php:89
+msgid "Information about vCard is incorrect. Please reload the page."
+msgstr "Informácie o vCard sú neplatné. Prosím obnovte stránku."
+
+#: lib/app.php:101 templates/part.addcardform.php:54
+#: templates/part.property.php:45 templates/part.setpropertyform.php:7
+msgid "Address"
+msgstr "Adresa"
+
+#: lib/app.php:102 templates/part.addcardform.php:43
+msgid "Telephone"
+msgstr "Telefón"
+
+#: lib/app.php:103 templates/part.addcardform.php:37
+#: templates/part.property.php:16 templates/part.setpropertyform.php:51
+msgid "Email"
+msgstr "E-mail"
+
+#: lib/app.php:104 templates/part.addcardform.php:27
+#: templates/part.property.php:9 templates/part.setpropertyform.php:54
+msgid "Organization"
+msgstr "Organizácia"
+
+#: lib/app.php:116 lib/app.php:123
+msgid "Work"
+msgstr "Práca"
+
+#: lib/app.php:117 lib/app.php:121
+msgid "Home"
+msgstr "Domov"
+
+#: lib/app.php:122
+msgid "Mobile"
+msgstr "Mobil"
+
+#: lib/app.php:124
+msgid "Text"
+msgstr "SMS"
+
+#: lib/app.php:125
+msgid "Voice"
+msgstr "Odkazová schránka"
+
+#: lib/app.php:126
+msgid "Fax"
+msgstr "Fax"
+
+#: lib/app.php:127
+msgid "Video"
+msgstr "Video"
+
+#: lib/app.php:128
+msgid "Pager"
+msgstr "Pager"
+
+#: lib/search.php:22
+msgid "Contact"
+msgstr "Kontakt"
+
+#: photo.php:42
+msgid "This is not your contact."
+msgstr "Toto nie je váš kontakt."
+
+#: templates/index.php:6
+msgid "Add Contact"
+msgstr "Pridať Kontakt."
+
+#: templates/index.php:7
+msgid "Addressbooks"
+msgstr "Adresáre"
+
+#: templates/part.addcardform.php:8
+msgid "Addressbook"
+msgstr "Adresár"
+
+#: templates/part.addcardform.php:21
+msgid "Name"
+msgstr "Meno"
+
+#: templates/part.addcardform.php:57 templates/part.details.php:43
+#: templates/part.details.php:79 templates/part.setpropertyform.php:10
+#: templates/part.setpropertyform.php:47
+msgid "Type"
+msgstr "Typ"
+
+#: templates/part.addcardform.php:65 templates/part.details.php:49
+#: templates/part.setpropertyform.php:16
+msgid "PO Box"
+msgstr "PO Box"
+
+#: templates/part.addcardform.php:72 templates/part.details.php:53
+#: templates/part.setpropertyform.php:20
+msgid "Extended"
+msgstr "Rozšírené"
+
+#: templates/part.addcardform.php:78 templates/part.details.php:57
+#: templates/part.setpropertyform.php:24
+msgid "Street"
+msgstr "Ulica"
+
+#: templates/part.addcardform.php:84 templates/part.details.php:61
+#: templates/part.setpropertyform.php:28
+msgid "City"
+msgstr "Mesto"
+
+#: templates/part.addcardform.php:90 templates/part.details.php:65
+#: templates/part.setpropertyform.php:32
+msgid "Region"
+msgstr "Región"
+
+#: templates/part.addcardform.php:96 templates/part.details.php:69
+#: templates/part.setpropertyform.php:36
+msgid "Zipcode"
+msgstr "PSČ"
+
+#: templates/part.addcardform.php:102 templates/part.details.php:73
+#: templates/part.setpropertyform.php:40
+msgid "Country"
+msgstr "Krajina"
+
+#: templates/part.addcardform.php:109
+msgid "Create Contact"
+msgstr "Vytvoriť Kontakt."
+
+#: templates/part.chooseaddressbook.php:1
+msgid "Choose active Address Books"
+msgstr "Zvoliť aktívny adresár"
+
+#: templates/part.chooseaddressbook.php:16
+msgid "New Address Book"
+msgstr "Nový adresár"
+
+#: templates/part.chooseaddressbook.php:21
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "CardDav Link"
+msgstr "CardDav odkaz"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Download"
+msgstr "Stiahnuť"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Edit"
+msgstr "Upraviť"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Delete"
+msgstr "Odstrániť"
+
+#: templates/part.details.php:3
+msgid "Download contact"
+msgstr "Stiahnuť kontakt"
+
+#: templates/part.details.php:4
+msgid "Delete contact"
+msgstr "Odstrániť kontakt"
+
+#: templates/part.details.php:34
+msgid "Add"
+msgstr "Pridať"
+
+#: templates/part.editaddressbook.php:9
+msgid "New Addressbook"
+msgstr "Nový Adresár"
+
+#: templates/part.editaddressbook.php:9
+msgid "Edit Addressbook"
+msgstr "Upraviť Adresár"
+
+#: templates/part.editaddressbook.php:12
+msgid "Displayname"
+msgstr "Zobrazené meno"
+
+#: templates/part.editaddressbook.php:23
+msgid "Active"
+msgstr "Aktívny"
+
+#: templates/part.editaddressbook.php:29
+msgid "Save"
+msgstr "Uložiť"
+
+#: templates/part.editaddressbook.php:29
+msgid "Submit"
+msgstr "Odoslať"
+
+#: templates/part.editaddressbook.php:30
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#: templates/part.property.php:3
+msgid "Birthday"
+msgstr "Narodeniny"
+
+#: templates/part.property.php:23
+msgid "Preferred"
+msgstr "Uprednostňované"
+
+#: templates/part.property.php:23 templates/part.setpropertyform.php:45
+msgid "Phone"
+msgstr "Telefón"
+
+#: templates/part.setpropertyform.php:57
+msgid "Update"
+msgstr "Aktualizovať"
+
+#: templates/settings.php:4
+msgid "CardDAV syncing address:"
+msgstr "Synchronizačná adresa CardDAV:"
+
+

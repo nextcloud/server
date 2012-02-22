@@ -1,0 +1,7 @@
+This is the themes folder. Themes can be used to customize the look and feel of ownCloud without the need to patch the source code.
+Themes can be placed in this folder with the name of the theme as foldername. The theme can be activated by putting 
+"theme" => 'themename', into the config.php file.
+The folder structure of a theme is exactly the same as the main ownCloud structure. You can override js files and templates with own versions. css files are loaded additionaly to the default files so you can override css properties.
+Themes should be developed here: https://gitorious.org/owncloud/themes
+You can also find a super simple example there
+

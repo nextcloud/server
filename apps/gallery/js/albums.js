@@ -13,12 +13,8 @@ Albums={
   // and false will be returned
   // true on success
   add: function(album_name, num) {
-    for (var a in Albums.albums) {
-      if (a.name == album_name) {
-        return false;
-      }
-    }
-    Albums.albums.push({name: album_name, numOfCovers: num});
+    if (Albums.albums[album_name] != undefined) return false;
+    Albums.albums[album_name] = {name: album_name, numOfCovers: num};
     return true;
   },
   // remove element with given name
@@ -40,41 +36,54 @@ Albums={
   // return element which match given name
   // of undefined if such element do not exist
   find: function(name) {
-    var i = -1, tmp = 0;
-    for (var k in Albums.albums) {
-      var a = Albums.albums[k];
-      if (a.name == name) {
-        i = tmp;
-        break;
-      }
-      tmp++;
-    }
-    if (i != -1) {
-      return Albums.albums[i];
-    }
-    return undefined;
+    return Albums.albums[name];
   },
   // displays gallery in linear representation
   // on given element, and apply default styles for gallery
   display: function(element) {
-    var displayTemplate = '<div id="gallery_album_box" title="*NAME*"><a href="?view=*NAME*"><div id="gallery_album_cover"></div></a><h1>*NAME*</h1></div></div>';
+    var displayTemplate = '<div class="gallery_album_box"><div class="dummy"></div><a class="view"><div class="gallery_album_cover"></div></a><h1></h1><div class="gallery_album_decoration"><a><img src="img/share.png" title="Share"></a><a class="rename"><img src="img/rename.png" title="Rename"></a><a class="remove"><img src="img/delete.png" title="Delete"></a></div></div>';
     for (var i in Albums.albums) {
       var a = Albums.albums[i];
-      var local = $(displayTemplate.replace(/\*NAME\*/g, a.name));
-      local.css('background-repeat', 'no-repeat');
-      local.css('background-position', '0 0');
-      local.css('background-image','url("ajax/getCovers.php?album_name='+a.name+'")');
-      local.mousemove(function(e) {
+	  var local=$(displayTemplate);
+	  local.attr('data-album',a.name);
+	  $(".gallery_album_decoration a.rename", local).bind('click', {name: a.name},function(event){
+			event.preventDefault();
+			galleryRename(event.data.name);
+    });
+	  $(".gallery_album_decoration a.remove", local).bind('click', {name: a.name},function(event){
+		  event.preventDefault();
+		  galleryRemove(event.data.name);
+    });
+    $("a.view", local).attr('href','?view='+escape(a.name));
+	  $('h1',local).text(a.name);
+	  $(".gallery_album_cover", local).attr('title',a.name);
+      $(".gallery_album_cover", local).css('background-repeat', 'no-repeat');
+      $(".gallery_album_cover", local).css('background-position', '0');
+      $(".gallery_album_cover", local).css('background-image','url("ajax/galleryOp.php?operation=get_covers&albumname='+escape(a.name)+'")');
+      $(".gallery_album_cover", local).mousemove(function(e) {
+
         var albumMetadata = Albums.find(this.title);
         if (albumMetadata == undefined) {
           return;
         }
-        var x = Math.min(Math.floor((e.clientX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers)), albumMetadata.numOfCovers-1);
+        var x = Math.floor((e.layerX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers));
         x *= this.offsetWidth;
+        if (x < 0) x=0;
         $(this).css('background-position', -x+'px 0');
       });
       $(element).append(local);
     }
+  },
+  rename: function(element, new_name) {
+    if (new_name) {
+		$(element).attr("data-album", new_name);
+		$("a.view", element).attr("href", "?view="+new_name);
+		$("h1", element).text(new_name);
+	}
+  },
+  clear: function(element) {
+    Albums.albums = new Array();
+    element.innerHTML = '';
   }
 
 }

@@ -22,20 +22,35 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
+function bailOut($msg) {
+	OC_JSON::error(array('data' => array('message' => $msg)));
+	OC_Log::write('contacts','ajax/addcard.php: '.$msg, OC_Log::DEBUG);
+	exit();
+}
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
 $aid = $_POST['id'];
-$addressbook = OC_Contacts_App::getAddressbook( $aid );
+OC_Contacts_App::getAddressbook( $aid ); // is owner access check
 
-$fn = $_POST['fn'];
+$fn = trim($_POST['fn']);
 $values = $_POST['value'];
 $parameters = $_POST['parameters'];
 
 $vcard = new OC_VObject('VCARD');
 $vcard->setUID();
+
+$n = isset($values['N'][0])?trim($values['N'][0]).';':';';
+$n .= isset($values['N'][1])?trim($values['N'][1]).';':';';
+$n .= isset($values['N'][2])?trim($values['N'][2]).';;':';;';
+
+if(!$fn || ($n == ';;;;')) {
+	bailOut('You have to enter both the extended name and the display name.');
+}
+
+$vcard->setString('N',$n);
 $vcard->setString('FN',$fn);
 
 // Data to add ...
@@ -54,12 +69,35 @@ foreach( $add as $propname){
 	$value = $values[$propname];
 	if( isset( $parameters[$propname] ) && count( $parameters[$propname] )){
 		$prop_parameters = $parameters[$propname];
-	}
-	else{
+	} else {
 		$prop_parameters = array();
 	}
-	$vcard->addProperty($propname, $value, $prop_parameters);
+	if(is_array($value)){
+		ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+		$value = OC_VObject::escapeSemicolons($value);
+	}
+	$vcard->addProperty($propname, strip_tags($value)); //, $prop_parameters);
+	$line = count($vcard->children) - 1;
+	foreach ($prop_parameters as $key=>$element) {
+		if(is_array($element) && strtoupper($key) == 'TYPE') { 
+			// FIXME: Maybe this doesn't only apply for TYPE?
+			// And it probably shouldn't be done here anyways :-/
+			foreach($element as $e){
+				if($e != '' && !is_null($e)){
+					$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
+				}
+			}
+		} else {
+			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
+		}
+	}
 }
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
+if(!$id) {
+	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
+	OC_Log::write('contacts','ajax/addcard.php: Recieved non-positive ID on adding card: '.$id, OC_Log::ERROR);
+	exit();
+}
 
+// NOTE: Why is this in OC_Contacts_App?
 OC_Contacts_App::renderDetails($id, $vcard);

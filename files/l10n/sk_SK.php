@@ -1,0 +1,23 @@
+<?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Nenastala žiadna chyba, súbor bol úspešne nahraný",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Nahraný súbor presiahol direktívu upload_max_filesize v php.ini",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Nahrávaný súbor presiahol MAX_FILE_SIZE direktívu, ktorá bola špecifikovaná v HTML formulári",
+"The uploaded file was only partially uploaded" => "Nahrávaný súbor bol iba čiastočne nahraný",
+"No file was uploaded" => "Žiaden súbor nebol nahraný",
+"Missing a temporary folder" => "Chýbajúci dočasný priečinok",
+"Files" => "Súbory",
+"Maximum upload size" => "Maximálna veľkosť nahratia",
+"New" => "Nový",
+"Text file" => "Textový súbor",
+"Folder" => "Priečinok",
+"From the web" => "Z webu",
+"Upload" => "Nahrať",
+"Nothing in here. Upload something!" => "Nič tu nie je. Nahrakte niečo!",
+"Name" => "Meno",
+"Download" => "Stiahnuť",
+"Size" => "Veľkosť",
+"Modified" => "Upravené",
+"Delete" => "Odstrániť",
+"Upload too large" => "Nahrávanie príliš veľké",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory ktoré sa snažíte nahrať presahujú maximálnu veľkosť pre nahratie súborov na tento server."
+);

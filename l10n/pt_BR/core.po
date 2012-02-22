@@ -9,15 +9,60 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-23 18:17+0200\n"
-"PO-Revision-Date: 2011-09-06 12:04+0000\n"
-"Last-Translator: vanderland <transifex@vanderland.com>\n"
+"POT-Creation-Date: 2012-01-11 00:19+0100\n"
+"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Portuguese (Brazilian) (http://www.transifex.net/projects/p/owncloud/team/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: lostpassword/index.php:24
+msgid "Owncloud password reset"
+msgstr ""
+
+#: lostpassword/templates/email.php:1
+msgid "Use the following link to reset your password: {link}"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr "Você receberá um link para redefinir sua senha via e-mail."
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Requested"
+msgstr "Solicitado"
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Login failed!"
+msgstr "Falha ao fazer o login!"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:22
+#: templates/login.php:8
+msgid "Username"
+msgstr "Nome de Usuário"
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr "Pedido de reposição"
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "Sua senha foi mudada"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr ""
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "Nova senha"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr "Mudar senha"
 
 #: strings.php:5
 msgid "Personal"
@@ -47,54 +92,50 @@ msgstr "Cloud não encontrado"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Criar uma <strong>conta</strong> de <strong>administrador</strong>"
 
-#: templates/installation.php:21
-msgid "Username"
-msgstr "Nome de Usuário"
-
-#: templates/installation.php:22
+#: templates/installation.php:26 templates/login.php:12
 msgid "Password"
 msgstr "Senha"
 
-#: templates/installation.php:27
-msgid "Configure the database"
-msgstr "Configurar o banco de dados"
-
-#: templates/installation.php:32 templates/installation.php:43
-#: templates/installation.php:53
-msgid "will be used"
-msgstr "será usado"
-
-#: templates/installation.php:64
-msgid "Database user"
-msgstr "Usuário de banco de dados"
-
-#: templates/installation.php:65
-msgid "Database password"
-msgstr "Senha do banco de dados"
-
-#: templates/installation.php:66
-msgid "Database name"
-msgstr "Nome do banco de dados"
-
-#: templates/installation.php:72
+#: templates/installation.php:32
 msgid "Advanced"
 msgstr "Avançado"
 
-#: templates/installation.php:75
-msgid "Database host"
-msgstr "Banco de dados do host"
-
-#: templates/installation.php:76
+#: templates/installation.php:34
 msgid "Data folder"
 msgstr "Pasta de dados"
 
+#: templates/installation.php:41
+msgid "Configure the database"
+msgstr "Configurar o banco de dados"
+
+#: templates/installation.php:46 templates/installation.php:57
+#: templates/installation.php:67
+msgid "will be used"
+msgstr "será usado"
+
 #: templates/installation.php:79
+msgid "Database user"
+msgstr "Usuário de banco de dados"
+
+#: templates/installation.php:83
+msgid "Database password"
+msgstr "Senha do banco de dados"
+
+#: templates/installation.php:87
+msgid "Database name"
+msgstr "Nome do banco de dados"
+
+#: templates/installation.php:93
+msgid "Database host"
+msgstr "Banco de dados do host"
+
+#: templates/installation.php:98
 msgid "Finish setup"
 msgstr "Concluir configuração"
 
 #: templates/layout.guest.php:35
-msgid "gives you freedom and control over your own data"
-msgstr "proporciona  liberdade e controle sobre seus próprios dados"
+msgid "web services under your control"
+msgstr ""
 
 #: templates/layout.user.php:34
 msgid "Log out"
@@ -104,37 +145,21 @@ msgstr "Sair"
 msgid "Settings"
 msgstr "Configurações"
 
-#: templates/login.php:4
+#: templates/login.php:5
 msgid "Lost your password?"
 msgstr "Esqueçeu sua senha?"
 
-#: templates/login.php:9 templates/login.php:13
+#: templates/login.php:15
 msgid "remember"
 msgstr "lembrete"
+
+#: templates/login.php:16
+msgid "Log in"
+msgstr ""
 
 #: templates/logout.php:1
 msgid "You are logged out."
 msgstr "Você está desconectado."
-
-#: templates/lostpassword.php:3
-msgid "You will receive a link to reset your password via Email."
-msgstr "Você receberá um link para redefinir sua senha via e-mail."
-
-#: templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Solicitado"
-
-#: templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Login sem sucesso"
-
-#: templates/lostpassword.php:10
-msgid "Username or Email"
-msgstr "Nome de usuário ou e-mail"
-
-#: templates/lostpassword.php:11
-msgid "Request reset"
-msgstr "Pedido de troca"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -143,17 +168,5 @@ msgstr "anterior"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "próximo"
-
-#: templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Sua senha foi trocada"
-
-#: templates/resetpassword.php:6
-msgid "New password"
-msgstr "Nova senha"
-
-#: templates/resetpassword.php:7
-msgid "Reset password"
-msgstr "Toca de senha"
 
 

@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 	//drag/drop of files
 	$('#fileList tr td.filename').draggable(dragOptions);
-	$('#fileList tr[data-type="dir"] td.filename').droppable(folderDropOptions);
+	$('#fileList tr[data-type="dir"][data-write="true"] td.filename').droppable(folderDropOptions);
 	$('div.crumb').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	$('ul#apps>li:first-child').droppable(crumbDropOptions);
@@ -71,8 +71,8 @@ $(document).ready(function() {
 		} else {
 			var filename=$(this).parent().parent().attr('data-file');
 			var tr=$('tr').filterAttr('data-file',filename);
-			var renaming=tr.data('renaming')
-				if(!renaming && !FileList.isLoading(filename)){
+			var renaming=tr.data('renaming');
+			if(!renaming && !FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
 				var action=FileActions.getDefault(mime,type);
@@ -336,7 +336,36 @@ $(document).ready(function() {
 			$('#new>a').click();
 		});
 	});
+
+	//check if we need to scan the filesystem
+	$.get(OC.filePath('files','ajax','scan.php'),{checkonly:'true'}, function(response) {
+		if(response.data.done){
+			scanFiles();
+		}
+	}, "json");
 });
+
+function scanFiles(force){
+	force=!!force; //cast to bool
+	scanFiles.scanning=true;
+	$('#scanning-message').show();
+	$('#fileList').remove();
+	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force});
+	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
+	scannerEventSource.listen('scanning',function(data){
+		$('#scan-count').text(data.count+' files scanned');
+		$('#scan-current').text(data.file+'/');
+	});
+	scannerEventSource.listen('success',function(success){
+		scanFiles.scanning=false;
+		if(success){
+			window.location.reload();
+		}else{
+			alert('error while scanning');
+		}
+	});
+}
+scanFiles.scanning=false;
 
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);

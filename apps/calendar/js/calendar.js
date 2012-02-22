@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
  * Copyright (c) 2011 Bart Visscher <bartv@thisnet.nl>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -7,9 +7,16 @@
  */
 
 Calendar={
-	space:' ',
 	UI:{
+		loading: function(isLoading){
+			if (isLoading){
+				$('#loading').show();
+			}else{
+				$('#loading').hide();
+			}
+		},
 		startEventDialog:function(){
+			Calendar.UI.loading(false);
 			$('.tipsy').remove();
 			$('#calendar_holder').fullCalendar('unselect');
 			Calendar.UI.lockTime();
@@ -19,12 +26,31 @@ Calendar={
 			$( "#to" ).datepicker({
 				dateFormat : 'dd-mm-yy'
 			});
+			$('#fromtime').timepicker({
+			    showPeriodLabels: false
+			});
+			$('#totime').timepicker({
+			    showPeriodLabels: false
+			});
 			$('#category').multiselect({
 					header: false,
 					noneSelectedText: $('#category').attr('title'),
 					selectedList: 2,
 					minWidth:'auto',
 					classes: 'category',
+			});
+			Calendar.UI.repeat('init');
+			$('#end').change(function(){
+				Calendar.UI.repeat('end');
+			});
+			$('#repeat').change(function(){
+				Calendar.UI.repeat('repeat');
+			});
+			$('#advanced_year').change(function(){
+				Calendar.UI.repeat('year');
+			});
+			$('#advanced_month').change(function(){
+				Calendar.UI.repeat('month');
 			});
 			$('#event').dialog({
 				width : 500,
@@ -42,6 +68,7 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
+				Calendar.UI.loading(true);
 				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php'), {start:start, end:end, allday:allday?1:0}, Calendar.UI.startEventDialog);
 			}
 		},
@@ -51,13 +78,16 @@ Calendar={
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
+				Calendar.UI.loading(true);
 				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'editeventform.php') + '?id=' + id, Calendar.UI.startEventDialog);
 			}
 		},
 		submitDeleteEventForm:function(url){
 			var post = $( '#event_form' ).serialize();
 			$('#errorbox').empty();
+			Calendar.UI.loading(true);
 			$.post(url, post, function(data){
+					Calendar.UI.loading(false);
 					if(data.status == 'success'){
 						$('#calendar_holder').fullCalendar('removeEvents', $('#event_form input[name=id]').val());
 						$('#event').dialog('destroy').remove();
@@ -70,8 +100,10 @@ Calendar={
 		validateEventForm:function(url){
 			var post = $( "#event_form" ).serialize();
 			$("#errorbox").empty();
+			Calendar.UI.loading(true);
 			$.post(url, post,
 				function(data){
+					Calendar.UI.loading(false);
 					if(data.status == "error"){
 						var output = missing_field + ": <br />";
 						if(data.title == "true"){
@@ -108,8 +140,10 @@ Calendar={
 		},
 		moveEvent:function(event, dayDelta, minuteDelta, allDay, revertFunc){
 			$('.tipsy').remove();
+			Calendar.UI.loading(true);
 			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0, lastmodified: event.lastmodified},
 			function(data) {
+				Calendar.UI.loading(false);
 				if (data.status == 'success'){
 					event.lastmodified = data.lastmodified;
 					console.log("Event moved successfully");
@@ -121,8 +155,10 @@ Calendar={
 		},
 		resizeEvent:function(event, dayDelta, minuteDelta, revertFunc){
 			$('.tipsy').remove();
+			Calendar.UI.loading(true);
 			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, lastmodified: event.lastmodified},
 			function(data) {
+				Calendar.UI.loading(false);
 				if (data.status == 'success'){
 					event.lastmodified = data.lastmodified;
 					console.log("Event resized successfully");
@@ -133,8 +169,15 @@ Calendar={
 			});
 		},
 		showadvancedoptions:function(){
-			$("#advanced_options").css("display", "block");
+			$("#advanced_options").slideDown('slow');
 			$("#advanced_options_button").css("display", "none");
+		},
+		showadvancedoptionsforrepeating:function(){
+			if($("#advanced_options_repeating").is(":hidden")){
+				$('#advanced_options_repeating').slideDown('slow');
+			}else{
+				$('#advanced_options_repeating').slideUp('slow');
+			}
 		},
 		getEventPopupText:function(event){
 			if (event.allDay){
@@ -206,11 +249,130 @@ Calendar={
 				event.preventDefault();
 			}
 		},
+		repeat:function(task){
+			if(task=='init'){
+				$('#byweekno').multiselect({
+					header: false,
+					noneSelectedText: $('#advanced_byweekno').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				$('#weeklyoptions').multiselect({
+					header: false,
+					noneSelectedText: $('#weeklyoptions').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				$('input[name="bydate"]').datepicker({
+					dateFormat : 'dd-mm-yy'
+				});
+				$('#byyearday').multiselect({
+					header: false,
+					noneSelectedText: $('#byyearday').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				$('#bymonth').multiselect({
+					header: false,
+					noneSelectedText: $('#bymonth').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				$('#bymonthday').multiselect({
+					header: false,
+					noneSelectedText: $('#bymonthday').attr('title'),
+					selectedList: 2,
+					minWidth:'auto'
+				});
+				Calendar.UI.repeat('end');
+				Calendar.UI.repeat('month');
+				Calendar.UI.repeat('year');
+				Calendar.UI.repeat('repeat');
+			}
+			if(task == 'end'){
+				$('#byoccurrences').css('display', 'none');
+				$('#bydate').css('display', 'none');
+				if($('#end option:selected').val() == 'count'){
+					$('#byoccurrences').css('display', 'block');
+				}
+				if($('#end option:selected').val() == 'date'){
+					$('#bydate').css('display', 'block');
+				}
+			}
+			if(task == 'repeat'){
+				$('#advanced_month').css('display', 'none');
+				$('#advanced_weekday').css('display', 'none');
+				$('#advanced_weekofmonth').css('display', 'none');
+				$('#advanced_byyearday').css('display', 'none');
+				$('#advanced_bymonth').css('display', 'none');
+				$('#advanced_byweekno').css('display', 'none');
+				$('#advanced_year').css('display', 'none');
+				$('#advanced_bymonthday').css('display', 'none');
+				if($('#repeat option:selected').val() == 'monthly'){
+					$('#advanced_month').css('display', 'block');
+					Calendar.UI.repeat('month');
+				}
+				if($('#repeat option:selected').val() == 'weekly'){
+					$('#advanced_weekday').css('display', 'block');
+				}
+				if($('#repeat option:selected').val() == 'yearly'){
+					$('#advanced_year').css('display', 'block');
+					Calendar.UI.repeat('year');
+				}
+				if($('#repeat option:selected').val() == 'doesnotrepeat'){
+					$('#advanced_options_repeating').slideUp('slow');
+				}
+			}
+			if(task == 'month'){
+				$('#advanced_weekday').css('display', 'none');
+				$('#advanced_weekofmonth').css('display', 'none');
+				if($('#advanced_month_select option:selected').val() == 'weekday'){
+					$('#advanced_weekday').css('display', 'block');
+					$('#advanced_weekofmonth').css('display', 'block');
+				}
+			}
+			if(task == 'year'){
+				$('#advanced_weekday').css('display', 'none');
+				$('#advanced_byyearday').css('display', 'none');
+				$('#advanced_bymonth').css('display', 'none');
+				$('#advanced_byweekno').css('display', 'none');
+				$('#advanced_bymonthday').css('display', 'none');
+				if($('#advanced_year_select option:selected').val() == 'byyearday'){
+					//$('#advanced_byyearday').css('display', 'block');
+				}
+				if($('#advanced_year_select option:selected').val() == 'byweekno'){
+					$('#advanced_byweekno').css('display', 'block');
+				}
+				if($('#advanced_year_select option:selected').val() == 'bydaymonth'){
+					$('#advanced_bymonth').css('display', 'block');
+					$('#advanced_bymonthday').css('display', 'block');
+					$('#advanced_weekday').css('display', 'block');
+				}
+			}
+			
+		},
+		setViewActive: function(view){
+			$('#view input[type="button"]').removeClass('active');
+			var id;
+			switch (view) {
+				case 'agendaWeek':
+					id = 'oneweekview_radio';
+					break;
+				case 'month':
+					id = 'onemonthview_radio';
+					break;
+				case 'list':
+					id = 'listview_radio';
+					break;
+			}
+			$('#'+id).addClass('active');
+		},
 		Calendar:{
 			overview:function(){
 				if($('#choosecalendar_dialog').dialog('isOpen') == true){
 					$('#choosecalendar_dialog').dialog('moveToTop');
 				}else{
+					Calendar.UI.loading(true);
 					$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'choosecalendar.php'), function(){
 						$('#choosecalendar_dialog').dialog({
 							width : 600,
@@ -218,13 +380,16 @@ Calendar={
 								$(this).dialog('destroy').remove();
 							}
 						});
+						Calendar.UI.loading(false);
 					});
 				}
 			},
 			activation:function(checkbox, calendarid)
 			{
+				Calendar.UI.loading(true);
 				$.post(OC.filePath('calendar', 'ajax', 'activation.php'), { calendarid: calendarid, active: checkbox.checked?1:0 },
 				  function(data) {
+					Calendar.UI.loading(false);
 					if (data.status == 'success'){
 						checkbox.checked = data.active == 1;
 						if (data.active == 1){
@@ -264,16 +429,22 @@ Calendar={
 				}
 			},
 			submit:function(button, calendarid){
-				var displayname = $("#displayname_"+calendarid).val();
+				var displayname = $.trim($("#displayname_"+calendarid).val());
 				var active = $("#edit_active_"+calendarid+":checked").length;
 				var description = $("#description_"+calendarid).val();
 				var calendarcolor = $("#calendarcolor_"+calendarid).val();
-
+				if(displayname == ''){
+					$("#displayname_"+calendarid).css('background-color', '#FF2626');
+					$("#displayname_"+calendarid).focus(function(){
+						$("#displayname_"+calendarid).css('background-color', '#F8F8F8');
+					});
+				}
+				
 				var url;
 				if (calendarid == 'new'){
-					url = "ajax/createcalendar.php";
+					url = OC.filePath('calendar', 'ajax', 'createcalendar.php');
 				}else{
-					url = "ajax/updatecalendar.php";
+					url = OC.filePath('calendar', 'ajax', 'updatecalendar.php');
 				}
 				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
 					function(data){
@@ -281,6 +452,14 @@ Calendar={
 							$(button).closest('tr').prev().html(data.page).show().next().remove();
 							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
 							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+							if (calendarid == 'new'){
+								$('#choosecalendar_dialog > table').append('<tr><td colspan="6"><a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><input type="button" value="' + newcalendar + '"></a></td></tr>');
+							}
+						}else{
+							$("#displayname_"+calendarid).css('background-color', '#FF2626');
+							$("#displayname_"+calendarid).focus(function(){
+								$("#displayname_"+calendarid).css('background-color', '#F8F8F8');
+							});
 						}
 					}, 'json');
 			},
@@ -299,7 +478,7 @@ Calendar={
 					colors[i].label = $(elm).text();
 				});
 				for (var i in colors) {
-					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: #' + colors[i].color + ';"></span>');
+					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: ' + colors[i].color + ';"></span>');
 				}
 				picker.delegate(".calendar-colorpicker-color", "click", function() {
 					$(obj).val($(this).attr('rel'));
@@ -489,8 +668,18 @@ $(document).ready(function(){
 			agenda: agendatime,
 			'': defaulttime
 			},
+		columnFormat: {
+			month: t('calendar', 'ddd'),    // Mon
+			week: t('calendar', 'ddd M/d'), // Mon 9/7
+			day: t('calendar', 'dddd M/d')  // Monday 9/7
+			},
 		titleFormat: {
-			list: 'yyyy/MMM/d dddd'
+			month: t('calendar', 'MMMM yyyy'),
+					// September 2009
+			week: t('calendar', "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"),
+					// Sep 7 - 13 2009
+			day: t('calendar', 'dddd, MMM d, yyyy'),
+					// Tuesday, Sep 8, 2009
 			},
 		axisFormat: defaulttime,
 		monthNames: monthNames,
@@ -500,7 +689,20 @@ $(document).ready(function(){
 		allDayText: allDayText,
 		viewDisplay: function(view) {
 			$('#datecontrol_date').html(view.title);
-			$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+			if (view.name != defaultView) {
+				$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+				defaultView = view.name;
+			}
+			Calendar.UI.setViewActive(view.name);
+			if (view.name == 'agendaWeek') {
+				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 0.1);
+			}
+			else {
+				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 1.35);
+			}
+		},
+		columnFormat: {
+		    week: 'ddd d. MMM'
 		},
 		selectable: true,
 		selectHelper: true,
@@ -509,6 +711,7 @@ $(document).ready(function(){
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
 		eventRender: function(event, element) {
+			element.find('.fc-event-title').html(element.find('.fc-event-title').text());
 			element.tipsy({
 				className: 'tipsy-event',
 				opacity: 0.9,
@@ -521,6 +724,7 @@ $(document).ready(function(){
 				}
 			});
 		},
+		loading: Calendar.UI.loading,
 		eventSources: eventSources
 	});
 	$('#oneweekview_radio').click(function(){

@@ -82,7 +82,7 @@ class OC_Calendar_Calendar{
 	 * @param integer $id
 	 * @return associative array
 	 */
-	public static function findCalendar($id){
+	public static function find($id){
 		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_calendars WHERE id = ?' );
 		$result = $stmt->execute(array($id));
 
@@ -96,7 +96,7 @@ class OC_Calendar_Calendar{
 	 * @param string $components Default: "VEVENT,VTODO,VJOURNAL"
 	 * @param string $timezone Default: null
 	 * @param integer $order Default: 1
-	 * @param string $color Default: null
+	 * @param string $color Default: null, format: '#RRGGBB(AA)'
 	 * @return insertid
 	 */
 	public static function addCalendar($userid,$name,$components='VEVENT,VTODO,VJOURNAL',$timezone=null,$order=0,$color=null){
@@ -122,7 +122,7 @@ class OC_Calendar_Calendar{
 	 * @param string $components
 	 * @param string $timezone
 	 * @param integer $order
-	 * @param string $color
+	 * @param string $color format: '#RRGGBB(AA)'
 	 * @return insertid
 	 */
 	public static function addCalendarFromDAVData($principaluri,$uri,$name,$components,$timezone,$order,$color){
@@ -141,21 +141,21 @@ class OC_Calendar_Calendar{
 	 * @param string $components Default: null
 	 * @param string $timezone Default: null
 	 * @param integer $order Default: null
-	 * @param string $color Default: null
+	 * @param string $color Default: null, format: '#RRGGBB(AA)'
 	 * @return boolean
 	 *
 	 * Values not null will be set
 	 */
 	public static function editCalendar($id,$name=null,$components=null,$timezone=null,$order=null,$color=null){
 		// Need these ones for checking uri
-		$calendar = self::findCalendar($id);
+		$calendar = self::find($id);
 
 		// Keep old stuff
-		if(is_null($name)) $name = $calendar['name'];
+		if(is_null($name)) $name = $calendar['displayname'];
 		if(is_null($components)) $components = $calendar['components'];
 		if(is_null($timezone)) $timezone = $calendar['timezone'];
 		if(is_null($order)) $order = $calendar['calendarorder'];
-		if(is_null($color)) $color = $calendar['color'];
+		if(is_null($color)) $color = $calendar['calendarcolor'];
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
 		$result = $stmt->execute(array($name,$order,$color,$timezone,$components,$id));
@@ -230,22 +230,23 @@ class OC_Calendar_Calendar{
 	}
 	public static function getCalendarColorOptions(){
 		return array(
-			'ff0000', // "Red"
-			'00ff00', // "Green"
-			'ffff00', // "Yellow"
-			'808000', // "Olive"
-			'ffa500', // "Orange"
-			'ff7f50', // "Coral"
-			'ee82ee', // "Violet"
-			'ecc255', // dark yellow
+			'#ff0000', // "Red"
+			'#b3dc6c', // "Green"
+			'#ffff00', // "Yellow"
+			'#808000', // "Olive"
+			'#ffa500', // "Orange"
+			'#ff7f50', // "Coral"
+			'#ee82ee', // "Violet"
+			'#9fc6e7', // "light blue"
 		);
 	}
 	public static function getEventSourceInfo($calendar){
 		return array(
 			'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
-			'backgroundColor' => '#'.$calendar['calendarcolor'],
+			'backgroundColor' => $calendar['calendarcolor'],
 			'borderColor' => '#888',
 			'textColor' => 'black',
+			'cache' => true,
 		);
 	}
 }

@@ -8,7 +8,7 @@
 ?>
 <form id="bookmarks">
 		<fieldset class="personalblock">
-			<span class="bold"><?php echo $l->t('Bookmarklet:');?></span>&nbsp;<a class="bookmarks_addBml" href="javascript:(function(){url=encodeURIComponent(location.href);window.open('<?php echo OC_Helper::linkTo('bookmarks', 'addBm.php', null, true); ?>?url='+url, 'owncloud-bookmarks') })()"><?php echo $l->t('Add page to ownCloud'); ?></a>
+			<span class="bold"><?php echo $l->t('Bookmarklet:');?></span>&nbsp;<a class="bookmarks_addBml" href="javascript:(function(){url=encodeURIComponent(location.href);window.open('<?php echo OC_Helper::linkToAbsolute('bookmarks', 'addBm.php'); ?>?url='+url, 'owncloud-bookmarks') })()"><?php echo $l->t('Add page to ownCloud'); ?></a>
 			<br/><em><?php echo $l->t('Drag this to your browser bookmarks and click it, when you want to bookmark a webpage.'); ?></em><br />
 		</fieldset>
 </form>

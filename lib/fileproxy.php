@@ -34,7 +34,7 @@
  * A post-proxy recieves 2 arguments, the filepath and the result of the operation.
  * The return calue of the post-proxy will be used as the new result of the operation
  * The operations that have a post-proxy are
- *      file_get_contents, is_file, is_dir, file_exists, stat, is_readable, is_writable, fileatime, filemtime, filectime, file_get_contents, getMimeType, hash, free_space and search
+ *      file_get_contents, is_file, is_dir, file_exists, stat, is_readable, is_writable, filemtime, filectime, file_get_contents, getMimeType, hash, free_space and search
  */
 
 class OC_FileProxy{

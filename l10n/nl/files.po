@@ -3,15 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <bart.formosus@gmail.com>, 2011.
+#   <bartv@thisnet.nl>, 2011.
 #   <icewind1991@gmail.com>, 2011.
 #   <koen@vervloesem.eu>, 2011.
+#   <pietje8501@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2011-09-24 23:05+0200\n"
-"PO-Revision-Date: 2011-09-24 21:05+0000\n"
-"Last-Translator: JanCBorchardt <jan@unhosted.org>\n"
+"POT-Creation-Date: 2012-01-15 14:44+0100\n"
+"PO-Revision-Date: 2012-01-12 18:11+0000\n"
+"Last-Translator: Pietje8501 <pietje8501@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/team/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,33 +22,37 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:19
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Geen fout opgetreden, bestand successvol geupload."
 
-#: ajax/upload.php:25
+#: ajax/upload.php:20
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
+"Het geüploade bestand is groter dan de upload_max_filesize instelling in "
+"php.ini"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
+"Het geüploade bestand is groter dan de MAX_FILE_SIZE richtlijn die is "
+"opgegeven in de HTML-formulier"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:22
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Het bestand is slechts gedeeltelijk geupload"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:23
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Geen bestand geüpload"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:24
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Een tijdelijke map mist"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:8
 msgid "Files"
 msgstr "Bestanden"
 
@@ -53,43 +60,55 @@ msgstr "Bestanden"
 msgid "Maximum upload size"
 msgstr "Maximale bestandsgrootte voor uploads"
 
+#: templates/index.php:7
+msgid "New"
+msgstr "Nieuw"
+
 #: templates/index.php:10
+msgid "Text file"
+msgstr "Tekstbestand"
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr "Map"
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr "Van het internet"
+
+#: templates/index.php:22
 msgid "Upload"
 msgstr "Upload"
 
-#: templates/index.php:17
-msgid "New Folder"
-msgstr "Nieuwe map"
-
-#: templates/index.php:31
+#: templates/index.php:35
 msgid "Nothing in here. Upload something!"
 msgstr "Er bevindt zich hier niets. Upload een bestand!"
 
-#: templates/index.php:39
+#: templates/index.php:43
 msgid "Name"
 msgstr "Naam"
 
-#: templates/index.php:41
+#: templates/index.php:45
 msgid "Download"
 msgstr "Download"
 
-#: templates/index.php:45
+#: templates/index.php:49
 msgid "Size"
 msgstr "Bestandsgrootte"
 
-#: templates/index.php:46
+#: templates/index.php:50
 msgid "Modified"
 msgstr "Laatst aangepast"
 
-#: templates/index.php:46
+#: templates/index.php:50
 msgid "Delete"
 msgstr "Verwijder"
 
-#: templates/index.php:54
+#: templates/index.php:58
 msgid "Upload too large"
 msgstr "Bestanden te groot"
 
-#: templates/index.php:56
+#: templates/index.php:60
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."

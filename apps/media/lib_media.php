@@ -28,7 +28,7 @@ OC_Hook::connect('OC_User','post_login','OC_MEDIA','loginListener');
 OC_Hook::connect('OC_Filesystem','post_write','OC_MEDIA','updateFile');
 
 //listen for file deletions to clean the database if a song is deleted
-OC_Hook::connect('OC_Filesystem','delete','OC_MEDIA','deleteFile');
+OC_Hook::connect('OC_Filesystem','post_delete','OC_MEDIA','deleteFile');
 
 //list for file moves to update the database
 OC_Hook::connect('OC_Filesystem','post_rename','OC_MEDIA','moveFile');
@@ -89,18 +89,18 @@ class OC_MediaSearchProvider extends OC_Search_Provider{
 		$songs=OC_MEDIA_COLLECTION::getSongs(0,0,$query);
 		$results=array();
 		foreach($artists as $artist){
-			$results[]=new OC_Search_Result($artist['artist_name'],'',OC_Helper::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist['artist_name']) ),'Music');
+			$results[]=new OC_Search_Result($artist['artist_name'],'',OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist['artist_name']),'Music');
 		}
 		foreach($albums as $album){
 			$artist=OC_MEDIA_COLLECTION::getArtistName($album['album_artist']);
-			$results[]=new OC_Search_Result($album['album_name'],'by '.$artist,OC_Helper::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist).'&album='.urlencode($album['album_name']) ),'Music');
+			$results[]=new OC_Search_Result($album['album_name'],'by '.$artist,OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist).'&album='.urlencode($album['album_name']),'Music');
 		}
 		foreach($songs as $song){
 			$minutes=floor($song['song_length']/60);
 			$secconds=$song['song_length']%60;
 			$artist=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
 			$album=OC_MEDIA_COLLECTION::getalbumName($song['song_album']);
-			$results[]=new OC_Search_Result($song['song_name'],"by $artist, in $album $minutes:$secconds",OC_Helper::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist).'&album='.urlencode($album).'&song='.urlencode($song['song_name']) ),'Music');
+			$results[]=new OC_Search_Result($song['song_name'],"by $artist, in $album $minutes:$secconds",OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist).'&album='.urlencode($album).'&song='.urlencode($song['song_name']),'Music');
 		}
 		return $results;
 	}

@@ -41,7 +41,7 @@
 
 <p class="personalblock">
 	<strong>WebDAV</strong>
-	<?php echo OC_Helper::linkTo('files', 'webdav.php', null, true); ?><br />
+	<?php echo OC_Helper::linkToAbsolute('files', 'webdav.php'); ?><br />
 	<em><?php echo $l->t('use this address to connect to your ownCloud in your file manager');?></em>
 </p>
 
@@ -51,6 +51,7 @@
 
 <p class="personalblock">
 	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?><br />
+	developed by the <a href="http://ownCloud.org/credits" target="_blank">ownCloud community</a><br />
 	<?php echo(OC_Updater::ShowUpdatingHint());     ?><br />
 	<a href="http://gitorious.org/owncloud" target="_blank">source code</a> licensed freely under <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">AGPL</a>
 </p>

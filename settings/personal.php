@@ -16,22 +16,33 @@ OC_Util::addStyle( '3rdparty', 'chosen' );
 OC_App::setActiveNavigationEntry( 'personal' );
 
 // calculate the disc space
-$used=OC_Filesystem::filesize('/');
+$rootInfo=OC_FileCache::get('');
+$used=$rootInfo['size'];
 $free=OC_Filesystem::free_space();
 $total=$free+$used;
 $relative=round(($used/$total)*10000)/100;
 
 $email=OC_Preferences::getValue(OC_User::getUser(), 'settings','email','');
 
-$lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', 'en' );
+$lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
 $languageCodes=OC_L10N::findAvailableLanguages();
+sort ($languageCodes);
+
 //put the current language in the front
 unset($languageCodes[array_search($lang,$languageCodes)]);
 array_unshift($languageCodes,$lang);
+
 $languageNames=include 'languageCodes.php';
 $languages=array();
 foreach($languageCodes as $lang){
-	$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);
+	$l=new OC_L10N('settings',$lang);
+	if(substr($l->t('__language_name__'),0,1)!='_'){//first check if the language name is in the translation file
+		$languages[]=array('code'=>$lang,'name'=>$l->t('__language_name__'));
+	}elseif(isset($languageNames[$lang])){
+		$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);
+	}else{//fallback to language code
+		$languages[]=array('code'=>$lang,'name'=>$lang);
+	}
 }
 
 // Return template

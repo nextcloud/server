@@ -152,14 +152,14 @@ class OC_Installer{
 		}
 		
 		//run appinfo/install.php
-		if(!isset($data['noinstall']) or $data['noinstall']==false and is_file($basedir.'/appinfo/install.php')){
+		if((!isset($data['noinstall']) or $data['noinstall']==false) and file_exists($basedir.'/appinfo/install.php')){
 			include($basedir.'/appinfo/install.php');
 		}
 		
 		//set the installed version
 		OC_Appconfig::setValue($info['id'],'installed_version',$info['version']);
 		OC_Appconfig::setValue($info['id'],'enabled','no');
-		return true;
+		return $info['id'];
 	}
 
 	/**

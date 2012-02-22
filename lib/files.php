@@ -36,44 +36,13 @@ class OC_Files {
 		if(strpos($directory,OC::$CONFIG_DATADIRECTORY)===0){
 			$directory=substr($directory,strlen(OC::$CONFIG_DATADIRECTORY));
 		}
-		$filesfound=true;
-		$content=array();
-		$dirs=array();
-		$file=array();
-		$files=array();
-		if(OC_Filesystem::is_dir($directory)) {
-			if ($dh = OC_Filesystem::opendir($directory)) {
-			while (($filename = readdir($dh)) !== false) {
-				if($filename<>'.' and $filename<>'..' and substr($filename,0,1)!='.'){
-					$file=array();
-					$filesfound=true;
-					$file['name']=$filename;
-					$file['directory']=$directory;
-					$stat=OC_Filesystem::stat($directory.'/'.$filename);
-					$file=array_merge($file,$stat);
-					$file['size']=OC_Filesystem::filesize($directory.'/'.$filename);
-					$file['mime']=OC_Files::getMimeType($directory .'/'. $filename);
-					$file['readable']=OC_Filesystem::is_readable($directory .'/'. $filename);
-					$file['writeable']=OC_Filesystem::is_writeable($directory .'/'. $filename);
-					$file['type']=OC_Filesystem::filetype($directory .'/'. $filename);
-					if($file['type']=='dir'){
-						$dirs[$file['name']]=$file;
-					}else{
-						$files[$file['name']]=$file;
-					}
-				}
-			}
-			closedir($dh);
-			}
+		$files=OC_FileCache::getFolderContent($directory);
+		foreach($files as &$file){
+			$file['directory']=$directory;
+			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
 		}
-		uksort($dirs, "strnatcasecmp");
-		uksort($files, "strnatcasecmp");
-		$content=array_merge($dirs,$files);
-		if($filesfound){
-			return $content;
-		}else{
-			return false;
-		}
+		usort($files, "fileCmp");//TODO: remove this once ajax is merged
+		return $files;
 	}
 
 
@@ -122,9 +91,7 @@ class OC_Files {
 		if($zip or OC_Filesystem::is_readable($filename)){
 			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 			header('Content-Transfer-Encoding: binary');
-			header('Expires: 0');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
+			OC_Response::disableCaching();
 			if($zip){
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
@@ -183,8 +150,8 @@ class OC_Files {
 	*/
 	public static function move($sourceDir,$source,$targetDir,$target){
 		if(OC_User::isLoggedIn()){
-			$targetFile=$targetDir.'/'.$target;
-			$sourceFile=$sourceDir.'/'.$source;
+			$targetFile=self::normalizePath($targetDir.'/'.$target);
+			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
 			return OC_Filesystem::rename($sourceFile,$targetFile);
 		}
 	}
@@ -304,5 +271,30 @@ class OC_Files {
 		$content.= "SetEnv htaccessWorking true\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
+	}
+
+	/**
+	 * normalize a path, removing any double, add leading /, etc
+	 * @param string $path
+	 * @return string
+	 */
+	static public function normalizePath($path){
+		$path='/'.$path;
+		$old='';
+		while($old!=$path){//replace any multiplicity of slashes with a single one
+			$old=$path;
+			$path=str_replace('//','/',$path);
+		}
+		return $path;
+	}
+}
+
+function fileCmp($a,$b){
+	if($a['type']=='dir' and $b['type']!='dir'){
+		return -1;
+	}elseif($a['type']!='dir' and $b['type']=='dir'){
+		return 1;
+	}else{
+		return strnatcasecmp($a['name'],$b['name']);
 	}
 }

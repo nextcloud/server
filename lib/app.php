@@ -94,7 +94,15 @@ class OC_App{
 	 */
 	public static function enable( $app ){
 		if(!OC_Installer::isInstalled($app)){
-			OC_Installer::installShippedApp($app);
+			// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
+			if(!is_numeric($app)){
+				OC_Installer::installShippedApp($app);
+			}else{
+                                $download=OC_OCSClient::getApplicationDownload($app,1);
+				if(isset($download['downloadlink']) and $download['downloadlink']<>'') {
+					$app=OC_Installer::installApp(array('source'=>'http','href'=>$download['downloadlink']));
+				}
+			}
 		}
 		OC_Appconfig::setValue( $app, 'enabled', 'yes' );
 	}
@@ -107,6 +115,7 @@ class OC_App{
 	 * This function set an app as disabled in appconfig.
 	 */
 	public static function disable( $app ){
+		// check if app is a shiped app or not. if not delete
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
 	}
 
@@ -221,7 +230,7 @@ class OC_App{
 				// admin users menu
 				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
 				// admin apps menu
-				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php?installed" ), "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
+				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php" ).'?installed', "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
 				// admin log menu
 				$settings[] = array( "id" => "core_log", "order" => 4, "href" => OC_Helper::linkTo( "settings", "log.php" ), "name" => $l->t("Log"), "icon" => OC_Helper::imagePath( "settings", "log.svg" ));
 
@@ -361,5 +370,55 @@ class OC_App{
 			}
 		}
 		return $apps;
+	}
+	
+	/**
+	 * check if any apps need updating and update those
+	 */
+	public static function updateApps(){
+		// The rest comes here
+		$apps = OC_Appconfig::getApps();
+		foreach( $apps as $app ){
+			$installedVersion=OC_Appconfig::getValue($app,'installed_version');
+			$appInfo=OC_App::getAppInfo($app);
+			if (isset($appInfo['version'])) {
+				$currentVersion=$appInfo['version'];
+				if (version_compare($currentVersion, $installedVersion, '>')) {
+					OC_App::updateApp($app);
+					OC_Appconfig::setValue($app,'installed_version',$appInfo['version']);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * update the database for the app and call the update script
+	 * @param string appid
+	 */
+	public static function updateApp($appid){
+		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml')){
+			OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml');
+		}
+		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php')){
+			include OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php';
+		}
+	}
+
+	/**
+	 * @param string appid
+	 * @return OC_FilesystemView
+	 */
+	public static function getStorage($appid){
+		if(OC_App::isEnabled($appid)){//sanity check
+			if(OC_User::isLoggedIn()){
+				return new OC_FilesystemView('/'.OC_User::getUser().'/'.$appid);
+			}else{
+				OC_Log::write('core','Can\'t get app storage, app, user not logged in',OC_Log::ERROR);
+				return false;
+			}
+		}else{
+			OC_Log::write('core','Can\'t get app storage, app '.$appid.' not enabled',OC_Log::ERROR);
+			false;
+		}
 	}
 }

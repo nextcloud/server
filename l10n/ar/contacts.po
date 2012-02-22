@@ -1,0 +1,282 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <tarek.taha@gmail.com>, 2011, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"PO-Revision-Date: 2012-01-25 09:34+0000\n"
+"Last-Translator: blackcoder <tarek.taha@gmail.com>\n"
+"Language-Team: Arabic (http://www.transifex.net/projects/p/owncloud/team/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5\n"
+
+#: ajax/activation.php:17 ajax/updateaddressbook.php:26
+msgid "Error (de)activating addressbook."
+msgstr "خطء خلال توقيف كتاب العناوين."
+
+#: ajax/addcard.php:79
+msgid "There was an error adding the contact."
+msgstr "خطء خلال اضافة معرفه جديده."
+
+#: ajax/addproperty.php:39
+msgid "Cannot add empty property."
+msgstr "لا يمكنك اضافه صفه خاليه."
+
+#: ajax/addproperty.php:51
+msgid "At least one of the address fields has to be filled out."
+msgstr "يجب ملء على الاقل خانه واحده من العنوان."
+
+#: ajax/addproperty.php:78
+msgid "Error adding contact property."
+msgstr "خطء خلال اضافة صفة المعرفه."
+
+#: ajax/createaddressbook.php:20
+msgid "Error adding addressbook."
+msgstr "خطء خلال اضافة كتاب عناوين."
+
+#: ajax/createaddressbook.php:26
+msgid "Error activating addressbook."
+msgstr "خطء خلال تفعيل كتاب العناوين."
+
+#: ajax/deleteproperty.php:40
+msgid "Error deleting contact property."
+msgstr "خطء خلال محي الصفه."
+
+#: ajax/setproperty.php:79
+msgid "Error updating contact property."
+msgstr "خطء خلال تعديل الصفه."
+
+#: ajax/updateaddressbook.php:20
+msgid "Error updating addressbook."
+msgstr "خطء خلال تعديل كتاب العناوين"
+
+#: appinfo/app.php:21 templates/settings.php:3
+msgid "Contacts"
+msgstr "المعارف"
+
+#: lib/app.php:52
+msgid "This is not your addressbook."
+msgstr "هذا ليس دفتر عناوينك."
+
+#: lib/app.php:61 photo.php:36
+msgid "Contact could not be found."
+msgstr "لم يتم العثور على الشخص."
+
+#: lib/app.php:89
+msgid "Information about vCard is incorrect. Please reload the page."
+msgstr "المعلومات الموجودة في ال vCard غير صحيحة. الرجاء إعادة تحديث الصفحة."
+
+#: lib/app.php:101 templates/part.addcardform.php:54
+#: templates/part.property.php:45 templates/part.setpropertyform.php:7
+msgid "Address"
+msgstr "عنوان"
+
+#: lib/app.php:102 templates/part.addcardform.php:43
+msgid "Telephone"
+msgstr "الهاتف"
+
+#: lib/app.php:103 templates/part.addcardform.php:37
+#: templates/part.property.php:16 templates/part.setpropertyform.php:51
+msgid "Email"
+msgstr "البريد الالكتروني"
+
+#: lib/app.php:104 templates/part.addcardform.php:27
+#: templates/part.property.php:9 templates/part.setpropertyform.php:54
+msgid "Organization"
+msgstr "المؤسسة"
+
+#: lib/app.php:116 lib/app.php:123
+msgid "Work"
+msgstr "الوظيفة"
+
+#: lib/app.php:117 lib/app.php:121
+msgid "Home"
+msgstr "البيت"
+
+#: lib/app.php:122
+msgid "Mobile"
+msgstr "الهاتف المحمول"
+
+#: lib/app.php:124
+msgid "Text"
+msgstr "معلومات إضافية"
+
+#: lib/app.php:125
+msgid "Voice"
+msgstr "صوت"
+
+#: lib/app.php:126
+msgid "Fax"
+msgstr "الفاكس"
+
+#: lib/app.php:127
+msgid "Video"
+msgstr "الفيديو"
+
+#: lib/app.php:128
+msgid "Pager"
+msgstr "الرنان"
+
+#: lib/search.php:22
+msgid "Contact"
+msgstr "معرفه"
+
+#: photo.php:42
+msgid "This is not your contact."
+msgstr ".هذا ليس من معارفي"
+
+#: templates/index.php:6
+msgid "Add Contact"
+msgstr "أضف شخص "
+
+#: templates/index.php:7
+msgid "Addressbooks"
+msgstr "كتب العناوين"
+
+#: templates/part.addcardform.php:8
+msgid "Addressbook"
+msgstr "كتاب العناوين"
+
+#: templates/part.addcardform.php:21
+msgid "Name"
+msgstr "الاسم"
+
+#: templates/part.addcardform.php:57 templates/part.details.php:43
+#: templates/part.details.php:79 templates/part.setpropertyform.php:10
+#: templates/part.setpropertyform.php:47
+msgid "Type"
+msgstr "نوع"
+
+#: templates/part.addcardform.php:65 templates/part.details.php:49
+#: templates/part.setpropertyform.php:16
+msgid "PO Box"
+msgstr "العنوان البريدي"
+
+#: templates/part.addcardform.php:72 templates/part.details.php:53
+#: templates/part.setpropertyform.php:20
+msgid "Extended"
+msgstr "إضافة"
+
+#: templates/part.addcardform.php:78 templates/part.details.php:57
+#: templates/part.setpropertyform.php:24
+msgid "Street"
+msgstr "شارع"
+
+#: templates/part.addcardform.php:84 templates/part.details.php:61
+#: templates/part.setpropertyform.php:28
+msgid "City"
+msgstr "المدينة"
+
+#: templates/part.addcardform.php:90 templates/part.details.php:65
+#: templates/part.setpropertyform.php:32
+msgid "Region"
+msgstr "المنطقة"
+
+#: templates/part.addcardform.php:96 templates/part.details.php:69
+#: templates/part.setpropertyform.php:36
+msgid "Zipcode"
+msgstr "رقم المنطقة"
+
+#: templates/part.addcardform.php:102 templates/part.details.php:73
+#: templates/part.setpropertyform.php:40
+msgid "Country"
+msgstr "البلد"
+
+#: templates/part.addcardform.php:109
+msgid "Create Contact"
+msgstr "أضف شخص "
+
+#: templates/part.chooseaddressbook.php:1
+msgid "Choose active Address Books"
+msgstr "أختر كتاب العناوين الفعال"
+
+#: templates/part.chooseaddressbook.php:16
+msgid "New Address Book"
+msgstr "كتاب عناوين جديد"
+
+#: templates/part.chooseaddressbook.php:21
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "CardDav Link"
+msgstr "وصلة CardDav"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Download"
+msgstr "انزال"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Edit"
+msgstr "تعديل"
+
+#: templates/part.chooseaddressbook.rowfields.php:5
+msgid "Delete"
+msgstr "حذف"
+
+#: templates/part.details.php:3
+msgid "Download contact"
+msgstr "انزال المعرفه"
+
+#: templates/part.details.php:4
+msgid "Delete contact"
+msgstr "امحي المعرفه"
+
+#: templates/part.details.php:34
+msgid "Add"
+msgstr "أدخل"
+
+#: templates/part.editaddressbook.php:9
+msgid "New Addressbook"
+msgstr "كتاب عناوين جديد"
+
+#: templates/part.editaddressbook.php:9
+msgid "Edit Addressbook"
+msgstr "عدل كتاب العناوين"
+
+#: templates/part.editaddressbook.php:12
+msgid "Displayname"
+msgstr "الاسم المعروض"
+
+#: templates/part.editaddressbook.php:23
+msgid "Active"
+msgstr "فعال"
+
+#: templates/part.editaddressbook.php:29
+msgid "Save"
+msgstr "حفظ"
+
+#: templates/part.editaddressbook.php:29
+msgid "Submit"
+msgstr "ارسال"
+
+#: templates/part.editaddressbook.php:30
+msgid "Cancel"
+msgstr "الغاء"
+
+#: templates/part.property.php:3
+msgid "Birthday"
+msgstr "تاريخ الميلاد"
+
+#: templates/part.property.php:23
+msgid "Preferred"
+msgstr "مفضل"
+
+#: templates/part.property.php:23 templates/part.setpropertyform.php:45
+msgid "Phone"
+msgstr "الهاتف"
+
+#: templates/part.setpropertyform.php:57
+msgid "Update"
+msgstr "تعديل"
+
+#: templates/settings.php:4
+msgid "CardDAV syncing address:"
+msgstr "CardDAV مزامنه العناوين:"
+
+

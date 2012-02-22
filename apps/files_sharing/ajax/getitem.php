@@ -8,6 +8,7 @@ require_once('../lib_share.php');
 $userDirectory = "/".OC_User::getUser()."/files";
 $source = $userDirectory.$_GET['source'];
 $path = $source;
+$users = array();
 if ($users = OC_Share::getMySharedItem($source)) {
 	for ($i = 0; $i < count($users); $i++) {
 		if ($users[$i]['uid_shared_with'] == OC_Share::PUBLICLINK) {

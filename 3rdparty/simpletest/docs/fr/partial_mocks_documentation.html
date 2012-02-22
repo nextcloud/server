@@ -1,0 +1,475 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Documentation SimpleTest : les objets fantaisie partiels</title>
+<link rel="stylesheet" type="text/css" href="docs.css" title="Styles">
+</head>
+<body>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<h1>Documentation sur les objets fantaisie partiels</h1>
+        This page...
+        <ul>
+<li>
+            <a href="#injection">Le problème de l'injection d'un objet fantaisie</a>.
+        </li>
+<li>
+            Déplacer la création vers une méthode <a href="#creation">fabrique protégée</a>.
+        </li>
+<li>
+            <a href="#partiel">L'objet fantaisie partiel</a> génère une sous-classe.
+        </li>
+<li>
+            Les objets fantaisie partiels <a href="#moins">testent moins qu'une classe</a>.
+        </li>
+</ul>
+<div class="content">
+        
+            <p>
+                Un objet fantaisie partiel n'est ni plus ni moins
+                qu'un modèle de conception pour soulager un problème spécifique
+                du test avec des objets fantaisie, celui de placer
+                des objets fantaisie dans des coins serrés.
+                Il s'agit d'un outil assez limité et peut-être même
+                une idée pas si bonne que ça. Elle est incluse dans SimpleTest
+                pour la simple raison que je l'ai trouvée utile
+                à plus d'une occasion et qu'elle m'a épargnée
+                pas mal de travail dans ces moments-là.
+            </p>
+        
+        <h2>
+<a class="target" name="injection"></a>Le problème de l'injection dans un objet fantaisie</h2>
+            <p>
+                Quand un objet en utilise un autre il est très simple
+                d'y faire circuler une version fantaisie déjà prête
+                avec ses attentes. Les choses deviennent un peu plus délicates
+                si un objet en crée un autre et que le créateur est celui
+                que l'on souhaite tester. Cela revient à dire que l'objet
+                créé devrait être une fantaisie, mais nous pouvons
+                difficilement dire à notre classe sous test de créer
+                un objet fantaisie plutôt qu'un "vrai" objet.
+                La classe testée ne sait même pas qu'elle travaille dans un environnement de test.
+            </p>
+            <p>
+                Par exemple, supposons que nous sommes en train
+                de construire un client telnet et qu'il a besoin
+                de créer une socket réseau pour envoyer ses messages.
+                La méthode de connexion pourrait ressemble à quelque chose comme...
+<pre>
+<strong>&lt;?php
+require_once('socket.php');
+
+class Telnet {
+    ...
+    function connect($ip, $port, $username, $password) {
+        $socket = new Socket($ip, $port);
+        $socket-&gt;read( ... );
+        ...
+    }
+}
+?&gt;</strong>
+</pre>
+                Nous voudrions vraiment avoir une version fantaisie
+                de l'objet socket, que pouvons nous faire ?
+            </p>
+            <p>
+                La première solution est de passer la socket en
+                tant que paramètre, ce qui force la création
+                au niveau inférieur. Charger le client de cette tâche
+                est effectivement une bonne approche si c'est possible
+                et devrait conduire à un remaniement -- de la création
+                à partir de l'action. En fait, c'est là une des manières
+                avec lesquels tester en s'appuyant sur des objets fantaisie
+                vous force à coder des solutions plus resserrées sur leur objectif.
+                Ils améliorent votre programmation.
+            </p>
+            <p>
+                Voici ce que ça devrait être...
+<pre>
+&lt;?php
+require_once('socket.php');
+
+class Telnet {
+    ...
+    <strong>function connect($socket, $username, $password) {
+        $socket-&gt;read( ... );
+        ...
+    }</strong>
+}
+?&gt;
+</pre>
+                Sous-entendu, votre code de test est typique d'un cas
+                de test avec un objet fantaisie.
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $telnet = new Telnet();
+        $telnet-&gt;connect($socket, 'Me', 'Secret');
+        ...</strong>
+    }
+}
+</pre>
+                C'est assez évident que vous ne pouvez descendre que d'un niveau.
+                Vous ne voudriez pas que votre application de haut niveau
+                crée tous les fichiers de bas niveau, sockets et autres connexions
+                à la base de données dont elle aurait besoin.
+                Elle ne connaîtrait pas les paramètres du constructeur de toute façon.
+            </p>
+            <p>
+                La solution suivante est de passer l'objet créé sous la forme
+                d'un paramètre optionnel...
+<pre>
+&lt;?php
+require_once('socket.php');
+
+class Telnet {
+    ...<strong>
+    function connect($ip, $port, $username, $password, $socket = false) {
+        if (! $socket) {
+            $socket = new Socket($ip, $port);
+        }
+        $socket-&gt;read( ... );</strong>
+        ...
+        return $socket;
+    }
+}
+?&gt;
+</pre>
+                Pour une solution rapide, c'est généralement suffisant.
+                Ensuite le test est très similaire : comme si le paramètre
+                était transmis formellement...
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $telnet = new Telnet();
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret', $socket);
+        ...</strong>
+    }
+}
+</pre>
+                Le problème de cette approche tient dans son manque de netteté.
+                Il y a du code de test dans la classe principale et aussi
+                des paramètres transmis dans le scénario de test
+                qui ne sont jamais utilisés. Il s'agit là d'une approche
+                rapide et sale, mais qui ne reste pas moins efficace
+                dans la plupart des situations.
+            </p>
+            <p>
+                Une autre solution encore est de laisser un objet fabrique
+                s'occuper de la création...
+<pre>
+&lt;?php
+require_once('socket.php');
+
+class Telnet {<strong>
+   function Telnet($network) {
+        $this-&gt;_network = $network;
+    }</strong>
+    ...
+    function connect($ip, $port, $username, $password) {<strong>
+        $socket = $this-&gt;_network-&gt;createSocket($ip, $port);
+        $socket-&gt;read( ... );</strong>
+        ...
+        return $socket;
+    }
+}
+?&gt;
+</pre>
+                Il s'agit là probablement de la réponse la plus travaillée
+                étant donné que la création est maintenant située
+                dans une petite classe spécialisée. La fabrique réseau
+                peut être testée séparément et utilisée en tant que fantaisie
+                quand nous testons la classe telnet...
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $network = new MockNetwork();
+        $network-&gt;returnsByReference('createSocket', $socket);
+        $telnet = new Telnet($network);
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret');</strong>
+    }
+}
+</pre>
+                Le problème reste que nous ajoutons beaucoup de classes
+                à la bibliothèque. Et aussi que nous utilisons beaucoup
+                de fabriques ce qui rend notre code un peu moins intuitif.
+                La solution la plus flexible, mais aussi la plus complexe.
+            </p>
+			<p>
+                Des techniques comme "l'Injection de Dépendance"
+				(ou "Dependency Injection") s'attelle au problème
+				de l'instanciation d'une classe avec beaucoup de paramètres.
+				Malheureusement la connaissance de ce patron de conception
+				n'est pas très répandue et si vous êtes en train d'essayer
+				de faire fonctionner du vieux code, ré-achitecturer toute
+				l'application n'est pas vraiment une option.
+            </p>
+            <p>
+                Peut-on trouver un juste milieu ?
+            </p>
+        
+        <h2>
+<a class="target" name="creation"></a>Méthode fabrique protégée</h2>
+            <p>
+                Il existe une technique pour palier à ce problème
+                sans créer de nouvelle classe dans l'application;
+                par contre elle induit la création d'une sous-classe au moment du test.
+                Premièrement nous déplaçons la création de la socket dans sa propre méthode...
+<pre>
+&lt;?php
+require_once('socket.php');
+
+class Telnet {
+    ...
+    function connect($ip, $port, $username, $password) {
+        <strong>$socket = $this-&gt;createSocket($ip, $port);</strong>
+        $socket-&gt;read( ... );
+        ...
+    }<strong>
+
+    protected function createSocket($ip, $port) {
+        return new Socket($ip, $port);
+    }</strong>
+}
+?&gt;
+</pre>
+				Une première étape plutôt précautionneuse même pour
+				du code legacy et intermélé.
+                Il s'agit là de la seule modification dans le code de l'application.
+            </p>
+            <p>
+                Pour le scénario de test, nous devons créer
+                une sous-classe de manière à intercepter la création de la socket...
+<pre>
+<strong>class TelnetTestVersion extends Telnet {
+    var $mock;
+
+    function TelnetTestVersion($mock) {
+        $this-&gt;mock = $mock;
+        $this-&gt;Telnet();
+    }
+
+    protected function createSocket() {
+        return $this-&gt;mock;
+    }
+}</strong>
+</pre>
+                Ici j'ai déplacé la fantaisie dans le constructeur,
+                mais un setter aurait fonctionné tout aussi bien.
+                Notez bien que la fantaisie est placée dans une variable
+                d'objet avant que le constructeur ne soit attaché.
+                C'est nécessaire dans le cas où le constructeur appelle 
+                <span class="new_code">connect()</span>.
+                Autrement il pourrait donner un valeur nulle à partir de
+                <span class="new_code">createSocket()</span>.
+            </p>
+            <p>
+                Après la réalisation de tout ce travail supplémentaire
+                le scénario de test est assez simple.
+                Nous avons juste besoin de tester notre nouvelle classe à la place...
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $telnet = new TelnetTestVersion($socket);
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret');</strong>
+    }
+}
+</pre>
+                Cette nouvelle classe est très simple bien sûr.
+                Elle ne fait qu'initier une valeur renvoyée, à la manière
+                d'une fantaisie. Ce serait pas mal non plus si elle pouvait
+                vérifier les paramètres entrants.
+                Exactement comme un objet fantaisie.
+                Il se pourrait bien que nous ayons à réaliser cette astuce régulièrement :
+                serait-il possible d'automatiser la création de cette sous-classe ?
+            </p>
+        
+        <h2>
+<a class="target" name="partiel"></a>Un objet fantaisie partiel</h2>
+            <p>
+                Bien sûr la réponse est "oui"
+                ou alors j'aurais arrêté d'écrire depuis quelques temps déjà !
+                Le test précédent a représenté beaucoup de travail,
+                mais nous pouvons générer la sous-classe en utilisant
+                une approche à celle des objets fantaisie.
+            </p>
+            <p>
+                Voici donc une version avec objet fantaisie partiel du test...
+<pre>
+<strong>Mock::generatePartial(
+        'Telnet',
+        'TelnetTestVersion',
+        array('createSocket'));</strong>
+
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {<strong>
+        $socket = new MockSocket();
+        ...
+        $telnet = new TelnetTestVersion();
+        $telnet-&gt;setReturnReference('createSocket', $socket);
+        $telnet-&gt;Telnet();
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret');</strong>
+    }
+}
+</pre>
+                La fantaisie partielle est une sous-classe de l'original
+                dont on aurait "remplacé" les méthodes sélectionnées
+                avec des versions de test. L'appel à <span class="new_code">generatePartial()</span>
+                nécessite trois paramètres : la classe à sous classer,
+                le nom de la nouvelle classe et une liste des méthodes à simuler.
+            </p>
+            <p>
+                Instancier les objets qui en résultent est plutôt délicat.
+                L'unique paramètre du constructeur d'un objet fantaisie partiel
+                est la référence du testeur unitaire.
+                Comme avec les objets fantaisie classiques c'est nécessaire
+                pour l'envoi des résultats de test en réponse à la vérification des attentes.
+            </p>
+            <p>
+                Une nouvelle fois le constructeur original n'est pas lancé.
+                Indispensable dans le cas où le constructeur aurait besoin
+                des méthodes fantaisie : elles n'ont pas encore été initiées !
+                Nous initions les valeurs retournées à cet instant et
+                ensuite lançons le constructeur avec ses paramètres normaux.
+                Cette construction en trois étapes de "new",
+                suivie par la mise en place des méthodes et ensuite
+                par la lancement du constructeur proprement dit est
+                ce qui distingue le code d'un objet fantaisie partiel.
+            </p>
+            <p>
+                A part pour leur construction, toutes ces méthodes
+                fantaisie ont les mêmes fonctionnalités que dans
+                le cas des objets fantaisie et toutes les méthodes
+                non fantaisie se comportent comme avant.
+                Nous pouvons mettre en place des attentes très facilement...
+<pre>
+class TelnetTest extends UnitTestCase {
+    ...
+    function testConnection() {
+        $socket = new MockSocket();
+        ...
+        $telnet = new TelnetTestVersion();
+        $telnet-&gt;setReturnReference('createSocket', $socket);
+        <strong>$telnet-&gt;expectOnce('createSocket', array('127.0.0.1', 21));</strong>
+        $telnet-&gt;Telnet();
+        $telnet-&gt;connect('127.0.0.1', 21, 'Me', 'Secret');
+    }
+}
+</pre>
+                Les objets fantaisie partiels ne sont pas très utilisés.
+				Je les considère comme transitoire.
+				Utile lors d'un remaniement, mais une fois que l'application
+				a eu toutes ses dépendances bien séparées alors
+				ils peuvent disparaître.
+            </p>
+        
+        <h2>
+<a class="target" name="moins"></a>Tester moins qu'une classe</h2>
+            <p>
+                Les méthodes issues d'un objet fantaisie n'ont pas
+                besoin d'être des méthodes fabrique, Il peut s'agir
+                de n'importe quelle sorte de méthode.
+                Ainsi les objets fantaisie partiels nous permettent
+                de prendre le contrôle de n'importe quelle partie d'une classe,
+                le constructeur excepté. Nous pourrions même aller jusqu'à
+                créer des fantaisies sur toutes les méthodes à part celle
+                que nous voulons effectivement tester.
+            </p>
+            <p>
+                Cette situation est assez hypothétique, étant donné
+                que je ne l'ai pas souvent essayée.
+				Je crains qu'en forçant la granularité d'un objet
+                on n'obtienne pas forcément un code de meilleur qualité.
+                Personnellement j'utilise les objets fantaisie partiels
+                comme moyen de passer outre la création ou alors
+                de temps en temps pour tester le modèle de conception TemplateMethod.
+            </p>
+            <p>
+                On en revient toujours aux standards de code de votre projet :
+				c'est à vous de trancher si vous autorisez ce mécanisme ou non.
+            </p>
+        
+    </div>
+        References and related information...
+        <ul>
+<li>
+            La page du projet SimpleTest sur
+            <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </li>
+<li>
+            <a href="http://simpletest.org/api/">L'API complète pour SimpleTest</a>
+            à partir de PHPDoc.
+        </li>
+<li>
+            La méthode fabrique protégée est décrite dans
+            <a href="http://www-106.ibm.com/developerworks/java/library/j-mocktest.html">
+            cet article d'IBM</a>. Il s'agit de l'unique papier
+            formel que j'ai vu sur ce problème.
+        </li>
+</ul>
+<div class="menu_back"><div class="menu">
+<a href="index.html">SimpleTest</a>
+                |
+                <a href="overview.html">Overview</a>
+                |
+                <a href="unit_test_documentation.html">Unit tester</a>
+                |
+                <a href="group_test_documentation.html">Group tests</a>
+                |
+                <a href="mock_objects_documentation.html">Mock objects</a>
+                |
+                <a href="partial_mocks_documentation.html">Partial mocks</a>
+                |
+                <a href="reporter_documentation.html">Reporting</a>
+                |
+                <a href="expectation_documentation.html">Expectations</a>
+                |
+                <a href="web_tester_documentation.html">Web tester</a>
+                |
+                <a href="form_testing_documentation.html">Testing forms</a>
+                |
+                <a href="authentication_documentation.html">Authentication</a>
+                |
+                <a href="browser_documentation.html">Scriptable browser</a>
+</div></div>
+<div class="copyright">
+            Copyright<br>Marcus Baker 2006
+        </div>
+</body>
+</html>

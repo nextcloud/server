@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-01-20 17:48+0100\n"
+"PO-Revision-Date: 2012-01-16 18:03+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywherer@gmail.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.net/projects/p/owncloud/team/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/upload.php:19
+msgid "There is no error, the file uploaded with success"
+msgstr "ไม่มีข้อผิดพลาดใดๆ ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว"
+
+#: ajax/upload.php:20
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
+"ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง upload_max_filesize ที่ระบุเอาไว้ในไฟล์ "
+"php.ini"
+
+#: ajax/upload.php:21
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+"ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง MAX_FILE_SIZE "
+"ที่ระบุเอาไว้ในรูปแบบคำสั่งในภาษา HTML"
+
+#: ajax/upload.php:22
+msgid "The uploaded file was only partially uploaded"
+msgstr "ไฟล์ที่อัพโหลดยังไม่ได้ถูกอัพโหลดอย่างสมบูรณ์"
+
+#: ajax/upload.php:23
+msgid "No file was uploaded"
+msgstr "ยังไม่มีไฟล์ที่ถูกอัพโหลด"
+
+#: ajax/upload.php:24
+msgid "Missing a temporary folder"
+msgstr "แฟ้มเอกสารชั่วคราวเกิดการสูญหาย"
+
+#: appinfo/app.php:8
+msgid "Files"
+msgstr "ไฟล์"
+
+#: templates/admin.php:5
+msgid "Maximum upload size"
+msgstr "ขนาดไฟล์สูงสุดที่อัพโหลดได้"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "อัพโหลดไฟล์ใหม่"
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr "ไฟล์ข้อความ"
+
+#: templates/index.php:11
+msgid "Folder"
+msgstr "แฟ้มเอกสาร"
+
+#: templates/index.php:12
+msgid "From the web"
+msgstr "จากเวป"
+
+#: templates/index.php:22
+msgid "Upload"
+msgstr "อัพโหลด"
+
+#: templates/index.php:35
+msgid "Nothing in here. Upload something!"
+msgstr "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!"
+
+#: templates/index.php:43
+msgid "Name"
+msgstr "ชื่อ"
+
+#: templates/index.php:45
+msgid "Download"
+msgstr "ดาวน์โหลด"
+
+#: templates/index.php:49
+msgid "Size"
+msgstr "ขนาด"
+
+#: templates/index.php:50
+msgid "Modified"
+msgstr "ปรับปรุงล่าสุด"
+
+#: templates/index.php:50
+msgid "Delete"
+msgstr "ลบ"
+
+#: templates/index.php:58
+msgid "Upload too large"
+msgstr "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป"
+
+#: templates/index.php:60
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+"ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
+
+

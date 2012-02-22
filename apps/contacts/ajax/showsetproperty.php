@@ -33,6 +33,10 @@ $checksum = $_GET['checksum'];
 $vcard = OC_Contacts_App::getContactVCard( $id );
 
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
+if(is_null($line)){
+	OC_JSON::error(array('data' => array( 'message' => OC_Contacts_App::$l10n->t('Information about vCard is incorrect. Please reload the page.'))));
+	exit();
+}
 
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
