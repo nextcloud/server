@@ -14,14 +14,37 @@ $(document).ready(function(){
 					.html('<a href="index.php?id='+task.id+'">'+task.summary+'</a>')
 					.addClass('summary')
 					)
-				.append(actions.clone().removeAttr('id'))
+				//.append(actions.clone().removeAttr('id'))
 				;
+			var checkbox = $('<input type="checkbox">');
+			if (task.completed) {
+				checkbox.attr('checked', 'checked');
+			}
+			$('<div>')
+				.addClass('completed')
+				.append(checkbox)
+				.prependTo(task_container);
+			var priority = task.priority;
+			$('<div>')
+				.addClass('tag')
+				.addClass('priority')
+				.addClass('priority-'+(priority?priority:'n'))
+				.text(priority)
+				.prependTo(task_container);
+			if (task.location) {
+				$('<div>')
+					.addClass('tag')
+					.addClass('location')
+					.text(task.location)
+					.appendTo(task_container);
+			}
 			if (task.categories.length > 0) {
 				var categories = $('<div>')
 						.addClass('categories')
 						.appendTo(task_container);
 				$(task.categories).each(function(i, category){
 						categories.append($('<a>')
+							.addClass('tag')
 							.text(category)
 						);
 				});

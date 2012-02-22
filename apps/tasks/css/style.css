@@ -1,10 +1,32 @@
-#task_details th { padding:2px; text-align:right ;vertical-align:top; }
-#task_details td { padding:2px; text-align:left ;vertical-align:top; }
+#tasks{position:fixed; overflow: auto; top:6.4em; width:50em; background:#f8f8f8; border-right:1px solid #ddd; }
+#task_details{position:absolute;left:63em;top:6.4em;}
+#task_details th{padding:2px;text-align:right;vertical-align:top; }
+#task_details td{padding:2px;text-align:left;vertical-align:top; }
 .error_msg{color:red;}
 .error{border-color:red;border-width:2px;}
 .task{position:relative;padding:0.5em 1em;}
 .task_actions{display:none;}
-.task .categories{position:absolute;right:0.6em;text-align:right;top:0.5em}
-.task .categories a{background-color:#1d2d44;color:white;border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;padding:0 0.4em;}
-#tasks{position:fixed; overflow: auto; top:6.4em; width:40em; background:#f8f8f8; border-right:1px solid #ddd; }
-#task_details{position:absolute;left:53em;top:6.4em;}
+
+.task .priority{background-color:black;color:white;position:absolute;top:0.5em}
+.task .priority-n{height:2.66ex;width:0.6em;}
+.task .priority-1{background:rgb(255,0,0);}
+.task .priority-2{background:rgb(200,0,0);}
+.task .priority-3{background:rgb(150,0,0);}
+.task .priority-4{background:rgb(100,0,0);}
+.task .priority-5{background:rgb(255,255,0);color:black;}
+.task .priority-6{background:rgb(192,255,0);color:black;}
+.task .priority-7{background:rgb(128,255,0);color:black;}
+.task .priority-8{background:rgb(64,255,0);color:black;}
+.task .priority-9{background:rgb(0,255,0);color:black;}
+
+.task .completed {position:absolute;left:3em;top:0.3em;}
+
+.task .summary{padding-left:4em;}
+
+.task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;padding:0 0.4em;}
+.task .tag:hover{opacity:0.5;}
+
+.task .categories{position:absolute;right:6em;text-align:right;top:0.5em}
+.task .categories a{background-color:#1d2d44;color:white;}
+
+.task .location{background-color:#442d44;color:white;position:absolute;right:0.6em;width:4.2em;text-align:left;top:0.5em}
