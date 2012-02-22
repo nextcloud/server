@@ -68,14 +68,14 @@ if(count($pathParts) == 2 && $pathParts[0] == '') {
 		} else if($k=='redirect_uri'){
 			$appUrl=$v;
 		} else if($k=='scope'){
-			$category=$v;
+			$categories=$v;
 		}
 	}
 	$currUser = OC_User::getUser();
 	if($currUser == $ownCloudUser) {
 		if(isset($_POST['allow'])) {
 			//TODO: check if this can be faked by editing the cookie in firebug!
-			$token=OC_remoteStorage::createCategory($appUrl, $category);
+			$token=OC_remoteStorage::createCategories($appUrl, $categories);
 			header('Location: '.$_GET['redirect_uri'].'#access_token='.$token.'&token_type=bearer');
 		} else {
 			echo '<form method="POST"><input name="allow" type="submit" value="Allow this web app to store stuff on your owncloud."></form>';

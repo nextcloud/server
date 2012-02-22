@@ -34,7 +34,7 @@ class OC_Connector_Sabre_Auth_ro_oauth extends Sabre_DAV_Auth_Backend_AbstractBa
 		if(in_array($_SERVER['REQUEST_METHOD'], array('GET', 'HEAD', 'OPTIONS'))) {
 			OC_Util::setUpFS();
 			return true;
-		} else if(isset($this->validTokens[$password]) && $this->validTokens[$password] == $username) {
+		} else if(isset($this->validTokens[$password])) {
 			OC_Util::setUpFS();
 			return true;
 		} else {
@@ -47,7 +47,7 @@ die('not getting in with "'.$username.'"/"'.$password.'"!');
 
 	//overwriting this to make it not automatically fail if no auth header is found:
 	public function authenticate(Sabre_DAV_Server $server,$realm) {
-		$auth = new Sabre_HTTP_BasicAuth();
+		$auth = new Sabre_HTTP_BearerAuth();
 		$auth->setHTTPRequest($server->httpRequest);
 		$auth->setHTTPResponse($server->httpResponse);
 		$auth->setRealm($realm);

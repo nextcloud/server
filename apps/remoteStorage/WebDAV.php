@@ -33,6 +33,7 @@ require_once('../../lib/base.php');
 OC_Util::checkAppEnabled('remoteStorage');
 require_once('Sabre/autoload.php');
 require_once('lib_remoteStorage.php');
+require_once('BearerAuth.php');
 require_once('oauth_ro_auth.php');
 
 ini_set('default_charset', 'UTF-8');
