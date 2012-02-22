@@ -205,6 +205,7 @@ class OC{
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "js" );
 		OC_Util::addScript( "eventsource" );
+		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search','result');
 		OC_Util::addStyle( "styles" );
