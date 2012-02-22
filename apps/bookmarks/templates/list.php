@@ -24,8 +24,10 @@
 </div>
 <div id="firstrun">
 	<?php echo $l->t('You have no bookmarks'); ?>
-	<small><?php echo $l->t('Drag this to your browser bookmarks and click it, when you want to bookmark a webpage.'); ?></small>
 	<div id="selections">
-		<a class="button" href='javascript:(function(){var a=window,b=document,c=encodeURIComponent,d=a.open("<?php echo OC_Helper::linkToAbsolute('bookmarks', 'addBm.php') ?>?output=popup&url="+c(b.location)+"&title="+c(b.title),"bkmk_popup","left="+((a.screenX||a.screenLeft)+10)+",top="+((a.screenY||a.screenTop)+10)+",height=510px,width=550px,resizable=1,alwaysRaised=1");a.setTimeout(function(){d.focus()},300)})();'><?php echo $l->t('Add page to ownCloud'); ?></a>
+	<?php
+	  require_once('bookmarklet.php');
+	  createBookmarklet(); 
+	?>
 	</div>
 </div>
