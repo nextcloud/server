@@ -4,7 +4,7 @@ if($_SERVER['SCRIPT_NAME'] == '/.well-known/host-meta.php') {
 } else {
 	header('Please-first: activate');
 }
-header("Content-Type: application/xml+xrd");
+header("Content-Type: application/xrd+xml");
 echo "<";
 ?>
 ?xml version="1.0" encoding="UTF-8"?>

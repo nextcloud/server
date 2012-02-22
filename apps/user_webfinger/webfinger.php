@@ -4,7 +4,7 @@ if($_SERVER['SCRIPT_NAME'] == '/.well-known/webfinger.php') {
 } else {
 	header('Please-first: activate');
 }
-// header("Content-Type: application/xml+xrd");
+header("Content-Type: application/xrd+xml");
 
 // calculate the documentroot
 // modified version of the one in lib/base.php that takes the .well-known symlink into account
