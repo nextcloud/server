@@ -30,6 +30,9 @@ function getBookmarks() {
 				updateBookmarksList(bookmarks.data[i]);
 				$("#firstrun").hide();
 			}
+			if($('.bookmarks_list').is(':empty')) {
+				$("#firstrun").show();
+			}
 
 			$('.bookmark_link').click(recordClick);
 			$('.bookmark_delete').click(delBookmark);

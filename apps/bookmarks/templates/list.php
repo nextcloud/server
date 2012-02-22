@@ -17,7 +17,7 @@
 </div>
 <div class="bookmarks_list">
 </div>
-<div id="firstrun">
+<div id="firstrun" style="display: none;">
 	<?php
 		echo $l->t('You have no bookmarks');
 		require_once('bookmarklet.php');
