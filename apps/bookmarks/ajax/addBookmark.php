@@ -45,8 +45,13 @@ $query = OC_DB::prepare("
 	(url, title, user_id, public, added, lastmodified)
 	VALUES (?, ?, ?, 0, $_ut, $_ut)
 	");
-	
-	
+
+if(empty($_GET["title"])) {
+	require_once('../bookmarksHelper.php');
+	$metadata = getURLMetadata($_GET["url"]);
+	$_GET["title"] = $metadata['title'];
+}
+
 $params=array(
 	htmlspecialchars_decode($_GET["url"]),
 	htmlspecialchars_decode($_GET["title"]),
@@ -55,7 +60,6 @@ $params=array(
 $query->execute($params);
 
 $b_id = OC_DB::insertid('*PREFIX*bookmarks');
-
 
 if($b_id !== false) {
 	$query = OC_DB::prepare("
@@ -76,4 +80,3 @@ if($b_id !== false) {
 
 	OC_JSON::success(array('data' => $b_id));
 }
-

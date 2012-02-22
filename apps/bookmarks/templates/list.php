@@ -1,6 +1,6 @@
 <?php 
 /**
- * Copyright (c) 2011 Marvin Thomas Rabe <m.rabe@echtzeitraum.de>
+ * Copyright (c) 2011 Marvin Thomas Rabe <mrabe@marvinrabe.de>
  * Copyright (c) 2011 Arthur Schiwon <blizzz@arthur-schiwon.de>
  * This file is licensed under the Affero General Public License version 3 or
  * later.

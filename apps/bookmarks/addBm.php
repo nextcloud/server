@@ -27,8 +27,6 @@ require_once('../../lib/base.php');
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('bookmarks');
 
-require_once('bookmarksHelper.php');
-
 OC_App::setActiveNavigationEntry( 'bookmarks_index' );
 
 OC_Util::addScript('bookmarks','addBm');
@@ -37,10 +35,6 @@ OC_Util::addStyle('bookmarks', 'bookmarks');
 $tmpl = new OC_Template( 'bookmarks', 'addBm', 'user' );
 
 $url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
-$metadata = getURLMetadata($url);
-
-$tmpl->assign('URL', htmlentities($metadata['url'],ENT_COMPAT,'utf-8'));
-$title = isset($metadata['title']) ? $metadata['title'] : (isset($_GET['title']) ? $_GET['title'] : '');
-$tmpl->assign('TITLE', htmlentities($title,ENT_COMPAT,'utf-8'));
+$tmpl->assign('URL', htmlentities($url,ENT_COMPAT,'utf-8'));
 
 $tmpl->printPage();
