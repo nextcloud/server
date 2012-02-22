@@ -23,11 +23,9 @@
 <div class="bookmarks_list">
 </div>
 <div id="firstrun">
-	<?php echo $l->t('You have no bookmarks'); ?>
-	<div id="selections">
 	<?php
-	  require_once('bookmarklet.php');
-	  createBookmarklet(); 
+		echo $l->t('You have no bookmarks');
+		require_once('bookmarklet.php');
+		createBookmarklet(); 
 	?>
-	</div>
 </div>
