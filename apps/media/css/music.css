@@ -17,7 +17,7 @@ a.jp-mute,a.jp-unmute { left:24em; }
 div.jp-volume-bar { position:absolute; overflow:hidden; background:#eee; width:4em; height:0.4em; cursor:pointer; top:1.3em; left:27em; }
 div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
 
-#collection { padding-top:1em; position:relative; width:100%; float:left; table-layout:fixed; }
+#collection { position:relative; width:100%; float:left; table-layout:fixed; }
 #collection td { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 #leftcontent img.remove { display:none; float:right; cursor:pointer; opacity: 0; }
 #leftcontent li:hover img.remove { display:inline; opacity: .3; }
@@ -31,7 +31,7 @@ div.jp-volume-bar-value { background:#ccc; width:0; height:0.4em; }
 #collection td.artist-expander, #collection td.album-expander { width:2em; text-align:center; }
 td.artist a.expander, td.album a.expander { float:right; padding:0 1em; }
 tr.active td { background-color:#eee; font-weight:bold; }
-tr td { border-top:1px solid #eee; height:2.2em; }
+tr td { border-bottom:1px solid #eee; height:2.2em; }
 tr .artist img { vertical-align:middle; }
 tr.album td.artist { padding-left:1em; }
 tr.song td.artist { padding-left:2em; }

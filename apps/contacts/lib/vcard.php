@@ -103,6 +103,118 @@ class OC_Contacts_VCard{
 		return $result->fetchRow();
 	}
 
+	/** 
+	* @brief Format property TYPE parameters for upgrading from v. 2.1
+	* @param $property Reference to a Sabre_VObject_Property.
+	* In version 2.1 e.g. a phone can be formatted like: TEL;HOME;CELL:123456789
+	* This has to be changed to either TEL;TYPE=HOME,CELL:123456789 or TEL;TYPE=HOME;TYPE=CELL:123456789 - both are valid.
+	*/
+	public static function formatPropertyTypes(&$property) {
+		foreach($property->parameters as $key=>&$parameter){
+			$types = OC_Contacts_App::getTypesOfProperty($property->name);
+			if(is_array($types) && in_array(strtoupper($parameter->name), array_keys($types)) || strtoupper($parameter->name) == 'PREF') {
+				$property->parameters[] = new Sabre_VObject_Parameter('TYPE', $parameter->name);
+			}
+			unset($property->parameters[$key]);
+		}
+	}
+
+	/** 
+	* @brief Decode properties for upgrading from v. 2.1
+	* @param $property Reference to a Sabre_VObject_Property.
+	* The only encoding allowed in version 3.0 is 'b' for binary. All encoded strings
+	* must therefor be decoded and the parameters removed.
+	*/
+	public static function decodeProperty(&$property) {
+		// Check out for encoded string and decode them :-[
+		foreach($property->parameters as $key=>&$parameter){
+			if(strtoupper($parameter->name) == 'ENCODING') {
+				if(strtoupper($parameter->value) == 'QUOTED-PRINTABLE') { // what kind of other encodings could be used?
+					$property->value = quoted_printable_decode($property->value);
+					unset($property->parameters[$key]);
+				}
+			} elseif(strtoupper($parameter->name) == 'CHARSET') {
+					unset($property->parameters[$key]);
+			}
+		}
+	}
+
+	/**
+	* @brief Tries to update imported VCards to adhere to rfc2426 (VERSION: 3.0)
+	* @param vcard An OC_VObject of type VCARD (passed by reference).
+	*/
+	protected static function updateValuesFromAdd(&$vcard) { // any suggestions for a better method name? ;-)
+		$stringprops = array('N', 'FN', 'ORG', 'NICK', 'ADR', 'NOTE');
+		$typeprops = array('ADR', 'TEL', 'EMAIL');
+		$upgrade = false;
+		$fn = $n = $uid = $email = null;
+		$version = $vcard->getAsString('VERSION');
+		// Add version if needed
+		if($version && $version < '3.0') {
+			$upgrade = true;
+			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Updating from version: '.$version,OC_Log::DEBUG);
+		}
+		foreach($vcard->children as &$property){
+			// Decode string properties and remove obsolete properties.
+			if($upgrade && in_array($property->name, $stringprops)) {
+				self::decodeProperty($property);
+			}
+			// Fix format of type parameters.
+			if($upgrade && in_array($property->name, $typeprops)) {
+				OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. before: '.$property->serialize(),OC_Log::DEBUG);
+				self::formatPropertyTypes($property);
+				OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. after: '.$property->serialize(),OC_Log::DEBUG);
+			}
+			if($property->name == 'FN'){
+				$fn = $property->value;
+			}
+			if($property->name == 'N'){
+				$n = $property->value;
+			}
+			if($property->name == 'UID'){
+				$uid = $property->value;
+			}
+			if($property->name == 'EMAIL' && is_null($email)){ // only use the first email as substitute for missing N or FN.
+				$email = $property->value;
+			}
+		}
+		// Check for missing 'N', 'FN' and 'UID' properties
+		if(!$fn) {
+			if($n && $n != ';;;;'){
+				$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
+			} elseif($email) {
+				$fn = $email;
+			} else {
+				$fn = 'Unknown Name';
+			}
+			$vcard->setString('FN', $fn);
+			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'FN\' field: '.$fn,OC_Log::DEBUG);
+		}
+		if(!$n || $n = ';;;;'){ // Fix missing 'N' field. Ugly hack ahead ;-)
+			$slice = array_reverse(array_slice(explode(' ', $fn), 0, 2)); // Take 2 first name parts of 'FN' and reverse.
+			if(count($slice) < 2) { // If not enought, add one more...
+				$slice[] = "";
+			}
+			$n = implode(';', $slice).';;;';
+			$vcard->setString('N', $n);
+			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
+		}
+		if(!$uid) {
+			$vcard->setUID();
+			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'UID\' field: '.$uid,OC_Log::DEBUG);
+		}
+		$vcard->setString('VERSION','3.0');
+		// Add product ID is missing.
+		$prodid = trim($vcard->getAsString('PRODID'));
+		if(!$prodid) {
+			$appinfo = OC_App::getAppInfo('contacts');
+			$prodid = '-//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
+			$vcard->setString('PRODID', $prodid);
+		}
+		$now = new DateTime;
+		$vcard->setString('REV', $now->format(DateTime::W3C));
+	}
+
 	/**
 	 * @brief Adds a card
 	 * @param integer $id Addressbook id
@@ -115,59 +227,17 @@ class OC_Contacts_VCard{
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			OC_Contacts_App::$categories->loadFromVObject($card);
-
-			$fn = $card->getAsString('FN');
-			if(!$fn){ // Fix missing 'FN' field.
-				$n = $card->getAsString('N');
-				if(!is_null($n)){
-					$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
-					$card->setString('FN', $fn);
-					OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'FN\' field: '.$fn,OC_Log::DEBUG);
-				} else {
-					$fn = 'Unknown Name';
-				}
-			}
-			$n = $card->getAsString('N');
-			if(!$n){ // Fix missing 'N' field.
-				$n = implode(';', array_reverse(array_slice(explode(' ', $fn), 0, 2))).';;;';
-				$card->setString('N', $n);
-				OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
-			}
-			$uid = $card->getAsString('UID');
-			if(!$uid){
-				$card->setUID();
-				$uid = $card->getAsString('UID');
-			};
-			$uri = $uid.'.vcf';
-
-			// Add product ID.
-			$prodid = trim($card->getAsString('PRODID'));
-			if(!$prodid) {
-				$appinfo = OC_App::getAppInfo('contacts');
-				$prodid = '//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
-				$card->setString('PRODID', $prodid);
-			}
-			// VCARD must have a version
-			$version = $card->getAsString('VERSION');
-			// Add version if needed
-			if(!$version){
-				$card->add(new Sabre_VObject_Property('VERSION','3.0'));
-				//$data = $card->serialize();
-			}/* else {
-				OC_Log::write('contacts','OC_Contacts_VCard::add. Version already set as: '.$version,OC_Log::DEBUG);
-			}*/
-			$now = new DateTime;
-			$card->setString('REV', $now->format(DateTime::W3C));
+			self::updateValuesFromAdd($card);
 			$data = $card->serialize();
 		}
 		else{
-			// that's hard. Creating a UID and not saving it
 			OC_Log::write('contacts','OC_Contacts_VCard::add. Error parsing VCard: '.$data,OC_Log::ERROR);
 			return null; // Ditch cards that can't be parsed by Sabre.
-			//$uid = self::createUID();
-			//$uri = $uid.'.vcf';
 		};
 
+		$fn = $card->getAsString('FN');
+		$uid = $card->getAsString('UID');
+		$uri = $uid.'.vcf';
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
 		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
@@ -185,55 +255,24 @@ class OC_Contacts_VCard{
 	 * @return insertid
 	 */
 	public static function addFromDAVData($id,$uri,$data){
-		$fn = $n = $uid = null;
-		$email = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
 			OC_Contacts_App::$categories->loadFromVObject($card);
-			foreach($card->children as $property){
-				if($property->name == 'FN'){
-					$fn = $property->value;
-				}
-				if($property->name == 'N'){
-					$n = $property->value;
-				}
-				if($property->name == 'UID'){
-					$uid = $property->value;
-				}
-				if($property->name == 'EMAIL' && is_null($email)){
-					$email = $property->value;
-				}
-			}
-		}
-		if(!$fn) {
-			if($n){
-				$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
-			} elseif($email) {
-				$fn = $email;
-			} else {
-				$fn = 'Unknown Name';
-			}
-			$card->addProperty('FN', $fn);
+			self::updateValuesFromAdd($card);
 			$data = $card->serialize();
-			OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'FN\' field: '.$n,OC_Log::DEBUG);
-		}
-		if(!$n){ // Fix missing 'N' field.
-			$n = implode(';', array_reverse(array_slice(explode(' ', $fn), 0, 2))).';;;';
-			$card->setString('N', $n);
-			$data = $card->serialize();
-			OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
-		}
-		if(!$uid) {
-			$card->setUID();
-			$data = $card->serialize();
-		}
+		} else {
+			OC_Log::write('contacts','OC_Contacts_VCard::addFromDAVData. Error parsing VCard: '.$data, OC_Log::ERROR);
+			return null; // Ditch cards that can't be parsed by Sabre.
+		};
+		$fn = $card->getAsString('FN');
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
+		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid('*PREFIX*contacts_cards');
+		return $newid;
 	}
 
 	/**
@@ -309,7 +348,7 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function delete($id){
-		// FIXME: Add error checking. Touch addressbook.
+		// FIXME: Add error checking.
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$stmt->execute(array($id));
 
@@ -386,10 +425,14 @@ class OC_Contacts_VCard{
 			'checksum' => md5($property->serialize()));
 		foreach($property->parameters as $parameter){
 			// Faulty entries by kaddressbook
+			// Actually TYPE=PREF is correct according to RFC 2426
+			// but this way is more handy in the UI. Tanghus.
 			if($parameter->name == 'TYPE' && $parameter->value == 'PREF'){
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
+			// NOTE: Apparently Sabre_VObject_Reader can't always deal with value list parameters
+			// like TYPE=HOME,CELL,VOICE. Tanghus.
 			if ($property->name == 'TEL' && $parameter->name == 'TYPE'){
 				if (isset($temp['parameters'][$parameter->name])){
 					$temp['parameters'][$parameter->name][] = $parameter->value;
