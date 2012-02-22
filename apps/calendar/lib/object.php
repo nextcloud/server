@@ -816,4 +816,9 @@ class OC_Calendar_Object{
 
 		return $vcalendar;
 	}
+	public static function getowner($id){
+		$event = self::find($id);
+		$cal = OC_Calendar_Calendar::find($event['calendarid']);
+		return $cal['userid'];
+	}
 }
