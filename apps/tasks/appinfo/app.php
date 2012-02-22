@@ -12,5 +12,5 @@ OC_App::addNavigationEntry( array(
   'id' => 'tasks_index',
   'order' => 11,
   'href' => OC_Helper::linkTo( 'tasks', 'index.php' ),
-  //'icon' => OC_Helper::imagePath( 'tasks', 'icon.png' ),
+  'icon' => OC_Helper::imagePath( 'tasks', 'icon.png' ),
   'name' => $l->t('Tasks')));
