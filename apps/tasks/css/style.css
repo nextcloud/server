@@ -2,3 +2,9 @@
 #task_details td { padding:2px; text-align:left ;vertical-align:top; }
 .error_msg{color:red;}
 .error{border-color:red;border-width:2px;}
+.task{position:relative;padding:0.5em 1em;}
+.task_actions{display:none;}
+.task .categories{position:absolute;right:0.6em;text-align:right;top:0.5em}
+.task .categories a{background-color:#1d2d44;color:white;border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;padding:0 0.4em;}
+#tasks{position:fixed; overflow: auto; top:6.4em; width:40em; background:#f8f8f8; border-right:1px solid #ddd; }
+#task_details{position:absolute;left:53em;top:6.4em;}

@@ -2,14 +2,44 @@ $(document).ready(function(){
 	/*-------------------------------------------------------------------------
 	 * Actions for startup
 	 *-----------------------------------------------------------------------*/
-	if( $('#tasks li').length > 0 ){
-		$('#tasks li').first().addClass('active');
-	}
+	$.getJSON(OC.filePath('tasks', 'ajax', 'gettasks.php'), function(jsondata) {
+		var tasks = $('#tasks').empty();
+		var actions = $('#task_actions_template');
+		$(jsondata).each(function(i, task) {
+			var task_container = $('<div>').appendTo(tasks)
+				.addClass('task')
+				.data('task', task)
+				.attr('data-id', task.id)
+				.append($('<p>')
+					.html('<a href="index.php?id='+task.id+'">'+task.summary+'</a>')
+					.addClass('summary')
+					)
+				.append(actions.clone().removeAttr('id'))
+				;
+			if (task.categories.length > 0) {
+				var categories = $('<div>')
+						.addClass('categories')
+						.appendTo(task_container);
+				$(task.categories).each(function(i, category){
+						categories.append($('<a>')
+							.text(category)
+						);
+				});
+			}
+		});
+		if( $('#tasks div').length > 0 ){
+			$('#tasks div').first().addClass('active');
+		}
+
+	});
+
+	fillHeight($('#tasks'));
+	fillWindow($('#task_details'));
 
 	/*-------------------------------------------------------------------------
 	 * Event handlers
 	 *-----------------------------------------------------------------------*/
-	$('#tasks li').live('click',function(){
+	$('#tasks div').live('click',function(){
 		var id = $(this).data('id');
 		var oldid = $('#task_details').data('id');
 		if(oldid != 0){
