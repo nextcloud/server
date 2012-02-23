@@ -26,9 +26,9 @@ tr:hover>td.password>span { margin:0; cursor:pointer; }
 tr:hover>td.remove>img, tr:hover>td.password>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>img { float:right; }
 li.selected { background-color:#ddd; }
-#content>table:not(.nostyle) { margin-top:6.5em; }
+#content>table:not(.nostyle) { margin-top:3em; }
 table:not(.nostyle) { width:100%; }
-
+#rightcontent { padding-left: 1em; }
 
 /* APPS */
 li { color:#888; }

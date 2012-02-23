@@ -1,8 +1,8 @@
-div#gallery_list { margin: 70pt 20pt 0 20pt; }
+div#gallery_list { margin: 4.5em 2em 0 2em; }
 div#gallery_list.leftcontent { padding-top: 15pt; margin: 0; position: absolute; bottom:0px; text-align: center; overflow: auto; }
-div.gallery_album_box { width: 200px; position:relative; text-align: center; border: 0; display: inline-block; margin: 5pt; vertical-align: top; padding: 20px 5px 5px 5px; position: relative; -webkit-transition: color 0.5s ease-in-out; -o-transition: color 0.5s ease-in-out; -moz-transition: color 0.5s ease-in-out;color: #BBB;}
+div.gallery_album_box { width: 200px; position:relative; text-align: center; border: 0; display: inline-block; margin: 5pt; vertical-align: top; padding: 5px 5px 5px 5px; position: relative; -webkit-transition: color 0.5s ease-in-out; -o-transition: color 0.5s ease-in-out; -moz-transition: color 0.5s ease-in-out;color: #BBB;}
 div.gallery_album_box h1 { font-size: 9pt; font-family: Verdana; }
-div.gallery_album_decoration { width: 200px; position: absolute; border: 0; height: 20px; top: 20px; text-align:right; vertical-align:middle; background-color: #eee; opacity: 0; -webkit-transition: opacity 0.5s ease-in-out; -moz-transition: opacity 0.5s ease-in-out; -o-transition: opacity 0.5s ease-in-out; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; -moz-border-radius-bottomright: 7px; -moz-border-radius-bottomleft:7px;}
+div.gallery_album_decoration { width: 200px; position: absolute; border: 0; height: 20px; top: 5px; text-align:right; vertical-align:middle; background-color: #eee; opacity: 0; -webkit-transition: opacity 0.5s ease-in-out; -moz-transition: opacity 0.5s ease-in-out; -o-transition: opacity 0.5s ease-in-out; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; -moz-border-radius-bottomright: 7px; -moz-border-radius-bottomleft:7px;}
 div.gallery_album_box:hover { color: black; }
 div.gallery_album_box:hover div.gallery_album_decoration { opacity: 0.7;}
 div.gallery_album_decoration a {padding: 0 4pt; cursor: pointer;}

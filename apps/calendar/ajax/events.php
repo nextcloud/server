@@ -7,7 +7,7 @@
  */
 
 require_once ('../../../lib/base.php');
-require_once('../../../3rdparty/when/When.php');
+require_once('when/When.php');
 
 function create_return_event($event, $vevent){
 	$return_event = array();

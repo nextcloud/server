@@ -17,8 +17,8 @@
 #contacts_propertymenu li a:hover { color: #fff }
 #actionbar { height: 30px; width: 200px; position: fixed; right: 0px; top: 75px; margin: 0 0 0 0; padding: 0 0 0 0;}
 #card { /*max-width: 70em; border: thin solid lightgray; display: block;*/ }
-#firstrun { /*border: thin solid lightgray;*/ width: 80%; margin: 5em auto auto auto; text-align: center; font-weight:bold; font-size:1.5em;  color:#777;}
-#firstrun #selections { /*border: thin solid lightgray;*/ font-size:0.8em;  width: 100%; margin: 2em auto auto auto; clear: both; }
+#firstrun { width: 100%; position: absolute; top: 5em; left: 0; text-align: center; font-weight:bold; font-size:1.5em; color:#777; }
+#firstrun #selections { font-size:0.8em; margin: 2em auto auto auto; clear: both; }
 
 #card input[type="text"].contacts_property,input[type="email"].contacts_property { width: 16em; }
 #card input[type="text"],input[type="email"],input[type="tel"],input[type="date"], select { background-color: #f8f8f8; border: 0 !important; -webkit-appearance:none !important; -moz-appearance:none  !important; -webkit-box-sizing:none !important; -moz-box-sizing:none !important; box-sizing:none !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; float: left; }

@@ -13,7 +13,7 @@ function t(app,text){
 			success:function(jsondata){
 				t.cache[app] = jsondata.data;
 			},
-		})
+		});
 
 		// Bad answer ...
 		if( !( app in t.cache )){
@@ -58,7 +58,7 @@ OC={
 		}
 		link+=app;
 		if(type){
-			link+=type+'/'
+			link+=type+'/';
 		}
 		link+=file;
 		return link;
@@ -73,7 +73,7 @@ OC={
 	 */ 
 	imagePath:function(app,file){
 		if(file.indexOf('.')==-1){//if no extention is given, use png or svg depending on browser support
-			file+=(SVGSupport())?'.svg':'.png'
+			file+=(SVGSupport())?'.svg':'.png';
 		}
 		return OC.filePath(app,'img',file);
 	},
@@ -126,7 +126,7 @@ OC={
 			});
 		}
 	}
-}
+};
 OC.search.customResults={};
 OC.search.currentResult=-1;
 OC.search.lastQuery='';
@@ -147,7 +147,7 @@ if(typeof localStorage !='undefined'){
 		getItem:function(name){
 			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
 		}
-	}
+	};
 }else{
 	//dummy localstorage
 	OC.localStorage={
@@ -160,7 +160,7 @@ if(typeof localStorage !='undefined'){
 		getItem:function(name){
 			return null;
 		}
-	}
+	};
 }
 
 /**
@@ -182,7 +182,7 @@ if (!Array.prototype.filter) {
 			}
 		}
 		return res;
-	}
+	};
 }
 /**
  * implement Array.indexOf for browsers without native support
@@ -235,11 +235,11 @@ SVGSupport.checkMimeType=function(){
 			});
 			if(headers["Content-Type"]!='image/svg+xml'){
 				replaceSVG();
-				SVGSupport.checkMimeType.correct=false
+				SVGSupport.checkMimeType.correct=false;
 			}
 		}
 	});
-}
+};
 SVGSupport.checkMimeType.correct=true;
 
 //replace all svg images with png for browser compatibility
@@ -305,11 +305,12 @@ $(document).ready(function(){
 
 	$(window).resize(function () {
 		fillHeight($('#leftcontent'));
+		fillWindow($('#content'));
 		fillWindow($('#rightcontent'));
 	});
 	$(window).trigger('resize');
 	
-	if(!SVGSupport()){//replace all svg images with png images for browser that dont support svg
+	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
 	}else{
 		SVGSupport.checkMimeType();
@@ -379,7 +380,6 @@ $(document).ready(function(){
 		}
 	});
 
-	if($('body').attr("id")=="body-user") { $('#settings #expanddiv').hide(); }
 	$('#settings #expand').click(function(event) {
 		$('#settings #expanddiv').slideToggle();
 		event.stopPropagation();
