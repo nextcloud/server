@@ -1,14 +1,50 @@
+OC.Tasks = {
+	filter:function(tag, find_filter) {
+		var tag_text = $(tag).text();
+		var filter = !$(tag).hasClass('active');
+		var show_count = $('#tasks').data('show_count');
+		show_count += filter ? +1 : -1;
+		$('#tasks').data('show_count', show_count);
+		$('#tasks .task').each(function(i, task_container){
+			task_container = $(task_container);
+			var task = task_container.data('task');
+			var found = 0;
+			task_container.find(find_filter).each(function(){
+				if ($(this).text() == tag_text) {
+					$(this).toggleClass('active');
+					found = 1;
+				}
+			});
+			var hide_count = task_container.data('show_count');
+			if (!filter) {
+				hide_count-=found;
+			}
+			else {
+				hide_count+=found;
+			}
+			if (hide_count == show_count) {
+				task_container.show();
+			}
+			else {
+				task_container.hide();
+			}
+			task_container.data('show_count', hide_count);
+		});
+	}
+};
+
 $(document).ready(function(){
 	/*-------------------------------------------------------------------------
 	 * Actions for startup
 	 *-----------------------------------------------------------------------*/
 	$.getJSON(OC.filePath('tasks', 'ajax', 'gettasks.php'), function(jsondata) {
-		var tasks = $('#tasks').empty();
+		var tasks = $('#tasks').empty().data('show_count', 0);
 		var actions = $('#task_actions_template');
 		$(jsondata).each(function(i, task) {
 			var task_container = $('<div>').appendTo(tasks)
 				.addClass('task')
 				.data('task', task)
+				.data('show_count', 0)
 				.attr('data-id', task.id)
 				.append($('<p>')
 					.html('<a href="index.php?id='+task.id+'">'+task.summary+'</a>')
@@ -62,8 +98,8 @@ $(document).ready(function(){
 	/*-------------------------------------------------------------------------
 	 * Event handlers
 	 *-----------------------------------------------------------------------*/
-	$('#tasks div').live('click',function(){
-		var id = $(this).data('id');
+	$('#tasks div.task .summary').live('click',function(){
+		var id = $(this).parent('div.task').data('id');
 		var oldid = $('#task_details').data('id');
 		if(oldid != 0){
 			$('#tasks li[data-id="'+oldid+'"]').removeClass('active');
@@ -79,6 +115,18 @@ $(document).ready(function(){
 			}
 		});
 		return false;
+	});
+
+	$('#tasks div.categories .tag').live('click',function(){
+		OC.Tasks.filter(this, 'div.categories .tag');
+	});
+
+	$('#tasks .priority.tag').live('click',function(){
+		OC.Tasks.filter(this, '.priority.tag');
+	});
+
+	$('#tasks .location.tag').live('click',function(){
+		OC.Tasks.filter(this, '.location.tag');
 	});
 
 	$('#tasks_delete').live('click',function(){

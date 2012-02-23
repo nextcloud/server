@@ -23,8 +23,10 @@
 
 .task .summary{padding-left:4em;}
 
-.task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;padding:0 0.4em;}
+.task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;border:1px solid transparent;padding:0 0.4em;}
 .task .tag:hover{opacity:0.5;}
+.task .tag.active{border-color:black;opacity:0.6;}
+.task .tag.active:hover{opacity:0.8;}
 
 .task .categories{position:absolute;right:6em;text-align:right;top:0.5em}
 .task .categories a{background-color:#1d2d44;color:white;}
