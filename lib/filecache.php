@@ -266,7 +266,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result['id'];
 		}else{
-			OC_Log::write('getFieldId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+      OC_Log::write('getFileId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return -1;
 		}
 	}
