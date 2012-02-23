@@ -41,7 +41,7 @@ class OC_VObject{
 	 */
 	public static function parse($data){
 		try {
-			Sabre_VObject_Reader::$elementMap['LAST-MODIFIED'] = 'Sabre_VObject_Element_DateTime';
+			Sabre_VObject_Property::$classMap['LAST-MODIFIED'] = 'Sabre_VObject_Element_DateTime';
 			$vobject = Sabre_VObject_Reader::read($data);
 			if ($vobject instanceof Sabre_VObject_Component){
 				$vobject = new OC_VObject($vobject);
