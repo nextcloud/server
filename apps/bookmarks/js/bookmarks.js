@@ -126,12 +126,12 @@ function updateBookmarksList(bookmark) {
 	$('.bookmarks_list').append(
 		'<div class="bookmark_single" data-id="' + bookmark.id +'" >' +
 			'<p class="bookmark_actions">' +
-				'<span class="bookmark_delete">' +
-					'<img class="svg" src="'+OC.imagePath('core', 'actions/delete')+'" title="Delete">' +
-				'</span>&nbsp;' +
 				'<span class="bookmark_edit">' +
 					'<img class="svg" src="'+OC.imagePath('core', 'actions/rename')+'" title="Edit">' +
 				'</span>' +
+				'<span class="bookmark_delete">' +
+					'<img class="svg" src="'+OC.imagePath('core', 'actions/delete')+'" title="Delete">' +
+				'</span>&nbsp;' +
 			'</p>' +
 			'<p class="bookmark_title">'+
 				'<a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a>' +
