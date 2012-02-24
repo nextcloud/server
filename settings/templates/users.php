@@ -48,9 +48,17 @@ foreach($_["groups"] as $group) {
 					<?php endforeach;?>
 				</select>
 			</td>
-			<td class="quota" data-quota="<?php echo $user['quota']?>">
-				<span><?php echo ($user['quota']>0)?$user['quota']:'None';?></span>
-				<img class="svg action" src="<?php echo image_path('core','actions/rename.svg')?>" alt="set new password" title="set quota" />
+			<td class="quota">
+				<select class='quota'>
+					<?php foreach($_['quota_preset'] as $preset):?>
+						<option <?php if($user['quota']==$preset) echo 'selected="selected"';?> value='<?php echo $preset;?>'><?php echo $preset;?></option>
+					<?php endforeach;?>
+					<?php if(array_search($user['quota'],$_['quota_preset'])===false):?>
+						<option selected="selected" value='<?php echo $user['quota'];?>'><?php echo $user['quota'];?></option>
+					<?php endif;?>
+					<option value='other'><?php echo $l->t('Other');?>...</option>
+				</select>
+				<input class='quota-other'></input>
 			</td>
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>

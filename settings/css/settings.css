@@ -29,6 +29,9 @@ li.selected { background-color:#ddd; }
 #content>table:not(.nostyle) { margin-top:3em; }
 table:not(.nostyle) { width:100%; }
 #rightcontent { padding-left: 1em; }
+td.quota { position:relative }
+select.quota { position:absolute; left:0px; top:0px; width:10em; }
+input.quota-other { display:none; position:absolute; left:0.1em; top:0.1em; width:7em; border:none; -webkit-box-shadow: none -mox-box-shadow:none ; box-shadow:none; }
 
 /* APPS */
 li { color:#888; }

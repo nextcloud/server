@@ -11,10 +11,11 @@ $username = $_POST["username"];
 $quota=$_POST["quota"];
 if($quota!='none' and $quota!='default'){
 	$quota= OC_Helper::computerFileSize($quota);
-	$quota=OC_Helper::humanFileSize($quota);
-}
-if($quota==0){
-	$quota='default';
+	if($quota==0){
+		$quota='default';
+	}else{
+		$quota=OC_Helper::humanFileSize($quota);
+	}
 }
 
 // Return Success story
