@@ -31,11 +31,11 @@
 
    <field>
     <name>configvalue</name>
-    <type>text</type>
-    <default></default>
+    <type>clob</type>
     <notnull>true</notnull>
-    <length>255</length>
    </field>
+
+
 
   </declaration>
 
@@ -405,7 +405,7 @@
   </declaration>
 
  </table>
- 
+
  <table>
 
   <name>*dbprefix*properties</name>
