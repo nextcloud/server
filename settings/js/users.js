@@ -184,7 +184,13 @@ $(document).ready(function(){
 		select.data('username',username);
 		select.data('userGroups',groups.join(', '));
 		tr.find('td.groups').empty();
-		$.each($('#content table').data('groups').split(', '),function(i,group){
+		var allGroups=$('#content table').data('groups').split(', ');
+		for(var i=0;i<groups.length;i++){
+			if(allGroups.indexOf(groups[i])==-1){
+				allGroups.push(groups[i]);
+			}
+		}
+		$.each(allGroups,function(i,group){
 			select.append($('<option value="'+group+'">'+group+'</option>'));
 		});
 		tr.find('td.groups').append(select);
