@@ -106,6 +106,7 @@ $(document).ready(function(){
 			setQuota(uid,quota);
 		}else{
 			other.show();
+			select.addClass('active');
 			other.focus();
 		}
 	});
@@ -132,6 +133,7 @@ $(document).ready(function(){
 					select.children().last().before(option);
 				}
 				select.val(quota);
+				select.removeClass('active');
 				other.val(null);
 				other.hide();
 			});
@@ -143,6 +145,7 @@ $(document).ready(function(){
 					$(option).attr('selected','selected');
 				}
 			});
+			select.removeClass('active');
 			other.hide();
 		}
 	});
