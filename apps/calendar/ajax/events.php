@@ -47,7 +47,7 @@ foreach($events as $event){
 	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 	$start_dt = $dtstart->getDateTime();
 	$end_dt = $dtend->getDateTime();
-	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
+	if ($dtstart->getDateType() == Sabre_VObject_Property_DateTime::DATE){
 		$return_event['allDay'] = true;
 	}else{
 		$return_event['allDay'] = false;

@@ -26,7 +26,7 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 					$start_dt->setTimezone(new DateTimeZone($user_timezone));
 					$end_dt = $dtend->getDateTime();
 					$end_dt->setTimezone(new DateTimeZone($user_timezone));
-					if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
+					if ($dtstart->getDateType() == Sabre_VObject_Property_DateTime::DATE){
 						$end_dt->modify('-1 sec');
 						if($start_dt->format('d.m.Y') != $end_dt->format('d.m.Y')){
 							$info = $l->t('Date') . ': ' . $start_dt->format('d.m.Y') . ' - ' . $end_dt->format('d.m.Y');
