@@ -6,3 +6,4 @@
 #public { border-top:1px solid #ddd; padding-top:0.5em; }
 a.unshare { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; opacity:.5; }
 a.unshare:hover { opacity:1; }
+#share_with { width: 16em; }
