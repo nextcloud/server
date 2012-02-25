@@ -26,19 +26,19 @@ PlayList.render=function(){
 		li.click(function(event){
 			PlayList.play($(this).data('index'));
 		});
-		li.append(img)
+		li.append(img);
 		li.data('index',i);
 		li.addClass('song');
 		PlayList.parent.append(li);
 	}
         $(".jp-playlist-" + PlayList.current).addClass("collection_playing");
-}
+};
 PlayList.getSelected=function(){
 	return $('tbody td.name input:checkbox:checked').parent().parent();
-}
+};
 PlayList.hide=function(){
 	$('#playlist').hide();
-}
+};
 
 $(document).ready(function(){
 	PlayList.parent=$('#leftcontent');

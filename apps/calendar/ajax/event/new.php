@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
+require_once('../../../../lib/base.php');
 
 $l10n = new OC_L10N('calendar');
 

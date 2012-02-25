@@ -18,7 +18,7 @@ function make_array_out_of_xml ($xml){
 	}
 	return $returnarray;
 }
-require_once ("../../../lib/base.php");
+require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 $l = new OC_L10N('calendar');

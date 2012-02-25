@@ -75,14 +75,6 @@
 					<sorting>descending</sorting>
 				</field>
 			</index>
-<!--			<index>
-				<name>url</name>
-				<unique>true</unique>
-				<field>
-					<name>url</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>-->
 		</declaration>
 	</table>
 	

@@ -31,11 +31,11 @@
 
    <field>
     <name>configvalue</name>
-    <type>text</type>
-    <default></default>
+    <type>clob</type>
     <notnull>true</notnull>
-    <length>255</length>
    </field>
+
+
 
   </declaration>
 
@@ -55,7 +55,7 @@
 	   <notnull>true</notnull>
 	   <length>4</length>
    </field>
-   
+
    <field>
     <name>path</name>
     <type>text</type>
@@ -90,7 +90,7 @@
 	   <notnull>true</notnull>
 	   <length>64</length>
    </field>
-   
+
    <field>
     <name>size</name>
     <type>integer</type>
@@ -522,7 +522,7 @@
   </declaration>
 
  </table>
- 
+
  <table>
 
   <name>*dbprefix*properties</name>

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
+require_once('../../../../lib/base.php');
 
 if(!OC_USER::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
@@ -242,16 +242,6 @@ if($repeat['repeat'] != 'doesnotrepeat'){
 	$tmpl->assign('repeat_bymonthday', $repeat['bymonthday']);
 	$tmpl->assign('repeat_bymonth', $repeat['bymonth']);
 	$tmpl->assign('repeat_byweekno', $repeat['byweekno']);
-}
-else {
-	$tmpl->assign('repeat_month', 'monthday');
-	$tmpl->assign('repeat_weekdays', array());
-	$tmpl->assign('repeat_interval', 1);
-	$tmpl->assign('repeat_end', 'never');
-	$tmpl->assign('repeat_count', '10');
-	$tmpl->assign('repeat_weekofmonth', 'auto');
-	$tmpl->assign('repeat_date', '');
-	$tmpl->assign('repeat_year', 'bydate');
 }
 $tmpl->printpage();
 

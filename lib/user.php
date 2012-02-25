@@ -321,7 +321,10 @@ class OC_User {
 		$users=array();
 		foreach(self::$_usedBackends as $backend){
 			if($backend->implementsActions(OC_USER_BACKEND_GET_USERS)){
-				$users=array_merge($users,$backend->getUsers());
+				$backendUsers=$backend->getUsers();
+				if(is_array($backendUsers)){
+					$users=array_merge($users,$backendUsers);
+				}
 			}
 		}
 		return $users;

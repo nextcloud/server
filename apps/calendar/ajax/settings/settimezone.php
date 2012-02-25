@@ -7,7 +7,7 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+require_once('../../../../lib/base.php');
 
 $l=new OC_L10N('calendar');
 

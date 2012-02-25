@@ -54,6 +54,14 @@ class OC{
 	 * the folder that stores the data for the root filesystem (e.g. /srv/http/owncloud/data)
 	 */
 	public static $CONFIG_DATADIRECTORY_ROOT = '';
+	/**
+	 * The installation path of the 3rdparty folder on the server (e.g. /srv/http/owncloud/3rdparty)
+	 */
+	public static $THIRDPARTYROOT = '';
+	/**
+	 * the root path of the 3rdparty folder for http requests (e.g. owncloud/3rdparty)
+	 */
+	public static $THIRDPARTYWEBROOT = '';
 
 	/**
 	 * SPL autoload
@@ -138,12 +146,35 @@ class OC{
 		}
 		OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
 
+
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
 			OC::$WEBROOT='/'.OC::$WEBROOT;
 		}
 
+		// search the 3rdparty folder
+		if(OC_Config::getValue('3rdpartyroot', '')<>'' and OC_Config::getValue('3rdpartyurl', '')<>''){
+			OC::$THIRDPARTYROOT=OC_Config::getValue('3rdpartyroot', '');
+			OC::$THIRDPARTYWEBROOT=OC_Config::getValue('3rdpartyurl', '');
+		}elseif(file_exists(OC::$SERVERROOT.'/3rdparty')){
+			OC::$THIRDPARTYROOT=OC::$SERVERROOT;
+			OC::$THIRDPARTYWEBROOT=OC::$WEBROOT;
+		}elseif(file_exists(OC::$SERVERROOT.'/../3rdparty')){
+			$url_tmp=explode('/',OC::$WEBROOT);	
+			$length=count($url_tmp);
+			unset($url_tmp[$length-1]); 
+			OC::$THIRDPARTYWEBROOT=implode('/',$url_tmp);
+			$root_tmp=explode('/',OC::$SERVERROOT);	
+			$length=count($root_tmp);
+			unset($root_tmp[$length-1]); 
+			OC::$THIRDPARTYROOT=implode('/',$root_tmp);
+		}else{
+			echo("3rdparty directory not found! Please put the ownCloud 3rdparty folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
+			exit;
+		}
+
+
 		// set the right include path
-		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
+		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
 
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {

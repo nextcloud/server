@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
+require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
 $l10n = new OC_L10N('calendar');

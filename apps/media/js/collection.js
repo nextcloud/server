@@ -1,3 +1,5 @@
+var initScanned = false;
+
 Collection={
 	artists:[],
 	albums:[],
@@ -68,10 +70,10 @@ Collection={
 					for(var i=0;i<Collection.loadedListeners.length;i++){
 						Collection.loadedListeners[i]();
 					}
-					if(data.songs.length==0){
+					if(data.songs.length==0 && initScanned == false){
 						$('#scan input.start').click();
+						initScanned = true;
 					}
-					
 				}
 			});
 		}
@@ -81,13 +83,11 @@ Collection={
 			Collection.parent.show();
 		}
 		if(!Collection.loaded){
-			Collection.load(Collection.display)
+			Collection.load(Collection.display);
 		}else{
 			if(Collection.parent){
 				Collection.parent.find('tr:not(.template)').remove();
 				var template=Collection.parent.find('tr.template');
-				var lastArtist='';
-				var lastAlbum='';
 				$.each(Collection.artists,function(i,artist){
 					if(artist.name && artist.songs.length>0){
 						var tr=template.clone().removeClass('template');
@@ -108,7 +108,7 @@ Collection={
 							$('tr[data-artist="'+artist.name+'"]').addClass('active');
 						});
 						if(artist.songs.length>1){
-							var expander=$('<a class="expander">&gt;</a>');
+							expander=$('<a class="expander">&gt;</a>');
 							expander.data('expanded',false);
 							expander.click(function(event){
 								var tr=$(this).parent().parent();
@@ -136,10 +136,11 @@ Collection={
 		var first=true;
 		$.each(artist.albums,function(j,album){
 			$.each(album.songs,function(i,song){
+				var newRow;
 				if(first){
 					newRow=tr;
 				}else{
-					var newRow=tr.clone();
+					newRow=tr.clone();
 					newRow.find('td.artist').text('');
 					newRow.find('.expander').remove();
 				}
@@ -221,13 +222,14 @@ Collection={
 		tr.find('td.album-expander a.expander').addClass('expanded');
 		tr.find('td.album-expander a.expander').text('v');
 		$.each(albumData.songs,function(i,song){
+			var newRow;
 			if(i>0){
-				var newRow=tr.clone();
+				newRow=tr.clone();
 				newRow.find('a.expander').remove();
 				newRow.find('td.album a').text('');
 				newRow.find('td.artist a').text('');
 			}else{
-				var newRow=tr;
+				newRow=tr;
 			}
 			newRow.find('td.title a').text(song.name);
 			newRow.find('td.title a').click(function(event){
@@ -339,11 +341,11 @@ Collection={
 			path:song.song_path,
 			playCount:song.song_playcount,
 		};
-		album.songs.push(songData)
+		album.songs.push(songData);
 		artist.songs.push(songData);
 		Collection.songs.push(songData);
 	}
-}
+};
 
 $(document).ready(function(){
 	Collection.parent=$('#collection');

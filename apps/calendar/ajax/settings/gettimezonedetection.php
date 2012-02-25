@@ -5,7 +5,7 @@
  * later.
  * See the COPYING-README file.
  */
-require_once ("../../../lib/base.php");
+require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 OC_JSON::success(array('detection' => OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezonedetection')));

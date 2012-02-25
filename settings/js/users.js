@@ -5,6 +5,18 @@
  */
 
 $(document).ready(function(){
+	function setQuota(uid,quota,ready){
+		$.post(
+			OC.filePath('settings','ajax','setquota.php'),
+			{username:uid,quota:quota},
+			function(result){
+				if(ready){
+					ready(result.data.quota);
+				}
+			}
+		);
+	}
+	
 	function applyMultiplySelect(element){
 		var checked=[];
 		var user=element.data('username');
@@ -82,47 +94,65 @@ $(document).ready(function(){
 	$('td.password').live('click',function(event){
 		$(this).children('img').click();
 	});
-
-	$('td.quota>img').live('click',function(event){
-		event.stopPropagation();
-		var img=$(this);
-		var uid=img.parent().parent().data('uid');
-		var input=$('<input>');
-		var quota=img.parent().children('span').text();
-		if(quota=='None'){
-			quota='';
+	
+	$('select.quota').live('change',function(){
+		var select=$(this);
+		var uid=$(this).parent().parent().data('uid');
+		var quota=$(this).val();
+		var other=$(this).next();
+		if(quota!='other'){
+			other.hide();
+			select.data('previous',quota);
+			setQuota(uid,quota);
+		}else{
+			other.show();
+			select.addClass('active');
+			other.focus();
 		}
-		input.val(quota);
-		img.css('display','none');
-		img.parent().children('span').replaceWith(input);
-		input.focus();
-		input.keypress(function(event) {
-			if(event.keyCode == 13) {
-				$(this).parent().attr('data-quota',$(this).val());
-				if($(this).val().length>0){
-					$.post(
-						OC.filePath('settings','ajax','setquota.php'),
-						{username:uid,quota:$(this).val()},
-						function(result){
-							img.parent().children('span').text(result.data.quota)
-							$(this).parent().attr('data-quota',result.data.quota);
-						}
-					);
-					input.blur();
+	});
+	$('select.quota').each(function(i,select){
+		$(select).data('previous',$(select).val());
+	})
+	
+	$('input.quota-other').live('change',function(){
+		var uid=$(this).parent().parent().data('uid');
+		var quota=$(this).val();
+		var select=$(this).prev();
+		var other=$(this);
+		if(quota){
+			setQuota(uid,quota,function(quota){
+				select.children().attr('selected',null);
+				var existingOption=select.children().filter(function(i,option){
+					return ($(option).val()==quota);
+				});
+				if(existingOption.length){
+					existingOption.attr('selected','selected');
 				}else{
-					input.blur();
+					var option=$('<option/>');
+					option.attr('selected','selected').attr('value',quota).text(quota);
+					select.children().last().before(option);
 				}
-			}
-		});
-		input.blur(function(){
-			var quota=$(this).parent().attr('data-quota');
-			$(this).replaceWith($('<span>'+quota+'</span>'));
-			img.css('display','');
-		});
+				select.val(quota);
+				select.removeClass('active');
+				other.val(null);
+				other.hide();
+			});
+		}else{
+			var previous=select.data('previous');
+			select.children().attr('selected',null);
+			select.children().each(function(i,option){
+				if($(option).val()==previous){
+					$(option).attr('selected','selected');
+				}
+			});
+			select.removeClass('active');
+			other.hide();
+		}
 	});
-	$('td.quota').live('click',function(event){
-		$(this).children('img').click();
-	});
+	
+	$('input.quota-other').live('blur',function(){
+		$(this).change();
+	})
 	
 	$('#newuser').submit(function(event){
 		event.preventDefault();
@@ -157,7 +187,13 @@ $(document).ready(function(){
 		select.data('username',username);
 		select.data('userGroups',groups.join(', '));
 		tr.find('td.groups').empty();
-		$.each($('#content table').data('groups').split(', '),function(i,group){
+		var allGroups=$('#content table').data('groups').split(', ');
+		for(var i=0;i<groups.length;i++){
+			if(allGroups.indexOf(groups[i])==-1){
+				allGroups.push(groups[i]);
+			}
+		}
+		$.each(allGroups,function(i,group){
 			select.append($('<option value="'+group+'">'+group+'</option>'));
 		});
 		tr.find('td.groups').append(select);
@@ -166,5 +202,9 @@ $(document).ready(function(){
 		}
 		applyMultiplySelect(select);
 		$('#content table tbody').last().after(tr);
+		
+		tr.find('select.quota option').attr('selected',null);
+		tr.find('select.quota option').first().attr('selected','selected');
+		tr.find('select.quota').data('previous','default');
 	});
 });
