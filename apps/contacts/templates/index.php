@@ -1,5 +1,5 @@
 <script type='text/javascript'>
-	var totalurl = '<?php echo OC_Helper::linkTo('contacts', 'carddav.php', null, true); ?>/addressbooks';
+	var totalurl = '<?php echo OC_Helper::linkToAbsolute('contacts', 'carddav.php'); ?>/addressbooks';
 </script>
 <div id="controls">
 	<form>

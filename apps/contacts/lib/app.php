@@ -53,7 +53,7 @@ class OC_Contacts_App {
 				OC_Log::write('contacts', 'Addressbook not found: '. $id, OC_Log::ERROR);
 			}
 			else {
-				OC_Log::write('contacts', 'Addressbook('.$id.') is not from '.$OC_User::getUser(), OC_Log::ERROR);
+				OC_Log::write('contacts', 'Addressbook('.$id.') is not from '.OC_User::getUser(), OC_Log::ERROR);
 			}
 			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
 			exit();

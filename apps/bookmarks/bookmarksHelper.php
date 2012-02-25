@@ -70,3 +70,55 @@ function getURLMetadata($url) {
 
 	return $metadata;
 }
+
+function addBookmark($url, $title='', $tags='') {
+	$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+	if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
+		$_ut = "strftime('%s','now')";
+	} elseif($CONFIG_DBTYPE == 'pgsql') {
+		$_ut = 'date_part(\'epoch\',now())::integer';
+	} else {
+		$_ut = "UNIX_TIMESTAMP()";
+	}
+	
+	//FIXME: Detect when user adds a known URL
+	$query = OC_DB::prepare("
+		INSERT INTO *PREFIX*bookmarks
+		(url, title, user_id, public, added, lastmodified)
+		VALUES (?, ?, ?, 0, $_ut, $_ut)
+		");
+	
+	if(empty($title)) {
+		$metadata = getURLMetadata($url);
+		$title = $metadata['title'];
+	}
+	
+	$params=array(
+	htmlspecialchars_decode($url),
+	htmlspecialchars_decode($title),
+	OC_User::getUser()
+	);
+	$query->execute($params);
+	
+	$b_id = OC_DB::insertid('*PREFIX*bookmarks');
+	
+	if($b_id !== false) {
+		$query = OC_DB::prepare("
+			INSERT INTO *PREFIX*bookmarks_tags
+			(bookmark_id, tag)
+			VALUES (?, ?)
+			");
+	
+		$tags = explode(' ', urldecode($tags));
+		foreach ($tags as $tag) {
+			if(empty($tag)) {
+				//avoid saving blankspaces
+				continue;
+			}
+			$params = array($b_id, trim($tag));
+			$query->execute($params);
+		}
+	
+		return $b_id;
+	}
+}

@@ -194,6 +194,7 @@ class OC_Calendar_Object{
 	public static function deleteFromDAVData($cid,$uri){
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ? AND uri=?' );
 		$stmt->execute(array($cid,$uri));
+		OC_Calendar_Calendar::touchCalendar($cid);
 
 		return true;
 	}

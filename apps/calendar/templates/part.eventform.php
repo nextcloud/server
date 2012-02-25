@@ -25,6 +25,7 @@
 					?>
 				</select>
 			</td>
+			<?php if(count($_['calendar_options']) > 1) { ?>
 			<th width="75px">&nbsp;&nbsp;&nbsp;<?php echo $l->t("Calendar");?>:</th>
 			<td>
 				<select style="width:140px;" name="calendar">
@@ -34,6 +35,12 @@
 					?>
 				</select>
 			</td>
+			<?php } else { ?>
+			<th width="75px">&nbsp;</th>
+			<td>
+				<input type="hidden" name="calendar" value="<?php echo $_['calendar_options'][0]['id'] ?>">
+			</td>
+			<?php } ?>
 		</tr>
 	</table>
 	<hr>

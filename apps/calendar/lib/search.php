@@ -36,7 +36,7 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 					}else{
 						$info = $l->t('Date') . ': ' . $start_dt->format('d.m.y H:i') . ' - ' . $end_dt->format('d.m.y H:i');
 					}
-					$link = OC_Helper::linkTo('apps/calendar', 'index.php?showevent='.urlencode($object['id']));
+					$link = OC_Helper::linkTo('calendar', 'index.php').'?showevent='.urlencode($object['id']);
 					$results[]=new OC_Search_Result($object['summary'],$info, $link,$l->t('Cal.'));//$name,$text,$link,$type
 				}
 			}

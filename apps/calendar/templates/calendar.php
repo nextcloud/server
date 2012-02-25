@@ -18,7 +18,7 @@
 				var missing_field_totime = '<?php echo addslashes($l->t('To Time')) ?>';
 				var missing_field_startsbeforeends = '<?php echo addslashes($l->t('The event ends before it starts')) ?>';
 				var missing_field_dberror = '<?php echo addslashes($l->t('There was a database fail')) ?>';
-				var totalurl = '<?php echo OC_Helper::linkTo('apps/calendar', 'caldav.php', null, true); ?>/calendars';
+				var totalurl = '<?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?>/calendars';
 				$(document).ready(function() {
 				<?php
 				if(array_key_exists('showevent', $_)){

@@ -166,6 +166,7 @@ $(document).ready(function() {
 
 	$('.file_upload_start').live('change',function(){
 		var form=$(this).closest('form');
+		var that=this;
 		var uploadId=form.attr('data-upload-id');
 		var files=this.files;
 		var target=form.children('iframe');
@@ -173,6 +174,12 @@ $(document).ready(function() {
 		if(files){
 			for(var i=0;i<files.length;i++){
 				totalSize+=files[i].size;
+				if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
+					FileList.finishDelete(function(){
+						$(that).change();
+					});
+					return;
+				}
 			}
 		}
 		if(totalSize>$('#max_upload').val()){

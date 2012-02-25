@@ -115,7 +115,8 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getWeekofMonth(self::$l10n);
 	}
 	
-	public static function prepareForOutput($event, $vevent, $return_event){
+	public static function prepareForOutput($event, $vevent){
+		$return_event = array();
 		$return_event['id'] = (int)$event['id'];
 		$return_event['title'] = htmlspecialchars($event['summary']);
 		$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
@@ -127,6 +128,5 @@ class OC_Calendar_App{
 		}
 		$return_event['lastmodified'] = (int)$lastmodified;
 		return $return_event;
-		
 	}
 }

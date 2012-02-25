@@ -124,12 +124,14 @@ Contacts={
 					url = OC.filePath('contacts', 'ajax', 'updateaddressbook.php');
 				}
 				$.post(url, { id: bookid, name: displayname, active: active, description: description },
-					function(data){
-						if(data.status == 'success'){
+					function(jsondata){
+						if(jsondata.status == 'success'){
 							$(button).closest('tr').prev().html(data.page).show().next().remove();
+							Contacts.UI.Contacts.update();
+						} else {
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 						}
 					});
-				Contacts.UI.Contacts.update();
 			},
 			cancel:function(button, bookid){
 				$(button).closest('tr').prev().show().next().remove();

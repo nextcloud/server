@@ -1,7 +1,8 @@
 <?xml version="1.0"?> 
 <info>
 	<id>files_pdfviewer</id>
-	<name>PDF viewer (pdfjs-based)</name>
+	<name>PDF Viewer</name>
+	<description>Inline PDF viewer (pdfjs-based)</description>
 	<version>0.1</version>
 	<licence>GPL</licence>
 	<author>Joan Creus</author>

@@ -13,10 +13,19 @@ require_once('../../lib/base.php');
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
+function getStandardImage(){
+	OC_Response::setExpiresHeader('P10D');
+	OC_Response::enableCaching();
+	OC_Response::redirect(OC_Helper::imagePath('contacts', 'person_large.png'));
+}
+
 $id = $_GET['id'];
 
 $contact = OC_Contacts_App::getContactVCard($id);
 $image = new OC_Image();
+if(!$image) {
+	getStandardImage();
+}
 // invalid vcard
 if( is_null($contact)) {
 	OC_Log::write('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
@@ -45,7 +54,8 @@ if( is_null($contact)) {
 }
 if (!$image->valid()) {
 	// Not found :-(
-	$image->loadFromFile('img/person_large.png');
+	getStandardImage();
+	//$image->loadFromFile('img/person_large.png');
 }
 header('Content-Type: '.$image->mimeType());
 $image->show();

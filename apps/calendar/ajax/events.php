@@ -1,10 +1,11 @@
 <?php
 /**
- * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
+
 require_once ('../../../lib/base.php');
 require_once('../../../3rdparty/when/When.php');
 
@@ -13,6 +14,7 @@ OC_JSON::checkAppEnabled('calendar');
 
 $start = DateTime::createFromFormat('U', $_GET['start']);
 $end = DateTime::createFromFormat('U', $_GET['end']);
+
 if($_GET['calendar_id'] == 'shared_rw' || $_GET['calendar_id'] == 'shared_r'){
 	$calendars = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::CALENDAR, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 	$events = array();
@@ -27,17 +29,21 @@ if($_GET['calendar_id'] == 'shared_rw' || $_GET['calendar_id'] == 'shared_r'){
 		exit;
 	}
 	$events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
+	OC_Response::enableCaching(0);
+	OC_Response::setETagHeader($calendar['ctag']);
 }
+
+$events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
-
 $return = array();
-
 foreach($events as $event){
 	$object = OC_VObject::parse($event['calendardata']);
 	$vevent = $object->VEVENT;
+
+	$return_event = OC_Calendar_App::prepareForOutput($event, $vevent);
+
 	$dtstart = $vevent->DTSTART;
 	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
-	$return_event = array();
 	$start_dt = $dtstart->getDateTime();
 	$end_dt = $dtend->getDateTime();
 	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
@@ -50,9 +56,12 @@ foreach($events as $event){
 	if($event['repeating'] == 1){
 		$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
 		$r = new When();
-		$r->recur((string) $start_dt->format('Ymd\THis'))->rrule((string) $vevent->RRULE);
+		$r->recur($start_dt)->rrule((string) $vevent->RRULE);
 		while($result = $r->next()){
-			if($result->format('U') > $_GET['end']){
+			if($result < $start){
+				continue;
+			}
+			if($result > $end){
 				break;
 			}
 			if($return_event['allDay'] == true){
@@ -62,21 +71,18 @@ foreach($events as $event){
 				$return_event['start'] = $result->format('Y-m-d H:i:s');
 				$return_event['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);
 			}
-			$return[] = OC_Calendar_App::prepareForOutput($event, $vevent, $return_event);
+			$return[] = $return_event;
 		}
 	}else{
-		$return_event = array();
-		if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
-			$return_event['allDay'] = true;
+		if($return_event['allDay'] == true){
 			$return_event['start'] = $start_dt->format('Y-m-d');
 			$end_dt->modify('-1 sec');
 			$return_event['end'] = $end_dt->format('Y-m-d');
 		}else{
 			$return_event['start'] = $start_dt->format('Y-m-d H:i:s');
 			$return_event['end'] = $end_dt->format('Y-m-d H:i:s');
-			$return_event['allDay'] = false;
 		}
-		$return[] = OC_Calendar_App::prepareForOutput($event, $vevent, $return_event);
+		$return[] = $return_event;
 	}
 }
 OC_JSON::encodedPrint($return);

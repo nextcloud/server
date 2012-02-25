@@ -174,7 +174,7 @@ $(document).ready(function() {
 function createDropdown(filename, files) {
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
-	html += '<select data-placeholder="User or Group" style="width:220px;" id="share_with" class="chzen-select">';
+	html += '<select data-placeholder="User or Group" id="share_with" class="chzen-select">';
 	html += '<option value=""></option>';
 	html += '</select>';
 	html += '<ul id="shared_list"></ul>';
