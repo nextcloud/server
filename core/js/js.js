@@ -444,4 +444,37 @@ $.fn.filterAttr = function(attr_name, attr_value) {
    return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
 
+function humanFileSize(bytes){
+	if( bytes < 1024 ){
+		return bytes+' B';
+	}
+	bytes = Math.round(bytes / 1024, 1 );
+	if( bytes < 1024 ){
+		return bytes+' kB';
+	}
+	bytes = Math.round( bytes / 1024, 1 );
+	if( bytes < 1024 ){
+		return bytes+' MB';
+	}
+	
+	// Wow, heavy duty for owncloud
+	bytes = Math.round( bytes / 1024, 1 );
+	return bytes+' GB';
+}
 
+function simpleFileSize(bytes) {
+	mbytes = Math.round(bytes/(1024*1024/10))/10;
+	if(bytes == 0) { return '0'; }
+	else if(mbytes < 0.1) { return '< 0.1'; }
+	else if(mbytes > 1000) { return '> 1000'; }
+	else { return mbytes.toFixed(1); }
+}
+
+function formatDate(date){
+	if(typeof date=='number'){
+		date=new Date(date);
+	}
+	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
+	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
+	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
+}

@@ -9,7 +9,7 @@ $levels=array('Debug','Info','Warning','Error','Fatal');
 <div id="controls">
 	
 </div>
-<table>
+<table id='log'>
 	<?php foreach($_['entries'] as $entry):?>
 		<tr>
 			<td>
@@ -27,3 +27,4 @@ $levels=array('Debug','Info','Warning','Error','Fatal');
 		</tr>
 	<?php endforeach;?>
 </table>
+<input id='moreLog' type='button' value='<?php echo $l->t('More');?>...'></input>
