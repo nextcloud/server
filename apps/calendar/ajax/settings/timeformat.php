@@ -5,11 +5,8 @@
  * later.
  * See the COPYING-README file.
  */
-
-require_once('../../../lib/base.php');
-$l10n = new OC_L10N('calendar');
+require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
-$output = new OC_TEMPLATE("calendar", "part.choosecalendar");
-$output -> printpage();
-?>
+$timeformat = OC_Preferences::getValue( OC_User::getUser(), 'calendar', 'timeformat', "24");
+OC_JSON::encodedPrint(array("timeformat" => $timeformat));
+?> 

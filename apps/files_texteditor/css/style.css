@@ -1,7 +1,8 @@
 #editor{
-	position: absoloute;
+	position: fixed;
 	display: block;
-	top: 2em;
+	top: 6.5em;
+	left: 12.5em;
 }
 #editorwrapper{
 	position: absoloute;

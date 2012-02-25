@@ -8,7 +8,7 @@ Calendar_Import={
 	importdialog: function(filename){
 		var path = $('#dir').val();
 		$('body').append('<div id="calendar_import"></div>');
-		$('#calendar_import').load(OC.filePath('calendar', 'ajax', 'importdialog.php'), {filename:filename, path:path},	function(){Calendar_Import.initdialog(filename);});
+		$('#calendar_import').load(OC.filePath('calendar', 'ajax/import', 'dialog.php'), {filename:filename, path:path},	function(){Calendar_Import.initdialog(filename);});
 	},
 	initdialog: function(filename){
 		$('#calendar_import_dialog').dialog({

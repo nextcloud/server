@@ -69,7 +69,6 @@ class OC_Gallery_Photo {
 	public static function getThumbnail($image_name) {
 		$save_dir = OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/';
 		$save_dir .= dirname($image_name). '/';
-		$image_name = basename($image_name);
 		$thumb_file = $save_dir . $image_name;
 		if (file_exists($thumb_file)) {
 			$image = new OC_Image($thumb_file);

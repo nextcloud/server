@@ -346,31 +346,41 @@ class OC_Template{
 
 			// Add the core js files or the js files provided by the selected theme
 			foreach(OC_Util::$scripts as $script){
-				if(is_file(OC::$SERVERROOT."/themes/$theme/apps/$script$fext.js" )){
+				// Is it in 3rd party?
+				if(is_file(OC::$THIRDPARTYROOT."/$script.js" )){
+					$page->append( "jsfiles", OC::$THIRDPARTYWEBROOT."/$script.js" );
+
+				// Is it in apps and overwritten by the theme?
+				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/apps/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/apps/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/apps/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/apps/$script.js" );
 
+				// Is it part of an app?
 				}elseif(is_file(OC::$SERVERROOT."/apps/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/apps/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/apps/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/apps/$script.js" );
 
+				// Is it in the owncloud root but overwritten by the theme?
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/$script.js" );
-
+	
+				// Is it in the owncloud root ?
 				}elseif(is_file(OC::$SERVERROOT."/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/$script.js" );
 
+				// Is in core but overwritten by a theme?
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/core/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/core/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/core/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/core/$script.js" );
 
+				// Is it in core?
 				}elseif(is_file(OC::$SERVERROOT."/core/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/core/$script$fext.js" );
 				}else{
@@ -380,14 +390,20 @@ class OC_Template{
 			}
 			// Add the css files
 			foreach(OC_Util::$styles as $style){
-				if(is_file(OC::$SERVERROOT."/apps/$style$fext.css" )){
+				// is it in 3rdparty?
+				if(is_file(OC::$THIRDPARTYROOT."/$style.css" )){
+					$page->append( "cssfiles", OC::$THIRDPARTYWEBROOT."/$style.css" );
+				// or in apps?
+				}elseif(is_file(OC::$SERVERROOT."/apps/$style$fext.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/apps/$style$fext.css" );
 				}elseif(is_file(OC::$SERVERROOT."/apps/$style.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/apps/$style.css" );
+				// or in the owncloud root?
 				}elseif(is_file(OC::$SERVERROOT."/$style$fext.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/$style$fext.css" );
 				}elseif(is_file(OC::$SERVERROOT."/$style.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/$style.css" );
+				// or in core ?	
 				}elseif(is_file(OC::$SERVERROOT."/core/$style$fext.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/core/$style$fext.css" );
 				}else{

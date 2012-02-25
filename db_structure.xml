@@ -31,11 +31,11 @@
 
    <field>
     <name>configvalue</name>
-    <type>text</type>
-    <default></default>
+    <type>clob</type>
     <notnull>true</notnull>
-    <length>255</length>
    </field>
+
+
 
   </declaration>
 
@@ -53,9 +53,9 @@
 	   <type>integer</type>
 	   <default>0</default>
 	   <notnull>true</notnull>
-	   <length>4</length>
+	   <length>8</length>
    </field>
-   
+
    <field>
     <name>path</name>
     <type>text</type>
@@ -70,7 +70,7 @@
 	   <default>
 	   </default>
 	   <notnull>true</notnull>
-	   <length>4</length>
+	   <length>8</length>
    </field>
 
    <field>
@@ -90,13 +90,13 @@
 	   <notnull>true</notnull>
 	   <length>64</length>
    </field>
-   
+
    <field>
     <name>size</name>
     <type>integer</type>
     <default></default>
     <notnull>true</notnull>
-    <length>4</length>
+    <length>8</length>
    </field>
 
    <field>
@@ -105,7 +105,7 @@
 	   <default>
 	   </default>
 	   <notnull>true</notnull>
-	   <length>4</length>
+	   <length>8</length>
    </field>
 
    <field>
@@ -114,7 +114,7 @@
 	   <default>
 	   </default>
 	   <notnull>true</notnull>
-	   <length>4</length>
+	   <length>8</length>
    </field>
 
    <field>
@@ -291,7 +291,7 @@
     <type>integer</type>
     <default></default>
     <notnull>false</notnull>
-    <length>4</length>
+    <length>8</length>
    </field>
 
    <field>
@@ -522,7 +522,7 @@
   </declaration>
 
  </table>
- 
+
  <table>
 
   <name>*dbprefix*properties</name>

@@ -12,6 +12,11 @@
 			'minWidth': 'default;',
 		};
 		$.extend(settings,options);
+		$.each(this.children(),function(i,option){
+			if($(option).attr('selected') && settings.checked.indexOf($(option).val())==-1){
+				settings.checked.push($(option).val());
+			}
+		});
 		var button=$('<div class="multiselect button"><span>'+settings.title+'</span><span>▾</span></div>');
 		var span=$('<span/>');
 		span.append(button);
@@ -46,9 +51,11 @@
 			});
 			button.addClass('active');
 			event.stopPropagation();
-			var options=$(this).parent().next().children().map(function(){return $(this).val();});
+			var options=$(this).parent().next().children();
 			var list=$('<ul class="multiselectoptions"/>').hide().appendTo($(this).parent());
-			function createItem(item,checked){
+			function createItem(element,checked){
+				element=$(element);
+				var item=element.val();
 				var id='ms'+multiSelectId+'-option-'+item;
 				var input=$('<input id="'+id+'" type="checkbox"/>');
 				var label=$('<label for="'+id+'">'+item+'</label>');
@@ -61,6 +68,7 @@
 				input.change(function(){
 					var groupname=$(this).next().text();
 					if($(this).is(':checked')){
+						element.attr('selected','selected');
 						if(settings.oncheck){
 							if(settings.oncheck(groupname)===false){
 								$(this).attr('checked', false);
@@ -70,6 +78,7 @@
 						settings.checked.push(groupname);
 					}else{
 						var index=settings.checked.indexOf(groupname);
+						element.attr('selected',null);
 						if(settings.onuncheck){
 							if(settings.onuncheck(groupname)===false){
 								$(this).attr('checked',true);
@@ -119,11 +128,11 @@
 							var li=$(this).parent();
 							$(this).remove();
 							li.text('+ '+settings.createText);
-							li.before(createItem($(this).val()));
+							li.before(createItem(this));
+							var select=button.parent().next();
+							select.append($('<option selected="selected" value="'+$(this).val()+'">'+$(this).val()+'</option>'));
 							li.prev().children('input').trigger('click');
 							button.parent().data('preventHide',false);
-							var select=button.parent().next();
-							select.append($('<option value="'+$(this).val()+'">'+$(this).val()+'</option>'));
 							if(settings.createCallback){
 								settings.createCallback();
 							}

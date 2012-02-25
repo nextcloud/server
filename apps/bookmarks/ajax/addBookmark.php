@@ -30,53 +30,6 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('bookmarks');
 
-$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
-if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
-	$_ut = "strftime('%s','now')";
-} elseif($CONFIG_DBTYPE == 'pgsql') {
-	$_ut = 'date_part(\'epoch\',now())::integer';
-} else {
-	$_ut = "UNIX_TIMESTAMP()";
-}
-
-//FIXME: Detect when user adds a known URL
-$query = OC_DB::prepare("
-	INSERT INTO *PREFIX*bookmarks
-	(url, title, user_id, public, added, lastmodified)
-	VALUES (?, ?, ?, 0, $_ut, $_ut)
-	");
-
-if(empty($_GET["title"])) {
-	require_once('../bookmarksHelper.php');
-	$metadata = getURLMetadata($_GET["url"]);
-	$_GET["title"] = $metadata['title'];
-}
-
-$params=array(
-	htmlspecialchars_decode($_GET["url"]),
-	htmlspecialchars_decode($_GET["title"]),
-	OC_User::getUser()
-	);
-$query->execute($params);
-
-$b_id = OC_DB::insertid('*PREFIX*bookmarks');
-
-if($b_id !== false) {
-	$query = OC_DB::prepare("
-		INSERT INTO *PREFIX*bookmarks_tags
-		(bookmark_id, tag)
-		VALUES (?, ?)
-		");
-		
-	$tags = explode(' ', urldecode($_GET["tags"]));
-	foreach ($tags as $tag) {
-		if(empty($tag)) {
-			//avoid saving blankspaces
-			continue;
-		}
-		$params = array($b_id, trim($tag));
-	    $query->execute($params);
-	}
-
-	OC_JSON::success(array('data' => $b_id));
-}
+require_once('../bookmarksHelper.php');
+$id = addBookmark($_GET['url'], $_GET['title'], $_GET['tags']);
+OC_JSON::success(array('data' => $id));
