@@ -41,7 +41,7 @@ class OC_remoteStorage {
 		$token=uniqid();
 		OC_Util::setupFS(OC_User::getUser());
 		self::addToken($token, $appUrl, $categories);
-		foreach($categories as $category) {
+		foreach(explode(',', $categories) as $category) {
 			//TODO: input checking on $category
 			$scopePathParts = array('remoteStorage', $category);
 			for($i=0;$i<=count($scopePathParts);$i++){
