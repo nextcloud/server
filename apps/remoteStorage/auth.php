@@ -96,5 +96,6 @@ if(count($pathParts) == 2 && $pathParts[0] == '') {
 			.'<form method="POST"><input name="allow" type="submit" value="Click here"></form>');
 	}
 } else {
-	die('please use auth.php/username?params. '.var_export($pathParts, true));
+	//die('please use auth.php/username?params. '.var_export($pathParts, true));
+	die('please use auth.php/username?params.');
 }
