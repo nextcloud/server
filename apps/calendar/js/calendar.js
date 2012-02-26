@@ -214,7 +214,7 @@ Calendar={
 		},
 		initScroll:function(){
 			if(window.addEventListener)
-				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar);
+				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar, false);
 			//}else{
 				document.onmousewheel = Calendar.UI.scrollCalendar;
 			//}
