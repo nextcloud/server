@@ -103,7 +103,7 @@ class OC_Installer{
 			return false;
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml');
-		$basedir=OC::$SERVERROOT.'/apps/'.$info['id'];
+		$basedir=OC::$APPSROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
@@ -244,10 +244,10 @@ class OC_Installer{
 	 * If $enabled is false, apps are installed as disabled.
 	 */
 	public static function installShippedApps(){
-		$dir = opendir( OC::$SERVERROOT."/apps" );
+		$dir = opendir( OC::$APPSROOT."/apps" );
 		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$SERVERROOT."/apps/$filename") ){
-				if( file_exists( OC::$SERVERROOT."/apps/$filename/appinfo/app.php" )){
+			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$APPSROOT."/apps/$filename") ){
+				if( file_exists( OC::$APPSROOT."/apps/$filename/appinfo/app.php" )){
 					if(!OC_Installer::isInstalled($filename)){
 						$info = OC_Installer::installShippedApp($filename);
 						$enabled = isset($info['default_enable']);
@@ -270,15 +270,15 @@ class OC_Installer{
 	 */
 	public static function installShippedApp($app){
 		//install the database
-		if(is_file(OC::$SERVERROOT."/apps/$app/appinfo/database.xml")){
-			OC_DB::createDbFromStructure(OC::$SERVERROOT."/apps/$app/appinfo/database.xml");
+		if(is_file(OC::$APPSROOT."/apps/$app/appinfo/database.xml")){
+			OC_DB::createDbFromStructure(OC::$APPSROOT."/apps/$app/appinfo/database.xml");
 		}
 
 		//run appinfo/install.php
-		if(is_file(OC::$SERVERROOT."/apps/$app/appinfo/install.php")){
-			include(OC::$SERVERROOT."/apps/$app/appinfo/install.php");
+		if(is_file(OC::$APPSROOT."/apps/$app/appinfo/install.php")){
+			include(OC::$APPSROOT."/apps/$app/appinfo/install.php");
 		}
-		$info=OC_App::getAppInfo(OC::$SERVERROOT."/apps/$app/appinfo/info.xml");
+		$info=OC_App::getAppInfo(OC::$APPSROOT."/apps/$app/appinfo/info.xml");
 		OC_Appconfig::setValue($app,'installed_version',$info['version']);
 		return $info;
 	}

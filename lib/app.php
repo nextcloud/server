@@ -58,8 +58,8 @@ class OC_App{
 		$apps = OC_Appconfig::getApps();
 		foreach( $apps as $app ){
 			if( self::isEnabled( $app )){
-				if(is_file(OC::$SERVERROOT.'/apps/'.$app.'/appinfo/app.php')){
-					require( 'apps/'.$app.'/appinfo/app.php' );
+				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
+					require( $app.'/appinfo/app.php' );
 				}
 			}
 		}
@@ -268,7 +268,7 @@ class OC_App{
 		if(is_file($appid)){
 			$file=$appid;
 		}else{
-			$file=OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/info.xml';
+			$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/info.xml';
 			if(!is_file($file)){
 				return array();
 			}
@@ -363,9 +363,9 @@ class OC_App{
 	 */
 	public static function getAllApps(){
 		$apps=array();
-		$dh=opendir(OC::$SERVERROOT.'/apps');
+		$dh=opendir(OC::$APPSROOT.'/apps');
 		while($file=readdir($dh)){
-			if(is_file(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/app.php')){
+			if(is_file(OC::$APPSROOT.'/apps/'.$file.'/appinfo/app.php')){
 				$apps[]=$file;
 			}
 		}
@@ -396,11 +396,11 @@ class OC_App{
 	 * @param string appid
 	 */
 	public static function updateApp($appid){
-		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml')){
-			OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml');
+		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml')){
+			OC_DB::updateDbFromStructure(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml');
 		}
-		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php')){
-			include OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php';
+		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php')){
+			include OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php';
 		}
 	}
 

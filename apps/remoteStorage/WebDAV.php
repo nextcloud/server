@@ -66,7 +66,7 @@ if(count($pathParts) >= 3 && $pathParts[0] == '') {
 	$server = new Sabre_DAV_Server($publicDir);
 
 	// Path to our script
-	$server->setBaseUri(OC::$WEBROOT."/apps/remoteStorage/WebDAV.php/$ownCloudUser");
+	$server->setBaseUri(OC::$APPSROOT."/apps/remoteStorage/WebDAV.php/$ownCloudUser");
 
 	// Auth backend
 	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(

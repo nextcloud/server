@@ -62,6 +62,14 @@ class OC{
 	 * the root path of the 3rdparty folder for http requests (e.g. owncloud/3rdparty)
 	 */
 	public static $THIRDPARTYWEBROOT = '';
+        /**
+         * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
+         */
+        public static $APPSROOT = '';
+        /**
+         * the root path of the apps folder for http requests (e.g. owncloud)
+         */
+        public static $APPSWEBROOT = '';
 
 	/**
 	 * SPL autoload
@@ -179,9 +187,26 @@ class OC{
 			exit;
 		}
 
+                // search the apps folder
+                if(file_exists(OC::$SERVERROOT.'/apps')){
+                        OC::$APPSROOT=OC::$SERVERROOT;
+                        OC::$APPSWEBROOT=OC::$WEBROOT;
+                }elseif(file_exists(OC::$SERVERROOT.'/../apps')){
+                        $url_tmp=explode('/',OC::$WEBROOT);
+                        $length=count($url_tmp);
+                        unset($url_tmp[$length-1]);
+                        OC::$APPSWEBROOT=implode('/',$url_tmp);
+                        $root_tmp=explode('/',OC::$SERVERROOT);
+                        $length=count($root_tmp);
+                        unset($root_tmp[$length-1]);
+                        OC::$APPSROOT=implode('/',$root_tmp);
+                }else{
+                        echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
+                        exit;
+                }
 
 		// set the right include path
-		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
+		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.OC::$APPSROOT.PATH_SEPARATOR.OC::$APPSROOT.'/apps'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
 
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {

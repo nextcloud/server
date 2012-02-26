@@ -39,8 +39,8 @@ class OC_Helper {
 		if( $app != '' ){
 			$app .= '/';
 			// Check if the app is in the app folder
-			if( file_exists( OC::$SERVERROOT . '/apps/'. $app.$file )){
-				$urlLinkTo =  OC::$WEBROOT . '/apps/' . $app . $file;
+			if( file_exists( OC::$APPSROOT . '/apps/'. $app.$file )){
+				$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
 			}
 			else{
 				$urlLinkTo =  OC::$WEBROOT . '/' . $app . $file;
@@ -89,8 +89,8 @@ class OC_Helper {
                 // Check if the app is in the app folder
                 if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )){
                         return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
-                }elseif( file_exists( OC::$SERVERROOT."/apps/$app/img/$image" )){
-                        return OC::$WEBROOT."/apps/$app/img/$image";
+                }elseif( file_exists( OC::$APPSROOT."/apps/$app/img/$image" )){
+                        return OC::$APPSWEBROOT."/apps/$app/img/$image";
                 }elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )){
                         return OC::$WEBROOT."/themes/$theme/$app/img/$image";
                 }elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )){
