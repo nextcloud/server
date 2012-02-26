@@ -38,6 +38,8 @@ class OC_MEDIA_SCANNER{
 	 */
 	public static function scanCollection($eventSource=null){
 		$music=OC_FileCache::searchByMime('audio');
+		$ogg=OC_FileCache::searchByMime('application','ogg');
+		$music=array_merge($music,$ogg);
 		$eventSource->send('count',count($music));
 		$songs=0;
 		foreach($music as $file){
