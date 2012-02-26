@@ -252,16 +252,22 @@ function replaceSVG(){
 	$('.svg').each(function(index,element){
 		element=$(element);
 		var background=element.css('background-image');
-		if(background && background!='none'){
-			background=background.substr(0,background.length-4)+'png)';
-			element.css('background-image',background);
+		if(background){
+			var i=background.lastIndexOf('.svg');
+			if(i>=0){
+				background=background.substr(0,i)+'.png'+background.substr(i+4);
+				element.css('background-image',background);
+			}
 		}
 		element.find('*').each(function(index,element) {
 			element=$(element);
 			var background=element.css('background-image');
-			if(background && background!='none'){
-				background=background.substr(0,background.length-4)+'png)';
-				element.css('background-image',background);
+			if(background){
+				var i=background.lastIndexOf('.svg');
+				if(i>=0){
+					background=background.substr(0,i)+'.png'+background.substr(i+4);
+					element.css('background-image',background);
+				}
 			}
 		});
 	});
