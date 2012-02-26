@@ -252,16 +252,22 @@ function replaceSVG(){
 	$('.svg').each(function(index,element){
 		element=$(element);
 		var background=element.css('background-image');
-		if(background && background!='none'){
-			background=background.substr(0,background.length-4)+'png)';
-			element.css('background-image',background);
+		if(background){
+			var i=background.lastIndexOf('.svg');
+			if(i>=0){
+				background=background.substr(0,i)+'.png'+background.substr(i+4);
+				element.css('background-image',background);
+			}
 		}
 		element.find('*').each(function(index,element) {
 			element=$(element);
 			var background=element.css('background-image');
-			if(background && background!='none'){
-				background=background.substr(0,background.length-4)+'png)';
-				element.css('background-image',background);
+			if(background){
+				var i=background.lastIndexOf('.svg');
+				if(i>=0){
+					background=background.substr(0,i)+'.png'+background.substr(i+4);
+					element.css('background-image',background);
+				}
 			}
 		});
 	});
@@ -444,4 +450,33 @@ $.fn.filterAttr = function(attr_name, attr_value) {
    return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
 
+function humanFileSize(size) {
+	humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
+	// Calculate Log with base 1024: size = 1024 ** order
+	order = Math.floor(Math.log(size) / Math.log(1024));
+	// Stay in range of the byte sizes that are defined
+	order = Math.min(humanList.length, order);
+	readableFormat = humanList[order];
+	relativeSize = (size / Math.pow(1024, order)).toFixed(1);
+	if(relativeSize.substr(relativeSize.length-2,2)=='.0'){
+		relativeSize=relativeSize.substr(0,relativeSize.length-2);
+	}
+	return relativeSize + ' ' + readableFormat;
+}
 
+function simpleFileSize(bytes) {
+	mbytes = Math.round(bytes/(1024*1024/10))/10;
+	if(bytes == 0) { return '0'; }
+	else if(mbytes < 0.1) { return '< 0.1'; }
+	else if(mbytes > 1000) { return '> 1000'; }
+	else { return mbytes.toFixed(1); }
+}
+
+function formatDate(date){
+	if(typeof date=='number'){
+		date=new Date(date);
+	}
+	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
+	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
+	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
+}

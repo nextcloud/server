@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Robin Appelman
- * @copyright 2011 Robin Appelman icewind1991@gmail.com
+ * @copyright 2012 Robin Appelman icewind1991@gmail.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -29,6 +29,9 @@ OC_Util::addScript( "settings", "apps" );
 OC_App::setActiveNavigationEntry( "core_log" );
 
 $entries=OC_Log::getEntries();
+
+OC_Util::addScript('settings','log');
+OC_Util::addStyle('settings','settings');
 
 function compareEntries($a,$b){
 	return $b->time - $a->time;

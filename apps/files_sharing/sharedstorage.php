@@ -58,7 +58,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function mkdir($path) {
-		if ($path == "" || $path == "/" || !$this->is_writeable($path)) {
+		if ($path == "" || $path == "/" || !$this->is_writable($path)) {
 			return false; 
 		} else {
 			$source = $this->getSource($path);
@@ -278,14 +278,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 				return $storage->file_exists($this->getInternalPath($source));
 			}
 		}
-	}
-	
-	public function readfile($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->readfile($this->getInternalPath($source));
-		}	
 	}
 	
 	public function filectime($path) {

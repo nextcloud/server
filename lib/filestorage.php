@@ -36,7 +36,6 @@ class OC_Filestorage{
 	public function is_readable($path){}
 	public function is_writable($path){}
 	public function file_exists($path){}
-	public function readfile($path){}
 	public function filectime($path){}
 	public function filemtime($path){}
 	public function file_get_contents($path){}

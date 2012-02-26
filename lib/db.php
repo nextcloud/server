@@ -508,6 +508,21 @@ class OC_DB {
 		self::$connection->commit();
 		self::$inTransaction=false;
 	}
+
+	/**
+	 * check if a result is an error, works with MDB2 and PDOException
+	 * @param mixed $result
+	 * @return bool
+	 */
+	public static function isError($result){
+		if(!$result){
+			return true;
+		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 
 /**
@@ -527,11 +542,15 @@ class PDOStatementWrapper{
 	public function execute($input=array()){
 		$this->lastArguments=$input;
 		if(count($input)>0){
-			$this->statement->execute($input);
+			$result=$this->statement->execute($input);
 		}else{
-			$this->statement->execute();
+			$result=$this->statement->execute();
 		}
-		return $this;
+		if($result){
+			return $this;
+		}else{
+			return false;
+		}
 	}
 	
 	/**

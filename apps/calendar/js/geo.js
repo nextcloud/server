@@ -10,7 +10,6 @@ if (navigator.geolocation) {
 		function(data){
 			if (data.status == 'success' && typeof(data.message) != 'undefined'){
 				$('#notification').html(data.message);
-				$('#notification').attr('title', 'CC BY 3.0 by Geonames.org');
 				$('#notification').slideDown();
 				window.setTimeout(function(){$('#notification').slideUp();}, 5000);
 			}else{

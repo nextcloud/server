@@ -112,7 +112,10 @@ class OC_FileCache{
 		$mimePart=dirname($data['mimetype']);
 		$user=OC_User::getUser();
 		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart,user,writable,encrypted,versioned) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)');
-		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
+		$result=$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while writing file('.$path.') to cache',OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -137,7 +140,10 @@ class OC_FileCache{
 		
 		$sql = 'UPDATE *PREFIX*fscache SET '.implode(' , ',$queryParts).' WHERE id=?';
 		$query=OC_DB::prepare($sql);
-		$query->execute($arguments);
+		$result=$query->execute($arguments);
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while updating file('.$path.') in cache',OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -271,11 +277,20 @@ class OC_FileCache{
 	 */
 	private static function getFileId($path){
 		$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path=?');
-		$result=$query->execute(array($path))->fetchRow();
+		if(OC_DB::isError($query)){
+			OC_Log::write('files','error while getting file id of '.$path,OC_Log::ERROR);
+			return -1;
+		}
+		$result=$query->execute(array($path));
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while getting file id of '.$path,OC_Log::ERROR);
+			return -1;
+		}
+		$result=$result->fetchRow();
 		if(is_array($result)){
 			return $result['id'];
 		}else{
-      OC_Log::write('getFileId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('getFileId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return -1;
 		}
 	}

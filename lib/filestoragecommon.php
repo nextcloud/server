@@ -37,14 +37,6 @@ class OC_Filestorage_Common extends OC_Filestorage {
 	public function is_readable($path){}
 	public function is_writable($path){}
 	public function file_exists($path){}
-	public function readfile($path) {
-		$handle = $this->fopen($path, "r");
-		$chunk = 1024;
-		while (!feof($handle)) {
-			echo fread($handle, $chunk);
-		}
-		return $this->filesize($path);
-	}
 	public function filectime($path) {
 		$stat = $this->stat($path);
 		return $stat['ctime'];

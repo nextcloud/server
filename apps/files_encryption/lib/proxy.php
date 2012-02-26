@@ -104,16 +104,6 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		}
 		return $result;
 	}
-	
-	public function preReadFile($path){
-		if(self::isEncrypted($path)){
-			$stream=fopen('crypt://'.$path,'r');
-			while(!feof($stream)){
-				print(fread($stream,8192));
-			}
-			return false;//cancel the original request
-		}
-	}
 
 	public function postGetMimeType($path,$mime){
 		if((!OC_FileCache::inCache($path) and self::shouldEncrypt($path)) or self::isEncrypted($path)){
