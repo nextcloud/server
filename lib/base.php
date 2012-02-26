@@ -143,6 +143,13 @@ class OC{
 		$scriptName=$_SERVER["SCRIPT_NAME"];
 		if(substr($scriptName,-1)=='/'){
 			$scriptName.='index.php';
+			//make sure suburi follows the same rules as scriptName
+			if(substr(OC::$SUBURI,-9)!='index.php'){
+				if(substr(OC::$SUBURI,-1)!='/'){
+					OC::$SUBURI=OC::$SUBURI.'/';
+				}
+				OC::$SUBURI=OC::$SUBURI.'index.php';
+			}
 		}
 		OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
 
