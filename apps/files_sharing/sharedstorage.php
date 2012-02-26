@@ -281,14 +281,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
-	public function readfile($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->readfile($this->getInternalPath($source));
-		}	
-	}
-	
 	public function filectime($path) {
 		if ($path == "" || $path == "/") {
 			$ctime = 0; 

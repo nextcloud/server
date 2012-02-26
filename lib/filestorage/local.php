@@ -52,9 +52,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function file_exists($path){
 		return file_exists($this->datadir.$path);
 	}
-	public function readfile($path){
-		return readfile($this->datadir.$path);
-	}
 	public function filectime($path){
 		return filectime($this->datadir.$path);
 	}

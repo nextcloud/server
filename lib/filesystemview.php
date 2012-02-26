@@ -136,7 +136,14 @@ class OC_FilesystemView {
 		return $this->basicOperation('filesize',$path);
 	}
 	public function readfile($path){
-		return $this->basicOperation('readfile',$path,array('read'));
+		$handle=$this->fopen($path,'r');
+		$chunkSize = 1024*1024;// 1 MB chunks
+		while (!feof($handle)) {
+			echo fread($handle, $chunkSize);
+			@ob_flush();
+			flush(); 
+		}
+		return $this->filesize($path);
 	}
 	public function is_readable($path){
 		return $this->basicOperation('is_readable',$path);
