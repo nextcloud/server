@@ -194,7 +194,7 @@ class OC_Helper {
 			$bytes *= $bytes_array[$matches[1]];
 		}
 
-		$bytes = intval(round($bytes, 2));
+		$bytes = round($bytes, 2);
 
 		return $bytes; 
 	}
