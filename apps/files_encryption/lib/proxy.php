@@ -66,6 +66,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		if(self::shouldEncrypt($path)){
 			if (!is_resource($data)) {//stream put contents should have been converter to fopen
 				$data=OC_Crypt::blockEncrypt($data);
+				OC_FileCache::put($path,array('encrypted'=>true));
 			}
 		}
 	}
@@ -85,7 +86,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		if(self::isEncrypted($path)){
 			fclose($result);
 			$result=fopen('crypt://'.$path,$meta['mode']);
-		}elseif(self::shouldEncrypt($path) and $meta['mode']!='r'){
+		}elseif(self::shouldEncrypt($path) and $meta['mode']!='r' and $meta['mode']!='rb'){
 			if(OC_Filesystem::file_exists($path) and OC_Filesystem::filesize($path)>0){
 				//first encrypt the target file so we don't end up with a half encrypted file
 				OC_Log::write('files_encryption','Decrypting '.$path.' before writing',OC_Log::DEBUG);
