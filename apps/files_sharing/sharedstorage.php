@@ -58,7 +58,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function mkdir($path) {
-		if ($path == "" || $path == "/" || !$this->is_writeable($path)) {
+		if ($path == "" || $path == "/" || !$this->is_writable($path)) {
 			return false; 
 		} else {
 			$source = $this->getSource($path);
