@@ -661,7 +661,7 @@ $(document).ready(function(){
 	Calendar.UI.initScroll();
 	$('#calendar_holder').fullCalendar({
 		header: false,
-		firstDay: 1,
+		firstDay: firstDay,
 		editable: true,
 		defaultView: defaultView,
 		timeFormat: {

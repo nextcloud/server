@@ -37,6 +37,13 @@
                 </select>
             </td></tr>
 
+            <tr><td><label for="firstday" class="bold"><?php echo $l->t('First day of the week');?></label></td><td>
+                <select style="display: none;" id="firstday" title="<?php echo "First day"; ?>" name="firstday">
+                    <option value="mo" id="mo"><?php echo $l->t("Monday"); ?></option>
+                    <option value="su" id="su"><?php echo $l->t("Sunday"); ?></option>
+                </select>
+            </td></tr>
+
         </table>
 
         <?php echo $l->t('Calendar CalDAV syncing address:');?>
