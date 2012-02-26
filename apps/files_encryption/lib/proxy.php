@@ -107,10 +107,9 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	}
 
 	public function postGetMimeType($path,$mime){
-		if((!OC_FileCache::inCache($path) and self::shouldEncrypt($path)) or self::isEncrypted($path)){
-			return OC_Helper::getMimeType('crypt://'.$path,'w');
-		}else{
-			return $mime;
+		if(self::isEncrypted($path)){
+			$mime=OC_Helper::getMimeType('crypt://'.$path,'w');
 		}
+		return $mime;
 	}
 }
