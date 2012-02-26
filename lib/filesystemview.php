@@ -255,18 +255,26 @@ class OC_FilesystemView {
 		$hooks=array();
 		switch($mode){
 			case 'r':
+			case 'rb':
 				$hooks[]='read';
 				break;
 			case 'r+':
+			case 'rb+':
 			case 'w+':
+			case 'wb+':
 			case 'x+':
+			case 'xb+':
 			case 'a+':
+			case 'ab+':
 				$hooks[]='read';
 				$hooks[]='write';
 				break;
 			case 'w':
+			case 'wb':
 			case 'x':
+			case 'xb':
 			case 'a':
+			case 'ab':
 				$hooks[]='write';
 				break;
 			default:
