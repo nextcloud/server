@@ -450,22 +450,18 @@ $.fn.filterAttr = function(attr_name, attr_value) {
    return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
 
-function humanFileSize(bytes){
-	if( bytes < 1024 ){
-		return bytes+' B';
+function humanFileSize(size) {
+	humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
+	// Calculate Log with base 1024: size = 1024 ** order
+	order = Math.floor(Math.log(size) / Math.log(1024));
+	// Stay in range of the byte sizes that are defined
+	order = Math.min(humanList.length, order);
+	readableFormat = humanList[order];
+	relativeSize = (size / Math.pow(1024, order)).toFixed(1);
+	if(relativeSize.substr(relativeSize.length-2,2)=='.0'){
+		relativeSize=relativeSize.substr(0,relativeSize.length-2);
 	}
-	bytes = Math.round(bytes / 1024, 1 );
-	if( bytes < 1024 ){
-		return bytes+' kB';
-	}
-	bytes = Math.round( bytes / 1024, 1 );
-	if( bytes < 1024 ){
-		return bytes+' MB';
-	}
-	
-	// Wow, heavy duty for owncloud
-	bytes = Math.round( bytes / 1024, 1 );
-	return bytes+' GB';
+	return relativeSize + ' ' + readableFormat;
 }
 
 function simpleFileSize(bytes) {
