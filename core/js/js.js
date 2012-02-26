@@ -455,7 +455,7 @@ function humanFileSize(size) {
 	// Calculate Log with base 1024: size = 1024 ** order
 	order = Math.floor(Math.log(size) / Math.log(1024));
 	// Stay in range of the byte sizes that are defined
-	order = Math.min(humanList.length, order);
+	order = Math.min(humanList.length - 1, order);
 	readableFormat = humanList[order];
 	relativeSize = (size / Math.pow(1024, order)).toFixed(1);
 	if(relativeSize.substr(relativeSize.length-2,2)=='.0'){
