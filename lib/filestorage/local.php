@@ -96,9 +96,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			$source=substr($path1,strrpos($path1,'/')+1);
 			$path2.=$source;
 		}
-		if($return=copy($this->datadir.$path1,$this->datadir.$path2)){
-		}
-		return $return;
+		return copy($this->datadir.$path1,$this->datadir.$path2);
 	}
 	public function fopen($path,$mode){
 		if($return=fopen($this->datadir.$path,$mode)){

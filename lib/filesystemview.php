@@ -173,13 +173,11 @@ class OC_FilesystemView {
 		if(is_resource($data)){//not having to deal with streams in file_put_contents makes life easier
 			$target=$this->fopen($path,'w');
 			if($target){
-				while(!feof($data)){
-					fwrite($target,fread($data,8192));
-				}
+				$count=OC_Helper::streamCopy($data,$target);
 				fclose($target);
 				fclose($data);
 				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, array( OC_Filesystem::signal_param_path => $path));
-				return true;
+				return $count>0;
 			}else{
 				return false;
 			}
@@ -204,9 +202,7 @@ class OC_FilesystemView {
 				}else{
 					$source=$this->fopen($path1,'r');
 					$target=$this->fopen($path2,'w');
-					while (!feof($source)){
-						fwrite($target,fread($source,8192));
-					}
+					$count=OC_Helper::streamCopy($data,$target);
 					$storage1=$this->getStorage($path1);
 					$storage1->unlink($this->getInternalPath($path1));
 				}
@@ -236,11 +232,7 @@ class OC_FilesystemView {
 				}else{
 					$source=$this->fopen($path1,'r');
 					$target=$this->fopen($path2,'w');
-					if($target and $source){
-						while (!feof($source)){
-							fwrite($target,fread($source,8192));
-						}
-					}
+					$count=OC_Helper::streamCopy($data,$target);
 				}
         OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_copy, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2));
 				if(!$exists){
