@@ -81,10 +81,6 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->instance->file_put_contents('/lorem.txt',$sourceText);
 		$this->assertEqual($sourceText,$this->instance->file_get_contents('/lorem.txt'),'data returned from file_get_contents is not equal to the source data');
 
-		//fill a file with a stream
-		$this->instance->file_put_contents('/lorem.txt',fopen($sourceFile,'r'));
-		$this->assertEqual($sourceText,$this->instance->file_get_contents('/lorem.txt'),'data returned from file_get_contents is not equal to the source data');
-
 		//empty the file
 		$this->instance->file_put_contents('/lorem.txt','');
 		$this->assertEqual('',$this->instance->file_get_contents('/lorem.txt'),'file not emptied');
@@ -98,15 +94,15 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertEqual(false,$this->instance->getMimeType('/non/existing/file'));
 		
 		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
-		$this->instance->file_put_contents('/lorem.txt',fopen($textFile,'r'));
+		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile,'r'));
 		$this->assertEqual('text/plain',$this->instance->getMimeType('/lorem.txt'));
 		
 		$pngFile=OC::$SERVERROOT.'/tests/data/logo-wide.png';
-		$this->instance->file_put_contents('/logo-wide.png',fopen($pngFile,'r'));
+		$this->instance->file_put_contents('/logo-wide.png',file_get_contents($pngFile,'r'));
 		$this->assertEqual('image/png',$this->instance->getMimeType('/logo-wide.png'));
 		
 		$svgFile=OC::$SERVERROOT.'/tests/data/logo-wide.svg';
-		$this->instance->file_put_contents('/logo-wide.svg',fopen($svgFile,'r'));
+		$this->instance->file_put_contents('/logo-wide.svg',file_get_contents($svgFile,'r'));
 		$this->assertEqual('image/svg+xml',$this->instance->getMimeType('/logo-wide.svg'));
 	}
 }
