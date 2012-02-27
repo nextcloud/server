@@ -105,6 +105,19 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->instance->file_put_contents('/logo-wide.svg',file_get_contents($svgFile,'r'));
 		$this->assertEqual('image/svg+xml',$this->instance->getMimeType('/logo-wide.svg'));
 	}
+	
+	public function testCopyAndMove(){
+		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$this->instance->file_put_contents('/source.txt',file_get_contents($textFile));
+		$this->instance->copy('/source.txt','/target.txt');
+		$this->assertTrue($this->instance->file_exists('/target.txt'));
+		$this->assertEqual($this->instance->file_get_contents('/source.txt'),$this->instance->file_get_contents('/target.txt'));
+		
+		$this->instance->rename('/source.txt','/target2.txt');
+		$this->assertTrue($this->instance->file_exists('/target2.txt'));
+		$this->assertFalse($this->instance->file_exists('/source.txt'));
+		$this->assertEqual(file_get_contents($textFile),$this->instance->file_get_contents('/target.txt'));
+	}
 }
 
 
