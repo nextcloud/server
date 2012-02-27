@@ -83,24 +83,24 @@ class OC_Helper {
 	 * Returns the path to the image.
 	 */
         public static function imagePath( $app, $image ){
-                // Read the selected theme from the config file
-                $theme=OC_Config::getValue( "theme" );
+		// Read the selected theme from the config file
+		$theme=OC_Config::getValue( "theme" );
 
-                // Check if the app is in the app folder
-                if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )){
-                        return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
-                }elseif( file_exists( OC::$APPSROOT."/apps/$app/img/$image" )){
-                        return OC::$APPSWEBROOT."/apps/$app/img/$image";
-                }elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )){
-                        return OC::$WEBROOT."/themes/$theme/$app/img/$image";
-                }elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )){
-                        return OC::$WEBROOT."/$app/img/$image";
-                }elseif( file_exists( OC::$SERVERROOT."/themes/$theme/core/img/$image" )){
-                        return OC::$WEBROOT."/themes/$theme/core/img/$image";
-                }else{
-                        return OC::$WEBROOT."/core/img/$image";
-                }
-        }
+		// Check if the app is in the app folder
+		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )){
+			return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
+		}elseif( file_exists( OC::$APPSROOT."/apps/$app/img/$image" )){
+			return OC::$APPSWEBROOT."/apps/$app/img/$image";
+		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )){
+			return OC::$WEBROOT."/themes/$theme/$app/img/$image";
+		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )){
+			return OC::$WEBROOT."/$app/img/$image";
+		}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/core/img/$image" )){
+			return OC::$WEBROOT."/themes/$theme/core/img/$image";
+		}else{
+			return OC::$WEBROOT."/core/img/$image";
+		}
+	}
 
 	/**
 	 * @brief get path to icon of file type

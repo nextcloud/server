@@ -170,39 +170,39 @@ class OC_Template{
 
 		// Check if it is a app template or not.
 		if( $app != "" ){
-	                        // Check if the app is in the app folder or in the root
-                        if( file_exists( OC::$APPSROOT."/apps/$app/templates/" )){
-                                // Check if the template is overwritten by the selected theme
-                                if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name$fext.php" )){
-                                        $template = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name$fext.php";
-                                        $path = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/";
-                                }elseif( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name.php" )){
-                                        $template = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name.php";
-                                        $path = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/";
-                                }elseif( OC::$APPSROOT."/apps/$app/templates/"."$name$fext.php" ){
-                                        $template = OC::$APPSROOT."/apps/$app/templates/"."$name$fext.php";
-                                        $path = OC::$APPSROOT."/apps/$app/templates/";
-                                }else{
-                                        $template = OC::$APPSROOT."/apps/$app/templates/"."$name.php";
-                                        $path = OC::$APPSROOT."/apps/$app/templates/";
-                                }
-                        }else{
-                                // Check if the template is overwritten by the selected theme
-                                if( file_exists( OC::$SERVERROOT."/themes/$theme/$app/templates/"."$name$fext.php" )){
-                                        $template = OC::$SERVERROOT."/themes/$theme/$app/templates/"."$name$fext.php";
-                                        $path = OC::$SERVERROOT."/themes/$theme/$app/templates/";
-                                }elseif( file_exists( OC::$SERVERROOT."/themes/$theme/$app/templates/"."$name.php" )){
-                                        $template = OC::$SERVERROOT."/themes/$theme/$app/templates/"."$name.php";
-                                        $path = OC::$SERVERROOT."/themes/$theme/$app/templates/";
-                                }elseif( file_exists( OC::$SERVERROOT."/$app/templates/"."$name$fext.php" )){
-                                        $template = OC::$SERVERROOT."/$app/templates/"."$name$fext.php";
-                                        $path = OC::$SERVERROOT."/$app/templates/";
-                                }else{
-                                        $template = OC::$SERVERROOT."/$app/templates/"."$name.php";
-                                        $path = OC::$SERVERROOT."/$app/templates/";
-                                }
+			// Check if the app is in the app folder or in the root
+			if( file_exists( OC::$APPSROOT."/apps/$app/templates/" )){
+				// Check if the template is overwritten by the selected theme
+				if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name$fext.php" )){
+					$template = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name$fext.php";
+					$path = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/";
+				}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name.php" )){
+					$template = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name.php";
+					$path = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/";
+				}elseif( OC::$APPSROOT."/apps/$app/templates/"."$name$fext.php" ){
+					$template = OC::$APPSROOT."/apps/$app/templates/"."$name$fext.php";
+					$path = OC::$APPSROOT."/apps/$app/templates/";
+				}else{
+					$template = OC::$APPSROOT."/apps/$app/templates/"."$name.php";
+					$path = OC::$APPSROOT."/apps/$app/templates/";
+				}
+			}else{
+				// Check if the template is overwritten by the selected theme
+				if( file_exists( OC::$SERVERROOT."/themes/$theme/$app/templates/"."$name$fext.php" )){
+					$template = OC::$SERVERROOT."/themes/$theme/$app/templates/"."$name$fext.php";
+					$path = OC::$SERVERROOT."/themes/$theme/$app/templates/";
+				}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/$app/templates/"."$name.php" )){
+					$template = OC::$SERVERROOT."/themes/$theme/$app/templates/"."$name.php";
+					$path = OC::$SERVERROOT."/themes/$theme/$app/templates/";
+				}elseif( file_exists( OC::$SERVERROOT."/$app/templates/"."$name$fext.php" )){
+					$template = OC::$SERVERROOT."/$app/templates/"."$name$fext.php";
+					$path = OC::$SERVERROOT."/$app/templates/";
+				}else{
+					$template = OC::$SERVERROOT."/$app/templates/"."$name.php";
+					$path = OC::$SERVERROOT."/$app/templates/";
+				}
 
-                        }	
+			}	
 		}else{
 			// Check if the template is overwritten by the selected theme
 			if( file_exists( OC::$SERVERROOT."/themes/$theme/core/templates/"."$name$fext.php" )){
