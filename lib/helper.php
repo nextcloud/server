@@ -398,4 +398,21 @@ class OC_Helper {
 		}
 		return false;
 	}
+	
+	/**
+	 * copy the contents of one stream to another
+	 * @param resource source
+	 * @param resource target
+	 * @return int the number of bytes copied
+	 */
+	public static function streamCopy($source,$target){
+		if(!$source or !$target){
+			return false;
+		}
+		$count=0;
+		while(!feof($source)){
+			$count+=fwrite($target,fread($source,8192));
+		}
+		return $count;
+	}
 }

@@ -329,7 +329,7 @@ class OC_FilesystemView {
 	 * @return mixed
 	 */
 	private function basicOperation($operation,$path,$hooks=array(),$extraParam=null){
-		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and OC_Filesystem::isValidPath($path) and $storage=$this->getStorage($path)){
+		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and OC_Filesystem::isValidPath($path)){
 			$interalPath=$this->getInternalPath($path);
 			$run=true;
 			if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()){
@@ -341,7 +341,7 @@ class OC_FilesystemView {
 					}
 				}
 			}
-			if($run){
+			if($run and $storage=$this->getStorage($path)){
 				if(!is_null($extraParam)){
 					$result=$storage->$operation($interalPath,$extraParam);
 				}else{
