@@ -23,30 +23,30 @@
 /**
  * Privde a common interface to all different storage options
  */
-class OC_Filestorage{
+abstract class OC_Filestorage{
 	public function __construct($parameters){}
-	public function mkdir($path){}
-	public function rmdir($path){}
-	public function opendir($path){}
-	public function is_dir($path){}
-	public function is_file($path){}
-	public function stat($path){}
-	public function filetype($path){}
-	public function filesize($path){}
-	public function is_readable($path){}
-	public function is_writable($path){}
-	public function file_exists($path){}
-	public function filectime($path){}
-	public function filemtime($path){}
-	public function file_get_contents($path){}
-	public function file_put_contents($path,$data){}
-	public function unlink($path){}
-	public function rename($path1,$path2){}
-	public function copy($path1,$path2){}
-	public function fopen($path,$mode){}
-	public function getMimeType($path){}
-	public function hash($type,$path,$raw){}
-	public function free_space($path){}
-	public function search($query){}
-	public function getLocalFile($path){}// get a path to a local version of the file, whether the original file is local or remote
+	abstract public function mkdir($path);
+	abstract public function rmdir($path);
+	abstract public function opendir($path);
+	abstract public function is_dir($path);
+	abstract public function is_file($path);
+	abstract public function stat($path);
+	abstract public function filetype($path);
+	abstract public function filesize($path);
+	abstract public function is_readable($path);
+	abstract public function is_writable($path);
+	abstract public function file_exists($path);
+	abstract public function filectime($path);
+	abstract public function filemtime($path);
+	abstract public function file_get_contents($path);
+	abstract public function file_put_contents($path,$data);
+	abstract public function unlink($path);
+	abstract public function rename($path1,$path2);
+	abstract public function copy($path1,$path2);
+	abstract public function fopen($path,$mode);
+	abstract public function getMimeType($path);
+	abstract public function hash($type,$path,$raw);
+	abstract public function free_space($path);
+	abstract public function search($query);
+	abstract public function getLocalFile($path);// get a path to a local version of the file, whether the original file is local or remote
 }
