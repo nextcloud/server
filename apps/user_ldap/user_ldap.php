@@ -189,7 +189,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 		if(!$this->configured){
 			return false;
 		}
-		$dn = $this->getDn($uid);
+		$dn = $this->getDc($uid);
 		return !empty($dn);
 	}
 
