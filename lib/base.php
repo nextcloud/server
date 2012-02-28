@@ -159,7 +159,9 @@ class OC{
 				OC::$SUBURI=OC::$SUBURI.'index.php';
 			}
 		}
-		OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
+//              OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
+		// try a new way to detect the WEBROOT which is simpler and also works with the app directory outside the owncloud folder. let´s see if this works for everybody
+		OC::$WEBROOT=substr(OC::$SERVERROOT,strlen(OC::$DOCUMENTROOT));
 
 
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
@@ -187,23 +189,23 @@ class OC{
 			exit;
 		}
 
-                // search the apps folder
-                if(file_exists(OC::$SERVERROOT.'/apps')){
-                        OC::$APPSROOT=OC::$SERVERROOT;
-                        OC::$APPSWEBROOT=OC::$WEBROOT;
-                }elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-                        $url_tmp=explode('/',OC::$WEBROOT);
-                        $length=count($url_tmp);
-                        unset($url_tmp[$length-1]);
-                        OC::$APPSWEBROOT=implode('/',$url_tmp);
-                        $root_tmp=explode('/',OC::$SERVERROOT);
-                        $length=count($root_tmp);
-                        unset($root_tmp[$length-1]);
-                        OC::$APPSROOT=implode('/',$root_tmp);
-                }else{
-                        echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
-                        exit;
-                }
+		// search the apps folder
+		if(file_exists(OC::$SERVERROOT.'/apps')){
+			OC::$APPSROOT=OC::$SERVERROOT;
+			OC::$APPSWEBROOT=OC::$WEBROOT;
+		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
+			$url_tmp=explode('/',OC::$WEBROOT);
+			$length=count($url_tmp);
+			unset($url_tmp[$length-1]);
+			OC::$APPSWEBROOT=implode('/',$url_tmp);
+			$root_tmp=explode('/',OC::$SERVERROOT);
+			$length=count($root_tmp);
+			unset($root_tmp[$length-1]);
+			OC::$APPSROOT=implode('/',$root_tmp);
+		}else{
+			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
+			exit;
+		}
 
 		// set the right include path
 		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.OC::$APPSROOT.PATH_SEPARATOR.OC::$APPSROOT.'/apps'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
