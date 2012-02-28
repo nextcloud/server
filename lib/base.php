@@ -293,6 +293,11 @@ class OC{
 		if( !OC_Config::getValue( "installed", false )){
 			$_SESSION['user_id'] = '';
 		}
+		
+		// register the stream wrappers
+		require_once('streamwrappers.php');
+		stream_wrapper_register("fakedir", "OC_FakeDirStream");
+		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
 
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
@@ -345,10 +350,6 @@ if(!function_exists('get_temp_dir')) {
 }
 
 OC::init();
-
-require_once('streamwrappers.php');
-
-
 
 // FROM search.php
 new OC_Search_Provider_File();

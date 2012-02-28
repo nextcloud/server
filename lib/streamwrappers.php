@@ -218,6 +218,3 @@ class OC_StaticStreamWrapper {
 		return false;
 	}
 }
-
-stream_wrapper_register("fakedir", "OC_FakeDirStream");
-stream_wrapper_register('static', 'OC_StaticStreamWrapper');
