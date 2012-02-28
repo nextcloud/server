@@ -41,7 +41,7 @@ function loadTests($dir=''){
 					$testCase=new TestSuite(getTestName($file));
 					$testCase->addFile($basedir.$file);
 					if($testCase->getSize()>0){
-						$testCase->run(new DefaultReporter());
+						$testCase->run(new HtmlReporter());
 					}
 				}
 			}
