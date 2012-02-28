@@ -108,7 +108,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 // 	abstract public function free_space($path);
 // 	abstract public function search($query);
 	public function getLocalFile($path){
-		return $this->toTmpFile();
+		return $this->toTmpFile($path);
 	}
 	private function toTmpFile($path){//no longer in the storage api, still usefull here
 		$source=$this->fopen($path,'r');
@@ -117,7 +117,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}
 		$extention=substr($path,strrpos($path,'.'));
 		$tmpFile=OC_Helper::tmpFile($extention);
-		$target=fopen($tmpFile);
+		$target=fopen($tmpFile,'w');
 		$count=OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
 	}

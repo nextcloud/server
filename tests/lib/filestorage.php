@@ -118,6 +118,12 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertFalse($this->instance->file_exists('/source.txt'));
 		$this->assertEqual(file_get_contents($textFile),$this->instance->file_get_contents('/target.txt'));
 	}
+	
+	public function testLocalFile(){
+		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile));
+		$localFile=$this->instance->getLocalFile('/lorem.txt');
+		$this->assertTrue(file_exists($localFile));
+		$this->assertEqual(file_get_contents($localFile),file_get_contents($textFile));
+	}
 }
-
-
