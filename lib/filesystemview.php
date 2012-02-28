@@ -278,8 +278,9 @@ class OC_FilesystemView {
 	public function toTmpFile($path){
 		if(OC_Filesystem::isValidPath($path)){
 			$source=$this->fopen($path,'r');
-			$tmpFile=tempnam(get_temp_dir(),'OC_TMP_').substr($path,strrpos($path,'.'));
 			if($source){
+				$extention=substr($path,strrpos($path,'.'));
+				$tmpFile=OC_Helper::tmpFile($extention);
 				return file_put_contents($tmpFile,$source);
 			}
 		}

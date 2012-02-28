@@ -62,7 +62,7 @@ class OC_Installer{
 		
 		//download the file if necesary
 		if($data['source']=='http'){
-			$path=tempnam(get_temp_dir(),'oc_installer_');
+			$path=OC_Helper::tmpFile('.zip');
 			if(!isset($data['href'])){
 				OC_Log::write('core','No href specified when installing app from http',OC_Log::ERROR);
 				return false;
@@ -142,9 +142,6 @@ class OC_Installer{
 		
 		//remove temporary files
 		OC_Helper::rmdirr($extractDir);
-		if($data['source']=='http'){
-			unlink($path);
-		}
 		
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')){

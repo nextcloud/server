@@ -92,7 +92,8 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 			return false;
 		}
 		$head=fread($source,8192);//8kb should suffice to determine a mimetype
-		$tmpFile=tempnam(get_temp_dir(),'OC_TMP_').substr($path,strrpos($path,'.'));
+		$extention=substr($path,strrpos($path,'.'));
+		$tmpFile=OC_Helper::tmpFile($extention);
 		file_put_contents($tmpFile,$head);
 		$mime=OC_Helper::getMimeType($tmpFile);
 		unlink($tmpFile);
@@ -114,7 +115,8 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		if(!$source){
 			return false;
 		}
-		$tmpFile=tempnam(get_temp_dir(),'OC_TMP_').substr($path,strrpos($path,'.'));
+		$extention=substr($path,strrpos($path,'.'));
+		$tmpFile=OC_Helper::tmpFile($extention);
 		$target=fopen($tmpFile);
 		$count=OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
