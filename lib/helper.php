@@ -26,6 +26,7 @@
  */
 class OC_Helper {
 	private static $mimetypes=array();
+	private static $tmpFiles=array();
 	
 	/**
 	 * @brief Creates an url
@@ -414,5 +415,29 @@ class OC_Helper {
 			$count+=fwrite($target,fread($source,8192));
 		}
 		return $count;
+	}
+	
+	/**
+	 * create a temporary file with an unique filename
+	 * @param string postfix
+	 * @return string
+	 *
+	 * temporary files are automatically cleaned up after the script is finished
+	 */
+	public static function tmpFile($postfix=''){
+		$file=tempnam(get_temp_dir(),'OC_TMP_').$postfix;
+		self::$tmpFiles[]=$file;
+		return $file;
+	}
+	
+	/**
+	 * remove all files created by self::tmpFile
+	 */
+	public static function cleanTmp(){
+		foreach(self::$tmpFiles as $file){
+			if(file_exists($file)){
+				unlink($file);
+			}
+		}
 	}
 }

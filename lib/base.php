@@ -313,6 +313,9 @@ class OC{
 		// Last part: connect some hooks
 		OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
 		OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');
+		
+		//make sure temporary files are cleaned up
+		register_shutdown_function(array('OC_Helper','cleanTmp'));
 	}
 }
 
