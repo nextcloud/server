@@ -197,9 +197,12 @@ class OC_Template{
 				}elseif( file_exists( OC::$SERVERROOT."/$app/templates/"."$name$fext.php" )){
 					$template = OC::$SERVERROOT."/$app/templates/"."$name$fext.php";
 					$path = OC::$SERVERROOT."/$app/templates/";
-				}else{
+				}elseif( file_exists( OC::$SERVERROOT."/$app/templates/"."$name.php" )){
 					$template = OC::$SERVERROOT."/$app/templates/"."$name.php";
 					$path = OC::$SERVERROOT."/$app/templates/";
+				}else{
+					echo('template not found: template:'.$name.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);	
+					die();
 				}
 
 			}	
@@ -383,8 +386,12 @@ class OC_Template{
 				// Is it in core?
 				}elseif(is_file(OC::$SERVERROOT."/core/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/core/$script$fext.js" );
-				}else{
+				}elseif(is_file(OC::$SERVERROOT."/core/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/core/$script.js" );
+
+				}else{
+					echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);	
+					die();
 
 				}
 			}
@@ -406,8 +413,12 @@ class OC_Template{
 				// or in core ?	
 				}elseif(is_file(OC::$SERVERROOT."/core/$style$fext.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/core/$style$fext.css" );
-				}else{
+				}elseif(is_file(OC::$SERVERROOT."/core/$style.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/core/$style.css" );
+
+				}else{
+					echo('css file not found: style:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);	
+					die();
 				}
 			}
                         // Add the theme css files. you can override the default values here

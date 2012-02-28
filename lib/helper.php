@@ -98,8 +98,11 @@ class OC_Helper {
 			return OC::$WEBROOT."/$app/img/$image";
 		}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/core/img/$image" )){
 			return OC::$WEBROOT."/themes/$theme/core/img/$image";
-		}else{
+		}elseif( file_exists( OC::$SERVERROOT."/core/img/$image" )){
 			return OC::$WEBROOT."/core/img/$image";
+		}else{
+			echo('image not found: image:'.$image.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);	
+			die();
 		}
 	}
 
