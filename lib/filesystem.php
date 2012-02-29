@@ -369,8 +369,8 @@ class OC_Filesystem{
 	static public function fileatime($path){
 		return self::basicOperation('fileatime',$path);
 	}
-	static public function setFileMtime($path, $mtime){
-		return self::$defaultInstance->setFileMtime($path, $mtime);
+	static public function touch($path, $mtime){
+		return self::$defaultInstance->touch($path, $mtime);
 	}
 	static public function file_get_contents($path){
 		return self::basicOperation('file_get_contents',$path,array('read'));
