@@ -136,8 +136,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$next = 'https://docs.google.com/feeds/default/private/full/folder%3Aroot/contents';
 		} else {
 			if ($entry = $this->getResource($path)) {
-				$collectionId = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'resourceId')->item(0)->nodeValue;
-				$next = 'https://docs.google.com/feeds/default/private/full/folder%3A'.$collectionId.'/contents';
+				$next = $entry->getElementsByTagName('content')->item(0)->getAttribute('src');
 			} else {
 				return false;
 			}
