@@ -569,7 +569,13 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			return $storage->getLocalFile($this->getInternalPath($source));
 		}
 	}
-	
+	public function touch($path, $mtime=null){
+		$source = $this->getSource($path);
+		if ($source) {
+			$storage = OC_Filesystem::getStorage($source);
+			return $storage->touch($this->getInternalPath($source),$time);
+		}
+	}
 }
 
 ?>

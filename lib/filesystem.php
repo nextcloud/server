@@ -369,7 +369,7 @@ class OC_Filesystem{
 	static public function fileatime($path){
 		return self::basicOperation('fileatime',$path);
 	}
-	static public function touch($path, $mtime){
+	static public function touch($path, $mtime=null){
 		return self::$defaultInstance->touch($path, $mtime);
 	}
 	static public function file_get_contents($path){

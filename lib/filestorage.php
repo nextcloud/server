@@ -53,5 +53,6 @@ class OC_Filestorage{
 	public function hash($type,$path,$raw){}
 	public function free_space($path){}
 	public function search($query){}
+	public function touch($path, $mtime=null){}
 	public function getLocalFile($path){}// get a path to a local version of the file, whether the original file is local or remote
 }
