@@ -20,7 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_filter', 'ldap_display_name', 'ldap_tls', 'ldap_nocase');
+$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_userlist_filter', 'ldap_login_filter', 'ldap_display_name', 'ldap_tls', 'ldap_nocase');
 
 if ($_POST) {
 	foreach($params as $param){
@@ -29,12 +29,12 @@ if ($_POST) {
 		}
 		elseif('ldap_tls' == $param) {
 			// unchecked checkboxes are not included in the post paramters
-				OC_Appconfig::setValue('user_ldap', $param, 0);		
+				OC_Appconfig::setValue('user_ldap', $param, 0);
 		}
 		elseif('ldap_nocase' == $param) {
 			OC_Appconfig::setValue('user_ldap', $param, 0);
 		}
-		
+
 	}
 }
 
