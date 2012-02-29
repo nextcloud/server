@@ -345,7 +345,7 @@ class OC_Filesystem{
 	static public function filemtime($path){
 		return self::$defaultInstance->filemtime($path);
 	}
-	static public function touch($path, $mtime){
+	static public function touch($path, $mtime=null){
 		return self::$defaultInstance->touch($path, $mtime);
 	}
 	static public function file_get_contents($path){

@@ -121,4 +121,5 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		$count=OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
 	}
+// 	abstract public function touch($path, $mtime=null);
 }

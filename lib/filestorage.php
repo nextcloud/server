@@ -48,5 +48,6 @@ abstract class OC_Filestorage{
 	abstract public function hash($type,$path,$raw);
 	abstract public function free_space($path);
 	abstract public function search($query);
+	abstract public function touch($path, $mtime=null);
 	abstract public function getLocalFile($path);// get a path to a local version of the file, whether the original file is local or remote
 }
