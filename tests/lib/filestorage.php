@@ -126,4 +126,49 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertTrue(file_exists($localFile));
 		$this->assertEqual(file_get_contents($localFile),file_get_contents($textFile));
 	}
+
+	public function testStat(){
+		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$ctimeStart=time();
+		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile));
+		$this->assertTrue($this->instance->is_readable('/lorem.txt'));
+		$ctimeEnd=time();
+		$cTime=$this->instance->filectime('/lorem.txt');
+		$mTime=$this->instance->filemtime('/lorem.txt');
+		$this->assertTrue($ctimeStart<=$cTime);
+		$this->assertTrue($cTime<=$ctimeEnd);
+		$this->assertEqual($cTime,$mTime);
+		$this->assertEqual(filesize($textFile),$this->instance->filesize('/lorem.txt'));
+		
+		$stat=$this->instance->stat('/lorem.txt');
+		//only size, mtime and ctime are requered in the result
+		$this->assertEqual($stat['size'],$this->instance->filesize('/lorem.txt'));
+		$this->assertEqual($stat['mtime'],$mTime);
+		$this->assertEqual($stat['ctime'],$cTime);
+		
+		$mtimeStart=time();
+		$this->instance->touch('/lorem.txt');
+		$mtimeEnd=time();
+		$originalCTime=$cTime;
+		$cTime=$this->instance->filectime('/lorem.txt');
+		$mTime=$this->instance->filemtime('/lorem.txt');
+		$this->assertTrue($mtimeStart<=$mTime);
+		$this->assertTrue($mTime<=$mtimeEnd);
+		$this->assertEqual($cTime,$originalCTime);
+		
+		$this->instance->touch('/lorem.txt',100);
+		$mTime=$this->instance->filemtime('/lorem.txt');
+		$this->assertEqual($mTime,100);
+		
+		$mtimeStart=time();
+		$fh=$this->instance->fopen('/lorem.txt','a');
+		fwrite($fh,' ');
+		fclose($fh);
+		clearstatcache();
+		$mtimeEnd=time();
+		$originalCTime=$cTime;
+		$mTime=$this->instance->filemtime('/lorem.txt');
+		$this->assertTrue($mtimeStart<=$mTime);
+		$this->assertTrue($mTime<=$mtimeEnd);
+	}
 }
