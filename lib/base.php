@@ -213,7 +213,15 @@ class OC{
 		}
 
 		// set the right include path
-		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.OC::$APPSROOT.PATH_SEPARATOR.OC::$APPSROOT.'/apps'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
+		set_include_path(
+			OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.
+			OC::$SERVERROOT.'/config'.PATH_SEPARATOR.
+			OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.
+			OC::$APPSROOT.PATH_SEPARATOR.
+			OC::$APPSROOT.'/apps'.PATH_SEPARATOR.
+			get_include_path().PATH_SEPARATOR.
+			OC::$SERVERROOT
+		);
 
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {

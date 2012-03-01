@@ -29,7 +29,7 @@ class OC_Contacts_Hooks{
 	 * @param paramters parameters from postDeleteUser-Hook
 	 * @return array
 	 */
-	public function deleteUser($parameters) {
+	static public function deleteUser($parameters) {
 		$addressbooks = OC_Contacts_Addressbook::all($parameters['uid']);
 
 		foreach($addressbooks as $addressbook) {
