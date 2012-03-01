@@ -30,16 +30,26 @@ OC_JSON::checkAppEnabled('calendar');
 $start = DateTime::createFromFormat('U', $_GET['start']);
 $end = DateTime::createFromFormat('U', $_GET['end']);
 
-$calendar = OC_Calendar_App::getCalendar($_GET['calendar_id']);
-OC_Response::enableCaching(0);
-OC_Response::setETagHeader($calendar['ctag']);
+$calendar_id = $_GET['calendar_id'];
+if (is_numeric($calendar_id)) {
+	$calendar = OC_Calendar_App::getCalendar($calendar_id);
+	OC_Response::enableCaching(0);
+	OC_Response::setETagHeader($calendar['ctag']);
+	$events = OC_Calendar_Object::allInPeriod($calendar_id, $start, $end);
+} else {
+	$events = array();
+	OC_Hook::emit('OC_Calendar', 'getEvents', array('calendar_id' => $calendar_id, 'events' => &$events));
+}
 
-$events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $return = array();
 foreach($events as $event){
-	$object = OC_VObject::parse($event['calendardata']);
-	$vevent = $object->VEVENT;
+	if (isset($event['calendardata'])) {
+		$object = OC_VObject::parse($event['calendardata']);
+		$vevent = $object->VEVENT;
+	} else {
+		$vevent = $event['vevent'];
+	}
 
 	$return_event = create_return_event($event, $vevent);
 

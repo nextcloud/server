@@ -38,4 +38,49 @@ class OC_Contacts_Hooks{
 
 		return true;
 	}
+
+	static public function getCalenderSources($parameters) {
+		$base_url = OC_Helper::linkTo('calendar', 'ajax/events.php').'?calendar_id=';
+		foreach(OC_Contacts_Addressbook::all(OC_User::getUser()) as $addressbook) {
+			$parameters['sources'][] =
+				array(
+					'url' => $base_url.'birthday_'. $addressbook['id'],
+					'backgroundColor' => '#cccccc',
+					'borderColor' => '#888',
+					'textColor' => 'black',
+					'cache' => true,
+					'editable' => false,
+				);
+		}
+	}
+
+	static public function getBirthdayEvents($parameters) {
+		$name = $parameters['calendar_id'];
+		if (strpos('birthday_', $name) != 0) {
+			return;
+		}
+		$info = explode('_', $name);
+		$aid = $info[1];
+		OC_Contacts_App::getAddressbook($aid);
+		foreach(OC_Contacts_VCard::all($aid) as $card){
+			$vcard = OC_VObject::parse($card['carddata']);
+			$birthday = $vcard->BDAY;
+			if ($birthday) {
+				$date = new DateTime($birthday);
+				$vevent = new OC_VObject('VEVENT');
+				$vevent->setDateTime('LAST-MODIFIED', new DateTime($vcard->REV));
+				$vevent->setDateTime('DTSTART', $date, Sabre_VObject_Element_DateTime::DATE);
+				$vevent->setString('DURATION', 'P1D');
+				// DESCRIPTION?
+				$vevent->setString('RRULE', 'FREQ=YEARLY');
+				$title = str_replace('{name}', $vcard->getAsString('FN'), OC_Contacts_App::$l10n->t('{name}\'s Birthday'));
+				$parameters['events'][] = array(
+					'id' => 0,//$card['id'],
+					'vevent' => $vevent,
+					'repeating' => true,
+					'summary' => $title,
+					);
+			}
+		}
+	}
 }
