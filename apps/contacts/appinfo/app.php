@@ -4,6 +4,7 @@ OC::$CLASSPATH['OC_Contacts_Addressbook'] = 'apps/contacts/lib/addressbook.php';
 OC::$CLASSPATH['OC_Contacts_VCard'] = 'apps/contacts/lib/vcard.php';
 OC::$CLASSPATH['OC_Contacts_Hooks'] = 'apps/contacts/lib/hooks.php';
 OC::$CLASSPATH['OC_Connector_Sabre_CardDAV'] = 'apps/contacts/lib/connector_sabre.php';
+OC::$CLASSPATH['OC_Search_Provider_Contacts'] = 'apps/contacts/lib/search.php';
 OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Contacts_Hooks', 'deleteUser');
 OC_HOOK::connect('OC_Calendar', 'getEvents', 'OC_Contacts_Hooks', 'getBirthdayEvents');
 OC_HOOK::connect('OC_Calendar', 'getSources', 'OC_Contacts_Hooks', 'getCalenderSources');
@@ -23,4 +24,4 @@ OC_App::addNavigationEntry( array(
 
 OC_APP::registerPersonal('contacts','settings');
 OC_UTIL::addScript('contacts', 'loader');
-require_once('apps/contacts/lib/search.php');
+OC_Search::registerProvider('OC_Search_Provider_Contacts');

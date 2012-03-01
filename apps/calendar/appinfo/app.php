@@ -6,6 +6,7 @@ if(version_compare(PHP_VERSION, '5.3.0', '>=')){
 	OC::$CLASSPATH['OC_Calendar_Object'] = 'apps/calendar/lib/object.php';
 	OC::$CLASSPATH['OC_Calendar_Hooks'] = 'apps/calendar/lib/hooks.php';
 	OC::$CLASSPATH['OC_Connector_Sabre_CalDAV'] = 'apps/calendar/lib/connector_sabre.php';
+	OC::$CLASSPATH['OC_Search_Provider_Calendar'] = 'apps/calendar/lib/search.php';
 	OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
 	OC_Util::addScript('calendar','loader');
 	OC_App::register( array( 
@@ -19,5 +20,5 @@ if(version_compare(PHP_VERSION, '5.3.0', '>=')){
 	  'icon' => OC_Helper::imagePath( 'calendar', 'icon.svg' ),
 	  'name' => $l->t('Calendar')));
 	OC_App::registerPersonal('calendar', 'settings');
-	require_once('apps/calendar/lib/search.php');
+	OC_Search::registerProvider('OC_Search_Provider_Calendar');
 }

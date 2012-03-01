@@ -350,6 +350,3 @@ if(!function_exists('get_temp_dir')) {
 }
 
 OC::init();
-
-// FROM search.php
-new OC_Search_Provider_File();

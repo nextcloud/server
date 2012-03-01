@@ -8,6 +8,7 @@
 */
 
 OC::$CLASSPATH['OC_Bookmarks_Bookmarks'] = 'apps/bookmarks/lib/bookmarks.php';
+OC::$CLASSPATH['OC_Search_Provider_Bookmarks'] = 'apps/bookmarks/lib/search.php';
 
 OC_App::register( array( 'order' => 70, 'id' => 'bookmark', 'name' => 'Bookmarks' ));
 
@@ -15,5 +16,5 @@ $l = new OC_l10n('bookmarks');
 OC_App::addNavigationEntry( array( 'id' => 'bookmarks_index', 'order' => 70, 'href' => OC_Helper::linkTo( 'bookmarks', 'index.php' ), 'icon' => OC_Helper::imagePath( 'bookmarks', 'bookmarks.png' ), 'name' => $l->t('Bookmarks')));
 
 OC_App::registerPersonal('bookmarks', 'settings');
-require_once('apps/bookmarks/lib/search.php');
 OC_Util::addScript('bookmarks','bookmarksearch');
+OC_Search::registerProvider('OC_Search_Provider_Bookmarks');
