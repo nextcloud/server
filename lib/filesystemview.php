@@ -163,7 +163,7 @@ class OC_FilesystemView {
 	public function filemtime($path){
 		return $this->basicOperation('filemtime',$path);
 	}
-	public function touch($path, $mtime){
+	public function touch($path, $mtime=null){
 		return $this->basicOperation('touch', $path, array('write'), $mtime);
 	}
 	public function file_get_contents($path){

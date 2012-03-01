@@ -432,7 +432,6 @@ class OC_Helper {
 		$fh=fopen($file,'w');
 		fclose($fh);
 		self::$tmpFiles[]=$file;
-		error_log($file);
 		return $file;
 	}
 	
@@ -442,7 +441,6 @@ class OC_Helper {
 	public static function cleanTmp(){
 		foreach(self::$tmpFiles as $file){
 			if(file_exists($file)){
-				error_log("clean $file");
 				unlink($file);
 			}
 		}

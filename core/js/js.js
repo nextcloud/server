@@ -125,7 +125,8 @@ OC={
 				OC.search.showResults(results);
 			});
 		}
-	}
+	},
+	dialogs:OCdialogs
 };
 OC.search.customResults={};
 OC.search.currentResult=-1;

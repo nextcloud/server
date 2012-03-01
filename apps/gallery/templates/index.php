@@ -5,7 +5,6 @@ OC_Util::addScript('gallery', 'album_cover');
 $l = new OC_L10N('gallery');
 ?>
 
-<div id="notification"><div id="gallery_notification_text">Creating thumbnails</div></div>
 <div id="controls">
   <div id="scan">
     <div id="scanprogressbar"></div>
