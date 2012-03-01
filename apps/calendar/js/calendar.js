@@ -73,6 +73,9 @@ Calendar={
 			}
 		},
 		editEvent:function(calEvent, jsEvent, view){
+			if (calEvent.editable == false || calEvent.source.editable == false) {
+				return;
+			}
 			var id = calEvent.id;
 			if($('#event').dialog('isOpen') == true){
 				// TODO: save event
