@@ -316,8 +316,11 @@ class OC_DB {
 		// read file
 		$content = file_get_contents( $file );
 		
-		// Make changes and save them to a temporary file
-		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
+		// Make changes and save them to an in-memory file
+		$file2 = 'static://db_scheme';
+		if($file2 == ''){
+			die('could not create tempfile in get_temp_dir() - aborting');
+		}
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
@@ -328,7 +331,7 @@ class OC_DB {
 		// Try to create tables
 		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
 		
-		// Delete our temporary file
+		//clean up memory
 		unlink( $file2 );
 
 		// Die in case something went wrong
@@ -368,8 +371,8 @@ class OC_DB {
 			return false;
 		}
 
-		// Make changes and save them to a temporary file
-		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
+		// Make changes and save them to an in-memory file
+		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $previousSchema['name'], $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
@@ -378,7 +381,7 @@ class OC_DB {
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
 		
-		// Delete our temporary file
+		//clean up memory
 		unlink( $file2 );
 		
 		if (PEAR::isError($op)) {
@@ -388,6 +391,27 @@ class OC_DB {
 		}
 		return true;
 	}
+
+	/**
+	 * @breif replaces the owncloud tables with a new set
+	 */
+	 public static function replaceDB( $file ){
+	 	
+	 	// Delete the old tables
+	 	self::removeDBStructure( '/home/tom/sites/secure.tomneedham.com/public_html/migration/db_structure.xml' );
+	 	
+	 	$apps = OC_App::getAllApps();
+	 	foreach($apps as $app){
+	 		$path = '/apps/'.$app.'/appinfo/database.xml';
+	 		if(file_exists($path)){
+	 			self::removeDBStructure( $path );	
+	 		}
+	 	}
+	 	
+	 	// Create new tables
+	 	self::createDBFromStructure( $file );
+	 	
+	 }
 
 	/**
 	 * @brief connects to a MDB2 database scheme
@@ -483,6 +507,27 @@ class OC_DB {
 	}
 	
 	/**
+	 * @breif replaces the owncloud tables with a new set
+	 */
+	 public static function replaceDB( $file ){
+	 	
+	 	// Delete the old tables
+	 	self::removeDBStructure( OC::$DOCUMENTROOT . 'db_structure.xml' );
+	 	
+	 	$apps = OC_App::getAllApps();
+	 	foreach($apps as $app){
+	 		$path = '/apps/'.$app.'/appinfo/database.xml';
+	 		if(file_exists($path)){
+	 			self::removeDBStructure( $path );	
+	 		}
+	 	}
+	 	
+	 	// Create new tables
+	 	self::createDBFromStructure( $file );
+	 	
+	 }
+	
+	/**
 	 * Start a transaction
 	 */
 	public static function beginTransaction(){
@@ -505,6 +550,21 @@ class OC_DB {
 		self::$connection->commit();
 		self::$inTransaction=false;
 	}
+
+	/**
+	 * check if a result is an error, works with MDB2 and PDOException
+	 * @param mixed $result
+	 * @return bool
+	 */
+	public static function isError($result){
+		if(!$result){
+			return true;
+		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 
 /**
@@ -524,11 +584,15 @@ class PDOStatementWrapper{
 	public function execute($input=array()){
 		$this->lastArguments=$input;
 		if(count($input)>0){
-			$this->statement->execute($input);
+			$result=$this->statement->execute($input);
 		}else{
-			$this->statement->execute();
+			$result=$this->statement->execute();
 		}
-		return $this;
+		if($result){
+			return $this;
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -567,3 +631,4 @@ class PDOStatementWrapper{
 		return $this->statement->fetchColumn($colnum);
 	}
 }
+
