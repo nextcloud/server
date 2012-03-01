@@ -144,6 +144,11 @@ class OC{
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
 
+		// register the stream wrappers
+		require_once('streamwrappers.php');
+		stream_wrapper_register("fakedir", "OC_FakeDirStream");
+		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
+		
 		// calculate the documentroot
 		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
@@ -176,13 +181,13 @@ class OC{
 			OC::$THIRDPARTYROOT=OC::$SERVERROOT;
 			OC::$THIRDPARTYWEBROOT=OC::$WEBROOT;
 		}elseif(file_exists(OC::$SERVERROOT.'/../3rdparty')){
-			$url_tmp=explode('/',OC::$WEBROOT);	
+			$url_tmp=explode('/',OC::$WEBROOT);
 			$length=count($url_tmp);
-			unset($url_tmp[$length-1]); 
+			unset($url_tmp[$length-1]);
 			OC::$THIRDPARTYWEBROOT=implode('/',$url_tmp);
-			$root_tmp=explode('/',OC::$SERVERROOT);	
+			$root_tmp=explode('/',OC::$SERVERROOT);
 			$length=count($root_tmp);
-			unset($root_tmp[$length-1]); 
+			unset($root_tmp[$length-1]);
 			OC::$THIRDPARTYROOT=implode('/',$root_tmp);
 		}else{
 			echo("3rdparty directory not found! Please put the ownCloud 3rdparty folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
@@ -296,11 +301,7 @@ class OC{
 		if( !OC_Config::getValue( "installed", false )){
 			$_SESSION['user_id'] = '';
 		}
-		
-		// register the stream wrappers
-		require_once('streamwrappers.php');
-		stream_wrapper_register("fakedir", "OC_FakeDirStream");
-		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
+
 
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
