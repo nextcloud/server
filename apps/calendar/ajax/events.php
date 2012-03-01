@@ -44,8 +44,8 @@ foreach($events as $event){
 	$return_event = create_return_event($event, $vevent);
 
 	$dtstart = $vevent->DTSTART;
-	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 	$start_dt = $dtstart->getDateTime();
+	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 	$end_dt = $dtend->getDateTime();
 	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
 		$return_event['allDay'] = true;
