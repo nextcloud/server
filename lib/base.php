@@ -181,14 +181,8 @@ class OC{
 			OC::$THIRDPARTYROOT=OC::$SERVERROOT;
 			OC::$THIRDPARTYWEBROOT=OC::$WEBROOT;
 		}elseif(file_exists(OC::$SERVERROOT.'/../3rdparty')){
-			$url_tmp=explode('/',OC::$WEBROOT);
-			$length=count($url_tmp);
-			unset($url_tmp[$length-1]);
-			OC::$THIRDPARTYWEBROOT=implode('/',$url_tmp);
-			$root_tmp=explode('/',OC::$SERVERROOT);
-			$length=count($root_tmp);
-			unset($root_tmp[$length-1]);
-			OC::$THIRDPARTYROOT=implode('/',$root_tmp);
+			OC::$THIRDPARTYWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
+			OC::$THIRDPARTYROOT=rtrim(dirname(OC::$SERVERROOT), '/');
 		}else{
 			echo("3rdparty directory not found! Please put the ownCloud 3rdparty folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
@@ -199,14 +193,8 @@ class OC{
 			OC::$APPSROOT=OC::$SERVERROOT;
 			OC::$APPSWEBROOT=OC::$WEBROOT;
 		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-			$url_tmp=explode('/',OC::$WEBROOT);
-			$length=count($url_tmp);
-			unset($url_tmp[$length-1]);
-			OC::$APPSWEBROOT=implode('/',$url_tmp);
-			$root_tmp=explode('/',OC::$SERVERROOT);
-			$length=count($root_tmp);
-			unset($root_tmp[$length-1]);
-			OC::$APPSROOT=implode('/',$root_tmp);
+			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
+			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
 		}else{
 			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
