@@ -81,9 +81,9 @@ class OC_USER_LDAP extends OC_User_Backend {
 		if( !$this->ldap_dc )
 			return false;
 
-		$quota = $this->ldap_dc[$this->ldap_quota_attr][0];
+		$quota = $this->ldap_dc[strtolower($this->ldap_quota_attr)][0];
 		$quota = $quota != -1 ? $quota : $this->ldap_quota_def;
-		OC_Preferences::setValue($uid, 'files', 'quota', $quota);
+		OC_Preferences::setValue($uid, 'files', 'quota', OC_Helper::computerFileSize($quota));
 	}
 
 	private function setEmail( $uid ) {
@@ -154,7 +154,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 		}
 
-		if(!empty($this->ldap_quota) && !empty($this->ldap_quota_def)) {
+		if(!empty($this->ldap_quota_attr) && !empty($this->ldap_quota_def)) {
 			$this->setQuota($uid);
 		}
 
