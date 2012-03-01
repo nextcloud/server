@@ -159,9 +159,9 @@ class OC{
 				OC::$SUBURI=OC::$SUBURI.'index.php';
 			}
 		}
-//              OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
+                OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
 		// try a new way to detect the WEBROOT which is simpler and also works with the app directory outside the owncloud folder. let´s see if this works for everybody
-		OC::$WEBROOT=substr(OC::$SERVERROOT,strlen(OC::$DOCUMENTROOT));
+//		OC::$WEBROOT=substr(OC::$SERVERROOT,strlen(OC::$DOCUMENTROOT));
 
 
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
