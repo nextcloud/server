@@ -493,10 +493,10 @@ class OC_DB {
 	 	$apps = OC_App::getAllApps();
 	 	
 	 	// Delete the old tables
-	 	self::removeDBStructure( OC::$DOCUMENTROOT . 'db_structure.xml' );
+	 	self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
 	 	
 	 	foreach($apps as $app){
-	 		$path = '/apps/'.$app.'/appinfo/database.xml';
+	 		$path = OC::$SERVERROOT.'/apps/'.$app.'/appinfo/database.xml';
 	 		if(file_exists($path)){
 	 			self::removeDBStructure( $path );	
 	 		}
