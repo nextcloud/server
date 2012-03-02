@@ -137,7 +137,8 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$mTime=$this->instance->filemtime('/lorem.txt');
 		$this->assertTrue($ctimeStart<=$cTime);
 		$this->assertTrue($cTime<=$ctimeEnd);
-		$this->assertEqual($cTime,$mTime);
+		$this->assertTrue($ctimeStart<=$mTime);
+		$this->assertTrue($mTime<=$ctimeEnd);
 		$this->assertEqual(filesize($textFile),$this->instance->filesize('/lorem.txt'));
 		
 		$stat=$this->instance->stat('/lorem.txt');
