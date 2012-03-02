@@ -50,6 +50,7 @@ class OC_Contacts_Hooks{
 		$parameters['nodes'][] = new Sabre_CardDAV_AddressBookRoot($parameters['backends']['principal'], $parameters['backends']['carddav']);
 		$parameters['plugins'][] = new Sabre_CardDAV_Plugin();
 		return true;
+	}
 
 	static public function getCalenderSources($parameters) {
 		$base_url = OC_Helper::linkTo('calendar', 'ajax/events.php').'?calendar_id=';
