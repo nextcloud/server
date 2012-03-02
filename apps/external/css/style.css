@@ -1,0 +1,14 @@
+/* -*- Mode: Java; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- /
+/* vim: set shiftwidth=4 tabstop=8 autoindent cindent expandtab: */
+
+.site_url {
+    width: 250px;
+}
+
+.delete_button {
+    display: none;
+}
+
+.external_sites {
+    width: 450px;
+}

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * ownCloud - External plugin
+ * ownCloud - gallery application
  *
- * @author Frank Karlitschek
- * @copyright 2011 Frank Karlitschek karlitschek@kde.org
+ * @author Bartek Przybylski
+ * @copyright 2012 Bartek Przybylski bart.p.pl@gmail.com
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -20,24 +20,17 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-require_once('../../lib/base.php');
-require_once('lib/external.php');
 
-OC_Util::checkLoggedIn();
+class OC_External {
 
-if (isset($_GET['id'])) {
+	public static function getSites() {
+		if (($sites = json_decode(OC_Appconfig::getValue("external", "sites", ''))) != NULL) {
+			return $sites;	
+		}
 
-	$id = $_GET['id'];
-	$id = (int) $id;
-
-	$sites = OC_External::getSites();
-	if (sizeof($sites) >= $id) {
-		$url = $sites[$id - 1][1];
-		OC_App::setActiveNavigationEntry('external_index' . $id);
-
-		$tmpl = new OC_Template('external', 'frame', 'user');
-		$tmpl->assign('url', $url);
-		$tmpl->printPage();
+		return array();
 	}
+
 }
+
 ?>
