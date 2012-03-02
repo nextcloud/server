@@ -106,7 +106,9 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		return $hash;
 	}
 // 	abstract public function free_space($path);
-// 	abstract public function search($query);
+	public function search($query){
+		return $this->searchInDir($query);
+	}
 	public function getLocalFile($path){
 		return $this->toTmpFile($path);
 	}
@@ -122,4 +124,21 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		return $tmpFile;
 	}
 // 	abstract public function touch($path, $mtime=null);
+
+	protected function searchInDir($query,$dir=''){
+		$files=array();
+		$dh=$this->opendir($dir);
+		if($dh){
+			while($item=readdir($dh)){
+				if ($item == '.' || $item == '..') continue;
+				if(strstr(strtolower($item),strtolower($query))!==false){
+					$files[]=$dir.'/'.$item;
+				}
+				if($this->is_dir($dir.'/'.$item)){
+					$files=array_merge($files,$this->searchInDir($query,$dir.'/'.$item));
+				}
+			}
+		}
+		return $files;
+	}
 }

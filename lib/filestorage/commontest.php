@@ -69,9 +69,6 @@ class OC_Filestorage_CommonTest extends OC_Filestorage_Common{
 	public function free_space($path){
 		return $this->storage->free_space($path);
 	}
-	public function search($query){
-		return $this->storage->search($query);
-	}
 	public function touch($path, $mtime=null){
 		return $this->storage->touch($path,$mtime);
 	}

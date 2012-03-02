@@ -156,9 +156,10 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertTrue($mTime<=$mtimeEnd);
 		$this->assertEqual($cTime,$originalCTime);
 		
-		$this->instance->touch('/lorem.txt',100);
-		$mTime=$this->instance->filemtime('/lorem.txt');
-		$this->assertEqual($mTime,100);
+		if($this->instance->touch('/lorem.txt',100)!==false){
+			$mTime=$this->instance->filemtime('/lorem.txt');
+			$this->assertEqual($mTime,100);
+		}
 		
 		$mtimeStart=time();
 		$fh=$this->instance->fopen('/lorem.txt','a');
@@ -170,5 +171,18 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$mTime=$this->instance->filemtime('/lorem.txt');
 		$this->assertTrue($mtimeStart<=$mTime);
 		$this->assertTrue($mTime<=$mtimeEnd);
+	}
+
+	public function testSearch(){
+		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile,'r'));
+		$pngFile=OC::$SERVERROOT.'/tests/data/logo-wide.png';
+		$this->instance->file_put_contents('/logo-wide.png',file_get_contents($pngFile,'r'));
+		$svgFile=OC::$SERVERROOT.'/tests/data/logo-wide.svg';
+		$this->instance->file_put_contents('/logo-wide.svg',file_get_contents($svgFile,'r'));
+		$result=$this->instance->search('logo');
+		$this->assertEqual(2,count($result));
+		$this->assertNotIdentical(false,array_search('/logo-wide.svg',$result));
+		$this->assertNotIdentical(false,array_search('/logo-wide.png',$result));
 	}
 }
