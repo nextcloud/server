@@ -44,4 +44,35 @@ class Test_StreamWrappers extends UnitTestCase {
 		clearstatcache();
 		$this->assertFalse(file_exists($staticFile));
 	}
+
+	public function testCloseStream(){
+		//ensure all basic stream stuff works
+		$sourceFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$tmpFile=OC_Helper::TmpFile('.txt');
+		$file='close://'.$tmpFile;
+		$this->assertTrue(file_exists($file));
+		file_put_contents($file,file_get_contents($sourceFile));
+		$this->assertEqual(file_get_contents($sourceFile),file_get_contents($file));
+		unlink($file);
+		clearstatcache();
+		$this->assertFalse(file_exists($file));
+		
+		//test callback
+		$tmpFile=OC_Helper::TmpFile('.txt');
+		$file='close://'.$tmpFile;
+		OC_CloseStreamWrapper::$callBacks[$tmpFile]=array('Test_StreamWrappers','closeCallBack');
+		$fh=fopen($file,'w');
+		fwrite($fh,'asd');
+		try{
+			fclose($fh);
+			$this->fail('Expected exception');
+		}catch(Exception $e){
+			$path=$e->getMessage();
+			$this->assertEqual($path,$tmpFile);
+		}
+	}
+
+	public static function closeCallBack($path){
+		throw new Exception($path);
+	}
 }

@@ -148,6 +148,7 @@ class OC{
 		require_once('streamwrappers.php');
 		stream_wrapper_register("fakedir", "OC_FakeDirStream");
 		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
+		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
 		
 		// calculate the documentroot
 		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
