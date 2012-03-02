@@ -59,7 +59,14 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	}
 	public function file_get_contents($path) {
 		$handle = $this->fopen($path, "r");
-		return fread($handle, $this->filesize($path));
+		if(!$handle){
+			return false;
+		}
+		$size=$this->filesize($path);
+		if($size==0){
+			return '';
+		}
+		return fread($handle, $size);
 	}
 	public function file_put_contents($path,$data) {
 		$handle = $this->fopen($path, "w");
