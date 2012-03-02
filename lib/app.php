@@ -365,7 +365,7 @@ class OC_App{
 		$apps=array();
 		$dh=opendir(OC::$APPSROOT.'/apps');
 		while($file=readdir($dh)){
-			if(is_file(OC::$APPSROOT.'/apps/'.$file.'/appinfo/app.php')){
+			if(substr($file,0,1)!='.' and is_file(OC::$APPSROOT.'/apps/'.$file.'/appinfo/app.php')){
 				$apps[]=$file;
 			}
 		}
