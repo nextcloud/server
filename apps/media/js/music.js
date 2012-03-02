@@ -16,7 +16,7 @@ $(document).ready(function(){
 			PlayList.render();
 		});
 		var button=$('<input type="button" title="'+t('media','Add album to playlist')+'" class="add"></input>');
-		button.css('background-image','url('+OC.imagePath('core','actions/play-add')+')')
+		button.css('background-image','url('+OC.imagePath('core','actions/play-add')+')');
 		button.click(function(event){
 			event.stopPropagation();
 			PlayList.add(media);
@@ -24,7 +24,7 @@ $(document).ready(function(){
 		});
 		row.find('div.name').append(button);
 		button.tipsy({gravity:'n', fade:true, delayIn: 400, live:true});
-	}
+	};
 	Collection.display();
 
 	Collection.load(function(){
@@ -34,10 +34,8 @@ $(document).ready(function(){
 			PlayList.add(song);
 			PlayList.play(0);
 		}
-	})
+	});
 });
-
-
 
 function getUrlVars(){
 	var vars = {}, hash;
@@ -52,7 +50,7 @@ function getUrlVars(){
 function musicTypeFromFile(file){
 	var extention=file.split('.').pop();
 	if(extention=='ogg'){
-		return 'oga'
+		return 'oga';
 	}
 	//TODO check for more specific cases
 	return extention;

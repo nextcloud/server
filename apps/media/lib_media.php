@@ -56,6 +56,7 @@ class OC_MEDIA{
 	 */
 	public static function updateFile($params){
 		$path=$params['path'];
+		if(!$path) return;
 		require_once 'lib_scanner.php';
 		require_once 'lib_collection.php';
 		//fix a bug where there were multiply '/' in front of the path, it should only be one
@@ -81,30 +82,28 @@ class OC_MEDIA{
 	}
 }
 
-class OC_MediaSearchProvider extends OC_Search_Provider{
-	function search($query){
+class OC_MediaSearchProvider implements OC_Search_Provider{
+	static function search($query){
 		require_once('lib_collection.php');
 		$artists=OC_MEDIA_COLLECTION::getArtists($query);
 		$albums=OC_MEDIA_COLLECTION::getAlbums(0,$query);
 		$songs=OC_MEDIA_COLLECTION::getSongs(0,0,$query);
 		$results=array();
 		foreach($artists as $artist){
-			$results[]=new OC_Search_Result($artist['artist_name'],'',OC_Helper::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist['artist_name']) ),'Music');
+			$results[]=new OC_Search_Result($artist['artist_name'],'',OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist['artist_name']),'Music');
 		}
 		foreach($albums as $album){
 			$artist=OC_MEDIA_COLLECTION::getArtistName($album['album_artist']);
-			$results[]=new OC_Search_Result($album['album_name'],'by '.$artist,OC_Helper::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist).'&album='.urlencode($album['album_name']) ),'Music');
+			$results[]=new OC_Search_Result($album['album_name'],'by '.$artist,OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist).'&album='.urlencode($album['album_name']),'Music');
 		}
 		foreach($songs as $song){
 			$minutes=floor($song['song_length']/60);
 			$secconds=$song['song_length']%60;
 			$artist=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
 			$album=OC_MEDIA_COLLECTION::getalbumName($song['song_album']);
-			$results[]=new OC_Search_Result($song['song_name'],"by $artist, in $album $minutes:$secconds",OC_Helper::linkTo( 'apps/media', 'index.php#artist='.urlencode($artist).'&album='.urlencode($album).'&song='.urlencode($song['song_name']) ),'Music');
+			$results[]=new OC_Search_Result($song['song_name'],"by $artist, in $album $minutes:$secconds",OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist).'&album='.urlencode($album).'&song='.urlencode($song['song_name']),'Music');
 		}
 		return $results;
 	}
 }
 
-new OC_MediaSearchProvider();
-?>

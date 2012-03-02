@@ -166,6 +166,7 @@ $(document).ready(function() {
 
 	$('.file_upload_start').live('change',function(){
 		var form=$(this).closest('form');
+		var that=this;
 		var uploadId=form.attr('data-upload-id');
 		var files=this.files;
 		var target=form.children('iframe');
@@ -173,6 +174,12 @@ $(document).ready(function() {
 		if(files){
 			for(var i=0;i<files.length;i++){
 				totalSize+=files[i].size;
+				if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
+					FileList.finishDelete(function(){
+						$(that).change();
+					});
+					return;
+				}
 			}
 		}
 		if(totalSize>$('#max_upload').val()){
@@ -379,39 +386,6 @@ function boolOperationFinished(data, callback) {
 function updateBreadcrumb(breadcrumbHtml) {
 	$('p.nav').empty().html(breadcrumbHtml);
 }
-
-function humanFileSize(bytes){
-	if( bytes < 1024 ){
-		return bytes+' B';
-	}
-	bytes = Math.round(bytes / 1024, 1 );
-	if( bytes < 1024 ){
-		return bytes+' kB';
-	}
-	bytes = Math.round( bytes / 1024, 1 );
-	if( bytes < 1024 ){
-		return bytes+' MB';
-	}
-	
-	// Wow, heavy duty for owncloud
-	bytes = Math.round( bytes / 1024, 1 );
-	return bytes+' GB';
-}
-
-function simpleFileSize(bytes) {
-	mbytes = Math.round(bytes/(1024*1024/10))/10;
-	if(bytes == 0) { return '0'; }
-	else if(mbytes < 0.1) { return '< 0.1'; }
-	else if(mbytes > 1000) { return '> 1000'; }
-	else { return mbytes.toFixed(1); }
-}
-
-function formatDate(date){
-	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
-	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
-	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
-}
-
 
 //options for file drag/dropp
 var dragOptions={

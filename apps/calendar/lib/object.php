@@ -194,6 +194,7 @@ class OC_Calendar_Object{
 	public static function deleteFromDAVData($cid,$uri){
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ? AND uri=?' );
 		$stmt->execute(array($cid,$uri));
+		OC_Calendar_Calendar::touchCalendar($cid);
 
 		return true;
 	}
@@ -308,6 +309,8 @@ class OC_Calendar_Object{
 			$dtend = $vevent->DTEND;
 		}else{
 			$dtend = clone $vevent->DTSTART;
+			// clone creates a shallow copy, also clone DateTime
+			$dtend->setDateTime(clone $dtend->getDateTime(), $dtend->getDateType());
 			if ($vevent->DURATION){
 				$duration = strval($vevent->DURATION);
 				$invert = 0;

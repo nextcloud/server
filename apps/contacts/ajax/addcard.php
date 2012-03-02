@@ -31,10 +31,9 @@ function bailOut($msg) {
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
-$l=new OC_L10N('contacts');
 
 $aid = $_POST['id'];
-$addressbook = OC_Contacts_App::getAddressbook( $aid );
+OC_Contacts_App::getAddressbook( $aid ); // is owner access check
 
 $fn = trim($_POST['fn']);
 $values = $_POST['value'];
@@ -95,7 +94,7 @@ foreach( $add as $propname){
 }
 $id = OC_Contacts_VCard::add($aid,$vcard->serialize());
 if(!$id) {
-	OC_JSON::error(array('data' => array('message' => $l->t('There was an error adding the contact.'))));
+	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
 	OC_Log::write('contacts','ajax/addcard.php: Recieved non-positive ID on adding card: '.$id, OC_Log::ERROR);
 	exit();
 }

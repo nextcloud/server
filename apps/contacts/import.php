@@ -22,12 +22,8 @@ if($_POST['method'] == 'new'){
 	$id = OC_Contacts_Addressbook::add(OC_User::getUser(), $_POST['addressbookname']);
 	OC_Contacts_Addressbook::setActive($id, 1);
 }else{
-	$contacts = OC_Contacts_Addressbook::find($_POST['id']);
-	if($contacts['userid'] != OC_USER::getUser()){
-		OC_JSON::error();
-		exit();
-	}
 	$id = $_POST['id'];
+	OC_Contacts_App::getAddressbook($id); // is owner access check
 }
 //analyse the contacts file
 if(is_writable('import_tmp/')){

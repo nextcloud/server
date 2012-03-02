@@ -97,12 +97,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 *  in the second parameter or to now if the second param is empty.
 	 *  Even if the modification time is set to a custom value the access time is set to now.
 	 */
-	public function setLastModifiedTime($mtime) {
-		OC_Filesystem::setFileMtime($this->path, $mtime);
-	}
-
-	public function endsWith( $str, $sub ) {
-		return ( substr( $str, strlen( $str ) - strlen( $sub ) ) === $sub );
+	public function touch($mtime) {
+		OC_Filesystem::touch($this->path, $mtime);
 	}
 
 	/**
@@ -123,8 +119,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				}
 			}
 			else {
-				if(  $this->endsWith( $propertyName, "modificationTime")) {
-					$this->setLastModifiedTime($propertyValue);
+				if( strcmp( $propertyName, "lastmodified")) {
+					$this->touch($propertyValue);
 				} else {
 					if(!array_key_exists( $propertyName, $existing )){
 						$query = OC_DB::prepare( 'INSERT INTO *PREFIX*properties (userid,propertypath,propertyname,propertyvalue) VALUES(?,?,?,?)' );

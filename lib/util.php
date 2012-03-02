@@ -8,6 +8,7 @@ class OC_Util {
 	public static $scripts=array();
 	public static $styles=array();
 	public static $headers=array();
+	private static $rootMounted=false;
 	private static $fsSetup=false;
 
 	// Can be set up
@@ -35,9 +36,12 @@ class OC_Util {
 			$user = OC_User::getUser();
 		}
 
-		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-			//first set up the local "root" storage
+		//first set up the local "root" storage
+		if(!self::$rootMounted){
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
+			self::$rootMounted=true;
+		}
+		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
 			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
@@ -62,7 +66,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(3,00,1);
+		return array(3,00,3);
 	}
 
 	/**
@@ -226,10 +230,6 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
 
-		if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writable(OC::$SERVERROOT."/config/config.php")){
-			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver use write access to the config directory in owncloud");
-		}
-
 		return $errors;
 	}
 
@@ -244,22 +244,23 @@ class OC_Util {
 
 
 	/**
-	* Check if the app is enabled, send json error msg if not
+	* Check if the app is enabled, redirects to home if not
 	*/
 	public static function checkAppEnabled($app){
 		if( !OC_App::isEnabled($app)){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}
 
 	/**
-	* Check if the user is logged in, redirects to home if not
+	* Check if the user is logged in, redirects to home if not. With
+	* redirect URL parameter to the request URI.
 	*/
 	public static function checkLoggedIn(){
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ).'?redirect_url='.urlencode($_SERVER["REQUEST_URI"]));
 			exit();
 		}
 	}
@@ -271,7 +272,7 @@ class OC_Util {
 		// Check if we are a user
 		self::checkLoggedIn();
 		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-			header( 'Location: '.OC_Helper::linkTo( '', 'index.php' , true));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
 	}

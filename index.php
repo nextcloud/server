@@ -44,13 +44,14 @@ if($not_installed) {
 
 // Handle WebDAV
 if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
-	header('location: '.OC_Helper::linkTo('files','webdav.php'));
+	header('location: '.OC_Helper::linkToAbsolute('files','webdav.php'));
 	exit();
 }
 
 // Someone is logged in :
 elseif(OC_User::isLoggedIn()) {
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
+		OC_App::loadApps();
 		OC_User::logout();
 		header("Location: ".OC::$WEBROOT.'/');
 		exit();
@@ -80,7 +81,7 @@ else {
 			OC_User::unsetMagicInCookie();
 		}
 	}
-	
+
 	// Someone wants to log in :
 	elseif(isset($_POST["user"]) && isset($_POST['password'])) {
 		if(OC_User::login($_POST["user"], $_POST["password"])) {

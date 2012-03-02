@@ -8,7 +8,7 @@ String.prototype.strip_tags = function(){
 	tags = this;
 	stripped = tags.replace(/[\<\>]/gi, "");
 	return stripped;
-}
+};
 
 
 Contacts={
@@ -117,7 +117,10 @@ Contacts={
 			$('#carddav_url_close').show();
 		},
 		messageBox:function(title, msg) {
-			//alert(msg);
+			if(msg.toLowerCase().indexOf('auth') != -1) {
+				// fugly hack, I know
+				alert(msg);
+			}
 			if($('#messagebox').dialog('isOpen') == true){
 				// NOTE: Do we ever get here?
 				$('#messagebox').dialog('moveToTop');
@@ -139,7 +142,7 @@ Contacts={
 							}
 					});
 				});
-			}
+			};
 		},
 		loadListHandlers:function() {
 			//$('.add,.delete').hide();
@@ -167,8 +170,13 @@ Contacts={
 			$('.button,.action').tipsy();
 			$('#contacts_deletecard').tipsy({gravity: 'ne'});
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
-			$('#fn').jec();
-			$('.jecEditableOption').attr('title', t('contacts','Custom'));
+			//$('#fn').jec();
+			$('#fn_select').combobox({
+				'id': 'fn',
+				'name': 'value',
+				'classes': ['contacts_property'],
+				'title': t('contacts', 'Format custom, Short name, Full name, Reverse or Reverse with comma')});
+			//$('.jecEditableOption').attr('title', t('contacts','Custom'));
 			$('#fn').tipsy();
 			$('#contacts_details_photo_wrapper').tipsy();
 			$('#bday').datepicker({
@@ -228,12 +236,94 @@ Contacts={
 			honpre:'',
 			honsuf:'',
 			data:undefined,
+			update:function() {
+				// Make sure proper DOM is loaded.
+				console.log('Card.update(), #n: ' + $('#n').length);
+				console.log('Card.update(), #contacts: ' + $('#contacts li').length);
+				if($('#n').length == 0 && $('#contacts li').length > 0) {
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
+						if(jsondata.status == 'success'){
+							$('#rightcontent').html(jsondata.data.page);
+							Contacts.UI.loadHandlers();
+							if($('#contacts li').length > 0) {
+								var firstid = $('#contacts li:first-child').data('id');
+								console.log('trying to load: ' + firstid);
+								$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':firstid},function(jsondata){
+									if(jsondata.status == 'success'){
+										Contacts.UI.Card.loadContact(jsondata.data);
+									} else{
+										Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+									}
+								});
+							}
+						} else{
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						}
+					});
+				}
+				if($('#contacts li').length == 0) {
+					// load intro page
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
+						if(jsondata.status == 'success'){
+							id = '';
+							$('#rightcontent').data('id','');
+							$('#rightcontent').html(jsondata.data.page);
+						} else {
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						}
+					});
+				}
+			},
 			export:function() {
 				document.location.href = OC.linkTo('contacts', 'export.php') + '?contactid=' + this.id;
 				//$.get(OC.linkTo('contacts', 'export.php'),{'contactid':this.id},function(jsondata){
 				//});
 			},
-			delete:function() {
+			import:function(){
+				Contacts.UI.notImplemented();
+			},
+			add:function(n, fn, aid){ // add a new contact
+				console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
+				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
+				  function(jsondata) {
+					if (jsondata.status == 'success'){
+						$('#rightcontent').data('id',jsondata.data.id);
+						var id = jsondata.data.id;
+						$.getJSON('ajax/contactdetails.php',{'id':id},function(jsondata){
+							if(jsondata.status == 'success'){
+								Contacts.UI.loadHandlers();
+								Contacts.UI.Card.loadContact(jsondata.data);
+								$('#leftcontent .active').removeClass('active');
+								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
+								var added = false;
+								$('#leftcontent ul li').each(function(){
+									if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
+										$(this).before(item).fadeIn('fast');
+										added = true;
+										return false;
+									}
+								});
+								if(!added) {
+									$('#leftcontent ul').append(item);
+								}
+								
+							}
+							else{
+								Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+								//alert(jsondata.data.message);
+							}
+						});
+						$('#contact_identity').show();
+						$('#actionbar').show();
+						// TODO: Add to contacts list.
+					}
+					else{
+						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						//alert(jsondata.data.message);
+					}
+				});
+			},
+			delete: function() {
 				$('#contacts_deletecard').tipsy('hide');
 				$.getJSON('ajax/deletecard.php',{'id':this.id},function(jsondata){
 					if(jsondata.status == 'success'){
@@ -242,17 +332,22 @@ Contacts={
 						//$('#rightcontent').empty();
 						this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
 						this.data = undefined;
-						// Load empty page.
-						var firstid = $('#contacts li:first-child').data('id');
-						console.log('trying to load: ' + firstid);
-						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':firstid},function(jsondata){
-							if(jsondata.status == 'success'){
-								Contacts.UI.Card.loadContact(jsondata.data);
-							}
-							else{
-								Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-							}
-						});
+						// Load first in list.
+						if($('#contacts li').length > 0) {
+							Contacts.UI.Card.update();
+						} else {
+							// load intro page
+							$.getJSON('ajax/loadintro.php',{},function(jsondata){
+								if(jsondata.status == 'success'){
+									id = '';
+									$('#rightcontent').data('id','');
+									$('#rightcontent').html(jsondata.data.page);
+								}
+								else{
+									Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+								}
+							});
+						}
 					}
 					else{
 						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
@@ -265,8 +360,10 @@ Contacts={
 				$('#contact_communication').hide();
 				this.data = jsondata;
 				this.id = this.data.id;
+				$('#rightcontent').data('id',this.id);
 				//console.log('loaded: ' + this.data.FN[0]['value']);
 				this.populateNameFields();
+				this.loadCategories();
 				this.loadPhoto();
 				this.loadMails();
 				this.loadPhones();
@@ -348,20 +445,24 @@ Contacts={
 					this.fullname += ', ' + this.honsuf;
 				}
 				$('#n').html(this.fullname);
-				$('.jecEditableOption').attr('title', 'Custom');
-				$('.jecEditableOption').text(this.fn);
-				//$('.jecEditableOption').attr('value', 0);
-				$('#fn').val(0);
-				$('#full').text(this.fullname);
-				$('#short').text(this.givname + ' ' + this.famname);
-				$('#reverse').text(this.famname + ' ' + this.givname);
-				$('#reverse_comma').text(this.famname + ', ' + this.givname);
+				$('#fn_select option').remove();
+				$('#fn_select').combobox('value', this.fn);
+				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				$.each(names, function(key, value) {
+					$('#fn_select')
+						.append($('<option></option>')
+						.text(value)); 
+				});
 				$('#contact_identity').find('*[data-element="N"]').data('checksum', this.data.N[0]['checksum']);
 				$('#contact_identity').find('*[data-element="FN"]').data('checksum', this.data.FN[0]['checksum']);
+				$('#contact_identity').show();
+			},
+			loadCategories:function(){
+				if(this.data.CATEGORIES) {
+					//
+				}
 			},
 			editNew:function(){ // add a new contact
-				//Contacts.UI.notImplemented();
-				//return false;
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				$.getJSON('ajax/newcontact.php',{},function(jsondata){
 					if(jsondata.status == 'success'){
@@ -369,47 +470,6 @@ Contacts={
 						$('#rightcontent').data('id','');
 						$('#rightcontent').html(jsondata.data.page);
 						Contacts.UI.Card.editName();
-					}
-					else{
-						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-						alert(jsondata.data.message);
-					}
-				});
-			},
-			add:function(n, fn, aid){ // add a new contact
-				console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
-				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
-				  function(jsondata) {
-					if (jsondata.status == 'success'){
-						$('#rightcontent').data('id',jsondata.data.id);
-						var id = jsondata.data.id;
-						$.getJSON('ajax/contactdetails.php',{'id':id},function(jsondata){
-							if(jsondata.status == 'success'){
-								Contacts.UI.loadHandlers();
-								Contacts.UI.Card.loadContact(jsondata.data);
-								$('#leftcontent .active').removeClass('active');
-								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
-								var added = false;
-								$('#leftcontent ul li').each(function(){
-									if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
-										$(this).before(item).fadeIn('fast');
-										added = true;
-										return false;
-									}
-								});
-								if(!added) {
-									$('#leftcontent ul').append(item);
-								}
-								
-							}
-							else{
-								Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
-								//alert(jsondata.data.message);
-							}
-						});
-						$('#contact_identity').show();
-						$('#actionbar').show();
-						// TODO: Add to contacts list.
 					}
 					else{
 						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
@@ -619,6 +679,7 @@ Contacts={
 				this.addname = n[2];
 				this.honpre = n[3];
 				this.honsuf = n[4];
+				this.fullname = '';
 
 				$('#n').val(n.join(';'));
 				if(n[3].length > 0) {
@@ -628,12 +689,16 @@ Contacts={
 				if(n[4].length > 0) {
 					this.fullname += ', ' + n[4];
 				}
-				$('#short').text(n[1] + ' ' + n[0]);
-				$('#full').text(this.fullname);
-				$('#reverse').text(n[0] + ' ' + n[1]);
-				$('#reverse_comma').text(n[0] + ', ' + n[1]);
-				//$('#n').html(full);
-				$('#fn').val(0);
+
+				$('#fn_select option').remove();
+				//$('#fn_select').combobox('value', this.fn);
+				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				$.each(names, function(key, value) {
+					$('#fn_select')
+						.append($('<option></option>')
+						.text(value)); 
+				});
+				
 				if(this.id == '') {
 					var aid = $(dlg).find('#aid').val();
 					Contacts.UI.Card.add(n.join(';'), $('#short').text(), aid);
@@ -750,7 +815,7 @@ Contacts={
 					checksum = Contacts.UI.checksumFor(obj);
 					container = Contacts.UI.propertyContainerFor(obj);
 				}
-				var adr = new Array($(dlg).find('#adr_pobox').val(),$(dlg).find('#adr_extended').val(),$(dlg).find('#adr_street').val(),$(dlg).find('#adr_city').val(),$(dlg).find('#adr_region').val(),$(dlg).find('#adr_zipcode').val(),$(dlg).find('#adr_country').val());
+				var adr = new Array($(dlg).find('#adr_pobox').val().strip_tags(),$(dlg).find('#adr_extended').val().strip_tags(),$(dlg).find('#adr_street').val().strip_tags(),$(dlg).find('#adr_city').val().strip_tags(),$(dlg).find('#adr_region').val().strip_tags(),$(dlg).find('#adr_zipcode').val().strip_tags(),$(dlg).find('#adr_country').val().strip_tags());
 				$(container).find('.adr').val(adr.join(';'));
 				$(container).find('.adr_type').val($(dlg).find('#adr_type').val());
 				$(container).find('.adr_type_label').html(t('contacts',ucwords($(dlg).find('#adr_type').val().toLowerCase())));
@@ -804,21 +869,22 @@ Contacts={
 			},
 			loadPhoto:function(){
 				if(this.data.PHOTO) {
+					$.getJSON('ajax/loadphoto.php',{'id':this.id},function(jsondata){
+						if(jsondata.status == 'success'){
+							//alert(jsondata.data.page);
+							$('#contacts_details_photo_wrapper').html(jsondata.data.page);
+						}
+						else{
+							Contacts.UI.messageBox(jsondata.data.message);
+						}
+					});
 					$('#file_upload_form').show();
 					$('#contacts_propertymenu a[data-type="PHOTO"]').parent().hide();
 				} else {
+					$('#contacts_details_photo_wrapper').empty();
 					$('#file_upload_form').hide();
 					$('#contacts_propertymenu a[data-type="PHOTO"]').parent().show();
 				}
-				$.getJSON('ajax/loadphoto.php',{'id':this.id},function(jsondata){
-					if(jsondata.status == 'success'){
-						//alert(jsondata.data.page);
-						$('#contacts_details_photo_wrapper').html(jsondata.data.page);
-					}
-					else{
-						Contacts.UI.messageBox(jsondata.data.message);
-					}
-				});
 			},
 			editPhoto:function(id, tmp_path){
 				//alert('editPhoto: ' + tmp_path);
@@ -977,13 +1043,13 @@ Contacts={
 					return false;
 				}else{
 					$.post(OC.filePath('contacts', 'ajax', 'deletebook.php'), { id: bookid},
-					  function(data) {
-						if (data.status == 'success'){
+					  function(jsondata) {
+						if (jsondata.status == 'success'){
 							$('#chooseaddressbook_dialog').dialog('destroy').remove();
 							Contacts.UI.Contacts.update();
 							Contacts.UI.Addressbooks.overview();
 						} else {
-							Contacts.UI.messageBox(t('contacts', 'Error'), data.message);
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 							//alert('Error: ' + data.message);
 						}
 					  });
@@ -993,10 +1059,14 @@ Contacts={
 				Contacts.UI.notImplemented();
 			},
 			submit:function(button, bookid){
-				var displayname = $("#displayname_"+bookid).val();
+				var displayname = $("#displayname_"+bookid).val().trim();
 				var active = $("#edit_active_"+bookid+":checked").length;
 				var description = $("#description_"+bookid).val();
-
+				
+				if(displayname.length == 0) {
+					Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'Displayname cannot be empty.'));
+					return false;
+				}
 				var url;
 				if (bookid == 'new'){
 					url = OC.filePath('contacts', 'ajax', 'createaddressbook.php');
@@ -1004,12 +1074,14 @@ Contacts={
 					url = OC.filePath('contacts', 'ajax', 'updateaddressbook.php');
 				}
 				$.post(url, { id: bookid, name: displayname, active: active, description: description },
-					function(data){
-						if(data.status == 'success'){
-							$(button).closest('tr').prev().html(data.page).show().next().remove();
+					function(jsondata){
+						if(jsondata.status == 'success'){
+							$(button).closest('tr').prev().html(jsondata.page).show().next().remove();
+							Contacts.UI.Contacts.update();
+						} else {
+							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 						}
 					});
-				Contacts.UI.Contacts.update();
 			},
 			cancel:function(button, bookid){
 				$(button).closest('tr').prev().show().next().remove();
@@ -1020,9 +1092,11 @@ Contacts={
 			 * Reload the contacts list.
 			 */
 			update:function(){
+				console.log('Contacts.update, start');
 				$.getJSON('ajax/contacts.php',{},function(jsondata){
 					if(jsondata.status == 'success'){
 						$('#contacts').html(jsondata.data.page);
+						Contacts.UI.Card.update();
 					}
 					else{
 						Contacts.UI.messageBox(t('contacts', 'Error'),jsondata.data.message);
@@ -1056,13 +1130,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	/**
-	 * Open blank form to add new contact.
-	 * FIXME: Load the same page but only show name data and popup the name edit dialog. 
-	 * On save load the page again with an id and show all fields.
-	 * NOTE: Or: Load the full page and popup name dialog modal. On success set the newly aquired ID, on
-	 * Cancel or failure give appropriate message and show ... something else :-P
-	 */
 	$('#contacts_newcontact').click(function(){
 		Contacts.UI.Card.editNew();
 	});
@@ -1088,9 +1155,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	/**
-	 * Delete currently selected contact TODO: and clear page
-	 */
 	$('#contacts_deletecard').live('click',function(){
 		Contacts.UI.Card.delete();
 	});
@@ -1235,7 +1299,7 @@ $(document).ready(function(){
 	}
 
 	$('#contacts_propertymenu_button').live('click',function(){
-		$('#contacts_propertymenu').is(':hidden') && $('#contacts_propertymenu').show() || $('#contacts_propertymenu').hide();
+		$('#contacts_propertymenu').is(':hidden') && $('#contacts_propertymenu').slideDown() || $('#contacts_propertymenu').slideUp();
 	});
 	$('#contacts_propertymenu a').live('click',function(){
 		Contacts.UI.Card.addProperty(this);

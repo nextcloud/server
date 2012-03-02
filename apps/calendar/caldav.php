@@ -19,13 +19,13 @@ $caldavBackend    = new OC_Connector_Sabre_CalDAV();
 
 // Root nodes
 $nodes = array(
-	new Sabre_DAVACL_PrincipalCollection($principalBackend),
+	new Sabre_CalDAV_Principal_Collection($principalBackend),
 	new Sabre_CalDAV_CalendarRootNode($principalBackend, $caldavBackend),
 );
 
 // Fire up server
 $server = new Sabre_DAV_Server($nodes);
-$server->setBaseUri(OC::$WEBROOT.'/apps/calendar/caldav.php');
+$server->setBaseUri(OC::$APPSWEBROOT.'/apps/calendar/caldav.php');
 // Add plugins
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
 $server->addPlugin(new Sabre_CalDAV_Plugin());

@@ -47,6 +47,7 @@ class OC_Contacts_VCard{
 	 * ['carddata']
 	 */
 	public static function all($id){
+		$result = null;
 		if(is_array($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
 			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname';
@@ -58,13 +59,20 @@ class OC_Contacts_VCard{
 				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '.join(',', $id),OC_Log::DEBUG);
 				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
 			}
-		} else {
-			$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
-			$result = $stmt->execute(array($id));
+		} elseif($id) {
+			try {
+				$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
+				$result = $stmt->execute(array($id));
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '. $id,OC_Log::DEBUG);
+			}
 		}
 		$cards = array();
-		while( $row = $result->fetchRow()){
-			$cards[] = $row;
+		if(!is_null($result)) {
+			while( $row = $result->fetchRow()){
+				$cards[] = $row;
+			}
 		}
 
 		return $cards;
@@ -95,6 +103,118 @@ class OC_Contacts_VCard{
 		return $result->fetchRow();
 	}
 
+	/** 
+	* @brief Format property TYPE parameters for upgrading from v. 2.1
+	* @param $property Reference to a Sabre_VObject_Property.
+	* In version 2.1 e.g. a phone can be formatted like: TEL;HOME;CELL:123456789
+	* This has to be changed to either TEL;TYPE=HOME,CELL:123456789 or TEL;TYPE=HOME;TYPE=CELL:123456789 - both are valid.
+	*/
+	public static function formatPropertyTypes(&$property) {
+		foreach($property->parameters as $key=>&$parameter){
+			$types = OC_Contacts_App::getTypesOfProperty($property->name);
+			if(is_array($types) && in_array(strtoupper($parameter->name), array_keys($types)) || strtoupper($parameter->name) == 'PREF') {
+				$property->parameters[] = new Sabre_VObject_Parameter('TYPE', $parameter->name);
+			}
+			unset($property->parameters[$key]);
+		}
+	}
+
+	/** 
+	* @brief Decode properties for upgrading from v. 2.1
+	* @param $property Reference to a Sabre_VObject_Property.
+	* The only encoding allowed in version 3.0 is 'b' for binary. All encoded strings
+	* must therefor be decoded and the parameters removed.
+	*/
+	public static function decodeProperty(&$property) {
+		// Check out for encoded string and decode them :-[
+		foreach($property->parameters as $key=>&$parameter){
+			if(strtoupper($parameter->name) == 'ENCODING') {
+				if(strtoupper($parameter->value) == 'QUOTED-PRINTABLE') { // what kind of other encodings could be used?
+					$property->value = quoted_printable_decode($property->value);
+					unset($property->parameters[$key]);
+				}
+			} elseif(strtoupper($parameter->name) == 'CHARSET') {
+					unset($property->parameters[$key]);
+			}
+		}
+	}
+
+	/**
+	* @brief Tries to update imported VCards to adhere to rfc2426 (VERSION: 3.0)
+	* @param vcard An OC_VObject of type VCARD (passed by reference).
+	*/
+	protected static function updateValuesFromAdd(&$vcard) { // any suggestions for a better method name? ;-)
+		$stringprops = array('N', 'FN', 'ORG', 'NICK', 'ADR', 'NOTE');
+		$typeprops = array('ADR', 'TEL', 'EMAIL');
+		$upgrade = false;
+		$fn = $n = $uid = $email = null;
+		$version = $vcard->getAsString('VERSION');
+		// Add version if needed
+		if($version && $version < '3.0') {
+			$upgrade = true;
+			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Updating from version: '.$version,OC_Log::DEBUG);
+		}
+		foreach($vcard->children as &$property){
+			// Decode string properties and remove obsolete properties.
+			if($upgrade && in_array($property->name, $stringprops)) {
+				self::decodeProperty($property);
+			}
+			// Fix format of type parameters.
+			if($upgrade && in_array($property->name, $typeprops)) {
+				OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. before: '.$property->serialize(),OC_Log::DEBUG);
+				self::formatPropertyTypes($property);
+				OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. after: '.$property->serialize(),OC_Log::DEBUG);
+			}
+			if($property->name == 'FN'){
+				$fn = $property->value;
+			}
+			if($property->name == 'N'){
+				$n = $property->value;
+			}
+			if($property->name == 'UID'){
+				$uid = $property->value;
+			}
+			if($property->name == 'EMAIL' && is_null($email)){ // only use the first email as substitute for missing N or FN.
+				$email = $property->value;
+			}
+		}
+		// Check for missing 'N', 'FN' and 'UID' properties
+		if(!$fn) {
+			if($n && $n != ';;;;'){
+				$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
+			} elseif($email) {
+				$fn = $email;
+			} else {
+				$fn = 'Unknown Name';
+			}
+			$vcard->setString('FN', $fn);
+			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'FN\' field: '.$fn,OC_Log::DEBUG);
+		}
+		if(!$n || $n = ';;;;'){ // Fix missing 'N' field. Ugly hack ahead ;-)
+			$slice = array_reverse(array_slice(explode(' ', $fn), 0, 2)); // Take 2 first name parts of 'FN' and reverse.
+			if(count($slice) < 2) { // If not enought, add one more...
+				$slice[] = "";
+			}
+			$n = implode(';', $slice).';;;';
+			$vcard->setString('N', $n);
+			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
+		}
+		if(!$uid) {
+			$vcard->setUID();
+			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'UID\' field: '.$uid,OC_Log::DEBUG);
+		}
+		$vcard->setString('VERSION','3.0');
+		// Add product ID is missing.
+		$prodid = trim($vcard->getAsString('PRODID'));
+		if(!$prodid) {
+			$appinfo = OC_App::getAppInfo('contacts');
+			$prodid = '-//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
+			$vcard->setString('PRODID', $prodid);
+		}
+		$now = new DateTime;
+		$vcard->setString('REV', $now->format(DateTime::W3C));
+	}
+
 	/**
 	 * @brief Adds a card
 	 * @param integer $id Addressbook id
@@ -106,59 +226,17 @@ class OC_Contacts_VCard{
 
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
-			$fn = $card->getAsString('FN');
-			if(!$fn){ // Fix missing 'FN' field.
-				$n = $card->getAsString('N');
-				if(!is_null($n)){
-					$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
-					$card->setString('FN', $fn);
-					OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'FN\' field: '.$fn,OC_Log::DEBUG);
-				} else {
-					$fn = 'Unknown Name';
-				}
-			}
-			$n = $card->getAsString('N');
-			if(!$n){ // Fix missing 'N' field.
-				$n = implode(';', array_reverse(array_slice(explode(' ', $fn), 0, 2))).';;;';
-				$card->setString('N', $n);
-				OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
-			}
-			$uid = $card->getAsString('UID');
-			if(is_null($uid)){
-				$card->setUID();
-				$uid = $card->getAsString('UID');
-				//$data = $card->serialize();
-			};
-			$uri = $uid.'.vcf';
-
-			// Add product ID.
-			$prodid = trim($card->getAsString('PRODID'));
-			if(!$prodid) {
-				$appinfo = OC_App::getAppInfo('contacts');
-				$prodid = '//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
-				$card->setString('PRODID', $prodid);
-			}
-			// VCARD must have a version
-			$version = $card->getAsString('VERSION');
-			// Add version if needed
-			if(!$version){
-				$card->add(new Sabre_VObject_Property('VERSION','3.0'));
-				//$data = $card->serialize();
-			}/* else {
-				OC_Log::write('contacts','OC_Contacts_VCard::add. Version already set as: '.$version,OC_Log::DEBUG);
-			}*/
-			$now = new DateTime;
-			$card->setString('REV', $now->format(DateTime::W3C));
+			self::updateValuesFromAdd($card);
 			$data = $card->serialize();
 		}
 		else{
-			// that's hard. Creating a UID and not saving it
 			OC_Log::write('contacts','OC_Contacts_VCard::add. Error parsing VCard: '.$data,OC_Log::ERROR);
 			return null; // Ditch cards that can't be parsed by Sabre.
-			//$uid = self::createUID();
-			//$uri = $uid.'.vcf';
 		};
 
+		$fn = $card->getAsString('FN');
+		$uid = $card->getAsString('UID');
+		$uri = $uid.'.vcf';
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
 		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
@@ -176,47 +254,23 @@ class OC_Contacts_VCard{
 	 * @return insertid
 	 */
 	public static function addFromDAVData($id,$uri,$data){
-		$fn = $n = null;
-		$email = null;
 		$card = OC_VObject::parse($data);
 		if(!is_null($card)){
-			foreach($card->children as $property){
-				if($property->name == 'FN'){
-					$fn = $property->value;
-				}
-				if($property->name == 'N'){
-					$n = $property->value;
-				}
-				if($property->name == 'EMAIL' && is_null($email)){
-					$email = $property->value;
-				}
-			}
-		}
-		if(!$fn) {
-			if($n){
-				$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
-			} elseif($email) {
-				$fn = $email;
-			} else {
-				$fn = 'Unknown Name';
-			}
-			$card->addProperty('FN', $fn);
+			self::updateValuesFromAdd($card);
 			$data = $card->serialize();
-			OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'FN\' field: '.$n,OC_Log::DEBUG);
-		}
-		if(!$n){ // Fix missing 'N' field.
-			$n = implode(';', array_reverse(array_slice(explode(' ', $fn), 0, 2))).';;;';
-			$card->setString('N', $n);
-			$data = $card->serialize();
-			OC_Log::write('contacts','OC_Contacts_VCard::add. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
-		}
+		} else {
+			OC_Log::write('contacts','OC_Contacts_VCard::addFromDAVData. Error parsing VCard: '.$data, OC_Log::ERROR);
+			return null; // Ditch cards that can't be parsed by Sabre.
+		};
+		$fn = $card->getAsString('FN');
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
+		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
 
 		OC_Contacts_Addressbook::touch($id);
 
-		return OC_DB::insertid('*PREFIX*contacts_cards');
+		return $newid;
 	}
 
 	/**
@@ -315,6 +369,7 @@ class OC_Contacts_VCard{
 		// FIXME: Add error checking. Deleting a card gives an Kontact/Akonadi error.
 		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
+		OC_Contacts_Addressbook::touch($aid);
 
 		return true;
 	}
@@ -366,10 +421,14 @@ class OC_Contacts_VCard{
 			'checksum' => md5($property->serialize()));
 		foreach($property->parameters as $parameter){
 			// Faulty entries by kaddressbook
+			// Actually TYPE=PREF is correct according to RFC 2426
+			// but this way is more handy in the UI. Tanghus.
 			if($parameter->name == 'TYPE' && $parameter->value == 'PREF'){
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
+			// NOTE: Apparently Sabre_VObject_Reader can't always deal with value list parameters
+			// like TYPE=HOME,CELL,VOICE. Tanghus.
 			if ($property->name == 'TEL' && $parameter->name == 'TYPE'){
 				if (isset($temp['parameters'][$parameter->name])){
 					$temp['parameters'][$parameter->name][] = $parameter->value;
@@ -384,4 +443,43 @@ class OC_Contacts_VCard{
 		}
 		return $temp;
 	}
+
+	/**
+	 * @brief Move card(s) to an address book
+	 * @param integer $aid Address book id
+	 * @param $id Array or integer of cards to be moved.
+	 * @return boolean
+	 *
+	 */
+	public static function moveToAddressBook($aid, $id){
+		OC_Contacts_App::getAddressbook($aid); // check for user ownership.
+		if(is_array($id)) {
+			$id_sql = join(',', array_fill(0, count($id), '?'));
+			$prep = 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id IN ('.$id_sql.')';
+			try {
+				$stmt = OC_DB::prepare( $prep );
+				//$aid = array($aid);
+				$vals = array_merge((array)$aid, $id);
+				$result = $stmt->execute($vals);
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, ids: '.join(',', $vals),OC_Log::DEBUG);
+				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
+				return false;
+			}
+		} else {
+			try {
+				$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
+				$result = $stmt->execute(array($aid, $id));
+			} catch(Exception $e) {
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, id: '.$id,OC_Log::DEBUG);
+				return false;
+			}
+		}
+
+		OC_Contacts_Addressbook::touch($aid);
+		return true;
+	}
+
 }

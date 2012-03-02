@@ -32,10 +32,17 @@ class OC_USER_LDAP extends OC_User_Backend {
 	protected $ldap_dn;
 	protected $ldap_password;
 	protected $ldap_base;
-	protected $ldap_filter;
+	protected $ldap_login_filter;
+	protected $ldap_userlist_filter;
 	protected $ldap_tls;
 	protected $ldap_nocase;
 	protected $ldap_display_name;
+	protected $ldap_quota;
+	protected $ldap_quota_def;
+	protected $ldap_email;
+
+	// will be retrieved from LDAP server
+	protected $ldap_dc = false;
 
 	function __construct() {
 		$this->ldap_host = OC_Appconfig::getValue('user_ldap', 'ldap_host','');
@@ -43,16 +50,20 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->ldap_dn = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
 		$this->ldap_password = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
 		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
-		$this->ldap_filter = OC_Appconfig::getValue('user_ldap', 'ldap_filter','');
+		$this->ldap_login_filter = OC_Appconfig::getValue('user_ldap', 'ldap_login_filter','');
+		$this->ldap_userlist_filter = OC_Appconfig::getValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
 		$this->ldap_tls = OC_Appconfig::getValue('user_ldap', 'ldap_tls', 0);
 		$this->ldap_nocase = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
 		$this->ldap_display_name = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
+		$this->ldap_quota_attr = OC_Appconfig::getValue('user_ldap', 'ldap_quota_attr','');
+		$this->ldap_quota_def = OC_Appconfig::getValue('user_ldap', 'ldap_quota_def','');
+		$this->ldap_email_attr = OC_Appconfig::getValue('user_ldap', 'ldap_email_attr','');
 
 		if( !empty($this->ldap_host)
 			&& !empty($this->ldap_port)
 			&& ((!empty($this->ldap_dn) && !empty($this->ldap_password)) || (empty($this->ldap_dn) && empty($this->ldap_password)))
 			&& !empty($this->ldap_base)
-			&& !empty($this->ldap_filter)
+			&& !empty($this->ldap_login_filter)
 			&& !empty($this->ldap_display_name)
 		)
 		{
@@ -66,6 +77,32 @@ class OC_USER_LDAP extends OC_User_Backend {
 			ldap_unbind($this->ds);
 	}
 
+	private function setQuota( $uid ) {
+		if( !$this->ldap_dc )
+			return false;
+
+		if(!empty($this->ldap_quota_attr)) {
+			$quota = $this->ldap_dc[strtolower($this->ldap_quota_attr)][0];
+		} else {
+			$quota = false;
+		}
+		$quota = $quota != -1 ? $quota : $this->ldap_quota_def;
+		OC_Preferences::setValue($uid, 'files', 'quota', OC_Helper::computerFileSize($quota));
+	}
+
+	private function setEmail( $uid ) {
+		if( !$this->ldap_dc )
+			return false;
+
+		$email = OC_Preferences::getValue($uid, 'settings', 'email', '');
+		if ( !empty( $email ) )
+			return false;
+
+		$email = $this->ldap_dc[$this->ldap_email_attr][0];
+		OC_Preferences::setValue($uid, 'settings', 'email', $email);
+	}
+
+	//Connect to LDAP and store the resource
 	private function getDs() {
 		if(!$this->ds) {
 			$this->ds = ldap_connect( $this->ldap_host, $this->ldap_port );
@@ -74,18 +111,19 @@ class OC_USER_LDAP extends OC_User_Backend {
 						if($this->ldap_tls)
 							ldap_start_tls($this->ds);
 		}
-
+		//TODO: Not necessary to perform a bind each time, is it?
 		// login
 		if(!empty($this->ldap_dn)) {
 			$ldap_login = @ldap_bind( $this->ds, $this->ldap_dn, $this->ldap_password );
-			if(!$ldap_login)
+			if(!$ldap_login) {
 				return false;
+			}
 		}
 
 		return $this->ds;
 	}
 
-	private function getDn( $uid ) {
+	private function getDc( $uid ) {
 		if(!$this->configured)
 			return false;
 
@@ -95,35 +133,47 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 
 		// get dn
-		$filter = str_replace('%uid', $uid, $this->ldap_filter);
+		$filter = str_replace('%uid', $uid, $this->ldap_login_filter);
 		$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
 		$entries = ldap_get_entries( $this->getDs(), $sr );
 
-		if( $entries['count'] == 0 )
+		if( $entries['count'] == 0 ) {
 			return false;
+		}
 
-		return $entries[0]['dn'];
+		$this->ldap_dc = $entries[0];
+
+		return $this->ldap_dc;
 	}
 
 	public function checkPassword( $uid, $password ) {
 		if(!$this->configured){
 			return false;
 		}
-		$dn = $this->getDn( $uid );
-		if( !$dn )
+		$dc = $this->getDc( $uid );
+		if( !$dc )
 			return false;
 
-		if (!@ldap_bind( $this->getDs(), $dn, $password ))
+		if (!@ldap_bind( $this->getDs(), $dc['dn'], $password )) {
 			return false;
-		
+		}
+
+		if(!empty($this->ldap_quota_attr) || !empty($this->ldap_quota_def)) {
+			$this->setQuota($uid);
+		}
+
+		if(!empty($this->ldap_email_attr)) {
+			$this->setEmail($uid);
+		}
+
 		if($this->ldap_nocase) {
-			$filter = str_replace('%uid', $uid, $this->ldap_filter);
+			$filter = str_replace('%uid', $uid, $this->ldap_login_filter);
 			$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
 			$entries = ldap_get_entries( $this->getDs(), $sr );
 			if( $entries['count'] == 1 ) {
 				foreach($entries as $row) {
-					$ldap_display_name  = strtolower($this->ldap_display_name);					
-					if(isset($row[$ldap_display_name])) {					
+					$ldap_display_name  = strtolower($this->ldap_display_name);
+					if(isset($row[$ldap_display_name])) {
 						return $row[$ldap_display_name][0];
 					}
 				}
@@ -131,35 +181,34 @@ class OC_USER_LDAP extends OC_User_Backend {
 			else {
 				return $uid;
 			}
-			
+
 		}
 		else {
 			return $uid;
 		}
-		
+
 	}
 
 	public function userExists( $uid ) {
 		if(!$this->configured){
 			return false;
 		}
-		$dn = $this->getDn($uid);
+		$dn = $this->getDc($uid);
 		return !empty($dn);
 	}
-	
+
 	public function getUsers()
 	{
 		if(!$this->configured)
 		return false;
-	
+
 		// connect to server
 		$ds = $this->getDs();
 		if( !$ds )
 			return false;
-	
+
 		// get users
-		$filter = 'objectClass=person';
-		$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
+		$sr = ldap_search( $this->getDs(), $this->ldap_base, $this->ldap_userlist_filter );
 		$entries = ldap_get_entries( $this->getDs(), $sr );
 		if( $entries['count'] == 0 )
 			return false;
@@ -169,7 +218,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 				// TODO ldap_get_entries() seems to lower all keys => needs review
 				$ldap_display_name  = strtolower($this->ldap_display_name);
 				if(isset($row[$ldap_display_name])) {
-					$users[] = $row[$ldap_display_name][0];					
+					$users[] = $row[$ldap_display_name][0];
 				}
 			}
 			// TODO language specific sorting of user names

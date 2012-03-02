@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Robin Appelman
- * @copyright 2011 Robin Appelman icewind1991@gmail.com
+ * @copyright 2012 Robin Appelman icewind1991@gmail.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -50,25 +50,29 @@ class OC_Log{
 			fclose($fh);
 		}
 	}
-	
-	public static function getEntries(){
+
+	/**
+	 * get entries from the log in reverse chronological order
+	 * @param int limit
+	 * @param int offset
+	 * @return array
+	 */
+	public static function getEntries($limit=50,$offset=0){
 		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 		$logFile=OC_Config::getValue( "logfile", $datadir.'/owncloud.log' );
 		$entries=array();
 		if(!file_exists($logFile)){
 			return array();
 		}
-		$fh=fopen($logFile,'r');
-		if($fh === false){ // Unable to read log file!
+		$contents=file($logFile);
+		if(!$contents){//error while reading log
 			return array();
 		}
-		while(!feof($fh)){
-			$line=fgets($fh);
-			if($line){
-				$entries[]=json_decode($line);
-			}
+		$end=max(count($contents)-$offset-1,0);
+		$start=max($end-$limit,0);
+		for($i=$end;$i>$start;$i--){
+			$entries[]=json_decode($contents[$i]);
 		}
-		fclose($fh);
 		return $entries;
 	}
 }

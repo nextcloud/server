@@ -33,13 +33,13 @@ $carddavBackend   = new OC_Connector_Sabre_CardDAV();
 
 // Root nodes
 $nodes = array(
-	new Sabre_DAVACL_PrincipalCollection($principalBackend),
+	new Sabre_CalDAV_Principal_Collection($principalBackend),
 	new Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend),
 );
 
 // Fire up server
 $server = new Sabre_DAV_Server($nodes);
-$server->setBaseUri(OC::$WEBROOT.'/apps/contacts/carddav.php');
+$server->setBaseUri(OC::$APPSWEBROOT.'/apps/contacts/carddav.php');
 // Add plugins
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
 $server->addPlugin(new Sabre_CardDAV_Plugin());

@@ -56,18 +56,16 @@ function setSyntaxMode(ext){
 
 function showControls(filename,writeperms){
 	// Loads the control bar at the top.
-	$('.actions,#file_action_panel').fadeOut('slow').promise().done(function() {
-		// Load the new toolbar.
-		var editorcontrols;
-		if(writeperms=="true"){
-			var editorcontrols = '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div><label for="gotolineval">Go to line:</label><input type="text" id="gotolineval"><div class="separator"></div>';
-		}
-		var html = '<label for="editorseachval">Search:</label><input type="text" name="editorsearchval" id="editorsearchval"><div class="separator"></div><button id="editor_close">'+t('files_texteditor','Close')+'</button>';
-		$('#controls').append(html);
-		$('#editorbar').fadeIn('slow');	
-		var breadcrumbhtml = '<div class="crumb svg" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><p>'+filename+'</p></div>';
-		$('.actions').before(breadcrumbhtml).before(editorcontrols);
-	});
+	// Load the new toolbar.
+	var editorbarhtml = '<div id="editorcontrols" style="display: none;"><div class="crumb svg last" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><p>'+filename+'</p></div>';
+	if(writeperms=="true"){
+		editorbarhtml += '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div>';
+	}
+	editorbarhtml += '<label for="gotolineval">Go to line:</label><input stype="text" id="gotolineval"><label for="editorseachval">Search:</label><input type="text" name="editorsearchval" id="editorsearchval"><div class="separator"></div><button id="editor_close">'+t('files_texteditor','Close')+'</button></div>';
+	// Change breadcrumb classes
+	$('#controls .last').removeClass('last');
+	$('#controls').append(editorbarhtml);
+	$('#editorcontrols').fadeIn('slow');
 }
  
 function bindControlEvents(){
@@ -174,6 +172,7 @@ function giveEditorFocus(){
 function showFileEditor(dir,filename){
 	if(!editorIsShown()){
 		// Loads the file editor and display it.
+		$('#content').append('<div id="editor"></div>');
 		var data = $.getJSON(
 			OC.filePath('files_texteditor','ajax','loadfile.php'),
 			{file:filename,dir:dir},
@@ -182,8 +181,10 @@ function showFileEditor(dir,filename){
 					// Save mtime
 					$('#editor').attr('data-mtime', result.data.mtime);
 					// Initialise the editor
-					showControls(filename,result.data.write);
+					$('.actions,#file_action_panel').fadeOut('slow');
 					$('table').fadeOut('slow', function() {
+						// Show the control bar
+						showControls(filename,result.data.write);
 						// Update document title
 						document.title = filename;
 						$('#editor').text(result.data.filecontents);
@@ -215,8 +216,9 @@ function showFileEditor(dir,filename){
 // Fades out the editor.
 function hideFileEditor(){
 	// Fades out editor controls
-	$('#controls > :not(.actions,#file_access_panel,.crumb),#breadcrumb_file').fadeOut('slow',function(){
+	$('#editorcontrols').fadeOut('slow',function(){
 		$(this).remove();
+		$(".crumb:last").addClass('last');
 	});
 	// Fade out editor
 	$('#editor').fadeOut('slow', function(){
@@ -272,10 +274,10 @@ $(document).ready(function(){
 			var dir=text.substr(0,text.length-file.length-1);
 			showFileEditor(dir,file);
 		});
-	}
+	};
 	// Binds the file save and close editor events, and gotoline button
 	bindControlEvents();
-	
+	$('#editor').remove();
 	// Binds the save keyboard shortcut events
 	//$(document).unbind('keydown').bind('keydown',checkForSaveKeyPress);
 });

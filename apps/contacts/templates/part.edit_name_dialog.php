@@ -1,5 +1,4 @@
 <?php
-$l=new OC_L10N('contacts');
 $name = isset($_['name'])?$_['name']:'';
 //print_r($name);
 $id = isset($_['id'])?$_['id']:'';

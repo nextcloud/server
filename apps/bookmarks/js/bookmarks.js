@@ -3,19 +3,16 @@ var bookmarks_loading = false;
 
 var bookmarks_sorting = 'bookmarks_sorting_recent';
 
-$(document).ready(function() {
-	$('.bookmarks_addBtn').click(function(event){
-		$('.bookmarks_add').slideToggle();
-	});
-	
+$(document).ready(function() {	
 	$('#bookmark_add_submit').click(addOrEditBookmark);
-	$(window).scroll(updateOnBottom);
-	
-	$('#bookmark_add_url').focusout(getMetadata);
+	$(window).resize(function () {
+		fillWindow($('.bookmarks_list'));
+	});
+	$(window).resize();
+	$($('.bookmarks_list')).scroll(updateOnBottom);
 	
 	$('.bookmarks_list').empty();
 	getBookmarks();
-	
 });
 
 function getBookmarks() {
@@ -28,13 +25,19 @@ function getBookmarks() {
 		url: 'ajax/updateList.php',
 		data: 'tag=' + encodeURI($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
 		success: function(bookmarks){
-			bookmarks_page += 1;
+			if (bookmarks.data.length) {
+				bookmarks_page += 1;
+			}
 			$('.bookmark_link').unbind('click', recordClick);
 			$('.bookmark_delete').unbind('click', delBookmark);
 			$('.bookmark_edit').unbind('click', showBookmark);
 	
 			for(var i in bookmarks.data) {
 				updateBookmarksList(bookmarks.data[i]);
+				$("#firstrun").hide();
+			}
+			if($('.bookmarks_list').is(':empty')) {
+				$("#firstrun").show();
 			}
 
 			$('.bookmark_link').click(recordClick);
@@ -42,22 +45,11 @@ function getBookmarks() {
 			$('.bookmark_edit').click(showBookmark);
 			
 			bookmarks_loading = false;
+			if (bookmarks.data.length) {
+				updateOnBottom()
+			}
 		}
 	});	
-}
-
-function getMetadata() {
-	var url = encodeEntities($('#bookmark_add_url').val());
-	$('.loading_meta').css('display','inline');
-	$.ajax({
-		url: 'ajax/getMeta.php',
-		data: 'url=' + encodeURIComponent(url),
-		success: function(pageinfo){
-			$('#bookmark_add_url').val(pageinfo.data.url);
-			$('#bookmark_add_title').val(pageinfo.data.title);
-			$('.loading_meta').css('display','none');
-		}
-	});
 }
 
 // function addBookmark() {
@@ -69,28 +61,17 @@ function addOrEditBookmark(event) {
 	var url = encodeEntities($('#bookmark_add_url').val());
 	var title = encodeEntities($('#bookmark_add_title').val());
 	var tags = encodeEntities($('#bookmark_add_tags').val());
-	var taglist = tags.split(' ');
-	var tagshtml = '';
-	for ( var i=0, len=taglist.length; i<len; ++i ){
-		tagshtml += '<a class="bookmark_tag" href="?tag=' + encodeURI(taglist[i]) + '">' + taglist[i] + '</a> ';
-	}
+	$("#firstrun").hide();
 	
 	if (id == 0) {
 		$.ajax({
 			url: 'ajax/addBookmark.php',
 			data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
 			success: function(response){ 
-				var bookmark_id = response.data;
-				$('.bookmarks_add').slideToggle(); 
-				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
-				$('.bookmarks_list').prepend(
-				'<div class="bookmark_single" data-id="' + bookmark_id + '" >' +
-					'<p class="bookmark_actions"><span class="bookmark_delete"><img src="img/delete.png" title="Delete"></span>&nbsp;<span class="bookmark_edit"><img src="img/edit.png" title="Edit"></span></p>' +
-					'<p class="bookmark_title"><a href="' + url + '" target="_blank" class="bookmark_link">' + title + '</a></p>' +
-					'<p class="bookmark_tags">' + tagshtml + '</p>' +
-					'<p class="bookmark_url">' + url + '</p>' +
-				'</div>'
-				);
+				$('.bookmarks_input').val(''); 
+				$('.bookmarks_list').empty();
+				bookmarks_page = 0;
+				getBookmarks();
 			}
 		});
 	}
@@ -99,18 +80,11 @@ function addOrEditBookmark(event) {
 			url: 'ajax/editBookmark.php',
 			data: 'id=' + id + '&url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
 			success: function(){ 
-				$('.bookmarks_add').slideToggle(); 
-				$('.bookmarks_add').children('p').children('.bookmarks_input').val(''); 
+				$('.bookmarks_input').val('');
 				$('#bookmark_add_id').val('0');
-				
-				var record = $('.bookmark_single[data-id = "' + id + '"]');
-				record.children('.bookmark_url:first').text(url);
-				
-				var record_title = record.children('.bookmark_title:first').children('a:first');
-				record_title.attr('href', url);
-				record_title.text(title);
-				
-				record.children('.bookmark_tags:first').html(tagshtml);
+				$('.bookmarks_list').empty();
+				bookmarks_page = 0;
+				getBookmarks();
 			}
 		});
 	}
@@ -122,7 +96,12 @@ function delBookmark(event) {
 	$.ajax({
 		url: 'ajax/delBookmark.php',
 		data: 'url=' + encodeURI($(this).parent().parent().children('.bookmark_url:first').text()),
-		success: function(data){ record.animate({ opacity: 'hide' }, 'fast'); }
+		success: function(data){
+			record.remove();
+			if($('.bookmarks_list').is(':empty')) {
+				$("#firstrun").show();
+			}
+		}
 	});
 }
 
@@ -152,10 +131,20 @@ function updateBookmarksList(bookmark) {
 	if(!hasProtocol(bookmark.url)) {
 		bookmark.url = 'http://' + bookmark.url;
 	}
+	if(bookmark.title == '') bookmark.title = bookmark.url;
 	$('.bookmarks_list').append(
 		'<div class="bookmark_single" data-id="' + bookmark.id +'" >' +
-			'<p class="bookmark_actions"><span class="bookmark_delete"><img src="img/delete.png" title="Delete"></span>&nbsp;<span class="bookmark_edit"><img src="img/edit.png" title="Edit"></span></p>' +
-			'<p class="bookmark_title"><a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a></p>' +
+			'<p class="bookmark_actions">' +
+				'<span class="bookmark_edit">' +
+					'<img class="svg" src="'+OC.imagePath('core', 'actions/rename')+'" title="Edit">' +
+				'</span>' +
+				'<span class="bookmark_delete">' +
+					'<img class="svg" src="'+OC.imagePath('core', 'actions/delete')+'" title="Delete">' +
+				'</span>&nbsp;' +
+			'</p>' +
+			'<p class="bookmark_title">'+
+				'<a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a>' +
+			'</p>' +
 			'<p class="bookmark_url">' + encodeEntities(bookmark.url) + '</p>' +
 		'</div>'
 	);
@@ -166,7 +155,11 @@ function updateBookmarksList(bookmark) {
 
 function updateOnBottom() {
 	//check wether user is on bottom of the page
-	if ($('body').height() <= ($(window).height() + $(window).scrollTop())) {
+	var top = $('.bookmarks_list>:last-child').position().top;
+	var height = $('.bookmarks_list').height();
+	// use a bit of margin to begin loading before we are really at the
+	// bottom
+	if (top < height * 1.2) {
 		getBookmarks();
 	}
 }

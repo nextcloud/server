@@ -1,4 +1,8 @@
-#content { overflow: auto; }
+#content { overflow: auto; height: 100%; }
+#firstrun { width: 80%; margin: 5em auto auto auto; text-align: center; font-weight:bold; font-size:1.5em;  color:#777;}
+#firstrun small { display: block; font-weight: normal; font-size: 0.5em; margin-bottom: 1.5em; }
+#firstrun .button { font-size: 0.7em; }
+#firstrun #selections { font-size:0.8em;  font-weight: normal; width: 100%; margin: 2em auto auto auto; clear: both; }
 
 .bookmarks_headline {
 	font-size: large;
@@ -12,13 +16,10 @@
 	padding: 0.5ex;
 }
 
-.bookmarks_add {
-	display: none;
-	margin-top: 45px;
-}
-
 .bookmarks_list {
-	margin-top: 36px;
+	overflow: auto;
+	position: fixed;
+	top: 6.5em;
 }
 
 .bookmarks_addBml {
@@ -32,7 +33,7 @@
 }
 
 .bookmarks_input {
-	width: 20em;
+	width: 8em;
 }
 
 .bookmark_actions {

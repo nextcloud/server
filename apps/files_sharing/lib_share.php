@@ -88,12 +88,15 @@ class OC_Share {
 					$uid = $uid."@".$gid;
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
-				// Clear the folder size cache for the 'Shared' folder
-// 				$clearFolderSize = OC_DB::prepare("DELETE FROM *PREFIX*foldersize WHERE path = ?");
-// 				$clearFolderSize->execute(array($sharedFolder));
-				// Emit post_create and post_write hooks to notify of a new file in the user's filesystem
-				OC_Hook::emit("OC_Filesystem", "post_create", array('path' => $target));
-				OC_Hook::emit("OC_Filesystem", "post_write", array('path' => $target));
+				// Add file to filesystem cache
+				$userDirectory = "/".OC_User::getUser()."/files";
+				$data = OC_Filecache::get(substr($source, strlen($userDirectory)));
+				$parentQuery = OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path=?');
+				$parentResult = $parentQuery->execute(array($sharedFolder))->fetchRow();
+				$parent = $parentResult['id'];
+				$is_writeable = $permissions & OC_Share::WRITE;
+				$cacheQuery = OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart, user, writable) VALUES(?,?,?,?,?,?,?,?,?,?)');
+				$cacheQuery->execute(array($parent, basename($target), $target, $data['size'], $data['mtime'], $data['ctime'], $data['mimetype'], dirname($data['mimetype']), $uid, $is_writeable));
 			}
 		}
 	}

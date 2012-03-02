@@ -3,7 +3,7 @@
 * ownCloud
 *
 * @author Robin Appelman
-* @copyright 2010 Robin Appelman icewind1991@gmailc.om
+* @copyright 2012 Robin Appelman icewind@owncloud.com
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -20,59 +20,44 @@
 *
 */
 
+require_once '../lib/base.php';
+require_once 'simpletest/unit_tester.php';
+require_once 'simpletest/mock_objects.php';
+require_once 'simpletest/collector.php';
+require_once 'simpletest/default_reporter.php';
 
-/**
- * run all test cases
- */
- $RUNTIME_NOSETUPFS=true;
-require_once('../lib/base.php');
-OC_Util::checkAdminUser();
+//load core test cases
+loadTests(dirname(__FILE__));
 
-$testCases=loadFiles(__DIR__,array('index.php','templates'));
-@ob_end_clean();
-$testResults=array();
-foreach($testCases as $testCaseClass){
-	$testCase=new $testCaseClass();
-	$results=array();
-	foreach($testCase->getTests() as $test){
-		$testCase->setup();
-		try{
-			$testCase->$test();
-			$results[$test]='Ok';
-		}catch(Exception $e){
-			$results[$test]=$e->getMessage();
-		}
-		$testCase->tearDown();
+//load app test cases
+$apps=OC_Appconfig::getApps();
+foreach($apps as $app){
+	if(is_dir(OC::$SERVERROOT.'/apps/'.$app.'/tests')){
+		loadTests(OC::$SERVERROOT.'/apps/'.$app.'/tests');
 	}
-	$testResults[$testCaseClass]=$results;
 }
 
-$tmpl = new OC_Template( 'tests', 'index');
-$tmpl->assign('tests',$testResults);
-$tmpl->printPage();
-
-/**
- * recursively load all files in a folder
- * @param string $path
- * @param array $exclude list of files to exclude
- */
-function loadFiles($path,$exclude=false){
-	$results=array();
-	if(!$exclude){
-		$exclude=array();
-	}
-	$dh=opendir($path);
-	while($file=readdir($dh)){
-		if($file!='.' && $file!='..' && array_search($file,$exclude)===false){
-			if(is_file($path.'/'.$file) and substr($file,-3)=='php'){
-				$result=require_once($path.'/'.$file);
-				$results[]=$result;
-			}elseif(is_dir($path.'/'.$file)){
-				$subResults=loadFiles($path.'/'.$file);
-				$results=array_merge($results,$subResults);
+function loadTests($dir=''){
+	if($dh=opendir($dir)){
+		while($name=readdir($dh)){
+			if(substr($name,0,1)!='.'){//no hidden files, '.' or '..'
+				$file=$dir.'/'.$name;
+				if(is_dir($file)){
+					loadTests($file);
+				}elseif(substr($file,-4)=='.php' and $file!=__FILE__){
+					$testCase=new TestSuite(getTestName($file));
+					$testCase->addFile($file);
+					if($testCase->getSize()>0){
+						$testCase->run(new HtmlReporter());
+					}
+				}
 			}
 		}
 	}
-	return $results;
 }
-?>
+
+function getTestName($file){
+// 	//TODO: get better test names
+	$file=substr($file,strlen(OC::$SERVERROOT));
+	return substr($file,0,-4);//strip .php
+}

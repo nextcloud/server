@@ -1,5 +1,5 @@
 <script type='text/javascript'>
-	var totalurl = '<?php echo OC_Helper::linkTo('contacts', 'carddav.php', null, true); ?>/addressbooks';
+	var totalurl = '<?php echo OC_Helper::linkToAbsolute('contacts', 'carddav.php'); ?>/addressbooks';
 </script>
 <div id="controls">
 	<form>
@@ -15,10 +15,10 @@
 <div id="rightcontent" class="rightcontent" data-id="<?php echo $_['id']; ?>">
 	<?php
 		if ($_['id']){
-			echo $this->inc("part.details");
+			echo $this->inc('part.contact');
 		}
 		else{
-			echo $this->inc("part.addcardform");
+			echo $this->inc('part.no_contacts');
 		}
 	?>
 </div>

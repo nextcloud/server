@@ -26,7 +26,6 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
-$l=new OC_L10N('contacts');
 
 // foreach ($_POST as $key=>$element) {
 // 	OC_Log::write('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OC_Log::DEBUG);
