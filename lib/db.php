@@ -393,27 +393,6 @@ class OC_DB {
 	}
 
 	/**
-	 * @breif replaces the owncloud tables with a new set
-	 */
-	 public static function replaceDB( $file ){
-	 	
-	 	// Delete the old tables
-	 	self::removeDBStructure( '/home/tom/sites/secure.tomneedham.com/public_html/migration/db_structure.xml' );
-	 	
-	 	$apps = OC_App::getAllApps();
-	 	foreach($apps as $app){
-	 		$path = '/apps/'.$app.'/appinfo/database.xml';
-	 		if(file_exists($path)){
-	 			self::removeDBStructure( $path );	
-	 		}
-	 	}
-	 	
-	 	// Create new tables
-	 	self::createDBFromStructure( $file );
-	 	
-	 }
-
-	/**
 	 * @brief connects to a MDB2 database scheme
 	 * @returns true/false
 	 *
@@ -511,10 +490,11 @@ class OC_DB {
 	 */
 	 public static function replaceDB( $file ){
 	 	
+	 	$apps = OC_App::getAllApps();
+	 	
 	 	// Delete the old tables
 	 	self::removeDBStructure( OC::$DOCUMENTROOT . 'db_structure.xml' );
 	 	
-	 	$apps = OC_App::getAllApps();
 	 	foreach($apps as $app){
 	 		$path = '/apps/'.$app.'/appinfo/database.xml';
 	 		if(file_exists($path)){
