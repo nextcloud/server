@@ -64,7 +64,7 @@ class OC_Gallery_Scanner {
     }
     $current_album['imagesCount'] = count($current_album['images']);
     $albums['imagesCount'] = $current_album['imagesCount'];
-    $albums['albumName'] = $current_album['name'];
+    $albums['albumName'] = utf8_encode($current_album['name']);
 
     $result = OC_Gallery_Album::find(OC_User::getUser(), /*$current_album['name']*/ null, $path);
     // don't duplicate galleries with same path (bug oc-33)
