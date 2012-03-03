@@ -49,23 +49,22 @@ if (isset($_POST['user_migrate'])) {
 		// adding owncloud system files
 		OC_Log::write('user_migrate',"Adding app data to user export file",OC_Log::INFO);
 		// Call to OC_Migrate for the xml file.
-		//$appdatafile = $tempdir . "/appdata.xml";
-		//$fh = fopen($appdatafile, 'w');
+		$appdatafile = $tempdir . "/appdata.xml";
+		
 		$appdata = OC_Migrate::export(OC_User::getUser());
-		//fwrite($fh, $appdata);
-		//$zip->addFile($appdatafile, "appdata.xml");
-		//fclose($fh);
+		file_put_contents($appdatafile, $appdata);
+		$zip->addFile($appdatafile, "appdata.xml");
+		
     }
 
     $zip->close();
 
-    //header("Content-Type: application/zip");
-    //header("Content-Disposition: attachment; filename=" . basename($filename));
-    //header("Content-Length: " . filesize($filename));
-    //@ob_end_clean();
-    echo htmlspecialchars($appdata);
-    //readfile($filename);
+    header("Content-Type: application/zip");
+    header("Content-Disposition: attachment; filename=" . basename($filename));
+    header("Content-Length: " . filesize($filename));
+    readfile($filename);
     unlink($filename);
+    
 } else {
 // fill template
     $tmpl = new OC_Template('user_migrate', 'settings');

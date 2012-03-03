@@ -41,16 +41,26 @@ class OC_Migrate{
 	 * @return string xml of app data
 	 */
 	public static function export($uid){
+		
+		$doc = new DOMDocument();
+		$doc->formatOutput = true;
+		
 		OC_Log::write('user_migrate','App data export started for user: '.$uid,OC_Log::INFO);
-		$xml = '';
+		
 		foreach(self::$providers as $provider){
+			
 			OC_Log::write('user_migrate','Getting app data for app:'.$provider->appid,OC_Log::INFO);
-			$xml .= '<app>';
-			$xml .= self::appInfoXML($provider->appid);
-			$xml .= $provider->export($uid);
-			$xml .= '</app>';
+			$app = $doc->createElement('app');
+			$doc->appendChild($app);
+			// Append app info
+			$app = $doc->appendChild( self::appInfoXML( $provider->appid ) );
+			
+			// Add the app data
+			$app->appendChild($provider->export($uid));
+
 		}
-		return $xml;
+
+		return $doc->saveXML();
 	}
 	
 	/**
@@ -59,10 +69,12 @@ class OC_Migrate{
 	* @return string xml app info
 	*/
 	public static function appInfoXML($appid){
-		$info = OC_App::getAppInfo($appid);
-		$xml = '<appinfo>';
-		$xml .= 'INFO HERE';
-		$xml .= '</appinfo>';
-		return $xml;	
+		$doc = new DOMDocument();
+		$appinfo = $doc->createElement('appinfo');
+		$appinfo = $doc->appendChild($appinfo);
+		$data = $doc->createTextNode($appid);
+		$appinfo->appendChild($data);
+		
+		return $appinfo;	
 	}
 }

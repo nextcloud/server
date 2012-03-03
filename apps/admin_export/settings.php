@@ -59,11 +59,9 @@ if (isset($_POST['admin_export'])) {
 	
 	$dbnamestring = "<database>\n\n <name>" . OC_Config::getValue( "dbname", "owncloud" );
 	$dbtableprefixstring = "<table>\n\n  <name>" . OC_Config::getValue( "dbtableprefix", "_oc" );
-	$createstring = "<database>\n\n <name>*dbname*</name>\n <create>true</create>";
 	
 	$dbexport = str_replace( $dbnamestring, "<database>\n\n <name>*dbname*", $dbexport );
 	$dbexport = str_replace( $dbtableprefixstring, "<table>\n\n  <name>*dbprefix*", $dbexport );
-	$dbexport = str_replace( $createstring, "<database>\n\n <name>*dbname*</name>\n <create>false</create>", $dbexport );
 	
 	// Write the new db export file
 	file_put_contents( $dbfile, $dbexport );
@@ -134,7 +132,6 @@ if (isset($_POST['admin_export'])) {
 		exit();	
 	}
 	
-	// TODO: Import db
 	OC_DB::replaceDB( get_temp_dir() . '/' . $importname . '/dbexport.xml' );		
 } else {
 // fill template
