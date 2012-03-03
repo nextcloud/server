@@ -323,10 +323,11 @@ class OC_FileCache{
 		$path=$params['path'];
 		$fullPath=$view->getRoot().$path;
 		$mimetype=$view->getMimeType($path);
+		$dir=$view->is_dir($path.'/');
 		//dont use self::get here, we don't want inifinte loops when a file has changed
 		$cachedSize=self::getCachedSize($path,$root);
 		$size=0;
-		if($mimetype=='httpd/unix-directory'){
+		if($dir){
 			if(self::inCache($path,$root)){
 				$parent=self::getFileId($fullPath);
 				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
@@ -465,13 +466,13 @@ class OC_FileCache{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
 		self::scanFile($path,$root);
-		$dh=$view->opendir($path);
+		$dh=$view->opendir($path.'/');
 		$totalSize=0;
 		if($dh){
 			while (($filename = readdir($dh)) !== false) {
 				if($filename != '.' and $filename != '..'){
 					$file=$path.'/'.$filename;
-					if($view->is_dir($file)){
+					if($view->is_dir($file.'/')){
 						if($eventSource){
 							$eventSource->send('scanning',array('file'=>$file,'count'=>$count));
 						}
