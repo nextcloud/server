@@ -168,19 +168,28 @@ class OC_FileCache{
 
 	/**
 	 * delete info from the cache
-	 * @param string $path
+	 * @param string/int $file
 	 * @param string root (optional)
 	 */
-	public static function delete($path,$root=''){
-		if(!$root){
-			$root=OC_Filesystem::getRoot();
+	public static function delete($file,$root=''){
+		if(!is_numeric($file)){
+			if(!$root){
+				$root=OC_Filesystem::getRoot();
+			}
+			if($root=='/'){
+				$root='';
+			}
+			$path=$root.$file;
+			self::delete(self::getFileId($path));
+		}elseif($file!=-1){
+			$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE parent=?');
+			$query->execute(array($file));
+			while($child=$query->fetchRow()){
+				self::delete(intval($child['id']));
+			}
+			$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE id=?');
+			$query->execute(array($file));
 		}
-		if($root=='/'){
-			$root='';
-		}
-		$path=$root.$path;
-		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE path=?');
-		$query->execute(array($path));
 	}
 	
 	/**
