@@ -26,8 +26,13 @@ function addoutput($event, $vevent, $return_event){
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
-$start = DateTime::createFromFormat('U', $_GET['start']);
-$end = DateTime::createFromFormat('U', $_GET['end']);
+if(version_compare(PHP_VERSION, '5.3.0', '>=')){
+	$start = DateTime::createFromFormat('U', $_GET['start']);
+	$end = DateTime::createFromFormat('U', $_GET['end']);
+}else{
+	$start = new DateTime('@' . $_GET['start']);
+	$end = new DateTime('@' . $_GET['end']);
+}
 
 $events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
