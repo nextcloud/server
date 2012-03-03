@@ -62,7 +62,7 @@ function handleFilescan($cleanup) {
 
 function handlePartialCreate($path) {
   if (empty($path)) OC_JSON::error(array('cause' => 'No path specified'));
-  if (!OC_Filesystem::is_dir($path)) OC_JSON::error(array('cause' => 'Invalid path given'));
+  if (!OC_Filesystem::is_dir($path.'/')) OC_JSON::error(array('cause' => 'Invalid path given'));
 
   $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
   $albums = array();

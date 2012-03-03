@@ -53,7 +53,7 @@ function scanForAlbums(cleanup) {
       }
       $('#scanprogressbar').progressbar({ value: (albumCounter/totalAlbums)*100 }).fadeIn();
       for(var a in r.paths) {
-        $.getJSON('ajax/galleryOp.php?operation=partial_create&path='+r.paths[a], function(r) {
+		  $.getJSON('ajax/galleryOp.php',{operation:'partial_create','path':r.paths[a]}, function(r) {
 
           if (r.status == 'success') {
             Albums.add(r.album_details.albumName, r.album_details.imagesCount);
