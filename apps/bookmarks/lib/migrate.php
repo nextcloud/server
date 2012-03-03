@@ -63,7 +63,7 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 			}	
 		}
 		
-		return $bookmarks;
+		return $doc;
 		
 	}
 	
