@@ -99,7 +99,11 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 			return false;
 		}
 		$head=fread($source,8192);//8kb should suffice to determine a mimetype
-		$extention=substr($path,strrpos($path,'.'));
+		if($pos=strrpos($path,'.')){
+			$extention=substr($path,$pos);
+		}else{
+			$extention='';
+		}
 		$tmpFile=OC_Helper::tmpFile($extention);
 		file_put_contents($tmpFile,$head);
 		$mime=OC_Helper::getMimeType($tmpFile);
@@ -124,7 +128,11 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		if(!$source){
 			return false;
 		}
-		$extention=substr($path,strrpos($path,'.'));
+		if($pos=strrpos($path,'.')){
+			$extention=substr($path,$pos);
+		}else{
+			$extention='';
+		}
 		$tmpFile=OC_Helper::tmpFile($extention);
 		$target=fopen($tmpFile,'w');
 		$count=OC_Helper::streamCopy($source,$target);
