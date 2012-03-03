@@ -26,22 +26,29 @@ require_once 'simpletest/mock_objects.php';
 require_once 'simpletest/collector.php';
 require_once 'simpletest/default_reporter.php';
 
-//load all test cases
-loadTests();
+//load core test cases
+loadTests(dirname(__FILE__));
+
+//load app test cases
+$apps=OC_Appconfig::getApps();
+foreach($apps as $app){
+	if(is_dir(OC::$SERVERROOT.'/apps/'.$app.'/tests')){
+		loadTests(OC::$SERVERROOT.'/apps/'.$app.'/tests');
+	}
+}
 
 function loadTests($dir=''){
-	$basedir=dirname(__FILE__).'/';
-	if($dh=opendir($basedir.$dir)){
+	if($dh=opendir($dir)){
 		while($name=readdir($dh)){
 			if(substr($name,0,1)!='.'){//no hidden files, '.' or '..'
 				$file=$dir.'/'.$name;
-				if(is_dir($basedir.$file)){
+				if(is_dir($file)){
 					loadTests($file);
 				}elseif(substr($file,-4)=='.php' and $file!=__FILE__){
 					$testCase=new TestSuite(getTestName($file));
-					$testCase->addFile($basedir.$file);
+					$testCase->addFile($file);
 					if($testCase->getSize()>0){
-						$testCase->run(new DefaultReporter());
+						$testCase->run(new HtmlReporter());
 					}
 				}
 			}
@@ -50,6 +57,7 @@ function loadTests($dir=''){
 }
 
 function getTestName($file){
-	//TODO: get better test names
-	return substr($file,5,-4);//strip /lib/ and .php
+// 	//TODO: get better test names
+	$file=substr($file,strlen(OC::$SERVERROOT));
+	return substr($file,0,-4);//strip .php
 }

@@ -240,9 +240,10 @@ class OC_Calendar_Calendar{
 			'#9fc6e7', // "light blue"
 		);
 	}
+
 	public static function getEventSourceInfo($calendar){
 		return array(
-			'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
+			'url' => OC_Helper::linkTo('calendar', 'ajax/events.php').'?calendar_id='.$calendar['id'],
 			'backgroundColor' => $calendar['calendarcolor'],
 			'borderColor' => '#888',
 			'textColor' => 'black',

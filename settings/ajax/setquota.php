@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright (c) 2012, Robin Appelman <icewind1991@gmail.com>
+ * This file is licensed under the Affero General Public License version 3 or later.
+ * See the COPYING-README file.
+ */
 
 // Init owncloud
 require_once('../../lib/base.php');

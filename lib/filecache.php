@@ -28,6 +28,8 @@
  * It will try to keep the data up to date but changes from outside ownCloud can invalidate the cache
  */
 class OC_FileCache{
+	private static $savedData=array();
+	
 	/**
 	 * get the filesystem info from the cache
 	 * @param string path
@@ -93,6 +95,14 @@ class OC_FileCache{
 			self::update($id,$data);
 			return;
 		}
+		if(isset(self::$savedData[$path])){
+			$data=array_merge($data,self::$savedData[$path]);
+			unset(self::$savedData[$path]);
+		}
+		if(!isset($data['size']) or !isset($data['mtime'])){//save incomplete data for the next time we write it
+			self::$savedData[$path]=$data;
+			return;
+		}
 		if(!isset($data['encrypted'])){
 			$data['encrypted']=false;
 		}
@@ -101,9 +111,11 @@ class OC_FileCache{
 		}
 		$mimePart=dirname($data['mimetype']);
 		$user=OC_User::getUser();
-		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart,user,writable) VALUES(?,?,?,?,?,?,?,?,?,?)');
-		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable']));
-		
+		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart,user,writable,encrypted,versioned) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)');
+		$result=$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while writing file('.$path.') to cache',OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -128,7 +140,10 @@ class OC_FileCache{
 		
 		$sql = 'UPDATE *PREFIX*fscache SET '.implode(' , ',$queryParts).' WHERE id=?';
 		$query=OC_DB::prepare($sql);
-		$query->execute($arguments);
+		$result=$query->execute($arguments);
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while updating file('.$path.') in cache',OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -262,11 +277,20 @@ class OC_FileCache{
 	 */
 	private static function getFileId($path){
 		$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path=?');
-		$result=$query->execute(array($path))->fetchRow();
+		if(OC_DB::isError($query)){
+			OC_Log::write('files','error while getting file id of '.$path,OC_Log::ERROR);
+			return -1;
+		}
+		$result=$query->execute(array($path));
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while getting file id of '.$path,OC_Log::ERROR);
+			return -1;
+		}
+		$result=$result->fetchRow();
 		if(is_array($result)){
 			return $result['id'];
 		}else{
-      OC_Log::write('getFileId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('getFileId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return -1;
 		}
 	}
@@ -323,7 +347,29 @@ class OC_FileCache{
 		}
 		self::increaseSize(dirname($fullPath),$size-$cachedSize);
 	}
-
+	
+	public static function getCached($path,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}else{
+			if($root=='/'){
+				$root='';
+			}
+		}
+		$path=$root.$path;
+		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE path=?');
+		$result=$query->execute(array($path))->fetchRow();
+		if(is_array($result)){
+			if(isset(self::$savedData[$path])){
+				$result=array_merge($result,self::$savedData[$path]);
+			}
+			return $result;
+		}else{
+			OC_Log::write('get(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			return false;
+		}
+	}
+	
 	private static function getCachedSize($path,$root){
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
@@ -332,6 +378,7 @@ class OC_FileCache{
 				$root='';
 			}
 		}
+		$path=$root.$path;
 		$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE path=?');
 		$result=$query->execute(array($path));
 		if($row=$result->fetchRow()){
@@ -514,6 +561,9 @@ class OC_FileCache{
 				$root='';
 			}
 			$view=new OC_FilesystemView($root);
+		}
+		if(!$view->file_exists($path)){
+			return false;
 		}
 		$mtime=$view->filemtime($path);
 		$isDir=$view->is_dir($path);

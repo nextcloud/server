@@ -16,12 +16,13 @@ foreach ($_FILES['files']['error'] as $error) {
 	if ($error != 0) {
 		$l=new OC_L10N('files');
 		$errors = array(
-			0=>$l->t("There is no error, the file uploaded with success"),
-			1=>$l->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
-			2=>$l->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
-			3=>$l->t("The uploaded file was only partially uploaded"),
-			4=>$l->t("No file was uploaded"),
-			6=>$l->t("Missing a temporary folder")
+			UPLOAD_ERR_OK=>$l->t("There is no error, the file uploaded with success"),
+			UPLOAD_ERR_INI_SIZE=>$l->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
+			UPLOAD_ERR_FORM_SIZE=>$l->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
+			UPLOAD_ERR_PARTIAL=>$l->t("The uploaded file was only partially uploaded"),
+			UPLOAD_ERR_NO_FILE=>$l->t("No file was uploaded"),
+			UPLOAD_ERR_NO_TMP_DIR=>$l->t("Missing a temporary folder"),
+			UPLOAD_ERR_CANT_WRITE=>$l->t('Failed to write to disk'),
 		);
 		OC_JSON::error(array("data" => array( "message" => $errors[$error] )));
 		exit();
@@ -48,7 +49,8 @@ if(strpos($dir,'..') === false){
 	for($i=0;$i<$fileCount;$i++){
 		$target=stripslashes($dir) . $files['name'][$i];
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i],$target)){
-			$result[]=array( "status" => "success", 'mime'=>OC_Filesystem::getMimeType($target),'size'=>OC_Filesystem::filesize($target),'name'=>$files['name'][$i]);
+			$meta=OC_FileCache::getCached($target);
+			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'],'size'=>$meta['size'],'name'=>$files['name'][$i]);
 		}
 	}
 	OC_JSON::encodedPrint($result);

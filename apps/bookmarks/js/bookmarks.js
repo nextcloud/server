@@ -5,7 +5,11 @@ var bookmarks_sorting = 'bookmarks_sorting_recent';
 
 $(document).ready(function() {	
 	$('#bookmark_add_submit').click(addOrEditBookmark);
-	$(window).scroll(updateOnBottom);
+	$(window).resize(function () {
+		fillWindow($('.bookmarks_list'));
+	});
+	$(window).resize();
+	$($('.bookmarks_list')).scroll(updateOnBottom);
 	
 	$('.bookmarks_list').empty();
 	getBookmarks();
@@ -21,7 +25,9 @@ function getBookmarks() {
 		url: 'ajax/updateList.php',
 		data: 'tag=' + encodeURI($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
 		success: function(bookmarks){
-			bookmarks_page += 1;
+			if (bookmarks.data.length) {
+				bookmarks_page += 1;
+			}
 			$('.bookmark_link').unbind('click', recordClick);
 			$('.bookmark_delete').unbind('click', delBookmark);
 			$('.bookmark_edit').unbind('click', showBookmark);
@@ -39,6 +45,9 @@ function getBookmarks() {
 			$('.bookmark_edit').click(showBookmark);
 			
 			bookmarks_loading = false;
+			if (bookmarks.data.length) {
+				updateOnBottom()
+			}
 		}
 	});	
 }
@@ -146,7 +155,11 @@ function updateBookmarksList(bookmark) {
 
 function updateOnBottom() {
 	//check wether user is on bottom of the page
-	if ($('body').height() <= ($(window).height() + $(window).scrollTop())) {
+	var top = $('.bookmarks_list>:last-child').position().top;
+	var height = $('.bookmarks_list').height();
+	// use a bit of margin to begin loading before we are really at the
+	// bottom
+	if (top < height * 1.2) {
 		getBookmarks();
 	}
 }

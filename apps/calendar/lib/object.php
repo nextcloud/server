@@ -309,6 +309,8 @@ class OC_Calendar_Object{
 			$dtend = $vevent->DTEND;
 		}else{
 			$dtend = clone $vevent->DTSTART;
+			// clone creates a shallow copy, also clone DateTime
+			$dtend->setDateTime(clone $dtend->getDateTime(), $dtend->getDateType());
 			if ($vevent->DURATION){
 				$duration = strval($vevent->DURATION);
 				$invert = 0;
@@ -817,6 +819,7 @@ class OC_Calendar_Object{
 
 		return $vcalendar;
 	}
+
 	public static function getowner($id){
 		$event = self::find($id);
 		$cal = OC_Calendar_Calendar::find($event['calendarid']);

@@ -29,7 +29,7 @@ class OC_Search{
 	
 	/**
 	 * register a new search provider to be used
-	 * @param OC_Search_Provider $provider
+	 * @param string $provider class name of a OC_Search_Provider
 	 */
 	public static function registerProvider($provider){
 		self::$providers[]=$provider;
@@ -43,7 +43,7 @@ class OC_Search{
 	public static function search($query){
 		$results=array();
 		foreach(self::$providers as $provider){
-			$results=array_merge($results,$provider->search($query));
+			$results=array_merge($results, $provider::search($query));
 		}
 		return $results;
 	}

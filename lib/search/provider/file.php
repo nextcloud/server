@@ -1,15 +1,15 @@
 <?php
 
-class OC_Search_Provider_File extends OC_Search_Provider{
-	function search($query){
+class OC_Search_Provider_File implements OC_Search_Provider{
+	static function search($query){
 		$files=OC_FileCache::search($query,true);
 		$results=array();
 		foreach($files as $fileData){
 			$file=$fileData['path'];
-			if($fileData['mime']=='httpd/unix-directory'){
+			$mime=$fileData['mimetype'];
+			if($mime=='httpd/unix-directory'){
 				$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'index.php' ).'?dir='.$file,'Files');
 			}else{
-				$mime=$fileData['mime'];
 				$mimeBase=$fileData['mimepart'];
 				switch($mimeBase){
 					case 'audio':

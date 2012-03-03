@@ -794,7 +794,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             ? 'mysql_query' : 'mysql_unbuffered_query';
         $result = @$function($query, $connection);
         if (!$result) {
-            $err =& $this->raiseError(null, null, null,
+            $err =$this->raiseError(null, null, null,
                 'Could not execute statement', __FUNCTION__);
             return $err;
         }

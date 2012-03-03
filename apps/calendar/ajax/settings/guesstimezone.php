@@ -5,44 +5,23 @@
  * later.
  * See the COPYING-README file.
  */
-function make_array_out_of_xml ($xml){
-	$returnarray = array();
-	$xml = (array)$xml ;
-	foreach ($xml as $property => $value){
-		$value = (array)$value;
-		if(!isset($value[0])){
-			$returnarray[$property] = make_array_out_of_xml($value);
-		}else{
-			$returnarray[$property] = trim($value[0]);
-		}
-	}
-	return $returnarray;
-}
 require_once('../../../../lib/base.php');
+
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
-$l = new OC_L10N('calendar');
-$lat = $_GET['lat'];
-$long = $_GET['long'];
-if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'position') == $lat . '-' . $long && OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone') != null){
-	OC_JSON::success();
-	exit;
-}
-OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'position', $lat . '-' . $long);
-$geolocation = file_get_contents('http://ws.geonames.org/timezone?lat=' . $lat . '&lng=' . $long);
-//Information are by Geonames (http://www.geonames.org) and licensed under the Creative Commons Attribution 3.0 License
-$geoxml = simplexml_load_string($geolocation);
-$geoarray = make_array_out_of_xml($geoxml);
-if($geoarray['timezone']['timezoneId'] == OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone')){
-	OC_JSON::success();
-	exit;
-}
-if(in_array($geoarray['timezone']['timezoneId'], DateTimeZone::listIdentifiers())){
-	OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'timezone', $geoarray['timezone']['timezoneId']);
-	$message = array('message'=> $l->t('New Timezone:') . $geoarray['timezone']['timezoneId']);
-	OC_JSON::success($message);
-}else{
-	OC_JSON::error();
-}
 
+$l = new OC_L10N('calendar');
+
+$lat = $_GET['lat'];
+$lng = $_GET['long'];
+
+$timezone =  OC_Geo::timezone($lat, $lng);
+
+if($timezone == OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone')){
+	OC_JSON::success();
+	exit;
+}
+OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'timezone', $timezone);
+$message = array('message'=> $l->t('New Timezone:') . $timezone);
+OC_JSON::success($message);
 ?>

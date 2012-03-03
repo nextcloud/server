@@ -74,6 +74,9 @@ Calendar={
 			}
 		},
 		editEvent:function(calEvent, jsEvent, view){
+			if (calEvent.editable == false || calEvent.source.editable == false) {
+				return;
+			}
 			var id = calEvent.id;
 			if($('#event').dialog('isOpen') == true){
 				// TODO: save event
@@ -215,7 +218,7 @@ Calendar={
 		},
 		initScroll:function(){
 			if(window.addEventListener)
-				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar);
+				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar, false);
 			//}else{
 				document.onmousewheel = Calendar.UI.scrollCalendar;
 			//}
@@ -764,7 +767,7 @@ $(document).ready(function(){
 	Calendar.UI.initScroll();
 	$('#calendar_holder').fullCalendar({
 		header: false,
-		firstDay: 1,
+		firstDay: firstDay,
 		editable: true,
 		defaultView: defaultView,
 		timeFormat: {
