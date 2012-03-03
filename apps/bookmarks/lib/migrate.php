@@ -4,67 +4,69 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 	// Create the xml for the user supplied
 	function export($uid){
 		
-		$doc = new DOMDocument();
-		$doc->formatOutput = true;
-		$bookmarks = $doc->createElement('bookmarks');
-		$bookmarks = $doc->appendChild($bookmarks);
-		
+		$bookmarks = array();
+
 		$query = OC_DB::prepare("SELECT * FROM  *PREFIX*bookmarks WHERE  *PREFIX*bookmarks.user_id =  ?");
 		$bookmarksdata =& $query->execute(array($uid));
-		
-		
 		// Foreach bookmark
 		while ($row = $bookmarksdata->fetchRow()) {
-			$bookmark = $doc->createElement('bookmark');
-			$bookmark = $bookmarks->appendChild($bookmark);
 			
-			$attr = $doc->createElement('title');
-			$attr = $bookmark->appendChild($attr);
-			$value = $doc->createTextNode($row['title']);
-			$attr->appendChild($value);
-			
-			$attr = $doc->createElement('url');
-			$attr = $bookmark->appendChild($attr);
-			$value = $doc->createTextNode($row['url']);
-			$attr->appendChild($value);
-			
-			$attr = $doc->createElement('added');
-			$attr = $bookmark->appendChild($attr);
-			$value = $doc->createTextNode($row['added']);
-			$attr->appendChild($value);
-			
-			$attr = $doc->createElement('lastmodified');
-			$attr = $bookmark->appendChild($attr);
-			$value = $doc->createTextNode($row['lastmodified']);
-			$attr->appendChild($value);
-			
-			$attr = $doc->createElement('public');
-			$attr = $bookmark->appendChild($attr);
-			$value = $doc->createTextNode($row['public']);
-			$attr->appendChild($value);
-			
-			$attr = $doc->createElement('clickcount');
-			$attr = $bookmark->appendChild($attr);
-			$value = $doc->createTextNode($row['clickcount']);
-			$attr->appendChild($value);
-			
-			$attr = $doc->createElement('tags');
-			$tags = $bookmark->appendChild($attr);
-			
+			// Get the tags
 			$query = OC_DB::prepare("SELECT * FROM  *PREFIX*bookmarks_tags WHERE  *PREFIX*bookmarks_tags.bookmark_id =  ?");
 			$tagsdata =& $query->execute(array($row['id']));
 		
+			$tags = array();
 			// Foreach tag
 			while ($row = $tagsdata->fetchRow()) {
-				$attr = $doc->createElement('tag');
-				$attr = $tags->appendChild($attr);
-				$value = $doc->createTextNode($row['tag']);
-				$attr->appendChild($value);
-			}	
+				$tags[] = $row['tag'];
+			}
+			
+			$bookmarks[] = array(
+								'url' => $row['url'],
+								'title' => $row['title'],
+								'public' => $row['public'],
+								'added' => $row['added'],
+								'lastmodified' => $row['lastmodified'],
+								'clickcount' => $row['clickcount'],
+								'tags' => $tags
+								);
+				
 		}
 		
-		return $doc;
+		return array('bookmarks' => $bookmarks);
 		
+	}
+	
+	// Import function for bookmarks
+	function import($data,$uid){
+		
+		// Different import code for different versions of the app
+		switch($data['info']['version']){
+			default:
+				// Foreach bookmark
+				foreach($data['data']['bookmarks'] as $bookmark){
+				
+					$query = OC_DB::prepare( "INSERT INTO `*PREFIX*bookmarks` ( `url`, `title`, `user_id`, `public`, `added`, `lastmodified`, `clickcount` ) VALUES( ?, ?, ?, ?, ?, ?, ? )" );
+					$result = $query->execute( array( 
+													$bookmark['url'], 
+													$bookmark['title'], 
+													$uid, 
+													$bookmark['public'], 
+													$bookmark['added'], 
+													$bookmark['lastmodified'],
+													$bookmark['clickcount']
+													) );
+					// Now add the tags
+					$id = OC_DB::insertid();
+					foreach($bookmark['tags'] as $tag){
+						$query = OC_DB::prepare( "INSERT INTO `*PREFIX*bookmarks_tags` ( `id`, `tag` ) VALUES( ?, ? )" );
+						$result = $query->execute( array( $id, $tag));
+					}
+					
+				}			
+			break;	
+		}
+	// Finished import	
 	}
 	
 }

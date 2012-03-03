@@ -13,14 +13,15 @@ abstract class OC_Migrate_Provider{
 	/**
 	 * exports data for apps
 	 * @param string $uid
-	 * @return string xml data for that app
+	 * @return array appdata to be exported
 	 */
 	abstract function export($uid);
 	
 	/**
 	 * imports data for the app
-	 * @param string $query
-	 * @return array An array of OC_Search_Result's
+	 * @param $data array of data. eg: array('info'=> APPINFO, 'data'=>APPDATA ARRAY)
+	 * @param $info array of info of the source install
+	 * @return void
 	 */
-	//abstract function import($data);
+	abstract function import($data,$uid);
 }

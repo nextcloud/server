@@ -42,49 +42,134 @@ class OC_Migrate{
 	 */
 	public static function export($uid){
 		
-		$doc = new DOMDocument();
-		$doc->formatOutput = true;
-		
-		OC_Log::write('user_migrate','App data export started for user: '.$uid,OC_Log::INFO);
-		
-		foreach(self::$providers as $provider){
+		// Only export database users, otherwise we get chaos
+		if(OC_User_Database::userExists($uid)){
+				
+			$data = array();
+			$data['userid'] = OC_User::getUser();
 			
-			OC_Log::write('user_migrate','Getting app data for app:'.$provider->appid,OC_Log::INFO);
-			$app = $doc->createElement('app');
-			$app = $doc->appendChild($app);
-			$app->setAttribute('id',$provider->appid);
-			// Append app info
-			$appinfo = $doc->importNode( self::appInfoXML( $provider->appid )->documentElement, true );
-			$app->appendChild( $appinfo );
+			$query = OC_DB::prepare( "SELECT uid, password FROM *PREFIX*users WHERE uid LIKE ?" );
+			$result = $query->execute( array( $uid));
+	
+			$row = $result->fetchRow();
+			if($row){
+				$data['hash'] = $row['password'];
+			} else {
+				return false;
+				exit();	
+			}
 			
-			$appdata = $doc->createElement('appdata');
-			$appdata = $app->appendChild($appdata);
-			// Add the app data
-			$appdatanode = $doc->importNode( $provider->export($uid)->documentElement, true );
-			$appdata->appendChild( $appdatanode );
-
+			foreach(self::$providers as $provider){
+				
+				$data['apps'][$prodider->appid]['info'] = OC_App::getAppInfo($provider->appid);
+				$data['apps'][$provider->appid]['data'] = $provider->export($uid);
+	
+			}
+	
+			return self::indent(json_encode($data));
+		
+		} else {
+			return false;	
 		}
-
-		return $doc->saveXML();
+		
 	}
 	
 	/**
-	* generates the app info xml
-	* @param string appid
-	* @return string xml app info
-	*/
-	public static function appInfoXML($appid){
+	 * @breif imports a new user
+	 * @param $data json data for the user
+	 * @param $uid optional uid to use
+	 * @return json reply
+	 */
+	 public function import($data,$uid=null){
+	 	
+	 	// Import the data
+	 	$data = json_decode($data);
+	 	if(is_null($data)){
+	 		// TODO LOG
+	 		return false;
+	 		exit();	
+	 	}
+	 	
+	 	// Specified user or use original
+	 	$uid = !is_null($uid) ? $uid : $data['userid'];
+	 	
+	 	// Check if userid exists
+	 	if(OC_User::userExists($uid)){
+	 		// TODO LOG
+	 		return false;
+	 		exit();	
+	 	}
+	 	
+	 	// Create the user
+	 	$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
+		$result = $query->execute( array( $uid, $data['hash']));
+		if(!$result){
+			// TODO LOG
+			return false;
+			exit();	
+		}
+	 	
+	 	foreach($data['app'] as $app){
+	 		// Check if supports migration and is enabled
+	 		if(in_array($app, self::$providers)){
+	 			if(OC_App::isEnabled($app)){
+	 				$provider->import($data['app'][$app],$uid);	
+	 			}
+	 		}
+	 			
+	 	}
+	 		
+	 }
+	 
+	 private static function indent($json){
+
+		$result      = '';
+		$pos         = 0;
+		$strLen      = strlen($json);
+		$indentStr   = '  ';
+		$newLine     = "\n";
+		$prevChar    = '';
+		$outOfQuotes = true;
 		
-		$info = OC_App::getAppInfo($appid);
+		for ($i=0; $i<=$strLen; $i++) {
 		
-		$doc = new DOMDocument();
-		$appinfo = $doc->createElement('appinfo');
-		$appinfo = $doc->appendChild($appinfo);
-		$version = $doc->createElement('version');
-		$appinfo->appendChild($version);
-		$versionval = $doc->createTextNode($info['version']);
-		$version->appendChild($versionval);
+		    // Grab the next character in the string.
+		    $char = substr($json, $i, 1);
 		
-		return $doc;	
-	}
+		    // Are we inside a quoted string?
+		    if ($char == '"' && $prevChar != '\\') {
+		        $outOfQuotes = !$outOfQuotes;
+		    
+		    // If this character is the end of an element, 
+		    // output a new line and indent the next line.
+		    } else if(($char == '}' || $char == ']') && $outOfQuotes) {
+		        $result .= $newLine;
+		        $pos --;
+		        for ($j=0; $j<$pos; $j++) {
+		            $result .= $indentStr;
+		        }
+		    }
+		    
+		    // Add the character to the result string.
+		    $result .= $char;
+		
+		    // If the last character was the beginning of an element, 
+		    // output a new line and indent the next line.
+		    if (($char == ',' || $char == '{' || $char == '[') && $outOfQuotes) {
+		        $result .= $newLine;
+		        if ($char == '{' || $char == '[') {
+		            $pos ++;
+		        }
+		        
+		        for ($j = 0; $j < $pos; $j++) {
+		            $result .= $indentStr;
+		        }
+		    }
+		    
+		    $prevChar = $char;
+		}
+		
+		return $result;	
+	 }
+	
 }

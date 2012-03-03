@@ -49,11 +49,11 @@ if (isset($_POST['user_migrate'])) {
 		// adding owncloud system files
 		OC_Log::write('user_migrate',"Adding app data to user export file",OC_Log::INFO);
 		// Call to OC_Migrate for the xml file.
-		$appdatafile = $tempdir . "/appdata.xml";
+		$appdatafile = $tempdir . "/userexport.json";
 		
 		$appdata = OC_Migrate::export(OC_User::getUser());
 		file_put_contents($appdatafile, $appdata);
-		$zip->addFile($appdatafile, "appdata.xml");
+		$zip->addFile($appdatafile, "userexport.json");
 		
     }
 
