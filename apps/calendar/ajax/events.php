@@ -27,8 +27,13 @@ function create_return_event($event, $vevent){
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
-$start = DateTime::createFromFormat('U', $_GET['start']);
-$end = DateTime::createFromFormat('U', $_GET['end']);
+if(version_compare(PHP_VERSION, '5.3.0', '>=')){
+	$start = DateTime::createFromFormat('U', $_GET['start']);
+	$end = DateTime::createFromFormat('U', $_GET['end']);
+}else{
+	$start = new DateTime('@' . $_GET['start']);
+	$end = new DateTime('@' . $_GET['end']);
+}
 
 $calendar_id = $_GET['calendar_id'];
 if (is_numeric($calendar_id)) {
