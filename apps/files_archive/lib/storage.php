@@ -13,10 +13,13 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 	 */
 	private $archive;
 	private $path;
+	private static $mounted=array();
+	private static $enableAutomount=true;
+	private static $rootView;
 	
 	private function stripPath($path){//files should never start with /
 		if(substr($path,0,1)=='/'){
-			return substr($path,1);
+			$path=substr($path,1);
 		}
 		return $path;
 	}
@@ -52,9 +55,14 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		if($path==''){
 			$stat=stat($this->path);
 		}else{
-			$stat=array();
-			$stat['mtime']=$this->archive->mtime($path);
-			$stat['size']=$this->archive->filesize($path);
+			if($this->is_dir($path)){
+				$stat=array('size'=>0);
+				$stat['mtime']=filemtime($this->path);
+			}else{
+				$stat=array();
+				$stat['mtime']=$this->archive->mtime($path);
+				$stat['size']=$this->archive->filesize($path);
+			}
 		}
 		$stat['ctime']=$ctime;
 		return $stat;
@@ -64,7 +72,11 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		if($path==''){
 			return 'dir';
 		}
-		return $this->archive->fileExists($path.'/')?'dir':'file';
+		if(substr($path,-1)=='/'){
+			return $this->archive->fileExists($path)?'dir':'file';
+		}else{
+			return $this->archive->fileExists($path.'/')?'dir':'file';
+		}
 	}
 	public function is_readable($path){
 		return is_readable($this->path);
@@ -98,5 +110,33 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		}else{
 			return false;//not supported
 		}
+	}
+
+	/**
+	 * automount paths from file hooks
+	 * @param aray params
+	 */
+	public static function autoMount($params){
+		if(!self::$enableAutomount){
+			return;
+		}
+		$path=$params['path'];
+		if(!self::$rootView){
+			self::$rootView=new OC_FilesystemView('');
+		}
+		self::$enableAutomount=false;//prevent recursion
+		$supported=array('zip');
+		foreach($supported as $type){
+			$ext='.'.$type.'/';
+			if(($pos=strpos(strtolower($path),$ext))!==false){
+				$archive=substr($path,0,$pos+strlen($ext)-1);
+				if(self::$rootView->file_exists($archive) and  array_search($archive,self::$mounted)===false){
+					$localArchive=self::$rootView->getLocalFile($archive);
+					OC_Filesystem::mount('OC_Filestorage_Archive',array('archive'=>$localArchive),$archive.'/');
+					self::$mounted[]=$archive;
+				}
+			}
+		}
+		self::$enableAutomount=true;
 	}
 }
