@@ -53,7 +53,7 @@ class OC_Gallery_Scanner {
     $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
     $current_album['name'] = self::createName($current_album['name']);
 
-    if ($dh = OC_Filesystem::opendir($path)) {
+    if ($dh = OC_Filesystem::opendir($path.'/')) {
       while (($filename = readdir($dh)) !== false) {
         $filepath = ($path[strlen($path)-1]=='/'?$path:$path.'/').$filename;
         if (substr($filename, 0, 1) == '.') continue;
@@ -64,7 +64,7 @@ class OC_Gallery_Scanner {
     }
     $current_album['imagesCount'] = count($current_album['images']);
     $albums['imagesCount'] = $current_album['imagesCount'];
-    $albums['albumName'] = $current_album['name'];
+    $albums['albumName'] = utf8_encode($current_album['name']);
 
     $result = OC_Gallery_Album::find(OC_User::getUser(), /*$current_album['name']*/ null, $path);
     // don't duplicate galleries with same path (bug oc-33)
@@ -103,21 +103,16 @@ class OC_Gallery_Scanner {
   }
 
   public static function find_paths($path) {
-    $ret = array();
-    $dirres;
-    $addpath = FALSE;
-    if (($dirres = OC_Filesystem::opendir($path)) == FALSE) return $ret;
-
-    while (($file = readdir($dirres)) != FALSE) {
-      if ($file[0] == '.') continue;
-      if (OC_Filesystem::is_dir($path.$file))
-        $ret = array_merge($ret, self::find_paths($path.$file.'/'));
-      if (self::isPhoto($path.$file)) $addpath = TRUE;
-    }
-
-    if ($addpath) $ret[] = urlencode($path);
-
-    return $ret;
+	$images=OC_FileCache::searchByMime('image');
+	$paths=array();
+	foreach($images as $image){
+		$path=dirname($image);
+		if(array_search($path,$paths)===false){
+			error_log($path);
+			$paths[]=$path;
+		}
+	}
+	return $paths;
   }
 }
 ?>

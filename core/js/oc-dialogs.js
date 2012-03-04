@@ -52,7 +52,7 @@ OCdialogs = {
    */
   confirm:function(text, title, callback) {
     var content = '<p><span class="ui-icon ui-icon-notice"></span>'+text+'</p>';
-    OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.YES_NO_BUTTON, callback);
+    OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.YES_NO_BUTTONS, callback);
   },
   /**
    * prompt for user input
@@ -60,8 +60,8 @@ OCdialogs = {
    * @param title dialog title
    * @param callback which will be triggered when user press OK (input text will be passed to callback)
    */
-  prompt:function(text, title, callback) {
-    var content = '<p><span class="ui-icon ui-icon-pencil"></span>'+text+':<br/><input type="text" id="oc-dialog-prompt-input" style="width:90%"></p>';
+  prompt:function(text, title, default_value, callback) {
+    var content = '<p><span class="ui-icon ui-icon-pencil"></span>'+text+':<br/><input type="text" id="oc-dialog-prompt-input" value="'+default_value+'" style="width:90%"></p>';
     OCdialogs.message(content, title, OCdialogs.PROMPT_DIALOG, OCdialogs.OK_CANCEL_BUTTONS, callback);
   },
   /**
@@ -131,15 +131,19 @@ OCdialogs = {
     }
     return $(element).val();
   },
-  prompt_ok_handler: function(callback, c_id){callback(true, $(c_id + " input#oc-dialog-prompt-input").val()); $(c_id).dialog('close');},
+  prompt_ok_handler: function(callback, c_id) { $(c_id).dialog('close'); if (callback != undefined) callback($(c_id + " input#oc-dialog-prompt-input").val()); },
   form_ok_handler: function(callback, c_id) {
-    var r = [];
-    var c = 0;
-    $(c_id + ' input').each(function(i, elem) {
-      r[c] = {name: $(elem).attr('name'), value: OCdialogs.determineValue(elem)};
-      c++;
-    });
-    $(c_id).dialog('close');
-    callback(r);
+    if (callback != undefined) {
+      var r = [];
+      var c = 0;
+      $(c_id + ' input').each(function(i, elem) {
+        r[c] = {name: $(elem).attr('name'), value: OCdialogs.determineValue(elem)};
+        c++;
+      });
+      $(c_id).dialog('close');
+      callback(r);
+    } else {
+      $(c_id).dialog('close');
+    }
   }
 };

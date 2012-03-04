@@ -12,3 +12,7 @@ foreach(array('ZIP') as $type){
 }
 
 OC::$CLASSPATH['OC_Filestorage_Archive']='apps/files_archive/lib/storage.php';
+
+OC_Hook::connect('OC_Filesystem','get_mountpoint','OC_Filestorage_Archive','autoMount');
+
+OC_Util::addScript( 'files_archive', 'archive' );

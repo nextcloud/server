@@ -168,19 +168,28 @@ class OC_FileCache{
 
 	/**
 	 * delete info from the cache
-	 * @param string $path
+	 * @param string/int $file
 	 * @param string root (optional)
 	 */
-	public static function delete($path,$root=''){
-		if(!$root){
-			$root=OC_Filesystem::getRoot();
+	public static function delete($file,$root=''){
+		if(!is_numeric($file)){
+			if(!$root){
+				$root=OC_Filesystem::getRoot();
+			}
+			if($root=='/'){
+				$root='';
+			}
+			$path=$root.$file;
+			self::delete(self::getFileId($path));
+		}elseif($file!=-1){
+			$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE parent=?');
+			$query->execute(array($file));
+			while($child=$query->fetchRow()){
+				self::delete(intval($child['id']));
+			}
+			$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE id=?');
+			$query->execute(array($file));
 		}
-		if($root=='/'){
-			$root='';
-		}
-		$path=$root.$path;
-		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE path=?');
-		$query->execute(array($path));
 	}
 	
 	/**
@@ -323,10 +332,11 @@ class OC_FileCache{
 		$path=$params['path'];
 		$fullPath=$view->getRoot().$path;
 		$mimetype=$view->getMimeType($path);
+		$dir=$view->is_dir($path.'/');
 		//dont use self::get here, we don't want inifinte loops when a file has changed
 		$cachedSize=self::getCachedSize($path,$root);
 		$size=0;
-		if($mimetype=='httpd/unix-directory'){
+		if($dir){
 			if(self::inCache($path,$root)){
 				$parent=self::getFileId($fullPath);
 				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
@@ -465,13 +475,13 @@ class OC_FileCache{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
 		self::scanFile($path,$root);
-		$dh=$view->opendir($path);
+		$dh=$view->opendir($path.'/');
 		$totalSize=0;
 		if($dh){
 			while (($filename = readdir($dh)) !== false) {
 				if($filename != '.' and $filename != '..'){
 					$file=$path.'/'.$filename;
-					if($view->is_dir($file)){
+					if($view->is_dir($file.'/')){
 						if($eventSource){
 							$eventSource->send('scanning',array('file'=>$file,'count'=>$count));
 						}

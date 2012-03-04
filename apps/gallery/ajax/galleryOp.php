@@ -62,7 +62,7 @@ function handleFilescan($cleanup) {
 
 function handlePartialCreate($path) {
   if (empty($path)) OC_JSON::error(array('cause' => 'No path specified'));
-  if (!OC_Filesystem::is_dir($path)) OC_JSON::error(array('cause' => 'Invalid path given'));
+  if (!OC_Filesystem::is_dir($path.'/')) OC_JSON::error(array('cause' => 'Invalid path given'));
 
   $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
   $albums = array();
@@ -86,6 +86,22 @@ function handleStoreSettings($root, $order) {
   OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'root', $root);
   OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'order', $order);
   OC_JSON::success(array('rescan' => $rescan));
+}
+
+
+function handleGetGalleries() {
+  $a = array();
+
+  $result = OC_Gallery_Album::find(OC_User::getUser());
+
+  while ($r = $result->fetchRow()) {
+    $album_name = $r['album_name'];
+    $tmp_res = OC_Gallery_Photo::find($r['album_id']);
+
+    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($tmp_res->numRows(), 10), 'bgPath' => OC::$WEBROOT.'/data/'.OC_User::getUser().'/gallery/'.$album_name.'.png');
+  }
+
+  OC_JSON::success(array('albums'=>$a));
 }
 
 if ($_GET['operation']) {
@@ -112,6 +128,9 @@ if ($_GET['operation']) {
     break;
   case 'store_settings':
     handleStoreSettings($_GET['root'], $_GET['order']);
+    break;
+  case 'get_galleries':
+    handleGetGalleries();
     break;
   default:
     OC_JSON::error(array('cause' => 'Unknown operation'));
