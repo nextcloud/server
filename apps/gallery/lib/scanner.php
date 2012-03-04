@@ -21,7 +21,7 @@
 * 
 */
 
-require_once('base.php'); // base lib
+require_once('base.php');
 require_once('images_utils.php');
 
 class OC_Gallery_Scanner {
@@ -40,20 +40,14 @@ class OC_Gallery_Scanner {
   }
 
   public static function createName($name) {
-    $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
-    $name = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $name));
-    if (substr($name, 0, strlen($root)) == str_replace('/','.',$root)) {
-      $name = substr($name, strlen($root));
-    }
-    $name = ($name==='.') ? 'main' : trim($name,'.');
-    return $name;
+    return basename($name);
   }
 
   public static function scanDir($path, &$albums) {
     $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
     $current_album['name'] = self::createName($current_album['name']);
 
-    if ($dh = OC_Filesystem::opendir($path.'/')) {
+    if ($dh = OC_Filesystem::opendir($path)) {
       while (($filename = readdir($dh)) !== false) {
         $filepath = ($path[strlen($path)-1]=='/'?$path:$path.'/').$filename;
         if (substr($filename, 0, 1) == '.') continue;
@@ -108,7 +102,6 @@ class OC_Gallery_Scanner {
 	foreach($images as $image){
 		$path=dirname($image);
 		if(array_search($path,$paths)===false){
-			error_log($path);
 			$paths[]=$path;
 		}
 	}

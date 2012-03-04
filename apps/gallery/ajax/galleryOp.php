@@ -41,7 +41,6 @@ function handleRemove($name) {
 
 function handleGetThumbnails($albumname) {
   OC_Response::enableCaching(3600 * 24); // 24 hour
-  error_log(htmlentities($albumname));
   $thumbnail = OC::$CONFIG_DATADIRECTORY.'/../gallery/'.urldecode($albumname).'.png';
   header('Content-Type: '.OC_Image::getMimeTypeForFile($thumbnail));
   OC_Response::sendFile($thumbnail);
@@ -88,20 +87,36 @@ function handleStoreSettings($root, $order) {
   OC_JSON::success(array('rescan' => $rescan));
 }
 
-
-function handleGetGalleries() {
+function handleGetGallery($path) {
   $a = array();
+  $root = OC_Preferences::getValue(OC_User::getUser(),'gallery', 'root', '/');
+  if (strlen($root) > 1)
+    $path = $root.'/'.trim($path, '/');
+  else
+    $path = '/'.ltrim($path, '/');
+  if (strlen($path) > 1) $path = rtrim($path, '/');
+  error_log($path);
+  $result = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
+  $album_details = $result->fetchRow();
 
-  $result = OC_Gallery_Album::find(OC_User::getUser());
+  $result = OC_Gallery_Album::find(OC_User::getUser(), null, null, $path);
 
   while ($r = $result->fetchRow()) {
     $album_name = $r['album_name'];
     $tmp_res = OC_Gallery_Photo::find($r['album_id']);
 
-    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($tmp_res->numRows(), 10), 'bgPath' => OC::$WEBROOT.'/data/'.OC_User::getUser().'/gallery/'.$album_name.'.png');
+    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($tmp_res->numRows(), 10));
+  }
+  
+  $result = OC_Gallery_Photo::find($album_details['album_id']);
+
+  $p = array();
+
+  while ($r = $result->fetchRow()) {
+    $p[] = utf8_encode($r['file_path']);
   }
 
-  OC_JSON::success(array('albums'=>$a));
+  OC_JSON::success(array('albums'=>$a, 'photos'=>$p));
 }
 
 if ($_GET['operation']) {
@@ -130,7 +145,10 @@ if ($_GET['operation']) {
     handleStoreSettings($_GET['root'], $_GET['order']);
     break;
   case 'get_galleries':
-    handleGetGalleries();
+    handleGetGalleries($_GET['path']);
+    break;
+  case 'get_gallery':
+    handleGetGallery($_GET['path']);
     break;
   default:
     OC_JSON::error(array('cause' => 'Unknown operation'));

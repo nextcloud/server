@@ -7,6 +7,7 @@ Albums={
   // to display to user as preview picture when scrolling throught
   // the album cover
   albums:new Array(),
+  photos:new Array(),
   // add simply adds new album to internal structure
   // however albums names must be unique so other
   // album with the same name wont be insered,
@@ -41,10 +42,11 @@ Albums={
   // displays gallery in linear representation
   // on given element, and apply default styles for gallery
   display: function(element) {
-    var displayTemplate = '<div class="gallery_album_box"><div class="dummy"></div><a class="view"><div class="gallery_album_cover"></div></a><h1></h1><div class="gallery_album_decoration"><a><img src="img/share.png" title="Share"></a><a class="rename"><img src="img/rename.png" title="Rename"></a><a class="remove"><img src="img/delete.png" title="Delete"></a></div></div>';
+    var displayTemplate = '<div class="gallery_box album"><div class="dummy"></div><a class="view"><div class="gallery_album_cover"></div></a><h1></h1><div class="gallery_album_decoration"><a><img src="img/share.png" title="Share"></a><a class="rename"><img src="img/rename.png" title="Rename"></a><a class="remove"><img src="img/delete.png" title="Delete"></a></div></div>';
     for (var i in Albums.albums) {
       var a = Albums.albums[i];
 	  var local=$(displayTemplate);
+    local.attr('title', a.name);
 	  local.attr('data-album',a.name);
 	  $(".gallery_album_decoration a.rename", local).bind('click', {name: a.name},function(event){
 			event.preventDefault();
@@ -54,7 +56,7 @@ Albums={
 		  event.preventDefault();
 		  galleryRemove(event.data.name);
     });
-    $("a.view", local).attr('href','?view='+decodeURIComponent(escape(a.name)));
+ //   $("a.view", local).attr('href','?view='+decodeURIComponent(escape(a.name)));
     $('h1',local).text(decodeURIComponent(escape(a.name)));
     $(".gallery_album_cover", local).attr('title',decodeURIComponent(escape(a.name)));
       $(".gallery_album_cover", local).css('background-repeat', 'no-repeat');
@@ -73,6 +75,13 @@ Albums={
       });
       $(element).append(local);
     }
+    var photoDisplayTemplate = '<div class="gallery_box"><div class="dummy"></div><div><a rel="images" href="'+OC.webroot+'/files/download.php?file=URLPATH"><img src="ajax/thumbnail.php?img=IMGPATH"></a></div></div>';
+    for (var i in Albums.photos) {
+      $(element).append(photoDisplayTemplate.replace("IMGPATH", escape(Albums.photos[i])).replace("URLPATH", escape(Albums.photos[i])));
+    }
+    $("a[rel=images]").fancybox({
+      'titlePosition': 'inside'
+    });
   },
   rename: function(element, new_name) {
     if (new_name) {

@@ -1,34 +1,62 @@
 var actual_cover;
-$(document).ready(function() {
-  $.getJSON('ajax/galleryOp.php', {operation: 'get_galleries'}, function(r) {
+var paths = '';
+var crumbCount = 0;
+$(document).ready(returnToElement(0));
+
+function returnToElement(num) {
+  while (crumbCount != num) {
+    $('#g-album-navigation .last').remove();
+    $('#g-album-navigation .crumb :last').parent().addClass('last');
+    crumbCount--;
+    paths = paths.substring(0, paths.lastIndexOf('\/'));
+  }
+  $.getJSON('ajax/galleryOp.php', {operation: 'get_gallery', path: paths }, albumClickHandler);
+}
+
+function albumClick(e) {
+  var title = decodeURIComponent(escape(e.data.title));
+  paths += '/' + title;
+  crumbCount++;
+  $.getJSON('ajax/galleryOp.php', {operation: 'get_gallery', path: paths }, albumClickHandler);
+  if ($('#g-album-navigation :last-child'))
+    $('#g-album-navigation :last-child').removeClass('last');
+  $('#g-album-navigation').append('<div class="crumb last real" style="background-image:url(\''+OC.webroot+'/core/img/breadcrumb.png\')"><a href=\"javascript:returnToElement('+crumbCount+');\">'+title+'</a></div>');
+}
+
+function albumClickHandler(r) {
+    Albums.photos = [];
+    Albums.albums = [];
     if (r.status == 'success') {
       for (var i in r.albums) {
         var a = r.albums[i];
         Albums.add(a.name, a.numOfItems);
       }
+      for (var i in r.photos) {
+        Albums.photos.push(r.photos[i]);
+      }
       var targetDiv = document.getElementById('gallery_list');
       if (targetDiv) {
         $(targetDiv).html('');
         Albums.display(targetDiv);
-        $('#gallery_list').sortable({revert:true});
-        $('.gallery_album_box').each(function(i, e) {
-          $(e).draggable({connectToSortable: '#gallery_list', handle: '.dummy'})
+        //$('#gallery_list').sortable({revert:true});
+        $('.album').each(function(i, el) {
+          $(el).click({title:$(el).attr('title')}, albumClick);
+          //$(el).draggable({connectToSortable: '#gallery_list', handle: '.dummy'});
         });
       } else {
-        alert('Error occured: no such layer `gallery_list`');
+        OC.dialogs.alert(t('gallery', 'Error: no such layer `gallery_list`'), t('gallery', 'Internal error'));
       }
     } else {
-      alert('Error occured: ' + r.message);
+      OC.dialogs.alert(t('gallery', 'Error: ') + r.message, t('gallery', 'Internal error'));
     }
-  });
-});
+}
 
 function createNewAlbum() {
   var name = prompt("album name", "");
   if (name != null && name != "") {
     $.getJSON("ajax/createAlbum.php", {album_name: name}, function(r) {
       if (r.status == "success") {
-        var v = '<div class="gallery_album_box"><a href="?view='+r.name+'"><img class="gallery_album_cover"/></a><h1>'+r.name+'</h1></div>';
+        var v = '<div class="gallery_box"><a href="?view='+r.name+'"><img class="gallery_album_cover"/></a><h1>'+r.name+'</h1></div>';
         $('div#gallery_list').append(v);
       }
     });
@@ -53,11 +81,7 @@ function scanForAlbums(cleanup) {
       }
       $('#scanprogressbar').progressbar({ value: (albumCounter/totalAlbums)*100 }).fadeIn();
       for(var a in r.paths) {
-		  $.getJSON('ajax/galleryOp.php',{operation:'partial_create','path':r.paths[a]}, function(r) {
-
-          if (r.status == 'success') {
-            Albums.add(r.album_details.albumName, r.album_details.imagesCount);
-          }
+        $.getJSON('ajax/galleryOp.php',{operation:'partial_create','path':r.paths[a]}, function(r) {
 
           albumCounter++;
           $('#scanprogressbar').progressbar({ value: (albumCounter/totalAlbums)*100 });
@@ -66,7 +90,9 @@ function scanForAlbums(cleanup) {
             var targetDiv = document.getElementById('gallery_list');
             if (targetDiv) {
               targetDiv.innerHTML = '';
-              Albums.display(targetDiv);
+              Albums.photos = [];
+              Albums.albums = [];
+              returnToElement(0);
             } else {
               alert('Error occured: no such layer `gallery_list`');
             }
@@ -87,7 +113,7 @@ function galleryRemove(albumName) {
     if (decision) {
       $.getJSON("ajax/galleryOp.php", {operation: "remove", name: decodeURIComponent(escape(albumName))}, function(r) {
         if (r.status == "success") {
-          $(".gallery_album_box").filterAttr('data-album',albumName).remove();
+          $(".gallery_box").filterAttr('data-album',albumName).remove();
           Albums.remove(albumName);
         } else {
           OC.dialogs.alert(r.cause, "Error");
@@ -109,7 +135,7 @@ function galleryRename(name) {
     }
     $.getJSON('ajax/galleryOp.php', {operation: 'rename', oldname: name, newname: newname}, function(r) {
       if (r.status == 'success') {
-        Albums.rename($(".gallery_album_box").filterAttr('data-album',name), newname);
+        Albums.rename($(".gallery_box").filterAttr('data-album',name), newname);
       } else {
         OC.dialogs.alert('Error: ' + r.cause, 'Error');
       }
