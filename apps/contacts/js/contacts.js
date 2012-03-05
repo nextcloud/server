@@ -448,6 +448,9 @@ Contacts={
 				$('#fn_select option').remove();
 				$('#fn_select').combobox('value', this.fn);
 				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				if(this.data.ORG) {
+					names[names.length]=this.data.ORG[0].value;
+				}
 				$.each(names, function(key, value) {
 					$('#fn_select')
 						.append($('<option></option>')
