@@ -95,7 +95,7 @@ if(file_exists($tmp_path)) {
 						OC_Log::write('contacts','savecrop.php: files: Adding PHOTO property.', OC_Log::DEBUG);
 						$card->addProperty('PHOTO', $image->__toString(), array('ENCODING' => 'b', 'TYPE' => $image->mimeType()));
 					}
-					if(!OC_Contacts_VCard::edit($id,$card->serialize())) {
+					if(!OC_Contacts_VCard::edit($id,$card)) {
 						bailOut('Error saving contact.');
 					}
 					unlink($tmpfname);

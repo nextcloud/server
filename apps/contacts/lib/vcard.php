@@ -217,31 +217,35 @@ class OC_Contacts_VCard{
 
 	/**
 	 * @brief Adds a card
-	 * @param integer $id Addressbook id
-	 * @param string $data  vCard file
-	 * @return insertid on success or null if card is not parseable.
+	 * @param integer $aid Addressbook id
+	 * @param OC_VObject $card  vCard file
+	 * @param string $uri the uri of the card, default based on the UID
+	 * @return insertid on success or null if no card.
 	 */
-	public static function add($id,$data){
-		$fn = null;
-
-		$card = OC_VObject::parse($data);
-		if(!is_null($card)){
-			self::updateValuesFromAdd($card);
-			$data = $card->serialize();
-		}
-		else{
-			OC_Log::write('contacts','OC_Contacts_VCard::add. Error parsing VCard: '.$data,OC_Log::ERROR);
-			return null; // Ditch cards that can't be parsed by Sabre.
+	public static function add($aid, $card, $uri=null){
+		if(is_null($card)){
+			OC_Log::write('contacts','OC_Contacts_VCard::add. No vCard supplied', OC_Log::ERROR);
+			return null;
 		};
 
+		self::updateValuesFromAdd($card);
+
 		$fn = $card->getAsString('FN');
-		$uid = $card->getAsString('UID');
-		$uri = $uid.'.vcf';
+		if (empty($fn)) {
+			$fn = null;
+		}
+
+		if (!$uri) {
+			$uid = $card->getAsString('UID');
+			$uri = $uid.'.vcf';
+		}
+
+		$data = $card->serialize();
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
+		$result = $stmt->execute(array($aid,$fn,$data,$uri,time()));
 		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
 
-		OC_Contacts_Addressbook::touch($id);
+		OC_Contacts_Addressbook::touch($aid);
 
 		return $newid;
 	}
@@ -255,49 +259,31 @@ class OC_Contacts_VCard{
 	 */
 	public static function addFromDAVData($id,$uri,$data){
 		$card = OC_VObject::parse($data);
-		if(!is_null($card)){
-			self::updateValuesFromAdd($card);
-			$data = $card->serialize();
-		} else {
-			OC_Log::write('contacts','OC_Contacts_VCard::addFromDAVData. Error parsing VCard: '.$data, OC_Log::ERROR);
-			return null; // Ditch cards that can't be parsed by Sabre.
-		};
-		$fn = $card->getAsString('FN');
-
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$fn,$data,$uri,time()));
-		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
-
-		OC_Contacts_Addressbook::touch($id);
-
-		return $newid;
+		return self::add($id, $data, $uri);
 	}
 
 	/**
 	 * @brief edits a card
 	 * @param integer $id id of card
-	 * @param string $data  vCard file
+	 * @param OC_VObject $card  vCard file
 	 * @return boolean
 	 */
-	public static function edit($id, $data){
+	public static function edit($id, OC_VObject $card){
 		$oldcard = self::find($id);
-		$fn = null;
 
-		$card = OC_VObject::parse($data);
-		if(!is_null($card)){
-			foreach($card->children as $property){
-				if($property->name == 'FN'){
-					$fn = $property->value;
-					break;
-				}
-			}
-		} else {
+		if(is_null($card)) {
 			return false;
 		}
+
+		$fn = $card->getAsString('FN');
+		if (empty($fn)) {
+			$fn = null;
+		}
+
 		$now = new DateTime;
 		$card->setString('REV', $now->format(DateTime::W3C));
-		$data = $card->serialize();
 
+		$data = $card->serialize();
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$id));
 
@@ -315,27 +301,8 @@ class OC_Contacts_VCard{
 	 */
 	public static function editFromDAVData($aid,$uri,$data){
 		$oldcard = self::findWhereDAVDataIs($aid,$uri);
-
-		$fn = null;
 		$card = OC_VObject::parse($data);
-		if(!is_null($card)){
-			foreach($card->children as $property){
-				if($property->name == 'FN'){
-					$fn = $property->value;
-					break;
-				}
-			}
-		}
-		$now = new DateTime;
-		$card->setString('REV', $now->format(DateTime::W3C));
-		$data = $card->serialize();
-
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
-		$result = $stmt->execute(array($fn,$data,time(),$oldcard['id']));
-
-		OC_Contacts_Addressbook::touch($oldcard['addressbookid']);
-
-		return true;
+		return self::edit($oldcard['id'], $card);
 	}
 
 	/**
@@ -349,14 +316,6 @@ class OC_Contacts_VCard{
 		$stmt->execute(array($id));
 
 		return true;
-	}
-
-	/**
-	 * @brief Creates a UID
-	 * @return string
-	 */
-	public static function createUID(){
-		return substr(md5(rand().time()),0,10);
 	}
 
 	/**

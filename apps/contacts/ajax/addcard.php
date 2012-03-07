@@ -92,7 +92,7 @@ foreach( $add as $propname){
 		}
 	}
 }
-$id = OC_Contacts_VCard::add($aid,$vcard->serialize());
+$id = OC_Contacts_VCard::add($aid,$vcard);
 if(!$id) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
 	OC_Log::write('contacts','ajax/addcard.php: Recieved non-positive ID on adding card: '.$id, OC_Log::ERROR);

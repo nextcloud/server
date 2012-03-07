@@ -122,7 +122,7 @@ switch($element) {
 $checksum = md5($vcard->children[$line]->serialize());
 debug('New checksum: '.$checksum);
 
-if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error updating contact property.'))));
 	OC_Log::write('contacts','ajax/setproperty.php: Error updating contact property: '.$value, OC_Log::ERROR);
 	exit();

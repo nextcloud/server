@@ -92,7 +92,7 @@ class OC_Contacts_App {
 				OC_Log::write('contacts','getContactVCard, found FN field: '.$vcard->__get('FN'), OC_Log::DEBUG);
 				$n = implode(';', array_reverse(array_slice(explode(' ', $vcard->__get('FN')), 0, 2))).';;;';
 				$vcard->setString('N', $n);
-				OC_Contacts_VCard::edit( $id, $vcard->serialize());
+				OC_Contacts_VCard::edit( $id, $vcard);
 			} else { // Else just add an empty 'N' field :-P
 				$vcard->setString('N', 'Unknown;Name;;;');
 			}
