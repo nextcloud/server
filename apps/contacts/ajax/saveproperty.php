@@ -92,6 +92,7 @@ switch($element) {
 	case 'N':
 	case 'ORG':
 	case 'NICKNAME':
+	case 'CATEGORIES':
 		debug('Setting string:'.$name.' '.$value);
 		$vcard->setString($name, $value);
 		break;

@@ -223,6 +223,7 @@ Contacts={
 					click: function() { $(this).dialog('close'); }
 				}
 			] );
+			$('#categories').multiple_autocomplete({source: categories});
 			Contacts.UI.loadListHandlers();
 		},
 		Card:{
@@ -371,7 +372,7 @@ Contacts={
 				this.loadSingleProperties();
 			},
 			loadSingleProperties:function() {
-				var props = ['BDAY', 'NICKNAME', 'ORG'];
+				var props = ['BDAY', 'NICKNAME', 'ORG', 'CATEGORIES'];
 				// Clear all elements
 				$('#ident .propertycontainer').each(function(){
 					if(props.indexOf($(this).data('element')) > -1) {
@@ -406,6 +407,12 @@ Contacts={
 								$('#contact_identity').find('#org_value').data('checksum', checksum);
 								$('#contact_identity').find('#org_label').show();
 								$('#contact_identity').find('#org_value').show();
+								break;
+							case 'CATEGORIES':
+								$('#contact_identity').find('#categories').val(value);
+								$('#contact_identity').find('#categories_value').data('checksum', checksum);
+								$('#contact_identity').find('#categories_label').show();
+								$('#contact_identity').find('#categories_value').show();
 								break;
 						}
 					} else {
@@ -596,6 +603,7 @@ Contacts={
 					case 'NICKNAME':
 					case 'ORG':
 					case 'BDAY':
+					case 'CATEGORIES':
 						$('dl dt[data-element="'+type+'"],dd[data-element="'+type+'"]').show();
 						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
 						break;

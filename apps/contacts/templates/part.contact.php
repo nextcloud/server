@@ -13,6 +13,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<li><a data-type="TEL"><?php echo $l->t('Phone'); ?></a></li>
 		<li><a data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
 		<li><a data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
+		<li><a data-type="CATEGORIES"><?php echo $l->t('Categories'); ?></a></li>
 	</ul>
 	</div>
 	<img  onclick="Contacts.UI.Card.export();" class="svg action" id="contacts_downloadcard" src="<?php echo image_path('', 'actions/download.svg'); ?>" title="<?php echo $l->t('Download contact');?>" />
@@ -53,6 +54,8 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<dd style="display:none;" class="propertycontainer" id="nickname_value" data-element="NICKNAME"><input id="nickname" required="required" name="value[NICKNAME]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Enter nickname'); ?>" /><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt style="display:none;" id="bday_label" data-element="BDAY"><label for="bday"><?php echo $l->t('Birthday'); ?></label></dt>
 		<dd style="display:none;" class="propertycontainer" id="bday_value" data-element="BDAY"><input id="bday"  required="required" name="value" type="text" class="contacts_property" value="" placeholder="<?php echo $l->t('dd-mm-yyyy'); ?>" /><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
+		<dt style="display:none;" id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Organization'); ?></label></dt>
+		<dd style="display:none;" class="propertycontainer" id="categories_value" data-element="CATEGORIES"><input id="categories"  required="required" name="value[CATEGORIES]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Categories'); ?>" /><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 	</dl>
 	</fieldset>
 	</form>

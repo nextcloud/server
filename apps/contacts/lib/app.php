@@ -155,6 +155,10 @@ class OC_Contacts_App {
 		}
 	}
 
+	public static function getCategories() {
+		return self::$categories->categories();
+	}
+
 	public static function setLastModifiedHeader($contact) {
 		$rev = $contact->getAsString('REV');
 		if ($rev) {
