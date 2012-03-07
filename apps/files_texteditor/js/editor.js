@@ -172,6 +172,7 @@ function giveEditorFocus(){
 function showFileEditor(dir,filename){
 	if(!editorIsShown()){
 		// Loads the file editor and display it.
+		$('#content').append('<div id="editor"></div>');
 		var data = $.getJSON(
 			OC.filePath('files_texteditor','ajax','loadfile.php'),
 			{file:filename,dir:dir},
@@ -273,10 +274,10 @@ $(document).ready(function(){
 			var dir=text.substr(0,text.length-file.length-1);
 			showFileEditor(dir,file);
 		});
-	}
+	};
 	// Binds the file save and close editor events, and gotoline button
 	bindControlEvents();
-	
+	$('#editor').remove();
 	// Binds the save keyboard shortcut events
 	//$(document).unbind('keydown').bind('keydown',checkForSaveKeyPress);
 });

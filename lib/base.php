@@ -54,6 +54,22 @@ class OC{
 	 * the folder that stores the data for the root filesystem (e.g. /srv/http/owncloud/data)
 	 */
 	public static $CONFIG_DATADIRECTORY_ROOT = '';
+	/**
+	 * The installation path of the 3rdparty folder on the server (e.g. /srv/http/owncloud/3rdparty)
+	 */
+	public static $THIRDPARTYROOT = '';
+	/**
+	 * the root path of the 3rdparty folder for http requests (e.g. owncloud/3rdparty)
+	 */
+	public static $THIRDPARTYWEBROOT = '';
+        /**
+         * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
+         */
+        public static $APPSROOT = '';
+        /**
+         * the root path of the apps folder for http requests (e.g. owncloud)
+         */
+        public static $APPSWEBROOT = '';
 
 	/**
 	 * SPL autoload
@@ -128,6 +144,12 @@ class OC{
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
 
+		// register the stream wrappers
+		require_once('streamwrappers.php');
+		stream_wrapper_register("fakedir", "OC_FakeDirStream");
+		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
+		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
+		
 		// calculate the documentroot
 		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
@@ -135,15 +157,60 @@ class OC{
 		$scriptName=$_SERVER["SCRIPT_NAME"];
 		if(substr($scriptName,-1)=='/'){
 			$scriptName.='index.php';
+			//make sure suburi follows the same rules as scriptName
+			if(substr(OC::$SUBURI,-9)!='index.php'){
+				if(substr(OC::$SUBURI,-1)!='/'){
+					OC::$SUBURI=OC::$SUBURI.'/';
+				}
+				OC::$SUBURI=OC::$SUBURI.'index.php';
+			}
 		}
-		OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
+                OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
+		// try a new way to detect the WEBROOT which is simpler and also works with the app directory outside the owncloud folder. let´s see if this works for everybody
+//		OC::$WEBROOT=substr(OC::$SERVERROOT,strlen(OC::$DOCUMENTROOT));
+
 
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
 			OC::$WEBROOT='/'.OC::$WEBROOT;
 		}
 
+		// search the 3rdparty folder
+		if(OC_Config::getValue('3rdpartyroot', '')<>'' and OC_Config::getValue('3rdpartyurl', '')<>''){
+			OC::$THIRDPARTYROOT=OC_Config::getValue('3rdpartyroot', '');
+			OC::$THIRDPARTYWEBROOT=OC_Config::getValue('3rdpartyurl', '');
+		}elseif(file_exists(OC::$SERVERROOT.'/3rdparty')){
+			OC::$THIRDPARTYROOT=OC::$SERVERROOT;
+			OC::$THIRDPARTYWEBROOT=OC::$WEBROOT;
+		}elseif(file_exists(OC::$SERVERROOT.'/../3rdparty')){
+			OC::$THIRDPARTYWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
+			OC::$THIRDPARTYROOT=rtrim(dirname(OC::$SERVERROOT), '/');
+		}else{
+			echo("3rdparty directory not found! Please put the ownCloud 3rdparty folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
+			exit;
+		}
+
+		// search the apps folder
+		if(file_exists(OC::$SERVERROOT.'/apps')){
+			OC::$APPSROOT=OC::$SERVERROOT;
+			OC::$APPSWEBROOT=OC::$WEBROOT;
+		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
+			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
+			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
+		}else{
+			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
+			exit;
+		}
+
 		// set the right include path
-		set_include_path(OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.OC::$SERVERROOT.'/config'.PATH_SEPARATOR.OC::$SERVERROOT.'/3rdparty'.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.OC::$SERVERROOT);
+		set_include_path(
+			OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.
+			OC::$SERVERROOT.'/config'.PATH_SEPARATOR.
+			OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.
+			OC::$APPSROOT.PATH_SEPARATOR.
+			OC::$APPSROOT.'/apps'.PATH_SEPARATOR.
+			get_include_path().PATH_SEPARATOR.
+			OC::$SERVERROOT
+		);
 
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
@@ -203,8 +270,10 @@ class OC{
 		OC_Util::addScript( "jquery-showpassword" );
 		OC_Util::addScript( "jquery.infieldlabel.min" );
 		OC_Util::addScript( "jquery-tipsy" );
+		OC_Util::addScript( "oc-dialogs" );
 		OC_Util::addScript( "js" );
 		OC_Util::addScript( "eventsource" );
+		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search','result');
 		OC_Util::addStyle( "styles" );
@@ -230,6 +299,7 @@ class OC{
 			$_SESSION['user_id'] = '';
 		}
 
+
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
 
@@ -246,9 +316,8 @@ class OC{
 			OC_App::loadApps();
 		}
 
-		// Last part: connect some hooks
-		OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
-		OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');
+		//make sure temporary files are cleaned up
+		register_shutdown_function(array('OC_Helper','cleanTmp'));
 	}
 }
 
@@ -271,15 +340,10 @@ if(!function_exists('get_temp_dir')) {
 			unlink($temp);
 			return dirname($temp);
 		}
+		if( $temp=sys_get_temp_dir())    return $temp;
+		
 		return null;
 	}
 }
 
 OC::init();
-
-require_once('fakedirstream.php');
-
-
-
-// FROM search.php
-new OC_Search_Provider_File();

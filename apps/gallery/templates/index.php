@@ -2,17 +2,23 @@
 OC_Util::addStyle('gallery', 'styles');
 OC_Util::addScript('gallery', 'albums');
 OC_Util::addScript('gallery', 'album_cover');
+OC_Util::addStyle('files', 'files');
+OC_Util::addScript('files_imageviewer', 'jquery.mousewheel-3.0.4.pack');
+OC_Util::addScript('files_imageviewer', 'jquery.fancybox-1.3.4.pack');
+OC_Util::addStyle( 'files_imageviewer', 'jquery.fancybox-1.3.4' );
 $l = new OC_L10N('gallery');
 ?>
 
-<div id="notification"><div id="gallery_notification_text">Creating thumbnails</div></div>
 <div id="controls">
   <div id="scan">
     <div id="scanprogressbar"></div>
     <input type="button" id="g-scan-button" value="<?php echo $l->t('Rescan');?>" onclick="javascript:scanForAlbums();" />
-  </div>
-  <div id="g-settings">
     <input type="button" id="g-settings-button" value="<?php echo $l->t('Settings');?>" onclick="javascript:settings();"/>
+  </div>
+  <div id="g-album-navigation">
+    <div class="crumb last" style="background-image:url('/owncloud/core/img/breadcrumb.png')">
+      <a href="javascript:returnToElement(0);">main</a>
+    </div>
   </div>
 </div>
 <div id="gallery_list">

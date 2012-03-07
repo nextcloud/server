@@ -4,13 +4,12 @@ $(document).ready(function() {
 
 function addBookmark(event) {
 	var url = $('#bookmark_add_url').val();
-	var title = $('#bookmark_add_title').val();
 	var tags = $('#bookmark_add_tags').val();
 	$.ajax({
 		url: 'ajax/addBookmark.php',
-		data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
+		data: 'url=' + encodeURI(url) + '&tags=' + encodeURI(tags),
 		success: function(data){ 
-			location.href='index.php';
+			window.close();
 		}
 	});
 }

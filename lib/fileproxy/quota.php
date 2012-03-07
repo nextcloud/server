@@ -26,11 +26,37 @@
  */
 
 class OC_FileProxy_Quota extends OC_FileProxy{
+	private $userQuota=-1;
+	
+	/**
+	 * get the quota for the current user
+	 * @return int
+	 */
+	private function getQuota(){
+		if($this->userQuota!=-1){
+			return $this->userQuota;
+		}
+		$userQuota=OC_Preferences::getValue(OC_User::getUser(),'files','quota','default');
+		if($userQuota=='default'){
+			$userQuota=OC_AppConfig::getValue('files','default_quota','none');
+		}
+		if($userQuota=='none'){
+			$this->userQuota=0;
+		}else{
+			$this->userQuota=OC_Helper::computerFileSize($userQuota);
+		}
+		return $this->userQuota;
+		
+	}
+	
+	/**
+	 * get the free space in the users home folder
+	 * @return int
+	 */
 	private function getFreeSpace(){
 		$rootInfo=OC_FileCache::get('');
 		$usedSpace=$rootInfo['size'];
-		$totalSpace=OC_Preferences::getValue(OC_User::getUser(),'files','quota',0);
-		$totalSpace=OC_Helper::computerFileSize($totalSpace);
+		$totalSpace=$this->getQuota();
 		if($totalSpace==0){
 			return 0;
 		}

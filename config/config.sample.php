@@ -13,6 +13,8 @@ $CONFIG = array(
 "forcessl" => false,
 "enablebackup" => false,
 "theme" => "",
+"3rdpartyroot" => "",
+"3rdpartyurl" => "",
 // "datadirectory" => ""
 );
 ?>

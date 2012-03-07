@@ -23,10 +23,11 @@
 
 class OC_Gallery_Album {
 	public static function create($owner, $name, $path){
-		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_albums (uid_owner, album_name, album_path) VALUES (?, ?, ?)');
-		$stmt->execute(array($owner, $name, $path));
+    $id = self::getParentPath($path);
+		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_albums (uid_owner, album_name, album_path, parent_path) VALUES (?, ?, ?, ?)');
+		$stmt->execute(array($owner, $name, $path, $id));
 	}
-	
+
 	public static function rename($oldname, $newname, $owner) {
 	    $stmt = OC_DB::prepare('UPDATE *PREFIX*gallery_albums SET album_name=? WHERE uid_owner=? AND album_name=?');
 		$stmt->execute(array($newname, $owner, $oldname));
@@ -39,7 +40,14 @@ class OC_Gallery_Album {
       self::remove(OC_User::getUser(), $r['album_name']);
     }
   }
-	
+
+  public static function getParentPath($path) {
+    if (strlen($path)==1) return '';
+    $path = substr($path, 0, strrpos($path, '/'));
+    if ($path == '') $path = '/';
+    return $path;
+  }
+
 	public static function remove($owner, $name=null) {
 		$sql = 'DELETE FROM *PREFIX*gallery_albums WHERE uid_owner = ?';
 		$args = array($owner);
@@ -66,7 +74,7 @@ class OC_Gallery_Album {
     }
   }
 	
-  public static function find($owner, $name=null, $path=null){
+  public static function find($owner, $name=null, $path=null, $parent=null){
 		$sql = 'SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ?';
 		$args = array($owner);
 		if (!is_null($name)){
@@ -76,6 +84,10 @@ class OC_Gallery_Album {
     if (!is_null($path)){
       $sql .= ' AND album_path = ?';
       $args[] = $path;
+    }
+    if (!is_null($parent)){
+      $sql .= ' AND parent_path = ?';
+      $args[] = $parent;
     }
     $order = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'order', 'ASC');
     $sql .= ' ORDER BY album_name ' . $order;
@@ -93,6 +105,13 @@ class OC_Gallery_Album {
     require_once('../../../lib/base.php');
     $thumbpath = OC::$CONFIG_DATADIRECTORY.'/../gallery/';
     rename($thumbpath.$oldname.'.png', $thumbpath.$newname.'.png');
+  }
+
+  public static function getAlbumSize($id){
+	$sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos WHERE album_id = ?';
+	$stmt = OC_DB::prepare($sql);
+	$result=$stmt->execute(array($id))->fetchRow();
+	return $result['size'];
   }
 
 }

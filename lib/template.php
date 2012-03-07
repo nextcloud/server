@@ -171,7 +171,7 @@ class OC_Template{
 		// Check if it is a app template or not.
 		if( $app != "" ){
 			// Check if the app is in the app folder or in the root
-			if( file_exists( OC::$SERVERROOT."/apps/$app/templates/" )){
+			if( file_exists( OC::$APPSROOT."/apps/$app/templates/" )){
 				// Check if the template is overwritten by the selected theme
 				if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name$fext.php" )){
 					$template = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name$fext.php";
@@ -179,12 +179,12 @@ class OC_Template{
 				}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name.php" )){
 					$template = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/"."$name.php";
 					$path = OC::$SERVERROOT."/themes/$theme/apps/$app/templates/";
-				}elseif( OC::$SERVERROOT."/apps/$app/templates/"."$name$fext.php" ){
-					$template = OC::$SERVERROOT."/apps/$app/templates/"."$name$fext.php";
-					$path = OC::$SERVERROOT."/apps/$app/templates/";
+				}elseif( OC::$APPSROOT."/apps/$app/templates/"."$name$fext.php" ){
+					$template = OC::$APPSROOT."/apps/$app/templates/"."$name$fext.php";
+					$path = OC::$APPSROOT."/apps/$app/templates/";
 				}else{
-					$template = OC::$SERVERROOT."/apps/$app/templates/"."$name.php";
-					$path = OC::$SERVERROOT."/apps/$app/templates/";
+					$template = OC::$APPSROOT."/apps/$app/templates/"."$name.php";
+					$path = OC::$APPSROOT."/apps/$app/templates/";
 				}
 			}else{
 				// Check if the template is overwritten by the selected theme
@@ -197,12 +197,15 @@ class OC_Template{
 				}elseif( file_exists( OC::$SERVERROOT."/$app/templates/"."$name$fext.php" )){
 					$template = OC::$SERVERROOT."/$app/templates/"."$name$fext.php";
 					$path = OC::$SERVERROOT."/$app/templates/";
-				}else{
+				}elseif( file_exists( OC::$SERVERROOT."/$app/templates/"."$name.php" )){
 					$template = OC::$SERVERROOT."/$app/templates/"."$name.php";
 					$path = OC::$SERVERROOT."/$app/templates/";
+				}else{
+					echo('template not found: template:'.$name.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);	
+					die();
 				}
 
-			}
+			}	
 		}else{
 			// Check if the template is overwritten by the selected theme
 			if( file_exists( OC::$SERVERROOT."/themes/$theme/core/templates/"."$name$fext.php" )){
@@ -346,52 +349,76 @@ class OC_Template{
 
 			// Add the core js files or the js files provided by the selected theme
 			foreach(OC_Util::$scripts as $script){
-				if(is_file(OC::$SERVERROOT."/themes/$theme/apps/$script$fext.js" )){
+				// Is it in 3rd party?
+				if(is_file(OC::$THIRDPARTYROOT."/$script.js" )){
+					$page->append( "jsfiles", OC::$THIRDPARTYWEBROOT."/$script.js" );
+
+				// Is it in apps and overwritten by the theme?
+				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/apps/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/apps/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/apps/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/apps/$script.js" );
 
-				}elseif(is_file(OC::$SERVERROOT."/apps/$script$fext.js" )){
-					$page->append( "jsfiles", OC::$WEBROOT."/apps/$script$fext.js" );
-				}elseif(is_file(OC::$SERVERROOT."/apps/$script.js" )){
-					$page->append( "jsfiles", OC::$WEBROOT."/apps/$script.js" );
+				// Is it part of an app?
+				}elseif(is_file(OC::$APPSROOT."/apps/$script$fext.js" )){
+					$page->append( "jsfiles", OC::$APPSWEBROOT."/apps/$script$fext.js" );
+				}elseif(is_file(OC::$APPSROOT."/apps/$script.js" )){
+					$page->append( "jsfiles", OC::$APPSWEBROOT."/apps/$script.js" );
 
+				// Is it in the owncloud root but overwritten by the theme?
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/$script.js" );
-
+	
+				// Is it in the owncloud root ?
 				}elseif(is_file(OC::$SERVERROOT."/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/$script.js" );
 
+				// Is in core but overwritten by a theme?
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/core/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/core/$script$fext.js" );
 				}elseif(is_file(OC::$SERVERROOT."/themes/$theme/core/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/themes/$theme/core/$script.js" );
 
+				// Is it in core?
 				}elseif(is_file(OC::$SERVERROOT."/core/$script$fext.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/core/$script$fext.js" );
-				}else{
+				}elseif(is_file(OC::$SERVERROOT."/core/$script.js" )){
 					$page->append( "jsfiles", OC::$WEBROOT."/core/$script.js" );
+
+				}else{
+					echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);	
+					die();
 
 				}
 			}
 			// Add the css files
 			foreach(OC_Util::$styles as $style){
-				if(is_file(OC::$SERVERROOT."/apps/$style$fext.css" )){
-					$page->append( "cssfiles", OC::$WEBROOT."/apps/$style$fext.css" );
-				}elseif(is_file(OC::$SERVERROOT."/apps/$style.css" )){
-					$page->append( "cssfiles", OC::$WEBROOT."/apps/$style.css" );
+				// is it in 3rdparty?
+				if(is_file(OC::$THIRDPARTYROOT."/$style.css" )){
+					$page->append( "cssfiles", OC::$THIRDPARTYWEBROOT."/$style.css" );
+				// or in apps?
+				}elseif(is_file(OC::$APPSROOT."/apps/$style$fext.css" )){
+					$page->append( "cssfiles", OC::$APPSWEBROOT."/apps/$style$fext.css" );
+				}elseif(is_file(OC::$APPSROOT."/apps/$style.css" )){
+					$page->append( "cssfiles", OC::$APPSWEBROOT."/apps/$style.css" );
+				// or in the owncloud root?
 				}elseif(is_file(OC::$SERVERROOT."/$style$fext.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/$style$fext.css" );
 				}elseif(is_file(OC::$SERVERROOT."/$style.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/$style.css" );
+				// or in core ?	
 				}elseif(is_file(OC::$SERVERROOT."/core/$style$fext.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/core/$style$fext.css" );
-				}else{
+				}elseif(is_file(OC::$SERVERROOT."/core/$style.css" )){
 					$page->append( "cssfiles", OC::$WEBROOT."/core/$style.css" );
+
+				}else{
+					echo('css file not found: style:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);	
+					die();
 				}
 			}
                         // Add the theme css files. you can override the default values here

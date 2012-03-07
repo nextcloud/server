@@ -21,7 +21,7 @@
 * 
 */
 
-require_once('base.php'); // base lib
+require_once('base.php');
 require_once('images_utils.php');
 
 class OC_Gallery_Scanner {
@@ -40,20 +40,14 @@ class OC_Gallery_Scanner {
   }
 
   public static function createName($name) {
-    $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
-    $name = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $name));
-    if (substr($name, 0, strlen($root)) == str_replace('/','.',$root)) {
-      $name = substr($name, strlen($root));
-    }
-    $name = ($name==='.') ? 'main' : trim($name,'.');
-    return $name;
+    return basename($name);
   }
 
   public static function scanDir($path, &$albums) {
     $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
     $current_album['name'] = self::createName($current_album['name']);
 
-    if ($dh = OC_Filesystem::opendir($path)) {
+    if ($dh = OC_Filesystem::opendir($path.'/')) {
       while (($filename = readdir($dh)) !== false) {
         $filepath = ($path[strlen($path)-1]=='/'?$path:$path.'/').$filename;
         if (substr($filename, 0, 1) == '.') continue;
@@ -64,19 +58,19 @@ class OC_Gallery_Scanner {
     }
     $current_album['imagesCount'] = count($current_album['images']);
     $albums['imagesCount'] = $current_album['imagesCount'];
-    $albums['albumName'] = $current_album['name'];
+    $albums['albumName'] = utf8_encode($current_album['name']);
 
     $result = OC_Gallery_Album::find(OC_User::getUser(), /*$current_album['name']*/ null, $path);
     // don't duplicate galleries with same path (bug oc-33)
-    if ($result->numRows() == 0 && count($current_album['images'])) {
-      OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
+    if (!($albumId = $result->fetchRow()) && count($current_album['images'])) {
+        OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
 	    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
+	    $albumId = $result->fetchRow();
     }
-    $albumId = $result->fetchRow();
     $albumId = $albumId['album_id'];
     foreach ($current_album['images'] as $img) {
       $result = OC_Gallery_Photo::find($albumId, $img);
-      if ($result->numRows() == 0) {
+      if (!$result->fetchRow()) {
 	      OC_Gallery_Photo::create($albumId, $img);
       }
     }
@@ -103,21 +97,15 @@ class OC_Gallery_Scanner {
   }
 
   public static function find_paths($path) {
-    $ret = array();
-    $dirres;
-    $addpath = FALSE;
-    if (($dirres = OC_Filesystem::opendir($path)) == FALSE) return $ret;
-
-    while (($file = readdir($dirres)) != FALSE) {
-      if ($file[0] == '.') continue;
-      if (OC_Filesystem::is_dir($path.$file))
-        $ret = array_merge($ret, self::find_paths($path.$file.'/'));
-      if (self::isPhoto($path.$file)) $addpath = TRUE;
-    }
-
-    if ($addpath) $ret[] = urlencode($path);
-
-    return $ret;
+	$images=OC_FileCache::searchByMime('image');
+	$paths=array();
+	foreach($images as $image){
+		$path=dirname($image);
+		if(array_search($path,$paths)===false){
+			$paths[]=$path;
+		}
+	}
+	return $paths;
   }
 }
 ?>

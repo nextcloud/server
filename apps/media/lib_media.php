@@ -56,6 +56,7 @@ class OC_MEDIA{
 	 */
 	public static function updateFile($params){
 		$path=$params['path'];
+		if(!$path) return;
 		require_once 'lib_scanner.php';
 		require_once 'lib_collection.php';
 		//fix a bug where there were multiply '/' in front of the path, it should only be one
@@ -81,8 +82,8 @@ class OC_MEDIA{
 	}
 }
 
-class OC_MediaSearchProvider extends OC_Search_Provider{
-	function search($query){
+class OC_MediaSearchProvider implements OC_Search_Provider{
+	static function search($query){
 		require_once('lib_collection.php');
 		$artists=OC_MEDIA_COLLECTION::getArtists($query);
 		$albums=OC_MEDIA_COLLECTION::getAlbums(0,$query);
@@ -106,5 +107,3 @@ class OC_MediaSearchProvider extends OC_Search_Provider{
 	}
 }
 
-new OC_MediaSearchProvider();
-?>

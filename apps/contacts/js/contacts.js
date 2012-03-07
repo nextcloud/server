@@ -4,6 +4,12 @@ function ucwords (str) {
 	});
 }
 
+String.prototype.strip_tags = function(){
+	tags = this;
+	stripped = tags.replace(/[\<\>]/gi, "");
+	return stripped;
+};
+
 Categories={
 	edit:function(){
 		console.log('Categories.edit');
@@ -238,7 +244,7 @@ Contacts={
 						alert(jsondata.data.message);
 					}
 				});
-			}
+			};
 		},
 		loadListHandlers:function() {
 			//$('.add,.delete').hide();
@@ -425,7 +431,7 @@ Contacts={
 					}
 				});
 			},
-			delete:function() {
+			delete: function() {
 				$('#contacts_deletecard').tipsy('hide');
 				$.getJSON('ajax/deletecard.php',{'id':this.id},function(jsondata){
 					if(jsondata.status == 'success'){
@@ -1508,10 +1514,3 @@ $(document).ready(function(){
 		$('#contacts_propertymenu').hide();
 	});
 });
-
-String.prototype.strip_tags = function(){
-	tags = this;
-	stripped = tags.replace(/[\<\>]/gi, "");
-	return stripped;
-}
-

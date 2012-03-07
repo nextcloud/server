@@ -9,16 +9,20 @@
 require_once ('../../lib/base.php');
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
+
 // Create default calendar ...
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 if( count($calendars) == 0){
 	OC_Calendar_Calendar::addCalendar(OC_User::getUser(),'Default calendar');
 	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 }
+
 $eventSources = array();
 foreach($calendars as $calendar){
 	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
 }
+OC_Hook::emit('OC_Calendar', 'getSources', array('sources' => &$eventSources));
+
 //Fix currentview for fullcalendar
 if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "oneweekview"){
 	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "agendaWeek");
