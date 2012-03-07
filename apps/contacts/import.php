@@ -97,11 +97,15 @@ if(is_writable('import_tmp/')){
 	fclose($progressfopen);
 }
 if(count($parts) == 1){
-	OC_Contacts_VCard::add($id, $file);
-}else{
-	foreach($importready as $import){
-		OC_Contacts_VCard::add($id, $import);
+	$importready = array($file);
+}
+foreach($importready as $import){
+	$card = OC_VObject::parse($import);
+	if (!$card) {
+		OC_Log::write('contacts','Import: skipping card. Error parsing VCard: '.$import, OC_Log::ERROR);
+		continue; // Ditch cards that can't be parsed by Sabre.
 	}
+	OC_Contacts_VCard::add($id, $card);
 }
 //done the import
 if(is_writable('import_tmp/')){

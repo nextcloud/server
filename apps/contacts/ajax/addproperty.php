@@ -116,7 +116,7 @@ foreach ($parameters as $key=>$element) {
 }
 $checksum = md5($vcard->children[$line]->serialize());
 
-if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error adding contact property.'))));
 	OC_Log::write('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OC_Log::ERROR);
 	exit();

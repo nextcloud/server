@@ -96,8 +96,7 @@ class OC_Calendar_Object{
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		if(is_null($uid)){
-			$uid = self::createUID();
-			$object->add('UID',$uid);
+			$object->setUID();
 			$data = $object->serialize();
 		}
 
@@ -206,14 +205,6 @@ class OC_Calendar_Object{
 		OC_Calendar_Calendar::touchCalendar($id);
 
 		return true;
-	}
-
-	/**
-	 * @brief Creates a UID
-	 * @return string
-	 */
-	protected static function createUID(){
-		return substr(md5(rand().time()),0,10);
 	}
 
 	/**

@@ -7,6 +7,7 @@
 				<ul class="popup popupTop">
 					<li style="background-image:url('<?php echo mimetype_icon('text/plain') ?>')" data-type='file'><p><?php echo $l->t('Text file');?></p></li>
 					<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
+					<li style="background-image:url('<?php echo image_path('core','actions/public.png') ?>')" data-type='web'><p><?php echo $l->t('From url');?></p></li>
 				</ul>
 			</div>
 			<div class="file_upload_wrapper svg">
