@@ -18,8 +18,6 @@
  * You should have received a copy of the GNU Affero General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
- * TODO: Translatable strings.
- *       Remember to delete tmp file at some point.
  */
 // Init owncloud
 require_once('../../../lib/base.php');
@@ -33,7 +31,7 @@ OC_JSON::checkAppEnabled('contacts');
 
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/savecrop.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('contacts','ajax/loadphoto.php: '.$msg, OC_Log::DEBUG);
 	exit();
 }
 
@@ -42,7 +40,7 @@ $image = null;
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 
 if($id == '') {
-	bailOut('Missing contact id.');
+	bailOut(OC_Contacts_App::$l10n->t('Missing contact id.'));
 }
 
 $tmpl = new OC_TEMPLATE("contacts", "part.contactphoto");

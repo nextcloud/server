@@ -174,6 +174,9 @@ class OC_Contacts_VCard{
 			if($property->name == 'UID'){
 				$uid = $property->value;
 			}
+			if($property->name == 'ORG'){
+				$org = $property->value;
+			}
 			if($property->name == 'EMAIL' && is_null($email)){ // only use the first email as substitute for missing N or FN.
 				$email = $property->value;
 			}
@@ -184,6 +187,8 @@ class OC_Contacts_VCard{
 				$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
 			} elseif($email) {
 				$fn = $email;
+			} elseif($org) {
+				$fn = $org;
 			} else {
 				$fn = 'Unknown Name';
 			}
