@@ -104,7 +104,7 @@ function handleGetGallery($path) {
     $album_name = $r['album_name'];
     $size=OC_Gallery_Album::getAlbumSize($r['album_id']);
 
-    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($size, 10));
+    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($size, 10),'path'=>$r['album_path']);
   }
   
   $result = OC_Gallery_Photo::find($album_details['album_id']);
