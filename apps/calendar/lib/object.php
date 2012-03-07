@@ -96,8 +96,7 @@ class OC_Calendar_Object{
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		if(is_null($uid)){
-			$uid = self::createUID();
-			$object->add('UID',$uid);
+			$object->setUID();
 			$data = $object->serialize();
 		}
 
@@ -209,14 +208,6 @@ class OC_Calendar_Object{
 	}
 
 	/**
-	 * @brief Creates a UID
-	 * @return string
-	 */
-	protected static function createUID(){
-		return substr(md5(rand().time()),0,10);
-	}
-
-	/**
 	 * @brief Extracts data from a vObject-Object
 	 * @param Sabre_VObject $object
 	 * @return array
@@ -309,6 +300,8 @@ class OC_Calendar_Object{
 			$dtend = $vevent->DTEND;
 		}else{
 			$dtend = clone $vevent->DTSTART;
+			// clone creates a shallow copy, also clone DateTime
+			$dtend->setDateTime(clone $dtend->getDateTime(), $dtend->getDateType());
 			if ($vevent->DURATION){
 				$duration = strval($vevent->DURATION);
 				$invert = 0;

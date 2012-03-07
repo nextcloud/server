@@ -41,7 +41,7 @@ function handleRemove($name) {
 
 function handleGetThumbnails($albumname) {
   OC_Response::enableCaching(3600 * 24); // 24 hour
-  $thumbnail = OC::$CONFIG_DATADIRECTORY.'/../gallery/'.$albumname.'.png';
+  $thumbnail = OC::$CONFIG_DATADIRECTORY.'/../gallery/'.urldecode($albumname).'.png';
   header('Content-Type: '.OC_Image::getMimeTypeForFile($thumbnail));
   OC_Response::sendFile($thumbnail);
 }
@@ -61,7 +61,7 @@ function handleFilescan($cleanup) {
 
 function handlePartialCreate($path) {
   if (empty($path)) OC_JSON::error(array('cause' => 'No path specified'));
-  if (!OC_Filesystem::is_dir($path)) OC_JSON::error(array('cause' => 'Invalid path given'));
+  if (!OC_Filesystem::is_dir($path.'/')) OC_JSON::error(array('cause' => 'Invalid path given'));
 
   $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
   $albums = array();
@@ -85,6 +85,37 @@ function handleStoreSettings($root, $order) {
   OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'root', $root);
   OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'order', $order);
   OC_JSON::success(array('rescan' => $rescan));
+}
+
+function handleGetGallery($path) {
+  $a = array();
+  $root = OC_Preferences::getValue(OC_User::getUser(),'gallery', 'root', '/');
+  if (strlen($root) > 1)
+    $path = $root.'/'.trim($path, '/');
+  else
+    $path = '/'.ltrim($path, '/');
+  if (strlen($path) > 1) $path = rtrim($path, '/');
+  $result = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
+  $album_details = $result->fetchRow();
+
+  $result = OC_Gallery_Album::find(OC_User::getUser(), null, null, $path);
+
+  while ($r = $result->fetchRow()) {
+    $album_name = $r['album_name'];
+    $size=OC_Gallery_Album::getAlbumSize($r['album_id']);
+
+    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($size, 10),'path'=>$r['album_path']);
+  }
+  
+  $result = OC_Gallery_Photo::find($album_details['album_id']);
+
+  $p = array();
+
+  while ($r = $result->fetchRow()) {
+    $p[] = utf8_encode($r['file_path']);
+  }
+
+  OC_JSON::success(array('albums'=>$a, 'photos'=>$p));
 }
 
 if ($_GET['operation']) {
@@ -111,6 +142,12 @@ if ($_GET['operation']) {
     break;
   case 'store_settings':
     handleStoreSettings($_GET['root'], $_GET['order']);
+    break;
+  case 'get_galleries':
+    handleGetGalleries($_GET['path']);
+    break;
+  case 'get_gallery':
+    handleGetGallery($_GET['path']);
     break;
   default:
     OC_JSON::error(array('cause' => 'Unknown operation'));

@@ -31,11 +31,11 @@
 
    <field>
     <name>configvalue</name>
-    <type>text</type>
-    <default></default>
+    <type>clob</type>
     <notnull>true</notnull>
-    <length>255</length>
    </field>
+
+
 
   </declaration>
 
@@ -55,7 +55,7 @@
 	   <notnull>true</notnull>
 	   <length>4</length>
    </field>
-   
+
    <field>
     <name>path</name>
     <type>text</type>
@@ -70,7 +70,7 @@
 	   <default>
 	   </default>
 	   <notnull>true</notnull>
-	   <length>4</length>
+	   <length>8</length>
    </field>
 
    <field>
@@ -90,13 +90,13 @@
 	   <notnull>true</notnull>
 	   <length>64</length>
    </field>
-   
+
    <field>
     <name>size</name>
     <type>integer</type>
     <default></default>
     <notnull>true</notnull>
-    <length>4</length>
+    <length>8</length>
    </field>
 
    <field>
@@ -105,7 +105,7 @@
 	   <default>
 	   </default>
 	   <notnull>true</notnull>
-	   <length>4</length>
+	   <length>8</length>
    </field>
 
    <field>
@@ -114,7 +114,7 @@
 	   <default>
 	   </default>
 	   <notnull>true</notnull>
-	   <length>4</length>
+	   <length>8</length>
    </field>
 
    <field>
@@ -291,7 +291,7 @@
     <type>integer</type>
     <default></default>
     <notnull>false</notnull>
-    <length>4</length>
+    <length>8</length>
    </field>
 
    <field>
@@ -427,102 +427,6 @@
 
  </table>
 
- <table>
-
-  <name>*dbprefix*principalgroups</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>principal_id</name>
-    <type>integer</type>
-    <default></default>
-    <notnull>true</notnull>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>member_id</name>
-    <type>integer</type>
-    <default></default>
-    <notnull>true</notnull>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <index>
-    <name>principals_members_index</name>
-    <unique>true</unique>
-    <field>
-     <name>principal_id</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>member_id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*principals</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>uri</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>displayname</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>255</length>
-   </field>
-
-   <index>
-    <name>uri</name>
-    <unique>true</unique>
-    <field>
-     <name>uri</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
- 
  <table>
 
   <name>*dbprefix*properties</name>

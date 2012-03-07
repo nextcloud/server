@@ -1,7 +1,7 @@
 function musicTypeFromFile(file){
 	var extention=file.substr(file.indexOf('.')+1);
 	if(extention=='ogg'){
-		return 'oga'
+		return 'oga';
 	}
 	//TODO check for more specific cases
 	return extention;
@@ -39,7 +39,7 @@ function loadPlayer(type,ready){
 }
 
 $(document).ready(function() {
-	loadPlayer.done=false
+	loadPlayer.done=false;
 
 // 	FileActions.register('audio','Add to playlist','',addAudio);
 // 	FileActions.register('application/ogg','Add to playlist','',addAudio);

@@ -33,12 +33,28 @@
  *
  */
 
+require_once 'phpass/PasswordHash.php';
+
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_User_Database extends OC_User_Backend {
 	static private $userGroupCache=array();
+	/**
+	 * @var PasswordHash
+	 */
+	static private $hasher=null;
+	
+	private function getHasher(){
+		if(!self::$hasher){
+			//we don't want to use DES based crypt(), since it doesn't return a has with a recognisable prefix
+			$forcePortable=(CRYPT_BLOWFISH!=1);
+			self::$hasher=new PasswordHash(8,$forcePortable);
+		}
+		return self::$hasher;
 
+	}
+	
 	/**
 	 * @brief Create a new user
 	 * @param $uid The username of the user to create
@@ -51,10 +67,11 @@ class OC_User_Database extends OC_User_Backend {
 	public function createUser( $uid, $password ){
 		if( $this->userExists($uid) ){
 			return false;
-		}
-		else{
+		}else{
+			$hasher=$this->getHasher();
+			$hash = $hasher->HashPassword($password);
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
-			$result = $query->execute( array( $uid, sha1( $password )));
+			$result = $query->execute( array( $uid, $hash));
 
 			return $result ? true : false;
 		}
@@ -84,8 +101,10 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function setPassword( $uid, $password ){
 		if( $this->userExists($uid) ){
+			$hasher=$this->getHasher();
+			$hash = $hasher->HashPassword($password);
 			$query = OC_DB::prepare( "UPDATE *PREFIX*users SET password = ? WHERE uid = ?" );
-			$result = $query->execute( array( sha1( $password ), $uid ));
+			$result = $query->execute( array( $hash, $uid ));
 
 			return true;
 		}
@@ -103,12 +122,28 @@ class OC_User_Database extends OC_User_Backend {
 	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword( $uid, $password ){
-		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users WHERE uid LIKE ? AND password = ?" );
-		$result = $query->execute( array( $uid, sha1( $password )));
+		$query = OC_DB::prepare( "SELECT uid, password FROM *PREFIX*users WHERE uid LIKE ?" );
+		$result = $query->execute( array( $uid));
 
 		$row=$result->fetchRow();
 		if($row){
-			return $row['uid'];
+			$storedHash=$row['password'];
+			if (substr($storedHash,0,1)=='$'){//the new phpass based hashing
+				$hasher=$this->getHasher();
+				if($hasher->CheckPassword($password, $storedHash)){
+					return $row['uid'];
+				}else{
+					return false;
+				}
+			}else{//old sha1 based hashing
+				if(sha1($password)==$storedHash){
+					//upgrade to new hashing
+					$this->setPassword($row['uid'],$password);
+					return $row['uid'];
+				}else{
+					return false;
+				}
+			}
 		}else{
 			return false;
 		}

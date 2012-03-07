@@ -6,7 +6,7 @@ Scanner={
 		$.getJSON(OC.linkTo('media','ajax/api.php')+'?action=find_music',function(songs){
 			Scanner.songsFound=songs.length;
 			if(ready){
-				ready(songs)
+				ready(songs);
 			}
 		});
 	},
@@ -24,13 +24,13 @@ Scanner={
 			Scanner.songsScanned=data.count;
 			$('#scan span.songCount').text(Scanner.songsScanned);
 			var progress=(Scanner.songsScanned/Scanner.songsFound)*100;
-			$('#scanprogressbar').progressbar('value',progress)
+			$('#scanprogressbar').progressbar('value',progress);
 		});
 		Scanner.eventSource.listen('done',function(count){
 			$('#scan input.start').show();
 			$('#scan input.stop').hide();
 			$('#scanprogressbar').hide();
-			Collection.load(Collection.display)
+			Collection.load(Collection.display);
 			if(ready){
 				ready();
 			}
@@ -41,4 +41,4 @@ Scanner={
 		Scanner.close();
 	},
 
-}
+};

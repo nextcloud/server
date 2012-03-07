@@ -127,20 +127,6 @@ $(document).ready(function() {
 		procesSelection();
 	});
 	
-	$('#file_newfolder_form').submit(function(event) {
-		event.preventDefault();
-		$.ajax({
-			url: 'ajax/newfolder.php',
-			data: "dir="+$('#dir').val()+"&foldername="+$('#file_newfolder_name').val(),
-			complete: function(data){boolOperationFinished(data, function(){
-				var date=new Date();
-				FileList.addDir($('#file_newfolder_name').val(),0,date);
-				$('#file_newfolder_name').val('New Folder');
-				$('#file_newfolder_name').blur();
-			});}
-		});
-	});
-	
 	$('#file_newfolder_name').click(function(){
 		if($('#file_newfolder_name').val() == 'New Folder'){
 			$('#file_newfolder_name').val('');
@@ -166,6 +152,7 @@ $(document).ready(function() {
 
 	$('.file_upload_start').live('change',function(){
 		var form=$(this).closest('form');
+		var that=this;
 		var uploadId=form.attr('data-upload-id');
 		var files=this.files;
 		var target=form.children('iframe');
@@ -173,6 +160,12 @@ $(document).ready(function() {
 		if(files){
 			for(var i=0;i<files.length;i++){
 				totalSize+=files[i].size;
+				if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
+					FileList.finishDelete(function(){
+						$(that).change();
+					});
+					return;
+				}
 			}
 		}
 		if(totalSize>$('#max_upload').val()){
@@ -305,10 +298,10 @@ $(document).ready(function() {
 			var name=$(this).val();
 			switch(type){
 				case 'file':
-					$.ajax({
-						url: OC.filePath('files','ajax','newfile.php'),
-						data: "dir="+encodeURIComponent($('#dir').val())+"&filename="+encodeURIComponent(name)+'&content=%20%0A',
-						complete: function(data){boolOperationFinished(data, function(){
+					$.post(
+						OC.filePath('files','ajax','newfile.php'),
+						{dir:$('#dir').val(),filename:name,content:" \n"},
+						function(data){
 							var date=new Date();
 							FileList.addFile(name,0,date);
 							var tr=$('tr').filterAttr('data-file',name);
@@ -316,18 +309,49 @@ $(document).ready(function() {
 							getMimeIcon('text/plain',function(path){
 								tr.find('td.filename').attr('style','background-image:url('+path+')');
 							});
-						});}
-					});
+						}
+					);
 					break;
 				case 'folder':
-					$.ajax({
-						url: OC.filePath('files','ajax','newfolder.php'),
-						data: "dir="+encodeURIComponent($('#dir').val())+"&foldername="+encodeURIComponent(name),
-						complete: function(data){boolOperationFinished(data, function(){
+					$.post(
+						OC.filePath('files','ajax','newfolder.php'),
+						{dir:$('#dir').val(),foldername:name},
+						function(data){
 							var date=new Date();
 							FileList.addDir(name,0,date);
-						});}
-					});
+						}
+					);
+					break;
+				case 'web':
+					if(name.substr(0,8)!='https://' && name.substr(0,7)!='http://'){
+						name='http://'.name;
+					}
+					var localName=name;
+					if(localName.substr(localName.length-1,1)=='/'){//strip /
+						localName=localName.substr(0,localName.length-1)
+					}
+					if(localName.indexOf('/')){//use last part of url
+						localName=localName.split('/').pop();
+					}else{//or the domain
+						localName=(localName.match(/:\/\/(.[^/]+)/)[1]).replace('www.','');
+					}
+					$.post(
+						OC.filePath('files','ajax','newfile.php'),
+						{dir:$('#dir').val(),source:name,filename:localName},
+						function(result){
+							if(result.status == 'success'){
+								var date=new Date();
+								FileList.addFile(localName,0,date);
+								var tr=$('tr').filterAttr('data-file',localName);
+								tr.data('mime',result.data.mime);
+								getMimeIcon(result.data.mime,function(path){
+									tr.find('td.filename').attr('style','background-image:url('+path+')');
+								});
+							}else{
+								
+							}
+						}
+					);
 					break;
 			}
 			var li=$(this).parent();
@@ -379,39 +403,6 @@ function boolOperationFinished(data, callback) {
 function updateBreadcrumb(breadcrumbHtml) {
 	$('p.nav').empty().html(breadcrumbHtml);
 }
-
-function humanFileSize(bytes){
-	if( bytes < 1024 ){
-		return bytes+' B';
-	}
-	bytes = Math.round(bytes / 1024, 1 );
-	if( bytes < 1024 ){
-		return bytes+' kB';
-	}
-	bytes = Math.round( bytes / 1024, 1 );
-	if( bytes < 1024 ){
-		return bytes+' MB';
-	}
-	
-	// Wow, heavy duty for owncloud
-	bytes = Math.round( bytes / 1024, 1 );
-	return bytes+' GB';
-}
-
-function simpleFileSize(bytes) {
-	mbytes = Math.round(bytes/(1024*1024/10))/10;
-	if(bytes == 0) { return '0'; }
-	else if(mbytes < 0.1) { return '< 0.1'; }
-	else if(mbytes > 1000) { return '> 1000'; }
-	else { return mbytes.toFixed(1); }
-}
-
-function formatDate(date){
-	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
-	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
-	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
-}
-
 
 //options for file drag/dropp
 var dragOptions={

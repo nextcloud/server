@@ -73,8 +73,8 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 		$nodes = array();
 		// foreach(scandir($this->path) as $node) if($node!='.' && $node!='..') $nodes[] = $this->getChild($node);
-		if( OC_Filesystem::is_dir($this->path)){
-			$dh = OC_Filesystem::opendir($this->path);
+		if( OC_Filesystem::is_dir($this->path . '/')){
+			$dh = OC_Filesystem::opendir($this->path . '/');
 			while(( $node = readdir($dh)) !== false ){
 				if($node!='.' && $node!='..'){
 					$nodes[] = $this->getChild($node);

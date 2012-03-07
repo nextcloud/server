@@ -80,7 +80,7 @@ foreach($missingparameters as $i){
 // NOTE: This checksum is not used..?
 $checksum = md5($vcard->children[$line]->serialize());
 
-if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	OC_JSON::error(array('data' => array('message' => $l->t('Error updating contact property.'))));
 	OC_Log::write('contacts','ajax/setproperty.php: Error updating contact property: '.$value, OC_Log::ERROR);
 	exit();

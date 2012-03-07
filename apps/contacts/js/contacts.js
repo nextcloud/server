@@ -8,7 +8,7 @@ String.prototype.strip_tags = function(){
 	tags = this;
 	stripped = tags.replace(/[\<\>]/gi, "");
 	return stripped;
-}
+};
 
 
 Contacts={
@@ -68,7 +68,7 @@ Contacts={
 			return $(obj).parents('.propertycontainer').first().data('element');
 		},
 		showHideContactInfo:function() {
-			var show = ($('#emaillist li[class*="propertycontainer"]').length > 0 || $('#phonelist li[class*="propertycontainer"]').length > 0 || $('#addressdisplay dl[class*="propertycontainer"]').length > 0);
+			var show = ($('#emaillist li.propertycontainer').length > 0 || $('#phonelist li.propertycontainer').length > 0 || $('#addressdisplay dl.propertycontainer').length > 0);
 			console.log('showHideContactInfo: ' + show);
 			if(show) {
 				$('#contact_communication').show();
@@ -82,19 +82,19 @@ Contacts={
 			switch (type) {
 				case 'EMAIL':
 					console.log('emails: '+$('#emaillist>li').length);
-					if($('#emaillist li[class*="propertycontainer"]').length == 0) {
+					if($('#emaillist li.propertycontainer').length == 0) {
 						$('#emails').hide();
 					}
 					break;
 				case 'TEL':
 					console.log('phones: '+$('#phonelist>li').length);
-					if($('#phonelist li[class*="propertycontainer"]').length == 0) {
+					if($('#phonelist li.propertycontainer').length == 0) {
 						$('#phones').hide();
 					}
 					break;
 				case 'ADR':
 					console.log('addresses: '+$('#addressdisplay>dl').length);
-					if($('#addressdisplay dl[class*="propertycontainer"]').length == 0) {
+					if($('#addressdisplay dl.propertycontainer').length == 0) {
 						$('#addresses').hide();
 					}
 					break;
@@ -142,7 +142,7 @@ Contacts={
 							}
 					});
 				});
-			}
+			};
 		},
 		loadListHandlers:function() {
 			//$('.add,.delete').hide();
@@ -183,7 +183,7 @@ Contacts={
 						dateFormat : 'dd-mm-yy'
 			});
 			// Style phone types
-			$('#phonelist').find('select[class*="contacts_property"]').multiselect({
+			$('#phonelist').find('select.contacts_property').multiselect({
 													noneSelectedText: t('contacts', 'Select type'),
 													header: false,
 													selectedList: 4,
@@ -323,7 +323,7 @@ Contacts={
 					}
 				});
 			},
-			delete:function() {
+			delete: function() {
 				$('#contacts_deletecard').tipsy('hide');
 				$.getJSON('ajax/deletecard.php',{'id':this.id},function(jsondata){
 					if(jsondata.status == 'success'){
@@ -373,7 +373,7 @@ Contacts={
 			loadSingleProperties:function() {
 				var props = ['BDAY', 'NICKNAME', 'ORG'];
 				// Clear all elements
-				$('#ident .propertycontainer[class*="propertycontainer"]').each(function(){
+				$('#ident .propertycontainer').each(function(){
 					if(props.indexOf($(this).data('element')) > -1) {
 						$(this).data('checksum', '');
 						$(this).find('input').val('');
@@ -448,6 +448,9 @@ Contacts={
 				$('#fn_select option').remove();
 				$('#fn_select').combobox('value', this.fn);
 				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				if(this.data.ORG) {
+					names[names.length]=this.data.ORG[0].value;
+				}
 				$.each(names, function(key, value) {
 					$('#fn_select')
 						.append($('<option></option>')
@@ -518,8 +521,8 @@ Contacts={
 				var checksum = container.data('checksum');
 				var name = container.data('element');
 				console.log('saveProperty: ' + name);
-				var fields = container.find('input[class*="contacts_property"],select[class*="contacts_property"]').serializeArray();
-				var q = container.find('input[class*="contacts_property"],select[class*="contacts_property"]').serialize();
+				var fields = container.find('input.contacts_property,select.contacts_property').serializeArray();
+				var q = container.find('input.contacts_property,select.contacts_property').serialize();
 				if(q == '' || q == undefined) {
 					console.log('Couldn\'t serialize elements.');
 					Contacts.UI.loading(container, false);
@@ -708,7 +711,7 @@ Contacts={
 			},
 			loadAddresses:function(){
 				$('#addresses').hide();
-				$('#addressdisplay dl[class*="propertycontainer"]').remove();
+				$('#addressdisplay dl.propertycontainer').remove();
 				for(var adr in this.data.ADR) {
 					$('#addressdisplay dl').first().clone().insertAfter($('#addressdisplay dl').last()).show();
 					$('#addressdisplay dl').last().removeClass('template').addClass('propertycontainer');
@@ -920,15 +923,15 @@ Contacts={
 			},
 			addMail:function() {
 				//alert('addMail');
-				$('#emaillist li[class*="template"]:first-child').clone().appendTo($('#emaillist')).show();
-				$('#emaillist li[class*="template"]:last-child').removeClass('template').addClass('propertycontainer');
+				$('#emaillist li.template:first-child').clone().appendTo($('#emaillist')).show();
+				$('#emaillist li.template:last-child').removeClass('template').addClass('propertycontainer');
 				$('#emaillist li:last-child').find('input[type="email"]').focus();
 				Contacts.UI.loadListHandlers();
 				return false;
 			},
 			loadMails:function() {
 				$('#emails').hide();
-				$('#emaillist li[class*="propertycontainer"]').remove();
+				$('#emaillist li.propertycontainer').remove();
 				for(var mail in this.data.EMAIL) {
 					this.addMail();
 					//$('#emaillist li:first-child').clone().appendTo($('#emaillist')).show();
@@ -950,9 +953,9 @@ Contacts={
 				return false;
 			},
 			addPhone:function() {
-				$('#phonelist li[class*="template"]:first-child').clone().appendTo($('#phonelist')); //.show();
-				$('#phonelist li[class*="template"]:last-child').find('select').addClass('contacts_property');
-				$('#phonelist li[class*="template"]:last-child').removeClass('template').addClass('propertycontainer');
+				$('#phonelist li.template:first-child').clone().appendTo($('#phonelist')); //.show();
+				$('#phonelist li.template:last-child').find('select').addClass('contacts_property');
+				$('#phonelist li.template:last-child').removeClass('template').addClass('propertycontainer');
 				$('#phonelist li:last-child').find('input[type="text"]').focus();
 				Contacts.UI.loadListHandlers();
 				$('#phonelist li:last-child').find('select').multiselect({
@@ -966,7 +969,7 @@ Contacts={
 			},
 			loadPhones:function() {
 				$('#phones').hide();
-				$('#phonelist li[class*="propertycontainer"]').remove();
+				$('#phonelist li.propertycontainer').remove();
 				for(var phone in this.data.TEL) {
 					this.addPhone();
 					$('#phonelist li:last-child').find('select').multiselect('destroy');

@@ -7,7 +7,7 @@
  */
 
 require_once ('../../../lib/base.php');
-require_once('../../../3rdparty/when/When.php');
+require_once('when/When.php');
 
 function create_return_event($event, $vevent){
 	$return_event = array();
@@ -27,25 +27,40 @@ function create_return_event($event, $vevent){
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
-$start = DateTime::createFromFormat('U', $_GET['start']);
-$end = DateTime::createFromFormat('U', $_GET['end']);
+if(version_compare(PHP_VERSION, '5.3.0', '>=')){
+	$start = DateTime::createFromFormat('U', $_GET['start']);
+	$end = DateTime::createFromFormat('U', $_GET['end']);
+}else{
+	$start = new DateTime('@' . $_GET['start']);
+	$end = new DateTime('@' . $_GET['end']);
+}
 
-$calendar = OC_Calendar_App::getCalendar($_GET['calendar_id']);
-OC_Response::enableCaching(0);
-OC_Response::setETagHeader($calendar['ctag']);
+$calendar_id = $_GET['calendar_id'];
+if (is_numeric($calendar_id)) {
+	$calendar = OC_Calendar_App::getCalendar($calendar_id);
+	OC_Response::enableCaching(0);
+	OC_Response::setETagHeader($calendar['ctag']);
+	$events = OC_Calendar_Object::allInPeriod($calendar_id, $start, $end);
+} else {
+	$events = array();
+	OC_Hook::emit('OC_Calendar', 'getEvents', array('calendar_id' => $calendar_id, 'events' => &$events));
+}
 
-$events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $return = array();
 foreach($events as $event){
-	$object = OC_VObject::parse($event['calendardata']);
-	$vevent = $object->VEVENT;
+	if (isset($event['calendardata'])) {
+		$object = OC_VObject::parse($event['calendardata']);
+		$vevent = $object->VEVENT;
+	} else {
+		$vevent = $event['vevent'];
+	}
 
 	$return_event = create_return_event($event, $vevent);
 
 	$dtstart = $vevent->DTSTART;
-	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 	$start_dt = $dtstart->getDateTime();
+	$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 	$end_dt = $dtend->getDateTime();
 	if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
 		$return_event['allDay'] = true;
