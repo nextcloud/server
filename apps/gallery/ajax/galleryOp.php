@@ -102,9 +102,9 @@ function handleGetGallery($path) {
 
   while ($r = $result->fetchRow()) {
     $album_name = $r['album_name'];
-    $tmp_res = OC_Gallery_Photo::find($r['album_id']);
+    $size=OC_Gallery_Album::getAlbumSize($r['album_id']);
 
-    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($tmp_res->numRows(), 10));
+    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($size, 10));
   }
   
   $result = OC_Gallery_Photo::find($album_details['album_id']);

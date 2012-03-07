@@ -107,6 +107,13 @@ class OC_Gallery_Album {
     rename($thumbpath.$oldname.'.png', $thumbpath.$newname.'.png');
   }
 
+  public static function getAlbumSize($id){
+	$sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos WHERE album_id = ?';
+	$stmt = OC_DB::prepare($sql);
+	$result=$stmt->execute(array($id))->fetchRow();
+	return $result['size'];
+  }
+
 }
 
 ?>
