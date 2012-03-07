@@ -50,10 +50,12 @@ Albums={
 	  local.attr('data-album',a.name);
 	  $(".gallery_album_decoration a.rename", local).bind('click', {name: a.name},function(event){
 			event.preventDefault();
+			event.stopPropagation();
 			galleryRename(event.data.name);
     });
 	  $(".gallery_album_decoration a.remove", local).bind('click', {name: a.name},function(event){
 		  event.preventDefault();
+		  event.stopPropagation();
 		  galleryRemove(event.data.name);
     });
  //   $("a.view", local).attr('href','?view='+decodeURIComponent(escape(a.name)));
