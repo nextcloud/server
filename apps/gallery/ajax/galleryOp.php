@@ -95,7 +95,6 @@ function handleGetGallery($path) {
   else
     $path = '/'.ltrim($path, '/');
   if (strlen($path) > 1) $path = rtrim($path, '/');
-  error_log($path);
   $result = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
   $album_details = $result->fetchRow();
 

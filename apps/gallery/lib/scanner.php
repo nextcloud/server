@@ -47,7 +47,7 @@ class OC_Gallery_Scanner {
     $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
     $current_album['name'] = self::createName($current_album['name']);
 
-    if ($dh = OC_Filesystem::opendir($path)) {
+    if ($dh = OC_Filesystem::opendir($path.'/')) {
       while (($filename = readdir($dh)) !== false) {
         $filepath = ($path[strlen($path)-1]=='/'?$path:$path.'/').$filename;
         if (substr($filename, 0, 1) == '.') continue;
