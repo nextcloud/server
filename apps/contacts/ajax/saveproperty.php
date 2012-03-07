@@ -36,7 +36,7 @@ function debug($msg) {
 	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
 }
 foreach ($_POST as $key=>$element) {
-	debug('_POST: '.$key.'=>'.$element);
+	debug('_POST: '.$key.'=>'.print_r($element, true));
 }
 
 $id = isset($_POST['id'])?$_POST['id']:null;
@@ -51,12 +51,8 @@ $checksum = isset($_POST['checksum'])?$_POST['checksum']:null;
 // 	}
 // }
 
-if(is_array($value)){
-	$value = array_map('strip_tags', $value);
-	ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
-	$value = OC_VObject::escapeSemicolons($value);
-} else {
-	$value = trim(strip_tags($value));
+if(!$name) {
+	bailOut(OC_Contacts_App::$l10n->t('element name is not set.'));
 }
 if(!$id) {
 	bailOut(OC_Contacts_App::$l10n->t('id is not set.'));
@@ -64,14 +60,22 @@ if(!$id) {
 if(!$checksum) {
 	bailOut(OC_Contacts_App::$l10n->t('checksum is not set.'));
 }
-if(!$name) {
-	bailOut(OC_Contacts_App::$l10n->t('element name is not set.'));
+if(is_array($value)){
+	$value = array_map('strip_tags', $value);
+	ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+	if($name == 'CATEGORIES') {
+		$value = OC_Contacts_VCard::escapeDelimiters($value, ',');
+	} else {
+		$value = OC_Contacts_VCard::escapeDelimiters($value, ';');
+	}
+} else {
+	$value = trim(strip_tags($value));
 }
 
 $vcard = OC_Contacts_App::getContactVCard( $id );
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 if(is_null($line)) {
-	bailOut(OC_Contacts_App::$l10n->t('Information about vCard is incorrect. Please reload the page.'.$checksum.' "'.$line.'"'));
+	bailOut(OC_Contacts_App::$l10n->t('Information about vCard is incorrect. Please reload the page: ').$checksum);
 }
 $element = $vcard->children[$line]->name;
 
@@ -91,7 +95,9 @@ switch($element) {
 		}
 	case 'N':
 	case 'ORG':
+	case 'NOTE':
 	case 'NICKNAME':
+	case 'CATEGORIES':
 		debug('Setting string:'.$name.' '.$value);
 		$vcard->setString($name, $value);
 		break;
@@ -123,12 +129,8 @@ $checksum = md5($vcard->children[$line]->serialize());
 debug('New checksum: '.$checksum);
 
 if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
-	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error updating contact property.'))));
-	OC_Log::write('contacts','ajax/setproperty.php: Error updating contact property: '.$value, OC_Log::ERROR);
+	bailOut(OC_Contacts_App::$l10n->t('Error updating contact property.'));
 	exit();
 }
-
-//$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
-//$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
 OC_JSON::success(array('data' => array( 'line' => $line, 'checksum' => $checksum, 'oldchecksum' => $_POST['checksum'] )));

@@ -20,7 +20,8 @@
 #firstrun { /*border: thin solid lightgray;*/ width: 80%; margin: 5em auto auto auto; text-align: center; font-weight:bold; font-size:1.5em;  color:#777;}
 #firstrun #selections { /*border: thin solid lightgray;*/ font-size:0.8em;  width: 100%; margin: 2em auto auto auto; clear: both; }
 
-#card input[type="text"].contacts_property,input[type="email"].contacts_property { width: 16em; }
+#card input[type="text"].contacts_property,input[type="email"].contacts_property { width: 14em; }
+.categories { float: left; width: 16em; }
 #card input[type="text"],input[type="email"],input[type="tel"],input[type="date"], select { background-color: #f8f8f8; border: 0 !important; -webkit-appearance:none !important; -moz-appearance:none  !important; -webkit-box-sizing:none !important; -moz-box-sizing:none !important; box-sizing:none !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; float: left; }
 #card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="tel"]:active, select:hover, select:focus, select:active { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
 input[type="text"]:invalid,input[type="email"]:invalid,input[type="tel"]:invalid,input[type="date"]:invalid { background-color: #ffc0c0 !important; }
@@ -68,7 +69,7 @@ dl.form
 	/*background-color: yellow;*/
 }
 
-.loading { background: url('../../../core/img/loading.gif') no-repeat center !important;}
+.loading { background: url('../../../core/img/loading.gif') no-repeat center !important; /*cursor: progress; */ cursor: wait; }
 
 /*.add { cursor: pointer;  width: 25px; height: 25px; margin: 0px; float: right; position:relative; content: "\+"; font-weight: bold; color: #666; font-size: large; bottom: 0px; right: 0px; clear: both; text-align: center; vertical-align: bottom; display: none; }*/
 
@@ -186,3 +187,11 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .propertylist li > select { float: left; max-width: 8em; }
 .typelist { float: left; max-width: 10em; } /* for multiselect */
 .addresslist { clear: both; }
+
+#categoryform .scrollarea { position: absolute; left: 10px; top: 10px; right: 10px; bottom: 50px; overflow: auto; border:1px solid #ddd; background: #f8f8f8; }
+#categoryform .bottombuttons { position: absolute; bottom: 10px;}
+#categoryform .bottombuttons * { float: left;}
+/*#categorylist { border:1px solid #ddd;}*/
+#categorylist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+#categorylist li:hover, li:active { background:#eee; }
+#category_addinput { width: 10em; }

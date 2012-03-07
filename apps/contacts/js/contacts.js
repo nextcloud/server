@@ -4,12 +4,104 @@ function ucwords (str) {
 	});
 }
 
-String.prototype.strip_tags = function(){
-	tags = this;
-	stripped = tags.replace(/[\<\>]/gi, "");
-	return stripped;
+Categories={
+	edit:function(){
+		console.log('Categories.edit');
+		$('body').append('<div id="category_dialog"></div>');
+		$('#category_dialog').load(OC.filePath('contacts', 'ajax', 'categories/edit.php'), function(response, status, xhr){
+			try {
+				var response = jQuery.parseJSON(response);
+				console.log('status: ' + status + ', response: ' + response + ', response.status:' + response.status);
+				if(response.status == 'error'){
+					alert(response.data.message);
+				} else {
+					alert(response);
+				}
+			} catch(e) {
+				$('#edit_categories_dialog').dialog({
+						modal: true,
+						height: 350, minHeight:200, width: 250, minWidth: 200,
+						buttons: {
+							'Delete':function() {
+								Categories.delete();
+							},
+							'Rescan':function() {
+								Categories.rescan();
+							}
+						},
+						close : function(event, ui) {
+							//alert('close');
+							$(this).dialog('destroy').remove();
+							$('#category_dialog').remove();
+						},
+						open : function(event, ui) {
+							$('#category_addinput').live('input',function(){
+								if($(this).val().length > 0) {
+									$('#category_addbutton').removeAttr('disabled');
+								}
+							});
+							$('#categoryform').submit(function() {
+								Categories.add($('#category_addinput').val());
+								$('#category_addinput').val('');
+								$('#category_addbutton').attr('disabled', 'disabled');
+								return false;
+							});
+							$('#category_addbutton').live('click',function(e){
+								e.preventDefault();
+								if($('#category_addinput').val().length > 0) {
+									Categories.add($('#category_addinput').val());
+									$('#category_addinput').val('');
+								}
+							});
+						}
+				});
+			}
+		});
+	},
+	delete:function(){
+		var categories = $('#categorylist').find('input[type="checkbox"]').serialize();
+		console.log('Categories.delete: ' + categories);
+		$.post(OC.filePath('contacts', 'ajax', 'categories/delete.php'),categories,function(jsondata){
+			if(jsondata.status == 'success'){
+				Categories._update(jsondata.data.categories);
+			} else {
+				alert(jsondata.data.message);
+			}
+		});
+	},
+	add:function(category){
+		console.log('Categories.add ' + category);
+		$.getJSON(OC.filePath('contacts', 'ajax', 'categories/add.php'),{'category':category},function(jsondata){
+			if(jsondata.status == 'success'){
+				Categories._update(jsondata.data.categories);
+			} else {
+				alert(jsondata.data.message);
+			}
+		});
+		return false;
+	},
+	rescan:function(){
+		console.log('Categories.rescan');
+		$.getJSON(OC.filePath('contacts', 'ajax', 'categories/rescan.php'),{},function(jsondata){
+			if(jsondata.status == 'success'){
+				Categories._update(jsondata.data.categories);
+			} else {
+				alert(jsondata.data.message);
+			}
+		});
+	},
+	_update:function(categories){
+		var categorylist = $('#categorylist');
+		categorylist.find('li').remove();
+		for(var category in categories) {
+			var item = '<li><input type="checkbox" name="categories" value="' + categories[category] + '" />' + categories[category] + '</li>';
+			$(item).appendTo(categorylist);
+		}
+		if(Categories.changed != undefined) {
+			Categories.changed(categories);
+		}
+	}
 }
-
 
 Contacts={
 	UI:{
@@ -125,22 +217,26 @@ Contacts={
 				// NOTE: Do we ever get here?
 				$('#messagebox').dialog('moveToTop');
 			}else{
-				$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'messagebox.php'), function(){
-					$('#messagebox').dialog(
-						{
-							autoOpen: true,
-							title: title,
-							buttons: [{
-										text: "Ok",
-										click: function() { $(this).dialog("close"); }
-									}],
-							close: function(event, ui) {
-								$(this).dialog('destroy').remove();
-							},
-							open: function(event, ui) {
-								$('#messagebox_msg').html(msg);
-							}
-					});
+				$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'messagebox.php'), function(jsondata){
+					if(jsondata.status != 'error'){
+						$('#messagebox').dialog(
+							{
+								autoOpen: true,
+								title: title,
+								buttons: [{
+											text: "Ok",
+											click: function() { $(this).dialog("close"); }
+										}],
+								close: function(event, ui) {
+									$(this).dialog('destroy').remove();
+								},
+								open: function(event, ui) {
+									$('#messagebox_msg').html(msg);
+								}
+						});
+					} else {
+						alert(jsondata.data.message);
+					}
 				});
 			}
 		},
@@ -182,6 +278,12 @@ Contacts={
 			$('#bday').datepicker({
 						dateFormat : 'dd-mm-yy'
 			});
+			$('#categories_value').find('select').multiselect({
+										noneSelectedText: t('contacts', 'Select categories'),
+										header: false,
+										selectedList: 6,
+										classes: 'categories'
+									});
 			// Style phone types
 			$('#phonelist').find('select[class*="contacts_property"]').multiselect({
 													noneSelectedText: t('contacts', 'Select type'),
@@ -361,7 +463,7 @@ Contacts={
 				this.data = jsondata;
 				this.id = this.data.id;
 				$('#rightcontent').data('id',this.id);
-				//console.log('loaded: ' + this.data.FN[0]['value']);
+				console.log('loaded: ' + this.data.FN[0]['value']);
 				this.populateNameFields();
 				this.loadCategories();
 				this.loadPhoto();
@@ -369,6 +471,16 @@ Contacts={
 				this.loadPhones();
 				this.loadAddresses();
 				this.loadSingleProperties();
+				// TODO: load NOTE ;-)
+				if(this.data.NOTE) {
+					$('#note').data('checksum', this.data.NOTE[0]['checksum']);
+					$('#note').find('textarea').val(this.data.NOTE[0]['value']);
+					$('#note').show();
+				} else {
+					$('#note').data('checksum', '');
+					$('#note').find('textarea').val('');
+					$('#note').hide();
+				}
 			},
 			loadSingleProperties:function() {
 				var props = ['BDAY', 'NICKNAME', 'ORG'];
@@ -457,21 +569,64 @@ Contacts={
 				$('#contact_identity').find('*[data-element="FN"]').data('checksum', this.data.FN[0]['checksum']);
 				$('#contact_identity').show();
 			},
-			loadCategories:function(){
+			hasCategory:function(category) {
 				if(this.data.CATEGORIES) {
-					//
+					for(var c in this.data.CATEGORIES[0]['value']) {
+						var cat = this.data.CATEGORIES[0]['value'][c];
+						//console.log('hasCategory: ' + cat + ' === ' + category + '?');
+						if(typeof cat === 'string' && (cat.toUpperCase() === category.toUpperCase())) {
+							//console.log('Yes');
+							return true;
+						}
+					}
 				}
+				return false;
+			},
+			categoriesChanged:function(categories) { // Categories added/deleted.
+				console.log('categoriesChanged for ' + Contacts.UI.Card.id + ' : ' + categories);
+				var categorylist = $('#categories_value').find('select');
+				categorylist.find('option').remove();
+				for(var category in categories) {
+					console.log('categoriesChanged: ' + categories[category]);
+					var selected = Contacts.UI.Card.hasCategory(categories[category]) ? ' selected="selected"' : '';
+					var item = '<option value="' + categories[category] + '"' + selected + '>' + categories[category] + '</option>';
+					$(item).appendTo(categorylist);
+				}
+				$('#categories_value').find('select').multiselect('refresh');
+				$.getJSON(OC.filePath('contacts', 'ajax', 'categories/checksumfor.php'),{'id':Contacts.UI.Card.id},function(jsondata){
+					if(jsondata.status == 'success'){
+						console.log('Setting checksum: ' + jsondata.data.checksum);
+						$('#categories_value').data('checksum', jsondata.data.checksum);
+					} else {
+						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+					}
+				});
+			},
+			loadCategories:function(){ // On loading contact.
+				var categories = $('#categories_value').find('select');
+				if(this.data.CATEGORIES) {
+					$('#categories_value').data('checksum', this.data.CATEGORIES[0]['checksum']);
+				} else {
+					$('#categories_value').data('checksum', '');
+				}
+				categories.find('option').each(function(){ 
+					if(Contacts.UI.Card.hasCategory($(this).val())) {
+						$(this).attr('selected', 'selected');
+					} else {
+						$(this).removeAttr('selected');
+					}
+				});
+				categories.multiselect('refresh');
 			},
 			editNew:function(){ // add a new contact
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-				$.getJSON('ajax/newcontact.php',{},function(jsondata){
+				$.getJSON(OC.filePath('contacts', 'ajax', 'newcontact.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
 						id = '';
 						$('#rightcontent').data('id','');
 						$('#rightcontent').html(jsondata.data.page);
 						Contacts.UI.Card.editName();
-					}
-					else{
+					} else {
 						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 						//alert(jsondata.data.message);
 					}
@@ -479,14 +634,19 @@ Contacts={
 			},
 			savePropertyInternal:function(name, fields, oldchecksum, checksum){
 				// TODO: Add functionality for new fields.
-				//console.log('savePropertyInternal: ' + name + ', checksum: ' + checksum);
-				//console.log('savePropertyInternal: ' + this.data[name]);
+				console.log('savePropertyInternal: ' + name + ', fields: ' + fields + 'checksum: ' + checksum);
+				console.log('savePropertyInternal: ' + this.data[name]);
+				var multivalue = ['CATEGORIES'];
 				var params = {};
-				var value = undefined;
+				var value = multivalue.indexOf(name) != -1 ? new Array() : undefined;
 				jQuery.each(fields, function(i, field){
 					//.substring(11,'parameters[TYPE][]'.indexOf(']'))
 					if(field.name.substring(0, 5) === 'value') {
-						value = field.value;
+						if(multivalue.indexOf(name) != -1) {
+							value.push(field.value);
+						} else {
+							value = field.value;
+						}
 					} else if(field.name.substring(0, 10) === 'parameters') {
 						var p = field.name.substring(11,'parameters[TYPE][]'.indexOf(']'));
 						if(!(p in params)) {
@@ -506,7 +666,7 @@ Contacts={
 			saveProperty:function(obj){
 				// I couldn't get the selector to filter on 'contacts_property' so I filter by hand here :-/
 				if(!$(obj).hasClass('contacts_property')) {
-					//console.log('Filtering out object.' + obj);
+					console.log('Filtering out object.' + obj);
 					return false;
 				}
 				if($(obj).hasClass('nonempty') && $(obj).val().trim() == '') {
@@ -529,32 +689,38 @@ Contacts={
 				if(checksum != undefined && checksum != '') { // save
 					q = q + '&checksum=' + checksum;
 					console.log('Saving: ' + q);
+					$(obj).attr('disabled', 'disabled');
 					$.post('ajax/saveproperty.php',q,function(jsondata){
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
 							Contacts.UI.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
 							Contacts.UI.loading(container, false);
+							$(obj).removeAttr('disabled');
 							return true;
 						}
 						else{
 							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 							Contacts.UI.loading(container, false);
+							$(obj).removeAttr('disabled');
 							return false;
 						}
 					},'json');
 				} else { // add
 					console.log('Adding: ' + q);
+					$(obj).attr('disabled', 'disabled');
 					$.post('ajax/addproperty.php',q,function(jsondata){
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
 							// TODO: savePropertyInternal doesn't know about new fields
 							//Contacts.UI.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
 							Contacts.UI.loading(container, false);
+							$(obj).removeAttr('disabled');
 							return true;
 						}
 						else{
 							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
 							Contacts.UI.loading(container, false);
+							$(obj).removeAttr('disabled');
 							return false;
 						}
 					},'json');
@@ -565,8 +731,12 @@ Contacts={
 				console.log('addProperty:' + type);
 				switch (type) {
 					case 'PHOTO':
-						this.loadPhoto();
+						this.loadPhoto(true);
 						$('#file_upload_form').show();
+						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
+						break;
+					case 'NOTE':
+						$('#note').show();
 						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
 						break;
 					case 'EMAIL':
@@ -647,8 +817,9 @@ Contacts={
 				if($('#edit_name_dialog').dialog('isOpen') == true){
 					$('#edit_name_dialog').dialog('moveToTop');
 				}else{ // TODO: If id=='' call addcontact.php (or whatever name) instead and reload view with id.
-					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'editname.php')+'?id='+this.id, function(){
-						$('#edit_name_dialog' ).dialog({
+					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'editname.php')+'?id='+this.id, function(jsondata){
+						if(jsondata.status != 'error'){
+							$('#edit_name_dialog' ).dialog({
 								modal: (isnew && true || false),
 								closeOnEscape: (isnew == '' && false || true),
 								title:  (isnew && t('contacts', 'Add contact') || t('contacts', 'Edit name')),
@@ -667,7 +838,10 @@ Contacts={
 								open : function(event, ui) {
 									// load 'N' property - maybe :-P
 								}*/
-						});
+							});
+						} else {
+							alert(jsondata.data.message);
+						}
 					});
 				}
 			},
@@ -692,7 +866,14 @@ Contacts={
 
 				$('#fn_select option').remove();
 				//$('#fn_select').combobox('value', this.fn);
-				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				var tmp = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				var names = new Array();
+				for(var name in tmp) {
+					console.log('idx: ' + names.indexOf(tmp[name]));
+					if(names.indexOf(tmp[name]) == -1) {
+						names.push(tmp[name]);
+					}
+				}
 				$.each(names, function(key, value) {
 					$('#fn_select')
 						.append($('<option></option>')
@@ -771,8 +952,9 @@ Contacts={
 				if($('#edit_address_dialog').dialog('isOpen') == true){
 					$('#edit_address_dialog').dialog('moveToTop');
 				}else{
-					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'editaddress.php')+q, function(){
-						$('#edit_address_dialog' ).dialog({
+					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'editaddress.php')+q, function(jsondata){
+						if(jsondata.status != 'error'){
+							$('#edit_address_dialog' ).dialog({
 								/*modal: true,*/
 								height: 'auto', width: 'auto',
 								buttons: {
@@ -803,7 +985,10 @@ Contacts={
 								open : function(event, ui) {
 									// load 'ADR' property - maybe :-P
 								}*/
-						});
+							});
+						} else {
+							alert(jsondata.data.message);
+						}
 					});
 				}
 			},
@@ -867,8 +1052,8 @@ Contacts={
 					form.submit();
 				}
 			},
-			loadPhoto:function(){
-				if(this.data.PHOTO) {
+			loadPhoto:function(force){
+				if(this.data.PHOTO||force==true) {
 					$.getJSON('ajax/loadphoto.php',{'id':this.id},function(jsondata){
 						if(jsondata.status == 'success'){
 							//alert(jsondata.data.page);
@@ -1006,13 +1191,17 @@ Contacts={
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
 				}else{
-					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(){
-						$('#chooseaddressbook_dialog').dialog({
-							width : 600,
-							close : function(event, ui) {
-								$(this).dialog('destroy').remove();
-							}
-						});
+					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(jsondata){
+						if(jsondata.status != 'error'){
+							$('#chooseaddressbook_dialog').dialog({
+								width : 600,
+								close : function(event, ui) {
+									$(this).dialog('destroy').remove();
+								}
+							});
+						} else {
+							alert(jsondata.data.message);
+						}
 					});
 				}
 			},
@@ -1121,6 +1310,7 @@ Contacts={
 $(document).ready(function(){
 
 	Contacts.UI.loadHandlers();
+	Categories.changed = Contacts.UI.Card.categoriesChanged;
 
 	/**
 	 * Show the Addressbook chooser
@@ -1189,7 +1379,8 @@ $(document).ready(function(){
 	
 	// NOTE: For some reason the selector doesn't work when I select by '.contacts_property' too...
 	// I do the filtering in the event handler instead.
-	$('input[type="text"],input[type="checkbox"],input[type="email"],input[type="tel"],input[type="date"], select').live('change', function(){
+	//$('input[type="text"],input[type="checkbox"],input[type="email"],input[type="tel"],input[type="date"], select').live('change', function(){
+	$('.contacts_property').live('change', function(){
 		Contacts.UI.Card.saveProperty(this);
 	});
 
@@ -1298,11 +1489,29 @@ $(document).ready(function(){
 		xhr.send(file);
 	}
 
+	$('body').live('click',function(e){
+		if(!$(e.target).is('#contacts_propertymenu_button')) {
+			$('#contacts_propertymenu').hide();
+		}
+	});
 	$('#contacts_propertymenu_button').live('click',function(){
-		$('#contacts_propertymenu').is(':hidden') && $('#contacts_propertymenu').slideDown() || $('#contacts_propertymenu').slideUp();
+		var menu = $('#contacts_propertymenu');
+		if(menu.is(':hidden')) {
+			menu.show();
+			menu.find('ul').focus();
+		} else {
+			menu.hide();
+		}
 	});
 	$('#contacts_propertymenu a').live('click',function(){
 		Contacts.UI.Card.addProperty(this);
 		$('#contacts_propertymenu').hide();
 	});
 });
+
+String.prototype.strip_tags = function(){
+	tags = this;
+	stripped = tags.replace(/[\<\>]/gi, "");
+	return stripped;
+}
+

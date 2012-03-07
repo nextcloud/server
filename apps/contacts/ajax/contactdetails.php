@@ -71,5 +71,5 @@ if(isset($details['PHOTO'])) {
 	$details['PHOTO'] = false;
 }
 $details['id'] = $id;
-
+OC_Contacts_App::setLastModifiedHeader($vcard);
 OC_JSON::success(array('data' => $details));

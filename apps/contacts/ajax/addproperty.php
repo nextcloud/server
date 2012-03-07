@@ -27,14 +27,16 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$id = $_POST['id'];
-$vcard = OC_Contacts_App::getContactVCard( $id );
+$id = isset($_POST['id'])?$_POST['id']:null;
+$name = isset($_POST['name'])?$_POST['name']:null;
+$value = isset($_POST['value'])?$_POST['value']:null;
+$parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
 
-$name = $_POST['name'];
-$value = $_POST['value'];
+$vcard = OC_Contacts_App::getContactVCard($id);
+
 if(!is_array($value)){
 	$value = trim($value);
-	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME'))) {
+	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME', 'NOTE'))) {
 		OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot add empty property.'))));
 		exit();
 	}
@@ -51,7 +53,6 @@ if(!is_array($value)){
 		exit();
 	}
 }
-$parameters = isset($_POST['parameters']) ? $_POST['parameters'] : array();
 
 // Prevent setting a duplicate entry
 $current = $vcard->select($name);
@@ -82,7 +83,9 @@ switch($name) {
 		}
 	case 'N':
 	case 'ORG':
+	case 'NOTE':
 	case 'NICKNAME':
+		// TODO: Escape commas and semicolons.
 		break;
 	case 'EMAIL':
 		$value = strtolower($value);
