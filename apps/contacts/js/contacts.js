@@ -19,9 +19,9 @@ Categories={
 				var response = jQuery.parseJSON(response);
 				console.log('status: ' + status + ', response: ' + response + ', response.status:' + response.status);
 				if(response.status == 'error'){
-					alert(response.data.message);
+					OC.dialogs.alert(response.data.message, 'Error');
 				} else {
-					alert(response);
+					OC.dialogs.alert(response, 'Error');
 				}
 			} catch(e) {
 				$('#edit_categories_dialog').dialog({
@@ -71,7 +71,7 @@ Categories={
 			if(jsondata.status == 'success'){
 				Categories._update(jsondata.data.categories);
 			} else {
-				alert(jsondata.data.message);
+				OC.dialogs.alert(jsondata.data.message, 'Error');
 			}
 		});
 	},
@@ -81,7 +81,7 @@ Categories={
 			if(jsondata.status == 'success'){
 				Categories._update(jsondata.data.categories);
 			} else {
-				alert(jsondata.data.message);
+				OC.dialogs.alert(jsondata.data.message, 'Error');
 			}
 		});
 		return false;
@@ -92,7 +92,7 @@ Categories={
 			if(jsondata.status == 'success'){
 				Categories._update(jsondata.data.categories);
 			} else {
-				alert(jsondata.data.message);
+				OC.dialogs.alert(jsondata.data.message, 'Error');
 			}
 		});
 	},
@@ -112,13 +112,13 @@ Categories={
 Contacts={
 	UI:{
 		notImplemented:function() {
-			Contacts.UI.messageBox(t('contacts', 'Not implemented'), t('contacts', 'Sorry, this functionality has not been implemented yet'));
+			OC.dialogs.alert(t('contacts', 'Sorry, this functionality has not been implemented yet'), t('contacts', 'Not implemented'));
 		},
 		searchOSM:function(obj) {
 			var adr = Contacts.UI.propertyContainerFor(obj).find('.adr').val();
 			console.log('adr 1: ' + adr);
 			if(adr == undefined) {
-				Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'Couldn\'t get a valid address.'));
+				OC.dialogs.alert(t('contacts', 'Couldn\'t get a valid address.'), t('contacts', 'Error'));
 				return;
 			}
 			// FIXME: I suck at regexp. /Tanghus
@@ -151,7 +151,7 @@ Contacts={
 		mailTo:function(obj) {
 			var adr = Contacts.UI.propertyContainerFor($(obj)).find('input[type="email"]').val().trim();
 			if(adr == '') {
-				Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'Please enter an email address.'));
+				OC.dialogs.alert(t('contacts', 'Please enter an email address.'), t('contacts', 'Error'));
 				return;
 			}
 			window.location.href='mailto:' + adr;
@@ -213,38 +213,6 @@ Contacts={
 			$('#carddav_url').val(totalurl + '/' + username + '/' + bookname);
 			$('#carddav_url').show();
 			$('#carddav_url_close').show();
-		},
-		messageBox:function(title, msg) {
-			if(msg.toLowerCase().indexOf('auth') != -1) {
-				// fugly hack, I know
-				alert(msg);
-			}
-			if($('#messagebox').dialog('isOpen') == true){
-				// NOTE: Do we ever get here?
-				$('#messagebox').dialog('moveToTop');
-			}else{
-				$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'messagebox.php'), function(jsondata){
-					if(jsondata.status != 'error'){
-						$('#messagebox').dialog(
-							{
-								autoOpen: true,
-								title: title,
-								buttons: [{
-											text: "Ok",
-											click: function() { $(this).dialog("close"); }
-										}],
-								close: function(event, ui) {
-									$(this).dialog('destroy').remove();
-								},
-								open: function(event, ui) {
-									$('#messagebox_msg').html(msg);
-								}
-						});
-					} else {
-						alert(jsondata.data.message);
-					}
-				});
-			};
 		},
 		loadListHandlers:function() {
 			//$('.add,.delete').hide();
@@ -360,12 +328,12 @@ Contacts={
 									if(jsondata.status == 'success'){
 										Contacts.UI.Card.loadContact(jsondata.data);
 									} else{
-										Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+										OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 									}
 								});
 							}
 						} else{
-							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
 				}
@@ -377,7 +345,7 @@ Contacts={
 							$('#rightcontent').data('id','');
 							$('#rightcontent').html(jsondata.data.page);
 						} else {
-							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
 				}
@@ -417,7 +385,7 @@ Contacts={
 								
 							}
 							else{
-								Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 								//alert(jsondata.data.message);
 							}
 						});
@@ -426,7 +394,7 @@ Contacts={
 						// TODO: Add to contacts list.
 					}
 					else{
-						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						//alert(jsondata.data.message);
 					}
 				});
@@ -452,13 +420,13 @@ Contacts={
 									$('#rightcontent').html(jsondata.data.page);
 								}
 								else{
-									Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+									OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 								}
 							});
 						}
 					}
 					else{
-						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						//alert(jsondata.data.message);
 					}
 				});
@@ -604,7 +572,7 @@ Contacts={
 						console.log('Setting checksum: ' + jsondata.data.checksum);
 						$('#categories_value').data('checksum', jsondata.data.checksum);
 					} else {
-						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
 				});
 			},
@@ -633,7 +601,7 @@ Contacts={
 						$('#rightcontent').html(jsondata.data.page);
 						Contacts.UI.Card.editName();
 					} else {
-						Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						//alert(jsondata.data.message);
 					}
 				});
@@ -676,7 +644,7 @@ Contacts={
 					return false;
 				}
 				if($(obj).hasClass('nonempty') && $(obj).val().trim() == '') {
-					Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'This property has to be non-empty.'));
+					OC.dialogs.alert(t('contacts', 'This property has to be non-empty.'), t('contacts', 'Error'));
 					return false;
 				}
 				container = $(obj).parents('.propertycontainer').first(); // get the parent holding the metadata.
@@ -705,7 +673,7 @@ Contacts={
 							return true;
 						}
 						else{
-							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							Contacts.UI.loading(container, false);
 							$(obj).removeAttr('disabled');
 							return false;
@@ -724,7 +692,7 @@ Contacts={
 							return true;
 						}
 						else{
-							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							Contacts.UI.loading(container, false);
 							$(obj).removeAttr('disabled');
 							return false;
@@ -792,13 +760,13 @@ Contacts={
 								$('#contacts_propertymenu a[data-type="'+proptype+'"]').parent().show();
 								Contacts.UI.loading(obj, false);
 							} else {
-								Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', '\'deleteProperty\' called without type argument. Please report at bugs.owncloud.org'));
+								OC.dialogs.alert(t('contacts', '\'deleteProperty\' called without type argument. Please report at bugs.owncloud.org'), t('contacts', 'Error'));
 								Contacts.UI.loading(obj, false);
 							}
 						}
 						else{
 							Contacts.UI.loading(obj, false);
-							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
 				} else { // Property hasn't been saved so there's nothing to delete.
@@ -813,7 +781,7 @@ Contacts={
 						$('#contacts_propertymenu a[data-type="'+proptype+'"]').parent().show();
 						Contacts.UI.loading(obj, false);
 					} else {
-						Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', '\'deleteProperty\' called without type argument. Please report at bugs.owncloud.org'));
+						OC.dialogs.alert(t('contacts', '\'deleteProperty\' called without type argument. Please report at bugs.owncloud.org'), t('contacts', 'Error'));
 					}
 				}
 			},
@@ -1034,7 +1002,7 @@ Contacts={
 			},
 			uploadPhoto:function(filelist) {
 				if(!filelist) {
-					Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts','No files selected for upload.'));
+					OC.dialogs.alert(t('contacts','No files selected for upload.'), t('contacts', 'Error'));
 					return;
 				}
 				//var file = filelist.item(0);
@@ -1043,7 +1011,7 @@ Contacts={
 				var form = $('#file_upload_form');
 				var totalSize=0;
 				if(file.size > $('#max_upload').val()){
-					Contacts.UI.messageBox(t('Upload too large'), t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'));
+					OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts', 'Error'));
 					return;
 				} else {
 					target.load(function(){
@@ -1052,7 +1020,7 @@ Contacts={
 							Contacts.UI.Card.editPhoto(response.data.id, response.data.tmp);
 							//alert('File: ' + file.tmp + ' ' + file.name + ' ' + file.mime);
 						}else{
-							Contacts.UI.messageBox(t('contacts', 'Error'), response.data.message);
+							OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 						}
 					});
 					form.submit();
@@ -1066,7 +1034,7 @@ Contacts={
 							$('#contacts_details_photo_wrapper').html(jsondata.data.page);
 						}
 						else{
-							Contacts.UI.messageBox(jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
 					$('#file_upload_form').show();
@@ -1085,7 +1053,7 @@ Contacts={
 						$('#edit_photo_dialog_img').html(jsondata.data.page);
 					}
 					else{
-						Contacts.UI.messageBox(jsondata.data.message);
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
 				});
 				if($('#edit_photo_dialog').dialog('isOpen') == true){
@@ -1104,7 +1072,7 @@ Contacts={
 						// load cropped photo.
 						$('#contacts_details_photo_wrapper').html(response.data.page);
 					}else{
-						Contacts.UI.messageBox(t('contacts','Error'), response.data.message);
+						OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 					}
 				});
 				$('#contacts [data-id="'+this.id+'"]').find('a').css('background','url(thumbnail.php?id='+this.id+'&refresh=1'+Math.random()+') no-repeat');
@@ -1244,7 +1212,7 @@ Contacts={
 							Contacts.UI.Contacts.update();
 							Contacts.UI.Addressbooks.overview();
 						} else {
-							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							//alert('Error: ' + data.message);
 						}
 					  });
@@ -1259,7 +1227,7 @@ Contacts={
 				var description = $("#description_"+bookid).val();
 				
 				if(displayname.length == 0) {
-					Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'Displayname cannot be empty.'));
+					OC.dialogs.alert(t('contacts', 'Displayname cannot be empty.'), t('contacts', 'Error'));
 					return false;
 				}
 				var url;
@@ -1274,7 +1242,7 @@ Contacts={
 							$(button).closest('tr').prev().html(jsondata.page).show().next().remove();
 							Contacts.UI.Contacts.update();
 						} else {
-							Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
 			},
@@ -1294,7 +1262,7 @@ Contacts={
 						Contacts.UI.Card.update();
 					}
 					else{
-						Contacts.UI.messageBox(t('contacts', 'Error'),jsondata.data.message);
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						//alert(jsondata.data.message);
 					}
 				});
@@ -1344,7 +1312,7 @@ $(document).ready(function(){
 				Contacts.UI.Card.loadContact(jsondata.data);
 			}
 			else{
-				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+				OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 				//alert(jsondata.data.message);
 			}
 		});
@@ -1443,17 +1411,17 @@ $(document).ready(function(){
 		var file = files[0];
 		console.log('size: '+file.size);
 		if(file.size > $('#max_upload').val()){
-			Contacts.UI.messageBox(t('contacts','Upload too large'), t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'));
+			OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
 			return;
 		}
 		if (file.type.indexOf("image") != 0) {
-			Contacts.UI.messageBox(t('contacts','Wrong file type'), t('contacts','Only image files can be used as profile picture.'));
+			OC.dialogs.alert(t('contacts','Only image files can be used as profile picture.'), t('contacts','Wrong file type'));
 			return;
 		}
 		var xhr = new XMLHttpRequest();
 
 		if (!xhr.upload) {
-			Contacts.UI.messageBox(t('contacts', 'Error'), t('contacts', 'Your browser doesn\'t support AJAX upload. Please click on the profile picture to select a photo to upload.'))
+			OC.dialogs.alert(t('contacts', 'Your browser doesn\'t support AJAX upload. Please click on the profile picture to select a photo to upload.'), t('contacts', 'Error'))
 		}
 		fileUpload = xhr.upload,
 		xhr.onreadystatechange = function() {
@@ -1463,11 +1431,11 @@ $(document).ready(function(){
 					if(xhr.status == 200) {
 						Contacts.UI.Card.editPhoto(response.data.id, response.data.tmp);
 					} else {
-						Contacts.UI.messageBox(t('contacts', 'Error'), xhr.status + ': ' + xhr.responseText);
+						OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
 					}
 				} else {
 					//alert(xhr.responseText);
-					Contacts.UI.messageBox(t('contacts', 'Error'), response.data.message);
+					OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 				}
 				// stop loading indicator
 				//$('#contacts_details_photo_progress').hide();
