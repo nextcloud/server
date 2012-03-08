@@ -306,6 +306,8 @@ class OC_Contacts_VCard{
 			return false;
 		}
 
+		OC_Contacts_App::$categories->loadFromVObject($card);
+
 		$fn = $card->getAsString('FN');
 		if (empty($fn)) {
 			$fn = null;
