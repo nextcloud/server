@@ -68,7 +68,7 @@ class OC_Gallery_Hooks_Handlers {
 
     if (!self::isPhoto($fullpath)) return;
 
-    $path = substr($fullpath, 0, strrpos($fullpath, '/'));
+    $path = dirname($fullpath);
     if (!self::pathInRoot($path)) return;
     OC_Gallery_Scanner::scanDir($path, $albums);
 
