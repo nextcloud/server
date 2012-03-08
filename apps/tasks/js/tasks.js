@@ -1,4 +1,52 @@
 OC.Tasks = {
+	create_task_div:function(task) {
+		var task_container = $('<div>')
+			.addClass('task')
+			.data('task', task)
+			.data('show_count', 0)
+			.attr('data-id', task.id)
+			.append($('<p>')
+				.html('<a href="index.php?id='+task.id+'">'+task.summary+'</a>')
+				.addClass('summary')
+				.attr('title', task.description)
+				)
+			//.append(actions.clone().removeAttr('id'))
+			;
+		var checkbox = $('<input type="checkbox">');
+		if (task.completed) {
+			checkbox.attr('checked', 'checked');
+		}
+		$('<div>')
+			.addClass('completed')
+			.append(checkbox)
+			.prependTo(task_container);
+		var priority = task.priority;
+		$('<div>')
+			.addClass('tag')
+			.addClass('priority')
+			.addClass('priority-'+(priority?priority:'n'))
+			.text(priority)
+			.prependTo(task_container);
+		if (task.location) {
+			$('<div>')
+				.addClass('tag')
+				.addClass('location')
+				.text(task.location)
+				.appendTo(task_container);
+		}
+		if (task.categories.length > 0) {
+			var categories = $('<div>')
+					.addClass('categories')
+					.appendTo(task_container);
+			$(task.categories).each(function(i, category){
+					categories.append($('<a>')
+						.addClass('tag')
+						.text(category)
+					);
+			});
+		}
+		return task_container;
+	},
 	filter:function(tag, find_filter) {
 		var tag_text = $(tag).text();
 		var filter = !$(tag).hasClass('active');
@@ -41,50 +89,7 @@ $(document).ready(function(){
 		var tasks = $('#tasks').empty().data('show_count', 0);
 		var actions = $('#task_actions_template');
 		$(jsondata).each(function(i, task) {
-			var task_container = $('<div>').appendTo(tasks)
-				.addClass('task')
-				.data('task', task)
-				.data('show_count', 0)
-				.attr('data-id', task.id)
-				.append($('<p>')
-					.html('<a href="index.php?id='+task.id+'">'+task.summary+'</a>')
-					.addClass('summary')
-					)
-				//.append(actions.clone().removeAttr('id'))
-				;
-			var checkbox = $('<input type="checkbox">');
-			if (task.completed) {
-				checkbox.attr('checked', 'checked');
-			}
-			$('<div>')
-				.addClass('completed')
-				.append(checkbox)
-				.prependTo(task_container);
-			var priority = task.priority;
-			$('<div>')
-				.addClass('tag')
-				.addClass('priority')
-				.addClass('priority-'+(priority?priority:'n'))
-				.text(priority)
-				.prependTo(task_container);
-			if (task.location) {
-				$('<div>')
-					.addClass('tag')
-					.addClass('location')
-					.text(task.location)
-					.appendTo(task_container);
-			}
-			if (task.categories.length > 0) {
-				var categories = $('<div>')
-						.addClass('categories')
-						.appendTo(task_container);
-				$(task.categories).each(function(i, category){
-						categories.append($('<a>')
-							.addClass('tag')
-							.text(category)
-						);
-				});
-			}
+			tasks.append(OC.Tasks.create_task_div(task));
 		});
 		if( $('#tasks div').length > 0 ){
 			$('#tasks div').first().addClass('active');
@@ -162,6 +167,7 @@ $(document).ready(function(){
 			if(jsondata.status == 'success'){
 				$('#task_details').data('id',jsondata.data.id);
 				$('#task_details').html(jsondata.data.page);
+				$('#tasks').append(OC.Tasks.create_task_div(jsondata.data.task));
 			}
 			else{
 				alert(jsondata.data.message);
@@ -196,8 +202,13 @@ $(document).ready(function(){
 			$('.error_msg').remove();
 			$('.error').removeClass('error');
 			if(jsondata.status == 'success'){
-				$('#task_details').data('id',jsondata.data.id);
+				var id = jsondata.data.id;
+				$('#task_details').data('id',id);
 				$('#task_details').html(jsondata.data.page);
+				var task = jsondata.data.task;
+				$('#tasks .task[data-id='+id+']')
+					.data('task', task)
+					.html(OC.Tasks.create_task_div(task).html());
 			}
 			else{
 				var errors = jsondata.data.errors;

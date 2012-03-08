@@ -8,11 +8,7 @@ OC_JSON::checkAppEnabled('tasks');
 $l10n = new OC_L10N('tasks');
 
 $cid = $_POST['id'];
-$calendar = OC_Calendar_Calendar::findCalendar( $cid );
-if( $calendar === false || $calendar['userid'] != OC_USER::getUser()){
-	OC_JSON::error(array('data' => array( 'message' => $l10n->t('This is not your calendar!'))));
-	exit();
-}
+$calendar = OC_Calendar_App::getCalendar( $cid );
 
 $errors = OC_Task_App::validateRequest($_POST);
 if (!empty($errors)) {
@@ -30,4 +26,7 @@ $tmpl->assign('details',$vcalendar->VTODO);
 $tmpl->assign('id',$id);
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page )));
+$user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$task = OC_Task_App::arrayForJSON($id, $vcalendar->VTODO, $user_timezone);
+
+OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page, 'task' => $task )));

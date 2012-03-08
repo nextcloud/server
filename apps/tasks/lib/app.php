@@ -43,6 +43,36 @@ class OC_Task_App {
 		);
 	}
 
+	public static function arrayForJSON($id, $vtodo, $user_timezone)
+	{
+                $task = array( 'id' => $id );
+		$task['summary'] = $vtodo->getAsString('SUMMARY');
+		$task['description'] = $vtodo->getAsString('DESCRIPTION');
+		$task['location'] = $vtodo->getAsString('LOCATION');
+		$task['categories'] = $vtodo->getAsArray('CATEGORIES');
+		$due = $vtodo->DUE;
+		if ($due) {
+			$due = $due->getDateTime();
+			$due->setTimezone(new DateTimeZone($user_timezone));
+			$task['due'] = $due->format('Y-m-d H:i:s');
+		}
+		else {
+			$task['due'] = false;
+		}
+		$task['priority'] = $vtodo->getAsString('PRIORITY');
+		$completed = $vtodo->COMPLETED;
+		if ($completed) {
+			$completed = $completed->getDateTime();
+			$completed->setTimezone(new DateTimeZone($user_timezone));
+			$task['completed'] = $completed->format('Y-m-d H:i:s');
+		}
+		else {
+			$task['completed'] = false;
+		}
+		$task['complete'] = $vtodo->getAsString('PERCENT-COMPLETE');
+		return $task;
+	}
+
 	public static function validateRequest($request)
 	{
 		$errors = array();
@@ -84,22 +114,16 @@ class OC_Task_App {
 
 	public static function createVCalendarFromRequest($request)
 	{
-		$vcalendar = new Sabre_VObject_Component('VCALENDAR');
+		$vcalendar = new OC_VObject('VCALENDAR');
 		$vcalendar->add('PRODID', 'ownCloud Calendar');
 		$vcalendar->add('VERSION', '2.0');
 
-		$now = new DateTime();
-
-		$vtodo = new Sabre_VObject_Component('VTODO');
+		$vtodo = new OC_VObject('VTODO');
 		$vcalendar->add($vtodo);
 
-		$created = new Sabre_VObject_Element_DateTime('CREATED');
-		$created->setDateTime($now, Sabre_VObject_Element_DateTime::UTC);
-		$vtodo->add($created);
+		$vtodo->setDateTime('CREATED', 'now', Sabre_VObject_Element_DateTime::UTC);
 
-		$uid = self::createUID();
-		$vtodo->add('UID',$uid);
-
+		$vtodo->setUID();
 		return self::updateVCalendarFromRequest($request, $vcalendar);
 	}
 
