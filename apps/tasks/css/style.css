@@ -1,3 +1,4 @@
+#tasks p.loading{margin:15px;}
 #tasks{position:fixed; overflow: auto; top:6.4em; width:50em; background:#f8f8f8; border-right:1px solid #ddd; }
 #task_details{position:absolute;left:63em;top:6.4em;}
 #task_details th{padding:2px;text-align:right;vertical-align:top; }
@@ -6,6 +7,7 @@
 .error{border-color:red;border-width:2px;}
 .task{position:relative;padding:0.5em 1em;}
 .task_actions{display:none;}
+#tasks h1{background-color:#1D2D44;color:white;font-size:120%;padding:0 0.5em;}
 
 .task .priority{background-color:black;color:white;position:absolute;top:0.5em}
 .task .priority-n{height:2.66ex;width:0.6em;}

@@ -1,10 +1,14 @@
 <div id="controls">
-	<form>
-		<input type="button" id="tasks_newtask" value="<?php echo $l->t('Add Task'); ?>">
-	</form>
+	<input type="button" id="tasks_newtask" value="<?php echo $l->t('Add Task'); ?>">
+	<input type="button" id="tasks_order_due" value="<?php echo $l->t('Order Due'); ?>">
+	<input type="button" id="tasks_order_category" value="<?php echo $l->t('Order Category'); ?>">
+	<input type="button" id="tasks_order_complete" value="<?php echo $l->t('Order Complete'); ?>">
+	<input type="button" id="tasks_order_location" value="<?php echo $l->t('Order Location'); ?>">
+	<input type="button" id="tasks_order_prio" value="<?php echo $l->t('Order Priority'); ?>">
+	<input type="button" id="tasks_order_label" value="<?php echo $l->t('Order Label'); ?>">
 </div>
 <div id="tasks">
-<p><?php echo $l->t('Loading tasks...') ?></p>
+<p class="loading"><?php echo $l->t('Loading tasks...') ?></p>
 </div>
 <div id="task_details">
 </div>
