@@ -540,12 +540,12 @@ class OC_FileCache{
 		}elseif($root=='/'){
 			$root='';
 		}
-    $rootLen=strlen($root);
-    $root .= '%';
+		$rootLen=strlen($root);
+		$root .= '%';
 		$user=OC_User::getUser();
 		if(!$part2){
-      $query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=? AND path LIKE ?');
-      $result=$query->execute(array($part1,$user, $root));
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=? AND path LIKE ?');
+			$result=$query->execute(array($part1,$user, $root));
 		}else{
 			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND user=? AND path LIKE ? ');
 			$result=$query->execute(array($part1.'/'.$part2,$user, $root));
