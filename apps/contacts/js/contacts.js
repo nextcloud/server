@@ -252,12 +252,12 @@ Contacts={
 			$('#bday').datepicker({
 						dateFormat : 'dd-mm-yy'
 			});
-			/*$('#categories_value').find('select').multiselect({
+			$('#categories_value').find('select').multiselect({
 										noneSelectedText: t('contacts', 'Select categories'),
 										header: false,
 										selectedList: 6,
 										classes: 'categories'
-									});*/
+									});
 			// Style phone types
 			$('#phonelist').find('select.contacts_property').multiselect({
 													noneSelectedText: t('contacts', 'Select type'),
@@ -299,7 +299,7 @@ Contacts={
 					click: function() { $(this).dialog('close'); }
 				}
 			] );
-			$('#categories').multiple_autocomplete({source: categories});
+			//$('#categories').multiple_autocomplete({source: categories});
 			Contacts.UI.loadListHandlers();
 		},
 		Card:{
@@ -440,7 +440,7 @@ Contacts={
 				$('#rightcontent').data('id',this.id);
 				console.log('loaded: ' + this.data.FN[0]['value']);
 				this.populateNameFields();
-				//this.loadCategories();
+				this.loadCategories();
 				this.loadPhoto();
 				this.loadMails();
 				this.loadPhones();
@@ -458,7 +458,7 @@ Contacts={
 				}
 			},
 			loadSingleProperties:function() {
-				var props = ['BDAY', 'NICKNAME', 'ORG', 'CATEGORIES'];
+				var props = ['BDAY', 'NICKNAME', 'ORG']; //, 'CATEGORIES'];
 				// Clear all elements
 				$('#ident .propertycontainer').each(function(){
 					if(props.indexOf($(this).data('element')) > -1) {
@@ -494,12 +494,12 @@ Contacts={
 								$('#contact_identity').find('#org_label').show();
 								$('#contact_identity').find('#org_value').show();
 								break;
-							case 'CATEGORIES':
+							/*case 'CATEGORIES':
 								$('#contact_identity').find('#categories').val(value);
 								$('#contact_identity').find('#categories_value').data('checksum', checksum);
 								$('#contact_identity').find('#categories_label').show();
 								$('#contact_identity').find('#categories_value').show();
-								break;
+								break;*/
 						}
 					} else {
 						$('#contacts_propertymenu a[data-type="'+props[prop]+'"]').parent().show();
