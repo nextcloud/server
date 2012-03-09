@@ -424,11 +424,11 @@ Contacts={
 				} else {
 					narray = this.data.N[0]['value'];
 				}
-				this.famname = narray[0];
-				this.givname = narray[1];
-				this.addname = narray[2];
-				this.honpre = narray[3];
-				this.honsuf = narray[4];
+				this.famname = narray[0] || '';
+				this.givname = narray[1] || '';
+				this.addname = narray[2] || '';
+				this.honpre = narray[3] || '';
+				this.honsuf = narray[4] || '';
 				if(this.honpre.length > 0) {
 					this.fullname += this.honpre + ' ';
 				}
