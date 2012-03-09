@@ -25,7 +25,10 @@
  * provides an interface to all search providers
  */
 class OC_Migrate{
+	
+	static private $MDB2=false;
 	static private $providers=array();
+	static private $schema=false;
 	
 	/**
 	 * register a new migration provider
@@ -36,140 +39,225 @@ class OC_Migrate{
 	}
 	
 	/**
-	 * export app data for a user
-	 * @param string userid
-	 * @return string xml of app data
+	 * @breif creates a migration.db in the users data dir with their app data in
+	 * @param @uid string userid of the user to export for
+	 * @return bool whether operation was successfull
 	 */
-	public static function export($uid){
+	public static function export( $uid ){
 		
 		// Only export database users, otherwise we get chaos
-		if(OC_User_Database::userExists($uid)){
-				
-			$data = array();
-			$data['userid'] = OC_User::getUser();
-			
-			$query = OC_DB::prepare( "SELECT uid, password FROM *PREFIX*users WHERE uid LIKE ?" );
-			$result = $query->execute( array( $uid));
-	
-			$row = $result->fetchRow();
-			if($row){
-				$data['hash'] = $row['password'];
-			} else {
-				return false;
-				exit();	
-			}
-			
-			foreach(self::$providers as $provider){
-				
-				$data['apps'][$prodider->appid]['info'] = OC_App::getAppInfo($provider->appid);
-				$data['apps'][$provider->appid]['data'] = $provider->export($uid);
-	
-			}
-	
-			return self::indent(json_encode($data));
-		
-		} else {
+		if(!OC_User_Database::userExists( $uid )){
 			return false;	
 		}
+				
+		// Foreach provider
+		foreach( $providers as $provider ){
+
+			self::createAppTables( $provider->id );
+			// Run the export function
+			$provider->export( $uid );
+			
+		}
+		
+		return true;
 		
 	}
 	
 	/**
-	 * @breif imports a new user
-	 * @param $data json data for the user
-	 * @param $uid optional uid to use
-	 * @return json reply
-	 */
-	 public function import($data,$uid=null){
-	 	
-	 	// Import the data
-	 	$data = json_decode($data);
-	 	if(is_null($data)){
-	 		// TODO LOG
-	 		return false;
-	 		exit();	
-	 	}
-	 	
-	 	// Specified user or use original
-	 	$uid = !is_null($uid) ? $uid : $data['userid'];
-	 	
-	 	// Check if userid exists
-	 	if(OC_User::userExists($uid)){
-	 		// TODO LOG
-	 		return false;
-	 		exit();	
-	 	}
-	 	
-	 	// Create the user
-	 	$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
-		$result = $query->execute( array( $uid, $data['hash']));
-		if(!$result){
-			// TODO LOG
+	* @breif imports a new user
+	* @param $uid optional uid to use
+	* @return bool if the import succedded
+	*/
+	public static function import( $uid=null ){
+		
+		self::$uid = $uid;
+		
+		// Connect to the db
+		if(!self::connectDB()){
+			return false;	
+		}
+		
+		// Create the user
+		if(!self::createUser($uid, $hash)){
+			return false;	
+		}
+		
+		// Now get the list of apps to import from migration.db
+		// Then check for migrate.php for these apps
+		// If present, run the import function for them.
+		
+		return treu;
+	
+	}
+	
+	// @breif connects to migration.db, or creates if not found
+	// @return bool whether the operation was successful
+	private static function connectDB(){
+		
+		// Already connected
+		if(!self::$MDB2){
+			require_once('MDB2.php');
+			
+			$datadir = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+			
+			// Prepare options array
+			$options = array(
+				'portability' => MDB2_PORTABILITY_ALL & (!MDB2_PORTABILITY_FIX_CASE),
+				'log_line_break' => '<br>',
+				'idxname_format' => '%s',
+				'debug' => true,
+				'quote_identifier' => true
+				);
+			$dsn = array(
+				'phptype'  => 'sqlite',
+				'database' => $datadir.'/'.self::$uid.'/migration.db',
+				'mode' => '0644'
+			);
+			
+			// Try to establish connection
+			self::$MDB2 = MDB2::factory( $dsn, $options );
+			
+			// Die if we could not connect
+			if( PEAR::isError( self::$MDB2 )){
+				OC_Log::write('migration', 'Failed to create migration.db',OC_Log::FATAL);
+				OC_Log::write('migration',self::$MDB2->getUserInfo(),OC_Log::FATAL);
+				OC_Log::write('migration',self::$MDB2->getMessage(),OC_Log::FATAL);
+				return false;
+			}
+			
+			// We always, really always want associative arrays
+			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
+		}
+		return true;
+		
+	}
+	
+	// @breif prepares the db
+	// @param $query the sql query to prepare
+	public static function prepareDB( $query ){
+		
+		// Optimize the query
+		$query = self::processQuery( $query );
+		
+		// Optimize the query
+		$query = self::$MDB2->prepare( $query );
+		
+		// Die if we have an error (error means: bad query, not 0 results!)
+		if( PEAR::isError( $query )) {
+			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+			$entry .= 'Offending command was: '.$query.'<br />';
+			OC_Log::write('migration',$entry,OC_Log::FATAL);
 			return false;
-			exit();	
+		} else {
+			return true;	
 		}
-	 	
-	 	foreach($data['app'] as $app){
-	 		// Check if supports migration and is enabled
-	 		if(in_array($app, self::$providers)){
-	 			if(OC_App::isEnabled($app)){
-	 				$provider->import($data['app'][$app],$uid);	
-	 			}
-	 		}
-	 			
-	 	}
-	 		
-	 }
-	 
-	 private static function indent($json){
+		
+	}
+	
+	// @breif processes the db query
+	// @param $query the query to process
+	// @return string of processed query
+	private static function processQuery( $query ){
+		
+		self::connectDB();
+		$type = 'sqlite';
+		$prefix = '';
+		
+		$query = str_replace( '`', '\'', $query );
+		$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
+		$query = str_replace( 'now()', 'datetime(\'now\')', $query );
 
-		$result      = '';
-		$pos         = 0;
-		$strLen      = strlen($json);
-		$indentStr   = '  ';
-		$newLine     = "\n";
-		$prevChar    = '';
-		$outOfQuotes = true;
+		// replace table name prefix
+		$query = str_replace( '*PREFIX*', $prefix, $query );
+
+		return $query;
 		
-		for ($i=0; $i<=$strLen; $i++) {
+	}
+	
+	// @breif creates the tables in migration.db from an apps database.xml
+	// @param $appid string id of the app
+	// @return bool whether the operation was successful
+	private static function createAppTables( $appid ){
+		$file = OC::$SERVERROOT.'/apps/'.$appid.'appinfo/database.xml';
+		if(file_exists( $file )){
+			// There is a database.xml file			
+			$content = file_get_contents( $file );
+			
+			$file2 = 'static://db_scheme';
+			$content = str_replace( '*dbname*', 'migration', $content );
+			$content = str_replace( '*dbprefix*', '', $content );
+			
+			file_put_contents( $file2, $content );
+			
+			// Try to create tables
+			$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
+	
+			unlink( $file2 );
+			
+			// Die in case something went wrong
+			if( $definition instanceof MDB2_Schema_Error ){
+				OC_Log::write('migration','Failed to parse database.xml for: '.$appid,OC_Log::FATAL);
+				OC_Log::write('migration',$definition->getMessage().': '.$definition->getUserInfo(),OC_Log::FATAL);
+				return false;
+			}
+			
+			$definition['overwrite'] = true;
+			
+			$ret = self::$schema->createDatabase( $definition );
+			// Die in case something went wrong
+			
+			if( $ret instanceof MDB2_Error ){
+				OC_Log::write('migration','Failed to create tables for: '.$appid,OC_Log::FATAL);
+				OC_Log::write('migration',$ret->getMessage().': '.$ret->getUserInfo(),OC_Log::FATAL);
+				return false;
+			}
+			return true;
+			
+		} else {
+			// No database.xml
+			return false;	
+		}
+	}
+	
+	
+		/**
+	 * @brief connects to a MDB2 database scheme
+	 * @returns true/false
+	 *
+	 * Connects to a MDB2 database scheme
+	 */
+	private static function connectScheme(){
+		// We need a mdb2 database connection
+		self::connectDB();
+		self::$MDB2->loadModule( 'Manager' );
+		self::$MDB2->loadModule( 'Reverse' );
+
+		// Connect if this did not happen before
+		if( !self::$schema ){
+			require_once('MDB2/Schema.php');
+			self::$schema=MDB2_Schema::factory( self::$MDB2 );
+		}
+
+		return true;
+	}
+	
+	// @breif creates a new user in the database
+	// @param $uid string user_id of the user to be created
+	// @param $hash string hash of the user to be created
+	// @return bool result of user creation
+	private static function createUser( $uid, $hash ){
 		
-		    // Grab the next character in the string.
-		    $char = substr($json, $i, 1);
-		
-		    // Are we inside a quoted string?
-		    if ($char == '"' && $prevChar != '\\') {
-		        $outOfQuotes = !$outOfQuotes;
-		    
-		    // If this character is the end of an element, 
-		    // output a new line and indent the next line.
-		    } else if(($char == '}' || $char == ']') && $outOfQuotes) {
-		        $result .= $newLine;
-		        $pos --;
-		        for ($j=0; $j<$pos; $j++) {
-		            $result .= $indentStr;
-		        }
-		    }
-		    
-		    // Add the character to the result string.
-		    $result .= $char;
-		
-		    // If the last character was the beginning of an element, 
-		    // output a new line and indent the next line.
-		    if (($char == ',' || $char == '{' || $char == '[') && $outOfQuotes) {
-		        $result .= $newLine;
-		        if ($char == '{' || $char == '[') {
-		            $pos ++;
-		        }
-		        
-		        for ($j = 0; $j < $pos; $j++) {
-		            $result .= $indentStr;
-		        }
-		    }
-		    
-		    $prevChar = $char;
+		// Check if userid exists
+		if(OC_User::userExists( $uid )){
+			return false;
 		}
 		
-		return $result;	
-	 }
+		// Create the user
+		$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
+		$result = $query->execute( array( $uid, $data['hash']));
+
+		return $result ? true : false;
+		
+	}
 	
 }
