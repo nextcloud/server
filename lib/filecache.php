@@ -534,10 +534,10 @@ class OC_FileCache{
 	 * seccond mimetype part can be ommited
 	 * e.g. searchByMime('audio')
 	 */
-	public static function searchByMime($part1,$part2='',$root=''){
+	public static function searchByMime($part1,$part2=null,$root=null){
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
-		}elseif($root='/'){
+		}elseif($root=='/'){
 			$root='';
 		}
 		$rootLen=strlen($root);

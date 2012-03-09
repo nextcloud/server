@@ -4,7 +4,7 @@
 * ownCloud - gallery application
 *
 * @author Bartek Przybylski
-* @copyright 2012 Bartek Przybylski bart.p.pl@gmail.com
+* @copyright 2012 Bartek Przybylski <bartek@alefzero.eu>
 * 
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,10 +21,13 @@
 * 
 */
 
-require_once('base.php');
-require_once('images_utils.php');
+require_once('../../../lib/base.php');
 
 class OC_Gallery_Scanner {
+
+  public static function getScanningRoot() {
+    return OC_Filesystem::getRoot().OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
+  }
 
   public static function scan($root) {
     $albums = array();
@@ -33,10 +36,7 @@ class OC_Gallery_Scanner {
   }
 
   public static function cleanUp() {
-    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_albums');
-    $stmt->execute(array());
-    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos');
-    $stmt->execute(array());
+    OC_Gallery_Album::cleanup();
   }
 
   public static function createName($name) {
@@ -97,10 +97,10 @@ class OC_Gallery_Scanner {
   }
 
   public static function find_paths($path) {
-	$images=OC_FileCache::searchByMime('image');
+  $images=OC_FileCache::searchByMime('image','', self::getScanningRoot());
 	$paths=array();
 	foreach($images as $image){
-		$path=dirname($image);
+    $path=substr(dirname($image), strlen(self::getScanningRoot()));;
 		if(array_search($path,$paths)===false){
 			$paths[]=$path;
 		}
@@ -108,4 +108,5 @@ class OC_Gallery_Scanner {
 	return $paths;
   }
 }
+
 ?>
