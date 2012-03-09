@@ -10,8 +10,10 @@
  * This class manages our app actions
  */
 OC_Contacts_App::$l10n = new OC_L10N('contacts');
+OC_Contacts_App::$categories = new OC_VCategories('contacts');
 class OC_Contacts_App {
 	public static $l10n;
+	public static $categories;
 
 	/**
 	* Render templates/part.details to json output
@@ -151,6 +153,10 @@ class OC_Contacts_App {
 				'PAGER' =>  $l->t('Pager'),
 			);
 		}
+	}
+
+	public static function getCategories() {
+		return self::$categories->categories();
 	}
 
 	public static function setLastModifiedHeader($contact) {

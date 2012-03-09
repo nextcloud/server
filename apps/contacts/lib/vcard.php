@@ -4,6 +4,7 @@
  *
  * @author Jakob Sack
  * @copyright 2011 Jakob Sack mail@jakobsack.de
+ * @copyright 2012 Thomas Tanghus <thomas@tanghus.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -233,6 +234,8 @@ class OC_Contacts_VCard{
 			return null;
 		};
 
+		OC_Contacts_App::$categories->loadFromVObject($card);
+
 		self::updateValuesFromAdd($card);
 
 		$fn = $card->getAsString('FN');
@@ -268,6 +271,29 @@ class OC_Contacts_VCard{
 	}
 
 	/**
+	 * @brief Mass updates an array of cards
+	 * @param array $objects  An array of [id, carddata].
+	 */
+	public static function updateDataByID($objects){
+		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET carddata = ?, lastmodified = ? WHERE id = ?' );
+		$now = new DateTime;
+		foreach($objects as $object) {
+			$vcard = OC_VObject::parse($object[1]);
+			if(!is_null($vcard)){
+				$vcard->setString('REV', $now->format(DateTime::W3C));
+				$data = $vcard->serialize();
+				try {
+					$result = $stmt->execute(array($data,time(),$object[0]));
+					//OC_Log::write('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0].': '.$object[1],OC_Log::DEBUG);
+				} catch(Exception $e) {
+					OC_Log::write('contacts','OC_Contacts_VCard::updateDataByID:, exception: '.$e->getMessage(),OC_Log::DEBUG);
+					OC_Log::write('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0],OC_Log::DEBUG);
+				}
+			}
+		}
+	}
+
+	/**
 	 * @brief edits a card
 	 * @param integer $id id of card
 	 * @param OC_VObject $card  vCard file
@@ -279,6 +305,8 @@ class OC_Contacts_VCard{
 		if(is_null($card)) {
 			return false;
 		}
+
+		OC_Contacts_App::$categories->loadFromVObject($card);
 
 		$fn = $card->getAsString('FN');
 		if (empty($fn)) {
@@ -339,6 +367,43 @@ class OC_Contacts_VCard{
 	}
 
 	/**
+	 * @brief Escapes delimiters from an array and returns a string.
+	 * @param array $value
+	 * @param char $delimiter
+	 * @return string
+	 */
+	public static function escapeDelimiters($value, $delimiter=';') {
+		foreach($value as &$i ) {
+			$i = implode("\\$delimiter", explode($delimiter, $i));
+		}
+		return implode($delimiter, $value);
+	}
+
+
+	/**
+	 * @brief Creates an array out of a multivalue property
+	 * @param string $value
+	 * @param char $delimiter
+	 * @return array
+	 */
+	public static function unescapeDelimiters($value, $delimiter=';') {
+		$array = explode($delimiter,$value);
+		for($i=0;$i<count($array);$i++) {
+			if(substr($array[$i],-1,1)=="\\") {
+				if(isset($array[$i+1])) {
+					$array[$i] = substr($array[$i],0,count($array[$i])-2).$delimiter.$array[$i+1];
+					unset($array[$i+1]);
+				} else {
+					$array[$i] = substr($array[$i],0,count($array[$i])-2).$delimiter;
+				}
+				$i = $i - 1;
+			}
+		}
+		$array = array_map('trim', $array);
+		return $array;
+	}
+
+	/**
 	 * @brief Data structure of vCard
 	 * @param object $property
 	 * @return associative array
@@ -376,7 +441,9 @@ class OC_Contacts_VCard{
 		$value = $property->value;
 		//$value = htmlspecialchars($value);
 		if($property->name == 'ADR' || $property->name == 'N'){
-			$value = OC_VObject::unescapeSemicolons($value);
+			$value = self::unescapeDelimiters($value);
+		} elseif($property->name == 'CATEGORIES') {
+			$value = self::unescapeDelimiters($value, ',');
 		}
 		$temp = array(
 			'name' => $property->name,
