@@ -28,7 +28,7 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 
 // Get paramteres
-$filecontents = htmlspecialchars_decode($_POST['filecontents']);
+$filecontents = $_POST['filecontents'];
 $path = isset($_POST['path']) ? $_POST['path'] : '';
 $mtime = isset($_POST['mtime']) ? $_POST['mtime'] : '';
 
