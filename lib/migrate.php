@@ -29,6 +29,7 @@ class OC_Migrate{
 	static private $MDB2=false;
 	static private $providers=array();
 	static private $schema=false;
+	static private $uid=false;
 	
 	/**
 	 * register a new migration provider
@@ -49,17 +50,27 @@ class OC_Migrate{
 		if(!OC_User_Database::userExists( $uid )){
 			return false;	
 		}
-				
+		
+		self::$uid = $uid;
+		self::connectDB();
+		$ok = true;
+		$return = array();
+		
 		// Foreach provider
-		foreach( $providers as $provider ){
-
-			self::createAppTables( $provider->id );
-			// Run the export function
-			$provider->export( $uid );
-			
+		foreach( self::$providers as $provider ){
+			// Check for database.xml
+			if(file_exists(OC::$SERVERROOT.'/apps/'.$provider->id.'/appinfo/database.xml')){
+				if(!self::createAppTables( $provider->id )){
+					$ok = false;
+					OC_Log::write('migration','failed to create migration tables for: '.$provider->id,OC_Log::INFO);
+				}
+			}
+			if($ok){
+				$return[$provider->id]['success'] = $provider->export( $uid );
+			}
 		}
 		
-		return true;
+		return $return;
 		
 	}
 	
@@ -86,7 +97,7 @@ class OC_Migrate{
 		// Then check for migrate.php for these apps
 		// If present, run the import function for them.
 		
-		return treu;
+		return true;
 	
 	}
 	
@@ -98,7 +109,7 @@ class OC_Migrate{
 		if(!self::$MDB2){
 			require_once('MDB2.php');
 			
-			$datadir = OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
+			$datadir = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 			
 			// Prepare options array
 			$options = array(
@@ -109,22 +120,22 @@ class OC_Migrate{
 				'quote_identifier' => true
 				);
 			$dsn = array(
-				'phptype'  => 'sqlite',
+				'phptype'  => 'sqlite3',
 				'database' => $datadir.'/'.self::$uid.'/migration.db',
 				'mode' => '0644'
 			);
 			
 			// Try to establish connection
 			self::$MDB2 = MDB2::factory( $dsn, $options );
-			
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )){
+				die(self::$MDB2->getMessage());
 				OC_Log::write('migration', 'Failed to create migration.db',OC_Log::FATAL);
 				OC_Log::write('migration',self::$MDB2->getUserInfo(),OC_Log::FATAL);
 				OC_Log::write('migration',self::$MDB2->getMessage(),OC_Log::FATAL);
 				return false;
+			} else {
 			}
-			
 			// We always, really always want associative arrays
 			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
 		}
@@ -149,7 +160,7 @@ class OC_Migrate{
 			OC_Log::write('migration',$entry,OC_Log::FATAL);
 			return false;
 		} else {
-			return true;	
+			return $query;	
 		}
 		
 	}
@@ -160,7 +171,6 @@ class OC_Migrate{
 	private static function processQuery( $query ){
 		
 		self::connectDB();
-		$type = 'sqlite';
 		$prefix = '';
 		
 		$query = str_replace( '`', '\'', $query );
@@ -184,6 +194,12 @@ class OC_Migrate{
 						
 		// Need to include 'where' in the query?
 		if( array_key_exists( 'matchval', $options ) && array_key_exists( 'matchcol', $options ) ){
+			
+			// If only one matchval, create an array
+			if(!is_array($options['matchval'])){
+				$options['matchval'] = array( $options['matchval'] );	
+			}
+			
 			foreach( $options['matchval'] as $matchval ){
 				// Run the query for this match value (where x = y value)
 				$query = OC_DB::prepare( "SELECT * FROM *PREFIX*" . $options['table'] . " WHERE " . $options['matchcol'] . " LIKE ?" );
@@ -209,7 +225,7 @@ class OC_Migrate{
 	// @param $options array of copyRows options
 	// @return void
 	private static function insertData( $data, $options ){
-		while( $data = $result->fetchRow() ){
+		while( $row = $data->fetchRow() ){
 			// Now save all this to the migration.db
 			foreach($row as $field=>$value){
 				$fields[] = $field;
@@ -217,14 +233,18 @@ class OC_Migrate{
 			}
 			
 			// Generate some sql
-			$sql = "INSERT INTO `*PREFIX*" . $options['table'] . '` ( `';
+			$sql = "INSERT INTO `" . $options['table'] . '` ( `';
 			$fieldssql = implode( '`, `', $fields );
 			$sql .= $fieldssql . "` ) VALUES( ";
-			$valuessql = substr( str_repeat( '?, ', count( $fields ) ),0,-1 );
+			$valuessql = substr( str_repeat( '?, ', count( $fields ) ),0,-2 );
 			$sql .= $valuessql . " )";
 			// Make the query
 			$query = self::prepare( $sql );
-			$query->execute( $values );
+			if(!$query){
+				OC_Log::write('migration','Invalid sql produced: '.$sql,OC_Log::FATAL);	
+			} else {
+				$query->execute( $values );
+			}
 		}
 	}
 	
@@ -232,10 +252,12 @@ class OC_Migrate{
 	// @param $appid string id of the app
 	// @return bool whether the operation was successful
 	private static function createAppTables( $appid ){
-		$file = OC::$SERVERROOT.'/apps/'.$appid.'appinfo/database.xml';
+		$file = OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml';
 		if(file_exists( $file )){
 			
-			self::connectScheme();
+			if(!self::connectScheme()){
+				return false;	
+			}
 			
 			// There is a database.xml file			
 			$content = file_get_contents( $file );

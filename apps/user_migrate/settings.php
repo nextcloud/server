@@ -25,7 +25,6 @@ OC_Util::checkAppEnabled('user_migrate');
 
 if (isset($_POST['user_migrate'])) {
 	// Looks like they want to migrate
-	$errors = array();
     $root = OC::$SERVERROOT . "/";
     $user = OC_User::getUser();
     $zip = new ZipArchive();
@@ -49,21 +48,21 @@ if (isset($_POST['user_migrate'])) {
 		// adding owncloud system files
 		OC_Log::write('user_migrate',"Adding app data to user export file",OC_Log::INFO);
 		// Call to OC_Migrate for the xml file.
-		$appdatafile = $tempdir . "/userexport.json";
 		
-		$appdata = OC_Migrate::export(OC_User::getUser());
-		file_put_contents($appdatafile, $appdata);
-		$zip->addFile($appdatafile, "userexport.json");
+		// Create migration.db
+		var_dump(OC_Migrate::export(OC_User::getUser()));
+		// Add export db to zip
+		$zip->addFile($root.'data/'.$user.'/migration.db', "migration.db");
 		
     }
 
     $zip->close();
 
-    header("Content-Type: application/zip");
-    header("Content-Disposition: attachment; filename=" . basename($filename));
-    header("Content-Length: " . filesize($filename));
-    readfile($filename);
-    unlink($filename);
+    //header("Content-Type: application/zip");
+    //header("Content-Disposition: attachment; filename=" . basename($filename));
+    //header("Content-Length: " . filesize($filename));
+    //readfile($filename);
+    //unlink($filename);
     
 } else {
 // fill template

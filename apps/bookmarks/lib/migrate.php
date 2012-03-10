@@ -11,10 +11,10 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 			'idcol'=>'id'
 		);
 		$ids = OC_Migrate::copyRows( $options );
-		
+		$ids = array('1');
 		$options = array(
 			'table'=>'bookmarks_tags',
-			'matchcol'=>'id',
+			'matchcol'=>'bookmark_id',
 			'matchval'=>$ids
 		);
 		
