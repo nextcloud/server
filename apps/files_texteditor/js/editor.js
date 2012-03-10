@@ -11,7 +11,7 @@ function getFileExtension(file){
 function setSyntaxMode(ext){
 	// Loads the syntax mode files and tells the editor
 	var filetype = new Array();
-	// Todo finish these
+	// add file extensions like this: filetype["extension"] = "filetype":
     filetype["h"] = "c_cpp";
     filetype["c"] = "c_cpp";
     filetype["clj"] = "clojure";
@@ -27,8 +27,14 @@ function setSyntaxMode(ext){
 	filetype["js"] = "javascript";
     filetype["json"] = "json";
    	filetype["latex"] = "latex";
+	filetype["ly"] = "latex";
+	filetype["ily"] = "latex";
     filetype["lua"] = "lua";
-    filetype["markdown"] = "markdown"; // also: .md .markdown .mdown .mdwn
+    filetype["markdown"] = "markdown";
+    filetype["md"] = "markdown";
+    filetype["mdown"] = "markdown";
+    filetype["mdwn"] = "markdown";
+	filetype["mkd"] = "markdown";
     filetype["ml"] = "ocaml";
     filetype["mli"] = "ocaml";
 	filetype["pl"] = "perl";
@@ -142,7 +148,7 @@ function doFileSave(){
 		// Show saving spinner
 		$("#editor_save").die('click',doFileSave);
 		$('#save_result').remove();
-		$('#editor_save').text(t('files_texteditor','Saving...'));//after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
+		$('#editor_save').text(t('files_texteditor','Saving...'));
 		// Get the data
 		var filecontents = window.aceEditor.getSession().getValue();
 		// Send the data
