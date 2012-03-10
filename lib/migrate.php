@@ -134,7 +134,7 @@ class OC_Migrate{
 	
 	// @breif prepares the db
 	// @param $query the sql query to prepare
-	public static function prepareDB( $query ){
+	public static function prepare( $query ){
 		
 		// Optimize the query
 		$query = self::processQuery( $query );
@@ -174,12 +174,69 @@ class OC_Migrate{
 		
 	}
 	
+	// @brief copys rows to migration.db from the main database
+	// @param $options array of options.
+	// @return bool
+	public static function copyRows( $options ){
+		if( !array_key_exists( 'table', $options ) ){
+			return false;	
+		}
+						
+		// Need to include 'where' in the query?
+		if( array_key_exists( 'matchval', $options ) && array_key_exists( 'matchcol', $options ) ){
+			foreach( $options['matchval'] as $matchval ){
+				// Run the query for this match value (where x = y value)
+				$query = OC_DB::prepare( "SELECT * FROM *PREFIX*" . $options['table'] . " WHERE " . $options['matchcol'] . " LIKE ?" );
+				$results = $query->execute( array( $matchval ) );
+				self::insertData( $results, $options );
+
+			}
+
+		} else {
+			// Just get everything
+			$query = OC_DB::prepare( "SELECT * FROM *PREFIX*" . $options['table'] );
+			$results = $query->execute();
+			self::insertData( $results, $options );
+	
+		}
+		
+		return true;
+		
+	}
+	
+	// @breif saves a sql data set into migration.db
+	// @param $data a sql data set returned from self::prepare()->query()
+	// @param $options array of copyRows options
+	// @return void
+	private static function insertData( $data, $options ){
+		while( $data = $result->fetchRow() ){
+			// Now save all this to the migration.db
+			foreach($row as $field=>$value){
+				$fields[] = $field;
+				$values[] = $value;
+			}
+			
+			// Generate some sql
+			$sql = "INSERT INTO `*PREFIX*" . $options['table'] . '` ( `';
+			$fieldssql = implode( '`, `', $fields );
+			$sql .= $fieldssql . "` ) VALUES( ";
+			$valuessql = substr( str_repeat( '?, ', count( $fields ) ),0,-1 );
+			$sql .= $valuessql . " )";
+			// Make the query
+			$query = self::prepare( $sql );
+			$query->execute( $values );
+		}
+	}
+	
 	// @breif creates the tables in migration.db from an apps database.xml
 	// @param $appid string id of the app
 	// @return bool whether the operation was successful
 	private static function createAppTables( $appid ){
 		$file = OC::$SERVERROOT.'/apps/'.$appid.'appinfo/database.xml';
 		if(file_exists( $file )){
+			
+			self::connectScheme();
+			
 			// There is a database.xml file			
 			$content = file_get_contents( $file );
 			

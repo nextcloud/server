@@ -2,73 +2,48 @@
 class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 	
 	// Create the xml for the user supplied
-	function export($uid){
+	function export( $uid ){
 		
-		$bookmarks = array();
-
-		$query = OC_DB::prepare("SELECT * FROM  *PREFIX*bookmarks WHERE  *PREFIX*bookmarks.user_id =  ?");
-		$bookmarksdata =& $query->execute(array($uid));
-		// Foreach bookmark
-		while ($row = $bookmarksdata->fetchRow()) {
-			
-			// Get the tags
-			$query = OC_DB::prepare("SELECT * FROM  *PREFIX*bookmarks_tags WHERE  *PREFIX*bookmarks_tags.bookmark_id =  ?");
-			$tagsdata =& $query->execute(array($row['id']));
+		$options = array(
+			'table'=>'bookmarks',
+			'matchcol'=>'user_id',
+			'matchval'=>$uid,
+			'idcol'=>'id'
+		);
+		$ids = OC_Migrate::copyRows( $options );
 		
-			$tags = array();
-			// Foreach tag
-			while ($row = $tagsdata->fetchRow()) {
-				$tags[] = $row['tag'];
-			}
-			
-			$bookmarks[] = array(
-								'url' => $row['url'],
-								'title' => $row['title'],
-								'public' => $row['public'],
-								'added' => $row['added'],
-								'lastmodified' => $row['lastmodified'],
-								'clickcount' => $row['clickcount'],
-								'tags' => $tags
-								);
-				
-		}
+		$options = array(
+			'table'=>'bookmarks_tags',
+			'matchcol'=>'id',
+			'matchval'=>$ids
+		);
 		
-		return array('bookmarks' => $bookmarks);
+		// Export tags
+		OC_Migrate::copyRows( $options );
 		
 	}
 	
 	// Import function for bookmarks
-	function import($data,$uid){
+	function import( $data, $uid ){
 		
-		// Different import code for different versions of the app
-		switch($data['info']['version']){
-			default:
-				// Foreach bookmark
-				foreach($data['data']['bookmarks'] as $bookmark){
-				
-					$query = OC_DB::prepare( "INSERT INTO `*PREFIX*bookmarks` ( `url`, `title`, `user_id`, `public`, `added`, `lastmodified`, `clickcount` ) VALUES( ?, ?, ?, ?, ?, ?, ? )" );
-					$result = $query->execute( array( 
-													$bookmark['url'], 
-													$bookmark['title'], 
-													$uid, 
-													$bookmark['public'], 
-													$bookmark['added'], 
-													$bookmark['lastmodified'],
-													$bookmark['clickcount']
-													) );
-					// Now add the tags
-					$id = OC_DB::insertid();
-					foreach($bookmark['tags'] as $tag){
-						$query = OC_DB::prepare( "INSERT INTO `*PREFIX*bookmarks_tags` ( `id`, `tag` ) VALUES( ?, ? )" );
-						$result = $query->execute( array( $id, $tag));
-					}
-					
-				}			
-			break;	
+		// new id mapping
+		$newids = array();
+		
+		// Import bookmarks
+		foreach($data['bookmarks'] as $bookmark){
+			$bookmark['user_id'] = $uid;
+			// import to the db now
+			$newids[$bookmark['id']] = OC_DB::insertid();
 		}
-	// Finished import	
+		
+		// Import tags
+		foreach($data['bookmarks_tags'] as $tag){
+			// Map the new ids
+			$tag['id'] = $newids[$tag['id']];
+			// Import to the db now using OC_DB
+		}
 	}
 	
 }
 
-new OC_Migrate_Provider_Bookmarks('bookmarks');
+new OC_Migrate_Provider_Bookmarks( 'bookmarks' );
