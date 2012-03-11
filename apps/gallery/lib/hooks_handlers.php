@@ -21,9 +21,9 @@
 * 
 */
 
-OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, "OC_Gallery_Hooks_Handlers", "addPhotoFromPath");
-OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_delete, "OC_Gallery_Hooks_Handlers", "removePhoto");
-OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename, "OC_Gallery_Hooks_Handlers", "renamePhoto");
+//OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, "OC_Gallery_Hooks_Handlers", "addPhotoFromPath");
+//OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_delete, "OC_Gallery_Hooks_Handlers", "removePhoto");
+//OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename, "OC_Gallery_Hooks_Handlers", "renamePhoto");
 
 require_once(OC::$CLASSPATH['OC_Gallery_Album']);
 require_once(OC::$CLASSPATH['OC_Gallery_Photo']);
