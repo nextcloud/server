@@ -21,6 +21,7 @@
 * 
 */
 
+header('Content-type: text/html; charset=UTF-8') ;
 require_once('../../../lib/base.php');
 
 OC_JSON::checkLoggedIn();
@@ -47,26 +48,19 @@ function handleGetThumbnails($albumname) {
 }
 
 function handleGalleryScanning() {
-  OC_Gallery_Scanner::cleanup();
-  OC_JSON::success(array('albums' => OC_Gallery_Scanner::scan('/')));
+  OC_DB::beginTransaction();
+  set_time_limit(0);
+  $eventSource = new OC_EventSource();
+  OC_Gallery_Scanner::scan($eventSource);
+  $eventSource->close();
+  OC_DB::commit();
 }
 
 function handleFilescan($cleanup) {
   if ($cleanup) OC_Gallery_Album::cleanup();
-  $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '').'/';
-  $pathlist = OC_Gallery_Scanner::find_paths($root);
+  $pathlist = OC_Gallery_Scanner::find_paths();
   sort($pathlist);
   OC_JSON::success(array('paths' => $pathlist));
-}
-
-function handlePartialCreate($path) {
-  if (empty($path)) OC_JSON::error(array('cause' => 'No path specified'));
-  if (!OC_Filesystem::is_dir($path.'/')) OC_JSON::error(array('cause' => 'Invalid path given'));
-
-  $album = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
-  $albums = array();
-  OC_Gallery_Scanner::scanDir($path, $albums);
-  OC_JSON::success(array('album_details' => $albums));
 }
 
 function handleStoreSettings($root, $order) {
@@ -80,7 +74,8 @@ function handleStoreSettings($root, $order) {
   }
 
   $current_root = OC_Preferences::getValue(OC_User::getUser(),'gallery', 'root', '/');
-  $root = trim(rtrim($root, '/'));
+  $root = trim($root);
+  $root = rtrim($root, '/').'/';
   $rescan = $current_root==$root?'no':'yes';
   OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'root', $root);
   OC_Preferences::setValue(OC_User::getUser(), 'gallery', 'order', $order);
@@ -90,11 +85,9 @@ function handleStoreSettings($root, $order) {
 function handleGetGallery($path) {
   $a = array();
   $root = OC_Preferences::getValue(OC_User::getUser(),'gallery', 'root', '/');
-  if (strlen($root) > 1)
-    $path = $root.'/'.trim($path, '/');
-  else
-    $path = '/'.ltrim($path, '/');
-  if (strlen($path) > 1) $path = rtrim($path, '/');
+  $path = utf8_decode(rtrim($root.$path,'/'));
+  if($path == '') $path = '/';
+  $pathLen = strlen($path);
   $result = OC_Gallery_Album::find(OC_User::getUser(), null, $path);
   $album_details = $result->fetchRow();
 
@@ -104,7 +97,7 @@ function handleGetGallery($path) {
     $album_name = $r['album_name'];
     $size=OC_Gallery_Album::getAlbumSize($r['album_id']);
 
-    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($size, 10),'path'=>$r['album_path']);
+    $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($size, 10),'path'=>substr($r['album_path'], $pathLen));
   }
   
   $result = OC_Gallery_Photo::find($album_details['album_id']);
@@ -134,17 +127,8 @@ if ($_GET['operation']) {
   case 'scan':
     handleGalleryScanning();
     break;
-  case 'filescan':
-    handleFilescan($_GET['cleanup']);
-    break;
-  case 'partial_create':
-    handlePartialCreate(urldecode($_GET['path']));
-    break;
   case 'store_settings':
     handleStoreSettings($_GET['root'], $_GET['order']);
-    break;
-  case 'get_galleries':
-    handleGetGalleries($_GET['path']);
     break;
   case 'get_gallery':
     handleGetGallery($_GET['path']);
