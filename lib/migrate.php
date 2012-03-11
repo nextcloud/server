@@ -45,13 +45,20 @@ class OC_Migrate{
 	 * @return bool whether operation was successfull
 	 */
 	public static function export( $uid ){
-		
+
 		// Only export database users, otherwise we get chaos
 		if(!OC_User_Database::userExists( $uid )){
 			return false;	
 		}
 		
 		self::$uid = $uid;
+		
+		if(empty(self::$uid)){
+			OC_Log::write('migration','Invalid uid passed',OC_Log::FATAL);
+			return false;
+			exit();	
+		}
+		
 		self::connectDB();
 		$ok = true;
 		$return = array();
@@ -60,13 +67,16 @@ class OC_Migrate{
 		foreach( self::$providers as $provider ){
 			// Check for database.xml
 			if(file_exists(OC::$SERVERROOT.'/apps/'.$provider->id.'/appinfo/database.xml')){
-				if(!self::createAppTables( $provider->id )){
-					$ok = false;
-					OC_Log::write('migration','failed to create migration tables for: '.$provider->id,OC_Log::INFO);
-				}
+				$ok = self::createAppTables( $provider->id );						
 			}
 			if($ok){
+				// Run the export function provided by the providor
 				$return[$provider->id]['success'] = $provider->export( $uid );
+			} else {
+				// Log the error
+				OC_Log::write('migration','failed to create migration tables for: '.$provider->id,OC_Log::INFO);
+				$return[$provider->id]['success'] = 'false';	
+				$return[$provider->id]['message'] = 'failed to create the app tables';
 			}
 		}
 		
@@ -79,9 +89,15 @@ class OC_Migrate{
 	* @param $uid optional uid to use
 	* @return bool if the import succedded
 	*/
-	public static function import( $uid=null ){
+	public static function import( $uid=false ){
 		
 		self::$uid = $uid;
+		
+		if(!self::$uid){
+			OC_Log::write('migration','Tried to import without passing a uid',OC_Log::FATAL);
+			return false;
+			exit();	
+		}
 		
 		// Connect to the db
 		if(!self::connectDB()){
@@ -104,7 +120,12 @@ class OC_Migrate{
 	// @breif connects to migration.db, or creates if not found
 	// @return bool whether the operation was successful
 	private static function connectDB(){
-		
+		OC_Log::write('migration','connecting to migration.db for user: '.self::$uid,OC_Log::INFO);
+		// Fail if no user is set
+		if(!self::$uid){
+			OC_Log::write('migration','connectDB() called without self::$uid being set',OC_Log::INFO);
+			return false;
+		}
 		// Already connected
 		if(!self::$MDB2){
 			require_once('MDB2.php');
@@ -130,7 +151,7 @@ class OC_Migrate{
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )){
 				die(self::$MDB2->getMessage());
-				OC_Log::write('migration', 'Failed to create migration.db',OC_Log::FATAL);
+				OC_Log::write('migration', 'Failed to create/connect to migration.db',OC_Log::FATAL);
 				OC_Log::write('migration',self::$MDB2->getUserInfo(),OC_Log::FATAL);
 				OC_Log::write('migration',self::$MDB2->getMessage(),OC_Log::FATAL);
 				return false;
@@ -191,7 +212,9 @@ class OC_Migrate{
 		if( !array_key_exists( 'table', $options ) ){
 			return false;	
 		}
-						
+		
+		$return = array();
+					
 		// Need to include 'where' in the query?
 		if( array_key_exists( 'matchval', $options ) && array_key_exists( 'matchcol', $options ) ){
 			
@@ -204,19 +227,19 @@ class OC_Migrate{
 				// Run the query for this match value (where x = y value)
 				$query = OC_DB::prepare( "SELECT * FROM *PREFIX*" . $options['table'] . " WHERE " . $options['matchcol'] . " LIKE ?" );
 				$results = $query->execute( array( $matchval ) );
-				self::insertData( $results, $options );
-
+				$return = self::insertData( $results, $options );
+				//$return = array_merge( $return, $newreturns );
 			}
 
 		} else {
 			// Just get everything
 			$query = OC_DB::prepare( "SELECT * FROM *PREFIX*" . $options['table'] );
 			$results = $query->execute();
-			self::insertData( $results, $options );
+			$return = self::insertData( $results, $options );
 	
 		}
 		
-		return true;
+		return $return;
 		
 	}
 	
@@ -225,8 +248,11 @@ class OC_Migrate{
 	// @param $options array of copyRows options
 	// @return void
 	private static function insertData( $data, $options ){
+		$return = array();
 		while( $row = $data->fetchRow() ){
 			// Now save all this to the migration.db
+			$fields = array();
+			$values = array();
 			foreach($row as $field=>$value){
 				$fields[] = $field;
 				$values[] = $value;
@@ -242,10 +268,21 @@ class OC_Migrate{
 			$query = self::prepare( $sql );
 			if(!$query){
 				OC_Log::write('migration','Invalid sql produced: '.$sql,OC_Log::FATAL);	
+				return false;
+				exit();
 			} else {
 				$query->execute( $values );
+				// Do we need to return some values?
+				if( array_key_exists( 'idcol', $options ) ){
+					// Yes we do
+					$return[] = $row[$options['idcol']];	
+				} else {
+					// Take a guess and return the first field :)
+					$return[] = reset($row);	
+				}
 			}
 		}
+		return $return;
 	}
 	
 	// @breif creates the tables in migration.db from an apps database.xml
@@ -263,7 +300,7 @@ class OC_Migrate{
 			$content = file_get_contents( $file );
 			
 			$file2 = 'static://db_scheme';
-			$content = str_replace( '*dbname*', 'migration', $content );
+			$content = str_replace( '*dbname*', self::$uid.'/migration', $content );
 			$content = str_replace( '*dbprefix*', '', $content );
 			
 			file_put_contents( $file2, $content );
