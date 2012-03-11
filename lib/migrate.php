@@ -227,8 +227,8 @@ class OC_Migrate{
 				// Run the query for this match value (where x = y value)
 				$query = OC_DB::prepare( "SELECT * FROM *PREFIX*" . $options['table'] . " WHERE " . $options['matchcol'] . " LIKE ?" );
 				$results = $query->execute( array( $matchval ) );
-				$return = self::insertData( $results, $options );
-				//$return = array_merge( $return, $newreturns );
+				$newreturns = self::insertData( $results, $options );
+				$return = array_merge( $return, $newreturns );
 			}
 
 		} else {
