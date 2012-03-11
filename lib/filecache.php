@@ -183,8 +183,8 @@ class OC_FileCache{
 			self::delete(self::getFileId($path));
 		}elseif($file!=-1){
 			$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE parent=?');
-			$query->execute(array($file));
-			while($child=$query->fetchRow()){
+			$result=$query->execute(array($file));
+			while($child=$result->fetchRow()){
 				self::delete(intval($child['id']));
 			}
 			$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE id=?');
