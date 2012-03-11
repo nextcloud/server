@@ -19,7 +19,15 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 		);
 		
 		// Export tags
-		OC_Migrate::copyRows( $options );
+		$ids2 = OC_Migrate::copyRows( $options );
+		
+		// If both returned some ids then they worked
+		if( is_array( $ids ) && is_array( $ids2 ) )
+		{
+			return true;	
+		} else {
+			return false;
+		}
 		
 	}
 	
