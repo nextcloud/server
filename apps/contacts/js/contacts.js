@@ -455,11 +455,12 @@ Contacts={
 			},
 			hasCategory:function(category) {
 				if(this.data.CATEGORIES) {
-					for(var c in this.data.CATEGORIES[0]['value']) {
+					var categories = this.data.CATEGORIES[0]['value'].split(/,\s*/);
+					for(var c in categories) {
 						var cat = this.data.CATEGORIES[0]['value'][c];
-						//console.log('hasCategory: ' + cat + ' === ' + category + '?');
+						console.log('hasCategory: ' + cat + ' === ' + category + '?');
 						if(typeof cat === 'string' && (cat.toUpperCase() === category.toUpperCase())) {
-							//console.log('Yes');
+							console.log('Yes');
 							return true;
 						}
 					}
@@ -468,25 +469,18 @@ Contacts={
 			},
 			categoriesChanged:function(categories) { // Categories added/deleted.
 				console.log('categoriesChanged for ' + Contacts.UI.Card.id + ' : ' + categories);
-				var categorylist = $('#categories_value').find('select');
-				categorylist.find('option').remove();
-				for(var category in categories) {
-					console.log('categoriesChanged: ' + categories[category]);
-					var selected = Contacts.UI.Card.hasCategory(categories[category]) ? ' selected="selected"' : '';
-					var item = '<option value="' + categories[category] + '"' + selected + '>' + categories[category] + '</option>';
-					$(item).appendTo(categorylist);
-				}
-				$('#categories_value').find('select').multiselect('refresh');
+				var categorylist = $('#categories_value').find('input');
 				$.getJSON(OC.filePath('contacts', 'ajax', 'categories/checksumfor.php'),{'id':Contacts.UI.Card.id},function(jsondata){
 					if(jsondata.status == 'success'){
-						console.log('Setting checksum: ' + jsondata.data.checksum);
+						console.log('Setting checksum: ' + jsondata.data.checksum + ', value: ' + jsondata.data.value);
 						$('#categories_value').data('checksum', jsondata.data.checksum);
+						categorylist.val(jsondata.data.value);
 					} else {
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
 				});
 			},
-			loadCategories:function(){ // On loading contact.
+			/*loadCategories:function(){ // On loading contact.
 				var categories = $('#categories_value').find('select');
 				if(this.data.CATEGORIES) {
 					$('#categories_value').data('checksum', this.data.CATEGORIES[0]['checksum']);
@@ -501,7 +495,7 @@ Contacts={
 					}
 				});
 				categories.multiselect('refresh');
-			},
+			},*/
 			editNew:function(){ // add a new contact
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				$.getJSON(OC.filePath('contacts', 'ajax', 'newcontact.php'),{},function(jsondata){

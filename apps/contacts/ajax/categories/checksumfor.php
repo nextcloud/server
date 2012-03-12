@@ -20,7 +20,7 @@ foreach($vcard->children as $property){
 	//OC_Log::write('contacts','ajax/categories/checksumfor.php: '.$property->name, OC_Log::DEBUG);
 	if($property->name == 'CATEGORIES') {
 		$checksum = md5($property->serialize());
-		OC_JSON::success(array('data' => array('checksum'=>$checksum)));
+		OC_JSON::success(array('data' => array('value'=>$property->value, 'checksum'=>$checksum)));
 		exit();
 	}
 }
