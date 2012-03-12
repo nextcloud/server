@@ -104,6 +104,7 @@ if(file_exists($tmp_path)) {
 					$tmpl->assign('tmp_path', $tmpfname);
 					$tmpl->assign('mime', $image->mimeType());
 					$tmpl->assign('id', $id);
+					$tmpl->assign('refresh', true);
 					$tmpl->assign('width', $image->width());
 					$tmpl->assign('height', $image->height());
 					$page = $tmpl->fetchPage();
