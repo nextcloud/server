@@ -470,7 +470,7 @@ Contacts={
 			categoriesChanged:function(categories) { // Categories added/deleted.
 				console.log('categoriesChanged for ' + Contacts.UI.Card.id + ' : ' + categories);
 				var categorylist = $('#categories_value').find('input');
-				$.getJSON(OC.filePath('contacts', 'ajax', 'categories/checksumfor.php'),{'id':Contacts.UI.Card.id},function(jsondata){
+				$.getJSON(OC.filePath('contacts', 'ajax', 'categories/categoriesfor.php'),{'id':Contacts.UI.Card.id},function(jsondata){
 					if(jsondata.status == 'success'){
 						console.log('Setting checksum: ' + jsondata.data.checksum + ', value: ' + jsondata.data.value);
 						$('#categories_value').data('checksum', jsondata.data.checksum);
