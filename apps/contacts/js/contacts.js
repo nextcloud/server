@@ -10,105 +10,6 @@ String.prototype.strip_tags = function(){
 	return stripped;
 };
 
-Categories={
-	edit:function(){
-		console.log('Categories.edit');
-		$('body').append('<div id="category_dialog"></div>');
-		$('#category_dialog').load(OC.filePath('contacts', 'ajax', 'categories/edit.php'), function(response, status, xhr){
-			try {
-				var response = jQuery.parseJSON(response);
-				console.log('status: ' + status + ', response: ' + response + ', response.status:' + response.status);
-				if(response.status == 'error'){
-					OC.dialogs.alert(response.data.message, 'Error');
-				} else {
-					OC.dialogs.alert(response, 'Error');
-				}
-			} catch(e) {
-				$('#edit_categories_dialog').dialog({
-						modal: true,
-						height: 350, minHeight:200, width: 250, minWidth: 200,
-						buttons: {
-							'Delete':function() {
-								Categories.delete();
-							},
-							'Rescan':function() {
-								Categories.rescan();
-							}
-						},
-						close : function(event, ui) {
-							//alert('close');
-							$(this).dialog('destroy').remove();
-							$('#category_dialog').remove();
-						},
-						open : function(event, ui) {
-							$('#category_addinput').live('input',function(){
-								if($(this).val().length > 0) {
-									$('#category_addbutton').removeAttr('disabled');
-								}
-							});
-							$('#categoryform').submit(function() {
-								Categories.add($('#category_addinput').val());
-								$('#category_addinput').val('');
-								$('#category_addbutton').attr('disabled', 'disabled');
-								return false;
-							});
-							$('#category_addbutton').live('click',function(e){
-								e.preventDefault();
-								if($('#category_addinput').val().length > 0) {
-									Categories.add($('#category_addinput').val());
-									$('#category_addinput').val('');
-								}
-							});
-						}
-				});
-			}
-		});
-	},
-	delete:function(){
-		var categories = $('#categorylist').find('input[type="checkbox"]').serialize();
-		console.log('Categories.delete: ' + categories);
-		$.post(OC.filePath('contacts', 'ajax', 'categories/delete.php'),categories,function(jsondata){
-			if(jsondata.status == 'success'){
-				Categories._update(jsondata.data.categories);
-			} else {
-				OC.dialogs.alert(jsondata.data.message, 'Error');
-			}
-		});
-	},
-	add:function(category){
-		console.log('Categories.add ' + category);
-		$.getJSON(OC.filePath('contacts', 'ajax', 'categories/add.php'),{'category':category},function(jsondata){
-			if(jsondata.status == 'success'){
-				Categories._update(jsondata.data.categories);
-			} else {
-				OC.dialogs.alert(jsondata.data.message, 'Error');
-			}
-		});
-		return false;
-	},
-	rescan:function(){
-		console.log('Categories.rescan');
-		$.getJSON(OC.filePath('contacts', 'ajax', 'categories/rescan.php'),{},function(jsondata){
-			if(jsondata.status == 'success'){
-				Categories._update(jsondata.data.categories);
-			} else {
-				OC.dialogs.alert(jsondata.data.message, 'Error');
-			}
-		});
-	},
-	_update:function(categories){
-		var categorylist = $('#categorylist');
-		categorylist.find('li').remove();
-		for(var category in categories) {
-			var item = '<li><input type="checkbox" name="categories" value="' + categories[category] + '" />' + categories[category] + '</li>';
-			$(item).appendTo(categorylist);
-		}
-		if(Categories.changed != undefined) {
-			Categories.changed(categories);
-		}
-	}
-}
-
 Contacts={
 	UI:{
 		notImplemented:function() {
@@ -146,7 +47,6 @@ Contacts={
 			console.log('uri: ' + uri);
 			var newWindow = window.open(uri,'_blank');
 			newWindow.focus();
-			//Contacts.UI.notImplemented();
 		},
 		mailTo:function(obj) {
 			var adr = Contacts.UI.propertyContainerFor($(obj)).find('input[type="email"]').val().trim();
@@ -252,12 +152,12 @@ Contacts={
 			$('#bday').datepicker({
 						dateFormat : 'dd-mm-yy'
 			});
-			$('#categories_value').find('select').multiselect({
+			/*$('#categories_value').find('select').multiselect({
 										noneSelectedText: t('contacts', 'Select categories'),
 										header: false,
 										selectedList: 6,
 										classes: 'categories'
-									});
+									});*/
 			// Style phone types
 			$('#phonelist').find('select.contacts_property').multiselect({
 													noneSelectedText: t('contacts', 'Select type'),
@@ -299,7 +199,7 @@ Contacts={
 					click: function() { $(this).dialog('close'); }
 				}
 			] );
-			//$('#categories').multiple_autocomplete({source: categories});
+			$('#categories').multiple_autocomplete({source: categories});
 			Contacts.UI.loadListHandlers();
 		},
 		Card:{
@@ -440,7 +340,7 @@ Contacts={
 				$('#rightcontent').data('id',this.id);
 				console.log('loaded: ' + this.data.FN[0]['value']);
 				this.populateNameFields();
-				this.loadCategories();
+				//this.loadCategories();
 				this.loadPhoto();
 				this.loadMails();
 				this.loadPhones();
@@ -458,7 +358,7 @@ Contacts={
 				}
 			},
 			loadSingleProperties:function() {
-				var props = ['BDAY', 'NICKNAME', 'ORG']; //, 'CATEGORIES'];
+				var props = ['BDAY', 'NICKNAME', 'ORG', 'CATEGORIES'];
 				// Clear all elements
 				$('#ident .propertycontainer').each(function(){
 					if(props.indexOf($(this).data('element')) > -1) {
@@ -494,12 +394,12 @@ Contacts={
 								$('#contact_identity').find('#org_label').show();
 								$('#contact_identity').find('#org_value').show();
 								break;
-							/*case 'CATEGORIES':
+							case 'CATEGORIES':
 								$('#contact_identity').find('#categories').val(value);
 								$('#contact_identity').find('#categories_value').data('checksum', checksum);
 								$('#contact_identity').find('#categories_label').show();
 								$('#contact_identity').find('#categories_value').show();
-								break;*/
+								break;
 						}
 					} else {
 						$('#contacts_propertymenu a[data-type="'+props[prop]+'"]').parent().show();
@@ -825,7 +725,7 @@ Contacts={
 								}*/
 							});
 						} else {
-							alert(jsondata.data.message);
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
 				}
@@ -1295,7 +1195,8 @@ Contacts={
 $(document).ready(function(){
 
 	Contacts.UI.loadHandlers();
-	Categories.changed = Contacts.UI.Card.categoriesChanged;
+	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
+	OCCategories.app = 'contacts';
 
 	/**
 	 * Show the Addressbook chooser

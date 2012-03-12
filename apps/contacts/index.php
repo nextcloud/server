@@ -45,13 +45,14 @@ $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
 OC_Util::addScript('','jquery.multiselect');
+OC_Util::addScript('','oc-vcategories');
 OC_Util::addScript('contacts','contacts');
 OC_Util::addScript('contacts','jquery.combobox');
 OC_Util::addScript('contacts','jquery.inview');
 OC_Util::addScript('contacts','jquery.Jcrop');
 OC_Util::addScript('contacts','jquery.multi-autocomplete');
 OC_Util::addStyle('','jquery.multiselect');
-//OC_Util::addStyle('contacts','styles');
+OC_Util::addStyle('','oc-vcategories');
 OC_Util::addStyle('contacts','jquery.combobox');
 OC_Util::addStyle('contacts','jquery.Jcrop');
 OC_Util::addStyle('contacts','contacts');

@@ -442,9 +442,9 @@ class OC_Contacts_VCard{
 		//$value = htmlspecialchars($value);
 		if($property->name == 'ADR' || $property->name == 'N'){
 			$value = self::unescapeDelimiters($value);
-		} elseif($property->name == 'CATEGORIES') {
+		}/* elseif($property->name == 'CATEGORIES') {
 			$value = self::unescapeDelimiters($value, ',');
-		}
+		}*/
 		$temp = array(
 			'name' => $property->name,
 			'value' => $value,

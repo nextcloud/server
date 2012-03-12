@@ -157,7 +157,7 @@ class OC_VCategories {
 	* @param $names An array of categories to delete
 	* @param $objects An array of arrays with [id,vobject] (as text) pairs suitable for updating the apps object table.
 	*/
-	public function delete($names, array &$objects) {
+	public function delete($names, array &$objects=null) {
 		if(!is_array($names)) {
 			$names = array($names);
 		}
@@ -171,26 +171,28 @@ class OC_VCategories {
 		}
 		$this->save();
 		OC_Log::write('core','OC_VCategories::delete, after: '.print_r($this->categories, true), OC_Log::DEBUG);
-		foreach($objects as $key=>&$value) {
-			$vobject = OC_VObject::parse($value[1]);
-			if(!is_null($vobject)){
-				$categories = $vobject->getAsArray('CATEGORIES');
-				//OC_Log::write('core','OC_VCategories::delete, before: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
-				foreach($names as $name) {
-					$idx = $this->array_searchi($name, $categories);
-					OC_Log::write('core','OC_VCategories::delete, loop: '.$name.', '.print_r($idx, true), OC_Log::DEBUG);
-					if($idx !== false) {
-						OC_Log::write('core','OC_VCategories::delete, unsetting: '.$categories[$this->array_searchi($name, $categories)], OC_Log::DEBUG);
-						unset($categories[$this->array_searchi($name, $categories)]);
-						//unset($categories[$idx]);
+		if(!is_null($objects)) {
+			foreach($objects as $key=>&$value) {
+				$vobject = OC_VObject::parse($value[1]);
+				if(!is_null($vobject)){
+					$categories = $vobject->getAsArray('CATEGORIES');
+					//OC_Log::write('core','OC_VCategories::delete, before: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
+					foreach($names as $name) {
+						$idx = $this->array_searchi($name, $categories);
+						OC_Log::write('core','OC_VCategories::delete, loop: '.$name.', '.print_r($idx, true), OC_Log::DEBUG);
+						if($idx !== false) {
+							OC_Log::write('core','OC_VCategories::delete, unsetting: '.$categories[$this->array_searchi($name, $categories)], OC_Log::DEBUG);
+							unset($categories[$this->array_searchi($name, $categories)]);
+							//unset($categories[$idx]);
+						}
 					}
+					OC_Log::write('core','OC_VCategories::delete, after: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
+					$vobject->setString('CATEGORIES', implode(',', $categories));
+					$value[1] = $vobject->serialize();
+					$objects[$key] = $value;
+				} else {
+					OC_Log::write('core','OC_VCategories::delete, unable to parse. ID: '.$value[0].', '.substr($value[1], 0, 50).'(...)', OC_Log::DEBUG);
 				}
-				OC_Log::write('core','OC_VCategories::delete, after: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
-				$vobject->setString('CATEGORIES', implode(',', $categories));
-				$value[1] = $vobject->serialize();
-				$objects[$key] = $value;
-			} else {
-				OC_Log::write('core','OC_VCategories::delete, unable to parse. ID: '.$value[0].', '.substr($value[1], 0, 50).'(...)', OC_Log::DEBUG);
 			}
 		}
 	}

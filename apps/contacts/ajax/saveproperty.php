@@ -63,11 +63,11 @@ if(!$checksum) {
 if(is_array($value)){
 	$value = array_map('strip_tags', $value);
 	ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
-	if($name == 'CATEGORIES') {
-		$value = OC_Contacts_VCard::escapeDelimiters($value, ',');
-	} else {
+	//if($name == 'CATEGORIES') {
+	//	$value = OC_Contacts_VCard::escapeDelimiters($value, ',');
+	//} else {
 		$value = OC_Contacts_VCard::escapeDelimiters($value, ';');
-	}
+	//}
 } else {
 	$value = trim(strip_tags($value));
 }
