@@ -14,6 +14,12 @@
 			//console.log('_create: ' + this.options['id']);
 			var self = this;
 			this.element.bind('blur', function( event ) {
+				var tmp = self.element.val().trim();
+				if(tmp[tmp.length-1] == ',') {
+					self.element.val(tmp.substring(0, tmp.length-1));
+				} else {
+					self.element.val(tmp);
+				}
 				self.element.trigger('change'); // Changes wasn't saved when only using the dropdown.
 			});
 			this.element.bind( "keydown", function( event ) {
@@ -62,6 +68,10 @@
 					// work around a bug (likely same cause as #5265)
 					$( this ).blur();
 
+					var tmp = self.element.val().trim();
+					if(tmp[tmp.length-1] != ',') {
+						self.element.val(tmp+', ');
+					}
 					// pass empty string as value to search for, displaying all results
 					self.element.autocomplete( "search", "" );
 					self.element.focus();
