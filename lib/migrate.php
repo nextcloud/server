@@ -30,6 +30,7 @@ class OC_Migrate{
 	static private $providers=array();
 	static private $schema=false;
 	static private $uid=false;
+	static private $database=false;
 	
 	/**
 	 * register a new migration provider
@@ -108,40 +109,75 @@ class OC_Migrate{
 	
 	/**
 	* @breif imports a new user
+	* @param $db string path to migration.db
+	* @param $migrateinfo string path to the migration info json file
 	* @param $uid optional uid to use
 	* @return bool if the import succedded
 	*/
-	public static function import( $uid=false ){
-		
-		self::$uid = $uid;
-		
+	public static function import( $db, $migrateinfo, $uid=false ){
+				
 		if(!self::$uid){
 			OC_Log::write('migration','Tried to import without passing a uid',OC_Log::FATAL);
 			return false;
 			exit();	
 		}
 		
-		// Connect to the db
-		if(!self::connectDB()){
-			return false;	
+		// Check if the db exists
+		if( file_exists( $db ) ){
+			// Connect to the db
+			if(!self::connectDB( $db )){
+				return false;
+				exit();	
+			}	
+		} else {
+			OC_Log::write('migration','Migration.db not found at: '.$db, OC_Log::FATAL );	
+			return false;
+			exit();
 		}
+		
+		// Load the json info
+		if( file_exists( $migrateinfo ) ){
+			
+		} else {
+			OC_Log::write( 'migration', 'Migration information file not found at: '.$migrateinfo, OC_Log::FATAL );	
+			return false;
+			exit();
+		}
+		
+		// Process migration info
+		$info = file_get_contents( $migrateinfo );
+		$info = json_decode( $info );
+		
+		// Set the user id
+		self::$uid = !$uid : $info['migrateinfo']['uid'] ? $uid;
 		
 		// Create the user
 		if(!self::createUser($uid, $hash)){
 			return false;	
+			exit();
 		}
+				
+		$apps = $info['apps'];
 		
-		// Now get the list of apps to import from migration.db
-		// Then check for migrate.php for these apps
-		// If present, run the import function for them.
+		foreach( self::$providers as $provider){
+			// Is the app in the export?
+			if( array_key_exists( $provider->id, $apps ) ){
+				// Did it succeed?
+				if( $app[$provider->id] ){
+					// Then do the import
+					$provider->import();	
+				}	
+			}	
+		}
 		
 		return true;
 	
 	}
 	
 	// @breif connects to migration.db, or creates if not found
+	// @param $db optional path to migration.db, defaults to user data dir
 	// @return bool whether the operation was successful
-	private static function connectDB(){
+	private static function connectDB( $db=null ){
 		OC_Log::write('migration','connecting to migration.db for user: '.self::$uid,OC_Log::INFO);
 		// Fail if no user is set
 		if(!self::$uid){
@@ -151,6 +187,8 @@ class OC_Migrate{
 		// Already connected
 		if(!self::$MDB2){
 			require_once('MDB2.php');
+			
+			self::$database = !is_null( $db ) ? $db : $datadir.'/'.self::$uid.'/migration.db';
 			
 			$datadir = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 			
@@ -164,7 +202,7 @@ class OC_Migrate{
 				);
 			$dsn = array(
 				'phptype'  => 'sqlite3',
-				'database' => $datadir.'/'.self::$uid.'/migration.db',
+				'database' => self::$database,
 				'mode' => '0644'
 			);
 			
@@ -392,7 +430,9 @@ class OC_Migrate{
 		// Create the user
 		$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
 		$result = $query->execute( array( $uid, $data['hash']));
-
+		if( !$result ){
+			OC_Log::write('migration', 'Failed to create the new user "'.$uid."");	
+		}
 		return $result ? true : false;
 		
 	}
