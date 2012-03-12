@@ -50,7 +50,7 @@ if (isset($_POST['user_migrate'])) {
 		// Call to OC_Migrate for the xml file.
 		
 		// Create migration.db
-		var_dump(OC_Migrate::export(OC_User::getUser()));
+		OC_Migrate::export(OC_User::getUser());
 		// Add export db to zip
 		$zip->addFile($root.'data/'.$user.'/migration.db', "migration.db");
 		

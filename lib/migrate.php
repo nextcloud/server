@@ -65,20 +65,42 @@ class OC_Migrate{
 		
 		// Foreach provider
 		foreach( self::$providers as $provider ){
-			// Check for database.xml
+			
+			$failed = false;
+			
+			// Does this app use the database?
 			if(file_exists(OC::$SERVERROOT.'/apps/'.$provider->id.'/appinfo/database.xml')){
-				$ok = self::createAppTables( $provider->id );						
+				// Create some app tables
+				$tables = self::createAppTables( $provider->id );
+				if( is_array( $tables ) ){
+					// Save the table names
+					foreach($tables as $table){
+						$return['app'][$provider->id]['tables'][] = $table;	
+					}	
+				} else {
+					// It failed to create the tables
+					$failed = true;
+				}	
 			}
-			if($ok){
-				// Run the export function provided by the providor
-				$return[$provider->id]['success'] = $provider->export( $uid );
+			
+			// Run the import function?
+			if( !$failed ){
+				$return['app'][$provider->id]['success'] = $provider->export( $uid );	
 			} else {
-				// Log the error
-				OC_Log::write('migration','failed to create migration tables for: '.$provider->id,OC_Log::INFO);
-				$return[$provider->id]['success'] = 'false';	
-				$return[$provider->id]['message'] = 'failed to create the app tables';
+				$return['app'][$provider->id]['success'] = false;	
+				$return['app'][$provider->id]['message'] = 'failed to create the app tables';	
 			}
+			
+			// Now add some app info the the return array
+			$appinfo = OC_App::getAppInfo( $provider->id );
+			$return['app'][$provider->id]['version'] = $appinfo['version'];
+			
 		}
+
+		
+		// Add some general info to the return array
+		$return['migrateinfo']['uid'] = $uid;
+		$return['migrateinfo']['ocversion'] = OC_Util::getVersionString();
 		
 		return $return;
 		
@@ -289,50 +311,49 @@ class OC_Migrate{
 	// @param $appid string id of the app
 	// @return bool whether the operation was successful
 	private static function createAppTables( $appid ){
-		$file = OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml';
-		if(file_exists( $file )){
 			
-			if(!self::connectScheme()){
-				return false;	
-			}
-			
-			// There is a database.xml file			
-			$content = file_get_contents( $file );
-			
-			$file2 = 'static://db_scheme';
-			$content = str_replace( '*dbname*', self::$uid.'/migration', $content );
-			$content = str_replace( '*dbprefix*', '', $content );
-			
-			file_put_contents( $file2, $content );
-			
-			// Try to create tables
-			$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
-	
-			unlink( $file2 );
-			
-			// Die in case something went wrong
-			if( $definition instanceof MDB2_Schema_Error ){
-				OC_Log::write('migration','Failed to parse database.xml for: '.$appid,OC_Log::FATAL);
-				OC_Log::write('migration',$definition->getMessage().': '.$definition->getUserInfo(),OC_Log::FATAL);
-				return false;
-			}
-			
-			$definition['overwrite'] = true;
-			
-			$ret = self::$schema->createDatabase( $definition );
-			// Die in case something went wrong
-			
-			if( $ret instanceof MDB2_Error ){
-				OC_Log::write('migration','Failed to create tables for: '.$appid,OC_Log::FATAL);
-				OC_Log::write('migration',$ret->getMessage().': '.$ret->getUserInfo(),OC_Log::FATAL);
-				return false;
-			}
-			return true;
-			
-		} else {
-			// No database.xml
+		if(!self::connectScheme()){
 			return false;	
 		}
+		
+		// There is a database.xml file			
+		$content = file_get_contents( OC::$SERVERROOT . '/apps/' . $appid . '/appinfo/database.xml' );
+		
+		$file2 = 'static://db_scheme';
+		$content = str_replace( '*dbname*', self::$uid.'/migration', $content );
+		$content = str_replace( '*dbprefix*', '', $content );
+		
+		$xml = new SimpleXMLElement($content);
+		foreach($xml->table as $table){
+			$tables[] = (string)$table->name;	
+		}	
+		
+		file_put_contents( $file2, $content );
+		
+		// Try to create tables
+		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
+
+		unlink( $file2 );
+		
+		// Die in case something went wrong
+		if( $definition instanceof MDB2_Schema_Error ){
+			OC_Log::write('migration','Failed to parse database.xml for: '.$appid,OC_Log::FATAL);
+			OC_Log::write('migration',$definition->getMessage().': '.$definition->getUserInfo(),OC_Log::FATAL);
+			return false;
+		}
+		
+		$definition['overwrite'] = true;
+		
+		$ret = self::$schema->createDatabase( $definition );
+		// Die in case something went wrong
+		
+		if( $ret instanceof MDB2_Error ){
+			OC_Log::write('migration','Failed to create tables for: '.$appid,OC_Log::FATAL);
+			OC_Log::write('migration',$ret->getMessage().': '.$ret->getUserInfo(),OC_Log::FATAL);
+			return false;
+		}
+		return $tables;
+
 	}
 	
 	
