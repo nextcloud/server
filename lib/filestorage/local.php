@@ -67,11 +67,9 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function filemtime($path){
 		return filemtime($this->datadir.$path);
 	}
-<<<<<<< HEAD
 	public function fileatime($path){
 		return fileatime($this->datadir.$path);
 	}
-=======
 	
 	public function setFileMtime($path, $mtime){
                    // sets the modification time of the file to the given value. If mtime is nil the current time is set.
@@ -79,7 +77,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
                   return touch($this->datadir.$path, $mtime);
          }
 
->>>>>>> 85853f9... - Added the ability to change a files mtime via webdavs propset.
 	public function file_get_contents($path){
 		return file_get_contents($this->datadir.$path);
 	}
