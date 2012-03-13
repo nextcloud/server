@@ -24,72 +24,27 @@
  */
 OC_Util::checkAppEnabled('user_migrate');
 
-define('DS', '/');
-
 if (isset($_POST['user_export'])) {
-	
-	// Setup the export
-    $zip = new ZipArchive();
-    $tmp = get_temp_dir();
-    $user = OC_User::getUser();
-
-	$userdatadir = OC_Config::getValue( 'datadirectory' ) . '/' . $user;
-	$filename = $userdatadir . '/owncloud_export_' . $user . '_' . date("y-m-d_H-i-s") . ".zip";
-    OC_Log::write('user_migrate',"Creating export file at: " . $filename,OC_Log::INFO);
-    if ($zip->open($filename, ZIPARCHIVE::CREATE) !== TRUE) {
-		exit("Cannot open <$filename>\n");
-    }
-	
-	// Migrate the app info
-	$info = json_encode( OC_Migrate::export( $user ) );
-	$infofile = $userdatadir . '/exportinfo.json';
-	file_put_contents( $infofile, $info );
-
-	// Add the data dir (which includes migration.db and exportinfo.json)
-	zipAddDir( $userdatadir, $zip, true, "/" );
-	
-	// Save the zip
-    $zip->close();
-    
-    // Send the zip
-    header("Content-Type: application/zip");
-    header("Content-Disposition: attachment; filename=" . basename($filename));
-    header("Content-Length: " . filesize($filename));
-    @ob_end_clean();
-    readfile($filename);
-    // Cleanup
-    unlink($filename);
-    OC_Migrate::cleanUp();
-    
+	// Create the export zip
+	$user = OC_User::getUser();
+	$path = OC_Config::getValue( 'datadirectory' ) . '/' . OC_User::getUser() . '/';
+	if( OC_Migrate::createExportFile( $user, $path ) ){
+		// Download it then	
+		header("Content-Type: application/zip");
+		header("Content-Disposition: attachment; filename=" . basename($path));
+		header("Content-Length: " . filesize($path));
+		@ob_end_clean();
+		readfile($path);
+		OC_Migrate::cleanUp();
+	} else {
+		die('error');	
+	}
 } if( isset( $_POST['user_import'] ) ){
 	// TODO
 }else {
-	
 	// fill template
-    $tmpl = new OC_Template('user_migrate', 'settings');
-    return $tmpl->fetchPage();
-    
+	$tmpl = new OC_Template('user_migrate', 'settings');
+	return $tmpl->fetchPage();
 }
 
-function zipAddDir($dir, $zip, $recursive=true, $internalDir='') {
-    $dirname = basename($dir);
-    $zip->addEmptyDir($internalDir . $dirname);
-    $internalDir.=$dirname.='/';
 
-    if ($dirhandle = opendir($dir)) {
-		while (false !== ( $file = readdir($dirhandle))) {
-
-			if (( $file != '.' ) && ( $file != '..' )) {
-
-			if (is_dir($dir . '/' . $file) && $recursive) {
-				zipAddDir($dir . '/' . $file, $zip, $recursive, $internalDir);
-			} elseif (is_file($dir . '/' . $file)) {
-				$zip->addFile($dir . '/' . $file, $internalDir . $file);
-			}
-			}
-		}
-		closedir($dirhandle);
-    } else {
-		OC_Log::write('user_migrate',"Was not able to open directory: " . $dir,OC_Log::ERROR);
-    }
-}

@@ -36,6 +36,10 @@ class OC_Migrate{
 	static private $uid=false;
 	// Path to the sqlite db
 	static private $dbpath=false;
+	// Holds the ZipArchive object
+	static private $zip=false;
+	// String path to export
+	static private $zippath=false;
 	
 	/**
 	 * register a new migration provider
@@ -47,24 +51,10 @@ class OC_Migrate{
 	
 	/**
 	 * @breif creates a migration.db in the users data dir with their app data in
-	 * @param @uid string userid of the user to export for
 	 * @return bool whether operation was successfull
 	 */
-	public static function export( $uid ){
-
-		// Only export database users, otherwise we get chaos
-		if(!OC_User_Database::userExists( $uid )){
-			return false;	
-		}
-		
-		self::$uid = $uid;
-		
-		if(empty(self::$uid)){
-			OC_Log::write('migration','Invalid uid passed',OC_Log::FATAL);
-			return false;
-			exit();	
-		}
-		
+	private static function exportAppData( ){
+				
 		self::connectDB();
 		$ok = true;
 		$return = array();
@@ -100,7 +90,7 @@ class OC_Migrate{
 			
 			// Run the import function?
 			if( !$failed ){
-				$return['app'][$provider->id]['success'] = $provider->export( $uid );	
+				$return['app'][$provider->id]['success'] = $provider->export( self::$uid );	
 			} else {
 				$return['app'][$provider->id]['success'] = false;	
 				$return['app'][$provider->id]['message'] = 'failed to create the app tables';	
@@ -114,12 +104,94 @@ class OC_Migrate{
 
 		
 		// Add some general info to the return array
-		$return['migrateinfo']['uid'] = $uid;
+		$return['migrateinfo']['uid'] = self::$uid;
 		$return['migrateinfo']['ocversion'] = OC_Util::getVersionString();
 		
 		return $return;
 		
 	}
+	
+	/**
+	* @breif creates a zip user export
+	* @param $uid string user id of the user to export
+	* @param $path string path to folder to create file in (with trailing slash)
+	* @return bool success
+	*/
+	static public function createExportFile( $uid, $path ){
+		// Is a directory
+		if( !is_dir( $path ) ){
+			OC_Log::write('migration', 'Path supplied to createExportFile() is not a directory', OC_Log::ERROR);
+			return false;
+			exit();	
+		}	
+		// Is writeable
+		if( !is_writeable( $path ) ){
+			OC_Log::write('migration', 'Path supplied to createExportFile() is not writeable', OC_Log::ERROR);	
+			return false;
+			exit();
+		}
+		// Is a database user?
+		if( !OC_User_Database::userExists( $uid ) ){
+			OC_Log::write('migration', 'User: '.$uid.' is not in the database and so cannot be exported.', OC_Log::ERROR);
+			return false;	
+			exit();
+		}
+		
+		self::$uid = $uid;
+		self::$zip = new ZipArchive;
+		
+		// Get some info
+		$userdatadir = OC_Config::getValue( 'datadirectory' ) . '/' . self::$uid;
+		self::$zippath = $path . 'owncloud_export_' . self::$uid . '_' . date("y-m-d_H-i-s") . ".zip";
+		if ( self::$zip->open( self::$zippath, ZIPARCHIVE::CREATE ) !== TRUE ) {
+			OC_Log::write('migration','Cannot create a zip file at: '.self::$zippath, OC_Log::ERROR);
+			return false;
+			exit();
+		}
+		
+		// Export the app info
+		$info = json_encode( self::exportAppData() );
+		file_put_contents( $userdatadir . '/exportinfo.json', $info );
+		
+		// Add the data dir (which includes migration.db and exportinfo.json)
+		self::addDirToZip( $userdatadir, '/' );
+		
+		// All done!
+		if( !self::$zip->close() ){
+			OC_Log::write('migration', 'Failed to save the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
+			return false;
+			exit();
+		} else {
+			OC_Log::write('migration', 'Created export file for: '.self::$uid, OC_Log::INFO);
+			return true;	
+		}
+		
+		
+	} 
+		
+	/**
+	* @breif adds a directory to the zip object
+	* @return void
+	*/
+	static private function addDirToZip( $dir, $recursive=true, $internalDir='' ){
+		$dirname = basename($dir);
+		self::$zip->addEmptyDir($internalDir . $dirname);
+		$internalDir.=$dirname.='/';
+		if ($dirhandle = opendir($dir)) {
+			while (false !== ( $file = readdir($dirhandle))) {
+				if (( $file != '.' ) && ( $file != '..' )) {
+					if (is_dir($dir . '/' . $file) && $recursive) {
+						self::addDirToZip($dir . '/' . $file, $recursive, $internalDir);
+					} elseif (is_file($dir . '/' . $file)) {
+						self::$zip->addFile($dir . '/' . $file, $internalDir . $file);
+					}
+				}
+			}
+			closedir($dirhandle);
+		} else {
+			OC_Log::write('migration',"Was not able to open directory: " . $dir,OC_Log::ERROR);
+		}
+	}	
 	
 	/**
 	* @breif returns an array of apps that support migration
@@ -143,7 +215,7 @@ class OC_Migrate{
 	* @param $uid optional uid to use
 	* @return bool if the import succedded
 	*/
-	public static function import( $db, $migrateinfo, $uid=false ){
+	public static function importAppData( $db, $migrateinfo, $uid=false ){
 				
 		if(!self::$uid){
 			OC_Log::write('migration','Tried to import without passing a uid',OC_Log::FATAL);
@@ -467,6 +539,8 @@ class OC_Migrate{
 		unlink(  $userdatadir . '/migration.db' );
 		// Remove exportinfo.json
 		unlink(  $userdatadir . '/exportinfo.json' );
+		// Remove the zip
+		unlink(self::$zippath);
 		return true;	
 	}
 }

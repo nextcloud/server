@@ -20,9 +20,8 @@ abstract class OC_Migrate_Provider{
 	
 	/**
 	 * @breif imports data for the app
-	 * @param $data array of data. eg: array('info'=> APPINFO, 'data'=>APPDATA ARRAY)
-	 * @param $info array of info of the source install
+	 * @param $info array of info including exportinfo.json
 	 * @return void
 	 */
-	abstract function import($data,$uid);
+	abstract function import( $info );
 }
