@@ -133,7 +133,7 @@ class OC_Migrate{
 				$supportsmigration[] = $app;
 			}	
 		}
-		reutrn $supportsmigration;	
+		return $supportsmigration;	
 	}
 	
 	/**
