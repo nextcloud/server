@@ -53,15 +53,11 @@ if (isset($_POST['user_export'])) {
 	
 	// Migrate the app info
 	$info = json_encode( OC_Migrate::export( $user ) );
-	$infofile = $exportdir . '/exportinfo.json';
-	if( !file_put_contents( $infofile, $info ) ){
-		die('Failed to save the export info');	
-	}
-	$zip->addFile( $infofile, "exportinfo.json");
-	$zip->addFile(OC::$SERVERROOT . '/data/' . $user . '/migration.db', "migration.db");
+	$infofile = OC::$SERVERROOT . '/data/' . $user . '/exportinfo.json';
+	file_put_contents( $infofile, $info );
 
-	// Add the data dir
-	zipAddDir(OC::$SERVERROOT . "/data/" . $user, $zip, true, "files/");
+	// Add the data dir (which includes migration.db and exportinfo.json)
+	zipAddDir(OC::$SERVERROOT . "/data/" . $user, $zip, true, "/");
 	
 	// Save the zip
     $zip->close();
