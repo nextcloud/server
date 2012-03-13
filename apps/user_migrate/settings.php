@@ -32,20 +32,9 @@ if (isset($_POST['user_export'])) {
     $zip = new ZipArchive();
     $tmp = get_temp_dir();
     $user = OC_User::getUser();
-    // Create owncoud dir
-    if( !file_exists( $tmp . '/owncloud' ) ){
-    	if( !mkdir( $tmp . '/owncloud' ) ){
-    		die('Failed to create the owncloud tmp directory');	
-    	}	
-    }
-    // Create the export dir
-    $exportdir = $tmp . '/owncloud' . '/export_' . $user . '_' . date("y-m-d_H-i-s");
-    if( !file_exists( $exportdir ) ){
-    	if( !mkdir( $exportdir ) ){
-    		die('Failed to create the owncloud export directory');	
-    	}	
-    }
-	$filename = $exportdir . '/owncloud_export_' . $user . '_' . date("y-m-d_H-i-s") . ".zip";
+
+	$userdatadir = OC_Config::getValue( 'datadirectory' ) . '/' . $user;
+	$filename = $userdatadir . '/owncloud_export_' . $user . '_' . date("y-m-d_H-i-s") . ".zip";
     OC_Log::write('user_migrate',"Creating export file at: " . $filename,OC_Log::INFO);
     if ($zip->open($filename, ZIPARCHIVE::CREATE) !== TRUE) {
 		exit("Cannot open <$filename>\n");
@@ -53,11 +42,11 @@ if (isset($_POST['user_export'])) {
 	
 	// Migrate the app info
 	$info = json_encode( OC_Migrate::export( $user ) );
-	$infofile = OC::$SERVERROOT . '/data/' . $user . '/exportinfo.json';
+	$infofile = $userdatadir . '/exportinfo.json';
 	file_put_contents( $infofile, $info );
 
 	// Add the data dir (which includes migration.db and exportinfo.json)
-	zipAddDir(OC::$SERVERROOT . "/data/" . $user, $zip, true, "/");
+	zipAddDir( $userdatadir, $zip, true, "/" );
 	
 	// Save the zip
     $zip->close();
@@ -70,7 +59,6 @@ if (isset($_POST['user_export'])) {
     readfile($filename);
     // Cleanup
     unlink($filename);
-    rmdir($exportdir);
     OC_Migrate::cleanUp();
     
 } if( isset( $_POST['user_import'] ) ){

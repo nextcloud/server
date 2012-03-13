@@ -31,6 +31,7 @@ define('DS', '/');
 
 if (isset($_POST['admin_export'])) {
     $root = OC::$SERVERROOT . "/";
+    $datadir = OC_Config::getValue( 'datadirectory'  );
     $zip = new ZipArchive();
     $tempdir = get_temp_dir();
     $filename = $tempdir . "/owncloud_export_" . date("y-m-d_H-i-s") . ".zip";
@@ -70,7 +71,6 @@ if (isset($_POST['admin_export'])) {
 
 	OC_Log::write('admin_export',"Adding owncloud config to export",OC_Log::INFO);
 	zipAddDir($root . "config/", $zip, true, "/");
-	$zip->addFile($root . '/data/.htaccess', "data/owncloud.db");
     }
 
     if (isset($_POST['user_files'])) {
@@ -80,7 +80,7 @@ if (isset($_POST['admin_export'])) {
 		$zip->addFile($root . '/data/index.html', "data/index.html");
 		foreach (OC_User::getUsers() as $i) {
 			OC_Log::write('admin_export',"Adding owncloud user files of $i to export",OC_Log::INFO);
-		    zipAddDir($root . "data/" . $i, $zip, true, "/data/");
+		    zipAddDir($datadir . '/' . $i, $zip, true, "/data/");
 		}
     }
 

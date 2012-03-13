@@ -447,10 +447,11 @@ class OC_Migrate{
 			OC_Log::write('migration', 'Failed to cleanup after migration', OC_Log::ERROR);
 			return false;	
 		}
+		$userdatadir = OC_Config::getValue( 'datadirectory' ) . '/' . self::$uid;
 		// Remove migration.db
-		unlink(  OC::$SERVERROOT . '/data/' . self::$uid . '/migration.db' );
+		unlink(  $userdatadir . '/migration.db' );
 		// Remove exportinfo.json
-		unlink(  OC::$SERVERROOT . '/data/' . self::$uid . '/exportinfo.json' );
+		unlink(  $userdatadir . '/exportinfo.json' );
 		return true;	
 	}
 }
