@@ -23,8 +23,9 @@ $id = isset($_['id']) ? $_['id'] : '';
 
 	<div class="contactsection">
 
-	<form style="display:none;" id="file_upload_form" action="ajax/uploadphoto.php" method="post" enctype="multipart/form-data" target="file_upload_target">
+	<form style="display:none;" id="file_upload_form" action="ajax/uploadphoto.php" method="post" enctype="multipart/form-data" target="file_upload_target" class="propertycontainer" data-element="PHOTO">
 	<fieldset id="photo" class="formfloat">
+	<a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a>
 		<div id="contacts_details_photo_wrapper" title="<?php echo $l->t('Click or drop to upload picture'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 		<!-- img style="padding: 1em;" id="contacts_details_photo" alt="Profile picture"  src="photo.php?id=<?php echo $_['id']; ?>" / -->
 		<progress id="contacts_details_photo_progress" style="display:none;" value="0" max="100">0 %</progress>
@@ -63,7 +64,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a>
 		</dd -->
 		<dt style="display:none;" id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Categories'); ?></label></dt>
-		<dd style="display:none;" class="propertycontainer" id="categories_value" data-element="CATEGORIES"><input id="categories"  required="required" name="value[CATEGORIES]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Categories'); ?>" /><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a></dd>
+		<dd style="display:none;" class="propertycontainer" id="categories_value" data-element="CATEGORIES"><input id="categories"  required="required" name="value[CATEGORIES]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Categories'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a></dd>
 	</dl>
 	</fieldset>
 	<fieldset id="note" class="formfloat propertycontainer contactpart" style="display:none;" data-element="NOTE">

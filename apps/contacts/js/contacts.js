@@ -662,7 +662,9 @@ Contacts={
 							} else if(type == 'single') {
 								var proptype = Contacts.UI.propertyTypeFor(obj);
 								console.log('deleteProperty, hiding: ' + proptype);
-								if(proptype == 'NOTE') {
+								var othertypes = ['NOTE', 'PHOTO'];
+								if(othertypes.indexOf(proptype) != -1) {
+									console.log('NOTE or PHOTO');
 									Contacts.UI.propertyContainerFor(obj).hide();
 									Contacts.UI.propertyContainerFor(obj).data('checksum', '');
 								} else {
@@ -943,6 +945,7 @@ Contacts={
 					$.getJSON('ajax/loadphoto.php',{'id':this.id},function(jsondata){
 						if(jsondata.status == 'success'){
 							//alert(jsondata.data.page);
+							$('#file_upload_form').data('checksum', jsondata.data.checksum);
 							$('#contacts_details_photo_wrapper').html(jsondata.data.page);
 						}
 						else{

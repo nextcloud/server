@@ -43,8 +43,17 @@ if($id == '') {
 	bailOut(OC_Contacts_App::$l10n->t('Missing contact id.'));
 }
 
+$checksum = '';
+$vcard = OC_Contacts_App::getContactVCard( $id );
+foreach($vcard->children as $property){
+	if($property->name == 'PHOTO') {
+		$checksum = md5($property->serialize());
+		break;
+	}
+}
+
 $tmpl = new OC_TEMPLATE("contacts", "part.contactphoto");
 $tmpl->assign('id', $id);
 $page = $tmpl->fetchPage();
-OC_JSON::success(array('data' => array('page'=>$page)));
+OC_JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
 ?>
