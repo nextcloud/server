@@ -122,6 +122,21 @@ class OC_Migrate{
 	}
 	
 	/**
+	* @breif returns an array of apps that support migration
+	* @return array
+	*/
+	static public function getApps(){
+		$allapps = OC_App::getAllApps();
+		foreach($allapps as $app){
+			$path = OC::$SERVERROOT . '/apps/' . $app . '/lib/migrate.php';
+			if( file_exists( $path ) ){
+				$supportsmigration[] = $app;
+			}	
+		}
+		reutrn $supportsmigration;	
+	}
+	
+	/**
 	* @breif imports a new user
 	* @param $db string path to migration.db
 	* @param $migrateinfo array of migration ino
