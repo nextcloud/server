@@ -558,7 +558,7 @@ Contacts={
 				var name = container.data('element');
 				console.log('saveProperty: ' + name);
 				var fields = container.find('input.contacts_property,select.contacts_property').serializeArray();
-				var q = container.find('input.contacts_property,select.contacts_property').serialize();
+				var q = container.find('input.contacts_property,select.contacts_property,textarea.contacts_property').serialize();
 				if(q == '' || q == undefined) {
 					console.log('Couldn\'t serialize elements.');
 					Contacts.UI.loading(container, false);
@@ -662,7 +662,13 @@ Contacts={
 							} else if(type == 'single') {
 								var proptype = Contacts.UI.propertyTypeFor(obj);
 								console.log('deleteProperty, hiding: ' + proptype);
-								$('dl dt[data-element="'+proptype+'"],dd[data-element="'+proptype+'"]').hide();
+								if(proptype == 'NOTE') {
+									Contacts.UI.propertyContainerFor(obj).hide();
+									Contacts.UI.propertyContainerFor(obj).data('checksum', '');
+								} else {
+									$('dl dt[data-element="'+proptype+'"],dd[data-element="'+proptype+'"]').hide();
+									$('dl dd[data-element="'+proptype+'"]').data('checksum', '');
+								}
 								$('#contacts_propertymenu a[data-type="'+proptype+'"]').parent().show();
 								Contacts.UI.loading(obj, false);
 							} else {

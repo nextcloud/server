@@ -66,9 +66,9 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<dd style="display:none;" class="propertycontainer" id="categories_value" data-element="CATEGORIES"><input id="categories"  required="required" name="value[CATEGORIES]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Categories'); ?>" /><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a></dd>
 	</dl>
 	</fieldset>
-	<fieldset id="note" class="formfloat propertycontainer" style="display:none;" data-element="NOTE">
-	<legend><?php echo $l->t('Note'); ?></legend>
-	<textarea class="contacts_property note" name="value"></textarea>
+	<fieldset id="note" class="formfloat propertycontainer contactpart" style="display:none;" data-element="NOTE">
+	<legend><?php echo $l->t('Note'); ?><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></legend>
+	<textarea class="contacts_property note" name="value" cols="60" rows="10"></textarea>
 	</fieldset>
 	</form>
 	</div>
