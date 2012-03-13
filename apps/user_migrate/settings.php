@@ -3,6 +3,8 @@
 /**
  * ownCloud - user_migrate
  *
+ * @author Thomas Schmidt
+ * @copyright 2011 Thomas Schmidt tom@opensuse.org
  * @author Tom Needham
  * @copyright 2012 Tom Needham tom@owncloud.com
  *
@@ -22,52 +24,67 @@
  */
 OC_Util::checkAppEnabled('user_migrate');
 
+define('DS', '/');
 
-if (isset($_POST['user_migrate'])) {
-	// Looks like they want to migrate
-    $root = OC::$SERVERROOT . "/";
-    $user = OC_User::getUser();
+if (isset($_POST['user_export'])) {
+	
+	// Setup the export
     $zip = new ZipArchive();
-    $tempdir = get_temp_dir();
-    $filename = $tempdir . "/" . $user . "_export_" . date("y-m-d_H-i-s") . ".zip";
-    OC_Log::write('user_migrate',"Creating user export file at: " . $filename,OC_Log::INFO);
+    $tmp = get_temp_dir();
+    $user = OC_User::getUser();
+    // Create owncoud dir
+    if( !file_exists( $tmp . '/owncloud' ) ){
+    	if( !mkdir( $tmp . '/owncloud' ) ){
+    		die('Failed to create the owncloud tmp directory');	
+    	}	
+    }
+    // Create the export dir
+    $exportdir = $tmp . '/owncloud' . '/export_' . $user . '_' . date("y-m-d_H-i-s");
+    if( !file_exists( $exportdir ) ){
+    	if( !mkdir( $exportdir ) ){
+    		die('Failed to create the owncloud export directory');	
+    	}	
+    }
+	$filename = $exportdir . '/owncloud_export_' . $user . '_' . date("y-m-d_H-i-s") . ".zip";
+    OC_Log::write('user_migrate',"Creating export file at: " . $filename,OC_Log::INFO);
     if ($zip->open($filename, ZIPARCHIVE::CREATE) !== TRUE) {
 		exit("Cannot open <$filename>\n");
     }
+	
+	// Migrate the app info
+	$info = OC_Migrate::export( $user );
+	$infofile = $exportdir . '/exportinfo.json';
+	if( !file_put_contents( $infofile, $info ) ){
+		die('Failed to save the export info');	
+	}
+	$zip->addFile( $infofile, "exportinfo.json");
+	$zip->addFile(OC::$SERVERROOT . '/data/' . $user . '/migration.db', "migration.db");
 
-	// Does the user want to include their files?
-    if (isset($_POST['user_files'])) {
-	    // needs to handle data outside of the default data dir.
-		// adding user files
-		OC_Log::write('user_migrate',"Adding owncloud user files of $user to export",OC_Log::INFO);
-		zipAddDir($root . "data/" . $user, $zip, true, "files/");
-    }
-    
-    // Does the user want their app data?
-    if (isset($_POST['user_appdata'])) {
-		// adding owncloud system files
-		OC_Log::write('user_migrate',"Adding app data to user export file",OC_Log::INFO);
-		// Call to OC_Migrate for the xml file.
-		
-		// Create migration.db
-		OC_Migrate::export(OC_User::getUser());
-		// Add export db to zip
-		$zip->addFile($root.'data/'.$user.'/migration.db', "migration.db");
-		
-    }
-
+	// Add the data dir
+	zipAddDir(OC::$SERVERROOT . "/data/" . $user, $zip, true, "files/");
+	
+	// Save the zip
     $zip->close();
-
-    //header("Content-Type: application/zip");
-    //header("Content-Disposition: attachment; filename=" . basename($filename));
-    //header("Content-Length: " . filesize($filename));
-    //readfile($filename);
-    //unlink($filename);
     
-} else {
-// fill template
+    // Send the zip
+    header("Content-Type: application/zip");
+    header("Content-Disposition: attachment; filename=" . basename($filename));
+    header("Content-Length: " . filesize($filename));
+    @ob_end_clean();
+    readfile($filename);
+    // Cleanup
+    unlink($filename);
+    unlink($infofile);
+    rmdir($exportdir);
+    
+} if( isset( $_POST['user_import'] ) ){
+	// TODO
+}else {
+	
+	// fill template
     $tmpl = new OC_Template('user_migrate', 'settings');
     return $tmpl->fetchPage();
+    
 }
 
 function zipAddDir($dir, $zip, $recursive=true, $internalDir='') {
@@ -89,6 +106,6 @@ function zipAddDir($dir, $zip, $recursive=true, $internalDir='') {
 		}
 		closedir($dirhandle);
     } else {
-		OC_Log::write('admin_export',"Was not able to open directory: " . $dir,OC_Log::ERROR);
+		OC_Log::write('user_migrate',"Was not able to open directory: " . $dir,OC_Log::ERROR);
     }
 }

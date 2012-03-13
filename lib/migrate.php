@@ -26,11 +26,16 @@
  */
 class OC_Migrate{
 	
+	// Holds the db object
 	static private $MDB2=false;
+	// Array of OC_Migration_Provider objects
 	static private $providers=array();
+	// Schema db object
 	static private $schema=false;
+	// User id of the user to import/export
 	static private $uid=false;
-	static private $database=false;
+	// Path to the sqlite db
+	static private $dbpath=false;
 	
 	/**
 	 * register a new migration provider
@@ -64,9 +69,18 @@ class OC_Migrate{
 		$ok = true;
 		$return = array();
 		
+		// Find the providers
+		$apps = OC_App::getAllApps();
+		
+		foreach($apps as $app){
+			$path = OC::$SERVERROOT . '/apps/' . $app . '/lib/migrate.php';
+			if( file_exists( $path ) ){
+				include( $path );	
+			}	
+		}
+		
 		// Foreach provider
 		foreach( self::$providers as $provider ){
-			
 			$failed = false;
 			
 			// Does this app use the database?
@@ -110,7 +124,7 @@ class OC_Migrate{
 	/**
 	* @breif imports a new user
 	* @param $db string path to migration.db
-	* @param $migrateinfo string path to the migration info json file
+	* @param $migrateinfo array of migration ino
 	* @param $uid optional uid to use
 	* @return bool if the import succedded
 	*/
@@ -135,27 +149,14 @@ class OC_Migrate{
 			exit();
 		}
 		
-		// Load the json info
-		if( file_exists( $migrateinfo ) ){
-			
-		} else {
-			OC_Log::write( 'migration', 'Migration information file not found at: '.$migrateinfo, OC_Log::FATAL );	
+		if( !is_array( $migrateinfo ) ){
+			OC_Log::write('migration','$migrateinfo is not an array', OC_Log::FATAL);
 			return false;
 			exit();
 		}
 		
-		// Process migration info
-		$info = file_get_contents( $migrateinfo );
-		$info = json_decode( $info );
-		
 		// Set the user id
-		self::$uid = !$uid : $info['migrateinfo']['uid'] ? $uid;
-		
-		// Create the user
-		if(!self::createUser($uid, $hash)){
-			return false;	
-			exit();
-		}
+		self::$uid = $info['migrateinfo']['uid'];
 				
 		$apps = $info['apps'];
 		
@@ -177,7 +178,7 @@ class OC_Migrate{
 	// @breif connects to migration.db, or creates if not found
 	// @param $db optional path to migration.db, defaults to user data dir
 	// @return bool whether the operation was successful
-	private static function connectDB( $db=null ){
+	private static function connectDB( $dbpath=null ){
 		OC_Log::write('migration','connecting to migration.db for user: '.self::$uid,OC_Log::INFO);
 		// Fail if no user is set
 		if(!self::$uid){
@@ -188,9 +189,9 @@ class OC_Migrate{
 		if(!self::$MDB2){
 			require_once('MDB2.php');
 			
-			self::$database = !is_null( $db ) ? $db : $datadir.'/'.self::$uid.'/migration.db';
-			
 			$datadir = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+			
+			self::$dbpath = $datadir.'/'.self::$uid.'/migration.db';//!is_null( $dbpath ) ? $dbpath : $datadir.'/'.self::$uid.'/migration.db';
 			
 			// Prepare options array
 			$options = array(
@@ -202,10 +203,10 @@ class OC_Migrate{
 				);
 			$dsn = array(
 				'phptype'  => 'sqlite3',
-				'database' => self::$database,
+				'database' => self::$dbpath,
 				'mode' => '0644'
 			);
-			
+
 			// Try to establish connection
 			self::$MDB2 = MDB2::factory( $dsn, $options );
 			// Die if we could not connect

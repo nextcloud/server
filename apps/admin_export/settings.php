@@ -74,15 +74,16 @@ if (isset($_POST['admin_export'])) {
     }
 
     if (isset($_POST['user_files'])) {
-    // needs to handle data outside of the default data dir.
-	// adding user files
-	$zip->addFile($root . '/data/.htaccess', "data/.htaccess");
-	$zip->addFile($root . '/data/index.html', "data/index.html");
-	foreach (OC_User::getUsers() as $i) {
-		OC_Log::write('admin_export',"Adding owncloud user files of $i to export",OC_Log::INFO);
-	    zipAddDir($root . "data/" . $i, $zip, true, "/data/");
-	}
+	    // needs to handle data outside of the default data dir.
+		// adding user files
+		$zip->addFile($root . '/data/.htaccess', "data/.htaccess");
+		$zip->addFile($root . '/data/index.html', "data/index.html");
+		foreach (OC_User::getUsers() as $i) {
+			OC_Log::write('admin_export',"Adding owncloud user files of $i to export",OC_Log::INFO);
+		    zipAddDir($root . "data/" . $i, $zip, true, "/data/");
+		}
     }
+
     $zip->close();
     header("Content-Type: application/zip");
     header("Content-Disposition: attachment; filename=" . basename($filename));

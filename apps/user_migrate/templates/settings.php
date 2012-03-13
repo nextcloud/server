@@ -1,12 +1,17 @@
 <form id="export" action="#" method="post">
     <fieldset class="personalblock">
         <legend><strong><?php echo $l->t('Export your user account');?></strong></legend>
-        <p><?php echo $l->t('This will create a compressed file that contains the data of owncloud account.
-            Please choose which components should be included:');?>
+        <p><?php echo $l->t('This will create a compressed file that contains your ownCloud account.');?>
         </p>
-        <p><input type="checkbox" id="user_files" name="user_files" value="true"><label for="user_files"><?php echo $l->t('Files');?></label><br/>
-            <input type="checkbox" id="user_appdata" name="user_appdata" value="true"><label for="owncloud_system"><?php echo $l->t('User app data');?></label><br/>
+        <input type="submit" name="user_export" value="Export" />
+    </fieldset>
+</form>
+<form id="import" action="#" method="post" enctype="multipart/form-data">
+    <fieldset class="personalblock">
+        <legend><strong><?php echo $l->t('Import user account');?></strong></legend>
         </p>
-        <input type="submit" name="user_migrate" value="Export" />
+        <p><input type="file" id="owncloud_import" name="owncloud_import"><label for="owncloud_import"><?php echo $l->t('ownCloud User Zip');?></label>
+        </p>
+        <input type="submit" name="user_import" value="<?php echo $l->t('Import'); ?>" />
     </fieldset>
 </form>

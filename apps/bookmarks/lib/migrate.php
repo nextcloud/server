@@ -54,4 +54,5 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 	
 }
 
+// Load the provider
 new OC_Migrate_Provider_Bookmarks( 'bookmarks' );
