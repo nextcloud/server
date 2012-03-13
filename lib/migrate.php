@@ -438,4 +438,19 @@ class OC_Migrate{
 		
 	}
 	
+	/**
+	* @breif removes migration.db and exportinfo.json from the users data dir
+	* @return void
+	*/
+	static public function cleanUp(){
+		if( !self::$uid ){
+			OC_Log::write('migration', 'Failed to cleanup after migration', OC_Log::ERROR);
+			return false;	
+		}
+		// Remove migration.db
+		unlink(  OC::$SERVERROOT . '/data/' . self::$uid . '/migration.db' );
+		// Remove exportinfo.json
+		unlink(  OC::$SERVERROOT . '/data/' . self::$uid . '/exportinfo.json' );
+		return true;	
+	}
 }

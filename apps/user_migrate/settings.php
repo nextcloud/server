@@ -70,8 +70,8 @@ if (isset($_POST['user_export'])) {
     readfile($filename);
     // Cleanup
     unlink($filename);
-    unlink($infofile);
     rmdir($exportdir);
+    OC_Migrate::cleanUp();
     
 } if( isset( $_POST['user_import'] ) ){
 	// TODO
