@@ -32,24 +32,36 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 	}
 	
 	// Import function for bookmarks
-	function import( $data, $uid ){
+	function import( $info ){
 		
-		// new id mapping
-		$newids = array();
-		
-		// Import bookmarks
-		foreach($data['bookmarks'] as $bookmark){
-			$bookmark['user_id'] = $uid;
-			// import to the db now
-			$newids[$bookmark['id']] = OC_DB::insertid();
+		switch( $info['appversion'] ){
+			default:
+				// All versions of the app have had the same db structure, so all can use the same import function
+				$query = OC_Migrate::prepare( "SELECT * FROM bookmarks WHERE user_id LIKE ?" );
+				$results = $query->execute( array( $info['olduid'] ) );
+				$idmap = array();
+				while( $row = $data->fetchRow() ){
+					// Import each bookmark, saving its id into the map	
+					$query = OC_DB::prepare( "INSERT INTO *PREFIX*bookmarks(url, title, user_id, public, added, lastmodified) VALUES (?, ?, ?, ?, ?, ?)" );
+					$query->execute( array( $row['url'], $row['title'], $info['newuid'], $row['public'], $row['added'], $row['lastmodified'] ) );
+					// Map the id
+					$idmap[$row['id']] = OC_DB::insertid();
+				}
+				// Now tags
+				foreach($idmap as $oldid => $newid){
+					$query = OC_Migrate::prepare( "SELECT * FROM bookmarks_tags WHERE user_id LIKE ?" );
+					$results = $query->execute( array( $oldid ) );
+					while( $row = $data->fetchRow() ){
+						// Import the tags for this bookmark, using the new bookmark id
+						$query = OC_DB::prepare( "INSERT INTO *PREFIX*bookmarks_tags(bookmark_id, tag) VALUES (?, ?)" );
+						$query->execute( array( $newid, $row['tag'] ) );	
+					}		
+				}
+				// All done!
+			break;
 		}
 		
-		// Import tags
-		foreach($data['bookmarks_tags'] as $tag){
-			// Map the new ids
-			$tag['id'] = $newids[$tag['id']];
-			// Import to the db now using OC_DB
-		}
+		return true;
 	}
 	
 }
