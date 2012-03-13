@@ -52,7 +52,7 @@ if (isset($_POST['user_export'])) {
     }
 	
 	// Migrate the app info
-	$info = OC_Migrate::export( $user );
+	$info = json_encode( OC_Migrate::export( $user ) );
 	$infofile = $exportdir . '/exportinfo.json';
 	if( !file_put_contents( $infofile, $info ) ){
 		die('Failed to save the export info');	
