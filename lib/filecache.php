@@ -522,7 +522,7 @@ class OC_FileCache{
 	}
 
 	/**
-	 * fine files by mimetype
+	 * find files by mimetype
 	 * @param string $part1
 	 * @param string $part2 (optional)
 	 * @param string root (optional)

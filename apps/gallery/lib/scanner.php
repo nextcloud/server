@@ -52,7 +52,7 @@ class OC_Gallery_Scanner {
 			// don't duplicate galleries with same path
 			if (!($albumId = $result->fetchRow())) {
 				OC_Gallery_Album::create($owner, $name, $path);
-				$result = OC_Gallery_Album::find($owner, $name);
+				$result = OC_Gallery_Album::find($owner, $name, $path);
 				$albumId = $result->fetchRow();
 			}
 			$albumId = $albumId['album_id'];
