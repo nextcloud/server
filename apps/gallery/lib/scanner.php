@@ -42,22 +42,22 @@ class OC_Gallery_Scanner {
 	// Scan single dir relative to gallery root
 	public static function scan($eventSource) {
 		$paths = self::findPaths();
-		$eventSource->send('count', count($paths));
+		$eventSource->send('count', count($paths)+1);
 		$owner = OC_User::getUser();
 		foreach ($paths as $path) {
 			$name = self::createName($path);
 			$images = self::findFiles($path);
 
-      $result = OC_Gallery_Album::find($owner, null, $path);
+			$result = OC_Gallery_Album::find($owner, null, $path);
 			// don't duplicate galleries with same path
 			if (!($albumId = $result->fetchRow())) {
-        OC_Gallery_Album::create($owner, $name, $path);
-        $result = OC_Gallery_Album::find($owner, $name);
+				OC_Gallery_Album::create($owner, $name, $path);
+				$result = OC_Gallery_Album::find($owner, $name);
 				$albumId = $result->fetchRow();
 			}
 			$albumId = $albumId['album_id'];
 			foreach ($images as $img) {
-        $result = OC_Gallery_Photo::find($albumId, $img);
+				$result = OC_Gallery_Photo::find($albumId, $img);
 				if (!$result->fetchRow())
 					OC_Gallery_Photo::create($albumId, $img);
 			}
@@ -65,6 +65,8 @@ class OC_Gallery_Scanner {
 				self::createThumbnails($name, $images);
 			$eventSource->send('scanned', '');
 		}
+		self::createIntermediateAlbums();
+		$eventSource->send('scanned', '');
 		$eventSource->send('done', 1);
 	}
 
@@ -81,17 +83,35 @@ class OC_Gallery_Scanner {
 		imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
 	}
 
+	public static function createIntermediateAlbums() {
+		$paths = self::findPaths();
+		for ($i = 1; $i < count($paths); $i++) {
+			$prevLen = strlen($paths[$i-1]);
+			if (strncmp($paths[$i-1], $paths[$i], $prevLen)==0) {
+				$s = substr($paths[$i], $prevLen);
+				if (strrpos($s, '/') != 0) {
+					$a = explode('/', trim($s, '/'));
+					$p = $paths[$i-1];
+					foreach ($a as $e) {
+						$p .= ($p == '/'?'':'/').$e;
+						OC_Gallery_Album::create(OC_User::getUser(), $e, $p);
+					}
+				}
+			}
+		}
+	}
+
 	public static function isPhoto($filename) {
 		$ext = strtolower(substr($filename, strrpos($filename, '.')+1));
 		return $ext=='png' || $ext=='jpeg' || $ext=='jpg' || $ext=='gif';
 	}
 
 	public static function findFiles($path) {
-    $images = OC_FileCache::searchByMime('image','', OC_Filesystem::getRoot().$path);
+		$images = OC_FileCache::searchByMime('image','', OC_Filesystem::getRoot().$path);
 		$new = array();
 		foreach ($images as $i)
 			if (strpos($i, '/',1) === FALSE)
-        $new[] = $path.$i;
+				$new[] = $path.$i;
 		return $new;
 	}
 
@@ -100,8 +120,8 @@ class OC_Gallery_Scanner {
 		$paths=array();
 		foreach($images as $image){
 			$path=dirname($image);
-      $path = self::getGalleryRoot().($path=='.'?'':$path);
-      if ($path !== '/') $path=rtrim($path,'/');
+			$path = self::getGalleryRoot().($path=='.'?'':$path);
+			if ($path !== '/') $path=rtrim($path,'/');
 			if(array_search($path,$paths)===false){
 				$paths[]=$path;
 			}
