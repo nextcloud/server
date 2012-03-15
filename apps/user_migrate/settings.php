@@ -26,7 +26,7 @@ OC_Util::checkAppEnabled('user_migrate');
 
 if (isset($_POST['user_export'])) {
 	// Create the export zip
-	if( !$path = OC_Migrate::createExportFile() ){
+	if( !$path = OC_Migrate::createUserExportFile() ){
 		// Error
 		die('error');	
 	} else {

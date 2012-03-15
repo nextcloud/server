@@ -112,19 +112,119 @@ class OC_Migrate{
 	}
 	
 	/**
+	* @breif creates an export file for the whole system
+	* @param optional $exporttype string export type ('instance','system' or 'userfiles')
+	* @param optional $path string path to zip destination (with trailing slash)
+	* @return path to the zip or false if there was a problem
+	*/
+	static public function createSysExportFile( $exporttype='instance', $path=null ){
+		// Calculate zip name
+		$zipname = "owncloud_export_" . date("y-m-d_H-i-s") . ".zip";
+		// Get the data dir
+		$datadir = OC_Config::getValue( 'datadirectory' );
+		// Calculate destination
+		if( !is_null( $path ) ){
+			// Path given 
+			// Is a directory?
+			if( !is_dir( $path ) ){
+				OC_Log::write('migration', 'Path supplied to createSysExportFile() is not a directory', OC_Log::ERROR);
+				return false;
+			}	
+			// Is writeable
+			if( !is_writeable( $path ) ){
+				OC_Log::write('migration', 'Path supplied to createSysExportFile() is not writeable', OC_Log::ERROR);	
+				return false;
+			}
+			self::$zippath = $path . $zipname;
+		} else {
+			// Save in tmp dir
+			$structure = sys_get_temp_dir() . '/owncloudexports/';
+			if( !file_exists( $structure ) ){
+				if ( !mkdir( $structure	) ) {
+					OC_Log::write('migration', 'Could not create the temporary export at: '.$structure, OC_Log::ERROR);
+					return false;
+				}
+			}
+			self::$zippath = $structure . $zipname;
+		}	
+		// Create the zip object
+		self::$zip = new ZipArchive;
+		// Try to create the zip
+	    if( !self::createZip() ){
+	    	return false;
+	    }
+		// Handle export types
+		if( $exporttype == 'instance' ){
+			// Creates a zip that is compatable with the import function
+			/*	
+			$dbfile = self:: . "/dbexport.xml";
+			OC_DB::getDbStructure( $dbfile, 'MDB2_SCHEMA_DUMP_ALL');
+			
+			// Now add in *dbname* and *dbtableprefix*
+			$dbexport = file_get_contents( $dbfile );
+			
+			$dbnamestring = "<database>\n\n <name>" . OC_Config::getValue( "dbname", "owncloud" );
+			$dbtableprefixstring = "<table>\n\n  <name>" . OC_Config::getValue( "dbtableprefix", "_oc" );
+			
+			$dbexport = str_replace( $dbnamestring, "<database>\n\n <name>*dbname*", $dbexport );
+			$dbexport = str_replace( $dbtableprefixstring, "<table>\n\n  <name>*dbprefix*", $dbexport );
+			
+			// Write the new db export file
+			file_put_contents( $dbfile, $dbexport );
+			
+			$zip->addFile($dbfile, "dbexport.xml");
+			*/
+		} else if( $exporttype == 'system' ){
+			// Creates a zip with the owncloud system files
+			self::addDirToZip( OC::$SERVERROOT . '/', false);
+			foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dir) {
+		    	self::addDirToZip( OC::$SERVERROOT . '/' . $dir, true, "/");
+			}
+		} else if ( $exporttype == 'userfiles' ){
+			// Creates a zip with all of the users files
+			foreach(OC_User::getUsers() as $user){
+				self::addDirToZip( $datadir . '/' . $user . '/', true, "/" . $user);	
+			}
+		} else {
+			// Invalid export type supplied
+			OC_Log::write('migration', 'Invalid export type supplied to createSysExportFile() "'.$exporttype.'"', OC_Log::ERROR);
+			return false;	
+		}
+		// Close the zip
+		if( !self::closeZip() ){
+			return false;	
+		}
+		return self::$zippath;
+		
+	}
+	
+	/**
+	* @breif tried to finalise the zip
+	* @return bool
+	*/
+	static private function closeZip(){
+		if( !self::$zip->close() ){
+			OC_Log::write('migration', 'Failed to save the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
+			return false;
+		} else {
+			OC_Log::write('migration', 'Created export file for: '.self::$uid, OC_Log::INFO);
+			return true;	
+		}	
+	}
+	
+	/**
 	* @breif creates a zip user export
 	* @param optional $uid string user id of the user to export (defaults to current)
 	* @param optional $path string path to folder to create file in (with trailing slash) (defaults to current user's data dir)
 	* @return false on failure | string path on success
 	*/
-	static public function createExportFile( $uid=null, $path=null ){
+	static public function createUserExportFile( $uid=null, $path=null ){
 		// User passed?
 		$uid = is_null( $uid ) ? OC_User::getUser() : $uid ;
 		// Is a database user?
 		if( !OC_User_Database::userExists( $uid ) ){
 			OC_Log::write('migration', 'User: '.$uid.' is not in the database and so cannot be exported.', OC_Log::ERROR);
 			return false;	
-			exit();
 		}
 		// Set the uid
 		self::$uid = $uid;
@@ -140,41 +240,53 @@ class OC_Migrate{
 			// Path given 
 			// Is a directory?
 			if( !is_dir( $path ) ){
-				OC_Log::write('migration', 'Path supplied to createExportFile() is not a directory', OC_Log::ERROR);
+				OC_Log::write('migration', 'Path supplied to createUserExportFile() is not a directory', OC_Log::ERROR);
 				return false;
-				exit();	
 			}	
 			// Is writeable
 			if( !is_writeable( $path ) ){
-				OC_Log::write('migration', 'Path supplied to createExportFile() is not writeable', OC_Log::ERROR);	
+				OC_Log::write('migration', 'Path supplied to createUserExportFile() is not writeable', OC_Log::ERROR);	
 				return false;
-				exit();
 			}
 			self::$zippath = $path . $zipname;
 		} else {
 			// Save in users data dir
 			self::$zippath = $userdatadir . $zipname;
 		}
-	    if (self::$zip->open(self::$zippath, ZIPARCHIVE::CREATE) !== TRUE) {
-			// TODO ADD LOGGING
-			exit("Cannot open <$filename>\n");
+		// Try to create the zip
+	    if( !self::createZip() ){
+	    	return false;
 	    }
 	    // Export the app info
 		$info = json_encode( self::exportAppData() );
 		file_put_contents( $userdatadir . '/exportinfo.json', $info );
 		// Add the data dir to the zip
 		self::addDirToZip( $userdatadir );
-	    // All done!
-		if( !self::$zip->close() ){
-			OC_Log::write('migration', 'Failed to save the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
-			return false;
-			exit();
-		} else {
-			OC_Log::write('migration', 'Created export file for: '.self::$uid, OC_Log::INFO);
-			//return true;	
+	    // Close the zip
+		if( !self::closeZip() ){
+			return false;	
 		}
+		// All good
 	    return self::$zippath;
 	} 
+	
+	/**
+	* @breif tries to create the zip
+	* @return bool
+	*/
+	static private function createZip(){
+		// Check if properties are set
+		if( !self::$zip || !self::$zippath ){
+			OC_Log::write('migration', 'createZip() called but $zip and/or $zippath have not been set', OC_Log::ERROR);
+			return false;	
+		}
+		if ( self::$zip->open( self::$zippath, ZIPARCHIVE::CREATE ) !== TRUE ) {
+			OC_Log::write('migration', 'Failed to create the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
+			return false;
+	    } else {
+	    	return true;	
+	    }	
+	}
 		
 	/**
 	* @breif adds a directory to the zip object
@@ -235,7 +347,6 @@ class OC_Migrate{
 		if(!self::$uid){
 			OC_Log::write('migration','Tried to import without passing a uid',OC_Log::FATAL);
 			return false;
-			exit();	
 		}
 		
 		// Check if the db exists
@@ -243,18 +354,15 @@ class OC_Migrate{
 			// Connect to the db
 			if(!self::connectDB( $db )){
 				return false;
-				exit();	
 			}	
 		} else {
 			OC_Log::write('migration','Migration.db not found at: '.$db, OC_Log::FATAL );	
 			return false;
-			exit();
 		}
 		
 		if( !is_array( $migrateinfo ) ){
 			OC_Log::write('migration','$migrateinfo is not an array', OC_Log::FATAL);
 			return false;
-			exit();
 		}
 		
 		// Set the user id

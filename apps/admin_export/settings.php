@@ -28,70 +28,22 @@ OC_Util::checkAppEnabled('admin_export');
 define('DS', '/');
 
 
-
+// Export?
 if (isset($_POST['admin_export'])) {
-    $root = OC::$SERVERROOT . "/";
-    $datadir = OC_Config::getValue( 'datadirectory'  );
-    $zip = new ZipArchive();
-    $tempdir = get_temp_dir();
-    $filename = $tempdir . "/owncloud_export_" . date("y-m-d_H-i-s") . ".zip";
-    OC_Log::write('admin_export',"Creating export file at: " . $filename,OC_Log::INFO);
-    if ($zip->open($filename, ZIPARCHIVE::CREATE) !== TRUE) {
-		exit("Cannot open <$filename>\n");
-    }
-
-    if (isset($_POST['owncloud_system'])) {
-		// adding owncloud system files
-		OC_Log::write('admin_export',"Adding owncloud system files to export",OC_Log::INFO);
-		zipAddDir($root, $zip, false);
-		foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dirname) {
-		    zipAddDir($root . $dirname, $zip, true, "/");
-		}
-    }
-
-    if (isset($_POST['owncloud_config'])) {
-	// adding owncloud config
-	// todo: add database export
-	$dbfile = $tempdir . "/dbexport.xml";
-	OC_DB::getDbStructure( $dbfile, 'MDB2_SCHEMA_DUMP_ALL');
-	
-	// Now add in *dbname* and *dbtableprefix*
-	$dbexport = file_get_contents( $dbfile );
-	
-	$dbnamestring = "<database>\n\n <name>" . OC_Config::getValue( "dbname", "owncloud" );
-	$dbtableprefixstring = "<table>\n\n  <name>" . OC_Config::getValue( "dbtableprefix", "_oc" );
-	
-	$dbexport = str_replace( $dbnamestring, "<database>\n\n <name>*dbname*", $dbexport );
-	$dbexport = str_replace( $dbtableprefixstring, "<table>\n\n  <name>*dbprefix*", $dbexport );
-	
-	// Write the new db export file
-	file_put_contents( $dbfile, $dbexport );
-	
-	$zip->addFile($dbfile, "dbexport.xml");
-
-	OC_Log::write('admin_export',"Adding owncloud config to export",OC_Log::INFO);
-	zipAddDir($root . "config/", $zip, true, "/");
-    }
-
-    if (isset($_POST['user_files'])) {
-	    // needs to handle data outside of the default data dir.
-		// adding user files
-		$zip->addFile($root . '/data/.htaccess', "data/.htaccess");
-		$zip->addFile($root . '/data/index.html', "data/index.html");
-		foreach (OC_User::getUsers() as $i) {
-			OC_Log::write('admin_export',"Adding owncloud user files of $i to export",OC_Log::INFO);
-		    zipAddDir($datadir . '/' . $i, $zip, true, "/data/");
-		}
-    }
-
-    $zip->close();
-    header("Content-Type: application/zip");
-    header("Content-Disposition: attachment; filename=" . basename($filename));
-    header("Content-Length: " . filesize($filename));
-    @ob_end_clean();
-    readfile($filename);
-    unlink($filename);
-    unlink($dbfile);
+	// Create the export zip
+	if( !$path = OC_Migrate::createSysExportFile( $_POST['export_type'] ) ){
+		// Error
+		die('error');	
+	} else {
+		// Download it
+		header("Content-Type: application/zip");
+		header("Content-Disposition: attachment; filename=" . basename($path));
+		header("Content-Length: " . filesize($path));
+		@ob_end_clean();
+		readfile($path);
+		OC_Migrate::cleanUp( $path );	
+	}
+// Import?
 } else if( isset($_POST['admin_import']) ){
 	
 	$root = OC::$SERVERROOT . "/";

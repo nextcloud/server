@@ -2,12 +2,13 @@
     <fieldset class="personalblock">
         <legend><strong><?php echo $l->t('Export this ownCloud instance');?></strong></legend>
         <p><?php echo $l->t('This will create a compressed file that contains the data of this owncloud instance.
-            Please choose which components should be included:');?>
+            Please choose the export type:');?>
         </p>
-        <p><input type="checkbox" id="user_files" name="user_files" value="true"><label for="user_files"><?php echo $l->t('User files');?></label><br/>
-            <input type="checkbox" id="owncloud_system" name="owncloud_system" value="true"><label for="owncloud_system"><?php echo $l->t('ownCloud system files');?></label><br/>
-            <input type="checkbox" id="owncloud_config" name="owncloud_config" value="true"><label for="owncloud_config"><?php echo $l->t('ownCloud configuration');?></label>
-        </p>
+        <h3>What would you like to export?</h3>
+        <p>
+        <input type="radio" name="export_type" value="instance" /> ownCloud instance ( suitable for import )<br />
+		<input type="radio" name="export_type" value="system" /> ownCloud system files<br />
+		<input type="radio" name="export_type" value="userfiles" /> Just user files
         <input type="submit" name="admin_export" value="<?php echo $l->t('Export'); ?>" />
     </fieldset>
 </form>
