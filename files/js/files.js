@@ -250,11 +250,11 @@ $(document).ready(function() {
 					}
 				}
 				if(totalSize>$('#max_upload').val()){
-					$( "#uploadsize-message" ).dialog({
+					$( '#uploadsize-message' ).dialog({
 						modal: true,
 						buttons: {
 							Close: function() {
-								$( this ).dialog( "close" );
+								$( this ).dialog( 'close' );
 							}
 						}
 					});
@@ -302,7 +302,7 @@ $(document).ready(function() {
 				}
 			},
 			fail: function(e, data) {
-				console.debug("Fail", data);
+				console.debug('Fail', data);
 				// TODO: cancel upload & display error notification
 			},
 			progress: function(e, data) {
