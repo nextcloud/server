@@ -150,6 +150,7 @@ $(document).ready(function() {
 		return false;
 	});
 
+	/*
 	$('.file_upload_start').live('change',function(){
 		var form=$(this).closest('form');
 		var that=this;
@@ -228,6 +229,88 @@ $(document).ready(function() {
 			form.hide();
 		}
 	});
+*/
+
+	// drag&drop support using jquery.fileupload
+	$(function() {
+		$('.file_upload_start').fileupload({
+			//dropZone: $('#content'), // restrict dropZone to content div
+			add: function(e, data) {
+				var files = data.files;
+				var totalSize=0;
+				if(files){
+					for(var i=0;i<files.length;i++){
+						totalSize+=files[i].size;
+						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
+							FileList.finishDelete(function(){
+								$(that).change();
+							});
+							return;
+						}
+					}
+				}
+				if(totalSize>$('#max_upload').val()){
+					$( "#uploadsize-message" ).dialog({
+						modal: true,
+						buttons: {
+							Close: function() {
+								$( this ).dialog( "close" );
+							}
+						}
+					});
+				}else{
+					data.submit();
+					var date=new Date();
+					if(files){
+						for(var i=0;i<files.length;i++){
+							if(files[i].size>0){
+								var size=files[i].size;
+							}else{
+								var size=t('files','Pending');
+							}
+							if(files){
+								FileList.addFile(files[i].name,size,date,true);
+							}
+						}
+					}else{
+						var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
+						FileList.addFile(filename,'Pending',date,true);
+					}
+				}
+			},
+			done: function(e, data) {
+				var response=jQuery.parseJSON(data.result);
+				if(response[0] != undefined && response[0].status == 'success') {
+					for(var i=0;i<data.files.length;i++){
+						var file=data.files[i];
+						if(file.size>0){
+							var size=file.size;
+						}else{
+							var size=t('files','Pending');
+						}
+						$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+						if(size=='Pending'){
+							$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+						}
+						FileList.loadingDone(file.name);
+					}
+				} else {
+					$('#notification').text(t('files', response.data.message));
+					$('#notification').fadeIn();
+					$('#fileList > tr').not('[data-mime]').fadeOut();
+					$('#fileList > tr').not('[data-mime]').remove();
+				}
+			},
+			fail: function(e, data) {
+				console.debug("Fail", data);
+				// TODO: cancel upload & display error notification
+			},
+			progress: function(e, data) {
+			}
+		})
+	});
+
+
 	
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 	if(navigator.userAgent.search(/konqueror/i)==-1){
