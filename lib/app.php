@@ -325,6 +325,7 @@ class OC_App{
 				$source=self::$settingsForms;
 				break;
 			case 'admin':
+				$forms[] = include 'files/admin.php';   //hardcode own apps
 				$source=self::$adminForms;
 				break;
 			case 'personal':
@@ -371,7 +372,7 @@ class OC_App{
 		}
 		return $apps;
 	}
-	
+
 	/**
 	 * check if any apps need updating and update those
 	 */
@@ -390,7 +391,7 @@ class OC_App{
 			}
 		}
 	}
-	
+
 	/**
 	 * update the database for the app and call the update script
 	 * @param string appid
