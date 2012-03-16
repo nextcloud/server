@@ -1,67 +1,56 @@
 $(document).ready(function(){
+    	newSiteHtml = '<li><input type="text" class="site_name" name="site_name[]" value="" placeholder="Name" />\n\
+    <input type="text" name="site_url[]" class="site_url" value=""  placeholder="URL" />\n\
+<img class="svg action delete_button" src="'+OC.imagePath("core", "actions/delete") +'" title="Remove site" /></li>';
 
-
-
-	$('#s1name').blur(function(event){
+	// Handler functions
+	function addSiteEventHandler(event) {
 		event.preventDefault();
-		var post = $( "#s1name" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s1name .msg', data);   });
-	});
+		
+		saveSites();
+	}
 
-	$('#s2name').blur(function(event){
+	function deleteButtonEventHandler(event) {
 		event.preventDefault();
-		var post = $( "#s2name" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s2name .msg', data);   });
-	});
 
-	$('#s3name').blur(function(event){
+		$(this).tipsy('hide');
+		$(this).parent().remove();
+
+		saveSites();
+	}
+
+	function saveSites() {
+		var post = $('#external').serialize();
+		$.post( OC.filePath('external','ajax','setsites.php') , post, function(data) {
+			// OC.msg.finishedSaving('#site_name .msg', data); 
+		});
+	}
+
+	function showDeleteButton(event) {
+		$(this).find('img.delete_button').fadeIn(100);
+	} 
+
+	function hideDeleteButton(event) {
+		$(this).find('img.delete_button').fadeOut(100);
+	}
+
+	// Initialize events
+	$('input[name^=site_]').change(addSiteEventHandler);
+	$('img.delete_button').click(deleteButtonEventHandler);
+	$('img.delete_button').tipsy();
+
+	$('#external li').hover(showDeleteButton, hideDeleteButton);
+
+	$('#add_external_site').click(function(event) {
 		event.preventDefault();
-		var post = $( "#s3name" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s3name .msg', data);   });
-	});
+		$('#external ul').append(newSiteHtml);
 
-	$('#s4name').blur(function(event){
-		event.preventDefault();
-		var post = $( "#s4name" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s4name .msg', data);   });
+		$('input.site_url:last').prev('input.site_name').andSelf().change(addSiteEventHandler);
+		$('img.delete_button').click(deleteButtonEventHandler);
+		$('img.delete_button:last').tipsy();
+		$('#external li:last').hover(showDeleteButton, hideDeleteButton);
+		
 	});
-
-	$('#s5name').blur(function(event){
-		event.preventDefault();
-		var post = $( "#s5name" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s5name .msg', data);   });
-	});
-
-	$('#s1url').blur(function(event){
-		event.preventDefault();
-		var post = $( "#s1url" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s1url .msg', data);   });
-	});
-
-	$('#s2url').blur(function(event){
-		event.preventDefault();
-		var post = $( "#s2url" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s2url .msg', data);   });
-	});
-
-	$('#s3url').blur(function(event){
-		event.preventDefault();
-		var post = $( "#s3url" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s3url .msg', data);   });
-	});
-
-	$('#s4url').blur(function(event){
-		event.preventDefault();
-		var post = $( "#s4url" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s4url .msg', data);   });
-	});
-
-	$('#s5url').blur(function(event){
-		event.preventDefault();
-		var post = $( "#s5url" ).serialize();
-		$.post( OC.filePath('external','ajax','seturls.php') , post, function(data){ OC.msg.finishedSaving('#s5url .msg', data);   });
-	});
-
 
 });
 

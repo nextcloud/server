@@ -183,8 +183,8 @@ class OC_FileCache{
 			self::delete(self::getFileId($path));
 		}elseif($file!=-1){
 			$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE parent=?');
-			$query->execute(array($file));
-			while($child=$query->fetchRow()){
+			$result=$query->execute(array($file));
+			while($child=$result->fetchRow()){
 				self::delete(intval($child['id']));
 			}
 			$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE id=?');
@@ -522,7 +522,7 @@ class OC_FileCache{
 	}
 
 	/**
-	 * fine files by mimetype
+	 * find files by mimetype
 	 * @param string $part1
 	 * @param string $part2 (optional)
 	 * @param string root (optional)
@@ -534,20 +534,21 @@ class OC_FileCache{
 	 * seccond mimetype part can be ommited
 	 * e.g. searchByMime('audio')
 	 */
-	public static function searchByMime($part1,$part2='',$root=''){
+	public static function searchByMime($part1,$part2=null,$root=null){
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
-		}elseif($root='/'){
+		}elseif($root=='/'){
 			$root='';
 		}
 		$rootLen=strlen($root);
+		$root .= '%';
 		$user=OC_User::getUser();
 		if(!$part2){
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=?');
-			$result=$query->execute(array($part1,$user));
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=? AND path LIKE ?');
+			$result=$query->execute(array($part1,$user, $root));
 		}else{
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND user=?');
-			$result=$query->execute(array($part1.'/'.$part2,$user));
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND user=? AND path LIKE ? ');
+			$result=$query->execute(array($part1.'/'.$part2,$user, $root));
 		}
 		$names=array();
 		while($row=$result->fetchRow()){
