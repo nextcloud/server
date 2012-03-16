@@ -34,16 +34,16 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 	// Import function for bookmarks
 	function import( $info ){
 		
-		switch( $info['appversion'] ){
+		switch( $info->appversion ){
 			default:
 				// All versions of the app have had the same db structure, so all can use the same import function
 				$query = OC_Migrate::prepare( "SELECT * FROM bookmarks WHERE user_id LIKE ?" );
-				$results = $query->execute( array( $info['olduid'] ) );
+				$results = $query->execute( array( $info->olduid ) );
 				$idmap = array();
 				while( $row = $data->fetchRow() ){
 					// Import each bookmark, saving its id into the map	
 					$query = OC_DB::prepare( "INSERT INTO *PREFIX*bookmarks(url, title, user_id, public, added, lastmodified) VALUES (?, ?, ?, ?, ?, ?)" );
-					$query->execute( array( $row['url'], $row['title'], $info['newuid'], $row['public'], $row['added'], $row['lastmodified'] ) );
+					$query->execute( array( $row['url'], $row['title'], $info->newuid, $row['public'], $row['added'], $row['lastmodified'] ) );
 					// Map the id
 					$idmap[$row['id']] = OC_DB::insertid();
 				}

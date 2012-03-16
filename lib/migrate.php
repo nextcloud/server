@@ -377,11 +377,11 @@ class OC_Migrate{
 	/**
 	* @breif imports a new user
 	* @param $db string path to migration.db
-	* @param $migrateinfo array of migration ino
+	* @param $info array of migration ino
 	* @param $uid optional uid to use
 	* @return bool if the import succedded
 	*/
-	public static function importAppData( $db, $migrateinfo, $uid=false ){
+	public static function importAppData( $db, $info, $uid=false ){
 				
 		if(!self::$uid){
 			OC_Log::write('migration','Tried to import without passing a uid',OC_Log::FATAL);
@@ -399,15 +399,15 @@ class OC_Migrate{
 			return false;
 		}
 		
-		if( !is_array( $migrateinfo ) ){
+		if( !is_array( $info ) ){
 			OC_Log::write('migration','$migrateinfo is not an array', OC_Log::FATAL);
 			return false;
 		}
 		
 		// Set the user id
-		self::$uid = $info['migrateinfo']['uid'];
+		self::$uid = $info->migrateinfo->uid;
 				
-		$apps = $info['apps'];
+		$apps = $info->app;
 		
 		foreach( self::$providers as $provider){
 			// Is the app in the export?
@@ -415,7 +415,7 @@ class OC_Migrate{
 				// Did it succeed?
 				if( $app[$provider->id] ){
 					// Then do the import
-					$provider->import();	
+					$provider->import( $info );	
 				}	
 			}	
 		}
