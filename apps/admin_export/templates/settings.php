@@ -8,7 +8,7 @@
         <p>
         <input type="radio" name="export_type" value="instance" /> ownCloud instance ( suitable for import )<br />
 		<input type="radio" name="export_type" value="system" /> ownCloud system files<br />
-		<input type="radio" name="export_type" value="userfiles" /> Just user files
+		<input type="radio" name="export_type" value="userfiles" /> Just user files<br />
         <input type="submit" name="admin_export" value="<?php echo $l->t('Export'); ?>" />
     </fieldset>
 </form>

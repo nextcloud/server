@@ -40,12 +40,12 @@ if (isset($_POST['admin_export'])) {
 		header("Content-Disposition: attachment; filename=" . basename($path));
 		header("Content-Length: " . filesize($path));
 		@ob_end_clean();
-		readfile($path);
-		OC_Migrate::cleanUp( $path );	
+		readfile( $path );
+		unlink( $path );
 	}
 // Import?
 } else if( isset($_POST['admin_import']) ){
-	
+	/*
 	$root = OC::$SERVERROOT . "/";
 	$importname = "owncloud_import_" . date("y-m-d_H-i-s");
 	
@@ -85,7 +85,8 @@ if (isset($_POST['admin_export'])) {
 		exit();	
 	}
 	
-	OC_DB::replaceDB( get_temp_dir() . '/' . $importname . '/dbexport.xml' );		
+	OC_DB::replaceDB( get_temp_dir() . '/' . $importname . '/dbexport.xml' );
+	*/		
 } else {
 // fill template
     $tmpl = new OC_Template('admin_export', 'settings');

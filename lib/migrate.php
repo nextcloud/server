@@ -40,6 +40,10 @@ class OC_Migrate{
 	static private $zip=false;
 	// String path to export
 	static private $zippath=false;
+	// Stores the type of export
+	static private $exporttype=false;
+	// Array of temp files to be deleted after zip creation
+	static private $tmpfiles=array();
 	
 	/**
 	 * register a new migration provider
@@ -138,14 +142,7 @@ class OC_Migrate{
 			self::$zippath = $path . $zipname;
 		} else {
 			// Save in tmp dir
-			$structure = sys_get_temp_dir() . '/owncloudexports/';
-			if( !file_exists( $structure ) ){
-				if ( !mkdir( $structure	) ) {
-					OC_Log::write('migration', 'Could not create the temporary export at: '.$structure, OC_Log::ERROR);
-					return false;
-				}
-			}
-			self::$zippath = $structure . $zipname;
+			self::$zippath = sys_get_temp_dir() . '/' . $zipname;
 		}	
 		// Create the zip object
 		self::$zip = new ZipArchive;
@@ -154,42 +151,48 @@ class OC_Migrate{
 	    	return false;
 	    }
 		// Handle export types
-		if( $exporttype == 'instance' ){
-			// Creates a zip that is compatable with the import function
-			/*	
-			$dbfile = self:: . "/dbexport.xml";
-			OC_DB::getDbStructure( $dbfile, 'MDB2_SCHEMA_DUMP_ALL');
-			
-			// Now add in *dbname* and *dbtableprefix*
-			$dbexport = file_get_contents( $dbfile );
-			
-			$dbnamestring = "<database>\n\n <name>" . OC_Config::getValue( "dbname", "owncloud" );
-			$dbtableprefixstring = "<table>\n\n  <name>" . OC_Config::getValue( "dbtableprefix", "_oc" );
-			
-			$dbexport = str_replace( $dbnamestring, "<database>\n\n <name>*dbname*", $dbexport );
-			$dbexport = str_replace( $dbtableprefixstring, "<table>\n\n  <name>*dbprefix*", $dbexport );
-			
-			// Write the new db export file
-			file_put_contents( $dbfile, $dbexport );
-			
-			$zip->addFile($dbfile, "dbexport.xml");
-			*/
-		} else if( $exporttype == 'system' ){
-			// Creates a zip with the owncloud system files
-			self::addDirToZip( OC::$SERVERROOT . '/', false);
-			foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dir) {
-		    	self::addDirToZip( OC::$SERVERROOT . '/' . $dir, true, "/");
-			}
-		} else if ( $exporttype == 'userfiles' ){
-			// Creates a zip with all of the users files
-			foreach(OC_User::getUsers() as $user){
-				self::addDirToZip( $datadir . '/' . $user . '/', true, "/" . $user);	
-			}
-		} else {
-			// Invalid export type supplied
-			OC_Log::write('migration', 'Invalid export type supplied to createSysExportFile() "'.$exporttype.'"', OC_Log::ERROR);
+		$exporttypes = array( 'userfiles', 'instance', 'system' );
+		self::$exporttype = in_array( $exporttype, $exporttypes ) ? $exporttype : false;
+		if( !self::$exporttype ){
+			OC_Log::write( 'migration', 'Export type: '.$exporttype.' is not supported.', OC_Log::ERROR);
 			return false;	
 		}
+		switch( self::$exporttype ){
+			case 'instance':
+				// Creates a zip that is compatable with the import function
+				$dbfile = tempnam( "/tmp", "owncloud_export_data_" );
+				OC_DB::getDbStructure( $dbfile, 'MDB2_SCHEMA_DUMP_ALL');
+				
+				// Now add in *dbname* and *dbprefix*
+				$dbexport = file_get_contents( $dbfile );
+				$dbnamestring = "<database>\n\n <name>" . OC_Config::getValue( "dbname", "owncloud" );
+				$dbtableprefixstring = "<table>\n\n  <name>" . OC_Config::getValue( "dbtableprefix", "oc_" );
+				$dbexport = str_replace( $dbnamestring, "<database>\n\n <name>*dbname*", $dbexport );
+				$dbexport = str_replace( $dbtableprefixstring, "<table>\n\n  <name>*dbprefix*", $dbexport );
+				// Write the new db export file
+				file_put_contents( $dbfile, $dbexport );
+				self::$zip->addFile( $dbfile, "dbexport.xml" );
+				// Add user data
+				foreach(OC_User::getUsers() as $user){
+					self::addDirToZip( $datadir . '/' . $user . '/', true, "/userdata/" );	
+				}
+			break;
+			case 'userfiles':
+				// Creates a zip with all of the users files
+				foreach(OC_User::getUsers() as $user){
+					self::addDirToZip( $datadir . '/' . $user . '/', true, "/" );	
+				}
+			break;
+			case 'system':
+				// Creates a zip with the owncloud system files
+				self::addDirToZip( OC::$SERVERROOT . '/', false, '/');
+				foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dir) {
+			    	self::addDirToZip( OC::$SERVERROOT . '/' . $dir, true, "/");
+				}
+			break;	
+		}
+		// Add export info
+		self::addExportInfo();
 		// Close the zip
 		if( !self::closeZip() ){
 			return false;	
@@ -199,16 +202,52 @@ class OC_Migrate{
 	}
 	
 	/**
+	* @breif adds a json file with infomation on the export to the zips root (used on import)
+	* @return bool
+	*/
+	static private function addExportInfo(){
+		$info = array(
+						'ocversion' => OC_Util::getVersion(),
+						'exporttime' => time(),
+						'exportedby' => OC_User::getUser(),
+						'exporttype' => self::$exporttype
+					);
+		// Create json
+		$json = json_encode( $info );
+		$tmpfile = tempnam("/tmp", "oc_export_info_");
+		self::$tmpfiles[] = $tmpfile;
+		if( !file_put_contents( $tmpfile, $json ) ){
+			return false;
+		} else {
+			self::$zip->addFile( $tmpfile, "export_info.json" );
+			return true;
+		}
+	}
+	
+	
+	/**
 	* @breif tried to finalise the zip
 	* @return bool
 	*/
 	static private function closeZip(){
 		if( !self::$zip->close() ){
 			OC_Log::write('migration', 'Failed to save the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
+			self::cleanup();
 			return false;
 		} else {
-			OC_Log::write('migration', 'Created export file for: '.self::$uid, OC_Log::INFO);
+			OC_Log::write('migration', 'Export zip created ok', OC_Log::INFO);
+			self::cleanup();
 			return true;	
+		}	
+	}
+	
+	/**
+	* @breif cleans up after the zip
+	*/
+	static private function cleanup(){
+		// Delete tmp files
+		foreach(self::$tmpfiles as $i){
+			unlink( $i );	
 		}	
 	}
 	
@@ -647,22 +686,5 @@ class OC_Migrate{
 		return $result ? true : false;
 		
 	}
-	
-	/**
-	* @breif removes migration.db and exportinfo.json from the users data dir
-	* @param optional $path string path to the export zip to delete
-	* @return void
-	*/
-	static public function cleanUp( $path=null ){
-		$userdatadir = OC_Config::getValue( 'datadirectory' ) . '/' . self::$uid;
-		// Remove migration.db
-		unlink(  $userdatadir . '/migration.db' );
-		// Remove exportinfo.json
-		unlink(  $userdatadir . '/exportinfo.json' );
-		// Remove the zip
-		if( !is_null( $path ) ){
-			unlink( $path );	
-		}
-		return true;	
-	}
+
 }

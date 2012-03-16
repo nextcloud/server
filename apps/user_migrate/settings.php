@@ -36,7 +36,7 @@ if (isset($_POST['user_export'])) {
 		header("Content-Length: " . filesize($path));
 		@ob_end_clean();
 		readfile($path);
-		OC_Migrate::cleanUp( $path );	
+		unlink( $path );		
 	}
 } if( isset( $_POST['user_import'] ) ){
 	// TODO
