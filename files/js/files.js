@@ -150,87 +150,6 @@ $(document).ready(function() {
 		return false;
 	});
 
-	/*
-	$('.file_upload_start').live('change',function(){
-		var form=$(this).closest('form');
-		var that=this;
-		var uploadId=form.attr('data-upload-id');
-		var files=this.files;
-		var target=form.children('iframe');
-		var totalSize=0;
-		if(files){
-			for(var i=0;i<files.length;i++){
-				totalSize+=files[i].size;
-				if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
-					FileList.finishDelete(function(){
-						$(that).change();
-					});
-					return;
-				}
-			}
-		}
-		if(totalSize>$('#max_upload').val()){
-			$( "#uploadsize-message" ).dialog({
-				modal: true,
-				buttons: {
-					Close: function() {
-						$( this ).dialog( "close" );
-					}
-				}
-			});
-		}else{
-			target.load(function(){
-				var response=jQuery.parseJSON(target.contents().find('body').text());
-				//set mimetype and if needed filesize
-				if(response){
-					if(response[0] != undefined && response[0].status == 'success'){
-						for(var i=0;i<response.length;i++){
-							var file=response[i];
-							$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
-							if(size=='Pending'){
-								$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
-							}
-							FileList.loadingDone(file.name);
-						}
-					}
-					else{
-						$('#notification').text(t('files',response.data.message));
-						$('#notification').fadeIn();
-						$('#fileList > tr').not('[data-mime]').fadeOut();
-						$('#fileList > tr').not('[data-mime]').remove();
-					}
-				}
-			});
-			form.submit();
-			var date=new Date();
-			if(files){
-				for(var i=0;i<files.length;i++){
-					if(files[i].size>0){
-						var size=files[i].size;
-					}else{
-						var size=t('files','Pending');
-					}
-					if(files){
-						FileList.addFile(files[i].name,size,date,true);
-					}
-				}
-			}else{
-				var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-				FileList.addFile(filename,'Pending',date,true);
-			}
-
-			//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
-			var clone=form.clone();
-			uploadId++;
-			clone.attr('data-upload-id',uploadId);
-			clone.attr('target','file_upload_target_'+uploadId);
-			clone.children('iframe').attr('name','file_upload_target_'+uploadId)
-			clone.insertBefore(form);
-			form.hide();
-		}
-	});
-*/
-
 	// drag&drop support using jquery.fileupload
 	$(function() {
 		$('.file_upload_start').fileupload({
@@ -279,21 +198,24 @@ $(document).ready(function() {
 				}
 			},
 			done: function(e, data) {
-				var response=jQuery.parseJSON(data.result);
+				var response;
+				if(data.dataType == 'iframe ') {
+					response = jQuery.parseJSON(data.result[0].body.innerText);
+				} else {
+					response=jQuery.parseJSON(data.result);
+				}				
 				if(response[0] != undefined && response[0].status == 'success') {
-					for(var i=0;i<data.files.length;i++){
-						var file=data.files[i];
-						if(file.size>0){
-							var size=file.size;
-						}else{
-							var size=t('files','Pending');
-						}
-						$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
-						if(size=='Pending'){
-							$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
-						}
-						FileList.loadingDone(file.name);
+					var file=response[0];
+					if(file.size>0){
+						var size=file.size;
+					}else{
+						var size=t('files','Pending');
 					}
+					$('tr').filterAttr('data-file',file.name).data('mime',file.type);
+					if(size=='Pending'){
+						$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+					}
+					FileList.loadingDone(file.name);
 				} else {
 					$('#notification').text(t('files', response.data.message));
 					$('#notification').fadeIn();
@@ -302,10 +224,10 @@ $(document).ready(function() {
 				}
 			},
 			fail: function(e, data) {
-				console.debug('Fail', data);
 				// TODO: cancel upload & display error notification
 			},
 			progress: function(e, data) {
+				// TODO: show nice progress bar
 			}
 		})
 	});
