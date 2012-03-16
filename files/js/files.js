@@ -3,11 +3,11 @@ $(document).ready(function() {
 		//little hack to set unescape filenames in attribute
 		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
 	});
-		
+
 	if($('tr[data-file]').length==0){
 		$('.file_upload_filename').addClass('highlight');
 	}
-	
+
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
@@ -16,7 +16,7 @@ $(document).ready(function() {
 	$('div.crumb').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	$('ul#apps>li:first-child').droppable(crumbDropOptions);
-	
+
 	// Triggers invisible file input
 	$('.file_upload_button_wrapper').live('click', function() {
 		$(this).parent().children('.file_upload_start').trigger('click');
@@ -81,9 +81,9 @@ $(document).ready(function() {
 				}
 			}
 		}
-		
+
 	});
-	
+
 	// Sets the select_all checkbox behaviour :
 	$('#select_all').click(function() {
 		if($(this).attr('checked')){
@@ -97,7 +97,7 @@ $(document).ready(function() {
 		}
 		procesSelection();
 	});
-	
+
 	$('td.filename input:checkbox').live('click',function(event) {
 		if (event.shiftKey) {
 			var last = $(lastChecked).parent().parent().prevAll().length;
@@ -126,7 +126,7 @@ $(document).ready(function() {
 		}
 		procesSelection();
 	});
-	
+
 	$('#file_newfolder_form').submit(function(event) {
 		event.preventDefault();
 		$.ajax({
@@ -146,17 +146,16 @@ $(document).ready(function() {
 			$('#file_newfolder_name').val('');
 		}
 	});
-	
+
 	$('.download').click('click',function(event) {
 		var files=getSelectedFiles('name').join(';');
-		
-		//send the browser to the download location
 		var dir=$('#dir').val()||'/';
-// 		alert(files);
+		$('#notification').text(t('files','generating ZIP-file, it may take some time.'));
+		$('#notification').fadeIn();
 		window.location='ajax/download.php?files='+encodeURIComponent(files)+'&dir='+encodeURIComponent(dir);
 		return false;
 	});
-	
+
 	$('.delete').click(function(event) {
 		var files=getSelectedFiles('name');
 		event.preventDefault();
@@ -235,7 +234,7 @@ $(document).ready(function() {
 			form.hide();
 		}
 	});
-	
+
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 	if(navigator.userAgent.search(/konqueror/i)==-1){
 		$('.file_upload_start').attr('multiple','multiple')
@@ -262,7 +261,7 @@ $(document).ready(function() {
 		text=text.substr(0,text.length-6)+'...';
 		crumb.text(text);
 	}
-	
+
 	$(window).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
@@ -286,14 +285,14 @@ $(document).ready(function() {
 		if($(this).children('p').length==0){
 			return;
 		}
-		
+
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
 				$(element).children('input').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
-		
+
 		var type=$(this).data('type');
 		var text=$(this).children('p').text();
 		$(this).data('text',text);
