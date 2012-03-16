@@ -45,7 +45,7 @@ if (isset($_POST['admin_export'])) {
 	}
 // Import?
 } else if( isset($_POST['admin_import']) ){
-	/*
+	
 	$root = OC::$SERVERROOT . "/";
 	$importname = "owncloud_import_" . date("y-m-d_H-i-s");
 	
@@ -86,7 +86,7 @@ if (isset($_POST['admin_export'])) {
 	}
 	
 	OC_DB::replaceDB( get_temp_dir() . '/' . $importname . '/dbexport.xml' );
-	*/		
+		
 } else {
 // fill template
     $tmpl = new OC_Template('admin_export', 'settings');

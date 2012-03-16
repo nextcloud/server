@@ -14,7 +14,7 @@
 </form>
 <form id="import" action="#" method="post" enctype="multipart/form-data">
     <fieldset class="personalblock">
-        <legend><strong><?php echo $l->t('Import an ownCloud instance THIS WILL DELETE ALL CURRENT OWNCLOUD DATA');?></strong></legend>
+        <legend><strong><?php echo $l->t('Import an ownCloud instance. THIS WILL DELETE ALL CURRENT OWNCLOUD DATA');?></strong></legend>
         <p><?php echo $l->t('All current ownCloud data will be replaced by the ownCloud instance that is uploaded.');?>
         </p>
         <p><input type="file" id="owncloud_import" name="owncloud_import"><label for="owncloud_import"><?php echo $l->t('ownCloud Export Zip File');?></label>
