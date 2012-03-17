@@ -126,7 +126,7 @@ class OC_Migrate{
 	*/
 	static public function createSysExportFile( $exporttype='instance', $path=null ){
 		// Calculate zip name
-		$zipname = "owncloud_export_" . date("y-m-d_H-i-s") . ".zip";
+		$zipname = "oc_export_" . date("y-m-d_H-i-s") . ".zip";
 		// Get the data dir
 		$datadir = OC_Config::getValue( 'datadirectory' );
 		// Calculate destination
@@ -293,7 +293,7 @@ class OC_Migrate{
 		$user = OC_User::getUser();
 		$userdatadir = OC_Config::getValue( 'datadirectory' ) . '/' . $user . '/';
 		// Calculate zip name
-		$zipname = "owncloud_userexport_" . $user . '_' . date("y-m-d_H-i-s") . ".zip";
+		$zipname = "oc_userexport_" . $user . '_' . date("y-m-d_H-i-s") . ".zip";
 		// Calculate destination
 		if( !is_null( $path ) ){
 			// Path given 
