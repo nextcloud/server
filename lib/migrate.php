@@ -228,7 +228,7 @@ class OC_Migrate{
 		if( !file_put_contents( $tmpfile, $json ) ){
 			return false;
 		} else {
-			self::$zip->addFile( $tmpfile, "export_info.json" );
+			self::$zip->addFile( $tmpfile, "/" . self::$uid . "/export_info.json" );
 			return true;
 		}
 	}
@@ -278,6 +278,8 @@ class OC_Migrate{
 		self::$uid = $uid;
 		// Create the zip object
 		self::$zip = new ZipArchive;
+		// Set export type
+		self::$exporttype = 'user';
 		// Calculate users data dir
 		$user = OC_User::getUser();
 		$userdatadir = OC_Config::getValue( 'datadirectory' ) . '/' . $user . '/';
@@ -306,8 +308,9 @@ class OC_Migrate{
 	    	return false;
 	    }
 	    // Export the app info
-		$exportinfo = json_encode( self::addExportInfo( self::exportAppData() ) );
-		file_put_contents( $userdatadir . '/exportinfo.json', $exportinfo );
+	    $appinfo = self::exportAppData();
+	    // Save the migration results
+	    self::addExportInfo( $appinfo );
 		// Add the data dir to the zip
 		self::addDirToZip( $userdatadir );
 	    // Close the zip
