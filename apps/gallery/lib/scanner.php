@@ -131,4 +131,3 @@ class OC_Gallery_Scanner {
 	}
 }
 
-?>

@@ -31,7 +31,7 @@
             </select><input type="checkbox" name="timezonedetection" id="timezonedetection"><label for="timezonedetection"><?php echo $l->t('Check always for changes of the timezone'); ?></label></td></tr>
 
             <tr><td><label for="timeformat" class="bold"><?php echo $l->t('Timeformat');?></label></td><td>
-                <select style="display: none;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
+                <select style="display: none; width: 60px;" id="timeformat" title="<?php echo "timeformat"; ?>" name="timeformat">
                     <option value="24" id="24h"><?php echo $l->t("24h"); ?></option>
                     <option value="ampm" id="ampm"><?php echo $l->t("12h"); ?></option>
                 </select>
