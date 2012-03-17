@@ -53,6 +53,21 @@ class OC_Migrate{
 		self::$providers[]=$provider;
 	}
 	
+	/** 
+	* @breif finds and loads the providers
+	*/
+	static private function findProviders(){
+		// Find the providers
+		$apps = OC_App::getAllApps();
+		
+		foreach($apps as $app){
+			$path = OC::$SERVERROOT . '/apps/' . $app . '/lib/migrate.php';
+			if( file_exists( $path ) ){
+				include( $path );	
+			}	
+		}	
+	}
+	
 	/**
 	 * @breif creates a migration.db in the users data dir with their app data in
 	 * @return bool whether operation was successfull
@@ -64,14 +79,7 @@ class OC_Migrate{
 		$return = array();
 		
 		// Find the providers
-		$apps = OC_App::getAllApps();
-		
-		foreach($apps as $app){
-			$path = OC::$SERVERROOT . '/apps/' . $app . '/lib/migrate.php';
-			if( file_exists( $path ) ){
-				include( $path );	
-			}	
-		}
+		self::findProviders();
 		
 		// Foreach provider
 		foreach( self::$providers as $provider ){
@@ -217,7 +225,8 @@ class OC_Migrate{
 				OC_Log::write( 'migration', 'Failed to get the users password hash', OC_log::ERROR);
 				return false;
 			}
-			$info['hash'] = $hash;  	
+			$info['hash'] = $hash; 
+			$info['exporteduser'] = self::$uid; 	
 		}
 		// Merge in other data
 		$info = array_merge( $info, $array );
@@ -393,17 +402,15 @@ class OC_Migrate{
 	* @param $uid optional uid to use
 	* @return bool if the import succedded
 	*/
-	public static function importAppData( $db, $info, $uid=false ){
+	public static function importAppData( $db, $info, $uid=null ){
 				
-		if(!self::$uid){
-			OC_Log::write('migration','Tried to import without passing a uid',OC_Log::FATAL);
-			return false;
-		}
+		self::$uid = !is_null( $uid ) ? $uid : $info->exporteduser;
 		
 		// Check if the db exists
 		if( file_exists( $db ) ){
 			// Connect to the db
 			if(!self::connectDB( $db )){
+				OC_Log::write('migration','Failed to connect to migration.db',OC_Log::ERROR);
 				return false;
 			}	
 		} else {
@@ -411,25 +418,25 @@ class OC_Migrate{
 			return false;
 		}
 		
-		if( !is_array( $info ) ){
-			OC_Log::write('migration','$migrateinfo is not an array', OC_Log::FATAL);
-			return false;
-		}
-		
-		// Set the user id
-		self::$uid = $info->migrateinfo->uid;
-				
-		$apps = $info->app;
-		
+		// Find providers
+		self::findProviders();
+
+		// Generate importinfo array
+		$importinfo = array( 
+							'olduid' => $info->exporteduser,
+							'newuid' => self::$uid
+							);
+							
 		foreach( self::$providers as $provider){
 			// Is the app in the export?
-			if( array_key_exists( $provider->id, $apps ) ){
+			$id = $provider->id;
+			if( isset( $info->apps->$id ) ){
 				// Did it succeed?
-				if( $app[$provider->id] ){
+				if( $info->apps->$id->success ){
 					// Then do the import
-					$provider->import( $info );	
+					$provider->import( $info->apps->$id, $importinfo );	
 				}	
-			}	
+			}		
 		}
 		
 		return true;
@@ -691,7 +698,7 @@ class OC_Migrate{
 		
 		// Create the user
 		$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
-		$result = $query->execute( array( $uid, $data['hash']));
+		$result = $query->execute( array( $uid, $hash));
 		if( !$result ){
 			OC_Log::write('migration', 'Failed to create the new user "'.$uid."");	
 		}

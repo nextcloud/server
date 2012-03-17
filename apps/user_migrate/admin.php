@@ -62,14 +62,15 @@ if (isset($_POST['user_import'])) {
 	// Get the user
 	if( count($files) != 1 ){
 		OC_Log::write('migration', 'Invalid import file', OC_Log::ERROR);
-		die('invalid import');	
+		die('invalid import, no user included');	
 	}
 	
-	$user = reset($files);
+	$olduser = reset($files);
 	
 	// Check for dbexport.xml and export info and data dir
-	$files = scandir( $importdir . '/' . $user );
-	$required = array( 'migration.db', 'exportinfo.json', 'files');
+	$files = scandir( $importdir . '/' . $olduser );
+
+	$required = array( 'migration.db', 'export_info.json', 'files');
 	foreach($required as $require){
 		if( !in_array( $require, $files) ){
 			OC_Log::write('migration', 'Invlaid import file', OC_Log::ERROR);
@@ -77,31 +78,37 @@ if (isset($_POST['user_import'])) {
 		}	
 	}
 	
-	$migrateinfo = $importdir . '/' . $user . '/exportinfo.json';
+	$migrateinfo = $importdir . '/' . $olduser . '/export_info.json';
 	$migrateinfo = json_decode( file_get_contents( $migrateinfo ) );
-	$olduid = $migrateinfo->migrateinfo->uid;
 	
 	// Check if uid is available
-	if( OC_User::UserExists( $olduid ) ){
+	if( OC_User::UserExists( $olduser ) ){
 		OC_Log::write('migration','Username exists', OC_Log::ERROR);	
 		die('user exists');
 	}
 	
 	// Create the user
-	if( !OC_Migrate::createUser( $olduid, $migrateinfo->migrateinfo->hash ) ){
+	if( !OC_Migrate::createUser( $olduser, $migrateinfo->hash ) ){
 		OC_Log::write('migration', 'Failed to create the new user', OC_Log::ERROR);
 		die('coundlt create new user');
 	}
 	
 	$datadir = OC_Config::getValue( 'datadirectory' );
+	// Make the new users data dir
+	$path = $datadir . '/' . $olduser . '/files/';
+	if( !mkdir( $path, 0755, true ) ){
+		OC_Log::write('migration','Failed to create users data dir: '.$path, OC_Log::ERROR);
+		die('failed to create users data dir');	
+	}	
+
 	// Copy data
-	if( !copy_r( $importdir . '/files', $datadir . '/' ) ){
+	if( !copy_r( $importdir . '/' . $olduser . '/files', $datadir . '/' . $olduser . '/files' ) ){
 		OC_Log::write('migration','Failed to copy user files to destination', OC_Log::ERROR);
 		die('failed to copy user files');	
 	}
 	
 	// Import user data
-	if( !OC_Migrate::importUser( $importdir . '/migration.db', $migrateinfo ) ){
+	if( !OC_Migrate::importAppData( $importdir . '/' . $olduser . '/migration.db', $migrateinfo ) ){
 		OC_Log::write('migration','Failed to import user data', OC_Log::ERROR);
 		die('failed to import user data');	
 	}

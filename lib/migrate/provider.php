@@ -20,8 +20,9 @@ abstract class OC_Migrate_Provider{
 	
 	/**
 	 * @breif imports data for the app
+	 * @param $appinfo object with the data that the app exported
 	 * @param $info array of info including exportinfo.json
 	 * @return void
 	 */
-	abstract function import( $info );
+	abstract function import( $appinfo, $info );
 }
