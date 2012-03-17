@@ -30,6 +30,7 @@
 .file_upload_filename { position: relative; z-index:100; padding-left: 0.8em; padding-right: 0.8em; cursor:pointer; border-top-left-radius:0; border-bottom-left-radius:0; }
 .file_upload_filename img { position: absolute; top: 0.4em; left: 0.4em; }
 
+#uploadprogressbar { position:absolute; right:14.5em; display:inline-block; width:10em; height:1.5em; top:.4em; }
 
 .file_upload_form, .file_upload_wrapper, .file_upload_start, .file_upload_filename, #file_upload_submit { cursor:pointer; }
 

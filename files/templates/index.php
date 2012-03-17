@@ -21,6 +21,7 @@
 					<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
 				</form>
 			</div>
+			<div id="uploadprogressbar"></div>
 		</div>
 		<div id="file_action_panel"></div>
 	<?php else:?>

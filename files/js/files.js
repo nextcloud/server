@@ -223,7 +223,19 @@ $(document).ready(function() {
 				// TODO: cancel upload & display error notification
 			},
 			progress: function(e, data) {
-				// TODO: show nice progress bar
+				// TODO: show nice progress bar in file row
+			},
+			progressall: function(e, data) {
+				var progress = (data.loaded/data.total)*100;
+				$('#uploadprogressbar').progressbar('value',progress);
+			},
+			start: function(e, data) {
+				       $('#uploadprogressbar').progressbar({value:0});
+				       $('#uploadprogressbar').fadeIn();
+			},
+			stop: function(e, data) {
+				      $('#uploadprogressbar').progressbar('value',100);
+				      $('#uploadprogressbar').fadeOut();
 			}
 		})
 	});
