@@ -162,7 +162,7 @@ $(document).ready(function() {
 						totalSize+=files[i].size;
 						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
 							FileList.finishDelete(function(){
-								$(that).change();
+								$('.file_upload_start').change();
 							});
 							return;
 						}
@@ -206,13 +206,9 @@ $(document).ready(function() {
 				}				
 				if(response[0] != undefined && response[0].status == 'success') {
 					var file=response[0];
-					if(file.size>0){
-						var size=file.size;
-					}else{
-						var size=t('files','Pending');
-					}
 					$('tr').filterAttr('data-file',file.name).data('mime',file.type);
-					if(size=='Pending'){
+					var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
+					if(size==t('files','Pending')){
 						$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 					}
 					FileList.loadingDone(file.name);
