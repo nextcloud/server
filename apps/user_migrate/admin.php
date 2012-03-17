@@ -1,10 +1,8 @@
 <?php
 
 /**
- * ownCloud - admin export
+ * ownCloud - user_migrate
  *
- * @author Thomas Schmidt
- * @copyright 2011 Thomas Schmidt tom@opensuse.org
  * @author Tom Needham
  * @copyright 2012 Tom Needham tom@owncloud.com
  *
@@ -26,7 +24,7 @@ OC_Util::checkAdminUser();
 OC_Util::checkAppEnabled('user_migrate');
 
 // Import?
-if (isset($_POST['userimport'])) {
+if (isset($_POST['user_import'])) {
 	
 	$root = OC::$SERVERROOT . "/";
 	$importname = "owncloud_import_" . date("y-m-d_H-i-s");
@@ -38,14 +36,14 @@ if (isset($_POST['userimport'])) {
 	$from = $_FILES['owncloud_import']['tmp_name'];
 	$to = get_temp_dir().'/'.$importname.'.zip';
 	if( !move_uploaded_file( $from, $to ) ){
-		OC_Log::write('admin_export',"Failed to copy the uploaded file",OC_Log::INFO);
+		OC_Log::write('migration',"Failed to copy the uploaded file",OC_Log::INFO);
 		exit();		
 	}
 	
 	// Extract zip
 	$zip = new ZipArchive();
 	if ($zip->open(get_temp_dir().'/'.$importname.'.zip') != TRUE) {
-		OC_Log::write('admin_export',"Failed to open zip file",OC_Log::INFO);
+		OC_Log::write('migration',"Failed to open zip file",OC_Log::INFO);
 		exit();
 	}
 	$zip->extractTo(get_temp_dir().'/'.$importname.'/');

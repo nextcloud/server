@@ -84,7 +84,7 @@ class OC_Migrate{
 				if( is_array( $tables ) ){
 					// Save the table names
 					foreach($tables as $table){
-						$return['app'][$provider->id]['tables'][] = $table;	
+						$return['apps'][$provider->id]['tables'][] = $table;	
 					}	
 				} else {
 					// It failed to create the tables
@@ -94,22 +94,17 @@ class OC_Migrate{
 			
 			// Run the import function?
 			if( !$failed ){
-				$return['app'][$provider->id]['success'] = $provider->export( self::$uid );	
+				$return['apps'][$provider->id]['success'] = $provider->export( self::$uid );	
 			} else {
-				$return['app'][$provider->id]['success'] = false;	
-				$return['app'][$provider->id]['message'] = 'failed to create the app tables';	
+				$return['apps'][$provider->id]['success'] = false;	
+				$return['apps'][$provider->id]['message'] = 'failed to create the app tables';	
 			}
 			
 			// Now add some app info the the return array
 			$appinfo = OC_App::getAppInfo( $provider->id );
-			$return['app'][$provider->id]['version'] = $appinfo['version'];
+			$return['apps'][$provider->id]['version'] = $appinfo['version'];
 			
 		}
-
-		
-		// Add some general info to the return array
-		$return['migrateinfo']['uid'] = self::$uid;
-		$return['migrateinfo']['ocversion'] = OC_Util::getVersionString();
 		
 		return $return;
 		
@@ -205,13 +200,27 @@ class OC_Migrate{
 	* @breif adds a json file with infomation on the export to the zips root (used on import)
 	* @return bool
 	*/
-	static private function addExportInfo(){
+	static private function addExportInfo( $array=array() ){
 		$info = array(
 						'ocversion' => OC_Util::getVersion(),
 						'exporttime' => time(),
 						'exportedby' => OC_User::getUser(),
 						'exporttype' => self::$exporttype
 					);
+		// Add hash if user export
+		if( self::$exporttype = 'user' ){
+			$query = OC_DB::prepare( "SELECT password FROM *PREFIX*users WHERE uid LIKE ?" );
+			$result = $query->execute( array( self::$uid ) );
+			$row = $result->fetchRow();
+			$hash = $row ? $row['password'] : false;
+			if( !$hash ){
+				OC_Log::write( 'migration', 'Failed to get the users password hash', OC_log::ERROR);
+				return false;
+			}
+			$info['hash'] = $hash;  	
+		}
+		// Merge in other data
+		$info = array_merge( $info, $array );
 		// Create json
 		$json = json_encode( $info );
 		$tmpfile = tempnam("/tmp", "oc_export_info_");
@@ -297,8 +306,8 @@ class OC_Migrate{
 	    	return false;
 	    }
 	    // Export the app info
-		$info = json_encode( self::exportAppData() );
-		file_put_contents( $userdatadir . '/exportinfo.json', $info );
+		$exportinfo = json_encode( self::addExportInfo( self::exportAppData() ) );
+		file_put_contents( $userdatadir . '/exportinfo.json', $exportinfo );
 		// Add the data dir to the zip
 		self::addDirToZip( $userdatadir );
 	    // Close the zip
@@ -670,7 +679,7 @@ class OC_Migrate{
 	// @param $uid string user_id of the user to be created
 	// @param $hash string hash of the user to be created
 	// @return bool result of user creation
-	private static function createUser( $uid, $hash ){
+	public static function createUser( $uid, $hash ){
 		
 		// Check if userid exists
 		if(OC_User::userExists( $uid )){
