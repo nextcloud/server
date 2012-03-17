@@ -98,11 +98,19 @@ class OC_Gallery_Album {
 	}
 
 	public static function getAlbumSize($id){
-	$sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos WHERE album_id = ?';
-	$stmt = OC_DB::prepare($sql);
-	$result=$stmt->execute(array($id))->fetchRow();
-	return $result['size'];
+    $sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos WHERE album_id = ?';
+    $stmt = OC_DB::prepare($sql);
+    $result=$stmt->execute(array($id))->fetchRow();
+    return $result['size'];
 	}
+
+  public static function getIntermediateGallerySize($path) {
+    $path .= '%';
+    $sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos photos, *PREFIX*gallery_albums albums WHERE photos.album_id = albums.album_id AND uid_owner = ? AND file_path LIKE ?';
+    $stmt = OC_DB::prepare($sql);
+    $result = $stmt->execute(array(OC_User::getUser(), $path))->fetchRow();
+    return $result['size'];
+  }
 }
 
 ?>
