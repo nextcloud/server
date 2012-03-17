@@ -22,5 +22,13 @@
 */
 
 OC_APP::registerPersonal('user_migrate','settings');
+OC_APP::registerAdmin('user_migrate','admin');
 
+// add settings page to navigation
+$entry = array(
+	'id' => "user_migrate_settings",
+	'order'=>1,
+	'href' => OC_Helper::linkTo( "user_migrate", "admin.php" ),
+	'name' => 'Import'
+);
 ?>
