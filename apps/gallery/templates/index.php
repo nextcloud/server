@@ -18,7 +18,7 @@ $l = new OC_L10N('gallery');
 		<input type="button" id="g-settings-button" value="<?php echo $l->t('Settings');?>" onclick="javascript:settings();"/>
 	</div>
 	<div id="g-album-navigation">
-		<div class="crumb last" style="background-image:url('/owncloud/core/img/breadcrumb.png')">
+		<div class="crumb last" style="background-image:url('<?php echo OC::$WEBROOT;?>/core/img/breadcrumb.png')">
 			<a href="javascript:returnToElement(0);">main</a>
 		</div>
 	</div>
