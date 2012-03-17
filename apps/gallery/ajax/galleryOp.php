@@ -97,6 +97,8 @@ function handleGetGallery($path) {
   while ($r = $result->fetchRow()) {
     $album_name = $r['album_name'];
     $size=OC_Gallery_Album::getAlbumSize($r['album_id']);
+    // this is a fallback mechanism and seems expensive
+    if ($size == 0) $size = OC_Gallery_Album::getIntermediateGallerySize($r['album_path']);
 
     $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($size, 10),'path'=>substr($r['album_path'], $pathLen));
   }
