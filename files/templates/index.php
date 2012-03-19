@@ -65,3 +65,5 @@
 
 <!-- config hints for javascript -->
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php echo OC_Preferences::getValue('', 'files', 'allowZipDownload', 1); ?>" />
+<!-- config hints for javascript -->
+<input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php echo OC_Preferences::getValue('', 'files', 'allowZipDownload', 1); ?>" />
