@@ -1,16 +1,16 @@
 <?php
-class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
+class OC_Migration_Provider_Bookmarks extends OC_Migration_Provider{
 	
 	// Create the xml for the user supplied
-	function export( $uid ){
+	function export( ){
 		OC_Log::write('migration','starting export for bookmarks',OC_Log::INFO);
 		$options = array(
 			'table'=>'bookmarks',
 			'matchcol'=>'user_id',
-			'matchval'=>$uid,
+			'matchval'=>$this->uid,
 			'idcol'=>'id'
 		);
-		$ids = OC_Migrate::copyRows( $options );
+		$ids = $this->content->copyRows( $options );
 
 		$options = array(
 			'table'=>'bookmarks_tags',
@@ -19,7 +19,7 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 		);
 		
 		// Export tags
-		$ids2 = OC_Migrate::copyRows( $options );
+		$ids2 = $this->content->copyRows( $options );
 		
 		// If both returned some ids then they worked
 		if( is_array( $ids ) && is_array( $ids2 ) )
@@ -32,17 +32,17 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 	}
 	
 	// Import function for bookmarks
-	function import( $app, $info ){
-		switch( $app->version ){
+	function import( ){
+		switch( $this->appinfo->version ){
 			default:
 				// All versions of the app have had the same db structure, so all can use the same import function
 				$query = OC_Migrate::prepare( "SELECT * FROM bookmarks WHERE user_id LIKE ?" );
-				$results = $query->execute( array( $info['olduid'] ) );
+				$results = $query->execute( array( $this->info['olduid'] ) );
 				$idmap = array();
 				while( $row = $data->fetchRow() ){
 					// Import each bookmark, saving its id into the map	
 					$query = OC_DB::prepare( "INSERT INTO *PREFIX*bookmarks(url, title, user_id, public, added, lastmodified) VALUES (?, ?, ?, ?, ?, ?)" );
-					$query->execute( array( $row['url'], $row['title'], $info['newuid'], $row['public'], $row['added'], $row['lastmodified'] ) );
+					$query->execute( array( $row['url'], $row['title'], $this->info['newuid'], $row['public'], $row['added'], $row['lastmodified'] ) );
 					// Map the id
 					$idmap[$row['id']] = OC_DB::insertid();
 				}
@@ -66,4 +66,4 @@ class OC_Migrate_Provider_Bookmarks extends OC_Migrate_Provider{
 }
 
 // Load the provider
-new OC_Migrate_Provider_Bookmarks( 'bookmarks' );
+new OC_Migration_Provider_Bookmarks( 'bookmarks' );
