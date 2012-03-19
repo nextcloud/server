@@ -216,7 +216,7 @@ class OC_Image {
 			OC_Log::write('core','OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
 			return false;
 		}
-		$exif = exif_read_data($this->filepath, 'IFD0');
+    $exif = @exif_read_data($this->filepath, 'IFD0');
 		if(!$exif) {
 			return false;
 		}

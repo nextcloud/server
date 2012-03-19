@@ -38,7 +38,7 @@ Scanner={
 		$('#scancount').show();
 	},
 	stop:function(){
-		Scanner.close();
+		Scanner.eventSource.close();
 	},
 
 };

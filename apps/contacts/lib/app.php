@@ -10,8 +10,10 @@
  * This class manages our app actions
  */
 OC_Contacts_App::$l10n = new OC_L10N('contacts');
+OC_Contacts_App::$categories = new OC_VCategories('contacts');
 class OC_Contacts_App {
 	public static $l10n;
+	public static $categories;
 
 	/**
 	* Render templates/part.details to json output
@@ -83,7 +85,7 @@ class OC_Contacts_App {
 		$vcard = OC_VObject::parse($card['carddata']);
 		// Try to fix cards with missing 'N' field from pre ownCloud 4. Hot damn, this is ugly...
 		if(!is_null($vcard) && !$vcard->__isset('N')) {
-			$appinfo = $info=OC_App::getAppInfo('contacts');
+			$appinfo = OC_App::getAppInfo('contacts');
 			if($appinfo['version'] >= 5) {
 				OC_Log::write('contacts','OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OC_Log::DEBUG);
 			}
@@ -92,7 +94,7 @@ class OC_Contacts_App {
 				OC_Log::write('contacts','getContactVCard, found FN field: '.$vcard->__get('FN'), OC_Log::DEBUG);
 				$n = implode(';', array_reverse(array_slice(explode(' ', $vcard->__get('FN')), 0, 2))).';;;';
 				$vcard->setString('N', $n);
-				OC_Contacts_VCard::edit( $id, $vcard->serialize());
+				OC_Contacts_VCard::edit( $id, $vcard);
 			} else { // Else just add an empty 'N' field :-P
 				$vcard->setString('N', 'Unknown;Name;;;');
 			}
@@ -151,6 +153,10 @@ class OC_Contacts_App {
 				'PAGER' =>  $l->t('Pager'),
 			);
 		}
+	}
+
+	public static function getCategories() {
+		return self::$categories->categories();
 	}
 
 	public static function setLastModifiedHeader($contact) {

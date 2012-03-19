@@ -58,7 +58,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	}
 	
 	public function mkdir($path) {
-		if ($path == "" || $path == "/" || !$this->is_writeable($path)) {
+		if ($path == "" || $path == "/" || !$this->is_writable($path)) {
 			return false; 
 		} else {
 			$source = $this->getSource($path);
@@ -79,7 +79,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if ($path == "" || $path == "/") {
 			$path = $this->datadir.$path;
 			$sharedItems = OC_Share::getItemsInFolder($path);
-			global $FAKEDIRS;
 			$files = array();
 			foreach ($sharedItems as $item) {
 				// If item is in the root of the shared storage provider and the item exists add it to the fakedirs
@@ -87,7 +86,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 					$files[] = basename($item['target']);
 				}
 			}
-			$FAKEDIRS['shared'] = $files;
+			OC_FakeDirStream::$dirs['shared']=$files;
 			return opendir('fakedir://shared');
 		} else {
 			$source = $this->getSource($path);
@@ -279,14 +278,6 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 				return $storage->file_exists($this->getInternalPath($source));
 			}
 		}
-	}
-	
-	public function readfile($path) {
-		$source = $this->getSource($path);
-		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->readfile($this->getInternalPath($source));
-		}	
 	}
 	
 	public function filectime($path) {
@@ -514,7 +505,13 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			return $storage->getLocalFile($this->getInternalPath($source));
 		}
 	}
-	
+	public function touch($path, $mtime=null){
+		$source = $this->getSource($path);
+		if ($source) {
+			$storage = OC_Filesystem::getStorage($source);
+			return $storage->touch($this->getInternalPath($source),$time);
+		}
+	}
 }
 
 ?>

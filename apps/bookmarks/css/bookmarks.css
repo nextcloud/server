@@ -17,7 +17,9 @@
 }
 
 .bookmarks_list {
-	margin-top: 36px;
+	overflow: auto;
+	position: fixed;
+	top: 6.5em;
 }
 
 .bookmarks_addBml {

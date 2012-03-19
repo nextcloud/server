@@ -4,7 +4,7 @@ if($_SERVER['SCRIPT_NAME'] == '/.well-known/webfinger.php') {
 } else {
 	header('Please-first: activate');
 }
-// header("Content-Type: application/xml+xrd");
+header("Content-Type: application/xrd+xml");
 
 // calculate the documentroot
 // modified version of the one in lib/base.php that takes the .well-known symlink into account
@@ -22,7 +22,7 @@ if($_GET['q']) {
 if(substr($userName, 0, 5) == 'acct:') {
 	$userName = substr($userName, 5);
 }
-if($_SERVER['HTTPS']) {
+if(isset($_SERVER['HTTPS'])) {
 	$baseAddress = 'https://'.$_SERVER['SERVER_NAME'].'/apps/remoteStorage/';
 } else {
 	$baseAddress = 'http://'.$_SERVER['SERVER_NAME'].'/apps/remoteStorage/';

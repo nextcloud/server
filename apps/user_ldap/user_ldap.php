@@ -32,7 +32,8 @@ class OC_USER_LDAP extends OC_User_Backend {
 	protected $ldap_dn;
 	protected $ldap_password;
 	protected $ldap_base;
-	protected $ldap_filter;
+	protected $ldap_login_filter;
+	protected $ldap_userlist_filter;
 	protected $ldap_tls;
 	protected $ldap_nocase;
 	protected $ldap_display_name;
@@ -49,7 +50,8 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->ldap_dn = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
 		$this->ldap_password = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
 		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
-		$this->ldap_filter = OC_Appconfig::getValue('user_ldap', 'ldap_filter','');
+		$this->ldap_login_filter = OC_Appconfig::getValue('user_ldap', 'ldap_login_filter','');
+		$this->ldap_userlist_filter = OC_Appconfig::getValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
 		$this->ldap_tls = OC_Appconfig::getValue('user_ldap', 'ldap_tls', 0);
 		$this->ldap_nocase = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
 		$this->ldap_display_name = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
@@ -61,7 +63,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			&& !empty($this->ldap_port)
 			&& ((!empty($this->ldap_dn) && !empty($this->ldap_password)) || (empty($this->ldap_dn) && empty($this->ldap_password)))
 			&& !empty($this->ldap_base)
-			&& !empty($this->ldap_filter)
+			&& !empty($this->ldap_login_filter)
 			&& !empty($this->ldap_display_name)
 		)
 		{
@@ -79,9 +81,13 @@ class OC_USER_LDAP extends OC_User_Backend {
 		if( !$this->ldap_dc )
 			return false;
 
-		$quota = $this->ldap_dc[$this->ldap_quota_attr][0];
+		if(!empty($this->ldap_quota_attr)) {
+			$quota = $this->ldap_dc[strtolower($this->ldap_quota_attr)][0];
+		} else {
+			$quota = false;
+		}
 		$quota = $quota != -1 ? $quota : $this->ldap_quota_def;
-		OC_Preferences::setValue($uid, 'files', 'quota', $quota);
+		OC_Preferences::setValue($uid, 'files', 'quota', OC_Helper::computerFileSize($quota));
 	}
 
 	private function setEmail( $uid ) {
@@ -127,7 +133,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 
 		// get dn
-		$filter = str_replace('%uid', $uid, $this->ldap_filter);
+		$filter = str_replace('%uid', $uid, $this->ldap_login_filter);
 		$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
 		$entries = ldap_get_entries( $this->getDs(), $sr );
 
@@ -152,7 +158,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 		}
 
-		if(!empty($this->ldap_quota) && !empty($this->ldap_quota_def)) {
+		if(!empty($this->ldap_quota_attr) || !empty($this->ldap_quota_def)) {
 			$this->setQuota($uid);
 		}
 
@@ -161,7 +167,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 		}
 
 		if($this->ldap_nocase) {
-			$filter = str_replace('%uid', $uid, $this->ldap_filter);
+			$filter = str_replace('%uid', $uid, $this->ldap_login_filter);
 			$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
 			$entries = ldap_get_entries( $this->getDs(), $sr );
 			if( $entries['count'] == 1 ) {
@@ -187,7 +193,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 		if(!$this->configured){
 			return false;
 		}
-		$dn = $this->getDn($uid);
+		$dn = $this->getDc($uid);
 		return !empty($dn);
 	}
 
@@ -202,8 +208,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 
 		// get users
-		$filter = 'objectClass=person';
-		$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
+		$sr = ldap_search( $this->getDs(), $this->ldap_base, $this->ldap_userlist_filter );
 		$entries = ldap_get_entries( $this->getDs(), $sr );
 		if( $entries['count'] == 0 )
 			return false;

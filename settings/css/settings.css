@@ -5,6 +5,7 @@ input#openid, input#webdav { width:20em; }
 #passworderror { display:none; }
 #passwordchanged { display:none; }
 input#identity { width:20em; }
+#email { width: 17em; }
 
 .msg.success{ color:#fff; background-color:#0f0; padding:3px; text-shadow:1px 1px #000; }
 .msg.error{ color:#fff; background-color:#f00; padding:3px; text-shadow:1px 1px #000; }
@@ -40,3 +41,6 @@ select.quota.active { background: #fff; }
 li { color:#888; }
 li.active { color:#000; }
 span.version { margin-left:3em; color:#ddd; }
+
+/* LOF */
+#log { white-space:normal; }

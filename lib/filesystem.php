@@ -146,20 +146,15 @@ class OC_Filesystem{
 	* @return string
 	*/
 	static public function getMountPoint($path){
+		OC_Hook::emit(self::CLASSNAME,'get_mountpoint',array('path'=>$path));
 		if(!$path){
 			$path='/';
 		}
 		if(substr($path,0,1)!=='/'){
 			$path='/'.$path;
 		}
-		if(substr($path,-1)!=='/'){
-			$path=$path.'/';
-		}
 		$foundMountPoint='';
 		foreach(OC_Filesystem::$mounts as $mountpoint=>$storage){
-			if(substr($mountpoint,-1)!=='/'){
-				$mountpoint=$mountpoint.'/';
-			}
 			if($mountpoint==$path){
 				return $mountpoint;
 			}
@@ -259,6 +254,9 @@ class OC_Filesystem{
 	* @param string mountpoint
 	*/
 	static public function mount($class,$arguments,$mountpoint){
+		if(substr($mountpoint,-1)!=='/'){
+			$mountpoint=$mountpoint.'/';
+		}
 		if(substr($mountpoint,0,1)!=='/'){
 			$mountpoint='/'.$mountpoint;
 		}
@@ -345,7 +343,7 @@ class OC_Filesystem{
 	static public function filemtime($path){
 		return self::$defaultInstance->filemtime($path);
 	}
-	static public function touch($path, $mtime){
+	static public function touch($path, $mtime=null){
 		return self::$defaultInstance->touch($path, $mtime);
 	}
 	static public function file_get_contents($path){

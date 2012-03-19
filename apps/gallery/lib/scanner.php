@@ -4,7 +4,7 @@
 * ownCloud - gallery application
 *
 * @author Bartek Przybylski
-* @copyright 2012 Bartek Przybylski bart.p.pl@gmail.com
+* @copyright 2012 Bartek Przybylski <bartek@alefzero.eu>
 * 
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -13,111 +13,130 @@
 * 
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*  
+*
 * You should have received a copy of the GNU Lesser General Public 
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+* License along with this library. If not, see <http://www.gnu.org/licenses/>.
 * 
 */
 
-require_once('base.php'); // base lib
-require_once('images_utils.php');
-
 class OC_Gallery_Scanner {
 
-  public static function scan($root) {
-    $albums = array();
-    self::scanDir($root, $albums);
-    return $albums;
-  }
+	public static function getGalleryRoot() {
+		return OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
+	}
+	public static function getScanningRoot() {
+		return OC_Filesystem::getRoot().self::getGalleryRoot();
+	}
 
-  public static function cleanUp() {
-    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_albums');
-    $stmt->execute(array());
-    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos');
-    $stmt->execute(array());
-  }
+	public static function cleanUp() {
+		OC_Gallery_Album::cleanup();
+	}
 
-  public static function createName($name) {
-    $root = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
-    $name = str_replace('/', '.', str_replace(OC::$CONFIG_DATADIRECTORY, '', $name));
-    if (substr($name, 0, strlen($root)) == str_replace('/','.',$root)) {
-      $name = substr($name, strlen($root));
-    }
-    $name = ($name==='.') ? 'main' : trim($name,'.');
-    return $name;
-  }
+	public static function createName($name) {
+		$name = basename($name);
+		return $name == '.' ? '' : $name;
+	}
 
-  public static function scanDir($path, &$albums) {
-    $current_album = array('name'=> $path, 'imagesCount' => 0, 'images' => array());
-    $current_album['name'] = self::createName($current_album['name']);
+	// Scan single dir relative to gallery root
+	public static function scan($eventSource) {
+		$paths = self::findPaths();
+		$eventSource->send('count', count($paths)+1);
+		$owner = OC_User::getUser();
+		foreach ($paths as $path) {
+			$name = self::createName($path);
+			$images = self::findFiles($path);
 
-    if ($dh = OC_Filesystem::opendir($path)) {
-      while (($filename = readdir($dh)) !== false) {
-        $filepath = ($path[strlen($path)-1]=='/'?$path:$path.'/').$filename;
-        if (substr($filename, 0, 1) == '.') continue;
-        if (self::isPhoto($path.'/'.$filename)) {
-          $current_album['images'][] = $filepath;
-        }
-      }
-    }
-    $current_album['imagesCount'] = count($current_album['images']);
-    $albums['imagesCount'] = $current_album['imagesCount'];
-    $albums['albumName'] = $current_album['name'];
+			$result = OC_Gallery_Album::find($owner, null, $path);
+			// don't duplicate galleries with same path
+			if (!($albumId = $result->fetchRow())) {
+				OC_Gallery_Album::create($owner, $name, $path);
+				$result = OC_Gallery_Album::find($owner, $name, $path);
+				$albumId = $result->fetchRow();
+			}
+			$albumId = $albumId['album_id'];
+			foreach ($images as $img) {
+				$result = OC_Gallery_Photo::find($albumId, $img);
+				if (!$result->fetchRow())
+					OC_Gallery_Photo::create($albumId, $img);
+			}
+			if (count($images))
+				self::createThumbnails($name, $images);
+			$eventSource->send('scanned', '');
+		}
+		self::createIntermediateAlbums();
+		$eventSource->send('scanned', '');
+		$eventSource->send('done', 1);
+	}
 
-    $result = OC_Gallery_Album::find(OC_User::getUser(), /*$current_album['name']*/ null, $path);
-    // don't duplicate galleries with same path (bug oc-33)
-    if ($result->numRows() == 0 && count($current_album['images'])) {
-      OC_Gallery_Album::create(OC_User::getUser(), $current_album['name'], $path);
-	    $result = OC_Gallery_Album::find(OC_User::getUser(), $current_album['name']);
-    }
-    $albumId = $result->fetchRow();
-    $albumId = $albumId['album_id'];
-    foreach ($current_album['images'] as $img) {
-      $result = OC_Gallery_Photo::find($albumId, $img);
-      if ($result->numRows() == 0) {
-	      OC_Gallery_Photo::create($albumId, $img);
-      }
-    }
-    if (count($current_album['images'])) {
-      self::createThumbnail($current_album['name'],$current_album['images']);
-    }
-  }
+	public static function createThumbnails($albumName, $files) {
+		// create gallery thumbnail
+		$file_count = min(count($files), 10);
+		$thumbnail = imagecreatetruecolor($file_count*200, 200);
+		for ($i = 0; $i < $file_count; $i++) {
+			$image = OC_Gallery_Photo::getThumbnail($files[$i]);
+			if ($image && $image->valid()) {
+				imagecopyresampled($thumbnail, $image->resource(), $i*200, 0, 0, 0, 200, 200, 200, 200);
+			}
+		}
+		imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
+	}
 
-  public static function createThumbnail($albumName, $files) {
-    $file_count = min(count($files), 10);
-    $thumbnail = imagecreatetruecolor($file_count*200, 200);
-    for ($i = 0; $i < $file_count; $i++) {
-      $image = OC_Gallery_Photo::getThumbnail($files[$i]);
-      if ($image && $image->valid()) {
-	      imagecopyresampled($thumbnail, $image->resource(), $i*200, 0, 0, 0, 200, 200, 200, 200);
-      }
-    }
-    imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
-  }
+	public static function createIntermediateAlbums() {
+		$paths = self::findPaths();
+		for ($i = 1; $i < count($paths); $i++) {
+			$prevLen = strlen($paths[$i-1]);
+			if (strncmp($paths[$i-1], $paths[$i], $prevLen)==0) {
+				$s = substr($paths[$i], $prevLen);
+				if (strrpos($s, '/') != 0) {
+					$a = explode('/', trim($s, '/'));
+					$p = $paths[$i-1];
+					foreach ($a as $e) {
+						$p .= ($p == '/'?'':'/').$e;
+						OC_Gallery_Album::create(OC_User::getUser(), $e, $p);
+            $arr = OC_FileCache::searchByMime('image','', OC_Filesystem::getRoot().$p);
+            $step = floor(count($arr)/10);
+            if ($step == 0) $step = 1;
+            $na = array();
+            for ($j = 0; $j < count($arr); $j+=$step) {
+              $na[] = $p.$arr[$j];
+            }
+            if (count($na))
+              self::createThumbnails($e, $na);
+					}
+				}
+			}
+		}
+	}
 
-  public static function isPhoto($filename) {
-    $ext = strtolower(substr($filename, strrpos($filename, '.')+1));
-    return $ext=='png' || $ext=='jpeg' || $ext=='jpg' || $ext=='gif';
-  }
+	public static function isPhoto($filename) {
+		$ext = strtolower(substr($filename, strrpos($filename, '.')+1));
+		return $ext=='png' || $ext=='jpeg' || $ext=='jpg' || $ext=='gif';
+	}
 
-  public static function find_paths($path) {
-    $ret = array();
-    $dirres;
-    $addpath = FALSE;
-    if (($dirres = OC_Filesystem::opendir($path)) == FALSE) return $ret;
+	public static function findFiles($path) {
+		$images = OC_FileCache::searchByMime('image','', OC_Filesystem::getRoot().$path);
+		$new = array();
+		foreach ($images as $i)
+			if (strpos($i, '/',1) === FALSE)
+				$new[] = $path.$i;
+		return $new;
+	}
 
-    while (($file = readdir($dirres)) != FALSE) {
-      if ($file[0] == '.') continue;
-      if (OC_Filesystem::is_dir($path.$file))
-        $ret = array_merge($ret, self::find_paths($path.$file.'/'));
-      if (self::isPhoto($path.$file)) $addpath = TRUE;
-    }
-
-    if ($addpath) $ret[] = urlencode($path);
-
-    return $ret;
-  }
+	public static function findPaths() {
+		$images=OC_FileCache::searchByMime('image','', self::getScanningRoot());
+		$paths=array();
+		foreach($images as $image){
+			$path=dirname($image);
+			$path = self::getGalleryRoot().($path=='.'?'':$path);
+			if ($path !== '/') $path=rtrim($path,'/');
+			if(array_search($path,$paths)===false){
+				$paths[]=$path;
+			}
+		}
+		sort($paths);
+		return $paths;
+	}
 }
-?>
+

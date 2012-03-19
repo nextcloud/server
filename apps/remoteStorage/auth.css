@@ -1,0 +1,8 @@
+h2 { font-size:2em; font-weight:bold; margin-bottom:1em; white-space:nowrap; }
+ul.scopes { list-style:disc; }
+ul.scopes li { white-space:nowrap; }
+h2 img { width: 50% }
+#oauth { margin:4em auto 2em; width:20em; }
+#allow-auth { background-color:#5c3; text-shadow:#5e3 0 1px 0; color:#fff;
+-webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #5f3 inset; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #5f3 inset; box-shadow:0 1px 1px #fff, 0 1px 1px #5f3 inset; }
+#deny-auth { padding:0; margin:.7em; border:0; background:none; font-size:1.2em; -moz-box-shadow: 0 0 0 #fff, 0 0 0 #fff inset; -webkit-box-shadow: 0 0 0 #fff, 0 0 0 #fff inset; box-shadow: 0 0 0 #fff, 0 0 0 #fff inset; }

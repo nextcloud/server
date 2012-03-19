@@ -195,8 +195,9 @@ class OC_User {
 		if( $run ){
 			$uid=self::checkPassword( $uid, $password );
 			if($uid){
-				OC_Crypt::init($uid,$password);
-				return self::setUserId($uid);
+				self::setUserId($uid);
+				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
+				return true;
 			}
 		}
 		return false;
@@ -209,7 +210,6 @@ class OC_User {
 	 */
 	public static function setUserId($uid) {
 		$_SESSION['user_id'] = $uid;
-		OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid ));
 		return true;
 	}
 
