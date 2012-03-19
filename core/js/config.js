@@ -31,7 +31,7 @@ OC.AppConfig={
 			callback=defaultValue;
 			defaultValue=null;
 		}
-		OC.AppConfig.getCall('getValue',{app:app,key:key,default:defaultValue},callback);
+		OC.AppConfig.getCall('getValue',{app:app,key:key,defaultValue:defaultValue},callback);
 	},
 	setValue:function(app,key,value){
 		OC.AppConfig.postCall('setValue',{app:app,key:key,value:value});
