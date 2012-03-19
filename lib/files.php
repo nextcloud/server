@@ -90,7 +90,7 @@ class OC_Files {
 		}
 
 		if(is_array($files)){
-			self::checkZipInputSize($dir,$files);
+			self::validateZipDownload($dir,$files);
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
@@ -111,7 +111,7 @@ class OC_Files {
 			$zip->close();
 			set_time_limit($executionTime);
 		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)){
-			self::checkZipInputSize($dir,$files);
+			self::validateZipDownload($dir,$files);
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
@@ -256,7 +256,22 @@ class OC_Files {
 	* @param dir   $dir
 	* @param files $files
 	*/
-	static function checkZipInputSize($dir, $files) {
+	static function validateZipDownload($dir, $files) {
+		if(!OC_Preferences::getValue('', 'files', 'allowZipDownload', 1)) {
+			$l = new OC_L10N('files');
+			header("HTTP/1.0 409 Conflict");
+			$tmpl = new OC_Template( '', 'error', 'user' );
+			$errors = array(
+				array(
+					'error' => $l->t('ZIP download is turned off.'),
+					'hint' => $l->t('Files need to be downloaded one by one.') . '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
+				)
+			);
+			$tmpl->assign('errors', $errors);
+			$tmpl->printPage();
+			exit;
+		}
+
 		$zipLimit = OC_Preferences::getValue('', 'files', 'maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
 		if($zipLimit > 0) {
 			$totalsize = 0;
