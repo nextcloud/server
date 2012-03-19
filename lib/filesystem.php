@@ -25,7 +25,7 @@
 /**
  * Class for abstraction of filesystem functions
  * This class won't call any filesystem functions for itself but but will pass them to the correct OC_Filestorage object
- * this class should also handle all the file premission related stuff
+ * this class should also handle all the file permission related stuff
  *
  * Hooks provided:
  *   read(path)
