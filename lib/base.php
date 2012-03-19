@@ -114,42 +114,7 @@ class OC{
 		return($mode);
 	}
 
-	public static function init(){
-		// register autoloader
-		spl_autoload_register(array('OC','autoload'));
-
-		// set some stuff
-		//ob_start();
-		error_reporting(E_ALL | E_STRICT);
-		if (defined('DEBUG') && DEBUG){
-			ini_set('display_errors', 1);
-		}
-
-		date_default_timezone_set('Europe/Berlin');
-		ini_set('arg_separator.output','&amp;');
-
-		//set http auth headers for apache+php-cgi work around
-		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches))
-		{
-			list($name, $password) = explode(':', base64_decode($matches[1]));
-			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
-			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
-		}
-
-		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
-		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches))
-		{
-			list($name, $password) = explode(':', base64_decode($matches[1]));
-			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
-			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
-		}
-
-		// register the stream wrappers
-		require_once('streamwrappers.php');
-		stream_wrapper_register("fakedir", "OC_FakeDirStream");
-		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
-		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
-		
+	public static function initPaths(){
 		// calculate the documentroot
 		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
@@ -211,14 +176,18 @@ class OC{
 			get_include_path().PATH_SEPARATOR.
 			OC::$SERVERROOT
 		);
+	}
 
+	public static function checkInstalled() {
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
 			$url = 'http://'.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
 			header("Location: $url");
 			exit();
 		}
+	}
 
+	public static function checkSSL() {
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )){
 			ini_set("session.cookie_secure", "on");
@@ -228,7 +197,9 @@ class OC{
 				exit();
 			}
 		}
+	}
 
+	public static function checkUpgrade() {
 		if(OC_Config::getValue('installed', false)){
 			$installedVersion=OC_Config::getValue('version','0.0.0');
 			$currentVersion=implode('.',OC_Util::getVersion());
@@ -250,6 +221,48 @@ class OC{
 
 			OC_App::updateApps();
 		}
+	}
+
+	public static function init(){
+		// register autoloader
+		spl_autoload_register(array('OC','autoload'));
+
+		// set some stuff
+		//ob_start();
+		error_reporting(E_ALL | E_STRICT);
+		if (defined('DEBUG') && DEBUG){
+			ini_set('display_errors', 1);
+		}
+
+		date_default_timezone_set('Europe/Berlin');
+		ini_set('arg_separator.output','&amp;');
+
+		//set http auth headers for apache+php-cgi work around
+		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches))
+		{
+			list($name, $password) = explode(':', base64_decode($matches[1]));
+			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+		}
+
+		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
+		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches))
+		{
+			list($name, $password) = explode(':', base64_decode($matches[1]));
+			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+		}
+
+		// register the stream wrappers
+		require_once('streamwrappers.php');
+		stream_wrapper_register("fakedir", "OC_FakeDirStream");
+		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
+		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
+
+		self::initPaths();
+		self::checkInstalled();
+		self::checkSSL();
+		self::checkUpgrade();
 
 		ini_set('session.cookie_httponly','1;');
 		session_start();
