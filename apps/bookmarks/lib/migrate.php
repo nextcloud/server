@@ -36,19 +36,19 @@ class OC_Migration_Provider_Bookmarks extends OC_Migration_Provider{
 		switch( $this->appinfo->version ){
 			default:
 				// All versions of the app have had the same db structure, so all can use the same import function
-				$query = OC_Migrate::prepare( "SELECT * FROM bookmarks WHERE user_id LIKE ?" );
-				$results = $query->execute( array( $this->info['olduid'] ) );
+				$query = $this->content->prepare( "SELECT * FROM bookmarks WHERE user_id LIKE ?" );
+				$results = $query->execute( array( $this->olduid ) );
 				$idmap = array();
-				while( $row = $data->fetchRow() ){
+				while( $row = $results->fetchRow() ){
 					// Import each bookmark, saving its id into the map	
 					$query = OC_DB::prepare( "INSERT INTO *PREFIX*bookmarks(url, title, user_id, public, added, lastmodified) VALUES (?, ?, ?, ?, ?, ?)" );
-					$query->execute( array( $row['url'], $row['title'], $this->info['newuid'], $row['public'], $row['added'], $row['lastmodified'] ) );
+					$query->execute( array( $row['url'], $row['title'], $this->uid, $row['public'], $row['added'], $row['lastmodified'] ) );
 					// Map the id
 					$idmap[$row['id']] = OC_DB::insertid();
 				}
 				// Now tags
 				foreach($idmap as $oldid => $newid){
-					$query = OC_Migrate::prepare( "SELECT * FROM bookmarks_tags WHERE user_id LIKE ?" );
+					$query = $this->content->prepare( "SELECT * FROM bookmarks_tags WHERE user_id LIKE ?" );
 					$results = $query->execute( array( $oldid ) );
 					while( $row = $data->fetchRow() ){
 						// Import the tags for this bookmark, using the new bookmark id

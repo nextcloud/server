@@ -36,24 +36,12 @@ if (isset($_POST['user_import'])) {
 	$from = $_FILES['owncloud_import']['tmp_name'];
 	$to = get_temp_dir().'/'.$importname.'.zip';
 	if( !move_uploaded_file( $from, $to ) ){
-		OC_Log::write('migration',"Failed to copy the uploaded file",OC_Log::INFO);
+		OC_Log::write( 'user_migrate', "Failed to copy the uploaded file", OC_Log::ERROR );
 		exit();		
 	}
 	
-	// Extract zip
-	$zip = new ZipArchive();
-	if ($zip->open(get_temp_dir().'/'.$importname.'.zip') != TRUE) {
-		OC_Log::write('migration',"Failed to open zip file",OC_Log::INFO);
-		exit();
-	}
-	$zip->extractTo(get_temp_dir().'/'.$importname.'/');
-	$zip->close();
-	
-	$importdir = get_temp_dir() . '/' . $importname;
-	
-	// Delete uploaded file
-	unlink( $importdir . '.zip' );
-	
+	OC_Migrate::import( $to, 'user', 'newuser' );
+		die();
 	// Find folder
 	$files = scandir( $importdir );
 	unset($files[0]);

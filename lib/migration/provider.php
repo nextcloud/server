@@ -7,7 +7,7 @@ abstract class OC_Migration_Provider{
 	protected $id=false;
 	protected $content=false; 
 	protected $uid=false;
-	protected $info=false;
+	protected $olduid=false;
 	protected $appinfo=false;
 	
 	public function __construct( $appid ){
@@ -32,11 +32,13 @@ abstract class OC_Migration_Provider{
 	* @breif sets the OC_Migration_Content object to $this->content
 	* @param $content a OC_Migration_Content object
 	*/
-	public function setData( $uid, $content, $info=false, $appinfo=false ){
+	public function setData( $uid, $content, $info=false ){
 		$this->content = $content;	
 		$this->uid = $uid;
-		$this->info = $info;
-		$this->appinfo = $appinfo;
+		$this->olduid = $info->exporteduser;
+		$id = $this->id;
+		$this->appinfo = $info->apps->$id;
+		
 	}
 	 	
 	/**

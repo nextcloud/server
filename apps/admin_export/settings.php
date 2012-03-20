@@ -25,8 +25,6 @@
 OC_Util::checkAdminUser();
 OC_Util::checkAppEnabled('admin_export');
 
-define('DS', '/');
-
 // Export?
 if (isset($_POST['admin_export'])) {
 	// Create the export zip
@@ -44,9 +42,11 @@ if (isset($_POST['admin_export'])) {
 	}
 // Import?
 } else if( isset($_POST['admin_import']) ){
-	
-	// TODO
-	// OC_Migrate::import( $pathtozipfile );
+	$from = $_FILES['owncloud_import']['tmp_name'];
+
+	if( !OC_Migrate::import( $from ) ){
+		die('failed');	
+	}
 		
 } else {
 // fill template

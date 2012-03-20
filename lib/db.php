@@ -487,6 +487,7 @@ class OC_DB {
 	
 	/**
 	 * @breif replaces the owncloud tables with a new set
+	 * @param $file string path to the MDB2 xml db export file
 	 */
 	 public static function replaceDB( $file ){
 	 	
@@ -503,7 +504,11 @@ class OC_DB {
 	 	}
 	 	
 	 	// Create new tables
-	 	self::createDBFromStructure( $file );
+	 	if( self::createDBFromStructure( $file ) ){
+	 		return true;
+	 	} else {
+	 		return false;	
+	 	}
 	 	
 	 }
 	

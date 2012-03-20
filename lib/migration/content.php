@@ -53,7 +53,7 @@ class OC_Migration_Content{
 		$query = $this->processQuery( $query );
 		
 		// Optimize the query
-		$query = $this->MDB2->prepare( $query );
+		$query = $this->db->prepare( $query );
 		
 		// Die if we have an error (error means: bad query, not 0 results!)
 		if( PEAR::isError( $query ) ) {
@@ -174,7 +174,9 @@ class OC_Migration_Content{
 	    $dirname = basename($dir);
 	    $this->zip->addEmptyDir($internaldir . $dirname);
 	    $internaldir.=$dirname.='/';
-	
+		if( !file_exists( $dir ) ){
+			return false;	
+		}
 	    if ($dirhandle = opendir($dir)) {
 			while (false !== ( $file = readdir($dirhandle))) {
 	
