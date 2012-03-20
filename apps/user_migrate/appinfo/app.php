@@ -22,7 +22,6 @@
 */
 
 OC_APP::registerPersonal('user_migrate','settings');
-OC_APP::registerAdmin('user_migrate','admin');
 
 // add settings page to navigation
 $entry = array(

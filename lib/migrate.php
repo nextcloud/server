@@ -190,9 +190,10 @@ class OC_Migrate{
 	/**
 	* @breif imports a user, or owncloud instance
 	* @param $path string path to zip
+	* @param optional $type type of import (user or instance)
 	* @param optional $uid userid of new user 
 	*/
-	public static function import( $path, $uid=null ){
+	public static function import( $path, $type='user', $uid=null ){
 		OC_Util::checkAdminUser();
 		$datadir = OC_Config::getValue( 'datadirectory' );
 		// Extract the zip
@@ -207,8 +208,12 @@ class OC_Migrate{
 			return false;	
 		}
 		$json = json_decode( file_get_contents( $extractpath . 'export_info.json' ) );
-		self::$exporttype = $json->exporttype;
-
+		if( !$json->exporttype != $type ){
+			OC_Log::write( 'migration', 'Invalid import file', OC_Log::ERROR );
+			return false;	
+		}
+		self::$exporttype = $type;
+ 
 		// Have we got a user if type is user
 		if( self::$exporttype == 'user' ){
 			if( !$uid ){
