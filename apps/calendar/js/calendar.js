@@ -214,7 +214,7 @@ Calendar={
 		},
 		initScroll:function(){
 			if(window.addEventListener)
-				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar, false);
+				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar);
 			//}else{
 				document.onmousewheel = Calendar.UI.scrollCalendar;
 			//}
@@ -478,7 +478,7 @@ Calendar={
 					colors[i].label = $(elm).text();
 				});
 				for (var i in colors) {
-					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: ' + colors[i].color + ';"></span>');
+					picker.append('<span class="calendar-colorpicker-color ' + (colors[i].color == $(obj).children(":selected").val() ? ' active' : '') + '" rel="' + colors[i].label + '" style="background-color: #' + colors[i].color + ';"></span>');
 				}
 				picker.delegate(".calendar-colorpicker-color", "click", function() {
 					$(obj).val($(this).attr('rel'));
@@ -668,18 +668,8 @@ $(document).ready(function(){
 			agenda: agendatime,
 			'': defaulttime
 			},
-		columnFormat: {
-			month: t('calendar', 'ddd'),    // Mon
-			week: t('calendar', 'ddd M/d'), // Mon 9/7
-			day: t('calendar', 'dddd M/d')  // Monday 9/7
-			},
 		titleFormat: {
-			month: t('calendar', 'MMMM yyyy'),
-					// September 2009
-			week: t('calendar', "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"),
-					// Sep 7 - 13 2009
-			day: t('calendar', 'dddd, MMM d, yyyy'),
-					// Tuesday, Sep 8, 2009
+			list: 'yyyy/MMM/d dddd'
 			},
 		axisFormat: defaulttime,
 		monthNames: monthNames,
@@ -708,7 +698,6 @@ $(document).ready(function(){
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
 		eventRender: function(event, element) {
-			element.find('.fc-event-title').html(element.find('.fc-event-title').text());
 			element.tipsy({
 				className: 'tipsy-event',
 				opacity: 0.9,
