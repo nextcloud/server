@@ -257,7 +257,7 @@ class OC_Files {
 	* @param files $files
 	*/
 	static function validateZipDownload($dir, $files) {
-		if(!OC_Config::getValue('allowZipDownload', true)) {
+		if(!OC_Preferences::getValue('', 'files', 'allowZipDownload', 1)) {
 			$l = new OC_L10N('files');
 			header("HTTP/1.0 409 Conflict");
 			$tmpl = new OC_Template( '', 'error', 'user' );
@@ -272,7 +272,7 @@ class OC_Files {
 			exit;
 		}
 
-		$zipLimit = OC_Config::getValue('maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
+		$zipLimit = OC_Preferences::getValue('', 'files', 'maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
 		if($zipLimit > 0) {
 			$totalsize = 0;
 			if(is_array($files)){
