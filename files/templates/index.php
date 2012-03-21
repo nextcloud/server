@@ -42,9 +42,7 @@
 				<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" id="select_all" /><?php } ?>
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
-				<?php if(OC_Preferences::getValue('', 'files', 'allowZipDownload', 1)) : ?>
-					<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /></a>
-				<?php endif; ?>
+				<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /></a>
 				<a href="" title="Share" class="share"><img class='svg' alt="Share" src="<?php echo image_path("core", "actions/share.svg"); ?>" /></a>
 				</span>
 			</th>
@@ -62,6 +60,3 @@
 		<?php echo $l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.');?>
 	</p>
 </div>
-
-<!-- config hints for javascript -->
-<input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php echo OC_Preferences::getValue('', 'files', 'allowZipDownload', 1); ?>" />

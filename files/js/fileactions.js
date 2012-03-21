@@ -106,7 +106,7 @@ FileActions={
 			element.hide();
 			parent.parent().children().last().append(element);
 		}
-		$('#fileList .action').css('-o-transition-property','none');//temporarly disable
+		$('#fileList .action').css('-o-transition-property','none');//temporarly disable 
 		$('#fileList .action').fadeIn(200,function(){
 			$('#fileList .action').css('-o-transition-property','opacity');
 		});
@@ -128,15 +128,8 @@ FileActions={
 	}
 }
 
-$(document).ready(function(){
-	if($('#allowZipDownload').val() == 1){
-		var downloadScope = 'all';
-	} else {
-		var downloadScope = 'file';
-	}
-	FileActions.register(downloadScope,'Download',function(){return OC.imagePath('core','actions/download')},function(filename){
-		window.location='ajax/download.php?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
-	});
+FileActions.register('all','Download',function(){return OC.imagePath('core','actions/download')},function(filename){
+	window.location='ajax/download.php?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
 });
 
 FileActions.register('all','Delete',function(){return OC.imagePath('core','actions/delete')},function(filename){
@@ -151,4 +144,4 @@ FileActions.register('dir','Open','',function(filename){
 	window.location='index.php?dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 });
 
-FileActions.setDefault('dir','Open');
+FileActions.setDefault('dir','Open');  
