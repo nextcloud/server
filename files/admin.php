@@ -28,20 +28,13 @@ require_once('../lib/base.php');
 OC_Util::checkAdminUser();
 
 $htaccessWorking=(getenv('htaccessWorking')=='true');
-if($_POST) {
-	if(isset($_POST['maxUploadSize'])){
-		$maxUploadFilesize=$_POST['maxUploadSize'];
-		OC_Files::setUploadLimit(OC_Helper::computerFileSize($maxUploadFilesize));
-	}
-	if(isset($_POST['maxZipInputSize'])) {
-		$maxZipInputSize=$_POST['maxZipInputSize'];
-		OC_Preferences::setValue('', 'files', 'maxZipInputSize', OC_Helper::computerFileSize($maxZipInputSize));
-	}
+if(isset($_POST['maxUploadSize'])){
+	$maxUploadFilesize=$_POST['maxUploadSize'];
+	OC_Files::setUploadLimit(OC_Helper::computerFileSize($maxUploadFilesize));
 }else{
 	$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
 	$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
 	$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-	$maxZipInputSize = OC_Helper::humanfilesize(OC_Preferences::getValue('', 'files', 'maxZipInputSize', OC_Helper::computerFileSize('800 MB')));
 }
 
 OC_App::setActiveNavigationEntry( "files_administration" );
@@ -49,5 +42,6 @@ OC_App::setActiveNavigationEntry( "files_administration" );
 $tmpl = new OC_Template( 'files', 'admin' );
 $tmpl->assign( 'htaccessWorking', $htaccessWorking );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assign( 'maxZipInputSize', $maxZipInputSize);
 return $tmpl->fetchPage();
+
+?>
