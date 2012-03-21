@@ -98,7 +98,6 @@ $tmpl->assign( 'readonly', !OC_Filesystem::is_writeable($dir));
 $tmpl->assign( "files", $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
-$tmpl->assign( 'allowZipDownload', intval(OC_Config::getValue('allowZipDownload', true)));
 $tmpl->printPage();
 
 ?>
