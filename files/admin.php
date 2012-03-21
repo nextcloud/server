@@ -37,10 +37,12 @@ if($_POST) {
 		$maxZipInputSize=$_POST['maxZipInputSize'];
 		OC_Preferences::setValue('', 'files', 'maxZipInputSize', OC_Helper::computerFileSize($maxZipInputSize));
 	}
+	OC_Preferences::setValue('', 'files', 'allowZipDownload', isset($_POST['allowZipDownload']));
 }else{
 	$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
 	$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
 	$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+	$allowZipDownload = intval(OC_Preferences::getValue('', 'files', 'allowZipDownload', 1));
 	$maxZipInputSize = OC_Helper::humanfilesize(OC_Preferences::getValue('', 'files', 'maxZipInputSize', OC_Helper::computerFileSize('800 MB')));
 }
 
@@ -49,5 +51,6 @@ OC_App::setActiveNavigationEntry( "files_administration" );
 $tmpl = new OC_Template( 'files', 'admin' );
 $tmpl->assign( 'htaccessWorking', $htaccessWorking );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign( 'allowZipDownload', $allowZipDownload);
 $tmpl->assign( 'maxZipInputSize', $maxZipInputSize);
 return $tmpl->fetchPage();
