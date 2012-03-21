@@ -44,7 +44,7 @@ if (isset($_POST['admin_export'])) {
 } else if( isset($_POST['admin_import']) ){
 	$from = $_FILES['owncloud_import']['tmp_name'];
 
-	if( !OC_Migrate::import( $from ) ){
+	if( !OC_Migrate::import( $from, 'instance' ) ){
 		die('failed');	
 	}
 		

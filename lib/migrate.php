@@ -208,7 +208,7 @@ class OC_Migrate{
 			return false;	
 		}
 		$json = json_decode( file_get_contents( $extractpath . 'export_info.json' ) );
-		if( !$json->exporttype != $type ){
+		if( $json->exporttype != $type ){
 			OC_Log::write( 'migration', 'Invalid import file', OC_Log::ERROR );
 			return false;	
 		}
