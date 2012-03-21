@@ -25,7 +25,7 @@
 // Init owncloud
 require_once('../lib/base.php');
 
-OC_Util::checkAdminUser();
+OC_User::checkAdminUser();
 
 $htaccessWorking=(getenv('htaccessWorking')=='true');
 if(isset($_POST['maxUploadSize'])){
@@ -38,10 +38,10 @@ if(isset($_POST['maxUploadSize'])){
 }
 
 OC_App::setActiveNavigationEntry( "files_administration" );
-
-$tmpl = new OC_Template( 'files', 'admin' );
+// return template
+$tmpl = new OC_Template( "files", "admin", "user" );
 $tmpl->assign( 'htaccessWorking', $htaccessWorking );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
-return $tmpl->fetchPage();
+$tmpl->printPage();
 
 ?>
