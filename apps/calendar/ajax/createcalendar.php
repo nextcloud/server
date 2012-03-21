@@ -25,7 +25,7 @@ foreach($calendars as $cal){
 }
 
 $userid = OC_User::getUser();
-$calendarid = OC_Calendar_Calendar::addCalendar($userid, $_POST['name'], 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);
+$calendarid = OC_Calendar_Calendar::addCalendar($userid, strip_tags($_POST['name']), 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, 1);
 
 $calendar = OC_Calendar_Calendar::find($calendarid);
