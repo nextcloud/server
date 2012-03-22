@@ -35,16 +35,16 @@ if($_POST) {
 	}
 	if(isset($_POST['maxZipInputSize'])) {
 		$maxZipInputSize=$_POST['maxZipInputSize'];
-		OC_Preferences::setValue('', 'files', 'maxZipInputSize', OC_Helper::computerFileSize($maxZipInputSize));
+		OC_Config::setValue('maxZipInputSize', OC_Helper::computerFileSize($maxZipInputSize));
 	}
-	OC_Preferences::setValue('', 'files', 'allowZipDownload', isset($_POST['allowZipDownload']));
+	OC_Config::setValue('allowZipDownload', isset($_POST['allowZipDownload']));
 }else{
 	$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
 	$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
 	$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-	$allowZipDownload = intval(OC_Preferences::getValue('', 'files', 'allowZipDownload', 1));
-	$maxZipInputSize = OC_Helper::humanfilesize(OC_Preferences::getValue('', 'files', 'maxZipInputSize', OC_Helper::computerFileSize('800 MB')));
+	$maxZipInputSize = OC_Helper::humanfilesize(OC_Config::getValue('maxZipInputSize', OC_Helper::computerFileSize('800 MB')));
 }
+$allowZipDownload = intval(OC_Config::getValue('allowZipDownload', true));
 
 OC_App::setActiveNavigationEntry( "files_administration" );
 
