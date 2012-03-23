@@ -139,6 +139,12 @@ class OC{
 			OC::$WEBROOT='/'.OC::$WEBROOT;
 		}
 
+		// ensure we can find OC_Config
+		set_include_path(
+			OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.
+			get_include_path()
+		);
+
 		// search the 3rdparty folder
 		if(OC_Config::getValue('3rdpartyroot', '')<>'' and OC_Config::getValue('3rdpartyurl', '')<>''){
 			OC::$THIRDPARTYROOT=OC_Config::getValue('3rdpartyroot', '');
@@ -227,6 +233,7 @@ class OC{
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
 
+		
 		// set some stuff
 		//ob_start();
 		error_reporting(E_ALL | E_STRICT);
@@ -252,6 +259,8 @@ class OC{
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
+		
+		self::initPaths();
 
 		// register the stream wrappers
 		require_once('streamwrappers.php');
@@ -259,7 +268,6 @@ class OC{
 		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
 		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
 
-		self::initPaths();
 		self::checkInstalled();
 		self::checkSSL();
 		self::checkUpgrade();
