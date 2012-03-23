@@ -1,6 +1,19 @@
 <?php
 
 class OC_Admin_Audit_Hooks_Handlers {
+	static public function pre_login($params) {
+		$path = $params['uid'];
+		OCP\Util::writeLog('admin_audit', 'Trying login '.$user, OCP\Util::INFO);
+	}
+	static public function post_login($params) {
+		$path = $params['uid'];
+		OCP\Util::writeLog('admin_audit', 'Login '.$user, OCP\Util::INFO);
+	}
+	static public function logout($params) {
+		$user = OCP\User::getUser();
+		OCP\Util::writeLog('admin_audit', 'Logout '.$user, OCP\Util::INFO);
+	}
+
 	static public function rename($params) {
 		$oldpath = $params[OC_Filesystem::signal_param_oldpath];
 		$newpath = $params[OC_Filesystem::signal_param_newpath];
