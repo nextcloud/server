@@ -12,4 +12,11 @@ return array(
 		'password'=>'test',
 		'root'=>'/owncloud/files/webdav.php',
 	),
+	'google'=>array(
+		'consumer_key'=>'anonymous',
+		'consumer_secret'=>'anonymous',
+		'token'=>'test',
+		'token_secret'=>'test',
+		'root'=>'/google',
+	)
 );

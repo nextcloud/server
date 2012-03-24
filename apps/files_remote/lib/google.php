@@ -24,14 +24,12 @@ require_once 'common.inc.php';
 
 class OC_Filestorage_Google extends OC_Filestorage_Common {
 
-	private $datadir;
 	private $consumer;
 	private $oauth_token;
 	private $sig_method;
 	private $entries;
 
 	public function __construct($arguments) {
-		$this->datadir = $arguments['datadir'];
 		$consumer_key = isset($arguments['consumer_key']) ? $arguments['consumer_key'] : 'anonymous';
 		$consumer_secret = isset($arguments['consumer_secret']) ? $arguments['consumer_secret'] : 'anonymous';
 		$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);

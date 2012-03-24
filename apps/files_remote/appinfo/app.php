@@ -8,3 +8,4 @@
 
 OC::$CLASSPATH['OC_Filestorage_FTP']='apps/files_remote/lib/ftp.php';
 OC::$CLASSPATH['OC_Filestorage_DAV']='apps/files_remote/lib/webdav.php';
+OC::$CLASSPATH['OC_Filestorage_Google']='apps/files_remote/lib/google.php';
