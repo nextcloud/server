@@ -67,14 +67,14 @@ Albums={
 			$(".gallery_album_cover", local).css('background-repeat', 'no-repeat');
 			$(".gallery_album_cover", local).css('background-position', '0');
 			$(".gallery_album_cover", local).css('background-image','url("'+OC.filePath('gallery','ajax','galleryOp.php')+'?operation=get_covers&albumname='+escape(a.name)+'")');
-			$(".gallery_album_cover", local).mousemove(function(e) {
+			$(".gallery_album_cover", local).mousemove(function(event) {
 				var albumMetadata = Albums.find(this.title);
 				if (albumMetadata == undefined) {
 					return;
 				}
-				var x = Math.floor((e.layerX - this.offsetLeft)/(this.offsetWidth/albumMetadata.numOfCovers));
+				var x = Math.floor(event.offsetX/(this.offsetWidth/albumMetadata.numOfCovers));
 				x *= this.offsetWidth;
-				if (x < 0) x=0;
+        if (x < 0 ||  isNaN(x)) x=0;
 				$(this).css('background-position', -x+'px 0');
 			});
 			$(element).append(local);
