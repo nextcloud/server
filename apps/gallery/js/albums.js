@@ -8,12 +8,15 @@ Albums={
 	// the album cover
 	albums:new Array(),
 	photos:new Array(),
+  shared: false,
+  recursive: false,
+  token: '',
 	// add simply adds new album to internal structure
 	// however albums names must be unique so other
 	// album with the same name wont be insered,
 	// and false will be returned
 	// true on success
-	add: function(album_name, num,path) {
+	add: function(album_name, num, path) {
 		if (Albums.albums[album_name] != undefined) return false;
 		Albums.albums[album_name] = {name: album_name, numOfCovers: num, path:path};
 		return true;

@@ -14,7 +14,8 @@ $l = new OC_L10N('gallery');
 	<div id="scan">
 		<div id="scanprogressbar"></div>
 		<input type="button" class="start" value="<?php echo $l->t('Rescan');?>" onclick="javascript:scanForAlbums();" />
-		<input type="button" class="stop" style="display:none" value="<?php echo $l->t('Stop');?>" onclick="javascript:Scanner.stop();" />
+    <input type="button" class="stop" style="display:none" value="<?php echo $l->t('Stop');?>" onclick="javascript:Scanner.stop();" />
+    <input type="button" id="g-share-button" value="<?php echo $l->t('Share'); ?>" onclick="javascript:shareGallery();" />
 		<input type="button" id="g-settings-button" value="<?php echo $l->t('Settings');?>" onclick="javascript:settings();"/>
 	</div>
 	<div id="g-album-navigation">

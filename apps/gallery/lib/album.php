@@ -79,7 +79,7 @@ class OC_Gallery_Album {
 			$sql .= ' AND parent_path = ?';
 			$args[] = $parent;
 		}
-		$order = OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'order', 'ASC');
+    $order = OC_Preferences::getValue($owner, 'gallery', 'order', 'ASC');
 		$sql .= ' ORDER BY album_name ' . $order;
 
 		$stmt = OC_DB::prepare($sql);
