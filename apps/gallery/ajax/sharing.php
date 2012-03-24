@@ -93,10 +93,7 @@ function handleGetAlbumThumbnail($token, $albumname)
 
 function handleGetPhoto($token, $photo) {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
-  if (OC_User::isLoggedIn())
-    $file = OC::$CONFIG_DATADIRECTORY.urldecode($photo);
-  else
-    $file = OC::$CONFIG_DATADIRECTORY.'/'.$owner.'/files'.urldecode($photo);
+  $file = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$owner.'/files'.urldecode($photo);
   header('Content-Type: '.OC_Image::getMimeTypeForFile($file));
   OC_Response::sendFile($file);
 }
