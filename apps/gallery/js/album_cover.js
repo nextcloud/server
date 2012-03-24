@@ -30,10 +30,14 @@ function albumClick(title) {
 	});
 }
 
+function constructSharingPath() {
+  return document.location.protocol + '//' + document.location.host + OC.linkTo('gallery', 'sharing.php') + '?token=' + Albums.token;
+}
+
 function shareGallery() {
   var existing_token = '';
   if (Albums.token)
-    existing_token = document.location.origin + OC.linkTo('gallery', 'sharing.php') + '?token=' + Albums.token;
+    existing_token = constructSharingPath();
   var form_fields = [{text: 'Share', name: 'share', type: 'checkbox', value: Albums.shared},
                      {text: 'Share recursive', name: 'recursive', type: 'checkbox', value: Albums.recursive},
                      {text: 'Shared gallery address', name: 'address', type: 'text', value: existing_token}];
@@ -53,7 +57,7 @@ function shareGallery() {
         }
         var actual_addr = '';
         if (Albums.token)
-          actual_addr = document.location.origin + OC.linkTo('gallery', 'sharing.php') + '?token=' + Albums.token;
+          actual_addr = constructSharingPath();
         $('input[name="address"]').val(actual_addr);
       } else {
         OC.dialogs.alert(t('gallery', 'Error: ') + r.cause, t('gallery', 'Internal error'));
