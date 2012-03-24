@@ -40,7 +40,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		$this->entries = array();
 	}
 
-	private function sendRequest($feedUri, $http_method, $postData = null) {
+	private function sendRequest($feedUri, $http_method, $isDownload = false, $postData = null) {
 		$feedUri = trim($feedUri);
 		// create an associative array from each key/value url query param pair.
 		$params = array();
@@ -54,30 +54,71 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$tempStr .= '&' . urlencode($key) . '=' . urlencode($value);
 		}
 		$feedUri = preg_replace('/&/', '?', $tempStr, 1);
-		$req = OAuthRequest::from_consumer_and_token($this->consumer, $this->oauth_token, $http_method, $feedUri, $params);
-		$req->sign_request($this->sig_method, $this->consumer, $this->oauth_token);
-		$auth_header = $req->to_header();
-		$result = send_signed_request($http_method, $feedUri, array($auth_header, 'Content-Type: application/atom+xml', 'GData-Version: 3.0'), $postData);
-		// TODO Return false if error is received
-		if (!$result) {
-			return false;
+		$request = OAuthRequest::from_consumer_and_token($this->consumer, $this->oauth_token, $http_method, $feedUri, $params);
+		$request->sign_request($this->sig_method, $this->consumer, $this->oauth_token);
+		$auth_header = $request->to_header();
+		$headers = array($auth_header, 'Content-Type: application/atom+xml', 'GData-Version: 3.0');
+		$curl = curl_init($feedUri);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_FAILONERROR, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		switch ($http_method) {
+			case 'GET':
+				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+				break;
+			case 'POST':
+				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+				curl_setopt($curl, CURLOPT_POST, 1);
+				curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+				break;
+			case 'PUT':
+				$headers[] = 'If-Match: *';
+				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $http_method);
+				curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+				break;
+			case 'DELETE':
+				$headers[] = 'If-Match: *';
+				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $http_method);
+				break;
+			default:
+				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		}
-		$result = explode('<', $result, 2);
-		$result = isset($result[1]) ? '<'.$result[1] : $result[0];
+		if ($isDownload) {
+			$tmpFile = OC_Helper::tmpFile();
+			$fp = fopen($tmpFile, 'w');
+			curl_setopt($curl, CURLOPT_FILE, $fp);
+			curl_exec($curl);
+			curl_close($curl);
+			return $tmpFile;
+		}
+		$result = curl_exec($curl);
+		curl_close($curl);
 		$dom = new DOMDocument();
 		$dom->loadXML($result);
 		return $dom;
 	}
 
 	private function getResource($path) {
-		if (array_key_exists($path, $this->entries)) {
-			return $this->entries[$path];
+		$file = basename($path);
+		if (array_key_exists($file, $this->entries)) {
+			return $this->entries[$file];
 		} else {
-			$title = basename($path);
-			$dom = $this->sendRequest('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$title, 'GET');
+			// Strip the file extension; file could be a native Google Docs resource
+			if ($pos = strpos($file, '.')) {
+				$title = substr($file, 0, $pos);
+				$dom = $this->sendRequest('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$title, 'GET');
+				// Check if request was successful and entry exists
+				if ($dom && $entry = $dom->getElementsByTagName('entry')->item(0)) {
+					$this->entries[$file] = $entry;
+					return $entry;
+				}
+			}
+			$dom = $this->sendRequest('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$file, 'GET');
 			// Check if request was successful and entry exists
 			if ($dom && $entry = $dom->getElementsByTagName('entry')->item(0)) {
-				$this->entries[$path] = $entry;
+				$this->entries[$file] = $entry;
 				return $entry;
 			}
 			return false;
@@ -86,7 +127,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 
 	private function getExtension($entry) {
 		$mimetype = $this->getMimeType('', $entry);
-		switch($mimetype) {
+		switch ($mimetype) {
 			case 'httpd/unix-directory':
 				return '';
 			case 'application/vnd.oasis.opendocument.text':
@@ -158,7 +199,10 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				$name = $entry->getElementsByTagName('title')->item(0)->nodeValue;
 				// Google Docs resources don't always include extensions in title
 				if (!strpos($name, '.')) {
-					$name .= '.'.$this->getExtension($entry);
+					$extension = $this->getExtension($entry);
+					if ($extension != '') {
+						$name .= '.'.$extension;
+					}
 				}
 				$files[] = $name;
 				// Cache entry for future use
@@ -178,11 +222,15 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		} else if ($entry = $this->getResource($path)) {
 			// NOTE: Native resources don't have a file size
 			$stat['size'] = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesUsed')->item(0)->nodeValue;
-			$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue);
+// 			if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue)) 
+// 			$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue);
 			$stat['mtime'] = strtotime($entry->getElementsByTagName('updated')->item(0)->nodeValue);
 			$stat['ctime'] = strtotime($entry->getElementsByTagName('published')->item(0)->nodeValue);
 		}
-		return $stat;
+		if (isset($stat)) {
+			return $stat;
+		}
+		return false;
 	}
 
 	public function filetype($path) {
@@ -278,14 +326,36 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 
 	public function fopen($path, $mode) {
 		if ($entry = $this->getResource($path)) {
-			$extension = $this->getExtension($path);
-			$downloadUri = $entry->getElementsByTagName('content')->item(0)->getAttribute('src');
-			// TODO Non-native documents don't need these additional parameters
-			$downloadUri .= '&exportFormat='.$extension.'&format='.$extension;
+			switch ($mode) {
+				case 'r':
+				case 'rb':
+					$extension = $this->getExtension($entry);
+					$downloadUri = $entry->getElementsByTagName('content')->item(0)->getAttribute('src');
+					// TODO Non-native documents don't need these additional parameters
+					$downloadUri .= '&exportFormat='.$extension.'&format='.$extension;
+					$tmpFile = $this->sendRequest($downloadUri, 'GET', true);
+					return fopen($tmpFile, 'r');
+				case 'w':
+				case 'wb':
+				case 'a':
+				case 'ab':
+				case 'r+':
+				case 'w+':
+				case 'wb+':
+				case 'a+':
+				case 'x':
+				case 'x+':
+				case 'c':
+				case 'c+':
+					// TODO Edit documents
+			}
+			
 		}
+		return false;
 	}
 
 	public function getMimeType($path, $entry = null) {
+		// Entry can be passed, because extension is required for opendir and the entry can't be cached without the extension
 		if ($entry == null) {
 			if ($path == '' || $path == '/') {
 				return 'httpd/unix-directory';
@@ -297,7 +367,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$mimetype = $entry->getElementsByTagName('content')->item(0)->getAttribute('type');
 			// Native Google Docs resources often default to text/html, but it may be more useful to default to a corresponding ODF mimetype
 			// Collections get reported as application/atom+xml, make sure it actually is a folder and fix the mimetype
-			if ($mimetype == 'text/html' || $mimetype == 'application/atom+xml') {
+			if ($mimetype == 'text/html' || $mimetype == 'application/atom+xml;type=feed') {
 				$categories = $entry->getElementsByTagName('category');
 				foreach ($categories as $category) {
 					if ($category->getAttribute('scheme') == 'http://schemas.google.com/g/2005#kind') {
@@ -334,8 +404,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		return false;
 	}
   
-	public function search($query) {
-		
+	public function touch($path, $mtime = null) {
+	  
 	}
 
 }
