@@ -9,7 +9,7 @@ $(document).ready(function() {
 		fillWindow($('.bookmarks_list'));
 	});
 	$(window).resize();
-  $('.bookmarks_list').scroll(updateOnBottom).empty().width($('#content').width());
+	$('.bookmarks_list').scroll(updateOnBottom).empty().width($('#content').width());
 	getBookmarks();
 });
 
