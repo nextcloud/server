@@ -4,7 +4,7 @@
 * ownCloud - gallery application
 *
 * @author Bartek Przybylski
-* @copyright 2012 Bartek Przybylski bart.p.pl@gmail.com
+* @copyright 2012 Bartek Przybylski bartek@alefzero.eu
 * 
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -29,9 +29,6 @@ OC_App::setActiveNavigationEntry( 'gallery_index' );
 
 if (!file_exists(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery')) {
   mkdir(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery');
-  $f = fopen(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/.htaccess', 'w');
-  fwrite($f, "allow from all");
-  fclose($f);
 }
 
 if (!isset($_GET['view'])) {

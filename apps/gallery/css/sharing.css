@@ -1,0 +1,8 @@
+body { background-color: #eee; margin: 0; padding: 0;}
+#gallery_list { height: 100%; width: 80%; background-color: white; margin: 0 auto; box-shadow: 0 0 8px #888; }
+div.gallery_box { width: 200px; position:relative; text-align: center; border: 0; display: inline-block; margin: 5pt; vertical-align: top; padding: 5px 5px 5px 5px; position: relative; cursor: pointer; -webkit-transition: color 0.5s ease-in-out; -o-transition: color 0.5s ease-in-out; -moz-transition: color 0.5s ease-in-out;color: #BBB;}
+div.gallery_box:hover { color: black; }
+div.gallery_box h1 {font-size: 17px; font-weight: normal;}
+div#breadcrumb { border: 0; width: 70%; margin: 0 auto; padding: 25px 0; font-family: Verdana; text-align: center;}
+span.breadcrumbelement { margin: 10px; margin-right: 0; cursor: pointer;}
+span.inside { background-image: url('../img/breadcrumb.png'); padding-left: 20px; background-position: left; background-repeat: no-repeat;}

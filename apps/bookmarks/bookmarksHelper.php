@@ -71,7 +71,7 @@ function getURLMetadata($url) {
 	return $metadata;
 }
 
-function addBookmark($url, $title='', $tags='') {
+function addBookmark($url, $title, $tags='') {
 	$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 	if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 		$_ut = "strftime('%s','now')";
@@ -91,6 +91,11 @@ function addBookmark($url, $title='', $tags='') {
 	if(empty($title)) {
 		$metadata = getURLMetadata($url);
 		$title = $metadata['title'];
+	}
+	
+	if(empty($title)) {
+		$l = new OC_L10N('bookmarks');
+		$title = $l->t('unnamed');
 	}
 	
 	$params=array(

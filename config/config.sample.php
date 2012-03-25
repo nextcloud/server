@@ -15,6 +15,10 @@ $CONFIG = array(
 "theme" => "",
 "3rdpartyroot" => "",
 "3rdpartyurl" => "",
+"knowledgebaseenabled" => true,
+"knowledgebaseurl" => "",
+"appstoreenabled" => true,
+"appstoreurl" => "",
 // "datadirectory" => ""
 );
 ?>
