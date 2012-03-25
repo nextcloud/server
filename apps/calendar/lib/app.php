@@ -118,7 +118,7 @@ class OC_Calendar_App{
 	public static function prepareForOutput($event, $vevent){
 		$return_event = array();
 		$return_event['id'] = (int)$event['id'];
-		$return_event['title'] = htmlspecialchars($event['summary']);
+		$return_event['title'] = htmlspecialchars(($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: self::$l10n->t('unnamed'));
 		$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
 		$last_modified = $vevent->__get('LAST-MODIFIED');
 		if ($last_modified){

@@ -220,7 +220,7 @@ class OC_Helper {
 				$fullpath = $path.'/'.$file;
 				if(is_link($fullpath))
 					return FALSE;
-				elseif(!is_dir($fullpath) && !chmod($fullpath, $filemode))
+				elseif(!is_dir($fullpath) && !@chmod($fullpath, $filemode))
 						return FALSE;
 				elseif(!self::chmodr($fullpath, $filemode))
 					return FALSE;

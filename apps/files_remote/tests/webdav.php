@@ -6,18 +6,18 @@
  * See the COPYING-README file.
  */
 
-class Test_Filestorage_FTP extends Test_FileStorage {
+class Test_Filestorage_DAV extends Test_FileStorage {
 	private $config;
 	private $id;
 
 	public function setUp(){
 		$id=uniqid();
 		$this->config=include('apps/files_remote/tests/config.php');
-		$this->config['ftp']['root'].='/'.$id;//make sure we have an new empty folder to work in
-		$this->instance=new OC_Filestorage_FTP($this->config['ftp']);
+		$this->config['webdav']['root'].='/'.$id;//make sure we have an new empty folder to work in
+		$this->instance=new OC_Filestorage_DAV($this->config['webdav']);
 	}
 
 	public function tearDown(){
-		OC_Helper::rmdirr($this->instance->constructUrl(''));
+		$this->instance->rmdir('/');
 	}
 }

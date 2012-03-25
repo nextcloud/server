@@ -29,13 +29,45 @@
 class OC_OCSClient{
 
 	/**
+	 * @brief Get the url of the OCS AppStore server. 
+	 * @returns string of the AppStore server
+	 *
+	 * This function returns the url of the OCS AppStore server. It´s possible to set it in the config file or it will fallback to the default
+	 */
+	private static function getAppStoreURL(){
+		$configurl=OC_Config::getValue('appstoreurl', '');
+		if($configurl<>'') {
+			$url=$configurl;
+		}else{
+			$url='http://api.apps.owncloud.com/v1';
+		}
+		return($url);
+	}
+
+        /**
+         * @brief Get the url of the OCS KB server. 
+         * @returns string of the KB server
+         * This function returns the url of the OCS knowledge base server. It´s possible to set it in the config file or it will fallback to the default
+         */
+        private static function getKBURL(){
+                $configurl=OC_Config::getValue('knowledgebaseurl', '');
+                if($configurl<>'') {
+                        $url=$configurl;
+                }else{
+                        $url='http://api.apps.owncloud.com/v1';
+                }
+                return($url);
+        }
+
+
+	/**
 	 * @brief Get all the categories from the OCS server
 	 * @returns array with category ids
 	 *
 	 * This function returns a list of all the application categories on the OCS server
 	 */
 	public static function getCategories(){
-		$url='http://api.apps.owncloud.com/v1/content/categories';
+		$url=OC_OCSClient::getAppStoreURL().'/content/categories';
 	
 		$xml=@file_get_contents($url);
 		if($xml==FALSE){
@@ -64,12 +96,16 @@ class OC_OCSClient{
 	 * This function returns a list of all the applications on the OCS server
 	 */
 	public static function getApplications($categories){
+		if(OC_Config::getValue('appstoreenabled', true)==false){
+			return(array());
+		}
+
 		if(is_array($categories)) {
 			$categoriesstring=implode('x',$categories);
 		}else{
 			$categoriesstring=$categories;
 		}
-		$url='http://api.apps.owncloud.com/v1/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page=0&pagesize=10';
+		$url=OC_OCSClient::getAppStoreURL().'/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page=0&pagesize=10';
 		$apps=array();
 		$xml=@file_get_contents($url);
 		if($xml==FALSE){
@@ -104,7 +140,7 @@ class OC_OCSClient{
 	 * This function returns an  applications from the OCS server
 	 */
 	public static function getApplication($id){
-		$url='http://api.apps.owncloud.com/v1/content/data/'.urlencode($id);
+		$url=OC_OCSClient::getAppStoreURL().'/content/data/'.urlencode($id);
 
 		$xml=@file_get_contents($url);
 		if($xml==FALSE){
@@ -137,7 +173,7 @@ class OC_OCSClient{
          * This function returns an download url for an applications from the OCS server
          */
         public static function getApplicationDownload($id,$item){
-                $url='http://api.apps.owncloud.com/v1/content/download/'.urlencode($id).'/'.urlencode($item);
+                $url=OC_OCSClient::getAppStoreURL().'/content/download/'.urlencode($id).'/'.urlencode($item);
 
                 $xml=@file_get_contents($url);
                 if($xml==FALSE){
@@ -164,9 +200,15 @@ class OC_OCSClient{
 	 * This function returns a list of all the knowledgebase entries from the OCS server
 	 */
 	public static function getKnownledgebaseEntries($page,$pagesize){	
+		if(OC_Config::getValue('knowledgebaseenabled', true)==false){
+			$kbe=array();
+			$kbe['totalitems']=0;
+			return $kbe;
+		}
+
 		$p= (int) $page;
 		$s= (int) $pagesize;
-		$url='http://api.apps.owncloud.com/v1/knowledgebase/data?type=150&page='.$p.'&pagesize='.$s;
+		$url=OC_OCSClient::getKBURL().'/knowledgebase/data?type=150&page='.$p.'&pagesize='.$s;
 
 		$kbe=array();
 		$xml=@file_get_contents($url);

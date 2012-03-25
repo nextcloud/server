@@ -2,7 +2,7 @@
  * ownCloud
  *
  * @author Bartek Przybylski
- * @copyright 2012 Bartek Przybylski bart.p.pl@gmail.com
+ * @copyright 2012 Bartek Przybylski bartek@alefzero.eu
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -66,7 +66,7 @@ OCdialogs = {
   },
   /**
    * prompt user for input with custom form
-   * fields should be passed in following format: [{text:'prompt text', name:'return name', type:'input type'},...]
+   * fields should be passed in following format: [{text:'prompt text', name:'return name', type:'input type', value: 'dafault value'},...]
    * @param fields to display 
    * @param title dialog title
    * @param callback which will be triggered when user press OK (user answers will be passed to callback in following format: [{name:'return name', value: 'user value'},...])
@@ -76,8 +76,15 @@ OCdialogs = {
     for (var a in fields) {
       content += '<tr><td>'+fields[a].text+'</td><td>';
       var type=fields[a].type;
-      if (type == 'text' || type == 'checkbox' || type == 'password')
-          content += '<input type="'+type+'" name="'+fields[a].name+'">';
+      if (type == 'text' || type == 'checkbox' || type == 'password') {
+          content += '<input type="'+type+'" name="'+fields[a].name+'"';
+          if (type == 'checkbox') {
+            if (fields[a].value != undefined && fields[a].value == true) {
+              content += ' checked="checked">';
+            } else content += '>';
+          } else if (type == 'text' || type == 'password' && fields[a].value)
+            content += ' value="'+fields[a].value+'">';
+      }
       content += "</td></tr>"
     }
     content += "</table>";
@@ -112,7 +119,8 @@ OCdialogs = {
         b[0] = {text: t('dialogs', 'Ok'), click: f};
       break;
     }
-    $(c_id).dialog({width: 4*$(document).width()/9, height: $(d).height() + 150, modal: false, buttons: b});
+    var possible_height = ($('tr', d).size()+1)*30;
+    $(c_id).dialog({width: 4*$(document).width()/9, height: possible_height + 120, modal: false, buttons: b});
     OCdialogs.dialogs_counter++;
   },
   // dialogs buttons types
@@ -127,7 +135,7 @@ OCdialogs = {
   dialogs_counter: 0,
   determineValue: function(element) {
     switch ($(element).attr('type')) {
-      case 'checkbox': return $(element).attr('checked') != undefined;
+      case 'checkbox': return element.checked;
     }
     return $(element).val();
   },

@@ -210,10 +210,13 @@ class OC_App{
 	public static function getSettingsNavigation(){
 		$l=new OC_L10N('core');
 
+		$settings = array();
 		// by default, settings only contain the help menu
-		$settings = array(
-			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
- 		);
+		if(OC_Config::getValue('knowledgebaseenabled', true)==true){
+			$settings = array(
+				array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
+ 			);
+		}
 
 		// if the user is logged-in
 		if (OC_User::isLoggedIn()) {

@@ -30,17 +30,61 @@ function albumClick(title) {
 	});
 }
 
+function constructSharingPath() {
+  return document.location.protocol + '//' + document.location.host + OC.linkTo('gallery', 'sharing.php') + '?token=' + Albums.token;
+}
+
+function shareGallery() {
+  var existing_token = '';
+  if (Albums.token)
+    existing_token = constructSharingPath();
+  var form_fields = [{text: 'Share', name: 'share', type: 'checkbox', value: Albums.shared},
+                     {text: 'Share recursive', name: 'recursive', type: 'checkbox', value: Albums.recursive},
+                     {text: 'Shared gallery address', name: 'address', type: 'text', value: existing_token}];
+    OC.dialogs.form(form_fields, t('gallery', 'Share gallery'), function(values){
+    var p = '';
+    for (var i in paths) p += '/'+paths[i];
+    if (p == '') p = '/';
+    $.getJSON(OC.filePath('gallery', 'ajax', 'galleryOp.php'), {operation: 'share', path: p, share: values[0].value, recursive: values[1].value}, function(r) {
+      if (r.status == 'success') {
+        Albums.shared = r.sharing;
+        if (Albums.shared) {
+          Albums.token = r.token;
+          Albums.recursive = r.recursive;
+        } else {
+          Albums.token = '';
+          Albums.recursive = false;
+        }
+        var actual_addr = '';
+        if (Albums.token)
+          actual_addr = constructSharingPath();
+        $('input[name="address"]').val(actual_addr);
+      } else {
+        OC.dialogs.alert(t('gallery', 'Error: ') + r.cause, t('gallery', 'Internal error'));
+      }
+    });
+  });
+}
+
 function albumClickHandler(r) {
 	Albums.photos = [];
 	Albums.albums = [];
 	if (r.status == 'success') {
 		for (var i in r.albums) {
 		var a = r.albums[i];
-		Albums.add(a.name, a.numOfItems,a.path);
+			Albums.add(a.name, a.numOfItems, a.path, a.shared, a.recursive, a.token);
 		}
 		for (var i in r.photos) {
-		Albums.photos.push(r.photos[i]);
+			Albums.photos.push(r.photos[i]);
 		}
+    Albums.shared = r.shared;
+    if (Albums.shared) {
+      Albums.recursive = r.recursive;
+      Albums.token = r.token;
+    } else {
+      Albums.recursive = false;
+      Albums.token = '';
+    }
 		var targetDiv = document.getElementById('gallery_list');
 		if (targetDiv) {
 			$(targetDiv).html('');
@@ -54,7 +98,7 @@ function albumClickHandler(r) {
 			OC.dialogs.alert(t('gallery', 'Error: no such layer `gallery_list`'), t('gallery', 'Internal error'));
 		}
 	} else {
-		OC.dialogs.alert(t('gallery', 'Error: ') + r.message, t('gallery', 'Internal error'));
+		OC.dialogs.alert(t('gallery', 'Error: ') + r.cause, t('gallery', 'Internal error'));
 	}
 	$('#g-album-loading').hide();
 }
