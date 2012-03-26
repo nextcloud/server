@@ -44,7 +44,7 @@ Calendar_Import={
 			$('#newcalendar').attr('readonly', 'readonly');
 			$('#calendar').attr('disabled', 'disabled');
 			var progressfile = $('#progressfile').val();
-			$.post(OC.filePath('calendar', '', 'import.php'), {method: String (method), calname: String (calname), path: String (path), file: String (filename), id: String (calid)}, function(data){
+			$.post(OC.filePath('calendar', 'ajax/import', 'import.php'), {method: String (method), calname: String (calname), path: String (path), file: String (filename), id: String (calid)}, function(data){
 				if(data.status == 'success'){
 					$('#progressbar').progressbar('option', 'value', 100);
 					$('#import_done').css('display', 'block');
