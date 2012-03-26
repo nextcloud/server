@@ -228,7 +228,7 @@ class OC_Contacts_VCard{
 	 * @param string $uri the uri of the card, default based on the UID
 	 * @return insertid on success or null if no card.
 	 */
-	public static function add($aid, $card, $uri=null){
+	public static function add($aid, OC_VObject $card, $uri=null){
 		if(is_null($card)){
 			OC_Log::write('contacts','OC_Contacts_VCard::add. No vCard supplied', OC_Log::ERROR);
 			return null;
@@ -267,7 +267,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function addFromDAVData($id,$uri,$data){
 		$card = OC_VObject::parse($data);
-		return self::add($id, $data, $uri);
+		return self::add($id, $card, $uri);
 	}
 
 	/**
