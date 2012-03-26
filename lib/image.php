@@ -317,10 +317,7 @@ class OC_Image {
 	*/
 	public function loadFromFileHandle($handle) {
 		OC_Log::write('core',__METHOD__.'(): Trying', OC_Log::DEBUG);
-		$contents = '';
-		while (!feof($handle)) {
-			$contents .= fread($handle, 8192);
-		}
+		$contents = stream_get_contents($handle);
 		if($this->loadFromData($contents)) {
 			return $this->resource;
 		}
@@ -486,6 +483,7 @@ class OC_Image {
 			imagedestroy($process);
 			return false;
 		}
+		imagedestroy($this->resource);
 		$this->resource = $process;
 		return true;
 	}
