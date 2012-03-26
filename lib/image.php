@@ -216,7 +216,7 @@ class OC_Image {
 			OC_Log::write('core','OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
 			return false;
 		}
-    $exif = @exif_read_data($this->filepath, 'IFD0');
+		$exif = @exif_read_data($this->filepath, 'IFD0');
 		if(!$exif) {
 			return false;
 		}
@@ -267,6 +267,7 @@ class OC_Image {
 			if($res) {
 				if(imagealphablending($res, true)) {
 					if(imagesavealpha($res, true)) {
+						imagedestroy($this->resource);
 						$this->resource = $res;
 						return true;
 					} else {
@@ -490,9 +491,10 @@ class OC_Image {
 
 	/**
 	* @brief Crops the image to the middle square. If the image is already square it just returns.
+	* @param int maximum size for the result (optional)
 	* @returns bool for success or failure
 	*/
-	public function centerCrop() {
+	public function centerCrop($size=0) {
 		if(!$this->valid()) {
 			OC_Log::write('core','OC_Image->centerCrop, No image loaded', OC_Log::ERROR);
 			return false;
@@ -512,13 +514,20 @@ class OC_Image {
 			$y = ($height_orig/2) - ($height/2);
 			$x = 0;
 		}
-		$process = imagecreatetruecolor($width, $height);
+		if($size>0){
+			$targetWidth=$size;
+			$targetHeight=$size;
+		}else{
+			$targetWidth=$width;
+			$targetHeight=$height;
+		}
+		$process = imagecreatetruecolor($targetWidth, $targetHeight);
 		if ($process == false) {
 			OC_Log::write('core','OC_Image->centerCrop. Error creating true color image',OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
-		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $width, $height, $width, $height);
+		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
 		if ($process == false) {
 			OC_Log::write('core','OC_Image->centerCrop. Error resampling process image '.$width.'x'.$height,OC_Log::ERROR);
 			imagedestroy($process);
@@ -562,9 +571,14 @@ class OC_Image {
 		return true;
 	}
 
-	public function __destruct(){
-		if(is_resource($this->resource)){
+	public function destroy(){
+		if($this->valid()){
 			imagedestroy($this->resource);
 		}
+		$this->resource=null;
+	}
+
+	public function __destruct(){
+		$this->destroy();
 	}
 }
