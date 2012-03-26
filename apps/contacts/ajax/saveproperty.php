@@ -35,9 +35,9 @@ function bailOut($msg) {
 function debug($msg) {
 	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
 }
-foreach ($_POST as $key=>$element) {
-	debug('_POST: '.$key.'=>'.print_r($element, true));
-}
+// foreach ($_POST as $key=>$element) {
+// 	debug('_POST: '.$key.'=>'.print_r($element, true));
+// }
 
 $id = isset($_POST['id'])?$_POST['id']:null;
 $name = isset($_POST['name'])?$_POST['name']:null;
@@ -71,11 +71,6 @@ if(is_array($value)){
 } else {
 	$value = trim(strip_tags($value));
 }
-if(!$value) {
-	bailOut(OC_Contacts_App::$l10n->t('Cannot save empty value.'));
-}
-
-debug('Element: '.$name.', value: '.print_r($value, true));
 
 $vcard = OC_Contacts_App::getContactVCard( $id );
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
@@ -110,6 +105,10 @@ switch($element) {
 	case 'EMAIL':
 		$value = strtolower($value);
 		break;
+}
+
+if(!$value) {
+	bailOut(OC_Contacts_App::$l10n->t('Cannot save empty value.'));
 }
 
 /* setting value */
