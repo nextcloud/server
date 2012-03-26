@@ -35,7 +35,7 @@
 					<option>
 					<?php
 					$calendar = OC_Calendar_App::getCalendar($_['calendar']);
-					echo $calendar['displayname'] . ' ' . $l->t('of') . ' ' . OC_User::getUser();
+					echo $calendar['displayname'] . ' ' . $l->t('of') . ' ' . $calendar['userid'];
 					?>
 					</option>
 					
