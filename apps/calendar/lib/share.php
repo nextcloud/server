@@ -155,11 +155,7 @@ class OC_Calendar_Share{
 		$group_where = '';
 		$i = 0;
 		foreach($groups as $group){
-			if($i == 0){
-				$group_where = 'OR (';
-			}else{
-				$group_where .= ' OR ';
-			}
+			$group_where .= ' OR ';
 			$group_where .= ' (share = "' . $group . '" AND sharetype = "group") ';
 			$i++;
 		}
