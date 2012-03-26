@@ -526,6 +526,7 @@ class OC_Image {
 			imagedestroy($process);
 			return false;
 		}
+		imagedestroy($this->resource);
 		$this->resource = $process;
 		return true;
 	}
@@ -558,7 +559,14 @@ class OC_Image {
 			imagedestroy($process);
 			return false;
 		}
+		imagedestroy($this->resource);
 		$this->resource = $process;
 		return true;
+	}
+
+	public function __destruct(){
+		if(is_resource($this->resource)){
+			imagedestroy($this->resource);
+		}
 	}
 }
