@@ -83,16 +83,34 @@ if($element != $name) {
 	bailOut(OC_Contacts_App::$l10n->t('Something went FUBAR. ').$name.' != '.$element);
 }
 
+/* preprocessing value */
 switch($element) {
 	case 'BDAY':
 		$date = New DateTime($value);
 		//$vcard->setDateTime('BDAY', $date, Sabre_VObject_Element_DateTime::DATE);
 		$value = $date->format(DateTime::ATOM);
+		break;
 	case 'FN':
 		if(!$value) {
 			// create a method thats returns an alternative for FN.
 			//$value = getOtherValue();
 		}
+		break;
+	case 'CATEGORIES':
+		/* multi autocomplete triggers an save with empty value */
+		if (!$value) {
+			$value = $vcard->getAsString('CATEGORIES');
+		}
+		break;
+	case 'EMAIL':
+		$value = strtolower($value);
+		break;
+}
+
+/* setting value */
+switch($element) {
+	case 'BDAY':
+	case 'FN':
 	case 'N':
 	case 'ORG':
 	case 'NOTE':
@@ -102,7 +120,6 @@ switch($element) {
 		$vcard->setString($name, $value);
 		break;
 	case 'EMAIL':
-		$value = strtolower($value);
 	case 'TEL':
 	case 'ADR': // should I delete the property if empty or throw an error?
 		debug('Setting element: (EMAIL/TEL/ADR)'.$element);
