@@ -21,7 +21,7 @@ class OC_Calendar_Share{
 		$group_where = self::group_sql(OC_Group::getUserGroups($userid));
 		$permission_where = self::permission_sql($permission);
 		$active_where = self::active_sql($active);
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') AND owner <> ? ' . $permission_where . ' ' . $active_where . ')');
+		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') AND owner <> ? ' . $permission_where . ' ' . $active_where);
 		$result = $stmt->execute(array($userid, $userid));
 		$return = array();
 		while( $row = $result->fetchRow()){
@@ -168,8 +168,8 @@ class OC_Calendar_Share{
 	private static function permission_sql($permission = null){
 		$permission_where = '';
 		if(!is_null($permission)){
-			$permission_where = 'AND permissions = ';
-			$permission_where .= ($permission=='rw')?'1':'0';
+			$permission_where = ' AND permissions = ';
+			$permission_where .= ($permission=='rw')?'"1"':'"0"';
 		}
 		return $permission_where;
 	}
