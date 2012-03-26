@@ -71,6 +71,11 @@ if(is_array($value)){
 } else {
 	$value = trim(strip_tags($value));
 }
+if(!$value) {
+	bailOut(OC_Contacts_App::$l10n->t('Cannot save empty value.'));
+}
+
+debug('Element: '.$name.', value: '.print_r($value, true));
 
 $vcard = OC_Contacts_App::getContactVCard( $id );
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
