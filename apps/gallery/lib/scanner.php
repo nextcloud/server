@@ -81,6 +81,7 @@ class OC_Gallery_Scanner {
 			}
 		}
 		imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
+		imagedestroy($thumbnail);
 	}
 
 	public static function createIntermediateAlbums() {
