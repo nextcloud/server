@@ -18,6 +18,12 @@ $data = OC_Calendar_App::getEventObject($id);
 $object = OC_VObject::parse($data['calendardata']);
 $vevent = $object->VEVENT;
 
+$access = OC_Calendar_App::check_access($id);
+if(!$access){
+	OC_JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
+	exit;
+}
+
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 switch($dtstart->getDateType()) {
@@ -187,8 +193,9 @@ if($data['repeating'] == 1){
 }else{
 	$repeat['repeat'] = 'doesnotrepeat';
 }
-
-$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+if($access == 'owner'){
+	$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+}
 $category_options = OC_Calendar_App::getCategoryOptions();
 $repeat_options = OC_Calendar_App::getRepeatOptions();
 $repeat_end_options = OC_Calendar_App::getEndOptions();
@@ -201,7 +208,12 @@ $repeat_bymonth_options = OC_Calendar_App::getByMonthOptions();
 $repeat_byweekno_options = OC_Calendar_App::getByWeekNoOptions();
 $repeat_bymonthday_options = OC_Calendar_App::getByMonthDayOptions();
 
-$tmpl = new OC_Template('calendar', 'part.editevent');
+if($access == 'owner' || $access == 'rw'){
+	$tmpl = new OC_Template('calendar', 'part.editevent');
+}elseif($access == 'r'){
+	$tmpl = new OC_Template('calendar', 'part.showevent');
+}
+
 $tmpl->assign('id', $id);
 $tmpl->assign('lastmodified', $lastmodified);
 $tmpl->assign('calendar_options', $calendar_options);

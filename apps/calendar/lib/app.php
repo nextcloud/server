@@ -14,12 +14,7 @@ class OC_Calendar_App{
 	public static $l10n;
 
 	public static function getCalendar($id){
-		$calendar = OC_Calendar_Calendar::find( $id );
-		if( $calendar === false || $calendar['userid'] != OC_User::getUser()){
-			OC_JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
-			exit();
-		}
-		return $calendar;
+		return OC_Calendar_Calendar::find( $id );
 	}
 
 	public static function getEventObject($id){
@@ -29,8 +24,24 @@ class OC_Calendar_App{
 			exit();
 		}
 
-		self::getCalendar( $event_object['calendarid'] );//access check
+		//self::getCalendar( $event_object['calendarid'] );//access check
 		return $event_object;
+	}
+
+	public static function check_access($id){
+		$event_object = self::getEventObject($id);
+		$calendar = self::getCalendar($event_object['calendarid']);
+		if($calendar['userid'] == OC_User::getUser()){
+			return 'owner';
+		}
+		if(OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::EVENT)){
+			if(OC_Calendar_Share::is_editing_allowed(OC_User::getUser(), $id,  OC_Calendar_Share::EVENT)){
+				return 'rw';
+			}else{
+				return 'r';
+			}
+		}
+		return false;
 	}
 
 	public static function getVCalendar($id){

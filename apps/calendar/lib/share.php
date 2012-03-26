@@ -191,10 +191,34 @@ class OC_Calendar_Share{
 	public static function is_editing_allowed($share, $id, $type){
 		$group_where = self::group_sql(OC_Group::getUserGroups($share));
 		$permission_where = self::permission_sql('rw');
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') ' . $permission_where . ')');
+		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') ' . $permission_where);
 		$result = $stmt->execute(array($share));
 		if($result->numRows() == 1){
 			return true;
+		}
+		if($type == self::EVENT){
+			$calendar == OC_Calendar_App::getCalendar($id);
+			return self::is_editing_allowed($share, $calendar['id'], self::CALENDAR);
+		}
+		return false;
+	}
+	/*
+	 * @brief: checks the access of 
+	 * @param: (string) $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
+	 * @param: (string) $id - id of the calendar / event
+	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
+	 * @return (bool)
+	 */
+	public static function check_access($share, $id, $type){
+		$group_where = self::group_sql(OC_Group::getUserGroups($share));
+		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ')');
+		$result = $stmt->execute(array($share));
+		if($result->numRows() > 0){
+			return true;
+		}
+		if($type == self::EVENT){
+			$calendar == OC_Calendar_App::getCalendar($id);
+			return self::check_access($share, $calendar['id'], self::CALENDAR);
 		}
 		return false;
 	}
