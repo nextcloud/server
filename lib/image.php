@@ -501,7 +501,7 @@ class OC_Image {
 		}
 		$width_orig=imageSX($this->resource);
 		$height_orig=imageSY($this->resource);
-		if($width_orig === $height_orig) {
+		if($width_orig === $height_orig and $size==0) {
 			return true;
 		}
 		$ratio_orig = $width_orig/$height_orig;
