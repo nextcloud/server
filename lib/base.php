@@ -231,6 +231,8 @@ class OC{
 			OC_App::loadApps();
 		}
 
+		OC_Files::cleanTmpFiles();
+
 		// Last part: connect some hooks
 		OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
 		OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');

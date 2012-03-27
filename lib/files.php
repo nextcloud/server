@@ -109,6 +109,7 @@ class OC_Files {
 				}
 			}
 			$zip->close();
+			self::$tmpFiles[] = $filename;
 			set_time_limit($executionTime);
 		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)){
 			self::validateZipDownload($dir,$files);
@@ -122,11 +123,13 @@ class OC_Files {
 			$file=$dir.'/'.$files;
 			self::zipAddDir($file,$zip);
 			$zip->close();
+			self::$tmpFiles[] = $filename;
 			set_time_limit($executionTime);
 		}else{
 			$zip=false;
 			$filename=$dir.'/'.$files;
 		}
+		self::markTmpFiles();
 		if($zip or OC_Filesystem::is_readable($filename)){
 			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 			header('Content-Transfer-Encoding: binary');
@@ -156,11 +159,6 @@ class OC_Files {
 			unlink($filename);
 		}else{
 			OC_Filesystem::readfile($filename);
-		}
-		foreach(self::$tmpFiles as $tmpFile){
-			if(file_exists($tmpFile) and is_file($tmpFile)){
-				unlink($tmpFile);
-			}
 		}
 	}
 
@@ -247,6 +245,38 @@ class OC_Files {
 		if(OC_User::isLoggedIn()){
 			$file=$dir.'/'.$file;
 			return OC_Filesystem::unlink($file);
+		}
+	}
+
+	static function markTmpFiles() {
+		$worklistFile = get_temp_dir().'/__ownCloudUndeletedTempfiles';
+		if(file_exists($worklistFile)) {
+			$unlinkFiles = unserialize(file_get_contents($worklistFile));
+			if(is_array($unlinkFiles)){
+				self::$tmpFiles = array_merge(self::$tmpFiles, $unlinkFiles);
+			}
+		}
+		if(count(self::$tmpFiles) > 0) {
+			file_put_contents($worklistFile, serialize(self::$tmpFiles));
+		}
+	}
+
+	static function cleanTmpFiles() {
+		$worklistFile = get_temp_dir().'/__ownCloudUndeletedTempfiles';
+		if(file_exists($worklistFile)) {
+			$unlinkFiles = unserialize(file_get_contents($worklistFile));
+			if(is_array($unlinkFiles)){
+				foreach($unlinkFiles as $key => $tmpFile){
+					if(file_exists($tmpFile) and is_file($tmpFile)){
+						if(unlink($tmpFile)) {
+							unset($unlinkFiles[$key]);
+						}
+					} else {
+						unset($unlinkFiles[$key]);
+					}
+				}
+			}
+			unlink($worklistFile);
 		}
 	}
 
