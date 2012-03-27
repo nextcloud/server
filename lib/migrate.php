@@ -64,7 +64,7 @@ class OC_Migrate{
 		$apps = OC_App::getAllApps();
 		
 		foreach($apps as $app){
-			$path = OC::$SERVERROOT . '/apps/' . $app . '/lib/migrate.php';
+			$path = OC::$SERVERROOT . '/apps/' . $app . '/appinfo/migrate.php';
 			if( file_exists( $path ) ){
 				include( $path );	
 			}	
