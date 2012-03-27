@@ -613,10 +613,12 @@ Contacts={
 						this.loadPhoto(true);
 						$('#file_upload_form').show();
 						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
+						$('#file_upload_start').trigger('click');
 						break;
 					case 'NOTE':
 						$('#note').show();
 						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
+						$('#note').find('textarea').focus();
 						break;
 					case 'EMAIL':
 						if($('#emaillist>li').length == 1) {
@@ -644,6 +646,7 @@ Contacts={
 					case 'BDAY':
 					case 'CATEGORIES':
 						$('dl dt[data-element="'+type+'"],dd[data-element="'+type+'"]').show();
+						$('dd[data-element="'+type+'"]').find('input').focus();
 						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
 						break;
 				}
@@ -670,10 +673,13 @@ Contacts={
 									if(proptype == 'PHOTO') {
 										console.log('Delete PHOTO');
 										Contacts.UI.Contacts.refreshThumbnail(Contacts.UI.Card.id);
+									} else if(proptype == 'NOTE') {
+										$('#note').find('textarea').val('');
 									}
 								} else {
 									$('dl dt[data-element="'+proptype+'"],dd[data-element="'+proptype+'"]').hide();
 									$('dl dd[data-element="'+proptype+'"]').data('checksum', '');
+									$('dl dd[data-element="'+proptype+'"]').find('input').val('');
 								}
 								$('#contacts_propertymenu a[data-type="'+proptype+'"]').parent().show();
 								Contacts.UI.loading(obj, false);
