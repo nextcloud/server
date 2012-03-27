@@ -54,10 +54,15 @@ if (isset($_POST['user_import'])) {
 				}
 			}	
 		}
-		die(print_r($notsupported));
-		die( 'Some apps failed to import, or were not supported.' );	
+		// Any problems?
+		if( isset( $notsupported ) || isset( $failed ) ){
+			if( count( $failed ) > 0 ){
+				die( 'Some apps failed to import. View the log please.' );	
+			} else if( count( $notsupported ) > 0 ){
+				die( 'Some apps were not found in this owncloud instance and therefore could not be installed' );	
+			}
+		}
 	}
-		
 		
 } else {
 // fill template

@@ -48,9 +48,9 @@ class OC_Migration_Provider_Bookmarks extends OC_Migration_Provider{
 				}
 				// Now tags
 				foreach($idmap as $oldid => $newid){
-					$query = $this->content->prepare( "SELECT * FROM bookmarks_tags WHERE user_id LIKE ?" );
+					$query = $this->content->prepare( "SELECT * FROM bookmarks_tags WHERE bookmark_id LIKE ?" );
 					$results = $query->execute( array( $oldid ) );
-					while( $row = $data->fetchRow() ){
+					while( $row = $results->fetchRow() ){
 						// Import the tags for this bookmark, using the new bookmark id
 						$query = OC_DB::prepare( "INSERT INTO *PREFIX*bookmarks_tags(bookmark_id, tag) VALUES (?, ?)" );
 						$query->execute( array( $newid, $row['tag'] ) );	
