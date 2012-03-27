@@ -214,7 +214,7 @@ Calendar={
 		},
 		initScroll:function(){
 			if(window.addEventListener)
-				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar);
+				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar, false);
 			//}else{
 				document.onmousewheel = Calendar.UI.scrollCalendar;
 			//}
@@ -698,6 +698,7 @@ $(document).ready(function(){
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
 		eventRender: function(event, element) {
+			element.find('.fc-event-title').html(element.find('.fc-event-title').text());
 			element.tipsy({
 				className: 'tipsy-event',
 				opacity: 0.9,

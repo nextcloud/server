@@ -9,6 +9,7 @@
 ?>
 <form id="calendar">
         <fieldset class="personalblock">
+	<strong><?php echo $l->t('Calendar'); ?></strong>
         <table class="nostyle">
             <tr><td><label for="timezone" class="bold"><?php echo $l->t('Timezone');?></label></td><td><select style="display: none;" id="timezone" name="timezone">
                 <?php
