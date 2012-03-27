@@ -21,9 +21,9 @@
 * 
 */
 
-OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, "OC_Gallery_Hooks_Handlers", "addPhotoFromPath");
-OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_delete, "OC_Gallery_Hooks_Handlers", "removePhoto");
-OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename, "OC_Gallery_Hooks_Handlers", "renamePhoto");
+//OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, "OC_Gallery_Hooks_Handlers", "addPhotoFromPath");
+//OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_delete, "OC_Gallery_Hooks_Handlers", "removePhoto");
+//OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename, "OC_Gallery_Hooks_Handlers", "renamePhoto");
 
 require_once(OC::$CLASSPATH['OC_Gallery_Album']);
 require_once(OC::$CLASSPATH['OC_Gallery_Photo']);
@@ -37,7 +37,7 @@ class OC_Gallery_Hooks_Handlers {
   }
 
   private static function directoryContainsPhotos($dirpath) {
-    $dirhandle = opendir(OC::$CONFIG_DATADIRECTORY.$dirpath);
+    $dirhandle = OC_Filesystem::opendir($dirpath.'/');
     if ($dirhandle != FALSE) {
       while (($filename = readdir($dirhandle)) != FALSE) {
         if ($filename[0] == '.') continue;
@@ -68,7 +68,7 @@ class OC_Gallery_Hooks_Handlers {
 
     if (!self::isPhoto($fullpath)) return;
 
-    $path = substr($fullpath, 0, strrpos($fullpath, '/'));
+    $path = dirname($fullpath);
     if (!self::pathInRoot($path)) return;
     OC_Gallery_Scanner::scanDir($path, $albums);
 
@@ -76,9 +76,9 @@ class OC_Gallery_Hooks_Handlers {
 
   public static function removePhoto($params) {
     $path = $params[OC_Filesystem::signal_param_path];
-    if (OC_Filesystem::is_dir($path) && self::directoryContainsPhotos($path)) {
+    if (OC_Filesystem::is_dir($path.'/') && self::directoryContainsPhotos($path)) {
       if(!self::pathInRoot($path)) return;
-      OC_Gallery_Album::removeByPath($path.'/', OC_User::getUser());
+      OC_Gallery_Album::removeByPath($path, OC_User::getUser());
     } elseif (self::isPhoto($path)) {
       OC_Gallery_Photo::removeByPath($path);
     }
@@ -87,11 +87,11 @@ class OC_Gallery_Hooks_Handlers {
   public static function renamePhoto($params) {
     $oldpath = $params[OC_Filesystem::signal_param_oldpath];
     $newpath = $params[OC_Filesystem::signal_param_newpath];
-    if (OC_Filesystem::is_dir($newpath) && self::directoryContainsPhotos($newpath)) {
+    if (OC_Filesystem::is_dir($newpath.'/') && self::directoryContainsPhotos($newpath)) {
       OC_Gallery_Album::changePath($oldpath, $newpath, OC_User::getUser());
-    } elseif (!self::isPhoto($newpath)) {
-      $olddir = substr($oldpath, 0, strrpos($oldpath, '/'));
-      $newdir = substr($newpath, 0, strrpos($newpath, '/'));
+    } elseif (self::isPhoto($newpath)) {
+      $olddir = dirname($oldpath);
+      $newdir = dirname($newpath);
       if ($olddir == '') $olddir = '/';
       if ($newdir == '') $newdir = '/';
       if (!self::isPhoto($newpath)) return;
@@ -101,25 +101,26 @@ class OC_Gallery_Hooks_Handlers {
       $oldAlbumId;
       if ($olddir == $newdir) {
         // album changing is not needed
-        $album = OC_Gallery_Album::find(OC_User::getUser(), null, $olddir);
-        if ($album->numRows() == 0) {
-          $album = self::createAlbum($newdir);
+        $albums = OC_Gallery_Album::find(OC_User::getUser(), null, $olddir);
+        $album = $albums->fetchRow();
+        if (!$album) {
+          $albums = self::createAlbum($newdir);
+          $album = $albums->fetchRow();
         }
-        $album = $album->fetchRow();
         $newAlbumId = $oldAlbumId = $album['album_id'];
       } else {
         $newalbum = OC_Gallery_Album::find(OC_User::getUser(), null, $newdir);
         $oldalbum = OC_Gallery_Album::find(OC_User::getUser(), null, $olddir);
 
-        if ($newalbum->numRows() == 0) {
+        if (!($newalbum = $newalbum->fetchRow())) {
           $newalbum = self::createAlbum($newdir);
+          $newalbum = $newalbum->fetchRow();
         }
-        $newalbum = $newalbum->fetchRow();
-        if ($oldalbum->numRows() == 0) {
+        $oldalbum = $oldalbum->fetchRow();
+        if (!$oldalbum) {
           OC_Gallery_Photo::create($newalbum['album_id'], $newpath);
           return;
         }
-        $oldalbum = $oldalbum->fetchRow();
         $newAlbumId = $newalbum['album_id'];
         $oldAlbumId = $oldalbum['album_id'];
 

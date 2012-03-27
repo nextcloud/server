@@ -135,9 +135,12 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$ctimeEnd=time();
 		$cTime=$this->instance->filectime('/lorem.txt');
 		$mTime=$this->instance->filemtime('/lorem.txt');
-		$this->assertTrue($ctimeStart<=$cTime);
-		$this->assertTrue($cTime<=$ctimeEnd);
-		$this->assertEqual($cTime,$mTime);
+		if($cTime!=-1){//not everything can support ctime
+			$this->assertTrue(($ctimeStart-1)<=$cTime);
+			$this->assertTrue($cTime<=($ctimeEnd+1));
+		}
+		$this->assertTrue(($ctimeStart-1)<=$mTime);
+		$this->assertTrue($mTime<=($ctimeEnd+1));
 		$this->assertEqual(filesize($textFile),$this->instance->filesize('/lorem.txt'));
 		
 		$stat=$this->instance->stat('/lorem.txt');
@@ -152,8 +155,8 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$originalCTime=$cTime;
 		$cTime=$this->instance->filectime('/lorem.txt');
 		$mTime=$this->instance->filemtime('/lorem.txt');
-		$this->assertTrue($mtimeStart<=$mTime);
-		$this->assertTrue($mTime<=$mtimeEnd);
+		$this->assertTrue(($mtimeStart-1)<=$mTime);
+		$this->assertTrue($mTime<=($mtimeEnd+1));
 		$this->assertEqual($cTime,$originalCTime);
 		
 		if($this->instance->touch('/lorem.txt',100)!==false){
@@ -169,8 +172,8 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$mtimeEnd=time();
 		$originalCTime=$cTime;
 		$mTime=$this->instance->filemtime('/lorem.txt');
-		$this->assertTrue($mtimeStart<=$mTime);
-		$this->assertTrue($mTime<=$mtimeEnd);
+		$this->assertTrue(($mtimeStart-1)<=$mTime);
+		$this->assertTrue($mTime<=($mtimeEnd+1));
 	}
 
 	public function testSearch(){

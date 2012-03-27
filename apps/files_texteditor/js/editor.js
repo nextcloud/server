@@ -11,37 +11,43 @@ function getFileExtension(file){
 function setSyntaxMode(ext){
 	// Loads the syntax mode files and tells the editor
 	var filetype = new Array();
-	// Todo finish these
-    filetype["h"] = "c_cpp";
-    filetype["c"] = "c_cpp";
-    filetype["clj"] = "clojure";
-    filetype["coffee"] = "coffee"; // coffescript can be compiled to javascript
-    filetype["coldfusion"] = "cfc";
-    filetype["cpp"] = "c_cpp";
-    filetype["cs"] = "csharp";
+	// add file extensions like this: filetype["extension"] = "filetype":
+	filetype["h"] = "c_cpp";
+	filetype["c"] = "c_cpp";
+	filetype["clj"] = "clojure";
+	filetype["coffee"] = "coffee"; // coffescript can be compiled to javascript
+	filetype["coldfusion"] = "cfc";
+	filetype["cpp"] = "c_cpp";
+	filetype["cs"] = "csharp";
 	filetype["css"] = "css";
-    filetype["groovy"] = "groovy";
-   	filetype["haxe"] = "hx";
+	filetype["groovy"] = "groovy";
+	filetype["haxe"] = "hx";
 	filetype["html"] = "html";
-    filetype["java"] = "java";
+	filetype["java"] = "java";
 	filetype["js"] = "javascript";
-    filetype["json"] = "json";
-   	filetype["latex"] = "latex";
-    filetype["lua"] = "lua";
-    filetype["markdown"] = "markdown"; // also: .md .markdown .mdown .mdwn
-    filetype["ml"] = "ocaml";
-    filetype["mli"] = "ocaml";
+	filetype["json"] = "json";
+	filetype["latex"] = "latex";
+	filetype["ly"] = "latex";
+	filetype["ily"] = "latex";
+	filetype["lua"] = "lua";
+	filetype["markdown"] = "markdown";
+	filetype["md"] = "markdown";
+	filetype["mdown"] = "markdown";
+	filetype["mdwn"] = "markdown";
+	filetype["mkd"] = "markdown";
+	filetype["ml"] = "ocaml";
+	filetype["mli"] = "ocaml";
 	filetype["pl"] = "perl";
 	filetype["php"] = "php";
 	filetype["powershell"] = "ps1";
 	filetype["py"] = "python";
 	filetype["rb"] = "ruby";
-    filetype["scad"] = "scad"; // seems to be something like 3d model files printed with e.g. reprap
-    filetype["scala"] = "scala";
-    filetype["scss"] = "scss"; // "sassy css"
-    filetype["sql"] = "sql";
-    filetype["svg"] = "svg";
-    filetype["textile"] = "textile"; // related to markdown
+	filetype["scad"] = "scad"; // seems to be something like 3d model files printed with e.g. reprap
+	filetype["scala"] = "scala";
+	filetype["scss"] = "scss"; // "sassy css"
+	filetype["sql"] = "sql";
+	filetype["svg"] = "svg";
+	filetype["textile"] = "textile"; // related to markdown
 	filetype["xml"] = "xml";
 
 	if(filetype[ext]!=null){
@@ -142,7 +148,7 @@ function doFileSave(){
 		// Show saving spinner
 		$("#editor_save").die('click',doFileSave);
 		$('#save_result').remove();
-		$('#editor_save').text(t('files_texteditor','Saving...'));//after('<img id="saving_icon" src="'+OC.filePath('core','img','loading.gif')+'"></img>');
+		$('#editor_save').text(t('files_texteditor','Saving...'));
 		// Get the data
 		var filecontents = window.aceEditor.getSession().getValue();
 		// Send the data
@@ -192,6 +198,7 @@ function showFileEditor(dir,filename){
 						$('#editor').attr('data-filename', filename);
 						window.aceEditor = ace.edit("editor");
 						aceEditor.setShowPrintMargin(false);
+						aceEditor.getSession().setUseWrapMode(true);
 						if(result.data.write=='false'){
 							aceEditor.setReadOnly(true);
 						}

@@ -6,8 +6,8 @@ require_once('../../lib/base.php');
 OC_JSON::checkLoggedIn();
 
 // Get the params
-$dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
-$foldername = isset( $_GET['foldername'] ) ? stripslashes($_GET['foldername']) : '';
+$dir = isset( $_POST['dir'] ) ? stripslashes($_POST['dir']) : '';
+$foldername = isset( $_POST['foldername'] ) ? stripslashes($_POST['foldername']) : '';
 
 if(trim($foldername) == '') {
 	OC_JSON::error(array("data" => array( "message" => "Empty Foldername" )));

@@ -59,7 +59,14 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	}
 	public function file_get_contents($path) {
 		$handle = $this->fopen($path, "r");
-		return fread($handle, $this->filesize($path));
+		if(!$handle){
+			return false;
+		}
+		$size=$this->filesize($path);
+		if($size==0){
+			return '';
+		}
+		return fread($handle, $size);
 	}
 	public function file_put_contents($path,$data) {
 		$handle = $this->fopen($path, "w");
@@ -92,7 +99,11 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 			return false;
 		}
 		$head=fread($source,8192);//8kb should suffice to determine a mimetype
-		$extention=substr($path,strrpos($path,'.'));
+		if($pos=strrpos($path,'.')){
+			$extention=substr($path,$pos);
+		}else{
+			$extention='';
+		}
 		$tmpFile=OC_Helper::tmpFile($extention);
 		file_put_contents($tmpFile,$head);
 		$mime=OC_Helper::getMimeType($tmpFile);
@@ -117,7 +128,11 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		if(!$source){
 			return false;
 		}
-		$extention=substr($path,strrpos($path,'.'));
+		if($pos=strrpos($path,'.')){
+			$extention=substr($path,$pos);
+		}else{
+			$extention='';
+		}
 		$tmpFile=OC_Helper::tmpFile($extention);
 		$target=fopen($tmpFile,'w');
 		$count=OC_Helper::streamCopy($source,$target);

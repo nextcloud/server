@@ -210,10 +210,13 @@ class OC_App{
 	public static function getSettingsNavigation(){
 		$l=new OC_L10N('core');
 
+		$settings = array();
 		// by default, settings only contain the help menu
-		$settings = array(
-			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
- 		);
+		if(OC_Config::getValue('knowledgebaseenabled', true)==true){
+			$settings = array(
+				array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
+ 			);
+		}
 
 		// if the user is logged-in
 		if (OC_User::isLoggedIn()) {
@@ -325,6 +328,7 @@ class OC_App{
 				$source=self::$settingsForms;
 				break;
 			case 'admin':
+				$forms[] = include 'files/admin.php';   //hardcode own apps
 				$source=self::$adminForms;
 				break;
 			case 'personal':
@@ -371,7 +375,7 @@ class OC_App{
 		}
 		return $apps;
 	}
-	
+
 	/**
 	 * check if any apps need updating and update those
 	 */
@@ -390,7 +394,7 @@ class OC_App{
 			}
 		}
 	}
-	
+
 	/**
 	 * update the database for the app and call the update script
 	 * @param string appid

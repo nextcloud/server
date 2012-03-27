@@ -220,7 +220,7 @@ class OC_Helper {
 				$fullpath = $path.'/'.$file;
 				if(is_link($fullpath))
 					return FALSE;
-				elseif(!is_dir($fullpath) && !chmod($fullpath, $filemode))
+				elseif(!is_dir($fullpath) && !@chmod($fullpath, $filemode))
 						return FALSE;
 				elseif(!self::chmodr($fullpath, $filemode))
 					return FALSE;
@@ -284,9 +284,7 @@ class OC_Helper {
 		$isWrapped=(strpos($path,'://')!==false) and (substr($path,0,7)=='file://');
 		$mimeType='application/octet-stream';
 		if ($mimeType=='application/octet-stream') {
-			if(count(self::$mimetypes)>0){
-				self::$mimetypes = include('mimetypes.fixlist.php');
-			}
+			self::$mimetypes = include('mimetypes.fixlist.php');
 			$extention=strtolower(strrchr(basename($path), "."));
 			$extention=substr($extention,1);//remove leading .
 			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';

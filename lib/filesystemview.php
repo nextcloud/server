@@ -23,11 +23,11 @@
 
 class OC_FilesystemView {
 	private $fakeRoot='';
-	
+
 	public function __construct($root){
 		$this->fakeRoot=$root;
 	}
-	
+
 	public function getAbsolutePath($path){
 		if(!$path){
 			$path='/';
@@ -141,7 +141,7 @@ class OC_FilesystemView {
 		while (!feof($handle)) {
 			echo fread($handle, $chunkSize);
 			@ob_flush();
-			flush(); 
+			flush();
 		}
 		return $this->filesize($path);
 	}
@@ -205,6 +205,7 @@ class OC_FilesystemView {
 					$count=OC_Helper::streamCopy($data,$target);
 					$storage1=$this->getStorage($path1);
 					$storage1->unlink($this->getInternalPath($path1));
+					$result=$count>0;
 				}
 				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename, array( OC_Filesystem::signal_param_oldpath => $path1, OC_Filesystem::signal_param_newpath=>$path2));
 				return $result;
@@ -281,7 +282,8 @@ class OC_FilesystemView {
 			if($source){
 				$extention=substr($path,strrpos($path,'.'));
 				$tmpFile=OC_Helper::tmpFile($extention);
-				return file_put_contents($tmpFile,$source);
+				file_put_contents($tmpFile,$source);
+				return $tmpFile;
 			}
 		}
 	}

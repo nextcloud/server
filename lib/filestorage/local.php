@@ -21,7 +21,10 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return opendir($this->datadir.$path);
 	}
 	public function is_dir($path){
-		return (is_dir($this->datadir.$path) or substr($path,-1)=='/');
+		if(substr($path,-1)=='/'){
+			$path=substr($path,0,-1);
+		}
+		return is_dir($this->datadir.$path);
 	}
 	public function is_file($path){
 		return is_file($this->datadir.$path);
@@ -76,9 +79,8 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function file_get_contents($path){
 		return file_get_contents($this->datadir.$path);
 	}
-	public function file_put_contents($path,$data=null){
-		if($return=file_put_contents($this->datadir.$path,$data)){
-		}
+	public function file_put_contents($path,$data){
+		return file_put_contents($this->datadir.$path,$data);
 	}
 	public function unlink($path){
 		return $this->delTree($path);

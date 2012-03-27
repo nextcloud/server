@@ -8,11 +8,13 @@
 
 require_once ('../../../lib/base.php');
 require_once('when/When.php');
-
+$l = new OC_L10N('calendar');
+$unnamed = $l->t('unnamed');
 function create_return_event($event, $vevent){
 	$return_event = array();
+	global $unnamed;
 	$return_event['id'] = (int)$event['id'];
-	$return_event['title'] = htmlspecialchars($event['summary']);
+	$return_event['title'] = htmlspecialchars(($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: $unnamed);
 	$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
 	$last_modified = $vevent->__get('LAST-MODIFIED');
 	if ($last_modified){
@@ -27,8 +29,13 @@ function create_return_event($event, $vevent){
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
-$start = DateTime::createFromFormat('U', $_GET['start']);
-$end = DateTime::createFromFormat('U', $_GET['end']);
+if(version_compare(PHP_VERSION, '5.3.0', '>=')){
+	$start = DateTime::createFromFormat('U', $_GET['start']);
+	$end = DateTime::createFromFormat('U', $_GET['end']);
+}else{
+	$start = new DateTime('@' . $_GET['start']);
+	$end = new DateTime('@' . $_GET['end']);
+}
 
 $calendar_id = $_GET['calendar_id'];
 if (is_numeric($calendar_id)) {
