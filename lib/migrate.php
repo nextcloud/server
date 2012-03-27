@@ -482,6 +482,12 @@ class OC_Migrate{
 			
 			$datadir = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 						
+			// DB type
+			if( !is_callable( 'sqlite_open' ) || !class_exists( 'SQLite3' ) ){
+				OC_Log::write( 'migration', 'SQLite not found', OC_Log::ERROR );
+				return false;
+			}	
+
 			// Prepare options array
 			$options = array(
 				'portability' => MDB2_PORTABILITY_ALL & (!MDB2_PORTABILITY_FIX_CASE),
