@@ -21,7 +21,11 @@
 					<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
 				</form>
 			</div>
-			<div id="uploadprogressbar"></div>
+					<div id="upload">
+						<div id="uploadprogressbar"></div>
+						<input type="button" class="stop" style="display:none" value="<?php echo $l->t('Cancel upload');?>" onclick="javascript:Files.cancelUploads();" />
+					</div>
+
 		</div>
 		<div id="file_action_panel"></div>
 	<?php else:?>

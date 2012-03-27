@@ -1,3 +1,25 @@
+var uploadingFiles = {};
+Files={
+	cancelUpload:function(filename) {
+		if(uploadingFiles[filename]) {
+			uploadingFiles[filename].abort();
+			delete uploadingFiles[filename];
+			return true;
+		}
+		return false;
+	},
+	cancelUploads:function() {
+		$.each(uploadingFiles,function(index,file){
+			file.abort();
+			delete uploadingFiles[index];
+			var filename = $('tr').filterAttr('data-file',index);
+			filename.hide();
+			filename.find('input[type="checkbox"]').removeAttr('checked');
+			filename.removeClass('selected');
+		});
+		procesSelection();
+	}
+}
 $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
@@ -151,9 +173,13 @@ $(document).ready(function() {
 	});
 
 	// drag&drop support using jquery.fileupload
+	$(document).bind('drop dragover', function (e) {
+			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
+	});
+
 	$(function() {
 		$('.file_upload_start').fileupload({
-			//dropZone: $('#content'), // restrict dropZone to content div
+			dropZone: $('#content'), // restrict dropZone to content div
 			add: function(e, data) {
 				var files = data.files;
 				var totalSize=0;
@@ -178,7 +204,97 @@ $(document).ready(function() {
 						}
 					});
 				}else{
-					data.submit();
+				if($.support.xhrFileUpload) {
+					for(var i=0;i<files.length;i++){
+						var dropTarget = $(e.originalEvent.target).closest('tr');
+						if(dropTarget && dropTarget.attr('data-type') === 'dir') {
+							var dirName = dropTarget.attr('data-file')
+							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
+									formData: function(form) {
+										var formArray = form.serializeArray();
+										formArray[1]['value'] = dirName;
+										return formArray;
+									}}).success(function(result, textStatus, jqXHR) {
+										var response;
+										response=jQuery.parseJSON(result);
+										if(response[0] == undefined || response[0].status != 'success') {
+											$('#notification').text(t('files', response.data.message));
+											$('#notification').fadeIn();
+										}
+										var file=response[0];
+										delete uploadingFiles[file.name];
+										var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+										currentUploads -= 1;
+										uploadtext.attr('currentUploads', currentUploads);
+										if(currentUploads === 0) {
+											var img = OC.imagePath('core', 'filetypes/folder.png');
+											var tr=$('tr').filterAttr('data-file',dirName);
+											tr.find('td.filename').attr('style','background-image:url('+img+')');
+											uploadtext.text('');
+											uploadtext.hide();
+										} else {
+											uploadtext.text(currentUploads + ' files uploading')
+										}
+									})
+							.error(function(jqXHR, textStatus, errorThrown) {
+								if(errorThrown === 'abort') {
+									$('#notification').hide();
+									$('#notification').text(t('files', 'Upload cancelled.'));
+									$('#notification').fadeIn();
+								}
+							});
+						} else {
+							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i]})
+									.success(function(result, textStatus, jqXHR) {
+										var response;
+										response=jQuery.parseJSON(result);
+										if(response[0] != undefined && response[0].status == 'success') {
+											var file=response[0];
+											delete uploadingFiles[file.name];
+											$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+											var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
+											if(size==t('files','Pending')){
+												$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+											}
+											FileList.loadingDone(file.name);
+										} else {
+											$('#notification').text(t('files', response.data.message));
+											$('#notification').fadeIn();
+											$('#fileList > tr').not('[data-mime]').fadeOut();
+											$('#fileList > tr').not('[data-mime]').remove();
+										}
+									})
+							.error(function(jqXHR, textStatus, errorThrown) {
+								if(errorThrown === 'abort') {
+									$('#notification').hide();
+									$('#notification').text(t('files', 'Upload cancelled.'));
+									$('#notification').fadeIn();
+								}
+							});
+						}
+						uploadingFiles[files[i].name] = jqXHR;
+					}
+				}else{
+					data.submit().success(function(data, status) {
+						response = jQuery.parseJSON(data[0].body.innerText);
+						if(response[0] != undefined && response[0].status == 'success') {
+							var file=response[0];
+							delete uploadingFiles[file.name];
+							$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+							var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
+							if(size==t('files','Pending')){
+								$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+							}
+							FileList.loadingDone(file.name);
+						} else {
+							$('#notification').text(t('files', response.data.message));
+							$('#notification').fadeIn();
+							$('#fileList > tr').not('[data-mime]').fadeOut();
+							$('#fileList > tr').not('[data-mime]').remove();
+						}
+					});
+				}
+									
 					var date=new Date();
 					if(files){
 						for(var i=0;i<files.length;i++){
@@ -187,36 +303,28 @@ $(document).ready(function() {
 							}else{
 								var size=t('files','Pending');
 							}
-							if(files){
+							if(files && !dirName){
 								FileList.addFile(files[i].name,size,date,true);
+							} else if(dirName) {
+								var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
+								var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+								currentUploads += 1;
+								uploadtext.attr('currentUploads', currentUploads);
+								if(currentUploads === 1) {
+									var img = OC.imagePath('core', 'loading.gif');
+									var tr=$('tr').filterAttr('data-file',dirName);
+									tr.find('td.filename').attr('style','background-image:url('+img+')');
+									uploadtext.text('1 file uploading');
+									uploadtext.show();
+								} else {
+									uploadtext.text(currentUploads + ' files uploading')
+								}
 							}
 						}
 					}else{
 						var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
 						FileList.addFile(filename,'Pending',date,true);
 					}
-				}
-			},
-			done: function(e, data) {
-				var response;
-				if(data.dataType == 'iframe ') {
-					response = jQuery.parseJSON(data.result[0].body.innerText);
-				} else {
-					response=jQuery.parseJSON(data.result);
-				}				
-				if(response[0] != undefined && response[0].status == 'success') {
-					var file=response[0];
-					$('tr').filterAttr('data-file',file.name).data('mime',file.type);
-					var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
-					if(size==t('files','Pending')){
-						$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
-					}
-					FileList.loadingDone(file.name);
-				} else {
-					$('#notification').text(t('files', response.data.message));
-					$('#notification').fadeIn();
-					$('#fileList > tr').not('[data-mime]').fadeOut();
-					$('#fileList > tr').not('[data-mime]').remove();
 				}
 			},
 			fail: function(e, data) {
@@ -230,16 +338,21 @@ $(document).ready(function() {
 				$('#uploadprogressbar').progressbar('value',progress);
 			},
 			start: function(e, data) {
-				       $('#uploadprogressbar').progressbar({value:0});
-				       $('#uploadprogressbar').fadeIn();
+				$('#uploadprogressbar').progressbar({value:0});
+				$('#uploadprogressbar').fadeIn();
+				if(data.dataType != 'iframe ') {
+					$('#upload input.stop').show();
+				}
 			},
 			stop: function(e, data) {
-				      $('#uploadprogressbar').progressbar('value',100);
-				      $('#uploadprogressbar').fadeOut();
+				if(data.dataType != 'iframe ') {
+					$('#upload input.stop').hide();
+				}	
+				$('#uploadprogressbar').progressbar('value',100);
+				$('#uploadprogressbar').fadeOut();
 			}
 		})
 	});
-
 
 	
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
