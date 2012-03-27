@@ -667,6 +667,10 @@ Contacts={
 									console.log('NOTE or PHOTO');
 									Contacts.UI.propertyContainerFor(obj).hide();
 									Contacts.UI.propertyContainerFor(obj).data('checksum', '');
+									if(proptype == 'PHOTO') {
+										console.log('Delete PHOTO');
+										Contacts.UI.Contacts.refreshThumbnail(Contacts.UI.Card.id);
+									}
 								} else {
 									$('dl dt[data-element="'+proptype+'"],dd[data-element="'+proptype+'"]').hide();
 									$('dl dd[data-element="'+proptype+'"]').data('checksum', '');
@@ -990,7 +994,7 @@ Contacts={
 						OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 					}
 				});
-				$('#contacts [data-id="'+this.id+'"]').find('a').css('background','url(thumbnail.php?id='+this.id+'&refresh=1'+Math.random()+') no-repeat');
+				Contacts.UI.Contacts.refreshThumbnail(this.id);
 			},
 			addMail:function() {
 				//alert('addMail');
@@ -1192,6 +1196,9 @@ Contacts={
 						$(this).find('a').css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
 					}
 				});
+			},
+			refreshThumbnail:function(id){
+				$('#contacts [data-id="'+id+'"]').find('a').css('background','url(thumbnail.php?id='+id+'&refresh=1'+Math.random()+') no-repeat');
 			}
 		}
 	}
