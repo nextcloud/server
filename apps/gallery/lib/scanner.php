@@ -78,9 +78,11 @@ class OC_Gallery_Scanner {
 			$image = OC_Gallery_Photo::getThumbnail($files[$i]);
 			if ($image && $image->valid()) {
 				imagecopyresampled($thumbnail, $image->resource(), $i*200, 0, 0, 0, 200, 200, 200, 200);
+				$image->destroy();
 			}
 		}
 		imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
+		imagedestroy($thumbnail);
 	}
 
 	public static function createIntermediateAlbums() {

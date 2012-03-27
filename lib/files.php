@@ -63,8 +63,8 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = get_temp_dir()."/ownCloud.zip";
-			if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
+			$filename = get_temp_dir().'/ownCloud_'.mt_rand(10000,99999).'.zip';
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
 			foreach($files as $file){
@@ -84,8 +84,8 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = get_temp_dir()."/ownCloud.zip";
-			if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
+			$filename = get_temp_dir().'/ownCloud_'.mt_rand(10000,99999).'.zip';
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
 			$file=$dir.'/'.$files;

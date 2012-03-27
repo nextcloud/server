@@ -17,7 +17,7 @@ Set the app specific values in your javascript file. This is what I've used for 
 	OCCategories.app = 'contacts';
 	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
 
-If OCCategories.changed point is set that function will be called each time the categories have been changed
+If OCCategories.changed is set that function will be called each time the categories have been changed
 in the editor (add/delete/rescan) to allow the app to update the UI accordingly. The only argument to the function
 is an array of the updated categories e.g.:
 
@@ -26,3 +26,8 @@ OCCategories.changed = function(categories) {
 		console.log(categories[category]);
 	}
 }
+
+To show the categories editor call:
+
+	OCCategories.edit()
+

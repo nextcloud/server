@@ -5,14 +5,25 @@
 (function( $ ) {
 	$.widget('ui.multiple_autocomplete', {
 		_create: function() {
+			var self = this;
 			function split( val ) {
 				return val.split( /,\s*/ );
 			}
 			function extractLast( term ) {
 				return split( term ).pop();
 			}
+			function showOptions() {
+				if(!self.element.autocomplete('widget').is(':visible') && self.element.val().trim() == '') {
+					self.element.autocomplete('search', '');
+				}
+			}
 			//console.log('_create: ' + this.options['id']);
-			var self = this;
+			this.element.bind('click', function( event ) {
+				showOptions();
+			});
+			this.element.bind('input', function( event ) {
+				showOptions();
+			});
 			this.element.bind('blur', function( event ) {
 				var tmp = self.element.val().trim();
 				if(tmp[tmp.length-1] == ',') {
