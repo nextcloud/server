@@ -147,7 +147,7 @@
 				<tr id="advanced_weekday" style="display:none;">
 					<th width="75px"></th>
 					<td id="weeklycheckbox">
-						<select id="weeklyoptions" name="weeklyoptions[]" multiple="multiple" title="<?php echo $l->t("Select weekdays") ?>">
+						<select id="weeklyoptions" name="weeklyoptions[]" multiple="multiple" style="width: 150px;" title="<?php echo $l->t("Select weekdays") ?>">
 							<?php
 							if (!isset($_['weekdays'])) {$_['weekdays'] = array();}
 							echo html_select_options(array($_['repeat_weekly_options'][$_['repeat_weekdays']]), $_['repeat_weekdays'], array('combine'=>true));
