@@ -23,11 +23,11 @@
 
 class OC_FilesystemView {
 	private $fakeRoot='';
-	
+
 	public function __construct($root){
 		$this->fakeRoot=$root;
 	}
-	
+
 	public function getAbsolutePath($path){
 		if(!$path){
 			$path='/';
@@ -141,7 +141,7 @@ class OC_FilesystemView {
 		while (!feof($handle)) {
 			echo fread($handle, $chunkSize);
 			@ob_flush();
-			flush(); 
+			flush();
 		}
 		return $this->filesize($path);
 	}
@@ -282,7 +282,8 @@ class OC_FilesystemView {
 			if($source){
 				$extention=substr($path,strrpos($path,'.'));
 				$tmpFile=OC_Helper::tmpFile($extention);
-				return file_put_contents($tmpFile,$source);
+				file_put_contents($tmpFile,$source);
+				return $tmpFile;
 			}
 		}
 	}

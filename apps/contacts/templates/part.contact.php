@@ -51,11 +51,11 @@ $id = isset($_['id']) ? $_['id'] : '';
 		</select><a id="edit_name" class="action edit" title="<?php echo $l->t('Edit name details'); ?>"></a>
 		</dd>
 		<dt style="display:none;" id="org_label" data-element="ORG"><label for="org"><?php echo $l->t('Organization'); ?></label></dt>
-		<dd style="display:none;" class="propertycontainer" id="org_value" data-element="ORG"><input id="org"  required="required" name="value[ORG]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Organization'); ?>" /><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
+		<dd style="display:none;" class="propertycontainer" id="org_value" data-element="ORG"><input id="org"  required="required" name="value[ORG]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Organization'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt style="display:none;" id="nickname_label" data-element="NICKNAME"><label for="nickname"><?php echo $l->t('Nickname'); ?></label></dt>
-		<dd style="display:none;" class="propertycontainer" id="nickname_value" data-element="NICKNAME"><input id="nickname" required="required" name="value[NICKNAME]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Enter nickname'); ?>" /><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
+		<dd style="display:none;" class="propertycontainer" id="nickname_value" data-element="NICKNAME"><input id="nickname" required="required" name="value[NICKNAME]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Enter nickname'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt style="display:none;" id="bday_label" data-element="BDAY"><label for="bday"><?php echo $l->t('Birthday'); ?></label></dt>
-		<dd style="display:none;" class="propertycontainer" id="bday_value" data-element="BDAY"><input id="bday"  required="required" name="value" type="text" class="contacts_property" value="" placeholder="<?php echo $l->t('dd-mm-yyyy'); ?>" /><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
+		<dd style="display:none;" class="propertycontainer" id="bday_value" data-element="BDAY"><input id="bday"  required="required" name="value" type="text" class="contacts_property" value="" placeholder="<?php echo $l->t('dd-mm-yyyy'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<!-- dt id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Categories'); ?></label></dt>
 		<dd class="propertycontainer" id="categories_value" data-element="CATEGORIES">
 			<select class="contacts_property" multiple="multiple" id="categories" name="value[]">
@@ -64,11 +64,11 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a>
 		</dd -->
 		<dt style="display:none;" id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Categories'); ?></label></dt>
-		<dd style="display:none;" class="propertycontainer" id="categories_value" data-element="CATEGORIES"><input id="categories"  required="required" name="value[CATEGORIES]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Categories'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a></dd>
+		<dd style="display:none;" class="propertycontainer" id="categories_value" data-element="CATEGORIES"><input id="categories" required="required" name="value[CATEGORIES]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Categories'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a></dd>
 	</dl>
 	</fieldset>
 	<fieldset id="note" class="formfloat propertycontainer contactpart" style="display:none;" data-element="NOTE">
-	<legend><?php echo $l->t('Note'); ?><a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></legend>
+	<legend><?php echo $l->t('Note'); ?><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></legend>
 	<textarea class="contacts_property note" name="value" cols="60" rows="10"></textarea>
 	</fieldset>
 	</form>
@@ -84,8 +84,8 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<ul id="emaillist" class="propertylist">
 			<li class="template" style="white-space: nowrap; display: none;" data-element="EMAIL">
 				<input type="checkbox" class="contacts_property" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
-				<input type="email" required="required" class="nonempty contacts_property" style="width:15em;" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" /><span class="listactions"><a onclick="Contacts.UI.mailTo(this)" class="mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
-				<a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
+				<input type="email" required="required" class="nonempty contacts_property" style="width:15em;" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" /><span class="listactions"><a onclick="Contacts.UI.mailTo(this)" class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
+				<a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
 			</ul><!-- a id="add_email" class="add" title="<?php echo $l->t('Add email address'); ?>"></a -->
 		</div> <!-- email addresses-->
 
@@ -100,7 +100,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 				<select multiple="multiple" name="parameters[TYPE][]">
 					<?php echo html_select_options($_['phone_types'], array()) ?>
 				</select>
-				<a class="delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
+				<a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
 			</ul><!-- a id="add_phone" class="add" title="<?php echo $l->t('Add phone number'); ?>"></a -->
 		</div> <!-- Phone numbers -->
 
@@ -112,7 +112,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<dl class="addresscard template" style="display: none;" data-element="ADR"><dt>
 			<input class="adr contacts_property" name="value" type="hidden" value="" />
 			<input type="hidden" class="adr_type contacts_property" name="parameters[TYPE][]" value="" />
-			<span class="adr_type_label"></span><a class="globe" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.searchOSM(this);" title="<?php echo $l->t('View on map'); ?>"></a><a class="edit" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.Card.editAddress(this, false);" title="<?php echo $l->t('Edit address details'); ?>"></a><a class="delete" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="Delete address"></a>
+			<span class="adr_type_label"></span><a class="action globe" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.searchOSM(this);" title="<?php echo $l->t('View on map'); ?>"></a><a class="action edit" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.Card.editAddress(this, false);" title="<?php echo $l->t('Edit address details'); ?>"></a><a class="action delete" style="float:right;" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="Delete address"></a>
 			</dt><dd><ul class="addresslist"></ul></dd></dl>
 
 		</fieldset>
