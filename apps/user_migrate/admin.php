@@ -40,8 +40,22 @@ if (isset($_POST['user_import'])) {
 		exit();		
 	}
 	
-	if( !OC_Migrate::import( $to, 'user' ) ){
+	if( !$appsstatus = OC_Migrate::import( $to, 'user' ) ){
 		die( 'failed to to import' );	
+	} else {
+		// Check import status
+		foreach( $appsstatus as $app => $status ){
+			if( $status != 'true' ){
+				// It failed for some reason
+				if( $status == 'notsupported' ){
+					$notsupported[] = $app;	
+				} else if( !$status ){
+					$failed[] = $app;
+				}
+			}	
+		}
+		die(print_r($notsupported));
+		die( 'Some apps failed to import, or were not supported.' );	
 	}
 		
 		

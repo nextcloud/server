@@ -35,11 +35,11 @@ abstract class OC_Migration_Provider{
 	public function setData( $uid, $content, $info=null ){
 		$this->content = $content;	
 		$this->uid = $uid;
+		$id = $this->id;
 		if( !is_null( $info ) ){
 			$this->olduid = $info->exporteduser;
 			$this->appinfo = $info->apps->$id;
 		}
-		$id = $this->id;
 	}
 	 	
 	/**

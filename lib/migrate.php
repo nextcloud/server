@@ -246,14 +246,14 @@ class OC_Migrate{
 					return false;	
 				}
 				// Import user app data 
-				if( !self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ){
+				if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ){
 					return false;	
 				}
 				// All done!
 				if( !self::unlink_r( $extractpath ) ){
 					OC_Log::write( 'migration', 'Failed to delete the extracted zip', OC_Log::ERROR );	
 				}
-				return true;
+				return $appsimported;
 			break;
 			case 'instance':
 					// Check for new data dir and dbexport before doing anything
@@ -611,9 +611,9 @@ class OC_Migrate{
 	/**
 	* @breif imports a new user
 	* @param $db string path to migration.db
-	* @param $info array of migration ino
+	* @param $info object of migration info
 	* @param $uid optional uid to use
-	* @return bool if the import succedded
+	* @return array of apps with import statuses, or false on failure.
 	*/
 	public static function importAppData( $db, $info, $uid=null ){
 		// Check if the db exists
@@ -641,21 +641,33 @@ class OC_Migrate{
 			// Is the app in the export?
 			$id = $provider->getID();
 			if( isset( $info->apps->$id ) ){
-				// Did it succeed?
-				if( $info->apps->$id->success ){
-					// Give the provider the content object
-					if( !self::connectDB( $db ) ){
-						return false;	
+				// Is the app installed
+				if( !OC_App::isEnabled( $id ) ){
+					OC_Log::write( 'migration', 'App: ' . $id . ' is not installed, can\'t import data.', OC_Log::INFO );	
+					$appsstatus[$id] = 'notsupported';	
+				} else {
+					// Did it succeed on export?
+					if( $info->apps->$id->success ){
+						// Give the provider the content object
+						if( !self::connectDB( $db ) ){
+							return false;	
+						}
+						$content = new OC_Migration_Content( self::$zip, self::$MDB2 );
+						$provider->setData( self::$uid, $content, $info );
+						// Then do the import
+						if( !$appsstatus[$id] = $provider->import( $info->apps->$id, $importinfo ) ){
+							// Failed to import app
+							OC_Log::write( 'migration', 'Failed to import app data for user: ' . self::$uid . ' for app: ' . $id, OC_Log::ERROR );	
+						}
+					} else {
+						// Add to failed list
+						$appsstatus[$id] = false;	
 					}
-					$content = new OC_Migration_Content( self::$zip, self::$MDB2 );
-					$provider->setData( self::$uid, $content, $info );
-					// Then do the import
-					$provider->import( $info->apps->$id, $importinfo );	
 				}	
 			}		
 		}
 		
-		return true;
+		return $appsstatus;
 	
 	}
 	
