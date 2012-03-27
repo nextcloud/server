@@ -370,7 +370,7 @@ class OC_Filesystem{
 		return self::basicOperation('fileatime',$path);
 	}
 	static public function touch($path, $mtime=null){
-		return self::basicOperation('touch',$path,array($mtime));
+		return self::basicOperation('touch',$path,array(),$mtime);
 	}
 	static public function file_get_contents($path){
 		return self::basicOperation('file_get_contents',$path,array('read'));
