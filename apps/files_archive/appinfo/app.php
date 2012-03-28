@@ -7,7 +7,8 @@
  */
 
 OC::$CLASSPATH['OC_Archive'] = 'apps/files_archive/lib/archive.php';
-foreach(array('ZIP') as $type){
+OC::$CLASSPATH['Archive_Tar'] = '3rdparty/Archive/Tar.php';
+foreach(array('ZIP','TAR') as $type){
 	OC::$CLASSPATH['OC_Archive_'.$type] = 'apps/files_archive/lib/'.strtolower($type).'.php';
 }
 
