@@ -17,6 +17,15 @@ abstract class OC_Archive{
 		switch($ext){
 			case '.zip':
 				return new OC_Archive_ZIP($path);
+			case '.gz':
+			case '.bz':
+			case '.bz2':
+				if(strpos($path,'.tar.')){
+					return new OC_Archive_TAR($path);
+				}
+				break;
+			case '.tgz':
+				return new OC_Archive_TAR($path);
 		}
 	}
 	

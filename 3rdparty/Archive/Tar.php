@@ -649,14 +649,14 @@ class Archive_Tar extends PEAR
     // {{{ _error()
     function _error($p_message)
     {
-        $this->error_object = &$this->raiseError($p_message); 
+        $this->error_object = $this->raiseError($p_message);
     }
     // }}}
 
     // {{{ _warning()
     function _warning($p_message)
     {
-        $this->error_object = &$this->raiseError($p_message); 
+        $this->error_object = $this->raiseError($p_message);
     }
     // }}}
 

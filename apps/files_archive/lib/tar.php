@@ -15,7 +15,6 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @var Archive_Tar tar
 	 */
 	private $tar=null;
-	private $headers=array();
 	private $path;
 
 	function __construct($source){
@@ -53,10 +52,17 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @return bool
 	 */
 	function addFolder($path){
-		if(substr($path,-1)!=='/'){
+		$tmpBase=get_temp_dir().'/';
+		if(substr($path,-1,1)!='/'){
 			$path.='/';
 		}
-		return $this->tar->add(array($path));
+		if($this->fileExists($path)){
+			return false;
+		}
+		mkdir($tmpBase.$path);
+		$result=$this->tar->addModify(array($tmpBase.$path),'',$tmpBase);
+		rmdir($tmpBase.$path);
+		return $result;
 	}
 	/**
 	 * add a file to the archive
@@ -76,10 +82,6 @@ class OC_Archive_TAR extends OC_Archive{
 		}else{
 			$result=$this->tar->addString($path,$source);
 		}
-// 		$this->reopen();
-// 		var_dump($this->getFiles());
-// 		exit();
-		
 		return $result;
 	}
 
@@ -98,16 +100,13 @@ class OC_Archive_TAR extends OC_Archive{
 		unlink($this->path);
 		$types=array(null,'gz','bz');
 		$this->tar=new Archive_Tar($this->path,$types[self::getTarType($this->path)]);
-		$this->tar->createModify(array($tmp),'',$tmp);
+		$this->tar->createModify(array($tmp),'',$tmp.'/');
 	}
 
 	private function getHeader($file){
-		if(isset($this->headers[$file])){
-			return $this->headers[$file];
-		}
 		$headers=$this->tar->listContent();
 		foreach($headers as $header){
-			if($file==$header['filename']){
+			if($file==$header['filename'] or $file.'/'==$header['filename']){
 				return $header;
 			}
 		}
@@ -179,6 +178,9 @@ class OC_Archive_TAR extends OC_Archive{
 	 */
 	function extractFile($path,$dest){
 		$tmp=OC_Helper::tmpFolder();
+		if(!$this->fileExists($path)){
+			return false;
+		}
 		$success=$this->tar->extractList(array($path),$tmp);
 		if($success){
 			rename($tmp.$path,$dest);
@@ -210,6 +212,9 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @return bool
 	 */
 	function remove($path){
+		if(!$this->fileExists($path)){
+			return false;
+		}
 		//no proper way to delete, extract entire archive, delete file and remake archive
 		$tmp=OC_Helper::tmpFolder();
 		$this->tar->extract($tmp);
@@ -218,6 +223,7 @@ class OC_Archive_TAR extends OC_Archive{
 		unlink($this->path);
 		$this->reopen();
 		$this->tar->createModify(array($tmp),'',$tmp);
+		return true;
 	}
 	/**
 	 * get a file handler

@@ -139,4 +139,8 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		}
 		self::$enableAutomount=true;
 	}
+
+	public function rename($path1,$path2){
+		return $this->archive->rename($path1,$path2);
+	}
 }

@@ -68,6 +68,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->instance->addFile('lorem.txt',$textFile);
 		$this->assertEqual(1,count($this->instance->getFiles()));
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
+		$this->assertFalse($this->instance->fileExists('lorem.txt/'));
 		
 		$this->assertEqual(file_get_contents($textFile),$this->instance->getFile('lorem.txt'));
 		$this->instance->addFile('lorem.txt','foobar');
@@ -94,6 +95,17 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
 		$this->assertEqual(file_get_contents($dir.'/lorem.txt'),$this->instance->getFile('lorem.txt'));
 	}
+	public function testFolder(){
+		$this->instance=$this->getNew();
+		$this->assertFalse($this->instance->fileExists('/test'));
+		$this->assertFalse($this->instance->fileExists('/test/'));
+		$this->instance->addFolder('/test');
+		$this->assertTrue($this->instance->fileExists('/test'));
+		$this->assertTrue($this->instance->fileExists('/test/'));
+		$this->instance->remove('/test');
+		$this->assertFalse($this->instance->fileExists('/test'));
+		$this->assertFalse($this->instance->fileExists('/test/'));
+	}
 	public function testExtract(){
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 		$this->instance=$this->getExisting();
@@ -104,5 +116,18 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->assertEqual(true,file_exists($tmpDir.'logo-wide.png'));
 		$this->assertEqual(file_get_contents($dir.'/lorem.txt'),file_get_contents($tmpDir.'lorem.txt'));
 		OC_Helper::rmdirr($tmpDir);
+	}
+	public function testMoveRemove(){
+		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
+		$textFile=$dir.'/lorem.txt';
+		$this->instance=$this->getNew();
+		$this->instance->addFile('lorem.txt',$textFile);
+		$this->assertFalse($this->instance->fileExists('target.txt'));
+		$this->instance->rename('lorem.txt','target.txt');
+		$this->assertTrue($this->instance->fileExists('target.txt'));
+		$this->assertFalse($this->instance->fileExists('lorem.txt'));
+		$this->assertEqual(file_get_contents($textFile),$this->instance->getFile('target.txt'));
+		$this->instance->remove('target.txt');
+		$this->assertFalse($this->instance->fileExists('target.txt'));
 	}
 }
