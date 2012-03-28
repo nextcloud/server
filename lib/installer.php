@@ -105,6 +105,17 @@ class OC_Installer{
 		
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')){
+			//try to find it in a subdir
+			$dh=opendir($extractDir);
+			while($folder=readdir($dh)){
+				if(substr($folder,0,1)!='.' and is_dir($extractDir.'/'.$folder)){
+					if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')){
+						$extractDir.='/'.$folder;
+					}
+				}
+			}
+		}
+		if(!is_file($extractDir.'/appinfo/info.xml')){
 			OC_Log::write('core','App does not provide an info.xml file',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
