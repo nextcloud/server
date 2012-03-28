@@ -125,7 +125,7 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 			self::$rootView=new OC_FilesystemView('');
 		}
 		self::$enableAutomount=false;//prevent recursion
-		$supported=array('zip');
+		$supported=array('zip','tar.gz','tar.bz2','tgz');
 		foreach($supported as $type){
 			$ext='.'.$type.'/';
 			if(($pos=strpos(strtolower($path),$ext))!==false){
