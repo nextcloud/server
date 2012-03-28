@@ -38,6 +38,7 @@ foreach($apps as $app){
 }
 
 function loadTests($dir=''){
+	$test=isset($_GET['test'])?$_GET['test']:false;
 	if($dh=opendir($dir)){
 		while($name=readdir($dh)){
 			if(substr($name,0,1)!='.'){//no hidden files, '.' or '..'
@@ -45,10 +46,13 @@ function loadTests($dir=''){
 				if(is_dir($file)){
 					loadTests($file);
 				}elseif(substr($file,-4)=='.php' and $file!=__FILE__){
-					$testCase=new TestSuite(getTestName($file));
-					$testCase->addFile($file);
-					if($testCase->getSize()>0){
-						$testCase->run(new HtmlReporter());
+					$name=getTestName($file);
+					if($test===false or $test==$name or substr($name,0,strlen($test))==$test){
+						$testCase=new TestSuite($name);
+						$testCase->addFile($file);
+						if($testCase->getSize()>0){
+							$testCase->run(new HtmlReporter());
+						}
 					}
 				}
 			}
