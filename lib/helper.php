@@ -432,6 +432,19 @@ class OC_Helper {
 		self::$tmpFiles[]=$file;
 		return $file;
 	}
+
+	/**
+	 * create a temporary folder with an unique filename
+	 * @return string
+	 *
+	 * temporary files are automatically cleaned up after the script is finished
+	 */
+	public static function tmpFolder(){
+		$path=get_temp_dir().'/'.md5(time().rand());
+		mkdir($path);
+		self::$tmpFiles[]=$path;
+		return $path.'/';
+	}
 	
 	/**
 	 * remove all files created by self::tmpFile
@@ -439,7 +452,7 @@ class OC_Helper {
 	public static function cleanTmp(){
 		foreach(self::$tmpFiles as $file){
 			if(file_exists($file)){
-				unlink($file);
+				self::rmdirr($file);
 			}
 		}
 	}
