@@ -27,10 +27,10 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->instance=$this->getExisting();
 		$allFiles=$this->instance->getFiles();
 		$expected=array('lorem.txt','logo-wide.png','dir/','dir/lorem.txt');
-		$this->assertEqual(4,count($allFiles));
+		$this->assertEqual(4,count($allFiles),'only found '.count($allFiles).' out of 4 expected files');
 		foreach($expected as $file){
 			$this->assertNotIdentical(false,array_search($file,$allFiles),'cant find '.$file.' in archive');
-			$this->assertTrue($this->instance->fileExists($file));
+			$this->assertTrue($this->instance->fileExists($file),'file '.$file.' does not exist in archive');
 		}
 		$this->assertFalse($this->instance->fileExists('non/existing/file'));
 		
@@ -93,5 +93,16 @@ abstract class Test_Archive extends UnitTestCase {
 		fclose($fh);
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
 		$this->assertEqual(file_get_contents($dir.'/lorem.txt'),$this->instance->getFile('lorem.txt'));
+	}
+	public function testExtract(){
+		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
+		$this->instance=$this->getExisting();
+		$tmpDir=OC_Helper::tmpFolder();
+		$this->instance->extract($tmpDir);
+		$this->assertEqual(true,file_exists($tmpDir.'lorem.txt'));
+		$this->assertEqual(true,file_exists($tmpDir.'dir/lorem.txt'));
+		$this->assertEqual(true,file_exists($tmpDir.'logo-wide.png'));
+		$this->assertEqual(file_get_contents($dir.'/lorem.txt'),file_get_contents($tmpDir.'lorem.txt'));
+		OC_Helper::rmdirr($tmpDir);
 	}
 }

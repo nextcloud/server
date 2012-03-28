@@ -129,6 +129,15 @@ class OC_Archive_ZIP extends OC_Archive{
 		file_put_contents($dest,$fp);
 	}
 	/**
+	 * extract the archive
+	 * @param string path
+	 * @param string dest
+	 * @return bool
+	 */
+	function extract($dest){
+		return $this->zip->extractTo($dest);
+	}
+	/**
 	 * check if a file or folder exists in the archive
 	 * @param string path
 	 * @return bool
