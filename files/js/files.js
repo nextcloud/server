@@ -98,7 +98,7 @@ $(document).ready(function() {
 		procesSelection();
 	});
 
-	$('td.filename input:checkbox').live('click',function(event) {
+	$('td.filename input:checkbox').live('change',function(event) {
 		if (event.shiftKey) {
 			var last = $(lastChecked).parent().parent().prevAll().length;
 			var first = $(this).parent().parent().prevAll().length;
