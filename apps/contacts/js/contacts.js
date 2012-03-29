@@ -213,19 +213,27 @@ Contacts={
 			honpre:'',
 			honsuf:'',
 			data:undefined,
-			update:function() {
+			update:function(id) {
 				// Make sure proper DOM is loaded.
-				console.log('Card.update(), #n: ' + $('#n').length);
+				var newid;
+				console.log('Card.update(), id: ' + id);
 				console.log('Card.update(), #contacts: ' + $('#contacts li').length);
-				if($('#n').length == 0 && $('#contacts li').length > 0) {
+				if(id == undefined) {
+					newid = $('#contacts li:first-child').data('id');
+				} else {
+					newid = id;
+				}
+				if($('#contacts li').length > 0) {
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#rightcontent').html(jsondata.data.page);
 							Contacts.UI.loadHandlers();
 							if($('#contacts li').length > 0) {
-								var firstid = $('#contacts li:first-child').data('id');
-								console.log('trying to load: ' + firstid);
-								$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':firstid},function(jsondata){
+								//var newid = $('#contacts li:first-child').data('id');
+								//$('#contacts li:first-child').addClass('active');
+								$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
+								console.log('trying to load: ' + newid);
+								$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 									if(jsondata.status == 'success'){
 										Contacts.UI.Card.loadContact(jsondata.data);
 									} else{
@@ -300,35 +308,49 @@ Contacts={
 					}
 				});
 			},
-			delete: function() {
+			delete:function() {
 				$('#contacts_deletecard').tipsy('hide');
-				$.getJSON('ajax/deletecard.php',{'id':this.id},function(jsondata){
-					if(jsondata.status == 'success'){
-						$('#leftcontent [data-id="'+jsondata.data.id+'"]').remove();
-						$('#rightcontent').data('id','');
-						//$('#rightcontent').empty();
-						this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
-						this.data = undefined;
-						// Load first in list.
-						if($('#contacts li').length > 0) {
-							Contacts.UI.Card.update();
-						} else {
-							// load intro page
-							$.getJSON('ajax/loadintro.php',{},function(jsondata){
-								if(jsondata.status == 'success'){
-									id = '';
-									$('#rightcontent').data('id','');
-									$('#rightcontent').html(jsondata.data.page);
+				OC.dialogs.confirm(t('contacts', 'Are you sure you want to delete this contact?'), t('contacts', 'Warning'), function(answer) {
+					if(answer == true) {
+						$.getJSON('ajax/deletecard.php',{'id':Contacts.UI.Card.id},function(jsondata){
+							if(jsondata.status == 'success'){
+								var newid = '';
+								var curlistitem = $('#leftcontent [data-id="'+jsondata.data.id+'"]');
+								var newlistitem = curlistitem.prev();
+								console.log('Previous: ' + newlistitem);
+								if(newlistitem == undefined) {
+									newlistitem = curlistitem.next();
 								}
-								else{
-									OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+								curlistitem.remove();
+								if(newlistitem != undefined) {
+									newid = newlistitem.data('id');
 								}
-							});
-						}
-					}
-					else{
-						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-						//alert(jsondata.data.message);
+								$('#rightcontent').data('id',newid);
+								//$('#rightcontent').empty();
+								this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
+								this.data = undefined;
+								// Load first in list.
+								if($('#contacts li').length > 0) {
+									Contacts.UI.Card.update(newid);
+								} else {
+									// load intro page
+									$.getJSON('ajax/loadintro.php',{},function(jsondata){
+										if(jsondata.status == 'success'){
+											id = '';
+											$('#rightcontent').data('id','');
+											$('#rightcontent').html(jsondata.data.page);
+										}
+										else{
+											OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+										}
+									});
+								}
+							}
+							else{
+								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+								//alert(jsondata.data.message);
+							}
+						});
 					}
 				});
 				return false;
@@ -1232,6 +1254,7 @@ $(document).ready(function(){
 	 */
 	$('#leftcontent li').live('click',function(){
 		var id = $(this).data('id');
+		$(this).addClass('active');
 		var oldid = $('#rightcontent').data('id');
 		if(oldid != 0){
 			$('#leftcontent li[data-id="'+oldid+'"]').removeClass('active');

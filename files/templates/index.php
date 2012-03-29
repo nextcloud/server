@@ -1,3 +1,4 @@
+<!--[if IE 8]><style>input[type="checkbox"]{padding:0;}table td{position:static !important;}</style><![endif]-->
 <div id="controls">
 	<?php echo($_['breadcrumb']); ?>
 	<?php if (!isset($_['readonly']) || !$_['readonly']):?>
