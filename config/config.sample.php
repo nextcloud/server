@@ -19,6 +19,7 @@ $CONFIG = array(
 "knowledgebaseurl" => "",
 "appstoreenabled" => true,
 "appstoreurl" => "",
-// "datadirectory" => ""
+// "datadirectory" => "",
+"sysinfoexception" => true
 );
 ?>

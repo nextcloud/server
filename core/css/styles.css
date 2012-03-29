@@ -131,3 +131,6 @@ li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ff
 .separator { display: inline; border-left: 1px solid #d3d3d3; border-right: 1px solid #fff; height: 10px; width:0px; margin: 4px; }
 
 a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padding-top: 0px;padding-bottom: 2px; text-decoration: none; margin-top: 5px }
+
+.exception{color: #000000;}
+.exception textarea{width:95%;height: 200px;background:#ffe;border:0;}
