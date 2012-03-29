@@ -10,7 +10,7 @@ ob_start();
 require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
-$nl = "\n";
+$nl = "\n\r";
 $progressfile = OC::$APPSROOT . '/apps/calendar/import_tmp/' . md5(session_id()) . '.txt';
 if(is_writable('import_tmp/')){
 	$progressfopen = fopen($progressfile, 'w');
