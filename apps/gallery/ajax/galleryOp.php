@@ -127,6 +127,9 @@ function handleGetGallery($path) {
 function handleShare($path, $share, $recursive) {
   $recursive = $recursive == 'true' ? 1 : 0;
   $owner = OC_User::getUser();
+  $root = OC_Preferences::getValue(OC_User::getUser(),'gallery', 'root', '/');
+  $path = utf8_decode(rtrim($root.$path,'/'));
+  if($path == '') $path = '/';
   $r = OC_Gallery_Album::find($owner, null, $path);
   if ($row = $r->fetchRow()) {
     $albumId = $row['album_id'];
