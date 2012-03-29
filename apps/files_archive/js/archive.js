@@ -11,5 +11,9 @@ $(document).ready(function() {
 			window.location='index.php?dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 		});
 		FileActions.setDefault('application/zip','Open');
+		FileActions.register('application/x-gzip','Open','',function(filename){
+			window.location='index.php?dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
+		});
+		FileActions.setDefault('application/x-gzip','Open');
 	}
 });
