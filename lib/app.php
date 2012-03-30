@@ -265,19 +265,20 @@ class OC_App{
 	/**
 	 * @brief Read app metadata from the info.xml file
 	 * @param string $appid id of the app or the path of the info.xml file
+	 * @param boolean path (optional)
 	 * @returns array
 	*/
-	public static function getAppInfo($appid){
-		if(is_file($appid)){
+	public static function getAppInfo($appid,$path=false){
+		if($path){
 			$file=$appid;
 		}else{
 			$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/info.xml';
-			if(!is_file($file)){
-				return array();
-			}
 		}
 		$data=array();
 		$content=file_get_contents($file);
+		if(!$content){
+			return;
+		}
 		$xml = new SimpleXMLElement($content);
 		$data['info']=array();
 		foreach($xml->children() as $child){
@@ -381,9 +382,8 @@ class OC_App{
 	 */
 	public static function updateApps(){
 		// The rest comes here
-		$apps = OC_Appconfig::getApps();
-		foreach( $apps as $app ){
-			$installedVersion=OC_Appconfig::getValue($app,'installed_version');
+		$versions = self::getAppVersions();
+		foreach( $versions as $app=>$installedVersion ){
 			$appInfo=OC_App::getAppInfo($app);
 			if (isset($appInfo['version'])) {
 				$currentVersion=$appInfo['version'];
@@ -393,6 +393,19 @@ class OC_App{
 				}
 			}
 		}
+	}
+
+	/**
+	 * get the installed version of all papps
+	 */
+	public static function getAppVersions(){
+		$versions=array();
+		$query = OC_DB::prepare( 'SELECT appid, configvalue FROM *PREFIX*appconfig WHERE configkey = "installed_version"' );
+		$result = $query->execute();
+		while($row = $result->fetchRow()){
+			$versions[$row['appid']]=$row['configvalue'];
+		}
+		return $versions;
 	}
 
 	/**
