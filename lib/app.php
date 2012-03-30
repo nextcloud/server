@@ -319,7 +319,7 @@ class OC_App{
 			$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/info.xml';
 		}
 		$data=array();
-		$content=file_get_contents($file);
+		$content=@file_get_contents($file);
 		if(!$content){
 			return;
 		}
