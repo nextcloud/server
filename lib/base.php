@@ -303,10 +303,10 @@ class OC{
 
 		self::checkInstalled();
 		self::checkSSL();
-		self::checkUpgrade();
 
 		self::initSession();
 		self::initTemplateEngine();
+		self::checkUpgrade();
 
 		$errors=OC_Util::checkServer();
 		if(count($errors)>0) {
