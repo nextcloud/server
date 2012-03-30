@@ -7,4 +7,7 @@
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
 	<require>3</require>
+	<types>
+		<filesystem/>
+	</types>
 </info>

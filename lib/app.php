@@ -34,16 +34,20 @@ class OC_App{
 	static private $settingsForms = array();
 	static private $adminForms = array();
 	static private $personalForms = array();
+	static private $appInfo = array();
 
 	/**
 	 * @brief loads all apps
+	 * @param array $types
 	 * @returns true/false
 	 *
 	 * This function walks through the owncloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/app.php
 	 * exists.
+	 *
+	 * if $types is set, only apps of those types will be loaded
 	 */
-	public static function loadApps(){
+	public static function loadApps($types=null){
 		// Did we allready load everything?
 		if( self::$init ){
 			return true;
@@ -51,14 +55,18 @@ class OC_App{
 
 		// Our very own core apps are hardcoded
 		foreach( array('files', 'settings') as $app ){
-			require( $app.'/appinfo/app.php' );
+			if(is_null($types) or self::isType($app,$types)){
+				require( $app.'/appinfo/app.php' );
+			}
 		}
 
 		// The rest comes here
 		$apps = self::getEnabledApps();
 		foreach( $apps as $app ){
-			if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
-				require( $app.'/appinfo/app.php' );
+			if(is_null($types) or self::isType($app,$types)){
+				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
+					require( $app.'/appinfo/app.php' );
+				}
 			}
 		}
 
@@ -66,6 +74,28 @@ class OC_App{
 
 		// return
 		return true;
+	}
+
+	/**
+	 * check if an app is of a sepcific type
+	 * @param string $app
+	 * @param string/array $types
+	 */
+	public static function isType($app,$types){
+		if(is_string($types)){
+			$types=array($types);
+		}
+		$appData=self::getAppInfo($app);
+		if(!isset($appData['types'])){
+			return false;
+		}
+		$appTypes=$appData['types'];
+		foreach($types as $type){
+			if(array_search($type,$appTypes)!==false){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -283,6 +313,9 @@ class OC_App{
 		if($path){
 			$file=$appid;
 		}else{
+			if(isset(self::$appInfo[$appid])){
+				return self::$appInfo[$appid];
+			}
 			$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/info.xml';
 		}
 		$data=array();
@@ -293,8 +326,16 @@ class OC_App{
 		$xml = new SimpleXMLElement($content);
 		$data['info']=array();
 		foreach($xml->children() as $child){
-			$data[$child->getName()]=(string)$child;
+			if($child->getName()=='types'){
+				$data['types']=array();
+				foreach($child->children() as $type){
+					$data['types'][]=$type->getName();
+				}
+			}else{
+				$data[$child->getName()]=(string)$child;
+			}
 		}
+		self::$appInfo[$appid]=$data;
 		return $data;
 	}
 
