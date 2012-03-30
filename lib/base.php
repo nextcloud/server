@@ -227,8 +227,13 @@ class OC{
 		// Load Apps
 		// This includes plugins for users and filesystems as well
 		global $RUNTIME_NOAPPS;
+		global $RUNTIME_APPTYPES;
 		if(!$RUNTIME_NOAPPS ){
-			OC_App::loadApps();
+			if($RUNTIME_APPTYPES){
+				OC_App::loadApps($RUNTIME_APPTYPES);
+			}else{
+				OC_App::loadApps();
+			}
 		}
 
 		OC_Files::cleanTmpFiles();
