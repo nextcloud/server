@@ -4,33 +4,32 @@ $thisAppDir = dirname($appInfoDir);
 $appsDir = dirname($thisAppDir);
 $ownCloudDir = dirname($appsDir);
 $docRoot = $_SERVER['DOCUMENT_ROOT'];
-if(file_exists($docRoot . '/.well-known/host-meta')) {
-    OC_Log::write(
-        'user_webfinger',
-        $docRoot . "/.well-known already exists; installation aborted",
-        OC_Log::ERROR
-    );
-} else {
-    if(@symlink($thisAppDir, $docRoot . '/.well-known')) {
-        OC_Log::write(
-            'user_webfinger',
-            "Webfinger symlink created at " . $docRoot . "/.well-known",
-            OC_Log::INFO
-        );
-    } else {
-        if(@symlink($thisAppDir, $ownCloudDir . '/.well-known')) {
-            OC_Log::write(
-                'user_webfinger',
-                "Couldn't create webfinger symlink in document root, linked to " . $ownCloudDir . "/.well-known instead",
-                OC_Log::WARN
-            );
-        } else {
-            OC_Log::write(
-                'user_webfinger',
-                "Couldn't create webfinger symlink, either check write permissions or create the link manually!",
-                OC_Log::ERROR
-            );
-        }
-    }
+try {
+    $webRoot = substr(realpath($ownCloudDir), strlen(realpath($docRoot)));
+} catch(Exception $e) {
+    // some servers fail on realpath(), let's try it the unsecure way:
+    $webRoot = substr($ownCloudDir, strlen($docRoot));
 }
-?>
+$serverName = $_SERVER['SERVER_NAME'];
+$lrddTmpl = 'http';
+if(isset($_SERVER['HTTPS'])) {
+    $lrddTmpl .= 's';
+}
+$lrddTmpl .= '://' . $serverName . $webRoot . '/apps/user_webfinger/webfinger.php?q={uri}';
+$hostMetaPath = $docRoot . '/.well-known/host-meta';
+$hostMetaContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<XRD xmlns=\"http://docs.oasis-open.org/ns/xri/xrd-1.0\" xmlns:hm=\"http://host-meta.net/xrd/1.0\">
+    <hm:Host xmlns=\"http://host-meta.net/xrd/1.0\">" . $serverName . "</hm:Host>
+    <Link rel=\"lrdd\" template=\"" . $lrddTmpl . "\">
+        <Title>Resource Descriptor</Title>
+    </Link>
+</XRD>";
+@mkdir(dirname($hostMetaPath));
+$hostMeta = fopen($hostMetaPath, 'w');
+if(!$hostMeta) {
+    die("Could not open " . $hostMetaPath . " for writing, please check permissions!");
+}
+if(!fwrite($hostMeta, $hostMetaContents, strlen($hostMetaContents))) {
+    die("Could not write to " . $hostMetaPath . ", please check permissions!");
+}
+fclose($hostMeta);
