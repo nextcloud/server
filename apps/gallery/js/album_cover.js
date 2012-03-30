@@ -113,42 +113,28 @@ function scanForAlbums(cleanup) {
 }
 
 function settings() {
-	$( '#g-dialog-settings' ).dialog({
-		height: 180,
-		width: 350,
-		modal: false,
-		buttons: [
-			{
-				text: t('gallery', 'Apply'),
-				click: function() {
-					var scanning_root = $('#g-scanning-root').val();
-					var disp_order = $('#g-display-order option:selected').val();
+  OC.dialogs.form([{text: t('gallery', 'Scanning root'), name: 'root', type:'text', value:gallery_scanning_root},
+                  {text: t('gallery', 'Default order'), name: 'order', type:'select', value:gallery_default_order, options:[
+                      {text:t('gallery', 'Ascending'), value:'ASC'}, {text: t('gallery', 'Descending'), value:'DESC'} ]}],
+                  t('gallery', 'Settings'),
+                  function(values) {
+                    var scanning_root = values[0].value;
+                    var disp_order = values[1].value;
 					if (scanning_root == '') {
-						alert('Scanning root cannot be empty');
+            OC.dialogs.alert(t('gallery', 'Scanning root cannot be empty'), t('gallery', 'Error'));
 						return;
 					}
 					$.getJSON(OC.filePath('gallery','ajax','galleryOp.php'), {operation: 'store_settings', root: scanning_root, order: disp_order}, function(r) {
 						if (r.status == 'success') {
-						if (r.rescan == 'yes') {
-							$('#g-dialog-settings').dialog('close');
-							Albums.clear(document.getElementById('gallery_list'));
-							scanForAlbums(true);
-							return;
-						}
+              if (r.rescan == 'yes') {
+                Albums.clear(document.getElementById('gallery_list'));
+                scanForAlbums(true);
+              }
+              gallery_scanning_root = scanning_root;
 						} else {
-						alert('Error: ' + r.cause);
-						return;
+              OC.dialogs.alert(t('gallery', 'Error: ') + r.cause, t('gallery', 'Error'));
+              return;
 						}
-						$('#g-dialog-settings').dialog('close');
 					});
-				}
-			},
-			{
-				text: t('gallery', 'Cancel'),
-				click: function() {
-				$(this).dialog('close');
-				}
-			}
-		],
-	});
+				});
 }

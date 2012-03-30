@@ -84,10 +84,18 @@ OCdialogs = {
             } else content += '>';
           } else if (type == 'text' || type == 'password' && fields[a].value)
             content += ' value="'+fields[a].value+'">';
+      } else if (type == 'select') {
+        content += '<select name="'+fields[a].name+'"';
+        if (fields[a].value != undefined)
+          content += ' value="'+fields[a].value+'"';
+        content += '>';
+        for (var o in fields[a].options)
+          content += '<option value="'+fields[a].options[o].value+'">'+fields[a].options[o].text+'</option>';
+        content += '</select>';
       }
-      content += "</td></tr>"
+      content += '</td></tr>';
     }
-    content += "</table>";
+    content += '</table>';
     OCdialogs.message(content, title, OCdialogs.FORM_DIALOG, OCdialogs.OK_CANCEL_BUTTONS, callback);
   },
   message:function(content, title, dialog_type, buttons, callback) {
@@ -144,7 +152,7 @@ OCdialogs = {
     if (callback != undefined) {
       var r = [];
       var c = 0;
-      $(c_id + ' input').each(function(i, elem) {
+      $(c_id + ' input, '+c_id+' select').each(function(i, elem) {
         r[c] = {name: $(elem).attr('name'), value: OCdialogs.determineValue(elem)};
         c++;
       });
