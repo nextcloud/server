@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <info>
-	<id>files_remote</id>
-	<name>Remote storage support</name>
-	<description>Mount remote storage sources</description>
+	<id>files_external</id>
+	<name>External storage support</name>
+	<description>Mount external storage sources</description>
 	<version>0.1</version>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
