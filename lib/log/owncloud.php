@@ -27,10 +27,14 @@
  */
 
 class OC_Log_Owncloud {
+	static protected $logFile;
+
 	/**
 	 * Init class data
 	 */
 	public static function init() {
+		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
+		self::$logFile=OC_Config::getValue( "logfile", $datadir.'/owncloud.log' );
 	}
 
 	/**
@@ -42,10 +46,8 @@ class OC_Log_Owncloud {
 	public static function write($app, $message, $level) {
 		$minLevel=OC_Config::getValue( "loglevel", 2 );
 		if($level>=$minLevel){
-			$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
-			$logFile=OC_Config::getValue( "logfile", $datadir.'/owncloud.log' );
 			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level,'time'=>time());
-			$fh=fopen($logFile, 'a');
+			$fh=fopen(self::$logFile, 'a');
 			fwrite($fh, json_encode($entry)."\n");
 			fclose($fh);
 		}
@@ -58,10 +60,9 @@ class OC_Log_Owncloud {
 	 * @return array
 	 */
 	public static function getEntries($limit=50, $offset=0){
-		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
-		$logFile=OC_Config::getValue( "logfile", $datadir.'/owncloud.log' );
+		self::init();
 		$entries=array();
-		if(!file_exists($logFile)) {
+		if(!file_exists(self::$logFile)) {
 			return array();
 		}
 		$contents=file($logFile);
