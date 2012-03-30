@@ -102,8 +102,13 @@ class OC_Installer{
 			}
 			return false;
 		}
+<<<<<<< HEAD
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml');
 		$basedir=OC::$SERVERROOT.'/apps/'.$info['id'];
+=======
+		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
+		$basedir=OC::$APPSROOT.'/apps/'.$info['id'];
+>>>>>>> 7bc9fa7... optimizations for updateApps
 		
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
@@ -278,7 +283,7 @@ class OC_Installer{
 		if(is_file(OC::$SERVERROOT."/apps/$app/appinfo/install.php")){
 			include(OC::$SERVERROOT."/apps/$app/appinfo/install.php");
 		}
-		$info=OC_App::getAppInfo(OC::$SERVERROOT."/apps/$app/appinfo/info.xml");
+		$info=OC_App::getAppInfo($app);
 		OC_Appconfig::setValue($app,'installed_version',$info['version']);
 		return $info;
 	}
