@@ -637,6 +637,14 @@ class OC_FileCache{
 			self::fileSystemWatcherWrite(array('path'=>$path),$root);
 		}
 	}
+
+	/**
+	 * clean old pre-path_hash entries
+	 */
+	public static function clean(){
+		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE LENGTH(path_hash)<30');
+		$query->execute();
+	}
 }
 
 //watch for changes and try to keep the cache up to date
