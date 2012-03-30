@@ -55,12 +55,10 @@ class OC_App{
 		}
 
 		// The rest comes here
-		$apps = OC_Appconfig::getApps();
+		$apps = self::getEnabledApps();
 		foreach( $apps as $app ){
-			if( self::isEnabled( $app )){
-				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
-					require( $app.'/appinfo/app.php' );
-				}
+			if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
+				require( $app.'/appinfo/app.php' );
 			}
 		}
 
@@ -68,6 +66,19 @@ class OC_App{
 
 		// return
 		return true;
+	}
+
+	/**
+	 * get all enabled apps
+	 */
+	public static function getEnabledApps(){
+		$apps=array();
+		$query = OC_DB::prepare( 'SELECT appid FROM *PREFIX*appconfig WHERE configkey = "enabled" AND configvalue="yes"' );
+		$query->execute();
+		while($row=$query->fetchRow()){
+			$apps[]=$row['appid'];
+		}
+		return $apps;
 	}
 
 	/**
