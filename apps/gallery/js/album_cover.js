@@ -43,8 +43,9 @@ function shareGallery() {
                      {text: 'Shared gallery address', name: 'address', type: 'text', value: existing_token}];
     OC.dialogs.form(form_fields, t('gallery', 'Share gallery'), function(values){
     var p = '';
-    for (var i in paths) p += '/'+paths[i];
+    for (var i in paths) p += paths[i]+'/';
     if (p == '') p = '/';
+    alert(p);
     $.getJSON(OC.filePath('gallery', 'ajax', 'galleryOp.php'), {operation: 'share', path: p, share: values[0].value, recursive: values[1].value}, function(r) {
       if (r.status == 'success') {
         Albums.shared = r.sharing;
