@@ -32,14 +32,14 @@ $l = new OC_L10N('gallery');
 OC_App::register(array(
   'order' => 20,
   'id' => 'gallery',
-  'name' => 'Gallery'));
+  'name' => 'Pictures'));
 
 OC_App::addNavigationEntry( array(
  'id' => 'gallery_index',
  'order' => 20,
  'href' => OC_Helper::linkTo('gallery', 'index.php'),
  'icon' => OC_Helper::imagePath('core', 'places/picture.svg'),
- 'name' => $l->t('Gallery')));
+ 'name' => $l->t('Pictures')));
 
  class OC_GallerySearchProvider implements OC_Search_Provider{
 	static function search($query){
