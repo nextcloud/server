@@ -229,6 +229,39 @@ class OC{
 		}
 	}
 
+	public static function initTemplateEngine() {
+		// if the formfactor is not yet autodetected do the autodetection now. For possible forfactors check the detectFormfactor documentation
+		if(!isset($_SESSION['formfactor'])){
+			$_SESSION['formfactor']=OC::detectFormfactor();
+		}
+		// allow manual override via GET parameter
+		if(isset($_GET['formfactor'])){
+			$_SESSION['formfactor']=$_GET['formfactor'];
+		}
+
+		// Add the stuff we need always
+		OC_Util::addScript( "jquery-1.6.4.min" );
+		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
+		OC_Util::addScript( "jquery-showpassword" );
+		OC_Util::addScript( "jquery.infieldlabel.min" );
+		OC_Util::addScript( "jquery-tipsy" );
+		OC_Util::addScript( "oc-dialogs" );
+		OC_Util::addScript( "js" );
+		OC_Util::addScript( "eventsource" );
+		OC_Util::addScript( "config" );
+		//OC_Util::addScript( "multiselect" );
+		OC_Util::addScript('search','result');
+		OC_Util::addStyle( "styles" );
+		OC_Util::addStyle( "multiselect" );
+		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
+		OC_Util::addStyle( "jquery-tipsy" );
+	}
+
+	public static function initSession() {
+		ini_set('session.cookie_httponly','1;');
+		session_start();
+	}
+
 	public static function init(){
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
@@ -272,35 +305,8 @@ class OC{
 		self::checkSSL();
 		self::checkUpgrade();
 
-		ini_set('session.cookie_httponly','1;');
-		session_start();
-
-		// if the formfactor is not yet autodetected do the autodetection now. For possible forfactors check the detectFormfactor documentation
-		if(!isset($_SESSION['formfactor'])){
-			$_SESSION['formfactor']=OC::detectFormfactor();
-		}
-		// allow manual override via GET parameter
-		if(isset($_GET['formfactor'])){
-			$_SESSION['formfactor']=$_GET['formfactor'];
-		}
-
-
-		// Add the stuff we need always
-		OC_Util::addScript( "jquery-1.6.4.min" );
-		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
-		OC_Util::addScript( "jquery-showpassword" );
-		OC_Util::addScript( "jquery.infieldlabel.min" );
-		OC_Util::addScript( "jquery-tipsy" );
-		OC_Util::addScript( "oc-dialogs" );
-		OC_Util::addScript( "js" );
-		OC_Util::addScript( "eventsource" );
-		OC_Util::addScript( "config" );
-		//OC_Util::addScript( "multiselect" );
-		OC_Util::addScript('search','result');
-		OC_Util::addStyle( "styles" );
-		OC_Util::addStyle( "multiselect" );
-		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
-		OC_Util::addStyle( "jquery-tipsy" );
+		self::initSession();
+		self::initTemplateEngine();
 
 		$errors=OC_Util::checkServer();
 		if(count($errors)>0) {
