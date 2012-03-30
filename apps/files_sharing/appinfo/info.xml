@@ -8,4 +8,7 @@
 	<author>Michael Gapczynski</author>
 	<require>2</require>
 	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
 </info>

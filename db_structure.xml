@@ -65,6 +65,15 @@
    </field>
 
    <field>
+	   <name>path_hash</name>
+	   <type>text</type>
+	   <default>
+	   </default>
+	   <notnull>true</notnull>
+	   <length>32</length>
+   </field>
+
+   <field>
 	   <name>parent</name>
 	   <type>integer</type>
 	   <default>
@@ -79,7 +88,7 @@
 	   <default>
 	   </default>
 	   <notnull>true</notnull>
-	   <length>512</length>
+	   <length>300</length>
    </field>
 
    <field>
@@ -159,19 +168,26 @@
 	   <length>1</length>
    </field>
 
-   <!--<index>
-	   <name>fscache_path_index</name>
-	<unique>true</unique>
+   <index>
+	   <name>fscache_path_hash_index</name>
     <field>
-     <name>path</name>
+     <name>path_hash</name>
      <sorting>ascending</sorting>
     </field>
-   </index>-->
+   </index>
 
    <index>
 	   <name>parent_index</name>
 	   <field>
 		   <name>parent</name>
+		   <sorting>ascending</sorting>
+	   </field>
+   </index>
+
+   <index>
+	   <name>name_index</name>
+	   <field>
+		   <name>name</name>
 		   <sorting>ascending</sorting>
 	   </field>
    </index>
