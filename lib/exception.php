@@ -62,12 +62,31 @@ class OC_Exception extends Exception{
 }
 
 function oc_exceptionhandler($exception){
-	throw new OC_Exception($exception->getMessage(), $exception->getCode(), $exception->getFile(), $exception->getLine());
+	switch($exception->getCode()){
+		case E_NOTICE:
+		case E_DEPRECATED:
+		case E_USER_NOTICE:
+		case E_USER_DEPRECATED:
+			break;
+		default:
+			throw new OC_Exception($exception->getMessage(), $exception->getCode(), $exception->getFile(), $exception->getLine());
+			break;
+	}
 	return true;
 }
 
-function oc_errorhandler(){
-	
+function oc_errorhandler($errno , $errstr , $errfile , $errline){
+	switch($errno){
+		case E_NOTICE:
+		case E_DEPRECATED:
+		case E_USER_NOTICE:
+		case E_USER_DEPRECATED:
+			break;
+		default:
+			throw new OC_Exception($errstr, $errno, $errfile, $errline);
+			break;	
+	}
+	return true;
 }
 set_exception_handler('oc_exceptionhandler');
 set_error_handler('oc_errorhandler');
