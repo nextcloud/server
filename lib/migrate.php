@@ -73,12 +73,12 @@ class OC_Migrate{
 	
 	/**
 	 * @breif exports a user, or owncloud instance
+	 * @param optional $uid string user id of user to export if export type is user, defaults to current
 	 * @param ootional $type string type of export, defualts to user
 	 * @param otional $path string path to zip output folder
-	 * @param optional $uid string user id of user to export if export type is user, defaults to current
 	 * @return false on error, path to zip on success 
 	 */
-	 public static function export( $type='user', $path=null, $uid=null ){
+	 public static function export( $uid=null, $type='user', $path=null ){
 		$datadir = OC_Config::getValue( 'datadirectory' );
 	 	// Validate export type
 	 	$types = array( 'user', 'instance', 'system', 'userfiles' );

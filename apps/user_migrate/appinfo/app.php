@@ -23,6 +23,7 @@
 
 OC_APP::registerPersonal( 'user_migrate', 'settings' );
 OC_APP::registerAdmin( 'user_migrate', 'admin' );
+OC_Util::addScript( 'user_migrate', 'export');
 
 // add settings page to navigation
 $entry = array(

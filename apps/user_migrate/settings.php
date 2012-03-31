@@ -24,22 +24,6 @@
  */
 OC_Util::checkAppEnabled('user_migrate');
 
-if (isset($_POST['user_export'])) {
-	// Create the export zip
-	if( !$path = OC_Migrate::export() ){
-		// Error
-		die('error');	
-	} else {
-		// Download it
-		header("Content-Type: application/zip");
-		header("Content-Disposition: attachment; filename=" . basename($path));
-		header("Content-Length: " . filesize($path));
-		@ob_end_clean();
-		readfile($path);
-		unlink( $path );		
-	}
-} else {
-	// fill template
-	$tmpl = new OC_Template('user_migrate', 'settings');
-	return $tmpl->fetchPage();
-}
+// fill template
+$tmpl = new OC_Template('user_migrate', 'settings');
+return $tmpl->fetchPage();
