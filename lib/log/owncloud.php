@@ -65,7 +65,7 @@ class OC_Log_Owncloud {
 		if(!file_exists(self::$logFile)) {
 			return array();
 		}
-		$contents=file($logFile);
+		$contents=file(self::$logFile);
 		if(!$contents) {//error while reading log
 			return array();
 		}
