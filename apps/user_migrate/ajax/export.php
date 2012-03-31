@@ -26,8 +26,6 @@ require_once('../../../lib/base.php');
 // Check if we are a user
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('user_migrate');
-	OC_JSON::error();	
-	die();
 // Which operation
 if( $_GET['operation']=='create' ){
 $uid = !empty( $_POST['uid'] ) ? $_POST['uid'] :  OC_User::getUser();
