@@ -68,7 +68,7 @@ OC.EventSource=function(src,data){
 OC.EventSource.fallBackSources=[];
 OC.EventSource.iframeCount=0;//number of fallback iframes
 OC.EventSource.fallBackCallBack=function(id,type,data){
-	OC.EventSource.fallBackSources[id].fallBackCallBack(type,JSON.parse(data));
+	OC.EventSource.fallBackSources[id].fallBackCallBack(type,data);
 }
 OC.EventSource.prototype={
 	typelessListeners:[],

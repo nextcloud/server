@@ -59,7 +59,7 @@ class OC_EventSource{
 			$type=null;
 		}
 		if($this->fallback){
-			$response='<script type="text/javascript">window.parent.OC.EventSource.fallBackCallBack('.$this->fallBackId.',"'.$type.'","'.json_encode($data).'")</script>'.PHP_EOL;
+			$response='<script type="text/javascript">window.parent.OC.EventSource.fallBackCallBack('.$this->fallBackId.',"'.$type.'",'.json_encode($data).')</script>'.PHP_EOL;
 			echo $response;
 		}else{
 			if($type){
