@@ -194,11 +194,6 @@ class OC_Calendar_App{
 			$vevent = $object->VEVENT;
 		}else{
 			$vevent = $event['vevent'];
-		}$last_modified = $vevent->__get('LAST-MODIFIED');
-		if ($last_modified){
-			$lastmodified = $last_modified->getDateTime()->format('U');
-		}else{
-			$lastmodified = 0;
 		}
 		$last_modified = ($vevent->__get('LAST-MODIFIED'))?$last_modified->getDateTime()->format('U'):0;
 		$return = array('id'=>(int)$event['id'],
