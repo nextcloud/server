@@ -490,10 +490,9 @@ class OC_FileCache{
 					}else{
 						$totalSize+=self::scanFile($file,$root);
 						$count++;
-						if($count>$lastSend+25){
-							if($eventSource){
-								$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
-							}
+						if($count>$lastSend+25 and $eventSource){
+							$lastSend=$count;
+							$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
 						}
 					}
 				}
