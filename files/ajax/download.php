@@ -21,6 +21,9 @@
 *
 */
 
+// only need filesystem apps
+$RUNTIME_APPTYPES=array('filesystem');
+
 // Init owncloud
 require_once('../../lib/base.php');
 

@@ -17,6 +17,15 @@ abstract class OC_Archive{
 		switch($ext){
 			case '.zip':
 				return new OC_Archive_ZIP($path);
+			case '.gz':
+			case '.bz':
+			case '.bz2':
+				if(strpos($path,'.tar.')){
+					return new OC_Archive_TAR($path);
+				}
+				break;
+			case '.tgz':
+				return new OC_Archive_TAR($path);
 		}
 	}
 	
@@ -77,6 +86,13 @@ abstract class OC_Archive{
 	 * @return bool
 	 */
 	abstract function extractFile($path,$dest);
+	/**
+	 * extract the archive
+	 * @param string path
+	 * @param string dest
+	 * @return bool
+	 */
+	abstract function extract($dest);
 	/**
 	 * check if a file or folder exists in the archive
 	 * @param string path

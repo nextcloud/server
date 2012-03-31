@@ -19,6 +19,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+function bailOut($msg) {
+	OC_JSON::error(array('data' => array('message' => $msg)));
+	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	exit();
+}
 
 // Init owncloud
 require_once('../../../lib/base.php');
@@ -27,7 +32,10 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$id = $_GET['id'];
+$id = isset($_GET['id'])?$_GET['id']:null;
+if(!$id) {
+	bailOut(OC_Contacts_App::$l10n->t('id is not set.'));
+}
 $card = OC_Contacts_App::getContactObject( $id );
 
 OC_Contacts_VCard::delete($id);

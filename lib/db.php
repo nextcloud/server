@@ -318,9 +318,6 @@ class OC_DB {
 		
 		// Make changes and save them to an in-memory file
 		$file2 = 'static://db_scheme';
-		if($file2 == ''){
-			die('could not create tempfile in get_temp_dir() - aborting');
-		}
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
