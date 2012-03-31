@@ -469,6 +469,10 @@ class OC_FileCache{
 	 * @param string root (optionak)
 	 */
 	public static function scan($path,$eventSource=false,&$count=0,$root=''){
+		if($eventSource){
+			$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
+		}
+		$lastSend=$count;
 		if(!$root){
 			$view=OC_Filesystem::getView();
 		}else{
@@ -482,13 +486,15 @@ class OC_FileCache{
 				if($filename != '.' and $filename != '..'){
 					$file=$path.'/'.$filename;
 					if($view->is_dir($file.'/')){
-						if($eventSource){
-							$eventSource->send('scanning',array('file'=>$file,'count'=>$count));
-						}
 						self::scan($file,$eventSource,$count,$root);
 					}else{
 						$totalSize+=self::scanFile($file,$root);
 						$count++;
+						if($count>$lastSend+25){
+							if($eventSource){
+								$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
+							}
+						}
 					}
 				}
 			}
