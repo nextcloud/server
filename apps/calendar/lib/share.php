@@ -218,4 +218,27 @@ class OC_Calendar_Share{
 		}
 		return false;
 	}
+        /*
+         * @brief: returns the calendardata of an event or a calendar
+         * @param: (string) $token - token which should be searched
+         * @return: mixed - bool if false, array with type and id if true
+         */
+        public static function getElementByToken($token){
+            $stmt_calendar = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . OC_Calendar_Share::CALENDAR . ' WHERE sharetype = "public" AND share = ?');
+            $result_calendar = $stmt_calendar->execute(array($token));
+            $stmt_event = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . OC_Calendar_Share::EVENT . ' WHERE sharetype = "public" AND share = ?');
+            $result_event = $stmt_calendar->execute(array($token));
+            $return = array();
+            if($result_calendar->numRows() == 0 && $result_event->numRows() == 0){
+                return false;
+            }elseif($result_calendar->numRows() != 0){
+                $return ['type'] = 'calendar';
+                $calendar = $result_calendar->fetchRow();
+                $return ['id'] = $calendar['calendarid'];
+            }else{
+                $return ['type'] = 'event';
+                $event = $result_event->fetchRow();
+                $return ['id'] = $event['eventid'];
+            }
+        }
 }
