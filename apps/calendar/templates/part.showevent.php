@@ -4,7 +4,6 @@
 	<li><a href="#tabs-2"><?php echo $l->t('Repeating'); ?></a></li>
 	<li><a href="#tabs-3"><?php echo $l->t('Alarm'); ?></a></li>
 	<li><a href="#tabs-4"><?php echo $l->t('Attendees'); ?></a></li>
-	<li><a href="#tabs-5"><?php echo $l->t('Share'); ?></a></li>
 </ul>
 <div id="tabs-1">
 	<table width="100%">
@@ -244,6 +243,5 @@
 </div>
 <div id="tabs-3">//Alarm</div>
 <div id="tabs-4">//Attendees</div>
-<div id="tabs-5">//Share</div>
 
 </div>
