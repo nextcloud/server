@@ -28,7 +28,7 @@ class OC_Migration_Content{
 	
 	private $zip=false;
 	// Holds the MDB2 object
-	private $db=false;
+	private $db=null;
 	// Holds an array of tmpfiles to delete after zip creation
 	private $tmpfiles=false;
 	
@@ -38,10 +38,17 @@ class OC_Migration_Content{
 	* @param optional $db a MDB2 database object (required for exporttype user)
 	* @return bool
 	*/
-	public function __construct( $zip, $db=false ){
+	public function __construct( $zip, $db=null ){
 
 		$this->zip = $zip;
 		$this->db = $db;
+		
+		if( !is_null( $db ) ){
+			// Get db path
+			$db = $this->db->getDatabase();
+			$this->tmpfiles[] = $db;
+			OC_Log::write('user-migrate',$db, OC_Log::INFO);
+		}
 		
 	}
 	
