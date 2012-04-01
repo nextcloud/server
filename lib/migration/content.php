@@ -47,7 +47,6 @@ class OC_Migration_Content{
 			// Get db path
 			$db = $this->db->getDatabase();
 			$this->tmpfiles[] = $db;
-			OC_Log::write('user-migrate',$db, OC_Log::INFO);
 		}
 		
 	}
@@ -110,7 +109,8 @@ class OC_Migration_Content{
 			
 			foreach( $options['matchval'] as $matchval ){
 				// Run the query for this match value (where x = y value)
-				$query = OC_DB::prepare( "SELECT * FROM *PREFIX*" . $options['table'] . " WHERE " . $options['matchcol'] . " LIKE ?" );
+				$sql = "SELECT * FROM *PREFIX*" . $options['table'] . " WHERE " . $options['matchcol'] . " LIKE ?";
+				$query = OC_DB::prepare( $sql );
 				$results = $query->execute( array( $matchval ) );
 				$newreturns = $this->insertData( $results, $options );
 				$return = array_merge( $return, $newreturns );
@@ -118,7 +118,8 @@ class OC_Migration_Content{
 
 		} else {
 			// Just get everything
-			$query = OC_DB::prepare( "SELECT * FROM *PREFIX*" . $options['table'] );
+			$sql = "SELECT * FROM *PREFIX*" . $options['table'];
+			$query = OC_DB::prepare( $sql );
 			$results = $query->execute();
 			$return = $this->insertData( $results, $options );
 	
@@ -136,6 +137,7 @@ class OC_Migration_Content{
 	*/
 	private function insertData( $data, $options ){
 		$return = array();
+		// Foreach row of data to insert
 		while( $row = $data->fetchRow() ){
 			// Now save all this to the migration.db
 			foreach($row as $field=>$value){
@@ -166,6 +168,8 @@ class OC_Migration_Content{
 					$return[] = reset($row);	
 				}
 			}
+			$fields = '';
+			$values = '';
 		}
 		return $return;
 	}
