@@ -55,7 +55,7 @@ class OC_App{
 
 		// Our very own core apps are hardcoded
 		foreach( array('files', 'settings') as $app ){
-			if(is_null($types) or self::isType($app,$types)){
+			if(is_null($types)){
 				require( $app.'/appinfo/app.php' );
 			}
 		}
