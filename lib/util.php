@@ -70,7 +70,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '3';
+		return '3.0.1';
 	}
 
         /**
