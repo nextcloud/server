@@ -102,13 +102,8 @@ class OC_Installer{
 			}
 			return false;
 		}
-<<<<<<< HEAD
-		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml');
-		$basedir=OC::$SERVERROOT.'/apps/'.$info['id'];
-=======
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
-		$basedir=OC::$APPSROOT.'/apps/'.$info['id'];
->>>>>>> 7bc9fa7... optimizations for updateApps
+		$basedir=OC::$SERVERROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
