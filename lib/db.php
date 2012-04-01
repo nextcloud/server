@@ -489,7 +489,7 @@ class OC_DB {
 	 public static function replaceDB( $file ){
 	 	
 	 	$apps = OC_App::getAllApps();
-	 	
+	 	self::beginTransaction();
 	 	// Delete the old tables
 	 	self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
 	 	
@@ -501,11 +501,8 @@ class OC_DB {
 	 	}
 	 	
 	 	// Create new tables
-	 	if( self::createDBFromStructure( $file ) ){
-	 		return true;
-	 	} else {
-	 		return false;	
-	 	}
+	 	self::createDBFromStructure( $file );
+	 	self::commit();
 	 	
 	 }
 	

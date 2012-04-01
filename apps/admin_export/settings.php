@@ -28,7 +28,7 @@ OC_Util::checkAppEnabled('admin_export');
 // Export?
 if (isset($_POST['admin_export'])) {
 	// Create the export zip
-	if( !$path = OC_Migrate::export( $_POST['export_type'] ) ){
+	if( !$path = OC_Migrate::export( null, $_POST['export_type'] ) ){
 		// Error
 		die('error');	
 	} else {

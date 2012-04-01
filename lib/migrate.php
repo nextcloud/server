@@ -257,28 +257,30 @@ class OC_Migrate{
 				return $appsimported;
 			break;
 			case 'instance':
+					/*
 					// Check for new data dir and dbexport before doing anything
 					// TODO
-					/*
+					
 					// Delete current data folder.
 					OC_Log::write( 'migration', "Deleting current data dir", OC_Log::INFO );
-					if( self::unlink_r( $datadir, false ) ){
+					if( !self::unlink_r( $datadir, false ) ){
 						OC_Log::write( 'migration', 'Failed to delete the current data dir', OC_Log::ERROR );
 						return false;	
 					}
 				
 					// Copy over data
-					if( !self::copy_r( $extractname . 'data', $datadir ) ){
+					if( !self::copy_r( $extractpath . 'userdata', $datadir ) ){
 						OC_Log::write( 'migration', 'Failed to copy over data directory', OC_Log::ERROR );
 						return false;	
 					}
-					*/
+					
 					// Import the db
 					if( !OC_DB::replaceDB( $extractpath . 'dbexport.xml' ) ){
 						return false;	
 					}
 					// Done
 					return true; 
+					*/
 			break;	
 		}
 		
