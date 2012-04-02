@@ -21,7 +21,7 @@
 * 
 */
 
-require_once('getID3/getid3/getid3.php');
+require_once('getid3/getid3.php');
 
 //class for scanning directories for music
 class OC_MEDIA_SCANNER{
