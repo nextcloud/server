@@ -1,13 +1,12 @@
 <?php
 /**
- * Copyright (c) 2011, 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
 
 require_once ('../../../lib/base.php');
-//IS THERE A NATIVE SUPPORT IN SABREDAV ???
 require_once('when/When.php');
 
 OC_JSON::checkLoggedIn();
@@ -44,7 +43,14 @@ if($_GET['calendar_id'] == 'shared_rw' || $_GET['calendar_id'] == 'shared_r'){
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $return = array();
 foreach($events as $event){
-	$return_event = OC_Calendar_App::prepareForOutput($event);
+	if (isset($event['calendardata'])) {
+		$object = OC_VObject::parse($event['calendardata']);
+		$vevent = $object->VEVENT;
+	} else {
+		$vevent = $event['vevent'];
+	}
+
+	$return_event = OC_Calendar_App::prepareForOutput($event, $vevent);
 
 	$dtstart = $vevent->DTSTART;
 	$start_dt = $dtstart->getDateTime();
