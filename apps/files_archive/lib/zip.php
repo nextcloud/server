@@ -11,7 +11,6 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @var ZipArchive zip
 	 */
 	private $zip=null;
-	private $contents=array();
 	private $success=false;
 	private $path;
 	
@@ -56,7 +55,9 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @return bool
 	 */
 	function rename($source,$dest){
-		return $this->zip->renameName($source,$dest);
+		$source=$this->stripPath($source);
+		$dest=$this->stripPath($dest);
+		$this->zip->renameName($source,$dest);
 	}
 	/**
 	 * get the uncompressed size of a file in the archive
@@ -99,15 +100,11 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @return array
 	 */
 	function getFiles(){
-		if(count($this->contents)){
-			return $this->contents;
-		}
 		$fileCount=$this->zip->numFiles;
 		$files=array();
 		for($i=0;$i<$fileCount;$i++){
 			$files[]=$this->zip->getNameIndex($i);
 		}
-		$this->contents=$files;
 		return $files;
 	}
 	/**
@@ -129,12 +126,21 @@ class OC_Archive_ZIP extends OC_Archive{
 		file_put_contents($dest,$fp);
 	}
 	/**
+	 * extract the archive
+	 * @param string path
+	 * @param string dest
+	 * @return bool
+	 */
+	function extract($dest){
+		return $this->zip->extractTo($dest);
+	}
+	/**
 	 * check if a file or folder exists in the archive
 	 * @param string path
 	 * @return bool
 	 */
 	function fileExists($path){
-		return $this->zip->locateName($path)!==false;
+		return ($this->zip->locateName($path)!==false) or ($this->zip->locateName($path.'/')!==false);
 	}
 	/**
 	 * remove a file or folder from the archive
@@ -142,7 +148,11 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @return bool
 	 */
 	function remove($path){
-		return $this->zip->deleteName($path);
+		if($this->fileExists($path.'/')){
+			return $this->zip->deleteName($path.'/');
+		}else{
+			return $this->zip->deleteName($path);
+		}
 	}
 	/**
 	 * get a file handler
@@ -177,6 +187,14 @@ class OC_Archive_ZIP extends OC_Archive{
 		if(isset(self::$tempFiles[$tmpFile])){
 			$this->addFile(self::$tempFiles[$tmpFile],$tmpFile);
 			unlink($tmpFile);
+		}
+	}
+
+	private function stripPath($path){
+		if(substr($path,0,1)=='/'){
+			return substr($path,1);
+		}else{
+			return $path;
 		}
 	}
 }

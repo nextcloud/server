@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Affero General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
- * todo(bartek): add select option in form
  */
 
 /**
@@ -30,9 +29,9 @@ OCdialogs = {
    * @param title dialog title
    * @param callback which will be triggered when user press OK
    */
-  alert:function(text, title, callback) {
+  alert:function(text, title, callback, modal) {
     var content = '<p><span class="ui-icon ui-icon-alert"></span>'+text+'</p>';
-    OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.OK_BUTTON, callback);
+    OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.OK_BUTTON, callback, modal);
   },
   /**
    * displays info dialog
@@ -40,9 +39,9 @@ OCdialogs = {
    * @param title dialog title
    * @param callback which will be triggered when user press OK
    */
-  info:function(text, title, callback) {
+  info:function(text, title, callback, modal) {
     var content = '<p><span class="ui-icon ui-icon-info"></span>'+text+'</p>';
-    OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.OK_BUTTON, callback);
+    OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.OK_BUTTON, callback, modal);
   },
   /**
    * displays confirmation dialog
@@ -50,9 +49,9 @@ OCdialogs = {
    * @param title dialog title
    * @param callback which will be triggered when user press YES or NO (true or false would be passed to callback respectively)
    */
-  confirm:function(text, title, callback) {
+  confirm:function(text, title, callback, modal) {
     var content = '<p><span class="ui-icon ui-icon-notice"></span>'+text+'</p>';
-    OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.YES_NO_BUTTONS, callback);
+    OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.YES_NO_BUTTONS, callback, modal);
   },
   /**
    * prompt for user input
@@ -60,9 +59,9 @@ OCdialogs = {
    * @param title dialog title
    * @param callback which will be triggered when user press OK (input text will be passed to callback)
    */
-  prompt:function(text, title, default_value, callback) {
+  prompt:function(text, title, default_value, callback, modal) {
     var content = '<p><span class="ui-icon ui-icon-pencil"></span>'+text+':<br/><input type="text" id="oc-dialog-prompt-input" value="'+default_value+'" style="width:90%"></p>';
-    OCdialogs.message(content, title, OCdialogs.PROMPT_DIALOG, OCdialogs.OK_CANCEL_BUTTONS, callback);
+    OCdialogs.message(content, title, OCdialogs.PROMPT_DIALOG, OCdialogs.OK_CANCEL_BUTTONS, callback, modal);
   },
   /**
    * prompt user for input with custom form
@@ -71,7 +70,7 @@ OCdialogs = {
    * @param title dialog title
    * @param callback which will be triggered when user press OK (user answers will be passed to callback in following format: [{name:'return name', value: 'user value'},...])
    */
-  form:function(fields, title, callback) {
+  form:function(fields, title, callback, modal) {
     var content = '<table>';
     for (var a in fields) {
       content += '<tr><td>'+fields[a].text+'</td><td>';
@@ -84,16 +83,63 @@ OCdialogs = {
             } else content += '>';
           } else if (type == 'text' || type == 'password' && fields[a].value)
             content += ' value="'+fields[a].value+'">';
+      } else if (type == 'select') {
+        content += '<select name="'+fields[a].name+'"';
+        if (fields[a].value != undefined)
+          content += ' value="'+fields[a].value+'"';
+        content += '>';
+        for (var o in fields[a].options)
+          content += '<option value="'+fields[a].options[o].value+'">'+fields[a].options[o].text+'</option>';
+        content += '</select>';
       }
-      content += "</td></tr>"
+      content += '</td></tr>';
     }
-    content += "</table>";
-    OCdialogs.message(content, title, OCdialogs.FORM_DIALOG, OCdialogs.OK_CANCEL_BUTTONS, callback);
+    content += '</table>';
+    OCdialogs.message(content, title, OCdialogs.FORM_DIALOG, OCdialogs.OK_CANCEL_BUTTONS, callback, modal);
   },
-  message:function(content, title, dialog_type, buttons, callback) {
+  filepicker:function(title, callback, multiselect, mimetype_filter, modal) {
+    var c_name = 'oc-dialog-'+OCdialogs.dialogs_counter+'-content';
+    var c_id = '#'+c_name;
+    var d = '<div id="'+c_name+'" title="'+title+'"><select id="dirtree"><option value="0">'+OC.currentUser+'</option></select><div id="filelist"></div></div>';
+    if (!modal) modal = false;
+    if (!multiselect) multiselect = false;
+    $('body').append(d);
+    $(c_id + ' #dirtree').focus(function() { var t = $(this); t.data('oldval',  t.val())})
+                         .change({dcid: c_id}, OC.dialogs.handleTreeListSelect);
+    $(c_id).ready(function(){
+      $.getJSON(OC.webroot+'/files/ajax/rawlist.php', function(r){OC.dialogs.fillFilePicker(r, c_id, callback)});
+    }).data('multiselect', multiselect);
+    // build buttons
+    var b = [
+      {text: t('dialogs', 'Choose'), click: function(){
+          if (callback != undefined) {
+            var p;
+            if ($(c_id).data('multiselect') == true) {
+              p = [];
+              $(c_id+' .filepicker_element_selected #filename').each(function(i, elem) {
+                p.push(($(c_id).data('path')?$(c_id).data('path'):'')+'/'+$(elem).text());
+              });
+            } else {
+              var p = $(c_id).data('path');
+              if (p == undefined) p = '';
+              p = p+'/'+$(c_id+' .filepicker_element_selected #filename').text()
+            }
+            callback(p);
+            $(c_id).dialog('close');
+          }
+        }
+      },
+      {text: t('dialogs', 'Cancel'), click: function(){$(c_id).dialog('close'); }}
+      ];
+    $(c_id).dialog({width: 4*$(document).width()/9, height: 400, modal: modal, buttons: b});
+    OCdialogs.dialogs_counter++;
+  },
+  // guts, dont use, dont touch
+  message:function(content, title, dialog_type, buttons, callback, modal) {
     var c_name = 'oc-dialog-'+OCdialogs.dialogs_counter+'-content';
     var c_id = '#'+c_name;
     var d = '<div id="'+c_name+'" title="'+title+'">'+content+'</div>';
+    if (modal == undefined) modal = false;
     $('body').append(d);
     var b = [];
     switch (buttons) {
@@ -107,7 +153,7 @@ OCdialogs = {
         var f;
         switch(dialog_type) {
           case OCdialogs.ALERT_DIALOG:
-            f = function(){$(c_id).dialog('close'); };
+            f = function(){$(c_id).dialog('close'); callback();};
           break;
           case OCdialogs.PROMPT_DIALOG:
             f = function(){OCdialogs.prompt_ok_handler(callback, c_id)};
@@ -120,7 +166,7 @@ OCdialogs = {
       break;
     }
     var possible_height = ($('tr', d).size()+1)*30;
-    $(c_id).dialog({width: 4*$(document).width()/9, height: possible_height + 120, modal: false, buttons: b});
+    $(c_id).dialog({width: 4*$(document).width()/9, height: possible_height + 120, modal: modal, buttons: b});
     OCdialogs.dialogs_counter++;
   },
   // dialogs buttons types
@@ -144,7 +190,7 @@ OCdialogs = {
     if (callback != undefined) {
       var r = [];
       var c = 0;
-      $(c_id + ' input').each(function(i, elem) {
+      $(c_id + ' input, '+c_id+' select').each(function(i, elem) {
         r[c] = {name: $(elem).attr('name'), value: OCdialogs.determineValue(elem)};
         c++;
       });
@@ -153,5 +199,44 @@ OCdialogs = {
     } else {
       $(c_id).dialog('close');
     }
+  },
+  fillFilePicker:function(r, dialog_content_id) {
+    var entry_template = '<div onclick="javascript:OC.dialogs.handlePickerClick(this, \'*ENTRYNAME*\',\''+dialog_content_id+'\')" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin-right:1em;"><span id="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
+    var names = '';
+    for (var a in r.data) {
+      names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(r.data[a].mtime)).replace('*NAME*', r.data[a].name).replace('*MIMETYPEICON*', OC.webroot+'/core/img/filetypes/'+(r.data[a].type=='dir'?'folder':r.data[a].mimetype.replace('/','-'))+'.png').replace('*ENTRYNAME*', r.data[a].name).replace('*ENTRYTYPE*', r.data[a].type);
+    }
+    $(dialog_content_id + ' #filelist').html(names);
+  },
+  handleTreeListSelect:function(event) {
+    var newval = parseInt($(this).val());
+    var oldval = parseInt($(this).data('oldval'));
+    while (newval != oldval && oldval > 0) {
+      $('option:last', this).remove();
+      $('option:last', this).attr('selected','selected');
+      oldval--;
+    }
+    var skip_first = true;
+    var path = '';
+    $(this).children().each(function(i, element) { if (skip_first) {skip_first = false; return; }path += '/'+$(element).text(); });
+    $(event.data.dcid).data('path', path);
+    $.getJSON(OC.webroot+'/files/ajax/rawlist.php', {dir: path}, function(r){OC.dialogs.fillFilePicker(r, event.data.dcid)});
+  },
+  // this function is in early development state, please dont use it unlsess you know what you are doing
+  handlePickerClick:function(element, name, dcid) {
+    var p = $(dcid).data('path');
+    if (p == undefined) p = '';
+    p = p+'/'+name;
+    if ($(element).attr('data') == 'file'){
+      if ($(dcid).data('multiselect') != true)
+        $(dcid+' .filepicker_element_selected').removeClass('filepicker_element_selected');
+      $(element).toggleClass('filepicker_element_selected');
+      return;
+    }
+    $(dcid).data('path', p);
+    $(dcid + ' #dirtree option:last').removeAttr('selected');
+    var newval = parseInt($(dcid + ' #dirtree option:last').val())+1;
+    $(dcid + ' #dirtree').append('<option selected="selected" value="'+newval+'">'+name+'</option>');
+    $.getJSON(OC.webroot+'/files/ajax/rawlist.php', {dir: p}, function(r){OC.dialogs.fillFilePicker(r, dcid)});
   }
 };

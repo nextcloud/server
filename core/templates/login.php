@@ -1,3 +1,4 @@
+<!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
 <form action="index.php" method="post">
 	<fieldset>
 		<?php if(!empty($_['redirect'])) { echo '<input type="hidden" name="redirect_url" value="'.$_['redirect'].'" />'; } ?>
@@ -6,7 +7,7 @@
 		<?php endif; ?>
 		<p class="infield">
 			<label for="user" class="infield"><?php echo $l->t( 'Username' ); ?></label>
-			<input type="text" name="user" id="user" value="<?php echo !empty($_POST['user'])?$_POST['user'].'"':'" autofocus'; ?> autocomplete="off" required />
+			<input type="text" name="user" id="user" value="<?php echo !empty($_POST['user'])?htmlentities($_POST['user']).'"':'" autofocus'; ?> autocomplete="off" required />
 		</p>
 		<p class="infield">
 			<label for="password" class="infield"><?php echo $l->t( 'Password' ); ?></label>

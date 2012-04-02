@@ -62,7 +62,7 @@ class OC_Installer{
 		
 		//download the file if necesary
 		if($data['source']=='http'){
-			$path=OC_Helper::tmpFile('.zip');
+			$path=OC_Helper::tmpFile();
 			if(!isset($data['href'])){
 				OC_Log::write('core','No href specified when installing app from http',OC_Log::ERROR);
 				return false;
@@ -76,14 +76,24 @@ class OC_Installer{
 			$path=$data['path'];
 		}
 		
+		//detect the archive type
+		$mime=OC_Helper::getMimeType($path);
+		if($mime=='application/zip'){
+			rename($path,$path.'.zip');
+			$path.='.zip';
+		}elseif($mime=='application/x-gzip'){
+			rename($path,$path.'.tgz');
+			$path.='.tgz';
+		}else{
+			OC_Log::write('core','Archives of type '.$mime.' are not supported',OC_Log::ERROR);
+			return false;
+		}
+		
 		//extract the archive in a temporary folder
-		$extractDir=tempnam(get_temp_dir(),'oc_installer_uncompressed_');
-		unlink($extractDir);
+		$extractDir=OC_Helper::tmpFolder();
 		mkdir($extractDir);
-		$zip = new ZipArchive;
-		if($zip->open($path)===true){
-			$zip->extractTo($extractDir);
-			$zip->close();
+		if($archive=OC_Archive::open($path)){
+			$archive->extract($extractDir);
 		} else {
 			OC_Log::write('core','Failed to open archive when installing app',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
@@ -95,6 +105,17 @@ class OC_Installer{
 		
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')){
+			//try to find it in a subdir
+			$dh=opendir($extractDir);
+			while($folder=readdir($dh)){
+				if(substr($folder,0,1)!='.' and is_dir($extractDir.'/'.$folder)){
+					if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')){
+						$extractDir.='/'.$folder;
+					}
+				}
+			}
+		}
+		if(!is_file($extractDir.'/appinfo/info.xml')){
 			OC_Log::write('core','App does not provide an info.xml file',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
@@ -102,7 +123,7 @@ class OC_Installer{
 			}
 			return false;
 		}
-		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml');
+		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
 		$basedir=OC::$APPSROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
@@ -275,7 +296,7 @@ class OC_Installer{
 		if(is_file(OC::$APPSROOT."/apps/$app/appinfo/install.php")){
 			include(OC::$APPSROOT."/apps/$app/appinfo/install.php");
 		}
-		$info=OC_App::getAppInfo(OC::$APPSROOT."/apps/$app/appinfo/info.xml");
+		$info=OC_App::getAppInfo($app);
 		OC_Appconfig::setValue($app,'installed_version',$info['version']);
 		return $info;
 	}

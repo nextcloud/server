@@ -12,7 +12,7 @@ class Test_Filestorage_FTP extends Test_FileStorage {
 
 	public function setUp(){
 		$id=uniqid();
-		$this->config=include('apps/files_remote/tests/config.php');
+		$this->config=include('apps/files_external/tests/config.php');
 		$this->config['ftp']['root'].='/'.$id;//make sure we have an new empty folder to work in
 		$this->instance=new OC_Filestorage_FTP($this->config['ftp']);
 	}

@@ -56,13 +56,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<dd style="display:none;" class="propertycontainer" id="nickname_value" data-element="NICKNAME"><input id="nickname" required="required" name="value[NICKNAME]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Enter nickname'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt style="display:none;" id="bday_label" data-element="BDAY"><label for="bday"><?php echo $l->t('Birthday'); ?></label></dt>
 		<dd style="display:none;" class="propertycontainer" id="bday_value" data-element="BDAY"><input id="bday"  required="required" name="value" type="text" class="contacts_property" value="" placeholder="<?php echo $l->t('dd-mm-yyyy'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
-		<!-- dt id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Categories'); ?></label></dt>
-		<dd class="propertycontainer" id="categories_value" data-element="CATEGORIES">
-			<select class="contacts_property" multiple="multiple" id="categories" name="value[]">
-				<?php echo html_select_options($_['categories'], array(), array('combine'=>true)) ?>
-			</select>
-			<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a>
-		</dd -->
 		<dt style="display:none;" id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Categories'); ?></label></dt>
 		<dd style="display:none;" class="propertycontainer" id="categories_value" data-element="CATEGORIES"><input id="categories" required="required" name="value[CATEGORIES]" type="text" class="contacts_property" style="width:16em;" name="value" value="" placeholder="<?php echo $l->t('Categories'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a></dd>
 	</dl>
@@ -131,6 +124,7 @@ $(document).ready(function(){
 	if('<?php echo $id; ?>'!='') {
 		$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':'<?php echo $id; ?>'},function(jsondata){
 			if(jsondata.status == 'success'){
+				$('#leftcontent li[data-id="<?php echo $id; ?>"]').addClass('active');
 				Contacts.UI.Card.loadContact(jsondata.data);
 			}
 			else{
