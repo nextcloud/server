@@ -210,7 +210,7 @@ function showFileEditor(dir,filename){
 					});
 				} else {
 					// Failed to get the file.
-					alert(result.data.message);
+					OC.dialogs.alert(result.data.message, t('files_texteditor','An error occurred!'));
 				}
 			// End success
 			}
