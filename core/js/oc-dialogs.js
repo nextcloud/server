@@ -97,24 +97,34 @@ OCdialogs = {
     content += '</table>';
     OCdialogs.message(content, title, OCdialogs.FORM_DIALOG, OCdialogs.OK_CANCEL_BUTTONS, callback, modal);
   },
-  filepicker:function(title, name_filter, mimetype_filter, callback, modal) {
+  filepicker:function(title, callback, multiselect, mimetype_filter, modal) {
     var c_name = 'oc-dialog-'+OCdialogs.dialogs_counter+'-content';
     var c_id = '#'+c_name;
     var d = '<div id="'+c_name+'" title="'+title+'"><select id="dirtree"><option value="0">'+OC.currentUser+'</option></select><div id="filelist"></div></div>';
-    if (modal == undefined) modal = false;
+    if (!modal) modal = false;
+    if (!multiselect) multiselect = false;
     $('body').append(d);
     $(c_id + ' #dirtree').focus(function() { var t = $(this); t.data('oldval',  t.val())})
                          .change({dcid: c_id}, OC.dialogs.handleTreeListSelect);
     $(c_id).ready(function(){
       $.getJSON(OC.webroot+'/files/ajax/rawlist.php', function(r){OC.dialogs.fillFilePicker(r, c_id, callback)});
-    });
+    }).data('multiselect', multiselect);
     // build buttons
     var b = [
       {text: t('dialogs', 'Choose'), click: function(){
           if (callback != undefined) {
-            var p = $(c_id).attr('data');
-            if (p == undefined) p = '';
-            callback(p+'/'+$(c_id+' .filepicker_element_selected #filename').text());
+            var p;
+            if ($(c_id).data('multiselect') == true) {
+              p = [];
+              $(c_id+' .filepicker_element_selected #filename').each(function(i, elem) {
+                p.push(($(c_id).data('path')?$(c_id).data('path'):'')+'/'+$(elem).text());
+              });
+            } else {
+              var p = $(c_id).data('path');
+              if (p == undefined) p = '';
+              p = p+'/'+$(c_id+' .filepicker_element_selected #filename').text()
+            }
+            callback(p);
             $(c_id).dialog('close');
           }
         }
@@ -209,19 +219,21 @@ OCdialogs = {
     var skip_first = true;
     var path = '';
     $(this).children().each(function(i, element) { if (skip_first) {skip_first = false; return; }path += '/'+$(element).text(); });
-    $(event.data.dcid).attr('data', path);
+    $(event.data.dcid).data('path', path);
     $.getJSON(OC.webroot+'/files/ajax/rawlist.php', {dir: path}, function(r){OC.dialogs.fillFilePicker(r, event.data.dcid)});
   },
   // this function is in early development state, please dont use it unlsess you know what you are doing
   handlePickerClick:function(element, name, dcid) {
-    var p = $(dcid).attr('data');
+    var p = $(dcid).data('path');
     if (p == undefined) p = '';
     p = p+'/'+name;
     if ($(element).attr('data') == 'file'){
+      if ($(dcid).data('multiselect') != true)
+        $(dcid+' .filepicker_element_selected').removeClass('filepicker_element_selected');
       $(element).toggleClass('filepicker_element_selected');
       return;
     }
-    $(dcid).attr('data', p);
+    $(dcid).data('path', p);
     $(dcid + ' #dirtree option:last').removeAttr('selected');
     var newval = parseInt($(dcid + ' #dirtree option:last').val())+1;
     $(dcid + ' #dirtree').append('<option selected="selected" value="'+newval+'">'+name+'</option>');
