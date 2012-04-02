@@ -76,7 +76,7 @@ function showControls(filename,writeperms){
  
 function bindControlEvents(){
 	$("#editor_save").die('click',doFileSave).live('click',doFileSave);	
-	$('#editor_close').die('click',hideFileEditor).live('click',hideFileEditor);
+	$('#editor_close').die('click',closeBtnClick).live('click',closeBtnClick);
 	$('#gotolineval').die('keyup', goToLine).live('keyup', goToLine);
 	$('#editorsearchval').die('keyup', doSearch).live('keyup', doSearch);
 	$('#clearsearchbtn').die('click', resetSearch).live('click', resetSearch);
@@ -233,6 +233,19 @@ function showFileEditor(dir,filename){
 		);
 		is_editor_shown = true;
 	}
+}
+
+function closeBtnClick(){
+	if($('#editor').attr('data-edited')=='true'){
+		// Show confirm
+		OC.dialogs.confirm(t('files_texteditor','You have unsaved changes that will be lost! Do you still want to close?'),t('files_texteditor','Really close?'),function(close){
+			if(close){
+				hideFileEditor();
+			}	
+		});
+	} else {
+		hideFileEditor();
+	}	
 }
 
 // Fades out the editor.
