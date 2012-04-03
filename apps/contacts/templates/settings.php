@@ -9,4 +9,5 @@
 		<dd><code><?php echo OC_Helper::linkToAbsolute('contacts', 'carddav.php'); ?>/principals/<?php echo OC_User::getUser(); ?></code>/</dd>
 		</dl>
 	</fieldset>
+	Powered by <a href="http://geonames.org/" target="_blank">geonames.org webservice</a>
 </form>

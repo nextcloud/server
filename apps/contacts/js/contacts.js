@@ -908,10 +908,92 @@ Contacts={
 										container.remove();
 									}
 									//Contacts.UI.showHideContactInfo();
-								}/*,
+								},
 								open : function(event, ui) {
-									// load 'ADR' property - maybe :-P
-								}*/
+									$( "#adr_city" ).autocomplete({
+										source: function( request, response ) {
+											$.ajax({
+												url: "http://ws.geonames.org/searchJSON",
+												dataType: "jsonp",
+												data: {
+													featureClass: "P",
+													style: "full",
+													maxRows: 12,
+													name_startsWith: request.term
+												},
+												success: function( data ) {
+													response( $.map( data.geonames, function( item ) {
+														/*for(var key in item) {
+															console.log(key + ': ' + item[key]);
+														}*/
+														return {
+															label: item.name + (item.adminName1 ? ", " + item.adminName1 : "") + ", " + item.countryName,
+															value: item.name,
+															country: item.countryName
+														}
+													}));
+												}
+											});
+										},
+										minLength: 2,
+										select: function( event, ui ) {
+											if(ui.item) {
+												$('#adr_country').val(ui.item.country);
+											}
+											/*log( ui.item ?
+												"Selected: " + ui.item.label :
+												"Nothing selected, input was " + this.value);*/
+										},
+										open: function() {
+											$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+										},
+										close: function() {
+											$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+										}
+									});
+									$( "#adr_country" ).autocomplete({
+										source: function( request, response ) {
+											$.ajax({
+												url: "http://ws.geonames.org/searchJSON",
+												dataType: "jsonp",
+												data: {
+													/*featureClass: "A",*/
+													featureCode: "PCLI",
+													/*countryBias: "true",*/
+													/*style: "full",*/
+													maxRows: 12,
+													name_startsWith: request.term
+												},
+												success: function( data ) {
+													response( $.map( data.geonames, function( item ) {
+														for(var key in item) {
+															console.log(key + ': ' + item[key]);
+														}
+														return {
+															label: item.name,
+															value: item.name
+														}
+													}));
+												}
+											});
+										},
+										minLength: 2,
+										select: function( event, ui ) {
+											/*if(ui.item) {
+												$('#adr_country').val(ui.item.country);
+											}
+											log( ui.item ?
+												"Selected: " + ui.item.label :
+												"Nothing selected, input was " + this.value);*/
+										},
+										open: function() {
+											$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+										},
+										close: function() {
+											$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+										}
+									});
+								}
 							});
 						} else {
 							alert(jsondata.data.message);

@@ -28,6 +28,7 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .form dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0px; white-space: nowrap; vertical-align: text-bottom; }
 
 .loading { background: url('../../../core/img/loading.gif') no-repeat center !important; /*cursor: progress; */ cursor: wait; }
+.ui-autocomplete-loading { background: url('../../../core/img/loading.gif') right center no-repeat; }
 .float { float: left; }
 .listactions { height: 1em; width:60px; float: left; clear: right; }
 .add,.edit,.delete,.mail, .globe { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; display: none; }
