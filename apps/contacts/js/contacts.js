@@ -919,6 +919,7 @@ Contacts={
 													featureClass: "P",
 													style: "full",
 													maxRows: 12,
+													lang: lang,
 													name_startsWith: request.term
 												},
 												success: function( data ) {
@@ -937,7 +938,7 @@ Contacts={
 										},
 										minLength: 2,
 										select: function( event, ui ) {
-											if(ui.item) {
+											if(ui.item && $('#adr_country').val().trim().length == 0) {
 												$('#adr_country').val(ui.item.country);
 											}
 											/*log( ui.item ?
@@ -961,6 +962,7 @@ Contacts={
 													featureCode: "PCLI",
 													/*countryBias: "true",*/
 													/*style: "full",*/
+													lang: lang,
 													maxRows: 12,
 													name_startsWith: request.term
 												},
