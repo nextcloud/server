@@ -204,7 +204,7 @@ OCdialogs = {
     var entry_template = '<div onclick="javascript:OC.dialogs.handlePickerClick(this, \'*ENTRYNAME*\',\''+dialog_content_id+'\')" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin-right:1em;"><span id="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
     var names = '';
     for (var a in r.data) {
-      names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(r.data[a].mtime)).replace('*NAME*', r.data[a].name).replace('*MIMETYPEICON*', OC.webroot+'/core/img/filetypes/'+(r.data[a].type=='dir'?'folder':r.data[a].mimetype.replace('/','-'))+'.png').replace('*ENTRYNAME*', r.data[a].name).replace('*ENTRYTYPE*', r.data[a].type);
+      names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(r.data[a].mtime)).replace('*NAME*', r.data[a].name).replace('*MIMETYPEICON*', r.data[a].mimetype_icon).replace('*ENTRYNAME*', r.data[a].name).replace('*ENTRYTYPE*', r.data[a].type);
     }
     $(dialog_content_id + ' #filelist').html(names);
   },
