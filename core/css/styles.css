@@ -137,4 +137,4 @@ a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padd
 #dirtree {width: 100%;}
 #filelist {height: 270px; overflow:scroll; background-color: white;}
 .filepicker_element_selected { background-color: lightblue;}
-.filepicker_loader {height: 270px; width: 100%; background-color: #333; opacity: 0.3; visibility: visible; position:absolute; top:0; left:0; text-align:center; padding-top: 150px;}
+.filepicker_loader {height: 120px; width: 100%; background-color: #333; opacity: 0.3; visibility: visible; position:absolute; top:0; left:0; text-align:center; padding-top: 150px;}
