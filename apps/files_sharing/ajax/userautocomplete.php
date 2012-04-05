@@ -12,6 +12,14 @@ $self = OC_User::getUser();
 $userGroups = OC_Group::getUserGroups($self);
 $users[] = "<optgroup label='Users'>";
 $groups[] = "<optgroup label='Groups'>";
+if(count($userGroups) == 0) {
+	$availableUsers = OC_User::getUsers();
+        foreach ($availableUsers as $user) {
+                if (($user != $self) && (count(OC_Group::getUserGroups($user) == 0))) {
+                        $users[] = "<option value='".$user."'>".$user."</option>";
+                }
+        }
+}
 foreach ($userGroups as $group) {
 	$groupUsers = OC_Group::usersInGroup($group);
 	foreach ($groupUsers as $user) {

@@ -53,12 +53,19 @@ class OC_Share {
 				$uid_shared_with = array_diff($uid_shared_with, array($uid_owner));
 			} else if (OC_User::userExists($uid_shared_with)) {
 				$userGroups = OC_Group::getUserGroups($uid_owner);
-				// Check if the user is in one of the owner's groups
-				foreach ($userGroups as $group) {
-					if ($inGroup = OC_Group::inGroup($uid_shared_with, $group)) {
-						$gid = null;
+				if(count($userGroups) != 0) {
+					// Check if the user is in one of the owner's groups
+					foreach ($userGroups as $group) {
+						if ($inGroup = OC_Group::inGroup($uid_shared_with, $group)) {
+							$gid = null;
+							$uid_shared_with = array($uid_shared_with);
+							break;
+						}
+					}
+				} else {
+					if(count(OC_Group::getUserGroups($uid_shared_with)) == 0) {
 						$uid_shared_with = array($uid_shared_with);
-						break;
+						$inGroup = true;
 					}
 				}
 				if (!$inGroup) {
