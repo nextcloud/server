@@ -100,7 +100,7 @@ OCdialogs = {
   filepicker:function(title, callback, multiselect, mimetype_filter, modal) {
     var c_name = 'oc-dialog-'+OCdialogs.dialogs_counter+'-content';
     var c_id = '#'+c_name;
-    var d = '<div id="'+c_name+'" title="'+title+'"><select id="dirtree"><option value="0">'+OC.currentUser+'</option></select><div id="filelist"></div></div>';
+    var d = '<div id="'+c_name+'" title="'+title+'"><select id="dirtree"><option value="0">'+OC.currentUser+'</option></select><div id="filelist"></div><div class="filepicker_loader"><img src="'+OC.filePath('gallery','img','loading.gif')+'"></div></div>';
     if (!modal) modal = false;
     if (!multiselect) multiselect = false;
     $('body').append(d);
@@ -207,6 +207,7 @@ OCdialogs = {
       names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(r.data[a].mtime)).replace('*NAME*', r.data[a].name).replace('*MIMETYPEICON*', r.data[a].mimetype_icon).replace('*ENTRYNAME*', r.data[a].name).replace('*ENTRYTYPE*', r.data[a].type);
     }
     $(dialog_content_id + ' #filelist').html(names);
+    $(dialog_content_id + ' .filepicker_loader').css('visibility', 'hidden');
   },
   handleTreeListSelect:function(event) {
     var newval = parseInt($(this).val());
@@ -220,6 +221,7 @@ OCdialogs = {
     var path = '';
     $(this).children().each(function(i, element) { if (skip_first) {skip_first = false; return; }path += '/'+$(element).text(); });
     $(event.data.dcid).data('path', path);
+    $(event.data.dcid + ' .filepicker_loader').css('visibility', 'visible');
     $.getJSON(OC.webroot+'/files/ajax/rawlist.php', {dir: path}, function(r){OC.dialogs.fillFilePicker(r, event.data.dcid)});
   },
   // this function is in early development state, please dont use it unlsess you know what you are doing
@@ -237,6 +239,7 @@ OCdialogs = {
     $(dcid + ' #dirtree option:last').removeAttr('selected');
     var newval = parseInt($(dcid + ' #dirtree option:last').val())+1;
     $(dcid + ' #dirtree').append('<option selected="selected" value="'+newval+'">'+name+'</option>');
+    $(dcid + ' .filepicker_loader').css('visibility', 'visible');
     $.getJSON(OC.webroot+'/files/ajax/rawlist.php', {dir: p}, function(r){OC.dialogs.fillFilePicker(r, dcid)});
   }
 };
