@@ -240,7 +240,7 @@ class OC_FileCache{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFolderContent($path,$root=''){
+  public static function getFolderContent($path,$root='',$mimetype_filter=''){
 		if(self::isUpdated($path,$root)){
 			self::updateFolder($path,$root);
 		}
@@ -252,8 +252,8 @@ class OC_FileCache{
 		}
 		$path=$root.$path;
 		$parent=self::getFileId($path);
-		$query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=?');
-		$result=$query->execute(array($parent))->fetchAll();
+    $query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=? AND (mimetype LIKE ? OR mimetype = ?)');
+    $result=$query->execute(array($parent, $mimetype_filter.'%', 'httpd/unix-directory'))->fetchAll();
 		if(is_array($result)){
 			return $result;
 		}else{
