@@ -76,7 +76,7 @@ function showControls(filename,writeperms){
  
 function bindControlEvents(){
 	$("#editor_save").die('click',doFileSave).live('click',doFileSave);	
-	$('#editor_close').die('click',closeBtnClick).live('click',closeBtnClick);
+	$('#editor_close').die('click',hideFileEditor).live('click',hideFileEditor);
 	$('#gotolineval').die('keyup', goToLine).live('keyup', goToLine);
 	$('#editorsearchval').die('keyup', doSearch).live('keyup', doSearch);
 	$('#clearsearchbtn').die('click', resetSearch).live('click', resetSearch);
@@ -183,6 +183,8 @@ function giveEditorFocus(){
 
 // Loads the file editor. Accepts two parameters, dir and filename.
 function showFileEditor(dir,filename){
+	// Delete any old editors
+	$('#editor').remove();
 	if(!editorIsShown()){
 		// Loads the file editor and display it.
 		$('#content').append('<div id="editor"></div>');
@@ -235,52 +237,56 @@ function showFileEditor(dir,filename){
 	}
 }
 
-function closeBtnClick(){
-	if($('#editor').attr('data-edited')=='true'){
-		// Show confirm
-		OC.dialogs.confirm(t('files_texteditor','You have unsaved changes that will be lost! Do you still want to close?'),t('files_texteditor','Really close?'),function(close){
-			if(close){
-				hideFileEditor();
-			}	
-		});
-	} else {
-		hideFileEditor();
-	}	
-}
-
 // Fades out the editor.
 function hideFileEditor(){
-	// Fades out editor controls
-	$('#editorcontrols').fadeOut('slow',function(){
-		$(this).remove();
-		$(".crumb:last").addClass('last');
-	});
-	// Fade out editor
-	$('#editor').fadeOut('slow', function(){
-		$(this).remove();
-		// Reset document title
-		document.title = "ownCloud";
-		var editorhtml = '<div id="editor"></div>';
-		$('table').after(editorhtml);
-		$('.actions,#file_access_panel').fadeIn('slow');
-		$('table').fadeIn('slow');	
-	});
-	is_editor_shown = false;
+	if($('#editor').attr('data-edited') == 'true'){
+		// Hide, not remove	
+		$('#editorcontrols').fadeOut('slow',function(){
+			// Check if there is a folder in the breadcrumb
+			if($('.crumb.ui-droppable').length){
+				$('.crumb.ui-droppable:last').addClass('last');
+			}
+		});
+		// Fade out editor
+		$('#editor').fadeOut('slow', function(){
+			// Reset document title
+			document.title = "ownCloud";
+			$('.actions,#file_access_panel').fadeIn('slow');
+			$('table').fadeIn('slow');			
+		});
+		$('#notification').text(t('files_texteditor','There were unsaved changes, click here to go back'));
+		$('#notification').data('reopeneditor',true);
+		$('#notification').fadeIn();
+		is_editor_shown = false;
+	} else {
+		// Remove editor
+		$('#editorcontrols').fadeOut('slow',function(){
+			$(this).remove();
+			$(".crumb:last").addClass('last');
+		});
+		// Fade out editor
+		$('#editor').fadeOut('slow', function(){
+			$(this).remove();
+			// Reset document title
+			document.title = "ownCloud";
+			$('.actions,#file_access_panel').fadeIn('slow');
+			$('table').fadeIn('slow');			
+		});
+		is_editor_shown = false;
+	}
 }
 
-// Keyboard Shortcuts
-var ctrlBtn = false;
+// Reopens the last document
+function reopenEditor(){
+	$('.actions,#file_action_panel').fadeOut('slow');
+	$('table').fadeOut('slow', function(){
+		$('#controls .last').not('#breadcrumb_file').removeClass('last');
+		$('#editor').fadeIn('fast');
+		$('#editorcontrols').fadeIn('fast', function(){
 
-// TODO fix detection of ctrl keyup
-// returns true if ctrl+s or cmd+s is being pressed
-function checkForSaveKeyPress(e){
-	if(e.which == 17 || e.which == 91) ctrlBtn=true;
-	if(e.which == 83 && ctrlBtn == true) {
-	e.preventDefault();
-	$('#editor_save').trigger('click');
-	return false;
-		
-	}
+		});	
+	});
+	is_editor_shown  = true;
 }
 
 // resizes the editor window
@@ -313,7 +319,11 @@ $(document).ready(function(){
 	// Binds the file save and close editor events, and gotoline button
 	bindControlEvents();
 	$('#editor').remove();
-	// Binds the save keyboard shortcut events
-	//$(document).unbind('keydown').bind('keydown',checkForSaveKeyPress);
-
+	$('#notification').click(function(){
+		if($('#notification').data('reopeneditor'))
+		{
+			reopenEditor();
+		}
+		$('#notification').fadeOut();
+	});
 });
