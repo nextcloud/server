@@ -174,6 +174,7 @@ function doFileSave(){
 			},'json');
 		}
 	}
+	giveEditorFocus();
 };
 
 // Gives the editor focus
