@@ -36,18 +36,18 @@ if (isset($_POST['user_import'])) {
 	$from = $_FILES['owncloud_import']['tmp_name'];
 	$to = get_temp_dir().'/'.$importname.'.zip';
 	if( !move_uploaded_file( $from, $to ) ){
-		$errors[] = array('error'=>'Failed to move the uploaded file','hint'=>'Try checking the permissions of the '.get_temp_dir().' dir.');
+		$error = array('error'=>'Failed to move the uploaded file','hint'=>'Try checking the permissions of the '.get_temp_dir().' dir.');
 		OC_Log::write( 'user_migrate', "Failed to copy the uploaded file", OC_Log::ERROR );
-		$t = new OC_Template( '', 'error', 'user' );
-		$t->assign('errors',$errors);
-		$t->fetchPage();
+		$tmpl = new OC_Template('user_migrate', 'admin');
+		$tmpl->assign('error',$error);
+    	return $tmpl->fetchPage();
 	}
 	
 	if( !$appsstatus = OC_Migrate::import( $to, 'user' ) ){
-		$errors[] = array('error'=>'There was an error while importing the user!','hint'=>'Please check the logs for a more detailed explaination');
-		$t = new OC_Template( '', 'error', 'user' );
-		$t->assign('errors',$errors);
-		$t->fetchPage();	
+		$error = array('error'=>'There was an error while importing the user!','hint'=>'Please check the logs for a more detailed explaination');
+		$tmpl = new OC_Template('user_migrate', 'admin');
+		$tmpl->assign('error',$error);
+    	return $tmpl->fetchPage();	
 	} else {
 		// Check import status
 		foreach( $appsstatus as $app => $status ){
@@ -63,15 +63,15 @@ if (isset($_POST['user_import'])) {
 		// Any problems?
 		if( isset( $notsupported ) || isset( $failed ) ){
 			if( count( $failed ) > 0 ){
-				$errors[] = array('error'=>'Some app data failed to import','hint'=>'App data for: '.implode(', ', $failed).' failed to import.');
-				$t = new OC_Template( '', 'error', 'user' );
-				$t->assign('errors',$errors);
-				$t->fetchPage();	
+				$error = array('error'=>'Some app data failed to import','hint'=>'App data for: '.implode(', ', $failed).' failed to import.');
+				$tmpl = new OC_Template('user_migrate', 'admin');
+				$tmpl->assign('error',$error);
+    			return $tmpl->fetchPage();	
 			} else if( count( $notsupported ) > 0 ){
-				$errors[] = array('error'=>'Some app data could not be imported, as the apps are not installed on this instance','hint'=>'App data for: '.implode(', ', $notsupported).' failed to import as they were not found. Please install the apps and try again');
-				$t = new OC_Template( '', 'error', 'user' );
-				$t->assign('errors',$errors);
-				$t->fetchPage();	
+				$error = array('error'=>'Some app data could not be imported, as the apps are not installed on this instance','hint'=>'App data for: '.implode(', ', $notsupported).' failed to import as they were not found. Please install the apps and try again');
+				$tmpl = new OC_Template('user_migrate', 'admin');
+				$tmpl->assign('error',$error);
+    			return $tmpl->fetchPage();	
 			}
 		} else {
 			// Went swimmingly!
