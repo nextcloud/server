@@ -72,17 +72,10 @@
 					.appendTo( ul );
 			};
 
-			this.button = $( "<button type='button'>&nbsp;</button>" )
+			/*this.button = $( "<button type='button'>&nbsp;</button>" )
 				.attr( "tabIndex", -1 )
 				.attr( "title", "Show All Items" )
 				.insertAfter( input )
-				/*.button({
-					icons: {
-						primary: "ui-icon-triangle-1-s"
-					},
-					text: false
-				})
-				.removeClass( "ui-corner-all" )*/
 				.addClass('svg')
 				.addClass('action')
 				.addClass('combo-button')
@@ -99,7 +92,7 @@
 					// pass empty string as value to search for, displaying all results
 					input.autocomplete( "search", "" );
 					input.focus();
-				});
+				});*/
 			$.each(this.options, function(key, value) {
 				self._setOption(key, value);
 			});
@@ -123,17 +116,23 @@
 				case "id":
 					this.options['id'] = value;
 					this.input.attr('id', value);
-				break;
+					break;
 				case "name":
 					this.options['name'] = value;
 					this.input.attr('name', value);
-				break;
+					break;
+				case "attributes":
+					var input = this.input;
+					$.each(this.options['attributes'], function(key, value) {
+						input.attr(key, value);
+					});
+					break;
 				case "classes":
 					var input = this.input;
 					$.each(this.options['classes'], function(key, value) {
 						input.addClass(value);
 					});
-				break;
+					break;
 			}
 			// In jQuery UI 1.8, you have to manually invoke the _setOption method from the base widget
 			$.Widget.prototype._setOption.apply( this, arguments );

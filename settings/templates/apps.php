@@ -5,7 +5,7 @@
  */?>
 
 <div id="controls">
-	<a class="button" target="_blank" href="http://owncloud.org/contribute/writing-apps/"><?php echo $l->t('Add your application');?></a>
+	<a class="button" target="_blank" href="http://owncloud.org/dev/writing-apps/"><?php echo $l->t('Add your application');?></a>
 </div>
 <ul id="leftcontent">
 	<?php foreach($_['apps'] as $app):?>

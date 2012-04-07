@@ -126,7 +126,13 @@ OC={
 			});
 		}
 	},
-	dialogs:OCdialogs
+	dialogs:OCdialogs,
+  mtime2date:function(mtime) {
+    mtime = parseInt(mtime);
+    var date = new Date(1000*mtime);
+    var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
+    return ret;
+  }
 };
 OC.search.customResults={};
 OC.search.currentResult=-1;

@@ -1,1 +1,0 @@
-please run 'a2enmod rewrite' on your server, set 'AllowOverride All' for /var/www in /etc/apache2/sites-enabled/000-default or equivalent, and then run '/etc/init.d/apache2 restart'

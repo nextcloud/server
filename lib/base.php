@@ -277,6 +277,24 @@ class OC{
 		date_default_timezone_set('Europe/Berlin');
 		ini_set('arg_separator.output','&amp;');
 
+		//try to configure php to enable big file uploads.
+		//this doesn´t work always depending on the webserver and php configuration.
+		//Let´s try to overwrite some defaults anyways
+		
+		//try to set the maximum execution time to 60min
+		@set_time_limit(3600);
+		@ini_set('max_execution_time',3600);
+		@ini_set('max_input_time',3600);
+
+		//try to set the maximum filesize to 10G
+		@ini_set('upload_max_filesize','10G');
+		@ini_set('post_max_size','10G');
+		@ini_set('file_uploads','50');
+
+		//try to set the session lifetime to 60min
+		@ini_set('gc_maxlifetime','3600');
+
+
 		//set http auth headers for apache+php-cgi work around
 		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches))
 		{
@@ -347,6 +365,9 @@ class OC{
 				OC_App::loadApps();
 			}
 		}
+		
+		// Check for blacklisted files
+		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
