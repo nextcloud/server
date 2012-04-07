@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - admin export
+ * ownCloud - admin_migrate
  *
  * @author Thomas Schmidt
  * @copyright 2011 Thomas Schmidt tom@opensuse.org
@@ -23,7 +23,7 @@
  *
  */
 OC_Util::checkAdminUser();
-OC_Util::checkAppEnabled('admin_export');
+OC_Util::checkAppEnabled('admin_migrate');
 
 // Export?
 if (isset($_POST['admin_export'])) {
@@ -50,6 +50,6 @@ if (isset($_POST['admin_export'])) {
 		
 } else {
 // fill template
-    $tmpl = new OC_Template('admin_export', 'settings');
+    $tmpl = new OC_Template('admin_migrate', 'settings');
     return $tmpl->fetchPage();
 }

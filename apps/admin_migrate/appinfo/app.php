@@ -1,10 +1,8 @@
 <?php
 
 /**
-* ownCloud - user_ldap
+* ownCloud - admin_migrate
 *
-* @author Dominik Schmidt
-* @copyright 2011 Dominik Schmidt dev@dominik-schmidt.de
 * @author Tom Needham
 * @copyright 2012 Tom Needham tom@owncloud.com
 *
@@ -24,12 +22,12 @@
 */
 
 
-OC_APP::registerAdmin('admin_export','settings');
+OC_APP::registerAdmin('admin_migrate','settings');
 
 // add settings page to navigation
 $entry = array(
-	'id' => "admin_export_settings",
+	'id' => "admin_migrate_settings",
 	'order'=>1,
-	'href' => OC_Helper::linkTo( "admin_export", "settings.php" ),
+	'href' => OC_Helper::linkTo( "admin_migrate", "settings.php" ),
 	'name' => 'Export'
 );
