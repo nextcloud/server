@@ -232,10 +232,19 @@ class OC_Migrate{
 					OC_Log::write( 'migration', 'User already exists', OC_Log::ERROR );
 					return json_encode( array( 'success' => false ) );	
 				}
+				$run = true;
+				OC_Hook::emit( "OC_User", "pre_createUser", array( "run" => &$run, "uid" => self::$uid, "password" => $json->hash ));
+				if( !$run ){
+					// Something stopped the user creation
+					OC_Log::write( 'migration', 'User creation failed', OC_Log::ERROR );
+					return json_encode( array( 'success' => false ) );	
+				}
 				// Create the user
 				if( !self::createUser( self::$uid, $json->hash ) ){
 					return json_encode( array( 'success' => false ) );	
 				}
+				// Emit the post_createUser hook (password is already hashed, will cause problems
+				OC_Hook::emit( "OC_User", "post_createUser", array( "uid" => self::$uid, "password" => $json->hash ));
 				// Make the new users data dir
 				$path = $datadir . '/' . self::$uid . '/files/';
 				if( !mkdir( $path, 0755, true ) ){
