@@ -42,15 +42,15 @@ if (isset($_POST['user_import'])) {
 		$tmpl->assign('error',$error);
     	return $tmpl->fetchPage();
 	}
-	
-	if( !$appsstatus = OC_Migrate::import( $to, 'user' ) ){
+	$response = json_decode( OC_Migrate::import( $to, 'user' ) );
+	if( !$response->success ){
 		$error = array('error'=>'There was an error while importing the user!','hint'=>'Please check the logs for a more detailed explaination');
 		$tmpl = new OC_Template('user_migrate', 'admin');
 		$tmpl->assign('error',$error);
     	return $tmpl->fetchPage();	
 	} else {
 		// Check import status
-		foreach( $appsstatus as $app => $status ){
+		foreach( $response->data as $app => $status ){
 			if( $status != 'true' ){
 				// It failed for some reason
 				if( $status == 'notsupported' ){

@@ -3,7 +3,6 @@ class OC_Migration_Provider_Bookmarks extends OC_Migration_Provider{
 	
 	// Create the xml for the user supplied
 	function export( ){
-		OC_Log::write('migration','starting export for bookmarks',OC_Log::INFO);
 		$options = array(
 			'table'=>'bookmarks',
 			'matchcol'=>'user_id',
