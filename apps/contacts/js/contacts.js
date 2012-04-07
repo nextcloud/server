@@ -116,7 +116,7 @@ Contacts={
 		},
 		loadListHandlers:function() {
 			//$('.add,.delete').hide();
-			$('.globe,.mail,.delete,.edit').tipsy();
+			$('.globe,.mail,.delete,.edit,.tip').tipsy();
 			$('.addresscard,.propertylist li,.propertycontainer').hover(
 				function () {
 					$(this).find('.globe,.mail,.delete,.edit').fadeIn(100);
@@ -171,10 +171,6 @@ Contacts={
 // 				Contacts.UI.Card.editAddress();
 // 				return false;
 // 			});
-			$('#n').click(function(){
-				Contacts.UI.Card.editName();
-				//return false;
-			});
 			$('#edit_name').click(function(){
 				Contacts.UI.Card.editName();
 				return false;
@@ -258,12 +254,12 @@ Contacts={
 					});
 				}
 			},
-			export:function() {
+			do_export:function() {
 				document.location.href = OC.linkTo('contacts', 'export.php') + '?contactid=' + this.id;
 				//$.get(OC.linkTo('contacts', 'export.php'),{'contactid':this.id},function(jsondata){
 				//});
 			},
-			import:function(){
+			do_import:function(){
 				Contacts.UI.notImplemented();
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
@@ -293,11 +289,11 @@ Contacts={
 								if(isnew) {
 									Contacts.UI.Card.addProperty('EMAIL');
 									Contacts.UI.Card.addProperty('TEL');
-									Contacts.UI.Card.addProperty('BDAY');
 									Contacts.UI.Card.addProperty('NICKNAME');
 									Contacts.UI.Card.addProperty('ORG');
 									Contacts.UI.Card.addProperty('CATEGORIES');
 									$('#fn').focus();
+									$('#fn').select();
 								}
 							}
 							else{
@@ -315,7 +311,7 @@ Contacts={
 					}
 				});
 			},
-			delete:function() {
+			do_delete:function() {
 				$('#contacts_deletecard').tipsy('hide');
 				OC.dialogs.confirm(t('contacts', 'Are you sure you want to delete this contact?'), t('contacts', 'Warning'), function(answer) {
 					if(answer == true) {
@@ -1256,7 +1252,7 @@ Contacts={
 					  });
 				}
 			},
-			import:function(){
+			do_import:function(){
 				Contacts.UI.notImplemented();
 			},
 			submit:function(button, bookid){
@@ -1289,9 +1285,7 @@ Contacts={
 			}
 		},
 		Contacts:{
-			/**
-			 * Reload the contacts list.
-			 */
+			// Reload the contacts list.
 			update:function(){
 				console.log('Contacts.update, start');
 				$.getJSON('ajax/contacts.php',{},function(jsondata){
@@ -1306,9 +1300,7 @@ Contacts={
 				});
 				setTimeout(Contacts.UI.Contacts.lazyupdate, 500);
 			},
-			/**
-			 * Add thumbnails to the contact list as they become visible in the viewport.
-			 */
+			// Add thumbnails to the contact list as they become visible in the viewport.
 			lazyupdate:function(){
 				$('#contacts li').live('inview', function(){
 					if (!$(this).find('a').attr('style')) {
@@ -1328,9 +1320,6 @@ $(document).ready(function(){
 	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
 	OCCategories.app = 'contacts';
 
-	/**
-	 * Show the Addressbook chooser
-	 */
 	$('#chooseaddressbook').click(function(){
 		Contacts.UI.Addressbooks.overview();
 		return false;
@@ -1363,7 +1352,7 @@ $(document).ready(function(){
 	});
 
 	$('#contacts_deletecard').live('click',function(){
-		Contacts.UI.Card.delete();
+		Contacts.UI.Card.do_delete();
 	});
 
 	$('#contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {

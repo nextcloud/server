@@ -17,7 +17,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<li><a data-type="CATEGORIES"><?php echo $l->t('Categories'); ?></a></li>
 	</ul>
 	</div>
-	<img  onclick="Contacts.UI.Card.export();" class="svg action" id="contacts_downloadcard" src="<?php echo image_path('', 'actions/download.svg'); ?>" title="<?php echo $l->t('Download contact');?>" />
+	<img  onclick="Contacts.UI.Card.do_export();" class="svg action" id="contacts_downloadcard" src="<?php echo image_path('', 'actions/download.svg'); ?>" title="<?php echo $l->t('Download contact');?>" />
 	<img class="svg action" id="contacts_deletecard" src="<?php echo image_path('', 'actions/delete.svg'); ?>" title="<?php echo $l->t('Delete contact');?>" />
 	</div>
 
@@ -37,7 +37,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<iframe name="file_upload_target" id='file_upload_target' src=""></iframe>
 	</fieldset>
 	</form>
-	</div>
+	</div> <!-- contact_photo -->
 
 	<div id="contact_identity" class="contactsection">
 	<form method="post">
@@ -62,7 +62,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 	</dl>
 	</fieldset>
 	</form>
-	</div>
+	</div> <!-- contact_identity -->
 
 	<!-- div class="delimiter"></div -->
 	<div id="contact_communication" class="contactsection">
@@ -73,7 +73,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<!-- legend><?php echo $l->t('Email'); ?></legend -->
 			<ul id="emaillist" class="propertylist">
 			<li class="template" style="white-space: nowrap; display: none;" data-element="EMAIL">
-				<input type="checkbox" class="contacts_property" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
+				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
 				<input type="email" required="required" class="nonempty contacts_property" style="width:15em;" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" /><span class="listactions"><a onclick="Contacts.UI.mailTo(this)" class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
 				<a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
 			</ul><!-- a id="add_email" class="add" title="<?php echo $l->t('Add email address'); ?>"></a -->
@@ -85,7 +85,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<!-- legend><?php echo $l->t('Phone'); ?></legend -->
 			<ul id="phonelist" class="propertylist">
 				<li class="template" style="white-space: nowrap; display: none;" data-element="TEL">
-				<input type="checkbox" class="contacts_property" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" /> 
+				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" /> 
 				<input type="text" required="required" class="nonempty contacts_property" style="width:10em; border: 0px;" name="value" value="" placeholder="<?php echo $l->t('Enter phone number'); ?>" />
 				<select multiple="multiple" name="parameters[TYPE][]">
 					<?php echo html_select_options($_['phone_types'], array()) ?>
@@ -106,15 +106,14 @@ $id = isset($_['id']) ? $_['id'] : '';
 			</dt><dd><ul class="addresslist"></ul></dd></dl>
 
 		</fieldset>
-		</div>
+		</div> <!-- addressdisplay -->
 		</div> <!-- Addresses -->
 	</form>
-	</div>
+	</div> <!-- contact_communication -->
 	<div id="contact_note" class="contactsection">
 	<form class="float" method="post">
 	<fieldset id="note" class="formfloat propertycontainer contactpart" data-element="NOTE">
-	<!-- legend><?php echo $l->t('Note'); ?> --><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><!-- /legend -->
-	<textarea class="contacts_property note" name="value" cols="40" rows="10" placeholder="<?php echo $l->t('Notes'); ?>"></textarea>
+	<textarea class="contacts_property note" name="value" cols="40" rows="10" required="required" placeholder="<?php echo $l->t('Add notes here.'); ?>"></textarea>
 	</fieldset>
 	</form>
 	</div> <!-- contact_note -->
@@ -131,7 +130,7 @@ $(document).ready(function(){
 				Contacts.UI.Card.loadContact(jsondata.data);
 			}
 			else{
-				Contacts.UI.messageBox(t('contacts', 'Error'), jsondata.data.message);
+				OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 			}
 		});
 	}
