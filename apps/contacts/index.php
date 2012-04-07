@@ -43,17 +43,15 @@ if(count($categories) == 0) {
 			$vcaddressbookids[] = $vcaddressbook['id'];
 		} 
 		$vccontacts = OC_Contacts_VCard::all($vcaddressbookids);
-		if(count($vccontacts) == 0) {
-			bailOut(OC_Contacts_App::$l10n->t('No contacts found.'));
+		if(count($vccontacts) > 0) {
+			$cards = array();
+			foreach($vccontacts as $vccontact) {
+				$cards[] = $vccontact['carddata'];
+			} 
+
+			OC_Contacts_App::$categories->rescan($cards);
+			$categories = OC_Contacts_App::$categories->categories();
 		}
-
-		$cards = array();
-		foreach($vccontacts as $vccontact) {
-			$cards[] = $vccontact['carddata'];
-		} 
-
-		OC_Contacts_App::$categories->rescan($cards);
-		$categories = OC_Contacts_App::$categories->categories();
 	}
 }
 
