@@ -6,12 +6,16 @@
         </p>
         <h3>What would you like to export?</h3>
         <p>
-        <input type="radio" name="export_type" value="instance" /> ownCloud instance ( suitable for import )<br />
+        <input type="radio" name="export_type" value="instance" /> ownCloud instance (suitable for import )<br />
 		<input type="radio" name="export_type" value="system" /> ownCloud system files<br />
 		<input type="radio" name="export_type" value="userfiles" /> Just user files<br />
         <input type="submit" name="admin_export" value="<?php echo $l->t('Export'); ?>" />
     </fieldset>
 </form>
+<?php 
+/* 
+ * EXPERIMENTAL
+?>
 <form id="import" action="#" method="post" enctype="multipart/form-data">
     <fieldset class="personalblock">
         <legend><strong><?php echo $l->t('Import an ownCloud instance. THIS WILL DELETE ALL CURRENT OWNCLOUD DATA');?></strong></legend>
@@ -22,3 +26,6 @@
         <input type="submit" name="admin_import" value="<?php echo $l->t('Import'); ?>" />
     </fieldset>
 </form>
+<?php 
+*/ 
+?>

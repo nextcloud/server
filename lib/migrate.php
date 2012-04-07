@@ -258,6 +258,7 @@ class OC_Migrate{
 			break;
 			case 'instance':
 					/*
+					 * EXPERIMENTAL
 					// Check for new data dir and dbexport before doing anything
 					// TODO
 					
