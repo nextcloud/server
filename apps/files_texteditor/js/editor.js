@@ -22,9 +22,11 @@ function setSyntaxMode(ext){
 	filetype["css"] = "css";
 	filetype["groovy"] = "groovy";
 	filetype["haxe"] = "hx";
+	filetype["htm"] = "html";
 	filetype["html"] = "html";
 	filetype["java"] = "java";
 	filetype["js"] = "javascript";
+	filetype["jsm"] = "javascript";
 	filetype["json"] = "json";
 	filetype["latex"] = "latex";
 	filetype["ly"] = "latex";
