@@ -20,7 +20,11 @@ class OC_Calendar_Share{
 	public static function allSharedwithuser($userid, $type, $active=null, $permission=null){
 		$group_where = self::group_sql(OC_Group::getUserGroups($userid));
 		$permission_where = self::permission_sql($permission);
-		$active_where = self::active_sql($active);
+		if($type == self::CALENDAR){
+			$active_where = self::active_sql($active);
+		}else{
+			$active_where = '';
+		}
 		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') AND owner <> ? ' . $permission_where . ' ' . $active_where);
 		$result = $stmt->execute(array($userid, $userid));
 		$return = array();
@@ -66,7 +70,7 @@ class OC_Calendar_Share{
 				return false;
 		}
 		if($sharetype == 'public'){
-			$share = self::generate_token();
+			$share = self::generate_token($id, $type);
 		}
 		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*calendar_share_' . $type . ' (owner,share,sharetype,' . $type . 'id,permissions' . (($type == self::CALENDAR)?', active':'') . ') VALUES(?,?,?,?,0' . (($type == self::CALENDAR)?', 1':'') . ')' );
 		$result = $stmt->execute(array($owner,$share,$sharetype,$id));
@@ -193,8 +197,8 @@ class OC_Calendar_Share{
 			return true;
 		}
 		if($type == self::EVENT){
-			$calendar == OC_Calendar_App::getCalendar($id);
-			return self::is_editing_allowed($share, $calendar['id'], self::CALENDAR);
+			$event = OC_Calendar_App::getEventObject($id, false, false);
+			return self::is_editing_allowed($share, $event['calendarid'], self::CALENDAR);
 		}
 		return false;
 	}
@@ -213,8 +217,8 @@ class OC_Calendar_Share{
 			return true;
 		}
 		if($type == self::EVENT){
-			$calendar == OC_Calendar_App::getCalendar($id);
-			return self::check_access($share, $calendar['id'], self::CALENDAR);
+			$event = OC_Calendar_App::getEventObject($id, false, false);
+			return self::is_editing_allowed($share, $event['calendarid'], self::CALENDAR);
 		}
 		return false;
 	}
