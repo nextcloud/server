@@ -265,7 +265,7 @@ class OC{
 	public static function init(){
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
-
+		setlocale(LC_ALL, 'en_US.UTF-8');
 		
 		// set some stuff
 		//ob_start();
