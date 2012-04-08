@@ -1,3 +1,9 @@
+<script type="text/javascript">
+<?php
+echo 'Calendar.UI.Share.idtype = "event";' . "\n" . 'Calendar.UI.Share.currentid = "' . $_['eventid'] . '";';
+?>
+</script>
+
 <ul>
 	<li><a href="#tabs-1"><?php echo $l->t('Eventinfo'); ?></a></li>
 	<li><a href="#tabs-2"><?php echo $l->t('Repeating'); ?></a></li>
@@ -38,7 +44,7 @@
 			<?php } else { ?>
 			<th width="75px">&nbsp;</th>
 			<td>
-				<input type="hidden" name="calendar" value="<?php echo $_['calendar_options'][0]['id'] ?>">
+				<input type="hidden" name="calendar" value="<?php echo $_['calendar_options'][0]['eventid'] ?>">
 			</td>
 			<?php } ?>
 		</tr>
@@ -241,4 +247,6 @@
 </div>
 <div id="tabs-3">//Alarm</div>
 <div id="tabs-4">//Attendees</div>
-<div id="tabs-5">//Share</div>
+<div id="tabs-5">
+	<?php echo $this->inc('share.dropdown'); ?>
+</div>
