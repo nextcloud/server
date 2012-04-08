@@ -246,13 +246,13 @@ class OC_Migrate{
 				// Emit the post_createUser hook (password is already hashed, will cause problems
 				OC_Hook::emit( "OC_User", "post_createUser", array( "uid" => self::$uid, "password" => $json->hash ));
 				// Make the new users data dir
-				$path = $datadir . '/' . self::$uid . '/files/';
+				$path = $datadir . '/' . self::$uid;
 				if( !mkdir( $path, 0755, true ) ){
 					OC_Log::write( 'migration', 'Failed to create users data dir: '.$path, OC_Log::ERROR );
 					return json_encode( array( 'success' => false ) );	
 				}
 				// Copy data
-				if( !self::copy_r( $extractpath . $json->exporteduser . '/files', $datadir . '/' . self::$uid . '/files' ) ){
+				if( !self::copy_r( $extractpath . $json->exporteduser, $datadir . '/' . self::$uid ) ){
 					return json_encode( array( 'success' => false ) );	
 				}
 				// Import user app data 
