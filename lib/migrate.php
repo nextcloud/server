@@ -496,10 +496,14 @@ class OC_Migrate{
 			$datadir = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 						
 			// DB type
-			if( !is_callable( 'sqlite_open' ) || !class_exists( 'SQLite3' ) ){
+			if( class_exists( 'SQLite3' ) ){
+				$dbtype = 'sqlite3';
+			} else if( is_callable( 'sqlite_open' ) ){
+				$dbtype = 'sqlite';	
+			} else {
 				OC_Log::write( 'migration', 'SQLite not found', OC_Log::ERROR );
 				return false;
-			}	
+			}
 
 			// Prepare options array
 			$options = array(
@@ -510,7 +514,7 @@ class OC_Migrate{
 				'quote_identifier' => true
 				);
 			$dsn = array(
-				'phptype'  => 'sqlite3',
+				'phptype'  => $dbtype,
 				'database' => self::$dbpath,
 				'mode' => '0644'
 			);
