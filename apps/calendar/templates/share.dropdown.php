@@ -1,13 +1,19 @@
 <?php
-$sharedcalendars = OC_Calendar_Share::allUsersSharedwith($_['calid'], OC_Calendar_Share::CALENDAR);
+if(array_key_exists('calid', $_)){
+	$id = $_['calid'];
+	$sharedelements = OC_Calendar_Share::allUsersSharedwith($_['calid'], OC_Calendar_Share::CALENDAR);
+}else{
+	$sharedelements = OC_Calendar_Share::allUsersSharedwith($_['eventid'], OC_Calendar_Share::EVENT);
+	$id = $_['eventid'];
+}
 $users = array();$groups = array();$public = array();
-foreach($sharedcalendars as $sharedcalendar){
-	if($sharedcalendar['sharetype'] == 'user'){
-		$users[] = $sharedcalendar;
-	}elseif($sharedcalendar['sharetype'] == 'group'){
-		$groups[] = $sharedcalendar;
-	}elseif($sharedcalendar['sharetype'] == 'public'){
-		$public = $sharedcalendar;
+foreach($sharedelements as $sharedelement){
+	if($sharedelement['sharetype'] == 'user'){
+		$users[] = $sharedelement;
+	}elseif($sharedelement['sharetype'] == 'group'){
+		$groups[] = $sharedelement;
+	}elseif($sharedelement['sharetype'] == 'public'){
+		$public = $sharedelement;
 	}
 }
 ?>
@@ -31,7 +37,7 @@ echo html_select_options($allusers, array());
 	<script>
 		$('#sharewithuser_<?php echo $user['share']; ?> > img').click(function(){
 			$('#share_user option[value="<?php echo $user['share']; ?>"]').removeAttr('disabled');
-			Calendar.UI.Share.unshare(<?php echo $_['calid']; ?>, 'calendar', '<?php echo $user['share']; ?>', 'user');
+			Calendar.UI.Share.unshare(<?php echo $id; ?>, 'calendar', '<?php echo $user['share']; ?>', 'user');
 			$('#sharewithuser_<?php echo $user['share']; ?>').remove();
 			$("#share_user").trigger("liszt:updated");
 		});
@@ -57,7 +63,7 @@ echo html_select_options($allgroups, array());
 	<script>
 		$('#sharewithgroup_<?php echo $group['share']; ?> > img').click(function(){
 			$('#share_group option[value="<?php echo $group['share']; ?>"]').removeAttr('disabled');
-			Calendar.UI.Share.unshare(<?php echo $_['calid']; ?>, 'calendar', '<?php echo $group['share']; ?>', 'group');
+			Calendar.UI.Share.unshare(<?php echo $id; ?>, 'calendar', '<?php echo $group['share']; ?>', 'group');
 			$('#sharewithgroup_<?php echo $group['share']; ?>').remove();
 			$("#share_group").trigger("liszt:updated");
 		});
