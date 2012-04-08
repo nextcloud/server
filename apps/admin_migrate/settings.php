@@ -28,10 +28,12 @@ OC_Util::checkAppEnabled('admin_migrate');
 // Export?
 if (isset($_POST['admin_export'])) {
 	// Create the export zip
-	if( !$path = OC_Migrate::export( null, $_POST['export_type'] ) ){
+	$response = json_decode( OC_Migrate::export( null, $_POST['export_type'] ) );
+	if( !$response->success ){
 		// Error
 		die('error');	
 	} else {
+		$path = $response->data;
 		// Download it
 		header("Content-Type: application/zip");
 		header("Content-Disposition: attachment; filename=" . basename($path));
