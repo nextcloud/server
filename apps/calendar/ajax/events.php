@@ -7,7 +7,7 @@
  */
 
 require_once ('../../../lib/base.php');
-require_once(OC::$THIRDPARTYROOT . 'when/When.php');
+require_once('when/When.php');
 
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');

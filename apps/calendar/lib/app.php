@@ -8,8 +8,8 @@
  * 
  * This class manages our app actions
  */
-self::$l10n = new OC_L10N('calendar');
-self::$tz = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+OC_Calendar_App::$l10n = new OC_L10N('calendar');
+OC_Calendar_App::$tz = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 class OC_Calendar_App{
 	const CALENDAR = 'calendar';
 	const EVENT = 'event';
