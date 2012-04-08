@@ -9,7 +9,11 @@ require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 
 $id = $_POST['id'];
-
+$access = OC_Calendar_App::getaccess($id, OC_Calendar_App::EVENT);
+if($access != 'owner' && $access != 'rw'){
+	OC_JSON::error(array('message'=>'permission denied'));
+	exit;
+}
 $vcalendar = OC_Calendar_App::getVCalendar($id);
 $vevent = $vcalendar->VEVENT;
 
@@ -17,7 +21,6 @@ $allday = $_POST['allDay'];
 $delta = new DateInterval('P0D');
 $delta->d = $_POST['dayDelta'];
 $delta->i = $_POST['minuteDelta'];
-
 OC_Calendar_App::isNotModified($vevent, $_POST['lastmodified']);
 
 $dtstart = $vevent->DTSTART;

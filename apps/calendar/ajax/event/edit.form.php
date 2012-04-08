@@ -14,15 +14,14 @@ if(!OC_USER::isLoggedIn()) {
 OC_JSON::checkAppEnabled('calendar');
 
 $id = $_GET['id'];
-$data = OC_Calendar_App::getEventObject($id);
-$object = OC_VObject::parse($data['calendardata']);
-$vevent = $object->VEVENT;
-
-$access = OC_Calendar_App::check_access($id);
-if(!$access){
+$data = OC_Calendar_App::getEventObject($id, true, true);
+if(!$data){
 	OC_JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
 	exit;
 }
+$access = OC_Calendar_App::getaccess($id, OC_Calendar_Share::EVENT);
+$object = OC_VObject::parse($data['calendardata']);
+$vevent = $object->VEVENT;
 
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
@@ -214,7 +213,7 @@ if($access == 'owner' || $access == 'rw'){
 	$tmpl = new OC_Template('calendar', 'part.showevent');
 }
 
-$tmpl->assign('id', $id);
+$tmpl->assign('eventid', $id);
 $tmpl->assign('lastmodified', $lastmodified);
 $tmpl->assign('calendar_options', $calendar_options);
 $tmpl->assign('category_options', $category_options);
