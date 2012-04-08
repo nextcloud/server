@@ -20,7 +20,7 @@ $events = OC_Calendar_App::getrequestedEvents($_GET['calendar_id'], $start, $end
 $output = array();
 foreach($events as $event){
 	$output[] = OC_Calendar_App::generateEventOutput($event, $start, $end);
+	
 }
-
 OC_JSON::encodedPrint($output);
 ?>

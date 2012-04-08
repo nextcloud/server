@@ -255,7 +255,7 @@ class OC_Calendar_App{
 			$singleevents = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::EVENT, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 			foreach($singleevents as $singleevent){
 				$event = OC_Calendar_Object::find($singleevent['eventid']);
-				$events = array_merge($events, $event);
+				$events[] =  $event;
 			}
 		}else{
 			$calendar_id = $_GET['calendar_id'];
@@ -281,7 +281,7 @@ class OC_Calendar_App{
 	public static function generateEventOutput($event, $start, $end){
 		$output = array();
 		
-		if(array_key_exists('calendardata', $event)){
+		if(isset($event['calendardata'])){
 			$object = OC_VObject::parse($event['calendardata']);
 			$vevent = $object->VEVENT;
 		}else{
@@ -332,7 +332,6 @@ class OC_Calendar_App{
 					$output['start'] = $result->format('Y-m-d H:i:s');
 					$output['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);
 				}
-				$output[] = $output;
 			}
 		}else{
 			if($output['allDay'] == true){
@@ -343,7 +342,7 @@ class OC_Calendar_App{
 				$output['start'] = $start_dt->format('Y-m-d H:i:s');
 				$output['end'] = $end_dt->format('Y-m-d H:i:s');
 			}
-			$output[] = $output;
 		}
+		return $output;
 	}
 }
