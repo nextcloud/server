@@ -264,6 +264,18 @@ Contacts={
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
 				console.log('Add contact: ' + n + ', ' + fn + ' ' + aid);
+				var card = $('#card')[0];
+				if(!card) {
+					console.log('Loading proper card DOM');
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
+						if(jsondata.status == 'success'){
+							$('#rightcontent').html(jsondata.data.page);
+							Contacts.UI.loadHandlers();
+						} else{
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+						}
+					});
+				}
 				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
 				  function(jsondata) {
 					if (jsondata.status == 'success'){
