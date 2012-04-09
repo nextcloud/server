@@ -56,7 +56,7 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 
 .contactpart legend { width:auto; padding:.3em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 #cropbox { margin: auto; }
-#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; padding: 0.5em; margin: 0.3em; cursor: pointer; background: url(../../../core/img/loading.gif) no-repeat center center; display: block; /* clear: right;*/ }
+#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; cursor: pointer; background: url(../../../core/img/loading.gif) no-repeat center center; display: block; /* clear: right;*/ }
 #contacts_details_photo:hover { background: #fff; }
 /*#contacts_details_photo_progress { margin: 0.3em 0.3em 0.3em 7em; clear: left; }*/
 /* Address editor */

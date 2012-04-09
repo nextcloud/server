@@ -47,8 +47,6 @@ OC_Contacts_App::getAddressbook( $aid ); // is owner access check
 
 $fn = trim($_POST['fn']);
 $n = trim($_POST['n']);
-debug('N: '.$n);
-debug('FN: '.$fn);
 
 $vcard = new OC_VObject('VCARD');
 $vcard->setUID();
