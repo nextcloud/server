@@ -96,7 +96,7 @@ switch($element) {
 			//$value = getOtherValue();
 		}
 		break;
-	case 'CATEGORIES':
+	//case 'CATEGORIES':
 		/* multi autocomplete triggers an save with empty value
 		if (!$value) {
 			$value = $vcard->getAsString('CATEGORIES');
