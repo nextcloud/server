@@ -7,7 +7,6 @@
     <author>Craig Roberts</author>
     <require>3</require>
     <description>Versions files using Git repositories, providing a simple backup facility. Currently in *beta* and explicitly without warranty of any kind.</description>
-    <default_enable/>
 	<types>
 		<filesystem/>
 	</types>
