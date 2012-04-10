@@ -1,8 +1,8 @@
 <div id="firstrun">
-	You have no contacts in your list.
+	<?php echo $l->t('You have no contacts in your list.') ?>
 	<div id="selections">
-	<input type="button" value="Import contacts" onclick="Contacts.UI.Addressbooks.do_import()" />
-	<input type="button" value="Add contact" onclick="Contacts.UI.Card.editNew()" />
-	<input type="button" value="Edit addressbooks" onclick="Contacts.UI.Addressbooks.overview()" />
+		<input type="button" value="<?php echo $l->t('Import contacts') ?>" onclick="Contacts.UI.Addressbooks.do_import()" />
+		<input type="button" value="<?php echo $l->t('Add contact') ?>" onclick="Contacts.UI.Card.editNew()" />
+		<input type="button" value="<?php echo $l->t('Edit addressbooks') ?>" onclick="Contacts.UI.Addressbooks.overview()" />
 	</div>
 </div>
