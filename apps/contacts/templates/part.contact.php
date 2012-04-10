@@ -17,7 +17,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<li><a data-type="CATEGORIES"><?php echo $l->t('Categories'); ?></a></li>
 	</ul>
 	</div>
-	<img  onclick="Contacts.UI.Card.do_export();" class="svg action" id="contacts_downloadcard" src="<?php echo image_path('', 'actions/download.svg'); ?>" title="<?php echo $l->t('Download contact');?>" />
+	<img  onclick="Contacts.UI.Card.doExport();" class="svg action" id="contacts_downloadcard" src="<?php echo image_path('', 'actions/download.svg'); ?>" title="<?php echo $l->t('Download contact');?>" />
 	<img class="svg action" id="contacts_deletecard" src="<?php echo image_path('', 'actions/delete.svg'); ?>" title="<?php echo $l->t('Delete contact');?>" />
 	</div>
 

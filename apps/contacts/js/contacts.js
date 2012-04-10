@@ -254,12 +254,12 @@ Contacts={
 					});
 				}
 			},
-			do_export:function() {
+			doExport:function() {
 				document.location.href = OC.linkTo('contacts', 'export.php') + '?contactid=' + this.id;
 				//$.get(OC.linkTo('contacts', 'export.php'),{'contactid':this.id},function(jsondata){
 				//});
 			},
-			do_import:function(){
+			doImport:function(){
 				Contacts.UI.notImplemented();
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
@@ -323,7 +323,7 @@ Contacts={
 					}
 				});
 			},
-			do_delete:function() {
+			doDelete:function() {
 				$('#contacts_deletecard').tipsy('hide');
 				OC.dialogs.confirm(t('contacts', 'Are you sure you want to delete this contact?'), t('contacts', 'Warning'), function(answer) {
 					if(answer == true) {
@@ -1264,7 +1264,7 @@ Contacts={
 					  });
 				}
 			},
-			do_import:function(){
+			doImport:function(){
 				Contacts.UI.notImplemented();
 			},
 			submit:function(button, bookid){
@@ -1364,7 +1364,7 @@ $(document).ready(function(){
 	});
 
 	$('#contacts_deletecard').live('click',function(){
-		Contacts.UI.Card.do_delete();
+		Contacts.UI.Card.doDelete();
 	});
 
 	$('#contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
