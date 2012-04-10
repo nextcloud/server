@@ -14,7 +14,7 @@ if($access != 'owner' && $access != 'rw'){
 	OC_JSON::error(array('message'=>'permission denied'));
 	exit;
 }
-$vcalendar = OC_Calendar_App::getVCalendar($id);
+$vcalendar = OC_Calendar_App::getVCalendar($id, false, false);
 $vevent = $vcalendar->VEVENT;
 
 $allday = $_POST['allDay'];

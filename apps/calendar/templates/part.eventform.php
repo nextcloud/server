@@ -44,7 +44,7 @@ echo 'Calendar.UI.Share.idtype = "event";' . "\n" . 'Calendar.UI.Share.currentid
 			<?php } else { ?>
 			<th width="75px">&nbsp;</th>
 			<td>
-				<input type="hidden" name="calendar" value="<?php echo $_['calendar_options'][0]['eventid'] ?>">
+				<input type="hidden" name="calendar" value="<?php echo $_['calendar']; ?>">
 			</td>
 			<?php } ?>
 		</tr>

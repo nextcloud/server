@@ -15,6 +15,7 @@ OC_JSON::checkAppEnabled('calendar');
 
 $id = $_GET['id'];
 $data = OC_Calendar_App::getEventObject($id, true, true);
+
 if(!$data){
 	OC_JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
 	exit;

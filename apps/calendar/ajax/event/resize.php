@@ -16,7 +16,7 @@ if($access != 'owner' && $access != 'rw'){
 	exit;
 }
 
-$vcalendar = OC_Calendar_App::getVCalendar($id);
+$vcalendar = OC_Calendar_App::getVCalendar($id, false, false);
 $vevent = $vcalendar->VEVENT;
 
 $delta = new DateInterval('P0D');
@@ -33,6 +33,6 @@ unset($vevent->DURATION);
 $vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Element_DateTime::UTC);
 $vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
 
-$result = OC_Calendar_Object::edit($id, $vcalendar->serialize());
+OC_Calendar_Object::edit($id, $vcalendar->serialize());
 $lastmodified = $vevent->__get('LAST-MODIFIED')->getDateTime();
 OC_JSON::success(array('lastmodified'=>(int)$lastmodified->format('U')));

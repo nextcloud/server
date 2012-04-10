@@ -451,8 +451,8 @@ class OC_Calendar_Object{
 			$errarr['title'] = 'true';
 			$errnum++;
 		}
-		$calendar = OC_Calendar_Calendar::find($request['calendar']);
-		if($calendar['userid'] != OC_User::getUser()){
+		$calendar = OC_Calendar_App::getCalendar($request['calendar'], true, true);
+		if(!$calendar){
 			$errarr['cal'] = 'true';
 			$errnum++;
 		}
@@ -815,5 +815,10 @@ class OC_Calendar_Object{
 		$event = self::find($id);
 		$cal = OC_Calendar_Calendar::find($event['calendarid']);
 		return $cal['userid'];
+	}
+	
+	public static function getCalendarid($id){
+		$event = self::find($id);
+		return $event['calendarid'];
 	}
 }

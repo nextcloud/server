@@ -80,8 +80,8 @@ class OC_Calendar_App{
 	 * @param bool $security - check access rights or not
 	 * @return mixed - bool / object
 	 */
-	public static function getVCalendar($id, $security = true){
-		$event_object = self::getEventObject($id, $security);
+	public static function getVCalendar($id, $security = true, $shared = false){
+		$event_object = self::getEventObject($id, $security, $shared);
 		if($event_object === false){
 			return false;
 		}
