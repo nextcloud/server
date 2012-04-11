@@ -169,7 +169,7 @@ class OC_Contacts_Addressbook{
 			$uid = OC_User::getUser();
 		}
 		$prefbooks = OC_Preferences::getValue($uid,'contacts','openaddressbooks',null);
-		if(is_null($prefbooks)){
+		if(!$prefbooks){
 			$addressbooks = OC_Contacts_Addressbook::all($uid);
 			if(count($addressbooks) == 0){
 				OC_Contacts_Addressbook::add($uid,'default','Default Address Book');

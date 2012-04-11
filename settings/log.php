@@ -28,7 +28,7 @@ OC_Util::addStyle( "settings", "settings" );
 OC_Util::addScript( "settings", "apps" );
 OC_App::setActiveNavigationEntry( "core_log" );
 
-$entries=OC_Log::getEntries();
+$entries=OC_Log_Owncloud::getEntries();
 
 OC_Util::addScript('settings','log');
 OC_Util::addStyle('settings','settings');

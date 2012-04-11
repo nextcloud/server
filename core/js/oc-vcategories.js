@@ -19,7 +19,7 @@ OCCategories={
 						height: 350, minHeight:200, width: 250, minWidth: 200,
 						buttons: {
 							'Delete':function() {
-								OCCategories.delete();
+								OCCategories.doDelete();
 							},
 							'Rescan':function() {
 								OCCategories.rescan();
@@ -53,7 +53,7 @@ OCCategories={
 			}
 		});
 	},
-	delete:function(){
+	doDelete:function(){
 		var categories = $('#categorylist').find('input[type="checkbox"]').serialize();
 		categories += '&app=' + OCCategories.app;
 		console.log('OCCategories.delete: ' + categories);

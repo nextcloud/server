@@ -33,8 +33,12 @@
  */
 OC.EventSource=function(src,data){
 	var dataStr='';
-	for(name in data){
-		dataStr+=name+'='+encodeURIComponent(data[name])+'&';
+	this.typelessListeners=[];
+	this.listeners={};
+	if(data){
+		for(name in data){
+			dataStr+=name+'='+encodeURIComponent(data[name])+'&';
+		}
 	}
 	if(!this.useFallBack && typeof EventSource !='undefined'){
 		this.source=new EventSource(src+'?'+dataStr);
@@ -42,7 +46,7 @@ OC.EventSource=function(src,data){
 			for(var i=0;i<this.typelessListeners.length;i++){
 				this.typelessListeners[i](JSON.parse(e.data));
 			}
-		}
+		}.bind(this);
 	}else{
 		iframeId='oc_eventsource_iframe_'+OC.EventSource.iframeCount;
 		OC.EventSource.fallBackSources[OC.EventSource.iframeCount]=this;
@@ -64,7 +68,7 @@ OC.EventSource=function(src,data){
 OC.EventSource.fallBackSources=[];
 OC.EventSource.iframeCount=0;//number of fallback iframes
 OC.EventSource.fallBackCallBack=function(id,type,data){
-	OC.EventSource.fallBackSources[id].fallBackCallBack(type,JSON.parse(data));
+	OC.EventSource.fallBackSources[id].fallBackCallBack(type,data);
 }
 OC.EventSource.prototype={
 	typelessListeners:[],

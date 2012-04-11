@@ -62,7 +62,7 @@
 					return false;
 				}
 			});
-			this.button = $( "<button type='button'>&nbsp;</button>" )
+			/*this.button = $( "<button type='button'>&nbsp;</button>" )
 				.attr( "tabIndex", -1 )
 				.attr( "title", "Show All Items" )
 				.insertAfter( this.element )
@@ -86,7 +86,7 @@
 					// pass empty string as value to search for, displaying all results
 					self.element.autocomplete( "search", "" );
 					self.element.focus();
-				});
+				});*/
 		},
 	});
 })( jQuery );

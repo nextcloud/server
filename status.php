@@ -26,7 +26,7 @@ $RUNTIME_NOAPPS = TRUE; //no apps, yet
 require_once('lib/base.php');
 
 if(OC_Config::getValue('installed')==1) $installed='true'; else $installed='false';
-$values=array('installed'=>$installed,'version'=>implode('.',OC_Util::getVersion()),'versionstring'=>OC_Util::getVersionString());
+$values=array('installed'=>$installed,'version'=>implode('.',OC_Util::getVersion()),'versionstring'=>OC_Util::getVersionString(),'edition'=>OC_Util::getEditionString());
 
 echo(json_encode($values));
 
