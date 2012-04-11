@@ -103,7 +103,7 @@ class OC_Calendar_Object{
 		$uri = 'owncloud-'.md5($data.rand().time()).'.ics';
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
+		$stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
@@ -122,7 +122,7 @@ class OC_Calendar_Object{
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
+		$stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
@@ -142,7 +142,7 @@ class OC_Calendar_Object{
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
-		$result = $stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
+		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
@@ -163,7 +163,7 @@ class OC_Calendar_Object{
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
-		$result = $stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$oldobject['id']));
+		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$oldobject['id']));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
@@ -200,7 +200,7 @@ class OC_Calendar_Object{
 
 	public static function moveToCalendar($id, $calendarid){
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET calendarid=? WHERE id = ?' );
-		$result = $stmt->execute(array($calendarid,$id));
+		$stmt->execute(array($calendarid,$id));
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
@@ -458,7 +458,7 @@ class OC_Calendar_Object{
 		}
 
 		if(isset($request['categories']) && !is_array($request['categories'])){
-			$errors['categories'] = $l10n->t('Not an array');
+			$errarr['categories'] = $l10n->t('Not an array');
 		}
 
 		$fromday = substr($request['from'], 0, 2);
@@ -484,11 +484,11 @@ class OC_Calendar_Object{
 		if($request['repeat'] != 'doesnotrepeat'){
 			if(is_nan($request['interval']) && $request['interval'] != ''){
 				$errarr['interval'] = 'true';
-				$ernum++;
+				$errnum++;
 			}
 			if(array_key_exists('repeat', $request) && !array_key_exists($request['repeat'], self::getRepeatOptions(OC_Calendar_App::$l10n))){
 				$errarr['repeat'] = 'true';
-				$ernum++;
+				$errnum++;
 			}
 			if(array_key_exists('advanced_month_select', $request) && !array_key_exists($request['advanced_month_select'], self::getMonthOptions(OC_Calendar_App::$l10n))){
 				$errarr['advanced_month_select'] = 'true';
@@ -783,8 +783,6 @@ class OC_Calendar_Object{
 		$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
 		$vevent->setString('SUMMARY', $title);
 
-		$dtstart = new Sabre_VObject_Element_DateTime('DTSTART');
-		$dtend = new Sabre_VObject_Element_DateTime('DTEND');
 		if($allday){
 			$start = new DateTime($from);
 			$end = new DateTime($to.' +1 day');
