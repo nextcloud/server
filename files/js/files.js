@@ -417,7 +417,7 @@ var folderDropOptions={
 		var dir=$('#dir').val();
 		$.ajax({
 			url: 'ajax/move.php',
-		data: "dir="+dir+"&file="+file+'&target='+dir+'/'+target,
+		data: "dir="+encodeURIComponent(dir)+"&file="+encodeURIComponent(file)+'&target='+encodeURIComponent(dir)+'/'+encodeURIComponent(target),
 		complete: function(data){boolOperationFinished(data, function(){
 			var el = $('#fileList tr').filterAttr('data-file',file).find('td.filename');
 			el.draggable('destroy');
@@ -443,7 +443,7 @@ var crumbDropOptions={
 		}
 		$.ajax({
 			url: 'ajax/move.php',
-		 data: "dir="+dir+"&file="+file+'&target='+target,
+		 data: "dir="+encodeURIComponent(dir)+"&file="+encodeURIComponent(file)+'&target='+encodeURIComponent(target),
 		 complete: function(data){boolOperationFinished(data, function(){
 			 FileList.remove(file);
 		 });}

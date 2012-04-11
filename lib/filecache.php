@@ -240,7 +240,7 @@ class OC_FileCache{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFolderContent($path,$root=''){
+  public static function getFolderContent($path,$root='',$mimetype_filter=''){
 		if(self::isUpdated($path,$root)){
 			self::updateFolder($path,$root);
 		}
@@ -252,8 +252,8 @@ class OC_FileCache{
 		}
 		$path=$root.$path;
 		$parent=self::getFileId($path);
-		$query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=?');
-		$result=$query->execute(array($parent))->fetchAll();
+    $query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=? AND (mimetype LIKE ? OR mimetype = ?)');
+    $result=$query->execute(array($parent, $mimetype_filter.'%', 'httpd/unix-directory'))->fetchAll();
 		if(is_array($result)){
 			return $result;
 		}else{
@@ -469,6 +469,10 @@ class OC_FileCache{
 	 * @param string root (optionak)
 	 */
 	public static function scan($path,$eventSource=false,&$count=0,$root=''){
+		if($eventSource){
+			$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
+		}
+		$lastSend=$count;
 		if(!$root){
 			$view=OC_Filesystem::getView();
 		}else{
@@ -482,13 +486,14 @@ class OC_FileCache{
 				if($filename != '.' and $filename != '..'){
 					$file=$path.'/'.$filename;
 					if($view->is_dir($file.'/')){
-						if($eventSource){
-							$eventSource->send('scanning',array('file'=>$file,'count'=>$count));
-						}
 						self::scan($file,$eventSource,$count,$root);
 					}else{
 						$totalSize+=self::scanFile($file,$root);
 						$count++;
+						if($count>$lastSend+25 and $eventSource){
+							$lastSend=$count;
+							$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
+						}
 					}
 				}
 			}
@@ -636,6 +641,14 @@ class OC_FileCache{
 		}else{
 			self::fileSystemWatcherWrite(array('path'=>$path),$root);
 		}
+	}
+
+	/**
+	 * clean old pre-path_hash entries
+	 */
+	public static function clean(){
+		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE LENGTH(path_hash)<30');
+		$query->execute();
 	}
 }
 

@@ -17,4 +17,5 @@ OC_App::addNavigationEntry( array( 'id' => 'bookmarks_index', 'order' => 70, 'hr
 
 OC_App::registerPersonal('bookmarks', 'settings');
 OC_Util::addScript('bookmarks','bookmarksearch');
+
 OC_Search::registerProvider('OC_Search_Provider_Bookmarks');

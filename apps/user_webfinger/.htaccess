@@ -1,3 +1,0 @@
-RewriteEngine On
-RewriteBase /
-RewriteRule host-meta$ \/\.well-known\/host-meta\.php [L]

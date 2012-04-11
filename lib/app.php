@@ -55,7 +55,7 @@ class OC_App{
 
 		// Our very own core apps are hardcoded
 		foreach( array('files', 'settings') as $app ){
-			if(is_null($types) or self::isType($app,$types)){
+			if(is_null($types)){
 				require( $app.'/appinfo/app.php' );
 			}
 		}
@@ -103,9 +103,9 @@ class OC_App{
 	 */
 	public static function getEnabledApps(){
 		$apps=array();
-		$query = OC_DB::prepare( 'SELECT appid FROM *PREFIX*appconfig WHERE configkey = "enabled" AND configvalue="yes"' );
-		$query->execute();
-		while($row=$query->fetchRow()){
+		$query = OC_DB::prepare( 'SELECT appid FROM *PREFIX*appconfig WHERE configkey = \'enabled\' AND configvalue=\'yes\'' );
+		$result=$query->execute();
+		while($row=$result->fetchRow()){
 			$apps[]=$row['appid'];
 		}
 		return $apps;
@@ -319,7 +319,7 @@ class OC_App{
 			$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/info.xml';
 		}
 		$data=array();
-		$content=file_get_contents($file);
+		$content=@file_get_contents($file);
 		if(!$content){
 			return;
 		}
@@ -452,7 +452,7 @@ class OC_App{
 	 */
 	public static function getAppVersions(){
 		$versions=array();
-		$query = OC_DB::prepare( 'SELECT appid, configvalue FROM *PREFIX*appconfig WHERE configkey = "installed_version"' );
+		$query = OC_DB::prepare( 'SELECT appid, configvalue FROM *PREFIX*appconfig WHERE configkey = \'installed_version\'' );
 		$result = $query->execute();
 		while($row = $result->fetchRow()){
 			$versions[$row['appid']]=$row['configvalue'];

@@ -16,5 +16,6 @@ return array(
 	'xls'=>'application/msexcel',
 	'xlsx'=>'application/msexcel',
 	'ppt'=>'application/mspowerpoint',
-	'pptx'=>'application/mspowerpoint'
+	'pptx'=>'application/mspowerpoint',
+	'sgf' => 'application/sgf'
 );

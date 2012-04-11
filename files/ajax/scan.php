@@ -17,6 +17,7 @@ if($force or !OC_FileCache::inCache('')){
 	if(!$checkOnly){
 		OC_DB::beginTransaction();
 		OC_FileCache::scan('',$eventSource);
+		OC_FileCache::clean();
 		OC_DB::commit();
 		$eventSource->send('success',true);
 	}else{

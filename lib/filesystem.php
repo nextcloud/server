@@ -298,6 +298,19 @@ class OC_Filesystem{
 		}
 		return true;
 	}
+	
+	/**
+	 * checks if a file is blacklsited for storage in the filesystem
+	 * @param array $data from hook
+	 */
+	static public function isBlacklisted($data){
+		$blacklist = array('.htaccess');
+		$filename = strtolower(basename($data['path']));
+		if(in_array($filename,$blacklist)){
+			$data['run'] = false;	
+		}
+	}
+	
 	/**
 	 * following functions are equivilent to their php buildin equivilents for arguments/return values.
 	 */

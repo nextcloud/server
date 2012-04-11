@@ -63,10 +63,10 @@
 </div>
 <div id="scanning-message">
 	<h3>
-		<?php echo $l->t('Files are being scanned, please wait.');?> <span id='scan-count'></spann>
+		<?php echo $l->t('Files are being scanned, please wait.');?> <span id='scan-count'></span>
 	</h3>
 	<p>
-		<?php echo $l->t('Current scanning');?> <span id='scan-current'></spann>
+		<?php echo $l->t('Current scanning');?> <span id='scan-current'></span>
 	</p>
 </div>
 

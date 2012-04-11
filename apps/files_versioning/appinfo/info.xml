@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<info>
+    <id>files_versioning</id>
+    <name>Versioning and Backup</name>
+    <version>1.0.0</version>
+    <licence>GPLv2</licence>
+    <author>Craig Roberts</author>
+    <require>3</require>
+    <description>Versions files using Git repositories, providing a simple backup facility. Currently in *beta* and explicitly without warranty of any kind.</description>
+	<types>
+		<filesystem/>
+	</types>
+</info>

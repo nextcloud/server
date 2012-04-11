@@ -483,6 +483,30 @@ class OC_DB {
 	}
 	
 	/**
+	 * @breif replaces the owncloud tables with a new set
+	 * @param $file string path to the MDB2 xml db export file
+	 */
+	 public static function replaceDB( $file ){
+	 	
+	 	$apps = OC_App::getAllApps();
+	 	self::beginTransaction();
+	 	// Delete the old tables
+	 	self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
+	 	
+	 	foreach($apps as $app){
+	 		$path = OC::$SERVERROOT.'/apps/'.$app.'/appinfo/database.xml';
+	 		if(file_exists($path)){
+	 			self::removeDBStructure( $path );	
+	 		}
+	 	}
+	 	
+	 	// Create new tables
+	 	self::createDBFromStructure( $file );
+	 	self::commit();
+	 	
+	 }
+	
+	/**
 	 * Start a transaction
 	 */
 	public static function beginTransaction(){
@@ -586,3 +610,4 @@ class PDOStatementWrapper{
 		return $this->statement->fetchColumn($colnum);
 	}
 }
+

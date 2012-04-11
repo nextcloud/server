@@ -67,8 +67,7 @@
    <field>
 	   <name>path_hash</name>
 	   <type>text</type>
-	   <default>
-	   </default>
+	   <default></default>
 	   <notnull>true</notnull>
 	   <length>32</length>
    </field>
