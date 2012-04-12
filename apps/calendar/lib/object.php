@@ -320,27 +320,6 @@ class OC_Calendar_Object{
 		return $dtend;
 	}
 
-	public static function getCategoryOptions($l10n)
-	{
-		return array(
-			$l10n->t('Birthday'),
-			$l10n->t('Business'),
-			$l10n->t('Call'),
-			$l10n->t('Clients'),
-			$l10n->t('Deliverer'),
-			$l10n->t('Holidays'),
-			$l10n->t('Ideas'),
-			$l10n->t('Journey'),
-			$l10n->t('Jubilee'),
-			$l10n->t('Meeting'),
-			$l10n->t('Other'),
-			$l10n->t('Personal'),
-			$l10n->t('Projects'),
-			$l10n->t('Questions'),
-			$l10n->t('Work'),
-		);
-	}
-
 	public static function getRepeatOptions($l10n)
 	{
 		return array(
