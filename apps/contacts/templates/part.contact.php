@@ -14,7 +14,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<li><a data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
 		<li><a data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
 		<li><a data-type="NOTE"><?php echo $l->t('Note'); ?></a></li>
-		<li><a data-type="CATEGORIES"><?php echo $l->t('Categories'); ?></a></li>
+		<li><a data-type="CATEGORIES"><?php echo $l->t('Groups'); ?></a></li>
 	</ul>
 	</div>
 	<img  onclick="Contacts.UI.Card.doExport();" class="svg action" id="contacts_downloadcard" src="<?php echo image_path('', 'actions/download.svg'); ?>" title="<?php echo $l->t('Download contact');?>" />
@@ -58,7 +58,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<dd style="display:none;" class="propertycontainer" id="bday_value" data-element="BDAY"><input id="bday"  required="required" name="value" type="text" class="contacts_property big" value="" placeholder="<?php echo $l->t('dd-mm-yyyy'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt style="display:none;" id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Groups'); ?></label></dt>
 		<dd style="display:none;" class="propertycontainer" id="categories_value" data-element="CATEGORIES"><input id="categories" required="required" name="value[CATEGORIES]" type="text" class="contacts_property bold" name="value" value="" placeholder="
-<?php echo $l->t('Separate groups with commas'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"></a></dd>
+<?php echo $l->t('Separate groups with commas'); ?>" /><a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a><a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit groups'); ?>"></a></dd>
 	</dl>
 	</fieldset>
 	</form>
