@@ -148,7 +148,7 @@ class OC_Contacts_VCard{
 		$stringprops = array('N', 'FN', 'ORG', 'NICK', 'ADR', 'NOTE');
 		$typeprops = array('ADR', 'TEL', 'EMAIL');
 		$upgrade = false;
-		$fn = $n = $uid = $email = null;
+		$fn = $n = $uid = $email = $org = null;
 		$version = $vcard->getAsString('VERSION');
 		// Add version if needed
 		if($version && $version < '3.0') {
