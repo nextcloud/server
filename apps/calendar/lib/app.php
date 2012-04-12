@@ -12,6 +12,7 @@
 OC_Calendar_App::$l10n = new OC_L10N('calendar');
 class OC_Calendar_App{
 	public static $l10n;
+	protected static $categories = null;
 
 	public static function getCalendar($id){
 		$calendar = OC_Calendar_Calendar::find( $id );
@@ -54,7 +55,7 @@ class OC_Calendar_App{
 		}
 	}
 
-	public static function getCategoryOptions()
+	protected static function getDefaultCategories()
 	{
 		return array(
 			self::$l10n->t('Birthday'),
@@ -73,6 +74,19 @@ class OC_Calendar_App{
 			self::$l10n->t('Questions'),
 			self::$l10n->t('Work'),
 		);
+	}
+
+	protected static function getVCategories() {
+		if (is_null(self::$categories)) {
+			self::$categories = new OC_VCategories('calendar', null, self::getDefaultCategories());
+		}
+		return self::$categories;
+	}
+
+	public static function getCategoryOptions()
+	{
+		$categories = self::getVCategories()->categories();
+		return $categories;
 	}
 
 	public static function getRepeatOptions(){
