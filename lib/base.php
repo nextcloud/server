@@ -346,7 +346,7 @@ class OC{
 
 
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
-		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
+		OC_Group::useBackend(new OC_Group_Database());
 
 		// Set up file system unless forbidden
 		global $RUNTIME_NOSETUPFS;
