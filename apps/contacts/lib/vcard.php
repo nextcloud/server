@@ -234,7 +234,7 @@ class OC_Contacts_VCard{
 			return null;
 		};
 
-		OC_Contacts_App::$categories->loadFromVObject($card);
+		OC_Contacts_App::loadCategoriesFromVCard($card);
 
 		self::updateValuesFromAdd($card);
 
@@ -306,7 +306,7 @@ class OC_Contacts_VCard{
 			return false;
 		}
 
-		OC_Contacts_App::$categories->loadFromVObject($card);
+		OC_Contacts_App::loadCategoriesFromVCard($card);
 
 		$fn = $card->getAsString('FN');
 		if (empty($fn)) {
