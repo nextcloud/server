@@ -93,7 +93,7 @@ class OC_Helper {
 		$urlLinkTo = self::linkTo( $app, $file );
 		// Checking if the request was made through HTTPS. The last in line is for IIS
 		$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
-		$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
+		$urlLinkTo = ($protocol?'https':'http') . '://'  . self::serverHost() . $urlLinkTo;
 		return $urlLinkTo;
 	}
 
