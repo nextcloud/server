@@ -10,6 +10,6 @@
 		<fieldset class="personalblock">
 			<label for="maxZipInputSize"><?php echo $l->t( 'Maximum input size for ZIP files:' ); ?> </label><input name="maxZipInputSize" id="maxZipInputSize" value='<?php echo $_['maxZipInputSize'] ?>' title="<?php echo $l->t( '0 is unlimited' ); ?>"<?php if (!$_['allowZipDownload']) echo ' disabled="disabled"'; ?> /><br/>
 		</fieldset>
-		<input type="submit" value="Save"/>
+		<input type="submit" name="submitFilesAdminSettings" id="submitFilesAdminSettings" value="Save"/>
 	</fieldset>
 </form>
