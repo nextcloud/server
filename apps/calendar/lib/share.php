@@ -211,17 +211,17 @@ class OC_Calendar_Share{
 	 */
 	public static function check_access($share, $id, $type){
 		$group_where = self::group_sql(OC_Group::getUserGroups($share));
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ')');
-		$result = $stmt->execute(array($share));
+		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE (' . $type . 'id = ? AND (share = ? AND sharetype = "user") ' . $group_where . ')');
+		$result = $stmt->execute(array($id,$share));
 		$rows =  $result->numRows();
 		if($rows > 0){
 			return true;
-		}
-		if($type == self::EVENT){
+		}elseif($type == self::EVENT){
 			$event = OC_Calendar_App::getEventObject($id, false, false);
 			return self::check_access($share, $event['calendarid'], self::CALENDAR);
+		}else{
+			return false;
 		}
-		return false;
 	}
         /*
          * @brief: returns the calendardata of an event or a calendar

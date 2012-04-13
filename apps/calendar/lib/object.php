@@ -451,11 +451,6 @@ class OC_Calendar_Object{
 			$errarr['title'] = 'true';
 			$errnum++;
 		}
-		$calendar = OC_Calendar_App::getCalendar($request['calendar'], true, true);
-		if(!$calendar){
-			$errarr['cal'] = 'true';
-			$errnum++;
-		}
 
 		if(isset($request['categories']) && !is_array($request['categories'])){
 			$errarr['categories'] = $l10n->t('Not an array');

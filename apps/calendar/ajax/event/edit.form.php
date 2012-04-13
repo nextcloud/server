@@ -195,6 +195,8 @@ if($data['repeating'] == 1){
 }
 if($access == 'owner'){
 	$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+}else{
+	$calendar_options = array(OC_Calendar_App::getCalendar($data['calendarid'], false));
 }
 $category_options = OC_Calendar_App::getCategoryOptions();
 $repeat_options = OC_Calendar_App::getRepeatOptions();
