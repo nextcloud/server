@@ -16,6 +16,14 @@ switch($idtype){
 		OC_JSON::error(array('message'=>'unexspected parameter'));
 		exit;
 }
+if($idtype == 'calendar' && !OC_Calendar_App::getCalendar($id)){
+	OC_JSON::error(array('message'=>'permission denied'));
+	exit;
+}
+if($idtype == 'event' && !OC_Calendar_App::getEventObject($id)){
+	OC_JSON::error(array('message'=>'permission denied'));
+	exit;
+}
 $sharewith = $_GET['sharewith'];
 $sharetype = strip_tags($_GET['sharetype']);
 switch($sharetype){
