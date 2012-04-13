@@ -74,6 +74,7 @@ if ($source !== false) {
 		header("Content-Length: " . OC_Filesystem::filesize($source));
 		//download the file
 		@ob_clean();
+		OCP\Util::emitHook('OC_Share', 'public-download', array('source'=>$source, 'token'=>$token);
 		OC_Filesystem::readfile($source);
 	}
 } else {

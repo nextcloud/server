@@ -46,6 +46,26 @@ class OC_Admin_Audit_Hooks_Handlers {
 		$user = OCP\User::getUser();
 		self::log('Delete "'.$path.'" by '.$user);
 	}
+	static public function share_public($params) {
+		$path = $params['source'];
+		$token = $params['token'];
+		$user = OCP\User::getUser();
+		self::log('Shared "'.$path.'" with public, token="'.$token.'" by '.$user);
+	}
+	static public function share_public_download($params) {
+		$path = $params['source'];
+		$token = $params['token'];
+		$user = $_SERVER['REMOTE_ADDR'];
+		self::log('Download of shared "'.$path.'" token="'.$token.'" by '.$user);
+	}
+	static public function share_user($params) {
+		$path = $params['source'];
+		$permissions = $params['permissions'];
+		$with = $params['with'];
+		$user = OCP\User::getUser();
+		$rw = $permissions & OC_Share::WRITE ? 'w' : 'o';
+		self::log('Shared "'.$path.'" (r'.$rw.') with user "'.$with.'" by '.$user);
+	}
 	static protected function log($msg) {
 		OCP\Util::writeLog('admin_audit', $msg, OCP\Util::INFO);
 	}
