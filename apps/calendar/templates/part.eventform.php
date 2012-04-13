@@ -10,7 +10,7 @@
 		<tr>
 			<th width="75px"><?php echo $l->t("Category");?>:</th>
 			<td>
-				<input id="category" name="categories" type="text" placeholder="<?php echo $l->t('Separate categories with commas'); ?>">
+				<input id="category" name="categories" type="text" placeholder="<?php echo $l->t('Separate categories with commas'); ?>" value="<?php echo isset($_['categories']) ? htmlspecialchars($_['categories']) : '' ?>">
 				<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"><img alt="<?php echo $l->t('Edit categories'); ?>" src="<?php echo image_path('core','actions/rename.svg')?>" class="svg action" style="width: 16px; height: 16px;"></a>
 			</td>
 			<?php if(count($_['calendar_options']) > 1) { ?>
