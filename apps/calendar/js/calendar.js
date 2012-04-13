@@ -515,7 +515,7 @@ Calendar={
 			share:function(id, idtype, sharewith, sharetype){
 				$.getJSON(OC.filePath('calendar', 'ajax/share', 'share.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(data){
 					if(sharetype == 'public'){
-						$('#public_token').val(OC.linkTo('calendar', 'share.php?t=' + data.message));
+						$('#public_token').val(window.location.protocol + '//' + location.host + OC.linkTo('calendar', 'share.php?t=' + data.message));
 						$('#public_token').css('display', 'block');
 					}
 				});
