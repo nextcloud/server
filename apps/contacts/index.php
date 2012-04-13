@@ -52,7 +52,6 @@ OC_Util::addScript('contacts','jquery.inview');
 OC_Util::addScript('contacts','jquery.Jcrop');
 OC_Util::addScript('contacts','jquery.multi-autocomplete');
 OC_Util::addStyle('','jquery.multiselect');
-OC_Util::addStyle('','oc-vcategories');
 OC_Util::addStyle('contacts','jquery.combobox');
 OC_Util::addStyle('contacts','jquery.Jcrop');
 OC_Util::addStyle('contacts','contacts');
