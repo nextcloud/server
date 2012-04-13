@@ -4,8 +4,8 @@ $token = strip_tags($_GET['t']);
 $shared = OC_Calendar_Share::getElementByToken($token);
 $nl = "\n\r";
 if($shared['type'] == OC_Calendar_Share::CALENDAR){
-	$calendar = OC_Calendar_App::getCalendar($cal, false);
-	$calobjects = OC_Calendar_Object::all($cal);
+	$calendar = OC_Calendar_App::getCalendar($shared['id'], false);
+	$calobjects = OC_Calendar_Object::all($shared['id']);
 	header('Content-Type: text/Calendar');
 	header('Content-Disposition: inline; filename=' . $calendar['displayname'] . '.ics'); 
 	foreach($calobjects as $calobject){
