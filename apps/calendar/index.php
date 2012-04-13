@@ -48,7 +48,6 @@ OC_Util::addScript('', 'jquery.multiselect');
 OC_Util::addStyle('', 'jquery.multiselect');
 OC_Util::addScript('contacts','jquery.multi-autocomplete');
 OC_Util::addScript('','oc-vcategories');
-OC_Util::addStyle('','oc-vcategories');
 OC_App::setActiveNavigationEntry('calendar_index');
 $tmpl = new OC_Template('calendar', 'calendar', 'user');
 $tmpl->assign('eventSources', $eventSources);

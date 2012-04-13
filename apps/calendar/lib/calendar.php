@@ -44,10 +44,8 @@ class OC_Calendar_Calendar{
 	/**
 	 * @brief Returns the list of calendars for a specific user.
 	 * @param string $uid User ID
-	 * @param boolean $active
+	 * @param boolean $active Only return calendars with this $active state, default(=null) is don't care
 	 * @return array
-	 *
-	 * TODO: what is active for?
 	 */
 	public static function allCalendars($uid, $active=null){
 		$values = array($uid);

@@ -32,7 +32,6 @@ $start->setTimezone(new DateTimeZone($timezone));
 $end->setTimezone(new DateTimeZone($timezone));
 
 $calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
-$category_options = OC_Calendar_App::getCategoryOptions();
 $repeat_options = OC_Calendar_App::getRepeatOptions();
 $repeat_end_options = OC_Calendar_App::getEndOptions();
 $repeat_month_options = OC_Calendar_App::getMonthOptions();
@@ -46,7 +45,6 @@ $repeat_bymonthday_options = OC_Calendar_App::getByMonthDayOptions();
 
 $tmpl = new OC_Template('calendar', 'part.newevent');
 $tmpl->assign('calendar_options', $calendar_options);
-$tmpl->assign('category_options', $category_options);
 $tmpl->assign('repeat_options', $repeat_options);
 $tmpl->assign('repeat_month_options', $repeat_month_options);
 $tmpl->assign('repeat_weekly_options', $repeat_weekly_options);
@@ -73,4 +71,3 @@ $tmpl->assign('repeat_weekofmonth', 'auto');
 $tmpl->assign('repeat_date', '');
 $tmpl->assign('repeat_year', 'bydate');
 $tmpl->printpage();
-?>

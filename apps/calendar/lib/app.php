@@ -89,6 +89,41 @@ class OC_Calendar_App{
 		return $categories;
 	}
 
+	/**
+	 * scan events for categories.
+	 * @param $events VEVENTs to scan. null to check all events for the current user.
+	 */
+	public static function scanCategories($events = null) {
+		if (is_null($events)) {
+			$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+			if(count($calendars) > 0) {
+				$events = array();
+				foreach($calendars as $calendar) {
+					$calendar_events = OC_Calendar_Object::all($calendar['id']);
+					$events = $events + $calendar_events;
+				}
+			}
+		}
+		if(is_array($events) && count($events) > 0) {
+			$vcategories = self::getVCategories();
+			$vcategories->delete($vcategories->categories());
+			foreach($events as $event) {
+				$vobject = OC_VObject::parse($event['calendardata']);
+				if(!is_null($vobject)) {
+					$vcategories->loadFromVObject($vobject->VEVENT, true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * check VEvent for new categories.
+	 * @see OC_VCategories::loadFromVObject
+	 */
+	public static function loadCategoriesFromVCalendar(OC_VObject $calendar) {
+		self::getVCategories()->loadFromVObject($calendar->VEVENT, true);
+	}
+
 	public static function getRepeatOptions(){
 		return OC_Calendar_Object::getRepeatOptions(self::$l10n);
 	}

@@ -93,6 +93,7 @@ class OC_Calendar_Object{
 	 */
 	public static function add($id,$data){
 		$object = OC_VObject::parse($data);
+		OC_Calendar_App::loadCategoriesFromVCalendar($object);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		if(is_null($uid)){
@@ -139,6 +140,7 @@ class OC_Calendar_Object{
 		$oldobject = self::find($id);
 
 		$object = OC_VObject::parse($data);
+		OC_Calendar_App::loadCategoriesFromVCalendar($object);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
@@ -436,10 +438,6 @@ class OC_Calendar_Object{
 			$errnum++;
 		}
 
-		if(isset($request['categories']) && !is_array($request['categories'])){
-			$errors['categories'] = $l10n->t('Not an array');
-		}
-
 		$fromday = substr($request['from'], 0, 2);
 		$frommonth = substr($request['from'], 3, 2);
 		$fromyear = substr($request['from'], 6, 4);
@@ -607,7 +605,7 @@ class OC_Calendar_Object{
 	{
 		$title = $request["title"];
 		$location = $request["location"];
-		$categories = isset($request["categories"]) ? $request["categories"] : array();
+		$categories = $request["categories"];
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
 		$to  = $request["to"];
@@ -781,7 +779,7 @@ class OC_Calendar_Object{
 
 		$vevent->setString('LOCATION', $location);
 		$vevent->setString('DESCRIPTION', $description);
-		$vevent->setString('CATEGORIES', join(',', $categories));
+		$vevent->setString('CATEGORIES', $categories);
 
 		/*if($repeat == "true"){
 			$vevent->RRULE = $repeat;
