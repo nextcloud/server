@@ -380,17 +380,46 @@ class OC_Files {
 	/**
 	 * set the maximum upload size limit for apache hosts using .htaccess
 	 * @param int size filesisze in bytes
+	 * @return mixed false on failure, size on success
 	 */
 	static function setUploadLimit($size){
 		$size=OC_Helper::humanFileSize($size);
 		$size=substr($size,0,-1);//strip the B
 		$size=str_replace(' ','',$size); //remove the space between the size and the postfix
-		$content = "ErrorDocument 404 /".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
-		$content.= "php_value upload_max_filesize $size\n";//upload limit
-		$content.= "php_value post_max_size $size\n";
-		$content.= "SetEnv htaccessWorking true\n";
-		$content.= "Options -Indexes\n";
-		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
+
+		//don't allow user to break his config
+		if(intval($size) == 0) {
+			return false;
+		}
+
+		$htaccess = @file_get_contents(OC::$SERVERROOT.'/.htaccess'); //supress errors in case we don't have permissions for
+		if(!$htaccess) {
+			return false;
+		}
+
+		$phpValueKeys = array(
+			'upload_max_filesize',
+			'post_max_size'
+		);
+
+		foreach($phpValueKeys as $key) {
+		    $pattern = '/php_value '.$key.' (\S)*/';
+		    $setting = 'php_value '.$key.' '.$size;
+		    $hasReplaced = 0;
+		    $content = preg_replace($pattern, $setting, $htaccess, 1, $hasReplaced);
+		    if($content !== NULL) {
+				$htaccess = $content;
+			}
+			if($hasReplaced == 0) {
+				$htaccess .= "\n" . $setting;
+			}
+		}
+
+		//supress errors in case we don't have permissions for it
+		if(@file_put_contents(OC::$SERVERROOT.'/.htaccess', $htaccess)) {
+			return OC_Helper::computerFileSize($size);
+		}
+		return false;
 	}
 
 	/**
