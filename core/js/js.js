@@ -414,10 +414,9 @@ $(document).ready(function(){
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true});
-	$('.selectedActions a.delete').tipsy({gravity: 'se', fade:true, live:true});
-	$('a.action').tipsy({gravity:'s', fade:true, live:true});
-	$('a.delete').tipsy({gravity: 'se', fade:true, live:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
+	$('a.delete').tipsy({gravity: 'se', fade:true, live:true});
+	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
 	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
