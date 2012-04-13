@@ -93,6 +93,7 @@ class OC_Calendar_Object{
 	 */
 	public static function add($id,$data){
 		$object = OC_VObject::parse($data);
+		OC_Calendar_App::loadCategoriesFromVCalendar($object);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		if(is_null($uid)){
@@ -139,6 +140,7 @@ class OC_Calendar_Object{
 		$oldobject = self::find($id);
 
 		$object = OC_VObject::parse($data);
+		OC_Calendar_App::loadCategoriesFromVCalendar($object);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );

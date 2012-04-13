@@ -116,6 +116,14 @@ class OC_Calendar_App{
 		}
 	}
 
+	/**
+	 * check VEvent for new categories.
+	 * @see OC_VCategories::loadFromVObject
+	 */
+	public static function loadCategoriesFromVCalendar(OC_VObject $calendar) {
+		self::getVCategories()->loadFromVObject($calendar->VEVENT, true);
+	}
+
 	public static function getRepeatOptions(){
 		return OC_Calendar_Object::getRepeatOptions(self::$l10n);
 	}
