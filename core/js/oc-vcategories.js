@@ -84,15 +84,15 @@ OCCategories={
 	},
 	rescan:function(){
 		console.log('Categories.rescan');
-		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php'),{},function(jsondata, status, xhr){
-			if (status == 'error' && xhr.status == 404) {
-				OC.dialogs.alert('The required file ' + OC.filePath(Categories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
-				return;
-			}
+		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php'),function(jsondata, status, xhr){
 			if(jsondata.status == 'success'){
 				OCCategories._update(jsondata.data.categories);
 			} else {
 				OC.dialogs.alert(jsondata.data.message, 'Error');
+			}
+		}).error(function(xhr){
+			if (xhr.status == 404) {
+				OC.dialogs.alert('The required file ' + OC.filePath(Categories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
 			}
 		});
 	},
