@@ -20,19 +20,26 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Filestorage_Google extends Test_FileStorage {
-	
-	private $config;
-	private $id;
+$config=include('apps/files_external/tests/config.php');
+if(!is_array($config) or !isset($config['google']) or !$config['google']['run']){
+	abstract class Test_Filestorage_Google extends Test_FileStorage{}
+	return;
+}else{
+	class Test_Filestorage_Google extends Test_FileStorage {
+		
+		private $config;
+		private $id;
 
-	public function setUp(){
-		$id=uniqid();
-		$this->config=include('apps/files_external/tests/config.php');
-		$this->config['google']['root'].='/'.$id;//make sure we have an new empty folder to work in
-		$this->instance=new OC_Filestorage_Google($this->config['google']);
-	}
+		public function setUp(){
+			$id=uniqid();
+			$this->config=include('apps/files_external/tests/config.php');
+			$this->config['google']['root'].='/'.$id;//make sure we have an new empty folder to work in
+			$this->instance=new OC_Filestorage_Google($this->config['google']);
+		}
 
-	public function tearDown(){
-		$this->instance->rmdir('/');
+		public function tearDown(){
+			$this->instance->rmdir('/');
+		}
 	}
 }
+
