@@ -1,7 +1,0 @@
-#categoryform .scrollarea { position: absolute; left: 10px; top: 10px; right: 10px; bottom: 50px; overflow: auto; border:1px solid #ddd; background: #f8f8f8; }
-#categoryform .bottombuttons { position: absolute; bottom: 10px;}
-#categoryform .bottombuttons * { float: left;}
-/*#categorylist { border:1px solid #ddd;}*/
-#categorylist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
-#categorylist li:hover, li:active { background:#eee; }
-#category_addinput { width: 10em; }
