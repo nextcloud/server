@@ -10,12 +10,8 @@
 		<tr>
 			<th width="75px"><?php echo $l->t("Category");?>:</th>
 			<td>
-				<select id="category" name="categories[]" multiple="multiple" title="<?php echo $l->t("Select category") ?>">
-					<?php
-					if (!isset($_['categories'])) {$_['categories'] = array();}
-					echo html_select_options($_['category_options'], $_['categories'], array('combine'=>true));
-					?>
-				</select>
+				<input id="category" name="categories" type="text" placeholder="<?php echo $l->t('Separate categories with commas'); ?>" value="<?php echo isset($_['categories']) ? htmlspecialchars($_['categories']) : '' ?>">
+				<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"><img alt="<?php echo $l->t('Edit categories'); ?>" src="<?php echo image_path('core','actions/rename.svg')?>" class="svg action" style="width: 16px; height: 16px;"></a>
 			</td>
 			<?php if(count($_['calendar_options']) > 1) { ?>
 			<th width="75px">&nbsp;&nbsp;&nbsp;<?php echo $l->t("Calendar");?>:</th>

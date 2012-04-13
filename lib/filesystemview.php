@@ -137,13 +137,16 @@ class OC_FilesystemView {
 	}
 	public function readfile($path){
 		$handle=$this->fopen($path,'r');
-		$chunkSize = 1024*1024;// 1 MB chunks
-		while (!feof($handle)) {
-			echo fread($handle, $chunkSize);
-			@ob_flush();
-			flush();
+		if ($handle) {
+			$chunkSize = 1024*1024;// 1 MB chunks
+			while (!feof($handle)) {
+				echo fread($handle, $chunkSize);
+				@ob_flush();
+				flush();
+			}
+			return $this->filesize($path);
 		}
-		return $this->filesize($path);
+		return false;
 	}
 	public function is_readable($path){
 		return $this->basicOperation('is_readable',$path);
@@ -189,7 +192,7 @@ class OC_FilesystemView {
 		return $this->basicOperation('unlink',$path,array('delete'));
 	}
 	public function rename($path1,$path2){
-		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and $this->is_writable($path1) and OC_Filesystem::isValidPath($path2)){
+		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and OC_Filesystem::isValidPath($path2)){
 			$run=true;
 			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_rename, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2, OC_Filesystem::signal_param_run => &$run));
 			if($run){

@@ -2,9 +2,9 @@
 <info>
 	<id>user_webfinger</id>
 	<name>Webfinger</name>
-	<description>Provide WebFinger for all users so they get a user address like user@owncloudinstance which can be used for unhosted applications. If you don't run ownCloud in the root of your domain, for instance if you run it on example.com/owncloud/, then make sure you link example.com/.well-known/ to example.com/owncloud/apps/user_webfinger/ - by running something like "ln -s /var/www/owncloud/apps/user_webfinger /var/www/.well-known". Only enable this app if you run this ownCloud installation on a public web address, not if you run it on an intranet or on localhost.</description>
-	<version>0.2</version>
+	<description>Provide WebFinger for all users so they get a user address like user@owncloudinstance which can be used for external applications. Other apps can provide information for webfinger requests, such as remoteStorage compatibility.</description>
+	<version>0.3</version>
 	<licence>AGPL or MIT</licence>
-	<author>Michiel de Jong</author>
+	<author>Michiel de Jong, Florian Hülsmann</author>
 	<require>2</require>
 </info>

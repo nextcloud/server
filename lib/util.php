@@ -66,7 +66,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(3,00,4);
+		return array(3,80,0);
 	}
 
 	/**
@@ -74,8 +74,16 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '3';
+		return '4 alpha';
 	}
+
+        /**
+         * get the current installed edition of ownCloud. There is the community edition that just returns an empty string and the enterprise edition that returns "Enterprise".
+         * @return string
+         */
+        public static function getEditionString(){
+                return '';
+        }
 
 	/**
 	 * add a javascript file

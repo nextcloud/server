@@ -126,7 +126,13 @@ OC={
 			});
 		}
 	},
-	dialogs:OCdialogs
+	dialogs:OCdialogs,
+  mtime2date:function(mtime) {
+    mtime = parseInt(mtime);
+    var date = new Date(1000*mtime);
+    var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
+    return ret;
+  }
 };
 OC.search.customResults={};
 OC.search.currentResult=-1;
@@ -407,9 +413,10 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true}); 
-	$('.selectedActions a.delete').tipsy({gravity: 'se', fade:true, live:true});
+	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
+	$('a.delete').tipsy({gravity: 'se', fade:true, live:true});
+	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
 	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});

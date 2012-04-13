@@ -10,7 +10,7 @@ require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$categories = OC_Contacts_App::$categories->categories();
+$categories = OC_Contacts_App::getCategories();
 
 OC_JSON::success(array('data' => array('categories'=>$categories)));
 

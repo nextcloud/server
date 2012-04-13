@@ -12,6 +12,7 @@
 OC_Calendar_App::$l10n = new OC_L10N('calendar');
 class OC_Calendar_App{
 	public static $l10n;
+	protected static $categories = null;
 
 	public static function getCalendar($id){
 		$calendar = OC_Calendar_Calendar::find( $id );
@@ -54,7 +55,7 @@ class OC_Calendar_App{
 		}
 	}
 
-	public static function getCategoryOptions()
+	protected static function getDefaultCategories()
 	{
 		return array(
 			self::$l10n->t('Birthday'),
@@ -73,6 +74,54 @@ class OC_Calendar_App{
 			self::$l10n->t('Questions'),
 			self::$l10n->t('Work'),
 		);
+	}
+
+	protected static function getVCategories() {
+		if (is_null(self::$categories)) {
+			self::$categories = new OC_VCategories('calendar', null, self::getDefaultCategories());
+		}
+		return self::$categories;
+	}
+
+	public static function getCategoryOptions()
+	{
+		$categories = self::getVCategories()->categories();
+		return $categories;
+	}
+
+	/**
+	 * scan events for categories.
+	 * @param $events VEVENTs to scan. null to check all events for the current user.
+	 */
+	public static function scanCategories($events = null) {
+		if (is_null($events)) {
+			$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+			if(count($calendars) > 0) {
+				$events = array();
+				foreach($calendars as $calendar) {
+					$calendar_events = OC_Calendar_Object::all($calendar['id']);
+					$events = $events + $calendar_events;
+				}
+			}
+		}
+		if(is_array($events) && count($events) > 0) {
+			$vcategories = self::getVCategories();
+			$vcategories->delete($vcategories->categories());
+			foreach($events as $event) {
+				$vobject = OC_VObject::parse($event['calendardata']);
+				if(!is_null($vobject)) {
+					$vcategories->loadFromVObject($vobject->VEVENT, true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * check VEvent for new categories.
+	 * @see OC_VCategories::loadFromVObject
+	 */
+	public static function loadCategoriesFromVCalendar(OC_VObject $calendar) {
+		self::getVCategories()->loadFromVObject($calendar->VEVENT, true);
 	}
 
 	public static function getRepeatOptions(){

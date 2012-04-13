@@ -2,8 +2,8 @@
 <info>
 	<id>remoteStorage</id>
 	<name>remoteStorage compatibility</name>
-	<description>Enables you to use ownCloud as their remote storage for unhosted applications. This app requires the Webfinger app to be enabled as well. More info on <a href="http://unhosted.org">the website of the unhosted movement</a>.</description>
-	<version>0.5</version>
+	<description>Enables you to use ownCloud as their remote storage for unhosted applications. This app requires the Webfinger app to be installed and enabled correctly. More info on <a href="http://unhosted.org">the website of the unhosted movement</a>.</description>
+	<version>0.6</version>
 	<licence>AGPL or MIT</licence>
 	<author>Michiel de Jong</author>
 	<require>2</require>

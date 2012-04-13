@@ -96,40 +96,40 @@ switch($element) {
 			//$value = getOtherValue();
 		}
 		break;
-	case 'CATEGORIES':
-		/* multi autocomplete triggers an save with empty value */
+	//case 'CATEGORIES':
+		/* multi autocomplete triggers an save with empty value
 		if (!$value) {
 			$value = $vcard->getAsString('CATEGORIES');
 		}
-		break;
+		break;*/
 	case 'EMAIL':
 		$value = strtolower($value);
 		break;
 }
 
 if(!$value) {
-	bailOut(OC_Contacts_App::$l10n->t('Cannot save empty value.'));
-}
-
-/* setting value */
-switch($element) {
-	case 'BDAY':
-	case 'FN':
-	case 'N':
-	case 'ORG':
-	case 'NOTE':
-	case 'NICKNAME':
-	case 'CATEGORIES':
-		debug('Setting string:'.$name.' '.$value);
-		$vcard->setString($name, $value);
-		break;
-	case 'EMAIL':
-	case 'TEL':
-	case 'ADR': // should I delete the property if empty or throw an error?
-		debug('Setting element: (EMAIL/TEL/ADR)'.$element);
-		if(!$value) {
-			unset($vcard->children[$line]); // Should never happen...
-		} else {
+	unset($vcard->children[$line]);
+	$checksum = '';
+} else {
+	/* setting value */
+	switch($element) {
+		case 'BDAY':
+		case 'FN':
+		case 'N':
+		case 'ORG':
+		case 'NOTE':
+		case 'NICKNAME':
+			debug('Setting string:'.$name.' '.$value);
+			$vcard->setString($name, $value);
+			break;
+		case 'CATEGORIES':
+			debug('Setting string:'.$name.' '.$value);
+			$vcard->children[$line]->setValue($value);
+			break;
+		case 'EMAIL':
+		case 'TEL':
+		case 'ADR': // should I delete the property if empty or throw an error?
+			debug('Setting element: (EMAIL/TEL/ADR)'.$element);
 			$vcard->children[$line]->setValue($value);
 			$vcard->children[$line]->parameters = array();
 			if(!is_null($parameters)) {
@@ -142,12 +142,12 @@ switch($element) {
 					}
 				}
 			}
-		}
-		break;
+			break;
+	}
+	// Do checksum and be happy
+	$checksum = md5($vcard->children[$line]->serialize());
 }
-// Do checksum and be happy
-$checksum = md5($vcard->children[$line]->serialize());
-debug('New checksum: '.$checksum);
+//debug('New checksum: '.$checksum);
 
 if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error updating contact property.'));

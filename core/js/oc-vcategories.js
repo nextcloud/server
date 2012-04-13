@@ -19,7 +19,7 @@ OCCategories={
 						height: 350, minHeight:200, width: 250, minWidth: 200,
 						buttons: {
 							'Delete':function() {
-								OCCategories.delete();
+								OCCategories.doDelete();
 							},
 							'Rescan':function() {
 								OCCategories.rescan();
@@ -53,25 +53,21 @@ OCCategories={
 			}
 		});
 	},
-	delete:function(){
+	_processDeleteResult:function(jsondata, status, xhr){
+		if(jsondata.status == 'success'){
+			OCCategories._update(jsondata.data.categories);
+		} else {
+			OC.dialogs.alert(jsondata.data.message, 'Error');
+		}
+	},
+	doDelete:function(){
 		var categories = $('#categorylist').find('input[type="checkbox"]').serialize();
 		categories += '&app=' + OCCategories.app;
 		console.log('OCCategories.delete: ' + categories);
-		$.post(OC.filePath(OCCategories.app, 'ajax', 'categories/delete.php'),categories,function(jsondata, status, xhr){
-			if (status == 'error' && xhr.status == 404) {
-				$.post(OC.filePath('core', 'ajax', 'vcategories/delete.php'),categories,function(jsondata, status, xhr){
-					if(jsondata.status == 'success'){
-						OCCategories._update(jsondata.data.categories);
-					} else {
-						OC.dialogs.alert(jsondata.data.message, 'Error');
-					}
-				});
-				return;
-			}
-			if(jsondata.status == 'success'){
-				OCCategories._update(jsondata.data.categories);
-			} else {
-				OC.dialogs.alert(jsondata.data.message, 'Error');
+		$.post(OC.filePath(OCCategories.app, 'ajax', 'categories/delete.php'), categories, OCCategories._processDeleteResult)
+		.error(function(xhr){
+			if (xhr.status == 404) {
+				$.post(OC.filePath('core', 'ajax', 'vcategories/delete.php'), categories, OCCategories._processDeleteResult);
 			}
 		});
 	},
@@ -88,15 +84,15 @@ OCCategories={
 	},
 	rescan:function(){
 		console.log('Categories.rescan');
-		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php'),{},function(jsondata, status, xhr){
-			if (status == 'error' && xhr.status == 404) {
-				OC.dialogs.alert('The required file ' + OC.filePath(Categories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
-				return;
-			}
+		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php'),function(jsondata, status, xhr){
 			if(jsondata.status == 'success'){
 				OCCategories._update(jsondata.data.categories);
 			} else {
 				OC.dialogs.alert(jsondata.data.message, 'Error');
+			}
+		}).error(function(xhr){
+			if (xhr.status == 404) {
+				OC.dialogs.alert('The required file ' + OC.filePath(Categories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
 			}
 		});
 	},

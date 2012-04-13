@@ -86,6 +86,7 @@ class OC_DB {
 		$user = OC_Config::getValue( "dbuser", "" );
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		$opts = array();
 		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 		
 		// do nothing if the connection already has been established
@@ -100,13 +101,14 @@ class OC_DB {
 					break;
 				case 'mysql':
 					$dsn='mysql:dbname='.$name.';host='.$host;
+					$opts[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
 					break;
 				case 'pgsql':
 					$dsn='pgsql:dbname='.$name.';host='.$host;
 					break;
 			}
 			try{
-				self::$PDO=new PDO($dsn,$user,$pass);
+				self::$PDO=new PDO($dsn,$user,$pass,$opts);
 			}catch(PDOException $e){
 				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
 				die();
@@ -483,6 +485,30 @@ class OC_DB {
 	}
 	
 	/**
+	 * @breif replaces the owncloud tables with a new set
+	 * @param $file string path to the MDB2 xml db export file
+	 */
+	 public static function replaceDB( $file ){
+	 	
+	 	$apps = OC_App::getAllApps();
+	 	self::beginTransaction();
+	 	// Delete the old tables
+	 	self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
+	 	
+	 	foreach($apps as $app){
+	 		$path = OC::$SERVERROOT.'/apps/'.$app.'/appinfo/database.xml';
+	 		if(file_exists($path)){
+	 			self::removeDBStructure( $path );	
+	 		}
+	 	}
+	 	
+	 	// Create new tables
+	 	self::createDBFromStructure( $file );
+	 	self::commit();
+	 	
+	 }
+	
+	/**
 	 * Start a transaction
 	 */
 	public static function beginTransaction(){
@@ -586,3 +612,4 @@ class PDOStatementWrapper{
 		return $this->statement->fetchColumn($colnum);
 	}
 }
+

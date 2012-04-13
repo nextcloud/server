@@ -106,7 +106,7 @@ label.infield { cursor: text !important; }
 
 #notification { z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 
-.action, .selectedActions a, #logout { opacity:.3; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
+.action, .selectedActions a, #logout { opacity:.5; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
 .action { width: 16px; height: 16px; }
 .action:hover, .selectedActions a:hover, #logout:hover { opacity:1; }
 
@@ -134,3 +134,19 @@ a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padd
 
 .exception{color: #000000;}
 .exception textarea{width:95%;height: 200px;background:#ffe;border:0;}
+
+/* ---- DIALOGS ---- */
+#dirtree {width: 100%;}
+#filelist {height: 270px; overflow:scroll; background-color: white;}
+.filepicker_element_selected { background-color: lightblue;}
+.filepicker_loader {height: 120px; width: 100%; background-color: #333; opacity: 0.3; visibility: visible; position:absolute; top:0; left:0; text-align:center; padding-top: 150px;}
+
+
+/* ---- CATEGORIES ---- */
+#categoryform .scrollarea { position: absolute; left: 10px; top: 10px; right: 10px; bottom: 50px; overflow: auto; border:1px solid #ddd; background: #f8f8f8; }
+#categoryform .bottombuttons { position: absolute; bottom: 10px;}
+#categoryform .bottombuttons * { float: left;}
+/*#categorylist { border:1px solid #ddd;}*/
+#categorylist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+#categorylist li:hover, li:active { background:#eee; }
+#category_addinput { width: 10em; }
