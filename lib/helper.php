@@ -27,7 +27,7 @@
 class OC_Helper {
 	private static $mimetypes=array();
 	private static $tmpFiles=array();
-	
+
 	/**
 	 * @brief Creates an url
 	 * @param $app app
@@ -123,7 +123,7 @@ class OC_Helper {
 		}elseif( file_exists( OC::$SERVERROOT."/core/img/$image" )){
 			return OC::$WEBROOT."/core/img/$image";
 		}else{
-			echo('image not found: image:'.$image.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);	
+			echo('image not found: image:'.$image.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 			die();
 		}
 	}
@@ -188,7 +188,7 @@ class OC_Helper {
 		$bytes = round( $bytes / 1024, 1 );
 		return "$bytes GB";
 	}
-	
+
 	/**
 	 * @brief Make a computer file size
 	 * @param $str file size in a fancy format
@@ -224,9 +224,9 @@ class OC_Helper {
 
 		$bytes = round($bytes, 2);
 
-		return $bytes; 
+		return $bytes;
 	}
-	
+
 	/**
 	 * @brief Recusive editing of file permissions
 	 * @param $path path to file or folder
@@ -276,7 +276,7 @@ class OC_Helper {
 			copy($src, $dest);
 		}
 	}
-	
+
 	/**
 	 * @brief Recusive deletion of folders
 	 * @param string $dir path to the folder
@@ -293,6 +293,9 @@ class OC_Helper {
 			rmdir($dir);
 		}elseif(file_exists($dir)){
 			unlink($dir);
+		}
+		if(file_exists($dir)) {
+			return false;
 		}
 	}
 
@@ -349,7 +352,7 @@ class OC_Helper {
 		}
 		return $mimeType;
 	}
-	
+
 	/**
 	 * @brief Checks $_REQUEST contains a var for the $s key. If so, returns the html-escaped value of this var; otherwise returns the default value provided by $d.
 	 * @param $s name of the var to escape, if set.
@@ -357,16 +360,16 @@ class OC_Helper {
 	 * @returns the print-safe value.
 	 *
 	 */
-	 
+
 	//FIXME: should also check for value validation (i.e. the email is an email).
 	public static function init_var($s, $d="") {
 		$r = $d;
 		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s]))
 			$r = stripslashes(htmlspecialchars($_REQUEST[$s]));
-		
+
 		return $r;
 	}
-	
+
 	/**
 	 * returns "checked"-attribut if request contains selected radio element OR if radio element is the default one -- maybe?
 	 * @param string $s Name of radio-button element name
@@ -422,7 +425,7 @@ class OC_Helper {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * copy the contents of one stream to another
 	 * @param resource source
@@ -439,7 +442,7 @@ class OC_Helper {
 		}
 		return $count;
 	}
-	
+
 	/**
 	 * create a temporary file with an unique filename
 	 * @param string postfix
@@ -467,14 +470,25 @@ class OC_Helper {
 		self::$tmpFiles[]=$path;
 		return $path.'/';
 	}
-	
+
 	/**
 	 * remove all files created by self::tmpFile
 	 */
 	public static function cleanTmp(){
+		$leftoversFile='/tmp/oc-not-deleted';
+		if(file_exists($leftoversFile)){
+			$leftovers=file($leftoversFile);
+			foreach($leftovers as $file) {
+				self::rmdirr($file);
+			}
+			unlink($leftoversFile);
+		}
+
 		foreach(self::$tmpFiles as $file){
 			if(file_exists($file)){
-				self::rmdirr($file);
+				if(!self::rmdirr($file)) {
+					file_put_contents($leftoversFile, $file."\n", FILE_APPEND);
+				}
 			}
 		}
 	}
