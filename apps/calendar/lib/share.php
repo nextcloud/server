@@ -130,7 +130,7 @@ class OC_Calendar_Share{
 		}else{
 			$string = OC_Calendar_Object::find($id);
 		}
-		$string = sha1($string);
+		$string = sha1($string['calendardata']);
 		$id = sha1($id);
 		$array = array($uniqid,$string,$id);
 		shuffle($array);
@@ -245,5 +245,6 @@ class OC_Calendar_Share{
                 $event = $result_event->fetchRow();
                 $return ['id'] = $event['eventid'];
             }
+			return $return;
         }
 }

@@ -18,4 +18,6 @@ if($shared['type'] == OC_Calendar_Share::CALENDAR){
 	header('Content-Type: text/Calendar');
 	header('Content-Disposition: inline; filename=' . $data['summary'] . '.ics'); 
 	echo $data['calendardata'];
+}else{
+	header('Error 404: Not Found');
 }
