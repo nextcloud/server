@@ -317,14 +317,22 @@ class OC_Files {
 	/**
 	 * set the maximum upload size limit for apache hosts using .htaccess
 	 * @param int size filesisze in bytes
-	 * @return mixed false on failure, size on success
+	 * @return false on failure, size on success
 	 */
 	static function setUploadLimit($size){
-		$size=OC_Helper::humanFileSize($size);
-		$size=substr($size,0,-1);//strip the B
-		$size=str_replace(' ','',$size); //remove the space between the size and the postfix
+		//don't allow user to break his config -- upper boundary
+		if($size > PHP_INT_MAX) {
+			//max size is always 1 byte lower than computerFileSize returns
+			if($size > PHP_INT_MAX+1)
+				return false;
+			$size -=1;
+		} else {
+			$size=OC_Helper::humanFileSize($size);
+			$size=substr($size,0,-1);//strip the B
+			$size=str_replace(' ','',$size); //remove the space between the size and the postfix
+		}
 
-		//don't allow user to break his config
+		//don't allow user to break his config -- broken or malicious size input
 		if(intval($size) == 0) {
 			return false;
 		}

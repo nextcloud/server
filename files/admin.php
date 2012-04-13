@@ -54,6 +54,7 @@ OC_App::setActiveNavigationEntry( "files_administration" );
 $tmpl = new OC_Template( 'files', 'admin' );
 $tmpl->assign( 'htaccessWorking', $htaccessWorking );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign( 'maxPossibleUploadSize', OC_Helper::humanFileSize(PHP_INT_MAX));
 $tmpl->assign( 'allowZipDownload', $allowZipDownload);
 $tmpl->assign( 'maxZipInputSize', $maxZipInputSize);
 return $tmpl->fetchPage();
