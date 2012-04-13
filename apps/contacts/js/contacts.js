@@ -504,8 +504,9 @@ Contacts={
 				return false;
 			},
 			categoriesChanged:function(newcategories) { // Categories added/deleted.
-				console.log('categoriesChanged for ' + Contacts.UI.Card.id + ' : ' + newcategories);
-				categories = newcategories;
+				categories = $.map(newcategories, function(v) {return v;});
+				console.log('categoriesChanged for ' + Contacts.UI.Card.id + ' : ' + categories);
+				$('#categories').multiple_autocomplete('option', 'source', categories);
 				var categorylist = $('#categories_value').find('input');
 				$.getJSON(OC.filePath('contacts', 'ajax', 'categories/categoriesfor.php'),{'id':Contacts.UI.Card.id},function(jsondata){
 					if(jsondata.status == 'success'){

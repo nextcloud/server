@@ -93,6 +93,7 @@ class OC_Calendar_Object{
 	 */
 	public static function add($id,$data){
 		$object = OC_VObject::parse($data);
+		OC_Calendar_App::loadCategoriesFromVCalendar($object);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		if(is_null($uid)){
@@ -139,6 +140,7 @@ class OC_Calendar_Object{
 		$oldobject = self::find($id);
 
 		$object = OC_VObject::parse($data);
+		OC_Calendar_App::loadCategoriesFromVCalendar($object);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
 		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
@@ -320,27 +322,6 @@ class OC_Calendar_Object{
 		return $dtend;
 	}
 
-	public static function getCategoryOptions($l10n)
-	{
-		return array(
-			$l10n->t('Birthday'),
-			$l10n->t('Business'),
-			$l10n->t('Call'),
-			$l10n->t('Clients'),
-			$l10n->t('Deliverer'),
-			$l10n->t('Holidays'),
-			$l10n->t('Ideas'),
-			$l10n->t('Journey'),
-			$l10n->t('Jubilee'),
-			$l10n->t('Meeting'),
-			$l10n->t('Other'),
-			$l10n->t('Personal'),
-			$l10n->t('Projects'),
-			$l10n->t('Questions'),
-			$l10n->t('Work'),
-		);
-	}
-
 	public static function getRepeatOptions($l10n)
 	{
 		return array(
@@ -455,10 +436,6 @@ class OC_Calendar_Object{
 		if($calendar['userid'] != OC_User::getUser()){
 			$errarr['cal'] = 'true';
 			$errnum++;
-		}
-
-		if(isset($request['categories']) && !is_array($request['categories'])){
-			$errors['categories'] = $l10n->t('Not an array');
 		}
 
 		$fromday = substr($request['from'], 0, 2);
@@ -628,7 +605,7 @@ class OC_Calendar_Object{
 	{
 		$title = $request["title"];
 		$location = $request["location"];
-		$categories = isset($request["categories"]) ? $request["categories"] : array();
+		$categories = $request["categories"];
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
 		$to  = $request["to"];
@@ -802,7 +779,7 @@ class OC_Calendar_Object{
 
 		$vevent->setString('LOCATION', $location);
 		$vevent->setString('DESCRIPTION', $description);
-		$vevent->setString('CATEGORIES', join(',', $categories));
+		$vevent->setString('CATEGORIES', $categories);
 
 		/*if($repeat == "true"){
 			$vevent->RRULE = $repeat;

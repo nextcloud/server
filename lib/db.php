@@ -86,6 +86,7 @@ class OC_DB {
 		$user = OC_Config::getValue( "dbuser", "" );
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		$opts = array();
 		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 		
 		// do nothing if the connection already has been established
@@ -100,13 +101,14 @@ class OC_DB {
 					break;
 				case 'mysql':
 					$dsn='mysql:dbname='.$name.';host='.$host;
+					$opts[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
 					break;
 				case 'pgsql':
 					$dsn='pgsql:dbname='.$name.';host='.$host;
 					break;
 			}
 			try{
-				self::$PDO=new PDO($dsn,$user,$pass);
+				self::$PDO=new PDO($dsn,$user,$pass,$opts);
 			}catch(PDOException $e){
 				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
 				die();

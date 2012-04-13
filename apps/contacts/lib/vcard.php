@@ -148,7 +148,7 @@ class OC_Contacts_VCard{
 		$stringprops = array('N', 'FN', 'ORG', 'NICK', 'ADR', 'NOTE');
 		$typeprops = array('ADR', 'TEL', 'EMAIL');
 		$upgrade = false;
-		$fn = $n = $uid = $email = null;
+		$fn = $n = $uid = $email = $org = null;
 		$version = $vcard->getAsString('VERSION');
 		// Add version if needed
 		if($version && $version < '3.0') {
@@ -234,7 +234,7 @@ class OC_Contacts_VCard{
 			return null;
 		};
 
-		OC_Contacts_App::$categories->loadFromVObject($card);
+		OC_Contacts_App::loadCategoriesFromVCard($card);
 
 		self::updateValuesFromAdd($card);
 
@@ -306,7 +306,7 @@ class OC_Contacts_VCard{
 			return false;
 		}
 
-		OC_Contacts_App::$categories->loadFromVObject($card);
+		OC_Contacts_App::loadCategoriesFromVCard($card);
 
 		$fn = $card->getAsString('FN');
 		if (empty($fn)) {

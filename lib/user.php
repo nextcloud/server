@@ -186,7 +186,7 @@ class OC_User {
 	 * @param $password The password of the user
 	 * @returns true/false
 	 *
-	 * Log in a user - if the password is ok
+	 * Log in a user and regenerate a new session - if the password is ok
 	 */
 	public static function login( $uid, $password ){
 		$run = true;
@@ -195,6 +195,7 @@ class OC_User {
 		if( $run ){
 			$uid=self::checkPassword( $uid, $password );
 			if($uid){
+				session_regenerate_id();
 				self::setUserId($uid);
 				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
 				return true;
@@ -221,7 +222,8 @@ class OC_User {
 	 */
 	public static function logout(){
 		OC_Hook::emit( "OC_User", "logout", array());
-		$_SESSION['user_id'] = false;
+		session_unset();
+		session_destroy();
 		OC_User::unsetMagicInCookie();
 		return true;
 	}

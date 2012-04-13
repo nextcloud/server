@@ -35,25 +35,6 @@ if(!is_null($id)) {
 $property_types = OC_Contacts_App::getAddPropertyOptions();
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 $categories = OC_Contacts_App::getCategories();
-if(count($categories) == 0) {
-	$vcaddressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
-	if(count($vcaddressbooks) > 0) {
-		$vcaddressbookids = array();
-		foreach($vcaddressbooks as $vcaddressbook) {
-			$vcaddressbookids[] = $vcaddressbook['id'];
-		} 
-		$vccontacts = OC_Contacts_VCard::all($vcaddressbookids);
-		if(count($vccontacts) > 0) {
-			$cards = array();
-			foreach($vccontacts as $vccontact) {
-				$cards[] = $vccontact['carddata'];
-			} 
-
-			OC_Contacts_App::$categories->rescan($cards);
-			$categories = OC_Contacts_App::$categories->categories();
-		}
-	}
-}
 
 $upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
@@ -71,7 +52,6 @@ OC_Util::addScript('contacts','jquery.inview');
 OC_Util::addScript('contacts','jquery.Jcrop');
 OC_Util::addScript('contacts','jquery.multi-autocomplete');
 OC_Util::addStyle('','jquery.multiselect');
-OC_Util::addStyle('','oc-vcategories');
 OC_Util::addStyle('contacts','jquery.combobox');
 OC_Util::addStyle('contacts','jquery.Jcrop');
 OC_Util::addStyle('contacts','contacts');
@@ -79,9 +59,9 @@ OC_Util::addStyle('contacts','contacts');
 $tmpl = new OC_Template( "contacts", "index", "user" );
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
-$tmpl->assign('property_types',$property_types);
-$tmpl->assign('phone_types',$phone_types);
-$tmpl->assign('categories',$categories);
+$tmpl->assign('property_types', $property_types);
+$tmpl->assign('phone_types', $phone_types);
+$tmpl->assign('categories', $categories);
 $tmpl->assign('addressbooks', $addressbooks);
 $tmpl->assign('contacts', $contacts);
 $tmpl->assign('details', $details );

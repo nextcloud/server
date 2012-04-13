@@ -66,7 +66,7 @@ FileActions={
 				if(img.call){
 					img=img(file);
 				}
-				var html='<a href="#" title="'+name+'" class="action" style="display:none" />';
+				var html='<a href="#" original-title="'+name+'" class="action" style="display:none" />';
 				var element=$(html);
 				if(img){
 					element.append($('<img src="'+img+'"/>'));
@@ -89,7 +89,7 @@ FileActions={
 			if(img.call){
 				img=img(file);
 			}
-			var html='<a href="#" title="Delete" class="action" style="display:none" />';
+			var html='<a href="#" original-title="Delete" class="action delete" style="display:none" />';
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));

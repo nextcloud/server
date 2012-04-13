@@ -249,6 +249,14 @@ class OC_Filesystem{
 	}
 
 	/**
+	 * clear all mounts and storage backends
+	 */
+	public static function clearMounts(){
+		self::$mounts=array();
+		self::$storages=array();
+	}
+
+	/**
 	* mount an OC_Filestorage in our virtual filesystem
 	* @param OC_Filestorage storage
 	* @param string mountpoint
