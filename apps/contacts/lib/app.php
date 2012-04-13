@@ -195,7 +195,7 @@ class OC_Contacts_App {
 	 * @see OC_VCategories::loadFromVObject
 	 */
 	public static function loadCategoriesFromVCard(OC_VObject $contact) {
-		self::$categories->loadFromVObject($contact);
+		self::$categories->loadFromVObject($contact, true);
 	}
 
 	public static function setLastModifiedHeader($contact) {
