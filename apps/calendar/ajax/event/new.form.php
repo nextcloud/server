@@ -71,4 +71,3 @@ $tmpl->assign('repeat_weekofmonth', 'auto');
 $tmpl->assign('repeat_date', '');
 $tmpl->assign('repeat_year', 'bydate');
 $tmpl->printpage();
-?>
