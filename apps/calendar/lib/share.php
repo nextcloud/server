@@ -122,7 +122,7 @@ class OC_Calendar_Share{
 	private static function generate_token($id, $type){
 		$uniqid = uniqid();
 		if($type == self::CALENDAR){
-			$events = OC_Calendar_Objects::all($id);
+			$events = OC_Calendar_Object::all($id);
 			$string = '';
 			foreach($events as $event){
 				$string .= $event['calendardata'];
