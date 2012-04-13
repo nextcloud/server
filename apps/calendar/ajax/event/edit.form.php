@@ -217,6 +217,7 @@ if($access == 'owner' || $access == 'rw'){
 }
 
 $tmpl->assign('eventid', $id);
+$tmpl->assign('access', $access);
 $tmpl->assign('lastmodified', $lastmodified);
 $tmpl->assign('calendar_options', $calendar_options);
 $tmpl->assign('category_options', $category_options);
