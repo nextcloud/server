@@ -17,6 +17,7 @@ class OC_Calendar_App{
 	 * @brief language object for calendar app
 	 */
 	public static $l10n;
+	protected static $categories = null;
 
 	/*
 	 * @brief timezone of the user
@@ -106,19 +107,76 @@ class OC_Calendar_App{
 		}
 		return true;
 	}
-	/*
-	 * THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON
-	 * @brief returns the valid categories
-	 * @return array - categories
-	 */
-	public static function getCategoryOptions(){
-		return OC_Calendar_Object::getCategoryOptions(self::$l10n);
+
+	protected static function getDefaultCategories()
+	{
+		return array(
+			self::$l10n->t('Birthday'),
+			self::$l10n->t('Business'),
+			self::$l10n->t('Call'),
+			self::$l10n->t('Clients'),
+			self::$l10n->t('Deliverer'),
+			self::$l10n->t('Holidays'),
+			self::$l10n->t('Ideas'),
+			self::$l10n->t('Journey'),
+			self::$l10n->t('Jubilee'),
+			self::$l10n->t('Meeting'),
+			self::$l10n->t('Other'),
+			self::$l10n->t('Personal'),
+			self::$l10n->t('Projects'),
+			self::$l10n->t('Questions'),
+			self::$l10n->t('Work'),
+		);
 	}
-	
-	/*
-	 * @brief returns the options for an repeating event
-	 * @return array - valid inputs for repeating events
+
+	protected static function getVCategories() {
+		if (is_null(self::$categories)) {
+			self::$categories = new OC_VCategories('calendar', null, self::getDefaultCategories());
+		}
+		return self::$categories;
+	}
+
+	public static function getCategoryOptions()
+	{
+		$categories = self::getVCategories()->categories();
+		return $categories;
+	}
+
+	/**
+	 * scan events for categories.
+	 * @param $events VEVENTs to scan. null to check all events for the current user.
 	 */
+	public static function scanCategories($events = null) {
+		if (is_null($events)) {
+			$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+			if(count($calendars) > 0) {
+				$events = array();
+				foreach($calendars as $calendar) {
+					$calendar_events = OC_Calendar_Object::all($calendar['id']);
+					$events = $events + $calendar_events;
+				}
+			}
+		}
+		if(is_array($events) && count($events) > 0) {
+			$vcategories = self::getVCategories();
+			$vcategories->delete($vcategories->categories());
+			foreach($events as $event) {
+				$vobject = OC_VObject::parse($event['calendardata']);
+				if(!is_null($vobject)) {
+					$vcategories->loadFromVObject($vobject->VEVENT, true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * check VEvent for new categories.
+	 * @see OC_VCategories::loadFromVObject
+	 */
+	public static function loadCategoriesFromVCalendar(OC_VObject $calendar) {
+		self::getVCategories()->loadFromVObject($calendar->VEVENT, true);
+	}
+
 	public static function getRepeatOptions(){
 		return OC_Calendar_Object::getRepeatOptions(self::$l10n);
 	}
@@ -244,7 +302,6 @@ class OC_Calendar_App{
 	 * @return (array) $events 
 	 */
 	public static function getrequestedEvents($calendarid, $start, $end){
-		
 		$events = array();
 		if($calendarid == 'shared_rw' || $_GET['calendar_id'] == 'shared_r'){
 			$calendars = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::CALENDAR, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');

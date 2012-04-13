@@ -53,11 +53,12 @@ class OC_Contacts_App {
 		if( $addressbook === false || $addressbook['userid'] != OC_User::getUser()) {
 			if ($addressbook === false) {
 				OC_Log::write('contacts', 'Addressbook not found: '. $id, OC_Log::ERROR);
+				OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
 			}
 			else {
 				OC_Log::write('contacts', 'Addressbook('.$id.') is not from '.OC_User::getUser(), OC_Log::ERROR);
+				OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
 			}
-			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
 			exit();
 		}
 		return $addressbook;
@@ -156,7 +157,45 @@ class OC_Contacts_App {
 	}
 
 	public static function getCategories() {
-		return self::$categories->categories();
+		$categories = self::$categories->categories();
+		if(count($categories) == 0) {
+			self::scanCategories();
+			$categories = self::$categories->categories();
+		}
+		return $categories;
+	}
+
+	/**
+	 * scan vcards for categories.
+	 * @param $vccontacts VCards to scan. null to check all vcards for the current user.
+	 */
+	public static function scanCategories($vccontacts = null) {
+		if (is_null($vccontacts)) {
+			$vcaddressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+			if(count($vcaddressbooks) > 0) {
+				$vcaddressbookids = array();
+				foreach($vcaddressbooks as $vcaddressbook) {
+					$vcaddressbookids[] = $vcaddressbook['id'];
+				}
+				$vccontacts = OC_Contacts_VCard::all($vcaddressbookids);
+			}
+		}
+		if(is_array($vccontacts) && count($vccontacts) > 0) {
+			$cards = array();
+			foreach($vccontacts as $vccontact) {
+				$cards[] = $vccontact['carddata'];
+			}
+
+			self::$categories->rescan($cards);
+		}
+	}
+
+	/**
+	 * check VCard for new categories.
+	 * @see OC_VCategories::loadFromVObject
+	 */
+	public static function loadCategoriesFromVCard(OC_VObject $contact) {
+		self::$categories->loadFromVObject($contact, true);
 	}
 
 	public static function setLastModifiedHeader($contact) {

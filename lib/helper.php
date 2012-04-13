@@ -60,6 +60,28 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Returns the server host
+	 * @returns the server host
+	 *
+	 * Returns the server host, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function serverHost() {
+		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
+				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
+			}
+			else{
+				$host=$_SERVER['HTTP_X_FORWARDED_HOST'];
+			}
+		}
+		else{
+			$host = $_SERVER['HTTP_HOST'];
+		}
+		return $host;
+	}
+
+	/**
 	 * @brief Creates an absolute url
 	 * @param $app app
 	 * @param $file file
@@ -71,7 +93,7 @@ class OC_Helper {
 		$urlLinkTo = self::linkTo( $app, $file );
 		// Checking if the request was made through HTTPS. The last in line is for IIS
 		$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
-		$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
+		$urlLinkTo = ($protocol?'https':'http') . '://'  . self::serverHost() . $urlLinkTo;
 		return $urlLinkTo;
 	}
 

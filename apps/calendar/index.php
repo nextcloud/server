@@ -26,6 +26,7 @@ $eventSources[] = array('url' => 'ajax/events.php?calendar_id=shared_rw', 'backg
 $eventSources[] = array('url' => 'ajax/events.php?calendar_id=shared_r', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable' => 'false');
 
 OC_Hook::emit('OC_Calendar', 'getSources', array('sources' => &$eventSources));
+$categories = OC_Calendar_App::getCategoryOptions();
 
 //Fix currentview for fullcalendar
 if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "oneweekview"){
@@ -49,9 +50,12 @@ OC_Util::addScript('calendar', 'calendar');
 OC_Util::addStyle('calendar', 'style');
 OC_Util::addScript('', 'jquery.multiselect');
 OC_Util::addStyle('', 'jquery.multiselect');
+OC_Util::addScript('contacts','jquery.multi-autocomplete');
+OC_Util::addScript('','oc-vcategories');
 OC_App::setActiveNavigationEntry('calendar_index');
 $tmpl = new OC_Template('calendar', 'calendar', 'user');
 $tmpl->assign('eventSources', $eventSources);
+$tmpl->assign('categories', $categories);
 if(array_key_exists('showevent', $_GET)){
 	$tmpl->assign('showevent', $_GET['showevent']);
 }

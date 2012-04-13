@@ -117,8 +117,10 @@ class OC_Group_Database extends OC_Group_Backend {
 		if( !self::inGroup( $uid, $gid )){
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
 			$result = $query->execute( array( $uid, $gid ));
+			return true;
+		}else{
+			return false;
 		}
-		return true;
 	}
 
 	/**

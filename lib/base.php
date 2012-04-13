@@ -265,7 +265,7 @@ class OC{
 	public static function init(){
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
-
+		setlocale(LC_ALL, 'en_US.UTF-8');
 		
 		// set some stuff
 		//ob_start();
@@ -346,7 +346,7 @@ class OC{
 
 
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
-		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
+		OC_Group::useBackend(new OC_Group_Database());
 
 		// Set up file system unless forbidden
 		global $RUNTIME_NOSETUPFS;

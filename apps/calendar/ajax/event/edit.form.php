@@ -47,13 +47,8 @@ switch($dtstart->getDateType()) {
 
 $summary = $vevent->getAsString('SUMMARY');
 $location = $vevent->getAsString('LOCATION');
-$categories = $vevent->getAsArray('CATEGORIES');
+$categories = $vevent->getAsString('CATEGORIES');
 $description = $vevent->getAsString('DESCRIPTION');
-foreach($categories as $category){
-	if (!in_array($category, $category_options)){
-		array_unshift($category_options, $category);
-	}
-}
 $last_modified = $vevent->__get('LAST-MODIFIED');
 if ($last_modified){
 	$lastmodified = $last_modified->getDateTime()->format('U');
@@ -220,7 +215,6 @@ $tmpl->assign('eventid', $id);
 $tmpl->assign('access', $access);
 $tmpl->assign('lastmodified', $lastmodified);
 $tmpl->assign('calendar_options', $calendar_options);
-$tmpl->assign('category_options', $category_options);
 $tmpl->assign('repeat_options', $repeat_options);
 $tmpl->assign('repeat_month_options', $repeat_month_options);
 $tmpl->assign('repeat_weekly_options', $repeat_weekly_options);
@@ -257,7 +251,14 @@ if($repeat['repeat'] != 'doesnotrepeat'){
 	$tmpl->assign('repeat_bymonthday', $repeat['bymonthday']);
 	$tmpl->assign('repeat_bymonth', $repeat['bymonth']);
 	$tmpl->assign('repeat_byweekno', $repeat['byweekno']);
+} else {
+	$tmpl->assign('repeat_month', 'monthday');
+	$tmpl->assign('repeat_weekdays', array());
+	$tmpl->assign('repeat_interval', 1);
+	$tmpl->assign('repeat_end', 'never');
+	$tmpl->assign('repeat_count', '10');
+	$tmpl->assign('repeat_weekofmonth', 'auto');
+	$tmpl->assign('repeat_date', '');
+	$tmpl->assign('repeat_year', 'bydate');
 }
 $tmpl->printpage();
-
-?>

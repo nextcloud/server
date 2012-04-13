@@ -11,7 +11,7 @@ $action=isset($_POST['action'])?$_POST['action']:$_GET['action'];
 $result=false;
 switch($action){
 	case 'getValue':
-		$result=OC_Appconfig::getValue($_GET['app'],$_GET['key'],$_GET['default']);
+		$result=OC_Appconfig::getValue($_GET['app'],$_GET['key'],$_GET['defaultValue']);
 		break;
 	case 'setValue':
 		$result=OC_Appconfig::setValue($_POST['app'],$_POST['key'],$_POST['value']);
