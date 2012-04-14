@@ -104,15 +104,15 @@ class OC_Files {
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
-				header('Content-Type: ' . OC_Filesystem::getMimeType($filename));
-				header('Content-Length: ' . OC_Filesystem::filesize($filename));
+				$fileData=OC_FileCache::get($filename);
+				header('Content-Type: ' . $fileData['mimetype']);
+				header('Content-Length: ' . $fileData['size']);
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template( '', '404', 'guest' );
 			$tmpl->assign('file',$filename);
 			$tmpl->printPage();
-// 			die('404 Not Found');
 		}else{
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');
