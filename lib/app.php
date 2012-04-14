@@ -307,6 +307,20 @@ class OC_App{
 
 		return $list;
 	}
+	
+	/**
+	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
+	 */
+	public static function getAppVersion($appid){
+		$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/version';
+		$version=@file_get_contents($file);
+		if($version){
+			return $version;
+		}else{
+			$appData=self::getAppInfo($appid);
+			return $appData['version'];
+		}
+	}
 
 	/**
 	 * @brief Read app metadata from the info.xml file
@@ -441,9 +455,8 @@ class OC_App{
 		// The rest comes here
 		$versions = self::getAppVersions();
 		foreach( $versions as $app=>$installedVersion ){
-			$appInfo=OC_App::getAppInfo($app);
-			if (isset($appInfo['version'])) {
-				$currentVersion=$appInfo['version'];
+			$currentVersion=OC_App::getAppVersion($app);
+			if ($currentVersion) {
 				if (version_compare($currentVersion, $installedVersion, '>')) {
 					OC_App::updateApp($app);
 					OC_Appconfig::setValue($app,'installed_version',$appInfo['version']);

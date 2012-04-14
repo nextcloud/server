@@ -2,7 +2,6 @@
 <info>
 	<id>admin_dependencies_chk</id>
 	<name>Owncloud dependencies info</name>
-	<version>0.01</version>
 	<licence>AGPL</licence>
 	<author>Brice Maron (eMerzh)</author>
 	<require>2</require>

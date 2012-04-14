@@ -3,7 +3,6 @@
 	<id>user_migrate</id>
 	<name>User Account Migration</name>
 	<description>Migrate your user accounts</description>
-	<version>0.1</version>
 	<licence>AGPL</licence>
 	<author>Tom Needham</author>
 	<require>2</require>
