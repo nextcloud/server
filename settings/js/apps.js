@@ -30,14 +30,14 @@ $(document).ready(function(){
 			if(active){
 				$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:app},function(result){
 					if(!result || result.status!='succes'){
-						OC.dialogs.alert('Error','Error while enabling app');
+						OC.dialogs.alert('Error','Error while disabling app');
 					}
 				},'json');
 				$('#leftcontent li[data-id="'+app+'"]').removeClass('active');
 			}else{
 				$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:app},function(result){
 					if(!result || result.status!='succes'){
-						OC.dialogs.alert('Error','Error while disabling app');
+						OC.dialogs.alert('Error','Error while enabling app');
 					}
 				},'json');
 				$('#leftcontent li[data-id="'+app+'"]').addClass('active');
