@@ -243,8 +243,8 @@ class OC_L10N{
 		$i18ndir = OC::$SERVERROOT.'/core/l10n/';
 		if($app != ''){
 			// Check if the app is in the app folder
-			if(file_exists(OC::$SERVERROOT.'/apps/'.$app.'/l10n/')){
-				$i18ndir = OC::$SERVERROOT.'/apps/'.$app.'/l10n/';
+			if(file_exists(OC::$APPSROOT.'/apps/'.$app.'/l10n/')){
+				$i18ndir = OC::$APPSROOT.'/apps/'.$app.'/l10n/';
 			}
 			else{
 				$i18ndir = OC::$SERVERROOT.'/'.$app.'/l10n/';

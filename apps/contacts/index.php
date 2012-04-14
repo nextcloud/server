@@ -34,6 +34,7 @@ if(!is_null($id)) {
 }
 $property_types = OC_Contacts_App::getAddPropertyOptions();
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
+$categories = OC_Contacts_App::getCategories();
 
 $upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
@@ -44,12 +45,13 @@ $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
 OC_Util::addScript('','jquery.multiselect');
+OC_Util::addScript('','oc-vcategories');
 OC_Util::addScript('contacts','contacts');
 OC_Util::addScript('contacts','jquery.combobox');
 OC_Util::addScript('contacts','jquery.inview');
 OC_Util::addScript('contacts','jquery.Jcrop');
+OC_Util::addScript('contacts','jquery.multi-autocomplete');
 OC_Util::addStyle('','jquery.multiselect');
-//OC_Util::addStyle('contacts','styles');
 OC_Util::addStyle('contacts','jquery.combobox');
 OC_Util::addStyle('contacts','jquery.Jcrop');
 OC_Util::addStyle('contacts','contacts');
@@ -57,8 +59,9 @@ OC_Util::addStyle('contacts','contacts');
 $tmpl = new OC_Template( "contacts", "index", "user" );
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
-$tmpl->assign('property_types',$property_types);
-$tmpl->assign('phone_types',$phone_types);
+$tmpl->assign('property_types', $property_types);
+$tmpl->assign('phone_types', $phone_types);
+$tmpl->assign('categories', $categories);
 $tmpl->assign('addressbooks', $addressbooks);
 $tmpl->assign('contacts', $contacts);
 $tmpl->assign('details', $details );

@@ -44,10 +44,8 @@ class OC_Calendar_Calendar{
 	/**
 	 * @brief Returns the list of calendars for a specific user.
 	 * @param string $uid User ID
-	 * @param boolean $active
+	 * @param boolean $active Only return calendars with this $active state, default(=null) is don't care
 	 * @return array
-	 *
-	 * TODO: what is active for?
 	 */
 	public static function allCalendars($uid, $active=null){
 		$values = array($uid);
@@ -240,9 +238,10 @@ class OC_Calendar_Calendar{
 			'#9fc6e7', // "light blue"
 		);
 	}
+
 	public static function getEventSourceInfo($calendar){
 		return array(
-			'url' => 'ajax/events.php?calendar_id='.$calendar['id'],
+			'url' => OC_Helper::linkTo('calendar', 'ajax/events.php').'?calendar_id='.$calendar['id'],
 			'backgroundColor' => $calendar['calendarcolor'],
 			'borderColor' => '#888',
 			'textColor' => 'black',

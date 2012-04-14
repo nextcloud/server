@@ -62,6 +62,8 @@ if ($source !== false) {
 		$tmpl->assign("fileList", $list->fetchPage());
 		$tmpl->assign("breadcrumb", $breadcrumbNav->fetchPage());
 		$tmpl->assign("readonly", true);
+		$tmpl->assign("allowZipDownload", false);
+		$tmpl->assign("dir", 'shared dir');
 		$tmpl->printPage();
 	} else {
 		//get time mimetype and set the headers

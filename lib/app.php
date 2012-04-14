@@ -34,16 +34,20 @@ class OC_App{
 	static private $settingsForms = array();
 	static private $adminForms = array();
 	static private $personalForms = array();
+	static private $appInfo = array();
 
 	/**
 	 * @brief loads all apps
+	 * @param array $types
 	 * @returns true/false
 	 *
 	 * This function walks through the owncloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/app.php
 	 * exists.
+	 *
+	 * if $types is set, only apps of those types will be loaded
 	 */
-	public static function loadApps(){
+	public static function loadApps($types=null){
 		// Did we allready load everything?
 		if( self::$init ){
 			return true;
@@ -51,15 +55,17 @@ class OC_App{
 
 		// Our very own core apps are hardcoded
 		foreach( array('files', 'settings') as $app ){
-			require( $app.'/appinfo/app.php' );
+			if(is_null($types)){
+				require( $app.'/appinfo/app.php' );
+			}
 		}
 
 		// The rest comes here
-		$apps = OC_Appconfig::getApps();
+		$apps = self::getEnabledApps();
 		foreach( $apps as $app ){
-			if( self::isEnabled( $app )){
-				if(is_file(OC::$SERVERROOT.'/apps/'.$app.'/appinfo/app.php')){
-					require( 'apps/'.$app.'/appinfo/app.php' );
+			if(is_null($types) or self::isType($app,$types)){
+				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
+					require( $app.'/appinfo/app.php' );
 				}
 			}
 		}
@@ -68,6 +74,41 @@ class OC_App{
 
 		// return
 		return true;
+	}
+
+	/**
+	 * check if an app is of a sepcific type
+	 * @param string $app
+	 * @param string/array $types
+	 */
+	public static function isType($app,$types){
+		if(is_string($types)){
+			$types=array($types);
+		}
+		$appData=self::getAppInfo($app);
+		if(!isset($appData['types'])){
+			return false;
+		}
+		$appTypes=$appData['types'];
+		foreach($types as $type){
+			if(array_search($type,$appTypes)!==false){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * get all enabled apps
+	 */
+	public static function getEnabledApps(){
+		$apps=array();
+		$query = OC_DB::prepare( 'SELECT appid FROM *PREFIX*appconfig WHERE configkey = \'enabled\' AND configvalue=\'yes\'' );
+		$result=$query->execute();
+		while($row=$result->fetchRow()){
+			$apps[]=$row['appid'];
+		}
+		return $apps;
 	}
 
 	/**
@@ -210,10 +251,13 @@ class OC_App{
 	public static function getSettingsNavigation(){
 		$l=new OC_L10N('core');
 
+		$settings = array();
 		// by default, settings only contain the help menu
-		$settings = array(
-			array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
- 		);
+		if(OC_Config::getValue('knowledgebaseenabled', true)==true){
+			$settings = array(
+				array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
+ 			);
+		}
 
 		// if the user is logged-in
 		if (OC_User::isLoggedIn()) {
@@ -262,24 +306,36 @@ class OC_App{
 	/**
 	 * @brief Read app metadata from the info.xml file
 	 * @param string $appid id of the app or the path of the info.xml file
+	 * @param boolean path (optional)
 	 * @returns array
 	*/
-	public static function getAppInfo($appid){
-		if(is_file($appid)){
+	public static function getAppInfo($appid,$path=false){
+		if($path){
 			$file=$appid;
 		}else{
-			$file=OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/info.xml';
-			if(!is_file($file)){
-				return array();
+			if(isset(self::$appInfo[$appid])){
+				return self::$appInfo[$appid];
 			}
+			$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/info.xml';
 		}
 		$data=array();
-		$content=file_get_contents($file);
+		$content=@file_get_contents($file);
+		if(!$content){
+			return;
+		}
 		$xml = new SimpleXMLElement($content);
 		$data['info']=array();
 		foreach($xml->children() as $child){
-			$data[$child->getName()]=(string)$child;
+			if($child->getName()=='types'){
+				$data['types']=array();
+				foreach($child->children() as $type){
+					$data['types'][]=$type->getName();
+				}
+			}else{
+				$data[$child->getName()]=(string)$child;
+			}
 		}
+		self::$appInfo[$appid]=$data;
 		return $data;
 	}
 
@@ -325,6 +381,7 @@ class OC_App{
 				$source=self::$settingsForms;
 				break;
 			case 'admin':
+				$forms[] = include 'files/admin.php';   //hardcode own apps
 				$source=self::$adminForms;
 				break;
 			case 'personal':
@@ -363,23 +420,22 @@ class OC_App{
 	 */
 	public static function getAllApps(){
 		$apps=array();
-		$dh=opendir(OC::$SERVERROOT.'/apps');
+		$dh=opendir(OC::$APPSROOT.'/apps');
 		while($file=readdir($dh)){
-			if(is_file(OC::$SERVERROOT.'/apps/'.$file.'/appinfo/app.php')){
+			if(substr($file,0,1)!='.' and is_file(OC::$APPSROOT.'/apps/'.$file.'/appinfo/app.php')){
 				$apps[]=$file;
 			}
 		}
 		return $apps;
 	}
-	
+
 	/**
 	 * check if any apps need updating and update those
 	 */
 	public static function updateApps(){
 		// The rest comes here
-		$apps = OC_Appconfig::getApps();
-		foreach( $apps as $app ){
-			$installedVersion=OC_Appconfig::getValue($app,'installed_version');
+		$versions = self::getAppVersions();
+		foreach( $versions as $app=>$installedVersion ){
 			$appInfo=OC_App::getAppInfo($app);
 			if (isset($appInfo['version'])) {
 				$currentVersion=$appInfo['version'];
@@ -390,17 +446,30 @@ class OC_App{
 			}
 		}
 	}
-	
+
+	/**
+	 * get the installed version of all papps
+	 */
+	public static function getAppVersions(){
+		$versions=array();
+		$query = OC_DB::prepare( 'SELECT appid, configvalue FROM *PREFIX*appconfig WHERE configkey = \'installed_version\'' );
+		$result = $query->execute();
+		while($row = $result->fetchRow()){
+			$versions[$row['appid']]=$row['configvalue'];
+		}
+		return $versions;
+	}
+
 	/**
 	 * update the database for the app and call the update script
 	 * @param string appid
 	 */
 	public static function updateApp($appid){
-		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml')){
-			OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/database.xml');
+		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml')){
+			OC_DB::updateDbFromStructure(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml');
 		}
-		if(file_exists(OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php')){
-			include OC::$SERVERROOT.'/apps/'.$appid.'/appinfo/update.php';
+		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php')){
+			include OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php';
 		}
 	}
 

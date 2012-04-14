@@ -10,8 +10,10 @@
  * This class manages our app actions
  */
 OC_Contacts_App::$l10n = new OC_L10N('contacts');
+OC_Contacts_App::$categories = new OC_VCategories('contacts');
 class OC_Contacts_App {
 	public static $l10n;
+	public static $categories;
 
 	/**
 	* Render templates/part.details to json output
@@ -51,11 +53,12 @@ class OC_Contacts_App {
 		if( $addressbook === false || $addressbook['userid'] != OC_User::getUser()) {
 			if ($addressbook === false) {
 				OC_Log::write('contacts', 'Addressbook not found: '. $id, OC_Log::ERROR);
+				OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
 			}
 			else {
 				OC_Log::write('contacts', 'Addressbook('.$id.') is not from '.OC_User::getUser(), OC_Log::ERROR);
+				OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
 			}
-			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.')))); // Same here (as with the contact error). Could this error be improved?
 			exit();
 		}
 		return $addressbook;
@@ -83,7 +86,7 @@ class OC_Contacts_App {
 		$vcard = OC_VObject::parse($card['carddata']);
 		// Try to fix cards with missing 'N' field from pre ownCloud 4. Hot damn, this is ugly...
 		if(!is_null($vcard) && !$vcard->__isset('N')) {
-			$appinfo = $info=OC_App::getAppInfo('contacts');
+			$appinfo = OC_App::getAppInfo('contacts');
 			if($appinfo['version'] >= 5) {
 				OC_Log::write('contacts','OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OC_Log::DEBUG);
 			}
@@ -92,7 +95,7 @@ class OC_Contacts_App {
 				OC_Log::write('contacts','getContactVCard, found FN field: '.$vcard->__get('FN'), OC_Log::DEBUG);
 				$n = implode(';', array_reverse(array_slice(explode(' ', $vcard->__get('FN')), 0, 2))).';;;';
 				$vcard->setString('N', $n);
-				OC_Contacts_VCard::edit( $id, $vcard->serialize());
+				OC_Contacts_VCard::edit( $id, $vcard);
 			} else { // Else just add an empty 'N' field :-P
 				$vcard->setString('N', 'Unknown;Name;;;');
 			}
@@ -151,6 +154,48 @@ class OC_Contacts_App {
 				'PAGER' =>  $l->t('Pager'),
 			);
 		}
+	}
+
+	public static function getCategories() {
+		$categories = self::$categories->categories();
+		if(count($categories) == 0) {
+			self::scanCategories();
+			$categories = self::$categories->categories();
+		}
+		return $categories;
+	}
+
+	/**
+	 * scan vcards for categories.
+	 * @param $vccontacts VCards to scan. null to check all vcards for the current user.
+	 */
+	public static function scanCategories($vccontacts = null) {
+		if (is_null($vccontacts)) {
+			$vcaddressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+			if(count($vcaddressbooks) > 0) {
+				$vcaddressbookids = array();
+				foreach($vcaddressbooks as $vcaddressbook) {
+					$vcaddressbookids[] = $vcaddressbook['id'];
+				}
+				$vccontacts = OC_Contacts_VCard::all($vcaddressbookids);
+			}
+		}
+		if(is_array($vccontacts) && count($vccontacts) > 0) {
+			$cards = array();
+			foreach($vccontacts as $vccontact) {
+				$cards[] = $vccontact['carddata'];
+			}
+
+			self::$categories->rescan($cards);
+		}
+	}
+
+	/**
+	 * check VCard for new categories.
+	 * @see OC_VCategories::loadFromVObject
+	 */
+	public static function loadCategoriesFromVCard(OC_VObject $contact) {
+		self::$categories->loadFromVObject($contact, true);
 	}
 
 	public static function setLastModifiedHeader($contact) {

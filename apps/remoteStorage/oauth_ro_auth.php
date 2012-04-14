@@ -16,9 +16,10 @@
 
 class OC_Connector_Sabre_Auth_ro_oauth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 	private $validTokens;
-
-	public function __construct($validTokensArg) {
+  private $category;
+	public function __construct($validTokensArg, $categoryArg) {
 		$this->validTokens = $validTokensArg;
+    $this->category = $categoryArg;
 	}
 
 	/**
@@ -31,29 +32,31 @@ class OC_Connector_Sabre_Auth_ro_oauth extends Sabre_DAV_Auth_Backend_AbstractBa
 	 */
 	protected function validateUserPass($username, $password){
 		//always give read-only:
-		if(in_array($_SERVER['REQUEST_METHOD'], array('GET', 'HEAD', 'OPTIONS'))) {
-			OC_Util::setUpFS();
-			return true;
-		} else if(isset($this->validTokens[$password]) && $this->validTokens[$password] == $username) {
+		if(($_SERVER['REQUEST_METHOD'] == 'OPTIONS') 
+		    || (isset($this->validTokens[$password]))
+        || (($_SERVER['REQUEST_METHOD'] == 'GET') && ($this->category == 'public'))
+        ) {
 			OC_Util::setUpFS();
 			return true;
 		} else {
-var_export($_SERVER);
-var_export($this->validTokens);
-die('not getting in with "'.$username.'"/"'.$password.'"!');
+      //var_export($_SERVER);
+      //var_export($this->validTokens);
+      //die('not getting in with "'.$username.'"/"'.$password.'"!');
 			return false;	
 		}
 	}
 
 	//overwriting this to make it not automatically fail if no auth header is found:
 	public function authenticate(Sabre_DAV_Server $server,$realm) {
-		$auth = new Sabre_HTTP_BasicAuth();
+		$auth = new Sabre_HTTP_BearerAuth();
 		$auth->setHTTPRequest($server->httpRequest);
 		$auth->setHTTPResponse($server->httpResponse);
 		$auth->setRealm($realm);
 		$userpass = $auth->getUserPass();
 		if (!$userpass) {
-			if(in_array($_SERVER['REQUEST_METHOD'], array('OPTIONS'))) {
+			if(($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+	        ||(($_SERVER['REQUEST_METHOD'] == 'GET') && ($this->category == 'public'))
+          ) {
 				$userpass = array('', '');
 			} else {
 				$auth->requireLogin();

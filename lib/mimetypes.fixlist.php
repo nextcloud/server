@@ -10,5 +10,12 @@ return array(
 	'pl'=>'text/x-script.perl',
 	'py'=>'text/x-script.phyton',
 	'vcf' => 'text/vcard',
-	'vcard' => 'text/vcard'
+	'vcard' => 'text/vcard',
+	'doc'=>'application/msword',
+	'docx'=>'application/msword',
+	'xls'=>'application/msexcel',
+	'xlsx'=>'application/msexcel',
+	'ppt'=>'application/mspowerpoint',
+	'pptx'=>'application/mspowerpoint',
+	'sgf' => 'application/sgf'
 );

@@ -31,7 +31,7 @@
 			<form class="searchbox" action="#" method="post">
 				<input id="searchbox" class="svg" type="search" name="query" value="<?php if(isset($_POST['query'])){echo $_POST['query'];};?>" autocomplete="off" />
 			</form>
-			<a id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true"><img class="svg" alt="<?php echo $l->t('Log out');?>" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
+			<a id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true"><img class="svg" alt="<?php echo $l->t('Log out');?>" title="<?php echo $l->t('Log out');?>" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
 		</div></header>
 
 		<nav><div id="navigation">
@@ -44,8 +44,8 @@
 
 			<ul id="settings" class="svg">
 				<img id="expand" class="svg" alt="<?php echo $l->t('Settings');?>" src="<?php echo image_path('', 'actions/settings.svg'); ?>" />
-				<span style="display:none"><?php echo $l->t('Settings');?></span>
-				<div id="expanddiv">
+				<span style="display:none;"><?php echo $l->t('Settings');?></span>
+				<div id="expanddiv" <?php if($_['bodyid'] == 'body-user') echo 'style="display:none;"'; ?>>
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
 				<?php endforeach; ?>

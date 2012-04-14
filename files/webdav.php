@@ -26,6 +26,9 @@
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
 
+// only need filesystem apps
+$RUNTIME_APPTYPES=array('filesystem','authentication');
+
 require_once('../lib/base.php');
 
 // Backends

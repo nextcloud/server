@@ -120,7 +120,10 @@ if($arguments['action']){
 			OC_Filesystem::readfile($arguments['path']);
 			exit;
 		case 'find_music':
-			OC_JSON::encodedPrint(OC_FileCache::searchByMime('audio'));
+			$music=OC_FileCache::searchByMime('audio');
+			$ogg=OC_FileCache::searchByMime('application','ogg');
+			$music=array_merge($music,$ogg);
+			OC_JSON::encodedPrint($music);
 			exit;
 	}
 }

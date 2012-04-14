@@ -9,50 +9,6 @@
 
 class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	/**
-	 * TODO: write doc
-	 */
-	public static function addPrincipal($params){
-		// Add the user
-		$uri = 'principals/'.$params['uid'];
-		$displayname = $params['uid'];
-		$query = OC_DB::prepare('INSERT INTO *PREFIX*principals (uri,displayname) VALUES(?,?)');
-		$query->execute(array($uri,$displayname));
-		
-		// Add calendar and addressbook read and write support (sharing calendars)
-		$uri = 'principals/'.$params['uid'].'/calendar-proxy-read';
-		$displayname = null;
-		$query->execute(array($uri,$displayname));
-		$uri = 'principals/'.$params['uid'].'/calendar-proxy-write';
-		$query->execute(array($uri,$displayname));
-		$uri = 'principals/'.$params['uid'].'/addressbook-proxy-read';
-		$query->execute(array($uri,$displayname));
-		$uri = 'principals/'.$params['uid'].'/addressbook-proxy-write';
-		$query->execute(array($uri,$displayname));
-
-		return true;
-	}
-	
-	/**
-	 * TODO: write doc
-	 */
-	public static function deletePrincipal($params){
-		$query = OC_DB::prepare('SELECT * FROM *PREFIX*principals');
-		$result = $query->execute();
-
-		$deleteprincipal = OC_DB::prepare('DELETE FROM *PREFIX*principals WHERE id = ?');
-		$deletegroup = OC_DB::prepare('DELETE FROM *PREFIX*principalgroups WHERE principal_id = ? OR member_id = ?');
-		// We have to delete the principals and relations! Principals include 
-		while($row = $result->fetchRow()){
-			// Checking if the principal is in the prefix
-			$array = explode('/',$row['uri']);
-			if ($array[1] != $params['uid']) continue;
-			$deleteprincipal->execute(array($row['id']));
-			$deletegroup->execute(array($row['id'],$row['id']));
-		}
-		return true;
-	}
-
-	/**
 	 * Returns a list of principals based on a prefix.
 	 *
 	 * This prefix will often contain something like 'principals'. You are only

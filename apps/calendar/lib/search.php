@@ -44,4 +44,3 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 		return $results;
 	}
 }
-new OC_Search_Provider_Calendar();

@@ -32,13 +32,7 @@ Calendar={
 			$('#totime').timepicker({
 			    showPeriodLabels: false
 			});
-			$('#category').multiselect({
-					header: false,
-					noneSelectedText: $('#category').attr('title'),
-					selectedList: 2,
-					minWidth:'auto',
-					classes: 'category',
-			});
+			$('#category').multiple_autocomplete({source: categories});
 			Calendar.UI.repeat('init');
 			$('#end').change(function(){
 				Calendar.UI.repeat('end');
@@ -69,17 +63,20 @@ Calendar={
 				$('#event').dialog('destroy').remove();
 			}else{
 				Calendar.UI.loading(true);
-				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'neweventform.php'), {start:start, end:end, allday:allday?1:0}, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax/event', 'new.form.php'), {start:start, end:end, allday:allday?1:0}, Calendar.UI.startEventDialog);
 			}
 		},
 		editEvent:function(calEvent, jsEvent, view){
+			if (calEvent.editable == false || calEvent.source.editable == false) {
+				return;
+			}
 			var id = calEvent.id;
 			if($('#event').dialog('isOpen') == true){
 				// TODO: save event
 				$('#event').dialog('destroy').remove();
 			}else{
 				Calendar.UI.loading(true);
-				$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'editeventform.php') + '?id=' + id, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax/event', 'edit.form.php') + '?id=' + id, Calendar.UI.startEventDialog);
 			}
 		},
 		submitDeleteEventForm:function(url){
@@ -141,7 +138,7 @@ Calendar={
 		moveEvent:function(event, dayDelta, minuteDelta, allDay, revertFunc){
 			$('.tipsy').remove();
 			Calendar.UI.loading(true);
-			$.post(OC.filePath('calendar', 'ajax', 'moveevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0, lastmodified: event.lastmodified},
+			$.post(OC.filePath('calendar', 'ajax/event', 'move.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay?1:0, lastmodified: event.lastmodified},
 			function(data) {
 				Calendar.UI.loading(false);
 				if (data.status == 'success'){
@@ -156,7 +153,7 @@ Calendar={
 		resizeEvent:function(event, dayDelta, minuteDelta, revertFunc){
 			$('.tipsy').remove();
 			Calendar.UI.loading(true);
-			$.post(OC.filePath('calendar', 'ajax', 'resizeevent.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, lastmodified: event.lastmodified},
+			$.post(OC.filePath('calendar', 'ajax/event', 'resize.php'), { id: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, lastmodified: event.lastmodified},
 			function(data) {
 				Calendar.UI.loading(false);
 				if (data.status == 'success'){
@@ -214,7 +211,7 @@ Calendar={
 		},
 		initScroll:function(){
 			if(window.addEventListener)
-				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar);
+				document.addEventListener('DOMMouseScroll', Calendar.UI.scrollCalendar, false);
 			//}else{
 				document.onmousewheel = Calendar.UI.scrollCalendar;
 			//}
@@ -367,13 +364,18 @@ Calendar={
 			}
 			$('#'+id).addClass('active');
 		},
+		categoriesChanged:function(newcategories){
+			categories = $.map(newcategories, function(v) {return v;});
+			console.log('Calendar categories changed to: ' + categories);
+			$('#category').multiple_autocomplete('option', 'source', categories);
+		},
 		Calendar:{
 			overview:function(){
 				if($('#choosecalendar_dialog').dialog('isOpen') == true){
 					$('#choosecalendar_dialog').dialog('moveToTop');
 				}else{
 					Calendar.UI.loading(true);
-					$('#dialog_holder').load(OC.filePath('calendar', 'ajax', 'choosecalendar.php'), function(){
+					$('#dialog_holder').load(OC.filePath('calendar', 'ajax/calendar', 'overview.php'), function(){
 						$('#choosecalendar_dialog').dialog({
 							width : 600,
 							close : function(event, ui) {
@@ -387,7 +389,7 @@ Calendar={
 			activation:function(checkbox, calendarid)
 			{
 				Calendar.UI.loading(true);
-				$.post(OC.filePath('calendar', 'ajax', 'activation.php'), { calendarid: calendarid, active: checkbox.checked?1:0 },
+				$.post(OC.filePath('calendar', 'ajax/calendar', 'activation.php'), { calendarid: calendarid, active: checkbox.checked?1:0 },
 				  function(data) {
 					Calendar.UI.loading(false);
 					if (data.status == 'success'){
@@ -402,13 +404,13 @@ Calendar={
 			},
 			newCalendar:function(object){
 				var tr = $(document.createElement('tr'))
-					.load(OC.filePath('calendar', 'ajax', 'newcalendar.php'),
+					.load(OC.filePath('calendar', 'ajax/calendar', 'new.form.php'),
 						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
 			},
 			edit:function(object, calendarid){
 				var tr = $(document.createElement('tr'))
-					.load(OC.filePath('calendar', 'ajax', 'editcalendar.php') + "?calendarid="+calendarid,
+					.load(OC.filePath('calendar', 'ajax/calendar', 'edit.form.php') + "?calendarid="+calendarid,
 						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
 			},
@@ -417,7 +419,7 @@ Calendar={
 				if(check == false){
 					return false;
 				}else{
-					$.post(OC.filePath('calendar', 'ajax', 'deletecalendar.php'), { calendarid: calid},
+					$.post(OC.filePath('calendar', 'ajax/calendar', 'delete.php'), { calendarid: calid},
 					  function(data) {
 						if (data.status == 'success'){
 							var url = 'ajax/events.php?calendar_id='+calid;
@@ -442,9 +444,9 @@ Calendar={
 				
 				var url;
 				if (calendarid == 'new'){
-					url = OC.filePath('calendar', 'ajax', 'createcalendar.php');
+					url = OC.filePath('calendar', 'ajax/calendar', 'new.php');
 				}else{
-					url = OC.filePath('calendar', 'ajax', 'updatecalendar.php');
+					url = OC.filePath('calendar', 'ajax/calendar', 'update.php');
 				}
 				$.post(url, { id: calendarid, name: displayname, active: active, description: description, color: calendarcolor },
 					function(data){
@@ -661,7 +663,7 @@ $(document).ready(function(){
 	Calendar.UI.initScroll();
 	$('#calendar_holder').fullCalendar({
 		header: false,
-		firstDay: 1,
+		firstDay: firstDay,
 		editable: true,
 		defaultView: defaultView,
 		timeFormat: {
@@ -727,6 +729,8 @@ $(document).ready(function(){
 		loading: Calendar.UI.loading,
 		eventSources: eventSources
 	});
+	OCCategories.changed = Calendar.UI.categoriesChanged;
+	OCCategories.app = 'calendar';
 	$('#oneweekview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');
 	});

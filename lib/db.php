@@ -86,6 +86,7 @@ class OC_DB {
 		$user = OC_Config::getValue( "dbuser", "" );
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		$opts = array();
 		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 		
 		// do nothing if the connection already has been established
@@ -100,13 +101,14 @@ class OC_DB {
 					break;
 				case 'mysql':
 					$dsn='mysql:dbname='.$name.';host='.$host;
+					$opts[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
 					break;
 				case 'pgsql':
 					$dsn='pgsql:dbname='.$name.';host='.$host;
 					break;
 			}
 			try{
-				self::$PDO=new PDO($dsn,$user,$pass);
+				self::$PDO=new PDO($dsn,$user,$pass,$opts);
 			}catch(PDOException $e){
 				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
 				die();
@@ -316,8 +318,8 @@ class OC_DB {
 		// read file
 		$content = file_get_contents( $file );
 		
-		// Make changes and save them to a temporary file
-		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
+		// Make changes and save them to an in-memory file
+		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
@@ -328,7 +330,7 @@ class OC_DB {
 		// Try to create tables
 		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
 		
-		// Delete our temporary file
+		//clean up memory
 		unlink( $file2 );
 
 		// Die in case something went wrong
@@ -368,8 +370,8 @@ class OC_DB {
 			return false;
 		}
 
-		// Make changes and save them to a temporary file
-		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
+		// Make changes and save them to an in-memory file
+		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $previousSchema['name'], $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
@@ -378,7 +380,7 @@ class OC_DB {
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
 		
-		// Delete our temporary file
+		//clean up memory
 		unlink( $file2 );
 		
 		if (PEAR::isError($op)) {
@@ -483,6 +485,30 @@ class OC_DB {
 	}
 	
 	/**
+	 * @breif replaces the owncloud tables with a new set
+	 * @param $file string path to the MDB2 xml db export file
+	 */
+	 public static function replaceDB( $file ){
+	 	
+	 	$apps = OC_App::getAllApps();
+	 	self::beginTransaction();
+	 	// Delete the old tables
+	 	self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
+	 	
+	 	foreach($apps as $app){
+	 		$path = OC::$SERVERROOT.'/apps/'.$app.'/appinfo/database.xml';
+	 		if(file_exists($path)){
+	 			self::removeDBStructure( $path );	
+	 		}
+	 	}
+	 	
+	 	// Create new tables
+	 	self::createDBFromStructure( $file );
+	 	self::commit();
+	 	
+	 }
+	
+	/**
 	 * Start a transaction
 	 */
 	public static function beginTransaction(){
@@ -505,6 +531,21 @@ class OC_DB {
 		self::$connection->commit();
 		self::$inTransaction=false;
 	}
+
+	/**
+	 * check if a result is an error, works with MDB2 and PDOException
+	 * @param mixed $result
+	 * @return bool
+	 */
+	public static function isError($result){
+		if(!$result){
+			return true;
+		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 
 /**
@@ -524,11 +565,15 @@ class PDOStatementWrapper{
 	public function execute($input=array()){
 		$this->lastArguments=$input;
 		if(count($input)>0){
-			$this->statement->execute($input);
+			$result=$this->statement->execute($input);
 		}else{
-			$this->statement->execute();
+			$result=$this->statement->execute();
 		}
-		return $this;
+		if($result){
+			return $this;
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -567,3 +612,4 @@ class PDOStatementWrapper{
 		return $this->statement->fetchColumn($colnum);
 	}
 }
+

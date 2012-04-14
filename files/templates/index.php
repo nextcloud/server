@@ -1,3 +1,4 @@
+<!--[if IE 8]><style>input[type="checkbox"]{padding:0;}table td{position:static !important;}</style><![endif]-->
 <div id="controls">
 	<?php echo($_['breadcrumb']); ?>
 	<?php if (!isset($_['readonly']) || !$_['readonly']):?>
@@ -7,6 +8,7 @@
 				<ul class="popup popupTop">
 					<li style="background-image:url('<?php echo mimetype_icon('text/plain') ?>')" data-type='file'><p><?php echo $l->t('Text file');?></p></li>
 					<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
+					<li style="background-image:url('<?php echo image_path('core','actions/public.png') ?>')" data-type='web'><p><?php echo $l->t('From url');?></p></li>
 				</ul>
 			</div>
 			<div class="file_upload_wrapper svg">
@@ -39,7 +41,9 @@
 				<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" id="select_all" /><?php } ?>
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
-				<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /></a>
+				<?php if($_['allowZipDownload']) : ?>
+					<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /></a>
+				<?php endif; ?>
 				<a href="" title="Share" class="share"><img class='svg' alt="Share" src="<?php echo image_path("core", "actions/share.svg"); ?>" /></a>
 				</span>
 			</th>
@@ -59,9 +63,12 @@
 </div>
 <div id="scanning-message">
 	<h3>
-		<?php echo $l->t('Files are being scanned, please wait.');?> <span id='scan-count'></spann>
+		<?php echo $l->t('Files are being scanned, please wait.');?> <span id='scan-count'></span>
 	</h3>
 	<p>
-		<?php echo $l->t('Current scanning');?> <span id='scan-current'></spann>
+		<?php echo $l->t('Current scanning');?> <span id='scan-current'></span>
 	</p>
 </div>
+
+<!-- config hints for javascript -->
+<input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php echo $_['allowZipDownload']; ?>" />

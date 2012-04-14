@@ -25,6 +25,9 @@
  * Collection of useful functions
  */
 class OC_Helper {
+	private static $mimetypes=array();
+	private static $tmpFiles=array();
+
 	/**
 	 * @brief Creates an url
 	 * @param $app app
@@ -37,8 +40,8 @@ class OC_Helper {
 		if( $app != '' ){
 			$app .= '/';
 			// Check if the app is in the app folder
-			if( file_exists( OC::$SERVERROOT . '/apps/'. $app.$file )){
-				$urlLinkTo =  OC::$WEBROOT . '/apps/' . $app . $file;
+			if( file_exists( OC::$APPSROOT . '/apps/'. $app.$file )){
+				$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
 			}
 			else{
 				$urlLinkTo =  OC::$WEBROOT . '/' . $app . $file;
@@ -57,6 +60,28 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Returns the server host
+	 * @returns the server host
+	 *
+	 * Returns the server host, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function serverHost() {
+		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
+				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
+			}
+			else{
+				$host=$_SERVER['HTTP_X_FORWARDED_HOST'];
+			}
+		}
+		else{
+			$host = $_SERVER['HTTP_HOST'];
+		}
+		return $host;
+	}
+
+	/**
 	 * @brief Creates an absolute url
 	 * @param $app app
 	 * @param $file file
@@ -68,7 +93,7 @@ class OC_Helper {
 		$urlLinkTo = self::linkTo( $app, $file );
 		// Checking if the request was made through HTTPS. The last in line is for IIS
 		$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
-		$urlLinkTo = ($protocol?'https':'http') . '://'  . $_SERVER['HTTP_HOST'] . $urlLinkTo;
+		$urlLinkTo = ($protocol?'https':'http') . '://'  . self::serverHost() . $urlLinkTo;
 		return $urlLinkTo;
 	}
 
@@ -81,24 +106,27 @@ class OC_Helper {
 	 * Returns the path to the image.
 	 */
         public static function imagePath( $app, $image ){
-                // Read the selected theme from the config file
-                $theme=OC_Config::getValue( "theme" );
+		// Read the selected theme from the config file
+		$theme=OC_Config::getValue( "theme" );
 
-                // Check if the app is in the app folder
-                if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )){
-                        return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
-                }elseif( file_exists( OC::$SERVERROOT."/apps/$app/img/$image" )){
-                        return OC::$WEBROOT."/apps/$app/img/$image";
-                }elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )){
-                        return OC::$WEBROOT."/themes/$theme/$app/img/$image";
-                }elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )){
-                        return OC::$WEBROOT."/$app/img/$image";
-                }elseif( file_exists( OC::$SERVERROOT."/themes/$theme/core/img/$image" )){
-                        return OC::$WEBROOT."/themes/$theme/core/img/$image";
-                }else{
-                        return OC::$WEBROOT."/core/img/$image";
-                }
-        }
+		// Check if the app is in the app folder
+		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )){
+			return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
+		}elseif( file_exists( OC::$APPSROOT."/apps/$app/img/$image" )){
+			return OC::$APPSWEBROOT."/apps/$app/img/$image";
+		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )){
+			return OC::$WEBROOT."/themes/$theme/$app/img/$image";
+		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )){
+			return OC::$WEBROOT."/$app/img/$image";
+		}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/core/img/$image" )){
+			return OC::$WEBROOT."/themes/$theme/core/img/$image";
+		}elseif( file_exists( OC::$SERVERROOT."/core/img/$image" )){
+			return OC::$WEBROOT."/core/img/$image";
+		}else{
+			echo('image not found: image:'.$image.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+			die();
+		}
+	}
 
 	/**
 	 * @brief get path to icon of file type
@@ -160,7 +188,7 @@ class OC_Helper {
 		$bytes = round( $bytes / 1024, 1 );
 		return "$bytes GB";
 	}
-	
+
 	/**
 	 * @brief Make a computer file size
 	 * @param $str file size in a fancy format
@@ -194,11 +222,11 @@ class OC_Helper {
 			$bytes *= $bytes_array[$matches[1]];
 		}
 
-		$bytes = intval(round($bytes, 2));
+		$bytes = round($bytes, 2);
 
-		return $bytes; 
+		return $bytes;
 	}
-	
+
 	/**
 	 * @brief Recusive editing of file permissions
 	 * @param $path path to file or folder
@@ -214,7 +242,7 @@ class OC_Helper {
 				$fullpath = $path.'/'.$file;
 				if(is_link($fullpath))
 					return FALSE;
-				elseif(!is_dir($fullpath) && !chmod($fullpath, $filemode))
+				elseif(!is_dir($fullpath) && !@chmod($fullpath, $filemode))
 						return FALSE;
 				elseif(!self::chmodr($fullpath, $filemode))
 					return FALSE;
@@ -248,7 +276,7 @@ class OC_Helper {
 			copy($src, $dest);
 		}
 	}
-	
+
 	/**
 	 * @brief Recusive deletion of folders
 	 * @param string $dir path to the folder
@@ -266,8 +294,65 @@ class OC_Helper {
 		}elseif(file_exists($dir)){
 			unlink($dir);
 		}
+		if(file_exists($dir)) {
+			return false;
+		}
 	}
-	
+
+	/**
+	 * get the mimetype form a local file
+	 * @param string path
+	 * @return string
+	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
+	 */
+	static function getMimeType($path){
+		$isWrapped=(strpos($path,'://')!==false) and (substr($path,0,7)=='file://');
+		$mimeType='application/octet-stream';
+		if ($mimeType=='application/octet-stream') {
+			self::$mimetypes = include('mimetypes.fixlist.php');
+			$extention=strtolower(strrchr(basename($path), "."));
+			$extention=substr($extention,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+
+		}
+		if (@is_dir($path)) {
+			// directories are easy
+			return "httpd/unix-directory";
+		}
+		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
+			$info = @strtolower(finfo_file($finfo,$path));
+			if($info){
+				$mimeType=substr($info,0,strpos($info,';'));
+			}
+			finfo_close($finfo);
+		}
+		if (!$isWrapped and $mimeType=='application/octet-stream' && function_exists("mime_content_type")) {
+			// use mime magic extension if available
+			$mimeType = mime_content_type($path);
+		}
+		if (!$isWrapped and $mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
+			// it looks like we have a 'file' command,
+			// lets see it it does have mime support
+			$path=str_replace("'","\'",$path);
+			$fp = popen("file -i -b '$path' 2>/dev/null", "r");
+			$reply = fgets($fp);
+			pclose($fp);
+
+			//trim the character set from the end of the response
+			$mimeType=substr($reply,0,strrpos($reply,' '));
+		}
+		if ($mimeType=='application/octet-stream') {
+			// Fallback solution: (try to guess the type by the file extension
+			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
+				self::$mimetypes=include('mimetypes.list.php');
+			}
+			$extention=strtolower(strrchr(basename($path), "."));
+			$extention=substr($extention,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+		}
+		return $mimeType;
+	}
+
 	/**
 	 * @brief Checks $_REQUEST contains a var for the $s key. If so, returns the html-escaped value of this var; otherwise returns the default value provided by $d.
 	 * @param $s name of the var to escape, if set.
@@ -275,16 +360,16 @@ class OC_Helper {
 	 * @returns the print-safe value.
 	 *
 	 */
-	 
+
 	//FIXME: should also check for value validation (i.e. the email is an email).
 	public static function init_var($s, $d="") {
 		$r = $d;
 		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s]))
 			$r = stripslashes(htmlspecialchars($_REQUEST[$s]));
-		
+
 		return $r;
 	}
-	
+
 	/**
 	 * returns "checked"-attribut if request contains selected radio element OR if radio element is the default one -- maybe?
 	 * @param string $s Name of radio-button element name
@@ -339,5 +424,72 @@ class OC_Helper {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * copy the contents of one stream to another
+	 * @param resource source
+	 * @param resource target
+	 * @return int the number of bytes copied
+	 */
+	public static function streamCopy($source,$target){
+		if(!$source or !$target){
+			return false;
+		}
+		$count=0;
+		while(!feof($source)){
+			$count+=fwrite($target,fread($source,8192));
+		}
+		return $count;
+	}
+
+	/**
+	 * create a temporary file with an unique filename
+	 * @param string postfix
+	 * @return string
+	 *
+	 * temporary files are automatically cleaned up after the script is finished
+	 */
+	public static function tmpFile($postfix=''){
+		$file=get_temp_dir().'/'.md5(time().rand()).$postfix;
+		$fh=fopen($file,'w');
+		fclose($fh);
+		self::$tmpFiles[]=$file;
+		return $file;
+	}
+
+	/**
+	 * create a temporary folder with an unique filename
+	 * @return string
+	 *
+	 * temporary files are automatically cleaned up after the script is finished
+	 */
+	public static function tmpFolder(){
+		$path=get_temp_dir().'/'.md5(time().rand());
+		mkdir($path);
+		self::$tmpFiles[]=$path;
+		return $path.'/';
+	}
+
+	/**
+	 * remove all files created by self::tmpFile
+	 */
+	public static function cleanTmp(){
+		$leftoversFile='/tmp/oc-not-deleted';
+		if(file_exists($leftoversFile)){
+			$leftovers=file($leftoversFile);
+			foreach($leftovers as $file) {
+				self::rmdirr($file);
+			}
+			unlink($leftoversFile);
+		}
+
+		foreach(self::$tmpFiles as $file){
+			if(file_exists($file)){
+				if(!self::rmdirr($file)) {
+					file_put_contents($leftoversFile, $file."\n", FILE_APPEND);
+				}
+			}
+		}
 	}
 }

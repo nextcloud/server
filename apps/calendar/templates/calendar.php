@@ -1,6 +1,7 @@
 				<script type='text/javascript'>
 				var defaultView = '<?php echo OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') ?>';
 				var eventSources = <?php echo json_encode($_['eventSources']) ?>;
+				var categories = <?php echo json_encode($_['categories']); ?>;
 				var dayNames = <?php echo json_encode($l->tA(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'))) ?>;
 				var dayNamesShort = <?php echo json_encode($l->tA(array('Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'))) ?>;
 				var monthNames = <?php echo json_encode($l->tA(array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'))) ?>;
@@ -19,6 +20,7 @@
 				var missing_field_startsbeforeends = '<?php echo addslashes($l->t('The event ends before it starts')) ?>';
 				var missing_field_dberror = '<?php echo addslashes($l->t('There was a database fail')) ?>';
 				var totalurl = '<?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?>/calendars';
+				var firstDay = '<?php echo (OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'firstday', 'mo') == 'mo' ? '1' : '0'); ?>';
 				$(document).ready(function() {
 				<?php
 				if(array_key_exists('showevent', $_)){

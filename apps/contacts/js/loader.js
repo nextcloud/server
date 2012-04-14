@@ -77,5 +77,7 @@ $(document).ready(function(){
 	if(typeof FileActions !== 'undefined'){
 		FileActions.register('text/vcard','importaddressbook', '', Contacts_Import.importdialog); 
 		FileActions.setDefault('text/vcard','importaddressbook');
+		FileActions.register('text/x-vcard','importaddressbook', '', Contacts_Import.importdialog); 
+		FileActions.setDefault('text/x-vcard','importaddressbook');
 	};
 });

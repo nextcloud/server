@@ -21,7 +21,7 @@
 * 
 */
 
-require_once('getID3/getid3/getid3.php');
+require_once('getid3/getid3.php');
 
 //class for scanning directories for music
 class OC_MEDIA_SCANNER{
@@ -38,6 +38,8 @@ class OC_MEDIA_SCANNER{
 	 */
 	public static function scanCollection($eventSource=null){
 		$music=OC_FileCache::searchByMime('audio');
+		$ogg=OC_FileCache::searchByMime('application','ogg');
+		$music=array_merge($music,$ogg);
 		$eventSource->send('count',count($music));
 		$songs=0;
 		foreach($music as $file){

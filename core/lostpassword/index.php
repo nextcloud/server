@@ -12,7 +12,7 @@ require_once('../../lib/base.php');
 // Someone lost their password:
 if (isset($_POST['user'])) {
 	if (OC_User::userExists($_POST['user'])) {
-		$token = sha1($_POST['user']+uniqId());
+		$token = sha1($_POST['user'].md5(uniqid(rand(), true)));
 		OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword', $token);
 		$email = OC_Preferences::getValue($_POST['user'], 'settings', 'email', '');
 		if (!empty($email)) {
@@ -21,7 +21,8 @@ if (isset($_POST['user'])) {
 			$tmpl->assign('link', $link);
 			$msg = $tmpl->fetchPage();
 			$l = new OC_L10N('core');
-			mail($email, $l->t('Owncloud password reset'), $msg);
+			$from = 'lostpassword-noreply@' . $_SERVER['HTTP_HOST'];
+			mail($email, $l->t('Owncloud password reset'), $msg, 'From:' . $from);
 		}
 		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => true));
 	} else {

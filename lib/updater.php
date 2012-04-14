@@ -36,6 +36,7 @@ class OC_Updater{
 		$version['installed']=OC_Config::getValue('installedat');
 		$version['updated']=OC_Appconfig::getValue('core', 'lastupdatedat', OC_Config::getValue( 'lastupdatedat'));
 		$version['updatechannel']='stable';
+		$version['edition']=OC_Util::getEditionString();
 		$versionstring=implode('x',$version);
 
 		//fetch xml data from updater

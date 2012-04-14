@@ -39,20 +39,21 @@ foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.$element);
 }
 
-$aid = $_POST['aid'];
+$aid = isset($_POST['aid'])?$_POST['aid']:null;
+if(!$aid) {
+	$aid = min(OC_Contacts_Addressbook::activeIds()); // first active addressbook.
+}
 OC_Contacts_App::getAddressbook( $aid ); // is owner access check
 
 $fn = trim($_POST['fn']);
 $n = trim($_POST['n']);
-debug('N: '.$n);
-debug('FN: '.$fn);
 
 $vcard = new OC_VObject('VCARD');
 $vcard->setUID();
 $vcard->setString('FN',$fn);
 $vcard->setString('N',$n);
 
-$id = OC_Contacts_VCard::add($aid,$vcard->serialize());
+$id = OC_Contacts_VCard::add($aid,$vcard);
 if(!$id) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
 	OC_Log::write('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OC_Log::ERROR);

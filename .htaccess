@@ -1,3 +1,4 @@
+ErrorDocument 403 /core/templates/403.php
 ErrorDocument 404 /core/templates/404.php
 <IfModule mod_php5.c>
 php_value upload_max_filesize 512M

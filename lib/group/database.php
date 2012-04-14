@@ -117,8 +117,10 @@ class OC_Group_Database extends OC_Group_Backend {
 		if( !self::inGroup( $uid, $gid )){
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
 			$result = $query->execute( array( $uid, $gid ));
+			return true;
+		}else{
+			return false;
 		}
-		return true;
 	}
 
 	/**
@@ -130,7 +132,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * removes the user from a group.
 	 */
 	public static function removeFromGroup( $uid, $gid ){
-		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?" );
+		$query = OC_DB::prepare( "DELETE FROM *PREFIX*group_user WHERE uid = ? AND gid = ?" );
 		$result = $query->execute( array( $uid, $gid ));
 
 		return true;

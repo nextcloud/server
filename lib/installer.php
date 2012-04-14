@@ -62,7 +62,7 @@ class OC_Installer{
 		
 		//download the file if necesary
 		if($data['source']=='http'){
-			$path=tempnam(get_temp_dir(),'oc_installer_');
+			$path=OC_Helper::tmpFile();
 			if(!isset($data['href'])){
 				OC_Log::write('core','No href specified when installing app from http',OC_Log::ERROR);
 				return false;
@@ -76,14 +76,24 @@ class OC_Installer{
 			$path=$data['path'];
 		}
 		
+		//detect the archive type
+		$mime=OC_Helper::getMimeType($path);
+		if($mime=='application/zip'){
+			rename($path,$path.'.zip');
+			$path.='.zip';
+		}elseif($mime=='application/x-gzip'){
+			rename($path,$path.'.tgz');
+			$path.='.tgz';
+		}else{
+			OC_Log::write('core','Archives of type '.$mime.' are not supported',OC_Log::ERROR);
+			return false;
+		}
+		
 		//extract the archive in a temporary folder
-		$extractDir=tempnam(get_temp_dir(),'oc_installer_uncompressed_');
-		unlink($extractDir);
+		$extractDir=OC_Helper::tmpFolder();
 		mkdir($extractDir);
-		$zip = new ZipArchive;
-		if($zip->open($path)===true){
-			$zip->extractTo($extractDir);
-			$zip->close();
+		if($archive=OC_Archive::open($path)){
+			$archive->extract($extractDir);
 		} else {
 			OC_Log::write('core','Failed to open archive when installing app',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
@@ -95,6 +105,17 @@ class OC_Installer{
 		
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')){
+			//try to find it in a subdir
+			$dh=opendir($extractDir);
+			while($folder=readdir($dh)){
+				if(substr($folder,0,1)!='.' and is_dir($extractDir.'/'.$folder)){
+					if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')){
+						$extractDir.='/'.$folder;
+					}
+				}
+			}
+		}
+		if(!is_file($extractDir.'/appinfo/info.xml')){
 			OC_Log::write('core','App does not provide an info.xml file',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
@@ -102,8 +123,8 @@ class OC_Installer{
 			}
 			return false;
 		}
-		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml');
-		$basedir=OC::$SERVERROOT.'/apps/'.$info['id'];
+		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
+		$basedir=OC::$APPSROOT.'/apps/'.$info['id'];
 		
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
@@ -142,9 +163,6 @@ class OC_Installer{
 		
 		//remove temporary files
 		OC_Helper::rmdirr($extractDir);
-		if($data['source']=='http'){
-			unlink($path);
-		}
 		
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')){
@@ -244,10 +262,10 @@ class OC_Installer{
 	 * If $enabled is false, apps are installed as disabled.
 	 */
 	public static function installShippedApps(){
-		$dir = opendir( OC::$SERVERROOT."/apps" );
+		$dir = opendir( OC::$APPSROOT."/apps" );
 		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$SERVERROOT."/apps/$filename") ){
-				if( file_exists( OC::$SERVERROOT."/apps/$filename/appinfo/app.php" )){
+			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$APPSROOT."/apps/$filename") ){
+				if( file_exists( OC::$APPSROOT."/apps/$filename/appinfo/app.php" )){
 					if(!OC_Installer::isInstalled($filename)){
 						$info = OC_Installer::installShippedApp($filename);
 						$enabled = isset($info['default_enable']);
@@ -270,15 +288,15 @@ class OC_Installer{
 	 */
 	public static function installShippedApp($app){
 		//install the database
-		if(is_file(OC::$SERVERROOT."/apps/$app/appinfo/database.xml")){
-			OC_DB::createDbFromStructure(OC::$SERVERROOT."/apps/$app/appinfo/database.xml");
+		if(is_file(OC::$APPSROOT."/apps/$app/appinfo/database.xml")){
+			OC_DB::createDbFromStructure(OC::$APPSROOT."/apps/$app/appinfo/database.xml");
 		}
 
 		//run appinfo/install.php
-		if(is_file(OC::$SERVERROOT."/apps/$app/appinfo/install.php")){
-			include(OC::$SERVERROOT."/apps/$app/appinfo/install.php");
+		if(is_file(OC::$APPSROOT."/apps/$app/appinfo/install.php")){
+			include(OC::$APPSROOT."/apps/$app/appinfo/install.php");
 		}
-		$info=OC_App::getAppInfo(OC::$SERVERROOT."/apps/$app/appinfo/info.xml");
+		$info=OC_App::getAppInfo($app);
 		OC_Appconfig::setValue($app,'installed_version',$info['version']);
 		return $info;
 	}

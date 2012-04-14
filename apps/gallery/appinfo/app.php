@@ -24,6 +24,7 @@
 OC::$CLASSPATH['OC_Gallery_Album'] = 'apps/gallery/lib/album.php';
 OC::$CLASSPATH['OC_Gallery_Photo'] = 'apps/gallery/lib/photo.php';
 OC::$CLASSPATH['OC_Gallery_Scanner'] = 'apps/gallery/lib/scanner.php';
+OC::$CLASSPATH['OC_Gallery_Sharing'] = 'apps/gallery/lib/sharing.php';
 OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'apps/gallery/lib/hooks_handlers.php';
 
 $l = new OC_L10N('gallery');
@@ -31,16 +32,16 @@ $l = new OC_L10N('gallery');
 OC_App::register(array(
   'order' => 20,
   'id' => 'gallery',
-  'name' => 'Gallery'));
+  'name' => 'Pictures'));
 
 OC_App::addNavigationEntry( array(
  'id' => 'gallery_index',
  'order' => 20,
  'href' => OC_Helper::linkTo('gallery', 'index.php'),
  'icon' => OC_Helper::imagePath('core', 'places/picture.svg'),
- 'name' => $l->t('Gallery')));
+ 'name' => $l->t('Pictures')));
 
- class OC_GallerySearchProvider extends OC_Search_Provider{
+class OC_GallerySearchProvider extends OC_Search_Provider{
 	function search($query){
 		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ? AND album_name LIKE ?');
 		$result = $stmt->execute(array(OC_User::getUser(),'%'.$query.'%'));
@@ -52,7 +53,7 @@ OC_App::addNavigationEntry( array(
 	}
 }
 
-new OC_GallerySearchProvider();
+OC_Search::registerProvider('OC_GallerySearchProvider');
 
 require_once('apps/gallery/lib/hooks_handlers.php');
 ?>

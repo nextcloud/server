@@ -26,4 +26,3 @@ class OC_Search_Provider_Contacts extends OC_Search_Provider{
 		return $results;
 	}
 }
-new OC_Search_Provider_Contacts();

@@ -6,10 +6,10 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 		$results=array();
 		foreach($files as $fileData){
 			$file=$fileData['path'];
-			if($fileData['mime']=='httpd/unix-directory'){
+			$mime=$fileData['mimetype'];
+			if($mime=='httpd/unix-directory'){
 				$results[]=new OC_Search_Result(basename($file),'',OC_Helper::linkTo( 'files', 'index.php' ).'?dir='.$file,'Files');
 			}else{
-				$mime=$fileData['mime'];
 				$mimeBase=$fileData['mimepart'];
 				switch($mimeBase){
 					case 'audio':

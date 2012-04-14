@@ -28,6 +28,8 @@
  * It will try to keep the data up to date but changes from outside ownCloud can invalidate the cache
  */
 class OC_FileCache{
+	private static $savedData=array();
+	
 	/**
 	 * get the filesystem info from the cache
 	 * @param string path
@@ -57,8 +59,8 @@ class OC_FileCache{
 			$root='';
 		}
 		$path=$root.$path;
-		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE path=?');
-		$result=$query->execute(array($path))->fetchRow();
+		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE path_hash=?');
+		$result=$query->execute(array(md5($path)))->fetchRow();
 		if(is_array($result)){
 			return $result;
 		}else{
@@ -93,6 +95,14 @@ class OC_FileCache{
 			self::update($id,$data);
 			return;
 		}
+		if(isset(self::$savedData[$path])){
+			$data=array_merge($data,self::$savedData[$path]);
+			unset(self::$savedData[$path]);
+		}
+		if(!isset($data['size']) or !isset($data['mtime'])){//save incomplete data for the next time we write it
+			self::$savedData[$path]=$data;
+			return;
+		}
 		if(!isset($data['encrypted'])){
 			$data['encrypted']=false;
 		}
@@ -101,9 +111,11 @@ class OC_FileCache{
 		}
 		$mimePart=dirname($data['mimetype']);
 		$user=OC_User::getUser();
-		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart,user,writable) VALUES(?,?,?,?,?,?,?,?,?,?)');
-		$query->execute(array($parent,basename($path),$path,$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable']));
-		
+		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, path_hash, size, mtime, ctime, mimetype, mimepart,user,writable,encrypted,versioned) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
+		$result=$query->execute(array($parent,basename($path),$path,md5($path),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while writing file('.$path.') to cache',OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -128,7 +140,10 @@ class OC_FileCache{
 		
 		$sql = 'UPDATE *PREFIX*fscache SET '.implode(' , ',$queryParts).' WHERE id=?';
 		$query=OC_DB::prepare($sql);
-		$query->execute($arguments);
+		$result=$query->execute($arguments);
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while updating file('.$path.') in cache',OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -147,25 +162,34 @@ class OC_FileCache{
 		$oldPath=$root.$oldPath;
 		$newPath=$root.$newPath;
 		$newParent=self::getParentId($newPath);
-		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET parent=? ,name=?, path=? WHERE path=?');
-		$query->execute(array($newParent,basename($newPath),$newPath,$oldPath));
+		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET parent=? ,name=?, path=?, path_hash=? WHERE path_hash=?');
+		$query->execute(array($newParent,basename($newPath),$newPath,md5($newPath),md5($oldPath)));
 	}
 
 	/**
 	 * delete info from the cache
-	 * @param string $path
+	 * @param string/int $file
 	 * @param string root (optional)
 	 */
-	public static function delete($path,$root=''){
-		if(!$root){
-			$root=OC_Filesystem::getRoot();
+	public static function delete($file,$root=''){
+		if(!is_numeric($file)){
+			if(!$root){
+				$root=OC_Filesystem::getRoot();
+			}
+			if($root=='/'){
+				$root='';
+			}
+			$path=$root.$file;
+			self::delete(self::getFileId($path));
+		}elseif($file!=-1){
+			$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE parent=?');
+			$result=$query->execute(array($file));
+			while($child=$result->fetchRow()){
+				self::delete(intval($child['id']));
+			}
+			$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE id=?');
+			$query->execute(array($file));
 		}
-		if($root=='/'){
-			$root='';
-		}
-		$path=$root.$path;
-		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE path=?');
-		$query->execute(array($path));
 	}
 	
 	/**
@@ -216,7 +240,7 @@ class OC_FileCache{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFolderContent($path,$root=''){
+  public static function getFolderContent($path,$root='',$mimetype_filter=''){
 		if(self::isUpdated($path,$root)){
 			self::updateFolder($path,$root);
 		}
@@ -228,8 +252,8 @@ class OC_FileCache{
 		}
 		$path=$root.$path;
 		$parent=self::getFileId($path);
-		$query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=?');
-		$result=$query->execute(array($parent))->fetchAll();
+    $query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=? AND (mimetype LIKE ? OR mimetype = ?)');
+    $result=$query->execute(array($parent, $mimetype_filter.'%', 'httpd/unix-directory'))->fetchAll();
 		if(is_array($result)){
 			return $result;
 		}else{
@@ -261,12 +285,21 @@ class OC_FileCache{
 	 * @return int
 	 */
 	private static function getFileId($path){
-		$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path=?');
-		$result=$query->execute(array($path))->fetchRow();
+		$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path_hash=?');
+		if(OC_DB::isError($query)){
+			OC_Log::write('files','error while getting file id of '.$path,OC_Log::ERROR);
+			return -1;
+		}
+		$result=$query->execute(array(md5($path)));
+		if(OC_DB::isError($result)){
+			OC_Log::write('files','error while getting file id of '.$path,OC_Log::ERROR);
+			return -1;
+		}
+		$result=$result->fetchRow();
 		if(is_array($result)){
 			return $result['id'];
 		}else{
-			OC_Log::write('getFieldId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('getFileId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return -1;
 		}
 	}
@@ -299,10 +332,11 @@ class OC_FileCache{
 		$path=$params['path'];
 		$fullPath=$view->getRoot().$path;
 		$mimetype=$view->getMimeType($path);
+		$dir=$view->is_dir($path.'/');
 		//dont use self::get here, we don't want inifinte loops when a file has changed
 		$cachedSize=self::getCachedSize($path,$root);
 		$size=0;
-		if($mimetype=='httpd/unix-directory'){
+		if($dir){
 			if(self::inCache($path,$root)){
 				$parent=self::getFileId($fullPath);
 				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
@@ -323,7 +357,29 @@ class OC_FileCache{
 		}
 		self::increaseSize(dirname($fullPath),$size-$cachedSize);
 	}
-
+	
+	public static function getCached($path,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}else{
+			if($root=='/'){
+				$root='';
+			}
+		}
+		$path=$root.$path;
+		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE path_hash=?');
+		$result=$query->execute(array(md5($path)))->fetchRow();
+		if(is_array($result)){
+			if(isset(self::$savedData[$path])){
+				$result=array_merge($result,self::$savedData[$path]);
+			}
+			return $result;
+		}else{
+			OC_Log::write('get(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			return false;
+		}
+	}
+	
 	private static function getCachedSize($path,$root){
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
@@ -332,8 +388,9 @@ class OC_FileCache{
 				$root='';
 			}
 		}
-		$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE path=?');
-		$result=$query->execute(array($path));
+		$path=$root.$path;
+		$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE path_hash=?');
+		$result=$query->execute(array(md5($path)));
 		if($row=$result->fetchRow()){
 			return $row['size'];
 		}else{//file not in cache
@@ -412,26 +469,31 @@ class OC_FileCache{
 	 * @param string root (optionak)
 	 */
 	public static function scan($path,$eventSource=false,&$count=0,$root=''){
+		if($eventSource){
+			$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
+		}
+		$lastSend=$count;
 		if(!$root){
 			$view=OC_Filesystem::getView();
 		}else{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
 		self::scanFile($path,$root);
-		$dh=$view->opendir($path);
+		$dh=$view->opendir($path.'/');
 		$totalSize=0;
 		if($dh){
 			while (($filename = readdir($dh)) !== false) {
 				if($filename != '.' and $filename != '..'){
 					$file=$path.'/'.$filename;
-					if($view->is_dir($file)){
-						if($eventSource){
-							$eventSource->send('scanning',array('file'=>$file,'count'=>$count));
-						}
+					if($view->is_dir($file.'/')){
 						self::scan($file,$eventSource,$count,$root);
 					}else{
 						$totalSize+=self::scanFile($file,$root);
 						$count++;
+						if($count>$lastSend+25 and $eventSource){
+							$lastSend=$count;
+							$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
+						}
 					}
 				}
 			}
@@ -465,7 +527,7 @@ class OC_FileCache{
 	}
 
 	/**
-	 * fine files by mimetype
+	 * find files by mimetype
 	 * @param string $part1
 	 * @param string $part2 (optional)
 	 * @param string root (optional)
@@ -477,20 +539,21 @@ class OC_FileCache{
 	 * seccond mimetype part can be ommited
 	 * e.g. searchByMime('audio')
 	 */
-	public static function searchByMime($part1,$part2='',$root=''){
+	public static function searchByMime($part1,$part2=null,$root=null){
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
-		}elseif($root='/'){
+		}elseif($root=='/'){
 			$root='';
 		}
 		$rootLen=strlen($root);
+		$root .= '%';
 		$user=OC_User::getUser();
 		if(!$part2){
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=?');
-			$result=$query->execute(array($part1,$user));
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=? AND path LIKE ?');
+			$result=$query->execute(array($part1,$user, $root));
 		}else{
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND user=?');
-			$result=$query->execute(array($part1.'/'.$part2,$user));
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND user=? AND path LIKE ? ');
+			$result=$query->execute(array($part1.'/'.$part2,$user, $root));
 		}
 		$names=array();
 		while($row=$result->fetchRow()){
@@ -515,11 +578,14 @@ class OC_FileCache{
 			}
 			$view=new OC_FilesystemView($root);
 		}
+		if(!$view->file_exists($path)){
+			return false;
+		}
 		$mtime=$view->filemtime($path);
 		$isDir=$view->is_dir($path);
 		$path=$root.$path;
-		$query=OC_DB::prepare('SELECT mtime FROM *PREFIX*fscache WHERE path=?');
-		$result=$query->execute(array($path));
+		$query=OC_DB::prepare('SELECT mtime FROM *PREFIX*fscache WHERE path_hash=?');
+		$result=$query->execute(array(md5($path)));
 		if($row=$result->fetchRow()){
 			$cachedMTime=$row['mtime'];
 			return ($mtime>$cachedMTime);
@@ -575,6 +641,14 @@ class OC_FileCache{
 		}else{
 			self::fileSystemWatcherWrite(array('path'=>$path),$root);
 		}
+	}
+
+	/**
+	 * clean old pre-path_hash entries
+	 */
+	public static function clean(){
+		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE LENGTH(path_hash)<30');
+		$query->execute();
 	}
 }
 

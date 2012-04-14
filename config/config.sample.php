@@ -13,6 +13,12 @@ $CONFIG = array(
 "forcessl" => false,
 "enablebackup" => false,
 "theme" => "",
+"3rdpartyroot" => "",
+"3rdpartyurl" => "",
+"knowledgebaseenabled" => true,
+"knowledgebaseurl" => "",
+"appstoreenabled" => true,
+"appstoreurl" => "",
 // "datadirectory" => ""
 );
 ?>

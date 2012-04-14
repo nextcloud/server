@@ -1,190 +1,140 @@
 var actual_cover;
-$(document).ready(function() {
-  $.getJSON('ajax/getAlbums.php', function(r) {
-    if (r.status == 'success') {
-      for (var i in r.albums) {
-        var a = r.albums[i];
-        Albums.add(a.name, a.numOfItems);
-      }
-      var targetDiv = document.getElementById('gallery_list');
-      if (targetDiv) {
-        $(targetDiv).html('');
-        Albums.display(targetDiv);
-        $('#gallery_list').sortable({revert:true});
-        $('.gallery_album_box').each(function(i, e) {
-          $(e).draggable({connectToSortable: '#gallery_list', handle: '.dummy'})
-        });
-      } else {
-        alert('Error occured: no such layer `gallery_list`');
-      }
-    } else {
-      alert('Error occured: ' + r.message);
-    }
-  });
-});
+var paths = [];
+var crumbCount = 0;
+$(document).ready(returnToElement(0));
 
-function createNewAlbum() {
-  var name = prompt("album name", "");
-  if (name != null && name != "") {
-    $.getJSON("ajax/createAlbum.php", {album_name: name}, function(r) {
-      if (r.status == "success") {
-        var v = '<div class="gallery_album_box"><a href="?view='+r.name+'"><img class="gallery_album_cover"/></a><h1>'+r.name+'</h1></div>';
-        $('div#gallery_list').append(v);
+function returnToElement(num) {
+	while (crumbCount != num) {
+		$('#g-album-navigation .last').remove();
+		$('#g-album-navigation .crumb :last').parent().addClass('last');
+		crumbCount--;
+		paths.pop();
+	}
+	var p='';
+	for (var i in paths) p += paths[i]+'/';
+	$('#g-album-loading').show();
+	$.getJSON(OC.filePath('gallery','ajax','galleryOp.php'), {operation: 'get_gallery', path: p }, albumClickHandler);
+}
+
+function albumClick(title) {
+	paths.push(title);
+	crumbCount++;
+	var p = '';
+	for (var i in paths) p += paths[i]+'/';
+	$('#g-album-loading').show();
+	$.getJSON(OC.filePath('gallery','ajax','galleryOp.php'), {operation: 'get_gallery', path: p }, function(r) {
+		albumClickHandler(r);
+	if ($('#g-album-navigation :last-child'))
+		$('#g-album-navigation :last-child').removeClass('last');
+	$('#g-album-navigation').append('<div class="crumb last real" style="background-image:url(\''+OC.imagePath('core','breadcrumb')+'\')"><a href=\"javascript:returnToElement('+crumbCount+');\">'+decodeURIComponent(escape(title))+'</a></div>');
+	});
+}
+
+function constructSharingPath() {
+  return document.location.protocol + '//' + document.location.host + OC.linkTo('gallery', 'sharing.php') + '?token=' + Albums.token;
+}
+
+function shareGallery() {
+  var existing_token = '';
+  if (Albums.token)
+    existing_token = constructSharingPath();
+  var form_fields = [{text: 'Share', name: 'share', type: 'checkbox', value: Albums.shared},
+                     {text: 'Share recursive', name: 'recursive', type: 'checkbox', value: Albums.recursive},
+                     {text: 'Shared gallery address', name: 'address', type: 'text', value: existing_token}];
+    OC.dialogs.form(form_fields, t('gallery', 'Share gallery'), function(values){
+    var p = '';
+    for (var i in paths) p += paths[i]+'/';
+    if (p == '') p = '/';
+    alert(p);
+    $.getJSON(OC.filePath('gallery', 'ajax', 'galleryOp.php'), {operation: 'share', path: p, share: values[0].value, recursive: values[1].value}, function(r) {
+      if (r.status == 'success') {
+        Albums.shared = r.sharing;
+        if (Albums.shared) {
+          Albums.token = r.token;
+          Albums.recursive = r.recursive;
+        } else {
+          Albums.token = '';
+          Albums.recursive = false;
+        }
+        var actual_addr = '';
+        if (Albums.token)
+          actual_addr = constructSharingPath();
+        $('input[name="address"]').val(actual_addr);
+      } else {
+        OC.dialogs.alert(t('gallery', 'Error: ') + r.cause, t('gallery', 'Internal error'));
       }
     });
-  }
+  });
+}
+
+function albumClickHandler(r) {
+	Albums.photos = [];
+	Albums.albums = [];
+	if (r.status == 'success') {
+		for (var i in r.albums) {
+		var a = r.albums[i];
+			Albums.add(a.name, a.numOfItems, a.path, a.shared, a.recursive, a.token);
+		}
+		for (var i in r.photos) {
+			Albums.photos.push(r.photos[i]);
+		}
+    Albums.shared = r.shared;
+    if (Albums.shared) {
+      Albums.recursive = r.recursive;
+      Albums.token = r.token;
+    } else {
+      Albums.recursive = false;
+      Albums.token = '';
+    }
+		var targetDiv = document.getElementById('gallery_list');
+		if (targetDiv) {
+			$(targetDiv).html('');
+			Albums.display(targetDiv);
+			//$('#gallery_list').sortable({revert:true});
+			$('.album').each(function(i, el) {
+				$(el).click(albumClick.bind(null,$(el).attr('title')));
+				//$(el).draggable({connectToSortable: '#gallery_list', handle: '.dummy'});
+			});
+		} else {
+			OC.dialogs.alert(t('gallery', 'Error: no such layer `gallery_list`'), t('gallery', 'Internal error'));
+		}
+	} else {
+		OC.dialogs.alert(t('gallery', 'Error: ') + r.cause, t('gallery', 'Internal error'));
+	}
+	$('#g-album-loading').hide();
 }
 
 var albumCounter = 0;
 var totalAlbums = 0;
 
 function scanForAlbums(cleanup) {
-  cleanup = cleanup?true:false;
-  var albumCounter = 0;
-  var totalAlbums = 0;
-  $('#g-scan-button').attr('disabled', 'true');
-  $.getJSON('ajax/galleryOp.php?operation=filescan', {cleanup: cleanup}, function(r) {
-
-    if (r.status == 'success') {
-      totalAlbums = r.paths.length;
-      if (totalAlbums == 0) {
-        $('#notification').text(t('gallery', "No photos found")).fadeIn().slideDown().delay(3000).fadeOut().slideUp();
-        return;
-      }
-      $('#scanprogressbar').progressbar({ value: (albumCounter/totalAlbums)*100 }).fadeIn();
-      for(var a in r.paths) {
-        $.getJSON('ajax/galleryOp.php?operation=partial_create&path='+r.paths[a], function(r) {
-
-          if (r.status == 'success') {
-            Albums.add(r.album_details.albumName, r.album_details.imagesCount);
-          }
-
-          albumCounter++;
-          $('#scanprogressbar').progressbar({ value: (albumCounter/totalAlbums)*100 });
-          if (albumCounter == totalAlbums) {
-            $('#scanprogressbar').fadeOut();
-            var targetDiv = document.getElementById('gallery_list');
-            if (targetDiv) {
-              targetDiv.innerHTML = '';
-              Albums.display(targetDiv);
-            } else {
-              alert('Error occured: no such layer `gallery_list`');
-            }
-            $('#g-scan-button').attr('disabled', null);
-          }
-        });
-      }
-    } else {
-      alert('Error occured: ' + r.message);
-    }
-  });
-}
-
-function galleryRemove(albumName) {
-  // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
-  $( "#dialog:ui-dialog" ).dialog( "destroy" );
-  $('#albumName', $("#dialog-confirm")).text(albumName);
-
-  $( '#dialog-confirm' ).dialog({
-    resizable: false,
-    height:150,
-    buttons: [{
-        text: t('gallery', 'OK'),
-        click: function() {
-          $.getJSON("ajax/galleryOp.php", {operation: "remove", name: albumName}, function(r) {
-            if (r.status == "success") {
-            $(".gallery_album_box").filterAttr('data-album',albumName).remove();
-              Albums.remove(albumName);
-            } else {
-              alert("Error: " + r.cause);
-            }
-            $('#dialog-confirm').dialog('close');
-          });
-        }},
-        {
-          text: t('gallery', 'Cancel'),
-          click: function() {
-            $( this ).dialog( 'close' );
-        }}]
-  });
-}
-
-function galleryRename(name) {
-  $('#name', $('#dialog-form')).val(name);
-  $( "#dialog-form" ).dialog({
-        height: 140,
-        width: 350,
-        modal: false,
-        buttons: [{
-            text: t('gallery', 'Change name'),
-            click: function() {
-              var newname = $('#name', $('#dialog-form')).val();
-              if (newname == name || newname == '') {
-                $(this).dialog("close");
-                return;
-              }
-              if (Albums.find(newname)) {
-                alert("Album ", newname, " exists");
-                $(this).dialog("close");
-                return;
-              }
-              $.getJSON('ajax/galleryOp.php', {operation: 'rename', oldname: name, newname: newname}, function(r) {
-                if (r.status == "success") {
-                  Albums.rename($(".gallery_album_box").filterAttr('data-album',name), newname);
-                } else {
-                  alert("Error: " + r.cause);
-                }
-                $('#dialog-form').dialog('close');
-              });
-
-            }
-          },
-          {
-            text: t('gallery', 'Cancel'),
-            click: function() {
-              $( this ).dialog('close');
-            }
-          }
-        ],
-  });
+	Scanner.scanAlbums();
+	return;
 }
 
 function settings() {
-  $( '#g-dialog-settings' ).dialog({
-        height: 180,
-        width: 350,
-        modal: false,
-        buttons: [{
-            text: t('gallery', 'Apply'),
-            click: function() {
-              var scanning_root = $('#g-scanning-root').val();
-              var disp_order = $('#g-display-order option:selected').val();
-              if (scanning_root == '') {
-                alert('Scanning root cannot be empty');
-                return;
+  OC.dialogs.form([{text: t('gallery', 'Scanning root'), name: 'root', type:'text', value:gallery_scanning_root},
+                  {text: t('gallery', 'Default order'), name: 'order', type:'select', value:gallery_default_order, options:[
+                      {text:t('gallery', 'Ascending'), value:'ASC'}, {text: t('gallery', 'Descending'), value:'DESC'} ]}],
+                  t('gallery', 'Settings'),
+                  function(values) {
+                    var scanning_root = values[0].value;
+                    var disp_order = values[1].value;
+					if (scanning_root == '') {
+            OC.dialogs.alert(t('gallery', 'Scanning root cannot be empty'), t('gallery', 'Error'));
+						return;
+					}
+					$.getJSON(OC.filePath('gallery','ajax','galleryOp.php'), {operation: 'store_settings', root: scanning_root, order: disp_order}, function(r) {
+						if (r.status == 'success') {
+              if (r.rescan == 'yes') {
+                Albums.clear(document.getElementById('gallery_list'));
+                scanForAlbums(true);
               }
-              $.getJSON('ajax/galleryOp.php', {operation: 'store_settings', root: scanning_root, order: disp_order}, function(r) {
-                if (r.status == 'success') {
-                  if (r.rescan == 'yes') { 
-                    $('#g-dialog-settings').dialog('close');
-                    Albums.clear(document.getElementById('gallery_list'));
-                    scanForAlbums(true);
-                    return;
-                  }
-                } else {
-                  alert('Error: ' + r.cause);
-                  return;
-                }
-                $('#g-dialog-settings').dialog('close');
-              });
-            }
-          },
-          {
-            text: t('gallery', 'Cancel'),
-            click: function() {
-              $(this).dialog('close');
-            }
-          }
-        ],
-  });
+              gallery_scanning_root = scanning_root;
+						} else {
+              OC.dialogs.alert(t('gallery', 'Error: ') + r.cause, t('gallery', 'Error'));
+              return;
+						}
+					});
+				});
 }

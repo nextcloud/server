@@ -45,6 +45,3 @@ class OC_Search_Provider_Bookmarks extends OC_Search_Provider{
 		return $results;
 	}
 }
-new OC_Search_Provider_Bookmarks();
-
-?>

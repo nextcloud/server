@@ -27,14 +27,16 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$id = $_POST['id'];
-$vcard = OC_Contacts_App::getContactVCard( $id );
+$id = isset($_POST['id'])?$_POST['id']:null;
+$name = isset($_POST['name'])?$_POST['name']:null;
+$value = isset($_POST['value'])?$_POST['value']:null;
+$parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
 
-$name = $_POST['name'];
-$value = $_POST['value'];
+$vcard = OC_Contacts_App::getContactVCard($id);
+
 if(!is_array($value)){
 	$value = trim($value);
-	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME'))) {
+	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME', 'NOTE'))) {
 		OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot add empty property.'))));
 		exit();
 	}
@@ -51,7 +53,6 @@ if(!is_array($value)){
 		exit();
 	}
 }
-$parameters = isset($_POST['parameters']) ? $_POST['parameters'] : array();
 
 // Prevent setting a duplicate entry
 $current = $vcard->select($name);
@@ -82,7 +83,9 @@ switch($name) {
 		}
 	case 'N':
 	case 'ORG':
+	case 'NOTE':
 	case 'NICKNAME':
+		// TODO: Escape commas and semicolons.
 		break;
 	case 'EMAIL':
 		$value = strtolower($value);
@@ -113,19 +116,10 @@ foreach ($parameters as $key=>$element) {
 }
 $checksum = md5($vcard->children[$line]->serialize());
 
-if(!OC_Contacts_VCard::edit($id,$vcard->serialize())) {
+if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error adding contact property.'))));
 	OC_Log::write('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OC_Log::ERROR);
 	exit();
 }
 
-$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
-$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
-
-$tmpl = new OC_Template('contacts','part.property');
-$tmpl->assign('adr_types',$adr_types);
-$tmpl->assign('phone_types',$phone_types);
-$tmpl->assign('property',OC_Contacts_VCard::structureProperty($property,$line));
-$page = $tmpl->fetchPage();
-
-OC_JSON::success(array('data' => array( 'checksum' => $checksum, 'page' => $page )));
+OC_JSON::success(array('data' => array( 'checksum' => $checksum )));

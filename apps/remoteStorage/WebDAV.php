@@ -33,6 +33,7 @@ require_once('../../lib/base.php');
 OC_Util::checkAppEnabled('remoteStorage');
 require_once('Sabre/autoload.php');
 require_once('lib_remoteStorage.php');
+require_once('BearerAuth.php');
 require_once('oauth_ro_auth.php');
 
 ini_set('default_charset', 'UTF-8');
@@ -68,7 +69,10 @@ if(count($pathParts) >= 3 && $pathParts[0] == '') {
 	$server->setBaseUri(OC::$WEBROOT."/apps/remoteStorage/WebDAV.php/$ownCloudUser");
 
 	// Auth backend
-	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(OC_remoteStorage::getValidTokens($ownCloudUser, $category));
+	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(
+      OC_remoteStorage::getValidTokens($ownCloudUser, $category),
+      $category
+      );
 
 	$authPlugin = new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud');//should use $validTokens here
 	$server->addPlugin($authPlugin);
@@ -81,5 +85,6 @@ if(count($pathParts) >= 3 && $pathParts[0] == '') {
 	// And off we go!
 	$server->exec();
 } else {
-	die('not the right address format '.var_export($pathParts, true));
+	//die('not the right address format '.var_export($pathParts, true));
+	die('not the right address format');
 }

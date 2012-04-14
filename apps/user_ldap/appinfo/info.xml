@@ -7,4 +7,7 @@
 	<licence>AGPL</licence>
 	<author>Dominik Schmidt</author>
 	<require>2</require>
+	<types>
+		<authentication/>
+	</types>
 </info>

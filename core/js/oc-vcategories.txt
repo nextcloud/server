@@ -1,0 +1,33 @@
+Using OCCategories
+
+This 'class' is meant for any apps that uses OC_VObjects with the CATEGORIES field e.g.
+Contacts and Calendar. It provides an editor UI for adding/deleting and rescanning categories
+and basic ajax functions for adding and deleting.
+To use the mass updating of OC_VObjects that /lib/vcategories.php provides, the app must implement
+its own ajax functions in /apps/$(APP)/ajax/categories/rescan.php and /apps/$(APP)/ajax/categories/delete.php
+See examples in /apps/contacts/ajax/categories and the inline docs in /lib/vcategories.php.
+
+In your app make sure you load the script and stylesheet:
+
+OC_Util::addScript('','oc-vcategories');
+OC_Util::addStyle('','oc-vcategories');
+
+Set the app specific values in your javascript file. This is what I've used for the Contacts app:
+
+	OCCategories.app = 'contacts';
+	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
+
+If OCCategories.changed is set that function will be called each time the categories have been changed
+in the editor (add/delete/rescan) to allow the app to update the UI accordingly. The only argument to the function
+is an array of the updated categories e.g.:
+
+OCCategories.changed = function(categories) {
+	for(var category in categories) {
+		console.log(categories[category]);
+	}
+}
+
+To show the categories editor call:
+
+	OCCategories.edit()
+

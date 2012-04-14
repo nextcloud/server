@@ -13,11 +13,11 @@
 * 
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*  
+*
 * You should have received a copy of the GNU Lesser General Public 
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+* License along with this library. If not, see <http://www.gnu.org/licenses/>.
 * 
 */
 
@@ -46,52 +46,58 @@ class OC_Gallery_Photo {
 		return $stmt->execute(array($owner, $album_name));
 	}
 
-  public static function removeByPath($path) {
-    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE file_path LIKE ?');
-    $stmt->execute(array($path));
-  }
+	public static function removeByPath($path) {
+		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE file_path LIKE ?');
+		$stmt->execute(array($path));
+	}
 
-  public static function removeById($id) {
-    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE photo_id = ?');
-    $stmt->execute(array($id));
-  }
+	public static function removeById($id) {
+		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE photo_id = ?');
+		$stmt->execute(array($id));
+	}
 
-  public static function removeByAlbumId($albumid) {
-    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE album_id = ?');
-    $stmt->execute(array($albumid));
-  }
+	public static function removeByAlbumId($albumid) {
+		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE album_id = ?');
+		$stmt->execute(array($albumid));
+	}
 
-  public static function changePath($oldAlbumId, $newAlbumId, $oldpath, $newpath) {
-    $stmt = OC_DB::prepare("UPDATE *PREFIX*gallery_photos SET file_path = ?, album_id = ? WHERE album_id = ? and file_path = ?");
-    $stmt->execute(array($newpath, $newAlbumId, $oldAlbumId, $oldpath));
-  }
+	public static function changePath($oldAlbumId, $newAlbumId, $oldpath, $newpath) {
+		$stmt = OC_DB::prepare("UPDATE *PREFIX*gallery_photos SET file_path = ?, album_id = ? WHERE album_id = ? and file_path = ?");
+		$stmt->execute(array($newpath, $newAlbumId, $oldAlbumId, $oldpath));
+	}
 
-	public static function getThumbnail($image_name) {
-		$save_dir = OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/';
+	public static function getThumbnail($image_name, $owner = null) {
+		if (!$owner) $owner = OC_User::getUser();
+		$save_dir = OC_Config::getValue("datadirectory").'/'. $owner .'/gallery/';
 		$save_dir .= dirname($image_name). '/';
-		$image_name = basename($image_name);
-		$thumb_file = $save_dir . $image_name;
+		$image_path = $image_name;
+		$thumb_file = $save_dir . basename($image_name);
+		if (!is_dir($save_dir)) {
+			mkdir($save_dir, 0777, true);
+		}
 		if (file_exists($thumb_file)) {
 			$image = new OC_Image($thumb_file);
 		} else {
-			$imagePath = OC_Filesystem::getLocalFile($image_name);
-			if(!file_exists($imagePath)) {
+			$image_path = OC_Filesystem::getLocalFile($image_path);
+			if(!file_exists($image_path)) {
 				return null;
 			}
-			$image = new OC_Image($imagePath);
+			$image = new OC_Image($image_path);
 			if ($image->valid()) {
-				$image->centerCrop();
-				$image->resize(200);
+				$image->centerCrop(200);
 				$image->fixOrientation();
-				if (!is_dir($save_dir)) {
-					mkdir($save_dir, 0777, true);
-				}
 				$image->save($thumb_file);
 			}
 		}
 		if ($image->valid()) {
 			return $image;
+		}else{
+			$image->destroy();
 		}
 		return null;
+	}
+
+	public static function getGalleryRoot() {
+		return OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '');
 	}
 }
