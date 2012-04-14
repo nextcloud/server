@@ -434,7 +434,7 @@ class OC_Migrate{
 
 			// Now add some app info the the return array
 			$appinfo = OC_App::getAppInfo( $provider->getID() );
-			$return['apps'][$provider->getID()]['version'] = $appinfo['version'];
+			$return['apps'][$provider->getID()]['version'] = OC_App::getAppVersion($provider->getID());
 
 		}
 
