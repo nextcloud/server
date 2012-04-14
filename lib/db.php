@@ -434,7 +434,7 @@ class OC_DB {
 		self::connect();
 		// We need Database type and table prefix
 		if(is_null(self::$type)){
-			self::$type=OC_Config::getValue( "dbtype", "oc_" );
+			self::$type=OC_Config::getValue( "dbtype", "sqlite" );
 		}
 		$type = self::$type;
 		if(is_null(self::$prefix)){
@@ -501,7 +501,7 @@ class OC_DB {
 	}
 	
 	/**
-	 * @breif replaces the owncloud tables with a new set
+	 * @brief replaces the owncloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	 public static function replaceDB( $file ){
