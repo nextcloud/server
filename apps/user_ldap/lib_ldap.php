@@ -39,6 +39,14 @@
 		self::establishConnection();
 	}
 
+	/**
+	 * @brief executes an LDAP search
+	 * @param $filter the LDAP filter for the search
+	 * @param $attr optional, when a certain attribute shall be filtered out
+	 * @returns array with the search result
+	 *
+	 * Executes an LDAP search
+	 */
 	static public function search($filter, $attr = null) {
 		$sr = ldap_search(self::getConnectionResource(), self::$ldapBase, $filter);
 		$findings = ldap_get_entries(self::getConnectionResource(), $sr );
@@ -56,6 +64,9 @@
 		return $findings;
 	}
 
+	/**
+	 * Returns the LDAP handler
+	 */
 	static private function getConnectionResource() {
 		if(!self::$ldapConnectionRes) {
 			self::init();
@@ -63,6 +74,9 @@
 		return self::$ldapConnectionRes;
 	}
 
+	/**
+	 * Caches the general LDAP configuration.
+	 */
 	static private function readConfiguration() {
 		if(!self::$configured) {
 			self::$ldapHost          = OC_Appconfig::getValue('user_ldap', 'ldap_host', '');
@@ -78,6 +92,9 @@
 		}
 	}
 
+	/**
+	 * Connects and Binds to LDAP
+	 */
 	static private function establishConnection() {
 		if(!self::$ldapConnectionRes) {
 			self::$ldapConnectionRes = ldap_connect(self::$ldapHost, self::$ldapPort);
