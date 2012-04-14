@@ -40,6 +40,7 @@
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup($uid, $gid) {
+		return array();
 	}
 
 	/**
@@ -51,6 +52,7 @@
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
+		return array();
 	}
 
 	/**
@@ -58,6 +60,7 @@
 	 * @returns array with user ids
 	 */
 	public function getUsersInGroup($gid) {
+		return array();
 	}
 
 	/**
