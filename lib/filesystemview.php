@@ -283,8 +283,12 @@ class OC_FilesystemView {
 		if(OC_Filesystem::isValidPath($path)){
 			$source=$this->fopen($path,'r');
 			if($source){
-				$extention=substr($path,strrpos($path,'.'));
-				$tmpFile=OC_Helper::tmpFile($extention);
+				$extension='';
+				$extOffset=strpos($path,'.');
+				if($extOffset !== false) {
+					$extension=substr($path,strrpos($path,'.'));
+				}
+				$tmpFile=OC_Helper::tmpFile($extension);
 				file_put_contents($tmpFile,$source);
 				return $tmpFile;
 			}

@@ -2,8 +2,11 @@ $(document).ready(function() {
 	var shared_status = {};
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Share', function(filename) {
-			if (scanFiles.scanning){return;}//workaround to prevent aditional http request block scanning feedback
+			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 			var icon;
+			if (typeof filename == 'undefined') {
+				return false;
+			}
 			var file = $('#dir').val()+'/'+filename;
 			if(shared_status[file])
 				return shared_status[file].icon;
@@ -145,7 +148,7 @@ $(document).ready(function() {
 				data: data,
 				success: function(token) {
 					if (token) {
-						showPublicLink(token);
+						showPublicLink(token, source.substr(source.lastIndexOf('/')));
 					}
 				}
 			});
@@ -203,7 +206,7 @@ function createDropdown(filename, files) {
 		if (users) {
 			$.each(users, function(index, row) {
 				if (row.uid_shared_with == 'public') {
-					showPublicLink(row.token);
+					showPublicLink(row.token, '/'+filename);
 				} else if (isNaN(index)) {
 					addUser(row.uid_shared_with, row.permissions, index.substr(0, index.lastIndexOf('-')));
 				} else {
@@ -234,9 +237,9 @@ function addUser(uid_shared_with, permissions, parentFolder) {
 	$(user).appendTo('#shared_list');
 }
 
-function showPublicLink(token) {
+function showPublicLink(token, file) {
 	$('#makelink').attr('checked', true);
 	$('#link').data('token', token);
-	$('#link').val(parent.location.protocol+'//'+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token);
+	$('#link').val(parent.location.protocol+'//'+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token+'&f='+file);
 	$('#link').show('blind');
 }
