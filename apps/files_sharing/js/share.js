@@ -2,8 +2,11 @@ $(document).ready(function() {
 	var shared_status = {};
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Share', function(filename) {
-			if (scanFiles.scanning){return;}//workaround to prevent aditional http request block scanning feedback
+			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 			var icon;
+			if (typeof filename == 'undefined') {
+				return false;
+			}
 			var file = $('#dir').val()+'/'+filename;
 			if(shared_status[file])
 				return shared_status[file].icon;
