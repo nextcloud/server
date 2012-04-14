@@ -139,13 +139,18 @@ class OC_App{
 			if(!is_numeric($app)){
 				OC_Installer::installShippedApp($app);
 			}else{
-                                $download=OC_OCSClient::getApplicationDownload($app,1);
-				if(isset($download['downloadlink']) and $download['downloadlink']<>'') {
+				$download=OC_OCSClient::getApplicationDownload($app,1);
+				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 					$app=OC_Installer::installApp(array('source'=>'http','href'=>$download['downloadlink']));
 				}
 			}
 		}
-		OC_Appconfig::setValue( $app, 'enabled', 'yes' );
+		if($app!==false){
+			OC_Appconfig::setValue( $app, 'enabled', 'yes' );
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
