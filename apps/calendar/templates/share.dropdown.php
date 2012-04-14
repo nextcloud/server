@@ -19,7 +19,7 @@ foreach($sharedelements as $sharedelement){
 ?>
 <strong><?php echo $l->t('Users');?>:</strong><br>
 <select id="share_user" title="<?php echo $l->t('select users');?>" data-placeholder="<?php echo $l->t('select users'); ?>">
-<option value=""></option> 
+<option value=""></option>
 <?php
 $allocusers = OC_User::getUsers();
 $allusers = array();
@@ -37,7 +37,7 @@ echo html_select_options($allusers, array());
 	<script>
 		$('#sharewithuser_<?php echo $user['share']; ?> > img').click(function(){
 			$('#share_user option[value="<?php echo $user['share']; ?>"]').removeAttr('disabled');
-			Calendar.UI.Share.unshare(<?php echo $id; ?>, 'calendar', '<?php echo $user['share']; ?>', 'user');
+			Calendar.UI.Share.unshare(<?php echo $id; ?>, '<?php echo (array_key_exists('calid', $_)?'calendar':'event');?>', '<?php echo $user['share']; ?>', 'user');
 			$('#sharewithuser_<?php echo $user['share']; ?>').remove();
 			$("#share_user").trigger("liszt:updated");
 		});
@@ -63,7 +63,7 @@ echo html_select_options($allgroups, array());
 	<script>
 		$('#sharewithgroup_<?php echo $group['share']; ?> > img').click(function(){
 			$('#share_group option[value="<?php echo $group['share']; ?>"]').removeAttr('disabled');
-			Calendar.UI.Share.unshare(<?php echo $id; ?>, 'calendar', '<?php echo $group['share']; ?>', 'group');
+			Calendar.UI.Share.unshare(<?php echo $id; ?>, '<?php echo (array_key_exists('calid', $_)?'calendar':'event');?>, '<?php echo $group['share']; ?>', 'group'); ?>
 			$('#sharewithgroup_<?php echo $group['share']; ?>').remove();
 			$("#share_group").trigger("liszt:updated");
 		});
