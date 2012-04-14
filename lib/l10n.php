@@ -25,6 +25,11 @@
  */
 class OC_L10N{
 	/**
+	 * cached instances
+	 */
+	protected static $instances=array();
+	
+	/**
 	 * cache
 	 */
 	protected static $cache = array();
@@ -46,6 +51,21 @@ class OC_L10N{
 		'date' => 'd.m.Y',
 		'datetime' => 'd.m.Y H:i:s',
 		'time' => 'H:i:s');
+		
+	/**
+	 * get an L10N instance
+	 * @return OC_L10N
+	 */
+	public static function get($app,$lang=null){
+		if(is_null($lang)){
+			if(!isset(self::$instances[$app])){
+				self::$instances[$app]=new OC_L10N($app);
+			}
+			return self::$instances[$app];
+		}else{
+			return new OC_L10N($app,$lang);
+		}
+	}
 	
 	/**
 	 * @brief The constructor

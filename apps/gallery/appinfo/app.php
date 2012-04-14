@@ -27,7 +27,7 @@ OC::$CLASSPATH['OC_Gallery_Scanner'] = 'apps/gallery/lib/scanner.php';
 OC::$CLASSPATH['OC_Gallery_Sharing'] = 'apps/gallery/lib/sharing.php';
 OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'apps/gallery/lib/hooks_handlers.php';
 
-$l = new OC_L10N('gallery');
+$l = OC_L10N::get('gallery');
 
 OC_App::register(array(
   'order' => 20,

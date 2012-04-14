@@ -7,8 +7,6 @@
  */
 require_once('../../../../lib/base.php');
 
-$l10n = new OC_L10N('calendar');
-
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 

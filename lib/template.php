@@ -76,7 +76,7 @@ function simple_file_size($bytes) {
 }
 
 function relative_modified_date($timestamp) {
-    $l=new OC_L10N('template');
+    $l=OC_L10N::get('template');
 	$timediff = time() - $timestamp;
 	$diffminutes = round($timediff/60);
 	$diffhours = round($diffminutes/60);
@@ -155,7 +155,7 @@ class OC_Template{
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->vars = array();
-		$this->l10n = new OC_L10N($app);
+		$this->l10n = OC_L10N::get($app);
 
 		$this->findTemplate($name);
 	}

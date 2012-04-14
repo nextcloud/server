@@ -254,7 +254,7 @@ class OC_App{
 	 * entries are sorted by the key 'order' ascending.
 	 */
 	public static function getSettingsNavigation(){
-		$l=new OC_L10N('core');
+		$l=OC_L10N::get('core');
 
 		$settings = array();
 		// by default, settings only contain the help menu

@@ -8,7 +8,7 @@
 
 require_once ('../../../lib/base.php');
 require_once('when/When.php');
-$l = new OC_L10N('calendar');
+$l = OC_L10N::get('calendar');
 $unnamed = $l->t('unnamed');
 function create_return_event($event, $vevent){
 	$return_event = array();
