@@ -501,7 +501,7 @@ class OC_DB {
 	}
 	
 	/**
-	 * @breif replaces the owncloud tables with a new set
+	 * @brief replaces the owncloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	 public static function replaceDB( $file ){

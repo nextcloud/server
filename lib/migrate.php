@@ -57,7 +57,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @breif finds and loads the providers
+	* @brief finds and loads the providers
 	*/
 	static private function findProviders(){
 		// Find the providers
@@ -72,7 +72,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @breif exports a user, or owncloud instance
+	 * @brief exports a user, or owncloud instance
 	 * @param optional $uid string user id of user to export if export type is user, defaults to current
 	 * @param ootional $type string type of export, defualts to user
 	 * @param otional $path string path to zip output folder
@@ -190,7 +190,7 @@ class OC_Migrate{
 	 }
 
 	/**
-	* @breif imports a user, or owncloud instance
+	* @brief imports a user, or owncloud instance
 	* @param $path string path to zip
 	* @param optional $type type of import (user or instance)
 	* @param optional $uid userid of new user
@@ -298,7 +298,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @breif recursively deletes a directory
+	* @brief recursively deletes a directory
 	* @param $dir string path of dir to delete
 	* $param optional $deleteRootToo bool delete the root directory
 	* @return bool
@@ -323,7 +323,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @breif copies recursively
+	* @brief copies recursively
 	* @param $path string path to source folder
 	* @param $dest string path to destination
 	* @return bool
@@ -354,7 +354,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @breif tries to extract the import zip
+	* @brief tries to extract the import zip
 	* @param $path string path to the zip
 	* @return string path to extract location (with a trailing slash) or false on failure
 	*/
@@ -396,7 +396,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @breif creates a migration.db in the users data dir with their app data in
+	 * @brief creates a migration.db in the users data dir with their app data in
 	 * @return bool whether operation was successfull
 	 */
 	private static function exportAppData( ){
@@ -444,7 +444,7 @@ class OC_Migrate{
 
 
 	/**
-	 * @breif generates json containing export info, and merges any data supplied
+	 * @brief generates json containing export info, and merges any data supplied
 	 * @param optional $array array of data to include in the returned json
 	 * @return bool
 	 */
@@ -479,7 +479,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @breif connects to migration.db, or creates if not found
+	 * @brief connects to migration.db, or creates if not found
 	 * @param $db optional path to migration.db, defaults to user data dir
 	 * @return bool whether the operation was successful
 	 */
@@ -538,7 +538,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @breif creates the tables in migration.db from an apps database.xml
+	 * @brief creates the tables in migration.db from an apps database.xml
 	 * @param $appid string id of the app
 	 * @return bool whether the operation was successful
 	 */
@@ -592,7 +592,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @breif tries to create the zip
+	* @brief tries to create the zip
 	* @param $path string path to zip destination
 	* @return bool
 	*/
@@ -612,7 +612,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @breif returns an array of apps that support migration
+	* @brief returns an array of apps that support migration
 	* @return array
 	*/
 	static public function getApps(){
@@ -627,7 +627,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @breif imports a new user
+	* @brief imports a new user
 	* @param $db string path to migration.db
 	* @param $info object of migration info
 	* @param $uid optional uid to use
@@ -690,7 +690,7 @@ class OC_Migrate{
 	}
 
 	/*
-	* @breif creates a new user in the database
+	* @brief creates a new user in the database
 	* @param $uid string user_id of the user to be created
 	* @param $hash string hash of the user to be created
 	* @return bool result of user creation
