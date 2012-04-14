@@ -297,7 +297,7 @@ class OC_Installer{
 			include(OC::$APPSROOT."/apps/$app/appinfo/install.php");
 		}
 		$info=OC_App::getAppInfo($app);
-		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion('version']));
+		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion('version'));
 		return $info;
 	}
 }
