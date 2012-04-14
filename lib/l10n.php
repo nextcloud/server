@@ -261,17 +261,14 @@ class OC_L10N{
 	public static function findAvailableLanguages($app=null){
 		$available=array('en');//english is always available
 		$dir = self::findI18nDir($app);
-		if(file_exists($dir)){
-			$dh = opendir($dir);
-			while(($file = readdir($dh)) !== false){
-				if(substr($file, -4, 4) == '.php' and (strlen($file) == 6 || strlen($file) == 9)){
+		if(is_dir($dir)){
+			$files=scandir($dir);
+			foreach($files as $file){
+				if(substr($file, -4, 4) == '.php'){
 					$i = substr($file, 0, -4);
-					if($i != ''){
-						$available[] = $i;
-					}
+					$available[] = $i;
 				}
 			}
-			closedir($dh);
 		}
 		return $available;
 	}
