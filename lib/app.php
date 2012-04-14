@@ -35,6 +35,7 @@ class OC_App{
 	static private $adminForms = array();
 	static private $personalForms = array();
 	static private $appInfo = array();
+	static private $appTypes = array();
 
 	/**
 	 * @brief loads all apps
@@ -85,17 +86,39 @@ class OC_App{
 		if(is_string($types)){
 			$types=array($types);
 		}
-		$appData=self::getAppInfo($app);
-		if(!isset($appData['types'])){
-			return false;
-		}
-		$appTypes=$appData['types'];
+		$appTypes=self::getAppTypes($app);
 		foreach($types as $type){
 			if(array_search($type,$appTypes)!==false){
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * get the types of an app
+	 * @param string $app
+	 * @return array
+	 */
+	private static function getAppTypes($app){
+		//load the cache
+		if(count(self::$appTypes)==0){
+			self::$appTypes=OC_Appconfig::getValues(false,'types');
+		}
+		
+		//get it from info.xml if we haven't cached it
+		if(!isset(self::$appTypes[$app])){
+			$appData=self::getAppInfo($app);
+			if(isset($appData['types'])){
+				self::$appTypes[$app]=$appData['types'];
+			}else{
+				self::$appTypes[$app]=array();
+			}
+			
+			OC_Appconfig::setValue($app,'types',implode(',',self::$appTypes[$app]));
+		}
+		
+		return explode(',',self::$appTypes[$app]);
 	}
 
 	/**
