@@ -291,6 +291,7 @@ $(document).ready(function(){
 		$.getJSON('ajax/edittaskform.php',{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
 				$('#task_details').html(jsondata.data.page);
+				$('#task_details #categories').multiple_autocomplete({source: categories});
 			}
 			else{
 				alert(jsondata.data.message);
@@ -332,4 +333,6 @@ $(document).ready(function(){
 		}, 'json');
 		return false;
 	});
+
+	OCCategories.app = 'calendar';
 });

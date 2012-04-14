@@ -80,10 +80,6 @@ class OC_Task_App {
 			$errors['summary'] = self::$l10n->t('Empty Summary');
 		}
 
-		if(isset($request['categories']) && !is_array($request['categories'])){
-			$errors['categories'] = self::$l10n->t('Not an array');
-		}
-
 		try {
 			$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
 			$timezone = new DateTimeZone($timezone);
@@ -130,7 +126,7 @@ class OC_Task_App {
 	public static function updateVCalendarFromRequest($request, $vcalendar)
 	{
 		$summary = $request['summary'];
-		$categories = isset($request["categories"]) ? $request["categories"] : array();
+		$categories = $request["categories"];
 		$priority = $request['priority'];
 		$percent_complete = $request['percent_complete'];
 		$completed = $request['completed'];
@@ -146,7 +142,7 @@ class OC_Task_App {
 
 		$vtodo->setString('LOCATION', $location);
 		$vtodo->setString('DESCRIPTION', $description);
-		$vtodo->setString('CATEGORIES', join(',', $categories));
+		$vtodo->setString('CATEGORIES', $categories);
 		$vtodo->setString('PRIORITY', $priority);
 
 		if ($due) {

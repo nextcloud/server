@@ -5,14 +5,8 @@
 	<input type="text" id="location" name="location" placeholder="<?php echo $l->t('Location of the task');?>" value="<?php echo isset($_['details']->LOCATION) ? $_['details']->LOCATION[0]->value : '' ?>">
 	<br>
 	<label for="categories"><?php echo $l->t('Categories'); ?></label>
-	<select name="categories[]" multiple="multiple">
-		<?php
-var_dump($_['categories']);
-		foreach($_['category_options'] as $category){
-			echo '<option value="' . $category . '"' . (in_array($category, $_['categories']) ? ' selected="selected"' : '') . '>' . $category . '</option>';
-		}
-		?>
-	</select>
+	<input id="categories" name="categories" type="text" placeholder="<?php echo $l->t('Separate categories with commas'); ?>" value="<?php echo isset($_['categories']) ? htmlspecialchars($_['categories']) : '' ?>">
+	<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"><img alt="<?php echo $l->t('Edit categories'); ?>" src="<?php echo image_path('core','actions/rename.svg')?>" class="svg action" style="width: 16px; height: 16px;"></a>
 	<br>
 	<label for="due"><?php echo $l->t('Due'); ?></label>
 	<input type="text" id="due" name="due" placeholder="<?php echo $l->t('Due date') ?>" value="<?php echo isset($_['details']->DUE) ? $l->l('datetime', $_['details']->DUE[0]->getDateTime()) : '' ?>">

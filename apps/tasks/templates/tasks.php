@@ -20,3 +20,6 @@
 		<img title="Edit" src="<?php echo image_path('core', 'actions/rename.svg') ?>" class="svg">
 	</span>
 </p>
+<script type='text/javascript'>
+var categories = <?php echo json_encode($_['categories']); ?>;
+</script>

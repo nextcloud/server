@@ -9,13 +9,9 @@ $l10n = new OC_L10N('tasks');
 
 $id = $_GET['id'];
 $details = OC_Calendar_App::getVCalendar($id)->VTODO;
-$categories = array();
-if (isset($details->CATEGORIES)){
-	$categories = explode(',', $details->CATEGORIES->value);
-	$categories = array_map('trim', $categories);
-}
+$categories = $details->getAsString('CATEGORIES');
 
-$category_options = OC_Calendar_Object::getCategoryOptions($l10n);
+$category_options = OC_Calendar_App::getCategoryOptions($l10n);
 $percent_options = range(0, 100, 10);
 $priority_options = OC_Task_App::getPriorityOptions();
 
