@@ -94,10 +94,6 @@ class OC_USER_LDAP extends OC_User_Backend {
 		if( !$this->ldap_dc )
 			return false;
 
-		$email = OC_Preferences::getValue($uid, 'settings', 'email', '');
-		if ( !empty( $email ) )
-			return false;
-
 		$email = $this->ldap_dc[$this->ldap_email_attr][0];
 		OC_Preferences::setValue($uid, 'settings', 'email', $email);
 	}
