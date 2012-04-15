@@ -1,4 +1,5 @@
 FileList={
+	useUndo:true,
 	update:function(fileListHtml) {
 		$('#fileList').empty().html(fileListHtml);
 	},
@@ -163,7 +164,7 @@ FileList={
 		});
 	},
 	do_delete:function(files){
-		if(FileList.deleteFiles){//finish any ongoing deletes first
+		if(FileList.deleteFiles || !FileList.useUndo){//finish any ongoing deletes first
 			FileList.finishDelete(function(){
 				FileList.do_delete(files);
 			});
@@ -196,7 +197,6 @@ FileList={
 					boolOperationFinished(data, function(){
 						$('#notification').fadeOut();
 						$.each(FileList.deleteFiles,function(index,file){
-// 							alert(file);
 							FileList.remove(file);
 						});
 						FileList.deleteCanceled=true;
@@ -225,7 +225,7 @@ $(document).ready(function(){
 		}
 		$('#notification').fadeOut();
 	});
-	
+	FileList.useUndo=('onbeforeunload' in window)
 	$(window).bind('beforeunload', function (){
 		FileList.finishDelete(null,true);
 	});
