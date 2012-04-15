@@ -11,5 +11,7 @@ php_value memory_limit 512M
 <IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]
+RewriteRule ^.well-known/carddav /apps/contacts/carddav.php [R]
+RewriteRule ^.well-known/caldav /apps/calendar/caldav.php [R]
 </IfModule>
 Options -Indexes
