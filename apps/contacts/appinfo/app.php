@@ -20,7 +20,7 @@ OC_App::addNavigationEntry( array(
   'order' => 10,
   'href' => OC_Helper::linkTo( 'contacts', 'index.php' ),
   'icon' => OC_Helper::imagePath( 'settings', 'users.svg' ),
-  'name' => OC_Contacts_App::$l10n->t('Contacts') ));
+  'name' => OC_L10N::get('contact')->t('Contacts') ));
 
 
 OC_APP::registerPersonal('contacts','settings');

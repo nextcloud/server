@@ -35,9 +35,9 @@ function bailOut($msg) {
 function debug($msg) {
 	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
 }
-foreach ($_POST as $key=>$element) {
-	debug('_POST: '.$key.'=>'.print_r($element, true));
-}
+// foreach ($_POST as $key=>$element) {
+// 	debug('_POST: '.$key.'=>'.print_r($element, true));
+// }
 
 $id = isset($_POST['id'])?$_POST['id']:null;
 $name = isset($_POST['name'])?$_POST['name']:null;
@@ -83,32 +83,53 @@ if($element != $name) {
 	bailOut(OC_Contacts_App::$l10n->t('Something went FUBAR. ').$name.' != '.$element);
 }
 
+/* preprocessing value */
 switch($element) {
 	case 'BDAY':
 		$date = New DateTime($value);
 		//$vcard->setDateTime('BDAY', $date, Sabre_VObject_Element_DateTime::DATE);
 		$value = $date->format(DateTime::ATOM);
+		break;
 	case 'FN':
 		if(!$value) {
 			// create a method thats returns an alternative for FN.
 			//$value = getOtherValue();
 		}
-	case 'N':
-	case 'ORG':
-	case 'NOTE':
-	case 'NICKNAME':
-	case 'CATEGORIES':
-		debug('Setting string:'.$name.' '.$value);
-		$vcard->setString($name, $value);
 		break;
+	//case 'CATEGORIES':
+		/* multi autocomplete triggers an save with empty value
+		if (!$value) {
+			$value = $vcard->getAsString('CATEGORIES');
+		}
+		break;*/
 	case 'EMAIL':
 		$value = strtolower($value);
-	case 'TEL':
-	case 'ADR': // should I delete the property if empty or throw an error?
-		debug('Setting element: (EMAIL/TEL/ADR)'.$element);
-		if(!$value) {
-			unset($vcard->children[$line]); // Should never happen...
-		} else {
+		break;
+}
+
+if(!$value) {
+	unset($vcard->children[$line]);
+	$checksum = '';
+} else {
+	/* setting value */
+	switch($element) {
+		case 'BDAY':
+		case 'FN':
+		case 'N':
+		case 'ORG':
+		case 'NOTE':
+		case 'NICKNAME':
+			debug('Setting string:'.$name.' '.$value);
+			$vcard->setString($name, $value);
+			break;
+		case 'CATEGORIES':
+			debug('Setting string:'.$name.' '.$value);
+			$vcard->children[$line]->setValue($value);
+			break;
+		case 'EMAIL':
+		case 'TEL':
+		case 'ADR': // should I delete the property if empty or throw an error?
+			debug('Setting element: (EMAIL/TEL/ADR)'.$element);
 			$vcard->children[$line]->setValue($value);
 			$vcard->children[$line]->parameters = array();
 			if(!is_null($parameters)) {
@@ -121,12 +142,12 @@ switch($element) {
 					}
 				}
 			}
-		}
-		break;
+			break;
+	}
+	// Do checksum and be happy
+	$checksum = md5($vcard->children[$line]->serialize());
 }
-// Do checksum and be happy
-$checksum = md5($vcard->children[$line]->serialize());
-debug('New checksum: '.$checksum);
+//debug('New checksum: '.$checksum);
 
 if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error updating contact property.'));

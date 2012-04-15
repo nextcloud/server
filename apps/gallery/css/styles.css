@@ -16,3 +16,5 @@ div.gallery_control_overlay a { color:white; }
 #g-settings {position: absolute; left 13.5em; top: 0;}
 input[type=button] { -webkit-transition: opacity 0.5s ease-in-out; -moz-transition: opacity 0.5s ease-in-out; -o-transition: opacity 0.5s ease-in-out; opacity: 1}
 input[type=button]:disabled { opacity: 0.5 }
+.ui-dialog tr {background-color: #eee;}
+.ui-dialog input {width: 90%;}

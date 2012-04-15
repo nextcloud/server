@@ -17,7 +17,7 @@ function debug($msg) {
 
 require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
-$app = isset($_GET['app'])?$_GET['app']:null;
+$app = isset($_POST['app'])?$_POST['app']:null;
 $categories = isset($_POST['categories'])?$_POST['categories']:null;
 if(is_null($app)) {
 	bailOut(OC_Contacts_App::$l10n->t('Application name not provided.'));

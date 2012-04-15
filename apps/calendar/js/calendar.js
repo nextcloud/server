@@ -32,13 +32,7 @@ Calendar={
 			$('#totime').timepicker({
 			    showPeriodLabels: false
 			});
-			$('#category').multiselect({
-					header: false,
-					noneSelectedText: $('#category').attr('title'),
-					selectedList: 2,
-					minWidth:'auto',
-					classes: 'category',
-			});
+			$('#category').multiple_autocomplete({source: categories});
 			Calendar.UI.repeat('init');
 			$('#end').change(function(){
 				Calendar.UI.repeat('end');
@@ -369,6 +363,11 @@ Calendar={
 					break;
 			}
 			$('#'+id).addClass('active');
+		},
+		categoriesChanged:function(newcategories){
+			categories = $.map(newcategories, function(v) {return v;});
+			console.log('Calendar categories changed to: ' + categories);
+			$('#category').multiple_autocomplete('option', 'source', categories);
 		},
 		Calendar:{
 			overview:function(){
@@ -730,6 +729,8 @@ $(document).ready(function(){
 		loading: Calendar.UI.loading,
 		eventSources: eventSources
 	});
+	OCCategories.changed = Calendar.UI.categoriesChanged;
+	OCCategories.app = 'calendar';
 	$('#oneweekview_radio').click(function(){
 		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');
 	});

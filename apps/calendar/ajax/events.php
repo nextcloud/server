@@ -8,11 +8,13 @@
 
 require_once ('../../../lib/base.php');
 require_once('when/When.php');
-
+$l = OC_L10N::get('calendar');
+$unnamed = $l->t('unnamed');
 function create_return_event($event, $vevent){
 	$return_event = array();
+	global $unnamed;
 	$return_event['id'] = (int)$event['id'];
-	$return_event['title'] = htmlspecialchars($event['summary']);
+	$return_event['title'] = htmlspecialchars(($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: $unnamed);
 	$return_event['description'] = isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'';
 	$last_modified = $vevent->__get('LAST-MODIFIED');
 	if ($last_modified){

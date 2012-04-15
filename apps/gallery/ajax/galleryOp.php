@@ -97,6 +97,8 @@ function handleGetGallery($path) {
   while ($r = $result->fetchRow()) {
     $album_name = $r['album_name'];
     $size=OC_Gallery_Album::getAlbumSize($r['album_id']);
+    // this is a fallback mechanism and seems expensive
+    if ($size == 0) $size = OC_Gallery_Album::getIntermediateGallerySize($r['album_path']);
 
     $a[] = array('name' => utf8_encode($album_name), 'numOfItems' => min($size, 10),'path'=>substr($r['album_path'], $pathLen));
   }
@@ -109,8 +111,50 @@ function handleGetGallery($path) {
     $p[] = utf8_encode($r['file_path']);
   }
 
-  OC_JSON::success(array('albums'=>$a, 'photos'=>$p));
+  $r = OC_Gallery_Sharing::getEntryByAlbumId($album_details['album_id']);
+  $shared = false;
+  $recursive = false;
+  $token = '';
+  if ($row = $r->fetchRow()) {
+    $shared = true;
+    $recursive = ($row['recursive'] == 1)? true : false;
+    $token = $row['token'];
+  }
+
+  OC_JSON::success(array('albums'=>$a, 'photos'=>$p, 'shared' => $shared, 'recursive' => $recursive, 'token' => $token));
 }
+
+function handleShare($path, $share, $recursive) {
+  $recursive = $recursive == 'true' ? 1 : 0;
+  $owner = OC_User::getUser();
+  $root = OC_Preferences::getValue(OC_User::getUser(),'gallery', 'root', '/');
+  $path = utf8_decode(rtrim($root.$path,'/'));
+  if($path == '') $path = '/';
+  $r = OC_Gallery_Album::find($owner, null, $path);
+  if ($row = $r->fetchRow()) {
+    $albumId = $row['album_id'];
+  } else {
+    OC_JSON::error(array('cause' => 'Couldn\'t find requested gallery'));
+    exit;
+  }
+    
+  if ($share == false) {
+      OC_Gallery_Sharing::remove($albumId);
+      OC_JSON::success(array('sharing' => false));
+  } else { // share, yeah \o/
+    $r = OC_Gallery_Sharing::getEntryByAlbumId($albumId);
+    if (($row = $r->fetchRow())) { // update entry
+      OC_Gallery_Sharing::updateSharingByToken($row['token'], $recursive);
+      OC_JSON::success(array('sharing' => true, 'token' => $row['token'], 'recursive' => $recursive == 1 ? true : false ));
+    } else { // and new sharing entry
+      $date = new DateTime();
+      $token = md5($owner . $date->getTimestamp());
+      OC_Gallery_Sharing::addShared($token, intval($albumId), $recursive);
+      OC_JSON::success(array('sharing' => true, 'token' => $token, 'recursive' => $recursive == 1 ? true : false ));
+    }
+  }
+}
+
 
 if ($_GET['operation']) {
   switch($_GET['operation']) {
@@ -133,6 +177,9 @@ if ($_GET['operation']) {
     break;
   case 'get_gallery':
     handleGetGallery($_GET['path']);
+    break;
+  case 'share':
+    handleShare($_GET['path'], $_GET['share'] == 'true' ? true : false, $_GET['recursive']);
     break;
   default:
     OC_JSON::error(array('cause' => 'Unknown operation'));

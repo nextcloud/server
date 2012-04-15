@@ -7,15 +7,15 @@ FileList={
 		var html='<tr data-type="file" data-size="'+size+'">';
 		if(name.indexOf('.')!=-1){
 			var basename=name.substr(0,name.lastIndexOf('.'));
-			var extention=name.substr(name.lastIndexOf('.'));
+			var extension=name.substr(name.lastIndexOf('.'));
 		}else{
 			var basename=name;
-			var extention=false;
+			var extension=false;
 		}
 		html+='<td class="filename" style="background-image:url('+img+')"><input type="checkbox" />';
 		html+='<a class="name" href="download.php?file='+$('#dir').val()+'/'+name+'"><span class="nametext">'+basename
-		if(extention){
-			html+='<span class="extention">'+extention+'</span>';
+		if(extension){
+			html+='<span class="extension">'+extension+'</span>';
 		}
 		html+='</span></a></td>';
 		if(size!='Pending'){
@@ -148,7 +148,7 @@ FileList={
 			span.text(basename);
 			td.children('a.name').append(span);
 			if(newname.indexOf('.')>0){
-				span.append($('<span class="extention">'+newname.substr(newname.lastIndexOf('.'))+'</span>'));
+				span.append($('<span class="extension">'+newname.substr(newname.lastIndexOf('.'))+'</span>'));
 			}
 			$.get(OC.filePath('files','ajax','rename.php'), { dir : $('#dir').val(), newname: newname, file: name },function(){
 				tr.data('renaming',false);

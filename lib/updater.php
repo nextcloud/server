@@ -36,6 +36,7 @@ class OC_Updater{
 		$version['installed']=OC_Config::getValue('installedat');
 		$version['updated']=OC_Appconfig::getValue('core', 'lastupdatedat', OC_Config::getValue( 'lastupdatedat'));
 		$version['updatechannel']='stable';
+		$version['edition']=OC_Util::getEditionString();
 		$versionstring=implode('x',$version);
 
 		//fetch xml data from updater
@@ -58,9 +59,9 @@ class OC_Updater{
 	public static function ShowUpdatingHint(){
 		$data=OC_Updater::check();
 		if(isset($data['version']) and $data['version']<>'') {
-			$txt='<span style="color:#AA0000; font-weight:bold;">'.$data['versionstring'].' is available. Please click <a href="'.$data['web'].'">here</a> for more information</span>';
+			$txt='<span style="color:#AA0000; font-weight:bold;">'.$data['versionstring'].' is available. Get <a href="'.$data['web'].'">more information</a></span>';
 		}else{
-			$txt='Your ownCloud is up to date';
+			$txt='up to date';
 		}
 		return($txt);
 	}

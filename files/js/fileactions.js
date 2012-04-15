@@ -59,6 +59,7 @@ FileActions={
 		if($('tr').filterAttr('data-file',file).data('renaming')){
 			return;
 		}
+		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
@@ -66,11 +67,10 @@ FileActions={
 				if(img.call){
 					img=img(file);
 				}
-				var html='<a href="#" title="'+name+'" class="action" style="display:none" />';
+				var html='<a href="#" class="action" style="display:none">';
+				if(img) { html+='<img src="'+img+'"/> '; }
+				html += name+'</a>';
 				var element=$(html);
-				if(img){
-					element.append($('<img src="'+img+'"/>'));
-				}
 				element.data('action',name);
 				element.click(function(event){
 					event.stopPropagation();
@@ -81,7 +81,7 @@ FileActions={
 					action(currentFile);
 				});
 				element.hide();
-				parent.children('a.name').append(element);
+				parent.find('a.name>span.fileactions').append(element);
 			}
 		}
 		if(actions['Delete']){
@@ -89,7 +89,7 @@ FileActions={
 			if(img.call){
 				img=img(file);
 			}
-			var html='<a href="#" title="Delete" class="action" style="display:none" />';
+			var html='<a href="#" original-title="Delete" class="action delete" style="display:none" />';
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));
@@ -106,14 +106,14 @@ FileActions={
 			element.hide();
 			parent.parent().children().last().append(element);
 		}
-		$('#fileList .action').css('-o-transition-property','none');//temporarly disable 
+		$('#fileList .action').css('-o-transition-property','none');//temporarly disable
 		$('#fileList .action').fadeIn(200,function(){
 			$('#fileList .action').css('-o-transition-property','opacity');
 		});
 		return false;
 	},
 	hide:function(){
-		$('#fileList .action').fadeOut(200,function(){
+		$('#fileList span.fileactions').fadeOut(200,function(){
 			$(this).remove();
 		});
 	},
@@ -128,8 +128,15 @@ FileActions={
 	}
 }
 
-FileActions.register('all','Download',function(){return OC.imagePath('core','actions/download')},function(filename){
-	window.location='ajax/download.php?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
+$(document).ready(function(){
+	if($('#allowZipDownload').val() == 1){
+		var downloadScope = 'all';
+	} else {
+		var downloadScope = 'file';
+	}
+	FileActions.register(downloadScope,'Download',function(){return OC.imagePath('core','actions/download')},function(filename){
+		window.location='ajax/download.php?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
+	});
 });
 
 FileActions.register('all','Delete',function(){return OC.imagePath('core','actions/delete')},function(filename){
@@ -157,4 +164,4 @@ FileActions.register('dir','Open','',function(filename){
 	window.location='index.php?dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 });
 
-FileActions.setDefault('dir','Open');  
+FileActions.setDefault('dir','Open');

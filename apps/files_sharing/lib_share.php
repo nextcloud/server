@@ -52,8 +52,18 @@ class OC_Share {
 				// Remove the owner from the list of users in the group
 				$uid_shared_with = array_diff($uid_shared_with, array($uid_owner));
 			} else if (OC_User::userExists($uid_shared_with)) {
-				$gid = null;
-				$uid_shared_with = array($uid_shared_with);
+				$userGroups = OC_Group::getUserGroups($uid_owner);
+				// Check if the user is in one of the owner's groups
+				foreach ($userGroups as $group) {
+					if ($inGroup = OC_Group::inGroup($uid_shared_with, $group)) {
+						$gid = null;
+						$uid_shared_with = array($uid_shared_with);
+						break;
+					}
+				}
+				if (!$inGroup) {
+					throw new Exception("You can't share with ".$uid_shared_with);
+				}
 			} else {
 				throw new Exception($uid_shared_with." is not a user");
 			}

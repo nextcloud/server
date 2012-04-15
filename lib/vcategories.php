@@ -50,13 +50,12 @@ class OC_VCategories {
 	*   parameter should normally be omitted but to make an app able to
 	*   update categories for all users it is made possible to provide it.
 	* @param $defcategories An array of default categories to be used if none is stored.
-	* NOTE: Not implemented.
 	*/
-	public function __construct($app, $user=null, $defcategories=null) {
+	public function __construct($app, $user=null, $defcategories=array()) {
 		$this->app = $app;
 		$this->user = is_null($user) ? OC_User::getUser() : $user;
 		$categories = trim(OC_Preferences::getValue($this->user, $app, self::PREF_CATEGORIES_LABEL, ''));
-		$this->categories = $categories != '' ? unserialize($categories) : array();
+		$this->categories = $categories != '' ? unserialize($categories) : $defcategories;
 	}
 
 	/**
@@ -65,6 +64,7 @@ class OC_VCategories {
 	*/
 	public function categories() {
 		OC_Log::write('core','OC_VCategories::categories: '.print_r($this->categories, true), OC_Log::DEBUG);
+		usort($this->categories, 'strnatcasecmp'); // usort to also renumber the keys
 		return $this->categories;
 	}
 
@@ -97,7 +97,6 @@ class OC_VCategories {
 		}
 		if(count($newones) > 0) {
 			$this->categories = array_merge($this->categories, $newones);
-			natcasesort($this->categories); // Dunno if this is necessary
 			if($sync === true) {
 				$this->save();
 			}
@@ -147,6 +146,7 @@ class OC_VCategories {
 	 * @brief Save the list with categories
 	 */
 	private function save() {
+		usort($this->categories, 'strnatcasecmp'); // usort to also renumber the keys
 		$escaped_categories = serialize($this->categories);
 		OC_Log::write('core','OC_VCategories::save: '.print_r($this->categories, true), OC_Log::DEBUG);
 		OC_Preferences::setValue($this->user, $this->app, self::PREF_CATEGORIES_LABEL, $escaped_categories);

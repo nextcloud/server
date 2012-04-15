@@ -3,7 +3,6 @@
 	<id>bookmarks</id>
 	<name>Bookmarks</name>
 	<description>Bookmark manager for ownCloud</description>
-	<version>0.2</version>
 	<licence>AGPL</licence>
 	<author>Arthur Schiwon, Marvin Thomas Rabe</author>
 	<require>2</require>

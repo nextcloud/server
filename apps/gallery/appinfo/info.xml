@@ -1,11 +1,10 @@
 <?xml version="1.0"?> 
 <info>
 	<id>gallery</id>
-	<name>Gallery</name>
-	<version>0.4</version>
+	<name>Pictures</name>
 	<licence>AGPL</licence>
 	<author>Bartek Przybylski</author>
 	<require>2</require>
-	<description>Gallery application for ownCloud</description>
+	<description>Dedicated pictures application</description>
 	<default_enable/>
 </info>

@@ -69,10 +69,10 @@ OC={
 	 * @param file the name of the image file
 	 * @return string
 	 * 
-	 * if no extention is given for the image, it will automatically decide between .png and .svg based on what the browser supports
+	 * if no extension is given for the image, it will automatically decide between .png and .svg based on what the browser supports
 	 */ 
 	imagePath:function(app,file){
-		if(file.indexOf('.')==-1){//if no extention is given, use png or svg depending on browser support
+		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
 			file+=(SVGSupport())?'.svg':'.png';
 		}
 		return OC.filePath(app,'img',file);
@@ -126,7 +126,13 @@ OC={
 			});
 		}
 	},
-	dialogs:OCdialogs
+	dialogs:OCdialogs,
+  mtime2date:function(mtime) {
+    mtime = parseInt(mtime);
+    var date = new Date(1000*mtime);
+    var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
+    return ret;
+  }
 };
 OC.search.customResults={};
 OC.search.currentResult=-1;
@@ -291,7 +297,10 @@ function object(o) {
  * Fills height of window. (more precise than height: 100%;)
  */
 function fillHeight(selector) {
-	var height = parseFloat($(window).height())-parseFloat(selector.css('top'));
+	if (selector.length == 0) {
+		return;
+	}
+	var height = parseFloat($(window).height())-selector.offset().top;
 	selector.css('height', height + 'px');
 	if(selector.outerHeight() > selector.height())
 		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
@@ -301,8 +310,11 @@ function fillHeight(selector) {
  * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
  */
 function fillWindow(selector) {
+	if (selector.length == 0) {
+		return;
+	}
 	fillHeight(selector);
-	var width = parseFloat($(window).width())-parseFloat(selector.css('left'));
+	var width = parseFloat($(window).width())-selector.offset().left;
 	selector.css('width', width + 'px');
 	if(selector.outerWidth() > selector.width())
 		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
@@ -394,9 +406,6 @@ $(document).ready(function(){
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$('#settings #expand').hover(function(){
-		$('#settings #expand+span').fadeToggle();
-	});
 	$(window).click(function(){//hide the settings menu when clicking oustide it
 		if($('body').attr("id")=="body-user"){
 			$('#settings #expanddiv').slideUp();
@@ -407,9 +416,10 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true}); 
-	$('.selectedActions a.delete').tipsy({gravity: 'se', fade:true, live:true});
+	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
+	$('a.delete').tipsy({gravity: 'se', fade:true, live:true});
+	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
 	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});

@@ -114,42 +114,7 @@ class OC{
 		return($mode);
 	}
 
-	public static function init(){
-		// register autoloader
-		spl_autoload_register(array('OC','autoload'));
-
-		// set some stuff
-		//ob_start();
-		error_reporting(E_ALL | E_STRICT);
-		if (defined('DEBUG') && DEBUG){
-			ini_set('display_errors', 1);
-		}
-
-		date_default_timezone_set('Europe/Berlin');
-		ini_set('arg_separator.output','&amp;');
-
-		//set http auth headers for apache+php-cgi work around
-		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches))
-		{
-			list($name, $password) = explode(':', base64_decode($matches[1]));
-			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
-			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
-		}
-
-		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
-		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches))
-		{
-			list($name, $password) = explode(':', base64_decode($matches[1]));
-			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
-			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
-		}
-
-		// register the stream wrappers
-		require_once('streamwrappers.php');
-		stream_wrapper_register("fakedir", "OC_FakeDirStream");
-		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
-		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
-		
+	public static function initPaths(){
 		// calculate the documentroot
 		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
@@ -173,6 +138,12 @@ class OC{
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
 			OC::$WEBROOT='/'.OC::$WEBROOT;
 		}
+
+		// ensure we can find OC_Config
+		set_include_path(
+			OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.
+			get_include_path()
+		);
 
 		// search the 3rdparty folder
 		if(OC_Config::getValue('3rdpartyroot', '')<>'' and OC_Config::getValue('3rdpartyurl', '')<>''){
@@ -211,14 +182,18 @@ class OC{
 			get_include_path().PATH_SEPARATOR.
 			OC::$SERVERROOT
 		);
+	}
 
+	public static function checkInstalled() {
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
 			$url = 'http://'.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
 			header("Location: $url");
 			exit();
 		}
+	}
 
+	public static function checkSSL() {
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )){
 			ini_set("session.cookie_secure", "on");
@@ -228,7 +203,9 @@ class OC{
 				exit();
 			}
 		}
+	}
 
+	public static function checkUpgrade() {
 		if(OC_Config::getValue('installed', false)){
 			$installedVersion=OC_Config::getValue('version','0.0.0');
 			$currentVersion=implode('.',OC_Util::getVersion());
@@ -250,10 +227,9 @@ class OC{
 
 			OC_App::updateApps();
 		}
+	}
 
-		ini_set('session.cookie_httponly','1;');
-		session_start();
-
+	public static function initTemplateEngine() {
 		// if the formfactor is not yet autodetected do the autodetection now. For possible forfactors check the detectFormfactor documentation
 		if(!isset($_SESSION['formfactor'])){
 			$_SESSION['formfactor']=OC::detectFormfactor();
@@ -262,7 +238,6 @@ class OC{
 		if(isset($_GET['formfactor'])){
 			$_SESSION['formfactor']=$_GET['formfactor'];
 		}
-
 
 		// Add the stuff we need always
 		OC_Util::addScript( "jquery-1.6.4.min" );
@@ -280,6 +255,76 @@ class OC{
 		OC_Util::addStyle( "multiselect" );
 		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
 		OC_Util::addStyle( "jquery-tipsy" );
+	}
+
+	public static function initSession() {
+		ini_set('session.cookie_httponly','1;');
+		session_start();
+	}
+
+	public static function init(){
+		// register autoloader
+		spl_autoload_register(array('OC','autoload'));
+		setlocale(LC_ALL, 'en_US.UTF-8');
+		
+		// set some stuff
+		//ob_start();
+		error_reporting(E_ALL | E_STRICT);
+		if (defined('DEBUG') && DEBUG){
+			ini_set('display_errors', 1);
+		}
+
+		date_default_timezone_set('Europe/Berlin');
+		ini_set('arg_separator.output','&amp;');
+
+		//try to configure php to enable big file uploads.
+		//this doesn´t work always depending on the webserver and php configuration.
+		//Let´s try to overwrite some defaults anyways
+		
+		//try to set the maximum execution time to 60min
+		@set_time_limit(3600);
+		@ini_set('max_execution_time',3600);
+		@ini_set('max_input_time',3600);
+
+		//try to set the maximum filesize to 10G
+		@ini_set('upload_max_filesize','10G');
+		@ini_set('post_max_size','10G');
+		@ini_set('file_uploads','50');
+
+		//try to set the session lifetime to 60min
+		@ini_set('gc_maxlifetime','3600');
+
+
+		//set http auth headers for apache+php-cgi work around
+		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches))
+		{
+			list($name, $password) = explode(':', base64_decode($matches[1]));
+			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+		}
+
+		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
+		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches))
+		{
+			list($name, $password) = explode(':', base64_decode($matches[1]));
+			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+		}
+		
+		self::initPaths();
+
+		// register the stream wrappers
+		require_once('streamwrappers.php');
+		stream_wrapper_register("fakedir", "OC_FakeDirStream");
+		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
+		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
+
+		self::checkInstalled();
+		self::checkSSL();
+
+		self::initSession();
+		self::initTemplateEngine();
+		self::checkUpgrade();
 
 		$errors=OC_Util::checkServer();
 		if(count($errors)>0) {
@@ -301,7 +346,7 @@ class OC{
 
 
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
-		OC_Group::setBackend( OC_Config::getValue( "groupbackend", "database" ));
+		OC_Group::useBackend(new OC_Group_Database());
 
 		// Set up file system unless forbidden
 		global $RUNTIME_NOSETUPFS;
@@ -312,9 +357,17 @@ class OC{
 		// Load Apps
 		// This includes plugins for users and filesystems as well
 		global $RUNTIME_NOAPPS;
+		global $RUNTIME_APPTYPES;
 		if(!$RUNTIME_NOAPPS ){
-			OC_App::loadApps();
+			if($RUNTIME_APPTYPES){
+				OC_App::loadApps($RUNTIME_APPTYPES);
+			}else{
+				OC_App::loadApps();
+			}
 		}
+		
+		// Check for blacklisted files
+		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));

@@ -148,7 +148,7 @@ class OC_Contacts_VCard{
 		$stringprops = array('N', 'FN', 'ORG', 'NICK', 'ADR', 'NOTE');
 		$typeprops = array('ADR', 'TEL', 'EMAIL');
 		$upgrade = false;
-		$fn = $n = $uid = $email = null;
+		$fn = $n = $uid = $email = $org = null;
 		$version = $vcard->getAsString('VERSION');
 		// Add version if needed
 		if($version && $version < '3.0') {
@@ -228,13 +228,13 @@ class OC_Contacts_VCard{
 	 * @param string $uri the uri of the card, default based on the UID
 	 * @return insertid on success or null if no card.
 	 */
-	public static function add($aid, $card, $uri=null){
+	public static function add($aid, OC_VObject $card, $uri=null){
 		if(is_null($card)){
 			OC_Log::write('contacts','OC_Contacts_VCard::add. No vCard supplied', OC_Log::ERROR);
 			return null;
 		};
 
-		OC_Contacts_App::$categories->loadFromVObject($card);
+		OC_Contacts_App::loadCategoriesFromVCard($card);
 
 		self::updateValuesFromAdd($card);
 
@@ -267,7 +267,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function addFromDAVData($id,$uri,$data){
 		$card = OC_VObject::parse($data);
-		return self::add($id, $data, $uri);
+		return self::add($id, $card, $uri);
 	}
 
 	/**
@@ -306,7 +306,7 @@ class OC_Contacts_VCard{
 			return false;
 		}
 
-		OC_Contacts_App::$categories->loadFromVObject($card);
+		OC_Contacts_App::loadCategoriesFromVCard($card);
 
 		$fn = $card->getAsString('FN');
 		if (empty($fn)) {

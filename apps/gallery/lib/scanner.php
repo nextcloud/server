@@ -78,9 +78,11 @@ class OC_Gallery_Scanner {
 			$image = OC_Gallery_Photo::getThumbnail($files[$i]);
 			if ($image && $image->valid()) {
 				imagecopyresampled($thumbnail, $image->resource(), $i*200, 0, 0, 0, 200, 200, 200, 200);
+				$image->destroy();
 			}
 		}
 		imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
+		imagedestroy($thumbnail);
 	}
 
 	public static function createIntermediateAlbums() {
@@ -95,6 +97,15 @@ class OC_Gallery_Scanner {
 					foreach ($a as $e) {
 						$p .= ($p == '/'?'':'/').$e;
 						OC_Gallery_Album::create(OC_User::getUser(), $e, $p);
+            $arr = OC_FileCache::searchByMime('image','', OC_Filesystem::getRoot().$p);
+            $step = floor(count($arr)/10);
+            if ($step == 0) $step = 1;
+            $na = array();
+            for ($j = 0; $j < count($arr); $j+=$step) {
+              $na[] = $p.$arr[$j];
+            }
+            if (count($na))
+              self::createThumbnails($e, $na);
 					}
 				}
 			}
@@ -131,4 +142,3 @@ class OC_Gallery_Scanner {
 	}
 }
 
-?>

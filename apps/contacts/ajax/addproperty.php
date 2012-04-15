@@ -122,13 +122,4 @@ if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	exit();
 }
 
-$adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
-$phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
-
-$tmpl = new OC_Template('contacts','part.property');
-$tmpl->assign('adr_types',$adr_types);
-$tmpl->assign('phone_types',$phone_types);
-$tmpl->assign('property',OC_Contacts_VCard::structureProperty($property,$line));
-$page = $tmpl->fetchPage();
-
-OC_JSON::success(array('data' => array( 'checksum' => $checksum, 'page' => $page )));
+OC_JSON::success(array('data' => array( 'checksum' => $checksum )));

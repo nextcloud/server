@@ -9,7 +9,6 @@
 require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
-$l10n = new OC_L10N('calendar');
 $tmpl = new OC_Template('calendar', 'part.import');
 $tmpl->assign('path', $_POST['path']);
 $tmpl->assign('filename', $_POST['filename']);

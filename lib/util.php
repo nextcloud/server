@@ -25,7 +25,7 @@ class OC_Util {
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
                         if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' ")));
+				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ")));
 				$tmpl->printPage();
 				exit;
   			}
@@ -66,7 +66,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(3,00,3);
+		return array(3,80,0);
 	}
 
 	/**
@@ -74,8 +74,16 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '3';
+		return '4 alpha';
 	}
+
+        /**
+         * get the current installed edition of ownCloud. There is the community edition that just returns an empty string and the enterprise edition that returns "Enterprise".
+         * @return string
+         */
+        public static function getEditionString(){
+                return '';
+        }
 
 	/**
 	 * add a javascript file

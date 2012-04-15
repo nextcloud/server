@@ -36,13 +36,8 @@ if(count($contacts) == 0) {
 	bailOut(OC_Contacts_App::$l10n->t('No contacts found.'));
 }
 
-$cards = array();
-foreach($contacts as $contact) {
-	$cards[] = $contact['carddata'];
-} 
-
-OC_Contacts_App::$categories->rescan($cards);
-$categories = OC_Contacts_App::$categories->categories();
+OC_Contacts_App::scanCategories($contacts);
+$categories = OC_Contacts_App::getCategories();
 
 OC_JSON::success(array('data' => array('categories'=>$categories)));
 

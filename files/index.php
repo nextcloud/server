@@ -53,10 +53,10 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 		$fileinfo=pathinfo($i['name']);
 		$i['basename']=$fileinfo['filename'];
 		if (!empty($fileinfo['extension'])) {
-			$i['extention']='.' . $fileinfo['extension'];
+			$i['extension']='.' . $fileinfo['extension'];
 		}
 		else {
-			$i['extention']='';
+			$i['extension']='';
 		}
 	}
 	if($i['directory']=='/'){
@@ -100,6 +100,7 @@ $tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir));
 $tmpl->assign( "files", $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
+$tmpl->assign( 'allowZipDownload', intval(OC_Config::getValue('allowZipDownload', true)));
 $tmpl->printPage();
 
 ?>

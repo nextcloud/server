@@ -1,6 +1,7 @@
 <script type='text/javascript'>
 	var totalurl = '<?php echo OC_Helper::linkToAbsolute('contacts', 'carddav.php'); ?>/addressbooks';
-	var categories = <?php sort($_['categories']); echo json_encode($_['categories']); ?>;
+	var categories = <?php echo json_encode($_['categories']); ?>;
+	var lang = '<?php echo OC_Preferences::getValue(OC_User::getUser(), 'core', 'lang', 'en'); ?>';
 </script>
 <div id="controls">
 	<form>

@@ -9,9 +9,7 @@ $(document).ready(function() {
 		fillWindow($('.bookmarks_list'));
 	});
 	$(window).resize();
-	$($('.bookmarks_list')).scroll(updateOnBottom);
-	
-	$('.bookmarks_list').empty();
+	$('.bookmarks_list').scroll(updateOnBottom).empty().width($('#content').width());
 	getBookmarks();
 });
 
@@ -145,7 +143,7 @@ function updateBookmarksList(bookmark) {
 			'<p class="bookmark_title">'+
 				'<a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a>' +
 			'</p>' +
-			'<p class="bookmark_url">' + encodeEntities(bookmark.url) + '</p>' +
+			'<p class="bookmark_url"><a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.url) + '</a></p>' +
 		'</div>'
 	);
 	if(taglist != '') {

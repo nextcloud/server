@@ -32,11 +32,11 @@ class OC_Files {
 	* get the content of a directory
 	* @param dir $directory
 	*/
-	public static function getDirectoryContent($directory){
+  public static function getDirectoryContent($directory, $mimetype_filter = ''){
 		if(strpos($directory,OC::$CONFIG_DATADIRECTORY)===0){
 			$directory=substr($directory,strlen(OC::$CONFIG_DATADIRECTORY));
 		}
-		$files=OC_FileCache::getFolderContent($directory);
+    $files=OC_FileCache::getFolderContent($directory, '', $mimetype_filter);
 		foreach($files as &$file){
 			$file['directory']=$directory;
 			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
@@ -59,9 +59,12 @@ class OC_Files {
 		}
 
 		if(is_array($files)){
+			self::validateZipDownload($dir,$files);
+			$executionTime = intval(ini_get('max_execution_time'));
+			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = get_temp_dir()."/ownCloud.zip";
-			if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
+			$filename = OC_Helper::tmpFile('.zip');
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
 			foreach($files as $file){
@@ -75,15 +78,20 @@ class OC_Files {
 				}
 			}
 			$zip->close();
+			set_time_limit($executionTime);
 		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)){
+			self::validateZipDownload($dir,$files);
+			$executionTime = intval(ini_get('max_execution_time'));
+			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = get_temp_dir()."/ownCloud.zip";
-			if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
+			$filename = OC_Helper::tmpFile('.zip');
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
 			$file=$dir.'/'.$files;
 			self::zipAddDir($file,$zip);
 			$zip->close();
+			set_time_limit($executionTime);
 		}else{
 			$zip=false;
 			$filename=$dir.'/'.$files;
@@ -96,15 +104,15 @@ class OC_Files {
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
-				header('Content-Type: ' . OC_Filesystem::getMimeType($filename));
-				header('Content-Length: ' . OC_Filesystem::filesize($filename));
+				$fileData=OC_FileCache::get($filename);
+				header('Content-Type: ' . $fileData['mimetype']);
+				header('Content-Length: ' . $fileData['size']);
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template( '', '404', 'guest' );
 			$tmpl->assign('file',$filename);
 			$tmpl->printPage();
-// 			die('404 Not Found');
 		}else{
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');
@@ -210,6 +218,55 @@ class OC_Files {
 	}
 
 	/**
+	* checks if the selected files are within the size constraint. If not, outputs an error page.
+	*
+	* @param dir   $dir
+	* @param files $files
+	*/
+	static function validateZipDownload($dir, $files) {
+		if(!OC_Config::getValue('allowZipDownload', true)) {
+			$l = OC_L10N::get('files');
+			header("HTTP/1.0 409 Conflict");
+			$tmpl = new OC_Template( '', 'error', 'user' );
+			$errors = array(
+				array(
+					'error' => $l->t('ZIP download is turned off.'),
+					'hint' => $l->t('Files need to be downloaded one by one.') . '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
+				)
+			);
+			$tmpl->assign('errors', $errors);
+			$tmpl->printPage();
+			exit;
+		}
+
+		$zipLimit = OC_Config::getValue('maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
+		if($zipLimit > 0) {
+			$totalsize = 0;
+			if(is_array($files)){
+				foreach($files as $file){
+					$totalsize += OC_Filesystem::filesize($dir.'/'.$file);
+				}
+			}else{
+				$totalsize += OC_Filesystem::filesize($dir.'/'.$files);
+			}
+			if($totalsize > $zipLimit) {
+				$l = OC_L10N::get('files');
+				header("HTTP/1.0 409 Conflict");
+				$tmpl = new OC_Template( '', 'error', 'user' );
+				$errors = array(
+					array(
+						'error' => $l->t('Selected files too large to generate zip file.'),
+						'hint' => 'Download the files in smaller chunks, seperately or kindly ask your administrator.<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
+					)
+				);
+				$tmpl->assign('errors', $errors);
+				$tmpl->printPage();
+				exit;
+			}
+		}
+	}
+
+	/**
 	* try to detect the mime type of a file
 	*
 	* @param  string  path
@@ -256,21 +313,58 @@ class OC_Files {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * set the maximum upload size limit for apache hosts using .htaccess
 	 * @param int size filesisze in bytes
+	 * @return false on failure, size on success
 	 */
 	static function setUploadLimit($size){
-		$size=OC_Helper::humanFileSize($size);
-		$size=substr($size,0,-1);//strip the B
-		$size=str_replace(' ','',$size); //remove the space between the size and the postfix
-		$content = "ErrorDocument 404 /".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
-		$content.= "php_value upload_max_filesize $size\n";//upload limit
-		$content.= "php_value post_max_size $size\n";
-		$content.= "SetEnv htaccessWorking true\n";
-		$content.= "Options -Indexes\n";
-		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
+		//don't allow user to break his config -- upper boundary
+		if($size > PHP_INT_MAX) {
+			//max size is always 1 byte lower than computerFileSize returns
+			if($size > PHP_INT_MAX+1)
+				return false;
+			$size -=1;
+		} else {
+			$size=OC_Helper::humanFileSize($size);
+			$size=substr($size,0,-1);//strip the B
+			$size=str_replace(' ','',$size); //remove the space between the size and the postfix
+		}
+
+		//don't allow user to break his config -- broken or malicious size input
+		if(intval($size) == 0) {
+			return false;
+		}
+
+		$htaccess = @file_get_contents(OC::$SERVERROOT.'/.htaccess'); //supress errors in case we don't have permissions for
+		if(!$htaccess) {
+			return false;
+		}
+
+		$phpValueKeys = array(
+			'upload_max_filesize',
+			'post_max_size'
+		);
+
+		foreach($phpValueKeys as $key) {
+		    $pattern = '/php_value '.$key.' (\S)*/';
+		    $setting = 'php_value '.$key.' '.$size;
+		    $hasReplaced = 0;
+		    $content = preg_replace($pattern, $setting, $htaccess, 1, $hasReplaced);
+		    if($content !== NULL) {
+				$htaccess = $content;
+			}
+			if($hasReplaced == 0) {
+				$htaccess .= "\n" . $setting;
+			}
+		}
+
+		//supress errors in case we don't have permissions for it
+		if(@file_put_contents(OC::$SERVERROOT.'/.htaccess', $htaccess)) {
+			return OC_Helper::computerFileSize($size);
+		}
+		return false;
 	}
 
 	/**

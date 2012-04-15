@@ -25,6 +25,11 @@
  */
 class OC_L10N{
 	/**
+	 * cached instances
+	 */
+	protected static $instances=array();
+	
+	/**
 	 * cache
 	 */
 	protected static $cache = array();
@@ -46,6 +51,21 @@ class OC_L10N{
 		'date' => 'd.m.Y',
 		'datetime' => 'd.m.Y H:i:s',
 		'time' => 'H:i:s');
+		
+	/**
+	 * get an L10N instance
+	 * @return OC_L10N
+	 */
+	public static function get($app,$lang=null){
+		if(is_null($lang)){
+			if(!isset(self::$instances[$app])){
+				self::$instances[$app]=new OC_L10N($app);
+			}
+			return self::$instances[$app];
+		}else{
+			return new OC_L10N($app,$lang);
+		}
+	}
 	
 	/**
 	 * @brief The constructor
@@ -261,17 +281,14 @@ class OC_L10N{
 	public static function findAvailableLanguages($app=null){
 		$available=array('en');//english is always available
 		$dir = self::findI18nDir($app);
-		if(file_exists($dir)){
-			$dh = opendir($dir);
-			while(($file = readdir($dh)) !== false){
-				if(substr($file, -4, 4) == '.php' and (strlen($file) == 6 || strlen($file) == 9)){
+		if(is_dir($dir)){
+			$files=scandir($dir);
+			foreach($files as $file){
+				if(substr($file, -4, 4) == '.php'){
 					$i = substr($file, 0, -4);
-					if($i != ''){
-						$available[] = $i;
-					}
+					$available[] = $i;
 				}
 			}
-			closedir($dh);
 		}
 		return $available;
 	}
