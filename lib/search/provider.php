@@ -2,11 +2,13 @@
 /**
  * provides search functionalty
  */
-interface OC_Search_Provider {
+class OC_Search_Provider {
+	public function __construct($options){}
+	
 	/**
 	 * search for $query
 	 * @param string $query
 	 * @return array An array of OC_Search_Result's
 	 */
-	static function search($query);
+	public function search($query){}
 }

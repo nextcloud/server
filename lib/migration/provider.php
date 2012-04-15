@@ -17,19 +17,19 @@ abstract class OC_Migration_Provider{
 	}
 	
 	/**
-	 * @breif exports data for apps
+	 * @brief exports data for apps
 	 * @return array appdata to be exported
 	 */
 	abstract function export( );
 	
 	/**
-	 * @breif imports data for the app
+	 * @brief imports data for the app
 	 * @return void
 	 */
 	abstract function import( );
 	
 	/**
-	* @breif sets the OC_Migration_Content object to $this->content
+	* @brief sets the OC_Migration_Content object to $this->content
 	* @param $content a OC_Migration_Content object
 	*/
 	public function setData( $uid, $content, $info=null ){
@@ -43,7 +43,7 @@ abstract class OC_Migration_Provider{
 	}
 	 	
 	/**
-	* @breif returns the appid of the provider
+	* @brief returns the appid of the provider
 	* @return string
 	*/
 	public function getID(){

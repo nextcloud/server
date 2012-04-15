@@ -2,7 +2,6 @@
 <info>
 	<id>gallery</id>
 	<name>Pictures</name>
-	<version>0.4</version>
 	<licence>AGPL</licence>
 	<author>Bartek Przybylski</author>
 	<require>2</require>

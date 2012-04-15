@@ -30,7 +30,7 @@ require_once 'simpletest/default_reporter.php';
 loadTests(dirname(__FILE__));
 
 //load app test cases
-$apps=OC_Appconfig::getApps();
+$apps=OC_App::getEnabledApps();
 foreach($apps as $app){
 	if(is_dir(OC::$SERVERROOT.'/apps/'.$app.'/tests')){
 		loadTests(OC::$SERVERROOT.'/apps/'.$app.'/tests');

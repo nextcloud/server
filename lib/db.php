@@ -36,7 +36,25 @@ class OC_DB {
 	static private $affected=0;
 	static private $result=false;
 	static private $inTransaction=false;
+	static private $prefix=null;
+	static private $type=null;
 
+	/**
+	 * check which backend we should use
+	 * @return BACKEND_MDB2 or BACKEND_PDO
+	 */
+	private static function getDBBackend(){
+		$backend=self::BACKEND_MDB2;
+		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+			$type = OC_Config::getValue( "dbtype", "sqlite" );
+			if($type=='sqlite3') $type='sqlite';
+			$drivers=PDO::getAvailableDrivers();
+			if(array_search($type,$drivers)!==false){
+				$backend=self::BACKEND_PDO;
+			}
+		}
+	}
+	
 	/**
 	 * @brief connects to the database
 	 * @returns true if connection can be established or nothing (die())
@@ -48,15 +66,7 @@ class OC_DB {
 			return;
 		}
 		if(is_null($backend)){
-			$backend=self::BACKEND_MDB2;
-			if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
-				$type = OC_Config::getValue( "dbtype", "sqlite" );
-				if($type=='sqlite3') $type='sqlite';
-				$drivers=PDO::getAvailableDrivers();
-				if(array_search($type,$drivers)!==false){
-					$backend=self::BACKEND_PDO;
-				}
-			}
+			$backend=self::getDBBackend();
 		}
 		if($backend==self::BACKEND_PDO){
 			self::connectPDO();
@@ -423,8 +433,14 @@ class OC_DB {
 	private static function processQuery( $query ){
 		self::connect();
 		// We need Database type and table prefix
-		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+		if(is_null(self::$type)){
+			self::$type=OC_Config::getValue( "dbtype", "sqlite" );
+		}
+		$type = self::$type;
+		if(is_null(self::$prefix)){
+			self::$prefix=OC_Config::getValue( "dbtableprefix", "oc_" );
+		}
+		$prefix = self::$prefix;
 		
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ){
@@ -485,7 +501,7 @@ class OC_DB {
 	}
 	
 	/**
-	 * @breif replaces the owncloud tables with a new set
+	 * @brief replaces the owncloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	 public static function replaceDB( $file ){

@@ -20,8 +20,8 @@
  *
  */
 
-class OC_Search_Provider_Bookmarks implements OC_Search_Provider{
-	static function search($query){
+class OC_Search_Provider_Bookmarks extends OC_Search_Provider{
+	function search($query){
 		$results=array();
 		
 		$offset = 0;

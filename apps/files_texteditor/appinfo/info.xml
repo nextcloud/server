@@ -3,7 +3,6 @@
 	<id>files_texteditor</id>
 	<name>Text Editor</name>
 	<description>Simple plain text editor based on Ace editor.</description>
-	<version>0.3</version>
 	<licence>AGPL</licence>
 	<author>Tom Needham</author>
 	<require>2</require>

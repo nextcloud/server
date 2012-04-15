@@ -59,6 +59,7 @@ FileActions={
 		if($('tr').filterAttr('data-file',file).data('renaming')){
 			return;
 		}
+		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
@@ -66,11 +67,10 @@ FileActions={
 				if(img.call){
 					img=img(file);
 				}
-				var html='<a href="#" original-title="'+name+'" class="action" style="display:none" />';
+				var html='<a href="#" class="action" style="display:none">';
+				if(img) { html+='<img src="'+img+'"/> '; }
+				html += name+'</a>';
 				var element=$(html);
-				if(img){
-					element.append($('<img src="'+img+'"/>'));
-				}
 				element.data('action',name);
 				element.click(function(event){
 					event.stopPropagation();
@@ -81,7 +81,7 @@ FileActions={
 					action(currentFile);
 				});
 				element.hide();
-				parent.children('a.name').append(element);
+				parent.find('a.name>span.fileactions').append(element);
 			}
 		}
 		if(actions['Delete']){
@@ -113,7 +113,7 @@ FileActions={
 		return false;
 	},
 	hide:function(){
-		$('#fileList .action').fadeOut(200,function(){
+		$('#fileList span.fileactions').fadeOut(200,function(){
 			$(this).remove();
 		});
 	},

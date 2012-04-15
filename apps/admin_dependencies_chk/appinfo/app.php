@@ -1,5 +1,5 @@
 <?php
-$l=new OC_L10N('admin_dependencies_chk');
+$l=OC_L10N::get('admin_dependencies_chk');
 
 OC_App::register( array( 
   'order' => 14,

@@ -281,6 +281,7 @@ class OC_FileCache{
 
 	/**
 	 * get the file id as used in the cache
+	 * unlike the public getId, full paths are used here (/usename/files/foo instead of /foo)
 	 * @param string $path
 	 * @return int
 	 */
@@ -302,6 +303,39 @@ class OC_FileCache{
 			OC_Log::write('getFileId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
 			return -1;
 		}
+	}
+	
+	/**
+	 * get the file id as used in the cache
+	 * @param string path
+	 * @param string root (optional)
+	 * @return int
+	 */
+	public static function getId($path,$root=''){
+		if(!$root){
+			$root=OC_Filesystem::getRoot();
+		}
+		if($root=='/'){
+			$root='';
+		}
+		$path=$root.$path;
+		return self::getFileId($path);
+	}
+	
+	/**
+	 * get the file path from the id, relative to the home folder of the user
+	 * @param int id
+	 * @param string user (optional)
+	 * @return string
+	 */
+	public static function getPath($id,$user=''){
+		if(!$user){
+			$user=OC_User::getUser();
+		}
+		$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id=? AND user=?');
+		$result=$query->execute(array($id,$user));
+		$row=$result->fetchRow();
+		return $row['path'];
 	}
 
 	/**
@@ -441,7 +475,7 @@ class OC_FileCache{
 		}else{
 			return;
 		}
-		$size=OC_Filesystem::filesize($oldPath);
+		$size=OC_Filesystem::filesize($newPath);
 		self::increaseSize(dirname($fullOldPath),-$oldSize);
 		self::increaseSize(dirname($fullNewPath),$oldSize);
 		self::move($oldPath,$newPath);

@@ -259,9 +259,9 @@ var ClojureHighlightRules = function() {
                 token : "comment",
                 regex : ";.*$"
             }, {
-                    token : "comment", // multi line comment
-                    regex : "^\=begin$",
-                    next : "comment"
+                token : "comment", // multi line comment
+                regex : "^=begin$",
+                next : "comment"
             }, {
                 token : "keyword", //parens
                 regex : "[\\(|\\)]"
@@ -314,17 +314,17 @@ var ClojureHighlightRules = function() {
                 regex : '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]'
             }, {
                 token : "string", // symbol
-                regex : "[:](?:[a-zA-Z]|\d)+"
+                regex : "[:](?:[a-zA-Z]|\\d)+"
             }, {
-            token : "string.regexp", //Regular Expressions
-            regex : '/#"(?:\.|(\\\")|[^\""\n])*"/g'
+                token : "string.regexp", //Regular Expressions
+                regex : '/#"(?:\\.|(?:\\\")|[^\""\n])*"/g'
             }
-              
+
         ],
         "comment" : [
             {
                 token : "comment", // closing comment
-                regex : "^\=end$",
+                regex : "^=end$",
                 next : "start"
             }, {
                 token : "comment", // comment spanning whole line
@@ -420,13 +420,3 @@ var MatchingParensOutdent = function() {};
 
 exports.MatchingParensOutdent = MatchingParensOutdent;
 });
-;
-            (function() {
-                window.require(["ace/ace"], function(a) {
-                    if (!window.ace)
-                        window.ace = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        ace[key] = a[key];
-                });
-            })();
-        

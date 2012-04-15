@@ -20,7 +20,7 @@ if (isset($_POST['user'])) {
 			$tmpl = new OC_Template('core/lostpassword', 'email');
 			$tmpl->assign('link', $link);
 			$msg = $tmpl->fetchPage();
-			$l = new OC_L10N('core');
+			$l = OC_L10N::get('core');
 			$from = 'lostpassword-noreply@' . $_SERVER['HTTP_HOST'];
 			mail($email, $l->t('Owncloud password reset'), $msg, 'From:' . $from);
 		}

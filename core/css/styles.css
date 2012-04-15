@@ -38,7 +38,7 @@ input[type="text"], input[type="password"], input[type="search"] { background:#f
 input[type="text"], input[type="password"], input[type="search"] { -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; }
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
 input[type="password"]:hover, input[type="password"]:focus, input[type="password"]:active,
-.searchbox input[type="search"]:hover, .searchbox input[type="search"]:focus, .searchbox input[type="search"]:active { background-color:#fff; color:#333; opacity:1; }
+.searchbox input[type="search"]:hover, .searchbox input[type="search"]:focus, .searchbox input[type="search"]:active { background-color:#fff; color:#333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 
 input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, select:hover, select:focus, select:active, input[type="button"]:focus, .button:hover { background:#fff; color:#333; }
@@ -49,7 +49,7 @@ input[type="checkbox"] { width:auto; }
 #body-login input[type="text"], #body-login input[type="password"] { width: 13em; }
 #body-login input.login { width: auto; float: right; }
 #remember_login { margin:.8em .2em 0 1em; }
-.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.4em; right:3em; padding:.2em .5em .2em 1.5em; background:#fff url('../img/actions/search.svg') no-repeat .5em center; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; opacity:.3; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
+.searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.4em; right:3em; padding:.2em .5em .2em 1.5em; background:#fff url('../img/actions/search.svg') no-repeat .5em center; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70);opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
 input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
 
@@ -95,8 +95,9 @@ label.infield { cursor: text !important; }
 #navigation a.active, #navigation a:hover, #navigation a:focus { background-color:#dbdbdb; border-top:1px solid #d4d4d4; border-bottom:1px solid #ccc; color:#333; }
 #navigation a.active { background-color:#ddd; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
-#expand { margin:0 0 .2em 1.2em; cursor:pointer; }
-#expand+span { position:relative; bottom:.4em; left:.2em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
+#expand { position:relative; margin-bottom:-.5em; padding:.5em 10.1em .7em 1.2em; cursor:pointer; }
+#expand+span { position:absolute; margin:-1.7em 0 0 2.5em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
+#expand:hover+span, #expand+span:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; cursor:pointer; }
 #logout { position:absolute; right:0; top:0; padding:1.2em 2em .55em 1.2em; }
 
 
@@ -106,11 +107,12 @@ label.infield { cursor: text !important; }
 
 #notification { z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 
-.action, .selectedActions a, #logout { opacity:.5; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
+.action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5; -webkit-transition:opacity 200ms; -moz-transition:opacity 200ms; -o-transition:opacity 200ms; transition:opacity 200ms; }
 .action { width: 16px; height: 16px; }
-.action:hover, .selectedActions a:hover, #logout:hover { opacity:1; }
+#logout { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
+.action:hover, .selectedActions a:hover, #logout:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 
-table:not(.nostyle) tr { -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+table:not(.nostyle) tr { -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
 #body-settings .personalblock, #body-settings .helpblock { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
@@ -137,7 +139,7 @@ a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padd
 #dirtree {width: 100%;}
 #filelist {height: 270px; overflow:scroll; background-color: white;}
 .filepicker_element_selected { background-color: lightblue;}
-.filepicker_loader {height: 120px; width: 100%; background-color: #333; opacity: 0.3; visibility: visible; position:absolute; top:0; left:0; text-align:center; padding-top: 150px;}
+.filepicker_loader {height: 120px; width: 100%; background-color: #333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3; visibility: visible; position:absolute; top:0; left:0; text-align:center; padding-top: 150px;}
 
 
 /* ---- CATEGORIES ---- */

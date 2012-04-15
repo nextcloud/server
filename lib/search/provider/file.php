@@ -1,7 +1,7 @@
 <?php
 
-class OC_Search_Provider_File implements OC_Search_Provider{
-	static function search($query){
+class OC_Search_Provider_File extends OC_Search_Provider{
+	function search($query){
 		$files=OC_FileCache::search($query,true);
 		$results=array();
 		foreach($files as $fileData){

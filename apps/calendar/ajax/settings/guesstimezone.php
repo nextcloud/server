@@ -10,7 +10,7 @@ require_once('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 
-$l = new OC_L10N('calendar');
+$l = OC_L10N::get('calendar');
 
 $lat = $_GET['lat'];
 $lng = $_GET['long'];

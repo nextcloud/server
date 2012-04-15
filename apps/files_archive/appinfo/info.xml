@@ -3,11 +3,11 @@
 	<id>files_archive</id>
 	<name>Archive support</name>
 	<description>Transparent opening of archives</description>
-	<version>0.1</version>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
 	<require>3</require>
 	<types>
 		<filesystem/>
 	</types>
+	<default_enable/>
 </info>

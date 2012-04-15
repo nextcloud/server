@@ -94,7 +94,7 @@ function addBookmark($url, $title, $tags='') {
 	}
 	
 	if(empty($title)) {
-		$l = new OC_L10N('bookmarks');
+		$l = OC_L10N::get('bookmarks');
 		$title = $l->t('unnamed');
 	}
 	

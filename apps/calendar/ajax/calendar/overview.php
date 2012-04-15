@@ -7,7 +7,7 @@
  */
 
 require_once('../../../../lib/base.php');
-$l10n = new OC_L10N('calendar');
+$l10n = OC_L10N::get('calendar');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 $output = new OC_TEMPLATE("calendar", "part.choosecalendar");
