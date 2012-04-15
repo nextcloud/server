@@ -12,4 +12,3 @@ OC_JSON::checkAppEnabled('contacts');
 
 $output = new OC_TEMPLATE("contacts", "part.chooseaddressbook");
 $output -> printpage();
-?>
