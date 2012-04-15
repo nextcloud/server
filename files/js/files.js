@@ -211,12 +211,12 @@ $(document).ready(function() {
 						var size=t('files','Pending');
 					}
 					if(files){
-						FileList.addFile(files[i].name,size,date,true);
+						FileList.addFile(getUniqueName(files[i].name),size,date,true);
 					}
 				}
 			}else{
 				var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-				FileList.addFile(filename,'Pending',date,true);
+				FileList.addFile(getUniqueName(filename),'Pending',date,true);
 			}
 
 			//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
@@ -570,3 +570,22 @@ function getMimeIcon(mime, ready){
 	}
 }
 getMimeIcon.cache={};
+
+function getUniqueName(name){
+	if($('tr').filterAttr('data-file',name).length>0){
+		var parts=name.split('.');
+		var extension=parts.pop();
+		var base=parts.join('.');
+		numMatch=base.match(/\((\d+)\)/);
+		var num=2;
+		if(numMatch && numMatch.length>0){
+			num=parseInt(numMatch[numMatch.length-1])+1;
+			base=base.split('(')
+			base.pop();
+			base=base.join('(').trim();
+		}
+		name=base+' ('+num+').'+extension;
+		return getUniqueName(name);
+	}
+	return name;
+}
