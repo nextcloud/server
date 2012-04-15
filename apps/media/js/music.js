@@ -48,10 +48,10 @@ function getUrlVars(){
 }
 
 function musicTypeFromFile(file){
-	var extention=file.split('.').pop().toLowerCase();
-	if(extention=='ogg'){
+	var extension=file.split('.').pop().toLowerCase();
+	if(extension=='ogg'){
 		return 'oga';
 	}
 	//TODO check for more specific cases
-	return extention;
+	return extension;
 }

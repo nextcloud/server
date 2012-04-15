@@ -161,7 +161,7 @@ class OC_Template{
 	}
 
 	/**
-	 * @brief Returns the formfactor extention for current formfactor
+	 * @brief Returns the formfactor extension for current formfactor
 	 */
 	protected function getFormFactorExtension()
 	{

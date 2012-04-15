@@ -31,7 +31,7 @@ if ($source !== false) {
 			if ($i['type'] == 'file') {
 				$fileinfo = pathinfo($i['name']);
 				$i['basename'] = $fileinfo['filename'];
-				$i['extention'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
+				$i['extension'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
 			}
 			$i['directory'] = substr($i['directory'], $rootLength);
 			if ($i['directory'] == "/") {
