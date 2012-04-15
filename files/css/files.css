@@ -70,8 +70,12 @@ table thead.fixed { height:2em; }
 #fileList tr td.filename { -webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms; }
 #select_all { float:left; margin:.3em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
-.selectedActions a,#fileList a.action { display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
-a.action>img{ max-height:16px; max-width:16px; vertical-align:text-top; }
+.fileactions { position:absolute; right:0; top:.8em; font-size:.8em; }
+#fileList .fileactions a.action { position:relative; top:-.3em; }
+#fileList .fileactions a.action img { position:relative; top:.2em; }
+.selectedActions a,#fileList a.action { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; }
+a.action.delete { float:right; }
+a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .selectedActions { display:none; }
 
 /* add breadcrumb divider to the File item in navigation panel */
