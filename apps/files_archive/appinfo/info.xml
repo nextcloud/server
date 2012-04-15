@@ -9,4 +9,5 @@
 	<types>
 		<filesystem/>
 	</types>
+	<default_enable/>
 </info>
