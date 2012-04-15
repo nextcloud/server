@@ -67,11 +67,10 @@ FileActions={
 				if(img.call){
 					img=img(file);
 				}
-				var html='<a href="#" original-title="'+name+'" class="action" style="display:none" />';
+				var html='<a href="#" class="action" style="display:none">';
+				if(img) { html+='<img src="'+img+'"/> '; }
+				html += name+'</a>';
 				var element=$(html);
-				if(img){
-					element.append($('<img src="'+img+'"/>'));
-				}
 				element.data('action',name);
 				element.click(function(event){
 					event.stopPropagation();

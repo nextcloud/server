@@ -60,7 +60,7 @@ table tr[data-type="dir"] td.filename a.name {font-weight:bold; }
 table td.filename a.name input, table td.filename a.name form { width:100%; cursor:text; }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 0; }
 table td.filename .nametext, .modified { float:left; padding:.3em 0; }
-table td.filename .nametext { width:60%; }
+table td.filename .nametext { width:70%; overflow:hidden; }
 table td.filename form { float:left; font-size:.85em; }
 table thead.fixed tr{ position:fixed; top:6.5em; z-index:49; -moz-box-shadow:0 -3px 7px #ddd; -webkit-box-shadow:0 -3px 7px #ddd; box-shadow:0 -3px 7px #ddd; }
 table thead.fixed { height:2em; }
@@ -70,8 +70,8 @@ table thead.fixed { height:2em; }
 #fileList tr td.filename { -webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms; }
 #select_all { float:left; margin:.3em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
-.selectedActions a,#fileList a.action { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
-a.action>img{ max-height:16px; max-width:16px; }
+.selectedActions a,#fileList a.action { display:inline; margin:0 .5em; padding:.3em .3em 0 .3em !important; }
+a.action>img{ max-height:16px; max-width:16px; vertical-align:text-top; }
 .selectedActions { display:none; }
 
 /* add breadcrumb divider to the File item in navigation panel */
