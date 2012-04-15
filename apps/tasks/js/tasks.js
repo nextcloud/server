@@ -24,9 +24,11 @@ OC.Tasks = {
 				)
 			//.append(actions.clone().removeAttr('id'))
 			;
-		var checkbox = $('<input type="checkbox">');
+		var checkbox = $('<input type="checkbox">')
+			.click(OC.Tasks.complete_task);
 		if (task.completed) {
 			checkbox.attr('checked', 'checked');
+			task_container.addClass('done');
 		}
 		$('<div>')
 			.addClass('completed')
@@ -112,6 +114,26 @@ OC.Tasks = {
 			}
 			container.append(this);
 		});
+	},
+	complete_task:function() {
+		var $task = $(this).closest('.task'),
+			task = $task.data('task'),
+			checked = $(this).is(':checked');
+		$.post('ajax/complete.php', {id:task.id, checked:checked?1:0}, function(jsondata){
+			if(jsondata.status == 'success') {
+				task = jsondata.data;
+				$task.data('task', task)
+				if (task.completed) {
+					$task.addClass('done');
+				}
+				else {
+					$task.removeClass('done');
+				}
+			}
+			else{
+				alert(jsondata.data.message);
+			}
+		}, 'json');
 	}
 };
 

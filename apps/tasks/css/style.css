@@ -24,6 +24,7 @@
 .task .completed {position:absolute;left:3em;top:0.3em;}
 
 .task .summary{padding-left:4em;}
+.task.done .summary{text-decoration:line-through;}
 
 .task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;border:1px solid transparent;padding:0 0.4em;}
 .task .tag:hover{opacity:0.5;}

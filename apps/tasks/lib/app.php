@@ -154,6 +154,13 @@ class OC_Task_App {
 			unset($vtodo->DUE);
 		}
 
+		self::setComplete($vtodo, $percent_complete, $completed);
+
+		return $vcalendar;
+	}
+
+	public static function setComplete($vtodo, $percent_complete, $completed)
+	{
 		if (!empty($percent_complete)) {
 			$vtodo->setString('PERCENT-COMPLETE', $percent_complete);
 		}else{
@@ -175,8 +182,5 @@ class OC_Task_App {
 		} else {
 			unset($vtodo->COMPLETED);
 		}
-
-		return $vcalendar;
 	}
 }
-
