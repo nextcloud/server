@@ -3,48 +3,53 @@
 
 'use strict';
 
-var Pattern = (function patternPattern() {
+var PatternType = {
+  AXIAL: 2,
+  RADIAL: 3
+};
+
+var Pattern = (function PatternClosure() {
   // Constructor should define this.getPattern
-  function constructor() {
+  function Pattern() {
     error('should not call Pattern constructor');
   }
 
-  constructor.prototype = {
+  Pattern.prototype = {
     // Input: current Canvas context
     // Output: the appropriate fillStyle or strokeStyle
-    getPattern: function pattern_getStyle(ctx) {
+    getPattern: function Pattern_getPattern(ctx) {
       error('Should not call Pattern.getStyle: ' + ctx);
     }
   };
 
-  constructor.shadingFromIR = function pattern_shadingFromIR(ctx, raw) {
-    return Shadings[raw[0]].fromIR(ctx, raw);
+  Pattern.shadingFromIR = function Pattern_shadingFromIR(raw) {
+    return Shadings[raw[0]].fromIR(raw);
   };
 
-  constructor.parseShading = function pattern_shading(shading, matrix, xref,
-                                                      res, ctx) {
+  Pattern.parseShading = function Pattern_parseShading(shading, matrix, xref,
+                                                       res) {
 
     var dict = isStream(shading) ? shading.dict : shading;
     var type = dict.get('ShadingType');
 
     switch (type) {
-      case 2:
-      case 3:
-        // both radial and axial shadings are handled by RadialAxial shading
-        return new Shadings.RadialAxial(dict, matrix, xref, res, ctx);
+      case PatternType.AXIAL:
+      case PatternType.RADIAL:
+        // Both radial and axial shadings are handled by RadialAxial shading.
+        return new Shadings.RadialAxial(dict, matrix, xref, res);
       default:
         return new Shadings.Dummy();
     }
   };
-  return constructor;
+  return Pattern;
 })();
 
 var Shadings = {};
 
 // Radial and axial shading have very similar implementations
 // If needed, the implementations can be broken into two classes
-Shadings.RadialAxial = (function radialAxialShading() {
-  function constructor(dict, matrix, xref, res, ctx) {
+Shadings.RadialAxial = (function RadialAxialClosure() {
+  function RadialAxial(dict, matrix, xref, res, ctx) {
     this.matrix = matrix;
     this.coordsArr = dict.get('Coords');
     this.shadingType = dict.get('ShadingType');
@@ -74,10 +79,9 @@ Shadings.RadialAxial = (function radialAxialShading() {
     this.extendEnd = extendEnd;
 
     var fnObj = dict.get('Function');
-    fnObj = xref.fetchIfRef(fnObj);
     if (isArray(fnObj))
       error('No support for array of functions');
-    else if (!isPDFFunction(fnObj))
+    if (!isPDFFunction(fnObj))
       error('Invalid function');
     var fn = PDFFunction.parse(xref, fnObj);
 
@@ -89,56 +93,60 @@ Shadings.RadialAxial = (function radialAxialShading() {
 
     var colorStops = [];
     for (var i = t0; i <= t1; i += step) {
-      var color = fn([i]);
-      var rgbColor = Util.makeCssRgb.apply(this, cs.getRgb(color));
-      colorStops.push([(i - t0) / diff, rgbColor]);
+      var rgbColor = cs.getRgb(fn([i]));
+      var cssColor = Util.makeCssRgb(rgbColor[0], rgbColor[1], rgbColor[2]);
+      colorStops.push([(i - t0) / diff, cssColor]);
     }
 
     this.colorStops = colorStops;
   }
 
-  constructor.fromIR = function radialAxialShadingGetIR(ctx, raw) {
+  RadialAxial.fromIR = function RadialAxial_fromIR(raw) {
     var type = raw[1];
     var colorStops = raw[2];
     var p0 = raw[3];
     var p1 = raw[4];
     var r0 = raw[5];
     var r1 = raw[6];
+    return {
+      type: 'Pattern',
+      getPattern: function(ctx) {
+        var curMatrix = ctx.mozCurrentTransform;
+        if (curMatrix) {
+          var userMatrix = ctx.mozCurrentTransformInverse;
 
-    var curMatrix = ctx.mozCurrentTransform;
-    if (curMatrix) {
-      var userMatrix = ctx.mozCurrentTransformInverse;
+          p0 = Util.applyTransform(p0, curMatrix);
+          p0 = Util.applyTransform(p0, userMatrix);
 
-      p0 = Util.applyTransform(p0, curMatrix);
-      p0 = Util.applyTransform(p0, userMatrix);
+          p1 = Util.applyTransform(p1, curMatrix);
+          p1 = Util.applyTransform(p1, userMatrix);
+        }
 
-      p1 = Util.applyTransform(p1, curMatrix);
-      p1 = Util.applyTransform(p1, userMatrix);
-    }
+        var grad;
+        if (type == PatternType.AXIAL)
+          grad = ctx.createLinearGradient(p0[0], p0[1], p1[0], p1[1]);
+        else if (type == PatternType.RADIAL)
+          grad = ctx.createRadialGradient(p0[0], p0[1], r0, p1[0], p1[1], r1);
 
-    var grad;
-    if (type == 2)
-      grad = ctx.createLinearGradient(p0[0], p0[1], p1[0], p1[1]);
-    else if (type == 3)
-      grad = ctx.createRadialGradient(p0[0], p0[1], r0, p1[0], p1[1], r1);
-
-    for (var i = 0, ii = colorStops.length; i < ii; ++i) {
-      var c = colorStops[i];
-      grad.addColorStop(c[0], c[1]);
-    }
-    return grad;
+        for (var i = 0, ii = colorStops.length; i < ii; ++i) {
+          var c = colorStops[i];
+          grad.addColorStop(c[0], c[1]);
+        }
+        return grad;
+      }
+    };
   };
 
-  constructor.prototype = {
-    getIR: function radialAxialShadingGetIR() {
+  RadialAxial.prototype = {
+    getIR: function RadialAxial_getIR() {
       var coordsArr = this.coordsArr;
       var type = this.shadingType;
-      if (type == 2) {
+      if (type == PatternType.AXIAL) {
         var p0 = [coordsArr[0], coordsArr[1]];
         var p1 = [coordsArr[2], coordsArr[3]];
         var r0 = null;
         var r1 = null;
-      } else if (type == 3) {
+      } else if (type == PatternType.RADIAL) {
         var p0 = [coordsArr[0], coordsArr[1]];
         var p1 = [coordsArr[3], coordsArr[4]];
         var r0 = coordsArr[2];
@@ -157,31 +165,35 @@ Shadings.RadialAxial = (function radialAxialShading() {
     }
   };
 
-  return constructor;
+  return RadialAxial;
 })();
 
-Shadings.Dummy = (function dummyShading() {
-  function constructor() {
+Shadings.Dummy = (function DummyClosure() {
+  function Dummy() {
     this.type = 'Pattern';
   }
 
-  constructor.fromIR = function dummyShadingFromIR() {
+  Dummy.fromIR = function Dummy_fromIR() {
     return 'hotpink';
   };
 
-  constructor.prototype = {
-    getIR: function dummyShadingGetIR() {
+  Dummy.prototype = {
+    getIR: function Dummy_getIR() {
       return ['Dummy'];
     }
   };
-  return constructor;
+  return Dummy;
 })();
 
-var TilingPattern = (function tilingPattern() {
-  var PAINT_TYPE_COLORED = 1, PAINT_TYPE_UNCOLORED = 2;
+var TilingPattern = (function TilingPatternClosure() {
+  var PaintType = {
+    COLORED: 1,
+    UNCOLORED: 2
+  };
+  var MAX_PATTERN_SIZE = 512;
 
   function TilingPattern(IR, color, ctx, objs) {
-    var IRQueue = IR[2];
+    var operatorList = IR[2];
     this.matrix = IR[3];
     var bbox = IR[4];
     var xstep = IR[5];
@@ -204,30 +216,30 @@ var TilingPattern = (function tilingPattern() {
     var width = botRight[0] - topLeft[0];
     var height = botRight[1] - topLeft[1];
 
-    // TODO: hack to avoid OOM, we would idealy compute the tiling
+    // TODO: hack to avoid OOM, we would ideally compute the tiling
     // pattern to be only as large as the acual size in device space
     // This could be computed with .mozCurrentTransform, but still
     // needs to be implemented
-    while (Math.abs(width) > 512 || Math.abs(height) > 512) {
-      width = 512;
-      height = 512;
+    while (Math.abs(width) > MAX_PATTERN_SIZE ||
+           Math.abs(height) > MAX_PATTERN_SIZE) {
+      width = height = MAX_PATTERN_SIZE;
     }
 
-    var tmpCanvas = new ScratchCanvas(width, height);
+    var tmpCanvas = createScratchCanvas(width, height);
 
     // set the new canvas element context as the graphics context
     var tmpCtx = tmpCanvas.getContext('2d');
     var graphics = new CanvasGraphics(tmpCtx, objs);
 
     switch (paintType) {
-      case PAINT_TYPE_COLORED:
+      case PaintType.COLORED:
         tmpCtx.fillStyle = ctx.fillStyle;
         tmpCtx.strokeStyle = ctx.strokeStyle;
         break;
-      case PAINT_TYPE_UNCOLORED:
-        color = Util.makeCssRgb.apply(this, color);
-        tmpCtx.fillStyle = color;
-        tmpCtx.strokeStyle = color;
+      case PaintType.UNCOLORED:
+        var cssColor = Util.makeCssRgb(this, color[0], color[1], color[2]);
+        tmpCtx.fillStyle = cssColor;
+        tmpCtx.strokeStyle = cssColor;
         break;
       default:
         error('Unsupported paint type: ' + paintType);
@@ -250,12 +262,12 @@ var TilingPattern = (function tilingPattern() {
       graphics.endPath();
     }
 
-    graphics.executeIRQueue(IRQueue);
+    graphics.executeOperatorList(operatorList);
 
     this.canvas = tmpCanvas;
   }
 
-  TilingPattern.getIR = function tiling_getIR(codeIR, dict, args) {
+  TilingPattern.getIR = function TilingPattern_getIR(operatorList, dict, args) {
     var matrix = dict.get('Matrix');
     var bbox = dict.get('BBox');
     var xstep = dict.get('XStep');
@@ -263,12 +275,12 @@ var TilingPattern = (function tilingPattern() {
     var paintType = dict.get('PaintType');
 
     return [
-      'TilingPattern', args, codeIR, matrix, bbox, xstep, ystep, paintType
+      'TilingPattern', args, operatorList, matrix, bbox, xstep, ystep, paintType
     ];
   };
 
   TilingPattern.prototype = {
-    getPattern: function tiling_getPattern() {
+    getPattern: function TilingPattern_getPattern() {
       var matrix = this.matrix;
       var curMatrix = this.curMatrix;
       var ctx = this.ctx;
