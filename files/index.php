@@ -51,10 +51,10 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 		$fileinfo=pathinfo($i['name']);
 		$i['basename']=$fileinfo['filename'];
 		if (!empty($fileinfo['extension'])) {
-			$i['extention']='.' . $fileinfo['extension'];
+			$i['extension']='.' . $fileinfo['extension'];
 		}
 		else {
-			$i['extention']='';
+			$i['extension']='';
 		}
 	}
 	if($i['directory']=='/'){

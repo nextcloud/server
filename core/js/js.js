@@ -69,10 +69,10 @@ OC={
 	 * @param file the name of the image file
 	 * @return string
 	 * 
-	 * if no extention is given for the image, it will automatically decide between .png and .svg based on what the browser supports
+	 * if no extension is given for the image, it will automatically decide between .png and .svg based on what the browser supports
 	 */ 
 	imagePath:function(app,file){
-		if(file.indexOf('.')==-1){//if no extention is given, use png or svg depending on browser support
+		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
 			file+=(SVGSupport())?'.svg':'.png';
 		}
 		return OC.filePath(app,'img',file);
@@ -405,9 +405,6 @@ $(document).ready(function(){
 	});
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
-	});
-	$('#settings #expand').hover(function(){
-		$('#settings #expand+span').fadeToggle();
 	});
 	$(window).click(function(){//hide the settings menu when clicking oustide it
 		if($('body').attr("id")=="body-user"){

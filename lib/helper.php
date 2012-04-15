@@ -310,9 +310,9 @@ class OC_Helper {
 		$mimeType='application/octet-stream';
 		if ($mimeType=='application/octet-stream') {
 			self::$mimetypes = include('mimetypes.fixlist.php');
-			$extention=strtolower(strrchr(basename($path), "."));
-			$extention=substr($extention,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 
 		}
 		if (@is_dir($path)) {
@@ -346,9 +346,9 @@ class OC_Helper {
 			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
 				self::$mimetypes=include('mimetypes.list.php');
 			}
-			$extention=strtolower(strrchr(basename($path), "."));
-			$extention=substr($extention,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 		}
 		return $mimeType;
 	}

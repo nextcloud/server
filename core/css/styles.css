@@ -95,8 +95,9 @@ label.infield { cursor: text !important; }
 #navigation a.active, #navigation a:hover, #navigation a:focus { background-color:#dbdbdb; border-top:1px solid #d4d4d4; border-bottom:1px solid #ccc; color:#333; }
 #navigation a.active { background-color:#ddd; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
-#expand { margin:0 0 .2em 1.2em; cursor:pointer; }
-#expand+span { position:relative; bottom:.4em; left:.2em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; }
+#expand { position:relative; margin-bottom:-.5em; padding:.5em 10.1em .7em 1.2em; cursor:pointer; }
+#expand+span { position:absolute; margin:-1.7em 0 0 2.5em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; opacity:0; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
+#expand:hover+span, #expand+span:hover { opacity:1; cursor:pointer; }
 #logout { position:absolute; right:0; top:0; padding:1.2em 2em .55em 1.2em; }
 
 

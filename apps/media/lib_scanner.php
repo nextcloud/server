@@ -127,7 +127,7 @@ class OC_MEDIA_SCANNER{
 	}
 
 	/**
-	 * quick check if a song is a music file by checking the extention, not as good as a proper mimetype check but way faster
+	 * quick check if a song is a music file by checking the extension, not as good as a proper mimetype check but way faster
 	 * @param string $filename
 	 * @return bool
 	 */
