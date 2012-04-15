@@ -296,15 +296,21 @@ class OC_Setup {
 	 * create .htaccess files for apache hosts
 	 */
 	private static function createHtaccess() {
+		$content = "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
 		$content = "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
 		$content.= "<IfModule mod_php5.c>\n";
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit
 		$content.= "php_value post_max_size 512M\n";
-		$content.= "SetEnv htaccessWorking true\n";
+		$content.= "php_value memory_limit 512M\n";
+		$content.= "<IfModule env_module>\n";
+		$content.= "  SetEnv htaccessWorking true\n";
+		$content.= "</IfModule>\n";
 		$content.= "</IfModule>\n";
 		$content.= "<IfModule mod_rewrite.c>\n";
 		$content.= "RewriteEngine on\n";
 		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]\n";
+		$content.= "RewriteRule ^.well-known/carddav /apps/contacts/carddav.php [R]\n";
+		$content.= "RewriteRule ^.well-known/caldav /apps/calendar/caldav.php [R]\n";
 		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it

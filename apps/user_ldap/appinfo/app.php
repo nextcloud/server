@@ -21,7 +21,9 @@
 *
 */
 
+require_once('apps/user_ldap/lib_ldap.php');
 require_once('apps/user_ldap/user_ldap.php');
+require_once('apps/user_ldap/group_ldap.php');
 
 OC_APP::registerAdmin('user_ldap','settings');
 
@@ -33,6 +35,7 @@ define('OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME', 'uid');
 
 // register user backend
 OC_User::useBackend( 'LDAP' );
+OC_Group::useBackend( 'LDAP' );
 
 // add settings page to navigation
 $entry = array(

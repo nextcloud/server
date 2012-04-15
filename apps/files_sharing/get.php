@@ -31,7 +31,7 @@ if ($source !== false) {
 			if ($i['type'] == 'file') {
 				$fileinfo = pathinfo($i['name']);
 				$i['basename'] = $fileinfo['filename'];
-				$i['extention'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
+				$i['extension'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
 			}
 			$i['directory'] = substr($i['directory'], $rootLength);
 			if ($i['directory'] == "/") {
@@ -62,6 +62,8 @@ if ($source !== false) {
 		$tmpl->assign("fileList", $list->fetchPage());
 		$tmpl->assign("breadcrumb", $breadcrumbNav->fetchPage());
 		$tmpl->assign("readonly", true);
+		$tmpl->assign("allowZipDownload", false);
+		$tmpl->assign("dir", 'shared dir');
 		$tmpl->printPage();
 	} else {
 		//get time mimetype and set the headers

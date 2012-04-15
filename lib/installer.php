@@ -175,7 +175,7 @@ class OC_Installer{
 		}
 		
 		//set the installed version
-		OC_Appconfig::setValue($info['id'],'installed_version',$info['version']);
+		OC_Appconfig::setValue($info['id'],'installed_version',OC_App::getAppVersion($info['id']));
 		OC_Appconfig::setValue($info['id'],'enabled','no');
 		return $info['id'];
 	}
@@ -297,7 +297,7 @@ class OC_Installer{
 			include(OC::$APPSROOT."/apps/$app/appinfo/install.php");
 		}
 		$info=OC_App::getAppInfo($app);
-		OC_Appconfig::setValue($app,'installed_version',$info['version']);
+		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
 		return $info;
 	}
 }

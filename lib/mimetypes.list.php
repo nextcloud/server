@@ -21,7 +21,7 @@
 */
 
 /**
- * list of mimetypes by extention
+ * list of mimetypes by extension
  */
 
 return array(

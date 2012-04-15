@@ -41,8 +41,8 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		if(self::isEncrypted($path)){
 			return true;
 		}
-		$extention=substr($path,strrpos($path,'.')+1);
-		if(array_search($extention,self::$blackList)===false){
+		$extension=substr($path,strrpos($path,'.')+1);
+		if(array_search($extension,self::$blackList)===false){
 			return true;
 		}
 	}

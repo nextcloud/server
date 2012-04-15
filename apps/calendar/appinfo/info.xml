@@ -2,7 +2,6 @@
 <info>
 	<id>calendar</id>
 	<name>Calendar</name>
-	<version>0.2.1</version>
 	<licence>AGPL</licence>
 	<author>Georg Ehrke, Bart Visscher, Jakob Sack</author>
 	<require>2</require>

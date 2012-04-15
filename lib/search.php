@@ -26,13 +26,22 @@
  */
 class OC_Search{
 	static private $providers=array();
+	static private $registeredProviders=array();
+	
+	/**
+	 * remove all registered search providers
+	 */
+	public static function clearProviders(){
+		self::$providers=array();
+		self::$registeredProviders=array();
+	}
 	
 	/**
 	 * register a new search provider to be used
 	 * @param string $provider class name of a OC_Search_Provider
 	 */
-	public static function registerProvider($provider){
-		self::$providers[]=$provider;
+	public static function registerProvider($class,$options=array()){
+		self::$registeredProviders[]=array('class'=>$class,'options'=>$options);
 	}
 	
 	/**
@@ -41,10 +50,25 @@ class OC_Search{
 	 * @return array An array of OC_Search_Result's
 	 */
 	public static function search($query){
+		self::initProviders();
 		$results=array();
 		foreach(self::$providers as $provider){
-			$results=array_merge($results, $provider::search($query));
+			$results=array_merge($results, $provider->search($query));
 		}
 		return $results;
+	}
+	
+	/**
+	 * create instances of all the registered search providers
+	 */
+	private static function initProviders(){
+		if(count(self::$providers)>0){
+			return;
+		}
+		foreach(self::$registeredProviders as $provider){
+			$class=$provider['class'];
+			$options=$provider['options'];
+			self::$providers[]=new $class($options);
+		}
 	}
 }

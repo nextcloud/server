@@ -24,7 +24,7 @@ class OC_JSON{
 	*/
 	public static function checkAppEnabled($app){
 		if( !OC_App::isEnabled($app)){
-			$l = new OC_L10N('core');
+			$l = OC_L10N::get('core');
 			self::error(array( 'data' => array( 'message' => $l->t('Application is not enabled') )));
 			exit();
 		}
@@ -35,7 +35,7 @@ class OC_JSON{
 	*/
 	public static function checkLoggedIn(){
 		if( !OC_User::isLoggedIn()){
-			$l = new OC_L10N('core');
+			$l = OC_L10N::get('core');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
 		}
@@ -47,7 +47,7 @@ class OC_JSON{
 	public static function checkAdminUser(){
 		self::checkLoggedIn();
 		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-			$l = new OC_L10N('core');
+			$l = OC_L10N::get('core');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
 		}

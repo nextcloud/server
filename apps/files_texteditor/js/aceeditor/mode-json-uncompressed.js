@@ -35,7 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/mode/json', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text', 'ace/tokenizer', 'ace/mode/json_highlight_rules', 'ace/mode/matching_brace_outdent', 'ace/mode/behaviour/cstyle', 'ace/mode/folding/cstyle'], function(require, exports, module) {
+define('ace/mode/json', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/mode/text', 'ace/tokenizer', 'ace/mode/json_highlight_rules', 'ace/mode/matching_brace_outdent', 'ace/mode/behaviour/cstyle', 'ace/mode/folding/cstyle', 'ace/worker/worker_client'], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -45,6 +45,7 @@ var HighlightRules = require("./json_highlight_rules").JsonHighlightRules;
 var MatchingBraceOutdent = require("./matching_brace_outdent").MatchingBraceOutdent;
 var CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour;
 var CStyleFoldMode = require("./folding/cstyle").FoldMode;
+var WorkerClient = require("../worker/worker_client").WorkerClient;
 
 var Mode = function() {
     this.$tokenizer = new Tokenizer(new HighlightRules().getRules());
@@ -76,7 +77,23 @@ oop.inherits(Mode, TextMode);
     this.autoOutdent = function(state, doc, row) {
         this.$outdent.autoOutdent(doc, row);
     };
-    
+
+    this.createWorker = function(session) {
+        var worker = new WorkerClient(["ace"], "worker-json.js", "ace/mode/json_worker", "JsonWorker");
+        worker.attachToDocument(session.getDocument());
+
+        worker.on("error", function(e) {
+            session.setAnnotations([e.data]);
+        });
+
+        worker.on("ok", function() {
+            session.clearAnnotations();
+        });
+
+        return worker;
+    };
+
+
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
@@ -302,12 +319,12 @@ var CstyleBehaviour = function () {
                 return {
                     text: '{' + selected + '}',
                     selection: false
-                }
+                };
             } else {
                 return {
                     text: '{}',
                     selection: [1, 1]
-                }
+                };
             }
         } else if (text == '}') {
             var cursor = editor.getCursorPosition();
@@ -319,7 +336,7 @@ var CstyleBehaviour = function () {
                     return {
                         text: '',
                         selection: [1, 1]
-                    }
+                    };
                 }
             }
         } else if (text == "\n") {
@@ -337,7 +354,7 @@ var CstyleBehaviour = function () {
                 return {
                     text: '\n' + indent + '\n' + next_indent,
                     selection: [1, indent.length, 1, indent.length]
-                }
+                };
             }
         }
     });
@@ -362,12 +379,12 @@ var CstyleBehaviour = function () {
                 return {
                     text: '(' + selected + ')',
                     selection: false
-                }
+                };
             } else {
                 return {
                     text: '()',
                     selection: [1, 1]
-                }
+                };
             }
         } else if (text == ')') {
             var cursor = editor.getCursorPosition();
@@ -379,7 +396,7 @@ var CstyleBehaviour = function () {
                     return {
                         text: '',
                         selection: [1, 1]
-                    }
+                    };
                 }
             }
         }
@@ -398,14 +415,15 @@ var CstyleBehaviour = function () {
     });
 
     this.add("string_dquotes", "insertion", function (state, action, editor, session, text) {
-        if (text == '"') {
+        if (text == '"' || text == "'") {
+            var quote = text;
             var selection = editor.getSelectionRange();
             var selected = session.doc.getTextRange(selection);
             if (selected !== "") {
                 return {
-                    text: '"' + selected + '"',
+                    text: quote + selected + quote,
                     selection: false
-                }
+                };
             } else {
                 var cursor = editor.getCursorPosition();
                 var line = session.doc.getLine(cursor.row);
@@ -426,7 +444,7 @@ var CstyleBehaviour = function () {
                     if (token.type == "string") {
                       quotepos = -1;
                     } else if (quotepos < 0) {
-                      quotepos = token.value.indexOf('"');
+                      quotepos = token.value.indexOf(quote);
                     }
                     if ((token.value.length + col) > selection.start.column) {
                         break;
@@ -435,19 +453,19 @@ var CstyleBehaviour = function () {
                 }
 
                 // Try and be smart about when we auto insert.
-                if (!token || (quotepos < 0 && token.type !== "comment" && (token.type !== "string" || ((selection.start.column !== token.value.length+col-1) && token.value.lastIndexOf('"') === token.value.length-1)))) {
+                if (!token || (quotepos < 0 && token.type !== "comment" && (token.type !== "string" || ((selection.start.column !== token.value.length+col-1) && token.value.lastIndexOf(quote) === token.value.length-1)))) {
                     return {
-                        text: '""',
+                        text: quote + quote,
                         selection: [1,1]
-                    }
+                    };
                 } else if (token && token.type === "string") {
                     // Ignore input and move right one if we're typing over the closing quote.
                     var rightChar = line.substring(cursor.column, cursor.column + 1);
-                    if (rightChar == '"') {
+                    if (rightChar == quote) {
                         return {
                             text: '',
                             selection: [1, 1]
-                        }
+                        };
                     }
                 }
             }
@@ -456,7 +474,7 @@ var CstyleBehaviour = function () {
 
     this.add("string_dquotes", "deletion", function (state, action, editor, session, range) {
         var selected = session.doc.getTextRange(range);
-        if (!range.isMultiLine() && selected == '"') {
+        if (!range.isMultiLine() && (selected == '"' || selected == "'")) {
             var line = session.doc.getLine(range.start.row);
             var rightChar = line.substring(range.start.column + 1, range.start.column + 2);
             if (rightChar == '"') {
@@ -466,7 +484,8 @@ var CstyleBehaviour = function () {
         }
     });
 
-}
+};
+
 oop.inherits(CstyleBehaviour, Behaviour);
 
 exports.CstyleBehaviour = CstyleBehaviour;
@@ -677,13 +696,3 @@ var FoldMode = exports.FoldMode = function() {};
 }).call(FoldMode.prototype);
 
 });
-;
-            (function() {
-                window.require(["ace/ace"], function(a) {
-                    if (!window.ace)
-                        window.ace = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        ace[key] = a[key];
-                });
-            })();
-        

@@ -198,7 +198,7 @@ define('ace/lib/regexp', ['require', 'exports', 'module' ], function(require, ex
     RegExp.prototype.exec = function (str) {
         var match = real.exec.apply(this, arguments),
             name, r2;
-        if (match) {
+        if ( typeof(str) == 'string' && match) {
             // Fix browsers whose `exec` methods don't consistently return `undefined` for
             // nonparticipating capturing groups
             if (!compliantExecNpcg && match.length > 1 && indexOf(match, "") > -1) {
@@ -263,7 +263,8 @@ define('ace/lib/regexp', ['require', 'exports', 'module' ], function(require, ex
         return -1;
     };
 
-});// vim: ts=4 sts=4 sw=4 expandtab
+});
+// vim: ts=4 sts=4 sw=4 expandtab
 // -- kriskowal Kris Kowal Copyright (C) 2009-2011 MIT License
 // -- tlrobinson Tom Robinson Copyright (C) 2009-2010 MIT License (Narwhal Project)
 // -- dantman Daniel Friesen Copyright (C) 2010 XXX TODO License or CLA
@@ -1539,12 +1540,13 @@ exports.implement = function(proto, mixin) {
  *
  * ***** END LICENSE BLOCK ***** */
  
-define('ace/mode/javascript_worker', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/worker/mirror', 'ace/worker/jshint', 'ace/narcissus/jsparse'], function(require, exports, module) {
+define('ace/mode/javascript_worker', ['require', 'exports', 'module' , 'ace/lib/oop', 'ace/worker/mirror', 'ace/worker/jshint', 'ace/narcissus/parser'], function(require, exports, module) {
 "use strict";
     
 var oop = require("../lib/oop");
 var Mirror = require("../worker/mirror").Mirror;
 var lint = require("../worker/jshint").JSHINT;
+var parser = require("../narcissus/parser");
     
 var JavaScriptWorker = exports.JavaScriptWorker = function(sender) {
     Mirror.call(this, sender);
@@ -1560,7 +1562,6 @@ oop.inherits(JavaScriptWorker, Mirror);
         value = value.replace(/^#!.*\n/, "\n");
         
 //        var start = new Date();
-        var parser = require("../narcissus/jsparse");
         try {
             parser.parse(value);
         } catch(e) {
@@ -1806,11 +1807,12 @@ var Document = function(text) {
     };
 
     this.insert = function(position, text) {
-        if (text.length == 0)
+        if (!text || text.length === 0)
             return position;
 
         position = this.$clipPosition(position);
 
+        // only detect new lines if the document has no line break yet
         if (this.getLength() <= 1)
             this.$detectNewLine(text);
 
@@ -2090,7 +2092,7 @@ var Range = function(startRow, startColumn, endRow, endColumn) {
 };
 
 (function() {
-    this.isEequal = function(range) {
+    this.isEqual = function(range) {
         return this.start.row == range.start.row &&
             this.end.row == range.end.row &&
             this.start.column == range.start.column &&
@@ -2154,6 +2156,11 @@ var Range = function(startRow, startColumn, endRow, endColumn) {
 
     this.containsRange = function(range) {
         return this.comparePoint(range.start) == 0 && this.comparePoint(range.end) == 0;
+    }
+
+    this.intersectsRange = function(range) {
+        var cmp = this.compareRange(range);
+        return (cmp == -1 || cmp == 0 || cmp == 1);
     }
 
     this.isEnd = function(row, column) {
@@ -2314,6 +2321,21 @@ var Range = function(startRow, startColumn, endRow, endColumn) {
 
         return Range.fromPoints(start || this.start, end || this.end);
     };
+
+    this.fixOrientation = function() {
+        if (
+            this.start.row < this.end.row 
+            || (this.start.row == this.end.row && this.start.column < this.end.column)
+        ) {
+            return false;
+        }
+        
+        var temp = this.start;
+        this.end = this.start;
+        this.start = temp;
+        return true;
+    };
+
 
     this.isEmpty = function() {
         return (this.start.row == this.end.row && this.start.column == this.end.column);
@@ -2829,7 +2851,7 @@ define('ace/worker/jshint', ['require', 'exports', 'module' ], function(require,
      member: {
          STRING: NUMBER
      },
-     unuseds: [
+     unused: [
          {
              name: STRING,
              line: NUMBER
@@ -2853,7 +2875,7 @@ define('ace/worker/jshint', ['require', 'exports', 'module' ], function(require,
 
 /*jshint
  evil: true, nomen: false, onevar: false, regexp: false, strict: true, boss: true,
- undef: true, maxlen: 100
+ undef: true, maxlen: 100, indent:4
 */
 
 /*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%", "(begin)",
@@ -2861,56 +2883,70 @@ define('ace/worker/jshint', ['require', 'exports', 'module' ], function(require,
  "(line)", "(loopage)", "(name)", "(onevar)", "(params)", "(scope)",
  "(statement)", "(verb)", "*", "+", "++", "-", "--", "\/", "<", "<=", "==",
  "===", ">", ">=", $, $$, $A, $F, $H, $R, $break, $continue, $w, Abstract, Ajax,
- __filename, __dirname, ActiveXObject, Array, ArrayBuffer, ArrayBufferView,
+ __filename, __dirname, ActiveXObject, Array, ArrayBuffer, ArrayBufferView, Audio,
  Autocompleter, Assets, Boolean, Builder, Buffer, Browser, COM, CScript, Canvas,
  CustomAnimation, Class, Control, Chain, Color, Cookie, Core, DataView, Date,
- Debug, Draggable, Draggables, Droppables, Document, DomReady, DOMReady, Drag,
+ Debug, Draggable, Draggables, Droppables, Document, DomReady, DOMReady, DOMParser, Drag,
  E, Enumerator, Enumerable, Element, Elements, Error, Effect, EvalError, Event,
  Events, FadeAnimation, Field, Flash, Float32Array, Float64Array, Form,
- FormField, Frame, Function, Fx, GetObject, Group, Hash, HotKey, HTMLElement,
- HtmlTable, Iframe, IframeShim, Image, Int16Array, Int32Array, Int8Array,
+ FormField, Frame, FormData, Function, Fx, GetObject, Group, Hash, HotKey,
+ HTMLElement, HTMLAnchorElement, HTMLBaseElement, HTMLBlockquoteElement,
+ HTMLBodyElement, HTMLBRElement, HTMLButtonElement, HTMLCanvasElement, HTMLDirectoryElement,
+ HTMLDivElement, HTMLDListElement, HTMLFieldSetElement,
+ HTMLFontElement, HTMLFormElement, HTMLFrameElement, HTMLFrameSetElement,
+ HTMLHeadElement, HTMLHeadingElement, HTMLHRElement, HTMLHtmlElement,
+ HTMLIFrameElement, HTMLImageElement, HTMLInputElement, HTMLIsIndexElement,
+ HTMLLabelElement, HTMLLayerElement, HTMLLegendElement, HTMLLIElement,
+ HTMLLinkElement, HTMLMapElement, HTMLMenuElement, HTMLMetaElement,
+ HTMLModElement, HTMLObjectElement, HTMLOListElement, HTMLOptGroupElement,
+ HTMLOptionElement, HTMLParagraphElement, HTMLParamElement, HTMLPreElement,
+ HTMLQuoteElement, HTMLScriptElement, HTMLSelectElement, HTMLStyleElement,
+ HtmlTable, HTMLTableCaptionElement, HTMLTableCellElement, HTMLTableColElement,
+ HTMLTableElement, HTMLTableRowElement, HTMLTableSectionElement,
+ HTMLTextAreaElement, HTMLTitleElement, HTMLUListElement, HTMLVideoElement,
+ Iframe, IframeShim, Image, Int16Array, Int32Array, Int8Array,
  Insertion, InputValidator, JSON, Keyboard, Locale, LN10, LN2, LOG10E, LOG2E,
- MAX_VALUE, MIN_VALUE, Mask, Math, MenuItem, MoveAnimation, MooTools, Native,
- NEGATIVE_INFINITY, Number, Object, ObjectRange, Option, Options, OverText, PI,
- POSITIVE_INFINITY, PeriodicalExecuter, Point, Position, Prototype, RangeError,
- Rectangle, ReferenceError, RegExp, ResizeAnimation, Request, RotateAnimation,
+ MAX_VALUE, MIN_VALUE, Mask, Math, MenuItem, MessageChannel, MessageEvent, MessagePort,
+ MoveAnimation, MooTools, Native, NEGATIVE_INFINITY, Number, Object, ObjectRange, Option,
+ Options, OverText, PI, POSITIVE_INFINITY, PeriodicalExecuter, Point, Position, Prototype,
+ RangeError, Rectangle, ReferenceError, RegExp, ResizeAnimation, Request, RotateAnimation,
  SQRT1_2, SQRT2, ScrollBar, ScriptEngine, ScriptEngineBuildVersion,
  ScriptEngineMajorVersion, ScriptEngineMinorVersion, Scriptaculous, Scroller,
- Slick, Slider, Selector, String, Style, SyntaxError, Sortable, Sortables,
+ Slick, Slider, Selector, SharedWorker, String, Style, SyntaxError, Sortable, Sortables,
  SortableObserver, Sound, Spinner, System, Swiff, Text, TextArea, Template,
- Timer, Tips, Type, TypeError, Toggle, Try, URI, URIError, URL, VBArray, WSH,
- WScript, Web, Window, XMLDOM, XMLHttpRequest, XPathEvaluator, XPathException,
- XPathExpression, XPathNamespace, XPathNSResolver, XPathResult, "\\", a,
- addEventListener, address, alert, apply, applicationCache, arguments, arity,
- asi, b, bitwise, block, blur, boolOptions, boss, browser, c, call, callee,
+ Timer, Tips, Type, TypeError, Toggle, Try, "use strict", unescape, URI, URIError, URL,
+ VBArray, WSH, WScript, XDomainRequest, Web, Window, XMLDOM, XMLHttpRequest, XMLSerializer,
+ XPathEvaluator, XPathException, XPathExpression, XPathNamespace, XPathNSResolver, XPathResult,
+ "\\", a, addEventListener, address, alert, apply, applicationCache, arguments, arity, asi, atob,
+ b, basic, basicToken, bitwise, block, blur, boolOptions, boss, browser, btoa, c, call, callee,
  caller, cases, charAt, charCodeAt, character, clearInterval, clearTimeout,
  close, closed, closure, comment, condition, confirm, console, constructor,
  content, couch, create, css, curly, d, data, datalist, dd, debug, decodeURI,
  decodeURIComponent, defaultStatus, defineClass, deserialize, devel, document,
- dojo, dijit, dojox, define, edition, else, emit, encodeURI, encodeURIComponent,
- entityify, eqeqeq, eqnull, errors, es5, escape, eval, event, evidence, evil,
+ dojo, dijit, dojox, define, else, emit, encodeURI, encodeURIComponent,
+ entityify, eqeqeq, eqnull, errors, es5, escape, esnext, eval, event, evidence, evil,
  ex, exception, exec, exps, expr, exports, FileReader, first, floor, focus,
- forin, fragment, frames, from, fromCharCode, fud, funct, function, functions,
- g, gc, getComputedStyle, getRow, GLOBAL, global, globals, globalstrict,
- hasOwnProperty, help, history, i, id, identifier, immed, implieds, include,
+ forin, fragment, frames, from, fromCharCode, fud, funcscope, funct, function, functions,
+ g, gc, getComputedStyle, getRow, getter, getterToken, GLOBAL, global, globals, globalstrict,
+ hasOwnProperty, help, history, i, id, identifier, immed, implieds, importPackage, include,
  indent, indexOf, init, ins, instanceOf, isAlpha, isApplicationRunning, isArray,
- isDigit, isFinite, isNaN, iterator, join, jshint,
- JSHINT, json, jquery, jQuery, keys, label, labelled, last, lastsemic, laxbreak,
+ isDigit, isFinite, isNaN, iterator, java, join, jshint,
+ JSHINT, json, jquery, jQuery, keys, label, labelled, last, lastsemic, laxbreak, laxcomma,
  latedef, lbp, led, left, length, line, load, loadClass, localStorage, location,
  log, loopfunc, m, match, maxerr, maxlen, member,message, meta, module, moveBy,
- moveTo, mootools, name, navigator, new, newcap, noarg, node, noempty, nomen,
- nonew, nud, onbeforeunload, onblur, onerror, onevar, onfocus, onload, onresize,
- onunload, open, openDatabase, openURL, opener, opera, outer, param, parent,
- parseFloat, parseInt, passfail, plusplus, predef, print, process, prompt,
- proto, prototype, prototypejs, push, quit, range, raw, reach, reason, regexp,
+ moveTo, mootools, multistr, name, navigator, new, newcap, noarg, node, noempty, nomen,
+ nonew, nonstandard, nud, onbeforeunload, onblur, onerror, onevar, onecase, onfocus,
+ onload, onresize, onunload, open, openDatabase, openURL, opener, opera, options, outer, param,
+ parent, parseFloat, parseInt, passfail, plusplus, predef, print, process, prompt,
+ proto, prototype, prototypejs, provides, push, quit, range, raw, reach, reason, regexp,
  readFile, readUrl, regexdash, removeEventListener, replace, report, require,
  reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, respond, rhino, right,
- runCommand, scroll, screen, scripturl, scrollBy, scrollTo, scrollbar, search, seal, send,
- serialize, setInterval, setTimeout, shift, slice, sort,spawn, split, stack,
- status, start, strict, sub, substr, supernew, shadow, supplant, sum, sync,
- test, toLowerCase, toString, toUpperCase, toint32, token, top, trailing, type,
- typeOf, Uint16Array, Uint32Array, Uint8Array, undef, unused, urls, value, valueOf,
- var, version, WebSocket, white, window, Worker, wsh*/
+ runCommand, scroll, screen, scripturl, scrollBy, scrollTo, scrollbar, search, seal,
+ send, serialize, sessionStorage, setInterval, setTimeout, setter, setterToken, shift, slice,
+ smarttabs, sort, spawn, split, stack, status, start, strict, sub, substr, supernew, shadow,
+ supplant, sum, sync, test, toLowerCase, toString, toUpperCase, toint32, token, top, trailing,
+ type, typeOf, Uint16Array, Uint32Array, Uint8Array, undef, undefs, unused, urls, validthis,
+ value, valueOf, var, version, WebSocket, withstmt, white, window, Worker, wsh*/
 
 /*global exports: false */
 
@@ -2941,8 +2977,7 @@ var JSHINT = (function () {
             '%'  : true
         },
 
-// These are the JSHint boolean options.
-
+        // These are the JSHint boolean options.
         boolOptions = {
             asi         : true, // if automatic semicolon insertion should be tolerated
             bitwise     : true, // if bitwise operators should not be allowed
@@ -2951,122 +2986,217 @@ var JSHINT = (function () {
             couch       : true, // if CouchDB globals should be predefined
             curly       : true, // if curly braces around all blocks should be required
             debug       : true, // if debugger statements should be allowed
-            devel       : true, // if logging globals should be predefined (console, alert, etc.)
+            devel       : true, // if logging globals should be predefined (console,
+                                // alert, etc.)
             dojo        : true, // if Dojo Toolkit globals should be predefined
             eqeqeq      : true, // if === should be required
             eqnull      : true, // if == null comparisons should be tolerated
             es5         : true, // if ES5 syntax should be allowed
+            esnext      : true, // if es.next specific syntax should be allowed
             evil        : true, // if eval should be allowed
             expr        : true, // if ExpressionStatement should be allowed as Programs
             forin       : true, // if for in statements must filter
-            globalstrict: true, // if global "use strict"; should be allowed (also enables 'strict')
+            funcscope   : true, // if only function scope should be used for scope tests
+            globalstrict: true, // if global "use strict"; should be allowed (also
+                                // enables 'strict')
             immed       : true, // if immediate invocations must be wrapped in parens
-            iterator    : true, // if the `__iterator__` property should be disallowed
+            iterator    : true, // if the `__iterator__` property should be allowed
             jquery      : true, // if jQuery globals should be predefined
+            lastsemic   : true, // if semicolons may be ommitted for the trailing
+                                // statements inside of a one-line blocks.
             latedef     : true, // if the use before definition should not be tolerated
             laxbreak    : true, // if line breaks should not be checked
-            loopfunc    : true, // if functions should be allowed to be defined within loops
+            laxcomma    : true, // if line breaks should not be checked around commas
+            loopfunc    : true, // if functions should be allowed to be defined within
+                                // loops
             mootools    : true, // if MooTools globals should be predefined
+            multistr    : true, // allow multiline strings
             newcap      : true, // if constructor names must be capitalized
-            noarg       : true, // if arguments.caller and arguments.callee should be disallowed
-            node        : true, // if the Node.js environment globals should be predefined
+            noarg       : true, // if arguments.caller and arguments.callee should be
+                                // disallowed
+            node        : true, // if the Node.js environment globals should be
+                                // predefined
             noempty     : true, // if empty blocks should be disallowed
             nonew       : true, // if using `new` for side-effects should be disallowed
+            nonstandard : true, // if non-standard (but widely adopted) globals should
+                                // be predefined
             nomen       : true, // if names should be checked
-            onevar      : true, // if only one var statement per function should be allowed
+            onevar      : true, // if only one var statement per function should be
+                                // allowed
+            onecase     : true, // if one case switch statements should be allowed
             passfail    : true, // if the scan should stop on first error
             plusplus    : true, // if increment/decrement should not be allowed
-            proto       : true, // if the `__proto__` property should be disallowed
-            prototypejs : true, // if Prototype and Scriptaculous globals should be predefined
-            regexdash   : true, // if unescaped last dash (-) inside brackets should be tolerated
+            proto       : true, // if the `__proto__` property should be allowed
+            prototypejs : true, // if Prototype and Scriptaculous globals should be
+                                // predefined
+            regexdash   : true, // if unescaped first/last dash (-) inside brackets
+                                // should be tolerated
             regexp      : true, // if the . should not be allowed in regexp literals
             rhino       : true, // if the Rhino environment globals should be predefined
             undef       : true, // if variables should be declared before used
             scripturl   : true, // if script-targeted URLs should be tolerated
             shadow      : true, // if variable shadowing should be tolerated
+            smarttabs   : true, // if smarttabs should be tolerated
+                                // (http://www.emacswiki.org/emacs/SmartTabs)
             strict      : true, // require the "use strict"; pragma
             sub         : true, // if all forms of subscript notation are tolerated
             supernew    : true, // if `new function () { ... };` and `new Object;`
                                 // should be tolerated
             trailing    : true, // if trailing whitespace rules apply
+            validthis   : true, // if 'this' inside a non-constructor function is valid.
+                                // This is a function scoped option only.
+            withstmt    : true, // if with statements should be allowed
             white       : true, // if strict whitespace rules apply
-            wsh         : true  // if the Windows Scripting Host environment globals should
-                                // be predefined
+            wsh         : true  // if the Windows Scripting Host environment globals
+                                // should be predefined
         },
 
-// browser contains a set of global names which are commonly provided by a
-// web browser environment.
+        // These are the JSHint options that can take any value
+        // (we use this object to detect invalid options)
+        valOptions = {
+            maxlen: false,
+            indent: false,
+            maxerr: false,
+            predef: false
+        },
 
+
+        // browser contains a set of global names which are commonly provided by a
+        // web browser environment.
         browser = {
-            ArrayBuffer     : false,
-            ArrayBufferView : false,
-            addEventListener: false,
-            applicationCache: false,
-            blur            : false,
-            clearInterval   : false,
-            clearTimeout    : false,
-            close           : false,
-            closed          : false,
-            DataView        : false,
-            defaultStatus   : false,
-            document        : false,
-            event           : false,
-            FileReader      : false,
-            Float32Array    : false,
-            Float64Array    : false,
-            focus           : false,
-            frames          : false,
-            getComputedStyle: false,
-            HTMLElement     : false,
-            history         : false,
-            Int16Array      : false,
-            Int32Array      : false,
-            Int8Array       : false,
-            Image           : false,
-            length          : false,
-            localStorage    : false,
-            location        : false,
-            moveBy          : false,
-            moveTo          : false,
-            name            : false,
-            navigator       : false,
-            onbeforeunload  : true,
-            onblur          : true,
-            onerror         : true,
-            onfocus         : true,
-            onload          : true,
-            onresize        : true,
-            onunload        : true,
-            open            : false,
-            openDatabase    : false,
-            opener          : false,
-            Option          : false,
-            parent          : false,
-            print           : false,
-            removeEventListener: false,
-            resizeBy        : false,
-            resizeTo        : false,
-            screen          : false,
-            scroll          : false,
-            scrollBy        : false,
-            scrollTo        : false,
-            setInterval     : false,
-            setTimeout      : false,
-            status          : false,
-            top             : false,
-            Uint16Array     : false,
-            Uint32Array     : false,
-            Uint8Array      : false,
-            WebSocket       : false,
-            window          : false,
-            Worker          : false,
-            XMLHttpRequest  : false,
-            XPathEvaluator  : false,
-            XPathException  : false,
-            XPathExpression : false,
-            XPathNamespace  : false,
-            XPathNSResolver : false,
-            XPathResult     : false
+            ArrayBuffer              :  false,
+            ArrayBufferView          :  false,
+            Audio                    :  false,
+            addEventListener         :  false,
+            applicationCache         :  false,
+            atob                     :  false,
+            blur                     :  false,
+            btoa                     :  false,
+            clearInterval            :  false,
+            clearTimeout             :  false,
+            close                    :  false,
+            closed                   :  false,
+            DataView                 :  false,
+            DOMParser                :  false,
+            defaultStatus            :  false,
+            document                 :  false,
+            event                    :  false,
+            FileReader               :  false,
+            Float32Array             :  false,
+            Float64Array             :  false,
+            FormData                 :  false,
+            focus                    :  false,
+            frames                   :  false,
+            getComputedStyle         :  false,
+            HTMLElement              :  false,
+            HTMLAnchorElement        :  false,
+            HTMLBaseElement          :  false,
+            HTMLBlockquoteElement    :  false,
+            HTMLBodyElement          :  false,
+            HTMLBRElement            :  false,
+            HTMLButtonElement        :  false,
+            HTMLCanvasElement        :  false,
+            HTMLDirectoryElement     :  false,
+            HTMLDivElement           :  false,
+            HTMLDListElement         :  false,
+            HTMLFieldSetElement      :  false,
+            HTMLFontElement          :  false,
+            HTMLFormElement          :  false,
+            HTMLFrameElement         :  false,
+            HTMLFrameSetElement      :  false,
+            HTMLHeadElement          :  false,
+            HTMLHeadingElement       :  false,
+            HTMLHRElement            :  false,
+            HTMLHtmlElement          :  false,
+            HTMLIFrameElement        :  false,
+            HTMLImageElement         :  false,
+            HTMLInputElement         :  false,
+            HTMLIsIndexElement       :  false,
+            HTMLLabelElement         :  false,
+            HTMLLayerElement         :  false,
+            HTMLLegendElement        :  false,
+            HTMLLIElement            :  false,
+            HTMLLinkElement          :  false,
+            HTMLMapElement           :  false,
+            HTMLMenuElement          :  false,
+            HTMLMetaElement          :  false,
+            HTMLModElement           :  false,
+            HTMLObjectElement        :  false,
+            HTMLOListElement         :  false,
+            HTMLOptGroupElement      :  false,
+            HTMLOptionElement        :  false,
+            HTMLParagraphElement     :  false,
+            HTMLParamElement         :  false,
+            HTMLPreElement           :  false,
+            HTMLQuoteElement         :  false,
+            HTMLScriptElement        :  false,
+            HTMLSelectElement        :  false,
+            HTMLStyleElement         :  false,
+            HTMLTableCaptionElement  :  false,
+            HTMLTableCellElement     :  false,
+            HTMLTableColElement      :  false,
+            HTMLTableElement         :  false,
+            HTMLTableRowElement      :  false,
+            HTMLTableSectionElement  :  false,
+            HTMLTextAreaElement      :  false,
+            HTMLTitleElement         :  false,
+            HTMLUListElement         :  false,
+            HTMLVideoElement         :  false,
+            history                  :  false,
+            Int16Array               :  false,
+            Int32Array               :  false,
+            Int8Array                :  false,
+            Image                    :  false,
+            length                   :  false,
+            localStorage             :  false,
+            location                 :  false,
+            MessageChannel           :  false,
+            MessageEvent             :  false,
+            MessagePort              :  false,
+            moveBy                   :  false,
+            moveTo                   :  false,
+            name                     :  false,
+            navigator                :  false,
+            onbeforeunload           :  true,
+            onblur                   :  true,
+            onerror                  :  true,
+            onfocus                  :  true,
+            onload                   :  true,
+            onresize                 :  true,
+            onunload                 :  true,
+            open                     :  false,
+            openDatabase             :  false,
+            opener                   :  false,
+            Option                   :  false,
+            parent                   :  false,
+            print                    :  false,
+            removeEventListener      :  false,
+            resizeBy                 :  false,
+            resizeTo                 :  false,
+            screen                   :  false,
+            scroll                   :  false,
+            scrollBy                 :  false,
+            scrollTo                 :  false,
+            sessionStorage           :  false,
+            setInterval              :  false,
+            setTimeout               :  false,
+            SharedWorker             :  false,
+            status                   :  false,
+            top                      :  false,
+            Uint16Array              :  false,
+            Uint32Array              :  false,
+            Uint8Array               :  false,
+            WebSocket                :  false,
+            window                   :  false,
+            Worker                   :  false,
+            XMLHttpRequest           :  false,
+            XMLSerializer            :  false,
+            XPathEvaluator           :  false,
+            XPathException           :  false,
+            XPathExpression          :  false,
+            XPathNamespace           :  false,
+            XPathNSResolver          :  false,
+            XPathResult              :  false
         },
 
         couch = {
@@ -3079,7 +3209,8 @@ var JSHINT = (function () {
             sum       : false,
             log       : false,
             exports   : false,
-            module    : false
+            module    : false,
+            provides  : false
         },
 
         devel = {
@@ -3185,15 +3316,20 @@ var JSHINT = (function () {
         nexttoken,
 
         node = {
-            __filename  : false,
-            __dirname   : false,
-            exports     : false,
-            Buffer      : false,
-            GLOBAL      : false,
-            global      : false,
-            module      : false,
-            process     : false,
-            require     : false
+            __filename    : false,
+            __dirname     : false,
+            Buffer        : false,
+            console       : false,
+            exports       : false,
+            GLOBAL        : false,
+            global        : false,
+            module        : false,
+            process       : false,
+            require       : false,
+            setTimeout    : false,
+            clearTimeout  : false,
+            setInterval   : false,
+            clearInterval : false
         },
 
         noreach,
@@ -3244,32 +3380,32 @@ var JSHINT = (function () {
         },
 
         rhino = {
-            defineClass : false,
-            deserialize : false,
-            gc          : false,
-            help        : false,
-            load        : false,
-            loadClass   : false,
-            print       : false,
-            quit        : false,
-            readFile    : false,
-            readUrl     : false,
-            runCommand  : false,
-            seal        : false,
-            serialize   : false,
-            spawn       : false,
-            sync        : false,
-            toint32     : false,
-            version     : false
+            defineClass  : false,
+            deserialize  : false,
+            gc           : false,
+            help         : false,
+            importPackage: false,
+            "java"       : false,
+            load         : false,
+            loadClass    : false,
+            print        : false,
+            quit         : false,
+            readFile     : false,
+            readUrl      : false,
+            runCommand   : false,
+            seal         : false,
+            serialize    : false,
+            spawn        : false,
+            sync         : false,
+            toint32      : false,
+            version      : false
         },
 
         scope,      // The current scope
-        src,
         stack,
 
-// standard contains the global names that are provided by the
-// ECMAScript standard.
-
+        // standard contains the global names that are provided by the
+        // ECMAScript standard.
         standard = {
             Array               : false,
             Boolean             : false,
@@ -3300,6 +3436,12 @@ var JSHINT = (function () {
             URIError            : false
         },
 
+        // widely adopted global names that are not part of ECMAScript standard
+        nonstandard = {
+            escape              : false,
+            unescape            : false
+        },
+
         standard_member = {
             E                   : true,
             LN2                 : true,
@@ -3315,11 +3457,12 @@ var JSHINT = (function () {
             SQRT2               : true
         },
 
-        strict_mode,
+        directive,
         syntax = {},
         tab,
         token,
         urls,
+        useESNextSyntax,
         warnings,
 
         wsh = {
@@ -3332,39 +3475,40 @@ var JSHINT = (function () {
             ScriptEngineMinorVersion  : true,
             VBArray                   : true,
             WSH                       : true,
-            WScript                   : true
+            WScript                   : true,
+            XDomainRequest            : true
         };
 
-        // Regular expressions. Some of these are stupidly long.
-        var ax, cx, tx, nx, nxg, lx, ix, jx, ft;
-        (function () {
-            /*jshint maxlen:300 */
+    // Regular expressions. Some of these are stupidly long.
+    var ax, cx, tx, nx, nxg, lx, ix, jx, ft;
+    (function () {
+        /*jshint maxlen:300 */
 
-            // unsafe comment or string
-            ax = /@cc|<\/?|script|\]\s*\]|<\s*!|&lt/i;
+        // unsafe comment or string
+        ax = /@cc|<\/?|script|\]\s*\]|<\s*!|&lt/i;
 
-            // unsafe characters that are silently deleted by one or more browsers
-            cx = /[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/;
+        // unsafe characters that are silently deleted by one or more browsers
+        cx = /[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/;
 
-            // token
-            tx = /^\s*([(){}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jshint|jslint|members?|global)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/;
+        // token
+        tx = /^\s*([(){}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jshint|jslint|members?|global)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/;
 
-            // characters in strings that need escapement
-            nx = /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/;
-            nxg = /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+        // characters in strings that need escapement
+        nx = /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/;
+        nxg = /[\u0000-\u001f&<"\/\\\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
 
-            // star slash
-            lx = /\*\/|\/\*/;
+        // star slash
+        lx = /\*\/|\/\*/;
 
-            // identifier
-            ix = /^([a-zA-Z_$][a-zA-Z0-9_$]*)$/;
+        // identifier
+        ix = /^([a-zA-Z_$][a-zA-Z0-9_$]*)$/;
 
-            // javascript url
-            jx = /^(?:javascript|jscript|ecmascript|vbscript|mocha|livescript)\s*:/i;
+        // javascript url
+        jx = /^(?:javascript|jscript|ecmascript|vbscript|mocha|livescript)\s*:/i;
 
-            // catches /* falls through */ comments
-            ft = /^\s*\/\*\s*falls\sthrough\s*\*\/\s*$/;
-        }());
+        // catches /* falls through */ comments
+        ft = /^\s*\/\*\s*falls\sthrough\s*\*\/\s*$/;
+    }());
 
     function F() {}     // Used by Object.create
 
@@ -3374,6 +3518,12 @@ var JSHINT = (function () {
 // is named 'hasOwnProperty'. So we have to use this more convoluted form.
 
         return Object.prototype.hasOwnProperty.call(object, name);
+    }
+
+    function checkOption(name, t) {
+        if (valOptions[name] === undefined && boolOptions[name] === undefined) {
+            warning("Bad option: '" + name + "'.", t);
+        }
     }
 
 // Provide critical ES5 functions to ES3.
@@ -3472,43 +3622,62 @@ var JSHINT = (function () {
     }
 
     function assume() {
-        if (option.couch)
+        if (option.couch) {
             combine(predefined, couch);
+        }
 
-        if (option.rhino)
+        if (option.rhino) {
             combine(predefined, rhino);
+        }
 
-        if (option.prototypejs)
+        if (option.prototypejs) {
             combine(predefined, prototypejs);
+        }
 
-        if (option.node)
+        if (option.node) {
             combine(predefined, node);
+            option.globalstrict = true;
+        }
 
-        if (option.devel)
+        if (option.devel) {
             combine(predefined, devel);
+        }
 
-        if (option.dojo)
+        if (option.dojo) {
             combine(predefined, dojo);
+        }
 
-        if (option.browser)
+        if (option.browser) {
             combine(predefined, browser);
+        }
 
-        if (option.jquery)
+        if (option.nonstandard) {
+            combine(predefined, nonstandard);
+        }
+
+        if (option.jquery) {
             combine(predefined, jquery);
+        }
 
-        if (option.mootools)
+        if (option.mootools) {
             combine(predefined, mootools);
+        }
 
-        if (option.wsh)
+        if (option.wsh) {
             combine(predefined, wsh);
+        }
 
-        if (option.globalstrict && option.strict !== false)
+        if (option.esnext) {
+            useESNextSyntax();
+        }
+
+        if (option.globalstrict && option.strict !== false) {
             option.strict = true;
+        }
     }
 
 
-// Produce an error warning.
-
+    // Produce an error warning.
     function quit(message, line, chr) {
         var percentage = Math.floor((line / lines.length) * 100);
 
@@ -3516,8 +3685,13 @@ var JSHINT = (function () {
             name: 'JSHintError',
             line: line,
             character: chr,
-            message: message + " (" + percentage + "% scanned)."
+            message: message + " (" + percentage + "% scanned).",
+            raw: message
         };
+    }
+
+    function isundef(scope, m, t, a) {
+        return JSHINT.undefs.push([scope, m, t, a]);
     }
 
     function warning(m, t, a, b, c, d) {
@@ -3560,7 +3734,6 @@ var JSHINT = (function () {
 
     function error(m, t, a, b, c, d) {
         var w = warning(m, t, a, b, c, d);
-        quit("Stopping, unable to continue.", w.line, w.character);
     }
 
     function errorAt(m, l, ch, a, b, c, d) {
@@ -3589,7 +3762,13 @@ var JSHINT = (function () {
             character = 1;
             s = lines[line];
             line += 1;
-            at = s.search(/ \t/);
+
+            // If smarttabs option is used check for spaces followed by tabs only.
+            // Otherwise check for any occurence of mixed tabs and spaces.
+            if (option.smarttabs)
+                at = s.search(/ \t/);
+            else
+                at = s.search(/ \t|\t /);
 
             if (at >= 0)
                 warningAt("Mixed spaces and tabs.", line, at + 1);
@@ -3604,10 +3783,10 @@ var JSHINT = (function () {
                 warningAt("Line too long.", line, s.length);
 
             // Check for trailing whitespaces
-            tw = s.search(/\s+$/);
-            if (option.trailing && ~tw && !~s.search(/^\s+$/))
-                warningAt("Trailing whitespace.", line, tw);
-
+            tw = option.trailing && s.match(/^(.*?)\s+$/);
+            if (tw && !/^\s+$/.test(s)) {
+                warningAt("Trailing whitespace.", line, tw[1].length + 1);
+            }
             return true;
         }
 
@@ -3639,8 +3818,10 @@ var JSHINT = (function () {
                         line, from, value);
                 } else if (option.nomen && (value.charAt(0) === '_' ||
                          value.charAt(value.length - 1) === '_')) {
-                    warningAt("Unexpected {a} in '{b}'.", line, from,
-                        "dangling '_'", value);
+                    if (!option.node || token.id === '.' ||
+                            (value !== '__dirname' && value !== '__filename')) {
+                        warningAt("Unexpected {a} in '{b}'.", line, from, "dangling '_'", value);
+                    }
                 }
             }
             t.value = value;
@@ -3651,13 +3832,13 @@ var JSHINT = (function () {
             if (i !== '(endline)') {
                 prereg = i &&
                     (('(,=:[!&|?{};'.indexOf(i.charAt(i.length - 1)) >= 0) ||
-                    i === 'return');
+                    i === 'return' ||
+                    i === 'case');
             }
             return t;
         }
 
-// Public lex methods
-
+        // Public lex methods
         return {
             init: function (source) {
                 if (typeof source === 'string') {
@@ -3671,7 +3852,7 @@ var JSHINT = (function () {
 
                 // If the first line is a shebang (#!), make it a blank and move on.
                 // Shebangs are used by Node scripts.
-                if (lines[0] && lines[0].substr(0, 2) == '#!')
+                if (lines[0] && lines[0].substr(0, 2) === '#!')
                     lines[0] = '';
 
                 line = 0;
@@ -3706,10 +3887,10 @@ var JSHINT = (function () {
 
             },
 
-// token -- this is called by advance to get the next token.
 
+            // token -- this is called by advance to get the next token
             token: function () {
-                var b, c, captures, d, depth, high, i, l, low, q, t;
+                var b, c, captures, d, depth, high, i, l, low, q, t, isLiteral, isInRange, n;
 
                 function match(x) {
                     var r = x.exec(s), r1;
@@ -3725,7 +3906,7 @@ var JSHINT = (function () {
                 }
 
                 function string(x) {
-                    var c, j, r = '';
+                    var c, j, r = '', allowNewLine = false;
 
                     if (jsonmode && x !== '"') {
                         warningAt("Strings must use doublequote.",
@@ -3743,11 +3924,20 @@ var JSHINT = (function () {
                         c = String.fromCharCode(i);
                     }
                     j = 0;
-                    for (;;) {
+unclosedString:     for (;;) {
                         while (j >= s.length) {
                             j = 0;
+
+                            var cl = line, cf = from;
                             if (!nextLine()) {
-                                errorAt("Unclosed string.", line, from);
+                                errorAt("Unclosed string.", cl, cf);
+                                break unclosedString;
+                            }
+
+                            if (allowNewLine) {
+                                allowNewLine = false;
+                            } else {
+                                warningAt("Unclosed string.", cl, cf);
                             }
                         }
                         c = s.charAt(j);
@@ -3766,6 +3956,7 @@ var JSHINT = (function () {
                             j += 1;
                             character += 1;
                             c = s.charAt(j);
+                            n = s.charAt(j + 1);
                             switch (c) {
                             case '\\':
                             case '"':
@@ -3791,6 +3982,17 @@ var JSHINT = (function () {
                             case 't':
                                 c = '\t';
                                 break;
+                            case '0':
+                                c = '\0';
+                                // Octal literals fail in strict mode
+                                // check if the number is between 00 and 07
+                                // where 'n' is the token next to 'c'
+                                if (n >= 0 && n <= 7 && directive["use strict"]) {
+                                    warningAt(
+                                    "Octal literals are not allowed in strict mode.",
+                                    line, character);
+                                }
+                                break;
                             case 'u':
                                 esc(4);
                                 break;
@@ -3805,6 +4007,22 @@ var JSHINT = (function () {
                                     warningAt("Avoid \\x-.", line, character);
                                 }
                                 esc(2);
+                                break;
+                            case '':
+                                // last character is escape character
+                                // always allow new line if escaped, but show
+                                // warning if option is not set
+                                allowNewLine = true;
+                                if (option.multistr) {
+                                    if (jsonmode) {
+                                        warningAt("Avoid EOL escapement.", line, character);
+                                    }
+                                    c = '';
+                                    character -= 1;
+                                    break;
+                                }
+                                warningAt("Bad escapement of EOL. Use option multistr if needed.",
+                                    line, character);
                                 break;
                             default:
                                 warningAt("Bad escapement.", line, character);
@@ -3829,6 +4047,7 @@ var JSHINT = (function () {
                         }
                         if (s) {
                             errorAt("Unexpected '{a}'.", line, character, s.substr(0, 1));
+                            s = '';
                         }
                     } else {
 
@@ -3878,9 +4097,6 @@ var JSHINT = (function () {
     //      // comment
 
                         case '//':
-                            if (src) {
-                                warningAt("Unexpected comment.", line, character);
-                            }
                             s = '';
                             token.comment = true;
                             break;
@@ -3888,9 +4104,6 @@ var JSHINT = (function () {
     //      /* comment
 
                         case '/*':
-                            if (src) {
-                                warningAt("Unexpected comment.", line, character);
-                            }
                             for (;;) {
                                 i = s.search(lx);
                                 if (i >= 0) {
@@ -3929,8 +4142,8 @@ var JSHINT = (function () {
     //      /
                         case '/':
                             if (token.id === '/=') {
-                                errorAt(
-"A regular expression literal can be confused with '/='.", line, from);
+                                errorAt("A regular expression literal can be confused with '/='.",
+                                    line, from);
                             }
                             if (prereg) {
                                 depth = 0;
@@ -3942,13 +4155,12 @@ var JSHINT = (function () {
                                     l += 1;
                                     switch (c) {
                                     case '':
-                                        errorAt("Unclosed regular expression.",
-                                                line, from);
-                                        return;
+                                        errorAt("Unclosed regular expression.", line, from);
+                                        return quit('Stopping.', line, from);
                                     case '/':
                                         if (depth > 0) {
-                                            warningAt("Unescaped '{a}'.",
-                                                    line, from + l, '/');
+                                            warningAt("{a} unterminated regular expression " +
+                                                "group(s).", line, from + l, depth);
                                         }
                                         c = s.substr(0, l - 1);
                                         q = {
@@ -4032,12 +4244,12 @@ var JSHINT = (function () {
                                                     line, from + l, '^');
                                             }
                                         }
-                                        q = false;
                                         if (c === ']') {
                                             warningAt("Empty class.", line,
                                                     from + l - 1);
-                                            q = true;
                                         }
+                                        isLiteral = false;
+                                        isInRange = false;
 klass:                                  do {
                                             c = s.charAt(l);
                                             l += 1;
@@ -4046,19 +4258,31 @@ klass:                                  do {
                                             case '^':
                                                 warningAt("Unescaped '{a}'.",
                                                         line, from + l, c);
-                                                q = true;
+                                                if (isInRange) {
+                                                    isInRange = false;
+                                                } else {
+                                                    isLiteral = true;
+                                                }
                                                 break;
                                             case '-':
-                                                if (q) {
-                                                    q = false;
+                                                if (isLiteral && !isInRange) {
+                                                    isLiteral = false;
+                                                    isInRange = true;
+                                                } else if (isInRange) {
+                                                    isInRange = false;
+                                                } else if (s.charAt(l) === ']') {
+                                                    isInRange = true;
                                                 } else {
-                                                    warningAt("Unescaped '{a}'.",
-                                                            line, from + l, '-');
-                                                    q = true;
+                                                    if (option.regexdash !== (l === 2 || (l === 3 &&
+                                                        s.charAt(1) === '^'))) {
+                                                        warningAt("Unescaped '{a}'.",
+                                                            line, from + l - 1, '-');
+                                                    }
+                                                    isLiteral = true;
                                                 }
                                                 break;
                                             case ']':
-                                                if (!q && !option.regexdash) {
+                                                if (isInRange && !option.regexdash) {
                                                     warningAt("Unescaped '{a}'.",
                                                             line, from + l - 1, '-');
                                                 }
@@ -4073,18 +4297,44 @@ klass:                                  do {
 "Unexpected escaped character '{a}' in regular expression.", line, from + l, c);
                                                 }
                                                 l += 1;
-                                                q = true;
+
+                                                // \w, \s and \d are never part of a character range
+                                                if (/[wsd]/i.test(c)) {
+                                                    if (isInRange) {
+                                                        warningAt("Unescaped '{a}'.",
+                                                            line, from + l, '-');
+                                                        isInRange = false;
+                                                    }
+                                                    isLiteral = false;
+                                                } else if (isInRange) {
+                                                    isInRange = false;
+                                                } else {
+                                                    isLiteral = true;
+                                                }
                                                 break;
                                             case '/':
                                                 warningAt("Unescaped '{a}'.",
                                                         line, from + l - 1, '/');
-                                                q = true;
+
+                                                if (isInRange) {
+                                                    isInRange = false;
+                                                } else {
+                                                    isLiteral = true;
+                                                }
                                                 break;
                                             case '<':
-                                                q = true;
+                                                if (isInRange) {
+                                                    isInRange = false;
+                                                } else {
+                                                    isLiteral = true;
+                                                }
                                                 break;
                                             default:
-                                                q = true;
+                                                if (isInRange) {
+                                                    isInRange = false;
+                                                } else {
+                                                    isLiteral = true;
+                                                }
                                             }
                                         } while (c);
                                         break;
@@ -4192,13 +4442,12 @@ klass:                                  do {
         }
 
 // Define t in the current function in the current scope.
-
         if (is_own(funct, t) && !funct['(global)']) {
             if (funct[t] === true) {
                 if (option.latedef)
                     warning("'{a}' was used before it was defined.", nexttoken, t);
             } else {
-                if (!option.shadow)
+                if (!option.shadow && type !== "exception")
                     warning("'{a}' is already defined.", nexttoken, t);
             }
         }
@@ -4219,6 +4468,7 @@ klass:                                  do {
 
     function doOption() {
         var b, obj, filter, o = nexttoken.value, t, v;
+
         switch (o) {
         case '*/':
             error("Unbegun comment.");
@@ -4242,6 +4492,7 @@ klass:                                  do {
         default:
             error("What?");
         }
+
         t = lex.token();
 loop:   for (;;) {
             for (;;) {
@@ -4257,13 +4508,20 @@ loop:   for (;;) {
                     o !== '/*members') {
                 error("Bad option.", t);
             }
+
             v = lex.token();
             if (v.id === ':') {
                 v = lex.token();
+
                 if (obj === membersOnly) {
                     error("Expected '{a}' and instead saw '{b}'.",
                             t, '*/', ':');
                 }
+
+                if (o === '/*jshint') {
+                    checkOption(t.value, t);
+                }
+
                 if (t.value === 'indent' && (o === '/*jshint' || o === '/*jslint')) {
                     b = +v.value;
                     if (typeof b !== 'number' || !isFinite(b) || b <= 0 ||
@@ -4289,6 +4547,15 @@ loop:   for (;;) {
                                 v, v.value);
                     }
                     obj.maxlen = b;
+                } else if (t.value === 'validthis') {
+                    if (funct['(global)']) {
+                        error("Option 'validthis' can't be used in a global scope.");
+                    } else {
+                        if (v.value === 'true' || v.value === 'false')
+                            obj[t.value] = v.value === 'true';
+                        else
+                            error("Bad option value.", v);
+                    }
                 } else if (v.value === 'true') {
                     obj[t.value] = true;
                 } else if (v.value === 'false') {
@@ -4352,6 +4619,7 @@ loop:   for (;;) {
             }
             break;
         }
+
         if (token.type === '(string)' || token.identifier) {
             anonname = token.value;
         }
@@ -4370,6 +4638,7 @@ loop:   for (;;) {
                         nexttoken, id, nexttoken.value);
             }
         }
+
         prevtoken = token;
         token = nexttoken;
         for (;;) {
@@ -4403,7 +4672,7 @@ loop:   for (;;) {
 // They are elements of the parsing method called Top Down Operator Precedence.
 
     function expression(rbp, initial) {
-        var left, isArray = false;
+        var left, isArray = false, isObject = false;
 
         if (nexttoken.id === '(end)')
             error("Unexpected early end of program.", token);
@@ -4430,10 +4699,13 @@ loop:   for (;;) {
                 }
             }
             while (rbp < nexttoken.lbp) {
-                isArray = token.value == 'Array';
+                isArray = token.value === 'Array';
+                isObject = token.value === 'Object';
                 advance();
-                if (isArray && token.id == '(' && nexttoken.id == ')')
+                if (isArray && token.id === '(' && nexttoken.id === ')')
                     warning("Use the array literal notation [].", token);
+                if (isObject && token.id === '(' && nexttoken.id === ')')
+                    warning("Use the object literal notation {}.", token);
                 if (token.led) {
                     left = token.led(left);
                 } else {
@@ -4453,7 +4725,8 @@ loop:   for (;;) {
         right = right || nexttoken;
         if (option.white) {
             if (left.character !== right.from && left.line === right.line) {
-                warning("Unexpected space after '{a}'.", right, left.value);
+                left.from += (left.character - left.from);
+                warning("Unexpected space after '{a}'.", left, left.value);
             }
         }
     }
@@ -4481,8 +4754,9 @@ loop:   for (;;) {
             left = left || token;
             right = right || nexttoken;
             if (left.line === right.line && left.character === right.from) {
+                left.from += (left.character - left.from);
                 warning("Missing space after '{a}'.",
-                        nexttoken, left.value);
+                        left, left.value);
             }
         }
     }
@@ -4496,8 +4770,9 @@ loop:   for (;;) {
             left = left || token;
             right = right || nexttoken;
             if (left.character === right.from) {
+                left.from += (left.character - left.from);
                 warning("Missing space after '{a}'.",
-                        nexttoken, left.value);
+                        left, left.value);
             }
         }
     }
@@ -4524,11 +4799,16 @@ loop:   for (;;) {
 
     function comma() {
         if (token.line !== nexttoken.line) {
-            if (!option.laxbreak) {
+            if (!option.laxcomma) {
+                if (comma.first) {
+                    warning("Comma warnings can be turned off with 'laxcomma'");
+                    comma.first = false;
+                }
                 warning("Bad line breaking before '{a}'.", token, nexttoken.id);
             }
-        } else if (token.character !== nexttoken.from && option.white) {
-            warning("Unexpected space after '{a}'.", nexttoken, token.value);
+        } else if (!token.comment && token.character !== nexttoken.from && option.white) {
+            token.from += (token.character - token.from);
+            warning("Unexpected space after '{a}'.", token, token.value);
         }
         advance(',');
         nonadjacent(token, nexttoken);
@@ -4633,6 +4913,9 @@ loop:   for (;;) {
                 nobreaknonadjacent(prevtoken, token);
                 nonadjacent(token, nexttoken);
             }
+            if (s === "in" && left.id === "!") {
+                warning("Confusing use of '{a}'.", left, '!');
+            }
             if (typeof f === 'function') {
                 return f(left, this);
             } else {
@@ -4660,7 +4943,7 @@ loop:   for (;;) {
                 warning("Confusing use of '{a}'.", left, '!');
             }
             if (right.id === '!') {
-                warning("Confusing use of '{a}'.", left, '!');
+                warning("Confusing use of '{a}'.", right, '!');
             }
             this.left = left;
             this.right = right;
@@ -4693,6 +4976,9 @@ loop:   for (;;) {
                 warning("'{a}' is a function.", left, left.value);
             }
             if (left) {
+                if (option.esnext && funct[left.value] === 'const') {
+                    warning("Attempting to override '{a}' which is a constant", left, left.value);
+                }
                 if (left.id === '.' || left.id === '[') {
                     if (!left.left || left.left.value === 'arguments') {
                         warning('Bad assignment.', that);
@@ -4783,7 +5069,7 @@ loop:   for (;;) {
                 // `undefined` as a function param is a common pattern to protect
                 // against the case when somebody does `undefined = true` and
                 // help with minification. More info: https://gist.github.com/315916
-                if (!fnparam || token.value != 'undefined') {
+                if (!fnparam || token.value !== 'undefined') {
                     warning("Expected an identifier and instead saw '{a}' (a reserved word).",
                             token, token.id);
                 }
@@ -4820,6 +5106,9 @@ loop:   for (;;) {
             }
             if (t.id !== '(endline)') {
                 if (t.id === 'function') {
+                    if (!option.latedef) {
+                        break;
+                    }
                     warning(
 "Inner functions should be listed at the top of the outer function.", t);
                     break;
@@ -4835,11 +5124,8 @@ loop:   for (;;) {
     function statement(noindent) {
         var i = indent, r, s = scope, t = nexttoken;
 
-// We don't like the empty statement.
-
-        if (t.id === ';') {
-            warning("Unnecessary semicolon.", t);
-            advance(';');
+        if (t.id === ";") {
+            advance(";");
             return;
         }
 
@@ -4869,8 +5155,7 @@ loop:   for (;;) {
         }
         r = expression(0, true);
 
-// Look for the final semicolon.
-
+        // Look for the final semicolon.
         if (!t.block) {
             if (!option.expr && (!r || !r.exps)) {
                 warning("Expected an assignment or function call and instead saw an expression.",
@@ -4878,10 +5163,20 @@ loop:   for (;;) {
             } else if (option.nonew && r.id === '(' && r.left.id === 'new') {
                 warning("Do not use 'new' for side effects.");
             }
+
+            if (nexttoken.id === ',') {
+                return comma();
+            }
+
             if (nexttoken.id !== ';') {
-                if (!option.asi && !(option.lastsemic && nexttoken.id == '}' &&
-                        nexttoken.line == token.line)) {
-                    warningAt("Missing semicolon.", token.line, token.from + token.value.length);
+                if (!option.asi) {
+                    // If this is the last statement in a block that ends on
+                    // the same line *and* option lastsemic is on, ignore the warning.
+                    // Otherwise, complain about missing semicolon.
+                    if (!option.lastsemic || nexttoken.id !== '}' ||
+                            nexttoken.line !== token.line) {
+                        warningAt("Missing semicolon.", token.line, token.character);
+                    }
                 }
             } else {
                 adjacent(token, nexttoken);
@@ -4898,35 +5193,80 @@ loop:   for (;;) {
     }
 
 
-    function use_strict() {
-        if (nexttoken.value === 'use strict') {
-            if (strict_mode) {
-                warning("Unnecessary \"use strict\".");
-            }
-            advance();
-            advance(';');
-            strict_mode = true;
-            option.newcap = true;
-            option.undef = true;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    function statements(begin) {
+    function statements(startLine) {
         var a = [], f, p;
 
         while (!nexttoken.reach && nexttoken.id !== '(end)') {
             if (nexttoken.id === ';') {
-                warning("Unnecessary semicolon.");
+                p = peek();
+                if (!p || p.id !== "(") {
+                    warning("Unnecessary semicolon.");
+                }
                 advance(';');
             } else {
-                a.push(statement());
+                a.push(statement(startLine === nexttoken.line));
             }
         }
         return a;
+    }
+
+
+    /*
+     * read all directives
+     * recognizes a simple form of asi, but always
+     * warns, if it is used
+     */
+    function directives() {
+        var i, p, pn;
+
+        for (;;) {
+            if (nexttoken.id === "(string)") {
+                p = peek(0);
+                if (p.id === "(endline)") {
+                    i = 1;
+                    do {
+                        pn = peek(i);
+                        i = i + 1;
+                    } while (pn.id === "(endline)");
+
+                    if (pn.id !== ";") {
+                        if (pn.id !== "(string)" && pn.id !== "(number)" &&
+                            pn.id !== "(regexp)" && pn.identifier !== true &&
+                            pn.id !== "}") {
+                            break;
+                        }
+                        warning("Missing semicolon.", nexttoken);
+                    } else {
+                        p = pn;
+                    }
+                } else if (p.id === "}") {
+                    // directive with no other statements, warn about missing semicolon
+                    warning("Missing semicolon.", p);
+                } else if (p.id !== ";") {
+                    break;
+                }
+
+                indentation();
+                advance();
+                if (directive[token.value]) {
+                    warning("Unnecessary directive \"{a}\".", token, token.value);
+                }
+
+                if (token.value === "use strict") {
+                    option.newcap = true;
+                    option.undef = true;
+                }
+
+                // there's no directive negation, so always set to true
+                directive[token.value] = true;
+
+                if (p.id === ";") {
+                    advance(";");
+                }
+                continue;
+            }
+            break;
+        }
     }
 
 
@@ -4936,34 +5276,59 @@ loop:   for (;;) {
      *
      * ordinary - true for everything but function bodies and try blocks.
      * stmt     - true if block can be a single statement (e.g. in if/for/while).
+     * isfunc   - true if block is a function body
      */
-    function block(ordinary, stmt) {
+    function block(ordinary, stmt, isfunc) {
         var a,
             b = inblock,
             old_indent = indent,
-            m = strict_mode,
+            m,
             s = scope,
-            t;
+            t,
+            line,
+            d;
 
         inblock = ordinary;
-        scope = Object.create(scope);
+        if (!ordinary || !option.funcscope) scope = Object.create(scope);
         nonadjacent(token, nexttoken);
         t = nexttoken;
 
         if (nexttoken.id === '{') {
             advance('{');
-            if (nexttoken.id !== '}' || token.line !== nexttoken.line) {
+            line = token.line;
+            if (nexttoken.id !== '}') {
                 indent += option.indent;
                 while (!ordinary && nexttoken.from > indent) {
                     indent += option.indent;
                 }
-                if (!ordinary && !use_strict() && !m && option.strict &&
-                        funct['(context)']['(global)']) {
-                    warning("Missing \"use strict\" statement.");
+
+                if (isfunc) {
+                    m = {};
+                    for (d in directive) {
+                        if (is_own(directive, d)) {
+                            m[d] = directive[d];
+                        }
+                    }
+                    directives();
+
+                    if (option.strict && funct['(context)']['(global)']) {
+                        if (!m["use strict"] && !directive["use strict"]) {
+                            warning("Missing \"use strict\" statement.");
+                        }
+                    }
                 }
-                a = statements();
-                strict_mode = m;
+
+                a = statements(line);
+
+                if (isfunc) {
+                    directive = m;
+                }
+
                 indent -= option.indent;
+                if (line !== nexttoken.line) {
+                    indentation();
+                }
+            } else if (line !== nexttoken.line) {
                 indentation();
             }
             advance('}', t);
@@ -4977,11 +5342,14 @@ loop:   for (;;) {
                         nexttoken, '{', nexttoken.value);
 
             noreach = true;
-            a = [statement()];
+            indent += option.indent;
+            // test indentation only if statement is in new line
+            a = [statement(nexttoken.line === token.line)];
+            indent -= option.indent;
             noreach = false;
         }
         funct['(verb)'] = null;
-        scope = s;
+        if (!ordinary || !option.funcscope) scope = s;
         inblock = b;
         if (ordinary && option.noempty && (!a || a.length === 0)) {
             warning("Empty block.");
@@ -5007,6 +5375,7 @@ loop:   for (;;) {
         if (typeof a === 'function') {
             a = false;
         }
+
         if (!a) {
             a = [line];
             implied[name] = a;
@@ -5015,11 +5384,13 @@ loop:   for (;;) {
         }
     }
 
-// Build the syntax table by declaring the syntactic elements of the language.
+
+    // Build the syntax table by declaring the syntactic elements of the language.
 
     type('(number)', function () {
         return this;
     });
+
     type('(string)', function () {
         return this;
     });
@@ -5032,10 +5403,9 @@ loop:   for (;;) {
             var v = this.value,
                 s = scope[v],
                 f;
+
             if (typeof s === 'function') {
-
-// Protection against accidental inheritance.
-
+                // Protection against accidental inheritance.
                 s = undefined;
             } else if (typeof s === 'boolean') {
                 f = funct;
@@ -5045,12 +5415,9 @@ loop:   for (;;) {
                 funct = f;
             }
 
-// The name is in scope and defined in the current function.
-
+            // The name is in scope and defined in the current function.
             if (funct === s) {
-
-//      Change 'unused' to 'var', and reject labels.
-
+                // Change 'unused' to 'var', and reject labels.
                 switch (funct[v]) {
                 case 'unused':
                     funct[v] = 'var';
@@ -5066,25 +5433,28 @@ loop:   for (;;) {
                     warning("'{a}' is a statement label.", token, v);
                     break;
                 }
-
-// The name is not defined in the function.  If we are in the global scope,
-// then we have an undefined variable.
-//
-// Operators typeof and delete do not raise runtime errors even if the base
-// object of a reference is null so no need to display warning if we're
-// inside of typeof or delete.
-
             } else if (funct['(global)']) {
-                if (anonname != 'typeof' && anonname != 'delete' &&
-                    option.undef && typeof predefined[v] !== 'boolean') {
-                    warning("'{a}' is not defined.", token, v);
+                // The name is not defined in the function.  If we are in the global
+                // scope, then we have an undefined variable.
+                //
+                // Operators typeof and delete do not raise runtime errors even if
+                // the base object of a reference is null so no need to display warning
+                // if we're inside of typeof or delete.
+
+                if (option.undef && typeof predefined[v] !== 'boolean') {
+                    // Attempting to subscript a null reference will throw an
+                    // error, even within the typeof and delete operators
+                    if (!(anonname === 'typeof' || anonname === 'delete') ||
+                        (nexttoken && (nexttoken.value === '.' || nexttoken.value === '['))) {
+
+                        isundef(funct, "'{a}' is not defined.", token, v);
+                    }
                 }
                 note_implied(token);
-
-// If the name is already defined in the current
-// function, but not as outer, then there is a scope error.
-
             } else {
+                // If the name is already defined in the current
+                // function, but not as outer, then there is a scope error.
+
                 switch (funct[v]) {
                 case 'closure':
                 case 'function':
@@ -5099,25 +5469,28 @@ loop:   for (;;) {
                 case 'global':
                     break;
                 default:
-
-// If the name is defined in an outer function, make an outer entry, and if
-// it was unused, make it var.
-
+                    // If the name is defined in an outer function, make an outer entry,
+                    // and if it was unused, make it var.
                     if (s === true) {
                         funct[v] = true;
                     } else if (s === null) {
                         warning("'{a}' is not allowed.", token, v);
                         note_implied(token);
                     } else if (typeof s !== 'object') {
+                        // Operators typeof and delete do not raise runtime errors even
+                        // if the base object of a reference is null so no need to
+                        // display warning if we're inside of typeof or delete.
+                        if (option.undef) {
+                            // Attempting to subscript a null reference will throw an
+                            // error, even within the typeof and delete operators
+                            if (!(anonname === 'typeof' || anonname === 'delete') ||
+                                (nexttoken &&
+                                    (nexttoken.value === '.' || nexttoken.value === '['))) {
 
-// Operators typeof and delete do not raise runtime errors even if the base object of
-// a reference is null so no need to display warning if we're inside of typeof or delete.
-
-                        if (anonname != 'typeof' && anonname != 'delete' && option.undef) {
-                            warning("'{a}' is not defined.", token, v);
-                        } else {
-                            funct[v] = true;
+                                isundef(funct, "'{a}' is not defined.", token, v);
+                            }
                         }
+                        funct[v] = true;
                         note_implied(token);
                     } else {
                         switch (s[v]) {
@@ -5181,7 +5554,7 @@ loop:   for (;;) {
     reserve('default').reach = true;
     reserve('finally');
     reservevar('arguments', function (x) {
-        if (strict_mode && funct['(global)']) {
+        if (directive['use strict'] && funct['(global)']) {
             warning("Strict violation.", x);
         }
     });
@@ -5191,9 +5564,9 @@ loop:   for (;;) {
     reservevar('NaN');
     reservevar('null');
     reservevar('this', function (x) {
-        if (strict_mode && ((funct['(statement)'] &&
+        if (directive['use strict'] && !option.validthis && ((funct['(statement)'] &&
                 funct['(name)'].charAt(0) > 'Z') || funct['(global)'])) {
-            warning("Strict violation.", x);
+            warning("Possible strict violation.", x);
         }
     });
     reservevar('true');
@@ -5226,25 +5599,21 @@ loop:   for (;;) {
     bitwise('^', 'bitxor', 80);
     bitwise('&', 'bitand', 90);
     relation('==', function (left, right) {
-        var eqnull = option.eqnull &&
-                (left.value == 'null' || right.value == 'null');
+        var eqnull = option.eqnull && (left.value === 'null' || right.value === 'null');
 
-        if (!eqnull && option.eqeqeq) {
-            warning("Expected '{a}' and instead saw '{b}'.",
-                    this, '===', '==');
-        } else if (isPoorRelation(left)) {
-            warning("Use '{a}' to compare with '{b}'.",
-                this, '===', left.value);
-        } else if (isPoorRelation(right)) {
-            warning("Use '{a}' to compare with '{b}'.",
-                this, '===', right.value);
-        }
+        if (!eqnull && option.eqeqeq)
+            warning("Expected '{a}' and instead saw '{b}'.", this, '===', '==');
+        else if (isPoorRelation(left))
+            warning("Use '{a}' to compare with '{b}'.", this, '===', left.value);
+        else if (isPoorRelation(right))
+            warning("Use '{a}' to compare with '{b}'.", this, '===', right.value);
+
         return this;
     });
     relation('===');
     relation('!=', function (left, right) {
         var eqnull = option.eqnull &&
-                (left.value == 'null' || right.value == 'null');
+                (left.value === 'null' || right.value === 'null');
 
         if (!eqnull && option.eqeqeq) {
             warning("Expected '{a}' and instead saw '{b}'.",
@@ -5352,9 +5721,6 @@ loop:   for (;;) {
             if (c.identifier) {
                 c['new'] = true;
                 switch (c.value) {
-                case 'Object':
-                    warning("Use the object literal notation {}.", token);
-                    break;
                 case 'Number':
                 case 'String':
                 case 'Boolean':
@@ -5374,8 +5740,8 @@ loop:   for (;;) {
                     if (c.id !== 'function') {
                         i = c.value.substr(0, 1);
                         if (option.newcap && (i < 'A' || i > 'Z')) {
-                            warning("A constructor name should start with "+
-                                "an uppercase letter.", token);
+                            warning("A constructor name should start with an uppercase letter.",
+                                token);
                         }
                     }
                 }
@@ -5408,9 +5774,11 @@ loop:   for (;;) {
         }
         that.left = left;
         that.right = m;
-        if (option.noarg && left && left.value === 'arguments' &&
-                (m === 'callee' || m === 'caller')) {
-            warning("Avoid arguments.{a}.", left, m);
+        if (left && left.value === 'arguments' && (m === 'callee' || m === 'caller')) {
+            if (option.noarg)
+                warning("Avoid arguments.{a}.", left, m);
+            else if (directive['use strict'])
+                error('Strict violation.');
         } else if (!option.evil && left && left.value === 'document' &&
                 (m === 'write' || m === 'writeln')) {
             warning("document.write can be a form of eval.", left);
@@ -5495,7 +5863,8 @@ loop:   for (;;) {
         advance(')', this);
         nospace(prevtoken, token);
         if (option.immed && v.id === 'function') {
-            if (nexttoken.id === '(') {
+            if (nexttoken.id === '(' ||
+              (nexttoken.id === '.' && (peek().value === 'call' || peek().value === 'apply'))) {
                 warning(
 "Move the invocation into the parens that contain the function.", nexttoken);
             } else {
@@ -5592,7 +5961,6 @@ loop:   for (;;) {
         nospace();
         if (nexttoken.id === ')') {
             advance(')');
-            nospace(prevtoken, token);
             return;
         }
         for (;;) {
@@ -5635,7 +6003,7 @@ loop:   for (;;) {
         }
         funct['(params)'] = functionparams();
 
-        block(false);
+        block(false, false, true);
         scope = oldScope;
         option = oldOption;
         funct['(last)'] = token.line;
@@ -5646,7 +6014,42 @@ loop:   for (;;) {
 
     (function (x) {
         x.nud = function () {
-            var b, f, i, j, p, seen = {}, t;
+            var b, f, i, j, p, t;
+            var props = {}; // All properties, including accessors
+
+            function saveProperty(name, token) {
+                if (props[name] && is_own(props, name))
+                    warning("Duplicate member '{a}'.", nexttoken, i);
+                else
+                    props[name] = {};
+
+                props[name].basic = true;
+                props[name].basicToken = token;
+            }
+
+            function saveSetter(name, token) {
+                if (props[name] && is_own(props, name)) {
+                    if (props[name].basic || props[name].setter)
+                        warning("Duplicate member '{a}'.", nexttoken, i);
+                } else {
+                    props[name] = {};
+                }
+
+                props[name].setter = true;
+                props[name].setterToken = token;
+            }
+
+            function saveGetter(name) {
+                if (props[name] && is_own(props, name)) {
+                    if (props[name].basic || props[name].getter)
+                        warning("Duplicate member '{a}'.", nexttoken, i);
+                } else {
+                    props[name] = {};
+                }
+
+                props[name].getter = true;
+                props[name].getterToken = token;
+            }
 
             b = token.line !== nexttoken.line;
             if (b) {
@@ -5671,33 +6074,35 @@ loop:   for (;;) {
                     if (!i) {
                         error("Missing property name.");
                     }
+                    saveGetter(i);
                     t = nexttoken;
                     adjacent(token, nexttoken);
                     f = doFunction();
-                    if (!option.loopfunc && funct['(loopage)']) {
-                        warning("Don't make functions within a loop.", t);
-                    }
                     p = f['(params)'];
                     if (p) {
                         warning("Unexpected parameter '{a}' in get {b} function.", t, p[0], i);
                     }
                     adjacent(token, nexttoken);
-                    advance(',');
-                    indentation();
+                } else if (nexttoken.value === 'set' && peek().id !== ':') {
                     advance('set');
-                    j = property_name();
-                    if (i !== j) {
-                        error("Expected {a} and instead saw {b}.", token, i, j);
+                    if (!option.es5) {
+                        error("get/set are ES5 features.");
                     }
+                    i = property_name();
+                    if (!i) {
+                        error("Missing property name.");
+                    }
+                    saveSetter(i, nexttoken);
                     t = nexttoken;
                     adjacent(token, nexttoken);
                     f = doFunction();
                     p = f['(params)'];
-                    if (!p || p.length !== 1 || p[0] !== 'value') {
-                        warning("Expected (value) in set {a} function.", t, i);
+                    if (!p || p.length !== 1) {
+                        warning("Expected a single parameter in set {a} function.", t, i);
                     }
                 } else {
                     i = property_name();
+                    saveProperty(i, nexttoken);
                     if (typeof i !== 'string') {
                         break;
                     }
@@ -5705,10 +6110,7 @@ loop:   for (;;) {
                     nonadjacent(token, nexttoken);
                     expression(10);
                 }
-                if (seen[i] === true) {
-                    warning("Duplicate member '{a}'.", nexttoken, i);
-                }
-                seen[i] = true;
+
                 countMember(i);
                 if (nexttoken.id === ',') {
                     comma();
@@ -5726,12 +6128,76 @@ loop:   for (;;) {
                 indentation();
             }
             advance('}', this);
+
+            // Check for lonely setters if in the ES5 mode.
+            if (option.es5) {
+                for (var name in props) {
+                    if (is_own(props, name) && props[name].setter && !props[name].getter) {
+                        warning("Setter is defined without getter.", props[name].setterToken);
+                    }
+                }
+            }
             return this;
         };
         x.fud = function () {
             error("Expected to see a statement and instead saw a block.", token);
         };
     }(delim('{')));
+
+// This Function is called when esnext option is set to true
+// it adds the `const` statement to JSHINT
+
+    useESNextSyntax = function () {
+        var conststatement = stmt('const', function (prefix) {
+            var id, name, value;
+
+            this.first = [];
+            for (;;) {
+                nonadjacent(token, nexttoken);
+                id = identifier();
+                if (funct[id] === "const") {
+                    warning("const '" + id + "' has already been declared");
+                }
+                if (funct['(global)'] && predefined[id] === false) {
+                    warning("Redefinition of '{a}'.", token, id);
+                }
+                addlabel(id, 'const');
+                if (prefix) {
+                    break;
+                }
+                name = token;
+                this.first.push(token);
+
+                if (nexttoken.id !== "=") {
+                    warning("const " +
+                      "'{a}' is initialized to 'undefined'.", token, id);
+                }
+
+                if (nexttoken.id === '=') {
+                    nonadjacent(token, nexttoken);
+                    advance('=');
+                    nonadjacent(token, nexttoken);
+                    if (nexttoken.id === 'undefined') {
+                        warning("It is not necessary to initialize " +
+                          "'{a}' to 'undefined'.", token, id);
+                    }
+                    if (peek(0).id === '=' && nexttoken.identifier) {
+                        error("Constant {a} was not declared correctly.",
+                                nexttoken, nexttoken.value);
+                    }
+                    value = expression(0);
+                    name.first = value;
+                }
+
+                if (nexttoken.id !== ',') {
+                    break;
+                }
+                comma();
+            }
+            return this;
+        });
+        conststatement.exps = true;
+    };
 
     var varstatement = stmt('var', function (prefix) {
         // JavaScript does not have block scope. It only has function scope. So,
@@ -5747,6 +6213,9 @@ loop:   for (;;) {
         for (;;) {
             nonadjacent(token, nexttoken);
             id = identifier();
+            if (option.esnext && funct[id] === "const") {
+                warning("const '" + id + "' has already been declared");
+            }
             if (funct['(global)'] && predefined[id] === false) {
                 warning("Redefinition of '{a}'.", token, id);
             }
@@ -5787,6 +6256,9 @@ loop:   for (;;) {
 
         }
         var i = identifier();
+        if (option.esnext && funct[i] === "const") {
+            warning("const '" + i + "' has already been declared");
+        }
         adjacent(token, nexttoken);
         addlabel(i, 'unction');
         doFunction(i, true);
@@ -5894,7 +6366,24 @@ loop:   for (;;) {
         return this;
     }).labelled = true;
 
-    reserve('with');
+    blockstmt('with', function () {
+        var t = nexttoken;
+        if (directive['use strict']) {
+            error("'with' is not allowed in strict mode.", token);
+        } else if (!option.withstmt) {
+            warning("Don't use 'with'.", token);
+        }
+
+        advance('(');
+        nonadjacent(this, t);
+        nospace();
+        expression(0);
+        advance(')', t);
+        nospace(prevtoken, token);
+        block(true, true);
+
+        return this;
+    });
 
     blockstmt('switch', function () {
         var t = nexttoken,
@@ -5965,7 +6454,8 @@ loop:   for (;;) {
                 advance('}', t);
                 if (this.cases.length === 1 || this.condition.id === 'true' ||
                         this.condition.id === 'false') {
-                    warning("This 'switch' should be an 'if'.", this);
+                    if (!option.onecase)
+                        warning("This 'switch' should be an 'if'.", this);
                 }
                 funct['(breakage)'] -= 1;
                 funct['(verb)'] = undefined;
@@ -5980,14 +6470,23 @@ loop:   for (;;) {
                         error("Each value should have its own case label.");
                         return;
                     case ':':
+                        g = false;
                         statements();
                         break;
                     default:
                         error("Missing ':' on a case clause.", token);
+                        return;
                     }
                 } else {
-                    error("Expected '{a}' and instead saw '{b}'.",
-                        nexttoken, 'case', nexttoken.value);
+                    if (token.id === ':') {
+                        advance(':');
+                        error("Unexpected '{a}'.", token, ':');
+                        statements();
+                    } else {
+                        error("Expected '{a}' and instead saw '{b}'.",
+                            nexttoken, 'case', nexttoken.value);
+                        return;
+                    }
                 }
             }
         }
@@ -6055,7 +6554,7 @@ loop:   for (;;) {
             expression(20);
             advance(')', t);
             s = block(true, true);
-            if (option.forin && (s.length > 1 || typeof s[0] !== 'object' ||
+            if (option.forin && s && (s.length > 1 || typeof s[0] !== 'object' ||
                     s[0].value !== 'if')) {
                 warning("The body of a for in should be wrapped in an if statement to filter " +
                         "unwanted properties from the prototype.", this);
@@ -6116,10 +6615,13 @@ loop:   for (;;) {
 
     stmt('break', function () {
         var v = nexttoken.value;
-        if (funct['(breakage)'] === 0) {
+
+        if (funct['(breakage)'] === 0)
             warning("Unexpected '{a}'.", nexttoken, this.value);
-        }
-        nolinebreak(this);
+
+        if (!option.asi)
+            nolinebreak(this);
+
         if (nexttoken.id !== ';') {
             if (token.line === nexttoken.line) {
                 if (funct[v] !== 'label') {
@@ -6138,10 +6640,13 @@ loop:   for (;;) {
 
     stmt('continue', function () {
         var v = nexttoken.value;
-        if (funct['(breakage)'] === 0) {
+
+        if (funct['(breakage)'] === 0)
             warning("Unexpected '{a}'.", nexttoken, this.value);
-        }
-        nolinebreak(this);
+
+        if (!option.asi)
+            nolinebreak(this);
+
         if (nexttoken.id !== ';') {
             if (token.line === nexttoken.line) {
                 if (funct[v] !== 'label') {
@@ -6161,13 +6666,20 @@ loop:   for (;;) {
 
 
     stmt('return', function () {
-        nolinebreak(this);
-        if (nexttoken.id === '(regexp)') {
-            warning("Wrap the /regexp/ literal in parens to disambiguate the slash operator.");
-        }
-        if (nexttoken.id !== ';' && !nexttoken.reach) {
-            nonadjacent(token, nexttoken);
-            this.first = expression(20);
+        if (this.line === nexttoken.line) {
+            if (nexttoken.id === '(regexp)')
+                warning("Wrap the /regexp/ literal in parens to disambiguate the slash operator.");
+
+            if (nexttoken.id !== ';' && !nexttoken.reach) {
+                nonadjacent(token, nexttoken);
+                if (peek().value === "=" && !option.boss) {
+                    warningAt("Did you mean to return a conditional instead of an assignment?",
+                              token.line, token.character + 1);
+                }
+                this.first = expression(0);
+            }
+        } else if (!option.asi) {
+            nolinebreak(this); // always warn (Line breaking error)
         }
         reachable('return');
         return this;
@@ -6230,8 +6742,8 @@ loop:   for (;;) {
                     } else if ((nexttoken.value === '__proto__' &&
                         !option.proto) || (nexttoken.value === '__iterator__' &&
                         !option.iterator)) {
-                            warning("The '{a}' key may produce unexpected results.",
-                                nexttoken, nexttoken.value);
+                        warning("The '{a}' key may produce unexpected results.",
+                            nexttoken, nexttoken.value);
                     } else {
                         o[nexttoken.value] = true;
                     }
@@ -6304,6 +6816,7 @@ loop:   for (;;) {
     var itself = function (s, o, g) {
         var a, i, k;
         JSHINT.errors = [];
+        JSHINT.undefs = [];
         predefined = Object.create(standard);
         combine(predefined, g || {});
         if (o) {
@@ -6343,7 +6856,6 @@ loop:   for (;;) {
         };
         functions = [funct];
         urls = [];
-        src = false;
         stack = null;
         member = {};
         membersOnly = null;
@@ -6354,10 +6866,24 @@ loop:   for (;;) {
         warnings = 0;
         lex.init(s);
         prereg = true;
-        strict_mode = false;
+        directive = {};
 
         prevtoken = token = nexttoken = syntax['(begin)'];
+
+        // Check options
+        for (var name in o) {
+            if (is_own(o, name)) {
+                checkOption(name, token);
+            }
+        }
+
         assume();
+
+        // combine the passed globals after we've assumed all our options
+        combine(predefined, g || {});
+
+        //reset values
+        comma.first = true;
 
         try {
             advance();
@@ -6369,32 +6895,83 @@ loop:   for (;;) {
                 jsonValue();
                 break;
             default:
-                if (nexttoken.value === 'use strict') {
-                    if (!option.globalstrict)
-                        warning("Use the function form of \"use strict\".");
-                    use_strict();
+                directives();
+                if (directive["use strict"] && !option.globalstrict) {
+                    warning("Use the function form of \"use strict\".", prevtoken);
                 }
-                statements('lib');
+
+                statements();
             }
             advance('(end)');
+
+            var markDefined = function (name, context) {
+                do {
+                    if (typeof context[name] === 'string') {
+                        // JSHINT marks unused variables as 'unused' and
+                        // unused function declaration as 'unction'. This
+                        // code changes such instances back 'var' and
+                        // 'closure' so that the code in JSHINT.data()
+                        // doesn't think they're unused.
+
+                        if (context[name] === 'unused')
+                            context[name] = 'var';
+                        else if (context[name] === 'unction')
+                            context[name] = 'closure';
+
+                        return true;
+                    }
+
+                    context = context['(context)'];
+                } while (context);
+
+                return false;
+            };
+
+            var clearImplied = function (name, line) {
+                if (!implied[name])
+                    return;
+
+                var newImplied = [];
+                for (var i = 0; i < implied[name].length; i += 1) {
+                    if (implied[name][i] !== line)
+                        newImplied.push(implied[name][i]);
+                }
+
+                if (newImplied.length === 0)
+                    delete implied[name];
+                else
+                    implied[name] = newImplied;
+            };
+
+            // Check queued 'x is not defined' instances to see if they're still undefined.
+            for (i = 0; i < JSHINT.undefs.length; i += 1) {
+                k = JSHINT.undefs[i].slice(0);
+
+                if (markDefined(k[2].value, k[0])) {
+                    clearImplied(k[2].value, k[2].line);
+                } else {
+                    warning.apply(warning, k.slice(1));
+                }
+            }
         } catch (e) {
             if (e) {
+                var nt = nexttoken || {};
                 JSHINT.errors.push({
+                    raw       : e.raw,
                     reason    : e.message,
-                    line      : e.line || nexttoken.line,
-                    character : e.character || nexttoken.from
+                    line      : e.line || nt.line,
+                    character : e.character || nt.from
                 }, null);
             }
         }
+
         return JSHINT.errors.length === 0;
     };
 
-
-// Data summary.
-
+    // Data summary.
     itself.data = function () {
 
-        var data = {functions: []}, fu, globals, implieds = [], f, i, j,
+        var data = { functions: [], options: option }, fu, globals, implieds = [], f, i, j,
             members = [], n, unused = [], v;
         if (itself.errors.length) {
             data.errors = itself.errors;
@@ -6424,7 +7001,6 @@ loop:   for (;;) {
         if (globals.length > 0) {
             data.globals = globals;
         }
-
         for (i = 1; i < functions.length; i += 1) {
             f = functions[i];
             fu = {};
@@ -6602,16 +7178,14 @@ loop:   for (;;) {
         }
         return o.join('');
     };
+
     itself.jshint = itself;
 
-    itself.edition = '2011-04-16';
-
     return itself;
-
 }());
 
 // Make JSHINT a Node module, if possible.
-if (typeof exports == 'object' && exports)
+if (typeof exports === 'object' && exports)
     exports.JSHINT = JSHINT;
 
 });/* -*- Mode: JS; tab-width: 4; indent-tabs-mode: nil; -*-
@@ -6665,598 +7239,648 @@ if (typeof exports == 'object' && exports)
  * Parser.
  */
 
-define('ace/narcissus/jsparse', ['require', 'exports', 'module' , 'ace/narcissus/jslex', 'ace/narcissus/jsdefs'], function(require, exports, module) {
+define('ace/narcissus/parser', ['require', 'exports', 'module' , 'ace/narcissus/lexer', 'ace/narcissus/definitions', 'ace/narcissus/options'], function(require, exports, module) {
 
-    var lexer = require("./jslex");
-    var definitions = require("./jsdefs");
+var lexer = require('./lexer');
+var definitions = require('./definitions');
+var options = require('./options');
+var Tokenizer = lexer.Tokenizer;
 
-    const StringMap = definitions.StringMap;
-    const Stack = definitions.Stack;
+var Dict = definitions.Dict;
+var Stack = definitions.Stack;
 
-    // Set constants in the local scope.
-    eval(definitions.consts);
+// Set constants in the local scope.
+eval(definitions.consts);
 
-    // Banned statement types by language version.
-    const blackLists = { 160: {}, 185: {}, harmony: {} };
-    blackLists[160][IMPORT] = true;
-    blackLists[160][EXPORT] = true;
-    blackLists[160][LET] = true;
-    blackLists[160][MODULE] = true;
-    blackLists[160][YIELD] = true;
-    blackLists[185][IMPORT] = true;
-    blackLists[185][EXPORT] = true;
-    blackLists[185][MODULE] = true;
-    blackLists.harmony[WITH] = true;
-
-    /*
-     * pushDestructuringVarDecls :: (node, hoisting node) -> void
-     *
-     * Recursively add all destructured declarations to varDecls.
-     */
-    function pushDestructuringVarDecls(n, s) {
-        for (var i in n) {
-            var sub = n[i];
-            if (sub.type === IDENTIFIER) {
-                s.varDecls.push(sub);
-            } else {
-                pushDestructuringVarDecls(sub, s);
-            }
-        }
-    }
-
-    function StaticContext(parentScript, parentBlock, inModule, inFunction) {
-        this.parentScript = parentScript;
-        this.parentBlock = parentBlock || parentScript;
-        this.inModule = inModule || false;
-        this.inFunction = inFunction || false;
-        this.inForLoopInit = false;
-        this.topLevel = true;
-        this.allLabels = new Stack();
-        this.currentLabels = new Stack();
-        this.labeledTargets = new Stack();
-        this.defaultLoopTarget = null;
-        this.defaultTarget = null;
-        this.blackList = blackLists[Narcissus.options.version];
-        Narcissus.options.ecma3OnlyMode && (this.ecma3OnlyMode = true);
-        Narcissus.options.parenFreeMode && (this.parenFreeMode = true);
-    }
-
-    StaticContext.prototype = {
-        ecma3OnlyMode: false,
-        parenFreeMode: false,
-        // non-destructive update via prototype extension
-        update: function(ext) {
-            var desc = {};
-            for (var key in ext) {
-                desc[key] = {
-                    value: ext[key],
-                    writable: true,
-                    enumerable: true,
-                    configurable: true
-                }
-            }
-            return Object.create(this, desc);
-        },
-        pushLabel: function(label) {
-            return this.update({ currentLabels: this.currentLabels.push(label),
-                                 allLabels: this.allLabels.push(label) });
-        },
-        pushTarget: function(target) {
-            var isDefaultLoopTarget = target.isLoop;
-            var isDefaultTarget = isDefaultLoopTarget || target.type === SWITCH;
-
-            if (this.currentLabels.isEmpty()) {
-                if (isDefaultLoopTarget) this.update({ defaultLoopTarget: target });
-                if (isDefaultTarget) this.update({ defaultTarget: target });
-                return this;
-            }
-
-            target.labels = new StringMap();
-            this.currentLabels.forEach(function(label) {
-                target.labels.set(label, true);
-            });
-            return this.update({ currentLabels: new Stack(),
-                                 labeledTargets: this.labeledTargets.push(target),
-                                 defaultLoopTarget: isDefaultLoopTarget
-                                                    ? target
-                                                    : this.defaultLoopTarget,
-                                 defaultTarget: isDefaultTarget
-                                                ? target
-                                                : this.defaultTarget });
-        },
-        nest: function() {
-            return this.topLevel ? this.update({ topLevel: false }) : this;
-        },
-        allow: function(type) {
-            switch (type) {
-              case EXPORT:
-                if (!this.inModule || this.inFunction || !this.topLevel)
-                    return false;
-                // FALL THROUGH
-
-              case IMPORT:
-                return !this.inFunction && this.topLevel;
-
-              case MODULE:
-                return !this.inFunction && this.topLevel;
-
-              default:
-                return true;
-            }
-        }
-    };
-
-    /*
-     * Script :: (tokenizer, boolean, boolean) -> node
-     *
-     * Parses the toplevel and module/function bodies.
-     */
-    function Script(t, inModule, inFunction) {
-        var n = new Node(t, scriptInit());
-        Statements(t, new StaticContext(n, n, inModule, inFunction), n);
-        return n;
-    }
-
-    // We extend Array slightly with a top-of-stack method.
-    definitions.defineProperty(Array.prototype, "top",
-                               function() {
-                                   return this.length && this[this.length-1];
-                               }, false, false, true);
-
-    /*
-     * Node :: (tokenizer, optional init object) -> node
-     */
-    function Node(t, init) {
-        var token = t.token;
-        if (token) {
-            // If init.type exists it will override token.type.
-            this.type = token.type;
-            this.value = token.value;
-            this.lineno = token.lineno;
-
-            // Start and end are file positions for error handling.
-            this.start = token.start;
-            this.end = token.end;
+/*
+ * pushDestructuringVarDecls :: (node, hoisting node) -> void
+ *
+ * Recursively add all destructured declarations to varDecls.
+ */
+function pushDestructuringVarDecls(n, s) {
+    for (var i in n) {
+        var sub = n[i];
+        if (sub.type === IDENTIFIER) {
+            s.varDecls.push(sub);
         } else {
-            this.lineno = t.lineno;
-        }
-
-        // Node uses a tokenizer for debugging (getSource, filename getter).
-        this.tokenizer = t;
-        this.children = [];
-
-        for (var prop in init)
-            this[prop] = init[prop];
-    }
-
-    /*
-     * SyntheticNode :: (tokenizer, optional init object) -> node
-     */
-    function SyntheticNode(t, init) {
-        // print("SYNTHETIC NODE");
-        // if (init.type === COMMA) {
-        //     print("SYNTHETIC COMMA");
-        //     print(init);
-        // }
-        this.tokenizer = t;
-        this.children = [];
-        for (var prop in init)
-            this[prop] = init[prop];
-        this.synthetic = true;
-    }
-
-    var Np = Node.prototype = SyntheticNode.prototype = {};
-    Np.constructor = Node;
-
-    const TO_SOURCE_SKIP = {
-        type: true,
-        value: true,
-        lineno: true,
-        start: true,
-        end: true,
-        tokenizer: true,
-        assignOp: true
-    };
-    function unevalableConst(code) {
-        var token = definitions.tokens[code];
-        var constName = definitions.opTypeNames.hasOwnProperty(token)
-                      ? definitions.opTypeNames[token]
-                      : token in definitions.keywords
-                      ? token.toUpperCase()
-                      : token;
-        return { toSource: function() { return constName } };
-    }
-    Np.toSource = function toSource() {
-        var mock = {};
-        var self = this;
-        mock.type = unevalableConst(this.type);
-        if ("value" in this)
-            mock.value = this.value;
-        if ("lineno" in this)
-            mock.lineno = this.lineno;
-        if ("start" in this)
-            mock.start = this.start;
-        if ("end" in this)
-            mock.end = this.end;
-        if (this.assignOp)
-            mock.assignOp = unevalableConst(this.assignOp);
-        for (var key in this) {
-            if (this.hasOwnProperty(key) && !(key in TO_SOURCE_SKIP))
-                mock[key] = this[key];
-        }
-        return mock.toSource();
-    };
-
-    // Always use push to add operands to an expression, to update start and end.
-    Np.push = function (kid) {
-        // kid can be null e.g. [1, , 2].
-        if (kid !== null) {
-            if (kid.start < this.start)
-                this.start = kid.start;
-            if (this.end < kid.end)
-                this.end = kid.end;
-        }
-        return this.children.push(kid);
-    }
-
-    Node.indentLevel = 0;
-
-    function tokenString(tt) {
-        var t = definitions.tokens[tt];
-        return /^\W/.test(t) ? definitions.opTypeNames[t] : t.toUpperCase();
-    }
-
-    Np.toString = function () {
-        var a = [];
-        for (var i in this) {
-            if (this.hasOwnProperty(i) && i !== 'type' && i !== 'target')
-                a.push({id: i, value: this[i]});
-        }
-        a.sort(function (a,b) { return (a.id < b.id) ? -1 : 1; });
-        const INDENTATION = "    ";
-        var n = ++Node.indentLevel;
-        var s = "{\n" + INDENTATION.repeat(n) + "type: " + tokenString(this.type);
-        for (i = 0; i < a.length; i++)
-            s += ",\n" + INDENTATION.repeat(n) + a[i].id + ": " + a[i].value;
-        n = --Node.indentLevel;
-        s += "\n" + INDENTATION.repeat(n) + "}";
-        return s;
-    }
-
-    Np.getSource = function () {
-        return this.tokenizer.source.slice(this.start, this.end);
-    };
-
-    /*
-     * Helper init objects for common nodes.
-     */
-
-    const LOOP_INIT = { isLoop: true };
-
-    function blockInit() {
-        return { type: BLOCK, varDecls: [] };
-    }
-
-    function scriptInit() {
-        return { type: SCRIPT,
-                 funDecls: [],
-                 varDecls: [],
-                 modDefns: new StringMap(),
-                 modAssns: new StringMap(),
-                 modDecls: new StringMap(),
-                 modLoads: new StringMap(),
-                 impDecls: [],
-                 expDecls: [],
-                 exports: new StringMap(),
-                 hasEmptyReturn: false,
-                 hasReturnWithValue: false,
-                 isGenerator: false };
-    }
-
-    definitions.defineGetter(Np, "filename",
-                             function() {
-                                 return this.tokenizer.filename;
-                             });
-
-    definitions.defineGetter(Np, "length",
-                             function() {
-                                 throw new Error("Node.prototype.length is gone; " +
-                                                 "use n.children.length instead");
-                             });
-
-    definitions.defineProperty(String.prototype, "repeat",
-                               function(n) {
-                                   var s = "", t = this + s;
-                                   while (--n >= 0)
-                                       s += t;
-                                   return s;
-                               }, false, false, true);
-
-    function MaybeLeftParen(t, x) {
-        if (x.parenFreeMode)
-            return t.match(LEFT_PAREN) ? LEFT_PAREN : END;
-        return t.mustMatch(LEFT_PAREN).type;
-    }
-
-    function MaybeRightParen(t, p) {
-        if (p === LEFT_PAREN)
-            t.mustMatch(RIGHT_PAREN);
-    }
-
-    /*
-     * Statements :: (tokenizer, compiler context, node) -> void
-     *
-     * Parses a sequence of Statements.
-     */
-    function Statements(t, x, n) {
-        try {
-            while (!t.done && t.peek(true) !== RIGHT_CURLY)
-                n.push(Statement(t, x));
-        } catch (e) {
-            if (t.done)
-                t.unexpectedEOF = true;
-            throw e;
+            pushDestructuringVarDecls(sub, s);
         }
     }
+}
 
-    function Block(t, x) {
-        t.mustMatch(LEFT_CURLY);
-        var n = new Node(t, blockInit());
-        Statements(t, x.update({ parentBlock: n }).pushTarget(n), n);
-        t.mustMatch(RIGHT_CURLY);
-        return n;
-    }
+function Parser(tokenizer) {
+    tokenizer.parser = this;
+    this.t = tokenizer;
+    this.x = null;
+    this.unexpectedEOF = false;
+    options.mozillaMode && (this.mozillaMode = true);
+    options.parenFreeMode && (this.parenFreeMode = true);
+}
 
-    const DECLARED_FORM = 0, EXPRESSED_FORM = 1, STATEMENT_FORM = 2;
+function StaticContext(parentScript, parentBlock, inModule, inFunction, strictMode) {
+    this.parentScript = parentScript;
+    this.parentBlock = parentBlock || parentScript;
+    this.inModule = inModule || false;
+    this.inFunction = inFunction || false;
+    this.inForLoopInit = false;
+    this.topLevel = true;
+    this.allLabels = new Stack();
+    this.currentLabels = new Stack();
+    this.labeledTargets = new Stack();
+    this.defaultLoopTarget = null;
+    this.defaultTarget = null;
+    this.strictMode = strictMode;
+}
 
-    /*
-     * Export :: (binding node, boolean) -> Export
-     *
-     * Static semantic representation of a module export.
-     */
-    function Export(node, isDefinition) {
-        this.node = node;                 // the AST node declaring this individual export
-        this.isDefinition = isDefinition; // is the node an 'export'-annotated definition?
-        this.resolved = null;             // resolved pointer to the target of this export
-    }
-
-    /*
-     * registerExport :: (StringMap, EXPORT node) -> void
-     */
-    function registerExport(exports, decl) {
-        function register(name, exp) {
-            if (exports.has(name))
-                throw new SyntaxError("multiple exports of " + name);
-            exports.set(name, exp);
-        }
-
-        switch (decl.type) {
-          case MODULE:
-          case FUNCTION:
-            register(decl.name, new Export(decl, true));
-            break;
-
-          case VAR:
-            for (var i = 0; i < decl.children.length; i++)
-                register(decl.children[i].name, new Export(decl.children[i], true));
-            break;
-
-          case LET:
-          case CONST:
-            throw new Error("NYI: " + definitions.tokens[decl.type]);
-
-          case EXPORT:
-            for (var i = 0; i < decl.pathList.length; i++) {
-                var path = decl.pathList[i];
-                switch (path.type) {
-                  case OBJECT_INIT:
-                    for (var j = 0; j < path.children.length; j++) {
-                        // init :: IDENTIFIER | PROPERTY_INIT
-                        var init = path.children[j];
-                        if (init.type === IDENTIFIER)
-                            register(init.value, new Export(init, false));
-                        else
-                            register(init.children[0].value, new Export(init.children[1], false));
-                    }
-                    break;
-
-                  case DOT:
-                    register(path.children[1].value, new Export(path, false));
-                    break;
-
-                  case IDENTIFIER:
-                    register(path.value, new Export(path, false));
-                    break;
-
-                  default:
-                    throw new Error("unexpected export path: " + definitions.tokens[path.type]);
-                }
+StaticContext.prototype = {
+    // non-destructive update via prototype extension
+    update: function(ext) {
+        var desc = {};
+        for (var key in ext) {
+            desc[key] = {
+                value: ext[key],
+                writable: true,
+                enumerable: true,
+                configurable: true
             }
-            break;
-
-          default:
-            throw new Error("unexpected export decl: " + definitions.tokens[exp.type]);
         }
-    }
+        return Object.create(this, desc);
+    },
+    pushLabel: function(label) {
+        return this.update({ currentLabels: this.currentLabels.push(label),
+                             allLabels: this.allLabels.push(label) });
+    },
+    pushTarget: function(target) {
+        var isDefaultLoopTarget = target.isLoop;
+        var isDefaultTarget = isDefaultLoopTarget || target.type === SWITCH;
 
-    /*
-     * Module :: (node) -> Module
-     *
-     * Static semantic representation of a module.
-     */
-    function Module(node) {
-        var exports = node.body.exports;
-        var modDefns = node.body.modDefns;
+        if (this.currentLabels.isEmpty()) {
+            if (isDefaultLoopTarget) this.update({ defaultLoopTarget: target });
+            if (isDefaultTarget) this.update({ defaultTarget: target });
+            return this;
+        }
 
-        var exportedModules = new StringMap();
-
-        exports.forEach(function(name, exp) {
-            var node = exp.node;
-            if (node.type === MODULE) {
-                exportedModules.set(name, node);
-            } else if (!exp.isDefinition && node.type === IDENTIFIER && modDefns.has(node.value)) {
-                var mod = modDefns.get(node.value);
-                exportedModules.set(name, mod);
-            }
+        target.labels = new Dict();
+        this.currentLabels.forEach(function(label) {
+            target.labels.set(label, true);
         });
+        return this.update({ currentLabels: new Stack(),
+                             labeledTargets: this.labeledTargets.push(target),
+                             defaultLoopTarget: isDefaultLoopTarget
+                             ? target
+                             : this.defaultLoopTarget,
+                             defaultTarget: isDefaultTarget
+                             ? target
+                             : this.defaultTarget });
+    },
+    nest: function() {
+        return this.topLevel ? this.update({ topLevel: false }) : this;
+    },
+    canImport: function() {
+        return this.topLevel && !this.inFunction;
+    },
+    canExport: function() {
+        return this.inModule && this.topLevel && !this.inFunction;
+    },
+    banWith: function() {
+        return this.strictMode || this.inModule;
+    },
+    modulesAllowed: function() {
+        return this.topLevel && !this.inFunction;
+    }
+};
 
-        this.node = node;
-        this.exports = exports;
-        this.exportedModules = exportedModules;
+var Pp = Parser.prototype;
+
+Pp.mozillaMode = false;
+
+Pp.parenFreeMode = false;
+
+Pp.withContext = function(x, f) {
+    var x0 = this.x;
+    this.x = x;
+    var result = f.call(this);
+    // NB: we don't bother with finally, since exceptions trash the parser
+    this.x = x0;
+    return result;
+};
+
+Pp.newNode = function newNode(opts) {
+    return new Node(this.t, opts);
+};
+
+Pp.fail = function fail(msg) {
+    throw this.t.newSyntaxError(msg);
+};
+
+Pp.match = function match(tt, scanOperand, keywordIsName) {
+    return this.t.match(tt, scanOperand, keywordIsName);
+};
+
+Pp.mustMatch = function mustMatch(tt, keywordIsName) {
+    return this.t.mustMatch(tt, keywordIsName);
+};
+
+Pp.peek = function peek(scanOperand) {
+    return this.t.peek(scanOperand);
+};
+
+Pp.peekOnSameLine = function peekOnSameLine(scanOperand) {
+    return this.t.peekOnSameLine(scanOperand);
+};
+
+Pp.done = function done() {
+    return this.t.done;
+};
+
+/*
+ * Script :: (boolean, boolean, boolean) -> node
+ *
+ * Parses the toplevel and module/function bodies.
+ */
+Pp.Script = function Script(inModule, inFunction, expectEnd) {
+    var node = this.newNode(scriptInit());
+    var x2 = new StaticContext(node, node, inModule, inFunction);
+    this.withContext(x2, function() {
+        this.Statements(node, true);
+    });
+    if (expectEnd && !this.done())
+        this.fail("expected end of input");
+    return node;
+};
+
+/*
+ * Pragma :: (expression statement node) -> boolean
+ *
+ * Checks whether a node is a pragma and annotates it.
+ */
+function Pragma(n) {
+    if (n.type === SEMICOLON) {
+        var e = n.expression;
+        if (e.type === STRING && e.value === "use strict") {
+            n.pragma = "strict";
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ * Node :: (tokenizer, optional init object) -> node
+ */
+function Node(t, init) {
+    var token = t.token;
+    if (token) {
+        // If init.type exists it will override token.type.
+        this.type = token.type;
+        this.value = token.value;
+        this.lineno = token.lineno;
+
+        // Start and end are file positions for error handling.
+        this.start = token.start;
+        this.end = token.end;
+    } else {
+        this.lineno = t.lineno;
     }
 
-    /*
-     * Statement :: (tokenizer, compiler context) -> node
-     *
-     * Parses a Statement.
-     */
-    function Statement(t, x) {
-        var i, label, n, n2, p, c, ss, tt = t.get(true), tt2, x2, x3;
+    this.filename = t.filename;
+    this.children = [];
 
-        var comments = t.blockComments;
+    for (var prop in init)
+        this[prop] = init[prop];
+}
 
-        if (x.blackList[tt])
-            throw t.newSyntaxError(definitions.tokens[tt] + " statements only allowed in Harmony");
-        if (!x.allow(tt))
-            throw t.newSyntaxError(definitions.tokens[tt] + " statement in illegal context");
+/*
+ * SyntheticNode :: (optional init object) -> node
+ */
+function SyntheticNode(init) {
+    this.children = [];
+    for (var prop in init)
+        this[prop] = init[prop];
+    this.synthetic = true;
+}
 
-        // Cases for statements ending in a right curly return early, avoiding the
-        // common semicolon insertion magic after this switch.
-        switch (tt) {
-          case IMPORT:
-            n = new Node(t);
-            n.pathList = ImportPathList(t, x);
-            x.parentScript.impDecls.push(n);
-            break;
+var Np = Node.prototype = SyntheticNode.prototype = {};
+Np.constructor = Node;
 
-          case EXPORT:
-            switch (t.peek()) {
-              case MODULE:
-              case FUNCTION:
-              case LET:
-              case VAR:
-              case CONST:
-                n = Statement(t, x);
-                n.blockComments = comments;
-                n.exported = true;
-                x.parentScript.expDecls.push(n);
-                registerExport(x.parentScript.exports, n);
-                return n;
+var TO_SOURCE_SKIP = {
+    type: true,
+    value: true,
+    lineno: true,
+    start: true,
+    end: true,
+    tokenizer: true,
+    assignOp: true
+};
+function unevalableConst(code) {
+    var token = definitions.tokens[code];
+    var constName = definitions.opTypeNames.hasOwnProperty(token)
+        ? definitions.opTypeNames[token]
+        : token in definitions.keywords
+        ? token.toUpperCase()
+        : token;
+    return { toSource: function() { return constName } };
+}
+Np.toSource = function toSource() {
+    var mock = {};
+    var self = this;
+    mock.type = unevalableConst(this.type);
+    // avoid infinite recursion in case of back-links
+    if (this.generatingSource)
+        return mock.toSource();
+    this.generatingSource = true;
+    if ("value" in this)
+        mock.value = this.value;
+    if ("lineno" in this)
+        mock.lineno = this.lineno;
+    if ("start" in this)
+        mock.start = this.start;
+    if ("end" in this)
+        mock.end = this.end;
+    if (this.assignOp)
+        mock.assignOp = unevalableConst(this.assignOp);
+    for (var key in this) {
+        if (this.hasOwnProperty(key) && !(key in TO_SOURCE_SKIP))
+            mock[key] = this[key];
+    }
+    try {
+        return mock.toSource();
+    } finally {
+        delete this.generatingSource;
+    }
+};
+
+// Always use push to add operands to an expression, to update start and end.
+Np.push = function (kid) {
+    // kid can be null e.g. [1, , 2].
+    if (kid !== null) {
+        if (kid.start < this.start)
+            this.start = kid.start;
+        if (this.end < kid.end)
+            this.end = kid.end;
+    }
+    return this.children.push(kid);
+}
+
+Node.indentLevel = 0;
+
+function tokenString(tt) {
+    var t = definitions.tokens[tt];
+    return /^\W/.test(t) ? definitions.opTypeNames[t] : t.toUpperCase();
+}
+
+Np.toString = function () {
+    var a = [];
+    for (var i in this) {
+        if (this.hasOwnProperty(i) && i !== 'type' && i !== 'target')
+            a.push({id: i, value: this[i]});
+    }
+    a.sort(function (a,b) { return (a.id < b.id) ? -1 : 1; });
+    var INDENTATION = "    ";
+    var n = ++Node.indentLevel;
+    var s = "{\n" + INDENTATION.repeat(n) + "type: " + tokenString(this.type);
+    for (i = 0; i < a.length; i++)
+        s += ",\n" + INDENTATION.repeat(n) + a[i].id + ": " + a[i].value;
+    n = --Node.indentLevel;
+    s += "\n" + INDENTATION.repeat(n) + "}";
+    return s;
+}
+
+Np.synth = function(init) {
+    var node = new SyntheticNode(init);
+    node.filename = this.filename;
+    node.lineno = this.lineno;
+    node.start = this.start;
+    node.end = this.end;
+    return node;
+};
+
+/*
+ * Helper init objects for common nodes.
+ */
+
+var LOOP_INIT = { isLoop: true };
+
+function blockInit() {
+    return { type: BLOCK, varDecls: [] };
+}
+
+function scriptInit() {
+    return { type: SCRIPT,
+             funDecls: [],
+             varDecls: [],
+             modDefns: new Dict(),
+             modAssns: new Dict(),
+             modDecls: new Dict(),
+             modLoads: new Dict(),
+             impDecls: [],
+             expDecls: [],
+             exports: new Dict(),
+             hasEmptyReturn: false,
+             hasReturnWithValue: false,
+             hasYield: false };
+}
+
+definitions.defineGetter(Np, "length",
+                         function() {
+                             throw new Error("Node.prototype.length is gone; " +
+                                             "use n.children.length instead");
+                         });
+
+definitions.defineProperty(String.prototype, "repeat",
+                           function(n) {
+                               var s = "", t = this + s;
+                               while (--n >= 0)
+                                   s += t;
+                               return s;
+                           }, false, false, true);
+
+Pp.MaybeLeftParen = function MaybeLeftParen() {
+    if (this.parenFreeMode)
+        return this.match(LEFT_PAREN) ? LEFT_PAREN : END;
+    return this.mustMatch(LEFT_PAREN).type;
+};
+
+Pp.MaybeRightParen = function MaybeRightParen(p) {
+    if (p === LEFT_PAREN)
+        this.mustMatch(RIGHT_PAREN);
+}
+
+/*
+ * Statements :: (node[, boolean]) -> void
+ *
+ * Parses a sequence of Statements.
+ */
+Pp.Statements = function Statements(n, topLevel) {
+    var prologue = !!topLevel;
+    try {
+        while (!this.done() && this.peek(true) !== RIGHT_CURLY) {
+            var n2 = this.Statement();
+            n.push(n2);
+            if (prologue && Pragma(n2)) {
+                this.x.strictMode = true;
+                n.strict = true;
+            } else {
+                prologue = false;
+            }
+        }
+    } catch (e) {
+        try {
+            if (this.done())
+                this.unexpectedEOF = true;
+        } catch(e) {}
+        throw e;
+    }
+}
+
+Pp.Block = function Block() {
+    this.mustMatch(LEFT_CURLY);
+    var n = this.newNode(blockInit());
+    var x2 = this.x.update({ parentBlock: n }).pushTarget(n);
+    this.withContext(x2, function() {
+        this.Statements(n);
+    });
+    this.mustMatch(RIGHT_CURLY);
+    return n;
+}
+
+var DECLARED_FORM = 0, EXPRESSED_FORM = 1, STATEMENT_FORM = 2;
+
+/*
+ * Export :: (binding node, boolean) -> Export
+ *
+ * Static semantic representation of a module export.
+ */
+function Export(node, isDefinition) {
+    this.node = node;                 // the AST node declaring this individual export
+    this.isDefinition = isDefinition; // is the node an 'export'-annotated definition?
+    this.resolved = null;             // resolved pointer to the target of this export
+}
+
+/*
+ * registerExport :: (Dict, EXPORT node) -> void
+ */
+function registerExport(exports, decl) {
+    function register(name, exp) {
+        if (exports.has(name))
+            throw new SyntaxError("multiple exports of " + name);
+        exports.set(name, exp);
+    }
+
+    switch (decl.type) {
+      case MODULE:
+      case FUNCTION:
+        register(decl.name, new Export(decl, true));
+        break;
+
+      case VAR:
+        for (var i = 0; i < decl.children.length; i++)
+            register(decl.children[i].name, new Export(decl.children[i], true));
+        break;
+
+      case LET:
+      case CONST:
+        throw new Error("NYI: " + definitions.tokens[decl.type]);
+
+      case EXPORT:
+        for (var i = 0; i < decl.pathList.length; i++) {
+            var path = decl.pathList[i];
+            switch (path.type) {
+              case OBJECT_INIT:
+                for (var j = 0; j < path.children.length; j++) {
+                    // init :: IDENTIFIER | PROPERTY_INIT
+                    var init = path.children[j];
+                    if (init.type === IDENTIFIER)
+                        register(init.value, new Export(init, false));
+                    else
+                        register(init.children[0].value, new Export(init.children[1], false));
+                }
+                break;
+
+              case DOT:
+                register(path.children[1].value, new Export(path, false));
+                break;
+
+              case IDENTIFIER:
+                register(path.value, new Export(path, false));
+                break;
 
               default:
-                n = new Node(t);
-                n.pathList = ExportPathList(t, x);
-                break;
+                throw new Error("unexpected export path: " + definitions.tokens[path.type]);
             }
-            x.parentScript.expDecls.push(n);
-            registerExport(x.parentScript.exports, n);
-            break;
+        }
+        break;
 
+      default:
+        throw new Error("unexpected export decl: " + definitions.tokens[exp.type]);
+    }
+}
+
+/*
+ * Module :: (node) -> Module
+ *
+ * Static semantic representation of a module.
+ */
+function Module(node) {
+    var exports = node.body.exports;
+    var modDefns = node.body.modDefns;
+
+    var exportedModules = new Dict();
+
+    exports.forEach(function(name, exp) {
+        var node = exp.node;
+        if (node.type === MODULE) {
+            exportedModules.set(name, node);
+        } else if (!exp.isDefinition && node.type === IDENTIFIER && modDefns.has(node.value)) {
+            var mod = modDefns.get(node.value);
+            exportedModules.set(name, mod);
+        }
+    });
+
+    this.node = node;
+    this.exports = exports;
+    this.exportedModules = exportedModules;
+}
+
+/*
+ * Statement :: () -> node
+ *
+ * Parses a Statement.
+ */
+Pp.Statement = function Statement() {
+    var i, label, n, n2, p, c, ss, tt = this.t.get(true), tt2, x0, x2, x3;
+
+    var comments = this.t.blockComments;
+
+    // Cases for statements ending in a right curly return early, avoiding the
+    // common semicolon insertion magic after this switch.
+    switch (tt) {
+      case IMPORT:
+        if (!this.x.canImport())
+            this.fail("illegal context for import statement");
+        n = this.newNode();
+        n.pathList = this.ImportPathList();
+        this.x.parentScript.impDecls.push(n);
+        break;
+
+      case EXPORT:
+        if (!this.x.canExport())
+            this.fail("export statement not in module top level");
+        switch (this.peek()) {
           case MODULE:
-            n = new Node(t);
-            n.blockComments = comments;
-            t.mustMatch(IDENTIFIER);
-            label = t.token.value;
-
-            if (t.match(LEFT_CURLY)) {
-                n.name = label;
-                n.body = Script(t, true, false);
-                n.module = new Module(n);
-                t.mustMatch(RIGHT_CURLY);
-                x.parentScript.modDefns.set(n.name, n);
-                return n;
-            }
-
-            t.unget();
-            ModuleVariables(t, x, n);
-            return n;
-
           case FUNCTION:
-            // DECLARED_FORM extends funDecls of x, STATEMENT_FORM doesn't.
-            return FunctionDefinition(t, x, true, x.topLevel ? DECLARED_FORM : STATEMENT_FORM, comments);
-
-          case LEFT_CURLY:
-            n = new Node(t, blockInit());
-            Statements(t, x.update({ parentBlock: n }).pushTarget(n).nest(), n);
-            t.mustMatch(RIGHT_CURLY);
+          case LET:
+          case VAR:
+          case CONST:
+            n = this.Statement();
+            n.blockComments = comments;
+            n.exported = true;
+            this.x.parentScript.expDecls.push(n);
+            registerExport(this.x.parentScript.exports, n);
             return n;
+        }
+        n = this.newNode();
+        n.pathList = this.ExportPathList();
+        this.x.parentScript.expDecls.push(n);
+        registerExport(this.x.parentScript.exports, n);
+        break;
 
-          case IF:
-            n = new Node(t);
-            n.condition = HeadExpression(t, x);
-            x2 = x.pushTarget(n).nest();
-            n.thenPart = Statement(t, x2);
-            n.elsePart = t.match(ELSE, true) ? Statement(t, x2) : null;
-            return n;
+      case FUNCTION:
+        // DECLARED_FORM extends funDecls of x, STATEMENT_FORM doesn't.
+        return this.FunctionDefinition(true, this.x.topLevel ? DECLARED_FORM : STATEMENT_FORM, comments);
 
-          case SWITCH:
-            // This allows CASEs after a DEFAULT, which is in the standard.
-            n = new Node(t, { cases: [], defaultIndex: -1 });
-            n.discriminant = HeadExpression(t, x);
-            x2 = x.pushTarget(n).nest();
-            t.mustMatch(LEFT_CURLY);
-            while ((tt = t.get()) !== RIGHT_CURLY) {
+      case LEFT_CURLY:
+        n = this.newNode(blockInit());
+        x2 = this.x.update({ parentBlock: n }).pushTarget(n).nest();
+        this.withContext(x2, function() {
+            this.Statements(n);
+        });
+        this.mustMatch(RIGHT_CURLY);
+        return n;
+
+      case IF:
+        n = this.newNode();
+        n.condition = this.HeadExpression();
+        x2 = this.x.pushTarget(n).nest();
+        this.withContext(x2, function() {
+            n.thenPart = this.Statement();
+            n.elsePart = this.match(ELSE, true) ? this.Statement() : null;
+        });
+        return n;
+
+      case SWITCH:
+        // This allows CASEs after a DEFAULT, which is in the standard.
+        n = this.newNode({ cases: [], defaultIndex: -1 });
+        n.discriminant = this.HeadExpression();
+        x2 = this.x.pushTarget(n).nest();
+        this.withContext(x2, function() {
+            this.mustMatch(LEFT_CURLY);
+            while ((tt = this.t.get()) !== RIGHT_CURLY) {
                 switch (tt) {
                   case DEFAULT:
                     if (n.defaultIndex >= 0)
-                        throw t.newSyntaxError("More than one switch default");
+                        this.fail("More than one switch default");
                     // FALL THROUGH
                   case CASE:
-                    n2 = new Node(t);
+                    n2 = this.newNode();
                     if (tt === DEFAULT)
                         n.defaultIndex = n.cases.length;
                     else
-                        n2.caseLabel = Expression(t, x2, COLON);
+                        n2.caseLabel = this.Expression(COLON);
                     break;
 
                   default:
-                    throw t.newSyntaxError("Invalid switch case");
+                    this.fail("Invalid switch case");
                 }
-                t.mustMatch(COLON);
-                n2.statements = new Node(t, blockInit());
-                while ((tt=t.peek(true)) !== CASE && tt !== DEFAULT &&
-                        tt !== RIGHT_CURLY)
-                    n2.statements.push(Statement(t, x2));
+                this.mustMatch(COLON);
+                n2.statements = this.newNode(blockInit());
+                while ((tt=this.peek(true)) !== CASE && tt !== DEFAULT &&
+                       tt !== RIGHT_CURLY)
+                    n2.statements.push(this.Statement());
                 n.cases.push(n2);
             }
-            return n;
+        });
+        return n;
 
-          case FOR:
-            n = new Node(t, LOOP_INIT);
-            n.blockComments = comments;
-            if (t.match(IDENTIFIER)) {
-                if (t.token.value === "each")
-                    n.isEach = true;
-                else
-                    t.unget();
-            }
-            if (!x.parenFreeMode)
-                t.mustMatch(LEFT_PAREN);
-            x2 = x.pushTarget(n).nest();
-            x3 = x.update({ inForLoopInit: true });
-            n2 = null;
-            if ((tt = t.peek(true)) !== SEMICOLON) {
+      case FOR:
+        n = this.newNode(LOOP_INIT);
+        n.blockComments = comments;
+        if (this.match(IDENTIFIER)) {
+            if (this.t.token.value === "each")
+                n.isEach = true;
+            else
+                this.t.unget();
+        }
+        if (!this.parenFreeMode)
+            this.mustMatch(LEFT_PAREN);
+        x2 = this.x.pushTarget(n).nest();
+        x3 = this.x.update({ inForLoopInit: true });
+        n2 = null;
+        if ((tt = this.peek(true)) !== SEMICOLON) {
+            this.withContext(x3, function() {
                 if (tt === VAR || tt === CONST) {
-                    t.get();
-                    n2 = Variables(t, x3);
+                    this.t.get();
+                    n2 = this.Variables();
                 } else if (tt === LET) {
-                    t.get();
-                    if (t.peek() === LEFT_PAREN) {
-                        n2 = LetBlock(t, x3, false);
+                    this.t.get();
+                    if (this.peek() === LEFT_PAREN) {
+                        n2 = this.LetBlock(false);
                     } else {
                         // Let in for head, we need to add an implicit block
                         // around the rest of the for.
-                        x3.parentBlock = n;
+                        this.x.parentBlock = n;
                         n.varDecls = [];
-                        n2 = Variables(t, x3);
+                        n2 = this.Variables();
                     }
                 } else {
-                    n2 = Expression(t, x3);
+                    n2 = this.Expression();
                 }
-            }
-            if (n2 && t.match(IN)) {
-                n.type = FOR_IN;
-                n.object = Expression(t, x3);
+            });
+        }
+        if (n2 && this.match(IN)) {
+            n.type = FOR_IN;
+            this.withContext(x3, function() {
+                n.object = this.Expression();
                 if (n2.type === VAR || n2.type === LET) {
                     c = n2.children;
 
@@ -7264,8 +7888,9 @@ define('ace/narcissus/jsparse', ['require', 'exports', 'module' , 'ace/narcissus
                     // there must be only one destructuring or only one
                     // decl.
                     if (c.length !== 1 && n2.destructurings.length !== 1) {
+                        // FIXME: this.fail ?
                         throw new SyntaxError("Invalid for..in left-hand side",
-                                              t.filename, n2.lineno);
+                                              this.filename, n2.lineno);
                     }
                     if (n2.destructurings.length > 0) {
                         n.iterator = n2.destructurings[0];
@@ -7275,1252 +7900,1364 @@ define('ace/narcissus/jsparse', ['require', 'exports', 'module' , 'ace/narcissus
                     n.varDecl = n2;
                 } else {
                     if (n2.type === ARRAY_INIT || n2.type === OBJECT_INIT) {
-                        n2.destructuredNames = checkDestructuring(t, x3, n2);
+                        n2.destructuredNames = this.checkDestructuring(n2);
                     }
                     n.iterator = n2;
                 }
-            } else {
-                x3.inForLoopInit = false;
-                n.setup = n2;
-                t.mustMatch(SEMICOLON);
-                if (n.isEach)
-                    throw t.newSyntaxError("Invalid for each..in loop");
-                n.condition = (t.peek(true) === SEMICOLON)
-                              ? null
-                              : Expression(t, x3);
-                t.mustMatch(SEMICOLON);
-                tt2 = t.peek(true);
-                n.update = (x.parenFreeMode
+            });
+        } else {
+            x3.inForLoopInit = false;
+            n.setup = n2;
+            this.mustMatch(SEMICOLON);
+            if (n.isEach)
+                this.fail("Invalid for each..in loop");
+            this.withContext(x3, function() {
+                n.condition = (this.peek(true) === SEMICOLON)
+                    ? null
+                    : this.Expression();
+                this.mustMatch(SEMICOLON);
+                tt2 = this.peek(true);
+                n.update = (this.parenFreeMode
                             ? tt2 === LEFT_CURLY || definitions.isStatementStartCode[tt2]
                             : tt2 === RIGHT_PAREN)
-                           ? null
-                           : Expression(t, x3);
+                    ? null
+                    : this.Expression();
+            });
+        }
+        if (!this.parenFreeMode)
+            this.mustMatch(RIGHT_PAREN);
+        this.withContext(x2, function() {
+            n.body = this.Statement();
+        });
+        return n;
+
+      case WHILE:
+        n = this.newNode({ isLoop: true });
+        n.blockComments = comments;
+        n.condition = this.HeadExpression();
+        x2 = this.x.pushTarget(n).nest();
+        this.withContext(x2, function() {
+            n.body = this.Statement();
+        });
+        return n;
+
+      case DO:
+        n = this.newNode({ isLoop: true });
+        n.blockComments = comments;
+        x2 = this.x.pushTarget(n).next();
+        this.withContext(x2, function() {
+            n.body = this.Statement();
+        });
+        this.mustMatch(WHILE);
+        n.condition = this.HeadExpression();
+        // <script language="JavaScript"> (without version hints) may need
+        // automatic semicolon insertion without a newline after do-while.
+        // See http://bugzilla.mozilla.org/show_bug.cgi?id=238945.
+        this.match(SEMICOLON);
+        return n;
+
+      case BREAK:
+      case CONTINUE:
+        n = this.newNode();
+        n.blockComments = comments;
+
+        // handle the |foo: break foo;| corner case
+        x2 = this.x.pushTarget(n);
+
+        if (this.peekOnSameLine() === IDENTIFIER) {
+            this.t.get();
+            n.label = this.t.token.value;
+        }
+
+        if (n.label) {
+            n.target = x2.labeledTargets.find(function(target) {
+                return target.labels.has(n.label)
+            });
+        } else if (tt === CONTINUE) {
+            n.target = x2.defaultLoopTarget;
+        } else {
+            n.target = x2.defaultTarget;
+        }
+
+        if (!n.target)
+            this.fail("Invalid " + ((tt === BREAK) ? "break" : "continue"));
+        if (!n.target.isLoop && tt === CONTINUE)
+            this.fail("Invalid continue");
+
+        break;
+
+      case TRY:
+        n = this.newNode({ catchClauses: [] });
+        n.blockComments = comments;
+        n.tryBlock = this.Block();
+        while (this.match(CATCH)) {
+            n2 = this.newNode();
+            p = this.MaybeLeftParen();
+            switch (this.t.get()) {
+              case LEFT_BRACKET:
+              case LEFT_CURLY:
+                // Destructured catch identifiers.
+                this.t.unget();
+                n2.varName = this.DestructuringExpression(true);
+                break;
+              case IDENTIFIER:
+                n2.varName = this.t.token.value;
+                break;
+              default:
+                this.fail("missing identifier in catch");
+                break;
             }
-            if (!x.parenFreeMode)
-                t.mustMatch(RIGHT_PAREN);
-            n.body = Statement(t, x2);
-            return n;
+            if (this.match(IF)) {
+                if (!this.mozillaMode)
+                    this.fail("Illegal catch guard");
+                if (n.catchClauses.length && !n.catchClauses.top().guard)
+                    this.fail("Guarded catch after unguarded");
+                n2.guard = this.Expression();
+            }
+            this.MaybeRightParen(p);
+            n2.block = this.Block();
+            n.catchClauses.push(n2);
+        }
+        if (this.match(FINALLY))
+            n.finallyBlock = this.Block();
+        if (!n.catchClauses.length && !n.finallyBlock)
+            this.fail("Invalid try statement");
+        return n;
 
-          case WHILE:
-            n = new Node(t, { isLoop: true });
-            n.blockComments = comments;
-            n.condition = HeadExpression(t, x);
-            n.body = Statement(t, x.pushTarget(n).nest());
-            return n;
+      case CATCH:
+      case FINALLY:
+        this.fail(definitions.tokens[tt] + " without preceding try");
 
-          case DO:
-            n = new Node(t, { isLoop: true });
+      case THROW:
+        n = this.newNode();
+        n.exception = this.Expression();
+        break;
+
+      case RETURN:
+        n = this.ReturnOrYield();
+        break;
+
+      case WITH:
+        if (this.x.banWith())
+            this.fail("with statements not allowed in strict code or modules");
+        n = this.newNode();
+        n.blockComments = comments;
+        n.object = this.HeadExpression();
+        x2 = this.x.pushTarget(n).next();
+        this.withContext(x2, function() {
+            n.body = this.Statement();
+        });
+        return n;
+
+      case VAR:
+      case CONST:
+        n = this.Variables();
+        break;
+
+      case LET:
+        if (this.peek() === LEFT_PAREN) {
+            n = this.LetBlock(true);
+            return n;
+        }
+        n = this.Variables();
+        break;
+
+      case DEBUGGER:
+        n = this.newNode();
+        break;
+
+      case NEWLINE:
+      case SEMICOLON:
+        n = this.newNode({ type: SEMICOLON });
+        n.blockComments = comments;
+        n.expression = null;
+        return n;
+
+      case IDENTIFIER:
+      case USE:
+      case MODULE:
+        switch (this.t.token.value) {
+          case "use":
+            if (!isPragmaToken(this.peekOnSameLine())) {
+                this.t.unget();
+                break;
+            }
+            return this.newNode({ type: USE, params: this.Pragmas() });
+
+          case "module":
+            if (!this.x.modulesAllowed())
+                this.fail("module declaration not at top level");
+            this.x.parentScript.hasModules = true;
+            tt = this.peekOnSameLine();
+            if (tt !== IDENTIFIER && tt !== LEFT_CURLY) {
+                this.t.unget();
+                break;
+            }
+            n = this.newNode({ type: MODULE });
             n.blockComments = comments;
-            n.body = Statement(t, x.pushTarget(n).nest());
-            t.mustMatch(WHILE);
-            n.condition = HeadExpression(t, x);
-            if (!x.ecmaStrictMode) {
-                // <script language="JavaScript"> (without version hints) may need
-                // automatic semicolon insertion without a newline after do-while.
-                // See http://bugzilla.mozilla.org/show_bug.cgi?id=238945.
-                t.match(SEMICOLON);
+            this.mustMatch(IDENTIFIER);
+            label = this.t.token.value;
+
+            if (this.match(LEFT_CURLY)) {
+                n.name = label;
+                n.body = this.Script(true, false);
+                n.module = new Module(n);
+                this.mustMatch(RIGHT_CURLY);
+                this.x.parentScript.modDefns.set(n.name, n);
                 return n;
             }
-            break;
 
-          case BREAK:
-          case CONTINUE:
-            n = new Node(t);
-            n.blockComments = comments;
-
-            // handle the |foo: break foo;| corner case
-            x2 = x.pushTarget(n);
-
-            if (t.peekOnSameLine() === IDENTIFIER) {
-                t.get();
-                n.label = t.token.value;
-            }
-
-            if (n.label) {
-                n.target = x2.labeledTargets.find(function(target) { return target.labels.has(n.label) });
-            } else if (tt === CONTINUE) {
-                n.target = x2.defaultLoopTarget;
-            } else {
-                n.target = x2.defaultTarget;
-            }
-
-            if (!n.target)
-                throw t.newSyntaxError("Invalid " + ((tt === BREAK) ? "break" : "continue"));
-            if (!n.target.isLoop && tt === CONTINUE)
-                throw t.newSyntaxError("Invalid continue");
-
-            break;
-
-          case TRY:
-            n = new Node(t, { catchClauses: [] });
-            n.blockComments = comments;
-            n.tryBlock = Block(t, x);
-            while (t.match(CATCH)) {
-                n2 = new Node(t);
-                p = MaybeLeftParen(t, x);
-                switch (t.get()) {
-                  case LEFT_BRACKET:
-                  case LEFT_CURLY:
-                    // Destructured catch identifiers.
-                    t.unget();
-                    n2.varName = DestructuringExpression(t, x, true);
-                    break;
-                  case IDENTIFIER:
-                    n2.varName = t.token.value;
-                    break;
-                  default:
-                    throw t.newSyntaxError("missing identifier in catch");
-                    break;
-                }
-                if (t.match(IF)) {
-                    if (x.ecma3OnlyMode)
-                        throw t.newSyntaxError("Illegal catch guard");
-                    if (n.catchClauses.length && !n.catchClauses.top().guard)
-                        throw t.newSyntaxError("Guarded catch after unguarded");
-                    n2.guard = Expression(t, x);
-                }
-                MaybeRightParen(t, p);
-                n2.block = Block(t, x);
-                n.catchClauses.push(n2);
-            }
-            if (t.match(FINALLY))
-                n.finallyBlock = Block(t, x);
-            if (!n.catchClauses.length && !n.finallyBlock)
-                throw t.newSyntaxError("Invalid try statement");
-            return n;
-
-          case CATCH:
-          case FINALLY:
-            throw t.newSyntaxError(definitions.tokens[tt] + " without preceding try");
-
-          case THROW:
-            n = new Node(t);
-            n.exception = Expression(t, x);
-            break;
-
-          case RETURN:
-            n = ReturnOrYield(t, x);
-            break;
-
-          case WITH:
-            n = new Node(t);
-            n.blockComments = comments;
-            n.object = HeadExpression(t, x);
-            n.body = Statement(t, x.pushTarget(n).nest());
-            return n;
-
-          case VAR:
-          case CONST:
-            n = Variables(t, x);
-            break;
-
-          case LET:
-            if (t.peek() === LEFT_PAREN)
-                n = LetBlock(t, x, true);
-            else
-                n = Variables(t, x);
-            break;
-
-          case DEBUGGER:
-            n = new Node(t);
-            break;
-
-          case NEWLINE:
-          case SEMICOLON:
-            n = new Node(t, { type: SEMICOLON });
-            n.blockComments = comments;
-            n.expression = null;
+            this.t.unget();
+            this.ModuleVariables(n);
             return n;
 
           default:
-            if (tt === IDENTIFIER) {
-                tt = t.peek();
-                // Labeled statement.
-                if (tt === COLON) {
-                    label = t.token.value;
-                    if (x.allLabels.has(label))
-                        throw t.newSyntaxError("Duplicate label");
-                    t.get();
-                    n = new Node(t, { type: LABEL, label: label });
-                    n.blockComments = comments;
-                    n.statement = Statement(t, x.pushLabel(label).nest());
-                    n.target = (n.statement.type === LABEL) ? n.statement.target : n.statement;
-                    return n;
-                }
+            tt = this.peek();
+            // Labeled statement.
+            if (tt === COLON) {
+                label = this.t.token.value;
+                if (this.x.allLabels.has(label))
+                    this.fail("Duplicate label: " + label);
+                this.t.get();
+                n = this.newNode({ type: LABEL, label: label });
+                n.blockComments = comments;
+                x2 = this.x.pushLabel(label).nest();
+                this.withContext(x2, function() {
+                    n.statement = this.Statement();
+                });
+                n.target = (n.statement.type === LABEL) ? n.statement.target : n.statement;
+                return n;
             }
+            // FALL THROUGH
+        }
+        // FALL THROUGH
 
-            // Expression statement.
-            // We unget the current token to parse the expression as a whole.
-            n = new Node(t, { type: SEMICOLON });
-            t.unget();
-            n.blockComments = comments;
-            n.expression = Expression(t, x);
-            n.end = n.expression.end;
+      default:
+        // Expression statement.
+        // We unget the current token to parse the expression as a whole.
+        n = this.newNode({ type: SEMICOLON });
+        this.t.unget();
+        n.blockComments = comments;
+        n.expression = this.Expression();
+        n.end = n.expression.end;
+        break;
+    }
+
+    n.blockComments = comments;
+    this.MagicalSemicolon();
+    return n;
+}
+
+/*
+ * isPragmaToken :: (number) -> boolean
+ */
+function isPragmaToken(tt) {
+    switch (tt) {
+      case IDENTIFIER:
+      case STRING:
+      case NUMBER:
+      case NULL:
+      case TRUE:
+      case FALSE:
+        return true;
+    }
+    return false;
+}
+
+/*
+ * Pragmas :: () -> Array[Array[token]]
+ */
+Pp.Pragmas = function Pragmas() {
+    var pragmas = [];
+    do {
+        pragmas.push(this.Pragma());
+    } while (this.match(COMMA));
+    this.MagicalSemicolon();
+    return pragmas;
+}
+
+/*
+ * Pragmas :: () -> Array[token]
+ */
+Pp.Pragma = function Pragma() {
+    var items = [];
+    var tt;
+    do {
+        tt = this.t.get(true);
+        items.push(this.t.token);
+    } while (isPragmaToken(this.peek()));
+    return items;
+}
+
+/*
+ * MagicalSemicolon :: () -> void
+ */
+Pp.MagicalSemicolon = function MagicalSemicolon() {
+    var tt;
+    if (this.t.lineno === this.t.token.lineno) {
+        tt = this.peekOnSameLine();
+        if (tt !== END && tt !== NEWLINE && tt !== SEMICOLON && tt !== RIGHT_CURLY)
+            this.fail("missing ; before statement");
+    }
+    this.match(SEMICOLON);
+}
+
+/*
+ * ReturnOrYield :: () -> (RETURN | YIELD) node
+ */
+Pp.ReturnOrYield = function ReturnOrYield() {
+    var n, b, tt = this.t.token.type, tt2;
+
+    var parentScript = this.x.parentScript;
+
+    if (tt === RETURN) {
+        if (!this.x.inFunction)
+            this.fail("Return not in function");
+    } else /* if (tt === YIELD) */ {
+        if (!this.x.inFunction)
+            this.fail("Yield not in function");
+        parentScript.hasYield = true;
+    }
+    n = this.newNode({ value: undefined });
+
+    tt2 = (tt === RETURN) ? this.peekOnSameLine(true) : this.peek(true);
+    if (tt2 !== END && tt2 !== NEWLINE &&
+        tt2 !== SEMICOLON && tt2 !== RIGHT_CURLY
+        && (tt !== YIELD ||
+            (tt2 !== tt && tt2 !== RIGHT_BRACKET && tt2 !== RIGHT_PAREN &&
+             tt2 !== COLON && tt2 !== COMMA))) {
+        if (tt === RETURN) {
+            n.value = this.Expression();
+            parentScript.hasReturnWithValue = true;
+        } else {
+            n.value = this.AssignExpression();
+        }
+    } else if (tt === RETURN) {
+        parentScript.hasEmptyReturn = true;
+    }
+
+    return n;
+}
+
+/*
+ * ModuleExpression :: () -> (STRING | IDENTIFIER | DOT) node
+ */
+Pp.ModuleExpression = function ModuleExpression() {
+    return this.match(STRING) ? this.newNode() : this.QualifiedPath();
+}
+
+/*
+ * ImportPathList :: () -> Array[DOT node]
+ */
+Pp.ImportPathList = function ImportPathList() {
+    var a = [];
+    do {
+        a.push(this.ImportPath());
+    } while (this.match(COMMA));
+    return a;
+}
+
+/*
+ * ImportPath :: () -> DOT node
+ */
+Pp.ImportPath = function ImportPath() {
+    var n = this.QualifiedPath();
+    if (!this.match(DOT)) {
+        if (n.type === IDENTIFIER)
+            this.fail("cannot import local variable");
+        return n;
+    }
+
+    var n2 = this.newNode();
+    n2.push(n);
+    n2.push(this.ImportSpecifierSet());
+    return n2;
+}
+
+/*
+ * ExplicitSpecifierSet :: (() -> node) -> OBJECT_INIT node
+ */
+Pp.ExplicitSpecifierSet = function ExplicitSpecifierSet(SpecifierRHS) {
+    var n, n2, id, tt;
+
+    n = this.newNode({ type: OBJECT_INIT });
+    this.mustMatch(LEFT_CURLY);
+
+    if (!this.match(RIGHT_CURLY)) {
+        do {
+            id = this.Identifier();
+            if (this.match(COLON)) {
+                n2 = this.newNode({ type: PROPERTY_INIT });
+                n2.push(id);
+                n2.push(SpecifierRHS());
+                n.push(n2);
+            } else {
+                n.push(id);
+            }
+        } while (!this.match(RIGHT_CURLY) && this.mustMatch(COMMA));
+    }
+
+    return n;
+}
+
+/*
+ * ImportSpecifierSet :: () -> (IDENTIFIER | OBJECT_INIT) node
+ */
+Pp.ImportSpecifierSet = function ImportSpecifierSet() {
+    var self = this;
+    return this.match(MUL)
+        ? this.newNode({ type: IDENTIFIER, name: "*" })
+    : ExplicitSpecifierSet(function() { return self.Identifier() });
+}
+
+/*
+ * Identifier :: () -> IDENTIFIER node
+ */
+Pp.Identifier = function Identifier() {
+    this.mustMatch(IDENTIFIER);
+    return this.newNode({ type: IDENTIFIER });
+}
+
+/*
+ * IdentifierName :: () -> IDENTIFIER node
+ */
+Pp.IdentifierName = function IdentifierName() {
+    this.mustMatch(IDENTIFIER, true);
+    return this.newNode({ type: IDENTIFIER });
+}
+
+/*
+ * QualifiedPath :: () -> (IDENTIFIER | DOT) node
+ */
+Pp.QualifiedPath = function QualifiedPath() {
+    var n, n2;
+
+    n = this.Identifier();
+
+    while (this.match(DOT)) {
+        if (this.peek() !== IDENTIFIER) {
+            // Unget the '.' token, which isn't part of the QualifiedPath.
+            this.t.unget();
             break;
         }
-
-        n.blockComments = comments;
-        MagicalSemicolon(t);
-        return n;
-    }
-
-    /*
-     * MagicalSemicolon :: (tokenizer) -> void
-     */
-    function MagicalSemicolon(t) {
-        var tt;
-        if (t.lineno === t.token.lineno) {
-            tt = t.peekOnSameLine();
-            if (tt !== END && tt !== NEWLINE && tt !== SEMICOLON && tt !== RIGHT_CURLY)
-                throw t.newSyntaxError("missing ; before statement");
-        }
-        t.match(SEMICOLON);
-    }
-
-    /*
-     * ReturnOrYield :: (tokenizer, compiler context) -> (RETURN | YIELD) node
-     */
-    function ReturnOrYield(t, x) {
-        var n, b, tt = t.token.type, tt2;
-
-        var parentScript = x.parentScript;
-
-        if (tt === RETURN) {
-            if (!x.inFunction)
-                throw t.newSyntaxError("Return not in function");
-        } else /* if (tt === YIELD) */ {
-            if (!x.inFunction)
-                throw t.newSyntaxError("Yield not in function");
-            parentScript.isGenerator = true;
-        }
-        n = new Node(t, { value: undefined });
-
-        tt2 = (tt === RETURN) ? t.peekOnSameLine(true) : t.peek(true);
-        if (tt2 !== END && tt2 !== NEWLINE &&
-            tt2 !== SEMICOLON && tt2 !== RIGHT_CURLY
-            && (tt !== YIELD ||
-                (tt2 !== tt && tt2 !== RIGHT_BRACKET && tt2 !== RIGHT_PAREN &&
-                 tt2 !== COLON && tt2 !== COMMA))) {
-            if (tt === RETURN) {
-                n.value = Expression(t, x);
-                parentScript.hasReturnWithValue = true;
-            } else {
-                n.value = AssignExpression(t, x);
-            }
-        } else if (tt === RETURN) {
-            parentScript.hasEmptyReturn = true;
-        }
-
-        // Disallow return v; in generator.
-        if (parentScript.hasReturnWithValue && parentScript.isGenerator)
-            throw t.newSyntaxError("Generator returns a value");
-
-        return n;
-    }
-
-    /*
-     * ModuleExpression :: (tokenizer, compiler context) -> (STRING | IDENTIFIER | DOT) node
-     */
-    function ModuleExpression(t, x) {
-        return t.match(STRING) ? new Node(t) : QualifiedPath(t, x);
-    }
-
-    /*
-     * ImportPathList :: (tokenizer, compiler context) -> Array[DOT node]
-     */
-    function ImportPathList(t, x) {
-        var a = [];
-        do {
-            a.push(ImportPath(t, x));
-        } while (t.match(COMMA));
-        return a;
-    }
-
-    /*
-     * ImportPath :: (tokenizer, compiler context) -> DOT node
-     */
-    function ImportPath(t, x) {
-        var n = QualifiedPath(t, x);
-        if (!t.match(DOT)) {
-            if (n.type === IDENTIFIER)
-                throw t.newSyntaxError("cannot import local variable");
-            return n;
-        }
-
-        var n2 = new Node(t);
+        n2 = this.newNode();
         n2.push(n);
-        n2.push(ImportSpecifierSet(t, x));
-        return n2;
+        n2.push(this.Identifier());
+        n = n2;
     }
 
-    /*
-     * ExplicitSpecifierSet :: (tokenizer, compiler context, (tokenizer, compiler context) -> node)
-     *                      -> OBJECT_INIT node
-     */
-    function ExplicitSpecifierSet(t, x, SpecifierRHS) {
-        var n, n2, id, tt;
+    return n;
+}
 
-        n = new Node(t, { type: OBJECT_INIT });
-        t.mustMatch(LEFT_CURLY);
+/*
+ * ExportPath :: () -> (IDENTIFIER | DOT | OBJECT_INIT) node
+ */
+Pp.ExportPath = function ExportPath() {
+    var self = this;
+    if (this.peek() === LEFT_CURLY)
+        return this.ExplicitSpecifierSet(function() { return self.QualifiedPath() });
+    return this.QualifiedPath();
+}
 
-        if (!t.match(RIGHT_CURLY)) {
+/*
+ * ExportPathList :: () -> Array[(IDENTIFIER | DOT | OBJECT_INIT) node]
+ */
+Pp.ExportPathList = function ExportPathList() {
+    var a = [];
+    do {
+        a.push(this.ExportPath());
+    } while (this.match(COMMA));
+    return a;
+}
+
+/*
+ * FunctionDefinition :: (boolean,
+ *                        DECLARED_FORM or EXPRESSED_FORM or STATEMENT_FORM,
+ *                        [string] or null or undefined)
+ *                    -> node
+ */
+Pp.FunctionDefinition = function FunctionDefinition(requireName, functionForm, comments) {
+    var tt;
+    var f = this.newNode({ params: [], paramComments: [] });
+    if (typeof comments === "undefined")
+        comments = null;
+    f.blockComments = comments;
+    if (f.type !== FUNCTION)
+        f.type = (f.value === "get") ? GETTER : SETTER;
+    if (this.match(MUL))
+        f.isExplicitGenerator = true;
+    if (this.match(IDENTIFIER, false, true))
+        f.name = this.t.token.value;
+    else if (requireName)
+        this.fail("missing function identifier");
+
+    var inModule = this.x.inModule;
+    x2 = new StaticContext(null, null, inModule, true, this.x.strictMode);
+    this.withContext(x2, function() {
+        this.mustMatch(LEFT_PAREN);
+        if (!this.match(RIGHT_PAREN)) {
             do {
-                id = Identifier(t, x);
-                if (t.match(COLON)) {
-                    n2 = new Node(t, { type: PROPERTY_INIT });
-                    n2.push(id);
-                    n2.push(SpecifierRHS(t, x));
-                    n.push(n2);
-                } else {
-                    n.push(id);
-                }
-            } while (!t.match(RIGHT_CURLY) && t.mustMatch(COMMA));
-        }
-
-        return n;
-    }
-
-    /*
-     * ImportSpecifierSet :: (tokenizer, compiler context) -> (IDENTIFIER | OBJECT_INIT) node
-     */
-    function ImportSpecifierSet(t, x) {
-        return t.match(MUL)
-             ? new Node(t, { type: IDENTIFIER, name: "*" })
-             : ExplicitSpecifierSet(t, x, Identifier);
-    }
-
-    /*
-     * Identifier :: (tokenizer, compiler context) -> IDENTIFIER node
-     */
-    function Identifier(t, x) {
-        t.mustMatch(IDENTIFIER);
-        return new Node(t, { type: IDENTIFIER });
-    }
-
-    /*
-     * IdentifierName :: (tokenizer) -> IDENTIFIER node
-     */
-    function IdentifierName(t) {
-        if (t.match(IDENTIFIER))
-            return new Node(t, { type: IDENTIFIER });
-        t.get();
-        if (t.token.value in definitions.keywords)
-            return new Node(t, { type: IDENTIFIER });
-        throw t.newSyntaxError("missing IdentifierName");
-    }
-
-    /*
-     * QualifiedPath :: (tokenizer, compiler context) -> (IDENTIFIER | DOT) node
-     */
-    function QualifiedPath(t, x) {
-        var n, n2;
-
-        n = Identifier(t, x);
-
-        while (t.match(DOT)) {
-            if (t.peek() !== IDENTIFIER) {
-                // Unget the '.' token, which isn't part of the QualifiedPath.
-                t.unget();
-                break;
-            }
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(Identifier(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    /*
-     * ExportPath :: (tokenizer, compiler context) -> (IDENTIFIER | DOT | OBJECT_INIT) node
-     */
-    function ExportPath(t, x) {
-        if (t.peek() === LEFT_CURLY)
-            return ExplicitSpecifierSet(t, x, QualifiedPath);
-        return QualifiedPath(t, x);
-    }
-
-    /*
-     * ExportPathList :: (tokenizer, compiler context)
-     *                -> Array[(IDENTIFIER | DOT | OBJECT_INIT) node]
-     */
-    function ExportPathList(t, x) {
-        var a = [];
-        do {
-            a.push(ExportPath(t, x));
-        } while (t.match(COMMA));
-        return a;
-    }
-
-    /*
-     * FunctionDefinition :: (tokenizer, compiler context, boolean,
-     *                        DECLARED_FORM or EXPRESSED_FORM or STATEMENT_FORM,
-     *                        [string] or null or undefined)
-     *                    -> node
-     */
-    function FunctionDefinition(t, x, requireName, functionForm, comments) {
-        var tt;
-        var f = new Node(t, { params: [], paramComments: [] });
-        if (typeof comment === "undefined")
-            comment = null;
-        f.blockComments = comments;
-        if (f.type !== FUNCTION)
-            f.type = (f.value === "get") ? GETTER : SETTER;
-        if (t.match(IDENTIFIER))
-            f.name = t.token.value;
-        else if (requireName)
-            throw t.newSyntaxError("missing function identifier");
-
-        var inModule = x ? x.inModule : false;
-        var x2 = new StaticContext(null, null, inModule, true);
-
-        t.mustMatch(LEFT_PAREN);
-        if (!t.match(RIGHT_PAREN)) {
-            do {
-                tt = t.get();
-                f.paramComments.push(t.lastBlockComment());
+                tt = this.t.get();
+                f.paramComments.push(this.t.lastBlockComment());
                 switch (tt) {
                   case LEFT_BRACKET:
                   case LEFT_CURLY:
                     // Destructured formal parameters.
-                    t.unget();
-                    f.params.push(DestructuringExpression(t, x2));
+                    this.t.unget();
+                    f.params.push(this.DestructuringExpression());
                     break;
                   case IDENTIFIER:
-                    f.params.push(t.token.value);
+                    f.params.push(this.t.token.value);
                     break;
                   default:
-                    throw t.newSyntaxError("missing formal parameter");
-                    break;
+                    this.fail("missing formal parameter");
                 }
-            } while (t.match(COMMA));
-            t.mustMatch(RIGHT_PAREN);
+            } while (this.match(COMMA));
+            this.mustMatch(RIGHT_PAREN);
         }
 
         // Do we have an expression closure or a normal body?
-        tt = t.get();
+        tt = this.t.get(true);
         if (tt !== LEFT_CURLY)
-            t.unget();
+            this.t.unget();
 
         if (tt !== LEFT_CURLY) {
-            f.body = AssignExpression(t, x2);
-            if (f.body.isGenerator)
-                throw t.newSyntaxError("Generator returns a value");
+            f.body = this.AssignExpression();
         } else {
-            f.body = Script(t, inModule, true);
+            f.body = this.Script(inModule, true);
         }
-
-        if (tt === LEFT_CURLY)
-            t.mustMatch(RIGHT_CURLY);
-
-        f.end = t.token.end;
-        f.functionForm = functionForm;
-        if (functionForm === DECLARED_FORM)
-            x.parentScript.funDecls.push(f);
-        return f;
-    }
-
-    /*
-     * ModuleVariables :: (tokenizer, compiler context, MODULE node) -> void
-     *
-     * Parses a comma-separated list of module declarations (and maybe
-     * initializations).
-     */
-    function ModuleVariables(t, x, n) {
-        var n1, n2;
-        do {
-            n1 = Identifier(t, x);
-            if (t.match(ASSIGN)) {
-                n2 = ModuleExpression(t, x);
-                n1.initializer = n2;
-                if (n2.type === STRING)
-                    x.parentScript.modLoads.set(n1.value, n2.value);
-                else
-                    x.parentScript.modAssns.set(n1.value, n1);
-            }
-            n.push(n1);
-        } while (t.match(COMMA));
-    }
-
-    /*
-     * Variables :: (tokenizer, compiler context) -> node
-     *
-     * Parses a comma-separated list of var declarations (and maybe
-     * initializations).
-     */
-    function Variables(t, x, letBlock) {
-        var n, n2, ss, i, s, tt;
-
-        tt = t.token.type;
-        switch (tt) {
-          case VAR:
-          case CONST:
-            s = x.parentScript;
-            break;
-          case LET:
-            s = x.parentBlock;
-            break;
-          case LEFT_PAREN:
-            tt = LET;
-            s = letBlock;
-            break;
-        }
-
-        n = new Node(t, { type: tt, destructurings: [] });
-
-        do {
-            tt = t.get();
-            if (tt === LEFT_BRACKET || tt === LEFT_CURLY) {
-                // Need to unget to parse the full destructured expression.
-                t.unget();
-
-                var dexp = DestructuringExpression(t, x, true);
-
-                n2 = new Node(t, { type: IDENTIFIER,
-                                   name: dexp,
-                                   readOnly: n.type === CONST });
-                n.push(n2);
-                pushDestructuringVarDecls(n2.name.destructuredNames, s);
-                n.destructurings.push({ exp: dexp, decl: n2 });
-
-                if (x.inForLoopInit && t.peek() === IN) {
-                    continue;
-                }
-
-                t.mustMatch(ASSIGN);
-                if (t.token.assignOp)
-                    throw t.newSyntaxError("Invalid variable initialization");
-
-                n2.blockComment = t.lastBlockComment();
-                n2.initializer = AssignExpression(t, x);
-
-                continue;
-            }
-
-            if (tt !== IDENTIFIER)
-                throw t.newSyntaxError("missing variable name");
-
-            n2 = new Node(t, { type: IDENTIFIER,
-                               name: t.token.value,
-                               readOnly: n.type === CONST });
-            n.push(n2);
-            s.varDecls.push(n2);
-
-            if (t.match(ASSIGN)) {
-                var comment = t.lastBlockComment();
-                if (t.token.assignOp)
-                    throw t.newSyntaxError("Invalid variable initialization");
-
-                n2.initializer = AssignExpression(t, x);
-            } else {
-                var comment = t.lastBlockComment();
-            }
-            n2.blockComment = comment;
-        } while (t.match(COMMA));
-
-        return n;
-    }
-
-    /*
-     * LetBlock :: (tokenizer, compiler context, boolean) -> node
-     *
-     * Does not handle let inside of for loop init.
-     */
-    function LetBlock(t, x, isStatement) {
-        var n, n2;
-
-        // t.token.type must be LET
-        n = new Node(t, { type: LET_BLOCK, varDecls: [] });
-        t.mustMatch(LEFT_PAREN);
-        n.variables = Variables(t, x, n);
-        t.mustMatch(RIGHT_PAREN);
-
-        if (isStatement && t.peek() !== LEFT_CURLY) {
-            /*
-             * If this is really an expression in let statement guise, then we
-             * need to wrap the LET_BLOCK node in a SEMICOLON node so that we pop
-             * the return value of the expression.
-             */
-            n2 = new Node(t, { type: SEMICOLON,
-                               expression: n });
-            isStatement = false;
-        }
-
-        if (isStatement)
-            n.block = Block(t, x);
-        else
-            n.expression = AssignExpression(t, x);
-
-        return n;
-    }
-
-    function checkDestructuring(t, x, n, simpleNamesOnly) {
-        if (n.type === ARRAY_COMP)
-            throw t.newSyntaxError("Invalid array comprehension left-hand side");
-        if (n.type !== ARRAY_INIT && n.type !== OBJECT_INIT)
-            return;
-
-        var lhss = {};
-        var nn, n2, idx, sub, cc, c = n.children;
-        for (var i = 0, j = c.length; i < j; i++) {
-            if (!(nn = c[i]))
-                continue;
-            if (nn.type === PROPERTY_INIT) {
-                cc = nn.children;
-                sub = cc[1];
-                idx = cc[0].value;
-            } else if (n.type === OBJECT_INIT) {
-                // Do we have destructuring shorthand {foo, bar}?
-                sub = nn;
-                idx = nn.value;
-            } else {
-                sub = nn;
-                idx = i;
-            }
-
-            if (sub.type === ARRAY_INIT || sub.type === OBJECT_INIT) {
-                lhss[idx] = checkDestructuring(t, x, sub, simpleNamesOnly);
-            } else {
-                if (simpleNamesOnly && sub.type !== IDENTIFIER) {
-                    // In declarations, lhs must be simple names
-                    throw t.newSyntaxError("missing name in pattern");
-                }
-
-                lhss[idx] = sub;
-            }
-        }
-
-        return lhss;
-    }
-
-    function DestructuringExpression(t, x, simpleNamesOnly) {
-        var n = PrimaryExpression(t, x);
-        // Keep the list of lefthand sides for varDecls
-        n.destructuredNames = checkDestructuring(t, x, n, simpleNamesOnly);
-        return n;
-    }
-
-    function GeneratorExpression(t, x, e) {
-        return new Node(t, { type: GENERATOR,
-                             expression: e,
-                             tail: ComprehensionTail(t, x) });
-    }
-
-    function ComprehensionTail(t, x) {
-        var body, n, n2, n3, p;
-
-        // t.token.type must be FOR
-        body = new Node(t, { type: COMP_TAIL });
-
-        do {
-            // Comprehension tails are always for..in loops.
-            n = new Node(t, { type: FOR_IN, isLoop: true });
-            if (t.match(IDENTIFIER)) {
-                // But sometimes they're for each..in.
-                if (t.token.value === "each")
-                    n.isEach = true;
-                else
-                    t.unget();
-            }
-            p = MaybeLeftParen(t, x);
-            switch(t.get()) {
-              case LEFT_BRACKET:
-              case LEFT_CURLY:
-                t.unget();
-                // Destructured left side of for in comprehension tails.
-                n.iterator = DestructuringExpression(t, x);
-                break;
-
-              case IDENTIFIER:
-                n.iterator = n3 = new Node(t, { type: IDENTIFIER });
-                n3.name = n3.value;
-                n.varDecl = n2 = new Node(t, { type: VAR });
-                n2.push(n3);
-                x.parentScript.varDecls.push(n3);
-                // Don't add to varDecls since the semantics of comprehensions is
-                // such that the variables are in their own function when
-                // desugared.
-                break;
-
-              default:
-                throw t.newSyntaxError("missing identifier");
-            }
-            t.mustMatch(IN);
-            n.object = Expression(t, x);
-            MaybeRightParen(t, p);
-            body.push(n);
-        } while (t.match(FOR));
-
-        // Optional guard.
-        if (t.match(IF))
-            body.guard = HeadExpression(t, x);
-
-        return body;
-    }
-
-    function HeadExpression(t, x) {
-        var p = MaybeLeftParen(t, x);
-        var n = ParenExpression(t, x);
-        MaybeRightParen(t, p);
-        if (p === END && !n.parenthesized) {
-            var tt = t.peek();
-            if (tt !== LEFT_CURLY && !definitions.isStatementStartCode[tt])
-                throw t.newSyntaxError("Unparenthesized head followed by unbraced body");
-        }
-        return n;
-    }
-
-    function ParenExpression(t, x) {
-        // Always accept the 'in' operator in a parenthesized expression,
-        // where it's unambiguous, even if we might be parsing the init of a
-        // for statement.
-        var n = Expression(t, x.update({ inForLoopInit: x.inForLoopInit &&
-                                                        (t.token.type === LEFT_PAREN) }));
-
-        if (t.match(FOR)) {
-            if (n.type === YIELD && !n.parenthesized)
-                throw t.newSyntaxError("Yield expression must be parenthesized");
-            if (n.type === COMMA && !n.parenthesized)
-                throw t.newSyntaxError("Generator expression must be parenthesized");
-            n = GeneratorExpression(t, x, n);
-        }
-
-        return n;
-    }
-
-    /*
-     * Expression :: (tokenizer, compiler context) -> node
-     *
-     * Top-down expression parser matched against SpiderMonkey.
-     */
-    function Expression(t, x) {
-        var n, n2;
-
-        n = AssignExpression(t, x);
-        if (t.match(COMMA)) {
-            n2 = new Node(t, { type: COMMA });
-            n2.push(n);
-            n = n2;
-            do {
-                n2 = n.children[n.children.length-1];
-                if (n2.type === YIELD && !n2.parenthesized)
-                    throw t.newSyntaxError("Yield expression must be parenthesized");
-                n.push(AssignExpression(t, x));
-            } while (t.match(COMMA));
-        }
-
-        return n;
-    }
-
-    function AssignExpression(t, x) {
-        var n, lhs;
-
-        // Have to treat yield like an operand because it could be the leftmost
-        // operand of the expression.
-        if (t.match(YIELD, true))
-            return ReturnOrYield(t, x);
-
-        n = new Node(t, { type: ASSIGN });
-        lhs = ConditionalExpression(t, x);
-
-        if (!t.match(ASSIGN)) {
-            return lhs;
-        }
-
-        n.blockComment = t.lastBlockComment();
-
-        switch (lhs.type) {
-          case OBJECT_INIT:
-          case ARRAY_INIT:
-            lhs.destructuredNames = checkDestructuring(t, x, lhs);
-            // FALL THROUGH
-          case IDENTIFIER: case DOT: case INDEX: case CALL:
-            break;
-          default:
-            throw t.newSyntaxError("Bad left-hand side of assignment");
-            break;
-        }
-
-        n.assignOp = lhs.assignOp = t.token.assignOp;
-        n.push(lhs);
-        n.push(AssignExpression(t, x));
-
-        return n;
-    }
-
-    function ConditionalExpression(t, x) {
-        var n, n2;
-
-        n = OrExpression(t, x);
-        if (t.match(HOOK)) {
-            n2 = n;
-            n = new Node(t, { type: HOOK });
-            n.push(n2);
-            /*
-             * Always accept the 'in' operator in the middle clause of a ternary,
-             * where it's unambiguous, even if we might be parsing the init of a
-             * for statement.
-             */
-            n.push(AssignExpression(t, x.update({ inForLoopInit: false })));
-            if (!t.match(COLON))
-                throw t.newSyntaxError("missing : after ?");
-            n.push(AssignExpression(t, x));
-        }
-
-        return n;
-    }
-
-    function OrExpression(t, x) {
-        var n, n2;
-
-        n = AndExpression(t, x);
-        while (t.match(OR)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(AndExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function AndExpression(t, x) {
-        var n, n2;
-
-        n = BitwiseOrExpression(t, x);
-        while (t.match(AND)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(BitwiseOrExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function BitwiseOrExpression(t, x) {
-        var n, n2;
-
-        n = BitwiseXorExpression(t, x);
-        while (t.match(BITWISE_OR)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(BitwiseXorExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function BitwiseXorExpression(t, x) {
-        var n, n2;
-
-        n = BitwiseAndExpression(t, x);
-        while (t.match(BITWISE_XOR)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(BitwiseAndExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function BitwiseAndExpression(t, x) {
-        var n, n2;
-
-        n = EqualityExpression(t, x);
-        while (t.match(BITWISE_AND)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(EqualityExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function EqualityExpression(t, x) {
-        var n, n2;
-
-        n = RelationalExpression(t, x);
-        while (t.match(EQ) || t.match(NE) ||
-               t.match(STRICT_EQ) || t.match(STRICT_NE)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(RelationalExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function RelationalExpression(t, x) {
-        var n, n2;
-
-        /*
-         * Uses of the in operator in shiftExprs are always unambiguous,
-         * so unset the flag that prohibits recognizing it.
-         */
-        var x2 = x.update({ inForLoopInit: false });
-        n = ShiftExpression(t, x2);
-        while ((t.match(LT) || t.match(LE) || t.match(GE) || t.match(GT) ||
-               (!x.inForLoopInit && t.match(IN)) ||
-               t.match(INSTANCEOF))) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(ShiftExpression(t, x2));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function ShiftExpression(t, x) {
-        var n, n2;
-
-        n = AddExpression(t, x);
-        while (t.match(LSH) || t.match(RSH) || t.match(URSH)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(AddExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function AddExpression(t, x) {
-        var n, n2;
-
-        n = MultiplyExpression(t, x);
-        while (t.match(PLUS) || t.match(MINUS)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(MultiplyExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function MultiplyExpression(t, x) {
-        var n, n2;
-
-        n = UnaryExpression(t, x);
-        while (t.match(MUL) || t.match(DIV) || t.match(MOD)) {
-            n2 = new Node(t);
-            n2.push(n);
-            n2.push(UnaryExpression(t, x));
-            n = n2;
-        }
-
-        return n;
-    }
-
-    function UnaryExpression(t, x) {
-        var n, n2, tt;
-
-        switch (tt = t.get(true)) {
-          case DELETE: case VOID: case TYPEOF:
-          case NOT: case BITWISE_NOT: case PLUS: case MINUS:
-            if (tt === PLUS)
-                n = new Node(t, { type: UNARY_PLUS });
-            else if (tt === MINUS)
-                n = new Node(t, { type: UNARY_MINUS });
+    });
+
+    if (tt === LEFT_CURLY)
+        this.mustMatch(RIGHT_CURLY);
+
+    f.end = this.t.token.end;
+    f.functionForm = functionForm;
+    if (functionForm === DECLARED_FORM)
+        this.x.parentScript.funDecls.push(f);
+
+    if (this.x.inModule && !f.isExplicitGenerator && f.body.hasYield)
+        this.fail("yield in non-generator function");
+
+    if (f.isExplicitGenerator || f.body.hasYield)
+        f.body = this.newNode({ type: GENERATOR, body: f.body });
+
+    return f;
+}
+
+/*
+ * ModuleVariables :: (MODULE node) -> void
+ *
+ * Parses a comma-separated list of module declarations (and maybe
+ * initializations).
+ */
+Pp.ModuleVariables = function ModuleVariables(n) {
+    var n1, n2;
+    do {
+        n1 = this.Identifier();
+        if (this.match(ASSIGN)) {
+            n2 = this.ModuleExpression();
+            n1.initializer = n2;
+            if (n2.type === STRING)
+                this.x.parentScript.modLoads.set(n1.value, n2.value);
             else
-                n = new Node(t);
-            n.push(UnaryExpression(t, x));
+                this.x.parentScript.modAssns.set(n1.value, n1);
+        }
+        n.push(n1);
+    } while (this.match(COMMA));
+}
+
+/*
+ * Variables :: () -> node
+ *
+ * Parses a comma-separated list of var declarations (and maybe
+ * initializations).
+ */
+Pp.Variables = function Variables(letBlock) {
+    var n, n2, ss, i, s, tt;
+
+    tt = this.t.token.type;
+    switch (tt) {
+      case VAR:
+      case CONST:
+        s = this.x.parentScript;
+        break;
+      case LET:
+        s = this.x.parentBlock;
+        break;
+      case LEFT_PAREN:
+        tt = LET;
+        s = letBlock;
+        break;
+    }
+
+    n = this.newNode({ type: tt, destructurings: [] });
+
+    do {
+        tt = this.t.get();
+        if (tt === LEFT_BRACKET || tt === LEFT_CURLY) {
+            // Need to unget to parse the full destructured expression.
+            this.t.unget();
+
+            var dexp = this.DestructuringExpression(true);
+
+            n2 = this.newNode({ type: IDENTIFIER,
+                                name: dexp,
+                                readOnly: n.type === CONST });
+            n.push(n2);
+            pushDestructuringVarDecls(n2.name.destructuredNames, s);
+            n.destructurings.push({ exp: dexp, decl: n2 });
+
+            if (this.x.inForLoopInit && this.peek() === IN) {
+                continue;
+            }
+
+            this.mustMatch(ASSIGN);
+            if (this.t.token.assignOp)
+                this.fail("Invalid variable initialization");
+
+            n2.blockComment = this.t.lastBlockComment();
+            n2.initializer = this.AssignExpression();
+
+            continue;
+        }
+
+        if (tt !== IDENTIFIER)
+            this.fail("missing variable name");
+
+        n2 = this.newNode({ type: IDENTIFIER,
+                            name: this.t.token.value,
+                            readOnly: n.type === CONST });
+        n.push(n2);
+        s.varDecls.push(n2);
+
+        if (this.match(ASSIGN)) {
+            var comment = this.t.lastBlockComment();
+            if (this.t.token.assignOp)
+                this.fail("Invalid variable initialization");
+
+            n2.initializer = this.AssignExpression();
+        } else {
+            var comment = this.t.lastBlockComment();
+        }
+        n2.blockComment = comment;
+    } while (this.match(COMMA));
+
+    return n;
+}
+
+/*
+ * LetBlock :: (boolean) -> node
+ *
+ * Does not handle let inside of for loop init.
+ */
+Pp.LetBlock = function LetBlock(isStatement) {
+    var n, n2;
+
+    // t.token.type must be LET
+    n = this.newNode({ type: LET_BLOCK, varDecls: [] });
+    this.mustMatch(LEFT_PAREN);
+    n.variables = this.Variables(n);
+    this.mustMatch(RIGHT_PAREN);
+
+    if (isStatement && this.peek() !== LEFT_CURLY) {
+        /*
+         * If this is really an expression in let statement guise, then we
+         * need to wrap the LET_BLOCK node in a SEMICOLON node so that we pop
+         * the return value of the expression.
+         */
+        n2 = this.newNode({ type: SEMICOLON, expression: n });
+        isStatement = false;
+    }
+
+    if (isStatement)
+        n.block = this.Block();
+    else
+        n.expression = this.AssignExpression();
+
+    return n;
+}
+
+Pp.checkDestructuring = function checkDestructuring(n, simpleNamesOnly) {
+    if (n.type === ARRAY_COMP)
+        this.fail("Invalid array comprehension left-hand side");
+    if (n.type !== ARRAY_INIT && n.type !== OBJECT_INIT)
+        return;
+
+    var lhss = {};
+    var nn, n2, idx, sub, cc, c = n.children;
+    for (var i = 0, j = c.length; i < j; i++) {
+        if (!(nn = c[i]))
+            continue;
+        if (nn.type === PROPERTY_INIT) {
+            cc = nn.children;
+            sub = cc[1];
+            idx = cc[0].value;
+        } else if (n.type === OBJECT_INIT) {
+            // Do we have destructuring shorthand {foo, bar}?
+            sub = nn;
+            idx = nn.value;
+        } else {
+            sub = nn;
+            idx = i;
+        }
+
+        if (sub.type === ARRAY_INIT || sub.type === OBJECT_INIT) {
+            lhss[idx] = this.checkDestructuring(sub, simpleNamesOnly);
+        } else {
+            if (simpleNamesOnly && sub.type !== IDENTIFIER) {
+                // In declarations, lhs must be simple names
+                this.fail("missing name in pattern");
+            }
+
+            lhss[idx] = sub;
+        }
+    }
+
+    return lhss;
+}
+
+Pp.DestructuringExpression = function DestructuringExpression(simpleNamesOnly) {
+    var n = this.PrimaryExpression();
+    // Keep the list of lefthand sides for varDecls
+    n.destructuredNames = this.checkDestructuring(n, simpleNamesOnly);
+    return n;
+}
+
+Pp.GeneratorExpression = function GeneratorExpression(e) {
+    return this.newNode({ type: GENERATOR,
+                          expression: e,
+                          tail: this.ComprehensionTail() });
+}
+
+Pp.ComprehensionTail = function ComprehensionTail() {
+    var body, n, n2, n3, p;
+
+    // t.token.type must be FOR
+    body = this.newNode({ type: COMP_TAIL });
+
+    do {
+        // Comprehension tails are always for..in loops.
+        n = this.newNode({ type: FOR_IN, isLoop: true });
+        if (this.match(IDENTIFIER)) {
+            // But sometimes they're for each..in.
+            if (this.mozillaMode && this.t.token.value === "each")
+                n.isEach = true;
+            else
+                this.t.unget();
+        }
+        p = this.MaybeLeftParen();
+        switch(this.t.get()) {
+          case LEFT_BRACKET:
+          case LEFT_CURLY:
+            this.t.unget();
+            // Destructured left side of for in comprehension tails.
+            n.iterator = this.DestructuringExpression();
             break;
 
-          case INCREMENT:
-          case DECREMENT:
-            // Prefix increment/decrement.
-            n = new Node(t);
-            n.push(MemberExpression(t, x, true));
+          case IDENTIFIER:
+            n.iterator = n3 = this.newNode({ type: IDENTIFIER });
+            n3.name = n3.value;
+            n.varDecl = n2 = this.newNode({ type: VAR });
+            n2.push(n3);
+            this.x.parentScript.varDecls.push(n3);
+            // Don't add to varDecls since the semantics of comprehensions is
+            // such that the variables are in their own function when
+            // desugared.
             break;
 
           default:
-            t.unget();
-            n = MemberExpression(t, x, true);
-
-            // Don't look across a newline boundary for a postfix {in,de}crement.
-            if (t.tokens[(t.tokenIndex + t.lookahead - 1) & 3].lineno ===
-                t.lineno) {
-                if (t.match(INCREMENT) || t.match(DECREMENT)) {
-                    n2 = new Node(t, { postfix: true });
-                    n2.push(n);
-                    n = n2;
-                }
-            }
-            break;
+            this.fail("missing identifier");
         }
+        this.mustMatch(IN);
+        n.object = this.Expression();
+        this.MaybeRightParen(p);
+        body.push(n);
+    } while (this.match(FOR));
 
-        return n;
+    // Optional guard.
+    if (this.match(IF))
+        body.guard = this.HeadExpression();
+
+    return body;
+}
+
+Pp.HeadExpression = function HeadExpression() {
+    var p = this.MaybeLeftParen();
+    var n = this.ParenExpression();
+    this.MaybeRightParen(p);
+    if (p === END && !n.parenthesized) {
+        var tt = this.peek();
+        if (tt !== LEFT_CURLY && !definitions.isStatementStartCode[tt])
+            this.fail("Unparenthesized head followed by unbraced body");
+    }
+    return n;
+}
+
+Pp.ParenExpression = function ParenExpression() {
+    // Always accept the 'in' operator in a parenthesized expression,
+    // where it's unambiguous, even if we might be parsing the init of a
+    // for statement.
+    var x2 = this.x.update({
+        inForLoopInit: this.x.inForLoopInit && (this.t.token.type === LEFT_PAREN)
+    });
+    var n = this.withContext(x2, function() {
+        return this.Expression();
+    });
+    if (this.match(FOR)) {
+        if (n.type === YIELD && !n.parenthesized)
+            this.fail("Yield expression must be parenthesized");
+        if (n.type === COMMA && !n.parenthesized)
+            this.fail("Generator expression must be parenthesized");
+        n = this.GeneratorExpression(n);
     }
 
-    function MemberExpression(t, x, allowCallSyntax) {
-        var n, n2, name, tt;
+    return n;
+}
 
-        if (t.match(NEW)) {
-            n = new Node(t);
-            n.push(MemberExpression(t, x, false));
-            if (t.match(LEFT_PAREN)) {
-                n.type = NEW_WITH_ARGS;
-                n.push(ArgumentList(t, x));
-            }
-        } else {
-            n = PrimaryExpression(t, x);
-        }
+/*
+ * Expression :: () -> node
+ *
+ * Top-down expression parser matched against SpiderMonkey.
+ */
+Pp.Expression = function Expression() {
+    var n, n2;
 
-        while ((tt = t.get()) !== END) {
-            switch (tt) {
-              case DOT:
-                n2 = new Node(t);
-                n2.push(n);
-                n2.push(IdentifierName(t));
-                break;
+    n = this.AssignExpression();
+    if (this.match(COMMA)) {
+        n2 = this.newNode({ type: COMMA });
+        n2.push(n);
+        n = n2;
+        do {
+            n2 = n.children[n.children.length-1];
+            if (n2.type === YIELD && !n2.parenthesized)
+                this.fail("Yield expression must be parenthesized");
+            n.push(this.AssignExpression());
+        } while (this.match(COMMA));
+    }
 
-              case LEFT_BRACKET:
-                n2 = new Node(t, { type: INDEX });
-                n2.push(n);
-                n2.push(Expression(t, x));
-                t.mustMatch(RIGHT_BRACKET);
-                break;
+    return n;
+}
 
-              case LEFT_PAREN:
-                if (allowCallSyntax) {
-                    n2 = new Node(t, { type: CALL });
-                    n2.push(n);
-                    n2.push(ArgumentList(t, x));
-                    break;
-                }
+Pp.AssignExpression = function AssignExpression() {
+    var n, lhs;
 
-                // FALL THROUGH
-              default:
-                t.unget();
-                return n;
-            }
+    // Have to treat yield like an operand because it could be the leftmost
+    // operand of the expression.
+    if (this.match(YIELD, true))
+        return this.ReturnOrYield();
 
+    n = this.newNode({ type: ASSIGN });
+    lhs = this.ConditionalExpression();
+
+    if (!this.match(ASSIGN)) {
+        return lhs;
+    }
+
+    n.blockComment = this.t.lastBlockComment();
+
+    switch (lhs.type) {
+      case OBJECT_INIT:
+      case ARRAY_INIT:
+        lhs.destructuredNames = this.checkDestructuring(lhs);
+        // FALL THROUGH
+      case IDENTIFIER: case DOT: case INDEX: case CALL:
+        break;
+      default:
+        this.fail("Bad left-hand side of assignment");
+        break;
+    }
+
+    n.assignOp = lhs.assignOp = this.t.token.assignOp;
+    n.push(lhs);
+    n.push(this.AssignExpression());
+
+    return n;
+}
+
+Pp.ConditionalExpression = function ConditionalExpression() {
+    var n, n2;
+
+    n = this.OrExpression();
+    if (this.match(HOOK)) {
+        n2 = n;
+        n = this.newNode({ type: HOOK });
+        n.push(n2);
+        /*
+         * Always accept the 'in' operator in the middle clause of a ternary,
+         * where it's unambiguous, even if we might be parsing the init of a
+         * for statement.
+         */
+        var x2 = this.x.update({ inForLoopInit: false });
+        this.withContext(x2, function() {
+            n.push(this.AssignExpression());
+        });
+        if (!this.match(COLON))
+            this.fail("missing : after ?");
+        n.push(this.AssignExpression());
+    }
+
+    return n;
+}
+
+Pp.OrExpression = function OrExpression() {
+    var n, n2;
+
+    n = this.AndExpression();
+    while (this.match(OR)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.AndExpression());
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.AndExpression = function AndExpression() {
+    var n, n2;
+
+    n = this.BitwiseOrExpression();
+    while (this.match(AND)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.BitwiseOrExpression());
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.BitwiseOrExpression = function BitwiseOrExpression() {
+    var n, n2;
+
+    n = this.BitwiseXorExpression();
+    while (this.match(BITWISE_OR)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.BitwiseXorExpression());
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.BitwiseXorExpression = function BitwiseXorExpression() {
+    var n, n2;
+
+    n = this.BitwiseAndExpression();
+    while (this.match(BITWISE_XOR)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.BitwiseAndExpression());
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.BitwiseAndExpression = function BitwiseAndExpression() {
+    var n, n2;
+
+    n = this.EqualityExpression();
+    while (this.match(BITWISE_AND)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.EqualityExpression());
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.EqualityExpression = function EqualityExpression() {
+    var n, n2;
+
+    n = this.RelationalExpression();
+    while (this.match(EQ) || this.match(NE) ||
+           this.match(STRICT_EQ) || this.match(STRICT_NE)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.RelationalExpression());
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.RelationalExpression = function RelationalExpression() {
+    var n, n2;
+
+    /*
+     * Uses of the in operator in shiftExprs are always unambiguous,
+     * so unset the flag that prohibits recognizing it.
+     */
+    var x2 = this.x.update({ inForLoopInit: false });
+    this.withContext(x2, function() {
+        n = this.ShiftExpression();
+        while ((this.match(LT) || this.match(LE) || this.match(GE) || this.match(GT) ||
+                (!this.x.inForLoopInit && this.match(IN)) ||
+                this.match(INSTANCEOF))) {
+            n2 = this.newNode();
+            n2.push(n);
+            n2.push(this.ShiftExpression());
             n = n2;
         }
+    });
 
-        return n;
+    return n;
+}
+
+Pp.ShiftExpression = function ShiftExpression() {
+    var n, n2;
+
+    n = this.AddExpression();
+    while (this.match(LSH) || this.match(RSH) || this.match(URSH)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.AddExpression());
+        n = n2;
     }
 
-    function ArgumentList(t, x) {
-        var n, n2;
+    return n;
+}
 
-        n = new Node(t, { type: LIST });
-        if (t.match(RIGHT_PAREN, true))
-            return n;
-        do {
-            n2 = AssignExpression(t, x);
-            if (n2.type === YIELD && !n2.parenthesized && t.peek() === COMMA)
-                throw t.newSyntaxError("Yield expression must be parenthesized");
-            if (t.match(FOR)) {
-                n2 = GeneratorExpression(t, x, n2);
-                if (n.children.length > 1 || t.peek(true) === COMMA)
-                    throw t.newSyntaxError("Generator expression must be parenthesized");
+Pp.AddExpression = function AddExpression() {
+    var n, n2;
+
+    n = this.MultiplyExpression();
+    while (this.match(PLUS) || this.match(MINUS)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.MultiplyExpression());
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.MultiplyExpression = function MultiplyExpression() {
+    var n, n2;
+
+    n = this.UnaryExpression();
+    while (this.match(MUL) || this.match(DIV) || this.match(MOD)) {
+        n2 = this.newNode();
+        n2.push(n);
+        n2.push(this.UnaryExpression());
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.UnaryExpression = function UnaryExpression() {
+    var n, n2, tt;
+
+    switch (tt = this.t.get(true)) {
+      case DELETE: case VOID: case TYPEOF:
+      case NOT: case BITWISE_NOT: case PLUS: case MINUS:
+        if (tt === PLUS)
+            n = this.newNode({ type: UNARY_PLUS });
+        else if (tt === MINUS)
+            n = this.newNode({ type: UNARY_MINUS });
+        else
+            n = this.newNode();
+        n.push(this.UnaryExpression());
+        break;
+
+      case INCREMENT:
+      case DECREMENT:
+        // Prefix increment/decrement.
+        n = this.newNode();
+        n.push(this.MemberExpression(true));
+        break;
+
+      default:
+        this.t.unget();
+        n = this.MemberExpression(true);
+
+        // Don't look across a newline boundary for a postfix {in,de}crement.
+        if (this.t.tokens[(this.t.tokenIndex + this.t.lookahead - 1) & 3].lineno ===
+            this.t.lineno) {
+            if (this.match(INCREMENT) || this.match(DECREMENT)) {
+                n2 = this.newNode({ postfix: true });
+                n2.push(n);
+                n = n2;
             }
-            n.push(n2);
-        } while (t.match(COMMA));
-        t.mustMatch(RIGHT_PAREN);
-
-        return n;
+        }
+        break;
     }
 
-    function PrimaryExpression(t, x) {
-        var n, n2, tt = t.get(true);
+    return n;
+}
 
+Pp.MemberExpression = function MemberExpression(allowCallSyntax) {
+    var n, n2, name, tt;
+
+    if (this.match(NEW)) {
+        n = this.newNode();
+        n.push(this.MemberExpression(false));
+        if (this.match(LEFT_PAREN)) {
+            n.type = NEW_WITH_ARGS;
+            n.push(this.ArgumentList());
+        }
+    } else {
+        n = this.PrimaryExpression();
+    }
+
+    while ((tt = this.t.get()) !== END) {
         switch (tt) {
-          case FUNCTION:
-            n = FunctionDefinition(t, x, false, EXPRESSED_FORM);
+          case DOT:
+            n2 = this.newNode();
+            n2.push(n);
+            n2.push(this.IdentifierName());
             break;
 
           case LEFT_BRACKET:
-            n = new Node(t, { type: ARRAY_INIT });
-            while ((tt = t.peek(true)) !== RIGHT_BRACKET) {
-                if (tt === COMMA) {
-                    t.get();
-                    n.push(null);
-                    continue;
-                }
-                n.push(AssignExpression(t, x));
-                if (tt !== COMMA && !t.match(COMMA))
-                    break;
-            }
-
-            // If we matched exactly one element and got a FOR, we have an
-            // array comprehension.
-            if (n.children.length === 1 && t.match(FOR)) {
-                n2 = new Node(t, { type: ARRAY_COMP,
-                                   expression: n.children[0],
-                                   tail: ComprehensionTail(t, x) });
-                n = n2;
-            }
-            t.mustMatch(RIGHT_BRACKET);
-            break;
-
-          case LEFT_CURLY:
-            var id, fd;
-            n = new Node(t, { type: OBJECT_INIT });
-
-          object_init:
-            if (!t.match(RIGHT_CURLY)) {
-                do {
-                    tt = t.get();
-                    if ((t.token.value === "get" || t.token.value === "set") &&
-                        t.peek() === IDENTIFIER) {
-                        if (x.ecma3OnlyMode)
-                            throw t.newSyntaxError("Illegal property accessor");
-                        n.push(FunctionDefinition(t, x, true, EXPRESSED_FORM));
-                    } else {
-                        var comments = t.blockComments;
-                        switch (tt) {
-                          case IDENTIFIER: case NUMBER: case STRING:
-                            id = new Node(t, { type: IDENTIFIER });
-                            break;
-                          case RIGHT_CURLY:
-                            if (x.ecma3OnlyMode)
-                                throw t.newSyntaxError("Illegal trailing ,");
-                            break object_init;
-                          default:
-                            if (t.token.value in definitions.keywords) {
-                                id = new Node(t, { type: IDENTIFIER });
-                                break;
-                            }
-                            throw t.newSyntaxError("Invalid property name");
-                        }
-                        if (t.match(COLON)) {
-                            n2 = new Node(t, { type: PROPERTY_INIT });
-                            n2.push(id);
-                            n2.push(AssignExpression(t, x));
-                            n2.blockComments = comments;
-                            n.push(n2);
-                        } else {
-                            // Support, e.g., |var {x, y} = o| as destructuring shorthand
-                            // for |var {x: x, y: y} = o|, per proposed JS2/ES4 for JS1.8.
-                            if (t.peek() !== COMMA && t.peek() !== RIGHT_CURLY)
-                                throw t.newSyntaxError("missing : after property");
-                            n.push(id);
-                        }
-                    }
-                } while (t.match(COMMA));
-                t.mustMatch(RIGHT_CURLY);
-            }
+            n2 = this.newNode({ type: INDEX });
+            n2.push(n);
+            n2.push(this.Expression());
+            this.mustMatch(RIGHT_BRACKET);
             break;
 
           case LEFT_PAREN:
-            n = ParenExpression(t, x);
-            t.mustMatch(RIGHT_PAREN);
-            n.parenthesized = true;
-            break;
-
-          case LET:
-            n = LetBlock(t, x, false);
-            break;
-
-          case NULL: case THIS: case TRUE: case FALSE:
-          case IDENTIFIER: case NUMBER: case STRING: case REGEXP:
-            n = new Node(t);
-            break;
-
-          default:
-            throw t.newSyntaxError("missing operand");
-            break;
-        }
-
-        return n;
-    }
-
-    /*
-     * parse :: (source, filename, line number) -> node
-     */
-    function parse(s, f, l) {
-        var t = new lexer.Tokenizer(s, f, l);
-        var n = Script(t, false, false);
-        if (!t.done)
-            throw t.newSyntaxError("Syntax error");
-
-        return n;
-    }
-
-    /*
-     * parseStdin :: (source, {line number}, string, (string) -> boolean) -> program node
-     */
-    function parseStdin(s, ln, prefix, isCommand) {
-        // the special .begin command is only recognized at the beginning
-        if (s.match(/^[\s]*\.begin[\s]*$/)) {
-            ++ln.value;
-            return parseMultiline(ln, prefix);
-        }
-
-        // commands at the beginning are treated as the entire input
-        if (isCommand(s.trim()))
-            s = "";
-
-        for (;;) {
-            try {
-                var t = new lexer.Tokenizer(s, "stdin", ln.value);
-                var n = Script(t, false, false);
-                ln.value = t.lineno;
-                return n;
-            } catch (e) {
-                if (!t.unexpectedEOF)
-                    throw e;
-
-                // commands in the middle are not treated as part of the input
-                var more;
-                do {
-                    if (prefix)
-                        putstr(prefix);
-                    more = readline();
-                    if (!more)
-                        throw e;
-                } while (isCommand(more.trim()));
-
-                s += "\n" + more;
-            }
-        }
-    }
-
-    /*
-     * parseMultiline :: ({line number}, string | null) -> program node
-     */
-    function parseMultiline(ln, prefix) {
-        var s = "";
-        for (;;) {
-            if (prefix)
-                putstr(prefix);
-            var more = readline();
-            if (more === null)
-                return null;
-            // the only command recognized in multiline mode is .end
-            if (more.match(/^[\s]*\.end[\s]*$/))
+            if (allowCallSyntax) {
+                n2 = this.newNode({ type: CALL });
+                n2.push(n);
+                n2.push(this.ArgumentList());
                 break;
+            }
+
+            // FALL THROUGH
+          default:
+            this.t.unget();
+            return n;
+        }
+
+        n = n2;
+    }
+
+    return n;
+}
+
+Pp.ArgumentList = function ArgumentList() {
+    var n, n2;
+
+    n = this.newNode({ type: LIST });
+    if (this.match(RIGHT_PAREN, true))
+        return n;
+    do {
+        n2 = this.AssignExpression();
+        if (n2.type === YIELD && !n2.parenthesized && this.peek() === COMMA)
+            this.fail("Yield expression must be parenthesized");
+        if (this.match(FOR)) {
+            n2 = this.GeneratorExpression(n2);
+            if (n.children.length > 1 || this.peek(true) === COMMA)
+                this.fail("Generator expression must be parenthesized");
+        }
+        n.push(n2);
+    } while (this.match(COMMA));
+    this.mustMatch(RIGHT_PAREN);
+
+    return n;
+}
+
+Pp.PrimaryExpression = function PrimaryExpression() {
+    var n, n2, tt = this.t.get(true);
+
+    switch (tt) {
+      case FUNCTION:
+        n = this.FunctionDefinition(false, EXPRESSED_FORM);
+        break;
+
+      case LEFT_BRACKET:
+        n = this.newNode({ type: ARRAY_INIT });
+        while ((tt = this.peek(true)) !== RIGHT_BRACKET) {
+            if (tt === COMMA) {
+                this.t.get();
+                n.push(null);
+                continue;
+            }
+            n.push(this.AssignExpression());
+            if (tt !== COMMA && !this.match(COMMA))
+                break;
+        }
+
+        // If we matched exactly one element and got a FOR, we have an
+        // array comprehension.
+        if (n.children.length === 1 && this.match(FOR)) {
+            n2 = this.newNode({ type: ARRAY_COMP,
+                                expression: n.children[0],
+                                tail: this.ComprehensionTail() });
+            n = n2;
+        }
+        this.mustMatch(RIGHT_BRACKET);
+        break;
+
+      case LEFT_CURLY:
+        var id, fd;
+        n = this.newNode({ type: OBJECT_INIT });
+
+        object_init:
+        if (!this.match(RIGHT_CURLY)) {
+            do {
+                tt = this.t.get();
+                if ((this.t.token.value === "get" || this.t.token.value === "set") &&
+                    this.peek() === IDENTIFIER) {
+                    n.push(this.FunctionDefinition(true, EXPRESSED_FORM));
+                } else {
+                    var comments = this.t.blockComments;
+                    switch (tt) {
+                      case IDENTIFIER: case NUMBER: case STRING:
+                        id = this.newNode({ type: IDENTIFIER });
+                        break;
+                      case RIGHT_CURLY:
+                        break object_init;
+                      default:
+                        if (this.t.token.value in definitions.keywords) {
+                            id = this.newNode({ type: IDENTIFIER });
+                            break;
+                        }
+                        this.fail("Invalid property name");
+                    }
+                    if (this.match(COLON)) {
+                        n2 = this.newNode({ type: PROPERTY_INIT });
+                        n2.push(id);
+                        n2.push(this.AssignExpression());
+                        n2.blockComments = comments;
+                        n.push(n2);
+                    } else {
+                        // Support, e.g., |var {x, y} = o| as destructuring shorthand
+                        // for |var {x: x, y: y} = o|, per proposed JS2/ES4 for JS1.8.
+                        if (this.peek() !== COMMA && this.peek() !== RIGHT_CURLY)
+                            this.fail("missing : after property");
+                        n.push(id);
+                    }
+                }
+            } while (this.match(COMMA));
+            this.mustMatch(RIGHT_CURLY);
+        }
+        break;
+
+      case LEFT_PAREN:
+        n = this.ParenExpression();
+        this.mustMatch(RIGHT_PAREN);
+        n.parenthesized = true;
+        break;
+
+      case LET:
+        n = this.LetBlock(false);
+        break;
+
+      case NULL: case THIS: case TRUE: case FALSE:
+      case IDENTIFIER: case NUMBER: case STRING: case REGEXP:
+        n = this.newNode();
+        break;
+
+      default:
+        this.fail("missing operand; found " + definitions.tokens[tt]);
+        break;
+    }
+
+    return n;
+}
+
+/*
+ * parse :: (source, filename, line number) -> node
+ */
+function parse(s, f, l) {
+    var t = new Tokenizer(s, f, l, options.allowHTMLComments);
+    var p = new Parser(t);
+    return p.Script(false, false, true);
+}
+
+/*
+ * parseFunction :: (source, boolean,
+ *                   DECLARED_FORM or EXPRESSED_FORM or STATEMENT_FORM,
+ *                   filename, line number)
+ *               -> node
+ */
+function parseFunction(s, requireName, form, f, l) {
+    var t = new Tokenizer(s, f, l);
+    var p = new Parser(t);
+    p.x = new StaticContext(null, null, false, false, false);
+    return p.FunctionDefinition(requireName, form);
+}
+
+/*
+ * parseStdin :: (source, {line number}, string, (string) -> boolean) -> program node
+ */
+function parseStdin(s, ln, prefix, isCommand) {
+    // the special .begin command is only recognized at the beginning
+    if (s.match(/^[\s]*\.begin[\s]*$/)) {
+        ++ln.value;
+        return parseMultiline(ln, prefix);
+    }
+
+    // commands at the beginning are treated as the entire input
+    if (isCommand(s.trim()))
+        s = "";
+
+    for (;;) {
+        try {
+            var t = new Tokenizer(s, "stdin", ln.value, false);
+            var p = new Parser(t);
+            var n = p.Script(false, false);
+            ln.value = t.lineno;
+            return n;
+        } catch (e) {
+            if (!p.unexpectedEOF)
+                throw e;
+
+            // commands in the middle are not treated as part of the input
+            var more;
+            do {
+                if (prefix)
+                    putstr(prefix);
+                more = readline();
+                if (!more)
+                    throw e;
+            } while (isCommand(more.trim()));
+
             s += "\n" + more;
         }
-        var t = new lexer.Tokenizer(s, "stdin", ln.value);
-        var n = Script(t, false, false);
-        ln.value = t.lineno;
-        return n;
     }
+}
 
-    module.exports = {
-        parse: parse,
-        parseStdin: parseStdin,
-        Node: Node,
-        SyntheticNode: SyntheticNode,
-        DECLARED_FORM: DECLARED_FORM,
-        EXPRESSED_FORM: EXPRESSED_FORM,
-        STATEMENT_FORM: STATEMENT_FORM,
-        Tokenizer: lexer.Tokenizer,
-        FunctionDefinition: FunctionDefinition,
-        Module: Module,
-        Export: Export
-    };
+/*
+ * parseMultiline :: ({line number}, string | null) -> program node
+ */
+function parseMultiline(ln, prefix) {
+    var s = "";
+    for (;;) {
+        if (prefix)
+            putstr(prefix);
+        var more = readline();
+        if (more === null)
+            return null;
+        // the only command recognized in multiline mode is .end
+        if (more.match(/^[\s]*\.end[\s]*$/))
+            break;
+        s += "\n" + more;
+    }
+    var t = new Tokenizer(s, "stdin", ln.value, false);
+    var p = new Parser(t);
+    var n = p.Script(false, false);
+    ln.value = t.lineno;
+    return n;
+}
+
+exports.parse = parse;
+exports.parseStdin = parseStdin;
+exports.parseFunction = parseFunction;
+exports.Node = Node;
+exports.DECLARED_FORM = DECLARED_FORM;
+exports.EXPRESSED_FORM = EXPRESSED_FORM;
+exports.STATEMENT_FORM = STATEMENT_FORM;
+exports.Tokenizer = Tokenizer;
+exports.Parser = Parser;
+exports.Module = Module;
+exports.Export = Export;
 
 });/* vim: set sw=4 ts=4 et tw=78: */
 /* ***** BEGIN LICENSE BLOCK *****
@@ -8547,6 +9284,7 @@ define('ace/narcissus/jsparse', ['require', 'exports', 'module' , 'ace/narcissus
  *   Tom Austin <taustin@ucsc.edu>
  *   Brendan Eich <brendan@mozilla.org>
  *   Shu-Yu Guo <shu@rfrn.org>
+ *   Stephan Herhut <stephan.a.herhut@intel.com>
  *   Dave Herman <dherman@mozilla.com>
  *   Dimitris Vardoulakis <dimvar@ccs.neu.edu>
  *   Patrick Walton <pcwalton@mozilla.com>
@@ -8571,507 +9309,554 @@ define('ace/narcissus/jsparse', ['require', 'exports', 'module' , 'ace/narcissus
  * Lexical scanner.
  */
 
- define('ace/narcissus/jslex', ['require', 'exports', 'module' , 'ace/narcissus/jsdefs'], function(require, exports, module) {
+ define('ace/narcissus/lexer', ['require', 'exports', 'module' , 'ace/narcissus/definitions'], function(require, exports, module) {
 
-    var definitions = require("./jsdefs");
+var definitions = require('./definitions');
 
-    // Set constants in the local scope.
-    eval(definitions.consts);
+// Set constants in the local scope.
+eval(definitions.consts);
 
-    // Banned keywords by language version
-    const blackLists = { 160: {}, 185: {}, harmony: {} };
-    blackLists[160][LET] = true;
-    blackLists[160][MODULE] = true;
-    blackLists[160][YIELD] = true;
-    blackLists[185][MODULE] = true;
+// Build up a trie of operator tokens.
+var opTokens = {};
+for (var op in definitions.opTypeNames) {
+    if (op === '\n' || op === '.')
+        continue;
 
-    // Build up a trie of operator tokens.
-    var opTokens = {};
-    for (var op in definitions.opTypeNames) {
-        if (op === '\n' || op === '.')
-            continue;
+    var node = opTokens;
+    for (var i = 0; i < op.length; i++) {
+        var ch = op[i];
+        if (!(ch in node))
+            node[ch] = {};
+        node = node[ch];
+        node.op = op;
+    }
+}
 
-        var node = opTokens;
-        for (var i = 0; i < op.length; i++) {
-            var ch = op[i];
-            if (!(ch in node))
-                node[ch] = {};
-            node = node[ch];
-            node.op = op;
+/*
+ * Since JavaScript provides no convenient way to determine if a
+ * character is in a particular Unicode category, we use
+ * metacircularity to accomplish this (oh yeaaaah!)
+ */
+function isValidIdentifierChar(ch, first) {
+    // check directly for ASCII
+    if (ch <= "\u007F") {
+        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch === '$' || ch === '_' ||
+            (!first && (ch >= '0' && ch <= '9'))) {
+            return true;
         }
+        return false;
     }
 
-    /*
-     * Tokenizer :: (source, filename, line number) -> Tokenizer
-     */
-    function Tokenizer(s, f, l) {
-        this.cursor = 0;
-        this.source = String(s);
-        this.tokens = [];
-        this.tokenIndex = 0;
-        this.lookahead = 0;
+    // create an object to test this in
+    var x = {};
+    x["x"+ch] = true;
+    x[ch] = true;
+
+    // then use eval to determine if it's a valid character
+    var valid = false;
+    try {
+        valid = (Function("x", "return (x." + (first?"":"x") + ch + ");")(x) === true);
+    } catch (ex) {}
+
+    return valid;
+}
+
+function isIdentifier(str) {
+    if (typeof str !== "string")
+        return false;
+
+    if (str.length === 0)
+        return false;
+
+    if (!isValidIdentifierChar(str[0], true))
+        return false;
+
+    for (var i = 1; i < str.length; i++) {
+        if (!isValidIdentifierChar(str[i], false))
+            return false;
+    }
+
+    return true;
+}
+
+/*
+ * Tokenizer :: (source, filename, line number, boolean) -> Tokenizer
+ */
+function Tokenizer(s, f, l, allowHTMLComments) {
+    this.cursor = 0;
+    this.source = String(s);
+    this.tokens = [];
+    this.tokenIndex = 0;
+    this.lookahead = 0;
+    this.scanNewlines = false;
+    this.filename = f || "";
+    this.lineno = l || 1;
+    this.allowHTMLComments = allowHTMLComments;
+    this.blockComments = null;
+}
+
+Tokenizer.prototype = {
+    get done() {
+        // We need to set scanOperand to true here because the first thing
+        // might be a regexp.
+        return this.peek(true) === END;
+    },
+
+    get token() {
+        return this.tokens[this.tokenIndex];
+    },
+
+    match: function (tt, scanOperand, keywordIsName) {
+        return this.get(scanOperand, keywordIsName) === tt || this.unget();
+    },
+
+    mustMatch: function (tt, keywordIsName) {
+        if (!this.match(tt, false, keywordIsName)) {
+            throw this.newSyntaxError("Missing " +
+                                      definitions.tokens[tt].toLowerCase());
+        }
+        return this.token;
+    },
+
+    peek: function (scanOperand) {
+        var tt, next;
+        if (this.lookahead) {
+            next = this.tokens[(this.tokenIndex + this.lookahead) & 3];
+            tt = (this.scanNewlines && next.lineno !== this.lineno)
+                ? NEWLINE
+                : next.type;
+        } else {
+            tt = this.get(scanOperand);
+            this.unget();
+        }
+        return tt;
+    },
+
+    peekOnSameLine: function (scanOperand) {
+        this.scanNewlines = true;
+        var tt = this.peek(scanOperand);
         this.scanNewlines = false;
-        this.unexpectedEOF = false;
-        this.filename = f || "";
-        this.lineno = l || 1;
-        this.blackList = blackLists[Narcissus.options.version];
-        this.blockComments = null;
-    }
+        return tt;
+    },
 
-    Tokenizer.prototype = {
-        get done() {
-            // We need to set scanOperand to true here because the first thing
-            // might be a regexp.
-            return this.peek(true) === END;
-        },
+    lastBlockComment: function() {
+        var length = this.blockComments.length;
+        return length ? this.blockComments[length - 1] : null;
+    },
 
-        get token() {
-            return this.tokens[this.tokenIndex];
-        },
+    // Eat comments and whitespace.
+    skip: function () {
+        var input = this.source;
+        this.blockComments = [];
+        for (;;) {
+            var ch = input[this.cursor++];
+            var next = input[this.cursor];
+            // handle \r, \r\n and (always preferable) \n
+            if (ch === '\r') {
+                // if the next character is \n, we don't care about this at all
+                if (next === '\n') continue;
 
-        match: function (tt, scanOperand) {
-            return this.get(scanOperand) === tt || this.unget();
-        },
-
-        mustMatch: function (tt) {
-            if (!this.match(tt)) {
-                throw this.newSyntaxError("Missing " +
-                                          definitions.tokens[tt].toLowerCase());
+                // otherwise, we want to consider this as a newline
+                ch = '\n';
             }
-            return this.token;
-        },
 
-        peek: function (scanOperand) {
-            var tt, next;
-            if (this.lookahead) {
-                next = this.tokens[(this.tokenIndex + this.lookahead) & 3];
-                tt = (this.scanNewlines && next.lineno !== this.lineno)
-                     ? NEWLINE
-                     : next.type;
-            } else {
-                tt = this.get(scanOperand);
-                this.unget();
-            }
-            return tt;
-        },
+            if (ch === '\n' && !this.scanNewlines) {
+                this.lineno++;
+            } else if (ch === '/' && next === '*') {
+                var commentStart = ++this.cursor;
+                for (;;) {
+                    ch = input[this.cursor++];
+                    if (ch === undefined)
+                        throw this.newSyntaxError("Unterminated comment");
 
-        peekOnSameLine: function (scanOperand) {
-            this.scanNewlines = true;
-            var tt = this.peek(scanOperand);
-            this.scanNewlines = false;
-            return tt;
-        },
-
-        lastBlockComment: function() {
-            var length = this.blockComments.length;
-            return length ? this.blockComments[length - 1] : null;
-        },
-
-        // Eat comments and whitespace.
-        skip: function () {
-            var input = this.source;
-            this.blockComments = [];
-            for (;;) {
-                var ch = input[this.cursor++];
-                var next = input[this.cursor];
-                // handle \r, \r\n and (always preferable) \n
-                if (ch === '\r') {
-                    // if the next character is \n, we don't care about this at all
-                    if (next === '\n') continue;
-
-                    // otherwise, we want to consider this as a newline
-                    ch = '\n';
-                }
-
-                if (ch === '\n' && !this.scanNewlines) {
-                    this.lineno++;
-                } else if (ch === '/' && next === '*') {
-                    var commentStart = ++this.cursor;
-                    for (;;) {
-                        ch = input[this.cursor++];
-                        if (ch === undefined)
-                            throw this.newSyntaxError("Unterminated comment");
-
-                        if (ch === '*') {
-                            next = input[this.cursor];
-                            if (next === '/') {
-                                var commentEnd = this.cursor - 1;
-                                this.cursor++;
-                                break;
-                            }
-                        } else if (ch === '\n') {
-                            this.lineno++;
-                        }
-                    }
-                    this.blockComments.push(input.substring(commentStart, commentEnd));
-                } else if (ch === '/' && next === '/') {
-                    this.cursor++;
-                    for (;;) {
-                        ch = input[this.cursor++];
+                    if (ch === '*') {
                         next = input[this.cursor];
-                        if (ch === undefined)
-                            return;
-
-                        if (ch === '\r') {
-                            // check for \r\n
-                            if (next !== '\n') ch = '\n';
-                        }
-
-                        if (ch === '\n') {
-                            if (this.scanNewlines) {
-                                this.cursor--;
-                            } else {
-                                this.lineno++;
-                            }
+                        if (next === '/') {
+                            var commentEnd = this.cursor - 1;
+                            this.cursor++;
                             break;
                         }
+                    } else if (ch === '\n') {
+                        this.lineno++;
                     }
-                } else if (!(ch in definitions.whitespace)) {
-                    this.cursor--;
-                    return;
                 }
-            }
-        },
-
-        // Lex the exponential part of a number, if present. Return true iff an
-        // exponential part was found.
-        lexExponent: function() {
-            var input = this.source;
-            var next = input[this.cursor];
-            if (next === 'e' || next === 'E') {
+                this.blockComments.push(input.substring(commentStart, commentEnd));
+            } else if ((ch === '/' && next === '/') ||
+                       (this.allowHTMLComments && ch === '<' && next === '!' &&
+                        input[this.cursor + 1] === '-' && input[this.cursor + 2] === '-' &&
+                        (this.cursor += 2))) {
                 this.cursor++;
-                ch = input[this.cursor++];
-                if (ch === '+' || ch === '-')
+                for (;;) {
                     ch = input[this.cursor++];
+                    next = input[this.cursor];
+                    if (ch === undefined)
+                        return;
 
-                if (ch < '0' || ch > '9')
-                    throw this.newSyntaxError("Missing exponent");
+                    if (ch === '\r') {
+                        // check for \r\n
+                        if (next !== '\n') ch = '\n';
+                    }
 
-                do {
-                    ch = input[this.cursor++];
-                } while (ch >= '0' && ch <= '9');
+                    if (ch === '\n') {
+                        if (this.scanNewlines) {
+                            this.cursor--;
+                        } else {
+                            this.lineno++;
+                        }
+                        break;
+                    }
+                }
+            } else if (!(ch in definitions.whitespace)) {
                 this.cursor--;
-
-                return true;
+                return;
             }
+        }
+    },
 
-            return false;
-        },
-
-        lexZeroNumber: function (ch) {
-            var token = this.token, input = this.source;
-            token.type = NUMBER;
-
+    // Lex the exponential part of a number, if present. Return true iff an
+    // exponential part was found.
+    lexExponent: function() {
+        var input = this.source;
+        var next = input[this.cursor];
+        if (next === 'e' || next === 'E') {
+            this.cursor++;
             ch = input[this.cursor++];
-            if (ch === '.') {
-                do {
-                    ch = input[this.cursor++];
-                } while (ch >= '0' && ch <= '9');
-                this.cursor--;
+            if (ch === '+' || ch === '-')
+                ch = input[this.cursor++];
 
-                this.lexExponent();
-                token.value = parseFloat(token.start, this.cursor);
-            } else if (ch === 'x' || ch === 'X') {
-                do {
-                    ch = input[this.cursor++];
-                } while ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') ||
-                         (ch >= 'A' && ch <= 'F'));
-                this.cursor--;
+            if (ch < '0' || ch > '9')
+                throw this.newSyntaxError("Missing exponent");
 
-                token.value = parseInt(input.substring(token.start, this.cursor));
-            } else if (ch >= '0' && ch <= '7') {
-                do {
-                    ch = input[this.cursor++];
-                } while (ch >= '0' && ch <= '7');
-                this.cursor--;
-
-                token.value = parseInt(input.substring(token.start, this.cursor));
-            } else {
-                this.cursor--;
-                this.lexExponent();     // 0E1, &c.
-                token.value = 0;
-            }
-        },
-
-        lexNumber: function (ch) {
-            var token = this.token, input = this.source;
-            token.type = NUMBER;
-
-            var floating = false;
             do {
                 ch = input[this.cursor++];
-                if (ch === '.' && !floating) {
-                    floating = true;
-                    ch = input[this.cursor++];
-                }
             } while (ch >= '0' && ch <= '9');
-
             this.cursor--;
 
-            var exponent = this.lexExponent();
-            floating = floating || exponent;
+            return true;
+        }
 
-            var str = input.substring(token.start, this.cursor);
-            token.value = floating ? parseFloat(str) : parseInt(str);
-        },
+        return false;
+    },
 
-        lexDot: function (ch) {
-            var token = this.token, input = this.source;
-            var next = input[this.cursor];
-            if (next >= '0' && next <= '9') {
-                do {
-                    ch = input[this.cursor++];
-                } while (ch >= '0' && ch <= '9');
-                this.cursor--;
+    lexZeroNumber: function (ch) {
+        var token = this.token, input = this.source;
+        token.type = NUMBER;
 
-                this.lexExponent();
+        ch = input[this.cursor++];
+        if (ch === '.') {
+            do {
+                ch = input[this.cursor++];
+            } while (ch >= '0' && ch <= '9');
+            this.cursor--;
 
-                token.type = NUMBER;
-                token.value = parseFloat(token.start, this.cursor);
-            } else {
-                token.type = DOT;
-                token.assignOp = null;
-                token.value = '.';
+            this.lexExponent();
+            token.value = parseFloat(
+                input.substring(token.start, this.cursor));
+        } else if (ch === 'x' || ch === 'X') {
+            do {
+                ch = input[this.cursor++];
+            } while ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') ||
+                     (ch >= 'A' && ch <= 'F'));
+            this.cursor--;
+
+            token.value = parseInt(input.substring(token.start, this.cursor));
+        } else if (ch >= '0' && ch <= '7') {
+            do {
+                ch = input[this.cursor++];
+            } while (ch >= '0' && ch <= '7');
+            this.cursor--;
+
+            token.value = parseInt(input.substring(token.start, this.cursor));
+        } else {
+            this.cursor--;
+            this.lexExponent();     // 0E1, &c.
+            token.value = 0;
+        }
+    },
+
+    lexNumber: function (ch) {
+        var token = this.token, input = this.source;
+        token.type = NUMBER;
+
+        var floating = false;
+        do {
+            ch = input[this.cursor++];
+            if (ch === '.' && !floating) {
+                floating = true;
+                ch = input[this.cursor++];
             }
-        },
+        } while (ch >= '0' && ch <= '9');
 
-        lexString: function (ch) {
-            var token = this.token, input = this.source;
-            token.type = STRING;
+        this.cursor--;
 
-            var hasEscapes = false;
-            var delim = ch;
-            if (input.length <= this.cursor)
+        var exponent = this.lexExponent();
+        floating = floating || exponent;
+
+        var str = input.substring(token.start, this.cursor);
+        token.value = floating ? parseFloat(str) : parseInt(str);
+    },
+
+    lexDot: function (ch) {
+        var token = this.token, input = this.source;
+        var next = input[this.cursor];
+        if (next >= '0' && next <= '9') {
+            do {
+                ch = input[this.cursor++];
+            } while (ch >= '0' && ch <= '9');
+            this.cursor--;
+
+            this.lexExponent();
+
+            token.type = NUMBER;
+            token.value = parseFloat(
+                input.substring(token.start, this.cursor));
+        } else {
+            token.type = DOT;
+            token.assignOp = null;
+            token.value = '.';
+        }
+    },
+
+    lexString: function (ch) {
+        var token = this.token, input = this.source;
+        token.type = STRING;
+
+        var hasEscapes = false;
+        var delim = ch;
+        if (input.length <= this.cursor)
+            throw this.newSyntaxError("Unterminated string literal");
+        while ((ch = input[this.cursor++]) !== delim) {
+            if (ch == '\n' || ch == '\r')
                 throw this.newSyntaxError("Unterminated string literal");
-            while ((ch = input[this.cursor++]) !== delim) {
-                if (this.cursor == input.length)
+            if (this.cursor == input.length)
+                throw this.newSyntaxError("Unterminated string literal");
+            if (ch === '\\') {
+                hasEscapes = true;
+                if (++this.cursor == input.length)
                     throw this.newSyntaxError("Unterminated string literal");
-                if (ch === '\\') {
-                    hasEscapes = true;
-                    if (++this.cursor == input.length)
-                        throw this.newSyntaxError("Unterminated string literal");
-                }
             }
+        }
 
-            token.value = hasEscapes
-                          ? eval(input.substring(token.start, this.cursor))
-                          : input.substring(token.start + 1, this.cursor - 1);
-        },
+        token.value = hasEscapes
+            ? eval(input.substring(token.start, this.cursor))
+            : input.substring(token.start + 1, this.cursor - 1);
+    },
 
-        lexRegExp: function (ch) {
-            var token = this.token, input = this.source;
-            token.type = REGEXP;
+    lexRegExp: function (ch) {
+        var token = this.token, input = this.source;
+        token.type = REGEXP;
 
-            do {
-                ch = input[this.cursor++];
-                if (ch === '\\') {
-                    this.cursor++;
-                } else if (ch === '[') {
-                    do {
-                        if (ch === undefined)
-                            throw this.newSyntaxError("Unterminated character class");
+        do {
+            ch = input[this.cursor++];
+            if (ch === '\\') {
+                this.cursor++;
+            } else if (ch === '[') {
+                do {
+                    if (ch === undefined)
+                        throw this.newSyntaxError("Unterminated character class");
 
-                        if (ch === '\\')
-                            this.cursor++;
+                    if (ch === '\\')
+                        this.cursor++;
 
-                        ch = input[this.cursor++];
-                    } while (ch !== ']');
-                } else if (ch === undefined) {
-                    throw this.newSyntaxError("Unterminated regex");
-                }
-            } while (ch !== '/');
+                    ch = input[this.cursor++];
+                } while (ch !== ']');
+            } else if (ch === undefined) {
+                throw this.newSyntaxError("Unterminated regex");
+            }
+        } while (ch !== '/');
 
-            do {
-                ch = input[this.cursor++];
-            } while (ch >= 'a' && ch <= 'z');
+        do {
+            ch = input[this.cursor++];
+        } while (ch >= 'a' && ch <= 'z');
 
-            this.cursor--;
+        this.cursor--;
 
-            token.value = eval(input.substring(token.start, this.cursor));
-        },
+        token.value = eval(input.substring(token.start, this.cursor));
+    },
 
-        lexOp: function (ch) {
-            var token = this.token, input = this.source;
+    lexOp: function (ch) {
+        var token = this.token, input = this.source;
 
-            // A bit ugly, but it seems wasteful to write a trie lookup routine
-            // for only 3 characters...
-            var node = opTokens[ch];
-            var next = input[this.cursor];
+        // A bit ugly, but it seems wasteful to write a trie lookup routine
+        // for only 3 characters...
+        var node = opTokens[ch];
+        var next = input[this.cursor];
+        if (next in node) {
+            node = node[next];
+            this.cursor++;
+            next = input[this.cursor];
             if (next in node) {
                 node = node[next];
                 this.cursor++;
                 next = input[this.cursor];
-                if (next in node) {
-                    node = node[next];
-                    this.cursor++;
-                    next = input[this.cursor];
-                }
             }
+        }
 
-            var op = node.op;
-            if (definitions.assignOps[op] && input[this.cursor] === '=') {
-                this.cursor++;
-                token.type = ASSIGN;
-                token.assignOp = definitions.tokenIds[definitions.opTypeNames[op]];
-                op += '=';
-            } else {
-                token.type = definitions.tokenIds[definitions.opTypeNames[op]];
-                token.assignOp = null;
+        var op = node.op;
+        if (definitions.assignOps[op] && input[this.cursor] === '=') {
+            this.cursor++;
+            token.type = ASSIGN;
+            token.assignOp = definitions.tokenIds[definitions.opTypeNames[op]];
+            op += '=';
+        } else {
+            token.type = definitions.tokenIds[definitions.opTypeNames[op]];
+            token.assignOp = null;
+        }
+
+        token.value = op;
+    },
+
+    // FIXME: Unicode escape sequences
+    lexIdent: function (ch, keywordIsName) {
+        var token = this.token;
+        var id = ch;
+
+        while ((ch = this.getValidIdentifierChar(false)) !== null) {
+            id += ch;
+        }
+
+        token.type = IDENTIFIER;
+        token.value = id;
+
+        if (keywordIsName)
+            return;
+
+        var kw;
+
+        if (this.parser.mozillaMode) {
+            kw = definitions.mozillaKeywords[id];
+            if (kw) {
+                token.type = kw;
+                return;
             }
+        }
 
-            token.value = op;
-        },
-
-        // FIXME: Unicode escape sequences
-        lexIdent: function (ch) {
-            var token = this.token;
-            var id = ch;
-
-            while ((ch = this.getValidIdentifierChar(false)) !== null) {
-                id += ch;
+        if (this.parser.x.strictMode) {
+            kw = definitions.strictKeywords[id];
+            if (kw) {
+                token.type = kw;
+                return;
             }
+        }
 
-            token.type = definitions.keywords[id] || IDENTIFIER;
-            if (token.type in this.blackList) {
-                // banned keyword, this is an identifier
-                token.type = IDENTIFIER;
-            }
-            token.value = id;
-        },
+        kw = definitions.keywords[id];
+        if (kw)
+            token.type = kw;
+    },
 
-        /*
-         * Tokenizer.get :: void -> token type
-         *
-         * Consume input *only* if there is no lookahead.
-         * Dispatch to the appropriate lexing function depending on the input.
-         */
-        get: function (scanOperand) {
-            var token;
-            while (this.lookahead) {
-                --this.lookahead;
-                this.tokenIndex = (this.tokenIndex + 1) & 3;
-                token = this.tokens[this.tokenIndex];
-                if (token.type !== NEWLINE || this.scanNewlines)
-                    return token.type;
-            }
-
-            this.skip();
-
+    /*
+     * Tokenizer.get :: ([boolean[, boolean]]) -> token type
+     *
+     * Consume input *only* if there is no lookahead.
+     * Dispatch to the appropriate lexing function depending on the input.
+     */
+    get: function (scanOperand, keywordIsName) {
+        var token;
+        while (this.lookahead) {
+            --this.lookahead;
             this.tokenIndex = (this.tokenIndex + 1) & 3;
             token = this.tokens[this.tokenIndex];
-            if (!token)
-                this.tokens[this.tokenIndex] = token = {};
+            if (token.type !== NEWLINE || this.scanNewlines)
+                return token.type;
+        }
 
-            var input = this.source;
-            if (this.cursor >= input.length)
-                return token.type = END;
+        this.skip();
 
-            token.start = this.cursor;
-            token.lineno = this.lineno;
+        this.tokenIndex = (this.tokenIndex + 1) & 3;
+        token = this.tokens[this.tokenIndex];
+        if (!token)
+            this.tokens[this.tokenIndex] = token = {};
 
-            var ich = this.getValidIdentifierChar(true);
-            var ch = (ich === null) ? input[this.cursor++] : null;
-            if (ich !== null) {
-                this.lexIdent(ich);
-            } else if (scanOperand && ch === '/') {
-                this.lexRegExp(ch);
-            } else if (ch in opTokens) {
-                this.lexOp(ch);
-            } else if (ch === '.') {
-                this.lexDot(ch);
-            } else if (ch >= '1' && ch <= '9') {
-                this.lexNumber(ch);
-            } else if (ch === '0') {
-                this.lexZeroNumber(ch);
-            } else if (ch === '"' || ch === "'") {
-                this.lexString(ch);
-            } else if (this.scanNewlines && (ch === '\n' || ch === '\r')) {
-                // if this was a \r, look for \r\n
-                if (ch === '\r' && input[this.cursor] === '\n') this.cursor++;
-                token.type = NEWLINE;
-                token.value = '\n';
-                this.lineno++;
-            } else {
-                throw this.newSyntaxError("Illegal token");
-            }
+        var input = this.source;
+        if (this.cursor >= input.length)
+            return token.type = END;
 
-            token.end = this.cursor;
-            return token.type;
-        },
+        token.start = this.cursor;
+        token.lineno = this.lineno;
 
-        /*
-         * Tokenizer.unget :: void -> undefined
-         *
-         * Match depends on unget returning undefined.
-         */
-        unget: function () {
-            if (++this.lookahead === 4) throw "PANIC: too much lookahead!";
-            this.tokenIndex = (this.tokenIndex - 1) & 3;
-        },
+        var ich = this.getValidIdentifierChar(true);
+        var ch = (ich === null) ? input[this.cursor++] : null;
+        if (ich !== null) {
+            this.lexIdent(ich, keywordIsName);
+        } else if (scanOperand && ch === '/') {
+            this.lexRegExp(ch);
+        } else if (ch in opTokens) {
+            this.lexOp(ch);
+        } else if (ch === '.') {
+            this.lexDot(ch);
+        } else if (ch >= '1' && ch <= '9') {
+            this.lexNumber(ch);
+        } else if (ch === '0') {
+            this.lexZeroNumber(ch);
+        } else if (ch === '"' || ch === "'") {
+            this.lexString(ch);
+        } else if (this.scanNewlines && (ch === '\n' || ch === '\r')) {
+            // if this was a \r, look for \r\n
+            if (ch === '\r' && input[this.cursor] === '\n') this.cursor++;
+            token.type = NEWLINE;
+            token.value = '\n';
+            this.lineno++;
+        } else {
+            throw this.newSyntaxError("Illegal token");
+        }
 
-        newSyntaxError: function (m) {
-            m = (this.filename ? this.filename + ":" : "") + this.lineno + ": " + m;
-            var e = new SyntaxError(m, this.filename, this.lineno);
-            e.source = this.source;
-            e.cursor = this.lookahead
-                       ? this.tokens[(this.tokenIndex + this.lookahead) & 3].start
-                       : this.cursor;
-            return e;
-        },
+        token.end = this.cursor;
+        return token.type;
+    },
 
-        /* Gets a single valid identifier char from the input stream, or null
-         * if there is none.
-         * Since JavaScript provides no convenient way to determine if a
-         * character is in a particular Unicode category, we use
-         * metacircularity to accomplish this (oh yeaaaah!) */
-        getValidIdentifierChar: function(first) {
-            var input = this.source;
-            if (this.cursor >= input.length) return null;
-            var ch = input[this.cursor];
+    /*
+     * Tokenizer.unget :: void -> undefined
+     *
+     * Match depends on unget returning undefined.
+     */
+    unget: function () {
+        if (++this.lookahead === 4) throw "PANIC: too much lookahead!";
+        this.tokenIndex = (this.tokenIndex - 1) & 3;
+    },
 
-            // first check for \u escapes
-            if (ch === '\\' && input[this.cursor+1] === 'u') {
-                // get the character value
-                try {
-                    ch = String.fromCharCode(parseInt(
-                        input.substring(this.cursor + 2, this.cursor + 6),
-                        16));
-                } catch (ex) {
-                    return null;
-                }
-                this.cursor += 5;
-            }
+    newSyntaxError: function (m) {
+        m = (this.filename ? this.filename + ":" : "") + this.lineno + ": " + m;
+        var e = new SyntaxError(m, this.filename, this.lineno);
+        e.source = this.source;
+        e.cursor = this.lookahead
+            ? this.tokens[(this.tokenIndex + this.lookahead) & 3].start
+            : this.cursor;
+        return e;
+    },
 
-            // check directly for ASCII
-            if (ch <= "\u007F") {
-                if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch === '$' || ch === '_' ||
-                    (!first && (ch >= '0' && ch <= '9'))) {
-                    this.cursor++;
-                    return ch;
-                }
+
+    /* Gets a single valid identifier char from the input stream, or null
+     * if there is none.
+     */
+    getValidIdentifierChar: function(first) {
+        var input = this.source;
+        if (this.cursor >= input.length) return null;
+        var ch = input[this.cursor];
+
+        // first check for \u escapes
+        if (ch === '\\' && input[this.cursor+1] === 'u') {
+            // get the character value
+            try {
+                ch = String.fromCharCode(parseInt(
+                    input.substring(this.cursor + 2, this.cursor + 6),
+                    16));
+            } catch (ex) {
                 return null;
             }
-    
-            // create an object to test this in
-            var x = {};
-            x["x"+ch] = true;
-            x[ch] = true;
-    
-            // then use eval to determine if it's a valid character
-            var valid = false;
-            try {
-                valid = (Function("x", "return (x." + (first?"":"x") + ch + ");")(x) === true);
-            } catch (ex) {}
-            if (valid) this.cursor++;
-            return (valid ? ch : null);
-        },
-    };
+            this.cursor += 5;
+        }
+
+        var valid = isValidIdentifierChar(ch, first);
+        if (valid) this.cursor++;
+        return (valid ? ch : null);
+    },
+};
 
 
-    module.exports = { Tokenizer: Tokenizer };
+exports.isIdentifier = isIdentifier;
+exports.Tokenizer = Tokenizer;
 
-});
-/* vim: set sw=4 ts=4 et tw=78: */
+});/* vim: set sw=4 ts=4 et tw=78: */
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -9123,507 +9908,533 @@ define('ace/narcissus/jsparse', ['require', 'exports', 'module' , 'ace/narcissus
  * done by SpiderMonkey.
  */
 
-define('ace/narcissus/jsdefs', ['require', 'exports', 'module' ], function(require, exports, module) {
+define('ace/narcissus/definitions', ['require', 'exports', 'module' ], function(require, exports, module) {
 
-    var narcissus = {
-        options: {
-            version: 185,
-            // Global variables to hide from the interpreter
-            hiddenHostGlobals: { Narcissus: true },
-            // Desugar SpiderMonkey language extensions?
-            desugarExtensions: false
+var tokens = [
+    // End of source.
+    "END",
+
+    // Operators and punctuators.  Some pair-wise order matters, e.g. (+, -)
+    // and (UNARY_PLUS, UNARY_MINUS).
+    "\n", ";",
+    ",",
+    "=",
+    "?", ":", "CONDITIONAL",
+    "||",
+    "&&",
+    "|",
+    "^",
+    "&",
+    "==", "!=", "===", "!==",
+    "<", "<=", ">=", ">",
+    "<<", ">>", ">>>",
+    "+", "-",
+    "*", "/", "%",
+    "!", "~", "UNARY_PLUS", "UNARY_MINUS",
+    "++", "--",
+    ".",
+    "[", "]",
+    "{", "}",
+    "(", ")",
+
+    // Nonterminal tree node type codes.
+    "SCRIPT", "BLOCK", "LABEL", "FOR_IN", "CALL", "NEW_WITH_ARGS", "INDEX",
+    "ARRAY_INIT", "OBJECT_INIT", "PROPERTY_INIT", "GETTER", "SETTER",
+    "GROUP", "LIST", "LET_BLOCK", "ARRAY_COMP", "GENERATOR", "COMP_TAIL",
+
+    // Contextual keywords.
+    "IMPLEMENTS", "INTERFACE", "LET", "MODULE", "PACKAGE", "PRIVATE",
+    "PROTECTED", "PUBLIC", "STATIC", "USE", "YIELD",
+
+    // Terminals.
+    "IDENTIFIER", "NUMBER", "STRING", "REGEXP",
+
+    // Keywords.
+    "break",
+    "case", "catch", "const", "continue",
+    "debugger", "default", "delete", "do",
+    "else", "export",
+    "false", "finally", "for", "function",
+    "if", "import", "in", "instanceof",
+    "new", "null",
+    "return",
+    "switch",
+    "this", "throw", "true", "try", "typeof",
+    "var", "void",
+    "while", "with",
+];
+
+var strictKeywords = {
+    __proto__: null,
+    "implements": true,
+    "interface": true,
+    "let": true,
+    //"module": true,
+    "package": true,
+    "private": true,
+    "protected": true,
+    "public": true,
+    "static": true,
+    "use": true,
+    "yield": true
+};
+
+var statementStartTokens = [
+    "break",
+    "const", "continue",
+    "debugger", "do",
+    "for",
+    "if",
+    "let",
+    "return",
+    "switch",
+    "throw", "try",
+    "var",
+    "yield",
+    "while", "with",
+];
+
+// Whitespace characters (see ECMA-262 7.2)
+var whitespaceChars = [
+    // normal whitespace:
+    "\u0009", "\u000B", "\u000C", "\u0020", "\u00A0", "\uFEFF",
+
+    // high-Unicode whitespace:
+    "\u1680", "\u180E",
+    "\u2000", "\u2001", "\u2002", "\u2003", "\u2004", "\u2005", "\u2006",
+    "\u2007", "\u2008", "\u2009", "\u200A",
+    "\u202F", "\u205F", "\u3000"
+];
+
+var whitespace = {};
+for (var i = 0; i < whitespaceChars.length; i++) {
+    whitespace[whitespaceChars[i]] = true;
+}
+
+// Operator and punctuator mapping from token to tree node type name.
+// NB: because the lexer doesn't backtrack, all token prefixes must themselves
+// be valid tokens (e.g. !== is acceptable because its prefixes are the valid
+// tokens != and !).
+var opTypeNames = {
+    '\n':   "NEWLINE",
+    ';':    "SEMICOLON",
+    ',':    "COMMA",
+    '?':    "HOOK",
+    ':':    "COLON",
+    '||':   "OR",
+    '&&':   "AND",
+    '|':    "BITWISE_OR",
+    '^':    "BITWISE_XOR",
+    '&':    "BITWISE_AND",
+    '===':  "STRICT_EQ",
+    '==':   "EQ",
+    '=':    "ASSIGN",
+    '!==':  "STRICT_NE",
+    '!=':   "NE",
+    '<<':   "LSH",
+    '<=':   "LE",
+    '<':    "LT",
+    '>>>':  "URSH",
+    '>>':   "RSH",
+    '>=':   "GE",
+    '>':    "GT",
+    '++':   "INCREMENT",
+    '--':   "DECREMENT",
+    '+':    "PLUS",
+    '-':    "MINUS",
+    '*':    "MUL",
+    '/':    "DIV",
+    '%':    "MOD",
+    '!':    "NOT",
+    '~':    "BITWISE_NOT",
+    '.':    "DOT",
+    '[':    "LEFT_BRACKET",
+    ']':    "RIGHT_BRACKET",
+    '{':    "LEFT_CURLY",
+    '}':    "RIGHT_CURLY",
+    '(':    "LEFT_PAREN",
+    ')':    "RIGHT_PAREN"
+};
+
+// Hash of keyword identifier to tokens index.  NB: we must null __proto__ to
+// avoid toString, etc. namespace pollution.
+var keywords = {__proto__: null};
+var mozillaKeywords = {__proto__: null};
+
+// Define const END, etc., based on the token names.  Also map name to index.
+var tokenIds = {};
+
+var hostSupportsEvalConst = (function() {
+    try {
+        return eval("(function(s) { eval(s); return x })('const x = true;')");
+    } catch (e) {
+        return false;
+    }
+})();
+
+// Building up a string to be eval'd in different contexts.
+var consts = hostSupportsEvalConst ? "const " : "var ";
+for (var i = 0, j = tokens.length; i < j; i++) {
+    if (i > 0)
+        consts += ", ";
+    var t = tokens[i];
+    var name;
+    if (/^[a-z]/.test(t)) {
+        name = t.toUpperCase();
+        if (name === "LET" || name === "YIELD")
+            mozillaKeywords[name] = i;
+        if (strictKeywords[name])
+            strictKeywords[name] = i;
+        keywords[t] = i;
+    } else {
+        name = (/^\W/.test(t) ? opTypeNames[t] : t);
+    }
+    consts += name + " = " + i;
+    tokenIds[name] = i;
+    tokens[t] = i;
+}
+consts += ";";
+
+var isStatementStartCode = {__proto__: null};
+for (i = 0, j = statementStartTokens.length; i < j; i++)
+    isStatementStartCode[keywords[statementStartTokens[i]]] = true;
+
+// Map assignment operators to their indexes in the tokens array.
+var assignOps = ['|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%'];
+
+for (i = 0, j = assignOps.length; i < j; i++) {
+    t = assignOps[i];
+    assignOps[t] = tokens[t];
+}
+
+function defineGetter(obj, prop, fn, dontDelete, dontEnum) {
+    Object.defineProperty(obj, prop,
+                          { get: fn, configurable: !dontDelete, enumerable: !dontEnum });
+}
+
+function defineGetterSetter(obj, prop, getter, setter, dontDelete, dontEnum) {
+    Object.defineProperty(obj, prop, {
+        get: getter,
+        set: setter,
+        configurable: !dontDelete,
+        enumerable: !dontEnum
+    });
+}
+
+function defineMemoGetter(obj, prop, fn, dontDelete, dontEnum) {
+    Object.defineProperty(obj, prop, {
+        get: function() {
+            var val = fn();
+            defineProperty(obj, prop, val, dontDelete, true, dontEnum);
+            return val;
         },
-        hostSupportsEvalConst: (function() {
-            try {
-                return eval("(function(s) { eval(s); return x })('const x = true;')");
-            } catch (e) {
-                return false;
-            }
-        })(),
-        hostGlobal: this
+        configurable: true,
+        enumerable: !dontEnum
+    });
+}
+
+function defineProperty(obj, prop, val, dontDelete, readOnly, dontEnum) {
+    Object.defineProperty(obj, prop,
+                          { value: val, writable: !readOnly, configurable: !dontDelete,
+                            enumerable: !dontEnum });
+}
+
+// Returns true if fn is a native function.  (Note: SpiderMonkey specific.)
+function isNativeCode(fn) {
+    // Relies on the toString method to identify native code.
+    return ((typeof fn) === "function") && fn.toString().match(/\[native code\]/);
+}
+
+var Fpapply = Function.prototype.apply;
+
+function apply(f, o, a) {
+    return Fpapply.call(f, [o].concat(a));
+}
+
+var applyNew;
+
+// ES5's bind is a simpler way to implement applyNew
+if (Function.prototype.bind) {
+    applyNew = function applyNew(f, a) {
+        return new (f.bind.apply(f, [,].concat(Array.prototype.slice.call(a))))();
     };
-    Narcissus = narcissus;
-
-    var tokens = [
-        // End of source.
-        "END",
-
-        // Operators and punctuators.  Some pair-wise order matters, e.g. (+, -)
-        // and (UNARY_PLUS, UNARY_MINUS).
-        "\n", ";",
-        ",",
-        "=",
-        "?", ":", "CONDITIONAL",
-        "||",
-        "&&",
-        "|",
-        "^",
-        "&",
-        "==", "!=", "===", "!==",
-        "<", "<=", ">=", ">",
-        "<<", ">>", ">>>",
-        "+", "-",
-        "*", "/", "%",
-        "!", "~", "UNARY_PLUS", "UNARY_MINUS",
-        "++", "--",
-        ".",
-        "[", "]",
-        "{", "}",
-        "(", ")",
-
-        // Nonterminal tree node type codes.
-        "SCRIPT", "BLOCK", "LABEL", "FOR_IN", "CALL", "NEW_WITH_ARGS", "INDEX",
-        "ARRAY_INIT", "OBJECT_INIT", "PROPERTY_INIT", "GETTER", "SETTER",
-        "GROUP", "LIST", "LET_BLOCK", "ARRAY_COMP", "GENERATOR", "COMP_TAIL",
-
-        // Terminals.
-        "IDENTIFIER", "NUMBER", "STRING", "REGEXP",
-
-        // Keywords.
-        "break",
-        "case", "catch", "const", "continue",
-        "debugger", "default", "delete", "do",
-        "else", "export",
-        "false", "finally", "for", "function",
-        "if", "import", "in", "instanceof",
-        "let", "module",
-        "new", "null",
-        "return",
-        "switch",
-        "this", "throw", "true", "try", "typeof",
-        "var", "void",
-        "yield",
-        "while", "with",
-    ];
-
-    var statementStartTokens = [
-        "break",
-        "const", "continue",
-        "debugger", "do",
-        "for",
-        "if",
-        "return",
-        "switch",
-        "throw", "try",
-        "var",
-        "yield",
-        "while", "with",
-    ];
-
-    // Whitespace characters (see ECMA-262 7.2)
-    var whitespaceChars = [
-        // normal whitespace:
-        "\u0009", "\u000B", "\u000C", "\u0020", "\u00A0", "\uFEFF", 
-
-        // high-Unicode whitespace:
-        "\u1680", "\u180E",
-        "\u2000", "\u2001", "\u2002", "\u2003", "\u2004", "\u2005", "\u2006",
-        "\u2007", "\u2008", "\u2009", "\u200A",
-        "\u202F", "\u205F", "\u3000"
-    ];
-
-    var whitespace = {};
-    for (var i = 0; i < whitespaceChars.length; i++) {
-        whitespace[whitespaceChars[i]] = true;
-    }
-
-    // Operator and punctuator mapping from token to tree node type name.
-    // NB: because the lexer doesn't backtrack, all token prefixes must themselves
-    // be valid tokens (e.g. !== is acceptable because its prefixes are the valid
-    // tokens != and !).
-    var opTypeNames = {
-        '\n':   "NEWLINE",
-        ';':    "SEMICOLON",
-        ',':    "COMMA",
-        '?':    "HOOK",
-        ':':    "COLON",
-        '||':   "OR",
-        '&&':   "AND",
-        '|':    "BITWISE_OR",
-        '^':    "BITWISE_XOR",
-        '&':    "BITWISE_AND",
-        '===':  "STRICT_EQ",
-        '==':   "EQ",
-        '=':    "ASSIGN",
-        '!==':  "STRICT_NE",
-        '!=':   "NE",
-        '<<':   "LSH",
-        '<=':   "LE",
-        '<':    "LT",
-        '>>>':  "URSH",
-        '>>':   "RSH",
-        '>=':   "GE",
-        '>':    "GT",
-        '++':   "INCREMENT",
-        '--':   "DECREMENT",
-        '+':    "PLUS",
-        '-':    "MINUS",
-        '*':    "MUL",
-        '/':    "DIV",
-        '%':    "MOD",
-        '!':    "NOT",
-        '~':    "BITWISE_NOT",
-        '.':    "DOT",
-        '[':    "LEFT_BRACKET",
-        ']':    "RIGHT_BRACKET",
-        '{':    "LEFT_CURLY",
-        '}':    "RIGHT_CURLY",
-        '(':    "LEFT_PAREN",
-        ')':    "RIGHT_PAREN"
+} else {
+    applyNew = function applyNew(f, a) {
+        switch (a.length) {
+          case 0:
+            return new f();
+          case 1:
+            return new f(a[0]);
+          case 2:
+            return new f(a[0], a[1]);
+          case 3:
+            return new f(a[0], a[1], a[2]);
+          default:
+            var argStr = "a[0]";
+            for (var i = 1, n = a.length; i < n; i++)
+                argStr += ",a[" + i + "]";
+            return eval("new f(" + argStr + ")");
+        }
     };
+}
 
-    // Hash of keyword identifier to tokens index.  NB: we must null __proto__ to
-    // avoid toString, etc. namespace pollution.
-    var keywords = {__proto__: null};
-
-    // Define const END, etc., based on the token names.  Also map name to index.
-    var tokenIds = {};
-
-    // Building up a string to be eval'd in different contexts.
-    var consts = Narcissus.hostSupportsEvalConst ? "const " : "var ";
-    for (var i = 0, j = tokens.length; i < j; i++) {
-        if (i > 0)
-            consts += ", ";
-        var t = tokens[i];
-        var name;
-        if (/^[a-z]/.test(t)) {
-            name = t.toUpperCase();
-            keywords[t] = i;
-        } else {
-            name = (/^\W/.test(t) ? opTypeNames[t] : t);
-        }
-        consts += name + " = " + i;
-        tokenIds[name] = i;
-        tokens[t] = i;
+function getPropertyDescriptor(obj, name) {
+    while (obj) {
+        if (({}).hasOwnProperty.call(obj, name))
+            return Object.getOwnPropertyDescriptor(obj, name);
+        obj = Object.getPrototypeOf(obj);
     }
-    consts += ";";
+}
 
-    var isStatementStartCode = {__proto__: null};
-    for (i = 0, j = statementStartTokens.length; i < j; i++)
-        isStatementStartCode[keywords[statementStartTokens[i]]] = true;
+function getPropertyNames(obj) {
+    var table = Object.create(null, {});
+    while (obj) {
+        var names = Object.getOwnPropertyNames(obj);
+        for (var i = 0, n = names.length; i < n; i++)
+            table[names[i]] = true;
+        obj = Object.getPrototypeOf(obj);
+    }
+    return Object.keys(table);
+}
 
-    // Map assignment operators to their indexes in the tokens array.
-    var assignOps = ['|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%'];
+function getOwnProperties(obj) {
+    var map = {};
+    for (var name in Object.getOwnPropertyNames(obj))
+        map[name] = Object.getOwnPropertyDescriptor(obj, name);
+    return map;
+}
 
-    for (i = 0, j = assignOps.length; i < j; i++) {
-        t = assignOps[i];
-        assignOps[t] = tokens[t];
+function blacklistHandler(target, blacklist) {
+    var mask = Object.create(null, {});
+    var redirect = Dict.create(blacklist).mapObject(function(name) { return mask; });
+    return mixinHandler(redirect, target);
+}
+
+function whitelistHandler(target, whitelist) {
+    var catchall = Object.create(null, {});
+    var redirect = Dict.create(whitelist).mapObject(function(name) { return target; });
+    return mixinHandler(redirect, catchall);
+}
+
+/*
+ * Mixin proxies break the single-inheritance model of prototypes, so
+ * the handler treats all properties as own-properties:
+ *
+ *                  X
+ *                  |
+ *     +------------+------------+
+ *     |                 O       |
+ *     |                 |       |
+ *     |  O         O    O       |
+ *     |  |         |    |       |
+ *     |  O    O    O    O       |
+ *     |  |    |    |    |       |
+ *     |  O    O    O    O    O  |
+ *     |  |    |    |    |    |  |
+ *     +-(*)--(w)--(x)--(y)--(z)-+
+ */
+
+function mixinHandler(redirect, catchall) {
+    function targetFor(name) {
+        return hasOwn(redirect, name) ? redirect[name] : catchall;
     }
 
-    function defineGetter(obj, prop, fn, dontDelete, dontEnum) {
-        Object.defineProperty(obj, prop,
-                              { get: fn, configurable: !dontDelete, enumerable: !dontEnum });
+    function getMuxPropertyDescriptor(name) {
+        var desc = getPropertyDescriptor(targetFor(name), name);
+        if (desc)
+            desc.configurable = true;
+        return desc;
     }
 
-    function defineGetterSetter(obj, prop, getter, setter, dontDelete, dontEnum) {
-        Object.defineProperty(obj, prop, {
-            get: getter,
-            set: setter,
-            configurable: !dontDelete,
-            enumerable: !dontEnum
+    function getMuxPropertyNames() {
+        var names1 = Object.getOwnPropertyNames(redirect).filter(function(name) {
+            return name in redirect[name];
         });
-    }
-
-    function defineMemoGetter(obj, prop, fn, dontDelete, dontEnum) {
-        Object.defineProperty(obj, prop, {
-            get: function() {
-                var val = fn();
-                defineProperty(obj, prop, val, dontDelete, true, dontEnum);
-                return val;
-            },
-            configurable: true,
-            enumerable: !dontEnum
+        var names2 = getPropertyNames(catchall).filter(function(name) {
+            return !hasOwn(redirect, name);
         });
+        return names1.concat(names2);
     }
 
-    function defineProperty(obj, prop, val, dontDelete, readOnly, dontEnum) {
-        Object.defineProperty(obj, prop,
-                              { value: val, writable: !readOnly, configurable: !dontDelete,
-                                enumerable: !dontEnum });
-    }
-
-    // Returns true if fn is a native function.  (Note: SpiderMonkey specific.)
-    function isNativeCode(fn) {
-        // Relies on the toString method to identify native code.
-        return ((typeof fn) === "function") && fn.toString().match(/\[native code\]/);
-    }
-
-    function getPropertyDescriptor(obj, name) {
-        while (obj) {
-            if (({}).hasOwnProperty.call(obj, name))
-                return Object.getOwnPropertyDescriptor(obj, name);
-            obj = Object.getPrototypeOf(obj);
-        }
-    }
-
-    function getPropertyNames(obj) {
-        var table = Object.create(null, {});
-        while (obj) {
-            var names = Object.getOwnPropertyNames(obj);
-            for (var i = 0, n = names.length; i < n; i++)
-                table[names[i]] = true;
-            obj = Object.getPrototypeOf(obj);
-        }
-        return Object.keys(table);
-    }
-
-    function getOwnProperties(obj) {
-        var map = {};
-        for (var name in Object.getOwnPropertyNames(obj))
-            map[name] = Object.getOwnPropertyDescriptor(obj, name);
-        return map;
-    }
-
-    function blacklistHandler(target, blacklist) {
-        var mask = Object.create(null, {});
-        var redirect = StringMap.create(blacklist).mapObject(function(name) { return mask; });
-        return mixinHandler(redirect, target);
-    }
-
-    function whitelistHandler(target, whitelist) {
-        var catchall = Object.create(null, {});
-        var redirect = StringMap.create(whitelist).mapObject(function(name) { return target; });
-        return mixinHandler(redirect, catchall);
-    }
-
-    function mirrorHandler(target, writable) {
-        var handler = makePassthruHandler(target);
-
-        var defineProperty = handler.defineProperty;
-        handler.defineProperty = function(name, desc) {
-            if (!desc.enumerable)
-                throw new Error("mirror property must be enumerable");
-            if (!desc.configurable)
-                throw new Error("mirror property must be configurable");
-            if (desc.writable !== writable)
-                throw new Error("mirror property must " + (writable ? "" : "not ") + "be writable");
-            defineProperty(name, desc);
+    function enumerateMux() {
+        var result = Object.getOwnPropertyNames(redirect).filter(function(name) {
+            return name in redirect[name];
+        });
+        for (name in catchall) {
+            if (!hasOwn(redirect, name))
+                result.push(name);
         };
-
-        handler.fix = function() { };
-        handler.getOwnPropertyDescriptor = handler.getPropertyDescriptor;
-        handler.getOwnPropertyNames = getPropertyNames.bind(handler, target);
-        handler.keys = handler.enumerate;
-        handler["delete"] = function() { return false; };
-        handler.hasOwn = handler.has;
-        return handler;
+        return result;
     }
 
-    /*
-     * Mixin proxies break the single-inheritance model of prototypes, so
-     * the handler treats all properties as own-properties:
-     *
-     *                  X
-     *                  |
-     *     +------------+------------+
-     *     |                 O       |
-     *     |                 |       |
-     *     |  O         O    O       |
-     *     |  |         |    |       |
-     *     |  O    O    O    O       |
-     *     |  |    |    |    |       |
-     *     |  O    O    O    O    O  |
-     *     |  |    |    |    |    |  |
-     *     +-(*)--(w)--(x)--(y)--(z)-+
-     */
+    function hasMux(name) {
+        return name in targetFor(name);
+    }
 
-    function mixinHandler(redirect, catchall) {
-        function targetFor(name) {
-            return hasOwn(redirect, name) ? redirect[name] : catchall;
-        }
+    return {
+        getOwnPropertyDescriptor: getMuxPropertyDescriptor,
+        getPropertyDescriptor: getMuxPropertyDescriptor,
+        getOwnPropertyNames: getMuxPropertyNames,
+        defineProperty: function(name, desc) {
+            Object.defineProperty(targetFor(name), name, desc);
+        },
+        "delete": function(name) {
+            var target = targetFor(name);
+            return delete target[name];
+        },
+        // FIXME: ha ha ha
+        fix: function() { },
+        has: hasMux,
+        hasOwn: hasMux,
+        get: function(receiver, name) {
+            var target = targetFor(name);
+            return target[name];
+        },
+        set: function(receiver, name, val) {
+            var target = targetFor(name);
+            target[name] = val;
+            return true;
+        },
+        enumerate: enumerateMux,
+        keys: enumerateMux
+    };
+}
 
-        function getMuxPropertyDescriptor(name) {
-            var desc = getPropertyDescriptor(targetFor(name), name);
-            if (desc)
-                desc.configurable = true;
+function makePassthruHandler(obj) {
+    // Handler copied from
+    // http://wiki.ecmascript.org/doku.php?id=harmony:proxies&s=proxy%20object#examplea_no-op_forwarding_proxy
+    return {
+        getOwnPropertyDescriptor: function(name) {
+            var desc = Object.getOwnPropertyDescriptor(obj, name);
+
+            // a trapping proxy's properties must always be configurable
+            desc.configurable = true;
             return desc;
-        }
+        },
+        getPropertyDescriptor: function(name) {
+            var desc = getPropertyDescriptor(obj, name);
 
-        function getMuxPropertyNames() {
-            var names1 = Object.getOwnPropertyNames(redirect).filter(function(name) {
-                return name in redirect[name];
-            });
-            var names2 = getPropertyNames(catchall).filter(function(name) {
-                return !hasOwn(redirect, name);
-            });
-            return names1.concat(names2);
-        }
+            // a trapping proxy's properties must always be configurable
+            desc.configurable = true;
+            return desc;
+        },
+        getOwnPropertyNames: function() {
+            return Object.getOwnPropertyNames(obj);
+        },
+        defineProperty: function(name, desc) {
+            Object.defineProperty(obj, name, desc);
+        },
+        "delete": function(name) { return delete obj[name]; },
+        fix: function() {
+            if (Object.isFrozen(obj)) {
+                return getOwnProperties(obj);
+            }
 
-        function enumerateMux() {
-            var result = Object.getOwnPropertyNames(redirect).filter(function(name) {
-                return name in redirect[name];
-            });
-            for (name in catchall) {
-                if (!hasOwn(redirect, name))
-                    result.push(name);
-            };
+            // As long as obj is not frozen, the proxy won't allow itself to be fixed.
+            return undefined; // will cause a TypeError to be thrown
+        },
+
+        has: function(name) { return name in obj; },
+        hasOwn: function(name) { return ({}).hasOwnProperty.call(obj, name); },
+        get: function(receiver, name) { return obj[name]; },
+
+        // bad behavior when set fails in non-strict mode
+        set: function(receiver, name, val) { obj[name] = val; return true; },
+        enumerate: function() {
+            var result = [];
+            for (name in obj) { result.push(name); };
             return result;
-        }
-
-        function hasMux(name) {
-            return name in targetFor(name);
-        }
-
-        return {
-            getOwnPropertyDescriptor: getMuxPropertyDescriptor,
-            getPropertyDescriptor: getMuxPropertyDescriptor,
-            getOwnPropertyNames: getMuxPropertyNames,
-            defineProperty: function(name, desc) {
-                Object.defineProperty(targetFor(name), name, desc);
-            },
-            "delete": function(name) {
-                var target = targetFor(name);
-                return delete target[name];
-            },
-            // FIXME: ha ha ha
-            fix: function() { },
-            has: hasMux,
-            hasOwn: hasMux,
-            get: function(receiver, name) {
-                var target = targetFor(name);
-                return target[name];
-            },
-            set: function(receiver, name, val) {
-                var target = targetFor(name);
-                target[name] = val;
-                return true;
-            },
-            enumerate: enumerateMux,
-            keys: enumerateMux
-        };
-    }
-
-    function makePassthruHandler(obj) {
-        // Handler copied from
-        // http://wiki.ecmascript.org/doku.php?id=harmony:proxies&s=proxy%20object#examplea_no-op_forwarding_proxy
-        return {
-            getOwnPropertyDescriptor: function(name) {
-                var desc = Object.getOwnPropertyDescriptor(obj, name);
-
-                // a trapping proxy's properties must always be configurable
-                desc.configurable = true;
-                return desc;
-            },
-            getPropertyDescriptor: function(name) {
-                var desc = getPropertyDescriptor(obj, name);
-
-                // a trapping proxy's properties must always be configurable
-                desc.configurable = true;
-                return desc;
-            },
-            getOwnPropertyNames: function() {
-                return Object.getOwnPropertyNames(obj);
-            },
-            defineProperty: function(name, desc) {
-                Object.defineProperty(obj, name, desc);
-            },
-            "delete": function(name) { return delete obj[name]; },
-            fix: function() {
-                if (Object.isFrozen(obj)) {
-                    return getOwnProperties(obj);
-                }
-
-                // As long as obj is not frozen, the proxy won't allow itself to be fixed.
-                return undefined; // will cause a TypeError to be thrown
-            },
-
-            has: function(name) { return name in obj; },
-            hasOwn: function(name) { return ({}).hasOwnProperty.call(obj, name); },
-            get: function(receiver, name) { return obj[name]; },
-
-            // bad behavior when set fails in non-strict mode
-            set: function(receiver, name, val) { obj[name] = val; return true; },
-            enumerate: function() {
-                var result = [];
-                for (name in obj) { result.push(name); };
-                return result;
-            },
-            keys: function() { return Object.keys(obj); }
-        };
-    }
-
-    var hasOwnProperty = ({}).hasOwnProperty;
-
-    function hasOwn(obj, name) {
-        return hasOwnProperty.call(obj, name);
-    }
-
-    function StringMap(table, size) {
-        this.table = table || Object.create(null, {});
-        this.size = size || 0;
-    }
-
-    StringMap.create = function(table) {
-        var init = Object.create(null, {});
-        var size = 0;
-        var names = Object.getOwnPropertyNames(table);
-        for (var i = 0, n = names.length; i < n; i++) {
-            var name = names[i];
-            init[name] = table[name];
-            size++;
-        }
-        return new StringMap(init, size);
+        },
+        keys: function() { return Object.keys(obj); }
     };
+}
 
-    StringMap.prototype = {
-        has: function(x) { return hasOwnProperty.call(this.table, x); },
-        set: function(x, v) {
-            if (!hasOwnProperty.call(this.table, x))
-                this.size++;
-            this.table[x] = v;
-        },
-        get: function(x) { return this.table[x]; },
-        getDef: function(x, thunk) {
-            if (!hasOwnProperty.call(this.table, x)) {
-                this.size++;
-                this.table[x] = thunk();
-            }
-            return this.table[x];
-        },
-        forEach: function(f) {
-            var table = this.table;
-            for (var key in table)
-                f.call(this, key, table[key]);
-        },
-        map: function(f) {
-            var table1 = this.table;
-            var table2 = Object.create(null, {});
-            this.forEach(function(key, val) {
-                table2[key] = f.call(this, val, key);
-            });
-            return new StringMap(table2, this.size);
-        },
-        mapObject: function(f) {
-            var table1 = this.table;
-            var table2 = Object.create(null, {});
-            this.forEach(function(key, val) {
-                table2[key] = f.call(this, val, key);
-            });
-            return table2;
-        },
-        toObject: function() {
-            return this.mapObject(function(val) { return val; });
-        },
-        choose: function() {
-            return Object.getOwnPropertyNames(this.table)[0];
-        },
-        remove: function(x) {
-            if (hasOwnProperty.call(this.table, x)) {
-                this.size--;
-                delete this.table[x];
-            }
-        },
-        copy: function() {
-            var table = Object.create(null, {});
-            for (var key in this.table)
-                table[key] = this.table[key];
-            return new StringMap(table, this.size);
-        },
-        toString: function() { return "[object StringMap]" }
-    };
+var hasOwnProperty = ({}).hasOwnProperty;
 
-    // an object-key table with poor asymptotics (replace with WeakMap when possible)
-    function ObjectMap(array) {
+function hasOwn(obj, name) {
+    return hasOwnProperty.call(obj, name);
+}
+
+function Dict(table, size) {
+    this.table = table || Object.create(null, {});
+    this.size = size || 0;
+}
+
+Dict.create = function(table) {
+    var init = Object.create(null, {});
+    var size = 0;
+    var names = Object.getOwnPropertyNames(table);
+    for (var i = 0, n = names.length; i < n; i++) {
+        var name = names[i];
+        init[name] = table[name];
+        size++;
+    }
+    return new Dict(init, size);
+};
+
+Dict.prototype = {
+    has: function(x) { return hasOwnProperty.call(this.table, x); },
+    set: function(x, v) {
+        if (!hasOwnProperty.call(this.table, x))
+            this.size++;
+        this.table[x] = v;
+    },
+    get: function(x) { return this.table[x]; },
+    getDef: function(x, thunk) {
+        if (!hasOwnProperty.call(this.table, x)) {
+            this.size++;
+            this.table[x] = thunk();
+        }
+        return this.table[x];
+    },
+    forEach: function(f) {
+        var table = this.table;
+        for (var key in table)
+            f.call(this, key, table[key]);
+    },
+    map: function(f) {
+        var table1 = this.table;
+        var table2 = Object.create(null, {});
+        this.forEach(function(key, val) {
+            table2[key] = f.call(this, val, key);
+        });
+        return new Dict(table2, this.size);
+    },
+    mapObject: function(f) {
+        var table1 = this.table;
+        var table2 = Object.create(null, {});
+        this.forEach(function(key, val) {
+            table2[key] = f.call(this, val, key);
+        });
+        return table2;
+    },
+    toObject: function() {
+        return this.mapObject(function(val) { return val; });
+    },
+    choose: function() {
+        return Object.getOwnPropertyNames(this.table)[0];
+    },
+    remove: function(x) {
+        if (hasOwnProperty.call(this.table, x)) {
+            this.size--;
+            delete this.table[x];
+        }
+    },
+    copy: function() {
+        var table = Object.create(null, {});
+        for (var key in this.table)
+            table[key] = this.table[key];
+        return new Dict(table, this.size);
+    },
+    keys: function() {
+        return Object.keys(this.table);
+    },
+    toString: function() { return "[object Dict]" }
+};
+
+var _WeakMap = typeof WeakMap === "function" ? WeakMap : (function() {
+    // shim for ES6 WeakMap with poor asymptotics
+    function WeakMap(array) {
         this.array = array || [];
     }
 
@@ -9637,7 +10448,7 @@ define('ace/narcissus/jsdefs', ['require', 'exports', 'module' ], function(requi
         return notFound();
     }
 
-    ObjectMap.prototype = {
+    WeakMap.prototype = {
         has: function(x) {
             return searchMap(this, x, function() { return true }, function() { return false });
         },
@@ -9652,101 +10463,152 @@ define('ace/narcissus/jsdefs', ['require', 'exports', 'module' ], function(requi
                              function(pair) { return pair.value },
                              function() { return null });
         },
-        getDef: function(x, thunk) {
-            var a = this.array;
-            return searchMap(this, x,
-                             function(pair) { return pair.value },
-                             function() {
-                                 var v = thunk();
-                                 a.push({ key: x, value: v });
-                                 return v;
-                             });
-        },
-        forEach: function(f) {
-            var a = this.array;
-            for (var i = 0, n = a.length; i < n; i++) {
-                var pair = a[i];
-                f.call(this, pair.key, pair.value);
-            }
-        },
-        choose: function() {
-            return this.array[0].key;
-        },
-        get size() {
-            return this.array.length;
-        },
-        remove: function(x) {
+        "delete": function(x) {
             var a = this.array;
             searchMap(this, x,
                       function(pair, i) { a.splice(i, 1) },
                       function() { });
         },
-        copy: function() {
-            return new ObjectMap(this.array.map(function(pair) {
-                return { key: pair.key, value: pair.value }
-            }));
-        },
-        clear: function() {
-            this.array = [];
-        },
-        toString: function() { return "[object ObjectMap]" }
+        toString: function() { return "[object WeakMap]" }
     };
 
-    // non-destructive stack
-    function Stack(elts) {
-        this.elts = elts || null;
-    }
+    return WeakMap;
+})();
 
-    Stack.prototype = {
-        push: function(x) {
-            return new Stack({ top: x, rest: this.elts });
-        },
-        top: function() {
-            if (!this.elts)
-                throw new Error("empty stack");
-            return this.elts.top;
-        },
-        isEmpty: function() {
-            return this.top === null;
-        },
-        find: function(test) {
-            for (var elts = this.elts; elts; elts = elts.rest) {
-                if (test(elts.top))
-                    return elts.top;
-            }
-            return null;
-        },
-        has: function(x) {
-            return Boolean(this.find(function(elt) { return elt === x }));
-        },
-        forEach: function(f) {
-            for (var elts = this.elts; elts; elts = elts.rest) {
-                f(elts.top);
-            }
+// non-destructive stack
+function Stack(elts) {
+    this.elts = elts || null;
+}
+
+Stack.prototype = {
+    push: function(x) {
+        return new Stack({ top: x, rest: this.elts });
+    },
+    top: function() {
+        if (!this.elts)
+            throw new Error("empty stack");
+        return this.elts.top;
+    },
+    isEmpty: function() {
+        return this.top === null;
+    },
+    find: function(test) {
+        for (var elts = this.elts; elts; elts = elts.rest) {
+            if (test(elts.top))
+                return elts.top;
         }
-    };
+        return null;
+    },
+    has: function(x) {
+        return Boolean(this.find(function(elt) { return elt === x }));
+    },
+    forEach: function(f) {
+        for (var elts = this.elts; elts; elts = elts.rest) {
+            f(elts.top);
+        }
+    }
+};
 
-    module.exports = {
-        tokens: tokens,
-        whitespace: whitespace,
-        opTypeNames: opTypeNames,
-        keywords: keywords,
-        isStatementStartCode: isStatementStartCode,
-        tokenIds: tokenIds,
-        consts: consts,
-        assignOps: assignOps,
-        defineGetter: defineGetter,
-        defineGetterSetter: defineGetterSetter,
-        defineMemoGetter: defineMemoGetter,
-        defineProperty: defineProperty,
-        isNativeCode: isNativeCode,
-        mirrorHandler: mirrorHandler,
-        mixinHandler: mixinHandler,
-        whitelistHandler: whitelistHandler,
-        blacklistHandler: blacklistHandler,
-        makePassthruHandler: makePassthruHandler,
-        StringMap: StringMap,
-        ObjectMap: ObjectMap,
-        Stack: Stack
-    };
+if (!Array.prototype.copy) {
+    defineProperty(Array.prototype, "copy",
+                   function() {
+                       var result = [];
+                       for (var i = 0, n = this.length; i < n; i++)
+                           result[i] = this[i];
+                       return result;
+                   }, false, false, true);
+}
+
+if (!Array.prototype.top) {
+    defineProperty(Array.prototype, "top",
+                   function() {
+                       return this.length && this[this.length-1];
+                   }, false, false, true);
+}
+
+exports.tokens = tokens;
+exports.whitespace = whitespace;
+exports.opTypeNames = opTypeNames;
+exports.keywords = keywords;
+exports.mozillaKeywords = mozillaKeywords;
+exports.strictKeywords = strictKeywords;
+exports.isStatementStartCode = isStatementStartCode;
+exports.tokenIds = tokenIds;
+exports.consts = consts;
+exports.assignOps = assignOps;
+exports.defineGetter = defineGetter;
+exports.defineGetterSetter = defineGetterSetter;
+exports.defineMemoGetter = defineMemoGetter;
+exports.defineProperty = defineProperty;
+exports.isNativeCode = isNativeCode;
+exports.apply = apply;
+exports.applyNew = applyNew;
+exports.mixinHandler = mixinHandler;
+exports.whitelistHandler = whitelistHandler;
+exports.blacklistHandler = blacklistHandler;
+exports.makePassthruHandler = makePassthruHandler;
+exports.Dict = Dict;
+exports.WeakMap = _WeakMap;
+exports.Stack = Stack;
+
+});/* vim: set sw=4 ts=4 et tw=78: */
+/* ***** BEGIN LICENSE BLOCK *****
+ * Version: MPL 1.1/GPL 2.0/LGPL 2.1
+ *
+ * The contents of this file are subject to the Mozilla Public License Version
+ * 1.1 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * The Original Code is the Narcissus JavaScript engine.
+ *
+ * The Initial Developer of the Original Code is
+ * Brendan Eich <brendan@mozilla.org>.
+ * Portions created by the Initial Developer are Copyright (C) 2004
+ * the Initial Developer. All Rights Reserved.
+ *
+ * Contributor(s):
+ *   Tom Austin <taustin@ucsc.edu>
+ *   Brendan Eich <brendan@mozilla.org>
+ *   Shu-Yu Guo <shu@rfrn.org>
+ *   Dave Herman <dherman@mozilla.com>
+ *   Dimitris Vardoulakis <dimvar@ccs.neu.edu>
+ *   Patrick Walton <pcwalton@mozilla.com>
+ *
+ * Alternatively, the contents of this file may be used under the terms of
+ * either the GNU General Public License Version 2 or later (the "GPL"), or
+ * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+ * in which case the provisions of the GPL or the LGPL are applicable instead
+ * of those above. If you wish to allow use of your version of this file only
+ * under the terms of either the GPL or the LGPL, and not to allow others to
+ * use your version of this file under the terms of the MPL, indicate your
+ * decision by deleting the provisions above and replace them with the notice
+ * and other provisions required by the GPL or the LGPL. If you do not delete
+ * the provisions above, a recipient may use your version of this file under
+ * the terms of any one of the MPL, the GPL or the LGPL.
+ *
+ * ***** END LICENSE BLOCK ***** */
+
+define('ace/narcissus/options', ['require', 'exports', 'module' ], function(require, exports, module) {
+
+// Global variables to hide from the interpreter
+exports.hiddenHostGlobals = { Narcissus: true };
+
+// Desugar SpiderMonkey language extensions?
+exports.desugarExtensions = false;
+
+// Allow HTML comments?
+exports.allowHTMLComments = false;
+
+// Allow non-standard Mozilla extensions?
+exports.mozillaMode = true;
+
+// Allow experimental paren-free mode?
+exports.parenFreeMode = false;
+
 });

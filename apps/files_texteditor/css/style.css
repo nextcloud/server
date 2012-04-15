@@ -14,12 +14,9 @@
 }
 #editor_save{
 	margin-left: 7px;
-	float: left;	
+	float: left;
 }
 #saving_icon{
 	margin-top: 3px;
-	float: left;	
-}
-#gotolineval{
-	width: 30px;
+	float: left;
 }

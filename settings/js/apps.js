@@ -28,10 +28,18 @@ $(document).ready(function(){
 		var active=$(this).data('active');
 		if(app){
 			if(active){
-				$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:app});
+				$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:app},function(result){
+					if(!result || result.status!='success'){
+						OC.dialogs.alert('Error','Error while disabling app');
+					}
+				},'json');
 				$('#leftcontent li[data-id="'+app+'"]').removeClass('active');
 			}else{
-				$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:app});
+				$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:app},function(result){
+					if(!result || result.status!='success'){
+						OC.dialogs.alert('Error','Error while enabling app');
+					}
+				},'json');
 				$('#leftcontent li[data-id="'+app+'"]').addClass('active');
 			}
 			active=!active;

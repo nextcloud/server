@@ -504,13 +504,3 @@ var FoldMode = exports.FoldMode = function() {};
 }).call(FoldMode.prototype);
 
 });
-;
-            (function() {
-                window.require(["ace/ace"], function(a) {
-                    if (!window.ace)
-                        window.ace = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        ace[key] = a[key];
-                });
-            })();
-        

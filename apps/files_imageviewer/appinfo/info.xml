@@ -3,7 +3,6 @@
 	<id>files_imageviewer</id>
 	<name>Image Viewer</name>
 	<description>Simple image viewer for owncloud</description>
-	<version>1.0</version>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
 	<require>2</require>

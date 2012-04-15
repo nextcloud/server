@@ -18,7 +18,7 @@
 						<?php if($file['type'] == 'dir'):?>
 							<?php echo htmlspecialchars($file['name']);?>
 						<?php else:?>
-							<?php echo htmlspecialchars($file['basename']);?><span class='extention'><?php echo $file['extention'];?></span>
+							<?php echo htmlspecialchars($file['basename']);?><span class='extension'><?php echo $file['extension'];?></span>
 						<?php endif;?>
 					</span>
 					</a>

@@ -29,6 +29,7 @@ function setSyntaxMode(ext){
 	filetype["jsm"] = "javascript";
 	filetype["json"] = "json";
 	filetype["latex"] = "latex";
+        filetype["less"] = "less";
 	filetype["ly"] = "latex";
 	filetype["ily"] = "latex";
 	filetype["lua"] = "lua";
@@ -47,6 +48,7 @@ function setSyntaxMode(ext){
 	filetype["scad"] = "scad"; // seems to be something like 3d model files printed with e.g. reprap
 	filetype["scala"] = "scala";
 	filetype["scss"] = "scss"; // "sassy css"
+        filetype["sh"] = "sh";
 	filetype["sql"] = "sql";
 	filetype["svg"] = "svg";
 	filetype["textile"] = "textile"; // related to markdown
@@ -59,7 +61,7 @@ function setSyntaxMode(ext){
 			var SyntaxMode = require("ace/mode/"+filetype[ext]).Mode;
 			window.aceEditor.getSession().setMode(new SyntaxMode());
 		});
-	}	
+	}
 }
 
 function showControls(filename,writeperms){
@@ -69,17 +71,16 @@ function showControls(filename,writeperms){
 	if(writeperms=="true"){
 		editorbarhtml += '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div>';
 	}
-	editorbarhtml += '<label for="gotolineval">Go to line:</label><input stype="text" id="gotolineval"><label for="editorseachval">Search:</label><input type="text" name="editorsearchval" id="editorsearchval"><div class="separator"></div><button id="editor_close">'+t('files_texteditor','Close')+'</button></div>';
+	editorbarhtml += '<label for="editorseachval">Search:</label><input type="text" name="editorsearchval" id="editorsearchval"><div class="separator"></div><button id="editor_close">'+t('files_texteditor','Close')+'</button></div>';
 	// Change breadcrumb classes
 	$('#controls .last').removeClass('last');
 	$('#controls').append(editorbarhtml);
 	$('#editorcontrols').fadeIn('slow');
 }
- 
+
 function bindControlEvents(){
-	$("#editor_save").die('click',doFileSave).live('click',doFileSave);	
+	$("#editor_save").die('click',doFileSave).live('click',doFileSave);
 	$('#editor_close').die('click',hideFileEditor).live('click',hideFileEditor);
-	$('#gotolineval').die('keyup', goToLine).live('keyup', goToLine);
 	$('#editorsearchval').die('keyup', doSearch).live('keyup', doSearch);
 	$('#clearsearchbtn').die('click', resetSearch).live('click', resetSearch);
 	$('#nextsearchbtn').die('click', nextSearchResult).live('click', nextSearchResult);
@@ -91,19 +92,12 @@ function editorIsShown(){
 	return is_editor_shown;
 }
 
-// Moves the editor view to the line number speificed in #gotolineval
-function goToLine(){
-	// Go to the line specified
-	window.aceEditor.gotoLine($('#gotolineval').val());
-	
-}
-
 //resets the search
 function resetSearch(){
 	$('#editorsearchval').val('');
 	$('#nextsearchbtn').remove();
 	$('#clearsearchbtn').remove();
-	window.aceEditor.gotoLine(0);	
+	window.aceEditor.gotoLine(0);
 }
 
 // moves the cursor to the next search resukt
@@ -111,10 +105,10 @@ function nextSearchResult(){
 	window.aceEditor.findNext();
 }
 // Performs the initial search
-function doSearch(){	
+function doSearch(){
 	// check if search box empty?
 	if($('#editorsearchval').val()==''){
-		// Hide clear button	
+		// Hide clear button
 		window.aceEditor.gotoLine(0);
 		$('#nextsearchbtn').remove();
 		$('#clearsearchbtn').remove();
@@ -129,7 +123,7 @@ function doSearch(){
 			caseSensitive: false,
 			wholeWord: false,
 			regExp: false
-		});	
+		});
 		// Show next and clear buttons
 		// check if already there
 		if($('#nextsearchbtn').length==0){
@@ -161,16 +155,16 @@ function doFileSave(){
 					// Save failed
 					$('#editor_save').text(t('files_texteditor','Save'));
 					$('#editor_save').after('<p id="save_result" style="float: left">Failed to save file</p>');
-					$("#editor_save").live('click',doFileSave); 
+					$("#editor_save").live('click',doFileSave);
 				} else {
-					// Save OK	
+					// Save OK
 					// Update mtime
 					$('#editor').attr('data-mtime',jsondata.data.mtime);
-					$('#editor_save').text(t('files_texteditor','Save'));     
+					$('#editor_save').text(t('files_texteditor','Save'));
 					$("#editor_save").live('click',doFileSave);
 					// Update titles
 					$('#editor').attr('data-edited', 'false');
-					$('#breadcrumb_file').text($('#editor').attr('data-filename'));	
+					$('#breadcrumb_file').text($('#editor').attr('data-filename'));
 					document.title = $('#editor').attr('data-filename')+' - ownCloud';
 				}
 			},'json');
@@ -223,7 +217,7 @@ function showFileEditor(dir,filename){
 						window.aceEditor.getSession().on('change', function(){
 							if($('#editor').attr('data-edited')!='true'){
 								$('#editor').attr('data-edited', 'true');
-								$('#breadcrumb_file').text($('#breadcrumb_file').text()+' *');	
+								$('#breadcrumb_file').text($('#breadcrumb_file').text()+' *');
 								document.title = $('#editor').attr('data-filename')+' * - ownCloud';
 							}
 						});
@@ -243,7 +237,7 @@ function showFileEditor(dir,filename){
 // Fades out the editor.
 function hideFileEditor(){
 	if($('#editor').attr('data-edited') == 'true'){
-		// Hide, not remove	
+		// Hide, not remove
 		$('#editorcontrols').fadeOut('slow',function(){
 			// Check if there is a folder in the breadcrumb
 			if($('.crumb.ui-droppable').length){
@@ -255,7 +249,7 @@ function hideFileEditor(){
 			// Reset document title
 			document.title = "ownCloud";
 			$('.actions,#file_access_panel').fadeIn('slow');
-			$('table').fadeIn('slow');			
+			$('table').fadeIn('slow');
 		});
 		$('#notification').text(t('files_texteditor','There were unsaved changes, click here to go back'));
 		$('#notification').data('reopeneditor',true);
@@ -273,7 +267,7 @@ function hideFileEditor(){
 			// Reset document title
 			document.title = "ownCloud";
 			$('.actions,#file_access_panel').fadeIn('slow');
-			$('table').fadeIn('slow');			
+			$('table').fadeIn('slow');
 		});
 		is_editor_shown = false;
 	}
@@ -287,7 +281,7 @@ function reopenEditor(){
 		$('#editor').fadeIn('fast');
 		$('#editorcontrols').fadeIn('fast', function(){
 
-		});	
+		});
 	});
 	is_editor_shown  = true;
 }

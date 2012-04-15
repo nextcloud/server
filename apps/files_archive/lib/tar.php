@@ -30,8 +30,8 @@ class OC_Archive_TAR extends OC_Archive{
 	 */
 	static public function getTarType($file){
 		if(strpos($file,'.')){
-			$extention=substr($file,strrpos($file,'.'));
-			switch($extention){
+			$extension=substr($file,strrpos($file,'.'));
+			switch($extension){
 				case 'gz':
 				case 'tgz':
 					return self::GZIP;

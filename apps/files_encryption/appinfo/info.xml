@@ -3,7 +3,6 @@
 	<id>files_encryption</id>
 	<name>Encryption</name>
 	<description>Server side encryption of files</description>
-	<version>0.1</version>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
 	<require>3</require>

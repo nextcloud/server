@@ -1,6 +1,6 @@
 <?php
-class OC_Search_Provider_Calendar implements OC_Search_Provider{
-	static function search($query){
+class OC_Search_Provider_Calendar extends OC_Search_Provider{
+	function search($query){
 		$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
 		if(count($calendars)==0 || !OC_App::isEnabled('calendar')){
 			//return false;

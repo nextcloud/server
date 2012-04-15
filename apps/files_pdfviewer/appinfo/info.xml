@@ -3,7 +3,6 @@
 	<id>files_pdfviewer</id>
 	<name>PDF Viewer</name>
 	<description>Inline PDF viewer (pdfjs-based)</description>
-	<version>0.1</version>
 	<licence>GPL</licence>
 	<author>Joan Creus</author>
 	<require>2</require>
