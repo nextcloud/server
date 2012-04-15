@@ -20,7 +20,7 @@
  *
  */
 
-$l=new OC_L10N('media');
+$l=OC_L10N::get('media');
 
 require_once('apps/media/lib_media.php');
 

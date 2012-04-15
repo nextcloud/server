@@ -33,7 +33,7 @@ class OC_Migration_Content{
 	private $tmpfiles=false;
 	
 	/**
-	* @breif sets up the 
+	* @brief sets up the
 	* @param $zip ZipArchive object
 	* @param optional $db a MDB2 database object (required for exporttype user)
 	* @return bool
@@ -51,7 +51,7 @@ class OC_Migration_Content{
 		
 	}
 	
-	// @breif prepares the db
+	// @brief prepares the db
 	// @param $query the sql query to prepare
 	public function prepare( $query ){
 		
@@ -74,7 +74,7 @@ class OC_Migration_Content{
 	}
 	
 	/**
-	* @breif processes the db query
+	* @brief processes the db query
 	* @param $query the query to process
 	* @return string of processed query
 	*/
@@ -130,7 +130,7 @@ class OC_Migration_Content{
 	}
 	
 	/**
-	* @breif saves a sql data set into migration.db
+	* @brief saves a sql data set into migration.db
 	* @param $data a sql data set returned from self::prepare()->query()
 	* @param $options array of copyRows options
 	* @return void
@@ -175,7 +175,7 @@ class OC_Migration_Content{
 	}
 	
 	/**
-	* @breif adds a directory to the zip object
+	* @brief adds a directory to the zip object
 	* @param $dir string path of the directory to add
 	* @param $recursive bool 
 	* @param $internaldir string path of folder to add dir to in zip
@@ -209,7 +209,7 @@ class OC_Migration_Content{
 	}
 	
 	/**
-	* @breif adds a file to the zip from a given string
+	* @brief adds a file to the zip from a given string
 	* @param $data string of data to add
 	* @param $path the relative path inside of the zip to save the file to
 	* @return bool
@@ -228,7 +228,7 @@ class OC_Migration_Content{
 	}
 	
 	/**
-	* @breif closes the zip, removes temp files
+	* @brief closes the zip, removes temp files
 	* @return bool
 	*/
 	public function finish(){
@@ -241,7 +241,7 @@ class OC_Migration_Content{
 	}	
 	
 		/**
-	* @breif cleans up after the zip
+	* @brief cleans up after the zip
 	*/
 	private function cleanup(){
 		// Delete tmp files

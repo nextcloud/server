@@ -35,6 +35,7 @@ class OC_App{
 	static private $adminForms = array();
 	static private $personalForms = array();
 	static private $appInfo = array();
+	static private $appTypes = array();
 
 	/**
 	 * @brief loads all apps
@@ -85,17 +86,39 @@ class OC_App{
 		if(is_string($types)){
 			$types=array($types);
 		}
-		$appData=self::getAppInfo($app);
-		if(!isset($appData['types'])){
-			return false;
-		}
-		$appTypes=$appData['types'];
+		$appTypes=self::getAppTypes($app);
 		foreach($types as $type){
 			if(array_search($type,$appTypes)!==false){
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * get the types of an app
+	 * @param string $app
+	 * @return array
+	 */
+	private static function getAppTypes($app){
+		//load the cache
+		if(count(self::$appTypes)==0){
+			self::$appTypes=OC_Appconfig::getValues(false,'types');
+		}
+		
+		//get it from info.xml if we haven't cached it
+		if(!isset(self::$appTypes[$app])){
+			$appData=self::getAppInfo($app);
+			if(isset($appData['types'])){
+				self::$appTypes[$app]=$appData['types'];
+			}else{
+				self::$appTypes[$app]=array();
+			}
+			
+			OC_Appconfig::setValue($app,'types',implode(',',self::$appTypes[$app]));
+		}
+		
+		return explode(',',self::$appTypes[$app]);
 	}
 
 	/**
@@ -139,13 +162,18 @@ class OC_App{
 			if(!is_numeric($app)){
 				OC_Installer::installShippedApp($app);
 			}else{
-                                $download=OC_OCSClient::getApplicationDownload($app,1);
-				if(isset($download['downloadlink']) and $download['downloadlink']<>'') {
+				$download=OC_OCSClient::getApplicationDownload($app,1);
+				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 					$app=OC_Installer::installApp(array('source'=>'http','href'=>$download['downloadlink']));
 				}
 			}
 		}
-		OC_Appconfig::setValue( $app, 'enabled', 'yes' );
+		if($app!==false){
+			OC_Appconfig::setValue( $app, 'enabled', 'yes' );
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -249,7 +277,7 @@ class OC_App{
 	 * entries are sorted by the key 'order' ascending.
 	 */
 	public static function getSettingsNavigation(){
-		$l=new OC_L10N('core');
+		$l=OC_L10N::get('core');
 
 		$settings = array();
 		// by default, settings only contain the help menu
@@ -301,6 +329,20 @@ class OC_App{
 		usort( $list, create_function( '$a, $b', 'if( $a["order"] == $b["order"] ){return 0;}elseif( $a["order"] < $b["order"] ){return -1;}else{return 1;}' ));
 
 		return $list;
+	}
+	
+	/**
+	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
+	 */
+	public static function getAppVersion($appid){
+		$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/version';
+		$version=@file_get_contents($file);
+		if($version){
+			return $version;
+		}else{
+			$appData=self::getAppInfo($appid);
+			return $appData['version'];
+		}
 	}
 
 	/**
@@ -436,12 +478,11 @@ class OC_App{
 		// The rest comes here
 		$versions = self::getAppVersions();
 		foreach( $versions as $app=>$installedVersion ){
-			$appInfo=OC_App::getAppInfo($app);
-			if (isset($appInfo['version'])) {
-				$currentVersion=$appInfo['version'];
+			$currentVersion=OC_App::getAppVersion($app);
+			if ($currentVersion) {
 				if (version_compare($currentVersion, $installedVersion, '>')) {
 					OC_App::updateApp($app);
-					OC_Appconfig::setValue($app,'installed_version',$appInfo['version']);
+          OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
 				}
 			}
 		}

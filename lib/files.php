@@ -63,7 +63,7 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = get_temp_dir().'/ownCloud_'.mt_rand(10000,99999).'.zip';
+			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
@@ -84,7 +84,7 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = get_temp_dir().'/ownCloud_'.mt_rand(10000,99999).'.zip';
+			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
@@ -104,15 +104,15 @@ class OC_Files {
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
-				header('Content-Type: ' . OC_Filesystem::getMimeType($filename));
-				header('Content-Length: ' . OC_Filesystem::filesize($filename));
+				$fileData=OC_FileCache::get($filename);
+				header('Content-Type: ' . $fileData['mimetype']);
+				header('Content-Length: ' . $fileData['size']);
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template( '', '404', 'guest' );
 			$tmpl->assign('file',$filename);
 			$tmpl->printPage();
-// 			die('404 Not Found');
 		}else{
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');
@@ -225,7 +225,7 @@ class OC_Files {
 	*/
 	static function validateZipDownload($dir, $files) {
 		if(!OC_Config::getValue('allowZipDownload', true)) {
-			$l = new OC_L10N('files');
+			$l = OC_L10N::get('files');
 			header("HTTP/1.0 409 Conflict");
 			$tmpl = new OC_Template( '', 'error', 'user' );
 			$errors = array(
@@ -250,7 +250,7 @@ class OC_Files {
 				$totalsize += OC_Filesystem::filesize($dir.'/'.$files);
 			}
 			if($totalsize > $zipLimit) {
-				$l = new OC_L10N('files');
+				$l = OC_L10N::get('files');
 				header("HTTP/1.0 409 Conflict");
 				$tmpl = new OC_Template( '', 'error', 'user' );
 				$errors = array(

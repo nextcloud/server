@@ -5,7 +5,7 @@ require_once('../../lib/base.php');
 
 OC_JSON::checkLoggedIn();
 
-$l=new OC_L10N('core');
+$l=OC_L10N::get('core');
 
 // Get data
 if( isset( $_POST['email'] ) ){

@@ -1,10 +1,9 @@
 <?php
-
 /**
 * ownCloud
 *
-* @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @author Robin Appelman
+* @copyright 2012 Robin Appelman icewind@owncloud.com
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,20 +20,8 @@
 *
 */
 
-/**
- * Class for connecting multiply ownCloud installations
- *
- */
-class OC_Connect{
-	static private $clouds=array();
-
-	static function connect($path,$user,$password){
-		$cloud=new OC_REMOTE_CLOUD($path,$user,$password);
-		if($cloud->connected){
-			self::$clouds[$path]=$cloud;
-			return $cloud;
-		}else{
-			return false;
-		}
+class Test_User_Dummy extends Test_User_Backend {
+	public function setUp(){
+		$this->backend=new OC_User_Dummy();
 	}
 }

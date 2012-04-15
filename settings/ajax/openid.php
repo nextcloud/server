@@ -3,7 +3,7 @@
 // Init owncloud
 require_once('../../lib/base.php');
 
-$l=new OC_L10N('settings');
+$l=OC_L10N::get('settings');
 
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('user_openid');

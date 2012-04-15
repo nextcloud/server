@@ -7,7 +7,6 @@
  */
 
 require_once('../../../../lib/base.php');
-$l10n = new OC_L10N('calendar');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 $calendarcolor_options = OC_Calendar_Calendar::getCalendarColorOptions();

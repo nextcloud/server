@@ -17,6 +17,10 @@ class OC_Calendar_App{
 	 * @brief language object for calendar app
 	 */
 	public static $l10n;
+	
+	/*
+	 * @brief categories of the user
+	 */
 	protected static $categories = null;
 
 	/*
@@ -107,7 +111,11 @@ class OC_Calendar_App{
 		}
 		return true;
 	}
-
+	
+	/*
+	 * @brief returns the default categories of ownCloud
+	 * @return (array) $categories
+	 */
 	protected static function getDefaultCategories()
 	{
 		return array(
@@ -128,14 +136,22 @@ class OC_Calendar_App{
 			self::$l10n->t('Work'),
 		);
 	}
-
+	
+	/*
+	 * @brief returns the vcategories object of the user
+	 * @return (object) $vcategories
+	 */
 	protected static function getVCategories() {
 		if (is_null(self::$categories)) {
 			self::$categories = new OC_VCategories('calendar', null, self::getDefaultCategories());
 		}
 		return self::$categories;
 	}
-
+	
+	/*
+	 * @brief returns the categories of the vcategories object
+	 * @return (array) $categories
+	 */
 	public static function getCategoryOptions()
 	{
 		$categories = self::getVCategories()->categories();
