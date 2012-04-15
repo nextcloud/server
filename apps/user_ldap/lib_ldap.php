@@ -36,12 +36,20 @@ class OC_LDAP {
 	static protected $ldapTLS;
 	static protected $ldapNoCase;
 	// user and group settings, that are needed in both backends
-	static protected $ldapUserDisplayName;
+	static public $ldapUserDisplayName;
 
 
 	static public function init() {
 		self::readConfiguration();
 		self::establishConnection();
+	}
+
+	static public function conf($key) {
+		$availableProperties = array('ldapUserDisplayName');
+
+		if(in_array($key, $availableProperties)) {
+			return self::$$key;
+		}
 	}
 
 	/**

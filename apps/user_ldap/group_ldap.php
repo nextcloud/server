@@ -77,13 +77,13 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function getUsersInGroup($gid) {
+	public function usersInGroup($gid) {
 		$filter = OC_LDAP::combineFilterWithAnd(array(
 			$this->ldapGroupFilter,
 			$this->ldapGroupDisplayName.'='.$gid
 		));
 
-		return $this->retrieveList($filter, OC_LDAP::ldapUserDisplayName);
+		return $this->retrieveList($filter, OC_LDAP::conf('ldapUserDisplayName'));
 	}
 
 	/**
