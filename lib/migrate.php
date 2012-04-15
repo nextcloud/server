@@ -457,7 +457,7 @@ class OC_Migrate{
 					);
 		// Add hash if user export
 		if( self::$exporttype == 'user' ){
-			$query = OC_DB::prepare( "SELECT password FROM *PREFIX*users WHERE uid LIKE ?" );
+			$query = OC_DB::prepare( "SELECT password FROM *PREFIX*users WHERE uid = ?" );
 			$result = $query->execute( array( self::$uid ) );
 			$row = $result->fetchRow();
 			$hash = $row ? $row['password'] : false;
