@@ -9,13 +9,20 @@ Files={
 		return false;
 	},
 	cancelUploads:function() {
-		$.each(uploadingFiles,function(index,file){
-			file.abort();
+		$.each(uploadingFiles,function(index,file) {
+			if(typeof file['abort'] === 'function') {
+				file.abort();
+				var filename = $('tr').filterAttr('data-file',index);
+				filename.hide();
+				filename.find('input[type="checkbox"]').removeAttr('checked');
+				filename.removeClass('selected');
+			} else {
+				$.each(file,function(i,f) {
+					f.abort();
+					delete file[i];
+				});
+			}
 			delete uploadingFiles[index];
-			var filename = $('tr').filterAttr('data-file',index);
-			filename.hide();
-			filename.find('input[type="checkbox"]').removeAttr('checked');
-			filename.removeClass('selected');
 		});
 		procesSelection();
 	}
@@ -206,8 +213,9 @@ $(document).ready(function() {
 				}else{
 				if($.support.xhrFileUpload) {
 					for(var i=0;i<files.length;i++){
+						var fileName = files[i].name
 						var dropTarget = $(e.originalEvent.target).closest('tr');
-						if(dropTarget && dropTarget.attr('data-type') === 'dir') {
+						if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
 							var dirName = dropTarget.attr('data-file')
 							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
 									formData: function(form) {
@@ -222,7 +230,7 @@ $(document).ready(function() {
 											$('#notification').fadeIn();
 										}
 										var file=response[0];
-										delete uploadingFiles[file.name];
+										delete uploadingFiles[dirName][file.name];
 										var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 										currentUploads -= 1;
 										uploadtext.attr('currentUploads', currentUploads);
@@ -238,12 +246,28 @@ $(document).ready(function() {
 									})
 							.error(function(jqXHR, textStatus, errorThrown) {
 								if(errorThrown === 'abort') {
+									var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+									currentUploads -= 1;
+									uploadtext.attr('currentUploads', currentUploads);
+									if(currentUploads === 0) {
+										var img = OC.imagePath('core', 'filetypes/folder.png');
+										var tr=$('tr').filterAttr('data-file',dirName);
+										tr.find('td.filename').attr('style','background-image:url('+img+')');
+										uploadtext.text('');
+										uploadtext.hide();
+									} else {
+										uploadtext.text(currentUploads + ' files uploading')
+									}
 									$('#notification').hide();
 									$('#notification').text(t('files', 'Upload cancelled.'));
 									$('#notification').fadeIn();
 								}
 							});
-							uploadingFiles[dirName+"/"+files[i].name] = jqXHR;
+							//TODO test with filenames containing slashes
+							if(uploadingFiles[dirName] === undefined) {
+								uploadingFiles[dirName] = {};
+							}
+							uploadingFiles[dirName][fileName] = jqXHR;
 						} else {
 							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i]})
 									.success(function(result, textStatus, jqXHR) {
