@@ -25,7 +25,7 @@
 #file_newfolder_submit, #file_upload_submit { width:3em; }
 .file_upload_target { display:none; }
 
-.file_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; position:absolute; left:0; top:0; width:100%; cursor:pointer;}
+.file_upload_start { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; z-index:1; position:absolute; left:0; top:0; width:100%; cursor:pointer;}
 .file_upload_filename.active { border-bottom-right-radius:0 }
 .file_upload_filename { position: relative; z-index:100; padding-left: 0.8em; padding-right: 0.8em; cursor:pointer; border-top-left-radius:0; border-bottom-left-radius:0; }
 .file_upload_filename img { position: absolute; top: 0.4em; left: 0.4em; }
@@ -41,8 +41,8 @@ tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; }
 tbody tr.selected { background-color:#eee; }
 tbody a { color:#000; }
 span.extension, td.date { color:#999; }
-span.extension { text-transform:lowercase; opacity:0; -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
-tr:hover span.extension { opacity:1; }
+span.extension { text-transform:lowercase; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
+tr:hover span.extension { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
 div.crumb:first-child { padding-left:1em; }
 div.crumb.last { font-weight:bold; }
@@ -64,9 +64,9 @@ table td.filename .nametext { width:70%; overflow:hidden; }
 table td.filename form { float:left; font-size:.85em; }
 table thead.fixed tr{ position:fixed; top:6.5em; z-index:49; -moz-box-shadow:0 -3px 7px #ddd; -webkit-box-shadow:0 -3px 7px #ddd; box-shadow:0 -3px 7px #ddd; }
 table thead.fixed { height:2em; }
-#fileList tr td.filename>input[type=checkbox]:first-child { opacity:0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ -webkit-transition:opacity 500ms; -moz-transition:opacity 500ms; -o-transition:opacity 500ms; transition:opacity 500ms; }
-#fileList tr td.filename>input[type="checkbox"]:hover:first-child { opacity:.8; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; }
-#fileList tr td.filename>input[type="checkbox"]:checked:first-child { opacity:1; }
+#fileList tr td.filename>input[type=checkbox]:first-child { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ -webkit-transition:opacity 200ms; -moz-transition:opacity 200ms; -o-transition:opacity 200ms; transition:opacity 200ms; }
+#fileList tr td.filename>input[type="checkbox"]:hover:first-child { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
+#fileList tr td.filename>input[type="checkbox"]:checked:first-child { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 #fileList tr td.filename { -webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms; }
 #select_all { float:left; margin:.3em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
