@@ -65,6 +65,17 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
+		$filter = OC_LDAP::combineFilterWithAnd(array(
+			$this->ldapGroupFilter,
+			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$uid
+		));
+		$groups = OC_LDAP::search($filter, $this->ldapGroupDisplayName);
+
+		if(is_array($groups)) {
+			return $groups;
+		}
+
+		//error cause actually, maybe throw an exception in future.
 		return array();
 	}
 
