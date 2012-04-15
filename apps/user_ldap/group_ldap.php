@@ -21,7 +21,7 @@
  *
  */
 
- class OC_GROUP_LDAP extends OC_Group_Backend {
+class OC_GROUP_LDAP extends OC_Group_Backend {
 // 	//group specific settings
 	protected $ldapGroupFilter;
 	protected $ldapGroupDisplayName;
@@ -40,7 +40,20 @@
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup($uid, $gid) {
-		return array();
+		$filter = OC_LDAP::combineFilterWithAnd(array(
+			$this->ldapGroupFilter,
+			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$uid,
+			$this->ldapGroupDisplayName.'='.$gid
+		));
+		$groups = OC_LDAP::search($filter, $this->ldapGroupDisplayName);
+
+		if(count($groups) == 1) {
+			return true;
+		} else if(count($groups) < 1) {
+			return false;
+		} else {
+			throw new Exception('Too many groups of the same name!? – this excpetion should never been thrown :)');
+		}
 	}
 
 	/**
@@ -79,4 +92,4 @@
 		}
 	}
 
- }
+}

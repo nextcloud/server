@@ -21,7 +21,9 @@
  *
  */
 
- class OC_LDAP {
+define(LDAP_GROUP_MEMBER_ASSOC_ATTR,'memberUid');
+
+class OC_LDAP {
 	static protected $ldapConnectionRes = false;
 	static protected $configured = false;
 
@@ -62,6 +64,48 @@
 		}
 
 		return $findings;
+	}
+
+	/**
+	 * @brief combines the input filters with AND
+	 * @param $filters array, the filters to connect
+	 * @returns the combined filter
+	 *
+	 * Combines Filter arguments with AND
+	 */
+	static public function combineFilterWithAnd($filters) {
+		return self::combineFilter($filters,'&');
+	}
+
+	/**
+	 * @brief combines the input filters with AND
+	 * @param $filters array, the filters to connect
+	 * @returns the combined filter
+	 *
+	 * Combines Filter arguments with AND
+	 */
+	static public function combineFilterWithOr($filters) {
+		return self::combineFilter($filters,'|');
+	}
+
+	/**
+	 * @brief combines the input filters with given operator
+	 * @param $filters array, the filters to connect
+	 * @param $operator either & or |
+	 * @returns the combined filter
+	 *
+	 * Combines Filter arguments with AND
+	 */
+	static private function combineFilter($filters, $operator) {
+		$combinedFilter = '('.$operator;
+		foreach($filters as $filter) {
+		    if(substr($filter,0,1) != '(') {
+				$filter = '('.$filter.')';
+		    }
+		    $combinedFilter.=$filter;
+		}
+		$combinedFilter.=')';
+		return $combinedFilter;
 	}
 
 	/**
