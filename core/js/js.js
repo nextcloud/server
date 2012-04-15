@@ -406,9 +406,6 @@ $(document).ready(function(){
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$('#settings #expand').hover(function(){
-		$('#settings #expand+span').fadeToggle();
-	});
 	$(window).click(function(){//hide the settings menu when clicking oustide it
 		if($('body').attr("id")=="body-user"){
 			$('#settings #expanddiv').slideUp();

@@ -44,7 +44,7 @@
 
 			<ul id="settings" class="svg">
 				<img id="expand" class="svg" alt="<?php echo $l->t('Settings');?>" src="<?php echo image_path('', 'actions/settings.svg'); ?>" />
-				<span style="display:none;"><?php echo $l->t('Settings');?></span>
+				<span><?php echo $l->t('Settings');?></span>
 				<div id="expanddiv" <?php if($_['bodyid'] == 'body-user') echo 'style="display:none;"'; ?>>
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
