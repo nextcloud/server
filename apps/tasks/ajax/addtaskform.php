@@ -5,10 +5,8 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('tasks');
 
-$l10n = new OC_L10N('tasks');
-
 $calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), true);
-$category_options = OC_Calendar_App::getCategoryOptions($l10n);
+$category_options = OC_Calendar_App::getCategoryOptions();
 $percent_options = range(0, 100, 10);
 $priority_options = OC_Task_App::getPriorityOptions();
 $tmpl = new OC_Template('tasks','part.addtaskform');

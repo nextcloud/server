@@ -5,8 +5,6 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('tasks');
 
-$l10n = new OC_L10N('tasks');
-
 $cid = $_POST['id'];
 $calendar = OC_Calendar_App::getCalendar( $cid );
 

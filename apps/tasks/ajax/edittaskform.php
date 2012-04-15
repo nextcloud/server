@@ -5,13 +5,11 @@ require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('tasks');
 
-$l10n = new OC_L10N('tasks');
-
 $id = $_GET['id'];
 $details = OC_Calendar_App::getVCalendar($id)->VTODO;
 $categories = $details->getAsString('CATEGORIES');
 
-$category_options = OC_Calendar_App::getCategoryOptions($l10n);
+$category_options = OC_Calendar_App::getCategoryOptions();
 $percent_options = range(0, 100, 10);
 $priority_options = OC_Task_App::getPriorityOptions();
 
