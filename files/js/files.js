@@ -13,9 +13,11 @@ $(document).ready(function() {
 	//drag/drop of files
 	$('#fileList tr td.filename').draggable(dragOptions);
 	$('#fileList tr[data-type="dir"][data-write="true"] td.filename').droppable(folderDropOptions);
-	$('div.crumb').droppable(crumbDropOptions);
+	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
-	$('ul#apps>li:first-child').droppable(crumbDropOptions);
+	if($('div.crumb').length){
+		$('ul#apps>li:first-child').droppable(crumbDropOptions);
+	}
 
 	// Triggers invisible file input
 	$('.file_upload_button_wrapper').live('click', function() {
@@ -412,7 +414,7 @@ var dragOptions={
 };
 var folderDropOptions={
 	drop: function( event, ui ) {
-		var file=ui.draggable.text().trim();
+		var file=ui.draggable.parent().data('file');
 		var target=$(this).text().trim();
 		var dir=$('#dir').val();
 		$.ajax({
@@ -438,7 +440,7 @@ var crumbDropOptions={
 		if(dir.substr(-1,1)!='/'){
 			dir=dir+'/';
 		}
-		if(target==dir){
+		if(target==dir || target+'/'==dir){
 			return;
 		}
 		$.ajax({
