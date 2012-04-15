@@ -59,6 +59,7 @@ FileActions={
 		if($('tr').filterAttr('data-file',file).data('renaming')){
 			return;
 		}
+		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
@@ -81,7 +82,7 @@ FileActions={
 					action(currentFile);
 				});
 				element.hide();
-				parent.children('a.name').append(element);
+				parent.find('a.name>span.fileactions').append(element);
 			}
 		}
 		if(actions['Delete']){
@@ -113,7 +114,7 @@ FileActions={
 		return false;
 	},
 	hide:function(){
-		$('#fileList .action').fadeOut(200,function(){
+		$('#fileList span.fileactions').fadeOut(200,function(){
 			$(this).remove();
 		});
 	},
