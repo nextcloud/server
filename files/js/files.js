@@ -172,6 +172,7 @@ $(document).ready(function() {
 	});
 
 	// drag&drop support using jquery.fileupload
+	// TODO use OC.dialogs
 	$(document).bind('drop dragover', function (e) {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 	});
@@ -242,6 +243,7 @@ $(document).ready(function() {
 									$('#notification').fadeIn();
 								}
 							});
+							uploadingFiles[dirName+"/"+files[i].name] = jqXHR;
 						} else {
 							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i]})
 									.success(function(result, textStatus, jqXHR) {
@@ -270,8 +272,8 @@ $(document).ready(function() {
 									$('#notification').fadeIn();
 								}
 							});
+							uploadingFiles[files[i].name] = jqXHR;
 						}
-						uploadingFiles[files[i].name] = jqXHR;
 					}
 				}else{
 					data.submit().success(function(data, status) {

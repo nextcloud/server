@@ -62,6 +62,7 @@ table tr[data-type="dir"] td.filename a.name {font-weight:bold; }
 table td.filename a.name input, table td.filename a.name form { width:100%; cursor:text; }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 0; }
 table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0; }
+// TODO fix usability bug (accidental file/folder selection)
 //table td.filename .nametext { width:60%; }
 table td.filename .uploadtext { font-weight:normal; margin-left:.5em; }
 table td.filename form { float:left; font-size:.85em; }
