@@ -69,14 +69,8 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			$this->ldapGroupFilter,
 			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$uid
 		));
-		$groups = OC_LDAP::search($filter, $this->ldapGroupDisplayName);
 
-		if(is_array($groups)) {
-			return $groups;
-		}
-
-		//error cause actually, maybe throw an exception in future.
-		return array();
+		return $this->retrieveList($filter, $this->ldapGroupDisplayName);
 	}
 
 	/**
@@ -84,7 +78,12 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * @returns array with user ids
 	 */
 	public function getUsersInGroup($gid) {
-		return array();
+		$filter = OC_LDAP::combineFilterWithAnd(array(
+			$this->ldapGroupFilter,
+			$this->ldapGroupDisplayName.'='.$gid
+		));
+
+		return $this->retrieveList($filter, OC_LDAP::ldapUserDisplayName);
 	}
 
 	/**
@@ -101,6 +100,17 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		else {
 			return array_unique($groups, SORT_LOCALE_STRING);
 		}
+	}
+
+	private function retrieveList($filter, $attr) {
+		$list = OC_LDAP::search($filter, $attr);
+
+		if(is_array($list)) {
+			return array_unique($list, SORT_LOCALE_STRING);
+		}
+
+		//error cause actually, maybe throw an exception in future.
+		return array();
 	}
 
 }
