@@ -52,7 +52,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		} else if(count($groups) < 1) {
 			return false;
 		} else {
-			throw new Exception('Too many groups of the same name!? – this excpetion should never been thrown :)');
+			throw new Exception('Too many groups of the same name!? – this exception should never been thrown :)');
 		}
 	}
 
