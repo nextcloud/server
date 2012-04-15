@@ -8,7 +8,6 @@ OC::$CLASSPATH['OC_Search_Provider_Contacts'] = 'apps/contacts/lib/search.php';
 OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Contacts_Hooks', 'deleteUser');
 OC_HOOK::connect('OC_Calendar', 'getEvents', 'OC_Contacts_Hooks', 'getBirthdayEvents');
 OC_HOOK::connect('OC_Calendar', 'getSources', 'OC_Contacts_Hooks', 'getCalenderSources');
-OC_Hook::connect('OC_DAV', 'initialize', 'OC_Contacts_Hooks', 'initializeCardDAV');
 
 OC_App::register( array(
   'order' => 10,

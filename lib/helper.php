@@ -492,4 +492,32 @@ class OC_Helper {
 			}
 		}
 	}
+
+    /**
+     * Adds a suffix to the name in case the file exists
+     *
+     * @param $path
+     * @param $filename
+     * @return string
+     */
+    public static function buildNotExistingFileName($path, $filename)
+    {
+        if ($pos = strrpos($filename, '.')) {
+            $name = substr($filename, 0, $pos);
+            $ext = substr($filename, $pos);
+        } else {
+            $name = $filename;
+        }
+
+        $newpath = $path . '/' . $filename;
+        $newname = $filename;
+        $counter = 2;
+        while (OC_Filesystem::file_exists($newpath)) {
+            $newname = $name . ' (' . $counter . ')' . $ext;
+            $newpath = $path . '/' . $newname;
+            $counter++;
+        }
+
+        return $newname;
+    }
 }
