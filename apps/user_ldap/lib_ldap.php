@@ -35,6 +35,9 @@ class OC_LDAP {
 	static protected $ldapAgentPassword;
 	static protected $ldapTLS;
 	static protected $ldapNoCase;
+	// user and group settings, that are needed in both backends
+	static protected $ldapUserDisplayName;
+
 
 	static public function init() {
 		self::readConfiguration();
@@ -123,13 +126,14 @@ class OC_LDAP {
 	 */
 	static private function readConfiguration() {
 		if(!self::$configured) {
-			self::$ldapHost          = OC_Appconfig::getValue('user_ldap', 'ldap_host', '');
-			self::$ldapPort          = OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
-			self::$ldapAgentName     = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
-			self::$ldapAgentPassword = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
-			self::$ldapBase          = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
-			self::$ldapTLS           = OC_Appconfig::getValue('user_ldap', 'ldap_tls',0);
-			self::$ldapNoCase        = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
+			self::$ldapHost            = OC_Appconfig::getValue('user_ldap', 'ldap_host', '');
+			self::$ldapPort            = OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
+			self::$ldapAgentName       = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
+			self::$ldapAgentPassword   = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
+			self::$ldapBase            = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
+			self::$ldapTLS             = OC_Appconfig::getValue('user_ldap', 'ldap_tls',0);
+			self::$ldapNoCase          = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
+			self::$ldapUserDisplayName = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
 
 			//TODO: sanity checking
 			self::$configured = true;
