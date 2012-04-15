@@ -329,12 +329,12 @@ var CstyleBehaviour = function () {
                 return {
                     text: '{' + selected + '}',
                     selection: false
-                }
+                };
             } else {
                 return {
                     text: '{}',
                     selection: [1, 1]
-                }
+                };
             }
         } else if (text == '}') {
             var cursor = editor.getCursorPosition();
@@ -346,7 +346,7 @@ var CstyleBehaviour = function () {
                     return {
                         text: '',
                         selection: [1, 1]
-                    }
+                    };
                 }
             }
         } else if (text == "\n") {
@@ -364,7 +364,7 @@ var CstyleBehaviour = function () {
                 return {
                     text: '\n' + indent + '\n' + next_indent,
                     selection: [1, indent.length, 1, indent.length]
-                }
+                };
             }
         }
     });
@@ -389,12 +389,12 @@ var CstyleBehaviour = function () {
                 return {
                     text: '(' + selected + ')',
                     selection: false
-                }
+                };
             } else {
                 return {
                     text: '()',
                     selection: [1, 1]
-                }
+                };
             }
         } else if (text == ')') {
             var cursor = editor.getCursorPosition();
@@ -406,7 +406,7 @@ var CstyleBehaviour = function () {
                     return {
                         text: '',
                         selection: [1, 1]
-                    }
+                    };
                 }
             }
         }
@@ -425,14 +425,15 @@ var CstyleBehaviour = function () {
     });
 
     this.add("string_dquotes", "insertion", function (state, action, editor, session, text) {
-        if (text == '"') {
+        if (text == '"' || text == "'") {
+            var quote = text;
             var selection = editor.getSelectionRange();
             var selected = session.doc.getTextRange(selection);
             if (selected !== "") {
                 return {
-                    text: '"' + selected + '"',
+                    text: quote + selected + quote,
                     selection: false
-                }
+                };
             } else {
                 var cursor = editor.getCursorPosition();
                 var line = session.doc.getLine(cursor.row);
@@ -453,7 +454,7 @@ var CstyleBehaviour = function () {
                     if (token.type == "string") {
                       quotepos = -1;
                     } else if (quotepos < 0) {
-                      quotepos = token.value.indexOf('"');
+                      quotepos = token.value.indexOf(quote);
                     }
                     if ((token.value.length + col) > selection.start.column) {
                         break;
@@ -462,19 +463,19 @@ var CstyleBehaviour = function () {
                 }
 
                 // Try and be smart about when we auto insert.
-                if (!token || (quotepos < 0 && token.type !== "comment" && (token.type !== "string" || ((selection.start.column !== token.value.length+col-1) && token.value.lastIndexOf('"') === token.value.length-1)))) {
+                if (!token || (quotepos < 0 && token.type !== "comment" && (token.type !== "string" || ((selection.start.column !== token.value.length+col-1) && token.value.lastIndexOf(quote) === token.value.length-1)))) {
                     return {
-                        text: '""',
+                        text: quote + quote,
                         selection: [1,1]
-                    }
+                    };
                 } else if (token && token.type === "string") {
                     // Ignore input and move right one if we're typing over the closing quote.
                     var rightChar = line.substring(cursor.column, cursor.column + 1);
-                    if (rightChar == '"') {
+                    if (rightChar == quote) {
                         return {
                             text: '',
                             selection: [1, 1]
-                        }
+                        };
                     }
                 }
             }
@@ -483,7 +484,7 @@ var CstyleBehaviour = function () {
 
     this.add("string_dquotes", "deletion", function (state, action, editor, session, range) {
         var selected = session.doc.getTextRange(range);
-        if (!range.isMultiLine() && selected == '"') {
+        if (!range.isMultiLine() && (selected == '"' || selected == "'")) {
             var line = session.doc.getLine(range.start.row);
             var rightChar = line.substring(range.start.column + 1, range.start.column + 2);
             if (rightChar == '"') {
@@ -493,7 +494,8 @@ var CstyleBehaviour = function () {
         }
     });
 
-}
+};
+
 oop.inherits(CstyleBehaviour, Behaviour);
 
 exports.CstyleBehaviour = CstyleBehaviour;
@@ -704,13 +706,3 @@ var FoldMode = exports.FoldMode = function() {};
 }).call(FoldMode.prototype);
 
 });
-;
-            (function() {
-                window.require(["ace/ace"], function(a) {
-                    if (!window.ace)
-                        window.ace = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        ace[key] = a[key];
-                });
-            })();
-        

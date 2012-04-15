@@ -21,7 +21,7 @@
  *
  */
 
- class OC_GROUP_LDAP extends OC_Group_Backend {
+class OC_GROUP_LDAP extends OC_Group_Backend {
 // 	//group specific settings
 	protected $ldapGroupFilter;
 	protected $ldapGroupDisplayName;
@@ -40,7 +40,20 @@
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup($uid, $gid) {
-		return array();
+		$filter = OC_LDAP::combineFilterWithAnd(array(
+			$this->ldapGroupFilter,
+			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$uid,
+			$this->ldapGroupDisplayName.'='.$gid
+		));
+		$groups = OC_LDAP::search($filter, $this->ldapGroupDisplayName);
+
+		if(count($groups) == 1) {
+			return true;
+		} else if(count($groups) < 1) {
+			return false;
+		} else {
+			throw new Exception('Too many groups of the same name!? – this exception should never been thrown :)');
+		}
 	}
 
 	/**
@@ -52,15 +65,25 @@
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
-		return array();
+		$filter = OC_LDAP::combineFilterWithAnd(array(
+			$this->ldapGroupFilter,
+			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$uid
+		));
+
+		return $this->retrieveList($filter, $this->ldapGroupDisplayName);
 	}
 
 	/**
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function getUsersInGroup($gid) {
-		return array();
+	public function usersInGroup($gid) {
+		$filter = OC_LDAP::combineFilterWithAnd(array(
+			$this->ldapGroupFilter,
+			$this->ldapGroupDisplayName.'='.$gid
+		));
+
+		return $this->retrieveList($filter, OC_LDAP::conf('ldapUserDisplayName'));
 	}
 
 	/**
@@ -79,4 +102,15 @@
 		}
 	}
 
- }
+	private function retrieveList($filter, $attr) {
+		$list = OC_LDAP::search($filter, $attr);
+
+		if(is_array($list)) {
+			return array_unique($list, SORT_LOCALE_STRING);
+		}
+
+		//error cause actually, maybe throw an exception in future.
+		return array();
+	}
+
+}

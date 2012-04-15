@@ -41,14 +41,14 @@
 				<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" id="select_all" /><?php } ?>
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
-				<?php if($_['allowZipDownload']) : ?>
-					<a href="" title="<?php echo $l->t('Download')?>" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /></a>
-				<?php endif; ?>
-				<a href="" title="Share" class="share"><img class='svg' alt="Share" src="<?php echo image_path("core", "actions/share.svg"); ?>" /></a>
+					<a href="" class="share"><img class='svg' alt="Share" src="<?php echo image_path("core", "actions/share.svg"); ?>" /> <?php echo $l->t('Share')?></a>
+					<?php if($_['allowZipDownload']) : ?>
+						<a href="" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /> <?php echo $l->t('Download')?></a>
+					<?php endif; ?>
 				</span>
 			</th>
 			<th id="headerSize"><?php echo $l->t( 'Size' ); ?></th>
-			<th id="headerDate"><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class="selectedActions"><a href="" title="Delete" class="delete"><img class="svg" alt="<?php echo $l->t('Delete')?>" src="<?php echo image_path("core", "actions/delete.svg"); ?>" /></a></span></th>
+			<th id="headerDate"><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class="selectedActions"><a href="" class="delete"><?php echo $l->t('Delete all')?> <img class="svg" alt="<?php echo $l->t('Delete')?>" src="<?php echo image_path("core", "actions/delete.svg"); ?>" /></a></span></th>
 		</tr>
 	</thead>
 	<tbody id="fileList" data-readonly="<?php echo $_['readonly'];?>">

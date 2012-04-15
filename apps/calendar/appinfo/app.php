@@ -8,7 +8,6 @@ OC::$CLASSPATH['OC_Connector_Sabre_CalDAV'] = 'apps/calendar/lib/connector_sabre
 OC::$CLASSPATH['OC_Calendar_Share'] = 'apps/calendar/lib/share.php';
 OC::$CLASSPATH['OC_Search_Provider_Calendar'] = 'apps/calendar/lib/search.php';
 OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
-OC_Hook::connect('OC_DAV', 'initialize', 'OC_Calendar_Hooks', 'initializeCalDAV');
 OC_Util::addScript('calendar','loader');
 OC_Util::addScript("3rdparty", "chosen/chosen.jquery.min");
 OC_Util::addStyle("3rdparty", "chosen/chosen");
@@ -24,4 +23,3 @@ OC_App::addNavigationEntry( array(
   'name' => $l->t('Calendar')));
 OC_App::registerPersonal('calendar', 'settings');
 OC_Search::registerProvider('OC_Search_Provider_Calendar');
-

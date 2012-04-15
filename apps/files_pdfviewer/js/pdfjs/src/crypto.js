@@ -3,8 +3,8 @@
 
 'use strict';
 
-var ARCFourCipher = (function arcFourCipher() {
-  function constructor(key) {
+var ARCFourCipher = (function ARCFourCipherClosure() {
+  function ARCFourCipher(key) {
     this.a = 0;
     this.b = 0;
     var s = new Uint8Array(256);
@@ -20,8 +20,8 @@ var ARCFourCipher = (function arcFourCipher() {
     this.s = s;
   }
 
-  constructor.prototype = {
-    encryptBlock: function arcFourCipherEncryptBlock(data) {
+  ARCFourCipher.prototype = {
+    encryptBlock: function ARCFourCipher_encryptBlock(data) {
       var i, n = data.length, tmp, tmp2;
       var a = this.a, b = this.b, s = this.s;
       var output = new Uint8Array(n);
@@ -39,12 +39,12 @@ var ARCFourCipher = (function arcFourCipher() {
       return output;
     }
   };
-  constructor.prototype.decryptBlock = constructor.prototype.encryptBlock;
+  ARCFourCipher.prototype.decryptBlock = ARCFourCipher.prototype.encryptBlock;
 
-  return constructor;
+  return ARCFourCipher;
 })();
 
-var calculateMD5 = (function calculateMD5() {
+var calculateMD5 = (function calculateMD5Closure() {
   var r = new Uint8Array([
     7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
     5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20,
@@ -128,20 +128,20 @@ var calculateMD5 = (function calculateMD5() {
   return hash;
 })();
 
-var NullCipher = (function nullCipher() {
-  function constructor() {
+var NullCipher = (function NullCipherClosure() {
+  function NullCipher() {
   }
 
-  constructor.prototype = {
-    decryptBlock: function nullCipherDecryptBlock(data) {
+  NullCipher.prototype = {
+    decryptBlock: function NullCipher_decryptBlock(data) {
       return data;
     }
   };
 
-  return constructor;
+  return NullCipher;
 })();
 
-var AES128Cipher = (function aes128Cipher() {
+var AES128Cipher = (function AES128CipherClosure() {
   var rcon = new Uint8Array([
     0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c,
     0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a,
@@ -330,7 +330,7 @@ var AES128Cipher = (function aes128Cipher() {
     return state;
   }
 
-  function constructor(key) {
+  function AES128Cipher(key) {
     this.key = expandKey128(key);
     this.buffer = new Uint8Array(16);
     this.bufferPosition = 0;
@@ -370,8 +370,8 @@ var AES128Cipher = (function aes128Cipher() {
     return output;
   }
 
-  constructor.prototype = {
-    decryptBlock: function aes128CipherDecryptBlock(data) {
+  AES128Cipher.prototype = {
+    decryptBlock: function AES128Cipher_decryptBlock(data) {
       var i, sourceLength = data.length;
       var buffer = this.buffer, bufferLength = this.bufferPosition;
       // waiting for IV values -- they are at the start of the stream
@@ -391,16 +391,16 @@ var AES128Cipher = (function aes128Cipher() {
     }
   };
 
-  return constructor;
+  return AES128Cipher;
 })();
 
-var CipherTransform = (function cipherTransform() {
-  function constructor(stringCipherConstructor, streamCipherConstructor) {
+var CipherTransform = (function CipherTransformClosure() {
+  function CipherTransform(stringCipherConstructor, streamCipherConstructor) {
     this.stringCipherConstructor = stringCipherConstructor;
     this.streamCipherConstructor = streamCipherConstructor;
   }
-  constructor.prototype = {
-    createStream: function cipherTransformCreateStream(stream) {
+  CipherTransform.prototype = {
+    createStream: function CipherTransform_createStream(stream) {
       var cipher = new this.streamCipherConstructor();
       return new DecryptStream(stream,
         function cipherTransformDecryptStream(data) {
@@ -408,17 +408,17 @@ var CipherTransform = (function cipherTransform() {
         }
       );
     },
-    decryptString: function cipherTransformDecryptString(s) {
+    decryptString: function CipherTransform_decryptString(s) {
       var cipher = new this.stringCipherConstructor();
       var data = stringToBytes(s);
       data = cipher.decryptBlock(data);
       return bytesToString(data);
     }
   };
-  return constructor;
+  return CipherTransform;
 })();
 
-var CipherTransformFactory = (function cipherTransformFactory() {
+var CipherTransformFactory = (function CipherTransformFactoryClosure() {
   function prepareKeyData(fileId, password, ownerPassword, userPassword,
                           flags, revision, keyLength, encryptMetadata) {
     var defaultPasswordBytes = new Uint8Array([
@@ -490,7 +490,7 @@ var CipherTransformFactory = (function cipherTransformFactory() {
 
   var identityName = new Name('Identity');
 
-  function constructor(dict, fileId, password) {
+  function CipherTransformFactory(dict, fileId, password) {
     var filter = dict.get('Filter');
     if (!isName(filter) || filter.name != 'Standard')
       error('unknown encryption method');
@@ -570,12 +570,11 @@ var CipherTransformFactory = (function cipherTransformFactory() {
       };
     }
     error('Unknown crypto method');
-    return null;
   }
 
-  constructor.prototype = {
-    createCipherTransform: function buildCipherCreateCipherTransform(num,
-                                                                     gen) {
+  CipherTransformFactory.prototype = {
+    createCipherTransform:
+      function CipherTransformFactory_createCipherTransform(num, gen) {
       if (this.algorithm == 4) {
         return new CipherTransform(
           buildCipherConstructor(this.cf, this.stmf,
@@ -592,6 +591,6 @@ var CipherTransformFactory = (function cipherTransformFactory() {
     }
   };
 
-  return constructor;
+  return CipherTransformFactory;
 })();
 

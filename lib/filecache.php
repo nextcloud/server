@@ -475,7 +475,7 @@ class OC_FileCache{
 		}else{
 			return;
 		}
-		$size=OC_Filesystem::filesize($oldPath);
+		$size=OC_Filesystem::filesize($newPath);
 		self::increaseSize(dirname($fullOldPath),-$oldSize);
 		self::increaseSize(dirname($fullNewPath),$oldSize);
 		self::move($oldPath,$newPath);

@@ -8,13 +8,17 @@
 
 require_once('archive.php');
 
-class Test_Archive_ZIP extends Test_Archive{
-	protected function getExisting(){
-		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
-		return new OC_Archive_ZIP($dir.'/data.zip');
-	}
+if(is_dir(OC::$SERVERROOT.'/apps/files_archive/tests/data')){
+	class Test_Archive_ZIP extends Test_Archive{
+		protected function getExisting(){
+			$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
+			return new OC_Archive_ZIP($dir.'/data.zip');
+		}
 
-	protected function getNew(){
-		return new OC_Archive_ZIP(OC_Helper::tmpFile('.zip'));
+		protected function getNew(){
+			return new OC_Archive_ZIP(OC_Helper::tmpFile('.zip'));
+		}
 	}
+}else{
+	abstract class Test_Archive_ZIP extends Test_Archive{}
 }

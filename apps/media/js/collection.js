@@ -15,6 +15,11 @@ Collection={
 		}
 		if(!Collection.loading){
 			Collection.loading=true;
+			Collection.artists=[];
+			Collection.albums=[];
+			Collection.songs=[];
+			Collection.artistsById={};
+			Collection.albumsById={};
 			$.ajax({
 				url: OC.linkTo('media','ajax/api.php')+'?action=get_collection',
 				dataType: 'json',

@@ -13,9 +13,11 @@ $(document).ready(function() {
 	//drag/drop of files
 	$('#fileList tr td.filename').draggable(dragOptions);
 	$('#fileList tr[data-type="dir"][data-write="true"] td.filename').droppable(folderDropOptions);
-	$('div.crumb').droppable(crumbDropOptions);
+	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
-	$('ul#apps>li:first-child').droppable(crumbDropOptions);
+	if($('div.crumb').length){
+		$('ul#apps>li:first-child').droppable(crumbDropOptions);
+	}
 
 	// Triggers invisible file input
 	$('.file_upload_button_wrapper').live('click', function() {
@@ -209,12 +211,12 @@ $(document).ready(function() {
 						var size=t('files','Pending');
 					}
 					if(files){
-						FileList.addFile(files[i].name,size,date,true);
+						FileList.addFile(getUniqueName(files[i].name),size,date,true);
 					}
 				}
 			}else{
 				var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-				FileList.addFile(filename,'Pending',date,true);
+				FileList.addFile(getUniqueName(filename),'Pending',date,true);
 			}
 
 			//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
@@ -412,7 +414,7 @@ var dragOptions={
 };
 var folderDropOptions={
 	drop: function( event, ui ) {
-		var file=ui.draggable.text().trim();
+		var file=ui.draggable.parent().data('file');
 		var target=$(this).text().trim();
 		var dir=$('#dir').val();
 		$.ajax({
@@ -438,7 +440,7 @@ var crumbDropOptions={
 		if(dir.substr(-1,1)!='/'){
 			dir=dir+'/';
 		}
-		if(target==dir){
+		if(target==dir || target+'/'==dir){
 			return;
 		}
 		$.ajax({
@@ -568,3 +570,22 @@ function getMimeIcon(mime, ready){
 	}
 }
 getMimeIcon.cache={};
+
+function getUniqueName(name){
+	if($('tr').filterAttr('data-file',name).length>0){
+		var parts=name.split('.');
+		var extension=parts.pop();
+		var base=parts.join('.');
+		numMatch=base.match(/\((\d+)\)/);
+		var num=2;
+		if(numMatch && numMatch.length>0){
+			num=parseInt(numMatch[numMatch.length-1])+1;
+			base=base.split('(')
+			base.pop();
+			base=base.join('(').trim();
+		}
+		name=base+' ('+num+').'+extension;
+		return getUniqueName(name);
+	}
+	return name;
+}

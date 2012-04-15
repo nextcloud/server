@@ -18,6 +18,9 @@ $(document).ready(function() {
 });
 
 function viewImage(dir, file) {
+	if(file.indexOf('.psd')){//can't view those
+		return;
+	}
 	var location=OC.filePath('files','ajax','download.php')+'?files='+file+'&dir='+dir;
 	$.fancybox({
 		"href": location,
