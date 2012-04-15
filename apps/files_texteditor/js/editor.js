@@ -29,6 +29,7 @@ function setSyntaxMode(ext){
 	filetype["jsm"] = "javascript";
 	filetype["json"] = "json";
 	filetype["latex"] = "latex";
+        filetype["less"] = "less";
 	filetype["ly"] = "latex";
 	filetype["ily"] = "latex";
 	filetype["lua"] = "lua";
@@ -47,6 +48,7 @@ function setSyntaxMode(ext){
 	filetype["scad"] = "scad"; // seems to be something like 3d model files printed with e.g. reprap
 	filetype["scala"] = "scala";
 	filetype["scss"] = "scss"; // "sassy css"
+        filetype["sh"] = "sh";
 	filetype["sql"] = "sql";
 	filetype["svg"] = "svg";
 	filetype["textile"] = "textile"; // related to markdown
