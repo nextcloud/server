@@ -21,7 +21,7 @@
  *
  */
 
-define(LDAP_GROUP_MEMBER_ASSOC_ATTR,'memberUid');
+define('LDAP_GROUP_MEMBER_ASSOC_ATTR','memberUid');
 
 class OC_LDAP {
 	static protected $ldapConnectionRes = false;
