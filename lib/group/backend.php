@@ -89,7 +89,7 @@ abstract class OC_Group_Backend {
 	 * @return bool
 	 */
 	public function groupExists($gid){
-		if(!$backend->implementsActions(OC_GROUP_BACKEND_GET_GROUPS)){
+		if(!$this->implementsActions(OC_GROUP_BACKEND_GET_GROUPS)){
 			return false;
 		}
 		return in_array($gid, $this->getGroups());
