@@ -6,14 +6,15 @@
 
 OC.Log={
 	levels:['Debug','Info','Warning','Error','Fatal'],
-	loaded:50,//are initially loaded
+	loaded:3,//are initially loaded
 	getMore:function(){
-		$.get(OC.filePath('settings','ajax','getlog.php'),{offset:OC.Log.loaded},function(result){
+		$.get(OC.filePath('settings','ajax','getlog.php'),{offset:OC.Log.loaded,count:10},function(result){
 			if(result.status=='success'){
 				OC.Log.addEntries(result.data);
+				$('html, body').animate({scrollTop: $(document).height()}, 800);
 			}
 		});
-		OC.Log.loaded+=50;
+		OC.Log.loaded+=10;
 	},
 	addEntries:function(entries){
 		for(var i=0;i<entries.length;i++){

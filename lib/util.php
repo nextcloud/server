@@ -129,23 +129,23 @@ class OC_Util {
 		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
 	}
 
-       /**
-         * formats a timestamp in the "right" way
-         *
-         * @param int timestamp $timestamp
-         * @param bool dateOnly option to ommit time from the result
-         */
-        public static function formatDate( $timestamp,$dateOnly=false){
-			if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
-				$systemTimeZone = intval(date('O'));
-				$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
-				$clientTimeZone=$_SESSION['timezone']*60;
-				$offset=$clientTimeZone-$systemTimeZone;
-				$timestamp=$timestamp+$offset*60;
-			}
-			$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
-			return date($timeformat,$timestamp);
-        }
+   /**
+     * formats a timestamp in the "right" way
+     *
+     * @param int timestamp $timestamp
+     * @param bool dateOnly option to ommit time from the result
+     */
+    public static function formatDate( $timestamp,$dateOnly=false){
+		if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
+			$systemTimeZone = intval(date('O'));
+			$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
+			$clientTimeZone=$_SESSION['timezone']*60;
+			$offset=$clientTimeZone-$systemTimeZone;
+			$timestamp=$timestamp+$offset*60;
+		}
+		$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
+		return date($timeformat,$timestamp);
+    }
 
 	/**
 	 * Shows a pagenavi widget where you can jump to different pages.

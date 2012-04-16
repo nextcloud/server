@@ -44,7 +44,7 @@ class OC_Log_Owncloud {
 	 * @param int level
 	 */
 	public static function write($app, $message, $level) {
-		$minLevel=OC_Config::getValue( "loglevel", 2 );
+		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ),OC_Log::ERROR);
 		if($level>=$minLevel){
 			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level,'time'=>time());
 			$fh=fopen(self::$logFile, 'a');
@@ -61,6 +61,7 @@ class OC_Log_Owncloud {
 	 */
 	public static function getEntries($limit=50, $offset=0){
 		self::init();
+		$minLevel=OC_Config::getValue( "loglevel", OC_Log::WARN );
 		$entries=array();
 		if(!file_exists(self::$logFile)) {
 			return array();
@@ -71,8 +72,13 @@ class OC_Log_Owncloud {
 		}
 		$end=max(count($contents)-$offset-1, 0);
 		$start=max($end-$limit,0);
-		for($i=$end;$i>$start;$i--) {
-			$entries[]=json_decode($contents[$i]);
+		$i=$end;
+		while(count($entries)<$limit){
+			$entry=json_decode($contents[$i]);
+			if($entry->level>=$minLevel){
+				$entries[]=$entry;
+			}
+			$i--;
 		}
 		return $entries;
 	}
