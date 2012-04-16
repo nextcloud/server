@@ -502,6 +502,9 @@ class OC_Helper {
      */
     public static function buildNotExistingFileName($path, $filename)
     {
+	    if($path==='/'){
+		    $path='';
+	    }
         if ($pos = strrpos($filename, '.')) {
             $name = substr($filename, 0, $pos);
             $ext = substr($filename, $pos);
@@ -518,6 +521,6 @@ class OC_Helper {
             $counter++;
         }
 
-        return $newname;
+        return $newpath;
     }
 }
