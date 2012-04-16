@@ -23,6 +23,13 @@
 
 define('LDAP_GROUP_MEMBER_ASSOC_ATTR','memberUid');
 
+//needed to unbind, because we use OC_LDAP only statically
+class OC_LDAP_DESTRUCTOR {
+	public function __destruct() {
+		OC_LDAP::destruct();
+	}
+}
+
 class OC_LDAP {
 	static protected $ldapConnectionRes = false;
 	static protected $configured = false;
@@ -41,6 +48,10 @@ class OC_LDAP {
 	static public function init() {
 		self::readConfiguration();
 		self::establishConnection();
+	}
+
+	static public function destruct() {
+		@ldap_unbind(self::$ldapConnectionRes);
 	}
 
 	static public function conf($key) {
