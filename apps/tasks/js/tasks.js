@@ -64,12 +64,7 @@ OC.Tasks = {
 	filter:function(tag, find_filter) {
 		var tag_text = $(tag).text();
 		var filter = !$(tag).hasClass('active');
-		var show_count = $('#tasks').data('show_count');
-		show_count += filter ? +1 : -1;
-		$('#tasks').data('show_count', show_count);
-		$('#tasks .task').each(function(i, task_container){
-			task_container = $(task_container);
-			var task = task_container.data('task');
+		OC.Tasks.filterUpdate(filter, function(task_container){
 			var found = 0;
 			task_container.find(find_filter).each(function(){
 				if ($(this).text() == tag_text) {
@@ -77,6 +72,17 @@ OC.Tasks = {
 					found = 1;
 				}
 			});
+			return found;
+		});
+	},
+	filterUpdate:function(filter, find_filter) {
+		var show_count = $('#tasks_list').data('show_count');
+		show_count += filter ? +1 : -1;
+		$('#tasks_list').data('show_count', show_count);
+		$('#tasks .task').each(function(i, task_container){
+			task_container = $(task_container);
+			var task = task_container.data('task');
+			var found = find_filter(task_container);
 			var hide_count = task_container.data('show_count');
 			if (!filter) {
 				hide_count-=found;
@@ -98,7 +104,7 @@ OC.Tasks = {
 		tasks.sort(sort);
 		var current = null;
 		tasks.detach();
-		var $tasks = $('#tasks').empty();
+		var $tasks = $('#tasks_list').empty();
 		var container = $tasks;
 		tasks.each(function(){
 			if (get_property) {
@@ -134,27 +140,50 @@ OC.Tasks = {
 				alert(jsondata.data.message);
 			}
 		}, 'json');
+	},
+	List: {
+		create_list_div:function(category){
+			return $('<div>').text(category)
+				.click(function(){
+					OC.Tasks.filter(this, 'div.categories .tag');
+					$(this).toggleClass('active');
+				});
+		}
 	}
 };
 
 $(document).ready(function(){
+	fillHeight($('#tasks'));
+	//fillHeight($('#tasks_lists'));
+	//fillHeight($('#tasks_list'));
+	//fillWindow($('#task_details'));
+
 	/*-------------------------------------------------------------------------
 	 * Actions for startup
 	 *-----------------------------------------------------------------------*/
 	$.getJSON(OC.filePath('tasks', 'ajax', 'gettasks.php'), function(jsondata) {
-		var tasks = $('#tasks').empty().data('show_count', 0);
+		var tasks = $('#tasks_list').empty().data('show_count', 0);
 		var actions = $('#task_actions_template');
 		$(jsondata).each(function(i, task) {
 			tasks.append(OC.Tasks.create_task_div(task));
 		});
-		if( $('#tasks div').length > 0 ){
-			$('#tasks div').first().addClass('active');
+		if( $('#tasks_list div').length > 0 ){
+			$('#tasks_list div').first().addClass('active');
 		}
-
+		$(categories).each(function(i, category) {
+			$('#tasks_lists .all').after(OC.Tasks.List.create_list_div(category));
+		});
+		$('#tasks_lists .all').click(function(){
+			$('#tasks_lists .active').click();
+		});
+		$('#tasks_lists .done').click(function(){
+			var filter = !$(this).hasClass('active');
+			OC.Tasks.filterUpdate(filter, function(task_container){
+				return task_container.hasClass('done');
+			});
+			$(this).toggleClass('active');
+		});
 	});
-
-	fillHeight($('#tasks'));
-	fillWindow($('#task_details'));
 
 	/*-------------------------------------------------------------------------
 	 * Event handlers
@@ -180,6 +209,12 @@ $(document).ready(function(){
 
 	$('#tasks div.categories .tag').live('click',function(){
 		OC.Tasks.filter(this, 'div.categories .tag');
+		var tag_text = $(this).text();
+		$('#tasks_lists div:not(".all"):not(".done")').each(function(){
+			if ($(this).text() == tag_text) {
+				$(this).toggleClass('active');
+			}
+		});
 	});
 
 	$('#tasks .priority.tag').live('click',function(){
@@ -217,7 +252,7 @@ $(document).ready(function(){
 		}
 		labels.sort();
 		tasks.detach();
-		var $tasks = $('#tasks').empty();
+		var $tasks = $('#tasks_list').empty();
 		for (var index in labels) {
 			var label = labels[index];
 			var container = $('<div>').appendTo($tasks);
@@ -299,7 +334,7 @@ $(document).ready(function(){
 			if(jsondata.status == 'success'){
 				$('#task_details').data('id',jsondata.data.id);
 				$('#task_details').html(jsondata.data.page);
-				$('#tasks').append(OC.Tasks.create_task_div(jsondata.data.task));
+				$('#tasks_list').append(OC.Tasks.create_task_div(jsondata.data.task));
 			}
 			else{
 				alert(jsondata.data.message);

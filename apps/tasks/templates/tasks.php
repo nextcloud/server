@@ -8,7 +8,13 @@
 	<input type="button" id="tasks_order_label" value="<?php echo $l->t('Order Label'); ?>">
 </div>
 <div id="tasks">
+<div id="tasks_lists">
+	<div class="all">All</div>
+	<div class="done">Done</div>
+</div>
+<div id="tasks_list">
 <p class="loading"><?php echo $l->t('Loading tasks...') ?></p>
+</div>
 </div>
 <div id="task_details">
 </div>
