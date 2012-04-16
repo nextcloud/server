@@ -38,14 +38,15 @@ class OC_LDAP {
 	// user and group settings, that are needed in both backends
 	static public $ldapUserDisplayName;
 
-
 	static public function init() {
 		self::readConfiguration();
 		self::establishConnection();
 	}
 
 	static public function conf($key) {
-		$availableProperties = array('ldapUserDisplayName');
+		$availableProperties = array(
+			'ldapUserDisplayName',
+		);
 
 		if(in_array($key, $availableProperties)) {
 			return self::$$key;
