@@ -29,6 +29,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	public function __construct() {
 		$this->ldapGroupFilter      = OC_Appconfig::getValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
 		$this->ldapGroupDisplayName = OC_Appconfig::getValue('user_ldap', 'ldap_group_display_name', 'cn');
+		$this->ldapGroupMemberAttr  = OC_Appconfig::getValue('user_ldap', 'ldap_group_member_attr', 'memberUid');
 	}
 
 	/**
@@ -83,7 +84,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			$this->ldapGroupDisplayName.'='.$gid
 		));
 
-		return $this->retrieveList($filter, OC_LDAP::conf('ldapUserDisplayName'));
+		return $this->retrieveList($filter, $this->ldapGroupMemberAttr);
 	}
 
 	/**
