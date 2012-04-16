@@ -28,7 +28,7 @@
 	<body id="body-login">
 		<div id="login">
 			<header><div id="header">
-				<img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" />
+				<img src="<?php echo image_path('', 'logo.png'); ?>" alt="ownCloud" />
 			</div></header>
 			<?php echo $_['content']; ?>
 		</div>
