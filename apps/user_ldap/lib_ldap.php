@@ -144,8 +144,19 @@ class OC_LDAP {
 			self::$ldapNoCase          = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
 			self::$ldapUserDisplayName = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
 
-			//TODO: sanity checking
-			self::$configured = true;
+			if(
+				   !empty(self::$ldapHost)
+				&& !empty(self::$ldapPort)
+				&& (
+					   (!empty(self::$ldapAgentName) && !empty(self::$ldapAgentPassword))
+					|| ( empty(self::$ldapAgentName) &&  empty(self::$ldapAgentPassword))
+				)
+				&& !empty(self::$ldapBase)
+				&& !empty(self::$ldapUserDisplayName)
+			)
+			{
+				self::$configured = true;
+			}
 		}
 	}
 
@@ -153,6 +164,9 @@ class OC_LDAP {
 	 * Connects and Binds to LDAP
 	 */
 	static private function establishConnection() {
+		if(!self::$configured) {
+			return false;
+		}
 		if(!self::$ldapConnectionRes) {
 			self::$ldapConnectionRes = ldap_connect(self::$ldapHost, self::$ldapPort);
 			if(ldap_set_option(self::$ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
