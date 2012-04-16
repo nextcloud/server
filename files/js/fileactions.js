@@ -53,7 +53,7 @@ FileActions={
 	},
 	display:function(parent){
 		FileActions.currentFile=parent;
-		$('#fileList .action').remove();
+		$('#fileList span.fileactions, #fileList td.date a.action').remove();
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		var file=FileActions.getCurrentFile();
 		if($('tr').filterAttr('data-file',file).data('renaming')){
@@ -113,7 +113,7 @@ FileActions={
 		return false;
 	},
 	hide:function(){
-		$('#fileList span.fileactions').fadeOut(200,function(){
+		$('#fileList span.fileactions, #fileList td.date a.action').fadeOut(200,function(){
 			$(this).remove();
 		});
 	},
