@@ -103,6 +103,15 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		}
 	}
 
+	/**
+	 * check if a group exists
+	 * @param string $gid
+	 * @return bool
+	 */
+	public function groupExists($gid){
+		return in_array($gid, $this->getGroups());
+	}
+
 	private function retrieveList($filter, $attr) {
 		$list = OC_LDAP::search($filter, $attr);
 
