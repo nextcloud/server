@@ -177,7 +177,6 @@ class OC_LDAP {
 					}
 			}
 
-			//TODO: Check if it works. Before, it was outside the resource-condition
 			$ldapLogin = @ldap_bind(self::$ldapConnectionRes, self::$ldapAgentName, self::$ldapAgentPassword );
 			if(!$ldapLogin) {
 				return false;
