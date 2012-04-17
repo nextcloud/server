@@ -25,7 +25,7 @@ if (!isset($_GET['token']) || empty($_GET['token'])) {
   exit;
 }
 
-require_once('../../lib/base.php');
+
 
 OC_Util::checkAppEnabled('gallery');
 

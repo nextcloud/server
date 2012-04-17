@@ -15,7 +15,7 @@ function debug($msg) {
 	OC_Log::write('core','ajax/vcategories/delete.php: '.$msg, OC_Log::DEBUG);
 }
 
-require_once('../../../lib/base.php');
+ 
 OC_JSON::checkLoggedIn();
 $app = isset($_POST['app'])?$_POST['app']:null;
 $categories = isset($_POST['categories'])?$_POST['categories']:null;

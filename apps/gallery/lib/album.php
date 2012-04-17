@@ -92,7 +92,7 @@ class OC_Gallery_Album {
 	}
 
 	public static function changeThumbnailPath($oldname, $newname) {
-		require_once('../../../lib/base.php');
+		 
 		$thumbpath = OC::$CONFIG_DATADIRECTORY.'/../gallery/';
 		rename($thumbpath.$oldname.'.png', $thumbpath.$newname.'.png');
 	}

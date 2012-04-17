@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
+ 
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 $tmpl = new OC_Template('contacts', 'part.import');

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once ('../../lib/base.php');
+ 
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
 

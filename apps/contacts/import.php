@@ -7,7 +7,7 @@
  */
 //check for addressbooks rights or create new one
 ob_start();
-require_once ('../../lib/base.php');
+ 
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
 $nl = "\n";

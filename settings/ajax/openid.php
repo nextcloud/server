@@ -1,7 +1,7 @@
 <?php
 
 // Init owncloud
-require_once('../../lib/base.php');
+
 
 $l=OC_L10N::get('settings');
 

@@ -23,7 +23,7 @@
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
 
-require_once('../../lib/base.php');
+
 OC_Util::checkAppEnabled('contacts');
 
 // Backends

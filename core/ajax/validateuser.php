@@ -22,7 +22,7 @@
 */
 
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
-require_once('../../lib/base.php');
+
 
 if(!isset($_SERVER['PHP_AUTH_USER'])){
         header('WWW-Authenticate: Basic realm="ownCloud Server"');

@@ -1,7 +1,7 @@
 <?php
 
 // Init owncloud
-require_once('../../lib/base.php');
+
 
 // Check if we are a user
 if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){

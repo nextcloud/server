@@ -20,7 +20,7 @@
  *
  */
 
-require_once('../../lib/base.php');
+
 require_once('lib_share.php');
 
 OC_Util::checkLoggedIn();

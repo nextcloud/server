@@ -4,7 +4,7 @@
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  */
-require_once('../../../lib/base.php');
+ 
 
 OC_JSON::checkLoggedIn();
 // Fetch current commit (or HEAD if not yet set)

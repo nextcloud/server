@@ -22,7 +22,7 @@
 */
 
 
-require_once('../../../lib/base.php');
+ 
 OC_Util::checkAppEnabled('media');
 require_once('../lib_collection.php');
 require_once('../lib_ampache.php');

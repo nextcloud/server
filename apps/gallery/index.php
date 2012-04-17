@@ -21,7 +21,7 @@
 * 
 */
 
-require_once('../../lib/base.php');
+
 
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('gallery');

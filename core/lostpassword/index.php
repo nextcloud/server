@@ -7,7 +7,7 @@
 */
 
 $RUNTIME_NOAPPS = TRUE; //no apps
-require_once('../../lib/base.php');
+
 
 // Someone lost their password:
 if (isset($_POST['user'])) {

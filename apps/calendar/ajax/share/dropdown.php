@@ -5,7 +5,7 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
+ 
 $user = OC_USER::getUser();
 $calid = $_GET['calid'];
 $calendar = OC_Calendar_Calendar::find($calid);
