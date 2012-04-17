@@ -2,7 +2,7 @@
 <div id="controls">
 	<?php echo($_['breadcrumb']); ?>
 	<?php if (!isset($_['readonly']) || !$_['readonly']):?>
-		<div class="actions">
+		<div class="actions <?php if (isset($_['files']) and ! $_['readonly'] and count($_['files'])==0):?>emptyfolder<?php endif; ?>">
 			<div id='new' class='button'>
 				<a><?php echo $l->t('New');?></a>
 				<ul class="popup popupTop">
