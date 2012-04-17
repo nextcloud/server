@@ -12,18 +12,20 @@ OC.Tasks = {
 		return a.localeCompare(b);
 	},
 	create_task_div:function(task) {
+		var actions = $('#task_actions_template');
+		var summary_container = $('<p class="summary">')
+				.attr('title', task.description)
+				;
+		OC.Tasks.setSummary(summary_container, task);
 		var task_container = $('<div>')
 			.addClass('task')
 			.data('task', task)
 			.data('show_count', 0)
 			.attr('data-id', task.id)
-			.append($('<p>')
-				.html('<a href="index.php?id='+task.id+'">'+task.summary+'</a>')
-				.addClass('summary')
-				.attr('title', task.description)
-				)
+			.append(summary_container)
 			//.append(actions.clone().removeAttr('id'))
 			;
+		task_container.find('.summary a').click(OC.Tasks.summaryClickHandler);
 		var checkbox = $('<input type="checkbox">')
 			.click(OC.Tasks.complete_task);
 		if (task.completed) {
@@ -121,11 +123,36 @@ OC.Tasks = {
 			container.append(this);
 		});
 	},
+	setSummary:function(summary_container, task){
+		var summary = $('<a href="index.php?id='+task.id+'">'+task.summary+'</a>')
+			.click(OC.Tasks.summaryClickHandler);
+		summary_container.html(summary);
+	},
+	summaryClickHandler:function(event){
+		event.preventDefault();
+		//event.stopPropagation();
+		var task = $(this).closest('.task').data('task');
+		var summary_container = $(this).parent();
+		var input = $('<input>').val($(this).text()).blur(function(){
+			var old_summary = task.summary;
+			task.summary = $(this).val();
+			OC.Tasks.setSummary(summary_container, task);
+			$.post('ajax/update_property.php', {id:task.id, type:'summary', summary:task.summary}, function(jsondata){
+				if(jsondata.status != 'success') {
+					task.summary = old_summary;
+					OC.Tasks.setSummary(summary_container, task);
+				}
+			});
+		});
+		summary_container.empty().append(input);
+		input.focus();
+		return false;
+	},
 	complete_task:function() {
 		var $task = $(this).closest('.task'),
 			task = $task.data('task'),
 			checked = $(this).is(':checked');
-		$.post('ajax/complete.php', {id:task.id, checked:checked?1:0}, function(jsondata){
+		$.post('ajax/update_property.php', {id:task.id, type:'complete', checked:checked?1:0}, function(jsondata){
 			if(jsondata.status == 'success') {
 				task = jsondata.data;
 				$task.data('task', task)
@@ -163,7 +190,6 @@ $(document).ready(function(){
 	 *-----------------------------------------------------------------------*/
 	$.getJSON(OC.filePath('tasks', 'ajax', 'gettasks.php'), function(jsondata) {
 		var tasks = $('#tasks_list').empty().data('show_count', 0);
-		var actions = $('#task_actions_template');
 		$(jsondata).each(function(i, task) {
 			tasks.append(OC.Tasks.create_task_div(task));
 		});
@@ -188,25 +214,6 @@ $(document).ready(function(){
 	/*-------------------------------------------------------------------------
 	 * Event handlers
 	 *-----------------------------------------------------------------------*/
-	$('#tasks div.task .summary').live('click',function(){
-		var id = $(this).parent('div.task').data('id');
-		var oldid = $('#task_details').data('id');
-		if(oldid != 0){
-			$('#tasks li[data-id="'+oldid+'"]').removeClass('active');
-		}
-		$.getJSON('ajax/getdetails.php',{'id':id},function(jsondata){
-			if(jsondata.status == 'success'){
-				$('#task_details').data('id',jsondata.data.id);
-				$('#task_details').html(jsondata.data.page);
-				$('#tasks li[data-id="'+jsondata.data.id+'"]').addClass('active');
-			}
-			else{
-				alert(jsondata.data.message);
-			}
-		});
-		return false;
-	});
-
 	$('#tasks div.categories .tag').live('click',function(){
 		OC.Tasks.filter(this, 'div.categories .tag');
 		var tag_text = $(this).text();

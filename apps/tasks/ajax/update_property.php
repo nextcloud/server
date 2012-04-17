@@ -12,11 +12,23 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('tasks');
 
 $id = $_POST['id'];
-$checked = $_POST['checked'];
+$property = $_POST['type'];
 $vcalendar = OC_Calendar_App::getVCalendar( $id );
 
 $vtodo = $vcalendar->VTODO;
-OC_Task_App::setComplete($vtodo, $checked ? '100' : '0', null);
+switch($property) {
+	case 'summary':
+		$summary = $_POST['summary'];
+		$vtodo->setString('SUMMARY', $summary);
+		break;
+	case 'complete':
+		$checked = $_POST['checked'];
+		OC_Task_App::setComplete($vtodo, $checked ? '100' : '0', null);
+		break;
+	default:
+		OC_JSON::error(array('data'=>array('message'=>'Unknown type')));
+		exit();
+}
 OC_Calendar_Object::edit($id, $vcalendar->serialize());
 
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
