@@ -237,6 +237,9 @@ class OC_Util {
 		if(!function_exists('ctype_digit')){
 			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
+		if(!function_exists('json_encode')){
+			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
 
 		return $errors;
 	}
