@@ -35,7 +35,7 @@ define('OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME', 'uid');
 
 // register user backend
 OC_User::useBackend( 'LDAP' );
-OC_Group::useBackend( 'LDAP' );
+OC_Group::useBackend( new OC_GROUP_LDAP() );
 
 // add settings page to navigation
 $entry = array(
