@@ -62,15 +62,22 @@ class OC{
 	 * the root path of the 3rdparty folder for http requests (e.g. owncloud/3rdparty)
 	 */
 	public static $THIRDPARTYWEBROOT = '';
-        /**
-         * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
-         */
-        public static $APPSROOT = '';
-        /**
-         * the root path of the apps folder for http requests (e.g. owncloud)
-         */
-        public static $APPSWEBROOT = '';
-
+	/**
+	 * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
+	 */
+	public static $APPSROOT = '';
+	/**
+	 * the root path of the apps folder for http requests (e.g. owncloud)
+	 */
+	public static $APPSWEBROOT = '';
+	/*
+	 * requested app
+	 */
+	public static $REQUESTEDAPP = '';
+	/*
+	 * requested file of app
+	 */
+	public static $REQUESTEDFILE = '';
 	/**
 	 * SPL autoload
 	 */
@@ -161,12 +168,15 @@ class OC{
 		}
 
 		// search the apps folder
-		if(file_exists(OC::$SERVERROOT.'/apps')){
+		if(OC_Config::getValue('appsroot', '')<>''){
+			OC::$APPSROOT=OC_Config::getValue('appsroot', '');
+			OC::$APPSWEBROOT=OC_Config::getValue('appsurl', '');
+		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
 			OC::$APPSROOT=OC::$SERVERROOT;
 			OC::$APPSWEBROOT=OC::$WEBROOT;
 		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
 			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
+			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
 		}else{
 			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
@@ -260,6 +270,13 @@ class OC{
 	public static function initSession() {
 		ini_set('session.cookie_httponly','1;');
 		session_start();
+	}
+	
+	public static function loadapp(){
+		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP)){
+			OC_App::loadApps();
+			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
+		}
 	}
 
 	public static function init(){
@@ -371,6 +388,9 @@ class OC{
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
+		
+		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
+		self::$REQUESTEDFILE = (isset($_GET['file'])?(OC_Helper::issubdirectory(OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . $_GET['file'], OC::$APPSROOT . '/' . self::$REQUESTEDAPP)?$_GET['file']:null):null);
 	}
 }
 

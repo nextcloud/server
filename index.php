@@ -57,7 +57,7 @@ elseif(OC_User::isLoggedIn()) {
 		exit();
 	}
 	else {
-		OC_Util::redirectToDefaultPage();
+		OC::loadapp();
 	}
 }
 

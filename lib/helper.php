@@ -520,4 +520,15 @@ class OC_Helper {
 
         return $newname;
     }
+	
+	/*
+	 * checks if $sub is a subdirectory of $parent
+	 * 
+	 * @param $sub 
+	 * @param $parent
+	 * @return bool
+	 */
+	public static function issubdirectory($sub, $parent){
+		return (substr(realpath($sub), 0, strlen(realpath($parent))) == realpath($parent))?true:false;
+	}
 }
