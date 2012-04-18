@@ -22,7 +22,7 @@
 */
 
 // Init owncloud
-
+require_once('../../lib/base.php');
 
 $app = $_POST["app"];
 

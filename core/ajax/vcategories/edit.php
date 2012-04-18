@@ -15,7 +15,7 @@ function debug($msg) {
 	OC_Log::write('core','ajax/vcategories/edit.php: '.$msg, OC_Log::DEBUG);
 }
 
- 
+require_once('../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 $app = isset($_GET['app'])?$_GET['app']:null;
 

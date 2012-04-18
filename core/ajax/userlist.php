@@ -22,7 +22,7 @@
 */
 
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
-
+require_once('../../lib/base.php');
 
 if(!OC_User::isLoggedIn()){
         if(!isset($_SERVER['PHP_AUTH_USER'])){
