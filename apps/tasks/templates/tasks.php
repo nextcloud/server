@@ -19,11 +19,11 @@
 <div id="task_details">
 </div>
 <p id="task_actions_template" class="task_actions">
-	<span class="task_delete">
-		<img title="Delete" src="<?php echo image_path('core', 'actions/delete.svg') ?>" class="svg">
-	</span>
-	&nbsp;<span class="task_edit">
-		<img title="Edit" src="<?php echo image_path('core', 'actions/rename.svg') ?>" class="svg">
+	<!-- span class="task_star">
+		<img title="<?php echo $l->t('Important') ?>" src="<?php echo image_path('core', 'actions/add.svg') ?>" class="svg"><?php echo $l->t('Important') ?>
+	</span -->
+	<span class="task_more">
+		<img title="<?php echo $l->t('More') ?>" src="<?php echo image_path('core', 'actions/triangle-s.svg') ?>" class="svg"><?php echo $l->t('More') ?>
 	</span>
 </p>
 <script type='text/javascript'>

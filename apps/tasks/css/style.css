@@ -11,11 +11,15 @@
 .error{border-color:red;border-width:2px;}
 #tasks_lists div{position:relative;padding:0.5em 1em;}
 #tasks_lists .active{font-weight:bold;}
-.task_actions{display:none;}
 #tasks h1{background-color:#1D2D44;color:white;font-size:120%;padding:0 0.5em;}
 
 .task{border-radius:0.4em;position:relative;padding:0.5em 1em;}
 .task:hover {background-color:#DDDDDD;}
+
+.task_actions{display:none;position:absolute;right:33.3333%;top:0.2em;}
+.task:hover .task_actions {display:block}
+.task_actions img{vertical-align:middle;}
+.task_actions span{cursor:pointer;}
 
 .task .priority{background-color:black;color:white;position:absolute;top:0.5em}
 .task .priority-n{height:2.66ex;width:0.6em;}
@@ -32,9 +36,10 @@
 .task .completed {position:absolute;left:3em;top:0.3em;}
 
 .task .summary{padding-left:4em;}
+.task .summary input{position:relative;left:5px;}
 .task.done .summary{text-decoration:line-through;}
 
-.task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;border:1px solid transparent;padding:0 0.4em;}
+.task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;border:1px solid transparent;padding:0 0.4em;cursor:pointer;}
 .task .tag:hover{opacity:0.5;}
 .task .tag.active{border-color:black;opacity:0.6;}
 .task .tag.active:hover{opacity:0.8;}
@@ -44,3 +49,7 @@
 .task .categories .tag.active{display:none}
 
 .task .location{background-color:#442d44;color:white;position:absolute;right:0.6em;width:4.2em;text-align:left;top:0.4em}
+
+.task .more{display:none;}
+
+.task .description{position:relative;left:4em;}

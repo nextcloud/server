@@ -23,7 +23,7 @@ OC.Tasks = {
 			.data('show_count', 0)
 			.attr('data-id', task.id)
 			.append(summary_container)
-			//.append(actions.clone().removeAttr('id'))
+			.append(actions.clone().removeAttr('id'))
 			;
 		task_container.find('.summary a').click(OC.Tasks.summaryClickHandler);
 		var checkbox = $('<input type="checkbox">')
@@ -61,6 +61,14 @@ OC.Tasks = {
 					);
 			});
 		}
+		task_container.find('.task_more').click(OC.Tasks.moreClickHandler);
+		var description = $('<textarea>')
+			.addClass('description')
+			.text(task.description);
+		$('<div>')
+			.addClass('more')
+			.append(description)
+			.appendTo(task_container);
 		return task_container;
 	},
 	filter:function(tag, find_filter) {
@@ -147,6 +155,11 @@ OC.Tasks = {
 		summary_container.empty().append(input);
 		input.focus();
 		return false;
+	},
+	moreClickHandler:function(event){
+		var $task = $(this).closest('.task'),
+			task = $task.data('task');
+		$task.find('.more').show();
 	},
 	complete_task:function() {
 		var $task = $(this).closest('.task'),
