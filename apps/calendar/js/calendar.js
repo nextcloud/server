@@ -499,6 +499,9 @@ Calendar={
 		Share:{
 			currentid: 'false',
 			idtype: '',
+			activation:function(object,owner,id){
+				$.getJSON(OC.filePath('calendar', 'ajax/share', 'activation.php'),{id:id, idtype:'calendar', activation:object.checked?1:0});
+			},
 			dropdown:function(userid, calid){
 				$('.calendar_share_dropdown').remove();
 				$('<div class="calendar_share_dropdown"></div>').appendTo('#'+userid+'_'+calid);
@@ -513,10 +516,7 @@ Calendar={
 			},
 			share:function(id, idtype, sharewith, sharetype){
 				$.getJSON(OC.filePath('calendar', 'ajax/share', 'share.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(data){
-					if(sharetype == 'public'){
-						$('#public_token').val(window.location.protocol + '//' + location.host + OC.linkTo('calendar', 'share.php?t=' + data.message));
-						$('#public_token').css('display', 'block');
-					}
+
 				});
 			},
 			unshare:function(id, idtype, sharewith, sharetype){
