@@ -373,6 +373,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 			}
 			$obj=$container->create_object(basename($path));
 		}
+		$this->resetMTime($obj);
 		return $obj->write($content);
 	}
 
@@ -429,30 +430,39 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	}
 
 	public function touch($path,$mtime=null){
-		if(!is_null($mtime)){
-			return false;
-		}
 		$obj=$this->getObject($path);
 		if(is_null($obj)){
 			return false;
 		}
-		$fp = fopen('php://temp', 'r+');
-		$obj->stream($fp);
-		rewind($fp);
-		$obj->write($fp);
-		fclose($fp);
+		if(is_null($mtime)){
+			$mtime=time();
+		}
+		
+		//emulate setting mtime with metadata
+		$obj->metadata['Mtime']=$mtime;
+		$obj->sync_metadata();
 	}
 
 	public function rename($path1,$path2){
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
-		return $sourceContainer->move_object_to(basename($path1),$targetContainer,basename($path2));
+		$result=$sourceContainer->move_object_to(basename($path1),$targetContainer,basename($path2));
+		if($result){
+			$targetObj=$this->getObject($path2);
+			$this->resetMTime($targetObj);
+		}
+		return $result;
 	}
 
 	public function copy($path1,$path2){
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
-		return $sourceContainer->copy_object_to(basename($path1),$targetContainer,basename($path2));
+		$result=$sourceContainer->copy_object_to(basename($path1),$targetContainer,basename($path2));
+		if($result){
+			$targetObj=$this->getObject($path2);
+			$this->resetMTime($targetObj);
+		}
+		return $result;
 	}
 
 	public function stat($path){
@@ -460,8 +470,14 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if(is_null($obj)){
 			return false;
 		}
+
+		if(isset($obj->metadata['Mtime']) and $obj->metadata['Mtime']>-1){
+			$mtime=$obj->metadata['Mtime'];
+		}else{
+			$mtime=strtotime($obj->last_modified);
+		}
 		return array(
-			'mtime'=>strtotime($obj->last_modified),
+			'mtime'=>$mtime,
 			'size'=>$obj->content_length,
 			'ctime'=>-1,
 		);
@@ -484,5 +500,17 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 			$obj=$this->createObject($path);
 		}
 		$obj->load_from_filename($tmpFile);
+		$this->resetMTime($obj);
+	}
+
+	/**
+	 * remove custom mtime metadata
+	 * @param CF_Object obj
+	 */
+	private function resetMTime($obj){
+		if(isset($obj->metadata['Mtime'])){
+			$obj->metadata['Mtime']=-1;
+			$obj->sync_metadata();
+		}
 	}
 }
