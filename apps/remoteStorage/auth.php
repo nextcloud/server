@@ -77,7 +77,7 @@ if(count($pathParts) == 2 && $pathParts[0] == '') {
 	<div id="login">
 		<header>
 		<div id="header">
-			<img src="../../../core/img/owncloud-logo-medium-white.png" alt="ownCloud" />
+			<img src="../../../core/img/logo.png" alt="ownCloud" />
 		</div>
 		</header>
 		<section id="main">

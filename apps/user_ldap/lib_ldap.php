@@ -21,7 +21,14 @@
  *
  */
 
-define(LDAP_GROUP_MEMBER_ASSOC_ATTR,'memberUid');
+define('LDAP_GROUP_MEMBER_ASSOC_ATTR','memberUid');
+
+//needed to unbind, because we use OC_LDAP only statically
+class OC_LDAP_DESTRUCTOR {
+	public function __destruct() {
+		OC_LDAP::destruct();
+	}
+}
 
 class OC_LDAP {
 	static protected $ldapConnectionRes = false;
@@ -38,14 +45,19 @@ class OC_LDAP {
 	// user and group settings, that are needed in both backends
 	static public $ldapUserDisplayName;
 
-
 	static public function init() {
 		self::readConfiguration();
 		self::establishConnection();
 	}
 
+	static public function destruct() {
+		@ldap_unbind(self::$ldapConnectionRes);
+	}
+
 	static public function conf($key) {
-		$availableProperties = array('ldapUserDisplayName');
+		$availableProperties = array(
+			'ldapUserDisplayName',
+		);
 
 		if(in_array($key, $availableProperties)) {
 			return self::$$key;
@@ -143,8 +155,19 @@ class OC_LDAP {
 			self::$ldapNoCase          = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
 			self::$ldapUserDisplayName = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
 
-			//TODO: sanity checking
-			self::$configured = true;
+			if(
+				   !empty(self::$ldapHost)
+				&& !empty(self::$ldapPort)
+				&& (
+					   (!empty(self::$ldapAgentName) && !empty(self::$ldapAgentPassword))
+					|| ( empty(self::$ldapAgentName) &&  empty(self::$ldapAgentPassword))
+				)
+				&& !empty(self::$ldapBase)
+				&& !empty(self::$ldapUserDisplayName)
+			)
+			{
+				self::$configured = true;
+			}
 		}
 	}
 
@@ -152,6 +175,9 @@ class OC_LDAP {
 	 * Connects and Binds to LDAP
 	 */
 	static private function establishConnection() {
+		if(!self::$configured) {
+			return false;
+		}
 		if(!self::$ldapConnectionRes) {
 			self::$ldapConnectionRes = ldap_connect(self::$ldapHost, self::$ldapPort);
 			if(ldap_set_option(self::$ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
@@ -162,7 +188,6 @@ class OC_LDAP {
 					}
 			}
 
-			//TODO: Check if it works. Before, it was outside the resource-condition
 			$ldapLogin = @ldap_bind(self::$ldapConnectionRes, self::$ldapAgentName, self::$ldapAgentPassword );
 			if(!$ldapLogin) {
 				return false;
