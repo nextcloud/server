@@ -501,6 +501,7 @@ Calendar={
 			idtype: '',
 			activation:function(object,owner,id){
 				$.getJSON(OC.filePath('calendar', 'ajax/share', 'activation.php'),{id:id, idtype:'calendar', activation:object.checked?1:0});
+				$('#calendar_holder').fullCalendar('refetchEvents');
 			},
 			dropdown:function(userid, calid){
 				$('.calendar_share_dropdown').remove();

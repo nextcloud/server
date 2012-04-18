@@ -247,4 +247,13 @@ class OC_Calendar_Share{
             }
 			return $return;
         }
+		
+		/*
+		 * @brief sets the active status of the calendar
+		 * @param (string) $
+		 */
+		public static function set_active($share, $id, $active){
+			$stmt = OC_DB::prepare('UPDATE *PREFIX*calendar_share_calendar SET active = ? WHERE share = ? AND sharetype = "user" AND calendarid = ?');
+			$stmt->execute(array($active, $share, $id));
+		}
 }

@@ -28,7 +28,7 @@ for($i = 0; $i < count($option_calendars); $i++){
 $share = OC_Calendar_Share::allSharedwithuser(OC_User::getUser(), OC_Calendar_Share::CALENDAR);
 $count = count($share);
 for($i = 0; $i < $count; $i++){
-	$share[$i]['calendar'] = OC_Calendar_App::getCalendar($share[$i]['calendarid']);
+	$share[$i]['calendar'] = OC_Calendar_App::getCalendar($share[$i]['calendarid'], false, false);
 	echo '<tr>';
 	$tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields.shared');
 	$tmpl->assign('share', $share[$i]);
