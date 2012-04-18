@@ -15,6 +15,12 @@ class Test_Encryption extends UnitTestCase {
 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
 		$this->assertNotEqual($encrypted,$source);
 		$this->assertEqual($decrypted,$source);
+
+		$chunk=substr($source,0,8192);
+		$encrypted=OC_Crypt::encrypt($chunk,$key);
+		$this->assertEqual(strlen($chunk),strlen($encrypted));
+		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$this->assertEqual($decrypted,$chunk);
 		
 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
