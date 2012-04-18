@@ -354,6 +354,26 @@ class OC_Helper {
 	}
 
 	/**
+	 * get the mimetype form a data string
+	 * @param string data
+	 * @return string
+	 */
+	static function getStringMimeType($data){
+		if(function_exists('finfo_open') and function_exists('finfo_file')){
+			$finfo=finfo_open(FILEINFO_MIME);
+			return finfo_buffer($finfo, $data);
+		}else{
+			$tmpFile=OC_Helper::tmpFile();
+			$fh=fopen($tmpFile,'wb');
+			fwrite($fh,$data,8024);
+			fclose($fh);
+			$mime=self::getMimeType($tmpFile);
+			unset($tmpFile);
+			return $mime;
+		}
+	}
+
+	/**
 	 * @brief Checks $_REQUEST contains a var for the $s key. If so, returns the html-escaped value of this var; otherwise returns the default value provided by $d.
 	 * @param $s name of the var to escape, if set.
 	 * @param $d default value.
