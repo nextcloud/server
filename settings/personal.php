@@ -5,7 +5,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../lib/base.php');
+ 
 OC_Util::checkLoggedIn();
 
 // Highlight navigation entry
