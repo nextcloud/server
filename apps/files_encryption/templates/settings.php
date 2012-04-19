@@ -7,5 +7,6 @@
 				<option selected="selected" value="<?php echo $type;?>"><?php echo $type;?></option>
 			<?php endforeach;?>
 		</select>
+		<input type='checkbox' id='enbale_encryption' <?php if($_['encryption_enabled']){echo 'checked="checked"';} ?>></input><label for='enbale_encryption'><?php echo $l->t('Enable Encryption')?></label>
 	</fieldset>
 </form>
