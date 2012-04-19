@@ -274,7 +274,6 @@ class OC{
 	
 	public static function loadapp(){
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP)){
-			OC_App::loadApps();
 			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
 		}else{
 			trigger_error('The requested App was not found.', E_USER_ERROR);

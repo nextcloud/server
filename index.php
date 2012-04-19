@@ -57,6 +57,7 @@ elseif(OC_User::isLoggedIn()) {
 		exit();
 	}
 	else {
+		OC_App::loadApps();
 		if(is_null(OC::$REQUESTEDFILE)){
 			OC::loadapp();
 		}else{
