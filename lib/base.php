@@ -276,6 +276,17 @@ class OC{
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP)){
 			OC_App::loadApps();
 			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
+		}else{
+			trigger_error('The requested App was not found.', E_USER_ERROR);
+		}
+	}
+	
+	public static function loadfile(){
+		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
+			OC_App::loadApps();
+			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+		}else{
+			header('404 Not Found');
 		}
 	}
 
