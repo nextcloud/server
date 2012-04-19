@@ -283,10 +283,9 @@ class OC{
 	
 	public static function loadfile(){
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
-			OC_App::loadApps();
 			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
 		}else{
-			header('404 Not Found');
+			header('404 Not found');
 		}
 	}
 
@@ -401,7 +400,12 @@ class OC{
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
 		
 		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
-		self::$REQUESTEDFILE = (isset($_GET['file'])?(OC_Helper::issubdirectory(OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . $_GET['file'], OC::$APPSROOT . '/' . self::$REQUESTEDAPP)?$_GET['file']:null):null);
+		self::$REQUESTEDFILE = $_GET['file'];
+		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
+			$pos = strpos(self::$REQUESTEDFILE, '?');
+			self::$REQUESTEDFILE = substr(self::$REQUESTEDFILE, 0, $pos);
+		}
+		self::$REQUESTEDFILE = (isset($_GET['file'])?(OC_Helper::issubdirectory(OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE, OC::$APPSROOT . '/' . self::$REQUESTEDAPP)?self::$REQUESTEDFILE:null):null);
 	}
 }
 
