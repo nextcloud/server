@@ -155,7 +155,8 @@ OC.Tasks = {
 		});
 	},
 	setSummary:function(summary_container, task){
-		var summary = $('<a href="index.php?id='+task.id+'">'+task.summary+'</a>')
+		var summary = $('<a href="index.php?id='+task.id+'">')
+			.text(task.summary)
 			.click(OC.Tasks.summaryClickHandler);
 		summary_container.html(summary);
 	},
