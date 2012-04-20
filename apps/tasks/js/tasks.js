@@ -64,6 +64,15 @@ OC.Tasks = {
 		task_container.find('.task_more').click(OC.Tasks.moreClickHandler);
 		var description = $('<textarea>')
 			.addClass('description')
+			.blur(function(){
+				var task = $(this).closest('.task').data('task');
+				var description = $(this).val();
+				$.post('ajax/update_property.php', {id:task.id, type:'description', description:description}, function(jsondata){
+					if(jsondata.status == 'success') {
+						task.description = description;
+					}
+				});
+			})
 			.text(task.description);
 		var due = $('<span>')
 			.addClass('due')

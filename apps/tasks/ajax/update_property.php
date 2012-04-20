@@ -21,6 +21,10 @@ switch($property) {
 		$summary = $_POST['summary'];
 		$vtodo->setString('SUMMARY', $summary);
 		break;
+	case 'description':
+		$description = $_POST['description'];
+		$vtodo->setString('DESCRIPTION', $description);
+		break;
 	case 'due':
 		$due = $_POST['due'];
 		$due_date_only = $_POST['date'];
