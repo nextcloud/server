@@ -52,6 +52,7 @@ class OC_Task_App {
 		$task['categories'] = $vtodo->getAsArray('CATEGORIES');
 		$due = $vtodo->DUE;
 		if ($due) {
+			$task['due_date_only'] = $due->getDateType() == Sabre_VObject_Element_DateTime::DATE;
 			$due = $due->getDateTime();
 			$due->setTimezone(new DateTimeZone($user_timezone));
 			$task['due'] = $due->format('U');

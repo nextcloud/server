@@ -23,18 +23,24 @@ switch($property) {
 		break;
 	case 'due':
 		$due = $_POST['due'];
+		$due_date_only = $_POST['date'];
+		$type = null;
 		if ($due != 'false') {
 			try {
 				$timezone = OC_Preferences::getValue(OC_User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 				$timezone = new DateTimeZone($timezone);
 				$due = new DateTime('@'.$due);
 				$due->setTimezone($timezone);
+				$type = Sabre_VObject_Element_DateTime::LOCALTZ;
+				if ($due_date_only) {
+					$type = Sabre_VObject_Element_DateTime::DATE;
+				}
 			} catch (Exception $e) {
 				OC_JSON::error(array('data'=>array('message'=>OC_Task_App::$l10n->t('Invalid date/time'))));
 				exit();
 			}
 		}
-		$vtodo->setDateTime('DUE', $due);
+		$vtodo->setDateTime('DUE', $due, $type);
 		break;
 	case 'complete':
 		$checked = $_POST['checked'];

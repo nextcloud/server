@@ -85,7 +85,9 @@ OC.Tasks = {
 		if (task.due){
 			var date = new Date(parseInt(task.due)*1000);
 			due.find('.date').datepicker('setDate', date);
-			due.find('.time').timepicker('setTime', date.getHours()+':'+date.getMinutes());
+			if (!task.due_date_only) {
+				due.find('.time').timepicker('setTime', date.getHours()+':'+date.getMinutes());
+			}
 		}
 		$('<div>')
 			.addClass('more')
@@ -186,16 +188,21 @@ OC.Tasks = {
 		var $date = $(this).parent().children('.date');
 		var $time = $(this).parent().children('.time');
 		var date = $date.datepicker('getDate');
-		var time = $time.timepicker('getTime').split(':');
-		var due;
-		if (!date || time.length<2){
+		var time = $time.val().split(':');
+		var due, date_only = false;
+		if (!date){
 			due = false;
 		} else {
-			date.setHours(time[0]);
-			date.setMinutes(time[1]);
+			if (time.length==2){
+				date.setHours(time[0]);
+				date.setMinutes(time[1]);
+			}
+			else {
+				date_only = true;
+			}
 			due = date.getTime()/1000;
 		}
-		$.post('ajax/update_property.php', {id:task.id, type:'due', due:due}, function(jsondata){
+		$.post('ajax/update_property.php', {id:task.id, type:'due', due:due, date:date_only?1:0}, function(jsondata){
 			if(jsondata.status != 'success') {
 				task.due = old_due;
 			}
