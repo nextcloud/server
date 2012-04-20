@@ -1,0 +1,93 @@
+1.7.10 Conrad Weidenkeller <conrad.weidenkeller@rackspace.com>
+  * Added Streaming URI Functionality
+
+1.7.9 Conrad Weidenkeller <conrad.weidenkeller@rackspace.com>
+  * Added Manifest file support for Large Objects
+
+1.7.8 Conrad Weidenkeller <conrad.weidenkeller@rackspace.com>
+  * Added CDN SSL URI Stuff
+
+1.7.7 Conrad Weidenkeller <conrad.weidenkeller@rackspace.com>
+  * Added CDN Purge Functionality
+
+1.7.6 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk>
+  * Add Cloud UK Support (conrad.weidenkeller).
+
+1.7.5 - Conrad Weidenkeller <conrad.weidenkeller@rackspace.com>
+  * Added the ability to list only currently enabled CDN containers
+  * Added curl timeout to CF_Http
+  * Fixed some logic errors in some if statements.
+
+1.7.4 - Conrad Weidenkeller <conrad.weidenkeller@rackspace.com>
+  * Added Manual SSL support for MacOSX users
+
+1.7.3 - Conrad Weidenkeller <conrad.weidenkeller@rackspace.com>
+  * Fixed a Small Bug where some users were seeing response bodies for PUTs
+
+1.7.1 - Conrad Weidenkeller <conrad.weidenkeller@rackspace.com>
+  * Added Support for Auth Token Caching. 
+
+1.7.0 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk>
+  * Adjust api auth to rackspacecloud not mosso (mshuler).
+
+1.6.2 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk>
+  * Add a close method to close all the current connection.
+  * Fix when container_name is named 0.
+
+1.6.1 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk>
+  * Fix setting etag on objects.
+  * Fix throwing proper exception when an invalid etag has been set.
+  * Fix throwing proper exception when no content type has been set.
+
+1.6.0 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk>
+  * Add CDN ACL restriction by referrer feature.
+  * Add CDN ACL restriction by User Agent feature.
+  * Add documentation for log_retention method.
+  * Return True if log_retention as succeeded.
+  * Invalid the PHP stats cache before getting filesize.
+
+1.5.1 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk> - 20091020
+  * If the environement variable RACKSPACE_SERVICENET is defined then force to
+    connect via rakcspace servicenet.
+
+1.5.0 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk> - 20091015
+  * Add the option servicenet to connection to use Rackspace service net
+    instead of public network.
+
+1.4.0 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk> - 20090808
+
+  * Add the ability to store the container log.
+
+1.3.2 - Chmouel Boudjnah <chmouel.boudjnah@rackspace.co.uk> - 20090606
+
+  * Change the Unit Tests to phpunit.
+  * Automatically set the updated CA bundle when on the windows OS.
+  * More simplification of the mimetype detection and support for PHP 5.3.
+  * Fix documentation information about the ttl for cached object.
+  * Use the hash library to compute MD5 for streams instead of storing the
+    stream in memory.
+  * Fix CF_Connection::get_containers to display the container name properly.
+
+1.3.1 - <ej@racklabs.com> - 20090325
+
+  * Simplify use of FileInfo, remove packaged MIME/Magic file
+  * Throw Exception if no Content-Type is set
+  * Fix bug with tracking bytes transferred
+  * Support/tested on Windows XP (PHP v5.2.9)
+
+1.3.0  - <ej@racklabs.com> - 20090311
+
+  * Support for list operations in JSON/XML
+  * Added support for FileInfo automatic Content-Type/MIME detection
+  * Workaround for cURL's old CA bundle with CF_Connection->ssl_use_cabundle()
+  * Supports limit/marker on Account and Container lists
+  * Support "pathname" traversal on Container lists
+  * Helper function on Container to create directory marker Objects
+  * Support for chunked transfer on PUT requests
+
+1.2.3 - <ej@racklabs.com> - 20081210
+
+  * Improved in-line comments and generated HTML docs
+  * Callbacks for read/write progress on CF_Connection class
+  * Fixed minor bugs
+  * Started this Changelog

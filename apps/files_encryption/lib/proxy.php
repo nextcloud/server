@@ -28,6 +28,7 @@
 class OC_FileProxy_Encryption extends OC_FileProxy{
 	private static $blackList=null; //mimetypes blacklisted from encryption
 	private static $metaData=array(); //metadata cache
+	private static $enableEncryption=null;
 	
 	/**
 	 * check if a file should be encrypted during write
@@ -35,6 +36,12 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 * @return bool
 	 */
 	private static function shouldEncrypt($path){
+		if(is_null($this->enableEncryption)){
+			$this->enableEncryption=(OC_Appconfig::getValue('files_encryption','enabled','true')=='true');
+		}
+		if(!$this->enableEncryption){
+			return false;
+		}
 		if(is_null(self::$blackList)){
 			self::$blackList=explode(',',OC_Appconfig::getValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
 		}
