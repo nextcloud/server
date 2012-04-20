@@ -21,6 +21,21 @@ switch($property) {
 		$summary = $_POST['summary'];
 		$vtodo->setString('SUMMARY', $summary);
 		break;
+	case 'due':
+		$due = $_POST['due'];
+		if ($due != 'false') {
+			try {
+				$timezone = OC_Preferences::getValue(OC_User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+				$timezone = new DateTimeZone($timezone);
+				$due = new DateTime('@'.$due);
+				$due->setTimezone($timezone);
+			} catch (Exception $e) {
+				OC_JSON::error(array('data'=>array('message'=>OC_Task_App::$l10n->t('Invalid date/time'))));
+				exit();
+			}
+		}
+		$vtodo->setDateTime('DUE', $due);
+		break;
 	case 'complete':
 		$checked = $_POST['checked'];
 		OC_Task_App::setComplete($vtodo, $checked ? '100' : '0', null);

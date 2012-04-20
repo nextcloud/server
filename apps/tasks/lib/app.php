@@ -54,7 +54,7 @@ class OC_Task_App {
 		if ($due) {
 			$due = $due->getDateTime();
 			$due->setTimezone(new DateTimeZone($user_timezone));
-			$task['due'] = $due->format('Y-m-d H:i:s');
+			$task['due'] = $due->format('U');
 		}
 		else {
 			$task['due'] = false;

@@ -18,6 +18,8 @@ if( count($calendars) == 0 ) {
 	exit;
 }
 
+OC_Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
+OC_Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
 OC_UTIL::addScript('tasks', 'tasks');
 OC_UTIL::addStyle('tasks', 'style');
 OC_Util::addScript('contacts','jquery.multi-autocomplete');

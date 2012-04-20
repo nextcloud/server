@@ -65,9 +65,32 @@ OC.Tasks = {
 		var description = $('<textarea>')
 			.addClass('description')
 			.text(task.description);
+		var due = $('<span>')
+			.addClass('due')
+			.append(t('tasks', 'Due'));
+		due
+			.append($('<input type="date">')
+					.addClass('date')
+					.datepicker({
+						dateFormat: 'dd-mm-yy',
+						onClose: OC.Tasks.dueUpdateHandler
+					}),
+				$('<input type="time">')
+					.addClass('time')
+					.timepicker({
+						showPeriodLabels:false,
+						onClose: OC.Tasks.dueUpdateHandler
+					})
+			);
+		if (task.due){
+			var date = new Date(parseInt(task.due)*1000);
+			due.find('.date').datepicker('setDate', date);
+			due.find('.time').timepicker('setTime', date.getHours()+':'+date.getMinutes());
+		}
 		$('<div>')
 			.addClass('more')
 			.append(description)
+			.append(due)
 			.appendTo(task_container);
 		return task_container;
 	},
@@ -155,6 +178,27 @@ OC.Tasks = {
 		summary_container.empty().append(input);
 		input.focus();
 		return false;
+	},
+	dueUpdateHandler:function(){
+		var task = $(this).closest('.task').data('task');
+		var old_due = task.due;
+		var $date = $(this).parent().children('.date');
+		var $time = $(this).parent().children('.time');
+		var date = $date.datepicker('getDate');
+		var time = $time.timepicker('getTime').split(':');
+		var due;
+		if (!date || time.length<2){
+			due = false;
+		} else {
+			date.setHours(time[0]);
+			date.setMinutes(time[1]);
+			due = date.getTime()/1000;
+		}
+		$.post('ajax/update_property.php', {id:task.id, type:'due', due:due}, function(jsondata){
+			if(jsondata.status != 'success') {
+				task.due = old_due;
+			}
+		});
 	},
 	moreClickHandler:function(event){
 		var $task = $(this).closest('.task'),

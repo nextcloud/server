@@ -53,3 +53,6 @@
 .task .more{display:none;}
 
 .task .description{position:relative;left:4em;}
+.task .due{position:absolute;right:0.3em;}
+.task .due .date{width:6em;}
+.task .due .time{width:6em;}
