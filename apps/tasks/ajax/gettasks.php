@@ -26,7 +26,11 @@ foreach( $calendars as $calendar ){
                 }
 		$object = OC_VObject::parse($task['calendardata']);
 		$vtodo = $object->VTODO;
-		$tasks[] = OC_Task_App::arrayForJSON($task['id'], $vtodo, $user_timezone);
+		try {
+			$tasks[] = OC_Task_App::arrayForJSON($task['id'], $vtodo, $user_timezone);
+		} catch(Exception $e) {
+                        OC_Log::write('tasks', $e->getMessage(), OC_Log::ERROR);
+                }
         }
 }
 
