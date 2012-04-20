@@ -401,8 +401,12 @@ class OC{
 		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
 		self::$REQUESTEDFILE = $_GET['file'];
 		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
-			$pos = strpos(self::$REQUESTEDFILE, '?');
-			self::$REQUESTEDFILE = substr(self::$REQUESTEDFILE, 0, $pos);
+			$pos_questionmark = strpos(self::$REQUESTEDFILE, '?');
+			$pos_equal = strpos(self::$REQUESTEDFILE, '=');
+			$pos_and = strpos(self::$REQUESTEDFILE, '?');
+			$_GET[substr(self::$REQUESTEDFILE, $pos_questionmark + 1, $pos_equal - $pos_questionmark - 1)] = substr(self::$REQUESTEDFILE, $pos_equal + 1, $pos_and);
+			self::$REQUESTEDFILE = substr(self::$REQUESTEDFILE, 0, $pos_questionmark);
+			$_GET['file'] = OC::$REQUESTEDFILE;
 		}
 		self::$REQUESTEDFILE = (isset($_GET['file'])?(OC_Helper::issubdirectory(OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE, OC::$APPSROOT . '/' . self::$REQUESTEDAPP)?self::$REQUESTEDFILE:null):null);
 	}
