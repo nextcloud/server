@@ -7,6 +7,12 @@ for($i = 0; $i < count($option_calendars); $i++){
 	echo "<tr>";
 	$tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
 	$tmpl->assign('calendar', $option_calendars[$i]);
+	if(OC_Calendar_Share::allUsersSharedwith($option_calendars[$i]['id'], OC_Calendar_Share::CALENDAR) == array()){
+		$shared = false;
+	}else{
+		$shared = true;
+	}
+	$tmpl->assign('shared', $shared);
 	$tmpl->printpage();
 	echo "</tr>";
 }
