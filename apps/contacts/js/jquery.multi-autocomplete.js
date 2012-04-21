@@ -31,7 +31,9 @@
 				} else {
 					self.element.val(tmp);
 				}
-				self.element.trigger('change'); // Changes wasn't saved when only using the dropdown.
+				if(self.element.val().trim() != '') {
+					self.element.trigger('change'); // Changes wasn't saved when only using the dropdown.
+				}
 			});
 			this.element.bind( "keydown", function( event ) {
 				if ( event.keyCode === $.ui.keyCode.TAB &&
