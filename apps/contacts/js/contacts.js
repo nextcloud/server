@@ -387,10 +387,11 @@ Contacts={
 					$('#note').data('checksum', this.data.NOTE[0]['checksum']);
 					$('#note').find('textarea').val(this.data.NOTE[0]['value']);
 					$('#note').show();
+					$('#contacts_propertymenu a[data-type="NOTE"]').parent().hide();
 				} else {
 					$('#note').data('checksum', '');
 					$('#note').find('textarea').val('');
-					//$('#note').hide();
+					$('#note').hide();
 				}
 			},
 			loadSingleProperties:function() {
@@ -1437,19 +1438,19 @@ $(document).ready(function(){
 	$('#file_upload_start').live('change',function(){
 		Contacts.UI.Card.uploadPhoto(this.files);
 	});
-	$('#contacts_details_photo').bind('dragover',function(event){
+	$('#contacts_details_photo_wrapper').bind('dragover',function(event){
 		console.log('dragover');
 		$(event.target).css('background-color','red');
 		event.stopPropagation();
 		event.preventDefault();  
 	});
-	$('#contacts_details_photo').bind('dragleave',function(event){
+	$('#contacts_details_photo_wrapper').bind('dragleave',function(event){
 		console.log('dragleave');
 		$(event.target).css('background-color','white');
 		//event.stopPropagation();
 		//event.preventDefault();  
 	});
-	$('#contacts_details_photo').bind('drop',function(event){
+	$('#contacts_details_photo_wrapper').bind('drop',function(event){
 		event.stopPropagation();
 		event.preventDefault();
 		console.log('drop');
