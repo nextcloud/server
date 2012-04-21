@@ -24,6 +24,7 @@ $CONFIG = array(
 "mail_smtpauth" => "false",
 "mail_smtpname" => "",
 "mail_smtppassword" => "",
+"appcodechecker" => "",
 // "datadirectory" => ""
 );
 ?>
