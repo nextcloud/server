@@ -25,6 +25,9 @@ $CONFIG = array(
 "mail_smtpname" => "",
 "mail_smtppassword" => "",
 "appcodechecker" => "",
+"log_type" => "",
+"logfile" => "",
+"loglevel" => "",
 // "datadirectory" => ""
 );
 ?>
