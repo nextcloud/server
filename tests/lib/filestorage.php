@@ -68,6 +68,15 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertFalse($this->instance->file_exists('/folder'));
 		
 		$this->assertFalse($this->instance->rmdir('/folder'));//cant remove non existing folders
+
+		$dh=$this->instance->opendir('/');
+		$content=array();
+		while($file=readdir($dh)){
+			if($file!='.' and $file!='..'){
+				$content[]=$file;
+			}
+		}
+		$this->assertEqual(array(),$content);
 	}
 
 	/**

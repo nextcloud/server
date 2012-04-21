@@ -119,7 +119,7 @@ class OC_Crypt {
 	 */
 	public static function encrypt( $content, $key='') {
 		$bf = self::getBlowfish($key);
-		return($bf->encrypt($content));
+		return $bf->encrypt($content);
 	}
 
 	/**
@@ -132,61 +132,62 @@ class OC_Crypt {
 	*/
 	public static function decrypt( $content, $key='') {
 		$bf = self::getBlowfish($key);
-		return($bf->decrypt($content));
+		$data=$bf->decrypt($content);
+		return rtrim($data, "\0");
 	}
 
 	/**
 	* @brief encryption of a file
-	* @param $filename
-	* @param $key the encryption key
+	* @param string $source
+	* @param string $target
+	* @param string $key the decryption key
 	*
 	* This function encrypts a file
 	*/
-	public static function encryptfile( $filename, $key) {
-		$handleread  = fopen($filename, "rb");
-		if($handleread<>FALSE) {
-			$handlewrite = fopen($filename.OC_Crypt::$encription_extension, "wb");
+	public static function encryptFile( $source, $target, $key='') {
+		$handleread  = fopen($source, "rb");
+		if($handleread!=FALSE) {
+			$handlewrite = fopen($target, "wb");
 			while (!feof($handleread)) {
 				$content = fread($handleread, 8192);
 				$enccontent=OC_CRYPT::encrypt( $content, $key);
 				fwrite($handlewrite, $enccontent);
 			}
 			fclose($handlewrite);
-			unlink($filename);
+			fclose($handleread);
 		}
-		fclose($handleread);
 	}
 
 
-        /**
-         * @brief decryption of a file
-         * @param $filename
-         * @param $key the decryption key
-         *
-         * This function decrypts a file
-         */
-	public static function decryptfile( $filename, $key) {
-		$handleread  = fopen($filename.OC_Crypt::$encription_extension, "rb");
-		if($handleread<>FALSE) {
-			$handlewrite = fopen($filename, "wb");
+	/**
+		* @brief decryption of a file
+		* @param string $source
+		* @param string $target
+		* @param string $key the decryption key
+		*
+		* This function decrypts a file
+		*/
+	public static function decryptFile( $source, $target, $key='') {
+		$handleread  = fopen($source, "rb");
+		if($handleread!=FALSE) {
+			$handlewrite = fopen($target, "wb");
 			while (!feof($handleread)) {
 				$content = fread($handleread, 8192);
 				$enccontent=OC_CRYPT::decrypt( $content, $key);
 				fwrite($handlewrite, $enccontent);
 			}
 			fclose($handlewrite);
-			unlink($filename.OC_Crypt::$encription_extension);
+			fclose($handleread);
 		}
-		fclose($handleread);
 	}
 	
 	/**
 	 * encrypt data in 8192b sized blocks
 	 */
-	public static function blockEncrypt($data){
+	public static function blockEncrypt($data, $key=''){
 		$result='';
 		while(strlen($data)){
-			$result=self::encrypt(substr($data,0,8192));
+			$result.=self::encrypt(substr($data,0,8192),$key);
 			$data=substr($data,8192);
 		}
 		return $result;
@@ -195,10 +196,10 @@ class OC_Crypt {
 	/**
 	 * decrypt data in 8192b sized blocks
 	 */
-	public static function blockDecrypt($data){
+	public static function blockDecrypt($data, $key=''){
 		$result='';
 		while(strlen($data)){
-			$result=self::decrypt(substr($data,0,8192));
+			$result.=self::decrypt(substr($data,0,8192),$key);
 			$data=substr($data,8192);
 		}
 		return $result;

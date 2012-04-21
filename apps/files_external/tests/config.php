@@ -21,5 +21,12 @@ return array(
 		'token'=>'test',
 		'token_secret'=>'test',
 		'root'=>'/google',
-	)
+	),
+	'swift'=>array(
+		'run'=>true,
+		'user'=>'test:tester',
+		'token'=>'testing',
+		'host'=>'localhost:8080/auth',
+		'root'=>'/',
+	),
 );

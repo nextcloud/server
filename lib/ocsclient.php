@@ -162,6 +162,7 @@ class OC_OCSClient{
 		$app['preview3']=$tmp->smallpreviewpic3;
 		$app['changed']=strtotime($tmp->changed);
 		$app['description']=$tmp->description;
+		$app['detailpage']=$tmp->detailpage;
 
 		return $app;
 	}
@@ -199,7 +200,7 @@ class OC_OCSClient{
 	 *
 	 * This function returns a list of all the knowledgebase entries from the OCS server
 	 */
-	public static function getKnownledgebaseEntries($page,$pagesize){	
+	public static function getKnownledgebaseEntries($page,$pagesize,$search=''){	
 		if(OC_Config::getValue('knowledgebaseenabled', true)==false){
 			$kbe=array();
 			$kbe['totalitems']=0;
@@ -208,7 +209,8 @@ class OC_OCSClient{
 
 		$p= (int) $page;
 		$s= (int) $pagesize;
-		$url=OC_OCSClient::getKBURL().'/knowledgebase/data?type=150&page='.$p.'&pagesize='.$s;
+		if($search<>'') $searchcmd='&search='.urlencode($search); else $searchcmd='';
+		$url=OC_OCSClient::getKBURL().'/knowledgebase/data?type=150&page='.$p.'&pagesize='.$s.$searchcmd;
 
 		$kbe=array();
 		$xml=@file_get_contents($url);

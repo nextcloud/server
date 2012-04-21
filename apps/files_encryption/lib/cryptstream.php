@@ -64,29 +64,19 @@ class OC_CryptStream{
 	}
 	
 	public function stream_read($count){
-		$pos=0;
-		$currentPos=ftell($this->source);
-		$offset=$currentPos%8192;
-		$result='';
-		if($offset>0){
-			if($this->meta['seekable']){
-				fseek($this->source,-$offset,SEEK_CUR);//if seeking isnt supported the internal read buffer will be used
-			}else{
-				$pos=strlen($this->readBuffer);
-				$result=$this->readBuffer;
-			}
+		//$count will always be 8192 https://bugs.php.net/bug.php?id=21641
+		//This makes this function a lot simpler but will breake everything the moment it's fixed
+		if($count!=8192){
+			OC_Log::write('files_encryption','php bug 21641 no longer holds, decryption will not work',OC_Log::FATAL);
+			die();
 		}
-		while($count>$pos){
-			$data=fread($this->source,8192);
-			$pos+=8192;
-			if(strlen($data)){
-				$result.=OC_Crypt::decrypt($data);
-			}
+		$data=fread($this->source,8192);
+		if(strlen($data)){
+			$result=OC_Crypt::decrypt($data);
+		}else{
+			$result='';
 		}
-		if(!$this->meta['seekable']){
-			$this->readBuffer=substr($result,$count);
-		}
-		return substr($result,0,$count);
+		return $result;
 	}
 	
 	public function stream_write($data){
@@ -107,8 +97,10 @@ class OC_CryptStream{
 				$oldPos=ftell($this->source);
 				$encryptedBlock=fread($this->source,8192);
 				fseek($this->source,$oldPos);
-				$block=OC_Crypt::decrypt($encryptedBlock);
-				$data.=substr($block,strlen($data));
+				if($encryptedBlock){
+					$block=OC_Crypt::decrypt($encryptedBlock);
+					$data.=substr($block,strlen($data));
+				}
 			}
 			$encrypted=OC_Crypt::encrypt(substr($data,0,8192));
 			fwrite($this->source,$encrypted);
