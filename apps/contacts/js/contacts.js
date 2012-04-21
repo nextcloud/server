@@ -537,7 +537,7 @@ Contacts={
 			},*/
 			editNew:function(){ // add a new contact
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-				Contacts.UI.Card.add(';;;;', '', '', true);
+				Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
 				/*$.getJSON(OC.filePath('contacts', 'ajax', 'newcontact.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
 						id = '';
