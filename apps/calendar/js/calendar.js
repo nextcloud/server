@@ -46,6 +46,7 @@ Calendar={
 			$('#advanced_month').change(function(){
 				Calendar.UI.repeat('month');
 			});
+			$( "#event" ).tabs({ selected: 0});
 			$('#event').dialog({
 				width : 500,
 				close : function(event, ui) {
@@ -455,7 +456,7 @@ Calendar={
 							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
 							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
 							if (calendarid == 'new'){
-								$('#choosecalendar_dialog > table').append('<tr><td colspan="6"><a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><input type="button" value="' + newcalendar + '"></a></td></tr>');
+								$('#choosecalendar_dialog > table:first').append('<tr><td colspan="6"><a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><input type="button" value="' + newcalendar + '"></a></td></tr>');
 							}
 						}else{
 							$("#displayname_"+calendarid).css('background-color', '#FF2626');
@@ -493,6 +494,109 @@ Calendar={
 					position: 'absolute',
 					left: -10000
 				});
+			}
+		},
+		Share:{
+			currentid: 'false',
+			idtype: '',
+			activation:function(object,owner,id){
+				$.getJSON(OC.filePath('calendar', 'ajax/share', 'activation.php'),{id:id, idtype:'calendar', activation:object.checked?1:0});
+				$('#calendar_holder').fullCalendar('refetchEvents');
+			},
+			dropdown:function(userid, calid){
+				$('.calendar_share_dropdown').remove();
+				$('<div class="calendar_share_dropdown"></div>').appendTo('#'+userid+'_'+calid);
+				$.get(OC.filePath('calendar', 'ajax/share', 'dropdown.php') + '?calid=' + calid, function(data){
+					$('#'+userid+'_'+calid+' > .calendar_share_dropdown').html(data);
+					$('#'+userid+'_'+calid+' > .calendar_share_dropdown').show('blind');
+					$('#share_user').chosen();
+					$('#share_group').chosen();
+				});
+				Calendar.UI.Share.currentid = calid;
+				Calendar.UI.Share.idtype = 'calendar';
+			},
+			share:function(id, idtype, sharewith, sharetype){
+				$.getJSON(OC.filePath('calendar', 'ajax/share', 'share.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(data){
+
+				});
+			},
+			unshare:function(id, idtype, sharewith, sharetype){
+				$.getJSON(OC.filePath('calendar', 'ajax/share', 'unshare.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(){
+					if(sharetype == 'public'){
+						$('#public_token').val('');
+						$('#public_token').css('display', 'none');
+					}
+				});
+			},
+			changepermission:function(id, idtype, sharewith, sharetype, permission){
+				$.getJSON(OC.filePath('calendar', 'ajax/share', 'changepermission.php'),{id:id, idtype:idtype, sharewith: sharewith, sharetype:sharetype, permission: (permission?1:0)});
+			},
+			init:function(){
+				$('.calendar_share_dropdown').live('mouseleave', function(){
+					$('.calendar_share_dropdown').hide('blind', function(){
+						$('.calendar_share_dropdown').remove();
+					});
+				});
+				$('#share_user').live('change', function(){
+					if($('#sharewithuser_' + $('#share_user option:selected').text()).length == 0){
+						Calendar.UI.Share.share(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $('#share_user option:selected').text(), 'user');
+						var newitem = '<li id="sharewithuser_' + $('#share_user option:selected').text() +'"><input type="checkbox" width="12px" style="visibility:hidden;" title="' + $('#share_user option:selected').text() + '">' + $('#share_user option:selected').text() + '<img src="/owncloud/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>';
+						$('#sharewithuser_list').append(newitem);
+						$('#sharewithuser_' + $('#share_user option:selected').text() + ' > img').click(function(){
+							$('#share_user option[value="' + $(this).parent().text() + '"]').removeAttr('disabled');
+							Calendar.UI.Share.unshare(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $(this).parent().text(), 'user' );
+							$("#share_user").trigger("liszt:updated");
+							$(this).parent().remove();
+						});
+						$('#share_user option:selected').attr('disabled', 'disabled');
+						$("#share_user").trigger("liszt:updated");
+					}
+				});
+				$('#share_group').live('change', function(){
+					if($('#sharewithgroup_' + $('#share_group option:selected').text()).length == 0){
+						Calendar.UI.Share.share(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $('#share_group option:selected').text(), 'group');
+						var newitem = '<li id="sharewithgroup_' + $('#share_group option:selected').text() +'"><input type="checkbox" width="12px" style="visibility:hidden;" title="' + $('#share_group option:selected').text() + '">' + $('#share_group option:selected').text() + '<img src="/owncloud/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>';
+						$('#sharewithgroup_list').append(newitem);
+						$('#sharewithgroup_' + $('#share_group option:selected').text() + ' > img').click(function(){
+							$('#share_group option[value="' + $(this).parent().text() + '"]').removeAttr('disabled');
+							Calendar.UI.Share.unshare(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $(this).parent().text(), 'group');
+							$("#share_group").trigger("liszt:updated");
+							$(this).parent().remove();
+						});
+						$('#share_group option:selected').attr('disabled', 'disabled');
+						$("#share_group").trigger("liszt:updated");
+					}
+				});
+				$('#sharewithuser_list > li > input:checkbox').live('change', function(){
+					Calendar.UI.Share.changepermission(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $(this).parent().text(), 'user', this.checked);
+				});
+				$('#sharewithgroup_list > li > input:checkbox').live('change', function(){
+					Calendar.UI.Share.changepermission(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, $(this).parent().text(), 'group', this.checked);
+				});
+				$('#publish').live('change', function(){
+					if(this.checked == 1){
+						Calendar.UI.Share.share(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, '', 'public');
+					}else{
+						Calendar.UI.Share.unshare(Calendar.UI.Share.currentid, Calendar.UI.Share.idtype, '', 'public');
+					}
+				});
+				$('#sharewithuser_list').live('mouseenter', function(){
+					$('#sharewithuser_list > li > img').css('display', 'block');
+					$('#sharewithuser_list > li > input').css('visibility', 'visible');
+				});
+				$('#sharewithuser_list').live('mouseleave', function(){
+					$('#sharewithuser_list > li > img').css('display', 'none');
+					$('#sharewithuser_list > li > input').css('visibility', 'hidden');
+				});
+				$('#sharewithgroup_list').live('mouseenter', function(){
+					$('#sharewithgroup_list > li > img').css('display', 'block');
+					$('#sharewithgroup_list > li > input').css('visibility', 'visible');
+				});
+				$('#sharewithgroup_list').live('mouseleave', function(){
+					$('#sharewithgroup_list > li > img').css('display', 'none');
+					$('#sharewithgroup_list > li > input').css('visibility', 'hidden');
+				});
+				/*var permissions = (this.checked) ? 1 : 0;*/
 			}
 		}
 	}
@@ -749,4 +853,5 @@ $(document).ready(function(){
 	$('#datecontrol_right').click(function(){
 		$('#calendar_holder').fullCalendar('next');
 	});
+	Calendar.UI.Share.init();
 });

@@ -11,9 +11,9 @@ OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
 $cal = isset($_GET['calid']) ? $_GET['calid'] : NULL;
 $event = isset($_GET['eventid']) ? $_GET['eventid'] : NULL;
-$nl = "\n\r";
+$nl = "\r\n";
 if(isset($cal)){
-	$calendar = OC_Calendar_App::getCalendar($cal);
+	$calendar = OC_Calendar_App::getCalendar($cal, true);
 	$calobjects = OC_Calendar_Object::all($cal);
 	header('Content-Type: text/Calendar');
 	header('Content-Disposition: inline; filename=' . $calendar['displayname'] . '.ics'); 
@@ -21,7 +21,7 @@ if(isset($cal)){
 		echo $calobject['calendardata'] . $nl;
 	}
 }elseif(isset($event)){
-	$data = OC_Calendar_App::getEventObject($_GET['eventid']);
+	$data = OC_Calendar_App::getEventObject($_GET['eventid'], true);
 	$calendarid = $data['calendarid'];
 	$calendar = OC_Calendar_App::getCalendar($calendarid);
 	header('Content-Type: text/Calendar');

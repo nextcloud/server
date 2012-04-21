@@ -16,6 +16,14 @@ switch($idtype){
 		OC_JSON::error(array('message'=>'unexspected parameter'));
 		exit;
 }
+if($idtype == 'calendar' && !OC_Calendar_App::getCalendar($id)){
+	OC_JSON::error(array('message'=>'permission denied'));
+	exit;
+}
+if($idtype == 'event' && !OC_Calendar_App::getEventObject($id)){
+	OC_JSON::error(array('message'=>'permission denied'));
+	exit;
+}
 $sharewith = $_GET['sharewith'];
 $sharetype = strip_tags($_GET['sharetype']);
 switch($sharetype){
@@ -38,7 +46,7 @@ if($sharetype == 'group' && !OC_Group::groupExists($sharewith)){
 if($sharetype == 'user' && OC_User::getUser() == $sharewith){
 	OC_JSON::error(array('meesage'=>'you can not share with yourself'));
 }
-$success = OC_Calendar_Share::share(OC_User::getUser(), $sharewith, $sharetype, $id, (($idtype=='calendar') ? OC_Calendar_Share::CALENDAR : OC_Calendar_Share::Event));
+$success = OC_Calendar_Share::share(OC_User::getUser(), $sharewith, $sharetype, $id, (($idtype=='calendar') ? OC_Calendar_Share::CALENDAR : OC_Calendar_Share::EVENT));
 if($success){
 	if($sharetype == 'public'){
 		OC_JSON::success(array('message'=>$success));

@@ -8,6 +8,12 @@
 	<p id="quotatext"><?php echo $l->t('You use');?> <strong><?php echo $_['usage'];?></strong> <?php echo $l->t('of the available');?> <strong><?php echo $_['total_space'];?></strong></p>
 </div></div>
 
+<div class="personalblock">
+	<?php echo $l->t('Desktop and Mobile Syncing Clients');?>
+	<a class="button" href="http://owncloud.org/sync-clients/" target="_blank"><?php echo $l->t('Download');?></a>
+</div>
+
+
 <form id="passwordform">
 	<fieldset class="personalblock">
 		<div id="passwordchanged"><?php echo $l->t('Your password got changed');?></div>

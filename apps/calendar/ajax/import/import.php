@@ -7,11 +7,12 @@
  */
 //check for calendar rights or create new one
 ob_start();
-require_once('../../../../lib/base.php');
+require_once ('../../../../lib/base.php');
 OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
-$nl = "\n\r";
-$progressfile = OC::$APPSROOT . '/apps/calendar/import_tmp/' . md5(session_id()) . '.txt';
+$nl="\r\n";
+$comps = array('VEVENT'=>true, 'VTODO'=>true, 'VJOURNAL'=>true);
+$progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
 if(is_writable('import_tmp/')){
 	$progressfopen = fopen($progressfile, 'w');
 	fwrite($progressfopen, '10');
@@ -29,85 +30,94 @@ if($_POST['method'] == 'new'){
 	}
 	$id = $_POST['id'];
 }
-//analyse the calendar file
 if(is_writable('import_tmp/')){
 	$progressfopen = fopen($progressfile, 'w');
 	fwrite($progressfopen, '20');
 	fclose($progressfopen);
 }
-$searchfor = array('VEVENT', 'VTODO', 'VJOURNAL');
-$parts = $searchfor;
-$filearr = explode($nl, $file);
-$inelement = false;
-$parts = array();
+// normalize the newlines
+$file = str_replace(array("\r","\n\n"), array("\n","\n"), $file);
+$lines = explode("\n", $file);
+unset($file);
+if(is_writable('import_tmp/')){
+	$progressfopen = fopen($progressfile, 'w');
+	fwrite($progressfopen, '30');
+	fclose($progressfopen);
+}
+// analyze the file, group components by uid, and keep refs to originating calendar object
+// $cals is array calendar objects, keys are 1st line# $cal, ie array( $cal => $caldata )
+//   $caldata is array( 'first' => 1st component line#, 'last' => last comp line#, 'end' => end line# )
+//   $caldata is used to create prefix/suffix strings when building import text
+// $uids is array of component arrays, keys are $uid, ie array( $uid => array( $beginlineno => $component ) )
+//   $component is array( 'end' => end line#, 'cal'=> $cal )
+$comp=$uid=$cal=false;
+$cals=$uids=array();
 $i = 0;
-foreach($filearr as $line){
-	foreach($searchfor as $search){
-		if(substr_count($line, $search) == 1){
-			list($attr, $val) = explode(':', $line);
-			if($attr == 'BEGIN'){
-				$parts[]['begin'] = $i;
-				$inelement = true;
+foreach($lines as $line) {
+
+	if(strpos($line, ':')!==false) {
+		list($attr, $val) = explode(':', strtoupper($line));
+		if ($attr == 'BEGIN' && $val == 'VCALENDAR') {
+			$cal = $i;
+			$cals[$cal] = array('first'=>$i,'last'=>$i,'end'=>$i);
+		} elseif ($attr =='BEGIN' && $cal!==false && isset($comps[$val])) {
+			$comp = $val;
+			$beginNo = $i;
+		} elseif ($attr == 'END' && $cal!==false && $val == 'VCALENDAR') {
+			if($comp!==false) {
+				unset($cals[$cal]); // corrupt calendar, unset it
+			} else {
+				$cals[$cal]['end'] = $i;
 			}
-			if($attr == 'END'){
-				$parts[count($parts) - 1]['end'] = $i;
-				$inelement = false;
+			$comp=$uid=$cal=false; // reset calendar
+		} elseif ($attr == 'END' && $comp!==false && $val == $comp) {
+			if(! $uid) {
+				$uid = OC_Calendar_Object::createUID();
 			}
+			$uids[$uid][$beginNo] = array('end'=>$i, 'cal'=>$cal);
+			if ($cals[$cal]['first'] == $cal) {
+				$cals[$cal]['first'] = $beginNo;
+			}
+			$cals[$cal]['last'] = $i;
+			$comp=$uid=false; // reset component
+		} elseif ($attr =="UID" && $comp!==false) {
+			list($attr, $uid) = explode(':', $line);
 		}
 	}
 	$i++;
 }
-//import the calendar
+// import the calendar
 if(is_writable('import_tmp/')){
 	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '40');
+	fwrite($progressfopen, '60');
 	fclose($progressfopen);
 }
-$start = '';
-for ($i = 0; $i < $parts[0]['begin']; $i++) { 
-	if($i == 0){
-		$start = $filearr[0];
-	}else{
-		$start .= $nl . $filearr[$i];
-	}
-}
-$end = '';
-for($i = $parts[count($parts) - 1]['end'] + 1;$i <= count($filearr) - 1; $i++){
-	if($i == $parts[count($parts) - 1]['end'] + 1){
-		$end = $filearr[$parts[count($parts) - 1]['end'] + 1];
-	}else{
-		$end .= $nl . $filearr[$i];
-	}
-}
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '50');
-	fclose($progressfopen);
-}
-$importready = array();
-foreach($parts as $part){
-	for($i = $part['begin']; $i <= $part['end'];$i++){
-		if($i == $part['begin']){
-			$content = $filearr[$i];
-		}else{
-			$content .= $nl . $filearr[$i];
+foreach($uids as $uid) {
+	
+	$prefix=$suffix=$content=array();
+	foreach($uid as $begin=>$details) {
+		
+		$cal = $details['cal'];
+		if(!isset($cals[$cal])) {
+			continue; // from corrupt/incomplete calendar
 		}
+		$cdata = $cals[$cal];
+		// if we have multiple components from different calendar objects,
+		// we should really merge their elements (enhancement?) -- 1st one wins for now.
+		if(! count($prefix)) {
+			$prefix = array_slice($lines, $cal, $cdata['first'] - $cal);
+		}
+		if(! count($suffix)) {
+			$suffix = array_slice($lines, $cdata['last']+1, $cdata['end'] - $cdata['last']);
+		}
+		$content = array_merge($content, array_slice($lines, $begin, $details['end'] - $begin + 1));
 	}
-	$importready[] = $start . $nl . $content . $nl . $end;
-}
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '70');
-	fclose($progressfopen);
-}
-if(count($parts) == 1){
-	OC_Calendar_Object::add($id, $file);
-}else{
-	foreach($importready as $import){
+	if(count($content)) {
+		$import = join($nl, array_merge($prefix, $content, $suffix)) . $nl;
 		OC_Calendar_Object::add($id, $import);
 	}
 }
-//done the import
+// finished import
 if(is_writable('import_tmp/')){
 	$progressfopen = fopen($progressfile, 'w');
 	fwrite($progressfopen, '100');

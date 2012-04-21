@@ -1,3 +1,19 @@
+<script type="text/javascript">
+<?php
+echo 'Calendar.UI.Share.idtype = "event";' . "\n" . 'Calendar.UI.Share.currentid = "' . $_['eventid'] . '";';
+?>
+</script>
+
+<ul>
+	<li><a href="#tabs-1"><?php echo $l->t('Eventinfo'); ?></a></li>
+	<li><a href="#tabs-2"><?php echo $l->t('Repeating'); ?></a></li>
+	<li><a href="#tabs-3"><?php echo $l->t('Alarm'); ?></a></li>
+	<li><a href="#tabs-4"><?php echo $l->t('Attendees'); ?></a></li>
+	<?php if($_['access'] == 'owner') { ?>
+	<li><a href="#tabs-5"><?php echo $l->t('Share'); ?></a></li>
+	<?php } ?>
+</ul>
+<div id="tabs-1">
 	<table width="100%">
 		<tr>
 			<th width="75px"><?php echo $l->t("Title");?>:</th>
@@ -26,7 +42,7 @@
 			<?php } else { ?>
 			<th width="75px">&nbsp;</th>
 			<td>
-				<input type="hidden" name="calendar" value="<?php echo $_['calendar_options'][0]['id'] ?>">
+				<input type="hidden" name="calendar" value="<?php echo $_['calendar_options'][0]['id']; ?>">
 			</td>
 			<?php } ?>
 		</tr>
@@ -59,7 +75,27 @@
 	</table>
 	<input type="button" class="submit" value="<?php echo $l->t("Advanced options"); ?>" onclick="Calendar.UI.showadvancedoptions();" id="advanced_options_button">
 	<div id="advanced_options" style="display: none;">
-		<table style="width:100%">
+		<hr>
+		<table>
+			<tr>
+				<th width="85px"><?php echo $l->t("Location");?>:</th>
+				<td>
+					<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? htmlspecialchars($_['location']) : '' ?>" maxlength="100"  name="location" />
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th width="85px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
+				<td>
+					<textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo isset($_['description']) ? htmlspecialchars($_['description']) : '' ?></textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</div>
+<div id="tabs-2">
+	<table style="width:100%">
 			<tr>
 				<th width="75px"><?php echo $l->t("Repeat");?>:</th>
 				<td>
@@ -112,7 +148,7 @@
 				<tr id="advanced_weekday" style="display:none;">
 					<th width="75px"></th>
 					<td id="weeklycheckbox">
-						<select id="weeklyoptions" name="weeklyoptions[]" multiple="multiple" title="<?php echo $l->t("Select weekdays") ?>">
+						<select id="weeklyoptions" name="weeklyoptions[]" multiple="multiple" style="width: 150px;" title="<?php echo $l->t("Select weekdays") ?>">
 							<?php
 							if (!isset($_['weekdays'])) {$_['weekdays'] = array();}
 							echo html_select_options($_['repeat_weekly_options'], $_['repeat_weekdays'], array('combine'=>true));
@@ -185,6 +221,7 @@
 					<td>
 						<select id="end" name="end">
 							<?php
+							if($_['repeat_end'] == '') $_['repeat_end'] = 'never';
 							echo html_select_options($_['repeat_end_options'], $_['repeat_end']); 
 							?>
 						</select>
@@ -203,23 +240,13 @@
 					</td>
 				</tr>
 			</table>
+			<?php echo $l->t('Summary'); ?>:<span id="repeatsummary"></span>
 		</div>
-		<hr>
-		<!-- support for attendees will be added in following versions --> 
-		<table>
-			<tr>
-				<th width="85px"><?php echo $l->t("Location");?>:</th>
-				<td>
-					<input type="text" style="width:350px;" size="100" placeholder="<?php echo $l->t("Location of the Event");?>" value="<?php echo isset($_['location']) ? htmlspecialchars($_['location']) : '' ?>" maxlength="100"  name="location" />
-				</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<th width="85px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
-				<td>
-					<textarea style="width:350px;height: 150px;" placeholder="<?php echo $l->t("Description of the Event");?>" name="description"><?php echo isset($_['description']) ? htmlspecialchars($_['description']) : '' ?></textarea>
-				</td>
-			</tr>
-		</table>
-	</div>
+</div>
+<div id="tabs-3">//Alarm</div>
+<div id="tabs-4">//Attendees</div>
+<?php if($_['access'] == 'owner') { ?>
+<div id="tabs-5">
+	<?php echo $this->inc('share.dropdown'); ?>
+</div>
+<?php } ?>

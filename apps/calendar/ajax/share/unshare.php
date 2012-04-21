@@ -30,12 +30,11 @@ switch($sharetype){
 if($sharetype == 'user' && !OC_User::userExists($sharewith)){
 	OC_JSON::error(array('message'=>'user not found'));
 	exit;
-}
-if($sharetype == 'group' && !OC_Group::groupExists($sharewith)){
+}elseif($sharetype == 'group' && !OC_Group::groupExists($sharewith)){
 	OC_JSON::error(array('message'=>'group not found'));
 	exit;
 }
-$success = OC_Calendar_Share::unshare(OC_User::getUser(), $sharewith, $sharetype, $id, (($idtype=='calendar') ? OC_Calendar_Share::CALENDAR : OC_Calendar_Share::Event));
+$success = OC_Calendar_Share::unshare(OC_User::getUser(), $sharewith, $sharetype, $id, (($idtype=='calendar') ? OC_Calendar_Share::CALENDAR : OC_Calendar_Share::EVENT));
 if($success){
 	OC_JSON::success();
 }else{

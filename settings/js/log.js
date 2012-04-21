@@ -5,15 +5,27 @@
  */
 
 OC.Log={
+	reload:function(count){
+		if(!count){
+			count=OC.Log.loaded;
+		}
+		OC.Log.loaded=0;
+		$('#log tbody').empty();
+		OC.Log.getMore(count);
+	},
 	levels:['Debug','Info','Warning','Error','Fatal'],
-	loaded:50,//are initially loaded
-	getMore:function(){
-		$.get(OC.filePath('settings','ajax','getlog.php'),{offset:OC.Log.loaded},function(result){
+	loaded:3,//are initially loaded
+	getMore:function(count){
+		if(!count){
+			count=10;
+		}
+		$.get(OC.filePath('settings','ajax','getlog.php'),{offset:OC.Log.loaded,count:count},function(result){
 			if(result.status=='success'){
 				OC.Log.addEntries(result.data);
+				$('html, body').animate({scrollTop: $(document).height()}, 800);
 			}
 		});
-		OC.Log.loaded+=50;
+		OC.Log.loaded+=count;
 	},
 	addEntries:function(entries){
 		for(var i=0;i<entries.length;i++){

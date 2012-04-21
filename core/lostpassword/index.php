@@ -22,7 +22,10 @@ if (isset($_POST['user'])) {
 			$msg = $tmpl->fetchPage();
 			$l = OC_L10N::get('core');
 			$from = 'lostpassword-noreply@' . $_SERVER['HTTP_HOST'];
-			mail($email, $l->t('Owncloud password reset'), $msg, 'From:' . $from);
+			$r=mail($email, $l->t('Owncloud password reset'), $msg, 'From:' . $from);
+//if($r==false) echo('error'); else echo('works!!!!!!!');
+			OC_MAIL::send($email,$_POST['user'],$l->t('Owncloud password reset'),$msg,$from,'ownCloud');
+
 		}
 		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => true));
 	} else {

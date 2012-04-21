@@ -17,7 +17,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Lucida Grande", Arial, Verdan
 
 /* HEADERS */
 #body-user #header, #body-settings #header { position:fixed; top:0; z-index:100; width:100%; height:2.5em; padding:.5em; background:#1d2d44; -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; }
-#body-login #header { margin: -2em auto 0; text-align:center; height:10em;
+#body-login #header { margin: -2em auto 0; text-align:center; height:10em; padding:1em 0 .5em;
  -moz-box-shadow:0 0 1em rgba(0, 0, 0, .5); -webkit-box-shadow:0 0 1em rgba(0, 0, 0, .5); box-shadow:0 0 1em rgba(0, 0, 0, .5);
 background: #1d2d44; /* Old browsers */
 background: -moz-linear-gradient(top, #35537a 0%, #1d2d42 100%); /* FF3.6+ */
@@ -33,7 +33,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', end
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
-input, select, button, .button, #quota, div.jp-progress, .pager li a { font-size:1em; width:10em; margin:.3em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; }
+input, textarea, select, button, .button, #quota, div.jp-progress, .pager li a { font-size:1em; width:10em; margin:.3em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; }
 input[type="text"], input[type="password"], input[type="search"] { background:#f8f8f8; color:#555; cursor:text; }
 input[type="text"], input[type="password"], input[type="search"] { -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; }
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
@@ -58,8 +58,10 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #controls .button { display:inline-block; }
 #content { top: 3.5em; left: 12.5em; position: absolute; }
 #leftcontent, .leftcontent { position:fixed; overflow: auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; }
-#leftcontent li, .leftcontent li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+#leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
+#leftcontent li.active, .leftcontent li.active { font-weight:bold; }
+#leftcontent li:hover, .leftcontent li:hover { color:#333; background:#ddd; }
 #rightcontent, .rightcontent { position:fixed; top: 6.4em; left: 32.5em; overflow: auto }
 
 
