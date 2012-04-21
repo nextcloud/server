@@ -39,6 +39,9 @@ foreach($registeredApps as $app){
 		$info=OC_App::getAppInfo($app);
 		$active=(OC_Appconfig::getValue($app,'enabled','no')=='yes')?true:false;
 		$info['active']=$active;
+		$info['internal']=true;
+		$info['internallabel']='Internal App';
+		$info['preview']='trans.png';
 		$apps[]=$info;
 	}
 }
@@ -64,6 +67,7 @@ usort($apps, 'app_sort');
 		}
 
 		if(!$local) {
+ 			if($app['preview']=='') $pre='trans.png'; else $pre=$app['preview'];
 	 		$apps[]=array(
  				'name'=>$app['name'],
  				'id'=>$app['id'],
@@ -71,6 +75,9 @@ usort($apps, 'app_sort');
  				'description'=>$app['description'],
  				'author'=>$app['personid'],
  				'license'=>$app['license'],
+ 				'preview'=>$pre,
+ 				'internal'=>false,
+ 				'internallabel'=>'3rd Party App',
  			);
 		}
  	}
