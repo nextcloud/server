@@ -262,7 +262,10 @@ class OC{
 		}
 
 		OC_Files::cleanTmpFiles();
-
+		
+		// Check for blacklisted files
+		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');
+		
 		// Last part: connect some hooks
 		OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
 		OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');
