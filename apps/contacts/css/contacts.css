@@ -38,14 +38,17 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .ui-autocomplete-loading { background: url('../../../core/img/loading.gif') right center no-repeat; }
 .float { float: left; }
 .listactions { height: 1em; width:60px; float: left; clear: right; }
-.add,.edit,.delete,.mail, .globe { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; display: none; }
+.add,.edit,.delete,.mail, .globe, .upload, .cloud { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; opacity: 0.1; }
+.add:hover,.edit:hover,.delete:hover,.mail:hover, .globe:hover, .upload:hover, .cloud:hover { opacity: 1.0 }
 .add { background:url('../../../core/img/actions/add.svg') no-repeat center; clear: both; }
 .delete { background:url('../../../core/img/actions/delete.svg') no-repeat center; }
 .edit { background:url('../../../core/img/actions/rename.svg') no-repeat center; }
 .mail { background:url('../../../core/img/actions/mail.svg') no-repeat center; }
+.upload { background:url('../../../core/img/actions/upload.svg') no-repeat center; }
+.cloud { background:url('../../../core/img/places/picture.svg') no-repeat center; }
 /*.globe { background:url('../img/globe.svg') no-repeat center; }*/
 .globe { background:url('../../../core/img/actions/public.svg') no-repeat center; }
-
+.transparent{ opacity: 0.6; }
 #edit_name_dialog { padding:0; }
 #edit_name_dialog > input { width: 15em; }
 #edit_address_dialog { /*width: 30em;*/ }
@@ -60,9 +63,13 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 
 .contactpart legend { width:auto; padding:.3em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 #cropbox { margin: auto; }
-#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; cursor: pointer; background: url(../../../core/img/loading.gif) no-repeat center center; display: block; /* clear: right;*/ }
-#contacts_details_photo:hover { background: #fff; }
-/*#contacts_details_photo_progress { margin: 0.3em 0.3em 0.3em 7em; clear: left; }*/
+#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; background: url(../../../core/img/loading.gif) no-repeat center center; display: block; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
+#contacts_details_photo:hover { background: #fff; cursor: default; }
+#phototools { position:absolute; margin: 5px 0 0 10px; width:auto; height:22px; padding:0px; background-color:#fff; list-style-type:none; border-radius: 0.5em; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
+#phototools li { display: inline; }
+#phototools li a { float:left; cursor:pointer; width:22px; height:22px; opacity: 0.6; }
+#phototools li a:hover { opacity: 0.8; }
+
 /* Address editor */
 #addressdisplay { padding: 0.5em; }
 dl.addresscard { background-color: #fff; float: left; width: 45%; margin: 0 0.3em 0.3em 0.3em; padding: 0; border: thin solid lightgray; }
@@ -80,7 +87,7 @@ dl.addresscard dd > ul { margin: 0.3em; padding: 0.3em; }
 
 #file_upload_target, #crop_target { display:none; }
 
-#file_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; /*position:absolute; left:0; top:0;*/ cursor:pointer; width:0; height:0;}
+#file_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; /*position:absolute; left:0; top:0;*/ width:0; height:0;}
 input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .big { font-weight:bold; font-size:1.2em; }
 .huge { font-weight:bold; font-size:1.5em; }

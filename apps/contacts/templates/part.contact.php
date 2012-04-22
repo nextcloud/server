@@ -23,10 +23,9 @@ $id = isset($_['id']) ? $_['id'] : '';
 
 	<div id="contact_photo" class="contactsection">
 
-	<form class="float" id="file_upload_form" action="ajax/uploadphoto.php" method="post" enctype="multipart/form-data" target="file_upload_target" class="propertycontainer" data-element="PHOTO">
+	<form class="float" id="file_upload_form" action="ajax/uploadphoto.php" method="post" enctype="multipart/form-data" target="file_upload_target">
 	<fieldset id="photo">
-	<a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'single');" title="<?php echo $l->t('Delete'); ?>"></a>
-		<div class="tip" id="contacts_details_photo_wrapper" title="<?php echo $l->t('Click or drop to upload picture'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
+		<div class="tip propertycontainer" id="contacts_details_photo_wrapper" title="<?php echo $l->t('Click or drop to upload picture'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)" data-element="PHOTO">
 		<!-- img style="padding: 1em;" id="contacts_details_photo" alt="Profile picture"  src="photo.php?id=<?php echo $_['id']; ?>" / -->
 		<progress id="contacts_details_photo_progress" style="display:none;" value="0" max="100">0 %</progress>
 		</div>

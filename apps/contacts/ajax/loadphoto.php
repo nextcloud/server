@@ -38,6 +38,7 @@ function bailOut($msg) {
 $image = null;
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
+$refresh = isset($_GET['refresh']) ? true : false;
 
 if($id == '') {
 	bailOut(OC_Contacts_App::$l10n->t('Missing contact id.'));
@@ -54,6 +55,9 @@ foreach($vcard->children as $property){
 
 $tmpl = new OC_TEMPLATE("contacts", "part.contactphoto");
 $tmpl->assign('id', $id);
+if($refresh) {
+	$tmpl->assign('refresh', 1);
+}
 $page = $tmpl->fetchPage();
 OC_JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
 ?>

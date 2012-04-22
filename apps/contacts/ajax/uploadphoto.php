@@ -36,19 +36,6 @@ function debug($msg) {
 	OC_Log::write('contacts','ajax/uploadphoto.php: '.$msg, OC_Log::DEBUG);
 }
 
-// foreach ($_SERVER as $key=>$element) {
-// 	debug('$_SERVER: '.$key.'=>'.$element);
-// }
-// foreach ($_GET as $key=>$element) {
-// 	debug('_GET: '.$key.'=>'.$element);
-// }
-// foreach ($_POST as $key=>$element) {
-// 	debug('_POST: '.$key.'=>'.$element);
-// }
-// foreach ($_FILES as $key=>$element) {
-// 	debug('_FILES: '.$key.'=>'.$element);
-// }
-
 // If it is a Drag'n'Drop transfer it's handled here.
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 if ($fn) {
