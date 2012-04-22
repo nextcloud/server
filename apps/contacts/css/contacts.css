@@ -1,10 +1,14 @@
 /*dl > dt {
 	font-weight: bold;
 }*/
-
-#contacts { padding-left:2px; padding-top: 5px; background: #fff; }
+#leftcontent { top: 3.5em !important; }
+#rightcontent { top: 3.5em !important; padding-top: 5px; }
+#contacts { background: #fff; width: 20em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; }
+#bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 0 0 #000, -3px 0 7px #000; -webkit-box-shadow: 0 0 0 #000, -3px 0 7px #000; box-shadow: 0 0 0 #000, -3px 0 7px #000;}
+#contacts_newcontact { float: left; margin: 0.2em 0 0 1em; }
+#chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
 #leftcontent a { height: 23px; display: block; margin: 0 0 0 0; padding: 0 0 0 25px; }
-#chooseaddressbook {margin-right: 170px; float: right;}
+#actionbar { height: 30px; width: 60px; position: fixed; right: 0px; top: 4em; margin: 0 0 0 0; padding: 0 0 0 0; z-index: 1000; }
 #contacts_deletecard {position:absolute;top:15px;right:25px;}
 #contacts_downloadcard {position:absolute;top:15px;right:50px;}
 #contacts_propertymenu_button { position:absolute;top:15px;right:150px; background:url('../../../core/img/actions/add.svg') no-repeat center;	 }
@@ -13,7 +17,6 @@
 #contacts_propertymenu li a { padding: 3px; display: block }
 #contacts_propertymenu li:hover { background-color: #1d2d44; }
 #contacts_propertymenu li a:hover { color: #fff }
-#actionbar { height: 30px; width: 200px; position: fixed; right: 0px; top: 75px; margin: 0 0 0 0; padding: 0 0 0 0; z-index: 1000; }
 #card { width: auto;/*max-width: 70em; border: thin solid lightgray; display: block;*/ }
 #firstrun { width: 100%; position: absolute; top: 5em; left: 0; text-align: center; font-weight:bold; font-size:1.5em; color:#777; }
 #firstrun #selections { font-size:0.8em; margin: 2em auto auto auto; clear: both; }
@@ -21,7 +24,8 @@
 #card input[type="text"].contacts_property,input[type="email"].contacts_property { width: 14em; float: left; }
 .categories { float: left; width: 16em; }
 #card input[type="text"],input[type="email"],input[type="tel"],input[type="date"], select, textarea { background-color: #fefefe; border: 0 !important; -webkit-appearance:none !important; -moz-appearance:none  !important; -webkit-box-sizing:none !important; -moz-box-sizing:none !important; box-sizing:none !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; float: left; }
-#card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="tel"]:active, select:hover, select:focus, select:active, textarea:focus, textarea:hover { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
+#card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="tel"]:active, select:hover, select:focus, select:active { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
+textarea:focus, textarea:hover { background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
 input[type="text"]:invalid,input[type="email"]:invalid,input[type="tel"]:invalid,input[type="date"]:invalid, textarea:invalid { color: #bbb !important; }
 textarea { min-height: 4em; }
 dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }

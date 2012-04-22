@@ -40,6 +40,7 @@ select.quota.active { background: #fff; }
 /* APPS */
 li { color:#888; }
 li.active { color:#000; }
+small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size:6pt; padding:4px; border-radius: 4px;}
 span.version { margin-left:3em; color:#ddd; }
 
 /* LOF */

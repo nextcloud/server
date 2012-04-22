@@ -9,7 +9,7 @@
 ?>
 <form id="calendar">
         <fieldset class="personalblock">
-	<strong><?php echo $l->t('Calendar'); ?></strong>
+	<legend><?php echo $l->t('Calendar'); ?></legend>
         <table class="nostyle">
             <tr><td><label for="timezone" class="bold"><?php echo $l->t('Timezone');?></label></td><td><select style="display: none;" id="timezone" name="timezone">
                 <?php
@@ -47,6 +47,6 @@
         </table>
 
         <?php echo $l->t('Calendar CalDAV syncing address:');?>
-        <?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?><br />
+        <code><?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?></code><br />
         </fieldset>
 </form>

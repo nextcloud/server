@@ -3,7 +3,7 @@
 <input type="hidden" id="filename" value="<?php echo $_['filename'];?>">
 <input type="hidden" id="path" value="<?php echo $_['path'];?>">
 <input type="hidden" id="progressfile" value="<?php echo md5(session_id()) . '.txt';?>">
-<p style="text-align:center;"><b><?php echo $l->t('Please choose the calendar'); ?></b>
+<p style="text-align:center;"><b><?php echo $l->t('Please choose the calendar'); ?></b></p>
 <select style="width:100%;" id="calendar" name="calendar">
 <?php
 $calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
@@ -17,7 +17,7 @@ echo html_select_options($calendar_options, $calendar_options[0]['id'], array('v
 <input type="button" value="<?php echo $l->t("Import");?>!" id="startimport">
 </div>
 <div id="progressbar_container" style="display: none">
-<p style="text-align:center;"><b><?php echo $l->t('Importing calendar'); ?></b>
+<p style="text-align:center;"><b><?php echo $l->t('Importing calendar'); ?></b></p>
 <div id="progressbar"></div>
 <div id="import_done" style="display: none;">
 <p style="text-align:center;"><b><?php echo $l->t('Calendar imported successfully'); ?></b></p>

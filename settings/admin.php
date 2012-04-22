@@ -10,11 +10,20 @@ OC_Util::checkAdminUser();
 
 OC_Util::addStyle( "settings", "settings" );
 OC_Util::addScript( "settings", "admin" );
+OC_Util::addScript( "settings", "log" );
 OC_App::setActiveNavigationEntry( "admin" );
 
 $tmpl = new OC_Template( 'settings', 'admin', 'user');
 $forms=OC_App::getForms('admin');
+
+$entries=OC_Log_Owncloud::getEntries(3);
+function compareEntries($a,$b){
+	return $b->time - $a->time;
+}
+usort($entries, 'compareEntries');
+
 $tmpl->assign('loglevel',OC_Config::getValue( "loglevel", 2 ));
+$tmpl->assign('entries',$entries);
 $tmpl->assign('forms',array());
 foreach($forms as $form){
 	$tmpl->append('forms',$form);

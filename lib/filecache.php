@@ -335,7 +335,12 @@ class OC_FileCache{
 		$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id=? AND user=?');
 		$result=$query->execute(array($id,$user));
 		$row=$result->fetchRow();
-		return $row['path'];
+		$path=$row['path'];
+		$root='/'.$user.'/files';
+		if(substr($path,0,strlen($root))!=$root){
+			return false;
+		}
+		return substr($path,strlen($root));
 	}
 
 	/**
