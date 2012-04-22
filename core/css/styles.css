@@ -121,6 +121,8 @@ tbody tr:hover, tr:active { background-color:#f8f8f8; }
 #body-settings .personalblock#quota { position:relative; padding:0; }
 #body-settings #controls+.helpblock { position:relative; margin-top: 3em; }
 .personalblock > legend { margin-top:2em; }
+.personalblock > legend, th, dt, label { font-weight: bold; }
+code { font-family: "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
 
 #quota div, div.jp-play-bar, div.jp-seek-bar { padding:0; background:#e6e6e6; font-weight:normal; white-space:nowrap; -moz-border-radius-bottomleft:.4em; -webkit-border-bottom-left-radius:.4em; border-bottom-left-radius:.4em; -moz-border-radius-topleft:.4em; -webkit-border-top-left-radius:.4em; border-top-left-radius:.4em; }
 #quotatext {padding: .6em 1em;}
