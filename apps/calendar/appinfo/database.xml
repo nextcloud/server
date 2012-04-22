@@ -187,5 +187,107 @@
   </declaration>
 
  </table>
+ 
+ <table>
 
+  <name>*dbprefix*calendar_share_event</name>
+
+  <declaration>
+  
+   <field>
+    <name>owner</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+  
+   <field>
+    <name>share</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+  
+   <field>
+    <name>sharetype</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>6</length>
+   </field>
+
+   <field>
+    <name>eventid</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <unsigned>true</unsigned>
+    <length>11</length>
+   </field>
+
+   <field>
+    <name>permissions</name>
+    <type>integer</type>
+    <notnull>true</notnull>
+    <length>1</length>
+   </field>
+
+  </declaration>
+
+ </table>
+ 
+ <table>
+
+  <name>*dbprefix*calendar_share_calendar</name>
+
+  <declaration>
+  
+   <field>
+    <name>owner</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+  
+   <field>
+    <name>share</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+  
+   <field>
+    <name>sharetype</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>6</length>
+   </field>
+
+   <field>
+    <name>calendarid</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <unsigned>true</unsigned>
+    <length>11</length>
+   </field>
+
+   <field>
+    <name>permissions</name>
+    <type>integer</type>
+    <notnull>true</notnull>
+    <length>1</length>
+   </field>
+
+   <field>
+    <name>active</name>
+    <type>integer</type>
+    <default>1</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+  </declaration>
+
+ </table>
+ 
 </database>

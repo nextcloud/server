@@ -1,7 +1,7 @@
 <form id="contacts">
 	<fieldset class="personalblock">
-		<strong><?php echo $l->t('Contacts'); ?></strong><br />
-		<?php echo $l->t('CardDAV syncing addresses:'); ?>
+		<legend><?php echo $l->t('Contacts'); ?></legend>
+		<?php echo $l->t('CardDAV syncing addresses'); ?> (<a href="http://owncloud.org/synchronisation/" target="_blank"><?php echo $l->t('more info'); ?></a>)
 		<dl>
 		<dt><?php echo $l->t('Primary address (Kontact et al)'); ?></dt>
 		<dd><code><?php echo OC_Helper::linkToAbsolute('contacts', 'carddav.php'); ?>/</code></dd>

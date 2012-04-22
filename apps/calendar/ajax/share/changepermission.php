@@ -36,5 +36,5 @@ if($sharetype == 'group' && !OC_Group::groupExists($sharewith)){
 	OC_JSON::error(array('message'=>'group not found'));
 	exit;
 }
-$success = OC_Calendar_Share::changepermission($sharewith, $sharetype, $id, $permission, (($idtype=='calendar') ? OC_Calendar_Share::CALENDAR : OC_Calendar_Share::Event));
+$success = OC_Calendar_Share::changepermission($sharewith, $sharetype, $id, $permission, (($idtype=='calendar') ? OC_Calendar_Share::CALENDAR : OC_Calendar_Share::EVENT));
 OC_JSON::success();

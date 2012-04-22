@@ -14,7 +14,13 @@ if(!OC_USER::isLoggedIn()) {
 OC_JSON::checkAppEnabled('calendar');
 
 $id = $_GET['id'];
-$data = OC_Calendar_App::getEventObject($id);
+$data = OC_Calendar_App::getEventObject($id, true, true);
+
+if(!$data){
+	OC_JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
+	exit;
+}
+$access = OC_Calendar_App::getaccess($id, OC_Calendar_Share::EVENT);
 $object = OC_VObject::parse($data['calendardata']);
 $vevent = $object->VEVENT;
 
@@ -182,8 +188,12 @@ if($data['repeating'] == 1){
 }else{
 	$repeat['repeat'] = 'doesnotrepeat';
 }
-
-$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+if($access == 'owner'){
+	$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+}else{
+	$calendar_options = array(OC_Calendar_App::getCalendar($data['calendarid'], false));
+}
+$category_options = OC_Calendar_App::getCategoryOptions();
 $repeat_options = OC_Calendar_App::getRepeatOptions();
 $repeat_end_options = OC_Calendar_App::getEndOptions();
 $repeat_month_options = OC_Calendar_App::getMonthOptions();
@@ -195,8 +205,14 @@ $repeat_bymonth_options = OC_Calendar_App::getByMonthOptions();
 $repeat_byweekno_options = OC_Calendar_App::getByWeekNoOptions();
 $repeat_bymonthday_options = OC_Calendar_App::getByMonthDayOptions();
 
-$tmpl = new OC_Template('calendar', 'part.editevent');
-$tmpl->assign('id', $id);
+if($access == 'owner' || $access == 'rw'){
+	$tmpl = new OC_Template('calendar', 'part.editevent');
+}elseif($access == 'r'){
+	$tmpl = new OC_Template('calendar', 'part.showevent');
+}
+
+$tmpl->assign('eventid', $id);
+$tmpl->assign('access', $access);
 $tmpl->assign('lastmodified', $lastmodified);
 $tmpl->assign('calendar_options', $calendar_options);
 $tmpl->assign('repeat_options', $repeat_options);

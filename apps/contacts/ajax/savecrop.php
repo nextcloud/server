@@ -44,18 +44,14 @@ function bailOut($msg) {
 
 $image = null;
 
-$x1 = (isset($_POST['x1']) && $_POST['x1']) ? $_POST['x1'] : -1;
+$x1 = (isset($_POST['x1']) && $_POST['x1']) ? $_POST['x1'] : 0;
 //$x2 = isset($_POST['x2']) ? $_POST['x2'] : -1;
-$y1 = (isset($_POST['y1']) && $_POST['y1']) ? $_POST['y1'] : -1;
+$y1 = (isset($_POST['y1']) && $_POST['y1']) ? $_POST['y1'] : 0;
 //$y2 = isset($_POST['y2']) ? $_POST['y2'] : -1;
 $w = (isset($_POST['w']) && $_POST['w']) ? $_POST['w'] : -1;
 $h = (isset($_POST['h']) && $_POST['h']) ? $_POST['h'] : -1;
 $tmp_path = isset($_POST['tmp_path']) ? $_POST['tmp_path'] : '';
 $id = isset($_POST['id']) ? $_POST['id'] : '';
-
-if(in_array(-1, array($x1, $y1, $w, $h))) {
-	bailOut('Wrong crop dimensions: '.implode(', ', array($x1, $y1, $w, $h)));
-}
 
 if($tmp_path == '') {
 	bailOut('Missing path to temporary file.');
@@ -70,6 +66,9 @@ OC_Log::write('contacts','savecrop.php: files: '.$tmp_path.'  exists: '.file_exi
 if(file_exists($tmp_path)) {
 	$image = new OC_Image();
 	if($image->loadFromFile($tmp_path)) {
+		$w = ($w != -1 ? $w : $image->width());
+		$h = ($h != -1 ? $h : $image->height());
+		OC_Log::write('contacts','savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, OC_Log::DEBUG);
 		if($image->crop($x1, $y1, $w, $h)) {
 			if($image->resize(200)) {
 				$tmpfname = tempnam("/tmp", "occCropped"); // create a new file because of caching issues.
@@ -81,7 +80,7 @@ if(file_exists($tmp_path)) {
 						bailOut('Error getting contact object.');
 					}
 					if($card->__isset('PHOTO')) {
-						OC_Log::write('contacts','savecrop.php: files: PHOTO property exists.', OC_Log::DEBUG);
+						OC_Log::write('contacts','savecrop.php: PHOTO property exists.', OC_Log::DEBUG);
 						$property = $card->__get('PHOTO');
 						if(!$property) {
 							unlink($tmpfname);

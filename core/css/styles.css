@@ -33,7 +33,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', end
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
-input, select, button, .button, #quota, div.jp-progress, .pager li a { font-size:1em; width:10em; margin:.3em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; }
+input, textarea, select, button, .button, #quota, div.jp-progress, .pager li a { font-size:1em; width:10em; margin:.3em; padding:.6em .5em .4em; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; }
 input[type="text"], input[type="password"], input[type="search"] { background:#f8f8f8; color:#555; cursor:text; }
 input[type="text"], input[type="password"], input[type="search"] { -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; }
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
@@ -121,6 +121,8 @@ tbody tr:hover, tr:active { background-color:#f8f8f8; }
 #body-settings .personalblock#quota { position:relative; padding:0; }
 #body-settings #controls+.helpblock { position:relative; margin-top: 3em; }
 .personalblock > legend { margin-top:2em; }
+.personalblock > legend, th, dt, label { font-weight: bold; }
+code { font-family: "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
 
 #quota div, div.jp-play-bar, div.jp-seek-bar { padding:0; background:#e6e6e6; font-weight:normal; white-space:nowrap; -moz-border-radius-bottomleft:.4em; -webkit-border-bottom-left-radius:.4em; border-bottom-left-radius:.4em; -moz-border-radius-topleft:.4em; -webkit-border-top-left-radius:.4em; border-top-left-radius:.4em; }
 #quotatext {padding: .6em 1em;}

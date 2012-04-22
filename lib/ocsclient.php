@@ -162,6 +162,7 @@ class OC_OCSClient{
 		$app['preview3']=$tmp->smallpreviewpic3;
 		$app['changed']=strtotime($tmp->changed);
 		$app['description']=$tmp->description;
+		$app['detailpage']=$tmp->detailpage;
 
 		return $app;
 	}
