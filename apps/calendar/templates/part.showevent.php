@@ -2,8 +2,8 @@
 <ul>
 	<li><a href="#tabs-1"><?php echo $l->t('Eventinfo'); ?></a></li>
 	<li><a href="#tabs-2"><?php echo $l->t('Repeating'); ?></a></li>
-	<li><a href="#tabs-3"><?php echo $l->t('Alarm'); ?></a></li>
-	<li><a href="#tabs-4"><?php echo $l->t('Attendees'); ?></a></li>
+	<!--<li><a href="#tabs-3"><?php echo $l->t('Alarm'); ?></a></li>
+	<li><a href="#tabs-4"><?php echo $l->t('Attendees'); ?></a></li>-->
 </ul>
 <div id="tabs-1">
 	<table width="100%">
@@ -241,7 +241,7 @@
 			<?php echo $l->t('Summary'); ?>:<span id="repeatsummary"></span>
 		</div>
 </div>
-<div id="tabs-3">//Alarm</div>
-<div id="tabs-4">//Attendees</div>
+<!--<div id="tabs-3">//Alarm</div>
+<div id="tabs-4">//Attendees</div>-->
 
 </div>
