@@ -284,7 +284,7 @@ class OC{
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
 			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
 		}else{
-			header('404 Not found');
+			echo "WTF";
 		}
 	}
 
@@ -401,12 +401,11 @@ class OC{
 		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
 		self::$REQUESTEDFILE = $_GET['getfile'];
 		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
-			$pos_questionmark = strpos(self::$REQUESTEDFILE, '?');
-			$pos_equal = strpos(self::$REQUESTEDFILE, '=');
-			$pos_and = strpos(self::$REQUESTEDFILE, '?');
-			$_GET[substr(self::$REQUESTEDFILE, $pos_questionmark + 1, $pos_equal - $pos_questionmark - 1)] = substr(self::$REQUESTEDFILE, $pos_equal + 1, $pos_and);
-			self::$REQUESTEDFILE = substr(self::$REQUESTEDFILE, 0, $pos_questionmark);
-			$_GET['getfile'] = OC::$REQUESTEDFILE;
+			$file = substr(self::$REQUESTEDFILE, 0, strpos(self::$REQUESTEDFILE, '?'));
+			$param = substr(self::$REQUESTEDFILE, strpos(self::$REQUESTEDFILE, '?') + 1);
+			parse_str($param, $_GET);
+			self::$REQUESTEDFILE = $file;
+			$_GET['getfile'] = $file;
 		}
 		self::$REQUESTEDFILE = (isset($_GET['getfile'])?(OC_Helper::issubdirectory(OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE, OC::$APPSROOT . '/' . self::$REQUESTEDAPP)?self::$REQUESTEDFILE:null):null);
 	}
