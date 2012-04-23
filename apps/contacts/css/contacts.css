@@ -60,6 +60,7 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 #identityprops { /*position: absolute; top: 2.5em; left: 0px;*/ }
 /*#contact_photo { max-width: 250px; }*/
 #contact_identity { min-width: 30em; }
+#note { min-width: 200px; }
 .contactsection { position: relative; float: left; /*max-width: 40em;*/ padding: 0.5em; height: auto: border: thin solid lightgray;/* -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em; border-radius: 0.5em; background-color: #f8f8f8;*/ }
 
 .contactpart legend { width:auto; padding:.3em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
