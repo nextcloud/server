@@ -214,7 +214,8 @@ class OC_Contacts_VCard{
 		$prodid = trim($vcard->getAsString('PRODID'));
 		if(!$prodid) {
 			$appinfo = OC_App::getAppInfo('contacts');
-			$prodid = '-//ownCloud//NONSGML '.$appinfo['name'].' '.$appinfo['version'].'//EN';
+			$appversion = OC_App::getAppVersion('contacts');
+			$prodid = '-//ownCloud//NONSGML '.$appinfo['name'].' '.$appversion.'//EN';
 			$vcard->setString('PRODID', $prodid);
 		}
 		$now = new DateTime;
