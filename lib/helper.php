@@ -44,7 +44,7 @@ class OC_Helper {
 				if(substr($app, -1, 1) == '/'){
 					$app = substr($app, 0, strlen($app) - 1);
 				}
-				$urlLinkTo =  OC::$WEBROOT . '?app=' . $app;
+				$urlLinkTo =  OC::$APPSWEBROOT . '/?app=' . $app;
 				$urlLinkTo .= ($file!='index.php')?'&file=' . $file:'';
 			}
 			else{
