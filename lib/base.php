@@ -88,6 +88,9 @@ class OC{
 		elseif(strpos($className,'OC_')===0){
 			require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
 		}
+		elseif(strpos($className,'OCP\\')===0){
+			require_once 'public/'.strtolower(str_replace('\\','/',substr($className,3)) . '.php');
+		}
 		elseif(strpos($className,'Sabre_')===0) {
 			require_once str_replace('_','/',$className) . '.php';
 		}

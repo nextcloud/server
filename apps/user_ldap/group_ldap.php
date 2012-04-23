@@ -25,6 +25,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 // 	//group specific settings
 	protected $ldapGroupFilter;
 	protected $ldapGroupDisplayName;
+	protected $ldapGroupMemberAttr;
 
 	public function __construct() {
 		$this->ldapGroupFilter      = OC_Appconfig::getValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
@@ -46,14 +47,12 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$uid,
 			$this->ldapGroupDisplayName.'='.$gid
 		));
-		$groups = OC_LDAP::search($filter, $this->ldapGroupDisplayName);
+		$groups = $this->retrieveList($filter, $this->ldapGroupDisplayName);
 
-		if(count($groups) == 1) {
+		if(count($groups) > 0) {
 			return true;
-		} else if(count($groups) < 1) {
-			return false;
 		} else {
-			throw new Exception('Too many groups of the same name!? – this exception should never been thrown :)');
+			return false;
 		}
 	}
 
@@ -84,7 +83,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			$this->ldapGroupDisplayName.'='.$gid
 		));
 
-		return $this->retrieveList($filter, $this->ldapGroupMemberAttr);
+		return $this->retrieveList($filter, $this->ldapGroupMemberAttr, false);
 	}
 
 	/**
@@ -94,13 +93,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups() {
-		$groups = OC_LDAP::search($this->ldapGroupFilter, $this->ldapGroupDisplayName);
-
-		if(count($groups) == 0 )
-			return array();
-		else {
-			return array_unique($groups, SORT_LOCALE_STRING);
-		}
+		return $this->retrieveList($this->ldapGroupFilter, $this->ldapGroupDisplayName);
 	}
 
 	/**
@@ -112,8 +105,13 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		return in_array($gid, $this->getGroups());
 	}
 
-	private function retrieveList($filter, $attr) {
-		$list = OC_LDAP::search($filter, $attr);
+	private function retrieveList($filter, $attr, $searchForGroups = true) {
+		if($searchForGroups) {
+			$list = OC_LDAP::searchGroups($filter, $attr);
+		} else {
+			$list = OC_LDAP::searchUsers($filter, $attr);
+		}
+
 
 		if(is_array($list)) {
 			return array_unique($list, SORT_LOCALE_STRING);
