@@ -21,7 +21,7 @@
  *
  */
 
-define('LDAP_GROUP_MEMBER_ASSOC_ATTR','memberUid');
+define('LDAP_GROUP_MEMBER_ASSOC_ATTR','uniquemember');
 
 //needed to unbind, because we use OC_LDAP only statically
 class OC_LDAP_DESTRUCTOR {
@@ -64,6 +64,27 @@ class OC_LDAP {
 		if(in_array($key, $availableProperties)) {
 			return self::$$key;
 		}
+	}
+
+	/**
+	 * @brief reads a given attribute for an LDAP record identified by a DN
+	 * @param $dn the record in question
+	 * @param $attr the attribute that shall be retrieved
+	 * @returns the value on success, false otherwise
+	 *
+	 * Reads an attribute from an LDAP entry
+	 */
+	static public function readAttribute($dn, $attr) {
+		$attr = strtolower($attr);
+		$cr = self::getConnectionResource();
+
+		$rr = ldap_read($cr, $dn, 'objectClass=*', array($attr));
+		$er = ldap_first_entry($cr, $rr);
+		$result = ldap_get_attributes($cr, $er);
+		if($result['count'] > 0){
+			return $result[$attr][0];
+		}
+		return false;
 	}
 
 	/**
