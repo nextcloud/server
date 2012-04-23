@@ -406,7 +406,9 @@ class OC{
 		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
 			$file = substr(self::$REQUESTEDFILE, 0, strpos(self::$REQUESTEDFILE, '?'));
 			$param = substr(self::$REQUESTEDFILE, strpos(self::$REQUESTEDFILE, '?') + 1);
-			parse_str($param, $_GET);
+			echo $param;
+			parse_str($param, $get);
+			$_GET = array_merge($_GET, $get);
 			self::$REQUESTEDFILE = $file;
 			$_GET['getfile'] = $file;
 		}
