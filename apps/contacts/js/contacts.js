@@ -1348,16 +1348,12 @@ Contacts={
 				this.droptarget = $('#import_drop_target');
 				console.log($('#import_drop_target').html());
 				$(this.droptarget).bind('dragover',function(event){
-					//console.log('dragover');
 					$(event.target).addClass('droppable');
 					event.stopPropagation();
 					event.preventDefault();  
 				});
 				$(this.droptarget).bind('dragleave',function(event){
-					//console.log('dragleave');
 					$(event.target).removeClass('droppable');
-					//event.stopPropagation();
-					//event.preventDefault();  
 				});
 				$(this.droptarget).bind('drop',function(event){
 					event.stopPropagation();
@@ -1421,12 +1417,11 @@ Contacts={
 				var tr = $(document.createElement('tr'))
 					.load(OC.filePath('contacts', 'ajax', 'importaddressbook.php'));
 				$(object).closest('tr').after(tr).hide();
-				//this.loadImportHandlers();
 			},
 			doImport:function(path, file){
 				var id = $('#importaddressbook_dialog').find('#book').val();
 				console.log('Selected book: ' + id);
-				$.post(OC.filePath('contacts', '', 'import.php'), { id: id, path: path, file: file, istmpfile: true },
+				$.post(OC.filePath('contacts', '', 'import.php'), { id: id, path: path, file: file, fstype: 'OC_FilesystemView' },
 					function(jsondata){
 						if(jsondata.status == 'success'){
 							Contacts.UI.Addressbooks.droptarget.html(t('contacts', 'Import done. Success/Failure: ')+jsondata.data.imported+'/'+jsondata.data.failed);
@@ -1478,7 +1473,6 @@ Contacts={
 					}
 					else{
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-						//alert(jsondata.data.message);
 					}
 				});
 				setTimeout(Contacts.UI.Contacts.lazyupdate, 500);

@@ -37,16 +37,9 @@ function debug($msg) {
 // If it is a Drag'n'Drop transfer it's handled here.
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 if($fn) {
-	/*$dir = OC_App::getStorage('contacts');
-	$handle = $dir->touch(''.$fn);
-	if(!$handle) {
-		bailOut('Bugger!');
-	} else {
-		bailOut('Yippie!');
-	}
-	debug('Internal path: '.$dir->getInternalPath());*/
+	$view = OC_App::getStorage('contacts');
 	$tmpfile = md5(rand());
-	if(OC_Filesystem::file_put_contents('/'.$tmpfile, file_get_contents('php://input'))) {
+	if($view->file_put_contents('/'.$tmpfile, file_get_contents('php://input'))) {
 		debug($fn.' uploaded');
 		OC_JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
 	} else {
