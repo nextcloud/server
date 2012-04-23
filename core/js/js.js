@@ -53,7 +53,7 @@ OC={
 		var isCore=OC.coreApps.indexOf(app)!=-1;
 		var link=OC.webroot;
 		if(file.substring(file.length-3) == 'php' && !isCore){
-			link+='/?app=' + app + '&file=' + type + '/' + file;
+			link+='/?app=' + app + '&getfile=' + type + '/' + file;
 		}else{
 			link+='/';
 			app+='/';
