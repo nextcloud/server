@@ -38,6 +38,8 @@ class OC_LDAP {
 	static protected $ldapHost;
 	static protected $ldapPort;
 	static protected $ldapBase;
+	static protected $ldapBaseUsers;
+	static protected $ldapBaseGroups;
 	static protected $ldapAgentName;
 	static protected $ldapAgentPassword;
 	static protected $ldapTLS;
@@ -65,15 +67,40 @@ class OC_LDAP {
 	}
 
 	/**
-	 * @brief executes an LDAP search
+	 * @brief executes an LDAP search, optimized for Users
 	 * @param $filter the LDAP filter for the search
 	 * @param $attr optional, when a certain attribute shall be filtered out
 	 * @returns array with the search result
 	 *
 	 * Executes an LDAP search
 	 */
-	static public function search($filter, $attr = null) {
-		$sr = ldap_search(self::getConnectionResource(), self::$ldapBase, $filter, array($attr));
+	static public function searchUsers($filter, $attr = null) {
+		return self::search($filter, self::$ldapBaseUsers, $attr);
+	}
+
+	/**
+	 * @brief executes an LDAP search, optimized for Groups
+	 * @param $filter the LDAP filter for the search
+	 * @param $attr optional, when a certain attribute shall be filtered out
+	 * @returns array with the search result
+	 *
+	 * Executes an LDAP search
+	 */
+	static public function searchGroups($filter, $attr = null) {
+		return self::search($filter, self::$ldapBaseGroups, $attr);
+	}
+
+	/**
+	 * @brief executes an LDAP search
+	 * @param $filter the LDAP filter for the search
+	 * @param $base the LDAP subtree that shall be searched
+	 * @param $attr optional, when a certain attribute shall be filtered out
+	 * @returns array with the search result
+	 *
+	 * Executes an LDAP search
+	 */
+	static private function search($filter, $base, $attr = null) {
+		$sr = ldap_search(self::getConnectionResource(), $base, $filter, array($attr));
 		$findings = ldap_get_entries(self::getConnectionResource(), $sr );
 
 		if(!is_null($attr)) {
@@ -150,7 +177,9 @@ class OC_LDAP {
 			self::$ldapPort            = OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
 			self::$ldapAgentName       = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
 			self::$ldapAgentPassword   = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
-			self::$ldapBase            = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
+			self::$ldapBase            = OC_Appconfig::getValue('user_ldap', 'ldap_base', '');
+			self::$ldapBaseUsers       = OC_Appconfig::getValue('user_ldap', 'ldap_base_users',self::$ldapBase);
+			self::$ldapBaseGroups      = OC_Appconfig::getValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
 			self::$ldapTLS             = OC_Appconfig::getValue('user_ldap', 'ldap_tls',0);
 			self::$ldapNoCase          = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
 			self::$ldapUserDisplayName = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
@@ -163,6 +192,8 @@ class OC_LDAP {
 					|| ( empty(self::$ldapAgentName) &&  empty(self::$ldapAgentPassword))
 				)
 				&& !empty(self::$ldapBase)
+				&& !empty(self::$ldapBaseUsers)
+				&& !empty(self::$ldapBaseGroups)
 				&& !empty(self::$ldapUserDisplayName)
 			)
 			{
