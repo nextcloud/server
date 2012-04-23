@@ -39,6 +39,7 @@ if(!function_exists('imagecreatefromjpeg')) {
 }
 
 $id = $_GET['id'];
+$caching = isset($_GET['refresh']) ? 0 : null;
 
 $contact = OC_Contacts_App::getContactVCard($id);
 
@@ -48,7 +49,7 @@ if(is_null($contact)){
 	getStandardImage();
 	exit();
 }
-OC_Response::enableCaching();
+OC_Response::enableCaching($caching);
 OC_Contacts_App::setLastModifiedHeader($contact);
 
 $thumbnail_size = 23;

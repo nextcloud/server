@@ -9,7 +9,7 @@
 ob_start();
  
 OC_JSON::checkLoggedIn();
-OC_Util::checkAppEnabled('calendar');
+OC_Util::checkAppEnabled('contacts');
 $nl = "\n";
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
 if(is_writable('import_tmp/')){

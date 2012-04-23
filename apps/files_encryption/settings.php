@@ -8,7 +8,9 @@
 
 $tmpl = new OC_Template( 'files_encryption', 'settings');
 $blackList=explode(',',OC_Appconfig::getValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
+$enabled=(OC_Appconfig::getValue('files_encryption','enable_encryption','true')=='true');
 $tmpl->assign('blacklist',$blackList);
+$tmpl->assign('encryption_enabled',$enabled);
 
 OC_Util::addScript('files_encryption','settings');
 OC_Util::addScript('core','multiselect');

@@ -19,7 +19,12 @@ function getStandardImage(){
 	OC_Response::redirect(OC_Helper::imagePath('contacts', 'person_large.png'));
 }
 
-$id = $_GET['id'];
+$id = isset($_GET['id']) ? $_GET['id'] : null;
+$caching = isset($_GET['refresh']) ? 0 : null;
+
+if(is_null($id)) {
+	getStandardImage();
+}
 
 $contact = OC_Contacts_App::getContactVCard($id);
 $image = new OC_Image();
@@ -30,7 +35,7 @@ if(!$image) {
 if( is_null($contact)) {
 	OC_Log::write('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
 } else {
-	OC_Response::enableCaching();
+	OC_Response::enableCaching($caching);
 	OC_Contacts_App::setLastModifiedHeader($contact);
 
 	// Photo :-)

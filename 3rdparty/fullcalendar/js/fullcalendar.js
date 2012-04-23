@@ -1,6 +1,6 @@
 /**
  * @preserve
- * FullCalendar v1.5.2
+ * FullCalendar v1.5.3
  * http://arshaw.com/fullcalendar/
  *
  * Use fullcalendar.css for basic styling.
@@ -11,10 +11,10 @@
  * Dual licensed under the MIT and GPL licenses, located in
  * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
  *
- * Date: Sun Aug 21 22:06:09 2011 -0700
+ * Date: Mon Feb 6 22:40:40 2012 -0800
  *
  */
-
+ 
 (function($, undefined) {
 
 
@@ -29,20 +29,20 @@ var defaults = {
 		right: 'today prev,next'
 	},
 	weekends: true,
-
+	
 	// editing
 	//editable: false,
 	//disableDragging: false,
 	//disableResizing: false,
-
+	
 	allDayDefault: true,
 	ignoreTimezone: true,
-
+	
 	// event ajax
 	lazyFetching: true,
 	startParam: 'start',
 	endParam: 'end',
-
+	
 	// time formats
 	titleFormat: {
 		month: 'MMMM yyyy',
@@ -57,7 +57,7 @@ var defaults = {
 	timeFormat: { // for event elements
 		'': 'h(:mm)t' // default
 	},
-
+	
 	// locale
 	isRTL: false,
 	firstDay: 0,
@@ -75,19 +75,19 @@ var defaults = {
 		week: 'week',
 		day: 'day'
 	},
-
+	
 	// jquery-ui theming
 	theme: false,
 	buttonIcons: {
 		prev: 'circle-triangle-w',
 		next: 'circle-triangle-e'
 	},
-
+	
 	//selectable: false,
 	unselectAuto: true,
-
+	
 	dropAccept: '*'
-
+	
 };
 
 // right-to-left defaults
@@ -111,7 +111,7 @@ var rtlDefaults = {
 
 
 
-var fc = $.fullCalendar = { version: "1.5.2" };
+var fc = $.fullCalendar = { version: "1.5.3" };
 var fcViews = fc.views = {};
 
 
@@ -139,8 +139,8 @@ $.fn.fullCalendar = function(options) {
 		}
 		return this;
 	}
-
-
+	
+	
 	// would like to have this logic in EventManager, but needs to happen before options are recursively extended
 	var eventSources = options.eventSources || [];
 	delete options.eventSources;
@@ -148,25 +148,25 @@ $.fn.fullCalendar = function(options) {
 		eventSources.push(options.events);
 		delete options.events;
 	}
-
+	
 
 	options = $.extend(true, {},
 		defaults,
 		(options.isRTL || options.isRTL===undefined && defaults.isRTL) ? rtlDefaults : {},
 		options
 	);
-
-
+	
+	
 	this.each(function(i, _element) {
 		var element = $(_element);
 		var calendar = new Calendar(element, options, eventSources);
 		element.data('fullCalendar', calendar); // TODO: look into memory leak implications
 		calendar.render();
 	});
-
-
+	
+	
 	return this;
-
+	
 };
 
 
@@ -177,11 +177,11 @@ function setDefaults(d) {
 
 
 
-
+ 
 function Calendar(element, options, eventSources) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.options = options;
 	t.render = render;
@@ -206,14 +206,14 @@ function Calendar(element, options, eventSources) {
 	t.getView = getView;
 	t.option = option;
 	t.trigger = trigger;
-
-
+	
+	
 	// imports
 	EventManager.call(t, options, eventSources);
 	var isFetchNeeded = t.isFetchNeeded;
 	var fetchEvents = t.fetchEvents;
-
-
+	
+	
 	// locals
 	var _element = element[0];
 	var header;
@@ -230,16 +230,16 @@ function Calendar(element, options, eventSources) {
 	var date = new Date();
 	var events = [];
 	var _dragElement;
-
-
-
+	
+	
+	
 	/* Main Rendering
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	setYMD(date, options.year, options.month, options.date);
-
-
+	
+	
 	function render(inc) {
 		if (!content) {
 			initialRender();
@@ -250,8 +250,8 @@ function Calendar(element, options, eventSources) {
 			renderView(inc);
 		}
 	}
-
-
+	
+	
 	function initialRender() {
 		tm = options.theme ? 'ui' : 'fc';
 		element.addClass('fc');
@@ -275,8 +275,8 @@ function Calendar(element, options, eventSources) {
 			lateRender();
 		}
 	}
-
-
+	
+	
 	// called when we know the calendar couldn't be rendered when it was initialized,
 	// but we think it's ready now
 	function lateRender() {
@@ -286,42 +286,42 @@ function Calendar(element, options, eventSources) {
 			}
 		},0);
 	}
-
-
+	
+	
 	function destroy() {
 		$(window).unbind('resize', windowResize);
 		header.destroy();
 		content.remove();
 		element.removeClass('fc fc-rtl ui-widget');
 	}
-
-
-
+	
+	
+	
 	function elementVisible() {
 		return _element.offsetWidth !== 0;
 	}
-
-
+	
+	
 	function bodyVisible() {
 		return $('body')[0].offsetWidth !== 0;
 	}
-
-
-
+	
+	
+	
 	/* View Rendering
 	-----------------------------------------------------------------------------*/
-
+	
 	// TODO: improve view switching (still weird transition in IE, and FF has whiteout problem)
-
+	
 	function changeView(newViewName) {
 		if (!currentView || newViewName != currentView.name) {
 			ignoreWindowResize++; // because setMinHeight might change the height before render (and subsequently setSize) is reached
 
 			unselect();
-
+			
 			var oldView = currentView;
 			var newViewElement;
-
+				
 			if (oldView) {
 				(oldView.beforeHide || noop)(); // called before changing min-height. if called after, scroll state is reset (in Opera)
 				setMinHeight(content, content.height());
@@ -330,7 +330,7 @@ function Calendar(element, options, eventSources) {
 				setMinHeight(content, 1); // needs to be 1 (not 0) for IE7, or else view dimensions miscalculated
 			}
 			content.css('overflow', 'hidden');
-
+			
 			currentView = viewInstances[newViewName];
 			if (currentView) {
 				currentView.element.show();
@@ -342,39 +342,39 @@ function Calendar(element, options, eventSources) {
 					t // the calendar object
 				);
 			}
-
+			
 			if (oldView) {
 				header.deactivateButton(oldView.name);
 			}
 			header.activateButton(newViewName);
-
+			
 			renderView(); // after height has been set, will make absoluteViewElement's position=relative, then set to null
-
+			
 			content.css('overflow', '');
 			if (oldView) {
 				setMinHeight(content, 1);
 			}
-
+			
 			if (!newViewElement) {
 				(currentView.afterShow || noop)(); // called after setting min-height/overflow, so in final scroll state (for Opera)
 			}
-
+			
 			ignoreWindowResize--;
 		}
 	}
-
-
-
+	
+	
+	
 	function renderView(inc) {
 		if (elementVisible()) {
 			ignoreWindowResize++; // because renderEvents might temporarily change the height before setSize is reached
 
 			unselect();
-
+			
 			if (suggestedViewHeight === undefined) {
 				calcSize();
 			}
-
+			
 			var forceEventRender = false;
 			if (!currentView.start || inc || date < currentView.start || date >= currentView.end) {
 				// view must render an entire new date range (and refetch/render events)
@@ -395,9 +395,9 @@ function Calendar(element, options, eventSources) {
 			currentView.sizeDirty = false;
 			currentView.eventsDirty = false;
 			updateEvents(forceEventRender);
-
+			
 			elementOuterWidth = element.outerWidth();
-
+			
 			header.updateTitle(currentView.title);
 			var today = new Date();
 			if (today >= currentView.start && today < currentView.end) {
@@ -405,18 +405,18 @@ function Calendar(element, options, eventSources) {
 			}else{
 				header.enableButton('today');
 			}
-
+			
 			ignoreWindowResize--;
 			currentView.trigger('viewDisplay', _element);
 		}
 	}
-
-
-
+	
+	
+	
 	/* Resizing
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	function updateSize() {
 		markSizesDirty();
 		if (elementVisible()) {
@@ -428,15 +428,15 @@ function Calendar(element, options, eventSources) {
 			currentView.sizeDirty = false;
 		}
 	}
-
-
+	
+	
 	function markSizesDirty() {
 		$.each(viewInstances, function(i, inst) {
 			inst.sizeDirty = true;
 		});
 	}
-
-
+	
+	
 	function calcSize() {
 		if (options.contentHeight) {
 			suggestedViewHeight = options.contentHeight;
@@ -448,8 +448,8 @@ function Calendar(element, options, eventSources) {
 			suggestedViewHeight = Math.round(content.width() / Math.max(options.aspectRatio, .5));
 		}
 	}
-
-
+	
+	
 	function setSize(dateChanged) { // todo: dateChanged?
 		ignoreWindowResize++;
 		currentView.setHeight(suggestedViewHeight, dateChanged);
@@ -460,8 +460,8 @@ function Calendar(element, options, eventSources) {
 		currentView.setWidth(content.width(), dateChanged);
 		ignoreWindowResize--;
 	}
-
-
+	
+	
 	function windowResize() {
 		if (!ignoreWindowResize) {
 			if (currentView.start) { // view has already been rendered
@@ -482,13 +482,13 @@ function Calendar(element, options, eventSources) {
 			}
 		}
 	}
-
-
-
+	
+	
+	
 	/* Event Fetching/Rendering
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	// fetches events if necessary, rerenders events if necessary (or if forced)
 	function updateEvents(forceRender) {
 		if (!options.lazyFetching || isFetchNeeded(currentView.visStart, currentView.visEnd)) {
@@ -498,26 +498,26 @@ function Calendar(element, options, eventSources) {
 			rerenderEvents();
 		}
 	}
-
-
+	
+	
 	function refetchEvents() {
 		fetchEvents(currentView.visStart, currentView.visEnd); // will call reportEvents
 	}
-
-
+	
+	
 	// called when event data arrives
 	function reportEvents(_events) {
 		events = _events;
 		rerenderEvents();
 	}
-
-
+	
+	
 	// called when a single event's data has been changed
 	function reportEventChange(eventID) {
 		rerenderEvents(eventID);
 	}
-
-
+	
+	
 	// attempts to rerenderEvents
 	function rerenderEvents(modifiedEventID) {
 		markEventsDirty();
@@ -527,65 +527,65 @@ function Calendar(element, options, eventSources) {
 			currentView.eventsDirty = false;
 		}
 	}
-
-
+	
+	
 	function markEventsDirty() {
 		$.each(viewInstances, function(i, inst) {
 			inst.eventsDirty = true;
 		});
 	}
-
+	
 
 
 	/* Selection
 	-----------------------------------------------------------------------------*/
-
+	
 
 	function select(start, end, allDay) {
 		currentView.select(start, end, allDay===undefined ? true : allDay);
 	}
-
+	
 
 	function unselect() { // safe to be called before renderView
 		if (currentView) {
 			currentView.unselect();
 		}
 	}
-
-
-
+	
+	
+	
 	/* Date
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	function prev() {
 		renderView(-1);
 	}
-
-
+	
+	
 	function next() {
 		renderView(1);
 	}
-
-
+	
+	
 	function prevYear() {
 		addYears(date, -1);
 		renderView();
 	}
-
-
+	
+	
 	function nextYear() {
 		addYears(date, 1);
 		renderView();
 	}
-
-
+	
+	
 	function today() {
 		date = new Date();
 		renderView();
 	}
-
-
+	
+	
 	function gotoDate(year, month, dateOfMonth) {
 		if (year instanceof Date) {
 			date = cloneDate(year); // provided 1 argument, a Date
@@ -594,8 +594,8 @@ function Calendar(element, options, eventSources) {
 		}
 		renderView();
 	}
-
-
+	
+	
 	function incrementDate(years, months, days) {
 		if (years !== undefined) {
 			addYears(date, years);
@@ -608,23 +608,23 @@ function Calendar(element, options, eventSources) {
 		}
 		renderView();
 	}
-
-
+	
+	
 	function getDate() {
 		return cloneDate(date);
 	}
-
-
-
+	
+	
+	
 	/* Misc
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	function getView() {
 		return currentView;
 	}
-
-
+	
+	
 	function option(name, value) {
 		if (value === undefined) {
 			return options[name];
@@ -634,8 +634,8 @@ function Calendar(element, options, eventSources) {
 			updateSize();
 		}
 	}
-
-
+	
+	
 	function trigger(name, thisObj) {
 		if (options[name]) {
 			return options[name].apply(
@@ -644,12 +644,12 @@ function Calendar(element, options, eventSources) {
 			);
 		}
 	}
-
-
-
+	
+	
+	
 	/* External Dragging
 	------------------------------------------------------------------------*/
-
+	
 	if (options.droppable) {
 		$(document)
 			.bind('dragstart', function(ev, ui) {
@@ -670,14 +670,14 @@ function Calendar(element, options, eventSources) {
 				}
 			});
 	}
-
+	
 
 }
 
 function Header(calendar, options) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.render = render;
 	t.destroy = destroy;
@@ -686,12 +686,12 @@ function Header(calendar, options) {
 	t.deactivateButton = deactivateButton;
 	t.disableButton = disableButton;
 	t.enableButton = enableButton;
-
-
+	
+	
 	// locals
 	var element = $([]);
 	var tm;
-
+	
 
 
 	function render() {
@@ -708,13 +708,13 @@ function Header(calendar, options) {
 			return element;
 		}
 	}
-
-
+	
+	
 	function destroy() {
 		element.remove();
 	}
-
-
+	
+	
 	function renderSection(position) {
 		var e = $("<td class='fc-header-" + position + "'/>");
 		var buttonStr = options.header[position];
@@ -805,32 +805,32 @@ function Header(calendar, options) {
 		}
 		return e;
 	}
-
-
+	
+	
 	function updateTitle(html) {
 		element.find('h2')
 			.html(html);
 	}
-
-
+	
+	
 	function activateButton(buttonName) {
 		element.find('span.fc-button-' + buttonName)
 			.addClass(tm + '-state-active');
 	}
-
-
+	
+	
 	function deactivateButton(buttonName) {
 		element.find('span.fc-button-' + buttonName)
 			.removeClass(tm + '-state-active');
 	}
-
-
+	
+	
 	function disableButton(buttonName) {
 		element.find('span.fc-button-' + buttonName)
 			.addClass(tm + '-state-disabled');
 	}
-
-
+	
+	
 	function enableButton(buttonName) {
 		element.find('span.fc-button-' + buttonName)
 			.removeClass(tm + '-state-disabled');
@@ -852,8 +852,8 @@ var eventGUID = 1;
 
 function EventManager(options, _sources) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.isFetchNeeded = isFetchNeeded;
 	t.fetchEvents = fetchEvents;
@@ -864,14 +864,14 @@ function EventManager(options, _sources) {
 	t.removeEvents = removeEvents;
 	t.clientEvents = clientEvents;
 	t.normalizeEvent = normalizeEvent;
-
-
+	
+	
 	// imports
 	var trigger = t.trigger;
 	var getView = t.getView;
 	var reportEvents = t.reportEvents;
-
-
+	
+	
 	// locals
 	var stickySource = { events: [] };
 	var sources = [ stickySource ];
@@ -880,23 +880,23 @@ function EventManager(options, _sources) {
 	var pendingSourceCnt = 0;
 	var loadingLevel = 0;
 	var cache = [];
-
-
+	
+	
 	for (var i=0; i<_sources.length; i++) {
 		_addEventSource(_sources[i]);
 	}
-
-
-
+	
+	
+	
 	/* Fetching
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	function isFetchNeeded(start, end) {
 		return !rangeStart || start < rangeStart || end > rangeEnd;
 	}
-
-
+	
+	
 	function fetchEvents(start, end) {
 		rangeStart = start;
 		rangeEnd = end;
@@ -908,8 +908,8 @@ function EventManager(options, _sources) {
 			fetchEventSource(sources[i], fetchID);
 		}
 	}
-
-
+	
+	
 	function fetchEventSource(source, fetchID) {
 		_fetchEventSource(source, function(events) {
 			if (fetchID == currentFetchID) {
@@ -927,8 +927,8 @@ function EventManager(options, _sources) {
 			}
 		});
 	}
-
-
+	
+	
 	function _fetchEventSource(source, callback) {
 		var i;
 		var fetchers = fc.sourceFetchers;
@@ -1000,12 +1000,12 @@ function EventManager(options, _sources) {
 			}
 		}
 	}
-
-
-
+	
+	
+	
 	/* Sources
 	-----------------------------------------------------------------------------*/
-
+	
 
 	function addEventSource(source) {
 		source = _addEventSource(source);
@@ -1014,8 +1014,8 @@ function EventManager(options, _sources) {
 			fetchEventSource(source, currentFetchID); // will eventually call reportEvents
 		}
 	}
-
-
+	
+	
 	function _addEventSource(source) {
 		if ($.isFunction(source) || $.isArray(source)) {
 			source = { events: source };
@@ -1029,7 +1029,7 @@ function EventManager(options, _sources) {
 			return source;
 		}
 	}
-
+	
 
 	function removeEventSource(source) {
 		sources = $.grep(sources, function(src) {
@@ -1041,13 +1041,13 @@ function EventManager(options, _sources) {
 		});
 		reportEvents(cache);
 	}
-
-
-
+	
+	
+	
 	/* Manipulation
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	function updateEvent(event) { // update an existing event
 		var i, len = cache.length, e,
 			defaultEventEnd = getView().defaultEventEnd, // getView???
@@ -1083,8 +1083,8 @@ function EventManager(options, _sources) {
 		normalizeEvent(event);
 		reportEvents(cache);
 	}
-
-
+	
+	
 	function renderEvent(event, stick) {
 		normalizeEvent(event);
 		if (!event.source) {
@@ -1096,8 +1096,8 @@ function EventManager(options, _sources) {
 		}
 		reportEvents(cache);
 	}
-
-
+	
+	
 	function removeEvents(filter) {
 		if (!filter) { // remove all
 			cache = [];
@@ -1124,8 +1124,8 @@ function EventManager(options, _sources) {
 		}
 		reportEvents(cache);
 	}
-
-
+	
+	
 	function clientEvents(filter) {
 		if ($.isFunction(filter)) {
 			return $.grep(cache, filter);
@@ -1138,32 +1138,32 @@ function EventManager(options, _sources) {
 		}
 		return cache; // else, return all
 	}
-
-
-
+	
+	
+	
 	/* Loading State
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	function pushLoading() {
 		if (!loadingLevel++) {
 			trigger('loading', null, true);
 		}
 	}
-
-
+	
+	
 	function popLoading() {
 		if (!--loadingLevel) {
 			trigger('loading', null, false);
 		}
 	}
-
-
-
+	
+	
+	
 	/* Event Normalization
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	function normalizeEvent(event) {
 		var source = event.source || {};
 		var ignoreTimezone = firstDefined(source.ignoreTimezone, options.ignoreTimezone);
@@ -1192,13 +1192,13 @@ function EventManager(options, _sources) {
 		}
 		// TODO: if there is no start date, return false to indicate an invalid event
 	}
-
-
-
+	
+	
+	
 	/* Utils
 	------------------------------------------------------------------------------*/
-
-
+	
+	
 	function normalizeSource(source) {
 		if (source.className) {
 			// TODO: repeat code, same code for event classNames
@@ -1213,13 +1213,13 @@ function EventManager(options, _sources) {
 			normalizers[i](source);
 		}
 	}
-
-
+	
+	
 	function isSourcesEqual(source1, source2) {
 		return source1 && source2 && getSourcePrimitive(source1) == getSourcePrimitive(source2);
 	}
-
-
+	
+	
 	function getSourcePrimitive(source) {
 		return ((typeof source == 'object') ? (source.events || source.url) : '') || source;
 	}
@@ -1245,7 +1245,7 @@ var dayIDs = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
 	DAY_MS = 86400000,
 	HOUR_MS = 3600000,
 	MINUTE_MS = 60000;
-
+	
 
 function addYears(d, n, keepTime) {
 	d.setFullYear(d.getFullYear() + n);
@@ -1308,7 +1308,7 @@ function addMinutes(d, n) {
 function clearTime(d) {
 	d.setHours(0);
 	d.setMinutes(0);
-	d.setSeconds(0);
+	d.setSeconds(0); 
 	d.setMilliseconds(0);
 	return d;
 }
@@ -1658,7 +1658,7 @@ function sliceSegs(events, visEventEnds, start, end) {
 				msLength: segEnd - segStart
 			});
 		}
-	}
+	} 
 	return segs.sort(segCmp);
 }
 
@@ -1961,20 +1961,20 @@ fcViews.month = MonthView;
 
 function MonthView(element, calendar) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.render = render;
-
-
+	
+	
 	// imports
 	BasicView.call(t, element, calendar, 'month');
 	var opt = t.opt;
 	var renderBasic = t.renderBasic;
 	var formatDate = calendar.formatDate;
-
-
-
+	
+	
+	
 	function render(date, delta) {
 		if (delta) {
 			addMonths(date, delta);
@@ -2005,28 +2005,28 @@ function MonthView(element, calendar) {
 		t.visEnd = visEnd;
 		renderBasic(6, rowCnt, nwe ? 5 : 7, true);
 	}
-
-
+	
+	
 }
 
 fcViews.basicWeek = BasicWeekView;
 
 function BasicWeekView(element, calendar) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.render = render;
-
-
+	
+	
 	// imports
 	BasicView.call(t, element, calendar, 'basicWeek');
 	var opt = t.opt;
 	var renderBasic = t.renderBasic;
 	var formatDates = calendar.formatDates;
-
-
-
+	
+	
+	
 	function render(date, delta) {
 		if (delta) {
 			addDays(date, delta * 7);
@@ -2051,8 +2051,8 @@ function BasicWeekView(element, calendar) {
 		t.visEnd = visEnd;
 		renderBasic(1, 1, weekends ? 7 : 5, false);
 	}
-
-
+	
+	
 }
 
 fcViews.basicDay = BasicDayView;
@@ -2062,20 +2062,20 @@ fcViews.basicDay = BasicDayView;
 
 function BasicDayView(element, calendar) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.render = render;
-
-
+	
+	
 	// imports
 	BasicView.call(t, element, calendar, 'basicDay');
 	var opt = t.opt;
 	var renderBasic = t.renderBasic;
 	var formatDate = calendar.formatDate;
-
-
-
+	
+	
+	
 	function render(date, delta) {
 		if (delta) {
 			addDays(date, delta);
@@ -2088,8 +2088,8 @@ function BasicDayView(element, calendar) {
 		t.end = t.visEnd = addDays(cloneDate(t.start), 1);
 		renderBasic(1, 1, 1, false);
 	}
-
-
+	
+	
 }
 
 setDefaults({
@@ -2099,8 +2099,8 @@ setDefaults({
 
 function BasicView(element, calendar, viewName) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.renderBasic = renderBasic;
 	t.setHeight = setHeight;
@@ -2126,8 +2126,8 @@ function BasicView(element, calendar, viewName) {
 	t.getColCnt = function() { return colCnt };
 	t.getColWidth = function() { return colWidth };
 	t.getDaySegmentContainer = function() { return daySegmentContainer };
-
-
+	
+	
 	// imports
 	View.call(t, element, calendar, viewName);
 	OverlayManager.call(t);
@@ -2140,10 +2140,10 @@ function BasicView(element, calendar, viewName) {
 	var clearOverlays = t.clearOverlays;
 	var daySelectionMousedown = t.daySelectionMousedown;
 	var formatDate = calendar.formatDate;
-
-
+	
+	
 	// locals
-
+	
 	var head;
 	var headCells;
 	var body;
@@ -2152,31 +2152,31 @@ function BasicView(element, calendar, viewName) {
 	var bodyFirstCells;
 	var bodyCellTopInners;
 	var daySegmentContainer;
-
+	
 	var viewWidth;
 	var viewHeight;
 	var colWidth;
-
+	
 	var rowCnt, colCnt;
 	var coordinateGrid;
 	var hoverListener;
 	var colContentPositions;
-
+	
 	var rtl, dis, dit;
 	var firstDay;
 	var nwe;
 	var tm;
 	var colFormat;
-
-
-
+	
+	
+	
 	/* Rendering
 	------------------------------------------------------------*/
-
-
+	
+	
 	disableTextSelection(element.addClass('fc-grid'));
-
-
+	
+	
 	function renderBasic(maxr, r, c, showNumbers) {
 		rowCnt = r;
 		colCnt = c;
@@ -2189,9 +2189,9 @@ function BasicView(element, calendar, viewName) {
 		}
 		updateCells(firstTime);
 	}
-
-
-
+	
+	
+	
 	function updateOptions() {
 		rtl = opt('isRTL');
 		if (rtl) {
@@ -2206,16 +2206,16 @@ function BasicView(element, calendar, viewName) {
 		tm = opt('theme') ? 'ui' : 'fc';
 		colFormat = opt('columnFormat');
 	}
-
-
-
+	
+	
+	
 	function buildSkeleton(maxRowCnt, showNumbers) {
 		var s;
 		var headerClass = tm + "-widget-header";
 		var contentClass = tm + "-widget-content";
 		var i, j;
 		var table;
-
+		
 		s =
 			"<table class='fc-border-separate' style='width:100%' cellspacing='0'>" +
 			"<thead>" +
@@ -2252,7 +2252,7 @@ function BasicView(element, calendar, viewName) {
 			"</tbody>" +
 			"</table>";
 		table = $(s).appendTo(element);
-
+		
 		head = table.find('thead');
 		headCells = head.find('th');
 		body = table.find('tbody');
@@ -2260,20 +2260,20 @@ function BasicView(element, calendar, viewName) {
 		bodyCells = body.find('td');
 		bodyFirstCells = bodyCells.filter(':first-child');
 		bodyCellTopInners = bodyRows.eq(0).find('div.fc-day-content div');
-
+		
 		markFirstLast(head.add(head.find('tr'))); // marks first+last tr/th's
 		markFirstLast(bodyRows); // marks first+last td's
 		bodyRows.eq(0).addClass('fc-first'); // fc-last is done in updateCells
-
+		
 		dayBind(bodyCells);
-
+		
 		daySegmentContainer =
 			$("<div style='position:absolute;z-index:8;top:0;left:0'/>")
 				.appendTo(element);
 	}
-
-
-
+	
+	
+	
 	function updateCells(firstTime) {
 		var dowDirty = firstTime || rowCnt == 1; // could the cells' day-of-weeks need updating?
 		var month = t.start.getMonth();
@@ -2281,7 +2281,7 @@ function BasicView(element, calendar, viewName) {
 		var cell;
 		var date;
 		var row;
-
+	
 		if (dowDirty) {
 			headCells.each(function(i, _cell) {
 				cell = $(_cell);
@@ -2290,7 +2290,7 @@ function BasicView(element, calendar, viewName) {
 				setDayID(cell, date);
 			});
 		}
-
+		
 		bodyCells.each(function(i, _cell) {
 			cell = $(_cell);
 			date = indexDate(i);
@@ -2309,7 +2309,7 @@ function BasicView(element, calendar, viewName) {
 				setDayID(cell, date);
 			}
 		});
-
+		
 		bodyRows.each(function(i, _row) {
 			row = $(_row);
 			if (i < rowCnt) {
@@ -2324,24 +2324,24 @@ function BasicView(element, calendar, viewName) {
 			}
 		});
 	}
-
-
-
+	
+	
+	
 	function setHeight(height) {
 		viewHeight = height;
-
+		
 		var bodyHeight = viewHeight - head.height();
 		var rowHeight;
 		var rowHeightLast;
 		var cell;
-
+			
 		if (opt('weekMode') == 'variable') {
 			rowHeight = rowHeightLast = Math.floor(bodyHeight / (rowCnt==1 ? 2 : 6));
 		}else{
 			rowHeight = Math.floor(bodyHeight / rowCnt);
 			rowHeightLast = bodyHeight - rowHeight * (rowCnt-1);
 		}
-
+		
 		bodyFirstCells.each(function(i, _cell) {
 			if (i < rowCnt) {
 				cell = $(_cell);
@@ -2351,29 +2351,29 @@ function BasicView(element, calendar, viewName) {
 				);
 			}
 		});
-
+		
 	}
-
-
+	
+	
 	function setWidth(width) {
 		viewWidth = width;
 		colContentPositions.clear();
 		colWidth = Math.floor(viewWidth / colCnt);
 		setOuterWidth(headCells.slice(0, -1), colWidth);
 	}
-
-
-
+	
+	
+	
 	/* Day clicking and binding
 	-----------------------------------------------------------*/
-
-
+	
+	
 	function dayBind(days) {
 		days.click(dayClick)
 			.mousedown(daySelectionMousedown);
 	}
-
-
+	
+	
 	function dayClick(ev) {
 		if (!opt('selectable')) { // if selectable, SelectionManager will worry about dayClick
 			var index = parseInt(this.className.match(/fc\-day(\d+)/)[1]); // TODO: maybe use .data
@@ -2381,13 +2381,13 @@ function BasicView(element, calendar, viewName) {
 			trigger('dayClick', this, date, true, ev);
 		}
 	}
-
-
-
+	
+	
+	
 	/* Semi-transparent Overlay Helpers
 	------------------------------------------------------*/
-
-
+	
+	
 	function renderDayOverlay(overlayStart, overlayEnd, refreshCoordinateGrid) { // overlayEnd is exclusive
 		if (refreshCoordinateGrid) {
 			coordinateGrid.build();
@@ -2414,46 +2414,46 @@ function BasicView(element, calendar, viewName) {
 			addDays(rowEnd, 7);
 		}
 	}
-
-
+	
+	
 	function renderCellOverlay(row0, col0, row1, col1) { // row1,col1 is inclusive
 		var rect = coordinateGrid.rect(row0, col0, row1, col1, element);
 		return renderOverlay(rect, element);
 	}
-
-
-
+	
+	
+	
 	/* Selection
 	-----------------------------------------------------------------------*/
-
-
+	
+	
 	function defaultSelectionEnd(startDate, allDay) {
 		return cloneDate(startDate);
 	}
-
-
+	
+	
 	function renderSelection(startDate, endDate, allDay) {
 		renderDayOverlay(startDate, addDays(cloneDate(endDate), 1), true); // rebuild every time???
 	}
-
-
+	
+	
 	function clearSelection() {
 		clearOverlays();
 	}
-
-
+	
+	
 	function reportDayClick(date, allDay, ev) {
 		var cell = dateCell(date);
 		var _element = bodyCells[cell.row*colCnt + cell.col];
 		trigger('dayClick', _element, date, allDay, ev);
 	}
-
-
-
+	
+	
+	
 	/* External Dragging
 	-----------------------------------------------------------------------*/
-
-
+	
+	
 	function dragStart(_dragElement, ev, ui) {
 		hoverListener.start(function(cell) {
 			clearOverlays();
@@ -2462,8 +2462,8 @@ function BasicView(element, calendar, viewName) {
 			}
 		}, ev);
 	}
-
-
+	
+	
 	function dragStop(_dragElement, ev, ui) {
 		var cell = hoverListener.stop();
 		clearOverlays();
@@ -2472,18 +2472,18 @@ function BasicView(element, calendar, viewName) {
 			trigger('drop', _dragElement, d, true, ev, ui);
 		}
 	}
-
-
-
+	
+	
+	
 	/* Utilities
 	--------------------------------------------------------*/
-
-
+	
+	
 	function defaultEventEnd(event) {
 		return cloneDate(event.start);
 	}
-
-
+	
+	
 	coordinateGrid = new CoordinateGrid(function(rows, cols) {
 		var e, n, p;
 		headCells.each(function(i, _e) {
@@ -2509,85 +2509,85 @@ function BasicView(element, calendar, viewName) {
 		});
 		p[1] = n + e.outerHeight();
 	});
-
-
+	
+	
 	hoverListener = new HoverListener(coordinateGrid);
-
-
+	
+	
 	colContentPositions = new HorizontalPositionCache(function(col) {
 		return bodyCellTopInners.eq(col);
 	});
-
-
+	
+	
 	function colContentLeft(col) {
 		return colContentPositions.left(col);
 	}
-
-
+	
+	
 	function colContentRight(col) {
 		return colContentPositions.right(col);
 	}
-
-
-
-
+	
+	
+	
+	
 	function dateCell(date) {
 		return {
 			row: Math.floor(dayDiff(date, t.visStart) / 7),
 			col: dayOfWeekCol(date.getDay())
 		};
 	}
-
-
+	
+	
 	function cellDate(cell) {
 		return _cellDate(cell.row, cell.col);
 	}
-
-
+	
+	
 	function _cellDate(row, col) {
 		return addDays(cloneDate(t.visStart), row*7 + col*dis+dit);
 		// what about weekends in middle of week?
 	}
-
-
+	
+	
 	function indexDate(index) {
 		return _cellDate(Math.floor(index/colCnt), index%colCnt);
 	}
-
-
+	
+	
 	function dayOfWeekCol(dayOfWeek) {
 		return ((dayOfWeek - Math.max(firstDay, nwe) + colCnt) % colCnt) * dis + dit;
 	}
-
-
-
-
+	
+	
+	
+	
 	function allDayRow(i) {
 		return bodyRows.eq(i);
 	}
-
-
+	
+	
 	function allDayBounds(i) {
 		return {
 			left: 0,
 			right: viewWidth
 		};
 	}
-
-
+	
+	
 }
 
 function BasicEventRenderer() {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.renderEvents = renderEvents;
 	t.compileDaySegs = compileSegs; // for DayEventRenderer
 	t.clearEvents = clearEvents;
 	t.bindDaySeg = bindDaySeg;
-
-
+	
+	
 	// imports
 	DayEventRenderer.call(t);
 	var opt = t.opt;
@@ -2609,25 +2609,25 @@ function BasicEventRenderer() {
 	var getColCnt = t.getColCnt;
 	var renderDaySegs = t.renderDaySegs;
 	var resizableDayEvent = t.resizableDayEvent;
-
-
-
+	
+	
+	
 	/* Rendering
 	--------------------------------------------------------------------*/
-
-
+	
+	
 	function renderEvents(events, modifiedEventId) {
 		reportEvents(events);
 		renderDaySegs(compileSegs(events), modifiedEventId);
 	}
-
-
+	
+	
 	function clearEvents() {
 		reportEventClear();
 		getDaySegmentContainer().empty();
 	}
-
-
+	
+	
 	function compileSegs(events) {
 		var rowCnt = getRowCnt(),
 			colCnt = getColCnt(),
@@ -2654,8 +2654,8 @@ function BasicEventRenderer() {
 		}
 		return segs;
 	}
-
-
+	
+	
 	function bindDaySeg(event, eventElement, seg) {
 		if (isEventDraggable(event)) {
 			draggableDayEvent(event, eventElement);
@@ -2666,13 +2666,13 @@ function BasicEventRenderer() {
 		eventElementHandlers(event, eventElement);
 			// needs to be after, because resizableDayEvent might stopImmediatePropagation on click
 	}
-
-
-
+	
+	
+	
 	/* Dragging
 	----------------------------------------------------------------------------*/
-
-
+	
+	
 	function draggableDayEvent(event, eventElement) {
 		var hoverListener = getHoverListener();
 		var dayDelta;
@@ -2722,20 +2722,20 @@ fcViews.agendaWeek = AgendaWeekView;
 
 function AgendaWeekView(element, calendar) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.render = render;
-
-
+	
+	
 	// imports
 	AgendaView.call(t, element, calendar, 'agendaWeek');
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDates = calendar.formatDates;
-
-
-
+	
+	
+	
 	function render(date, delta) {
 		if (delta) {
 			addDays(date, delta * 7);
@@ -2760,7 +2760,7 @@ function AgendaWeekView(element, calendar) {
 		t.visEnd = visEnd;
 		renderAgenda(weekends ? 7 : 5);
 	}
-
+	
 
 }
 
@@ -2768,20 +2768,20 @@ fcViews.agendaDay = AgendaDayView;
 
 function AgendaDayView(element, calendar) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.render = render;
-
-
+	
+	
 	// imports
 	AgendaView.call(t, element, calendar, 'agendaDay');
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-
-
-
+	
+	
+	
 	function render(date, delta) {
 		if (delta) {
 			addDays(date, delta);
@@ -2796,7 +2796,7 @@ function AgendaDayView(element, calendar) {
 		t.end = t.visEnd = end;
 		renderAgenda(1);
 	}
-
+	
 
 }
 
@@ -2824,8 +2824,8 @@ setDefaults({
 
 function AgendaView(element, calendar, viewName) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.renderAgenda = renderAgenda;
 	t.setWidth = setWidth;
@@ -2859,8 +2859,8 @@ function AgendaView(element, calendar, viewName) {
 	t.reportDayClick = reportDayClick; // selection mousedown hack
 	t.dragStart = dragStart;
 	t.dragStop = dragStop;
-
-
+	
+	
 	// imports
 	View.call(t, element, calendar, viewName);
 	OverlayManager.call(t);
@@ -2876,10 +2876,10 @@ function AgendaView(element, calendar, viewName) {
 	var daySelectionMousedown = t.daySelectionMousedown;
 	var slotSegHtml = t.slotSegHtml;
 	var formatDate = calendar.formatDate;
-
-
+	
+	
 	// locals
-
+	
 	var dayTable;
 	var dayHead;
 	var dayHeadCells;
@@ -2900,7 +2900,7 @@ function AgendaView(element, calendar, viewName) {
 	var axisFirstCells;
 	var gutterCells;
 	var selectionHelper;
-
+	
 	var viewWidth;
 	var viewHeight;
 	var axisWidth;
@@ -2908,30 +2908,30 @@ function AgendaView(element, calendar, viewName) {
 	var gutterWidth;
 	var slotHeight; // TODO: what if slotHeight changes? (see issue 650)
 	var savedScrollTop;
-
+	
 	var colCnt;
 	var slotCnt;
 	var coordinateGrid;
 	var hoverListener;
 	var colContentPositions;
 	var slotTopCache = {};
-
+	
 	var tm;
 	var firstDay;
 	var nwe;            // no weekends (int)
 	var rtl, dis, dit;  // day index sign / translate
 	var minMinute, maxMinute;
 	var colFormat;
+	
 
-
-
+	
 	/* Rendering
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	disableTextSelection(element.addClass('fc-agenda'));
-
-
+	
+	
 	function renderAgenda(c) {
 		colCnt = c;
 		updateOptions();
@@ -2942,9 +2942,9 @@ function AgendaView(element, calendar, viewName) {
 		}
 		updateCells();
 	}
-
-
-
+	
+	
+	
 	function updateOptions() {
 		tm = opt('theme') ? 'ui' : 'fc';
 		nwe = opt('weekends') ? 0 : 1;
@@ -2960,9 +2960,9 @@ function AgendaView(element, calendar, viewName) {
 		maxMinute = parseTime(opt('maxTime'));
 		colFormat = opt('columnFormat');
 	}
-
-
-
+	
+	
+	
 	function buildSkeleton() {
 		var headerClass = tm + "-widget-header";
 		var contentClass = tm + "-widget-content";
@@ -2972,7 +2972,7 @@ function AgendaView(element, calendar, viewName) {
 		var maxd;
 		var minutes;
 		var slotNormal = opt('slotMinutes') % 15 == 0;
-
+		
 		s =
 			"<table style='width:100%' class='fc-agenda-days fc-border-separate' cellspacing='0'>" +
 			"<thead>" +
@@ -3012,23 +3012,23 @@ function AgendaView(element, calendar, viewName) {
 		dayBodyCellInners = dayBodyCells.find('div.fc-day-content div');
 		dayBodyFirstCell = dayBodyCells.eq(0);
 		dayBodyFirstCellStretcher = dayBodyFirstCell.find('> div');
-
+		
 		markFirstLast(dayHead.add(dayHead.find('tr')));
 		markFirstLast(dayBody.add(dayBody.find('tr')));
-
+		
 		axisFirstCells = dayHead.find('th:first');
 		gutterCells = dayTable.find('.fc-agenda-gutter');
-
+		
 		slotLayer =
 			$("<div style='position:absolute;z-index:2;left:0;width:100%'/>")
 				.appendTo(element);
-
+				
 		if (opt('allDaySlot')) {
-
+		
 			daySegmentContainer =
 				$("<div style='position:absolute;z-index:8;top:0;left:0'/>")
 					.appendTo(slotLayer);
-
+		
 			s =
 				"<table style='width:100%' class='fc-agenda-allday' cellspacing='0'>" +
 				"<tr>" +
@@ -3041,36 +3041,36 @@ function AgendaView(element, calendar, viewName) {
 				"</table>";
 			allDayTable = $(s).appendTo(slotLayer);
 			allDayRow = allDayTable.find('tr');
-
+			
 			dayBind(allDayRow.find('td'));
-
+			
 			axisFirstCells = axisFirstCells.add(allDayTable.find('th:first'));
 			gutterCells = gutterCells.add(allDayTable.find('th.fc-agenda-gutter'));
-
+			
 			slotLayer.append(
 				"<div class='fc-agenda-divider " + headerClass + "'>" +
 				"<div class='fc-agenda-divider-inner'/>" +
 				"</div>"
 			);
-
+			
 		}else{
-
+		
 			daySegmentContainer = $([]); // in jQuery 1.4, we can just do $()
-
+		
 		}
-
+		
 		slotScroller =
 			$("<div style='position:absolute;width:100%;overflow-x:hidden;overflow-y:auto'/>")
 				.appendTo(slotLayer);
-
+				
 		slotContent =
 			$("<div style='position:relative;width:100%;overflow:hidden'/>")
 				.appendTo(slotScroller);
-
+				
 		slotSegmentContainer =
 			$("<div style='position:absolute;z-index:8;top:0;left:0'/>")
 				.appendTo(slotContent);
-
+		
 		s =
 			"<table class='fc-agenda-slots' style='width:100%' cellspacing='0'>" +
 			"<tbody>";
@@ -3097,14 +3097,14 @@ function AgendaView(element, calendar, viewName) {
 			"</table>";
 		slotTable = $(s).appendTo(slotContent);
 		slotTableFirstInner = slotTable.find('div:first');
-
+		
 		slotBind(slotTable.find('td'));
-
+		
 		axisFirstCells = axisFirstCells.add(slotTable.find('th:first'));
 	}
-
-
-
+	
+	
+	
 	function updateCells() {
 		var i;
 		var headCell;
@@ -3124,43 +3124,43 @@ function AgendaView(element, calendar, viewName) {
 			setDayID(headCell.add(bodyCell), date);
 		}
 	}
-
-
-
+	
+	
+	
 	function setHeight(height, dateChanged) {
 		if (height === undefined) {
 			height = viewHeight;
 		}
 		viewHeight = height;
 		slotTopCache = {};
-
+	
 		var headHeight = dayBody.position().top;
 		var allDayHeight = slotScroller.position().top; // including divider
 		var bodyHeight = Math.min( // total body height, including borders
 			height - headHeight,   // when scrollbars
 			slotTable.height() + allDayHeight + 1 // when no scrollbars. +1 for bottom border
 		);
-
+		
 		dayBodyFirstCellStretcher
 			.height(bodyHeight - vsides(dayBodyFirstCell));
-
+		
 		slotLayer.css('top', headHeight);
-
+		
 		slotScroller.height(bodyHeight - allDayHeight - 1);
-
+		
 		slotHeight = slotTableFirstInner.height() + 1; // +1 for border
-
+		
 		if (dateChanged) {
 			resetScroll();
 		}
 	}
-
-
-
+	
+	
+	
 	function setWidth(width) {
 		viewWidth = width;
 		colContentPositions.clear();
-
+		
 		axisWidth = 0;
 		setOuterWidth(
 			axisFirstCells
@@ -3170,10 +3170,10 @@ function AgendaView(element, calendar, viewName) {
 				}),
 			axisWidth
 		);
-
+		
 		var slotTableWidth = slotScroller[0].clientWidth; // needs to be done after axisWidth (for IE7)
 		//slotTable.width(slotTableWidth);
-
+		
 		gutterWidth = slotScroller.width() - slotTableWidth;
 		if (gutterWidth) {
 			setOuterWidth(gutterCells, gutterWidth);
@@ -3187,11 +3187,11 @@ function AgendaView(element, calendar, viewName) {
 				.prev()
 				.addClass('fc-last');
 		}
-
+		
 		colWidth = Math.floor((slotTableWidth - axisWidth) / colCnt);
 		setOuterWidth(dayHeadCells.slice(0, -1), colWidth);
 	}
-
+	
 
 
 	function resetScroll() {
@@ -3205,22 +3205,22 @@ function AgendaView(element, calendar, viewName) {
 		scroll();
 		setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
 	}
-
-
+	
+	
 	function beforeHide() {
 		savedScrollTop = slotScroller.scrollTop();
 	}
-
-
+	
+	
 	function afterShow() {
 		slotScroller.scrollTop(savedScrollTop);
 	}
-
-
-
+	
+	
+	
 	/* Slot/Day clicking and binding
 	-----------------------------------------------------------------------*/
-
+	
 
 	function dayBind(cells) {
 		cells.click(slotClick)
@@ -3232,8 +3232,8 @@ function AgendaView(element, calendar, viewName) {
 		cells.click(slotClick)
 			.mousedown(slotSelectionMousedown);
 	}
-
-
+	
+	
 	function slotClick(ev) {
 		if (!opt('selectable')) { // if selectable, SelectionManager will worry about dayClick
 			var col = Math.min(colCnt-1, Math.floor((ev.pageX - dayTable.offset().left - axisWidth) / colWidth));
@@ -3250,12 +3250,12 @@ function AgendaView(element, calendar, viewName) {
 			}
 		}
 	}
-
-
-
+	
+	
+	
 	/* Semi-transparent Overlay Helpers
 	-----------------------------------------------------*/
-
+	
 
 	function renderDayOverlay(startDate, endDate, refreshCoordinateGrid) { // endDate is exclusive
 		if (refreshCoordinateGrid) {
@@ -3278,13 +3278,13 @@ function AgendaView(element, calendar, viewName) {
 			);
 		}
 	}
-
-
+	
+	
 	function renderCellOverlay(row0, col0, row1, col1) { // only for all-day?
 		var rect = coordinateGrid.rect(row0, col0, row1, col1, slotLayer);
 		return renderOverlay(rect, slotLayer);
 	}
-
+	
 
 	function renderSlotOverlay(overlayStart, overlayEnd) {
 		var dayStart = cloneDate(t.visStart);
@@ -3307,13 +3307,13 @@ function AgendaView(element, calendar, viewName) {
 			addDays(dayEnd, 1);
 		}
 	}
-
-
-
+	
+	
+	
 	/* Coordinate Utilities
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	coordinateGrid = new CoordinateGrid(function(rows, cols) {
 		var e, n, p;
 		dayHeadCells.each(function(i, _e) {
@@ -3344,36 +3344,36 @@ function AgendaView(element, calendar, viewName) {
 			]);
 		}
 	});
-
-
+	
+	
 	hoverListener = new HoverListener(coordinateGrid);
-
-
+	
+	
 	colContentPositions = new HorizontalPositionCache(function(col) {
 		return dayBodyCellInners.eq(col);
 	});
-
-
+	
+	
 	function colContentLeft(col) {
 		return colContentPositions.left(col);
 	}
-
-
+	
+	
 	function colContentRight(col) {
 		return colContentPositions.right(col);
 	}
-
-
-
-
+	
+	
+	
+	
 	function dateCell(date) { // "cell" terminology is now confusing
 		return {
 			row: Math.floor(dayDiff(date, t.visStart) / 7),
 			col: dayOfWeekCol(date.getDay())
 		};
 	}
-
-
+	
+	
 	function cellDate(cell) {
 		var d = colDate(cell.col);
 		var slotIndex = cell.row;
@@ -3385,25 +3385,25 @@ function AgendaView(element, calendar, viewName) {
 		}
 		return d;
 	}
-
-
+	
+	
 	function colDate(col) { // returns dates with 00:00:00
 		return addDays(cloneDate(t.visStart), col*dis+dit);
 	}
-
-
+	
+	
 	function cellIsAllDay(cell) {
 		return opt('allDaySlot') && !cell.row;
 	}
-
-
+	
+	
 	function dayOfWeekCol(dayOfWeek) {
 		return ((dayOfWeek - Math.max(firstDay, nwe) + colCnt) % colCnt)*dis+dit;
 	}
-
-
-
-
+	
+	
+	
+	
 	// get the Y coordinate of the given time on the given day (both Date objects)
 	function timePosition(day, time) { // both date objects. day holds 00:00 of current day
 		day = cloneDate(day, true);
@@ -3424,21 +3424,21 @@ function AgendaView(element, calendar, viewName) {
 			slotTop - 1 + slotHeight * ((minutes % slotMinutes) / slotMinutes)
 		));
 	}
-
-
+	
+	
 	function allDayBounds() {
 		return {
 			left: axisWidth,
 			right: viewWidth - gutterWidth
 		}
 	}
-
-
+	
+	
 	function getAllDayRow(index) {
 		return allDayRow;
 	}
-
-
+	
+	
 	function defaultEventEnd(event) {
 		var start = cloneDate(event.start);
 		if (event.allDay) {
@@ -3446,21 +3446,21 @@ function AgendaView(element, calendar, viewName) {
 		}
 		return addMinutes(start, opt('defaultEventMinutes'));
 	}
-
-
-
+	
+	
+	
 	/* Selection
 	---------------------------------------------------------------------------------*/
-
-
+	
+	
 	function defaultSelectionEnd(startDate, allDay) {
 		if (allDay) {
 			return cloneDate(startDate);
 		}
 		return addMinutes(cloneDate(startDate), opt('slotMinutes'));
 	}
-
-
+	
+	
 	function renderSelection(startDate, endDate, allDay) { // only for all-day
 		if (allDay) {
 			if (opt('allDaySlot')) {
@@ -3470,8 +3470,8 @@ function AgendaView(element, calendar, viewName) {
 			renderSlotSelection(startDate, endDate);
 		}
 	}
-
-
+	
+	
 	function renderSlotSelection(startDate, endDate) {
 		var helperOption = opt('selectHelper');
 		coordinateGrid.build();
@@ -3522,8 +3522,8 @@ function AgendaView(element, calendar, viewName) {
 			renderSlotOverlay(startDate, endDate);
 		}
 	}
-
-
+	
+	
 	function clearSelection() {
 		clearOverlays();
 		if (selectionHelper) {
@@ -3531,8 +3531,8 @@ function AgendaView(element, calendar, viewName) {
 			selectionHelper = null;
 		}
 	}
-
-
+	
+	
 	function slotSelectionMousedown(ev) {
 		if (ev.which == 1 && opt('selectable')) { // ev.which==1 means left mouse button
 			unselect(ev);
@@ -3564,18 +3564,18 @@ function AgendaView(element, calendar, viewName) {
 			});
 		}
 	}
-
-
+	
+	
 	function reportDayClick(date, allDay, ev) {
 		trigger('dayClick', dayBodyCells[dayOfWeekCol(date.getDay())], date, allDay, ev);
 	}
-
-
-
+	
+	
+	
 	/* External Dragging
 	--------------------------------------------------------------------------------*/
-
-
+	
+	
 	function dragStart(_dragElement, ev, ui) {
 		hoverListener.start(function(cell) {
 			clearOverlays();
@@ -3590,8 +3590,8 @@ function AgendaView(element, calendar, viewName) {
 			}
 		}, ev);
 	}
-
-
+	
+	
 	function dragStop(_dragElement, ev, ui) {
 		var cell = hoverListener.stop();
 		clearOverlays();
@@ -3605,16 +3605,16 @@ function AgendaView(element, calendar, viewName) {
 
 function AgendaEventRenderer() {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.renderEvents = renderEvents;
 	t.compileDaySegs = compileDaySegs; // for DayEventRenderer
 	t.clearEvents = clearEvents;
 	t.slotSegHtml = slotSegHtml;
 	t.bindDaySeg = bindDaySeg;
-
-
+	
+	
 	// imports
 	DayEventRenderer.call(t);
 	var opt = t.opt;
@@ -3651,12 +3651,12 @@ function AgendaEventRenderer() {
 	var calendar = t.calendar;
 	var formatDate = calendar.formatDate;
 	var formatDates = calendar.formatDates;
-
-
-
+	
+	
+	
 	/* Rendering
 	----------------------------------------------------------------------------*/
-
+	
 
 	function renderEvents(events, modifiedEventId) {
 		reportEvents(events);
@@ -3676,15 +3676,15 @@ function AgendaEventRenderer() {
 		}
 		renderSlotSegs(compileSlotSegs(slotEvents), modifiedEventId);
 	}
-
-
+	
+	
 	function clearEvents() {
 		reportEventClear();
 		getDaySegmentContainer().empty();
 		getSlotSegmentContainer().empty();
 	}
-
-
+	
+	
 	function compileDaySegs(events) {
 		var levels = stackSegs(sliceSegs(events, $.map(events, exclEndDay), t.visStart, t.visEnd)),
 			i, levelCnt=levels.length, level,
@@ -3701,8 +3701,8 @@ function AgendaEventRenderer() {
 		}
 		return segs;
 	}
-
-
+	
+	
 	function compileSlotSegs(events) {
 		var colCnt = getColCnt(),
 			minMinute = getMinMinute(),
@@ -3729,8 +3729,8 @@ function AgendaEventRenderer() {
 		}
 		return segs;
 	}
-
-
+	
+	
 	function slotEventEnd(event) {
 		if (event.end) {
 			return cloneDate(event.end);
@@ -3738,12 +3738,12 @@ function AgendaEventRenderer() {
 			return addMinutes(cloneDate(event.start), opt('defaultEventMinutes'));
 		}
 	}
-
-
+	
+	
 	// renders events in the 'time slots' at the bottom
-
+	
 	function renderSlotSegs(segs, modifiedEventId) {
-
+	
 		var i, segCnt=segs.length, seg,
 			event,
 			classes,
@@ -3765,7 +3765,7 @@ function AgendaEventRenderer() {
 			slotSegmentContainer = getSlotSegmentContainer(),
 			rtl, dis, dit,
 			colCnt = getColCnt();
-
+			
 		if (rtl = opt('isRTL')) {
 			dis = -1;
 			dit = colCnt - 1;
@@ -3773,7 +3773,7 @@ function AgendaEventRenderer() {
 			dis = 1;
 			dit = 0;
 		}
-
+			
 		// calculate position/dimensions, create html
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -3809,7 +3809,7 @@ function AgendaEventRenderer() {
 		}
 		slotSegmentContainer[0].innerHTML = html; // faster than html()
 		eventElements = slotSegmentContainer.children();
-
+		
 		// retrieve elements, run through eventRender callback, bind event handlers
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -3838,9 +3838,9 @@ function AgendaEventRenderer() {
 				reportEventElement(event, eventElement);
 			}
 		}
-
+		
 		lazySegBind(slotSegmentContainer, segs, bindSlotSeg);
-
+		
 		// record event sides and title positions
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -3855,7 +3855,7 @@ function AgendaEventRenderer() {
 				}
 			}
 		}
-
+		
 		// set all positions/dimensions at once
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -3874,10 +3874,10 @@ function AgendaEventRenderer() {
 				trigger('eventAfterRender', event, event, eventElement);
 			}
 		}
-
+					
 	}
-
-
+	
+	
 	function slotSegHtml(event, seg) {
 		var html = "<";
 		var url = event.url;
@@ -3927,8 +3927,8 @@ function AgendaEventRenderer() {
 			"</" + (url ? "a" : "div") + ">";
 		return html;
 	}
-
-
+	
+	
 	function bindDaySeg(event, eventElement, seg) {
 		if (isEventDraggable(event)) {
 			draggableDayEvent(event, eventElement, seg.isStart);
@@ -3939,8 +3939,8 @@ function AgendaEventRenderer() {
 		eventElementHandlers(event, eventElement);
 			// needs to be after, because resizableDayEvent might stopImmediatePropagation on click
 	}
-
-
+	
+	
 	function bindSlotSeg(event, eventElement, seg) {
 		var timeElement = eventElement.find('div.fc-event-time');
 		if (isEventDraggable(event)) {
@@ -3951,15 +3951,15 @@ function AgendaEventRenderer() {
 		}
 		eventElementHandlers(event, eventElement);
 	}
-
-
-
+	
+	
+	
 	/* Dragging
 	-----------------------------------------------------------------------------------*/
-
-
+	
+	
 	// when event starts out FULL-DAY
-
+	
 	function draggableDayEvent(event, eventElement, isStart) {
 		var origWidth;
 		var revert;
@@ -4053,10 +4053,10 @@ function AgendaEventRenderer() {
 			}
 		}
 	}
-
-
+	
+	
 	// when event starts out IN TIMESLOTS
-
+	
 	function draggableSlotEvent(event, eventElement, timeElement) {
 		var origPosition;
 		var allDay=false;
@@ -4147,13 +4147,13 @@ function AgendaEventRenderer() {
 			}
 		}
 	}
-
-
-
+	
+	
+	
 	/* Resizing
 	--------------------------------------------------------------------------------------*/
-
-
+	
+	
 	function resizableSlotEvent(event, eventElement, timeElement) {
 		var slotDelta, prevSlotDelta;
 		var slotHeight = getSlotHeight();
@@ -4195,7 +4195,7 @@ function AgendaEventRenderer() {
 			}
 		});
 	}
-
+	
 
 }
 
@@ -4221,8 +4221,8 @@ function countForwardSegs(levels) {
 
 function View(element, calendar, viewName) {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.element = element;
 	t.calendar = calendar;
@@ -4244,22 +4244,22 @@ function View(element, calendar, viewName) {
 	// t.title
 	// t.start, t.end
 	// t.visStart, t.visEnd
-
-
+	
+	
 	// imports
 	var defaultEventEnd = t.defaultEventEnd;
 	var normalizeEvent = calendar.normalizeEvent; // in EventManager
 	var reportEventChange = calendar.reportEventChange;
-
-
+	
+	
 	// locals
 	var eventsByID = {};
 	var eventElements = [];
 	var eventElementsByID = {};
 	var options = calendar.options;
-
-
-
+	
+	
+	
 	function opt(name, viewNameOverride) {
 		var v = options[name];
 		if (typeof v == 'object') {
@@ -4268,42 +4268,42 @@ function View(element, calendar, viewName) {
 		return v;
 	}
 
-
+	
 	function trigger(name, thisObj) {
 		return calendar.trigger.apply(
 			calendar,
 			[name, thisObj || t].concat(Array.prototype.slice.call(arguments, 2), [t])
 		);
 	}
-
-
+	
+	
 	/*
 	function setOverflowHidden(bool) {
 		element.css('overflow', bool ? 'hidden' : '');
 	}
 	*/
-
-
+	
+	
 	function isEventDraggable(event) {
 		return isEventEditable(event) && !opt('disableDragging');
 	}
-
-
+	
+	
 	function isEventResizable(event) { // but also need to make sure the seg.isEnd == true
 		return isEventEditable(event) && !opt('disableResizing');
 	}
-
-
+	
+	
 	function isEventEditable(event) {
 		return firstDefined(event.editable, (event.source || {}).editable, opt('editable'));
 	}
-
-
-
+	
+	
+	
 	/* Event Data
 	------------------------------------------------------------------------------*/
-
-
+	
+	
 	// report when view receives new events
 	function reportEvents(events) { // events are already normalized at this point
 		eventsByID = {};
@@ -4317,19 +4317,19 @@ function View(element, calendar, viewName) {
 			}
 		}
 	}
-
-
+	
+	
 	// returns a Date object for an event's end
 	function eventEnd(event) {
 		return event.end ? cloneDate(event.end) : defaultEventEnd(event);
 	}
-
-
-
+	
+	
+	
 	/* Event Elements
 	------------------------------------------------------------------------------*/
-
-
+	
+	
 	// report when view creates an element for an event
 	function reportEventElement(event, element) {
 		eventElements.push(element);
@@ -4339,14 +4339,14 @@ function View(element, calendar, viewName) {
 			eventElementsByID[event._id] = [element];
 		}
 	}
-
-
+	
+	
 	function reportEventClear() {
 		eventElements = [];
 		eventElementsByID = {};
 	}
-
-
+	
+	
 	// attaches eventClick, eventMouseover, eventMouseout
 	function eventElementHandlers(event, eventElement) {
 		eventElement
@@ -4367,18 +4367,18 @@ function View(element, calendar, viewName) {
 		// TODO: don't fire eventMouseover/eventMouseout *while* dragging is occuring (on subject element)
 		// TODO: same for resizing
 	}
-
-
+	
+	
 	function showEvents(event, exceptElement) {
 		eachEventElement(event, exceptElement, 'show');
 	}
-
-
+	
+	
 	function hideEvents(event, exceptElement) {
 		eachEventElement(event, exceptElement, 'hide');
 	}
-
-
+	
+	
 	function eachEventElement(event, exceptElement, funcName) {
 		var elements = eventElementsByID[event._id],
 			i, len = elements.length;
@@ -4388,13 +4388,13 @@ function View(element, calendar, viewName) {
 			}
 		}
 	}
-
-
-
+	
+	
+	
 	/* Event Modification Reporting
 	---------------------------------------------------------------------------------*/
-
-
+	
+	
 	function eventDrop(e, event, dayDelta, minuteDelta, allDay, ev, ui) {
 		var oldAllDay = event.allDay;
 		var eventId = event._id;
@@ -4416,8 +4416,8 @@ function View(element, calendar, viewName) {
 		);
 		reportEventChange(eventId);
 	}
-
-
+	
+	
 	function eventResize(e, event, dayDelta, minuteDelta, ev, ui) {
 		var eventId = event._id;
 		elongateEvents(eventsByID[eventId], dayDelta, minuteDelta);
@@ -4437,13 +4437,13 @@ function View(element, calendar, viewName) {
 		);
 		reportEventChange(eventId);
 	}
-
-
-
+	
+	
+	
 	/* Event Modification Math
 	---------------------------------------------------------------------------------*/
-
-
+	
+	
 	function moveEvents(events, dayDelta, minuteDelta, allDay) {
 		minuteDelta = minuteDelta || 0;
 		for (var e, len=events.length, i=0; i<len; i++) {
@@ -4458,8 +4458,8 @@ function View(element, calendar, viewName) {
 			normalizeEvent(e, options);
 		}
 	}
-
-
+	
+	
 	function elongateEvents(events, dayDelta, minuteDelta) {
 		minuteDelta = minuteDelta || 0;
 		for (var e, len=events.length, i=0; i<len; i++) {
@@ -4468,19 +4468,19 @@ function View(element, calendar, viewName) {
 			normalizeEvent(e, options);
 		}
 	}
-
+	
 
 }
 
 function DayEventRenderer() {
 	var t = this;
 
-
+	
 	// exports
 	t.renderDaySegs = renderDaySegs;
 	t.resizableDayEvent = resizableDayEvent;
-
-
+	
+	
 	// imports
 	var opt = t.opt;
 	var trigger = t.trigger;
@@ -4507,13 +4507,13 @@ function DayEventRenderer() {
 	var renderDayOverlay = t.renderDayOverlay;
 	var clearOverlays = t.clearOverlays;
 	var clearSelection = t.clearSelection;
-
-
-
+	
+	
+	
 	/* Rendering
 	-----------------------------------------------------------------------------*/
-
-
+	
+	
 	function renderDaySegs(segs, modifiedEventId) {
 		var segmentContainer = getDaySegmentContainer();
 		var rowDivs;
@@ -4557,8 +4557,8 @@ function DayEventRenderer() {
 		}
 		daySegSetTops(segs, getRowTops(rowDivs));
 	}
-
-
+	
+	
 	function renderTempDaySegs(segs, adjustRow, adjustTop) {
 		var tempContainer = $("<div/>");
 		var elements;
@@ -4586,8 +4586,8 @@ function DayEventRenderer() {
 		}
 		return $(elements);
 	}
-
-
+	
+	
 	function daySegHTML(segs) { // also sets seg.left and seg.outerWidth
 		var rtl = opt('isRTL');
 		var i;
@@ -4679,8 +4679,8 @@ function DayEventRenderer() {
 		}
 		return html;
 	}
-
-
+	
+	
 	function daySegElementResolve(segs, elements) { // sets seg.element
 		var i;
 		var segCnt = segs.length;
@@ -4709,8 +4709,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-
-
+	
+	
 	function daySegElementReport(segs) {
 		var i;
 		var segCnt = segs.length;
@@ -4724,8 +4724,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-
-
+	
+	
 	function daySegHandlers(segs, segmentContainer, modifiedEventId) {
 		var i;
 		var segCnt = segs.length;
@@ -4747,8 +4747,8 @@ function DayEventRenderer() {
 		}
 		lazySegBind(segmentContainer, segs, bindDaySeg);
 	}
-
-
+	
+	
 	function daySegCalcHSides(segs) { // also sets seg.key
 		var i;
 		var segCnt = segs.length;
@@ -4770,8 +4770,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-
-
+	
+	
 	function daySegSetWidths(segs) {
 		var i;
 		var segCnt = segs.length;
@@ -4785,8 +4785,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-
-
+	
+	
 	function daySegCalcHeights(segs) {
 		var i;
 		var segCnt = segs.length;
@@ -4808,8 +4808,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-
-
+	
+	
 	function getRowDivs() {
 		var i;
 		var rowCnt = getRowCnt();
@@ -4820,8 +4820,8 @@ function DayEventRenderer() {
 		}
 		return rowDivs;
 	}
-
-
+	
+	
 	function getRowTops(rowDivs) {
 		var i;
 		var rowCnt = rowDivs.length;
@@ -4831,8 +4831,8 @@ function DayEventRenderer() {
 		}
 		return tops;
 	}
-
-
+	
+	
 	function daySegSetTops(segs, rowTops) { // also triggers eventAfterRender
 		var i;
 		var segCnt = segs.length;
@@ -4849,19 +4849,19 @@ function DayEventRenderer() {
 			}
 		}
 	}
-
-
-
+	
+	
+	
 	/* Resizing
 	-----------------------------------------------------------------------------------*/
-
-
+	
+	
 	function resizableDayEvent(event, element, seg) {
 		var rtl = opt('isRTL');
 		var direction = rtl ? 'w' : 'e';
 		var handle = element.find('div.ui-resizable-' + direction);
 		var isResizing = false;
-
+		
 		// TODO: look into using jquery-ui mouse widget for this stuff
 		disableTextSelection(element); // prevent native <a> selection for IE
 		element
@@ -4875,7 +4875,7 @@ function DayEventRenderer() {
 					                               // (eventElementHandlers needs to be bound after resizableDayEvent)
 				}
 			});
-
+		
 		handle.mousedown(function(ev) {
 			if (ev.which != 1) {
 				return; // needs to be left mouse button
@@ -4932,7 +4932,7 @@ function DayEventRenderer() {
 					renderDayOverlay(event.start, addDays(cloneDate(newEnd), 1)); // coordinate grid already rebuild at hoverListener.start
 				}
 			}, ev);
-
+			
 			function mouseup(ev) {
 				trigger('eventResizeStop', this, event, ev);
 				$('body').css('cursor', '');
@@ -4943,15 +4943,15 @@ function DayEventRenderer() {
 					// event redraw will clear helpers
 				}
 				// otherwise, the drag handler already restored the old events
-
+				
 				setTimeout(function() { // make this happen after the element's click event
 					isResizing = false;
 				},0);
 			}
-
+			
 		});
 	}
-
+	
 
 }
 
@@ -4959,23 +4959,23 @@ function DayEventRenderer() {
 
 function SelectionManager() {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.select = select;
 	t.unselect = unselect;
 	t.reportSelection = reportSelection;
 	t.daySelectionMousedown = daySelectionMousedown;
-
-
+	
+	
 	// imports
 	var opt = t.opt;
 	var trigger = t.trigger;
 	var defaultSelectionEnd = t.defaultSelectionEnd;
 	var renderSelection = t.renderSelection;
 	var clearSelection = t.clearSelection;
-
-
+	
+	
 	// locals
 	var selected = false;
 
@@ -4993,7 +4993,7 @@ function SelectionManager() {
 			unselect(ev);
 		});
 	}
-
+	
 
 	function select(startDate, endDate, allDay) {
 		unselect();
@@ -5003,8 +5003,8 @@ function SelectionManager() {
 		renderSelection(startDate, endDate, allDay);
 		reportSelection(startDate, endDate, allDay);
 	}
-
-
+	
+	
 	function unselect(ev) {
 		if (selected) {
 			selected = false;
@@ -5012,14 +5012,14 @@ function SelectionManager() {
 			trigger('unselect', null, ev);
 		}
 	}
-
-
+	
+	
 	function reportSelection(startDate, endDate, allDay, ev) {
 		selected = true;
 		trigger('select', null, startDate, endDate, allDay, ev);
 	}
-
-
+	
+	
 	function daySelectionMousedown(ev) { // not really a generic manager method, oh well
 		var cellDate = t.cellDate;
 		var cellIsAllDay = t.cellIsAllDay;
@@ -5052,21 +5052,21 @@ function SelectionManager() {
 
 
 }
-
+ 
 function OverlayManager() {
 	var t = this;
-
-
+	
+	
 	// exports
 	t.renderOverlay = renderOverlay;
 	t.clearOverlays = clearOverlays;
-
-
+	
+	
 	// locals
 	var usedOverlays = [];
 	var unusedOverlays = [];
-
-
+	
+	
 	function renderOverlay(rect, parent) {
 		var e = unusedOverlays.shift();
 		if (!e) {
@@ -5078,7 +5078,7 @@ function OverlayManager() {
 		usedOverlays.push(e.css(rect).show());
 		return e;
 	}
-
+	
 
 	function clearOverlays() {
 		var e;
@@ -5095,15 +5095,15 @@ function CoordinateGrid(buildFunc) {
 	var t = this;
 	var rows;
 	var cols;
-
-
+	
+	
 	t.build = function() {
 		rows = [];
 		cols = [];
 		buildFunc(rows, cols);
 	};
-
-
+	
+	
 	t.cell = function(x, y) {
 		var rowCnt = rows.length;
 		var colCnt = cols.length;
@@ -5122,8 +5122,8 @@ function CoordinateGrid(buildFunc) {
 		}
 		return (r>=0 && c>=0) ? { row:r, col:c } : null;
 	};
-
-
+	
+	
 	t.rect = function(row0, col0, row1, col1, originElement) { // row1,col1 is inclusive
 		var origin = originElement.offset();
 		return {
@@ -5144,8 +5144,8 @@ function HoverListener(coordinateGrid) {
 	var change;
 	var firstCell;
 	var cell;
-
-
+	
+	
 	t.start = function(_change, ev, _bindType) {
 		change = _change;
 		firstCell = cell = null;
@@ -5154,9 +5154,10 @@ function HoverListener(coordinateGrid) {
 		bindType = _bindType || 'mousemove';
 		$(document).bind(bindType, mouse);
 	};
-
-
+	
+	
 	function mouse(ev) {
+		_fixUIEvent(ev); // see below
 		var newCell = coordinateGrid.cell(ev.pageX, ev.pageY);
 		if (!newCell != !cell || newCell && (newCell.row != cell.row || newCell.col != cell.col)) {
 			if (newCell) {
@@ -5170,41 +5171,54 @@ function HoverListener(coordinateGrid) {
 			cell = newCell;
 		}
 	}
-
-
+	
+	
 	t.stop = function() {
 		$(document).unbind(bindType, mouse);
 		return cell;
 	};
-
-
+	
+	
 }
 
+
+
+// this fix was only necessary for jQuery UI 1.8.16 (and jQuery 1.7 or 1.7.1)
+// upgrading to jQuery UI 1.8.17 (and using either jQuery 1.7 or 1.7.1) fixed the problem
+// but keep this in here for 1.8.16 users
+// and maybe remove it down the line
+
+function _fixUIEvent(event) { // for issue 1168
+	if (event.pageX === undefined) {
+		event.pageX = event.originalEvent.pageX;
+		event.pageY = event.originalEvent.pageY;
+	}
+}
 function HorizontalPositionCache(getElement) {
 
 	var t = this,
 		elements = {},
 		lefts = {},
 		rights = {};
-
+		
 	function e(i) {
 		return elements[i] = elements[i] || getElement(i);
 	}
-
+	
 	t.left = function(i) {
 		return lefts[i] = lefts[i] === undefined ? e(i).position().left : lefts[i];
 	};
-
+	
 	t.right = function(i) {
 		return rights[i] = rights[i] === undefined ? t.left(i) + e(i).width() : rights[i];
 	};
-
+	
 	t.clear = function() {
 		elements = {};
 		lefts = {};
 		rights = {};
 	};
-
+	
 }
 
 })(jQuery);

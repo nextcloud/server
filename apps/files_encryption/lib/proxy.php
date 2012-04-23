@@ -36,10 +36,10 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 * @return bool
 	 */
 	private static function shouldEncrypt($path){
-		if(is_null($this->enableEncryption)){
-			$this->enableEncryption=(OC_Appconfig::getValue('files_encryption','enabled','true')=='true');
+		if(is_null(self::$enableEncryption)){
+			self::$enableEncryption=(OC_Appconfig::getValue('files_encryption','enable_encryption','true')=='true');
 		}
-		if(!$this->enableEncryption){
+		if(!self::$enableEncryption){
 			return false;
 		}
 		if(is_null(self::$blackList)){
