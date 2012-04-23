@@ -99,12 +99,16 @@ if(is_writable('import_tmp/')){
 if(count($parts) == 1){
 	$importready = array($file);
 }
+$imported = 0;
+$failed = 0;
 foreach($importready as $import){
 	$card = OC_VObject::parse($import);
 	if (!$card) {
+		$failed += 1;
 		OC_Log::write('contacts','Import: skipping card. Error parsing VCard: '.$import, OC_Log::ERROR);
 		continue; // Ditch cards that can't be parsed by Sabre.
 	}
+	$imported += 1;
 	OC_Contacts_VCard::add($id, $card);
 }
 //done the import
@@ -117,4 +121,10 @@ sleep(3);
 if(is_writable('import_tmp/')){
 	unlink($progressfile);
 }
-OC_JSON::success();
+if(isset($_POST['istmpfile'])) {
+	OC_Log::write('contacts','Import: Unlinking '.$_POST['path'] . '/' . $_POST['file'], OC_Log::ERROR);
+	if(!OC_Filesystem::unlink($_POST['path'] . '/' . $_POST['file'])) {
+		OC_Log::write('contacts','Import: Error unlinking '.$_POST['path'] . '/' . $_POST['file'], OC_Log::ERROR);
+	}
+}
+OC_JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));

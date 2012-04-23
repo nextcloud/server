@@ -1263,7 +1263,8 @@ Contacts={
 							for(ptype in this.data.TEL[phone]['parameters'][param]) {
 								var pt = this.data.TEL[phone]['parameters'][param][ptype];
 								$('#phonelist li:last-child').find('select option').each(function(){
-									if ($(this).val().toUpperCase() == pt.toUpperCase()) {
+									//if ($(this).val().toUpperCase() == pt.toUpperCase()) {
+									if ($.inArray($(this).val().toUpperCase(), pt.toUpperCase().split(',')) > -1) {
 										$(this).attr('selected', 'selected');
 									}
 								});
@@ -1285,6 +1286,7 @@ Contacts={
 			},
 		},
 		Addressbooks:{
+			droptarget:undefined,
 			overview:function(){
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
@@ -1317,14 +1319,13 @@ Contacts={
 				var tr = $(document.createElement('tr'))
 					.load(OC.filePath('contacts', 'ajax', 'addbook.php'));
 				$(object).closest('tr').after(tr).hide();
-				/* TODO: Shouldn't there be some kinda error checking here? */
 			},
 			editAddressbook:function(object, bookid){
 				var tr = $(document.createElement('tr'))
 					.load(OC.filePath('contacts', 'ajax', 'editaddressbook.php') + "?bookid="+bookid);
 				$(object).closest('tr').after(tr).hide();
 			},
-			deleteAddressbook:function(bookid){
+			deleteAddressbook:function(obj, bookid){
 				var check = confirm("Do you really want to delete this address book?");
 				if(check == false){
 					return false;
@@ -1332,9 +1333,10 @@ Contacts={
 					$.post(OC.filePath('contacts', 'ajax', 'deletebook.php'), { id: bookid},
 					  function(jsondata) {
 						if (jsondata.status == 'success'){
-							$('#chooseaddressbook_dialog').dialog('destroy').remove();
+							$(obj).closest('tr').remove();
+							//$('#chooseaddressbook_dialog').dialog('destroy').remove();
 							Contacts.UI.Contacts.update();
-							Contacts.UI.Addressbooks.overview();
+							//Contacts.UI.Addressbooks.overview();
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							//alert('Error: ' + data.message);
@@ -1342,8 +1344,99 @@ Contacts={
 					  });
 				}
 			},
-			doImport:function(){
-				Contacts.UI.notImplemented();
+			loadImportHandlers:function() {
+				this.droptarget = $('#import_drop_target');
+				console.log($('#import_drop_target').html());
+				$(this.droptarget).bind('dragover',function(event){
+					//console.log('dragover');
+					$(event.target).addClass('droppable');
+					event.stopPropagation();
+					event.preventDefault();  
+				});
+				$(this.droptarget).bind('dragleave',function(event){
+					//console.log('dragleave');
+					$(event.target).removeClass('droppable');
+					//event.stopPropagation();
+					//event.preventDefault();  
+				});
+				$(this.droptarget).bind('drop',function(event){
+					event.stopPropagation();
+					event.preventDefault();
+					console.log('drop');
+					$(event.target).removeClass('droppable');
+					$(event.target).html(t('contacts', 'Uploading...'));
+					Contacts.UI.loading(event.target, true);
+					$.fileUpload(event.originalEvent.dataTransfer.files);
+				});
+
+				$.fileUpload = function(files){
+					console.log(files + ', ' + files.length);
+					var file = files[0];
+					console.log('size: '+file.size+', type: '+file.type);
+					if(file.size > $('#max_upload').val()){
+						OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
+						$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+						Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
+						return;
+					}
+					if(file.type.indexOf('text') != 0) {
+						OC.dialogs.alert(t('contacts','You have dropped a file type that cannot be imported: ') + file.type, t('contacts','Wrong file type'));
+						$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+						Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
+						return;
+					}
+					var xhr = new XMLHttpRequest();
+
+					if (!xhr.upload) {
+						OC.dialogs.alert(t('contacts', 'Your browser doesn\'t support AJAX upload. Please upload the contacts file to ownCloud and import that way.'), t('contacts', 'Error'))
+					}
+					fileUpload = xhr.upload,
+					xhr.onreadystatechange = function() {
+						if (xhr.readyState == 4){
+							response = $.parseJSON(xhr.responseText);
+							if(response.status == 'success') {
+								if(xhr.status == 200) {
+									$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Importing...'));
+									Contacts.UI.Addressbooks.doImport(response.data.path, response.data.file);
+								} else {
+									$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+									Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
+									OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
+								}
+							} else {
+								OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
+							}
+						}
+					};
+					xhr.open("POST", 'ajax/uploadimport.php?file='+encodeURIComponent(file.name), true);
+					xhr.setRequestHeader('Cache-Control', 'no-cache');
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+					xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
+					xhr.setRequestHeader('X-File-Size', file.size);
+					xhr.setRequestHeader('Content-Type', file.type);
+					xhr.send(file);
+				}
+			},
+			importAddressbook:function(object){
+				var tr = $(document.createElement('tr'))
+					.load(OC.filePath('contacts', 'ajax', 'importaddressbook.php'));
+				$(object).closest('tr').after(tr).hide();
+				//this.loadImportHandlers();
+			},
+			doImport:function(path, file){
+				var id = $('#importaddressbook_dialog').find('#book').val();
+				console.log('Selected book: ' + id);
+				$.post(OC.filePath('contacts', '', 'import.php'), { id: id, path: path, file: file, istmpfile: true },
+					function(jsondata){
+						if(jsondata.status == 'success'){
+							Contacts.UI.Addressbooks.droptarget.html(t('contacts', 'Import done. Success/Failure: ')+jsondata.data.imported+'/'+jsondata.data.failed);
+							$('#chooseaddressbook_dialog').find('#close_button').val(t('contacts', 'OK'));
+							Contacts.UI.Contacts.update();
+						} else {
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+						}
+				});
+				Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
 			},
 			submit:function(button, bookid){
 				var displayname = $("#displayname_"+bookid).val().trim();
@@ -1368,7 +1461,7 @@ Contacts={
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
-					});
+				});
 			},
 			cancel:function(button, bookid){
 				$(button).closest('tr').prev().show().next().remove();
@@ -1507,13 +1600,13 @@ $(document).ready(function(){
 	});
 	$('#contacts_details_photo_wrapper').bind('dragover',function(event){
 		console.log('dragover');
-		$(event.target).css('background-color','red');
+		$(event.target).addClass('droppable');
 		event.stopPropagation();
 		event.preventDefault();  
 	});
 	$('#contacts_details_photo_wrapper').bind('dragleave',function(event){
 		console.log('dragleave');
-		$(event.target).css('background-color','white');
+		$(event.target).removeClass('droppable');
 		//event.stopPropagation();
 		//event.preventDefault();  
 	});
@@ -1521,7 +1614,7 @@ $(document).ready(function(){
 		event.stopPropagation();
 		event.preventDefault();
 		console.log('drop');
-		$(event.target).css('background-color','white')
+		$(event.target).removeClass('droppable');
 		$.fileUpload(event.originalEvent.dataTransfer.files);
 	});
 

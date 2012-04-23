@@ -33,7 +33,8 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .form dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0px; white-space: nowrap; vertical-align: text-bottom; }
 #address.form dt { min-width: 5em; }
 #address.form dl { min-width: 10em; }
-
+.droptarget { margin: 0.5em; padding: 0.5em; border: thin solid #ccc; -moz-border-radius:.3em; -webkit-border-radius:.3em; border-radius:.3em; }
+.droppable { margin: 0.5em; padding: 0.5em; border: thin dashed #333; -moz-border-radius:.3em; -webkit-border-radius:.3em; border-radius:.3em; }
 .loading { background: url('../../../core/img/loading.gif') no-repeat center !important; /*cursor: progress; */ cursor: wait; }
 .ui-autocomplete-loading { background: url('../../../core/img/loading.gif') right center no-repeat; }
 .float { float: left; }
