@@ -22,8 +22,8 @@ foreach($calendars as $calendar){
 	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
 }
 
-$eventSources[] = array('url' => 'ajax/events.php?calendar_id=shared_rw', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable'=>'true');
-$eventSources[] = array('url' => 'ajax/events.php?calendar_id=shared_r', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable' => 'false');
+$eventSources[] = array('url' => '?app=calendar&getfile=ajax/events.php?calendar_id=shared_rw', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable'=>'true');
+$eventSources[] = array('url' => '?app=calendar&getfile=ajax/events.php?calendar_id=shared_r', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable' => 'false');
 
 OC_Hook::emit('OC_Calendar', 'getSources', array('sources' => &$eventSources));
 $categories = OC_Calendar_App::getCategoryOptions();
