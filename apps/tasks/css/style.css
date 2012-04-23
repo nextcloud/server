@@ -46,11 +46,12 @@
 
 .task .categories{position:absolute;right:6em;text-align:right;top:0.4em}
 .task .categories a{background-color:#1d2d44;color:white;}
-.task .categories .tag.active{display:none}
+.task .categories .tag.active{display:none;}
+.task input.categories{display:none;top:0;text-align:left;}
 
 .task .location{background-color:#442d44;color:white;position:absolute;right:0.6em;width:4.2em;text-align:left;top:0.4em}
 
-.task .more{display:none;}
+.task .more{display:none;margin-top:0.5em;}
 
 .task .description{position:relative;left:4em;}
 .task .due{position:absolute;right:0.3em;}

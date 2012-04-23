@@ -103,6 +103,20 @@ OC.Tasks = {
 			.append(description)
 			.append(due)
 			.appendTo(task_container);
+		$('<input placeholder="'+t('tasks', 'List')+'">')
+			.addClass('categories')
+			.multiple_autocomplete({source: categories})
+			.val(task.categories)
+			.blur(function(){
+				var task = $(this).closest('.task').data('task');
+				var categories = $(this).val();
+				$.post('ajax/update_property.php', {id:task.id, type:'categories', categories:categories}, function(jsondata){
+					if(jsondata.status == 'success') {
+						task.categories = categories.split(',');
+					}
+				});
+			})
+			.appendTo(task_container);
 		return task_container;
 	},
 	filter:function(tag, find_filter) {
@@ -221,6 +235,8 @@ OC.Tasks = {
 		var $task = $(this).closest('.task'),
 			task = $task.data('task');
 		$task.find('.more').show();
+		$task.find('div.categories').hide();
+		$task.find('input.categories').show();
 	},
 	complete_task:function() {
 		var $task = $(this).closest('.task'),
@@ -241,6 +257,11 @@ OC.Tasks = {
 				alert(jsondata.data.message);
 			}
 		}, 'json');
+	},
+	categoriesChanged:function(newcategories){
+		categories = $.map(newcategories, function(v) {return v;});
+		console.log('Task categories changed to: ' + categories);
+		$('input.categories').multiple_autocomplete('option', 'source', categories);
 	},
 	List: {
 		create_list_div:function(category){
@@ -283,6 +304,8 @@ $(document).ready(function(){
 			});
 			$(this).toggleClass('active');
 		});
+		OCCategories.changed = OC.Tasks.categoriesChanged;
+		OCCategories.app = 'calendar';
 	});
 
 	/*-------------------------------------------------------------------------
