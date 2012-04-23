@@ -420,11 +420,11 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('#tasks_newtask').click(function(){
-		$.getJSON('ajax/addtaskform.php',{},function(jsondata){
+	$('#tasks_addtask').click(function(){
+		var input = $('#tasks_newtask').val();
+		$.getJSON('ajax/addtask.php',{text:input},function(jsondata){
 			if(jsondata.status == 'success'){
-				$('#task_details').data('id','');
-				$('#task_details').html(jsondata.data.page);
+				$('#tasks_list').append(OC.Tasks.create_task_div(jsondata.task));
 			}
 			else{
 				alert(jsondata.data.message);
