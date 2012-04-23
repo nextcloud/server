@@ -73,7 +73,7 @@ class OC_LDAP {
 	 * Executes an LDAP search
 	 */
 	static public function search($filter, $attr = null) {
-		$sr = ldap_search(self::getConnectionResource(), self::$ldapBase, $filter);
+		$sr = ldap_search(self::getConnectionResource(), self::$ldapBase, $filter, array($attr));
 		$findings = ldap_get_entries(self::getConnectionResource(), $sr );
 
 		if(!is_null($attr)) {
