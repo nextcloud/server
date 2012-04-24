@@ -11,7 +11,7 @@
 #actionbar { height: 30px; width: 60px; position: fixed; right: 0px; top: 4em; margin: 0 0 0 0; padding: 0 0 0 0; z-index: 1000; }
 #contacts_deletecard {position:absolute;top:15px;right:25px;}
 #contacts_downloadcard {position:absolute;top:15px;right:50px;}
-#contacts_propertymenu_button { position:absolute;top:15px;right:150px; background:url('core/img/actions/add.svg') no-repeat center;	 }
+#contacts_propertymenu_button { position:absolute;top:15px;right:150px;}
 #contacts_propertymenu { background-color: #fff; position:absolute;top:40px;right:150px; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
 #contacts_propertymenu li { display: block; font-weight: bold; height: 20px; width: 100px; }
 #contacts_propertymenu li a { padding: 3px; display: block }
@@ -34,20 +34,12 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 #address.form dt { min-width: 5em; }
 #address.form dl { min-width: 10em; }
 
-.loading { background: url('core/img/loading.gif') no-repeat center !important; /*cursor: progress; */ cursor: wait; }
-.ui-autocomplete-loading { background: url('core/img/loading.gif') right center no-repeat; }
+.loading {/*cursor: progress; */ cursor: wait; }
 .float { float: left; }
 .listactions { height: 1em; width:60px; float: left; clear: right; }
 .add,.edit,.delete,.mail, .globe, .upload, .cloud { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; opacity: 0.1; }
 .add:hover,.edit:hover,.delete:hover,.mail:hover, .globe:hover, .upload:hover, .cloud:hover { opacity: 1.0 }
-.add { background:url('core/img/actions/add.svg') no-repeat center; clear: both; }
-.delete { background:url('core/img/actions/delete.svg') no-repeat center; }
-.edit { background:url('core/img/actions/rename.svg') no-repeat center; }
-.mail { background:url('core/img/actions/mail.svg') no-repeat center; }
-.upload { background:url('core/img/actions/upload.svg') no-repeat center; }
-.cloud { background:url('core/img/places/picture.svg') no-repeat center; }
-/*.globe { background:url('../img/globe.svg') no-repeat center; }*/
-.globe { background:url('core/img/actions/public.svg') no-repeat center; }
+
 .transparent{ opacity: 0.6; }
 #edit_name_dialog { padding:0; }
 #edit_name_dialog > input { width: 15em; }
@@ -59,11 +51,11 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 #identityprops { /*position: absolute; top: 2.5em; left: 0px;*/ }
 /*#contact_photo { max-width: 250px; }*/
 #contact_identity { min-width: 30em; }
-.contactsection { position: relative; float: left; /*max-width: 40em;*/ padding: 0.5em; height: auto: border: thin solid lightgray;/* -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em; border-radius: 0.5em; background-color: #f8f8f8;*/ }
+.contactsection { position: relative; float: left; /*max-width: 40em;*/ padding: 0.5em; height: auto; border: thin solid lightgray;/* -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em; border-radius: 0.5em; background-color: #f8f8f8;*/ }
 
 .contactpart legend { width:auto; padding:.3em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 #cropbox { margin: auto; }
-#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; background: url(core/img/loading.gif) no-repeat center center; display: block; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
+#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; display: block; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
 #contacts_details_photo:hover { background: #fff; cursor: default; }
 #phototools { position:absolute; margin: 5px 0 0 10px; width:auto; height:22px; padding:0px; background-color:#fff; list-style-type:none; border-radius: 0.5em; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
 #phototools li { display: inline; }
