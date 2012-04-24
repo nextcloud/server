@@ -287,7 +287,7 @@ class OC{
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
 			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
 		}else{
-			header('404 Not Found')
+			header('404 Not Found');
 		}
 	}
 
