@@ -141,10 +141,38 @@ class OC_Contacts_VCard{
 	}
 
 	/**
-	* @brief Tries to update imported VCards to adhere to rfc2426 (VERSION: 3.0)
+	* @brief Checks if a contact with the same UID already exist in the address book.
+	* @param $aid Address book ID.
+	* @param $uid UID (passed by reference).
+	* @returns true if the UID has been changed.
+	*/
+	protected static function trueUID($aid, &$uid) {
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
+		$uri = $uid.'.vcf';
+		$result = $stmt->execute(array($aid,$uri));
+		if($result->numRows() > 0){
+			while(true) {
+				$tmpuid = substr(md5(rand().time()),0,10);
+				$uri = $tmpuid.'.vcf';
+				$result = $stmt->execute(array($aid,$uri));
+				if($result->numRows() > 0){
+					continue;
+				} else {
+					$uid = $tmpuid;
+					return true;
+				}
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	* @brief Tries to update imported VCards to adhere to rfc2426 (VERSION: 3.0) and add mandatory fields if missing.
+	* @param aid Address book id.
 	* @param vcard An OC_VObject of type VCARD (passed by reference).
 	*/
-	protected static function updateValuesFromAdd(&$vcard) { // any suggestions for a better method name? ;-)
+	protected static function updateValuesFromAdd($aid, &$vcard) { // any suggestions for a better method name? ;-)
 		$stringprops = array('N', 'FN', 'ORG', 'NICK', 'ADR', 'NOTE');
 		$typeprops = array('ADR', 'TEL', 'EMAIL');
 		$upgrade = false;
@@ -207,7 +235,11 @@ class OC_Contacts_VCard{
 		}
 		if(!$uid) {
 			$vcard->setUID();
+			$uid = $vcard->getAsString('UID');
 			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'UID\' field: '.$uid,OC_Log::DEBUG);
+		}
+		if(self::trueUID($aid, $uid)) {
+			$vcard->setString('UID', $uid);
 		}
 		$vcard->setString('VERSION','3.0');
 		// Add product ID is missing.
@@ -237,7 +269,7 @@ class OC_Contacts_VCard{
 
 		OC_Contacts_App::loadCategoriesFromVCard($card);
 
-		self::updateValuesFromAdd($card);
+		self::updateValuesFromAdd($aid, $card);
 
 		$fn = $card->getAsString('FN');
 		if (empty($fn)) {
