@@ -48,7 +48,7 @@ class OC_Helper {
 					$urlLinkTo =  OC::$APPSWEBROOT . '/?app=' . $app;
 					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
 				}else{
-					$urlLinkTo =  OC::$APPSWEBROOT . '/' . $app . $file;
+					$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
 				}
 			}
 			else{
