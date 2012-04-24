@@ -41,11 +41,15 @@ class OC_Helper {
 			$app .= '/';
 			// Check if the app is in the app folder
 			if( file_exists( OC::$APPSROOT . '/apps/'. $app.$file )){
-				if(substr($app, -1, 1) == '/'){
-					$app = substr($app, 0, strlen($app) - 1);
+				if(substr($file, -3) == 'php'){	
+					if(substr($app, -1, 1) == '/'){
+						$app = substr($app, 0, strlen($app) - 1);
+					}
+					$urlLinkTo =  OC::$APPSWEBROOT . '/?app=' . $app;
+					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
+				}else{
+					$urlLinkTo =  OC::$APPSWEBROOT . '/' . $app . $file;
 				}
-				$urlLinkTo =  OC::$APPSWEBROOT . '/?app=' . $app;
-				$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
 			}
 			else{
 				$urlLinkTo =  OC::$WEBROOT . '/' . $app . $file;
