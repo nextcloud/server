@@ -33,8 +33,9 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .form dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0px; white-space: nowrap; vertical-align: text-bottom; }
 #address.form dt { min-width: 5em; }
 #address.form dl { min-width: 10em; }
-
 .loading {/*cursor: progress; */ cursor: wait; }
+.droptarget { margin: 0.5em; padding: 0.5em; border: thin solid #ccc; -moz-border-radius:.3em; -webkit-border-radius:.3em; border-radius:.3em; }
+.droppable { margin: 0.5em; padding: 0.5em; border: thin dashed #333; -moz-border-radius:.3em; -webkit-border-radius:.3em; border-radius:.3em; }
 .float { float: left; }
 .listactions { height: 1em; width:60px; float: left; clear: right; }
 .add,.edit,.delete,.mail, .globe, .upload, .cloud { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; opacity: 0.1; }
@@ -51,6 +52,7 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 #identityprops { /*position: absolute; top: 2.5em; left: 0px;*/ }
 /*#contact_photo { max-width: 250px; }*/
 #contact_identity { min-width: 30em; }
+#note { min-width: 200px; }
 .contactsection { position: relative; float: left; /*max-width: 40em;*/ padding: 0.5em; height: auto; border: thin solid lightgray;/* -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em; border-radius: 0.5em; background-color: #f8f8f8;*/ }
 
 .contactpart legend { width:auto; padding:.3em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
@@ -91,4 +93,3 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .propertylist li > select { float: left; max-width: 8em; }
 .typelist { float: left; max-width: 10em; } /* for multiselect */
 .addresslist { clear: both; }
-

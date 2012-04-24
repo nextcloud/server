@@ -112,7 +112,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 	<div id="contact_note" class="contactsection">
 	<form class="float" method="post">
 	<fieldset id="note" class="formfloat propertycontainer contactpart" data-element="NOTE">
-	<textarea class="contacts_property note" name="value" cols="40" rows="10" required="required" placeholder="<?php echo $l->t('Add notes here.'); ?>"></textarea>
+	<textarea class="contacts_property note" name="value" cols="60" rows="15" required="required" placeholder="<?php echo $l->t('Add notes here.'); ?>"></textarea>
 	</fieldset>
 	</form>
 	</div> <!-- contact_note -->

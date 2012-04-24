@@ -149,6 +149,7 @@ class OC_Contacts_App {
 				'WORK'  =>  $l->t('Work'),
 				'TEXT'  =>  $l->t('Text'),
 				'VOICE' =>  $l->t('Voice'),
+				'MSG'   =>  $l->t('Message'),
 				'FAX'   =>  $l->t('Fax'),
 				'VIDEO' =>  $l->t('Video'),
 				'PAGER' =>  $l->t('Pager'),
