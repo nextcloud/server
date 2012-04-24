@@ -1,4 +1,4 @@
-<div id="chooseaddressbook_dialog" title="<?php echo $l->t("Choose active Address Books"); ?>">
+<div id="chooseaddressbook_dialog" title="<?php echo $l->t("Configure Address Books"); ?>">
 <table width="100%" style="border: 0;">
 <?php
 $option_addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
@@ -14,6 +14,7 @@ for($i = 0; $i < count($option_addressbooks); $i++){
 <tr>
 	<td colspan="5" style="padding: 0.5em;">
 		<a class="button" href="#" onclick="Contacts.UI.Addressbooks.newAddressbook(this);"><?php echo $l->t('New Address Book') ?></a>
+		<a class="button" href="#" onclick="Contacts.UI.Addressbooks.importAddressbook(this);"><?php echo $l->t('Import from VCF') ?></a>
 	</td>
 </tr>
 <tr>

@@ -17,8 +17,14 @@ if(is_writable('import_tmp/')){
 	fwrite($progressfopen, '10');
 	fclose($progressfopen);
 }
-$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
-if($_POST['method'] == 'new'){
+$view = $file = null;
+if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
+	$view = OC_App::getStorage('contacts');
+	$file = $view->file_get_contents('/' . $_POST['file']);
+} else {
+	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
+}
+if(isset($_POST['method']) && $_POST['method'] == 'new'){
 	$id = OC_Contacts_Addressbook::add(OC_User::getUser(), $_POST['addressbookname']);
 	OC_Contacts_Addressbook::setActive($id, 1);
 }else{
@@ -99,12 +105,16 @@ if(is_writable('import_tmp/')){
 if(count($parts) == 1){
 	$importready = array($file);
 }
+$imported = 0;
+$failed = 0;
 foreach($importready as $import){
 	$card = OC_VObject::parse($import);
 	if (!$card) {
+		$failed += 1;
 		OC_Log::write('contacts','Import: skipping card. Error parsing VCard: '.$import, OC_Log::ERROR);
 		continue; // Ditch cards that can't be parsed by Sabre.
 	}
+	$imported += 1;
 	OC_Contacts_VCard::add($id, $card);
 }
 //done the import
@@ -117,4 +127,9 @@ sleep(3);
 if(is_writable('import_tmp/')){
 	unlink($progressfile);
 }
-OC_JSON::success();
+if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
+	if(!$view->unlink('/' . $_POST['file'])) {
+		OC_Log::write('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OC_Log::ERROR);
+	}
+}
+OC_JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));
