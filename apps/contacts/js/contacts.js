@@ -1393,6 +1393,7 @@ Contacts={
 							if(response.status == 'success') {
 								if(xhr.status == 200) {
 									$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Importing...'));
+									Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, true);
 									Contacts.UI.Addressbooks.doImport(response.data.path, response.data.file);
 								} else {
 									$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
