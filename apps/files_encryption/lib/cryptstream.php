@@ -33,6 +33,7 @@ class OC_CryptStream{
 	private $path;
 	private $readBuffer;//for streams that dont support seeking
 	private $meta=array();//header/meta for source stream
+	private $count;
 
 	public function stream_open($path, $mode, $options, &$opened_path){
 		$path=str_replace('crypt://','',$path);
@@ -92,16 +93,6 @@ class OC_CryptStream{
 			$data=substr($block,0,$currentPos%8192).$data;
 		}
 		while(strlen($data)>0){
-			if(strlen($data)<8192){
-				//fetch the current data in that block and append it to the input so we always write entire blocks
-				$oldPos=ftell($this->source);
-				$encryptedBlock=fread($this->source,8192);
-				fseek($this->source,$oldPos);
-				if($encryptedBlock){
-					$block=OC_Crypt::decrypt($encryptedBlock);
-					$data.=substr($block,strlen($data));
-				}
-			}
 			$encrypted=OC_Crypt::encrypt(substr($data,0,8192));
 			fwrite($this->source,$encrypted);
 			$data=substr($data,8192);
@@ -139,7 +130,9 @@ class OC_CryptStream{
 	}
 
 	public function stream_close(){
-		OC_FileCache::put($this->path,array('encrypted'=>true));
+		if($this->meta['mode']!='r' and $this->meta['mode']!='rb'){
+			OC_FileCache::put($this->path,array('encrypted'=>true));
+		}
 		return fclose($this->source);
 	}
 }

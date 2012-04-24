@@ -27,7 +27,6 @@
 
 class OC_FileProxy_Encryption extends OC_FileProxy{
 	private static $blackList=null; //mimetypes blacklisted from encryption
-	private static $metaData=array(); //metadata cache
 	private static $enableEncryption=null;
 	
 	/**
@@ -60,13 +59,8 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 * @return bool
 	 */
 	private static function isEncrypted($path){
-		if(isset(self::$metaData[$path])){
-			$metadata=self::$metaData[$path];
-		}else{
-			$metadata=OC_FileCache::getCached($path);
-			self::$metaData[$path]=$metadata;
-		}
-		return (bool)$metadata['encrypted'];
+		$metadata=OC_FileCache::getCached($path);
+		return isset($metadata['encrypted']) and (bool)$metadata['encrypted'];
 	}
 	
 	public function preFile_put_contents($path,&$data){
@@ -98,12 +92,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 				//first encrypt the target file so we don't end up with a half encrypted file
 				OC_Log::write('files_encryption','Decrypting '.$path.' before writing',OC_Log::DEBUG);
 				$tmp=fopen('php://temp');
-				while(!feof($result)){
-					$chunk=fread($result,8192);
-					if($chunk){
-						fwrite($tmp,$chunk);
-					}
-				}
+				OC_Helper::streamCopy($result,$tmp);
 				fclose($result);
 				OC_Filesystem::file_put_contents($path,$tmp);
 				fclose($tmp);
