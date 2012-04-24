@@ -370,12 +370,12 @@ $(document).ready(function() {
 	}, "json");
 });
 
-function scanFiles(force){
+function scanFiles(force,dir){
 	force=!!force; //cast to bool
 	scanFiles.scanning=true;
 	$('#scanning-message').show();
 	$('#fileList').remove();
-	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force});
+	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
 	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
 	scannerEventSource.listen('scanning',function(data){
 		$('#scan-count').text(data.count+' files scanned');
