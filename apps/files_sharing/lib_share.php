@@ -436,6 +436,34 @@ class OC_Share {
 		}
 	}
 
+	public static function removeUser($arguments) {
+		$query = OC_DB::prepare('DELETE FROM *PREFIX*sharing WHERE uid_owner = ? OR uid_shared_with '.self::getUsersAndGroups($arguments['uid']));
+		$query->execute(array($arguments['uid']));
+	}
+
+	public static function addToGroupShare($arguments) {
+		$length = -strlen($arguments['gid']) - 1;
+		$query = OC_DB::prepare('SELECT uid_owner, source, permissions FROM *PREFIX*sharing WHERE SUBSTR(uid_shared_with, '.$length.') = ?');
+		$gid = '@'.$arguments['gid'];
+		$result = $query->execute(array($gid))->fetchAll();
+		if (count($result) > 0) {
+			$query = OC_DB::prepare('INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)');
+			$sharedFolder = '/'.$arguments['uid'].'/files/Shared/';
+			$lastSource = '';
+			for ($i = 0; i < count($result); $i++) {
+				if ($result[$i]['source'] != $lastSource) {
+					$query->execute(array($result[$i]['uid_owner'], $arguments['uid'].'@'.$arguments['gid'], $result[$i]['source'], $sharedFolder.basename($result[$i]['source']), $result[$i]['permissions']));
+					$lastSource = $result[$i]['source'];
+				}
+			}
+		}
+	}
+
+	public static function removeFromGroupShare($arguments) {
+		$query = OC_DB::prepare('DELETE FROM *PREFIX*sharing WHERE uid_shared_with = ?');
+		$query->execute(array($arguments['uid'].'@'.$arguments['gid']));
+	}
+
 }
 
 ?>
