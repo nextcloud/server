@@ -341,8 +341,8 @@ class OC_Helper {
 		if (!$isWrapped and $mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
 			// it looks like we have a 'file' command,
 			// lets see it it does have mime support
-			$path=str_replace("'","\'",$path);
-			$fp = popen("file -i -b '$path' 2>/dev/null", "r");
+			$path=escapeshellarg($path);
+			$fp = popen("file -i -b $path 2>/dev/null", "r");
 			$reply = fgets($fp);
 			pclose($fp);
 
