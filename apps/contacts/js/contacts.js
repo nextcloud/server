@@ -1137,7 +1137,7 @@ Contacts={
 			},
 			loadPhoto:function(force){
 				//if(this.data.PHOTO||force==true) {
-					$.getJSON(OC.filePath('contact', 'ajax', 'loadphoto.php'),{'id':this.id},function(jsondata){
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadphoto.php'),{'id':this.id},function(jsondata){
 						if(jsondata.status == 'success'){
 							//alert(jsondata.data.page);
 							$('#contacts_details_photo_wrapper').data('checksum', jsondata.data.checksum);
@@ -1519,7 +1519,7 @@ $(document).ready(function(){
 		if(oldid != 0){
 			$('#leftcontent li[data-id="'+oldid+'"]').removeClass('active');
 		}
-		$.getJSON(OC.filePath('contacts', 'ajax', 'contactsdetails.php'),{'id':id},function(jsondata){
+		$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
 				Contacts.UI.Card.loadContact(jsondata.data);
 			}
