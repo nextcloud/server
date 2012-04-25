@@ -371,6 +371,9 @@ $(document).ready(function() {
 });
 
 function scanFiles(force,dir){
+	if(!dir){
+		dir='';
+	}
 	force=!!force; //cast to bool
 	scanFiles.scanning=true;
 	$('#scanning-message').show();
