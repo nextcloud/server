@@ -24,11 +24,9 @@
 class OC_GROUP_LDAP extends OC_Group_Backend {
 // 	//group specific settings
 	protected $ldapGroupFilter;
-	protected $ldapGroupDisplayName;
 
 	public function __construct() {
 		$this->ldapGroupFilter      = OC_Appconfig::getValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
-		$this->ldapGroupDisplayName = OC_Appconfig::getValue('user_ldap', 'ldap_group_display_name', 'cn');
 	}
 
 	/**
@@ -40,18 +38,17 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup($uid, $gid) {
-		$filter = OC_LDAP::combineFilterWithAnd(array(
-			$this->ldapGroupFilter,
-			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$uid,
-			$this->ldapGroupDisplayName.'='.$gid
-		));
-		$groups = $this->retrieveList($filter, $this->ldapGroupDisplayName);
-
-		if(count($groups) > 0) {
-			return true;
-		} else {
+		$dn_user = OC_LDAP::username2dn($uid);
+		$dn_group = OC_LDAP::groupname2dn($gid);
+// 	if($dn_group == 'c')	{echo('#sdfsdgfds');die($gid);}
+		// just in case
+		if(!$dn_group || !$dn_user) {
 			return false;
 		}
+// 		var_dump($dn_group);
+		$members = OC_LDAP::readAttribute($dn_group, LDAP_GROUP_MEMBER_ASSOC_ATTR);
+
+		return in_array($dn_user, $members);
 	}
 
 	/**
@@ -63,12 +60,19 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
+		$userDN = OC_LDAP::username2dn($uid);
+		if(!$userDN) {
+			return array();
+		}
+
 		$filter = OC_LDAP::combineFilterWithAnd(array(
 			$this->ldapGroupFilter,
-			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$uid
+			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$userDN
 		));
+		$groups = $this->retrieveList($filter, array(OC_LDAP::conf('ldapGroupDisplayName'),'dn'));
+		$userGroups = OC_LDAP::ownCloudGroupNames($groups);
 
-		return $this->retrieveList($filter, $this->ldapGroupDisplayName);
+		return array_unique($userGroups, SORT_LOCALE_STRING);
 	}
 
 	/**
@@ -76,22 +80,16 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * @returns array with user ids
 	 */
 	public function usersInGroup($gid) {
-		$filter = OC_LDAP::combineFilterWithAnd(array(
-			$this->ldapGroupFilter,
-			$this->ldapGroupDisplayName.'='.$gid
-		));
-
-		$userDNs = $this->retrieveList($filter, LDAP_GROUP_MEMBER_ASSOC_ATTR, false);
-		$users = array();
-		$attr = OC_LDAP::conf('ldapUserDisplayName');
-		foreach($userDNs as $dn) {
-			$uid = OC_LDAP::readAttribute($dn, $attr);
-			if($uid) {
-// 			if(($uid = OC_LDAP::readAttribute($dn, $attr)) != false){
-				$users[] = $uid;
-			}
+		$groupDN = OC_LDAP::groupname2dn($gid);
+		if(!$groupDN) {
+			return array();
 		}
-		return $users;
+		$members = OC_LDAP::readAttribute($groupDN, LDAP_GROUP_MEMBER_ASSOC_ATTR);
+		$result = array();
+		foreach($members as $member) {
+		    $result[] = OC_LDAP::dn2username($member);
+		}
+		return array_unique($result, SORT_LOCALE_STRING);
 	}
 
 	/**
@@ -101,7 +99,9 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups() {
-		return $this->retrieveList($this->ldapGroupFilter, $this->ldapGroupDisplayName);
+		$ldap_groups = $this->retrieveList($this->ldapGroupFilter, array(OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
+		$groups = OC_LDAP::ownCloudGroupNames($ldap_groups);
+		return $groups;
 	}
 
 	/**
@@ -120,13 +120,18 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			$list = OC_LDAP::searchUsers($filter, $attr);
 		}
 
-
 		if(is_array($list)) {
-			return array_unique($list, SORT_LOCALE_STRING);
+			if(count($attr) > 1){
+				return $list;
+			} else {
+				return array_unique($list, SORT_LOCALE_STRING);
+			}
 		}
 
 		//error cause actually, maybe throw an exception in future.
 		return array();
 	}
+
+
 
 }
