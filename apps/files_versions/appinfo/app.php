@@ -9,6 +9,7 @@ OC_App::register( array(
   'name' => 'Versioning' ));
 
 OC_APP::registerAdmin('files_versions', 'settings');
+OC_UTIL::addScript('files_versions', 'versions');
 
 // Listen to write signals
 OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, "OCA_Versions\Storage", "write_hook");
