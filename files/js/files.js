@@ -1,3 +1,32 @@
+var uploadingFiles = {};
+Files={
+	cancelUpload:function(filename) {
+		if(uploadingFiles[filename]) {
+			uploadingFiles[filename].abort();
+			delete uploadingFiles[filename];
+			return true;
+		}
+		return false;
+	},
+	cancelUploads:function() {
+		$.each(uploadingFiles,function(index,file) {
+			if(typeof file['abort'] === 'function') {
+				file.abort();
+				var filename = $('tr').filterAttr('data-file',index);
+				filename.hide();
+				filename.find('input[type="checkbox"]').removeAttr('checked');
+				filename.removeClass('selected');
+			} else {
+				$.each(file,function(i,f) {
+					f.abort();
+					delete file[i];
+				});
+			}
+			delete uploadingFiles[index];
+		});
+		procesSelection();
+	}
+}
 $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
@@ -151,83 +180,205 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('.file_upload_start').live('change',function(){
-		var form=$(this).closest('form');
-		var that=this;
-		var uploadId=form.attr('data-upload-id');
-		var files=this.files;
-		var target=form.children('iframe');
-		var totalSize=0;
-		if(files){
-			for(var i=0;i<files.length;i++){
-				totalSize+=files[i].size;
-				if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
-					FileList.finishDelete(function(){
-						$(that).change();
-					});
-					return;
-				}
-			}
-		}
-		if(totalSize>$('#max_upload').val()){
-			$( "#uploadsize-message" ).dialog({
-				modal: true,
-				buttons: {
-					Close: function() {
-						$( this ).dialog( "close" );
+	// drag&drop support using jquery.fileupload
+	// TODO use OC.dialogs
+	$(document).bind('drop dragover', function (e) {
+			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
+	});
+
+	$(function() {
+		$('.file_upload_start').fileupload({
+			dropZone: $('#content'), // restrict dropZone to content div
+			add: function(e, data) {
+				var files = data.files;
+				var totalSize=0;
+				if(files){
+					for(var i=0;i<files.length;i++){
+						totalSize+=files[i].size;
+						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
+							FileList.finishDelete(function(){
+								$('.file_upload_start').change();
+							});
+							return;
+						}
 					}
 				}
-			});
-		}else{
-			target.load(function(){
-				var response=jQuery.parseJSON(target.contents().find('body').text());
-				//set mimetype and if needed filesize
-				if(response){
-					if(response[0] != undefined && response[0].status == 'success'){
-						for(var i=0;i<response.length;i++){
-							var file=response[i];
+				if(totalSize>$('#max_upload').val()){
+					$( '#uploadsize-message' ).dialog({
+						modal: true,
+						buttons: {
+							Close: function() {
+								$( this ).dialog( 'close' );
+							}
+						}
+					});
+				}else{
+				if($.support.xhrFileUpload) {
+					for(var i=0;i<files.length;i++){
+						var fileName = files[i].name
+						var dropTarget = $(e.originalEvent.target).closest('tr');
+						if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
+							var dirName = dropTarget.attr('data-file')
+							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
+									formData: function(form) {
+										var formArray = form.serializeArray();
+										formArray[1]['value'] = dirName;
+										return formArray;
+									}}).success(function(result, textStatus, jqXHR) {
+										var response;
+										response=jQuery.parseJSON(result);
+										if(response[0] == undefined || response[0].status != 'success') {
+											$('#notification').text(t('files', response.data.message));
+											$('#notification').fadeIn();
+										}
+										var file=response[0];
+										delete uploadingFiles[dirName][file.name];
+										var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+										currentUploads -= 1;
+										uploadtext.attr('currentUploads', currentUploads);
+										if(currentUploads === 0) {
+											var img = OC.imagePath('core', 'filetypes/folder.png');
+											var tr=$('tr').filterAttr('data-file',dirName);
+											tr.find('td.filename').attr('style','background-image:url('+img+')');
+											uploadtext.text('');
+											uploadtext.hide();
+										} else {
+											uploadtext.text(currentUploads + ' files uploading')
+										}
+									})
+							.error(function(jqXHR, textStatus, errorThrown) {
+								if(errorThrown === 'abort') {
+									var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+									currentUploads -= 1;
+									uploadtext.attr('currentUploads', currentUploads);
+									if(currentUploads === 0) {
+										var img = OC.imagePath('core', 'filetypes/folder.png');
+										var tr=$('tr').filterAttr('data-file',dirName);
+										tr.find('td.filename').attr('style','background-image:url('+img+')');
+										uploadtext.text('');
+										uploadtext.hide();
+									} else {
+										uploadtext.text(currentUploads + ' files uploading')
+									}
+									$('#notification').hide();
+									$('#notification').text(t('files', 'Upload cancelled.'));
+									$('#notification').fadeIn();
+								}
+							});
+							//TODO test with filenames containing slashes
+							if(uploadingFiles[dirName] === undefined) {
+								uploadingFiles[dirName] = {};
+							}
+							uploadingFiles[dirName][fileName] = jqXHR;
+						} else {
+							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i]})
+									.success(function(result, textStatus, jqXHR) {
+										var response;
+										response=jQuery.parseJSON(result);
+										if(response[0] != undefined && response[0].status == 'success') {
+											var file=response[0];
+											delete uploadingFiles[file.name];
+											$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+											var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
+											if(size==t('files','Pending')){
+												$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+											}
+											FileList.loadingDone(file.name);
+										} else {
+											$('#notification').text(t('files', response.data.message));
+											$('#notification').fadeIn();
+											$('#fileList > tr').not('[data-mime]').fadeOut();
+											$('#fileList > tr').not('[data-mime]').remove();
+										}
+									})
+							.error(function(jqXHR, textStatus, errorThrown) {
+								if(errorThrown === 'abort') {
+									$('#notification').hide();
+									$('#notification').text(t('files', 'Upload cancelled.'));
+									$('#notification').fadeIn();
+								}
+							});
+							uploadingFiles[files[i].name] = jqXHR;
+						}
+					}
+				}else{
+					data.submit().success(function(data, status) {
+						response = jQuery.parseJSON(data[0].body.innerText);
+						if(response[0] != undefined && response[0].status == 'success') {
+							var file=response[0];
+							delete uploadingFiles[file.name];
 							$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
-							if(size=='Pending'){
+							var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
+							if(size==t('files','Pending')){
 								$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 							}
 							FileList.loadingDone(file.name);
+						} else {
+							$('#notification').text(t('files', response.data.message));
+							$('#notification').fadeIn();
+							$('#fileList > tr').not('[data-mime]').fadeOut();
+							$('#fileList > tr').not('[data-mime]').remove();
 						}
-					}
-					else{
-						$('#notification').text(t('files',response.data.message));
-						$('#notification').fadeIn();
-						$('#fileList > tr').not('[data-mime]').fadeOut();
-						$('#fileList > tr').not('[data-mime]').remove();
-					}
+					});
 				}
-			});
-			form.submit();
-			var date=new Date();
-			if(files){
-				for(var i=0;i<files.length;i++){
-					if(files[i].size>0){
-						var size=files[i].size;
-					}else{
-						var size=t('files','Pending');
-					}
+									
+					var date=new Date();
 					if(files){
+						for(var i=0;i<files.length;i++){
+							if(files[i].size>0){
+								var size=files[i].size;
+							}else{
+								var size=t('files','Pending');
+							}
+							if(files && !dirName){
 						FileList.addFile(getUniqueName(files[i].name),size,date,true);
+							} else if(dirName) {
+								var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
+								var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+								currentUploads += 1;
+								uploadtext.attr('currentUploads', currentUploads);
+								if(currentUploads === 1) {
+									var img = OC.imagePath('core', 'loading.gif');
+									var tr=$('tr').filterAttr('data-file',dirName);
+									tr.find('td.filename').attr('style','background-image:url('+img+')');
+									uploadtext.text('1 file uploading');
+									uploadtext.show();
+								} else {
+									uploadtext.text(currentUploads + ' files uploading')
+								}
+							}
+						}
+					}else{
+						var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
+				FileList.addFile(getUniqueName(filename),'Pending',date,true);
 					}
 				}
-			}else{
-				var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-				FileList.addFile(getUniqueName(filename),'Pending',date,true);
+			},
+			fail: function(e, data) {
+				// TODO: cancel upload & display error notification
+			},
+			progress: function(e, data) {
+				// TODO: show nice progress bar in file row
+			},
+			progressall: function(e, data) {
+				var progress = (data.loaded/data.total)*100;
+				$('#uploadprogressbar').progressbar('value',progress);
+			},
+			start: function(e, data) {
+				$('#uploadprogressbar').progressbar({value:0});
+				$('#uploadprogressbar').fadeIn();
+				if(data.dataType != 'iframe ') {
+					$('#upload input.stop').show();
+				}
+			},
+			stop: function(e, data) {
+				if(data.dataType != 'iframe ') {
+					$('#upload input.stop').hide();
+				}	
+				$('#uploadprogressbar').progressbar('value',100);
+				$('#uploadprogressbar').fadeOut();
 			}
-
-			//clone the upload form and hide the new one to allow users to start a new upload while the old one is still uploading
-			var clone=form.clone();
-			uploadId++;
-			clone.attr('data-upload-id',uploadId);
-			clone.attr('target','file_upload_target_'+uploadId);
-			clone.children('iframe').attr('name','file_upload_target_'+uploadId)
-			clone.insertBefore(form);
-			form.hide();
-		}
+		})
 	});
 
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)

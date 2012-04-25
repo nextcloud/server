@@ -140,7 +140,20 @@ $(document).ready(function(){
 });
 
 FileActions.register('all','Delete',function(){return OC.imagePath('core','actions/delete')},function(filename){
-	FileList.do_delete(filename);
+	if(Files.cancelUpload(filename)) {
+		if(filename.substr){
+			filename=[filename];
+		}
+		$.each(filename,function(index,file){
+			var filename = $('tr').filterAttr('data-file',file);
+			filename.hide();
+			filename.find('input[type="checkbox"]').removeAttr('checked');
+			filename.removeClass('selected');
+		});
+		procesSelection();
+	}else{
+		FileList.do_delete(filename);
+	}
 });
 
 FileActions.register('all','Rename',function(){return OC.imagePath('core','actions/rename')},function(filename){
