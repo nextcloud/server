@@ -46,7 +46,7 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		list($prefix,$name) = Sabre_DAV_URLUtil::splitPath($path);
+		list($prefix,$name) = explode('/', $path);
 
 		if ($prefix == 'principals' && OC_User::userExists($name)) {
 			return array(
@@ -115,4 +115,6 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	public function setGroupMemberSet($principal, array $members) {
 		throw new Sabre_DAV_Exception('Setting members of the group is not supported yet');
 	}
+	function updatePrincipal($path, $mutations){return 0;}
+	function searchPrincipals($prefixPath, array $searchProperties){return 0;}
 }

@@ -8,15 +8,15 @@
  *
  * @package Sabre
  * @subpackage VObject
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
 
     /**
-     * Inner elements 
-     * 
+     * Inner elements
+     *
      * @var array
      */
     protected $elements = array();
@@ -24,37 +24,37 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
     /**
      * Creates the element list.
      *
-     * @param array $elements 
+     * @param array $elements
      */
     public function __construct(array $elements) {
 
         $this->elements = $elements;
 
-    } 
+    }
 
     /* {{{ Iterator interface */
 
     /**
-     * Current position  
-     * 
-     * @var int 
+     * Current position
+     *
+     * @var int
      */
     private $key = 0;
 
     /**
-     * Returns current item in iteration 
-     * 
-     * @return Sabre_VObject_Element 
+     * Returns current item in iteration
+     *
+     * @return Sabre_VObject_Element
      */
     public function current() {
 
         return $this->elements[$this->key];
 
     }
-   
+
     /**
-     * To the next item in the iterator 
-     * 
+     * To the next item in the iterator
+     *
      * @return void
      */
     public function next() {
@@ -64,8 +64,8 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
     }
 
     /**
-     * Returns the current iterator key 
-     * 
+     * Returns the current iterator key
+     *
      * @return int
      */
     public function key() {
@@ -75,9 +75,9 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
     }
 
     /**
-     * Returns true if the current position in the iterator is a valid one 
-     * 
-     * @return bool 
+     * Returns true if the current position in the iterator is a valid one
+     *
+     * @return bool
      */
     public function valid() {
 
@@ -86,9 +86,9 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
     }
 
     /**
-     * Rewinds the iterator 
-     * 
-     * @return void 
+     * Rewinds the iterator
+     *
+     * @return void
      */
     public function rewind() {
 
@@ -101,9 +101,9 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
     /* {{{ Countable interface */
 
     /**
-     * Returns the number of elements 
-     * 
-     * @return int 
+     * Returns the number of elements
+     *
+     * @return int
      */
     public function count() {
 
@@ -115,12 +115,12 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
 
     /* {{{ ArrayAccess Interface */
 
-    
+
     /**
      * Checks if an item exists through ArrayAccess.
      *
-     * @param int $offset 
-     * @return bool 
+     * @param int $offset
+     * @return bool
      */
     public function offsetExists($offset) {
 
@@ -131,8 +131,8 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
     /**
      * Gets an item through ArrayAccess.
      *
-     * @param int $offset 
-     * @return mixed 
+     * @param int $offset
+     * @return mixed
      */
     public function offsetGet($offset) {
 
@@ -143,8 +143,8 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
     /**
      * Sets an item through ArrayAccess.
      *
-     * @param int $offset 
-     * @param mixed $value 
+     * @param int $offset
+     * @param mixed $value
      * @return void
      */
     public function offsetSet($offset,$value) {
@@ -158,7 +158,7 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
      *
      * This method just forwards the request to the inner iterator
      *
-     * @param int $offset 
+     * @param int $offset
      * @return void
      */
     public function offsetUnset($offset) {

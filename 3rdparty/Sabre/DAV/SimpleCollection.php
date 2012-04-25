@@ -8,23 +8,23 @@
  *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_DAV_SimpleCollection extends Sabre_DAV_Collection {
 
     /**
-     * List of childnodes 
+     * List of childnodes
      *
      * @var array
      */
     protected $children = array();
 
     /**
-     * Name of this resource 
-     * 
-     * @var string 
+     * Name of this resource
+     *
+     * @var string
      */
     protected $name;
 
@@ -33,10 +33,9 @@ class Sabre_DAV_SimpleCollection extends Sabre_DAV_Collection {
      *
      * The name of the node must be passed, child nodes can also be bassed.
      * This nodes must be instances of Sabre_DAV_INode
-     * 
-     * @param string $name 
-     * @param array $children 
-     * @return void
+     *
+     * @param string $name
+     * @param array $children
      */
     public function __construct($name,array $children = array()) {
 
@@ -51,9 +50,9 @@ class Sabre_DAV_SimpleCollection extends Sabre_DAV_Collection {
     }
 
     /**
-     * Adds a new childnode to this collection 
-     * 
-     * @param Sabre_DAV_INode $child 
+     * Adds a new childnode to this collection
+     *
+     * @param Sabre_DAV_INode $child
      * @return void
      */
     public function addChild(Sabre_DAV_INode $child) {
@@ -63,9 +62,9 @@ class Sabre_DAV_SimpleCollection extends Sabre_DAV_Collection {
     }
 
     /**
-     * Returns the name of the collection 
-     * 
-     * @return string 
+     * Returns the name of the collection
+     *
+     * @return string
      */
     public function getName() {
 
@@ -76,24 +75,24 @@ class Sabre_DAV_SimpleCollection extends Sabre_DAV_Collection {
     /**
      * Returns a child object, by its name.
      *
-     * This method makes use of the getChildren method to grab all the child nodes, and compares the name. 
+     * This method makes use of the getChildren method to grab all the child nodes, and compares the name.
      * Generally its wise to override this, as this can usually be optimized
-     * 
+     *
      * @param string $name
-     * @throws Sabre_DAV_Exception_FileNotFound
-     * @return Sabre_DAV_INode 
+     * @throws Sabre_DAV_Exception_NotFound
+     * @return Sabre_DAV_INode
      */
     public function getChild($name) {
 
         if (isset($this->children[$name])) return $this->children[$name];
-        throw new Sabre_DAV_Exception_FileNotFound('File not found: ' . $name . ' in \'' . $this->getName() . '\'');
+        throw new Sabre_DAV_Exception_NotFound('File not found: ' . $name . ' in \'' . $this->getName() . '\'');
 
     }
 
     /**
-     * Returns a list of children for this collection 
-     * 
-     * @return array 
+     * Returns a list of children for this collection
+     *
+     * @return array
      */
     public function getChildren() {
 

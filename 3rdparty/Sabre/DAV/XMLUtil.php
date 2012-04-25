@@ -2,32 +2,32 @@
 
 /**
  * XML utilities for WebDAV
- * 
+ *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_DAV_XMLUtil {
 
     /**
      * Returns the 'clark notation' for an element.
-     * 
+     *
      * For example, and element encoded as:
      * <b:myelem xmlns:b="http://www.example.org/" />
      * will be returned as:
      * {http://www.example.org}myelem
      *
      * This format is used throughout the SabreDAV sourcecode.
-     * Elements encoded with the urn:DAV namespace will 
+     * Elements encoded with the urn:DAV namespace will
      * be returned as if they were in the DAV: namespace. This is to avoid
      * compatibility problems.
      *
      * This function will return null if a nodetype other than an Element is passed.
      *
-     * @param DOMElement $dom 
-     * @return string 
+     * @param DOMNode $dom
+     * @return string
      */
     static function toClarkNotation(DOMNode $dom) {
 
@@ -35,21 +35,21 @@ class Sabre_DAV_XMLUtil {
 
         // Mapping back to the real namespace, in case it was dav
         if ($dom->namespaceURI=='urn:DAV') $ns = 'DAV:'; else $ns = $dom->namespaceURI;
-        
+
         // Mapping to clark notation
         return '{' . $ns . '}' . $dom->localName;
 
     }
 
     /**
-     * Parses a clark-notation string, and returns the namespace and element 
+     * Parses a clark-notation string, and returns the namespace and element
      * name components.
      *
      * If the string was invalid, it will throw an InvalidArgumentException.
-     * 
+     *
      * @param string $str
-     * @throws InvalidArgumentException 
-     * @return array 
+     * @throws InvalidArgumentException
+     * @return array
      */
     static function parseClarkNotation($str) {
 
@@ -70,6 +70,9 @@ class Sabre_DAV_XMLUtil {
      *
      * This is unfortunately needed, because the DAV: namespace violates the xml namespaces
      * spec, and causes the DOM to throw errors
+     *
+     * @param string $xmlDocument
+     * @return array|string|null
      */
     static function convertDAVNamespace($xmlDocument) {
 
@@ -83,17 +86,17 @@ class Sabre_DAV_XMLUtil {
      * This method provides a generic way to load a DOMDocument for WebDAV use.
      *
      * This method throws a Sabre_DAV_Exception_BadRequest exception for any xml errors.
-     * It does not preserve whitespace, and it converts the DAV: namespace to urn:DAV. 
-     * 
+     * It does not preserve whitespace, and it converts the DAV: namespace to urn:DAV.
+     *
      * @param string $xml
-     * @throws Sabre_DAV_Exception_BadRequest 
-     * @return DOMDocument 
+     * @throws Sabre_DAV_Exception_BadRequest
+     * @return DOMDocument
      */
     static function loadDOMDocument($xml) {
 
         if (empty($xml))
             throw new Sabre_DAV_Exception_BadRequest('Empty XML document sent');
-       
+
         // The BitKinex client sends xml documents as UTF-16. PHP 5.3.1 (and presumably lower)
         // does not support this, so we must intercept this and convert to UTF-8.
         if (substr($xml,0,12) === "\x3c\x00\x3f\x00\x78\x00\x6d\x00\x6c\x00\x20\x00") {
@@ -111,7 +114,7 @@ class Sabre_DAV_XMLUtil {
         // Retaining old error setting
         $oldErrorSetting =  libxml_use_internal_errors(true);
 
-        // Clearing any previous errors 
+        // Clearing any previous errors
         libxml_clear_errors();
 
         $dom = new DOMDocument();
@@ -135,7 +138,7 @@ class Sabre_DAV_XMLUtil {
     /**
      * Parses all WebDAV properties out of a DOM Element
      *
-     * Generally WebDAV properties are encloded in {DAV:}prop elements. This
+     * Generally WebDAV properties are enclosed in {DAV:}prop elements. This
      * method helps by going through all these and pulling out the actual
      * propertynames, making them array keys and making the property values,
      * well.. the array values.
@@ -145,7 +148,7 @@ class Sabre_DAV_XMLUtil {
      *
      * Complex values are supported through the propertyMap argument. The
      * propertyMap should have the clark-notation properties as it's keys, and
-     * classnames as values. 
+     * classnames as values.
      *
      * When any of these properties are found, the unserialize() method will be
      * (statically) called. The result of this method is used as the value.
@@ -168,7 +171,7 @@ class Sabre_DAV_XMLUtil {
 
                 $propertyName = Sabre_DAV_XMLUtil::toClarkNotation($propNodeData);
                 if (isset($propertyMap[$propertyName])) {
-                    $propList[$propertyName] = call_user_func(array($propertyMap[$propertyName],'unserialize'),$propNodeData); 
+                    $propList[$propertyName] = call_user_func(array($propertyMap[$propertyName],'unserialize'),$propNodeData);
                 } else {
                     $propList[$propertyName] = $propNodeData->textContent;
                 }

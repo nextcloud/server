@@ -1,68 +1,68 @@
 <?php
 
 /**
- * The UserCalenders class contains all calendars associated to one user 
- * 
+ * The UserCalenders class contains all calendars associated to one user
+ *
  * @package Sabre
  * @subpackage CalDAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre_DAVACL_IACL {
 
     /**
-     * Principal backend 
-     * 
+     * Principal backend
+     *
      * @var Sabre_DAVACL_IPrincipalBackend
      */
     protected $principalBackend;
 
     /**
      * CalDAV backend
-     * 
+     *
      * @var Sabre_CalDAV_Backend_Abstract
      */
     protected $caldavBackend;
 
     /**
-     * Principal information 
-     * 
-     * @var array 
+     * Principal information
+     *
+     * @var array
      */
     protected $principalInfo;
-    
+
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param Sabre_DAVACL_IPrincipalBackend $principalBackend
-     * @param Sabre_CalDAV_Backend_Abstract $caldavBackend 
-     * @param mixed $userUri 
+     * @param Sabre_CalDAV_Backend_Abstract $caldavBackend
+     * @param mixed $userUri
      */
     public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend, Sabre_CalDAV_Backend_Abstract $caldavBackend, $userUri) {
 
         $this->principalBackend = $principalBackend;
         $this->caldavBackend = $caldavBackend;
         $this->principalInfo = $principalBackend->getPrincipalByPath($userUri);
-       
+
     }
 
     /**
-     * Returns the name of this object 
-     * 
+     * Returns the name of this object
+     *
      * @return string
      */
     public function getName() {
-      
+
         list(,$name) = Sabre_DAV_URLUtil::splitPath($this->principalInfo['uri']);
-        return $name; 
+        return $name;
 
     }
 
     /**
-     * Updates the name of this object 
-     * 
-     * @param string $name 
+     * Updates the name of this object
+     *
+     * @param string $name
      * @return void
      */
     public function setName($name) {
@@ -72,8 +72,8 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
     }
 
     /**
-     * Deletes this object 
-     * 
+     * Deletes this object
+     *
      * @return void
      */
     public function delete() {
@@ -83,13 +83,13 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
     }
 
     /**
-     * Returns the last modification date 
-     * 
-     * @return int 
+     * Returns the last modification date
+     *
+     * @return int
      */
     public function getLastModified() {
 
-        return null; 
+        return null;
 
     }
 
@@ -97,9 +97,9 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
      * Creates a new file under this object.
      *
      * This is currently not allowed
-     * 
-     * @param string $filename 
-     * @param resource $data 
+     *
+     * @param string $filename
+     * @param resource $data
      * @return void
      */
     public function createFile($filename, $data=null) {
@@ -112,8 +112,8 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
      * Creates a new directory under this object.
      *
      * This is currently not allowed.
-     * 
-     * @param string $filename 
+     *
+     * @param string $filename
      * @return void
      */
     public function createDirectory($filename) {
@@ -123,11 +123,11 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
     }
 
     /**
-     * Returns a single calendar, by name 
-     * 
+     * Returns a single calendar, by name
+     *
      * @param string $name
      * @todo needs optimizing
-     * @return Sabre_CalDAV_Calendar 
+     * @return Sabre_CalDAV_Calendar
      */
     public function getChild($name) {
 
@@ -136,22 +136,22 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
                 return $child;
 
         }
-        throw new Sabre_DAV_Exception_FileNotFound('Calendar with name \'' . $name . '\' could not be found');
+        throw new Sabre_DAV_Exception_NotFound('Calendar with name \'' . $name . '\' could not be found');
 
     }
 
     /**
      * Checks if a calendar exists.
-     * 
+     *
      * @param string $name
      * @todo needs optimizing
-     * @return bool 
+     * @return bool
      */
     public function childExists($name) {
 
         foreach($this->getChildren() as $child) {
             if ($name==$child->getName())
-                return true; 
+                return true;
 
         }
         return false;
@@ -160,8 +160,8 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
 
     /**
      * Returns a list of calendars
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getChildren() {
 
@@ -170,15 +170,17 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
         foreach($calendars as $calendar) {
             $objs[] = new Sabre_CalDAV_Calendar($this->principalBackend, $this->caldavBackend, $calendar);
         }
+        $objs[] = new Sabre_CalDAV_Schedule_Outbox($this->principalInfo['uri']);
         return $objs;
 
     }
 
     /**
      * Creates a new calendar
-     * 
-     * @param string $name 
-     * @param string $properties 
+     *
+     * @param string $name
+     * @param array $resourceType
+     * @param array $properties
      * @return void
      */
     public function createExtendedCollection($name, array $resourceType, array $properties) {
@@ -193,8 +195,8 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
     /**
      * Returns the owner principal
      *
-     * This must be a url to a principal, or null if there's no owner 
-     * 
+     * This must be a url to a principal, or null if there's no owner
+     *
      * @return string|null
      */
     public function getOwner() {
@@ -207,8 +209,8 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
      * Returns a group principal
      *
      * This must be a url to a principal, or null if there's no owner
-     * 
-     * @return string|null 
+     *
+     * @return string|null
      */
     public function getGroup() {
 
@@ -220,13 +222,13 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
      * Returns a list of ACE's for this node.
      *
      * Each ACE has the following properties:
-     *   * 'privilege', a string such as {DAV:}read or {DAV:}write. These are 
+     *   * 'privilege', a string such as {DAV:}read or {DAV:}write. These are
      *     currently the only supported privileges
      *   * 'principal', a url to the principal who owns the node
-     *   * 'protected' (optional), indicating that this ACE is not allowed to 
-     *      be updated. 
-     * 
-     * @return array 
+     *   * 'protected' (optional), indicating that this ACE is not allowed to
+     *      be updated.
+     *
+     * @return array
      */
     public function getACL() {
 
@@ -264,9 +266,9 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
     /**
      * Updates the ACL
      *
-     * This method will receive a list of new ACE's. 
-     * 
-     * @param array $acl 
+     * This method will receive a list of new ACE's.
+     *
+     * @param array $acl
      * @return void
      */
     public function setACL(array $acl) {
@@ -275,6 +277,22 @@ class Sabre_CalDAV_UserCalendars implements Sabre_DAV_IExtendedCollection, Sabre
 
     }
 
+    /**
+     * Returns the list of supported privileges for this node.
+     *
+     * The returned data structure is a list of nested privileges.
+     * See Sabre_DAVACL_Plugin::getDefaultSupportedPrivilegeSet for a simple
+     * standard structure.
+     *
+     * If null is returned from this method, the default privilege set is used,
+     * which is fine for most common usecases.
+     *
+     * @return array|null
+     */
+    public function getSupportedPrivilegeSet() {
 
+        return null;
+
+    }
 
 }

@@ -4,26 +4,26 @@
  * Represents {DAV:}lockdiscovery property
  *
  * This property contains all the open locks on a given resource
- * 
+ *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_DAV_Property_LockDiscovery extends Sabre_DAV_Property {
 
     /**
-     * locks 
-     * 
-     * @var array 
+     * locks
+     *
+     * @var array
      */
     public $locks;
- 
+
     /**
-     * Should we show the locktoken as well? 
-     * 
-     * @var bool 
+     * Should we show the locktoken as well?
+     *
+     * @var bool
      */
     public $revealLockToken;
 
@@ -36,13 +36,12 @@ class Sabre_DAV_Property_LockDiscovery extends Sabre_DAV_Property {
     static public $hideLockRoot = false;
 
     /**
-     * __construct 
-     * 
-     * @param array $locks 
-     * @param bool $revealLockToken 
-     * @return void
+     * __construct
+     *
+     * @param array $locks
+     * @param bool $revealLockToken
      */
-    public function __construct($locks,$revealLockToken = false) {
+    public function __construct($locks, $revealLockToken = false) {
 
         $this->locks = $locks;
         $this->revealLockToken = $revealLockToken;
@@ -50,12 +49,13 @@ class Sabre_DAV_Property_LockDiscovery extends Sabre_DAV_Property {
     }
 
     /**
-     * serialize 
-     * 
-     * @param DOMElement $prop 
+     * serialize
+     *
+     * @param Sabre_DAV_Server $server
+     * @param DOMElement       $prop
      * @return void
      */
-    public function serialize(Sabre_DAV_Server $server,DOMElement $prop) {
+    public function serialize(Sabre_DAV_Server $server, DOMElement $prop) {
 
         $doc = $prop->ownerDocument;
 
@@ -74,7 +74,7 @@ class Sabre_DAV_Property_LockDiscovery extends Sabre_DAV_Property {
 
             $lockType->appendChild($doc->createElementNS('DAV:','d:write'));
 
-            /* {DAV:}lockroot */ 
+            /* {DAV:}lockroot */
             if (!self::$hideLockRoot) {
                 $lockRoot = $doc->createElementNS('DAV:','d:lockroot');
                 $activeLock->appendChild($lockRoot);
@@ -91,7 +91,7 @@ class Sabre_DAV_Property_LockDiscovery extends Sabre_DAV_Property {
                 $activeLock->appendChild($lockToken);
                 $lockToken->appendChild($doc->createElementNS('DAV:','d:href','opaquelocktoken:' . $lock->token));
             }
-           
+
             $activeLock->appendChild($doc->createElementNS('DAV:','d:owner',$lock->owner));
 
         }

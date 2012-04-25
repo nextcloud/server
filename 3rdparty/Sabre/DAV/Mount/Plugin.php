@@ -4,25 +4,25 @@
  * This plugin provides support for RFC4709: Mounting WebDAV servers
  *
  * Simply append ?mount to any collection to generate the davmount response.
- * 
+ *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  */
 class Sabre_DAV_Mount_Plugin extends Sabre_DAV_ServerPlugin {
 
     /**
-     * Reference to Server class 
-     * 
-     * @var Sabre_DAV_Server 
+     * Reference to Server class
+     *
+     * @var Sabre_DAV_Server
      */
     private $server;
 
     /**
-     * Initializes the plugin and registers event handles 
-     * 
-     * @param Sabre_DAV_Server $server 
+     * Initializes the plugin and registers event handles
+     *
+     * @param Sabre_DAV_Server $server
      * @return void
      */
     public function initialize(Sabre_DAV_Server $server) {
@@ -35,9 +35,10 @@ class Sabre_DAV_Mount_Plugin extends Sabre_DAV_ServerPlugin {
     /**
      * 'beforeMethod' event handles. This event handles intercepts GET requests ending
      * with ?mount
-     * 
-     * @param string $method 
-     * @return void
+     *
+     * @param string $method
+     * @param string $uri
+     * @return bool
      */
     public function beforeMethod($method, $uri) {
 
@@ -57,13 +58,13 @@ class Sabre_DAV_Mount_Plugin extends Sabre_DAV_ServerPlugin {
     }
 
     /**
-     * Generates the davmount response 
-     * 
-     * @param string $uri absolute uri 
+     * Generates the davmount response
+     *
+     * @param string $uri absolute uri
      * @return void
      */
     public function davMount($uri) {
-       
+
         $this->server->httpResponse->sendStatus(200);
         $this->server->httpResponse->setHeader('Content-Type','application/davmount+xml');
         ob_start();

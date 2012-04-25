@@ -10,18 +10,18 @@
  *  2. Call the setRealm() method with the realm you plan to use
  *  3. Call the init method function.
  *  4. Call the getUserName() function. This function may return false if no
- *     authentication information was supplied. Based on the username you 
+ *     authentication information was supplied. Based on the username you
  *     should check your internal database for either the associated password,
  *     or the so-called A1 hash of the digest.
  *  5. Call either validatePassword() or validateA1(). This will return true
- *     or false. 
+ *     or false.
  *  6. To make sure an authentication prompt is displayed, call the
  *     requireLogin() method.
- * 
- * 
+ *
+ *
  * @package Sabre
- * @subpackage HTTP 
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
+ * @subpackage HTTP
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
@@ -40,7 +40,7 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
     protected $qop = self::QOP_AUTH;
 
     /**
-     * Initializes the object 
+     * Initializes the object
      */
     public function __construct() {
 
@@ -54,7 +54,7 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
      * Gathers all information from the headers
      *
      * This method needs to be called prior to anything else.
-     * 
+     *
      * @return void
      */
     public function init() {
@@ -73,11 +73,11 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
      *
      * Multiple values can be specified using logical OR.
      *
-     * QOP_AUTHINT ensures integrity of the request body, but this is not 
-     * supported by most HTTP clients. QOP_AUTHINT also requires the entire 
+     * QOP_AUTHINT ensures integrity of the request body, but this is not
+     * supported by most HTTP clients. QOP_AUTHINT also requires the entire
      * request body to be md5'ed, which can put strains on CPU and memory.
      *
-     * @param int $qop 
+     * @param int $qop
      * @return void
      */
     public function setQOP($qop) {
@@ -91,8 +91,8 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
      *
      * The A1 parameter should be md5($username . ':' . $realm . ':' . $password);
      *
-     * @param string $A1 
-     * @return bool 
+     * @param string $A1
+     * @return bool
      */
     public function validateA1($A1) {
 
@@ -104,9 +104,9 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
     /**
      * Validates authentication through a password. The actual password must be provided here.
      * It is strongly recommended not store the password in plain-text and use validateA1 instead.
-     * 
-     * @param string $password 
-     * @return bool 
+     *
+     * @param string $password
+     * @return bool
      */
     public function validatePassword($password) {
 
@@ -116,9 +116,9 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
     }
 
     /**
-     * Returns the username for the request 
-     * 
-     * @return string 
+     * Returns the username for the request
+     *
+     * @return string
      */
     public function getUsername() {
 
@@ -127,14 +127,14 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
     }
 
     /**
-     * Validates the digest challenge 
-     * 
-     * @return bool 
+     * Validates the digest challenge
+     *
+     * @return bool
      */
     protected function validate() {
 
         $A2 = $this->httpRequest->getMethod() . ':' . $this->digestParts['uri'];
-    
+
         if ($this->digestParts['qop']=='auth-int') {
             // Making sure we support this qop value
             if (!($this->qop & self::QOP_AUTHINT)) return false;
@@ -144,16 +144,16 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
             $A2 .= ':' . md5($body);
         } else {
 
-            // We need to make sure we support this qop value 
-            if (!($this->qop & self::QOP_AUTH)) return false; 
+            // We need to make sure we support this qop value
+            if (!($this->qop & self::QOP_AUTH)) return false;
         }
 
         $A2 = md5($A2);
 
-        $validResponse = md5("{$this->A1}:{$this->digestParts['nonce']}:{$this->digestParts['nc']}:{$this->digestParts['cnonce']}:{$this->digestParts['qop']}:{$A2}"); 
+        $validResponse = md5("{$this->A1}:{$this->digestParts['nonce']}:{$this->digestParts['nc']}:{$this->digestParts['cnonce']}:{$this->digestParts['qop']}:{$A2}");
 
         return $this->digestParts['response']==$validResponse;
-        
+
 
     }
 
@@ -186,7 +186,7 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
      *
      * If the header could not be found, null will be returned
      *
-     * @return mixed 
+     * @return mixed
      */
     public function getDigest() {
 
@@ -196,6 +196,12 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
 
         // most other servers
         $digest = $this->httpRequest->getHeader('Authorization');
+
+        // Apache could prefix environment variables with REDIRECT_ when urls
+        // are passed through mod_rewrite
+        if (!$digest) {
+            $digest = $this->httpRequest->getRawServerValue('REDIRECT_HTTP_AUTHORIZATION');
+        }
 
         if ($digest && strpos(strtolower($digest),'digest')===0) {
             return substr($digest,7);
@@ -208,11 +214,11 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
 
     /**
      * Parses the different pieces of the digest string into an array.
-     * 
+     *
      * This method returns false if an incomplete digest was supplied
      *
-     * @param string $digest 
-     * @return mixed 
+     * @param string $digest
+     * @return mixed
      */
     protected function parseDigest($digest) {
 
@@ -227,7 +233,7 @@ class Sabre_HTTP_DigestAuth extends Sabre_HTTP_AbstractAuth {
             unset($needed_parts[$m[1]]);
         }
 
-        return $needed_parts ? false : $data; 
+        return $needed_parts ? false : $data;
 
     }
 
