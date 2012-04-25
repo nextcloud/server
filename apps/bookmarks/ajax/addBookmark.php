@@ -30,6 +30,6 @@ $RUNTIME_NOSETUPFS=true;
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('bookmarks');
 
-require_once('../bookmarksHelper.php');
+require_once(OC::$APPSROOT . '/apps/bookmarks/bookmarksHelper.php');
 $id = addBookmark($_GET['url'], $_GET['title'], $_GET['tags']);
 OC_JSON::success(array('data' => $id));

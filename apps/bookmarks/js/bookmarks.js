@@ -20,7 +20,7 @@ function getBookmarks() {
 	}
 
 	$.ajax({
-		url: 'ajax/updateList.php',
+		url: OC.filePath('bookmarks', 'ajax', 'updateList.php'),
 		data: 'tag=' + encodeURIComponent($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
 		success: function(bookmarks){
 			if (bookmarks.data.length) {
@@ -63,7 +63,7 @@ function addOrEditBookmark(event) {
 
 	if (id == 0) {
 		$.ajax({
-			url: 'ajax/addBookmark.php',
+			url: OC.filePath('bookmarks', 'ajax', 'addBookmark.php'),
 			data: 'url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&tags=' + encodeURIComponent(tags),
 			success: function(response){
 				$('.bookmarks_input').val('');
@@ -75,7 +75,7 @@ function addOrEditBookmark(event) {
 	}
 	else {
 		$.ajax({
-			url: 'ajax/editBookmark.php',
+			url: OC.filePath('bookmarks', 'ajax', 'editBookmark.php'),
 			data: 'id=' + id + '&url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&tags=' + encodeURIComponent(tags),
 			success: function(){
 				$('.bookmarks_input').val('');
@@ -92,7 +92,7 @@ function addOrEditBookmark(event) {
 function delBookmark(event) {
 	var record = $(this).parent().parent();
 	$.ajax({
-		url: 'ajax/delBookmark.php',
+		url: OC.filePath('bookmarks', 'ajax', 'delBookmark.php'),
 		data: 'url=' + encodeURIComponent($(this).parent().parent().children('.bookmark_url:first').text()),
 		success: function(data){
 			record.remove();
@@ -164,7 +164,7 @@ function updateOnBottom() {
 
 function recordClick(event) {
 	$.ajax({
-		url: 'ajax/recordClick.php',
+		url: OC.filePath('bookmarks', 'ajax', 'recordClick.php'),
 		data: 'url=' + encodeURIComponent($(this).attr('href')),
 	});
 }
