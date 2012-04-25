@@ -289,7 +289,7 @@ Contacts={
 					if (jsondata.status == 'success'){
 						$('#rightcontent').data('id',jsondata.data.id);
 						var id = jsondata.data.id;
-						$.getJSON('ajax/contactdetails.php',{'id':id},function(jsondata){
+						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 							if(jsondata.status == 'success'){
 								Contacts.UI.loadHandlers();
 								Contacts.UI.Card.loadContact(jsondata.data);
@@ -335,7 +335,7 @@ Contacts={
 				$('#contacts_deletecard').tipsy('hide');
 				OC.dialogs.confirm(t('contacts', 'Are you sure you want to delete this contact?'), t('contacts', 'Warning'), function(answer) {
 					if(answer == true) {
-						$.getJSON('ajax/deletecard.php',{'id':Contacts.UI.Card.id},function(jsondata){
+						$.getJSON(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':Contacts.UI.Card.id},function(jsondata){
 							if(jsondata.status == 'success'){
 								var newid = '';
 								var curlistitem = $('#leftcontent [data-id="'+jsondata.data.id+'"]');
@@ -357,7 +357,7 @@ Contacts={
 									Contacts.UI.Card.update(newid);
 								} else {
 									// load intro page
-									$.getJSON('ajax/loadintro.php',{},function(jsondata){
+									$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
 										if(jsondata.status == 'success'){
 											id = '';
 											$('#rightcontent').data('id','');
@@ -616,7 +616,7 @@ Contacts={
 					q = q + '&checksum=' + checksum;
 					console.log('Saving: ' + q);
 					$(obj).attr('disabled', 'disabled');
-					$.post('ajax/saveproperty.php',q,function(jsondata){
+					$.post(OC.filePath('contacts', 'ajax', 'saveproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
 							Contacts.UI.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
@@ -634,7 +634,7 @@ Contacts={
 				} else { // add
 					console.log('Adding: ' + q);
 					$(obj).attr('disabled', 'disabled');
-					$.post('ajax/addproperty.php',q,function(jsondata){
+					$.post(OC.filePath('contacts', 'ajax', 'addproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
 							// TODO: savePropertyInternal doesn't know about new fields
@@ -704,7 +704,7 @@ Contacts={
 				var checksum = Contacts.UI.checksumFor(obj);
 				console.log('deleteProperty, id: ' + this.id + ', checksum: ' + checksum);
 				if(checksum) {
-					$.getJSON('ajax/deleteproperty.php',{'id': this.id, 'checksum': checksum },function(jsondata){
+					$.getJSON(OC.filePath('contacts', 'ajax', 'deleteproperty.php'),{'id': this.id, 'checksum': checksum },function(jsondata){
 						if(jsondata.status == 'success'){
 							if(type == 'list') {
 								Contacts.UI.propertyContainerFor(obj).remove();
@@ -1124,7 +1124,7 @@ Contacts={
 			},
 			cloudPhotoSelected:function(path){
 				console.log('cloudPhotoSelected: ' + path);
-				$.getJSON('ajax/oc_photo.php',{'path':path,'id':Contacts.UI.Card.id},function(jsondata){
+				$.getJSON(OC.filePath('contacts', 'ajax', 'oc_photo.php'),{'path':path,'id':Contacts.UI.Card.id},function(jsondata){
 					if(jsondata.status == 'success'){
 						//alert(jsondata.data.page);
 						Contacts.UI.Card.editPhoto(jsondata.data.id, jsondata.data.tmp)
@@ -1137,7 +1137,7 @@ Contacts={
 			},
 			loadPhoto:function(force){
 				//if(this.data.PHOTO||force==true) {
-					$.getJSON('ajax/loadphoto.php',{'id':this.id},function(jsondata){
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadphoto.php'),{'id':this.id},function(jsondata){
 						if(jsondata.status == 'success'){
 							//alert(jsondata.data.page);
 							$('#contacts_details_photo_wrapper').data('checksum', jsondata.data.checksum);
@@ -1157,7 +1157,7 @@ Contacts={
 				}*/
 			},
 			editCurrentPhoto:function(){
-				$.getJSON('ajax/currentphoto.php',{'id':this.id},function(jsondata){
+				$.getJSON(OC.filePath('contacts', 'ajax', 'currentphoto.php'),{'id':this.id},function(jsondata){
 					if(jsondata.status == 'success'){
 						//alert(jsondata.data.page);
 						Contacts.UI.Card.editPhoto(jsondata.data.id, jsondata.data.tmp)
@@ -1170,7 +1170,7 @@ Contacts={
 			},
 			editPhoto:function(id, tmp_path){
 				//alert('editPhoto: ' + tmp_path);
-				$.getJSON('ajax/cropphoto.php',{'tmp_path':tmp_path,'id':this.id},function(jsondata){
+				$.getJSON(OC.filePath('contacts', 'ajax', 'cropphoto.php'),{'tmp_path':tmp_path,'id':this.id},function(jsondata){
 					if(jsondata.status == 'success'){
 						//alert(jsondata.data.page);
 						$('#edit_photo_dialog_img').html(jsondata.data.page);
@@ -1405,7 +1405,7 @@ Contacts={
 							}
 						}
 					};
-					xhr.open("POST", 'ajax/uploadimport.php?file='+encodeURIComponent(file.name), true);
+					xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadimport.php') + '?file='+encodeURIComponent(file.name), true);
 					xhr.setRequestHeader('Cache-Control', 'no-cache');
 					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 					xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
@@ -1467,7 +1467,7 @@ Contacts={
 			// Reload the contacts list.
 			update:function(){
 				console.log('Contacts.update, start');
-				$.getJSON('ajax/contacts.php',{},function(jsondata){
+				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
 						$('#contacts').html(jsondata.data.page);
 						Contacts.UI.Card.update();
@@ -1519,7 +1519,7 @@ $(document).ready(function(){
 		if(oldid != 0){
 			$('#leftcontent li[data-id="'+oldid+'"]').removeClass('active');
 		}
-		$.getJSON('ajax/contactdetails.php',{'id':id},function(jsondata){
+		$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
 				Contacts.UI.Card.loadContact(jsondata.data);
 			}
@@ -1662,7 +1662,7 @@ $(document).ready(function(){
 		};
 		// Start loading indicator.
 		//$('#contacts_details_photo_progress').show()();
-		xhr.open("POST", 'ajax/uploadphoto.php?id='+Contacts.UI.Card.id+'&imagefile='+encodeURIComponent(file.name), true);
+		xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&imagefile='+encodeURIComponent(file.name), true);
 		xhr.setRequestHeader('Cache-Control', 'no-cache');
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 		xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
