@@ -1692,18 +1692,3 @@ $(document).ready(function(){
 		$('#contacts_propertymenu').hide();
 	});
 });
-$(document).ready(function() {
-	$('.add').css('background', 'url('+OC.filePath('core', 'img/actions', 'add.svg')+') no-repeat center');
-	$('.delete').css('background', 'url('+OC.filePath('core', 'img/actions', 'delete.svg')+') no-repeat center');
-	$('.edit').css('background', 'url('+OC.filePath('core', 'img/actions', 'rename.svg')+') no-repeat center');
-	$('.mail').css('background', 'url('+OC.filePath('core', 'img/actions', 'mail.svg')+') no-repeat center');
-	$('.upload').css('background', 'url('+OC.filePath('core', 'img/actions', 'upload.svg')+') no-repeat center');
-	$('.cloud').css('background', 'url('+OC.filePath('core', 'img/actions', 'picture.svg')+') no-repeat center');
-	/*$('.globe').css('background', 'url('+OC.filePath('core', 'img/actions', 'globe.svg')+') no-repeat center');*/
-	$('.globe').css('background', 'url('+OC.filePath('core', 'img/actions', 'public.svg')+') no-repeat center');
-	$('#contacts_propertymenu_button').css('background', 'url('+OC.filePath('core', 'img/actions', 'add.svg')+' no-repeat center');
-	$('.loading').css('background', 'url('+OC.filePath('core', 'img', 'loading.gif')+' no-repeat center !important');
-	$('.ui-autocomplete-loading').css('background', 'url('+OC.filePath('core', 'img', 'loading.gif')+' right center no-repeat');
-	$('#contacts_details_photo').css('background', 'url('+OC.filePath('core', 'img', 'loading.gif')+' no-repeat center center');
-	$('#contacts_propertymenu_button').css('background', 'url('+OC.filePath('core', 'img/actions', 'add.svg')+') no-repeat center');
-});
