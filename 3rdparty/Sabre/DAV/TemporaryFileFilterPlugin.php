@@ -22,8 +22,8 @@
  *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
@@ -31,7 +31,7 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
     /**
      * This is the list of patterns we intercept.
      * If new patterns are added, they must be valid patterns for preg_match.
-     * 
+     *
      * @var array
      */
     public $temporaryFilePatterns = array(
@@ -43,19 +43,19 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
         '/^\.dat(.*)$/',   // Smultron seems to create these
         '/^~lock.(.*)#$/', // Windows 7 lockfiles
     );
-    
+
     /**
      * This is the directory where this plugin
      * will store it's files.
-     * 
-     * @var string 
+     *
+     * @var string
      */
     private $dataDir;
 
     /**
      * A reference to the main Server class
-     * 
-     * @var Sabre_DAV_Server 
+     *
+     * @var Sabre_DAV_Server
      */
     private $server;
 
@@ -65,9 +65,8 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
      * Make sure you specify a directory for your files. If you don't, we
      * will use PHP's directory for session-storage instead, and you might
      * not want that.
-     * 
-     * @param string $dataDir 
-     * @return void
+     *
+     * @param string|null $dataDir
      */
     public function __construct($dataDir = null) {
 
@@ -75,15 +74,15 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
         if (!is_dir($dataDir)) mkdir($dataDir);
         $this->dataDir = $dataDir;
 
-    } 
+    }
 
     /**
      * Initialize the plugin
      *
      * This is called automatically be the Server class after this plugin is
      * added with Sabre_DAV_Server::addPlugin()
-     * 
-     * @param Sabre_DAV_Server $server 
+     *
+     * @param Sabre_DAV_Server $server
      * @return void
      */
     public function initialize(Sabre_DAV_Server $server) {
@@ -97,11 +96,12 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
     /**
      * This method is called before any HTTP method handler
      *
-     * This method intercepts any GET, DELETE, PUT and PROPFIND calls to 
+     * This method intercepts any GET, DELETE, PUT and PROPFIND calls to
      * filenames that are known to match the 'temporary file' regex.
-     * 
-     * @param string $method 
-     * @return bool 
+     *
+     * @param string $method
+     * @param string $uri
+     * @return bool
      */
     public function beforeMethod($method, $uri) {
 
@@ -125,33 +125,33 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
     /**
      * This method is invoked if some subsystem creates a new file.
      *
-     * This is used to deal with HTTP LOCK requests which create a new 
+     * This is used to deal with HTTP LOCK requests which create a new
      * file.
-     * 
-     * @param string $uri 
-     * @param resource $data 
-     * @return bool 
+     *
+     * @param string $uri
+     * @param resource $data
+     * @return bool
      */
     public function beforeCreateFile($uri,$data) {
 
         if ($tempPath = $this->isTempFile($uri)) {
-            
+
             $hR = $this->server->httpResponse;
             $hR->setHeader('X-Sabre-Temp','true');
             file_put_contents($tempPath,$data);
             return false;
         }
-        return true; 
+        return true;
 
     }
 
     /**
      * This method will check if the url matches the temporary file pattern
-     * if it does, it will return an path based on $this->dataDir for the 
+     * if it does, it will return an path based on $this->dataDir for the
      * temporary file storage.
-     * 
-     * @param string $path 
-     * @return boolean|string 
+     *
+     * @param string $path
+     * @return boolean|string
      */
     protected function isTempFile($path) {
 
@@ -161,7 +161,7 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
         foreach($this->temporaryFilePatterns as $tempFile) {
 
             if (preg_match($tempFile,$tempPath)) {
-                return $this->dataDir . '/sabredav_' . md5($path) . '.tempfile';
+                return $this->getDataDir() . '/sabredav_' . md5($path) . '.tempfile';
             }
 
         }
@@ -175,9 +175,9 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
      * This method handles the GET method for temporary files.
      * If the file doesn't exist, it will return false which will kick in
      * the regular system for the GET method.
-     * 
-     * @param string $tempLocation 
-     * @return bool 
+     *
+     * @param string $tempLocation
+     * @return bool
      */
     public function httpGet($tempLocation) {
 
@@ -195,9 +195,9 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
 
     /**
      * This method handles the PUT method.
-     * 
-     * @param string $tempLocation 
-     * @return bool 
+     *
+     * @param string $tempLocation
+     * @return bool
      */
     public function httpPut($tempLocation) {
 
@@ -205,7 +205,7 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
         $hR->setHeader('X-Sabre-Temp','true');
 
         $newFile = !file_exists($tempLocation);
-       
+
         if (!$newFile && ($this->server->httpRequest->getHeader('If-None-Match'))) {
              throw new Sabre_DAV_Exception_PreconditionFailed('The resource already exists, and an If-None-Match header was supplied');
         }
@@ -219,11 +219,11 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
     /**
      * This method handles the DELETE method.
      *
-     * If the file didn't exist, it will return false, which will make the 
+     * If the file didn't exist, it will return false, which will make the
      * standard HTTP DELETE handler kick in.
-     * 
-     * @param string $tempLocation 
-     * @return bool 
+     *
+     * @param string $tempLocation
+     * @return bool
      */
     public function httpDelete($tempLocation) {
 
@@ -238,25 +238,26 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
     }
 
     /**
-     * This method handles the PROPFIND method. 
+     * This method handles the PROPFIND method.
      *
      * It's a very lazy method, it won't bother checking the request body
      * for which properties were requested, and just sends back a default
      * set of properties.
      *
-     * @param string $tempLocation 
-     * @return void
+     * @param string $tempLocation
+     * @param string $uri
+     * @return bool
      */
     public function httpPropfind($tempLocation, $uri) {
 
         if (!file_exists($tempLocation)) return true;
-       
+
         $hR = $this->server->httpResponse;
         $hR->setHeader('X-Sabre-Temp','true');
         $hR->sendStatus(207);
         $hR->setHeader('Content-Type','application/xml; charset=utf-8');
 
-        $requestedProps = $this->server->parsePropFindRequest($this->server->httpRequest->getBody(true)); 
+        $this->server->parsePropFindRequest($this->server->httpRequest->getBody(true));
 
         $properties = array(
             'href' => $uri,
@@ -264,7 +265,7 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
                 '{DAV:}getlastmodified' => new Sabre_DAV_Property_GetLastModified(filemtime($tempLocation)),
                 '{DAV:}getcontentlength' => filesize($tempLocation),
                 '{DAV:}resourcetype' => new Sabre_DAV_Property_ResourceType(null),
-                '{'.Sabre_DAV_Server::NS_SABREDAV.'}tempFile' => true, 
+                '{'.Sabre_DAV_Server::NS_SABREDAV.'}tempFile' => true,
 
             ),
          );
@@ -276,4 +277,13 @@ class Sabre_DAV_TemporaryFileFilterPlugin extends Sabre_DAV_ServerPlugin {
     }
 
 
+    /**
+     * This method returns the directory where the temporary files should be stored.
+     *
+     * @return string
+     */
+    protected function getDataDir()
+    {
+        return $this->dataDir;
+    }
 }

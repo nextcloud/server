@@ -20,7 +20,10 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_userlist_filter', 'ldap_login_filter', 'ldap_display_name', 'ldap_tls', 'ldap_nocase'. 'ldap_quota_def', 'ldap_quota_attr', 'ldap_email_attr');
+$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_base_users', 'ldap_base_groups', 'ldap_userlist_filter', 'ldap_login_filter', 'ldap_display_name', 'ldap_tls', 'ldap_nocase'. 'ldap_quota_def', 'ldap_quota_attr', 'ldap_email_attr');
+
+OC_Util::addScript('user_ldap', 'settings');
+OC_Util::addStyle('user_ldap', 'settings');
 
 if ($_POST) {
 	foreach($params as $param){
@@ -45,10 +48,8 @@ foreach($params as $param){
 		$tmpl->assign($param, $value);
 }
 
-// ldap_port has a default value
+// settings with default values
 $tmpl->assign( 'ldap_port', OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT));
-
-// ldap_display_name has a default value
 $tmpl->assign( 'ldap_display_name', OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME));
 
 return $tmpl->fetchPage();

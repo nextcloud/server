@@ -428,7 +428,7 @@ class OC{
 			$parent = OC::$APPSROOT . '/' . self::$REQUESTEDAPP;
 			if(!OC_Helper::issubdirectory($subdir, $parent)){
 				self::$REQUESTEDFILE = null;
-				//header('HTTP/1.0 404 Not Found');
+				header('HTTP/1.0 404 Not Found');
 				exit;
 			}
 		}

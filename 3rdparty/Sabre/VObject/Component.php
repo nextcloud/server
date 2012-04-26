@@ -4,39 +4,73 @@
  * VObject Component
  *
  * This class represents a VCALENDAR/VCARD component. A component is for example
- * VEVENT, VTODO and also VCALENDAR. It starts with BEGIN:COMPONENTNAME and 
+ * VEVENT, VTODO and also VCALENDAR. It starts with BEGIN:COMPONENTNAME and
  * ends with END:COMPONENTNAME
  *
  * @package Sabre
  * @subpackage VObject
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_VObject_Component extends Sabre_VObject_Element {
 
     /**
-     * Name, for example VEVENT 
-     * 
-     * @var string 
+     * Name, for example VEVENT
+     *
+     * @var string
      */
     public $name;
 
     /**
-     * Children properties and components 
-     * 
+     * Children properties and components
+     *
      * @var array
      */
     public $children = array();
 
+    /**
+     * If coponents are added to this map, they will be automatically mapped
+     * to their respective classes, if parsed by the reader or constructed with
+     * the 'create' method.
+     *
+     * @var array
+     */
+    static public $classMap = array(
+        'VCALENDAR'     => 'Sabre_VObject_Component_VCalendar',
+        'VEVENT'        => 'Sabre_VObject_Component_VEvent',
+        'VTODO'         => 'Sabre_VObject_Component_VTodo',
+        'VJOURNAL'      => 'Sabre_VObject_Component_VJournal',
+        'VALARM'        => 'Sabre_VObject_Component_VAlarm',
+    );
+
+    /**
+     * Creates the new component by name, but in addition will also see if
+     * there's a class mapped to the property name.
+     *
+     * @param string $name
+     * @param string $value
+     * @return Sabre_VObject_Component
+     */
+    static public function create($name, $value = null) {
+
+        $name = strtoupper($name);
+
+        if (isset(self::$classMap[$name])) {
+            return new self::$classMap[$name]($name, $value);
+        } else {
+            return new self($name, $value);
+        }
+
+    }
 
     /**
      * Creates a new component.
      *
-     * By default this object will iterate over its own children, but this can 
+     * By default this object will iterate over its own children, but this can
      * be overridden with the iterator argument
-     * 
-     * @param string $name 
+     *
+     * @param string $name
      * @param Sabre_VObject_ElementList $iterator
      */
     public function __construct($name, Sabre_VObject_ElementList $iterator = null) {
@@ -47,23 +81,65 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
     }
 
     /**
-     * Turns the object back into a serialized blob. 
-     * 
-     * @return string 
+     * Turns the object back into a serialized blob.
+     *
+     * @return string
      */
     public function serialize() {
 
         $str = "BEGIN:" . $this->name . "\r\n";
+
+        /**
+         * Gives a component a 'score' for sorting purposes.
+         *
+         * This is solely used by the childrenSort method.
+         *
+         * A higher score means the item will be higher in the list
+         *
+         * @param Sabre_VObject_Node $n
+         * @return int
+         */
+        $sortScore = function($n) {
+
+            if ($n instanceof Sabre_VObject_Component) {
+                // We want to encode VTIMEZONE first, this is a personal
+                // preference.
+                if ($n->name === 'VTIMEZONE') {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                // VCARD version 4.0 wants the VERSION property to appear first
+                if ($n->name === 'VERSION') {
+                    return 3;
+                } else {
+                    return 2;
+                }
+            }
+
+        };
+
+        usort($this->children, function($a, $b) use ($sortScore) {
+
+            $sA = $sortScore($a);
+            $sB = $sortScore($b);
+
+            if ($sA === $sB) return 0;
+
+            return ($sA > $sB) ? -1 : 1;
+
+        });
+
         foreach($this->children as $child) $str.=$child->serialize();
         $str.= "END:" . $this->name . "\r\n";
-        
+
         return $str;
 
     }
 
-
     /**
-     * Adds a new componenten or element
+     * Adds a new component or element
      *
      * You can call this method with the following syntaxes:
      *
@@ -71,10 +147,10 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
      * add(string $name, $value)
      *
      * The first version adds an Element
-     * The second adds a property as a string. 
-     * 
-     * @param mixed $item 
-     * @param mixed $itemValue 
+     * The second adds a property as a string.
+     *
+     * @param mixed $item
+     * @param mixed $itemValue
      * @return void
      */
     public function add($item, $itemValue = null) {
@@ -90,12 +166,12 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
             if (!is_scalar($itemValue)) {
                 throw new InvalidArgumentException('The second argument must be scalar');
             }
-            $item = new Sabre_VObject_Property($item,$itemValue);
+            $item = Sabre_VObject_Property::create($item,$itemValue);
             $item->parent = $this;
             $this->children[] = $item;
 
         } else {
-            
+
             throw new InvalidArgumentException('The first argument must either be a Sabre_VObject_Element or a string');
 
         }
@@ -103,9 +179,9 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
     }
 
     /**
-     * Returns an iterable list of children 
-     * 
-     * @return Sabre_VObject_ElementList 
+     * Returns an iterable list of children
+     *
+     * @return Sabre_VObject_ElementList
      */
     public function children() {
 
@@ -116,18 +192,18 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
     /**
      * Returns an array with elements that match the specified name.
      *
-     * This function is also aware of MIME-Directory groups (as they appear in 
-     * vcards). This means that if a property is grouped as "HOME.EMAIL", it 
-     * will also be returned when searching for just "EMAIL". If you want to 
-     * search for a property in a specific group, you can select on the entire 
-     * string ("HOME.EMAIL"). If you want to search on a specific property that 
+     * This function is also aware of MIME-Directory groups (as they appear in
+     * vcards). This means that if a property is grouped as "HOME.EMAIL", it
+     * will also be returned when searching for just "EMAIL". If you want to
+     * search for a property in a specific group, you can select on the entire
+     * string ("HOME.EMAIL"). If you want to search on a specific property that
      * has not been assigned a group, specify ".EMAIL".
      *
-     * Keys are retained from the 'children' array, which may be confusing in 
-     * certain cases. 
+     * Keys are retained from the 'children' array, which may be confusing in
+     * certain cases.
      *
-     * @param string $name 
-     * @return array 
+     * @param string $name
+     * @return array
      */
     public function select($name) {
 
@@ -144,7 +220,7 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
                 strtoupper($child->name) === $name &&
                 (is_null($group) || ( $child instanceof Sabre_VObject_Property && strtoupper($child->group) === $group))
             ) {
-                
+
                 $result[$key] = $child;
 
             }
@@ -155,16 +231,35 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
 
     }
 
+    /**
+     * This method only returns a list of sub-components. Properties are
+     * ignored.
+     *
+     * @return array
+     */
+    public function getComponents() {
+
+        $result = array();
+        foreach($this->children as $child) {
+            if ($child instanceof Sabre_VObject_Component) {
+                $result[] = $child;
+            }
+        }
+
+        return $result;
+
+    }
+
     /* Magic property accessors {{{ */
 
     /**
-     * Using 'get' you will either get a propery or component, 
+     * Using 'get' you will either get a property or component,
      *
      * If there were no child-elements found with the specified name,
      * null is returned.
-     * 
-     * @param string $name 
-     * @return void
+     *
+     * @param string $name
+     * @return Sabre_VObject_Property
      */
     public function __get($name) {
 
@@ -173,6 +268,7 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
             return null;
         } else {
             $firstMatch = current($matches);
+            /** @var $firstMatch Sabre_VObject_Property */
             $firstMatch->setIterator(new Sabre_VObject_ElementList(array_values($matches)));
             return $firstMatch;
         }
@@ -180,10 +276,10 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
     }
 
     /**
-     * This method checks if a sub-element with the specified name exists. 
-     * 
-     * @param string $name 
-     * @return bool 
+     * This method checks if a sub-element with the specified name exists.
+     *
+     * @param string $name
+     * @return bool
      */
     public function __isset($name) {
 
@@ -200,7 +296,7 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
      *
      * If the item already exists, it will be removed. If you want to add
      * a new item with the same name, always use the add() method.
-     * 
+     *
      * @param string $name
      * @param mixed $value
      * @return void
@@ -218,7 +314,7 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
                 $this->children[] = $value;
             }
         } elseif (is_scalar($value)) {
-            $property = new Sabre_VObject_Property($name,$value);
+            $property = Sabre_VObject_Property::create($name,$value);
             $property->parent = $this;
             if (!is_null($overWrite)) {
                 $this->children[$overWrite] = $property;
@@ -232,9 +328,9 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
     }
 
     /**
-     * Removes all properties and components within this component. 
-     * 
-     * @param string $name 
+     * Removes all properties and components within this component.
+     *
+     * @param string $name
      * @return void
      */
     public function __unset($name) {
@@ -250,5 +346,20 @@ class Sabre_VObject_Component extends Sabre_VObject_Element {
     }
 
     /* }}} */
+
+    /**
+     * This method is automatically called when the object is cloned.
+     * Specifically, this will ensure all child elements are also cloned.
+     *
+     * @return void
+     */
+    public function __clone() {
+
+        foreach($this->children as $key=>$child) {
+            $this->children[$key] = clone $child;
+            $this->children[$key]->parent = $this;
+        }
+
+    }
 
 }

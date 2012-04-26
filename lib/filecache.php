@@ -64,7 +64,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result;
 		}else{
-			OC_Log::write('get(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('files','get(): file not found in cache ('.$path.')',OC_Log::DEBUG);
 			return false;
 		}
 	}
@@ -257,7 +257,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result;
 		}else{
-			OC_Log::write('getFolderContent(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('files','getFolderContent(): file not found in cache ('.$path.')',OC_Log::DEBUG);
 			return false;
 		}
 	}
@@ -300,7 +300,7 @@ class OC_FileCache{
 		if(is_array($result)){
 			return $result['id'];
 		}else{
-			OC_Log::write('getFileId(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
+			OC_Log::write('files','getFileId(): file not found in cache ('.$path.')',OC_Log::DEBUG);
 			return -1;
 		}
 	}
@@ -414,8 +414,12 @@ class OC_FileCache{
 			}
 			return $result;
 		}else{
-			OC_Log::write('get(): file not found in cache ('.$path.')','core',OC_Log::DEBUG);
-			return false;
+			OC_Log::write('files','getChached(): file not found in cache ('.$path.')',OC_Log::DEBUG);
+			if(isset(self::$savedData[$path])){
+				return self::$savedData[$path];
+			}else{
+				return array();
+			}
 		}
 	}
 	
@@ -553,6 +557,7 @@ class OC_FileCache{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
 		if(!$view->is_readable($path)) return; //cant read, nothing we can do
+		clearstatcache();
 		$stat=$view->stat($path);
 		$mimetype=$view->getMimeType($path);
 		$writable=$view->is_writable($path);

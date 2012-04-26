@@ -1287,6 +1287,7 @@ Contacts={
 		},
 		Addressbooks:{
 			droptarget:undefined,
+			droptext:t('contacts', 'Drop a VCF file to import contacts.'),
 			overview:function(){
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
@@ -1345,8 +1346,16 @@ Contacts={
 				}
 			},
 			loadImportHandlers:function() {
+				$('#import_upload_start').change(function(){
+					Contacts.UI.Addressbooks.uploadImport(this.files);
+				});
+				$('#importaddressbook_dialog').find('.upload').click(function() {
+					Contacts.UI.Addressbooks.droptarget.html(t('contacts', 'Uploading...'));
+					Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, true);
+					$('#import_upload_start').trigger('click');
+				});
+				$('#importaddressbook_dialog').find('.upload').tipsy();
 				this.droptarget = $('#import_drop_target');
-				console.log($('#import_drop_target').html());
 				$(this.droptarget).bind('dragover',function(event){
 					$(event.target).addClass('droppable');
 					event.stopPropagation();
@@ -1371,13 +1380,13 @@ Contacts={
 					console.log('size: '+file.size+', type: '+file.type);
 					if(file.size > $('#max_upload').val()){
 						OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
-						$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+						$(Contacts.UI.Addressbooks.droptarget).html(Contacts.UI.Addressbooks.droptext);
 						Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
 						return;
 					}
 					if(file.type.indexOf('text') != 0) {
 						OC.dialogs.alert(t('contacts','You have dropped a file type that cannot be imported: ') + file.type, t('contacts','Wrong file type'));
-						$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+						$(Contacts.UI.Addressbooks.droptarget).html(Contacts.UI.Addressbooks.droptext);
 						Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
 						return;
 					}
@@ -1392,11 +1401,9 @@ Contacts={
 							response = $.parseJSON(xhr.responseText);
 							if(response.status == 'success') {
 								if(xhr.status == 200) {
-									$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Importing...'));
-									Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, true);
 									Contacts.UI.Addressbooks.doImport(response.data.path, response.data.file);
 								} else {
-									$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+									$(Contacts.UI.Addressbooks.droptarget).html(Contacts.UI.Addressbooks.droptext);
 									Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
 									OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
 								}
@@ -1405,7 +1412,7 @@ Contacts={
 							}
 						}
 					};
-					xhr.open("POST", 'ajax/uploadimport.php?file='+encodeURIComponent(file.name), true);
+					xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadimport.php') + '?file='+encodeURIComponent(file.name), true);
 					xhr.setRequestHeader('Cache-Control', 'no-cache');
 					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 					xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
@@ -1414,12 +1421,39 @@ Contacts={
 					xhr.send(file);
 				}
 			},
+			uploadImport:function(filelist) {
+				if(!filelist) {
+					OC.dialogs.alert(t('contacts','No files selected for upload.'), t('contacts', 'Error'));
+					return;
+				}
+				//var file = filelist.item(0);
+				var file = filelist[0];
+				var target = $('#import_upload_target');
+				var form = $('#import_upload_form');
+				var totalSize=0;
+				if(file.size > $('#max_upload').val()){
+					OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts', 'Error'));
+					return;
+				} else {
+					target.load(function(){
+						var response=jQuery.parseJSON(target.contents().text());
+						if(response != undefined && response.status == 'success'){
+							Contacts.UI.Addressbooks.doImport(response.data.path, response.data.file);
+						}else{
+							OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
+						}
+					});
+					form.submit();
+				}
+			},
 			importAddressbook:function(object){
 				var tr = $(document.createElement('tr'))
 					.load(OC.filePath('contacts', 'ajax', 'importaddressbook.php'));
 				$(object).closest('tr').after(tr).hide();
 			},
 			doImport:function(path, file){
+				$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Importing...'));
+				Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, true);
 				var id = $('#importaddressbook_dialog').find('#book').val();
 				console.log('Selected book: ' + id);
 				$.post(OC.filePath('contacts', '', 'import.php'), { id: id, path: path, file: file, fstype: 'OC_FilesystemView' },
@@ -1428,6 +1462,10 @@ Contacts={
 							Contacts.UI.Addressbooks.droptarget.html(t('contacts', 'Import done. Success/Failure: ')+jsondata.data.imported+'/'+jsondata.data.failed);
 							$('#chooseaddressbook_dialog').find('#close_button').val(t('contacts', 'OK'));
 							Contacts.UI.Contacts.update();
+							setTimeout(
+									function() {
+										$(Contacts.UI.Addressbooks.droptarget).html(Contacts.UI.Addressbooks.droptext);
+									}, 5000);
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
@@ -1590,7 +1628,7 @@ $(document).ready(function(){
 	 * Profile picture upload handling
 	 */
 	// New profile picture selected
-	$('#file_upload_start').live('change',function(){
+	$('#file_upload_start').change(function(){
 		Contacts.UI.Card.uploadPhoto(this.files);
 	});
 	$('#contacts_details_photo_wrapper').bind('dragover',function(event){
@@ -1662,7 +1700,7 @@ $(document).ready(function(){
 		};
 		// Start loading indicator.
 		//$('#contacts_details_photo_progress').show()();
-		xhr.open("POST", OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&imagefile='+encodeURIComponent(file.name), true);
+		xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&imagefile='+encodeURIComponent(file.name), true);
 		xhr.setRequestHeader('Cache-Control', 'no-cache');
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 		xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));

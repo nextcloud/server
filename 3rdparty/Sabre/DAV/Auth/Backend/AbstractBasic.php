@@ -8,9 +8,9 @@
  *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author James David Low (http://jameslow.com/)
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 abstract class Sabre_DAV_Auth_Backend_AbstractBasic implements Sabre_DAV_Auth_IBackend {
@@ -28,6 +28,8 @@ abstract class Sabre_DAV_Auth_Backend_AbstractBasic implements Sabre_DAV_Auth_IB
      * This method should return true or false depending on if login
      * succeeded.
      *
+     * @param string $username
+     * @param string $password
      * @return bool
      */
     abstract protected function validateUserPass($username, $password);
@@ -47,13 +49,15 @@ abstract class Sabre_DAV_Auth_Backend_AbstractBasic implements Sabre_DAV_Auth_IB
     /**
      * Authenticates the user based on the current request.
      *
-     * If authentication is succesful, true must be returned.
+     * If authentication is successful, true must be returned.
      * If authentication fails, an exception must be thrown.
      *
+     * @param Sabre_DAV_Server $server
+     * @param string $realm
      * @throws Sabre_DAV_Exception_NotAuthenticated
      * @return bool
      */
-    public function authenticate(Sabre_DAV_Server $server,$realm) {
+    public function authenticate(Sabre_DAV_Server $server, $realm) {
 
         $auth = new Sabre_HTTP_BasicAuth();
         $auth->setHTTPRequest($server->httpRequest);
@@ -75,5 +79,5 @@ abstract class Sabre_DAV_Auth_Backend_AbstractBasic implements Sabre_DAV_Auth_IB
     }
 
 
-} 
+}
 

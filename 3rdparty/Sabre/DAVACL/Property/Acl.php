@@ -1,47 +1,47 @@
 <?php
 
 /**
- * This class represents the {DAV:}acl property 
- * 
+ * This class represents the {DAV:}acl property
+ *
  * @package Sabre
  * @subpackage DAVACL
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
 
     /**
-     * List of privileges 
-     * 
-     * @var array 
+     * List of privileges
+     *
+     * @var array
      */
     private $privileges;
 
     /**
-     * Wether or not the server base url is required to be prefixed when 
-     * serializing the property. 
-     * 
-     * @var boolean 
+     * Whether or not the server base url is required to be prefixed when
+     * serializing the property.
+     *
+     * @var boolean
      */
     private $prefixBaseUrl;
 
     /**
      * Constructor
      *
-     * This object requires a structure similar to the return value from 
+     * This object requires a structure similar to the return value from
      * Sabre_DAVACL_Plugin::getACL().
      *
-     * Each privilege is a an array with at least a 'privilege' property, and a 
-     * 'principal' property. A privilege may have a 'protected' property as 
-     * well. 
+     * Each privilege is a an array with at least a 'privilege' property, and a
+     * 'principal' property. A privilege may have a 'protected' property as
+     * well.
      *
-     * The prefixBaseUrl should be set to false, if the supplied principal urls 
-     * are already full urls. If this is kept to true, the servers base url 
-     * will automatically be prefixed. 
+     * The prefixBaseUrl should be set to false, if the supplied principal urls
+     * are already full urls. If this is kept to true, the servers base url
+     * will automatically be prefixed.
      *
-     * @param bool $prefixBaseUrl 
-     * @param array $privileges 
+     * @param bool $prefixBaseUrl
+     * @param array $privileges
      */
     public function __construct(array $privileges, $prefixBaseUrl = true) {
 
@@ -51,9 +51,9 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
     }
 
     /**
-     * Returns the list of privileges for this property 
-     * 
-     * @return array 
+     * Returns the list of privileges for this property
+     *
+     * @return array
      */
     public function getPrivileges() {
 
@@ -62,10 +62,10 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
     }
 
     /**
-     * Serializes the property into a DOMElement 
-     * 
-     * @param Sabre_DAV_Server $server 
-     * @param DOMElement $node 
+     * Serializes the property into a DOMElement
+     *
+     * @param Sabre_DAV_Server $server
+     * @param DOMElement $node
      * @return void
      */
     public function serialize(Sabre_DAV_Server $server,DOMElement $node) {
@@ -80,10 +80,10 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
     }
 
     /**
-     * Unserializes the {DAV:}acl xml element. 
-     * 
-     * @param DOMElement $dom 
-     * @return Sabre_DAVACL_Property_Acl 
+     * Unserializes the {DAV:}acl xml element.
+     *
+     * @param DOMElement $dom
+     * @return Sabre_DAVACL_Property_Acl
      */
     static public function unserialize(DOMElement $dom) {
 
@@ -98,11 +98,22 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
             }
             $principal = Sabre_DAVACL_Property_Principal::unserialize($principal->item(0));
 
-            if ($principal->getType()!==Sabre_DAVACL_Property_Principal::HREF) {
-                throw new Sabre_DAV_Exception_NotImplemented('Currently only uri based principals are support, {DAV:}all, {DAV:}unauthenticated and {DAV:}authenticated are not implemented yet');
+            switch($principal->getType()) {
+                case Sabre_DAVACL_Property_Principal::HREF :
+                    $principal = $principal->getHref();
+                    break;
+                case Sabre_DAVACL_Property_Principal::AUTHENTICATED :
+                    $principal = '{DAV:}authenticated';
+                    break;
+                case Sabre_DAVACL_Property_Principal::UNAUTHENTICATED :
+                    $principal = '{DAV:}unauthenticated';
+                    break;
+                case Sabre_DAVACL_Property_Principal::ALL :
+                    $principal = '{DAV:}all';
+                    break;
+
             }
 
-            $principal = $principal->getHref();
             $protected = false;
 
             if ($xace->getElementsByTagNameNS('urn:DAV','protected')->length > 0) {
@@ -140,7 +151,7 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
                     'privilege' => $privilegeName,
                 );
 
-            } 
+            }
 
         }
 
@@ -149,12 +160,12 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
     }
 
     /**
-     * Serializes a single access control entry. 
-     * 
-     * @param DOMDocument $doc 
-     * @param DOMElement $node 
+     * Serializes a single access control entry.
+     *
+     * @param DOMDocument $doc
+     * @param DOMElement $node
      * @param array $ace
-     * @param Sabre_DAV_Server $server 
+     * @param Sabre_DAV_Server $server
      * @return void
      */
     private function serializeAce($doc,$node,$ace, $server) {
@@ -164,7 +175,19 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
 
         $principal = $doc->createElementNS('DAV:','d:principal');
         $xace->appendChild($principal);
-        $principal->appendChild($doc->createElementNS('DAV:','d:href',($this->prefixBaseUrl?$server->getBaseUri():'') . $ace['principal'] . '/'));
+        switch($ace['principal']) {
+            case '{DAV:}authenticated' :
+                $principal->appendChild($doc->createElementNS('DAV:','d:authenticated'));
+                break;
+            case '{DAV:}unauthenticated' :
+                $principal->appendChild($doc->createElementNS('DAV:','d:unauthenticated'));
+                break;
+            case '{DAV:}all' :
+                $principal->appendChild($doc->createElementNS('DAV:','d:all'));
+                break;
+            default:
+                $principal->appendChild($doc->createElementNS('DAV:','d:href',($this->prefixBaseUrl?$server->getBaseUri():'') . $ace['principal'] . '/'));
+        }
 
         $grant = $doc->createElementNS('DAV:','d:grant');
         $xace->appendChild($grant);

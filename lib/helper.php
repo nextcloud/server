@@ -569,14 +569,22 @@ class OC_Helper {
 			return false;
 		}
 		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != ''){
-			if(substr($sub, 0, strlen($parent)) == $parent){
-				return true;
-			}
-		}else{
 			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent){
 				return true;
 			}
+		}else{
+			if(substr($sub, 0, strlen($parent)) == $parent){
+				return true;
+			}
 		}
+		/*
+		echo 'SUB: ' . $sub . "\n";
+		echo 'PAR: ' . $parent . "\n";
+		echo 'REALSUB: ' . $realpath_sub . "\n";
+		echo 'REALPAR: ' . $realpath_parent . "\n";
+		echo substr($realpath_sub, 0, strlen($realpath_parent));
+		exit;
+		*/
 		return false;
 	}
 }

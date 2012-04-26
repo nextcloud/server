@@ -20,40 +20,41 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-require_once('../../lib/base.php');
+require_once( '../../lib/base.php' );
 
-OC_Util::checkLoggedIn();
+OC_Util::checkLoggedIn( );
+OC_Util::addStyle('files_versions','versions');
 
-if (isset($_GET['path'])) {
+if ( isset( $_GET['path'] ) ) {
 
 	$path = $_GET['path'];
-	$path = strip_tags($path);
+	$path = strip_tags( $path);
 
 	// roll back to old version if button clicked
-        if(isset($_GET['revert'])) {
-        	\OCA_Versions\Storage::rollback($path,$_GET['revert']);
+        if( isset( $_GET['revert'] ) ) {
+        	\OCA_Versions\Storage::rollback( $path, $_GET['revert'] );
 	}
 
 	// show the history only if there is something to show
-        if(OCA_Versions\Storage::isversioned($path)) {
+        if( OCA_Versions\Storage::isversioned( $path ) ) {
 
 		$count=5; //show the newest revisions
-	        $versions=OCA_Versions\Storage::getversions($path,$count);
+	        $versions=OCA_Versions\Storage::getversions( $path, $count);
 
-		$tmpl = new OC_Template('files_versions', 'history', 'user');
-		$tmpl->assign('path', $path);
-		$tmpl->assign('versions', array_reverse($versions));
-		$tmpl->printPage();
+		$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
+		$tmpl->assign( 'path', $path);
+		$tmpl->assign( 'versions', array_reverse( $versions) );
+		$tmpl->printPage( );
 	}else{
-		$tmpl = new OC_Template('files_versions', 'history', 'user');
-		$tmpl->assign('path', $path);
-		$tmpl->assign('message', 'No old versions available');
-		$tmpl->printPage();
+		$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
+		$tmpl->assign( 'path', $path);
+		$tmpl->assign( 'message', 'No old versions available' );
+		$tmpl->printPage( );
 	}
 }else{
-	$tmpl = new OC_Template('files_versions', 'history', 'user');
-	$tmpl->assign('message', 'No path specified');
-	$tmpl->printPage();
+	$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
+	$tmpl->assign( 'message', 'No path specified' );
+	$tmpl->printPage( );
 }
 
 

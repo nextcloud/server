@@ -590,7 +590,7 @@ class OC_Calendar_Object{
 		$vevent = new OC_VObject('VEVENT');
 		$vcalendar->add($vevent);
 
-		$vevent->setDateTime('CREATED', 'now', Sabre_VObject_Element_DateTime::UTC);
+		$vevent->setDateTime('CREATED', 'now', Sabre_VObject_Property_DateTime::UTC);
 
 		$vevent->setUID();
 		return self::updateVCalendarFromRequest($request, $vcalendar);
@@ -751,22 +751,22 @@ class OC_Calendar_Object{
 		}
 
 
-		$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Element_DateTime::UTC);
-		$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
+		$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Property_DateTime::UTC);
+		$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Property_DateTime::UTC);
 		$vevent->setString('SUMMARY', $title);
 
 		if($allday){
 			$start = new DateTime($from);
 			$end = new DateTime($to.' +1 day');
-			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Element_DateTime::DATE);
-			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Element_DateTime::DATE);
+			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Property_DateTime::DATE);
+			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Property_DateTime::DATE);
 		}else{
 			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
 			$start = new DateTime($from.' '.$fromtime, $timezone);
 			$end = new DateTime($to.' '.$totime, $timezone);
-			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Element_DateTime::LOCALTZ);
-			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Element_DateTime::LOCALTZ);
+			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Property_DateTime::LOCALTZ);
+			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Property_DateTime::LOCALTZ);
 		}
 		unset($vevent->DURATION);
 

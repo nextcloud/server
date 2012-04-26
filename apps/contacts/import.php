@@ -24,6 +24,11 @@ if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 } else {
 	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 }
+if(!$file) {
+	OC_JSON::error(array('message' => 'Import file was empty.'));
+	exit();
+}
+error_log('File: '.$file);
 if(isset($_POST['method']) && $_POST['method'] == 'new'){
 	$id = OC_Contacts_Addressbook::add(OC_User::getUser(), $_POST['addressbookname']);
 	OC_Contacts_Addressbook::setActive($id, 1);

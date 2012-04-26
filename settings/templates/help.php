@@ -6,6 +6,7 @@
 
 <div id="controls">
 	<a class="button newquestion" href="http://owncloud.org/support" target="_blank"><?php echo $l->t( 'Documentation' ); ?></a>
+	<a class="button newquestion" href="http://owncloud.org/support/big-files" target="_blank"><?php echo $l->t( 'Managing Big Files' ); ?></a>
 	<a class="button newquestion" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new" target="_blank"><?php echo $l->t( 'Ask a question' ); ?></a>
 	<?php
 		$url=OC_Helper::linkTo( "settings", "help.php" ).'?page=';
