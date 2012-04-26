@@ -1287,6 +1287,7 @@ Contacts={
 		},
 		Addressbooks:{
 			droptarget:undefined,
+			droptext:t('contacts', 'Drop a VCF file to import contacts.'),
 			overview:function(){
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
@@ -1349,8 +1350,11 @@ Contacts={
 					Contacts.UI.Addressbooks.uploadImport(this.files);
 				});
 				$('#importaddressbook_dialog').find('.upload').click(function() {
+					Contacts.UI.Addressbooks.droptarget.html(t('contacts', 'Uploading...'));
+					Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, true);
 					$('#import_upload_start').trigger('click');
 				});
+				$('#importaddressbook_dialog').find('.upload').tipsy();
 				this.droptarget = $('#import_drop_target');
 				$(this.droptarget).bind('dragover',function(event){
 					$(event.target).addClass('droppable');
@@ -1376,13 +1380,13 @@ Contacts={
 					console.log('size: '+file.size+', type: '+file.type);
 					if(file.size > $('#max_upload').val()){
 						OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
-						$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+						$(Contacts.UI.Addressbooks.droptarget).html(Contacts.UI.Addressbooks.droptext);
 						Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
 						return;
 					}
 					if(file.type.indexOf('text') != 0) {
 						OC.dialogs.alert(t('contacts','You have dropped a file type that cannot be imported: ') + file.type, t('contacts','Wrong file type'));
-						$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+						$(Contacts.UI.Addressbooks.droptarget).html(Contacts.UI.Addressbooks.droptext);
 						Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
 						return;
 					}
@@ -1397,11 +1401,9 @@ Contacts={
 							response = $.parseJSON(xhr.responseText);
 							if(response.status == 'success') {
 								if(xhr.status == 200) {
-									$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Importing...'));
-									Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, true);
 									Contacts.UI.Addressbooks.doImport(response.data.path, response.data.file);
 								} else {
-									$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Drop a VCF file to import contacts.'));
+									$(Contacts.UI.Addressbooks.droptarget).html(Contacts.UI.Addressbooks.droptext);
 									Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, false);
 									OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
 								}
@@ -1450,6 +1452,8 @@ Contacts={
 				$(object).closest('tr').after(tr).hide();
 			},
 			doImport:function(path, file){
+				$(Contacts.UI.Addressbooks.droptarget).html(t('contacts', 'Importing...'));
+				Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, true);
 				var id = $('#importaddressbook_dialog').find('#book').val();
 				console.log('Selected book: ' + id);
 				$.post(OC.filePath('contacts', '', 'import.php'), { id: id, path: path, file: file, fstype: 'OC_FilesystemView' },
@@ -1458,6 +1462,10 @@ Contacts={
 							Contacts.UI.Addressbooks.droptarget.html(t('contacts', 'Import done. Success/Failure: ')+jsondata.data.imported+'/'+jsondata.data.failed);
 							$('#chooseaddressbook_dialog').find('#close_button').val(t('contacts', 'OK'));
 							Contacts.UI.Contacts.update();
+							setTimeout(
+									function() {
+										$(Contacts.UI.Addressbooks.droptarget).html(Contacts.UI.Addressbooks.droptext);
+									}, 5000);
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
