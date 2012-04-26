@@ -87,9 +87,9 @@ dl.addresscard dd > ul { margin: 0.3em; padding: 0.3em; }
 #adr_zipcode {}
 #adr_country {}
 
-#file_upload_target, #crop_target { display:none; }
+#file_upload_target, #import_upload_target, #crop_target { display:none; }
 
-#file_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; /*position:absolute; left:0; top:0;*/ width:0; height:0;}
+#file_upload_start, #import_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; /*position:absolute; left:0; top:0;*/ width:0; height:0;}
 input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .big { font-weight:bold; font-size:1.2em; }
 .huge { font-weight:bold; font-size:1.5em; }

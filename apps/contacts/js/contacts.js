@@ -1345,8 +1345,13 @@ Contacts={
 				}
 			},
 			loadImportHandlers:function() {
+				$('#import_upload_start').change(function(){
+					Contacts.UI.Addressbooks.uploadImport(this.files);
+				});
+				$('#importaddressbook_dialog').find('.upload').click(function() {
+					$('#import_upload_start').trigger('click');
+				});
 				this.droptarget = $('#import_drop_target');
-				console.log($('#import_drop_target').html());
 				$(this.droptarget).bind('dragover',function(event){
 					$(event.target).addClass('droppable');
 					event.stopPropagation();
@@ -1412,6 +1417,31 @@ Contacts={
 					xhr.setRequestHeader('X-File-Size', file.size);
 					xhr.setRequestHeader('Content-Type', file.type);
 					xhr.send(file);
+				}
+			},
+			uploadImport:function(filelist) {
+				if(!filelist) {
+					OC.dialogs.alert(t('contacts','No files selected for upload.'), t('contacts', 'Error'));
+					return;
+				}
+				//var file = filelist.item(0);
+				var file = filelist[0];
+				var target = $('#import_upload_target');
+				var form = $('#import_upload_form');
+				var totalSize=0;
+				if(file.size > $('#max_upload').val()){
+					OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts', 'Error'));
+					return;
+				} else {
+					target.load(function(){
+						var response=jQuery.parseJSON(target.contents().text());
+						if(response != undefined && response.status == 'success'){
+							Contacts.UI.Addressbooks.doImport(response.data.path, response.data.file);
+						}else{
+							OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
+						}
+					});
+					form.submit();
 				}
 			},
 			importAddressbook:function(object){
@@ -1590,7 +1620,7 @@ $(document).ready(function(){
 	 * Profile picture upload handling
 	 */
 	// New profile picture selected
-	$('#file_upload_start').live('change',function(){
+	$('#file_upload_start').change(function(){
 		Contacts.UI.Card.uploadPhoto(this.files);
 	});
 	$('#contacts_details_photo_wrapper').bind('dragover',function(event){
