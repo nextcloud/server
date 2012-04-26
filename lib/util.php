@@ -254,6 +254,9 @@ class OC_Util {
 		} else {
 			$parameters["username"] = '';
 		}
+                $sectoken=rand(1000000,9999999);
+                $_SESSION['sectoken']=$sectoken;
+                $parameters["sectoken"] = $sectoken;
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
