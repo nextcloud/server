@@ -323,11 +323,11 @@ class OC_Template{
 	 */
         public function appendIfExist($type, $root, $web, $file) {
                 if (is_file($root.'/'.$file)) {
-                		if($type == 'cssfiles' && $root == OC::$APPSROOT){
-                				$pathes = explode('/', $file);
-                				$app = $pathes['1'];
-                				unset($pathes['0']);
-                				unset($pathes['1']);
+                		$pathes = explode('/', $file);
+                		if($type == 'cssfiles' && $root == OC::$APPSROOT && $pathes[0] == 'apps'){
+                				$app = $pathes[1];
+                				unset($pathes[0]);
+                				unset($pathes[1]);
                 				$path = implode('/', $pathes);
                 				$this->append( $type, OC_Helper::linkTo($app, $path));
                 		}else{
