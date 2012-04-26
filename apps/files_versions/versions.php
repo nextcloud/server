@@ -36,7 +36,7 @@ class Storage {
 	const DEFAULTFOLDER='versions'; 
 	const DEFAULTBLACKLIST='avi mp3 mpg mp4'; 
 	const DEFAULTMAXFILESIZE=1048576; // 10MB 
-	const DEFAULTMININTERVAL=300; // 5 min
+	const DEFAULTMININTERVAL=1; // 5 min
 	const DEFAULTMAXVERSIONS=50; 
 
 	/**

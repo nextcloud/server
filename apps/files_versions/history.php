@@ -23,6 +23,7 @@
 require_once( '../../lib/base.php' );
 
 OC_Util::checkLoggedIn( );
+OC_Util::addStyle('files_versions','versions');
 
 if ( isset( $_GET['path'] ) ) {
 
