@@ -413,6 +413,7 @@ class OC{
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
 		
+		//parse the given parameters
 		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
 		self::$REQUESTEDFILE = (isset($_GET['getfile'])?$_GET['getfile']:null);
 		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
@@ -432,6 +433,9 @@ class OC{
 				exit;
 			}
 		}
+
+		//update path to lib base
+		file_put_contents(OC::$APPSROOT . '/apps/inc.php', '<?php require_once(\'' . OC::$SERVERROOT . '/lib/base.php' . '\'); ?>');
 	}
 }
 

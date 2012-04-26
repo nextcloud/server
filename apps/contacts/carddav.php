@@ -22,7 +22,7 @@
 
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
-
+require_once('../inc.php');
 
 OC_Util::checkAppEnabled('contacts');
 
