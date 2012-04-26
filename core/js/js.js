@@ -53,7 +53,7 @@ OC={
 	filePath:function(app,type,file){
 		var isCore=OC.coreApps.indexOf(app)!=-1;
 		var link=OC.webroot;
-		if(file.substring(file.length-3) == 'php' && !isCore){
+		if((file.substring(file.length-3) == 'php' || file.substring(file.length-3) == 'css') && !isCore){
 			link+='/?app=' + app + '&getfile=';
 			if(type){
 				link+=encodeURI(type + '/');

@@ -323,7 +323,16 @@ class OC_Template{
 	 */
         public function appendIfExist($type, $root, $web, $file) {
                 if (is_file($root.'/'.$file)) {
-                        $this->append( $type, $web.'/'.$file);
+                		if($type == 'cssfiles' && $root == OC::$APPSROOT){
+                				$pathes = explode('/', $file);
+                				$app = $pathes['1'];
+                				unset($pathes['0']);
+                				unset($pathes['1']);
+                				$path = implode('/', $pathes);
+                				$this->append( $type, OC_Helper::linkTo($app, $path));
+                		}else{
+                				$this->append( $type, $web.'/'.$file);
+                		}
                         return true;
                 }
                 return false;

@@ -20,7 +20,7 @@
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>input { padding:0.3em; margin:-0.3em; }
 
-#file_newfolder_name { background-image:url('../../../core/img/places/folder.svg'); font-weight:normal; width:7em; }
+#file_newfolder_name { background-image:url('%webroot%/core/img/places/folder.svg'); font-weight:normal; width:7em; }
 .file_upload_start, .file_upload_filename { font-size:1em; }
 #file_newfolder_submit, #file_upload_submit { width:3em; }
 .file_upload_target { display:none; }
@@ -81,7 +81,7 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .selectedActions a img { position:relative; top:.3em; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#navigation>ul>li:first-child { background:url('../../../core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; position:fixed; }
+#navigation>ul>li:first-child { background:url('%webroot%/core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; position:fixed; }
 #navigation>ul>li:first-child+li { padding-top:2.9em; }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none }

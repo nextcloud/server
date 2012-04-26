@@ -50,14 +50,12 @@ if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
 
 // Someone is logged in :
 elseif(OC_User::isLoggedIn()) {
+	OC_App::loadApps();
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
-		OC_App::loadApps();
 		OC_User::logout();
 		header("Location: ".OC::$WEBROOT.'/');
 		exit();
-	}
-	else {
-		OC_App::loadApps();
+	}else{
 		if(is_null(OC::$REQUESTEDFILE)){
 			OC::loadapp();
 		}else{

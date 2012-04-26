@@ -5,4 +5,4 @@ div.gallery_box:hover { color: black; }
 div.gallery_box h1 {font-size: 17px; font-weight: normal;}
 div#breadcrumb { border: 0; width: 70%; margin: 0 auto; padding: 25px 0; font-family: Verdana; text-align: center;}
 span.breadcrumbelement { margin: 10px; margin-right: 0; cursor: pointer;}
-span.inside { background-image: url('../img/breadcrumb.png'); padding-left: 20px; background-position: left; background-repeat: no-repeat;}
+span.inside { background-image: url('%appswebroot%/apps/gallery/img/breadcrumb.png'); padding-left: 20px; background-position: left; background-repeat: no-repeat;}

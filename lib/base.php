@@ -279,13 +279,24 @@ class OC{
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP)){
 			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
 		}else{
-			trigger_error('The requested App was not found.', E_USER_ERROR);
+			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
 		}
 	}
 	
 	public static function loadfile(){
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
-			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
+				$appswebroot = (string) OC::$APPSWEBROOT;
+				$webroot = (string) OC::$WEBROOT;
+				$cssfile = file_get_contents(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+				$cssfile = str_replace('%appswebroot%', $appswebroot, $cssfile);
+				$cssfile = str_replace('%webroot%', $webroot, $cssfile);
+				header('Content-Type: text/css');
+				echo $cssfile;
+				exit;
+			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
+				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+			}	
 		}else{
 			header('HTTP/1.0 404 Not Found');
 			exit;
