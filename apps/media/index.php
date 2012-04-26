@@ -28,8 +28,8 @@
 OC_Util::checkLoggedIn();
 OC_Util::checkAppEnabled('media');
 
-require_once('lib_collection.php');
-require_once('lib_scanner.php');
+require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
+require_once(OC::$APPSROOT . '/apps/media/lib_scanner.php');
 
 OC_Util::addScript('media','player');
 OC_Util::addScript('media','music');
