@@ -22,10 +22,10 @@
 */
 
 $_POST=$_GET; //debug
-
+require_once('../inc.php');
 
 OC_JSON::checkAppEnabled('media');
-require_once('lib_collection.php');
+require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
 
 $user=isset($_POST['user'])?$_POST['user']:'';
 $pass=isset($_POST['pass'])?$_POST['pass']:'';
