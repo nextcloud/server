@@ -276,7 +276,7 @@ class OC{
 	}
 	
 	public static function loadapp(){
-		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP)){
+		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php')){
 			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
 		}else{
 			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
@@ -414,7 +414,7 @@ class OC{
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
 		
 		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
-		self::$REQUESTEDFILE = $_GET['getfile'];
+		self::$REQUESTEDFILE = (isset($_GET['getfile'])?$_GET['getfile']:null);
 		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
 			$file = substr(self::$REQUESTEDFILE, 0, strpos(self::$REQUESTEDFILE, '?'));
 			$param = substr(self::$REQUESTEDFILE, strpos(self::$REQUESTEDFILE, '?') + 1);
@@ -423,7 +423,15 @@ class OC{
 			self::$REQUESTEDFILE = $file;
 			$_GET['getfile'] = $file;
 		}
-		self::$REQUESTEDFILE = (isset($_GET['getfile'])?(OC_Helper::issubdirectory(OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE, OC::$APPSROOT . '/' . self::$REQUESTEDAPP)?self::$REQUESTEDFILE:null):null);
+		if(!is_null(self::$REQUESTEDFILE)){
+			$subdir = OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
+			$parent = OC::$APPSROOT . '/' . self::$REQUESTEDAPP;
+			if(!OC_Helper::issubdirectory($subdir, $parent)){
+				self::$REQUESTEDFILE = null;
+				//header('HTTP/1.0 404 Not Found');
+				exit;
+			}
+		}
 	}
 }
 
