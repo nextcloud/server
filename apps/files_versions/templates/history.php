@@ -10,8 +10,12 @@
 
 	        echo('<strong>Versions of '.$_['path']).'</strong><br>';
 	        echo('<p><em>You can click on the revert button to revert to the specific verson.</em></p><br />');
-	        foreach ($_['versions'] as $v){
-			echo(' '.OC_Util::formatDate($v).' <a href="history.php?path='.urlencode($_['path']).'&revert='.$v.'" class="button">Revert</a><br /><br />');
+	        foreach ( $_['versions'] as $v ){
+	        
+			echo ' ';
+			echo OC_Util::formatDate( $v );
+			echo ' <a href="history.php?path='.urlencode( $_['path'] ).'&revert='. $v .'" class="button">Revert</a><br /><br />';
+			
 		}
 
 	}

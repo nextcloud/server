@@ -28,7 +28,7 @@ OC_Util::addStyle('files_versions','versions');
 if ( isset( $_GET['path'] ) ) {
 
 	$path = $_GET['path'];
-	$path = strip_tags( $path);
+	$path = strip_tags( $path );
 
 	// roll back to old version if button clicked
         if( isset( $_GET['revert'] ) ) {
