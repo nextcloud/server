@@ -135,7 +135,7 @@ $(document).ready(function(){
 		var downloadScope = 'file';
 	}
 	FileActions.register(downloadScope,'Download',function(){return OC.imagePath('core','actions/download')},function(filename){
-		window.location='ajax/download.php?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
+		window.location=OC.filePath('files', 'ajax', 'download.php?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val()));
 	});
 });
 

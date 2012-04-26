@@ -53,12 +53,13 @@ OC={
 	filePath:function(app,type,file){
 		var isCore=OC.coreApps.indexOf(app)!=-1;
 		var link=OC.webroot;
-		if((file.substring(file.length-3) == 'php' || file.substring(file.length-3) == 'css') && !isCore){
+		var splitted = file.split('?');
+		if((splitted[0].substring(splitted[0].length-3) == 'php' || splitted[0].substring(splitted[0].length-3) == 'css') && !isCore){
 			link+='/?app=' + app + '&getfile=';
 			if(type){
 				link+=encodeURI(type + '/');
 			}
-			link+= file;
+			link+= file + '?' + splitted[1];
 		}else if(file.substring(file.length-3) != 'php' && !isCore){
 			link=OC.appswebroot;
 			link+='/';
