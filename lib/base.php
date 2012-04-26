@@ -435,7 +435,7 @@ class OC{
 		}
 
 		//update path to lib base
-		file_put_contents(OC::$APPSROOT . '/apps/inc.php', '<?php require_once(\'' . OC::$SERVERROOT . '/lib/base.php' . '\'); ?>');
+		@file_put_contents(OC::$APPSROOT . '/apps/inc.php', '<?php require_once(\'' . OC::$SERVERROOT . '/lib/base.php' . '\'); ?>');
 	}
 }
 
