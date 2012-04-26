@@ -325,6 +325,16 @@ class OC{
 		self::checkInstalled();
 		self::checkSSL();
 
+                // CSRF protection
+                if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
+                if(isset($_SERVER['HTTPS']) and $_SERVER['HTTPS']<>'') $protocol='https://'; else $protocol='http://';
+                $server=$protocol.$_SERVER['SERVER_NAME'];
+                if(($_SERVER['REQUEST_METHOD']=='POST') and (substr($referer,0,strlen($server))<>$server)) {
+                        $url = $protocol.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+                        header("Location: $url");
+                        exit();
+                } 
+
 		self::initSession();
 		self::initTemplateEngine();
 		self::checkUpgrade();
