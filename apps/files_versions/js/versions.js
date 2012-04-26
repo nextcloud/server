@@ -17,7 +17,8 @@ $(document).ready(function(){
 });
 
 function createVersionsDropdown(filename, files) {
-	
+	var historyUrl = '../apps/files_versions/history.php?path='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
+	//alert( historyUrl );
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
 	html += '<select data-placeholder="File Version" id="share_with" class="chzen-select">';
@@ -27,8 +28,7 @@ function createVersionsDropdown(filename, files) {
 	html += '</div>';
 	html += '<div id="public">';
 	html += '<input type="button" name="makelink" id="makelink" value="Revert file" />';
-	html += '<input type="button" name="makelink" id="makelink" value="More..." />';
-	//html += '<input type="checkbox" name="public_link_write" id="public_link_write" value="1" /><label for="public_link_write">allow upload</label>';
+	html += '<input type="button" onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" value="More..." />';
 	html += '<br />';
 	html += '<input id="link" style="display:none; width:90%;" />';
 	html += '</div>';
