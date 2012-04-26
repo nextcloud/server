@@ -17,17 +17,7 @@ $(document).ready(function(){
 			async: false,
 			success: function(versions) {
 				if (versions) {
-					
-	// 				icon = OC.imagePath('core', 'actions/shared');
-	// 				$.each(users, function(index, row) {
-	// 					if (row.uid_shared_with == 'public') {
-	// 						icon = OC.imagePath('core', 'actions/public');
-	// 					}
-	// 				});
-	// 			} else {
-	// 				icon = OC.imagePath('core', 'actions/share');
 				}
-	 			shared_status[file]= { timestamp: new Date().getTime(), icon: icon };
 			}
 		});
 	
@@ -37,15 +27,15 @@ $(document).ready(function(){
 
 function createVersionsDropdown(filename, files) {
 	var historyUrl = '../apps/files_versions/history.php?path='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
-	//alert( historyUrl );
+
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
 	html += '<select data-placeholder="File Version" id="found_versions" class="chzen-select">';
 	html += '<option value="">Select version</option>';
 	html += '</select>';
 	html += '</div>';
-	html += '<input type="button" name="makelink" id="makelink" value="Revert file" />';
-	html += '<input type="button" onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" value="More..." />';
+	html += '<input type="button" value="Revert file" onclick="revertFile()" />';
+	html += '<input type="button" value="More..." onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" />';
 	html += '<br />';
 	html += '<input id="link" style="display:none; width:90%;" />';
 	
@@ -75,6 +65,22 @@ function createVersionsDropdown(filename, files) {
 		}
 		
 	});
+	
+	function revertFile() {
+		
+		$.ajax({
+			type: 'GET',
+			url: OC.linkTo('files_versions', 'ajax/rollbackVersion.php'),
+			dataType: 'json',
+			data: {path: file, revision: 'revision'},
+			async: false,
+			success: function(versions) {
+				if (versions) {
+				}
+			}
+		});	
+		
+	}
 	
 	function addVersion( name ) {
 		

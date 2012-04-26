@@ -11,9 +11,16 @@ $source = strip_tags( $source );
 if( OCA_Versions\Storage::isversioned( $source ) ) {
 
 	$count=5; //show the newest revisions
-	$versions=OCA_Versions\Storage::getversions( $source, $count);
+	$versions = OCA_Versions\Storage::getversions( $source, $count);
+	$versionsFormatted = array();
+	
+	foreach ( $versions AS $version ) {
+	
+		$versionsFormatted[] = OC_Util::formatDate( $version );
+		
+	}
 
-	$versionsSorted = array_reverse( $versions );
+	$versionsSorted = array_reverse( $versionsFormatted );
 	
 	if ( !empty( $versionsSorted ) ) {
 		OC_JSON::encodedPrint($versionsSorted);

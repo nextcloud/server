@@ -32,13 +32,18 @@ if ( isset( $_GET['path'] ) ) {
 
 	// roll back to old version if button clicked
         if( isset( $_GET['revert'] ) ) {
-        	\OCA_Versions\Storage::rollback( $path, $_GET['revert'] );
+        	
+        	if( \OCA_Versions\Storage::rollback( $path, $_GET['revert'] ) ) {
+        	
+			echo "<script>OC.dialogs.alert(response.data.message, t('contacts', 'Error'))</script>";
+			
+		}
 	}
 
 	// show the history only if there is something to show
         if( OCA_Versions\Storage::isversioned( $path ) ) {
 
-		$count=5; //show the newest revisions
+		$count=999; //show the newest revisions
 	        $versions=OCA_Versions\Storage::getversions( $path, $count);
 
 		$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
