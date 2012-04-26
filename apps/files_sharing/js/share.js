@@ -163,6 +163,9 @@ $(document).ready(function() {
 				data: data,
 				success: function(){
 					$('#link').hide('blind');
+					$('#emailBreak').remove();
+					$('#email').hide('blind');
+					$('#emailButton').hide('blind');
 				}
 			});
 		}
@@ -171,6 +174,14 @@ $(document).ready(function() {
 	$('#link').live('click', function() {
 		$(this).focus();
 		$(this).select();
+	});
+
+	$('#emailButton').live('click', function() {
+		$('#email').css('font-weight', 'bold');
+		$('#email').animate({ fontWeight: 'normal' }, 2000, function() {
+			$(this).val('');
+		}).val('Email sent');
+		$.post(OC.filePath('files_sharing','ajax','email.php'), 'toaddress='+$('#email').val()+'&link='+$('#link').val());
 	});
 });
 
@@ -183,10 +194,12 @@ function createDropdown(filename, files) {
 	html += '<ul id="shared_list"></ul>';
 	html += '</div>';
 	html += '<div id="public">';
-	html += '<input type="checkbox" name="makelink" id="makelink" value="1" /><label for="makelink">make public</label>';
+	html += '<input type="checkbox" name="makelink" id="makelink" value="1" /><label for="makelink">Share with private link</label>';
 	//html += '<input type="checkbox" name="public_link_write" id="public_link_write" value="1" /><label for="public_link_write">allow upload</label>';
 	html += '<br />';
 	html += '<input id="link" style="display:none; width:90%;" />';
+	html += '<input id="email" style="display:none; width:65%;" value="" placeholder="Email link to person" />';
+	html += '<input id="emailButton" style="display:none;" type="submit" value="Send" />';
 	html += '</div>';
 	if (filename) {
 		$('tr').filterAttr('data-file',filename).addClass('mouseOver');
@@ -241,5 +254,9 @@ function showPublicLink(token, file) {
 	$('#makelink').attr('checked', true);
 	$('#link').data('token', token);
 	$('#link').val(parent.location.protocol+'//'+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token+'&f='+file);
-	$('#link').show('blind');
+	$('#link').show('blind', function() {
+		$('#link').after('<br id="emailBreak" />');
+		$('#email').show('blind');
+		$('#emailButton').show('blind');
+	});
 }
