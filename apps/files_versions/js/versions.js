@@ -7,7 +7,7 @@ $(document).ready(function(){
 		
 		var file = $('#dir').val()+'/'+filename;
 		
-		createDropdown(filename, file)
+		createVersionsDropdown(filename, file)
 
 		//window.location='../apps/files_versions/history.php?path='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 
@@ -16,7 +16,7 @@ $(document).ready(function(){
 	
 });
 
-function createDropdown(filename, files) {
+function createVersionsDropdown(filename, files) {
 	
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
