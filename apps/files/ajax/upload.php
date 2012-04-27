@@ -31,7 +31,6 @@ foreach ($_FILES['files']['error'] as $error) {
 $files=$_FILES['files'];
 
 $dir = $_POST['dir'];
-$dir .= '/';
 $error='';
 
 $totalSize=0;
