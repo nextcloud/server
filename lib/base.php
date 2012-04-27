@@ -425,8 +425,17 @@ class OC{
 		
 		//parse the given parameters
 		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
+		if(substr_count(self::$REQUESTEDAPP, '?') != 0){
+			$app = substr(self::$REQUESTEDAPP, 0, strpos(self::$REQUESTEDAPP, '?'));
+			$param = substr(self::$REQUESTEDAPP, strpos(self::$REQUESTEDAPP, '?') + 1);
+			parse_str($param, $get);
+			$_GET = array_merge($_GET, $get);
+			self::$REQUESTEDAPP = $app;
+			$_GET['app'] = $app;
+		}
 		self::$REQUESTEDFILE = (isset($_GET['getfile'])?$_GET['getfile']:null);
 		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
+			echo "WIN";
 			$file = substr(self::$REQUESTEDFILE, 0, strpos(self::$REQUESTEDFILE, '?'));
 			$param = substr(self::$REQUESTEDFILE, strpos(self::$REQUESTEDFILE, '?') + 1);
 			parse_str($param, $get);
@@ -443,7 +452,6 @@ class OC{
 				exit;
 			}
 		}
-
 		//update path to lib base
 		@file_put_contents(OC::$APPSROOT . '/apps/inc.php', '<?php require_once(\'' . OC::$SERVERROOT . '/lib/base.php' . '\'); ?>');
 	}
