@@ -117,6 +117,19 @@ OC.Tasks = {
 				});
 			})
 			.appendTo(task_container);
+		$('<input placeholder="'+t('tasks', 'Location')+'">')
+			.addClass('location')
+			.val(task.location)
+			.blur(function(){
+				var task = $(this).closest('.task').data('task');
+				var location = $(this).val();
+				$.post('ajax/update_property.php', {id:task.id, type:'location', location:location}, function(jsondata){
+					if(jsondata.status == 'success') {
+						task.location = location;
+					}
+				});
+			})
+			.appendTo(task_container);
 		return task_container;
 	},
 	filter:function(tag, find_filter) {
@@ -237,6 +250,8 @@ OC.Tasks = {
 		$task.find('.more').show();
 		$task.find('div.categories').hide();
 		$task.find('input.categories').show();
+		$task.find('div.location').hide();
+		$task.find('input.location').show();
 	},
 	complete_task:function() {
 		var $task = $(this).closest('.task'),

@@ -40,12 +40,13 @@
 .task .tag.active{border-color:black;opacity:0.6;}
 .task .tag.active:hover{opacity:0.8;}
 
-.task .categories{position:absolute;right:6em;text-align:right;top:0.4em}
+.task .categories{position:absolute;right:12em;text-align:right;top:0.4em}
 .task .categories a{background-color:#1d2d44;color:white;}
 .task .categories .tag.active{display:none;}
 .task input.categories{display:none;top:0;text-align:left;}
 
-.task .location{background-color:#442d44;color:white;position:absolute;right:0.6em;width:4.2em;text-align:left;top:0.4em}
+.task .location{background-color:#442d44;color:white;position:absolute;right:0.6em;width:9.2em;text-align:left;top:0.4em}
+.task input.location{display:none;top:0;text-align:left;right:0.3em;background-color:white;color:#333333;}
 
 .task .more{display:none;margin-top:0.5em;}
 

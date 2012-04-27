@@ -25,6 +25,10 @@ switch($property) {
 		$description = $_POST['description'];
 		$vtodo->setString('DESCRIPTION', $description);
 		break;
+	case 'location':
+		$location = $_POST['location'];
+		$vtodo->setString('LOCATION', $location);
+		break;
 	case 'categories':
 		$categories = $_POST['categories'];
 		$vtodo->setString('CATEGORIES', $categories);
