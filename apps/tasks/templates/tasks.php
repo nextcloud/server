@@ -8,16 +8,12 @@
 	<input type="button" id="tasks_order_prio" value="<?php echo $l->t('Order Priority'); ?>">
 	<input type="button" id="tasks_order_label" value="<?php echo $l->t('Order Label'); ?>">
 </div>
-<div id="tasks">
-<div id="tasks_lists">
+<div id="tasks_lists" class="leftcontent">
 	<div class="all">All</div>
 	<div class="done">Done</div>
 </div>
-<div id="tasks_list">
+<div id="tasks_list" class="rightcontent">
 <p class="loading"><?php echo $l->t('Loading tasks...') ?></p>
-</div>
-</div>
-<div id="task_details">
 </div>
 <p id="task_actions_template" class="task_actions">
 	<!-- span class="task_star">

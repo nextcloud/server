@@ -1,9 +1,5 @@
-#tasks p.loading{margin:15px;}
-#tasks{position:fixed; overflow: auto; top:6.4em;width:71em;}
-#tasks_lists,#tasks_list{height:100%;background:#f8f8f8; border-right:1px solid #ddd;float:left;}
-#tasks_lists{width:20em;}
+#tasks_list p.loading{margin:15px;}
 #tasks_lists .done{color:#C7C7C7;}
-#tasks_list{width:50em;}
 #task_details{position:absolute;left:63em;top:6.4em;}
 #task_details th{padding:2px;text-align:right;vertical-align:top; }
 #task_details td{padding:2px;text-align:left;vertical-align:top; }
@@ -11,7 +7,7 @@
 .error{border-color:red;border-width:2px;}
 #tasks_lists div{position:relative;padding:0.5em 1em;}
 #tasks_lists .active{font-weight:bold;}
-#tasks h1{background-color:#1D2D44;color:white;font-size:120%;padding:0 0.5em;}
+#tasks_list h1{background-color:#1D2D44;color:white;font-size:120%;padding:0 0.5em;}
 
 .task{border-radius:0.4em;position:relative;padding:0.5em 1em;}
 .task:hover {background-color:#DDDDDD;}

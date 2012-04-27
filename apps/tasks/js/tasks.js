@@ -137,7 +137,7 @@ OC.Tasks = {
 		var show_count = $('#tasks_list').data('show_count');
 		show_count += filter ? +1 : -1;
 		$('#tasks_list').data('show_count', show_count);
-		$('#tasks .task').each(function(i, task_container){
+		$('#tasks_lists .task, #tasks_list .task').each(function(i, task_container){
 			task_container = $(task_container);
 			var task = task_container.data('task');
 			var found = find_filter(task_container);
@@ -158,7 +158,7 @@ OC.Tasks = {
 		});
 	},
 	order:function(sort, get_property, empty_label) {
-		var tasks = $('#tasks .task').not('.clone');
+		var tasks = $('#tasks_list .task').not('.clone');
 		tasks.sort(sort);
 		var current = null;
 		tasks.detach();
@@ -275,10 +275,8 @@ OC.Tasks = {
 };
 
 $(document).ready(function(){
-	fillHeight($('#tasks'));
-	//fillHeight($('#tasks_lists'));
-	//fillHeight($('#tasks_list'));
-	//fillWindow($('#task_details'));
+	fillHeight($('#tasks_lists'));
+	fillWindow($('#tasks_list'));
 
 	/*-------------------------------------------------------------------------
 	 * Actions for startup
@@ -311,7 +309,7 @@ $(document).ready(function(){
 	/*-------------------------------------------------------------------------
 	 * Event handlers
 	 *-----------------------------------------------------------------------*/
-	$('#tasks div.categories .tag').live('click',function(){
+	$('#tasks_list div.categories .tag').live('click',function(){
 		OC.Tasks.filter(this, 'div.categories .tag');
 		var tag_text = $(this).text();
 		$('#tasks_lists div:not(".all"):not(".done")').each(function(){
@@ -321,16 +319,16 @@ $(document).ready(function(){
 		});
 	});
 
-	$('#tasks .priority.tag').live('click',function(){
+	$('#tasks_list .priority.tag').live('click',function(){
 		OC.Tasks.filter(this, '.priority.tag');
 	});
 
-	$('#tasks .location.tag').live('click',function(){
+	$('#tasks_list .location.tag').live('click',function(){
 		OC.Tasks.filter(this, '.location.tag');
 	});
 
 	$('#tasks_order_category').click(function(){
-		var tasks = $('#tasks .task').not('.clone');
+		var tasks = $('#tasks_list .task').not('.clone');
 		var collection = {};
 		tasks.each(function(i, task) {
 			var categories = $(task).data('task').categories;
