@@ -1,7 +1,7 @@
 <?php
 
 // Init owncloud
-require_once('../../lib/base.php');
+
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OC_JSON::setContentTypeHeader('text/plain');

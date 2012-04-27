@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once ('../../../lib/base.php');
+ 
 require_once('when/When.php');
 
 OC_JSON::checkLoggedIn();

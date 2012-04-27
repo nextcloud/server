@@ -5,7 +5,7 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
+ 
 $id = strip_tags($_GET['id']);
 $idtype = strip_tags($_GET['idtype']);
 switch($idtype){

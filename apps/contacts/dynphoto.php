@@ -21,7 +21,7 @@
  */
 
 // Init owncloud
-require_once('../../lib/base.php');
+
 $tmp_path = $_GET['tmp_path'];
 $maxsize = isset($_GET['maxsize']) ? $_GET['maxsize'] : -1;
 header("Cache-Control: no-cache, no-store, must-revalidate");

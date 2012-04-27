@@ -302,7 +302,7 @@ Contacts={
 								Contacts.UI.loadHandlers();
 								Contacts.UI.Card.loadContact(jsondata.data);
 								$('#leftcontent .active').removeClass('active');
-								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url(thumbnail.php?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
+								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
 								var added = false;
 								$('#leftcontent ul li').each(function(){
 									if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
@@ -1528,12 +1528,12 @@ Contacts={
 			lazyupdate:function(){
 				$('#contacts li').live('inview', function(){
 					if (!$(this).find('a').attr('style')) {
-						$(this).find('a').css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
+						$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
 					}
 				});
 			},
 			refreshThumbnail:function(id){
-				$('#contacts [data-id="'+id+'"]').find('a').css('background','url(thumbnail.php?id='+id+'&refresh=1'+Math.random()+') no-repeat');
+				$('#contacts [data-id="'+id+'"]').find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+id+'&refresh=1'+Math.random()+') no-repeat');
 			}
 		}
 	}
@@ -1592,7 +1592,7 @@ $(document).ready(function(){
 				// whole part of element is visible
 				if (!$(this).find('a').attr('style')) {
 					//alert($(this).data('id') + ' has background: ' + $(this).attr('style'));
-					$(this).find('a').css('background','url(thumbnail.php?id='+$(this).data('id')+') no-repeat');
+					$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
 				}/* else {
 					alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
 				}*/

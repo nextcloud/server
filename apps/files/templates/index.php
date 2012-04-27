@@ -12,7 +12,7 @@
 				</ul>
 			</div>
 			<div class="file_upload_wrapper svg">
-				<form data-upload-id='1' class="file_upload_form" action="ajax/upload.php" method="post" enctype="multipart/form-data" target="file_upload_target_1">
+				<form data-upload-id='1' class="file_upload_form" action="<?php echo OC_Helper::linkto('files', 'ajax/upload.php'); ?>" method="post" enctype="multipart/form-data" target="file_upload_target_1">
 					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 					<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo htmlentities($_['dir']) ?>" id="dir">

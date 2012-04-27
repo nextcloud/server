@@ -41,7 +41,15 @@ class OC_Helper {
 			$app .= '/';
 			// Check if the app is in the app folder
 			if( file_exists( OC::$APPSROOT . '/apps/'. $app.$file )){
-				$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
+				if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){	
+					if(substr($app, -1, 1) == '/'){
+						$app = substr($app, 0, strlen($app) - 1);
+					}
+					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
+					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
+				}else{
+					$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
+				}
 			}
 			else{
 				$urlLinkTo =  OC::$WEBROOT . '/' . $app . $file;
@@ -543,4 +551,40 @@ class OC_Helper {
 
         return $newpath;
     }
+	
+	/*
+	 * checks if $sub is a subdirectory of $parent
+	 * 
+	 * @param $sub 
+	 * @param $parent
+	 * @return bool
+	 */
+	public static function issubdirectory($sub, $parent){
+		if($sub == null || $sub == '' || $parent == null || $parent == ''){
+			return false;
+		}
+		$realpath_sub = realpath($sub);
+		$realpath_parent = realpath($parent);
+		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)){ //it checks for  both ./ and ../
+			return false;
+		}
+		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != ''){
+			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent){
+				return true;
+			}
+		}else{
+			if(substr($sub, 0, strlen($parent)) == $parent){
+				return true;
+			}
+		}
+		/*
+		echo 'SUB: ' . $sub . "\n";
+		echo 'PAR: ' . $parent . "\n";
+		echo 'REALSUB: ' . $realpath_sub . "\n";
+		echo 'REALPAR: ' . $realpath_parent . "\n";
+		echo substr($realpath_sub, 0, strlen($realpath_parent));
+		exit;
+		*/
+		return false;
+	}
 }

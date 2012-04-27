@@ -20,7 +20,7 @@
  *
  */
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 
 // Check if we are a user
 // Firefox and Konqueror tries to download application/json for me.  --Arthur

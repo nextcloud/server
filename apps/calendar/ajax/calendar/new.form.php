@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
+ 
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 $calendarcolor_options = OC_Calendar_Calendar::getCalendarColorOptions();

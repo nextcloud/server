@@ -22,7 +22,7 @@
  *       Remember to delete tmp file at some point.
  */
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 OC_Log::write('contacts','ajax/savecrop.php: Huzzah!!!', OC_Log::DEBUG);
 
 // Check if we are a user

@@ -21,40 +21,17 @@
 *
 */
 
+// only need filesystem apps
+$RUNTIME_APPTYPES=array('filesystem');
 
 // Init owncloud
-require_once('../lib/base.php');
+
 
 // Check if we are a user
 OC_Util::checkLoggedIn();
 
-// Load the files we need
-OC_Util::addStyle( "files", "files" );
-OC_Util::addScript( "files", "files" );
+$files = $_GET["files"];
+$dir = $_GET["dir"];
 
-// Load the files
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
-
-$files = array();
-foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
-	$i["date"] = date( $CONFIG_DATEFORMAT, $i["mtime"] );
-	$files[] = $i;
-}
-
-// Make breadcrumb
-$breadcrumb = array();
-$pathtohere = "/";
-foreach( explode( "/", $dir ) as $i ){
-	if( $i != "" ){
-		$pathtohere .= "$i/";
-		$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
-	}
-}
-
-// return template
-$tmpl = new OC_Template( "files", "index", "user" );
-$tmpl->assign( 'files', $files );
-$tmpl->assign( "breadcrumb", $breadcrumb );
-$tmpl->printPage();
-
+OC_Files::get($dir,$files);
 ?>

@@ -62,15 +62,22 @@ class OC{
 	 * the root path of the 3rdparty folder for http requests (e.g. owncloud/3rdparty)
 	 */
 	public static $THIRDPARTYWEBROOT = '';
-        /**
-         * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
-         */
-        public static $APPSROOT = '';
-        /**
-         * the root path of the apps folder for http requests (e.g. owncloud)
-         */
-        public static $APPSWEBROOT = '';
-
+	/**
+	 * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
+	 */
+	public static $APPSROOT = '';
+	/**
+	 * the root path of the apps folder for http requests (e.g. owncloud)
+	 */
+	public static $APPSWEBROOT = '';
+	/*
+	 * requested app
+	 */
+	public static $REQUESTEDAPP = '';
+	/*
+	 * requested file of app
+	 */
+	public static $REQUESTEDFILE = '';
 	/**
 	 * SPL autoload
 	 */
@@ -164,12 +171,15 @@ class OC{
 		}
 
 		// search the apps folder
-		if(file_exists(OC::$SERVERROOT.'/apps')){
+		if(OC_Config::getValue('appsroot', '')<>''){
+			OC::$APPSROOT=OC_Config::getValue('appsroot', '');
+			OC::$APPSWEBROOT=OC_Config::getValue('appsurl', '');
+		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
 			OC::$APPSROOT=OC::$SERVERROOT;
 			OC::$APPSWEBROOT=OC::$WEBROOT;
 		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
 			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
+			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
 		}else{
 			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
@@ -263,6 +273,34 @@ class OC{
 	public static function initSession() {
 		ini_set('session.cookie_httponly','1;');
 		session_start();
+	}
+	
+	public static function loadapp(){
+		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php')){
+			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
+		}else{
+			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
+		}
+	}
+	
+	public static function loadfile(){
+		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
+			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
+				$appswebroot = (string) OC::$APPSWEBROOT;
+				$webroot = (string) OC::$WEBROOT;
+				$cssfile = file_get_contents(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+				$cssfile = str_replace('%appswebroot%', $appswebroot, $cssfile);
+				$cssfile = str_replace('%webroot%', $webroot, $cssfile);
+				header('Content-Type: text/css');
+				echo $cssfile;
+				exit;
+			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
+				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+			}	
+		}else{
+			header('HTTP/1.0 404 Not Found');
+			exit;
+		}
 	}
 
 	public static function init(){
@@ -384,6 +422,30 @@ class OC{
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
+		
+		//parse the given parameters
+		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
+		self::$REQUESTEDFILE = (isset($_GET['getfile'])?$_GET['getfile']:null);
+		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
+			$file = substr(self::$REQUESTEDFILE, 0, strpos(self::$REQUESTEDFILE, '?'));
+			$param = substr(self::$REQUESTEDFILE, strpos(self::$REQUESTEDFILE, '?') + 1);
+			parse_str($param, $get);
+			$_GET = array_merge($_GET, $get);
+			self::$REQUESTEDFILE = $file;
+			$_GET['getfile'] = $file;
+		}
+		if(!is_null(self::$REQUESTEDFILE)){
+			$subdir = OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
+			$parent = OC::$APPSROOT . '/' . self::$REQUESTEDAPP;
+			if(!OC_Helper::issubdirectory($subdir, $parent)){
+				self::$REQUESTEDFILE = null;
+				header('HTTP/1.0 404 Not Found');
+				exit;
+			}
+		}
+
+		//update path to lib base
+		@file_put_contents(OC::$APPSROOT . '/apps/inc.php', '<?php require_once(\'' . OC::$SERVERROOT . '/lib/base.php' . '\'); ?>');
 	}
 }
 

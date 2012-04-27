@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
+ 
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();

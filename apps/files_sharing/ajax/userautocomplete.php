@@ -1,7 +1,7 @@
 <?php
 //$RUNTIME_NOAPPS = true;
 
-require_once('../../../lib/base.php');
+ 
 
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('files_sharing');

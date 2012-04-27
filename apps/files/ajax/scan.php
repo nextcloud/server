@@ -1,7 +1,5 @@
 <?php
 
-require_once '../../lib/base.php';
-
 set_time_limit(0);//scanning can take ages
 
 $force=isset($_GET['force']) and $_GET['force']=='true';

@@ -20,7 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-require_once('../../lib/base.php');
+
 require_once('lib/external.php');
 
 OC_Util::checkLoggedIn();

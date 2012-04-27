@@ -31,8 +31,9 @@ t.cache={};
 
 OC={
 	webroot:oc_webroot,
+	appswebroot:oc_appswebroot,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
-	coreApps:['files','admin','log','search','settings','core','3rdparty'],
+	coreApps:['admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
 	 * @param app the id of the app the file belongs to
@@ -51,16 +52,34 @@ OC={
 	 */
 	filePath:function(app,type,file){
 		var isCore=OC.coreApps.indexOf(app)!=-1;
-		app+='/';
-		var link=OC.webroot+'/';
-		if(!isCore){
+		var link=OC.webroot;
+		if((file.substring(file.length-3) == 'php' || file.substring(file.length-3) == 'css') && !isCore){
+			link+='/?app=' + app + '&getfile=';
+			if(type){
+				link+=encodeURI(type + '/');
+			}
+			link+= file;
+		}else if(file.substring(file.length-3) != 'php' && !isCore){
+			link=OC.appswebroot;
+			link+='/';
 			link+='apps/';
+			link+=app+'/';
+			if(type){
+				link+=type+'/';
+			}
+			link+=file;
+		}else{
+			link+='/';
+			app+='/';
+			if(!isCore){
+				link+='apps/';
+			}
+			link+=app;
+			if(type){
+				link+=type+'/';
+			}
+			link+=file;	
 		}
-		link+=app;
-		if(type){
-			link+=type+'/';
-		}
-		link+=file;
 		return link;
 	},
 	/**

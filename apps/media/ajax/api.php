@@ -23,10 +23,9 @@
 
 header('Content-type: text/html; charset=UTF-8') ;
 
-require_once('../../../lib/base.php');
 OC_JSON::checkAppEnabled('media');
-require_once('../lib_collection.php');
-require_once('../lib_scanner.php');
+require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
+require_once(OC::$APPSROOT . '/apps/media/lib_scanner.php');
 
 error_reporting(E_ALL); //no script error reporting because of getID3
 
@@ -127,5 +126,4 @@ if($arguments['action']){
 			exit;
 	}
 }
-
 ?>

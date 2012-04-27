@@ -27,7 +27,7 @@ header('Content-type: text/html; charset=UTF-8') ;
 $RUNTIME_NOAPPS=true;
 $RUNTIME_NOSETUPFS=true;
 
-require_once('../../../lib/base.php');
+ 
 OC_JSON::checkAppEnabled('media');
 
 $autoUpdate=(isset($_GET['autoupdate']) and $_GET['autoupdate']=='true');

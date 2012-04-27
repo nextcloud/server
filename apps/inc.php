@@ -1,0 +1,1 @@
+<?php require_once('/Applications/MAMP/htdocs/owncloud/lib/base.php'); ?>

@@ -21,7 +21,7 @@
 * 
 */
 
-require_once('../../../lib/base.php');
+ 
 
 if (!isset($_GET['token']) || !isset($_GET['operation'])) {
   OC_JSON::error(array('cause' => 'Not enought arguments'));

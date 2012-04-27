@@ -21,7 +21,7 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
 	OC_Log::write('contacts','ajax/loadcard.php: '.$msg, OC_Log::DEBUG);
