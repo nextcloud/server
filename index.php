@@ -68,7 +68,6 @@ elseif(OC_User::isLoggedIn()) {
 } else {
 	OC_App::loadApps();
 	$error = false;
-
 	// remember was checked after last login
 	if(isset($_COOKIE["oc_remember_login"]) && isset($_COOKIE["oc_token"]) && isset($_COOKIE["oc_username"]) && $_COOKIE["oc_remember_login"]) {
 		if(defined("DEBUG") && DEBUG) {
@@ -113,7 +112,9 @@ elseif(OC_User::isLoggedIn()) {
 			$error = true;
 		}
 	}
-	$sectoken=rand(1000000,9999999);
-	$_SESSION['sectoken']=$sectoken;
-	OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
+	if(is_null(OC::$REQUESTEDFILE)){
+		$sectoken=rand(1000000,9999999);
+		$_SESSION['sectoken']=$sectoken;
+		OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
+	}
 }
