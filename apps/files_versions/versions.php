@@ -36,7 +36,7 @@ class Storage {
 	const DEFAULTFOLDER='versions'; 
 	const DEFAULTBLACKLIST='avi mp3 mpg mp4'; 
 	const DEFAULTMAXFILESIZE=1048576; // 10MB 
-	const DEFAULTMININTERVAL=1; // 5 min
+	const DEFAULTMININTERVAL=120; // 2 min
 	const DEFAULTMAXVERSIONS=50; 
 
 	/**
@@ -122,12 +122,26 @@ class Storage {
 	 * rollback to an old version of a file.
 	 */
 	public static function rollback($filename,$revision) {
+	
 		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		
 			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			
 			$filesfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/files';
+			
 			// rollback
-			@copy($versionsfoldername.$filename.'.v'.$revision,$filesfoldername.$filename);
+			if ( @copy($versionsfoldername.$filename.'.v'.$revision,$filesfoldername.$filename) ) {
+			
+				return true;
+				
+			}else{
+			
+				return false;
+				
+			}
+			
 		}
+		
 	}
 
 	/**

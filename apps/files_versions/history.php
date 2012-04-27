@@ -24,43 +24,52 @@ require_once( '../../lib/base.php' );
 
 OC_Util::checkLoggedIn( );
 OC_Util::addStyle('files_versions','versions');
+$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
 
 if ( isset( $_GET['path'] ) ) {
 
 	$path = $_GET['path'];
 	$path = strip_tags( $path );
+	$tmpl->assign( 'path', $path );
 
 	// roll back to old version if button clicked
         if( isset( $_GET['revert'] ) ) {
         	
         	if( \OCA_Versions\Storage::rollback( $path, $_GET['revert'] ) ) {
-        	
-			echo "<script>OC.dialogs.alert(response.data.message, t('contacts', 'Error'))</script>";
+			
+			$tmpl->assign( 'outcome_stat', 'success' );
+			
+			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} was reverted to version ".OC_Util::formatDate( $_GET['revert'] ) );
+			
+		} else {
+		
+			$tmpl->assign( 'outcome_stat', 'failure' );
+		
+			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} could not be reverted to version ".OC_Util::formatDate( $_GET['revert'] ) );
 			
 		}
+		
 	}
 
 	// show the history only if there is something to show
         if( OCA_Versions\Storage::isversioned( $path ) ) {
-
+	
 		$count=999; //show the newest revisions
 	        $versions=OCA_Versions\Storage::getversions( $path, $count);
 
-		$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
-		$tmpl->assign( 'path', $path);
-		$tmpl->assign( 'versions', array_reverse( $versions) );
-		$tmpl->printPage( );
+		$tmpl->assign( 'versions', array_reverse( $versions ) );
+		
 	}else{
-		$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
-		$tmpl->assign( 'path', $path);
+		
 		$tmpl->assign( 'message', 'No old versions available' );
-		$tmpl->printPage( );
+		
 	}
 }else{
-	$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
+	
 	$tmpl->assign( 'message', 'No path specified' );
-	$tmpl->printPage( );
+	
 }
 
+$tmpl->printPage( );
 
 ?>

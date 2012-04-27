@@ -31,11 +31,11 @@ function createVersionsDropdown(filename, files) {
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
 	html += '<select data-placeholder="File Version" id="found_versions" class="chzen-select">';
-	html += '<option value="">Select version</option>';
+	html += '<option value="">Saved versions</option>';
 	html += '</select>';
 	html += '</div>';
-	html += '<input type="button" value="Revert file" onclick="revertFile()" />';
-	html += '<input type="button" value="More..." onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" />';
+	//html += '<input type="button" value="Revert file" onclick="revertFile()" />';
+	html += '<input type="button" value="Revert file..." onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" />';
 	html += '<br />';
 	html += '<input id="link" style="display:none; width:90%;" />';
 	
