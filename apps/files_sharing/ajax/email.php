@@ -1,7 +1,4 @@
 <?php
-
-require_once('../../../lib/base.php');
-
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('files_sharing');
 $user = OC_User::getUser();

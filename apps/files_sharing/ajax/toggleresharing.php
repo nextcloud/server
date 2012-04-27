@@ -1,7 +1,5 @@
 <?php
 
-require_once('../../../lib/base.php');
-
 OC_JSON::checkAppEnabled('files_sharing');
 OC_JSON::checkAdminUser();
 if ($_POST['resharing'] == true) {
