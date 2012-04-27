@@ -53,13 +53,13 @@
 									return false;
 								}
 							});
-							/*if ( !valid ) {
+							if ( !self.options['editable'] && !valid ) {
 								// remove invalid value, as it didn't match anything
 								$( this ).val( "" );
 								select.val( "" );
 								input.data( "autocomplete" ).term = "";
 								return false;
-							}*/
+							}
 						}
 					}
 				})
@@ -93,13 +93,14 @@
 					input.autocomplete( "search", "" );
 					input.focus();
 				});*/
+			this.options['editable'] = true;
 			$.each(this.options, function(key, value) {
 				self._setOption(key, value);
 			});
 		},
 		destroy: function() {
 			this.input.remove();
-			this.button.remove();
+			//this.button.remove();
 			this.element.show();
 			$.Widget.prototype.destroy.call( this );
 		},
@@ -113,25 +114,28 @@
 		},
 		_setOption: function( key, value ) {
 			switch( key ) {
-				case "id":
+				case 'id':
 					this.options['id'] = value;
 					this.input.attr('id', value);
 					break;
-				case "name":
+				case 'name':
 					this.options['name'] = value;
 					this.input.attr('name', value);
 					break;
-				case "attributes":
+				case 'attributes':
 					var input = this.input;
 					$.each(this.options['attributes'], function(key, value) {
 						input.attr(key, value);
 					});
 					break;
-				case "classes":
+				case 'classes':
 					var input = this.input;
 					$.each(this.options['classes'], function(key, value) {
 						input.addClass(value);
 					});
+					break;
+				case 'editable':
+					this.options['editable'] = value;
 					break;
 			}
 			// In jQuery UI 1.8, you have to manually invoke the _setOption method from the base widget
@@ -141,7 +145,8 @@
 		},
 		options: { 
 			id: null,
-			name: null
+			name: null,
+			editable: true
 		},
 	});
 })( jQuery );

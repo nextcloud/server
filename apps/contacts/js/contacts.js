@@ -12,6 +12,14 @@ String.prototype.strip_tags = function(){
 
 Contacts={
 	UI:{
+		notification:function(msg, ndata) {
+			$('#notification').text(msg);
+			if(data) {
+				$('#notification').data(ndata[0],ndata[1]);
+			}
+			$('#notification').fadeIn();
+			setTimeout($('#notification').fadeOut(), 10000);
+		},
 		notImplemented:function() {
 			OC.dialogs.alert(t('contacts', 'Sorry, this functionality has not been implemented yet'), t('contacts', 'Not implemented'));
 		},
@@ -1536,6 +1544,10 @@ $(document).ready(function(){
 	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
 	OCCategories.app = 'contacts';
 
+	$('#notification').click(function(){
+		$('#notification').fadeOut();
+	});
+	
 	$('#chooseaddressbook').click(function(){
 		Contacts.UI.Addressbooks.overview();
 		return false;
