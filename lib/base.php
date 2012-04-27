@@ -435,7 +435,6 @@ class OC{
 		}
 		self::$REQUESTEDFILE = (isset($_GET['getfile'])?$_GET['getfile']:null);
 		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
-			echo "WIN";
 			$file = substr(self::$REQUESTEDFILE, 0, strpos(self::$REQUESTEDFILE, '?'));
 			$param = substr(self::$REQUESTEDFILE, strpos(self::$REQUESTEDFILE, '?') + 1);
 			parse_str($param, $get);
