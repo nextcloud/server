@@ -4,6 +4,12 @@
 
 (function( $ ) {
 	$.widget('ui.combobox', {
+		options: { 
+			id: null,
+			name: null,
+			showButton: false,
+			editable: true
+		},
 		_create: function() {
 			//console.log('_create: ' + this.options['id']);
 			var self = this,
@@ -71,32 +77,33 @@
 					.append( "<a>" + item.label + "</a>" )
 					.appendTo( ul );
 			};
-
-			/*this.button = $( "<button type='button'>&nbsp;</button>" )
-				.attr( "tabIndex", -1 )
-				.attr( "title", "Show All Items" )
-				.insertAfter( input )
-				.addClass('svg')
-				.addClass('action')
-				.addClass('combo-button')
-				.click(function() {
-					// close if already visible
-					if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
-						input.autocomplete( "close" );
-						return;
-					}
-
-					// work around a bug (likely same cause as #5265)
-					$( this ).blur();
-
-					// pass empty string as value to search for, displaying all results
-					input.autocomplete( "search", "" );
-					input.focus();
-				});*/
-			this.options['editable'] = true;
 			$.each(this.options, function(key, value) {
 				self._setOption(key, value);
 			});
+
+			if(this.options['showButton']) {
+				this.button = $( "<button type='button'>&nbsp;</button>" )
+					.attr( "tabIndex", -1 )
+					.attr( "title", "Show All Items" )
+					.insertAfter( input )
+					.addClass('svg')
+					.addClass('action')
+					.addClass('combo-button')
+					.click(function() {
+						// close if already visible
+						if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
+							input.autocomplete( "close" );
+							return;
+						}
+
+						// work around a bug (likely same cause as #5265)
+						$( this ).blur();
+
+						// pass empty string as value to search for, displaying all results
+						input.autocomplete( "search", "" );
+						input.focus();
+					});
+			}
 		},
 		destroy: function() {
 			this.input.remove();
@@ -135,18 +142,14 @@
 					});
 					break;
 				case 'editable':
-					this.options['editable'] = value;
+				case 'showButton':
+					this.options[key] = value;
 					break;
 			}
 			// In jQuery UI 1.8, you have to manually invoke the _setOption method from the base widget
 			$.Widget.prototype._setOption.apply( this, arguments );
 			// In jQuery UI 1.9 and above, you use the _super method instead
 			//this._super( "_setOption", key, value );
-		},
-		options: { 
-			id: null,
-			name: null,
-			editable: true
-		},
+		}
 	});
 })( jQuery );
