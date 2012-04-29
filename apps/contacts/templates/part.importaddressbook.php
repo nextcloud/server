@@ -22,7 +22,7 @@
 	</td>
 </tr>
 </table>
-<form id="import_upload_form" action="ajax/uploadimport.php" method="post" enctype="multipart/form-data" target="import_upload_target">
+<form id="import_upload_form" action="<?php echo OC_Helper::linkTo('contacts', 'ajax/uploadimport.php'); ?>" method="post" enctype="multipart/form-data" target="import_upload_target">
 <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 <input id="import_upload_start" type="file" accept="text/*" name="importfile" />
 <input id="close_button" style="float: left;" type="button" onclick="Contacts.UI.Addressbooks.cancel(this);" value="<?php echo $l->t("Cancel"); ?>">

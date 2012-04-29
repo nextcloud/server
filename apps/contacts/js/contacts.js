@@ -1066,6 +1066,9 @@ Contacts={
 			},
 			loadPhotoHandlers:function(){
 				$('#phototools li a').tipsy();
+				$('#phototools li a').click(function() {
+					$(this).tipsy('hide');
+				});
 				$('#contacts_details_photo_wrapper').hover(
 					function () {
 						$('#phototools').slideDown(200);

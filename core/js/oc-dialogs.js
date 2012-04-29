@@ -240,6 +240,6 @@ OCdialogs = {
     var newval = parseInt($(dcid + ' #dirtree option:last').val())+1;
     $(dcid + ' #dirtree').append('<option selected="selected" value="'+newval+'">'+name+'</option>');
     $(dcid + ' .filepicker_loader').css('visibility', 'visible');
-    $.getJSON(OC.webroot+'/files/ajax/rawlist.php', {dir: p, mimetype: $(dcid).data('mimetype')}, function(r){OC.dialogs.fillFilePicker(r, dcid)});
+    $.getJSON(OC.filePath('files', 'ajax', 'rawlist.php'), {dir: p, mimetype: $(dcid).data('mimetype')}, function(r){OC.dialogs.fillFilePicker(r, dcid)});
   }
 };

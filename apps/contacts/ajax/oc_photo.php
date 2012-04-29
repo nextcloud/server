@@ -20,7 +20,7 @@
  *
  */
 // Init owncloud
-require_once('../../../lib/base.php');
+require_once('lib/base.php');
 
 // Check if we are a user
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
@@ -36,11 +36,11 @@ function debug($msg) {
 	OC_Log::write('contacts','ajax/oc_photo.php: '.$msg, OC_Log::DEBUG);
 }
 
-if (!isset($_GET['id'])) {
+if(!isset($_GET['id'])) {
 	bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));
 }
 
-if (!isset($_GET['path'])) {
+if(!isset($_GET['path'])) {
 	bailOut(OC_Contacts_App::$l10n->t('No photo path was submitted.'));
 }
 
@@ -66,7 +66,7 @@ if(!$image->fixOrientation()) { // No fatal error so we don't bail out.
 	debug('Couldn\'t save correct image orientation: '.$tmpfname);
 }
 if($image->save($tmpfname)) {
-	OC_JSON::success(array('data' => array('mime'=>$_SERVER['CONTENT_TYPE'], 'name'=>$fn, 'id'=>$id, 'tmp'=>$tmpfname)));
+	OC_JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpfname)));
 	exit();
 } else {
 	bailOut('Couldn\'t save temporary image: '.$tmpfname);
