@@ -5,7 +5,7 @@
 ../ajax/createaddressbook.php
 ../ajax/deletebook.php
 ../ajax/deleteproperty.php
-../ajax/getdetails.php
+../ajax/contactdetails.php
 ../ajax/saveproperty.php
 ../ajax/updateaddressbook.php
 ../lib/app.php

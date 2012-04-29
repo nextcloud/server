@@ -15,39 +15,6 @@ class OC_Contacts_App {
 	public static $l10n;
 	public static $categories;
 
-	/**
-	* Render templates/part.details to json output
-	* @param int $id of contact
-	* @param Sabre_VObject_Component $vcard to render
-	*/
-	public static function renderDetails($id, $vcard, $new=false) {
-		$property_types = self::getAddPropertyOptions();
-		$adr_types = self::getTypesOfProperty('ADR');
-		$phone_types = self::getTypesOfProperty('TEL');
-		$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
-		$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
-		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-
-		$freeSpace=OC_Filesystem::free_space('/');
-		$freeSpace=max($freeSpace,0);
-		$maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
-
-		$details = OC_Contacts_VCard::structureContact($vcard);
-		$name = $details['FN'][0]['value'];
-		$t = $new ? 'part.contact' : 'part.details';
-		$tmpl = new OC_Template('contacts',$t);
-		$tmpl->assign('details',$details);
-		$tmpl->assign('id',$id);
-		$tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
-		$tmpl->assign( 'uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
-		$tmpl->assign('property_types',$property_types);
-		$tmpl->assign('adr_types',$adr_types);
-		$tmpl->assign('phone_types',$phone_types);
-		$page = $tmpl->fetchPage();
-
-		OC_JSON::success(array('data' => array( 'id' => $id, 'name' => $name, 'page' => $page )));
-	}
-
 	public static function getAddressbook($id) {
 		$addressbook = OC_Contacts_Addressbook::find( $id );
 		if( $addressbook === false || $addressbook['userid'] != OC_User::getUser()) {
