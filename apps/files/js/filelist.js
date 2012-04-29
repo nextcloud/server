@@ -191,9 +191,9 @@ FileList={
 		if(!FileList.deleteCanceled && FileList.deleteFiles){
 			var fileNames=FileList.deleteFiles.join(';');
 			$.ajax({
-				url: 'ajax/delete.php',
+				url: OC.filePath('files', 'ajax', 'delete.php'),
 				async:!sync,
-				data: "dir="+$('#dir').val()+"&files="+encodeURIComponent(fileNames),
+				data: {dir:$('#dir').val(),files:fileNames},
 				complete: function(data){
 					boolOperationFinished(data, function(){
 						$('#notification').fadeOut();
