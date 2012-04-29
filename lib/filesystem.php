@@ -275,6 +275,7 @@ class OC_Filesystem{
 		if(class_exists($class)){
 			return new $class($arguments);
 		}else{
+			OC_Log::write('core','storage backend '.$class.' not found',OC_Log::ERROR);
 			return false;
 		}
 	}

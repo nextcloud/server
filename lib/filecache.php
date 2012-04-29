@@ -522,26 +522,30 @@ class OC_FileCache{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
 		self::scanFile($path,$root);
-		$dh=$view->opendir($path.'/');
-		$totalSize=0;
-		if($dh){
-			while (($filename = readdir($dh)) !== false) {
-				if($filename != '.' and $filename != '..'){
-					$file=$path.'/'.$filename;
-					if($view->is_dir($file.'/')){
-						self::scan($file,$eventSource,$count,$root);
-					}else{
-						$totalSize+=self::scanFile($file,$root);
-						$count++;
-						if($count>$lastSend+25 and $eventSource){
-							$lastSend=$count;
-							$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
+		if(self::inCache($path)){
+			self::updateFolder($path,$root);
+		}else{
+			$dh=$view->opendir($path.'/');
+			$totalSize=0;
+			if($dh){
+				while (($filename = readdir($dh)) !== false) {
+					if($filename != '.' and $filename != '..'){
+						$file=$path.'/'.$filename;
+						if($view->is_dir($file.'/')){
+							self::scan($file,$eventSource,$count,$root);
+						}else{
+							$totalSize+=self::scanFile($file,$root);
+							$count++;
+							if($count>$lastSend+25 and $eventSource){
+								$lastSend=$count;
+								$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
+							}
 						}
 					}
 				}
 			}
+			self::increaseSize($view->getRoot().$path,$totalSize);
 		}
-		self::increaseSize($view->getRoot().$path,$totalSize);
 	}
 
 	/**
