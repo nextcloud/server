@@ -27,9 +27,6 @@ function bailOut($msg) {
 	OC_Log::write('contacts','ajax/contactdetails.php: '.$msg, OC_Log::DEBUG);
 	exit();
 }
-function debug($msg) {
-	OC_Log::write('contacts','ajax/contactdetails.php: '.$msg, OC_Log::DEBUG);
-}
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();

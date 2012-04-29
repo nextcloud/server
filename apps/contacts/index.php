@@ -34,6 +34,7 @@ if(!is_null($id)) {
 }
 $property_types = OC_Contacts_App::getAddPropertyOptions();
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
+$email_types = OC_Contacts_App::getTypesOfProperty('EMAIL');
 $categories = OC_Contacts_App::getCategories();
 
 $upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
@@ -61,6 +62,7 @@ $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
 $tmpl->assign('property_types', $property_types);
 $tmpl->assign('phone_types', $phone_types);
+$tmpl->assign('email_types', $email_types);
 $tmpl->assign('categories', $categories);
 $tmpl->assign('addressbooks', $addressbooks);
 $tmpl->assign('contacts', $contacts);

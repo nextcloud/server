@@ -535,36 +535,9 @@ Contacts={
 					}
 				});
 			},
-			/*loadCategories:function(){ // On loading contact.
-				var categories = $('#categories_value').find('select');
-				if(this.data.CATEGORIES) {
-					$('#categories_value').data('checksum', this.data.CATEGORIES[0]['checksum']);
-				} else {
-					$('#categories_value').data('checksum', '');
-				}
-				categories.find('option').each(function(){ 
-					if(Contacts.UI.Card.hasCategory($(this).val())) {
-						$(this).attr('selected', 'selected');
-					} else {
-						$(this).removeAttr('selected');
-					}
-				});
-				categories.multiselect('refresh');
-			},*/
 			editNew:function(){ // add a new contact
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
-				/*$.getJSON(OC.filePath('contacts', 'ajax', 'newcontact.php'),{},function(jsondata){
-					if(jsondata.status == 'success'){
-						id = '';
-						$('#rightcontent').data('id','');
-						$('#rightcontent').html(jsondata.data.page);
-						//Contacts.UI.Card.editName();
-					} else {
-						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-						//alert(jsondata.data.message);
-					}
-				});*/
 			},
 			savePropertyInternal:function(name, fields, oldchecksum, checksum){
 				// TODO: Add functionality for new fields.
@@ -1212,6 +1185,7 @@ Contacts={
 			addMail:function() {
 				//alert('addMail');
 				$('#emaillist li.template:first-child').clone().appendTo($('#emaillist')).show();
+				$('#emaillist li.template:last-child').find('select').addClass('contacts_property');
 				$('#emaillist li.template:last-child').removeClass('template').addClass('propertycontainer');
 				$('#emaillist li:last-child').find('input[type="email"]').focus();
 				Contacts.UI.loadListHandlers();
@@ -1228,6 +1202,16 @@ Contacts={
 					for(var param in this.data.EMAIL[mail]['parameters']) {
 						if(param.toUpperCase() == 'PREF') {
 							$('#emaillist li:last-child').find('input[type="checkbox"]').attr('checked', 'checked')
+						}
+						else if(param.toUpperCase() == 'TYPE') {
+							for(etype in this.data.EMAIL[mail]['parameters'][param]) {
+								var et = this.data.EMAIL[mail]['parameters'][param][etype];
+								$('#emaillist li:last-child').find('select option').each(function(){
+									if($.inArray($(this).val().toUpperCase(), et.toUpperCase().split(',')) > -1) {
+										$(this).attr('selected', 'selected');
+									}
+								});
+							}
 						}
 					}
 				}

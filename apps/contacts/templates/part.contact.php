@@ -71,7 +71,11 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<ul id="emaillist" class="propertylist">
 			<li class="template" style="white-space: nowrap; display: none;" data-element="EMAIL">
 				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
-				<input type="email" required="required" class="nonempty contacts_property" style="width:15em;" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" /><span class="listactions"><a onclick="Contacts.UI.mailTo(this)" class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
+				<input type="email" required="required" class="nonempty contacts_property" style="width:15em;" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" />
+				<select class="hidden" multiple="multiple" name="parameters[TYPE][]">
+					<?php echo html_select_options($_['email_types'], array()) ?>
+				</select>
+				<span class="listactions"><a onclick="Contacts.UI.mailTo(this)" class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
 				<a class="action delete" onclick="$(this).tipsy('hide');Contacts.UI.Card.deleteProperty(this, 'list');" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
 			</ul><!-- a id="add_email" class="add" title="<?php echo $l->t('Add email address'); ?>"></a -->
 		</div> <!-- email addresses-->

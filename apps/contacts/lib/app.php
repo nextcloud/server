@@ -121,6 +121,12 @@ class OC_Contacts_App {
 				'VIDEO' =>  $l->t('Video'),
 				'PAGER' =>  $l->t('Pager'),
 			);
+		case 'EMAIL':
+			return array(
+				'WORK' => $l->t('Work'),
+				'HOME' => $l->t('Home'),
+				'INTERNET' => $l->t('Internet'),
+			);
 		}
 	}
 

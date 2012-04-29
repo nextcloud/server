@@ -493,7 +493,7 @@ class OC_Contacts_VCard{
 			}
 			// NOTE: Apparently Sabre_VObject_Reader can't always deal with value list parameters
 			// like TYPE=HOME,CELL,VOICE. Tanghus.
-			if ($property->name == 'TEL' && $parameter->name == 'TYPE'){
+			if (in_array($property->name, array('TEL', 'EMAIL')) && $parameter->name == 'TYPE'){
 				if (isset($temp['parameters'][$parameter->name])){
 					$temp['parameters'][$parameter->name][] = $parameter->value;
 				}
