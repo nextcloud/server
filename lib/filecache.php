@@ -522,30 +522,27 @@ class OC_FileCache{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
 		self::scanFile($path,$root);
-		if(self::inCache($path)){
-			self::updateFolder($path,$root);
-		}else{
-			$dh=$view->opendir($path.'/');
-			$totalSize=0;
-			if($dh){
-				while (($filename = readdir($dh)) !== false) {
-					if($filename != '.' and $filename != '..'){
-						$file=$path.'/'.$filename;
-						if($view->is_dir($file.'/')){
-							self::scan($file,$eventSource,$count,$root);
-						}else{
-							$totalSize+=self::scanFile($file,$root);
-							$count++;
-							if($count>$lastSend+25 and $eventSource){
-								$lastSend=$count;
-								$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
-							}
+		$dh=$view->opendir($path.'/');
+		$totalSize=0;
+		if($dh){
+			while (($filename = readdir($dh)) !== false) {
+				if($filename != '.' and $filename != '..'){
+					$file=$path.'/'.$filename;
+					if($view->is_dir($file.'/')){
+						self::scan($file,$eventSource,$count,$root);
+					}else{
+						$totalSize+=self::scanFile($file,$root);
+						$count++;
+						if($count>$lastSend+25 and $eventSource){
+							$lastSend=$count;
+							$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
 						}
 					}
 				}
 			}
-			self::increaseSize($view->getRoot().$path,$totalSize);
 		}
+		self::cleanFolder($path,$root);
+		self::increaseSize($view->getRoot().$path,$totalSize);
 	}
 
 	/**
@@ -668,7 +665,26 @@ class OC_FileCache{
 				}
 			}
 		}
+		
+		self::cleanFolder($path,$root);
+		
+		//update the folder last, so we can calculate the size correctly
+		if(!$root){//filesystem hooks are only valid for the default root
+			OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$path));
+		}else{
+			self::fileSystemWatcherWrite(array('path'=>$path),$root);
+		}
+	}
 
+	/**
+	 * delete non existing files from the cache
+	 */
+	private static function cleanFolder($path,$root=''){
+		if(!$root){
+			$view=OC_Filesystem::getView();
+		}else{
+			$view=new OC_FilesystemView(($root=='/')?'':$root);
+		}
 		//check for removed files, not using getFolderContent to prevent loops
 		$parent=self::getFileId($view->getRoot().$path);
 		$query=OC_DB::prepare('SELECT name FROM *PREFIX*fscache WHERE parent=?');
@@ -682,12 +698,6 @@ class OC_FileCache{
 					self::fileSystemWatcherDelete(array('path'=>$file),$root);
 				}
 			}
-		}
-		//update the folder last, so we can calculate the size correctly
-		if(!$root){//filesystem hooks are only valid for the default root
-			OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$path));
-		}else{
-			self::fileSystemWatcherWrite(array('path'=>$path),$root);
 		}
 	}
 
