@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>files</id>
+	<name>Files</name>
+	<description>File Management</description>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<require>2</require>
+	<default_enable/>
+</info>
