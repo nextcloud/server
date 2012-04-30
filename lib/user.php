@@ -244,7 +244,7 @@ class OC_User {
 	}
 
 	/**
-	 * @brief get the user idea of the user currently logged in.
+	 * @brief get the user id of the user currently logged in.
 	 * @return string uid or false
 	 */
 	public static function getUser(){
