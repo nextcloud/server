@@ -55,7 +55,7 @@ class OC_App{
 		}
 
 		// Our very own core apps are hardcoded
-		foreach( array( 'settings') as $app ){
+		foreach( array( 'files', 'settings') as $app ){
 			if(is_null($types)){
 				require( $app.'/appinfo/app.php' );
 			}
@@ -64,7 +64,7 @@ class OC_App{
 		// The rest comes here
 		$apps = self::getEnabledApps();
 		foreach( $apps as $app ){
-			if(is_null($types) or self::isType($app,$types)){
+			if((is_null($types) or self::isType($app,$types)) and $app<>'files'){
 				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
 					require( $app.'/appinfo/app.php' );
 				}
