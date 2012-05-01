@@ -21,11 +21,6 @@
 * 
 */
 
-if (file_exists('../../../lib/base.php'))
-   
-elseif (file_exists('lib/base.php'))
-  require_once('lib/base.php');
-
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('gallery');
 

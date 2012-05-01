@@ -25,7 +25,7 @@
 OC_Util::checkLoggedIn();
 
 // Load the files we need
-OC_Util::addStyle( "files", "files" );
+OCP\Util::addStyle( "files", "files" );
 OC_Util::addScript( "files", "jquery.iframe-transport" );
 OC_Util::addScript( "files", "jquery.fileupload" );
 OC_Util::addScript( "files", "files" );

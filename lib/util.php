@@ -243,6 +243,9 @@ class OC_Util {
 		if(!function_exists('imagepng')){
 			$errors[]=array('error'=>'PHP module GD is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
+		if(floatval(phpversion())<5.3){
+			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
+		}
 
 		return $errors;
 	}

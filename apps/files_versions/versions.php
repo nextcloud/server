@@ -28,7 +28,6 @@ class Storage {
 	// todo:
 	//   - port to oc_filesystem to enable network transparency
 	//   - check if it works well together with encryption
-	//   - do configuration web interface
 	//   - implement expire all function. And find a place to call it ;-)
 	//   - add transparent compression. first test if it´s worth it.
 

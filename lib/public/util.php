@@ -43,13 +43,36 @@ class Util {
 	 * @param string $fromname
 	 * @param bool $html
 	 */
-	public static function sendmail($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='') {
+	public static function sendMail($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='') {
 
 		// call the internal mail class
-		OC_MAIL::send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='');
+		\OC_MAIL::send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='');
 
 	}
 
+        /**
+	 * write a message in the log
+         *
+	 * @param string $app
+	 * @param string $message
+	 * @param int level
+         */
+        public static function writelog($app, $message, $level) {
+
+                // call the internal log class
+                \OC_LOG::write($app, $message, $level);
+
+        }
+
+
+	/**
+	 * add a css file
+	 *
+	 * @param url  $url
+	 */
+	public static function addStyle( $application, $file = null ){
+		\OC_Util::addStyle($application, $file);
+        }
 
 
 }

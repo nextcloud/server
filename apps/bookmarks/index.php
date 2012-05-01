@@ -30,7 +30,7 @@ OC_Util::checkAppEnabled('bookmarks');
 OC_App::setActiveNavigationEntry( 'bookmarks_index' );
 
 OC_Util::addScript('bookmarks','bookmarks');
-OC_Util::addStyle('bookmarks', 'bookmarks');
+OCP\Util::addStyle('bookmarks', 'bookmarks');
 
 $tmpl = new OC_Template( 'bookmarks', 'list', 'user' );
 

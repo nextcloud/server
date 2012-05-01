@@ -49,7 +49,7 @@ if ($source !== false) {
 			}
 		}
 		// Load the files we need
-		OC_Util::addStyle("files", "files");
+		OCP\Util::addStyle("files", "files");
 		$breadcrumbNav = new OC_Template("files", "part.breadcrumb", "");
 		$breadcrumbNav->assign("breadcrumb", $breadcrumb);
 		$breadcrumbNav->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");

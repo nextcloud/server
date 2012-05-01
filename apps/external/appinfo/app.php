@@ -22,7 +22,7 @@
  */
 
 OC::$CLASSPATH['OC_External'] = 'apps/external/lib/external.php';
-OC_Util::addStyle( 'external', 'style');
+OCP\Util::addStyle( 'external', 'style');
 
 OC_APP::registerAdmin('external', 'settings');
 
