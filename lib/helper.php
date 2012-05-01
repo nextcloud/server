@@ -528,8 +528,7 @@ class OC_Helper {
      * @param $filename
      * @return string
      */
-    public static function buildNotExistingFileName($path, $filename)
-    {
+    public static function buildNotExistingFileName($path, $filename){
 	    if($path==='/'){
 		    $path='';
 	    }

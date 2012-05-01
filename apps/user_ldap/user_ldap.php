@@ -87,7 +87,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			$quota = false;
 		}
 		$quota = $quota != -1 ? $quota : $this->ldap_quota_def;
-		OC_Preferences::setValue($uid, 'files', 'quota', OC_Helper::computerFileSize($quota));
+		OC_Preferences::setValue($uid, 'files', 'quota', OCP\Util::computerFileSize($quota));
 	}
 
 	private function setEmail( $uid ) {

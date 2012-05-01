@@ -16,7 +16,7 @@ OC_Util::checkAppEnabled('contacts');
 function getStandardImage(){
 	OC_Response::setExpiresHeader('P10D');
 	OC_Response::enableCaching();
-	OC_Response::redirect(OC_Helper::imagePath('contacts', 'person_large.png'));
+	OC_Response::redirect(OCP\Util::imagePath('contacts', 'person_large.png'));
 }
 
 $id = isset($_GET['id']) ? $_GET['id'] : null;

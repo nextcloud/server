@@ -16,7 +16,7 @@ if(is_dir(OC::$SERVERROOT.'/apps/files_archive/tests/data')){
 		}
 
 		protected function getNew(){
-			return new OC_Archive_ZIP(OC_Helper::tmpFile('.zip'));
+			return new OC_Archive_ZIP(OCP\Util::tmpFile('.zip'));
 		}
 	}
 }else{

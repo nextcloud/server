@@ -164,7 +164,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	 * @return array
 	 */
 	private function getSubContainers($container){
-		$tmpFile=OC_Helper::tmpFile();
+		$tmpFile=OCP\Util::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
@@ -190,7 +190,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if(!$name){
 			return false;
 		}
-		$tmpFile=OC_Helper::tmpFile();
+		$tmpFile=OCP\Util::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
@@ -225,7 +225,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if(!$name){
 			return false;
 		}
-		$tmpFile=OC_Helper::tmpFile();
+		$tmpFile=OCP\Util::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
@@ -501,7 +501,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	private function getTmpFile($path){
 		$obj=$this->getObject($path);
 		if(!is_null($obj)){
-			$tmpFile=OC_Helper::tmpFile();
+			$tmpFile=OCP\Util::tmpFile();
 			$obj->save_to_filename($tmpFile);
 			return $tmpFile;
 		}else{

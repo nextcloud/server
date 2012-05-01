@@ -40,7 +40,7 @@
 								<input type="button" value="<?php echo $l->t('Week');?>" id="oneweekview_radio"/>
 								<input type="button" value="<?php echo $l->t('Month');?>" id="onemonthview_radio"/>
 								<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio"/>&nbsp;&nbsp;
-								<img id="loading" src="<?php echo OC_Helper::imagePath('core', 'loading.gif'); ?>" />
+								<img id="loading" src="<?php echo OCP\Util::imagePath('core', 'loading.gif'); ?>" />
 							</div>
 						</form>
 						<form>

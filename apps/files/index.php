@@ -80,8 +80,8 @@ $breadcrumbNav = new OC_Template( "files", "part.breadcrumb", "" );
 $breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 $breadcrumbNav->assign( "baseURL", OCP\Util::linkTo("files", "index.php")."?dir=");
 
-$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
-$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
+$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 $freeSpace=OC_Filesystem::free_space('/');
@@ -95,7 +95,7 @@ $tmpl->assign( 'dir', $dir);
 $tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir));
 $tmpl->assign( "files", $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assign( 'uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
+$tmpl->assign( 'uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign( 'allowZipDownload', intval(OC_Config::getValue('allowZipDownload', true)));
 $tmpl->printPage();
 

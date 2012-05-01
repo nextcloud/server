@@ -92,7 +92,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 				//first encrypt the target file so we don't end up with a half encrypted file
 				OCP\Util::writeLog('files_encryption','Decrypting '.$path.' before writing',OCP\Util::DEBUG);
 				$tmp=fopen('php://temp');
-				OC_Helper::streamCopy($result,$tmp);
+				OCP\Util::streamCopy($result,$tmp);
 				fclose($result);
 				OC_Filesystem::file_put_contents($path,$tmp);
 				fclose($tmp);
@@ -104,7 +104,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 
 	public function postGetMimeType($path,$mime){
 		if(self::isEncrypted($path)){
-			$mime=OC_Helper::getMimeType('crypt://'.$path,'w');
+			$mime=OCP\Util::getMimeType('crypt://'.$path,'w');
 		}
 		return $mime;
 	}

@@ -55,7 +55,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$textFile=$dir.'/lorem.txt';
 		$this->assertEqual(file_get_contents($textFile),$this->instance->getFile('lorem.txt'));
 		
-		$tmpFile=OC_Helper::tmpFile('.txt');
+		$tmpFile=OCP\Util::tmpFile('.txt');
 		$this->instance->extractFile('lorem.txt',$tmpFile);
 		$this->assertEqual(file_get_contents($textFile),file_get_contents($tmpFile));
 	}
@@ -89,7 +89,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->instance=$this->getNew();
 		$fh=$this->instance->getStream('lorem.txt','w');
 		$source=fopen($dir.'/lorem.txt','r');
-		OC_Helper::streamCopy($source,$fh);
+		OCP\Util::streamCopy($source,$fh);
 		fclose($source);
 		fclose($fh);
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
@@ -109,13 +109,13 @@ abstract class Test_Archive extends UnitTestCase {
 	public function testExtract(){
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 		$this->instance=$this->getExisting();
-		$tmpDir=OC_Helper::tmpFolder();
+		$tmpDir=OCP\Util::tmpFolder();
 		$this->instance->extract($tmpDir);
 		$this->assertEqual(true,file_exists($tmpDir.'lorem.txt'));
 		$this->assertEqual(true,file_exists($tmpDir.'dir/lorem.txt'));
 		$this->assertEqual(true,file_exists($tmpDir.'logo-wide.png'));
 		$this->assertEqual(file_get_contents($dir.'/lorem.txt'),file_get_contents($tmpDir.'lorem.txt'));
-		OC_Helper::rmdirr($tmpDir);
+		OCP\Util::rmdirr($tmpDir);
 	}
 	public function testMoveRemove(){
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';

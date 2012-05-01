@@ -60,10 +60,8 @@ class Util {
 	 * @param bool $html
 	 */
 	public static function sendMail($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='') {
-
 		// call the internal mail class
 		\OC_MAIL::send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='');
-
 	}
 
         /**
@@ -74,10 +72,8 @@ class Util {
 	 * @param int level
          */
         public static function writeLog($app, $message, $level) {
-
                 // call the internal log class
                 \OC_LOG::write($app, $message, $level);
-
         }
 
 
@@ -157,6 +153,117 @@ class Util {
 	public static function getServerHost() {
 		return(\OC_Helper::severHost());
 	}
+
+	/**
+	 * @brief Creates path to an image
+	 * @param $app app
+	 * @param $image image name
+	 * @returns the url
+	 *
+	 * Returns the path to the image.
+	 */
+        public static function imagePath( $app, $image ){
+		return(\OC_Helper::imagePath( $app, $image ));
+	}
+
+
+	/**
+	 * @brief Make a human file size
+	 * @param $bytes file size in bytes
+	 * @returns a human readable file size
+	 *
+	 * Makes 2048 to 2 kB.
+	 */
+	public static function humanFileSize( $bytes ){
+		return(\OC_Helper::humanFileSize( $bytes ));
+	}
+
+	/**
+	 * @brief Make a computer file size
+	 * @param $str file size in a fancy format
+	 * @returns a file size in bytes
+	 *
+	 * Makes 2kB to 2048.
+	 *
+	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
+	 */
+	public static function computerFileSize( $str ){
+		return(\OC_Helper::computerFileSize( $str ));
+	}
+
+
+
+	/**
+	 * @brief Recusive deletion of folders
+	 * @param string $dir path to the folder
+	 *
+	 */
+	static function rmdirr($dir) {
+		\OC_Helper::rmdirr( $dir );
+	}
+
+
+	/**
+	 * get the mimetype form a local file
+	 * @param string path
+	 * @return string
+	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
+	 */
+	static function getMimeType($path){
+		return(\OC_Helper::getMimeType( $path ));
+	}
+
+	/**
+	 * copy the contents of one stream to another
+	 * @param resource source
+	 * @param resource target
+	 * @return int the number of bytes copied
+	 */
+	public static function streamCopy($source,$target){
+		return(\OC_Helper::streamCopy($source,$target));
+	}
+
+
+	/**
+	 * create a temporary file with an unique filename
+	 * @param string postfix
+	 * @return string
+	 *
+	 * temporary files are automatically cleaned up after the script is finished
+	 */
+	public static function tmpFile($postfix=''){
+		return(\OC_Helper::tmpFile($postfix));
+	}
+
+	/**
+	 * create a temporary folder with an unique filename
+	 * @return string
+	 *
+	 * temporary files are automatically cleaned up after the script is finished
+	 */
+	public static function tmpFolder(){
+		return(\OC_Helper::tmpFolder());
+	}
+
+	/**
+	 * Adds a suffix to the name in case the file exists
+	 *
+	 * @param $path
+	 * @param $filename
+	 * @return string
+	 */
+	public static function buildNotExistingFileName($path, $filename){
+		return(\OC_Helper::buildNotExistingFileName($path, $filename));
+	}
+
+
+
+
+
+
+
+
+
 
 
 

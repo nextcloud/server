@@ -29,7 +29,7 @@ OC_Util::checkAppEnabled('contacts');
 function getStandardImage(){
 	OC_Response::setExpiresHeader('P10D');
 	OC_Response::enableCaching();
-	OC_Response::redirect(OC_Helper::imagePath('contacts', 'person.png'));
+	OC_Response::redirect(OCP\Util::imagePath('contacts', 'person.png'));
 }
 
 if(!function_exists('imagecreatefromjpeg')) {

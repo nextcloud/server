@@ -38,7 +38,7 @@ OC_App::addNavigationEntry( array(
  'id' => 'gallery_index',
  'order' => 20,
  'href' => OCP\Util::linkTo('gallery', 'index.php'),
- 'icon' => OC_Helper::imagePath('core', 'places/picture.svg'),
+ 'icon' => OCP\Util::imagePath('core', 'places/picture.svg'),
  'name' => $l->t('Pictures')));
 
 class OC_GallerySearchProvider extends OC_Search_Provider{

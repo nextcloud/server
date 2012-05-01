@@ -84,7 +84,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		}
 		if ($isDownload) {
-			$tmpFile = OC_Helper::tmpFile();
+			$tmpFile = OCP\Util::tmpFile();
 			$fp = fopen($tmpFile, 'w');
 			curl_setopt($curl, CURLOPT_FILE, $fp);
 			curl_exec($curl);
