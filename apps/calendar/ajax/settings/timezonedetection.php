@@ -10,9 +10,9 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
 if(array_key_exists('timezonedetection', $_POST)){
 	if($_POST['timezonedetection'] == 'on'){
-		OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'timezonedetection', 'true');
+		OC_Preferences::setValue(OCP\USER::getUser(), 'calendar', 'timezonedetection', 'true');
 	}else{
-		OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'timezonedetection', 'false');
+		OC_Preferences::setValue(OCP\USER::getUser(), 'calendar', 'timezonedetection', 'false');
 	}
 	OC_JSON::success();
 }else{

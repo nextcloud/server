@@ -23,7 +23,7 @@ function debug($msg) {
 	OCP\Util::writeLog('contacts','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 }
 
-$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+$addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 if(count($addressbooks) == 0) {
 	bailOut(OC_Contacts_App::$l10n->t('No address books found.'));
 }

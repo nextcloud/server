@@ -189,7 +189,7 @@ if($data['repeating'] == 1){
 	$repeat['repeat'] = 'doesnotrepeat';
 }
 if($access == 'owner'){
-	$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+	$calendar_options = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 }else{
 	$calendar_options = array(OC_Calendar_App::getCalendar($data['calendarid'], false));
 }

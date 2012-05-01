@@ -8,4 +8,4 @@
  
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('calendar');
-OC_JSON::success(array('detection' => OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezonedetection')));
+OC_JSON::success(array('detection' => OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'timezonedetection')));

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
  
-$user = OC_USER::getUser();
+$user = OCP\USER::getUser();
 $calid = $_GET['calid'];
 $calendar = OC_Calendar_Calendar::find($calid);
 if($calendar['userid'] != $user){

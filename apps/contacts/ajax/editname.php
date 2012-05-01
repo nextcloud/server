@@ -33,7 +33,7 @@ if($id) {
 	$tmpl->assign('name',$name);
 	$tmpl->assign('id',$id);
 } else {
-	$addressbooks = OC_Contacts_Addressbook::active(OC_User::getUser());
+	$addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
 	$tmpl->assign('addressbooks', $addressbooks);
 }
 $tmpl->printpage();

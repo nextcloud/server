@@ -32,7 +32,7 @@ OC_JSON::checkAppEnabled('media');
 
 $autoUpdate=(isset($_GET['autoupdate']) and $_GET['autoupdate']=='true');
 
-OC_Preferences::setValue(OC_User::getUser(),'media','autoupdate',(integer)$autoUpdate);
+OC_Preferences::setValue(OCP\USER::getUser(),'media','autoupdate',(integer)$autoUpdate);
 
 OC_JSON::success(array('data' => $autoUpdate));
 ?>

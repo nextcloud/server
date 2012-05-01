@@ -21,12 +21,12 @@ foreach($sharedelements as $sharedelement){
 <select id="share_user" title="<?php echo $l->t('select users');?>" data-placeholder="<?php echo $l->t('select users'); ?>">
 <option value=""></option>
 <?php
-$allocusers = OC_User::getUsers();
+$allocusers = OCP\USER::getUsers();
 $allusers = array();
 foreach($allocusers as $ocuser){
 	$allusers[$ocuser] = $ocuser;
 }
-unset($allusers[OC_User::getUser()]);
+unset($allusers[OCP\USER::getUser()]);
 $allusers = array_flip($allusers);
 echo html_select_options($allusers, array());
 ?>

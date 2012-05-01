@@ -1,7 +1,7 @@
 <?php
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('files_sharing');
-$user = OC_User::getUser();
+$user = OCP\USER::getUser();
 // TODO translations
 $subject = $user + ' ' + 'shared a file with you';
 $link = $_POST['link'] + '&f=' + $_POST['f'];

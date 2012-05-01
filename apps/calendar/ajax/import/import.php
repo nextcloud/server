@@ -19,11 +19,11 @@ if(is_writable('import_tmp/')){
 }
 $file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 if($_POST['method'] == 'new'){
-	$id = OC_Calendar_Calendar::addCalendar(OC_User::getUser(), $_POST['calname']);
+	$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), $_POST['calname']);
 	OC_Calendar_Calendar::setCalendarActive($id, 1);
 }else{
 	$calendar = OC_Calendar_App::getCalendar($_POST['id']);
-	if($calendar['userid'] != OC_USER::getUser()){
+	if($calendar['userid'] != OCP\USER::getUser()){
 		OC_JSON::error();
 		exit();
 	}

@@ -37,7 +37,7 @@ $query = OC_DB::prepare("
 		AND url LIKE ?
 	");
 	
-$params=array(OC_User::getUser(), htmlspecialchars_decode($_GET["url"]));
+$params=array(OCP\USER::getUser(), htmlspecialchars_decode($_GET["url"]));
 $bookmarks = $query->execute($params);
 
 header( "HTTP/1.1 204 No Content" );

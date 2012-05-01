@@ -2,7 +2,7 @@
 <p><b><?php echo $l->t('Your calendars'); ?>:</b></p>
 <table width="100%" style="border: 0;">
 <?php
-$option_calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$option_calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 for($i = 0; $i < count($option_calendars); $i++){
 	echo "<tr>";
 	$tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
@@ -31,7 +31,7 @@ for($i = 0; $i < count($option_calendars); $i++){
 <p><b><?php echo $l->t('Shared calendars'); ?>: </b></p>
 <table width="100%" style="border: 0;">
 <?php
-$share = OC_Calendar_Share::allSharedwithuser(OC_User::getUser(), OC_Calendar_Share::CALENDAR);
+$share = OC_Calendar_Share::allSharedwithuser(OCP\USER::getUser(), OC_Calendar_Share::CALENDAR);
 $count = count($share);
 for($i = 0; $i < $count; $i++){
 	$share[$i]['calendar'] = OC_Calendar_App::getCalendar($share[$i]['calendarid'], false, false);

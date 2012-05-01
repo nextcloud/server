@@ -10,7 +10,7 @@
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$ids = OC_Contacts_Addressbook::activeIds(OC_User::getUser());
+$ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());
 $contacts = OC_Contacts_VCard::all($ids);
 $tmpl = new OC_TEMPLATE("contacts", "part.contacts");
 $tmpl->assign('contacts', $contacts);

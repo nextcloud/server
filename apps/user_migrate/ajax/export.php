@@ -28,8 +28,8 @@ OC_JSON::checkLoggedIn();
 OC_Util::checkAppEnabled('user_migrate');
 // Which operation
 if( $_GET['operation']=='create' ){
-	$uid = !empty( $_POST['uid'] ) ? $_POST['uid'] :  OC_User::getUser();
-	if( $uid != OC_User::getUser() ){
+	$uid = !empty( $_POST['uid'] ) ? $_POST['uid'] :  OCP\USER::getUser();
+	if( $uid != OCP\USER::getUser() ){
 	    // Needs to be admin to export someone elses account
 		OC_JSON::error();	
 		die();

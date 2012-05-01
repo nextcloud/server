@@ -48,16 +48,16 @@ if(!isset($arguments['album'])){
 if(!isset($arguments['search'])){
 	$arguments['search']='';
 }
-OC_MEDIA_COLLECTION::$uid=OC_User::getUser();
+OC_MEDIA_COLLECTION::$uid=OCP\USER::getUser();
 if($arguments['action']){
 	switch($arguments['action']){
 		case 'delete':
 			$path=$arguments['path'];
 			OC_MEDIA_COLLECTION::deleteSongByPath($path);
-			$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
+			$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OCP\USER::getUser(),'media','paths',''));
 			if(array_search($path,$paths)!==false){
 				unset($paths[array_search($path,$paths)]);
-				OC_Preferences::setValue(OC_User::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
+				OC_Preferences::setValue(OCP\USER::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
 			}
 		case 'get_collection':
 			$data=array();

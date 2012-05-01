@@ -8,7 +8,7 @@ OC_JSON::checkAppEnabled('files_sharing');
 
 $users = array();
 $groups = array();
-$self = OC_User::getUser();
+$self = OCP\USER::getUser();
 $userGroups = OC_Group::getUserGroups($self);
 $users[] = "<optgroup label='Users'>";
 $groups[] = "<optgroup label='Groups'>";

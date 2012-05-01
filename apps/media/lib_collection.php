@@ -261,7 +261,7 @@ class OC_MEDIA_COLLECTION{
 		if($name=='' or $path==''){
 			return 0;
 		}
-		$uid=OC_User::getUser();
+		$uid=OCP\USER::getUser();
 		//check if the song is already in the database
 		$songId=self::getSongId($name,$artist,$album);
 		if($songId!=0){

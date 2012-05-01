@@ -30,10 +30,10 @@ class OC_Gallery_Album {
 	}
 
 	public static function cleanup() {
-		$albums = self::find(OC_User::getUser());
+		$albums = self::find(OCP\USER::getUser());
 		while ($r = $albums->fetchRow()) {
 			OC_Gallery_Photo::removeByAlbumId($r['album_id']);
-			self::remove(OC_User::getUser(), $r['album_name']);
+			self::remove(OCP\USER::getUser(), $r['album_name']);
 		}
 	}
 
@@ -108,7 +108,7 @@ class OC_Gallery_Album {
     $path .= '%';
     $sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos photos, *PREFIX*gallery_albums albums WHERE photos.album_id = albums.album_id AND uid_owner = ? AND file_path LIKE ?';
     $stmt = OC_DB::prepare($sql);
-    $result = $stmt->execute(array(OC_User::getUser(), $path))->fetchRow();
+    $result = $stmt->execute(array(OCP\USER::getUser(), $path))->fetchRow();
     return $result['size'];
   }
 }

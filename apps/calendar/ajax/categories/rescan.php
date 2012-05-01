@@ -23,7 +23,7 @@ function debug($msg) {
 	OCP\Util::writeLog('calendar','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 }
 
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 if(count($calendars) == 0) {
 	bailOut(OC_Calendar_App::$l10n->t('No calendars found.'));
 }

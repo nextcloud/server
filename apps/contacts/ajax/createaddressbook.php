@@ -12,7 +12,7 @@
 OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
-$userid = OC_User::getUser();
+$userid = OCP\USER::getUser();
 $name = trim(strip_tags($_POST['name']));
 if(!$name) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot add addressbook with an empty name.'))));

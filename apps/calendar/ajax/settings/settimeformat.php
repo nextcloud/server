@@ -8,7 +8,7 @@
  
 OC_JSON::checkLoggedIn();
 if(isset($_POST["timeformat"])){
-	OC_Preferences::setValue(OC_User::getUser(), 'calendar', 'timeformat', $_POST["timeformat"]);
+	OC_Preferences::setValue(OCP\USER::getUser(), 'calendar', 'timeformat', $_POST["timeformat"]);
 	OC_JSON::success();
 }else{
 	OC_JSON::error();

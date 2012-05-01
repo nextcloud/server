@@ -13,7 +13,7 @@
 	<td>
 		<select id="book" name="book" class="float">
 		<?php
-		$contacts_options = OC_Contacts_Addressbook::all(OC_User::getUser());
+		$contacts_options = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 		echo html_select_options($contacts_options, $contacts_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
 		?>
 		</select>

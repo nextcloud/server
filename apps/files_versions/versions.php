@@ -44,7 +44,7 @@ class Storage {
 	public static function init() {
 		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			// create versions folder
-			$foldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$foldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			if(!is_dir($foldername)){
 				mkdir($foldername);
 			}
@@ -69,8 +69,8 @@ class Storage {
 	 */
 	public static function store($filename) {
 		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
-			$filesfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/files';
+			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$filesfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
 			Storage::init();
 
 			// check if filename is a directory
@@ -124,9 +124,9 @@ class Storage {
 	
 		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 		
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			
-			$filesfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/files';
+			$filesfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
 			
 			// rollback
 			if ( @copy($versionsfoldername.$filename.'.v'.$revision,$filesfoldername.$filename) ) {
@@ -148,7 +148,7 @@ class Storage {
 	 */
 	public static function isversioned($filename) {
 		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 
 			// check for old versions
 			$matches=glob($versionsfoldername.$filename.'.v*');
@@ -169,7 +169,7 @@ class Storage {
          */
         public static function getversions($filename,$count=0) {
                 if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			$versions=array();         
  
 	              // fetch for old versions
@@ -201,7 +201,7 @@ class Storage {
         public static function expire($filename) {
                 if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OC_User::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 
 			// check for old versions
 			$matches=glob($versionsfoldername.$filename.'.v*');

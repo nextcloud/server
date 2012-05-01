@@ -4,7 +4,7 @@ require_once('../../../lib/base.php');
 OC_JSON::checkAppEnabled('files_versions');
 require_once('../versions.php');
 
-$userDirectory = "/".OC_User::getUser()."/files";
+$userDirectory = "/".OCP\USER::getUser()."/files";
 
 $source = $_GET['source'];
 

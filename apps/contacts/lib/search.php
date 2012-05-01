@@ -1,7 +1,7 @@
 <?php
 class OC_Search_Provider_Contacts extends OC_Search_Provider{
 	function search($query){
-		$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser(), 1);
+		$addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser(), 1);
 // 		if(count($calendars)==0 || !OC_App::isEnabled('contacts')){
 // 			//return false;
 // 		}

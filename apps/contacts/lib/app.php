@@ -17,13 +17,13 @@ class OC_Contacts_App {
 
 	public static function getAddressbook($id) {
 		$addressbook = OC_Contacts_Addressbook::find( $id );
-		if( $addressbook === false || $addressbook['userid'] != OC_User::getUser()) {
+		if( $addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
 			if ($addressbook === false) {
 				OCP\Util::writeLog('contacts', 'Addressbook not found: '. $id, OCP\Util::ERROR);
 				OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
 			}
 			else {
-				OCP\Util::writeLog('contacts', 'Addressbook('.$id.') is not from '.OC_User::getUser(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', 'Addressbook('.$id.') is not from '.OCP\USER::getUser(), OCP\Util::ERROR);
 				OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
 			}
 			exit();
@@ -145,7 +145,7 @@ class OC_Contacts_App {
 	 */
 	public static function scanCategories($vccontacts = null) {
 		if (is_null($vccontacts)) {
-			$vcaddressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+			$vcaddressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 			if(count($vcaddressbooks) > 0) {
 				$vcaddressbookids = array();
 				foreach($vcaddressbooks as $vcaddressbook) {

@@ -17,6 +17,6 @@ switch($view){
 		OC_JSON::error(array('message'=>'unexspected parameter: ' . $view));
 		exit;
 }
-OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'currentview', $view);
+OC_Preferences::setValue(OCP\USER::getUser(), 'calendar', 'currentview', $view);
 OC_JSON::success();
 ?>

@@ -37,7 +37,7 @@ class OC_Bookmarks_Bookmarks{
 		//OCP\Util::writeLog('bookmarks', 'findBookmarks ' .$offset. ' '.$sqlSortColumn.' '. $filter.' '. $filterTagOnly ,OCP\Util::DEBUG);
 		$CONFIG_DBTYPE = OC_Config::getValue( 'dbtype', 'sqlite' );
 	
-		$params=array(OC_User::getUser());
+		$params=array(OCP\USER::getUser());
 	
 		if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 			$_gc_separator = ', \' \'';

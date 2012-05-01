@@ -30,7 +30,7 @@ if(!$file) {
 }
 error_log('File: '.$file);
 if(isset($_POST['method']) && $_POST['method'] == 'new'){
-	$id = OC_Contacts_Addressbook::add(OC_User::getUser(), $_POST['addressbookname']);
+	$id = OC_Contacts_Addressbook::add(OCP\USER::getUser(), $_POST['addressbookname']);
 	OC_Contacts_Addressbook::setActive($id, 1);
 }else{
 	$id = $_POST['id'];

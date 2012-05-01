@@ -16,7 +16,7 @@ if(trim($_POST['name']) == ''){
 	OC_JSON::error(array('message'=>'empty'));
 	exit;
 }
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 foreach($calendars as $cal){
 	if($cal['displayname'] == $_POST['name']){
 		OC_JSON::error(array('message'=>'namenotavailable'));
@@ -24,7 +24,7 @@ foreach($calendars as $cal){
 	}
 }
 
-$userid = OC_User::getUser();
+$userid = OCP\USER::getUser();
 $calendarid = OC_Calendar_Calendar::addCalendar($userid, strip_tags($_POST['name']), 'VEVENT,VTODO,VJOURNAL', null, 0, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, 1);
 

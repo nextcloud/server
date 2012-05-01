@@ -31,7 +31,7 @@ if(is_null($categories)) {
 
 debug(print_r($categories, true));
 
-$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+$addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 if(count($addressbooks) == 0) {
 	bailOut(OC_Contacts_App::$l10n->t('No address books found.'));
 }

@@ -101,7 +101,7 @@ function addBookmark($url, $title, $tags='') {
 	$params=array(
 	htmlspecialchars_decode($url),
 	htmlspecialchars_decode($title),
-	OC_User::getUser()
+	OCP\USER::getUser()
 	);
 	$query->execute($params);
 	

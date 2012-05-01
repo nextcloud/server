@@ -32,7 +32,7 @@ OC_JSON::checkAppEnabled('bookmarks');
 
 $params=array(
 	htmlspecialchars_decode($_GET["url"]),
-	OC_User::getUser()
+	OCP\USER::getUser()
 	);
 
 $query = OC_DB::prepare("

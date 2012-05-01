@@ -9,7 +9,7 @@
  * This class manages our app actions
  */
 OC_Calendar_App::$l10n = new OC_L10N('calendar');
-OC_Calendar_App::$tz = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+OC_Calendar_App::$tz = OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 class OC_Calendar_App{
 	const CALENDAR = 'calendar';
 	const EVENT = 'event';
@@ -38,12 +38,12 @@ class OC_Calendar_App{
 	public static function getCalendar($id, $security = true, $shared = false){
 		$calendar = OC_Calendar_Calendar::find($id);
 		if($shared === true){
-			if(OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::CALENDAR)){
+			if(OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::CALENDAR)){
 				return $calendar;
 			}
 		}
 		if($security === true){
-			if($calendar['userid'] != OC_User::getUser()){
+			if($calendar['userid'] != OCP\USER::getUser()){
 				return false;
 			}
 		}
@@ -63,13 +63,13 @@ class OC_Calendar_App{
 	public static function getEventObject($id, $security = true, $shared = false){
 		$event = OC_Calendar_Object::find($id);
 		if($shared === true){
-			if(OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::EVENT)){
+			if(OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::EVENT)){
 				return $event;
 			}
 		}
 		if($security === true){
 			$calendar = self::getCalendar($event['calendarid'], false);
-			if($calendar['userid'] != OC_User::getUser()){
+			if($calendar['userid'] != OCP\USER::getUser()){
 				return false;
 			}
 		}
@@ -164,7 +164,7 @@ class OC_Calendar_App{
 	 */
 	public static function scanCategories($events = null) {
 		if (is_null($events)) {
-			$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+			$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 			if(count($calendars) > 0) {
 				$events = array();
 				foreach($calendars as $calendar) {
@@ -278,12 +278,12 @@ class OC_Calendar_App{
 	public static function getaccess($id, $type){
 		if($type == self::CALENDAR){
 			$calendar = self::getCalendar($id, false, false);
-			if($calendar['userid'] == OC_User::getUser()){
+			if($calendar['userid'] == OCP\USER::getUser()){
 				return 'owner';
 			}
-			$isshared = OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::CALENDAR);
+			$isshared = OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::CALENDAR);
 			if($isshared){
-				$writeaccess = OC_Calendar_Share::is_editing_allowed(OC_User::getUser(), $id, OC_Calendar_Share::CALENDAR);
+				$writeaccess = OC_Calendar_Share::is_editing_allowed(OCP\USER::getUser(), $id, OC_Calendar_Share::CALENDAR);
 				if($writeaccess){
 					return 'rw';
 				}else{
@@ -293,12 +293,12 @@ class OC_Calendar_App{
 				return false;
 			}
 		}elseif($type == self::EVENT){
-			if(OC_Calendar_Object::getowner($id) == OC_User::getUser()){
+			if(OC_Calendar_Object::getowner($id) == OCP\USER::getUser()){
 				return 'owner';
 			}
-			$isshared = OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::EVENT);
+			$isshared = OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::EVENT);
 			if($isshared){
-				$writeaccess = OC_Calendar_Share::is_editing_allowed(OC_User::getUser(), $id, OC_Calendar_Share::EVENT);
+				$writeaccess = OC_Calendar_Share::is_editing_allowed(OCP\USER::getUser(), $id, OC_Calendar_Share::EVENT);
 				if($writeaccess){
 					return 'rw';
 				}else{
@@ -320,12 +320,12 @@ class OC_Calendar_App{
 	public static function getrequestedEvents($calendarid, $start, $end){
 		$events = array();
 		if($calendarid == 'shared_rw' || $_GET['calendar_id'] == 'shared_r'){
-			$calendars = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::CALENDAR, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
+			$calendars = OC_Calendar_Share::allSharedwithuser(OCP\USER::getUser(), OC_Calendar_Share::CALENDAR, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 			foreach($calendars as $calendar){
 				$calendarevents = OC_Calendar_Object::allInPeriod($calendar['calendarid'], $start, $end);
 				$events = array_merge($events, $calendarevents);
 			}
-			$singleevents = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::EVENT, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
+			$singleevents = OC_Calendar_Share::allSharedwithuser(OCP\USER::getUser(), OC_Calendar_Share::EVENT, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 			foreach($singleevents as $singleevent){
 				$event = OC_Calendar_Object::find($singleevent['eventid']);
 				$events[] =  $event;

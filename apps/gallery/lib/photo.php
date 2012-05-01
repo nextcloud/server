@@ -67,7 +67,7 @@ class OC_Gallery_Photo {
 	}
 
 	public static function getThumbnail($image_name, $owner = null) {
-		if (!$owner) $owner = OC_User::getUser();
+		if (!$owner) $owner = OCP\USER::getUser();
 		$save_dir = OC_Config::getValue("datadirectory").'/'. $owner .'/gallery/';
 		$save_dir .= dirname($image_name). '/';
 		$image_path = $image_name;
@@ -98,6 +98,6 @@ class OC_Gallery_Photo {
 	}
 
 	public static function getGalleryRoot() {
-		return OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '');
+		return OC_Preferences::getValue(OCP\USER::getUser(), 'gallery', 'root', '');
 	}
 }

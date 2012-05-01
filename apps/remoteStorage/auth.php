@@ -56,7 +56,7 @@ if(count($pathParts) == 2 && $pathParts[0] == '') {
 			$categories=$v;
 		}
 	}
-	$currUser = OC_User::getUser();
+	$currUser = OCP\USER::getUser();
 	if($currUser == $ownCloudUser) {
 		if(isset($_POST['allow'])) {
 			//TODO: check if this can be faked by editing the cookie in firebug!
