@@ -279,15 +279,16 @@ class OC_User {
 		OC_Hook::emit( "OC_User", "pre_setPassword", array( "run" => &$run, "uid" => $uid, "password" => $password ));
 
 		if( $run ){
+			$success = false;
 			foreach(self::$_usedBackends as $backend){
 				if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)){
 					if($backend->userExists($uid)){
-						$backend->setPassword($uid,$password);
+						$success = $backend->setPassword($uid,$password);
 					}
 				}
 			}
 			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
-			return true;
+			return $success;
 		}
 		else{
 			return false;
