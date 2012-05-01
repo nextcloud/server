@@ -27,7 +27,7 @@
 OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('bookmarks');
 
-OC_App::setActiveNavigationEntry( 'bookmarks_index' );
+OCP\App::setActiveNavigationEntry( 'bookmarks_index' );
 
 OCP\Util::addscript('bookmarks','bookmarks');
 OCP\Util::addStyle('bookmarks', 'bookmarks');

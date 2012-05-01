@@ -39,7 +39,7 @@ OCP\Util::addscript('media','scanner');
 OCP\Util::addscript('media','jquery.jplayer.min');
 OCP\Util::addStyle('media','music');
 
-OC_App::setActiveNavigationEntry( 'media_index' );
+OCP\App::setActiveNavigationEntry( 'media_index' );
 
 $tmpl = new OC_Template( 'media', 'music', 'user' );
 $tmpl->printPage();

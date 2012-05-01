@@ -3,7 +3,7 @@
 require_once('apps/files_sharing/sharedstorage.php');
 
 OC::$CLASSPATH['OC_Share'] = "apps/files_sharing/lib_share.php";
-OC_APP::registerAdmin('files_sharing', 'settings');
+OCP\App::registerAdmin('files_sharing', 'settings');
 OC_Hook::connect("OC_Filesystem", "post_delete", "OC_Share", "deleteItem");
 OC_Hook::connect("OC_Filesystem", "post_rename", "OC_Share", "renameItem");
 OC_Hook::connect("OC_Filesystem", "post_write", "OC_Share", "updateItem");

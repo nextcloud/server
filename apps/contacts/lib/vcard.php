@@ -245,8 +245,8 @@ class OC_Contacts_VCard{
 		// Add product ID is missing.
 		$prodid = trim($vcard->getAsString('PRODID'));
 		if(!$prodid) {
-			$appinfo = OC_App::getAppInfo('contacts');
-			$appversion = OC_App::getAppVersion('contacts');
+			$appinfo = OCP\App::getAppInfo('contacts');
+			$appversion = OCP\App::getAppVersion('contacts');
 			$prodid = '-//ownCloud//NONSGML '.$appinfo['name'].' '.$appversion.'//EN';
 			$vcard->setString('PRODID', $prodid);
 		}

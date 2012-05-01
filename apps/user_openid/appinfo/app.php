@@ -17,7 +17,7 @@ if(strpos($_SERVER["REQUEST_URI"],'?') and !strpos($_SERVER["REQUEST_URI"],'='))
 OCP\Util::addHeader('link',array('rel'=>'openid.server', 'href'=>OCP\Util::linkToAbsolute( "user_openid", "user.php" ).'/'.$userName));
 OCP\Util::addHeader('link',array('rel'=>'openid.delegate', 'href'=>OCP\Util::linkToAbsolute( "user_openid", "user.php" ).'/'.$userName));
 
-OC_APP::registerPersonal('user_openid','settings');
+OCP\App::registerPersonal('user_openid','settings');
 
 require_once 'apps/user_openid/user_openid.php';
 

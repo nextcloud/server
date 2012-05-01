@@ -9,12 +9,12 @@ OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Contacts_Hooks', 'deleteUser'
 OC_HOOK::connect('OC_Calendar', 'getEvents', 'OC_Contacts_Hooks', 'getBirthdayEvents');
 OC_HOOK::connect('OC_Calendar', 'getSources', 'OC_Contacts_Hooks', 'getCalenderSources');
 
-OC_App::register( array(
+OCP\App::register( array(
   'order' => 10,
   'id' => 'contacts',
   'name' => 'Contacts' ));
 
-OC_App::addNavigationEntry( array(
+OCP\App::addNavigationEntry( array(
   'id' => 'contacts_index',
   'order' => 10,
   'href' => OCP\Util::linkTo( 'contacts', 'index.php' ),
@@ -22,6 +22,6 @@ OC_App::addNavigationEntry( array(
   'name' => OC_L10N::get('contact')->t('Contacts') ));
 
 
-OC_APP::registerPersonal('contacts','settings');
+OCP\App::registerPersonal('contacts','settings');
 OCP\Util::addscript('contacts', 'loader');
 OC_Search::registerProvider('OC_Search_Provider_Contacts');

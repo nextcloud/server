@@ -3,12 +3,12 @@
 require_once('apps/files_versions/versions.php');
 
 // Add an entry in the app list
-OC_App::register( array(
+OCP\App::register( array(
   'order' => 10,
   'id' => 'files_versions',
   'name' => 'Versioning' ));
 
-OC_APP::registerAdmin('files_versions', 'settings');
+OCP\App::registerAdmin('files_versions', 'settings');
 OCP\Util::addscript('files_versions', 'versions');
 
 // Listen to write signals

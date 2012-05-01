@@ -49,7 +49,7 @@ if($_POST) {
 $maxZipInputSize = OCP\Util::humanFileSize(OC_Config::getValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB')));
 $allowZipDownload = intval(OC_Config::getValue('allowZipDownload', true));
 
-OC_App::setActiveNavigationEntry( "files_administration" );
+OCP\App::setActiveNavigationEntry( "files_administration" );
 
 $tmpl = new OC_Template( 'files', 'admin' );
 $tmpl->assign( 'htaccessWorking', $htaccessWorking );

@@ -25,10 +25,10 @@ $l=OC_L10N::get('media');
 require_once('apps/media/lib_media.php');
 
 OCP\Util::addscript('media','loader');
-OC_APP::registerPersonal('media','settings');
+OCP\App::registerPersonal('media','settings');
 
-OC_App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
+OCP\App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 
-OC_App::addNavigationEntry(array('id' => 'media_index', 'order' => 2, 'href' => OCP\Util::linkTo('media', 'index.php'), 'icon' => OCP\Util::imagePath('core', 'places/music.svg'), 'name' => $l->t('Music')));
+OCP\App::addNavigationEntry(array('id' => 'media_index', 'order' => 2, 'href' => OCP\Util::linkTo('media', 'index.php'), 'icon' => OCP\Util::imagePath('core', 'places/music.svg'), 'name' => $l->t('Music')));
 
 OC_Search::registerProvider('OC_MediaSearchProvider');

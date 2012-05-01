@@ -34,7 +34,7 @@ OCP\Util::addscript( 'files', 'fileactions' );
 if(!isset($_SESSION['timezone'])){
 	OCP\Util::addscript( 'files', 'timezone' );
 }
-OC_App::setActiveNavigationEntry( "files_index" );
+OCP\App::setActiveNavigationEntry( "files_index" );
 // Load the files
 $dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist

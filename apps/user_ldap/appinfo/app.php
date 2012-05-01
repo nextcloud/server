@@ -25,7 +25,7 @@ require_once('apps/user_ldap/lib_ldap.php');
 require_once('apps/user_ldap/user_ldap.php');
 require_once('apps/user_ldap/group_ldap.php');
 
-OC_APP::registerAdmin('user_ldap','settings');
+OCP\App::registerAdmin('user_ldap','settings');
 
 // define LDAP_DEFAULT_PORT
 define('OC_USER_BACKEND_LDAP_DEFAULT_PORT', 389);
@@ -44,4 +44,3 @@ $entry = array(
 	'href' => OCP\Util::linkTo( 'user_ldap', 'settings.php' ),
 	'name' => 'LDAP'
 );
-// OC_App::addNavigationSubEntry( "core_users", $entry);

@@ -19,7 +19,7 @@ if(is_writable('import_tmp/')){
 }
 $view = $file = null;
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
-	$view = OC_App::getStorage('contacts');
+	$view = OCP\App::getStorage('contacts');
 	$file = $view->file_get_contents('/' . $_POST['file']);
 } else {
 	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);

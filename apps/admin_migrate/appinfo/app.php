@@ -22,7 +22,7 @@
 */
 
 
-OC_APP::registerAdmin('admin_migrate','settings');
+OCP\App::registerAdmin('admin_migrate','settings');
 
 // add settings page to navigation
 $entry = array(

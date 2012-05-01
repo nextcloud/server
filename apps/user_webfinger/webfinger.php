@@ -61,7 +61,7 @@ echo "<";
 <?php
 $apps = OC_Appconfig::getApps();
 foreach($apps as $app) {
-	if(OC_App::isEnabled($app)) {
+	if(OCP\App::isEnabled($app)) {
 		if(is_file(OC::$APPSROOT . '/apps/' . $app . '/appinfo/webfinger.php')) {
 			require($app . '/appinfo/webfinger.php');
 		}

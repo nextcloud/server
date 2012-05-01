@@ -16,4 +16,4 @@ if(!isset($_SESSION['enckey']) and OCP\User::isLoggedIn()){//force the user to r
 	exit();
 }
 
-OC_App::registerAdmin('files_encryption', 'settings');
+OCP\App::registerAdmin('files_encryption', 'settings');

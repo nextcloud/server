@@ -2,7 +2,7 @@
 class OC_Search_Provider_Calendar extends OC_Search_Provider{
 	function search($query){
 		$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
-		if(count($calendars)==0 || !OC_App::isEnabled('calendar')){
+		if(count($calendars)==0 || !OCP\App::isEnabled('calendar')){
 			//return false;
 		}
 		$results=array();

@@ -19,7 +19,7 @@ $contacts = OC_Contacts_VCard::all($ids);
 $addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
 
 // Load the files we need
-OC_App::setActiveNavigationEntry( 'contacts_index' );
+OCP\App::setActiveNavigationEntry( 'contacts_index' );
 
 // Load a specific user?
 $id = isset( $_GET['id'] ) ? $_GET['id'] : null;
