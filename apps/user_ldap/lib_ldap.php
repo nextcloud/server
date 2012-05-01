@@ -437,8 +437,14 @@ class OC_LDAP {
 		if(!is_null($attr) && !is_array($attr)) {
 			$attr = array(strtolower($attr));
 		}
-		$sr = ldap_search(self::getConnectionResource(), $base, $filter, $attr);
-		$findings = ldap_get_entries(self::getConnectionResource(), $sr );
+
+		$sr = @ldap_search(self::getConnectionResource(), $base, $filter, $attr);
+		$findings = @ldap_get_entries(self::getConnectionResource(), $sr );
+		// if we're here, probably no connection ressource is returned.
+		// to make ownCloud behave nicely, we simply give back an empty array.
+		if(is_null($findings)) {
+			return array();
+		}
 
 		if(!is_null($attr)) {
 			$selection = array();
@@ -521,6 +527,9 @@ class OC_LDAP {
 	static private function getConnectionResource() {
 		if(!self::$ldapConnectionRes) {
 			self::init();
+		}
+		if(is_null(self::$ldapConnectionRes)) {
+			OCP\Util::writeLog('ldap', 'Connection could not be established', OC_Log::INFO);
 		}
 		return self::$ldapConnectionRes;
 	}
