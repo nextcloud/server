@@ -37,7 +37,7 @@ if (isset($_POST['user_import'])) {
 	$to = get_temp_dir().'/'.$importname.'.zip';
 	if( !move_uploaded_file( $from, $to ) ){
 		$error = array('error'=>'Failed to move the uploaded file','hint'=>'Try checking the permissions of the '.get_temp_dir().' dir.');
-		OC_Log::write( 'user_migrate', "Failed to copy the uploaded file", OC_Log::ERROR );
+		OCP\Util::writeLog( 'user_migrate', "Failed to copy the uploaded file", OC_Log::ERROR );
 		$tmpl = new OC_Template('user_migrate', 'admin');
 		$tmpl->assign('error',$error);
     	return $tmpl->fetchPage();

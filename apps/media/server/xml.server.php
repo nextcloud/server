@@ -37,7 +37,7 @@ foreach($arguments as &$argument){
 }
 @ob_clean();
 if(isset($arguments['action'])){
-	OC_Log::write('media','ampache '.$arguments['action'].' request', OC_Log::DEBUG);
+	OCP\Util::writeLog('media','ampache '.$arguments['action'].' request', OC_Log::DEBUG);
 	switch($arguments['action']){
 		case 'songs':
 			OC_MEDIA_AMPACHE::songs($arguments);

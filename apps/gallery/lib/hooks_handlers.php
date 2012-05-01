@@ -52,7 +52,7 @@ class OC_Gallery_Hooks_Handlers {
     if ($new_album_name == '')
       $new_album_name = 'main';
 
-    OC_Log::write(self::$APP_TAG, 'Creating new album '.$new_album_name, OC_Log::DEBUG);
+    OCP\Util::writeLog(self::$APP_TAG, 'Creating new album '.$new_album_name, OC_Log::DEBUG);
     OC_Gallery_Album::create(OC_User::getUser(), $new_album_name, $path);
 
     return OC_Gallery_Album::find(OC_User::getUser(), null, $path);
@@ -110,7 +110,7 @@ class OC_Gallery_Hooks_Handlers {
       if ($olddir == '') $olddir = '/';
       if ($newdir == '') $newdir = '/';
       if (!self::isPhoto($newpath)) return;
-      OC_Log::write(self::$APP_TAG, 'Moving photo from '.$oldpath.' to '.$newpath, OC_Log::DEBUG);
+      OCP\Util::writeLog(self::$APP_TAG, 'Moving photo from '.$oldpath.' to '.$newpath, OC_Log::DEBUG);
       $album;
       $newAlbumId;
       $oldAlbumId;
