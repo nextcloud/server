@@ -10,6 +10,7 @@
 		<script type="text/javascript">
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
 			var oc_appswebroot = '<?php echo OC::$APPSWEBROOT; ?>';
+			var oc_appswebroot = '<?php echo OC::$APPSWEBROOT; ?>';
 		</script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
