@@ -171,6 +171,7 @@ if(typeof localStorage !='undefined'){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
 		getItem:function(name){
+			if(localStorage.getItem(OC.localStorage.namespace+name)==null){return null;}
 			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
 		}
 	};
