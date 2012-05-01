@@ -119,7 +119,14 @@ class OC_Files {
 		}
 		@ob_end_clean();
 		if($zip){
-			readfile($filename);
+			$handle=fopen($filename,'r');
+			if ($handle) {
+				$chunkSize = 8*1024;// 1 MB chunks
+				while (!feof($handle)) {
+					echo fread($handle, $chunkSize);
+					flush();
+				}
+			}
 			unlink($filename);
 		}else{
 			OC_Filesystem::readfile($filename);
