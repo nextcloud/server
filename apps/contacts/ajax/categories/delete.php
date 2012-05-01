@@ -16,11 +16,11 @@ foreach ($_POST as $key=>$element) {
 
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/categories/delete.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/categories/delete.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/categories/delete.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/categories/delete.php: '.$msg, OCP\Util::DEBUG);
 }
 
 $categories = isset($_POST['categories'])?$_POST['categories']:null;

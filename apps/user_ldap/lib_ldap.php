@@ -529,7 +529,7 @@ class OC_LDAP {
 			self::init();
 		}
 		if(is_null(self::$ldapConnectionRes)) {
-			OCP\Util::writeLog('ldap', 'Connection could not be established', OC_Log::INFO);
+			OCP\Util::writeLog('ldap', 'Connection could not be established', OCP\Util::INFO);
 		}
 		return self::$ldapConnectionRes;
 	}

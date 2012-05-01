@@ -15,7 +15,7 @@ foreach ($sources as $source) {
 		$source = $userDirectory.$source;
 	// If the file doesn't exist, it may be shared with the current user
 	} else if (!$source = OC_Share::getSource($userDirectory.$source)) {
-		OC_Log::write('files_sharing',"Shared file doesn't exists :".$source,OC_Log::ERROR);
+		OCP\Util::writeLog('files_sharing',"Shared file doesn't exists :".$source,OCP\Util::ERROR);
 		echo "false";
 	}
 	try {
@@ -24,7 +24,7 @@ foreach ($sources as $source) {
 			echo $shared->getToken();
 		}
 	} catch (Exception $exception) {
-		OC_Log::write('files_sharing',"Unexpected Error : ".$exception->getMessage(),OC_Log::ERROR);
+		OC\Util::writeLog('files_sharing',"Unexpected Error : ".$exception->getMessage(),OCP\Util::ERROR);
 		echo "false";
 	}
 }

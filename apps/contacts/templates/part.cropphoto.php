@@ -1,7 +1,7 @@
 <?php 
 $id = $_['id'];
 $tmp_path = $_['tmp_path'];
-OC_Log::write('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OC_Log::DEBUG);
+OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 ?>
 <script language="Javascript">
 	jQuery(function($) {

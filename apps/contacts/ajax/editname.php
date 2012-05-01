@@ -11,11 +11,11 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/editname.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/editname.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/editname.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/editname.php: '.$msg, OCP\Util::DEBUG);
 }
 
 $tmpl = new OC_TEMPLATE("contacts", "part.edit_name_dialog");

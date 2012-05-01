@@ -195,9 +195,9 @@ class OC_Contacts_Addressbook{
 			$stmt = OC_DB::prepare( $prep );
 			$result = $stmt->execute($active);
 		} catch(Exception $e) {
-			OC_Log::write('contacts','OC_Contacts_Addressbook:active:, exception: '.$e->getMessage(),OC_Log::DEBUG);
-			OC_Log::write('contacts','OC_Contacts_Addressbook:active, ids: '.join(',', $active),OC_Log::DEBUG);
-			OC_Log::write('contacts','OC_Contacts_Addressbook::active, SQL:'.$prep,OC_Log::DEBUG);
+			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active, ids: '.join(',', $active),OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook::active, SQL:'.$prep,OCP\Util::DEBUG);
 		}
 
 		while( $row = $result->fetchRow()){
@@ -246,7 +246,7 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function isActive($id){
-		//OC_Log::write('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()), OC_Log::DEBUG);
+		//OCP\Util::writeLog('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()), OCP\Util::DEBUG);
 		return in_array($id, self::activeIds());
 	}
 

@@ -19,7 +19,7 @@ class OC_Archive_ZIP extends OC_Archive{
 		$this->zip=new ZipArchive();
 		if($this->zip->open($source,ZipArchive::CREATE)){
 		}else{
-			OC_LOG::write('files_archive','Error while opening archive '.$source,OC_Log::WARN);
+			OCP\Util::writeLog('files_archive','Error while opening archive '.$source,OCP\Util::WARN);
 		}
 	}
 	/**

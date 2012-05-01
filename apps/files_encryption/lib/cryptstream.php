@@ -42,12 +42,12 @@ class OC_CryptStream{
 			$this->path=self::$sourceStreams[basename($path)]['path'];
 		}else{
 			$this->path=$path;
-			OC_Log::write('files_encryption','open encrypted '.$path. ' in '.$mode,OC_Log::DEBUG);
+			OCP\Util::writeLog('files_encryption','open encrypted '.$path. ' in '.$mode,OCP\Util::DEBUG);
 			OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
 			$this->source=OC_FileSystem::fopen($path,$mode);
 			OC_FileProxy::$enabled=true;
 			if(!is_resource($this->source)){
-				OC_Log::write('files_encryption','failed to open '.$path,OC_Log::ERROR);
+				OCP\Util::writeLog('files_encryption','failed to open '.$path,OCP\Util::ERROR);
 			}
 		}
 		if(is_resource($this->source)){
@@ -68,7 +68,7 @@ class OC_CryptStream{
 		//$count will always be 8192 https://bugs.php.net/bug.php?id=21641
 		//This makes this function a lot simpler but will breake everything the moment it's fixed
 		if($count!=8192){
-			OC_Log::write('files_encryption','php bug 21641 no longer holds, decryption will not work',OC_Log::FATAL);
+			OCP\Util::writeLog('files_encryption','php bug 21641 no longer holds, decryption will not work',OCP\Util::FATAL);
 			die();
 		}
 		$data=fread($this->source,8192);

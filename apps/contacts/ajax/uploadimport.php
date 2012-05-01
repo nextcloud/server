@@ -27,11 +27,11 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/uploadimport.php: '.$msg, OC_Log::ERROR);
+	OCP\Util::writeLog('contacts','ajax/uploadimport.php: '.$msg, OCP\Util::ERROR);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/uploadimport.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/uploadimport.php: '.$msg, OCP\Util::DEBUG);
 }
 
 $view = OC_App::getStorage('contacts');
@@ -51,7 +51,7 @@ if($fn) {
 
 // File input transfers are handled here
 if (!isset($_FILES['importfile'])) {
-	OC_Log::write('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OCP\Util::DEBUG);
 	OC_JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
 	exit();
 }

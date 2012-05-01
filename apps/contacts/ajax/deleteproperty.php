@@ -41,7 +41,7 @@ unset($vcard->children[$line]);
 
 if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error deleting contact property.'))));
-	OC_Log::write('contacts','ajax/deleteproperty.php: Error deleting contact property', OC_Log::ERROR);
+	OCP\Util::writeLog('contacts','ajax/deleteproperty.php: Error deleting contact property', OCP\Util::ERROR);
 	exit();
 }
 

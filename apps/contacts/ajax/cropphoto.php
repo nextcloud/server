@@ -29,7 +29,7 @@ OC_JSON::checkAppEnabled('contacts');
 
 $tmp_path = $_GET['tmp_path'];
 $id = $_GET['id'];
-OC_Log::write('contacts','ajax/cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OC_Log::DEBUG);
+OCP\Util::writeLog('contacts','ajax/cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 $tmpl = new OC_TEMPLATE("contacts", "part.cropphoto");
 $tmpl->assign('tmp_path', $tmp_path);
 $tmpl->assign('id', $id);

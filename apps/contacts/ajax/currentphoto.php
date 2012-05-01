@@ -29,11 +29,11 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/currentphoto.php: '.$msg, OC_Log::ERROR);
+	OCP\Util::writeLog('contacts','ajax/currentphoto.php: '.$msg, OCP\Util::ERROR);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/currentphoto.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/currentphoto.php: '.$msg, OCP\Util::DEBUG);
 }
 
 if (!isset($_GET['id'])) {

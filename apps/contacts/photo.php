@@ -33,7 +33,7 @@ if(!$image) {
 }
 // invalid vcard
 if( is_null($contact)) {
-	OC_Log::write('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
+	OCP\Util::writeLog('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OCP\Util::ERROR);
 } else {
 	OC_Response::enableCaching($caching);
 	OC_Contacts_App::setLastModifiedHeader($contact);

@@ -40,7 +40,7 @@ if($path != '' && $mtime != '')
 	{
 		// Then the file has changed since opening
 		OC_JSON::error();
-		OC_Log::write('files_texteditor',"File: ".$path." modified since opening.",OC_Log::ERROR);	
+		OCP\Util::writeLog('files_texteditor',"File: ".$path." modified since opening.",OCP\Util::ERROR);	
 	}
 	else
 	{
@@ -59,10 +59,10 @@ if($path != '' && $mtime != '')
 		{
 			// Not writeable!
 			OC_JSON::error(array('data' => array( 'message' => 'Insufficient permissions')));	
-			OC_Log::write('files_texteditor',"User does not have permission to write to file: ".$path,OC_Log::ERROR);
+			OCP\Util::writeLog('files_texteditor',"User does not have permission to write to file: ".$path,OCP\Util::ERROR);
 		}
 	}
 } else {
 	OC_JSON::error(array('data' => array( 'message' => 'File path or mtime not supplied')));
-	OC_Log::write('files_texteditor',"Invalid path supplied:".$path,OC_Log::ERROR);	
+	OCP\Util::writeLog('files_texteditor',"Invalid path supplied:".$path,OCP\Util::ERROR);	
 }

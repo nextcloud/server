@@ -16,11 +16,11 @@ foreach ($_POST as $key=>$element) {
 
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/categories/rescan.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/categories/rescan.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 }
 
 $addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());

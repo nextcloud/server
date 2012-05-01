@@ -34,9 +34,9 @@ class OC_Search_Provider_Bookmarks extends OC_Search_Provider{
 			$searchquery = $query;
 		}
 		
-//		OC_Log::write('bookmarks', 'search ' .$query ,OC_Log::DEBUG);
+//		OCP\Util::writeLog('bookmarks', 'search ' .$query ,OCP\Util::DEBUG);
 		$bookmarks = OC_Bookmarks_Bookmarks::findBookmarks($offset, $sqlSortColumn, $searchquery, false);
-//		OC_Log::write('bookmarks', 'found ' .count($bookmarks) ,OC_Log::DEBUG);
+//		OCP\Util::writeLog('bookmarks', 'found ' .count($bookmarks) ,OCP\Util::DEBUG);
 		//$l = new OC_l10n('bookmarks'); //resulttype can't be localized, javascript relies on that type
 		foreach($bookmarks as $bookmark){
 			$results[]=new OC_Search_Result($bookmark['title'],'', $bookmark['url'],'Bookm.');

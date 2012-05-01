@@ -56,17 +56,17 @@ class OC_Contacts_VCard{
 				$stmt = OC_DB::prepare( $prep );
 				$result = $stmt->execute($id);
 			} catch(Exception $e) {
-				OC_Log::write('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OC_Log::DEBUG);
-				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '.join(',', $id),OC_Log::DEBUG);
-				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all, ids: '.join(',', $id),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','SQL:'.$prep,OCP\Util::DEBUG);
 			}
 		} elseif($id) {
 			try {
 				$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
-				OC_Log::write('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OC_Log::DEBUG);
-				OC_Log::write('contacts','OC_Contacts_VCard:all, ids: '. $id,OC_Log::DEBUG);
+				OC\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+				OC\Util::writeLog('contacts','OC_Contacts_VCard:all, ids: '. $id,OCP\Util::DEBUG);
 			}
 		}
 		$cards = array();
@@ -181,7 +181,7 @@ class OC_Contacts_VCard{
 		// Add version if needed
 		if($version && $version < '3.0') {
 			$upgrade = true;
-			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Updating from version: '.$version,OC_Log::DEBUG);
+			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Updating from version: '.$version,OCP\Util::DEBUG);
 		}
 		foreach($vcard->children as &$property){
 			// Decode string properties and remove obsolete properties.
@@ -190,9 +190,9 @@ class OC_Contacts_VCard{
 			}
 			// Fix format of type parameters.
 			if($upgrade && in_array($property->name, $typeprops)) {
-				OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. before: '.$property->serialize(),OC_Log::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. before: '.$property->serialize(),OCP\Util::DEBUG);
 				self::formatPropertyTypes($property);
-				OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. after: '.$property->serialize(),OC_Log::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. after: '.$property->serialize(),OCP\Util::DEBUG);
 			}
 			if($property->name == 'FN'){
 				$fn = $property->value;
@@ -222,7 +222,7 @@ class OC_Contacts_VCard{
 				$fn = 'Unknown Name';
 			}
 			$vcard->setString('FN', $fn);
-			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'FN\' field: '.$fn,OC_Log::DEBUG);
+			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'FN\' field: '.$fn,OCP\Util::DEBUG);
 		}
 		if(!$n || $n = ';;;;'){ // Fix missing 'N' field. Ugly hack ahead ;-)
 			$slice = array_reverse(array_slice(explode(' ', $fn), 0, 2)); // Take 2 first name parts of 'FN' and reverse.
@@ -231,12 +231,12 @@ class OC_Contacts_VCard{
 			}
 			$n = implode(';', $slice).';;;';
 			$vcard->setString('N', $n);
-			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'N\' field: '.$n,OC_Log::DEBUG);
+			OC\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'N\' field: '.$n,OCP\Util::DEBUG);
 		}
 		if(!$uid) {
 			$vcard->setUID();
 			$uid = $vcard->getAsString('UID');
-			OC_Log::write('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'UID\' field: '.$uid,OC_Log::DEBUG);
+			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'UID\' field: '.$uid,OCP\Util::DEBUG);
 		}
 		if(self::trueUID($aid, $uid)) {
 			$vcard->setString('UID', $uid);
@@ -263,7 +263,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function add($aid, OC_VObject $card, $uri=null){
 		if(is_null($card)){
-			OC_Log::write('contacts','OC_Contacts_VCard::add. No vCard supplied', OC_Log::ERROR);
+			OCP\Util::writeLog('contacts','OC_Contacts_VCard::add. No vCard supplied', OCP\Util::ERROR);
 			return null;
 		};
 
@@ -317,10 +317,10 @@ class OC_Contacts_VCard{
 				$data = $vcard->serialize();
 				try {
 					$result = $stmt->execute(array($data,time(),$object[0]));
-					//OC_Log::write('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0].': '.$object[1],OC_Log::DEBUG);
+					//OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0].': '.$object[1],OCP\Util::DEBUG);
 				} catch(Exception $e) {
-					OC_Log::write('contacts','OC_Contacts_VCard::updateDataByID:, exception: '.$e->getMessage(),OC_Log::DEBUG);
-					OC_Log::write('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0],OC_Log::DEBUG);
+					OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateDataByID:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+					OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0],OCP\Util::DEBUG);
 				}
 			}
 		}
@@ -526,9 +526,9 @@ class OC_Contacts_VCard{
 				$vals = array_merge((array)$aid, $id);
 				$result = $stmt->execute($vals);
 			} catch(Exception $e) {
-				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
-				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, ids: '.join(',', $vals),OC_Log::DEBUG);
-				OC_Log::write('contacts','SQL:'.$prep,OC_Log::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard::moveToAddressBook, ids: '.join(',', $vals),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','SQL:'.$prep,OCP\Util::DEBUG);
 				return false;
 			}
 		} else {
@@ -536,8 +536,8 @@ class OC_Contacts_VCard{
 				$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
 				$result = $stmt->execute(array($aid, $id));
 			} catch(Exception $e) {
-				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OC_Log::DEBUG);
-				OC_Log::write('contacts','OC_Contacts_VCard::moveToAddressBook, id: '.$id,OC_Log::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard::moveToAddressBook, id: '.$id,OCP\Util::DEBUG);
 				return false;
 			}
 		}

@@ -24,7 +24,7 @@
  
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/contactdetails.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/contactdetails.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 

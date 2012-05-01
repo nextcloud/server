@@ -24,11 +24,11 @@
  
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/addcontact.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/addcontact.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/addcontact.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/addcontact.php: '.$msg, OCP\Util::DEBUG);
 }
 
 // Check if we are a user
@@ -56,7 +56,7 @@ $vcard->setString('N',$n);
 $id = OC_Contacts_VCard::add($aid,$vcard);
 if(!$id) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
-	OC_Log::write('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OC_Log::ERROR);
+	OCP\Util::writeLog('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OCP\Util::ERROR);
 	exit();
 }
 

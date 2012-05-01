@@ -33,7 +33,7 @@ function getStandardImage(){
 }
 
 if(!function_exists('imagecreatefromjpeg')) {
-	OC_Log::write('contacts','thumbnail.php. GD module not installed',OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','thumbnail.php. GD module not installed',OCP\Util::DEBUG);
 	getStandardImage();
 	exit();
 }
@@ -45,7 +45,7 @@ $contact = OC_Contacts_App::getContactVCard($id);
 
 // invalid vcard
 if(is_null($contact)){
-	OC_Log::write('contacts','thumbnail.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
+	OCP\Util::writeLog('contacts','thumbnail.php. The VCard for ID '.$id.' is not RFC compatible',OCP\Util::ERROR);
 	getStandardImage();
 	exit();
 }
@@ -67,16 +67,16 @@ if($photo) {
 					// done
 					exit();
 				} else {
-					OC_Log::write('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OC_Log::ERROR);
+					OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OCP\Util::ERROR);
 				}
 			} else {
-				OC_Log::write('contacts','thumbnail.php. Couldn\'t resize thumbnail for ID '.$id,OC_Log::ERROR);
+				OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t resize thumbnail for ID '.$id,OCP\Util::ERROR);
 			}
 		}else{
-			OC_Log::write('contacts','thumbnail.php. Couldn\'t crop thumbnail for ID '.$id,OC_Log::ERROR);
+			OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t crop thumbnail for ID '.$id,OCP\Util::ERROR);
 		}
 	} else {
-		OC_Log::write('contacts','thumbnail.php. Couldn\'t load image string for ID '.$id,OC_Log::ERROR);
+		OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t load image string for ID '.$id,OCP\Util::ERROR);
 	}
 }
 getStandardImage();

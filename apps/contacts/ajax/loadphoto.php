@@ -26,12 +26,12 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 
 // foreach ($_POST as $key=>$element) {
-// 	OC_Log::write('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OC_Log::DEBUG);
+// 	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OCP\Util::DEBUG);
 // }
 
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/loadphoto.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/loadphoto.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 

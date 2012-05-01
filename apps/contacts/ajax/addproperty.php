@@ -60,7 +60,7 @@ foreach($current as $item) {
 	$tmpvalue = (is_array($value)?implode(';', $value):$value);
 	if($tmpvalue == $item->value) {
 		OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Trying to add duplicate property: ').$name.': '.$tmpvalue)));
-		OC_Log::write('contacts','ajax/addproperty.php: Trying to add duplicate property: '.$name.': '.$tmpvalue, OC_Log::DEBUG);
+		OCP\Util::writeLog('contacts','ajax/addproperty.php: Trying to add duplicate property: '.$name.': '.$tmpvalue, OCP\Util::DEBUG);
 		exit();
 	}
 }
@@ -118,7 +118,7 @@ $checksum = md5($vcard->children[$line]->serialize());
 
 if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error adding contact property.'))));
-	OC_Log::write('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OC_Log::ERROR);
+	OCP\Util::writeLog('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OCP\Util::ERROR);
 	exit();
 }
 

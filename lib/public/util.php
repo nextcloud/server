@@ -32,6 +32,13 @@ namespace OCP;
 
 class Util {
 
+	// consts for Logging
+	const DEBUG=0;
+	const INFO=1;
+	const WARN=2;
+	const ERROR=3;
+	const FATAL=4;
+
 	/**
 	 * send an email 
 	 *
@@ -57,7 +64,7 @@ class Util {
 	 * @param string $message
 	 * @param int level
          */
-        public static function writelog($app, $message, $level) {
+        public static function writeLog($app, $message, $level) {
 
                 // call the internal log class
                 \OC_LOG::write($app, $message, $level);

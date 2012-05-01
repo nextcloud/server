@@ -17,7 +17,7 @@ if(is_null($id)) {
 }
 $vcard = OC_Contacts_App::getContactVCard( $id );
 foreach($vcard->children as $property){
-	//OC_Log::write('contacts','ajax/categories/checksumfor.php: '.$property->name, OC_Log::DEBUG);
+	//OCP\Util::writeLog('contacts','ajax/categories/checksumfor.php: '.$property->name, OCP\Util::DEBUG);
 	if($property->name == 'CATEGORIES') {
 		$checksum = md5($property->serialize());
 		OC_JSON::success(array('data' => array('value'=>$property->value, 'checksum'=>$checksum)));

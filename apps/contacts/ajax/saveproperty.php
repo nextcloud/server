@@ -29,11 +29,11 @@ OC_JSON::checkAppEnabled('contacts');
 
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/saveproperty.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/saveproperty.php: '.$msg, OCP\Util::DEBUG);
 }
 // foreach ($_POST as $key=>$element) {
 // 	debug('_POST: '.$key.'=>'.print_r($element, true));

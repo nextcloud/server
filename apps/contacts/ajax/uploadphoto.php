@@ -29,11 +29,11 @@ OC_JSON::checkLoggedIn();
 OC_JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/uploadphoto.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/uploadphoto.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: '.$msg, OCP\Util::DEBUG);
 }
 
 // If it is a Drag'n'Drop transfer it's handled here.
@@ -41,7 +41,7 @@ $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : fals
 if ($fn) {
 	// AJAX call
 	if (!isset($_GET['id'])) {
-		OC_Log::write('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OC_Log::DEBUG);
+		OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OCP\Util::DEBUG);
 		OC_JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
 		exit();
 	}
@@ -70,12 +70,12 @@ if ($fn) {
 
 
 if (!isset($_POST['id'])) {
-	OC_Log::write('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OCP\Util::DEBUG);
 	OC_JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
 	exit();
 }
 if (!isset($_FILES['imagefile'])) {
-	OC_Log::write('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OCP\Util::DEBUG);
 	OC_JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
 	exit();
 }

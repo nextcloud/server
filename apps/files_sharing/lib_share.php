@@ -310,7 +310,7 @@ class OC_Share {
 					return $result[0]['permissions'];
 				}
 			} else {
-				OC_Log::write('files_sharing',"Not existing parent folder : ".$target,OC_Log::ERROR);
+				OCP\Util::writeLog('files_sharing',"Not existing parent folder : ".$target,OCP\Util::ERROR);
 				return false;
 			}
 		}
