@@ -91,7 +91,7 @@ class OC_Crypt {
 	}
 
 	public static function changekeypasscode($oldPassword, $newPassword) {
-		if(OC_User::isLoggedIn()){
+		if(OCP\User::isLoggedIn()){
 			$username=OC_USER::getUser();
 			$view=new OC_FilesystemView('/'.$username);
 

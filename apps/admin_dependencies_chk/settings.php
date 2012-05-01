@@ -84,7 +84,7 @@ foreach($modules as $key => $module) {
 	if($enabled == false) unset($modules[$key]);
 }
 
-OC_UTIL::addStyle('admin_dependencies_chk', 'style');
+OCP\UTIL::addStyle('admin_dependencies_chk', 'style');
 $tmpl->assign( 'items', $modules );
 
 return $tmpl->fetchPage();

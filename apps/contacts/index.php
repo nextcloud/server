@@ -52,10 +52,10 @@ OC_Util::addScript('contacts','jquery.combobox');
 OC_Util::addScript('contacts','jquery.inview');
 OC_Util::addScript('contacts','jquery.Jcrop');
 OC_Util::addScript('contacts','jquery.multi-autocomplete');
-OC_Util::addStyle('','jquery.multiselect');
-OC_Util::addStyle('contacts','jquery.combobox');
-OC_Util::addStyle('contacts','jquery.Jcrop');
-OC_Util::addStyle('contacts','contacts');
+OCP\Util::addStyle('','jquery.multiselect');
+OCP\Util::addStyle('contacts','jquery.combobox');
+OCP\Util::addStyle('contacts','jquery.Jcrop');
+OCP\Util::addStyle('contacts','contacts');
 
 $tmpl = new OC_Template( "contacts", "index", "user" );
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);

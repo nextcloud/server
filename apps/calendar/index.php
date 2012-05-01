@@ -40,16 +40,16 @@ if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'mont
 }
 
 OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
-OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
+OCP\Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
 OC_Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
-OC_Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
+OCP\Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
 if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone") == null || OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezonedetection') == 'true'){
 	OC_UTIL::addScript('calendar', 'geo');
 }
 OC_Util::addScript('calendar', 'calendar');
-OC_Util::addStyle('calendar', 'style');
+OCP\Util::addStyle('calendar', 'style');
 OC_Util::addScript('', 'jquery.multiselect');
-OC_Util::addStyle('', 'jquery.multiselect');
+OCP\Util::addStyle('', 'jquery.multiselect');
 OC_Util::addScript('contacts','jquery.multi-autocomplete');
 OC_Util::addScript('','oc-vcategories');
 OC_App::setActiveNavigationEntry('calendar_index');
