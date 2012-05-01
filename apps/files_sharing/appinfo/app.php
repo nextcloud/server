@@ -12,9 +12,9 @@ OC_Hook::connect('OC_User', 'post_addToGroup', 'OC_Share', 'addToGroupShare');
 OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OC_Share', 'removeFromGroupShare');
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '/';
 if ($dir != '/Shared' || OC_Appconfig::getValue('files_sharing', 'resharing', 'yes') == 'yes') {
-	OC_Util::addScript("files_sharing", "share");
+	OCP\Util::addscript("files_sharing", "share");
 }
-OC_Util::addScript("3rdparty", "chosen/chosen.jquery.min");
+OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
 OCP\Util::addStyle( 'files_sharing', 'sharing' );
 OCP\Util::addStyle("3rdparty", "chosen/chosen");
 

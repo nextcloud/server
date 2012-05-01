@@ -11,6 +11,6 @@ $timezone=OC_Preferences::getValue(OCP\USER::getUser(),'calendar','timezone','')
 $tmpl->assign('timezone',$timezone);
 $tmpl->assign('timezones',DateTimeZone::listIdentifiers());
 
-OC_Util::addScript('calendar','settings');
+OCP\Util::addscript('calendar','settings');
 
 return $tmpl->fetchPage();

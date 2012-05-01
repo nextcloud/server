@@ -24,7 +24,7 @@ $l=OC_L10N::get('media');
 
 require_once('apps/media/lib_media.php');
 
-OC_Util::addScript('media','loader');
+OCP\Util::addscript('media','loader');
 OC_APP::registerPersonal('media','settings');
 
 OC_App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));

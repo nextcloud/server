@@ -31,12 +31,12 @@ OC_Util::checkAppEnabled('media');
 require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
 require_once(OC::$APPSROOT . '/apps/media/lib_scanner.php');
 
-OC_Util::addScript('media','player');
-OC_Util::addScript('media','music');
-OC_Util::addScript('media','playlist');
-OC_Util::addScript('media','collection');
-OC_Util::addScript('media','scanner');
-OC_Util::addScript('media','jquery.jplayer.min');
+OCP\Util::addscript('media','player');
+OCP\Util::addscript('media','music');
+OCP\Util::addscript('media','playlist');
+OCP\Util::addscript('media','collection');
+OCP\Util::addscript('media','scanner');
+OCP\Util::addscript('media','jquery.jplayer.min');
 OCP\Util::addStyle('media','music');
 
 OC_App::setActiveNavigationEntry( 'media_index' );

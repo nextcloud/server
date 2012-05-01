@@ -26,13 +26,13 @@ OC_Util::checkLoggedIn();
 
 // Load the files we need
 OCP\Util::addStyle( "files", "files" );
-OC_Util::addScript( "files", "jquery.iframe-transport" );
-OC_Util::addScript( "files", "jquery.fileupload" );
-OC_Util::addScript( "files", "files" );
-OC_Util::addScript( 'files', 'filelist' );
-OC_Util::addScript( 'files', 'fileactions' );
+OCP\Util::addscript( "files", "jquery.iframe-transport" );
+OCP\Util::addscript( "files", "jquery.fileupload" );
+OCP\Util::addscript( "files", "files" );
+OCP\Util::addscript( 'files', 'filelist' );
+OCP\Util::addscript( 'files', 'fileactions' );
 if(!isset($_SESSION['timezone'])){
-	OC_Util::addScript( 'files', 'timezone' );
+	OCP\Util::addscript( 'files', 'timezone' );
 }
 OC_App::setActiveNavigationEntry( "files_index" );
 // Load the files

@@ -30,7 +30,7 @@ OC_Util::checkLoggedIn();
 
 // Load the files we need
 OCP\Util::addStyle( "files", "files" );
-OC_Util::addScript( "files", "files" );
+OCP\Util::addscript( "files", "files" );
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';

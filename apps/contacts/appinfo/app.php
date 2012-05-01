@@ -23,5 +23,5 @@ OC_App::addNavigationEntry( array(
 
 
 OC_APP::registerPersonal('contacts','settings');
-OC_UTIL::addScript('contacts', 'loader');
+OCP\Util::addscript('contacts', 'loader');
 OC_Search::registerProvider('OC_Search_Provider_Contacts');

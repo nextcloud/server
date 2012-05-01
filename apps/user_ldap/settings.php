@@ -22,7 +22,7 @@
  */
 $params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_password', 'ldap_base', 'ldap_base_users', 'ldap_base_groups', 'ldap_userlist_filter', 'ldap_login_filter', 'ldap_display_name', 'ldap_tls', 'ldap_nocase'. 'ldap_quota_def', 'ldap_quota_attr', 'ldap_email_attr');
 
-OC_Util::addScript('user_ldap', 'settings');
+OCP\Util::addscript('user_ldap', 'settings');
 OCP\Util::addStyle('user_ldap', 'settings');
 
 if ($_POST) {

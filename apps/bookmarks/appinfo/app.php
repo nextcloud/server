@@ -16,6 +16,6 @@ $l = new OC_l10n('bookmarks');
 OC_App::addNavigationEntry( array( 'id' => 'bookmarks_index', 'order' => 70, 'href' => OC_Helper::linkTo( 'bookmarks', 'index.php' ), 'icon' => OC_Helper::imagePath( 'bookmarks', 'bookmarks.png' ), 'name' => $l->t('Bookmarks')));
 
 OC_App::registerPersonal('bookmarks', 'settings');
-OC_Util::addScript('bookmarks','bookmarksearch');
+OCP\Util::addscript('bookmarks','bookmarksearch');
 
 OC_Search::registerProvider('OC_Search_Provider_Bookmarks');
