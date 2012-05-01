@@ -283,7 +283,7 @@ class OC_User {
 			foreach(self::$_usedBackends as $backend){
 				if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)){
 					if($backend->userExists($uid)){
-						$success = $backend->setPassword($uid,$password);
+						$success |= $backend->setPassword($uid,$password);
 					}
 				}
 			}
