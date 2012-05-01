@@ -1,5 +1,5 @@
 <script type='text/javascript'>
-	var totalurl = '<?php echo OC_Helper::linkToAbsolute('contacts', 'carddav.php'); ?>/addressbooks';
+	var totalurl = '<?php echo OCP\Util::linkToAbsolute('contacts', 'carddav.php'); ?>/addressbooks';
 	var categories = <?php echo json_encode($_['categories']); ?>;
 	var lang = '<?php echo OC_Preferences::getValue(OCP\USER::getUser(), 'core', 'lang', 'en'); ?>';
 </script>
@@ -16,7 +16,7 @@
 </div>
 	<div id="bottomcontrols">
 		<form>
-			<img class="svg" id="contacts_newcontact" src="<?php echo OC_Helper::linkTo('contacts', 'img/contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>"  title="<?php echo $l->t('Add Contact'); ?>" />
+			<img class="svg" id="contacts_newcontact" src="<?php echo OCP\Util::linkTo('contacts', 'img/contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>"  title="<?php echo $l->t('Add Contact'); ?>" />
 			<img class="svg" id="chooseaddressbook" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Addressbooks'); ?>" title="<?php echo $l->t('Addressbooks'); ?>" />
 		</form>
 	</div>

@@ -58,7 +58,7 @@ $album=OC_MEDIA_COLLECTION::getAlbumId($album,$artist);
 
 $songs=OC_MEDIA_COLLECTION::getSongs($artist,$album,$song);
 
-$baseUrl=OC_Util::getServerURL().OC_Helper::linkTo('media','tomahawk.php');
+$baseUrl=OC_Util::getServerURL().OCP\Util::linkTo('media','tomahawk.php');
 
 $results=array();
 foreach($songs as $song) {

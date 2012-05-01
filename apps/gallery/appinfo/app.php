@@ -37,7 +37,7 @@ OC_App::register(array(
 OC_App::addNavigationEntry( array(
  'id' => 'gallery_index',
  'order' => 20,
- 'href' => OC_Helper::linkTo('gallery', 'index.php'),
+ 'href' => OCP\Util::linkTo('gallery', 'index.php'),
  'icon' => OC_Helper::imagePath('core', 'places/picture.svg'),
  'name' => $l->t('Pictures')));
 
@@ -47,7 +47,7 @@ class OC_GallerySearchProvider extends OC_Search_Provider{
 		$result = $stmt->execute(array(OCP\USER::getUser(),'%'.$query.'%'));
 		$results=array();
 		while($row=$result->fetchRow()){
-			$results[]=new OC_Search_Result($row['album_name'],'',OC_Helper::linkTo('gallery', 'index.php').'?view='.$row['album_name'],'Galleries');
+			$results[]=new OC_Search_Result($row['album_name'],'',OCP\Util::linkTo('gallery', 'index.php').'?view='.$row['album_name'],'Galleries');
 		}
 		return $results;
 	}

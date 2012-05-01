@@ -24,7 +24,7 @@ $l = OC_L10N::get('gallery');
 		</div>
 	</div>
 	<div id="g-album-loading" class="crumb" style="display:none">
-		<img src="<?php echo OC_Helper::linkto('gallery', 'img/loading.gif'); ?>">
+		<img src="<?php echo OCP\Util::linkTo('gallery', 'img/loading.gif'); ?>">
 	</div>
 </div>
 <div id="gallery_list">

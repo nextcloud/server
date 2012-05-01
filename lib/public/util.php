@@ -122,10 +122,41 @@ class Util {
 
 
 
+	/**
+	 * @brief Creates an absolute url
+	 * @param $app app
+	 * @param $file file
+	 * @returns the url
+	 *
+	 * Returns a absolute url to the given app and file.
+	 */
+	public static function linkToAbsolute( $app, $file ) {
+		return(\OC_Helper::linkToAbsolute( $app, $file ));
+	}
 
 
+        /**
+         * @brief Creates an url
+         * @param $app app
+         * @param $file file
+         * @returns the url
+         *
+         * Returns a url to the given app and file.
+         */
+        public static function linkTo( $app, $file ){
+		return(\OC_Helper::linkTo( $app, $file ));
+	}
 
-
+	/**
+	 * @brief Returns the server host
+	 * @returns the server host
+	 *
+	 * Returns the server host, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function getServerHost() {
+		return(\OC_Helper::severHost());
+	}
 
 
 

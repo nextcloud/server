@@ -43,7 +43,7 @@ if(!OCP\User::userExists($USERNAME)){
 	OCP\Util::writeLog('user_openid',$USERNAME.' doesn\'t exist',OCP\Util::WARN);
 	$USERNAME='';
 }
-$IDENTITY=OC_Helper::linkToAbsolute( "user_openid", "user.php" ).'/'.$USERNAME;
+$IDENTITY=OCP\Util::linkToAbsolute( "user_openid", "user.php" ).'/'.$USERNAME;
 
 require_once 'phpmyid.php';
 

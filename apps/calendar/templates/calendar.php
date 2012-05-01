@@ -19,7 +19,7 @@
 				var missing_field_totime = '<?php echo addslashes($l->t('To Time')) ?>';
 				var missing_field_startsbeforeends = '<?php echo addslashes($l->t('The event ends before it starts')) ?>';
 				var missing_field_dberror = '<?php echo addslashes($l->t('There was a database fail')) ?>';
-				var totalurl = '<?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?>/calendars';
+				var totalurl = '<?php echo OCP\Util::linkToAbsolute('calendar', 'caldav.php'); ?>/calendars';
 				var firstDay = '<?php echo (OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'firstday', 'mo') == 'mo' ? '1' : '0'); ?>';
 				$(document).ready(function() {
 				<?php

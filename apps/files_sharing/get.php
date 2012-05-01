@@ -52,11 +52,11 @@ if ($source !== false) {
 		OCP\Util::addStyle("files", "files");
 		$breadcrumbNav = new OC_Template("files", "part.breadcrumb", "");
 		$breadcrumbNav->assign("breadcrumb", $breadcrumb);
-		$breadcrumbNav->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$breadcrumbNav->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list = new OC_Template("files", "part.list", "");
 		$list->assign("files", $files);
-		$list->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
-		$list->assign("downloadURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("downloadURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list->assign("readonly", true);
 		$tmpl = new OC_Template("files", "index", "user");
 		$tmpl->assign("fileList", $list->fetchPage());

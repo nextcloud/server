@@ -41,7 +41,7 @@ OC_Group::useBackend( new OC_GROUP_LDAP() );
 $entry = array(
 	'id' => 'user_ldap_settings',
 	'order'=>1,
-	'href' => OC_Helper::linkTo( 'user_ldap', 'settings.php' ),
+	'href' => OCP\Util::linkTo( 'user_ldap', 'settings.php' ),
 	'name' => 'LDAP'
 );
 // OC_App::addNavigationSubEntry( "core_users", $entry);

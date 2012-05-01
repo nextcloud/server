@@ -38,13 +38,13 @@ OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_pa
 		return true;
 	});*/
 </script>
-<img id="cropbox" src="<?php echo OC_Helper::linkToAbsolute('contacts', 'dynphoto.php'); ?>?tmp_path=<?php echo urlencode($tmp_path); ?>" />
+<img id="cropbox" src="<?php echo OCP\Util::linkToAbsolute('contacts', 'dynphoto.php'); ?>?tmp_path=<?php echo urlencode($tmp_path); ?>" />
 <form id="cropform"
 	class="coords"
 	method="post"
 	enctype="multipart/form-data"
 	target="crop_target"
-	action="<?php echo OC_Helper::linkToAbsolute('contacts', 'ajax/savecrop.php'); ?>">
+	action="<?php echo OCP\Util::linkToAbsolute('contacts', 'ajax/savecrop.php'); ?>">
 
 	<input type="hidden" id="id" name="id" value="<?php echo $id; ?>" />
 	<input type="hidden" id="tmp_path" name="tmp_path" value="<?php echo $tmp_path; ?>" />

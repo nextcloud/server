@@ -241,7 +241,7 @@ class OC_Calendar_Calendar{
 
 	public static function getEventSourceInfo($calendar){
 		return array(
-			'url' => OC_Helper::linkTo('calendar', 'ajax/events.php').'?calendar_id='.$calendar['id'],
+			'url' => OCP\Util::linkTo('calendar', 'ajax/events.php').'?calendar_id='.$calendar['id'],
 			'backgroundColor' => $calendar['calendarcolor'],
 			'borderColor' => '#888',
 			'textColor' => 'black',

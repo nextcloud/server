@@ -17,7 +17,7 @@ OC_App::register( array(
 OC_App::addNavigationEntry( array(
   'id' => 'contacts_index',
   'order' => 10,
-  'href' => OC_Helper::linkTo( 'contacts', 'index.php' ),
+  'href' => OCP\Util::linkTo( 'contacts', 'index.php' ),
   'icon' => OC_Helper::imagePath( 'settings', 'users.svg' ),
   'name' => OC_L10N::get('contact')->t('Contacts') ));
 

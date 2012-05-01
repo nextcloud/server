@@ -40,7 +40,7 @@ class OC_Contacts_Hooks{
 	}
 
 	static public function getCalenderSources($parameters) {
-		$base_url = OC_Helper::linkTo('calendar', 'ajax/events.php').'?calendar_id=';
+		$base_url = OCP\Util::linkTo('calendar', 'ajax/events.php').'?calendar_id=';
 		foreach(OC_Contacts_Addressbook::all(OCP\USER::getUser()) as $addressbook) {
 			$parameters['sources'][] =
 				array(

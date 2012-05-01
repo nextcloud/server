@@ -29,7 +29,7 @@ OCP\Util::addscript( 'user_migrate', 'export');
 $entry = array(
 	'id' => "user_migrate_settings",
 	'order'=>1,
-	'href' => OC_Helper::linkTo( "user_migrate", "admin.php" ),
+	'href' => OCP\Util::linkTo( "user_migrate", "admin.php" ),
 	'name' => 'Import'
 );
 ?>
