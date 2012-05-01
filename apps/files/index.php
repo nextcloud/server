@@ -22,7 +22,7 @@
 */
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 
 // Load the files we need
 OCP\Util::addStyle( "files", "files" );

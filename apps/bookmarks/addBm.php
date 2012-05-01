@@ -24,7 +24,7 @@
 
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('bookmarks');
 
 require_once('bookmarksHelper.php');

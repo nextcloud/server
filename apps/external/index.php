@@ -23,7 +23,7 @@
 
 require_once('lib/external.php');
 
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 
 if (isset($_GET['id'])) {
 

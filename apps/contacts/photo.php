@@ -10,7 +10,7 @@
 
 // Init owncloud
 
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 function getStandardImage(){

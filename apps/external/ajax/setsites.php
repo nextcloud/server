@@ -7,7 +7,7 @@
  */
 
  
-OC_Util::checkAdminUser();
+OCP\User::checkAdminUser();
 
 $sites = array();
 for ($i = 0; $i < sizeof($_POST['site_name']); $i++) {

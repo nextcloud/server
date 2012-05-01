@@ -9,7 +9,7 @@
 
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 
 // Get active address books. This creates a default one if none exists.

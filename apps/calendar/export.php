@@ -7,7 +7,7 @@
  */
 
  
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
 $cal = isset($_GET['calid']) ? $_GET['calid'] : NULL;
 $event = isset($_GET['eventid']) ? $_GET['eventid'] : NULL;

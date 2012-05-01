@@ -84,6 +84,21 @@ class User {
 		return \OC_USER::checkPassword($uid, $password);
 	}
 
+        /**
+        * Check if the user is a admin, redirects to home if not
+        */
+        public static function checkAdminUser(){
+                \OC_Util::checkAdminUser();
+        }
+
+        /**
+        * Check if the user is logged in, redirects to home if not. With
+        * redirect URL parameter to the request URI.
+        */
+        public static function checkLoggedIn(){
+                \OC_Util::checkLoggedIn();
+        }
+
 
 }
 

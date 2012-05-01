@@ -7,7 +7,7 @@
  */
 
  
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('calendar');
 
 // Create default calendar ...

@@ -7,7 +7,7 @@
  */
 
  
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('contacts');
 $bookid = isset($_GET['bookid']) ? $_GET['bookid'] : NULL;
 $contactid = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;

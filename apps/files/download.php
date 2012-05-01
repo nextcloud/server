@@ -25,7 +25,7 @@
  
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 
 $filename = $_GET["file"];
 

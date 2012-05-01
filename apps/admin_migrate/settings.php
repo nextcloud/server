@@ -22,7 +22,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-OC_Util::checkAdminUser();
+OCP\User::checkAdminUser();
 OC_Util::checkAppEnabled('admin_migrate');
 
 // Export?

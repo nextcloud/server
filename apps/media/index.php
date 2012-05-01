@@ -25,7 +25,7 @@
 
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('media');
 
 require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');

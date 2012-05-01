@@ -1,6 +1,6 @@
 <?php
 
-OC_Util::checkAdminUser();
+OCP\User::checkAdminUser();
 
 OCP\Util::addscript( 'files_versions', 'versions' );
 

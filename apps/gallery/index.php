@@ -23,7 +23,7 @@
 
 
 
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 OC_Util::checkAppEnabled('gallery');
 OC_App::setActiveNavigationEntry( 'gallery_index' );
 

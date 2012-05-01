@@ -22,7 +22,7 @@
  */
 require_once( '../../lib/base.php' );
 
-OC_Util::checkLoggedIn( );
+OCP\User::checkLoggedIn( );
 OCP\Util::addStyle('files_versions','versions');
 $tmpl = new OC_Template( 'files_versions', 'history', 'user' );
 
