@@ -215,7 +215,7 @@ class OC_User {
 	}
 
 	/**
-	 * @brief Kick the user
+	 * @brief Logs the current user out and kills all the session data
 	 * @returns true
 	 *
 	 * Logout, destroys session

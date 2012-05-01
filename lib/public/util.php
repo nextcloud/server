@@ -40,6 +40,15 @@ class Util {
 	const FATAL=4;
 
 	/**
+	 * get the current installed version of ownCloud
+	 * @return array
+	 */
+	public static function getVersion(){
+		return(\OC_Util::getVersion());
+	}
+
+
+	/**
 	 * send an email 
 	 *
 	 * @param string $toaddress
@@ -81,10 +90,38 @@ class Util {
 		\OC_Util::addStyle($application, $file);
         }
 
+	/**
+	 * add a javascript file
+	 *
+	 * @param appid  $application
+	 * @param filename  $file
+	 */
+	public static function addScript( $application, $file = null ){
+		\OC_Util::addScript($application, $file);
+        }
+
+	/**
+	 * @brief Add a custom element to the header
+	 * @param string tag tag name of the element
+	 * @param array $attributes array of attributes for the element
+	 * @param string $text the text content for the element
+	 */
+	public static function addHeader( $tag, $attributes, $text=''){
+		\OC_Util::addHeader($tag, $attribute, $text);
+	}
+
+	/**
+	 * formats a timestamp in the "right" way
+	 *
+	 * @param int timestamp $timestamp
+	 * @param bool dateOnly option to ommit time from the result
+	 */
+	public static function formatDate( $timestamp,$dateOnly=false){
+		return(\OC_Util::formatDate($timestamp,$dateOnly));
+	}
+
+
 
 }
-
-
-
 
 ?>

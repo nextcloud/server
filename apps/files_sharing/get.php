@@ -27,7 +27,7 @@ if ($source !== false) {
 		$files = array();
 		$rootLength = strlen($root);
 		foreach (OC_Files::getdirectorycontent($source) as $i) {
-			$i['date'] = OC_Util::formatDate($i['mtime'] );
+			$i['date'] = OCP\Util::formatDate($i['mtime'] );
 			if ($i['type'] == 'file') {
 				$fileinfo = pathinfo($i['name']);
 				$i['basename'] = $fileinfo['filename'];

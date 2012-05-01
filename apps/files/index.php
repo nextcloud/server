@@ -44,7 +44,7 @@ if(!OC_Filesystem::is_dir($dir.'/')) {
 
 $files = array();
 foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
-	$i["date"] = OC_Util::formatDate($i["mtime"] );
+	$i["date"] = OCP\Util::formatDate($i["mtime"] );
 	if($i['type']=='file'){
 		$fileinfo=pathinfo($i['name']);
 		$i['basename']=$fileinfo['filename'];

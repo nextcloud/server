@@ -96,7 +96,8 @@ class OC_Util {
 	/**
 	 * add a javascript file
 	 *
-	 * @param url  $url
+	 * @param appid  $application
+	 * @param filename  $file
 	 */
 	public static function addScript( $application, $file = null ){
 		if( is_null( $file )){
@@ -113,7 +114,8 @@ class OC_Util {
 	/**
 	 * add a css file
 	 *
-	 * @param url  $url
+	 * @param appid  $application
+	 * @param filename  $file
 	 */
 	public static function addStyle( $application, $file = null ){
 		if( is_null( $file )){

@@ -16,7 +16,7 @@ if( OCA_Versions\Storage::isversioned( $source ) ) {
 	
 	foreach ( $versions AS $version ) {
 	
-		$versionsFormatted[] = OC_Util::formatDate( $version );
+		$versionsFormatted[] = OCP\Util::formatDate( $version );
 		
 	}
 

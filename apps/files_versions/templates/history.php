@@ -22,7 +22,7 @@ if( isset( $_['message'] ) ) {
 	foreach ( $_['versions'] as $v ) {
 	
 		echo ' ';
-		echo OC_Util::formatDate( $v );
+		echo OCP\Util::formatDate( $v );
 		echo ' <a href="history.php?path='.urlencode( $_['path'] ).'&revert='. $v .'" class="button">Revert</a><br /><br />';
 		
 	}

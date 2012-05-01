@@ -33,7 +33,7 @@ if($doBreadcrumb){
 // make filelist
 $files = array();
 foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
-	$i["date"] = OC_Util::formatDate($i["mtime"] );
+	$i["date"] = OCP\Util::formatDate($i["mtime"] );
 	$files[] = $i;
 }
 

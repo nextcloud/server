@@ -53,10 +53,39 @@ class User {
 		return \OC_USER::isLoggedIn();
 	}
 
+	/**
+	 * @brief check if a user exists
+	 * @param string $uid the username
+	 * @return boolean
+	 */
+	public static function userExists($uid){
+		return \OC_USER::userExists($uid);
+	}
+
+	/**
+	 * @brief Loggs the user out including all the session data
+	 * @returns true
+	 *
+	 * Logout, destroys session
+	 */
+	public static function logout(){
+		return \OC_USER::logout();
+	}
+
+	/**
+	 * @brief Check if the password is correct
+	 * @param $uid The username
+	 * @param $password The password
+	 * @returns true/false
+	 *
+	 * Check if the password is correct without logging in the user
+	 */
+	public static function checkPassword( $uid, $password ){
+		return \OC_USER::checkPassword($uid, $password);
+	}
+
 
 }
-
-
 
 
 ?>
