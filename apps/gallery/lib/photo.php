@@ -46,9 +46,9 @@ class OC_Gallery_Photo {
 		return $stmt->execute(array($owner, $album_name));
 	}
 
-	public static function removeByPath($path) {
-		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE file_path LIKE ?');
-		$stmt->execute(array($path));
+  public static function removeByPath($path, $album_id) {
+    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE file_path LIKE ? and album_id = ?');
+		$stmt->execute(array($path, $album_id));
 	}
 
 	public static function removeById($id) {

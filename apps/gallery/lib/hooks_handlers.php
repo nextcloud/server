@@ -21,8 +21,8 @@
 * 
 */
 
-//OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, "OC_Gallery_Hooks_Handlers", "addPhotoFromPath");
-//OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_delete, "OC_Gallery_Hooks_Handlers", "removePhoto");
+OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, "OC_Gallery_Hooks_Handlers", "addPhotoFromPath");
+OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_delete, "OC_Gallery_Hooks_Handlers", "removePhoto");
 //OC_Hook::connect(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename, "OC_Gallery_Hooks_Handlers", "renamePhoto");
 
 require_once(OC::$CLASSPATH['OC_Gallery_Album']);
@@ -65,22 +65,37 @@ class OC_Gallery_Hooks_Handlers {
 
   public static function addPhotoFromPath($params) {
     $fullpath = $params[OC_Filesystem::signal_param_path];
+    $fullpath = rtrim(dirname($fullpath),'/').'/'.basename($fullpath);
 
     if (!self::isPhoto($fullpath)) return;
 
-    $path = dirname($fullpath);
-    if (!self::pathInRoot($path)) return;
-    OC_Gallery_Scanner::scanDir($path, $albums);
-
+    $a = OC_Gallery_Album::find(OC_User::getUser(), null, dirname($fullpath));
+    if (!($r = $a->fetchRow())) {
+      OC_Gallery_Album::create(OC_User::getUser(), basename(dirname($fullpath)), dirname($fullpath));
+      $a = OC_Gallery_Album::find(OC_User::getUser(), null, dirname($fullpath));
+      $r = $a->fetchRow();
+    }
+    $albumId = $r['album_id'];
+    $p = OC_Gallery_Album::find($albumId, $fullpath);
+    if (!($p->fetchRow()))
+      OC_Gallery_Photo::create($albumId, $fullpath);
   }
 
   public static function removePhoto($params) {
-    $path = $params[OC_Filesystem::signal_param_path];
-    if (OC_Filesystem::is_dir($path.'/') && self::directoryContainsPhotos($path)) {
-      if(!self::pathInRoot($path)) return;
-      OC_Gallery_Album::removeByPath($path, OC_User::getUser());
-    } elseif (self::isPhoto($path)) {
-      OC_Gallery_Photo::removeByPath($path);
+    $fullpath = $params[OC_Filesystem::signal_param_path];
+    $fullpath = rtrim(dirname($fullpath),'/').'/'.basename($fullpath);
+
+    if (OC_Filesystem::is_dir($fullpath)) {
+      OC_Gallery_Album::remove(OC_User::getUser(), null, $fullpath);
+    } elseif (self::isPhoto($fullpath)) {
+      $a = OC_Gallery_Album::find(OC_User::getUser(), null, rtrim(dirname($fullpath),'/'));
+      if (($r = $a->fetchRow())) {
+        OC_Gallery_Photo::removeByPath($fullpath, $r['album_id']);
+        $p = OC_Gallery_Photo::findForAlbum(OC_User::getUser(), $r['album_name']);
+        if (!($p->fetchRow())) {
+          OC_Gallery_Album::remove(OC_User::getUser(), null, dirname($fullpath));
+        }
+      }
     }
   }
 
