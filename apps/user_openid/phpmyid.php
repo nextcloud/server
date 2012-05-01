@@ -205,7 +205,7 @@ function authorize_mode () {
 
 	$profile['idp_url']=$IDENTITY;
 	if (isset($_SERVER['PHP_AUTH_USER']) && $profile['authorized'] === false && $_SERVER['PHP_AUTH_USER']==$USERNAME) {
-		if (OC_User::checkPassword($USERNAME, $_SERVER['PHP_AUTH_PW'])) {// successful login!
+		if (OCP\User::checkPassword($USERNAME, $_SERVER['PHP_AUTH_PW'])) {// successful login!
 			// return to the refresh url if they get in
 			$_SESSION['openid_auth']=true;
 			$_SESSION['openid_user']=$USERNAME;

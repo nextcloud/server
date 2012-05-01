@@ -35,7 +35,7 @@ switch($sharetype){
 		OC_JSON::error(array('message'=>'unexspected parameter'));
 		exit;
 }
-if($sharetype == 'user' && !OC_User::userExists($sharewith)){
+if($sharetype == 'user' && !OCP\User::userExists($sharewith)){
 	OC_JSON::error(array('message'=>'user not found'));
 	exit;
 }

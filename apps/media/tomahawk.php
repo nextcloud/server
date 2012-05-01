@@ -29,7 +29,7 @@ require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
 
 $user=isset($_POST['user'])?$_POST['user']:'';
 $pass=isset($_POST['pass'])?$_POST['pass']:'';
-if(OC_User::checkPassword($user,$pass)){
+if(OCP\User::checkPassword($user,$pass)){
 	OC_Util::setupFS($user);
 	OC_MEDIA_COLLECTION::$uid=$user;
 }else{

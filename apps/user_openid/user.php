@@ -39,7 +39,7 @@ $RUNTIME_NOAPPS=false;
 require_once '../../lib/base.php';
 OC_Util::checkAppEnabled('user_openid');
 
-if(!OC_User::userExists($USERNAME)){
+if(!OCP\User::userExists($USERNAME)){
 	OCP\Util::writeLog('user_openid',$USERNAME.' doesn\'t exist',OCP\Util::WARN);
 	$USERNAME='';
 }

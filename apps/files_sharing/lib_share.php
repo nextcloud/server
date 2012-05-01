@@ -51,7 +51,7 @@ class OC_Share {
 				$uid_shared_with = OC_Group::usersInGroup($gid);
 				// Remove the owner from the list of users in the group
 				$uid_shared_with = array_diff($uid_shared_with, array($uid_owner));
-			} else if (OC_User::userExists($uid_shared_with)) {
+			} else if (OCP\User::userExists($uid_shared_with)) {
 				$userGroups = OC_Group::getUserGroups($uid_owner);
 				// Check if the user is in one of the owner's groups
 				foreach ($userGroups as $group) {
