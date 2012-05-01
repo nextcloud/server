@@ -24,7 +24,7 @@ foreach ($sources as $source) {
 			echo $shared->getToken();
 		}
 	} catch (Exception $exception) {
-		OC\Util::writeLog('files_sharing',"Unexpected Error : ".$exception->getMessage(),OCP\Util::ERROR);
+		OCP\Util::writeLog('files_sharing',"Unexpected Error : ".$exception->getMessage(),OCP\Util::ERROR);
 		echo "false";
 	}
 }

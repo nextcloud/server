@@ -65,8 +65,8 @@ class OC_Contacts_VCard{
 				$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
-				OC\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
-				OC\Util::writeLog('contacts','OC_Contacts_VCard:all, ids: '. $id,OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all, ids: '. $id,OCP\Util::DEBUG);
 			}
 		}
 		$cards = array();
@@ -231,7 +231,7 @@ class OC_Contacts_VCard{
 			}
 			$n = implode(';', $slice).';;;';
 			$vcard->setString('N', $n);
-			OC\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'N\' field: '.$n,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'N\' field: '.$n,OCP\Util::DEBUG);
 		}
 		if(!$uid) {
 			$vcard->setUID();
