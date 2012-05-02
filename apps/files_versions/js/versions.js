@@ -9,30 +9,30 @@ $(document).ready(function() {
 });
 
 $(document).ready(function(){
-	
-	// Add history button to files/index.php
-	FileActions.register('file','History',function(){return OC.imagePath('core','actions/history')},function(filename){
-		
-		if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
-		
-		var file = $('#dir').val()+'/'+filename;
-		
-		createVersionsDropdown(filename, file)
+	if (typeof FileActions !== 'undefined') {
+		// Add history button to files/index.php
+		FileActions.register('file','History',function(){return OC.imagePath('core','actions/history')},function(filename){
 
-		$.ajax({
-			type: 'GET',
-			url: OC.linkTo('files_versions', 'ajax/getVersions.php'),
-			dataType: 'json',
-			data: {source: file},
-			async: false,
-			success: function(versions) {
-				if (versions) {
+			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
+
+			var file = $('#dir').val()+'/'+filename;
+
+			createVersionsDropdown(filename, file)
+
+			$.ajax({
+				type: 'GET',
+				url: OC.linkTo('files_versions', 'ajax/getVersions.php'),
+				dataType: 'json',
+				data: {source: file},
+				async: false,
+				success: function(versions) {
+					if (versions) {
+					}
 				}
-			}
+			});
+
 		});
-	
-	});
-	
+	}
 });
 
 function createVersionsDropdown(filename, files) {
