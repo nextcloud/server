@@ -49,6 +49,7 @@
 .task input.location{display:none;top:0;text-align:left;right:0.3em;background-color:white;color:#333333;}
 
 .task .more{display:none;margin-top:0.5em;}
+.task_less{display:none;}
 
 .task .description{position:relative;left:4em;}
 .task .due{position:absolute;right:0.3em;}

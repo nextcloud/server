@@ -22,6 +22,9 @@
 	<span class="task_more">
 		<img title="<?php echo $l->t('More') ?>" src="<?php echo image_path('core', 'actions/triangle-s.svg') ?>" class="svg"><?php echo $l->t('More') ?>
 	</span>
+	<span class="task_less">
+		<img title="<?php echo $l->t('Less') ?>" src="<?php echo image_path('core', 'actions/triangle-n.svg') ?>" class="svg"><?php echo $l->t('Less') ?>
+	</span>
 </p>
 <script type='text/javascript'>
 var categories = <?php echo json_encode($_['categories']); ?>;

@@ -50,18 +50,17 @@ OC.Tasks = {
 				.text(task.location)
 				.appendTo(task_container);
 		}
-		if (task.categories.length > 0) {
-			var categories = $('<div>')
-					.addClass('categories')
-					.appendTo(task_container);
-			$(task.categories).each(function(i, category){
-					categories.append($('<a>')
-						.addClass('tag')
-						.text(category)
-					);
-			});
-		}
+		var $categories = $('<div>')
+				.addClass('categories')
+				.appendTo(task_container);
+		$(task.categories).each(function(i, category){
+				$categories.append($('<a>')
+					.addClass('tag')
+					.text(category)
+				);
+		});
 		task_container.find('.task_more').click(OC.Tasks.moreClickHandler);
+		task_container.find('.task_less').click(OC.Tasks.lessClickHandler);
 		var description = $('<textarea>')
 			.addClass('description')
 			.blur(function(){
@@ -113,6 +112,13 @@ OC.Tasks = {
 				$.post('ajax/update_property.php', {id:task.id, type:'categories', categories:categories}, function(jsondata){
 					if(jsondata.status == 'success') {
 						task.categories = categories.split(',');
+						$categories.empty();
+						$(task.categories).each(function(i, category){
+							$categories.append($('<a>')
+								.addClass('tag')
+								.text(category)
+								);
+							});
 					}
 				});
 			})
@@ -126,6 +132,7 @@ OC.Tasks = {
 				$.post('ajax/update_property.php', {id:task.id, type:'location', location:location}, function(jsondata){
 					if(jsondata.status == 'success') {
 						task.location = location;
+						task_container.find('.location').text(location);
 					}
 				});
 			})
@@ -248,10 +255,23 @@ OC.Tasks = {
 		var $task = $(this).closest('.task'),
 			task = $task.data('task');
 		$task.find('.more').show();
+		$task.find('.task_more').hide();
+		$task.find('.task_less').show();
 		$task.find('div.categories').hide();
 		$task.find('input.categories').show();
 		$task.find('div.location').hide();
 		$task.find('input.location').show();
+	},
+	lessClickHandler:function(event){
+		var $task = $(this).closest('.task'),
+			task = $task.data('task');
+		$task.find('.more').hide();
+		$task.find('.task_more').show();
+		$task.find('.task_less').hide();
+		$task.find('div.categories').show();
+		$task.find('input.categories').hide();
+		$task.find('div.location').show();
+		$task.find('input.location').hide();
 	},
 	complete_task:function() {
 		var $task = $(this).closest('.task'),
