@@ -64,6 +64,9 @@ class OC_Contacts_Hooks{
 		OC_Contacts_App::getAddressbook($aid);
 		foreach(OC_Contacts_VCard::all($aid) as $card){
 			$vcard = OC_VObject::parse($card['carddata']);
+			if (!$vcard) {
+				continue;
+			}
 			$birthday = $vcard->BDAY;
 			if ($birthday) {
 				$date = new DateTime($birthday);
