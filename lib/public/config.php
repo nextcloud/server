@@ -63,6 +63,34 @@ class Config {
 	}
 
 
+        /**
+         * @brief Gets the config value
+         * @param $app app
+         * @param $key key
+         * @param $default = null, default value if the key does not exist
+         * @returns the value or $default
+         *
+         * This function gets a value from the appconfig table. If the key does
+         * not exist the default value will be returnes
+         */
+        public static function getAppValue( $app, $key, $default = null ){
+		return(\OC_Appconfig::getValue( $app, $key, $default ));
+	}
+
+
+        /**
+         * @brief sets a value in the appconfig
+         * @param $app app
+         * @param $key key
+         * @param $value value
+         * @returns true/false
+         *
+         * Sets a value. If the key did not exist before it will be created.
+         */
+        public static function setAppValue( $app, $key, $value ){
+		return(\OC_Appconfig::setValue( $app, $key, $value ));
+	}
+
 
 
 }

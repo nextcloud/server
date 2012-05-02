@@ -36,13 +36,13 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 */
 	private static function shouldEncrypt($path){
 		if(is_null(self::$enableEncryption)){
-			self::$enableEncryption=(OC_Appconfig::getValue('files_encryption','enable_encryption','true')=='true');
+			self::$enableEncryption=(OCP\Config::getAppValue('files_encryption','enable_encryption','true')=='true');
 		}
 		if(!self::$enableEncryption){
 			return false;
 		}
 		if(is_null(self::$blackList)){
-			self::$blackList=explode(',',OC_Appconfig::getValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
+			self::$blackList=explode(',',OCP\Config::getAppValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
 		}
 		if(self::isEncrypted($path)){
 			return true;

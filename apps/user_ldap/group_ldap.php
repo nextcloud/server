@@ -26,7 +26,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	protected $ldapGroupFilter;
 
 	public function __construct() {
-		$this->ldapGroupFilter      = OC_Appconfig::getValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
+		$this->ldapGroupFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
 	}
 
 	/**

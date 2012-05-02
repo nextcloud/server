@@ -11,7 +11,7 @@ OC_Hook::connect('OC_User', 'post_deleteUser', 'OC_Share', 'removeUser');
 OC_Hook::connect('OC_User', 'post_addToGroup', 'OC_Share', 'addToGroupShare');
 OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OC_Share', 'removeFromGroupShare');
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '/';
-if ($dir != '/Shared' || OC_Appconfig::getValue('files_sharing', 'resharing', 'yes') == 'yes') {
+if ($dir != '/Shared' || OCP\Config::getAppValue('files_sharing', 'resharing', 'yes') == 'yes') {
 	OCP\Util::addscript("files_sharing", "share");
 }
 OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");

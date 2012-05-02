@@ -1,6 +1,6 @@
 <?php
 
-$installedVersion=OC_Appconfig::getValue('calendar', 'installed_version');
+$installedVersion=OCP\Config::getAppValue('calendar', 'installed_version');
 if (version_compare($installedVersion, '0.2.1', '<')) {
 	$stmt = OC_DB::prepare( 'SELECT id, calendarcolor FROM *PREFIX*calendar_calendars WHERE calendarcolor IS NOT NULL' );
 	$result = $stmt->execute();

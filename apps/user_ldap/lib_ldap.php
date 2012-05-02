@@ -539,18 +539,18 @@ class OC_LDAP {
 	 */
 	static private function readConfiguration() {
 		if(!self::$configured) {
-			self::$ldapHost             = OC_Appconfig::getValue('user_ldap', 'ldap_host', '');
-			self::$ldapPort             = OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
-			self::$ldapAgentName        = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
-			self::$ldapAgentPassword    = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
-			self::$ldapBase             = OC_Appconfig::getValue('user_ldap', 'ldap_base', '');
-			self::$ldapBaseUsers        = OC_Appconfig::getValue('user_ldap', 'ldap_base_users',self::$ldapBase);
-			self::$ldapBaseGroups       = OC_Appconfig::getValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
-			self::$ldapTLS              = OC_Appconfig::getValue('user_ldap', 'ldap_tls',0);
-			self::$ldapNoCase           = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
-			self::$ldapUserDisplayName  = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
-			self::$ldapUserFilter       = OC_Appconfig::getValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
-			self::$ldapGroupDisplayName = OC_Appconfig::getValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR);
+			self::$ldapHost             = OCP\Config::getAppValue('user_ldap', 'ldap_host', '');
+			self::$ldapPort             = OCP\Config::getAppValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
+			self::$ldapAgentName        = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
+			self::$ldapAgentPassword    = OCP\Config::getAppValue('user_ldap', 'ldap_password','');
+			self::$ldapBase             = OCP\Config::getAppValue('user_ldap', 'ldap_base', '');
+			self::$ldapBaseUsers        = OCP\Config::getAppValue('user_ldap', 'ldap_base_users',self::$ldapBase);
+			self::$ldapBaseGroups       = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
+			self::$ldapTLS              = OCP\Config::getAppValue('user_ldap', 'ldap_tls',0);
+			self::$ldapNoCase           = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
+			self::$ldapUserDisplayName  = OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
+			self::$ldapUserFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
+			self::$ldapGroupDisplayName = OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR);
 
 			if(
 				   !empty(self::$ldapHost)

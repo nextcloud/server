@@ -45,19 +45,19 @@ class OC_USER_LDAP extends OC_User_Backend {
 	protected $ldap_dc = false;
 
 	function __construct() {
-		$this->ldap_host = OC_Appconfig::getValue('user_ldap', 'ldap_host','');
-		$this->ldap_port = OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT	);
-		$this->ldap_dn = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
-		$this->ldap_password = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
-		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
-		$this->ldap_login_filter = OC_Appconfig::getValue('user_ldap', 'ldap_login_filter','');
-		$this->ldap_userlist_filter = OC_Appconfig::getValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
-		$this->ldap_tls = OC_Appconfig::getValue('user_ldap', 'ldap_tls', 0);
-		$this->ldap_nocase = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
-		$this->ldap_display_name = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
-		$this->ldap_quota_attr = OC_Appconfig::getValue('user_ldap', 'ldap_quota_attr','');
-		$this->ldap_quota_def = OC_Appconfig::getValue('user_ldap', 'ldap_quota_def','');
-		$this->ldap_email_attr = OC_Appconfig::getValue('user_ldap', 'ldap_email_attr','');
+		$this->ldap_host = OCP\Config::getAppValue('user_ldap', 'ldap_host','');
+		$this->ldap_port = OCP\Config::getAppValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT	);
+		$this->ldap_dn = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
+		$this->ldap_password = OCP\Config::getAppValue('user_ldap', 'ldap_password','');
+		$this->ldap_base = OCP\Config::getAppValue('user_ldap', 'ldap_base','');
+		$this->ldap_login_filter = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter','');
+		$this->ldap_userlist_filter = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
+		$this->ldap_tls = OCP\Config::getAppValue('user_ldap', 'ldap_tls', 0);
+		$this->ldap_nocase = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
+		$this->ldap_display_name = OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
+		$this->ldap_quota_attr = OCP\Config::getAppValue('user_ldap', 'ldap_quota_attr','');
+		$this->ldap_quota_def = OCP\Config::getAppValue('user_ldap', 'ldap_quota_def','');
+		$this->ldap_email_attr = OCP\Config::getAppValue('user_ldap', 'ldap_email_attr','');
 
 		if( !empty($this->ldap_host)
 			&& !empty($this->ldap_port)

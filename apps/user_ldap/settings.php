@@ -28,14 +28,14 @@ OCP\Util::addStyle('user_ldap', 'settings');
 if ($_POST) {
 	foreach($params as $param){
 		if(isset($_POST[$param])){
-			OC_Appconfig::setValue('user_ldap', $param, $_POST[$param]);
+			OCP\Config::setAppValue('user_ldap', $param, $_POST[$param]);
 		}
 		elseif('ldap_tls' == $param) {
 			// unchecked checkboxes are not included in the post paramters
-				OC_Appconfig::setValue('user_ldap', $param, 0);
+				OCP\Config::setAppValue('user_ldap', $param, 0);
 		}
 		elseif('ldap_nocase' == $param) {
-			OC_Appconfig::setValue('user_ldap', $param, 0);
+			OCP\Config::setAppValue('user_ldap', $param, 0);
 		}
 
 	}
@@ -44,12 +44,12 @@ if ($_POST) {
 // fill template
 $tmpl = new OC_Template( 'user_ldap', 'settings');
 foreach($params as $param){
-		$value = OC_Appconfig::getValue('user_ldap', $param,'');
+		$value = OCP\Config::getAppValue('user_ldap', $param,'');
 		$tmpl->assign($param, $value);
 }
 
 // settings with default values
-$tmpl->assign( 'ldap_port', OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT));
-$tmpl->assign( 'ldap_display_name', OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME));
+$tmpl->assign( 'ldap_port', OCP\Config::getAppValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT));
+$tmpl->assign( 'ldap_display_name', OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME));
 
 return $tmpl->fetchPage();
