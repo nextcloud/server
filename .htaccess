@@ -1,5 +1,9 @@
 ErrorDocument 403 /core/templates/403.php
 ErrorDocument 404 /core/templates/404.php
+Redirect 301 /apps/calendar/caldav.php /remote/caldav.php
+Redirect 301 /apps/contacts/carddav.php /remote/carddav.php
+Redirect 301 /apps/files/webdav.php /remote/webdav.php
+Redirect 301 /files/webdav.php /remote/webdav.php
 <IfModule mod_php5.c>
 php_value upload_max_filesize 512M
 php_value post_max_size 512M
@@ -11,7 +15,7 @@ php_value memory_limit 512M
 <IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]
-RewriteRule ^.well-known/carddav /apps/contacts/carddav.php [R]
-RewriteRule ^.well-known/caldav /apps/calendar/caldav.php [R]
+RewriteRule ^.well-known/carddav /remote/carddav.php [R]
+RewriteRule ^.well-known/caldav /remote/caldav.php [R]
 </IfModule>
 Options -Indexes

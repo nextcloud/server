@@ -44,7 +44,7 @@ if($not_installed) {
 
 // Handle WebDAV
 if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
-	header('location: '.OC_Helper::linkToAbsolute('files','webdav.php'));
+	header('location: '.OC_Helper::linkToAbsolute('remote','webdav.php'));
 	exit();
 }
 

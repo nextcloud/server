@@ -1,12 +1,9 @@
 <?php
-
 /**
- * ownCloud
+ * ownCloud - Addressbook
  *
- * @author Frank Karlitschek
  * @author Jakob Sack
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
- * @copyright 2011 Jakob Sack kde@jakobsack.de
+ * @copyright 2011 Jakob Sack mail@jakobsack.de
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -22,30 +19,30 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
-require_once('../inc.php');
+require_once('../lib/base.php');
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem','authentication');
-
- 
+OC_Util::checkAppEnabled('contacts');
 
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();
-$lockBackend = new OC_Connector_Sabre_Locks();
+$principalBackend = new OC_Connector_Sabre_Principal();
+$carddavBackend   = new OC_Connector_Sabre_CardDAV();
 
-// Create ownCloud Dir
-$publicDir = new OC_Connector_Sabre_Directory('');
+// Root nodes
+$nodes = array(
+	new Sabre_CalDAV_Principal_Collection($principalBackend),
+	new Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend),
+);
 
 // Fire up server
-$server = new Sabre_DAV_Server($publicDir);
-$server->setBaseUri(OC::$APPSWEBROOT.'/apps/files/webdav.php');
-
-// Load plugins
+$server = new Sabre_DAV_Server($nodes);
+$server->setBaseUri(OC::$WEBROOT.'/remote/carddav.php');
+// Add plugins
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
-$server->addPlugin(new Sabre_DAV_Locks_Plugin($lockBackend));
+$server->addPlugin(new Sabre_CardDAV_Plugin());
+$server->addPlugin(new Sabre_DAVACL_Plugin());
 $server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
 
 // And off we go!
