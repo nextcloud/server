@@ -21,7 +21,7 @@
  *
  */
 OCP\User::checkAdminUser();
-OC_Util::checkAppEnabled('user_migrate');
+OCP\App::checkAppEnabled('user_migrate');
 
 // Import?
 if (isset($_POST['user_import'])) {

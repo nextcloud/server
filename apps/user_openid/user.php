@@ -37,7 +37,7 @@ if($USERNAME=='' and isset($_SERVER['PHP_AUTH_USER'])){
 $RUNTIME_NOAPPS=true;
 $RUNTIME_NOAPPS=false;
 require_once '../../lib/base.php';
-OC_Util::checkAppEnabled('user_openid');
+OCP\App::checkAppEnabled('user_openid');
 
 if(!OCP\User::userExists($USERNAME)){
 	OCP\Util::writeLog('user_openid',$USERNAME.' doesn\'t exist',OCP\Util::WARN);

@@ -25,7 +25,7 @@
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
-OC_Util::checkAppEnabled('user_migrate');
+OCP\App::checkAppEnabled('user_migrate');
 // Which operation
 if( $_GET['operation']=='create' ){
 	$uid = !empty( $_POST['uid'] ) ? $_POST['uid'] :  OCP\USER::getUser();

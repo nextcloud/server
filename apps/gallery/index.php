@@ -24,7 +24,7 @@
 
 
 OCP\User::checkLoggedIn();
-OC_Util::checkAppEnabled('gallery');
+OCP\App::checkAppEnabled('gallery');
 OCP\App::setActiveNavigationEntry( 'gallery_index' );
 
 if (!file_exists(OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery')) {

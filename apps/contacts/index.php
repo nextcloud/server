@@ -10,7 +10,7 @@
 
 // Check if we are a user
 OCP\User::checkLoggedIn();
-OC_Util::checkAppEnabled('contacts');
+OCP\App::checkAppEnabled('contacts');
 
 // Get active address books. This creates a default one if none exists.
 $ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());

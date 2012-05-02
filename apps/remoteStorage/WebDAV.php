@@ -30,7 +30,7 @@
 $RUNTIME_NOSETUPFS = true;
 
 
-OC_Util::checkAppEnabled('remoteStorage');
+OCP\App::checkAppEnabled('remoteStorage');
 require_once('Sabre/autoload.php');
 require_once('lib_remoteStorage.php');
 require_once('BearerAuth.php');

@@ -27,7 +27,7 @@ if (!isset($_GET['token']) || empty($_GET['token'])) {
 
 
 
-OC_Util::checkAppEnabled('gallery');
+OCP\App::checkAppEnabled('gallery');
 
 ?>
 <!doctype html>

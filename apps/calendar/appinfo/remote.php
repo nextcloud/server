@@ -9,7 +9,7 @@
 $RUNTIME_NOSETUPFS = true;
 require_once('../lib/base.php');
 
-OC_Util::checkAppEnabled('calendar');
+OCP\App::checkAppEnabled('calendar');
 
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();

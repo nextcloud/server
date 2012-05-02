@@ -24,7 +24,7 @@
 require_once('lib_share.php');
 
 OCP\User::checkLoggedIn();
-OC_Util::checkAppEnabled('files_sharing');
+OCP\App::checkAppEnabled('files_sharing');
 
 OCP\App::setActiveNavigationEntry("files_sharing_list");
 

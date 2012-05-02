@@ -23,7 +23,7 @@
  *
  */
 OCP\User::checkAdminUser();
-OC_Util::checkAppEnabled('admin_migrate');
+OCP\App::checkAppEnabled('admin_migrate');
 
 // Export?
 if (isset($_POST['admin_export'])) {

@@ -8,7 +8,7 @@
 
  
 OCP\User::checkLoggedIn();
-OC_Util::checkAppEnabled('calendar');
+OCP\App::checkAppEnabled('calendar');
 
 // Create default calendar ...
 $calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);

@@ -25,7 +25,7 @@
 
 // Check if we are a user
 OCP\User::checkLoggedIn();
-OC_Util::checkAppEnabled('bookmarks');
+OCP\App::checkAppEnabled('bookmarks');
 
 OCP\App::setActiveNavigationEntry( 'bookmarks_index' );
 

@@ -8,7 +8,7 @@
 //check for calendar rights or create new one
 ob_start();
 OC_JSON::checkLoggedIn();
-OC_Util::checkAppEnabled('calendar');
+OCP\App::checkAppEnabled('calendar');
 $nl="\r\n";
 $comps = array('VEVENT'=>true, 'VTODO'=>true, 'VJOURNAL'=>true);
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';

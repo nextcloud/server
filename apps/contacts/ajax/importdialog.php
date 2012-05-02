@@ -8,7 +8,7 @@
 
  
 OC_JSON::checkLoggedIn();
-OC_Util::checkAppEnabled('contacts');
+OCP\App::checkAppEnabled('contacts');
 $tmpl = new OC_Template('contacts', 'part.import');
 $tmpl->assign('path', $_POST['path']);
 $tmpl->assign('filename', $_POST['filename']);

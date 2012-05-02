@@ -11,7 +11,7 @@
 // Init owncloud
 
 OCP\User::checkLoggedIn();
-OC_Util::checkAppEnabled('contacts');
+OCP\App::checkAppEnabled('contacts');
 
 function getStandardImage(){
 	OC_Response::setExpiresHeader('P10D');
