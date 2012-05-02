@@ -64,7 +64,7 @@ class OC_App{
 		// The rest comes here
 		$apps = self::getEnabledApps();
 		foreach( $apps as $app ){
-			if((is_null($types) or self::isType($app,$types)) and $app<>'files'){
+			if((is_null($types) or self::isType($app,$types))){
 				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
 					require( $app.'/appinfo/app.php' );
 				}
@@ -421,7 +421,6 @@ class OC_App{
 				$source=self::$settingsForms;
 				break;
 			case 'admin':
-				$forms[] = include 'files/admin.php';   //hardcode own apps
 				$source=self::$adminForms;
 				break;
 			case 'personal':
