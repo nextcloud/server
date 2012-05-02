@@ -9,9 +9,9 @@
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
 #leftcontent a { height: 23px; display: block; margin: 0 0 0 0; padding: 0 0 0 25px; }
 #actionbar { height: 30px; width: 60px; position: fixed; right: 0px; top: 4em; margin: 0 0 0 0; padding: 0 0 0 0; z-index: 1000; }
-#contacts_deletecard {position:absolute;top:15px;right:25px;}
-#contacts_downloadcard {position:absolute;top:15px;right:50px;}
-#contacts_propertymenu_button { position:absolute;top:15px;right:150px; background:url('%webroot%/core/img/actions/add.svg') no-repeat center;	 }
+#contacts_deletecard {position:absolute;top:15px;right:25px; background:url('%webroot%/core/img/actions/delete.svg') no-repeat center; }
+#contacts_downloadcard {position:absolute;top:15px;right:50px; background:url('%webroot%/core/img/actions/download.svg') no-repeat center; }
+#contacts_propertymenu_button { position:absolute;top:15px;right:150px; background:url('%webroot%/core/img/actions/add.svg') no-repeat center; }
 #contacts_propertymenu { background-color: #fff; position:absolute;top:40px;right:150px; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
 #contacts_propertymenu li { display: block; font-weight: bold; height: 20px; width: 100px; }
 #contacts_propertymenu li a { padding: 3px; display: block }
@@ -38,6 +38,7 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .loading { background: url('%webroot%/core/img/loading.gif') no-repeat center !important; /*cursor: progress; */ cursor: wait; }
 .ui-autocomplete-loading { background: url('%webroot%/core/img/loading.gif') right center no-repeat; }
 .float { float: left; }
+.action { border: inherit; background: inherit; }
 .listactions { height: 1em; width:60px; float: left; clear: right; }
 .add,.edit,.delete,.mail, .globe, .upload, .cloud { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; opacity: 0.1; }
 .add:hover,.edit:hover,.delete:hover,.mail:hover, .globe:hover, .upload:hover, .cloud:hover { opacity: 1.0 }
@@ -79,6 +80,7 @@ dl.addresscard dd {}
 dl.addresscard dt { padding: 0.3em; /*border-bottom: thin solid lightgray;*/ font-weight: bold; clear: both; color: #bbb;}
 dl.addresscard dt:hover { color:#777; }
 dl.addresscard dd > ul { margin: 0.3em; padding: 0.3em; }
+dl.addresscard .action { float: right; }
 #adr_type {} /* Select */
 #adr_pobox {}
 #adr_extended {}
@@ -96,7 +98,7 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .huge { font-weight:bold; font-size:1.5em; }
 .propertycontainer dd { float: left; width: 25em; }
 .propertylist { clear: none; max-width: 28em; }
-.propertylist li.propertycontainer { /*background-color: cyan; */ min-width: 25em; /*max-width: 30em;*/ display: block; clear: right; }
+.propertylist li.propertycontainer { white-space: nowrap; min-width: 35em; /*max-width: 30em;*/ display: block; clear: right; }
 .propertylist li > input[type="text"],input[type="email"],input[type="tel"] { float: left; max-width: 15em; }
 .propertylist li > input[type="checkbox"],input[type="radio"] { float: left; clear: left; width: 20px; height: 20px; vertical-align: middle; }
 .propertylist li > select { float: left; max-width: 8em; }

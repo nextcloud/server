@@ -21,6 +21,7 @@ function debug($msg) {
 $tmpl = new OC_TEMPLATE("contacts", "part.edit_name_dialog");
 
 $id = isset($_GET['id'])?$_GET['id']:'';
+debug('id: '.$id);
 if($id) {
 	$vcard = OC_Contacts_App::getContactVCard($id);
 	$name = array('', '', '', '', '');
@@ -33,8 +34,9 @@ if($id) {
 	$tmpl->assign('name',$name);
 	$tmpl->assign('id',$id);
 } else {
-	$addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
-	$tmpl->assign('addressbooks', $addressbooks);
+	bailOut(OC_Contacts_App::$l10n->t('Contact ID is missing.'));
+	//$addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
+	//$tmpl->assign('addressbooks', $addressbooks);
 }
 $tmpl->printpage();
 
