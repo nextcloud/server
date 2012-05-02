@@ -41,6 +41,7 @@ class App {
 		return \OC_USER::getUser();
 	}
 
+
         /**
          * @brief makes owncloud aware of this app
          * @param $data array with all information
@@ -60,7 +61,6 @@ class App {
         public static function register( $data ){
 		return \OC_App::register( $data );
         }
-
 
 
 	/**
@@ -92,6 +92,7 @@ class App {
 		return \OC_App::addNavigationEntry($data);
 	}
 
+
         /**
          * @brief Read app metadata from the info.xml file
          * @param string $appid id of the app or the path of the info.xml file
@@ -101,6 +102,7 @@ class App {
         public static function getAppInfo($appid,$path=false){
 		return \OC_App::getAppInfo($appid,$path);
 	}
+
 
         /**
          * register a personal form to be shown
@@ -123,6 +125,7 @@ class App {
 		return \OC_App::setActiveNavigationEntry($id);
 	}
 
+
         /**
          * @brief checks whether or not an app is enabled
          * @param $app app
@@ -134,12 +137,22 @@ class App {
 		return \OC_App::isEnabled( $app );
 	}
 
+
+        /**
+        * Check if the app is enabled, redirects to home if not
+        */
+        public static function checkAppEnabled($app){
+                return \OC_Util::checkAppEnabled( $app );
+        }
+
+
         /**
          * get the last version of the app, either from appinfo/version or from appinfo/info.xml
          */
         public static function getAppVersion($appid){
 		return \OC_App::getAppVersion( $appid );
 	}
+
 
         /**
          * @param string appid
