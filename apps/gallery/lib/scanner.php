@@ -81,7 +81,7 @@ class OC_Gallery_Scanner {
 				$image->destroy();
 			}
 		}
-		imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery/' . $albumName.'.png');
+		imagepng($thumbnail, OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery/' . $albumName.'.png');
 		imagedestroy($thumbnail);
 	}
 

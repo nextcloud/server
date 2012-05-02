@@ -80,7 +80,7 @@ function handleGetThumbnail($token, $imgpath) {
 function handleGetAlbumThumbnail($token, $albumname)
 {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
-  $file = OC_Config::getValue("datadirectory").'/'. $owner .'/gallery/'.$albumname.'.png';
+  $file = OCP\Config::getSystemValue("datadirectory").'/'. $owner .'/gallery/'.$albumname.'.png';
   $image = new OC_Image($file);
   if ($image->valid()) {
     $image->centerCrop();
@@ -93,7 +93,7 @@ function handleGetAlbumThumbnail($token, $albumname)
 
 function handleGetPhoto($token, $photo) {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
-  $file = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$owner.'/files'.urldecode($photo);
+  $file = OCP\Config::getSystemValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$owner.'/files'.urldecode($photo);
   header('Content-Type: '.OC_Image::getMimeTypeForFile($file));
   OC_Response::sendFile($file);
 }

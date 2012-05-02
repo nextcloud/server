@@ -30,7 +30,7 @@ if (isset($_POST['user_import'])) {
 	$importname = "owncloud_import_" . date("y-m-d_H-i-s");
 	
 	// Save data dir for later
-	$datadir = OC_Config::getValue( 'datadirectory' );
+	$datadir = OCP\Config::getSystemValue( 'datadirectory' );
 	
 	// Copy the uploaded file
 	$from = $_FILES['owncloud_import']['tmp_name'];

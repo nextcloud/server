@@ -72,7 +72,7 @@ function getURLMetadata($url) {
 }
 
 function addBookmark($url, $title, $tags='') {
-	$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+	$CONFIG_DBTYPE = OCP\Config::getSystemValue( "dbtype", "sqlite" );
 	if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 		$_ut = "strftime('%s','now')";
 	} elseif($CONFIG_DBTYPE == 'pgsql') {

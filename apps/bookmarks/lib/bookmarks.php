@@ -35,7 +35,7 @@ class OC_Bookmarks_Bookmarks{
 	 */
 	public static function findBookmarks($offset, $sqlSortColumn, $filter, $filterTagOnly){
 		//OCP\Util::writeLog('bookmarks', 'findBookmarks ' .$offset. ' '.$sqlSortColumn.' '. $filter.' '. $filterTagOnly ,OCP\Util::DEBUG);
-		$CONFIG_DBTYPE = OC_Config::getValue( 'dbtype', 'sqlite' );
+		$CONFIG_DBTYPE = OCP\Config::getSystemValue( 'dbtype', 'sqlite' );
 	
 		$params=array(OCP\USER::getUser());
 	

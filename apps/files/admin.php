@@ -40,14 +40,14 @@ if($_POST) {
 	}
 	if(isset($_POST['maxZipInputSize'])) {
 		$maxZipInputSize=$_POST['maxZipInputSize'];
-		OC_Config::setValue('maxZipInputSize', OCP\Util::computerFileSize($maxZipInputSize));
+		OCP\Config::setSystemValue('maxZipInputSize', OCP\Util::computerFileSize($maxZipInputSize));
 	}
 	if(isset($_POST['submitFilesAdminSettings'])) {
-		OC_Config::setValue('allowZipDownload', isset($_POST['allowZipDownload']));
+		OCP\Config::setSystemValue('allowZipDownload', isset($_POST['allowZipDownload']));
 	}
 }
-$maxZipInputSize = OCP\Util::humanFileSize(OC_Config::getValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB')));
-$allowZipDownload = intval(OC_Config::getValue('allowZipDownload', true));
+$maxZipInputSize = OCP\Util::humanFileSize(OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB')));
+$allowZipDownload = intval(OCP\Config::getSystemValue('allowZipDownload', true));
 
 OCP\App::setActiveNavigationEntry( "files_administration" );
 

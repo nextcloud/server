@@ -42,9 +42,9 @@ class Storage {
 	 * init the versioning and create the versions folder.
 	 */
 	public static function init() {
-		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			// create versions folder
-			$foldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$foldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			if(!is_dir($foldername)){
 				mkdir($foldername);
 			}
@@ -56,7 +56,7 @@ class Storage {
 	 * listen to write event.
 	 */
 	public static function write_hook($params) {
-		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			$path = $params[\OC_Filesystem::signal_param_path];
 			if($path<>'') Storage::store($path);
 		}
@@ -68,9 +68,9 @@ class Storage {
 	 * store a new version of a file.
 	 */
 	public static function store($filename) {
-		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
-			$filesfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
+		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
 			Storage::init();
 
 			// check if filename is a directory
@@ -79,7 +79,7 @@ class Storage {
 			}
 
 			// check filetype blacklist
-			$blacklist=explode(' ',\OC_Config::getValue('files_versionsblacklist', Storage::DEFAULTBLACKLIST));
+			$blacklist=explode(' ',\OCP\Config::getSystemValue('files_versionsblacklist', Storage::DEFAULTBLACKLIST));
 			foreach($blacklist as $bl) {
 				$parts=explode('.', $filename);
 				$ext=end($parts);
@@ -89,7 +89,7 @@ class Storage {
 			}
 			
 			// check filesize
-			if(filesize($filesfoldername.$filename)>\OC_Config::getValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)){
+			if(filesize($filesfoldername.$filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)){
 				return false;
 			}
 
@@ -122,11 +122,11 @@ class Storage {
 	 */
 	public static function rollback($filename,$revision) {
 	
-		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 		
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			
-			$filesfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
+			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
 			
 			// rollback
 			if ( @copy($versionsfoldername.$filename.'.v'.$revision,$filesfoldername.$filename) ) {
@@ -147,8 +147,8 @@ class Storage {
 	 * check if old versions of a file exist.
 	 */
 	public static function isversioned($filename) {
-		if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 
 			// check for old versions
 			$matches=glob($versionsfoldername.$filename.'.v*');
@@ -168,8 +168,8 @@ class Storage {
          * get a list of old versions of a file.
          */
         public static function getversions($filename,$count=0) {
-                if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+                if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			$versions=array();         
  
 	              // fetch for old versions
@@ -199,14 +199,14 @@ class Storage {
          * expire old versions of a file.
          */
         public static function expire($filename) {
-                if(\OC_Config::getValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+                if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 
-			$versionsfoldername=\OC_Config::getValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OC_Config::getValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 
 			// check for old versions
 			$matches=glob($versionsfoldername.$filename.'.v*');
-			if(count($matches)>\OC_Config::getValue('files_versionmaxversions', Storage::DEFAULTMAXVERSIONS)){
-				$numbertodelete=count($matches-\OC_Config::getValue('files_versionmaxversions', Storage::DEFAULTMAXVERSIONS));
+			if(count($matches)>\OCP\Config::getSystemValue('files_versionmaxversions', Storage::DEFAULTMAXVERSIONS)){
+				$numbertodelete=count($matches-\OCP\Config::getSystemValue('files_versionmaxversions', Storage::DEFAULTMAXVERSIONS));
 
 				// delete old versions of a file
 				$deleteitems=array_slice($matches,0,$numbertodelete);
