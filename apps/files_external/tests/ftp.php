@@ -23,7 +23,7 @@ if(!is_array($config) or !isset($config['ftp']) or !$config['ftp']['run']){
 		}
 
 		public function tearDown(){
-			OCP\Util::rmdirr($this->instance->constructUrl(''));
+			OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
 	}
 }

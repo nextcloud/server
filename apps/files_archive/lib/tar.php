@@ -93,7 +93,7 @@ class OC_Archive_TAR extends OC_Archive{
 	 */
 	function rename($source,$dest){
 		//no proper way to delete, rename entire archive, rename file and remake archive
-		$tmp=OCP\Util::tmpFolder();
+		$tmp=OCP\Files::tmpFolder();
 		$this->tar->extract($tmp);
 		rename($tmp.$source,$tmp.$dest);
 		$this->tar=null;
@@ -177,7 +177,7 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @return bool
 	 */
 	function extractFile($path,$dest){
-		$tmp=OCP\Util::tmpFolder();
+		$tmp=OCP\Files::tmpFolder();
 		if(!$this->fileExists($path)){
 			return false;
 		}
@@ -185,7 +185,7 @@ class OC_Archive_TAR extends OC_Archive{
 		if($success){
 			rename($tmp.$path,$dest);
 		}
-		OCP\Util::rmdirr($tmp);
+		OCP\Files::rmdirr($tmp);
 		return $success;
 	}
 	/**
@@ -216,9 +216,9 @@ class OC_Archive_TAR extends OC_Archive{
 			return false;
 		}
 		//no proper way to delete, extract entire archive, delete file and remake archive
-		$tmp=OCP\Util::tmpFolder();
+		$tmp=OCP\Files::tmpFolder();
 		$this->tar->extract($tmp);
-		OCP\Util::rmdirr($tmp.$path);
+		OCP\Files::rmdirr($tmp.$path);
 		$this->tar=null;
 		unlink($this->path);
 		$this->reopen();
@@ -237,7 +237,7 @@ class OC_Archive_TAR extends OC_Archive{
 		}else{
 			$ext='';
 		}
-		$tmpFile=OCP\Util::tmpFile($ext);
+		$tmpFile=OCP\Files::tmpFile($ext);
 		if($this->fileExists($path)){
 			$this->extractFile($path,$tmpFile);
 		}elseif($mode=='r' or $mode=='rb'){

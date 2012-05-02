@@ -169,7 +169,7 @@ class OC_Archive_ZIP extends OC_Archive{
 			}else{
 				$ext='';
 			}
-			$tmpFile=OCP\Util::tmpFile($ext);
+			$tmpFile=OCP\Files::tmpFile($ext);
 			OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
 			if($this->fileExists($path)){
 				$this->extractFile($path,$tmpFile);

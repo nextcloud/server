@@ -16,7 +16,7 @@ if(is_dir(OC::$SERVERROOT.'/apps/files_archive/tests/data')){
 		}
 
 		protected function getNew(){
-			return new OC_Archive_TAR(OCP\Util::tmpFile('.tar.gz'));
+			return new OC_Archive_TAR(OCP\Files::tmpFile('.tar.gz'));
 		}
 	}
 }else{
