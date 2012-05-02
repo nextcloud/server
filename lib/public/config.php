@@ -92,6 +92,41 @@ class Config {
 	}
 
 
+        /**
+         * @brief Gets the preference
+         * @param $user user
+         * @param $app app
+         * @param $key key
+         * @param $default = null, default value if the key does not exist
+         * @returns the value or $default
+         *
+         * This function gets a value from the prefernces table. If the key does
+         * not exist the default value will be returnes
+         */
+        public static function getUserValue( $user, $app, $key, $default = null ){
+		return(\OC_Preferences::getValue( $user, $app, $key, $default ));
+	}
+
+
+        /**
+         * @brief sets a value in the preferences
+         * @param $user user
+         * @param $app app
+         * @param $key key
+         * @param $value value
+         * @returns true/false
+         *
+         * Adds a value to the preferences. If the key did not exist before, it
+         * will be added automagically.
+         */
+        public static function setUserValue( $user, $app, $key, $value ){
+		return(\OC_Preferences::setValue(  $user, $app, $key, $value ));
+	}
+
+
+
+
+
 
 }
 

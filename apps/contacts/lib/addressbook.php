@@ -168,7 +168,7 @@ class OC_Contacts_Addressbook{
 		if(is_null($uid)){
 			$uid = OCP\USER::getUser();
 		}
-		$prefbooks = OC_Preferences::getValue($uid,'contacts','openaddressbooks',null);
+		$prefbooks = OCP\Config::getUserValue($uid,'contacts','openaddressbooks',null);
 		if(!$prefbooks){
 			$addressbooks = OC_Contacts_Addressbook::all($uid);
 			if(count($addressbooks) == 0){
@@ -176,7 +176,7 @@ class OC_Contacts_Addressbook{
 				$addressbooks = OC_Contacts_Addressbook::all($uid);
 			}
 			$prefbooks = $addressbooks[0]['id'];
-			OC_Preferences::setValue($uid,'contacts','openaddressbooks',$prefbooks);
+			OCP\Config::setUserValue($uid,'contacts','openaddressbooks',$prefbooks);
 		}
 		return explode(';',$prefbooks);
 	}
@@ -235,7 +235,7 @@ class OC_Contacts_Addressbook{
 		$openaddressbooks = self::cleanArray($openaddressbooks, false);
 		sort($openaddressbooks, SORT_NUMERIC);
 		// FIXME: I alway end up with a ';' prepending when imploding the array..?
-		OC_Preferences::setValue(OCP\USER::getUser(),'contacts','openaddressbooks',implode(';', $openaddressbooks));
+		OCP\Config::setUserValue(OCP\USER::getUser(),'contacts','openaddressbooks',implode(';', $openaddressbooks));
 
 		return true;
 	}

@@ -17,11 +17,11 @@ $lng = $_GET['long'];
 
 $timezone =  OC_Geo::timezone($lat, $lng);
 
-if($timezone == OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'timezone')){
+if($timezone == OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone')){
 	OC_JSON::success();
 	exit;
 }
-OC_Preferences::setValue(OCP\USER::getUser(), 'calendar', 'timezone', $timezone);
+OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timezone', $timezone);
 $message = array('message'=> $l->t('New Timezone:') . $timezone);
 OC_JSON::success($message);
 ?>

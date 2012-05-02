@@ -87,7 +87,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			$quota = false;
 		}
 		$quota = $quota != -1 ? $quota : $this->ldap_quota_def;
-		OC_Preferences::setValue($uid, 'files', 'quota', OCP\Util::computerFileSize($quota));
+		OCP\Config::setUserValue($uid, 'files', 'quota', OCP\Util::computerFileSize($quota));
 	}
 
 	private function setEmail( $uid ) {
@@ -95,7 +95,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 
 		$email = $this->ldap_dc[$this->ldap_email_attr][0];
-		OC_Preferences::setValue($uid, 'settings', 'email', $email);
+		OCP\Config::setUserValue($uid, 'settings', 'email', $email);
 	}
 
 	//Connect to LDAP and store the resource

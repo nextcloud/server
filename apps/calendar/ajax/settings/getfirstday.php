@@ -7,6 +7,6 @@
  */
  
 OC_JSON::checkLoggedIn();
-$firstday = OC_Preferences::getValue( OCP\USER::getUser(), 'calendar', 'firstday', 'mo');
+$firstday = OCP\Config::getUserValue( OCP\USER::getUser(), 'calendar', 'firstday', 'mo');
 OC_JSON::encodedPrint(array('firstday' => $firstday));
 ?> 

@@ -59,7 +59,7 @@ class OC_Gallery_Hooks_Handlers {
   }
 
   public static function pathInRoot($path) {
-    $root = OC_Preferences::getValue(OCP\USER::getUser(), 'gallery', 'root', '/');
+    $root = OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'root', '/');
     return substr($path, 0, strlen($path)>strlen($root)?strlen($root):strlen($path)) == $root;
   }
 

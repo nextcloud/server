@@ -24,7 +24,7 @@
 class OC_Gallery_Scanner {
 
 	public static function getGalleryRoot() {
-		return OC_Preferences::getValue(OCP\USER::getUser(), 'gallery', 'root', '/');
+		return OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'root', '/');
 	}
 	public static function getScanningRoot() {
 		return OC_Filesystem::getRoot().self::getGalleryRoot();

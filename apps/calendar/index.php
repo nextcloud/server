@@ -29,21 +29,21 @@ OC_Hook::emit('OC_Calendar', 'getSources', array('sources' => &$eventSources));
 $categories = OC_Calendar_App::getCategoryOptions();
 
 //Fix currentview for fullcalendar
-if(OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "oneweekview"){
-	OC_Preferences::setValue(OCP\USER::getUser(), "calendar", "currentview", "agendaWeek");
+if(OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "oneweekview"){
+	OCP\Config::setUserValue(OCP\USER::getUser(), "calendar", "currentview", "agendaWeek");
 }
-if(OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "onemonthview"){
-	OC_Preferences::setValue(OCP\USER::getUser(), "calendar", "currentview", "month");
+if(OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "onemonthview"){
+	OCP\Config::setUserValue(OCP\USER::getUser(), "calendar", "currentview", "month");
 }
-if(OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "listview"){
-	OC_Preferences::setValue(OCP\USER::getUser(), "calendar", "currentview", "list");
+if(OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "listview"){
+	OCP\Config::setUserValue(OCP\USER::getUser(), "calendar", "currentview", "list");
 }
 
 OCP\Util::addscript('3rdparty/fullcalendar', 'fullcalendar');
 OCP\Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
 OCP\Util::addscript('3rdparty/timepicker', 'jquery.ui.timepicker');
 OCP\Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
-if(OC_Preferences::getValue(OCP\USER::getUser(), "calendar", "timezone") == null || OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'timezonedetection') == 'true'){
+if(OCP\Config::getUserValue(OCP\USER::getUser(), "calendar", "timezone") == null || OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezonedetection') == 'true'){
 	OCP\Util::addscript('calendar', 'geo');
 }
 OCP\Util::addscript('calendar', 'calendar');

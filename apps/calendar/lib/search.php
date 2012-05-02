@@ -12,7 +12,7 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 		}else{
 			$searchquery[] = $query;
 		}
-		$user_timezone = OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+		$user_timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 		$l = new OC_l10n('calendar');
 		foreach($calendars as $calendar){
 			$objects = OC_Calendar_Object::all($calendar['id']);

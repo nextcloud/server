@@ -22,12 +22,12 @@ $end = $_POST['end'];
 $allday = $_POST['allday'];
 
 if (!$end){
-	$duration = OC_Preferences::getValue( OCP\USER::getUser(), 'calendar', 'duration', '60');
+	$duration = OCP\Config::getUserValue( OCP\USER::getUser(), 'calendar', 'duration', '60');
 	$end = $start + ($duration * 60);
 }
 $start = new DateTime('@'.$start);
 $end = new DateTime('@'.$end);
-$timezone = OC_Preferences::getValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $start->setTimezone(new DateTimeZone($timezone));
 $end->setTimezone(new DateTimeZone($timezone));
 

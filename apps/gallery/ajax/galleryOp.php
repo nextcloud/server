@@ -74,18 +74,18 @@ function handleStoreSettings($root, $order) {
     return;
   }
 
-  $current_root = OC_Preferences::getValue(OCP\USER::getUser(),'gallery', 'root', '/');
+  $current_root = OCP\Config::getUserValue(OCP\USER::getUser(),'gallery', 'root', '/');
   $root = trim($root);
   $root = rtrim($root, '/').'/';
   $rescan = $current_root==$root?'no':'yes';
-  OC_Preferences::setValue(OCP\USER::getUser(), 'gallery', 'root', $root);
-  OC_Preferences::setValue(OCP\USER::getUser(), 'gallery', 'order', $order);
+  OCP\Config::setUserValue(OCP\USER::getUser(), 'gallery', 'root', $root);
+  OCP\Config::setUserValue(OCP\USER::getUser(), 'gallery', 'order', $order);
   OC_JSON::success(array('rescan' => $rescan));
 }
 
 function handleGetGallery($path) {
   $a = array();
-  $root = OC_Preferences::getValue(OCP\USER::getUser(),'gallery', 'root', '/');
+  $root = OCP\Config::getUserValue(OCP\USER::getUser(),'gallery', 'root', '/');
   $path = utf8_decode(rtrim($root.$path,'/'));
   if($path == '') $path = '/';
   $pathLen = strlen($path);
@@ -127,7 +127,7 @@ function handleGetGallery($path) {
 function handleShare($path, $share, $recursive) {
   $recursive = $recursive == 'true' ? 1 : 0;
   $owner = OCP\USER::getUser();
-  $root = OC_Preferences::getValue(OCP\USER::getUser(),'gallery', 'root', '/');
+  $root = OCP\Config::getUserValue(OCP\USER::getUser(),'gallery', 'root', '/');
   $path = utf8_decode(rtrim($root.$path,'/'));
   if($path == '') $path = '/';
   $r = OC_Gallery_Album::find($owner, null, $path);

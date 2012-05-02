@@ -54,10 +54,10 @@ if($arguments['action']){
 		case 'delete':
 			$path=$arguments['path'];
 			OC_MEDIA_COLLECTION::deleteSongByPath($path);
-			$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OCP\USER::getUser(),'media','paths',''));
+			$paths=explode(PATH_SEPARATOR,OCP\Config::getUserValue(OCP\USER::getUser(),'media','paths',''));
 			if(array_search($path,$paths)!==false){
 				unset($paths[array_search($path,$paths)]);
-				OC_Preferences::setValue(OCP\USER::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
+				OCP\Config::setUserValue(OCP\USER::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
 			}
 		case 'get_collection':
 			$data=array();

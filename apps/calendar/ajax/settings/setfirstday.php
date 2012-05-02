@@ -8,7 +8,7 @@
  
 OC_JSON::checkLoggedIn();
 if(isset($_POST["firstday"])){
-	OC_Preferences::setValue(OCP\USER::getUser(), 'calendar', 'firstday', $_POST["firstday"]);
+	OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'firstday', $_POST["firstday"]);
 	OC_JSON::success();
 }else{
 	OC_JSON::error();
