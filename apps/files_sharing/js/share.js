@@ -164,8 +164,8 @@ $(document).ready(function() {
 				success: function(){
 					$('#link').hide('blind');
 					$('#emailBreak').remove();
-					$('#email').hide('blind');
-					$('#emailButton').hide('blind');
+					$('#email').hide();
+					$('#emailButton').hide();
 				}
 			});
 		}
@@ -256,7 +256,7 @@ function showPublicLink(token, file) {
 	$('#link').val(parent.location.protocol+'//'+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token+'&f='+file);
 	$('#link').show('blind', function() {
 		$('#link').after('<br id="emailBreak" />');
-		$('#email').show('blind');
-		$('#emailButton').show('blind');
+		$('#email').show();
+		$('#emailButton').show();
 	});
 }
