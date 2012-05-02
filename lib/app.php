@@ -55,7 +55,7 @@ class OC_App{
 		}
 
 		// Our very own core apps are hardcoded
-		foreach( array( 'files', 'settings') as $app ){
+		foreach( array( 'settings') as $app ){
 			if(is_null($types)){
 				require( $app.'/appinfo/app.php' );
 			}
@@ -94,7 +94,7 @@ class OC_App{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * get the types of an app
 	 * @param string $app
@@ -105,7 +105,7 @@ class OC_App{
 		if(count(self::$appTypes)==0){
 			self::$appTypes=OC_Appconfig::getValues(false,'types');
 		}
-		
+
 		//get it from info.xml if we haven't cached it
 		if(!isset(self::$appTypes[$app])){
 			$appData=self::getAppInfo($app);
@@ -114,10 +114,10 @@ class OC_App{
 			}else{
 				self::$appTypes[$app]=array();
 			}
-			
+
 			OC_Appconfig::setValue($app,'types',implode(',',self::$appTypes[$app]));
 		}
-		
+
 		return explode(',',self::$appTypes[$app]);
 	}
 
@@ -328,7 +328,7 @@ class OC_App{
 
 		return $list;
 	}
-	
+
 	/**
 	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
 	 */
