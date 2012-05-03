@@ -193,35 +193,18 @@ class OC_USER_LDAP extends OC_User_Backend {
 		return !empty($dn);
 	}
 
-	public function getUsers()
-	{
-		if(!$this->configured)
-		return false;
-
-		// connect to server
-		$ds = $this->getDs();
-		if( !$ds )
-			return false;
-
-		// get users
-		$sr = ldap_search( $this->getDs(), $this->ldap_base, $this->ldap_userlist_filter );
-		$entries = ldap_get_entries( $this->getDs(), $sr );
-		if( $entries['count'] == 0 )
-			return false;
-		else {
-			$users = array();
-			foreach($entries as $row) {
-				// TODO ldap_get_entries() seems to lower all keys => needs review
-				$ldap_display_name  = strtolower($this->ldap_display_name);
-				if(isset($row[$ldap_display_name])) {
-					$users[] = $row[$ldap_display_name][0];
-				}
-			}
-			// TODO language specific sorting of user names
-			sort($users);
-			return $users;
-		}
+	/**
+	 * @brief Get a list of all users
+	 * @returns array with all uids
+	 *
+	 * Get a list of all users.
+	 */
+	public static function getUsers(){
+		$ldap_users = OC_LDAP::fetchListOfUsers($this->ldapUserFilter, array(OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
+		$users = OC_LDAP::ownCloudUserNames($ldap_users);
+		return $users;
 	}
+
 
 }
 
