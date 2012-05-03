@@ -131,7 +131,7 @@ OCdialogs = {
       },
       {text: t('dialogs', 'Cancel'), click: function(){$(c_id).dialog('close'); }}
       ];
-    $(c_id).dialog({width: 4*$(document).width()/9, height: 400, modal: modal, buttons: b});
+      $(c_id).dialog({width: ((4*$('body').width())/9), height: 400, modal: modal, buttons: b});
     OCdialogs.dialogs_counter++;
   },
   // guts, dont use, dont touch
