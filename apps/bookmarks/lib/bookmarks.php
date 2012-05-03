@@ -113,5 +113,37 @@ class OC_Bookmarks_Bookmarks{
 		$bookmarks = $query->execute($params)->fetchAll();
 		return $bookmarks;
 	}
+
+	public static function deleteUrl($id)
+	{
+		$user = OCP\USER::getUser();
+
+		$query = OCP\DB::prepare("
+				SELECT id FROM *PREFIX*bookmarks
+				WHERE id = ?
+				AND user_id = ?
+				");
+
+		$result = $query->execute(array($id, $user));
+		$id = $result->fetchOne();
+		if ($id === false) {
+			return false;
+		}
+
+		$query = OCP\DB::prepare("
+			DELETE FROM *PREFIX*bookmarks
+			WHERE id = $id
+			");
+
+		$result = $query->execute();
+
+		$query = OCP\DB::prepare("
+			DELETE FROM *PREFIX*bookmarks_tags
+			WHERE bookmark_id = $id
+			");
+
+		$result = $query->execute();
+		return true;
+	}
 }
 ?>

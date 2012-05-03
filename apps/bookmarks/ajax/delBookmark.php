@@ -30,33 +30,10 @@ $RUNTIME_NOSETUPFS=true;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('bookmarks');
 
-$params=array(
-	htmlspecialchars_decode($_GET["url"]),
-	OCP\USER::getUser()
-	);
+$id = $_GET['id'];
+if (!OC_Bookmarks_Bookmarks::deleteUrl($id)){
+	OC_JSON::error();
+	exit();
+}
 
-$query = OCP\DB::prepare("
-	SELECT id FROM *PREFIX*bookmarks 
-	WHERE url LIKE ?
-		AND user_id = ?
-	");
-
-$id = $query->execute($params)->fetchOne();
-
-$query = OCP\DB::prepare("
-	DELETE FROM *PREFIX*bookmarks
-	WHERE id = $id
-	");
-	
-$result = $query->execute();
-
-
-$query = OCP\DB::prepare("
-	DELETE FROM *PREFIX*bookmarks_tags
-	WHERE bookmark_id = $id
-	");
-	
-$result = $query->execute();
-// var_dump($params);
-
-OCP\JSON::success(array('data' => array()));
+OCP\JSON::success();

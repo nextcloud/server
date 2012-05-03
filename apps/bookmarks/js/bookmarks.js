@@ -93,11 +93,13 @@ function delBookmark(event) {
 	var record = $(this).parent().parent();
 	$.ajax({
 		url: OC.filePath('bookmarks', 'ajax', 'delBookmark.php'),
-		data: 'url=' + encodeURIComponent($(this).parent().parent().children('.bookmark_url:first').text()),
+		data: 'id=' + record.data('id'),
 		success: function(data){
-			record.remove();
-			if($('.bookmarks_list').is(':empty')) {
-				$("#firstrun").show();
+			if (data.status == 'success') {
+				record.remove();
+				if($('.bookmarks_list').is(':empty')) {
+					$("#firstrun").show();
+				}
 			}
 		}
 	});
