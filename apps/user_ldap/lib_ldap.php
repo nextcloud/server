@@ -371,6 +371,27 @@ class OC_LDAP {
 		return !OCP\DB::isError($res);
 	}
 
+	static public function fetchListOfUsers($filter, $attr) {
+		return self::fetchList(OC_LDAP::searchUsers($filter, $attr), (count($attr) > 1));
+	}
+
+	static public function fetchListOfGroups($filter, $attr) {
+		return self::fetchList(OC_LDAP::searchGroups($filter, $attr), (count($attr) > 1));
+	}
+
+	static private function fetchList($list, $manyAttributes) {
+		if(is_array($list)) {
+			if($manyAttributes) {
+				return $list;
+			} else {
+				return array_unique($list, SORT_LOCALE_STRING);
+			}
+		}
+
+		//error cause actually, maybe throw an exception in future.
+		return array();
+	}
+
 	/**
 	 * @brief reads a given attribute for an LDAP record identified by a DN
 	 * @param $dn the record in question
