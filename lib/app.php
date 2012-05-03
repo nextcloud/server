@@ -125,11 +125,13 @@ class OC_App{
 	 * get all enabled apps
 	 */
 	public static function getEnabledApps(){
-		$apps=array();
+		$apps=array('files');
 		$query = OC_DB::prepare( 'SELECT appid FROM *PREFIX*appconfig WHERE configkey = \'enabled\' AND configvalue=\'yes\'' );
 		$result=$query->execute();
 		while($row=$result->fetchRow()){
-			$apps[]=$row['appid'];
+			if(array_search($row['appid'],$apps)===false){
+				$apps[]=$row['appid'];
+			}
 		}
 		return $apps;
 	}
