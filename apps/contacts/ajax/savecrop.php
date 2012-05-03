@@ -70,7 +70,7 @@ if(file_exists($tmp_path)) {
 		$h = ($h != -1 ? $h : $image->height());
 		OCP\Util::writeLog('contacts','savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, OCP\Util::DEBUG);
 		if($image->crop($x1, $y1, $w, $h)) {
-			if($image->resize(200)) {
+			if(($image->width() <= 200 && $image->height() <= 200) || $image->resize(200)) {
 				$tmpfname = tempnam("/tmp", "occCropped"); // create a new file because of caching issues.
 				if($image->save($tmpfname)) {
 					unlink($tmp_path);
