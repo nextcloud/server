@@ -68,7 +68,7 @@ if ($source !== false) {
 		//get time mimetype and set the headers
 		$mimetype = OC_Filesystem::getMimeType($source);
 		header("Content-Transfer-Encoding: binary");
-		OC_Response::disableCaching();
+		OCP\Response::disableCaching();
 		header('Content-Disposition: filename="'.basename($source).'"');
 		header("Content-Type: " . $mimetype);
 		header("Content-Length: " . OC_Filesystem::filesize($source));

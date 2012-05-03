@@ -176,7 +176,7 @@ class OC_Contacts_App {
 		$rev = $contact->getAsString('REV');
 		if ($rev) {
 			$rev = DateTime::createFromFormat(DateTime::W3C, $rev);
-			OC_Response::setLastModifiedHeader($rev);
+			OCP\Response::setLastModifiedHeader($rev);
 		}
 	}
 }

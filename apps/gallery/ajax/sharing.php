@@ -72,7 +72,7 @@ function handleGetThumbnail($token, $imgpath) {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
   $image = OC_Gallery_Photo::getThumbnail($imgpath, $owner);
   if ($image) {
-    OC_Response::enableCaching(3600 * 24); // 24 hour
+    OCP\Response::enableCaching(3600 * 24); // 24 hour
     $image->show();
   }
 }
@@ -86,7 +86,7 @@ function handleGetAlbumThumbnail($token, $albumname)
     $image->centerCrop();
     $image->resize(200);
     $image->fixOrientation();
-    OC_Response::enableCaching(3600 * 24); // 24 hour
+    OCP\Response::enableCaching(3600 * 24); // 24 hour
     $image->show();
   }
 }
@@ -95,7 +95,7 @@ function handleGetPhoto($token, $photo) {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
   $file = OCP\Config::getSystemValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$owner.'/files'.urldecode($photo);
   header('Content-Type: '.OC_Image::getMimeTypeForFile($file));
-  OC_Response::sendFile($file);
+  OCP\Response::sendFile($file);
 }
 
 switch ($operation) {

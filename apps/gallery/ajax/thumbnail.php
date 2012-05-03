@@ -29,6 +29,6 @@ $img = $_GET['img'];
 
 $image = OC_Gallery_Photo::getThumbnail($img);
 if ($image) {
-	OC_Response::enableCaching(3600 * 24); // 24 hour
+	OCP\Response::enableCaching(3600 * 24); // 24 hour
 	$image->show();
 }

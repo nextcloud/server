@@ -27,9 +27,9 @@ OC_JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 
 function getStandardImage(){
-	OC_Response::setExpiresHeader('P10D');
-	OC_Response::enableCaching();
-	OC_Response::redirect(OCP\Util::imagePath('contacts', 'person.png'));
+	OCP\Response::setExpiresHeader('P10D');
+	OCP\Response::enableCaching();
+	OCP\Response::redirect(OCP\Util::imagePath('contacts', 'person.png'));
 }
 
 if(!function_exists('imagecreatefromjpeg')) {
@@ -49,7 +49,7 @@ if(is_null($contact)){
 	getStandardImage();
 	exit();
 }
-OC_Response::enableCaching($caching);
+OCP\Response::enableCaching($caching);
 OC_Contacts_App::setLastModifiedHeader($contact);
 
 $thumbnail_size = 23;
@@ -58,7 +58,7 @@ $thumbnail_size = 23;
 $image = new OC_Image();
 $photo = $contact->getAsString('PHOTO');
 if($photo) {
-	OC_Response::setETagHeader(md5($photo));
+	OCP\Response::setETagHeader(md5($photo));
 
 	if($image->loadFromBase64($photo)) {
 		if($image->centerCrop()) {

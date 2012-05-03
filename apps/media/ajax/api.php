@@ -110,11 +110,11 @@ if($arguments['action']){
 			OC_MEDIA_COLLECTION::registerPlay($songId);
 			
 			header('Content-Type:'.$ftype);
-			OC_Response::enableCaching(3600 * 24); // 24 hour
+			OCP\Response::enableCaching(3600 * 24); // 24 hour
 			header('Accept-Ranges: bytes');
 			header('Content-Length: '.OC_Filesystem::filesize($arguments['path']));
 			$mtime = OC_Filesystem::filemtime($arguments['path']);
-			OC_Response::setLastModifiedHeader($mtime);
+			OCP\Response::setLastModifiedHeader($mtime);
 			
 			OC_Filesystem::readfile($arguments['path']);
 			exit;

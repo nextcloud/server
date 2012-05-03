@@ -334,8 +334,8 @@ class OC_Calendar_App{
 			$calendar_id = $_GET['calendar_id'];
 			if (is_numeric($calendar_id)) {
 				$calendar = self::getCalendar($calendar_id);
-				OC_Response::enableCaching(0);
-				OC_Response::setETagHeader($calendar['ctag']);
+				OCP\Response::enableCaching(0);
+				OCP\Response::setETagHeader($calendar['ctag']);
 				$events = OC_Calendar_Object::allInPeriod($calendar_id, $start, $end);
 			} else {
 				OC_Hook::emit('OC_Calendar', 'getEvents', array('calendar_id' => $calendar_id, 'events' => &$events));

@@ -41,10 +41,10 @@ function handleRemove($name) {
 }
 
 function handleGetThumbnails($albumname) {
-  OC_Response::enableCaching(3600 * 24); // 24 hour
+  OCP\Response::enableCaching(3600 * 24); // 24 hour
   $thumbnail = OC::$CONFIG_DATADIRECTORY.'/../gallery/'.urldecode($albumname).'.png';
   header('Content-Type: '.OC_Image::getMimeTypeForFile($thumbnail));
-  OC_Response::sendFile($thumbnail);
+  OCP\Response::sendFile($thumbnail);
 }
 
 function handleGalleryScanning() {

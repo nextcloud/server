@@ -43,7 +43,7 @@ if(isset($_POST['play']) and $_POST['play']=='true'){
 	$song=OC_MEDIA_COLLECTION::getSong($_POST['song']);
 	$ftype=OC_Filesystem::getMimeType( $song['song_path'] );
 	header('Content-Type:'.$ftype);
-	OC_Response::disableCaching();
+	OCP\Response::disableCaching();
 	header('Content-Length: '.OC_Filesystem::filesize($song['song_path']));
 
 	OC_Filesystem::readfile($song['song_path']);

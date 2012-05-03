@@ -14,9 +14,9 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 
 function getStandardImage(){
-	OC_Response::setExpiresHeader('P10D');
-	OC_Response::enableCaching();
-	OC_Response::redirect(OCP\Util::imagePath('contacts', 'person_large.png'));
+	OCP\Response::setExpiresHeader('P10D');
+	OCP\Response::enableCaching();
+	OCP\Response::redirect(OCP\Util::imagePath('contacts', 'person_large.png'));
 }
 
 $id = isset($_GET['id']) ? $_GET['id'] : null;
@@ -35,19 +35,19 @@ if(!$image) {
 if( is_null($contact)) {
 	OCP\Util::writeLog('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OCP\Util::ERROR);
 } else {
-	OC_Response::enableCaching($caching);
+	OCP\Response::enableCaching($caching);
 	OC_Contacts_App::setLastModifiedHeader($contact);
 
 	// Photo :-)
 	if($image->loadFromBase64($contact->getAsString('PHOTO'))) {
 		// OK
-		OC_Response::setETagHeader(md5($contact->getAsString('PHOTO')));
+		OCP\Response::setETagHeader(md5($contact->getAsString('PHOTO')));
 	}
 	else
 	// Logo :-/
 	if($image->loadFromBase64($contact->getAsString('LOGO'))) {
 		// OK
-		OC_Response::setETagHeader(md5($contact->getAsString('LOGO')));
+		OCP\Response::setETagHeader(md5($contact->getAsString('LOGO')));
 	}
 	if ($image->valid()) {
 		$max_size = 200;
