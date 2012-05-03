@@ -381,7 +381,17 @@ class OC_Calendar_App{
 			$start_dt->setTimezone(new DateTimeZone(self::$tz));
 			$end_dt->setTimezone(new DateTimeZone(self::$tz));
 		}
-		
+
+		// Handle exceptions to recurring events
+		$exceptionDateObjects = $vevent->select('EXDATE');
+		$exceptionDateMap = Array();
+		foreach ($exceptionDateObjects as $exceptionObject) {
+			foreach($exceptionObject->getDateTimes() as $datetime) {
+				$ts = $datetime->getTimestamp();
+				$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
+			}
+		}
+
 		if($event['repeating'] == 1){
 			$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
 			$r = new When();
@@ -398,6 +408,13 @@ class OC_Calendar_App{
 				if($result > $end){
 					break;
 				}
+				// Check for exceptions to recurring events
+				$ts = $result->getTimestamp();
+				if (isset($exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)])) {
+					continue;
+				}
+				unset($ts);
+
 				if($output['allDay'] == true){
 					$output['start'] = $result->format('Y-m-d');
 					$output['end'] = date('Y-m-d', $result->format('U') + --$duration);

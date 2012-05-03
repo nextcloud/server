@@ -22,4 +22,3 @@ foreach($events as $event){
 	$output[] = OC_Calendar_App::generateEventOutput($event, $start, $end);
 }
 OCP\JSON::encodedPrint($output);
-?>
