@@ -14,10 +14,10 @@ if(!$checkOnly){
 //create the file cache if necesary
 if($force or !OC_FileCache::inCache('')){
 	if(!$checkOnly){
-		OC_DB::beginTransaction();
+		OCP\DB::beginTransaction();
 		OC_FileCache::scan($dir,$eventSource);
 		OC_FileCache::clean();
-		OC_DB::commit();
+		OCP\DB::commit();
 		$eventSource->send('success',true);
 	}else{
 		OCP\JSON::success(array('data'=>array('done'=>true)));

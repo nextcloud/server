@@ -25,7 +25,7 @@ require_once('base.php');
 
 class OC_Gallery_Album {
 	public static function create($owner, $name, $path){
-		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_albums (uid_owner, album_name, album_path, parent_path) VALUES (?, ?, ?, ?)');
+		$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*gallery_albums (uid_owner, album_name, album_path, parent_path) VALUES (?, ?, ?, ?)');
 		$stmt->execute(array($owner, $name, $path, self::getParentPath($path)));
 	}
 
@@ -56,7 +56,7 @@ class OC_Gallery_Album {
 			$sql .= ' AND parent_path LIKE ?';
 			$args[] = $parent;
 		}
-		$stmt = OC_DB::prepare($sql);
+		$stmt = OCP\DB::prepare($sql);
 		return $stmt->execute($args);
 	}
 
@@ -82,12 +82,12 @@ class OC_Gallery_Album {
     $order = OCP\Config::getUserValue($owner, 'gallery', 'order', 'ASC');
 		$sql .= ' ORDER BY album_name ' . $order;
 
-		$stmt = OC_DB::prepare($sql);
+		$stmt = OCP\DB::prepare($sql);
 		return $stmt->execute($args);
 	}
 
 	public static function changePath($oldname, $newname, $owner) {
-		$stmt = OC_DB::prepare('UPDATE *PREFIX*gallery_albums SET album_path=? WHERE uid_owner=? AND album_path=?');
+		$stmt = OCP\DB::prepare('UPDATE *PREFIX*gallery_albums SET album_path=? WHERE uid_owner=? AND album_path=?');
 		$stmt->execute(array($newname, $owner, $oldname));
 	}
 
@@ -99,7 +99,7 @@ class OC_Gallery_Album {
 
 	public static function getAlbumSize($id){
     $sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos WHERE album_id = ?';
-    $stmt = OC_DB::prepare($sql);
+    $stmt = OCP\DB::prepare($sql);
     $result=$stmt->execute(array($id))->fetchRow();
     return $result['size'];
 	}
@@ -107,7 +107,7 @@ class OC_Gallery_Album {
   public static function getIntermediateGallerySize($path) {
     $path .= '%';
     $sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos photos, *PREFIX*gallery_albums albums WHERE photos.album_id = albums.album_id AND uid_owner = ? AND file_path LIKE ?';
-    $stmt = OC_DB::prepare($sql);
+    $stmt = OCP\DB::prepare($sql);
     $result = $stmt->execute(array(OCP\USER::getUser(), $path))->fetchRow();
     return $result['size'];
   }

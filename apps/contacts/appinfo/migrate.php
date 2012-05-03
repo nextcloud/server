@@ -40,10 +40,10 @@ class OC_Migration_Provider_Contacts extends OC_Migration_Provider{
 				$idmap = array();
 				while( $row = $results->fetchRow() ){
 					// Import each bookmark, saving its id into the map	
-					$query = OC_DB::prepare( "INSERT INTO *PREFIX*contacts_addressbooks (`userid`, `displayname`, `uri`, `description`, `ctag`) VALUES (?, ?, ?, ?, ?)" );
+					$query = OCP\DB::prepare( "INSERT INTO *PREFIX*contacts_addressbooks (`userid`, `displayname`, `uri`, `description`, `ctag`) VALUES (?, ?, ?, ?, ?)" );
 					$query->execute( array( $this->uid, $row['displayname'], $row['uri'], $row['description'], $row['ctag'] ) );
 					// Map the id
-					$idmap[$row['id']] = OC_DB::insertid();
+					$idmap[$row['id']] = OCP\DB::insertid();
 				}
 				// Now tags
 				foreach($idmap as $oldid => $newid){
@@ -51,7 +51,7 @@ class OC_Migration_Provider_Contacts extends OC_Migration_Provider{
 					$results = $query->execute( array( $oldid ) );
 					while( $row = $results->fetchRow() ){
 						// Import the tags for this bookmark, using the new bookmark id
-						$query = OC_DB::prepare( "INSERT INTO *PREFIX*contacts_cards (`addressbookid`, `fullname`, `carddata`, `uri`, `lastmodified`) VALUES (?, ?, ?, ?, ?)" );
+						$query = OCP\DB::prepare( "INSERT INTO *PREFIX*contacts_cards (`addressbookid`, `fullname`, `carddata`, `uri`, `lastmodified`) VALUES (?, ?, ?, ?, ?)" );
 						$query->execute( array( $newid, $row['fullname'], $row['carddata'], $row['uri'], $row['lastmodified'] ) );	
 					}		
 				}

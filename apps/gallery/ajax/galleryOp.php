@@ -48,13 +48,13 @@ function handleGetThumbnails($albumname) {
 }
 
 function handleGalleryScanning() {
-  OC_DB::beginTransaction();
+  OCP\DB::beginTransaction();
   set_time_limit(0);
   OC_Gallery_Album::cleanup();
   $eventSource = new OC_EventSource();
   OC_Gallery_Scanner::scan($eventSource);
   $eventSource->close();
-  OC_DB::commit();
+  OCP\DB::commit();
 }
 
 function handleFilescan($cleanup) {

@@ -30,7 +30,7 @@ $RUNTIME_NOSETUPFS=true;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('bookmarks');
 
-$query = OC_DB::prepare("
+$query = OCP\DB::prepare("
 	UPDATE *PREFIX*bookmarks
 	SET clickcount = clickcount + 1
 	WHERE user_id = ?

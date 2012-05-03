@@ -65,7 +65,7 @@ class OC_MEDIA_AMPACHE{
 </root>");
 		}
 		if($auth and $user and $time){
-			$query=OC_DB::prepare("SELECT user_id, user_password_sha256 from *PREFIX*media_users WHERE user_id=?");
+			$query=OCP\DB::prepare("SELECT user_id, user_password_sha256 from *PREFIX*media_users WHERE user_id=?");
 			$users=$query->execute(array($user))->fetchAll();
 			if(count($users)>0){
 				$pass=$users[0]['user_password_sha256'];
@@ -77,7 +77,7 @@ class OC_MEDIA_AMPACHE{
 					$songs=OC_MEDIA_COLLECTION::getSongCount();
 					$artists=OC_MEDIA_COLLECTION::getArtistCount();
 					$albums=OC_MEDIA_COLLECTION::getAlbumCount();
-					$query=OC_DB::prepare("INSERT INTO *PREFIX*media_sessions (`session_id`, `token`, `user_id`, `start`) VALUES (NULL, ?, ?, now());");
+					$query=OCP\DB::prepare("INSERT INTO *PREFIX*media_sessions (`session_id`, `token`, `user_id`, `start`) VALUES (NULL, ?, ?, now());");
 					$query->execute(array($token,$user));
 					$expire=date('c',time()+600);
 					echo('<?xml version="1.0" encoding="UTF-8"?>');
@@ -137,10 +137,10 @@ class OC_MEDIA_AMPACHE{
 			}
 		}
 		//remove old sessions
-		$query=OC_DB::prepare("DELETE from *PREFIX*media_sessions WHERE start<(NOW()-600)");
+		$query=OCP\DB::prepare("DELETE from *PREFIX*media_sessions WHERE start<(NOW()-600)");
 		$query->execute();
 		
-		$query=OC_DB::prepare("SELECT user_id from *PREFIX*media_sessions WHERE token=?");
+		$query=OCP\DB::prepare("SELECT user_id from *PREFIX*media_sessions WHERE token=?");
 		$users=$query->execute(array($auth))->fetchAll();
 		if(count($users)>0){
 			OC_MEDIA_COLLECTION::$uid=$users[0]['user_id'];
@@ -151,7 +151,7 @@ class OC_MEDIA_AMPACHE{
 	}
 	
 	public static function updateAuth($auth){
-		$query=OC_DB::prepare("UPDATE *PREFIX*media_sessions SET start=CURRENT_TIMESTAMP WHERE token=?");
+		$query=OCP\DB::prepare("UPDATE *PREFIX*media_sessions SET start=CURRENT_TIMESTAMP WHERE token=?");
 		$query->execute(array($auth));
 	}
 	

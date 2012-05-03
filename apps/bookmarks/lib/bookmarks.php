@@ -70,7 +70,7 @@ class OC_Bookmarks_Bookmarks{
 		}
 
 		if($CONFIG_DBTYPE == 'pgsql' ){
-			$query = OC_DB::prepare('
+			$query = OCP\DB::prepare('
 				SELECT id, url, title, '.($filterTagOnly?'':'url || title ||').' array_to_string(array_agg(tag), \' \') as tags
 				FROM *PREFIX*bookmarks
 				LEFT JOIN *PREFIX*bookmarks_tags ON *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
@@ -87,7 +87,7 @@ class OC_Bookmarks_Bookmarks{
 			else
 				$concatFunction = 'Concat(Concat( url, title), ';
 		
-			$query = OC_DB::prepare('
+			$query = OCP\DB::prepare('
 				SELECT id, url, title, '
 				.($filterTagOnly?'':$concatFunction).
 				'CASE WHEN *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id

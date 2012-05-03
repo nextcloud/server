@@ -41,7 +41,7 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 
 $bookmark_id = (int)$_GET["id"];
 
-$query = OC_DB::prepare("
+$query = OCP\DB::prepare("
 	UPDATE *PREFIX*bookmarks
 	SET url = ?, title =?, lastmodified = $_ut
 	WHERE id = $bookmark_id
@@ -54,14 +54,14 @@ $params=array(
 $query->execute($params);
 
 # Remove old tags and insert new ones.
-$query = OC_DB::prepare("
+$query = OCP\DB::prepare("
 	DELETE FROM *PREFIX*bookmarks_tags
 	WHERE bookmark_id = $bookmark_id
 	");
 
 $query->execute();
 
-$query = OC_DB::prepare("
+$query = OCP\DB::prepare("
 	INSERT INTO *PREFIX*bookmarks_tags
 	(bookmark_id, tag)
 	VALUES (?, ?)

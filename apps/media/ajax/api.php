@@ -67,12 +67,12 @@ if($arguments['action']){
 			OCP\JSON::encodedPrint($data);
 			break;
 		case 'scan':
-			OC_DB::beginTransaction();
+			OCP\DB::beginTransaction();
 			set_time_limit(0); //recursive scan can take a while
 			$eventSource=new OC_EventSource();
 			OC_MEDIA_SCANNER::scanCollection($eventSource);
 			$eventSource->close();
-			OC_DB::commit();
+			OCP\DB::commit();
 			break;
 		case 'scanFile':
 			echo (OC_MEDIA_SCANNER::scanFile($arguments['path']))?'true':'false';

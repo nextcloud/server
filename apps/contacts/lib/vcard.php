@@ -53,7 +53,7 @@ class OC_Contacts_VCard{
 			$id_sql = join(',', array_fill(0, count($id), '?'));
 			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname';
 			try {
-				$stmt = OC_DB::prepare( $prep );
+				$stmt = OCP\DB::prepare( $prep );
 				$result = $stmt->execute($id);
 			} catch(Exception $e) {
 				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
@@ -62,7 +62,7 @@ class OC_Contacts_VCard{
 			}
 		} elseif($id) {
 			try {
-				$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
+				$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
 				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
@@ -85,7 +85,7 @@ class OC_Contacts_VCard{
 	 * @return associative array
 	 */
 	public static function find($id){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$result = $stmt->execute(array($id));
 
 		return $result->fetchRow();
@@ -98,7 +98,7 @@ class OC_Contacts_VCard{
 	 * @return associative array
 	 */
 	public static function findWhereDAVDataIs($aid,$uri){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
+		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
 		$result = $stmt->execute(array($aid,$uri));
 
 		return $result->fetchRow();
@@ -147,7 +147,7 @@ class OC_Contacts_VCard{
 	* @returns true if the UID has been changed.
 	*/
 	protected static function trueUID($aid, &$uid) {
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
+		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
 		$uri = $uid.'.vcf';
 		$result = $stmt->execute(array($aid,$uri));
 		if($result->numRows() > 0){
@@ -282,9 +282,9 @@ class OC_Contacts_VCard{
 		}
 
 		$data = $card->serialize();
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
+		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($aid,$fn,$data,$uri,time()));
-		$newid = OC_DB::insertid('*PREFIX*contacts_cards');
+		$newid = OCP\DB::insertid('*PREFIX*contacts_cards');
 
 		OC_Contacts_Addressbook::touch($aid);
 
@@ -308,7 +308,7 @@ class OC_Contacts_VCard{
 	 * @param array $objects  An array of [id, carddata].
 	 */
 	public static function updateDataByID($objects){
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET carddata = ?, lastmodified = ? WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET carddata = ?, lastmodified = ? WHERE id = ?' );
 		$now = new DateTime;
 		foreach($objects as $object) {
 			$vcard = OC_VObject::parse($object[1]);
@@ -350,7 +350,7 @@ class OC_Contacts_VCard{
 		$card->setString('REV', $now->format(DateTime::W3C));
 
 		$data = $card->serialize();
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
 		$result = $stmt->execute(array($fn,$data,time(),$id));
 
 		OC_Contacts_Addressbook::touch($oldcard['addressbookid']);
@@ -378,7 +378,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function delete($id){
 		// FIXME: Add error checking.
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$stmt->execute(array($id));
 
 		return true;
@@ -392,7 +392,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function deleteFromDAVData($aid,$uri){
 		// FIXME: Add error checking. Deleting a card gives an Kontact/Akonadi error.
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
+		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 		OC_Contacts_Addressbook::touch($aid);
 
@@ -521,7 +521,7 @@ class OC_Contacts_VCard{
 			$id_sql = join(',', array_fill(0, count($id), '?'));
 			$prep = 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id IN ('.$id_sql.')';
 			try {
-				$stmt = OC_DB::prepare( $prep );
+				$stmt = OCP\DB::prepare( $prep );
 				//$aid = array($aid);
 				$vals = array_merge((array)$aid, $id);
 				$result = $stmt->execute($vals);
@@ -533,7 +533,7 @@ class OC_Contacts_VCard{
 			}
 		} else {
 			try {
-				$stmt = OC_DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
+				$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
 				$result = $stmt->execute(array($aid, $id));
 			} catch(Exception $e) {
 				OCP\Util::writeLog('contacts','OC_Contacts_VCard::moveToAddressBook:, exception: '.$e->getMessage(),OCP\Util::DEBUG);

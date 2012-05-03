@@ -54,7 +54,7 @@ class OC_USER_OPENID extends OC_User_Backend {
 	 * find the user that can be authenticated with an openid identity
 	 */
 	public static function findUserForIdentity($identity){
-		$query=OC_DB::prepare('SELECT userid FROM *PREFIX*preferences WHERE appid=? AND configkey=? AND configvalue=?');
+		$query=OCP\DB::prepare('SELECT userid FROM *PREFIX*preferences WHERE appid=? AND configkey=? AND configvalue=?');
 		$result=$query->execute(array('user_openid','identity',$identity))->fetchAll();
 		if(count($result)>0){
 			return $result[0]['userid'];

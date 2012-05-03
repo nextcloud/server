@@ -227,7 +227,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			}
 			if ($size > 0) {
 				$dbpath = rtrim($this->datadir.$path, "/");
-// 				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
+// 				$query = OCP\DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
 // 				$result = $query->execute(array($dbpath, $size));
 			}
 		}
@@ -241,7 +241,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			$path = dirname($path);
 		}
 		$dbpath = rtrim($this->datadir.$path, "/");
-// 		$query = OC_DB::prepare("DELETE FROM *PREFIX*/*foldersize*/ WHERE path = ?");
+// 		$query = OCP\DB::prepare("DELETE FROM *PREFIX*/*foldersize*/ WHERE path = ?");
 // 		$result = $query->execute(array($dbpath));
 		if ($path != "/" && $path != "") {
 			$parts = explode("/", $path);

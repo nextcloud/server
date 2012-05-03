@@ -35,7 +35,7 @@ $params=array(
 	OCP\USER::getUser()
 	);
 
-$query = OC_DB::prepare("
+$query = OCP\DB::prepare("
 	SELECT id FROM *PREFIX*bookmarks 
 	WHERE url LIKE ?
 		AND user_id = ?
@@ -43,7 +43,7 @@ $query = OC_DB::prepare("
 
 $id = $query->execute($params)->fetchOne();
 
-$query = OC_DB::prepare("
+$query = OCP\DB::prepare("
 	DELETE FROM *PREFIX*bookmarks
 	WHERE id = $id
 	");
@@ -51,7 +51,7 @@ $query = OC_DB::prepare("
 $result = $query->execute();
 
 
-$query = OC_DB::prepare("
+$query = OCP\DB::prepare("
 	DELETE FROM *PREFIX*bookmarks_tags
 	WHERE bookmark_id = $id
 	");

@@ -43,7 +43,7 @@ OCP\App::addNavigationEntry( array(
 
 class OC_GallerySearchProvider extends OC_Search_Provider{
 	function search($query){
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ? AND album_name LIKE ?');
+		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ? AND album_name LIKE ?');
 		$result = $stmt->execute(array(OCP\USER::getUser(),'%'.$query.'%'));
 		$results=array();
 		while($row=$result->fetchRow()){

@@ -137,7 +137,7 @@ class OC_LDAP {
 	static private function ocname2dn($name, $isUser) {
 		$table = self::getMapTable($isUser);
 
-		$query = OC_DB::prepare('
+		$query = OCP\DB::prepare('
 			SELECT ldap_dn
 			FROM '.$table.'
 			WHERE owncloud_name = ?
@@ -189,7 +189,7 @@ class OC_LDAP {
 			$nameAttribute = self::conf('ldapGroupDisplayName');
 		}
 
-		$query = OC_DB::prepare('
+		$query = OCP\DB::prepare('
 			SELECT owncloud_name
 			FROM '.$table.'
 			WHERE ldap_dn = ?
@@ -316,7 +316,7 @@ class OC_LDAP {
 	static private function mappedComponents($isUsers) {
 		$table = self::getMapTable($isUsers);
 
-		$query = OC_DB::prepare('
+		$query = OCP\DB::prepare('
 			SELECT ldap_dn, owncloud_name
 			FROM '. $table
 		);
@@ -360,7 +360,7 @@ class OC_LDAP {
 	static private function mapComponent($dn, $ocname, $isUser = true) {
 		$table = self::getMapTable($isUser);
 
-		$insert = OC_DB::prepare('
+		$insert = OCP\DB::prepare('
 			INSERT IGNORE INTO '.$table.'
 			(ldap_dn, owncloud_name)
 			VALUES (?,?)
@@ -368,7 +368,7 @@ class OC_LDAP {
 
 		$res = $insert->execute(array($dn, $ocname));
 
-		return !OC_DB::isError($res);
+		return !OCP\DB::isError($res);
 	}
 
 	/**

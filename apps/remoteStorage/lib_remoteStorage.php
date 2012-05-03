@@ -2,7 +2,7 @@
 
 class OC_remoteStorage {
 	public static function getValidTokens($ownCloudUser, $category) {
-		$query=OC_DB::prepare("SELECT token,appUrl,category FROM *PREFIX*authtoken WHERE user=? LIMIT 100");
+		$query=OCP\DB::prepare("SELECT token,appUrl,category FROM *PREFIX*authtoken WHERE user=? LIMIT 100");
 		$result=$query->execute(array($ownCloudUser));
 		$ret = array();
 		while($row=$result->fetchRow()){
@@ -15,7 +15,7 @@ class OC_remoteStorage {
 
 	public static function getAllTokens() {
 		$user=OCP\USER::getUser();
-		$query=OC_DB::prepare("SELECT token,appUrl,category FROM *PREFIX*authtoken WHERE user=? LIMIT 100");
+		$query=OCP\DB::prepare("SELECT token,appUrl,category FROM *PREFIX*authtoken WHERE user=? LIMIT 100");
 		$result=$query->execute(array($user));
 		$ret = array();
 		while($row=$result->fetchRow()){
@@ -29,13 +29,13 @@ class OC_remoteStorage {
 
 	public static function deleteToken($token) {
 		$user=OCP\USER::getUser();
-		$query=OC_DB::prepare("DELETE FROM *PREFIX*authtoken WHERE token=? AND user=?");
+		$query=OCP\DB::prepare("DELETE FROM *PREFIX*authtoken WHERE token=? AND user=?");
 		$result=$query->execute(array($token,$user));
 		return 'unknown';//how can we see if any rows were affected?
 	}
 	private static function addToken($token, $appUrl, $categories){
 		$user=OCP\USER::getUser();
-		$query=OC_DB::prepare("INSERT INTO *PREFIX*authtoken (`token`,`appUrl`,`user`,`category`) VALUES(?,?,?,?)");
+		$query=OCP\DB::prepare("INSERT INTO *PREFIX*authtoken (`token`,`appUrl`,`user`,`category`) VALUES(?,?,?,?)");
 		$result=$query->execute(array($token,$appUrl,$user,$categories));
 	}
 	public static function createCategories($appUrl, $categories) {
