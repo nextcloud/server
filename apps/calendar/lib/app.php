@@ -392,6 +392,7 @@ class OC_Calendar_App{
 			}
 		}
 
+		$return = array();
 		if($event['repeating'] == 1){
 			$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
 			$r = new When();
@@ -422,6 +423,7 @@ class OC_Calendar_App{
 					$output['start'] = $result->format('Y-m-d H:i:s');
 					$output['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);
 				}
+				$return[] = $output;
 			}
 		}else{
 			if($output['allDay'] == true){
@@ -432,7 +434,8 @@ class OC_Calendar_App{
 				$output['start'] = $start_dt->format('Y-m-d H:i:s');
 				$output['end'] = $end_dt->format('Y-m-d H:i:s');
 			}
+			$return[] = $output;
 		}
-		return $output;
+		return $return;
 	}
 }

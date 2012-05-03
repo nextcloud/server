@@ -19,6 +19,6 @@ $events = OC_Calendar_App::getrequestedEvents($_GET['calendar_id'], $start, $end
 
 $output = array();
 foreach($events as $event){
-	$output[] = OC_Calendar_App::generateEventOutput($event, $start, $end);
+	$output = $output + OC_Calendar_App::generateEventOutput($event, $start, $end);
 }
 OCP\JSON::encodedPrint($output);
