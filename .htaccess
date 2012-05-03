@@ -18,6 +18,6 @@ RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteRule ^.well-known/carddav /remote/carddav.php [R]
 RewriteRule ^.well-known/caldav /remote/caldav.php [R]
 
-RewriteRule ^apps/([^/]*)/(.*.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]
+RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]
 </IfModule>
 Options -Indexes
