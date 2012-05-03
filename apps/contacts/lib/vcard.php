@@ -475,9 +475,15 @@ class OC_Contacts_VCard{
 		//$value = htmlspecialchars($value);
 		if($property->name == 'ADR' || $property->name == 'N'){
 			$value = self::unescapeDelimiters($value);
-		}/* elseif($property->name == 'CATEGORIES') {
-			$value = self::unescapeDelimiters($value, ',');
-		}*/
+		} elseif($property->name == 'BDAY') {
+			if(strpos($value, '-') === false) {
+				if(strlen($value) >= 8) {
+					$value = substr($value, 0, 4).'-'.substr($value, 4, 2).'-'.substr($value, 6, 2);
+				} else {
+					return null; // Badly malformed :-(
+				}
+			}
+		}
 		$temp = array(
 			'name' => $property->name,
 			'value' => $value,
