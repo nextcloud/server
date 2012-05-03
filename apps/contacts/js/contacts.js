@@ -234,7 +234,6 @@ Contacts={
 						var id = jsondata.data.id;
 						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 							if(jsondata.status == 'success'){
-								Contacts.UI.loadHandlers();
 								Contacts.UI.Card.loadContact(jsondata.data);
 								$('#leftcontent .active').removeClass('active');
 								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
@@ -1429,7 +1428,6 @@ Contacts={
 }
 $(document).ready(function(){
 
-	Contacts.UI.loadHandlers();
 	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
 	OCCategories.app = 'contacts';
 
