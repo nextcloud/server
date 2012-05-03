@@ -402,15 +402,10 @@ class OC_LDAP {
 	 */
 	static public function readAttribute($dn, $attr) {
 		$cr = self::getConnectionResource();
-// echo("<pre>");var_dump($dn);
 		$rr = ldap_read($cr, $dn, 'objectClass=*', array($attr));
-		if(!$rr) {
-			echo('<pre>###RA ');var_dump($dn);var_dump(debug_backtrace());die();
-		}
 		$er = ldap_first_entry($cr, $rr);
 		$result = ldap_get_attributes($cr, $er);
 
-// 		if($dn == 'cn=Coyotes,cn=groups,dc=blizzz-oc,dc=bzoc') die((var_dump($result)));
 		if($result[$attr]['count'] > 0){
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
