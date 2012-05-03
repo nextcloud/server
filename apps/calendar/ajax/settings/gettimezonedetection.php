@@ -6,6 +6,6 @@
  * See the COPYING-README file.
  */
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
-OC_JSON::success(array('detection' => OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezonedetection')));
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
+OCP\JSON::success(array('detection' => OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezonedetection')));

@@ -6,12 +6,12 @@
  * See the COPYING-README file.
  */
  
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 if(isset($_POST["firstday"])){
 	OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'firstday', $_POST["firstday"]);
-	OC_JSON::success();
+	OCP\JSON::success();
 }else{
-	OC_JSON::error();
+	OCP\JSON::error();
 }
 ?> 
  

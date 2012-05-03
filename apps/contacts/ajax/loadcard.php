@@ -23,7 +23,7 @@
 // Init owncloud
  
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/loadcard.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
@@ -35,8 +35,8 @@ function debug($msg) {
 // }
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
@@ -58,4 +58,4 @@ $tmpl->assign('email_types',$email_types);
 $tmpl->assign('id','');
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array( 'page' => $page )));

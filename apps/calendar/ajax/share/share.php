@@ -13,15 +13,15 @@ switch($idtype){
 	case 'event':
 		break;
 	default:
-		OC_JSON::error(array('message'=>'unexspected parameter'));
+		OCP\JSON::error(array('message'=>'unexspected parameter'));
 		exit;
 }
 if($idtype == 'calendar' && !OC_Calendar_App::getCalendar($id)){
-	OC_JSON::error(array('message'=>'permission denied'));
+	OCP\JSON::error(array('message'=>'permission denied'));
 	exit;
 }
 if($idtype == 'event' && !OC_Calendar_App::getEventObject($id)){
-	OC_JSON::error(array('message'=>'permission denied'));
+	OCP\JSON::error(array('message'=>'permission denied'));
 	exit;
 }
 $sharewith = $_GET['sharewith'];
@@ -32,28 +32,28 @@ switch($sharetype){
 	case 'public':
 		break;
 	default:
-		OC_JSON::error(array('message'=>'unexspected parameter'));
+		OCP\JSON::error(array('message'=>'unexspected parameter'));
 		exit;
 }
 if($sharetype == 'user' && !OCP\User::userExists($sharewith)){
-	OC_JSON::error(array('message'=>'user not found'));
+	OCP\JSON::error(array('message'=>'user not found'));
 	exit;
 }
 if($sharetype == 'group' && !OC_Group::groupExists($sharewith)){
-	OC_JSON::error(array('message'=>'group not found'));
+	OCP\JSON::error(array('message'=>'group not found'));
 	exit;
 }
 if($sharetype == 'user' && OCP\USER::getUser() == $sharewith){
-	OC_JSON::error(array('meesage'=>'you can not share with yourself'));
+	OCP\JSON::error(array('meesage'=>'you can not share with yourself'));
 }
 $success = OC_Calendar_Share::share(OCP\USER::getUser(), $sharewith, $sharetype, $id, (($idtype=='calendar') ? OC_Calendar_Share::CALENDAR : OC_Calendar_Share::EVENT));
 if($success){
 	if($sharetype == 'public'){
-		OC_JSON::success(array('message'=>$success));
+		OCP\JSON::success(array('message'=>$success));
 	}else{
-		OC_JSON::success(array('message'=>'shared'));
+		OCP\JSON::success(array('message'=>'shared'));
 	}
 }else{
-	OC_JSON::error(array('message'=>'can not share'));
+	OCP\JSON::error(array('message'=>'can not share'));
 	exit;
 }

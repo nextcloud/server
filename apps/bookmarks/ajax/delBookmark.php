@@ -27,8 +27,8 @@ $RUNTIME_NOSETUPFS=true;
  
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('bookmarks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('bookmarks');
 
 $params=array(
 	htmlspecialchars_decode($_GET["url"]),
@@ -59,4 +59,4 @@ $query = OC_DB::prepare("
 $result = $query->execute();
 // var_dump($params);
 
-OC_JSON::success(array('data' => array()));
+OCP\JSON::success(array('data' => array()));

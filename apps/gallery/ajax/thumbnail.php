@@ -22,8 +22,8 @@
 */
 
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('gallery');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('gallery');
 
 $img = $_GET['img'];
 

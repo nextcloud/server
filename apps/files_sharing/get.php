@@ -1,7 +1,7 @@
 <?php
 $RUNTIME_NOSETUPFS=true; //don't setup the fs yet
 
-OC_JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkAppEnabled('files_sharing');
 require_once 'lib_share.php';
 
 //get the path of the shared file

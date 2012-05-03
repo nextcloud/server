@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
  
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 $timeformat = OCP\Config::getUserValue( OCP\USER::getUser(), 'calendar', 'timeformat', "24");
-OC_JSON::encodedPrint(array("timeformat" => $timeformat));
+OCP\JSON::encodedPrint(array("timeformat" => $timeformat));
 ?> 

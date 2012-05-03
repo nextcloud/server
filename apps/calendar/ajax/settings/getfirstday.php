@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
  
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 $firstday = OCP\Config::getUserValue( OCP\USER::getUser(), 'calendar', 'firstday', 'mo');
-OC_JSON::encodedPrint(array('firstday' => $firstday));
+OCP\JSON::encodedPrint(array('firstday' => $firstday));
 ?> 

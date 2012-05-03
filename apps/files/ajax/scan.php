@@ -20,12 +20,12 @@ if($force or !OC_FileCache::inCache('')){
 		OC_DB::commit();
 		$eventSource->send('success',true);
 	}else{
-		OC_JSON::success(array('data'=>array('done'=>true)));
+		OCP\JSON::success(array('data'=>array('done'=>true)));
 		exit;
 	}
 }else{
 	if($checkOnly){
-		OC_JSON::success(array('data'=>array('done'=>false)));
+		OCP\JSON::success(array('data'=>array('done'=>false)));
 		exit;
 	}
 	if(isset($eventSource)){

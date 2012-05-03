@@ -9,32 +9,32 @@
  
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $userid = OCP\USER::getUser();
 $name = trim(strip_tags($_POST['name']));
 if(!$name) {
-	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot add addressbook with an empty name.'))));
+	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot add addressbook with an empty name.'))));
 	OCP\Util::writeLog('contacts','ajax/createaddressbook.php: Cannot add addressbook with an empty name: '.strip_tags($_POST['name']), OCP\Util::ERROR);
 	exit();
 }
 $bookid = OC_Contacts_Addressbook::add($userid, $name, null);
 if(!$bookid) {
-	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error adding addressbook.'))));
+	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error adding addressbook.'))));
 	OCP\Util::writeLog('contacts','ajax/createaddressbook.php: Error adding addressbook: '.$_POST['name'], OCP\Util::ERROR);
 	exit();
 }
 
 if(!OC_Contacts_Addressbook::setActive($bookid, 1)) {
-	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error activating addressbook.'))));
+	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error activating addressbook.'))));
 	OCP\Util::writeLog('contacts','ajax/createaddressbook.php: Error activating addressbook: '.$bookid, OCP\Util::ERROR);
 	//exit();
 }
 $addressbook = OC_Contacts_App::getAddressbook($bookid);
 $tmpl = new OC_Template('contacts', 'part.chooseaddressbook.rowfields');
 $tmpl->assign('addressbook', $addressbook);
-OC_JSON::success(array(
+OCP\JSON::success(array(
 	'page' => $tmpl->fetchPage(),
 	'addressbook' => $addressbook,
 ));

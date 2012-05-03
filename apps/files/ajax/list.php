@@ -6,7 +6,7 @@ $RUNTIME_APPTYPES=array('filesystem');
 // Init owncloud
 
 
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
@@ -41,6 +41,6 @@ $list = new OC_Template( "files", "part.list", "" );
 $list->assign( "files", $files );
 $data = array('files' => $list->fetchPage());
 
-OC_JSON::success(array('data' => $data));
+OCP\JSON::success(array('data' => $data));
 
 ?>

@@ -22,15 +22,15 @@
 // Init owncloud
  
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 // foreach ($_POST as $key=>$element) {
 // 	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OCP\Util::DEBUG);
 // }
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/loadphoto.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
@@ -59,5 +59,5 @@ if($refresh) {
 	$tmpl->assign('refresh', 1);
 }
 $page = $tmpl->fetchPage();
-OC_JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
+OCP\JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
 ?>

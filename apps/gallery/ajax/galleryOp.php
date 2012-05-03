@@ -24,8 +24,8 @@
 header('Content-type: text/html; charset=UTF-8') ;
  
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('gallery');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('gallery');
 
 function handleRename($oldname, $newname) {
   OC_Gallery_Album::rename($oldname, $newname, OCP\USER::getUser());
@@ -61,16 +61,16 @@ function handleFilescan($cleanup) {
   if ($cleanup) OC_Gallery_Album::cleanup();
   $pathlist = OC_Gallery_Scanner::find_paths();
   sort($pathlist);
-  OC_JSON::success(array('paths' => $pathlist));
+  OCP\JSON::success(array('paths' => $pathlist));
 }
 
 function handleStoreSettings($root, $order) {
   if (!OC_Filesystem::file_exists($root)) {
-    OC_JSON::error(array('cause' => 'No such file or directory'));
+    OCP\JSON::error(array('cause' => 'No such file or directory'));
     return;
   }
   if (!OC_Filesystem::is_dir($root)) {
-    OC_JSON::error(array('cause' => $root . ' is not a directory'));
+    OCP\JSON::error(array('cause' => $root . ' is not a directory'));
     return;
   }
 
@@ -80,7 +80,7 @@ function handleStoreSettings($root, $order) {
   $rescan = $current_root==$root?'no':'yes';
   OCP\Config::setUserValue(OCP\USER::getUser(), 'gallery', 'root', $root);
   OCP\Config::setUserValue(OCP\USER::getUser(), 'gallery', 'order', $order);
-  OC_JSON::success(array('rescan' => $rescan));
+  OCP\JSON::success(array('rescan' => $rescan));
 }
 
 function handleGetGallery($path) {
@@ -121,7 +121,7 @@ function handleGetGallery($path) {
     $token = $row['token'];
   }
 
-  OC_JSON::success(array('albums'=>$a, 'photos'=>$p, 'shared' => $shared, 'recursive' => $recursive, 'token' => $token));
+  OCP\JSON::success(array('albums'=>$a, 'photos'=>$p, 'shared' => $shared, 'recursive' => $recursive, 'token' => $token));
 }
 
 function handleShare($path, $share, $recursive) {
@@ -134,23 +134,23 @@ function handleShare($path, $share, $recursive) {
   if ($row = $r->fetchRow()) {
     $albumId = $row['album_id'];
   } else {
-    OC_JSON::error(array('cause' => 'Couldn\'t find requested gallery'));
+    OCP\JSON::error(array('cause' => 'Couldn\'t find requested gallery'));
     exit;
   }
     
   if ($share == false) {
       OC_Gallery_Sharing::remove($albumId);
-      OC_JSON::success(array('sharing' => false));
+      OCP\JSON::success(array('sharing' => false));
   } else { // share, yeah \o/
     $r = OC_Gallery_Sharing::getEntryByAlbumId($albumId);
     if (($row = $r->fetchRow())) { // update entry
       OC_Gallery_Sharing::updateSharingByToken($row['token'], $recursive);
-      OC_JSON::success(array('sharing' => true, 'token' => $row['token'], 'recursive' => $recursive == 1 ? true : false ));
+      OCP\JSON::success(array('sharing' => true, 'token' => $row['token'], 'recursive' => $recursive == 1 ? true : false ));
     } else { // and new sharing entry
       $date = new DateTime();
       $token = md5($owner . $date->getTimestamp());
       OC_Gallery_Sharing::addShared($token, intval($albumId), $recursive);
-      OC_JSON::success(array('sharing' => true, 'token' => $token, 'recursive' => $recursive == 1 ? true : false ));
+      OCP\JSON::success(array('sharing' => true, 'token' => $token, 'recursive' => $recursive == 1 ? true : false ));
     }
   }
 }
@@ -160,11 +160,11 @@ if ($_GET['operation']) {
   switch($_GET['operation']) {
   case 'rename':
 	  handleRename($_GET['oldname'], $_GET['newname']);
-	  OC_JSON::success(array('newname' => $_GET['newname']));
+	  OCP\JSON::success(array('newname' => $_GET['newname']));
 	break;
   case 'remove':
 	  handleRemove($_GET['name']);
-	  OC_JSON::success();
+	  OCP\JSON::success();
     break;
   case 'get_covers':
     handleGetThumbnails(urldecode($_GET['albumname']));
@@ -182,7 +182,7 @@ if ($_GET['operation']) {
     handleShare($_GET['path'], $_GET['share'] == 'true' ? true : false, $_GET['recursive']);
     break;
   default:
-    OC_JSON::error(array('cause' => 'Unknown operation'));
+    OCP\JSON::error(array('cause' => 'Unknown operation'));
   }
 }
 ?>

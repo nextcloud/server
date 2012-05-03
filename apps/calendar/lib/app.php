@@ -106,7 +106,7 @@ class OC_Calendar_App{
 	public static function isNotModified($vevent, $lastmodified){
 		$last_modified = $vevent->__get('LAST-MODIFIED');
 		if($last_modified && $lastmodified != $last_modified->getDateTime()->format('U')){
-			OC_JSON::error(array('modified'=>true));
+			OCP\JSON::error(array('modified'=>true));
 			exit;
 		}
 		return true;

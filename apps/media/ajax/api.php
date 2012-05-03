@@ -23,7 +23,7 @@
 
 header('Content-type: text/html; charset=UTF-8') ;
 
-OC_JSON::checkAppEnabled('media');
+OCP\JSON::checkAppEnabled('media');
 require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
 require_once(OC::$APPSROOT . '/apps/media/lib_scanner.php');
 
@@ -64,7 +64,7 @@ if($arguments['action']){
 			$data['artists']=OC_MEDIA_COLLECTION::getArtists();
 			$data['albums']=OC_MEDIA_COLLECTION::getAlbums();
 			$data['songs']=OC_MEDIA_COLLECTION::getSongs();
-			OC_JSON::encodedPrint($data);
+			OCP\JSON::encodedPrint($data);
 			break;
 		case 'scan':
 			OC_DB::beginTransaction();
@@ -78,13 +78,13 @@ if($arguments['action']){
 			echo (OC_MEDIA_SCANNER::scanFile($arguments['path']))?'true':'false';
 			break;
 		case 'get_artists':
-			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getArtists($arguments['search']));
+			OCP\JSON::encodedPrint(OC_MEDIA_COLLECTION::getArtists($arguments['search']));
 			break;
 		case 'get_albums':
-			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getAlbums($arguments['artist'],$arguments['search']));
+			OCP\JSON::encodedPrint(OC_MEDIA_COLLECTION::getAlbums($arguments['artist'],$arguments['search']));
 			break;
 		case 'get_songs':
-			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
+			OCP\JSON::encodedPrint(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
 			break;
 		case 'get_path_info':
 			if(OC_Filesystem::file_exists($arguments['path'])){
@@ -97,7 +97,7 @@ if($arguments['action']){
 					$song=OC_MEDIA_COLLECTION::getSong($songId);
 					$song['artist']=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
 					$song['album']=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
-					OC_JSON::encodedPrint($song);
+					OCP\JSON::encodedPrint($song);
 				}
 			}
 			break;
@@ -122,7 +122,7 @@ if($arguments['action']){
 			$music=OC_FileCache::searchByMime('audio');
 			$ogg=OC_FileCache::searchByMime('application','ogg');
 			$music=array_merge($music,$ogg);
-			OC_JSON::encodedPrint($music);
+			OCP\JSON::encodedPrint($music);
 			exit;
 	}
 }

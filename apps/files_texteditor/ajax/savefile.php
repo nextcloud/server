@@ -25,7 +25,7 @@
 
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Get paramteres
 $filecontents = $_POST['filecontents'];
@@ -39,7 +39,7 @@ if($path != '' && $mtime != '')
 	if($mtime != $filemtime)
 	{
 		// Then the file has changed since opening
-		OC_JSON::error();
+		OCP\JSON::error();
 		OCP\Util::writeLog('files_texteditor',"File: ".$path." modified since opening.",OCP\Util::ERROR);	
 	}
 	else
@@ -53,16 +53,16 @@ if($path != '' && $mtime != '')
 			clearstatcache();
 			// Get new mtime
 			$newmtime = OC_Filesystem::filemtime($path);
-			OC_JSON::success(array('data' => array('mtime' => $newmtime)));
+			OCP\JSON::success(array('data' => array('mtime' => $newmtime)));
 		}
 		else
 		{
 			// Not writeable!
-			OC_JSON::error(array('data' => array( 'message' => 'Insufficient permissions')));	
+			OCP\JSON::error(array('data' => array( 'message' => 'Insufficient permissions')));	
 			OCP\Util::writeLog('files_texteditor',"User does not have permission to write to file: ".$path,OCP\Util::ERROR);
 		}
 	}
 } else {
-	OC_JSON::error(array('data' => array( 'message' => 'File path or mtime not supplied')));
+	OCP\JSON::error(array('data' => array( 'message' => 'File path or mtime not supplied')));
 	OCP\Util::writeLog('files_texteditor',"Invalid path supplied:".$path,OCP\Util::ERROR);	
 }

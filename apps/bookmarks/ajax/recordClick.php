@@ -27,8 +27,8 @@ $RUNTIME_NOSETUPFS=true;
  
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('bookmarks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('bookmarks');
 
 $query = OC_DB::prepare("
 	UPDATE *PREFIX*bookmarks

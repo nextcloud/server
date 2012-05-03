@@ -1,7 +1,7 @@
 <?php
 
-OC_JSON::checkAppEnabled('files_versions');
-OC_JSON::checkAdminUser();
+OCP\JSON::checkAppEnabled('files_versions');
+OCP\JSON::checkAdminUser();
 if (OCP\Config::getSystemValue('versions', 'true')=='true') {
 	OCP\Config::setSystemValue('versions', 'false');
 } else {

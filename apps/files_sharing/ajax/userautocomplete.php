@@ -3,8 +3,8 @@
 
  
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('files_sharing');
 
 $users = array();
 $groups = array();
@@ -24,6 +24,6 @@ foreach ($userGroups as $group) {
 $users[] = "</optgroup>";
 $groups[] = "</optgroup>";
 $users = array_merge($users, $groups);
-OC_JSON::encodedPrint($users);
+OCP\JSON::encodedPrint($users);
 
 ?>

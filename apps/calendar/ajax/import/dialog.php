@@ -7,7 +7,7 @@
  */
 
  
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
 $tmpl = new OC_Template('calendar', 'part.import');
 $tmpl->assign('path', $_POST['path']);

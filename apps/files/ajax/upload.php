@@ -4,12 +4,12 @@
 
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OC_JSON::setContentTypeHeader('text/plain');
+OCP\JSON::setContentTypeHeader('text/plain');
 
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 if (!isset($_FILES['files'])) {
-	OC_JSON::error(array("data" => array( "message" => "No file was uploaded. Unknown error" )));
+	OCP\JSON::error(array("data" => array( "message" => "No file was uploaded. Unknown error" )));
 	exit();
 }
 foreach ($_FILES['files']['error'] as $error) {
@@ -24,7 +24,7 @@ foreach ($_FILES['files']['error'] as $error) {
 			UPLOAD_ERR_NO_TMP_DIR=>$l->t("Missing a temporary folder"),
 			UPLOAD_ERR_CANT_WRITE=>$l->t('Failed to write to disk'),
 		);
-		OC_JSON::error(array("data" => array( "message" => $errors[$error] )));
+		OCP\JSON::error(array("data" => array( "message" => $errors[$error] )));
 		exit();
 	}
 }
@@ -38,7 +38,7 @@ foreach($files['size'] as $size){
 	$totalSize+=$size;
 }
 if($totalSize>OC_Filesystem::free_space('/')){
-	OC_JSON::error(array("data" => array( "message" => "Not enough space available" )));
+	OCP\JSON::error(array("data" => array( "message" => "Not enough space available" )));
 	exit();
 }
 
@@ -52,12 +52,12 @@ if(strpos($dir,'..') === false){
 			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'],'size'=>$meta['size'],'name'=>basename($target));
 		}
 	}
-	OC_JSON::encodedPrint($result);
+	OCP\JSON::encodedPrint($result);
 	exit();
 }else{
 	$error='invalid dir';
 }
 
-OC_JSON::error(array('data' => array('error' => $error, "file" => $fileName)));
+OCP\JSON::error(array('data' => array('error' => $error, "file" => $fileName)));
 
 ?>

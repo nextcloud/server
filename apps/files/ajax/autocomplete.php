@@ -5,7 +5,7 @@
 // Init owncloud
 
 
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Get data
 $query = $_GET['term'];
@@ -51,6 +51,6 @@ if(OC_Filesystem::file_exists($base) and OC_Filesystem::is_dir($base)){
 		}
 	}
 }
-OC_JSON::encodedPrint($files);
+OCP\JSON::encodedPrint($files);
 
 ?>

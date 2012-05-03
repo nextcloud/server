@@ -24,7 +24,7 @@
  
 
 if (!isset($_GET['token']) || !isset($_GET['operation'])) {
-  OC_JSON::error(array('cause' => 'Not enought arguments'));
+  OCP\JSON::error(array('cause' => 'Not enought arguments'));
   exit;
 }
 
@@ -32,7 +32,7 @@ $operation = $_GET['operation'];
 $token = $_GET['token'];
 
 if (!OC_Gallery_Sharing::isTokenValid($token)) {
-  OC_JSON::error(array('cause' => 'Given token is not valid'));
+  OCP\JSON::error(array('cause' => 'Given token is not valid'));
   exit;
 }
 
@@ -65,7 +65,7 @@ function handleGetGallery($token, $path) {
       $photos[] = $row['file_path'];
   }
 
-  OC_JSON::success(array('albums' => $albums, 'photos' => $photos));
+  OCP\JSON::success(array('albums' => $albums, 'photos' => $photos));
 }
 
 function handleGetThumbnail($token, $imgpath) {

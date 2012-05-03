@@ -3,7 +3,7 @@
 // Init owncloud
 
 
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Get data
 $dir = stripslashes($_GET["dir"]);
@@ -21,9 +21,9 @@ foreach($files as $file) {
 }
 
 if($success) {
-	OC_JSON::success(array("data" => array( "dir" => $dir, "files" => $files )));
+	OCP\JSON::success(array("data" => array( "dir" => $dir, "files" => $files )));
 } else {
-	OC_JSON::error(array("data" => array( "message" => "Could not delete:\n" . $filesWithError )));
+	OCP\JSON::error(array("data" => array( "message" => "Could not delete:\n" . $filesWithError )));
 }
 
 ?>

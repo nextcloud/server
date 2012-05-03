@@ -24,11 +24,11 @@
 
 // Check if we are a user
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OC_JSON::setContentTypeHeader('text/plain');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::setContentTypeHeader('text/plain');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
@@ -42,7 +42,7 @@ if ($fn) {
 	// AJAX call
 	if (!isset($_GET['id'])) {
 		OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OCP\Util::DEBUG);
-		OC_JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
+		OCP\JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
 		exit();
 	}
 	$id = $_GET['id'];
@@ -58,7 +58,7 @@ if ($fn) {
 			debug('Couldn\'t save correct image orientation: '.$tmpfname);
 		}
 		if($image->save($tmpfname)) {
-			OC_JSON::success(array('data' => array('mime'=>$_SERVER['CONTENT_TYPE'], 'name'=>$fn, 'id'=>$id, 'tmp'=>$tmpfname)));
+			OCP\JSON::success(array('data' => array('mime'=>$_SERVER['CONTENT_TYPE'], 'name'=>$fn, 'id'=>$id, 'tmp'=>$tmpfname)));
 			exit();
 		} else {
 			bailOut('Couldn\'t save temporary image: '.$tmpfname);
@@ -71,12 +71,12 @@ if ($fn) {
 
 if (!isset($_POST['id'])) {
 	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OCP\Util::DEBUG);
-	OC_JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
+	OCP\JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
 	exit();
 }
 if (!isset($_FILES['imagefile'])) {
 	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OCP\Util::DEBUG);
-	OC_JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
+	OCP\JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
 	exit();
 }
 $error = $_FILES['imagefile']['error'];
@@ -104,7 +104,7 @@ if(file_exists($file['tmp_name'])) {
 			debug('Couldn\'t save correct image orientation: '.$tmpfname);
 		}
 		if($image->save($tmpfname)) {
-			OC_JSON::success(array('data' => array('mime'=>$file['type'],'size'=>$file['size'],'name'=>$file['name'], 'id'=>$_POST['id'], 'tmp'=>$tmpfname)));
+			OCP\JSON::success(array('data' => array('mime'=>$file['type'],'size'=>$file['size'],'name'=>$file['name'], 'id'=>$_POST['id'], 'tmp'=>$tmpfname)));
 			exit();
 		} else {
 			bailOut('Couldn\'t save temporary image: '.$tmpfname);

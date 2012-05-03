@@ -9,8 +9,8 @@
  
 require_once('when/When.php');
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 $start = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['start']):new DateTime('@' . $_GET['start']);
 $end = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['end']):new DateTime('@' . $_GET['end']);
@@ -21,5 +21,5 @@ $output = array();
 foreach($events as $event){
 	$output[] = OC_Calendar_App::generateEventOutput($event, $start, $end);
 }
-OC_JSON::encodedPrint($output);
+OCP\JSON::encodedPrint($output);
 ?>

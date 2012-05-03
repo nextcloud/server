@@ -8,7 +8,7 @@
 //check for addressbooks rights or create new one
 ob_start();
  
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 $nl = "\n";
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
@@ -25,7 +25,7 @@ if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 }
 if(!$file) {
-	OC_JSON::error(array('message' => 'Import file was empty.'));
+	OCP\JSON::error(array('message' => 'Import file was empty.'));
 	exit();
 }
 error_log('File: '.$file);
@@ -137,4 +137,4 @@ if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 		OCP\Util::writeLog('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OCP\Util::ERROR);
 	}
 }
-OC_JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));
+OCP\JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));

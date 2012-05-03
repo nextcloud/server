@@ -21,8 +21,8 @@
 * 
 */
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('gallery');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('gallery');
 
 function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $shift) { 
     //getting the image dimensions

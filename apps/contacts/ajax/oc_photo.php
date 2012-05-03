@@ -24,11 +24,11 @@ require_once('lib/base.php');
 
 // Check if we are a user
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OC_JSON::setContentTypeHeader('text/plain');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::setContentTypeHeader('text/plain');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/oc_photo.php: '.$msg, OCP\Util::ERROR);
 	exit();
 }
@@ -66,7 +66,7 @@ if(!$image->fixOrientation()) { // No fatal error so we don't bail out.
 	debug('Couldn\'t save correct image orientation: '.$tmpfname);
 }
 if($image->save($tmpfname)) {
-	OC_JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpfname)));
+	OCP\JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpfname)));
 	exit();
 } else {
 	bailOut('Couldn\'t save temporary image: '.$tmpfname);

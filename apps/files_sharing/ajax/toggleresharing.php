@@ -1,7 +1,7 @@
 <?php
 
-OC_JSON::checkAppEnabled('files_sharing');
-OC_JSON::checkAdminUser();
+OCP\JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkAdminUser();
 if ($_POST['resharing'] == true) {
 	OCP\Config::setAppValue('files_sharing', 'resharing', 'yes');
 } else {

@@ -7,15 +7,15 @@
  */
 
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.print_r($element, true));
 }
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
@@ -39,6 +39,6 @@ if(count($contacts) == 0) {
 OC_Contacts_App::scanCategories($contacts);
 $categories = OC_Contacts_App::getCategories();
 
-OC_JSON::success(array('data' => array('categories'=>$categories)));
+OCP\JSON::success(array('data' => array('categories'=>$categories)));
 
 ?>

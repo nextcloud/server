@@ -11,10 +11,10 @@
 if(!OCP\User::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkAppEnabled('calendar');
 
 if (!isset($_POST['start'])){
-	OC_JSON::error();
+	OCP\JSON::error();
 	die;
 }
 $start = $_POST['start'];

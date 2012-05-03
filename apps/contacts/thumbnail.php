@@ -22,7 +22,7 @@
 
 // Init owncloud
 
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 //OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 

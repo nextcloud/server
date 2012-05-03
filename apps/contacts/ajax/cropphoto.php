@@ -24,8 +24,8 @@
  
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $tmp_path = $_GET['tmp_path'];
 $id = $_GET['id'];
@@ -35,4 +35,4 @@ $tmpl->assign('tmp_path', $tmp_path);
 $tmpl->assign('id', $id);
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array( 'page' => $page )));

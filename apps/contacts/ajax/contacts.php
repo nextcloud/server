@@ -7,8 +7,8 @@
  */
 
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());
 $contacts = OC_Contacts_VCard::all($ids);
@@ -16,5 +16,5 @@ $tmpl = new OC_TEMPLATE("contacts", "part.contacts");
 $tmpl->assign('contacts', $contacts);
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array( 'page' => $page )));
 ?>

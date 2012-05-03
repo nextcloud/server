@@ -11,13 +11,13 @@
 if(!OCP\User::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkAppEnabled('calendar');
 
 $id = $_GET['id'];
 $data = OC_Calendar_App::getEventObject($id, true, true);
 
 if(!$data){
-	OC_JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
+	OCP\JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
 	exit;
 }
 $access = OC_Calendar_App::getaccess($id, OC_Calendar_Share::EVENT);

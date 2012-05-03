@@ -26,18 +26,18 @@
 OCP\Util::writeLog('contacts','ajax/savecrop.php: Huzzah!!!', OCP\Util::DEBUG);
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 // foreach ($_POST as $key=>$element) {
 // 	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OCP\Util::DEBUG);
 // }
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OC_JSON::setContentTypeHeader('text/plain');
+OCP\JSON::setContentTypeHeader('text/plain');
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
@@ -109,7 +109,7 @@ if(file_exists($tmp_path)) {
 					$tmpl->assign('width', $image->width());
 					$tmpl->assign('height', $image->height());
 					$page = $tmpl->fetchPage();
-					OC_JSON::success(array('data' => array('page'=>$page, 'tmp'=>$tmpfname)));
+					OCP\JSON::success(array('data' => array('page'=>$page, 'tmp'=>$tmpfname)));
 					exit();
 				} else {
 					if(file_exists($tmpfname)) {

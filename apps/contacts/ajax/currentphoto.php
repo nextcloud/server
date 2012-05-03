@@ -24,11 +24,11 @@
 
 // Check if we are a user
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OC_JSON::setContentTypeHeader('text/plain');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::setContentTypeHeader('text/plain');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/currentphoto.php: '.$msg, OCP\Util::ERROR);
 	exit();
 }
@@ -55,7 +55,7 @@ if( is_null($contact)) {
 	}
 	if($image->valid()) {
 		if($image->save($tmpfname)) {
-			OC_JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpfname)));
+			OCP\JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpfname)));
 			exit();
 		} else {
 			bailOut(OC_Contacts_App::$l10n->t('Error saving temporary file.'));

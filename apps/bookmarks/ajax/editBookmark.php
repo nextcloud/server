@@ -27,8 +27,8 @@ $RUNTIME_NOSETUPFS=true;
  
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('bookmarks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('bookmarks');
 
 $CONFIG_DBTYPE = OCP\Config::getSystemValue( "dbtype", "sqlite" );
 if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){

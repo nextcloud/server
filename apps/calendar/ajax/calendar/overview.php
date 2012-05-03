@@ -8,8 +8,8 @@
 
  
 $l10n = OC_L10N::get('calendar');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 $output = new OC_TEMPLATE("calendar", "part.choosecalendar");
 $output -> printpage();
 ?>

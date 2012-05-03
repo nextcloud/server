@@ -23,10 +23,10 @@
 require_once('../../../lib/base.php');
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/uploadimport.php: '.$msg, OCP\Util::ERROR);
 	exit();
 }
@@ -42,7 +42,7 @@ $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : fals
 if($fn) {
 	if($view->file_put_contents('/'.$tmpfile, file_get_contents('php://input'))) {
 		debug($fn.' uploaded');
-		OC_JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
+		OCP\JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
 		exit();
 	} else {
 		bailOut(OC_Contacts_App::$l10n->t('Error uploading contacts to storage.'));
@@ -52,7 +52,7 @@ if($fn) {
 // File input transfers are handled here
 if (!isset($_FILES['importfile'])) {
 	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OCP\Util::DEBUG);
-	OC_JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
+	OCP\JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
 	exit();
 }
 $error = $_FILES['importfile']['error'];
@@ -73,7 +73,7 @@ $tmpfname = tempnam("/tmp", "occOrig");
 if(file_exists($file['tmp_name'])) {
 	if($view->file_put_contents('/'.$tmpfile, file_get_contents($file['tmp_name']))) {
 		debug($fn.' uploaded');
-		OC_JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
+		OCP\JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
 	} else {
 		bailOut(OC_Contacts_App::$l10n->t('Error uploading contacts to storage.'));
 	}

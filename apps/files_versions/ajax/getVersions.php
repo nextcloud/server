@@ -1,7 +1,7 @@
 <?php
 
 require_once('../../../lib/base.php');
-OC_JSON::checkAppEnabled('files_versions');
+OCP\JSON::checkAppEnabled('files_versions');
 require_once('../versions.php');
 
 $userDirectory = "/".OCP\USER::getUser()."/files";
@@ -23,7 +23,7 @@ if( OCA_Versions\Storage::isversioned( $source ) ) {
 	$versionsSorted = array_reverse( $versionsFormatted );
 	
 	if ( !empty( $versionsSorted ) ) {
-		OC_JSON::encodedPrint($versionsSorted);
+		OCP\JSON::encodedPrint($versionsSorted);
 	}
 	
 }else{
@@ -57,5 +57,5 @@ if( OCA_Versions\Storage::isversioned( $source ) ) {
 // 	$source = dirname($source);
 // }
 // if (!empty($users)) {
-// 	OC_JSON::encodedPrint($users);
+// 	OCP\JSON::encodedPrint($users);
 // }

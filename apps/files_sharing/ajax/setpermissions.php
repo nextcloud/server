@@ -2,7 +2,7 @@
 //$RUNTIME_NOAPPS = true;
 
  
-OC_JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkAppEnabled('files_sharing');
 require_once(OC::$APPSROOT . '/apps/files_sharing/lib_share.php');
 
 $source = "/".OCP\USER::getUser()."/files".$_GET['source'];

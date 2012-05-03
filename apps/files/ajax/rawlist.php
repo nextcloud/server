@@ -7,7 +7,7 @@ $RUNTIME_APPTYPES=array('filesystem');
 
 require_once('lib/template.php');
 
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
@@ -21,6 +21,6 @@ foreach( OC_Files::getdirectorycontent( $dir, $mimetype ) as $i ){
 	$files[] = $i;
 }
 
-OC_JSON::success(array('data' => $files));
+OCP\JSON::success(array('data' => $files));
 
 ?>

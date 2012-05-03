@@ -7,8 +7,8 @@
  */
 
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 $book = array(
 	'id' => 'new',
 	'displayname' => '',

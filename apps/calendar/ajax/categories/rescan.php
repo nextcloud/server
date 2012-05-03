@@ -7,15 +7,15 @@
  */
 
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.print_r($element, true));
 }
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
+	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('calendar','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
@@ -39,4 +39,4 @@ if(count($events) == 0) {
 OC_Calendar_App::scanCategories($events);
 $categories = OC_Calendar_App::getCategoryOptions();
 
-OC_JSON::success(array('data' => array('categories'=>$categories)));
+OCP\JSON::success(array('data' => array('categories'=>$categories)));

@@ -7,8 +7,8 @@
  */
  
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 $l = OC_L10N::get('calendar');
 
@@ -18,10 +18,10 @@ $lng = $_GET['long'];
 $timezone =  OC_Geo::timezone($lat, $lng);
 
 if($timezone == OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone')){
-	OC_JSON::success();
+	OCP\JSON::success();
 	exit;
 }
 OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timezone', $timezone);
 $message = array('message'=> $l->t('New Timezone:') . $timezone);
-OC_JSON::success($message);
+OCP\JSON::success($message);
 ?>

@@ -6,15 +6,15 @@
  * See the COPYING-README file.
  */
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 if(array_key_exists('timezonedetection', $_POST)){
 	if($_POST['timezonedetection'] == 'on'){
 		OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timezonedetection', 'true');
 	}else{
 		OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timezonedetection', 'false');
 	}
-	OC_JSON::success();
+	OCP\JSON::success();
 }else{
-	OC_JSON::error();
+	OCP\JSON::error();
 }
