@@ -125,6 +125,7 @@ $(document).ready(function(){
 			if(jsondata.status == 'success'){
 				$('#leftcontent li[data-id="<?php echo $id; ?>"]').addClass('active');
 				Contacts.UI.Card.loadContact(jsondata.data);
+				Contacts.UI.loadHandlers();
 			}
 			else{
 				OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));

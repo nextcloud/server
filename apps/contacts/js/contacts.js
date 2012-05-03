@@ -174,29 +174,27 @@ Contacts={
 				} else {
 					newid = id;
 				}
-				if($('#contacts li').length > 0) {
+				if(!$('n')) {
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#rightcontent').html(jsondata.data.page);
-							Contacts.UI.loadHandlers();
-							if($('#contacts li').length > 0) {
-								//var newid = $('#contacts li:first-child').data('id');
-								//$('#contacts li:first-child').addClass('active');
-								$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
-								$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
-									if(jsondata.status == 'success'){
-										Contacts.UI.Card.loadContact(jsondata.data);
-									} else{
-										OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-									}
-								});
-							}
-						} else{
+						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
 				}
-				if($('#contacts li').length == 0) {
+				if($('#contacts li').length > 0) {
+					//var newid = $('#contacts li:first-child').data('id');
+					//$('#contacts li:first-child').addClass('active');
+					$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
+					$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
+						if(jsondata.status == 'success'){
+							Contacts.UI.Card.loadContact(jsondata.data);
+						} else {
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+						}
+					});
+				} else if($('#contacts li').length == 0) {
 					// load intro page
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
 						if(jsondata.status == 'success'){
@@ -1446,10 +1444,20 @@ $(document).ready(function(){
 	$('#contacts_newcontact').keydown(Contacts.UI.Card.editNew);
 	
 	$('#contacts_deletecard').click( function() { Contacts.UI.Card.doDelete();return false;} );
-	$('#contacts_deletecard').keydown( function() { Contacts.UI.Card.doDelete();return false;} );
+	$('#contacts_deletecard').keydown( function(event) { 
+		if(event.which == 13) {
+			Contacts.UI.Card.doDelete();
+		}
+		return false;
+	});
 
 	$('#contacts_downloadcard').click( function() { Contacts.UI.Card.doExport();return false;} );
-	$('#contacts_downloadcard').keydown( function() { Contacts.UI.Card.doExport();return false;} );
+	$('#contacts_downloadcard').keydown( function(event) { 
+		if(event.which == 13) {
+			Contacts.UI.Card.doExport();
+		}
+		return false;
+	});
 
 	// Load a contact.
 	$('#leftcontent li').click(function(){
