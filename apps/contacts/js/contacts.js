@@ -150,10 +150,11 @@ Contacts={
 				}
 			] );
 			$('#categories').multiple_autocomplete({source: categories});
-			$('.button,.action,.tip').tipsy();
 			$('#contacts_deletecard').tipsy({gravity: 'ne'});
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
-			Contacts.UI.loadListHandlers();
+			$('#contacts_propertymenu_button').tipsy();
+			$('#contacts_newcontact, #chooseaddressbook').tipsy({gravity: 'sw'});
+			console.log($('#contacts_newcontact').html());
 		},
 		Card:{
 			id:'',
