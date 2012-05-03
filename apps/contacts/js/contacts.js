@@ -154,7 +154,6 @@ Contacts={
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
 			$('#contacts_propertymenu_button').tipsy();
 			$('#contacts_newcontact, #chooseaddressbook').tipsy({gravity: 'sw'});
-			console.log($('#contacts_newcontact').html());
 		},
 		Card:{
 			id:'',

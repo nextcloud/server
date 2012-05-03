@@ -11,7 +11,6 @@
 			editable: true
 		},
 		_create: function() {
-			//console.log('_create: ' + this.options['id']);
 			var self = this,
 				select = this.element.hide(),
 				selected = select.children(':selected'),
@@ -112,7 +111,6 @@
 			$.Widget.prototype.destroy.call( this );
 		},
 		value: function(val) {
-			console.log('combobox.value: ' + val);
 			if(val != undefined) {
 				this.input.val(val);
 			} else {
