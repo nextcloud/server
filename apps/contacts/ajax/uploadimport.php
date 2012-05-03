@@ -19,8 +19,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Init owncloud
-require_once('../../../lib/base.php');
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();

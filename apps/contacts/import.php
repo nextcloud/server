@@ -28,7 +28,7 @@ if(!$file) {
 	OCP\JSON::error(array('message' => 'Import file was empty.'));
 	exit();
 }
-error_log('File: '.$file);
+
 if(isset($_POST['method']) && $_POST['method'] == 'new'){
 	$id = OC_Contacts_Addressbook::add(OCP\USER::getUser(), $_POST['addressbookname']);
 	OC_Contacts_Addressbook::setActive($id, 1);

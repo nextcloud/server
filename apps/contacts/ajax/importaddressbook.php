@@ -6,7 +6,6 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
