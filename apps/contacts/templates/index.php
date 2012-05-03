@@ -10,8 +10,8 @@
 </div>
 	<div id="bottomcontrols">
 		<form>
-			<button class="action" id="contacts_newcontact"><img class="svg" src="<?php echo OCP\Util::linkTo('contacts', 'img/contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>"  title="<?php echo $l->t('Add Contact'); ?>" /></button>
-			<button class="action" id="chooseaddressbook"><img class="svg" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Addressbooks'); ?>" title="<?php echo $l->t('Addressbooks'); ?>" /></button>
+			<button class="svg" id="contacts_newcontact"><img class="svg" src="<?php echo OCP\Util::linkTo('contacts', 'img/contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>"  title="<?php echo $l->t('Add Contact'); ?>" /></button>
+			<button class="svg" id="chooseaddressbook"><img class="svg" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Addressbooks'); ?>" title="<?php echo $l->t('Addressbooks'); ?>" /></button>
 		</form>
 	</div>
 <div id="rightcontent" class="rightcontent" data-id="<?php echo $_['id']; ?>">

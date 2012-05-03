@@ -19,7 +19,7 @@ for($i = 0; $i < count($option_addressbooks); $i++){
 </tr>
 <tr>
 	<td colspan="5">
-		<p style="margin: 0 auto;width: 90%;"><input style="display:none;width: 90%;float: left;" type="text" id="carddav_url" onmouseover="$('#carddav_url').select();" title="<?php echo $l->t("CardDav Link"); ?>"><img id="carddav_url_close" style="height: 20px;vertical-align: middle;display: none;" src="../../core/img/actions/delete.svg" alt="close" onclick="$('#carddav_url').hide();$('#carddav_url_close').hide();"/></p>
+		<p style="margin: 0 auto;width: 90%;"><input style="display:none;width: 90%;float: left;" type="text" id="carddav_url" onmouseover="$('#carddav_url').select();" title="<?php echo $l->t("CardDav Link"); ?>"><a class="action delete" id="carddav_url_close" style="height: 20px;vertical-align: middle;display: none;" title="close" onclick="$('#carddav_url').hide();$('#carddav_url_close').hide();"/></a></p>
 	</td>
 </tr>
 </table>

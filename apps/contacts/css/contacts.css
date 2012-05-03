@@ -38,15 +38,16 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .loading { background: url('%webroot%/core/img/loading.gif') no-repeat center !important; /*cursor: progress; */ cursor: wait; }
 .ui-autocomplete-loading { background: url('%webroot%/core/img/loading.gif') right center no-repeat; }
 .float { float: left; }
-.action { border: inherit; background: inherit; }
+.svg { border: inherit; background: inherit; }
 .listactions { height: 1em; width:60px; float: left; clear: right; }
-.add,.edit,.delete,.mail, .globe, .upload, .cloud { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; opacity: 0.1; }
-.add:hover,.edit:hover,.delete:hover,.mail:hover, .globe:hover, .upload:hover, .cloud:hover { opacity: 1.0 }
+.add,.edit,.delete,.mail, .globe, .upload, .download, .cloud { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; opacity: 0.1; }
+.add:hover,.edit:hover,.delete:hover,.mail:hover, .globe:hover, .upload:hover, .download:hover .cloud:hover { opacity: 1.0 }
 .add { background:url('%webroot%/core/img/actions/add.svg') no-repeat center; clear: both; }
 .delete { background:url('%webroot%/core/img/actions/delete.svg') no-repeat center; }
 .edit { background:url('%webroot%/core/img/actions/rename.svg') no-repeat center; }
 .mail { background:url('%webroot%/core/img/actions/mail.svg') no-repeat center; }
 .upload { background:url('%webroot%/core/img/actions/upload.svg') no-repeat center; }
+.download { background:url('%webroot%/core/img/actions/download.svg') no-repeat center; }
 .cloud { background:url('%webroot%/core/img/places/picture.svg') no-repeat center; }
 /*.globe { background:url('../img/globe.svg') no-repeat center; }*/
 .globe { background:url('%webroot%/core/img/actions/public.svg') no-repeat center; }
