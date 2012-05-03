@@ -66,7 +66,7 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 
 /*.contactpart legend { width:auto; padding:.3em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; } */
 #cropbox { margin: auto; }
-#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; background: url('%webroot%/core/img/loading.gif') no-repeat center center; display: block; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
+#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; background: url('%webroot%/core/img/loading.gif') no-repeat center center; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
 #contacts_details_photo:hover { background: #fff; cursor: default; }
 #phototools { position:absolute; margin: 5px 0 0 10px; width:auto; height:22px; padding:0px; background-color:#fff; list-style-type:none; border-radius: 0.5em; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
 #phototools li { display: inline; }
