@@ -153,7 +153,7 @@ OCdialogs = {
         var f;
         switch(dialog_type) {
           case OCdialogs.ALERT_DIALOG:
-            f = function(){$(c_id).dialog('close'); callback();};
+            f = function(){$(c_id).dialog('close'); if(callback) callback();};
           break;
           case OCdialogs.PROMPT_DIALOG:
             f = function(){OCdialogs.prompt_ok_handler(callback, c_id)};
