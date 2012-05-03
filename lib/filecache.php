@@ -110,8 +110,13 @@ class OC_FileCache{
 			$data['versioned']=false;
 		}
 		$mimePart=dirname($data['mimetype']);
+		$data['size']=(int)$data['size'];
+		$data['ctime']=(int)$data['mtime'];
+		$data['writable']=(int)$data['writable'];
+		$data['encrypted']=(int)$data['encrypted'];
+		$data['versioned']=(int)$data['versioned'];
 		$user=OC_User::getUser();
-		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, path_hash, size, mtime, ctime, mimetype, mimepart,user,writable,encrypted,versioned) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
+		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, path_hash, size, mtime, ctime, mimetype, mimepart,`user`,writable,encrypted,versioned) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
 		$result=$query->execute(array($parent,basename($path),$path,md5($path),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
 		if(OC_DB::isError($result)){
 			OC_Log::write('files','error while writing file('.$path.') to cache',OC_Log::ERROR);
@@ -208,9 +213,9 @@ class OC_FileCache{
 		}
 		$rootLen=strlen($root);
 		if(!$returnData){
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE name LIKE ? AND user=?');
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE name LIKE ? AND `user`=?');
 		}else{
-			$query=OC_DB::prepare('SELECT * FROM *PREFIX*fscache WHERE name LIKE ? AND user=?');
+			$query=OC_DB::prepare('SELECT * FROM *PREFIX*fscache WHERE name LIKE ? AND `user`=?');
 		}
 		$result=$query->execute(array("%$search%",OC_User::getUser()));
 		$names=array();
@@ -332,7 +337,7 @@ class OC_FileCache{
 		if(!$user){
 			$user=OC_User::getUser();
 		}
-		$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id=? AND user=?');
+		$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id=? AND `user`=?');
 		$result=$query->execute(array($id,$user));
 		$row=$result->fetchRow();
 		$path=$row['path'];
@@ -594,10 +599,10 @@ class OC_FileCache{
 		$root .= '%';
 		$user=OC_User::getUser();
 		if(!$part2){
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND user=? AND path LIKE ?');
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimepart=? AND `user`=? AND path LIKE ?');
 			$result=$query->execute(array($part1,$user, $root));
 		}else{
-			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND user=? AND path LIKE ? ');
+			$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE mimetype=? AND `user`=? AND path LIKE ? ');
 			$result=$query->execute(array($part1.'/'.$part2,$user, $root));
 		}
 		$names=array();
