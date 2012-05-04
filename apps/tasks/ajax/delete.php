@@ -21,7 +21,6 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
 

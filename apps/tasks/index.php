@@ -8,7 +8,6 @@
  * See the COPYING-README file.                   *
  *************************************************/
 
-require_once ('../../lib/base.php');
 OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('tasks');
 
