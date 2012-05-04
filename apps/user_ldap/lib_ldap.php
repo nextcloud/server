@@ -610,6 +610,10 @@ class OC_LDAP {
 		}
 	}
 
+	static public function areCredentialsValid($name, $password) {
+		return @ldap_bind(self::getConnectionResource(), $name, $password);
+	}
+
 	/**
 	* taken from http://www.php.net/manual/en/function.array-search.php#97645
 	* TODO: move somewhere, where its better placed since it is not LDAP specific. OC_Helper maybe?

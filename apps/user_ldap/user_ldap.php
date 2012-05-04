@@ -41,6 +41,12 @@ class OC_USER_LDAP extends OC_User_Backend {
 	protected $ldap_quota_def;
 	protected $ldap_email;
 
+	protected $ldapUserFilter;
+	protected $ldapLoginFilter;
+	protected $ldapQuotaAttribute;
+	protected $ldapQuotaDefault;
+	protected $ldapEmailAttribute;
+
 	// will be retrieved from LDAP server
 	protected $ldap_dc = false;
 
@@ -58,6 +64,12 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->ldap_quota_attr = OCP\Config::getAppValue('user_ldap', 'ldap_quota_attr','');
 		$this->ldap_quota_def = OCP\Config::getAppValue('user_ldap', 'ldap_quota_def','');
 		$this->ldap_email_attr = OCP\Config::getAppValue('user_ldap', 'ldap_email_attr','');
+
+		$this->ldapUserFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter', '(objectClass=posixAccount)');
+		$this->ldapLoginFilter     = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
+		$this->ldapQuotaAttribute  = OCP\Config::getAppValue('user_ldap', 'ldap_quota_attr', '');
+		$this->ldapQuotaDefault    = OCP\Config::getAppValue('user_ldap', 'ldap_quota_def', '');
+		$this->ldapEmailAttribute  = OCP\Config::getAppValue('user_ldap', 'ldap_email_attr', '');
 
 		if( !empty($this->ldap_host)
 			&& !empty($this->ldap_port)
@@ -77,25 +89,34 @@ class OC_USER_LDAP extends OC_User_Backend {
 			ldap_unbind($this->ds);
 	}
 
-	private function setQuota( $uid ) {
-		if( !$this->ldap_dc )
-			return false;
-
-		if(!empty($this->ldap_quota_attr)) {
-			$quota = $this->ldap_dc[strtolower($this->ldap_quota_attr)][0];
-		} else {
-			$quota = false;
+	private function updateQuota($dn) {
+		$quota = null;
+		if(!empty($this->ldapQuotaDefault)) {
+			$quota = $this->ldapQuotaDefault;
 		}
-		$quota = $quota != -1 ? $quota : $this->ldap_quota_def;
-		OCP\Config::setUserValue($uid, 'files', 'quota', OCP\Util::computerFileSize($quota));
+		if(!empty($this->ldapQuotaAttribute)) {
+			$aQuota = OC_LDAP::readAttribute($dn, $this->ldapQuotaAttribute);
+
+			if($aQuota && (count($aQuota) > 0)) {
+				$quota = $aQuota[0];
+			}
+		}
+		if(!is_null($quota)) {
+			OCP\Config::setUserValue(OC_LDAP::dn2username($dn), 'files', 'quota', OCP\Util::computerFileSize($quota));
+		}
 	}
 
-	private function setEmail( $uid ) {
-		if( !$this->ldap_dc )
-			return false;
-
-		$email = $this->ldap_dc[$this->ldap_email_attr][0];
-		OCP\Config::setUserValue($uid, 'settings', 'email', $email);
+	private function updateEmail($dn) {
+		$email = null;
+		if(!empty($this->ldapEmailAttribute)) {
+			$aEmail = OC_LDAP::readAttribute($dn, $this->ldapEmailAttribute);
+			if($aEmail && (count($aEmail) > 0)) {
+				$email = $aEmail[0];
+			}
+			if(!is_null($email)){
+				OCP\Config::setUserValue(OC_LDAP::dn2username($dn), 'settings', 'email', $email);
+			}
+		}
 	}
 
 	//Connect to LDAP and store the resource
@@ -142,47 +163,34 @@ class OC_USER_LDAP extends OC_User_Backend {
 		return $this->ldap_dc;
 	}
 
-	public function checkPassword( $uid, $password ) {
-		if(!$this->configured){
+	/**
+	 * @brief Check if the password is correct
+	 * @param $uid The username
+	 * @param $password The password
+	 * @returns true/false
+	 *
+	 * Check if the password is correct without logging in the user
+	 */
+	public static function checkPassword( $uid, $password ){
+		//find out dn of the user name
+		$filter = str_replace('%uid', $uid, $this->ldapLoginFilter);
+		$ldap_users = OC_LDAP::fetchListOfUsers($filter, 'dn');
+		if(count($ldap_users) < 1) {
 			return false;
 		}
-		$dc = $this->getDc( $uid );
-		if( !$dc )
+		$dn = $ldap_users[0];
+
+		//are the credentials OK?
+		if(!OC_LDAP::areCredentialsValid($dn, $password)) {
 			return false;
-
-		if (!@ldap_bind( $this->getDs(), $dc['dn'], $password )) {
-			return false;
 		}
 
-		if(!empty($this->ldap_quota_attr) || !empty($this->ldap_quota_def)) {
-			$this->setQuota($uid);
-		}
+		//update some settings, if necessary
+		$this->updateQuota($dn);
+		$this->updateEmail($dn);
 
-		if(!empty($this->ldap_email_attr)) {
-			$this->setEmail($uid);
-		}
-
-		if($this->ldap_nocase) {
-			$filter = str_replace('%uid', $uid, $this->ldap_login_filter);
-			$sr = ldap_search( $this->getDs(), $this->ldap_base, $filter );
-			$entries = ldap_get_entries( $this->getDs(), $sr );
-			if( $entries['count'] == 1 ) {
-				foreach($entries as $row) {
-					$ldap_display_name  = strtolower($this->ldap_display_name);
-					if(isset($row[$ldap_display_name])) {
-						return $row[$ldap_display_name][0];
-					}
-				}
-			}
-			else {
-				return $uid;
-			}
-
-		}
-		else {
-			return $uid;
-		}
-
+		//give back the display name
+		return OC_LDAP::dn2username($dn);
 	}
 
 	/**
