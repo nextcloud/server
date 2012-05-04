@@ -42,6 +42,16 @@ class User {
 	}
 
 
+	/**
+	 * @brief Get a list of all users
+	 * @returns array with all uids
+	 *
+	 * Get a list of all users.
+	 */
+	public static function getUsers(){
+		return \OC_USER::getUsers();
+	}
+
 
 	/**
 	 * @brief Check if the user is logged in
