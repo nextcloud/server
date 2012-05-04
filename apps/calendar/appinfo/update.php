@@ -16,5 +16,5 @@ if (version_compare($installedVersion, '0.2.1', '<')) {
 	}
 }
 if(!file_exists(OC::$WEBROOT.'/remote/caldav.php')){
-	file_put_contents(OC::$WEBROOT.'/remote/caldav.php', file_get_contents(OC::$APPROOT . '/apps/calendar/appinfo/remote.php'));
+	file_put_contents(OC::$WEBROOT.'/remote/caldav.php', file_get_contents(OC::$APPSROOT . '/apps/calendar/appinfo/remote.php'));
 }
