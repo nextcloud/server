@@ -32,7 +32,7 @@ function getStandardImage(){
 	OCP\Response::redirect(OCP\Util::imagePath('contacts', 'person.png'));
 }
 
-if(!function_exists('imagecreatefromjpeg')) {
+if(!extension_loaded('gd') || !function_exists('gd_info')) {
 	OCP\Util::writeLog('contacts','thumbnail.php. GD module not installed',OCP\Util::DEBUG);
 	getStandardImage();
 	exit();

@@ -26,6 +26,11 @@ if(is_null($id)) {
 	getStandardImage();
 }
 
+if(!extension_loaded('gd') || !function_exists('gd_info')) {
+	OCP\Util::writeLog('contacts','photo.php. GD module not installed',OCP\Util::DEBUG);
+	getStandardImage();
+}
+
 $contact = OC_Contacts_App::getContactVCard($id);
 $image = new OC_Image();
 if(!$image) {
