@@ -9,22 +9,8 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<input id="file_upload_start" type="file" accept="image/*" name="imagefile" />
 	</form>
 	<div id="actionbar">
-	<button title="<?php echo $l->t('Add field'); ?>" class="svg action" id="contacts_propertymenu_button"></button>
-	<div id="contacts_propertymenu" class="hidden">
-	<ul role="menu">
-		<li><a role="menuitem" data-type="PHOTO"><?php echo $l->t('Profile picture'); ?></a></li>
-		<li><a role="menuitem" data-type="ORG"><?php echo $l->t('Organization'); ?></a></li>
-		<li><a role="menuitem" data-type="NICKNAME"><?php echo $l->t('Nickname'); ?></a></li>
-		<li><a role="menuitem" data-type="BDAY"><?php echo $l->t('Birthday'); ?></a></li>
-		<li><a role="menuitem" data-type="TEL"><?php echo $l->t('Phone'); ?></a></li>
-		<li><a role="menuitem" data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
-		<li><a role="menuitem" data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
-		<li><a role="menuitem" data-type="NOTE"><?php echo $l->t('Note'); ?></a></li>
-		<li><a role="menuitem" data-type="CATEGORIES"><?php echo $l->t('Groups'); ?></a></li>
-	</ul>
-	</div>
-	<button class="svg action" id="contacts_downloadcard" title="<?php echo $l->t('Download contact');?>"></button>
-	<button class="svg action" id="contacts_deletecard" title="<?php echo $l->t('Delete contact');?>"></button>
+		<button class="svg action" id="contacts_downloadcard" title="<?php echo $l->t('Download contact');?>"></button>
+		<button class="svg action" id="contacts_deletecard" title="<?php echo $l->t('Delete contact');?>"></button>
 	</div>
 
 	<div id="contact_photo" class="contactsection">
@@ -110,6 +96,21 @@ $id = isset($_['id']) ? $_['id'] : '';
 		</div>
 	</form>
 	</div> <!-- contact_note -->
+
+	<div id="contacts_propertymenu">
+	<button class="button" id="contacts_propertymenu_button"><?php echo $l->t('Add field'); ?></button>
+	<ul id="contacts_propertymenu_dropdown" role="menu" class="hidden">
+		<li><a role="menuitem" data-type="PHOTO"><?php echo $l->t('Profile picture'); ?></a></li>
+		<li><a role="menuitem" data-type="ORG"><?php echo $l->t('Organization'); ?></a></li>
+		<li><a role="menuitem" data-type="NICKNAME"><?php echo $l->t('Nickname'); ?></a></li>
+		<li><a role="menuitem" data-type="BDAY"><?php echo $l->t('Birthday'); ?></a></li>
+		<li><a role="menuitem" data-type="TEL"><?php echo $l->t('Phone'); ?></a></li>
+		<li><a role="menuitem" data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
+		<li><a role="menuitem" data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
+		<li><a role="menuitem" data-type="NOTE"><?php echo $l->t('Note'); ?></a></li>
+		<li><a role="menuitem" data-type="CATEGORIES"><?php echo $l->t('Groups'); ?></a></li>
+	</ul>
+	</div>
 
 </div> <!-- card -->
 <div id="edit_photo_dialog" title="Edit photo">

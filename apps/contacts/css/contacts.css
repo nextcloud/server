@@ -9,11 +9,12 @@
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
 #leftcontent a { height: 23px; display: block; margin: 0 0 0 0; padding: 0 0 0 25px; }
 #actionbar { height: 30px; width: 60px; position: fixed; right: 0px; top: 4em; margin: 0 0 0 0; padding: 0 0 0 0; z-index: 1000; }
-#contacts_deletecard {position:absolute;top:15px;right:25px; background:url('%webroot%/core/img/actions/delete.svg') no-repeat center; }
-#contacts_downloadcard {position:absolute;top:15px;right:50px; background:url('%webroot%/core/img/actions/download.svg') no-repeat center; }
-#contacts_propertymenu_button { position:absolute;top:15px;right:150px; background:url('%webroot%/core/img/actions/add.svg') no-repeat center; }
-#contacts_propertymenu { background-color: #fff; position:absolute;top:40px;right:150px; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
-#contacts_propertymenu li { display: block; font-weight: bold; height: 20px; width: 100px; }
+#contacts_deletecard {position:relative; float:left; background:url('%webroot%/core/img/actions/delete.svg') no-repeat center; }
+#contacts_downloadcard {position:relative; float:left; background:url('%webroot%/core/img/actions/download.svg') no-repeat center; }
+#contacts_propertymenu { clear: both; max-width: 15em; margin: 2em; }
+#contacts_propertymenu_button { position:relative;top:0;left:0; margin: 0; }
+#contacts_propertymenu_dropdown { background-color: #fff; position:relative; right:0; overflow:hidden; text-overflow:ellipsis; /*border: thin solid #1d2d44;*/  -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000; box-shadow:0 0 10px #000; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; -moz-border-radius:0.5em; -webkit-border-radius:0.5em; border-radius:0.5em; }
+#contacts_propertymenu li { display: block; font-weight: bold; height: 20px; }
 #contacts_propertymenu li a { padding: 3px; display: block }
 #contacts_propertymenu li:hover { background-color: #1d2d44; }
 #contacts_propertymenu li a:hover { color: #fff }
@@ -57,7 +58,7 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 #edit_name_dialog > input { width: 15em; }
 #edit_address_dialog { /*width: 30em;*/ }
 #edit_address_dialog > input { width: 15em; }
-#edit_photo_dialog_img { display: block; width: 150; height: 200; border: thin solid black; }
+#edit_photo_dialog_img { display: block; min-width: 150; min-height: 200; }
 #fn { float: left !important; width: 18em !important; }
 #name { /*position: absolute; top: 0px; left: 0px;*/ min-width: 25em; height: 2em; clear: right; display: block; }
 #identityprops { /*position: absolute; top: 2.5em; left: 0px;*/ }

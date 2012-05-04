@@ -342,12 +342,12 @@ Contacts={
 					note.val(txt);
 					$('#note').show();
 					note.expandingTextarea();
-					$('#contacts_propertymenu a[data-type="NOTE"]').parent().hide();
+					$('#contacts_propertymenu_dropdown a[data-type="NOTE"]').parent().hide();
 				} else {
 					$('#note').data('checksum', '');
 					$('#note').find('textarea').val('');
 					$('#note').hide();
-					$('#contacts_propertymenu a[data-type="NOTE"]').parent().show();
+					$('#contacts_propertymenu_dropdown a[data-type="NOTE"]').parent().show();
 				}
 			},
 			loadSingleProperties:function() {
@@ -363,7 +363,7 @@ Contacts={
 				});
 				for(var prop in props) {
 					if(this.data[props[prop]] != undefined) {
-						$('#contacts_propertymenu a[data-type="'+props[prop]+'"]').parent().hide();
+						$('#contacts_propertymenu_dropdown a[data-type="'+props[prop]+'"]').parent().hide();
 						var property = this.data[props[prop]][0];
 						var value = property['value'], checksum = property['checksum'];
 						switch(props[prop]) {
@@ -395,7 +395,7 @@ Contacts={
 								break;
 						}
 					} else {
-						$('#contacts_propertymenu a[data-type="'+props[prop]+'"]').parent().show();
+						$('#contacts_propertymenu_dropdown a[data-type="'+props[prop]+'"]').parent().show();
 					}
 				}
 			},
@@ -574,12 +574,12 @@ Contacts={
 					case 'PHOTO':
 						this.loadPhoto(true);
 						$('#file_upload_form').show();
-						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
+						$('#contacts_propertymenu_dropdown a[data-type="'+type+'"]').parent().hide();
 						$('#file_upload_start').trigger('click');
 						break;
 					case 'NOTE':
 						$('#note').show();
-						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
+						$('#contacts_propertymenu_dropdown a[data-type="'+type+'"]').parent().hide();
 						$('#note').find('textarea').expandingTextarea();
 						$('#note').find('textarea').focus();
 						break;
@@ -610,7 +610,7 @@ Contacts={
 					case 'CATEGORIES':
 						$('dl dt[data-element="'+type+'"],dd[data-element="'+type+'"]').show();
 						$('dd[data-element="'+type+'"]').find('input').focus();
-						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
+						$('#contacts_propertymenu_dropdown a[data-type="'+type+'"]').parent().hide();
 						break;
 				}
 			},
@@ -641,7 +641,7 @@ Contacts={
 									$('dl dd[data-element="'+proptype+'"]').data('checksum', '');
 									$('dl dd[data-element="'+proptype+'"]').find('input').val('');
 								}
-								$('#contacts_propertymenu a[data-type="'+proptype+'"]').parent().show();
+								$('#contacts_propertymenu_dropdown a[data-type="'+proptype+'"]').parent().show();
 								Contacts.UI.loading(obj, false);
 							} else {
 								OC.dialogs.alert(t('contacts', '\'deleteProperty\' called without type argument. Please report at bugs.owncloud.org'), t('contacts', 'Error'));
@@ -659,7 +659,7 @@ Contacts={
 					} else if(type == 'single') {
 						var proptype = Contacts.UI.propertyTypeFor(obj);
 						$('dl dt[data-element="'+proptype+'"],dd[data-element="'+proptype+'"]').hide();
-						$('#contacts_propertymenu a[data-type="'+proptype+'"]').parent().show();
+						$('#contacts_propertymenu_dropdown a[data-type="'+proptype+'"]').parent().show();
 						Contacts.UI.loading(obj, false);
 					} else {
 						OC.dialogs.alert(t('contacts', '\'deleteProperty\' called without type argument. Please report at bugs.owncloud.org'), t('contacts', 'Error'));
@@ -1054,7 +1054,7 @@ Contacts={
 					}
 				});
 				$('#file_upload_form').show();
-				$('#contacts_propertymenu a[data-type="PHOTO"]').parent().hide();
+				$('#contacts_propertymenu_dropdown a[data-type="PHOTO"]').parent().hide();
 			},
 			editCurrentPhoto:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'currentphoto.php'),{'id':this.id},function(jsondata){
@@ -1625,11 +1625,11 @@ $(document).ready(function(){
 
 	$('body').click(function(e){
 		if(!$(e.target).is('#contacts_propertymenu_button')) {
-			$('#contacts_propertymenu').hide();
+			$('#contacts_propertymenu_dropdown').hide();
 		}
 	});
 	function propertyMenu(){
-		var menu = $('#contacts_propertymenu');
+		var menu = $('#contacts_propertymenu_dropdown');
 		if(menu.is(':hidden')) {
 			menu.show();
 			menu.find('li').first().focus();
@@ -1642,8 +1642,8 @@ $(document).ready(function(){
 	function propertyMenuItem(){
 		var type = $(this).data('type');
 		Contacts.UI.Card.addProperty(type);
-		$('#contacts_propertymenu').hide();
+		$('#contacts_propertymenu_dropdown').hide();
 	}
-	$('#contacts_propertymenu a').click(propertyMenuItem);
-	$('#contacts_propertymenu a').keydown(propertyMenuItem);
+	$('#contacts_propertymenu_dropdown a').click(propertyMenuItem);
+	$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 });
