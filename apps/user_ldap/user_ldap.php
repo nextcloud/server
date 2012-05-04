@@ -50,7 +50,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	// will be retrieved from LDAP server
 	protected $ldap_dc = false;
 
-	function __construct() {
+	public function __construct() {
 		$this->ldap_host = OCP\Config::getAppValue('user_ldap', 'ldap_host','');
 		$this->ldap_port = OCP\Config::getAppValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT	);
 		$this->ldap_dn = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
@@ -171,7 +171,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 *
 	 * Check if the password is correct without logging in the user
 	 */
-	public static function checkPassword( $uid, $password ){
+	public function checkPassword($uid, $password){
 		//find out dn of the user name
 		$filter = str_replace('%uid', $uid, $this->ldapLoginFilter);
 		$ldap_users = OC_LDAP::fetchListOfUsers($filter, 'dn');
