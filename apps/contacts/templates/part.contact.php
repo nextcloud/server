@@ -2,6 +2,12 @@
 $id = isset($_['id']) ? $_['id'] : '';
 ?>
 <div id="card">
+	<form class="float" id="file_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadphoto.php'); ?>" method="post" enctype="multipart/form-data" target="file_upload_target">
+		<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
+		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
+		<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
+		<input id="file_upload_start" type="file" accept="image/*" name="imagefile" />
+	</form>
 	<div id="actionbar">
 	<button title="<?php echo $l->t('Add field'); ?>" class="svg action" id="contacts_propertymenu_button"></button>
 	<div id="contacts_propertymenu" class="hidden">
@@ -23,16 +29,9 @@ $id = isset($_['id']) ? $_['id'] : '';
 
 	<div id="contact_photo" class="contactsection">
 
-	<form class="float" id="file_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadphoto.php'); ?>" method="post" enctype="multipart/form-data" target="file_upload_target">
-		<div class="tip propertycontainer" id="contacts_details_photo_wrapper" title="<?php echo $l->t('Drop photo to upload'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)" data-element="PHOTO">
-		<progress id="contacts_details_photo_progress" class="hidden" value="0" max="100">0 %</progress>
-		</div>
-		<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
-		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
-		<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
-		<input id="file_upload_start" type="file" accept="image/*" name="imagefile" />
-		<iframe name="file_upload_target" id='file_upload_target' src=""></iframe>
-	</form>
+	<iframe name="file_upload_target" id='file_upload_target' src=""></iframe>
+	<div class="tip propertycontainer" id="contacts_details_photo_wrapper" title="<?php echo $l->t('Drop photo to upload'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)" data-element="PHOTO">
+	</div>
 	</div> <!-- contact_photo -->
 
 	<div id="contact_identity" class="contactsection">
@@ -65,7 +64,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 	<form method="post">
 		<!-- email addresses -->
 		<div id="emails">
-		<fieldset class="contactpart">
 			<ul id="emaillist" class="propertylist">
 			<li class="template hidden" data-element="EMAIL">
 				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
@@ -80,7 +78,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 
 		<!-- Phone numbers -->
 		<div id="phones">
-		<fieldset class="contactpart">
 			<ul id="phonelist" class="propertylist">
 				<li class="template hidden" data-element="TEL">
 				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" /> 
@@ -94,7 +91,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 
 		<!-- Addresses -->
 		<div id="addresses" class="hidden">
-		<fieldset class="contactpart">
 		<div id="addressdisplay">
 			<dl class="addresscard template hidden" data-element="ADR"><dt>
 			<input class="adr contacts_property" name="value" type="hidden" value="" />
@@ -102,18 +98,19 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<span class="adr_type_label"></span><a class="action globe" title="<?php echo $l->t('View on map'); ?>"></a><a class="action edit" title="<?php echo $l->t('Edit address details'); ?>"></a><a role="button" class="action delete" title="Delete address"></a>
 			</dt><dd><ul class="addresslist"></ul></dd></dl>
 
-		</fieldset>
 		</div> <!-- addressdisplay -->
 		</div> <!-- Addresses -->
 	</form>
 	</div> <!-- contact_communication -->
+
 	<div id="contact_note" class="contactsection">
 	<form class="float" method="post">
-	<fieldset id="note" class="formfloat propertycontainer contactpart" data-element="NOTE">
-	<textarea class="contacts_property note" name="value" cols="60" rows="15" required="required" placeholder="<?php echo $l->t('Add notes here.'); ?>"></textarea>
-	</fieldset>
+		<div id="note" class="propertycontainer" data-element="NOTE">
+			<textarea class="contacts_property" name="value" required="required" placeholder="<?php echo $l->t('Add notes here.'); ?>" cols="60" wrap="hard"></textarea>
+		</div>
 	</form>
 	</div> <!-- contact_note -->
+
 </div> <!-- card -->
 <div id="edit_photo_dialog" title="Edit photo">
 		<div id="edit_photo_dialog_img"></div>

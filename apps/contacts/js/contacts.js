@@ -149,6 +149,7 @@ Contacts={
 					click: function() { $(this).dialog('close'); }
 				}
 			] );
+			
 			$('#categories').multiple_autocomplete({source: categories});
 			$('#contacts_deletecard').tipsy({gravity: 'ne'});
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
@@ -333,13 +334,20 @@ Contacts={
 				Contacts.UI.loadListHandlers();
 				if(this.data.NOTE) {
 					$('#note').data('checksum', this.data.NOTE[0]['checksum']);
-					$('#note').find('textarea').val(this.data.NOTE[0]['value']);
+					var note = $('#note').find('textarea');
+					var txt = this.data.NOTE[0]['value'];
+					var nheight = txt.split('\n').length > 4 ? txt.split('\n').length+2 : 5;
+					note.css('min-height', nheight+'em');
+					note.attr('rows', nheight);
+					note.val(txt);
 					$('#note').show();
+					note.expandingTextarea();
 					$('#contacts_propertymenu a[data-type="NOTE"]').parent().hide();
 				} else {
 					$('#note').data('checksum', '');
 					$('#note').find('textarea').val('');
 					$('#note').hide();
+					$('#contacts_propertymenu a[data-type="NOTE"]').parent().show();
 				}
 			},
 			loadSingleProperties:function() {
@@ -572,6 +580,7 @@ Contacts={
 					case 'NOTE':
 						$('#note').show();
 						$('#contacts_propertymenu a[data-type="'+type+'"]').parent().hide();
+						$('#note').find('textarea').expandingTextarea();
 						$('#note').find('textarea').focus();
 						break;
 					case 'EMAIL':
