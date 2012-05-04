@@ -40,12 +40,10 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	public function inGroup($uid, $gid) {
 		$dn_user = OC_LDAP::username2dn($uid);
 		$dn_group = OC_LDAP::groupname2dn($gid);
-// 	if($dn_group == 'c')	{echo('#sdfsdgfds');die($gid);}
 		// just in case
 		if(!$dn_group || !$dn_user) {
 			return false;
 		}
-// 		var_dump($dn_group);
 		$members = OC_LDAP::readAttribute($dn_group, LDAP_GROUP_MEMBER_ASSOC_ATTR);
 
 		return in_array($dn_user, $members);
@@ -69,7 +67,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			$this->ldapGroupFilter,
 			LDAP_GROUP_MEMBER_ASSOC_ATTR.'='.$userDN
 		));
-		$groups = $this->retrieveList($filter, array(OC_LDAP::conf('ldapGroupDisplayName'),'dn'));
+		$groups = OC_LDAP::fetchListOfGroups($filter, array(OC_LDAP::conf('ldapGroupDisplayName'),'dn'));
 		$userGroups = OC_LDAP::ownCloudGroupNames($groups);
 
 		return array_unique($userGroups, SORT_LOCALE_STRING);
@@ -99,7 +97,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups() {
-		$ldap_groups = $this->retrieveList($this->ldapGroupFilter, array(OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
+		$ldap_groups = OC_LDAP::fetchListOfGroups($this->ldapGroupFilter, array(OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
 		$groups = OC_LDAP::ownCloudGroupNames($ldap_groups);
 		return $groups;
 	}
@@ -112,26 +110,4 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	public function groupExists($gid){
 		return in_array($gid, $this->getGroups());
 	}
-
-	private function retrieveList($filter, $attr, $searchForGroups = true) {
-		if($searchForGroups) {
-			$list = OC_LDAP::searchGroups($filter, $attr);
-		} else {
-			$list = OC_LDAP::searchUsers($filter, $attr);
-		}
-
-		if(is_array($list)) {
-			if(count($attr) > 1){
-				return $list;
-			} else {
-				return array_unique($list, SORT_LOCALE_STRING);
-			}
-		}
-
-		//error cause actually, maybe throw an exception in future.
-		return array();
-	}
-
-
-
 }
