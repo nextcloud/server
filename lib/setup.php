@@ -271,19 +271,23 @@ class OC_Setup {
 
 	public static function pg_createDatabase($name,$user,$connection) {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
-		$query = "CREATE DATABASE $name OWNER $user";
+		$e_name = pg_escape_string($name);
+		$e_user = pg_escape_string($user);
+		$query = "CREATE DATABASE \"$e_name\" OWNER \"$e_user\"";
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
 			$entry.='Offending command was: '.$query.'<br />';
 			echo($entry);
 		}
-		$query = "REVOKE ALL PRIVILEGES ON DATABASE $name FROM PUBLIC";
+		$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
 		$result = pg_query($connection, $query);		
 	}
 
 	private static function pg_createDBUser($name,$password,$connection) {
-		$query = "CREATE USER $name CREATEDB PASSWORD '$password';";
+		$e_name = pg_escape_string($name);
+		$e_password = pg_escape_string($password);
+		$query = "CREATE USER \"$e_name\" CREATEDB PASSWORD '$e_password';";
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
