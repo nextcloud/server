@@ -66,7 +66,7 @@ OC.Tasks = {
 			.blur(function(){
 				var task = $(this).closest('.task').data('task');
 				var description = $(this).val();
-				$.post('ajax/update_property.php', {id:task.id, type:'description', description:description}, function(jsondata){
+				$.post(OC.filePath('tasks', 'ajax', 'update_property.php'), {id:task.id, type:'description', description:description}, function(jsondata){
 					if(jsondata.status == 'success') {
 						task.description = description;
 					}
@@ -109,7 +109,7 @@ OC.Tasks = {
 			.blur(function(){
 				var task = $(this).closest('.task').data('task');
 				var categories = $(this).val();
-				$.post('ajax/update_property.php', {id:task.id, type:'categories', categories:categories}, function(jsondata){
+				$.post(OC.filePath('tasks', 'ajax', 'update_property.php'), {id:task.id, type:'categories', categories:categories}, function(jsondata){
 					if(jsondata.status == 'success') {
 						task.categories = categories.split(',');
 						$categories.empty();
@@ -129,7 +129,7 @@ OC.Tasks = {
 			.blur(function(){
 				var task = $(this).closest('.task').data('task');
 				var location = $(this).val();
-				$.post('ajax/update_property.php', {id:task.id, type:'location', location:location}, function(jsondata){
+				$.post(OC.filePath('tasks', 'ajax', 'update_property.php'), {id:task.id, type:'location', location:location}, function(jsondata){
 					if(jsondata.status == 'success') {
 						task.location = location;
 						task_container.find('.location').text(location);
@@ -214,7 +214,7 @@ OC.Tasks = {
 			var old_summary = task.summary;
 			task.summary = $(this).val();
 			OC.Tasks.setSummary(summary_container, task);
-			$.post('ajax/update_property.php', {id:task.id, type:'summary', summary:task.summary}, function(jsondata){
+			$.post(OC.filePath('tasks', 'ajax', 'update_property.php'), {id:task.id, type:'summary', summary:task.summary}, function(jsondata){
 				if(jsondata.status != 'success') {
 					task.summary = old_summary;
 					OC.Tasks.setSummary(summary_container, task);
@@ -245,7 +245,7 @@ OC.Tasks = {
 			}
 			due = date.getTime()/1000;
 		}
-		$.post('ajax/update_property.php', {id:task.id, type:'due', due:due, date:date_only?1:0}, function(jsondata){
+		$.post(OC.filePath('tasks', 'ajax', 'update_property.php'), {id:task.id, type:'due', due:due, date:date_only?1:0}, function(jsondata){
 			if(jsondata.status != 'success') {
 				task.due = old_due;
 			}
@@ -277,7 +277,7 @@ OC.Tasks = {
 		var $task = $(this).closest('.task'),
 			task = $task.data('task'),
 			checked = $(this).is(':checked');
-		$.post('ajax/update_property.php', {id:task.id, type:'complete', checked:checked?1:0}, function(jsondata){
+		$.post(OC.filePath('tasks', 'ajax', 'update_property.php'), {id:task.id, type:'complete', checked:checked?1:0}, function(jsondata){
 			if(jsondata.status == 'success') {
 				task = jsondata.data;
 				$task.data('task', task)
