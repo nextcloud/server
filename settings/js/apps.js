@@ -9,6 +9,12 @@ $(document).ready(function(){
 		var app=$.parseJSON($(this).children('span').text());
 		$(li).data('app',app);
 	});
+	$('#leftcontent li').keydown(function(event) {
+		if (event.which == 13 || event.which == 32) {
+			$(event.target).click()
+		}
+		return false;
+	});
 	$('#leftcontent li').click(function(){
 		var app=$(this).data('app');
 		$('#rightcontent p').show();
@@ -25,6 +31,7 @@ $(document).ready(function(){
 		$('#rightcontent input.enable').val((app.active)?t('settings','Disable'):t('settings','Enable'));
 		$('#rightcontent input.enable').data('appid',app.id);
 		$('#rightcontent input.enable').data('active',app.active);
+		return false;
 	});
 	$('#rightcontent input.enable').click(function(){
 		var app=$(this).data('appid');

@@ -62,6 +62,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
 #leftcontent li.active, .leftcontent li.active { font-weight:bold; }
 #leftcontent li:hover, .leftcontent li:hover { color:#333; background:#ddd; }
+#leftcontent a { height: 100%; display: block; margin: 0; padding: 0 1em 0 0; float: left; }
 #rightcontent, .rightcontent { position:fixed; top: 6.4em; left: 32.5em; overflow: auto }
 
 
