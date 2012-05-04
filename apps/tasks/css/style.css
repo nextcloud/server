@@ -10,9 +10,10 @@
 #tasks_list h1{background-color:#1D2D44;color:white;font-size:120%;padding:0 0.5em;}
 
 .task{border-radius:0.4em;position:relative;padding:0.5em 1em;}
+.task:nth-child(odd){background-color:#F4F4F4;}
 .task:hover {background-color:#DDDDDD;}
 
-.task_actions{display:none;position:absolute;right:33.3333%;top:0.2em;}
+.task_actions{display:none;position:absolute;left:30em;top:0.2em;}
 .task:hover .task_actions {display:block}
 .task_actions img{vertical-align:middle;}
 .task_actions span{cursor:pointer;}
@@ -36,9 +37,10 @@
 .task.done .summary{text-decoration:line-through;}
 
 .task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;border:1px solid transparent;padding:0 0.4em;cursor:pointer;}
-.task .tag:hover{opacity:0.5;}
 .task .tag.active{border-color:black;opacity:0.6;}
-.task .tag.active:hover{opacity:0.8;}
+.task .tag.active:hover{opacity:1;}
+.task:hover .tag{opacity:0.5}
+.task:hover .tag:hover{opacity:0.8;}
 
 .task .categories{position:absolute;right:12em;text-align:right;top:0.4em}
 .task .categories a{background-color:#1d2d44;color:white;}
