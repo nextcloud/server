@@ -406,7 +406,7 @@ class OC_LDAP {
 		$er = ldap_first_entry($cr, $rr);
 		$result = ldap_get_attributes($cr, $er);
 
-		if($result[$attr]['count'] > 0){
+		if(isset($result[$attr]) && $result[$attr]['count'] > 0){
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
 				$values[] = $result[$attr][$i];
