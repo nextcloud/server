@@ -21,18 +21,18 @@
 * 
 */
 
-require_once('../../lib/base.php');
 
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('gallery');
-OC_App::setActiveNavigationEntry( 'gallery_index' );
 
-if (!file_exists(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery')) {
-  mkdir(OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery');
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('gallery');
+OCP\App::setActiveNavigationEntry( 'gallery_index' );
+
+if (!file_exists(OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery')) {
+  mkdir(OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery');
 }
 
 if (!isset($_GET['view'])) {
-  $result = OC_Gallery_Album::find(OC_User::getUser());
+  $result = OC_Gallery_Album::find(OCP\USER::getUser());
 
   $r = array();
   while ($row = $result->fetchRow())
@@ -42,7 +42,7 @@ if (!isset($_GET['view'])) {
   $tmpl->assign('r', $r);
   $tmpl->printPage();
 } else {
-  $result = OC_Gallery_Photo::findForAlbum(OC_User::getUser(), $_GET['view']);
+  $result = OC_Gallery_Photo::findForAlbum(OCP\USER::getUser(), $_GET['view']);
 
   $photos = array();
   while ($p = $result->fetchRow())

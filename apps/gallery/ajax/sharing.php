@@ -21,10 +21,10 @@
 * 
 */
 
-require_once('../../../lib/base.php');
+ 
 
 if (!isset($_GET['token']) || !isset($_GET['operation'])) {
-  OC_JSON::error(array('cause' => 'Not enought arguments'));
+  OCP\JSON::error(array('cause' => 'Not enought arguments'));
   exit;
 }
 
@@ -32,7 +32,7 @@ $operation = $_GET['operation'];
 $token = $_GET['token'];
 
 if (!OC_Gallery_Sharing::isTokenValid($token)) {
-  OC_JSON::error(array('cause' => 'Given token is not valid'));
+  OCP\JSON::error(array('cause' => 'Given token is not valid'));
   exit;
 }
 
@@ -65,14 +65,14 @@ function handleGetGallery($token, $path) {
       $photos[] = $row['file_path'];
   }
 
-  OC_JSON::success(array('albums' => $albums, 'photos' => $photos));
+  OCP\JSON::success(array('albums' => $albums, 'photos' => $photos));
 }
 
 function handleGetThumbnail($token, $imgpath) {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
   $image = OC_Gallery_Photo::getThumbnail($imgpath, $owner);
   if ($image) {
-    OC_Response::enableCaching(3600 * 24); // 24 hour
+    OCP\Response::enableCaching(3600 * 24); // 24 hour
     $image->show();
   }
 }
@@ -80,22 +80,22 @@ function handleGetThumbnail($token, $imgpath) {
 function handleGetAlbumThumbnail($token, $albumname)
 {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
-  $file = OC_Config::getValue("datadirectory").'/'. $owner .'/gallery/'.$albumname.'.png';
+  $file = OCP\Config::getSystemValue("datadirectory").'/'. $owner .'/gallery/'.$albumname.'.png';
   $image = new OC_Image($file);
   if ($image->valid()) {
     $image->centerCrop();
     $image->resize(200);
     $image->fixOrientation();
-    OC_Response::enableCaching(3600 * 24); // 24 hour
+    OCP\Response::enableCaching(3600 * 24); // 24 hour
     $image->show();
   }
 }
 
 function handleGetPhoto($token, $photo) {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
-  $file = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$owner.'/files'.urldecode($photo);
+  $file = OCP\Config::getSystemValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$owner.'/files'.urldecode($photo);
   header('Content-Type: '.OC_Image::getMimeTypeForFile($file));
-  OC_Response::sendFile($file);
+  OCP\Response::sendFile($file);
 }
 
 switch ($operation) {

@@ -1,7 +1,7 @@
 <?php
 //load the required files
-OC_Util::addScript( 'files_pdfviewer', 'viewer');
-OC_Util::addStyle( 'files_pdfviewer', 'viewer');
-OC_Util::addScript( 'files_pdfviewer', 'pdfjs/build/pdf');
-OC_Util::addScript( 'files_pdfviewer', 'pdfview');
+OCP\Util::addscript( 'files_pdfviewer', 'viewer');
+OCP\Util::addStyle( 'files_pdfviewer', 'viewer');
+OCP\Util::addscript( 'files_pdfviewer', 'pdfjs/build/pdf');
+OCP\Util::addscript( 'files_pdfviewer', 'pdfview');
 ?>

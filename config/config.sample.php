@@ -19,6 +19,15 @@ $CONFIG = array(
 "knowledgebaseurl" => "",
 "appstoreenabled" => true,
 "appstoreurl" => "",
+"mail_smtpmode" => "sendmail",
+"mail_smtphost" => "127.0.0.1",
+"mail_smtpauth" => "false",
+"mail_smtpname" => "",
+"mail_smtppassword" => "",
+"appcodechecker" => "",
+"log_type" => "",
+"logfile" => "",
+"loglevel" => "",
 // "datadirectory" => ""
 );
 ?>

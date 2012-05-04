@@ -24,7 +24,7 @@
 class OC_Gallery_Scanner {
 
 	public static function getGalleryRoot() {
-		return OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '/');
+		return OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'root', '/');
 	}
 	public static function getScanningRoot() {
 		return OC_Filesystem::getRoot().self::getGalleryRoot();
@@ -43,7 +43,7 @@ class OC_Gallery_Scanner {
 	public static function scan($eventSource) {
 		$paths = self::findPaths();
 		$eventSource->send('count', count($paths)+1);
-		$owner = OC_User::getUser();
+		$owner = OCP\USER::getUser();
 		foreach ($paths as $path) {
 			$name = self::createName($path);
 			$images = self::findFiles($path);
@@ -81,7 +81,7 @@ class OC_Gallery_Scanner {
 				$image->destroy();
 			}
 		}
-		imagepng($thumbnail, OC_Config::getValue("datadirectory").'/'. OC_User::getUser() .'/gallery/' . $albumName.'.png');
+		imagepng($thumbnail, OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery/' . $albumName.'.png');
 		imagedestroy($thumbnail);
 	}
 
@@ -96,7 +96,7 @@ class OC_Gallery_Scanner {
 					$p = $paths[$i-1];
 					foreach ($a as $e) {
 						$p .= ($p == '/'?'':'/').$e;
-						OC_Gallery_Album::create(OC_User::getUser(), $e, $p);
+						OC_Gallery_Album::create(OCP\USER::getUser(), $e, $p);
             $arr = OC_FileCache::searchByMime('image','', OC_Filesystem::getRoot().$p);
             $step = floor(count($arr)/10);
             if ($step == 0) $step = 1;

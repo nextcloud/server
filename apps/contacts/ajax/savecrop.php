@@ -22,40 +22,36 @@
  *       Remember to delete tmp file at some point.
  */
 // Init owncloud
-require_once('../../../lib/base.php');
-OC_Log::write('contacts','ajax/savecrop.php: Huzzah!!!', OC_Log::DEBUG);
+ 
+OCP\Util::writeLog('contacts','ajax/savecrop.php: Huzzah!!!', OCP\Util::DEBUG);
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 // foreach ($_POST as $key=>$element) {
-// 	OC_Log::write('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OC_Log::DEBUG);
+// 	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OCP\Util::DEBUG);
 // }
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OC_JSON::setContentTypeHeader('text/plain');
+OCP\JSON::setContentTypeHeader('text/plain');
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/savecrop.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 
 $image = null;
 
-$x1 = (isset($_POST['x1']) && $_POST['x1']) ? $_POST['x1'] : -1;
+$x1 = (isset($_POST['x1']) && $_POST['x1']) ? $_POST['x1'] : 0;
 //$x2 = isset($_POST['x2']) ? $_POST['x2'] : -1;
-$y1 = (isset($_POST['y1']) && $_POST['y1']) ? $_POST['y1'] : -1;
+$y1 = (isset($_POST['y1']) && $_POST['y1']) ? $_POST['y1'] : 0;
 //$y2 = isset($_POST['y2']) ? $_POST['y2'] : -1;
 $w = (isset($_POST['w']) && $_POST['w']) ? $_POST['w'] : -1;
 $h = (isset($_POST['h']) && $_POST['h']) ? $_POST['h'] : -1;
 $tmp_path = isset($_POST['tmp_path']) ? $_POST['tmp_path'] : '';
 $id = isset($_POST['id']) ? $_POST['id'] : '';
-
-if(in_array(-1, array($x1, $y1, $w, $h))) {
-	bailOut('Wrong crop dimensions: '.implode(', ', array($x1, $y1, $w, $h)));
-}
 
 if($tmp_path == '') {
 	bailOut('Missing path to temporary file.');
@@ -65,13 +61,16 @@ if($id == '') {
 	bailOut('Missing contact id.');
 }
 
-OC_Log::write('contacts','savecrop.php: files: '.$tmp_path.'  exists: '.file_exists($tmp_path), OC_Log::DEBUG);
+OCP\Util::writeLog('contacts','savecrop.php: files: '.$tmp_path.'  exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 
 if(file_exists($tmp_path)) {
 	$image = new OC_Image();
 	if($image->loadFromFile($tmp_path)) {
+		$w = ($w != -1 ? $w : $image->width());
+		$h = ($h != -1 ? $h : $image->height());
+		OCP\Util::writeLog('contacts','savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, OCP\Util::DEBUG);
 		if($image->crop($x1, $y1, $w, $h)) {
-			if($image->resize(200)) {
+			if(($image->width() <= 200 && $image->height() <= 200) || $image->resize(200)) {
 				$tmpfname = tempnam("/tmp", "occCropped"); // create a new file because of caching issues.
 				if($image->save($tmpfname)) {
 					unlink($tmp_path);
@@ -81,7 +80,7 @@ if(file_exists($tmp_path)) {
 						bailOut('Error getting contact object.');
 					}
 					if($card->__isset('PHOTO')) {
-						OC_Log::write('contacts','savecrop.php: files: PHOTO property exists.', OC_Log::DEBUG);
+						OCP\Util::writeLog('contacts','savecrop.php: PHOTO property exists.', OCP\Util::DEBUG);
 						$property = $card->__get('PHOTO');
 						if(!$property) {
 							unlink($tmpfname);
@@ -92,9 +91,11 @@ if(file_exists($tmp_path)) {
 						$property->parameters[] = new Sabre_VObject_Parameter('TYPE', $image->mimeType());
 						$card->__set('PHOTO', $property);
 					} else {
-						OC_Log::write('contacts','savecrop.php: files: Adding PHOTO property.', OC_Log::DEBUG);
+						OCP\Util::writeLog('contacts','savecrop.php: files: Adding PHOTO property.', OCP\Util::DEBUG);
 						$card->addProperty('PHOTO', $image->__toString(), array('ENCODING' => 'b', 'TYPE' => $image->mimeType()));
 					}
+					$now = new DateTime;
+					$card->setString('REV', $now->format(DateTime::W3C));
 					if(!OC_Contacts_VCard::edit($id,$card)) {
 						bailOut('Error saving contact.');
 					}
@@ -108,7 +109,7 @@ if(file_exists($tmp_path)) {
 					$tmpl->assign('width', $image->width());
 					$tmpl->assign('height', $image->height());
 					$page = $tmpl->fetchPage();
-					OC_JSON::success(array('data' => array('page'=>$page, 'tmp'=>$tmpfname)));
+					OCP\JSON::success(array('data' => array('page'=>$page, 'tmp'=>$tmpfname)));
 					exit();
 				} else {
 					if(file_exists($tmpfname)) {

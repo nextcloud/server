@@ -20,8 +20,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-OC_Util::checkAdminUser();
-OC_Util::checkAppEnabled('user_migrate');
+OCP\User::checkAdminUser();
+OCP\App::checkAppEnabled('user_migrate');
 
 // Import?
 if (isset($_POST['user_import'])) {
@@ -30,14 +30,14 @@ if (isset($_POST['user_import'])) {
 	$importname = "owncloud_import_" . date("y-m-d_H-i-s");
 	
 	// Save data dir for later
-	$datadir = OC_Config::getValue( 'datadirectory' );
+	$datadir = OCP\Config::getSystemValue( 'datadirectory' );
 	
 	// Copy the uploaded file
 	$from = $_FILES['owncloud_import']['tmp_name'];
 	$to = get_temp_dir().'/'.$importname.'.zip';
 	if( !move_uploaded_file( $from, $to ) ){
 		$error = array('error'=>'Failed to move the uploaded file','hint'=>'Try checking the permissions of the '.get_temp_dir().' dir.');
-		OC_Log::write( 'user_migrate', "Failed to copy the uploaded file", OC_Log::ERROR );
+		OCP\Util::writeLog( 'user_migrate', "Failed to copy the uploaded file", OCP\Util::ERROR );
 		$tmpl = new OC_Template('user_migrate', 'admin');
 		$tmpl->assign('error',$error);
     	return $tmpl->fetchPage();

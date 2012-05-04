@@ -1,8 +1,7 @@
 <?php
 $RUNTIME_NOSETUPFS=true; //don't setup the fs yet
 
-require_once '../../lib/base.php';
-OC_JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkAppEnabled('files_sharing');
 require_once 'lib_share.php';
 
 //get the path of the shared file
@@ -27,11 +26,11 @@ if ($source !== false) {
 		$files = array();
 		$rootLength = strlen($root);
 		foreach (OC_Files::getdirectorycontent($source) as $i) {
-			$i['date'] = OC_Util::formatDate($i['mtime'] );
+			$i['date'] = OCP\Util::formatDate($i['mtime'] );
 			if ($i['type'] == 'file') {
 				$fileinfo = pathinfo($i['name']);
 				$i['basename'] = $fileinfo['filename'];
-				$i['extention'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
+				$i['extension'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
 			}
 			$i['directory'] = substr($i['directory'], $rootLength);
 			if ($i['directory'] == "/") {
@@ -49,14 +48,14 @@ if ($source !== false) {
 			}
 		}
 		// Load the files we need
-		OC_Util::addStyle("files", "files");
+		OCP\Util::addStyle("files", "files");
 		$breadcrumbNav = new OC_Template("files", "part.breadcrumb", "");
 		$breadcrumbNav->assign("breadcrumb", $breadcrumb);
-		$breadcrumbNav->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$breadcrumbNav->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list = new OC_Template("files", "part.list", "");
 		$list->assign("files", $files);
-		$list->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
-		$list->assign("downloadURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("downloadURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list->assign("readonly", true);
 		$tmpl = new OC_Template("files", "index", "user");
 		$tmpl->assign("fileList", $list->fetchPage());
@@ -69,7 +68,7 @@ if ($source !== false) {
 		//get time mimetype and set the headers
 		$mimetype = OC_Filesystem::getMimeType($source);
 		header("Content-Transfer-Encoding: binary");
-		OC_Response::disableCaching();
+		OCP\Response::disableCaching();
 		header('Content-Disposition: filename="'.basename($source).'"');
 		header("Content-Type: " . $mimetype);
 		header("Content-Length: " . OC_Filesystem::filesize($source));

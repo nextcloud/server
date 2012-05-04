@@ -25,8 +25,8 @@
  * provides an interface to migrate users and whole ownclouds
  */
 class OC_Migrate{
-	
-	
+
+
 	// Array of OC_Migration_Provider objects
 	static private $providers=array();
 	// User id of the user to import/export
@@ -47,7 +47,7 @@ class OC_Migrate{
 	static private $zippath=false;
 	// Holds the OC_Migration_Content object
 	static private $content=false;
-	
+
 	/**
 	 * register a new migration provider
 	 * @param OC_Migrate_Provider $provider
@@ -55,28 +55,28 @@ class OC_Migrate{
 	public static function registerProvider($provider){
 		self::$providers[]=$provider;
 	}
-	
-	/** 
-	* @breif finds and loads the providers
+
+	/**
+	* @brief finds and loads the providers
 	*/
 	static private function findProviders(){
 		// Find the providers
 		$apps = OC_App::getAllApps();
-		
+
 		foreach($apps as $app){
 			$path = OC::$SERVERROOT . '/apps/' . $app . '/appinfo/migrate.php';
 			if( file_exists( $path ) ){
-				include( $path );	
-			}	
-		}	
+				include( $path );
+			}
+		}
 	}
-	
+
 	/**
-	 * @breif exports a user, or owncloud instance
+	 * @brief exports a user, or owncloud instance
 	 * @param optional $uid string user id of user to export if export type is user, defaults to current
 	 * @param ootional $type string type of export, defualts to user
 	 * @param otional $path string path to zip output folder
-	 * @return false on error, path to zip on success 
+	 * @return false on error, path to zip on success
 	 */
 	 public static function export( $uid=null, $type='user', $path=null ){
 		$datadir = OC_Config::getValue( 'datadirectory' );
@@ -84,47 +84,48 @@ class OC_Migrate{
 	 	$types = array( 'user', 'instance', 'system', 'userfiles' );
 	 	if( !in_array( $type, $types ) ){
 	 		OC_Log::write( 'migration', 'Invalid export type', OC_Log::ERROR );
-	 		return json_encode( array( array( 'success' => false ) ) );	
+	 		return json_encode( array( array( 'success' => false ) ) );
 	 	}
 	 	self::$exporttype = $type;
 	 	// Userid?
 	 	if( self::$exporttype == 'user' ){
 	 		// Check user exists
-	 		if( !is_null($uid) ){	
-		 		if( !OC_User_Database::userExists( $uid ) ){
+	 		if( !is_null($uid) ){
+                                $db = new OC_User_Database;
+		 		if( !$db->userExists( $uid ) ){
 					OC_Log::write('migration', 'User: '.$uid.' is not in the database and so cannot be exported.', OC_Log::ERROR);
-					return json_encode( array( 'success' => false ) );	
+					return json_encode( array( 'success' => false ) );
 				}
 				self::$uid = $uid;
 	 		} else {
-	 			self::$uid = OC_User::getUser();	
-	 		}	
+	 			self::$uid = OC_User::getUser();
+	 		}
 	 	}
 	 	// Calculate zipname
 	 	if( self::$exporttype == 'user' ){
-	 		$zipname = 'oc_export_' . self::$uid . '_' . date("y-m-d_H-i-s") . '.zip';		
+	 		$zipname = 'oc_export_' . self::$uid . '_' . date("y-m-d_H-i-s") . '.zip';
 	 	} else {
 	 		$zipname = 'oc_export_' . self::$exporttype . '_' . date("y-m-d_H-i-s") . '.zip';
 	 	}
 	 	// Calculate path
 	 	if( self::$exporttype == 'user' ){
-	 		self::$zippath = $datadir . '/' . self::$uid . '/' . $zipname;	
+	 		self::$zippath = $datadir . '/' . self::$uid . '/' . $zipname;
 	 	} else {
 	 		if( !is_null( $path ) ){
 	 			// Validate custom path
 	 			if( !file_exists( $path ) || !is_writeable( $path ) ){
 	 				OC_Log::write( 'migration', 'Path supplied is invalid.', OC_Log::ERROR );
-	 				return json_encode( array( 'success' => false ) );	
+	 				return json_encode( array( 'success' => false ) );
 	 			}
-	 			self::$zippath = $path . $zipname;	
+	 			self::$zippath = $path . $zipname;
 	 		} else {
 	 			// Default path
-	 			self::$zippath = get_temp_dir() . '/' . $zipname;	
+	 			self::$zippath = get_temp_dir() . '/' . $zipname;
 	 		}
 	 	}
 	 	// Create the zip object
 	 	if( !self::createZip() ){
-	 		return json_encode( array( 'success' => false ) );	
+	 		return json_encode( array( 'success' => false ) );
 	 	}
 	 	// Do the export
 	 	self::findProviders();
@@ -134,20 +135,20 @@ class OC_Migrate{
 	 			// Connect to the db
 	 			self::$dbpath = $datadir . '/' . self::$uid . '/migration.db';
 	 			if( !self::connectDB() ){
-	 				return json_encode( array( 'success' => false ) );	
+	 				return json_encode( array( 'success' => false ) );
 	 			}
 	 			self::$content = new OC_Migration_Content( self::$zip, self::$MDB2 );
 	 			// Export the app info
-			    $exportdata = self::exportAppData();			    
+			    $exportdata = self::exportAppData();
 				// Add the data dir to the zip
 				self::$content->addDir( $datadir . '/' . self::$uid, true, '/' );
-	 		break;	
+	 		break;
 	 		case 'instance':
 	 			self::$content = new OC_Migration_Content( self::$zip );
 				// Creates a zip that is compatable with the import function
 				$dbfile = tempnam( "/tmp", "owncloud_export_data_" );
 				OC_DB::getDbStructure( $dbfile, 'MDB2_SCHEMA_DUMP_ALL');
-				
+
 				// Now add in *dbname* and *dbprefix*
 				$dbexport = file_get_contents( $dbfile );
 				$dbnamestring = "<database>\n\n <name>" . OC_Config::getValue( "dbname", "owncloud" );
@@ -158,14 +159,14 @@ class OC_Migrate{
 				self::$content->addFromString( $dbexport, "dbexport.xml" );
 				// Add user data
 				foreach(OC_User::getUsers() as $user){
-					self::$content->addDir( $datadir . '/' . $user . '/', true, "/userdata/" );	
+					self::$content->addDir( $datadir . '/' . $user . '/', true, "/userdata/" );
 				}
 			break;
 			case 'userfiles':
 				self::$content = new OC_Migration_Content( self::$zip );
 				// Creates a zip with all of the users files
 				foreach(OC_User::getUsers() as $user){
-					self::$content->addDir( $datadir . '/' . $user . '/', true, "/" );	
+					self::$content->addDir( $datadir . '/' . $user . '/', true, "/" );
 				}
 			break;
 			case 'system':
@@ -178,70 +179,70 @@ class OC_Migrate{
 			break;
 	 	}
 	 	if( !$info = self::getExportInfo( $exportdata ) ){
-	 		return json_encode( array( 'success' => false ) );	
+	 		return json_encode( array( 'success' => false ) );
 	 	}
 	 	// Add the export info json to the export zip
 	 	self::$content->addFromString( $info, 'export_info.json' );
 	 	if( !self::$content->finish() ){
-	 		return json_encode( array( 'success' => false ) );	
+	 		return json_encode( array( 'success' => false ) );
 	 	}
-	 	return json_encode( array( 'success' => true, 'data' => self::$zippath ) );	
+	 	return json_encode( array( 'success' => true, 'data' => self::$zippath ) );
 	 }
-	 
+
 	/**
-	* @breif imports a user, or owncloud instance
+	* @brief imports a user, or owncloud instance
 	* @param $path string path to zip
 	* @param optional $type type of import (user or instance)
-	* @param optional $uid userid of new user 
+	* @param optional $uid userid of new user
 	*/
 	public static function import( $path, $type='user', $uid=null ){
 		OC_Util::checkAdminUser();
 		$datadir = OC_Config::getValue( 'datadirectory' );
 		// Extract the zip
 		if( !$extractpath = self::extractZip( $path ) ){
-			return json_encode( array( 'success' => false ) );	
+			return json_encode( array( 'success' => false ) );
 		}
 		// Get export_info.json
 		$scan = scandir( $extractpath );
 		// Check for export_info.json
 		if( !in_array( 'export_info.json', $scan ) ){
 			OC_Log::write( 'migration', 'Invalid import file, export_info.json note found', OC_Log::ERROR );
-			return json_encode( array( 'success' => false ) );	
+			return json_encode( array( 'success' => false ) );
 		}
 		$json = json_decode( file_get_contents( $extractpath . 'export_info.json' ) );
 		if( $json->exporttype != $type ){
 			OC_Log::write( 'migration', 'Invalid import file', OC_Log::ERROR );
-			return json_encode( array( 'success' => false ) );	
+			return json_encode( array( 'success' => false ) );
 		}
 		self::$exporttype = $type;
- 
+
 		// Have we got a user if type is user
 		if( self::$exporttype == 'user' ){
 			if( !$uid ){
 				self::$uid = $json->exporteduser;
-			} else {	
+			} else {
 				self::$uid = $uid;
 			}
 		}
-		
+
 		// Handle export types
 		switch( self::$exporttype ){
 			case 'user':
 				// Check user availability
 				if( OC_User::userExists( self::$uid ) ){
 					OC_Log::write( 'migration', 'User already exists', OC_Log::ERROR );
-					return json_encode( array( 'success' => false ) );	
+					return json_encode( array( 'success' => false ) );
 				}
 				$run = true;
 				OC_Hook::emit( "OC_User", "pre_createUser", array( "run" => &$run, "uid" => self::$uid, "password" => $json->hash ));
 				if( !$run ){
 					// Something stopped the user creation
 					OC_Log::write( 'migration', 'User creation failed', OC_Log::ERROR );
-					return json_encode( array( 'success' => false ) );	
+					return json_encode( array( 'success' => false ) );
 				}
 				// Create the user
 				if( !self::createUser( self::$uid, $json->hash ) ){
-					return json_encode( array( 'success' => false ) );	
+					return json_encode( array( 'success' => false ) );
 				}
 				// Emit the post_createUser hook (password is already hashed, will cause problems
 				OC_Hook::emit( "OC_User", "post_createUser", array( "uid" => self::$uid, "password" => $json->hash ));
@@ -249,19 +250,19 @@ class OC_Migrate{
 				$path = $datadir . '/' . self::$uid;
 				if( !mkdir( $path, 0755, true ) ){
 					OC_Log::write( 'migration', 'Failed to create users data dir: '.$path, OC_Log::ERROR );
-					return json_encode( array( 'success' => false ) );	
+					return json_encode( array( 'success' => false ) );
 				}
 				// Copy data
 				if( !self::copy_r( $extractpath . $json->exporteduser, $datadir . '/' . self::$uid ) ){
-					return json_encode( array( 'success' => false ) );	
+					return json_encode( array( 'success' => false ) );
 				}
-				// Import user app data 
+				// Import user app data
 				if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ){
-					return json_encode( array( 'success' => false ) );	
+					return json_encode( array( 'success' => false ) );
 				}
 				// All done!
 				if( !self::unlink_r( $extractpath ) ){
-					OC_Log::write( 'migration', 'Failed to delete the extracted zip', OC_Log::ERROR );	
+					OC_Log::write( 'migration', 'Failed to delete the extracted zip', OC_Log::ERROR );
 				}
 				return json_encode( array( 'success' => true, 'data' => $appsimported ) );
 			break;
@@ -270,59 +271,59 @@ class OC_Migrate{
 					 * EXPERIMENTAL
 					// Check for new data dir and dbexport before doing anything
 					// TODO
-					
+
 					// Delete current data folder.
 					OC_Log::write( 'migration', "Deleting current data dir", OC_Log::INFO );
 					if( !self::unlink_r( $datadir, false ) ){
 						OC_Log::write( 'migration', 'Failed to delete the current data dir', OC_Log::ERROR );
-						return json_encode( array( 'success' => false ) );	
+						return json_encode( array( 'success' => false ) );
 					}
-				
+
 					// Copy over data
 					if( !self::copy_r( $extractpath . 'userdata', $datadir ) ){
 						OC_Log::write( 'migration', 'Failed to copy over data directory', OC_Log::ERROR );
-						return json_encode( array( 'success' => false ) );	
+						return json_encode( array( 'success' => false ) );
 					}
-					
+
 					// Import the db
 					if( !OC_DB::replaceDB( $extractpath . 'dbexport.xml' ) ){
-						return json_encode( array( 'success' => false ) );	
+						return json_encode( array( 'success' => false ) );
 					}
 					// Done
-					return json_encode( 'success' => true ); 
+					return json_encode( 'success' => true );
 					*/
-			break;	
+			break;
 		}
-		
+
 	}
-	
+
 	/**
-	* @breif recursively deletes a directory
+	* @brief recursively deletes a directory
 	* @param $dir string path of dir to delete
 	* $param optional $deleteRootToo bool delete the root directory
 	* @return bool
 	*/
-	private static function unlink_r( $dir, $deleteRootToo=true ){ 
-		if( !$dh = @opendir( $dir ) ){ 
-			return false; 
-		} 
+	private static function unlink_r( $dir, $deleteRootToo=true ){
+		if( !$dh = @opendir( $dir ) ){
+			return false;
+		}
 		while (false !== ($obj = readdir($dh))){
-			if($obj == '.' || $obj == '..') { 
-				continue; 
-			} 
-			if (!@unlink($dir . '/' . $obj)){ 
-				self::unlink_r($dir.'/'.$obj, true); 
-			} 
-		} 
-		closedir($dh); 
-		if ( $deleteRootToo ) { 
-			@rmdir($dir); 
-		} 
-		return true; 
-	} 
-	
+			if($obj == '.' || $obj == '..') {
+				continue;
+			}
+			if (!@unlink($dir . '/' . $obj)){
+				self::unlink_r($dir.'/'.$obj, true);
+			}
+		}
+		closedir($dh);
+		if ( $deleteRootToo ) {
+			@rmdir($dir);
+		}
+		return true;
+	}
+
 	/**
-	* @breif copies recursively
+	* @brief copies recursively
 	* @param $path string path to source folder
 	* @param $dest string path to destination
 	* @return bool
@@ -349,12 +350,12 @@ class OC_Migrate{
 			return copy( $path, $dest );
 		} else {
 			return false;
-		}	
+		}
 	}
-	 
+
 	/**
-	* @breif tries to extract the import zip
-	* @param $path string path to the zip 
+	* @brief tries to extract the import zip
+	* @param $path string path to the zip
 	* @return string path to extract location (with a trailing slash) or false on failure
 	*/
 	static private function extractZip( $path ){
@@ -362,20 +363,20 @@ class OC_Migrate{
 		// Validate path
 	 	if( !file_exists( $path ) ){
 	 		OC_Log::write( 'migration', 'Zip not found', OC_Log::ERROR );
-	 		return false;	
+	 		return false;
 	 	}
 		if ( self::$zip->open( $path ) != TRUE ) {
 			OC_Log::write( 'migration', "Failed to open zip file", OC_Log::ERROR );
 			return false;
 		}
-		$to = get_temp_dir() . '/oc_import_' . self::$exporttype . '_' . date("y-m-d_H-i-s") . '/';		
+		$to = get_temp_dir() . '/oc_import_' . self::$exporttype . '_' . date("y-m-d_H-i-s") . '/';
 		if( !self::$zip->extractTo( $to ) ){
-			return false;	
+			return false;
 		}
-		self::$zip->close();	
+		self::$zip->close();
 		return $to;
 	}
-	 
+
 	/**
 	 * @brief connects to a MDB2 database scheme
 	 * @returns bool
@@ -393,16 +394,16 @@ class OC_Migrate{
 
 		return true;
 	}
-	
+
 	/**
-	 * @breif creates a migration.db in the users data dir with their app data in
+	 * @brief creates a migration.db in the users data dir with their app data in
 	 * @return bool whether operation was successfull
 	 */
 	private static function exportAppData( ){
-				
+
 		$success = true;
 		$return = array();
-				
+
 		// Foreach provider
 		foreach( self::$providers as $provider ){
 			$success = true;
@@ -413,37 +414,37 @@ class OC_Migrate{
 				if( is_array( $tables ) ){
 					// Save the table names
 					foreach($tables as $table){
-						$return['apps'][$provider->getID()]['tables'][] = $table;	
-					}	
+						$return['apps'][$provider->getID()]['tables'][] = $table;
+					}
 				} else {
 					// It failed to create the tables
 					$success = false;
-				}	
+				}
 			}
-			
+
 			// Run the export function?
 			if( $success ){
 				// Set the provider properties
 				$provider->setData( self::$uid, self::$content );
-				$return['apps'][$provider->getID()]['success'] = $provider->export();	
+				$return['apps'][$provider->getID()]['success'] = $provider->export();
 			} else {
-				$return['apps'][$provider->getID()]['success'] = false;	
-				$return['apps'][$provider->getID()]['message'] = 'failed to create the app tables';	
+				$return['apps'][$provider->getID()]['success'] = false;
+				$return['apps'][$provider->getID()]['message'] = 'failed to create the app tables';
 			}
-			
+
 			// Now add some app info the the return array
 			$appinfo = OC_App::getAppInfo( $provider->getID() );
-			$return['apps'][$provider->getID()]['version'] = $appinfo['version'];
-			
+			$return['apps'][$provider->getID()]['version'] = OC_App::getAppVersion($provider->getID());
+
 		}
-		
+
 		return $return;
-		
+
 	}
-	
-	
+
+
 	/**
-	 * @breif generates json containing export info, and merges any data supplied
+	 * @brief generates json containing export info, and merges any data supplied
 	 * @param optional $array array of data to include in the returned json
 	 * @return bool
 	 */
@@ -464,11 +465,11 @@ class OC_Migrate{
 				OC_Log::write( 'migration', 'Failed to get the users password hash', OC_log::ERROR);
 				return false;
 			}
-			$info['hash'] = $hash; 
-			$info['exporteduser'] = self::$uid; 	
+			$info['hash'] = $hash;
+			$info['exporteduser'] = self::$uid;
 		}
 		if( !is_array( $array ) ){
-			OC_Log::write( 'migration', 'Supplied $array was not an array in getExportInfo()', OC_Log::ERROR );	
+			OC_Log::write( 'migration', 'Supplied $array was not an array in getExportInfo()', OC_Log::ERROR );
 		}
 		// Merge in other data
 		$info = array_merge( $info, (array)$array );
@@ -476,9 +477,9 @@ class OC_Migrate{
 		$json = json_encode( $info );
 		return $json;
 	}
-	
+
 	/**
-	 * @breif connects to migration.db, or creates if not found
+	 * @brief connects to migration.db, or creates if not found
 	 * @param $db optional path to migration.db, defaults to user data dir
 	 * @return bool whether the operation was successful
 	 */
@@ -487,19 +488,19 @@ class OC_Migrate{
 		self::$dbpath = !is_null( $path ) ? $path : self::$dbpath;
 		if( !self::$dbpath ){
 			OC_Log::write( 'migration', 'connectDB() was called without dbpath being set', OC_Log::ERROR );
-			return false;	
+			return false;
 		}
 		// Already connected
 		if(!self::$MDB2){
 			require_once('MDB2.php');
-			
+
 			$datadir = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-						
+
 			// DB type
 			if( class_exists( 'SQLite3' ) ){
 				$dbtype = 'sqlite3';
 			} else if( is_callable( 'sqlite_open' ) ){
-				$dbtype = 'sqlite';	
+				$dbtype = 'sqlite';
 			} else {
 				OC_Log::write( 'migration', 'SQLite not found', OC_Log::ERROR );
 				return false;
@@ -533,53 +534,53 @@ class OC_Migrate{
 			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
 		}
 		return true;
-		
+
 	}
-	
+
 	/**
-	 * @breif creates the tables in migration.db from an apps database.xml
+	 * @brief creates the tables in migration.db from an apps database.xml
 	 * @param $appid string id of the app
 	 * @return bool whether the operation was successful
 	 */
 	static private function createAppTables( $appid ){
-			
+
 		if( !self::connectScheme() ){
-			return false;	
+			return false;
 		}
-		
-		// There is a database.xml file			
+
+		// There is a database.xml file
 		$content = file_get_contents( OC::$SERVERROOT . '/apps/' . $appid . '/appinfo/database.xml' );
-		
+
 		$file2 = 'static://db_scheme';
 		// TODO get the relative path to migration.db from the data dir
 		// For now just cheat
 		$path = pathinfo( self::$dbpath );
 		$content = str_replace( '*dbname*', self::$uid.'/migration', $content );
 		$content = str_replace( '*dbprefix*', '', $content );
-		
+
 		$xml = new SimpleXMLElement($content);
 		foreach($xml->table as $table){
-			$tables[] = (string)$table->name;	
-		}	
-		
+			$tables[] = (string)$table->name;
+		}
+
 		file_put_contents( $file2, $content );
-		
+
 		// Try to create tables
 		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
 
 		unlink( $file2 );
-		
+
 		// Die in case something went wrong
 		if( $definition instanceof MDB2_Schema_Error ){
 			OC_Log::write( 'migration', 'Failed to parse database.xml for: '.$appid, OC_Log::FATAL );
 			OC_Log::write( 'migration', $definition->getMessage().': '.$definition->getUserInfo(), OC_Log::FATAL );
 			return false;
 		}
-		
+
 		$definition['overwrite'] = true;
-		
+
 		$ret = self::$schema->createDatabase( $definition );
-		
+
 		// Die in case something went wrong
 		if( $ret instanceof MDB2_Error ){
 			OC_Log::write( 'migration', 'Failed to create tables for: '.$appid, OC_Log::FATAL );
@@ -591,7 +592,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @breif tries to create the zip
+	* @brief tries to create the zip
 	* @param $path string path to zip destination
 	* @return bool
 	*/
@@ -600,18 +601,18 @@ class OC_Migrate{
 		// Check if properties are set
 		if( !self::$zippath ){
 			OC_Log::write('migration', 'createZip() called but $zip and/or $zippath have not been set', OC_Log::ERROR);
-			return false;	
+			return false;
 		}
 		if ( self::$zip->open( self::$zippath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE ) !== TRUE ) {
 			OC_Log::write('migration', 'Failed to create the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
 			return false;
 	    } else {
-	    	return true;	
-	    }	
+	    	return true;
+	    }
 	}
-	
+
 	/**
-	* @breif returns an array of apps that support migration
+	* @brief returns an array of apps that support migration
 	* @return array
 	*/
 	static public function getApps(){
@@ -620,13 +621,13 @@ class OC_Migrate{
 			$path = OC::$SERVERROOT . '/apps/' . $app . '/lib/migrate.php';
 			if( file_exists( $path ) ){
 				$supportsmigration[] = $app;
-			}	
+			}
 		}
-		return $supportsmigration;	
+		return $supportsmigration;
 	}
-	
+
 	/**
-	* @breif imports a new user
+	* @brief imports a new user
 	* @param $db string path to migration.db
 	* @param $info object of migration info
 	* @param $uid optional uid to use
@@ -639,76 +640,76 @@ class OC_Migrate{
 			if(!self::connectDB( $db )){
 				OC_Log::write('migration','Failed to connect to migration.db',OC_Log::ERROR);
 				return false;
-			}	
+			}
 		} else {
-			OC_Log::write('migration','Migration.db not found at: '.$db, OC_Log::FATAL );	
+			OC_Log::write('migration','Migration.db not found at: '.$db, OC_Log::FATAL );
 			return false;
 		}
-		
+
 		// Find providers
 		self::findProviders();
 
 		// Generate importinfo array
-		$importinfo = array( 
+		$importinfo = array(
 							'olduid' => $info->exporteduser,
 							'newuid' => self::$uid
 							);
-							
+
 		foreach( self::$providers as $provider){
 			// Is the app in the export?
 			$id = $provider->getID();
 			if( isset( $info->apps->$id ) ){
 				// Is the app installed
 				if( !OC_App::isEnabled( $id ) ){
-					OC_Log::write( 'migration', 'App: ' . $id . ' is not installed, can\'t import data.', OC_Log::INFO );	
-					$appsstatus[$id] = 'notsupported';	
+					OC_Log::write( 'migration', 'App: ' . $id . ' is not installed, can\'t import data.', OC_Log::INFO );
+					$appsstatus[$id] = 'notsupported';
 				} else {
 					// Did it succeed on export?
 					if( $info->apps->$id->success ){
 						// Give the provider the content object
 						if( !self::connectDB( $db ) ){
-							return false;	
+							return false;
 						}
 						$content = new OC_Migration_Content( self::$zip, self::$MDB2 );
 						$provider->setData( self::$uid, $content, $info );
 						// Then do the import
 						if( !$appsstatus[$id] = $provider->import( $info->apps->$id, $importinfo ) ){
 							// Failed to import app
-							OC_Log::write( 'migration', 'Failed to import app data for user: ' . self::$uid . ' for app: ' . $id, OC_Log::ERROR );	
+							OC_Log::write( 'migration', 'Failed to import app data for user: ' . self::$uid . ' for app: ' . $id, OC_Log::ERROR );
 						}
 					} else {
 						// Add to failed list
-						$appsstatus[$id] = false;	
+						$appsstatus[$id] = false;
 					}
-				}	
-			}		
+				}
+			}
 		}
-		
+
 		return $appsstatus;
-	
+
 	}
-	
+
 	/*
-	* @breif creates a new user in the database
+	* @brief creates a new user in the database
 	* @param $uid string user_id of the user to be created
 	* @param $hash string hash of the user to be created
 	* @return bool result of user creation
 	*/
 	public static function createUser( $uid, $hash ){
-		
+
 		// Check if userid exists
 		if(OC_User::userExists( $uid )){
 			return false;
 		}
-		
+
 		// Create the user
 		$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
 		$result = $query->execute( array( $uid, $hash));
 		if( !$result ){
-			OC_Log::write('migration', 'Failed to create the new user "'.$uid."");	
+			OC_Log::write('migration', 'Failed to create the new user "'.$uid."");
 		}
 		return $result ? true : false;
-		
+
 	}
 
 }

@@ -21,12 +21,12 @@
  */
 
 // Init owncloud
-require_once('../../lib/base.php');
+
 $tmp_path = $_GET['tmp_path'];
 $maxsize = isset($_GET['maxsize']) ? $_GET['maxsize'] : -1;
 header("Cache-Control: no-cache, no-store, must-revalidate");
 
-OC_Log::write('contacts','dynphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OC_Log::DEBUG);
+OCP\Util::writeLog('contacts','dynphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 
 $image = new OC_Image($tmp_path);
 if($maxsize != -1) {

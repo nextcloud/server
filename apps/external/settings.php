@@ -1,8 +1,8 @@
 <?php
 
-OC_Util::checkAdminUser();
+OCP\User::checkAdminUser();
 
-OC_Util::addScript( "external", "admin" );
+OCP\Util::addscript( "external", "admin" );
 
 $tmpl = new OC_Template( 'external', 'settings');
 

@@ -23,7 +23,7 @@
 
 class OC_Gallery_Photo {
 	public static function create($albumId, $img){
-		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*gallery_photos (album_id, file_path) VALUES (?, ?)');
+		$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*gallery_photos (album_id, file_path) VALUES (?, ?)');
 		$stmt->execute(array($albumId, $img));
 	}
 	public static function find($albumId, $img=null){
@@ -33,11 +33,11 @@ class OC_Gallery_Photo {
 			$sql .= ' AND file_path = ?';
 			$args[] = $img;
 		}
-		$stmt = OC_DB::prepare($sql);
+		$stmt = OCP\DB::prepare($sql);
 		return $stmt->execute($args);
 	}
 	public static function findForAlbum($owner, $album_name){
-		$stmt = OC_DB::prepare('SELECT *'
+		$stmt = OCP\DB::prepare('SELECT *'
 			.' FROM *PREFIX*gallery_photos photos,'
 				.' *PREFIX*gallery_albums albums'
 			.' WHERE albums.uid_owner = ?'
@@ -46,29 +46,29 @@ class OC_Gallery_Photo {
 		return $stmt->execute(array($owner, $album_name));
 	}
 
-	public static function removeByPath($path) {
-		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE file_path LIKE ?');
-		$stmt->execute(array($path));
+  public static function removeByPath($path, $album_id) {
+    $stmt = OCP\DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE file_path LIKE ? and album_id = ?');
+		$stmt->execute(array($path, $album_id));
 	}
 
 	public static function removeById($id) {
-		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE photo_id = ?');
+		$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE photo_id = ?');
 		$stmt->execute(array($id));
 	}
 
 	public static function removeByAlbumId($albumid) {
-		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE album_id = ?');
+		$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*gallery_photos WHERE album_id = ?');
 		$stmt->execute(array($albumid));
 	}
 
 	public static function changePath($oldAlbumId, $newAlbumId, $oldpath, $newpath) {
-		$stmt = OC_DB::prepare("UPDATE *PREFIX*gallery_photos SET file_path = ?, album_id = ? WHERE album_id = ? and file_path = ?");
+		$stmt = OCP\DB::prepare("UPDATE *PREFIX*gallery_photos SET file_path = ?, album_id = ? WHERE album_id = ? and file_path = ?");
 		$stmt->execute(array($newpath, $newAlbumId, $oldAlbumId, $oldpath));
 	}
 
 	public static function getThumbnail($image_name, $owner = null) {
-		if (!$owner) $owner = OC_User::getUser();
-		$save_dir = OC_Config::getValue("datadirectory").'/'. $owner .'/gallery/';
+		if (!$owner) $owner = OCP\USER::getUser();
+		$save_dir = OCP\Config::getSystemValue("datadirectory").'/'. $owner .'/gallery/';
 		$save_dir .= dirname($image_name). '/';
 		$image_path = $image_name;
 		$thumb_file = $save_dir . basename($image_name);
@@ -98,6 +98,6 @@ class OC_Gallery_Photo {
 	}
 
 	public static function getGalleryRoot() {
-		return OC_Preferences::getValue(OC_User::getUser(), 'gallery', 'root', '');
+		return OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'root', '');
 	}
 }

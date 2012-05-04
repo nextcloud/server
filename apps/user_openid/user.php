@@ -37,13 +37,13 @@ if($USERNAME=='' and isset($_SERVER['PHP_AUTH_USER'])){
 $RUNTIME_NOAPPS=true;
 $RUNTIME_NOAPPS=false;
 require_once '../../lib/base.php';
-OC_Util::checkAppEnabled('user_openid');
+OCP\App::checkAppEnabled('user_openid');
 
-if(!OC_User::userExists($USERNAME)){
-	OC_Log::write('user_openid',$USERNAME.' doesn\'t exist',OC_Log::WARN);
+if(!OCP\User::userExists($USERNAME)){
+	OCP\Util::writeLog('user_openid',$USERNAME.' doesn\'t exist',OCP\Util::WARN);
 	$USERNAME='';
 }
-$IDENTITY=OC_Helper::linkToAbsolute( "user_openid", "user.php" ).'/'.$USERNAME;
+$IDENTITY=OCP\Util::linkToAbsolute( "user_openid", "user.php" ).'/'.$USERNAME;
 
 require_once 'phpmyid.php';
 

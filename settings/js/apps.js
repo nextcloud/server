@@ -13,8 +13,11 @@ $(document).ready(function(){
 		var app=$(this).data('app');
 		$('#rightcontent p').show();
 		$('#rightcontent span.name').text(app.name);
+		$('#rightcontent small.externalapp').text(app.internallabel);
 		$('#rightcontent span.version').text(app.version);
 		$('#rightcontent p.description').text(app.description);
+		$('#rightcontent img.preview').attr('src',app.preview);
+		$('#rightcontent small.externalapp').attr('style','visibility:visible');
 		$('#rightcontent span.author').text(app.author);
 		$('#rightcontent span.licence').text(app.licence);
 		
@@ -28,10 +31,18 @@ $(document).ready(function(){
 		var active=$(this).data('active');
 		if(app){
 			if(active){
-				$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:app});
+				$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:app},function(result){
+					if(!result || result.status!='success'){
+						OC.dialogs.alert('Error','Error while disabling app');
+					}
+				},'json');
 				$('#leftcontent li[data-id="'+app+'"]').removeClass('active');
 			}else{
-				$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:app});
+				$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:app},function(result){
+					if(!result || result.status!='success'){
+						OC.dialogs.alert('Error','Error while enabling app');
+					}
+				},'json');
 				$('#leftcontent li[data-id="'+app+'"]').addClass('active');
 			}
 			active=!active;

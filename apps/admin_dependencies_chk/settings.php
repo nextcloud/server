@@ -20,7 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-$l=new OC_L10N('admin_dependencies_chk');
+$l=OC_L10N::get('admin_dependencies_chk');
 $tmpl = new OC_Template( 'admin_dependencies_chk', 'settings');
 
 $modules = array();
@@ -77,14 +77,14 @@ $modules[] =array(
 foreach($modules as $key => $module) {
 	$enabled = false ;
 	foreach($module['modules'] as $app) {
-		if(OC_App::isEnabled($app) || $app=='core'){
+		if(OCP\App::isEnabled($app) || $app=='core'){
 				$enabled = true;
 		}
 	}
 	if($enabled == false) unset($modules[$key]);
 }
 
-OC_UTIL::addStyle('admin_dependencies_chk', 'style');
+OCP\UTIL::addStyle('admin_dependencies_chk', 'style');
 $tmpl->assign( 'items', $modules );
 
 return $tmpl->fetchPage();

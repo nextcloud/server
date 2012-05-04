@@ -25,7 +25,7 @@ $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
 $WEBROOT=substr($SUBURI,0,-34);
 */
 
-require_once('../../lib/base.php');
+
 $request = urldecode($_GET['q']);
 if($_GET['q']) {
 	$reqParts = explode('@', $request);
@@ -61,7 +61,7 @@ echo "<";
 <?php
 $apps = OC_Appconfig::getApps();
 foreach($apps as $app) {
-	if(OC_App::isEnabled($app)) {
+	if(OCP\App::isEnabled($app)) {
 		if(is_file(OC::$APPSROOT . '/apps/' . $app . '/appinfo/webfinger.php')) {
 			require($app . '/appinfo/webfinger.php');
 		}

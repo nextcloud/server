@@ -4,8 +4,13 @@
 
 (function( $ ) {
 	$.widget('ui.combobox', {
+		options: { 
+			id: null,
+			name: null,
+			showButton: false,
+			editable: true
+		},
 		_create: function() {
-			//console.log('_create: ' + this.options['id']);
 			var self = this,
 				select = this.element.hide(),
 				selected = select.children(':selected'),
@@ -53,13 +58,13 @@
 									return false;
 								}
 							});
-							/*if ( !valid ) {
+							if ( !self.options['editable'] && !valid ) {
 								// remove invalid value, as it didn't match anything
 								$( this ).val( "" );
 								select.val( "" );
 								input.data( "autocomplete" ).term = "";
 								return false;
-							}*/
+							}
 						}
 					}
 				})
@@ -71,40 +76,41 @@
 					.append( "<a>" + item.label + "</a>" )
 					.appendTo( ul );
 			};
-
-			/*this.button = $( "<button type='button'>&nbsp;</button>" )
-				.attr( "tabIndex", -1 )
-				.attr( "title", "Show All Items" )
-				.insertAfter( input )
-				.addClass('svg')
-				.addClass('action')
-				.addClass('combo-button')
-				.click(function() {
-					// close if already visible
-					if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
-						input.autocomplete( "close" );
-						return;
-					}
-
-					// work around a bug (likely same cause as #5265)
-					$( this ).blur();
-
-					// pass empty string as value to search for, displaying all results
-					input.autocomplete( "search", "" );
-					input.focus();
-				});*/
 			$.each(this.options, function(key, value) {
 				self._setOption(key, value);
 			});
+
+			if(this.options['showButton']) {
+				this.button = $( "<button type='button'>&nbsp;</button>" )
+					.attr( "tabIndex", -1 )
+					.attr( "title", "Show All Items" )
+					.insertAfter( input )
+					.addClass('svg')
+					.addClass('action')
+					.addClass('combo-button')
+					.click(function() {
+						// close if already visible
+						if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
+							input.autocomplete( "close" );
+							return;
+						}
+
+						// work around a bug (likely same cause as #5265)
+						$( this ).blur();
+
+						// pass empty string as value to search for, displaying all results
+						input.autocomplete( "search", "" );
+						input.focus();
+					});
+			}
 		},
 		destroy: function() {
 			this.input.remove();
-			this.button.remove();
+			//this.button.remove();
 			this.element.show();
 			$.Widget.prototype.destroy.call( this );
 		},
 		value: function(val) {
-			console.log('combobox.value: ' + val);
 			if(val != undefined) {
 				this.input.val(val);
 			} else {
@@ -113,35 +119,35 @@
 		},
 		_setOption: function( key, value ) {
 			switch( key ) {
-				case "id":
+				case 'id':
 					this.options['id'] = value;
 					this.input.attr('id', value);
 					break;
-				case "name":
+				case 'name':
 					this.options['name'] = value;
 					this.input.attr('name', value);
 					break;
-				case "attributes":
+				case 'attributes':
 					var input = this.input;
 					$.each(this.options['attributes'], function(key, value) {
 						input.attr(key, value);
 					});
 					break;
-				case "classes":
+				case 'classes':
 					var input = this.input;
 					$.each(this.options['classes'], function(key, value) {
 						input.addClass(value);
 					});
+					break;
+				case 'editable':
+				case 'showButton':
+					this.options[key] = value;
 					break;
 			}
 			// In jQuery UI 1.8, you have to manually invoke the _setOption method from the base widget
 			$.Widget.prototype._setOption.apply( this, arguments );
 			// In jQuery UI 1.9 and above, you use the _super method instead
 			//this._super( "_setOption", key, value );
-		},
-		options: { 
-			id: null,
-			name: null
-		},
+		}
 	});
 })( jQuery );

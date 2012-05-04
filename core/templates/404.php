@@ -10,6 +10,6 @@ if(!isset($_)){//also provide standalone error page
 <ul>
 	<li class='error'>
 		<?php echo $l->t( 'Cloud not found' ); ?><br/>
-		<p class='hint'><?php if(isset($_['file'])) echo $_['file']?></p>
+		<p class='hint'><?php if(isset($_['file'])) echo htmlentities($_['file'])?></p>
 	</li>
 </ul>

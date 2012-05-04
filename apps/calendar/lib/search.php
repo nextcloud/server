@@ -1,8 +1,8 @@
 <?php
 class OC_Search_Provider_Calendar extends OC_Search_Provider{
 	function search($query){
-		$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
-		if(count($calendars)==0 || !OC_App::isEnabled('calendar')){
+		$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
+		if(count($calendars)==0 || !OCP\App::isEnabled('calendar')){
 			//return false;
 		}
 		$results=array();
@@ -12,7 +12,7 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 		}else{
 			$searchquery[] = $query;
 		}
-		$user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+		$user_timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 		$l = new OC_l10n('calendar');
 		foreach($calendars as $calendar){
 			$objects = OC_Calendar_Object::all($calendar['id']);
@@ -26,7 +26,7 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 					$start_dt->setTimezone(new DateTimeZone($user_timezone));
 					$end_dt = $dtend->getDateTime();
 					$end_dt->setTimezone(new DateTimeZone($user_timezone));
-					if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
+					if ($dtstart->getDateType() == Sabre_VObject_Property_DateTime::DATE){
 						$end_dt->modify('-1 sec');
 						if($start_dt->format('d.m.Y') != $end_dt->format('d.m.Y')){
 							$info = $l->t('Date') . ': ' . $start_dt->format('d.m.Y') . ' - ' . $end_dt->format('d.m.Y');
@@ -36,7 +36,7 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 					}else{
 						$info = $l->t('Date') . ': ' . $start_dt->format('d.m.y H:i') . ' - ' . $end_dt->format('d.m.y H:i');
 					}
-					$link = OC_Helper::linkTo('calendar', 'index.php').'?showevent='.urlencode($object['id']);
+					$link = OCP\Util::linkTo('calendar', 'index.php').'?showevent='.urlencode($object['id']);
 					$results[]=new OC_Search_Result($object['summary'],$info, $link,$l->t('Cal.'));//$name,$text,$link,$type
 				}
 			}

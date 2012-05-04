@@ -21,15 +21,15 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 //$id = $_GET['id'];
 $id = $_POST['id'];
 OC_Contacts_App::getAddressbook( $id ); // is owner access check
 
 OC_Contacts_Addressbook::delete($id);
-OC_JSON::success(array('data' => array( 'id' => $id )));
+OCP\JSON::success(array('data' => array( 'id' => $id )));

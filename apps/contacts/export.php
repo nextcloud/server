@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-require_once ("../../lib/base.php");
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('contacts');
+ 
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('contacts');
 $bookid = isset($_GET['bookid']) ? $_GET['bookid'] : NULL;
 $contactid = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
 $nl = "\n";

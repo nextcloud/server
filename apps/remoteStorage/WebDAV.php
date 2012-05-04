@@ -29,8 +29,8 @@
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
 
-require_once('../../lib/base.php');
-OC_Util::checkAppEnabled('remoteStorage');
+
+OCP\App::checkAppEnabled('remoteStorage');
 require_once('Sabre/autoload.php');
 require_once('lib_remoteStorage.php');
 require_once('BearerAuth.php');

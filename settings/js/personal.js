@@ -33,7 +33,11 @@ $(document).ready(function(){
 	});
 
 	$('#lostpassword #email').blur(function(event){
+		if ($(this).val() == this.defaultValue){
+			return;
+		}
 		event.preventDefault();
+		this.defaultValue = $(this).val();
 		OC.msg.startSaving('#lostpassword .msg');
 		var post = $( "#lostpassword" ).serialize();
 		$.post( 'ajax/lostpassword.php', post, function(data){

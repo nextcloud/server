@@ -41,7 +41,15 @@ class OC_Helper {
 			$app .= '/';
 			// Check if the app is in the app folder
 			if( file_exists( OC::$APPSROOT . '/apps/'. $app.$file )){
-				$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
+				if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){	
+					if(substr($app, -1, 1) == '/'){
+						$app = substr($app, 0, strlen($app) - 1);
+					}
+					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
+					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
+				}else{
+					$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
+				}
 			}
 			else{
 				$urlLinkTo =  OC::$WEBROOT . '/' . $app . $file;
@@ -310,9 +318,9 @@ class OC_Helper {
 		$mimeType='application/octet-stream';
 		if ($mimeType=='application/octet-stream') {
 			self::$mimetypes = include('mimetypes.fixlist.php');
-			$extention=strtolower(strrchr(basename($path), "."));
-			$extention=substr($extention,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 
 		}
 		if (@is_dir($path)) {
@@ -346,11 +354,31 @@ class OC_Helper {
 			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
 				self::$mimetypes=include('mimetypes.list.php');
 			}
-			$extention=strtolower(strrchr(basename($path), "."));
-			$extention=substr($extention,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extention]))?self::$mimetypes[$extention]:'application/octet-stream';
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 		}
 		return $mimeType;
+	}
+
+	/**
+	 * get the mimetype form a data string
+	 * @param string data
+	 * @return string
+	 */
+	static function getStringMimeType($data){
+		if(function_exists('finfo_open') and function_exists('finfo_file')){
+			$finfo=finfo_open(FILEINFO_MIME);
+			return finfo_buffer($finfo, $data);
+		}else{
+			$tmpFile=OC_Helper::tmpFile();
+			$fh=fopen($tmpFile,'wb');
+			fwrite($fh,$data,8024);
+			fclose($fh);
+			$mime=self::getMimeType($tmpFile);
+			unset($tmpFile);
+			return $mime;
+		}
 	}
 
 	/**
@@ -491,5 +519,71 @@ class OC_Helper {
 				}
 			}
 		}
+	}
+
+    /**
+     * Adds a suffix to the name in case the file exists
+     *
+     * @param $path
+     * @param $filename
+     * @return string
+     */
+    public static function buildNotExistingFileName($path, $filename){
+	    if($path==='/'){
+		    $path='';
+	    }
+        if ($pos = strrpos($filename, '.')) {
+            $name = substr($filename, 0, $pos);
+            $ext = substr($filename, $pos);
+        } else {
+            $name = $filename;
+        }
+
+        $newpath = $path . '/' . $filename;
+        $newname = $filename;
+        $counter = 2;
+        while (OC_Filesystem::file_exists($newpath)) {
+            $newname = $name . ' (' . $counter . ')' . $ext;
+            $newpath = $path . '/' . $newname;
+            $counter++;
+        }
+
+        return $newpath;
+    }
+	
+	/*
+	 * checks if $sub is a subdirectory of $parent
+	 * 
+	 * @param $sub 
+	 * @param $parent
+	 * @return bool
+	 */
+	public static function issubdirectory($sub, $parent){
+		if($sub == null || $sub == '' || $parent == null || $parent == ''){
+			return false;
+		}
+		$realpath_sub = realpath($sub);
+		$realpath_parent = realpath($parent);
+		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)){ //it checks for  both ./ and ../
+			return false;
+		}
+		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != ''){
+			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent){
+				return true;
+			}
+		}else{
+			if(substr($sub, 0, strlen($parent)) == $parent){
+				return true;
+			}
+		}
+		/*
+		echo 'SUB: ' . $sub . "\n";
+		echo 'PAR: ' . $parent . "\n";
+		echo 'REALSUB: ' . $realpath_sub . "\n";
+		echo 'REALPAR: ' . $realpath_parent . "\n";
+		echo substr($realpath_sub, 0, strlen($realpath_parent));
+		exit;
+		*/
+		return false;
 	}
 }

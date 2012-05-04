@@ -1,11 +1,11 @@
 <?php
 //$RUNTIME_NOAPPS = true;
 
-require_once('../../../lib/base.php');
-OC_JSON::checkAppEnabled('files_sharing');
-require_once('../lib_share.php');
+ 
+OCP\JSON::checkAppEnabled('files_sharing');
+require_once(OC::$APPSROOT . '/apps/files_sharing/lib_share.php');
 
-$userDirectory = "/".OC_User::getUser()."/files";
+$userDirectory = "/".OCP\USER::getUser()."/files";
 $source = $userDirectory.$_GET['source'];
 $path = $source;
 $users = array();
@@ -32,5 +32,5 @@ while ($source != "" && $source != "/" && $source != "." && $source != $userDire
 	$source = dirname($source);
 }
 if (!empty($users)) {
-	OC_JSON::encodedPrint($users);
+	OCP\JSON::encodedPrint($users);
 }

@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $id = $_GET['id'];
 $checksum = isset($_GET['checksum'])?$_GET['checksum']:'';

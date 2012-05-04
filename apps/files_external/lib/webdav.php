@@ -150,7 +150,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 				}else{
 					$ext='';
 				}
-				$tmpFile=OC_Helper::tmpFile($ext);
+				$tmpFile=OCP\Files::tmpFile($ext);
 				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
 				if($this->file_exists($path)){
 					$this->getFile($path,$tmpFile);

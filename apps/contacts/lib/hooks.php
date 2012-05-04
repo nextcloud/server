@@ -39,22 +39,9 @@ class OC_Contacts_Hooks{
 		return true;
 	}
 
-	/**
-	 * @brief Adds the CardDAV resource to the DAV server
-	 * @param paramters parameters from initialize-Hook
-	 * @return array
-	 */
-	static public function initializeCardDAV($parameters){
-		// We need a backend, the root node and the carddav plugin
-		$parameters['backends']['carddav'] = new OC_Connector_Sabre_CardDAV();
-		$parameters['nodes'][] = new Sabre_CardDAV_AddressBookRoot($parameters['backends']['principal'], $parameters['backends']['carddav']);
-		$parameters['plugins'][] = new Sabre_CardDAV_Plugin();
-		return true;
-	}
-
 	static public function getCalenderSources($parameters) {
-		$base_url = OC_Helper::linkTo('calendar', 'ajax/events.php').'?calendar_id=';
-		foreach(OC_Contacts_Addressbook::all(OC_User::getUser()) as $addressbook) {
+		$base_url = OCP\Util::linkTo('calendar', 'ajax/events.php').'?calendar_id=';
+		foreach(OC_Contacts_Addressbook::all(OCP\USER::getUser()) as $addressbook) {
 			$parameters['sources'][] =
 				array(
 					'url' => $base_url.'birthday_'. $addressbook['id'],
@@ -77,6 +64,9 @@ class OC_Contacts_Hooks{
 		OC_Contacts_App::getAddressbook($aid);
 		foreach(OC_Contacts_VCard::all($aid) as $card){
 			$vcard = OC_VObject::parse($card['carddata']);
+			if (!$vcard) {
+				continue;
+			}
 			$birthday = $vcard->BDAY;
 			if ($birthday) {
 				$date = new DateTime($birthday);

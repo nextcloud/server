@@ -3,7 +3,6 @@
 	<id>media</id>
 	<name>Media</name>
 	<description>Media player and server for ownCloud</description>
-	<version>0.3</version>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
 	<require>2</require>

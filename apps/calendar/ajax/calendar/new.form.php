@@ -6,10 +6,9 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
-$l10n = new OC_L10N('calendar');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 $calendarcolor_options = OC_Calendar_Calendar::getCalendarColorOptions();
 $calendar = array(
 	'id' => 'new',

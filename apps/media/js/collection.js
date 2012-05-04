@@ -15,6 +15,11 @@ Collection={
 		}
 		if(!Collection.loading){
 			Collection.loading=true;
+			Collection.artists=[];
+			Collection.albums=[];
+			Collection.songs=[];
+			Collection.artistsById={};
+			Collection.albumsById={};
 			$.ajax({
 				url: OC.linkTo('media','ajax/api.php')+'?action=get_collection',
 				dataType: 'json',
@@ -107,6 +112,7 @@ Collection={
 							Collection.parent.find('tr').removeClass('active');
 							$('tr[data-artist="'+artist.name+'"]').addClass('active');
 						});
+						expander='';
 						if(artist.songs.length>1){
 							expander=$('<a class="expander">&gt;</a>');
 							expander.data('expanded',false);

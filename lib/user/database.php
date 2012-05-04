@@ -172,7 +172,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * @return boolean
 	 */
 	public function userExists($uid){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
+		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid LIKE ?" );
 		$result = $query->execute( array( $uid ));
 		
 		return $result->numRows() > 0;

@@ -33,6 +33,7 @@ class OC_CryptStream{
 	private $path;
 	private $readBuffer;//for streams that dont support seeking
 	private $meta=array();//header/meta for source stream
+	private $count;
 
 	public function stream_open($path, $mode, $options, &$opened_path){
 		$path=str_replace('crypt://','',$path);
@@ -41,12 +42,12 @@ class OC_CryptStream{
 			$this->path=self::$sourceStreams[basename($path)]['path'];
 		}else{
 			$this->path=$path;
-			OC_Log::write('files_encryption','open encrypted '.$path. ' in '.$mode,OC_Log::DEBUG);
+			OCP\Util::writeLog('files_encryption','open encrypted '.$path. ' in '.$mode,OCP\Util::DEBUG);
 			OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
 			$this->source=OC_FileSystem::fopen($path,$mode);
 			OC_FileProxy::$enabled=true;
 			if(!is_resource($this->source)){
-				OC_Log::write('files_encryption','failed to open '.$path,OC_Log::ERROR);
+				OCP\Util::writeLog('files_encryption','failed to open '.$path,OCP\Util::ERROR);
 			}
 		}
 		if(is_resource($this->source)){
@@ -64,29 +65,19 @@ class OC_CryptStream{
 	}
 	
 	public function stream_read($count){
-		$pos=0;
-		$currentPos=ftell($this->source);
-		$offset=$currentPos%8192;
-		$result='';
-		if($offset>0){
-			if($this->meta['seekable']){
-				fseek($this->source,-$offset,SEEK_CUR);//if seeking isnt supported the internal read buffer will be used
-			}else{
-				$pos=strlen($this->readBuffer);
-				$result=$this->readBuffer;
-			}
+		//$count will always be 8192 https://bugs.php.net/bug.php?id=21641
+		//This makes this function a lot simpler but will breake everything the moment it's fixed
+		if($count!=8192){
+			OCP\Util::writeLog('files_encryption','php bug 21641 no longer holds, decryption will not work',OCP\Util::FATAL);
+			die();
 		}
-		while($count>$pos){
-			$data=fread($this->source,8192);
-			$pos+=8192;
-			if(strlen($data)){
-				$result.=OC_Crypt::decrypt($data);
-			}
+		$data=fread($this->source,8192);
+		if(strlen($data)){
+			$result=OC_Crypt::decrypt($data);
+		}else{
+			$result='';
 		}
-		if(!$this->meta['seekable']){
-			$this->readBuffer=substr($result,$count);
-		}
-		return substr($result,0,$count);
+		return $result;
 	}
 	
 	public function stream_write($data){
@@ -102,14 +93,6 @@ class OC_CryptStream{
 			$data=substr($block,0,$currentPos%8192).$data;
 		}
 		while(strlen($data)>0){
-			if(strlen($data)<8192){
-				//fetch the current data in that block and append it to the input so we always write entire blocks
-				$oldPos=ftell($this->source);
-				$encryptedBlock=fread($this->source,8192);
-				fseek($this->source,$oldPos);
-				$block=OC_Crypt::decrypt($encryptedBlock);
-				$data.=substr($block,strlen($data));
-			}
 			$encrypted=OC_Crypt::encrypt(substr($data,0,8192));
 			fwrite($this->source,$encrypted);
 			$data=substr($data,8192);
@@ -147,7 +130,9 @@ class OC_CryptStream{
 	}
 
 	public function stream_close(){
-		OC_FileCache::put($this->path,array('encrypted'=>true));
+		if($this->meta['mode']!='r' and $this->meta['mode']!='rb'){
+			OC_FileCache::put($this->path,array('encrypted'=>true));
+		}
 		return fclose($this->source);
 	}
 }

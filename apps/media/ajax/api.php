@@ -23,10 +23,9 @@
 
 header('Content-type: text/html; charset=UTF-8') ;
 
-require_once('../../../lib/base.php');
-OC_JSON::checkAppEnabled('media');
-require_once('../lib_collection.php');
-require_once('../lib_scanner.php');
+OCP\JSON::checkAppEnabled('media');
+require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
+require_once(OC::$APPSROOT . '/apps/media/lib_scanner.php');
 
 error_reporting(E_ALL); //no script error reporting because of getID3
 
@@ -49,43 +48,43 @@ if(!isset($arguments['album'])){
 if(!isset($arguments['search'])){
 	$arguments['search']='';
 }
-OC_MEDIA_COLLECTION::$uid=OC_User::getUser();
+OC_MEDIA_COLLECTION::$uid=OCP\USER::getUser();
 if($arguments['action']){
 	switch($arguments['action']){
 		case 'delete':
 			$path=$arguments['path'];
 			OC_MEDIA_COLLECTION::deleteSongByPath($path);
-			$paths=explode(PATH_SEPARATOR,OC_Preferences::getValue(OC_User::getUser(),'media','paths',''));
+			$paths=explode(PATH_SEPARATOR,OCP\Config::getUserValue(OCP\USER::getUser(),'media','paths',''));
 			if(array_search($path,$paths)!==false){
 				unset($paths[array_search($path,$paths)]);
-				OC_Preferences::setValue(OC_User::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
+				OCP\Config::setUserValue(OCP\USER::getUser(),'media','paths',implode(PATH_SEPARATOR,$paths));
 			}
 		case 'get_collection':
 			$data=array();
 			$data['artists']=OC_MEDIA_COLLECTION::getArtists();
 			$data['albums']=OC_MEDIA_COLLECTION::getAlbums();
 			$data['songs']=OC_MEDIA_COLLECTION::getSongs();
-			OC_JSON::encodedPrint($data);
+			OCP\JSON::encodedPrint($data);
 			break;
 		case 'scan':
-			OC_DB::beginTransaction();
+			OCP\DB::beginTransaction();
 			set_time_limit(0); //recursive scan can take a while
 			$eventSource=new OC_EventSource();
 			OC_MEDIA_SCANNER::scanCollection($eventSource);
 			$eventSource->close();
-			OC_DB::commit();
+			OCP\DB::commit();
 			break;
 		case 'scanFile':
 			echo (OC_MEDIA_SCANNER::scanFile($arguments['path']))?'true':'false';
 			break;
 		case 'get_artists':
-			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getArtists($arguments['search']));
+			OCP\JSON::encodedPrint(OC_MEDIA_COLLECTION::getArtists($arguments['search']));
 			break;
 		case 'get_albums':
-			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getAlbums($arguments['artist'],$arguments['search']));
+			OCP\JSON::encodedPrint(OC_MEDIA_COLLECTION::getAlbums($arguments['artist'],$arguments['search']));
 			break;
 		case 'get_songs':
-			OC_JSON::encodedPrint(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
+			OCP\JSON::encodedPrint(OC_MEDIA_COLLECTION::getSongs($arguments['artist'],$arguments['album'],$arguments['search']));
 			break;
 		case 'get_path_info':
 			if(OC_Filesystem::file_exists($arguments['path'])){
@@ -98,7 +97,7 @@ if($arguments['action']){
 					$song=OC_MEDIA_COLLECTION::getSong($songId);
 					$song['artist']=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
 					$song['album']=OC_MEDIA_COLLECTION::getAlbumName($song['song_album']);
-					OC_JSON::encodedPrint($song);
+					OCP\JSON::encodedPrint($song);
 				}
 			}
 			break;
@@ -111,11 +110,11 @@ if($arguments['action']){
 			OC_MEDIA_COLLECTION::registerPlay($songId);
 			
 			header('Content-Type:'.$ftype);
-			OC_Response::enableCaching(3600 * 24); // 24 hour
+			OCP\Response::enableCaching(3600 * 24); // 24 hour
 			header('Accept-Ranges: bytes');
 			header('Content-Length: '.OC_Filesystem::filesize($arguments['path']));
 			$mtime = OC_Filesystem::filemtime($arguments['path']);
-			OC_Response::setLastModifiedHeader($mtime);
+			OCP\Response::setLastModifiedHeader($mtime);
 			
 			OC_Filesystem::readfile($arguments['path']);
 			exit;
@@ -123,9 +122,8 @@ if($arguments['action']){
 			$music=OC_FileCache::searchByMime('audio');
 			$ogg=OC_FileCache::searchByMime('application','ogg');
 			$music=array_merge($music,$ogg);
-			OC_JSON::encodedPrint($music);
+			OCP\JSON::encodedPrint($music);
 			exit;
 	}
 }
-
 ?>

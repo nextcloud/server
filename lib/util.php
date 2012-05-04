@@ -20,12 +20,20 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
 
-		// Create root dir
+		// Check if config folder is writable.
+		if(!is_writable(OC::$SERVERROOT."/config/")) {
+			$tmpl = new OC_Template( '', 'error', 'guest' );
+			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+			$tmpl->printPage();
+			exit;
+		}
+		
+		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
-                        if(!$success) {
+            if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' ")));
+				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ")));
 				$tmpl->printPage();
 				exit;
   			}
@@ -88,7 +96,8 @@ class OC_Util {
 	/**
 	 * add a javascript file
 	 *
-	 * @param url  $url
+	 * @param appid  $application
+	 * @param filename  $file
 	 */
 	public static function addScript( $application, $file = null ){
 		if( is_null( $file )){
@@ -105,7 +114,8 @@ class OC_Util {
 	/**
 	 * add a css file
 	 *
-	 * @param url  $url
+	 * @param appid  $application
+	 * @param filename  $file
 	 */
 	public static function addStyle( $application, $file = null ){
 		if( is_null( $file )){
@@ -129,23 +139,23 @@ class OC_Util {
 		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
 	}
 
-       /**
-         * formats a timestamp in the "right" way
-         *
-         * @param int timestamp $timestamp
-         * @param bool dateOnly option to ommit time from the result
-         */
-        public static function formatDate( $timestamp,$dateOnly=false){
-			if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
-				$systemTimeZone = intval(date('O'));
-				$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
-				$clientTimeZone=$_SESSION['timezone']*60;
-				$offset=$clientTimeZone-$systemTimeZone;
-				$timestamp=$timestamp+$offset*60;
-			}
-			$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
-			return date($timeformat,$timestamp);
-        }
+   /**
+     * formats a timestamp in the "right" way
+     *
+     * @param int timestamp $timestamp
+     * @param bool dateOnly option to ommit time from the result
+     */
+    public static function formatDate( $timestamp,$dateOnly=false){
+		if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
+			$systemTimeZone = intval(date('O'));
+			$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
+			$clientTimeZone=$_SESSION['timezone']*60;
+			$offset=$clientTimeZone-$systemTimeZone;
+			$timestamp=$timestamp+$offset*60;
+		}
+		$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
+		return date($timeformat,$timestamp);
+    }
 
 	/**
 	 * Shows a pagenavi widget where you can jump to different pages.
@@ -237,6 +247,15 @@ class OC_Util {
 		if(!function_exists('ctype_digit')){
 			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
+		if(!function_exists('json_encode')){
+			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
+		if(!function_exists('imagepng')){
+			$errors[]=array('error'=>'PHP module GD is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
+		if(floatval(phpversion())<5.3){
+			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
+		}
 
 		return $errors;
 	}
@@ -247,6 +266,9 @@ class OC_Util {
 		} else {
 			$parameters["username"] = '';
 		}
+		$sectoken=rand(1000000,9999999);
+		$_SESSION['sectoken']=$sectoken;
+		$parameters["sectoken"] = $sectoken;
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -292,7 +314,7 @@ class OC_Util {
 		if(isset($_REQUEST['redirect_url'])) {
 			header( 'Location: '.$_REQUEST['redirect_url']);
 		} else {
-			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', 'files/index.php'));
+			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
 		}
 		exit();
 	}

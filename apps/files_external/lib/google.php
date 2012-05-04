@@ -29,6 +29,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	private $sig_method;
 	private $entries;
 
+	private static $tempFiles = array();
+
 	public function __construct($arguments) {
 		$consumer_key = isset($arguments['consumer_key']) ? $arguments['consumer_key'] : 'anonymous';
 		$consumer_secret = isset($arguments['consumer_secret']) ? $arguments['consumer_secret'] : 'anonymous';
@@ -38,11 +40,11 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		$this->entries = array();
 	}
 
-	private function sendRequest($feedUri, $http_method, $isDownload = false, $postData = null) {
-		$feedUri = trim($feedUri);
+	private function sendRequest($uri, $httpMethod, $postData = null, $extraHeaders = null, $isDownload = false, $returnHeaders = false, $isContentXML = true) {
+		$uri = trim($uri);
 		// create an associative array from each key/value url query param pair.
 		$params = array();
-		$pieces = explode('?', $feedUri);
+		$pieces = explode('?', $uri);
 		if (isset($pieces[1])) {
 			$params = explode_assoc('=', '&', $pieces[1]);
 		}
@@ -51,16 +53,22 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		foreach ($params as $key => $value) {
 			$tempStr .= '&' . urlencode($key) . '=' . urlencode($value);
 		}
-		$feedUri = preg_replace('/&/', '?', $tempStr, 1);
-		$request = OAuthRequest::from_consumer_and_token($this->consumer, $this->oauth_token, $http_method, $feedUri, $params);
+		$uri = preg_replace('/&/', '?', $tempStr, 1);
+		$request = OAuthRequest::from_consumer_and_token($this->consumer, $this->oauth_token, $httpMethod, $uri, $params);
 		$request->sign_request($this->sig_method, $this->consumer, $this->oauth_token);
 		$auth_header = $request->to_header();
-		$headers = array($auth_header, 'Content-Type: application/atom+xml', 'GData-Version: 3.0');
-		$curl = curl_init($feedUri);
+		$headers = array($auth_header, 'GData-Version: 3.0');
+		if ($isContentXML) {
+			$headers = array_merge($headers, array('Content-Type: application/atom+xml'));
+		}
+		if (is_array($extraHeaders)) {
+			$headers = array_merge($headers, $extraHeaders);
+		}
+		$curl = curl_init($uri);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_FAILONERROR, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		switch ($http_method) {
+		switch ($httpMethod) {
 			case 'GET':
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 				break;
@@ -72,30 +80,50 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			case 'PUT':
 				$headers[] = 'If-Match: *';
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $http_method);
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $httpMethod);
 				curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
 				break;
 			case 'DELETE':
 				$headers[] = 'If-Match: *';
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $http_method);
+				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $httpMethod);
 				break;
 			default:
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		}
 		if ($isDownload) {
 			$tmpFile = OC_Helper::tmpFile();
-			$fp = fopen($tmpFile, 'w');
-			curl_setopt($curl, CURLOPT_FILE, $fp);
-			curl_exec($curl);
-			curl_close($curl);
-			return $tmpFile;
+			$handle = fopen($tmpFile, 'w');
+			curl_setopt($curl, CURLOPT_FILE, $handle);
+		}
+		if ($returnHeaders) {
+			curl_setopt($curl, CURLOPT_HEADER, true);
 		}
 		$result = curl_exec($curl);
+		$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
-		$dom = new DOMDocument();
-		$dom->loadXML($result);
-		return $dom;
+		if ($result) {
+			// TODO https://developers.google.com/google-apps/documents-list/#handling_api_errors
+			// TODO Log error messages
+			if ($httpCode <= 308) {
+				if ($isDownload) {
+					return $tmpFile;
+				} else {
+					return $result;
+				}
+			}
+		}
+		return false; 
+	}
+
+	private function getFeed($feedUri, $httpMethod, $postData = null) {
+		$result = $this->sendRequest($feedUri, $httpMethod, $postData);
+		if ($result) {
+			$dom = new DOMDocument();
+			$dom->loadXML($result);
+			return $dom;
+		}
+		return false;
 	}
 
 	private function getResource($path) {
@@ -106,14 +134,14 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			// Strip the file extension; file could be a native Google Docs resource
 			if ($pos = strpos($file, '.')) {
 				$title = substr($file, 0, $pos);
-				$dom = $this->sendRequest('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$title, 'GET');
+				$dom = $this->getFeed('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$title, 'GET');
 				// Check if request was successful and entry exists
 				if ($dom && $entry = $dom->getElementsByTagName('entry')->item(0)) {
 					$this->entries[$file] = $entry;
 					return $entry;
 				}
 			}
-			$dom = $this->sendRequest('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$file, 'GET');
+			$dom = $this->getFeed('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$file, 'GET');
 			// Check if request was successful and entry exists
 			if ($dom && $entry = $dom->getElementsByTagName('entry')->item(0)) {
 				$this->entries[$file] = $entry;
@@ -143,15 +171,15 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	
 
 	public function mkdir($path) {
-		$dir = dirname($path);
+		$collection = dirname($path);
 		// Check if path parent is root directory
-		if ($dir == '/' || $dir == '\.' || $dir == '.') {
-			$feedUri = 'https://docs.google.com/feeds/default/private/full';
+		if ($collection == '/' || $collection == '\.' || $collection == '.') {
+			$uri = 'https://docs.google.com/feeds/default/private/full';
 		// Get parent content link
 		} else if ($dom = $this->getResource(basename($dir))) {
-			$feedUri = $dom->getElementsByTagName('content')->item(0)->getAttribute('src');
+			$uri = $dom->getElementsByTagName('content')->item(0)->getAttribute('src');
 		}
-		if (isset($feedUri)) {
+		if (isset($uri)) {
 			$title = basename($path);
 			// Construct post data
 			$postData = '<?xml version="1.0" encoding="UTF-8"?>';
@@ -159,7 +187,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$postData .= '<category scheme="http://schemas.google.com/g/2005#kind" term="http://schemas.google.com/docs/2007#folder"/>';
 			$postData .= '<title>'.$title.'</title>';
 			$postData .= '</entry>';
-			if ($dom = $this->sendRequest($feedUri, 'POST', $postData)) {
+			if ($dom = $this->sendRequest($uri, 'POST', $postData)) {
 				return true;
 			}
 		}
@@ -182,7 +210,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		$files = array();
 		while ($next) {
-			$dom = $this->sendRequest($next, 'GET');
+			$dom = $this->getFeed($next, 'GET');
 			$links = $dom->getElementsByTagName('link');
 			foreach ($links as $link) {
 				if ($link->getAttribute('rel') == 'next') {
@@ -286,72 +314,170 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$links = $entry->getElementsByTagName('link');
 			foreach ($links as $link) {
 				if ($link->getAttribute('rel') == 'self') {
-					$feedUri = $link->getAttribute('href');
+					$uri = $link->getAttribute('href');
+					break;
 				}
 			}
 		}
-		if (isset($feedUri)) {
-			$this->sendRequest($feedUri, 'DELETE');
+		if (isset($uri)) {
+			$this->sendRequest($uri, 'DELETE');
 			return true;
 		}
 		return false;
 	}
 
 	public function rename($path1, $path2) {
-		// TODO Add support for moving to different collections
-		// Get resource edit link to rename resource
 		if ($entry = $this->getResource($path1)) {
-			$etag = $entry->getElementsByTagName('entry')->item(0)->getAttribute('gd:etag');
-			$links = $entry->getElementsByTagName('link');
-			foreach ($links as $link) {
-				if ($link->getAttribute('rel') == 'edit') {
-					$feedUri = $link->getAttribute('href');
+			$collection = dirname($path2);
+			if (dirname($path1) == $collection) {
+				// Get resource edit link to rename resource
+				$etag = $entry->getAttribute('gd:etag');
+				$links = $entry->getElementsByTagName('link');
+				foreach ($links as $link) {
+					if ($link->getAttribute('rel') == 'edit') {
+						$uri = $link->getAttribute('href');
+						break;
+					}
+				}
+				$title = basename($path);
+				// Construct post data
+				$postData = '<?xml version="1.0" encoding="UTF-8"?>';
+				$postData .= '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:docs="http://schemas.google.com/docs/2007" xmlns:gd="http://schemas.google.com/g/2005" gd:etag='.$etag.'>';
+				$postData .= '<title>'.$title.'</title>';
+				$postData .= '</entry>';
+				$this->sendRequest($uri, 'PUT', $postData);
+				return true;
+			} else {
+				// Move to different collection
+				if ($collectionEntry = $this->getResource($collection)) {
+					$feedUri = $colelctionEntry->getElementsByTagName('content')->item(0)->getAttribute('src');
+					// Construct post data
+					$postData = '<?xml version="1.0" encoding="UTF-8"?>';
+					$postData .= '<entry xmlns="http://www.w3.org/2005/Atom">';
+					$postData .= '<id>'.$entry->getElementsByTagName('id')->item(0).'</id>';
+					$postData .= '</entry>';
+					$this->sendRequest($uri, 'POST', $postData);
+					return true;
 				}
 			}
-		}
-		if (isset($etag) && isset($feedUri)) {
-			$title = basename($path2);
-			// Construct post data
-			$postData = '<?xml version="1.0" encoding="UTF-8"?>';
-			$postData .= '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:docs="http://schemas.google.com/docs/2007" xmlns:gd="http://schemas.google.com/g/2005" gd:etag='.$etag.'>';
-			$postData .= '<title>'.$title.'</title>';
-			$postData .= '</entry>';
-			$this->sendRequest($feedUri, 'PUT', $postData);
-			return true;
 		}
 		return false;
 	}
 
 	public function fopen($path, $mode) {
-		if ($entry = $this->getResource($path)) {
-			switch ($mode) {
-				case 'r':
-				case 'rb':
+		switch ($mode) {
+			case 'r':
+			case 'rb':
+				if ($entry = $this->getResource($path)) {
 					$extension = $this->getExtension($entry);
 					$downloadUri = $entry->getElementsByTagName('content')->item(0)->getAttribute('src');
 					// TODO Non-native documents don't need these additional parameters
 					$downloadUri .= '&exportFormat='.$extension.'&format='.$extension;
-					$tmpFile = $this->sendRequest($downloadUri, 'GET', true);
+					$tmpFile = $this->sendRequest($downloadUri, 'GET', null, null, true);
 					return fopen($tmpFile, 'r');
-				case 'w':
-				case 'wb':
-				case 'a':
-				case 'ab':
-				case 'r+':
-				case 'w+':
-				case 'wb+':
-				case 'a+':
-				case 'x':
-				case 'x+':
-				case 'c':
-				case 'c+':
-					// TODO Edit documents
-			}
-			
+				}
+			case 'w':
+			case 'wb':
+			case 'a':
+			case 'ab':
+			case 'r+':
+			case 'w+':
+			case 'wb+':
+			case 'a+':
+			case 'x':
+			case 'x+':
+			case 'c':
+			case 'c+':
+				if (strrpos($path,'.') !== false) {
+					$ext = substr($path,strrpos($path,'.'));
+				} else {
+					$ext = '';
+				}
+				$tmpFile = OC_Helper::tmpFile($ext);
+				OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
+				if ($this->file_exists($path)) {
+					$source = $this->fopen($path, 'r');
+					file_put_contents($tmpFile, $source);
+				}
+				self::$tempFiles[$tmpFile] = $path;
+				return fopen('close://'.$tmpFile, $mode);
 		}
 		return false;
 	}
 
+	public function writeBack($tmpFile) {
+		if (isset(self::$tempFiles[$tmpFile])) {
+			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
+			unlink($tmpFile);
+		}
+	}
+
+	private function uploadFile($path, $target) {
+		$entry = $this->getResource($target);
+		if (!$entry) {
+			if (dirname($target) == '.' || dirname($target) == '/') {
+				$uploadUri = 'https://docs.google.com/feeds/upload/create-session/default/private/full/folder%3Aroot/contents';
+			} else {
+				$entry = $this->getResource(dirname($target));
+			}
+		}
+		if (!isset($uploadUri) && $entry) {
+			$etag = $entry->getAttribute('gd:etag');
+			$links = $entry->getElementsByTagName('link');
+			foreach ($links as $link) {
+				if ($link->getAttribute('rel') == 'http://schemas.google.com/g/2005#resumable-edit-media') {
+					$uploadUri = $link->getAttribute('href');
+					break;
+				}
+			}
+		}
+		if (isset($uploadUri) && $handle = fopen($path, 'r')) {
+			$uploadUri .= '?convert=false';
+			$mimetype = OC_Helper::getMimeType($path);
+			$size = filesize($path);
+			$headers = array('X-Upload-Content-Type: ' => $mimetype, 'X-Upload-Content-Length: ' => $size);
+			$postData = '<?xml version="1.0" encoding="UTF-8"?>';
+			$postData .= '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:docs="http://schemas.google.com/docs/2007">';
+			$postData .= '<title>'.basename($target).'</title>';
+			$postData .= '</entry>';
+			$result = $this->sendRequest($uploadUri, 'POST', $postData, $headers, false, true);
+			if ($result) {
+				// Get location to upload file
+				if (preg_match('@^Location: (.*)$@m', $result, $matches)) {
+					$uploadUri = trim($matches[1]);
+				}
+			} else {
+				return false;
+			}
+			// 512 kB chunks
+			$chunkSize = 524288;
+			$i = 0;
+			while (!feof($handle)) {
+				if ($i + $chunkSize > $size) {
+					if ($i == 0) {
+						$chunkSize = $size;
+					} else {
+						$chunkSize = $size % $i;
+					}
+				}
+				$end = $i + $chunkSize - 1;
+				$headers = array('Content-Length: '.$chunkSize, 'Content-Type: '.$mimetype, 'Content Range: bytes '.$i.'-'.$end.'/'.$size);
+				$postData = fread($handle, $chunkSize);
+				$result = $this->sendRequest($uploadUri, 'PUT', $postData, $headers, false, true, false);
+				if ($result) {
+					// Get next location to upload file chunk
+					if (preg_match('@^Location: (.*)$@m', $result, $matches)) {
+						$uploadUri = trim($matches[1]);
+					}
+					$i += $chunkSize;
+				} else {
+					return false;
+				}
+			}
+			// TODO Wait for resource entry
+		}
+	}
+	
 	public function getMimeType($path, $entry = null) {
 		// Entry can be passed, because extension is required for opendir and the entry can't be cached without the extension
 		if ($entry == null) {
@@ -393,7 +519,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	}
 	
 	public function free_space($path) {
-		if ($dom = $this->sendRequest('https://docs.google.com/feeds/metadata/default', 'GET')) {
+		if ($dom = $this->getFeed('https://docs.google.com/feeds/metadata/default', 'GET')) {
 			// NOTE: Native Google Docs resources don't count towards quota
 			$total = $dom->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesTotal')->item(0)->nodeValue;
 			$used = $dom->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesUsed')->item(0)->nodeValue;

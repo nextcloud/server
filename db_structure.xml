@@ -131,7 +131,7 @@
 	   <default>
 	   </default>
 	   <notnull>true</notnull>
-	   <length>32</length>
+	   <length>96</length>
    </field>
 
    <field>

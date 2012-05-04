@@ -6,24 +6,24 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.print_r($element, true));
 }
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/categories/rescan.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/categories/rescan.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 }
 
-$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+$addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 if(count($addressbooks) == 0) {
 	bailOut(OC_Contacts_App::$l10n->t('No address books found.'));
 }
@@ -39,6 +39,6 @@ if(count($contacts) == 0) {
 OC_Contacts_App::scanCategories($contacts);
 $categories = OC_Contacts_App::getCategories();
 
-OC_JSON::success(array('data' => array('categories'=>$categories)));
+OCP\JSON::success(array('data' => array('categories'=>$categories)));
 
 ?>

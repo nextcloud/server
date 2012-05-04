@@ -163,4 +163,38 @@ class OC_Appconfig{
 
 		return true;
 	}
+	
+	/**
+	 * get multiply values, either the app or key can be used as wildcard by setting it to false
+	 * @param app
+	 * @param key
+	 * @return array
+	 */
+	public static function getValues($app,$key){
+		if($app!==false and $key!==false){
+			return false;
+		}
+		$where='WHERE';
+		$fields='configvalue';
+		$params=array();
+		if($app!==false){
+			$where.=' appid = ?';
+			$fields.=', configkey';
+			$params[]=$app;
+			$key='configkey';
+		}else{
+			$fields.=', appid';
+			$where.=' configkey = ?';
+			$params[]=$key;
+			$key='appid';
+		}
+		$queryString='SELECT '.$fields.' FROM *PREFIX*appconfig '.$where;
+		$query=OC_DB::prepare($queryString);
+		$result=$query->execute($params);
+		$values=array();
+		while($row=$result->fetchRow()){
+			$values[$row[$key]]=$row['configvalue'];
+		}
+		return $values;
+	}
 }

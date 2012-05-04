@@ -24,39 +24,16 @@
 //no apps or filesystem
 $RUNTIME_NOSETUPFS=true;
 
-require_once('../../../lib/base.php');
+ 
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('bookmarks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('bookmarks');
 
-$params=array(
-	htmlspecialchars_decode($_GET["url"]),
-	OC_User::getUser()
-	);
+$id = $_GET['id'];
+if (!OC_Bookmarks_Bookmarks::deleteUrl($id)){
+	OC_JSON::error();
+	exit();
+}
 
-$query = OC_DB::prepare("
-	SELECT id FROM *PREFIX*bookmarks 
-	WHERE url LIKE ?
-		AND user_id = ?
-	");
-
-$id = $query->execute($params)->fetchOne();
-
-$query = OC_DB::prepare("
-	DELETE FROM *PREFIX*bookmarks
-	WHERE id = $id
-	");
-	
-$result = $query->execute();
-
-
-$query = OC_DB::prepare("
-	DELETE FROM *PREFIX*bookmarks_tags
-	WHERE bookmark_id = $id
-	");
-	
-$result = $query->execute();
-// var_dump($params);
-
-OC_JSON::success(array('data' => array()));
+OCP\JSON::success();

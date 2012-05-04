@@ -3,7 +3,7 @@ var bookmarks_loading = false;
 
 var bookmarks_sorting = 'bookmarks_sorting_recent';
 
-$(document).ready(function() {	
+$(document).ready(function() {
 	$('#bookmark_add_submit').click(addOrEditBookmark);
 	$(window).resize(function () {
 		fillWindow($('.bookmarks_list'));
@@ -18,10 +18,10 @@ function getBookmarks() {
 		//have patience :)
 		return;
 	}
-	
+
 	$.ajax({
-		url: 'ajax/updateList.php',
-		data: 'tag=' + encodeURI($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
+		url: OC.filePath('bookmarks', 'ajax', 'updateList.php'),
+		data: 'tag=' + encodeURIComponent($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
 		success: function(bookmarks){
 			if (bookmarks.data.length) {
 				bookmarks_page += 1;
@@ -29,7 +29,7 @@ function getBookmarks() {
 			$('.bookmark_link').unbind('click', recordClick);
 			$('.bookmark_delete').unbind('click', delBookmark);
 			$('.bookmark_edit').unbind('click', showBookmark);
-	
+
 			for(var i in bookmarks.data) {
 				updateBookmarksList(bookmarks.data[i]);
 				$("#firstrun").hide();
@@ -41,13 +41,13 @@ function getBookmarks() {
 			$('.bookmark_link').click(recordClick);
 			$('.bookmark_delete').click(delBookmark);
 			$('.bookmark_edit').click(showBookmark);
-			
+
 			bookmarks_loading = false;
 			if (bookmarks.data.length) {
 				updateOnBottom()
 			}
 		}
-	});	
+	});
 }
 
 // function addBookmark() {
@@ -60,13 +60,13 @@ function addOrEditBookmark(event) {
 	var title = encodeEntities($('#bookmark_add_title').val());
 	var tags = encodeEntities($('#bookmark_add_tags').val());
 	$("#firstrun").hide();
-	
+
 	if (id == 0) {
 		$.ajax({
-			url: 'ajax/addBookmark.php',
-			data: 'url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
-			success: function(response){ 
-				$('.bookmarks_input').val(''); 
+			url: OC.filePath('bookmarks', 'ajax', 'addBookmark.php'),
+			data: 'url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&tags=' + encodeURIComponent(tags),
+			success: function(response){
+				$('.bookmarks_input').val('');
 				$('.bookmarks_list').empty();
 				bookmarks_page = 0;
 				getBookmarks();
@@ -75,9 +75,9 @@ function addOrEditBookmark(event) {
 	}
 	else {
 		$.ajax({
-			url: 'ajax/editBookmark.php',
-			data: 'id=' + id + '&url=' + encodeURI(url) + '&title=' + encodeURI(title) + '&tags=' + encodeURI(tags),
-			success: function(){ 
+			url: OC.filePath('bookmarks', 'ajax', 'editBookmark.php'),
+			data: 'id=' + id + '&url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&tags=' + encodeURIComponent(tags),
+			success: function(){
 				$('.bookmarks_input').val('');
 				$('#bookmark_add_id').val('0');
 				$('.bookmarks_list').empty();
@@ -86,18 +86,20 @@ function addOrEditBookmark(event) {
 			}
 		});
 	}
-	
+
 }
 
 function delBookmark(event) {
 	var record = $(this).parent().parent();
 	$.ajax({
-		url: 'ajax/delBookmark.php',
-		data: 'url=' + encodeURI($(this).parent().parent().children('.bookmark_url:first').text()),
+		url: OC.filePath('bookmarks', 'ajax', 'delBookmark.php'),
+		data: 'id=' + record.data('id'),
 		success: function(data){
-			record.remove();
-			if($('.bookmarks_list').is(':empty')) {
-				$("#firstrun").show();
+			if (data.status == 'success') {
+				record.remove();
+				if($('.bookmarks_list').is(':empty')) {
+					$("#firstrun").show();
+				}
 			}
 		}
 	});
@@ -109,7 +111,7 @@ function showBookmark(event) {
 	$('#bookmark_add_url').val(record.children('.bookmark_url:first').text());
 	$('#bookmark_add_title').val(record.children('.bookmark_title:first').text());
 	$('#bookmark_add_tags').val(record.children('.bookmark_tags:first').text());
-	
+
 	if ($('.bookmarks_add').css('display') == 'none') {
 		$('.bookmarks_add').slideToggle();
 	}
@@ -124,7 +126,7 @@ function updateBookmarksList(bookmark) {
 	var taglist = '';
 	for ( var i=0, len=tags.length; i<len; ++i ){
 		if(tags[i] != '')
-			taglist = taglist + '<a class="bookmark_tag" href="?tag=' + encodeURI(tags[i]) + '">' + tags[i] + '</a> ';
+			taglist = taglist + '<a class="bookmark_tag" href="?tag=' + encodeURIComponent(tags[i]) + '">' + tags[i] + '</a> ';
 	}
 	if(!hasProtocol(bookmark.url)) {
 		bookmark.url = 'http://' + bookmark.url;
@@ -164,9 +166,9 @@ function updateOnBottom() {
 
 function recordClick(event) {
 	$.ajax({
-		url: 'ajax/recordClick.php',
-		data: 'url=' + encodeURI($(this).attr('href')),
-	});	
+		url: OC.filePath('bookmarks', 'ajax', 'recordClick.php'),
+		data: 'url=' + encodeURIComponent($(this).attr('href')),
+	});
 }
 
 function encodeEntities(s){

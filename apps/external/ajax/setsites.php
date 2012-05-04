@@ -6,8 +6,8 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
-OC_Util::checkAdminUser();
+ 
+OCP\User::checkAdminUser();
 
 $sites = array();
 for ($i = 0; $i < sizeof($_POST['site_name']); $i++) {
@@ -19,7 +19,7 @@ for ($i = 0; $i < sizeof($_POST['site_name']); $i++) {
 if (sizeof($sites) == 0)
 	OC_Appconfig::deleteKey('external', 'sites');
 else
-	OC_Appconfig::setValue('external', 'sites', json_encode($sites));
+	OCP\Config::setAppValue('external', 'sites', json_encode($sites));
 
 echo 'true';
 ?>

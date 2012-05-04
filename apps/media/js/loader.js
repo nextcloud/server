@@ -1,10 +1,10 @@
 function musicTypeFromFile(file){
-	var extention=file.substr(file.indexOf('.')+1).toLowerCase();
-	if(extention=='ogg'){
+	var extension=file.substr(file.indexOf('.')+1).toLowerCase();
+	if(extension=='ogg'){
 		return 'oga';
 	}
 	//TODO check for more specific cases
-	return extention;
+	return extension;
 }
 
 function playAudio(filename){

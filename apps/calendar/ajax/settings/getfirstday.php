@@ -5,8 +5,8 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-$firstday = OC_Preferences::getValue( OC_User::getUser(), 'calendar', 'firstday', 'mo');
-OC_JSON::encodedPrint(array('firstday' => $firstday));
+ 
+OCP\JSON::checkLoggedIn();
+$firstday = OCP\Config::getUserValue( OCP\USER::getUser(), 'calendar', 'firstday', 'mo');
+OCP\JSON::encodedPrint(array('firstday' => $firstday));
 ?> 

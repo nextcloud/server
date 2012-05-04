@@ -22,7 +22,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-OC_Util::checkAppEnabled('user_migrate');
+OCP\App::checkAppEnabled('user_migrate');
 
 // fill template
 $tmpl = new OC_Template('user_migrate', 'settings');

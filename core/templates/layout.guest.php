@@ -9,6 +9,8 @@
 		<?php endforeach; ?>
 		<script type="text/javascript">
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
+			var oc_appswebroot = '<?php echo OC::$APPSWEBROOT; ?>';
+			var oc_appswebroot = '<?php echo OC::$APPSWEBROOT; ?>';
 		</script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
@@ -28,7 +30,7 @@
 	<body id="body-login">
 		<div id="login">
 			<header><div id="header">
-				<img src="<?php echo image_path('', 'owncloud-logo-medium-white.png'); ?>" alt="ownCloud" />
+				<img src="<?php echo image_path('', 'logo.png'); ?>" alt="ownCloud" />
 			</div></header>
 			<?php echo $_['content']; ?>
 		</div>

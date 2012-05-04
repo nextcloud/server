@@ -255,7 +255,12 @@ class OC_Group {
 	 * @return bool
 	 */
 	public static function groupExists($gid){
-		return in_array( $gid, self::getGroups());
+		foreach(self::$_usedBackends as $backend){
+			if ($backend->groupExists($gid)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

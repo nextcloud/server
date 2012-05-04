@@ -104,7 +104,7 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 	}
 	public function touch($path, $mtime=null){
 		if(is_null($mtime)){
-			$tmpFile=OC_Helper::tmpFile();
+			$tmpFile=OCP\Files::tmpFile();
 			$this->archive->extractFile($path,$tmpFile);
 			$this->archive->addfile($path,$tmpFile);
 		}else{

@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 $addressbook = OC_Contacts_App::getAddressbook($_GET['bookid']);
 $tmpl = new OC_Template("contacts", "part.editaddressbook");
 $tmpl->assign('new', false);

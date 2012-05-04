@@ -1,11 +1,11 @@
 <?php
 //$RUNTIME_NOAPPS = true;
 
-require_once('../../../lib/base.php');
-OC_JSON::checkAppEnabled('files_sharing');
-require_once('../lib_share.php');
+ 
+OCP\JSON::checkAppEnabled('files_sharing');
+require_once(OC::$APPSROOT . '/apps/files_sharing/lib_share.php');
 
-$userDirectory = "/".OC_User::getUser()."/files";
+$userDirectory = "/".OCP\USER::getUser()."/files";
 $sources = explode(";", $_POST['sources']);
 $uid_shared_with = $_POST['uid_shared_with'];
 $permissions = $_POST['permissions'];
@@ -15,7 +15,7 @@ foreach ($sources as $source) {
 		$source = $userDirectory.$source;
 	// If the file doesn't exist, it may be shared with the current user
 	} else if (!$source = OC_Share::getSource($userDirectory.$source)) {
-		OC_Log::write('files_sharing',"Shared file doesn't exists :".$source,OC_Log::ERROR);
+		OCP\Util::writeLog('files_sharing',"Shared file doesn't exists :".$source,OCP\Util::ERROR);
 		echo "false";
 	}
 	try {
@@ -24,7 +24,7 @@ foreach ($sources as $source) {
 			echo $shared->getToken();
 		}
 	} catch (Exception $exception) {
-		OC_Log::write('files_sharing',"Unexpected Error : ".$exception->getMessage(),OC_Log::ERROR);
+		OCP\Util::writeLog('files_sharing',"Unexpected Error : ".$exception->getMessage(),OCP\Util::ERROR);
 		echo "false";
 	}
 }

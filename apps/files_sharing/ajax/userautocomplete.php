@@ -1,14 +1,14 @@
 <?php
 //$RUNTIME_NOAPPS = true;
 
-require_once('../../../lib/base.php');
+ 
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('files_sharing');
 
 $users = array();
 $groups = array();
-$self = OC_User::getUser();
+$self = OCP\USER::getUser();
 $userGroups = OC_Group::getUserGroups($self);
 $users[] = "<optgroup label='Users'>";
 $groups[] = "<optgroup label='Groups'>";
@@ -24,6 +24,6 @@ foreach ($userGroups as $group) {
 $users[] = "</optgroup>";
 $groups[] = "</optgroup>";
 $users = array_merge($users, $groups);
-OC_JSON::encodedPrint($users);
+OCP\JSON::encodedPrint($users);
 
 ?>

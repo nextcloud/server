@@ -19,7 +19,7 @@ class OC_Calendar_Object{
 	 * ['calendardata']
 	 */
 	public static function all($id){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?' );
+		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?' );
 		$result = $stmt->execute(array($id));
 
 		$calendarobjects = array();
@@ -41,7 +41,7 @@ class OC_Calendar_Object{
 	 * in ['calendardata']
 	 */
 	public static function allInPeriod($id, $start, $end){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?'
+		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ?'
 		.' AND ((startdate >= ? AND startdate <= ? AND repeating = 0)'
 		.' OR (enddate >= ? AND enddate <= ? AND repeating = 0)'
 		.' OR (startdate <= ? AND repeating = 1))' );
@@ -66,7 +66,7 @@ class OC_Calendar_Object{
 	 * @return associative array
 	 */
 	public static function find($id){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE id = ?' );
 		$result = $stmt->execute(array($id));
 
 		return $result->fetchRow();
@@ -79,7 +79,7 @@ class OC_Calendar_Object{
 	 * @return associative array
 	 */
 	public static function findWhereDAVDataIs($cid,$uri){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ? AND uri = ?' );
+		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*calendar_objects WHERE calendarid = ? AND uri = ?' );
 		$result = $stmt->execute(array($cid,$uri));
 
 		return $result->fetchRow();
@@ -103,12 +103,12 @@ class OC_Calendar_Object{
 
 		$uri = 'owncloud-'.md5($data.rand().time()).'.ics';
 
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
+		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
+		$stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
-		return OC_DB::insertid('*PREFIX*calendar_objects');
+		return OCP\DB::insertid('*PREFIX*calendar_objects');
 	}
 
 	/**
@@ -122,12 +122,12 @@ class OC_Calendar_Object{
 		$object = OC_VObject::parse($data);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
-		$result = $stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
+		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
+		$stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
-		return OC_DB::insertid('*PREFIX*calendar_objects');
+		return OCP\DB::insertid('*PREFIX*calendar_objects');
 	}
 
 	/**
@@ -143,8 +143,8 @@ class OC_Calendar_Object{
 		OC_Calendar_App::loadCategoriesFromVCalendar($object);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
-		$result = $stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
+		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
+		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
@@ -164,8 +164,8 @@ class OC_Calendar_Object{
 		$object = OC_VObject::parse($data);
 		list($type,$startdate,$enddate,$summary,$repeating,$uid) = self::extractData($object);
 
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
-		$result = $stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$oldobject['id']));
+		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*calendar_objects SET objecttype=?,startdate=?,enddate=?,repeating=?,summary=?,calendardata=?, lastmodified = ? WHERE id = ?' );
+		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$oldobject['id']));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
@@ -179,7 +179,7 @@ class OC_Calendar_Object{
 	 */
 	public static function delete($id){
 		$oldobject = self::find($id);
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE id = ?' );
 		$stmt->execute(array($id));
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
 
@@ -193,7 +193,7 @@ class OC_Calendar_Object{
 	 * @return boolean
 	 */
 	public static function deleteFromDAVData($cid,$uri){
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ? AND uri=?' );
+		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ? AND uri=?' );
 		$stmt->execute(array($cid,$uri));
 		OC_Calendar_Calendar::touchCalendar($cid);
 
@@ -201,8 +201,8 @@ class OC_Calendar_Object{
 	}
 
 	public static function moveToCalendar($id, $calendarid){
-		$stmt = OC_DB::prepare( 'UPDATE *PREFIX*calendar_objects SET calendarid=? WHERE id = ?' );
-		$result = $stmt->execute(array($calendarid,$id));
+		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*calendar_objects SET calendarid=? WHERE id = ?' );
+		$stmt->execute(array($calendarid,$id));
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
@@ -432,11 +432,6 @@ class OC_Calendar_Object{
 			$errarr['title'] = 'true';
 			$errnum++;
 		}
-		$calendar = OC_Calendar_Calendar::find($request['calendar']);
-		if($calendar['userid'] != OC_User::getUser()){
-			$errarr['cal'] = 'true';
-			$errnum++;
-		}
 
 		$fromday = substr($request['from'], 0, 2);
 		$frommonth = substr($request['from'], 3, 2);
@@ -461,11 +456,11 @@ class OC_Calendar_Object{
 		if($request['repeat'] != 'doesnotrepeat'){
 			if(is_nan($request['interval']) && $request['interval'] != ''){
 				$errarr['interval'] = 'true';
-				$ernum++;
+				$errnum++;
 			}
 			if(array_key_exists('repeat', $request) && !array_key_exists($request['repeat'], self::getRepeatOptions(OC_Calendar_App::$l10n))){
 				$errarr['repeat'] = 'true';
-				$ernum++;
+				$errnum++;
 			}
 			if(array_key_exists('advanced_month_select', $request) && !array_key_exists($request['advanced_month_select'], self::getMonthOptions(OC_Calendar_App::$l10n))){
 				$errarr['advanced_month_select'] = 'true';
@@ -595,7 +590,7 @@ class OC_Calendar_Object{
 		$vevent = new OC_VObject('VEVENT');
 		$vcalendar->add($vevent);
 
-		$vevent->setDateTime('CREATED', 'now', Sabre_VObject_Element_DateTime::UTC);
+		$vevent->setDateTime('CREATED', 'now', Sabre_VObject_Property_DateTime::UTC);
 
 		$vevent->setUID();
 		return self::updateVCalendarFromRequest($request, $vcalendar);
@@ -756,24 +751,22 @@ class OC_Calendar_Object{
 		}
 
 
-		$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Element_DateTime::UTC);
-		$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
+		$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Property_DateTime::UTC);
+		$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Property_DateTime::UTC);
 		$vevent->setString('SUMMARY', $title);
 
-		$dtstart = new Sabre_VObject_Element_DateTime('DTSTART');
-		$dtend = new Sabre_VObject_Element_DateTime('DTEND');
 		if($allday){
 			$start = new DateTime($from);
 			$end = new DateTime($to.' +1 day');
-			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Element_DateTime::DATE);
-			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Element_DateTime::DATE);
+			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Property_DateTime::DATE);
+			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Property_DateTime::DATE);
 		}else{
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+			$timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
 			$start = new DateTime($from.' '.$fromtime, $timezone);
 			$end = new DateTime($to.' '.$totime, $timezone);
-			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Element_DateTime::LOCALTZ);
-			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Element_DateTime::LOCALTZ);
+			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Property_DateTime::LOCALTZ);
+			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Property_DateTime::LOCALTZ);
 		}
 		unset($vevent->DURATION);
 
@@ -786,5 +779,16 @@ class OC_Calendar_Object{
 		}*/
 
 		return $vcalendar;
+	}
+
+	public static function getowner($id){
+		$event = self::find($id);
+		$cal = OC_Calendar_Calendar::find($event['calendarid']);
+		return $cal['userid'];
+	}
+	
+	public static function getCalendarid($id){
+		$event = self::find($id);
+		return $event['calendarid'];
 	}
 }

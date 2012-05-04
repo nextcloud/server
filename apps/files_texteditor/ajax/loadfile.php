@@ -21,11 +21,11 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Set the session key for the file we are about to edit.
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '';
@@ -37,14 +37,14 @@ if(!empty($filename))
 	{
 		$mtime = OC_Filesystem::filemtime($path);
 		$filecontents = OC_Filesystem::file_get_contents($path);
-		OC_JSON::success(array('data' => array('filecontents' => $filecontents, 'write' => 'true', 'mtime' => $mtime)));
+		OCP\JSON::success(array('data' => array('filecontents' => $filecontents, 'write' => 'true', 'mtime' => $mtime)));
 	}
 	else
 	{
 		$mtime = OC_Filesystem::filemtime($path);
 		$filecontents = OC_Filesystem::file_get_contents($path);
-		OC_JSON::success(array('data' => array('filecontents' => $filecontents, 'write' => 'false', 'mtime' => $mtime)));	
+		OCP\JSON::success(array('data' => array('filecontents' => $filecontents, 'write' => 'false', 'mtime' => $mtime)));	
 	}	
 } else {
-	OC_JSON::error(array('data' => array( 'message' => 'Invalid file path supplied.')));	
+	OCP\JSON::error(array('data' => array( 'message' => 'Invalid file path supplied.')));	
 }

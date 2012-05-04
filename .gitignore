@@ -2,6 +2,8 @@
 data
 owncloud
 config/config.php
+config/mount.php
+apps/inc.php
 
 # just sane ignores
 .*.sw[po]

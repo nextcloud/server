@@ -10,10 +10,10 @@
  * There's really no accurate, fast and portable way to determine the contenttype
  * so this extension does what the rest of the world does, and guesses it based
  * on the file extension.
- * 
+ *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
@@ -43,9 +43,9 @@ class Sabre_DAV_Browser_GuessContentType extends Sabre_DAV_ServerPlugin {
     );
 
     /**
-     * Initializes the plugin 
-     * 
-     * @param Sabre_DAV_Server $server 
+     * Initializes the plugin
+     *
+     * @param Sabre_DAV_Server $server
      * @return void
      */
     public function initialize(Sabre_DAV_Server $server) {
@@ -57,16 +57,16 @@ class Sabre_DAV_Browser_GuessContentType extends Sabre_DAV_ServerPlugin {
     }
 
     /**
-     * Handler for teh afterGetProperties event 
-     * 
-     * @param string $path 
-     * @param array $properties 
+     * Handler for teh afterGetProperties event
+     *
+     * @param string $path
+     * @param array $properties
      * @return void
      */
     public function afterGetProperties($path, &$properties) {
 
         if (array_key_exists('{DAV:}getcontenttype', $properties[404])) {
-           
+
             list(, $fileName) = Sabre_DAV_URLUtil::splitPath($path);
             $contentType = $this->getContentType($fileName);
 
@@ -81,9 +81,9 @@ class Sabre_DAV_Browser_GuessContentType extends Sabre_DAV_ServerPlugin {
 
     /**
      * Simple method to return the contenttype
-     * 
-     * @param string $fileName 
-     * @return string 
+     *
+     * @param string $fileName
+     * @return string
      */
     protected function getContentType($fileName) {
 

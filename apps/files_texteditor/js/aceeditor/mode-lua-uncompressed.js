@@ -521,13 +521,3 @@ oop.inherits(LuaHighlightRules, TextHighlightRules);
 
 exports.LuaHighlightRules = LuaHighlightRules;
 });
-;
-            (function() {
-                window.require(["ace/ace"], function(a) {
-                    if (!window.ace)
-                        window.ace = {};
-                    for (var key in a) if (a.hasOwnProperty(key))
-                        ace[key] = a[key];
-                });
-            })();
-        

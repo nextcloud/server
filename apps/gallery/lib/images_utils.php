@@ -21,13 +21,8 @@
 * 
 */
 
-if (file_exists('../../../lib/base.php'))
-  require_once('../../../lib/base.php');
-elseif (file_exists('lib/base.php'))
-  require_once('lib/base.php');
-
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('gallery');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('gallery');
 
 function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $shift) { 
     //getting the image dimensions

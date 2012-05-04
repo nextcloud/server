@@ -196,7 +196,55 @@ class OC_Filesystem{
 			return false;
 		}
 		self::$defaultInstance=new OC_FilesystemView($root);
+
+		//load custom mount config
+		if(is_file(OC::$SERVERROOT.'/config/mount.php')){
+			$mountConfig=include(OC::$SERVERROOT.'/config/mount.php');
+			if(isset($mountConfig['global'])){
+				foreach($mountConfig['global'] as $mountPoint=>$options){
+					self::mount($options['class'],$options['options'],$mountPoint);
+				}
+			}
+
+			if(isset($mountConfig['group'])){
+				foreach($mountConfig['group'] as $group=>$mounts){
+					if(OC_Group::inGroup(OC_User::getUser(),$group)){
+						foreach($mounts as $mountPoint=>$options){
+							$mountPoint=self::setUserVars($mountPoint);
+							foreach($options as &$option){
+								$option=self::setUserVars($option);
+							}
+							self::mount($options['class'],$options['options'],$mountPoint);
+						}
+					}
+				}
+			}
+
+			if(isset($mountConfig['user'])){
+				foreach($mountConfig['user'] as $user=>$mounts){
+					if($user==='all' or strtolower($user)===strtolower(OC_User::getUser())){
+						foreach($mounts as $mountPoint=>$options){
+							$mountPoint=self::setUserVars($mountPoint);
+							foreach($options as &$option){
+								$option=self::setUserVars($option);
+							}
+							self::mount($options['class'],$options['options'],$mountPoint);
+						}
+					}
+				}
+			}
+		}
+		
 		self::$loaded=true;
+	}
+
+	/**
+	 * fill in the correct values for $user, and $password placeholders
+	 * @param string intput
+	 * @return string
+	 */
+	private static function setUserVars($input){
+		return str_replace('$user',OC_User::getUser(),$input);
 	}
 
 	/**
@@ -227,6 +275,7 @@ class OC_Filesystem{
 		if(class_exists($class)){
 			return new $class($arguments);
 		}else{
+			OC_Log::write('core','storage backend '.$class.' not found',OC_Log::ERROR);
 			return false;
 		}
 	}

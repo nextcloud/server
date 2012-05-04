@@ -3,7 +3,6 @@
 	<id>admin_migrate</id>
 	<name>ownCloud Instance Migration</name>
 	<description>Import/Export your owncloud instance</description>
-	<version>0.1</version>
 	<licence>AGPL</licence>
 	<author>Thomas Schmidt and Tom Needham</author>
 	<require>2</require>

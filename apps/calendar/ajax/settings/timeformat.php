@@ -5,8 +5,8 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-$timeformat = OC_Preferences::getValue( OC_User::getUser(), 'calendar', 'timeformat', "24");
-OC_JSON::encodedPrint(array("timeformat" => $timeformat));
+ 
+OCP\JSON::checkLoggedIn();
+$timeformat = OCP\Config::getUserValue( OCP\USER::getUser(), 'calendar', 'timeformat', "24");
+OCP\JSON::encodedPrint(array("timeformat" => $timeformat));
 ?> 

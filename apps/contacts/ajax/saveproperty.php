@@ -21,19 +21,19 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/saveproperty.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/saveproperty.php: '.$msg, OCP\Util::DEBUG);
 }
 // foreach ($_POST as $key=>$element) {
 // 	debug('_POST: '.$key.'=>'.print_r($element, true));
@@ -154,4 +154,4 @@ if(!OC_Contacts_VCard::edit($id,$vcard)) {
 	exit();
 }
 
-OC_JSON::success(array('data' => array( 'line' => $line, 'checksum' => $checksum, 'oldchecksum' => $_POST['checksum'] )));
+OCP\JSON::success(array('data' => array( 'line' => $line, 'checksum' => $checksum, 'oldchecksum' => $_POST['checksum'] )));

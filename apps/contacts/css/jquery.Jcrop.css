@@ -14,7 +14,7 @@
 }
 
 .jcrop-vline, .jcrop-hline {
-	background: white url('Jcrop.gif') top left repeat;
+	background: white url('%webroot%/apps/contacts/img/Jcrop.gif') top left repeat;
 	font-size: 0px;
 	position: absolute;
 }

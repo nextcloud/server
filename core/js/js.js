@@ -31,8 +31,9 @@ t.cache={};
 
 OC={
 	webroot:oc_webroot,
+	appswebroot:oc_appswebroot,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
-	coreApps:['files','admin','log','search','settings','core','3rdparty'],
+	coreApps:['admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
 	 * @param app the id of the app the file belongs to
@@ -51,16 +52,34 @@ OC={
 	 */
 	filePath:function(app,type,file){
 		var isCore=OC.coreApps.indexOf(app)!=-1;
-		app+='/';
-		var link=OC.webroot+'/';
-		if(!isCore){
+		var link=OC.webroot;
+		if((file.substring(file.length-3) == 'php' || file.substring(file.length-3) == 'css') && !isCore){
+			link+='/?app=' + app + '&getfile=';
+			if(type){
+				link+=encodeURI(type + '/');
+			}
+			link+= file;
+		}else if(file.substring(file.length-3) != 'php' && !isCore){
+			link=OC.appswebroot;
+			link+='/';
 			link+='apps/';
+			link+=app+'/';
+			if(type){
+				link+=type+'/';
+			}
+			link+=file;
+		}else{
+			link+='/';
+			app+='/';
+			if(!isCore){
+				link+='apps/';
+			}
+			link+=app;
+			if(type){
+				link+=type+'/';
+			}
+			link+=file;	
 		}
-		link+=app;
-		if(type){
-			link+=type+'/';
-		}
-		link+=file;
 		return link;
 	},
 	/**
@@ -69,10 +88,10 @@ OC={
 	 * @param file the name of the image file
 	 * @return string
 	 * 
-	 * if no extention is given for the image, it will automatically decide between .png and .svg based on what the browser supports
+	 * if no extension is given for the image, it will automatically decide between .png and .svg based on what the browser supports
 	 */ 
 	imagePath:function(app,file){
-		if(file.indexOf('.')==-1){//if no extention is given, use png or svg depending on browser support
+		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
 			file+=(SVGSupport())?'.svg':'.png';
 		}
 		return OC.filePath(app,'img',file);
@@ -152,6 +171,7 @@ if(typeof localStorage !='undefined'){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
 		getItem:function(name){
+			if(localStorage.getItem(OC.localStorage.namespace+name)==null){return null;}
 			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
 		}
 	};
@@ -297,7 +317,10 @@ function object(o) {
  * Fills height of window. (more precise than height: 100%;)
  */
 function fillHeight(selector) {
-	var height = parseFloat($(window).height())-parseFloat(selector.css('top'));
+	if (selector.length == 0) {
+		return;
+	}
+	var height = parseFloat($(window).height())-selector.offset().top;
 	selector.css('height', height + 'px');
 	if(selector.outerHeight() > selector.height())
 		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
@@ -307,8 +330,11 @@ function fillHeight(selector) {
  * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
  */
 function fillWindow(selector) {
+	if (selector.length == 0) {
+		return;
+	}
 	fillHeight(selector);
-	var width = parseFloat($(window).width())-parseFloat(selector.css('left'));
+	var width = parseFloat($(window).width())-selector.offset().left;
 	selector.css('width', width + 'px');
 	if(selector.outerWidth() > selector.width())
 		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
@@ -400,9 +426,6 @@ $(document).ready(function(){
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$('#settings #expand').hover(function(){
-		$('#settings #expand+span').fadeToggle();
-	});
 	$(window).click(function(){//hide the settings menu when clicking oustide it
 		if($('body').attr("id")=="body-user"){
 			$('#settings #expanddiv').slideUp();
@@ -415,7 +438,7 @@ $(document).ready(function(){
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
-	$('a.delete').tipsy({gravity: 'se', fade:true, live:true});
+	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
 	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});

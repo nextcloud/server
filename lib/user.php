@@ -215,7 +215,7 @@ class OC_User {
 	}
 
 	/**
-	 * @brief Kick the user
+	 * @brief Logs the current user out and kills all the session data
 	 * @returns true
 	 *
 	 * Logout, destroys session
@@ -244,7 +244,7 @@ class OC_User {
 	}
 
 	/**
-	 * @brief get the user idea of the user currently logged in.
+	 * @brief get the user id of the user currently logged in.
 	 * @return string uid or false
 	 */
 	public static function getUser(){
@@ -279,15 +279,16 @@ class OC_User {
 		OC_Hook::emit( "OC_User", "pre_setPassword", array( "run" => &$run, "uid" => $uid, "password" => $password ));
 
 		if( $run ){
+			$success = false;
 			foreach(self::$_usedBackends as $backend){
 				if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)){
 					if($backend->userExists($uid)){
-						$backend->setPassword($uid,$password);
+						$success |= $backend->setPassword($uid,$password);
 					}
 				}
 			}
 			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
-			return true;
+			return $success;
 		}
 		else{
 			return false;

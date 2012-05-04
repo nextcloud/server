@@ -6,9 +6,9 @@
         </p>
         <h3>What would you like to export?</h3>
         <p>
-        <input type="radio" name="export_type" value="instance" /> ownCloud instance (suitable for import )<br />
-		<input type="radio" name="export_type" value="system" /> ownCloud system files<br />
-		<input type="radio" name="export_type" value="userfiles" /> Just user files<br />
+        <input type="radio" name="export_type" value="instance" style="width:20px;" /> ownCloud instance (suitable for import )<br />
+	<input type="radio" name="export_type" value="system" style="width:20px;" /> ownCloud system files<br />
+	<input type="radio" name="export_type" value="userfiles" style="width:20px;" /> Just user files<br />
         <input type="submit" name="admin_export" value="<?php echo $l->t('Export'); ?>" />
     </fieldset>
 </form>

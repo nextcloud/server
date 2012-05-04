@@ -22,14 +22,14 @@
 */
 
 $_POST=$_GET; //debug
+require_once('../inc.php');
 
-require_once('../../lib/base.php');
-OC_JSON::checkAppEnabled('media');
-require_once('lib_collection.php');
+OCP\JSON::checkAppEnabled('media');
+require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
 
 $user=isset($_POST['user'])?$_POST['user']:'';
 $pass=isset($_POST['pass'])?$_POST['pass']:'';
-if(OC_User::checkPassword($user,$pass)){
+if(OCP\User::checkPassword($user,$pass)){
 	OC_Util::setupFS($user);
 	OC_MEDIA_COLLECTION::$uid=$user;
 }else{
@@ -43,7 +43,7 @@ if(isset($_POST['play']) and $_POST['play']=='true'){
 	$song=OC_MEDIA_COLLECTION::getSong($_POST['song']);
 	$ftype=OC_Filesystem::getMimeType( $song['song_path'] );
 	header('Content-Type:'.$ftype);
-	OC_Response::disableCaching();
+	OCP\Response::disableCaching();
 	header('Content-Length: '.OC_Filesystem::filesize($song['song_path']));
 
 	OC_Filesystem::readfile($song['song_path']);
@@ -58,7 +58,7 @@ $album=OC_MEDIA_COLLECTION::getAlbumId($album,$artist);
 
 $songs=OC_MEDIA_COLLECTION::getSongs($artist,$album,$song);
 
-$baseUrl=OC_Util::getServerURL().OC_Helper::linkTo('media','tomahawk.php');
+$baseUrl=OC_Util::getServerURL().OCP\Util::linkTo('media','tomahawk.php');
 
 $results=array();
 foreach($songs as $song) {
@@ -76,5 +76,5 @@ foreach($songs as $song) {
 		'score' => (float)1.0
 	);
 }
-OC_JSON::encodedPrint($results);
+OCP\JSON::encodedPrint($results);
 ?>

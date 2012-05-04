@@ -47,6 +47,7 @@ class OC_Installer{
 	 * This function works as follows
 	 *   -# fetching the file
 	 *   -# unzipping it
+	 *   -# check the code
 	 *   -# installing the database at appinfo/database.xml
 	 *   -# including appinfo/install.php
 	 *   -# setting the installed version
@@ -91,6 +92,7 @@ class OC_Installer{
 		
 		//extract the archive in a temporary folder
 		$extractDir=OC_Helper::tmpFolder();
+		OC_Helper::rmdirr($extractDir);
 		mkdir($extractDir);
 		if($archive=OC_Archive::open($path)){
 			$archive->extract($extractDir);
@@ -102,7 +104,7 @@ class OC_Installer{
 			}
 			return false;
 		}
-		
+	
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')){
 			//try to find it in a subdir
@@ -125,6 +127,12 @@ class OC_Installer{
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
 		$basedir=OC::$APPSROOT.'/apps/'.$info['id'];
+
+                // check the code for not allowed calls
+                if(!OC_Installer::checkCode($info['id'],$extractDir)){
+			OC_Helper::rmdirr($extractDir);
+                        return false;
+		}
 		
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
@@ -151,8 +159,8 @@ class OC_Installer{
 		}
 		
 		//copy the app to the correct place
-		if(!mkdir($basedir)){
-			OC_Log::write('core','Can\'t create app folder ('.$basedir.')',OC_Log::ERROR);
+		if(@!mkdir($basedir)){
+			OC_Log::write('core','Can\'t create app folder. Please fix permissions. ('.$basedir.')',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			if($data['source']=='http'){
 				unlink($path);
@@ -175,7 +183,7 @@ class OC_Installer{
 		}
 		
 		//set the installed version
-		OC_Appconfig::setValue($info['id'],'installed_version',$info['version']);
+		OC_Appconfig::setValue($info['id'],'installed_version',OC_App::getAppVersion($info['id']));
 		OC_Appconfig::setValue($info['id'],'enabled','no');
 		return $info['id'];
 	}
@@ -255,11 +263,8 @@ class OC_Installer{
 
 	/**
 	 * @brief Installs shipped apps
-	 * @param $enabled
 	 *
-	 * This function installs all apps found in the 'apps' directory;
-	 * If $enabled is true, apps are installed as enabled.
-	 * If $enabled is false, apps are installed as disabled.
+	 * This function installs all apps found in the 'apps' directory that should be enabled by default;
 	 */
 	public static function installShippedApps(){
 		$dir = opendir( OC::$APPSROOT."/apps" );
@@ -267,12 +272,11 @@ class OC_Installer{
 			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$APPSROOT."/apps/$filename") ){
 				if( file_exists( OC::$APPSROOT."/apps/$filename/appinfo/app.php" )){
 					if(!OC_Installer::isInstalled($filename)){
-						$info = OC_Installer::installShippedApp($filename);
+						$info=OC_App::getAppInfo($filename);
 						$enabled = isset($info['default_enable']);
 						if( $enabled ){
+							OC_Installer::installShippedApp($filename);
 							OC_Appconfig::setValue($filename,'enabled','yes');
-						}else{
-							OC_Appconfig::setValue($filename,'enabled','no');
 						}
 					}
 				}
@@ -297,7 +301,52 @@ class OC_Installer{
 			include(OC::$APPSROOT."/apps/$app/appinfo/install.php");
 		}
 		$info=OC_App::getAppInfo($app);
-		OC_Appconfig::setValue($app,'installed_version',$info['version']);
+		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
 		return $info;
 	}
+
+
+        /**
+         * check the code of an app with some static code checks
+         * @param string $folder the folder of the app to check
+         * @returns true for app is o.k. and false for app is not o.k.
+         */
+        public static function checkCode($appname,$folder){
+
+		$blacklist=array(
+			'fopen(',
+			'eval('
+			// more evil pattern will go here later
+			// will will also check if an app is using private api once the public api is in place
+
+		);
+
+		// is the code checker enabled?
+		if(OC_Config::getValue('appcodechecker', false)){   
+
+			// check if grep is installed
+			$grep = exec('which grep');
+			if($grep=='') {
+				OC_Log::write('core','grep not installed. So checking the code of the app "'.$appname.'" was not possible',OC_Log::ERROR);
+				return true;
+			}
+
+			// iterate the bad patterns
+			foreach($blacklist as $bl) {
+				$cmd = 'grep -ri '.escapeshellarg($bl).' '.$folder.'';
+				$result = exec($cmd);
+				// bad pattern found
+				if($result<>'') {
+					OC_Log::write('core','App "'.$appname.'" is using a not allowed call "'.$bl.'". Installation refused.',OC_Log::ERROR);
+					return false;
+				}
+			}
+			return true;
+			
+		}else{
+          		return true;
+		}
+        }
+
+
 }

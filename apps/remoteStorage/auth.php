@@ -29,8 +29,8 @@
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
 
-require_once('../../lib/base.php');
-OC_Util::checkAppEnabled('remoteStorage');
+
+OCP\App::checkAppEnabled('remoteStorage');
 require_once('Sabre/autoload.php');
 require_once('lib_remoteStorage.php');
 require_once('oauth_ro_auth.php');
@@ -56,7 +56,7 @@ if(count($pathParts) == 2 && $pathParts[0] == '') {
 			$categories=$v;
 		}
 	}
-	$currUser = OC_User::getUser();
+	$currUser = OCP\USER::getUser();
 	if($currUser == $ownCloudUser) {
 		if(isset($_POST['allow'])) {
 			//TODO: check if this can be faked by editing the cookie in firebug!
@@ -77,7 +77,7 @@ if(count($pathParts) == 2 && $pathParts[0] == '') {
 	<div id="login">
 		<header>
 		<div id="header">
-			<img src="../../../core/img/owncloud-logo-medium-white.png" alt="ownCloud" />
+			<img src="../../../core/img/logo.png" alt="ownCloud" />
 		</div>
 		</header>
 		<section id="main">

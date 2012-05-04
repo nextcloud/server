@@ -1,0 +1,200 @@
+<?php
+/**
+ * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
+class OC_Archive_ZIP extends OC_Archive{
+	/**
+	 * @var ZipArchive zip
+	 */
+	private $zip=null;
+	private $success=false;
+	private $path;
+	
+	function __construct($source){
+		$this->path=$source;
+		$this->zip=new ZipArchive();
+		if($this->zip->open($source,ZipArchive::CREATE)){
+		}else{
+			OCP\Util::writeLog('files_archive','Error while opening archive '.$source,OCP\Util::WARN);
+		}
+	}
+	/**
+	 * add an empty folder to the archive
+	 * @param string path
+	 * @return bool
+	 */
+	function addFolder($path){
+		return $this->zip->addEmptyDir($path);
+	}
+	/**
+	 * add a file to the archive
+	 * @param string path
+	 * @param string source either a local file or string data
+	 * @return bool
+	 */
+	function addFile($path,$source=''){
+		if(file_exists($source)){
+			$result=$this->zip->addFile($source,$path);
+		}else{
+			$result=$this->zip->addFromString($path,$source);
+		}
+		if($result){
+			$this->zip->close();//close and reopen to save the zip
+			$this->zip->open($this->path);
+		}
+		return $result;
+	}
+	/**
+	 * rename a file or folder in the archive
+	 * @param string source
+	 * @param string dest
+	 * @return bool
+	 */
+	function rename($source,$dest){
+		$source=$this->stripPath($source);
+		$dest=$this->stripPath($dest);
+		$this->zip->renameName($source,$dest);
+	}
+	/**
+	 * get the uncompressed size of a file in the archive
+	 * @param string path
+	 * @return int
+	 */
+	function filesize($path){
+		$stat=$this->zip->statName($path);
+		return $stat['size'];
+	}
+	/**
+	 * get the last modified time of a file in the archive
+	 * @param string path
+	 * @return int
+	 */
+	function mtime($path){
+		$stat=$this->zip->statName($path);
+		return $stat['mtime'];
+	}
+	/**
+	 * get the files in a folder
+	 * @param path
+	 * @return array
+	 */
+	function getFolder($path){
+		$files=$this->getFiles();
+		$folderContent=array();
+		$pathLength=strlen($path);
+		foreach($files as $file){
+			if(substr($file,0,$pathLength)==$path and $file!=$path){
+				if(strrpos(substr($file,0,-1),'/')<=$pathLength){
+					$folderContent[]=substr($file,$pathLength);
+				}
+			}
+		}
+		return $folderContent;
+	}
+	/**
+	 *get all files in the archive
+	 * @return array
+	 */
+	function getFiles(){
+		$fileCount=$this->zip->numFiles;
+		$files=array();
+		for($i=0;$i<$fileCount;$i++){
+			$files[]=$this->zip->getNameIndex($i);
+		}
+		return $files;
+	}
+	/**
+	 * get the content of a file
+	 * @param string path
+	 * @return string
+	 */
+	function getFile($path){
+		return $this->zip->getFromName($path);
+	}
+	/**
+	 * extract a single file from the archive
+	 * @param string path
+	 * @param string dest
+	 * @return bool
+	 */
+	function extractFile($path,$dest){
+		$fp = $this->zip->getStream($path);
+		file_put_contents($dest,$fp);
+	}
+	/**
+	 * extract the archive
+	 * @param string path
+	 * @param string dest
+	 * @return bool
+	 */
+	function extract($dest){
+		return $this->zip->extractTo($dest);
+	}
+	/**
+	 * check if a file or folder exists in the archive
+	 * @param string path
+	 * @return bool
+	 */
+	function fileExists($path){
+		return ($this->zip->locateName($path)!==false) or ($this->zip->locateName($path.'/')!==false);
+	}
+	/**
+	 * remove a file or folder from the archive
+	 * @param string path
+	 * @return bool
+	 */
+	function remove($path){
+		if($this->fileExists($path.'/')){
+			return $this->zip->deleteName($path.'/');
+		}else{
+			return $this->zip->deleteName($path);
+		}
+	}
+	/**
+	 * get a file handler
+	 * @param string path
+	 * @param string mode
+	 * @return resource
+	 */
+	function getStream($path,$mode){
+		if($mode=='r' or $mode=='rb'){
+			return $this->zip->getStream($path);
+		}else{//since we cant directly get a writable stream, make a temp copy of the file and put it back in the archive when the stream is closed
+			if(strrpos($path,'.')!==false){
+				$ext=substr($path,strrpos($path,'.'));
+			}else{
+				$ext='';
+			}
+			$tmpFile=OCP\Files::tmpFile($ext);
+			OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
+			if($this->fileExists($path)){
+				$this->extractFile($path,$tmpFile);
+			}
+			self::$tempFiles[$tmpFile]=$path;
+			return fopen('close://'.$tmpFile,$mode);
+		}
+	}
+
+	private static $tempFiles=array();
+	/**
+	 * write back temporary files
+	 */
+	function writeBack($tmpFile){
+		if(isset(self::$tempFiles[$tmpFile])){
+			$this->addFile(self::$tempFiles[$tmpFile],$tmpFile);
+			unlink($tmpFile);
+		}
+	}
+
+	private function stripPath($path){
+		if(substr($path,0,1)=='/'){
+			return substr($path,1);
+		}else{
+			return $path;
+		}
+	}
+}
