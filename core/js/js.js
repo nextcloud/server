@@ -419,6 +419,11 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#settings #expand').keydown(function(event) {
+		if (event.which == 13 || event.which == 32) {
+			$('#expand').click()
+		}
+	});
 	$('#settings #expand').click(function(event) {
 		$('#settings #expanddiv').slideToggle();
 		event.stopPropagation();
