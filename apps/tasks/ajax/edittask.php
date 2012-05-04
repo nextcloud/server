@@ -25,7 +25,7 @@ $tmpl->assign('details', $vcalendar->VTODO);
 $tmpl->assign('id', $id);
 $page = $tmpl->fetchPage();
 
-$user_timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$user_timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $task = OC_Task_App::arrayForJSON($id, $vcalendar->VTODO, $user_timezone);
 
 OCP\JSON::success(array('data' => array( 'id' => $id, 'page' => $page, 'task' => $task )));

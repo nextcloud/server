@@ -13,7 +13,7 @@ OCP\App::checkAppEnabled('tasks');
 
 $calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
 if( count($calendars) == 0 ) {
-	header('Location: ' . OC_Helper::linkTo('calendar', 'index.php'));
+	header('Location: ' . OCP\Util::linkTo('calendar', 'index.php'));
 	exit;
 }
 

@@ -38,7 +38,7 @@ switch($property) {
 		$type = null;
 		if ($due != 'false') {
 			try {
-				$timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+				$timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 				$timezone = new DateTimeZone($timezone);
 				$due = new DateTime('@'.$due);
 				$due->setTimezone($timezone);
@@ -63,6 +63,6 @@ switch($property) {
 }
 OC_Calendar_Object::edit($id, $vcalendar->serialize());
 
-$user_timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$user_timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $task_info = OC_Task_App::arrayForJSON($id, $vtodo, $user_timezone);
 OCP\JSON::success(array('data' => $task_info));

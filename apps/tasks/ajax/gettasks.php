@@ -11,7 +11,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
 
 $calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
-$user_timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$user_timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 
 $tasks = array();
 foreach( $calendars as $calendar ){
@@ -28,7 +28,7 @@ foreach( $calendars as $calendar ){
 		try {
 			$tasks[] = OC_Task_App::arrayForJSON($task['id'], $vtodo, $user_timezone);
 		} catch(Exception $e) {
-                        OC_Log::write('tasks', $e->getMessage(), OC_Log::ERROR);
+                        OCP\Util::writeLog('tasks', $e->getMessage(), OCP\Util::ERROR);
                 }
         }
 }
