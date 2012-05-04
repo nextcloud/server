@@ -110,7 +110,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 * Get a list of all users.
 	 */
 	public function getUsers(){
-		$ldap_users = OC_LDAP::fetchListOfUsers($this->ldapUserFilter, array(OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
+		$ldap_users = OC_LDAP::fetchListOfUsers($this->ldapUserFilter, array(OC_LDAP::conf('ldapUserDisplayName'), 'dn'));
 		$users = OC_LDAP::ownCloudUserNames($ldap_users);
 		return $users;
 	}
