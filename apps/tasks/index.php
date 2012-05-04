@@ -9,22 +9,22 @@
  *************************************************/
 
 require_once ('../../lib/base.php');
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('tasks');
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('tasks');
 
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), true);
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
 if( count($calendars) == 0 ) {
 	header('Location: ' . OC_Helper::linkTo('calendar', 'index.php'));
 	exit;
 }
 
-OC_Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
-OC_Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
-OC_UTIL::addScript('tasks', 'tasks');
-OC_UTIL::addStyle('tasks', 'style');
-OC_Util::addScript('contacts','jquery.multi-autocomplete');
-OC_Util::addScript('','oc-vcategories');
-OC_APP::setActiveNavigationEntry('tasks_index');
+OCP\Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
+OCP\Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
+OCP\Util::addScript('tasks', 'tasks');
+OCP\Util::addStyle('tasks', 'style');
+OCP\Util::addScript('contacts','jquery.multi-autocomplete');
+OCP\Util::addScript('','oc-vcategories');
+OCP\App::setActiveNavigationEntry('tasks_index');
 
 $categories = OC_Calendar_App::getCategoryOptions();
 $l10n = new OC_L10N('tasks');

@@ -82,7 +82,7 @@ class OC_Task_App {
 		}
 
 		try {
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+			$timezone = OC_Preferences::getValue(OCP\User::getUser(), "calendar", "timezone", "Europe/London");
 			$timezone = new DateTimeZone($timezone);
 			new DateTime($request['due'], $timezone);
 		} catch (Exception $e) {
@@ -94,7 +94,7 @@ class OC_Task_App {
 		}
 		if ($request['percent_complete'] == 100 && !empty($request['completed'])){
 			try {
-				$timezone = OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone", "Europe/London");
+				$timezone = OC_Preferences::getValue(OCP\User::getUser(), "calendar", "timezone", "Europe/London");
 				$timezone = new DateTimeZone($timezone);
 				new DateTime($request['completed'], $timezone);
 			} catch (Exception $e) {
@@ -147,7 +147,7 @@ class OC_Task_App {
 		$vtodo->setString('PRIORITY', $priority);
 
 		if ($due) {
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+			$timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
 			$due = new DateTime($due, $timezone);
 			$vtodo->setDateTime('DUE', $due);
@@ -176,7 +176,7 @@ class OC_Task_App {
 			$completed = null;
 		}
 		if ($completed) {
-			$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+			$timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 			$timezone = new DateTimeZone($timezone);
 			$completed = new DateTime($completed, $timezone);
 			$vtodo->setDateTime('COMPLETED', $completed);

@@ -2,10 +2,10 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('tasks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('tasks');
 
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), true);
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
 $category_options = OC_Calendar_App::getCategoryOptions();
 $percent_options = range(0, 100, 10);
 $priority_options = OC_Task_App::getPriorityOptions();
@@ -18,4 +18,4 @@ $tmpl->assign('details', new OC_VObject('VTODO'));
 $tmpl->assign('categories', '');
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array( 'page' => $page )));

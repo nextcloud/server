@@ -2,8 +2,8 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('tasks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('tasks');
 
 $id = $_GET['id'];
 $details = OC_Calendar_App::getVCalendar($id)->VTODO;
@@ -22,4 +22,4 @@ $tmpl->assign('details',$details);
 $tmpl->assign('categories', $categories);
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array( 'page' => $page )));

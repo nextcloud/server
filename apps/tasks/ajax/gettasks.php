@@ -8,11 +8,11 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('tasks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('tasks');
 
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), true);
-$user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
+$user_timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 
 $tasks = array();
 foreach( $calendars as $calendar ){
@@ -34,4 +34,4 @@ foreach( $calendars as $calendar ){
         }
 }
 
-OC_JSON::encodedPrint($tasks);
+OCP\JSON::encodedPrint($tasks);

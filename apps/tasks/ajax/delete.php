@@ -22,11 +22,11 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('tasks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('tasks');
 
 $id = $_GET['id'];
 $task = OC_Calendar_App::getEventObject( $id );
 
 OC_Calendar_Object::delete($id);
-OC_JSON::success(array('data' => array( 'id' => $id )));
+OCP\JSON::success(array('data' => array( 'id' => $id )));

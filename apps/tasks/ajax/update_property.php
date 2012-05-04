@@ -8,8 +8,8 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('tasks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('tasks');
 
 $id = $_POST['id'];
 $property = $_POST['type'];
@@ -39,7 +39,7 @@ switch($property) {
 		$type = null;
 		if ($due != 'false') {
 			try {
-				$timezone = OC_Preferences::getValue(OC_User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+				$timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 				$timezone = new DateTimeZone($timezone);
 				$due = new DateTime('@'.$due);
 				$due->setTimezone($timezone);
@@ -48,7 +48,7 @@ switch($property) {
 					$type = Sabre_VObject_Element_DateTime::DATE;
 				}
 			} catch (Exception $e) {
-				OC_JSON::error(array('data'=>array('message'=>OC_Task_App::$l10n->t('Invalid date/time'))));
+				OCP\JSON::error(array('data'=>array('message'=>OC_Task_App::$l10n->t('Invalid date/time'))));
 				exit();
 			}
 		}
@@ -59,11 +59,11 @@ switch($property) {
 		OC_Task_App::setComplete($vtodo, $checked ? '100' : '0', null);
 		break;
 	default:
-		OC_JSON::error(array('data'=>array('message'=>'Unknown type')));
+		OCP\JSON::error(array('data'=>array('message'=>'Unknown type')));
 		exit();
 }
 OC_Calendar_Object::edit($id, $vcalendar->serialize());
 
-$user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$user_timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $task_info = OC_Task_App::arrayForJSON($id, $vtodo, $user_timezone);
-OC_JSON::success(array('data' => $task_info));
+OCP\JSON::success(array('data' => $task_info));

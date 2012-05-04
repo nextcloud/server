@@ -2,8 +2,8 @@
 
 // Init owncloud
 require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('tasks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('tasks');
 
 $l10n = new OC_L10N('tasks');
 
@@ -12,7 +12,7 @@ $vcalendar = OC_Calendar_App::getVCalendar($id);
 
 $errors = OC_Task_App::validateRequest($_POST);
 if (!empty($errors)) {
-	OC_JSON::error(array('data' => array( 'errors' => $errors )));
+	OCP\JSON::error(array('data' => array( 'errors' => $errors )));
 	exit();
 }
 
@@ -26,7 +26,7 @@ $tmpl->assign('details', $vcalendar->VTODO);
 $tmpl->assign('id', $id);
 $page = $tmpl->fetchPage();
 
-$user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$user_timezone = OC_Preferences::getValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $task = OC_Task_App::arrayForJSON($id, $vcalendar->VTODO, $user_timezone);
 
-OC_JSON::success(array('data' => array( 'id' => $id, 'page' => $page, 'task' => $task )));
+OCP\JSON::success(array('data' => array( 'id' => $id, 'page' => $page, 'task' => $task )));
