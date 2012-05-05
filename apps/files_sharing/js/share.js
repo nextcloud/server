@@ -161,11 +161,17 @@ OC.Share={
 		
 	},
 	removeSharedWith:function(uid_shared_with) {
-		$('#sharedWithList li[data-uid_shared_with="'+uid_shared_with+'"]').remove();
-		if ($('#groupList li').length < 1) {
-			$('#groups').hide();
+		var option;
+		if ($('#userList li[data-uid_shared_with="'+uid_shared_with+'"]').length > 0) {
+			$('#userList li[data-uid_shared_with="'+uid_shared_with+'"]').remove();
+			option = '<option value="'+uid_shared_with+'">'+uid_shared_with+'</option>';
+		} else if ($('#groupList li[data-uid_shared_with="'+uid_shared_with+'"]').length > 0) {
+			$('#groupList li[data-uid_shared_with="'+uid_shared_with+'"]').remove();
+			if ($('#groupList li').length < 1) {
+				$('#groups').hide();
+			}
+			option = '<option value="'+uid_shared_with+'(group)">'+uid_shared_with+' (group)</option>';
 		}
-		var option = '<option value="'+uid_shared_with+'">'+uid_shared_with+'</option>';
 		$(option).appendTo('#share_with');
 		$('#share_with').trigger('liszt:updated');
 	},
