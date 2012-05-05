@@ -179,7 +179,7 @@ class OC_Calendar_App{
 			foreach($events as $event) {
 				$vobject = OC_VObject::parse($event['calendardata']);
 				if(!is_null($vobject)) {
-					$vcategories->loadFromVObject($vobject->VEVENT, true);
+					self::loadCategoriesFromVCalendar($vobject);
 				}
 			}
 		}
@@ -190,7 +190,16 @@ class OC_Calendar_App{
 	 * @see OC_VCategories::loadFromVObject
 	 */
 	public static function loadCategoriesFromVCalendar(OC_VObject $calendar) {
-		self::getVCategories()->loadFromVObject($calendar->VEVENT, true);
+		$object = null;
+		if (isset($calendar->VEVENT)) {
+			$object = $calendar->VEVENT;
+		} else
+		if (isset($calendar->VTODO)) {
+			$object = $calendar->VTODO;
+		}
+		if ($object) {
+			self::getVCategories()->loadFromVObject($object, true);
+		}
 	}
 
 	public static function getRepeatOptions(){
