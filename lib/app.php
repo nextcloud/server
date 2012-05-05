@@ -49,7 +49,7 @@ class OC_App{
 	 * if $types is set, only apps of those types will be loaded
 	 */
 	public static function loadApps($types=null){
-		// Did we allready load everything?
+		// Did we already load everything?
 		if( self::$init ){
 			return true;
 		}
