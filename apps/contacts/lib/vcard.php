@@ -447,11 +447,13 @@ class OC_Contacts_VCard{
 		$details = array();
 		foreach($object->children as $property){
 			$temp = self::structureProperty($property);
-			if(array_key_exists($property->name,$details)){
-				$details[$property->name][] = $temp;
-			}
-			else{
-				$details[$property->name] = array($temp);
+			if(!is_null($temp)) {
+				if(array_key_exists($property->name,$details)){
+					$details[$property->name][] = $temp;
+				}
+				else{
+					$details[$property->name] = array($temp);
+				}
 			}
 		}
 		return $details;
