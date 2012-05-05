@@ -69,7 +69,7 @@ class OC_Share {
 			}
 			foreach ($uid_shared_with as $uid) {
 				// Check if this item is already shared with the user
-				$checkSource = OCP\DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with ".self::getUsersAndGroups($uid));
+				$checkSource = OCP\DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with ".self::getUsersAndGroups($uid, false));
 				$resultCheckSource = $checkSource->execute(array($source))->fetchAll();
 				// TODO Check if the source is inside a folder
 				if (count($resultCheckSource) > 0 && !isset($gid)) {
@@ -125,7 +125,7 @@ class OC_Share {
 	* @param $uid (Optional) The uid to get the user groups for, a gid to get the users in a group, or if not set the current user
 	* @return An IN operator as a string
 	*/
-	private static function getUsersAndGroups($uid = null) {
+	private static function getUsersAndGroups($uid = null, $includePrivateLinks = true) {
 		$in = " IN(";
 		if (isset($uid) && OC_Group::groupExists($uid)) {
 			$users = OC_Group::usersInGroup($uid);
@@ -152,7 +152,9 @@ class OC_Share {
 				$in .= ", '".$uid."@".$group."'";
 			}
 		}
-		$in .= ", '".self::PUBLICLINK."'";
+		if ($includePrivateLinks) {
+			$in .= ", '".self::PUBLICLINK."'";
+		}
 		$in .= ")";
 		return $in;
 	}
