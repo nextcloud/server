@@ -5,7 +5,8 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
 
 $calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
-$cid = reset($calendars)['id'];
+$first_calendar = reset($calendars);
+$cid = $first_calendar['id'];
 
 $input = $_GET['text'];
 $request = array();
