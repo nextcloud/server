@@ -47,7 +47,7 @@
 
 <p class="personalblock">
 	<strong>WebDAV</strong>
-	<code><?php echo OC_Helper::linkToAbsolute('files', 'webdav.php'); ?></code><br />
+	<code><?php echo OC_Helper::linkToAbsolute('remote', 'webdav.php'); ?></code><br />
 	<em><?php echo $l->t('use this address to connect to your ownCloud in your file manager');?></em>
 </p>
 
