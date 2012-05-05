@@ -10,5 +10,5 @@ OCP\App::addNavigationEntry( array( "id" => "files_index", "order" => 0, "href" 
 
 OC_Search::registerProvider('OC_Search_Provider_File');
 if(!file_exists(OC::$SERVERROOT.'/remote/webdav.php')){
-	file_put_contents(OC::$SERVERROOT.'/remote/webdav.php', file_get_contents(OC::$APPSROOT . '/apps/files/appinfo/webdav.php'));
+	file_put_contents(OC::$SERVERROOT.'/remote/webdav.php', file_get_contents(OC::$APPSROOT . '/apps/files/appinfo/remote.php'));
 }
