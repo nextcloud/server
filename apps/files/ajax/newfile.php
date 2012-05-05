@@ -32,15 +32,16 @@ if($source){
 		OCP\JSON::error(array("data" => array( "message" => "Error while downloading ".$source. ' to '.$target )));
 		exit();
 	}
-}
-
-
-if(OC_Files::newFile($dir, $filename, 'file')) {
+}else{
 	if($content){
-		OC_Filesystem::file_put_contents($dir.'/'.$filename,$content);
+		if(OC_Filesystem::file_put_contents($dir.'/'.$filename,$content)){
+			OCP\JSON::success(array("data" => array('content'=>$content)));
+			exit();
+		}
+	}elseif(OC_Files::newFile($dir, $filename, 'file')){
+		OCP\JSON::success(array("data" => array('content'=>$content)));
+		exit();
 	}
-	OCP\JSON::success(array("data" => array('content'=>$content)));
-	exit();
 }
 
 
