@@ -8,6 +8,6 @@
 
 OC::$CLASSPATH['OC_Filestorage_Archive']='apps/files_archive/lib/storage.php';
 
-OC_Hook::connect('OC_Filesystem','get_mountpoint','OC_Filestorage_Archive','autoMount');
+OCP\Util::connectHook('OC_Filesystem','get_mountpoint','OC_Filestorage_Archive','autoMount');
 
 OCP\Util::addscript( 'files_archive', 'archive' );

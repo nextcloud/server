@@ -338,7 +338,7 @@ class OC_Calendar_App{
 				OCP\Response::setETagHeader($calendar['ctag']);
 				$events = OC_Calendar_Object::allInPeriod($calendar_id, $start, $end);
 			} else {
-				OC_Hook::emit('OC_Calendar', 'getEvents', array('calendar_id' => $calendar_id, 'events' => &$events));
+				OCP\Util::emitHook('OC_Calendar', 'getEvents', array('calendar_id' => $calendar_id, 'events' => &$events));
 			}
 		}
 		return $events;

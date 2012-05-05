@@ -25,7 +25,7 @@ foreach($calendars as $calendar){
 $eventSources[] = array('url' => '?app=calendar&getfile=ajax/events.php?calendar_id=shared_rw', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable'=>'true');
 $eventSources[] = array('url' => '?app=calendar&getfile=ajax/events.php?calendar_id=shared_r', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable' => 'false');
 
-OC_Hook::emit('OC_Calendar', 'getSources', array('sources' => &$eventSources));
+OCP\Util::emitHook('OC_Calendar', 'getSources', array('sources' => &$eventSources));
 $categories = OC_Calendar_App::getCategoryOptions();
 
 //Fix currentview for fullcalendar

@@ -191,8 +191,37 @@ class Util {
 		return(\OC_Helper::computerFileSize( $str ));
 	}
 
+	/**
+	 * @brief connects a function to a hook
+	 * @param $signalclass class name of emitter
+	 * @param $signalname name of signal
+	 * @param $slotclass class name of slot
+	 * @param $slotname name of slot
+	 * @returns true/false
+	 *
+	 * This function makes it very easy to connect to use hooks.
+	 *
+	 * TODO: write example
+	 */
+	static public function connectHook( $signalclass, $signalname, $slotclass, $slotname ){
+		return(\OC_Hook::connect( $signalclass, $signalname, $slotclass, $slotname ));
+	}
 
 
+	/**
+	 * @brief emitts a signal
+	 * @param $signalclass class name of emitter
+	 * @param $signalname name of signal
+	 * @param $params defautl: array() array with additional data
+	 * @returns true if slots exists or false if not
+	 *
+	 * Emits a signal. To get data from the slot use references!
+	 *
+	 * TODO: write example
+	 */
+	static public function emitHook( $signalclass, $signalname, $params = array()){
+		return(\OC_Hook::emit( $signalclass, $signalname, $params ));
+	}
 
 
 }

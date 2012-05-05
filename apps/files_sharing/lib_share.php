@@ -410,7 +410,7 @@ class OC_Share {
 		$source = "/".OCP\USER::getUser()."/files".self::cleanPath($arguments['path']);
 		if ($target = self::getTarget($source)) {
 			// Forward hook to notify of changes to target file
-			OC_Hook::emit("OC_Filesystem", "post_delete", array('path' => $target));
+			OCP\Util::emitHook("OC_Filesystem", "post_delete", array('path' => $target));
 			$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
 			$query->execute(array(strlen($source), $source, OCP\USER::getUser()));
 		}
@@ -432,7 +432,7 @@ class OC_Share {
 		$source = "/".OCP\USER::getUser()."/files".self::cleanPath($arguments['path']);
 		if ($target = self::getTarget($source)) {
 			// Forward hook to notify of changes to target file
-			OC_Hook::emit("OC_Filesystem", "post_write", array('path' => $target));
+			OCP\Util::emitHook("OC_Filesystem", "post_write", array('path' => $target));
 		}
 	}
 
