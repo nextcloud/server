@@ -240,7 +240,6 @@ echo 'Calendar.UI.Share.idtype = "event";' . "\n" . 'Calendar.UI.Share.currentid
 					</td>
 				</tr>
 			</table>
-			<?php echo $l->t('Summary'); ?>:<span id="repeatsummary"></span>
 		</div>
 </div>
 <!--<div id="tabs-3">//Alarm</div>
