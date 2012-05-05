@@ -25,3 +25,6 @@ OCP\App::addNavigationEntry( array(
 OCP\App::registerPersonal('contacts','settings');
 OCP\Util::addscript('contacts', 'loader');
 OC_Search::registerProvider('OC_Search_Provider_Contacts');
+if(!file_exists(OC::$SERVERROOT.'/remote/carddav.php')){
+	file_put_contents(OC::$SERVERROOT.'/remote/carddav.php', file_get_contents(OC::$APPSROOT . '/apps/contacts/appinfo/remote.php'));
+}
