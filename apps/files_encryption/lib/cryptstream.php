@@ -34,6 +34,7 @@ class OC_CryptStream{
 	private $readBuffer;//for streams that dont support seeking
 	private $meta=array();//header/meta for source stream
 	private $count;
+	private $writeCache;
 
 	public function stream_open($path, $mode, $options, &$opened_path){
 		$path=str_replace('crypt://','',$path);
@@ -57,6 +58,7 @@ class OC_CryptStream{
 	}
 	
 	public function stream_seek($offset, $whence=SEEK_SET){
+		$this->flush();
 		fseek($this->source,$offset,$whence);
 	}
 	
@@ -67,6 +69,7 @@ class OC_CryptStream{
 	public function stream_read($count){
 		//$count will always be 8192 https://bugs.php.net/bug.php?id=21641
 		//This makes this function a lot simpler but will breake everything the moment it's fixed
+		$this->writeCache='';
 		if($count!=8192){
 			OCP\Util::writeLog('files_encryption','php bug 21641 no longer holds, decryption will not work',OCP\Util::FATAL);
 			die();
@@ -84,6 +87,10 @@ class OC_CryptStream{
 		$length=strlen($data);
 		$written=0;
 		$currentPos=ftell($this->source);
+		if($this->writeCache){
+			$data=$this->writeCache.$data;
+			$this->writeCache='';
+		}
 		if($currentPos%8192!=0){
 			//make sure we always start on a block start
 			fseek($this->source,-($currentPos%8192),SEEK_CUR);
@@ -91,11 +98,17 @@ class OC_CryptStream{
 			fseek($this->source,-($currentPos%8192),SEEK_CUR);
 			$block=OC_Crypt::decrypt($encryptedBlock);
 			$data=substr($block,0,$currentPos%8192).$data;
+			fseek($this->source,-($currentPos%8192),SEEK_CUR);
 		}
 		while(strlen($data)>0){
-			$encrypted=OC_Crypt::encrypt(substr($data,0,8192));
-			fwrite($this->source,$encrypted);
-			$data=substr($data,8192);
+			if(strlen($data)<8192){
+				$this->writeCache=$data;
+				$data='';
+			}else{
+				$encrypted=OC_Crypt::encrypt(substr($data,0,8192));
+				fwrite($this->source,$encrypted);
+				$data=substr($data,8192);
+			}
 		}
 		return $length;
 	}
@@ -129,7 +142,16 @@ class OC_CryptStream{
 		return feof($this->source);
 	}
 
+	private function flush(){
+		if($this->writeCache){
+			$encrypted=OC_Crypt::encrypt($this->writeCache);
+			fwrite($this->source,$encrypted);
+			$this->writeCache='';
+		}
+	}
+
 	public function stream_close(){
+		$this->flush();
 		if($this->meta['mode']!='r' and $this->meta['mode']!='rb'){
 			OC_FileCache::put($this->path,array('encrypted'=>true));
 		}
