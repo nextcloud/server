@@ -105,10 +105,11 @@ class OC_Calendar_Object{
 
 		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
 		$stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
+		$object_id = OCP\DB::insertid('*PREFIX*calendar_objects');
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
-		return OCP\DB::insertid('*PREFIX*calendar_objects');
+		return $object_id;
 	}
 
 	/**
@@ -124,10 +125,11 @@ class OC_Calendar_Object{
 
 		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*calendar_objects (calendarid,objecttype,startdate,enddate,repeating,summary,calendardata,uri,lastmodified) VALUES(?,?,?,?,?,?,?,?,?)' );
 		$stmt->execute(array($id,$type,$startdate,$enddate,$repeating,$summary,$data,$uri,time()));
+		$object_id = OCP\DB::insertid('*PREFIX*calendar_objects');
 
 		OC_Calendar_Calendar::touchCalendar($id);
 
-		return OCP\DB::insertid('*PREFIX*calendar_objects');
+		return $object_id;
 	}
 
 	/**
