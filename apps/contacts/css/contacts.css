@@ -3,7 +3,6 @@
 }*/
 #leftcontent { top: 3.5em !important; }
 #rightcontent { top: 3.5em !important; padding-top: 5px; }
-#contacts { background: #fff; width: 20em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; }
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 0 0 #000, -3px 0 7px #000; -webkit-box-shadow: 0 0 0 #000, -3px 0 7px #000; box-shadow: 0 0 0 #000, -3px 0 7px #000;}
 #contacts_newcontact { float: left; margin: 0.2em 0 0 1em; }
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
@@ -30,6 +29,8 @@ textarea { width: 80%; min-height: 5em; min-width: 30em; margin: 0 !important; p
 dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .form dt { display: table-cell; clear: left; float: left; width: 7em; margin: 0; padding: 0.8em 0.5em 0 0; text-align:right; text-overflow:ellipsis; o-text-overflow: ellipsis; vertical-align: text-bottom; color: #bbb;/* white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap;*/ }
 .form dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0px; white-space: nowrap; vertical-align: text-bottom; }
+.propertycontainer[data-element="EMAIL"] > input[type="email"] { min-width: 19em !important; }
+.propertycontainer[data-element="TEL"] > input[type="text"] { width: 10em !important; }
 #address.form dt { min-width: 5em; }
 #address.form dl { min-width: 10em; }
 .droptarget { margin: 0.5em; padding: 0.5em; border: thin solid #ccc; -moz-border-radius:.3em; -webkit-border-radius:.3em; border-radius:.3em; }
@@ -102,4 +103,5 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .propertylist li > input[type="checkbox"],input[type="radio"] { float: left; clear: left; width: 20px; height: 20px; vertical-align: middle; }
 .propertylist li > select { float: left; max-width: 8em; }
 .typelist { float: left; max-width: 10em; border: 0; background-color: #fff; } /* for multiselect */
+.typelist:hover, .typelist:active { background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb outset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb outset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb outset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; }
 .addresslist { clear: both; font-weight: bold; }
