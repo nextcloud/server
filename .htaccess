@@ -19,5 +19,6 @@ RewriteRule ^.well-known/carddav /remote/carddav.php [R]
 RewriteRule ^.well-known/caldav /remote/caldav.php [R]
 
 RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]
+RewriteRule ^remote/(.*) remote.php [QSA,L]
 </IfModule>
 Options -Indexes

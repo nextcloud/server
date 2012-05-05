@@ -215,7 +215,7 @@ class Sabre_DAV_Server {
             $DOM->appendChild($error);
 
             $error->appendChild($DOM->createElement('s:exception',get_class($e)));
-            $error->appendChild($DOM->createElement('s:message',$e->getMessage()));
+            $error->appendChild($DOM->createElement('s:message',htmlentities($e->getMessage())));
             if ($this->debugExceptions) {
                 $error->appendChild($DOM->createElement('s:file',$e->getFile()));
                 $error->appendChild($DOM->createElement('s:line',$e->getLine()));

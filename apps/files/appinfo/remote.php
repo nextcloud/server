@@ -37,7 +37,7 @@ $publicDir = new OC_Connector_Sabre_Directory('');
 
 // Fire up server
 $server = new Sabre_DAV_Server($publicDir);
-$server->setBaseUri(OC::$WEBROOT.'/remote/webdav.php');
+$server->setBaseUri($baseuri);
 
 // Load plugins
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
