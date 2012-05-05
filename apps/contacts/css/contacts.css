@@ -29,7 +29,7 @@
 
 textarea:focus, textarea:hover { background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
 input[type="text"]:invalid,input[type="email"]:invalid,input[type="tel"]:invalid,input[type="date"]:invalid, textarea:invalid { color: #bbb !important; }
-textarea { width: 80%; min-height: 5em; margin: 0 !important; padding: 0 !important; outline: 0 !important;}
+textarea { width: 80%; min-height: 5em; min-width: 30em; margin: 0 !important; padding: 0 !important; outline: 0 !important;}
 dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .form dt { display: table-cell; clear: left; float: left; width: 7em; margin: 0; padding: 0.8em 0.5em 0 0; text-align:right; text-overflow:ellipsis; o-text-overflow: ellipsis; vertical-align: text-bottom; color: #bbb;/* white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap;*/ }
 .form dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0px; white-space: nowrap; vertical-align: text-bottom; }
