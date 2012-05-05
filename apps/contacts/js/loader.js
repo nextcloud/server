@@ -26,8 +26,8 @@ Contacts_Import={
 		$('#startimport').click(function(){
 			var filename = $('#filename').val();
 			var path = $('#path').val();
-			var addressbookid = $('#contacts option:selected').val();
-			if($('#contacts option:selected').val() == 'newaddressbook'){
+			var addressbookid = $('#leftcontent option:selected').val();
+			if($('#leftcontent option:selected').val() == 'newaddressbook'){
 				var method = 'new';
 				var addressbookname = $('#newaddressbook').val();
 				var addressbookname = $.trim(addressbookname);
@@ -42,7 +42,7 @@ Contacts_Import={
 				var method = 'old';
 			}
 			$('#newaddressbook').attr('readonly', 'readonly');
-			$('#contacts').attr('disabled', 'disabled');
+			$('#leftcontent').attr('disabled', 'disabled');
 			var progressfile = $('#progressfile').val();
 			$.post(OC.filePath('contacts', '', 'import.php'), {method: String (method), addressbookname: String (addressbookname), path: String (path), file: String (filename), id: String (addressbookid)}, function(data){
 				if(data.status == 'success'){
@@ -54,8 +54,8 @@ Contacts_Import={
 			$('#progressbar_container').css('display', 'block');
 			window.setTimeout('Contacts_Import.getimportstatus(\'' + progressfile + '\')', 500);
 		});
-		$('#contacts').change(function(){
-			if($('#contacts option:selected').val() == 'newaddressbook'){
+		$('#leftcontent').change(function(){
+			if($('#leftcontent option:selected').val() == 'newaddressbook'){
 				$('#newaddressbookform').slideDown('slow');
 			}else{
 				$('#newaddressbookform').slideUp('slow');
