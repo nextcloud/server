@@ -1,9 +1,9 @@
 /*dl > dt {
 	font-weight: bold;
 }*/
-#leftcontent { top: 3.5em !important; }
+#leftcontent { top: 3.5em !important; padding: 0; margin: 0; }
 #rightcontent { top: 3.5em !important; padding-top: 5px; }
-#contacts { background: #fff; width: 20em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; }
+#contacts { background: #fff; width: 20em; left: 12.5em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; padding: 0; margin: 0; }
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 0 0 #000, -3px 0 7px #000; -webkit-box-shadow: 0 0 0 #000, -3px 0 7px #000; box-shadow: 0 0 0 #000, -3px 0 7px #000;}
 #contacts_newcontact { float: left; margin: 0.2em 0 0 1em; }
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
