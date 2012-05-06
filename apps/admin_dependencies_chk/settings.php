@@ -80,6 +80,12 @@ $modules[] =array(
 	'modules'=> array('core'),
 	'message'=> $l->t('The allow_url_fopen directive of your php.ini should be set to 1 to retrieve knowledge base from OCS servers'));
 
+$modules[] =array(
+	'status' => class_exists('PDO') ? 'ok' : 'warning',
+	'part'=> 'php-pdo',
+	'modules'=> array('core'),
+	'message'=> $l->t('The php-pdo module is needed to store owncloud data into a database.'));
+
 foreach($modules as $key => $module) {
 	$enabled = false ;
 	foreach($module['modules'] as $app) {
