@@ -10,6 +10,6 @@
 $l10n = OC_L10N::get('calendar');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
-$output = new OC_TEMPLATE("calendar", "part.choosecalendar");
+$output = new OCP\Template("calendar", "part.choosecalendar");
 $output -> printpage();
 ?>

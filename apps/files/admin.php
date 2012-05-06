@@ -51,7 +51,7 @@ $allowZipDownload = intval(OCP\Config::getSystemValue('allowZipDownload', true))
 
 OCP\App::setActiveNavigationEntry( "files_administration" );
 
-$tmpl = new OC_Template( 'files', 'admin' );
+$tmpl = new OCP\Template( 'files', 'admin' );
 $tmpl->assign( 'htaccessWorking', $htaccessWorking );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'maxPossibleUploadSize', OCP\Util::humanFileSize(PHP_INT_MAX));

@@ -53,7 +53,7 @@ foreach($vcard->children as $property){
 	}
 }
 
-$tmpl = new OC_TEMPLATE("contacts", "part.contactphoto");
+$tmpl = new OCP\Template("contacts", "part.contactphoto");
 $tmpl->assign('id', $id);
 if($refresh) {
 	$tmpl->assign('refresh', 1);

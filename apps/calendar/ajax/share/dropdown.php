@@ -13,6 +13,6 @@ if($calendar['userid'] != $user){
 	OCP\JSON::error();
 	exit;
 }
-$tmpl = new OC_Template('calendar', 'share.dropdown');
+$tmpl = new OCP\Template('calendar', 'share.dropdown');
 $tmpl->assign('calid', $calid);
 $tmpl->printPage();

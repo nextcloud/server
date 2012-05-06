@@ -17,13 +17,13 @@
 </div>
 <p id="task_actions_template" class="task_actions">
 	<!-- span class="task_star">
-		<img title="<?php echo $l->t('Important') ?>" src="<?php echo image_path('core', 'actions/add.svg') ?>" class="svg"><?php echo $l->t('Important') ?>
+		<img title="<?php echo $l->t('Important') ?>" src="<?php echo OCP\image_path('core', 'actions/add.svg') ?>" class="svg"><?php echo $l->t('Important') ?>
 	</span -->
 	<span class="task_more">
-		<img title="<?php echo $l->t('More') ?>" src="<?php echo image_path('core', 'actions/triangle-s.svg') ?>" class="svg"><?php echo $l->t('More') ?>
+		<img title="<?php echo $l->t('More') ?>" src="<?php echo OCP\image_path('core', 'actions/triangle-s.svg') ?>" class="svg"><?php echo $l->t('More') ?>
 	</span>
 	<span class="task_less">
-		<img title="<?php echo $l->t('Less') ?>" src="<?php echo image_path('core', 'actions/triangle-n.svg') ?>" class="svg"><?php echo $l->t('Less') ?>
+		<img title="<?php echo $l->t('Less') ?>" src="<?php echo OCP\image_path('core', 'actions/triangle-n.svg') ?>" class="svg"><?php echo $l->t('Less') ?>
 	</span>
 </p>
 <script type='text/javascript'>

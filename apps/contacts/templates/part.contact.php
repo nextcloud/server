@@ -55,7 +55,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
 				<input type="email" required="required" class="nonempty contacts_property" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" />
 				<select class="hidden" multiple="multiple" name="parameters[TYPE][]">
-					<?php echo html_select_options($_['email_types'], array()) ?>
+					<?php echo OCP\html_select_options($_['email_types'], array()) ?>
 				</select>
 				<span class="listactions"><a class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
 				<a role="button" class="action delete" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
@@ -69,7 +69,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" /> 
 				<input type="text" required="required" class="nonempty contacts_property" name="value" value="" placeholder="<?php echo $l->t('Enter phone number'); ?>" />
 				<select multiple="multiple" name="parameters[TYPE][]">
-					<?php echo html_select_options($_['phone_types'], array()) ?>
+					<?php echo OCP\html_select_options($_['phone_types'], array()) ?>
 				</select>
 				<a role="button" class="action delete" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
 			</ul>

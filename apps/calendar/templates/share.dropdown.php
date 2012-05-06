@@ -28,7 +28,7 @@ foreach($allocusers as $ocuser){
 }
 unset($allusers[OCP\USER::getUser()]);
 $allusers = array_flip($allusers);
-echo html_select_options($allusers, array());
+echo OCP\html_select_options($allusers, array());
 ?>
 </select><br>
 <ul id="sharewithuser_list">
@@ -54,7 +54,7 @@ $allgroups = array();
 foreach($allocgroups as $ocgroup){
 	$allgroups[$ocgroup] = $ocgroup;
 }
-echo html_select_options($allgroups, array());
+echo OCP\html_select_options($allgroups, array());
 ?>
 </select><br>
 <ul id="sharewithgroup_list">

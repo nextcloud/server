@@ -40,17 +40,61 @@ namespace OCP;
  * For further information have a look at OC_Helper::imagePath
  */
 function image_path( $app, $image ){
-	return(image_path( $app, $image ));
+	return(\image_path( $app, $image ));
 }
 
 
+/**
+ * @brief make OC_Helper::mimetypeIcon available as a simple function
+ * @param $mimetype mimetype
+ * @returns link to the image
+ *
+ * For further information have a look at OC_Helper::mimetypeIcon
+ */
+function mimetype_icon( $mimetype ){
+	return(\mimetype_icon( $mimetype ));
+}
 
-class Template extends OC_Template {
+
+/**
+ * @brief make OC_Helper::humanFileSize available as a simple function
+ * @param $bytes size in bytes
+ * @returns size as string
+ *
+ * For further information have a look at OC_Helper::humanFileSize
+ */
+function human_file_size( $bytes ){
+	return(\human_file_size( $bytes ));
+}
 
 
+/**
+ * TODO
+ */
+function relative_modified_date($timestamp) {
+	return(\relative_modified_date($timestamp));
+}
 
 
+/**
+ * TODO
+ */
+function simple_file_size($bytes) {
+	return(\simple_file_size($bytes));
+}
+
+
+/**
+ * TODO
+ */
+function html_select_options($options, $selected, $params=array()) {
+	return(\html_select_options($options, $selected, $params=array())); 
+}
+
+
+class Template extends \OC_Template {
 
 }
+
 
 ?>

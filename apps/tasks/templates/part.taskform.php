@@ -6,7 +6,7 @@
 	<br>
 	<label for="categories"><?php echo $l->t('Categories'); ?></label>
 	<input id="categories" name="categories" type="text" placeholder="<?php echo $l->t('Separate categories with commas'); ?>" value="<?php echo isset($_['categories']) ? htmlspecialchars($_['categories']) : '' ?>">
-	<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"><img alt="<?php echo $l->t('Edit categories'); ?>" src="<?php echo image_path('core','actions/rename.svg')?>" class="svg action" style="width: 16px; height: 16px;"></a>
+	<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"><img alt="<?php echo $l->t('Edit categories'); ?>" src="<?php echo OCP\image_path('core','actions/rename.svg')?>" class="svg action" style="width: 16px; height: 16px;"></a>
 	<br>
 	<label for="due"><?php echo $l->t('Due'); ?></label>
 	<input type="text" id="due" name="due" placeholder="<?php echo $l->t('Due date') ?>" value="<?php echo isset($_['details']->DUE) ? $l->l('datetime', $_['details']->DUE[0]->getDateTime()) : '' ?>">

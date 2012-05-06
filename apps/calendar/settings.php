@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-$tmpl = new OC_Template( 'calendar', 'settings');
+$tmpl = new OCP\Template( 'calendar', 'settings');
 $timezone=OCP\Config::getUserValue(OCP\USER::getUser(),'calendar','timezone','');
 $tmpl->assign('timezone',$timezone);
 $tmpl->assign('timezones',DateTimeZone::listIdentifiers());

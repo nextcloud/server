@@ -12,7 +12,7 @@ $category_options = OC_Calendar_App::getCategoryOptions();
 $percent_options = range(0, 100, 10);
 $priority_options = OC_Task_App::getPriorityOptions();
 
-$tmpl = new OC_Template('tasks','part.edittaskform');
+$tmpl = new OCP\Template('tasks','part.edittaskform');
 $tmpl->assign('category_options', $category_options);
 $tmpl->assign('percent_options', $percent_options);
 $tmpl->assign('priority_options', $priority_options);

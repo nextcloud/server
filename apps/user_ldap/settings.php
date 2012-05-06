@@ -41,7 +41,7 @@ if ($_POST) {
 }
 
 // fill template
-$tmpl = new OC_Template( 'user_ldap', 'settings');
+$tmpl = new OCP\Template( 'user_ldap', 'settings');
 foreach($params as $param){
 		$value = OCP\Config::getAppValue('user_ldap', $param,'');
 		$tmpl->assign($param, $value);

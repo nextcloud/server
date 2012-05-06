@@ -17,7 +17,7 @@ if ($source !== false) {
 	$source .= $subPath;
 	if (!OC_Filesystem::file_exists($source)) {
 		header("HTTP/1.0 404 Not Found");
-		$tmpl = new OC_Template("", "404", "guest");
+		$tmpl = new OCP\Template("", "404", "guest");
 		$tmpl->assign("file", $subPath);
 		$tmpl->printPage();
 		exit;
@@ -49,15 +49,15 @@ if ($source !== false) {
 		}
 		// Load the files we need
 		OCP\Util::addStyle("files", "files");
-		$breadcrumbNav = new OC_Template("files", "part.breadcrumb", "");
+		$breadcrumbNav = new OCP\Template("files", "part.breadcrumb", "");
 		$breadcrumbNav->assign("breadcrumb", $breadcrumb);
 		$breadcrumbNav->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
-		$list = new OC_Template("files", "part.list", "");
+		$list = new OCP\Template("files", "part.list", "");
 		$list->assign("files", $files);
 		$list->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list->assign("downloadURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list->assign("readonly", true);
-		$tmpl = new OC_Template("files", "index", "user");
+		$tmpl = new OCP\Template("files", "index", "user");
 		$tmpl->assign("fileList", $list->fetchPage());
 		$tmpl->assign("breadcrumb", $breadcrumbNav->fetchPage());
 		$tmpl->assign("readonly", true);
@@ -78,7 +78,7 @@ if ($source !== false) {
 	}
 } else {
 	header("HTTP/1.0 404 Not Found");
-	$tmpl = new OC_Template("", "404", "guest");
+	$tmpl = new OCP\Template("", "404", "guest");
 	$tmpl->printPage();
 	die();
 }

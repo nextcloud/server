@@ -6,9 +6,9 @@
 			<div id='new' class='button'>
 				<a><?php echo $l->t('New');?></a>
 				<ul class="popup popupTop">
-					<li style="background-image:url('<?php echo mimetype_icon('text/plain') ?>')" data-type='file'><p><?php echo $l->t('Text file');?></p></li>
-					<li style="background-image:url('<?php echo mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
-					<li style="background-image:url('<?php echo image_path('core','actions/public.png') ?>')" data-type='web'><p><?php echo $l->t('From url');?></p></li>
+					<li style="background-image:url('<?php echo OCP\mimetype_icon('text/plain') ?>')" data-type='file'><p><?php echo $l->t('Text file');?></p></li>
+					<li style="background-image:url('<?php echo OCP\mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
+					<li style="background-image:url('<?php echo OCP\image_path('core','actions/public.png') ?>')" data-type='web'><p><?php echo $l->t('From url');?></p></li>
 				</ul>
 			</div>
 			<div class="file_upload_wrapper svg">
@@ -16,7 +16,7 @@
 					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 					<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo htmlentities($_['dir']) ?>" id="dir">
-					<button class="file_upload_filename">&nbsp;<img class='svg action' alt="Upload" src="<?php echo image_path("core", "actions/upload.svg"); ?>" /></button>
+					<button class="file_upload_filename">&nbsp;<img class='svg action' alt="Upload" src="<?php echo OCP\image_path("core", "actions/upload.svg"); ?>" /></button>
 					<input class="file_upload_start" type="file" name='files[]'/>
 						<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="<?php echo $l->t('Upload'); echo  ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
 					<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
@@ -46,14 +46,14 @@
 				<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" id="select_all" /><?php } ?>
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
-					<a href="" class="share"><img class='svg' alt="Share" src="<?php echo image_path("core", "actions/share.svg"); ?>" /> <?php echo $l->t('Share')?></a>
+					<a href="" class="share"><img class='svg' alt="Share" src="<?php echo OCP\image_path("core", "actions/share.svg"); ?>" /> <?php echo $l->t('Share')?></a>
 					<?php if($_['allowZipDownload']) : ?>
-						<a href="" class="download"><img class='svg' alt="Download" src="<?php echo image_path("core", "actions/download.svg"); ?>" /> <?php echo $l->t('Download')?></a>
+						<a href="" class="download"><img class='svg' alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /> <?php echo $l->t('Download')?></a>
 					<?php endif; ?>
 				</span>
 			</th>
 			<th id="headerSize"><?php echo $l->t( 'Size' ); ?></th>
-			<th id="headerDate"><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class="selectedActions"><a href="" class="delete"><?php echo $l->t('Delete all')?> <img class="svg" alt="<?php echo $l->t('Delete')?>" src="<?php echo image_path("core", "actions/delete.svg"); ?>" /></a></span></th>
+			<th id="headerDate"><span id="modified"><?php echo $l->t( 'Modified' ); ?></span><span class="selectedActions"><a href="" class="delete"><?php echo $l->t('Delete all')?> <img class="svg" alt="<?php echo $l->t('Delete')?>" src="<?php echo OCP\image_path("core", "actions/delete.svg"); ?>" /></a></span></th>
 		</tr>
 	</thead>
 	<tbody id="fileList" data-readonly="<?php echo $_['readonly'];?>">

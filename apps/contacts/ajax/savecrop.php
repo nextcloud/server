@@ -101,7 +101,7 @@ if(file_exists($tmp_path)) {
 					}
 					unlink($tmpfname);
 					//$result=array( "status" => "success", 'mime'=>$image->mimeType(), 'tmp'=>$tmp_path);
-					$tmpl = new OC_TEMPLATE("contacts", "part.contactphoto");
+					$tmpl = new OCP\Template("contacts", "part.contactphoto");
 					$tmpl->assign('tmp_path', $tmpfname);
 					$tmpl->assign('mime', $image->mimeType());
 					$tmpl->assign('id', $id);

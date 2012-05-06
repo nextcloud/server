@@ -38,7 +38,7 @@ if (!isset($_GET['view'])) {
   while ($row = $result->fetchRow())
     $r[] = $row;
 
-  $tmpl = new OC_Template( 'gallery', 'index', 'user' );
+  $tmpl = new OCP\Template( 'gallery', 'index', 'user' );
   $tmpl->assign('r', $r);
   $tmpl->printPage();
 } else {
@@ -48,7 +48,7 @@ if (!isset($_GET['view'])) {
   while ($p = $result->fetchRow())
     $photos[] = $p['file_path'];
   
-  $tmpl = new OC_Template( 'gallery', 'view_album', 'user' );
+  $tmpl = new OCP\Template( 'gallery', 'view_album', 'user' );
   $tmpl->assign('photos', $photos);
   $tmpl->assign('albumName', $_GET['view']);
   $tmpl->printPage();

@@ -16,7 +16,7 @@ $addressbooks = isset($_['addressbooks'])?$_['addressbooks']:null;
 		<dt><label for="addressbook"><?php echo $l->t('Addressbook'); ?></label></dt>
 		<dd>
 			<select id="aid" name="aid" size="1">
-				<?php echo html_select_options($_['addressbooks'], null, array('value'=>'id', 'label'=>'displayname')); ?>
+				<?php echo OCP\html_select_options($_['addressbooks'], null, array('value'=>'id', 'label'=>'displayname')); ?>
 			</select>
 		</dd>
 		<?php }} ?>

@@ -21,7 +21,7 @@
  *
  */
 $l=OC_L10N::get('admin_dependencies_chk');
-$tmpl = new OC_Template( 'admin_dependencies_chk', 'settings');
+$tmpl = new OCP\Template( 'admin_dependencies_chk', 'settings');
 
 $modules = array();
 

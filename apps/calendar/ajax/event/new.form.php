@@ -43,7 +43,7 @@ $repeat_bymonth_options = OC_Calendar_App::getByMonthOptions();
 $repeat_byweekno_options = OC_Calendar_App::getByWeekNoOptions();
 $repeat_bymonthday_options = OC_Calendar_App::getByMonthDayOptions();
 
-$tmpl = new OC_Template('calendar', 'part.newevent');
+$tmpl = new OCP\Template('calendar', 'part.newevent');
 $tmpl->assign('access', 'owner');
 $tmpl->assign('calendar_options', $calendar_options);
 $tmpl->assign('repeat_options', $repeat_options);

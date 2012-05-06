@@ -1,6 +1,6 @@
 <?php
 
-$tmpl = new OC_Template( 'contacts', 'settings');
+$tmpl = new OCP\Template( 'contacts', 'settings');
 
 return $tmpl->fetchPage();
 ?>
