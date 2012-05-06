@@ -98,7 +98,8 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .propertycontainer dd { float: left; width: 25em; }
 .propertylist { clear: none; max-width: 28em; }
 .propertylist li.propertycontainer { white-space: nowrap; min-width: 35em; /*max-width: 30em;*/ display: block; clear: right; }
-.propertylist li > input[type="text"],input[type="email"],input[type="tel"] { float: left; max-width: 15em; }
+.propertycontainer[data-element="EMAIL"] > input[type="email"] { min-width: 19em !important; float: left; }
+.propertycontainer[data-element="TEL"] > input[type="text"] { width: 10em !important; float: left; }
 .propertylist li > input[type="checkbox"],input[type="radio"] { float: left; clear: left; width: 20px; height: 20px; vertical-align: middle; }
 .propertylist li > select { float: left; max-width: 8em; }
 .typelist { float: left; max-width: 10em; border: 0; background-color: #fff; } /* for multiselect */
