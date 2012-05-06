@@ -33,8 +33,6 @@ namespace OCP;
 class Config {
 
 
-
-
 	/**
 	 * @brief Gets a value from config.php
 	 * @param $key key

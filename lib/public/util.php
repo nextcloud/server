@@ -32,6 +32,7 @@ namespace OCP;
 
 class Util {
 
+
 	// consts for Logging
 	const DEBUG=0;
 	const INFO=1;
@@ -39,8 +40,9 @@ class Util {
 	const ERROR=3;
 	const FATAL=4;
 
+
 	/**
-	 * get the current installed version of ownCloud
+	 * @brief get the current installed version of ownCloud
 	 * @return array
 	 */
 	public static function getVersion(){
@@ -49,8 +51,7 @@ class Util {
 
 
 	/**
-	 * send an email 
-	 *
+	 * @brief send an email 
 	 * @param string $toaddress
 	 * @param string $toname
 	 * @param string $subject
@@ -59,41 +60,40 @@ class Util {
 	 * @param string $fromname
 	 * @param bool $html
 	 */
-	public static function sendMail($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='') {
+	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html=0, $altbody='', $ccaddress='', $ccname='', $bcc='') {
 		// call the internal mail class
-		\OC_MAIL::send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='');
+		\OC_MAIL::send( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html=0, $altbody='', $ccaddress='', $ccname='', $bcc='');
 	}
 
+
         /**
-	 * write a message in the log
-         *
+	 * @brief write a message in the log
 	 * @param string $app
 	 * @param string $message
 	 * @param int level
          */
-        public static function writeLog($app, $message, $level) {
+        public static function writeLog( $app, $message, $level ) {
                 // call the internal log class
-                \OC_LOG::write($app, $message, $level);
+                \OC_LOG::write( $app, $message, $level );
         }
 
 
 	/**
-	 * add a css file
-	 *
+	 * @brief add a css file
 	 * @param url  $url
 	 */
 	public static function addStyle( $application, $file = null ){
-		\OC_Util::addStyle($application, $file);
+		\OC_Util::addStyle( $application, $file );
         }
 
+
 	/**
-	 * add a javascript file
-	 *
+	 * @brief add a javascript file
 	 * @param appid  $application
 	 * @param filename  $file
 	 */
 	public static function addScript( $application, $file = null ){
-		\OC_Util::addScript($application, $file);
+		\OC_Util::addScript( $application, $file );
         }
 
 	/**
@@ -103,17 +103,16 @@ class Util {
 	 * @param string $text the text content for the element
 	 */
 	public static function addHeader( $tag, $attributes, $text=''){
-		\OC_Util::addHeader($tag, $attribute, $text);
+		\OC_Util::addHeader( $tag, $attribute, $text );
 	}
 
 	/**
-	 * formats a timestamp in the "right" way
-	 *
+	 * @brief formats a timestamp in the "right" way
 	 * @param int timestamp $timestamp
 	 * @param bool dateOnly option to ommit time from the result
 	 */
 	public static function formatDate( $timestamp,$dateOnly=false){
-		return(\OC_Util::formatDate($timestamp,$dateOnly));
+		return(\OC_Util::formatDate( $timestamp,$dateOnly ));
 	}
 
 

@@ -38,7 +38,7 @@ class Files {
 	 * @param string $dir path to the folder
 	 *
 	 */
-	static function rmdirr($dir) {
+	static function rmdirr( $dir ) {
 		\OC_Helper::rmdirr( $dir );
 	}
 
@@ -49,9 +49,10 @@ class Files {
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
-	static function getMimeType($path){
+	static function getMimeType( $path ){
 		return(\OC_Helper::getMimeType( $path ));
 	}
+
 
 	/**
 	 * copy the contents of one stream to another
@@ -59,8 +60,8 @@ class Files {
 	 * @param resource target
 	 * @return int the number of bytes copied
 	 */
-	public static function streamCopy($source,$target){
-		return(\OC_Helper::streamCopy($source,$target));
+	public static function streamCopy( $source, $target ){
+		return(\OC_Helper::streamCopy( $source, $target ));
 	}
 
 
@@ -71,9 +72,10 @@ class Files {
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
-	public static function tmpFile($postfix=''){
-		return(\OC_Helper::tmpFile($postfix));
+	public static function tmpFile( $postfix='' ){
+		return(\OC_Helper::tmpFile( $postfix ));
 	}
+
 
 	/**
 	 * create a temporary folder with an unique filename
@@ -85,6 +87,7 @@ class Files {
 		return(\OC_Helper::tmpFolder());
 	}
 
+
 	/**
 	 * Adds a suffix to the name in case the file exists
 	 *
@@ -92,19 +95,9 @@ class Files {
 	 * @param $filename
 	 * @return string
 	 */
-	public static function buildNotExistingFileName($path, $filename){
-		return(\OC_Helper::buildNotExistingFileName($path, $filename));
+	public static function buildNotExistingFileName( $path, $filename ){
+		return(\OC_Helper::buildNotExistingFileName( $path, $filename ));
 	}
-
-
-
-
-
-
-
-
-
-
 
 
 

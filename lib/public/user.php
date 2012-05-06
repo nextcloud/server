@@ -63,14 +63,16 @@ class User {
 		return \OC_USER::isLoggedIn();
 	}
 
+
 	/**
 	 * @brief check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
 	 */
-	public static function userExists($uid){
-		return \OC_USER::userExists($uid);
+	public static function userExists( $uid ){
+		return \OC_USER::userExists( $uid );
 	}
+
 
 	/**
 	 * @brief Loggs the user out including all the session data
@@ -82,6 +84,7 @@ class User {
 		return \OC_USER::logout();
 	}
 
+
 	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username
@@ -91,8 +94,9 @@ class User {
 	 * Check if the password is correct without logging in the user
 	 */
 	public static function checkPassword( $uid, $password ){
-		return \OC_USER::checkPassword($uid, $password);
+		return \OC_USER::checkPassword( $uid, $password );
 	}
+
 
         /**
         * Check if the user is a admin, redirects to home if not
@@ -101,6 +105,7 @@ class User {
                 \OC_Util::checkAdminUser();
         }
 
+
         /**
         * Check if the user is logged in, redirects to home if not. With
         * redirect URL parameter to the request URI.
@@ -108,6 +113,7 @@ class User {
         public static function checkLoggedIn(){
                 \OC_Util::checkLoggedIn();
         }
+
 
 
 }
