@@ -69,6 +69,12 @@ $modules[] =array(
 	'message'=> $l->t('The php-ctype module is needed validate data.'));
 
 $modules[] =array(
+	'status' => class_exists('DOMDocument') ? 'ok' : 'error',
+	'part'=> 'php-xml',
+	'modules'=> array('core'),
+	'message'=> $l->t('The php-xml module is needed to share files with webdav.'));
+
+$modules[] =array(
 	'status' => ini_get('allow_url_fopen') == '1' ? 'ok' : 'error',
 	'part'=> 'allow_url_fopen',
 	'modules'=> array('core'),
