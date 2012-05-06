@@ -35,7 +35,7 @@ OC.Share={
 					callback(result.data);
 				}
 			} else {
-				OC.dialogs.alert('Error', 'Error while sharing');
+				OC.dialogs.alert(result.data.message, 'Error while sharing');
 			}
 		});
 	},
