@@ -168,14 +168,14 @@ Contacts={
 			honsuf:'',
 			data:undefined,
 			update:function(id) {
-				// Make sure proper DOM is loaded.
 				var newid;
 				if(id == undefined) {
 					newid = $('#contacts li:first-child').data('id');
 				} else {
 					newid = id;
 				}
-				if(!$('n')) {
+				// Make sure proper DOM is loaded.
+				if(!$('#card')) {
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#rightcontent').html(jsondata.data.page);
@@ -185,8 +185,6 @@ Contacts={
 					});
 				}
 				if($('#contacts li').length > 0) {
-					//var newid = $('#contacts li:first-child').data('id');
-					//$('#contacts li:first-child').addClass('active');
 					$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
 					$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 						if(jsondata.status == 'success'){
@@ -210,8 +208,6 @@ Contacts={
 			},
 			doExport:function() {
 				document.location.href = OC.linkTo('contacts', 'export.php') + '?contactid=' + this.id;
-				//$.get(OC.linkTo('contacts', 'export.php'),{'contactid':this.id},function(jsondata){
-				//});
 			},
 			doImport:function(){
 				Contacts.UI.notImplemented();
@@ -249,7 +245,7 @@ Contacts={
 								if(!added) {
 									$('#leftcontent ul').append(item);
 								}
-								if(isnew) {
+								if(isnew) { // add some default properties
 									Contacts.UI.Card.addProperty('EMAIL');
 									Contacts.UI.Card.addProperty('TEL');
 									Contacts.UI.Card.addProperty('NICKNAME');
@@ -261,7 +257,6 @@ Contacts={
 							}
 							else{
 								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-								//alert(jsondata.data.message);
 							}
 						});
 						$('#contact_identity').show();
@@ -291,11 +286,10 @@ Contacts={
 									newid = newlistitem.data('id');
 								}
 								$('#rightcontent').data('id',newid);
-								//$('#rightcontent').empty();
 								this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
 								this.data = undefined;
-								// Load first in list.
-								if($('#contacts li').length > 0) {
+								
+								if($('#contacts li').length > 0) { // Load first in list.
 									Contacts.UI.Card.update(newid);
 								} else {
 									// load intro page
@@ -313,7 +307,6 @@ Contacts={
 							}
 							else{
 								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-								//alert(jsondata.data.message);
 							}
 						});
 					}
@@ -321,7 +314,6 @@ Contacts={
 				return false;
 			},
 			loadContact:function(jsondata){
-				//$('#contact_communication').hide();
 				this.data = jsondata;
 				this.id = this.data.id;
 				$('#rightcontent').data('id',this.id);
@@ -508,7 +500,6 @@ Contacts={
 				}
 			},
 			saveProperty:function(obj){
-				// I couldn't get the selector to filter on 'contacts_property' so I filter by hand here :-/
 				if(!$(obj).hasClass('contacts_property')) {
 					return false;
 				}
@@ -569,7 +560,6 @@ Contacts={
 				}
 			},
 			addProperty:function(type){
-				//console.log('addProperty:' + type);
 				switch (type) {
 					case 'PHOTO':
 						this.loadPhoto(true);
@@ -617,7 +607,6 @@ Contacts={
 			deleteProperty:function(obj, type){
 				Contacts.UI.loading(obj, true);
 				var checksum = Contacts.UI.checksumFor(obj);
-				//console.log('deleteProperty, id: ' + this.id + ', checksum: ' + checksum);
 				if(checksum) {
 					$.getJSON(OC.filePath('contacts', 'ajax', 'deleteproperty.php'),{'id': this.id, 'checksum': checksum },function(jsondata){
 						if(jsondata.status == 'success'){
@@ -822,16 +811,13 @@ Contacts={
 										if(isnew) {
 											container.remove();
 										}
-										//Contacts.UI.showHideContactInfo();
 									}
 								},
 								close : function(event, ui) {
-									//alert('close');
 									$(this).dialog('destroy').remove();
 									if(isnew) {
 										container.remove();
 									}
-									//Contacts.UI.showHideContactInfo();
 								},
 								open : function(event, ui) {
 									$( "#adr_city" ).autocomplete({
@@ -848,9 +834,6 @@ Contacts={
 												},
 												success: function( data ) {
 													response( $.map( data.geonames, function( item ) {
-														/*for(var key in item) {
-															console.log(key + ': ' + item[key]);
-														}*/
 														return {
 															label: item.name + (item.adminName1 ? ", " + item.adminName1 : "") + ", " + item.countryName,
 															value: item.name,
@@ -865,9 +848,6 @@ Contacts={
 											if(ui.item && $('#adr_country').val().trim().length == 0) {
 												$('#adr_country').val(ui.item.country);
 											}
-											/*log( ui.item ?
-												"Selected: " + ui.item.label :
-												"Nothing selected, input was " + this.value);*/
 										},
 										open: function() {
 											$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
@@ -892,9 +872,6 @@ Contacts={
 												},
 												success: function( data ) {
 													response( $.map( data.geonames, function( item ) {
-														//for(var key in item) {
-														//	console.log(key + ': ' + item[key]);
-														//}
 														return {
 															label: item.name,
 															value: item.name
@@ -1245,12 +1222,9 @@ Contacts={
 					  function(jsondata) {
 						if (jsondata.status == 'success'){
 							$(obj).closest('tr').remove();
-							//$('#chooseaddressbook_dialog').dialog('destroy').remove();
 							Contacts.UI.Contacts.update();
-							//Contacts.UI.Addressbooks.overview();
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-							//alert('Error: ' + data.message);
 						}
 					  });
 				}
@@ -1480,7 +1454,6 @@ $(document).ready(function(){
 			}
 			else{
 				OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-				//alert(jsondata.data.message);
 			}
 		});
 		return false;
@@ -1507,9 +1480,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	// NOTE: For some reason the selector doesn't work when I select by '.contacts_property' too...
-	// I do the filtering in the event handler instead.
-	//$('input[type="text"],input[type="checkbox"],input[type="email"],input[type="tel"],input[type="date"], select').live('change', function(){
 	$('.contacts_property').live('change', function(){
 		Contacts.UI.Card.saveProperty(this);
 	});
@@ -1523,7 +1493,7 @@ $(document).ready(function(){
 	});
 	
 	// Name has changed. Update it and reorder.
-	$('#fn').live('change',function(){
+	$('#fn').change(function(){
 		var name = $('#fn').val();
 		var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]').clone();
 		$('#contacts [data-id="'+Contacts.UI.Card.id+'"]').remove();
@@ -1541,9 +1511,7 @@ $(document).ready(function(){
 		}
 	});
 
-	/**
-	 * Profile picture upload handling
-	 */
+	// Profile picture upload handling
 	// New profile picture selected
 	$('#file_upload_start').change(function(){
 		Contacts.UI.Card.uploadPhoto(this.files);
@@ -1594,30 +1562,22 @@ $(document).ready(function(){
 						OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
 					}
 				} else {
-					//alert(xhr.responseText);
 					OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 				}
-				// stop loading indicator
-				//$('#contacts_details_photo_progress').hide();
 			}
 		};
 	
 		fileUpload.onprogress = function(e){
 			if (e.lengthComputable){
 				var _progress = Math.round((e.loaded * 100) / e.total);
-				if (_progress != 100){
-					//$('#contacts_details_photo_progress').text(_progress + '%');
-					//$('#contacts_details_photo_progress').val(_progress);
-				}
+				//if (_progress != 100){
+				//}
 			}
 		};
-		// Start loading indicator.
-		//$('#contacts_details_photo_progress').show()();
 		xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&imagefile='+encodeURIComponent(file.name), true);
 		xhr.setRequestHeader('Cache-Control', 'no-cache');
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 		xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
-		//xhr.setRequestHeader("X_FILENAME", file.name);
 		xhr.setRequestHeader('X-File-Size', file.size);
 		xhr.setRequestHeader('Content-Type', file.type);
 		xhr.send(file);
