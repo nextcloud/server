@@ -158,10 +158,11 @@ $(document).ready(function(){
 		event.preventDefault();
 		var username=$('#newusername').val();
 		if($('#content table tbody tr').filterAttr('data-uid',username).length>0){
+			OC.dialogs.alert('The username is already being used', 'Error creating user');
 			return;
 		}
 		if($.trim(username) == '') {
-			alert('Please provide a username!');
+			OC.dialogs.alert('A valid username must be provided', 'Error creating user');
 			return false;
 		}
 		var password=$('#newuserpassword').val();
@@ -177,6 +178,7 @@ $(document).ready(function(){
 			function(result){
 				if(result.status!='success'){
 					tr.remove();
+					OC.dialogs.alert(result.data.message, 'Error creating user');
 				}
 			}
 		);

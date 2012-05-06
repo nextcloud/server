@@ -23,7 +23,8 @@ if( in_array( $username, OC_User::getUsers())){
 }
 
 // Return Success story
-if( OC_User::createUser( $username, $password )){
+try {
+	OC_User::createUser($username, $password);
 	foreach( $groups as $i ){
 		if(!OC_Group::groupExists($i)){
 			OC_Group::createGroup($i);
@@ -31,9 +32,8 @@ if( OC_User::createUser( $username, $password )){
 		OC_Group::addToGroup( $username, $i );
 	}
 	OC_JSON::success(array("data" => array( "username" => $username, "groups" => implode( ", ", OC_Group::getUserGroups( $username )))));
-}
-else{
-	OC_JSON::error(array("data" => array( "message" => "Unable to add user" )));
+} catch (Exception $exception) {
+	OC_JSON::error(array("data" => array( "message" => $exception->getMessage())));
 }
 
 ?>
