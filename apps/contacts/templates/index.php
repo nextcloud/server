@@ -3,9 +3,11 @@
 	var categories = <?php echo json_encode($_['categories']); ?>;
 	var lang = '<?php echo OCP\Config::getUserValue(OCP\USER::getUser(), 'core', 'lang', 'en'); ?>';
 </script>
-<ul id="leftcontent" class="leftcontent">
+<div id="leftcontent" class="leftcontent">
+	<ul id="contacts">
 		<?php echo $this->inc("part.contacts"); ?>
-</ul>
+	</ul>
+</div>
 	<div id="bottomcontrols">
 		<form>
 			<button class="svg" id="contacts_newcontact" title="<?php echo $l->t('Add Contact'); ?>"><img class="svg" src="<?php echo OCP\Util::linkTo('contacts', 'img/contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>"   /></button>

@@ -171,7 +171,7 @@ Contacts={
 				// Make sure proper DOM is loaded.
 				var newid;
 				if(id == undefined) {
-					newid = $('#leftcontent li:first-child').data('id');
+					newid = $('#contacts li:first-child').data('id');
 				} else {
 					newid = id;
 				}
@@ -184,9 +184,9 @@ Contacts={
 						}
 					});
 				}
-				if($('#leftcontent li').length > 0) {
-					//var newid = $('#leftcontent li:first-child').data('id');
-					//$('#leftcontent li:first-child').addClass('active');
+				if($('#contacts li').length > 0) {
+					//var newid = $('#contacts li:first-child').data('id');
+					//$('#contacts li:first-child').addClass('active');
 					$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
 					$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 						if(jsondata.status == 'success'){
@@ -195,7 +195,7 @@ Contacts={
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
-				} else if($('#leftcontent li').length == 0) {
+				} else if($('#contacts li').length == 0) {
 					// load intro page
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
 						if(jsondata.status == 'success'){
@@ -295,7 +295,7 @@ Contacts={
 								this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
 								this.data = undefined;
 								// Load first in list.
-								if($('#leftcontent li').length > 0) {
+								if($('#contacts li').length > 0) {
 									Contacts.UI.Card.update(newid);
 								} else {
 									// load intro page
@@ -1412,7 +1412,7 @@ Contacts={
 			update:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
-						$('#leftcontent').html(jsondata.data.page);
+						$('#contacts').html(jsondata.data.page);
 						Contacts.UI.Card.update();
 					}
 					else{
@@ -1423,14 +1423,14 @@ Contacts={
 			},
 			// Add thumbnails to the contact list as they become visible in the viewport.
 			lazyupdate:function(){
-				$('#leftcontent li').live('inview', function(){
+				$('#contacts li').live('inview', function(){
 					if (!$(this).find('a').attr('style')) {
 						$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
 					}
 				});
 			},
 			refreshThumbnail:function(id){
-				$('#leftcontent [data-id="'+id+'"]').find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+id+'&refresh=1'+Math.random()+') no-repeat');
+				$('#contacts [data-id="'+id+'"]').find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+id+'&refresh=1'+Math.random()+') no-repeat');
 			}
 		}
 	}
@@ -1486,7 +1486,7 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('#leftcontent li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+	$('#contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 		if (isInView) { //NOTE: I've kept all conditions for future reference ;-)
 			// element is now visible in the viewport
 			if (visiblePartY == 'top') {
@@ -1525,11 +1525,11 @@ $(document).ready(function(){
 	// Name has changed. Update it and reorder.
 	$('#fn').live('change',function(){
 		var name = $('#fn').val();
-		var item = $('#leftcontent [data-id="'+Contacts.UI.Card.id+'"]').clone();
-		$('#leftcontent [data-id="'+Contacts.UI.Card.id+'"]').remove();
+		var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]').clone();
+		$('#contacts [data-id="'+Contacts.UI.Card.id+'"]').remove();
 		$(item).find('a').html(name);
 		var added = false;
-		$('#leftcontent li').each(function(){
+		$('#contacts li').each(function(){
 			if ($(this).text().toLowerCase() > name.toLowerCase()) {
 				$(this).before(item).fadeIn('fast');
 				added = true;
