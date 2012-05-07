@@ -377,8 +377,10 @@ class OC_Share {
 		$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with));
 		$query->execute(array(strlen($source), $source, OCP\USER::getUser()));
 		// Update mtime of shared folder to invoke a file cache rescan
-		$sharedFolder = '/'.$uid_shared_with.'/files/Shared';
-		OC_Filesystem::getStorage($sharedFolder)->touch($sharedFolder);
+		if ($uid_shared_with != self::PUBLICLINK) {
+			$sharedFolder = '/'.$uid_shared_with.'/files/Shared';
+			OC_Filesystem::getStorage($sharedFolder)->touch($sharedFolder);
+		}
 	}
 
 	/**
