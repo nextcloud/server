@@ -5,10 +5,6 @@
  * later.
  * See the COPYING-README file.
  */
-// Do not load FS ...
-$RUNTIME_NOSETUPFS = true;
-require_once('../lib/base.php');
-
 OCP\App::checkAppEnabled('calendar');
 
 // Backends
@@ -24,7 +20,7 @@ $nodes = array(
 
 // Fire up server
 $server = new Sabre_DAV_Server($nodes);
-$server->setBaseUri(OC::$WEBROOT.'/remote/caldav.php');
+$server->setBaseUri($baseuri);
 // Add plugins
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
 $server->addPlugin(new Sabre_CalDAV_Plugin());
