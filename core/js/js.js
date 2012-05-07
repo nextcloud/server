@@ -70,11 +70,13 @@ OC={
 			link+=file;
 		}else{
 			link+='/';
-			app+='/';
 			if(!isCore){
 				link+='apps/';
 			}
-			link+=app;
+			if (app != '') {
+				app+='/';
+				link+=app;
+			}
 			if(type){
 				link+=type+'/';
 			}
