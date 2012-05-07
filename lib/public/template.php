@@ -46,10 +46,9 @@ function image_path( $app, $image ){
 
 /**
  * @brief make OC_Helper::mimetypeIcon available as a simple function
+ * Returns the path to the image of this file type.
  * @param $mimetype mimetype
  * @returns link to the image
- *
- * For further information have a look at OC_Helper::mimetypeIcon
  */
 function mimetype_icon( $mimetype ){
 	return(\mimetype_icon( $mimetype ));
@@ -58,10 +57,9 @@ function mimetype_icon( $mimetype ){
 
 /**
  * @brief make OC_Helper::humanFileSize available as a simple function
+ * Makes 2048 to 2 kB.
  * @param $bytes size in bytes
  * @returns size as string
- *
- * For further information have a look at OC_Helper::humanFileSize
  */
 function human_file_size( $bytes ){
 	return(\human_file_size( $bytes ));
@@ -69,7 +67,9 @@ function human_file_size( $bytes ){
 
 
 /**
- * TODO
+ * @brief Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
+ * @param $timestamp unix timestamp
+ * @returns human readable interpretation of the timestamp
  */
 function relative_modified_date($timestamp) {
 	return(\relative_modified_date($timestamp));
@@ -77,7 +77,9 @@ function relative_modified_date($timestamp) {
 
 
 /**
- * TODO
+ * @brief Return a human readable outout for a file size.
+ * @param $byte size of a file in byte
+ * @returns human readable interpretation of a file size
  */
 function simple_file_size($bytes) {
 	return(\simple_file_size($bytes));
@@ -85,13 +87,20 @@ function simple_file_size($bytes) {
 
 
 /**
- * TODO
+ * @brief Generate html code for an options block.
+ * @param $options the options 
+ * @param $selected which one is selected? 
+ * @param $params the parameters 
+ * @returns html options
  */
 function html_select_options($options, $selected, $params=array()) {
 	return(\html_select_options($options, $selected, $params=array())); 
 }
 
 
+/**
+ * This class provides the templates for owncloud.
+ */
 class Template extends \OC_Template {
 
 }
