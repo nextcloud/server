@@ -19,7 +19,7 @@ while ($path != $userDirectory) {
 					$item['privateLink'] = $token;
 				} else {
 					// If in parent folder, include a path parameter to get direct access to file
-					$item['privateLink'] = $token.'&path='.substr($source, strlen($path));
+					$item['privateLink'] = $token.'&path='.str_replace('%2F', '/', str_replace('+', '%20', urlencode(substr($source, strlen($path)))));;
 				}
 			} else {
 				// Check if uid_shared_with is a group
