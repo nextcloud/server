@@ -221,12 +221,18 @@ class OC_Setup {
 				OC_DB::createDbFromStructure('db_structure.xml');
 			}
 
+			//create the user and group
+			try {
+				OC_User::createUser($username, $password);
+			}
+			catch(Exception $exception) {
+				$error[] = $exception->getMessage();
+			}
+
 			if(count($error) == 0) {
 				OC_Appconfig::setValue('core', 'installedat',microtime(true));
 				OC_Appconfig::setValue('core', 'lastupdatedat',microtime(true));
 
-				//create the user and group
-				OC_User::createUser($username, $password);
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');
 				OC_User::login($username, $password);
