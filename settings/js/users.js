@@ -167,32 +167,7 @@ $(document).ready(function(){
 		}
 		var password=$('#newuserpassword').val();
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
-		var tr=$('#content table tbody tr').first().clone();
-		tr.attr('data-uid',username);
-		tr.find('td.name').text(username);
-		var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');
-		select.data('username',username);
-		select.data('userGroups',groups.join(', '));
-		tr.find('td.groups').empty();
-		var allGroups=$('#content table').data('groups').split(', ');
-		for(var i=0;i<groups.length;i++){
-			if(allGroups.indexOf(groups[i])==-1){
-				allGroups.push(groups[i]);
-			}
-		}
-		$.each(allGroups,function(i,group){
-			select.append($('<option value="'+group+'">'+group+'</option>'));
-		});
-		tr.find('td.groups').append(select);
-		if(tr.find('td.remove img').length==0){
-			tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
-		}
-		applyMultiplySelect(select);
-		$('#content table tbody').last().append(tr);
-		
-		tr.find('select.quota option').attr('selected',null);
-		tr.find('select.quota option').first().attr('selected','selected');
-		tr.find('select.quota').data('previous','default');
+		$('#newuser').get(0).reset();
 		$.post(
 			OC.filePath('settings','ajax','createuser.php'),
 			{
@@ -202,8 +177,35 @@ $(document).ready(function(){
 			},
 			function(result){
 				if(result.status!='success'){
-					tr.remove();
 					OC.dialogs.alert(result.data.message, 'Error creating user');
+				}
+				else {
+					var tr=$('#content table tbody tr').first().clone();
+					tr.attr('data-uid',username);
+					tr.find('td.name').text(username);
+					var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');
+					select.data('username',username);
+					select.data('userGroups',groups.join(', '));
+					tr.find('td.groups').empty();
+					var allGroups=$('#content table').data('groups').split(', ');
+					for(var i=0;i<groups.length;i++){
+						if(allGroups.indexOf(groups[i])==-1){
+							allGroups.push(groups[i]);
+						}
+					}
+					$.each(allGroups,function(i,group){
+						select.append($('<option value="'+group+'">'+group+'</option>'));
+					});
+					tr.find('td.groups').append(select);
+					if(tr.find('td.remove img').length==0){
+						tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
+					}
+					applyMultiplySelect(select);
+					$('#content table tbody').last().append(tr);
+
+					tr.find('select.quota option').attr('selected',null);
+					tr.find('select.quota option').first().attr('selected','selected');
+					tr.find('select.quota').data('previous','default');
 				}
 			}
 		);
