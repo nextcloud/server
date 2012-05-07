@@ -576,14 +576,12 @@ class OC_Helper {
 				return true;
 			}
 		}
-		/*
-		echo 'SUB: ' . $sub . "\n";
+		/*echo 'SUB: ' . $sub . "\n";
 		echo 'PAR: ' . $parent . "\n";
 		echo 'REALSUB: ' . $realpath_sub . "\n";
 		echo 'REALPAR: ' . $realpath_parent . "\n";
 		echo substr($realpath_sub, 0, strlen($realpath_parent));
-		exit;
-		*/
+		exit;*/
 		return false;
 	}
 }
