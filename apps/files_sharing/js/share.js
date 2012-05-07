@@ -35,7 +35,7 @@ OC.Share={
 					callback(result.data);
 				}
 			} else {
-				OC.dialogs.alert('Error', 'Error while sharing');
+				OC.dialogs.alert(result.data.message, 'Error while sharing');
 			}
 		});
 	},
@@ -177,9 +177,9 @@ OC.Share={
 	},
 	showPrivateLink:function(item, token) {
 		$('#privateLinkCheckbox').attr('checked', true);
-		var link = parent.location.protocol+'//'+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token;
+		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&token='+token;
 		if (token.indexOf('&path=') == -1) {
-			link += '&file=' + item;
+			link += '&file=' + encodeURIComponent(item);
 		} else {
 			// Disable checkbox if inside a shared parent folder
 			$('#privateLinkCheckbox').attr('disabled', 'true');
@@ -210,9 +210,9 @@ OC.Share={
 }
 
 $(document).ready(function() {
-	OC.Share.loadIcons();
 
 	if (typeof FileActions !== 'undefined') {
+		OC.Share.loadIcons();
 		FileActions.register('all', 'Share', function(filename) {
 			// Return the correct sharing icon
 			if (scanFiles.scanning) { return; } // workaround to prevent additional http request block scanning feedback

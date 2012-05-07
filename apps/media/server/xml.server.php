@@ -21,8 +21,6 @@
 * 
 */
 
-require_once('../../inc.php');
-
 OCP\App::checkAppEnabled('media');
  require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
  require_once(OC::$APPSROOT . '/apps/media/lib_ampache.php');

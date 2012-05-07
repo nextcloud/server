@@ -22,12 +22,12 @@ foreach ($sources as $source) {
 				OCP\JSON::success();
 			}
 		} catch (Exception $exception) {
-			OCP\Util::writeLog('files_sharing', 'Unexpected Error : '.$exception->getMessage(),OCP\Util::ERROR);
-			OCP\JSON::error();
+			OCP\Util::writeLog('files_sharing', 'Unexpected Error : '.$exception->getMessage(), OCP\Util::ERROR);
+			OCP\JSON::error(array('data' => array('message' => $exception->getMessage())));
 		}
 	} else {
-		OCP\Util::writeLog('files_sharing', 'File does not exist or is not readable :'.$source,OCP\Util::ERROR);
-		OCP\JSON::error();
+		OCP\Util::writeLog('files_sharing', 'File does not exist or is not readable :'.$source, OCP\Util::ERROR);
+		OCP\JSON::error(array('data' => array('message' => 'File does not exist or is not readable')));
 	}
 }
 

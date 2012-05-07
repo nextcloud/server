@@ -130,6 +130,18 @@ class Util {
 	}
 
 
+	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param $service id
+	 * @returns the url
+	 *
+	 * Returns a absolute url to the given app and file.
+	 */
+	public static function linkToRemote( $service ) {
+		return(\OC_Helper::linkToRemote( $service ));
+	}
+
+
         /**
          * @brief Creates an url
          * @param $app app
@@ -150,7 +162,7 @@ class Util {
 	 * reverse proxies
 	 */
 	public static function getServerHost() {
-		return(\OC_Helper::severHost());
+		return(\OC_Helper::serverHost());
 	}
 
 	/**

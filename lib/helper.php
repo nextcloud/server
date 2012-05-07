@@ -41,15 +41,15 @@ class OC_Helper {
 			$app .= '/';
 			// Check if the app is in the app folder
 			if( file_exists( OC::$APPSROOT . '/apps/'. $app.$file )){
-				if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){	
+				//if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){	
 					if(substr($app, -1, 1) == '/'){
 						$app = substr($app, 0, strlen($app) - 1);
 					}
 					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
 					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
-				}else{
-					$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
-				}
+				//}else{
+				//	$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
+				//}
 			}
 			else{
 				$urlLinkTo =  OC::$WEBROOT . '/' . $app . $file;
@@ -103,6 +103,17 @@ class OC_Helper {
 		$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
 		$urlLinkTo = ($protocol?'https':'http') . '://'  . self::serverHost() . $urlLinkTo;
 		return $urlLinkTo;
+	}
+
+	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param $service id
+	 * @returns the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	public static function linkToRemote( $service ) {
+		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . '/';
 	}
 
 	/**
@@ -576,14 +587,12 @@ class OC_Helper {
 				return true;
 			}
 		}
-		/*
-		echo 'SUB: ' . $sub . "\n";
+		/*echo 'SUB: ' . $sub . "\n";
 		echo 'PAR: ' . $parent . "\n";
 		echo 'REALSUB: ' . $realpath_sub . "\n";
 		echo 'REALPAR: ' . $realpath_parent . "\n";
 		echo substr($realpath_sub, 0, strlen($realpath_parent));
-		exit;
-		*/
+		exit;*/
 		return false;
 	}
 }

@@ -443,8 +443,8 @@ class OC{
 			$_GET['getfile'] = $file;
 		}
 		if(!is_null(self::$REQUESTEDFILE)){
-			$subdir = OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
-			$parent = OC::$APPSROOT . '/' . self::$REQUESTEDAPP;
+			$subdir = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
+			$parent = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP;
 			if(!OC_Helper::issubdirectory($subdir, $parent)){
 				self::$REQUESTEDFILE = null;
 				header('HTTP/1.0 404 Not Found');

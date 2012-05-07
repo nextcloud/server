@@ -23,6 +23,5 @@ OCP\App::addNavigationEntry( array(
   'name' => $l->t('Calendar')));
 OCP\App::registerPersonal('calendar', 'settings');
 OC_Search::registerProvider('OC_Search_Provider_Calendar');
-if(!file_exists(OC::$SERVERROOT.'/remote/caldav.php')){
-	file_put_contents(OC::$SERVERROOT.'/remote/caldav.php', file_get_contents(OC::$APPSROOT . '/apps/calendar/appinfo/remote.php'));
-}
+OCP\CONFIG::setAppValue('core', 'remote_caldav', '/apps/calendar/appinfo/remote.php');
+OCP\CONFIG::setAppValue('core', 'public_calendar', '/apps/calendar/share.php');

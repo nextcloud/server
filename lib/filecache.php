@@ -655,7 +655,7 @@ class OC_FileCache{
 		}else{
 			$view=new OC_FilesystemView(($root=='/')?'':$root);
 		}
-		$dh=$view->opendir($path);
+		$dh=$view->opendir($path.'/');
 		if($dh){//check for changed/new files
 			while (($filename = readdir($dh)) !== false) {
 				if($filename != '.' and $filename != '..'){

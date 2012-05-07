@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $.getJSON('ajax/sharing.php', {operation: 'get_gallery', token: TOKEN}, albumClickHandler);
+  $.getJSON(OC.filePath('gallery', 'ajax', 'sharing.php'), {operation: 'get_gallery', token: TOKEN}, albumClickHandler);
 });
 
 var paths = [];
@@ -13,7 +13,7 @@ function returnTo(num) {
   }
   path = '';
   for (var e in paths) path += '/' + paths[e];
-  $.getJSON('ajax/sharing.php', {operation: 'get_gallery', token: TOKEN, path: path}, function(r) {
+  $.getJSON(OC.filePath('gallery', 'ajax', 'sharing.php'), {operation: 'get_gallery', token: TOKEN, path: path}, function(r) {
     albumClickHandler(r);
   });
 }
@@ -21,7 +21,7 @@ function returnTo(num) {
 function albumClickHandler(r) {
   var element = $('div#gallery_list');
   element.html('');
-  var album_template = '<div class="gallery_box"><div><a rel="images"><img src="ajax/sharing.php?token='+TOKEN+'&operation=get_album_thumbnail&albumname=IMGPATH"></a></div><h1></h1></div>';
+  var album_template = '<div class="gallery_box"><div><a rel="images"><img src="' + OC.filePath('gallery', 'ajax', 'sharing.php') + '?token='+TOKEN+'&operation=get_album_thumbnail&albumname=IMGPATH"></a></div><h1></h1></div>';
 
   for (var i in r.albums) {
     var a = r.albums[i];
@@ -36,7 +36,7 @@ function albumClickHandler(r) {
       paths.push($(this).attr('title'));
       path = '';
       for (var e in paths) path += '/' + paths[e];
-      $.getJSON('ajax/sharing.php', {operation: 'get_gallery', token: TOKEN, path: path}, function(r) {
+      $.getJSON(OC.filePath('gallery', 'ajax', 'sharing.php'), {operation: 'get_gallery', token: TOKEN, path: path}, function(r) {
         var name = paths[paths.length-1];
         counter++;
         var d = '<span class="breadcrumbelement" onclick="javascript:returnTo('+counter+');return false;">'+name+'</span>';
@@ -49,9 +49,9 @@ function albumClickHandler(r) {
 
   var pat = '';
   for (var a in paths) pat += '/'+paths[a];
-  var photo_template = '<div class="gallery_box"><div><a rel="images" href="*HREF*" target="_blank"><img src="ajax/sharing.php?token='+TOKEN+'&operation=get_thumbnail&img=IMGPATH"></a></div></div>';
+  var photo_template = '<div class="gallery_box"><div><a rel="images" href="*HREF*" target="_blank"><img src="' + OC.filePath('gallery', 'ajax', 'sharing.php') + '?token='+TOKEN+'&operation=get_thumbnail&img=IMGPATH"></a></div></div>';
   for (var a in r.photos) {
-    var local = photo_template.replace('IMGPATH', encodeURIComponent(r.photos[a])).replace('*HREF*', 'ajax/sharing.php?token='+TOKEN+'&operation=get_photo&photo='+encodeURIComponent(r.photos[a]));
+    var local = photo_template.replace('IMGPATH', encodeURIComponent(r.photos[a])).replace('*HREF*', OC.filePath('gallery', 'ajax', 'sharing.php') + '?token='+TOKEN+'&operation=get_photo&photo='+encodeURIComponent(r.photos[a]));
     element.append(local);
   }
 }

@@ -33,7 +33,7 @@ OC={
 	webroot:oc_webroot,
 	appswebroot:oc_appswebroot,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
-	coreApps:['admin','log','search','settings','core','3rdparty'],
+	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
 	 * @param app the id of the app the file belongs to
@@ -70,11 +70,13 @@ OC={
 			link+=file;
 		}else{
 			link+='/';
-			app+='/';
 			if(!isCore){
 				link+='apps/';
 			}
-			link+=app;
+			if (app != '') {
+				app+='/';
+				link+=app;
+			}
 			if(type){
 				link+=type+'/';
 			}
@@ -160,7 +162,7 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
-if(typeof localStorage !='undefined'){
+if(typeof localStorage !='undefined' && localStorage != null){
 	//user and instance awere localstorage
 	OC.localStorage={
 		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',

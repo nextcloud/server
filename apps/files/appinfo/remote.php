@@ -22,12 +22,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-// Do not load FS ...
-$RUNTIME_NOSETUPFS = true;
 // only need filesystem apps
 $RUNTIME_APPTYPES=array('filesystem','authentication');
-require_once('../lib/base.php');
 
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();
@@ -38,7 +34,7 @@ $publicDir = new OC_Connector_Sabre_Directory('');
 
 // Fire up server
 $server = new Sabre_DAV_Server($publicDir);
-$server->setBaseUri(OC::$WEBROOT.'/remote/webdav.php');
+$server->setBaseUri($baseuri);
 
 // Load plugins
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
