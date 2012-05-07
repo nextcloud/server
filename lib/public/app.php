@@ -32,16 +32,6 @@ namespace OCP;
 
 class App {
 
-
-	/**
-	 * @brief get the user id of the user currently logged in.
-	 * @return string uid or false
-	 */
-	public static function getUser(){
-		return \OC_USER::getUser();
-	}
-
-
         /**
          * @brief makes owncloud aware of this app
          * @param $data array with all information
@@ -63,14 +53,6 @@ class App {
         }
 
 
-	/**
-	 * register an admin form to be shown
-	 */
-	public static function registerAdmin($app,$page){
-		return \OC_App::registerAdmin($app,$page);
-	}
-
-
         /**
          * @brief adds an entry to the navigation
          * @param $data array containing the data
@@ -89,26 +71,7 @@ class App {
          *     the navigation. Lower values come first.
          */
         public static function addNavigationEntry( $data ){
-		return \OC_App::addNavigationEntry($data);
-	}
-
-
-        /**
-         * @brief Read app metadata from the info.xml file
-         * @param string $appid id of the app or the path of the info.xml file
-         * @param boolean path (optional)
-         * @returns array
-        */
-        public static function getAppInfo($appid,$path=false){
-		return \OC_App::getAppInfo($appid,$path);
-	}
-
-
-        /**
-         * register a personal form to be shown
-         */
-        public static function registerPersonal($app,$page){
-		return \OC_App::registerPersonal($app,$page);
+		return \OC_App::addNavigationEntry( $data );
 	}
 
 
@@ -121,9 +84,41 @@ class App {
          * property from all other entries. The templates can use this for
          * highlighting the current position of the user.
          */
-        public static function setActiveNavigationEntry($id){
-		return \OC_App::setActiveNavigationEntry($id);
+        public static function setActiveNavigationEntry( $id ){
+		return \OC_App::setActiveNavigationEntry( $id );
 	}
+
+
+        /**
+         * @brief Register a Configuration Screen that should appear in the personal settings section.
+         * @param $app string appid
+         * @param $page string page to be included
+        */
+        public static function registerPersonal( $app, $page ){
+		return \OC_App::registerPersonal( $app, $page );
+	}
+
+
+	/**
+         * @brief Register a Configuration Screen that should appear in the Admin section.
+         * @param $app string appid
+         * @param $page string page to be included
+	 */
+	public static function registerAdmin( $app, $page ){
+		return \OC_App::registerAdmin( $app, $page );
+	}
+
+
+        /**
+         * @brief Read app metadata from the info.xml file
+         * @param string $app id of the app or the path of the info.xml file
+         * @param boolean path (optional)
+         * @returns array
+        */
+        public static function getAppInfo( $app, $path=false ){
+		return \OC_App::getAppInfo( $app, $path);
+	}
+
 
 
         /**
@@ -139,27 +134,32 @@ class App {
 
 
         /**
-        * Check if the app is enabled, redirects to home if not
+         * @brief Check if the app is enabled, redirects to home if not 
+         * @param $app app
+         * @returns true/false
         */
-        public static function checkAppEnabled($app){
+        public static function checkAppEnabled( $app ){
                 return \OC_Util::checkAppEnabled( $app );
         }
 
 
         /**
-         * get the last version of the app, either from appinfo/version or from appinfo/info.xml
+         * @brief Get the last version of the app, either from appinfo/version or from appinfo/info.xml 
+         * @param $app app
+         * @returns true/false
          */
-        public static function getAppVersion($appid){
-		return \OC_App::getAppVersion( $appid );
+        public static function getAppVersion( $app ){
+		return \OC_App::getAppVersion( $app );
 	}
 
 
         /**
          * @param string appid
+         * @param $app app
          * @return OC_FilesystemView
          */
-        public static function getStorage($appid){
-		return \OC_App::getStorage( $appid );
+        public static function getStorage( $app ){
+		return \OC_App::getStorage( $app );
 	}
 
 

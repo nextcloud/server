@@ -18,7 +18,7 @@ function debug($msg) {
 	OCP\Util::writeLog('contacts','ajax/editname.php: '.$msg, OCP\Util::DEBUG);
 }
 
-$tmpl = new OC_TEMPLATE("contacts", "part.edit_name_dialog");
+$tmpl = new OCP\Template("contacts", "part.edit_name_dialog");
 
 $id = isset($_GET['id'])?$_GET['id']:'';
 debug('id: '.$id);

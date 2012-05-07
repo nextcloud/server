@@ -44,6 +44,7 @@ class DB {
 		return(\OC_DB::prepare($query));
 	}
 
+
 	/**
 	 * @brief gets last value of autoincrement
 	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix
@@ -59,9 +60,8 @@ class DB {
 	}
 
 
-
 	/**
-	 * Start a transaction
+	 * @brief Start a transaction
 	 */
 	public static function beginTransaction(){
 		return(\OC_DB::beginTransaction());
@@ -69,7 +69,7 @@ class DB {
 
 
 	/**
-	 * Commit the database changes done during a transaction that is in progress
+	 * @brief Commit the database changes done during a transaction that is in progress
 	 */
 	public static function commit(){
 		return(\OC_DB::commit());
@@ -77,7 +77,7 @@ class DB {
 
 
 	/**
-	 * check if a result is an error, works with MDB2 and PDOException
+	 * @brief check if a result is an error, works with MDB2 and PDOException
 	 * @param mixed $result
 	 * @return bool
 	 */

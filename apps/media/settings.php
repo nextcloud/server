@@ -1,6 +1,6 @@
 <?php
 
-$tmpl = new OC_Template( 'media', 'settings');
+$tmpl = new OCP\Template( 'media', 'settings');
 
 return $tmpl->fetchPage();
 ?>

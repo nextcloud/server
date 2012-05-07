@@ -25,7 +25,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
 
-$tmpl = new OC_Template('contacts','part.no_contacts');
+$tmpl = new OCP\Template('contacts','part.no_contacts');
 $page = $tmpl->fetchPage();
 
 OCP\JSON::success(array('data' => array( 'page' => $page )));

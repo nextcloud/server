@@ -15,7 +15,7 @@ foreach(isset($adr['parameters']['TYPE'])?array($adr['parameters']['TYPE']):arra
 			</dt>
 			<dd>
 				<select id="adr_type" name="parameters[ADR][TYPE]" size="1">
-					<?php echo html_select_options($_['adr_types'], $types) ?>
+					<?php echo OCP\html_select_options($_['adr_types'], $types) ?>
 				</select>
 			</dd>
 			<dt>

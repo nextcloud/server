@@ -206,9 +206,9 @@ $repeat_byweekno_options = OC_Calendar_App::getByWeekNoOptions();
 $repeat_bymonthday_options = OC_Calendar_App::getByMonthDayOptions();
 
 if($access == 'owner' || $access == 'rw'){
-	$tmpl = new OC_Template('calendar', 'part.editevent');
+	$tmpl = new OCP\Template('calendar', 'part.editevent');
 }elseif($access == 'r'){
-	$tmpl = new OC_Template('calendar', 'part.showevent');
+	$tmpl = new OCP\Template('calendar', 'part.showevent');
 }
 
 $tmpl->assign('eventid', $id);

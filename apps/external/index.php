@@ -35,7 +35,7 @@ if (isset($_GET['id'])) {
 		$url = $sites[$id - 1][1];
 		OCP\App::setActiveNavigationEntry('external_index' . $id);
 
-		$tmpl = new OC_Template('external', 'frame', 'user');
+		$tmpl = new OCP\Template('external', 'frame', 'user');
 		$tmpl->assign('url', $url);
 		$tmpl->printPage();
 	}

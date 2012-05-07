@@ -30,7 +30,7 @@ OCP\JSON::checkAppEnabled('contacts');
 $tmp_path = $_GET['tmp_path'];
 $id = $_GET['id'];
 OCP\Util::writeLog('contacts','ajax/cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
-$tmpl = new OC_TEMPLATE("contacts", "part.cropphoto");
+$tmpl = new OCP\Template("contacts", "part.cropphoto");
 $tmpl->assign('tmp_path', $tmp_path);
 $tmpl->assign('id', $id);
 $page = $tmpl->fetchPage();

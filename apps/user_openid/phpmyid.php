@@ -559,7 +559,7 @@ function logout_mode () {
  */
 function no_mode () {
 	global $USERNAME, $profile;
-	$tmpl = new OC_Template( 'user_openid', 'nomode', 'guest' );
+	$tmpl = new OCP\Template( 'user_openid', 'nomode', 'guest' );
 	if(substr($profile['req_url'],-1,1)!=='/'){//the identity should always end with a /
 		$profile['req_url'].='/';
 	}

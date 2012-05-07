@@ -9,7 +9,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
-$tmpl = new OC_Template('calendar', 'part.import');
+$tmpl = new OCP\Template('calendar', 'part.import');
 $tmpl->assign('path', $_POST['path']);
 $tmpl->assign('filename', $_POST['filename']);
 $tmpl->printpage();

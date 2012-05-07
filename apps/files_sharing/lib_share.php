@@ -69,7 +69,7 @@ class OC_Share {
 			}
 			foreach ($uid_shared_with as $uid) {
 				// Check if this item is already shared with the user
-				$checkSource = OCP\DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with ".self::getUsersAndGroups($uid));
+				$checkSource = OCP\DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with ".self::getUsersAndGroups($uid, false));
 				$resultCheckSource = $checkSource->execute(array($source))->fetchAll();
 				// TODO Check if the source is inside a folder
 				if (count($resultCheckSource) > 0 && !isset($gid)) {
@@ -98,15 +98,8 @@ class OC_Share {
 					$uid = $uid."@".$gid;
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
-				// Add file to filesystem cache
-				$userDirectory = "/".OCP\USER::getUser()."/files";
-				$data = OC_Filecache::get(substr($source, strlen($userDirectory)));
-				$parentQuery = OCP\DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path=?');
-				$parentResult = $parentQuery->execute(array($sharedFolder))->fetchRow();
-				$parent = $parentResult['id'];
-				$is_writeable = $permissions & OC_Share::WRITE;
-				$cacheQuery = OCP\DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart, user, writable) VALUES(?,?,?,?,?,?,?,?,?,?)');
-				$cacheQuery->execute(array($parent, basename($target), $target, $data['size'], $data['mtime'], $data['ctime'], $data['mimetype'], dirname($data['mimetype']), $uid, $is_writeable));
+				// Update mtime of shared folder to invoke a file cache rescan
+				OC_Filesystem::getStorage($sharedFolder)->touch($sharedFolder);
 			}
 		}
 	}
@@ -125,7 +118,7 @@ class OC_Share {
 	* @param $uid (Optional) The uid to get the user groups for, a gid to get the users in a group, or if not set the current user
 	* @return An IN operator as a string
 	*/
-	private static function getUsersAndGroups($uid = null) {
+	private static function getUsersAndGroups($uid = null, $includePrivateLinks = true) {
 		$in = " IN(";
 		if (isset($uid) && OC_Group::groupExists($uid)) {
 			$users = OC_Group::usersInGroup($uid);
@@ -152,7 +145,9 @@ class OC_Share {
 				$in .= ", '".$uid."@".$group."'";
 			}
 		}
-		$in .= ", '".self::PUBLICLINK."'";
+		if ($includePrivateLinks) {
+			$in .= ", '".self::PUBLICLINK."'";
+		}
 		$in .= ")";
 		return $in;
 	}
@@ -381,6 +376,9 @@ class OC_Share {
 		$source = self::cleanPath($source);
 		$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with));
 		$query->execute(array(strlen($source), $source, OCP\USER::getUser()));
+		// Update mtime of shared folder to invoke a file cache rescan
+		$sharedFolder = '/'.$uid_shared_with.'/files/Shared';
+		OC_Filesystem::getStorage($sharedFolder)->touch($sharedFolder);
 	}
 
 	/**

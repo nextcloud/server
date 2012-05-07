@@ -52,6 +52,6 @@ if (isset($_POST['admin_export'])) {
 		
 } else {
 // fill template
-    $tmpl = new OC_Template('admin_migrate', 'settings');
+    $tmpl = new OCP\Template('admin_migrate', 'settings');
     return $tmpl->fetchPage();
 }

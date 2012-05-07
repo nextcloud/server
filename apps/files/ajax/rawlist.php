@@ -17,7 +17,7 @@ $mimetype = isset($_GET['mimetype']) ? $_GET['mimetype'] : '';
 $files = array();
 foreach( OC_Files::getdirectorycontent( $dir, $mimetype ) as $i ){
 	$i["date"] = OCP\Util::formatDate($i["mtime"] );
-  $i['mimetype_icon'] = $i['type'] == 'dir' ? mimetype_icon('dir'): mimetype_icon($i['mimetype']);
+  $i['mimetype_icon'] = $i['type'] == 'dir' ? OCP\mimetype_icon('dir'): OCP\mimetype_icon($i['mimetype']);
 	$files[] = $i;
 }
 

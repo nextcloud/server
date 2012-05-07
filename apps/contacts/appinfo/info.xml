@@ -6,5 +6,6 @@
 	<author>Jakob Sack</author>
 	<require>2</require>
 	<description>Address book with CardDAV support.</description>
+	<standalone/>
 	<default_enable/>
 </info>

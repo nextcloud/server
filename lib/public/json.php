@@ -33,57 +33,62 @@ namespace OCP;
 class JSON {
 
 
-
 	/**
-	* Encode and print $data in JSON format
+	* @brief Encode and print $data in JSON format
+	* @param array $data The data to use
+	* @param string $setContentType the optional content type
 	*/
-	public static function encodedPrint($data,$setContentType=true){
-		return(\OC_JSON::encodedPrint($data,$setContentType));
+	public static function encodedPrint( $data, $setContentType=true ){
+		return(\OC_JSON::encodedPrint( $data, $setContentType ));
 	}
 
+
 	/**
-	* Check if the user is logged in, send json error msg if not
+	* @brief Check if the user is logged in, send json error msg if not
 	*/
 	public static function checkLoggedIn(){
 		return(\OC_JSON::checkLoggedIn());
 	}
 
 
-
 	/**
-	* Send json success msg
+	* @brief Send json success msg
+	* @param array $data The data to use
 	*/
-	public static function success($data = array()){
-		return(\OC_JSON::success($data));
+	public static function success( $data = array() ){
+		return(\OC_JSON::success( $data ));
 	}
 
 
 	/**
-	* Send json error msg
+	* @brief Send json error msg
+	* @param array $data The data to use
 	*/
-	public static function error($data = array()){
-		return(\OC_JSON::error($data));
+	public static function error( $data = array() ){
+		return(\OC_JSON::error( $data ));
 	}
 
 
 	/**
-	 * set Content-Type header to jsonrequest
+	 * @brief set Content-Type header to jsonrequest
+	 * @param array $type The contwnt type header
 	 */
-	public static function setContentTypeHeader($type='application/json'){
-		return(\OC_JSON::setContentTypeHeader($type));
+	public static function setContentTypeHeader( $type='application/json' ){
+		return(\OC_JSON::setContentTypeHeader( $type ));
 	}
 
 
 	/**
-	* Check if the app is enabled, send json error msg if not
-	*/
-	public static function checkAppEnabled($app){
-		return(\OC_JSON::checkAppEnabled($app));
+	 * @brief Check if the App is enabled and send JSON error message instead
+	 * @param string $app The app to check
+	 */
+	public static function checkAppEnabled( $app ){
+		return(\OC_JSON::checkAppEnabled( $app ));
 	}
 
 
 	/**
-	* Check if the user is a admin, send json error msg if not
+	* @brief Check if the user is a admin, send json error msg if not
 	*/
 	public static function checkAdminUser(){
 		return(\OC_JSON::checkAdminUser());

@@ -40,8 +40,8 @@ class Response {
 	*  0 and <0	enable default browser caching
 	*  null		cache indefinitly
 	*/
-	static public function enableCaching($cache_time = null) {
-		return(\OC_Response::enableCaching($cache_time));
+	static public function enableCaching( $cache_time = null ) {
+		return(\OC_Response::enableCaching( $cache_time ));
 	}
 
 
@@ -50,8 +50,8 @@ class Response {
 	* 'not modified' response
 	* @param $lastModified time when the reponse was last modified
 	*/
-	static public function setLastModifiedHeader($lastModified) {
-		return(\OC_Response::setLastModifiedHeader($lastModified));
+	static public function setLastModifiedHeader( $lastModified ) {
+		return(\OC_Response::setLastModifiedHeader( $lastModified ));
 	}
 
 
@@ -69,8 +69,8 @@ class Response {
 	* 'not modified' response
 	* @param $etag token to use for modification check
 	*/
-	static public function setETagHeader($etag) {
-		return(\OC_Response::setETagHeader($etag));
+	static public function setETagHeader( $etag ) {
+		return(\OC_Response::setETagHeader( $etag ));
 	}
 
 
@@ -78,8 +78,8 @@ class Response {
 	* @brief Send file as response, checking and setting caching headers
 	* @param $filepath of file to send
 	*/
-	static public function sendFile($filepath) {
-		return(\OC_Response::sendFile($filepath));
+	static public function sendFile( $filepath ) {
+		return(\OC_Response::sendFile( $filepath ));
 	}
 
 	/**
@@ -88,16 +88,16 @@ class Response {
 	*  string for DateInterval from now
 	*  DateTime object when to expire response
 	*/
-	static public function setExpiresHeader($expires) {
-		return(\OC_Response::setExpiresHeader($expires));
+	static public function setExpiresHeader( $expires ) {
+		return(\OC_Response::setExpiresHeader( $expires ));
 	}
 
 	/**
 	* @brief Send redirect response
 	* @param $location to redirect to
 	*/
-	static public function redirect($location) {
-		return(\OC_Response::redirect($location));
+	static public function redirect( $location ) {
+		return(\OC_Response::redirect( $location ));
 	}
 
 

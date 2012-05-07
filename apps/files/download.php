@@ -31,7 +31,7 @@ $filename = $_GET["file"];
 
 if(!OC_Filesystem::file_exists($filename)){
 	header("HTTP/1.0 404 Not Found");
-	$tmpl = new OC_Template( '', '404', 'guest' );
+	$tmpl = new OCP\Template( '', '404', 'guest' );
 	$tmpl->assign('file',$filename);
 	$tmpl->printPage();
 	exit;

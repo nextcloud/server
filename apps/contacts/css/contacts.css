@@ -1,9 +1,9 @@
 /*dl > dt {
 	font-weight: bold;
 }*/
-#leftcontent { top: 3.5em !important; }
+#leftcontent { top: 3.5em !important; padding: 0; margin: 0; }
 #rightcontent { top: 3.5em !important; padding-top: 5px; }
-#contacts { background: #fff; width: 20em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; }
+#contacts { background: #fff; width: 20em; left: 12.5em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; padding: 0; margin: 0; }
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 0 0 #000, -3px 0 7px #000; -webkit-box-shadow: 0 0 0 #000, -3px 0 7px #000; box-shadow: 0 0 0 #000, -3px 0 7px #000;}
 #contacts_newcontact { float: left; margin: 0.2em 0 0 1em; }
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
@@ -25,10 +25,7 @@
 #card input[type="text"].contacts_property,input[type="email"].contacts_property { width: 14em; float: left; font-weight: bold; }
 .categories { float: left; width: 16em; }
 #card input[type="text"],input[type="email"],input[type="tel"],input[type="date"], select, textarea { background-color: #fefefe; border: 0 !important; -webkit-appearance:none !important; -moz-appearance:none  !important; -webkit-box-sizing:none !important; -moz-box-sizing:none !important; box-sizing:none !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; float: left; }
-#card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="tel"]:active, select:hover, select:focus, select:active { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #ddd, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
-
-textarea:focus, textarea:hover { background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #ddd, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
-input[type="text"]:invalid,input[type="email"]:invalid,input[type="tel"]:invalid,input[type="date"]:invalid, textarea:invalid { color: #bbb !important; }
+#card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="tel"]:active, select:hover, select:focus, select:active, textarea:focus, textarea:hover { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #ddd, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
 textarea { width: 80%; min-height: 5em; min-width: 30em; margin: 0 !important; padding: 0 !important; outline: 0 !important;}
 dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .form dt { display: table-cell; clear: left; float: left; width: 7em; margin: 0; padding: 0.8em 0.5em 0 0; text-align:right; text-overflow:ellipsis; o-text-overflow: ellipsis; vertical-align: text-bottom; color: #bbb;/* white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap;*/ }
@@ -101,7 +98,8 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .propertycontainer dd { float: left; width: 25em; }
 .propertylist { clear: none; max-width: 28em; }
 .propertylist li.propertycontainer { white-space: nowrap; min-width: 35em; /*max-width: 30em;*/ display: block; clear: right; }
-.propertylist li > input[type="text"],input[type="email"],input[type="tel"] { float: left; max-width: 15em; }
+.propertycontainer[data-element="EMAIL"] > input[type="email"] { min-width: 19em !important; float: left; }
+.propertycontainer[data-element="TEL"] > input[type="text"] { width: 10em !important; float: left; }
 .propertylist li > input[type="checkbox"],input[type="radio"] { float: left; clear: left; width: 20px; height: 20px; vertical-align: middle; }
 .propertylist li > select { float: left; max-width: 8em; }
 .typelist { float: left; max-width: 10em; border: 0; background-color: #fff; } /* for multiselect */

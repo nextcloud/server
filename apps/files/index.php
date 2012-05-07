@@ -72,11 +72,11 @@ foreach( explode( "/", $dir ) as $i ){
 }
 
 // make breadcrumb und filelist markup
-$list = new OC_Template( "files", "part.list", "" );
+$list = new OCP\Template( "files", "part.list", "" );
 $list->assign( "files", $files );
 $list->assign( "baseURL", OCP\Util::linkTo("files", "index.php")."?dir=");
 $list->assign( "downloadURL", OCP\Util::linkTo("files", "download.php")."?file=");
-$breadcrumbNav = new OC_Template( "files", "part.breadcrumb", "" );
+$breadcrumbNav = new OCP\Template( "files", "part.breadcrumb", "" );
 $breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 $breadcrumbNav->assign( "baseURL", OCP\Util::linkTo("files", "index.php")."?dir=");
 
@@ -88,7 +88,7 @@ $freeSpace=OC_Filesystem::free_space('/');
 $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
-$tmpl = new OC_Template( "files", "index", "user" );
+$tmpl = new OCP\Template( "files", "index", "user" );
 $tmpl->assign( "fileList", $list->fetchPage() );
 $tmpl->assign( "breadcrumb", $breadcrumbNav->fetchPage() );
 $tmpl->assign( 'dir', $dir);

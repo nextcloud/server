@@ -6,5 +6,6 @@
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
 	<require>2</require>
+	<standalone/>
 	<default_enable/>
 </info>

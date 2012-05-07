@@ -16,7 +16,7 @@ $freeSpace=OC_Filesystem::free_space('/');
 $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
-$tmpl = new OC_Template('contacts', 'part.importaddressbook');
+$tmpl = new OCP\Template('contacts', 'part.importaddressbook');
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->printpage();

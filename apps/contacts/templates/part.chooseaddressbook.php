@@ -4,7 +4,7 @@
 $option_addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 for($i = 0; $i < count($option_addressbooks); $i++){
 	echo "<tr>";
-	$tmpl = new OC_Template('contacts', 'part.chooseaddressbook.rowfields');
+	$tmpl = new OCP\Template('contacts', 'part.chooseaddressbook.rowfields');
 	$tmpl->assign('addressbook', $option_addressbooks[$i]);
 	$tmpl->assign('active', OC_Contacts_Addressbook::isActive($option_addressbooks[$i]['id']));
 	$tmpl->printpage();

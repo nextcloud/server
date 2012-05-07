@@ -30,7 +30,7 @@ OCP\App::setActiveNavigationEntry("files_sharing_list");
 
 OCP\Util::addscript("files_sharing", "list");
 
-$tmpl = new OC_Template("files_sharing", "list", "user");
+$tmpl = new OCP\Template("files_sharing", "list", "user");
 $tmpl->assign("shared_items", OC_Share::getMySharedItems());
 $tmpl->printPage();
 

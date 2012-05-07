@@ -22,11 +22,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 // only need filesystem apps
 $RUNTIME_APPTYPES=array('filesystem','authentication');
-
- 
+require_once('../lib/base.php');
 
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();

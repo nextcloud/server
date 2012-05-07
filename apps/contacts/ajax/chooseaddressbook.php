@@ -10,5 +10,5 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-$output = new OC_TEMPLATE("contacts", "part.chooseaddressbook");
+$output = new OCP\Template("contacts", "part.chooseaddressbook");
 $output -> printpage();

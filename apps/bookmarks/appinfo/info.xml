@@ -5,5 +5,6 @@
 	<description>Bookmark manager for ownCloud</description>
 	<licence>AGPL</licence>
 	<author>Arthur Schiwon, Marvin Thomas Rabe</author>
+	<standalone/>
 	<require>2</require>
 </info>

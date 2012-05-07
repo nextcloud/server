@@ -25,5 +25,5 @@
 OCP\App::checkAppEnabled('user_migrate');
 
 // fill template
-$tmpl = new OC_Template('user_migrate', 'settings');
+$tmpl = new OCP\Template('user_migrate', 'settings');
 return $tmpl->fetchPage();

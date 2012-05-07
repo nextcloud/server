@@ -24,7 +24,7 @@ require_once( '../../lib/base.php' );
 
 OCP\User::checkLoggedIn( );
 OCP\Util::addStyle('files_versions','versions');
-$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
+$tmpl = new OCP\Template( 'files_versions', 'history', 'user' );
 
 if ( isset( $_GET['path'] ) ) {
 

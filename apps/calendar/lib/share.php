@@ -25,7 +25,7 @@ class OC_Calendar_Share{
 		}else{
 			$active_where = '';
 		}
-		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') AND owner <> ? ' . $permission_where . ' ' . $active_where);
+		$stmt = OCP\DB::prepare("SELECT * FROM *PREFIX*calendar_share_" . $type . " WHERE ((share = ? AND sharetype = 'user') " . $group_where . ") AND owner <> ? " . $permission_where . " " . $active_where);
 		$result = $stmt->execute(array($userid, $userid));
 		$return = array();
 		while( $row = $result->fetchRow()){
@@ -160,7 +160,7 @@ class OC_Calendar_Share{
 		$i = 0;
 		foreach($groups as $group){
 			$group_where .= ' OR ';
-			$group_where .= ' (share = "' . $group . '" AND sharetype = "group") ';
+			$group_where .= " (share = '" . $group . "' AND sharetype = 'group') ";
 			$i++;
 		}
 		return $group_where;
@@ -169,7 +169,7 @@ class OC_Calendar_Share{
 		$permission_where = '';
 		if(!is_null($permission)){
 			$permission_where = ' AND permissions = ';
-			$permission_where .= ($permission=='rw')?'"1"':'"0"';
+			$permission_where .= ($permission=='rw')?"'1'":"'0'";
 		}
 		return $permission_where;
 	}
@@ -191,7 +191,7 @@ class OC_Calendar_Share{
 	public static function is_editing_allowed($share, $id, $type){
 		$group_where = self::group_sql(OC_Group::getUserGroups($share));
 		$permission_where = self::permission_sql('rw');
-		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ((share = ? AND sharetype = "user") ' . $group_where . ') ' . $permission_where);
+		$stmt = OCP\DB::prepare("SELECT * FROM *PREFIX*calendar_share_" . $type . " WHERE ((share = ? AND sharetype = 'user') " . $group_where . ") " . $permission_where);
 		$result = $stmt->execute(array($share));
 		if($result->numRows() == 1){
 			return true;
@@ -211,7 +211,7 @@ class OC_Calendar_Share{
 	 */
 	public static function check_access($share, $id, $type){
 		$group_where = self::group_sql(OC_Group::getUserGroups($share));
-		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE (' . $type . 'id = ? AND (share = ? AND sharetype = "user") ' . $group_where . ')');
+		$stmt = OCP\DB::prepare("SELECT * FROM *PREFIX*calendar_share_" . $type . " WHERE (" . $type . "id = ? AND (share = ? AND sharetype = 'user') " . $group_where . ")");
 		$result = $stmt->execute(array($id,$share));
 		$rows =  $result->numRows();
 		if($rows > 0){
@@ -229,9 +229,9 @@ class OC_Calendar_Share{
          * @return: mixed - bool if false, array with type and id if true
          */
         public static function getElementByToken($token){
-            $stmt_calendar = OCP\DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . OC_Calendar_Share::CALENDAR . ' WHERE sharetype = "public" AND share = ?');
+            $stmt_calendar = OCP\DB::prepare("SELECT * FROM *PREFIX*calendar_share_" . OC_Calendar_Share::CALENDAR . " WHERE sharetype = 'public' AND share = ?");
             $result_calendar = $stmt_calendar->execute(array($token));
-            $stmt_event = OCP\DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . OC_Calendar_Share::EVENT . ' WHERE sharetype = "public" AND share = ?');
+            $stmt_event = OCP\DB::prepare("SELECT * FROM *PREFIX*calendar_share_" . OC_Calendar_Share::EVENT . " WHERE sharetype = 'public' AND share = ?");
             $result_event = $stmt_event->execute(array($token));
             $return = array();
             if($result_calendar->numRows() == 0 && $result_event->numRows() == 0){
@@ -253,7 +253,7 @@ class OC_Calendar_Share{
 		 * @param (string) $
 		 */
 		public static function set_active($share, $id, $active){
-			$stmt = OCP\DB::prepare('UPDATE *PREFIX*calendar_share_calendar SET active = ? WHERE share = ? AND sharetype = "user" AND calendarid = ?');
+			$stmt = OCP\DB::prepare("UPDATE *PREFIX*calendar_share_calendar SET active = ? WHERE share = ? AND sharetype = 'user' AND calendarid = ?");
 			$stmt->execute(array($active, $share, $id));
 		}
 }

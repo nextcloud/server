@@ -29,7 +29,7 @@ $calendarid = OC_Calendar_Calendar::addCalendar($userid, strip_tags($_POST['name
 OC_Calendar_Calendar::setCalendarActive($calendarid, 1);
 
 $calendar = OC_Calendar_Calendar::find($calendarid);
-$tmpl = new OC_Template('calendar', 'part.choosecalendar.rowfields');
+$tmpl = new OCP\Template('calendar', 'part.choosecalendar.rowfields');
 $tmpl->assign('calendar', $calendar);
 OCP\JSON::success(array(
 	'page' => $tmpl->fetchPage(),

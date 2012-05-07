@@ -24,7 +24,7 @@ if($doBreadcrumb){
 		}
 	}
 	
-	$breadcrumbNav = new OC_Template( "files", "part.breadcrumb", "" );
+	$breadcrumbNav = new OCP\Template( "files", "part.breadcrumb", "" );
 	$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 	
 	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
@@ -37,7 +37,7 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 	$files[] = $i;
 }
 
-$list = new OC_Template( "files", "part.list", "" );
+$list = new OCP\Template( "files", "part.list", "" );
 $list->assign( "files", $files );
 $data = array('files' => $list->fetchPage());
 

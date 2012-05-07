@@ -15,7 +15,7 @@ $checksum = isset($_GET['checksum'])?$_GET['checksum']:'';
 $vcard = OC_Contacts_App::getContactVCard($id);
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 
-$tmpl = new OC_TEMPLATE("contacts", "part.edit_address_dialog");
+$tmpl = new OCP\Template("contacts", "part.edit_address_dialog");
 if($checksum) {
 	$line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 	$element = $vcard->children[$line];

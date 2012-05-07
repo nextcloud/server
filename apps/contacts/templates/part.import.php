@@ -8,7 +8,7 @@
 <?php
 $contacts_options = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 $contacts_options[] = array('id'=>'newaddressbook', 'displayname'=>$l->t('create a new addressbook'));
-echo html_select_options($contacts_options, $contacts_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
+echo OCP\html_select_options($contacts_options, $contacts_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
 ?>
 </select>
 <div id="newaddressbookform" style="display: none;">

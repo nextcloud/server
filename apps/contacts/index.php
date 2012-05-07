@@ -58,7 +58,7 @@ OCP\Util::addStyle('contacts','jquery.combobox');
 OCP\Util::addStyle('contacts','jquery.Jcrop');
 OCP\Util::addStyle('contacts','contacts');
 
-$tmpl = new OC_Template( "contacts", "index", "user" );
+$tmpl = new OCP\Template( "contacts", "index", "user" );
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('property_types', $property_types);
