@@ -150,7 +150,7 @@ class Util {
 	 * reverse proxies
 	 */
 	public static function getServerHost() {
-		return(\OC_Helper::severHost());
+		return(\OC_Helper::serverHost());
 	}
 
 	/**
