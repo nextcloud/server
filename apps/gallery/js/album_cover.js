@@ -31,7 +31,7 @@ function albumClick(title) {
 }
 
 function constructSharingPath() {
-  return document.location.protocol + '//' + document.location.host + OC.linkTo('gallery', 'sharing.php') + '?token=' + Albums.token;
+  return document.location.protocol + '//' + document.location.host + OC.linkTo('', 'public.php') + '?service=gallery&token=' + Albums.token;
 }
 
 function shareGallery() {
