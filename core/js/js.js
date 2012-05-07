@@ -33,7 +33,7 @@ OC={
 	webroot:oc_webroot,
 	appswebroot:oc_appswebroot,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
-	coreApps:['admin','log','search','settings','core','3rdparty'],
+	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
 	 * @param app the id of the app the file belongs to

@@ -7,4 +7,4 @@ OCP\App::registerAdmin('files','admin');
 OCP\App::addNavigationEntry( array( "id" => "files_index", "order" => 0, "href" => OCP\Util::linkTo( "files", "index.php" ), "icon" => OCP\Util::imagePath( "core", "places/home.svg" ), "name" => $l->t("Files") ));
 
 OC_Search::registerProvider('OC_Search_Provider_File');
-OCP\CONFIG::setAppValue('core', 'webdav', '/apps/files/appinfo/remote.php');
+OCP\CONFIG::setAppValue('core', 'remote_webdav', '/apps/files/appinfo/remote.php');

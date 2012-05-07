@@ -7,9 +7,9 @@ if (!$pos = strpos($path_info, '/', 1)) {
 	$pos = strlen($path_info);
 }
 $service=substr($path_info, 1, $pos-1);
-$file = OCP\CONFIG::getAppValue('core', $service);
+$file = OCP\CONFIG::getAppValue('core', 'remote_' . $service);
 if(is_null($file)){
-	//header('HTTP/1.0 404 Not Found');
+	header('HTTP/1.0 404 Not Found');
 	exit;
 }
 $baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';

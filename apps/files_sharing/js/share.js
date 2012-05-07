@@ -177,7 +177,7 @@ OC.Share={
 	},
 	showPrivateLink:function(item, token) {
 		$('#privateLinkCheckbox').attr('checked', true);
-		var link = parent.location.protocol+'//'+location.host+OC.linkTo('files_sharing','get.php')+'?token='+token;
+		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&token='+token;
 		if (token.indexOf('&path=') == -1) {
 			link += '&file=' + item;
 		} else {
