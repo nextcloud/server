@@ -33,9 +33,9 @@ $request = strip_tags(urldecode($_GET['q']));
 if($_GET['q']) {
 	$reqParts = explode('@', $request);
 	if(count($reqParts)==2) {
-    $userName = $reqParts[0];
-	  $hostName = $reqParts[1];
-  }
+		$userName = $reqParts[0];
+		$hostName = $reqParts[1];
+	}
 }
 if(substr($userName, 0, 5) == 'acct:') {
 	$userName = substr($userName, 5);
