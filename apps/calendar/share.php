@@ -1,5 +1,4 @@
 <?php
-require_once('../../lib/base.php');
 $token = strip_tags($_GET['t']);
 $shared = OC_Calendar_Share::getElementByToken($token);
 $nl = "\n\r";
