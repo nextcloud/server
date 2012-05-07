@@ -98,15 +98,8 @@ class OC_Share {
 					$uid = $uid."@".$gid;
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
-				// Add file to filesystem cache
-				$userDirectory = "/".OCP\USER::getUser()."/files";
-				$data = OC_Filecache::get(substr($source, strlen($userDirectory)));
-				$parentQuery = OCP\DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path=?');
-				$parentResult = $parentQuery->execute(array($sharedFolder))->fetchRow();
-				$parent = $parentResult['id'];
-				$is_writeable = $permissions & OC_Share::WRITE;
-				$cacheQuery = OCP\DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, size, mtime, ctime, mimetype, mimepart, user, writable) VALUES(?,?,?,?,?,?,?,?,?,?)');
-				$cacheQuery->execute(array($parent, basename($target), $target, $data['size'], $data['mtime'], $data['ctime'], $data['mimetype'], dirname($data['mimetype']), $uid, $is_writeable));
+				// Update mtime of shared folder to invoke a file cache rescan
+				OC_Filesystem::getStorage($sharedFolder)->touch($sharedFolder);
 			}
 		}
 	}
@@ -383,6 +376,9 @@ class OC_Share {
 		$source = self::cleanPath($source);
 		$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with));
 		$query->execute(array(strlen($source), $source, OCP\USER::getUser()));
+		// Update mtime of shared folder to invoke a file cache rescan
+		$sharedFolder = '/'.$uid_shared_with.'/files/Shared';
+		OC_Filesystem::getStorage($sharedFolder)->touch($sharedFolder);
 	}
 
 	/**
