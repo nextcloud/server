@@ -2,6 +2,6 @@
 	<fieldset class="personalblock">
 		<strong>Media</strong><br />
 		Ampache address: 
-		<code><?php echo OCP\Util::linkToAbsolute('media', ''); ?></code><br />
+		<code><?php echo OCP\Util::linkToAbsolute('remote.php', 'ampache'); ?>/</code><br />
 	</fieldset>
 </form>
