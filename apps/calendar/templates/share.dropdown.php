@@ -73,5 +73,5 @@ echo OCP\html_select_options($allgroups, array());
 </ul>
 <div id="public">
 	<input type="checkbox" id="publish" <?php echo ($public['share'])?'checked="checked"':'' ?>><label for="publish"><?php echo $l->t('make public'); ?></label><br>
-	<input type="text" id="public_token" value="<?php echo OCP\Util::linkToAbsolute('', 'public.php?service=calendar&t=' . $public['share'], null, true) ; ?>" onmouseover="$('#public_token').select();" style="<?php echo (!$public['share'])?'display:none':'' ?>">
+	<input type="text" id="public_token" value="<?php echo OCP\Util::linkToAbsolute('', 'public.php').'?service=calendar&t=' . $public['share'] ?>" onmouseover="$('#public_token').select();" style="<?php echo (!$public['share'])?'display:none':'' ?>">
 </div>

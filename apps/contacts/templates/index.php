@@ -1,5 +1,5 @@
 <script type='text/javascript'>
-	var totalurl = '<?php echo OCP\Util::linkToAbsolute('remote.php', 'carddav'); ?>/addressbooks';
+	var totalurl = '<?php echo OCP\Util::linkToRemote('carddav'); ?>addressbooks';
 	var categories = <?php echo json_encode($_['categories']); ?>;
 	var lang = '<?php echo OCP\Config::getUserValue(OCP\USER::getUser(), 'core', 'lang', 'en'); ?>';
 </script>

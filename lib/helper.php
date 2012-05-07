@@ -106,6 +106,17 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param $service id
+	 * @returns the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	public static function linkToRemote( $service ) {
+		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . '/';
+	}
+
+	/**
 	 * @brief Creates path to an image
 	 * @param $app app
 	 * @param $image image name
