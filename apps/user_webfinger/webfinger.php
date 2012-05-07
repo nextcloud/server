@@ -26,7 +26,7 @@ $WEBROOT=substr($SUBURI,0,-34);
 */
 
 
-$request = urldecode($_GET['q']);
+$request = strip_tags(urldecode($_GET['q']));
 if($_GET['q']) {
 	$reqParts = explode('@', $request);
 	$userName = $reqParts[0];
