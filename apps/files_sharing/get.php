@@ -5,9 +5,7 @@ OCP\JSON::checkAppEnabled('files_sharing');
 require_once 'lib_share.php';
 
 //get the path of the shared file
-$token = $_GET['token'];
-$source = OC_Share::getSource($token);
-if ($source !== false) {
+if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
 	// TODO Manipulating the string may not be the best choice. Is there an alternative?
 	$user = substr($source, 1, strpos($source, "/", 1) - 1);
 	OC_Util::setupFS($user);
