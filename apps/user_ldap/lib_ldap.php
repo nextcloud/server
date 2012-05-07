@@ -568,6 +568,15 @@ class OC_LDAP {
 			self::$ldapUserFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
 			self::$ldapGroupDisplayName = OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR);
 
+			if(empty(self::$ldapBaseUsers)) {
+				OCP\Util::writeLog('ldap', 'Base for Users is empty, using Base DN', OCP\Util::INFO);
+				self::$ldapBaseUsers = self::$ldapBase;
+			}
+			if(empty(self::$ldapBaseGroups)) {
+				OCP\Util::writeLog('ldap', 'Base for Groups is empty, using Base DN', OCP\Util::INFO);
+				self::$ldapBaseGroups = self::$ldapBase;
+			}
+
 			if(
 				   !empty(self::$ldapHost)
 				&& !empty(self::$ldapPort)
@@ -576,8 +585,6 @@ class OC_LDAP {
 					|| ( empty(self::$ldapAgentName) &&  empty(self::$ldapAgentPassword))
 				)
 				&& !empty(self::$ldapBase)
-				&& !empty(self::$ldapBaseUsers)
-				&& !empty(self::$ldapBaseGroups)
 				&& !empty(self::$ldapUserDisplayName)
 			)
 			{
@@ -591,6 +598,7 @@ class OC_LDAP {
 	 */
 	static private function establishConnection() {
 		if(!self::$configured) {
+			OCP\Util::writeLog('ldap', 'Configuration is invalid, cannot connect', OCP\Util::INFO);
 			return false;
 		}
 		if(!self::$ldapConnectionRes) {
