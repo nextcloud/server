@@ -160,7 +160,7 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
-if(typeof localStorage !='undefined'){
+if(typeof localStorage !='undefined' && localStorage != null){
 	//user and instance awere localstorage
 	OC.localStorage={
 		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
