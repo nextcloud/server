@@ -167,22 +167,7 @@ $(document).ready(function(){
 		}
 		var password=$('#newuserpassword').val();
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
-		var tr
-		$.post(
-			OC.filePath('settings','ajax','createuser.php'),
-			{
-				username:username,
-				password:password,
-				groups:groups,
-			},
-			function(result){
-				if(result.status!='success'){
-					tr.remove();
-					OC.dialogs.alert(result.data.message, 'Error creating user');
-				}
-			}
-		);
-		tr=$('#content table tbody tr').first().clone();
+		var tr=$('#content table tbody tr').first().clone();
 		tr.attr('data-uid',username);
 		tr.find('td.name').text(username);
 		var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');
@@ -203,10 +188,24 @@ $(document).ready(function(){
 			tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
 		}
 		applyMultiplySelect(select);
-		$('#content table tbody').last().after(tr);
+		$('#content table tbody').last().append(tr);
 		
 		tr.find('select.quota option').attr('selected',null);
 		tr.find('select.quota option').first().attr('selected','selected');
 		tr.find('select.quota').data('previous','default');
+		$.post(
+			OC.filePath('settings','ajax','createuser.php'),
+			{
+				username:username,
+				password:password,
+				groups:groups,
+			},
+			function(result){
+				if(result.status!='success'){
+					tr.remove();
+					OC.dialogs.alert(result.data.message, 'Error creating user');
+				}
+			}
+		);
 	});
 });
