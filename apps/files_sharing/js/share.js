@@ -210,9 +210,9 @@ OC.Share={
 }
 
 $(document).ready(function() {
-	OC.Share.loadIcons();
 
 	if (typeof FileActions !== 'undefined') {
+		OC.Share.loadIcons();
 		FileActions.register('all', 'Share', function(filename) {
 			// Return the correct sharing icon
 			if (scanFiles.scanning) { return; } // workaround to prevent additional http request block scanning feedback
