@@ -32,11 +32,8 @@ define('OC_USER_BACKEND_NOT_IMPLEMENTED',   -501);
  * actions that user backends can define
  */
 define('OC_USER_BACKEND_CREATE_USER',       0x000001);
-define('OC_USER_BACKEND_DELETE_USER',       0x000010);
-define('OC_USER_BACKEND_SET_PASSWORD',      0x000100);
-define('OC_USER_BACKEND_CHECK_PASSWORD',    0x001000);
-define('OC_USER_BACKEND_GET_USERS',         0x010000);
-define('OC_USER_BACKEND_USER_EXISTS',       0x100000);
+define('OC_USER_BACKEND_SET_PASSWORD',      0x000010);
+define('OC_USER_BACKEND_CHECK_PASSWORD',    0x000100);
 
 
 /**
@@ -47,11 +44,8 @@ abstract class OC_User_Backend {
 
 	protected $possibleActions = array(
 		OC_USER_BACKEND_CREATE_USER => 'createUser',
-		OC_USER_BACKEND_DELETE_USER => 'deleteUser',
 		OC_USER_BACKEND_SET_PASSWORD => 'setPassword',
 		OC_USER_BACKEND_CHECK_PASSWORD => 'checkPassword',
-		OC_USER_BACKEND_GET_USERS => 'getUsers',
-		OC_USER_BACKEND_USER_EXISTS => 'userExists'
 	);
 
 	/**
@@ -82,5 +76,35 @@ abstract class OC_User_Backend {
 	*/
 	public function implementsActions($actions){
 		return (bool)($this->getSupportedActions() & $actions);
+	}
+
+	/**
+	* @brief delete a user
+	* @param $uid The username of the user to delete
+	* @returns true/false
+	*
+	* Deletes a user
+	*/
+	public function deleteUser( $uid ){
+		return false;
+	}
+
+	/**
+	* @brief Get a list of all users
+	* @returns array with all uids
+	*
+	* Get a list of all users.
+	*/
+	public function getUsers(){
+		return array();
+	}
+
+	/**
+	* @brief check if a user exists
+	* @param string $uid the username
+	* @return boolean
+	*/
+	public function userExists($uid){
+		return false;
 	}
 }
