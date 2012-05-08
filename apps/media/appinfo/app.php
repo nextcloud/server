@@ -33,3 +33,4 @@ OCP\App::addNavigationEntry(array('id' => 'media_index', 'order' => 2, 'href' =>
 
 OC_Search::registerProvider('OC_MediaSearchProvider');
 OCP\CONFIG::setAppValue('core', 'remote_ampache', '/apps/media/remote.php');
+OCP\CONFIG::setAppValue('core', 'remote_tomahawk', '/apps/media/tomahawk.php');

@@ -22,7 +22,6 @@
 */
 
 $_POST=$_GET; //debug
-require_once('../inc.php');
 
 OCP\JSON::checkAppEnabled('media');
 require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
@@ -58,7 +57,7 @@ $album=OC_MEDIA_COLLECTION::getAlbumId($album,$artist);
 
 $songs=OC_MEDIA_COLLECTION::getSongs($artist,$album,$song);
 
-$baseUrl=OC_Util::getServerURL().OCP\Util::linkTo('media','tomahawk.php');
+$baseUrl=$baseuri;
 
 $results=array();
 foreach($songs as $song) {
@@ -77,4 +76,3 @@ foreach($songs as $song) {
 	);
 }
 OCP\JSON::encodedPrint($results);
-?>
