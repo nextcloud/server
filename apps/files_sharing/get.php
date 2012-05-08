@@ -68,7 +68,7 @@ if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
 		$mimetype = OC_Filesystem::getMimeType($source);
 		header("Content-Transfer-Encoding: binary");
 		OCP\Response::disableCaching();
-		header('Content-Disposition: filename="'.basename($source).'"');
+		header('Content-Disposition: attachment; filename="'.basename($source).'"');
 		header("Content-Type: " . $mimetype);
 		header("Content-Length: " . OC_Filesystem::filesize($source));
 		//download the file
