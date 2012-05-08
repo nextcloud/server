@@ -34,6 +34,6 @@ class OC_Log {
 			call_user_func(array(self::$class, 'init'));
 		}
 		$log_class=self::$class;
-		$log_class::write($app, $message, $level);
+		$log_class::write($app, htmlentities($message), $level);
 	}
 }
