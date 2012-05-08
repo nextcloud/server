@@ -613,6 +613,7 @@ class OC_LDAP {
 
 			$ldapLogin = @ldap_bind(self::$ldapConnectionRes, self::$ldapAgentName, self::$ldapAgentPassword );
 			if(!$ldapLogin) {
+				OCP\Util::writeLog('ldap', 'Bind failed: ' . ldap_errno(self::$ldapConnectionRes) . ': ' . ldap_error(self::$ldapConnectionRes), OCP\Util::ERROR);
 				return false;
 			}
 		}
