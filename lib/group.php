@@ -84,7 +84,7 @@ class OC_Group {
 		OC_Hook::emit( "OC_Group", "pre_createGroup", array( "run" => &$run, "gid" => $gid ));
 
 		if($run){
-			//create the user in the first backend that supports creating users
+			//create the group in the first backend that supports creating groups
 			foreach(self::$_usedBackends as $backend){
 				if(!$backend->implementsActions(OC_GROUP_BACKEND_CREATE_GROUP))
 					continue;
@@ -141,9 +141,6 @@ class OC_Group {
 	 */
 	public static function inGroup( $uid, $gid ){
 		foreach(self::$_usedBackends as $backend){
-			if(!$backend->implementsActions(OC_GROUP_BACKEND_IN_GROUP))
-				continue;
-
 			if($backend->inGroup($uid,$gid)){
 				return true;
 			}
@@ -224,9 +221,6 @@ class OC_Group {
 	public static function getUserGroups( $uid ){
 		$groups=array();
 		foreach(self::$_usedBackends as $backend){
-			if(!$backend->implementsActions(OC_GROUP_BACKEND_GET_USER_GROUPS))
-				continue;
-
 			$groups=array_merge($backend->getUserGroups($uid),$groups);
 		}
 		return $groups;
@@ -241,9 +235,6 @@ class OC_Group {
 	public static function getGroups(){
 		$groups=array();
 		foreach(self::$_usedBackends as $backend){
-			if(!$backend->implementsActions(OC_GROUP_BACKEND_GET_GROUPS))
-				continue;
-
 			$groups=array_merge($backend->getGroups(),$groups);
 		}
 		return $groups;
@@ -270,9 +261,6 @@ class OC_Group {
 	public static function usersInGroup($gid){
 		$users=array();
 		foreach(self::$_usedBackends as $backend){
-			if(!$backend->implementsActions(OC_GROUP_BACKEND_GET_USERS))
-				continue;
-
 			$users=array_merge($backend->usersInGroup($gid),$users);
 		}
 		return $users;
