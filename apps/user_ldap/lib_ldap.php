@@ -120,6 +120,7 @@ class OC_LDAP {
 			return $dn;
 		} else {
 			//fallback: user is not mapped
+			self::init();
 			$filter = self::combineFilterWithAnd(array(
 				self::$ldapUserFilter,
 				self::$ldapUserDisplayName . '=' . $name,
@@ -431,6 +432,7 @@ class OC_LDAP {
 	 * Executes an LDAP search
 	 */
 	static public function searchUsers($filter, $attr = null) {
+		self::init();
 		return self::search($filter, self::$ldapBaseUsers, $attr);
 	}
 
@@ -443,6 +445,7 @@ class OC_LDAP {
 	 * Executes an LDAP search
 	 */
 	static public function searchGroups($filter, $attr = null) {
+		self::init();
 		return self::search($filter, self::$ldapBaseGroups, $attr);
 	}
 
