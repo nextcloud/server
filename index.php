@@ -115,6 +115,6 @@ elseif(OC_User::isLoggedIn()) {
 	if(is_null(OC::$REQUESTEDFILE)){
 		$sectoken=rand(1000000,9999999);
 		$_SESSION['sectoken']=$sectoken;
-		OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => isset($_REQUEST['redirect_url'])?strip_tags($_REQUEST['redirect_url']):'' ));
+		OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => isset($_REQUEST['redirect_url'])?htmlentities($_REQUEST['redirect_url']):'' ));
 	}
 }
