@@ -11,6 +11,7 @@
 		<small><?php echo $l->t('Leave both empty for anonymous bind for search, then bind with users credentials.');?></small></p>
 		<p><label for="ldap_login_filter"><?php echo $l->t('User Login Filter');?></label><input type="text" id="ldap_login_filter" name="ldap_login_filter" value="<?php echo $_['ldap_login_filter']; ?>" /><small><?php echo $l->t('use %%uid placeholder, e.g. uid=%%uid');?></small></p>
 		<p><label for="ldap_userlist_filter"><?php echo $l->t('User List Filter');?></label><input type="text" id="ldap_userlist_filter" name="ldap_userlist_filter" value="<?php echo $_['ldap_userlist_filter']; ?>" /><small><?php echo $l->t('without any placeholder, e.g. "objectClass=person".');?></small></p>
+		<p><label for="ldap_group_filter"><?php echo $l->t('Group Filter');?></label><input type="text" id="ldap_group_filter" name="ldap_group_filter" value="<?php echo $_['ldap_group_filter']; ?>" /><small><?php echo $l->t('without any placeholder, e.g. "objectClass=posixGroup".');?></small></p>
 	</fieldset>
 	<fieldset id="ldapSettings-2">
 		<p><label for="ldap_port"><?php echo $l->t('Port');?></label><input type="text" id="ldap_port" name="ldap_port" value="<?php echo $_['ldap_port']; ?>" /></p>
