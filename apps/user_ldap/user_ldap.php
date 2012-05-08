@@ -27,7 +27,6 @@ class OC_USER_LDAP extends OC_User_Backend {
 
 	// cached settings
 	protected $ldapUserFilter;
-	protected $ldapLoginFilter;
 	protected $ldapQuotaAttribute;
 	protected $ldapQuotaDefault;
 	protected $ldapEmailAttribute;
@@ -37,7 +36,6 @@ class OC_USER_LDAP extends OC_User_Backend {
 
 	public function __construct() {
 		$this->ldapUserFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter', '(objectClass=posixAccount)');
-		$this->ldapLoginFilter     = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
 		$this->ldapQuotaAttribute  = OCP\Config::getAppValue('user_ldap', 'ldap_quota_attr', '');
 		$this->ldapQuotaDefault    = OCP\Config::getAppValue('user_ldap', 'ldap_quota_def', '');
 		$this->ldapEmailAttribute  = OCP\Config::getAppValue('user_ldap', 'ldap_email_attr', '');
@@ -83,7 +81,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 */
 	public function checkPassword($uid, $password){
 		//find out dn of the user name
-		$filter = str_replace('%uid', $uid, $this->ldapLoginFilter);
+		$filter = str_replace('%uid', $uid, OC_LDAP::conf('ldapLoginFilter'));
 		$ldap_users = OC_LDAP::fetchListOfUsers($filter, 'dn');
 		if(count($ldap_users) < 1) {
 			return false;

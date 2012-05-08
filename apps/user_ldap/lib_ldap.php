@@ -49,6 +49,7 @@ class OC_LDAP {
 	static protected $ldapUserDisplayName;
 	static protected $ldapUserFilter;
 	static protected $ldapGroupDisplayName;
+	static protected $ldapLoginFilter;
 
 	static public function init() {
 		self::readConfiguration();
@@ -76,6 +77,7 @@ class OC_LDAP {
 		$availableProperties = array(
 			'ldapUserDisplayName',
 			'ldapGroupDisplayName',
+			'ldapLoginFilter'
 		);
 
 		if(in_array($key, $availableProperties)) {
@@ -574,6 +576,7 @@ class OC_LDAP {
 			self::$ldapNoCase           = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
 			self::$ldapUserDisplayName  = OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
 			self::$ldapUserFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
+			self::$ldapLoginFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
 			self::$ldapGroupDisplayName = OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR);
 
 			if(empty(self::$ldapBaseUsers)) {
