@@ -34,6 +34,8 @@ if(version_compare(PHP_VERSION, '5.3.0', '>=')){
 	$end = new DateTime('@' . $_GET['end']);
 }
 
+$calendar = OC_Calendar_App::getCalendar($_GET['calendar_id']);
+
 $events = OC_Calendar_Object::allInPeriod($_GET['calendar_id'], $start, $end);
 $user_timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $return = array();
