@@ -360,8 +360,14 @@ class OC_LDAP {
 	static private function mapComponent($dn, $ocname, $isUser = true) {
 		$table = self::getMapTable($isUser);
 
+		$sqliteAdjustment = '';
+		$dbtype = OCP\Config::getSystemValue('dbtype');
+		if(($dbtype == 'sqlite') || ($dbtype == 'sqlite3')) {
+			$sqliteAdjustment = 'OR';
+		}
+
 		$insert = OCP\DB::prepare('
-			INSERT IGNORE INTO '.$table.'
+			INSERT '.$sqliteAdjustment.' IGNORE INTO '.$table.'
 			(ldap_dn, owncloud_name)
 			VALUES (?,?)
 		');
@@ -453,7 +459,6 @@ class OC_LDAP {
 		if(!is_null($attr) && !is_array($attr)) {
 			$attr = array(strtolower($attr));
 		}
-
 		$sr = @ldap_search(self::getConnectionResource(), $base, $filter, $attr);
 		$findings = @ldap_get_entries(self::getConnectionResource(), $sr );
 		// if we're here, probably no connection ressource is returned.
