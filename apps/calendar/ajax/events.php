@@ -13,7 +13,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
 
 $calendar = OC_Calendar_App::getCalendar($_GET['calendar_id'], false, false);
-if($calendar['userid'] != OCP\User::getUser){
+if(is_numeric($calendar['userid']) && $calendar['userid'] != OCP\User::getUser){
 	OCP\JSON::error();
 	exit;
 }
