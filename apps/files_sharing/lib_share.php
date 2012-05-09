@@ -72,8 +72,13 @@ class OC_Share {
 				$checkSource = OCP\DB::prepare("SELECT source FROM *PREFIX*sharing WHERE source = ? AND uid_shared_with ".self::getUsersAndGroups($uid, false));
 				$resultCheckSource = $checkSource->execute(array($source))->fetchAll();
 				// TODO Check if the source is inside a folder
-				if (count($resultCheckSource) > 0 && !isset($gid)) {
-					throw new Exception("This item is already shared with ".$uid);
+				if (count($resultCheckSource) > 0) {
+					if (!isset($gid)) {
+						throw new Exception("This item is already shared with ".$uid);
+					} else {
+						// Skip this user if sharing with a group
+						continue;
+					}
 				}
 				// Check if the target already exists for the user, if it does append a number to the name
 				$sharedFolder = '/'.$uid.'/files/Shared';
