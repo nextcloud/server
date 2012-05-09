@@ -32,11 +32,11 @@ class OC_Files {
 	* get the content of a directory
 	* @param dir $directory
 	*/
-  public static function getDirectoryContent($directory, $mimetype_filter = ''){
+	public static function getDirectoryContent($directory, $mimetype_filter = ''){
 		if(strpos($directory,OC::$CONFIG_DATADIRECTORY)===0){
 			$directory=substr($directory,strlen(OC::$CONFIG_DATADIRECTORY));
 		}
-    $files=OC_FileCache::getFolderContent($directory, '', $mimetype_filter);
+		$files=OC_FileCache::getFolderContent($directory, '', $mimetype_filter);
 		foreach($files as &$file){
 			$file['directory']=$directory;
 			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
