@@ -99,12 +99,9 @@ class OC_Share {
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 				// Emit post_write hook to invoke a file cache rescan
-				$storage = OC_Filesystem::getStorage($sharedFolder);
-				if (!$storage->is_dir($sharedFolder)) {
-					$storage->mkdir($sharedFolder);
-					OCP\Util::emitHook('OC_Filesystem', 'post_write', array('path' => $sharedFolder));
-				} else {
-					OCP\Util::emitHook('OC_Filesystem', 'post_write', array('path' => $target));
+				$rootView=new OC_FilesystemView('/');
+				if (!$rootView->is_dir($sharedFolder)) {
+					$rootView->mkdir($sharedFolder);
 				}
 			}
 		}
