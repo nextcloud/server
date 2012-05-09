@@ -51,10 +51,6 @@ class OC{
 	 */
 	public static $CONFIG_DATADIRECTORY = '';
 	/**
-	 * the folder that stores the data for the root filesystem (e.g. /srv/http/owncloud/data)
-	 */
-	public static $CONFIG_DATADIRECTORY_ROOT = '';
-	/**
 	 * The installation path of the 3rdparty folder on the server (e.g. /srv/http/owncloud/3rdparty)
 	 */
 	public static $THIRDPARTYROOT = '';
