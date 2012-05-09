@@ -103,7 +103,7 @@ class Util {
 	 * @param string $text the text content for the element
 	 */
 	public static function addHeader( $tag, $attributes, $text=''){
-		\OC_Util::addHeader( $tag, $attribute, $text );
+		\OC_Util::addHeader( $tag, $attributes, $text );
 	}
 
 	/**
