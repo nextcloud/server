@@ -19,7 +19,7 @@ class OC_remoteStorage {
 		$result=$query->execute(array($user, $appUrl, $categories));
 		$ret = array();
 		if($row=$result->fetchRow()) {
-      return $row['token'];
+		  return base64_encode('remoteStorage:'.$row['token']);
     } else {
       return false;
     }
