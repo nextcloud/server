@@ -78,7 +78,9 @@ class OC_Share {
 				// Check if the target already exists for the user, if it does append a number to the name
 				$sharedFolder = '/'.$uid.'/files/Shared';
 				$target = $sharedFolder."/".basename($source);
-				if (self::getSource($target)) {
+				$checkTarget = OCP\DB::prepare("SELECT source FROM *PREFIX*sharing WHERE target = ? AND uid_shared_with ".self::getUsersAndGroups($uid, false)." LIMIT 1");
+				$result = $checkTarget->execute(array($target))->fetchAll();
+				if (count($result) > 0) {
 					if ($pos = strrpos($target, ".")) {
 						$name = substr($target, 0, $pos);
 						$ext = substr($target, $pos);
@@ -87,12 +89,11 @@ class OC_Share {
 						$ext = "";
 					}
 					$counter = 1;
-					while ($checkTarget !== false) {
-						$newTarget = $name."_".$counter.$ext;
-						$checkTarget = self::getSource($newTarget);
+					while (count($result) > 0) {
+						$target = $name."_".$counter.$ext;
+						$result = $checkTarget->execute(array($target))->fetchAll();
 						$counter++;
 					}
-					$target = $newTarget;
 				}
 				if (isset($gid)) {
 					$uid = $uid."@".$gid;
