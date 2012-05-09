@@ -9,7 +9,7 @@ OCP\Util::addscript('files_imageviewer', 'jquery.fancybox-1.3.4.pack');
 OCP\Util::addStyle( 'files_imageviewer', 'jquery.fancybox-1.3.4' );
 $l = OC_L10N::get('gallery');
 ?>
-<script type="text/javascript">var gallery_scanning_root='<? echo OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'root', '/'); ?>'; var gallery_default_order = '<? echo OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'order', 'ASC'); ?>';</script>
+<script type="text/javascript">var gallery_scanning_root='<?php echo OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'root', '/'); ?>'; var gallery_default_order = '<?php echo OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'order', 'ASC'); ?>';</script>
 <div id="controls">
 	<div id="scan">
 		<div id="scanprogressbar"></div>
