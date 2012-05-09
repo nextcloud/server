@@ -385,7 +385,7 @@ class OC_Share {
 	public static function unshare($source, $uid_shared_with) {
 		$source = self::cleanPath($source);
 		$uid_owner = OCP\USER::getUser();
-		$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with));
+		$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with, false));
 		$query->execute(array(strlen($source), $source, $uid_owner));
 		if ($uid_shared_with != self::PUBLICLINK) {
 			if (OC_Group::groupExists($uid_shared_with)) {
