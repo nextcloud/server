@@ -92,9 +92,8 @@ class OC_Gallery_Album {
 	}
 
 	public static function changeThumbnailPath($oldname, $newname) {
-		 
-		$thumbpath = OC::$CONFIG_DATADIRECTORY.'/../gallery/';
-		rename($thumbpath.$oldname.'.png', $thumbpath.$newname.'.png');
+		$view = OCP\App::getStorage('gallery');
+		$view->rename($oldname.'.png', $newname.'.png');
 	}
 
 	public static function getAlbumSize($id){
