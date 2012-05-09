@@ -35,7 +35,7 @@ echo 'Calendar.UI.Share.idtype = "event";' . "\n" . 'Calendar.UI.Share.currentid
 				<select style="width:140px;" name="calendar">
 					<?php
 					if (!isset($_['calendar'])) {$_['calendar'] = false;}
-					echo \html_select_options($_['calendar_options'], $_['calendar'], array('value'=>'id', 'label'=>'displayname'));
+					echo OCP\html_select_options($_['calendar_options'], $_['calendar'], array('value'=>'id', 'label'=>'displayname'));
 					?>
 				</select>
 			</td>
