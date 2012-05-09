@@ -76,7 +76,7 @@ class OC_Share {
 					throw new Exception("This item is already shared with ".$uid);
 				}
 				// Check if the target already exists for the user, if it does append a number to the name
-				$sharedFolder = "/".$uid."/files/Shared";
+				$sharedFolder = '/'.$uid.'/files/Shared';
 				$target = $sharedFolder."/".basename($source);
 				if (self::getSource($target)) {
 					if ($pos = strrpos($target, ".")) {
@@ -98,8 +98,14 @@ class OC_Share {
 					$uid = $uid."@".$gid;
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
-				// Update mtime of shared folder to invoke a file cache rescan
-				OC_Filesystem::getStorage($sharedFolder)->touch($sharedFolder);
+				// Emit post_write hook to invoke a file cache rescan
+				$storage = OC_Filesystem::getStorage($sharedFolder);
+				if (!$storage->is_dir($sharedFolder)) {
+					$storage->mkdir($sharedFolder);
+					OCP\Util::emitHook('OC_Filesystem', 'post_write', array('path' => $sharedFolder));
+				} else {
+					OCP\Util::emitHook('OC_Filesystem', 'post_write', array('path' => $target));
+				}
 			}
 		}
 	}
@@ -374,12 +380,22 @@ class OC_Share {
 	*/
 	public static function unshare($source, $uid_shared_with) {
 		$source = self::cleanPath($source);
+		$uid_owner = OCP\USER::getUser();
 		$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with));
-		$query->execute(array(strlen($source), $source, OCP\USER::getUser()));
-		// Update mtime of shared folder to invoke a file cache rescan
+		$query->execute(array(strlen($source), $source, $uid_owner));
 		if ($uid_shared_with != self::PUBLICLINK) {
-			$sharedFolder = '/'.$uid_shared_with.'/files/Shared';
-			OC_Filesystem::getStorage($sharedFolder)->touch($sharedFolder);
+			if (OC_Group::groupExists($uid_shared_with)) {
+				$uid_shared_with = OC_Group::usersInGroup($uid_shared_with);
+				// Remove the owner from the list of users in the group
+				$uid_shared_with = array_diff($uid_shared_with, array($uid_owner));
+			} else {
+				$uid_shared_with = array($uid_shared_with);
+			}
+			foreach ($uid_shared_with as $uid) {
+				$sharedFolder = '/'.$uid.'/files/'.'Shared';
+				// Emit post_write hook to invoke a file cache rescan
+				OCP\Util::emitHook('OC_Filesystem', 'post_write', array('path' => $sharedFolder));
+			}
 		}
 	}
 
