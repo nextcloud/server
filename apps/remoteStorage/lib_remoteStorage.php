@@ -13,6 +13,18 @@ class OC_remoteStorage {
 		return $ret;
 	}
 
+  public static function getTokenFor($appUrl, $categories) {
+		$user=OCP\USER::getUser();
+		$query=OCP\DB::prepare("SELECT token FROM *PREFIX*authtoken WHERE user=? AND appUrl=? AND category=? LIMIT 1");
+		$result=$query->execute(array($user, $appUrl, $categories));
+		$ret = array();
+		if($row=$result->fetchRow()) {
+      return $row['token'];
+    } else {
+      return false;
+    }
+	}
+
 	public static function getAllTokens() {
 		$user=OCP\USER::getUser();
 		$query=OCP\DB::prepare("SELECT token,appUrl,category FROM *PREFIX*authtoken WHERE user=? LIMIT 100");
