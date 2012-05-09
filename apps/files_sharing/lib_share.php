@@ -98,11 +98,12 @@ class OC_Share {
 					$uid = $uid."@".$gid;
 				}
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
-				// Emit post_write hook to invoke a file cache rescan
+				// Update mtime of shared folder to invoke a file cache rescan
 				$rootView=new OC_FilesystemView('/');
 				if (!$rootView->is_dir($sharedFolder)) {
 					$rootView->mkdir($sharedFolder);
 				}
+				$rootView->touch($sharedFolder);
 			}
 		}
 	}
@@ -390,8 +391,9 @@ class OC_Share {
 			}
 			foreach ($uid_shared_with as $uid) {
 				$sharedFolder = '/'.$uid.'/files/'.'Shared';
-				// Emit post_write hook to invoke a file cache rescan
-				OCP\Util::emitHook('OC_Filesystem', 'post_write', array('path' => $sharedFolder));
+				// Update mtime of shared folder to invoke a file cache rescan
+				$rootView=new OC_FilesystemView('/');
+				$rootView->touch($sharedFolder);
 			}
 		}
 	}
