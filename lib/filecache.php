@@ -640,7 +640,7 @@ class OC_FileCache{
 			$cachedMTime=$row['mtime'];
 			return ($mtime>$cachedMTime);
 		}else{//file not in cache, so it has to be updated
-			return !($isDir);//new folders are handeled sperate
+			return true;
 		}
 	}
 
