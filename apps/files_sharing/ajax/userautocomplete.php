@@ -23,6 +23,7 @@ foreach ($userGroups as $group) {
 		$groups[] = "<option value='".$group."(group)'>".$group." (group) </option>";
 	}
 }
+$users = array_unique($users);
 $users[] = "</optgroup>";
 $groups[] = "</optgroup>";
 $users = array_merge($users, $groups);
