@@ -94,7 +94,7 @@ function simple_file_size($bytes) {
  * @returns html options
  */
 function html_select_options($options, $selected, $params=array()) {
-	return(\html_select_options($options, $selected, $params=array())); 
+	return(\html_select_options($options, $selected, $params)); 
 }
 
 
