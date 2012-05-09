@@ -15,7 +15,7 @@
 "Apps" => "Aplicaciones",
 "Admin" => "Administrador",
 "Help" => "Ayuda",
-"Cloud not found" => "No se encontró la nube",
+"Cloud not found" => "No se ha encontrado la nube",
 "Create an <strong>admin account</strong>" => "Crea una <strong>cuenta de administrador</strong>",
 "Password" => "Contraseña",
 "Advanced" => "Avanzado",

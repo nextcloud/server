@@ -1,0 +1,669 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Donahue Chuang <soshinwu@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.net/projects/p/owncloud/language/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/activation.php:19 ajax/updateaddressbook.php:32
+msgid "Error (de)activating addressbook."
+msgstr "在啟用或關閉電話簿時發生錯誤"
+
+#: ajax/addcontact.php:58
+msgid "There was an error adding the contact."
+msgstr "添加通訊錄發生錯誤"
+
+#: ajax/addproperty.php:40
+msgid "Cannot add empty property."
+msgstr "不可添加空白內容"
+
+#: ajax/addproperty.php:52
+msgid "At least one of the address fields has to be filled out."
+msgstr "至少必須填寫一欄地址"
+
+#: ajax/addproperty.php:62
+msgid "Trying to add duplicate property: "
+msgstr ""
+
+#: ajax/addproperty.php:120
+msgid "Error adding contact property."
+msgstr "添加通訊錄內容中發生錯誤"
+
+#: ajax/categories/categoriesfor.php:15
+msgid "No ID provided"
+msgstr ""
+
+#: ajax/categories/categoriesfor.php:27
+msgid "Error setting checksum."
+msgstr ""
+
+#: ajax/categories/delete.php:29
+msgid "No categories selected for deletion."
+msgstr ""
+
+#: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
+msgid "No address books found."
+msgstr ""
+
+#: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
+msgid "No contacts found."
+msgstr ""
+
+#: ajax/contactdetails.php:37
+msgid "Missing ID"
+msgstr ""
+
+#: ajax/contactdetails.php:41
+msgid "Error parsing VCard for ID: \""
+msgstr ""
+
+#: ajax/contactdetails.php:53
+msgid "Unknown"
+msgstr ""
+
+#: ajax/createaddressbook.php:18
+msgid "Cannot add addressbook with an empty name."
+msgstr ""
+
+#: ajax/createaddressbook.php:24
+msgid "Error adding addressbook."
+msgstr "添加電話簿中發生錯誤"
+
+#: ajax/createaddressbook.php:30
+msgid "Error activating addressbook."
+msgstr "啟用電話簿中發生錯誤"
+
+#: ajax/currentphoto.php:40 ajax/oc_photo.php:40
+msgid "No contact ID was submitted."
+msgstr ""
+
+#: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
+msgid "Error loading image."
+msgstr ""
+
+#: ajax/currentphoto.php:51
+msgid "Error reading contact photo."
+msgstr ""
+
+#: ajax/currentphoto.php:61
+msgid "Error saving temporary file."
+msgstr ""
+
+#: ajax/currentphoto.php:64
+msgid "The loading photo is not valid."
+msgstr ""
+
+#: ajax/deletecard.php:37 ajax/saveproperty.php:58
+msgid "id is not set."
+msgstr ""
+
+#: ajax/deleteproperty.php:36
+msgid "Information about vCard is incorrect. Please reload the page."
+msgstr "有關 vCard 的資訊不正確，請重新載入此頁。"
+
+#: ajax/deleteproperty.php:43
+msgid "Error deleting contact property."
+msgstr "刪除通訊錄內容中發生錯誤"
+
+#: ajax/editname.php:37
+msgid "Contact ID is missing."
+msgstr ""
+
+#: ajax/loadphoto.php:44
+msgid "Missing contact id."
+msgstr ""
+
+#: ajax/oc_photo.php:44
+msgid "No photo path was submitted."
+msgstr ""
+
+#: ajax/oc_photo.php:51
+msgid "File doesn't exist:"
+msgstr ""
+
+#: ajax/saveproperty.php:55
+msgid "element name is not set."
+msgstr ""
+
+#: ajax/saveproperty.php:61
+msgid "checksum is not set."
+msgstr ""
+
+#: ajax/saveproperty.php:78
+msgid "Information about vCard is incorrect. Please reload the page: "
+msgstr ""
+
+#: ajax/saveproperty.php:83
+msgid "Something went FUBAR. "
+msgstr ""
+
+#: ajax/saveproperty.php:153
+msgid "Error updating contact property."
+msgstr "更新通訊錄內容中發生錯誤"
+
+#: ajax/updateaddressbook.php:20
+msgid "Cannot update addressbook with an empty name."
+msgstr ""
+
+#: ajax/updateaddressbook.php:26
+msgid "Error updating addressbook."
+msgstr "電話簿更新中發生錯誤"
+
+#: ajax/uploadimport.php:46 ajax/uploadimport.php:76
+msgid "Error uploading contacts to storage."
+msgstr ""
+
+#: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
+msgid "There is no error, the file uploaded with success"
+msgstr ""
+
+#: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
+
+#: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+
+#: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
+msgid "The uploaded file was only partially uploaded"
+msgstr ""
+
+#: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
+msgid "No file was uploaded"
+msgstr ""
+
+#: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
+msgid "Missing a temporary folder"
+msgstr ""
+
+#: appinfo/app.php:22 templates/settings.php:3
+msgid "Contacts"
+msgstr "通訊錄"
+
+#: lib/app.php:23
+msgid "Addressbook not found."
+msgstr ""
+
+#: lib/app.php:27
+msgid "This is not your addressbook."
+msgstr "這不是你的電話簿"
+
+#: lib/app.php:38
+msgid "Contact could not be found."
+msgstr "通訊錄未發現"
+
+#: lib/app.php:94 templates/part.contact.php:109
+msgid "Address"
+msgstr "地址"
+
+#: lib/app.php:95
+msgid "Telephone"
+msgstr "電話"
+
+#: lib/app.php:96 templates/part.contact.php:108
+msgid "Email"
+msgstr "電子郵件"
+
+#: lib/app.php:97 templates/part.contact.php:33 templates/part.contact.php:34
+#: templates/part.contact.php:104
+msgid "Organization"
+msgstr "組織"
+
+#: lib/app.php:109 lib/app.php:116 lib/app.php:126
+msgid "Work"
+msgstr "公司"
+
+#: lib/app.php:110 lib/app.php:114 lib/app.php:127
+msgid "Home"
+msgstr "住宅"
+
+#: lib/app.php:115
+msgid "Mobile"
+msgstr "行動電話"
+
+#: lib/app.php:117
+msgid "Text"
+msgstr "文字"
+
+#: lib/app.php:118
+msgid "Voice"
+msgstr "語音"
+
+#: lib/app.php:119
+msgid "Message"
+msgstr ""
+
+#: lib/app.php:120
+msgid "Fax"
+msgstr "傳真"
+
+#: lib/app.php:121
+msgid "Video"
+msgstr "影片"
+
+#: lib/app.php:122
+msgid "Pager"
+msgstr "呼叫器"
+
+#: lib/app.php:128
+msgid "Internet"
+msgstr ""
+
+#: lib/hooks.php:79
+msgid "{name}'s Birthday"
+msgstr ""
+
+#: lib/search.php:22
+msgid "Contact"
+msgstr "通訊錄"
+
+#: templates/index.php:13
+msgid "Add Contact"
+msgstr "添加通訊錄"
+
+#: templates/index.php:14
+msgid "Addressbooks"
+msgstr "電話簿"
+
+#: templates/part.chooseaddressbook.php:1
+msgid "Configure Address Books"
+msgstr ""
+
+#: templates/part.chooseaddressbook.php:16
+msgid "New Address Book"
+msgstr "新電話簿"
+
+#: templates/part.chooseaddressbook.php:17
+msgid "Import from VCF"
+msgstr ""
+
+#: templates/part.chooseaddressbook.php:22
+#: templates/part.chooseaddressbook.rowfields.php:8
+msgid "CardDav Link"
+msgstr "CardDav 聯結"
+
+#: templates/part.chooseaddressbook.rowfields.php:11
+msgid "Download"
+msgstr "下載"
+
+#: templates/part.chooseaddressbook.rowfields.php:14
+msgid "Edit"
+msgstr "編輯"
+
+#: templates/part.chooseaddressbook.rowfields.php:17
+#: templates/part.contact.php:34 templates/part.contact.php:36
+#: templates/part.contact.php:38 templates/part.contact.php:42
+msgid "Delete"
+msgstr "刪除"
+
+#: templates/part.contact.php:12
+msgid "Download contact"
+msgstr "下載通訊錄"
+
+#: templates/part.contact.php:13
+msgid "Delete contact"
+msgstr "刪除通訊錄"
+
+#: templates/part.contact.php:19
+msgid "Drop photo to upload"
+msgstr ""
+
+#: templates/part.contact.php:29
+msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
+msgstr ""
+
+#: templates/part.contact.php:30
+msgid "Edit name details"
+msgstr ""
+
+#: templates/part.contact.php:35 templates/part.contact.php:105
+msgid "Nickname"
+msgstr ""
+
+#: templates/part.contact.php:36
+msgid "Enter nickname"
+msgstr ""
+
+#: templates/part.contact.php:37 templates/part.contact.php:106
+msgid "Birthday"
+msgstr "生日"
+
+#: templates/part.contact.php:38
+msgid "dd-mm-yyyy"
+msgstr ""
+
+#: templates/part.contact.php:39 templates/part.contact.php:111
+msgid "Groups"
+msgstr ""
+
+#: templates/part.contact.php:41
+msgid "Separate groups with commas"
+msgstr ""
+
+#: templates/part.contact.php:42
+msgid "Edit groups"
+msgstr ""
+
+#: templates/part.contact.php:55 templates/part.contact.php:69
+msgid "Preferred"
+msgstr "首選"
+
+#: templates/part.contact.php:56
+msgid "Please specify a valid email address."
+msgstr ""
+
+#: templates/part.contact.php:56
+msgid "Enter email address"
+msgstr ""
+
+#: templates/part.contact.php:60
+msgid "Mail to address"
+msgstr ""
+
+#: templates/part.contact.php:61
+msgid "Delete email address"
+msgstr ""
+
+#: templates/part.contact.php:70
+msgid "Enter phone number"
+msgstr ""
+
+#: templates/part.contact.php:74
+msgid "Delete phone number"
+msgstr ""
+
+#: templates/part.contact.php:84
+msgid "View on map"
+msgstr ""
+
+#: templates/part.contact.php:84
+msgid "Edit address details"
+msgstr ""
+
+#: templates/part.contact.php:95
+msgid "Add notes here."
+msgstr ""
+
+#: templates/part.contact.php:101
+msgid "Add field"
+msgstr ""
+
+#: templates/part.contact.php:103
+msgid "Profile picture"
+msgstr ""
+
+#: templates/part.contact.php:107
+msgid "Phone"
+msgstr "電話"
+
+#: templates/part.contact.php:110
+msgid "Note"
+msgstr ""
+
+#: templates/part.contactphoto.php:8
+msgid "Delete current photo"
+msgstr ""
+
+#: templates/part.contactphoto.php:9
+msgid "Edit current photo"
+msgstr ""
+
+#: templates/part.contactphoto.php:10
+msgid "Upload new photo"
+msgstr ""
+
+#: templates/part.contactphoto.php:11
+msgid "Select photo from ownCloud"
+msgstr ""
+
+#: templates/part.edit_address_dialog.php:9
+msgid "Edit address"
+msgstr ""
+
+#: templates/part.edit_address_dialog.php:14
+msgid "Type"
+msgstr "類型"
+
+#: templates/part.edit_address_dialog.php:22
+#: templates/part.edit_address_dialog.php:25
+msgid "PO Box"
+msgstr "通訊地址"
+
+#: templates/part.edit_address_dialog.php:29
+#: templates/part.edit_address_dialog.php:32
+msgid "Extended"
+msgstr "分機"
+
+#: templates/part.edit_address_dialog.php:35
+#: templates/part.edit_address_dialog.php:38
+msgid "Street"
+msgstr "街道"
+
+#: templates/part.edit_address_dialog.php:41
+#: templates/part.edit_address_dialog.php:44
+msgid "City"
+msgstr "城市"
+
+#: templates/part.edit_address_dialog.php:47
+#: templates/part.edit_address_dialog.php:50
+msgid "Region"
+msgstr "地區"
+
+#: templates/part.edit_address_dialog.php:53
+#: templates/part.edit_address_dialog.php:56
+msgid "Zipcode"
+msgstr "郵遞區號"
+
+#: templates/part.edit_address_dialog.php:59
+#: templates/part.edit_address_dialog.php:62
+msgid "Country"
+msgstr "國家"
+
+#: templates/part.edit_categories_dialog.php:4
+msgid "Edit categories"
+msgstr ""
+
+#: templates/part.edit_categories_dialog.php:14
+msgid "Add"
+msgstr "添加"
+
+#: templates/part.edit_name_dialog.php:16
+msgid "Addressbook"
+msgstr "電話簿"
+
+#: templates/part.edit_name_dialog.php:23
+msgid "Hon. prefixes"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:27
+msgid "Miss"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:28
+msgid "Ms"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:29
+msgid "Mr"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:30
+msgid "Sir"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:31
+msgid "Mrs"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:32
+msgid "Dr"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:35
+msgid "Given name"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:37
+msgid "Additional names"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:39
+msgid "Family name"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:41
+msgid "Hon. suffixes"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:45
+msgid "J.D."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:46
+msgid "M.D."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:47
+msgid "D.O."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:48
+msgid "D.C."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:49
+msgid "Ph.D."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:50
+msgid "Esq."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:51
+msgid "Jr."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:52
+msgid "Sn."
+msgstr ""
+
+#: templates/part.editaddressbook.php:9
+msgid "New Addressbook"
+msgstr "新電話簿"
+
+#: templates/part.editaddressbook.php:9
+msgid "Edit Addressbook"
+msgstr "編輯電話簿"
+
+#: templates/part.editaddressbook.php:12
+msgid "Displayname"
+msgstr "顯示名稱"
+
+#: templates/part.editaddressbook.php:23
+msgid "Active"
+msgstr "作用中"
+
+#: templates/part.editaddressbook.php:29
+msgid "Save"
+msgstr "儲存"
+
+#: templates/part.editaddressbook.php:29
+msgid "Submit"
+msgstr "提出"
+
+#: templates/part.editaddressbook.php:30
+#: templates/part.importaddressbook.php:28
+msgid "Cancel"
+msgstr "取消"
+
+#: templates/part.import.php:1
+msgid "Import a contacts file"
+msgstr ""
+
+#: templates/part.import.php:6
+msgid "Please choose the addressbook"
+msgstr ""
+
+#: templates/part.import.php:10
+msgid "create a new addressbook"
+msgstr ""
+
+#: templates/part.import.php:15
+msgid "Name of new addressbook"
+msgstr ""
+
+#: templates/part.import.php:17
+msgid "Import"
+msgstr ""
+
+#: templates/part.import.php:20
+msgid "Importing contacts"
+msgstr ""
+
+#: templates/part.import.php:23
+msgid "Contacts imported successfully"
+msgstr ""
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr ""
+
+#: templates/part.importaddressbook.php:9
+msgid "Import Addressbook"
+msgstr ""
+
+#: templates/part.importaddressbook.php:12
+msgid "Select address book to import to:"
+msgstr ""
+
+#: templates/part.importaddressbook.php:20
+msgid "Drop a VCF file to import contacts."
+msgstr ""
+
+#: templates/part.importaddressbook.php:21
+msgid "Select from HD"
+msgstr ""
+
+#: templates/part.no_contacts.php:2
+msgid "You have no contacts in your addressbook."
+msgstr ""
+
+#: templates/part.no_contacts.php:4
+msgid "Add contact"
+msgstr ""
+
+#: templates/part.no_contacts.php:5
+msgid "Configure addressbooks"
+msgstr ""
+
+#: templates/settings.php:4
+msgid "CardDAV syncing addresses"
+msgstr ""
+
+#: templates/settings.php:4
+msgid "more info"
+msgstr ""
+
+#: templates/settings.php:6
+msgid "Primary address (Kontact et al)"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "iOS/OS X"
+msgstr ""

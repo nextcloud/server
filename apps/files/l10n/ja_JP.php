@@ -10,7 +10,6 @@
 "New" => "新規作成",
 "Text file" => "テキストファイル",
 "Folder" => "フォルダ",
-"From the web" => "ウェブ経由",
 "Upload" => "アップロード",
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",
 "Name" => "名前",

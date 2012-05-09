@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aranel Surion <aranel@aranelsurion.org>, 2011.
+# Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.net/projects/p/owncloud/team/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.net/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,8 +24,7 @@ msgstr "Bir hata yok, dosya başarıyla yüklendi"
 
 #: ajax/upload.php:20
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
-"Yüklenen dosya php.ini de belirtilen upload_max_filesize sınırını aşıyor"
+msgstr "Yüklenen dosya php.ini de belirtilen upload_max_filesize sınırını aşıyor"
 
 #: ajax/upload.php:21
 msgid ""
@@ -45,68 +44,112 @@ msgstr "Hiç dosya yüklenmedi"
 msgid "Missing a temporary folder"
 msgstr "Geçici bir klasör eksik"
 
-#: appinfo/app.php:8
+#: ajax/upload.php:25
+msgid "Failed to write to disk"
+msgstr ""
+
+#: appinfo/app.php:7
 msgid "Files"
 msgstr "Dosyalar"
 
 #: templates/admin.php:5
+msgid "File handling"
+msgstr ""
+
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Maksimum yükleme boyutu"
 
+#: templates/admin.php:7
+msgid "max. possible: "
+msgstr ""
+
+#: templates/admin.php:9
+msgid "Needed for multi-file and folder downloads."
+msgstr ""
+
+#: templates/admin.php:9
+msgid "Enable ZIP-download"
+msgstr ""
+
+#: templates/admin.php:11
+msgid "0 is unlimited"
+msgstr ""
+
+#: templates/admin.php:12
+msgid "Maximum input size for ZIP files"
+msgstr ""
+
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Yeni"
+
+#: templates/index.php:9
+msgid "Text file"
+msgstr "Metin dosyası"
 
 #: templates/index.php:10
-msgid "Text file"
-msgstr ""
+msgid "Folder"
+msgstr "Klasör"
 
 #: templates/index.php:11
-msgid "Folder"
+msgid "From url"
 msgstr ""
 
-#: templates/index.php:12
-msgid "From the web"
-msgstr ""
-
-#: templates/index.php:22
+#: templates/index.php:21
 msgid "Upload"
 msgstr "Yükle"
 
-#: templates/index.php:35
+#: templates/index.php:27
+msgid "Cancel upload"
+msgstr ""
+
+#: templates/index.php:39
 msgid "Nothing in here. Upload something!"
 msgstr "Burada hiçbir şey yok. Birşeyler yükleyin!"
 
-#: templates/index.php:43
+#: templates/index.php:47
 msgid "Name"
 msgstr "Ad"
 
-#: templates/index.php:45
+#: templates/index.php:49
+msgid "Share"
+msgstr ""
+
+#: templates/index.php:51
 msgid "Download"
 msgstr "İndir"
 
-#: templates/index.php:49
+#: templates/index.php:55
 msgid "Size"
 msgstr "Boyut"
 
-#: templates/index.php:50
+#: templates/index.php:56
 msgid "Modified"
 msgstr "Değiştirilme"
 
-#: templates/index.php:50
+#: templates/index.php:56
+msgid "Delete all"
+msgstr ""
+
+#: templates/index.php:56
 msgid "Delete"
 msgstr "Sil"
 
-#: templates/index.php:58
+#: templates/index.php:64
 msgid "Upload too large"
 msgstr "Yüklemeniz çok büyük"
 
-#: templates/index.php:60
+#: templates/index.php:66
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
+msgstr "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor."
+
+#: templates/index.php:71
+msgid "Files are being scanned, please wait."
 msgstr ""
-"Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu "
-"aşıyor."
 
-
+#: templates/index.php:74
+msgid "Current scanning"
+msgstr ""

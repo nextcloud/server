@@ -4,8 +4,6 @@
 "OpenID Changed" => "OpenID ha canviat",
 "Language changed" => "S'ha canviat l'idioma",
 "__language_name__" => "Català",
-"Log level" => "Nivell de registres",
-"Add your application" => "Afegir una aplicació",
 "Select an App" => "Seleccioneu una aplicació",
 "-licensed" => "- amb llicència",
 "by" => "de",
@@ -32,5 +30,5 @@
 "Groups" => "Grups",
 "Create" => "Crea",
 "Quota" => "Quota",
-"Delete" => "Esborra"
+"Delete" => "Suprimeix"
 );

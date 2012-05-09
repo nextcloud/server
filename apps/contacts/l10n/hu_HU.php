@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Information about vCard is incorrect. Please reload the page." => "A vCardról szóló információ helytelen. Töltsd újra az oldalt.",
 "This is not your addressbook." => "Ez nem a te címjegyzéked.",
 "Contact could not be found." => "Kapcsolat nem található.",
-"Information about vCard is incorrect. Please reload the page." => "A vCardról szóló információ helytelen. Töltsd újra az oldalt.",
 "Address" => "Cím",
 "Telephone" => "Telefonszám",
 "Email" => "E-mail",
@@ -14,19 +14,16 @@
 "Fax" => "Fax",
 "Video" => "Video",
 "Pager" => "Lapozó",
-"This is not your contact." => "Nem a te kapcsolatod.",
 "Add Contact" => "Kontakt hozzáadása",
-"Name" => "Név",
+"Edit" => "Szerkesztés",
+"Delete" => "Törlés",
+"Birthday" => "Születésnap",
+"Phone" => "Telefonszám",
 "PO Box" => "Postafiók",
 "Extended" => "Kiterjesztett",
 "Street" => "Utca",
 "City" => "Helység",
 "Region" => "Megye",
 "Zipcode" => "Irányítószám",
-"Country" => "Ország",
-"Create Contact" => "Kontakt létrehozása",
-"Edit" => "Szerkesztés",
-"Delete" => "Törlés",
-"Birthday" => "Születésnap",
-"Phone" => "Telefonszám"
+"Country" => "Ország"
 );

@@ -10,7 +10,6 @@
 "New" => "Нови",
 "Text file" => "текстуални фајл",
 "Folder" => "фасцикла",
-"From the web" => "са веба",
 "Upload" => "Пошаљи",
 "Nothing in here. Upload something!" => "Овде нема ничег. Пошаљите нешто!",
 "Name" => "Име",

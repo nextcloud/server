@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Roman Priesol <roman@priesol.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Slovak (Slovakia) (http://www.transifex.net/projects/p/owncloud/team/sk_SK/)\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-04-06 15:17+0000\n"
+"Last-Translator: Roman Priesol <roman@priesol.net>\n"
+"Language-Team: Slovak (Slovakia) (http://www.transifex.net/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
-#: appinfo/app.php:32
+#: appinfo/app.php:32 templates/player.php:9
 msgid "Music"
 msgstr "Hudba"
 
@@ -47,7 +48,7 @@ msgstr "Nahlas"
 
 #: templates/music.php:25
 msgid "Rescan Collection"
-msgstr "Znovu skenovať Zbierku"
+msgstr "Znovu skenovať zbierku"
 
 #: templates/music.php:37
 msgid "Artist"
@@ -60,5 +61,3 @@ msgstr "Album"
 #: templates/music.php:39
 msgid "Title"
 msgstr "Názov"
-
-

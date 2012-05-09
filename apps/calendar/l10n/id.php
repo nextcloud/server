@@ -30,11 +30,11 @@
 "All Day Event" => "Agenda di Semua Hari",
 "From" => "Dari",
 "To" => "Ke",
-"Repeat" => "Ulangi",
 "Location" => "Lokasi",
 "Location of the Event" => "Lokasi Agenda",
 "Description" => "Deskripsi",
 "Description of the Event" => "Deskripsi dari Agenda",
+"Repeat" => "Ulangi",
 "Create a new event" => "Buat agenda baru",
 "Timezone" => "Zonawaktu"
 );

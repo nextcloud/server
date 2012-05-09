@@ -10,7 +10,6 @@
 "New" => "Nový",
 "Text file" => "Textový soubor",
 "Folder" => "Adresář",
-"From the web" => "Z webu",
 "Upload" => "Uložit",
 "Nothing in here. Upload something!" => "Žádný obsah. Uložte si něco!",
 "Name" => "Název",

@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Owncloud password reset" => "Επανέκδοση κωδικού για το Qwncloud",
+"Owncloud password reset" => "Επανέκδοση κωδικού για το Owncloud",
 "Use the following link to reset your password: {link}" => "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}",
 "You will receive a link to reset your password via Email." => "Θα λάβετε ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας μέσω ηλεκτρονικού ταχυδρομείου.",
 "Requested" => "Ζητήθησαν",

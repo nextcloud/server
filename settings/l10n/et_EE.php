@@ -4,8 +4,6 @@
 "OpenID Changed" => "OpenID on muudetud",
 "Language changed" => "Keel on muudetud",
 "__language_name__" => "Eesti",
-"Log level" => "Logi tase",
-"Add your application" => "Lisa oma programm",
 "Select an App" => "Vali programm",
 "-licensed" => "-litsenseeritud",
 "by" => "kelle poolt",

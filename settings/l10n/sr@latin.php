@@ -2,7 +2,6 @@
 "Invalid request" => "Neispravan zahtev",
 "OpenID Changed" => "OpenID je izmenjen",
 "Language changed" => "Jezik je izmenjen",
-"Add your application" => "Dodajte svoj program",
 "Select an App" => "Izaberite program",
 "-licensed" => "-licenciran",
 "by" => "od",

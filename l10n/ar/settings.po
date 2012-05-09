@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-24 00:25+0100\n"
-"PO-Revision-Date: 2012-01-25 09:39+0000\n"
-"Last-Translator: blackcoder <tarek.taha@gmail.com>\n"
-"Language-Team: Arabic (http://www.transifex.net/projects/p/owncloud/team/ar/)\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Arabic (http://www.transifex.net/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,7 +23,8 @@ msgstr ""
 msgid "email Changed"
 msgstr "تم تغير العنوان البريدي"
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
+#: ajax/setlanguage.php:22
 msgid "Invalid request"
 msgstr "طلبك غير مفهوم"
 
@@ -31,47 +32,59 @@ msgstr "طلبك غير مفهوم"
 msgid "OpenID Changed"
 msgstr "تم تغيير ال OpenID"
 
-#: ajax/setlanguage.php:14
+#: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "تم تغيير اللغة"
 
-#: personal.php:36 personal.php:37
+#: personal.php:39 personal.php:40
 msgid "__language_name__"
 msgstr "__language_name__"
 
 #: templates/admin.php:13
-msgid "Log level"
-msgstr "مستوى المراقبه"
+msgid "Log"
+msgstr ""
+
+#: templates/admin.php:40
+msgid "More"
+msgstr ""
 
 #: templates/apps.php:8
-msgid "Add your application"
-msgstr "أضف تطبيقاتك"
+msgid "Add your App"
+msgstr ""
 
-#: templates/apps.php:21
+#: templates/apps.php:22
 msgid "Select an App"
 msgstr "إختر تطبيقاً"
 
-#: templates/apps.php:23
+#: templates/apps.php:25
 msgid "-licensed"
 msgstr "-مسجل"
 
-#: templates/apps.php:23
+#: templates/apps.php:25
 msgid "by"
 msgstr "من قبل"
 
 #: templates/help.php:8
+msgid "Documentation"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Managing Big Files"
+msgstr ""
+
+#: templates/help.php:10
 msgid "Ask a question"
 msgstr "إسأل سؤال"
 
-#: templates/help.php:20
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "الاتصال بقاعدة بيانات المساعدة لم يتم بنجاح"
 
-#: templates/help.php:21
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "إذهب هنالك بنفسك"
 
-#: templates/help.php:29
+#: templates/help.php:31
 msgid "Answer"
 msgstr "الجواب"
 
@@ -83,76 +96,90 @@ msgstr "أنت تستخدم"
 msgid "of the available"
 msgstr "من الموجود"
 
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr ""
+
 #: templates/personal.php:13
+msgid "Download"
+msgstr ""
+
+#: templates/personal.php:19
 msgid "Your password got changed"
 msgstr "لقد تم تغيير كلمات السر"
 
-#: templates/personal.php:14
+#: templates/personal.php:20
 msgid "Unable to change your password"
 msgstr "لم يتم تعديل كلمة السر بنجاح"
 
-#: templates/personal.php:15
+#: templates/personal.php:21
 msgid "Current password"
 msgstr "كلمات السر الحالية"
 
-#: templates/personal.php:16
+#: templates/personal.php:22
 msgid "New password"
 msgstr "كلمات سر جديدة"
 
-#: templates/personal.php:17
+#: templates/personal.php:23
 msgid "show"
 msgstr "أظهر"
 
-#: templates/personal.php:18
+#: templates/personal.php:24
 msgid "Change password"
 msgstr "عدل كلمة السر"
 
-#: templates/personal.php:24
+#: templates/personal.php:30
 msgid "Email"
 msgstr "العنوان البريدي"
 
-#: templates/personal.php:25
+#: templates/personal.php:31
 msgid "Your email address"
 msgstr "عنوانك البريدي"
 
-#: templates/personal.php:26
+#: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
 msgstr "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور"
 
-#: templates/personal.php:32 templates/personal.php:33
+#: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
 msgstr "اللغة"
 
-#: templates/personal.php:38
+#: templates/personal.php:44
 msgid "Help translate"
 msgstr "ساعد في الترجمه"
 
-#: templates/personal.php:45
+#: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "إستخدم هذا العنوان للإتصال ب ownCloud داخل نظام الملفات "
 
-#: templates/users.php:15 templates/users.php:30
+#: templates/users.php:15 templates/users.php:44
 msgid "Name"
 msgstr "الاسم"
 
-#: templates/users.php:16 templates/users.php:31
+#: templates/users.php:16 templates/users.php:45
 msgid "Password"
 msgstr "كلمات السر"
 
-#: templates/users.php:17 templates/users.php:32 templates/users.php:46
+#: templates/users.php:17 templates/users.php:46 templates/users.php:60
 msgid "Groups"
 msgstr "مجموعات"
 
-#: templates/users.php:23
+#: templates/users.php:22
 msgid "Create"
 msgstr "انشئ"
 
-#: templates/users.php:33
+#: templates/users.php:25
+msgid "Default Quota"
+msgstr ""
+
+#: templates/users.php:35 templates/users.php:74
+msgid "Other"
+msgstr ""
+
+#: templates/users.php:47
 msgid "Quota"
 msgstr "حصه"
 
-#: templates/users.php:58
+#: templates/users.php:80
 msgid "Delete"
 msgstr "حذف"
-
-

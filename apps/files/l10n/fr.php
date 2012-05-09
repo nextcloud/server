@@ -10,7 +10,6 @@
 "New" => "Nouveau",
 "Text file" => "Fichier texte",
 "Folder" => "Dossier",
-"From the web" => "Depuis le web",
 "Upload" => "Envoyer",
 "Nothing in here. Upload something!" => "Il n'y a rien ici ! Envoyez donc quelque chose :)",
 "Name" => "Nom",

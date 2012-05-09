@@ -2,7 +2,6 @@
 "Invalid request" => "Érvénytelen kérés",
 "OpenID Changed" => "OpenID megváltozott",
 "Language changed" => "A nyelv megváltozott",
-"Add your application" => "Alkalmazásod hozzáadása",
 "Select an App" => "Egy App kiválasztása",
 "-licensed" => "-licenszelt",
 "Ask a question" => "Tégy fel egy kérdést",

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Gallery" => "Galería",
-"Rescan" => "Voltar a analizar",
+"Rescan" => "Analizar de novo",
 "Back" => "Atrás"
 );

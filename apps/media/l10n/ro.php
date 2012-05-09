@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Music" => "Muzică",
-"Play" => "Play",
+"Play" => "Redă",
 "Pause" => "Pauză",
 "Previous" => "Precedent",
 "Next" => "Următor",

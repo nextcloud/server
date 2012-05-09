@@ -1,0 +1,184 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Shinjo Park <kde@peremen.name>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Korean (http://www.transifex.net/projects/p/owncloud/language/ko/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/lostpassword.php:14
+msgid "email Changed"
+msgstr "전자 우편 주소 변경됨"
+
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
+#: ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr "잘못된 요청"
+
+#: ajax/openid.php:15
+msgid "OpenID Changed"
+msgstr "OpenID 변경됨"
+
+#: ajax/setlanguage.php:17
+msgid "Language changed"
+msgstr "언어가 변경되었습니다"
+
+#: personal.php:39 personal.php:40
+msgid "__language_name__"
+msgstr "한국어"
+
+#: templates/admin.php:13
+msgid "Log"
+msgstr ""
+
+#: templates/admin.php:40
+msgid "More"
+msgstr ""
+
+#: templates/apps.php:8
+msgid "Add your App"
+msgstr ""
+
+#: templates/apps.php:22
+msgid "Select an App"
+msgstr "프로그램 선택"
+
+#: templates/apps.php:25
+msgid "-licensed"
+msgstr " 라이선스 사용"
+
+#: templates/apps.php:25
+msgid "by"
+msgstr " by "
+
+#: templates/help.php:8
+msgid "Documentation"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Managing Big Files"
+msgstr ""
+
+#: templates/help.php:10
+msgid "Ask a question"
+msgstr "질문하기"
+
+#: templates/help.php:22
+msgid "Problems connecting to help database."
+msgstr "데이터베이스에 연결하는 데 문제가 발생하였습니다."
+
+#: templates/help.php:23
+msgid "Go there manually."
+msgstr "직접 갈 수 있습니다."
+
+#: templates/help.php:31
+msgid "Answer"
+msgstr "대답"
+
+#: templates/personal.php:8
+msgid "You use"
+msgstr "현재 사용 중:"
+
+#: templates/personal.php:8
+msgid "of the available"
+msgstr "사용 가능:"
+
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr ""
+
+#: templates/personal.php:13
+msgid "Download"
+msgstr ""
+
+#: templates/personal.php:19
+msgid "Your password got changed"
+msgstr "암호가 변경되었습니다"
+
+#: templates/personal.php:20
+msgid "Unable to change your password"
+msgstr "암호를 변경할 수 없음"
+
+#: templates/personal.php:21
+msgid "Current password"
+msgstr "현재 암호"
+
+#: templates/personal.php:22
+msgid "New password"
+msgstr "새 암호"
+
+#: templates/personal.php:23
+msgid "show"
+msgstr "보이기"
+
+#: templates/personal.php:24
+msgid "Change password"
+msgstr "암호 변경"
+
+#: templates/personal.php:30
+msgid "Email"
+msgstr "전자 우편"
+
+#: templates/personal.php:31
+msgid "Your email address"
+msgstr "전자 우편 주소"
+
+#: templates/personal.php:32
+msgid "Fill in an email address to enable password recovery"
+msgstr "암호 찾기 기능을 사용하려면 전자 우편 주소를 입력하십시오."
+
+#: templates/personal.php:38 templates/personal.php:39
+msgid "Language"
+msgstr "언어"
+
+#: templates/personal.php:44
+msgid "Help translate"
+msgstr "번역 돕기"
+
+#: templates/personal.php:51
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr "파일 관리자에서 내 ownCloud에 연결할 때 이 주소를 사용하십시오"
+
+#: templates/users.php:15 templates/users.php:44
+msgid "Name"
+msgstr "이름"
+
+#: templates/users.php:16 templates/users.php:45
+msgid "Password"
+msgstr "암호"
+
+#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+msgid "Groups"
+msgstr "그룹"
+
+#: templates/users.php:22
+msgid "Create"
+msgstr "만들기"
+
+#: templates/users.php:25
+msgid "Default Quota"
+msgstr ""
+
+#: templates/users.php:35 templates/users.php:74
+msgid "Other"
+msgstr ""
+
+#: templates/users.php:47
+msgid "Quota"
+msgstr "할당량"
+
+#: templates/users.php:80
+msgid "Delete"
+msgstr "삭제"

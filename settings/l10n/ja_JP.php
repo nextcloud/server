@@ -4,8 +4,6 @@
 "OpenID Changed" => "OpenIDが変更されました",
 "Language changed" => "言語が変更されました",
 "__language_name__" => "Japanese(日本語)",
-"Log level" => "ログレベル",
-"Add your application" => "アプリを追加してください",
 "Select an App" => "アプリを選択してください",
 "-licensed" => "権利を保持されています",
 "by" => "によって",

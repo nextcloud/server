@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <joan@montane.cat>, 2012.
 #   <rcalvoi@yahoo.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-20 17:48+0100\n"
-"PO-Revision-Date: 2012-01-16 16:47+0000\n"
-"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
-"Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/team/ca/)\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,7 +23,8 @@ msgstr ""
 msgid "email Changed"
 msgstr "el correu electrònic ha canviat"
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
+#: ajax/setlanguage.php:22
 msgid "Invalid request"
 msgstr "Sol.licitud no vàlida"
 
@@ -30,47 +32,59 @@ msgstr "Sol.licitud no vàlida"
 msgid "OpenID Changed"
 msgstr "OpenID ha canviat"
 
-#: ajax/setlanguage.php:14
+#: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "S'ha canviat l'idioma"
 
-#: personal.php:36 personal.php:37
+#: personal.php:39 personal.php:40
 msgid "__language_name__"
 msgstr "Català"
 
 #: templates/admin.php:13
-msgid "Log level"
-msgstr "Nivell de registres"
+msgid "Log"
+msgstr ""
+
+#: templates/admin.php:40
+msgid "More"
+msgstr ""
 
 #: templates/apps.php:8
-msgid "Add your application"
-msgstr "Afegir una aplicació"
+msgid "Add your App"
+msgstr ""
 
-#: templates/apps.php:21
+#: templates/apps.php:22
 msgid "Select an App"
 msgstr "Seleccioneu una aplicació"
 
-#: templates/apps.php:23
+#: templates/apps.php:25
 msgid "-licensed"
 msgstr "- amb llicència"
 
-#: templates/apps.php:23
+#: templates/apps.php:25
 msgid "by"
 msgstr "de"
 
 #: templates/help.php:8
+msgid "Documentation"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Managing Big Files"
+msgstr ""
+
+#: templates/help.php:10
 msgid "Ask a question"
 msgstr "Feu una pregunta"
 
-#: templates/help.php:20
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "Problemes per connectar amb la base de dades d'ajuda."
 
-#: templates/help.php:21
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "Vés-hi manualment."
 
-#: templates/help.php:29
+#: templates/help.php:31
 msgid "Answer"
 msgstr "Resposta"
 
@@ -82,77 +96,90 @@ msgstr "Esteu usant"
 msgid "of the available"
 msgstr "del disponible"
 
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr ""
+
 #: templates/personal.php:13
+msgid "Download"
+msgstr ""
+
+#: templates/personal.php:19
 msgid "Your password got changed"
 msgstr "La contrasenya ha canviat"
 
-#: templates/personal.php:14
+#: templates/personal.php:20
 msgid "Unable to change your password"
 msgstr "No s'ha pogut canviar la contrasenya"
 
-#: templates/personal.php:15
+#: templates/personal.php:21
 msgid "Current password"
 msgstr "Contrasenya actual"
 
-#: templates/personal.php:16
+#: templates/personal.php:22
 msgid "New password"
 msgstr "Contrasenya nova"
 
-#: templates/personal.php:17
+#: templates/personal.php:23
 msgid "show"
 msgstr "mostra"
 
-#: templates/personal.php:18
+#: templates/personal.php:24
 msgid "Change password"
 msgstr "Canvia la contrasenya"
 
-#: templates/personal.php:24
+#: templates/personal.php:30
 msgid "Email"
 msgstr "Correu electrònic"
 
-#: templates/personal.php:25
+#: templates/personal.php:31
 msgid "Your email address"
 msgstr "Correu electrònic"
 
-#: templates/personal.php:26
+#: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
 msgstr "Ompliu el correu electrònic per activar la recuperació de contrasenya"
 
-#: templates/personal.php:32 templates/personal.php:33
+#: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:38
+#: templates/personal.php:44
 msgid "Help translate"
 msgstr "Ajudeu-nos amb la traducció"
 
-#: templates/personal.php:45
+#: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
-"useu aquesta adreça per connectar-vos a ownCloud des del gestor de fitxers"
+msgstr "useu aquesta adreça per connectar-vos a ownCloud des del gestor de fitxers"
 
-#: templates/users.php:15 templates/users.php:30
+#: templates/users.php:15 templates/users.php:44
 msgid "Name"
 msgstr "Nom"
 
-#: templates/users.php:16 templates/users.php:31
+#: templates/users.php:16 templates/users.php:45
 msgid "Password"
 msgstr "Contrasenya"
 
-#: templates/users.php:17 templates/users.php:32 templates/users.php:46
+#: templates/users.php:17 templates/users.php:46 templates/users.php:60
 msgid "Groups"
 msgstr "Grups"
 
-#: templates/users.php:23
+#: templates/users.php:22
 msgid "Create"
 msgstr "Crea"
 
-#: templates/users.php:33
+#: templates/users.php:25
+msgid "Default Quota"
+msgstr ""
+
+#: templates/users.php:35 templates/users.php:74
+msgid "Other"
+msgstr ""
+
+#: templates/users.php:47
 msgid "Quota"
 msgstr "Quota"
 
-#: templates/users.php:58
+#: templates/users.php:80
 msgid "Delete"
-msgstr "Esborra"
-
-
+msgstr "Suprimeix"

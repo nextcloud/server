@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Marios Bekatoros <>, 2012.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-15 14:44+0100\n"
-"PO-Revision-Date: 2012-01-11 17:17+0000\n"
-"Last-Translator: Petros Kyladitis <petros.kyladitis@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/team/el/)\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,21 +21,17 @@ msgstr ""
 
 #: ajax/upload.php:19
 msgid "There is no error, the file uploaded with success"
-msgstr "Δεν υπάρχει λάθος, το αρχείο που μεταφορτώθηκε επιτυχώς"
+msgstr "Δεν υπάρχει λάθος, το αρχείο μεταφορτώθηκε επιτυχώς"
 
 #: ajax/upload.php:20
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
-"Το αρχείο που μεταφορτώθηκε υπερβαίνει την οδηγία μέγιστου επιτρεπτού "
-"μεγέθους \"upload_max_filesize\" του php.ini"
+msgstr "Το αρχείο που μεταφορτώθηκε υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"upload_max_filesize\" του php.ini"
 
 #: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
-"Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους "
-"\"MAX_FILE_SIZE\" που έχει οριστεί στην html φόρμα"
+msgstr "Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"MAX_FILE_SIZE\" που έχει οριστεί στην HTML φόρμα"
 
 #: ajax/upload.php:22
 msgid "The uploaded file was only partially uploaded"
@@ -48,68 +45,112 @@ msgstr "Το αρχείο δεν μεταφορτώθηκε"
 msgid "Missing a temporary folder"
 msgstr "Λείπει ένας προσωρινός φάκελος"
 
-#: appinfo/app.php:8
+#: ajax/upload.php:25
+msgid "Failed to write to disk"
+msgstr ""
+
+#: appinfo/app.php:7
 msgid "Files"
 msgstr "Αρχεία"
 
 #: templates/admin.php:5
+msgid "File handling"
+msgstr ""
+
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Μέγιστο μέγεθος μεταφόρτωσης"
+
+#: templates/admin.php:7
+msgid "max. possible: "
+msgstr ""
+
+#: templates/admin.php:9
+msgid "Needed for multi-file and folder downloads."
+msgstr ""
+
+#: templates/admin.php:9
+msgid "Enable ZIP-download"
+msgstr ""
+
+#: templates/admin.php:11
+msgid "0 is unlimited"
+msgstr ""
+
+#: templates/admin.php:12
+msgid "Maximum input size for ZIP files"
+msgstr ""
 
 #: templates/index.php:7
 msgid "New"
 msgstr "Νέο"
 
-#: templates/index.php:10
+#: templates/index.php:9
 msgid "Text file"
 msgstr "Αρχείο κειμένου"
 
-#: templates/index.php:11
+#: templates/index.php:10
 msgid "Folder"
 msgstr "Φάκελος"
 
-#: templates/index.php:12
-msgid "From the web"
-msgstr "Από τον ιστό"
+#: templates/index.php:11
+msgid "From url"
+msgstr ""
 
-#: templates/index.php:22
+#: templates/index.php:21
 msgid "Upload"
 msgstr "Μεταφόρτωση"
 
-#: templates/index.php:35
+#: templates/index.php:27
+msgid "Cancel upload"
+msgstr ""
+
+#: templates/index.php:39
 msgid "Nothing in here. Upload something!"
 msgstr "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!"
 
-#: templates/index.php:43
+#: templates/index.php:47
 msgid "Name"
 msgstr "Όνομα"
 
-#: templates/index.php:45
+#: templates/index.php:49
+msgid "Share"
+msgstr ""
+
+#: templates/index.php:51
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/index.php:49
+#: templates/index.php:55
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: templates/index.php:50
+#: templates/index.php:56
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: templates/index.php:50
+#: templates/index.php:56
+msgid "Delete all"
+msgstr ""
+
+#: templates/index.php:56
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: templates/index.php:58
+#: templates/index.php:64
 msgid "Upload too large"
 msgstr "Πολύ μεγάλο το αρχείο προς μεταφόρτωση"
 
-#: templates/index.php:60
+#: templates/index.php:66
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
+msgstr "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν το διακομιστή."
+
+#: templates/index.php:71
+msgid "Files are being scanned, please wait."
 msgstr ""
-"Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος "
-"μεταφόρτωσης αρχείων σε αυτόν το διακομιστή."
 
-
+#: templates/index.php:74
+msgid "Current scanning"
+msgstr ""
