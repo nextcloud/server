@@ -74,9 +74,11 @@ OC.Share={
 		html += '<div id="privateLink">';
 		html += '<input type="checkbox" name="privateLinkCheckbox" id="privateLinkCheckbox" value="1" /><label for="privateLinkCheckbox">Share with private link</label>';
 		html += '<br />';
+		html += '<form id="emailPrivateLink">';
 		html += '<input id="privateLinkText" style="display:none; width:90%;" />';
 		html += '<input id="email" style="display:none; width:65%;" value="" placeholder="Email link to person" />';
 		html += '<input id="emailButton" style="display:none;" type="submit" value="Send" />';
+		html += '</form>';
 		html += '</div>';
 		$(html).appendTo(appendTo);
 		if (OC.Share.usersAndGroups.length < 1) {
@@ -356,7 +358,8 @@ $(document).ready(function() {
 		$(this).select();
 	});
 
-	$('#emailButton').live('click', function() {
+	$('#emailPrivateLink').live('submit', function() {
+		event.preventDefault();
 		OC.Share.emailPrivateLink();
 	});
 });
