@@ -443,7 +443,6 @@ Contacts={
 					}
 				});
 				this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-				var full = '';
 				var narray = undefined;
 				if(this.data.FN) {
 					this.fn = this.data.FN[0]['value'];
@@ -453,7 +452,6 @@ Contacts={
 				}
 				if(this.data.N == undefined) {
 					narray = [this.fn,'','','','']; // Checking for non-existing 'N' property :-P
-					full = this.fn;
 				} else {
 					narray = this.data.N[0]['value'];
 				}
@@ -479,7 +477,6 @@ Contacts={
 				}
 				$('#n').html(this.fullname);
 				$('#fn_select option').remove();
-				$('#fn_select').combobox('value', this.fn);
 				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
 				if(this.data.ORG) {
 					names[names.length]=this.data.ORG[0].value;
@@ -489,6 +486,7 @@ Contacts={
 						.append($('<option></option>')
 						.text(value)); 
 				});
+				$('#fn_select').combobox('value', this.fn);
 				$('#contact_identity').find('*[data-element="N"]').data('checksum', this.data.N[0]['checksum']);
 				if(this.data.FN) {
 					$('#contact_identity').find('*[data-element="FN"]').data('checksum', this.data.FN[0]['checksum']);
@@ -564,6 +562,22 @@ Contacts={
 				var checksum = container.data('checksum');
 				var name = container.data('element');
 				var fields = container.find('input.contacts_property,select.contacts_property').serializeArray();
+				switch(name) {
+					case 'FN':
+						var nempty = true;
+						for(var i in Contacts.UI.Card.data.N[0]['value']) {
+							if(Contacts.UI.Card.data.N[0]['value'][i] != '') {
+								nempty = false;
+								break;
+							}
+						}
+						if(nempty) {
+							$('#n').val(fields[0].value + ';;;;');
+							Contacts.UI.Card.data.N[0]['value'] = Array(fields[0].value, '', '', '', '');
+							setTimeout(function() {Contacts.UI.Card.saveProperty($('#n'))}, 500);
+						}
+						break;
+				}
 				var q = container.find('input.contacts_property,select.contacts_property,textarea.contacts_property').serialize();
 				if(q == '' || q == undefined) {
 					OC.dialogs.alert(t('contacts', 'Couldn\'t serialize elements.'), t('contacts', 'Error'));

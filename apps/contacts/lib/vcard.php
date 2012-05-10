@@ -241,15 +241,6 @@ class OC_Contacts_VCard{
 		if(self::trueUID($aid, $uid)) {
 			$vcard->setString('UID', $uid);
 		}
-		$vcard->setString('VERSION','3.0');
-		// Add product ID is missing.
-		$prodid = trim($vcard->getAsString('PRODID'));
-		if(!$prodid) {
-			$appinfo = OCP\App::getAppInfo('contacts');
-			$appversion = OCP\App::getAppVersion('contacts');
-			$prodid = '-//ownCloud//NONSGML '.$appinfo['name'].' '.$appversion.'//EN';
-			$vcard->setString('PRODID', $prodid);
-		}
 		$now = new DateTime;
 		$vcard->setString('REV', $now->format(DateTime::W3C));
 	}
@@ -270,6 +261,16 @@ class OC_Contacts_VCard{
 		if(!$isnew) {
 			OC_Contacts_App::loadCategoriesFromVCard($card);
 			self::updateValuesFromAdd($aid, $card);
+		}
+
+		$card->setString('VERSION','3.0');
+		// Add product ID is missing.
+		$prodid = trim($card->getAsString('PRODID'));
+		if(!$prodid) {
+			$appinfo = OCP\App::getAppInfo('contacts');
+			$appversion = OCP\App::getAppVersion('contacts');
+			$prodid = '-//ownCloud//NONSGML '.$appinfo['name'].' '.$appversion.'//EN';
+			$card->setString('PRODID', $prodid);
 		}
 
 		$fn = $card->getAsString('FN');
