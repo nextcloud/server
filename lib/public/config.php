@@ -26,8 +26,12 @@
  *
  */
 
-// use OCP namespace for all classes that are considered public. 
-// This means that they should be used by apps instead of the internal ownCloud classes
+/**
+ * @brief use OCP namespace for all classes that are considered public. 
+ *
+ * Classes that use this namespace are for use by apps, and not for use by internal
+ * OC classes
+ */
 namespace OCP;
 
 class Config {
