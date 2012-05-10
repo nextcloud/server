@@ -73,9 +73,11 @@ class OC_JSON{
 	* Encode and print $data in json format
 	*/
 	public static function encodedPrint($data,$setContentType=true){
-		if($setContentType){
-			self::setContentTypeHeader();
+		if(!isset($_SERVER['PATH_INFO'])) {
+			if($setContentType){
+				self::setContentTypeHeader();
+			}
+			echo json_encode($data);
 		}
-		echo json_encode($data);
 	}
 }
