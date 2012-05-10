@@ -36,6 +36,9 @@ class OC_Calendar_App{
 	 * @return mixed - bool / array
 	 */
 	public static function getCalendar($id, $security = true, $shared = false){
+		if(! is_numeric($id)){
+			return false;
+		}
 		$calendar = OC_Calendar_Calendar::find($id);
 		if($shared === true){
 			if(OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::CALENDAR)){
