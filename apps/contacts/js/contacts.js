@@ -118,7 +118,7 @@ Contacts={
 			$('#fn_select').combobox({
 				'id': 'fn',
 				'name': 'value',
-				'classes': ['contacts_property', 'huge', 'tip', 'float'],
+				'classes': ['contacts_property', 'nonempty', 'huge', 'tip', 'float'],
 				'attributes': {'placeholder': t('contacts', 'Enter name')},
 				'title': t('contacts', 'Format custom, Short name, Full name, Reverse or Reverse with comma')});
 			$('#bday').datepicker({
@@ -150,20 +150,12 @@ Contacts={
 				}
 			] );
 
-			$('#fn').blur(function(){
-				if($('#fn').val() == '') {
-					OC.dialogs.alert(t('contacts','The name field cannot be empty. Please enter a name for this contact.'), t('contacts','Name is empty'), function() { $('#fn').focus(); });
-					$('#fn').focus();
-					return false;
-				}
-			});
-			
 			// Name has changed. Update it and reorder.
 			$('#fn').change(function(){
 				var name = $('#fn').val();
 				var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]').clone();
 				$('#contacts [data-id="'+Contacts.UI.Card.id+'"]').remove();
-				$(item).find('a').html(name);
+				$(item).html(name);
 				var added = false;
 				$('#contacts li').each(function(){
 					if ($(this).text().toLowerCase() > name.toLowerCase()) {
@@ -175,6 +167,22 @@ Contacts={
 				if(!added) {
 					$('#leftcontent ul').append(item);
 				}
+			});
+
+			$('#contacts_deletecard').click( function() { Contacts.UI.Card.doDelete();return false;} );
+			$('#contacts_deletecard').keydown( function(event) { 
+				if(event.which == 13) {
+					Contacts.UI.Card.doDelete();
+				}
+				return false;
+			});
+
+			$('#contacts_downloadcard').click( function() { Contacts.UI.Card.doExport();return false;} );
+			$('#contacts_downloadcard').keydown( function(event) { 
+				if(event.which == 13) {
+					Contacts.UI.Card.doExport();
+				}
+				return false;
 			});
 
 			$('#categories').multiple_autocomplete({source: categories});
@@ -247,7 +255,7 @@ Contacts={
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
 				var card = $('#card')[0];
-				if(!card) {
+				//if(!card) {
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#rightcontent').html(jsondata.data.page);
@@ -256,7 +264,7 @@ Contacts={
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
-				}
+				//}
 				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid, isnew: isnew },
 				  function(jsondata) {
 					if (jsondata.status == 'success'){
@@ -266,7 +274,7 @@ Contacts={
 							if(jsondata.status == 'success'){
 								Contacts.UI.Card.loadContact(jsondata.data);
 								$('#leftcontent .active').removeClass('active');
-								var item = '<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>';
+								var item = $('<li role="botton" data-id="'+jsondata.data.id+'" class="active" style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</li>');
 								var added = false;
 								$('#leftcontent ul li').each(function(){
 									if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
@@ -278,6 +286,7 @@ Contacts={
 								if(!added) {
 									$('#leftcontent ul').append(item);
 								}
+
 								if(isnew) { // add some default properties
 									Contacts.UI.Card.addProperty('EMAIL');
 									Contacts.UI.Card.addProperty('TEL');
@@ -425,10 +434,23 @@ Contacts={
 				}
 			},
 			populateNameFields:function() {
+				var props = ['FN', 'N'];
+				// Clear all elements
+				$('#ident .propertycontainer').each(function(){
+					if(props.indexOf($(this).data('element')) > -1) {
+						$(this).data('checksum', '');
+						$(this).find('input').val('');
+					}
+				});
 				this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				var full = '';
 				var narray = undefined;
-				this.fn = this.data.FN[0]['value'];
+				if(this.data.FN) {
+					this.fn = this.data.FN[0]['value'];
+				}
+				else {
+					this.fn = '';
+				}
 				if(this.data.N == undefined) {
 					narray = [this.fn,'','','','']; // Checking for non-existing 'N' property :-P
 					full = this.fn;
@@ -468,7 +490,9 @@ Contacts={
 						.text(value)); 
 				});
 				$('#contact_identity').find('*[data-element="N"]').data('checksum', this.data.N[0]['checksum']);
-				$('#contact_identity').find('*[data-element="FN"]').data('checksum', this.data.FN[0]['checksum']);
+				if(this.data.FN) {
+					$('#contact_identity').find('*[data-element="FN"]').data('checksum', this.data.FN[0]['checksum']);
+				}
 				$('#contact_identity').show();
 			},
 			hasCategory:function(category) {
@@ -549,7 +573,7 @@ Contacts={
 				q = q + '&id=' + this.id + '&name=' + name;
 				if(checksum != undefined && checksum != '') { // save
 					q = q + '&checksum=' + checksum;
-					//console.log('Saving: ' + q);
+					console.log('Saving: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'saveproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
@@ -567,7 +591,7 @@ Contacts={
 						}
 					},'json');
 				} else { // add
-					//console.log('Adding: ' + q);
+					console.log('Adding: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'addproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
@@ -1426,13 +1450,13 @@ Contacts={
 			// Add thumbnails to the contact list as they become visible in the viewport.
 			lazyupdate:function(){
 				$('#contacts li').live('inview', function(){
-					if (!$(this).find('a').attr('style')) {
-						$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
+					if (!$(this).attr('style')) {
+						$(this).css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
 					}
 				});
 			},
 			refreshThumbnail:function(id){
-				var item = $('#contacts [data-id="'+id+'"]').find('a');
+				var item = $('#contacts [data-id="'+id+'"]');
 				item.html(Contacts.UI.Card.fn);
 				item.css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+id+'&refresh=1'+Math.random()+') no-repeat');
 			}
@@ -1454,38 +1478,30 @@ $(document).ready(function(){
 	$('#contacts_newcontact').click(Contacts.UI.Card.editNew);
 	$('#contacts_newcontact').keydown(Contacts.UI.Card.editNew);
 	
-	$('#contacts_deletecard').click( function() { Contacts.UI.Card.doDelete();return false;} );
-	$('#contacts_deletecard').keydown( function(event) { 
-		if(event.which == 13) {
-			Contacts.UI.Card.doDelete();
-		}
-		return false;
-	});
-
-	$('#contacts_downloadcard').click( function() { Contacts.UI.Card.doExport();return false;} );
-	$('#contacts_downloadcard').keydown( function(event) { 
-		if(event.which == 13) {
-			Contacts.UI.Card.doExport();
-		}
-		return false;
-	});
-
 	// Load a contact.
-	$('#leftcontent li').click(function(){
-		var id = $(this).data('id');
-		$(this).addClass('active');
-		var oldid = $('#rightcontent').data('id');
-		if(oldid != 0){
-			$('#leftcontent li[data-id="'+oldid+'"]').removeClass('active');
+	$('#contacts').keydown(function(event) {
+		if(event.which == 13) {
+			$('#contacts').click();
 		}
-		$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
-			if(jsondata.status == 'success'){
-				Contacts.UI.Card.loadContact(jsondata.data);
+	});
+	$('#contacts').click(function(event){
+		var $tgt = $(event.target);
+		if ($tgt.is('li')) {
+			var id = $($tgt).data('id');
+			$($tgt).addClass('active');
+			var oldid = $('#rightcontent').data('id');
+			if(oldid != 0){
+				$('#contacts li[data-id="'+oldid+'"]').removeClass('active');
 			}
-			else{
-				OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-			}
-		});
+			$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
+				if(jsondata.status == 'success'){
+					Contacts.UI.Card.loadContact(jsondata.data);
+				}
+				else{
+					OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+				}
+			});
+		}
 		return false;
 	});
 
@@ -1498,9 +1514,9 @@ $(document).ready(function(){
 				// bottom part of element is visible
 			} else {
 				// whole part of element is visible
-				if (!$(this).find('a').attr('style')) {
+				if (!$(this).attr('style')) {
 					//alert($(this).data('id') + ' has background: ' + $(this).attr('style'));
-					$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
+					$(this).css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
 				}/* else {
 					alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
 				}*/

@@ -43,7 +43,7 @@ if(is_null($vcard)) {
 $details = OC_Contacts_VCard::structureContact($vcard);
 
 // Some Google exported files have no FN field.
-if(!isset($details['FN'])) {
+/*if(!isset($details['FN'])) {
 	$fn = '';
 	if(isset($details['N'])) {
 		$details['FN'] = array(implode(' ', $details['N'][0]['value']));
@@ -52,7 +52,7 @@ if(!isset($details['FN'])) {
 	} else {
 		$details['FN'] = array('value' => OC_Contacts_App::$l10n->t('Unknown'));
 	}
-}
+}*/
 
 // Make up for not supporting the 'N' field in earlier version.
 if(!isset($details['N'])) {
