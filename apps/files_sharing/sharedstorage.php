@@ -22,8 +22,6 @@
 
 require_once( 'lib_share.php' );
 
-OC_Filesystem::mount('OC_Filestorage_Shared',array('datadir'=>'/'.OCP\USER::getUser().'/files/Shared'),'/'.OCP\USER::getUser().'/files/Shared/');
-
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
@@ -509,6 +507,17 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			return $storage->touch($this->getInternalPath($source),$time);
 		}
 	}
+
+	public static function setup() {
+		OC_Filesystem::mount('OC_Filestorage_Shared', array('datadir' => '/'.OCP\USER::getUser().'/files/Shared'), '/'.OCP\USER::getUser().'/files/Shared/');
+	}
+
+}
+
+if (OCP\USER::isLoggedIn()) {
+	OC_Filestorage_Shared::setup();
+} else {
+	OCP\Util::connectHook('OC_User', 'post_login', 'OC_Filestorage_Shared', 'setup');
 }
 
 ?>
