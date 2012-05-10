@@ -149,7 +149,34 @@ Contacts={
 					click: function() { $(this).dialog('close'); }
 				}
 			] );
+
+			$('#fn').blur(function(){
+				if($('#fn').val() == '') {
+					OC.dialogs.alert(t('contacts','The name field cannot be empty. Please enter a name for this contact.'), t('contacts','Name is empty'), function() { $('#fn').focus(); });
+					$('#fn').focus();
+					return false;
+				}
+			});
 			
+			// Name has changed. Update it and reorder.
+			$('#fn').change(function(){
+				var name = $('#fn').val();
+				var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]').clone();
+				$('#contacts [data-id="'+Contacts.UI.Card.id+'"]').remove();
+				$(item).find('a').html(name);
+				var added = false;
+				$('#contacts li').each(function(){
+					if ($(this).text().toLowerCase() > name.toLowerCase()) {
+						$(this).before(item).fadeIn('fast');
+						added = true;
+						return false;
+					}
+				});
+				if(!added) {
+					$('#leftcontent ul').append(item);
+				}
+			});
+
 			$('#categories').multiple_autocomplete({source: categories});
 			$('#contacts_deletecard').tipsy({gravity: 'ne'});
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
@@ -212,6 +239,12 @@ Contacts={
 			doImport:function(){
 				Contacts.UI.notImplemented();
 			},
+			editNew:function(){ // add a new contact
+				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
+				//Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
+				Contacts.UI.Card.add(';;;;;', '', '', true);
+				return false;
+			},
 			add:function(n, fn, aid, isnew){ // add a new contact
 				var card = $('#card')[0];
 				if(!card) {
@@ -224,7 +257,7 @@ Contacts={
 						}
 					});
 				}
-				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid },
+				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid, isnew: isnew },
 				  function(jsondata) {
 					if (jsondata.status == 'success'){
 						$('#rightcontent').data('id',jsondata.data.id);
@@ -248,11 +281,11 @@ Contacts={
 								if(isnew) { // add some default properties
 									Contacts.UI.Card.addProperty('EMAIL');
 									Contacts.UI.Card.addProperty('TEL');
-									Contacts.UI.Card.addProperty('NICKNAME');
-									Contacts.UI.Card.addProperty('ORG');
-									Contacts.UI.Card.addProperty('CATEGORIES');
+									//Contacts.UI.Card.addProperty('NICKNAME');
+									//Contacts.UI.Card.addProperty('ORG');
+									//Contacts.UI.Card.addProperty('CATEGORIES');
 									$('#fn').focus();
-									$('#fn').select();
+									//$('#fn').val('');
 								}
 							}
 							else{
@@ -463,11 +496,6 @@ Contacts={
 					}
 				});
 			},
-			editNew:function(){ // add a new contact
-				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-				Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
-				return false;
-			},
 			savePropertyInternal:function(name, fields, oldchecksum, checksum){
 				// TODO: Add functionality for new fields.
 				//console.log('savePropertyInternal: ' + name + ', fields: ' + fields + 'checksum: ' + checksum);
@@ -521,7 +549,7 @@ Contacts={
 				q = q + '&id=' + this.id + '&name=' + name;
 				if(checksum != undefined && checksum != '') { // save
 					q = q + '&checksum=' + checksum;
-					console.log('Saving: ' + q);
+					//console.log('Saving: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'saveproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
@@ -539,7 +567,7 @@ Contacts={
 						}
 					},'json');
 				} else { // add
-					console.log('Adding: ' + q);
+					//console.log('Adding: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'addproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
@@ -1404,7 +1432,9 @@ Contacts={
 				});
 			},
 			refreshThumbnail:function(id){
-				$('#contacts [data-id="'+id+'"]').find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+id+'&refresh=1'+Math.random()+') no-repeat');
+				var item = $('#contacts [data-id="'+id+'"]').find('a');
+				item.html(Contacts.UI.Card.fn);
+				item.css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+id+'&refresh=1'+Math.random()+') no-repeat');
 			}
 		}
 	}
@@ -1482,33 +1512,6 @@ $(document).ready(function(){
 	
 	$('.contacts_property').live('change', function(){
 		Contacts.UI.Card.saveProperty(this);
-	});
-
-	$('#fn').blur(function(){
-		if($('#fn').val() == '') {
-			OC.dialogs.alert(t('contacts','The name field cannot be empty. Please enter a name for this contact.'), t('contacts','Name is empty'), function() { $('#fn').focus(); });
-			$('#fn').focus();
-			return false;
-		}
-	});
-	
-	// Name has changed. Update it and reorder.
-	$('#fn').change(function(){
-		var name = $('#fn').val();
-		var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]').clone();
-		$('#contacts [data-id="'+Contacts.UI.Card.id+'"]').remove();
-		$(item).find('a').html(name);
-		var added = false;
-		$('#contacts li').each(function(){
-			if ($(this).text().toLowerCase() > name.toLowerCase()) {
-				$(this).before(item).fadeIn('fast');
-				added = true;
-				return false;
-			}
-		});
-		if(!added) {
-			$('#leftcontent ul').append(item);
-		}
 	});
 
 	// Profile picture upload handling

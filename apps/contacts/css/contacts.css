@@ -102,5 +102,6 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .propertycontainer[data-element="TEL"] > input[type="text"] { width: 10em !important; float: left; }
 .propertylist li > input[type="checkbox"],input[type="radio"] { float: left; clear: left; width: 20px; height: 20px; vertical-align: middle; }
 .propertylist li > select { float: left; max-width: 8em; }
-.typelist { float: left; max-width: 10em; border: 0; background-color: #fff; } /* for multiselect */
+.typelist[type="button"] { float: left; max-width: 10em; border: 0; background-color: #fff; color: #bbb} /* for multiselect */
+.typelist[type="button"]:hover { color: #777; } /* for multiselect */
 .addresslist { clear: both; font-weight: bold; }

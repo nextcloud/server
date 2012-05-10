@@ -45,6 +45,7 @@ if(!$aid) {
 }
 OC_Contacts_App::getAddressbook( $aid ); // is owner access check
 
+$isnew = isset($_POST['isnew'])?$_POST['isnew']:false;
 $fn = trim($_POST['fn']);
 $n = trim($_POST['n']);
 
@@ -53,7 +54,7 @@ $vcard->setUID();
 $vcard->setString('FN',$fn);
 $vcard->setString('N',$n);
 
-$id = OC_Contacts_VCard::add($aid,$vcard);
+$id = OC_Contacts_VCard::add($aid,$vcard, null, $isnew);
 if(!$id) {
 	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
 	OCP\Util::writeLog('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OCP\Util::ERROR);

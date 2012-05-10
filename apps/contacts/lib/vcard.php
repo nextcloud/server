@@ -261,19 +261,20 @@ class OC_Contacts_VCard{
 	 * @param string $uri the uri of the card, default based on the UID
 	 * @return insertid on success or null if no card.
 	 */
-	public static function add($aid, OC_VObject $card, $uri=null){
+	public static function add($aid, OC_VObject $card, $uri=null, $isnew=false){
 		if(is_null($card)){
 			OCP\Util::writeLog('contacts','OC_Contacts_VCard::add. No vCard supplied', OCP\Util::ERROR);
 			return null;
 		};
 
-		OC_Contacts_App::loadCategoriesFromVCard($card);
-
-		self::updateValuesFromAdd($aid, $card);
+		if(!$isnew) {
+			OC_Contacts_App::loadCategoriesFromVCard($card);
+			self::updateValuesFromAdd($aid, $card);
+		}
 
 		$fn = $card->getAsString('FN');
 		if (empty($fn)) {
-			$fn = null;
+			$fn = '';
 		}
 
 		if (!$uri) {
