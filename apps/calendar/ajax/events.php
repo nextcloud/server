@@ -19,12 +19,13 @@ if($calendar_id !== false){
 		OCP\JSON::error();
 		exit;
 	}
-	$start = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['start']):new DateTime('@' . $_GET['start']);
-	$end = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['end']):new DateTime('@' . $_GET['end']);
 }
 else {
 	$calendar_id = $_GET['calendar_id'];
 }
+
+$start = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['start']):new DateTime('@' . $_GET['start']);
+$end = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['end']):new DateTime('@' . $_GET['end']);
 $events = OC_Calendar_App::getrequestedEvents($calendar_id, $start, $end);
 
 $output = array();
