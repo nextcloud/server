@@ -406,36 +406,38 @@ class OC_Migrate{
 
 		// Foreach provider
 		foreach( self::$providers as $provider ){
-			$success = true;
-			// Does this app use the database?
-			if( file_exists( OC::$SERVERROOT.'/apps/'.$provider->getID().'/appinfo/database.xml' ) ){
-				// Create some app tables
-				$tables = self::createAppTables( $provider->getID() );
-				if( is_array( $tables ) ){
-					// Save the table names
-					foreach($tables as $table){
-						$return['apps'][$provider->getID()]['tables'][] = $table;
+			// Check if the app is enabled
+			if( OC_App::isEnabled( $provider->getID() ) ){
+				$success = true;
+				// Does this app use the database?
+				if( file_exists( OC::$SERVERROOT.'/apps/'.$provider->getID().'/appinfo/database.xml' ) ){
+					// Create some app tables
+					$tables = self::createAppTables( $provider->getID() );
+					if( is_array( $tables ) ){
+						// Save the table names
+						foreach($tables as $table){
+							$return['apps'][$provider->getID()]['tables'][] = $table;
+						}
+					} else {
+						// It failed to create the tables
+						$success = false;
 					}
-				} else {
-					// It failed to create the tables
-					$success = false;
 				}
+	
+				// Run the export function?
+				if( $success ){
+					// Set the provider properties
+					$provider->setData( self::$uid, self::$content );
+					$return['apps'][$provider->getID()]['success'] = $provider->export();
+				} else {
+					$return['apps'][$provider->getID()]['success'] = false;
+					$return['apps'][$provider->getID()]['message'] = 'failed to create the app tables';
+				}
+	
+				// Now add some app info the the return array
+				$appinfo = OC_App::getAppInfo( $provider->getID() );
+				$return['apps'][$provider->getID()]['version'] = OC_App::getAppVersion($provider->getID());
 			}
-
-			// Run the export function?
-			if( $success ){
-				// Set the provider properties
-				$provider->setData( self::$uid, self::$content );
-				$return['apps'][$provider->getID()]['success'] = $provider->export();
-			} else {
-				$return['apps'][$provider->getID()]['success'] = false;
-				$return['apps'][$provider->getID()]['message'] = 'failed to create the app tables';
-			}
-
-			// Now add some app info the the return array
-			$appinfo = OC_App::getAppInfo( $provider->getID() );
-			$return['apps'][$provider->getID()]['version'] = OC_App::getAppVersion($provider->getID());
-
 		}
 
 		return $return;
