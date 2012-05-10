@@ -16,8 +16,7 @@ php_value memory_limit 512M
 RewriteEngine on
 RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]
-RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]
-
+RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]	
 RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]
 RewriteRule ^remote/(.*) remote.php [QSA,L]
 </IfModule>
