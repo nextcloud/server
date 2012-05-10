@@ -16,7 +16,7 @@
 					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 					<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo htmlentities($_['dir']) ?>" id="dir">
-					<button class="file_upload_filename">&nbsp;<img class='svg action' alt="Upload" src="<?php echo OCP\image_path("core", "actions/upload.svg"); ?>" /></button>
+					<button class="file_upload_filename">&nbsp;<img class='svg action' alt="Upload" src="<?php echo OCP\image_path("core", "actions/upload-white.svg"); ?>" /></button>
 					<input class="file_upload_start" type="file" name='files[]'/>
 						<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="<?php echo $l->t('Upload'); echo  ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
 					<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>

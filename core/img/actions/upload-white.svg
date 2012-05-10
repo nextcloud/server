@@ -14,8 +14,8 @@
    id="svg3875"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="upload-white.svg"
-   inkscape:export-filename="/home/user/owncloud/core/img/actions/upload-white.png"
+   sodipodi:docname="upload.svg"
+   inkscape:export-filename="/home/jancborchardt/owncloud/core/img/actions/play.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -64,7 +64,7 @@
      id="layer1"
      transform="translate(0,-1036.3622)">
     <path
-       style="fill:#000000;fill-opacity:1;stroke:none"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
        d="m 10,1051.3622 -4,0 -1,-7 -4,0 7,-7 7,7 -4,0 z"
        id="path3086"
        inkscape:connector-curvature="0"
