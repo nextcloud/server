@@ -309,7 +309,7 @@ $(document).ready(function(){
 		a.attr('href','#');
 		a.click(function(){
 			var pos=text.lastIndexOf('/')
-			var file=text.substr(pos);
+			var file=text.substr(pos + 1);
 			var dir=text.substr(0,pos);
 			showFileEditor(dir,file);
 		});

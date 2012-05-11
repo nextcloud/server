@@ -11,7 +11,7 @@ $(document).ready(function() {
 		a.attr('href','#');
 		a.click(function(){
 			var pos=image.lastIndexOf('/')
-			var file=image.substr(pos);
+			var file=image.substr(pos + 1);
 			var dir=image.substr(0,pos);
 			viewImage(dir,file);
 		});
