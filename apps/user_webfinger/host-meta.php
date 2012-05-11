@@ -1,7 +1,7 @@
 <?php
 $hostMetaHeader = array(
 	'Access-Control-Allow-Origin' => '*',
-	'Content-Type' => 'application/json+jrd'
+	'Content-Type' => 'application/xrd+json'
 );
 $ownCloudDir = dirname($appsDir);
 $docRoot = $_SERVER['DOCUMENT_ROOT'];
