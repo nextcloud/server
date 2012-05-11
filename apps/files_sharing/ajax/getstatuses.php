@@ -14,7 +14,7 @@ if ($rows = OC_Share::getMySharedItems()) {
 		$item = substr($source, $dirLength);
 		if ($rows[$i]['uid_shared_with'] == OC_Share::PUBLICLINK) {
 			$items[$item] = true;
-		} else {
+		} else if (!isset($items[$item])) {
 			$items[$item] = false;
 		}
 	}
