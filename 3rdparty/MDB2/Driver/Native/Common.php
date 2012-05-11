@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.2 2007/09/09 13:47:36 quipo Exp $
+// $Id: Common.php 242348 2007-09-09 13:47:36Z quipo $
 //
 
 /**

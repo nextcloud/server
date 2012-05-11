@@ -42,9 +42,9 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.11 2008/11/09 19:46:50 quipo Exp $
+// $Id: pgsql.php 296139 2010-03-13 04:15:22Z afz $
 
-require_once('MDB2/Driver/Function/Common.php');
+require_once 'MDB2/Driver/Function/Common.php';
 
 /**
  * MDB2 MySQL driver for the function modules
@@ -69,9 +69,9 @@ class MDB2_Driver_Function_pgsql extends MDB2_Driver_Function_Common
      * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
-    function &executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
+    function executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -94,6 +94,23 @@ class MDB2_Driver_Function_pgsql extends MDB2_Driver_Function_Common
     function unixtimestamp($expression)
     {
         return 'EXTRACT(EPOCH FROM DATE_TRUNC(\'seconds\', CAST ((' . $expression . ') AS TIMESTAMP)))';
+    }
+
+    // }}}
+    // {{{ substring()
+
+    /**
+     * return string to call a function to get a substring inside an SQL statement
+     *
+     * @return string to call a function to get a substring
+     * @access public
+     */
+    function substring($value, $position = 1, $length = null)
+    {
+        if (null !== $length) {
+            return "SUBSTRING(CAST($value AS VARCHAR) FROM $position FOR $length)";
+        }
+        return "SUBSTRING(CAST($value AS VARCHAR) FROM $position)";
     }
 
     // }}}
