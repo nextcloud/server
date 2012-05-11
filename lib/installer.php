@@ -185,6 +185,14 @@ class OC_Installer{
 		//set the installed version
 		OC_Appconfig::setValue($info['id'],'installed_version',OC_App::getAppVersion($info['id']));
 		OC_Appconfig::setValue($info['id'],'enabled','no');
+
+		//set remote/public handelers
+		foreach($info['remote'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, '/apps/'.$info['id'].'/'.$path);
+		}
+		foreach($info['public'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$info['id'].'/'.$path);
+		}
 		return $info['id'];
 	}
 
@@ -302,6 +310,14 @@ class OC_Installer{
 		}
 		$info=OC_App::getAppInfo($app);
 		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
+		
+		//set remote/public handelers
+		foreach($info['remote'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, '/apps/'.$app.'/'.$path);
+		}
+		foreach($info['public'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$app.'/'.$path);
+		}
 		return $info;
 	}
 
