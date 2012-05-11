@@ -19,7 +19,7 @@ $lrddTmpl = 'http';
 if(isset($_SERVER['HTTPS'])) {
     $lrddTmpl .= 's';
 }
-$lrddTmpl .= '://' . $serverName . $webRoot . '/apps/user_webfinger/webfinger.php?q={uri}';
+$lrddTmpl .= '://' . $serverName . $webRoot . '/public.php?service=webfinger&q={uri}';
 $hostMetaPath = $docRoot . '/.well-known/host-meta';
 $hostMetaDir = $docRoot . '/.well-known';
 $hostMetaContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>

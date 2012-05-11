@@ -25,8 +25,6 @@ $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
 $WEBROOT=substr($SUBURI,0,-34);
 */
 
-require_once('../../lib/base.php');
-
 $userName = '';
 $hostName = '';
 $request = strip_tags(urldecode($_GET['q']));
