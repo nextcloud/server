@@ -324,8 +324,6 @@ class OC_Setup {
 		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";
 		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
 		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
-		$content.= "RewriteRule ^.well-known/carddav /apps/contacts/carddav.php [R]\n";
-		$content.= "RewriteRule ^.well-known/caldav /apps/calendar/caldav.php [R]\n";
 		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
