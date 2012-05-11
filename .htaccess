@@ -15,6 +15,7 @@ php_value memory_limit 512M
 <IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]
 RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]
 RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]	
 RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]

@@ -3,9 +3,6 @@ $hostMetaHeader = array(
 	'Access-Control-Allow-Origin' => '*',
 	'Content-Type' => 'application/xml+xrd'
 );
-$appInfoDir = __DIR__;
-$thisAppDir = dirname($appInfoDir);
-$appsDir = dirname($thisAppDir);
 $ownCloudDir = dirname($appsDir);
 $docRoot = $_SERVER['DOCUMENT_ROOT'];
 try {
@@ -29,23 +26,7 @@ $hostMetaContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <Title>Resource Descriptor</Title>
     </Link>
 </XRD>";
-@mkdir($hostMetaDir);
-$hostMeta = fopen($hostMetaPath, 'w');
-if(!$hostMeta) {
-    die("Could not open " . $hostMetaPath . " for writing, please check permissions!");
-}
-if(!fwrite($hostMeta, $hostMetaContents, strlen($hostMetaContents))) {
-    die("Could not write to " . $hostMetaPath . ", please check permissions!");
-}
-fclose($hostMeta);
-
-// write custom headers into .htaccess:
-$htaccess = fopen($hostMetaDir . '/.htaccess', 'w');
-//TODO: check compatibility!
-fwrite($htaccess, "<filesMatch \"^host-meta$\">
-<ifModule mod_headers.c>\n");
 foreach($hostMetaHeader as $header => $value) {
-	fwrite($htaccess, "Header set " . $header . " \"" . $value . "\"\n");
+	header($header . ": " . $value);
 }
-fwrite($htaccess, "</ifModule>\n</filesMatch>");
-fclose($htaccess);
+echo $hostMetaContents;
