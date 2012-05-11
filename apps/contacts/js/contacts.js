@@ -84,7 +84,6 @@ Contacts={
 		loadListHandlers:function() {
 			$('.propertylist li a.delete').unbind('click');
 			$('.propertylist li a.delete').unbind('keydown');
-			$('.globe,.mail,.delete,.edit,.tip').tipsy();
 			var deleteItem = function(obj) {
 				obj.tipsy('hide');
 				Contacts.UI.Card.deleteProperty(obj, 'list');
@@ -644,21 +643,18 @@ Contacts={
 							$('#emails').show();
 						}
 						Contacts.UI.Card.addMail();
-						Contacts.UI.loadListHandlers();
 						break;
 					case 'TEL':
 						if($('#phonelist>li').length == 1) {
 							$('#phones').show();
 						}
 						Contacts.UI.Card.addPhone();
-						Contacts.UI.loadListHandlers();
 						break;
 					case 'ADR':
 						if($('#addressdisplay>dl').length == 1) {
 							$('#addresses').show();
 						}
 						Contacts.UI.Card.editAddress('new', true);
-						Contacts.UI.loadListHandlers();
 						break;
 					case 'NICKNAME':
 					case 'ORG':
@@ -848,7 +844,7 @@ Contacts={
 				var q = q = '?id=' + this.id;
 				if(obj === 'new') {
 					isnew = true;
-					$('#addressdisplay dl').first().clone().insertAfter($('#addressdisplay dl').last()).show();
+					$('#addressdisplay dl').first().clone(true).insertAfter($('#addressdisplay dl').last()).show();
 					container = $('#addressdisplay dl').last();
 					container.removeClass('template').addClass('propertycontainer');
 				} else {
@@ -1147,7 +1143,7 @@ Contacts={
 			},
 			addMail:function() {
 				//alert('addMail');
-				$('#emaillist li.template:first-child').clone().appendTo($('#emaillist')).show();
+				$('#emaillist li.template:first-child').clone(true).appendTo($('#emaillist')).show().find('a .tip').tipsy();
 				$('#emaillist li.template:last-child').find('select').addClass('contacts_property');
 				$('#emaillist li.template:last-child').removeClass('template').addClass('propertycontainer');
 				$('#emaillist li:last-child').find('input[type="email"]').focus();
@@ -1186,7 +1182,7 @@ Contacts={
 				return false;
 			},
 			addPhone:function() {
-				$('#phonelist li.template:first-child').clone().appendTo($('#phonelist')); //.show();
+				$('#phonelist li.template:first-child').clone(true).appendTo($('#phonelist')); //.show();
 				$('#phonelist li.template:last-child').find('select').addClass('contacts_property');
 				$('#phonelist li.template:last-child').removeClass('template').addClass('propertycontainer');
 				$('#phonelist li:last-child').find('input[type="text"]').focus();
