@@ -61,7 +61,6 @@ elseif(OC_User::isLoggedIn()) {
 		}else{
 			OC::loadfile();
 		}
-		
 	}
 
 // For all others cases, we display the guest page :
@@ -112,7 +111,7 @@ elseif(OC_User::isLoggedIn()) {
 			$error = true;
 		}
 	}
-	if(is_null(OC::$REQUESTEDFILE)){
+	if(!array_key_exists('sectoken', $_SESSION) || (array_key_exists('sectoken', $_SESSION) && is_null(OC::$REQUESTEDFILE)) || substr(OC::$REQUESTEDFILE, -3) == 'php'){
 		$sectoken=rand(1000000,9999999);
 		$_SESSION['sectoken']=$sectoken;
 		OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => isset($_REQUEST['redirect_url'])?htmlentities($_REQUEST['redirect_url']):'' ));
