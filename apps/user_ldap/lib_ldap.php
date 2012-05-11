@@ -413,7 +413,9 @@ class OC_LDAP {
 		$cr = self::getConnectionResource();
 		$rr = ldap_read($cr, $dn, 'objectClass=*', array($attr));
 		$er = ldap_first_entry($cr, $rr);
-		$result = ldap_get_attributes($cr, $er);
+		//LDAP attributes are not case sensitive
+		$result = array_change_key_case(ldap_get_attributes($cr, $er));
+		$attr = strtolower($attr);
 
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0){
 			$values = array();
@@ -493,8 +495,15 @@ class OC_LDAP {
 					}
 					$i++;
 				} else {
-					if(isset($item[$attr[0]])) {
-						$selection[] = $item[$attr[0]];
+					//tribute to case insensitivity
+					if(!is_array($item)) {
+						continue;
+					}
+					$item = array_change_key_case($item);
+					$key = strtolower($attr[0]);
+
+					if(isset($item[$key])) {
+						$selection[] = $item[$key];
 					}
 				}
 

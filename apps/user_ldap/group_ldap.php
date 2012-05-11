@@ -47,9 +47,8 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			return false;
 		}
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
-		$read = ($members = OC_LDAP::readAttribute($dn_group, $this->ldapGroupMemberAssocAttr))
-			||  ($members = OC_LDAP::readAttribute($dn_group, strtolower($this->ldapGroupMemberAssocAttr)));
-		if(!$read) {
+		$members = OC_LDAP::readAttribute($dn_group, $this->ldapGroupMemberAssocAttr);
+		if(!$members) {
 			return false;
 		}
 
@@ -101,11 +100,6 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			$this->ldapGroupMemberAssocAttr.'='.$uid
 		));
 		$groups = OC_LDAP::fetchListOfGroups($filter, array(OC_LDAP::conf('ldapGroupDisplayName'),'dn'));
-		if(count($groups) == 0) {
-			//usually, LDAP attributes are said to be case insensitive. But there are exceptions... So we try it once more
-			$filter = str_replace($this->ldapGroupMemberAssocAttr, strtolower($this->ldapGroupMemberAssocAttr), $filter);
-			$groups = OC_LDAP::fetchListOfGroups($filter, array(OC_LDAP::conf('ldapGroupDisplayName'),'dn'));
-		}
 		$userGroups = OC_LDAP::ownCloudGroupNames($groups);
 
 		return array_unique($userGroups, SORT_LOCALE_STRING);
@@ -121,10 +115,8 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			return array();
 		}
 
-		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
-		$read = ($members = OC_LDAP::readAttribute($groupDN, $this->ldapGroupMemberAssocAttr))
-			||  ($members = OC_LDAP::readAttribute($groupDN, strtolower($this->ldapGroupMemberAssocAttr)));
-		if(!$read) {
+		$members = OC_LDAP::readAttribute($groupDN, $this->ldapGroupMemberAssocAttr);
+		if(!$members) {
 			return array();
 		}
 
