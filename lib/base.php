@@ -288,10 +288,15 @@ class OC{
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
 				$appswebroot = (string) OC::$APPSWEBROOT;
 				$webroot = (string) OC::$WEBROOT;
-				$cssfile = file_get_contents(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+				$filepath = OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
+				$cssfile = file_get_contents($filepath);
 				$cssfile = str_replace('%appswebroot%', $appswebroot, $cssfile);
 				$cssfile = str_replace('%webroot%', $webroot, $cssfile);
 				header('Content-Type: text/css');
+				OC_Response::enableCaching();
+				OC_Response::setLastModifiedHeader(filemtime($filepath));
+				OC_Response::setETagHeader(md5($cssfile));
+				header('Content-Length: '.strlen($cssfile));
 				echo $cssfile;
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
