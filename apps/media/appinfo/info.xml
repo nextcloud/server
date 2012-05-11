@@ -8,4 +8,7 @@
 	<require>2</require>
 	<standalone/>
 	<default_enable/>
+	<remote>
+		<ampache>remote.php</ampache>
+	</remote>
 </info>

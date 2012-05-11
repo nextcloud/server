@@ -32,5 +32,3 @@ OCP\App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
 OCP\App::addNavigationEntry(array('id' => 'media_index', 'order' => 2, 'href' => OCP\Util::linkTo('media', 'index.php'), 'icon' => OCP\Util::imagePath('core', 'places/music.svg'), 'name' => $l->t('Music')));
 
 OC_Search::registerProvider('OC_MediaSearchProvider');
-OCP\CONFIG::setAppValue('core', 'remote_ampache', '/apps/media/remote.php');
-OCP\CONFIG::setAppValue('core', 'remote_tomahawk', '/apps/media/tomahawk.php');

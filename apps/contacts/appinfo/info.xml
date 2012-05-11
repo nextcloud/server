@@ -8,4 +8,8 @@
 	<description>Address book with CardDAV support.</description>
 	<standalone/>
 	<default_enable/>
+	<remote>
+		<contacts>appinfo/remote.php</contacts>
+		<carddav>appinfo/remote.php</carddav>
+	</remote>
 </info>

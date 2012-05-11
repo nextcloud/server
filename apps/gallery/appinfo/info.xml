@@ -8,4 +8,7 @@
 	<description>Dedicated pictures application</description>
 	<standalone/>
 	<default_enable/>
+	<public>
+		<gallery>sharing.php</gallery>
+	</public>
 </info>
