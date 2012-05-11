@@ -54,11 +54,14 @@ OC={
 		var isCore=OC.coreApps.indexOf(app)!=-1;
 		var link=OC.webroot;
 		if((file.substring(file.length-3) == 'php' || file.substring(file.length-3) == 'css') && !isCore){
-			link+='/?app=' + app + '&getfile=';
-			if(type){
-				link+=encodeURI(type + '/');
+			link+='/?app=' + app;
+			if (file != 'index.php') {
+				link+='&getfile=';
+				if(type){
+					link+=encodeURI(type + '/');
+				}
+				link+= file;
 			}
-			link+= file;
 		}else if(file.substring(file.length-3) != 'php' && !isCore){
 			link=OC.appswebroot;
 			link+='/';

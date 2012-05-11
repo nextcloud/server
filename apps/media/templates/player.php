@@ -1,6 +1,5 @@
 <?php
 if(!isset($_)){//allow the template to be loaded standalone
-	require_once '../../../lib/base.php';
 	$tmpl = new OCP\Template( 'media', 'player');
 	$tmpl->printPage();
 	exit;
