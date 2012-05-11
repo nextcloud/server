@@ -121,8 +121,9 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		}
 
 		$result = array();
+		$isMemberUid = (strtolower($this->ldapGroupMemberAssocAttr) == 'memberuid');
 		foreach($members as $member) {
-			if(strtolower($this->ldapGroupMemberAssocAttr) == 'memberuid') {
+			if($isMemberUid) {
 				$filter = str_replace('%uid', $member, OC_LDAP::conf('ldapLoginFilter'));
 				$ldap_users = OC_LDAP::fetchListOfUsers($filter, 'dn');
 				if(count($ldap_users) < 1) {
@@ -130,9 +131,12 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 				}
 				$result[] = OC_LDAP::dn2username($ldap_users[0]);
 				continue;
+			} else {
+				$result[] = OC_LDAP::dn2username($member);
 			}
-			//de-facto else
-		    $result[] = OC_LDAP::dn2username($member);
+		}
+		if(!$isMemberUid) {
+			$result = array_intersect($result, OCP\User::getUsers());
 		}
 		return array_unique($result, SORT_LOCALE_STRING);
 	}
