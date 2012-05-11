@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/xrd+xml");
+header("Content-Type: application/xrd+json");
 
 /**
  * To include your app in the webfinger XML, add a new script with file name
@@ -55,14 +55,7 @@ if(empty($id)) {
 define('WF_USER', $userName);
 define('WF_ID', $id);
 define('WF_BASEURL', $baseAddress);
-echo "<";
-?>
-?xml version="1.0" encoding="UTF-8"?>
-<?php if(empty($id)) echo '<!-- Invalid URI: ' . str_replace('>', '/>', $request) . " -->\n"; ?>
-<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0" xmlns:hm="http://host-meta.net/xrd/1.0">
-    <hm:Host xmlns="http://host-meta.net/xrd/1.0"><?php echo $_SERVER['SERVER_NAME']; ?></hm:Host>
-    <Subject>acct:<?php echo $id ?></Subject>
-<?php
+echo "{\"links\":[";
 $apps = OC_Appconfig::getApps();
 foreach($apps as $app) {
 	if(OCP\App::isEnabled($app)) {
@@ -71,5 +64,5 @@ foreach($apps as $app) {
 		}
 	}
 }
+echo "]}";
 ?>
-</XRD>
