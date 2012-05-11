@@ -3,7 +3,7 @@ $hostMetaHeader = array(
 	'Access-Control-Allow-Origin' => '*',
 	'Content-Type' => 'application/xrd+json'
 );
-$ownCloudDir = dirname($appsDir);
+$ownCloudDir = dirname(dirname(dirname(__FILE__)));
 $docRoot = $_SERVER['DOCUMENT_ROOT'];
 try {
 		$webRoot = substr(realpath($ownCloudDir), strlen(realpath($docRoot)));
