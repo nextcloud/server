@@ -138,7 +138,7 @@ if(!$value) {
 					debug('Adding parameter: '.$key);
 					foreach($parameter as $val) {
 						debug('Adding parameter: '.$key.'=>'.$val);
-						$vcard->children[$line]->add(new Sabre_VObject_Parameter($key, strtoupper($val)));
+						$vcard->children[$line]->add(new Sabre_VObject_Parameter($key, strtoupper(strip_tags($val))));
 					}
 				}
 			}
