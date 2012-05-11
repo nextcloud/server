@@ -633,13 +633,16 @@ class OC_FileCache{
 		}
 		$mtime=$view->filemtime($path);
 		$isDir=$view->is_dir($path);
-		$path=$root.$path;
+		$fullPath=$root.$path;
 		$query=OC_DB::prepare('SELECT mtime FROM *PREFIX*fscache WHERE path_hash=?');
-		$result=$query->execute(array(md5($path)));
+		$result=$query->execute(array(md5($fullPath)));
 		if($row=$result->fetchRow()){
 			$cachedMTime=$row['mtime'];
 			return ($mtime>$cachedMTime);
 		}else{//file not in cache, so it has to be updated
+			if($path=='/' or $path==''){//dont auto update the root folder, it will be scanned
+				return false;
+			}
 			return true;
 		}
 	}
