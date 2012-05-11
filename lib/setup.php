@@ -318,7 +318,7 @@ class OC_Setup {
 		$content.= "</IfModule>\n";
 		$content.= "<IfModule mod_rewrite.c>\n";
 		$content.= "RewriteEngine on\n";
- 		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]\n";
+ 		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\n";
 		$content.= "RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]\n";
 		$content.= "RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]\n";
 		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";
