@@ -726,7 +726,7 @@ Contacts={
 					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'editname.php')+'?id='+this.id, function(jsondata){
 						if(jsondata.status != 'error'){
 							$('#edit_name_dialog' ).dialog({
-								modal: (isnew && true || false),
+								modal: true,
 								closeOnEscape: (isnew == '' && false || true),
 								title:  (isnew && t('contacts', 'Add contact') || t('contacts', 'Edit name')),
 								height: 'auto', width: 'auto',
