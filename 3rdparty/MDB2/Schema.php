@@ -51,7 +51,7 @@
  * @link     http://pear.php.net/packages/MDB2_Schema
  */
 
-// require_once('MDB2.php');
+require_once 'MDB2.php';
 
 define('MDB2_SCHEMA_DUMP_ALL',       0);
 define('MDB2_SCHEMA_DUMP_STRUCTURE', 1);
@@ -237,9 +237,10 @@ class MDB2_Schema extends PEAR
      * @access public
      * @see     MDB2::parseDSN
      */
-    static function factory(&$db, $options = array())
+    function &factory(&$db, $options = array())
     {
-        $obj =new MDB2_Schema();
+        $obj =& new MDB2_Schema();
+
         $result = $obj->connect($db, $options);
         if (PEAR::isError($result)) {
             return $result;
@@ -280,14 +281,16 @@ class MDB2_Schema extends PEAR
                 }
             }
         }
+
         $this->disconnect();
         if (!MDB2::isConnection($db)) {
-            $db =MDB2::factory($db, $db_options);
+            $db =& MDB2::factory($db, $db_options);
         }
 
         if (PEAR::isError($db)) {
             return $db;
         }
+
         $this->db =& $db;
         $this->db->loadModule('Datatype');
         $this->db->loadModule('Manager');
@@ -377,7 +380,7 @@ class MDB2_Schema extends PEAR
         $dtd_file = $this->options['dtd_file'];
         if ($dtd_file) {
             include_once 'XML/DTD/XmlValidator.php';
-            $dtd =new XML_DTD_XmlValidator;
+            $dtd =& new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
                 return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
@@ -390,7 +393,7 @@ class MDB2_Schema extends PEAR
             return $result;
         }
 
-        $parser =new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
+        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
         $result = $parser->setInputFile($input_file);
         if (PEAR::isError($result)) {
             return $result;
@@ -425,6 +428,7 @@ class MDB2_Schema extends PEAR
             return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                 'it was not specified a valid database name');
         }
+
         $class_name = $this->options['validate'];
 
         $result = MDB2::loadClass($class_name, $this->db->getOption('debug'));
@@ -432,7 +436,7 @@ class MDB2_Schema extends PEAR
             return $result;
         }
 
-        $val =new $class_name($this->options['fail_on_invalid_names'], $this->options['valid_types'], $this->options['force_defaults']);
+        $val =& new $class_name($this->options['fail_on_invalid_names'], $this->options['valid_types'], $this->options['force_defaults']);
 
         $database_definition = array(
             'name' => $database,
@@ -1338,15 +1342,15 @@ class MDB2_Schema extends PEAR
 
             if ($dbExists) {
                 $this->db->debug('Database already exists: ' . $db_name, __FUNCTION__);
-//                 if (!empty($dbOptions)) {
-//                     $errorcodes = array(MDB2_ERROR_UNSUPPORTED, MDB2_ERROR_NO_PERMISSION);
-//                     $this->db->expectError($errorcodes);
-//                     $result = $this->db->manager->alterDatabase($db_name, $dbOptions);
-//                     $this->db->popExpect();
-//                     if (PEAR::isError($result) && !MDB2::isError($result, $errorcodes)) {
-//                         return $result;
-//                     }
-//                 }
+                if (!empty($dbOptions)) {
+                    $errorcodes = array(MDB2_ERROR_UNSUPPORTED, MDB2_ERROR_NO_PERMISSION);
+                    $this->db->expectError($errorcodes);
+                    $result = $this->db->manager->alterDatabase($db_name, $dbOptions);
+                    $this->db->popExpect();
+                    if (PEAR::isError($result) && !MDB2::isError($result, $errorcodes)) {
+                        return $result;
+                    }
+                }
                 $create = false;
             } else {
                 $this->db->expectError(MDB2_ERROR_UNSUPPORTED);
@@ -2444,7 +2448,7 @@ class MDB2_Schema extends PEAR
             }
         }
 
-        $writer = new $class_name($this->options['valid_types']);
+        $writer =& new $class_name($this->options['valid_types']);
         return $writer->dumpDatabase($database_definition, $arguments, $dump);
     }
 
@@ -2692,9 +2696,9 @@ class MDB2_Schema extends PEAR
      * @access  public
      * @see PEAR_Error
      */
-    function raiseError($code = null, $mode = null, $options = null, $userinfo = null,$a=null,$b=null,$c=null)
+    function &raiseError($code = null, $mode = null, $options = null, $userinfo = null)
     {
-        $err =PEAR::raiseError(null, $code, $mode, $options,
+        $err =& PEAR::raiseError(null, $code, $mode, $options,
                                 $userinfo, 'MDB2_Schema_Error', true);
         return $err;
     }
@@ -2713,7 +2717,7 @@ class MDB2_Schema extends PEAR
      * @return  bool  true if parameter is an error
      * @access  public
      */
-    static function isError($data, $code = null)
+    function isError($data, $code = null)
     {
         if (is_a($data, 'MDB2_Schema_Error')) {
             if (is_null($code)) {

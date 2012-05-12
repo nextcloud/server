@@ -1,13 +1,13 @@
 				<script type='text/javascript'>
-				var defaultView = '<?php echo OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') ?>';
+				var defaultView = '<?php echo OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') ?>';
 				var eventSources = <?php echo json_encode($_['eventSources']) ?>;
 				var categories = <?php echo json_encode($_['categories']); ?>;
 				var dayNames = <?php echo json_encode($l->tA(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'))) ?>;
 				var dayNamesShort = <?php echo json_encode($l->tA(array('Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'))) ?>;
 				var monthNames = <?php echo json_encode($l->tA(array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'))) ?>;
 				var monthNamesShort = <?php echo json_encode($l->tA(array('Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'))) ?>;
-				var agendatime = '<?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>{ - <?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>}';
-				var defaulttime = '<?php echo ((int) OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>';
+				var agendatime = '<?php echo ((int) OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>{ - <?php echo ((int) OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>}';
+				var defaulttime = '<?php echo ((int) OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timeformat', '24') == 24 ? 'HH:mm' : 'hh:mm tt'); ?>';
 				var allDayText = '<?php echo addslashes($l->t('All day')) ?>';
 				var newcalendar = '<?php echo addslashes($l->t('New Calendar')) ?>';
 				var missing_field = '<?php echo addslashes($l->t('Missing fields')) ?>';
@@ -19,8 +19,8 @@
 				var missing_field_totime = '<?php echo addslashes($l->t('To Time')) ?>';
 				var missing_field_startsbeforeends = '<?php echo addslashes($l->t('The event ends before it starts')) ?>';
 				var missing_field_dberror = '<?php echo addslashes($l->t('There was a database fail')) ?>';
-				var totalurl = '<?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?>/calendars';
-				var firstDay = '<?php echo (OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'firstday', 'mo') == 'mo' ? '1' : '0'); ?>';
+				var totalurl = '<?php echo OCP\Util::linkToRemote('caldav'); ?>calendars';
+				var firstDay = '<?php echo (OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'firstday', 'mo') == 'mo' ? '1' : '0'); ?>';
 				$(document).ready(function() {
 				<?php
 				if(array_key_exists('showevent', $_)){
@@ -40,7 +40,7 @@
 								<input type="button" value="<?php echo $l->t('Week');?>" id="oneweekview_radio"/>
 								<input type="button" value="<?php echo $l->t('Month');?>" id="onemonthview_radio"/>
 								<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio"/>&nbsp;&nbsp;
-								<img id="loading" src="<?php echo OC_Helper::imagePath('core', 'loading.gif'); ?>" />
+								<img id="loading" src="<?php echo OCP\Util::imagePath('core', 'loading.gif'); ?>" />
 							</div>
 						</form>
 						<form>

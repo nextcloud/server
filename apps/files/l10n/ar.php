@@ -10,7 +10,6 @@
 "New" => "جديد",
 "Text file" => "ملف",
 "Folder" => "مجلد",
-"From the web" => "من الوب",
 "Upload" => "إرفع",
 "Nothing in here. Upload something!" => "لا يوجد شيء هنا. إرفع بعض الملفات!",
 "Name" => "الاسم",

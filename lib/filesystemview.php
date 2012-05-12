@@ -137,9 +137,9 @@ class OC_FilesystemView {
 	}
 	public function readfile($path){
 		@ob_end_clean();
-		$handle=$this->fopen($path,'r');
+		$handle=$this->fopen($path,'rb');
 		if ($handle) {
-			$chunkSize = 8*1024;// 1 MB chunks
+			$chunkSize = 8192;// 8 MB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
 				flush();

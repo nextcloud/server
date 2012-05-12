@@ -8,8 +8,8 @@
 //check for addressbooks rights or create new one
 ob_start();
  
-OC_JSON::checkLoggedIn();
-OC_Util::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\App::checkAppEnabled('contacts');
 $nl = "\n";
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
 if(is_writable('import_tmp/')){
@@ -19,18 +19,18 @@ if(is_writable('import_tmp/')){
 }
 $view = $file = null;
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
-	$view = OC_App::getStorage('contacts');
+	$view = OCP\App::getStorage('contacts');
 	$file = $view->file_get_contents('/' . $_POST['file']);
 } else {
 	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 }
 if(!$file) {
-	OC_JSON::error(array('message' => 'Import file was empty.'));
+	OCP\JSON::error(array('message' => 'Import file was empty.'));
 	exit();
 }
-error_log('File: '.$file);
+
 if(isset($_POST['method']) && $_POST['method'] == 'new'){
-	$id = OC_Contacts_Addressbook::add(OC_User::getUser(), $_POST['addressbookname']);
+	$id = OC_Contacts_Addressbook::add(OCP\USER::getUser(), $_POST['addressbookname']);
 	OC_Contacts_Addressbook::setActive($id, 1);
 }else{
 	$id = $_POST['id'];
@@ -116,7 +116,7 @@ foreach($importready as $import){
 	$card = OC_VObject::parse($import);
 	if (!$card) {
 		$failed += 1;
-		OC_Log::write('contacts','Import: skipping card. Error parsing VCard: '.$import, OC_Log::ERROR);
+		OCP\Util::writeLog('contacts','Import: skipping card. Error parsing VCard: '.$import, OCP\Util::ERROR);
 		continue; // Ditch cards that can't be parsed by Sabre.
 	}
 	$imported += 1;
@@ -134,7 +134,7 @@ if(is_writable('import_tmp/')){
 }
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 	if(!$view->unlink('/' . $_POST['file'])) {
-		OC_Log::write('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OC_Log::ERROR);
+		OCP\Util::writeLog('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OCP\Util::ERROR);
 	}
 }
-OC_JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));
+OCP\JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));

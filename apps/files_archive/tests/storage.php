@@ -13,7 +13,7 @@ class Test_Filestorage_Archive_Zip extends Test_FileStorage {
 	private $tmpFile;
 	
 	public function setUp(){
-		$this->tmpFile=OC_Helper::tmpFile('.zip');
+		$this->tmpFile=OCP\Files::tmpFile('.zip');
 		$this->instance=new OC_Filestorage_Archive(array('archive'=>$this->tmpFile));
 	}
 

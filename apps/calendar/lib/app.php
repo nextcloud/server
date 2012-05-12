@@ -9,7 +9,7 @@
  * This class manages our app actions
  */
 OC_Calendar_App::$l10n = new OC_L10N('calendar');
-OC_Calendar_App::$tz = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+OC_Calendar_App::$tz = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 class OC_Calendar_App{
 	const CALENDAR = 'calendar';
 	const EVENT = 'event';
@@ -36,14 +36,17 @@ class OC_Calendar_App{
 	 * @return mixed - bool / array
 	 */
 	public static function getCalendar($id, $security = true, $shared = false){
+		if(! is_numeric($id)){
+			return false;
+		}
 		$calendar = OC_Calendar_Calendar::find($id);
 		if($shared === true){
-			if(OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::CALENDAR)){
+			if(OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::CALENDAR)){
 				return $calendar;
 			}
 		}
 		if($security === true){
-			if($calendar['userid'] != OC_User::getUser()){
+			if($calendar['userid'] != OCP\USER::getUser()){
 				return false;
 			}
 		}
@@ -63,13 +66,13 @@ class OC_Calendar_App{
 	public static function getEventObject($id, $security = true, $shared = false){
 		$event = OC_Calendar_Object::find($id);
 		if($shared === true){
-			if(OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::EVENT)){
+			if(OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::EVENT)){
 				return $event;
 			}
 		}
 		if($security === true){
 			$calendar = self::getCalendar($event['calendarid'], false);
-			if($calendar['userid'] != OC_User::getUser()){
+			if($calendar['userid'] != OCP\USER::getUser()){
 				return false;
 			}
 		}
@@ -106,7 +109,7 @@ class OC_Calendar_App{
 	public static function isNotModified($vevent, $lastmodified){
 		$last_modified = $vevent->__get('LAST-MODIFIED');
 		if($last_modified && $lastmodified != $last_modified->getDateTime()->format('U')){
-			OC_JSON::error(array('modified'=>true));
+			OCP\JSON::error(array('modified'=>true));
 			exit;
 		}
 		return true;
@@ -164,7 +167,7 @@ class OC_Calendar_App{
 	 */
 	public static function scanCategories($events = null) {
 		if (is_null($events)) {
-			$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+			$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 			if(count($calendars) > 0) {
 				$events = array();
 				foreach($calendars as $calendar) {
@@ -179,7 +182,7 @@ class OC_Calendar_App{
 			foreach($events as $event) {
 				$vobject = OC_VObject::parse($event['calendardata']);
 				if(!is_null($vobject)) {
-					$vcategories->loadFromVObject($vobject->VEVENT, true);
+					self::loadCategoriesFromVCalendar($vobject);
 				}
 			}
 		}
@@ -190,7 +193,16 @@ class OC_Calendar_App{
 	 * @see OC_VCategories::loadFromVObject
 	 */
 	public static function loadCategoriesFromVCalendar(OC_VObject $calendar) {
-		self::getVCategories()->loadFromVObject($calendar->VEVENT, true);
+		$object = null;
+		if (isset($calendar->VEVENT)) {
+			$object = $calendar->VEVENT;
+		} else
+		if (isset($calendar->VTODO)) {
+			$object = $calendar->VTODO;
+		}
+		if ($object) {
+			self::getVCategories()->loadFromVObject($object, true);
+		}
 	}
 
 	public static function getRepeatOptions(){
@@ -278,12 +290,12 @@ class OC_Calendar_App{
 	public static function getaccess($id, $type){
 		if($type == self::CALENDAR){
 			$calendar = self::getCalendar($id, false, false);
-			if($calendar['userid'] == OC_User::getUser()){
+			if($calendar['userid'] == OCP\USER::getUser()){
 				return 'owner';
 			}
-			$isshared = OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::CALENDAR);
+			$isshared = OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::CALENDAR);
 			if($isshared){
-				$writeaccess = OC_Calendar_Share::is_editing_allowed(OC_User::getUser(), $id, OC_Calendar_Share::CALENDAR);
+				$writeaccess = OC_Calendar_Share::is_editing_allowed(OCP\USER::getUser(), $id, OC_Calendar_Share::CALENDAR);
 				if($writeaccess){
 					return 'rw';
 				}else{
@@ -293,12 +305,12 @@ class OC_Calendar_App{
 				return false;
 			}
 		}elseif($type == self::EVENT){
-			if(OC_Calendar_Object::getowner($id) == OC_User::getUser()){
+			if(OC_Calendar_Object::getowner($id) == OCP\USER::getUser()){
 				return 'owner';
 			}
-			$isshared = OC_Calendar_Share::check_access(OC_User::getUser(), $id, OC_Calendar_Share::EVENT);
+			$isshared = OC_Calendar_Share::check_access(OCP\USER::getUser(), $id, OC_Calendar_Share::EVENT);
 			if($isshared){
-				$writeaccess = OC_Calendar_Share::is_editing_allowed(OC_User::getUser(), $id, OC_Calendar_Share::EVENT);
+				$writeaccess = OC_Calendar_Share::is_editing_allowed(OCP\USER::getUser(), $id, OC_Calendar_Share::EVENT);
 				if($writeaccess){
 					return 'rw';
 				}else{
@@ -320,12 +332,12 @@ class OC_Calendar_App{
 	public static function getrequestedEvents($calendarid, $start, $end){
 		$events = array();
 		if($calendarid == 'shared_rw' || $_GET['calendar_id'] == 'shared_r'){
-			$calendars = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::CALENDAR, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
+			$calendars = OC_Calendar_Share::allSharedwithuser(OCP\USER::getUser(), OC_Calendar_Share::CALENDAR, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 			foreach($calendars as $calendar){
 				$calendarevents = OC_Calendar_Object::allInPeriod($calendar['calendarid'], $start, $end);
 				$events = array_merge($events, $calendarevents);
 			}
-			$singleevents = OC_Calendar_Share::allSharedwithuser(OC_USER::getUser(), OC_Calendar_Share::EVENT, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
+			$singleevents = OC_Calendar_Share::allSharedwithuser(OCP\USER::getUser(), OC_Calendar_Share::EVENT, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 			foreach($singleevents as $singleevent){
 				$event = OC_Calendar_Object::find($singleevent['eventid']);
 				$events[] =  $event;
@@ -334,11 +346,11 @@ class OC_Calendar_App{
 			$calendar_id = $_GET['calendar_id'];
 			if (is_numeric($calendar_id)) {
 				$calendar = self::getCalendar($calendar_id);
-				OC_Response::enableCaching(0);
-				OC_Response::setETagHeader($calendar['ctag']);
+				OCP\Response::enableCaching(0);
+				OCP\Response::setETagHeader($calendar['ctag']);
 				$events = OC_Calendar_Object::allInPeriod($calendar_id, $start, $end);
 			} else {
-				OC_Hook::emit('OC_Calendar', 'getEvents', array('calendar_id' => $calendar_id, 'events' => &$events));
+				OCP\Util::emitHook('OC_Calendar', 'getEvents', array('calendar_id' => $calendar_id, 'events' => &$events));
 			}
 		}
 		return $events;
@@ -381,7 +393,18 @@ class OC_Calendar_App{
 			$start_dt->setTimezone(new DateTimeZone(self::$tz));
 			$end_dt->setTimezone(new DateTimeZone(self::$tz));
 		}
-		
+
+		// Handle exceptions to recurring events
+		$exceptionDateObjects = $vevent->select('EXDATE');
+		$exceptionDateMap = Array();
+		foreach ($exceptionDateObjects as $exceptionObject) {
+			foreach($exceptionObject->getDateTimes() as $datetime) {
+				$ts = $datetime->getTimestamp();
+				$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
+			}
+		}
+
+		$return = array();
 		if($event['repeating'] == 1){
 			$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
 			$r = new When();
@@ -398,6 +421,13 @@ class OC_Calendar_App{
 				if($result > $end){
 					break;
 				}
+				// Check for exceptions to recurring events
+				$ts = $result->getTimestamp();
+				if (isset($exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)])) {
+					continue;
+				}
+				unset($ts);
+
 				if($output['allDay'] == true){
 					$output['start'] = $result->format('Y-m-d');
 					$output['end'] = date('Y-m-d', $result->format('U') + --$duration);
@@ -405,6 +435,7 @@ class OC_Calendar_App{
 					$output['start'] = $result->format('Y-m-d H:i:s');
 					$output['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);
 				}
+				$return[] = $output;
 			}
 		}else{
 			if($output['allDay'] == true){
@@ -415,7 +446,8 @@ class OC_Calendar_App{
 				$output['start'] = $start_dt->format('Y-m-d H:i:s');
 				$output['end'] = $end_dt->format('Y-m-d H:i:s');
 			}
+			$return[] = $output;
 		}
-		return $output;
+		return $return;
 	}
 }

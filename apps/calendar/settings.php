@@ -6,11 +6,11 @@
  * See the COPYING-README file.
  */
 
-$tmpl = new OC_Template( 'calendar', 'settings');
-$timezone=OC_Preferences::getValue(OC_User::getUser(),'calendar','timezone','');
+$tmpl = new OCP\Template( 'calendar', 'settings');
+$timezone=OCP\Config::getUserValue(OCP\USER::getUser(),'calendar','timezone','');
 $tmpl->assign('timezone',$timezone);
 $tmpl->assign('timezones',DateTimeZone::listIdentifiers());
 
-OC_Util::addScript('calendar','settings');
+OCP\Util::addscript('calendar','settings');
 
 return $tmpl->fetchPage();

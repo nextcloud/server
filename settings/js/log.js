@@ -25,7 +25,6 @@ OC.Log={
 				$('html, body').animate({scrollTop: $(document).height()}, 800);
 			}
 		});
-		OC.Log.loaded+=count;
 	},
 	addEntries:function(entries){
 		for(var i=0;i<entries.length;i++){
@@ -48,6 +47,7 @@ OC.Log={
 			row.append(timeTd);
 			$('#log').append(row);
 		}
+		OC.Log.loaded += entries.length;
 	}
 }
 

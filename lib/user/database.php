@@ -122,7 +122,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword( $uid, $password ){
-		$query = OC_DB::prepare( "SELECT uid, password FROM *PREFIX*users WHERE uid LIKE ?" );
+		$query = OC_DB::prepare( "SELECT uid, password FROM *PREFIX*users WHERE uid = ?" );
 		$result = $query->execute( array( $uid));
 
 		$row=$result->fetchRow();
@@ -172,7 +172,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * @return boolean
 	 */
 	public function userExists($uid){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid LIKE ?" );
+		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
 		$result = $query->execute( array( $uid ));
 		
 		return $result->numRows() > 0;

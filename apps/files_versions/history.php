@@ -22,9 +22,9 @@
  */
 require_once( '../../lib/base.php' );
 
-OC_Util::checkLoggedIn( );
+OCP\User::checkLoggedIn( );
 OCP\Util::addStyle('files_versions','versions');
-$tmpl = new OC_Template( 'files_versions', 'history', 'user' );
+$tmpl = new OCP\Template( 'files_versions', 'history', 'user' );
 
 if ( isset( $_GET['path'] ) ) {
 
@@ -39,13 +39,13 @@ if ( isset( $_GET['path'] ) ) {
 			
 			$tmpl->assign( 'outcome_stat', 'success' );
 			
-			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} was reverted to version ".OC_Util::formatDate( $_GET['revert'] ) );
+			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} was reverted to version ".OCP\Util::formatDate( $_GET['revert'] ) );
 			
 		} else {
 		
 			$tmpl->assign( 'outcome_stat', 'failure' );
 		
-			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} could not be reverted to version ".OC_Util::formatDate( $_GET['revert'] ) );
+			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} could not be reverted to version ".OCP\Util::formatDate( $_GET['revert'] ) );
 			
 		}
 		
@@ -54,8 +54,8 @@ if ( isset( $_GET['path'] ) ) {
 	// show the history only if there is something to show
         if( OCA_Versions\Storage::isversioned( $path ) ) {
 	
-		$count=999; //show the newest revisions
-	        $versions=OCA_Versions\Storage::getversions( $path, $count);
+		$count = 999; //show the newest revisions
+	        $versions = OCA_Versions\Storage::getversions( $path, $count );
 
 		$tmpl->assign( 'versions', array_reverse( $versions ) );
 		

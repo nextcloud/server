@@ -1,0 +1,54 @@
+<commands version="1.0">
+ <run-tests>
+  <summary>Run Regression Tests</summary>
+  <function>doRunTests</function>
+  <shortcut>rt</shortcut>
+  <options>
+   <recur>
+    <shortopt>r</shortopt>
+    <doc>Run tests in child directories, recursively.  4 dirs deep maximum</doc>
+   </recur>
+   <ini>
+    <shortopt>i</shortopt>
+    <doc>actual string of settings to pass to php in format &quot; -d setting=blah&quot;</doc>
+    <arg>SETTINGS</arg>
+   </ini>
+   <realtimelog>
+    <shortopt>l</shortopt>
+    <doc>Log test runs/results as they are run</doc>
+   </realtimelog>
+   <quiet>
+    <shortopt>q</shortopt>
+    <doc>Only display detail for failed tests</doc>
+   </quiet>
+   <simple>
+    <shortopt>s</shortopt>
+    <doc>Display simple output for all tests</doc>
+   </simple>
+   <package>
+    <shortopt>p</shortopt>
+    <doc>Treat parameters as installed packages from which to run tests</doc>
+   </package>
+   <phpunit>
+    <shortopt>u</shortopt>
+    <doc>Search parameters for AllTests.php, and use that to run phpunit-based tests
+If none is found, all .phpt tests will be tried instead.</doc>
+   </phpunit>
+   <tapoutput>
+    <shortopt>t</shortopt>
+    <doc>Output run-tests.log in TAP-compliant format</doc>
+   </tapoutput>
+   <cgi>
+    <shortopt>c</shortopt>
+    <doc>CGI php executable (needed for tests with POST/GET section)</doc>
+    <arg>PHPCGI</arg>
+   </cgi>
+   <coverage>
+    <shortopt>x</shortopt>
+    <doc>Generate a code coverage report (requires Xdebug 2.0.0+)</doc>
+   </coverage>
+  </options>
+  <doc>[testfile|dir ...]
+Run regression tests with PHP&#039;s regression testing script (run-tests.php).</doc>
+ </run-tests>
+</commands>

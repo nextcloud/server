@@ -106,6 +106,17 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param $service id
+	 * @returns the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	public static function linkToRemote( $service ) {
+		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . '/';
+	}
+
+	/**
 	 * @brief Creates path to an image
 	 * @param $app app
 	 * @param $image image name
@@ -341,8 +352,8 @@ class OC_Helper {
 		if (!$isWrapped and $mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
 			// it looks like we have a 'file' command,
 			// lets see it it does have mime support
-			$path=str_replace("'","\'",$path);
-			$fp = popen("file -i -b '$path' 2>/dev/null", "r");
+			$path=escapeshellarg($path);
+			$fp = popen("file -i -b $path 2>/dev/null", "r");
 			$reply = fgets($fp);
 			pclose($fp);
 
@@ -528,8 +539,7 @@ class OC_Helper {
      * @param $filename
      * @return string
      */
-    public static function buildNotExistingFileName($path, $filename)
-    {
+    public static function buildNotExistingFileName($path, $filename){
 	    if($path==='/'){
 		    $path='';
 	    }
@@ -577,14 +587,12 @@ class OC_Helper {
 				return true;
 			}
 		}
-		/*
-		echo 'SUB: ' . $sub . "\n";
+		/*echo 'SUB: ' . $sub . "\n";
 		echo 'PAR: ' . $parent . "\n";
 		echo 'REALSUB: ' . $realpath_sub . "\n";
 		echo 'REALPAR: ' . $realpath_parent . "\n";
 		echo substr($realpath_sub, 0, strlen($realpath_parent));
-		exit;
-		*/
+		exit;*/
 		return false;
 	}
 }

@@ -73,7 +73,7 @@ class OC_Log_Owncloud {
 		$end=max(count($contents)-$offset-1, 0);
 		$start=max($end-$limit,0);
 		$i=$end;
-		while(count($entries)<$limit){
+		while($i>$start){
 			$entry=json_decode($contents[$i]);
 			if($entry->level>=$minLevel){
 				$entries[]=$entry;

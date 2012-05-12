@@ -8,5 +8,5 @@
 require_once('../../../../lib/base.php');
 $id = strip_tags($_GET['id']);
 $activation = strip_tags($_GET['activation']);
-OC_Calendar_Share::set_active(OC_User::getUser(), $id, $activation);
-OC_JSON::success();
+OC_Calendar_Share::set_active(OCP\USER::getUser(), $id, $activation);
+OCP\JSON::success();

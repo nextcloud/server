@@ -6,13 +6,13 @@
  * See the COPYING-README file.
  */
  
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 $id = $_POST['id'];
 
 $access = OC_Calendar_App::getaccess($id, OC_Calendar_App::EVENT);
 if($access != 'owner' && $access != 'rw'){
-	OC_JSON::error(array('message'=>'permission denied'));
+	OCP\JSON::error(array('message'=>'permission denied'));
 	exit;
 }
 
@@ -35,4 +35,4 @@ $vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Property_DateTime::UTC);
 
 OC_Calendar_Object::edit($id, $vcalendar->serialize());
 $lastmodified = $vevent->__get('LAST-MODIFIED')->getDateTime();
-OC_JSON::success(array('lastmodified'=>(int)$lastmodified->format('U')));
+OCP\JSON::success(array('lastmodified'=>(int)$lastmodified->format('U')));

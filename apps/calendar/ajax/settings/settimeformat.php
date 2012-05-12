@@ -6,12 +6,12 @@
  * See the COPYING-README file.
  */
  
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 if(isset($_POST["timeformat"])){
-	OC_Preferences::setValue(OC_User::getUser(), 'calendar', 'timeformat', $_POST["timeformat"]);
-	OC_JSON::success();
+	OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timeformat', $_POST["timeformat"]);
+	OCP\JSON::success();
 }else{
-	OC_JSON::error();
+	OCP\JSON::error();
 }
 ?> 
  

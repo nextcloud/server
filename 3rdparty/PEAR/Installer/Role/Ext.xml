@@ -1,0 +1,12 @@
+<role version="1.0">
+ <releasetypes>extbin</releasetypes>
+ <releasetypes>zendextbin</releasetypes>
+ <installable>1</installable>
+ <locationconfig>ext_dir</locationconfig>
+ <honorsbaseinstall>1</honorsbaseinstall>
+ <unusualbaseinstall />
+ <phpfile />
+ <executable />
+ <phpextension>1</phpextension>
+ <config_vars />
+</role>

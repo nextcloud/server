@@ -52,7 +52,7 @@ input[type="checkbox"] { width:auto; }
 .searchbox input[type="search"] { position:fixed; font-size:1.2em; top:.4em; right:3em; padding:.2em .5em .2em 1.5em; background:#fff url('../img/actions/search.svg') no-repeat .5em center; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70);opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
 input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
-
+#select_all{ margin-top: .4em !important;}
 /* CONTENT ------------------------------------------------------------------ */
 #controls { padding: 0 0.5em; width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
@@ -62,6 +62,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
 #leftcontent li.active, .leftcontent li.active { font-weight:bold; }
 #leftcontent li:hover, .leftcontent li:hover { color:#333; background:#ddd; }
+#leftcontent a { height: 100%; display: block; margin: 0; padding: 0 1em 0 0; float: left; }
 #rightcontent, .rightcontent { position:fixed; top: 6.4em; left: 32.5em; overflow: auto }
 
 
@@ -97,8 +98,8 @@ label.infield { cursor: text !important; }
 #navigation a.active, #navigation a:hover, #navigation a:focus { background-color:#dbdbdb; border-top:1px solid #d4d4d4; border-bottom:1px solid #ccc; color:#333; }
 #navigation a.active { background-color:#ddd; }
 #navigation #settings { position:absolute; bottom:3.5em; width:100%; }
-#expand { position:relative; margin-bottom:-.5em; padding:.5em 10.1em .7em 1.2em; cursor:pointer; }
-#expand+span { position:absolute; margin:-1.7em 0 0 2.5em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
+#expand { position:relative; z-index:100; margin-bottom:-.5em; padding:.5em 10.1em .7em 1.2em; cursor:pointer; }
+#expand+span { position:absolute; z-index:99; margin:-1.7em 0 0 2.5em; font-size:1.2em; color:#666; text-shadow:#f8f8f8 0 1px 0; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
 #expand:hover+span, #expand+span:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; cursor:pointer; }
 #logout { position:absolute; right:0; top:0; padding:1.2em 2em .55em 1.2em; }
 
@@ -141,7 +142,7 @@ a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padd
 
 /* ---- DIALOGS ---- */
 #dirtree {width: 100%;}
-#filelist {height: 270px; overflow:scroll; background-color: white;}
+#filelist {height: 270px; overflow:scroll; background-color: white; width: 100%;}
 .filepicker_element_selected { background-color: lightblue;}
 .filepicker_loader {height: 120px; width: 100%; background-color: #333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3; visibility: visible; position:absolute; top:0; left:0; text-align:center; padding-top: 150px;}
 

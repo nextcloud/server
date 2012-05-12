@@ -13,12 +13,13 @@
 .file_upload_wrapper { font-weight:bold; display:-moz-inline-box; /* fallback for older firefox versions*/ display:inline-block; padding-left:0; overflow:hidden; position:relative; margin:0;}
 .file_upload_wrapper .file_upload_button_wrapper { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:1000; }
 #new { float:left; border-top-right-radius:0; border-bottom-right-radius:0; margin:0 0 0 1em; border-right:none; z-index:1010; height:1.3em; }
-#new.active { border-bottom-left-radius:0; border-bottom:none; background:#f8f8f8 }
-#new>a{ padding-left:1em; padding-right:1em; }
+#new.active { border-bottom-left-radius:0; border-bottom:none; }
+#new>a { padding:.5em 1.2em .3em; color:#fff; text-shadow:0 1px 0 #51a351; }
 #new>ul { display:none; position:fixed; text-align:left; padding:.5em; background:#f8f8f8; margin-top:0.075em; border:1px solid #ddd; min-width:7em; margin-left:-.5em; z-index:-1; }
 #new>ul>li { margin:.3em; padding-left:2em; background-repeat:no-repeat; cursor:pointer; padding-bottom:0.1em }
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>input { padding:0.3em; margin:-0.3em; }
+#new, .file_upload_filename { background:#5bb75b; border:1px solid; border-color:#51a351 #51a351 #387038; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 
 #file_newfolder_name { background-image:url('%webroot%/core/img/places/folder.svg'); font-weight:normal; width:7em; }
 .file_upload_start, .file_upload_filename { font-size:1em; }
@@ -37,7 +38,6 @@
 
 /* FILE TABLE */
 #emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
-.emptyfolder #new, .emptyfolder .file_upload_filename { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 table { position:relative; top:37px; width:100%; }
 tbody tr { background-color:#fff; height:2.5em; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; }

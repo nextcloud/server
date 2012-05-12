@@ -6,7 +6,7 @@ $RUNTIME_APPTYPES=array('filesystem');
 // Init owncloud
 
 
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
@@ -24,7 +24,7 @@ if($doBreadcrumb){
 		}
 	}
 	
-	$breadcrumbNav = new OC_Template( "files", "part.breadcrumb", "" );
+	$breadcrumbNav = new OCP\Template( "files", "part.breadcrumb", "" );
 	$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
 	
 	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
@@ -33,14 +33,14 @@ if($doBreadcrumb){
 // make filelist
 $files = array();
 foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
-	$i["date"] = OC_Util::formatDate($i["mtime"] );
+	$i["date"] = OCP\Util::formatDate($i["mtime"] );
 	$files[] = $i;
 }
 
-$list = new OC_Template( "files", "part.list", "" );
+$list = new OCP\Template( "files", "part.list", "" );
 $list->assign( "files", $files );
 $data = array('files' => $list->fetchPage());
 
-OC_JSON::success(array('data' => $data));
+OCP\JSON::success(array('data' => $data));
 
 ?>

@@ -276,7 +276,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
      * @access  public
      * @since   2.1.1
      */
-    static function setTransactionIsolation($isolation,$options=array())
+    function setTransactionIsolation($isolation,$options=array())
     {
         $this->debug('Setting transaction isolation level', __FUNCTION__, array('is_manip' => true));
         switch ($isolation) {

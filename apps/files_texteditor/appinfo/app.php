@@ -1,6 +1,6 @@
 <?php
 //load the required files
 OCP\Util::addStyle( 'files_texteditor', 'style' );
-OC_Util::addScript( 'files_texteditor', 'editor');
-OC_Util::addScript( 'files_texteditor', 'aceeditor/ace');
+OCP\Util::addscript( 'files_texteditor', 'editor');
+OCP\Util::addscript( 'files_texteditor', 'aceeditor/ace');
 ?>

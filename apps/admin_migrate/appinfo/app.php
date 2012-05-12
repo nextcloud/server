@@ -22,12 +22,12 @@
 */
 
 
-OC_APP::registerAdmin('admin_migrate','settings');
+OCP\App::registerAdmin('admin_migrate','settings');
 
 // add settings page to navigation
 $entry = array(
 	'id' => "admin_migrate_settings",
 	'order'=>1,
-	'href' => OC_Helper::linkTo( "admin_migrate", "settings.php" ),
+	'href' => OCP\Util::linkTo( "admin_migrate", "settings.php" ),
 	'name' => 'Export'
 );

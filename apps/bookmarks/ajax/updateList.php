@@ -28,8 +28,8 @@ $RUNTIME_NOSETUPFS=true;
  
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('bookmarks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('bookmarks');
 
 
 //Filter for tag?
@@ -47,4 +47,4 @@ if($sort == 'bookmarks_sorting_clicks') {
 
 $bookmarks = OC_Bookmarks_Bookmarks::findBookmarks($offset, $sqlSortColumn, $filterTag, true);
 
-OC_JSON::success(array('data' => $bookmarks));
+OCP\JSON::success(array('data' => $bookmarks));

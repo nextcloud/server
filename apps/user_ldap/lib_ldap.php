@@ -49,6 +49,7 @@ class OC_LDAP {
 	static protected $ldapUserDisplayName;
 	static protected $ldapUserFilter;
 	static protected $ldapGroupDisplayName;
+	static protected $ldapLoginFilter;
 
 	static public function init() {
 		self::readConfiguration();
@@ -76,6 +77,7 @@ class OC_LDAP {
 		$availableProperties = array(
 			'ldapUserDisplayName',
 			'ldapGroupDisplayName',
+			'ldapLoginFilter'
 		);
 
 		if(in_array($key, $availableProperties)) {
@@ -120,6 +122,7 @@ class OC_LDAP {
 			return $dn;
 		} else {
 			//fallback: user is not mapped
+			self::init();
 			$filter = self::combineFilterWithAnd(array(
 				self::$ldapUserFilter,
 				self::$ldapUserDisplayName . '=' . $name,
@@ -137,7 +140,7 @@ class OC_LDAP {
 	static private function ocname2dn($name, $isUser) {
 		$table = self::getMapTable($isUser);
 
-		$query = OC_DB::prepare('
+		$query = OCP\DB::prepare('
 			SELECT ldap_dn
 			FROM '.$table.'
 			WHERE owncloud_name = ?
@@ -189,7 +192,7 @@ class OC_LDAP {
 			$nameAttribute = self::conf('ldapGroupDisplayName');
 		}
 
-		$query = OC_DB::prepare('
+		$query = OCP\DB::prepare('
 			SELECT owncloud_name
 			FROM '.$table.'
 			WHERE ldap_dn = ?
@@ -316,7 +319,7 @@ class OC_LDAP {
 	static private function mappedComponents($isUsers) {
 		$table = self::getMapTable($isUsers);
 
-		$query = OC_DB::prepare('
+		$query = OCP\DB::prepare('
 			SELECT ldap_dn, owncloud_name
 			FROM '. $table
 		);
@@ -360,15 +363,42 @@ class OC_LDAP {
 	static private function mapComponent($dn, $ocname, $isUser = true) {
 		$table = self::getMapTable($isUser);
 
-		$insert = OC_DB::prepare('
-			INSERT IGNORE INTO '.$table.'
+		$sqliteAdjustment = '';
+		$dbtype = OCP\Config::getSystemValue('dbtype');
+		if(($dbtype == 'sqlite') || ($dbtype == 'sqlite3')) {
+			$sqliteAdjustment = 'OR';
+		}
+
+		$insert = OCP\DB::prepare('
+			INSERT '.$sqliteAdjustment.' IGNORE INTO '.$table.'
 			(ldap_dn, owncloud_name)
 			VALUES (?,?)
 		');
 
 		$res = $insert->execute(array($dn, $ocname));
 
-		return !OC_DB::isError($res);
+		return !OCP\DB::isError($res);
+	}
+
+	static public function fetchListOfUsers($filter, $attr) {
+		return self::fetchList(OC_LDAP::searchUsers($filter, $attr), (count($attr) > 1));
+	}
+
+	static public function fetchListOfGroups($filter, $attr) {
+		return self::fetchList(OC_LDAP::searchGroups($filter, $attr), (count($attr) > 1));
+	}
+
+	static private function fetchList($list, $manyAttributes) {
+		if(is_array($list)) {
+			if($manyAttributes) {
+				return $list;
+			} else {
+				return array_unique($list, SORT_LOCALE_STRING);
+			}
+		}
+
+		//error cause actually, maybe throw an exception in future.
+		return array();
 	}
 
 	/**
@@ -381,16 +411,13 @@ class OC_LDAP {
 	 */
 	static public function readAttribute($dn, $attr) {
 		$cr = self::getConnectionResource();
-// echo("<pre>");var_dump($dn);
 		$rr = ldap_read($cr, $dn, 'objectClass=*', array($attr));
-		if(!$rr) {
-			echo('<pre>###RA ');var_dump($dn);var_dump(debug_backtrace());die();
-		}
 		$er = ldap_first_entry($cr, $rr);
-		$result = ldap_get_attributes($cr, $er);
+		//LDAP attributes are not case sensitive
+		$result = array_change_key_case(ldap_get_attributes($cr, $er));
+		$attr = strtolower($attr);
 
-// 		if($dn == 'cn=Coyotes,cn=groups,dc=blizzz-oc,dc=bzoc') die((var_dump($result)));
-		if($result[$attr]['count'] > 0){
+		if(isset($result[$attr]) && $result[$attr]['count'] > 0){
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
 				$values[] = $result[$attr][$i];
@@ -409,6 +436,7 @@ class OC_LDAP {
 	 * Executes an LDAP search
 	 */
 	static public function searchUsers($filter, $attr = null) {
+		self::init();
 		return self::search($filter, self::$ldapBaseUsers, $attr);
 	}
 
@@ -421,6 +449,7 @@ class OC_LDAP {
 	 * Executes an LDAP search
 	 */
 	static public function searchGroups($filter, $attr = null) {
+		self::init();
 		return self::search($filter, self::$ldapBaseGroups, $attr);
 	}
 
@@ -437,7 +466,6 @@ class OC_LDAP {
 		if(!is_null($attr) && !is_array($attr)) {
 			$attr = array(strtolower($attr));
 		}
-
 		$sr = @ldap_search(self::getConnectionResource(), $base, $filter, $attr);
 		$findings = @ldap_get_entries(self::getConnectionResource(), $sr );
 		// if we're here, probably no connection ressource is returned.
@@ -467,8 +495,15 @@ class OC_LDAP {
 					}
 					$i++;
 				} else {
-					if(isset($item[$attr[0]])) {
-						$selection[] = $item[$attr[0]];
+					//tribute to case insensitivity
+					if(!is_array($item)) {
+						continue;
+					}
+					$item = array_change_key_case($item);
+					$key = strtolower($attr[0]);
+
+					if(isset($item[$key])) {
+						$selection[] = $item[$key];
 					}
 				}
 
@@ -529,7 +564,7 @@ class OC_LDAP {
 			self::init();
 		}
 		if(is_null(self::$ldapConnectionRes)) {
-			OCP\Util::writeLog('ldap', 'Connection could not be established', OC_Log::INFO);
+			OCP\Util::writeLog('ldap', 'Connection could not be established', OCP\Util::INFO);
 		}
 		return self::$ldapConnectionRes;
 	}
@@ -539,18 +574,28 @@ class OC_LDAP {
 	 */
 	static private function readConfiguration() {
 		if(!self::$configured) {
-			self::$ldapHost             = OC_Appconfig::getValue('user_ldap', 'ldap_host', '');
-			self::$ldapPort             = OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
-			self::$ldapAgentName        = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
-			self::$ldapAgentPassword    = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
-			self::$ldapBase             = OC_Appconfig::getValue('user_ldap', 'ldap_base', '');
-			self::$ldapBaseUsers        = OC_Appconfig::getValue('user_ldap', 'ldap_base_users',self::$ldapBase);
-			self::$ldapBaseGroups       = OC_Appconfig::getValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
-			self::$ldapTLS              = OC_Appconfig::getValue('user_ldap', 'ldap_tls',0);
-			self::$ldapNoCase           = OC_Appconfig::getValue('user_ldap', 'ldap_nocase', 0);
-			self::$ldapUserDisplayName  = OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
-			self::$ldapUserFilter       = OC_Appconfig::getValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
-			self::$ldapGroupDisplayName = OC_Appconfig::getValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR);
+			self::$ldapHost             = OCP\Config::getAppValue('user_ldap', 'ldap_host', '');
+			self::$ldapPort             = OCP\Config::getAppValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
+			self::$ldapAgentName        = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
+			self::$ldapAgentPassword    = OCP\Config::getAppValue('user_ldap', 'ldap_password','');
+			self::$ldapBase             = OCP\Config::getAppValue('user_ldap', 'ldap_base', '');
+			self::$ldapBaseUsers        = OCP\Config::getAppValue('user_ldap', 'ldap_base_users',self::$ldapBase);
+			self::$ldapBaseGroups       = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
+			self::$ldapTLS              = OCP\Config::getAppValue('user_ldap', 'ldap_tls',0);
+			self::$ldapNoCase           = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
+			self::$ldapUserDisplayName  = OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
+			self::$ldapUserFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
+			self::$ldapLoginFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
+			self::$ldapGroupDisplayName = OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR);
+
+			if(empty(self::$ldapBaseUsers)) {
+				OCP\Util::writeLog('ldap', 'Base for Users is empty, using Base DN', OCP\Util::INFO);
+				self::$ldapBaseUsers = self::$ldapBase;
+			}
+			if(empty(self::$ldapBaseGroups)) {
+				OCP\Util::writeLog('ldap', 'Base for Groups is empty, using Base DN', OCP\Util::INFO);
+				self::$ldapBaseGroups = self::$ldapBase;
+			}
 
 			if(
 				   !empty(self::$ldapHost)
@@ -560,8 +605,6 @@ class OC_LDAP {
 					|| ( empty(self::$ldapAgentName) &&  empty(self::$ldapAgentPassword))
 				)
 				&& !empty(self::$ldapBase)
-				&& !empty(self::$ldapBaseUsers)
-				&& !empty(self::$ldapBaseGroups)
 				&& !empty(self::$ldapUserDisplayName)
 			)
 			{
@@ -575,6 +618,7 @@ class OC_LDAP {
 	 */
 	static private function establishConnection() {
 		if(!self::$configured) {
+			OCP\Util::writeLog('ldap', 'Configuration is invalid, cannot connect', OCP\Util::INFO);
 			return false;
 		}
 		if(!self::$ldapConnectionRes) {
@@ -589,9 +633,14 @@ class OC_LDAP {
 
 			$ldapLogin = @ldap_bind(self::$ldapConnectionRes, self::$ldapAgentName, self::$ldapAgentPassword );
 			if(!$ldapLogin) {
+				OCP\Util::writeLog('ldap', 'Bind failed: ' . ldap_errno(self::$ldapConnectionRes) . ': ' . ldap_error(self::$ldapConnectionRes), OCP\Util::ERROR);
 				return false;
 			}
 		}
+	}
+
+	static public function areCredentialsValid($name, $password) {
+		return @ldap_bind(self::getConnectionResource(), $name, $password);
 	}
 
 	/**

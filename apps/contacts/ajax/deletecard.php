@@ -20,8 +20,8 @@
  *
  */
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/saveproperty.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/saveproperty.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 
@@ -29,8 +29,8 @@ function bailOut($msg) {
  
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $id = isset($_GET['id'])?$_GET['id']:null;
 if(!$id) {
@@ -39,4 +39,4 @@ if(!$id) {
 $card = OC_Contacts_App::getContactObject( $id );
 
 OC_Contacts_VCard::delete($id);
-OC_JSON::success(array('data' => array( 'id' => $id )));
+OCP\JSON::success(array('data' => array( 'id' => $id )));

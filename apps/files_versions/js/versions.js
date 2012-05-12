@@ -9,35 +9,24 @@ $(document).ready(function() {
 });
 
 $(document).ready(function(){
-	
-	// Add history button to files/index.php
-	FileActions.register('file','History',function(){return OC.imagePath('core','actions/history')},function(filename){
-		
-		if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
-		
-		var file = $('#dir').val()+'/'+filename;
-		
-		createVersionsDropdown(filename, file)
+	if (typeof FileActions !== 'undefined') {
+		// Add history button to files/index.php
+		FileActions.register('file','History',function(){return OC.imagePath('core','actions/history')},function(filename){
 
-		$.ajax({
-			type: 'GET',
-			url: OC.linkTo('files_versions', 'ajax/getVersions.php'),
-			dataType: 'json',
-			data: {source: file},
-			async: false,
-			success: function(versions) {
-				if (versions) {
-				}
-			}
+			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
+			
+			var file = $('#dir').val()+'/'+filename;
+
+			createVersionsDropdown(filename, file)
+
 		});
-	
-	});
-	
+	}
 });
 
 function createVersionsDropdown(filename, files) {
-	var historyUrl = '../apps/files_versions/history.php?path='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
-
+	
+	var historyUrl = OC.linkTo('files_versions', 'history.php?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename ) )
+	
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
 	html += '<select data-placeholder="File Version" id="found_versions" class="chzen-select">';
@@ -56,24 +45,26 @@ function createVersionsDropdown(filename, files) {
 		$(html).appendTo($('thead .share'));
 	}
 	
-// 	$.getJSON(OC.linkTo('files_sharing', 'ajax/userautocomplete.php'), function(users) {
-// 		if (users) {
-// 			$.each(users, function(index, row) {
-// 				$(row).appendTo('#share_with');
-// 			});
-// 			$('#share_with').trigger('liszt:updated');
-// 		}
-// 	});
-	$.getJSON(OC.linkTo('files_versions', 'ajax/getVersions.php'), { source: files }, function(versions) {
-		if (versions) {
+	$.ajax({
+		type: 'GET',
+		url: OC.linkTo('files_versions', 'ajax/getVersions.php'),
+		dataType: 'json',
+		data: { source: files },
+		async: false,
+		success: function( versions ) {
 			
-			$.each( versions, function(index, row ) {
-					
-					addVersion( row );
-			});
+			//alert("helo "+OC.linkTo('files_versions', 'ajax/getVersions.php'));
+			
+			if (versions) {
+				
+				$.each( versions, function(index, row ) {
+						
+						addVersion( row );
+				});
+				
+			}
 			
 		}
-		
 	});
 	
 	function revertFile() {

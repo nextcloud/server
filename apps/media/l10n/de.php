@@ -6,7 +6,7 @@
 "Next" => "Nächstes",
 "Mute" => "Ton aus",
 "Unmute" => "Ton an",
-"Rescan Collection" => "Sammlung noch einmal scannen",
+"Rescan Collection" => "Sammlung erneut scannen",
 "Artist" => "Künstler",
 "Album" => "Album",
 "Title" => "Titel"

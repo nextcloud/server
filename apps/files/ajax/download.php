@@ -28,7 +28,7 @@ $RUNTIME_APPTYPES=array('filesystem');
 
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 
 $files = $_GET["files"];
 $dir = $_GET["dir"];

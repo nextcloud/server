@@ -10,14 +10,13 @@
 "New" => "Nuovo",
 "Text file" => "File di testo",
 "Folder" => "Cartella",
-"From the web" => "Dal web",
 "Upload" => "Carica",
 "Nothing in here. Upload something!" => "Non c'è niente qui. Carica qualcosa!",
 "Name" => "Nome",
 "Download" => "Scarica",
 "Size" => "Dimensione",
 "Modified" => "Modificato",
-"Delete" => "Cancella",
+"Delete" => "Elimina",
 "Upload too large" => "Il file caricato è troppo grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "I file che stai provando a caricare superano la dimensione massima consentita su questo server."
 );

@@ -4,8 +4,6 @@
 "OpenID Changed" => "OpenID geändert",
 "Language changed" => "Sprache geändert",
 "__language_name__" => "Deutsch",
-"Log level" => "Log Level",
-"Add your application" => "Eigene Anwendung hinzufügen",
 "Select an App" => "Wähle eine Anwendung aus",
 "-licensed" => "-lizenziert",
 "by" => "von",

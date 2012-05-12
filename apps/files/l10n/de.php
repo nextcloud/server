@@ -10,7 +10,6 @@
 "New" => "Neu",
 "Text file" => "Text Datei",
 "Folder" => "Ordner",
-"From the web" => "Aus dem Netz",
 "Upload" => "Hochladen",
 "Nothing in here. Upload something!" => "Alles leer. Lad’ was hoch!",
 "Name" => "Name",

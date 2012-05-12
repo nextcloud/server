@@ -169,7 +169,7 @@ $(document).ready(function() {
 		var dir=$('#dir').val()||'/';
 		$('#notification').text(t('files','generating ZIP-file, it may take some time.'));
 		$('#notification').fadeIn();
-		window.location=OC.filePath('files', 'ajax', 'download.php') + '?files='+encodeURIComponent(files)+'&dir='+encodeURIComponent(dir);
+		window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
 		return false;
 	});
 
@@ -569,16 +569,16 @@ var dragOptions={
 var folderDropOptions={
 	drop: function( event, ui ) {
 		var file=ui.draggable.parent().data('file');
-		var target=$(this).text().trim();
+		var target=$(this).find('.nametext').text().trim();
 		var dir=$('#dir').val();
 		$.ajax({
 			url: OC.filePath('files', 'ajax', 'move.php'),
-		data: "dir="+encodeURIComponent(dir)+"&file="+encodeURIComponent(file)+'&target='+encodeURIComponent(dir)+'/'+encodeURIComponent(target),
-		complete: function(data){boolOperationFinished(data, function(){
-			var el = $('#fileList tr').filterAttr('data-file',file).find('td.filename');
-			el.draggable('destroy');
-			FileList.remove(file);
-		});}
+			data: "dir="+encodeURIComponent(dir)+"&file="+encodeURIComponent(file)+'&target='+encodeURIComponent(dir)+'/'+encodeURIComponent(target),
+			complete: function(data){boolOperationFinished(data, function(){
+				var el = $('#fileList tr').filterAttr('data-file',file).find('td.filename');
+				el.draggable('destroy');
+				FileList.remove(file);
+			});}
 		});
 	}
 }

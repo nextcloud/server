@@ -54,8 +54,8 @@
  */
 
 
-require_once('XML/Parser.php');
-require_once('MDB2/Schema/Validate.php');
+require_once 'XML/Parser.php';
+require_once 'MDB2/Schema/Validate.php';
 
 /**
  * Parses an XML schema file
@@ -120,11 +120,18 @@ class MDB2_Schema_Parser extends XML_Parser
     {
         // force ISO-8859-1 due to different defaults for PHP4 and PHP5
         // todo: this probably needs to be investigated some more andcleaned up
-        parent::__construct('ISO-8859-1');
+        parent::XML_Parser('ISO-8859-1');
 
         $this->variables = $variables;
         $this->structure = $structure;
-        $this->val       =new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
+        $this->val       =& new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
+    }
+
+    function MDB2_Schema_Parser($variables, $fail_on_invalid_names = true,
+                                $structure = false, $valid_types = array(),
+                                $force_defaults = true)
+    {
+        $this->__construct($variables, $fail_on_invalid_names, $structure, $valid_types, $force_defaults);
     }
 
     function startHandler($xp, $element, $attribs)
@@ -496,7 +503,7 @@ class MDB2_Schema_Parser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE,$a=null,$b=null,$c=null)
+    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
     {
         if (is_null($this->error)) {
             $error = '';

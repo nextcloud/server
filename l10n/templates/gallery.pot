@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-24 00:24+0100\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,42 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: appinfo/app.php:41
-msgid "Gallery"
+#: appinfo/app.php:42
+msgid "Pictures"
 msgstr ""
 
-#: js/album_cover.js:40
-msgid "Scanning directories"
-msgstr ""
-
-#: js/album_cover.js:48
-msgid "No photos found"
-msgstr ""
-
-#: js/album_cover.js:51 js/album_cover.js:60
-msgid "Creating thumbnails"
-msgstr ""
-
-#: js/album_cover.js:81
-msgid "Do you wan't to remove album"
-msgstr ""
-
-#: js/album_cover.js:94
-msgid "Input new gallery name"
-msgstr ""
-
-#: templates/index.php:10
+#: templates/index.php:16
 msgid "Rescan"
+msgstr ""
+
+#: templates/index.php:17
+msgid "Stop"
+msgstr ""
+
+#: templates/index.php:18
+msgid "Share"
+msgstr ""
+
+#: templates/index.php:19
+msgid "Settings"
 msgstr ""
 
 #: templates/view_album.php:19
 msgid "Back"
+msgstr ""
+
+#: templates/view_album.php:36
+msgid "Remove confirmation"
+msgstr ""
+
+#: templates/view_album.php:37
+msgid "Do you want to remove album"
+msgstr ""
+
+#: templates/view_album.php:40
+msgid "Change album name"
+msgstr ""
+
+#: templates/view_album.php:43
+msgid "New album name"
 msgstr ""

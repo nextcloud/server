@@ -33,7 +33,7 @@ OC={
 	webroot:oc_webroot,
 	appswebroot:oc_appswebroot,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
-	coreApps:['admin','log','search','settings','core','3rdparty'],
+	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	/**
 	 * get an absolute url to a file in an appen
 	 * @param app the id of the app the file belongs to
@@ -54,11 +54,14 @@ OC={
 		var isCore=OC.coreApps.indexOf(app)!=-1;
 		var link=OC.webroot;
 		if((file.substring(file.length-3) == 'php' || file.substring(file.length-3) == 'css') && !isCore){
-			link+='/?app=' + app + '&getfile=';
-			if(type){
-				link+=encodeURI(type + '/');
+			link+='/?app=' + app;
+			if (file != 'index.php') {
+				link+='&getfile=';
+				if(type){
+					link+=encodeURI(type + '/');
+				}
+				link+= file;
 			}
-			link+= file;
 		}else if(file.substring(file.length-3) != 'php' && !isCore){
 			link=OC.appswebroot;
 			link+='/';
@@ -70,11 +73,13 @@ OC={
 			link+=file;
 		}else{
 			link+='/';
-			app+='/';
 			if(!isCore){
 				link+='apps/';
 			}
-			link+=app;
+			if (app != '') {
+				app+='/';
+				link+=app;
+			}
 			if(type){
 				link+=type+'/';
 			}
@@ -160,7 +165,7 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
-if(typeof localStorage !='undefined'){
+if(typeof localStorage !='undefined' && localStorage != null){
 	//user and instance awere localstorage
 	OC.localStorage={
 		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
@@ -171,6 +176,7 @@ if(typeof localStorage !='undefined'){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
 		getItem:function(name){
+			if(localStorage.getItem(OC.localStorage.namespace+name)==null){return null;}
 			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
 		}
 	};
@@ -418,6 +424,11 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#settings #expand').keydown(function(event) {
+		if (event.which == 13 || event.which == 32) {
+			$('#expand').click()
+		}
+	});
 	$('#settings #expand').click(function(event) {
 		$('#settings #expanddiv').slideToggle();
 		event.stopPropagation();

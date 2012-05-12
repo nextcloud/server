@@ -1,7 +1,7 @@
 <?php 
 $id = $_['id'];
 $tmp_path = $_['tmp_path'];
-OC_Log::write('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OC_Log::DEBUG);
+OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 ?>
 <script language="Javascript">
 	jQuery(function($) {
@@ -38,13 +38,13 @@ OC_Log::write('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_path.',
 		return true;
 	});*/
 </script>
-<img id="cropbox" src="<?php echo OC_Helper::linkToAbsolute('contacts', 'dynphoto.php'); ?>?tmp_path=<?php echo urlencode($tmp_path); ?>" />
+<img id="cropbox" src="<?php echo OCP\Util::linkToAbsolute('contacts', 'dynphoto.php'); ?>?tmp_path=<?php echo urlencode($tmp_path); ?>" />
 <form id="cropform"
 	class="coords"
 	method="post"
 	enctype="multipart/form-data"
 	target="crop_target"
-	action="<?php echo OC_Helper::linkToAbsolute('contacts', 'ajax/savecrop.php'); ?>">
+	action="<?php echo OCP\Util::linkToAbsolute('contacts', 'ajax/savecrop.php'); ?>">
 
 	<input type="hidden" id="id" name="id" value="<?php echo $id; ?>" />
 	<input type="hidden" id="tmp_path" name="tmp_path" value="<?php echo $tmp_path; ?>" />

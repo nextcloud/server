@@ -22,13 +22,13 @@
 */
 
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('gallery');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('gallery');
 
 $img = $_GET['img'];
 
 $image = OC_Gallery_Photo::getThumbnail($img);
 if ($image) {
-	OC_Response::enableCaching(3600 * 24); // 24 hour
+	OCP\Response::enableCaching(3600 * 24); // 24 hour
 	$image->show();
 }

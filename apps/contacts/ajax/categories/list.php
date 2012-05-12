@@ -7,11 +7,11 @@
  */
 
  
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $categories = OC_Contacts_App::getCategories();
 
-OC_JSON::success(array('data' => array('categories'=>$categories)));
+OCP\JSON::success(array('data' => array('categories'=>$categories)));
 
 ?>

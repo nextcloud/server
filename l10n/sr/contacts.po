@@ -8,228 +8,560 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-24 00:24+0100\n"
-"PO-Revision-Date: 2012-01-23 23:25+0000\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Serbian (http://www.transifex.net/projects/p/owncloud/team/sr/)\n"
+"Language-Team: Serbian (http://www.transifex.net/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sr\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: ajax/activation.php:17 ajax/updateaddressbook.php:26
+#: ajax/activation.php:19 ajax/updateaddressbook.php:32
 msgid "Error (de)activating addressbook."
 msgstr ""
 
-#: ajax/addcard.php:79
+#: ajax/addcontact.php:58
 msgid "There was an error adding the contact."
 msgstr ""
 
-#: ajax/addproperty.php:39
+#: ajax/addproperty.php:40
 msgid "Cannot add empty property."
 msgstr ""
 
-#: ajax/addproperty.php:51
+#: ajax/addproperty.php:52
 msgid "At least one of the address fields has to be filled out."
 msgstr ""
 
-#: ajax/addproperty.php:78
+#: ajax/addproperty.php:62
+msgid "Trying to add duplicate property: "
+msgstr ""
+
+#: ajax/addproperty.php:120
 msgid "Error adding contact property."
 msgstr ""
 
-#: ajax/createaddressbook.php:20
+#: ajax/categories/categoriesfor.php:15
+msgid "No ID provided"
+msgstr ""
+
+#: ajax/categories/categoriesfor.php:27
+msgid "Error setting checksum."
+msgstr ""
+
+#: ajax/categories/delete.php:29
+msgid "No categories selected for deletion."
+msgstr ""
+
+#: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
+msgid "No address books found."
+msgstr ""
+
+#: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
+msgid "No contacts found."
+msgstr ""
+
+#: ajax/contactdetails.php:37
+msgid "Missing ID"
+msgstr ""
+
+#: ajax/contactdetails.php:41
+msgid "Error parsing VCard for ID: \""
+msgstr ""
+
+#: ajax/contactdetails.php:53
+msgid "Unknown"
+msgstr ""
+
+#: ajax/createaddressbook.php:18
+msgid "Cannot add addressbook with an empty name."
+msgstr ""
+
+#: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
 msgstr ""
 
-#: ajax/createaddressbook.php:26
+#: ajax/createaddressbook.php:30
 msgid "Error activating addressbook."
 msgstr ""
 
-#: ajax/deleteproperty.php:40
+#: ajax/currentphoto.php:40 ajax/oc_photo.php:40
+msgid "No contact ID was submitted."
+msgstr ""
+
+#: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
+msgid "Error loading image."
+msgstr ""
+
+#: ajax/currentphoto.php:51
+msgid "Error reading contact photo."
+msgstr ""
+
+#: ajax/currentphoto.php:61
+msgid "Error saving temporary file."
+msgstr ""
+
+#: ajax/currentphoto.php:64
+msgid "The loading photo is not valid."
+msgstr ""
+
+#: ajax/deletecard.php:37 ajax/saveproperty.php:58
+msgid "id is not set."
+msgstr ""
+
+#: ajax/deleteproperty.php:36
+msgid "Information about vCard is incorrect. Please reload the page."
+msgstr "Подаци о вКарти су неисправни. Поново учитајте страницу."
+
+#: ajax/deleteproperty.php:43
 msgid "Error deleting contact property."
 msgstr ""
 
-#: ajax/setproperty.php:79
+#: ajax/editname.php:37
+msgid "Contact ID is missing."
+msgstr ""
+
+#: ajax/loadphoto.php:44
+msgid "Missing contact id."
+msgstr ""
+
+#: ajax/oc_photo.php:44
+msgid "No photo path was submitted."
+msgstr ""
+
+#: ajax/oc_photo.php:51
+msgid "File doesn't exist:"
+msgstr ""
+
+#: ajax/saveproperty.php:55
+msgid "element name is not set."
+msgstr ""
+
+#: ajax/saveproperty.php:61
+msgid "checksum is not set."
+msgstr ""
+
+#: ajax/saveproperty.php:78
+msgid "Information about vCard is incorrect. Please reload the page: "
+msgstr ""
+
+#: ajax/saveproperty.php:83
+msgid "Something went FUBAR. "
+msgstr ""
+
+#: ajax/saveproperty.php:153
 msgid "Error updating contact property."
 msgstr ""
 
 #: ajax/updateaddressbook.php:20
+msgid "Cannot update addressbook with an empty name."
+msgstr ""
+
+#: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
 msgstr ""
 
-#: appinfo/app.php:21 templates/settings.php:3
+#: ajax/uploadimport.php:46 ajax/uploadimport.php:76
+msgid "Error uploading contacts to storage."
+msgstr ""
+
+#: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
+msgid "There is no error, the file uploaded with success"
+msgstr ""
+
+#: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr ""
+
+#: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+
+#: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
+msgid "The uploaded file was only partially uploaded"
+msgstr ""
+
+#: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
+msgid "No file was uploaded"
+msgstr ""
+
+#: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
+msgid "Missing a temporary folder"
+msgstr ""
+
+#: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
 msgstr "Контакти"
 
-#: lib/app.php:52
+#: lib/app.php:23
+msgid "Addressbook not found."
+msgstr ""
+
+#: lib/app.php:27
 msgid "This is not your addressbook."
 msgstr "Ово није ваш адресар."
 
-#: lib/app.php:61 photo.php:36
+#: lib/app.php:38
 msgid "Contact could not be found."
 msgstr "Контакт се не може наћи."
 
-#: lib/app.php:89
-msgid "Information about vCard is incorrect. Please reload the page."
-msgstr "Подаци о вКарти су неисправни. Поново учитајте страницу."
-
-#: lib/app.php:101 templates/part.addcardform.php:54
-#: templates/part.property.php:45 templates/part.setpropertyform.php:7
+#: lib/app.php:94 templates/part.contact.php:109
 msgid "Address"
 msgstr "Адреса"
 
-#: lib/app.php:102 templates/part.addcardform.php:43
+#: lib/app.php:95
 msgid "Telephone"
 msgstr "Телефон"
 
-#: lib/app.php:103 templates/part.addcardform.php:37
-#: templates/part.property.php:16 templates/part.setpropertyform.php:51
+#: lib/app.php:96 templates/part.contact.php:108
 msgid "Email"
 msgstr "Е-маил"
 
-#: lib/app.php:104 templates/part.addcardform.php:27
-#: templates/part.property.php:9 templates/part.setpropertyform.php:54
+#: lib/app.php:97 templates/part.contact.php:33 templates/part.contact.php:34
+#: templates/part.contact.php:104
 msgid "Organization"
 msgstr "Организација"
 
-#: lib/app.php:116 lib/app.php:123
+#: lib/app.php:109 lib/app.php:116 lib/app.php:126
 msgid "Work"
 msgstr "Посао"
 
-#: lib/app.php:117 lib/app.php:121
+#: lib/app.php:110 lib/app.php:114 lib/app.php:127
 msgid "Home"
 msgstr "Кућа"
 
-#: lib/app.php:122
+#: lib/app.php:115
 msgid "Mobile"
 msgstr "Мобилни"
 
-#: lib/app.php:124
+#: lib/app.php:117
 msgid "Text"
 msgstr "Текст"
 
-#: lib/app.php:125
+#: lib/app.php:118
 msgid "Voice"
 msgstr "Глас"
 
-#: lib/app.php:126
+#: lib/app.php:119
+msgid "Message"
+msgstr ""
+
+#: lib/app.php:120
 msgid "Fax"
 msgstr "Факс"
 
-#: lib/app.php:127
+#: lib/app.php:121
 msgid "Video"
 msgstr "Видео"
 
-#: lib/app.php:128
+#: lib/app.php:122
 msgid "Pager"
 msgstr "Пејџер"
+
+#: lib/app.php:128
+msgid "Internet"
+msgstr ""
+
+#: lib/hooks.php:79
+msgid "{name}'s Birthday"
+msgstr ""
 
 #: lib/search.php:22
 msgid "Contact"
 msgstr "Контакт"
 
-#: photo.php:42
-msgid "This is not your contact."
-msgstr "Ово није ваш контакт."
-
-#: templates/index.php:6
+#: templates/index.php:13
 msgid "Add Contact"
 msgstr "Додај контакт"
 
-#: templates/index.php:7
+#: templates/index.php:14
 msgid "Addressbooks"
 msgstr "Адресар"
 
-#: templates/part.addcardform.php:8
-msgid "Addressbook"
-msgstr "Адресар"
-
-#: templates/part.addcardform.php:21
-msgid "Name"
-msgstr "Име"
-
-#: templates/part.addcardform.php:57 templates/part.details.php:43
-#: templates/part.details.php:79 templates/part.setpropertyform.php:10
-#: templates/part.setpropertyform.php:47
-msgid "Type"
-msgstr "Тип"
-
-#: templates/part.addcardform.php:65 templates/part.details.php:49
-#: templates/part.setpropertyform.php:16
-msgid "PO Box"
-msgstr "Поштански број"
-
-#: templates/part.addcardform.php:72 templates/part.details.php:53
-#: templates/part.setpropertyform.php:20
-msgid "Extended"
-msgstr "Прошири"
-
-#: templates/part.addcardform.php:78 templates/part.details.php:57
-#: templates/part.setpropertyform.php:24
-msgid "Street"
-msgstr "Улица"
-
-#: templates/part.addcardform.php:84 templates/part.details.php:61
-#: templates/part.setpropertyform.php:28
-msgid "City"
-msgstr "Град"
-
-#: templates/part.addcardform.php:90 templates/part.details.php:65
-#: templates/part.setpropertyform.php:32
-msgid "Region"
-msgstr "Регија"
-
-#: templates/part.addcardform.php:96 templates/part.details.php:69
-#: templates/part.setpropertyform.php:36
-msgid "Zipcode"
-msgstr "Зип код"
-
-#: templates/part.addcardform.php:102 templates/part.details.php:73
-#: templates/part.setpropertyform.php:40
-msgid "Country"
-msgstr "Земља"
-
-#: templates/part.addcardform.php:109
-msgid "Create Contact"
-msgstr "Направи контакт"
-
 #: templates/part.chooseaddressbook.php:1
-msgid "Choose active Address Books"
-msgstr "Изаберите активне адресаре"
+msgid "Configure Address Books"
+msgstr ""
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
 msgstr "Нови адресар"
 
-#: templates/part.chooseaddressbook.php:21
-#: templates/part.chooseaddressbook.rowfields.php:5
+#: templates/part.chooseaddressbook.php:17
+msgid "Import from VCF"
+msgstr ""
+
+#: templates/part.chooseaddressbook.php:22
+#: templates/part.chooseaddressbook.rowfields.php:8
 msgid "CardDav Link"
 msgstr ""
 
-#: templates/part.chooseaddressbook.rowfields.php:5
+#: templates/part.chooseaddressbook.rowfields.php:11
 msgid "Download"
 msgstr "Преузимање"
 
-#: templates/part.chooseaddressbook.rowfields.php:5
+#: templates/part.chooseaddressbook.rowfields.php:14
 msgid "Edit"
 msgstr "Уреди"
 
-#: templates/part.chooseaddressbook.rowfields.php:5
+#: templates/part.chooseaddressbook.rowfields.php:17
+#: templates/part.contact.php:34 templates/part.contact.php:36
+#: templates/part.contact.php:38 templates/part.contact.php:42
 msgid "Delete"
 msgstr "Обриши"
 
-#: templates/part.details.php:3
+#: templates/part.contact.php:12
 msgid "Download contact"
 msgstr "Преузми контакт"
 
-#: templates/part.details.php:4
+#: templates/part.contact.php:13
 msgid "Delete contact"
 msgstr "Обриши контакт"
 
-#: templates/part.details.php:34
+#: templates/part.contact.php:19
+msgid "Drop photo to upload"
+msgstr ""
+
+#: templates/part.contact.php:29
+msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
+msgstr ""
+
+#: templates/part.contact.php:30
+msgid "Edit name details"
+msgstr ""
+
+#: templates/part.contact.php:35 templates/part.contact.php:105
+msgid "Nickname"
+msgstr ""
+
+#: templates/part.contact.php:36
+msgid "Enter nickname"
+msgstr ""
+
+#: templates/part.contact.php:37 templates/part.contact.php:106
+msgid "Birthday"
+msgstr "Рођендан"
+
+#: templates/part.contact.php:38
+msgid "dd-mm-yyyy"
+msgstr ""
+
+#: templates/part.contact.php:39 templates/part.contact.php:111
+msgid "Groups"
+msgstr ""
+
+#: templates/part.contact.php:41
+msgid "Separate groups with commas"
+msgstr ""
+
+#: templates/part.contact.php:42
+msgid "Edit groups"
+msgstr ""
+
+#: templates/part.contact.php:55 templates/part.contact.php:69
+msgid "Preferred"
+msgstr "Пожељан"
+
+#: templates/part.contact.php:56
+msgid "Please specify a valid email address."
+msgstr ""
+
+#: templates/part.contact.php:56
+msgid "Enter email address"
+msgstr ""
+
+#: templates/part.contact.php:60
+msgid "Mail to address"
+msgstr ""
+
+#: templates/part.contact.php:61
+msgid "Delete email address"
+msgstr ""
+
+#: templates/part.contact.php:70
+msgid "Enter phone number"
+msgstr ""
+
+#: templates/part.contact.php:74
+msgid "Delete phone number"
+msgstr ""
+
+#: templates/part.contact.php:84
+msgid "View on map"
+msgstr ""
+
+#: templates/part.contact.php:84
+msgid "Edit address details"
+msgstr ""
+
+#: templates/part.contact.php:95
+msgid "Add notes here."
+msgstr ""
+
+#: templates/part.contact.php:101
+msgid "Add field"
+msgstr ""
+
+#: templates/part.contact.php:103
+msgid "Profile picture"
+msgstr ""
+
+#: templates/part.contact.php:107
+msgid "Phone"
+msgstr "Телефон"
+
+#: templates/part.contact.php:110
+msgid "Note"
+msgstr ""
+
+#: templates/part.contactphoto.php:8
+msgid "Delete current photo"
+msgstr ""
+
+#: templates/part.contactphoto.php:9
+msgid "Edit current photo"
+msgstr ""
+
+#: templates/part.contactphoto.php:10
+msgid "Upload new photo"
+msgstr ""
+
+#: templates/part.contactphoto.php:11
+msgid "Select photo from ownCloud"
+msgstr ""
+
+#: templates/part.edit_address_dialog.php:9
+msgid "Edit address"
+msgstr ""
+
+#: templates/part.edit_address_dialog.php:14
+msgid "Type"
+msgstr "Тип"
+
+#: templates/part.edit_address_dialog.php:22
+#: templates/part.edit_address_dialog.php:25
+msgid "PO Box"
+msgstr "Поштански број"
+
+#: templates/part.edit_address_dialog.php:29
+#: templates/part.edit_address_dialog.php:32
+msgid "Extended"
+msgstr "Прошири"
+
+#: templates/part.edit_address_dialog.php:35
+#: templates/part.edit_address_dialog.php:38
+msgid "Street"
+msgstr "Улица"
+
+#: templates/part.edit_address_dialog.php:41
+#: templates/part.edit_address_dialog.php:44
+msgid "City"
+msgstr "Град"
+
+#: templates/part.edit_address_dialog.php:47
+#: templates/part.edit_address_dialog.php:50
+msgid "Region"
+msgstr "Регија"
+
+#: templates/part.edit_address_dialog.php:53
+#: templates/part.edit_address_dialog.php:56
+msgid "Zipcode"
+msgstr "Зип код"
+
+#: templates/part.edit_address_dialog.php:59
+#: templates/part.edit_address_dialog.php:62
+msgid "Country"
+msgstr "Земља"
+
+#: templates/part.edit_categories_dialog.php:4
+msgid "Edit categories"
+msgstr ""
+
+#: templates/part.edit_categories_dialog.php:14
 msgid "Add"
 msgstr "Додај"
+
+#: templates/part.edit_name_dialog.php:16
+msgid "Addressbook"
+msgstr "Адресар"
+
+#: templates/part.edit_name_dialog.php:23
+msgid "Hon. prefixes"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:27
+msgid "Miss"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:28
+msgid "Ms"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:29
+msgid "Mr"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:30
+msgid "Sir"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:31
+msgid "Mrs"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:32
+msgid "Dr"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:35
+msgid "Given name"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:37
+msgid "Additional names"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:39
+msgid "Family name"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:41
+msgid "Hon. suffixes"
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:45
+msgid "J.D."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:46
+msgid "M.D."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:47
+msgid "D.O."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:48
+msgid "D.C."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:49
+msgid "Ph.D."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:50
+msgid "Esq."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:51
+msgid "Jr."
+msgstr ""
+
+#: templates/part.edit_name_dialog.php:52
+msgid "Sn."
+msgstr ""
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
@@ -256,27 +588,82 @@ msgid "Submit"
 msgstr "Пошаљи"
 
 #: templates/part.editaddressbook.php:30
+#: templates/part.importaddressbook.php:28
 msgid "Cancel"
 msgstr "Откажи"
 
-#: templates/part.property.php:3
-msgid "Birthday"
-msgstr "Рођендан"
-
-#: templates/part.property.php:23
-msgid "Preferred"
-msgstr "Пожељан"
-
-#: templates/part.property.php:23 templates/part.setpropertyform.php:45
-msgid "Phone"
-msgstr "Телефон"
-
-#: templates/part.setpropertyform.php:57
-msgid "Update"
-msgstr "Ажурирај"
-
-#: templates/settings.php:4
-msgid "CardDAV syncing address:"
+#: templates/part.import.php:1
+msgid "Import a contacts file"
 msgstr ""
 
+#: templates/part.import.php:6
+msgid "Please choose the addressbook"
+msgstr ""
 
+#: templates/part.import.php:10
+msgid "create a new addressbook"
+msgstr ""
+
+#: templates/part.import.php:15
+msgid "Name of new addressbook"
+msgstr ""
+
+#: templates/part.import.php:17
+msgid "Import"
+msgstr ""
+
+#: templates/part.import.php:20
+msgid "Importing contacts"
+msgstr ""
+
+#: templates/part.import.php:23
+msgid "Contacts imported successfully"
+msgstr ""
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr ""
+
+#: templates/part.importaddressbook.php:9
+msgid "Import Addressbook"
+msgstr ""
+
+#: templates/part.importaddressbook.php:12
+msgid "Select address book to import to:"
+msgstr ""
+
+#: templates/part.importaddressbook.php:20
+msgid "Drop a VCF file to import contacts."
+msgstr ""
+
+#: templates/part.importaddressbook.php:21
+msgid "Select from HD"
+msgstr ""
+
+#: templates/part.no_contacts.php:2
+msgid "You have no contacts in your addressbook."
+msgstr ""
+
+#: templates/part.no_contacts.php:4
+msgid "Add contact"
+msgstr ""
+
+#: templates/part.no_contacts.php:5
+msgid "Configure addressbooks"
+msgstr ""
+
+#: templates/settings.php:4
+msgid "CardDAV syncing addresses"
+msgstr ""
+
+#: templates/settings.php:4
+msgid "more info"
+msgstr ""
+
+#: templates/settings.php:6
+msgid "Primary address (Kontact et al)"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "iOS/OS X"
+msgstr ""

@@ -10,7 +10,6 @@
 "New" => "Uus",
 "Text file" => "Tekstifail",
 "Folder" => "Kaust",
-"From the web" => "Veebist",
 "Upload" => "Lae üles",
 "Nothing in here. Upload something!" => "Siin pole midagi. Lae midagi üles!",
 "Name" => "Nimi",

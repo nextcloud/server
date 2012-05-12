@@ -13,8 +13,8 @@
 	<td>
 		<select id="book" name="book" class="float">
 		<?php
-		$contacts_options = OC_Contacts_Addressbook::all(OC_User::getUser());
-		echo html_select_options($contacts_options, $contacts_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
+		$contacts_options = OC_Contacts_Addressbook::all(OCP\USER::getUser());
+		echo OCP\html_select_options($contacts_options, $contacts_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
 		?>
 		</select>
 		<span id="import_drop_target" class="droptarget float"><?php echo $l->t("Drop a VCF file to import contacts."); ?> (Max. <?php echo  $_['uploadMaxHumanFilesize']; ?>)</span>
@@ -22,7 +22,7 @@
 	</td>
 </tr>
 </table>
-<form id="import_upload_form" action="<?php echo OC_Helper::linkTo('contacts', 'ajax/uploadimport.php'); ?>" method="post" enctype="multipart/form-data" target="import_upload_target">
+<form id="import_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadimport.php'); ?>" method="post" enctype="multipart/form-data" target="import_upload_target">
 <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 <input id="import_upload_start" type="file" accept="text/*" name="importfile" />
 <input id="close_button" style="float: left;" type="button" onclick="Contacts.UI.Addressbooks.cancel(this);" value="<?php echo $l->t("Cancel"); ?>">

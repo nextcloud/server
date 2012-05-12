@@ -7,19 +7,19 @@ OC::$CLASSPATH['OC_Calendar_Hooks'] = 'apps/calendar/lib/hooks.php';
 OC::$CLASSPATH['OC_Connector_Sabre_CalDAV'] = 'apps/calendar/lib/connector_sabre.php';
 OC::$CLASSPATH['OC_Calendar_Share'] = 'apps/calendar/lib/share.php';
 OC::$CLASSPATH['OC_Search_Provider_Calendar'] = 'apps/calendar/lib/search.php';
-OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
-OC_Util::addScript('calendar','loader');
-OC_Util::addScript("3rdparty", "chosen/chosen.jquery.min");
+OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
+OCP\Util::addscript('calendar','loader');
+OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
 OCP\Util::addStyle("3rdparty", "chosen/chosen");
-OC_App::register( array(
+OCP\App::register( array(
   'order' => 10,
   'id' => 'calendar',
   'name' => 'Calendar' ));
-OC_App::addNavigationEntry( array(
+OCP\App::addNavigationEntry( array(
   'id' => 'calendar_index',
   'order' => 10,
-  'href' => OC_Helper::linkTo( 'calendar', 'index.php' ),
-  'icon' => OC_Helper::imagePath( 'calendar', 'icon.svg' ),
+  'href' => OCP\Util::linkTo( 'calendar', 'index.php' ),
+  'icon' => OCP\Util::imagePath( 'calendar', 'icon.svg' ),
   'name' => $l->t('Calendar')));
-OC_App::registerPersonal('calendar', 'settings');
+OCP\App::registerPersonal('calendar', 'settings');
 OC_Search::registerProvider('OC_Search_Provider_Calendar');

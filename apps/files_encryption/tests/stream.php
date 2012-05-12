@@ -22,7 +22,7 @@ class Test_CryptStream extends UnitTestCase {
 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 		$source=fopen($file,'r');
 		$target=$this->getStream('test2','w');
-		OC_Helper::streamCopy($source,$target);
+		OCP\Files::streamCopy($source,$target);
 		fclose($target);
 		fclose($source);
 
@@ -44,7 +44,7 @@ class Test_CryptStream extends UnitTestCase {
 			$id=uniqid();
 		}
 		if(!isset($this->tmpFiles[$id])){
-			$file=OC_Helper::tmpFile();
+			$file=OCP\Files::tmpFile();
 			$this->tmpFiles[$id]=$file;
 		}else{
 			$file=$this->tmpFiles[$id];

@@ -221,12 +221,18 @@ class OC_Setup {
 				OC_DB::createDbFromStructure('db_structure.xml');
 			}
 
+			//create the user and group
+			try {
+				OC_User::createUser($username, $password);
+			}
+			catch(Exception $exception) {
+				$error[] = $exception->getMessage();
+			}
+
 			if(count($error) == 0) {
 				OC_Appconfig::setValue('core', 'installedat',microtime(true));
 				OC_Appconfig::setValue('core', 'lastupdatedat',microtime(true));
 
-				//create the user and group
-				OC_User::createUser($username, $password);
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');
 				OC_User::login($username, $password);
@@ -271,19 +277,23 @@ class OC_Setup {
 
 	public static function pg_createDatabase($name,$user,$connection) {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
-		$query = "CREATE DATABASE $name OWNER $user";
+		$e_name = pg_escape_string($name);
+		$e_user = pg_escape_string($user);
+		$query = "CREATE DATABASE \"$e_name\" OWNER \"$e_user\"";
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
 			$entry.='Offending command was: '.$query.'<br />';
 			echo($entry);
 		}
-		$query = "REVOKE ALL PRIVILEGES ON DATABASE $name FROM PUBLIC";
+		$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
 		$result = pg_query($connection, $query);		
 	}
 
 	private static function pg_createDBUser($name,$password,$connection) {
-		$query = "CREATE USER $name CREATEDB PASSWORD '$password';";
+		$e_name = pg_escape_string($name);
+		$e_password = pg_escape_string($password);
+		$query = "CREATE USER \"$e_name\" CREATEDB PASSWORD '$e_password';";
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
@@ -297,7 +307,7 @@ class OC_Setup {
 	 */
 	private static function createHtaccess() {
 		$content = "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
-		$content = "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
+		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
 		$content.= "<IfModule mod_php5.c>\n";
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit
 		$content.= "php_value post_max_size 512M\n";
@@ -308,9 +318,12 @@ class OC_Setup {
 		$content.= "</IfModule>\n";
 		$content.= "<IfModule mod_rewrite.c>\n";
 		$content.= "RewriteEngine on\n";
-		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]\n";
-		$content.= "RewriteRule ^.well-known/carddav /apps/contacts/carddav.php [R]\n";
-		$content.= "RewriteRule ^.well-known/caldav /apps/calendar/caldav.php [R]\n";
+ 		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\n";
+		$content.= "RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]\n";
+		$content.= "RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]\n";
+		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";
+		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
+		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
 		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it

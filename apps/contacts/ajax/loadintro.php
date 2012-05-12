@@ -21,11 +21,11 @@
  */
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 
-$tmpl = new OC_Template('contacts','part.no_contacts');
+$tmpl = new OCP\Template('contacts','part.no_contacts');
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array( 'page' => $page )));

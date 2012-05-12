@@ -43,7 +43,7 @@ class OC_MEDIA_COLLECTION{
 		if(isset(self::$artistIdCache[$name])){
 			return self::$artistIdCache[$name];
 		}else{
-			$query=OC_DB::prepare("SELECT artist_id FROM *PREFIX*media_artists WHERE lower(artist_name) LIKE ?");
+			$query=OCP\DB::prepare("SELECT artist_id FROM *PREFIX*media_artists WHERE lower(artist_name) LIKE ?");
 			$artists=$query->execute(array($name))->fetchAll();
 			if(is_array($artists) and isset($artists[0])){
 				self::$artistIdCache[$name]=$artists[0]['artist_id'];
@@ -71,7 +71,7 @@ class OC_MEDIA_COLLECTION{
 		if(isset(self::$albumIdCache[$artistId][$name])){
 			return self::$albumIdCache[$artistId][$name];
 		}else{
-			$query=OC_DB::prepare("SELECT album_id FROM *PREFIX*media_albums WHERE lower(album_name) LIKE ? AND album_artist=?");
+			$query=OCP\DB::prepare("SELECT album_id FROM *PREFIX*media_albums WHERE lower(album_name) LIKE ? AND album_artist=?");
 			$albums=$query->execute(array($name,$artistId))->fetchAll();
 			if(is_array($albums) and isset($albums[0])){
 				self::$albumIdCache[$artistId][$name]=$albums[0]['album_id'];
@@ -104,7 +104,7 @@ class OC_MEDIA_COLLECTION{
 			return self::$albumIdCache[$artistId][$albumId][$name];
 		}else{
 			$uid=$_SESSION['user_id'];
-			$query=OC_DB::prepare("SELECT song_id FROM *PREFIX*media_songs WHERE song_user=? AND song_name LIKE ? AND song_artist=? AND song_album=?");
+			$query=OCP\DB::prepare("SELECT song_id FROM *PREFIX*media_songs WHERE song_user=? AND song_name LIKE ? AND song_artist=? AND song_album=?");
 			$songs=$query->execute(array($uid,$name,$artistId,$albumId))->fetchAll();
 			if(is_array($songs) and isset($songs[0])){
 				self::$albumIdCache[$artistId][$albumId][$name]=$songs[0]['song_id'];
@@ -130,7 +130,7 @@ class OC_MEDIA_COLLECTION{
 		}elseif($search==''){
 			$search='%';
 		}
-		$query=OC_DB::prepare("SELECT DISTINCT artist_name, artist_id FROM *PREFIX*media_artists
+		$query=OCP\DB::prepare("SELECT DISTINCT artist_name, artist_id FROM *PREFIX*media_artists
 			INNER JOIN *PREFIX*media_songs ON artist_id=song_artist WHERE artist_name LIKE ? AND song_user=? ORDER BY artist_name");
 		$result=$query->execute(array($search,self::$uid));
 		return $result->fetchAll();
@@ -151,7 +151,7 @@ class OC_MEDIA_COLLECTION{
 		if($artistId!=0){
 			return $artistId;
 		}else{
-			$query=OC_DB::prepare("INSERT INTO `*PREFIX*media_artists` (`artist_name`) VALUES (?)");
+			$query=OCP\DB::prepare("INSERT INTO `*PREFIX*media_artists` (`artist_name`) VALUES (?)");
 			$result=$query->execute(array($name));
 			return self::getArtistId($name);;
 		}
@@ -183,7 +183,7 @@ class OC_MEDIA_COLLECTION{
 			array_push($params,$search);
 		}
 		$cmd.=' ORDER BY album_name';
-		$query=OC_DB::prepare($cmd);
+		$query=OCP\DB::prepare($cmd);
 		return $query->execute($params)->fetchAll();
 	}
 	
@@ -203,7 +203,7 @@ class OC_MEDIA_COLLECTION{
 		if($albumId!=0){
 			return $albumId;
 		}else{
-			$query=OC_DB::prepare("INSERT INTO  `*PREFIX*media_albums` (`album_name` ,`album_artist`) VALUES ( ?, ?)");
+			$query=OCP\DB::prepare("INSERT INTO  `*PREFIX*media_albums` (`album_name` ,`album_artist`) VALUES ( ?, ?)");
 			$query->execute(array($name,$artist));
 			return self::getAlbumId($name,$artist);
 		}
@@ -243,7 +243,7 @@ class OC_MEDIA_COLLECTION{
 		}else{
 			$searchString='';
 		}
-		$query=OC_DB::prepare("SELECT * FROM *PREFIX*media_songs WHERE song_user=? $artistString $albumString $searchString ORDER BY song_track, song_name, song_path");
+		$query=OCP\DB::prepare("SELECT * FROM *PREFIX*media_songs WHERE song_user=? $artistString $albumString $searchString ORDER BY song_track, song_name, song_path");
 		return $query->execute($params)->fetchAll();
 	}
 	
@@ -261,7 +261,7 @@ class OC_MEDIA_COLLECTION{
 		if($name=='' or $path==''){
 			return 0;
 		}
-		$uid=OC_User::getUser();
+		$uid=OCP\USER::getUser();
 		//check if the song is already in the database
 		$songId=self::getSongId($name,$artist,$album);
 		if($songId!=0){
@@ -270,39 +270,39 @@ class OC_MEDIA_COLLECTION{
 			return $songId;
 		}else{
 			if(!isset(self::$queries['addsong'])){
-				$query=OC_DB::prepare("INSERT INTO  `*PREFIX*media_songs` (`song_name` ,`song_artist` ,`song_album` ,`song_path` ,`song_user`,`song_length`,`song_track`,`song_size`,`song_playcount`,`song_lastplayed`)
+				$query=OCP\DB::prepare("INSERT INTO  `*PREFIX*media_songs` (`song_name` ,`song_artist` ,`song_album` ,`song_path` ,`song_user`,`song_length`,`song_track`,`song_size`,`song_playcount`,`song_lastplayed`)
 				VALUES (?, ?, ?, ?,?,?,?,?,0,0)");
 				self::$queries['addsong']=$query;
 			}else{
 				$query=self::$queries['addsong'];
 			}
 			$query->execute(array($name,$artist,$album,$path,$uid,$length,$track,$size));
-			$songId=OC_DB::insertid('*PREFIX*media_songs');
+			$songId=OCP\DB::insertid('*PREFIX*media_songs');
 // 			self::setLastUpdated();
 			return self::getSongId($name,$artist,$album);
 		}
 	}
 	
 	public static function getSongCount(){
-		$query=OC_DB::prepare("SELECT COUNT(song_id) AS count FROM *PREFIX*media_songs");
+		$query=OCP\DB::prepare("SELECT COUNT(song_id) AS count FROM *PREFIX*media_songs");
 		$result=$query->execute()->fetchAll();
 		return $result[0]['count'];
 	}
 	
 	public static function getArtistCount(){
-		$query=OC_DB::prepare("SELECT COUNT(artist_id) AS count FROM *PREFIX*media_artists");
+		$query=OCP\DB::prepare("SELECT COUNT(artist_id) AS count FROM *PREFIX*media_artists");
 		$result=$query->execute()->fetchAll();
 		return $result[0]['count'];
 	}
 	
 	public static function getAlbumCount(){
-		$query=OC_DB::prepare("SELECT COUNT(album_id) AS count FROM *PREFIX*media_albums");
+		$query=OCP\DB::prepare("SELECT COUNT(album_id) AS count FROM *PREFIX*media_albums");
 		$result=$query->execute()->fetchAll();
 		return $result[0]['count'];
 	}
 	
 	public static function getArtistName($artistId){
-		$query=OC_DB::prepare("SELECT artist_name FROM *PREFIX*media_artists WHERE artist_id=?");
+		$query=OCP\DB::prepare("SELECT artist_name FROM *PREFIX*media_artists WHERE artist_id=?");
 		$artist=$query->execute(array($artistId))->fetchAll();
 		if(count($artist)>0){
 			return $artist[0]['artist_name'];
@@ -312,7 +312,7 @@ class OC_MEDIA_COLLECTION{
 	}
 	
 	public static function getAlbumName($albumId){
-		$query=OC_DB::prepare("SELECT album_name FROM *PREFIX*media_albums WHERE album_id=?");
+		$query=OCP\DB::prepare("SELECT album_name FROM *PREFIX*media_albums WHERE album_id=?");
 		$album=$query->execute(array($albumId))->fetchAll();
 		if(count($album)>0){
 			return $album[0]['album_name'];
@@ -322,7 +322,7 @@ class OC_MEDIA_COLLECTION{
 	}
 	
 	public static function getSong($id){
-		$query=OC_DB::prepare("SELECT * FROM *PREFIX*media_songs WHERE song_id=?");
+		$query=OCP\DB::prepare("SELECT * FROM *PREFIX*media_songs WHERE song_id=?");
 		$song=$query->execute(array($id))->fetchAll();
 		if(count($song)>0){
 			return $song[0];
@@ -336,7 +336,7 @@ class OC_MEDIA_COLLECTION{
 	 * @param string $path
 	 */
 	public static function getSongCountByPath($path){
-		$query=OC_DB::prepare("SELECT COUNT(song_id) AS count FROM *PREFIX*media_songs WHERE song_path LIKE ?");
+		$query=OCP\DB::prepare("SELECT COUNT(song_id) AS count FROM *PREFIX*media_songs WHERE song_path LIKE ?");
 		$result=$query->execute(array("$path%"))->fetchAll();
 		return $result[0]['count'];
 	}
@@ -348,7 +348,7 @@ class OC_MEDIA_COLLECTION{
 	 * if a path of a folder is passed, all songs stored in the folder will be removed from the database
 	 */
 	public static function deleteSongByPath($path){
-		$query=OC_DB::prepare("DELETE FROM *PREFIX*media_songs WHERE song_path LIKE ?");
+		$query=OCP\DB::prepare("DELETE FROM *PREFIX*media_songs WHERE song_path LIKE ?");
 		$query->execute(array("$path%"));
 	}
 
@@ -358,7 +358,7 @@ class OC_MEDIA_COLLECTION{
 	 */
 	public static function registerPlay($songId){
 		$now=time();
-		$query=OC_DB::prepare('UPDATE *PREFIX*media_songs SET song_playcount=song_playcount+1, song_lastplayed=? WHERE song_id=? AND song_lastplayed<?');
+		$query=OCP\DB::prepare('UPDATE *PREFIX*media_songs SET song_playcount=song_playcount+1, song_lastplayed=? WHERE song_id=? AND song_lastplayed<?');
 		$query->execute(array($now,$songId,$now-60));
 	}
 
@@ -368,7 +368,7 @@ class OC_MEDIA_COLLECTION{
 	 * @return int
 	 */
 	public static function getSongByPath($path){
-		$query=OC_DB::prepare("SELECT song_id FROM *PREFIX*media_songs WHERE song_path = ?");
+		$query=OCP\DB::prepare("SELECT song_id FROM *PREFIX*media_songs WHERE song_path = ?");
 		$result=$query->execute(array($path));
 		if($row=$result->fetchRow()){
 			return $row['song_id'];
@@ -383,7 +383,7 @@ class OC_MEDIA_COLLECTION{
 	 * @param string $newPath
 	 */
 	public static function moveSong($oldPath,$newPath){
-		$query=OC_DB::prepare("UPDATE *PREFIX*media_songs SET song_path = ? WHERE song_path = ?");
+		$query=OCP\DB::prepare("UPDATE *PREFIX*media_songs SET song_path = ? WHERE song_path = ?");
 		$query->execute(array($newPath,$oldPath));
 	}
 }

@@ -24,7 +24,7 @@
 class OC_External {
 
 	public static function getSites() {
-		if (($sites = json_decode(OC_Appconfig::getValue("external", "sites", ''))) != NULL) {
+		if (($sites = json_decode(OCP\Config::getAppValue("external", "sites", ''))) != NULL) {
 			return $sites;	
 		}
 

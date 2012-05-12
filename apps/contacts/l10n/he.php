@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Information about vCard is incorrect. Please reload the page." => "המידע אודות vCard אינו נכון. נא לטעון מחדש את הדף.",
 "This is not your addressbook." => "זהו אינו ספר הכתובות שלך",
 "Contact could not be found." => "לא ניתן לאתר איש קשר",
-"Information about vCard is incorrect. Please reload the page." => "המידע אודות vCard אינו נכון. נא לטעון מחדש את הדף.",
 "Address" => "כתובת",
 "Telephone" => "טלפון",
 "Email" => "דואר אלקטרוני",
@@ -14,19 +14,16 @@
 "Fax" => "פקס",
 "Video" => "וידאו",
 "Pager" => "זימונית",
-"This is not your contact." => "זהו אינו איש קשר שלך",
 "Add Contact" => "הוספת איש קשר",
-"Name" => "שם",
+"Edit" => "עריכה",
+"Delete" => "מחיקה",
+"Birthday" => "יום הולדת",
+"Phone" => "טלפון",
 "PO Box" => "תא דואר",
 "Extended" => "מורחב",
 "Street" => "רחוב",
 "City" => "עיר",
 "Region" => "אזור",
 "Zipcode" => "מיקוד",
-"Country" => "מדינה",
-"Create Contact" => "יצירת איש קשר",
-"Edit" => "עריכה",
-"Delete" => "מחיקה",
-"Birthday" => "יום הולדת",
-"Phone" => "טלפון"
+"Country" => "מדינה"
 );

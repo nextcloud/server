@@ -2,7 +2,6 @@
 "Invalid request" => "Permintaan tidak valid",
 "OpenID Changed" => "OpenID telah dirubah",
 "Language changed" => "Bahasa telah diganti",
-"Add your application" => "Tambahkan aplikasi anda",
 "Select an App" => "Pilih satu aplikasi",
 "-licensed" => "-terlisensi",
 "by" => "oleh",

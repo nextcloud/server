@@ -10,7 +10,6 @@
 "New" => "Ny",
 "Text file" => "Tekstfil",
 "Folder" => "Mappe",
-"From the web" => "Fra nettet",
 "Upload" => "Upload",
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",
 "Name" => "Navn",

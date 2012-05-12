@@ -1,13 +1,13 @@
 <?php $TRANSLATIONS = array(
 "Music" => "Muzyka",
 "Play" => "Odtwarzaj",
-"Pause" => "Zatrzymaj",
+"Pause" => "Wstrzymaj",
 "Previous" => "Poprzedni",
 "Next" => "Następny",
 "Mute" => "Wycisz",
-"Unmute" => "Włącz",
-"Rescan Collection" => "Przeskanuj kolekcję",
-"Artist" => "Artysta",
+"Unmute" => "Wyłącz wyciszenie",
+"Rescan Collection" => "Przeszukaj kolekcję",
+"Artist" => "Wykonawca",
 "Album" => "Album",
 "Title" => "Tytuł"
 );

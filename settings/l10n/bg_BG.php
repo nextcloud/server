@@ -2,7 +2,6 @@
 "Invalid request" => "Невалидна заявка",
 "OpenID Changed" => "OpenID е сменено",
 "Language changed" => "Езика е сменен",
-"Add your application" => "Добавете Ваша програма",
 "Select an App" => "Изберете програма",
 "-licensed" => "-лицензирано",
 "by" => "от",

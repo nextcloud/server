@@ -27,16 +27,27 @@ class Test_Encryption extends UnitTestCase {
 		$this->assertNotEqual($encrypted,$source);
 		$this->assertEqual($decrypted,$source);
 
-		$tmpFileEncrypted=OC_Helper::tmpFile();
+		$tmpFileEncrypted=OCP\Files::tmpFile();
 		OC_Crypt::encryptfile($file,$tmpFileEncrypted,$key);
 		$encrypted=file_get_contents($tmpFileEncrypted);
 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
 		$this->assertNotEqual($encrypted,$source);
 		$this->assertEqual($decrypted,$source);
 
-		$tmpFileDecrypted=OC_Helper::tmpFile();
+		$tmpFileDecrypted=OCP\Files::tmpFile();
 		OC_Crypt::decryptfile($tmpFileEncrypted,$tmpFileDecrypted,$key);
 		$decrypted=file_get_contents($tmpFileDecrypted);
 		$this->assertEqual($decrypted,$source);
+
+		$file=OC::$SERVERROOT.'/core/img/weather-clear.png';
+		$source=file_get_contents($file); //binary file
+		$encrypted=OC_Crypt::encrypt($source,$key);
+		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$this->assertEqual($decrypted,$source);
+
+		$encrypted=OC_Crypt::blockEncrypt($source,$key);
+		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
+		$this->assertEqual($decrypted,$source);
+
 	}
 }

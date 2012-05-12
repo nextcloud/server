@@ -8,16 +8,16 @@
 
  
 
-if(!OC_USER::isLoggedIn()) {
+if(!OCP\User::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkAppEnabled('calendar');
 
 $id = $_GET['id'];
 $data = OC_Calendar_App::getEventObject($id, true, true);
 
 if(!$data){
-	OC_JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
+	OCP\JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
 	exit;
 }
 $access = OC_Calendar_App::getaccess($id, OC_Calendar_Share::EVENT);
@@ -189,7 +189,7 @@ if($data['repeating'] == 1){
 	$repeat['repeat'] = 'doesnotrepeat';
 }
 if($access == 'owner'){
-	$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+	$calendar_options = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 }else{
 	$calendar_options = array(OC_Calendar_App::getCalendar($data['calendarid'], false));
 }
@@ -206,9 +206,9 @@ $repeat_byweekno_options = OC_Calendar_App::getByWeekNoOptions();
 $repeat_bymonthday_options = OC_Calendar_App::getByMonthDayOptions();
 
 if($access == 'owner' || $access == 'rw'){
-	$tmpl = new OC_Template('calendar', 'part.editevent');
+	$tmpl = new OCP\Template('calendar', 'part.editevent');
 }elseif($access == 'r'){
-	$tmpl = new OC_Template('calendar', 'part.showevent');
+	$tmpl = new OCP\Template('calendar', 'part.showevent');
 }
 
 $tmpl->assign('eventid', $id);

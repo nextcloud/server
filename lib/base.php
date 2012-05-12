@@ -253,7 +253,7 @@ class OC{
 		}
 
 		// Add the stuff we need always
-		OC_Util::addScript( "jquery-1.6.4.min" );
+		OC_Util::addScript( "jquery-1.7.2.min" );
 		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
 		OC_Util::addScript( "jquery-showpassword" );
 		OC_Util::addScript( "jquery.infieldlabel.min" );
@@ -288,10 +288,15 @@ class OC{
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
 				$appswebroot = (string) OC::$APPSWEBROOT;
 				$webroot = (string) OC::$WEBROOT;
-				$cssfile = file_get_contents(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+				$filepath = OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
+				$cssfile = file_get_contents($filepath);
 				$cssfile = str_replace('%appswebroot%', $appswebroot, $cssfile);
 				$cssfile = str_replace('%webroot%', $webroot, $cssfile);
 				header('Content-Type: text/css');
+				OC_Response::enableCaching();
+				OC_Response::setLastModifiedHeader(filemtime($filepath));
+				OC_Response::setETagHeader(md5($cssfile));
+				header('Content-Length: '.strlen($cssfile));
 				echo $cssfile;
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
@@ -424,7 +429,7 @@ class OC{
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
 		
 		//parse the given parameters
-		self::$REQUESTEDAPP = (isset($_GET['app'])?strip_tags($_GET['app']):'files');
+		self::$REQUESTEDAPP = (isset($_GET['app'])?str_replace('\0', '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
 		if(substr_count(self::$REQUESTEDAPP, '?') != 0){
 			$app = substr(self::$REQUESTEDAPP, 0, strpos(self::$REQUESTEDAPP, '?'));
 			$param = substr(self::$REQUESTEDAPP, strpos(self::$REQUESTEDAPP, '?') + 1);
@@ -443,16 +448,14 @@ class OC{
 			$_GET['getfile'] = $file;
 		}
 		if(!is_null(self::$REQUESTEDFILE)){
-			$subdir = OC::$APPSROOT . '/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
-			$parent = OC::$APPSROOT . '/' . self::$REQUESTEDAPP;
+			$subdir = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
+			$parent = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP;
 			if(!OC_Helper::issubdirectory($subdir, $parent)){
 				self::$REQUESTEDFILE = null;
 				header('HTTP/1.0 404 Not Found');
 				exit;
 			}
 		}
-		//update path to lib base
-		@file_put_contents(OC::$APPSROOT . '/apps/inc.php', '<?php require_once(\'' . OC::$SERVERROOT . '/lib/base.php' . '\'); ?>');
 	}
 }
 

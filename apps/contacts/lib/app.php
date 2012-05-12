@@ -17,14 +17,14 @@ class OC_Contacts_App {
 
 	public static function getAddressbook($id) {
 		$addressbook = OC_Contacts_Addressbook::find( $id );
-		if( $addressbook === false || $addressbook['userid'] != OC_User::getUser()) {
+		if( $addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
 			if ($addressbook === false) {
-				OC_Log::write('contacts', 'Addressbook not found: '. $id, OC_Log::ERROR);
-				OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
+				OCP\Util::writeLog('contacts', 'Addressbook not found: '. $id, OCP\Util::ERROR);
+				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
 			}
 			else {
-				OC_Log::write('contacts', 'Addressbook('.$id.') is not from '.OC_User::getUser(), OC_Log::ERROR);
-				OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
+				OCP\Util::writeLog('contacts', 'Addressbook('.$id.') is not from '.OCP\USER::getUser(), OCP\Util::ERROR);
+				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
 			}
 			exit();
 		}
@@ -34,8 +34,8 @@ class OC_Contacts_App {
 	public static function getContactObject($id) {
 		$card = OC_Contacts_VCard::find( $id );
 		if( $card === false ) {
-			OC_Log::write('contacts', 'Contact could not be found: '.$id, OC_Log::ERROR);
-			OC_JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.$id)));
+			OCP\Util::writeLog('contacts', 'Contact could not be found: '.$id, OCP\Util::ERROR);
+			OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.$id)));
 			exit();
 		}
 
@@ -53,13 +53,13 @@ class OC_Contacts_App {
 		$vcard = OC_VObject::parse($card['carddata']);
 		// Try to fix cards with missing 'N' field from pre ownCloud 4. Hot damn, this is ugly...
 		if(!is_null($vcard) && !$vcard->__isset('N')) {
-			$appinfo = OC_App::getAppInfo('contacts');
-			if($appinfo['version'] >= 5) {
-				OC_Log::write('contacts','OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OC_Log::DEBUG);
+			$version = OCP\App::getAppVersion('contacts');
+			if($version >= 5) {
+				OCP\Util::writeLog('contacts','OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OCP\Util::DEBUG);
 			}
-			OC_Log::write('contacts','getContactVCard, Missing N field', OC_Log::DEBUG);
+			OCP\Util::writeLog('contacts','getContactVCard, Missing N field', OCP\Util::DEBUG);
 			if($vcard->__isset('FN')) {
-				OC_Log::write('contacts','getContactVCard, found FN field: '.$vcard->__get('FN'), OC_Log::DEBUG);
+				OCP\Util::writeLog('contacts','getContactVCard, found FN field: '.$vcard->__get('FN'), OCP\Util::DEBUG);
 				$n = implode(';', array_reverse(array_slice(explode(' ', $vcard->__get('FN')), 0, 2))).';;;';
 				$vcard->setString('N', $n);
 				OC_Contacts_VCard::edit( $id, $vcard);
@@ -145,7 +145,7 @@ class OC_Contacts_App {
 	 */
 	public static function scanCategories($vccontacts = null) {
 		if (is_null($vccontacts)) {
-			$vcaddressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+			$vcaddressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 			if(count($vcaddressbooks) > 0) {
 				$vcaddressbookids = array();
 				foreach($vcaddressbooks as $vcaddressbook) {
@@ -176,7 +176,7 @@ class OC_Contacts_App {
 		$rev = $contact->getAsString('REV');
 		if ($rev) {
 			$rev = DateTime::createFromFormat(DateTime::W3C, $rev);
-			OC_Response::setLastModifiedHeader($rev);
+			OCP\Response::setLastModifiedHeader($rev);
 		}
 	}
 }

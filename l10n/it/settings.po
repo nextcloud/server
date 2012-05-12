@@ -9,14 +9,15 @@
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 #   <marco@carnazzo.it>, 2011, 2012.
 #   <rb.colombo@gmail.com>, 2011.
+# Vincenzo Reale <vinx.reale@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-20 17:48+0100\n"
-"PO-Revision-Date: 2012-01-16 16:38+0000\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/team/it/)\n"
+"Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,140 +26,165 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "email Changed"
-msgstr "email modificata"
+msgstr "Email modificata"
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
+#: ajax/setlanguage.php:22
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
-msgstr "OpenID Modificato"
+msgstr "OpenID modificato"
 
-#: ajax/setlanguage.php:14
+#: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "Lingua modificata"
 
-#: personal.php:36 personal.php:37
+#: personal.php:39 personal.php:40
 msgid "__language_name__"
 msgstr "Italiano"
 
 #: templates/admin.php:13
-msgid "Log level"
-msgstr "Livello di log"
+msgid "Log"
+msgstr ""
+
+#: templates/admin.php:40
+msgid "More"
+msgstr ""
 
 #: templates/apps.php:8
-msgid "Add your application"
-msgstr "Aggiungi un applicazione"
+msgid "Add your App"
+msgstr ""
 
-#: templates/apps.php:21
+#: templates/apps.php:22
 msgid "Select an App"
-msgstr "Seleziona un applicazione"
+msgstr "Seleziona un'applicazione"
 
-#: templates/apps.php:23
+#: templates/apps.php:25
 msgid "-licensed"
 msgstr "-rilasciato"
 
-#: templates/apps.php:23
+#: templates/apps.php:25
 msgid "by"
 msgstr "da"
 
 #: templates/help.php:8
+msgid "Documentation"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Managing Big Files"
+msgstr ""
+
+#: templates/help.php:10
 msgid "Ask a question"
 msgstr "Fai una domanda"
 
-#: templates/help.php:20
+#: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr "Problemi di connessione al database di aiuto"
+msgstr "Problemi di connessione al database di supporto."
 
-#: templates/help.php:21
+#: templates/help.php:23
 msgid "Go there manually."
-msgstr "Vai lì manualmente."
+msgstr "Raggiungilo manualmente."
 
-#: templates/help.php:29
+#: templates/help.php:31
 msgid "Answer"
 msgstr "Risposta"
 
 #: templates/personal.php:8
 msgid "You use"
-msgstr "Si utilizza"
+msgstr "Stai utilizzando"
 
 #: templates/personal.php:8
 msgid "of the available"
 msgstr "su un totale di"
 
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr ""
+
 #: templates/personal.php:13
+msgid "Download"
+msgstr ""
+
+#: templates/personal.php:19
 msgid "Your password got changed"
 msgstr "La tua password è stata cambiata"
 
-#: templates/personal.php:14
+#: templates/personal.php:20
 msgid "Unable to change your password"
 msgstr "Modifica password non riuscita"
 
-#: templates/personal.php:15
+#: templates/personal.php:21
 msgid "Current password"
 msgstr "Password attuale"
 
-#: templates/personal.php:16
+#: templates/personal.php:22
 msgid "New password"
 msgstr "Nuova password"
 
-#: templates/personal.php:17
+#: templates/personal.php:23
 msgid "show"
 msgstr "mostra"
 
-#: templates/personal.php:18
+#: templates/personal.php:24
 msgid "Change password"
 msgstr "Modifica password"
 
-#: templates/personal.php:24
+#: templates/personal.php:30
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:25
+#: templates/personal.php:31
 msgid "Your email address"
 msgstr "Il tuo indirizzo email"
 
-#: templates/personal.php:26
+#: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "Inserici il tuo indirizzo email per abilitare il recupero password"
+msgstr "Inserici il tuo indirizzo email per abilitare il recupero della password"
 
-#: templates/personal.php:32 templates/personal.php:33
+#: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
 msgstr "Lingua"
 
-#: templates/personal.php:38
+#: templates/personal.php:44
 msgid "Help translate"
 msgstr "Migliora la traduzione"
 
-#: templates/personal.php:45
+#: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
-"usa questo indirizzo per connettersi al proprio ownCloud nel tuo file "
-"manager"
+msgstr "usa questo indirizzo per connetterti al tuo ownCloud dal gestore file"
 
-#: templates/users.php:15 templates/users.php:30
+#: templates/users.php:15 templates/users.php:44
 msgid "Name"
 msgstr "Nome"
 
-#: templates/users.php:16 templates/users.php:31
+#: templates/users.php:16 templates/users.php:45
 msgid "Password"
 msgstr "Password"
 
-#: templates/users.php:17 templates/users.php:32 templates/users.php:46
+#: templates/users.php:17 templates/users.php:46 templates/users.php:60
 msgid "Groups"
 msgstr "Gruppi"
 
-#: templates/users.php:23
+#: templates/users.php:22
 msgid "Create"
 msgstr "Crea"
 
-#: templates/users.php:33
+#: templates/users.php:25
+msgid "Default Quota"
+msgstr ""
+
+#: templates/users.php:35 templates/users.php:74
+msgid "Other"
+msgstr ""
+
+#: templates/users.php:47
 msgid "Quota"
-msgstr "Quota"
+msgstr "Quote"
 
-#: templates/users.php:58
+#: templates/users.php:80
 msgid "Delete"
-msgstr "Cancella"
-
-
+msgstr "Elimina"

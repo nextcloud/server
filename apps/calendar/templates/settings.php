@@ -47,6 +47,6 @@
         </table>
 
         <?php echo $l->t('Calendar CalDAV syncing address:');?>
-        <code><?php echo OC_Helper::linkToAbsolute('calendar', 'caldav.php'); ?></code><br />
+        <code><?php echo OCP\Util::linkToRemote('caldav'); ?></code><br />
         </fieldset>
 </form>

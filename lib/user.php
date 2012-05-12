@@ -117,15 +117,15 @@ class OC_User {
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
 		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $uid )){
-			return false;
+			throw new Exception('Only the following characters are allowed in a username: "a-z", "A-Z", "0-9", and "_.@-"');
 		}
 		// No empty username
 		if(trim($uid) == ''){
-			return false;
+			throw new Exception('A valid username must be provided');
 		}
 		// Check if user already exists
 		if( self::userExists($uid) ){
-			return false;
+			throw new Exception('The username is already being used');
 		}
 
 
@@ -215,7 +215,7 @@ class OC_User {
 	}
 
 	/**
-	 * @brief Kick the user
+	 * @brief Logs the current user out and kills all the session data
 	 * @returns true
 	 *
 	 * Logout, destroys session

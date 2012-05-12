@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Information about vCard is incorrect. Please reload the page." => "Podaci o vKarti su neispravni. Ponovo učitajte stranicu.",
 "This is not your addressbook." => "Ovo nije vaš adresar.",
 "Contact could not be found." => "Kontakt se ne može naći.",
-"Information about vCard is incorrect. Please reload the page." => "Podaci o vKarti su neispravni. Ponovo učitajte stranicu.",
 "Address" => "Adresa",
 "Telephone" => "Telefon",
 "Email" => "E-mail",
@@ -14,19 +14,16 @@
 "Fax" => "Faks",
 "Video" => "Video",
 "Pager" => "Pejdžer",
-"This is not your contact." => "Ovo nije vaš kontakt.",
 "Add Contact" => "Dodaj kontakt",
-"Name" => "Ime",
+"Edit" => "Uredi",
+"Delete" => "Obriši",
+"Birthday" => "Rođendan",
+"Phone" => "Telefon",
 "PO Box" => "Poštanski broj",
 "Extended" => "Proširi",
 "Street" => "Ulica",
 "City" => "Grad",
 "Region" => "Regija",
 "Zipcode" => "Zip kod",
-"Country" => "Zemlja",
-"Create Contact" => "Napravi kontakt",
-"Edit" => "Uredi",
-"Delete" => "Obriši",
-"Birthday" => "Rođendan",
-"Phone" => "Telefon"
+"Country" => "Zemlja"
 );

@@ -2,7 +2,6 @@
 "Invalid request" => "בקשה לא חוקית",
 "OpenID Changed" => "OpenID השתנה",
 "Language changed" => "שפה השתנתה",
-"Add your application" => "הוספת היישום שלך",
 "Select an App" => "בחירת יישום",
 "-licensed" => "רשיון",
 "by" => "מאת",

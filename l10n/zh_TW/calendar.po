@@ -1,0 +1,666 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Donahue Chuang <soshinwu@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.net/projects/p/owncloud/language/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/categories/rescan.php:28
+msgid "No calendars found."
+msgstr ""
+
+#: ajax/categories/rescan.php:36
+msgid "No events found."
+msgstr ""
+
+#: ajax/event/edit.form.php:20
+msgid "Wrong calendar"
+msgstr "錯誤日曆"
+
+#: ajax/settings/guesstimezone.php:25
+msgid "New Timezone:"
+msgstr "新時區："
+
+#: ajax/settings/settimezone.php:22
+msgid "Timezone changed"
+msgstr "時區已變更"
+
+#: ajax/settings/settimezone.php:24
+msgid "Invalid request"
+msgstr "無效請求"
+
+#: appinfo/app.php:23 templates/calendar.php:15
+#: templates/part.eventform.php:33 templates/part.showevent.php:31
+#: templates/settings.php:12
+msgid "Calendar"
+msgstr "日曆"
+
+#: js/calendar.js:788
+msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+msgstr ""
+
+#: lib/app.php:122
+msgid "Birthday"
+msgstr "生日"
+
+#: lib/app.php:123
+msgid "Business"
+msgstr "商業"
+
+#: lib/app.php:124
+msgid "Call"
+msgstr "呼叫"
+
+#: lib/app.php:125
+msgid "Clients"
+msgstr "客戶"
+
+#: lib/app.php:126
+msgid "Deliverer"
+msgstr "遞送者"
+
+#: lib/app.php:127
+msgid "Holidays"
+msgstr "節日"
+
+#: lib/app.php:128
+msgid "Ideas"
+msgstr "主意"
+
+#: lib/app.php:129
+msgid "Journey"
+msgstr "旅行"
+
+#: lib/app.php:130
+msgid "Jubilee"
+msgstr "周年慶"
+
+#: lib/app.php:131
+msgid "Meeting"
+msgstr "會議"
+
+#: lib/app.php:132
+msgid "Other"
+msgstr "其他"
+
+#: lib/app.php:133
+msgid "Personal"
+msgstr "個人"
+
+#: lib/app.php:134
+msgid "Projects"
+msgstr "計畫"
+
+#: lib/app.php:135
+msgid "Questions"
+msgstr "問題"
+
+#: lib/app.php:136
+msgid "Work"
+msgstr "工作"
+
+#: lib/app.php:377
+msgid "unnamed"
+msgstr ""
+
+#: lib/object.php:330
+msgid "Does not repeat"
+msgstr "不重覆"
+
+#: lib/object.php:331
+msgid "Daily"
+msgstr "每日"
+
+#: lib/object.php:332
+msgid "Weekly"
+msgstr "每週"
+
+#: lib/object.php:333
+msgid "Every Weekday"
+msgstr "每週末"
+
+#: lib/object.php:334
+msgid "Bi-Weekly"
+msgstr "每雙週"
+
+#: lib/object.php:335
+msgid "Monthly"
+msgstr "每月"
+
+#: lib/object.php:336
+msgid "Yearly"
+msgstr "每年"
+
+#: lib/object.php:343
+msgid "never"
+msgstr "絕不"
+
+#: lib/object.php:344
+msgid "by occurrences"
+msgstr "由事件"
+
+#: lib/object.php:345
+msgid "by date"
+msgstr "由日期"
+
+#: lib/object.php:352
+msgid "by monthday"
+msgstr ""
+
+#: lib/object.php:353
+msgid "by weekday"
+msgstr "由平日"
+
+#: lib/object.php:360 templates/settings.php:42
+msgid "Monday"
+msgstr "週一"
+
+#: lib/object.php:361
+msgid "Tuesday"
+msgstr "週二"
+
+#: lib/object.php:362
+msgid "Wednesday"
+msgstr "週三"
+
+#: lib/object.php:363
+msgid "Thursday"
+msgstr "週四"
+
+#: lib/object.php:364
+msgid "Friday"
+msgstr "週五"
+
+#: lib/object.php:365
+msgid "Saturday"
+msgstr "週六"
+
+#: lib/object.php:366 templates/settings.php:43
+msgid "Sunday"
+msgstr "週日"
+
+#: lib/object.php:373
+msgid "events week of month"
+msgstr ""
+
+#: lib/object.php:374
+msgid "first"
+msgstr "第一"
+
+#: lib/object.php:375
+msgid "second"
+msgstr "第二"
+
+#: lib/object.php:376
+msgid "third"
+msgstr "第三"
+
+#: lib/object.php:377
+msgid "fourth"
+msgstr "第四"
+
+#: lib/object.php:378
+msgid "fifth"
+msgstr "第五"
+
+#: lib/object.php:379
+msgid "last"
+msgstr "最後"
+
+#: lib/object.php:401
+msgid "January"
+msgstr "一月"
+
+#: lib/object.php:402
+msgid "February"
+msgstr "二月"
+
+#: lib/object.php:403
+msgid "March"
+msgstr "三月"
+
+#: lib/object.php:404
+msgid "April"
+msgstr "四月"
+
+#: lib/object.php:405
+msgid "May"
+msgstr "五月"
+
+#: lib/object.php:406
+msgid "June"
+msgstr "六月"
+
+#: lib/object.php:407
+msgid "July"
+msgstr "七月"
+
+#: lib/object.php:408
+msgid "August"
+msgstr "八月"
+
+#: lib/object.php:409
+msgid "September"
+msgstr "九月"
+
+#: lib/object.php:410
+msgid "October"
+msgstr "十月"
+
+#: lib/object.php:411
+msgid "November"
+msgstr "十一月"
+
+#: lib/object.php:412
+msgid "December"
+msgstr "十二月"
+
+#: lib/object.php:418
+msgid "by events date"
+msgstr "由事件日期"
+
+#: lib/object.php:419
+msgid "by yearday(s)"
+msgstr ""
+
+#: lib/object.php:420
+msgid "by weeknumber(s)"
+msgstr "由週數"
+
+#: lib/object.php:421
+msgid "by day and month"
+msgstr "由日與月"
+
+#: lib/search.php:32 lib/search.php:34 lib/search.php:37
+msgid "Date"
+msgstr "日期"
+
+#: lib/search.php:40
+msgid "Cal."
+msgstr ""
+
+#: templates/calendar.php:11
+msgid "All day"
+msgstr "整天"
+
+#: templates/calendar.php:12 templates/part.choosecalendar.php:22
+msgid "New Calendar"
+msgstr "新日曆"
+
+#: templates/calendar.php:13
+msgid "Missing fields"
+msgstr "遺失欄位"
+
+#: templates/calendar.php:14 templates/part.eventform.php:19
+#: templates/part.showevent.php:11
+msgid "Title"
+msgstr "標題"
+
+#: templates/calendar.php:16
+msgid "From Date"
+msgstr "自日期"
+
+#: templates/calendar.php:17
+msgid "From Time"
+msgstr "至時間"
+
+#: templates/calendar.php:18
+msgid "To Date"
+msgstr "至日期"
+
+#: templates/calendar.php:19
+msgid "To Time"
+msgstr "至時間"
+
+#: templates/calendar.php:20
+msgid "The event ends before it starts"
+msgstr "事件的結束在開始之前"
+
+#: templates/calendar.php:21
+msgid "There was a database fail"
+msgstr "資料庫錯誤"
+
+#: templates/calendar.php:40
+msgid "Week"
+msgstr "週"
+
+#: templates/calendar.php:41
+msgid "Month"
+msgstr "月"
+
+#: templates/calendar.php:42
+msgid "List"
+msgstr "清單"
+
+#: templates/calendar.php:48
+msgid "Today"
+msgstr "今日"
+
+#: templates/calendar.php:49
+msgid "Calendars"
+msgstr "日曆"
+
+#: templates/calendar.php:67
+msgid "There was a fail, while parsing the file."
+msgstr "解析檔案時失敗。"
+
+#: templates/part.choosecalendar.php:1
+msgid "Choose active calendars"
+msgstr "選擇一個作用中的日曆"
+
+#: templates/part.choosecalendar.php:2
+msgid "Your calendars"
+msgstr ""
+
+#: templates/part.choosecalendar.php:27
+#: templates/part.choosecalendar.rowfields.php:5
+msgid "CalDav Link"
+msgstr "CalDav 聯結"
+
+#: templates/part.choosecalendar.php:31
+msgid "Shared calendars"
+msgstr ""
+
+#: templates/part.choosecalendar.php:48
+msgid "No shared calendars"
+msgstr ""
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Share Calendar"
+msgstr ""
+
+#: templates/part.choosecalendar.rowfields.php:6
+msgid "Download"
+msgstr "下載"
+
+#: templates/part.choosecalendar.rowfields.php:7
+msgid "Edit"
+msgstr "編輯"
+
+#: templates/part.choosecalendar.rowfields.php:8
+#: templates/part.editevent.php:9
+msgid "Delete"
+msgstr "刪除"
+
+#: templates/part.choosecalendar.rowfields.shared.php:4
+msgid "shared with you by"
+msgstr ""
+
+#: templates/part.editcalendar.php:9
+msgid "New calendar"
+msgstr "新日曆"
+
+#: templates/part.editcalendar.php:9
+msgid "Edit calendar"
+msgstr "編輯日曆"
+
+#: templates/part.editcalendar.php:12
+msgid "Displayname"
+msgstr "顯示名稱"
+
+#: templates/part.editcalendar.php:23
+msgid "Active"
+msgstr "作用中"
+
+#: templates/part.editcalendar.php:29
+msgid "Calendar color"
+msgstr "日曆顏色"
+
+#: templates/part.editcalendar.php:42
+msgid "Save"
+msgstr "儲存"
+
+#: templates/part.editcalendar.php:42 templates/part.editevent.php:8
+#: templates/part.newevent.php:6
+msgid "Submit"
+msgstr "提出"
+
+#: templates/part.editcalendar.php:43
+msgid "Cancel"
+msgstr "取消"
+
+#: templates/part.editevent.php:1
+msgid "Edit an event"
+msgstr "編輯事件"
+
+#: templates/part.editevent.php:10
+msgid "Export"
+msgstr "匯出"
+
+#: templates/part.eventform.php:8 templates/part.showevent.php:3
+msgid "Eventinfo"
+msgstr ""
+
+#: templates/part.eventform.php:9 templates/part.showevent.php:4
+msgid "Repeating"
+msgstr ""
+
+#: templates/part.eventform.php:10 templates/part.showevent.php:5
+msgid "Alarm"
+msgstr ""
+
+#: templates/part.eventform.php:11 templates/part.showevent.php:6
+msgid "Attendees"
+msgstr ""
+
+#: templates/part.eventform.php:13
+msgid "Share"
+msgstr ""
+
+#: templates/part.eventform.php:21
+msgid "Title of the Event"
+msgstr "事件標題"
+
+#: templates/part.eventform.php:27 templates/part.showevent.php:19
+msgid "Category"
+msgstr "分類"
+
+#: templates/part.eventform.php:29
+msgid "Separate categories with commas"
+msgstr ""
+
+#: templates/part.eventform.php:30
+msgid "Edit categories"
+msgstr ""
+
+#: templates/part.eventform.php:56 templates/part.showevent.php:55
+msgid "All Day Event"
+msgstr "全天事件"
+
+#: templates/part.eventform.php:60 templates/part.showevent.php:59
+msgid "From"
+msgstr "自"
+
+#: templates/part.eventform.php:68 templates/part.showevent.php:67
+msgid "To"
+msgstr "至"
+
+#: templates/part.eventform.php:76 templates/part.showevent.php:75
+msgid "Advanced options"
+msgstr "進階選項"
+
+#: templates/part.eventform.php:81 templates/part.showevent.php:80
+msgid "Location"
+msgstr "位置"
+
+#: templates/part.eventform.php:83
+msgid "Location of the Event"
+msgstr "事件位置"
+
+#: templates/part.eventform.php:89 templates/part.showevent.php:88
+msgid "Description"
+msgstr "描述"
+
+#: templates/part.eventform.php:91
+msgid "Description of the Event"
+msgstr "事件描述"
+
+#: templates/part.eventform.php:100 templates/part.showevent.php:98
+msgid "Repeat"
+msgstr "重覆"
+
+#: templates/part.eventform.php:107 templates/part.showevent.php:105
+msgid "Advanced"
+msgstr "進階"
+
+#: templates/part.eventform.php:151 templates/part.showevent.php:149
+msgid "Select weekdays"
+msgstr "選擇平日"
+
+#: templates/part.eventform.php:164 templates/part.eventform.php:177
+#: templates/part.showevent.php:162 templates/part.showevent.php:175
+msgid "Select days"
+msgstr "選擇日"
+
+#: templates/part.eventform.php:169 templates/part.showevent.php:167
+msgid "and the events day of year."
+msgstr ""
+
+#: templates/part.eventform.php:182 templates/part.showevent.php:180
+msgid "and the events day of month."
+msgstr ""
+
+#: templates/part.eventform.php:190 templates/part.showevent.php:188
+msgid "Select months"
+msgstr "選擇月"
+
+#: templates/part.eventform.php:203 templates/part.showevent.php:201
+msgid "Select weeks"
+msgstr "選擇週"
+
+#: templates/part.eventform.php:208 templates/part.showevent.php:206
+msgid "and the events week of year."
+msgstr ""
+
+#: templates/part.eventform.php:214 templates/part.showevent.php:212
+msgid "Interval"
+msgstr "間隔"
+
+#: templates/part.eventform.php:220 templates/part.showevent.php:218
+msgid "End"
+msgstr "結束"
+
+#: templates/part.eventform.php:233 templates/part.showevent.php:231
+msgid "occurrences"
+msgstr "事件"
+
+#: templates/part.import.php:1
+msgid "Import a calendar file"
+msgstr "匯入日曆檔案"
+
+#: templates/part.import.php:6
+msgid "Please choose the calendar"
+msgstr "請選擇日曆"
+
+#: templates/part.import.php:10
+msgid "create a new calendar"
+msgstr "建立新日曆"
+
+#: templates/part.import.php:15
+msgid "Name of new calendar"
+msgstr "新日曆名稱"
+
+#: templates/part.import.php:17
+msgid "Import"
+msgstr "匯入"
+
+#: templates/part.import.php:20
+msgid "Importing calendar"
+msgstr "匯入日曆"
+
+#: templates/part.import.php:23
+msgid "Calendar imported successfully"
+msgstr "已成功匯入日曆"
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr "關閉對話"
+
+#: templates/part.newevent.php:1
+msgid "Create a new event"
+msgstr "建立一個新事件"
+
+#: templates/part.showevent.php:1
+msgid "View an event"
+msgstr ""
+
+#: templates/part.showevent.php:23
+msgid "No categories selected"
+msgstr ""
+
+#: templates/part.showevent.php:25
+msgid "Select category"
+msgstr "選擇分類"
+
+#: templates/part.showevent.php:37
+msgid "of"
+msgstr ""
+
+#: templates/part.showevent.php:62 templates/part.showevent.php:70
+msgid "at"
+msgstr ""
+
+#: templates/settings.php:14
+msgid "Timezone"
+msgstr "時區"
+
+#: templates/settings.php:31
+msgid "Check always for changes of the timezone"
+msgstr "總是檢查是否變更了時區"
+
+#: templates/settings.php:33
+msgid "Timeformat"
+msgstr "日期格式"
+
+#: templates/settings.php:35
+msgid "24h"
+msgstr "24小時制"
+
+#: templates/settings.php:36
+msgid "12h"
+msgstr "12小時制"
+
+#: templates/settings.php:40
+msgid "First day of the week"
+msgstr ""
+
+#: templates/settings.php:49
+msgid "Calendar CalDAV syncing address:"
+msgstr "CalDAV 的日曆同步地址："
+
+#: templates/share.dropdown.php:20
+msgid "Users"
+msgstr ""
+
+#: templates/share.dropdown.php:21
+msgid "select users"
+msgstr ""
+
+#: templates/share.dropdown.php:36 templates/share.dropdown.php:62
+msgid "Editable"
+msgstr ""
+
+#: templates/share.dropdown.php:48
+msgid "Groups"
+msgstr ""
+
+#: templates/share.dropdown.php:49
+msgid "select groups"
+msgstr ""
+
+#: templates/share.dropdown.php:75
+msgid "make public"
+msgstr ""

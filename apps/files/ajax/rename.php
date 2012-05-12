@@ -3,7 +3,7 @@
 // Init owncloud
 
 
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Get data
 $dir = stripslashes($_GET["dir"]);
@@ -12,10 +12,10 @@ $newname = stripslashes($_GET["newname"]);
 
 // Delete
 if( OC_Files::move( $dir, $file, $dir, $newname )) {
-	OC_JSON::success(array("data" => array( "dir" => $dir, "file" => $file, "newname" => $newname )));
+	OCP\JSON::success(array("data" => array( "dir" => $dir, "file" => $file, "newname" => $newname )));
 }
 else{
-	OC_JSON::error(array("data" => array( "message" => "Unable to rename file" )));
+	OCP\JSON::error(array("data" => array( "message" => "Unable to rename file" )));
 }
 
 ?>

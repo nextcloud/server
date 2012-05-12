@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.12 2006/07/15 13:07:15 lsmith Exp $
+// $Id: pgsql.php 295587 2010-02-28 17:16:38Z quipo $
 
 require_once 'MDB2/Driver/Native/Common.php';
 
@@ -67,7 +67,7 @@ class MDB2_Driver_Native_pgsql extends MDB2_Driver_Native_Common
      */
     function deleteOID($OID)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

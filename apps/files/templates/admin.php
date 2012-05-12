@@ -1,4 +1,4 @@
-<?php OC_Util::addScript('files','admin'); ?>
+<?php OCP\Util::addscript('files','admin'); ?>
 
 <form name="filesForm" action='#' method='post'>
 	<fieldset class="personalblock">

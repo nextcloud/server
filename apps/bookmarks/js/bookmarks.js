@@ -93,11 +93,13 @@ function delBookmark(event) {
 	var record = $(this).parent().parent();
 	$.ajax({
 		url: OC.filePath('bookmarks', 'ajax', 'delBookmark.php'),
-		data: 'url=' + encodeURIComponent($(this).parent().parent().children('.bookmark_url:first').text()),
+		data: 'id=' + record.data('id'),
 		success: function(data){
-			record.remove();
-			if($('.bookmarks_list').is(':empty')) {
-				$("#firstrun").show();
+			if (data.status == 'success') {
+				record.remove();
+				if($('.bookmarks_list').is(':empty')) {
+					$("#firstrun").show();
+				}
 			}
 		}
 	});
@@ -118,13 +120,20 @@ function showBookmark(event) {
 		}, 500);
 
 }
+function replaceQueryString(url,param,value) {
+    var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
+    if (url.match(re))
+        return url.replace(re,'$1' + param + "=" + value + '$2');
+    else
+        return url + '&' + param + "=" + value;
+}
 
 function updateBookmarksList(bookmark) {
 	var tags = encodeEntities(bookmark.tags).split(' ');
 	var taglist = '';
 	for ( var i=0, len=tags.length; i<len; ++i ){
 		if(tags[i] != '')
-			taglist = taglist + '<a class="bookmark_tag" href="?tag=' + encodeURIComponent(tags[i]) + '">' + tags[i] + '</a> ';
+			taglist = taglist + '<a class="bookmark_tag" href="'+replaceQueryString( String(window.location), 'tag', encodeURIComponent(tags[i])) + '">' + tags[i] + '</a> ';
 	}
 	if(!hasProtocol(bookmark.url)) {
 		bookmark.url = 'http://' + bookmark.url;

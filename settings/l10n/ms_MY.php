@@ -1,8 +1,9 @@
 <?php $TRANSLATIONS = array(
+"email Changed" => "Emel berubah",
 "Invalid request" => "Permintaan tidak sah",
 "OpenID Changed" => "OpenID ditukar",
 "Language changed" => "Bahasa ditukar",
-"Add your application" => "Tambah aplikasi anda",
+"__language_name__" => "_nama_bahasa_",
 "Select an App" => "Pilih aplikasi",
 "-licensed" => "-dilesen",
 "by" => "oleh",
@@ -18,11 +19,16 @@
 "New password" => "Kata laluan baru",
 "show" => "Papar",
 "Change password" => "Tukar kata laluan",
+"Email" => "Emel",
+"Your email address" => "Alamat emel anda",
+"Fill in an email address to enable password recovery" => "Isi alamat emel anda untuk membolehkan pemulihan kata laluan",
 "Language" => "Bahasa",
+"Help translate" => "Bantu terjemah",
 "use this address to connect to your ownCloud in your file manager" => "guna alamat ini untuk menyambung owncloud anda dalam pengurus fail anda",
 "Name" => "Nama",
 "Password" => "Kata laluan ",
 "Groups" => "Kumpulan",
 "Create" => "Buat",
+"Quota" => "Kuota",
 "Delete" => "Padam"
 );

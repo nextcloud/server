@@ -42,6 +42,16 @@ class User {
 	}
 
 
+	/**
+	 * @brief Get a list of all users
+	 * @returns array with all uids
+	 *
+	 * Get a list of all users.
+	 */
+	public static function getUsers(){
+		return \OC_USER::getUsers();
+	}
+
 
 	/**
 	 * @brief Check if the user is logged in
@@ -54,9 +64,59 @@ class User {
 	}
 
 
+	/**
+	 * @brief check if a user exists
+	 * @param string $uid the username
+	 * @return boolean
+	 */
+	public static function userExists( $uid ){
+		return \OC_USER::userExists( $uid );
+	}
+
+
+	/**
+	 * @brief Loggs the user out including all the session data
+	 * @returns true
+	 *
+	 * Logout, destroys session
+	 */
+	public static function logout(){
+		return \OC_USER::logout();
+	}
+
+
+	/**
+	 * @brief Check if the password is correct
+	 * @param $uid The username
+	 * @param $password The password
+	 * @returns true/false
+	 *
+	 * Check if the password is correct without logging in the user
+	 */
+	public static function checkPassword( $uid, $password ){
+		return \OC_USER::checkPassword( $uid, $password );
+	}
+
+
+        /**
+        * Check if the user is a admin, redirects to home if not
+        */
+        public static function checkAdminUser(){
+                \OC_Util::checkAdminUser();
+        }
+
+
+        /**
+        * Check if the user is logged in, redirects to home if not. With
+        * redirect URL parameter to the request URI.
+        */
+        public static function checkLoggedIn(){
+                \OC_Util::checkLoggedIn();
+        }
+
+
+
 }
-
-
 
 
 ?>

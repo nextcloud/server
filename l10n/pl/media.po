@@ -5,21 +5,22 @@
 # Translators:
 # Marcin Małecki <gerber@tkdami.net>, 2011.
 #   <mosslar@gmail.com>, 2011.
+# Piotr Sokół <psokol@jabster.pl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/team/pl/)\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-04-16 21:16+0000\n"
+"Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
+"Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: appinfo/app.php:32
+#: appinfo/app.php:32 templates/player.php:9
 msgid "Music"
 msgstr "Muzyka"
 
@@ -29,7 +30,7 @@ msgstr "Odtwarzaj"
 
 #: templates/music.php:4 templates/music.php:26 templates/player.php:14
 msgid "Pause"
-msgstr "Zatrzymaj"
+msgstr "Wstrzymaj"
 
 #: templates/music.php:5
 msgid "Previous"
@@ -45,15 +46,15 @@ msgstr "Wycisz"
 
 #: templates/music.php:8
 msgid "Unmute"
-msgstr "Włącz"
+msgstr "Wyłącz wyciszenie"
 
 #: templates/music.php:25
 msgid "Rescan Collection"
-msgstr "Przeskanuj kolekcję"
+msgstr "Przeszukaj kolekcję"
 
 #: templates/music.php:37
 msgid "Artist"
-msgstr "Artysta"
+msgstr "Wykonawca"
 
 #: templates/music.php:38
 msgid "Album"
@@ -62,5 +63,3 @@ msgstr "Album"
 #: templates/music.php:39
 msgid "Title"
 msgstr "Tytuł"
-
-

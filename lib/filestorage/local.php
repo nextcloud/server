@@ -3,7 +3,7 @@
  * for local filestore, we only have to map the paths
  */
 class OC_Filestorage_Local extends OC_Filestorage{
-	private $datadir;
+	protected $datadir;
 	private static $mimetypes=null;
 	public function __construct($arguments){
 		$this->datadir=$arguments['datadir'];

@@ -11,7 +11,6 @@
 			editable: true
 		},
 		_create: function() {
-			//console.log('_create: ' + this.options['id']);
 			var self = this,
 				select = this.element.hide(),
 				selected = select.children(':selected'),
@@ -24,16 +23,16 @@
 					minLength: 0,
 					source: function( request, response ) {
 						var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-						response( select.children( "option" ).map(function() {
+						response( select.children('option').map(function() {
 							var text = $( this ).text();
 							if ( this.value && ( !request.term || matcher.test(text) ) )
 								return {
 									label: text.replace(
 										new RegExp(
-											"(?![^&;]+;)(?!<[^<>]*)(" +
+											'(?![^&;]+;)(?!<[^<>]*)(' +
 											$.ui.autocomplete.escapeRegex(request.term) +
-											")(?![^<>]*>)(?![^&;]+;)", "gi"
-										), "<strong>$1</strong>" ),
+											')(?![^<>]*>)(?![^&;]+;)', 'gi'
+										), '<strong>$1</strong>'),
 									value: text,
 									option: this
 								};
@@ -43,17 +42,17 @@
 						self.input.val($(ui.item.option).text());
 						self.input.trigger('change');
 						ui.item.option.selected = true;
-						self._trigger( "selected", event, {
+						self._trigger('selected', event, {
 							item: ui.item.option
 						});
 					},
 					change: function( event, ui ) {
 						if ( !ui.item ) {
-							var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),
+							var matcher = new RegExp( '^' + $.ui.autocomplete.escapeRegex( $(this).val() ) + '$', 'i' ),
 								valid = false;
 							self.input.val($(this).val());
 							//self.input.trigger('change');
-							select.children( "option" ).each(function() {
+							select.children('option').each(function() {
 								if ( $( this ).text().match( matcher ) ) {
 									this.selected = valid = true;
 									return false;
@@ -63,36 +62,41 @@
 								// remove invalid value, as it didn't match anything
 								$( this ).val( "" );
 								select.val( "" );
-								input.data( "autocomplete" ).term = "";
+								input.data('autocomplete').term = '';
 								return false;
 							}
 						}
 					}
 				})
-				.addClass( "ui-widget ui-widget-content ui-corner-left" );
+				.addClass('ui-widget ui-widget-content ui-corner-left');
 
-			input.data( "autocomplete" )._renderItem = function( ul, item ) {
-				return $( "<li></li>" )
-					.data( "item.autocomplete", item )
-					.append( "<a>" + item.label + "</a>" )
+			input.data('autocomplete')._renderItem = function( ul, item ) {
+				return $('<li></li>')
+					.data('item.autocomplete', item )
+					.append('<a>' + item.label + '</a>')
 					.appendTo( ul );
 			};
 			$.each(this.options, function(key, value) {
 				self._setOption(key, value);
 			});
 
+			input.dblclick(function() {
+				// pass empty string as value to search for, displaying all results
+				input.autocomplete('search', '');
+			});
+			
 			if(this.options['showButton']) {
-				this.button = $( "<button type='button'>&nbsp;</button>" )
-					.attr( "tabIndex", -1 )
-					.attr( "title", "Show All Items" )
+				this.button = $('<button type="button">&nbsp;</button>')
+					.attr('tabIndex', -1 )
+					.attr('title', 'Show All Items')
 					.insertAfter( input )
 					.addClass('svg')
 					.addClass('action')
 					.addClass('combo-button')
 					.click(function() {
 						// close if already visible
-						if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
-							input.autocomplete( "close" );
+						if ( input.autocomplete('widget').is(':visible') ) {
+							input.autocomplete('close');
 							return;
 						}
 
@@ -100,7 +104,7 @@
 						$( this ).blur();
 
 						// pass empty string as value to search for, displaying all results
-						input.autocomplete( "search", "" );
+						input.autocomplete('search', '');
 						input.focus();
 					});
 			}
@@ -112,7 +116,6 @@
 			$.Widget.prototype.destroy.call( this );
 		},
 		value: function(val) {
-			console.log('combobox.value: ' + val);
 			if(val != undefined) {
 				this.input.val(val);
 			} else {

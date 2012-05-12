@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-24 00:25+0100\n"
-"PO-Revision-Date: 2012-01-24 08:35+0000\n"
-"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
-"Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/team/da/)\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,8 @@ msgstr ""
 msgid "email Changed"
 msgstr "email ændret"
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:16
+#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
+#: ajax/setlanguage.php:22
 msgid "Invalid request"
 msgstr "Ugyldig forespørgsel"
 
@@ -33,47 +34,59 @@ msgstr "Ugyldig forespørgsel"
 msgid "OpenID Changed"
 msgstr "OpenID ændret"
 
-#: ajax/setlanguage.php:14
+#: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "Sprog ændret"
 
-#: personal.php:36 personal.php:37
+#: personal.php:39 personal.php:40
 msgid "__language_name__"
 msgstr "Dansk"
 
 #: templates/admin.php:13
-msgid "Log level"
-msgstr "Log-niveau"
+msgid "Log"
+msgstr ""
+
+#: templates/admin.php:40
+msgid "More"
+msgstr ""
 
 #: templates/apps.php:8
-msgid "Add your application"
-msgstr "Tilføj dit program"
+msgid "Add your App"
+msgstr ""
 
-#: templates/apps.php:21
+#: templates/apps.php:22
 msgid "Select an App"
 msgstr "Vælg en App"
 
-#: templates/apps.php:23
+#: templates/apps.php:25
 msgid "-licensed"
 msgstr "-licenseret"
 
-#: templates/apps.php:23
+#: templates/apps.php:25
 msgid "by"
 msgstr "af"
 
 #: templates/help.php:8
+msgid "Documentation"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Managing Big Files"
+msgstr ""
+
+#: templates/help.php:10
 msgid "Ask a question"
 msgstr "Stil et spørgsmål"
 
-#: templates/help.php:20
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "Problemer med at forbinde til hjælpe-databasen."
 
-#: templates/help.php:21
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "Gå derhen manuelt."
 
-#: templates/help.php:29
+#: templates/help.php:31
 msgid "Answer"
 msgstr "Svar"
 
@@ -85,76 +98,90 @@ msgstr "Du benytter"
 msgid "of the available"
 msgstr "af det tilgængelige"
 
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr ""
+
 #: templates/personal.php:13
+msgid "Download"
+msgstr ""
+
+#: templates/personal.php:19
 msgid "Your password got changed"
 msgstr "Din adgangskode er blevet ændret"
 
-#: templates/personal.php:14
+#: templates/personal.php:20
 msgid "Unable to change your password"
 msgstr "Ude af stand til at ændre dit kodeord"
 
-#: templates/personal.php:15
+#: templates/personal.php:21
 msgid "Current password"
 msgstr "Nuværende adgangskode"
 
-#: templates/personal.php:16
+#: templates/personal.php:22
 msgid "New password"
 msgstr "Ny adgangskode"
 
-#: templates/personal.php:17
+#: templates/personal.php:23
 msgid "show"
 msgstr "vis"
 
-#: templates/personal.php:18
+#: templates/personal.php:24
 msgid "Change password"
 msgstr "Skift kodeord"
 
-#: templates/personal.php:24
+#: templates/personal.php:30
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:25
+#: templates/personal.php:31
 msgid "Your email address"
 msgstr "Din emailadresse"
 
-#: templates/personal.php:26
+#: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
 msgstr "Indtast en emailadresse for at kunne få påmindelse om adgangskode"
 
-#: templates/personal.php:32 templates/personal.php:33
+#: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
 msgstr "Sprog"
 
-#: templates/personal.php:38
+#: templates/personal.php:44
 msgid "Help translate"
 msgstr "Hjælp med oversættelsen"
 
-#: templates/personal.php:45
+#: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "benyt denne adresse til at forbinde til din ownCloud i din filbrowser"
 
-#: templates/users.php:15 templates/users.php:30
+#: templates/users.php:15 templates/users.php:44
 msgid "Name"
 msgstr "Navn"
 
-#: templates/users.php:16 templates/users.php:31
+#: templates/users.php:16 templates/users.php:45
 msgid "Password"
 msgstr "Kodeord"
 
-#: templates/users.php:17 templates/users.php:32 templates/users.php:46
+#: templates/users.php:17 templates/users.php:46 templates/users.php:60
 msgid "Groups"
 msgstr "Grupper"
 
-#: templates/users.php:23
+#: templates/users.php:22
 msgid "Create"
 msgstr "Ny"
 
-#: templates/users.php:33
+#: templates/users.php:25
+msgid "Default Quota"
+msgstr ""
+
+#: templates/users.php:35 templates/users.php:74
+msgid "Other"
+msgstr ""
+
+#: templates/users.php:47
 msgid "Quota"
 msgstr "Kvote"
 
-#: templates/users.php:58
+#: templates/users.php:80
 msgid "Delete"
 msgstr "Slet"
-
-

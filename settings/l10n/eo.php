@@ -1,8 +1,9 @@
 <?php $TRANSLATIONS = array(
+"email Changed" => "La retpoŝtadreso estas ŝanĝita",
 "Invalid request" => "Nevalida peto",
 "OpenID Changed" => "La agordo de OpenID estas ŝanĝita",
 "Language changed" => "La lingvo estas ŝanĝita",
-"Add your application" => "Aldonu vian aplikaĵon",
+"__language_name__" => "Esperanto",
 "Select an App" => "Elekti aplikaĵon",
 "-licensed" => "-permesila",
 "by" => "de",
@@ -18,11 +19,16 @@
 "New password" => "Nova pasvorto",
 "show" => "montri",
 "Change password" => "Ŝanĝi la pasvorton",
+"Email" => "Retpoŝto",
+"Your email address" => "Via retpoŝta adreso",
+"Fill in an email address to enable password recovery" => "Enigu retpoŝtadreson por kapabligi pasvortan restaŭron",
 "Language" => "Lingvo",
+"Help translate" => "Helpu traduki",
 "use this address to connect to your ownCloud in your file manager" => "uzu ĉi tiun adreson por konektiĝi al via ownCloud per via dosieradministrilo",
 "Name" => "Nomo",
 "Password" => "Pasvorto",
 "Groups" => "Grupoj",
 "Create" => "Krei",
+"Quota" => "Kvoto",
 "Delete" => "Forigi"
 );

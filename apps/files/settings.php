@@ -26,11 +26,11 @@
  
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 
 // Load the files we need
 OCP\Util::addStyle( "files", "files" );
-OC_Util::addScript( "files", "files" );
+OCP\Util::addscript( "files", "files" );
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
@@ -52,7 +52,7 @@ foreach( explode( "/", $dir ) as $i ){
 }
 
 // return template
-$tmpl = new OC_Template( "files", "index", "user" );
+$tmpl = new OCP\Template( "files", "index", "user" );
 $tmpl->assign( 'files', $files );
 $tmpl->assign( "breadcrumb", $breadcrumb );
 $tmpl->printPage();

@@ -96,6 +96,7 @@ class OC_Files {
 			$zip=false;
 			$filename=$dir.'/'.$files;
 		}
+		@ob_end_clean();
 		if($zip or OC_Filesystem::is_readable($filename)){
 			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 			header('Content-Transfer-Encoding: binary');
@@ -106,7 +107,6 @@ class OC_Files {
 			}else{
 				$fileData=OC_FileCache::get($filename);
 				header('Content-Type: ' . $fileData['mimetype']);
-				header('Content-Length: ' . $fileData['size']);
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");
@@ -117,9 +117,15 @@ class OC_Files {
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');
 		}
-		@ob_end_clean();
 		if($zip){
-			readfile($filename);
+			$handle=fopen($filename,'r');
+			if ($handle) {
+				$chunkSize = 8*1024;// 1 MB chunks
+				while (!feof($handle)) {
+					echo fread($handle, $chunkSize);
+					flush();
+				}
+			}
 			unlink($filename);
 		}else{
 			OC_Filesystem::readfile($filename);

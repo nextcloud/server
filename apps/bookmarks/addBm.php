@@ -24,8 +24,8 @@
 
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('bookmarks');
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('bookmarks');
 
 require_once('bookmarksHelper.php');
 addBookmark($_GET['url'], '', 'Read-Later');
