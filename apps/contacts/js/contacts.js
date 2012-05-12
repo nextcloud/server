@@ -118,9 +118,8 @@ Contacts={
 				'id': 'fn',
 				'name': 'value',
 				'classes': ['contacts_property', 'nonempty', 'huge', 'tip', 'float'],
-				'attributes': {'placeholder': t('contacts', 'Enter display name')},
-				//'title': t('contacts', 'Format custom, Short name, Full name, Reverse or Reverse with comma')
-			});
+				'attributes': {'placeholder': t('contacts', 'Enter name')},
+				'title': t('contacts', 'Format custom, Short name, Full name, Reverse or Reverse with comma')});
 			$('#bday').datepicker({
 						dateFormat : 'dd-mm-yy'
 			});
