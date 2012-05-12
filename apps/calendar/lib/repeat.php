@@ -15,25 +15,33 @@ class OC_Calendar_Repeat{
 	 */
 	public static function get();
 	/*
-	* @brief returns the cache of an event in a specific peroid
-	*/
+	 * @brief returns the cache of an event in a specific peroid
+	 */
 	public static function get_inperiod();
 	/*
-	 * @brief returns the cache of all events of a calendar
+	 * @brief returns the cache of all repeating events of a calendar
 	 */
 	public static function getcalendar();
 	/*
-	* @brief returns the cache of all events of a calendar in a specific period
-	*/
+	 * @brief returns the cache of all repeating events of a calendar in a specific period
+	 */
 	public static function getcalendar_inperiod();
 	/*
 	 * @brief generates the cache the first time
 	 */
 	public static function generate();
 	/*
+	 * @brief generates the cache the first time for all repeating event of an calendar
+	 */
+	public static function generatecalendar();
+	/*
 	 * @brief updates an event that is already cached
 	 */
 	public static function update();
+	/*
+	 * @brief updates all repating events of a calendar that are already cached
+	 */
+	public static function updatecalendar();
 	/*
 	 * @brief checks if an event is already cached
 	 */
