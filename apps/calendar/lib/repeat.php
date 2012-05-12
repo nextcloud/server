@@ -15,9 +15,17 @@ class OC_Calendar_Repeat{
 	 */
 	public static function get();
 	/*
+	* @brief returns the cache of an event in a specific peroid
+	*/
+	public static function get_inperiod();
+	/*
 	 * @brief returns the cache of all events of a calendar
 	 */
 	public static function getcalendar();
+	/*
+	* @brief returns the cache of all events of a calendar in a specific period
+	*/
+	public static function getcalendar_inperiod();
 	/*
 	 * @brief generates the cache the first time
 	 */
