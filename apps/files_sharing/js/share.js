@@ -82,7 +82,7 @@ OC.Share={
 		html += '</div>';
 		$(html).appendTo(appendTo);
 		if (OC.Share.usersAndGroups.length < 1) {
-			$.getJSON(OC.filePath('files_sharing', 'ajax', 'userautocomplete.php'), function(users) {
+			$.ajax({type: 'GET', url: OC.filePath('files_sharing', 'ajax', 'userautocomplete.php'), async: false, success: function(users) {
 				if (users) {
 					OC.Share.usersAndGroups = users;
 					$.each(users, function(index, user) {
@@ -90,7 +90,7 @@ OC.Share={
 					});
 					$('#share_with').trigger('liszt:updated');
 				}
-			});
+			}});
 		} else {
 			$.each(OC.Share.usersAndGroups, function(index, user) {
 				$(user).appendTo('#share_with');
