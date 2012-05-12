@@ -181,7 +181,7 @@ OC.Share={
 		$('#privateLinkCheckbox').attr('checked', true);
 		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&token='+token;
 		if (token.indexOf('&path=') == -1) {
-			link += '&file=' + encodeURIComponent(item);
+			link += '&file=' + encodeURIComponent(item).replace('%2F', '/');
 		} else {
 			// Disable checkbox if inside a shared parent folder
 			$('#privateLinkCheckbox').attr('disabled', 'true');
