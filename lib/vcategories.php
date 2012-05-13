@@ -96,7 +96,7 @@ class OC_VCategories {
 			}
 		}
 		if(count($newones) > 0) {
-			$this->categories = array_merge($this->categories, $newones);
+			$this->categories = @array_merge($this->categories, $newones);
 			if($sync === true) {
 				$this->save();
 			}
@@ -199,7 +199,7 @@ class OC_VCategories {
 
 	// case-insensitive in_array
 	private function in_arrayi($needle, $haystack) {
-		return in_array(strtolower($needle), array_map('strtolower', $haystack));
+		return in_array(strtolower($needle), @array_map('strtolower', $haystack));
 	}
 
 	// case-insensitive array_search
