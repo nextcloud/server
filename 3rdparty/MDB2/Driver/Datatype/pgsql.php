@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php 298763 2010-04-29 08:49:41Z afz $
+// $Id$
 
 require_once 'MDB2/Driver/Datatype/Common.php';
 
@@ -246,9 +246,11 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         if (PEAR::isError($db)) {
             return $db;
         }
-        $value = $this->_readFile($value, $db->options['lob_allow_url_include']);
-        if (PEAR::isError($value)) {
-            return $value;
+        if ($db->options['lob_allow_url_include']) {
+            $value = $this->_readFile($value);
+            if (PEAR::isError($value)) {
+                return $value;
+            }
         }
         return $this->_quoteText($value, $quote, $escape_wildcards);
     }
@@ -276,9 +278,11 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         if (PEAR::isError($db)) {
             return $db;
         }
-        $value = $this->_readFile($value, $db->options['lob_allow_url_include']);
-        if (PEAR::isError($value)) {
-            return $value;
+        if ($db->options['lob_allow_url_include']) {
+            $value = $this->_readFile($value);
+            if (PEAR::isError($value)) {
+                return $value;
+            }
         }
         if (version_compare(PHP_VERSION, '5.2.0RC6', '>=')) {
             $connection = $db->getConnection();

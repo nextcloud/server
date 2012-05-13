@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Iterator.php 295586 2010-02-28 17:04:17Z quipo $
+// $Id$
 
 /**
  * PHP5 Iterator
@@ -54,6 +54,9 @@
 class MDB2_Iterator implements Iterator
 {
     protected $fetchmode;
+    /**
+     * @var MDB2_Result_Common
+     */
     protected $result;
     protected $row;
 
@@ -62,7 +65,7 @@ class MDB2_Iterator implements Iterator
     /**
      * Constructor
      */
-    public function __construct($result, $fetchmode = MDB2_FETCHMODE_DEFAULT)
+    public function __construct(MDB2_Result_Common $result, $fetchmode = MDB2_FETCHMODE_DEFAULT)
     {
         $this->result = $result;
         $this->fetchmode = $fetchmode;

@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php 295587 2010-02-28 17:16:38Z quipo $
+// $Id$
 //
 
 /**
@@ -126,7 +126,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
         }
         $native_msg = $this->_lasterror
             ? html_entity_decode($this->_lasterror) : @sqlite_error_string($native_code);
-            
+
         // PHP 5.2+ prepends the function name to $php_errormsg, so we need
         // this hack to work around it, per bug #9599.
         $native_msg = preg_replace('/^sqlite[a-z_]+\(\)[^:]*: /', '', $native_msg);
@@ -142,6 +142,7 @@ class MDB2_Driver_sqlite extends MDB2_Driver_Common
                     '/is not unique/' => MDB2_ERROR_CONSTRAINT,
                     '/columns .* are not unique/i' => MDB2_ERROR_CONSTRAINT,
                     '/uniqueness constraint failed/' => MDB2_ERROR_CONSTRAINT,
+                    '/violates .*constraint/' => MDB2_ERROR_CONSTRAINT,
                     '/may not be NULL/' => MDB2_ERROR_CONSTRAINT_NOT_NULL,
                     '/^no such column:/' => MDB2_ERROR_NOSUCHFIELD,
                     '/no column named/' => MDB2_ERROR_NOSUCHFIELD,
@@ -893,7 +894,9 @@ class MDB2_Result_sqlite extends MDB2_Result_Common
         if ($fetchmode == MDB2_FETCHMODE_DEFAULT) {
             $fetchmode = $this->db->fetchmode;
         }
-        if ($fetchmode & MDB2_FETCHMODE_ASSOC) {
+        if (   $fetchmode == MDB2_FETCHMODE_ASSOC
+            || $fetchmode == MDB2_FETCHMODE_OBJECT
+        ) {
             $row = @sqlite_fetch_array($this->result, SQLITE_ASSOC);
             if (is_array($row)
                 && $this->db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
@@ -923,8 +926,16 @@ class MDB2_Result_sqlite extends MDB2_Result_Common
         if ($mode) {
             $this->db->_fixResultArrayValues($row, $mode);
         }
-        if (!empty($this->types)) {
+        if (   (   $fetchmode != MDB2_FETCHMODE_ASSOC
+                && $fetchmode != MDB2_FETCHMODE_OBJECT)
+            && !empty($this->types)
+        ) {
             $row = $this->db->datatype->convertResultRow($this->types, $row, $rtrim);
+        } elseif (($fetchmode == MDB2_FETCHMODE_ASSOC
+                || $fetchmode == MDB2_FETCHMODE_OBJECT)
+            && !empty($this->types_assoc)
+        ) {
+            $row = $this->db->datatype->convertResultRow($this->types_assoc, $row, $rtrim);
         }
         if (!empty($this->values)) {
             $this->_assignBindColumns($row);

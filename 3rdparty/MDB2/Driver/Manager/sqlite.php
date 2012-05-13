@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php 295587 2010-02-28 17:16:38Z quipo $
+// $Id$
 //
 
 require_once 'MDB2/Driver/Manager/Common.php';
@@ -405,7 +405,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        return $db->exec("DROP TABLE $name");
+        $result = $db->exec("DROP TABLE $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -436,7 +440,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         if (!empty($table)) {
             $query .= ' '.$db->quoteIdentifier($table, true);
         }
-        return $db->exec($query);
+        $result = $db->exec($query);
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -964,11 +972,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
 
         $table = $db->quoteIdentifier($table, true);
-        $name  = $db->getIndexName($name);
+        $name  = $db->quoteIdentifier($db->getIndexName($name), true);
         $query = "CREATE INDEX $name ON $table";
         $fields = array();
         foreach ($definition['fields'] as $field_name => $field) {
-            $field_string = $field_name;
+            $field_string = $db->quoteIdentifier($field_name, true);
             if (!empty($field['sorting'])) {
                 switch ($field['sorting']) {
                 case 'ascending':
@@ -982,7 +990,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
             $fields[] = $field_string;
         }
         $query .= ' ('.implode(', ', $fields) . ')';
-        return $db->exec($query);
+        $result = $db->exec($query);
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -1004,7 +1016,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
 
         $name = $db->getIndexName($name);
-        return $db->exec("DROP INDEX $name");
+        $result = $db->exec("DROP INDEX $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -1112,7 +1128,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
             $fields[] = $field_string;
         }
         $query .= ' ('.implode(', ', $fields) . ')';
-        return $db->exec($query);
+        $result = $db->exec($query);
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -1152,7 +1172,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
 
         $name = $db->getIndexName($name);
-        return $db->exec("DROP INDEX $name");
+        $result = $db->exec("DROP INDEX $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -1321,7 +1345,11 @@ class MDB2_Driver_Manager_sqlite extends MDB2_Driver_Manager_Common
         }
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
-        return $db->exec("DROP TABLE $sequence_name");
+        $result = $db->exec("DROP TABLE $sequence_name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}

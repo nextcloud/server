@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php 300551 2010-06-17 21:54:16Z quipo $
+// $Id$
 
 require_once 'MDB2/LOB.php';
 
@@ -263,7 +263,11 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
      */
     function convertResultRow($types, $row, $rtrim = true)
     {
-        $types = $this->_sortResultFieldTypes(array_keys($row), $types);
+        //$types = $this->_sortResultFieldTypes(array_keys($row), $types);
+        $keys = array_keys($row);
+        if (is_int($keys[0])) {
+            $types = $this->_sortResultFieldTypes($keys, $types);
+        }
         foreach ($row as $key => $value) {
             if (empty($types[$key])) {
                 continue;
@@ -515,9 +519,6 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
                 $default = ' DEFAULT ' . $this->quote($field['default'], $field['type']);
             }
         }
-        if (empty($default) && empty($notnull)) {
-            $default = ' DEFAULT NULL';
-        }
 
         $collation = empty($field['collation']) ? '' :
             ' '.$this->_getCollationFieldDeclaration($field['collation']);
@@ -527,7 +528,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
 
     // }}}
     // {{{ _getCharsetFieldDeclaration()
-    
+
     /**
      * Obtain DBMS specific SQL code portion needed to set the CHARACTER SET
      * of a field declaration to be used in statements like CREATE TABLE.
@@ -1382,7 +1383,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             if (PEAR::isError($db)) {
                 return $db;
             }
-            if (isset($db->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
+            if (isset($db->function) && is_object($this->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
                 return $db->function->now('date');
             }
             return 'CURRENT_DATE';
@@ -1411,7 +1412,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             if (PEAR::isError($db)) {
                 return $db;
             }
-            if (isset($db->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
+            if (isset($db->function) && is_object($this->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
                 return $db->function->now('timestamp');
             }
             return 'CURRENT_TIMESTAMP';
@@ -1440,7 +1441,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             if (PEAR::isError($db)) {
                 return $db;
             }
-            if (isset($db->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
+            if (isset($db->function) && is_object($this->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
                 return $db->function->now('time');
             }
             return 'CURRENT_TIME';

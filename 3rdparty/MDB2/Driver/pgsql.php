@@ -43,7 +43,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php 295587 2010-02-28 17:16:38Z quipo $
+// $Id$
 
 /**
  * MDB2 PostGreSQL driver
@@ -381,7 +381,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                 'extension '.$this->phptype.' is not compiled into PHP', __FUNCTION__);
         }
-        
+
         if ($database_name == '') {
             $database_name = 'template1';
         }
@@ -652,7 +652,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             if ($is_manip) {
                 $result =  $this->_affectedRows($connection, $result);
             } else {
-                $result =& $this->_wrapResult($result, $types, true, false, $limit, $offset);
+                $result = $this->_wrapResult($result, $types, true, true, $limit, $offset);
             }
         }
 
@@ -764,10 +764,10 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
         }
         return $query;
     }
-    
+
     // }}}
     // {{{ _modifyManipQuery()
-    
+
     /**
      * Changes a manip query string for various DBMS specific reasons
      *
@@ -915,7 +915,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             if (null === $placeholder_type) {
                 $placeholder_type_guess = $query[$p_position];
             }
-            
+
             $new_pos = $this->_skipDelimitedStrings($query, $position, $p_position);
             if (PEAR::isError($new_pos)) {
                 return $new_pos;
@@ -959,17 +959,18 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
                         $pgtypes[] = 'text';
                     }
                 }
-                if (($key_parameter = array_search($name, $positions))) {
-                    $next_parameter = 1;
-                    foreach ($positions as $key => $value) {
-                        if ($key_parameter == $key) {
-                            break;
-                        }
-                        ++$next_parameter;
-                    }
+                if (($key_parameter = array_search($name, $positions)) !== false) {
+                    //$next_parameter = 1;
+                    $parameter = $key_parameter + 1;
+                    //foreach ($positions as $key => $value) {
+                    //    if ($key_parameter == $key) {
+                    //        break;
+                    //    }
+                    //    ++$next_parameter;
+                    //}
                 } else {
                     ++$parameter;
-                    $next_parameter = $parameter;
+                    //$next_parameter = $parameter;
                     $positions[] = $name;
                 }
                 $query = substr_replace($query, '$'.$parameter, $position, $length);
@@ -1178,7 +1179,9 @@ class MDB2_Result_pgsql extends MDB2_Result_Common
         if ($fetchmode == MDB2_FETCHMODE_DEFAULT) {
             $fetchmode = $this->db->fetchmode;
         }
-        if ($fetchmode & MDB2_FETCHMODE_ASSOC) {
+        if (   $fetchmode == MDB2_FETCHMODE_ASSOC
+            || $fetchmode == MDB2_FETCHMODE_OBJECT
+        ) {
             $row = @pg_fetch_array($this->result, null, PGSQL_ASSOC);
             if (is_array($row)
                 && $this->db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
@@ -1208,8 +1211,16 @@ class MDB2_Result_pgsql extends MDB2_Result_Common
         if ($mode) {
             $this->db->_fixResultArrayValues($row, $mode);
         }
-        if (!empty($this->types)) {
+        if (   (   $fetchmode != MDB2_FETCHMODE_ASSOC
+                && $fetchmode != MDB2_FETCHMODE_OBJECT)
+            && !empty($this->types)
+        ) {
             $row = $this->db->datatype->convertResultRow($this->types, $row, $rtrim);
+        } elseif (($fetchmode == MDB2_FETCHMODE_ASSOC
+                || $fetchmode == MDB2_FETCHMODE_OBJECT)
+            && !empty($this->types_assoc)
+        ) {
+            $row = $this->db->datatype->convertResultRow($this->types_assoc, $row, $rtrim);
         }
         if (!empty($this->values)) {
             $this->_assignBindColumns($row);
@@ -1429,7 +1440,7 @@ class MDB2_Statement_pgsql extends MDB2_Statement_Common
      *               a MDB2 error on failure
      * @access private
      */
-    function _execute($result_class = true, $result_wrap_class = false)
+    function _execute($result_class = true, $result_wrap_class = true)
     {
         if (null === $this->statement) {
             return parent::_execute($result_class, $result_wrap_class);
@@ -1543,6 +1554,30 @@ class MDB2_Statement_pgsql extends MDB2_Statement_Common
 
         parent::free();
         return $result;
+    }
+
+    /**
+     * drop an existing table
+     *
+     * @param string $name name of the table that should be dropped
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function dropTable($name)
+    {
+        $db = $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $name = $db->quoteIdentifier($name, true);
+        $result = $db->exec("DROP TABLE $name");
+
+        if (PEAR::isError($result)) {
+            $result = $db->exec("DROP TABLE $name CASCADE");
+        }
+
+       return $result;
     }
 }
 ?>
