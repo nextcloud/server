@@ -12,11 +12,15 @@ OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 $nl = "\n";
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '10');
-	fclose($progressfopen);
+
+function writeProgress($pct) {
+	if(is_writable('import_tmp/')){
+		$progressfopen = fopen($progressfile, 'w');
+		fwrite($progressfopen, $pct);
+		fclose($progressfopen);
+	}
 }
+writeProgress('10');
 $view = $file = null;
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 	$view = OCP\App::getStorage('contacts');
@@ -28,20 +32,23 @@ if(!$file) {
 	OCP\JSON::error(array('message' => 'Import file was empty.'));
 	exit();
 }
-
 if(isset($_POST['method']) && $_POST['method'] == 'new'){
 	$id = OC_Contacts_Addressbook::add(OCP\USER::getUser(), $_POST['addressbookname']);
+	if(!$id) {
+		OCP\JSON::error(array('message' => 'Error creating address book.'));
+		exit();
+	}
 	OC_Contacts_Addressbook::setActive($id, 1);
 }else{
 	$id = $_POST['id'];
+	if(!$id) {
+		OCP\JSON::error(array('message' => 'Error getting the ID of the address book.'));
+		exit();
+	}
 	OC_Contacts_App::getAddressbook($id); // is owner access check
 }
 //analyse the contacts file
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '20');
-	fclose($progressfopen);
-}
+writeProgress('20');
 $searchfor = array('VCARD');
 $parts = $searchfor;
 $filearr = explode($nl, $file);
@@ -65,11 +72,7 @@ foreach($filearr as $line){
 	$i++;
 }
 //import the contacts
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '40');
-	fclose($progressfopen);
-}
+writeProgress('40');
 $start = '';
 for ($i = 0; $i < $parts[0]['begin']; $i++) { 
 	if($i == 0){
@@ -86,11 +89,7 @@ for($i = $parts[count($parts) - 1]['end'] + 1;$i <= count($filearr) - 1; $i++){
 		$end .= $nl . $filearr[$i];
 	}
 }
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '50');
-	fclose($progressfopen);
-}
+writeProgress('50');
 $importready = array();
 foreach($parts as $part){
 	for($i = $part['begin']; $i <= $part['end'];$i++){
@@ -102,16 +101,16 @@ foreach($parts as $part){
 	}
 	$importready[] = $start . $nl . $content . $nl . $end;
 }
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '70');
-	fclose($progressfopen);
-}
+writeProgress('70');
 if(count($parts) == 1){
 	$importready = array($file);
 }
 $imported = 0;
 $failed = 0;
+if(!count($importready) > 0) {
+	OCP\JSON::error(array('message' => 'No contacts to import in .'.$_POST['file'].' Please check if the file is corrupted.'));
+	exit();
+}
 foreach($importready as $import){
 	$card = OC_VObject::parse($import);
 	if (!$card) {
@@ -123,11 +122,7 @@ foreach($importready as $import){
 	OC_Contacts_VCard::add($id, $card);
 }
 //done the import
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '100');
-	fclose($progressfopen);
-}
+writeProgress('100');
 sleep(3);
 if(is_writable('import_tmp/')){
 	unlink($progressfile);

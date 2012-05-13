@@ -84,7 +84,7 @@ class OC_Contacts_Addressbook{
 	 * @param string $description
 	 * @return insertid
 	 */
-	public static function add($userid,$name,$description){
+	public static function add($userid,$name,$description=''){
 		$all = self::all($userid);
 		$uris = array();
 		foreach($all as $i){
