@@ -15,7 +15,7 @@ OCP\JSON::checkAppEnabled('calendar');
 // Look for the calendar id
 $calendar_id = OC_Calendar_App::getCalendar($_GET['calendar_id'], false, false);
 if($calendar_id !== false){
-	if(! is_numeric($calendar['userid']) && $calendar['userid'] != OCP\User::getUser()){
+	if(! is_numeric($calendar_id['userid']) && $calendar_id['userid'] != OCP\User::getUser()){
 		OCP\JSON::error();
 		exit;
 	}
