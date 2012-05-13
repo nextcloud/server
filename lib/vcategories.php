@@ -96,7 +96,7 @@ class OC_VCategories {
 			}
 		}
 		if(count($newones) > 0) {
-			$this->categories = @array_merge($this->categories, $newones);
+			$this->categories = array_merge($this->categories, $newones);
 			if($sync === true) {
 				$this->save();
 			}
@@ -146,10 +146,14 @@ class OC_VCategories {
 	 * @brief Save the list with categories
 	 */
 	private function save() {
-		usort($this->categories, 'strnatcasecmp'); // usort to also renumber the keys
-		$escaped_categories = serialize($this->categories);
-		OC_Log::write('core','OC_VCategories::save: '.print_r($this->categories, true), OC_Log::DEBUG);
-		OC_Preferences::setValue($this->user, $this->app, self::PREF_CATEGORIES_LABEL, $escaped_categories);
+		if(is_array($this->categories)) {
+			usort($this->categories, 'strnatcasecmp'); // usort to also renumber the keys
+			$escaped_categories = serialize($this->categories);
+			OC_Preferences::setValue($this->user, $this->app, self::PREF_CATEGORIES_LABEL, $escaped_categories);
+			OC_Log::write('core','OC_VCategories::save: '.print_r($this->categories, true), OC_Log::DEBUG);
+		} else {
+			OC_Log::write('core','OC_VCategories::save: $this->categories is not an array! '.print_r($this->categories, true), OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -199,7 +203,7 @@ class OC_VCategories {
 
 	// case-insensitive in_array
 	private function in_arrayi($needle, $haystack) {
-		return in_array(strtolower($needle), @array_map('strtolower', $haystack));
+		return in_array(strtolower($needle), array_map('strtolower', $haystack));
 	}
 
 	// case-insensitive array_search
