@@ -644,6 +644,7 @@ class MDB2_Schema extends PEAR
             if (PEAR::isError($result)) {
                 return $result;
             }
+            $database_definition['tables'][$table_name]=$table_definition;
 
         }
 
