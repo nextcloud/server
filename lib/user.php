@@ -123,6 +123,11 @@ class OC_User {
 		if(trim($uid) == ''){
 			throw new Exception('A valid username must be provided');
 		}
+		// No empty password
+		if(trim($password) == ''){
+			throw new Exception('A valid password must be provided');
+		}
+		
 		// Check if user already exists
 		if( self::userExists($uid) ){
 			throw new Exception('The username is already being used');
