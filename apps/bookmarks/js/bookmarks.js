@@ -60,7 +60,14 @@ function addOrEditBookmark(event) {
 	var title = encodeEntities($('#bookmark_add_title').val());
 	var tags = encodeEntities($('#bookmark_add_tags').val());
 	$("#firstrun").hide();
-
+	if($.trim(url) == '') {
+		OC.dialogs.alert('A valid bookmark url must be provided', 'Error creating bookmark');
+		return false;
+	}
+	if($.trim(title) == '') {
+		OC.dialogs.alert('A valid bookmark title must be provided', 'Error creating bookmark');
+		return false;
+	}
 	if (id == 0) {
 		$.ajax({
 			url: OC.filePath('bookmarks', 'ajax', 'addBookmark.php'),
