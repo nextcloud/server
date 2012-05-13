@@ -395,7 +395,8 @@ class OC_DB {
 		
 		if (PEAR::isError($op)) {
 			$error = $op->getMessage();
-			OC_Log::write('core','Failed to update database structure ('.$error.')',OC_Log::FATAL);
+			$detail = $op->getDebugInfo();
+			OC_Log::write('core','Failed to update database structure ('.$error.', '.$detail.')',OC_Log::FATAL);
 			return false;
 		}
 		return true;
