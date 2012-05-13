@@ -221,6 +221,10 @@ function showFileEditor(dir,filename){
 								document.title = $('#editor').attr('data-filename')+' * - ownCloud';
 							}
 						});
+						// Add the ctrl+s event
+						window.aceEditor.commands.addCommand({							name: "save",							bindKey: {							win: "Ctrl-S",							mac: "Command-S",							sender: "editor"							},							exec: function(){
+								doFileSave();	
+							}						});
 					});
 				} else {
 					// Failed to get the file.
