@@ -6,6 +6,6 @@
  * See the COPYING-README file.
  */
 
-$tmpl = new OC_Template( 'bookmarks', 'settings');
+$tmpl = new OCP\Template( 'bookmarks', 'settings');
 
 return $tmpl->fetchPage();

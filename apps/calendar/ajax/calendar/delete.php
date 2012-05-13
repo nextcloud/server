@@ -5,17 +5,17 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
+ 
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 $cal = $_POST["calendarid"];
 $calendar = OC_Calendar_App::getCalendar($cal);
 $del = OC_Calendar_Calendar::deleteCalendar($cal);
 if($del == true){
-	OC_JSON::success();
+	OCP\JSON::success();
 }else{
-	OC_JSON::error(array('error'=>'dberror'));
+	OCP\JSON::error(array('error'=>'dberror'));
 }
 ?> 

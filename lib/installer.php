@@ -185,6 +185,14 @@ class OC_Installer{
 		//set the installed version
 		OC_Appconfig::setValue($info['id'],'installed_version',OC_App::getAppVersion($info['id']));
 		OC_Appconfig::setValue($info['id'],'enabled','no');
+
+		//set remote/public handelers
+		foreach($info['remote'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, '/apps/'.$info['id'].'/'.$path);
+		}
+		foreach($info['public'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$info['id'].'/'.$path);
+		}
 		return $info['id'];
 	}
 
@@ -263,11 +271,8 @@ class OC_Installer{
 
 	/**
 	 * @brief Installs shipped apps
-	 * @param $enabled
 	 *
-	 * This function installs all apps found in the 'apps' directory;
-	 * If $enabled is true, apps are installed as enabled.
-	 * If $enabled is false, apps are installed as disabled.
+	 * This function installs all apps found in the 'apps' directory that should be enabled by default;
 	 */
 	public static function installShippedApps(){
 		$dir = opendir( OC::$APPSROOT."/apps" );
@@ -275,12 +280,11 @@ class OC_Installer{
 			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$APPSROOT."/apps/$filename") ){
 				if( file_exists( OC::$APPSROOT."/apps/$filename/appinfo/app.php" )){
 					if(!OC_Installer::isInstalled($filename)){
-						$info = OC_Installer::installShippedApp($filename);
+						$info=OC_App::getAppInfo($filename);
 						$enabled = isset($info['default_enable']);
 						if( $enabled ){
+							OC_Installer::installShippedApp($filename);
 							OC_Appconfig::setValue($filename,'enabled','yes');
-						}else{
-							OC_Appconfig::setValue($filename,'enabled','no');
 						}
 					}
 				}
@@ -306,6 +310,14 @@ class OC_Installer{
 		}
 		$info=OC_App::getAppInfo($app);
 		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
+		
+		//set remote/public handelers
+		foreach($info['remote'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, '/apps/'.$app.'/'.$path);
+		}
+		foreach($info['public'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$app.'/'.$path);
+		}
 		return $info;
 	}
 

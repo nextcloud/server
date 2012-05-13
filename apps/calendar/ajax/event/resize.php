@@ -5,14 +5,14 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
+ 
+OCP\JSON::checkLoggedIn();
 
 $id = $_POST['id'];
 
 $access = OC_Calendar_App::getaccess($id, OC_Calendar_App::EVENT);
 if($access != 'owner' && $access != 'rw'){
-	OC_JSON::error(array('message'=>'permission denied'));
+	OCP\JSON::error(array('message'=>'permission denied'));
 	exit;
 }
 
@@ -30,9 +30,9 @@ $end_type = $dtend->getDateType();
 $dtend->setDateTime($dtend->getDateTime()->add($delta), $end_type);
 unset($vevent->DURATION);
 
-$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Element_DateTime::UTC);
-$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Element_DateTime::UTC);
+$vevent->setDateTime('LAST-MODIFIED', 'now', Sabre_VObject_Property_DateTime::UTC);
+$vevent->setDateTime('DTSTAMP', 'now', Sabre_VObject_Property_DateTime::UTC);
 
 OC_Calendar_Object::edit($id, $vcalendar->serialize());
 $lastmodified = $vevent->__get('LAST-MODIFIED')->getDateTime();
-OC_JSON::success(array('lastmodified'=>(int)$lastmodified->format('U')));
+OCP\JSON::success(array('lastmodified'=>(int)$lastmodified->format('U')));

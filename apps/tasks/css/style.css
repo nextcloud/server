@@ -1,0 +1,59 @@
+#tasks_list p.loading{margin:15px;}
+#tasks_lists .done{color:#C7C7C7;}
+#task_details{position:absolute;left:63em;top:6.4em;}
+#task_details th{padding:2px;text-align:right;vertical-align:top; }
+#task_details td{padding:2px;text-align:left;vertical-align:top; }
+.error_msg{color:red;}
+.error{border-color:red;border-width:2px;}
+#tasks_lists div{position:relative;padding:0.5em 1em;}
+#tasks_lists .active{font-weight:bold;}
+#tasks_list h1{background-color:#1D2D44;color:white;font-size:120%;padding:0 0.5em;}
+
+.task{border-radius:0.4em;position:relative;padding:0.5em 1em;}
+.task:nth-child(odd){background-color:#F4F4F4;}
+.task:hover {background-color:#DDDDDD;}
+
+.task_actions{display:none;position:absolute;left:30em;top:0.2em;}
+.task:hover .task_actions {display:block}
+.task_actions img{vertical-align:middle;}
+.task_actions span{cursor:pointer;}
+
+.task .priority{background-color:black;color:white;position:absolute;top:0.5em}
+.task .priority-n{height:2.66ex;width:0.6em;}
+.task .priority-1{background:rgb(255,0,0);}
+.task .priority-2{background:rgb(200,0,0);}
+.task .priority-3{background:rgb(150,0,0);}
+.task .priority-4{background:rgb(100,0,0);}
+.task .priority-5{background:rgb(255,255,0);color:black;}
+.task .priority-6{background:rgb(192,255,0);color:black;}
+.task .priority-7{background:rgb(128,255,0);color:black;}
+.task .priority-8{background:rgb(64,255,0);color:black;}
+.task .priority-9{background:rgb(0,255,0);color:black;}
+
+.task .completed {position:absolute;left:3em;top:0.3em;}
+
+.task .summary{padding-left:4em;}
+.task .summary input{position:relative;left:5px;}
+.task.done .summary{text-decoration:line-through;}
+
+.task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;border:1px solid transparent;padding:0 0.4em;cursor:pointer;}
+.task .tag.active{border-color:black;opacity:0.6;}
+.task .tag.active:hover{opacity:1;}
+.task:hover .tag{opacity:0.5}
+.task:hover .tag:hover{opacity:0.8;}
+
+.task .categories{position:absolute;right:12em;text-align:right;top:0.4em}
+.task .categories a{background-color:#1d2d44;color:white;}
+.task .categories .tag.active{display:none;}
+.task input.categories{display:none;top:0;text-align:left;}
+
+.task .location{background-color:#442d44;color:white;position:absolute;right:0.6em;width:9.2em;text-align:left;top:0.4em}
+.task input.location{display:none;top:0;text-align:left;right:0.3em;background-color:white;color:#333333;}
+
+.task .more{display:none;margin-top:0.5em;}
+.task_less{display:none;}
+
+.task .description{position:relative;left:4em;}
+.task .due{position:absolute;right:0.3em;}
+.task .due .date{width:6em;}
+.task .due .time{width:6em;}

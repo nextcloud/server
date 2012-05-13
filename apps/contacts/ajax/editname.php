@@ -6,21 +6,22 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/editname.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/editname.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/editname.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/editname.php: '.$msg, OCP\Util::DEBUG);
 }
 
-$tmpl = new OC_TEMPLATE("contacts", "part.edit_name_dialog");
+$tmpl = new OCP\Template("contacts", "part.edit_name_dialog");
 
 $id = isset($_GET['id'])?$_GET['id']:'';
+debug('id: '.$id);
 if($id) {
 	$vcard = OC_Contacts_App::getContactVCard($id);
 	$name = array('', '', '', '', '');
@@ -33,8 +34,9 @@ if($id) {
 	$tmpl->assign('name',$name);
 	$tmpl->assign('id',$id);
 } else {
-	$addressbooks = OC_Contacts_Addressbook::active(OC_User::getUser());
-	$tmpl->assign('addressbooks', $addressbooks);
+	bailOut(OC_Contacts_App::$l10n->t('Contact ID is missing.'));
+	//$addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
+	//$tmpl->assign('addressbooks', $addressbooks);
 }
 $tmpl->printpage();
 

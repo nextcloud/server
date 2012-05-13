@@ -5,10 +5,10 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
+ 
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 $l = OC_L10N::get('calendar');
 
@@ -17,11 +17,11 @@ $lng = $_GET['long'];
 
 $timezone =  OC_Geo::timezone($lat, $lng);
 
-if($timezone == OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone')){
-	OC_JSON::success();
+if($timezone == OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone')){
+	OCP\JSON::success();
 	exit;
 }
-OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'timezone', $timezone);
+OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timezone', $timezone);
 $message = array('message'=> $l->t('New Timezone:') . $timezone);
-OC_JSON::success($message);
+OCP\JSON::success($message);
 ?>

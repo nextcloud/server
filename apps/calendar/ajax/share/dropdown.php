@@ -5,14 +5,14 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
-$user = OC_USER::getUser();
+ 
+$user = OCP\USER::getUser();
 $calid = $_GET['calid'];
 $calendar = OC_Calendar_Calendar::find($calid);
 if($calendar['userid'] != $user){
-	OC_JSON::error();
+	OCP\JSON::error();
 	exit;
 }
-$tmpl = new OC_Template('calendar', 'share.dropdown');
+$tmpl = new OCP\Template('calendar', 'share.dropdown');
 $tmpl->assign('calid', $calid);
 $tmpl->printPage();

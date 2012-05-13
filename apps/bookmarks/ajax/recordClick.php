@@ -24,20 +24,20 @@
 //no apps or filesystem
 $RUNTIME_NOSETUPFS=true;
 
-require_once('../../../lib/base.php');
+ 
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('bookmarks');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('bookmarks');
 
-$query = OC_DB::prepare("
+$query = OCP\DB::prepare("
 	UPDATE *PREFIX*bookmarks
 	SET clickcount = clickcount + 1
 	WHERE user_id = ?
 		AND url LIKE ?
 	");
 	
-$params=array(OC_User::getUser(), htmlspecialchars_decode($_GET["url"]));
+$params=array(OCP\USER::getUser(), htmlspecialchars_decode($_GET["url"]));
 $bookmarks = $query->execute($params);
 
 header( "HTTP/1.1 204 No Content" );

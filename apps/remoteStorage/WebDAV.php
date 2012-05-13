@@ -29,9 +29,20 @@
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
 
+
 require_once('../../lib/base.php');
-OC_Util::checkAppEnabled('remoteStorage');
-require_once('Sabre/autoload.php');
+
+require_once('../../lib/user.php');
+require_once('../../lib/public/user.php');
+
+require_once('../../lib/app.php');
+require_once('../../lib/public/app.php');
+
+require_once('../../3rdparty/Sabre/DAV/Auth/IBackend.php');
+require_once('../../3rdparty/Sabre/DAV/Auth/Backend/AbstractBasic.php');
+require_once('../../lib/connector/sabre/auth.php');
+
+OCP\App::checkAppEnabled('remoteStorage');
 require_once('lib_remoteStorage.php');
 require_once('BearerAuth.php');
 require_once('oauth_ro_auth.php');

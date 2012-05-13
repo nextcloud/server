@@ -4,38 +4,38 @@
  * ProxyWrite principal
  *
  * This class represents a principal group, hosted under the main principal.
- * This is needed to implement 'Calendar delegation' support. This class is 
+ * This is needed to implement 'Calendar delegation' support. This class is
  * instantiated by Sabre_CalDAV_Principal_User.
- * 
+ *
  * @package Sabre
  * @subpackage CalDAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
 
     /**
-     * Parent principal information 
-     * 
-     * @var array 
+     * Parent principal information
+     *
+     * @var array
      */
     protected $principalInfo;
 
     /**
-     * Principal Backend 
-     * 
-     * @var Sabre_DAVACL_IPrincipalBackend 
+     * Principal Backend
+     *
+     * @var Sabre_DAVACL_IPrincipalBackend
      */
     protected $principalBackend;
 
     /**
      * Creates the object
      *
-     * Note that you MUST supply the parent principal information. 
-     * 
-     * @param Sabre_DAVACL_IPrincipalBackend $principalBackend 
-     * @param array $principalInfo 
+     * Note that you MUST supply the parent principal information.
+     *
+     * @param Sabre_DAVACL_IPrincipalBackend $principalBackend
+     * @param array $principalInfo
      */
     public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend, array $principalInfo) {
 
@@ -46,8 +46,8 @@ class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
 
     /**
      * Returns this principals name.
-     * 
-     * @return string 
+     *
+     * @return string
      */
     public function getName() {
 
@@ -56,13 +56,13 @@ class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
     }
 
     /**
-     * Returns the last modification time 
+     * Returns the last modification time
      *
-     * @return null 
+     * @return null
      */
     public function getLastModified() {
 
-        return null; 
+        return null;
 
     }
 
@@ -70,7 +70,7 @@ class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
      * Deletes the current node
      *
      * @throws Sabre_DAV_Exception_Forbidden
-     * @return void 
+     * @return void
      */
     public function delete() {
 
@@ -80,7 +80,7 @@ class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
 
     /**
      * Renames the node
-     * 
+     *
      * @throws Sabre_DAV_Exception_Forbidden
      * @param string $name The new name
      * @return void
@@ -93,11 +93,11 @@ class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
 
 
     /**
-     * Returns a list of altenative urls for a principal
-     * 
+     * Returns a list of alternative urls for a principal
+     *
      * This can for example be an email address, or ldap url.
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getAlternateUriSet() {
 
@@ -106,41 +106,41 @@ class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
     }
 
     /**
-     * Returns the full principal url 
-     * 
-     * @return string 
+     * Returns the full principal url
+     *
+     * @return string
      */
     public function getPrincipalUrl() {
 
-        return $this->principalInfo['uri'] . '/' . $this->getName(); 
+        return $this->principalInfo['uri'] . '/' . $this->getName();
 
     }
 
     /**
      * Returns the list of group members
-     * 
+     *
      * If this principal is a group, this function should return
-     * all member principal uri's for the group. 
-     * 
+     * all member principal uri's for the group.
+     *
      * @return array
      */
     public function getGroupMemberSet() {
 
-        return $this->principalBackend->getGroupMemberSet($this->getPrincipalUrl()); 
+        return $this->principalBackend->getGroupMemberSet($this->getPrincipalUrl());
 
     }
 
     /**
      * Returns the list of groups this principal is member of
-     * 
+     *
      * If this principal is a member of a (list of) groups, this function
-     * should return a list of principal uri's for it's members. 
-     * 
-     * @return array 
+     * should return a list of principal uri's for it's members.
+     *
+     * @return array
      */
     public function getGroupMembership() {
 
-        return $this->principalBackend->getGroupMembership($this->getPrincipalUrl()); 
+        return $this->principalBackend->getGroupMembership($this->getPrincipalUrl());
 
     }
 
@@ -149,11 +149,11 @@ class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
      *
      * If this principal is a group, this method sets all the group members.
      * The list of members is always overwritten, never appended to.
-     * 
-     * This method should throw an exception if the members could not be set. 
-     * 
-     * @param array $principals 
-     * @return void 
+     *
+     * This method should throw an exception if the members could not be set.
+     *
+     * @param array $principals
+     * @return void
      */
     public function setGroupMemberSet(array $principals) {
 
@@ -165,9 +165,9 @@ class Sabre_CalDAV_Principal_ProxyWrite implements Sabre_DAVACL_IPrincipal {
      * Returns the displayname
      *
      * This should be a human readable name for the principal.
-     * If none is available, return the nodename. 
-     * 
-     * @return string 
+     * If none is available, return the nodename.
+     *
+     * @return string
      */
     public function getDisplayName() {
 

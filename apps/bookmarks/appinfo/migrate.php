@@ -40,10 +40,10 @@ class OC_Migration_Provider_Bookmarks extends OC_Migration_Provider{
 				$idmap = array();
 				while( $row = $results->fetchRow() ){
 					// Import each bookmark, saving its id into the map	
-					$query = OC_DB::prepare( "INSERT INTO *PREFIX*bookmarks(url, title, user_id, public, added, lastmodified) VALUES (?, ?, ?, ?, ?, ?)" );
+					$query = OCP\DB::prepare( "INSERT INTO *PREFIX*bookmarks(url, title, user_id, public, added, lastmodified) VALUES (?, ?, ?, ?, ?, ?)" );
 					$query->execute( array( $row['url'], $row['title'], $this->uid, $row['public'], $row['added'], $row['lastmodified'] ) );
 					// Map the id
-					$idmap[$row['id']] = OC_DB::insertid();
+					$idmap[$row['id']] = OCP\DB::insertid();
 				}
 				// Now tags
 				foreach($idmap as $oldid => $newid){
@@ -51,7 +51,7 @@ class OC_Migration_Provider_Bookmarks extends OC_Migration_Provider{
 					$results = $query->execute( array( $oldid ) );
 					while( $row = $results->fetchRow() ){
 						// Import the tags for this bookmark, using the new bookmark id
-						$query = OC_DB::prepare( "INSERT INTO *PREFIX*bookmarks_tags(bookmark_id, tag) VALUES (?, ?)" );
+						$query = OCP\DB::prepare( "INSERT INTO *PREFIX*bookmarks_tags(bookmark_id, tag) VALUES (?, ?)" );
 						$query->execute( array( $newid, $row['tag'] ) );	
 					}		
 				}

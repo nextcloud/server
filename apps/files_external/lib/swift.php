@@ -28,6 +28,8 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	private $rootContainer;
 
 	private static $tempFiles=array();
+	private $objects=array();
+	private $containers=array();
 
 	const SUBCONTAINER_FILE='.subcontainers';
 
@@ -38,7 +40,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	 */
 	private function getContainerName($path){
 		$path=trim($this->root.$path,'/');
-		return md5($path);
+		return str_replace('/','\\',$path);
 	}
 
 	/**
@@ -50,8 +52,12 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if($path=='' or $path=='/'){
 			return $this->rootContainer;
 		}
+		if(isset($this->containers[$path])){
+			return $this->containers[$path];
+		}
 		try{
 			$container=$this->conn->get_container($this->getContainerName($path));
+			$this->containers[$path]=$container;
 			return $container;
 		}catch(NoSuchContainerException $e){
 			return null;
@@ -87,12 +93,16 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	 * @return CF_Object
 	 */
 	private function getObject($path){
+		if(isset($this->objects[$path])){
+			return $this->objects[$path];
+		}
 		$container=$this->getContainer(dirname($path));
 		if(is_null($container)){
 			return null;
 		}else{
 			try{
 				$obj=$container->get_object(basename($path));
+				$this->objects[$path]=$obj;
 				return $obj;
 			}catch(NoSuchObjectException $e){
 				return null;
@@ -154,7 +164,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	 * @return array
 	 */
 	private function getSubContainers($container){
-		$tmpFile=OC_Helper::tmpFile();
+		$tmpFile=OCP\Files::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
@@ -180,7 +190,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if(!$name){
 			return false;
 		}
-		$tmpFile=OC_Helper::tmpFile();
+		$tmpFile=OCP\Files::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
@@ -215,7 +225,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if(!$name){
 			return false;
 		}
-		$tmpFile=OC_Helper::tmpFile();
+		$tmpFile=OCP\Files::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
@@ -295,6 +305,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 			}
 			
 			$this->conn->delete_container($this->getContainerName($path));
+			unset($this->containers[$path]);
 			return true;
 		}
 	}
@@ -309,12 +320,14 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 			if($sub){
 				$this->emptyContainer($path.'/'.$sub);
 				$this->conn->delete_container($this->getContainerName($path.'/'.$sub));
+				unset($this->containers[$path.'/'.$sub]);
 			}
 		}
 
 		$objects=$this->getObjects($container);
 		foreach($objects as $object){
 			$container->delete_object($object);
+			unset($this->objects[$path.'/'.$object]);
 		}
 	}
 
@@ -381,6 +394,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if($this->objectExists($path)){
 			$container=$this->getContainer(dirname($path));
 			$container->delete_object(basename($path));
+			unset($this->objects[$path]);
 		}else{
 			return false;
 		}
@@ -447,6 +461,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
 		$result=$sourceContainer->move_object_to(basename($path1),$targetContainer,basename($path2));
+		unset($this->objects[$path1]);
 		if($result){
 			$targetObj=$this->getObject($path2);
 			$this->resetMTime($targetObj);
@@ -486,7 +501,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	private function getTmpFile($path){
 		$obj=$this->getObject($path);
 		if(!is_null($obj)){
-			$tmpFile=OC_Helper::tmpFile();
+			$tmpFile=OCP\Files::tmpFile();
 			$obj->save_to_filename($tmpFile);
 			return $tmpFile;
 		}else{

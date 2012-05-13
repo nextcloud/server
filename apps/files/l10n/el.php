@@ -1,0 +1,22 @@
+<?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Δεν υπάρχει λάθος, το αρχείο μεταφορτώθηκε επιτυχώς",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Το αρχείο που μεταφορτώθηκε υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"upload_max_filesize\" του php.ini",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"MAX_FILE_SIZE\" που έχει οριστεί στην HTML φόρμα",
+"The uploaded file was only partially uploaded" => "Το αρχείο μεταφορώθηκε μόνο εν μέρει",
+"No file was uploaded" => "Το αρχείο δεν μεταφορτώθηκε",
+"Missing a temporary folder" => "Λείπει ένας προσωρινός φάκελος",
+"Files" => "Αρχεία",
+"Maximum upload size" => "Μέγιστο μέγεθος μεταφόρτωσης",
+"New" => "Νέο",
+"Text file" => "Αρχείο κειμένου",
+"Folder" => "Φάκελος",
+"Upload" => "Μεταφόρτωση",
+"Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!",
+"Name" => "Όνομα",
+"Download" => "Λήψη",
+"Size" => "Μέγεθος",
+"Modified" => "Τροποποιήθηκε",
+"Delete" => "Διαγραφή",
+"Upload too large" => "Πολύ μεγάλο το αρχείο προς μεταφόρτωση",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν το διακομιστή."
+);

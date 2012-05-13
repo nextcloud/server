@@ -21,11 +21,9 @@
 * 
 */
 
-
-require_once('../../../lib/base.php');
-OC_Util::checkAppEnabled('media');
-require_once('../lib_collection.php');
-require_once('../lib_ampache.php');
+OCP\App::checkAppEnabled('media');
+ require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
+ require_once(OC::$APPSROOT . '/apps/media/lib_ampache.php');
 
 $arguments=$_POST;
 if(!isset($_POST['action']) and isset($_GET['action'])){
@@ -37,8 +35,11 @@ foreach($arguments as &$argument){
 }
 @ob_clean();
 if(isset($arguments['action'])){
-	OC_Log::write('media','ampache '.$arguments['action'].' request', OC_Log::DEBUG);
+	OCP\Util::writeLog('media','ampache '.$arguments['action'].' request', OCP\Util::DEBUG);
 	switch($arguments['action']){
+		case 'songs':
+			OC_MEDIA_AMPACHE::songs($arguments);
+			break;
 		case 'url_to_song':
 			OC_MEDIA_AMPACHE::url_to_song($arguments);
 			break;

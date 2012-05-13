@@ -20,17 +20,17 @@
  *
  */
 
-require_once('../../lib/base.php');
+
 require_once('lib_share.php');
 
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('files_sharing');
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('files_sharing');
 
-OC_App::setActiveNavigationEntry("files_sharing_list");
+OCP\App::setActiveNavigationEntry("files_sharing_list");
 
-OC_Util::addScript("files_sharing", "list");
+OCP\Util::addscript("files_sharing", "list");
 
-$tmpl = new OC_Template("files_sharing", "list", "user");
+$tmpl = new OCP\Template("files_sharing", "list", "user");
 $tmpl->assign("shared_items", OC_Share::getMySharedItems());
 $tmpl->printPage();
 

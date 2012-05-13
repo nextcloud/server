@@ -1,0 +1,58 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:33+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.net/projects/p/owncloud/language/fi_FI/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi_FI\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:42
+msgid "Pictures"
+msgstr ""
+
+#: templates/index.php:16
+msgid "Rescan"
+msgstr ""
+
+#: templates/index.php:17
+msgid "Stop"
+msgstr ""
+
+#: templates/index.php:18
+msgid "Share"
+msgstr ""
+
+#: templates/index.php:19
+msgid "Settings"
+msgstr ""
+
+#: templates/view_album.php:19
+msgid "Back"
+msgstr ""
+
+#: templates/view_album.php:36
+msgid "Remove confirmation"
+msgstr ""
+
+#: templates/view_album.php:37
+msgid "Do you want to remove album"
+msgstr ""
+
+#: templates/view_album.php:40
+msgid "Change album name"
+msgstr ""
+
+#: templates/view_album.php:43
+msgid "New album name"
+msgstr ""

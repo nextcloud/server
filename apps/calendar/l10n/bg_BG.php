@@ -30,11 +30,11 @@
 "All Day Event" => "Целодневно събитие",
 "From" => "От",
 "To" => "До",
-"Repeat" => "Повтори",
 "Location" => "Локация",
 "Location of the Event" => "Локация",
 "Description" => "Описание",
 "Description of the Event" => "Описание",
+"Repeat" => "Повтори",
 "Create a new event" => "Ново събитие",
 "Timezone" => "Часова зона"
 );

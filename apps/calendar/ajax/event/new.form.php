@@ -6,15 +6,15 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
+ 
 
-if(!OC_USER::isLoggedIn()) {
+if(!OCP\User::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkAppEnabled('calendar');
 
 if (!isset($_POST['start'])){
-	OC_JSON::error();
+	OCP\JSON::error();
 	die;
 }
 $start = $_POST['start'];
@@ -22,16 +22,16 @@ $end = $_POST['end'];
 $allday = $_POST['allday'];
 
 if (!$end){
-	$duration = OC_Preferences::getValue( OC_User::getUser(), 'calendar', 'duration', '60');
+	$duration = OCP\Config::getUserValue( OCP\USER::getUser(), 'calendar', 'duration', '60');
 	$end = $start + ($duration * 60);
 }
 $start = new DateTime('@'.$start);
 $end = new DateTime('@'.$end);
-$timezone = OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
 $start->setTimezone(new DateTimeZone($timezone));
 $end->setTimezone(new DateTimeZone($timezone));
 
-$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$calendar_options = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 $repeat_options = OC_Calendar_App::getRepeatOptions();
 $repeat_end_options = OC_Calendar_App::getEndOptions();
 $repeat_month_options = OC_Calendar_App::getMonthOptions();
@@ -43,7 +43,7 @@ $repeat_bymonth_options = OC_Calendar_App::getByMonthOptions();
 $repeat_byweekno_options = OC_Calendar_App::getByWeekNoOptions();
 $repeat_bymonthday_options = OC_Calendar_App::getByMonthDayOptions();
 
-$tmpl = new OC_Template('calendar', 'part.newevent');
+$tmpl = new OCP\Template('calendar', 'part.newevent');
 $tmpl->assign('access', 'owner');
 $tmpl->assign('calendar_options', $calendar_options);
 $tmpl->assign('repeat_options', $repeat_options);
@@ -57,6 +57,7 @@ $tmpl->assign('repeat_byweekno_options', $repeat_byweekno_options);
 $tmpl->assign('repeat_bymonthday_options', $repeat_bymonthday_options);
 $tmpl->assign('repeat_weekofmonth_options', $repeat_weekofmonth_options);
 
+$tmpl->assign('eventid', 'new');
 $tmpl->assign('startdate', $start->format('d-m-Y'));
 $tmpl->assign('starttime', $start->format('H:i'));
 $tmpl->assign('enddate', $end->format('d-m-Y'));

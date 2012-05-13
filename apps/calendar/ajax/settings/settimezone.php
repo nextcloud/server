@@ -7,21 +7,21 @@
  */
 
 // Init owncloud
-require_once('../../../../lib/base.php');
+ 
 
 $l=OC_L10N::get('calendar');
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 // Get data
 if( isset( $_POST['timezone'] ) ){
 	$timezone=$_POST['timezone'];
-	OC_Preferences::setValue( OC_User::getUser(), 'calendar', 'timezone', $timezone );
-	OC_JSON::success(array('data' => array( 'message' => $l->t('Timezone changed') )));
+	OCP\Config::setUserValue( OCP\USER::getUser(), 'calendar', 'timezone', $timezone );
+	OCP\JSON::success(array('data' => array( 'message' => $l->t('Timezone changed') )));
 }else{
-	OC_JSON::error(array('data' => array( 'message' => $l->t('Invalid request') )));
+	OCP\JSON::error(array('data' => array( 'message' => $l->t('Invalid request') )));
 }
 
 ?>

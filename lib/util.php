@@ -20,10 +20,18 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
 
-		// Create root dir
+		// Check if config folder is writable.
+		if(!is_writable(OC::$SERVERROOT."/config/")) {
+			$tmpl = new OC_Template( '', 'error', 'guest' );
+			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+			$tmpl->printPage();
+			exit;
+		}
+		
+		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
-                        if(!$success) {
+            if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
 				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ")));
 				$tmpl->printPage();
@@ -66,7 +74,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(3,80,0);
+		return array(3,91,0);
 	}
 
 	/**
@@ -74,7 +82,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '4 alpha';
+		return '4 RC';
 	}
 
         /**
@@ -88,7 +96,8 @@ class OC_Util {
 	/**
 	 * add a javascript file
 	 *
-	 * @param url  $url
+	 * @param appid  $application
+	 * @param filename  $file
 	 */
 	public static function addScript( $application, $file = null ){
 		if( is_null( $file )){
@@ -105,7 +114,8 @@ class OC_Util {
 	/**
 	 * add a css file
 	 *
-	 * @param url  $url
+	 * @param appid  $application
+	 * @param filename  $file
 	 */
 	public static function addStyle( $application, $file = null ){
 		if( is_null( $file )){
@@ -243,6 +253,9 @@ class OC_Util {
 		if(!function_exists('imagepng')){
 			$errors[]=array('error'=>'PHP module GD is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
+		if(floatval(phpversion())<5.3){
+			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
+		}
 
 		return $errors;
 	}
@@ -253,6 +266,9 @@ class OC_Util {
 		} else {
 			$parameters["username"] = '';
 		}
+		$sectoken=rand(1000000,9999999);
+		$_SESSION['sectoken']=$sectoken;
+		$parameters["sectoken"] = $sectoken;
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -296,9 +312,9 @@ class OC_Util {
 	*/
 	public static function redirectToDefaultPage(){
 		if(isset($_REQUEST['redirect_url'])) {
-			header( 'Location: '.$_REQUEST['redirect_url']);
+			header( 'Location: '.htmlentities($_REQUEST['redirect_url']));
 		} else {
-			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', 'files/index.php'));
+			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
 		}
 		exit();
 	}

@@ -44,28 +44,29 @@ if($not_installed) {
 
 // Handle WebDAV
 if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
-	header('location: '.OC_Helper::linkToAbsolute('files','webdav.php'));
+	header('location: '.OC_Helper::linkToRemote('webdav'));
 	exit();
 }
 
 // Someone is logged in :
 elseif(OC_User::isLoggedIn()) {
+	OC_App::loadApps();
 	if(isset($_GET["logout"]) and ($_GET["logout"])) {
-		OC_App::loadApps();
 		OC_User::logout();
 		header("Location: ".OC::$WEBROOT.'/');
 		exit();
+	}else{
+		if(is_null(OC::$REQUESTEDFILE)){
+			OC::loadapp();
+		}else{
+			OC::loadfile();
+		}
 	}
-	else {
-		OC_Util::redirectToDefaultPage();
-	}
-}
 
 // For all others cases, we display the guest page :
-else {
+} else {
 	OC_App::loadApps();
 	$error = false;
-
 	// remember was checked after last login
 	if(isset($_COOKIE["oc_remember_login"]) && isset($_COOKIE["oc_token"]) && isset($_COOKIE["oc_username"]) && $_COOKIE["oc_remember_login"]) {
 		if(defined("DEBUG") && DEBUG) {
@@ -80,10 +81,9 @@ else {
 		else {
 			OC_User::unsetMagicInCookie();
 		}
-	}
 
 	// Someone wants to log in :
-	elseif(isset($_POST["user"]) && isset($_POST['password'])) {
+	} elseif(isset($_POST["user"]) and isset($_POST['password']) and isset($_SESSION['sectoken']) and isset($_POST['sectoken']) and ($_SESSION['sectoken']==$_POST['sectoken']) ) {
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
 			if(!empty($_POST["remember_login"])){
 				if(defined("DEBUG") && DEBUG) {
@@ -100,9 +100,9 @@ else {
 		} else {
 			$error = true;
 		}
-	}
+	
 	// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-	elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
+	} elseif(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{
 			//OC_Log::write('core',"Logged in with HTTP Authentication",OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
@@ -111,5 +111,9 @@ else {
 			$error = true;
 		}
 	}
-	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
+	if(!array_key_exists('sectoken', $_SESSION) || (array_key_exists('sectoken', $_SESSION) && is_null(OC::$REQUESTEDFILE)) || substr(OC::$REQUESTEDFILE, -3) == 'php'){
+		$sectoken=rand(1000000,9999999);
+		$_SESSION['sectoken']=$sectoken;
+		OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => isset($_REQUEST['redirect_url'])?htmlentities($_REQUEST['redirect_url']):'' ));
+	}
 }

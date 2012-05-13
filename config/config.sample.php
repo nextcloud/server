@@ -15,6 +15,7 @@ $CONFIG = array(
 "theme" => "",
 "3rdpartyroot" => "",
 "3rdpartyurl" => "",
+"defaultapp" => "files",
 "knowledgebaseenabled" => true,
 "knowledgebaseurl" => "",
 "appstoreenabled" => true,

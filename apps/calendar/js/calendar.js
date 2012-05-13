@@ -517,7 +517,10 @@ Calendar={
 			},
 			share:function(id, idtype, sharewith, sharetype){
 				$.getJSON(OC.filePath('calendar', 'ajax/share', 'share.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(data){
-
+					if(sharetype == 'public'){
+						$('#public_token').val(parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=calendar&t='+data.message);
+						$('#public_token').css('display', 'block');
+					}
 				});
 			},
 			unshare:function(id, idtype, sharewith, sharetype){
@@ -833,6 +836,7 @@ $(document).ready(function(){
 		loading: Calendar.UI.loading,
 		eventSources: eventSources
 	});
+	fillWindow($('#content'));
 	OCCategories.changed = Calendar.UI.categoriesChanged;
 	OCCategories.app = 'calendar';
 	$('#oneweekview_radio').click(function(){

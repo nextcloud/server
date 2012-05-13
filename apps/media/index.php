@@ -22,26 +22,26 @@
 */
 
 
-require_once('../../lib/base.php');
+
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('media');
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('media');
 
-require_once('lib_collection.php');
-require_once('lib_scanner.php');
+require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
+require_once(OC::$APPSROOT . '/apps/media/lib_scanner.php');
 
-OC_Util::addScript('media','player');
-OC_Util::addScript('media','music');
-OC_Util::addScript('media','playlist');
-OC_Util::addScript('media','collection');
-OC_Util::addScript('media','scanner');
-OC_Util::addScript('media','jquery.jplayer.min');
-OC_Util::addStyle('media','music');
+OCP\Util::addscript('media','player');
+OCP\Util::addscript('media','music');
+OCP\Util::addscript('media','playlist');
+OCP\Util::addscript('media','collection');
+OCP\Util::addscript('media','scanner');
+OCP\Util::addscript('media','jquery.jplayer.min');
+OCP\Util::addStyle('media','music');
 
-OC_App::setActiveNavigationEntry( 'media_index' );
+OCP\App::setActiveNavigationEntry( 'media_index' );
 
-$tmpl = new OC_Template( 'media', 'music', 'user' );
+$tmpl = new OCP\Template( 'media', 'music', 'user' );
 $tmpl->printPage();
 ?>
  

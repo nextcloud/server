@@ -205,7 +205,7 @@ function authorize_mode () {
 
 	$profile['idp_url']=$IDENTITY;
 	if (isset($_SERVER['PHP_AUTH_USER']) && $profile['authorized'] === false && $_SERVER['PHP_AUTH_USER']==$USERNAME) {
-		if (OC_User::checkPassword($USERNAME, $_SERVER['PHP_AUTH_PW'])) {// successful login!
+		if (OCP\User::checkPassword($USERNAME, $_SERVER['PHP_AUTH_PW'])) {// successful login!
 			// return to the refresh url if they get in
 			$_SESSION['openid_auth']=true;
 			$_SESSION['openid_user']=$USERNAME;
@@ -559,7 +559,7 @@ function logout_mode () {
  */
 function no_mode () {
 	global $USERNAME, $profile;
-	$tmpl = new OC_Template( 'user_openid', 'nomode', 'guest' );
+	$tmpl = new OCP\Template( 'user_openid', 'nomode', 'guest' );
 	if(substr($profile['req_url'],-1,1)!=='/'){//the identity should always end with a /
 		$profile['req_url'].='/';
 	}
@@ -1067,7 +1067,7 @@ function destroy_assoc_handle ( $id ) {
 	session_write_close();
 
 	session_id($id);
-	if (OC_Config::getValue( "forcessl", false )) {
+	if (OCP\Config::getSystemValue( "forcessl", false )) {
 		ini_set("session.cookie_secure", "on");
 	}
 	session_start();
@@ -1195,7 +1195,7 @@ function new_assoc ( $expiration ) {
 		session_write_close();
 	}
 
-	if (OC_Config::getValue( "forcessl", false )) {
+	if (OCP\Config::getSystemValue( "forcessl", false )) {
 		ini_set("session.cookie_secure", "on");
 	}
 	session_start();
@@ -1269,7 +1269,7 @@ function secret ( $handle ) {
 	}
 
 	session_id($handle);
-	if (OC_Config::getValue( "forcessl", false )) {
+	if (OCP\Config::getSystemValue( "forcessl", false )) {
 		ini_set("session.cookie_secure", "on");
 	}
 	session_start();
@@ -1447,7 +1447,7 @@ function user_session () {
 	global $proto, $profile;
 
 	session_name('phpMyID_Server');
-	if (OC_Config::getValue( "forcessl", false )) {
+	if (OCP\Config::getSystemValue( "forcessl", false )) {
 		ini_set("session.cookie_secure", "on");
 	}
 	@session_start();

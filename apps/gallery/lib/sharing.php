@@ -24,7 +24,7 @@
 class OC_Gallery_Sharing {
   private static function getEntries($token) {
     $sql = 'SELECT * FROM *PREFIX*gallery_sharing WHERE token = ?';
-    $stmt = OC_DB::prepare($sql);
+    $stmt = OCP\DB::prepare($sql);
     return $stmt->execute(array($token));
   }
 
@@ -45,7 +45,7 @@ class OC_Gallery_Sharing {
     if ($row = $r->fetchRow()) {
       $galleryId = $row['gallery_id'];
       $sql = 'SELECT * FROM *PREFIX*gallery_albums WHERE album_id = ?';
-      $stmt = OC_DB::prepare($sql);
+      $stmt = OCP\DB::prepare($sql);
       $r = $stmt->execute(array($galleryId));
       if ($row = $r->fetchRow())
        return $row['uid_owner'];
@@ -58,7 +58,7 @@ class OC_Gallery_Sharing {
     if ($row = $r->fetchRow()) {
       $galleryId = $row['gallery_id'];
       $sql = 'SELECT * FROM *PREFIX*gallery_albums WHERE album_id = ?';
-      $stmt = OC_DB::prepare($sql);
+      $stmt = OCP\DB::prepare($sql);
       $r = $stmt->execute(array($galleryId));
       if ($row = $r->fetchRow())
         return $row['album_path'];
@@ -66,23 +66,23 @@ class OC_Gallery_Sharing {
   }
 
   public static function updateSharingByToken($token, $recursive) {
-    $stmt = OC_DB::prepare('UPDATE *PREFIX*gallery_sharing SET recursive = ? WHERE token = ?');
+    $stmt = OCP\DB::prepare('UPDATE *PREFIX*gallery_sharing SET recursive = ? WHERE token = ?');
     $stmt->execute(array($recursive, $token));
   }
 
   public static function getEntryByAlbumId($album_id) {
-    $stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_sharing WHERE gallery_id = ?');
+    $stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*gallery_sharing WHERE gallery_id = ?');
     return $stmt->execute(array($album_id));
   }
 
   public static function addShared($token, $albumId, $recursive) {
     $sql = 'INSERT INTO *PREFIX*gallery_sharing (token, gallery_id, recursive) VALUES (?, ?, ?)';
-    $stmt = OC_DB::prepare($sql);
+    $stmt = OCP\DB::prepare($sql);
     $stmt->execute(array($token, $albumId, $recursive));
   }
 
   public static function remove($albumId) {
-    $stmt = OC_DB::prepare('DELETE FROM *PREFIX*gallery_sharing WHERE gallery_id = ?');
+    $stmt = OCP\DB::prepare('DELETE FROM *PREFIX*gallery_sharing WHERE gallery_id = ?');
     $stmt->execute(array($albumId));
   }
 }

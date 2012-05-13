@@ -4,8 +4,6 @@
 "OpenID Changed" => "تم تغيير ال OpenID",
 "Language changed" => "تم تغيير اللغة",
 "__language_name__" => "__language_name__",
-"Log level" => "مستوى المراقبه",
-"Add your application" => "أضف تطبيقاتك",
 "Select an App" => "إختر تطبيقاً",
 "-licensed" => "-مسجل",
 "by" => "من قبل",

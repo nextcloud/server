@@ -6,13 +6,13 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 $calendarcolor_options = OC_Calendar_Calendar::getCalendarColorOptions();
 $calendar = OC_Calendar_App::getCalendar($_GET['calendarid']);
-$tmpl = new OC_Template("calendar", "part.editcalendar");
+$tmpl = new OCP\Template("calendar", "part.editcalendar");
 $tmpl->assign('new', false);
 $tmpl->assign('calendarcolor_options', $calendarcolor_options);
 $tmpl->assign('calendar', $calendar);

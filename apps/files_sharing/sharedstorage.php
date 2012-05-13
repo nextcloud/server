@@ -22,11 +22,6 @@
 
 require_once( 'lib_share.php' );
 
-if (OC_Filesystem::$loaded and !OC_Filesystem::is_dir('/Shared')) {
-	OC_Filesystem::mkdir('/Shared');
-}
-OC_Filesystem::mount('OC_Filestorage_Shared',array('datadir'=>'/'.OC_User::getUser().'/files/Shared'),'/'.OC_User::getUser().'/files/Shared/');
-
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
@@ -227,7 +222,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			}
 			if ($size > 0) {
 				$dbpath = rtrim($this->datadir.$path, "/");
-// 				$query = OC_DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
+// 				$query = OCP\DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
 // 				$result = $query->execute(array($dbpath, $size));
 			}
 		}
@@ -241,7 +236,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			$path = dirname($path);
 		}
 		$dbpath = rtrim($this->datadir.$path, "/");
-// 		$query = OC_DB::prepare("DELETE FROM *PREFIX*/*foldersize*/ WHERE path = ?");
+// 		$query = OCP\DB::prepare("DELETE FROM *PREFIX*/*foldersize*/ WHERE path = ?");
 // 		$result = $query->execute(array($dbpath));
 		if ($path != "/" && $path != "") {
 			$parts = explode("/", $path);
@@ -512,6 +507,17 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 			return $storage->touch($this->getInternalPath($source),$time);
 		}
 	}
+
+	public static function setup() {
+		OC_Filesystem::mount('OC_Filestorage_Shared', array('datadir' => '/'.OCP\USER::getUser().'/files/Shared'), '/'.OCP\USER::getUser().'/files/Shared/');
+	}
+
+}
+
+if (OCP\USER::isLoggedIn()) {
+	OC_Filestorage_Shared::setup();
+} else {
+	OCP\Util::connectHook('OC_User', 'post_login', 'OC_Filestorage_Shared', 'setup');
 }
 
 ?>

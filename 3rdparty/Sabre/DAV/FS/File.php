@@ -1,21 +1,21 @@
 <?php
 
 /**
- * File class 
- * 
+ * File class
+ *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_DAV_FS_File extends Sabre_DAV_FS_Node implements Sabre_DAV_IFile {
 
     /**
-     * Updates the data 
-     * 
-     * @param resource $data 
-     * @return void 
+     * Updates the data
+     *
+     * @param resource $data
+     * @return void
      */
     public function put($data) {
 
@@ -24,9 +24,9 @@ class Sabre_DAV_FS_File extends Sabre_DAV_FS_Node implements Sabre_DAV_IFile {
     }
 
     /**
-     * Returns the data 
-     * 
-     * @return string 
+     * Returns the data
+     *
+     * @return string
      */
     public function get() {
 
@@ -37,7 +37,7 @@ class Sabre_DAV_FS_File extends Sabre_DAV_FS_Node implements Sabre_DAV_IFile {
     /**
      * Delete the current file
      *
-     * @return void 
+     * @return void
      */
     public function delete() {
 
@@ -46,12 +46,12 @@ class Sabre_DAV_FS_File extends Sabre_DAV_FS_Node implements Sabre_DAV_IFile {
     }
 
     /**
-     * Returns the size of the node, in bytes 
-     * 
-     * @return int 
+     * Returns the size of the node, in bytes
+     *
+     * @return int
      */
     public function getSize() {
-        
+
         return filesize($this->path);
 
     }
@@ -60,10 +60,10 @@ class Sabre_DAV_FS_File extends Sabre_DAV_FS_Node implements Sabre_DAV_IFile {
      * Returns the ETag for a file
      *
      * An ETag is a unique identifier representing the current version of the file. If the file changes, the ETag MUST change.
-     * The ETag is an arbritrary string, but MUST be surrounded by double-quotes.
+     * The ETag is an arbitrary string, but MUST be surrounded by double-quotes.
      *
      * Return null if the ETag can not effectively be determined
-     * 
+     *
      * @return mixed
      */
     public function getETag() {
@@ -77,8 +77,8 @@ class Sabre_DAV_FS_File extends Sabre_DAV_FS_Node implements Sabre_DAV_IFile {
      *
      * If null is returned, we'll assume application/octet-stream
      *
-     * @return mixed 
-     */ 
+     * @return mixed
+     */
     public function getContentType() {
 
         return null;

@@ -1,0 +1,16 @@
+#history {
+	margin: 2em 2em 0;
+}
+
+#feedback-messages h3 {
+	font-size: 1.3em;
+	font-style: italic;
+}
+
+.success {
+	color: green;
+}
+
+.failure {
+	color: red;
+}

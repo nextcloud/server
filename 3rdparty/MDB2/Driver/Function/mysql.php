@@ -42,10 +42,10 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php,v 1.12 2008/02/17 18:54:08 quipo Exp $
+// $Id: mysql.php 295587 2010-02-28 17:16:38Z quipo $
 //
 
-require_once('MDB2/Driver/Function/Common.php');
+require_once 'MDB2/Driver/Function/Common.php';
 
 /**
  * MDB2 MySQL driver for the function modules
@@ -71,9 +71,9 @@ class MDB2_Driver_Function_mysql extends MDB2_Driver_Function_Common
      * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
-    function &executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
+    function executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

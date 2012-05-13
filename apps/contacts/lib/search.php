@@ -1,8 +1,8 @@
 <?php
 class OC_Search_Provider_Contacts extends OC_Search_Provider{
 	function search($query){
-		$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser(), 1);
-// 		if(count($calendars)==0 || !OC_App::isEnabled('contacts')){
+		$addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser(), 1);
+// 		if(count($calendars)==0 || !OCP\App::isEnabled('contacts')){
 // 			//return false;
 // 		}
 		// NOTE: Does the following do anything
@@ -18,7 +18,7 @@ class OC_Search_Provider_Contacts extends OC_Search_Provider{
 			$vcards = OC_Contacts_VCard::all($addressbook['id']);
 			foreach($vcards as $vcard){
 				if(substr_count(strtolower($vcard['fullname']), strtolower($query)) > 0){
-					$link = OC_Helper::linkTo('contacts', 'index.php').'?id='.urlencode($vcard['id']);
+					$link = OCP\Util::linkTo('contacts', 'index.php').'?id='.urlencode($vcard['id']);
 					$results[]=new OC_Search_Result($vcard['fullname'],'', $link,$l->t('Contact'));//$name,$text,$link,$type
 				}
 			}

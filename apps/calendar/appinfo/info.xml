@@ -7,4 +7,12 @@
 	<require>2</require>
 	<description>Calendar with CalDAV support</description>
 	<default_enable/>
+	<remote>
+		<calendar>appinfo/remote.php</calendar>
+		<caldav>appinfo/remote.php</caldav>
+	</remote>
+	<public>
+		<calendar>share.php</calendar>
+		<caldav>share.php</caldav>
+	</public>
 </info>

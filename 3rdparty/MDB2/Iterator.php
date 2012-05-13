@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Iterator.php,v 1.22 2006/05/06 14:03:41 lsmith Exp $
+// $Id: Iterator.php 295586 2010-02-28 17:04:17Z quipo $
 
 /**
  * PHP5 Iterator
@@ -112,7 +112,7 @@ class MDB2_Iterator implements Iterator
      */
     public function current()
     {
-        if (is_null($this->row)) {
+        if (null === $this->row) {
             $row = $this->result->fetchRow($this->fetchmode);
             if (PEAR::isError($row)) {
                 $row = false;

@@ -1,0 +1,22 @@
+<?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Нема грешка, датотеката беше подигната успешно",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Подигнатата датотеката ја надминува MAX_FILE_SIZE директивата која беше поставена во HTML формата",
+"The uploaded file was only partially uploaded" => "Датотеката беше само делумно подигната.",
+"No file was uploaded" => "Не беше подигната датотека",
+"Missing a temporary folder" => "Не постои привремена папка",
+"Files" => "Датотеки",
+"Maximum upload size" => "Максимална големина за подигање",
+"New" => "Ново",
+"Text file" => "Текстуална датотека",
+"Folder" => "Папка",
+"Upload" => "Подигни",
+"Nothing in here. Upload something!" => "Тука нема ништо. Снимете нешто!",
+"Name" => "Име",
+"Download" => "Преземи",
+"Size" => "Големина",
+"Modified" => "Променето",
+"Delete" => "Избриши",
+"Upload too large" => "Датотеката е премногу голема",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер."
+);

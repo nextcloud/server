@@ -1,8 +1,9 @@
 <?php $TRANSLATIONS = array(
+"email Changed" => "Epost ändrad",
 "Invalid request" => "Ogiltig begäran",
 "OpenID Changed" => "OpenID ändrat",
 "Language changed" => "Språk ändrades",
-"Add your application" => "Lägg till din applikation",
+"__language_name__" => "__language_name__",
 "Select an App" => "Välj en App",
 "-licensed" => "-licensierat",
 "by" => "av",
@@ -18,11 +19,16 @@
 "New password" => "Nytt lösenord",
 "show" => "visa",
 "Change password" => "Ändra lösenord",
+"Email" => "E-post",
+"Your email address" => "Din e-postadress",
+"Fill in an email address to enable password recovery" => "Fyll i en e-postadress för att aktivera återställning av lösenord",
 "Language" => "Språk",
+"Help translate" => "Hjälp att översätta",
 "use this address to connect to your ownCloud in your file manager" => "använd denna adress för att ansluta ownCloud till din filhanterare",
 "Name" => "Namn",
 "Password" => "Lösenord",
 "Groups" => "Grupper",
 "Create" => "Skapa",
+"Quota" => "Kvot",
 "Delete" => "Ta bort"
 );

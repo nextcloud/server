@@ -7,20 +7,20 @@
  * See the COPYING-README file.
  */
 
-require_once ("../../../lib/base.php");
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $bookid = $_POST['bookid'];
 $book = OC_Contacts_App::getAddressbook($bookid);// is owner access check
 
 if(!OC_Contacts_Addressbook::setActive($bookid, $_POST['active'])) {
-	OC_Log::write('contacts','ajax/activation.php: Error activating addressbook: '.$bookid, OC_Log::ERROR);
-	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error (de)activating addressbook.'))));
+	OCP\Util::writeLog('contacts','ajax/activation.php: Error activating addressbook: '.$bookid, OCP\Util::ERROR);
+	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error (de)activating addressbook.'))));
 	exit();
 }
 
-OC_JSON::success(array(
+OCP\JSON::success(array(
 	'active' => OC_Contacts_Addressbook::isActive($bookid),
 	'bookid' => $bookid,
 	'book'   => $book,

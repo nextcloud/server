@@ -65,5 +65,22 @@ class OC_Hook{
 		// return true
 		return true;
 	}
+
+	/**
+	 * clear hooks
+	 * @param string signalclass
+	 * @param string signalname
+	 */
+	static public function clear($signalclass='', $signalname=''){
+		if($signalclass){
+			if($signalname){
+				self::$registered[$signalclass][$signalname]=array();
+			}else{
+				self::$registered[$signalclass]=array();
+			}
+		}else{
+			self::$registered=array();
+		}
+	}
 }
  

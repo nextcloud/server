@@ -22,14 +22,14 @@
  */
 
 OC::$CLASSPATH['OC_External'] = 'apps/external/lib/external.php';
-OC_Util::addStyle( 'external', 'style');
+OCP\Util::addStyle( 'external', 'style');
 
-OC_APP::registerAdmin('external', 'settings');
+OCP\App::registerAdmin('external', 'settings');
 
-OC_App::register(array('order' => 70, 'id' => 'external', 'name' => 'External'));
+OCP\App::register(array('order' => 70, 'id' => 'external', 'name' => 'External'));
 
 $sites = OC_External::getSites();
 for ($i = 0; $i < sizeof($sites); $i++) {
-	OC_App::addNavigationEntry(
-			array('id' => 'external_index' . ($i + 1), 'order' => 80 + $i, 'href' => OC_Helper::linkTo('external', 'index.php') . '?id=' . ($i + 1), 'icon' => OC_Helper::imagePath('external', 'external.png'), 'name' => $sites[$i][0]));
+	OCP\App::addNavigationEntry(
+			array('id' => 'external_index' . ($i + 1), 'order' => 80 + $i, 'href' => OCP\Util::linkTo('external', 'index.php') . '?id=' . ($i + 1), 'icon' => OCP\Util::imagePath('external', 'external.png'), 'name' => $sites[$i][0]));
 }

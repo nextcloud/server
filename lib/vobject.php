@@ -41,7 +41,7 @@ class OC_VObject{
 	 */
 	public static function parse($data){
 		try {
-			Sabre_VObject_Reader::$elementMap['LAST-MODIFIED'] = 'Sabre_VObject_Element_DateTime';
+			Sabre_VObject_Property::$classMap['LAST-MODIFIED'] = 'Sabre_VObject_Property_DateTime';
 			$vobject = Sabre_VObject_Reader::read($data);
 			if ($vobject instanceof Sabre_VObject_Component){
 				$vobject = new OC_VObject($vobject);
@@ -150,12 +150,12 @@ class OC_VObject{
 	 * @param int $dateType
 	 * @return void
 	 */
-	public function setDateTime($name, $datetime, $dateType=Sabre_VObject_Element_DateTime::LOCALTZ){
+	public function setDateTime($name, $datetime, $dateType=Sabre_VObject_Property_DateTime::LOCALTZ){
 		if ($datetime == 'now'){
 			$datetime = new DateTime();
 		}
 		if ($datetime instanceof DateTime){
-			$datetime_element = new Sabre_VObject_Element_DateTime($name);
+			$datetime_element = new Sabre_VObject_Property_DateTime($name);
 			$datetime_element->setDateTime($datetime, $dateType);
 			$this->vobject->__set($name, $datetime_element);
 		}else{

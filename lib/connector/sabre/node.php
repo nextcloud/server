@@ -1,28 +1,26 @@
 <?php
+
 /**
- * Base node-class 
+ * ownCloud
  *
- * The node class implements the method used by both the File and the Directory classes 
- * 
- * @package Sabre
- * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
- */
-/*
+ * @author Jakob Sack
+ * @copyright 2011 Jakob Sack kde@jakobsack.de
  *
- * The following SQL statement is just a help for developers and will not be
- * executed!
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
  *
- * CREATE TABLE IF NOT EXISTS `properties` (
- *   `userid` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
- *   `propertypath` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
- *   `propertyname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
- *   `propertyvalue` text COLLATE utf8_unicode_ci NOT NULL
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IProperties {
 
 	/**

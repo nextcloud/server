@@ -5,10 +5,8 @@
  * later.
  * See the COPYING-README file.
  */
-
-require_once ('../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 $view = $_GET['v'];
 switch($view){
 	case 'agendaWeek':
@@ -16,9 +14,9 @@ switch($view){
 	case 'list':
 		break;
 	default:
-		OC_JSON::error(array('message'=>'unexspected parameter: ' . $view));
+		OCP\JSON::error(array('message'=>'unexspected parameter: ' . $view));
 		exit;
 }
-OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'currentview', $view);
-OC_JSON::success();
+OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'currentview', $view);
+OCP\JSON::success();
 ?>

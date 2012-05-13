@@ -23,7 +23,7 @@ return array(
 		'root'=>'/google',
 	),
 	'swift'=>array(
-		'run'=>true,
+		'run'=>false,
 		'user'=>'test:tester',
 		'token'=>'testing',
 		'host'=>'localhost:8080/auth',

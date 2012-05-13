@@ -42,10 +42,10 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php,v 1.10 2008/02/17 18:54:08 quipo Exp $
+// $Id: sqlite.php 295587 2010-02-28 17:16:38Z quipo $
 //
 
-require_once('MDB2/Driver/Function/Common.php');
+require_once 'MDB2/Driver/Function/Common.php';
 
 /**
  * MDB2 SQLite driver for the function modules
@@ -116,10 +116,10 @@ class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
      */
     function substring($value, $position = 1, $length = null)
     {
-        if (!is_null($length)) {
-            return "substr($value,$position,$length)";
+        if (null !== $length) {
+            return "substr($value, $position, $length)";
         }
-        return "substr($value,$position,length($value))";
+        return "substr($value, $position, length($value))";
     }
 
     // }}}
@@ -147,12 +147,12 @@ class MDB2_Driver_Function_sqlite extends MDB2_Driver_Function_Common
      */
     function replace($str, $from_str, $to_str)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
 
-        $error =& $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        $error = $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
         return $error;
     }

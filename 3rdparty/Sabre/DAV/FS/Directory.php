@@ -1,24 +1,39 @@
 <?php
 
 /**
- * Directory class 
- * 
+ * Directory class
+ *
  * @package Sabre
  * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_DAV_FS_Directory extends Sabre_DAV_FS_Node implements Sabre_DAV_ICollection, Sabre_DAV_IQuota {
 
     /**
-     * Creates a new file in the directory 
-     * 
-     * data is a readable stream resource
+     * Creates a new file in the directory
      *
-     * @param string $name Name of the file 
-     * @param resource $data Initial payload 
-     * @return void
+     * Data will either be supplied as a stream resource, or in certain cases
+     * as a string. Keep in mind that you may have to support either.
+     *
+     * After succesful creation of the file, you may choose to return the ETag
+     * of the new file here.
+     *
+     * The returned ETag must be surrounded by double-quotes (The quotes should
+     * be part of the actual string).
+     *
+     * If you cannot accurately determine the ETag, you should not return it.
+     * If you don't store the file exactly as-is (you're transforming it
+     * somehow) you should also not return an ETag.
+     *
+     * This means that if a subsequent GET to this new file does not exactly
+     * return the same contents of what was submitted here, you are strongly
+     * recommended to omit the ETag.
+     *
+     * @param string $name Name of the file
+     * @param resource|string $data Initial payload
+     * @return null|string
      */
     public function createFile($name, $data = null) {
 
@@ -28,9 +43,9 @@ class Sabre_DAV_FS_Directory extends Sabre_DAV_FS_Node implements Sabre_DAV_ICol
     }
 
     /**
-     * Creates a new subdirectory 
-     * 
-     * @param string $name 
+     * Creates a new subdirectory
+     *
+     * @param string $name
      * @return void
      */
     public function createDirectory($name) {
@@ -41,17 +56,17 @@ class Sabre_DAV_FS_Directory extends Sabre_DAV_FS_Node implements Sabre_DAV_ICol
     }
 
     /**
-     * Returns a specific child node, referenced by its name 
-     * 
-     * @param string $name 
-     * @throws Sabre_DAV_Exception_FileNotFound
-     * @return Sabre_DAV_INode 
+     * Returns a specific child node, referenced by its name
+     *
+     * @param string $name
+     * @throws Sabre_DAV_Exception_NotFound
+     * @return Sabre_DAV_INode
      */
     public function getChild($name) {
 
         $path = $this->path . '/' . $name;
 
-        if (!file_exists($path)) throw new Sabre_DAV_Exception_FileNotFound('File with name ' . $path . ' could not be located');
+        if (!file_exists($path)) throw new Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
 
         if (is_dir($path)) {
 
@@ -66,9 +81,9 @@ class Sabre_DAV_FS_Directory extends Sabre_DAV_FS_Node implements Sabre_DAV_ICol
     }
 
     /**
-     * Returns an array with all the child nodes 
-     * 
-     * @return Sabre_DAV_INode[] 
+     * Returns an array with all the child nodes
+     *
+     * @return Sabre_DAV_INode[]
      */
     public function getChildren() {
 
@@ -79,10 +94,10 @@ class Sabre_DAV_FS_Directory extends Sabre_DAV_FS_Node implements Sabre_DAV_ICol
     }
 
     /**
-     * Checks if a child exists. 
-     * 
-     * @param string $name 
-     * @return bool 
+     * Checks if a child exists.
+     *
+     * @param string $name
+     * @return bool
      */
     public function childExists($name) {
 
@@ -92,8 +107,8 @@ class Sabre_DAV_FS_Directory extends Sabre_DAV_FS_Node implements Sabre_DAV_ICol
     }
 
     /**
-     * Deletes all files in this directory, and then itself 
-     * 
+     * Deletes all files in this directory, and then itself
+     *
      * @return void
      */
     public function delete() {
@@ -104,16 +119,16 @@ class Sabre_DAV_FS_Directory extends Sabre_DAV_FS_Node implements Sabre_DAV_ICol
     }
 
     /**
-     * Returns available diskspace information 
-     * 
-     * @return array 
+     * Returns available diskspace information
+     *
+     * @return array
      */
     public function getQuotaInfo() {
 
         return array(
             disk_total_space($this->path)-disk_free_space($this->path),
             disk_free_space($this->path)
-            ); 
+            );
 
     }
 

@@ -2,7 +2,6 @@
 "Invalid request" => "Ongülteg Requête",
 "OpenID Changed" => "OpenID huet geännert",
 "Language changed" => "Sprooch huet geännert",
-"Add your application" => "Sätz deng Applikatioun bäi",
 "Select an App" => "Wiel eng Applikatioun aus",
 "-licensed" => "-Lizenséiert",
 "by" => "vun",

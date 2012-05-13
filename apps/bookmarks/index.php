@@ -21,17 +21,17 @@
 * 
 */
 
-require_once('../../lib/base.php');
+
 
 // Check if we are a user
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('bookmarks');
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('bookmarks');
 
-OC_App::setActiveNavigationEntry( 'bookmarks_index' );
+OCP\App::setActiveNavigationEntry( 'bookmarks_index' );
 
-OC_Util::addScript('bookmarks','bookmarks');
-OC_Util::addStyle('bookmarks', 'bookmarks');
+OCP\Util::addscript('bookmarks','bookmarks');
+OCP\Util::addStyle('bookmarks', 'bookmarks');
 
-$tmpl = new OC_Template( 'bookmarks', 'list', 'user' );
+$tmpl = new OCP\Template( 'bookmarks', 'list', 'user' );
 
 $tmpl->printPage();

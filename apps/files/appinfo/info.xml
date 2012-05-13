@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<info>
+	<id>files</id>
+	<name>Files</name>
+	<description>File Management</description>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<require>2</require>
+	<standalone/>
+	<default_enable/>
+	<remote>
+		<files>appinfo/remote.php</files>
+		<webdav>appinfo/remote.php</webdav>
+	</remote>
+</info>

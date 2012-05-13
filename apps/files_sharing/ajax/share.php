@@ -1,31 +1,33 @@
 <?php
-//$RUNTIME_NOAPPS = true;
+require_once(OC::$APPSROOT . '/apps/files_sharing/lib_share.php');
 
-require_once('../../../lib/base.php');
-OC_JSON::checkAppEnabled('files_sharing');
-require_once('../lib_share.php');
+OCP\JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkLoggedIn();
 
-$userDirectory = "/".OC_User::getUser()."/files";
-$sources = explode(";", $_POST['sources']);
+$userDirectory = '/'.OCP\USER::getUser().'/files';
+$sources = explode(';', $_POST['sources']);
 $uid_shared_with = $_POST['uid_shared_with'];
 $permissions = $_POST['permissions'];
 foreach ($sources as $source) {
-	// Make sure file exists and can be shared
-	if ($source && OC_FILESYSTEM::file_exists($source) && OC_FILESYSTEM::is_readable($source)) {
-		$source = $userDirectory.$source;
-	// If the file doesn't exist, it may be shared with the current user
-	} else if (!$source = OC_Share::getSource($userDirectory.$source)) {
-		OC_Log::write('files_sharing',"Shared file doesn't exists :".$source,OC_Log::ERROR);
-		echo "false";
-	}
-	try {
-		$shared = new OC_Share($source, $uid_shared_with, $permissions);
-		if ($uid_shared_with == OC_Share::PUBLICLINK) {
-			echo $shared->getToken();
+	$path = ltrim($source, '/'); 
+	$source = $userDirectory.$source;
+	// Check if the file exists or if the file is being reshared
+	if ($source && (OC_FILESYSTEM::file_exists($path) && OC_FILESYSTEM::is_readable($path) || OC_Share::getSource($source))) {
+		try {
+			$shared = new OC_Share($source, $uid_shared_with, $permissions);
+			// If this is a private link, return the token
+			if ($uid_shared_with == OC_Share::PUBLICLINK) {
+				OCP\JSON::success(array('data' => $shared->getToken()));
+			} else {
+				OCP\JSON::success();
+			}
+		} catch (Exception $exception) {
+			OCP\Util::writeLog('files_sharing', 'Unexpected Error : '.$exception->getMessage(), OCP\Util::ERROR);
+			OCP\JSON::error(array('data' => array('message' => $exception->getMessage())));
 		}
-	} catch (Exception $exception) {
-		OC_Log::write('files_sharing',"Unexpected Error : ".$exception->getMessage(),OC_Log::ERROR);
-		echo "false";
+	} else {
+		OCP\Util::writeLog('files_sharing', 'File does not exist or is not readable :'.$source, OCP\Util::ERROR);
+		OCP\JSON::error(array('data' => array('message' => 'File does not exist or is not readable')));
 	}
 }
 

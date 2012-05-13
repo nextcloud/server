@@ -22,16 +22,16 @@
 */
 
 //we need to have the sha256 hash of passwords for ampache
-OC_Hook::connect('OC_User','post_login','OC_MEDIA','loginListener');
+OCP\Util::connectHook('OC_User','post_login','OC_MEDIA','loginListener');
 
 //connect to the filesystem for auto updating
-OC_Hook::connect('OC_Filesystem','post_write','OC_MEDIA','updateFile');
+OCP\Util::connectHook('OC_Filesystem','post_write','OC_MEDIA','updateFile');
 
 //listen for file deletions to clean the database if a song is deleted
-OC_Hook::connect('OC_Filesystem','post_delete','OC_MEDIA','deleteFile');
+OCP\Util::connectHook('OC_Filesystem','post_delete','OC_MEDIA','deleteFile');
 
 //list for file moves to update the database
-OC_Hook::connect('OC_Filesystem','post_rename','OC_MEDIA','moveFile');
+OCP\Util::connectHook('OC_Filesystem','post_rename','OC_MEDIA','moveFile');
 
 class OC_MEDIA{
 	/**
@@ -41,11 +41,11 @@ class OC_MEDIA{
 	public static function loginListener($params){
 		if(isset($_POST['user']) and $_POST['password']){
 			$name=$_POST['user'];
-			$query=OC_DB::prepare("SELECT user_id from *PREFIX*media_users WHERE user_id LIKE ?");
+			$query=OCP\DB::prepare("SELECT user_id from *PREFIX*media_users WHERE user_id LIKE ?");
 			$uid=$query->execute(array($name))->fetchAll();
 			if(count($uid)==0){
 				$password=hash('sha256',$_POST['password']);
-				$query=OC_DB::prepare("INSERT INTO *PREFIX*media_users (user_id, user_password_sha256) VALUES (?, ?);");
+				$query=OCP\DB::prepare("INSERT INTO *PREFIX*media_users (user_id, user_password_sha256) VALUES (?, ?);");
 				$query->execute(array($name,$password));
 			}
 		}
@@ -90,18 +90,18 @@ class OC_MediaSearchProvider extends OC_Search_Provider{
 		$songs=OC_MEDIA_COLLECTION::getSongs(0,0,$query);
 		$results=array();
 		foreach($artists as $artist){
-			$results[]=new OC_Search_Result($artist['artist_name'],'',OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist['artist_name']),'Music');
+			$results[]=new OC_Search_Result($artist['artist_name'],'',OCP\Util::linkTo( 'media', 'index.php').'#artist='.urlencode($artist['artist_name']),'Music');
 		}
 		foreach($albums as $album){
 			$artist=OC_MEDIA_COLLECTION::getArtistName($album['album_artist']);
-			$results[]=new OC_Search_Result($album['album_name'],'by '.$artist,OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist).'&album='.urlencode($album['album_name']),'Music');
+			$results[]=new OC_Search_Result($album['album_name'],'by '.$artist,OCP\Util::linkTo( 'media', 'index.php').'#artist='.urlencode($artist).'&album='.urlencode($album['album_name']),'Music');
 		}
 		foreach($songs as $song){
 			$minutes=floor($song['song_length']/60);
 			$secconds=$song['song_length']%60;
 			$artist=OC_MEDIA_COLLECTION::getArtistName($song['song_artist']);
 			$album=OC_MEDIA_COLLECTION::getalbumName($song['song_album']);
-			$results[]=new OC_Search_Result($song['song_name'],"by $artist, in $album $minutes:$secconds",OC_Helper::linkTo( 'media', 'index.php').'#artist='.urlencode($artist).'&album='.urlencode($album).'&song='.urlencode($song['song_name']),'Music');
+			$results[]=new OC_Search_Result($song['song_name'],"by $artist, in $album $minutes:$secconds",OCP\Util::linkTo( 'media', 'index.php').'#artist='.urlencode($artist).'&album='.urlencode($album).'&song='.urlencode($song['song_name']),'Music');
 		}
 		return $results;
 	}

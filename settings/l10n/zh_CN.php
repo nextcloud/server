@@ -4,8 +4,6 @@
 "OpenID Changed" => "OpenID 已修改",
 "Language changed" => "语言已修改",
 "__language_name__" => "简体中文",
-"Log level" => "日志级别",
-"Add your application" => "加入您的应用程序",
 "Select an App" => "选择一个应用",
 "-licensed" => "-许可证",
 "by" => "由",

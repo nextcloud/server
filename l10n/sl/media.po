@@ -3,22 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <peter.perosa@gmail.com>, 2012.
 #   <urossolar@hotmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-11 00:19+0100\n"
-"PO-Revision-Date: 2012-01-10 23:43+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Slovenian (http://www.transifex.net/projects/p/owncloud/team/sl/)\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-04 08:31+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
+"Language-Team: Slovenian (http://www.transifex.net/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
 
-#: appinfo/app.php:32
+#: appinfo/app.php:32 templates/player.php:9
 msgid "Music"
 msgstr "Glasba"
 
@@ -28,7 +29,7 @@ msgstr "Predvajaj"
 
 #: templates/music.php:4 templates/music.php:26 templates/player.php:14
 msgid "Pause"
-msgstr "Pavza"
+msgstr "Premor"
 
 #: templates/music.php:5
 msgid "Previous"
@@ -40,15 +41,15 @@ msgstr "Naslednja"
 
 #: templates/music.php:7
 msgid "Mute"
-msgstr "Izključi zvok"
+msgstr "Utišaj"
 
 #: templates/music.php:8
 msgid "Unmute"
-msgstr "Vključi zvok"
+msgstr "Povrni glasnost"
 
 #: templates/music.php:25
 msgid "Rescan Collection"
-msgstr "Skeniraj zbirko"
+msgstr "Ponovno preišči zbirko"
 
 #: templates/music.php:37
 msgid "Artist"
@@ -61,5 +62,3 @@ msgstr "Album"
 #: templates/music.php:39
 msgid "Title"
 msgstr "Naslov"
-
-

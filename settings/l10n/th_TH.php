@@ -4,8 +4,6 @@
 "OpenID Changed" => "เปลี่ยนชื่อบัญชี OpenID แล้ว",
 "Language changed" => "เปลี่ยนภาษาเรียบร้อยแล้ว",
 "__language_name__" => "ภาษาไทย",
-"Log level" => "ระดับการเก็บบันทึก log",
-"Add your application" => "เพิ่มแอพพลิเคชั่นของคุณ",
 "Select an App" => "เลือก App",
 "-licensed" => "-ได้รับอนุญาติแล้ว",
 "by" => "โดย",

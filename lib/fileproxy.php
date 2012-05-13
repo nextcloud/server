@@ -115,4 +115,8 @@ class OC_FileProxy{
 		}
 		return $result;
 	}
+
+	public static function clearProxies(){
+		self::$proxies=array();
+	}
 }

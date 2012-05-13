@@ -21,25 +21,25 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/loadcard.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/loadcard.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/loadcard.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/loadcard.php: '.$msg, OCP\Util::DEBUG);
 }
 // foreach ($_POST as $key=>$element) {
 // 	debug('_POST: '.$key.'=>'.$element);
 // }
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
-$upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
-$post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
+$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 $freeSpace=OC_Filesystem::free_space('/');
@@ -47,13 +47,15 @@ $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
+$email_types = OC_Contacts_App::getTypesOfProperty('EMAIL');
 
-$tmpl = new OC_Template('contacts','part.contact');
+$tmpl = new OCP\Template('contacts','part.contact');
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assign('uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
+$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('adr_types',$adr_types);
 $tmpl->assign('phone_types',$phone_types);
+$tmpl->assign('email_types',$email_types);
 $tmpl->assign('id','');
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array( 'page' => $page )));

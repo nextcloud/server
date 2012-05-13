@@ -20,10 +20,10 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-require_once('../../lib/base.php');
+
 require_once('lib/external.php');
 
-OC_Util::checkLoggedIn();
+OCP\User::checkLoggedIn();
 
 if (isset($_GET['id'])) {
 
@@ -33,9 +33,9 @@ if (isset($_GET['id'])) {
 	$sites = OC_External::getSites();
 	if (sizeof($sites) >= $id) {
 		$url = $sites[$id - 1][1];
-		OC_App::setActiveNavigationEntry('external_index' . $id);
+		OCP\App::setActiveNavigationEntry('external_index' . $id);
 
-		$tmpl = new OC_Template('external', 'frame', 'user');
+		$tmpl = new OCP\Template('external', 'frame', 'user');
 		$tmpl->assign('url', $url);
 		$tmpl->printPage();
 	}

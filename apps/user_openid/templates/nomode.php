@@ -5,7 +5,7 @@ global $profile;
 ?>
 
 <div id="login">
-	<img src="<?php echo image_path("", "logo.png"); ?>" alt="ownCloud" />
+	<img src="<?php echo OCP\image_path("", "logo.png"); ?>" alt="ownCloud" />
 	<ul>
 		<li class='error'>
 			<div id="setup_form">

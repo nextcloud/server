@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/xrd+xml");
+header("Content-Type: application/xrd+json");
 
 /**
  * To include your app in the webfinger XML, add a new script with file name
@@ -25,15 +25,15 @@ $SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
 $WEBROOT=substr($SUBURI,0,-34);
 */
 
-require_once('../../lib/base.php');
-$request = urldecode($_GET['q']);
+$userName = '';
+$hostName = '';
+$request = strip_tags(urldecode($_GET['q']));
 if($_GET['q']) {
 	$reqParts = explode('@', $request);
-	$userName = $reqParts[0];
-	$hostName = $reqParts[1];
-} else {
-	$userName = '';
-	$hostName = '';
+	if(count($reqParts)==2) {
+		$userName = $reqParts[0];
+		$hostName = $reqParts[1];
+	}
 }
 if(substr($userName, 0, 5) == 'acct:') {
 	$userName = substr($userName, 5);
@@ -49,23 +49,20 @@ if(isset($_SERVER['HTTPS'])) {
 	$baseAddress = 'http://';
 }
 $baseAddress .= $_SERVER['SERVER_NAME'].OC::$WEBROOT;
+if(empty($id)) {
+	header("HTTP/1.0 400 Bad Request");
+}
 define('WF_USER', $userName);
 define('WF_ID', $id);
 define('WF_BASEURL', $baseAddress);
-echo "<";
-?>
-?xml version="1.0" encoding="UTF-8"?>
-<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0" xmlns:hm="http://host-meta.net/xrd/1.0">
-    <hm:Host xmlns="http://host-meta.net/xrd/1.0"><?php echo $_SERVER['SERVER_NAME']; ?></hm:Host>
-    <Subject>acct:<?php echo $id ?></Subject>
-<?php
+echo "{\"links\":[";
 $apps = OC_Appconfig::getApps();
 foreach($apps as $app) {
-	if(OC_App::isEnabled($app)) {
+	if(OCP\App::isEnabled($app)) {
 		if(is_file(OC::$APPSROOT . '/apps/' . $app . '/appinfo/webfinger.php')) {
 			require($app . '/appinfo/webfinger.php');
 		}
 	}
 }
+echo "]}";
 ?>
-</XRD>

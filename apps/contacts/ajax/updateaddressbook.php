@@ -6,38 +6,38 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../lib/base.php');
+ 
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 $bookid = $_POST['id'];
 OC_Contacts_App::getAddressbook($bookid); // is owner access check
 
 $name = trim(strip_tags($_POST['name']));
 if(!$name) {
-	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot update addressbook with an empty name.'))));
-	OC_Log::write('contacts','ajax/updateaddressbook.php: Cannot update addressbook with an empty name: '.strip_tags($_POST['name']), OC_Log::ERROR);
+	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot update addressbook with an empty name.'))));
+	OCP\Util::writeLog('contacts','ajax/updateaddressbook.php: Cannot update addressbook with an empty name: '.strip_tags($_POST['name']), OCP\Util::ERROR);
 	exit();
 }
 
 if(!OC_Contacts_Addressbook::edit($bookid, $name, null)) {
-	OC_JSON::error(array('data' => array('message' => $l->t('Error updating addressbook.'))));
-	OC_Log::write('contacts','ajax/updateaddressbook.php: Error adding addressbook: ', OC_Log::ERROR);
+	OCP\JSON::error(array('data' => array('message' => $l->t('Error updating addressbook.'))));
+	OCP\Util::writeLog('contacts','ajax/updateaddressbook.php: Error adding addressbook: ', OCP\Util::ERROR);
 	//exit();
 }
 
 if(!OC_Contacts_Addressbook::setActive($bookid, $_POST['active'])) {
-	OC_JSON::error(array('data' => array('message' => $l->t('Error (de)activating addressbook.'))));
-	OC_Log::write('contacts','ajax/updateaddressbook.php: Error (de)activating addressbook: '.$bookid, OC_Log::ERROR);
+	OCP\JSON::error(array('data' => array('message' => $l->t('Error (de)activating addressbook.'))));
+	OCP\Util::writeLog('contacts','ajax/updateaddressbook.php: Error (de)activating addressbook: '.$bookid, OCP\Util::ERROR);
 	//exit();
 }
 
 $addressbook = OC_Contacts_App::getAddressbook($bookid);
-$tmpl = new OC_Template('contacts', 'part.chooseaddressbook.rowfields');
+$tmpl = new OCP\Template('contacts', 'part.chooseaddressbook.rowfields');
 $tmpl->assign('addressbook', $addressbook);
-OC_JSON::success(array(
+OCP\JSON::success(array(
 	'page' => $tmpl->fetchPage(),
 	'addressbook' => $addressbook,
 ));

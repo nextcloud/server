@@ -32,7 +32,7 @@ OC_App::setActiveNavigationEntry( "core_apps" );
 $registeredApps=OC_App::getAllApps();
 $apps=array();
 
-$blacklist=array('files_imageviewer','files_textviewer');//we dont want to show configuration for these
+$blacklist=array('files','files_imageviewer','files_textviewer');//we dont want to show configuration for these
 
 foreach($registeredApps as $app){
 	if(array_search($app,$blacklist)===false){

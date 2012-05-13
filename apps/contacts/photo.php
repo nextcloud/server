@@ -9,17 +9,27 @@
  */
 
 // Init owncloud
-require_once('../../lib/base.php');
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('contacts');
+
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('contacts');
 
 function getStandardImage(){
-	OC_Response::setExpiresHeader('P10D');
-	OC_Response::enableCaching();
-	OC_Response::redirect(OC_Helper::imagePath('contacts', 'person_large.png'));
+	OCP\Response::setExpiresHeader('P10D');
+	OCP\Response::enableCaching();
+	OCP\Response::redirect(OCP\Util::imagePath('contacts', 'person_large.png'));
 }
 
-$id = $_GET['id'];
+$id = isset($_GET['id']) ? $_GET['id'] : null;
+$caching = isset($_GET['refresh']) ? 0 : null;
+
+if(is_null($id)) {
+	getStandardImage();
+}
+
+if(!extension_loaded('gd') || !function_exists('gd_info')) {
+	OCP\Util::writeLog('contacts','photo.php. GD module not installed',OCP\Util::DEBUG);
+	getStandardImage();
+}
 
 $contact = OC_Contacts_App::getContactVCard($id);
 $image = new OC_Image();
@@ -28,21 +38,21 @@ if(!$image) {
 }
 // invalid vcard
 if( is_null($contact)) {
-	OC_Log::write('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OC_Log::ERROR);
+	OCP\Util::writeLog('contacts','photo.php. The VCard for ID '.$id.' is not RFC compatible',OCP\Util::ERROR);
 } else {
-	OC_Response::enableCaching();
+	OCP\Response::enableCaching($caching);
 	OC_Contacts_App::setLastModifiedHeader($contact);
 
 	// Photo :-)
 	if($image->loadFromBase64($contact->getAsString('PHOTO'))) {
 		// OK
-		OC_Response::setETagHeader(md5($contact->getAsString('PHOTO')));
+		OCP\Response::setETagHeader(md5($contact->getAsString('PHOTO')));
 	}
 	else
 	// Logo :-/
 	if($image->loadFromBase64($contact->getAsString('LOGO'))) {
 		// OK
-		OC_Response::setETagHeader(md5($contact->getAsString('LOGO')));
+		OCP\Response::setETagHeader(md5($contact->getAsString('LOGO')));
 	}
 	if ($image->valid()) {
 		$max_size = 200;

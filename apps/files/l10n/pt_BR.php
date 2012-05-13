@@ -1,0 +1,22 @@
+<?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Não houve nenhum erro, o arquivo foi transferido com sucesso",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "O tamanho do arquivo excede o limed especifiicado em upload_max_filesize no php.ini",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "O arquivo carregado excede o MAX_FILE_SIZE que foi especificado no formulário HTML",
+"The uploaded file was only partially uploaded" => "O arquivo foi transferido parcialmente",
+"No file was uploaded" => "Nenhum arquivo foi transferido",
+"Missing a temporary folder" => "Pasta temporária não encontrada",
+"Files" => "Arquivos",
+"Maximum upload size" => "Tamanho máximo para carregar",
+"New" => "Novo",
+"Text file" => "Arquivo texto",
+"Folder" => "Pasta",
+"Upload" => "Carregar",
+"Nothing in here. Upload something!" => "Nada aqui.Carregar alguma coisa!",
+"Name" => "Nome",
+"Download" => "Baixar",
+"Size" => "Tamanho",
+"Modified" => "Modificado",
+"Delete" => "Excluir",
+"Upload too large" => "Arquivo muito grande",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os arquivos que você está tentando carregar excedeu o tamanho máximo para arquivos no servidor."
+);

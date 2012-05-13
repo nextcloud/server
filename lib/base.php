@@ -62,15 +62,22 @@ class OC{
 	 * the root path of the 3rdparty folder for http requests (e.g. owncloud/3rdparty)
 	 */
 	public static $THIRDPARTYWEBROOT = '';
-        /**
-         * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
-         */
-        public static $APPSROOT = '';
-        /**
-         * the root path of the apps folder for http requests (e.g. owncloud)
-         */
-        public static $APPSWEBROOT = '';
-
+	/**
+	 * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
+	 */
+	public static $APPSROOT = '';
+	/**
+	 * the root path of the apps folder for http requests (e.g. owncloud)
+	 */
+	public static $APPSWEBROOT = '';
+	/*
+	 * requested app
+	 */
+	public static $REQUESTEDAPP = '';
+	/*
+	 * requested file of app
+	 */
+	public static $REQUESTEDFILE = '';
 	/**
 	 * SPL autoload
 	 */
@@ -80,6 +87,9 @@ class OC{
 		}
 		elseif(strpos($className,'OC_')===0){
 			require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
+		}
+		elseif(strpos($className,'OCP\\')===0){
+			require_once 'public/'.strtolower(str_replace('\\','/',substr($className,3)) . '.php');
 		}
 		elseif(strpos($className,'Sabre_')===0) {
 			require_once str_replace('_','/',$className) . '.php';
@@ -161,12 +171,15 @@ class OC{
 		}
 
 		// search the apps folder
-		if(file_exists(OC::$SERVERROOT.'/apps')){
+		if(OC_Config::getValue('appsroot', '')<>''){
+			OC::$APPSROOT=OC_Config::getValue('appsroot', '');
+			OC::$APPSWEBROOT=OC_Config::getValue('appsurl', '');
+		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
 			OC::$APPSROOT=OC::$SERVERROOT;
 			OC::$APPSWEBROOT=OC::$WEBROOT;
 		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
 			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
+			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
 		}else{
 			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
@@ -240,7 +253,7 @@ class OC{
 		}
 
 		// Add the stuff we need always
-		OC_Util::addScript( "jquery-1.6.4.min" );
+		OC_Util::addScript( "jquery-1.7.2.min" );
 		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
 		OC_Util::addScript( "jquery-showpassword" );
 		OC_Util::addScript( "jquery.infieldlabel.min" );
@@ -260,6 +273,39 @@ class OC{
 	public static function initSession() {
 		ini_set('session.cookie_httponly','1;');
 		session_start();
+	}
+	
+	public static function loadapp(){
+		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php')){
+			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
+		}else{
+			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
+		}
+	}
+	
+	public static function loadfile(){
+		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
+			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
+				$appswebroot = (string) OC::$APPSWEBROOT;
+				$webroot = (string) OC::$WEBROOT;
+				$filepath = OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
+				$cssfile = file_get_contents($filepath);
+				$cssfile = str_replace('%appswebroot%', $appswebroot, $cssfile);
+				$cssfile = str_replace('%webroot%', $webroot, $cssfile);
+				header('Content-Type: text/css');
+				OC_Response::enableCaching();
+				OC_Response::setLastModifiedHeader(filemtime($filepath));
+				OC_Response::setETagHeader(md5($cssfile));
+				header('Content-Length: '.strlen($cssfile));
+				echo $cssfile;
+				exit;
+			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
+				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+			}	
+		}else{
+			header('HTTP/1.0 404 Not Found');
+			exit;
+		}
 	}
 
 	public static function init(){
@@ -322,6 +368,16 @@ class OC{
 		self::checkInstalled();
 		self::checkSSL();
 
+                // CSRF protection
+                if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
+                if(isset($_SERVER['HTTPS']) and $_SERVER['HTTPS']<>'') $protocol='https://'; else $protocol='http://';
+                $server=$protocol.$_SERVER['SERVER_NAME'];
+                if(($_SERVER['REQUEST_METHOD']=='POST') and (substr($referer,0,strlen($server))<>$server)) {
+                        $url = $protocol.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+                        header("Location: $url");
+                        exit();
+                } 
+
 		self::initSession();
 		self::initTemplateEngine();
 		self::checkUpgrade();
@@ -371,6 +427,35 @@ class OC{
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
+		
+		//parse the given parameters
+		self::$REQUESTEDAPP = (isset($_GET['app'])?str_replace('\0', '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
+		if(substr_count(self::$REQUESTEDAPP, '?') != 0){
+			$app = substr(self::$REQUESTEDAPP, 0, strpos(self::$REQUESTEDAPP, '?'));
+			$param = substr(self::$REQUESTEDAPP, strpos(self::$REQUESTEDAPP, '?') + 1);
+			parse_str($param, $get);
+			$_GET = array_merge($_GET, $get);
+			self::$REQUESTEDAPP = $app;
+			$_GET['app'] = $app;
+		}
+		self::$REQUESTEDFILE = (isset($_GET['getfile'])?$_GET['getfile']:null);
+		if(substr_count(self::$REQUESTEDFILE, '?') != 0){
+			$file = substr(self::$REQUESTEDFILE, 0, strpos(self::$REQUESTEDFILE, '?'));
+			$param = substr(self::$REQUESTEDFILE, strpos(self::$REQUESTEDFILE, '?') + 1);
+			parse_str($param, $get);
+			$_GET = array_merge($_GET, $get);
+			self::$REQUESTEDFILE = $file;
+			$_GET['getfile'] = $file;
+		}
+		if(!is_null(self::$REQUESTEDFILE)){
+			$subdir = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
+			$parent = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP;
+			if(!OC_Helper::issubdirectory($subdir, $parent)){
+				self::$REQUESTEDFILE = null;
+				header('HTTP/1.0 404 Not Found');
+				exit;
+			}
+		}
 	}
 }
 

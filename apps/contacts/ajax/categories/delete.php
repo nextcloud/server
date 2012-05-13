@@ -6,21 +6,21 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.print_r($element, true));
 }
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/categories/delete.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/categories/delete.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/categories/delete.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/categories/delete.php: '.$msg, OCP\Util::DEBUG);
 }
 
 $categories = isset($_POST['categories'])?$_POST['categories']:null;
@@ -31,7 +31,7 @@ if(is_null($categories)) {
 
 debug(print_r($categories, true));
 
-$addressbooks = OC_Contacts_Addressbook::all(OC_User::getUser());
+$addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 if(count($addressbooks) == 0) {
 	bailOut(OC_Contacts_App::$l10n->t('No address books found.'));
 }
@@ -55,6 +55,6 @@ $catman = new OC_VCategories('contacts');
 $catman->delete($categories, $cards);
 debug('After delete: '.print_r($catman->categories(), true));
 OC_Contacts_VCard::updateDataByID($cards);
-OC_JSON::success(array('data' => array('categories'=>$catman->categories())));
+OCP\JSON::success(array('data' => array('categories'=>$catman->categories())));
 
 ?>

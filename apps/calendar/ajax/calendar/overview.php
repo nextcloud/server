@@ -6,10 +6,10 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
+ 
 $l10n = OC_L10N::get('calendar');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
-$output = new OC_TEMPLATE("calendar", "part.choosecalendar");
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
+$output = new OCP\Template("calendar", "part.choosecalendar");
 $output -> printpage();
 ?>

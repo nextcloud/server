@@ -7,9 +7,8 @@
  */
 //check for calendar rights or create new one
 ob_start();
-require_once ('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_Util::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\App::checkAppEnabled('calendar');
 $nl="\r\n";
 $comps = array('VEVENT'=>true, 'VTODO'=>true, 'VJOURNAL'=>true);
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
@@ -20,12 +19,12 @@ if(is_writable('import_tmp/')){
 }
 $file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 if($_POST['method'] == 'new'){
-	$id = OC_Calendar_Calendar::addCalendar(OC_User::getUser(), $_POST['calname']);
+	$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), $_POST['calname']);
 	OC_Calendar_Calendar::setCalendarActive($id, 1);
 }else{
 	$calendar = OC_Calendar_App::getCalendar($_POST['id']);
-	if($calendar['userid'] != OC_USER::getUser()){
-		OC_JSON::error();
+	if($calendar['userid'] != OCP\USER::getUser()){
+		OCP\JSON::error();
 		exit();
 	}
 	$id = $_POST['id'];
@@ -127,4 +126,4 @@ sleep(3);
 if(is_writable('import_tmp/')){
 	unlink($progressfile);
 }
-OC_JSON::success();
+OCP\JSON::success();

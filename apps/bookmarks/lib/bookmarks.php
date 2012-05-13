@@ -34,10 +34,10 @@ class OC_Bookmarks_Bookmarks{
 	 * @return void
 	 */
 	public static function findBookmarks($offset, $sqlSortColumn, $filter, $filterTagOnly){
-		//OC_Log::write('bookmarks', 'findBookmarks ' .$offset. ' '.$sqlSortColumn.' '. $filter.' '. $filterTagOnly ,OC_Log::DEBUG);
-		$CONFIG_DBTYPE = OC_Config::getValue( 'dbtype', 'sqlite' );
+		//OCP\Util::writeLog('bookmarks', 'findBookmarks ' .$offset. ' '.$sqlSortColumn.' '. $filter.' '. $filterTagOnly ,OCP\Util::DEBUG);
+		$CONFIG_DBTYPE = OCP\Config::getSystemValue( 'dbtype', 'sqlite' );
 	
-		$params=array(OC_User::getUser());
+		$params=array(OCP\USER::getUser());
 	
 		if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 			$_gc_separator = ', \' \'';
@@ -70,7 +70,7 @@ class OC_Bookmarks_Bookmarks{
 		}
 
 		if($CONFIG_DBTYPE == 'pgsql' ){
-			$query = OC_DB::prepare('
+			$query = OCP\DB::prepare('
 				SELECT id, url, title, '.($filterTagOnly?'':'url || title ||').' array_to_string(array_agg(tag), \' \') as tags
 				FROM *PREFIX*bookmarks
 				LEFT JOIN *PREFIX*bookmarks_tags ON *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
@@ -87,7 +87,7 @@ class OC_Bookmarks_Bookmarks{
 			else
 				$concatFunction = 'Concat(Concat( url, title), ';
 		
-			$query = OC_DB::prepare('
+			$query = OCP\DB::prepare('
 				SELECT id, url, title, '
 				.($filterTagOnly?'':$concatFunction).
 				'CASE WHEN *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
@@ -112,6 +112,38 @@ class OC_Bookmarks_Bookmarks{
 
 		$bookmarks = $query->execute($params)->fetchAll();
 		return $bookmarks;
+	}
+
+	public static function deleteUrl($id)
+	{
+		$user = OCP\USER::getUser();
+
+		$query = OCP\DB::prepare("
+				SELECT id FROM *PREFIX*bookmarks
+				WHERE id = ?
+				AND user_id = ?
+				");
+
+		$result = $query->execute(array($id, $user));
+		$id = $result->fetchOne();
+		if ($id === false) {
+			return false;
+		}
+
+		$query = OCP\DB::prepare("
+			DELETE FROM *PREFIX*bookmarks
+			WHERE id = $id
+			");
+
+		$result = $query->execute();
+
+		$query = OCP\DB::prepare("
+			DELETE FROM *PREFIX*bookmarks_tags
+			WHERE bookmark_id = $id
+			");
+
+		$result = $query->execute();
+		return true;
 	}
 }
 ?>

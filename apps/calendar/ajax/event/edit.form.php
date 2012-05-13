@@ -6,18 +6,18 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
+ 
 
-if(!OC_USER::isLoggedIn()) {
+if(!OCP\User::isLoggedIn()) {
 	die('<script type="text/javascript">document.location = oc_webroot;</script>');
 }
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkAppEnabled('calendar');
 
 $id = $_GET['id'];
 $data = OC_Calendar_App::getEventObject($id, true, true);
 
 if(!$data){
-	OC_JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
+	OCP\JSON::error(array('data' => array('message' => self::$l10n->t('Wrong calendar'))));
 	exit;
 }
 $access = OC_Calendar_App::getaccess($id, OC_Calendar_Share::EVENT);
@@ -27,15 +27,15 @@ $vevent = $object->VEVENT;
 $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 switch($dtstart->getDateType()) {
-	case Sabre_VObject_Element_DateTime::LOCALTZ:
-	case Sabre_VObject_Element_DateTime::LOCAL:
+	case Sabre_VObject_Property_DateTime::LOCALTZ:
+	case Sabre_VObject_Property_DateTime::LOCAL:
 		$startdate = $dtstart->getDateTime()->format('d-m-Y');
 		$starttime = $dtstart->getDateTime()->format('H:i');
 		$enddate = $dtend->getDateTime()->format('d-m-Y');
 		$endtime = $dtend->getDateTime()->format('H:i');
 		$allday = false;
 		break;
-	case Sabre_VObject_Element_DateTime::DATE:
+	case Sabre_VObject_Property_DateTime::DATE:
 		$startdate = $dtstart->getDateTime()->format('d-m-Y');
 		$starttime = '';
 		$dtend->getDateTime()->modify('-1 day');
@@ -189,7 +189,7 @@ if($data['repeating'] == 1){
 	$repeat['repeat'] = 'doesnotrepeat';
 }
 if($access == 'owner'){
-	$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+	$calendar_options = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 }else{
 	$calendar_options = array(OC_Calendar_App::getCalendar($data['calendarid'], false));
 }
@@ -206,9 +206,9 @@ $repeat_byweekno_options = OC_Calendar_App::getByWeekNoOptions();
 $repeat_bymonthday_options = OC_Calendar_App::getByMonthDayOptions();
 
 if($access == 'owner' || $access == 'rw'){
-	$tmpl = new OC_Template('calendar', 'part.editevent');
+	$tmpl = new OCP\Template('calendar', 'part.editevent');
 }elseif($access == 'r'){
-	$tmpl = new OC_Template('calendar', 'part.showevent');
+	$tmpl = new OCP\Template('calendar', 'part.showevent');
 }
 
 $tmpl->assign('eventid', $id);

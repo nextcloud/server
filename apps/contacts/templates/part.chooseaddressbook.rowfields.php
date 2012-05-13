@@ -1,5 +1,18 @@
-<?php
-	// FIXME: Make this readable.
-	echo "<td width=\"20px\"><input id=\"active_" . $_['addressbook']["id"] . "\" type=\"checkbox\" onClick=\"Contacts.UI.Addressbooks.activation(this, " . $_['addressbook']["id"] . ")\"" . (OC_Contacts_Addressbook::isActive($_['addressbook']["id"]) ? ' checked="checked"' : '') . "></td>";
-	echo "<td><label for=\"active_" . $_['addressbook']["id"] . "\">" . htmlspecialchars($_['addressbook']["displayname"]) . "</label></td>";
-	echo "<td width=\"20px\"><a href=\"#\" onclick=\"Contacts.UI.showCardDAVUrl('" . OC_User::getUser() . "', '" . rawurlencode($_['addressbook']["uri"]) . "');\" title=\"" . $l->t("CardDav Link") . "\" class=\"action\"><img  class=\"svg action\" src=\"../../core/img/actions/public.svg\"></a></td><td width=\"20px\"><a href=\"export.php?bookid=" . $_['addressbook']["id"] . "\" title=\"" . $l->t("Download") . "\" class=\"action\"><img  class=\"svg action\" src=\"../../core/img/actions/download.svg\"></a></td><td width=\"20px\"><a  href=\"#\" title=\"" . $l->t("Edit") . "\" class=\"action\" onclick=\"Contacts.UI.Addressbooks.editAddressbook(this, " . $_['addressbook']["id"] . ");\"><img class=\"svg action\" src=\"../../core/img/actions/rename.svg\"></a></td><td width=\"20px\"><a href=\"#\" onclick=\"Contacts.UI.Addressbooks.deleteAddressbook('" . $_['addressbook']["id"] . "');\" title=\"" . $l->t("Delete") . "\" class=\"action\"><img  class=\"svg action\" src=\"../../core/img/actions/delete.svg\"></a></td>";
+<td width="20px">
+	<input id="active_<?php echo $_['addressbook']["id"]; ?>" type="checkbox" onClick="Contacts.UI.Addressbooks.activation(this, <?php echo $_['addressbook']["id"]; ?>)" <?php echo (OC_Contacts_Addressbook::isActive($_['addressbook']["id"]) ? ' checked="checked"' : ''); ?>>
+</td>
+<td>
+	<label for="active_<?php echo $_['addressbook']["id"]; ?>"><?php echo htmlspecialchars($_['addressbook']["displayname"]); ?></label>
+</td>
+<td width="20px">
+	<a onclick="Contacts.UI.showCardDAVUrl('<?php echo OCP\USER::getUser(); ?>', '<?php echo rawurlencode($_['addressbook']["uri"]); ?>');" title="<?php echo $l->t("CardDav Link"); ?>" class="svg action globe"></a>
+</td>
+<td width="20px">
+	<a href="<?php echo OCP\Util::linkTo('contacts', 'export.php'); ?>?bookid=<?php echo $_['addressbook']["id"]; ?>" title="<?php echo $l->t("Download"); ?>" class="svg action download"></a>
+</td>
+<td width="20px">
+	<a title="<?php echo $l->t("Edit"); ?>" class="svg action edit" onclick="Contacts.UI.Addressbooks.editAddressbook(this, <?php echo $_['addressbook']["id"]; ?>);"></a>
+</td>
+<td width="20px">
+	<a onclick="Contacts.UI.Addressbooks.deleteAddressbook(this, <?php echo $_['addressbook']["id"]; ?>);" title="<?php echo $l->t("Delete"); ?>" class="svg action delete"></a>
+</td>

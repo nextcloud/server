@@ -6,10 +6,10 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_Util::checkAppEnabled('calendar');
-$tmpl = new OC_Template('calendar', 'part.import');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\App::checkAppEnabled('calendar');
+$tmpl = new OCP\Template('calendar', 'part.import');
 $tmpl->assign('path', $_POST['path']);
 $tmpl->assign('filename', $_POST['filename']);
 $tmpl->printpage();

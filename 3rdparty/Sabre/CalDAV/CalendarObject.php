@@ -1,43 +1,43 @@
 <?php
 
 /**
- * The CalendarObject represents a single VEVENT or VTODO within a Calendar. 
- * 
+ * The CalendarObject represents a single VEVENT or VTODO within a Calendar.
+ *
  * @package Sabre
  * @subpackage CalDAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV_ICalendarObject, Sabre_DAVACL_IACL {
 
     /**
-     * Sabre_CalDAV_Backend_Abstract 
-     * 
-     * @var array 
+     * Sabre_CalDAV_Backend_Abstract
+     *
+     * @var array
      */
     protected $caldavBackend;
 
     /**
-     * Array with information about this CalendarObject 
-     * 
-     * @var array 
+     * Array with information about this CalendarObject
+     *
+     * @var array
      */
     protected $objectData;
 
     /**
      * Array with information about the containing calendar
-     * 
-     * @var array 
+     *
+     * @var array
      */
     protected $calendarInfo;
 
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param Sabre_CalDAV_Backend_Abstract $caldavBackend
      * @param array $calendarInfo
-     * @param array $objectData 
+     * @param array $objectData
      */
     public function __construct(Sabre_CalDAV_Backend_Abstract $caldavBackend,array $calendarInfo,array $objectData) {
 
@@ -56,9 +56,9 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     }
 
     /**
-     * Returns the uri for this object 
-     * 
-     * @return string 
+     * Returns the uri for this object
+     *
+     * @return string
      */
     public function getName() {
 
@@ -67,9 +67,9 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     }
 
     /**
-     * Returns the ICalendar-formatted object 
-     * 
-     * @return string 
+     * Returns the ICalendar-formatted object
+     *
+     * @return string
      */
     public function get() {
 
@@ -83,35 +83,27 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     }
 
     /**
-     * Updates the ICalendar-formatted object 
-     * 
-     * @param string $calendarData 
-     * @return void 
+     * Updates the ICalendar-formatted object
+     *
+     * @param string $calendarData
+     * @return void
      */
     public function put($calendarData) {
 
-        if (is_resource($calendarData))
+        if (is_resource($calendarData)) {
             $calendarData = stream_get_contents($calendarData);
-
-        // Converting to UTF-8, if needed
-        $calendarData = Sabre_DAV_StringUtil::ensureUTF8($calendarData);
-
-        $supportedComponents = $this->calendarInfo['{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}supported-calendar-component-set'];
-        if ($supportedComponents) {
-            $supportedComponents = $supportedComponents->getValue();
-        } else {
-            $supportedComponents = null;
         }
-        Sabre_CalDAV_ICalendarUtil::validateICalendarObject($calendarData, $supportedComponents);
-
-        $this->caldavBackend->updateCalendarObject($this->calendarInfo['id'],$this->objectData['uri'],$calendarData);
+        $etag = $this->caldavBackend->updateCalendarObject($this->calendarInfo['id'],$this->objectData['uri'],$calendarData);
         $this->objectData['calendardata'] = $calendarData;
+        $this->objectData['etag'] = $etag;
+
+        return $etag;
 
     }
 
     /**
-     * Deletes the calendar object 
-     * 
+     * Deletes the calendar object
+     *
      * @return void
      */
     public function delete() {
@@ -121,9 +113,9 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     }
 
     /**
-     * Returns the mime content-type 
-     * 
-     * @return string 
+     * Returns the mime content-type
+     *
+     * @return string
      */
     public function getContentType() {
 
@@ -134,9 +126,9 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     /**
      * Returns an ETag for this object.
      *
-     * The ETag is an arbritrary string, but MUST be surrounded by double-quotes.
-     * 
-     * @return string 
+     * The ETag is an arbitrary string, but MUST be surrounded by double-quotes.
+     *
+     * @return string
      */
     public function getETag() {
 
@@ -150,8 +142,8 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
 
     /**
      * Returns the last modification date as a unix timestamp
-     * 
-     * @return time 
+     *
+     * @return time
      */
     public function getLastModified() {
 
@@ -160,21 +152,25 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     }
 
     /**
-     * Returns the size of this object in bytes 
-     * 
+     * Returns the size of this object in bytes
+     *
      * @return int
      */
     public function getSize() {
 
-        return strlen($this->objectData['calendardata']);
+        if (array_key_exists('size',$this->objectData)) {
+            return $this->objectData['size'];
+        } else {
+            return strlen($this->get());
+        }
 
     }
 
     /**
      * Returns the owner principal
      *
-     * This must be a url to a principal, or null if there's no owner 
-     * 
+     * This must be a url to a principal, or null if there's no owner
+     *
      * @return string|null
      */
     public function getOwner() {
@@ -187,8 +183,8 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
      * Returns a group principal
      *
      * This must be a url to a principal, or null if there's no owner
-     * 
-     * @return string|null 
+     *
+     * @return string|null
      */
     public function getGroup() {
 
@@ -200,13 +196,13 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
      * Returns a list of ACE's for this node.
      *
      * Each ACE has the following properties:
-     *   * 'privilege', a string such as {DAV:}read or {DAV:}write. These are 
+     *   * 'privilege', a string such as {DAV:}read or {DAV:}write. These are
      *     currently the only supported privileges
      *   * 'principal', a url to the principal who owns the node
-     *   * 'protected' (optional), indicating that this ACE is not allowed to 
-     *      be updated. 
-     * 
-     * @return array 
+     *   * 'protected' (optional), indicating that this ACE is not allowed to
+     *      be updated.
+     *
+     * @return array
      */
     public function getACL() {
 
@@ -244,9 +240,9 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     /**
      * Updates the ACL
      *
-     * This method will receive a list of new ACE's. 
-     * 
-     * @param array $acl 
+     * This method will receive a list of new ACE's.
+     *
+     * @param array $acl
      * @return void
      */
     public function setACL(array $acl) {
@@ -255,6 +251,23 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
 
     }
 
+    /**
+     * Returns the list of supported privileges for this node.
+     *
+     * The returned data structure is a list of nested privileges.
+     * See Sabre_DAVACL_Plugin::getDefaultSupportedPrivilegeSet for a simple
+     * standard structure.
+     *
+     * If null is returned from this method, the default privilege set is used,
+     * which is fine for most common usecases.
+     *
+     * @return array|null
+     */
+    public function getSupportedPrivilegeSet() {
+
+        return null;
+
+    }
 
 }
 

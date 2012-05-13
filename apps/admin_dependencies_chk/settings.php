@@ -21,7 +21,7 @@
  *
  */
 $l=OC_L10N::get('admin_dependencies_chk');
-$tmpl = new OC_Template( 'admin_dependencies_chk', 'settings');
+$tmpl = new OCP\Template( 'admin_dependencies_chk', 'settings');
 
 $modules = array();
 
@@ -69,22 +69,34 @@ $modules[] =array(
 	'message'=> $l->t('The php-ctype module is needed validate data.'));
 
 $modules[] =array(
+	'status' => class_exists('DOMDocument') ? 'ok' : 'error',
+	'part'=> 'php-xml',
+	'modules'=> array('core'),
+	'message'=> $l->t('The php-xml module is needed to share files with webdav.'));
+
+$modules[] =array(
 	'status' => ini_get('allow_url_fopen') == '1' ? 'ok' : 'error',
 	'part'=> 'allow_url_fopen',
 	'modules'=> array('core'),
 	'message'=> $l->t('The allow_url_fopen directive of your php.ini should be set to 1 to retrieve knowledge base from OCS servers'));
 
+$modules[] =array(
+	'status' => class_exists('PDO') ? 'ok' : 'warning',
+	'part'=> 'php-pdo',
+	'modules'=> array('core'),
+	'message'=> $l->t('The php-pdo module is needed to store owncloud data into a database.'));
+
 foreach($modules as $key => $module) {
 	$enabled = false ;
 	foreach($module['modules'] as $app) {
-		if(OC_App::isEnabled($app) || $app=='core'){
+		if(OCP\App::isEnabled($app) || $app=='core'){
 				$enabled = true;
 		}
 	}
 	if($enabled == false) unset($modules[$key]);
 }
 
-OC_UTIL::addStyle('admin_dependencies_chk', 'style');
+OCP\UTIL::addStyle('admin_dependencies_chk', 'style');
 $tmpl->assign( 'items', $modules );
 
 return $tmpl->fetchPage();

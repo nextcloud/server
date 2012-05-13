@@ -66,7 +66,7 @@ Albums={
 			$(".gallery_album_cover", local).attr('title',decodeURIComponent(escape(a.name)));
 			$(".gallery_album_cover", local).css('background-repeat', 'no-repeat');
 			$(".gallery_album_cover", local).css('background-position', '0');
-			$(".gallery_album_cover", local).css('background-image','url("'+OC.filePath('gallery','ajax','galleryOp.php')+'?operation=get_covers&albumname='+escape(a.name)+'")');
+			$(".gallery_album_cover", local).css('background-image','url("'+OC.filePath('gallery','ajax','galleryOp.php')+'&operation=get_covers&albumname='+escape(a.name)+'")');
 			$(".gallery_album_cover", local).mousemove(function(event) {
 				var albumMetadata = Albums.find(this.title);
 				if (albumMetadata == undefined) {
@@ -77,11 +77,11 @@ Albums={
         if (x < 0 ||  isNaN(x)) x=0;
 				$(this).css('background-position', -x+'px 0');
 			});
-			$(element).append(local);
+			element.append(local);
 		}
 		var photoDisplayTemplate = '<div class="gallery_box"><div class="dummy"></div><div><a rel="images" href="'+OC.linkTo('files','download.php')+'?file=URLPATH"><img src="'+OC.filePath('gallery','ajax','thumbnail.php')+'?img=IMGPATH"></a></div></div>';
 		for (var i in Albums.photos) {
-			$(element).append(photoDisplayTemplate.replace("IMGPATH", escape(Albums.photos[i])).replace("URLPATH", escape(Albums.photos[i])));
+			element.append(photoDisplayTemplate.replace("IMGPATH", escape(Albums.photos[i])).replace("URLPATH", escape(Albums.photos[i])));
 		}
 		$("a[rel=images]").fancybox({
 			'titlePosition': 'inside'

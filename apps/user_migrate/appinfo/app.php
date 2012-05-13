@@ -21,15 +21,15 @@
 *
 */
 
-OC_APP::registerPersonal( 'user_migrate', 'settings' );
-OC_APP::registerAdmin( 'user_migrate', 'admin' );
-OC_Util::addScript( 'user_migrate', 'export');
+OCP\App::registerPersonal( 'user_migrate', 'settings' );
+OCP\App::registerAdmin( 'user_migrate', 'admin' );
+OCP\Util::addscript( 'user_migrate', 'export');
 
 // add settings page to navigation
 $entry = array(
 	'id' => "user_migrate_settings",
 	'order'=>1,
-	'href' => OC_Helper::linkTo( "user_migrate", "admin.php" ),
+	'href' => OCP\Util::linkTo( "user_migrate", "admin.php" ),
 	'name' => 'Import'
 );
 ?>

@@ -136,15 +136,16 @@ class OC_FilesystemView {
 		return $this->basicOperation('filesize',$path);
 	}
 	public function readfile($path){
-		$handle=$this->fopen($path,'r');
+		@ob_end_clean();
+		$handle=$this->fopen($path,'rb');
 		if ($handle) {
-			$chunkSize = 1024*1024;// 1 MB chunks
+			$chunkSize = 8192;// 8 MB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
-				@ob_flush();
 				flush();
 			}
-			return $this->filesize($path);
+			$size=$this->filesize($path);
+			return $size;
 		}
 		return false;
 	}
@@ -174,11 +175,23 @@ class OC_FilesystemView {
 	}
 	public function file_put_contents($path,$data){
 		if(is_resource($data)){//not having to deal with streams in file_put_contents makes life easier
+			$exists=$this->file_exists($path);
+			$run=true;
+			if(!$exists){
+				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_create, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
+			}
+			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_write, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
+			if(!$run){
+				return false;
+			}
 			$target=$this->fopen($path,'w');
 			if($target){
 				$count=OC_Helper::streamCopy($data,$target);
 				fclose($target);
 				fclose($data);
+				if(!$exists){
+					OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_create, array( OC_Filesystem::signal_param_path => $path));
+				}
 				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, array( OC_Filesystem::signal_param_path => $path));
 				return $count>0;
 			}else{

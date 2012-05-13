@@ -1,14 +1,12 @@
 <?php
 $RUNTIME_NOSETUPFS=true; //don't setup the fs yet
 
-require_once '../../lib/base.php';
-OC_JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkAppEnabled('files_sharing');
 require_once 'lib_share.php';
 
 //get the path of the shared file
-$token = $_GET['token'];
-$source = OC_Share::getSource($token);
-if ($source !== false) {
+if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
+	$token = $_GET['token'];
 	// TODO Manipulating the string may not be the best choice. Is there an alternative?
 	$user = substr($source, 1, strpos($source, "/", 1) - 1);
 	OC_Util::setupFS($user);
@@ -18,7 +16,7 @@ if ($source !== false) {
 	$source .= $subPath;
 	if (!OC_Filesystem::file_exists($source)) {
 		header("HTTP/1.0 404 Not Found");
-		$tmpl = new OC_Template("", "404", "guest");
+		$tmpl = new OCP\Template("", "404", "guest");
 		$tmpl->assign("file", $subPath);
 		$tmpl->printPage();
 		exit;
@@ -27,7 +25,7 @@ if ($source !== false) {
 		$files = array();
 		$rootLength = strlen($root);
 		foreach (OC_Files::getdirectorycontent($source) as $i) {
-			$i['date'] = OC_Util::formatDate($i['mtime'] );
+			$i['date'] = OCP\Util::formatDate($i['mtime'] );
 			if ($i['type'] == 'file') {
 				$fileinfo = pathinfo($i['name']);
 				$i['basename'] = $fileinfo['filename'];
@@ -49,16 +47,16 @@ if ($source !== false) {
 			}
 		}
 		// Load the files we need
-		OC_Util::addStyle("files", "files");
-		$breadcrumbNav = new OC_Template("files", "part.breadcrumb", "");
+		OCP\Util::addStyle("files", "files");
+		$breadcrumbNav = new OCP\Template("files", "part.breadcrumb", "");
 		$breadcrumbNav->assign("breadcrumb", $breadcrumb);
-		$breadcrumbNav->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
-		$list = new OC_Template("files", "part.list", "");
+		$breadcrumbNav->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list = new OCP\Template("files", "part.list", "");
 		$list->assign("files", $files);
-		$list->assign("baseURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
-		$list->assign("downloadURL", OC_Helper::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("downloadURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
 		$list->assign("readonly", true);
-		$tmpl = new OC_Template("files", "index", "user");
+		$tmpl = new OCP\Template("files", "index", "user");
 		$tmpl->assign("fileList", $list->fetchPage());
 		$tmpl->assign("breadcrumb", $breadcrumbNav->fetchPage());
 		$tmpl->assign("readonly", true);
@@ -69,8 +67,8 @@ if ($source !== false) {
 		//get time mimetype and set the headers
 		$mimetype = OC_Filesystem::getMimeType($source);
 		header("Content-Transfer-Encoding: binary");
-		OC_Response::disableCaching();
-		header('Content-Disposition: filename="'.basename($source).'"');
+		OCP\Response::disableCaching();
+		header('Content-Disposition: attachment; filename="'.basename($source).'"');
 		header("Content-Type: " . $mimetype);
 		header("Content-Length: " . OC_Filesystem::filesize($source));
 		//download the file
@@ -79,7 +77,7 @@ if ($source !== false) {
 	}
 } else {
 	header("HTTP/1.0 404 Not Found");
-	$tmpl = new OC_Template("", "404", "guest");
+	$tmpl = new OCP\Template("", "404", "guest");
 	$tmpl->printPage();
 	die();
 }

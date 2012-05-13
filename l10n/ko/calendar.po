@@ -1,0 +1,667 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <limonade83@gmail.com>, 2012.
+# Shinjo Park <kde@peremen.name>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Language-Team: Korean (http://www.transifex.net/projects/p/owncloud/language/ko/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/categories/rescan.php:28
+msgid "No calendars found."
+msgstr ""
+
+#: ajax/categories/rescan.php:36
+msgid "No events found."
+msgstr ""
+
+#: ajax/event/edit.form.php:20
+msgid "Wrong calendar"
+msgstr "잘못된 달력"
+
+#: ajax/settings/guesstimezone.php:25
+msgid "New Timezone:"
+msgstr "새로운 시간대 설정"
+
+#: ajax/settings/settimezone.php:22
+msgid "Timezone changed"
+msgstr "시간대 변경됨"
+
+#: ajax/settings/settimezone.php:24
+msgid "Invalid request"
+msgstr "잘못된 요청"
+
+#: appinfo/app.php:23 templates/calendar.php:15
+#: templates/part.eventform.php:33 templates/part.showevent.php:31
+#: templates/settings.php:12
+msgid "Calendar"
+msgstr "달력"
+
+#: js/calendar.js:788
+msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+msgstr ""
+
+#: lib/app.php:122
+msgid "Birthday"
+msgstr "생일"
+
+#: lib/app.php:123
+msgid "Business"
+msgstr "사업"
+
+#: lib/app.php:124
+msgid "Call"
+msgstr "통화"
+
+#: lib/app.php:125
+msgid "Clients"
+msgstr "클라이언트"
+
+#: lib/app.php:126
+msgid "Deliverer"
+msgstr "배송"
+
+#: lib/app.php:127
+msgid "Holidays"
+msgstr "공휴일"
+
+#: lib/app.php:128
+msgid "Ideas"
+msgstr "생각"
+
+#: lib/app.php:129
+msgid "Journey"
+msgstr "여행"
+
+#: lib/app.php:130
+msgid "Jubilee"
+msgstr "기념일"
+
+#: lib/app.php:131
+msgid "Meeting"
+msgstr "미팅"
+
+#: lib/app.php:132
+msgid "Other"
+msgstr "기타"
+
+#: lib/app.php:133
+msgid "Personal"
+msgstr "개인"
+
+#: lib/app.php:134
+msgid "Projects"
+msgstr "프로젝트"
+
+#: lib/app.php:135
+msgid "Questions"
+msgstr "질문"
+
+#: lib/app.php:136
+msgid "Work"
+msgstr "작업"
+
+#: lib/app.php:377
+msgid "unnamed"
+msgstr ""
+
+#: lib/object.php:330
+msgid "Does not repeat"
+msgstr "반복 없음"
+
+#: lib/object.php:331
+msgid "Daily"
+msgstr "매일"
+
+#: lib/object.php:332
+msgid "Weekly"
+msgstr "매주"
+
+#: lib/object.php:333
+msgid "Every Weekday"
+msgstr "매주 특정 요일"
+
+#: lib/object.php:334
+msgid "Bi-Weekly"
+msgstr "2주마다"
+
+#: lib/object.php:335
+msgid "Monthly"
+msgstr "매월"
+
+#: lib/object.php:336
+msgid "Yearly"
+msgstr "매년"
+
+#: lib/object.php:343
+msgid "never"
+msgstr "전혀"
+
+#: lib/object.php:344
+msgid "by occurrences"
+msgstr "번 이후"
+
+#: lib/object.php:345
+msgid "by date"
+msgstr "날짜"
+
+#: lib/object.php:352
+msgid "by monthday"
+msgstr "월"
+
+#: lib/object.php:353
+msgid "by weekday"
+msgstr "주"
+
+#: lib/object.php:360 templates/settings.php:42
+msgid "Monday"
+msgstr "월요일"
+
+#: lib/object.php:361
+msgid "Tuesday"
+msgstr "화요일"
+
+#: lib/object.php:362
+msgid "Wednesday"
+msgstr "수요일"
+
+#: lib/object.php:363
+msgid "Thursday"
+msgstr "목요일"
+
+#: lib/object.php:364
+msgid "Friday"
+msgstr "금요일"
+
+#: lib/object.php:365
+msgid "Saturday"
+msgstr "토요일"
+
+#: lib/object.php:366 templates/settings.php:43
+msgid "Sunday"
+msgstr "일요일"
+
+#: lib/object.php:373
+msgid "events week of month"
+msgstr "이달의 한 주 일정"
+
+#: lib/object.php:374
+msgid "first"
+msgstr "첫번째"
+
+#: lib/object.php:375
+msgid "second"
+msgstr "두번째"
+
+#: lib/object.php:376
+msgid "third"
+msgstr "세번째"
+
+#: lib/object.php:377
+msgid "fourth"
+msgstr "네번째"
+
+#: lib/object.php:378
+msgid "fifth"
+msgstr "다섯번째"
+
+#: lib/object.php:379
+msgid "last"
+msgstr "마지막"
+
+#: lib/object.php:401
+msgid "January"
+msgstr "1월"
+
+#: lib/object.php:402
+msgid "February"
+msgstr "2월"
+
+#: lib/object.php:403
+msgid "March"
+msgstr "3월"
+
+#: lib/object.php:404
+msgid "April"
+msgstr "4월"
+
+#: lib/object.php:405
+msgid "May"
+msgstr "5월"
+
+#: lib/object.php:406
+msgid "June"
+msgstr "6월"
+
+#: lib/object.php:407
+msgid "July"
+msgstr "7월"
+
+#: lib/object.php:408
+msgid "August"
+msgstr "8월"
+
+#: lib/object.php:409
+msgid "September"
+msgstr "9월"
+
+#: lib/object.php:410
+msgid "October"
+msgstr "10월"
+
+#: lib/object.php:411
+msgid "November"
+msgstr "11월"
+
+#: lib/object.php:412
+msgid "December"
+msgstr "12월"
+
+#: lib/object.php:418
+msgid "by events date"
+msgstr "이벤트 날짜 순"
+
+#: lib/object.php:419
+msgid "by yearday(s)"
+msgstr "날짜 번호 순"
+
+#: lib/object.php:420
+msgid "by weeknumber(s)"
+msgstr "주 번호 순"
+
+#: lib/object.php:421
+msgid "by day and month"
+msgstr "날짜 순"
+
+#: lib/search.php:32 lib/search.php:34 lib/search.php:37
+msgid "Date"
+msgstr "날짜"
+
+#: lib/search.php:40
+msgid "Cal."
+msgstr "달력"
+
+#: templates/calendar.php:11
+msgid "All day"
+msgstr "매일"
+
+#: templates/calendar.php:12 templates/part.choosecalendar.php:22
+msgid "New Calendar"
+msgstr "새로운 달력"
+
+#: templates/calendar.php:13
+msgid "Missing fields"
+msgstr "기입란이 비어있습니다"
+
+#: templates/calendar.php:14 templates/part.eventform.php:19
+#: templates/part.showevent.php:11
+msgid "Title"
+msgstr "제목"
+
+#: templates/calendar.php:16
+msgid "From Date"
+msgstr "시작날짜"
+
+#: templates/calendar.php:17
+msgid "From Time"
+msgstr "시작시간"
+
+#: templates/calendar.php:18
+msgid "To Date"
+msgstr "마침 날짜"
+
+#: templates/calendar.php:19
+msgid "To Time"
+msgstr "마침 시간"
+
+#: templates/calendar.php:20
+msgid "The event ends before it starts"
+msgstr "마침일정이 시작일정 보다 빠릅니다. "
+
+#: templates/calendar.php:21
+msgid "There was a database fail"
+msgstr "데이터베이스 에러입니다."
+
+#: templates/calendar.php:40
+msgid "Week"
+msgstr "주"
+
+#: templates/calendar.php:41
+msgid "Month"
+msgstr "달"
+
+#: templates/calendar.php:42
+msgid "List"
+msgstr "목록"
+
+#: templates/calendar.php:48
+msgid "Today"
+msgstr "오늘"
+
+#: templates/calendar.php:49
+msgid "Calendars"
+msgstr "달력"
+
+#: templates/calendar.php:67
+msgid "There was a fail, while parsing the file."
+msgstr "파일을 처리하는 중 오류가 발생하였습니다."
+
+#: templates/part.choosecalendar.php:1
+msgid "Choose active calendars"
+msgstr "활성 달력 선택"
+
+#: templates/part.choosecalendar.php:2
+msgid "Your calendars"
+msgstr ""
+
+#: templates/part.choosecalendar.php:27
+#: templates/part.choosecalendar.rowfields.php:5
+msgid "CalDav Link"
+msgstr "CalDav 링크"
+
+#: templates/part.choosecalendar.php:31
+msgid "Shared calendars"
+msgstr ""
+
+#: templates/part.choosecalendar.php:48
+msgid "No shared calendars"
+msgstr ""
+
+#: templates/part.choosecalendar.rowfields.php:4
+msgid "Share Calendar"
+msgstr ""
+
+#: templates/part.choosecalendar.rowfields.php:6
+msgid "Download"
+msgstr "다운로드"
+
+#: templates/part.choosecalendar.rowfields.php:7
+msgid "Edit"
+msgstr "편집"
+
+#: templates/part.choosecalendar.rowfields.php:8
+#: templates/part.editevent.php:9
+msgid "Delete"
+msgstr "삭제"
+
+#: templates/part.choosecalendar.rowfields.shared.php:4
+msgid "shared with you by"
+msgstr ""
+
+#: templates/part.editcalendar.php:9
+msgid "New calendar"
+msgstr "새로운 달력"
+
+#: templates/part.editcalendar.php:9
+msgid "Edit calendar"
+msgstr "달력 편집"
+
+#: templates/part.editcalendar.php:12
+msgid "Displayname"
+msgstr "표시 이름"
+
+#: templates/part.editcalendar.php:23
+msgid "Active"
+msgstr "활성"
+
+#: templates/part.editcalendar.php:29
+msgid "Calendar color"
+msgstr "달력 색상"
+
+#: templates/part.editcalendar.php:42
+msgid "Save"
+msgstr "저장"
+
+#: templates/part.editcalendar.php:42 templates/part.editevent.php:8
+#: templates/part.newevent.php:6
+msgid "Submit"
+msgstr "보내기"
+
+#: templates/part.editcalendar.php:43
+msgid "Cancel"
+msgstr "취소"
+
+#: templates/part.editevent.php:1
+msgid "Edit an event"
+msgstr "이벤트 편집"
+
+#: templates/part.editevent.php:10
+msgid "Export"
+msgstr "출력"
+
+#: templates/part.eventform.php:8 templates/part.showevent.php:3
+msgid "Eventinfo"
+msgstr ""
+
+#: templates/part.eventform.php:9 templates/part.showevent.php:4
+msgid "Repeating"
+msgstr ""
+
+#: templates/part.eventform.php:10 templates/part.showevent.php:5
+msgid "Alarm"
+msgstr ""
+
+#: templates/part.eventform.php:11 templates/part.showevent.php:6
+msgid "Attendees"
+msgstr ""
+
+#: templates/part.eventform.php:13
+msgid "Share"
+msgstr ""
+
+#: templates/part.eventform.php:21
+msgid "Title of the Event"
+msgstr "이벤트 제목"
+
+#: templates/part.eventform.php:27 templates/part.showevent.php:19
+msgid "Category"
+msgstr "분류"
+
+#: templates/part.eventform.php:29
+msgid "Separate categories with commas"
+msgstr ""
+
+#: templates/part.eventform.php:30
+msgid "Edit categories"
+msgstr ""
+
+#: templates/part.eventform.php:56 templates/part.showevent.php:55
+msgid "All Day Event"
+msgstr "종일 이벤트"
+
+#: templates/part.eventform.php:60 templates/part.showevent.php:59
+msgid "From"
+msgstr "시작"
+
+#: templates/part.eventform.php:68 templates/part.showevent.php:67
+msgid "To"
+msgstr "끝"
+
+#: templates/part.eventform.php:76 templates/part.showevent.php:75
+msgid "Advanced options"
+msgstr "고급 설정"
+
+#: templates/part.eventform.php:81 templates/part.showevent.php:80
+msgid "Location"
+msgstr "위치"
+
+#: templates/part.eventform.php:83
+msgid "Location of the Event"
+msgstr "이벤트 위치"
+
+#: templates/part.eventform.php:89 templates/part.showevent.php:88
+msgid "Description"
+msgstr "설명"
+
+#: templates/part.eventform.php:91
+msgid "Description of the Event"
+msgstr "이벤트 설명"
+
+#: templates/part.eventform.php:100 templates/part.showevent.php:98
+msgid "Repeat"
+msgstr "반복"
+
+#: templates/part.eventform.php:107 templates/part.showevent.php:105
+msgid "Advanced"
+msgstr "고급"
+
+#: templates/part.eventform.php:151 templates/part.showevent.php:149
+msgid "Select weekdays"
+msgstr "요일 선택"
+
+#: templates/part.eventform.php:164 templates/part.eventform.php:177
+#: templates/part.showevent.php:162 templates/part.showevent.php:175
+msgid "Select days"
+msgstr "날짜 선택"
+
+#: templates/part.eventform.php:169 templates/part.showevent.php:167
+msgid "and the events day of year."
+msgstr "그리고 이 해의 일정"
+
+#: templates/part.eventform.php:182 templates/part.showevent.php:180
+msgid "and the events day of month."
+msgstr "그리고 이 달의 일정"
+
+#: templates/part.eventform.php:190 templates/part.showevent.php:188
+msgid "Select months"
+msgstr "달 선택"
+
+#: templates/part.eventform.php:203 templates/part.showevent.php:201
+msgid "Select weeks"
+msgstr "주 선택"
+
+#: templates/part.eventform.php:208 templates/part.showevent.php:206
+msgid "and the events week of year."
+msgstr "그리고 이 해의 주간 일정"
+
+#: templates/part.eventform.php:214 templates/part.showevent.php:212
+msgid "Interval"
+msgstr "간격"
+
+#: templates/part.eventform.php:220 templates/part.showevent.php:218
+msgid "End"
+msgstr "끝"
+
+#: templates/part.eventform.php:233 templates/part.showevent.php:231
+msgid "occurrences"
+msgstr "번 이후"
+
+#: templates/part.import.php:1
+msgid "Import a calendar file"
+msgstr "달력 파일 가져오기"
+
+#: templates/part.import.php:6
+msgid "Please choose the calendar"
+msgstr "달력을 선택해 주세요"
+
+#: templates/part.import.php:10
+msgid "create a new calendar"
+msgstr "새 달력 만들기"
+
+#: templates/part.import.php:15
+msgid "Name of new calendar"
+msgstr "새 달력 이름"
+
+#: templates/part.import.php:17
+msgid "Import"
+msgstr "입력"
+
+#: templates/part.import.php:20
+msgid "Importing calendar"
+msgstr "달력 입력"
+
+#: templates/part.import.php:23
+msgid "Calendar imported successfully"
+msgstr "달력 입력을 성공적으로 마쳤습니다."
+
+#: templates/part.import.php:24
+msgid "Close Dialog"
+msgstr "대화 마침"
+
+#: templates/part.newevent.php:1
+msgid "Create a new event"
+msgstr "새 이벤트 만들기"
+
+#: templates/part.showevent.php:1
+msgid "View an event"
+msgstr ""
+
+#: templates/part.showevent.php:23
+msgid "No categories selected"
+msgstr ""
+
+#: templates/part.showevent.php:25
+msgid "Select category"
+msgstr "선택 카테고리"
+
+#: templates/part.showevent.php:37
+msgid "of"
+msgstr ""
+
+#: templates/part.showevent.php:62 templates/part.showevent.php:70
+msgid "at"
+msgstr ""
+
+#: templates/settings.php:14
+msgid "Timezone"
+msgstr "시간대"
+
+#: templates/settings.php:31
+msgid "Check always for changes of the timezone"
+msgstr "항상 시간대 변경 확인하기"
+
+#: templates/settings.php:33
+msgid "Timeformat"
+msgstr "시간 형식 설정"
+
+#: templates/settings.php:35
+msgid "24h"
+msgstr "24시간"
+
+#: templates/settings.php:36
+msgid "12h"
+msgstr "12시간"
+
+#: templates/settings.php:40
+msgid "First day of the week"
+msgstr ""
+
+#: templates/settings.php:49
+msgid "Calendar CalDAV syncing address:"
+msgstr "달력 CalDav 동기화 주소"
+
+#: templates/share.dropdown.php:20
+msgid "Users"
+msgstr ""
+
+#: templates/share.dropdown.php:21
+msgid "select users"
+msgstr ""
+
+#: templates/share.dropdown.php:36 templates/share.dropdown.php:62
+msgid "Editable"
+msgstr ""
+
+#: templates/share.dropdown.php:48
+msgid "Groups"
+msgstr ""
+
+#: templates/share.dropdown.php:49
+msgid "select groups"
+msgstr ""
+
+#: templates/share.dropdown.php:75
+msgid "make public"
+msgstr ""

@@ -20,42 +20,29 @@
  *
  */
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 
 // Check if we are a user
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OC_JSON::setContentTypeHeader('text/plain');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::setContentTypeHeader('text/plain');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/uploadphoto.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/uploadphoto.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: '.$msg, OCP\Util::DEBUG);
 }
-
-// foreach ($_SERVER as $key=>$element) {
-// 	debug('$_SERVER: '.$key.'=>'.$element);
-// }
-// foreach ($_GET as $key=>$element) {
-// 	debug('_GET: '.$key.'=>'.$element);
-// }
-// foreach ($_POST as $key=>$element) {
-// 	debug('_POST: '.$key.'=>'.$element);
-// }
-// foreach ($_FILES as $key=>$element) {
-// 	debug('_FILES: '.$key.'=>'.$element);
-// }
 
 // If it is a Drag'n'Drop transfer it's handled here.
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 if ($fn) {
 	// AJAX call
 	if (!isset($_GET['id'])) {
-		OC_Log::write('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OC_Log::DEBUG);
-		OC_JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
+		OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OCP\Util::DEBUG);
+		OCP\JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
 		exit();
 	}
 	$id = $_GET['id'];
@@ -71,7 +58,7 @@ if ($fn) {
 			debug('Couldn\'t save correct image orientation: '.$tmpfname);
 		}
 		if($image->save($tmpfname)) {
-			OC_JSON::success(array('data' => array('mime'=>$_SERVER['CONTENT_TYPE'], 'name'=>$fn, 'id'=>$id, 'tmp'=>$tmpfname)));
+			OCP\JSON::success(array('data' => array('mime'=>$_SERVER['CONTENT_TYPE'], 'name'=>$fn, 'id'=>$id, 'tmp'=>$tmpfname)));
 			exit();
 		} else {
 			bailOut('Couldn\'t save temporary image: '.$tmpfname);
@@ -83,13 +70,13 @@ if ($fn) {
 
 
 if (!isset($_POST['id'])) {
-	OC_Log::write('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OC_Log::DEBUG);
-	OC_JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OCP\Util::DEBUG);
+	OCP\JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
 	exit();
 }
 if (!isset($_FILES['imagefile'])) {
-	OC_Log::write('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OC_Log::DEBUG);
-	OC_JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
+	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OCP\Util::DEBUG);
+	OCP\JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
 	exit();
 }
 $error = $_FILES['imagefile']['error'];
@@ -117,7 +104,7 @@ if(file_exists($file['tmp_name'])) {
 			debug('Couldn\'t save correct image orientation: '.$tmpfname);
 		}
 		if($image->save($tmpfname)) {
-			OC_JSON::success(array('data' => array('mime'=>$file['type'],'size'=>$file['size'],'name'=>$file['name'], 'id'=>$_POST['id'], 'tmp'=>$tmpfname)));
+			OCP\JSON::success(array('data' => array('mime'=>$file['type'],'size'=>$file['size'],'name'=>$file['name'], 'id'=>$_POST['id'], 'tmp'=>$tmpfname)));
 			exit();
 		} else {
 			bailOut('Couldn\'t save temporary image: '.$tmpfname);

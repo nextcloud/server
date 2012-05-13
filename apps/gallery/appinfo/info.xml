@@ -6,5 +6,9 @@
 	<author>Bartek Przybylski</author>
 	<require>2</require>
 	<description>Dedicated pictures application</description>
+	<standalone/>
 	<default_enable/>
+	<public>
+		<gallery>sharing.php</gallery>
+	</public>
 </info>

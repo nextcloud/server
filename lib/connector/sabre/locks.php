@@ -1,34 +1,26 @@
 <?php
+
 /**
- * The Lock manager allows you to handle all file-locks centrally.
+ * ownCloud
  *
- * This Lock Manager stores all its data in a database. You must pass a PDO
- * connection object in the constructor.
- * 
- * @package Sabre
- * @subpackage DAV
- * @copyright Copyright (C) 2007-2011 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
- */
-/*
+ * @author Jakob Sack
+ * @copyright 2011 Jakob Sack kde@jakobsack.de
  *
- * The following SQL statement is just a help for developers and will not be
- * executed!
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
  *
- * CREATE TABLE locks (
- *   `id` INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
- *   `userid` VARCHAR(200),
- *   `owner` VARCHAR(100),
- *   `timeout` INTEGER UNSIGNED,
- *   `created` INTEGER,
- *   `token` VARCHAR(100),
- *   `scope` TINYINT,
- *   `depth` TINYINT,
- *   `uri` text
- * );
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 
 	/**

@@ -21,19 +21,19 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/addcontact.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/addcontact.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('contacts','ajax/addcontact.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('contacts','ajax/addcontact.php: '.$msg, OCP\Util::DEBUG);
 }
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.$element);
@@ -45,6 +45,7 @@ if(!$aid) {
 }
 OC_Contacts_App::getAddressbook( $aid ); // is owner access check
 
+$isnew = isset($_POST['isnew'])?$_POST['isnew']:false;
 $fn = trim($_POST['fn']);
 $n = trim($_POST['n']);
 
@@ -53,11 +54,11 @@ $vcard->setUID();
 $vcard->setString('FN',$fn);
 $vcard->setString('N',$n);
 
-$id = OC_Contacts_VCard::add($aid,$vcard);
+$id = OC_Contacts_VCard::add($aid,$vcard, null, $isnew);
 if(!$id) {
-	OC_JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
-	OC_Log::write('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OC_Log::ERROR);
+	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
+	OCP\Util::writeLog('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OCP\Util::ERROR);
 	exit();
 }
 
-OC_JSON::success(array('data' => array( 'id' => $id )));
+OCP\JSON::success(array('data' => array( 'id' => $id )));

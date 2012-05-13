@@ -22,8 +22,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-OC_Util::checkAdminUser();
-OC_Util::checkAppEnabled('admin_migrate');
+OCP\User::checkAdminUser();
+OCP\App::checkAppEnabled('admin_migrate');
 
 // Export?
 if (isset($_POST['admin_export'])) {
@@ -52,6 +52,6 @@ if (isset($_POST['admin_export'])) {
 		
 } else {
 // fill template
-    $tmpl = new OC_Template('admin_migrate', 'settings');
+    $tmpl = new OCP\Template('admin_migrate', 'settings');
     return $tmpl->fetchPage();
 }

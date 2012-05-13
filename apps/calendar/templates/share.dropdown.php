@@ -21,14 +21,14 @@ foreach($sharedelements as $sharedelement){
 <select id="share_user" title="<?php echo $l->t('select users');?>" data-placeholder="<?php echo $l->t('select users'); ?>">
 <option value=""></option>
 <?php
-$allocusers = OC_User::getUsers();
+$allocusers = OCP\USER::getUsers();
 $allusers = array();
 foreach($allocusers as $ocuser){
 	$allusers[$ocuser] = $ocuser;
 }
-unset($allusers[OC_User::getUser()]);
+unset($allusers[OCP\USER::getUser()]);
 $allusers = array_flip($allusers);
-echo html_select_options($allusers, array());
+echo OCP\html_select_options($allusers, array());
 ?>
 </select><br>
 <ul id="sharewithuser_list">
@@ -54,7 +54,7 @@ $allgroups = array();
 foreach($allocgroups as $ocgroup){
 	$allgroups[$ocgroup] = $ocgroup;
 }
-echo html_select_options($allgroups, array());
+echo OCP\html_select_options($allgroups, array());
 ?>
 </select><br>
 <ul id="sharewithgroup_list">
@@ -72,6 +72,6 @@ echo html_select_options($allgroups, array());
 <?php endforeach; ?>
 </ul>
 <div id="public">
-	<input type="checkbox" id="publish" <?php echo ($public['share'])?'checked="checked"':'' ?>><label for="publish"><?php echo $l->t('make public'); ?></label><br>
-	<input type="text" id="public_token" value="<?php echo OC_Helper::linkToAbsolute('apps/calendar', 'share.php?t=' . $public['share'], null, true) ; ?>" onmouseover="$('#public_token').select();" style="<?php echo (!$public['share'])?'display:none':'' ?>">
+	<input type="checkbox" id="publish" <?php echo (array_key_exists('share', $public))?'checked="checked"':'' ?>><label for="publish"><?php echo $l->t('make public'); ?></label><br>
+	<input type="text" id="public_token" value="<?php if(array_key_exists('share', $public)){echo OCP\Util::linkToAbsolute('', 'public.php').'?service=calendar&t=' . $public['share']; } ?>" onmouseover="$('#public_token').select();" style="<?php echo (!array_key_exists('share', $public))?'display:none':'' ?>">
 </div>

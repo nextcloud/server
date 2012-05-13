@@ -13,14 +13,14 @@
 	<input type="text" id="bookmark_add_url" placeholder="<?php echo $l->t('Address'); ?>" class="bookmarks_input" />
 	<input type="text" id="bookmark_add_title" placeholder="<?php echo $l->t('Title'); ?>" class="bookmarks_input" />
 	<input type="text" id="bookmark_add_tags" placeholder="<?php echo $l->t('Tags'); ?>" class="bookmarks_input" />
-	<input type="submit" value="<?php echo $l->t('Add bookmark'); ?>" id="bookmark_add_submit" />
+	<input type="submit" value="<?php echo $l->t('Save bookmark'); ?>" id="bookmark_add_submit" />
 </div>
 <div class="bookmarks_list">
 </div>
 <div id="firstrun" style="display: none;">
 	<?php
 		echo $l->t('You have no bookmarks');
-		require_once('bookmarklet.php');
+		require_once(OC::$APPSROOT . '/apps/bookmarks/templates/bookmarklet.php');
 		createBookmarklet(); 
 	?>
 </div>

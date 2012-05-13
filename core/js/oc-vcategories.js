@@ -1,6 +1,5 @@
 OCCategories={
 	edit:function(){
-		console.log('OCCategories.edit');
 		if(OCCategories.app == undefined) {
 			OC.dialogs.alert('OCCategories.app is not set!');
 			return;
@@ -18,6 +17,9 @@ OCCategories={
 						modal: true,
 						height: 350, minHeight:200, width: 250, minWidth: 200,
 						buttons: {
+							'Close': function() { 
+								$(this).dialog("close"); 
+							},
 							'Delete':function() {
 								OCCategories.doDelete();
 							},
@@ -61,9 +63,12 @@ OCCategories={
 		}
 	},
 	doDelete:function(){
-		var categories = $('#categorylist').find('input[type="checkbox"]').serialize();
+		var categories = $('#categorylist').find('input:checkbox').serialize();
+		if(categories == '' || categories == undefined) {
+			OC.dialogs.alert(t('core', 'No categories selected for deletion.'), t('core', 'Error'));
+			return false;
+		}
 		categories += '&app=' + OCCategories.app;
-		console.log('OCCategories.delete: ' + categories);
 		$.post(OC.filePath(OCCategories.app, 'ajax', 'categories/delete.php'), categories, OCCategories._processDeleteResult)
 		.error(function(xhr){
 			if (xhr.status == 404) {
@@ -72,7 +77,6 @@ OCCategories={
 		});
 	},
 	add:function(category){
-		console.log('OCCategories.add ' + category);
 		$.getJSON(OC.filePath('core', 'ajax', 'vcategories/add.php'),{'category':category, 'app':OCCategories.app},function(jsondata){
 			if(jsondata.status == 'success'){
 				OCCategories._update(jsondata.data.categories);
@@ -83,7 +87,6 @@ OCCategories={
 		return false;
 	},
 	rescan:function(){
-		console.log('Categories.rescan');
 		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php'),function(jsondata, status, xhr){
 			if(jsondata.status == 'success'){
 				OCCategories._update(jsondata.data.categories);

@@ -21,11 +21,11 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 
 // Get the path from GET
 $path = isset($_GEt['path']) ? $_GET['path'] : '';
@@ -36,14 +36,14 @@ if($path != '')
 	$mtime = OC_Filesystem::filemtime($path);
 	if($mtime)
 	{
-		OC_JSON::success(array('data' => array('path' => $path, 'mtime' => $mtime)));
+		OCP\JSON::success(array('data' => array('path' => $path, 'mtime' => $mtime)));
 	}
 	else
 	{
-		OC_JSON::error();
+		OCP\JSON::error();
 	}	
 }
 else
 {
-	OC_JSON::error();	
+	OCP\JSON::error();	
 }

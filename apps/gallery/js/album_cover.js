@@ -31,7 +31,7 @@ function albumClick(title) {
 }
 
 function constructSharingPath() {
-  return document.location.protocol + '//' + document.location.host + OC.linkTo('gallery', 'sharing.php') + '?token=' + Albums.token;
+  return document.location.protocol + '//' + document.location.host + OC.linkTo('', 'public.php') + '?service=gallery&token=' + Albums.token;
 }
 
 function shareGallery() {
@@ -86,18 +86,16 @@ function albumClickHandler(r) {
       Albums.recursive = false;
       Albums.token = '';
     }
-		var targetDiv = document.getElementById('gallery_list');
-		if (targetDiv) {
-			$(targetDiv).html('');
+		$(document).ready(function(){
+			var targetDiv = $('#gallery_list');
+			targetDiv.html('');
 			Albums.display(targetDiv);
 			//$('#gallery_list').sortable({revert:true});
 			$('.album').each(function(i, el) {
 				$(el).click(albumClick.bind(null,$(el).attr('title')));
 				//$(el).draggable({connectToSortable: '#gallery_list', handle: '.dummy'});
 			});
-		} else {
-			OC.dialogs.alert(t('gallery', 'Error: no such layer `gallery_list`'), t('gallery', 'Internal error'));
-		}
+		});
 	} else {
 		OC.dialogs.alert(t('gallery', 'Error: ') + r.cause, t('gallery', 'Internal error'));
 	}

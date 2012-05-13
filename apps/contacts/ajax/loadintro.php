@@ -20,43 +20,12 @@
  *
  */
 
-// Init owncloud
-require_once('../../../lib/base.php');
-function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/loadintro.php: '.$msg, OC_Log::DEBUG);
-	exit();
-}
-function debug($msg) {
-	OC_Log::write('contacts','ajax/loadintro.php: '.$msg, OC_Log::DEBUG);
-}
-// foreach ($_POST as $key=>$element) {
-// 	debug('_POST: '.$key.'=>'.$element);
-// }
-
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
-// $addressbooks = OC_Contacts_Addressbook::all(OC_USER::getUser());
-// 
-// $upload_max_filesize = OC_Helper::computerFileSize(ini_get('upload_max_filesize'));
-// $post_max_size = OC_Helper::computerFileSize(ini_get('post_max_size'));
-// $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-// 
-// $freeSpace=OC_Filesystem::free_space('/');
-// $freeSpace=max($freeSpace,0);
-// $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
-// $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
-// $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 
-$tmpl = new OC_Template('contacts','part.no_contacts');
-// $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
-// $tmpl->assign('uploadMaxHumanFilesize', OC_Helper::humanFileSize($maxUploadFilesize));
-// $tmpl->assign('adr_types',$adr_types);
-// $tmpl->assign('phone_types',$phone_types);
-// $tmpl->assign('addressbooks',$addressbooks);
-// $tmpl->assign('id','');
+$tmpl = new OCP\Template('contacts','part.no_contacts');
 $page = $tmpl->fetchPage();
 
-OC_JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array( 'page' => $page )));

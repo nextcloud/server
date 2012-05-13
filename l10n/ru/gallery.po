@@ -4,50 +4,58 @@
 # 
 # Translators:
 #   <jekader@gmail.com>, 2012.
+#   <lankme@gmail.com>, 2012.
+# Soul Kim <warlock.rf@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-01-24 00:24+0100\n"
-"PO-Revision-Date: 2012-01-23 23:25+0000\n"
+"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"PO-Revision-Date: 2012-05-09 10:33+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/team/ru/)\n"
+"Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: appinfo/app.php:41
-msgid "Gallery"
-msgstr "Галерея"
-
-#: js/album_cover.js:40
-msgid "Scanning directories"
-msgstr "Сканирование папок"
-
-#: js/album_cover.js:48
-msgid "No photos found"
+#: appinfo/app.php:42
+msgid "Pictures"
 msgstr ""
 
-#: js/album_cover.js:51 js/album_cover.js:60
-msgid "Creating thumbnails"
-msgstr "Создание миниатюр"
-
-#: js/album_cover.js:81
-msgid "Do you wan't to remove album"
-msgstr "Вы желаете удалить альбом"
-
-#: js/album_cover.js:94
-msgid "Input new gallery name"
-msgstr "Введите название галереи"
-
-#: templates/index.php:10
+#: templates/index.php:16
 msgid "Rescan"
-msgstr "Пересканировать"
+msgstr "Обновить"
+
+#: templates/index.php:17
+msgid "Stop"
+msgstr ""
+
+#: templates/index.php:18
+msgid "Share"
+msgstr ""
+
+#: templates/index.php:19
+msgid "Settings"
+msgstr ""
 
 #: templates/view_album.php:19
 msgid "Back"
 msgstr "Назад"
 
+#: templates/view_album.php:36
+msgid "Remove confirmation"
+msgstr ""
 
+#: templates/view_album.php:37
+msgid "Do you want to remove album"
+msgstr ""
+
+#: templates/view_album.php:40
+msgid "Change album name"
+msgstr ""
+
+#: templates/view_album.php:43
+msgid "New album name"
+msgstr ""

@@ -6,24 +6,24 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.print_r($element, true));
 }
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('calendar','ajax/categories/rescan.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('calendar','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('calendar','ajax/categories/rescan.php: '.$msg, OC_Log::DEBUG);
+	OCP\Util::writeLog('calendar','ajax/categories/rescan.php: '.$msg, OCP\Util::DEBUG);
 }
 
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 if(count($calendars) == 0) {
 	bailOut(OC_Calendar_App::$l10n->t('No calendars found.'));
 }
@@ -39,4 +39,4 @@ if(count($events) == 0) {
 OC_Calendar_App::scanCategories($events);
 $categories = OC_Calendar_App::getCategoryOptions();
 
-OC_JSON::success(array('data' => array('categories'=>$categories)));
+OCP\JSON::success(array('data' => array('categories'=>$categories)));

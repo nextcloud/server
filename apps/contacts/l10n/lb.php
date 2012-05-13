@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Information about vCard is incorrect. Please reload the page." => "Informatioun iwwert vCard ass net richteg. Lued d'Säit wegl nei.",
 "This is not your addressbook." => "Dat do ass net däin Adressbuch.",
 "Contact could not be found." => "Konnt den Kontakt net fannen.",
-"Information about vCard is incorrect. Please reload the page." => "Informatioun iwwert vCard ass net richteg. Lued d'Säit wegl nei.",
 "Address" => "Adress",
 "Telephone" => "Telefon's Nummer",
 "Email" => "Email",
@@ -14,19 +14,16 @@
 "Fax" => "Fax",
 "Video" => "Video",
 "Pager" => "Pager",
-"This is not your contact." => "Dat do ass net däin Kontakt.",
 "Add Contact" => "Kontakt bäisetzen",
-"Name" => "Numm",
+"Edit" => "Editéieren",
+"Delete" => "Läschen",
+"Birthday" => "Gebuertsdag",
+"Phone" => "Telefon",
 "PO Box" => "Postleetzuel",
 "Extended" => "Erweidert",
 "Street" => "Strooss",
 "City" => "Staat",
 "Region" => "Regioun",
 "Zipcode" => "Postleetzuel",
-"Country" => "Land",
-"Create Contact" => "Kontakt erstellen",
-"Edit" => "Editéieren",
-"Delete" => "Läschen",
-"Birthday" => "Gebuertsdag",
-"Phone" => "Telefon"
+"Country" => "Land"
 );

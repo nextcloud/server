@@ -5,13 +5,16 @@
  * later.
  * See the COPYING-README file.
  */
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
-if($_POST['timezonedetection'] == 'on'){
-	OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'timezonedetection', 'true');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
+if(array_key_exists('timezonedetection', $_POST)){
+	if($_POST['timezonedetection'] == 'on'){
+		OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timezonedetection', 'true');
+	}else{
+		OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timezonedetection', 'false');
+	}
+	OCP\JSON::success();
 }else{
-	OC_Preferences::setValue(OC_USER::getUser(), 'calendar', 'timezonedetection', 'false');
+	OCP\JSON::error();
 }
-OC_JSON::success();
-

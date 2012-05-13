@@ -444,7 +444,7 @@ class OC_DB {
 		
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ){
-			$query = str_replace( '`', '\'', $query );
+			$query = str_replace( '`', '"', $query );
 			$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
 			$query = str_replace( 'now()', 'datetime(\'now\')', $query );
 		}elseif( $type == 'mysql' ){

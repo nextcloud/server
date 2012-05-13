@@ -6,9 +6,9 @@
 <p style="text-align:center;"><b><?php echo $l->t('Please choose the calendar'); ?></b></p>
 <select style="width:100%;" id="calendar" name="calendar">
 <?php
-$calendar_options = OC_Calendar_Calendar::allCalendars(OC_User::getUser());
+$calendar_options = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 $calendar_options[] = array('id'=>'newcal', 'displayname'=>$l->t('create a new calendar'));
-echo html_select_options($calendar_options, $calendar_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
+echo OCP\html_select_options($calendar_options, $calendar_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
 ?>
 </select>
 <div id="newcalform" style="display: none;">

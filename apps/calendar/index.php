@@ -6,15 +6,15 @@
  * See the COPYING-README file.
  */
 
-require_once ('../../lib/base.php');
-OC_Util::checkLoggedIn();
-OC_Util::checkAppEnabled('calendar');
+ 
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('calendar');
 
 // Create default calendar ...
-$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
 if( count($calendars) == 0){
-	OC_Calendar_Calendar::addCalendar(OC_User::getUser(),'Default calendar');
-	$calendars = OC_Calendar_Calendar::allCalendars(OC_User::getUser(), 1);
+	OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(),'Default calendar');
+	$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
 }
 
 $eventSources = array();
@@ -22,38 +22,38 @@ foreach($calendars as $calendar){
 	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
 }
 
-$eventSources[] = array('url' => 'ajax/events.php?calendar_id=shared_rw', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable'=>'true');
-$eventSources[] = array('url' => 'ajax/events.php?calendar_id=shared_r', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable' => 'false');
+$eventSources[] = array('url' => '?app=calendar&getfile=ajax/events.php?calendar_id=shared_rw', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable'=>'true');
+$eventSources[] = array('url' => '?app=calendar&getfile=ajax/events.php?calendar_id=shared_r', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable' => 'false');
 
-OC_Hook::emit('OC_Calendar', 'getSources', array('sources' => &$eventSources));
+OCP\Util::emitHook('OC_Calendar', 'getSources', array('sources' => &$eventSources));
 $categories = OC_Calendar_App::getCategoryOptions();
 
 //Fix currentview for fullcalendar
-if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "oneweekview"){
-	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "agendaWeek");
+if(OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "oneweekview"){
+	OCP\Config::setUserValue(OCP\USER::getUser(), "calendar", "currentview", "agendaWeek");
 }
-if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "onemonthview"){
-	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "month");
+if(OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "onemonthview"){
+	OCP\Config::setUserValue(OCP\USER::getUser(), "calendar", "currentview", "month");
 }
-if(OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'currentview', 'month') == "listview"){
-	OC_Preferences::setValue(OC_USER::getUser(), "calendar", "currentview", "list");
+if(OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'currentview', 'month') == "listview"){
+	OCP\Config::setUserValue(OCP\USER::getUser(), "calendar", "currentview", "list");
 }
 
-OC_Util::addScript('3rdparty/fullcalendar', 'fullcalendar');
-OC_Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
-OC_Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
-OC_Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
-if(OC_Preferences::getValue(OC_USER::getUser(), "calendar", "timezone") == null || OC_Preferences::getValue(OC_USER::getUser(), 'calendar', 'timezonedetection') == 'true'){
-	OC_UTIL::addScript('calendar', 'geo');
+OCP\Util::addscript('3rdparty/fullcalendar', 'fullcalendar');
+OCP\Util::addStyle('3rdparty/fullcalendar', 'fullcalendar');
+OCP\Util::addscript('3rdparty/timepicker', 'jquery.ui.timepicker');
+OCP\Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
+if(OCP\Config::getUserValue(OCP\USER::getUser(), "calendar", "timezone") == null || OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezonedetection') == 'true'){
+	OCP\Util::addscript('calendar', 'geo');
 }
-OC_Util::addScript('calendar', 'calendar');
-OC_Util::addStyle('calendar', 'style');
-OC_Util::addScript('', 'jquery.multiselect');
-OC_Util::addStyle('', 'jquery.multiselect');
-OC_Util::addScript('contacts','jquery.multi-autocomplete');
-OC_Util::addScript('','oc-vcategories');
-OC_App::setActiveNavigationEntry('calendar_index');
-$tmpl = new OC_Template('calendar', 'calendar', 'user');
+OCP\Util::addscript('calendar', 'calendar');
+OCP\Util::addStyle('calendar', 'style');
+OCP\Util::addscript('', 'jquery.multiselect');
+OCP\Util::addStyle('', 'jquery.multiselect');
+OCP\Util::addscript('contacts','jquery.multi-autocomplete');
+OCP\Util::addscript('','oc-vcategories');
+OCP\App::setActiveNavigationEntry('calendar_index');
+$tmpl = new OCP\Template('calendar', 'calendar', 'user');
 $tmpl->assign('eventSources', $eventSources);
 $tmpl->assign('categories', $categories);
 if(array_key_exists('showevent', $_GET)){

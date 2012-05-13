@@ -29,25 +29,25 @@ OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'apps/gallery/lib/hooks_handlers.p
 
 $l = OC_L10N::get('gallery');
 
-OC_App::register(array(
+OCP\App::register(array(
   'order' => 20,
   'id' => 'gallery',
   'name' => 'Pictures'));
 
-OC_App::addNavigationEntry( array(
+OCP\App::addNavigationEntry( array(
  'id' => 'gallery_index',
  'order' => 20,
- 'href' => OC_Helper::linkTo('gallery', 'index.php'),
- 'icon' => OC_Helper::imagePath('core', 'places/picture.svg'),
+ 'href' => OCP\Util::linkTo('gallery', 'index.php'),
+ 'icon' => OCP\Util::imagePath('core', 'places/picture.svg'),
  'name' => $l->t('Pictures')));
 
 class OC_GallerySearchProvider extends OC_Search_Provider{
 	function search($query){
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ? AND album_name LIKE ?');
-		$result = $stmt->execute(array(OC_User::getUser(),'%'.$query.'%'));
+		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ? AND album_name LIKE ?');
+		$result = $stmt->execute(array(OCP\USER::getUser(),'%'.$query.'%'));
 		$results=array();
 		while($row=$result->fetchRow()){
-			$results[]=new OC_Search_Result($row['album_name'],'',OC_Helper::linkTo('gallery', 'index.php').'?view='.$row['album_name'],'Galleries');
+			$results[]=new OC_Search_Result($row['album_name'],'',OCP\Util::linkTo('gallery', 'index.php').'?view='.$row['album_name'],'Galleries');
 		}
 		return $results;
 	}
@@ -56,4 +56,3 @@ class OC_GallerySearchProvider extends OC_Search_Provider{
 OC_Search::registerProvider('OC_GallerySearchProvider');
 
 require_once('apps/gallery/lib/hooks_handlers.php');
-?>

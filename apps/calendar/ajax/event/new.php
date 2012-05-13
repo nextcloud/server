@@ -6,20 +6,20 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
+ 
 
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 
 $errarr = OC_Calendar_Object::validateRequest($_POST);
 if($errarr){
 	//show validate errors
-	OC_JSON::error($errarr);
+	OCP\JSON::error($errarr);
 	exit;
 }else{
 	$cal = $_POST['calendar'];
 	$vcalendar = OC_Calendar_Object::createVCalendarFromRequest($_POST);
 	$result = OC_Calendar_Object::add($cal, $vcalendar->serialize());
-	OC_JSON::success();
+	OCP\JSON::success();
 }
 ?>

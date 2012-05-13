@@ -27,12 +27,12 @@ header('Content-type: text/html; charset=UTF-8') ;
 $RUNTIME_NOAPPS=true;
 $RUNTIME_NOSETUPFS=true;
 
-require_once('../../../lib/base.php');
-OC_JSON::checkAppEnabled('media');
+ 
+OCP\JSON::checkAppEnabled('media');
 
 $autoUpdate=(isset($_GET['autoupdate']) and $_GET['autoupdate']=='true');
 
-OC_Preferences::setValue(OC_User::getUser(),'media','autoupdate',(integer)$autoUpdate);
+OCP\Config::setUserValue(OCP\USER::getUser(),'media','autoupdate',(integer)$autoUpdate);
 
-OC_JSON::success(array('data' => $autoUpdate));
+OCP\JSON::success(array('data' => $autoUpdate));
 ?>

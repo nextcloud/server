@@ -20,7 +20,7 @@ function getBookmarks() {
 	}
 
 	$.ajax({
-		url: 'ajax/updateList.php',
+		url: OC.filePath('bookmarks', 'ajax', 'updateList.php'),
 		data: 'tag=' + encodeURIComponent($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
 		success: function(bookmarks){
 			if (bookmarks.data.length) {
@@ -63,7 +63,7 @@ function addOrEditBookmark(event) {
 
 	if (id == 0) {
 		$.ajax({
-			url: 'ajax/addBookmark.php',
+			url: OC.filePath('bookmarks', 'ajax', 'addBookmark.php'),
 			data: 'url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&tags=' + encodeURIComponent(tags),
 			success: function(response){
 				$('.bookmarks_input').val('');
@@ -75,7 +75,7 @@ function addOrEditBookmark(event) {
 	}
 	else {
 		$.ajax({
-			url: 'ajax/editBookmark.php',
+			url: OC.filePath('bookmarks', 'ajax', 'editBookmark.php'),
 			data: 'id=' + id + '&url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&tags=' + encodeURIComponent(tags),
 			success: function(){
 				$('.bookmarks_input').val('');
@@ -92,12 +92,14 @@ function addOrEditBookmark(event) {
 function delBookmark(event) {
 	var record = $(this).parent().parent();
 	$.ajax({
-		url: 'ajax/delBookmark.php',
-		data: 'url=' + encodeURIComponent($(this).parent().parent().children('.bookmark_url:first').text()),
+		url: OC.filePath('bookmarks', 'ajax', 'delBookmark.php'),
+		data: 'id=' + record.data('id'),
 		success: function(data){
-			record.remove();
-			if($('.bookmarks_list').is(':empty')) {
-				$("#firstrun").show();
+			if (data.status == 'success') {
+				record.remove();
+				if($('.bookmarks_list').is(':empty')) {
+					$("#firstrun").show();
+				}
 			}
 		}
 	});
@@ -118,13 +120,20 @@ function showBookmark(event) {
 		}, 500);
 
 }
+function replaceQueryString(url,param,value) {
+    var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
+    if (url.match(re))
+        return url.replace(re,'$1' + param + "=" + value + '$2');
+    else
+        return url + '&' + param + "=" + value;
+}
 
 function updateBookmarksList(bookmark) {
 	var tags = encodeEntities(bookmark.tags).split(' ');
 	var taglist = '';
 	for ( var i=0, len=tags.length; i<len; ++i ){
 		if(tags[i] != '')
-			taglist = taglist + '<a class="bookmark_tag" href="?tag=' + encodeURIComponent(tags[i]) + '">' + tags[i] + '</a> ';
+			taglist = taglist + '<a class="bookmark_tag" href="'+replaceQueryString( String(window.location), 'tag', encodeURIComponent(tags[i])) + '">' + tags[i] + '</a> ';
 	}
 	if(!hasProtocol(bookmark.url)) {
 		bookmark.url = 'http://' + bookmark.url;
@@ -164,7 +173,7 @@ function updateOnBottom() {
 
 function recordClick(event) {
 	$.ajax({
-		url: 'ajax/recordClick.php',
+		url: OC.filePath('bookmarks', 'ajax', 'recordClick.php'),
 		data: 'url=' + encodeURIComponent($(this).attr('href')),
 	});
 }

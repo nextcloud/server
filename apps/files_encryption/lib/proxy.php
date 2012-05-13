@@ -27,7 +27,6 @@
 
 class OC_FileProxy_Encryption extends OC_FileProxy{
 	private static $blackList=null; //mimetypes blacklisted from encryption
-	private static $metaData=array(); //metadata cache
 	private static $enableEncryption=null;
 	
 	/**
@@ -36,14 +35,14 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 * @return bool
 	 */
 	private static function shouldEncrypt($path){
-		if(is_null($this->enableEncryption)){
-			$this->enableEncryption=(OC_Appconfig::getValue('files_encryption','enabled','true')=='true');
+		if(is_null(self::$enableEncryption)){
+			self::$enableEncryption=(OCP\Config::getAppValue('files_encryption','enable_encryption','true')=='true');
 		}
-		if(!$this->enableEncryption){
+		if(!self::$enableEncryption){
 			return false;
 		}
 		if(is_null(self::$blackList)){
-			self::$blackList=explode(',',OC_Appconfig::getValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
+			self::$blackList=explode(',',OCP\Config::getAppValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
 		}
 		if(self::isEncrypted($path)){
 			return true;
@@ -60,13 +59,8 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 * @return bool
 	 */
 	private static function isEncrypted($path){
-		if(isset(self::$metaData[$path])){
-			$metadata=self::$metaData[$path];
-		}else{
-			$metadata=OC_FileCache::getCached($path);
-			self::$metaData[$path]=$metadata;
-		}
-		return (bool)$metadata['encrypted'];
+		$metadata=OC_FileCache::getCached($path);
+		return isset($metadata['encrypted']) and (bool)$metadata['encrypted'];
 	}
 	
 	public function preFile_put_contents($path,&$data){
@@ -96,14 +90,9 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		}elseif(self::shouldEncrypt($path) and $meta['mode']!='r' and $meta['mode']!='rb'){
 			if(OC_Filesystem::file_exists($path) and OC_Filesystem::filesize($path)>0){
 				//first encrypt the target file so we don't end up with a half encrypted file
-				OC_Log::write('files_encryption','Decrypting '.$path.' before writing',OC_Log::DEBUG);
+				OCP\Util::writeLog('files_encryption','Decrypting '.$path.' before writing',OCP\Util::DEBUG);
 				$tmp=fopen('php://temp');
-				while(!feof($result)){
-					$chunk=fread($result,8192);
-					if($chunk){
-						fwrite($tmp,$chunk);
-					}
-				}
+				OCP\Files::streamCopy($result,$tmp);
 				fclose($result);
 				OC_Filesystem::file_put_contents($path,$tmp);
 				fclose($tmp);
@@ -115,7 +104,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 
 	public function postGetMimeType($path,$mime){
 		if(self::isEncrypted($path)){
-			$mime=OC_Helper::getMimeType('crypt://'.$path,'w');
+			$mime=OCP\Files::getMimeType('crypt://'.$path,'w');
 		}
 		return $mime;
 	}

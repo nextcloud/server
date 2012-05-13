@@ -20,24 +20,25 @@
  *
  */
 // Init owncloud
-require_once('../../../lib/base.php');
+ 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('contacts');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
 
 // foreach ($_POST as $key=>$element) {
-// 	OC_Log::write('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OC_Log::DEBUG);
+// 	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OCP\Util::DEBUG);
 // }
 
 function bailOut($msg) {
-	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('contacts','ajax/loadphoto.php: '.$msg, OC_Log::DEBUG);
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/loadphoto.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
 
 $image = null;
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
+$refresh = isset($_GET['refresh']) ? true : false;
 
 if($id == '') {
 	bailOut(OC_Contacts_App::$l10n->t('Missing contact id.'));
@@ -52,8 +53,11 @@ foreach($vcard->children as $property){
 	}
 }
 
-$tmpl = new OC_TEMPLATE("contacts", "part.contactphoto");
+$tmpl = new OCP\Template("contacts", "part.contactphoto");
 $tmpl->assign('id', $id);
+if($refresh) {
+	$tmpl->assign('refresh', 1);
+}
 $page = $tmpl->fetchPage();
-OC_JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
+OCP\JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
 ?>

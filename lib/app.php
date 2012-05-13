@@ -49,13 +49,13 @@ class OC_App{
 	 * if $types is set, only apps of those types will be loaded
 	 */
 	public static function loadApps($types=null){
-		// Did we allready load everything?
+		// Did we already load everything?
 		if( self::$init ){
 			return true;
 		}
 
 		// Our very own core apps are hardcoded
-		foreach( array('files', 'settings') as $app ){
+		foreach( array( 'settings') as $app ){
 			if(is_null($types)){
 				require( $app.'/appinfo/app.php' );
 			}
@@ -64,7 +64,7 @@ class OC_App{
 		// The rest comes here
 		$apps = self::getEnabledApps();
 		foreach( $apps as $app ){
-			if(is_null($types) or self::isType($app,$types)){
+			if((is_null($types) or self::isType($app,$types))){
 				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
 					require( $app.'/appinfo/app.php' );
 				}
@@ -94,7 +94,7 @@ class OC_App{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * get the types of an app
 	 * @param string $app
@@ -105,19 +105,19 @@ class OC_App{
 		if(count(self::$appTypes)==0){
 			self::$appTypes=OC_Appconfig::getValues(false,'types');
 		}
-		
+
 		//get it from info.xml if we haven't cached it
 		if(!isset(self::$appTypes[$app])){
 			$appData=self::getAppInfo($app);
 			if(isset($appData['types'])){
-				self::$appTypes[$app]=$appData['types'];
+				self::$appTypes[$app]=implode(',',$appData['types']);
 			}else{
-				self::$appTypes[$app]=array();
+				self::$appTypes[$app]='';
 			}
-			
+
 			OC_Appconfig::setValue($app,'types',implode(',',self::$appTypes[$app]));
 		}
-		
+
 		return explode(',',self::$appTypes[$app]);
 	}
 
@@ -125,11 +125,13 @@ class OC_App{
 	 * get all enabled apps
 	 */
 	public static function getEnabledApps(){
-		$apps=array();
+		$apps=array('files');
 		$query = OC_DB::prepare( 'SELECT appid FROM *PREFIX*appconfig WHERE configkey = \'enabled\' AND configvalue=\'yes\'' );
 		$result=$query->execute();
 		while($row=$result->fetchRow()){
-			$apps[]=$row['appid'];
+			if(array_search($row['appid'],$apps)===false){
+				$apps[]=$row['appid'];
+			}
 		}
 		return $apps;
 	}
@@ -328,7 +330,7 @@ class OC_App{
 
 		return $list;
 	}
-	
+
 	/**
 	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
 	 */
@@ -365,8 +367,18 @@ class OC_App{
 		}
 		$xml = new SimpleXMLElement($content);
 		$data['info']=array();
+		$data['remote']=array();
+		$data['public']=array();
 		foreach($xml->children() as $child){
-			if($child->getName()=='types'){
+			if($child->getName()=='remote'){
+				foreach($child->children() as $remote){
+					$data['remote'][$remote->getName()]=(string)$remote;
+				}
+			}elseif($child->getName()=='public'){
+				foreach($child->children() as $public){
+					$data['public'][$public->getName()]=(string)$public;
+				}
+			}elseif($child->getName()=='types'){
 				$data['types']=array();
 				foreach($child->children() as $type){
 					$data['types'][]=$type->getName();
@@ -421,7 +433,6 @@ class OC_App{
 				$source=self::$settingsForms;
 				break;
 			case 'admin':
-				$forms[] = include 'files/admin.php';   //hardcode own apps
 				$source=self::$adminForms;
 				break;
 			case 'personal':
@@ -475,12 +486,16 @@ class OC_App{
 	public static function updateApps(){
 		// The rest comes here
 		$versions = self::getAppVersions();
+		//ensure files app is installed for upgrades
+		if(!isset($versions['files'])){
+			$versions['files']='0';
+		}
 		foreach( $versions as $app=>$installedVersion ){
 			$currentVersion=OC_App::getAppVersion($app);
 			if ($currentVersion) {
 				if (version_compare($currentVersion, $installedVersion, '>')) {
 					OC_App::updateApp($app);
-          OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
+					OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
 				}
 			}
 		}
@@ -510,6 +525,15 @@ class OC_App{
 		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php')){
 			include OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php';
 		}
+
+		//set remote/public handelers
+		$appData=self::getAppInfo($appid);
+		foreach($appData['remote'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, '/apps/'.$appid.'/'.$path);
+		}
+		foreach($appData['public'] as $name=>$path){
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$appid.'/'.$path);
+		}
 	}
 
 	/**
@@ -519,6 +543,10 @@ class OC_App{
 	public static function getStorage($appid){
 		if(OC_App::isEnabled($appid)){//sanity check
 			if(OC_User::isLoggedIn()){
+				$view = new OC_FilesystemView('/'.OC_User::getUser());
+				if(!$view->file_exists($appid)) {
+					$view->mkdir($appid);
+				}
 				return new OC_FilesystemView('/'.OC_User::getUser().'/'.$appid);
 			}else{
 				OC_Log::write('core','Can\'t get app storage, app, user not logged in',OC_Log::ERROR);

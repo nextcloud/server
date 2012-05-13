@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>tasks</id>
+	<name>Tasks</name>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Bart Visscher</author>
+	<require>2</require>
+	<description>Tasks view from calendar</description>
+</info>

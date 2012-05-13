@@ -2,7 +2,7 @@
 		<?php
 			echo '<img src="../apps/remoteStorage/remoteStorage.png" style="width:16px"> '
 				.'<strong>'.$l->t('remoteStorage').'</strong> user address: '
-				.OC_User::getUser().'@'.$_SERVER['SERVER_NAME']
+				.OCP\USER::getUser().'@'.$_SERVER['SERVER_NAME']
 				.' (<a href="http://unhosted.org/">more info</a>)';
 		?>
 		<p><em>Apps that currently have access to your ownCloud:</em></p>

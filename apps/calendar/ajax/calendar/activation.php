@@ -6,14 +6,14 @@
  * See the COPYING-README file.
  */
 
-require_once('../../../../lib/base.php');
-OC_JSON::checkLoggedIn();
-OC_JSON::checkAppEnabled('calendar');
+ 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('calendar');
 $calendarid = $_POST['calendarid'];
 $calendar = OC_Calendar_App::getCalendar($calendarid);//access check
 OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
 $calendar = OC_Calendar_App::getCalendar($calendarid);
-OC_JSON::success(array(
+OCP\JSON::success(array(
 	'active' => $calendar['active'],
 	'eventSource' => OC_Calendar_Calendar::getEventSourceInfo($calendar),
 ));
