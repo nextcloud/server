@@ -9,7 +9,7 @@ echo 'Calendar.UI.Share.idtype = "event";' . "\n" . 'Calendar.UI.Share.currentid
 	<li><a href="#tabs-2"><?php echo $l->t('Repeating'); ?></a></li>
 	<!--<li><a href="#tabs-3"><?php echo $l->t('Alarm'); ?></a></li>
 	<li><a href="#tabs-4"><?php echo $l->t('Attendees'); ?></a></li>-->
-	<?php if($_['access'] == 'owner') { ?>
+	<?php if($_['access'] == 'owner' && $_['eventid'] != 'new') { ?>
 	<li><a href="#tabs-5"><?php echo $l->t('Share'); ?></a></li>
 	<?php } ?>
 </ul>
@@ -246,6 +246,6 @@ echo 'Calendar.UI.Share.idtype = "event";' . "\n" . 'Calendar.UI.Share.currentid
 <div id="tabs-4">//Attendees</div>-->
 <?php if($_['access'] == 'owner') { ?>
 <div id="tabs-5">
-	<?php echo $this->inc('share.dropdown'); ?>
+	<?php if($_['eventid'] != 'new'){ echo $this->inc('share.dropdown'); } ?>
 </div>
 <?php } ?>

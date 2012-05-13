@@ -57,6 +57,7 @@ $tmpl->assign('repeat_byweekno_options', $repeat_byweekno_options);
 $tmpl->assign('repeat_bymonthday_options', $repeat_bymonthday_options);
 $tmpl->assign('repeat_weekofmonth_options', $repeat_weekofmonth_options);
 
+$tmpl->assign('eventid', 'new');
 $tmpl->assign('startdate', $start->format('d-m-Y'));
 $tmpl->assign('starttime', $start->format('H:i'));
 $tmpl->assign('enddate', $end->format('d-m-Y'));
