@@ -7,7 +7,6 @@ if (array_key_exists('PATH_INFO', $_SERVER)){
 }else{
 	$path_info = substr($_SERVER['PHP_SELF'], strpos($_SERVER['PHP_SELF'], basename(__FILE__)) + strlen(basename(__FILE__)));
 }
-$path_info = $_SERVER['PATH_INFO'];
 if (!$pos = strpos($path_info, '/', 1)) {
 	$pos = strlen($path_info);
 }
