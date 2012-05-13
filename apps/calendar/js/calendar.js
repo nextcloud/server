@@ -628,15 +628,15 @@ Calendar={
 							return false;
 						}else{
 							Calendar.UI.Drop.import(event.target.result);
+							$('#calendar_holder').fullCalendar('refetchEvents');
 						}
 					}
 					reader.readAsDataURL(file);
 				}
-				$('#calendar_holder').fullCalendar('refetchEvents');
 			},
 			import:function(data){
 				$.post(OC.filePath('calendar', 'ajax/import', 'dropimport.php'), {'data':data},function(result) {
-					if(result.data == 'success'){
+					if(result.status == 'success'){
 						return true;
 					}else{
 						$('#notification').html('ownCloud wasn\'t able to import at least one file. File skipped.');
